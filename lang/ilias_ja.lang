@@ -231,7 +231,6 @@ administration#:#options#:#オプション
 administration#:#output_options#:#出力オプション
 administration#:#passwd_auto_generate#:#パスワードの転送/生成
 administration#:#path_to_mkisofs#:#mkisofsのpath
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#使用可能にするとすでに履歴へ保存されたログイン名(削除済みユーザーを含む）の再利用は<u>できません。</u>
 administration#:#purge_age_limit#:#経過制限期間
 administration#:#purge_age_limit_desc#:#このフィールドに値が含まれている場合は、指定された日数前に削除されたオブジェクトのみが削除されます。
 administration#:#purge_count_limit#:#制限数
@@ -483,8 +482,6 @@ assessment#:#ects_range_error_d#:#ECTS成績Dの0～100の値を入力してく�
 assessment#:#ects_range_error_e#:#ECTS成績Eの0～100の値を入力してください!
 assessment#:#ects_use_fx_grade#:#参加者数が少なくて上手く行かない場合は'FX'成績を使用
 assessment#:#ects_use_fx_grade_part2#:#全点数のパーセントです。
-assessment#:#edit_content#:#コンテンツ編集
-assessment#:#edit_properties#:#プロパティ編集
 assessment#:#edit_test_questions#:#テスト問題編集
 assessment#:#element_height#:#最少高
 assessment#:#element_height_info#:#テスト出力中の定義/図アイテムと条件に関する最少ピクセル高です。
@@ -545,7 +542,6 @@ assessment#:#externalscript_additional_parameters_hint#:#キー-値-コーディ
 assessment#:#externalscript_use_kvc#:#スクリプトパラメーターには key-valueコーディングを使用してください。
 assessment#:#failed_official#:#不合格です
 assessment#:#failed_short#:#不合格
-assessment#:#FALSE#:#間違い
 assessment#:#feedback_all#:#全解答の特定フィードバックの回答を表示
 assessment#:#feedback_answers#:#問題の各答案に対するフィードバック
 assessment#:#feedback_checked#:#全選択または選択された解答の特定のフィードバック解答を表示
@@ -931,7 +927,6 @@ assessment#:#toplist_col_score#:#点数
 assessment#:#toplist_col_wtime#:#処理時間
 assessment#:#toplist_top_n_results#:#Top %s 結果
 assessment#:#toplist_your_result#:#順位
-assessment#:#TRUE#:#TRUE
 assessment#:#tst_access_code_created#:#テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。
 assessment#:#tst_activation_limited_visibility_info#:#選択すると外部の割り当てに対しても表示されます。
 assessment#:#tst_activation_online_info#:#オフラインの場合は管理者のみしかテスト閲覧と編集はできません。
@@ -944,7 +939,6 @@ assessment#:#tst_already_submitted#:#テストはすでに終了して提出済�
 assessment#:#tst_already_taken#:#既にテスト済
 assessment#:#tst_anonymity#:#匿名
 assessment#:#tst_anonymity_anonymous_test#:#匿名のテスト
-assessment#:#tst_anonymity_description#:#匿名が有効な場合はテスト受験者の名前は匿名にされます。
 assessment#:#tst_anonymity_no_anonymization#:#非匿名化
 assessment#:#tst_answer_sheet#:#テスト解答シート
 assessment#:#tst_answered_questions#:#解答済み問題
@@ -954,9 +948,7 @@ assessment#:#tst_availability_until_info#:#このモードを選択するとテ�
 assessment#:#tst_beginning_ending_information#:#テスト中と終了の情報
 assessment#:#tst_best_solution_is#:#ベストの正解は
 assessment#:#tst_browse_for_questions#:#問題の更新
-assessment#:#tst_change_points_done#:#答案点数は正しく変更されました!
 assessment#:#tst_change_points_for_question#:#答案点数を変更
-assessment#:#tst_change_points_not_done#:#答案点数変更はできませんでした!  配点の許容範囲をチェックしてください。
 assessment#:#tst_confirm_delete_results#:#前回入力したテストの質問結果を削除しようとしています。全ての質問は初期設定値にリセットされます。このテストに必要だった合格者数はリセットできない事に注意願います。以前入力した結果を本当にリセットしますか?
 assessment#:#tst_confirm_delete_results_info#:#前回入力した質問の結果は削除されました。テストは正しくリセットされました!
 assessment#:#tst_confirm_print#:#点数と正解付の全ての問題を印刷するにはボタンを押します。 問題は常に最終ページに表示されます。
@@ -1254,8 +1246,6 @@ assessment#:#tst_sequence_fixed#:#質問順は固定です
 assessment#:#tst_sequence_postpone#:#試験問題の解答を後回し可能
 assessment#:#tst_sequence_properties#:#シーケンスプロパティ
 assessment#:#tst_session_settings#:#セッション設定
-assessment#:#tst_set_feedback_done#:#手動フィードバックが保存されました
-assessment#:#tst_set_feedback_not_done#:#エラーが発生しました! 手動フィードバックは保存されませんでした
 assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#ランダム問題選択の設定が入れ替わった事により、既存の問題が削除されてしまったためテストはオフラインになっています。
 assessment#:#tst_setting_enable_obligations_info#:#"チェックするとテスト問題は必須(＊）としてマークすることができます。この試験に合格するには全ての必須問題への解答が必要です。""一覧表示""中に必須問題を設定する事ができます。必須問題定義の際には""問題一覧を表示""をオンにする事をお勧めします。
 assessment#:#tst_setting_enable_obligations_label#:#必須問題
@@ -1800,217 +1790,6 @@ certificate#:#certificate_wrong_unit#:#ユニット入力が間違っていま�
 certificate#:#certificate_wrong_units#:#単位入力が間違っています
 certificate#:#default_background_info#:#この背景イメージは全ての証明書の背景として選択されます。証明書に別の背景イメージが必要な場合は証明書エディターで一つにしてアップロードしなければなりません。
 certificate#:#download_certificate#:#証明書をダウンロード
-chat#:#cancel_talk#:#住所をキャンセル
-chat#:#cancel_whisper#:#ささやきをキャンセル
-chat#:#chat_access_blocked#:#チャットルームから退出します。
-chat#:#chat_activate_status_notification#:#新規チャット招待の通知とメッセージをメインメニュに表示します。
-chat#:#chat_active#:#アクティブ
-chat#:#chat_active_users#:#チャットルーム内の現在のユーザー
-chat#:#chat_add_allowed_hosts#:#チャットサーバーアクセスを許可するホストのアドレスを追加してください。
-chat#:#chat_add_blocking#:#ユーザーをブロック
-chat#:#chat_add_external_ip#:#サーバーの外向けIPアドレスを追加してください。
-chat#:#chat_add_internal_ip#:#サーバーの内部向けIPを追加してください。
-chat#:#chat_add_moderator_password#:#モデレータのパスワードを入力してください。
-chat#:#chat_add_port#:#サーバーのポートを追加してください。
-chat#:#chat_add_private_chatroom#:#プライベートチャットルームを追加
-chat#:#chat_add_smiley#:#スマイリーを追加
-chat#:#chat_add_ssl_port#:#サーバーのSSLポートを追加してください。
-chat#:#chat_add_to_addressbook#:#コンタクトを追加
-chat#:#chat_add_to_bookmark#:#ブックマークを追加
-chat#:#chat_added_to_addressbook#:#ユーザー ' %s ' はコンタクトに追加されました。
-chat#:#chat_added_to_bookmarks#:#ルーム ' %s ' はブックマークのトップフォルダへ追加
-chat#:#chat_address#:#アドレス
-chat#:#chat_address_user#:#アドレス
-chat#:#chat_aqua#:#aqua
-chat#:#chat_arial#:#Arial
-chat#:#chat_available_smilies#:#利用可能なスマイル
-chat#:#chat_black#:#ブラック
-chat#:#chat_block_user#:#ブロック
-chat#:#chat_blocked#:#制限付きアクセス
-chat#:#chat_blocked_unlocked#:#アンロック
-chat#:#chat_blocked_users#:#ブロックされたユーザー
-chat#:#chat_blue#:#ブルー
-chat#:#chat_bold#:#太字
-chat#:#chat_cannot_connect_to_server#:#ILIASはチャットサーバーソケット接続ができませんでした。
-chat#:#chat_chat_invitation#:#チャット招待
-chat#:#chat_chatroom_body#:#チャットルーム
-chat#:#chat_chatroom_rename#:#チャットルームを編集
-chat#:#chat_chatrooms#:#チャットルーム
-chat#:#chat_chatviewer#:#チャットビューワー
-chat#:#chat_color#:#フォントの色
-chat#:#chat_confirm_delete#:#本当にこのルームを削除しますか?
-chat#:#chat_confirm_delete_private_room#:#本当にプライベートルームを削除しますか?
-chat#:#chat_confirm_delete_smiley#:#本当に選択したスマイルを削除しますか?
-chat#:#chat_confirm_kick_user#:#本当にこのユーザーをキック(強制退出）しますか?
-chat#:#chat_confirm_user_invite#:#ユーザーはこのチャットルームへ招待されます
-chat#:#chat_current_image_path#:#現在のイメージPath
-chat#:#chat_default_bookmark_description#:#チャットルーム ' %s ' へリンク
-chat#:#chat_default_bookmark_title#:#チャットリンク%s
-chat#:#chat_delete_selected#:#選択したスマイルを削除
-chat#:#chat_delete_sure#:#本当にこのチャットルームを削除しますか?
-chat#:#chat_disinvite#:#招待取消し
-chat#:#chat_disinvite_user#:#プライベートチャットルームからユーザーを非招待/外す
-chat#:#chat_drop_user#:#ユーザーをキック
-chat#:#chat_edit#:#チャットを編集
-chat#:#chat_edit_smiley#:#スマイルを編集
-chat#:#chat_empty#:#空
-chat#:#chat_enable_autoscroll#:#自動スクロールを有効
-chat#:#chat_enter_valid_username#:#正しいユーザー名を入力してください。
-chat#:#chat_export_all#:#制限なし(アクセスユーザー全てをエクスポート可能）
-chat#:#chat_export_info#:#現在のルーム用のエクスポートボタンを表示します。メッセージはhtmlへエクスポ－トされます。
-chat#:#chat_export_moderator#:#モデレータのみ
-chat#:#chat_export_period#:#エクスポート期間
-chat#:#chat_export_period_info#:#指定日数分をエクスポート
-chat#:#chat_export_status#:#エクスポートアクセス権限の要件
-chat#:#chat_face#:#フォントタイプ
-chat#:#chat_fuchsia#:#ホクシャ
-chat#:#chat_general_settings#:#全体設定
-chat#:#chat_gray#:#グレイ
-chat#:#chat_green#:#緑
-chat#:#chat_hide_details#:#詳細を非表示
-chat#:#chat_hide_smilies#:#スマイルを非表示
-chat#:#chat_hide_textformat#:#テキスト書式を非表示
-chat#:#chat_html_export#:#HTMLエクスポート
-chat#:#chat_ilias#:#ILIASチャットモジュール
-chat#:#chat_image_path#:#イメージPath
-chat#:#chat_inactive#:#アクティブ解除
-chat#:#chat_input#:#入力
-chat#:#chat_insert_message#:#メッセージを入力してください
-chat#:#chat_invitation_body#:#チャット招待者
-chat#:#chat_invitation_subject#:#チャットの招待
-chat#:#chat_invite#:#招待
-chat#:#chat_invite_user#:#ユーザーを招待
-chat#:#chat_invited_by#:#招待
-chat#:#chat_italic#:#イタリック
-chat#:#chat_kick#:#Kキック
-chat#:#chat_kick_user_session#:#キックユーザー
-chat#:#chat_kicked_from_room#:#このチャットルームからキックされてメッセージを書く事ができません。
-chat#:#chat_level_all#:#すべて
-chat#:#chat_level_debug#:#デバグ情報
-chat#:#chat_level_error#:#エラー情報
-chat#:#chat_level_fatal#:#重大障害
-chat#:#chat_level_info#:#参考情報
-chat#:#chat_lime#:#ライム
-chat#:#chat_maroon#:#マルーン
-chat#:#chat_message_notify#:#メッセージ通知機能
-chat#:#chat_message_notify_activate#:#チャットの通知
-chat#:#chat_message_notify_deactivate#:#メッセージ通知を使用しない
-chat#:#chat_messages_deleted#:#メッセージは削除されました。
-chat#:#chat_moderator_password#:#モデレータのパスワード
-chat#:#chat_navy#:#navy
-chat#:#chat_new_invitation_sound_status#:#チャットへの招待をユーザーが受領したら音で通知
-chat#:#chat_new_message#:#新しいメッセージ
-chat#:#chat_new_message_sound_status#:#チャットへ新規メッセージが投稿された音で通知
-chat#:#chat_no_active_users#:#もうユーザーはいません。
-chat#:#chat_no_blocked#:#ブロックされたユーザーはいません
-chat#:#chat_no_connection#:#チャットサーバーへコンタクトできません
-chat#:#chat_no_delete_public#:#パブリックチャットルームは削除できません。
-chat#:#chat_no_online_users#:#オンラインユーザーはいません。
-chat#:#chat_no_recordings_available#:#現在レコーディングは利用できません。
-chat#:#chat_no_refresh_public#:#パブリックチャットルームはリフレッシュできません。
-chat#:#chat_no_rename_public#:#パブリックチャットルームはリネームできません。
-chat#:#chat_no_room_selected#:#ルームが選択されていません。
-chat#:#chat_no_users_selected#:#ユーザーを1名選択しなければなりません。
-chat#:#chat_no_write_perm#:#書込みアクセス権限がありません
-chat#:#chat_notification_intro#:#このメールはシステムから自動的に送信されたものです %s
-chat#:#chat_olive#:#olive
-chat#:#chat_online_users#:#オンラインの他のユーザー
-chat#:#chat_open#:#入室
-chat#:#chat_private_message#:#プライベートメッセージ
-chat#:#chat_profile#:#プロファイル
-chat#:#chat_public_room#:#パブリックチャットルーム
-chat#:#chat_purple#:#紫
-chat#:#chat_recent_postings#:#最近のチャット投稿
-chat#:#chat_recording_action#:#アクション
-chat#:#chat_recording_description#:#説明
-chat#:#chat_recording_moderator#:#モデレータ
-chat#:#chat_recording_not_found#:#レコーディングがみつかりません。
-chat#:#chat_recording_running#:#レコーディング中
-chat#:#chat_recording_started#:#レコーディング開始
-chat#:#chat_recording_stopped#:#レコーディング停止
-chat#:#chat_recording_time_frame#:#時間枠
-chat#:#chat_recording_title#:#レコーディング題名
-chat#:#chat_recordings#:#レコーディング
-chat#:#chat_recordings_delete_sure#:#レコードを削除 - 本当ですか?
-chat#:#chat_recordings_deleted#:#レコーディングは削除されました。
-chat#:#chat_recordings_select_one#:#削除したいレコードを選択してください。
-chat#:#chat_red#:#赤
-chat#:#chat_refresh#:#リフレッシュ
-chat#:#chat_refreshed#:#選択したチャットルームのメッセージを削除しました。
-chat#:#chat_room_added#:#新しいチャットルームを追加
-chat#:#chat_room_does_not_exist#:#チャットルームがありません。たぶん、削除されたか無効なリンクが使用されています。
-chat#:#chat_room_name#:#チャットルーム名
-chat#:#chat_room_renamed#:#チャットルームをリネームしました。
-chat#:#chat_room_select#:#プライベートチャットルーム
-chat#:#chat_rooms#:#チャットルーム
-chat#:#chat_rooms_deleted#:#チャットルームを削除しました。
-chat#:#chat_select_one_room#:#チャットルームを一つ選択してください
-chat#:#chat_server_allowed#:#許可されたホスト
-chat#:#chat_server_allowed_b#:#例 192.168.1.1
-chat#:#chat_server_external_ip#:#サーバーアドレス
-chat#:#chat_server_internal_ip#:#サーバー内部 IP
-chat#:#chat_server_logfile#:#Logファイルのpath
-chat#:#chat_server_loglevel#:#Logレベル
-chat#:#chat_server_not_active#:#チャットサーバーが有効ではありません
-chat#:#chat_server_port#:#サーバーポート
-chat#:#chat_server_settings#:#チャットサーバー設定
-chat#:#chat_server_ssl_active#:#SSL使用
-chat#:#chat_server_ssl_port#:#サーバーSSLポート
-chat#:#chat_server_ssl_settings#:#SSL 設定
-chat#:#chat_settings_saved#:#設定が保存されました
-chat#:#chat_show_details#:#詳細を表示
-chat#:#chat_show_smilies#:#スマイルを表示
-chat#:#chat_show_textformat#:#テキスト書式
-chat#:#chat_silver#:#silver
-chat#:#chat_smiley_image#:#スマイルイメージ
-chat#:#chat_smiley_image_only_if_changed#:#現状を変更したい場合のみ新しいイメージを入力してください。 新しいイメージを入力しない場合は現状のままです。
-chat#:#chat_smiley_keyword#:#スマイルキーワード
-chat#:#chat_smiley_keywords#:#スマイルキーワード
-chat#:#chat_smiley_keywords_one_per_line_note#:#各スマイル複数のキーワードを入力できます。各行は別々のキーワードとして使用されます。
-chat#:#chat_smilies_activate#:#スマイルをアクティブにする
-chat#:#chat_smilies_deactivate#:#スマイルを利用不可にする
-chat#:#chat_smilies_dir_not_available#:#スマイルデータディレクトリを作成できませんでした。ILIASは今後のアクションの必要に応じて使われることはありません。
-chat#:#chat_smilies_dir_not_exists#:#スマイルデータディレクトリは存在しません。フォルダとデータベースをセットアップしています。
-chat#:#chat_smilies_dir_not_writable#:#スマイルデータディレクトリは存在しますが書込み不可能です。スマイルは追加されません。
-chat#:#chat_smilies_initialized#:#スマイルデータは初期化されて利用可能状態です。
-chat#:#chat_smilies_status#:#チャットスマイル
-chat#:#chat_sound_status_activate#:#音を使用
-chat#:#chat_sound_status_deactivate#:#音を使用しない
-chat#:#chat_sounds#:#音
-chat#:#chat_start_recording#:#レコーディングを開始
-chat#:#chat_status#:#ステータス
-chat#:#chat_status_saved#:#ステータスが変更されました
-chat#:#chat_stop_recording#:#レコーディング停止
-chat#:#chat_tahoma#:#ゴシック
-chat#:#chat_teal#:#濃い青緑
-chat#:#chat_textformat#:#テキスト書式
-chat#:#chat_times#:#回数
-chat#:#chat_title_missing#:#名前を挿入してください。
-chat#:#chat_to_chat_body#:#チャットへ
-chat#:#chat_type#:#フォントフェース
-chat#:#chat_unblocked_user#:#選択したユーザーはロックされていません。
-chat#:#chat_underlined#:#下線を引く
-chat#:#chat_unkick#:#アンキック
-chat#:#chat_unkick_user_session#:#アンキックユーザー
-chat#:#chat_upload_smiley#:#スマイルをアップロード
-chat#:#chat_user_already_blocked#:#選択したユーザーのアクセスはすでにブロックされています。
-chat#:#chat_user_already_in_addressbook#:#ユーザーはすでにコンタクトの中にあります。
-chat#:#chat_user_blocked#:#選択されたユーザーのアクセスはブロックされました。
-chat#:#chat_user_dropped#:#ユーザーがキックしました
-chat#:#chat_user_dropped_private#:#ユーザーはプライベートチャットルームから非招待/削除されました。
-chat#:#chat_user_hidden#:#非表示
-chat#:#chat_user_invited#:#チャットへユーザーを招待しました。
-chat#:#chat_user_invited_private#:#ユーザーは '%s' プライベートチャットルームへ招待されました。
-chat#:#chat_user_invited_public#:#ユーザーはチャット'%s' へ招待されました。
-chat#:#chat_user_name#:#ユーザー名
-chat#:#chat_user_unkicked#:#ユーザーはキックしていません。
-chat#:#chat_user_visible#:#表示
-chat#:#chat_whisper#:#ささやき
-chat#:#chat_yellow#:#黄色
-chat#:#chats#:#チャット
-chat#:#check_configuration#:#チャットサーバーの設定を確認してください。
-chat#:#edit_smilies#:#スマイルを編集
-chat#:#my_chats#:#マイチャット
 chatroom#:#allow_anonymous#:#匿名ログインを許可
 chatroom#:#allow_custom_usernames#:#カスタムユーザー名を許可
 chatroom#:#allow_private_rooms#:#プライベートルームを許可
@@ -2047,7 +1826,6 @@ chatroom#:#chat_right_box_user#:#ユーザー
 chatroom#:#chat_select_room#:#チャットルームを選択
 chatroom#:#chat_settings#:#チャット設定
 chatroom#:#chat_to_mainroom#:#メインルームへ
-chatroom#:#chat_users_active#:#アクティブユーザ
 chatroom#:#chat_whisper#:#ささやく
 chatroom#:#chatroom_smiley_keyword#:#キーワード
 chatroom#:#chatserver_address#:#チャットサーバーのIPアドレス
@@ -2157,10 +1935,6 @@ chatroom_adm#:#chatroom_smiley_keywords#:#キーワード
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#各行あたり一つのキーワード
 chatroom_adm#:#chatroom_upload_smiley#:#スマイリーをアップロード
 chatroom_adm#:#chatserver_settings_title#:#チャットサーバー設定
-chatroom_adm#:#chta_edit_permission#:#アクセス権設定の変更
-chatroom_adm#:#chta_read#:#チャットルーム管理への読み込みアクセス
-chatroom_adm#:#chta_visible#:#チャットルーム管理を表示
-chatroom_adm#:#chta_write#:#チャットルーム管理の編集
 chatroom_adm#:#client_settings#:#クライアント設定
 chatroom_adm#:#enable_osd#:#画面通知を有効にする
 chatroom_adm#:#general_settings_title#:#全般チャット設定
@@ -2169,7 +1943,6 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#instance#:#事例
 chatroom_adm#:#keypass#:#キーパス
 chatroom_adm#:#keystore#:#キーストア
-chatroom_adm#:#obj_chta_desc#:#チャット管理
 chatroom_adm#:#osd_intervall#:#リフレッシュ間隔(秒)
 chatroom_adm#:#play_invitation_sound#:#新規招待を受領時に音を鳴らす
 chatroom_adm#:#port_info#:#使用中のポートがファイヤーウォールやプロキシーサーバーによりブロックされ事があります。設定したポートがブロックされるとユーザーのブラウザーはチャットサーバーとの接続を確立する事ができなくなります。
@@ -2285,10 +2058,6 @@ common#:#accessFree#:#アクセス制限を解除
 common#:#accessRestrict#:#アクセス制限を設定
 common#:#account_expires_body#:#アカウントは制限されています。期限が切れる時間
 common#:#account_expires_subject#:#[ILIAS]はアカウントを破棄
-common#:#accs_edit_permission#:#アクセス権限設定を変更
-common#:#accs_read#:#アクセッシビリティー設定を読み込む
-common#:#accs_visible#:#アクセッシビリティー設定を表示
-common#:#accs_write#:#アクセッシビリティー設定を編集
 common#:#action#:#アクション
 common#:#action_aborted#:#失敗したアクション
 common#:#actions#:#アクション
@@ -2321,10 +2090,6 @@ common#:#added_to_desktop#:#アイテムがデスクトップへ追加されま�
 common#:#additional_info#:#追加情報
 common#:#address#:#アドレス
 common#:#adm_create_tax#:#分類学を作成
-common#:#adm_edit_permission#:#アクセス権限設定を変更
-common#:#adm_read#:#システム設定を読み込む
-common#:#adm_visible#:#システム設定を表示
-common#:#adm_write#:#基本システム設定を編集
 common#:#admin_force_noti#:#通知をアクティブ
 common#:#admin_panel#:#管理パネル
 common#:#administrate#:#管理
@@ -2332,7 +2097,6 @@ common#:#administrate_users#:#ローカルユーザー管理
 common#:#administration#:#管理
 common#:#administrator#:#管理者
 common#:#adopt#:#適用
-common#:#adopt_perm_from_template#:#アクセス権限設定をコピー
 common#:#advanced_editing_allow_html_tags#:#テキスト編集用に選択したHTMLタグを許可
 common#:#advanced_editing_allow_javascript_editor#:#リッチテキストエディターの利用
 common#:#advanced_editing_assessment_settings#:#ILIASとアセスメントツール用に許可されたHTMLタグ
@@ -2348,15 +2112,11 @@ common#:#advanced_editing_settings#:#詳細編集設定
 common#:#advanced_editing_survey_settings#:#ILIAS調査ツール用の許可されたHTMLタグ
 common#:#advanced_editing_tinymce#:#TinyMCEエディター
 common#:#adve_assessment_settings#:#テストとアセスメント設定
-common#:#adve_edit_permission#:#アクセス権限設定を変更
 common#:#adve_frm_post_settings#:#フォーラム投稿
 common#:#adve_general_settings#:#全体設定
 common#:#adve_lm_settings#:#LM / 用語集設定
-common#:#adve_read#:#詳細編集管理をアクセス
 common#:#adve_rep_settings#:#リポジトリー設定
 common#:#adve_survey_settings#:#調査設定
-common#:#adve_visible#:#詳細編集管理を表示
-common#:#adve_write#:#詳細編集管理
 common#:#agree_date#:#Agreed on
 common#:#all_authors#:#全作成者
 common#:#all_commands#:#全コマンド
@@ -2372,16 +2132,6 @@ common#:#allow_assign_users#:#ローカル管理者へユーザー割当てを�
 common#:#allow_override_alert#:#.htaccessルールは完全に翻訳されていません。
 common#:#allow_register#:#新規ユーザーへ登録フォームを提供
 common#:#allow_user_toggle_noti#:#メンバーに通知解除を許可
-common#:#alm#:#ラーニングモジュールAICC
-common#:#alm_added#:#AICCラーニングモジュールの追加
-common#:#alm_create#:#AICラーニングモジュールを作成
-common#:#alm_delete#:#AICCラーニングモジュールを削除
-common#:#alm_edit_permission#:#アクセス権限設定を変更
-common#:#alm_join#:#AICCラーニングモジュール登録
-common#:#alm_leave#:#AICCラーニングモジュール解除
-common#:#alm_read#:#AICCラーニングモジュールを読込む
-common#:#alm_visible#:#AICCラーニングモジュールを表示
-common#:#alm_write#:#AICCラーニングモジュールを編集
 common#:#already_delivered_files#:#提出済ファイル
 common#:#and#:#と
 common#:#announce#:#発表
@@ -2407,7 +2157,6 @@ common#:#are_you_sure#:#本当ですか?
 common#:#arrow_downright#:#上から右下への矢印
 common#:#articels_unread#:#未読条項
 common#:#as_of#:#時点
-common#:#ascending_order#:#昇順
 common#:#ass_log_admin#:#ログデータ管理
 common#:#ass_log_available_tests#:#利用可能なテスト
 common#:#ass_log_count_datasets#:#ログエントリー
@@ -2441,11 +2190,7 @@ common#:#assessment_use_javascript#:#ドラッグアンドドロップ用のJava
 common#:#assessment_use_javascript_desc#:#最初は初期設定でドラッグアンドドロップによるJavaScript出力を可能にする
 common#:#assf_allowed_questiontypes#:#利用できる問題タイプ
 common#:#assf_allowed_questiontypes_desc#:#全てのチェックした問題タイプはILIASインストレーションで利用可能になります。今回のインストールにおいて特定の問題タイプの作成を許可したくない時は、該当するチェックボックスを外す必要があります。
-common#:#assf_edit_permission#:#アクセス権限設定を変更
 common#:#assf_questiontypes#:#問題設定
-common#:#assf_read#:#テストとアセスメント管理をアクセス
-common#:#assf_visible#:#テストとアセスメント管理を表示
-common#:#assf_write#:#テストとアセスメント管理を編集
 common#:#assign#:#割当てる
 common#:#assign_global_role#:#グローバル役割を割当てる
 common#:#assign_lo_forum#:#LO フォーラムを割当てる
@@ -2481,7 +2226,6 @@ common#:#auth_create_users#:#存在しないユーザーを自動的に作成
 common#:#auth_default#:#初期設定設定
 common#:#auth_default_mode_changed_to#:#初期設定認証モードを変更
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#アクセス権限設定を変更
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#LDAPサーバー経由の認証ユーザー
 common#:#auth_ldap_enable#:#LDAPサポートを有効にする
@@ -2508,7 +2252,6 @@ common#:#auth_radius_server#:#サーバー
 common#:#auth_radius_server_desc#:#カンマ区切りで複数のサーバーを追加できます。 サーバーは問い合わせに対してラウンドロビン様式で再帰します。
 common#:#auth_radius_settings_saved#:#RADIUS設定を保存
 common#:#auth_radius_shared_secret#:#共有秘密
-common#:#auth_read#:#認証設定をアクセス
 common#:#auth_remark_non_local_auth#:#ILIASデータベース以外の認証モードを選択すると以降のユーザーのログイン名とパスワードを変更できなくなります。
 common#:#auth_role_auth_mode#:#認証モード
 common#:#auth_script#:#カスタム
@@ -2537,8 +2280,6 @@ common#:#auth_soap_use_https#:#HTTPSを使用
 common#:#auth_soap_user_default_role#:#SOAP認証ユーザーへ割当てられる初期設定の役割
 common#:#auth_soap_user_default_role_desc#:#この役割は自動的に作成したSOAPユーザーに割り当てます。
 common#:#auth_user_default_role#:#役割初期設定
-common#:#auth_visible#:#認証設定を表示
-common#:#auth_write#:#認証設定を編集
 common#:#authenticate_ilias#:#ILIASのネイティブ認証
 common#:#authenticate_with#:#ログイン
 common#:#authentication_settings#:#認証
@@ -2578,10 +2319,6 @@ common#:#bm_add_to_social_bookmarks#:#ブックマークへ追加
 common#:#bm_manage_social_bm#:#ソーシャルブックマーク管理
 common#:#bmf#:#ブックマークフォルダ
 common#:#bold#:#Bold
-common#:#book_edit_permission#:#アクセス権設定を変更
-common#:#book_read#:#予約プールへアクセス
-common#:#book_visible#:#予約プールを表示
-common#:#book_write#:#予約プールを編集
 common#:#bookings#:#ブッキング
 common#:#bookmark_added#:#ブックマークを作成しました。
 common#:#bookmark_edit#:#ブックマークを編集
@@ -2620,51 +2357,16 @@ common#:#cat#:#カテゴリー
 common#:#cat_a#:#カテゴリー
 common#:#cat_add#:#カテゴリーを追加
 common#:#cat_added#:#カテゴリーが追加されました
-common#:#cat_cat_administrate_users#:#ローカルユーザーアカウントを管理
 common#:#cat_clear_page#:#ページを消去
-common#:#cat_copy#:#カテゴリーをコピー
-common#:#cat_copy_threads_info#:#どのカテゴリーアイテムをコピー、リンク、省略するのか決定してください。
-common#:#cat_create#:#カテゴリーを作成
-common#:#cat_create_alm#:#AICCラーニングモジュールを作成
-common#:#cat_create_cat#:#カテゴリーを作成
-common#:#cat_create_chat#:#チャットを作成
-common#:#cat_create_crs#:#コースを作成
-common#:#cat_create_dbk#:#Digilibブックを作成
-common#:#cat_create_exc#:#練習問題を作成
-common#:#cat_create_feed#:#Webフィードを作成
-common#:#cat_create_file#:#ファイルをアップロード
-common#:#cat_create_frm#:#フォーラムを作成
-common#:#cat_create_glo#:#用語を作成
-common#:#cat_create_grp#:#グループを作成
-common#:#cat_create_hlm#:#HACPラーニングモジュールを作成
-common#:#cat_create_htlm#:#HACPラーニングモジュールを作成
-common#:#cat_create_icrs#:#LearnLincセミナーを作成
-common#:#cat_create_lm#:#LIASラーニングモジュールを作成
-common#:#cat_create_mcst#:#メディアキャストを作成
-common#:#cat_create_mep#:#メディアプールを作成
-common#:#cat_create_qpl#:#テスト問題集を作成
-common#:#cat_create_sahs#:#SCORM/AICCラーニングモジュールを作成
-common#:#cat_create_spl#:#問題集調査を作成
-common#:#cat_create_svy#:#調査を作成
-common#:#cat_create_tst#:#テストを作成
-common#:#cat_create_url#:#URLを作成
-common#:#cat_create_webr#:#Webリンクを作成
-common#:#cat_create_write#:#Wikiを作成
-common#:#cat_delete#:#カテゴリーを削除
 common#:#cat_edit#:#カテゴリーを編集
-common#:#cat_edit_permission#:#アクセス権限設定を変更
 common#:#cat_new#:#新規カテゴリー
 common#:#cat_pages#:#カテゴリーページ
 common#:#cat_pages_clear#:#カテゴリーページを作成しました。
 common#:#cat_pages_not_created#:#カテゴリーページが未作成です。
 common#:#cat_pages_undone#:#カテゴリーページの最終変更取り消し
-common#:#cat_read#:#カテゴリーへのアクセスを読み込む
-common#:#cat_read_users#:#ローカルユーザーアカウントを読み込む
 common#:#cat_title#:#カテゴリータイトル
 common#:#cat_undo_last_page_changes#:#最終ページの変更取消し
-common#:#cat_visible#:#カテゴリーを表示
 common#:#cat_wizard_page#:#コピーカテゴリー (Step 2/2)
-common#:#cat_write#:#カテゴリーを編集
 common#:#categories#:#カテゴリー
 common#:#categories_imported#:#カテゴリーのインポートを完了
 common#:#catr#:#カテゴリーレファレンス
@@ -2672,21 +2374,7 @@ common#:#catr_edit#:#カテゴリーレファレンスを編集
 common#:#catr_edit_info#:#新しいレファレンスを作成するためにカテゴリーを一つ選択してください。
 common#:#catr_new#:#新しいカテゴリーレファレンスを作成
 common#:#cc#:#CC
-common#:#cen#:#中央イベント
-common#:#cen_add#:#中央イベントを追加
-common#:#cen_added#:#中央イベントの追加
-common#:#cen_delete#:#中央イベントを削除t
-common#:#cen_edit#:#中央イベントを編集
-common#:#cen_new#:#新しい中央イベント
-common#:#cen_save#:#中央イベントを保存
 common#:#censorship#:#検閲
-common#:#centra_account#:#Centra Adminアカウント
-common#:#centra_rooms#:#中央ルーム
-common#:#centra_server#:#中央サーバー
-common#:#cert_edit_permission#:#アクセス権限設定を変更
-common#:#cert_read#:#証明書設定を読み込む
-common#:#cert_visible#:#証明書設定を表示
-common#:#cert_write#:#証明書設定を編集
 common#:#certificate#:#証明書
 common#:#chac_edit_permission#:#アクセス権限設定を変更
 common#:#chac_read#:#チャット設定を読み込む
@@ -2695,13 +2383,6 @@ common#:#chac_write#:#チャット設定を編集
 common#:#change#:#変更
 common#:#change_active_assignment#:#アクティブな割り当てを変更
 common#:#change_assignment#:#割当て変更
-common#:#change_existing_object_type_desc#:#そのタイプの既存オブジェクトのアクセス権限も変更されます
-common#:#change_existing_objects#:#現在のオブジェクトを変更
-common#:#change_existing_objects_desc#:#この役割のアクセス権限設定は現状の全オブジェクトに引き継がれます。特定のオブジェクトタイプのアクセス権限のみを変更したい場合は、該当するオブジェクトタイプのチェックボックスを正しくクリックしてください。
-common#:#change_existing_prefix#:#現状を変更
-common#:#change_existing_prefix_single#:#変更
-common#:#change_existing_suffix#:#&nbsp;
-common#:#change_existing_suffix_single#:#&nbsp;
 common#:#change_header_title#:#ヘッダータイトルを編集
 common#:#change_lo_info#:#LO情報を変更
 common#:#change_metadata#:#Metadataを変更
@@ -2714,26 +2395,12 @@ common#:#chapter#:#章
 common#:#chapter_number#:#章の番号
 common#:#chapter_title#:#章のタイトル
 common#:#characters#:#文字
-common#:#chat#:#チャット
-common#:#chat_active_in#:#チャットはアクティブ
-common#:#chat_add#:#チャットを追加
 common#:#chat_chatviewer#:#チャットビューワ
-common#:#chat_copy#:#チャットをコピー
-common#:#chat_delete#:#チャットを削除
-common#:#chat_edit_permission#:#アクセス権限設定を変更
 common#:#chat_enter_public_room#:#パブリックチャット
 common#:#chat_enter_public_room_tooltip#:#パブリックチャットに入る
-common#:#chat_invite#:#チャット
 common#:#chat_invite_public_room#:#パブリックチャット
 common#:#chat_invite_public_room_tooltip#:#パブリックチャットへ招待
-common#:#chat_link_to_this_chat#:#このチャットをリンク
-common#:#chat_moderate#:#チャットを司会
-common#:#chat_new#:#新規チャット
-common#:#chat_read#:#チャットの読み取り/書き込みアクセス
-common#:#chat_settings#:#チャット設定
 common#:#chat_users_active#:#アクティブユーザー
-common#:#chat_visible#:#チャットを表示
-common#:#chat_write#:#チャットを編集
 common#:#check#:#チェック
 common#:#check_all#:#全てをチェック
 common#:#check_langfile#:#言語ファイルをチェックしてください
@@ -2760,11 +2427,6 @@ common#:#chta_read#:#チャットルーム管理の読み込み
 common#:#chta_visible#:#チャットルーム管理が表示されます
 common#:#chta_write#:#チャットルーム管理を編集
 common#:#chtr_copy#:#チャットル－ムをコピー
-common#:#chtr_edit_permission#:#アクセス権を変更
-common#:#chtr_moderate#:#チャットルームのモデレータ
-common#:#chtr_read#:#読込む
-common#:#chtr_visible#:#表示する
-common#:#chtr_write#:#書込む
 common#:#city#:#市区郡、都道府県名
 common#:#cleaned_file#:#ファイルは消去されました。
 common#:#cleaning_failed#:#消去に失敗しました。
@@ -2795,7 +2457,6 @@ common#:#cond_ref_unique#:#リンクへの独自の前提条件
 common#:#condition#:#条件
 common#:#condition_already_assigned#:#オブジェクトは既に割当て済です。
 common#:#condition_circle_created#:#オブジェクトの依存性によりこの関連付けはできません。
-common#:#condition_delete_sure#:#次の前提条件を本当に削除しますか?
 common#:#condition_deleted#:#削除された条件
 common#:#condition_finished#:#終了済
 common#:#condition_not_finished#:#未終了
@@ -2816,7 +2477,6 @@ common#:#cont_object#:#オブジェクト
 common#:#contact#:#コンタクト
 common#:#contact_data#:#連絡先
 common#:#contact_sysadmin#:#システム管理者へ連絡
-common#:#contacts#:#コンタクト
 common#:#container#:#コンテナ
 common#:#container_no_items#:#教材を利用できません
 common#:#content#:#コンテンツ
@@ -2879,39 +2539,8 @@ common#:#crs_at_least_one_admin#:#コース管理者が一人は必要です。
 common#:#crs_available#:#利用可能なコース
 common#:#crs_cancel_waiting_list#:#本当にコース "%s"の待ちリストからあなたを削除しますか?
 common#:#crs_container_link_not_allowed#:#コンテナオブジェクトへリンクする事はできません
-common#:#crs_copy#:#コースをコピー
-common#:#crs_copy_threads_info#:#どのコースの教材をコピー、リンク、省略するか決定してください。
-common#:#crs_create#:#コースを作成
-common#:#crs_create_alm#:#AICCラーニングモジュールを作成
-common#:#crs_create_chat#:#チャットを作成
-common#:#crs_create_dbk#:#Digilibブックを作成
-common#:#crs_create_exc#:#練習問題を作成
-common#:#crs_create_feed#:#Webフィードを作成
-common#:#crs_create_file#:#アップロードファイル
-common#:#crs_create_fold#:#フォルダを作成フォルダを作成
-common#:#crs_create_frm#:#フォーラムを作成
-common#:#crs_create_glo#:#用語集を作成
-common#:#crs_create_grp#:#グループを作成
-common#:#crs_create_hlm#:#HACPラーニングモジュールを作成
-common#:#crs_create_htlm#:#HACPラーニングモジュールを作成
-common#:#crs_create_icrs#:#LearnLincセミナーを作成
-common#:#crs_create_lm#:#ILIASラーニングモジュールを作成
-common#:#crs_create_mcst#:#メディアキャストを作成
-common#:#crs_create_mep#:#メディアプールを作成
-common#:#crs_create_qpl#:#テスト問題集を作成
-common#:#crs_create_sahs#:#SCORM/AICCラーニングモジュールを作成
-common#:#crs_create_spl#:#問題集サーベイを作成
-common#:#crs_create_svy#:#サーベイを作成
-common#:#crs_create_tst#:#テストを作成
-common#:#crs_create_webr#:#Webリンクを作成
-common#:#crs_create_write#:#Wikiを作成
-common#:#crs_delete#:#コースを削除
 common#:#crs_edit#:#コースを編集
-common#:#crs_edit_learning_progress#:#学習進捗を編集
-common#:#crs_edit_permission#:#アクセス権限設定を変更
 common#:#crs_info#:#Info
-common#:#crs_join#:#コースに参加
-common#:#crs_leave#:#コースを退出
 common#:#crs_list_reg_end#:#登録終了
 common#:#crs_list_reg_limit_full#:#空席なし
 common#:#crs_list_reg_limit_places#:#空席あり
@@ -2924,16 +2553,13 @@ common#:#crs_member_passed#:#Passed(合格)
 common#:#crs_members_gallery#:#コースメンバーギャラリー
 common#:#crs_new#:#新コース
 common#:#crs_no_content#:#コンテンツなし
-common#:#crs_read#:#コースを読み込む
 common#:#crs_removed_from_waiting_list#:#コース"%s"の待ちリストから外されました。
 common#:#crs_status_blocked#:#[アクセス拒否]
 common#:#crs_status_pending#:#[登録待ち]
 common#:#crs_subscribers_assigned#:#新規ユーザーの割当て
 common#:#crs_title#:#コースタイトル
 common#:#crs_unsubscribe#:#登録削除
-common#:#crs_visible#:#コースを表示
 common#:#crs_wizard_page#:#コースをコピー (Step 2/2)
-common#:#crs_write#:#コースを編集
 common#:#crsr#:#コース参照
 common#:#crsr_edit#:#コース参照を編集
 common#:#crsr_edit_info#:#新規に参照を作成するにはコースを一つ選択してください。
@@ -2968,19 +2594,6 @@ common#:#db_pass#:#データベースのパスワード
 common#:#db_type#:#データベースのタイプ
 common#:#db_user#:#データベースのユーザー
 common#:#db_version#:#データベースのバージョン
-common#:#dbk#:#Digilibブック
-common#:#dbk_a#:#Digilibブック
-common#:#dbk_add#:#Digilibブックを追加
-common#:#dbk_added#:#Digilibブックの追加
-common#:#dbk_copy#:#Digilib-Bookをコピー
-common#:#dbk_create#:#Digilibブックを作成
-common#:#dbk_delete#:#Digilibブックを削除
-common#:#dbk_edit_learning_progress#:#学習進捗を編集
-common#:#dbk_edit_permission#:#アクセス権限設定を変更
-common#:#dbk_new#:#新規Digilibブック
-common#:#dbk_read#:#Digilibブックを読み込む
-common#:#dbk_visible#:#Digilibブックを表示
-common#:#dbk_write#:#Digilibブックを編集
 common#:#dd_mm_yyyy#:#DD.MM.YYYY
 common#:#deactivate#:#使用不可
 common#:#decrease_attempts#:#試行 - 1
@@ -3030,7 +2643,6 @@ common#:#delicious#:#del.icio.usアカウント
 common#:#deliver#:#配送
 common#:#department#:#部課(学部･学科)名
 common#:#desc#:#説明
-common#:#descending_order#:#降順
 common#:#description#:#説明
 common#:#desired_password#:#変更後のパスワード
 common#:#desktop_items#:#パーソナルデスクトップアイテム
@@ -3084,7 +2696,6 @@ common#:#edit_page#:#ページを編集
 common#:#edit_page_content#:#ページコンテンツを編集
 common#:#edit_perm_ruleset#:#アクセス権限役割初期設定を編集
 common#:#edit_properties#:#プロパティを編集
-common#:#edit_roleassignment#:#役割割当てを編集
 common#:#edit_stylesheet#:#スタイルを編集
 common#:#edited_at#:#編集時間
 common#:#editor#:#エディター
@@ -3168,19 +2779,15 @@ common#:#exc_add#:#練習問題を追加
 common#:#exc_added#:#練習問題追加
 common#:#exc_ask_delete#:#ファイルを削除しますか?
 common#:#exc_assign_usr#:#ユーザーを割当て
-common#:#exc_copy#:#練習問題をコピー
 common#:#exc_create#:#練習問題を作成
 common#:#exc_date_not_valid#:#日付まちがい
 common#:#exc_deassign_members#:#メンバーを削除
-common#:#exc_delete#:#練習問題を削除
 common#:#exc_details#:#練習問題内容
 common#:#exc_download_all#:#全てをダウンロード
 common#:#exc_download_files#:#ファイルをダウンロード
 common#:#exc_download_new#:#新規ダウンロード
 common#:#exc_edit#:#新しい練習問題の作成
 common#:#exc_edit_exercise#:#練習問題を編集
-common#:#exc_edit_learning_progress#:#学習進捗を編集
-common#:#exc_edit_permission#:#アクセス権限設定を変更
 common#:#exc_edit_until#:#編集期限
 common#:#exc_exercise_sent#:#練習問題送信
 common#:#exc_feedback_sent#:#フィードバック送信
@@ -3199,7 +2806,6 @@ common#:#exc_next_deadline#:#次の締め切り
 common#:#exc_no_members_assigned#:#割当てたメンバーがいません
 common#:#exc_notices#:#通知
 common#:#exc_obj#:#練習問題
-common#:#exc_read#:#練習問題へアクセス
 common#:#exc_resubmitted_advice#:#"解答済”欄がチェックされた後に新しいファイルが提出されたような場合にこの記号が表示されます
 common#:#exc_roles#:#役割
 common#:#exc_save_changes#:#保存
@@ -3220,8 +2826,6 @@ common#:#exc_time_over_short#:#時間を過ぎています。
 common#:#exc_time_to_send#:#解答残り時間
 common#:#exc_upload_error#:#アップロードファイルのエラー
 common#:#exc_users#:#ユーザー
-common#:#exc_visible#:#練習問題を表示
-common#:#exc_write#:#練習問題を編集
 common#:#excs#:#練習問題
 common#:#execute#:#実行
 common#:#exercise_time_over#:#この演習問題解答の制限時間を過ぎています。 ファイルを送信することはできません!
@@ -3240,7 +2844,6 @@ common#:#ext_acccount_required#:#外部アカウント名を入力してくだ�
 common#:#ext_cat_settings#:#詳細カテゴリー設定を編集
 common#:#ext_link#:#リンク
 common#:#extt_configure#:#構成中...
-common#:#extt_edit_permission#:#アクセス権限設定を変更
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#追加オプション
 common#:#extt_ilinc_akclassvalues_active#:#コストセンターを有効にする
@@ -3259,20 +2862,12 @@ common#:#extt_ilinc_server#:#サーバー
 common#:#extt_ilinc_settings_saved#:#LearnLinc設定を保存
 common#:#extt_ilinc_timeout#:#サーバー応答待ちMax time
 common#:#extt_name#:#ソフトウェア/サービス
-common#:#extt_read#:#サードパーティソフトウェア設定にアクセス
 common#:#extt_remark#:#下記に示す全てのソフトウェアとサービスはILIASの一部ではありませんが、ILIASオープンソースライセンス契約に違反するものではありません。
 common#:#extt_title_configure#:#外部ソフトウェアの構成
-common#:#extt_visible#:#サードパーティサードパーティ設定を表示
-common#:#extt_write#:#サードパーティソフトウェアを構成
 common#:#failure_message#:#失敗メッセージ
 common#:#faq_exercise#:#FAQ練習問題
 common#:#fax#:#Fax
 common#:#feed#:#Webフィード
-common#:#feed_delete#:#Webフィードを削除
-common#:#feed_edit_permission#:#アクセス権限設定を変更
-common#:#feed_read#:#Webフィードを読み込む
-common#:#feed_visible#:#Webフィードを表示
-common#:#feed_write#:#Webフィードを編集
 common#:#feedback#:#フィードバック
 common#:#feedback_recipient#:#フィードバック受信者
 common#:#field_name#:#フィールド名
@@ -3283,11 +2878,8 @@ common#:#file_add#:#アップロードファイル
 common#:#file_add_and_metadata#:#アップロードファイルとメタデータ編集
 common#:#file_added#:#アップロードのファイル
 common#:#file_allowed_suffixes#:#対応ファイル形式
-common#:#file_copy#:#コピーファイル
 common#:#file_created#:#ファイルが追加されました。
-common#:#file_delete#:#ファイルを削除
 common#:#file_edit#:#ファイルを編集
-common#:#file_edit_permission#:#アクセス権限設定を変更
 common#:#file_icon#:#ファイルアイコン
 common#:#file_info#:#ファイル情報
 common#:#file_is_infected#:#ファイルはウィルスに感染しています。
@@ -3297,15 +2889,12 @@ common#:#file_new#:#シングルファイルをアップロード
 common#:#file_not_found#:#ファイルが見つかりません
 common#:#file_not_valid#:#ファイルは無効!
 common#:#file_notice#:#画像ファイルの最大サイズ
-common#:#file_read#:#ダウンロードファイル
 common#:#file_suffix_repl#:#ファイル アップロードサフィックス変換
 common#:#file_suffix_repl_info#:#(カンマで区切られた)これらのサッフィクスで終わるファイルはWebアップロードされるとサフィックス".sec"へ名前変換されます。サフィックスの初期設定として処理されるもの:
 common#:#file_updated#:#ファイルが更新されました。
 common#:#file_upload_pending#:#保留ファイル
 common#:#file_valid#:#ファイルは有効!
 common#:#file_version#:#ファイルへ提供されているバージョン
-common#:#file_visible#:#ファイルを表示
-common#:#file_write#:#ファイルを編集
 common#:#filename#:#ファイル名
 common#:#filename_extension_missing#:#ファイル名の拡張子の欠落
 common#:#filename_extension_short#:#拡張子
@@ -3337,40 +2926,11 @@ common#:#fold#:#フォルダ
 common#:#fold_a#:#フォルダ
 common#:#fold_add#:#フォルダを追加
 common#:#fold_added#:#フォルダの追加
-common#:#fold_copy#:#フォルダをコピー
 common#:#fold_copy_threads_info#:#どの教材をコピー、リンクもしくは省略すべきか決定してください。
-common#:#fold_create_alm#:#AICCラーニングモジュールを作成
-common#:#fold_create_chat#:#チャットを作成
-common#:#fold_create_dbk#:#Digilibブックを作成
-common#:#fold_create_exc#:#練習問題を作成
-common#:#fold_create_file#:#アップロードファイル
-common#:#fold_create_fold#:#フォルダを作成
-common#:#fold_create_frm#:#フォーラムを作成
-common#:#fold_create_glo#:#用語集を作成
-common#:#fold_create_grp#:#新規グループを追加
-common#:#fold_create_hlm#:#HACPラーニングモジュールを作成
-common#:#fold_create_htlm#:#Create HTML ラーニングモジュール
-common#:#fold_create_icrs#:#LearnLincセミナーを作成
-common#:#fold_create_lm#:#ILIASラーニングモジュールを作成
-common#:#fold_create_mcst#:#メディアキャストを作成
-common#:#fold_create_mep#:#メディアプールを作成
-common#:#fold_create_qpl#:#テスト問題集を作成
-common#:#fold_create_sahs#:#SCORM/AICCラーニングモジュールを作成
-common#:#fold_create_spl#:#問題集サーベイを作成
-common#:#fold_create_svy#:#サーベイを作成
-common#:#fold_create_tst#:#テストを作成
-common#:#fold_create_webr#:#Webリンクを作成
-common#:#fold_create_write#:#Wikiを作成
-common#:#fold_delete#:#フォルダを削除
 common#:#fold_edit#:#フォルダを編集
-common#:#fold_edit_learning_progress#:#学習進捗を編集
-common#:#fold_edit_permission#:#アクセス権限設定を変更
 common#:#fold_new#:#新規フォルダ
-common#:#fold_read#:#フォルダへの読込アクセス
 common#:#fold_type#:#フォルダータイプ
-common#:#fold_visible#:#フォルダを表示
 common#:#fold_wizard_page#:#フォルダをコピー (Step 2/2)
-common#:#fold_write#:#フォルダを編集
 common#:#folder#:#フォルダ
 common#:#folders#:#フォルダ
 common#:#follow_link_to_read_mails#:#メールを読むには次のリンクをクリックします
@@ -3409,30 +2969,17 @@ common#:#forums_your_name#:#名前
 common#:#frm#:#フォーラム
 common#:#frm_a#:#フォーラム
 common#:#frm_add#:#フォーラムを追加
-common#:#frm_add_post#:#新規投稿を追加
-common#:#frm_add_thread#:#新規トッピクを追加
 common#:#frm_added#:#フォーラムの追加
 common#:#frm_article#:#記事
-common#:#frm_copy#:#フォーラムをコピー
 common#:#frm_create#:#フォーラムを作成
-common#:#frm_delete#:#フォーラムを削除
 common#:#frm_delete_post#:#投稿を編集と削除
 common#:#frm_edit#:#フォーラムを編集
-common#:#frm_edit_permission#:#アクセス権限設定を変更
 common#:#frm_edit_post#:#新規投稿を追加
 common#:#frm_latest_postings#:#最新記事
-common#:#frm_moderate_frm#:#投稿を編集と削除
 common#:#frm_new#:#新規フォーラム
-common#:#frm_read#:#フォーラムを読み込む
 common#:#frm_statistics_ranking#:#ランキング
 common#:#frm_status_new#:#'新規'のステータス
 common#:#frm_status_new_desc#:#フォーラムエントリーに"新規"状態をどれくらいの時間保持するか選択してください。
-common#:#frm_visible#:#フォーラムを表示
-common#:#frm_write#:#フォ－ラムを編集
-common#:#frma_edit_permission#:#アクセス権設定を変更
-common#:#frma_read#:#フォーラム管理を読み込む
-common#:#frma_visible#:#フォーラム管理を表示
-common#:#frma_write#:#フォーラム管理へ書き込む
 common#:#from#:#From
 common#:#fullname#:#フルネーム
 common#:#functions#:#機能
@@ -3448,10 +2995,7 @@ common#:#glo#:#用語集
 common#:#glo_a#:#用語集
 common#:#glo_add#:#用語集を追加
 common#:#glo_added#:#用語集の追加
-common#:#glo_copy#:#用語集をコピー
 common#:#glo_create#:#用語集を作成
-common#:#glo_delete#:#用語集を削除
-common#:#glo_edit_permission#:#アクセス権限設定を変更
 common#:#glo_import#:#用語集をインポート
 common#:#glo_join#:#用語集へ登録
 common#:#glo_leave#:#用語集から登録解除
@@ -3461,10 +3005,7 @@ common#:#glo_mode_level#:#バーチャル(このレベルのみ)
 common#:#glo_mode_normal#:#ノーマル
 common#:#glo_mode_subtree#:#バーチャル(エントリーサブツリー)
 common#:#glo_new#:#新しい用語集
-common#:#glo_read#:#用語集を読み込む
 common#:#glo_upload_file#:#ファイル
-common#:#glo_visible#:#用語集を表示
-common#:#glo_write#:#用語集を編集
 common#:#global#:#グローバル
 common#:#global_default#:#グローバル 初期設定
 common#:#global_fixed#:#グローバル固定
@@ -3527,40 +3068,13 @@ common#:#grp_app_send_mail#:#応募者へメッセージを送る
 common#:#grp_back#:#Back
 common#:#grp_btn_unsubscribe#:#グループから登録削除
 common#:#grp_cancel_waiting_list#:#本当にグループ"%s"の待ちリストから自身を削除しますか?
-common#:#grp_copy#:#グループをコピー
 common#:#grp_copy_threads_info#:#どの教材をコピー、リンクもしくは省略するか決定してください。
 common#:#grp_count_members#:#メンバーの数
 common#:#grp_create#:#グループを作成
-common#:#grp_create_alm#:#AICCラーニングモジュール
-common#:#grp_create_chat#:#チャットを作成
-common#:#grp_create_dbk#:#Digilibブックを作成
-common#:#grp_create_exc#:#練習問題を作成
-common#:#grp_create_feed#:#Webフィードを作成
-common#:#grp_create_file#:#アップロードファイル
-common#:#grp_create_fold#:#フォルダを作成
-common#:#grp_create_frm#:#フォーラムを作成
-common#:#grp_create_glo#:#用語集を作成
-common#:#grp_create_grp#:#グループを作成
-common#:#grp_create_hlm#:#HACPラーニングモジュールを作成
-common#:#grp_create_htlm#:#HTML ラーニングモジュールを作成
-common#:#grp_create_icrs#:#LearnLincセミナーを作成
-common#:#grp_create_lm#:#ILIASラーニングモジュールを作成
-common#:#grp_create_mcst#:#メディアキャストを作成
-common#:#grp_create_mep#:#メディアプールを作成
-common#:#grp_create_qpl#:#テスト問題集を作成
-common#:#grp_create_sahs#:#SCORM/AICCラーニングモジュールを作成
-common#:#grp_create_spl#:#問題集サーベイを作成
-common#:#grp_create_svy#:#サーベイを作成
-common#:#grp_create_tst#:#テストを作成
-common#:#grp_create_webr#:#Webリンクを作成
-common#:#grp_create_write#:#Wikiを作成
-common#:#grp_delete#:#グループを削除
 common#:#grp_deleted_export_files#:#選択したファイルを削除.
 common#:#grp_dismiss_member#:#本当にグループから次のメンバーを外しますか?
 common#:#grp_dismiss_myself#:#本当にグループから削除しますか?
 common#:#grp_edit#:#グループを編集
-common#:#grp_edit_learning_progress#:#学習進捗を編集
-common#:#grp_edit_permission#:#アクセス権限設定を変更
 common#:#grp_err_administrator_required#:#メンバーは削除できません。グループに対して管理者が一人は必要です!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#グループにはグループ管理者一人は必要
 common#:#grp_err_error#:#エラーが一つ発生しました
@@ -3569,8 +3083,6 @@ common#:#grp_err_member_could_not_be_removed#:#最後のメンバーは削除で
 common#:#grp_err_no_permission#:#この操作のアクセス権限がありません。
 common#:#grp_err_registration_data#:#加入有効期間のパスワード、締め切り日、時間を入力してください!
 common#:#grp_header_edit_members#:#メンバーを編集
-common#:#grp_join#:#ユーザーはグループに加入可能
-common#:#grp_leave#:#ユーザーはグループ退出可能
 common#:#grp_list_reg_end#:#登録終了
 common#:#grp_list_reg_limit_full#:#空席なし
 common#:#grp_list_reg_limit_places#:#空席あり
@@ -3597,7 +3109,6 @@ common#:#grp_no_groups_selected#:#グループを選択してください
 common#:#grp_no_results_found#:#結果が見つかりません
 common#:#grp_no_roles_selected#:#役割を選択してください
 common#:#grp_options#:#オプション
-common#:#grp_read#:#グループを読み込む
 common#:#grp_register#:#加入
 common#:#grp_registration#:#グループへ参加
 common#:#grp_registration_completed#:#グループへ参加しました
@@ -3606,9 +3117,7 @@ common#:#grp_search_enter_search_string#:#検索ストリングを入力して�
 common#:#grp_search_members#:#ユーザー検索
 common#:#grp_select_one_file#:#一つファイルを選択してください。
 common#:#grp_select_one_file_only#:#正確に一つファイルを選択してください。
-common#:#grp_visible#:#グループを表示
 common#:#grp_wizard_page#:#コピーグループ(Step 2/2)
-common#:#grp_write#:#グループを編集
 common#:#guest#:#ゲスト
 common#:#guests#:#ゲスト
 common#:#header_searchable#:#検索可能
@@ -3653,16 +3162,6 @@ common#:#hist_webr_delete#:#タイトル付のWebリンクを削除： "%1"
 common#:#hist_webr_update#:#タイトル付のWebリンクを修正： "%1"
 common#:#history#:#履歴
 common#:#hits_per_page#:#ヒット/ページ
-common#:#hlm#:#ラーニングモジュール HACP
-common#:#hlm_added#:#HACP ラーニングモジュール追加
-common#:#hlm_create#:#HACPラーニングモジュールを作成
-common#:#hlm_delete#:#HACP ラーニングモジュールを削除
-common#:#hlm_edit_permission#:#アクセス権限設定を変更
-common#:#hlm_join#:#HACP ラーニングモジュールに加入
-common#:#hlm_leave#:#HACP ラーニングモジュールから登録削除
-common#:#hlm_read#:#HACP ラーニングモジュールを読み込む
-common#:#hlm_visible#:#HACP ラーニングモジュールを表示
-common#:#hlm_write#:#HACP ラーニングモジュールを削除編集
 common#:#hobby#:#興味/趣味
 common#:#home#:#パブリックエリア
 common#:#host#:#ホスト
@@ -3671,15 +3170,8 @@ common#:#hours#:#時間
 common#:#hours_of_day#:#1日の時間
 common#:#htlm#:#ラーニングモジュール HTML
 common#:#htlm_add#:#HTML ラーニングモジュールを追加
-common#:#htlm_copy#:#HTML ラーニングモジュールを追加コピー
-common#:#htlm_delete#:#HTML ラーニングモジュールを削除
 common#:#htlm_edit#:#HTML ラーニングモジュールプロパティを編集
-common#:#htlm_edit_learning_progress#:#学習進捗を編集
-common#:#htlm_edit_permission#:#アクセス権限設定を変更
 common#:#htlm_new#:#New HTML ラーニングモジュール
-common#:#htlm_read#:#HTML ラーニングモジュールを読込む
-common#:#htlm_visible#:#HTML ラーニングモジュールを表示
-common#:#htlm_write#:#HTML ラーニングモジュールを編集
 common#:#html_block#:#HTMLブロック
 common#:#http#:#HTTP
 common#:#http_not_possible#:#このサーバーはhttpsリクエストをサポートしていません。
@@ -3812,7 +3304,6 @@ common#:#import_forum_finished#:#フォーラムはインポートされまし�
 common#:#import_glossary#:#インポート用語集
 common#:#import_grp#:#グループをインポート
 common#:#import_grp_finished#:#エラーなしでインポートしたグループ
-common#:#import_hlm#:#HACPパッケージをインポート
 common#:#import_lm#:#ILIAS ラーニングモジュールをインポート
 common#:#import_qpl#:#テスト問題集をインポート
 common#:#import_questions_into_qpl#:#問題集への問題をインポート
@@ -3862,27 +3353,6 @@ common#:#info_trash#:#削除されたオブジェクト
 common#:#info_view_of_user#:#ユーザー
 common#:#inform_user_mail#:#変更情報をメールで通知
 common#:#information_abbr#:#Info
-common#:#ingmedia_all_offers#:#全てのLE
-common#:#ingmedia_back_to_le#:#LEへ戻る
-common#:#ingmedia_good_afternoon#:#こんにちは
-common#:#ingmedia_good_evening#:#こんばんは
-common#:#ingmedia_good_morning#:#おはようございます
-common#:#ingmedia_good_night#:#幸運を祈ります
-common#:#ingmedia_hello#:#Hello
-common#:#ingmedia_info_about_work1#:#On
-common#:#ingmedia_info_about_work2#:#
-common#:#ingmedia_level_zero#:#レベルアップ
-common#:#ingmedia_pers_dates#:#パーソナルデータ
-common#:#ingmedia_reg_fo#:#登録済フォーラム
-common#:#ingmedia_reg_le#:#登録済LE
-common#:#ingmedia_use_info1#:#ここでパーソナルデータを変更できます。INGMEDIAユーザー名とパスワードを除くその他の欄を埋める必要はありません。忘れたパスワードはemaiでしか返信されない事に留意願います(!).
-common#:#ingmedia_use_info2#:#NGMEDIAユーザー名とパスワードには特殊な文字(例
-common#:#ingmedia_use_info3#:#サイドバーにあるリンクのどれかを選択してください
-common#:#ingmedia_use_title#:#ユーザーデータを変更します。
-common#:#ingmedia_user_agree#:#使用許諾書
-common#:#ingmedia_vis_le#:#訪問したLE
-common#:#ingmedia_visited_le#:#これまでに訪問した全てのLE
-common#:#ingmedia_welcome#:#
 common#:#inifile#:#Ini-ファイル
 common#:#inline_file_extensions#:#Web-有効なファイル
 common#:#inline_file_extensions_info#:#これらの拡張子のファイルはブラウザーのウィンドウに表示されます。<br/>例 <b>gif jpg mp3 pdf png</b><br/>その他のファイルはダウンロード用に使用されます。
@@ -3924,50 +3394,20 @@ common#:#join#:#参加
 common#:#join_session#:#参加
 common#:#kb#:#KByte
 common#:#keywords#:#キーワード
-common#:#lang_bg#:#Bulgarian
-common#:#lang_cs#:#Czech
-common#:#lang_da#:#Danish
 common#:#lang_dateformat#:#Y-m-d
-common#:#lang_de#:#German
-common#:#lang_el#:#Greek
-common#:#lang_en#:#English
-common#:#lang_es#:#Spanish
-common#:#lang_et#:#Estonian
-common#:#lang_fi#:#Finnish
-common#:#lang_fr#:#French
-common#:#lang_ge#:#Georgian
-common#:#lang_hu#:#Hungarian
-common#:#lang_id#:#Indonesian
-common#:#lang_it#:#Italian
-common#:#lang_ja#:#日本語
-common#:#lang_lt#:#Lithuanian
-common#:#lang_nl#:#Dutch
-common#:#lang_no#:#Norwegian
 common#:#lang_path#:#言語Path
-common#:#lang_pl#:#Polish
-common#:#lang_pt#:#Portuguese
 common#:#lang_refresh_confirm#:#本当に全ての言語を更新しますか?
 common#:#lang_refresh_confirm_info#:#拡張言語メンテナンスは現在使用可能です。言語を更新するとILIASのグローバル言語ファイルと設定によってはCustomizingディレクトリからローカル言語ファイルがデータベースへ読込まれます。ローカル言語ファイルが保存された日よりも古い変更は、ローカル言語ファイルで全て手動で上書きされます。
 common#:#lang_refresh_confirm_selected#:#本当に選択した言語を更新しますか?
-common#:#lang_ro#:#Romanian
-common#:#lang_ru#:#Russian
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#
 common#:#lang_size_bytes#:#bytes
 common#:#lang_size_gb#:#GB
 common#:#lang_size_kb#:#KB
 common#:#lang_size_mb#:#MB
-common#:#lang_sq#:#Albanian
-common#:#lang_sr#:#Serbian
-common#:#lang_sv#:#Swedish
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
-common#:#lang_tr#:#Turkish
-common#:#lang_uk#:#Ukrainian
 common#:#lang_version#:#1
-common#:#lang_vi#:#Vietnamese
-common#:#lang_xx#:#カスタム
-common#:#lang_zh#:#簡体字中国語
 common#:#langfile_found#:#言語 ファイル がみつかりません
 common#:#language#:#言語
 common#:#language_not_installed#:#はインストールされていません。最初にその言語をインストールしてください
@@ -4051,27 +3491,16 @@ common#:#lm#:#ラーニングモジュール ILIAS
 common#:#lm_a#:#ILIAS ラーニングモジュール
 common#:#lm_add#:#ILIAS ラーニングモジュールを追加
 common#:#lm_added#:#ILIAS ラーニングモジュールが追加されました
-common#:#lm_copy#:#ILIAS Lernmodulをコピー
 common#:#lm_create#:#ILIASラーニングモジュールを作成
-common#:#lm_delete#:#ILIAS ラーニングモジュールを削除
-common#:#lm_edit_learning_progress#:#学習進捗を編集
-common#:#lm_edit_permission#:#アクセス権限設定を変更
 common#:#lm_join#:#ILIAS ラーニングモジュールを購読
 common#:#lm_leave#:#ILIASラーニングモジュールを解除
 common#:#lm_new#:#New ILIAS ラーニングモジュール
-common#:#lm_read#:#ILIAS ラーニングモジュールを読み込む
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2 (Java-RTE)
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd Edition (JavaScript-RTE)
-common#:#lm_visible#:#ILIAS ラーニングモジュールを表示
-common#:#lm_write#:#ILIAS ラーニングモジュールを編集
 common#:#lng#:#言語
 common#:#lngf#:#言語
-common#:#lngf_edit_permission#:#アクセス権限設定を変更
-common#:#lngf_read#:#言語設定のアクセスを読み込む
-common#:#lngf_visible#:#言語設定を表示
-common#:#lngf_write#:#書き込みアクセス、拡張言語メンテナンスに必要
 common#:#lo#:#学習目標
 common#:#lo_available#:#ラーニングモジュールとコースの概要
 common#:#lo_categories#:#LOカテゴリー
@@ -4111,10 +3540,6 @@ common#:#logs#:#ログデータ
 common#:#los#:#学習目標
 common#:#los_last_visited#:#前回訪問時の学習目標
 common#:#lres#:#学習リソース
-common#:#lrss_edit_permission#:#アクセス権限設定を変更
-common#:#lrss_read#:#学習リソース設定を読み込む
-common#:#lrss_visible#:#学習リソース設定を表示
-common#:#lrss_write#:#学習リソース設定を編集
 common#:#mail#:#メール
 common#:#mail_a_root#:#メールボックス
 common#:#mail_addressbook#:#連絡先
@@ -4134,8 +3559,6 @@ common#:#mail_folders#:#メールフォルダ
 common#:#mail_import#:#インポート
 common#:#mail_import_file#:#エクスポートファイル
 common#:#mail_intern_enable#:#有効にする
-common#:#mail_mail_to_global_roles#:#ユーザーはグローバル役割へemailを送る事があります。
-common#:#mail_mail_visible#:#ユーザーはメールシステムを利用できます
 common#:#mail_mails_of#:#メール
 common#:#mail_maxsize_attach#:#最大添付ファイルサイズ
 common#:#mail_maxsize_box#:#最大メールボックスサイズ
@@ -4148,8 +3571,6 @@ common#:#mail_multiple_recipients_found#:#特定メールアドレスを入力�
 common#:#mail_no_recipient_found#:#別のメールアドレスを入力します。ILIASはこのメールアドレスの受信者を見つけることができません。
 common#:#mail_no_valid_group_role#:#グローバル役割が有効ではありません
 common#:#mail_not_sent#:#メールは送信されていません!
-common#:#mail_pear_mail_needed#:#この機能を使用するにはPear Mailのインストールが必要です。そのためにはこの端末へ<code>pearインストールMail</code>を入力。
-common#:#mail_read#:#メール設定を読み込む
 common#:#mail_search_courses_not_found#:#あなたがメンバーに属するコースが見つかりません。
 common#:#mail_search_groups_not_found#:#あなたがグループに属するコースが見つかりません。
 common#:#mail_search_no#:#エントリーが見つかりません。
@@ -4158,14 +3579,10 @@ common#:#mail_select_one#:#メールを一つ選択しなければなりませ�
 common#:#mail_send_error#:#エラー送信メール
 common#:#mail_sent#:#メール送信!
 common#:#mail_settings#:#メール設定
-common#:#mail_smtp_mail#:#ユーザーはSMTP経由でemailを送ることができます
 common#:#mail_system#:#システムメッセージ
-common#:#mail_system_message#:#ユーザーは内部システムメッセージを送ることができます
 common#:#mail_to_global_roles_not_allowed#:#グローバル役割へemailを送る事はできません。
 common#:#mail_use_pear_mail#:#Pear Mailを使用
 common#:#mail_use_pear_mail_info#:#メールボックスアドレス解析にはPearメールを使用します。ILIAS内蔵のパーサーは非常に限定的なものです。Pear Mailはインターネットemailアドレスを完全にサポートします。
-common#:#mail_visible#:#メール設定を表示
-common#:#mail_write#:#メール設定を編集
 common#:#mail_z_local#:#ユーザー フォルダ
 common#:#mails#:#メール
 common#:#mails_at_the_ilias_installation#:#ILIASインストレーション%2$sに%1$s個の新規メールがあります。
@@ -4181,13 +3598,7 @@ common#:#max_number_rec#:#レコード数の最大
 common#:#max_time#:#最大時間
 common#:#mcst#:#メディアキャスト
 common#:#mcst_add#:#メディアキャストを作成追加
-common#:#mcst_copy#:#メディアキャストをコピー
-common#:#mcst_delete#:#メディアキャストを削除
-common#:#mcst_edit_permission#:#アクセス権限設定を変更
 common#:#mcst_new#:#新しいメディアキャスト
-common#:#mcst_read#:#メディアキャストを読み込む
-common#:#mcst_visible#:#メディアキャストを表示
-common#:#mcst_write#:#メディアキャストを編集
 common#:#mem_add_to_wl#:#待ちリストへ追加
 common#:#mem_alert_no_places#:#空席がありません。
 common#:#mem_end#:#登録終了
@@ -4214,14 +3625,9 @@ common#:#membership_leave#:#退室
 common#:#mep#:#メディアプール
 common#:#mep_add#:#メディアプールを作成追加
 common#:#mep_added#:#メディアプールを追加
-common#:#mep_delete#:#メディアプールを削除
 common#:#mep_edit#:#メディアプールプロパティを編集
-common#:#mep_edit_permission#:#アクセス権限設定を変更
 common#:#mep_new#:#新しいメディアプール
 common#:#mep_not_insert_already_exist#:#次のアイテムはそれらがメディアプールの中に既にあるために挿入されません。
-common#:#mep_read#:#メディアプールコンテンツを読み込む
-common#:#mep_visible#:#メディアプールを表示
-common#:#mep_write#:#メディアプールコンテンツを編集
 common#:#message#:#メッセージ
 common#:#message_content#:#メッセージ本文
 common#:#message_no_delivered_files#:#ファイル未提出です
@@ -4237,10 +3643,6 @@ common#:#missing_perm#:#アクセス権がありません
 common#:#missing_precondition#:#前提条件がありません
 common#:#mm_dd_yyyy#:#MM/DD/YYYY
 common#:#mob#:#メディアオブジェクト
-common#:#mobs_edit_permission#:#アクセス権限設定を変更
-common#:#mobs_read#:#メディア オブジェクト/プール設定を読み込む
-common#:#mobs_visible#:#メディア オブジェクト/プール設定を表示
-common#:#mobs_write#:#メディア オブジェクト/プール設定を編集
 common#:#mod_rewrite_disabled#:#Apache-Module 'mod_rewrite' が利用できません
 common#:#moderators#:#モデレータ
 common#:#module#:#モジュール
@@ -4470,10 +3872,6 @@ common#:#nr_following_sessions#:#%1d に続くセッション...
 common#:#num_users#:#ユーザー数
 common#:#number_of_accesses#:#アクセス数
 common#:#number_of_records#:#レコード数
-common#:#nwss_edit_permission#:#アクセス権限設定を変更
-common#:#nwss_read#:#ニュースとWeb設定を読み込む
-common#:#nwss_visible#:#ニュースとWebフィード設定を表示
-common#:#nwss_write#:#ニュースとWebフィード設定を編集
 common#:#obj#:#オブジェクト
 common#:#obj_accs#:#アクセシビリティ
 common#:#obj_accs_desc#:#アクセッシビリティー機能の設定
@@ -4540,7 +3938,6 @@ common#:#obj_glo_duplicate#:#索引をコピー
 common#:#obj_grp#:#グループ
 common#:#obj_grp_duplicate#:#グループをコピー
 common#:#obj_grp_select#:#-- グループを一つ選択 --
-common#:#obj_hlm#:#ラーニングモジュール HACP
 common#:#obj_hlps#:#ヘルプシステム
 common#:#obj_hlps_desc#:#オンラインヘルプ設定
 common#:#obj_htlm#:#ラーニングモジュール HTML
@@ -4697,7 +4094,6 @@ common#:#objs_fold#:#フォルダ
 common#:#objs_frm#:#フォーラム
 common#:#objs_glo#:#用語集
 common#:#objs_grp#:#グループ
-common#:#objs_hlm#:#HACP ラーニングモジュール
 common#:#objs_htlm#:#HTML ラーニングモジュール
 common#:#objs_icla#:#LearnLincクラスルーム
 common#:#objs_icrs#:#LearnLincセミナー
@@ -4820,10 +4216,6 @@ common#:#payment_reminder_notification_subject#:#オブジェクト購入のア�
 common#:#payment_system#:#支払いシステム
 common#:#payment_userdefined_invoice_number_not_activated#:#ユーザー定義のインボイス番号が有効になっていません
 common#:#pays_edit#:#支払い設定を変更
-common#:#pays_edit_permission#:#アクセス権限設定を変更
-common#:#pays_read#:#支払い設定をアクセス
-common#:#pays_visible#:#支払い設定を表示
-common#:#pays_write#:#支払い設定を編集
 common#:#pd_enable_chatviewer#:#チャットビューワーを有効
 common#:#pd_enable_contacts#:#連絡先を有効にする
 common#:#pd_enable_contacts_requires_mail#:#メールアクセス権限を要求
@@ -4909,11 +4301,6 @@ common#:#proxy_port_info#:#ポート番号は"8080"の例のように0から6553
 common#:#proxy_port_numeric#:#入力するポートは数字の0から65535である必要があります。
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#ILIASにproxyを利用する(例：webフィードまたはweblinksチェック用)には、上のチェックボクスを有効にしてください。
-common#:#ps_edit_permission#:#アクセス権限設定を変更
-common#:#ps_export_member_data#:#ユーザーはメンバーデータをエクスポートできます。
-common#:#ps_read#:#プライバシー/セキュリティ設定を読み込む
-common#:#ps_visible#:#プライバシー/セキュリティ設定を表示
-common#:#ps_write#:#プライバシー/セキュリティを編集
 common#:#pub_section#:#パブリックエリア
 common#:#pub_section_info#:#Onにするとシステムのパーツ(例 リポジトリ、ユーザープロファイル)は認証なしでインターネット利用ができるようになります。"匿名" の権限ではリポジトリ・リソースへのアクセスが制限されます。
 common#:#public#:#パブリック
@@ -4929,13 +4316,8 @@ common#:#purpose#:#目的
 common#:#qpl#:#テスト問題集
 common#:#qpl_add#:#テスト問題集を追加
 common#:#qpl_copy#:#テスト問題集をコピー
-common#:#qpl_delete#:#テスト問題集を削除
-common#:#qpl_edit_permission#:#アクセス権限設定を変更
 common#:#qpl_new#:#新規テスト問題集
-common#:#qpl_read#:#テスト問題集を読み込む
 common#:#qpl_upload_file#:#アップロードファイル
-common#:#qpl_visible#:#テスト問題集を表示
-common#:#qpl_write#:#テスト問題集を編集
 common#:#quarterly#:#年4期に分けて
 common#:#query_data#:#データの問合せ
 common#:#question#:#問題
@@ -5082,31 +4464,19 @@ common#:#rolt_add#:#役割テンプレートを追加
 common#:#rolt_added#:#役割テンプレート追加
 common#:#rolt_edit#:#役割 テンプレート編集
 common#:#rolt_new#:#新規役割 テンプレート
-common#:#root_create_cat#:#ユーザーはカテゴリー作成ができます
 common#:#root_edit#:#システムルートノードを編集
-common#:#root_edit_permission#:#アクセス権限設定を変更
-common#:#root_read#:#ILIASシステムを読み込む
-common#:#root_visible#:#ILIASシステムを表示
-common#:#root_write#:#システムルートノードのmetadata
 common#:#row#:#列
 common#:#rows#:#列
 common#:#rte_editor_disabled#:#Rich テキストエディターを使用しない
 common#:#rte_editor_enabled#:#Richテキストエディターを使用
 common#:#sahs#:#ラーニングモジュール SCORM/AICC
 common#:#sahs_added#:#SCORM/AICCラーニングモジュール追加
-common#:#sahs_copy#:#SCORM/AICCラーニングモジュールをコピー
 common#:#sahs_create#:#SCORM/AICCラーニングモジュールを作成
-common#:#sahs_delete#:#SCORM/AICCラーニングモジュールを削除
-common#:#sahs_edit_learning_progress#:#学習進捗を編集
-common#:#sahs_edit_permission#:#アクセス権限設定を変更
 common#:#sahs_insert_chap_from_clip#:#クリップボードの章を貼付ける
 common#:#sahs_insert_page_from_clip#:#クリップボードのページﾞを貼り付ける
 common#:#sahs_insert_sco_from_clip#:#クリップボードのSCOを貼付ける
 common#:#sahs_join#:#SCORM/AICCラーニングモジュールへ登録
 common#:#sahs_leave#:#SCORM/AICCラーニングモジュール登録解除
-common#:#sahs_read#:#SCORM/AICCラーニングモジュールを読み込む
-common#:#sahs_visible#:#SCORM/AICCラーニングモジュールを表示
-common#:#sahs_write#:#SCORM/AICCラーニングモジュールを編集
 common#:#salutation#:#挨拶
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -5147,14 +4517,9 @@ common#:#search_result#:#検索結果
 common#:#search_results#:#検索結果
 common#:#search_to_short#:#質問が短すぎます。
 common#:#search_user#:#ユーザーを検索
-common#:#seas_edit_permission#:#アクセス権限設定を変更
 common#:#seas_max_hits#:#最大ヒット
 common#:#seas_max_hits_info#:#検索結果の最大数を入力してください。
-common#:#seas_read#:#読込検索設定
-common#:#seas_search#:#検索使用を許可
 common#:#seas_settings#:#検索設定
-common#:#seas_visible#:#検索設定を表示
-common#:#seas_write#:#検索設定を編集
 common#:#second#:#秒
 common#:#seconds#:#秒
 common#:#sections#:#セクション
@@ -5188,7 +4553,6 @@ common#:#server_data#:#サーバーデータ
 common#:#server_disabled#:#チャットはオフです
 common#:#server_software#:#サーバーソフトウェア
 common#:#sess#:#セッション
-common#:#sess_copy#:#セッションをコピー
 common#:#sess_fixed_duration#:#固定のセッション継続時間
 common#:#sess_load_dependent_session_handling#:#依存しているセッション処理を読み込む
 common#:#sess_mode#:#セッションモード
@@ -5217,7 +4581,6 @@ common#:#setSystemLanguage#:#システム言語設定
 common#:#settings#:#設定
 common#:#settings_for_all_members#:#全コース/グループメンバーのグローバル設定
 common#:#settings_for_new_members#:#新メンバー設定
-common#:#settings_per_members#:#ユーザーごとの設定
 common#:#settings_per_users#:#コース/グループメンバーごとの設定
 common#:#settings_saved#:#設定を保存
 common#:#setUserLanguage#:#ユーザー言語設定
@@ -5313,15 +4676,9 @@ common#:#sorting_title_header#:#タイトルで並び替え
 common#:#spacer#:#スペーサー
 common#:#spl#:#問題集サーベイ
 common#:#spl_add#:#問題集サーベイを追加
-common#:#spl_copy#:#サーベイ問題集をコピー
-common#:#spl_delete#:#問題集サーベイを削除
-common#:#spl_edit_permission#:#アクセス権限設定を変更
 common#:#spl_import#:#問題集サーベイをインポート
 common#:#spl_new#:#新規問題集サーベイ
-common#:#spl_read#:#問題集サーベイを読み込む
 common#:#spl_upload_file#:#アップロードファイル
-common#:#spl_visible#:#問題集サーベイを表示
-common#:#spl_write#:#問題集サーベイを編集
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#章
 common#:#st_add#:#章を追加
@@ -5348,10 +4705,6 @@ common#:#street#:#町名・番地
 common#:#structure#:#建物
 common#:#sty#:#スタイル
 common#:#style_activation#:#スタイルアクション
-common#:#stys_edit_permission#:#アクセス権限設定を変更
-common#:#stys_read#:#スタイル設定を読み込む
-common#:#stys_visible#:#スタイル設定を表示
-common#:#stys_write#:#スタイル設定を編集
 common#:#sub_request_deleted#:#メンバーシップリクエストを削除しました
 common#:#sub_request_saved#:#メンバーシッップリクエストを保存しました
 common#:#subcat_name#:#サブカテゴリー名
@@ -5370,23 +4723,16 @@ common#:#survey_unlimited_invitation#:#無制限の招待
 common#:#survey_unlimited_invitation_desc#:#サーベイの無制限招待ができます。無制限の招待は全ての登録済ユーザーのパーソナルデスクトップへサーベイを追加します。
 common#:#svy#:#サーベイ
 common#:#svy_add#:#サーベイを追加
-common#:#svy_copy#:#サーベイをコピー
-common#:#svy_delete#:#サーベイを削除
-common#:#svy_edit_permission#:#アクセス権限設定を変更
 common#:#svy_evaluation#:#統計値
 common#:#svy_finished#:#サーベイを完了しました
-common#:#svy_invite#:#ユーザーをサーベイへ招待
 common#:#svy_new#:#新規サーベイ
 common#:#svy_no_content#:#サーベイは利用できません
 common#:#svy_not_finished#:#サーベイがまだ完了していません
 common#:#svy_not_started#:#このサーベイに参加
 common#:#svy_participate#:#サーベイに参加してください
-common#:#svy_read#:#サーベイを読み込む
 common#:#svy_run#:#実行
 common#:#svy_upload_file#:#アップロードファイル
-common#:#svy_visible#:#サーベイを表示
 common#:#svy_warning_survey_not_complete#:#サーベイは未完了
-common#:#svy_write#:#サーベイを編集
 common#:#system#:#システム
 common#:#system_check#:#システムチェック
 common#:#system_choose_language#:#システムは言語を選択します
@@ -5402,10 +4748,6 @@ common#:#systemcheck_cronform#:#Cronジョブのシステムチェックのア�
 common#:#table_mail_import#:#メールインポート
 common#:#tabs#:#タブ
 common#:#tagging_my_tags#:#My Tags
-common#:#tags_edit_permission#:#アクセス権限設定を変更
-common#:#tags_read#:#タグ設定を読み込む
-common#:#tags_visible#:#タグ設定を表示
-common#:#tags_write#:#タグ設定を編集
 common#:#take_over_structure#:#構造を採用する
 common#:#take_over_structure_info#:#オンにするとzip ファイルのディレクトリがカテゴリーにマップされるか、もしくはグループまたはコースを使ってフォルダへマップされます。
 common#:#target#:#ターゲット
@@ -5465,10 +4807,6 @@ common#:#tomorrow#:#明日
 common#:#top_of_page#:#ページのトップ
 common#:#total#:#合計
 common#:#tpl_path#:#テンプレート Path
-common#:#trac_delete#:#追跡データを追加
-common#:#trac_edit_permission#:#アクセス権限設定を変更
-common#:#trac_read#:#追跡データを読み込む
-common#:#trac_visible#:#ユーザー追跡を表示
 common#:#tracked_objects#:#追跡するオブジェクト
 common#:#tracking_data#:#追跡データ
 common#:#tracking_data_del_confirm#:#本当に指定した月以前の全ての追跡データを削除しますか?
@@ -5485,24 +4823,17 @@ common#:#treeview#:#サイドバーを表示
 common#:#tst#:#テスト
 common#:#tst_add#:#テストを追加
 common#:#tst_anon_eval#:#結果
-common#:#tst_copy#:#テストをコピー
-common#:#tst_delete#:#テストを削除
-common#:#tst_edit_learning_progress#:#学習進捗を編集
-common#:#tst_edit_permission#:#アクセス権限設定を変更
 common#:#tst_edit_questions#:#問題を編集
 common#:#tst_new#:#新テスト
 common#:#tst_no_content#:#新テストは利用できません
 common#:#tst_random_test_description_warning#:#<br /><b>このテストは問題集に割当てられていない質問です。ランダムテストモードに切り替えるとこの質問は削除されます。</b>
-common#:#tst_read#:#テストを読み込む
 common#:#tst_run#:#実行
 common#:#tst_statistical_evaluation#:#統計値
 common#:#tst_statistics#:#テスト統計へアクセス
 common#:#tst_upload_file#:#アップロードファイル
 common#:#tst_user_not_invited#:#このテストのサポート資格がありません。
 common#:#tst_user_wrong_clientip#:#このテストに使用しているIPは正しくありません
-common#:#tst_visible#:#テストを表示
 common#:#tst_warning_test_not_complete#:#テストは完了していません!
-common#:#tst_write#:#テストを編集
 common#:#tutors#:#指導教員
 common#:#txt_add_object_instruction1#:#追加したい場所をブラウズします
 common#:#txt_add_object_instruction2#:#.
@@ -5655,15 +4986,7 @@ common#:#usr_style#:#ユーザースタイル
 common#:#usr_without_courses#:# コース割当てなしのユーザー
 common#:#usrf#:#ユーザー アカウント
 common#:#usrf_create_user#:#新規ユーザーアカウントを作成
-common#:#usrf_delete#:#ユーザー アカウントを削除
-common#:#usrf_edit_permission#:#ユーザー アカウントを変更
-common#:#usrf_edit_roleassignment#:#ユーザー アカウントの役割割り当てを変更
 common#:#usrf_profile_link#:#ユーザープロファイルへリンクします
-common#:#usrf_push_desktop_items#:#パーソナルデスクトップ上にあるアイテムのプッシュを許可します。
-common#:#usrf_read#:#ユーザー アカウントを読み込む
-common#:#usrf_read_users#:#ローカル管理者を読み込む
-common#:#usrf_visible#:#ユーザー アカウントを表示
-common#:#usrf_write#:#ユーザー アカウントを編集
 common#:#usrimport_action_failed#:#アクション %1$s に失敗しました。
 common#:#usrimport_action_ignored#:#アクション %1$sを無視しました。
 common#:#usrimport_action_replaced#:#アクション %1$s by %2$sを入れ替えました。
@@ -5720,14 +5043,11 @@ common#:#webr#:#Webリンク
 common#:#webr_active#:#アクティブ
 common#:#webr_add#:#Webリンクを追加
 common#:#webr_add_item#:#Webリンクを追加
-common#:#webr_copy#:#Webリンクを追加コピー
-common#:#webr_delete#:#Webリンクリストを削除
 common#:#webr_delete_items#:#Webリンクを削除
 common#:#webr_deleted_items#:#Webリンクを削除しました。
 common#:#webr_disable_check#:#バリデーションを無効
 common#:#webr_edit#:#Webリンクを編集
 common#:#webr_edit_item#:#Webリンクを編集
-common#:#webr_edit_permission#:#アクセス権限設定を変更
 common#:#webr_fillout_all#:#全ての必須項目を埋めてください。
 common#:#webr_item_updated#:#保存済修正
 common#:#webr_join#:#Webリンクを申し込む
@@ -5738,10 +5058,7 @@ common#:#webr_modified_items#:#修正を保存しました。
 common#:#webr_never_checked#:#チェック歴なし
 common#:#webr_new#:#新規Webリンクを追加
 common#:#webr_no_items_created#:#Webリンク作成なし
-common#:#webr_read#:#Webリンクを読み込む
 common#:#webr_sure_delete_items#:#本当に次のWebリンクを削除しますか?
-common#:#webr_visible#:#Webリンクを表示
-common#:#webr_write#:#Webリンクを編集
 common#:#webservices#:#Webサービス
 common#:#week#:#週
 common#:#weekly#:#週間
@@ -5752,14 +5069,7 @@ common#:#width#:#幅
 common#:#width_x_height#:#幅 x 高さ
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Wikiに追加
-common#:#wiki_copy#:#Wikiをコピー
-common#:#wiki_delete#:#Wikiをコピー削除
-common#:#wiki_edit_content#:#Wikiページを編集
-common#:#wiki_edit_permission#:#アクセス権限設定を変更
 common#:#wiki_new#:#新規Wiki
-common#:#wiki_read#:#Wikiを読み込む
-common#:#wiki_visible#:#Wikiを表示
-common#:#wiki_write#:#Wiki設定、学習者の評価を変更
 common#:#with#:#with
 common#:#wizard_search_list#:#検索の結果次のヒットがありました。どれか一つ選択してください。
 common#:#wizard_title_info#:#複製したいオブジェクトのタイトルを入力してください。
@@ -6867,7 +6177,6 @@ crs#:#crs_auto_notification#:#新メンバ用の通知
 crs#:#crs_auto_notification_info#:#新メンバはコースへ追加されるとメール通知されます。
 crs#:#crs_availability_limitless_info#:#ユーザーへコース利用とアクセスを行わせるにはこのモードを選択します。 (下記の登録設定による)
 crs#:#crs_availability_until_info#:#ユーザーへコースの一定期間利用とアクセスを行わせるにはこのモードを選択します。(下記の登録設定による)
-crs#:#crs_availability_unvisible_info#:#コース準備用にはこのモードを選択します。コース管理者と指導教員のみが見ることができてコースを編集できます。
 crs#:#crs_blocked#:#アクセス拒否
 crs#:#crs_blocked_member#:#コース "%s"のブロックされたメンバーシップ
 crs#:#crs_blocked_member_body#:#コース "%s"のメンバーシップはブロックされました。
@@ -6895,8 +6204,6 @@ crs#:#crs_create_date#:#作成日
 crs#:#crs_crs_structure#:#コースの構造
 crs#:#crs_custom_user_fields#:#関連ユーザーデータのコース
 crs#:#crs_dates#:#日付
-crs#:#crs_deact_auto_noti#:#新規メンバーに通知しない
-crs#:#crs_deact_auto_noti_info#:#コース追加時にメンバーはメール通知を受け取りません。
 crs#:#crs_deactivate_notification#:#通知をオフ
 crs#:#crs_deassign_lm_sure#:#本当にこの役割を削除しますか?
 crs#:#crs_delete_file#:#ファイルを削除しますか?
@@ -7314,10 +6621,8 @@ crs#:#crs_view_info_timing#:#タイミング事前設定の説明モード
 crs#:#crs_view_mode#:#コースプレゼンテーション
 crs#:#crs_view_objective#:#学習目標ビュー
 crs#:#crs_view_timing#:#タイミングビュー
-crs#:#crs_visibility#:#利用可否
 crs#:#crs_visibility_limitless#:#期限なし
 crs#:#crs_visibility_until#:#一時利用
-crs#:#crs_visibility_unvisible#:#オフライン(コースは利用不可)
 crs#:#crs_wait_info#:#有効にしてユーザ最大数を超えると、新しい登録が待ちリストに載せられます。
 crs#:#crs_waiting_list#:#待ちリスト
 crs#:#crs_warn_no_max_set_on_waiting_list#:#コースメンバーの最大数を超えました。参加リクエストを待ちリストへ追加できます。リクエストが承認もしくは却下されるとコース管理者からメッセージを受信します。
@@ -7326,7 +6631,6 @@ crs#:#crs_wiz_back#:#戻る
 crs#:#crs_wiz_next#:#保存
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#待ちリスト上のあなたの位置
-crs#:#edit_content#:#コンテンツを編集
 crs#:#edit_timings_list#:#タイミングを編集
 crs#:#event#:#セッション
 crs#:#event_add_new_event#:#追加した新セッション
@@ -8586,7 +7890,6 @@ forum#:#new_post#:#新しい投稿
 forum#:#no_forum_available_for_moving_threads#:#選択したトピックスの移動先のフォーラムがありません。
 forum#:#no_forum_selected#:#移動するトピックスのフォーラムが選択されていません
 forum#:#number_of_threads#:#ページあたりのスレッド表示数
-forum#:#order_by_posts#:#投稿でソート
 forum#:#post_activation_desc#:#有効にすると、モデレータは新規投稿をアクティブにしなければなりません。
 forum#:#post_censored_comment_by_moderator#:#モデレータによるコメント、検閲の投稿
 forum#:#post_reply#:#Re
@@ -8605,7 +7908,6 @@ forum#:#to_forum#:#フォーラムへ
 forum#:#topic_close#:#済み
 forum#:#topics_please_select_one_action#:#アクションを選択してください。
 forum#:#user_decides_notification#:#各ユーザーが通知を決定
-frm#:#frm_import#:#フォーラムをインポート
 gmaps#:#gmaps_api_key#:#APIキー
 gmaps#:#gmaps_api_key_desc#:#Google Map拡張機能を利用するためにGoogle Map APIキーへ申込みする必要があります。
 gmaps#:#gmaps_enable_gmaps#:#Google Mapを有効にする
@@ -8858,18 +8160,6 @@ jscalendar#:#time_part#:#(Shift-)クリックまたはドラッグして値を�
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a
 jscalendar#:#wk#:#週
-jsmath#:#jsmath_default_setting#:#初期設定として使用
-jsmath#:#jsmath_default_setting_info#:#チェックするとパーソナルプロファイル設定の中にあるjsMathサポートを無効にしたり有効にしていなかった全てのユーザーへLaTexコードを描写の既定のメソッドとしてjsMathを使用するようになります。
-jsmath#:#jsmath_enable_jsmath#:#jsMathを有効
-jsmath#:#jsmath_enable_jsmath_info#:#LaTeX式の数学出力ベースのjsMathサポートを使用可能にする。
-jsmath#:#jsmath_enable_user#:#jsMathサポートを有効にする
-jsmath#:#jsmath_enable_user_desc#:#数学の公式出力用にjsMathを使用可能にする。jsMath出力はJavascript使用が必須でありスケーラブルな公式を生成します。jsMath出力が無効の場合、公式はグラフィックで描写されます。
-jsmath#:#jsmath_extt_jsmath#:#jsMath
-jsmath#:#jsmath_no_javascript#:#このヒントの横に正しい数学公式が見えない場合はjsMath出力をオンにしますが、WebブラウザーがJavaScriptをサポートしていないかJavaScriptが無効です。数学公式を見るにはWebブラウザーのJavaScriptを有効にして、このページをリロードするか<strong>パーソナルデスクトップ &gt; パーソナルプロファイル &gt; jsMath</strong>に入ってjsMath出力を無効にします。
-jsmath#:#jsmath_path_not_found#:#特定のpathでjsMath.が見つかりません。このサーバーのjsMathロケーションをチェックしてください!
-jsmath#:#jsmath_path_to_jsmath#:#jsMathへのpath
-jsmath#:#jsmath_path_to_jsmath_desc#:#ILIASベースのディレクトリに関係するjsMathベースのディレクトリへのpath。例 &quot;./Services/Javascript/jsMath&quot;
-jsmath#:#jsmath_settings#:#jsMath設定
 ldap#:#ldap_add_missing#:#未役割を割当てる
 ldap#:#ldap_add_remove#:#役割を追加/削除
 ldap#:#ldap_add_role_ass_rule#:#役割割当てに対する新しい役割
@@ -9007,7 +8297,6 @@ mail#:#activate_serial_letter_placeholders#:#定型文のプレースフォル�
 mail#:#advice_mail_body_secured#:#セキュリティ上の理由のため ILIASはメッセージ要素の一部を削除する事があります。 セキュリティで保護されたメッセージを確認してメールを再送信してください。
 mail#:#also_as_email#:#emailも同様
 mail#:#bc#:#BCC
-mail#:#chat_select_room#:#チャットルームを選択
 mail#:#chat_users_have_been_invited#:#ユーザーは招待されています。
 mail#:#chat_users_without_login#:#次のユーザーはILIAS アカウントがなく、チャットルームへ招待することはできません。
 mail#:#chat_users_without_permission#:#次のユーザーは選択したチャットルームへアクセスできません。
@@ -10819,7 +10108,6 @@ rating#:#rating_update_positions#:#順を保存
 rating#:#rating_your_rating#:#評価
 rbac#:#active_preconditions#:#前提条件を起動
 rbac#:#add_consultation_hours#:#カレンダーに相談時間を追加
-rbac#:#add_post#:#投稿追加
 rbac#:#add_reply#:#返信を追加
 rbac#:#add_thread#:#スレッド追加
 rbac#:#blga_edit_permission#:#アクセス権設定の変更
@@ -10932,7 +10220,6 @@ rbac#:#itgr_copy#:#ユーザはアイテムグループをコピーできます
 rbac#:#itgr_delete#:#ユーザはアイテムグループを移動と削除ができます
 rbac#:#itgr_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#itgr_read#:#ユーザはアイテムグループを読み込みできます
-rbac#:#itgr_visible#:#アイテムグループが表示されます
 rbac#:#itgr_write#:#ユーザは内容とアイテムグループ編集ができます
 rbac#:#leave#:#退室
 rbac#:#log#:#Log
@@ -13341,3 +12628,403 @@ wsp#:#wsp_type_file#:#ファイル
 wsp#:#wsp_type_tstv#:#検証: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダー
+assessment#:#autosave#:#Automatic saving###28 11 2012 new variable
+assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
+assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
+assessment#:#false#:#False###28 11 2012 new variable
+assessment#:#true#:#True###28 11 2012 new variable
+chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll###28 11 2012 new variable
+chatroom#:#chat_message_notify_activate#:#Chat Notifications###28 11 2012 new variable
+chatroom#:#chat_new_invitation_sound_status#:#Play a sound when user receives an invitation to the chat###28 11 2012 new variable
+chatroom#:#chat_new_message_sound_status#:#Play a sound when a new message has been posted to the chat###28 11 2012 new variable
+rbac#:#accs_edit_permission#:#User can change permissions of Accessibility Settings  in Administration.###28 11 2012 new variable
+rbac#:#accs_read#:#User has read access to Accessibility Settings in Administration.###28 11 2012 new variable
+rbac#:#accs_visible#:#Accessibility Settings are visible in Administration.###28 11 2012 new variable
+rbac#:#accs_write#:#User can edit Accessibility Settings in Administration.###28 11 2012 new variable
+rbac#:#adm_edit_permission#:#User can change permissions of General Settings in Administration.###28 11 2012 new variable
+rbac#:#adm_read#:#User has read access to General Settings in Administration.###28 11 2012 new variable
+rbac#:#adm_visible#:#General Settings are visible in Administration.###28 11 2012 new variable
+rbac#:#adm_write#:#User can edit General Settings in Administration.###28 11 2012 new variable
+rbac#:#adopt_perm_from_template#:#Copy Permission Settings###28 11 2012 new variable
+rbac#:#adve_edit_permission#:#User can change permission settings of Editing administration###28 11 2012 new variable
+rbac#:#adve_read#:#User has read access to Editing Administration###28 11 2012 new variable
+rbac#:#adve_visible#:#Editing Administration is visible###28 11 2012 new variable
+rbac#:#adve_write#:#User can edit settings of Editing Administration###28 11 2012 new variable
+rbac#:#assf_edit_permission#:#User can change permission settings of Test and Assessment administration###28 11 2012 new variable
+rbac#:#assf_read#:#User has read access Test and Assessment Administration###28 11 2012 new variable
+rbac#:#assf_visible#:#Test and Assessment administration is visible###28 11 2012 new variable
+rbac#:#assf_write#:#User can edit settings of Test and Assessment Administration###28 11 2012 new variable
+rbac#:#auth_edit_permission#:#User can change permission settings of Authentication and Registration administration###28 11 2012 new variable
+rbac#:#auth_read#:#User has read access to administration of Authentication and Registration###28 11 2012 new variable
+rbac#:#auth_visible#:#Administration of Authentication and Registration is visible###28 11 2012 new variable
+rbac#:#auth_write#:#User can edit settings for Authentication and Registration###28 11 2012 new variable
+rbac#:#cat_cat_administrate_users#:#User can create and administrate local user accounts in this category###28 11 2012 new variable
+rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###28 11 2012 new variable
+rbac#:#cat_copy#:#User can copy category###28 11 2012 new variable
+rbac#:#cat_create_cat#:#Create Category###28 11 2012 new variable
+rbac#:#cat_create_crs#:#Create Course###28 11 2012 new variable
+rbac#:#cat_create_exc#:#Create Exercise###28 11 2012 new variable
+rbac#:#cat_create_feed#:#Create Web Feed###28 11 2012 new variable
+rbac#:#cat_create_file#:#Upload File###28 11 2012 new variable
+rbac#:#cat_create_frm#:#Create Forum###28 11 2012 new variable
+rbac#:#cat_create_glo#:#Create Glossary###28 11 2012 new variable
+rbac#:#cat_create_grp#:#Create Group###28 11 2012 new variable
+rbac#:#cat_create_htlm#:#Create HTML Learning Module###28 11 2012 new variable
+rbac#:#cat_create_icrs#:#Create LearnLinc Seminar###28 11 2012 new variable
+rbac#:#cat_create_lm#:#Create ILIAS Learning Module###28 11 2012 new variable
+rbac#:#cat_create_mcst#:#Create Mediacast###28 11 2012 new variable
+rbac#:#cat_create_mep#:#Create Media Pool###28 11 2012 new variable
+rbac#:#cat_create_qpl#:#Create Question Pool Test###28 11 2012 new variable
+rbac#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###28 11 2012 new variable
+rbac#:#cat_create_spl#:#Create Question Pool Survey###28 11 2012 new variable
+rbac#:#cat_create_svy#:#Create Survey###28 11 2012 new variable
+rbac#:#cat_create_tst#:#Create Test###28 11 2012 new variable
+rbac#:#cat_create_webr#:#Create Weblink###28 11 2012 new variable
+rbac#:#cat_delete#:#User can move or delete category###28 11 2012 new variable
+rbac#:#cat_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#cat_read_users#:#User can read local user accounts created in this category###28 11 2012 new variable
+rbac#:#cat_read#:#User has read access to category###28 11 2012 new variable
+rbac#:#cat_visible#:#Category is visible###28 11 2012 new variable
+rbac#:#cat_write#:#User can edit settings of category and manage content###28 11 2012 new variable
+rbac#:#cert_edit_permission#:#User can change permission settings of Certificates administration###28 11 2012 new variable
+rbac#:#cert_read#:#User has read access to Certificates Administration###28 11 2012 new variable
+rbac#:#cert_visible#:#Certificates Administration is visible###28 11 2012 new variable
+rbac#:#cert_write#:#User can edit settings in Certificates Administration###28 11 2012 new variable
+rbac#:#change_existing_object_type_desc#:#This will also change the permissions of already existing objects of that type###28 11 2012 new variable
+rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropriate object type.###28 11 2012 new variable
+rbac#:#change_existing_objects#:#Change Existing Objects###28 11 2012 new variable
+rbac#:#change_existing_prefix_single#:#Change###28 11 2012 new variable
+rbac#:#change_existing_prefix#:#Change Existing###28 11 2012 new variable
+rbac#:#change_existing_suffix_single#:#&nbsp;###28 11 2012 new variable
+rbac#:#change_existing_suffix#:#&nbsp;###28 11 2012 new variable
+rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###28 11 2012 new variable
+rbac#:#crs_copy#:#User can copy course###28 11 2012 new variable
+rbac#:#crs_create_exc#:#Create Exercise###28 11 2012 new variable
+rbac#:#crs_create_feed#:#Create Web Feed###28 11 2012 new variable
+rbac#:#crs_create_file#:#Upload File###28 11 2012 new variable
+rbac#:#crs_create_fold#:#Create Folder###28 11 2012 new variable
+rbac#:#crs_create_frm#:#Create Forum###28 11 2012 new variable
+rbac#:#crs_create_glo#:#Create Glossary###28 11 2012 new variable
+rbac#:#crs_create_grp#:#Create Group###28 11 2012 new variable
+rbac#:#crs_create_htlm#:#Create HTML Learning Module###28 11 2012 new variable
+rbac#:#crs_create_icrs#:#Create LearnLinc Seminar###28 11 2012 new variable
+rbac#:#crs_create_lm#:#Create ILIAS Learning Module###28 11 2012 new variable
+rbac#:#crs_create_mcst#:#Create Mediacast###28 11 2012 new variable
+rbac#:#crs_create_mep#:#Create Media Pool###28 11 2012 new variable
+rbac#:#crs_create_qpl#:#Create Question Pool Test###28 11 2012 new variable
+rbac#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###28 11 2012 new variable
+rbac#:#crs_create_spl#:#Create Question Pool Survey###28 11 2012 new variable
+rbac#:#crs_create_svy#:#Create Survey###28 11 2012 new variable
+rbac#:#crs_create_tst#:#Create Test###28 11 2012 new variable
+rbac#:#crs_create_webr#:#Create Weblink###28 11 2012 new variable
+rbac#:#crs_delete#:#User can move or delete course###28 11 2012 new variable
+rbac#:#crs_edit_learning_progress#:#User can see learning progress of course members and edit learning progress settings###28 11 2012 new variable
+rbac#:#crs_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#crs_join#:#User can join course###28 11 2012 new variable
+rbac#:#crs_leave#:#User can unsubscribe from course###28 11 2012 new variable
+rbac#:#crs_read#:#User has read access to course###28 11 2012 new variable
+rbac#:#crs_visible#:#Course is visible###28 11 2012 new variable
+rbac#:#crs_write#:#User can edit course settings and manage content###28 11 2012 new variable
+rbac#:#edit_roleassignment#:#Edit role assignment###28 11 2012 new variable
+rbac#:#exc_copy#:#User can copy exercise###28 11 2012 new variable
+rbac#:#exc_delete#:#User can move or delete exercise###28 11 2012 new variable
+rbac#:#exc_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings###28 11 2012 new variable
+rbac#:#exc_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#exc_read#:#User can participate at exercise###28 11 2012 new variable
+rbac#:#exc_visible#:#Exercise is visible###28 11 2012 new variable
+rbac#:#exc_write#:#User can edit settings and assignments of exercise###28 11 2012 new variable
+rbac#:#extt_edit_permission#:#User can change permission settings of Third Party Software administration###28 11 2012 new variable
+rbac#:#extt_read#:#User has read access to administration of Third Party Software###28 11 2012 new variable
+rbac#:#extt_visible#:#Administration of Third Party Software is visible###28 11 2012 new variable
+rbac#:#extt_write#:#User can edit settings of Third Party Software###28 11 2012 new variable
+rbac#:#feed_delete#:#User can move or delete web feed###28 11 2012 new variable
+rbac#:#feed_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#feed_read#:#User can read content of web feed###28 11 2012 new variable
+rbac#:#feed_visible#:#Web feed is visible###28 11 2012 new variable
+rbac#:#feed_write#:#User can edit web feed settings###28 11 2012 new variable
+rbac#:#file_copy#:#User can copy file###28 11 2012 new variable
+rbac#:#file_delete#:#User can move or delete file###28 11 2012 new variable
+rbac#:#file_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#file_read#:#User can download file###28 11 2012 new variable
+rbac#:#file_visible#:#File is visible###28 11 2012 new variable
+rbac#:#file_write#:#User can edit file settings and upload new version of file###28 11 2012 new variable
+rbac#:#fold_copy#:#User can copy folder###28 11 2012 new variable
+rbac#:#fold_create_exc#:#Create Exercise###28 11 2012 new variable
+rbac#:#fold_create_file#:#Upload File###28 11 2012 new variable
+rbac#:#fold_create_fold#:#Create Folder###28 11 2012 new variable
+rbac#:#fold_create_frm#:#Create Forum###28 11 2012 new variable
+rbac#:#fold_create_glo#:#Create Glossary###28 11 2012 new variable
+rbac#:#fold_create_grp#:#Create Group###28 11 2012 new variable
+rbac#:#fold_create_htlm#:#Create HTML Learning Module###28 11 2012 new variable
+rbac#:#fold_create_icrs#:#Create LearnLinc Seminar###28 11 2012 new variable
+rbac#:#fold_create_lm#:#Create ILIAS Learning Module###28 11 2012 new variable
+rbac#:#fold_create_mcst#:#Create Mediacast###28 11 2012 new variable
+rbac#:#fold_create_mep#:#Create Media Pool###28 11 2012 new variable
+rbac#:#fold_create_qpl#:#Create Question Pool Test###28 11 2012 new variable
+rbac#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###28 11 2012 new variable
+rbac#:#fold_create_spl#:#Create Question Pool Survey###28 11 2012 new variable
+rbac#:#fold_create_svy#:#Create Survey###28 11 2012 new variable
+rbac#:#fold_create_tst#:#Create Test###28 11 2012 new variable
+rbac#:#fold_create_webr#:#Create Weblink###28 11 2012 new variable
+rbac#:#fold_delete#:#User can move or delete folder###28 11 2012 new variable
+rbac#:#fold_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings###28 11 2012 new variable
+rbac#:#fold_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#fold_read#:#User has read access to folder###28 11 2012 new variable
+rbac#:#fold_visible#:#Folder is visible###28 11 2012 new variable
+rbac#:#fold_write#:#User can edit settings of folder and manage content###28 11 2012 new variable
+rbac#:#frm_add_thread#:#User can add a new topic###28 11 2012 new variable
+rbac#:#frm_copy#:#User can copy forum###28 11 2012 new variable
+rbac#:#frm_delete#:#User can move or delete forum###28 11 2012 new variable
+rbac#:#frm_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#frm_moderate_frm#:#User can edit, censor and delete postings###28 11 2012 new variable
+rbac#:#frm_read#:#User can read forum content###28 11 2012 new variable
+rbac#:#frm_visible#:#Forum is visible###28 11 2012 new variable
+rbac#:#frm_write#:#User can edit forum settings and moderators###28 11 2012 new variable
+rbac#:#glo_copy#:#User can copy glossary###28 11 2012 new variable
+rbac#:#glo_delete#:#User can move or delete glossary###28 11 2012 new variable
+rbac#:#glo_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#glo_read#:#User can read glossary content###28 11 2012 new variable
+rbac#:#glo_visible#:#Glossary is visible###28 11 2012 new variable
+rbac#:#glo_write#:#User can edit content and settings of glossary###28 11 2012 new variable
+rbac#:#grp_copy#:#User can copy group###28 11 2012 new variable
+rbac#:#grp_create_exc#:#Create Exercise###28 11 2012 new variable
+rbac#:#grp_create_feed#:#Create Web Feed###28 11 2012 new variable
+rbac#:#grp_create_file#:#Upload File###28 11 2012 new variable
+rbac#:#grp_create_fold#:#Create Folder###28 11 2012 new variable
+rbac#:#grp_create_frm#:#Create Forum###28 11 2012 new variable
+rbac#:#grp_create_glo#:#Create Glossary###28 11 2012 new variable
+rbac#:#grp_create_grp#:#Create Group###28 11 2012 new variable
+rbac#:#grp_create_htlm#:#Create HTML Learning Module###28 11 2012 new variable
+rbac#:#grp_create_icrs#:#Create LearnLinc Seminar###28 11 2012 new variable
+rbac#:#grp_create_lm#:#Create ILIAS Learning Module###28 11 2012 new variable
+rbac#:#grp_create_mcst#:#Create Mediacast###28 11 2012 new variable
+rbac#:#grp_create_mep#:#Create Media Pool###28 11 2012 new variable
+rbac#:#grp_create_qpl#:#Create Question Pool Test###28 11 2012 new variable
+rbac#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###28 11 2012 new variable
+rbac#:#grp_create_spl#:#Create Question Pool Survey###28 11 2012 new variable
+rbac#:#grp_create_svy#:#Create Survey###28 11 2012 new variable
+rbac#:#grp_create_tst#:#Create Test###28 11 2012 new variable
+rbac#:#grp_create_webr#:#Create Weblink###28 11 2012 new variable
+rbac#:#grp_delete#:#User can move or delete group###28 11 2012 new variable
+rbac#:#grp_edit_learning_progress#:#User can see learning progress of group members and edit learning progress settings###28 11 2012 new variable
+rbac#:#grp_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#grp_join#:#User can join group###28 11 2012 new variable
+rbac#:#grp_leave#:#User can unsubscribe from group###28 11 2012 new variable
+rbac#:#grp_read#:#User has read access to group###28 11 2012 new variable
+rbac#:#grp_visible#:#Group is visible###28 11 2012 new variable
+rbac#:#grp_write#:#User can edit group settings and manage content###28 11 2012 new variable
+rbac#:#htlm_copy#:#User can copy HTML learning module###28 11 2012 new variable
+rbac#:#htlm_delete#:#User can move or delete HTML learning module###28 11 2012 new variable
+rbac#:#htlm_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings###28 11 2012 new variable
+rbac#:#htlm_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#htlm_read#:#User can read HTML learning module###28 11 2012 new variable
+rbac#:#htlm_visible#:#HTML learning module is visible###28 11 2012 new variable
+rbac#:#htlm_write#:#User can edit content and settings of HTML learning module###28 11 2012 new variable
+rbac#:#lm_copy#:#User can copy ILIAS learning module###28 11 2012 new variable
+rbac#:#lm_delete#:#User can move or delete ILIAS learning module###28 11 2012 new variable
+rbac#:#lm_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings###28 11 2012 new variable
+rbac#:#lm_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#lm_read#:#User can read ILIAS learning module###28 11 2012 new variable
+rbac#:#lm_visible#:#ILIAS Learning Module is visible###28 11 2012 new variable
+rbac#:#lm_write#:#User can edit content and settings of ILIAS learning module###28 11 2012 new variable
+rbac#:#lngf_edit_permission#:#User can change permission settings of Language administration###28 11 2012 new variable
+rbac#:#lngf_read#:#User has read access to Language administration###28 11 2012 new variable
+rbac#:#lngf_visible#:#Language administration is visible###28 11 2012 new variable
+rbac#:#lngf_write#:#User can edit settings in Language administration and use extended language maintenance###28 11 2012 new variable
+rbac#:#lrss_edit_permission#:#User can change permission settings of Learning Resources administration###28 11 2012 new variable
+rbac#:#lrss_read#:#Read access to administration of Learning Resources ###28 11 2012 new variable
+rbac#:#lrss_visible#:#Administration of Learning Resources is visible###28 11 2012 new variable
+rbac#:#lrss_write#:#User can edit settings of Learning Resources in administration###28 11 2012 new variable
+rbac#:#mail_read#:#User has read access to Mail administration###28 11 2012 new variable
+rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses###28 11 2012 new variable
+rbac#:#mail_system_message#:#User can send internal system messages###28 11 2012 new variable
+rbac#:#mail_visible#:#Mail administration is visible###28 11 2012 new variable
+rbac#:#mail_write#:#User can edit settings in Mail administration###28 11 2012 new variable
+rbac#:#mcst_copy#:#User can copy mediacast###28 11 2012 new variable
+rbac#:#mcst_delete#:#User can move or delete mediacast###28 11 2012 new variable
+rbac#:#mcst_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#mcst_read#:#User can read mediacast###28 11 2012 new variable
+rbac#:#mcst_visible#:#Mediacast is visible###28 11 2012 new variable
+rbac#:#mcst_write#:#User can edit content and settings of mediacast###28 11 2012 new variable
+rbac#:#mep_delete#:#User can move or delete media pool###28 11 2012 new variable
+rbac#:#mep_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#mep_read#:#User has read access to media pool and can reuse media objects###28 11 2012 new variable
+rbac#:#mep_visible#:#Media pool is visible###28 11 2012 new variable
+rbac#:#mep_write#:#User can edit content and settings of media pool###28 11 2012 new variable
+rbac#:#mobs_edit_permission#:#User can change permission settings in Media Objects/Pools administration###28 11 2012 new variable
+rbac#:#mobs_read#:#User has read access to Media Objects/Pools administration###28 11 2012 new variable
+rbac#:#mobs_visible#:#Media Objects/Pools administration is visible###28 11 2012 new variable
+rbac#:#mobs_write#:#User can edit settings in Media Objects/Pools administration###28 11 2012 new variable
+rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration###28 11 2012 new variable
+rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration###28 11 2012 new variable
+rbac#:#nwss_visible#:#News and Web Feeds administration is visible###28 11 2012 new variable
+rbac#:#nwss_write#:#User can edit settings in News and Web Feeds administration###28 11 2012 new variable
+rbac#:#pays_edit_permission#:#User can change permission settings in Shop administration###28 11 2012 new variable
+rbac#:#pays_read#:#User has read access to Shop administration###28 11 2012 new variable
+rbac#:#pays_visible#:#Shop administration is visible###28 11 2012 new variable
+rbac#:#pays_write#:#User can edit settings in Shop administration###28 11 2012 new variable
+rbac#:#ps_edit_permission#:#User can change permission settings of Privacy/Security administration###28 11 2012 new variable
+rbac#:#ps_export_member_data#:#User can export member data in courses and groups###28 11 2012 new variable
+rbac#:#ps_read#:#User has read access to Privacy/Security administration###28 11 2012 new variable
+rbac#:#ps_visible#:#Privacy/Security administration is visible###28 11 2012 new variable
+rbac#:#ps_write#:#User can edit settings in Privacy/Security administration###28 11 2012 new variable
+rbac#:#qpl_copy#:#User can copy question pool for tests###28 11 2012 new variable
+rbac#:#qpl_delete#:#User can move or delete question pool###28 11 2012 new variable
+rbac#:#qpl_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#qpl_read#:#User can read test questions in pool and insert them in tests###28 11 2012 new variable
+rbac#:#qpl_visible#:#Question pool is visible###28 11 2012 new variable
+rbac#:#qpl_write#:#User can edit test questions and settings of question pool###28 11 2012 new variable
+rbac#:#root_create_cat#:#Create Categories###28 11 2012 new variable
+rbac#:#root_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#root_read#:#User has read access to <i>Repository - Home</i>###28 11 2012 new variable
+rbac#:#root_visible#:#<i>Repository - Home</i> is visible###28 11 2012 new variable
+rbac#:#root_write#:#User can edit settings of <i>Repository - Home</i> and manage content###28 11 2012 new variable
+rbac#:#sahs_delete#:#User can move or delete SCORM/AICC learning module###28 11 2012 new variable
+rbac#:#sahs_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings###28 11 2012 new variable
+rbac#:#sahs_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#sahs_read#:#User can read SCORM/AICC learning module###28 11 2012 new variable
+rbac#:#sahs_visible#:#SCORM/AICC learning module is visible###28 11 2012 new variable
+rbac#:#sahs_write#:#User can edit content and settings of SCORM/AICC learning module###28 11 2012 new variable
+rbac#:#seas_edit_permission#:#User can change permission settings or Search administration###28 11 2012 new variable
+rbac#:#seas_read#:#User has read access to Search administration###28 11 2012 new variable
+rbac#:#seas_search#:#User can use the global search in ILIAS###28 11 2012 new variable
+rbac#:#seas_visible#:#Search administration is visible###28 11 2012 new variable
+rbac#:#seas_write#:#Edit settings in Search administration###28 11 2012 new variable
+rbac#:#sess_copy#:#User can copy session###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+rbac#:#spl_copy#:#User can copy question pool for surveys###28 11 2012 new variable
+rbac#:#spl_delete#:#User can move or delete question pool###28 11 2012 new variable
+rbac#:#spl_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#spl_read#:#User can read survey questions in pool and insert them in survey###28 11 2012 new variable
+rbac#:#spl_visible#:#Question pool is visible###28 11 2012 new variable
+rbac#:#spl_write#:#User can edit survey questions and settings of question pool###28 11 2012 new variable
+rbac#:#stys_edit_permission#:#User can change permission settings of Layout and Styles administration###28 11 2012 new variable
+rbac#:#stys_read#:#User has read access to Layout and Styles administration###28 11 2012 new variable
+rbac#:#stys_visible#:#Layout and Styles administration is visible###28 11 2012 new variable
+rbac#:#stys_write#:#User can edit settings in Layout and Styles administration###28 11 2012 new variable
+rbac#:#svy_copy#:#User can copy survey###28 11 2012 new variable
+rbac#:#svy_delete#:#User can move or delete survey###28 11 2012 new variable
+rbac#:#svy_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#svy_invite#:#User can invite others to a survey###28 11 2012 new variable
+rbac#:#svy_read#:#User can participate at a survey###28 11 2012 new variable
+rbac#:#svy_visible#:#Survey is visible###28 11 2012 new variable
+rbac#:#svy_write#:#User can edit content and settings of survey###28 11 2012 new variable
+rbac#:#tags_edit_permission#:#User can change permission settings in Tagging administration###28 11 2012 new variable
+rbac#:#tags_read#:#User has read access to Tagging administration###28 11 2012 new variable
+rbac#:#tags_visible#:#Tagging administration is visible###28 11 2012 new variable
+rbac#:#tags_write#:#User can edit settings in Tagging administration###28 11 2012 new variable
+rbac#:#trac_delete#:#User can delete tracking data###28 11 2012 new variable
+rbac#:#trac_edit_permission#:#Change permission settings in Statistics and Learning Progress administration###28 11 2012 new variable
+rbac#:#trac_read#:#User has read access to Statistics and Learning Progress administration###28 11 2012 new variable
+rbac#:#trac_visible#:#Statistics and Learning Progress administration is visible###28 11 2012 new variable
+rbac#:#tst_copy#:#User can copy test###28 11 2012 new variable
+rbac#:#tst_delete#:#User can move or delete test###28 11 2012 new variable
+rbac#:#tst_edit_learning_progress#:#User can see learning progress of test participants and edit learning progress settings###28 11 2012 new variable
+rbac#:#tst_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#tst_read#:#User can perform the test###28 11 2012 new variable
+rbac#:#tst_visible#:#Test is visible###28 11 2012 new variable
+rbac#:#tst_write#:#User can edit content and settings of test###28 11 2012 new variable
+rbac#:#usrf_delete#:#User can delete user accounts###28 11 2012 new variable
+rbac#:#usrf_edit_permission#:#User can change permission settings in User administration###28 11 2012 new variable
+rbac#:#usrf_edit_roleassignment#:#User can change role assignment of user account###28 11 2012 new variable
+rbac#:#usrf_push_desktop_items#:#User is allowed to push items on the personal desktop.of role members###28 11 2012 new variable
+rbac#:#usrf_read_users#:#User has read access to local user accounts (local administrators)###28 11 2012 new variable
+rbac#:#usrf_read#:#User has read access to User administration###28 11 2012 new variable
+rbac#:#usrf_visible#:#User administration is visible###28 11 2012 new variable
+rbac#:#usrf_write#:#Edit settings in User administration###28 11 2012 new variable
+rbac#:#webr_copy#:#User can copy weblink###28 11 2012 new variable
+rbac#:#webr_delete#:#User can move or delete weblink###28 11 2012 new variable
+rbac#:#webr_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#webr_read#:#User can read and use weblinks###28 11 2012 new variable
+rbac#:#webr_visible#:#Weblink is visible###28 11 2012 new variable
+rbac#:#webr_write#:#User can edit settings of weblinks###28 11 2012 new variable
+rbac#:#wiki_copy#:#User can copy wiki###28 11 2012 new variable
+rbac#:#wiki_delete#:#User can move or delete wiki###28 11 2012 new variable
+rbac#:#wiki_edit_content#:#User can create and edit wiki pages###28 11 2012 new variable
+rbac#:#wiki_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#wiki_read#:#User can read wiki content###28 11 2012 new variable
+rbac#:#wiki_visible#:#Wiki is visible###28 11 2012 new variable
+rbac#:#wiki_write#:#User can edit settings of wiki###28 11 2012 new variable
+content#:#cont_localfile#:#Local File###28 11 2012 new variable
+rbac#:#mail_mail_to_global_roles#:#User can send mails to global roles###28 11 2012 new variable
+rbac#:#book_edit_permission#:#User can change permission settings for booking pool###28 11 2012 new variable
+rbac#:#book_visible#:#Booking pool is visible###28 11 2012 new variable
+rbac#:#book_write#:#User can edit settings and content of booking pool###28 11 2012 new variable
+rbac#:#frma_visible#:#Forum Administration is visible###28 11 2012 new variable
+rbac#:#frma_read#:#User has read access to Forum Administration###28 11 2012 new variable
+rbac#:#frma_write#:#User can edit settings in Forum Administration###28 11 2012 new variable
+rbac#:#frma_edit_permission#:#User can change permission settings of Forum administration###28 11 2012 new variable
+rbac#:#chtr_visible#:#Chatroom is visible###28 11 2012 new variable
+rbac#:#chtr_read#:#User can join and participate at Chatroom###28 11 2012 new variable
+rbac#:#chtr_write#:#User can edit settings of Chatroom and ban users###28 11 2012 new variable
+rbac#:#chtr_edit_permission#:#User can change Permission Settings for Chatroom###28 11 2012 new variable
+rbac#:#chtr_moderate#:#User can moderate discussion in chatroom###28 11 2012 new variable
+rbac#:#tst_tst_statistics#:#User has access to test statistics###28 11 2012 new variable
+common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
+dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###28 11 2012 new variable
+dcl#:#dcl_notimage_exception#:#The file has to be a picture.###28 11 2012 new variable
+rbac#:#lp_other_users#:#See learning progress overview of other users###28 11 2012 new variable
+rbac#:#trac_lp_other_users#:#See learning progress overview of other users###28 11 2012 new variable
+dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x minutes.###28 11 2012 new variable
+dateplaner#:#cal_webcal_sync#:#External Calendar Synchronisation###28 11 2012 new variable
+ecs#:#ecs_status_pending_unmapped#:#Pending (unmapped)###28 11 2012 new variable
+ecs#:#ecs_status_pending_unmapped_discon#:#Pending (mapped, disconnection possible)###28 11 2012 new variable
+ecs#:#ecs_status_pending_unmapped_nondiscon#:#Pending (mapped, disconnection impossible)###28 11 2012 new variable
+ecs#:#ecs_status_mapped#:#Mapped###28 11 2012 new variable
+ecs#:#ecs_status_deleted#:#Deleted###28 11 2012 new variable
+ecs#:#ecs_status_legend#:#Legend###28 11 2012 new variable
+ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation###28 11 2012 new variable
+webr#:#invalid_links_tbl#:#Invalid Links###28 11 2012 new variable
+common#:#obj_tool_setting_news#:#Show News###28 11 2012 new variable
+common#:#obj_ecss#:#ECS###28 11 2012 new variable
+common#:#obj_ecss_desc#:#General ECS Settings###28 11 2012 new variable
+rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administration###28 11 2012 new variable
+rbac#:#ecss_read#:#User can read general ECS settings###28 11 2012 new variable
+rbac#:#ecss_visible#:#ECS settings are visible ###28 11 2012 new variable
+rbac#:#ecss_write#:#User can edit ECS settings###28 11 2012 new variable
+skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.###28 11 2012 new variable
+help#:#help_imported_on#:#Imported on###28 11 2012 new variable
+help#:#help_tooltips_and_help#:#Tooltips and Workflow Help###28 11 2012 new variable
+help#:#help_help_only#:#Workflow Help Only###28 11 2012 new variable
+help#:#help_tooltips_only#:#Tooltips Only###28 11 2012 new variable
+help#:#help_set_mode#:#Set Mode###28 11 2012 new variable
+poll#:#poll_result#:#Voting Result###28 11 2012 new variable
+fold#:#fold_copy#:#Copy Folder###28 11 2012 new variable
+rbac#:#fold_create_sess#:#Create Session###28 11 2012 new variable
+rbac#:#rfil_delete#:#User can move or delete ECS File ###28 11 2012 new variable
+rbac#:#rfil_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rfil_read#:#User can use ECS File ###28 11 2012 new variable
+rbac#:#rfil_visible#:#ECS File is visible###28 11 2012 new variable
+rbac#:#rfil_write#:#User can edit settings of ECS File###28 11 2012 new variable
+rbac#:#rgrp_delete#:#User can move or delete ECS Group ###28 11 2012 new variable
+rbac#:#rgrp_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rgrp_read#:#User can use ECS Group ###28 11 2012 new variable
+rbac#:#rgrp_visible#:#ECS Group is visible###28 11 2012 new variable
+rbac#:#rgrp_write#:#User can edit settings of ECS Group###28 11 2012 new variable
+rbac#:#rglo_delete#:#User can move or delete ECS Glossary ###28 11 2012 new variable
+rbac#:#rglo_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rglo_read#:#User can use ECS Glossary ###28 11 2012 new variable
+rbac#:#rglo_visible#:#ECS Glossary is visible###28 11 2012 new variable
+rbac#:#rglo_write#:#User can edit settings of ECS Glossary###28 11 2012 new variable
+rbac#:#rlm_delete#:#User can move or delete ECS Learning Module ###28 11 2012 new variable
+rbac#:#rlm_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rlm_read#:#User can use ECS Learning Module ###28 11 2012 new variable
+rbac#:#rlm_visible#:#ECS Learning Module is visible###28 11 2012 new variable
+rbac#:#rlm_write#:#User can edit settings of ECS Learning Module###28 11 2012 new variable
+rbac#:#rtst_delete#:#User can move or delete ECS Test###28 11 2012 new variable
+rbac#:#rtst_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rtst_read#:#User can use ECS Test###28 11 2012 new variable
+rbac#:#rtst_visible#:#ECS Test is visible###28 11 2012 new variable
+rbac#:#rtst_write#:#User can edit settings of ECS Test###28 11 2012 new variable
+rbac#:#rwik_delete#:#User can move or delete ECS Wiki###28 11 2012 new variable
+rbac#:#rwik_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rwik_read#:#User can use ECS Wiki###28 11 2012 new variable
+rbac#:#rwik_visible#:#ECS Wiki is visible###28 11 2012 new variable
+rbac#:#rwik_write#:#User can edit settings of ECS Wiki###28 11 2012 new variable
+rbac#:#rcat_delete#:#User can move or delete ECS Category###28 11 2012 new variable
+rbac#:#rcat_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rcat_read#:#User can use ECS Category###28 11 2012 new variable
+rbac#:#rcat_visible#:#ECS Category is visible###28 11 2012 new variable
+rbac#:#rcat_write#:#User can edit settings of ECS Category###28 11 2012 new variable
+search#:#search_filter_by_type#:#Filter by Type###28 11 2012 new variable
+search#:#search_off#:#Off###28 11 2012 new variable

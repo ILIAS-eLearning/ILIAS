@@ -1290,9 +1290,6 @@ assessment#:#feedback_setting#:#Modus des antwortspezifischen Feedback.
 assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Feedback bei ausgewählten Antworten des Prüflings.
 assessment#:#feedback_correct#:#Zeige Feedback bei richtigen Antworten.(Richtige Antworten sind die, die zu einer positiven Punktvergabe führen.)
-assessment#:#tst_pass_deletion#:#Testduchläufe Löschen
-assessment#:#tst_pass_deletion_not_allowed#:#Teilnehmer dürfen eigene Testdurchläufe NICHT löschen
-assessment#:#tst_pass_deletion_allowed#:#Teilnehmer dürfen eigene Testdurchläufe löschen
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code
@@ -13026,3 +13023,4 @@ rbac#:#rcat_visible#:#ECS-Kategorie ist sichtbar
 rbac#:#rcat_write#:#ECS-Kategorie bearbeiten
 search#:#search_filter_by_type#:#Typfilter
 search#:#search_off#:#Aus
+ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation###28 11 2012 new variable

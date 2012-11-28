@@ -281,8 +281,6 @@ assessment#:#ects_range_error_d#:#Παρακαλώ εισάγετε μια τι�
 assessment#:#ects_range_error_e#:#Παρακαλώ εισάγετε μια τιμή μεταξύ 0 και 100 για το βαθμό ECTS E!
 assessment#:#ects_use_fx_grade#:#Χρησιμοποιήστε το βαθμό 'FX', αν οι αποτυχόντες έφθασαν τουλάχιστο τους
 assessment#:#ects_use_fx_grade_part2#:#ποσοστό των συνολικών βαθμών.
-assessment#:#edit_content#:#Επεξεργασία περιεχομένου
-assessment#:#edit_properties#:#Επεξεργασία ιδιοτήτων
 assessment#:#edit_test_questions#:#Επεξεργασία ερωτήσεων τέστ
 assessment#:#empty_terms_exist#:#Υπάρχουν κενά πεδία όρων. Παρακαλώ συμπληρώστε αυτά τα πεδία πρίν προσθέσετε περισσότερους όρους
 assessment#:#empty_term_message#:#Υπάρχει τουλάχιστον ένα πεδίο όρου κενό
@@ -1460,9 +1458,6 @@ common#:#cat_wizard_page#:#Copy Category (Step 2/2)
 rbac#:#cat_write#:#Επεξεργασία κατηγορίας
 common#:#cc#:#κοιν.
 common#:#censorship#:#Λογοκρισία
-common#:#centra_account#:#Διαχείριση λογαριασμού Centra
-common#:#centra_rooms#:#Δωμάτια Centra
-common#:#centra_server#:#Διακομιστής Centra
 common#:#chac_edit_permission#:#Αλλαγή ρυθμίσεων αδειών πρόσβασης
 common#:#chac_read#:#Πρόσβαση για ανάγνωση για ρυθμίσεις συνομιλίας
 common#:#chac_visible#:#Οι ρυθμίσεις συνομιλίας είναι ορατές
@@ -2422,27 +2417,6 @@ common#:#info_short#:#Πληροφορίες
 common#:#info_status_info#:#Άδειες χρήστη
 common#:#info_trash#:#Διαγραμμένα αντικείμενα
 common#:#info_view_of_user#:#Χρήστης
-common#:#ingmedia_all_offers#:#Όλα τα LE
-common#:#ingmedia_back_to_le#:#Πίσω στο LE
-common#:#ingmedia_good_afternoon#:#Καλό απόγευμα
-common#:#ingmedia_good_evening#:#Καλησπέρα
-common#:#ingmedia_good_morning#:#Καλημέρα
-common#:#ingmedia_good_night#:#Καληνύχτα
-common#:#ingmedia_hello#:#Γεια σου
-common#:#ingmedia_info_about_work1#:#Πάνω
-common#:#ingmedia_info_about_work2#:#, εργαστήκατε εδώ για τελευταία φορά. Μπορείτε να συνεχίσετε εκεί πατώντας εδώ:
-common#:#ingmedia_level_zero#:#Ένα επίπεδο πάνω
-common#:#ingmedia_pers_dates#:#Προσωπικά δεδομένα
-common#:#ingmedia_reg_fo#:#Εγγεγραμμένα φόρουμ
-common#:#ingmedia_reg_le#:#Εγγεγραμμένο LE
-common#:#ingmedia_user_agree#:#Συμφωνία
-common#:#ingmedia_use_info1#:#Εδώ μπορείτε να αλλάξετε τα προσωπικά σας δεδομένα. Εκτός από το όνομα χρήστη και συνθηματικό του INGMEDIA, δεν χρειάζεται να συμπληρώσετε άλλα πεδία. Να θυμάστε ότι χαμένα συνθηματικά μπορούν να επιστραφούν μόνο μέσω email (!).
-common#:#ingmedia_use_info2#:#Δεν επιτρέπεται να χρησιμοποιείσετε ειδικούς χαρακτήρες (όπως , ; . = - * + #) ως όνομα χρήστη και συνθηματικό για το INGMEDIA. Για να σας επιτραπεί η χρήση της πλατφόρμας INGMEDIA, πρέπει να αποδεχτείτε τη συμφωνία χρήστη.
-common#:#ingmedia_use_info3#:#Παρακαλώ επιλέξτε έναν από τους συνδέσμους από την πλαϊνή μπάρα.
-common#:#ingmedia_use_title#:#Αλλαγή δεδομένων χρήστη.
-common#:#ingmedia_visited_le#:#Όλα τα LE που έχετε επισκεφτεί μέχρι τώρα.
-common#:#ingmedia_vis_le#:#Επισκεπτόμενο LE
-common#:#ingmedia_welcome#:#, καλώς ήρθατε στην επιφάνεια εργασίας σας!!
 common#:#inifile#:#Ini-Αρχείο
 common#:#inline_file_extensions#:#Web-enabled files
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.
@@ -4628,7 +4602,6 @@ crs#:#crs_archive_type_disabled#:#Δεν είναι διαθέσιμο
 crs#:#crs_auto_fill#:#Αυτόματη συμπλήρωση
 crs#:#crs_availability_limitless_info#:#Επιλέξτε αυτή τη μέθοδο για να γίνει το μάθημα διαθέσιμο και προσβάσιμο στους χρήστες (εξαρτάται από τις ρυθμίσεις εγγραφής που βρίσκονται παρακάτω).
 crs#:#crs_availability_until_info#:#Επιλέξτε αυτή τη μέθοδο για να γίνει το μάθημα διαθέσιμο και προσβάσιμο στους χρήστες για μια σταθερή χρονική περίοδο.
-crs#:#crs_availability_unvisible_info#:#Επιλέξτε αυτή τη μέθοδο για να προετοιμάσετε το μάθημα. Μόνο οι διαχειριστές του μαθήματος μπορούν να δουν και να επεξεργαστούν το μάθημα.
 crs#:#crs_blocked#:#Αρνήθηκε η πρόσβαση
 crs#:#crs_blocked_member#:#Ιδιότητα μέλους για το μάθημα
 crs#:#crs_blocked_member_body#:#Η ιδιότητα μέλους σας έχει τερματιστεί.
@@ -5025,17 +4998,14 @@ crs#:#crs_view_info_timing#:#Τρόπος παρουσίασης για προε
 crs#:#crs_view_mode#:#Παρουσίαση μαθήματος
 crs#:#crs_view_objective#:#Προσανατολισμένη στον αντικειμενικό σκοπό
 crs#:#crs_view_timing#:#Προβολή χρονισμών
-crs#:#crs_visibility#:#Διαθεσιμότητα
 crs#:#crs_visibility_limitless#:#Χωρίς όρια
 crs#:#crs_visibility_until#:#Προσωρινά διαθέσιμο
-crs#:#crs_visibility_unvisible#:#Μη διαθέσιμο
 crs#:#crs_waiting_list#:#Λίστα αναμονής
 crs#:#crs_wait_info#:#Αν είναι ενεργοποιημένο και ξεπεραστεί ο μέγιστος αριθμός χρηστών, θα τοποθετηθούν νέες εγγραφές στη λίστα αναμονής.
 crs#:#crs_wiz_back#:#Back
 crs#:#crs_wiz_next#:#Save
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Η θέσης σας στη λίστα αναμονής
-crs#:#edit_content#:#Επεξεργασία περιεχομένων
 crs#:#edit_timings_list#:#Επεξεργασία χρονισμών
 crs#:#event#:#Σύνοδος
 crs#:#events#:#Σύνοδοι
@@ -12675,7 +12645,6 @@ common#:#obj_itgr#:#Item Group###28 08 2012 new variable
 common#:#objs_itgr#:#Item Groups###28 08 2012 new variable
 itgr#:#itgr_edit#:#Edit Item Groups###28 08 2012 new variable
 rbac#:#itgr_read#:#User can read item group###28 08 2012 new variable
-rbac#:#itgr_visible#:#Item group is visible###28 08 2012 new variable
 rbac#:#itgr_write#:#User can edit content and settings of item group###28 08 2012 new variable
 rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
 rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
@@ -12989,3 +12958,74 @@ search#:#search_option_offline#:#Offline###27 10 2012 new variable
 common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.###27 10 2012 new variable
 forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
+assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
+assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
+dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###28 11 2012 new variable
+dcl#:#dcl_notimage_exception#:#The file has to be a picture.###28 11 2012 new variable
+rbac#:#lp_other_users#:#See learning progress overview of other users###28 11 2012 new variable
+rbac#:#trac_lp_other_users#:#See learning progress overview of other users###28 11 2012 new variable
+dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x minutes.###28 11 2012 new variable
+dateplaner#:#cal_webcal_sync#:#External Calendar Synchronisation###28 11 2012 new variable
+ecs#:#ecs_status_pending_unmapped#:#Pending (unmapped)###28 11 2012 new variable
+ecs#:#ecs_status_pending_unmapped_discon#:#Pending (mapped, disconnection possible)###28 11 2012 new variable
+ecs#:#ecs_status_pending_unmapped_nondiscon#:#Pending (mapped, disconnection impossible)###28 11 2012 new variable
+ecs#:#ecs_status_mapped#:#Mapped###28 11 2012 new variable
+ecs#:#ecs_status_deleted#:#Deleted###28 11 2012 new variable
+ecs#:#ecs_status_legend#:#Legend###28 11 2012 new variable
+ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation###28 11 2012 new variable
+webr#:#invalid_links_tbl#:#Invalid Links###28 11 2012 new variable
+common#:#obj_tool_setting_news#:#Show News###28 11 2012 new variable
+common#:#obj_ecss#:#ECS###28 11 2012 new variable
+common#:#obj_ecss_desc#:#General ECS Settings###28 11 2012 new variable
+rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administration###28 11 2012 new variable
+rbac#:#ecss_read#:#User can read general ECS settings###28 11 2012 new variable
+rbac#:#ecss_visible#:#ECS settings are visible ###28 11 2012 new variable
+rbac#:#ecss_write#:#User can edit ECS settings###28 11 2012 new variable
+skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.###28 11 2012 new variable
+help#:#help_imported_on#:#Imported on###28 11 2012 new variable
+help#:#help_tooltips_and_help#:#Tooltips and Workflow Help###28 11 2012 new variable
+help#:#help_help_only#:#Workflow Help Only###28 11 2012 new variable
+help#:#help_tooltips_only#:#Tooltips Only###28 11 2012 new variable
+help#:#help_set_mode#:#Set Mode###28 11 2012 new variable
+poll#:#poll_result#:#Voting Result###28 11 2012 new variable
+fold#:#fold_copy#:#Copy Folder###28 11 2012 new variable
+rbac#:#fold_create_sess#:#Create Session###28 11 2012 new variable
+rbac#:#rfil_delete#:#User can move or delete ECS File ###28 11 2012 new variable
+rbac#:#rfil_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rfil_read#:#User can use ECS File ###28 11 2012 new variable
+rbac#:#rfil_visible#:#ECS File is visible###28 11 2012 new variable
+rbac#:#rfil_write#:#User can edit settings of ECS File###28 11 2012 new variable
+rbac#:#rgrp_delete#:#User can move or delete ECS Group ###28 11 2012 new variable
+rbac#:#rgrp_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rgrp_read#:#User can use ECS Group ###28 11 2012 new variable
+rbac#:#rgrp_visible#:#ECS Group is visible###28 11 2012 new variable
+rbac#:#rgrp_write#:#User can edit settings of ECS Group###28 11 2012 new variable
+rbac#:#rglo_delete#:#User can move or delete ECS Glossary ###28 11 2012 new variable
+rbac#:#rglo_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rglo_read#:#User can use ECS Glossary ###28 11 2012 new variable
+rbac#:#rglo_visible#:#ECS Glossary is visible###28 11 2012 new variable
+rbac#:#rglo_write#:#User can edit settings of ECS Glossary###28 11 2012 new variable
+rbac#:#rlm_delete#:#User can move or delete ECS Learning Module ###28 11 2012 new variable
+rbac#:#rlm_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rlm_read#:#User can use ECS Learning Module ###28 11 2012 new variable
+rbac#:#rlm_visible#:#ECS Learning Module is visible###28 11 2012 new variable
+rbac#:#rlm_write#:#User can edit settings of ECS Learning Module###28 11 2012 new variable
+rbac#:#rtst_delete#:#User can move or delete ECS Test###28 11 2012 new variable
+rbac#:#rtst_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rtst_read#:#User can use ECS Test###28 11 2012 new variable
+rbac#:#rtst_visible#:#ECS Test is visible###28 11 2012 new variable
+rbac#:#rtst_write#:#User can edit settings of ECS Test###28 11 2012 new variable
+rbac#:#rwik_delete#:#User can move or delete ECS Wiki###28 11 2012 new variable
+rbac#:#rwik_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rwik_read#:#User can use ECS Wiki###28 11 2012 new variable
+rbac#:#rwik_visible#:#ECS Wiki is visible###28 11 2012 new variable
+rbac#:#rwik_write#:#User can edit settings of ECS Wiki###28 11 2012 new variable
+rbac#:#rcat_delete#:#User can move or delete ECS Category###28 11 2012 new variable
+rbac#:#rcat_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rcat_read#:#User can use ECS Category###28 11 2012 new variable
+rbac#:#rcat_visible#:#ECS Category is visible###28 11 2012 new variable
+rbac#:#rcat_write#:#User can edit settings of ECS Category###28 11 2012 new variable
+search#:#search_filter_by_type#:#Filter by Type###28 11 2012 new variable
+search#:#search_off#:#Off###28 11 2012 new variable
