@@ -756,9 +756,6 @@ class ilForumTopic
 
 		require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
 		ilForumAuthorInformationCache::preloadUserObjects(array_unique($usr_ids));
-		
-		// Use this and process 2 requests to expand the whole tree -> expand all
-		//$_SESSION['frm'][(int)$this->getId()]['openTreeNodes'] = array_merge(array(0), array_keys($counter)); 
 
 		return $children;
 	}
