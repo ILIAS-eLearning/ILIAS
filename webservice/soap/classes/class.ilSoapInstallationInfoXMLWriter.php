@@ -92,6 +92,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		}
 		// determine skins/styles
 		$skin_styles = array();
+		include_once("./Services/Style/classes/class.ilStyleDefinition.php");
 		$styleDefinition = new ilStyleDefinition();
 		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		$templates = $styleDefinition->getAllTemplates();
