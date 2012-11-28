@@ -298,5 +298,16 @@ class ilPortfolioPage extends ilPageObject
 			$cnt+= 10;
 		}
 	}
+	
+	/**
+	 * Get portfolio id of page id 
+	 * 
+	 * @param int $a_page_id
+	 * @return int
+	 */
+	public static function findPortfolioForPage($a_page_id)
+	{
+		return self::lookupProperty($a_page_id, "portfolio_id");
+	}
 }
 ?>

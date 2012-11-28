@@ -1108,7 +1108,7 @@ class ilObjMediaObject extends ilObject
 		
 		$id = $a_usage["id"];
 		$obj_id = false;
-
+		
 		switch($type)
 		{
 			case "html":					// "old" category pages
@@ -1205,11 +1205,23 @@ class ilObjMediaObject extends ilObject
 					include_once('./Services/COPage/classes/class.ilPageObject.php');
 					$obj_id = ilPageObject::lookupParentId($id, 'sahs');
 				}
-				
+												
 				// repository pages
 				if (in_array($cont_type, array("crs", "grp", "cat", "fold", "root")))
 				{
 					$obj_id = $id;
+				}
+				
+				if($cont_type == 'prtf')
+				{
+					include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";					
+					$obj_id = ilPortfolioPage::findPortfolioForPage($id);
+				}
+				
+				if($cont_type == 'blp')
+				{
+					include_once('./Services/COPage/classes/class.ilPageObject.php');
+					$obj_id = ilPageObject::lookupParentId($id, 'blp');
 				}
 				break;
 				

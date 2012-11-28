@@ -471,8 +471,24 @@ class ilWebAccessChecker
 					return true;
 				}
 				break;
+				
+			case 'prtf:pg':
+				// special check for portfolio pages
+				if ($this->checkAccessPortfolioPage($oid, $usage['id']))
+				{
+					return true;
+				}				
+				break;
+				
+			case 'blp:pg':				
+				// special check for blog pages
+				if ($this->checkAccessBlogPage($oid, $usage['id']))
+				{
+					return true;
+				}		
+				break;
 
-			default:
+			default:				
 				// standard object check
 				if ($this->checkAccessObject($oid))
 				{
@@ -653,6 +669,60 @@ class ilWebAccessChecker
 		}
 	}
 	
+	/**
+	* Check access rights for portfolio pages
+	*
+	* @param    int     	object id (glossary)
+	* @param    int         page id (definition)
+	* @return   boolean     access given (true/false)
+	*/
+	private function checkAccessPortfolioPage($obj_id, $page_id)
+	{		
+		include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+		$access_handler = new ilPortfolioAccessHandler();		
+		foreach ($this->check_users as $user_id)
+		{				
+			if ($access_handler->checkAccessOfUser($user_id, "read", "view", $obj_id, "prtf"))
+			{
+				return true;
+			}
+		}		
+		return false;					
+	}	
+	
+	/**
+	* Check access rights for blog pages
+	*
+	* @param    int     	object id (glossary)
+	* @param    int         page id (definition)
+	* @return   boolean     access given (true/false)
+	*/
+	private function checkAccessBlogPage($obj_id, $page_id)
+	{					
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree(0);		
+		$node_id = $tree->lookupNodeId($obj_id);
+		
+		// repository
+		if(!$node_id)
+		{
+			return $this->checkAccessObject($obj_id);
+		}
+		// workspace
+		else
+		{			
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";						
+			foreach ($this->check_users as $user_id)
+			{								
+				$access_handler = new ilWorkspaceAccessHandler($tree);
+				if ($access_handler->checkAccessOfUser($tree, $user_id, "read", "view", $node_id, "blog"))
+				{
+					return true;
+				}
+			}		
+		}
+		return false;					
+	}	
 
 	/**
 	* Check access rights for user images
@@ -924,7 +994,7 @@ class ilWebAccessChecker
 				header("HTTP/1.0 403 Forbidden");
 				break;
 		}
-
+		
 		// set the page base to the ILIAS directory
 		// to get correct references for images and css files
 		$tpl->setCurrentBlock("HeadBaseTag");
