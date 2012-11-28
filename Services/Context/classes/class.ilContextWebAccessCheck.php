@@ -51,7 +51,7 @@ class ilContextWebAccessCheck extends ilContextBase
 	 */
 	public static function hasHTML()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
@@ -61,7 +61,7 @@ class ilContextWebAccessCheck extends ilContextBase
 	 */
 	public static function usesTemplate()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
