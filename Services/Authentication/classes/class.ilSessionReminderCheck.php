@@ -49,7 +49,7 @@ class ilSessionReminderCheck
 				$idletime = $entry['idle'];
 				break;
 			}
-		}if($_GET['d'] == 1){var_dump(str_replace("\\n", "%0A", $lng->txt('session_reminder_alert')));}
+		}
 
 		if(null === $idletime)
 		{

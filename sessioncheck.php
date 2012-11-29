@@ -15,6 +15,6 @@ ilInitialisation::initILIAS();
 include_once 'Services/Authentication/classes/class.ilSessionReminderCheck.php';
 $session_reminder_check = new ilSessionReminderCheck();
 echo $session_reminder_check->getJsonResponse(
-	ilUtil::stripSlashes($_GET['session_id'])
+	ilUtil::stripSlashes($_POST['session_id'])
 );
 exit();

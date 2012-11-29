@@ -69,7 +69,10 @@
 			$.ajax({
 				url:     properties.url,
 				dataType:'json',
-				type:    'GET',
+				type:    'POST',
+				data: {
+					session_id: properties.session_id
+				},
 				success: function (response) {
 					if (response.remind) {
 						session_reminder_executer.stop();
@@ -126,6 +129,7 @@
 								url         :"",
 								client_id   :"",
 								session_name:"",
+								session_id  :"",
 								frequency   :60,
 								debug       :0
 							},

@@ -49,10 +49,10 @@ class ilSessionReminderGUI
 			$reminder_tpl->setVariable('CLIENT_ID', CLIENT_ID);
 			$reminder_tpl->setVariable('SESSION_NAME', session_name());
 			$reminder_tpl->setVariable('FREQUENCY', 60);
+			$reminder_tpl->setVariable('SESSION_ID', session_id());
 			$reminder_tpl->setVariable(
 				'URL',
-				'./sessioncheck.php?client_id=' . CLIENT_ID .
-				'&session_id=' . session_id() .  // used to identify the user without init the auth service 
+				'./sessioncheck.php?client_id=' . CLIENT_ID . 
 				'&lang='.$lng->getLangKey()
 			);
 			
