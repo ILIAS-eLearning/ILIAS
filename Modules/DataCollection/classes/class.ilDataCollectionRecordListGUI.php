@@ -104,7 +104,9 @@ class ilDataCollectionRecordListGUI
 
 		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
 		$tpl->getStandardTemplate();
-		$tpl->setContent($list->getHTML());
+
+        $tpl->setPermanentLink("dcl", $this->parent_obj->ref_id);
+        $tpl->setContent($list->getHTML());
 	}
 	
 	/*

@@ -72,6 +72,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		//leave these two
 		$this->setExternalSegmentation(true);
 		$this->setExternalSorting(true);
+
 	}
 	
 	/*
@@ -210,6 +211,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 			$this->filter["filter_".$field->getId()] = $input->getValue();
 		}
 	}
+
 }
 
 ?>
