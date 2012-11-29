@@ -434,6 +434,7 @@ class ilDataCollectionTable
 				$field->buildFromDBRecord($rec);
 				$fields[$field->getId()] = $field;
 			}
+            $this->sortByOrder($fields);
 			$this->fields = $fields;
 		}
 	}
@@ -653,8 +654,7 @@ class ilDataCollectionTable
 
     /**
      *
-     * @param $array the array to sort
-     * @param $method_name is Ignored now.
+     * @param $array ilDataCollectionField[] the array to sort
      */
     private function sortByOrder(&$array)
 	{
