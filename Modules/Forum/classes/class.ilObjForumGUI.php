@@ -1513,6 +1513,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$post_data = $objPost->getDataAsArray();
 					$titles = $this->getTitlesByRefId(array($this->object->getRefId()));
 					$post_data["top_name"] = $titles[0];
+					$post_data["ref_id"] = $this->object->getRefId();
 					
 					$frm->__sendMessage($objPost->getParentId(), $post_data);
 					
@@ -3298,6 +3299,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$post_data = $objPost->getDataAsArray();
 				$titles = $this->getTitlesByRefId(array($this->object->getRefId()));
 				$post_data["top_name"] = $titles[0];
+				$post_data["ref_id"] =$this->object->getRefId();
 				
 				$frm->sendForumNotifications($post_data);
 			}
