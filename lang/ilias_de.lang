@@ -192,7 +192,7 @@ administration#:#language_translation_mode#:#Übersetzungsmodus
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
 administration#:#loginname_change_blocking_time#:#Sperrzeit für Änderung des Benutzernamens
-administration#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein(in Sekunden), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen oder das Feld leer lassen, können ein Benutzer jederzeit seinen Benutzernamen ändern.
+administration#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein (in Tagen), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen, kann ein Benutzer jederzeit seinen Benutzernamen ändern.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen Sie einen numerischen Wert ein.
 administration#:#loginname_history_info#:#Falls aktiviert, werden Änderungen von Benutzernamen in der Datenbank erfasst. Diese Historie ist in der Datenbanktabelle 'loginname_history' einsehbar.
 administration#:#nothing_to_purge#:#Nichts zu eliminieren...
