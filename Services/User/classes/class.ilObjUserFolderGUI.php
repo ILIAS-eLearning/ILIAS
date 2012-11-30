@@ -1670,6 +1670,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		include_once './Services/User/classes/class.ilUserAccountSettings.php';
 		$aset = ilUserAccountSettings::getInstance();
+		
+		$show_blocking_time_in_days = $ilSetting->get('loginname_change_blocking_time') / 86400;
+		$show_blocking_time_in_days = (float)$show_blocking_time_in_days;
+		
 		$this->form->setValuesByArray(
 			array(
 				'lua'	=> $aset->isLocalUserAdministrationEnabled(),
@@ -1677,7 +1681,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'allow_change_loginname' => (bool)$ilSetting->get('allow_change_loginname'),
 				'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
 				'reuse_of_loginnames' => (bool)$ilSetting->get('reuse_of_loginnames'),
-				'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time'),
+				'loginname_change_blocking_time' => (float)$show_blocking_time_in_days,
 				'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav'),
 				// 'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
 				'user_reactivate_code' => (int)$ilSetting->get('user_reactivate_code'),
@@ -1703,9 +1707,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$valid = true;
 			
-			if(strlen($this->form->getInput('loginname_change_blocking_time')) &&
-			   !preg_match('/^[0-9]*$/',
-			   $this->form->getInput('loginname_change_blocking_time')))
+			if(!strlen($this->form->getInput('loginname_change_blocking_time')))
 			{
 				$valid = false;
 				$this->form->getItemByPostVar('loginname_change_blocking_time')
@@ -1720,10 +1722,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				ilUserAccountSettings::getInstance()->update();
 				
 				// TODO: move to user account settings
+				$save_blocking_time_in_seconds = (int)$ilSetting->get('loginname_change_blocking_time') * 86400;
+				
 				$ilSetting->set('allow_change_loginname', (int)$this->form->getInput('allow_change_loginname'));
 				$ilSetting->set('create_history_loginname', (int)$this->form->getInput('create_history_loginname'));
 				$ilSetting->set('reuse_of_loginnames', (int)$this->form->getInput('reuse_of_loginnames'));
-				$ilSetting->set('loginname_change_blocking_time', (int)$this->form->getInput('loginname_change_blocking_time'));
+				$ilSetting->set('loginname_change_blocking_time', (int)$save_blocking_time_in_seconds);
 				$ilSetting->set('user_adm_alpha_nav', (int)$this->form->getInput('user_adm_alpha_nav'));
 				// $ilSetting->set('user_ext_profiles', (int)$this->form->getInput('user_ext_profiles'));
 				$ilSetting->set('user_portfolios', (int)$this->form->getInput('user_portfolios'));
@@ -1815,7 +1819,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$chbReuseLoginnames->setInfo($this->lng->txt('reuse_of_loginnames_contained_in_history_info'));
 		
 		$chbChangeLogin->addSubItem($chbReuseLoginnames);
-		$chbChangeBlockingTime = new ilTextInputGUI($this->lng->txt('loginname_change_blocking_time'), 'loginname_change_blocking_time');
+		$chbChangeBlockingTime = new ilNumberInputGUI($this->lng->txt('loginname_change_blocking_time'), 'loginname_change_blocking_time');
+		$chbChangeBlockingTime->allowDecimals(true);
+		$chbChangeBlockingTime->setSuffix($this->lng->txt('days'));
 		$chbChangeBlockingTime->setInfo($this->lng->txt('loginname_change_blocking_time_info'));
 		$chbChangeBlockingTime->setSize(10);
 		$chbChangeBlockingTime->setMaxLength(10);
@@ -2517,12 +2523,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		global $ilSetting;	
 		
+		$show_blocking_time_in_days = (int)$ilSetting->get('loginname_change_blocking_time') / 86400;
+		
 		$this->initLoginSettingsForm();
 		$this->loginSettingsForm->setValuesByArray(array(
 			'allow_change_loginname' => (bool)$ilSetting->get('allow_change_loginname'),
 			'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
 			'reuse_of_loginnames' => (bool)$ilSetting->get('reuse_of_loginnames'),
-			'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time')
+			'loginname_change_blocking_time' => (float)$show_blocking_time_in_days
 		));
 		
 		$this->tpl->setVariable('ADM_CONTENT', $this->loginSettingsForm->getHTML());
@@ -2550,7 +2558,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$chbReuseLoginnames->setValue(1);
 			$chbReuseLoginnames->setInfo($this->lng->txt('reuse_of_loginnames_contained_in_history_info'));
 		$chbChangeLogin->addSubItem($chbReuseLoginnames);
-			$chbChangeBlockingTime = new ilTextInputGUI($this->lng->txt('loginname_change_blocking_time'), 'loginname_change_blocking_time');
+			$chbChangeBlockingTime = new ilNumberInputGUI($this->lng->txt('loginname_change_blocking_time'), 'loginname_change_blocking_time');
+			$chbChangeBlockingTime->allowDecimals(true);
+			$chbChangeBlockingTime->setSuffix($this->lng->txt('days'));
 			$chbChangeBlockingTime->setInfo($this->lng->txt('loginname_change_blocking_time_info'));
 			$chbChangeBlockingTime->setSize(10);
 			$chbChangeBlockingTime->setMaxLength(10);
@@ -2568,9 +2578,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$valid = true;
 			
-			if(strlen($this->loginSettingsForm->getInput('loginname_change_blocking_time')) &&
-			   !preg_match('/^[0-9]*$/',
-			   $this->loginSettingsForm->getInput('loginname_change_blocking_time')))
+			if(!strlen($this->loginSettingsForm->getInput('loginname_change_blocking_time')))
 			{
 				$valid = false;
 				$this->loginSettingsForm->getItemByPostVar('loginname_change_blocking_time')
@@ -2578,11 +2586,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			}
 			
 			if($valid)
-			{			
+			{	
+				$save_blocking_time_in_seconds = (int)$this->loginSettingsForm->getInput('loginname_change_blocking_time') * 86400;
+				
 				$ilSetting->set('allow_change_loginname', (int)$this->loginSettingsForm->getInput('allow_change_loginname'));
 				$ilSetting->set('create_history_loginname', (int)$this->loginSettingsForm->getInput('create_history_loginname'));
 				$ilSetting->set('reuse_of_loginnames', (int)$this->loginSettingsForm->getInput('reuse_of_loginnames'));
-				$ilSetting->set('loginname_change_blocking_time', (int)$this->loginSettingsForm->getInput('loginname_change_blocking_time'));
+				$ilSetting->set('loginname_change_blocking_time', (int)$save_blocking_time_in_seconds);
 				
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			}
