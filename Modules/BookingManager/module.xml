@@ -11,6 +11,7 @@
 			<parent id="crs">crs</parent>
 			<parent id="grp">grp</parent>
 			<parent id="root">root</parent>
+			<parent id="fold">fold</parent>
 		</object>
 	</objects>
 </module>
