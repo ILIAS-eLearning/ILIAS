@@ -3144,11 +3144,15 @@ class ilTree
 			$ilDB->unlockTables();
 		}
 
-		// this is for deletion of forced forum notifications
 	   global $ilAppEventHandler;
 		
-		$ilAppEventHandler->raise("Services/Tree", "moveTree", 
-			array('source_id' => $a_source_id, 'target_id' => $a_target_id)
+		$ilAppEventHandler->raise(
+				"Services/Tree", 
+				"moveTree", 
+				array(
+					'tree'		=> $this->table_tree,
+					'source_id' => $a_source_id, 
+					'target_id' => $a_target_id)
 		);
 		
 		return true;
