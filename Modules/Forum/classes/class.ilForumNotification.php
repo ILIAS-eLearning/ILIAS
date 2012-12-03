@@ -287,22 +287,26 @@ class ilForumNotification
  	public static function _clearForcedForumNotifications($a_parameter)
  	{
  		global  $ilDB, $ilObjDataCache;
- 		//source_id = ref_id (frm)
- 		//target_id = parent_node
- 		$ref_id = $a_parameter['source_id'];
+		 
+		if(!$a_parameter['tree'] == 'tree')
+		{
+			return;
+		}
+		
+		$ref_id = $a_parameter['source_id'];
 		$is_parent = self::_isParentNodeGrpCrs($ref_id);
- 		
+		
 		if($is_parent)
- 		{
- 	 		$forum_id = $ilObjDataCache->lookupObjId($ref_id);
+		{
+			$forum_id = $ilObjDataCache->lookupObjId($ref_id);
 
- 	 		$ilDB->manipulateF('
- 	 			DELETE FROM frm_notification 
- 	 			WHERE frm_id = %s 
- 	 			AND admin_force_noti = %s',
-	 		array('integer','integer'),
+			$ilDB->manipulateF('
+				DELETE FROM frm_notification 
+				WHERE frm_id = %s 
+				AND admin_force_noti = %s',
+			array('integer','integer'),
 			array($forum_id, 1)); 	
- 		}		
+		}
  	}
 	
 	public static function checkParentNodeTree($ref_id)
