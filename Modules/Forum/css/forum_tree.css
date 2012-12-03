@@ -20,10 +20,6 @@
 	margin: 4px;
 }
 
-#treeView a {
-	display: block;
-}
-
 #treeView a:hover {
 	text-decoration: underline;
 }
@@ -173,4 +169,15 @@ span.frmPostTitle a:hover {
 
 .ygtvhtml {
 	vertical-align: top;
+}
+
+.ygtvhtml span {
+	white-space:nowrap;
+	margin: 0;
+	padding: 0
+}
+
+.ygtvhtml .frmTreeInfo {
+	line-height: .95;
+	margin-bottom: 5px;
 }

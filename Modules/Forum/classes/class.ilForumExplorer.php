@@ -212,16 +212,16 @@ class ilForumExplorer
 			$url  = $ilCtrl->getLinkTarget($gui, 'viewThread', $object['pos_pk']);
 			$link = "<a class='small' href='" . $url . "'>" . stripslashes($object['pos_subject']) . "</a>";
 
-			$html .= "<span style='white-space:wrap;' class='frmTitle' id='frm_node_" . $object['pos_pk'] . "'>" . $link . "</span>" .
-				"<span id='frm_node_desc_" . $object['pos_pk'] . "' style='white-space:nowrap; margin-bottom:5px;' class='small'>";
+			$html .= "<div class='frmTreeInfo'><span class='frmTitle' id='frm_node_" . $object['pos_pk'] . "'>" . $link . "</span><br />" .
+				"<span id='frm_node_desc_" . $object['pos_pk'] . "' class='small'>";
 		}
 		else
 		{
 			$url  = $ilCtrl->getLinkTarget($gui, 'markPostRead', $object['pos_pk']);
 			$link = "<a class='small' href='" . $url . "'>" . stripslashes($object['pos_subject']) . "</a>";
 
-			$html .= "<span style='white-space:wrap;' class='frmTitleBold' id='frm_node_" . $object['pos_pk'] . "'>" . $link . "</span>" .
-				"<span id='frm_node_desc_" . $object['pos_pk'] . "' style='white-space:nowrap; margin-bottom:5px;' class='small'>";
+			$html .= "<div class='frmTreeInfo'><span class='frmTitleBold' id='frm_node_" . $object['pos_pk'] . "'>" . $link . "</span><br />" .
+				"<span id='frm_node_desc_" . $object['pos_pk'] . "' class='small'>";
 		}
 
 		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
@@ -231,7 +231,7 @@ class ilForumExplorer
 			$object['import_name']
 		);
 		$html .= $authorinfo->getAuthorShortName();
-		$html .= ", " . ilDatePresentation::formatDate(new ilDateTime($object['pos_date'], IL_CAL_DATETIME)) . "</span>";
+		$html .= ", " . ilDatePresentation::formatDate(new ilDateTime($object['pos_date'], IL_CAL_DATETIME)) . "</span></div>";
 
 		return $html;
 	}
