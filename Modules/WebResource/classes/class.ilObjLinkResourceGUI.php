@@ -174,6 +174,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		// Save link
 		$this->link->setLinkResourceId($a_new_object->getId());
 		$link_id = $this->link->add();
+		$this->link->updateValid(true);
 
 		ilUtil::sendSuccess($this->lng->txt('webr_link_added'));
 		
@@ -383,6 +384,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			
 			// Save Link
 			$link_id = $this->link->add();
+			$this->link->updateValid(true);
 			
 			// Dynamic parameters
 			if(ilParameterAppender::_isEnabled() and is_object($this->dynamic))
@@ -615,6 +617,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		if($a_mode == self::LINK_MOD_EDIT)
 		{
 			$this->link->setValidStatus($this->form->getInput('val'));
+		}
+		else
+		{
+			$this->link->setValidStatus(true);
 		}
 		
 		if(!ilParameterAppender::_isEnabled())
