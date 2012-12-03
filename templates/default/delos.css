@@ -4148,6 +4148,17 @@ div.ilFrmPostHeader span.small {
 	margin: 0 0 3px 0
 }
 
+div.ilAttendanceListPrint td, th {
+	border: 1px solid #D6D6D6;
+	padding: 2px;
+}
+
+body.ilBodyPrint {
+	background-color: #FFF;
+	margin: 10px;
+	padding: 0;
+}
+
 /* basic responsiveness (beta) */
 @media
 	only screen and (max-width: 640px),
