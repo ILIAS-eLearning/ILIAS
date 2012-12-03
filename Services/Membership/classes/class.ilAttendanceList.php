@@ -288,15 +288,17 @@ class ilAttendanceList
 	 * @return string
 	 */
 	public function getFullscreenHTML()
-	{
+	{		
 		$tpl = new ilTemplate('tpl.main.html',true,true);
+		$tpl->setBodyClass("ilBodyPrint");
 		
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-					
-		$tpl->setVariable("CONTENT",$this->getHTML());
+						
 		$tpl->setVariable("BODY_ATTRIBUTES",'onload="window.print()"');
+	    $tpl->setVariable("CONTENT", $this->getHTML());
+		
 		return $tpl->show();
 	}
 	
@@ -425,7 +427,7 @@ class ilAttendanceList
 			$tpl->touchBlock("member_row");
 		}
 		
-		return $tpl->show();
+		return $tpl->get();
 	}
 }
 
