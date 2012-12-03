@@ -11425,10 +11425,14 @@ $cdirs = array(
 $coids = array();
 foreach($cdirs as $cdir)
 {
-	foreach(glob($cdir."*", GLOB_ONLYDIR) as $codir)
+	// #10277
+	if(is_dir($cdir))
 	{
-		$coids[] = str_replace($cdir, "", $codir);		
-	}	
+		foreach(glob($cdir."*", GLOB_ONLYDIR) as $codir)
+		{
+			$coids[] = str_replace($cdir, "", $codir);		
+		}	
+	}
 }
 foreach($coids as $coid)
 {
