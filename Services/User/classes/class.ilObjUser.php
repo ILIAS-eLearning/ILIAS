@@ -2526,11 +2526,13 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 	
-		$res = $ilDB->queryf('
-			SELECT COUNT(*) FROM usr_session WHERE user_id = %s AND expires > %s',
+		$set = $ilDB->queryf('
+			SELECT COUNT(*) session_count
+			FROM usr_session WHERE user_id = %s AND expires > %s',
 			array('integer', 'integer'),
-			array($a_user_id, time()));						
-		return (bool)$ilDB->numRows($res);		
+			array($a_user_id, time()));	
+		$row = $ilDB->fetchAssoc($set);
+		return (bool)$row['session_count'];		
 	}
 
 	/*
