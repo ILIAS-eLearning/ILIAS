@@ -13689,3 +13689,11 @@ if($grp_type_id)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3801>
+<?php
+	
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');
+ilDBUpdateNewObjectType::deleteRBACOperation('rcat', $ops_id);
+
+?>
