@@ -13685,3 +13685,7 @@ if($grp_type_id)
 }
 
 ?>
+<#3800>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
