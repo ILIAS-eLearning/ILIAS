@@ -47,7 +47,7 @@ class ilLPCollectionCache
 		return $cache[$a_obj_id];
 	}
 
-	public static function getGroupedItems($a_obj_id)
+	public static function getGroupedItems($a_obj_id, $a_use_subtree_by_id = false)
 	{
 		static $cache = array();
 
@@ -55,7 +55,7 @@ class ilLPCollectionCache
 		{
 			return $cache[$a_obj_id];
 		}
-		return $cache[$a_obj_id] = ilLPCollections::getGroupedItems($a_obj_id);
+		return $cache[$a_obj_id] = ilLPCollections::getGroupedItems($a_obj_id, $a_use_subtree_by_id);
 	}
 		
 }
