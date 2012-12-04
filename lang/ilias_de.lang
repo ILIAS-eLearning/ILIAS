@@ -11018,7 +11018,7 @@ survey#:#constraints#:#Vorbedingungen
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Vorbedingungen haben, da es keine vorherigen Einträge gibt.
 survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmer, die in früheren Fragen gegeben wurden, berechnet und ausgewertet. Hat eine Frage mehrere Vorbedingungen, so müssen immer alle Vorbedingungen erfüllt sein!
 survey#:#constraints_list_of_entities#:#Verfügbare Umfrage-Elemente für Vorbedingungen
-survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Vorbedingungen verwendet werden können.
+survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Vorbedingungen verwendet werden können. Folgende Typen werden unterstützt: Metrische, Single Choice und Multiple Choice Frage.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
 survey#:#contains#:#Beinhaltet
 survey#:#continue#:#Weiter >>

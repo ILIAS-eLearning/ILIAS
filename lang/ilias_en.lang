@@ -9236,7 +9236,7 @@ survey#:#constraint_add#:#Add Precondition
 survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.
 survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the survey. Since the first entity has no previous questions or questionblocks there is no possibility to define preconditions for it.
 survey#:#constraints_list_of_entities#:#Available survey entities for preconditions
-survey#:#constraints_no_nonessay_available#:#There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)
+survey#:#constraints_no_nonessay_available#:#There are no previous questions available to calculate preconditions. The following types are supported: Metric, Single Choice and Multiple Choice question.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Please select at least one question or questionblock!
 survey#:#constraints#:#Preconditions
 survey#:#contains#:#Contains
