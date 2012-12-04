@@ -276,7 +276,8 @@ class ilSharedResourceGUI
 		$form->setFormAction($ilCtrl->getFormAction($this, "checkPassword"));
 		$form->setTitle($lng->txt("wsp_password_for").": ".$object_data["title"]);
 		
-		$password = new ilTextInputGUI($lng->txt("password"), "password");
+		$password = new ilPasswordInputGUI($lng->txt("password"), "password");
+		$password->setRetype(false);
 		$password->setRequired(true);
 		$form->addItem($password);
 		
