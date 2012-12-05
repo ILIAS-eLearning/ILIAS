@@ -14,7 +14,16 @@ class ilCronCourseGroupNotification extends ilMailNotification
 {	
 	public function sendNotifications()
 	{
-		global $ilDB;
+		global $ilDB, $lng;
+		
+		$setting = new ilSetting("cron");		
+		$last_run = $setting->get(get_class($this));
+				
+		// #10284 - we already did send today, do nothing
+		if($last_run == date("Y-m-d"))
+		{			
+			return;
+		}
 		
 		// gather objects and participants with notification setting
 		$objects = array();
@@ -62,6 +71,9 @@ class ilCronCourseGroupNotification extends ilMailNotification
 			
 			$lng = $old_lng;
 		}
+		
+		// save last run
+		$setting->set(get_class($this), date("Y-m-d")); 
 
 		return true;
 	}
