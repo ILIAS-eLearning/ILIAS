@@ -1428,6 +1428,9 @@ class ilObject
 
 			include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 			ilChangeEvent::_delete($this->getId());
+			
+			include_once './Services/Tracking/classes/class.ilLPCollections.php';
+			ilLPCollections::_deleteAll($this->getId());
 
 			$remove = true;
 		}
