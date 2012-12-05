@@ -379,7 +379,7 @@ class ilECSCmsData
 
 		$this->obj_id = $ilDB->nextId('ecs_cms_data');
 
-		$query = 'INSERT INTO ecs_cms_data (obj_id,server_id,mid,tree_id,cms_id,title,term,status) '.
+		$query = 'INSERT INTO ecs_cms_data (obj_id,server_id,mid,tree_id,cms_id,title,term,status,deleted) '.
 			'VALUES ( '.
 			$ilDB->quote($this->obj_id,'integer').', '.
 			$ilDB->quote($this->server_id, 'integer') . ', ' .
