@@ -86,7 +86,7 @@ class ilInitialisation
 	}
 	
 	/**
-	 * This is a hack for CAS authentication.
+	 * This is a hack for  authentication.
 	 * 
 	 * Since the phpCAS lib ships with its own compliance functions.
 	 */
@@ -893,6 +893,9 @@ class ilInitialisation
 				}				
 			}	
 
+			// init after Auth otherwise breaks CAS
+			self::includePhp5Compliance();
+			
 			// language may depend on user setting
 			self::initLanguage();
 			$tree->initLangCode();
@@ -930,8 +933,8 @@ class ilInitialisation
 		{
 			error_reporting(ini_get('error_reporting') & ~E_NOTICE);
 		}
-				
-		self::includePhp5Compliance();
+		// breaks CAS: must be included after CAS context isset in AuthUtils
+		//self::includePhp5Compliance();
 
 		self::requireCommonIncludes();
 		
