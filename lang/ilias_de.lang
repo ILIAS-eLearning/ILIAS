@@ -12040,7 +12040,7 @@ wfld#:#wfld_new#:#Neuen Ordner anlegen
 wiki#:#wiki_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_all_pages#:#Alle Seiten
 wiki#:#wiki_article#:#Artikel
-wiki#:#wiki_block_page#:#Seite blockieren
+wiki#:#wiki_block_page#:#Schreibschutz für Seite
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 wiki#:#wiki_change_notification_link#:#URL
 wiki#:#wiki_change_notification_page_body_comment#:#die folgende Wiki-Seite wurde kommentiert
@@ -12103,17 +12103,17 @@ wiki#:#wiki_other_pages_linking#:#Andere Seiten, die zu dieser Seite verlinken
 wiki#:#wiki_page#:#Seite
 wiki#:#wiki_page_actions#:#Aktionen zur Seite
 wiki#:#wiki_page_already_exists#:#Es existiert bereits eine Seite mit diesem Namen.
-wiki#:#wiki_page_blocked#:#Die Seite wurde blockiert
+wiki#:#wiki_page_blocked#:#Schreibschutz ist aktiviert. Nur Benutzer mit dem Recht «Einstellungen bearbeiten» haben Schreibzugriff.
 wiki#:#wiki_page_changes#:#Geänderte Seiten
 wiki#:#wiki_page_deleted#:#Die Wiki-Seite wurde gelöscht.
 wiki#:#wiki_page_deletion_confirmation#:#Wollen Sie diese Wiki-Seite wirklich löschen?
 wiki#:#wiki_page_hits#:#Seitenaufrufe
 wiki#:#wiki_page_lists#:#Seitenlisten
 wiki#:#wiki_page_notification_activated#:#Benachrichtigung aktiv (einzelne Seite)
-wiki#:#wiki_page_status_blocked#:#Die Bearbeitung der Seite ist für Lerner zur Zeit blockiert.
+wiki#:#wiki_page_status_blocked#:#Seite ist schreibgeschützt.
 wiki#:#wiki_page_toc#:#Seitenübersicht aktivieren
 wiki#:#wiki_page_toc_info#:#Wenn mindestens zwei Überschriften auf der Seite genutzt werden, wird am Seitenanfang eine Liste aller Überschriften angezeigt.
-wiki#:#wiki_page_unblocked#:#Blockierung wurde entfernt.
+wiki#:#wiki_page_unblocked#:#Schreibschutz wurde aufgehoben.
 wiki#:#wiki_pages#:#Seiten
 wiki#:#wiki_passed#:#Bestanden
 wiki#:#wiki_please_enter_search_term#:#Bitte geben Sie einen Suchbegriff ein.
@@ -12139,7 +12139,7 @@ wiki#:#wiki_start_page#:#Startseite
 wiki#:#wiki_start_page_title#:#Titel der Startseite
 wiki#:#wiki_style#:#Style
 wiki#:#wiki_sure_remove_imp_pages#:#Möchten Sie die folgenden Seiten wirklich von der Liste der wichtigen Seiten entfernen?
-wiki#:#wiki_unblock_page#:#Blockierung aufheben
+wiki#:#wiki_unblock_page#:#Schreibschutz aufheben
 wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
 wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_whole_wiki#:#Gesamtes Wiki
