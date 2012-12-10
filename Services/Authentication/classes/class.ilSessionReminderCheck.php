@@ -67,7 +67,7 @@ class ilSessionReminderCheck
 		 */
 		$ilUser = ilObjectFactory::getInstanceByObjId($data['user_id']);
 
-		if($expiretime - (float)$ilUser->getPref('session_reminder_lead_time') * 60 > time())
+		if($expiretime - max(ilSessionReminder::MIN_LEAD_TIME, (float)$ilUser->getPref('session_reminder_lead_time')) * 60 > time())
 		{
 			// session will expire in <lead_time> minutes
 			return ilJsonUtil::encode($response);
