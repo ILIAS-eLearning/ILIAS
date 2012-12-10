@@ -621,7 +621,7 @@ class ilObjUserGUI extends ilObjectGUI
 		if($this->isSettingChangeable('birthday'))
 		{
 			$bd = $this->form_gui->getInput('birthday');
-			if($bd['date']['d'])
+			if($bd['date'])
 			{
 				$user->setBirthday($bd['date']);
 			}

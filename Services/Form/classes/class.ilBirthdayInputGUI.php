@@ -19,7 +19,7 @@ class ilBirthdayInputGUI extends ilDateTimeInputGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		if (is_array($a_values[$this->getPostVar()]["date"]))
+		if (isset($a_values[$this->getPostVar()]["date"]) && is_array($a_values[$this->getPostVar()]["date"]))
 		{
 			if (@checkdate($a_values[$this->getPostVar()]["date"]['m'], $a_values[$this->getPostVar()]["date"]['d'], $a_values[$this->getPostVar()]["date"]['y']))
 			{
