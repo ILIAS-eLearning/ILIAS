@@ -1036,8 +1036,8 @@ class ilPersonalSettingsGUI
 			$lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilFormat::_secondsToString($expires, true)));
 			$lead_time_gui->setValue($ilUser->getPref('session_reminder_lead_time'));
 			$lead_time_gui->setSize(3);
-			$lead_time_gui->setMinValue(1);
-			$lead_time_gui->setMaxValue(max(1, ((int)$expires / 60) - 1));
+			$lead_time_gui->setMinValue(2);
+			$lead_time_gui->setMaxValue(max(2, ((int)$expires / 60) - 1));
 			$cb->addSubItem($lead_time_gui);
 
 			$this->form->addItem($cb);
