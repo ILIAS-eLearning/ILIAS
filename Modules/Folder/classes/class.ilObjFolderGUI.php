@@ -61,6 +61,8 @@ class ilObjFolderGUI extends ilContainerGUI
 	function viewObject()
 	{
 		global $tree;
+		
+		$this->checkPermission('read');
 
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
@@ -79,6 +81,8 @@ class ilObjFolderGUI extends ilContainerGUI
 	{
 		global $ilTabs;
 		
+		$this->checkPermission('read');
+
 		$ilTabs->activateTab("view_content");
 		$ret =  parent::renderObject();
 		return $ret;
