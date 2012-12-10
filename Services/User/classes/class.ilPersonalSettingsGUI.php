@@ -1023,26 +1023,25 @@ class ilPersonalSettingsGUI
 			$this->form->addItem($cb);
 		}
 		
-		if((int)$ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED) == ilSession::SESSION_HANDLING_FIXED &&
-		   (int)$ilSetting->get('session_reminder_enabled'))
+		include_once 'Services/Authentication/classes/class.ilSessionReminder.php';
+		if(ilSessionReminder::isGloballyActivated())
 		{
 			$cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
 			$cb->setInfo($this->lng->txt('session_reminder_info'));
 			$cb->setValue(1);
 			$cb->setChecked((int)$ilUser->getPref('session_reminder_enabled'));
-			
+
 			$expires = ilSession::getSessionExpireValue();
 			$lead_time_gui = new ilNumberInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
 			$lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilFormat::_secondsToString($expires, true)));
 			$lead_time_gui->setValue($ilUser->getPref('session_reminder_lead_time'));
 			$lead_time_gui->setSize(3);
-			$lead_time_gui->setMinValue(2);
-			$lead_time_gui->setMaxValue(max(2, ((int)$expires / 60) - 1));
+			$lead_time_gui->setMinValue(ilSessionReminder::MIN_LEAD_TIME);
+			$lead_time_gui->setMaxValue(max(ilSessionReminder::MIN_LEAD_TIME, ((int)$expires / 60) - 1));
 			$cb->addSubItem($lead_time_gui);
 
 			$this->form->addItem($cb);
 		}
-		
 
 		// calendar settings (copied here to be reachable when calendar is inactive)
 		// they cannot be hidden/deactivated
@@ -1201,9 +1200,8 @@ class ilPersonalSettingsGUI
 			}
 			
 			// session reminder
-			global $ilSetting;
-			if((int)$ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED) == ilSession::SESSION_HANDLING_FIXED &&
-			   (int)$ilSetting->get('session_reminder_enabled'))
+			include_once 'Services/Authentication/classes/class.ilSessionReminder.php';
+			if(ilSessionReminder::isGloballyActivated())
 			{
 				$ilUser->setPref('session_reminder_enabled', (int)$this->form->getInput('session_reminder_enabled'));
 				$ilUser->setPref('session_reminder_lead_time', $this->form->getInput('session_reminder_lead_time'));

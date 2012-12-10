@@ -8,6 +8,9 @@
  */
 class ilSessionReminder
 {
+	const MIN_LEAD_TIME = 2;
+	
+	
 	/**
 	 * @var $user ilObjUser
 	 */
