@@ -59,12 +59,12 @@ class ilObjECSSettingsGUI extends ilObjectGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-
+			
 			default:
 				$this->tabs_gui->setTabActive('settings');
 				include_once './Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php';
 				$settings = new ilECSSettingsGUI();
-				$this->ctrl->setCmdClass('ilecssettingsgui');
+				//$this->ctrl->setCmdClass('ilecssettingsgui');
 				$this->ctrl->forwardCommand($settings);
 				break;
 		}

@@ -11,7 +11,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI, ilECSSettingsGUI
+* @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
 * 
 * @extends ilObjectGUI
 */
@@ -111,9 +111,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
 				array("editiLinc","editDelicious", "editGoogleMaps","editMathJax", ""), "", "");
 			$this->lng->loadLanguageModule('ecs');
-			$tabs_gui->addTarget('ecs_server_settings',
-				$this->ctrl->getLinkTargetByClass('ilecssettingsgui','overview'));
-				
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
