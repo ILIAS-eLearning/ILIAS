@@ -1482,9 +1482,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
-
 		//price_type
-
 		$radio_group = new ilRadioGroupInputGUI('', 'price_type');
 		$radio_group->setTitle($this->lng->txt('duration'));
 		$radio_group->setRequired(true);
@@ -1539,6 +1537,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		// price
 		$oPrice = new ilNumberInputGUI();
 		$oPrice->setTitle($this->lng->txt('price_a'));
+		$oPrice->allowDecimals(true);
 		$oPrice->setRequired(true);
 		$oPrice->setSize('20%');
 		$oPrice->setValue($price['price']);
@@ -1552,9 +1551,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		//extension
 		$oExtension = new ilCheckboxInputGUI($this->lng->txt('extension_price'), 'extension');
-
-		$oExtension->setChecked($price['extension']);
-
+		$oExtension->setChecked((int)$price['extension']);
 		$form->addItem($oExtension);
 
 		$o_hidden_1 = new ilHiddenInputGUI('pobject_id');
@@ -1646,7 +1643,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$po->setDescription($_POST['description'] ? ilUtil::stripSlashes($_POST['description']) : NULL);
 		$po->setPrice(ilUtil::stripSlashes($_POST['price']));
 		$po->setCurrency(ilUtil::stripSlashes($_POST['currency']));
-		if($_POST['extension_price'])
+		if($_POST['extension'])
 		{
 			$po->setExtension(1);
 		}

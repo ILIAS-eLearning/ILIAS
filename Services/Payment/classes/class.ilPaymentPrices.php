@@ -236,9 +236,7 @@ class ilPaymentPrices
 
 	public function setExtension($a_extension)
 	{
-		if($this->extension == '1' && ($a_extension == '' || null))
-		$a_extension = 0;
-		$this->extension = $a_extension;
+		$this->extension = (int)$a_extension;
 	}
 
 	public function getExtension()
