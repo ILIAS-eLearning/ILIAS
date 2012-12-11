@@ -13697,3 +13697,7 @@ $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');
 ilDBUpdateNewObjectType::deleteRBACOperation('rcat', $ops_id);
 
 ?>
+<#3802>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

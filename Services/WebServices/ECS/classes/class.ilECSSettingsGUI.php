@@ -29,7 +29,7 @@ include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls ilECSSettingsGUI:
+* @ilCtrl_Calls ilECSSettingsGUI: ilECSMappingSettingsGUI
 * @ingroup ServicesWebServicesECS
 */
 class ilECSSettingsGUI
