@@ -13023,4 +13023,10 @@ rbac#:#rcat_visible#:#ECS-Kategorie ist sichtbar
 rbac#:#rcat_write#:#ECS-Kategorie bearbeiten
 search#:#search_filter_by_type#:#Typfilter
 search#:#search_off#:#Aus
-ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation###28 11 2012 new variable
+ecs#:#ecs_cmap_enable#:#Kurszuordnung
+ecs#:#ecs_cmap_def_cat#:#Standard-Kategorie
+ecs#:#ecs_cmap_def_cat_info#:#Bitte geben Sie die Kategorie an, in welcher Kurse angelegt werde sollen, die über bestehende Regeln nicht zugeordnet werden können.
+ecs#:#ecs_cmap_all_in_one#:#Kurse in einer Kategorie
+ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werde sollen. In allen weiteren Kategorien werden ggf. Kurs-Referenzen angelegt.
+ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
+ecs#:#ecs_cmap_multiple_atts#:#Mehrere Attribute verwenden
