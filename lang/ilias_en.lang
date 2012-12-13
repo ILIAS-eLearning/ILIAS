@@ -12969,7 +12969,6 @@ ecs#:#ecs_status_pending_unmapped_nondiscon#:#Pending (mapped, disconnection imp
 ecs#:#ecs_status_mapped#:#Mapped
 ecs#:#ecs_status_deleted#:#Deleted
 ecs#:#ecs_status_legend#:#Legend
-ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation
 webr#:#invalid_links_tbl#:#Invalid Links
 common#:#obj_tool_setting_news#:#Show News
 common#:#obj_ecss#:#ECS
@@ -13024,3 +13023,10 @@ rbac#:#rcat_visible#:#ECS Category is visible
 rbac#:#rcat_write#:#User can edit settings of ECS Category
 search#:#search_filter_by_type#:#Filter by Type
 search#:#search_off#:#Off
+ecs#:#ecs_cmap_enable#:#Course Allocation
+ecs#:#ecs_cmap_def_cat#:#Default Category
+ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.
+ecs#:#ecs_cmap_all_in_one#:#Course in one Category
+ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.
+ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
+ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes

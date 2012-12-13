@@ -181,22 +181,53 @@ class ilECSMappingSettingsGUI
 		$tpl->setVariable('SIZE',5);
 		$tpl->setVariable('MAXLENGTH',11);
 		$tpl->setVariable('POST_VAR','default_cat');
-
+		
 		$default = ilECSNodeMappingSettings::getInstance()->getDefaultCourseCategory();
 		$tpl->setVariable('PROPERTY_VALUE',$default);
 
 		if($default)
 		{
 			include_once './Services/Tree/classes/class.ilPathGUI.php';
-			
 			$path = new ilPathGUI();
+			$path->enableTextOnly(false);
 			$tpl->setVariable('COMPLETE_PATH',$path->getPath(ROOT_FOLDER_ID, $default));
 		}
 
-		$imp->setHTML($tpl->get());
-		$imp->setInfo($this->lng->txt('ecs_cmap_default_category'));
+		$imp->setHtml($tpl->get());
+		$imp->setInfo($this->lng->txt('ecs_cmap_def_cat_info'));
 		$form->addItem($imp);
 
+		// all in one category
+		$allinone = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_all_in_one'),'allinone');
+		$allinone->setChecked(ilECSNodeMappingSettings::getInstance()->isAllInOneCategoryEnabled());
+		$allinone->setInfo($this->lng->txt('ecs_cmap_all_in_one_info'));
+		
+		$allinone_cat = new ilCustomInputGUI($this->lng->txt('ecs_cmap_all_in_one_cat'),'allinone_cat');
+		$allinone_cat->setRequired(true);
+
+		$tpl = new ilTemplate('tpl.ecs_import_id_form.html',true,true,'Services/WebServices/ECS');
+		$tpl->setVariable('SIZE',5);
+		$tpl->setVariable('MAXLENGTH',11);
+		$tpl->setVariable('POST_VAR','allinone_cat');
+		
+		$cat = ilECSNodeMappingSettings::getInstance()->getAllInOneCategory();
+		$tpl->setVariable('PROPERTY_VALUE',$cat);
+		if($cat)
+		{
+			include_once './Services/Tree/classes/class.ilPathGUI.php';
+			$path = new ilPathGUI();
+			$path->enableTextOnly(false);
+			$tpl->setVariable('COMPLETE_PATH',$path->getPath(ROOT_FOLDER_ID, $default));
+		}
+		
+		$allinone_cat->setHtml($tpl->get());
+		$allinone->addSubItem($allinone_cat);
+		$form->addItem($allinone);
+		
+		// multiple attributes
+		$multiple = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_multiple_atts'),'multiple');
+		$multiple->setChecked(ilECSNodeMappingSettings::getInstance()->isAttributeMappingEnabled());
+		$form->addItem($multiple);
 
 		#$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
@@ -235,12 +266,15 @@ class ilECSMappingSettingsGUI
 	protected function cUpdateSettings()
 	{
 		$form = $this->initFormCSettings();
-		if(!$form->checkInput())
+		if($form->checkInput())
 		{
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
 			$settings = ilECSNodeMappingSettings::getInstance();
 			$settings->enableCourseAllocation($form->getInput('enabled'));
 			$settings->setDefaultCourseCategory($form->getInput('default_cat'));
+			$settings->enableAllInOne($form->getInput('allinone'));
+			$settings->setAllInOneCategory($form->getInput('allinone_cat'));
+			$settings->enableAttributeMapping($form->getInput('multiple'));
 			$settings->update();
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
