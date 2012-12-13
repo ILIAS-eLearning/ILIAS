@@ -109,7 +109,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('crs_member_passed'), 'passed');
 		if($this->show_lp_status_sync)
 		{
-			$this->addColumn($this->lng->txt('crs_member_passed_status_changed'));
+			$this->addColumn($this->lng->txt('crs_member_passed_status_changed'), 'passed_info');
 		}
 		
 		if($this->type == 'admin')
@@ -227,7 +227,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $ilUser, $ilAccess;
+		global $ilAccess;
 
 		$this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
@@ -339,23 +339,8 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
 				
 		if($this->show_lp_status_sync)
-		{
-			// #9912
-			$passed_info = "";
-			if($a_set["passed_info"]["user_id"])
-			{
-				if($a_set["passed_info"]["user_id"] < 0)
-				{
-					$passed_info = "LP";
-				}
-				else
-				{
-					$name = ilObjUser::_lookupName($a_set["passed_info"]["user_id"]);
-					$passed_info = $name["login"];
-				}
-				$passed_info .= "<br />".ilDatePresentation::formatDate($a_set["passed_info"]["timestamp"]);	
-			}
-			$this->tpl->setVariable('PASSED_INFO', $passed_info);
+		{			
+			$this->tpl->setVariable('PASSED_INFO', $a_set["passed_info"]);
 		}		
 		
 		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
@@ -447,8 +432,29 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,$this->type == 'admin');
 		$a_user_data = array();
 		foreach((array) $usr_data['set'] as $ud)
-		{
+		{			
 			$a_user_data[$ud['usr_id']] = array_merge($ud,$course_user_data[$ud['usr_id']]);
+			
+			if($this->show_lp_status_sync)
+			{								
+				// #9912
+				$passed_info = "";
+				if($a_user_data[$ud['usr_id']]["passed_info"]["user_id"])
+				{
+					$pinfo = $a_user_data[$ud['usr_id']]["passed_info"];								
+					if($pinfo["user_id"] < 0)
+					{
+						$passed_info = "LP";
+					}
+					else
+					{
+						$name = ilObjUser::_lookupName($pinfo["user_id"]);
+						$passed_info = $name["login"];
+						$passed_info .= "<br />".ilDatePresentation::formatDate($pinfo["timestamp"]);	
+					}
+				}
+				$a_user_data[$ud['usr_id']]["passed_info"] = $passed_info;
+			}
 		}
 
 		// Custom user data fields
