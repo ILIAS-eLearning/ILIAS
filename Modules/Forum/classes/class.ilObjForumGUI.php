@@ -174,6 +174,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			'toggleStickiness', 'cancelPost', 'savePost', 'quotePost', 'getQuotationHTMLAsynch',
 			'setTreeStateAsynch', 'fetchTreeChildrenAsync'
 		);
+
 		if(!in_array($cmd, $exclude_cmds))
 		{
 			$this->prepareOutput();
@@ -635,8 +636,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		/**
 		 * @var $ilAccess ilAccessHandler
 		 * @var $ilHelp ilHelpGUI
+		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilAccess, $ilHelp;
+		global $ilAccess, $ilHelp, $ilCtrl;
 		
 		$ilHelp->setScreenIdComponent("frm");
 
@@ -647,11 +649,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			'', 'showThreads', 'view', 'markAllRead', 
 			'enableForumNotification', 'disableForumNotification', 'moveThreads', 'performMoveThreads',
 			'cancelMoveThreads', 'performThreadsAction', 'createThread', 'addThread',
-			'showUser'
+			'showUser', 'confirmDeleteThreads'
 		);
 
-		(in_array($_GET['cmd'], $active)) ? $force_active = true : $force_active = false;
-		$tabs_gui->addTarget('forums_threads', $this->ctrl->getLinkTarget($this,'showThreads'), $_GET['cmd'], get_class($this), '', $force_active);
+		(in_array($ilCtrl->getCmd(), $active)) ? $force_active = true : $force_active = false;
+		$tabs_gui->addTarget('forums_threads', $this->ctrl->getLinkTarget($this,'showThreads'), $ilCtrl->getCmd(), get_class($this), '', $force_active);
 
 		// info tab
 		if($ilAccess->checkAccess('visible', '', $this->ref_id))
@@ -666,7 +668,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$force_active = ($_GET['cmd'] == 'edit') ? true	: false;
+			$force_active = ($ilCtrl->getCmd() == 'edit') ? true	: false;
 			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
 		}
 		
@@ -678,7 +680,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if($this->ilias->getSetting('enable_fora_statistics', false) &&
 		   ($this->objProperties->isStatisticEnabled() || $ilAccess->checkAccess('write', '', $this->ref_id))) 
 		{
-			$force_active = ($_GET['cmd'] == 'showStatistics') ? true	: false;
+			$force_active = ($ilCtrl->getCmd() == 'showStatistics') ? true	: false;
 			$tabs_gui->addTarget('frm_statistics', $this->ctrl->getLinkTarget($this, 'showStatistics'), 'showStatistics', get_class($this), '', $force_active); //false
 		}
 
@@ -924,7 +926,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->confirmation_gui_html = $c_gui->getHTML();
 		
 		$this->hideToolbar(true);
-		
+		//return $this->tpl->setContent($c_gui->getHTML());
 		return $this->showThreadsObject();
 	}
 
