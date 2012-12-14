@@ -18,10 +18,10 @@ class ilShopResultPresentationGUI
 {	
 	protected $search_cache = null;
 
-	var $tpl;
-	var $lng;
+	public $tpl;
+	public $lng;
 
-	var $result = 0;
+	public $result = 0;
 
 
 	private $sort_field = '';
@@ -45,9 +45,9 @@ class ilShopResultPresentationGUI
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
 
-	}	
-	
-	function showResults()
+	}
+
+	public function showResults()
 	{
 		// Get results
 		$results = $this->result->getResultsForPresentation();
@@ -55,7 +55,7 @@ class ilShopResultPresentationGUI
 		return $html;
 	}
 
-	function showSpecials()
+	public function showSpecials()
 	{
 		// Get specials
 
@@ -76,7 +76,10 @@ class ilShopResultPresentationGUI
 			$this->renderItems($oContainerTpl, $results, array('id' => 0, 'title' => $this->lng->txt('payment_no_topic')));
 		}
 		else
-			$this->renderItems($oContainerTpl, $results, array('id' => 0, 'title' => $this->lng->txt('payment_no_topic')));
+		{
+			$this->renderItems($oContainerTpl, $results, array('id' => 0, 'title' => $this->lng->txt('payment_no_topic')));			
+		}
+
 		$html = $oContainerTpl->get();
 	
 		return $html;
@@ -179,9 +182,6 @@ class ilShopResultPresentationGUI
 						// paymethod icon
 						$results[$topic['id']][$act_type][$key]['paymethod_icon'] = $paymethod_icon;
 
-
-
-					// TODO: CURRENCY ilPaymentPrices::_formatPriceToString($lowest_price['price'], $lowest_price['currency']);
 					// authors
 					include_once 'Services/MetaData/classes/class.ilMD.php';
 					$md_obj = new ilMD($item['obj_id'], 0, $item['type']);
@@ -205,7 +205,7 @@ class ilShopResultPresentationGUI
 					}				
 				}
 				
-				$results[$topic['id']][$act_type] = $this->sortResult($results[$topic['id']][$act_type]);				
+				$results[$topic['id']][$act_type] = $this->sortResult($results[$topic['id']][$act_type]);
 
 				foreach($results[$topic['id']][$act_type] as $key => $item)
 				{
@@ -336,13 +336,15 @@ class ilShopResultPresentationGUI
 				}
 			}
 		}
-
 		if($items_counter > 0)
 		{
 			$oContainerTpl->setCurrentBlock('loop');			
 			$oContainerTpl->setVariable('TOPIC_TITLE', $topic['title']);
 			$oContainerTpl->setVariable('COTAINER_LIST_BLOCK', $tpl->get());
 			$oContainerTpl->parseCurrentBlock();
+			
+			global $tpl;
+			$tpl->setContent($oContainerTpl->get());
 		}
 	}
 	
@@ -364,7 +366,7 @@ class ilShopResultPresentationGUI
 	 * @param $a_html
 	 * @param $a_ref_id
 	 */
-	function addStandardRow($a_tpl, $a_html,$a_ref_id)
+	public function addStandardRow($a_tpl, $a_html,$a_ref_id)
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
@@ -387,7 +389,7 @@ class ilShopResultPresentationGUI
 	* @access	private
 	* @return	object		block template
 	*/
-	function newBlockTemplate()
+	public function newBlockTemplate()
 	{
 		$tpl = new ilTemplate ("tpl.container_list_block.html",true, true,
 			"Services/Container");
@@ -403,7 +405,7 @@ class ilShopResultPresentationGUI
 	* @param	string		$a_type		object type
 	* @access	private
 	*/
-	function addHeaderRow(&$a_tpl, $a_type)
+	public function addHeaderRow(&$a_tpl, $a_type)
 	{
 		if ($a_type != "lres")
 		{
@@ -427,15 +429,15 @@ class ilShopResultPresentationGUI
 		#$a_tpl->parseCurrentBlock();
 		#$a_tpl->touchBlock("container_row");
 	}
-	
-	function addSeparatorRow(&$a_tpl)
+
+	public function addSeparatorRow(&$a_tpl)
 	{
 		$a_tpl->touchBlock("separator_row");
 		$a_tpl->touchBlock("container_row");
 	}
 
-	
-	function __appendChildLinks($html,$item,&$item_list_gui)
+
+	public function __appendChildLinks($html,$item,&$item_list_gui)
 	{
 		if(!count($item['child']))
 		{
@@ -550,10 +552,8 @@ class ilShopResultPresentationGUI
 		return $html . $tpl->get();
 	}
 
-	function resetRowType()
+	public function resetRowType()
 	{
 		$this->cur_row_type = "";
 	}
 }
-
-?>
