@@ -926,8 +926,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->confirmation_gui_html = $c_gui->getHTML();
 		
 		$this->hideToolbar(true);
-		//return $this->tpl->setContent($c_gui->getHTML());
-		return $this->showThreadsObject();
+
+		return $this->tpl->setContent($c_gui->getHTML());
 	}
 
 	public function prepareThreadScreen(ilObjForum $a_forum_obj)
