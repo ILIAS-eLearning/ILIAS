@@ -99,7 +99,11 @@
 										$(internals.sortableContainer[i]).find("td.il_adv_sel a").each(function() {
 											$(this).attr("href", $(this).attr("href").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
 										});
-										
+
+										$(internals.sortableContainer[i]).find(".ilBlockInfo a").each(function() {
+											$(this).attr("href", $(this).attr("href").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
+											$(this).attr("onclick", $(this).attr("onclick").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
+										});
 									}
 								}
 							}).fail(function(jqXHR, textStatus) {
