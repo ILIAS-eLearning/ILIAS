@@ -1707,25 +1707,6 @@ rbac#:#cat_cat_administrate_users#:#Helyi felhasználói fiókok adminisztrálá
 common#:#cat_clear_page#:#Lap törlése
 rbac#:#cat_copy_threads_info#:#Döntse el melyik kategóriatételeket kell másolni, linkelni vagy kihagyni!
 rbac#:#cat_copy#:#Kategória másolása
-rbac#:#cat_create_cat#:#Kategória létrehozása
-rbac#:#cat_create_crs#:#Kurzus létrehozása
-rbac#:#cat_create_exc#:#Gyakorlat létrehozása
-rbac#:#cat_create_feed#:#Webhírforrás létrehozása
-rbac#:#cat_create_file#:#Fájl feltöltése
-rbac#:#cat_create_frm#:#Fórum létrehozása
-rbac#:#cat_create_glo#:#Fogalomtár létrehozása
-rbac#:#cat_create_grp#:#Csoport létrehozása
-rbac#:#cat_create_htlm#:#HTML-tananyag létrehozása
-rbac#:#cat_create_icrs#:#LearnLinc-szeminárium létrehozása
-rbac#:#cat_create_lm#:#Tananyag létrehozása
-rbac#:#cat_create_mcst#:#MediaCast létrehozása
-rbac#:#cat_create_mep#:#Médiagyűjtemény létrehozása
-rbac#:#cat_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
-rbac#:#cat_create_sahs#:#SCORM/AICC-tananyag létrehozása
-rbac#:#cat_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
-rbac#:#cat_create_svy#:#Kérdőív létrehozása
-rbac#:#cat_create_tst#:#Teszt létrehozása
-rbac#:#cat_create_webr#:#Weblink létrehozása
 rbac#:#cat_delete#:#Kategória törlése
 rbac#:#cat_edit_permission#:#Engedélyezett beállítások cseréje
 common#:#cat_edit#:#Kategória szerkesztése
@@ -1908,24 +1889,7 @@ common#:#crs_cancel_waiting_list#:#Biztos hogy le akarja venni magát a(z) "%s" 
 common#:#crs_container_link_not_allowed#:#Nem lehet konténer objektumokhoz linkelni.
 rbac#:#crs_copy_threads_info#:#Döntse el, mely kurzusanyagok lesznek másolva, linkelve vagy kihagyva.
 rbac#:#crs_copy#:#Kurzus másolása
-rbac#:#crs_create_exc#:#Gyakorlat létrehozása
-rbac#:#crs_create_feed#:#Webhírforrás létrehozása
-rbac#:#crs_create_file#:#Fájl feltöltése
-rbac#:#crs_create_fold#:#Mappa létrehozása
-rbac#:#crs_create_frm#:#Fórum létrehozása
-rbac#:#crs_create_glo#:#Fogalomtár létrehozása
-rbac#:#crs_create_grp#:#Csoport létrehozása
-rbac#:#crs_create_htlm#:#HTML-tananyag létrehozása
-rbac#:#crs_create_icrs#:#LearnLinc-szeminárium létrehozása
-rbac#:#crs_create_lm#:#ILIAS-tananyag létrehozása
-rbac#:#crs_create_mcst#:#MediaCast létrehozása
-rbac#:#crs_create_mep#:#Médiagyűjtemény létrehozása
-rbac#:#crs_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
-rbac#:#crs_create_sahs#:#SCORM/AICC-tananyag létrehozása
-rbac#:#crs_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
-rbac#:#crs_create_svy#:#Kérdőív létrehozása
-rbac#:#crs_create_tst#:#Teszt létrehozása
-rbac#:#crs_create_webr#:#Weblink létrehozása
+rbac#:#rbac_create_fold#:#Mappa létrehozása
 rbac#:#crs_delete#:#Kurzus törlése
 rbac#:#crs_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
 rbac#:#crs_edit_permission#:#Engedélyezett beállítások változtatása
@@ -2303,23 +2267,6 @@ common#:#fold_add#:#Mappa felvétele
 common#:#fold_added#:#Mappa felvéve.
 common#:#fold_copy_threads_info#:#Jelölje be, mely segédanyagok legyenek másolva, linkelve vagy kihagyva.
 rbac#:#fold_copy#:#Mappa másolása
-rbac#:#fold_create_exc#:#Gyakorlat létrehozása
-rbac#:#fold_create_file#:#Fájl feltöltése
-rbac#:#fold_create_fold#:#Mappa létrehozása
-rbac#:#fold_create_frm#:#Fórum létrehozása
-rbac#:#fold_create_glo#:#Fogalomtár létrehozása
-rbac#:#fold_create_grp#:#Új csoport felvétele
-rbac#:#fold_create_htlm#:#HTML-tananyag létrehozása
-rbac#:#fold_create_icrs#:#LearnLinc-szeminárium létrehozása
-rbac#:#fold_create_lm#:#ILIAS-tananyag létrehozása
-rbac#:#fold_create_mcst#:#MediaCast létrehozása
-rbac#:#fold_create_mep#:#Médiagyűjtemény létrehozása
-rbac#:#fold_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
-rbac#:#fold_create_sahs#:#SCORM/AICC-tananyag létrehozása
-rbac#:#fold_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
-rbac#:#fold_create_svy#:#Kérdőív létrehozása
-rbac#:#fold_create_tst#:#Teszt létrehozása
-rbac#:#fold_create_webr#:#Weblink létrehozása
 rbac#:#fold_delete#:#Mappa törlése
 rbac#:#fold_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
 rbac#:#fold_edit_permission#:#Engedélyezési beállítások változtatása
@@ -2481,24 +2428,6 @@ common#:#grp_cancel_waiting_list#:#Biztos hogy le akarja venni magát a(z) "%s" 
 common#:#grp_copy_threads_info#:#Döntse el, mely segédanyagok lesznek másolva, linkelve vagy kihagyva.
 rbac#:#grp_copy#:#Csoport másolása
 common#:#grp_count_members#:#Tagok száma
-rbac#:#grp_create_exc#:#Gyakorlat létrehozása
-rbac#:#grp_create_feed#:#Webhírforrás létrehozása
-rbac#:#grp_create_file#:#Fájl feltöltése
-rbac#:#grp_create_fold#:#Mappa létrehozása
-rbac#:#grp_create_frm#:#Fórum létrehozása
-rbac#:#grp_create_glo#:#Fogalomtár létrehozása
-rbac#:#grp_create_grp#:#Csoport létrehozása
-rbac#:#grp_create_htlm#:#HTML-tananyag létrehozása
-rbac#:#grp_create_icrs#:#LearnLinc-szeminárium létrehozása
-rbac#:#grp_create_lm#:#ILIAS-tananyag létrehozása
-rbac#:#grp_create_mcst#:#MediaCast létrehozása
-rbac#:#grp_create_mep#:#Médiagyűjtemény létrehozása
-rbac#:#grp_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
-rbac#:#grp_create_sahs#:#SCORM/AICC-tananyag létrehozása
-rbac#:#grp_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
-rbac#:#grp_create_svy#:#Kérdőív létrehozása
-rbac#:#grp_create_tst#:#Teszt létrehozása
-rbac#:#grp_create_webr#:#Weblink létrehozása
 common#:#grp_create#:#Csoport létrehozása
 rbac#:#grp_delete#:#Csoport törlése
 common#:#grp_deleted_export_files#:#Kiválasztott fájlok törölve.
@@ -3851,7 +3780,7 @@ common#:#rolt_added#:#Szerepminta felvéve.
 common#:#rolt_edit#:#Szerepminta szerkesztése
 common#:#rolt_new#:#Új szerepminta
 common#:#rolt#:#Szerepminta
-rbac#:#root_create_cat#:#A felhasználó kategóriákat hozhat létre
+rbac#:#rbac_create_cat#:#A felhasználó kategóriákat hozhat létre
 rbac#:#root_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#root_edit#:#Rendszer gyökércsomópont szerkesztése
 rbac#:#root_read#:#Olvasási elérés az ILIAS rendszerhez
@@ -8440,10 +8369,6 @@ rbac#:#cals_edit_permission#:#Jogosultsági beállítások változtatása
 rbac#:#cals_read#:#Olvasási elérés hatirdőnapló-beállításokhoz
 rbac#:#cals_visible#:#A határidőbeállítások láthatók
 rbac#:#cals_write#:#Határidőnapló-beállítások szerkesztése
-rbac#:#cat_create_catr#:#Kategóriaajánlás létrehozása
-rbac#:#cat_create_crsr#:#Új kurzusajánlás létrehozása
-rbac#:#cat_create_rcrs#:#Kurzuslink létrehozása
-rbac#:#cat_create_wiki#:#Wiki létrehozása
 rbac#:#catr_copy#:#Kategóriaajánlás másolása
 rbac#:#catr_delete#:#Kategóriaajánlás törlése
 rbac#:#catr_edit_permission#:#Jogosultsági beállítások változtatása
@@ -8454,8 +8379,7 @@ rbac#:#cmps_edit_permission#:#Jogosultsági beállítások változtatása
 rbac#:#cmps_read#:#Olvasási elérés komponensbeállításokhoz
 rbac#:#cmps_visible#:#Komponensbeállítások láthatók
 rbac#:#cmps_write#:#Komponensbeállítások szerkesztése
-rbac#:#crs_create_sess#:#Kurzusesemény létrehozása
-rbac#:#crs_create_wiki#:#Wiki létrehozása
+rbac#:#rbac_create_sess#:#Kurzusesemény létrehozása
 rbac#:#crs_edit_event#:#Határidőnapló-események szerkesztése
 rbac#:#crsr_copy#:#Kurzusajánlás másolása
 rbac#:#crsr_delete#:#Kurzusajánlás törlése
@@ -8473,8 +8397,6 @@ rbac#:#filter_global_roles#:#Csak a globális szerepek megjelenítése
 rbac#:#filter_local_roles_object#:#Erre a helyre definiált helyi szerepek megjelenítése
 rbac#:#filter_local_roles#:#Érvényes tartalom helyi szerepeinek megjelenítése
 rbac#:#filter_roles_local_policy#:#Ezen a pozíción helyi eljárásmódot használó szerepek megjelenítése
-rbac#:#fold_create_wiki#:#Wiki létrehozása
-rbac#:#grp_create_wiki#:#Wiki létrehozása
 rbac#:#grp_edit_event#:#Határidőnapló-események szerkesztése
 rbac#:#info_user_view_changed#:#A felhasználói nézet megváltozott
 rbac#:#leave#:#Kilépés
@@ -8525,30 +8447,30 @@ rbac#:#recf_edit_permission#:#Jogosultsági beállítások változtatása
 rbac#:#recf_read#:#Olvasási elérés a helyreállított objektumokhoz
 rbac#:#recf_visible#:#A helyreállított objektumok láthatók
 rbac#:#recf_write#:#Helyreállított objektumok szerkesztése
-rbac#:#root_create_catr#:#Kategóriahivatkozás létrehozása
-rbac#:#root_create_chat#:#Csevegés létrehozása
-rbac#:#root_create_crs#:#Kurzus létrehozása
-rbac#:#root_create_crsr#:#Kurzusreferencia létrehozása
-rbac#:#root_create_dbk#:#Digitális könyvtári könyv létrehozása
-rbac#:#root_create_exc#:#Gyakorlat létrehozása
-rbac#:#root_create_feed#:#Webhírforrás létrehozása
-rbac#:#root_create_file#:#Fájl feltöltése
-rbac#:#root_create_frm#:#Fórum létrehozása
-rbac#:#root_create_glo#:#Fogalomtár létrehozása
-rbac#:#root_create_grp#:#Csoport létrehozása
-rbac#:#root_create_htlm#:#HTML tananyag létrehozása
-rbac#:#root_create_icrs#:#LearnLinc szeminárium létrehozása
-rbac#:#root_create_lm#:#ILIAS tananyag létrehozása
-rbac#:#root_create_mcst#:#MediaCast létrehozása
-rbac#:#root_create_mep#:#Médiagyűjtemény létrehozása
-rbac#:#root_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
-rbac#:#root_create_rcrs#:#Kurzuslink létrehozása
-rbac#:#root_create_sahs#:#SCORM/AICC tananyag létrehozása
-rbac#:#root_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
-rbac#:#root_create_svy#:#Kérdőív létrehozása
-rbac#:#root_create_tst#:#Teszt létrehozása
-rbac#:#root_create_webr#:#Weblink létrehozása
-rbac#:#root_create_wiki#:#Wiki létrehozása
+rbac#:#rbac_create_catr#:#Kategóriahivatkozás létrehozása
+rbac#:#rbac_create_chat#:#Csevegés létrehozása
+rbac#:#rbac_create_crs#:#Kurzus létrehozása
+rbac#:#rbac_create_crsr#:#Kurzusreferencia létrehozása
+rbac#:#rbac_create_dbk#:#Digitális könyvtári könyv létrehozása
+rbac#:#rbac_create_exc#:#Gyakorlat létrehozása
+rbac#:#rbac_create_feed#:#Webhírforrás létrehozása
+rbac#:#rbac_create_file#:#Fájl feltöltése
+rbac#:#rbac_create_frm#:#Fórum létrehozása
+rbac#:#rbac_create_glo#:#Fogalomtár létrehozása
+rbac#:#rbac_create_grp#:#Csoport létrehozása
+rbac#:#rbac_create_htlm#:#HTML tananyag létrehozása
+rbac#:#rbac_create_icrs#:#LearnLinc szeminárium létrehozása
+rbac#:#rbac_create_lm#:#ILIAS tananyag létrehozása
+rbac#:#rbac_create_mcst#:#MediaCast létrehozása
+rbac#:#rbac_create_mep#:#Médiagyűjtemény létrehozása
+rbac#:#rbac_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
+rbac#:#rbac_create_rcrs#:#Kurzuslink létrehozása
+rbac#:#rbac_create_sahs#:#SCORM/AICC tananyag létrehozása
+rbac#:#rbac_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
+rbac#:#rbac_create_svy#:#Kérdőív létrehozása
+rbac#:#rbac_create_tst#:#Teszt létrehozása
+rbac#:#rbac_create_webr#:#Weblink létrehozása
+rbac#:#rbac_create_wiki#:#Wiki létrehozása
 rbac#:#sess_delete#:#Munkamenet törlése
 rbac#:#sess_edit_event#:#Határidőnapló-események szerkesztése
 rbac#:#sess_edit_permission#:#Jogosultsági beállítások változtatása
@@ -10426,11 +10348,7 @@ rbac#:#book_edit_permission#:#Jogosultsági beállítások változtatása
 rbac#:#book_visible#:#A foglalási sor látható
 rbac#:#book_read#:#Olvasási elérés a foglalási sorhoz
 rbac#:#book_write#:#Foglalási sor szerkesztése
-rbac#:#cat_create_book#:#Foglalási sor létrehozása
-rbac#:#grp_create_book#:#Foglalási sor létrehozása
-rbac#:#fold_create_book#:#Foglalási sor létrehozása
-rbac#:#crs_create_book#:#Foglalási sor létrehozása
-rbac#:#root_create_book#:#Foglalási sor létrehozása
+rbac#:#rbac_create_book#:#Foglalási sor létrehozása
 common#:#optional_filter_hint#:#Aktiválja az egyik választható szűrőt!
 grp#:#grp_info_agree#:#Elfogadom, hogy a fenti adattípusok láthatók a csoportadminisztrátorok számára.
 grp#:#grp_info_agreement#:#A következő adattípusok láthatók a csoportadminisztrátorok számára:
@@ -10520,8 +10438,6 @@ administration#:#language_local_file_deleted#:#A helyi nyelvi fájl törlésre k
 administration#:#language_remove_local_file#:#Helyi nyelvi fájl törlése
 rbac#:#export_member_data#:#Felhasználói adatokhoz hozzáférés
 rbac#:#rbac_change_existing_objects_desc_new_role#:#Ennek a szerepnek a jogosultsági beállításai minden létező objektumra alkalmazva lesznek.
-rbac#:#crs_create_catr#:#Kategóriareferencia létrehozása
-rbac#:#crs_create_crsr#:#Új kurzusreferencia létrehozása
 forum#:#frm_edit_title#:#Cím szerkesztése
 common#:#webdav_pwd_instruction#:#Javasolt egy helyi jelszó létrehozása a taneszköz tároló webmappaként megnyitásához.<br />Ez a jelszó csak a webmappafunkciókhoz szükséges.
 common#:#webdav_pwd_instruction_success#:#Új helyi jelszó került létrehozásra. Mostmár webmappaként nyithatja meg a taneszköz tárolót.
@@ -11971,11 +11887,7 @@ wiki#:#wiki_change_notification_page_body_comment#:#az alábbi wikilapok lettek 
 rbac#:#moderate#:#Moderálás
 common#:#apache_auth#:#Apache hitelesítés
 common#:#server_disabled#:#A csevegés ki van kapcsolva
-rbac#:#cat_create_chtr#:#Csevegőszoba létrehozása
-rbac#:#crs_create_chtr#:#Csevegőszoba létrehozása
-rbac#:#fold_create_chtr#:#Csevegőszoba létrehozása
-rbac#:#grp_create_chtr#:#Csevegőszoba létrehozása
-rbac#:#root_create_chtr#:#Csevegőszoba létrehozása
+rbac#:#rbac_create_chtr#:#Csevegőszoba létrehozása
 search#:#search_err_user_not_exist#:#Ilyen néven  nincs felhasználó.
 blog#:#blog_draft#:#Vázlat
 blog#:#blog_draft_info#:#A hozzászólásvázlatot csak a szerző látja.
@@ -12309,11 +12221,7 @@ rbac#:#blog_copy#:#User can copy blog###28 08 2012 new variable
 rbac#:#blog_write#:#User can edit blog settings###28 08 2012 new variable
 rbac#:#blog_delete#:#User can move or delete blog###28 08 2012 new variable
 rbac#:#blog_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#crs_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#root_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#fold_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#grp_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#cat_create_blog#:#Create Blog###28 08 2012 new variable
+rbac#:#rbac_create_blog#:#Create Blog###28 08 2012 new variable
 user#:#user_delete_own_account#:#Delete Account###28 08 2012 new variable
 rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration###28 08 2012 new variable
 common#:#obj_dcl#:#Data Collection###28 08 2012 new variable
@@ -12330,11 +12238,7 @@ rbac#:#dcl_write#:#User can edit settings and content of data collection###28 08
 rbac#:#dcl_delete#:#User can move or delete data collection###28 08 2012 new variable
 rbac#:#dcl_edit_permission#:#User can change permission settings###28 08 2012 new variable
 rbac#:#dcl_add_entry#:#User can add/edit entries###28 08 2012 new variable
-rbac#:#crs_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#root_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#fold_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#grp_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#cat_create_dcl#:#Create Data Collection###28 08 2012 new variable
+rbac#:#rbac_create_dcl#:#Create Data Collection###28 08 2012 new variable
 survey#:#freetext_answers#:#Open Answers###28 08 2012 new variable
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.###28 08 2012 new variable
 payment#:#duration_month#:#Access duration in months###28 08 2012 new variable
@@ -12428,11 +12332,8 @@ rbac#:#poll_write#:#User can edit poll settings and content###28 08 2012 new var
 rbac#:#poll_delete#:#User can move or delete poll###28 08 2012 new variable
 rbac#:#poll_copy#:#User can copy poll###28 08 2012 new variable
 rbac#:#poll_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#root_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#cat_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#crs_create_poll#:#Create Poll###28 08 2012 new variable
+rbac#:#rbac_create_poll#:#Create Poll###28 08 2012 new variable
 rbac#:#fld_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#grp_create_poll#:#Create Poll###28 08 2012 new variable
 poll#:#poll_question#:#Question###28 08 2012 new variable
 poll#:#poll_image#:#Image###28 08 2012 new variable
 poll#:#poll_view_results#:#Display Results###28 08 2012 new variable
@@ -12620,14 +12521,10 @@ help#:#help_modules#:#Help Packages###28 08 2012 new variable
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?###28 08 2012 new variable
 help#:#help_module_uploaded#:#Help package uploaded.###28 08 2012 new variable
 common#:#add_entry#:#Add/Edit entry###28 08 2012 new variable
-rbac#:#fold_create_poll#:#Create Poll###28 08 2012 new variable
 common#:#obj_poll_duplicate#:#Copy Poll###28 08 2012 new variable
 rbac#:#rbac_import_role#:#Import Role###28 08 2012 new variable
 rbac#:#rbac_role_imported#:#The role has been imported.###28 08 2012 new variable
 common#:#objs_rcat#:#ECS Categories###28 08 2012 new variable
-rbac#:#grp_create_catr#:#Create Category Reference###28 08 2012 new variable
-rbac#:#grp_create_sess#:#Create Session###28 08 2012 new variable
-rbac#:#grp_create_crsr#:#Create Course Reference###28 08 2012 new variable
 administration#:#adm_user_starting_point_object#:#Repository Object###28 08 2012 new variable
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id###28 08 2012 new variable
 administration#:#adm_user_starting_point_personal#:#Personal Setting###28 08 2012 new variable
@@ -12644,11 +12541,7 @@ rbac#:#itgr_write#:#User can edit content and settings of item group###28 08 201
 rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
 rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
 rbac#:#itgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#cat_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#crs_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#fold_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#root_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#grp_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#rbac_create_itgr#:#Create Item Group###28 08 2012 new variable
 poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.###28 08 2012 new variable
 poll#:#poll_votes_no_edit#:#This poll cannot be edited because of existing votes.###28 08 2012 new variable
 itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
@@ -12986,7 +12879,6 @@ help#:#help_tooltips_only#:#Tooltips Only###28 11 2012 new variable
 help#:#help_set_mode#:#Set Mode###28 11 2012 new variable
 poll#:#poll_result#:#Voting Result###28 11 2012 new variable
 fold#:#fold_copy#:#Copy Folder###28 11 2012 new variable
-rbac#:#fold_create_sess#:#Create Session###28 11 2012 new variable
 rbac#:#rfil_delete#:#User can move or delete ECS File ###28 11 2012 new variable
 rbac#:#rfil_edit_permission#:#User can change permission settings###28 11 2012 new variable
 rbac#:#rfil_read#:#User can use ECS File ###28 11 2012 new variable

@@ -8132,10 +8132,6 @@ rbac#:#cals_edit_permission#:#დაშვების პარამეტრ�
 rbac#:#cals_read#:#კითვითი დაშვება კალენდარის პარამეტრებში
 rbac#:#cals_visible#:#კალენდარის პარამეტრები ხილვადია
 rbac#:#cals_write#:#კალენდარის პარამეტრების რედაქტირება
-rbac#:#cat_create_catr#:#კატეგორიის წყაროს შექმნა
-rbac#:#cat_create_crsr#:#ახალი კურსის წყაროს შექმნა
-rbac#:#cat_create_rcrs#:#კურსის ლინკების შექმნა
-rbac#:#cat_create_wiki#:#wikiს შექმნა
 rbac#:#catr_copy#:#კატეგორიის წყაროს ასლის გაკეთება
 rbac#:#catr_delete#:#კატეგორიის წყაროს წაშლა
 rbac#:#catr_edit_permission#:#დაშვების პარამეტრების შეცვლა
@@ -8146,8 +8142,7 @@ rbac#:#cmps_edit_permission#:#დაშვების პარამეტრ�
 rbac#:#cmps_read#:#კითხვითი დაშვება კომპონენტის პარამეტრებში
 rbac#:#cmps_visible#:#კომპონენტის პარამეტრები ხილვადია
 rbac#:#cmps_write#:#კომპონენტის პარამეტრების რედაქტირება
-rbac#:#crs_create_sess#:#სესიის შექმნა
-rbac#:#crs_create_wiki#:#wikiს შექმნა
+rbac#:#rbac_create_sess#:#სესიის შექმნა
 rbac#:#crs_edit_event#:#კალენდარის ღონისძიებების შექმნა
 rbac#:#crsr_copy#:#კურსის წყაროების ასლის გაკეთება
 rbac#:#crsr_delete#:#კურსის წყაროს წაშლა
@@ -8165,8 +8160,6 @@ rbac#:#filter_global_roles#:#მხოლოდ გლობალური პ�
 rbac#:#filter_local_roles_object#:#მხოლოდ ამ ადგილზე დანიშნული ადგილობრივი პასუხისმგებლობეის ჩვენება
 rbac#:#filter_local_roles#:#მხოლოდ მიმდინარე შინაარსის ადგილობრივი პასუხისმგებლობების ჩვენება
 rbac#:#filter_roles_local_policy#:#მხოლოდ ამ ადგილის საიდუმლოს გამომყენებელი პასუხისმგებლობების ჩვენება
-rbac#:#fold_create_wiki#:#wikiს შექმნა
-rbac#:#grp_create_wiki#:#wikiს შექმნა
 rbac#:#grp_edit_event#:#კალენდარის ღონისძიებების შექმნა
 rbac#:#info_user_view_changed#:#მომხმარებლის ხედვა შეცვლილია
 rbac#:#leave#:#დატოვება
@@ -8217,30 +8210,30 @@ rbac#:#recf_edit_permission#:#დაშვების პარამეტრ�
 rbac#:#recf_read#:#კითხვითი დშვება აღდგენილ ობიექტებში
 rbac#:#recf_visible#:#აღდგენილი ობიექტები ხილვადია
 rbac#:#recf_write#:#აღდგენილი ობიექტების რედაქტირება
-rbac#:#root_create_catr#:#კატეგორიის წყაროს შექმნა
-rbac#:#root_create_chat#:#ჩატის შექმნა
-rbac#:#root_create_crs#:#კურსის შექმნა
-rbac#:#root_create_crsr#:#კურსის წყაროს შექმნა
-rbac#:#root_create_dbk#:#დიგილიბის წიგნის შექმნა
-rbac#:#root_create_exc#:#სავარჯიშოს შექმნა
-rbac#:#root_create_feed#:#ვებ სიახლეების შექმნა
-rbac#:#root_create_file#:#ფაილის ატვირთვა
-rbac#:#root_create_frm#:#ფორუმის შექმნა
-rbac#:#root_create_glo#:#ლექსიკონის შექმნა
-rbac#:#root_create_grp#:#ჯგუფის შექმნა
-rbac#:#root_create_htlm#:#HTML სასწავლო მოდულის შექმნა
-rbac#:#root_create_icrs#:#სასწავლო ლინკის სემინარის შექმნა
-rbac#:#root_create_lm#:#ილიასის სასწავლო მოდულის შექმნა
-rbac#:#root_create_mcst#:#მედია ქასთის შექმნა
-rbac#:#root_create_mep#:#მედია ნაკადის შექმნა
-rbac#:#root_create_qpl#:#ტესტის კითხვების ნაკადის შექმნა
-rbac#:#root_create_rcrs#:#კურსის ლინკის შექმნა
-rbac#:#root_create_sahs#:#SCORM/AICC სასწავლო მოდულის შექმნა
-rbac#:#root_create_spl#:#კითხვების ნაკადის კითხვარის შექმნა
-rbac#:#root_create_svy#:#კითვარის შექმნა
-rbac#:#root_create_tst#:#ტესტის შექმნა
-rbac#:#root_create_webr#:#ვებ ლინკის შექმნა
-rbac#:#root_create_wiki#:#wikiს შექმნა
+rbac#:#rbac_create_catr#:#კატეგორიის წყაროს შექმნა
+rbac#:#rbac_create_chat#:#ჩატის შექმნა
+rbac#:#rbac_create_crs#:#კურსის შექმნა
+rbac#:#rbac_create_crsr#:#კურსის წყაროს შექმნა
+rbac#:#rbac_create_dbk#:#დიგილიბის წიგნის შექმნა
+rbac#:#rbac_create_exc#:#სავარჯიშოს შექმნა
+rbac#:#rbac_create_feed#:#ვებ სიახლეების შექმნა
+rbac#:#rbac_create_file#:#ფაილის ატვირთვა
+rbac#:#rbac_create_frm#:#ფორუმის შექმნა
+rbac#:#rbac_create_glo#:#ლექსიკონის შექმნა
+rbac#:#rbac_create_grp#:#ჯგუფის შექმნა
+rbac#:#rbac_create_htlm#:#HTML სასწავლო მოდულის შექმნა
+rbac#:#rbac_create_icrs#:#სასწავლო ლინკის სემინარის შექმნა
+rbac#:#rbac_create_lm#:#ილიასის სასწავლო მოდულის შექმნა
+rbac#:#rbac_create_mcst#:#მედია ქასთის შექმნა
+rbac#:#rbac_create_mep#:#მედია ნაკადის შექმნა
+rbac#:#rbac_create_qpl#:#ტესტის კითხვების ნაკადის შექმნა
+rbac#:#rbac_create_rcrs#:#კურსის ლინკის შექმნა
+rbac#:#rbac_create_sahs#:#SCORM/AICC სასწავლო მოდულის შექმნა
+rbac#:#rbac_create_spl#:#კითხვების ნაკადის კითხვარის შექმნა
+rbac#:#rbac_create_svy#:#კითვარის შექმნა
+rbac#:#rbac_create_tst#:#ტესტის შექმნა
+rbac#:#rbac_create_webr#:#ვებ ლინკის შექმნა
+rbac#:#rbac_create_wiki#:#wikiს შექმნა
 rbac#:#sess_delete#:#სესიის წაშლა
 rbac#:#sess_edit_event#:#კალენდარის ღონისძიებების შექმნა
 rbac#:#sess_edit_permission#:#დაშვების პარამეტრების შეცვლა
@@ -10113,11 +10106,7 @@ book#:#book_set_in_use#:#გამოყენებაშია
 book#:#book_set_not_in_use#:#არ არის გამოყენებაში
 book#:#book_set_cancel#:#რეზერვაციის გაუქმება
 book#:#book_set_not_cancel#:#გაუქმების აღდგენა
-rbac#:#cat_create_book#:#დაჯავშნების ნაკადის შექმნა
-rbac#:#grp_create_book#:#დაჯავშნების ნაკადის შექმნა
-rbac#:#fold_create_book#:#დაჯავშნების ნაკადის შექმნა
-rbac#:#crs_create_book#:#დაჯავშნების ნაკადის შექმნა
-rbac#:#root_create_book#:#დაჯავშნების ნაკადის შექმნა
+rbac#:#rbac_create_book#:#დაჯავშნების ნაკადის შექმნა
 common#:#optional_filter_hint#:#გთხოვთ გააქტიუროთ ერთერთი არჩევითი ფილტრებიდან
 grp#:#grp_info_agree#:#მე ვეთანხმები, რომ ზემოთ მოცემული მონაცემების სახეობები ხილვადია ჯგუფის ადმინისტრატორებისთვის
 grp#:#grp_info_agreement#:#შემდეგი მონაცემების სახეობები ხილვადია ჯგუფის ადმინისტრატორებისთვის
@@ -10207,8 +10196,6 @@ administration#:#language_local_file_deleted#:#ადგილობრივი
 administration#:#language_remove_local_file#:#ადგილობრივი ენის ფაილის წაშლა
 rbac#:#export_member_data#:#მომხმარებლის მონაცემებში შესვლა
 rbac#:#rbac_change_existing_objects_desc_new_role#:#ამ პასუხისმგებლობის დაშვების პარამეტრები მოერგება ყველა არსებულ ობიექტს
-rbac#:#crs_create_catr#:#კატეგორიის წყაროს შექმნა
-rbac#:#crs_create_crsr#:#ახალი კურსის წყაროს შექმნა
 forum#:#frm_edit_title#:#დასახელების რედაქტირება
 common#:#webdav_pwd_instruction#:#საცავის, როგორც ვებფოლდერის გასახსნელად, ჩვენ გთავაზობთ ადგილობრივი პაროლის შექმნას. <br/> ეს პაროლი მოთხოვნილია მხოლოდ ვებფოლდერის ფუნქციებისთვის
 common#:#webdav_pwd_instruction_success#:#ახალი ადგილობრივი პაროლი შექმნილია. Aახლა თქვენ შეგიძლიათ საცავის როგორც ვებფოლდერის გახსნა
@@ -11629,25 +11616,6 @@ rbac#:#auth_write#:#User can edit settings for Authentication and Registration##
 rbac#:#cat_cat_administrate_users#:#User can create and administrate local user accounts in this category###27 10 2012 new variable
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###27 10 2012 new variable
 rbac#:#cat_copy#:#User can copy category###27 10 2012 new variable
-rbac#:#cat_create_cat#:#Create Category###27 10 2012 new variable
-rbac#:#cat_create_crs#:#Create Course###27 10 2012 new variable
-rbac#:#cat_create_exc#:#Create Exercise###27 10 2012 new variable
-rbac#:#cat_create_feed#:#Create Web Feed###27 10 2012 new variable
-rbac#:#cat_create_file#:#Upload File###27 10 2012 new variable
-rbac#:#cat_create_frm#:#Create Forum###27 10 2012 new variable
-rbac#:#cat_create_glo#:#Create Glossary###27 10 2012 new variable
-rbac#:#cat_create_grp#:#Create Group###27 10 2012 new variable
-rbac#:#cat_create_htlm#:#Create HTML Learning Module###27 10 2012 new variable
-rbac#:#cat_create_icrs#:#Create LearnLinc Seminar###27 10 2012 new variable
-rbac#:#cat_create_lm#:#Create ILIAS Learning Module###27 10 2012 new variable
-rbac#:#cat_create_mcst#:#Create Mediacast###27 10 2012 new variable
-rbac#:#cat_create_mep#:#Create Media Pool###27 10 2012 new variable
-rbac#:#cat_create_qpl#:#Create Question Pool Test###27 10 2012 new variable
-rbac#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###27 10 2012 new variable
-rbac#:#cat_create_spl#:#Create Question Pool Survey###27 10 2012 new variable
-rbac#:#cat_create_svy#:#Create Survey###27 10 2012 new variable
-rbac#:#cat_create_tst#:#Create Test###27 10 2012 new variable
-rbac#:#cat_create_webr#:#Create Weblink###27 10 2012 new variable
 rbac#:#cat_delete#:#User can move or delete category###27 10 2012 new variable
 rbac#:#cat_edit_permission#:#User can change permission settings###27 10 2012 new variable
 rbac#:#cat_read_users#:#User can read local user accounts created in this category###27 10 2012 new variable
@@ -11668,24 +11636,7 @@ rbac#:#change_existing_suffix#:#&nbsp;###27 10 2012 new variable
 chatroom#:#chat_settings#:#Chat Settings###27 10 2012 new variable
 rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###27 10 2012 new variable
 rbac#:#crs_copy#:#User can copy course###27 10 2012 new variable
-rbac#:#crs_create_exc#:#Create Exercise###27 10 2012 new variable
-rbac#:#crs_create_feed#:#Create Web Feed###27 10 2012 new variable
-rbac#:#crs_create_file#:#Upload File###27 10 2012 new variable
-rbac#:#crs_create_fold#:#Create Folder###27 10 2012 new variable
-rbac#:#crs_create_frm#:#Create Forum###27 10 2012 new variable
-rbac#:#crs_create_glo#:#Create Glossary###27 10 2012 new variable
-rbac#:#crs_create_grp#:#Create Group###27 10 2012 new variable
-rbac#:#crs_create_htlm#:#Create HTML Learning Module###27 10 2012 new variable
-rbac#:#crs_create_icrs#:#Create LearnLinc Seminar###27 10 2012 new variable
-rbac#:#crs_create_lm#:#Create ILIAS Learning Module###27 10 2012 new variable
-rbac#:#crs_create_mcst#:#Create Mediacast###27 10 2012 new variable
-rbac#:#crs_create_mep#:#Create Media Pool###27 10 2012 new variable
-rbac#:#crs_create_qpl#:#Create Question Pool Test###27 10 2012 new variable
-rbac#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###27 10 2012 new variable
-rbac#:#crs_create_spl#:#Create Question Pool Survey###27 10 2012 new variable
-rbac#:#crs_create_svy#:#Create Survey###27 10 2012 new variable
-rbac#:#crs_create_tst#:#Create Test###27 10 2012 new variable
-rbac#:#crs_create_webr#:#Create Weblink###27 10 2012 new variable
+rbac#:#rbac_create_fold#:#Create Folder###27 10 2012 new variable
 rbac#:#crs_delete#:#User can move or delete course###27 10 2012 new variable
 rbac#:#crs_edit_learning_progress#:#User can see learning progress of course members and edit learning progress settings###27 10 2012 new variable
 rbac#:#crs_edit_permission#:#User can change permission settings###27 10 2012 new variable
@@ -11719,23 +11670,6 @@ rbac#:#file_read#:#User can download file###27 10 2012 new variable
 rbac#:#file_visible#:#File is visible###27 10 2012 new variable
 rbac#:#file_write#:#User can edit file settings and upload new version of file###27 10 2012 new variable
 rbac#:#fold_copy#:#User can copy folder###27 10 2012 new variable
-rbac#:#fold_create_exc#:#Create Exercise###27 10 2012 new variable
-rbac#:#fold_create_file#:#Upload File###27 10 2012 new variable
-rbac#:#fold_create_fold#:#Create Folder###27 10 2012 new variable
-rbac#:#fold_create_frm#:#Create Forum###27 10 2012 new variable
-rbac#:#fold_create_glo#:#Create Glossary###27 10 2012 new variable
-rbac#:#fold_create_grp#:#Create Group###27 10 2012 new variable
-rbac#:#fold_create_htlm#:#Create HTML Learning Module###27 10 2012 new variable
-rbac#:#fold_create_icrs#:#Create LearnLinc Seminar###27 10 2012 new variable
-rbac#:#fold_create_lm#:#Create ILIAS Learning Module###27 10 2012 new variable
-rbac#:#fold_create_mcst#:#Create Mediacast###27 10 2012 new variable
-rbac#:#fold_create_mep#:#Create Media Pool###27 10 2012 new variable
-rbac#:#fold_create_qpl#:#Create Question Pool Test###27 10 2012 new variable
-rbac#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###27 10 2012 new variable
-rbac#:#fold_create_spl#:#Create Question Pool Survey###27 10 2012 new variable
-rbac#:#fold_create_svy#:#Create Survey###27 10 2012 new variable
-rbac#:#fold_create_tst#:#Create Test###27 10 2012 new variable
-rbac#:#fold_create_webr#:#Create Weblink###27 10 2012 new variable
 rbac#:#fold_delete#:#User can move or delete folder###27 10 2012 new variable
 rbac#:#fold_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings###27 10 2012 new variable
 rbac#:#fold_edit_permission#:#User can change permission settings###27 10 2012 new variable
@@ -11759,24 +11693,6 @@ rbac#:#glo_visible#:#Glossary is visible###27 10 2012 new variable
 rbac#:#glo_write#:#User can edit content and settings of glossary###27 10 2012 new variable
 rbac#:#grp_copy#:#User can copy group###27 10 2012 new variable
 rbac#:#grp#:#User can copy group###27 10 2012 new variable
-rbac#:#grp_create_exc#:#Create Exercise###27 10 2012 new variable
-rbac#:#grp_create_feed#:#Create Web Feed###27 10 2012 new variable
-rbac#:#grp_create_file#:#Upload File###27 10 2012 new variable
-rbac#:#grp_create_fold#:#Create Folder###27 10 2012 new variable
-rbac#:#grp_create_frm#:#Create Forum###27 10 2012 new variable
-rbac#:#grp_create_glo#:#Create Glossary###27 10 2012 new variable
-rbac#:#grp_create_grp#:#Create Group###27 10 2012 new variable
-rbac#:#grp_create_htlm#:#Create HTML Learning Module###27 10 2012 new variable
-rbac#:#grp_create_icrs#:#Create LearnLinc Seminar###27 10 2012 new variable
-rbac#:#grp_create_lm#:#Create ILIAS Learning Module###27 10 2012 new variable
-rbac#:#grp_create_mcst#:#Create Mediacast###27 10 2012 new variable
-rbac#:#grp_create_mep#:#Create Media Pool###27 10 2012 new variable
-rbac#:#grp_create_qpl#:#Create Question Pool Test###27 10 2012 new variable
-rbac#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###27 10 2012 new variable
-rbac#:#grp_create_spl#:#Create Question Pool Survey###27 10 2012 new variable
-rbac#:#grp_create_svy#:#Create Survey###27 10 2012 new variable
-rbac#:#grp_create_tst#:#Create Test###27 10 2012 new variable
-rbac#:#grp_create_webr#:#Create Weblink###27 10 2012 new variable
 rbac#:#grp_delete#:#User can move or delete group###27 10 2012 new variable
 rbac#:#grp_edit_learning_progress#:#User can see learning progress of group members and edit learning progress settings###27 10 2012 new variable
 rbac#:#grp_edit_permission#:#User can change permission settings###27 10 2012 new variable
@@ -11846,7 +11762,7 @@ rbac#:#qpl_edit_permission#:#User can change permission settings###27 10 2012 ne
 rbac#:#qpl_read#:#User can read test questions in pool and insert them in tests###27 10 2012 new variable
 rbac#:#qpl_visible#:#Question pool is visible###27 10 2012 new variable
 rbac#:#qpl_write#:#User can edit test questions and settings of question pool###27 10 2012 new variable
-rbac#:#root_create_cat#:#Create Categories###27 10 2012 new variable
+rbac#:#rbac_create_cat#:#Create Categories###27 10 2012 new variable
 rbac#:#root_edit_permission#:#User can change permission settings###27 10 2012 new variable
 rbac#:#root_read#:#User has read access to <i>Repository - Home</i>###27 10 2012 new variable
 rbac#:#root_visible#:#<i>Repository - Home</i> is visible###27 10 2012 new variable
@@ -12079,11 +11995,7 @@ common#:#chta_edit_permission#:#Change Permission Settings###27 10 2012 new vari
 rbac#:#moderate#:#Moderate###27 10 2012 new variable
 common#:#apache_auth#:#Apache Authentication###27 10 2012 new variable
 common#:#server_disabled#:#The Chat is Disabled###27 10 2012 new variable
-rbac#:#cat_create_chtr#:#Create Chatroom###27 10 2012 new variable
-rbac#:#crs_create_chtr#:#Create Chatroom###27 10 2012 new variable
-rbac#:#fold_create_chtr#:#Create Chatroom###27 10 2012 new variable
-rbac#:#grp_create_chtr#:#Create Chatroom###27 10 2012 new variable
-rbac#:#root_create_chtr#:#Create Chatroom###27 10 2012 new variable
+rbac#:#rbac_create_chtr#:#Create Chatroom###27 10 2012 new variable
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.###27 10 2012 new variable
 blog#:#blog_draft#:#Draft###27 10 2012 new variable
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.###27 10 2012 new variable
@@ -12331,11 +12243,7 @@ rbac#:#blog_copy#:#User can copy blog###27 10 2012 new variable
 rbac#:#blog_write#:#User can edit blog settings###27 10 2012 new variable
 rbac#:#blog_delete#:#User can move or delete blog###27 10 2012 new variable
 rbac#:#blog_edit_permission#:#User can change permission settings###27 10 2012 new variable
-rbac#:#crs_create_blog#:#Create Blog###27 10 2012 new variable
-rbac#:#root_create_blog#:#Create Blog###27 10 2012 new variable
-rbac#:#fold_create_blog#:#Create Blog###27 10 2012 new variable
-rbac#:#grp_create_blog#:#Create Blog###27 10 2012 new variable
-rbac#:#cat_create_blog#:#Create Blog###27 10 2012 new variable
+rbac#:#rbac_create_blog#:#Create Blog###27 10 2012 new variable
 user#:#user_delete_own_account#:#Delete Account###27 10 2012 new variable
 rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration###27 10 2012 new variable
 common#:#obj_dcl#:#Data Collection###27 10 2012 new variable
@@ -12352,11 +12260,7 @@ rbac#:#dcl_write#:#User can edit settings and content of data collection###27 10
 rbac#:#dcl_delete#:#User can move or delete data collection###27 10 2012 new variable
 rbac#:#dcl_edit_permission#:#User can change permission settings###27 10 2012 new variable
 rbac#:#dcl_add_entry#:#User can add/edit entries###27 10 2012 new variable
-rbac#:#crs_create_dcl#:#Create Data Collection###27 10 2012 new variable
-rbac#:#root_create_dcl#:#Create Data Collection###27 10 2012 new variable
-rbac#:#fold_create_dcl#:#Create Data Collection###27 10 2012 new variable
-rbac#:#grp_create_dcl#:#Create Data Collection###27 10 2012 new variable
-rbac#:#cat_create_dcl#:#Create Data Collection###27 10 2012 new variable
+rbac#:#rbac_create_dcl#:#Create Data Collection###27 10 2012 new variable
 survey#:#freetext_answers#:#Open Answers###27 10 2012 new variable
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.###27 10 2012 new variable
 payment#:#duration_month#:#Access duration in months###27 10 2012 new variable
@@ -12451,11 +12355,8 @@ rbac#:#poll_write#:#User can edit poll settings and content###27 10 2012 new var
 rbac#:#poll_delete#:#User can move or delete poll###27 10 2012 new variable
 rbac#:#poll_copy#:#User can copy poll###27 10 2012 new variable
 rbac#:#poll_edit_permission#:#User can change permission settings###27 10 2012 new variable
-rbac#:#root_create_poll#:#Create Poll###27 10 2012 new variable
-rbac#:#cat_create_poll#:#Create Poll###27 10 2012 new variable
-rbac#:#crs_create_poll#:#Create Poll###27 10 2012 new variable
+rbac#:#rbac_create_poll#:#Create Poll###27 10 2012 new variable
 rbac#:#fld_create_poll#:#Create Poll###27 10 2012 new variable
-rbac#:#grp_create_poll#:#Create Poll###27 10 2012 new variable
 poll#:#poll_question#:#Question###27 10 2012 new variable
 poll#:#poll_image#:#Image###27 10 2012 new variable
 poll#:#poll_view_results#:#Display Results###27 10 2012 new variable
@@ -12643,14 +12544,10 @@ help#:#help_modules#:#Help Packages###27 10 2012 new variable
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?###27 10 2012 new variable
 help#:#help_module_uploaded#:#Help package uploaded.###27 10 2012 new variable
 common#:#add_entry#:#Add/Edit entry###27 10 2012 new variable
-rbac#:#fold_create_poll#:#Create Poll###27 10 2012 new variable
 common#:#obj_poll_duplicate#:#Copy Poll###27 10 2012 new variable
 rbac#:#rbac_import_role#:#Import Role###27 10 2012 new variable
 rbac#:#rbac_role_imported#:#The role has been imported.###27 10 2012 new variable
 common#:#objs_rcat#:#ECS Categories###27 10 2012 new variable
-rbac#:#grp_create_catr#:#Create Category Reference###27 10 2012 new variable
-rbac#:#grp_create_sess#:#Create Session###27 10 2012 new variable
-rbac#:#grp_create_crsr#:#Create Course Reference###27 10 2012 new variable
 administration#:#adm_user_starting_point_object#:#Repository Object###27 10 2012 new variable
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id###27 10 2012 new variable
 administration#:#adm_user_starting_point_personal#:#Personal Setting###27 10 2012 new variable
@@ -12667,11 +12564,7 @@ rbac#:#itgr_write#:#User can edit content and settings of item group###27 10 201
 rbac#:#itgr_copy#:#User can copy item group###27 10 2012 new variable
 rbac#:#itgr_delete#:#User can move or delete item group###27 10 2012 new variable
 rbac#:#itgr_edit_permission#:#User can change permission settings###27 10 2012 new variable
-rbac#:#cat_create_itgr#:#Create Item Group###27 10 2012 new variable
-rbac#:#crs_create_itgr#:#Create Item Group###27 10 2012 new variable
-rbac#:#fold_create_itgr#:#Create Item Group###27 10 2012 new variable
-rbac#:#root_create_itgr#:#Create Item Group###27 10 2012 new variable
-rbac#:#grp_create_itgr#:#Create Item Group###27 10 2012 new variable
+rbac#:#rbac_create_itgr#:#Create Item Group###27 10 2012 new variable
 poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.###27 10 2012 new variable
 poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.###27 10 2012 new variable
 itgr#:#itgr_materials#:#Materials###27 10 2012 new variable
@@ -12986,7 +12879,6 @@ help#:#help_tooltips_only#:#Tooltips Only###28 11 2012 new variable
 help#:#help_set_mode#:#Set Mode###28 11 2012 new variable
 poll#:#poll_result#:#Voting Result###28 11 2012 new variable
 fold#:#fold_copy#:#Copy Folder###28 11 2012 new variable
-rbac#:#fold_create_sess#:#Create Session###28 11 2012 new variable
 rbac#:#rfil_delete#:#User can move or delete ECS File ###28 11 2012 new variable
 rbac#:#rfil_edit_permission#:#User can change permission settings###28 11 2012 new variable
 rbac#:#rfil_read#:#User can use ECS File ###28 11 2012 new variable

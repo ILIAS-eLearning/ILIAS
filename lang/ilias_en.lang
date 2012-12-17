@@ -1773,25 +1773,6 @@ rbac#:#cat_cat_administrate_users#:#User can create and administrate local user 
 common#:#cat_clear_page#:#Clear Page
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_copy#:#User can copy category
-rbac#:#cat_create_cat#:#Create Category
-rbac#:#cat_create_crs#:#Create Course
-rbac#:#cat_create_exc#:#Create Exercise
-rbac#:#cat_create_feed#:#Create Web Feed
-rbac#:#cat_create_file#:#Upload File
-rbac#:#cat_create_frm#:#Create Forum
-rbac#:#cat_create_glo#:#Create Glossary
-rbac#:#cat_create_grp#:#Create Group
-rbac#:#cat_create_htlm#:#Create HTML Learning Module
-rbac#:#cat_create_icrs#:#Create LearnLinc Seminar
-rbac#:#cat_create_lm#:#Create ILIAS Learning Module
-rbac#:#cat_create_mcst#:#Create Mediacast
-rbac#:#cat_create_mep#:#Create Media Pool
-rbac#:#cat_create_qpl#:#Create Question Pool Test
-rbac#:#cat_create_sahs#:#Create SCORM/AICC Learning Module
-rbac#:#cat_create_spl#:#Create Question Pool Survey
-rbac#:#cat_create_svy#:#Create Survey
-rbac#:#cat_create_tst#:#Create Test
-rbac#:#cat_create_webr#:#Create Weblink
 rbac#:#cat_delete#:#User can move or delete category
 rbac#:#cat_edit_permission#:#User can change permission settings
 common#:#cat_edit#:#Edit Category
@@ -1976,24 +1957,7 @@ common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from th
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
 rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 rbac#:#crs_copy#:#User can copy course
-rbac#:#crs_create_exc#:#Create Exercise
-rbac#:#crs_create_feed#:#Create Web Feed
-rbac#:#crs_create_file#:#Upload File
-rbac#:#crs_create_fold#:#Create Folder
-rbac#:#crs_create_frm#:#Create Forum
-rbac#:#crs_create_glo#:#Create Glossary
-rbac#:#crs_create_grp#:#Create Group
-rbac#:#crs_create_htlm#:#Create HTML Learning Module
-rbac#:#crs_create_icrs#:#Create LearnLinc Seminar
-rbac#:#crs_create_lm#:#Create ILIAS Learning Module
-rbac#:#crs_create_mcst#:#Create Mediacast
-rbac#:#crs_create_mep#:#Create Media Pool
-rbac#:#crs_create_qpl#:#Create Question Pool Test
-rbac#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
-rbac#:#crs_create_spl#:#Create Question Pool Survey
-rbac#:#crs_create_svy#:#Create Survey
-rbac#:#crs_create_tst#:#Create Test
-rbac#:#crs_create_webr#:#Create Weblink
+rbac#:#rbac_create_fold#:#Create Folder
 rbac#:#crs_delete#:#User can move or delete course
 rbac#:#crs_edit_learning_progress#:#User can see learning progress of course members and edit learning progress settings
 rbac#:#crs_edit_permission#:#User can change permission settings
@@ -2372,23 +2336,6 @@ common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 rbac#:#fold_copy#:#User can copy folder
-rbac#:#fold_create_exc#:#Create Exercise
-rbac#:#fold_create_file#:#Upload File
-rbac#:#fold_create_fold#:#Create Folder
-rbac#:#fold_create_frm#:#Create Forum
-rbac#:#fold_create_glo#:#Create Glossary
-rbac#:#fold_create_grp#:#Create Group
-rbac#:#fold_create_htlm#:#Create HTML Learning Module
-rbac#:#fold_create_icrs#:#Create LearnLinc Seminar
-rbac#:#fold_create_lm#:#Create ILIAS Learning Module
-rbac#:#fold_create_mcst#:#Create Mediacast
-rbac#:#fold_create_mep#:#Create Media Pool
-rbac#:#fold_create_qpl#:#Create Question Pool Test
-rbac#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
-rbac#:#fold_create_spl#:#Create Question Pool Survey
-rbac#:#fold_create_svy#:#Create Survey
-rbac#:#fold_create_tst#:#Create Test
-rbac#:#fold_create_webr#:#Create Weblink
 rbac#:#fold_delete#:#User can move or delete folder
 rbac#:#fold_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
 rbac#:#fold_edit_permission#:#User can change permission settings
@@ -2552,24 +2499,6 @@ rbac#:#grp_copy#:#User can copy group
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 rbac#:#grp#:#User can copy group
 common#:#grp_count_members#:#Number of members
-rbac#:#grp_create_exc#:#Create Exercise
-rbac#:#grp_create_feed#:#Create Web Feed
-rbac#:#grp_create_file#:#Upload File
-rbac#:#grp_create_fold#:#Create Folder
-rbac#:#grp_create_frm#:#Create Forum
-rbac#:#grp_create_glo#:#Create Glossary
-rbac#:#grp_create_grp#:#Create Group
-rbac#:#grp_create_htlm#:#Create HTML Learning Module
-rbac#:#grp_create_icrs#:#Create LearnLinc Seminar
-rbac#:#grp_create_lm#:#Create ILIAS Learning Module
-rbac#:#grp_create_mcst#:#Create Mediacast
-rbac#:#grp_create_mep#:#Create Media Pool
-rbac#:#grp_create_qpl#:#Create Question Pool Test
-rbac#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
-rbac#:#grp_create_spl#:#Create Question Pool Survey
-rbac#:#grp_create_svy#:#Create Survey
-rbac#:#grp_create_tst#:#Create Test
-rbac#:#grp_create_webr#:#Create Weblink
 common#:#grp_create#:#Create Group
 rbac#:#grp_delete#:#User can move or delete group
 common#:#grp_deleted_export_files#:#Deleted selected files.
@@ -3922,7 +3851,7 @@ common#:#rolt_added#:#Role template added
 common#:#rolt_edit#:#Edit Role Template
 common#:#rolt_new#:#New Role Template
 common#:#rolt#:#Role Template
-rbac#:#root_create_cat#:#Create Categories
+rbac#:#rbac_create_cat#:#Create Categories
 rbac#:#root_edit_permission#:#User can change permission settings
 common#:#root_edit#:#Edit system root node
 rbac#:#root_read#:#User has read access to <i>Repository - Home</i>
@@ -8524,10 +8453,6 @@ rbac#:#cals_edit_permission#:#User can change permission settings for Calendar a
 rbac#:#cals_read#:#User has read access to Calendar Administration
 rbac#:#cals_visible#:#Calendar Administration is visible
 rbac#:#cals_write#:#User can edit settings of Calendar Administration
-rbac#:#cat_create_catr#:#Create Category Reference
-rbac#:#cat_create_crsr#:#Create Course Reference
-rbac#:#cat_create_rcrs#:#Create ECS Course
-rbac#:#cat_create_wiki#:#Create Wiki
 rbac#:#catr_copy#:#User can copy category reference
 rbac#:#catr_delete#:#User can move or delete category reference
 rbac#:#catr_edit_permission#:#User can change permission settings
@@ -8538,8 +8463,7 @@ rbac#:#cmps_edit_permission#:#User can change permission settings of Plugins, Mo
 rbac#:#cmps_read#:#User has read access to administration of Plugins, Modules and Services
 rbac#:#cmps_visible#:#Administration of Plugins, Modules and Services settings is visible
 rbac#:#cmps_write#:#User can edit settings of Plugins, Modules and Services
-rbac#:#crs_create_sess#:#Create Session
-rbac#:#crs_create_wiki#:#Create Wiki
+rbac#:#rbac_create_sess#:#Create Session
 rbac#:#crs_edit_event#:#Edit Calendar Events
 rbac#:#crsr_copy#:#User can copy course reference
 rbac#:#crsr_delete#:#User can move or delete course reference
@@ -8557,8 +8481,6 @@ rbac#:#filter_global_roles#:#Show only global roles
 rbac#:#filter_local_roles_object#:#Show only local roles defined at this position
 rbac#:#filter_local_roles#:#Show only local roles of current context
 rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position
-rbac#:#fold_create_wiki#:#Create Wiki
-rbac#:#grp_create_wiki#:#Create Wiki
 rbac#:#grp_edit_event#:#Edit Calendar Events
 rbac#:#info_user_view_changed#:#User view changed
 rbac#:#leave#:#Leave
@@ -8609,30 +8531,30 @@ rbac#:#recf_edit_permission#:#User can change permission settings of Restored Ob
 rbac#:#recf_read#:#User has read access to Restored Objects administration
 rbac#:#recf_visible#:#Restored Objects administration is visible
 rbac#:#recf_write#:#Edit Settings and restore objects in Restored Objects administration
-rbac#:#root_create_catr#:#Create Category Reference
-rbac#:#root_create_chat#:#Create Chat
-rbac#:#root_create_crs#:#Create Course
-rbac#:#root_create_crsr#:#Create Course Reference
-rbac#:#root_create_dbk#:#Create Digilib Book
-rbac#:#root_create_exc#:#Create Exercise
-rbac#:#root_create_feed#:#Create Web Feed
-rbac#:#root_create_file#:#Upload File
-rbac#:#root_create_frm#:#Create Forum
-rbac#:#root_create_glo#:#Create Glossary
-rbac#:#root_create_grp#:#Create Group
-rbac#:#root_create_htlm#:#Create HTML Learning Module
-rbac#:#root_create_icrs#:#Create LearnLinc Seminar
-rbac#:#root_create_lm#:#Create ILIAS Learning Module
-rbac#:#root_create_mcst#:#Create Mediacast
-rbac#:#root_create_mep#:#Create Media Pool
-rbac#:#root_create_qpl#:#Create Question Pool Test
-rbac#:#root_create_rcrs#:#Create ECS Course 
-rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module
-rbac#:#root_create_spl#:#Create Question Pool Survey
-rbac#:#root_create_svy#:#Create Survey
-rbac#:#root_create_tst#:#Create Test
-rbac#:#root_create_webr#:#Create Weblink
-rbac#:#root_create_wiki#:#Create Wiki
+rbac#:#rbac_create_catr#:#Create Category Reference
+rbac#:#rbac_create_chat#:#Create Chat
+rbac#:#rbac_create_crs#:#Create Course
+rbac#:#rbac_create_crsr#:#Create Course Reference
+rbac#:#rbac_create_dbk#:#Create Digilib Book
+rbac#:#rbac_create_exc#:#Create Exercise
+rbac#:#rbac_create_feed#:#Create Web Feed
+rbac#:#rbac_create_file#:#Upload File
+rbac#:#rbac_create_frm#:#Create Forum
+rbac#:#rbac_create_glo#:#Create Glossary
+rbac#:#rbac_create_grp#:#Create Group
+rbac#:#rbac_create_htlm#:#Create HTML Learning Module
+rbac#:#rbac_create_icrs#:#Create LearnLinc Seminar
+rbac#:#rbac_create_lm#:#Create ILIAS Learning Module
+rbac#:#rbac_create_mcst#:#Create Mediacast
+rbac#:#rbac_create_mep#:#Create Media Pool
+rbac#:#rbac_create_qpl#:#Create Question Pool Test
+rbac#:#rbac_create_rcrs#:#Create ECS Course 
+rbac#:#rbac_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#rbac_create_spl#:#Create Question Pool Survey
+rbac#:#rbac_create_svy#:#Create Survey
+rbac#:#rbac_create_tst#:#Create Test
+rbac#:#rbac_create_webr#:#Create Weblink
+rbac#:#rbac_create_wiki#:#Create Wiki
 rbac#:#sess_delete#:#User can move or delete session
 rbac#:#sess_edit_event#:#Edit Calendar Events
 rbac#:#sess_edit_permission#:#User can change permission settings
@@ -10519,11 +10441,7 @@ rbac#:#book_visible#:#Booking pool is visible
 rbac#:#book_read#:#User can book resources / objects in booking pool
 rbac#:#book_delete#:#User can move or delete booking pool
 rbac#:#book_write#:#User can edit settings and content of booking pool
-rbac#:#cat_create_book#:#Create Booking Pool
-rbac#:#grp_create_book#:#Create Booking Pool
-rbac#:#fold_create_book#:#Create Booking Pool
-rbac#:#crs_create_book#:#Create Booking Pool
-rbac#:#root_create_book#:#Create Booking Pool
+rbac#:#rbac_create_book#:#Create Booking Pool
 common#:#optional_filter_hint#:#Please activate one of the optional filters.
 grp#:#grp_info_agree#:#I accept, that the above data types are visible for group administrators.
 grp#:#grp_info_agreement#:#The following data types are visible for group administrators:
@@ -10614,8 +10532,6 @@ administration#:#language_local_file_deleted#:#The local language file was delet
 administration#:#language_remove_local_file#:#Delete the local language file
 rbac#:#export_member_data#:#Access User Data
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adpoted to ALL existing objects.
-rbac#:#crs_create_catr#:#Create Category Reference
-rbac#:#crs_create_crsr#:#Create Course Reference
 forum#:#frm_edit_title#:#Edit Title
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
@@ -12081,11 +11997,7 @@ common#:#chta_edit_permission#:#Change Permission Settings
 rbac#:#moderate#:#Moderate
 common#:#apache_auth#:#Apache Authentication
 common#:#server_disabled#:#The Chat is Disabled
-rbac#:#cat_create_chtr#:#Create Chatroom
-rbac#:#crs_create_chtr#:#Create Chatroom
-rbac#:#fold_create_chtr#:#Create Chatroom
-rbac#:#grp_create_chtr#:#Create Chatroom
-rbac#:#root_create_chtr#:#Create Chatroom
+rbac#:#rbac_create_chtr#:#Create Chatroom
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.
 blog#:#blog_draft#:#Draft
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.
@@ -12333,11 +12245,7 @@ rbac#:#blog_copy#:#User can copy blog
 rbac#:#blog_write#:#User can edit blog settings
 rbac#:#blog_delete#:#User can move or delete blog
 rbac#:#blog_edit_permission#:#User can change permission settings
-rbac#:#crs_create_blog#:#Create Blog
-rbac#:#root_create_blog#:#Create Blog
-rbac#:#fold_create_blog#:#Create Blog
-rbac#:#grp_create_blog#:#Create Blog
-rbac#:#cat_create_blog#:#Create Blog
+rbac#:#rbac_create_blog#:#Create Blog
 user#:#user_delete_own_account#:#Delete Account
 rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration
 common#:#obj_dcl#:#Data Collection
@@ -12354,11 +12262,7 @@ rbac#:#dcl_write#:#User can edit settings and content of data collection
 rbac#:#dcl_delete#:#User can move or delete data collection
 rbac#:#dcl_edit_permission#:#User can change permission settings
 rbac#:#dcl_add_entry#:#User can add/edit entries
-rbac#:#crs_create_dcl#:#Create Data Collection
-rbac#:#root_create_dcl#:#Create Data Collection
-rbac#:#fold_create_dcl#:#Create Data Collection
-rbac#:#grp_create_dcl#:#Create Data Collection
-rbac#:#cat_create_dcl#:#Create Data Collection
+rbac#:#rbac_create_dcl#:#Create Data Collection
 common#:#obj_dcl_duplicate#:#Copy Data Collection
 survey#:#freetext_answers#:#Open Answers
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.
@@ -12454,11 +12358,8 @@ rbac#:#poll_write#:#User can edit poll settings and content
 rbac#:#poll_delete#:#User can move or delete poll
 rbac#:#poll_copy#:#User can copy poll
 rbac#:#poll_edit_permission#:#User can change permission settings
-rbac#:#root_create_poll#:#Create Poll
-rbac#:#cat_create_poll#:#Create Poll
-rbac#:#crs_create_poll#:#Create Poll
+rbac#:#rbac_create_poll#:#Create Poll
 rbac#:#fld_create_poll#:#Create Poll
-rbac#:#grp_create_poll#:#Create Poll
 poll#:#poll_question#:#Question
 poll#:#poll_image#:#Image
 poll#:#poll_view_results#:#Display Results
@@ -12647,14 +12548,10 @@ help#:#help_modules#:#Help Packages
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?
 help#:#help_module_uploaded#:#Help package uploaded.
 common#:#add_entry#:#Add/Edit entry
-rbac#:#fold_create_poll#:#Create Poll
 common#:#obj_poll_duplicate#:#Copy Poll
 rbac#:#rbac_import_role#:#Import Role
 rbac#:#rbac_role_imported#:#The role has been imported.
 common#:#objs_rcat#:#ECS Categories
-rbac#:#grp_create_catr#:#Create Category Reference
-rbac#:#grp_create_sess#:#Create Session
-rbac#:#grp_create_crsr#:#Create Course Reference
 administration#:#adm_user_starting_point_object#:#Repository Object
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id
 administration#:#adm_user_starting_point_personal#:#Personal Setting
@@ -12671,11 +12568,7 @@ rbac#:#itgr_write#:#User can edit content and settings of item group
 rbac#:#itgr_copy#:#User can copy item group
 rbac#:#itgr_delete#:#User can move or delete item group
 rbac#:#itgr_edit_permission#:#User can change permission settings
-rbac#:#cat_create_itgr#:#Create Item Group
-rbac#:#crs_create_itgr#:#Create Item Group
-rbac#:#fold_create_itgr#:#Create Item Group
-rbac#:#root_create_itgr#:#Create Item Group
-rbac#:#grp_create_itgr#:#Create Item Group
+rbac#:#rbac_create_itgr#:#Create Item Group
 poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.
 poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
 itgr#:#itgr_materials#:#Materials
@@ -12985,7 +12878,6 @@ help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_set_mode#:#Set Mode
 poll#:#poll_result#:#Voting Result
 fold#:#fold_copy#:#Copy Folder
-rbac#:#fold_create_sess#:#Create Session
 rbac#:#rfil_delete#:#User can move or delete ECS File 
 rbac#:#rfil_edit_permission#:#User can change permission settings
 rbac#:#rfil_read#:#User can use ECS File 

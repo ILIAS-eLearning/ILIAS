@@ -1858,25 +1858,6 @@ rbac#:#cat_cat_administrate_users#:#Lokale gebruikers beheren
 common#:#cat_clear_page#:#Verwijder pagina
 rbac#:#cat_copy#:#Kopieër Categorie
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
-rbac#:#cat_create_cat#:#Creëer categorie
-rbac#:#cat_create_crs#:#Creëer cursu
-rbac#:#cat_create_exc#:#Creëer oefening
-rbac#:#cat_create_feed#:#Maak Web Feed
-rbac#:#cat_create_file#:#Creër bestand
-rbac#:#cat_create_frm#:#Creëer forumd
-rbac#:#cat_create_glo#:#Creëer woordenlijst
-rbac#:#cat_create_grp#:#Creëer groep
-rbac#:#cat_create_htlm#:#Creëer HTML lesmodule
-rbac#:#cat_create_icrs#:#Creëer LearnLinc Seminar
-rbac#:#cat_create_lm#:#Creëer lesmodule
-rbac#:#cat_create_mcst#:#Maak MediaCast
-rbac#:#cat_create_mep#:#Creëer Media-pool
-rbac#:#cat_create_qpl#:#Creëer Vraagpool
-rbac#:#cat_create_sahs#:#Creëer SCORM/AICC lesmodule
-rbac#:#cat_create_spl#:#Creëer Vraagpool(Enquête)
-rbac#:#cat_create_svy#:#Creëer Enquête
-rbac#:#cat_create_tst#:#Creëer een test
-rbac#:#cat_create_webr#:#Nieuwe website toevoegen
 rbac#:#cat_delete#:#Verwijder categorie
 common#:#cat_edit#:#Wijzig categorie
 rbac#:#cat_edit_permission#:#Wijzig instellingen van de rechten
@@ -2065,24 +2046,7 @@ common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from th
 common#:#crs_container_link_not_allowed#:#Het is niet mogelijk om container-objecten te linken
 rbac#:#crs_copy#:#Kopieër Cursus
 rbac#:#crs_copy_threads_info#:#Gelieve te beslissen welke cursusmaterialen gekopieerd moeten worden.
-rbac#:#crs_create_exc#:#Creëer oefening
-rbac#:#crs_create_feed#:#Maak Web Feed
-rbac#:#crs_create_file#:#Creër bestand
-rbac#:#crs_create_fold#:#Creëer map
-rbac#:#crs_create_frm#:#Creëer forum
-rbac#:#crs_create_glo#:#Creëer woordenlijst
-rbac#:#crs_create_grp#:#Creëer nieuwe groep
-rbac#:#crs_create_htlm#:#Creëer HTML Learning Module
-rbac#:#crs_create_icrs#:#Creëer LearnLinc Seminar
-rbac#:#crs_create_lm#:#Creëer lesmodule
-rbac#:#crs_create_mcst#:#Maak MediaCast
-rbac#:#crs_create_mep#:#Creëer Media Pool
-rbac#:#crs_create_qpl#:#Creëer Question Pool for Test
-rbac#:#crs_create_sahs#:#Creëer SCORM/AICC lesmodule
-rbac#:#crs_create_spl#:#Creëer Vragenpool voor enquête
-rbac#:#crs_create_svy#:#Creëer Enquête
-rbac#:#crs_create_tst#:#Creëer Test
-rbac#:#crs_create_webr#:#Nieuwe website toevoegen
+rbac#:#rbac_create_fold#:#Creëer map
 rbac#:#crs_delete#:#Cursus verwijderen
 common#:#crs_edit#:#Cursus wijzigen
 rbac#:#crs_edit_learning_progress#:#Leerweg aanpassen
@@ -2478,23 +2442,6 @@ common#:#fold_add#:#map toevoegen
 common#:#fold_added#:#Map toegevoegd
 rbac#:#fold_copy#:#Kopieër Map
 common#:#fold_copy_threads_info#:#Gelieve te beslissen welk leermateriaal gekopieerd moet worden.
-rbac#:#fold_create_exc#:#Creëer oefening
-rbac#:#fold_create_file#:#Upload-bestand
-rbac#:#fold_create_fold#:#Creëer Map
-rbac#:#fold_create_frm#:#Creëer forum
-rbac#:#fold_create_glo#:#Creëer woordenlijst
-rbac#:#fold_create_grp#:#Voeg een nieuwe groep toe
-rbac#:#fold_create_htlm#:#Creëer HTML Learning Module
-rbac#:#fold_create_icrs#:#Creëer LearnLinc Seminar
-rbac#:#fold_create_lm#:#Creëer lesmodule
-rbac#:#fold_create_mcst#:#Maak MediaCast
-rbac#:#fold_create_mep#:#Creëer Media Poole
-rbac#:#fold_create_qpl#:#Creëer Vragenpool voor test
-rbac#:#fold_create_sahs#:#Creëer SCORM/AICC lesmodule
-rbac#:#fold_create_spl#:#Creëer Vragenpool voor enquête
-rbac#:#fold_create_svy#:#Creëer Enquête
-rbac#:#fold_create_tst#:#Creëer Test
-rbac#:#fold_create_webr#:#Nieuwe website toevoegen
 rbac#:#fold_delete#:#Verwijder Ma
 common#:#fold_edit#:#Wijzig Map
 rbac#:#fold_edit_learning_progress#:#Leerweg aanpassen
@@ -2662,24 +2609,6 @@ rbac#:#grp_copy#:#Kopieër Groep
 common#:#grp_copy_threads_info#:#Gelieve te beslissen welk leermateriaal gekopieerd moet worden.
 common#:#grp_count_members#:#Aantal lede
 common#:#grp_create#:#Creëer groep
-rbac#:#grp_create_exc#:#Creëer oefening
-rbac#:#grp_create_feed#:#Maak Web Feed
-rbac#:#grp_create_file#:#Uploap bestand
-rbac#:#grp_create_fold#:#Creëer Map
-rbac#:#grp_create_frm#:#Creëer forum
-rbac#:#grp_create_glo#:#Creëer woordenlijst
-rbac#:#grp_create_grp#:#Creëer nieuwe groep
-rbac#:#grp_create_htlm#:#Creëer HTML lesmodule
-rbac#:#grp_create_icrs#:#Creëer LearnLinc Seminar
-rbac#:#grp_create_lm#:#Creëer lesmodule
-rbac#:#grp_create_mcst#:#Maak MediaCast
-rbac#:#grp_create_mep#:#Creëer Mediapool
-rbac#:#grp_create_qpl#:#Creëer Vragenpool voor Test
-rbac#:#grp_create_sahs#:#Creëer SCORM/AICC lesmodule
-rbac#:#grp_create_spl#:#Creëer Vragenpool voor enquête
-rbac#:#grp_create_svy#:#Creëer Enquête
-rbac#:#grp_create_tst#:#Creëer Test
-rbac#:#grp_create_webr#:#Nieuwe website toevoegen
 rbac#:#grp_delete#:#Verwijder groep
 common#:#grp_deleted_export_files#:#Verwijder geselecteerde bestanden
 common#:#grp_dismiss_member#:#Weet u het zeker, dat u de volgende leden van de groep wil verwijderen
@@ -4038,7 +3967,7 @@ common#:#rolt_add#:#Toevoegen rol-sjabloon
 common#:#rolt_added#:#Rol-sjabloon toegevoegd
 common#:#rolt_edit#:#Wijzigen rol-sjabloon
 common#:#rolt_new#:#Nieuwe rol-sjabloon
-rbac#:#root_create_cat#:#Gebruiker mag categorieën creëren
+rbac#:#rbac_create_cat#:#Gebruiker mag categorieën creëren
 common#:#root_edit#:#Wijzigen systeemroot-node
 rbac#:#root_edit_permission#:#Wijzig instellingen van de rechten
 rbac#:#root_read#:#Leesrechten op het ILIAS-systeem
@@ -8858,11 +8787,6 @@ rbac#:#cals_read#:#Leestoegang voor de agenda-instellingen
 rbac#:#cals_visible#:#Agenda-instellingen zijn zichtbaar
 rbac#:#cals_write#:#Agenda-afspraken bewerken
 rbac#:#cat_administrate_users#:#Administreer locale gebruikers account
-rbac#:#cat_create_book#:#Creëer reservering pool
-rbac#:#cat_create_catr#:#Creëer Categorie referentie
-rbac#:#cat_create_crsr#:#Creëer nieuwe cursus referentie
-rbac#:#cat_create_rcrs#:#Creëer Cursus links
-rbac#:#cat_create_wiki#:#Creëer Wiki
 rbac#:#catr_copy#:#Kopieer categorie referentie
 rbac#:#catr_delete#:#Verwijder Categorie Referentie
 rbac#:#catr_edit_permission#:#Permissie instellingen wijzigen
@@ -8873,11 +8797,7 @@ rbac#:#cmps_edit_permission#:#Permissie instellingen wijzigen
 rbac#:#cmps_read#:#Lees toegang tot component instellingen
 rbac#:#cmps_visible#:#Component instellingen zijn zichtbaar
 rbac#:#cmps_write#:#Bewerk component instellingen
-rbac#:#crs_create_book#:#Creëer reservering pool
-rbac#:#crs_create_catr#:#Creëer categorie referentie
-rbac#:#crs_create_crsr#:#Creëer cursus referentie
-rbac#:#crs_create_sess#:#Creëer Sessie
-rbac#:#crs_create_wiki#:#Creëer Wiki
+rbac#:#rbac_create_sess#:#Creëer Sessie
 rbac#:#crs_edit_event#:#Agenda-afspraken bewerken
 rbac#:#crsr_copy#:#Kopieer cursus refentie
 rbac#:#crsr_delete#:#Verwijder Cursus referentie
@@ -8898,10 +8818,6 @@ rbac#:#filter_global_roles#:#Alleen globale rollen tonen
 rbac#:#filter_local_roles#:#Alleen lokale rollen van de huidige context tonen
 rbac#:#filter_local_roles_object#:#Alleen lokale rollen vanaf deze positie tonen
 rbac#:#filter_roles_local_policy#:#Alleen rollen met een lokaal beleid op deze plaats tonen
-rbac#:#fold_create_book#:#Creëer reservering pool
-rbac#:#fold_create_wiki#:#Creëer Wiki
-rbac#:#grp_create_book#:#Creëer reservering pool
-rbac#:#grp_create_wiki#:#Creëer Wiki
 rbac#:#grp_edit_event#:#Agenda-afspraken bewerken
 rbac#:#info_user_view_changed#:#Gebruikersoverzicht gewijzigd
 rbac#:#leave#:#verlaat
@@ -8993,31 +8909,31 @@ rbac#:#role_block_role#:#Rol blokkeren
 rbac#:#role_block_role_desc#:#De toegang tot deze en alle onderliggende objecten zal worden ingetrokken.
 rbac#:#role_confirm_block_role_header#:#Wilt u werkelijk de gekozen rollen blokkeren
 rbac#:#role_confirm_block_role_info#:#De volgende operaties zullen worden uitgevoerd:<br /><br />- de rolpermissies van deze en alle onderliggende objecten wordt geblokkeerd.<br />- de nieuwe permissie instellingen worden beschermd.
-rbac#:#root_create_book#:#Creëer reservering pool
-rbac#:#root_create_catr#:#Creëer Categorie referentie
-rbac#:#root_create_chat#:#Creëer Chat
-rbac#:#root_create_crs#:#Creëer Cursus
-rbac#:#root_create_crsr#:#Create Course Referenc
-rbac#:#root_create_dbk#:#Creëer Digilib Book
-rbac#:#root_create_exc#:#Creëer Oefening
-rbac#:#root_create_feed#:#Creëer Web Feed
-rbac#:#root_create_file#:#Upload bestand
-rbac#:#root_create_frm#:#Creëer Forum
-rbac#:#root_create_glo#:#Creëer Woordenlijst
-rbac#:#root_create_grp#:#Creëer Groep
-rbac#:#root_create_htlm#:#Creëer HTML Learning Module
-rbac#:#root_create_icrs#:#Creëer LearnLinc Seminar
-rbac#:#root_create_lm#:#Creëer ILIAS Learning Module
-rbac#:#root_create_mcst#:#Creëer Mediacast
-rbac#:#root_create_mep#:#Creëer Media Pool
-rbac#:#root_create_qpl#:#Creëer Vragenpool Toets
-rbac#:#root_create_rcrs#:#Creëer Cursus - link
-rbac#:#root_create_sahs#:#Creëer SCORM/AICC Learning Module
-rbac#:#root_create_spl#:#Creëer Vragenpool Enquête
-rbac#:#root_create_svy#:#Creëer Enquête
-rbac#:#root_create_tst#:#Creëer Toets
-rbac#:#root_create_webr#:#Creëer Weblink
-rbac#:#root_create_wiki#:#Creëer Wiki
+rbac#:#rbac_create_book#:#Creëer reservering pool
+rbac#:#rbac_create_catr#:#Creëer Categorie referentie
+rbac#:#rbac_create_chat#:#Creëer Chat
+rbac#:#rbac_create_crs#:#Creëer Cursus
+rbac#:#rbac_create_crsr#:#Create Course Referenc
+rbac#:#rbac_create_dbk#:#Creëer Digilib Book
+rbac#:#rbac_create_exc#:#Creëer Oefening
+rbac#:#rbac_create_feed#:#Creëer Web Feed
+rbac#:#rbac_create_file#:#Upload bestand
+rbac#:#rbac_create_frm#:#Creëer Forum
+rbac#:#rbac_create_glo#:#Creëer Woordenlijst
+rbac#:#rbac_create_grp#:#Creëer Groep
+rbac#:#rbac_create_htlm#:#Creëer HTML Learning Module
+rbac#:#rbac_create_icrs#:#Creëer LearnLinc Seminar
+rbac#:#rbac_create_lm#:#Creëer ILIAS Learning Module
+rbac#:#rbac_create_mcst#:#Creëer Mediacast
+rbac#:#rbac_create_mep#:#Creëer Media Pool
+rbac#:#rbac_create_qpl#:#Creëer Vragenpool Toets
+rbac#:#rbac_create_rcrs#:#Creëer Cursus - link
+rbac#:#rbac_create_sahs#:#Creëer SCORM/AICC Learning Module
+rbac#:#rbac_create_spl#:#Creëer Vragenpool Enquête
+rbac#:#rbac_create_svy#:#Creëer Enquête
+rbac#:#rbac_create_tst#:#Creëer Toets
+rbac#:#rbac_create_webr#:#Creëer Weblink
+rbac#:#rbac_create_wiki#:#Creëer Wiki
 rbac#:#sess_delete#:#Verwijder Sessie
 rbac#:#sess_edit_event#:#Agenda-afspraken bewerken
 rbac#:#sess_edit_permission#:#Permissie instellingen wijzigen
@@ -11980,11 +11896,7 @@ wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has 
 rbac#:#moderate#:#Moderate###18 01 2012 new variable
 common#:#apache_auth#:#Apache Authentication###18 01 2012 new variable
 common#:#server_disabled#:#The Chat is Disabled###18 01 2012 new variable
-rbac#:#cat_create_chtr#:#Create Chatroom###18 01 2012 new variable
-rbac#:#crs_create_chtr#:#Create Chatroom###18 01 2012 new variable
-rbac#:#fold_create_chtr#:#Create Chatroom###18 01 2012 new variable
-rbac#:#grp_create_chtr#:#Create Chatroom###18 01 2012 new variable
-rbac#:#root_create_chtr#:#Create Chatroom###18 01 2012 new variable
+rbac#:#rbac_create_chtr#:#Create Chatroom###18 01 2012 new variable
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.###18 01 2012 new variable
 blog#:#blog_draft#:#Draft###18 01 2012 new variable
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.###18 01 2012 new variable
@@ -12313,11 +12225,7 @@ rbac#:#blog_copy#:#User can copy blog###28 08 2012 new variable
 rbac#:#blog_write#:#User can edit blog settings###28 08 2012 new variable
 rbac#:#blog_delete#:#User can move or delete blog###28 08 2012 new variable
 rbac#:#blog_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#crs_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#root_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#fold_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#grp_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#cat_create_blog#:#Create Blog###28 08 2012 new variable
+rbac#:#rbac_create_blog#:#Create Blog###28 08 2012 new variable
 user#:#user_delete_own_account#:#Delete Account###28 08 2012 new variable
 rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration###28 08 2012 new variable
 common#:#obj_dcl#:#Data Collection###28 08 2012 new variable
@@ -12334,11 +12242,7 @@ rbac#:#dcl_write#:#User can edit settings and content of data collection###28 08
 rbac#:#dcl_delete#:#User can move or delete data collection###28 08 2012 new variable
 rbac#:#dcl_edit_permission#:#User can change permission settings###28 08 2012 new variable
 rbac#:#dcl_add_entry#:#User can add/edit entries###28 08 2012 new variable
-rbac#:#crs_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#root_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#fold_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#grp_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#cat_create_dcl#:#Create Data Collection###28 08 2012 new variable
+rbac#:#rbac_create_dcl#:#Create Data Collection###28 08 2012 new variable
 survey#:#freetext_answers#:#Open Answers###28 08 2012 new variable
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.###28 08 2012 new variable
 payment#:#duration_month#:#Access duration in months###28 08 2012 new variable
@@ -12432,11 +12336,8 @@ rbac#:#poll_write#:#User can edit poll settings and content###28 08 2012 new var
 rbac#:#poll_delete#:#User can move or delete poll###28 08 2012 new variable
 rbac#:#poll_copy#:#User can copy poll###28 08 2012 new variable
 rbac#:#poll_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#root_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#cat_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#crs_create_poll#:#Create Poll###28 08 2012 new variable
+rbac#:#rbac_create_poll#:#Create Poll###28 08 2012 new variable
 rbac#:#fld_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#grp_create_poll#:#Create Poll###28 08 2012 new variable
 poll#:#poll_question#:#Question###28 08 2012 new variable
 poll#:#poll_image#:#Image###28 08 2012 new variable
 poll#:#poll_view_results#:#Display Results###28 08 2012 new variable
@@ -12624,14 +12525,10 @@ help#:#help_modules#:#Help Packages###28 08 2012 new variable
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?###28 08 2012 new variable
 help#:#help_module_uploaded#:#Help package uploaded.###28 08 2012 new variable
 common#:#add_entry#:#Add/Edit entry###28 08 2012 new variable
-rbac#:#fold_create_poll#:#Create Poll###28 08 2012 new variable
 common#:#obj_poll_duplicate#:#Copy Poll###28 08 2012 new variable
 rbac#:#rbac_import_role#:#Import Role###28 08 2012 new variable
 rbac#:#rbac_role_imported#:#The role has been imported.###28 08 2012 new variable
 common#:#objs_rcat#:#ECS Categories###28 08 2012 new variable
-rbac#:#grp_create_catr#:#Create Category Reference###28 08 2012 new variable
-rbac#:#grp_create_sess#:#Create Session###28 08 2012 new variable
-rbac#:#grp_create_crsr#:#Create Course Reference###28 08 2012 new variable
 administration#:#adm_user_starting_point_object#:#Repository Object###28 08 2012 new variable
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id###28 08 2012 new variable
 administration#:#adm_user_starting_point_personal#:#Personal Setting###28 08 2012 new variable
@@ -12648,11 +12545,7 @@ rbac#:#itgr_write#:#User can edit content and settings of item group###28 08 201
 rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
 rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
 rbac#:#itgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#cat_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#crs_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#fold_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#root_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#grp_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#rbac_create_itgr#:#Create Item Group###28 08 2012 new variable
 poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.###28 08 2012 new variable
 poll#:#poll_votes_no_edit#:#This poll cannot be edited because of existing votes.###28 08 2012 new variable
 itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
@@ -12990,7 +12883,6 @@ help#:#help_tooltips_only#:#Tooltips Only###28 11 2012 new variable
 help#:#help_set_mode#:#Set Mode###28 11 2012 new variable
 poll#:#poll_result#:#Voting Result###28 11 2012 new variable
 fold#:#fold_copy#:#Copy Folder###28 11 2012 new variable
-rbac#:#fold_create_sess#:#Create Session###28 11 2012 new variable
 rbac#:#rfil_delete#:#User can move or delete ECS File ###28 11 2012 new variable
 rbac#:#rfil_edit_permission#:#User can change permission settings###28 11 2012 new variable
 rbac#:#rfil_read#:#User can use ECS File ###28 11 2012 new variable

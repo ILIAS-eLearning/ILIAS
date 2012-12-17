@@ -1033,23 +1033,6 @@ common#:#cat_add#:#Pridėti Kategoriją
 common#:#cat_added#:#Kategorija Pridėta
 rbac#:#cat_cat_administrate_users#:#Administruoti Lokalių vartotojų paskyras
 common#:#cat_clear_page#:#Išvalyti Puslapį
-rbac#:#cat_create_cat#:#Sukurti Kategoriją
-rbac#:#cat_create_crs#:#Sukurti Kursą
-rbac#:#cat_create_exc#:#Sukurti Pratimą
-rbac#:#cat_create_file#:#Įkelti Failą
-rbac#:#cat_create_frm#:#Sukurti Forumą
-rbac#:#cat_create_glo#:#Sukurti Glosarijų
-rbac#:#cat_create_grp#:#Sukurti Grupę
-rbac#:#cat_create_htlm#:#Sukurti HTML Mokymo Modulį
-rbac#:#cat_create_icrs#:#Sukurti LearnLinc Seminarą
-rbac#:#cat_create_lm#:#Sukurti ILIAS Mokymo Modulį
-rbac#:#cat_create_mep#:#Sukurti Media Klausimyną
-rbac#:#cat_create_qpl#:#Sukurti Klausimyną Testui
-rbac#:#cat_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
-rbac#:#cat_create_spl#:#Sukurti Klausimyną Apklausai
-rbac#:#cat_create_svy#:#Sukurti Apklausą
-rbac#:#cat_create_tst#:#Sukurti Testą
-rbac#:#cat_create_webr#:#Sukurti Web Resursus
 rbac#:#cat_delete#:#Ištrinti Kategoriją
 common#:#cat_edit#:#Redaguoti Kategoriją
 rbac#:#cat_edit_permission#:#Keisti leidimų nustatymus
@@ -1180,22 +1163,7 @@ common#:#crs_archives#:#Archyvai
 common#:#crs_at_least_one_admin#:#Turi būti bent vienas kursų administratorius.
 common#:#crs_available#:#Prieinami Kursa
 common#:#crs_container_link_not_allowed#:#Neįmanoma susieti konteinerio objektų
-rbac#:#crs_create_exc#:#Sukurti Pratimą
-rbac#:#crs_create_file#:#Įkelti Failą
-rbac#:#crs_create_fold#:#Sukurti Katalogą
-rbac#:#crs_create_frm#:#Sukurti Forumą
-rbac#:#crs_create_glo#:#Sukurti Glosarijų
-rbac#:#crs_create_grp#:#Sukurti Grupę
-rbac#:#crs_create_htlm#:#Sukurti HTML Mokymo Modulį
-rbac#:#crs_create_icrs#:#Sukurti LearnLinc Seminarą
-rbac#:#crs_create_lm#:#Sukurti ILIAS Mokymo Modulį
-rbac#:#crs_create_mep#:#Sukurti Media Klausimyną
-rbac#:#crs_create_qpl#:#Sukurti Klausimyną Testui
-rbac#:#crs_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
-rbac#:#crs_create_spl#:#Sukurti Klausimyną Apklausai
-rbac#:#crs_create_svy#:#Sukurti Apklausą
-rbac#:#crs_create_tst#:#Sukurti Testą
-rbac#:#crs_create_webr#:#Sukurti Web Resursą
+rbac#:#rbac_create_fold#:#Sukurti Katalogą
 rbac#:#crs_delete#:#Ištrinti Kursą
 common#:#crs_edit#:#Redaguoti Kursą
 rbac#:#crs_edit_learning_progress#:#Redaguoti mokymosi progresą
@@ -1468,21 +1436,6 @@ common#:#fold#:#Katalogas
 common#:#fold_a#:#Katalogas
 common#:#fold_add#:#Sukurti Katalogą
 common#:#fold_added#:#Katalogas sukurtas
-rbac#:#fold_create_exc#:#Sukurti Užduotį
-rbac#:#fold_create_file#:#Įkelti Failą
-rbac#:#fold_create_fold#:#Sukurti Katalogą
-rbac#:#fold_create_frm#:#Sukurti Forumą
-rbac#:#fold_create_glo#:#Sukurti Glosarijų
-rbac#:#fold_create_htlm#:#Skurti HTML Mokymo Modulį
-rbac#:#fold_create_icrs#:#sukurti LearnLinc Seminarą
-rbac#:#fold_create_lm#:#Sukurti ILIAS Mokymo Modulį
-rbac#:#fold_create_mep#:#Sukurti Media Apklausą
-rbac#:#fold_create_qpl#:#Sukurti Klausimyną Testui
-rbac#:#fold_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
-rbac#:#fold_create_spl#:#Sukurti Klausimyną Apklausai
-rbac#:#fold_create_svy#:#Sukurti Apklausą
-rbac#:#fold_create_tst#:#Sukurti Testą
-rbac#:#fold_create_webr#:#Sukurti Web Resursą
 rbac#:#fold_delete#:#Ištrinti Katalogą
 common#:#fold_edit#:#Redaguoti Katalogą
 rbac#:#fold_edit_learning_progress#:#Redaguoti Mokymo Progresą
@@ -1621,22 +1574,6 @@ common#:#grp_app_send_mail#:#Siųsti pretendentui žinutę
 common#:#grp_back#:#atgal
 common#:#grp_count_members#:#Vartotojų skaičius
 common#:#grp_create#:#Sukurti Grupę
-rbac#:#grp_create_exc#:#Sukurti Užduotį
-rbac#:#grp_create_file#:#Įkelti Failą
-rbac#:#grp_create_fold#:#Sukurti Katalogą
-rbac#:#grp_create_frm#:#Sukurti Forumą
-rbac#:#grp_create_glo#:#Sukurti Glosarijų
-rbac#:#grp_create_grp#:#Sukurti Grupę
-rbac#:#grp_create_htlm#:#Sukurti HTML Mokymo Modulį
-rbac#:#grp_create_icrs#:#Sukurti LearnLinc Seminarą
-rbac#:#grp_create_lm#:#Sukurti ILIAS Mokymo Modulį
-rbac#:#grp_create_mep#:#Sukurti Media Apklausą
-rbac#:#grp_create_qpl#:#Sukurti Klausimyną Testui
-rbac#:#grp_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
-rbac#:#grp_create_spl#:#Sukurti Klausimyną Apklausai
-rbac#:#grp_create_svy#:#Sukurti Apklausą
-rbac#:#grp_create_tst#:#Sukurti Testą
-rbac#:#grp_create_webr#:#Sukurti Web Resursą
 rbac#:#grp_delete#:#Ištrinti Grupę
 common#:#grp_deleted_export_files#:#Ištrinti pasirinkti failai.
 common#:#grp_dismiss_member#:#Ar jūs tikrai norite pašalinti pasirinktą(-us) šį(-iuos) narį(-ius) iš grupės?
@@ -2675,7 +2612,7 @@ common#:#rolt_add#:#Pridėti Rolės Šabloną
 common#:#rolt_added#:#Rolės šablonas pridėtas
 common#:#rolt_edit#:#Redaguoti Rolės Šabloną
 common#:#rolt_new#:#Naujas Rolės Šablonas
-rbac#:#root_create_cat#:#Vartotojas gali sukurti Kategorijas
+rbac#:#rbac_create_cat#:#Vartotojas gali sukurti Kategorijas
 common#:#root_edit#:#Redaguoti sistemos šakninį mazgą
 rbac#:#root_edit_permission#:#Keisti leidimo nustatymus
 rbac#:#root_read#:#Galimybė skaityti ILIAS sistemą
@@ -6494,7 +6431,6 @@ common#:#im_msn_icon#:#MSN Logo
 common#:#im_aim_icon#:#AIM Logo
 common#:#im_skype_icon#:#Skype Logo
 common#:#not_enabled_or_configured#:#Nesukonfigūruota ar neįjungta
-rbac#:#fold_create_grp#:#Sukurti naują Grupę
 assessment#:#error_random_question_generation#:#Atsitiktinių klausimų testui generavimo metu įvyko klaidą. Susisiekite su administratoriumi ir pateikite šią informaciją: Sistema negalėjo sukurti aktyvų ID vartotojui ID %s ir testui ID %s.
 assessment#:#externalscript_additional_parameters#:#Skripto Parametrai
 assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script paramters!###25 02 2007 new variable
@@ -6787,13 +6723,6 @@ rbac#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 rbac#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
-rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
-rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
-rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-rbac#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
-rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Related to###02 04 2007 new variable
@@ -7726,7 +7655,7 @@ rbac#:#sess_write#:#Edit Sessions###02 06 2008 new variable
 rbac#:#sess_edit_permission#:#Change Permission Settings###02 06 2008 new variable
 common#:#obj_sess#:#Session###02 06 2008 new variable
 common#:#objs_sess#:#Sessions###02 06 2008 new variable
-rbac#:#crs_create_sess#:#Create Session###02 06 2008 new variable
+rbac#:#rbac_create_sess#:#Create Session###02 06 2008 new variable
 common#:#obj_sess_duplicate#:#Copy Session###02 06 2008 new variable
 common#:#obj_sess_select#:#-- Please select one Session --###02 06 2008 new variable
 common#:#sess#:#Session###02 06 2008 new variable
@@ -7988,12 +7917,7 @@ rbac#:#rcrs_edit_permission#:#Change permission settings###23 07 2008 new variab
 rbac#:#rcrs_visible#:#Course-Link is visible###23 07 2008 new variable
 rbac#:#rcrs_read#:#Read access to Course-Link###23 07 2008 new variable
 rbac#:#rcrs_delete#:#Delete Course-Link###23 07 2008 new variable
-rbac#:#cat_create_rcrs#:#Create Course-Links###23 07 2008 new variable
 rbac#:#rcrs_write#:#Edit Course-Link###23 07 2008 new variable
-rbac#:#cat_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#crs_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#grp_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#fold_create_wiki#:#Create Wiki###23 07 2008 new variable
 common#:#csv_export#:#CSV-Export###23 07 2008 new variable
 ecs#:#ecs_duration#:#Duration###23 07 2008 new variable
 ecs#:#ecs_event_appointment#:#Event Date###23 07 2008 new variable
@@ -8274,7 +8198,6 @@ rbac#:#crsr_edit_permission#:#Change Permission Settings###23 09 2008 new variab
 rbac#:#crsr_visible#:#Course Reference is visible###23 09 2008 new variable
 rbac#:#crsr_read#:#Read access to Course Reference###23 09 2008 new variable
 rbac#:#crsr_delete#:#Delete Course Reference###23 09 2008 new variable
-rbac#:#cat_create_crsr#:#Create new Course Reference###23 09 2008 new variable
 rbac#:#crsr_write#:#Edit Course Reference###23 09 2008 new variable
 rbac#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
 common#:#obj_crsr#:#Course Reference###23 09 2008 new variable
@@ -8283,7 +8206,6 @@ rbac#:#catr_edit_permission#:#Change Permission Settings###23 09 2008 new variab
 rbac#:#catr_visible#:#Category Reference is visible###23 09 2008 new variable
 rbac#:#catr_read#:#Read access to Category Reference###23 09 2008 new variable
 rbac#:#catr_delete#:#Delete Category Reference###23 09 2008 new variable
-rbac#:#cat_create_catr#:#Create Category Reference###23 09 2008 new variable
 rbac#:#catr_write#:#Edit Category Reference###23 09 2008 new variable
 rbac#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
 common#:#obj_catr#:#Category Reference###23 09 2008 new variable
@@ -8326,7 +8248,7 @@ assessment#:#no_selection#:#--- No Selection ---###06 11 2008 new variable
 assessment#:#customstyle#:#Custom Style###06 11 2008 new variable
 assessment#:#customstyle_description#:#It is possible to use a custom style sheet for this test. Please select one of the available style sheets to assign it to this test.###06 11 2008 new variable
 dateplaner#:#cal_type_info#:#Please choose one calendar type. "Public Calendars" are visible for all ILIAS users.###06 11 2008 new variable
-rbac#:#root_create_catr#:#Create Category Reference###06 11 2008 new variable
+rbac#:#rbac_create_catr#:#Create Category Reference###06 11 2008 new variable
 rbac#:#mcts_edit_permission#:#Change permission settings###06 11 2008 new variable
 rbac#:#mcts_read#:#Read access to mediacast settings###06 11 2008 new variable
 rbac#:#mcts_visible#:#Mediacast settings are visible###06 11 2008 new variable
@@ -9577,29 +9499,29 @@ grp#:#grp_reg_subject#:#Message###16 09 2009 new variable
 crs#:#crs_reg_subject#:#Message###16 09 2009 new variable
 grp#:#grp_join_request#:#Send###16 09 2009 new variable
 crs#:#crs_join_request#:#Send###16 09 2009 new variable
-rbac#:#root_create_chat#:#Create Chat###16 09 2009 new variable
-rbac#:#root_create_crs#:#Create Course###16 09 2009 new variable
-rbac#:#root_create_dbk#:#Create Digilib Book###16 09 2009 new variable
-rbac#:#root_create_exc#:#Create Exercise###16 09 2009 new variable
-rbac#:#root_create_file#:#Upload File###16 09 2009 new variable
-rbac#:#root_create_frm#:#Create Forum###16 09 2009 new variable
-rbac#:#root_create_glo#:#Create Glossary###16 09 2009 new variable
-rbac#:#root_create_grp#:#Create Group###16 09 2009 new variable
-rbac#:#root_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
-rbac#:#root_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
-rbac#:#root_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
-rbac#:#root_create_mep#:#Create Media Pool###16 09 2009 new variable
-rbac#:#root_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
-rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
-rbac#:#root_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
-rbac#:#root_create_svy#:#Create Survey###16 09 2009 new variable
-rbac#:#root_create_tst#:#Create Test###16 09 2009 new variable
-rbac#:#root_create_webr#:#Create Weblink###16 09 2009 new variable
-rbac#:#root_create_wiki#:#Create Wiki###16 09 2009 new variable
-rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
-rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
-rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
-rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable
+rbac#:#rbac_create_chat#:#Create Chat###16 09 2009 new variable
+rbac#:#rbac_create_crs#:#Create Course###16 09 2009 new variable
+rbac#:#rbac_create_dbk#:#Create Digilib Book###16 09 2009 new variable
+rbac#:#rbac_create_exc#:#Create Exercise###16 09 2009 new variable
+rbac#:#rbac_create_file#:#Upload File###16 09 2009 new variable
+rbac#:#rbac_create_frm#:#Create Forum###16 09 2009 new variable
+rbac#:#rbac_create_glo#:#Create Glossary###16 09 2009 new variable
+rbac#:#rbac_create_grp#:#Create Group###16 09 2009 new variable
+rbac#:#rbac_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
+rbac#:#rbac_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
+rbac#:#rbac_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
+rbac#:#rbac_create_mep#:#Create Media Pool###16 09 2009 new variable
+rbac#:#rbac_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
+rbac#:#rbac_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
+rbac#:#rbac_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
+rbac#:#rbac_create_svy#:#Create Survey###16 09 2009 new variable
+rbac#:#rbac_create_tst#:#Create Test###16 09 2009 new variable
+rbac#:#rbac_create_webr#:#Create Weblink###16 09 2009 new variable
+rbac#:#rbac_create_wiki#:#Create Wiki###16 09 2009 new variable
+rbac#:#rbac_create_rcrs#:#Create Course-Link###16 09 2009 new variable
+rbac#:#rbac_create_mcst#:#Create Mediacast###16 09 2009 new variable
+rbac#:#rbac_create_feed#:#Create Web Feed###16 09 2009 new variable
+rbac#:#rbac_create_crsr#:#Create Course Referenc###16 09 2009 new variable
 common#:#status_no_permission#:#No permission granted###21 09 2009 new variable
 mail#:#mail_salutation_f#:#Hello###21 09 2009 new variable
 mail#:#mail_salutation_m#:#Hello###21 09 2009 new variable
@@ -10398,11 +10320,7 @@ rbac#:#book_edit_permission#:#Change permission settings###06 08 2010 new variab
 rbac#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
 rbac#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
 rbac#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
-rbac#:#cat_create_book#:#Create Booking Pool###06 08 2010 new variable
-rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
-rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
-rbac#:#crs_create_book#:#Create Booking Pool###06 08 2010 new variable
-rbac#:#root_create_book#:#Create Booking Pool###06 08 2010 new variable
+rbac#:#rbac_create_book#:#Create Booking Pool###06 08 2010 new variable
 common#:#optional_filter_hint#:#Please activate one of the optional filters.###06 08 2010 new variable
 grp#:#grp_info_agree#:#I accept, that the above data types are visible for group administrators.###06 08 2010 new variable
 grp#:#grp_info_agreement#:#The following data types are visible for group administrators:###06 08 2010 new variable
@@ -10514,8 +10432,6 @@ administration#:#language_local_file_deleted#:#The local language file was delet
 administration#:#language_remove_local_file#:#Delete the local language file###10 09 2010 new variable
 rbac#:#export_member_data#:#Access to User Data###10 09 2010 new variable
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adpoted to ALL existing objects.###10 09 2010 new variable
-rbac#:#crs_create_catr#:#Create Category Reference###10 09 2010 new variable
-rbac#:#crs_create_crsr#:#Create new Course Reference###10 09 2010 new variable
 forum#:#frm_edit_title#:#Edit Title###10 09 2010 new variable
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.###10 09 2010 new variable
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.###10 09 2010 new variable
@@ -11973,11 +11889,7 @@ wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has 
 rbac#:#moderate#:#Moderate###10 11 2011 new variable
 common#:#apache_auth#:#Apache Authentication###10 11 2011 new variable
 common#:#server_disabled#:#The Chat is Disabled###10 11 2011 new variable
-rbac#:#cat_create_chtr#:#Create Chatroom###10 11 2011 new variable
-rbac#:#crs_create_chtr#:#Create Chatroom###10 11 2011 new variable
-rbac#:#fold_create_chtr#:#Create Chatroom###10 11 2011 new variable
-rbac#:#grp_create_chtr#:#Create Chatroom###10 11 2011 new variable
-rbac#:#root_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#rbac_create_chtr#:#Create Chatroom###10 11 2011 new variable
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.###10 11 2011 new variable
 blog#:#blog_draft#:#Draft###10 11 2011 new variable
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
@@ -12309,11 +12221,7 @@ rbac#:#blog_copy#:#User can copy blog###28 08 2012 new variable
 rbac#:#blog_write#:#User can edit blog settings###28 08 2012 new variable
 rbac#:#blog_delete#:#User can move or delete blog###28 08 2012 new variable
 rbac#:#blog_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#crs_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#root_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#fold_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#grp_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#cat_create_blog#:#Create Blog###28 08 2012 new variable
+rbac#:#rbac_create_blog#:#Create Blog###28 08 2012 new variable
 user#:#user_delete_own_account#:#Delete Account###28 08 2012 new variable
 rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration###28 08 2012 new variable
 common#:#obj_dcl#:#Data Collection###28 08 2012 new variable
@@ -12330,11 +12238,7 @@ rbac#:#dcl_write#:#User can edit settings and content of data collection###28 08
 rbac#:#dcl_delete#:#User can move or delete data collection###28 08 2012 new variable
 rbac#:#dcl_edit_permission#:#User can change permission settings###28 08 2012 new variable
 rbac#:#dcl_add_entry#:#User can add/edit entries###28 08 2012 new variable
-rbac#:#crs_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#root_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#fold_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#grp_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#cat_create_dcl#:#Create Data Collection###28 08 2012 new variable
+rbac#:#rbac_create_dcl#:#Create Data Collection###28 08 2012 new variable
 survey#:#freetext_answers#:#Open Answers###28 08 2012 new variable
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.###28 08 2012 new variable
 payment#:#duration_month#:#Access duration in months###28 08 2012 new variable
@@ -12428,11 +12332,8 @@ rbac#:#poll_write#:#User can edit poll settings and content###28 08 2012 new var
 rbac#:#poll_delete#:#User can move or delete poll###28 08 2012 new variable
 rbac#:#poll_copy#:#User can copy poll###28 08 2012 new variable
 rbac#:#poll_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#root_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#cat_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#crs_create_poll#:#Create Poll###28 08 2012 new variable
+rbac#:#rbac_create_poll#:#Create Poll###28 08 2012 new variable
 rbac#:#fld_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#grp_create_poll#:#Create Poll###28 08 2012 new variable
 poll#:#poll_question#:#Question###28 08 2012 new variable
 poll#:#poll_image#:#Image###28 08 2012 new variable
 poll#:#poll_view_results#:#Display Results###28 08 2012 new variable
@@ -12620,14 +12521,10 @@ help#:#help_modules#:#Help Packages###28 08 2012 new variable
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?###28 08 2012 new variable
 help#:#help_module_uploaded#:#Help package uploaded.###28 08 2012 new variable
 common#:#add_entry#:#Add/Edit entry###28 08 2012 new variable
-rbac#:#fold_create_poll#:#Create Poll###28 08 2012 new variable
 common#:#obj_poll_duplicate#:#Copy Poll###28 08 2012 new variable
 rbac#:#rbac_import_role#:#Import Role###28 08 2012 new variable
 rbac#:#rbac_role_imported#:#The role has been imported.###28 08 2012 new variable
 common#:#objs_rcat#:#ECS Categories###28 08 2012 new variable
-rbac#:#grp_create_catr#:#Create Category Reference###28 08 2012 new variable
-rbac#:#grp_create_sess#:#Create Session###28 08 2012 new variable
-rbac#:#grp_create_crsr#:#Create Course Reference###28 08 2012 new variable
 administration#:#adm_user_starting_point_object#:#Repository Object###28 08 2012 new variable
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id###28 08 2012 new variable
 administration#:#adm_user_starting_point_personal#:#Personal Setting###28 08 2012 new variable
@@ -12644,11 +12541,7 @@ rbac#:#itgr_write#:#User can edit content and settings of item group###28 08 201
 rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
 rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
 rbac#:#itgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#cat_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#crs_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#fold_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#root_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#grp_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#rbac_create_itgr#:#Create Item Group###28 08 2012 new variable
 poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.###28 08 2012 new variable
 poll#:#poll_votes_no_edit#:#This poll cannot be edited because of existing votes.###28 08 2012 new variable
 itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
@@ -12986,7 +12879,6 @@ help#:#help_tooltips_only#:#Tooltips Only###28 11 2012 new variable
 help#:#help_set_mode#:#Set Mode###28 11 2012 new variable
 poll#:#poll_result#:#Voting Result###28 11 2012 new variable
 fold#:#fold_copy#:#Copy Folder###28 11 2012 new variable
-rbac#:#fold_create_sess#:#Create Session###28 11 2012 new variable
 rbac#:#rfil_delete#:#User can move or delete ECS File ###28 11 2012 new variable
 rbac#:#rfil_edit_permission#:#User can change permission settings###28 11 2012 new variable
 rbac#:#rfil_read#:#User can use ECS File ###28 11 2012 new variable

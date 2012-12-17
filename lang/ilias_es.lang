@@ -2197,25 +2197,6 @@ rbac#:#cat_cat_administrate_users#:#Administrar cuentas de usuario locales
 common#:#cat_clear_page#:#Limpiar Página
 rbac#:#cat_copy#:#Copiar Categoría
 rbac#:#cat_copy_threads_info#:#Por favor, elige qué elementos de la categoría deberán copiarse, enlazarse u omitirse
-rbac#:#cat_create_cat#:#Crear Categoría
-rbac#:#cat_create_crs#:#Crear Curso
-rbac#:#cat_create_exc#:#Crear entrega de ejercicios
-rbac#:#cat_create_feed#:#Crear feed
-rbac#:#cat_create_file#:#Enviar archivo
-rbac#:#cat_create_frm#:#Crear Foro
-rbac#:#cat_create_glo#:#Crear Glosario
-rbac#:#cat_create_grp#:#Crear Grupo
-rbac#:#cat_create_htlm#:#Crear Módulo de aprendizaje HTML
-rbac#:#cat_create_icrs#:#Crear Seminario LearnLinc
-rbac#:#cat_create_lm#:#Crear Módulo de aprendizaje
-rbac#:#cat_create_mcst#:#Crear MediaCast
-rbac#:#cat_create_mep#:#Crear Banco Multimedia
-rbac#:#cat_create_qpl#:#Crear Banco de Preguntas
-rbac#:#cat_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
-rbac#:#cat_create_spl#:#Crear banco de preguntas (para encuestas)
-rbac#:#cat_create_svy#:#Crear Encuesta
-rbac#:#cat_create_tst#:#Crear Test
-rbac#:#cat_create_webr#:#Crear nuevo Recurso Web
 rbac#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 rbac#:#cat_edit_permission#:#Modificar configuración de permisos
@@ -2415,24 +2396,7 @@ common#:#crs_cancel_waiting_list#:#¿De verdad quieres que lo retiren de la list
 common#:#crs_container_link_not_allowed#:#No es posible enlazar a objetos contenedor
 rbac#:#crs_copy#:#Copiar Curso
 rbac#:#crs_copy_threads_info#:#Por favor decida qué materiales del curso deben ser copiados, enlazados o bien omitidos.
-rbac#:#crs_create_exc#:#Crear entrega de ejercicios
-rbac#:#crs_create_feed#:#Crear canal de noticias
-rbac#:#crs_create_file#:#Enviar archivo
-rbac#:#crs_create_fold#:#Crear Carpeta
-rbac#:#crs_create_frm#:#Crear Foro
-rbac#:#crs_create_glo#:#Crear Glosario
-rbac#:#crs_create_grp#:#Crear Grupo
-rbac#:#crs_create_htlm#:#Crear Módulo de Aprendizaje HTML
-rbac#:#crs_create_icrs#:#Crear Seminario LearnLinc
-rbac#:#crs_create_lm#:#Crear Módulo de Aprendizaje
-rbac#:#crs_create_mcst#:#Crear MediaCast
-rbac#:#crs_create_mep#:#Crear Banco Multimedia
-rbac#:#crs_create_qpl#:#Crear Banco de Preguntas para Test
-rbac#:#crs_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
-rbac#:#crs_create_spl#:#Crear Banco de Preguntas para Encuesta
-rbac#:#crs_create_svy#:#Crear Encuesta
-rbac#:#crs_create_tst#:#Crear Test
-rbac#:#crs_create_webr#:#Crear nuevo recurso Web
+rbac#:#rbac_create_fold#:#Crear Carpeta
 rbac#:#crs_delete#:#Eliminar curso
 common#:#crs_edit#:#Editar Curso
 rbac#:#crs_edit_learning_progress#:#Editar seguimiento
@@ -2837,23 +2801,6 @@ common#:#fold_add#:#Añadir Carpeta
 common#:#fold_added#:#Carpeta Añadida
 rbac#:#fold_copy#:#Copiar Carpeta
 common#:#fold_copy_threads_info#:#Por favor decida qué materiales deben ser copiados, enlazados o incluso omitidos.
-rbac#:#fold_create_exc#:#Crear entrega de ejercicios
-rbac#:#fold_create_file#:#Enviar Archivo
-rbac#:#fold_create_fold#:#Crear Carpeta
-rbac#:#fold_create_frm#:#Crear Foro
-rbac#:#fold_create_glo#:#Crear Glosario
-rbac#:#fold_create_grp#:#Añadir nuevo grupo
-rbac#:#fold_create_htlm#:#Crear Módulo de aprendizaje HTML
-rbac#:#fold_create_icrs#:#Crear Seminario LearnLinc
-rbac#:#fold_create_lm#:#Crear Módulo de aprendizaje
-rbac#:#fold_create_mcst#:#Crear MediaCast
-rbac#:#fold_create_mep#:#Crear Banco Multimedia
-rbac#:#fold_create_qpl#:#Crear Banco de Preguntas para Test
-rbac#:#fold_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
-rbac#:#fold_create_spl#:#Crear Banco de Preguntas para Encuesta
-rbac#:#fold_create_svy#:#Crear Encuesta
-rbac#:#fold_create_tst#:#Crear Test
-rbac#:#fold_create_webr#:#Crear nuevo Recurso Web
 rbac#:#fold_delete#:#Borrar Carpeta
 common#:#fold_edit#:#Editar Carpeta
 rbac#:#fold_edit_learning_progress#:#Editar Progreso de Aprendizaje
@@ -3023,24 +2970,6 @@ rbac#:#grp_copy#:#Copiar Grupo
 common#:#grp_copy_threads_info#:#Por favor decida qué materiales deben ser copiados, enlazados o incluso omitidos.
 common#:#grp_count_members#:#Número de miembros
 common#:#grp_create#:#Crear Grupo
-rbac#:#grp_create_exc#:#Crear entrega de ejercicios
-rbac#:#grp_create_feed#:#Crear feed
-rbac#:#grp_create_file#:#El Usuario puede enviar archivos
-rbac#:#grp_create_fold#:#El Usuario puede crear carpetas
-rbac#:#grp_create_frm#:#Crear Foro
-rbac#:#grp_create_glo#:#Crear Glosario
-rbac#:#grp_create_grp#:#Crear Grupo
-rbac#:#grp_create_htlm#:#Crear Módulo de aprendizaje HTML
-rbac#:#grp_create_icrs#:#Crear Seminario LearnLinc
-rbac#:#grp_create_lm#:#Crear Módulo de Aprendizaje
-rbac#:#grp_create_mcst#:#Crear MediaCast
-rbac#:#grp_create_mep#:#Crear Banco Multimedia
-rbac#:#grp_create_qpl#:#Crear Banco de Preguntas para Test
-rbac#:#grp_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
-rbac#:#grp_create_spl#:#Crear Banco de Preguntas para Encuesta
-rbac#:#grp_create_svy#:#Crear Encuesta
-rbac#:#grp_create_tst#:#Crear Test
-rbac#:#grp_create_webr#:#Crear nuevo Recurso Web
 rbac#:#grp_delete#:#Eliminar Grupo
 common#:#grp_deleted_export_files#:#Archivos seleccionados eliminados.
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
@@ -4442,7 +4371,7 @@ common#:#rolt_add#:#Añadir Plantilla de Rol
 common#:#rolt_added#:#Plantilla de Rol añadida
 common#:#rolt_edit#:#Editar Plantilla de Rol
 common#:#rolt_new#:#Nueva Plantilla de Rol
-rbac#:#root_create_cat#:#El Usuario puede crear Categorías
+rbac#:#rbac_create_cat#:#El Usuario puede crear Categorías
 common#:#root_edit#:#Editar nodo raíz del sistema
 rbac#:#root_edit_permission#:#Modificar configuración de permisos
 rbac#:#root_read#:#Acceso de lectura al sistema ILIAS
@@ -9701,12 +9630,6 @@ rbac#:#cals_read#:#Acceso de lectura a las preferencias del calendario
 rbac#:#cals_visible#:#Las opciones de calendario son visibles
 rbac#:#cals_write#:#Editar opciones de calendario
 rbac#:#cat_administrate_users#:#Administrar cuentas locales de usuario
-rbac#:#cat_create_book#:#Crear lista de reservas
-rbac#:#cat_create_catr#:#Crear enlace a categoría
-rbac#:#cat_create_chtr#:#Crear canal de charla
-rbac#:#cat_create_crsr#:#Crear nuevo enlace a curso
-rbac#:#cat_create_rcrs#:#Crear enlace a curso
-rbac#:#cat_create_wiki#:#Crear Wiki
 rbac#:#catr_copy#:#Copiar enlace de categoría
 rbac#:#catr_delete#:#Borrar enlace a categoría
 rbac#:#catr_edit_permission#:#Cambiar opciones de permisos
@@ -9717,12 +9640,7 @@ rbac#:#cmps_edit_permission#:#Cambiar opciones de permisos
 rbac#:#cmps_read#:#Acceso de lectura a las preferencias del componente
 rbac#:#cmps_visible#:#Las opciones de calendario son visibles
 rbac#:#cmps_write#:#Editar preferencia del componente
-rbac#:#crs_create_book#:#Crear hoja de reservas
-rbac#:#crs_create_catr#:#Crear enlace a categoría
-rbac#:#crs_create_chtr#:#Crear sala de chat
-rbac#:#crs_create_crsr#:#Crear enlace a curso
-rbac#:#crs_create_sess#:#Crear sesión
-rbac#:#crs_create_wiki#:#Crear Wiki
+rbac#:#rbac_create_sess#:#Crear sesión
 rbac#:#crs_edit_event#:#Editar eventos de calendario
 rbac#:#crsr_copy#:#Copiar enlace de curso
 rbac#:#crsr_delete#:#Borrar enlace a curso
@@ -9743,12 +9661,6 @@ rbac#:#filter_global_roles#:#Mostrar sólo roles globales
 rbac#:#filter_local_roles#:#Mostrar sólo roles locales del contexto actual
 rbac#:#filter_local_roles_object#:#Mostrar sólo roles locales definidos en esta posición
 rbac#:#filter_roles_local_policy#:#Mostrar sólo roles usando una política local en esta posición
-rbac#:#fold_create_book#:#Crear lista de reservas
-rbac#:#fold_create_chtr#:#Crear sala de chat
-rbac#:#fold_create_wiki#:#Crear Wiki
-rbac#:#grp_create_book#:#Crear hoja de reservas
-rbac#:#grp_create_chtr#:#Create Chatroom
-rbac#:#grp_create_wiki#:#Crear Wiki
 rbac#:#grp_edit_event#:#Editar eventos de calendario
 rbac#:#info_user_view_changed#:#Vista de usuario modificada
 rbac#:#invite#:#Invitar a encuesta
@@ -9883,32 +9795,32 @@ rbac#:#role_block_role#:#Bloquear rol
 rbac#:#role_block_role_desc#:#El acceso a este objeto y todos sus subordinados será revocado
 rbac#:#role_confirm_block_role_header#:#¿De verdad quiere bloquear el acceso a los roles seleccionados?
 rbac#:#role_confirm_block_role_info#:#Se realizarán las siguientes operaciones:<br /><br />- Se bloquearán los permisos de rol para este objeto y todos sus subordinados.<br />- se protegerán la nueva configuración de permisos.
-rbac#:#root_create_book#:#Crear lista de reservas
-rbac#:#root_create_catr#:#Crear enlace a categoría
-rbac#:#root_create_chat#:#Crear Chat
-rbac#:#root_create_chtr#:#Crear sala de chat
-rbac#:#root_create_crs#:#Crear Curso
-rbac#:#root_create_crsr#:#Crear enlace a curso
-rbac#:#root_create_dbk#:#Crear Libro Digilib
-rbac#:#root_create_exc#:#Crear Ejercicio
-rbac#:#root_create_feed#:#Crear Web Feed
-rbac#:#root_create_file#:#Enviar Archivo
-rbac#:#root_create_frm#:#Crear Foro
-rbac#:#root_create_glo#:#Crear Glosario
-rbac#:#root_create_grp#:#Crear Grupo
-rbac#:#root_create_htlm#:#Crear Módulo de Aprendizaje HTML
-rbac#:#root_create_icrs#:#Crear Seminario LearnLinc
-rbac#:#root_create_lm#:#Crear Módulo de Aprendizaje ILIAS
-rbac#:#root_create_mcst#:#Crear Mediacast
-rbac#:#root_create_mep#:#Crear Banco de Media
-rbac#:#root_create_qpl#:#Crear Test de Banco de Preguntas
-rbac#:#root_create_rcrs#:#Crear Curso-Enlace
-rbac#:#root_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
-rbac#:#root_create_spl#:#Crear Encuesta con Banco de Preguntas
-rbac#:#root_create_svy#:#Crear Encuesta
-rbac#:#root_create_tst#:#Crear Test
-rbac#:#root_create_webr#:#Crear Enlace Web
-rbac#:#root_create_wiki#:#Crear Wiki
+rbac#:#rbac_create_book#:#Crear lista de reservas
+rbac#:#rbac_create_catr#:#Crear enlace a categoría
+rbac#:#rbac_create_chat#:#Crear Chat
+rbac#:#rbac_create_chtr#:#Crear sala de chat
+rbac#:#rbac_create_crs#:#Crear Curso
+rbac#:#rbac_create_crsr#:#Crear enlace a curso
+rbac#:#rbac_create_dbk#:#Crear Libro Digilib
+rbac#:#rbac_create_exc#:#Crear Ejercicio
+rbac#:#rbac_create_feed#:#Crear Web Feed
+rbac#:#rbac_create_file#:#Enviar Archivo
+rbac#:#rbac_create_frm#:#Crear Foro
+rbac#:#rbac_create_glo#:#Crear Glosario
+rbac#:#rbac_create_grp#:#Crear Grupo
+rbac#:#rbac_create_htlm#:#Crear Módulo de Aprendizaje HTML
+rbac#:#rbac_create_icrs#:#Crear Seminario LearnLinc
+rbac#:#rbac_create_lm#:#Crear Módulo de Aprendizaje ILIAS
+rbac#:#rbac_create_mcst#:#Crear Mediacast
+rbac#:#rbac_create_mep#:#Crear Banco de Media
+rbac#:#rbac_create_qpl#:#Crear Test de Banco de Preguntas
+rbac#:#rbac_create_rcrs#:#Crear Curso-Enlace
+rbac#:#rbac_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
+rbac#:#rbac_create_spl#:#Crear Encuesta con Banco de Preguntas
+rbac#:#rbac_create_svy#:#Crear Encuesta
+rbac#:#rbac_create_tst#:#Crear Test
+rbac#:#rbac_create_webr#:#Crear Enlace Web
+rbac#:#rbac_create_wiki#:#Crear Wiki
 rbac#:#sess_delete#:#Borrar sesión
 rbac#:#sess_edit_event#:#Editar eventos de calendario
 rbac#:#sess_edit_permission#:#Cambiar opciones de permisos
@@ -12309,11 +12221,7 @@ rbac#:#blog_copy#:#User can copy blog###28 08 2012 new variable
 rbac#:#blog_write#:#User can edit blog settings###28 08 2012 new variable
 rbac#:#blog_delete#:#User can move or delete blog###28 08 2012 new variable
 rbac#:#blog_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#crs_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#root_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#fold_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#grp_create_blog#:#Create Blog###28 08 2012 new variable
-rbac#:#cat_create_blog#:#Create Blog###28 08 2012 new variable
+rbac#:#rbac_create_blog#:#Create Blog###28 08 2012 new variable
 user#:#user_delete_own_account#:#Delete Account###28 08 2012 new variable
 rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration###28 08 2012 new variable
 common#:#obj_dcl#:#Data Collection###28 08 2012 new variable
@@ -12330,11 +12238,7 @@ rbac#:#dcl_write#:#User can edit settings and content of data collection###28 08
 rbac#:#dcl_delete#:#User can move or delete data collection###28 08 2012 new variable
 rbac#:#dcl_edit_permission#:#User can change permission settings###28 08 2012 new variable
 rbac#:#dcl_add_entry#:#User can add/edit entries###28 08 2012 new variable
-rbac#:#crs_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#root_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#fold_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#grp_create_dcl#:#Create Data Collection###28 08 2012 new variable
-rbac#:#cat_create_dcl#:#Create Data Collection###28 08 2012 new variable
+rbac#:#rbac_create_dcl#:#Create Data Collection###28 08 2012 new variable
 survey#:#freetext_answers#:#Open Answers###28 08 2012 new variable
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.###28 08 2012 new variable
 payment#:#duration_month#:#Access duration in months###28 08 2012 new variable
@@ -12428,11 +12332,8 @@ rbac#:#poll_write#:#User can edit poll settings and content###28 08 2012 new var
 rbac#:#poll_delete#:#User can move or delete poll###28 08 2012 new variable
 rbac#:#poll_copy#:#User can copy poll###28 08 2012 new variable
 rbac#:#poll_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#root_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#cat_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#crs_create_poll#:#Create Poll###28 08 2012 new variable
+rbac#:#rbac_create_poll#:#Create Poll###28 08 2012 new variable
 rbac#:#fld_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#grp_create_poll#:#Create Poll###28 08 2012 new variable
 poll#:#poll_question#:#Question###28 08 2012 new variable
 poll#:#poll_image#:#Image###28 08 2012 new variable
 poll#:#poll_view_results#:#Display Results###28 08 2012 new variable
@@ -12620,14 +12521,10 @@ help#:#help_modules#:#Help Packages###28 08 2012 new variable
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?###28 08 2012 new variable
 help#:#help_module_uploaded#:#Help package uploaded.###28 08 2012 new variable
 common#:#add_entry#:#Add/Edit entry###28 08 2012 new variable
-rbac#:#fold_create_poll#:#Create Poll###28 08 2012 new variable
 common#:#obj_poll_duplicate#:#Copy Poll###28 08 2012 new variable
 rbac#:#rbac_import_role#:#Import Role###28 08 2012 new variable
 rbac#:#rbac_role_imported#:#The role has been imported.###28 08 2012 new variable
 common#:#objs_rcat#:#ECS Categories###28 08 2012 new variable
-rbac#:#grp_create_catr#:#Create Category Reference###28 08 2012 new variable
-rbac#:#grp_create_sess#:#Create Session###28 08 2012 new variable
-rbac#:#grp_create_crsr#:#Create Course Reference###28 08 2012 new variable
 administration#:#adm_user_starting_point_object#:#Repository Object###28 08 2012 new variable
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id###28 08 2012 new variable
 administration#:#adm_user_starting_point_personal#:#Personal Setting###28 08 2012 new variable
@@ -12644,11 +12541,7 @@ rbac#:#itgr_write#:#User can edit content and settings of item group###28 08 201
 rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
 rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
 rbac#:#itgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#cat_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#crs_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#fold_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#root_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#grp_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#rbac_create_itgr#:#Create Item Group###28 08 2012 new variable
 poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.###28 08 2012 new variable
 poll#:#poll_votes_no_edit#:#This poll cannot be edited because of existing votes.###28 08 2012 new variable
 itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
@@ -12986,7 +12879,6 @@ help#:#help_tooltips_only#:#Tooltips Only###28 11 2012 new variable
 help#:#help_set_mode#:#Set Mode###28 11 2012 new variable
 poll#:#poll_result#:#Voting Result###28 11 2012 new variable
 fold#:#fold_copy#:#Copy Folder###28 11 2012 new variable
-rbac#:#fold_create_sess#:#Create Session###28 11 2012 new variable
 rbac#:#rfil_delete#:#User can move or delete ECS File ###28 11 2012 new variable
 rbac#:#rfil_edit_permission#:#User can change permission settings###28 11 2012 new variable
 rbac#:#rfil_read#:#User can use ECS File ###28 11 2012 new variable
