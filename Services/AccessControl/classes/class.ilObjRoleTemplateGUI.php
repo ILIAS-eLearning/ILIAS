@@ -226,6 +226,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			{
 				$txt = ilPlugin::lookupTxt("rep_robj", substr($info['operation'], 7), $info['type']."_".$info['operation']);
 			}
+			elseif(substr($info['operation'],0,6) == 'create')
+			{
+				$txt = $this->lng->txt('rbac_'.$info['operation']);
+			}
 
 			$rbac_operations[$info['typ_id']][$info['ops_id']] = array(
 									   							"ops_id"	=> $info['ops_id'],
