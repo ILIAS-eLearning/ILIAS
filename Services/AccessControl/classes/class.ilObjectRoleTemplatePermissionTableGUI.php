@@ -235,7 +235,8 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			{
 				if(substr($row['name'],0,6) == 'create')
 				{
-					$perm = $this->lng->txt($this->getTemplateType().'_'.$row['name']);
+					#$perm = $this->lng->txt($this->getTemplateType().'_'.$row['name']);
+					$perm = $this->lng->txt('rbac'.'_'.$row['name']);
 				}
 				elseif($this->lng->exists($this->getTemplateType().'_'.$row['name'].'_short'))
 				{
