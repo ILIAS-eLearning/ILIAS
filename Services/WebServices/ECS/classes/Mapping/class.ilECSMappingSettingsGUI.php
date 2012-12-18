@@ -146,7 +146,9 @@ class ilECSMappingSettingsGUI
 	{
 		global $ilTabs;
 		
+		$this->setSubTabs(self::TAB_COURSE);
 		$ilTabs->activateTab('ecs_crs_allocation');
+		$ilTabs->activateSubTab('cSettings');
 
 		$form = $this->initFormCSettings();
 
@@ -227,9 +229,24 @@ class ilECSMappingSettingsGUI
 		// multiple attributes
 		$multiple = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_multiple_atts'),'multiple');
 		$multiple->setChecked(ilECSNodeMappingSettings::getInstance()->isAttributeMappingEnabled());
+
+		// attribute selection
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttributes.php';
+		$attributes = new ilSelectInputGUI($this->lng->txt('ecs_cmap_attributes'),'atts');
+		$attributes->setMulti(true);
+		$attributes->setValue(
+				ilECSCourseAttributes::getInstance(
+						$this->getServer()->getServerId(), 
+						$this->getMid()
+				)->getAttributeValues());
+		$attributes->setRequired(true);
+		$attributes->setOptions(ilECSMappingUtils::getCourseMappingFieldSelectOptions());
+		$multiple->addSubItem($attributes);
+
 		$form->addItem($multiple);
 
-		#$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
+		
 		$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cSettings', $this->lng->txt('cancel'));
 
@@ -277,6 +294,30 @@ class ilECSMappingSettingsGUI
 			$settings->enableAttributeMapping($form->getInput('multiple'));
 			$settings->update();
 			
+			// store attribute settings
+			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttributes.php';
+			$attributes = new ilECSCourseAttributes($this->getServer()->getServerId(),$this->getMid());
+			$attributes->delete();
+			
+			$form_atts = $form->getInput('atts');
+			
+			foreach($form_atts as $name)
+			{
+				if(!$name)
+				{
+					continue;
+				}
+				
+				$att = new ilECSCourseAttribute();
+				$att->setServerId($this->getServer()->getServerId());
+				$att->setMid($this->getMid());
+				$att->setName($name);
+				$att->save();
+			}
+			
+			//$att = new ilECSCourseAttribute();
+			//$att->setName($a_name)
+			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 			$GLOBALS['ilCtrl']->redirect($this,'cSettings');
 		}
@@ -285,6 +326,36 @@ class ilECSMappingSettingsGUI
 		$form->setValuesByPost();
 		$this->cSettings($form);
 	}
+	
+	/**
+	 * Show active attributes
+	 * @global ilTabsGUI $ilTabs
+	 */
+	protected function cAttributes()
+	{
+		global $ilTabs;
+		
+		$this->setSubTabs(self::TAB_COURSE);
+		$ilTabs->setTabActive('ecs_crs_allocation');
+		$ilTabs->setSubTabActive('cAttributes');
+		
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttributesTableGUI.php';
+		$table = new ilECSCourseAttributesTableGUI(
+				$this,
+				'attributes',
+				$this->getServer()->getServerId(),
+				$this->getMid()
+		);
+		$table->init();
+		$table->parse(
+				ilECSCourseAttributes::getInstance(
+						$this->getServer()->getServerId(), 
+						$this->getMid())->getAttributes());
+		
+		$GLOBALS['tpl']->setContent($table->getHTML());
+	}
+	
+	
 
 	/**
 	 * Update node mapping settings
@@ -799,6 +870,8 @@ class ilECSMappingSettingsGUI
 		$GLOBALS['ilTabs']->activateSubTab('dMappingOverview');
 		$GLOBALS['ilTabs']->activateTab('ecs_dir_allocation');
 	}
+	
+	
 
 	/**
 	 * Set tabs
@@ -850,6 +923,18 @@ class ilECSMappingSettingsGUI
 				'dSettings',
 				$this->lng->txt('settings'),
 				$this->ctrl->getLinkTarget($this,'dSettings')
+			);
+		}
+		if($a_tab == self::TAB_COURSE)
+		{
+			// Check if attributes are available
+			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttributes.php';
+			$atts = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid());
+
+			$ilTabs->addSubTab(
+				'cSettings',
+				$this->lng->txt('settings'),
+				$this->ctrl->getLinkTarget($this,'cSettings')
 			);
 		}
 	}

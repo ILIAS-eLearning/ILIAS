@@ -32,6 +32,30 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 	{
 		return $this->server;
 	}
+	
+	/**
+	 * Check if course allocation is activated for one recipient of the 
+	 * @param ilECSSetting $server
+	 * @param type $a_content_id
+	 */
+	public function checkAllocationActivation(ilECSSetting $server, $a_content_id)
+	{
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
+		try 
+		{
+			$crs_reader = new ilECSCourseConnector($this->getServer());
+			$course_details = $crs_reader->getCourse($a_content_id);
+
+			$GLOBALS['ilLog']->write(print_r($course_details,true));
+			return false;
+		}
+		catch(ilECSConnectorException $e) 
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Course creation failed  with mesage ' . $e->getMessage());
+			return false;
+		}
+		return true;
+	}
 
 
 	/**
@@ -45,6 +69,11 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
 
+		if(!$this->checkAllocationActivation($server, $a_content_id))
+		{
+			return true;
+		}
+		
 		try 
 		{
 			$crs_reader = new ilECSCourseConnector($this->getServer());
@@ -59,7 +88,6 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 			$GLOBALS['ilLog']->write(__METHOD__.': Course creation failed  with mesage ' . $e->getMessage());
 			return false;
 		}
-		
 		return true;
 	}
 
@@ -80,8 +108,12 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	public function handleUpdate(ilECSSetting $server, $a_content_id)
 	{
+		if(!$this->checkAllocationActivation($server, $a_content_id))
+		{
+			return true;
+		}
+		
 		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
-
 		try 
 		{
 			$crs_reader = new ilECSCourseConnector($this->getServer());

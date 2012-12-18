@@ -27,9 +27,14 @@ class ilECSCourseConnector extends ilECSConnector
 	 * Get single directory tree
 	 * @return array an array of ecs cms directory tree entries
 	 */
-	public function getCourse($course_id)
+	public function getCourse($course_id,$a_details = false)
 	{
 		$this->path_postfix = '/campusconnect/courses/'. (int) $course_id;
+		
+		if($a_details and $course_id)
+		{
+			$this->path_postfix .= '/details';
+		}
 
 		try {
 			$this->prepareConnection();

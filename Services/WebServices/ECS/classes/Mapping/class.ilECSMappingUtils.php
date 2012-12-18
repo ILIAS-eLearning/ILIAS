@@ -45,6 +45,39 @@ class ilECSMappingUtils
 		
 		return $lng->txt('ecs_node_mapping_status_'.$a_status);
 	}
+	
+	
+	public static function getCourseMappingFieldInfo()
+	{
+		global $lng;
+		
+		$field_info = array();
+		$counter = 0;
+		foreach(
+			array(
+				'organisation',
+				'term',
+				'title',
+				'lecturer') as $field)
+		{
+			$field_info[$counter]['name'] = $field;
+			$field_info[$counter]['translation'] = $lng->txt('ecs_cmap_att_'.$field);
+			$counter++;
+		}
+		return $field_info;
+	}
+	
+	public static function getCourseMappingFieldSelectOptions()
+	{
+		global $lng;
+		
+		$options[''] = $lng->txt('select_one');
+		foreach(self::getCourseMappingFieldInfo() as $info)
+		{
+			$options[$info['name']] = $info['translation'];
+		}
+		return $options;
+	}
 
 
 }
