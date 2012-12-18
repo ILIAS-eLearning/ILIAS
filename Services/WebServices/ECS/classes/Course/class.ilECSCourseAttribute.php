@@ -79,7 +79,7 @@ class ilECSCourseAttribute
 		global $ilDB;
 		
 		$query = "DELETE FROM ecs_crs_mapping_atts ".
-				'WHERE id = '.$ilDB->quote($$this->getId(),'integer');
+				'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$ilDB->manipulate($query);
 		return true;
 	}
