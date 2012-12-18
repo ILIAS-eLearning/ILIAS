@@ -77,10 +77,9 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
 			}
 			else
 			{
-				$ecs_result = new ilECSResult($res);
-				
+				$ecs_result = new ilECSResult($res,true);
 			}
-			return $ecs_result->getResult();
+			return $ecs_result;
 		}
 		catch(ilCurlConnectionException $e)	
 		{

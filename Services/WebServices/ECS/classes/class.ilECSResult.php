@@ -37,6 +37,8 @@ class ilECSResult
 	const RESULT_TYPE_JSON = 1;
 	const RESULT_TYPE_URL_LIST = 2;
 	
+	const HEADER_ECS_SENDER = 'X-EcsSender';
+	
 	protected $log;
 	
 	protected $result_string = '';
@@ -47,6 +49,7 @@ class ilECSResult
 	protected $header_parsing = false;
 	
 	protected $headers = array();
+	protected $header_map = array();
 	
 	/**
 	 * Constructor
@@ -145,12 +148,12 @@ class ilECSResult
 	 */
 	private function init()
 	{
+		
 		if(!$this->result_string)
 		{
 			$this->result = array();
 			return true;
 		}
-		
 		if($this->header_parsing)
 		{
 			$this->splitHeader();
@@ -210,6 +213,17 @@ class ilECSResult
 			
 			$location = substr($this->result_header,$location_start,$location_end - $location_start);
 			$this->headers['Location'] = $location;
+		}
+		
+		$ecs_sender = strpos($this->result_header,self::HEADER_ECS_SENDER);
+		if($ecs_sender !== false)
+		{
+			$sender_start =+ 13;
+			$sender_end = strpos($this->result_header,"\r\n",$sender_start);
+			$sender = substr($this->result_header,$sender_start,$sender_end - $sender_start);
+			
+			$senders_arr = explode(',',$sender);
+			$this->header_map[self::HEADER_ECS_SENDER] = $senders_arr;
 		}
 		return true;
 	}

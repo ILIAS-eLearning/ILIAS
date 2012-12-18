@@ -12922,3 +12922,9 @@ ecs#:#ecs_cmap_all_in_one#:#Course in one Category
 ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.
 ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
+ecs#:#ecs_cmap_att_organisation#:#Organisation
+ecs#:#ecs_cmap_att_term#:#Term
+ecs#:#ecs_cmap_att_title#:#Title
+ecs#:#ecs_cmap_att_lecturer#:#Lecturer
+ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration
+ecs#:#ecs_cmap_attributes#:#Mapping Attributes

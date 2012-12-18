@@ -12922,3 +12922,9 @@ ecs#:#ecs_cmap_all_in_one#:#Kurse in einer Kategorie
 ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werde sollen. In allen weiteren Kategorien werden ggf. Kurs-Referenzen angelegt.
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Mehrere Attribute verwenden
+ecs#:#ecs_cmap_att_organisation#:#Organisation
+ecs#:#ecs_cmap_att_term#:#Semester
+ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
+ecs#:#ecs_cmap_att_lecturer#:#Lehrperson
+ecs#:#ecs_cmap_atts_table#:#Konfiguration der Zuordnungs-Attribute
+ecs#:#ecs_cmap_attributes#:#Attribute

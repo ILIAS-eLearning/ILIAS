@@ -13701,3 +13701,20 @@ ilDBUpdateNewObjectType::deleteRBACOperation('rcat', $ops_id);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#3803>
+<?php
+
+	if(!$ilDB->tableExists('ecs_crs_mapping_atts'))
+	{
+		$fields = array(
+			'id'  => array('notnull' => true,'length' => 4,'type' => 'integer'),
+			"sid" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"mid" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"name" => array("notnull" => false,'length' => 64, "type" => "text")
+		);
+		$ilDB->createTable("ecs_crs_mapping_atts", $fields);
+		$ilDB->createSequence('ecs_crs_mapping_atts');
+		$ilDB->addPrimaryKey('ecs_crs_mapping_atts',array('id'));
+	}
+?>

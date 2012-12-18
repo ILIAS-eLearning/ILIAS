@@ -48,7 +48,8 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 		try 
 		{
 			$dir_reader = new ilECSDirectoryTreeConnector($this->getServer());
-			$nodes = $dir_reader->getDirectoryTree($a_content_id);
+			$res = $dir_reader->getDirectoryTree($a_content_id);
+			$nodes = $res->getResult();
 		}
 		catch(ilECSConnectorException $e) 
 		{
@@ -133,7 +134,10 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 		{
 			include_once './Services/WebServices/ECS/classes/Tree/class.ilECSDirectoryTreeConnector.php';
 			$dir_reader = new ilECSDirectoryTreeConnector($this->getServer());
-			$nodes = $dir_reader->getDirectoryTree($a_content_id);
+			$res = $dir_reader->getDirectoryTree($a_content_id);
+			$nodes = $res->getResult();
+			var_dump($res->getHeaders());
+			ob_end_flush();
 		}
 		catch(ilECSConnectorException $e) 
 		{

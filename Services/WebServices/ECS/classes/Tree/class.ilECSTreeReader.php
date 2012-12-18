@@ -50,7 +50,8 @@ class ilECSTreeReader
 
 					if(!ilECSCmsData::treeExists($this->server_id, $this->mid, $tree_id))
 					{
-						$this->storeTree($tree_id, $dir_reader->getDirectoryTree($tree_id));
+						$result = $dir_reader->getDirectoryTree($tree_id);
+						$this->storeTree($tree_id, $result->getResult());
 					}
 				}
 			}
