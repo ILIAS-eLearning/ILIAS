@@ -12928,3 +12928,14 @@ ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
 ecs#:#ecs_cmap_att_lecturer#:#Lehrperson
 ecs#:#ecs_cmap_atts_table#:#Konfiguration der Zuordnungs-Attribute
 ecs#:#ecs_cmap_attributes#:#Attribute
+ecs#:#ecs_cmap_overview#:#Zuordnungsübersicht
+ecs#:#ecs_cmap_mapping_form_title#:#Kurszuordnung für Kategorie:
+ecs#:#ecs_cmap_form_filter#:#Filtereinstellungen
+ecs#:#ecs_cmap_form_all_values#:#Alle Werte
+ecs#:#ecs_cmap_form_filter_info#:#Manuelle(r) Wert(e), durch Komma getrennt.
+ecs#:#ecs_cmap_form_create_subdirs#:#Unterverzeichnisse anlegen
+ecs#:#ecs_cmap_form_subdir_type#:#Unterverzeichnistitel
+ecs#:#ecs_cmap_form_subdir_value#:#Unterverzeichniswert
+ecs#:#ecs_cmap_form_subdir_name#:#Unterverzeichnisname
+ecs#:#ecs_cmap_add_attribute_btn#:#Attribut hinzufügen
+ecs#:#ecs_cmap_delete_attribute_btn#:#Letztes Attribut löschen

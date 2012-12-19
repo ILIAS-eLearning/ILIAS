@@ -13718,3 +13718,26 @@ ilDBUpdateNewObjectType::deleteRBACOperation('rcat', $ops_id);
 		$ilDB->addPrimaryKey('ecs_crs_mapping_atts',array('id'));
 	}
 ?>
+<#3804>
+<?php
+
+	if(!$ilDB->tableExists('ecs_cmap_rule'))
+	{
+		$fields = array(
+			'rid'  => array('notnull' => true,'length' => 4,'type' => 'integer'),
+			"sid" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"mid" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"attribute" => array("notnull" => false,'length' => 64, "type" => "text"),
+			"ref_id" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"is_filter" => array("notnull" => true,"length" => 1,"type" => "integer"),
+			"filter" => array("notnull" => false,"length" => 512,"type" => "text"),
+			"create_subdir" => array("notnull" => true,"length" => 1,"type" => "integer"),
+			"subdir_type" => array("notnull" => true,"length" => 1,"type" => "integer"),
+			"directory" => array("notnull" => false,"length" => 64,"type" => "text")
+		);
+			
+		$ilDB->createTable("ecs_cmap_rule", $fields);
+		$ilDB->createSequence('ecs_cmap_rule');
+		$ilDB->addPrimaryKey('ecs_cmap_rule',array('rid'));
+	}
+?>

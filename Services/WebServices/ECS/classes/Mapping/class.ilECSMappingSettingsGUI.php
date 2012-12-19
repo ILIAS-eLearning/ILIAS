@@ -108,6 +108,11 @@ class ilECSMappingSettingsGUI
 	{
 		$GLOBALS['ilCtrl']->returnToParent($this);
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Goto default page
@@ -116,9 +121,9 @@ class ilECSMappingSettingsGUI
 	protected function cStart()
 	{
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		if(!ilECSNodeMappingSettings::getInstance()->isCourseAllocationEnabled() or 0)
+		if(ilECSNodeMappingSettings::getInstance()->isCourseAllocationEnabled())
 		{
-			return $this->cSettings();
+			return $this->cInitOverview();
 		}
 		return $this->cSettings();
 	}
@@ -136,6 +141,234 @@ class ilECSMappingSettingsGUI
 		}
 		return $this->dSettings();
 	}
+	
+	/**
+	 * Show overview page
+	 */
+	protected function cInitOverview($form = null, $current_attribute = null)
+	{
+		global $ilTabs;
+		
+		$current_node = (array) (($_REQUEST['lnodes']) ? $_REQUEST['lnodes'] : ROOT_FOLDER_ID);
+		$current_node = end($current_node);
+		
+		$this->ctrl->setParameter($this,'lnodes',$current_node);
+		
+		$this->setSubTabs(self::TAB_COURSE);
+		$ilTabs->activateTab('ecs_crs_allocation');
+		$ilTabs->activateSubTab('cInitTree');
+		
+		$GLOBALS['tpl']->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_cmap_overview.html','Services/WebServices/ECS');
+		
+		$explorer = $this->cShowLocalExplorer();
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
+			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttributes.php';
+			
+			if($current_attribute === null)
+			{
+				// check request
+				$current_attribute = (string) $_REQUEST['ecs_ca'];
+				if(!$current_attribute)
+				{
+					$existing = ilECSCourseMappingRule::lookupLastExistingAttribute(
+							$this->getServer()->getServerId(),
+							$this->getMid(),
+							$current_node
+					);
+
+					$current_attribute = 
+						$existing ? 
+						$existing :
+						ilECSCourseAttributes::getInstance(
+								$this->getServer()->getServerId(),
+								$this->getMid())->getFirstAttributeName();
+				}
+			}
+			$form = $this->cInitMappingForm($current_node,$current_attribute);
+		}
+		
+		$GLOBALS['tpl']->setVariable('TFORM_ACTION',$this->ctrl->getFormAction($this));
+		$GLOBALS['tpl']->setVariable('LOCAL_EXPLORER',$explorer->getOutput());
+		$GLOBALS['tpl']->setVariable('MAPPING_FORM',$form->getHTML());
+	}
+	
+	/**
+	 * Add one attribute in form
+	 */
+	protected function cAddAttribute()
+	{
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttributes.php';
+		$next_attribute = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid())->getNextAttributeName((string) $_REQUEST['ecs_ca']);
+		$this->cInitOverview(NULL, $next_attribute);
+	}
+	
+	/**
+	 * Delete last attribute in form
+	 */
+	protected function cDeleteAttribute()
+	{
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttributes.php';
+		$prev_attribute = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid())->getPreviousAttributeName((string) $_REQUEST['ecs_ca']);
+		$this->cInitOverview(NULL, $prev_attribute);
+	}
+	
+	/**
+	 * Show local explorer
+	 */
+	protected function cShowLocalExplorer()
+	{
+		global $tree;
+
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingLocalExplorer.php';
+		$explorer = new ilECSNodeMappingLocalExplorer($this->ctrl->getLinkTarget($this,'cInitOverview'));
+		$explorer->setPostVar('lnodes[]');
+
+		$lnodes = (array) $_REQUEST['lnodes'];
+		$checked_node = array_pop($lnodes);
+		if((int) $_REQUEST['lid'])
+		{
+			$checked_node = (int) $_REQUEST['lid'];
+		}
+
+		if($checked_node)
+		{
+			$explorer->setCheckedItems(array($checked_node));
+		}
+		else
+		{
+			$explorer->setCheckedItems(array(ROOT_FOLDER_ID));
+		}
+		$explorer->setTargetGet('lref_id');
+		$explorer->setSessionExpandVariable('lexpand');
+		$explorer->setExpand((int) $_GET['lexpand']);
+		$explorer->setExpandTarget($this->ctrl->getLinkTarget($this,'cInitOverview'));
+		$explorer->setOutput(0);
+		return $explorer;
+	}
+	
+	/**
+	 * Init the mapping form
+	 */
+	protected function cInitMappingForm($currrent_node,$current_attribute)
+	{
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttributes.php';
+		$attributes_obj = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid());
+		
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTableWidth("100%");
+		$this->ctrl->setParameter($this,'ecs_ca',$current_attribute);
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$this->ctrl->setParameter($this,'ecs_ca','');
+		
+		$form->setTitle($this->lng->txt('ecs_cmap_mapping_form_title') .' '.ilObject::_lookupTitle(ilObject::_lookupObjId($currrent_node)));
+		
+		// Iterate through all current attributes
+		$attributes = $attributes_obj->getAttributeSequence($current_attribute);
+		foreach($attributes as $name)
+		{
+			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
+			$rule = ilECSCourseMappingRule::getInstanceByAttribute($this->getServer()->getServerId(), $this->getMid(), $currrent_node, $name);
+			
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($this->lng->txt('ecs_cmap_att_'.$name));
+			
+			// Filter
+			$form->addItem($section);
+			
+			$isfilter = new ilRadioGroupInputGUI($this->lng->txt('ecs_cmap_form_filter'),$name.'[is_filter]');
+			$isfilter->setValue($rule->isFilterEnabled() ? 1 : 0);
+			
+			$all_values = new ilRadioOption($this->lng->txt('ecs_cmap_form_all_values'),0);
+			$isfilter->addOption($all_values);
+			
+			$use_filter = new ilRadioOption('',1);
+			$filter = new ilTextInputGUI('',$name.'[filter]');
+			$filter->setInfo($this->lng->txt('ecs_cmap_form_filter_info'));
+			$filter->setSize(50);
+			$filter->setMaxLength(512);
+			$filter->setRequired(true);
+			$filter->setValue($rule->getFilter());
+			$use_filter->addSubItem($filter);
+			
+			$isfilter->addOption($use_filter);
+			
+			$form->addItem($isfilter);
+
+			// Create subdirs
+			$subdirs = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_form_create_subdirs'),$name.'[subdirs]');
+			$subdirs->setChecked($rule->isSubdirCreationEnabled());
+			$subdirs->setValue(1);
+			
+			// Subdir types
+			$subdir_type = new ilRadioGroupInputGUI($this->lng->txt('ecs_cmap_form_subdir_type'), $name.'[subdir_type]');
+			$subdir_type->setValue($rule->getSubDirectoryType());
+			
+			$value = new ilRadioOption($this->lng->txt('ecs_cmap_form_subdir_value'),  ilECSCourseMappingRule::SUBDIR_VALUE);
+			$subdir_type->addOption($value);
+
+			$name = new ilRadioOption($this->lng->txt('ecs_cmap_form_subdir_name'),  ilECSCourseMappingRule::SUBDIR_ATTRIBUTE_NAME);
+			$subdir_type->addOption($name);
+			
+			$subdirs->addSubItem($subdir_type);
+			$form->addItem($subdirs);
+			
+			// Directory relations
+			$upper_attributes = ilECSCourseAttributes::getInstance(
+					$this->getServer()->getServerId(),
+					$this->getMid())->getUpperAttributes($name);
+
+			if($upper_attributes)
+			{
+				
+			}
+			
+			
+		}
+
+		$form->addCommandButton('cSaveOverview',$this->lng->txt('save'));
+		
+		if($attributes_obj->getNextAttributeName($current_attribute))
+		{
+			$form->addCommandButton('cAddAttribute', $this->lng->txt('ecs_cmap_add_attribute_btn'));
+		}
+		if($attributes_obj->getPreviousAttributeName($current_attribute))
+		{
+			$form->addCommandButton('cDeleteAttribute', $this->lng->txt('ecs_cmap_delete_attribute_btn'));
+		}
+		
+		$form->addCommandButton('cInitOverview', $this->lng->txt('cancel'));
+		
+		$form->setShowTopButtons(false);
+
+		return $form;
+	}
+	
+	/**
+	 * Save overview
+	 */
+	protected function cSaveOverview()
+	{
+		$current_node = (int) $_REQUEST['lnodes'];
+		$current_att = (string) $_REQUEST['ecs_ca'];
+		$form = $this->cInitMappingForm($current_node, $current_att);
+				
+		if($form->checkInput())
+		{
+			// save ...
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+			$this->ctrl->setParameter($this,'lnodes',$current_node);
+			$this->ctrl->redirect($this,'cInitOverview');
+		}
+		
+		$form->setValuesByPost();
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->cInitOverview($form, $current_att);
+	}
+	
+	
 
 	/**
 	 * Show course allocation
@@ -894,7 +1127,7 @@ class ilECSMappingSettingsGUI
 		$ilTabs->addTab(
 			'ecs_crs_allocation',
 			$this->lng->txt('ecs_crs_alloc'),
-			$this->ctrl->getLinkTarget($this,'cSettings')
+			$this->ctrl->getLinkTarget($this,'cStart')
 		);
 	}
 
@@ -931,11 +1164,22 @@ class ilECSMappingSettingsGUI
 			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttributes.php';
 			$atts = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid());
 
+			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+			if(ilECSNodeMappingSettings::getInstance()->isCourseAllocationEnabled())
+			{
+				$ilTabs->addSubTab(
+					'cInitTree',
+					$this->lng->txt('ecs_cmap_overview'),
+					$this->ctrl->getLinkTarget($this,'cInitOverview')
+				);
+			}
+
 			$ilTabs->addSubTab(
 				'cSettings',
 				$this->lng->txt('settings'),
 				$this->ctrl->getLinkTarget($this,'cSettings')
 			);
+
 		}
 	}
 }

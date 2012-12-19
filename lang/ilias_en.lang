@@ -12928,3 +12928,14 @@ ecs#:#ecs_cmap_att_title#:#Title
 ecs#:#ecs_cmap_att_lecturer#:#Lecturer
 ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration
 ecs#:#ecs_cmap_attributes#:#Mapping Attributes
+ecs#:#ecs_cmap_overview#:#Mapping Overview
+ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:
+ecs#:#ecs_cmap_form_filter#:#Filter Settings
+ecs#:#ecs_cmap_form_all_values#:#All Values
+ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated
+ecs#:#ecs_cmap_form_create_subdirs#:#Create Subdirectories
+ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title
+ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value
+ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name
+ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute
+ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute

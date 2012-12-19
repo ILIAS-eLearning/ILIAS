@@ -54,6 +54,129 @@ class ilECSCourseAttributes
 	}
 	
 	/**
+	 * Get first defined attribute
+	 * @return ilECSCourseAttribute
+	 */
+	public function getFirstAttribute()
+	{
+		foreach ($this->getAttributes() as $att)
+		{
+			return $att;
+		}
+		return NULL;
+	}
+	
+	/**
+	 * Get first attribute name
+	 * @return type
+	 */
+	public function getFirstAttributeName()
+	{
+		if($this->getFirstAttribute() instanceof ilECSCourseAttribute)
+		{
+			return $this->getFirstAttribute()->getName();
+		}
+		return '';
+	}
+	
+	/**
+	 * Get attribute sequence
+	 * @param type $a_last_attribute
+	 * @return type
+	 */
+	public function getAttributeSequence($a_last_attribute)
+	{
+		$sequence = array();
+		foreach ($this->getAttributes() as $att)
+		{
+			$sequence[] = $att->getName();
+			if($a_last_attribute == $att->getName())
+			{
+				break;
+			}
+		}
+		return $sequence;
+	}
+	
+	/**
+	 * Get upper attributes in hierarchy
+	 * @param type $a_name
+	 */
+	public function getUpperAttributes($a_name)
+	{
+		$reverse_attributes = array_reverse($this->getAttributes());
+		
+		$found = false;
+		$upper = array();
+		foreach ($reverse_attributes as $att)
+		{
+			if($att->getName() == $a_name)
+			{
+				$found = true;
+				continue;
+			}
+			if($found)
+			{
+				$upper[] = $att->getName();
+			}
+		}
+		return $upper;
+	}
+	
+	/**
+	 * Get next attribute name in sequence
+	 * @param string $a_name
+	 */
+	public function getNextAttributeName($a_name)
+	{
+		if(!$a_name)
+		{
+			return $this->getFirstAttributeName();
+		}
+		$found = false;
+		foreach($this->getAttributes() as $att)
+		{
+			if($a_name == $att->getName())
+			{
+				$found = true;
+				continue;
+			}
+			if($found)
+			{
+				return $att->getName();
+			}
+		}
+		return '';
+	}
+	
+	/**
+	 * Get next attribute name in sequence
+	 * @param string $a_name
+	 */
+	public function getPreviousAttributeName($a_name)
+	{
+		if(!$a_name)
+		{
+			return '';
+		}
+		$found = false;
+		$reverse_attributes = array_reverse($this->getAttributes());
+		foreach($reverse_attributes as $att)
+		{
+			if($a_name == $att->getName())
+			{
+				$found = true;
+				continue;
+			}
+			if($found)
+			{
+				return $att->getName();
+			}
+		}
+		return '';
+	}
+
+	/**
 	 * Get active attribute values
 	 */
 	public function getAttributeValues()
