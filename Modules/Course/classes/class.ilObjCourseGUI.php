@@ -396,23 +396,21 @@ class ilObjCourseGUI extends ilContainerGUI
 		//	
 		// access
 		//
-		$info->addSection($this->lng->txt("access"));
-		$info->showLDAPRoleGroupMappingInfo();
 		
+		// #10360
+		$this->lng->loadLanguageModule("rep");
+		$info->addSection($this->lng->txt("rep_activation_availability"));
+		$info->showLDAPRoleGroupMappingInfo();
+								
 		// activation
-		if($this->object->getOfflineStatus())
+		if($this->object->getActivationUnlimitedStatus())
 		{
-			$info->addProperty($this->lng->txt('crs_visibility'),
-							   $this->lng->txt('crs_visibility_unvisible'));
-		}
-		elseif($this->object->getActivationUnlimitedStatus())
-		{
-			$info->addProperty($this->lng->txt("crs_visibility"),
-				$this->lng->txt('crs_unlimited'));
+			$info->addProperty($this->lng->txt("rep_activation_access"),
+				$this->lng->txt('crs_visibility_limitless'));
 		}
 		else
 		{
-			$info->addProperty($this->lng->txt('crs_visibility'),
+			$info->addProperty($this->lng->txt('rep_activation_access'),
 				ilDatePresentation::formatPeriod(
 					new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX),
 					new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX)));
