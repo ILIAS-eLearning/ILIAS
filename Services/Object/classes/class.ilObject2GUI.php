@@ -680,7 +680,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 			}
 			else
 			{
-				$callback_obj = new $class_name(null, (int)$_REQUEST["crtcb"], true);
+				$callback_obj = new $class_name(null, (int)$_REQUEST["crtcb"], true, false);
 			}
 			$callback_obj->afterSaveCallback($a_obj);
 		}
