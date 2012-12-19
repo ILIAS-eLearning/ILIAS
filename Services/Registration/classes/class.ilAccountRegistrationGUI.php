@@ -249,9 +249,17 @@ class ilAccountRegistrationGUI
 		$email = $this->form->getInput("usr_email");
 		if($email)
 		{
-			$domains = $this->registration_settings->getAllowedDomains();
+			// #10366
+			$domains = array();
+			foreach($this->registration_settings->getAllowedDomains() as $item)
+			{
+				if(trim($item))
+				{
+					$domains[] = $item;
+				}
+			}			
 			if(sizeof($domains))
-			{				
+			{								
 				$mail_valid = false;
 				foreach($domains as $domain)
 				{
