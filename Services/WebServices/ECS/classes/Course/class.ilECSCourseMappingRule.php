@@ -213,7 +213,7 @@ class ilECSCourseMappingRule
 				$ilDB->quote($this->getMid(),'integer').', '.
 				$ilDB->quote($this->getAttribute(),'text').', '.
 				$ilDB->quote($this->getRefId(),'integer').', '.
-				$ilDB->quote($this->isFilterEnabled(),'interger').', '.
+				$ilDB->quote($this->isFilterEnabled(),'integer').', '.
 				$ilDB->quote($this->getFilter(),'text').', '.
 				$ilDB->quote($this->isSubdirCreationEnabled(),'integer').', '.
 				$ilDB->quote($this->getSubDirectoryType(),'integer').', '.
@@ -256,11 +256,18 @@ class ilECSCourseMappingRule
 			return true;
 		}
 		$query = 'SELECT * from ecs_cmap_rule '.' '.
-				'WHERE rid = '.$ilDB->quote($this->getRid(),'integer');
+				'WHERE rid = '.$ilDB->quote($this->getRuleId(),'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			
+			$this->setServerId($row->sid);
+			$this->setMid($row->mid);
+			$this->setRefId($row->ref_id);
+			$this->setAttribute($row->attribute);
+			$this->enableFilter($row->is_filter);
+			$this->setFilter($row->filter);
+			$this->enableSubdirCreation($row->create_subdir);
+			$this->setSubDirectoryType($row->subdir_type);
 		}
 	}
 }

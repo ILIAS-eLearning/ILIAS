@@ -12939,3 +12939,4 @@ ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value
 ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name
 ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute
 ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute
+ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values
