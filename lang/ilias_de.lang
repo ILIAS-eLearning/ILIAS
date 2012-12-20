@@ -12939,3 +12939,4 @@ ecs#:#ecs_cmap_form_subdir_value#:#Unterverzeichniswert
 ecs#:#ecs_cmap_form_subdir_name#:#Unterverzeichnisname
 ecs#:#ecs_cmap_add_attribute_btn#:#Attribut hinzufügen
 ecs#:#ecs_cmap_delete_attribute_btn#:#Letztes Attribut löschen
+ecs#:#ecs_cmap_form_filter_by_values#:#Filter nach Attributwerten
