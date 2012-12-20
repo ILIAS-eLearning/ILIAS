@@ -268,6 +268,7 @@ class ilECSCourseMappingRule
 			$this->setFilter($row->filter);
 			$this->enableSubdirCreation($row->create_subdir);
 			$this->setSubDirectoryType($row->subdir_type);
+			$this->setDirectory($row->directory);
 		}
 	}
 }

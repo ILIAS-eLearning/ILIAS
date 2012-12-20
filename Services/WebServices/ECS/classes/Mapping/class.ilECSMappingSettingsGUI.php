@@ -267,25 +267,25 @@ class ilECSMappingSettingsGUI
 		
 		// Iterate through all current attributes
 		$attributes = $attributes_obj->getAttributeSequence($current_attribute);
-		foreach($attributes as $name)
+		foreach($attributes as $att_name)
 		{
 			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
-			$rule = ilECSCourseMappingRule::getInstanceByAttribute($this->getServer()->getServerId(), $this->getMid(), $current_node, $name);
+			$rule = ilECSCourseMappingRule::getInstanceByAttribute($this->getServer()->getServerId(), $this->getMid(), $current_node, $att_name);
 			
 			$section = new ilFormSectionHeaderGUI();
-			$section->setTitle($this->lng->txt('ecs_cmap_att_'.$name));
+			$section->setTitle($this->lng->txt('ecs_cmap_att_'.$att_name));
 			
 			// Filter
 			$form->addItem($section);
 			
-			$isfilter = new ilRadioGroupInputGUI($this->lng->txt('ecs_cmap_form_filter'),$name.'_is_filter');
+			$isfilter = new ilRadioGroupInputGUI($this->lng->txt('ecs_cmap_form_filter'),$att_name.'_is_filter');
 			$isfilter->setValue($rule->isFilterEnabled() ? 1 : 0);
 			
 			$all_values = new ilRadioOption($this->lng->txt('ecs_cmap_form_all_values'),0);
 			$isfilter->addOption($all_values);
 			
 			$use_filter = new ilRadioOption($this->lng->txt('ecs_cmap_form_filter_by_values'),1);
-			$filter = new ilTextInputGUI('',$name.'_filter');
+			$filter = new ilTextInputGUI('',$att_name.'_filter');
 			$filter->setInfo($this->lng->txt('ecs_cmap_form_filter_info'));
 			$filter->setSize(50);
 			$filter->setMaxLength(512);
@@ -298,12 +298,12 @@ class ilECSMappingSettingsGUI
 			$form->addItem($isfilter);
 
 			// Create subdirs
-			$subdirs = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_form_create_subdirs'),$name.'_subdirs');
+			$subdirs = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_form_create_subdirs'),$att_name.'_subdirs');
 			$subdirs->setChecked($rule->isSubdirCreationEnabled());
 			$subdirs->setValue(1);
 			
 			// Subdir types
-			$subdir_type = new ilRadioGroupInputGUI($this->lng->txt('ecs_cmap_form_subdir_type'), $name.'_subdir_type');
+			$subdir_type = new ilRadioGroupInputGUI($this->lng->txt('ecs_cmap_form_subdir_type'), $att_name.'_subdir_type');
 			$subdir_type->setValue($rule->getSubDirectoryType());
 			
 			$value = new ilRadioOption($this->lng->txt('ecs_cmap_form_subdir_value'),  ilECSCourseMappingRule::SUBDIR_VALUE);
@@ -318,13 +318,26 @@ class ilECSMappingSettingsGUI
 			// Directory relations
 			$upper_attributes = ilECSCourseAttributes::getInstance(
 					$this->getServer()->getServerId(),
-					$this->getMid())->getUpperAttributes($name);
-
+					$this->getMid())->getUpperAttributes($att_name);
+			
 			if($upper_attributes)
 			{
-				
+				$dir_relation = new ilRadioGroupInputGUI($this->lng->txt('ecs_cmap_form_dir_relation'),$att_name.'_dir_relation');
+
+				$current_dir = new ilRadioOption($this->lng->txt('ecs_cmap_form_current_dir'),'');
+				$dir_relation->addOption($current_dir);
 			}
-			
+			foreach($upper_attributes as $subdir_name)
+			{
+				$subdir = new ilRadioOption($this->lng->txt('ecs_cmap_att_'.$subdir_name),$subdir_name);
+				$dir_relation->addOption($subdir);
+			}
+			if($upper_attributes)
+			{
+				var_dump($rule->getDirectory());
+				$dir_relation->setValue((string) $rule->getDirectory());
+				$form->addItem($dir_relation);
+			}
 		}
 		
 		// add list of attributes
@@ -379,6 +392,7 @@ class ilECSMappingSettingsGUI
 				$rule->setFilter($form->getInput($att_name.'_filter'));
 				$rule->enableSubdirCreation($form->getInput($att_name.'_subdirs'));
 				$rule->setSubDirectoryType($form->getInput($att_name.'_subdir_type'));
+				$rule->setDirectory($form->getInput($att_name.'_dir_relation'));
 				
 				if($rule->getRuleId())
 				{
