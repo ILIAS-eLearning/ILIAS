@@ -120,7 +120,7 @@ class ilECSCourseAttributes
 				$upper[] = $att->getName();
 			}
 		}
-		return $upper;
+		return array_reverse($upper);
 	}
 	
 	/**
