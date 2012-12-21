@@ -34,7 +34,7 @@ class ilForumXMLParser extends ilSaxParser
 		parent::__construct();
 		$this->forum = $forum;
 		$this->setXMLContent('<?xml version="1.0" encoding="utf-8"?>'.$a_xml_data);
-		$this->aobject = new ilObjUser(ANONYMOUS_USR_ID);
+		$this->aobject = new ilObjUser(ANONYMOUS_USER_ID);
 	}
 
 	/**
