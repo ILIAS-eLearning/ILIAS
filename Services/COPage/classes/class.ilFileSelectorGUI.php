@@ -33,7 +33,7 @@ class ilFileSelectorGUI extends ilExplorer
 		{
 			$this->force_open_path = $tree->getPathId($_GET["ref_id"]);
 		}
-
+		$this->setFrameTarget("");
 	}
 
 	function setSelectableTypes($a_types)
