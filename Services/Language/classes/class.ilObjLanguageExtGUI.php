@@ -93,6 +93,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilHelp;
+		
 		if (!ilObjLanguageAccess::_checkMaintenance())
 		{
              $this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
@@ -101,7 +103,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		
  		$cmd = $this->ctrl->getCmd("view")."Object";
 		$this->$cmd();
-		exit;
+		
+		$ilHelp->setScreenIdComponent("lng");
+//		exit;
 	}
 
 	
@@ -432,7 +436,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$tbl->setTemplate($tpl);
 		$tbl->render();
 		$this->tpl->setVariable("TRANSLATION_TABLE", $tpl->get());
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 	
 
@@ -486,7 +490,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_UPLOAD",$this->lng->txt("upload"));
 		$this->tpl->setVariable("CMD_UPLOAD","upload");
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 	
 	
@@ -551,7 +555,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt("download"));
 		$this->tpl->setVariable("CMD_DOWNLOAD","download");
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 
 	
@@ -759,7 +763,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MAINTAIN",$this->lng->txt("language_process_maintenance"));
 		$this->tpl->setVariable("VAR_MAINTAIN", "maintain");
 		$this->tpl->setVariable("CMD_MAINTAIN", "maintain");
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 
 	/**
@@ -794,7 +798,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_NOTE_TRANSLATION",$this->lng->txt("language_note_translation"));
 		$this->tpl->setVariable("TXT_CHANGE_SETTINGS",$this->lng->txt("language_change_settings"));
 		$this->tpl->setVariable("CMD_SETTINGS", "settings");
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 
 	/**
@@ -846,7 +850,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		
 		// show the table
 		$tbl->render();
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 	
 
