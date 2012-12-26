@@ -1997,13 +1997,13 @@
 	<xsl:param name="hier_id"/>
 
 	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">edit</xsl:with-param>
-		<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param>
+		<xsl:with-param name="command">editFiles</xsl:with-param>
+		<xsl:with-param name="langvar">ed_edit_files</xsl:with-param>
 	</xsl:call-template>
 
 	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">editFiles</xsl:with-param>
-		<xsl:with-param name="langvar">ed_edit_files</xsl:with-param>
+		<xsl:with-param name="command">edit</xsl:with-param>
+		<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param>
 	</xsl:call-template>
 
 	<xsl:if test = "$javascript = 'disable'">

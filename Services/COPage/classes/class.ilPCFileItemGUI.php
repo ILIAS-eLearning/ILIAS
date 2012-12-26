@@ -73,7 +73,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	{
 		global $lng;
 		
-		if ($_FILES["Fobject"]["name"]["file"] == "")
+		if ($_FILES["file"]["name"] == "")
 		{
 			$_GET["subCmd"] = "-";
 			ilUtil::sendFailure($lng->txt("upload_error_file_not_found"));
@@ -82,18 +82,18 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
 		$fileObj->setType("file");
-		$fileObj->setTitle($_FILES["Fobject"]["name"]["file"]);
+		$fileObj->setTitle($_FILES["file"]["name"]);
 		$fileObj->setDescription("");
-		$fileObj->setFileName($_FILES["Fobject"]["name"]["file"]);
-		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
-		$fileObj->setFileSize($_FILES["Fobject"]["size"]["file"]);
+		$fileObj->setFileName($_FILES["file"]["name"]);
+		$fileObj->setFileType($_FILES["file"]["type"]);
+		$fileObj->setFileSize($_FILES["file"]["size"]);
 		$fileObj->setMode("filelist");
 		$fileObj->create();
 		$fileObj->raiseUploadError(false);
 		// upload file to filesystem
 		$fileObj->createDirectory();
-		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
-			$_FILES["Fobject"]["name"]["file"]);
+		$fileObj->getUploadFile($_FILES["file"]["tmp_name"],
+			$_FILES["file"]["name"]);
 
 		$this->file_object =& $fileObj;
 		return true;
@@ -142,6 +142,11 @@ class ilPCFileItemGUI extends ilPageContentGUI
 				$this->setTabs("newItemAfter");
 				$ilTabs->setSubTabActive("cont_new_file");
 		
+				$this->displayValidationError();
+				$form = $this->initAddFileForm(false);
+				$this->tpl->setContent($form->getHTML());
+break;
+
 				// new file list form
 				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", "Services/COPage");
 				$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_item"));
@@ -163,6 +168,39 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		}
 	}
 
+	/**
+	 * Init add file form
+	 */
+	public function initAddFileForm($a_before = true)
+	{
+		global $lng, $ilCtrl, $ilUser;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		
+		// file
+		$fi = new ilFileInputGUI($lng->txt("file"), "file");
+		$fi->setRequired(true);
+		$form->addItem($fi);
+		
+		if ($a_before)
+		{
+			$form->addCommandButton("insertNewItemBefore", $lng->txt("save"));
+		}
+		else
+		{
+			$form->addCommandButton("insertNewItemAfter", $lng->txt("save"));
+		}
+		$form->addCommandButton("cancelAddFile", $lng->txt("cancel"));
+		
+		$form->setTitle($lng->txt("cont_insert_file_item"));
+
+		$form->setFormAction($ilCtrl->getFormAction($this));
+	 
+		return $form;
+	}
+
+	
 	/**
 	* Insert file from repository
 	*/
@@ -350,6 +388,11 @@ class ilPCFileItemGUI extends ilPageContentGUI
 				$this->setTabs("newItemBefore");
 				$ilTabs->setSubTabActive("cont_new_file");
 		
+				$this->displayValidationError();
+				$form = $this->initAddFileForm(true);
+				$this->tpl->setContent($form->getHTML());
+break;
+				
 				// new file list form
 				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", "Services/COPage");
 				$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_item"));
@@ -477,6 +520,12 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
-
+	/**
+	 * Cancel adding a file
+	 */
+	function cancelAddFile()
+	{
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
 }
 ?>
