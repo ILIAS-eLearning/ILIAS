@@ -157,9 +157,11 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilHelp;
 
 		$tabs_gui->clearTargets();
+		
+		$ilHelp->setScreenIdComponent("usr");
 
 		if ($_GET["search"])
 		{
