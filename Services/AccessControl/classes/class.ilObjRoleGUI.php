@@ -1603,7 +1603,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$rbacreview;
+		global $rbacsystem,$rbacreview, $ilHelp;
 
 		$base_role_folder = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
 		
@@ -1624,6 +1624,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		// not so nice (workaround for using tabs in repository)
 		$tabs_gui->clearTargets();
+
+		$ilHelp->setScreenIdComponent("role");
 
 		if ($this->back_target != "")
 		{
