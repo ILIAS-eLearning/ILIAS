@@ -11934,7 +11934,8 @@ wsp#:#wsp_type_excv#:#Verifikace: Cvičení
 wsp#:#wsp_type_file#:#Soubor
 wsp#:#wsp_type_tstv#:#Verifikace: Test
 wsp#:#wsp_type_webr#:#Weblový odkaz
-wsp#:#wsp_type_wfld#:#Složkaadministration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###27 12 2012 new variable
+wsp#:#wsp_type_wfld#:#Složka
+administration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###27 12 2012 new variable
 assessment#:#autosave#:#Automatic saving###27 12 2012 new variable
 assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss. (Does only apply for selected questions.)###27 12 2012 new variable
 assessment#:#autosave_ival#:#Interval###27 12 2012 new variable
