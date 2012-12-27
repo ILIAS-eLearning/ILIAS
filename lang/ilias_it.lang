@@ -12750,7 +12750,8 @@ wsp#:#wsp_type_excv#:#Verification: Exercise
 wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Weblink
-wsp#:#wsp_type_wfld#:#Folderadministration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###27 12 2012 new variable
+wsp#:#wsp_type_wfld#:#Folder
+administration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###27 12 2012 new variable
 assessment#:#edit_page#:#Edit Page###27 12 2012 new variable
 assessment#:#edit_question#:#Edit Question###27 12 2012 new variable
 forum#:#ascending_order#:#Latest postings at the bottom###27 12 2012 new variable
