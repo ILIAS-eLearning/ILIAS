@@ -12910,7 +12910,8 @@ wsp#:#wsp_type_excv#:#Verification: Exercise
 wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Weblink
-wsp#:#wsp_type_wfld#:#Foldercommon#:#group_create_chat#:#Create chat###27 12 2012 new variable
+wsp#:#wsp_type_wfld#:#Folder
+common#:#group_create_chat#:#Create chat###27 12 2012 new variable
 content#:#cont_localfile#:#Local File###27 12 2012 new variable
 rbac#:#rbac_create_chat#:#Create Chat###27 12 2012 new variable
 rbac#:#rbac_create_dbk#:#Create Digilib Book###27 12 2012 new variable
