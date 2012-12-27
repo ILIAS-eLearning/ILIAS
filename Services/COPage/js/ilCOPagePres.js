@@ -153,7 +153,6 @@ ilCOPagePres =
 				var base = $("img#base_img_" + tr.iim_id);
 				var pos = base.position();
 				var ov = $("img#iim_ov_" + tr['tr_id']);
-				
 				// no overlay image? -> skip
 				if (ov.length == 0)
 				{
@@ -794,7 +793,7 @@ ilCOPagePres =
 		
 		// mouseover
 		//$('img[usemap^="#map_il_"]').maphilight({fade:true, fillColor:'000000', strokeColor:'000000'});
-		$('img[usemap^="#map_il_"]').maphilight({"neverOn":true});
+		$('img[usemap^="#map_il_"][class!="ilIim"]').maphilight({"neverOn":true});
 		/*$('img[class^="img_hl_"]').each(function(index) {
 			var cl = $(this).attr("class").split("_");
 			var opts = {};

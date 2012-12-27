@@ -2437,6 +2437,9 @@
 				<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
 			</xsl:if>
 		</xsl:if>
+		<xsl:if test="name(..) = 'InteractiveImage'">
+			<xsl:attribute name="class">ilIim</xsl:attribute>
+		</xsl:if>
 		<xsl:if test = "$inline = 'y'">
 			<xsl:attribute name="align">middle</xsl:attribute>
 		</xsl:if>
