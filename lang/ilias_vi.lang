@@ -12864,7 +12864,6 @@ ecs#:#ecs_status_pending_unmapped_nondiscon#:#Pending (mapped, disconnection imp
 ecs#:#ecs_status_mapped#:#Mapped###28 11 2012 new variable
 ecs#:#ecs_status_deleted#:#Deleted###28 11 2012 new variable
 ecs#:#ecs_status_legend#:#Legend###28 11 2012 new variable
-ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation###28 11 2012 new variable
 webr#:#invalid_links_tbl#:#Invalid Links###28 11 2012 new variable
 common#:#obj_tool_setting_news#:#Show News###28 11 2012 new variable
 common#:#obj_ecss#:#ECS###28 11 2012 new variable
@@ -12918,3 +12917,32 @@ rbac#:#rcat_visible#:#ECS Category is visible###28 11 2012 new variable
 rbac#:#rcat_write#:#User can edit settings of ECS Category###28 11 2012 new variable
 search#:#search_filter_by_type#:#Filter by Type###28 11 2012 new variable
 search#:#search_off#:#Off###28 11 2012 new variable
+ecs#:#ecs_cmap_enable#:#Course Allocation###27 12 2012 new variable
+ecs#:#ecs_cmap_def_cat#:#Default Category###27 12 2012 new variable
+ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one#:#Course in one Category###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one_cat#:#Course Category###27 12 2012 new variable
+ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes###27 12 2012 new variable
+ecs#:#ecs_cmap_att_organisation#:#Organisation###27 12 2012 new variable
+ecs#:#ecs_cmap_att_term#:#Term###27 12 2012 new variable
+ecs#:#ecs_cmap_att_title#:#Title###27 12 2012 new variable
+ecs#:#ecs_cmap_att_lecturer#:#Lecturer###27 12 2012 new variable
+ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration###27 12 2012 new variable
+ecs#:#ecs_cmap_attributes#:#Mapping Attributes###27 12 2012 new variable
+ecs#:#ecs_cmap_overview#:#Mapping Overview###27 12 2012 new variable
+ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter#:#Filter Settings###27 12 2012 new variable
+ecs#:#ecs_cmap_form_all_values#:#All Values###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated###27 12 2012 new variable
+ecs#:#ecs_cmap_form_create_subdirs#:#Create Subdirectories###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name###27 12 2012 new variable
+ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute###27 12 2012 new variable
+ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values###27 12 2012 new variable
+ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
+ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
+content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
+content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
