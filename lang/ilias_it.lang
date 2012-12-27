@@ -227,7 +227,6 @@ administration#:#options#:#Opzioni
 administration#:#output_options#:#Opzioni di uscita
 administration#:#passwd_auto_generate#:#Invio e Generazione password
 administration#:#path_to_mkisofs#:#Cartella di mkisofs
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Se attivato, non è consentito riutilizzare qualsiasi nome di login che è già salvato nella cronologia (anche se appartiene ad un utente eliminato).
 administration#:#purge_age_limit#:#Età limite
 administration#:#purge_age_limit_desc#:#Se questo campo ha un valore, verranno eliminati solo gli oggetti cancellati prima del numero di giorni corrispondente.
 administration#:#purge_count_limit#:#Numero limite
@@ -478,8 +477,6 @@ assessment#:#ects_range_error_d#:#Per favore inserisci un valore tra 0 e 100 per
 assessment#:#ects_range_error_e#:#Per favore inserisci un valore tra 0 e 100 per il voto E nella scala ECTS!
 assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che falliscono raggiungono almeno il
 assessment#:#ects_use_fx_grade_part2#:#percentuale del punteggio totale
-assessment#:#edit_content#:#Modifica il contenuto
-assessment#:#edit_properties#:#Proprietà
 assessment#:#edit_test_questions#:#Editing domande
 assessment#:#element_height#:#Altezza minima
 assessment#:#element_height_info#:#Questa e' la minima altezza, in pixel, dell'output di testo relativo a termini e definizioni - immagini. <br />
@@ -939,7 +936,6 @@ assessment#:#tst_already_submitted#:#Il test è gia' stato eseguito e inviato.
 assessment#:#tst_already_taken#:#Test gia' eseguito
 assessment#:#tst_anonymity#:#Anonimato
 assessment#:#tst_anonymity_anonymous_test#:#Test anonimo
-assessment#:#tst_anonymity_description#:#Se l'anonimato è abilitato, il nome dei partecipanti del test è omesso.
 assessment#:#tst_anonymity_no_anonymization#:#Nessuna forma anonima
 assessment#:#tst_answer_sheet#:#Risultati delle risposte al test
 assessment#:#tst_answered_questions#:#Domande già risposte
@@ -2156,7 +2152,6 @@ common#:#are_you_sure#:#Sei sicuro?
 common#:#arrow_downright#:#Freccia destra dall&#039;alto in basso
 common#:#articels_unread#:#Articoli da leggere:
 common#:#as_of#:#di
-common#:#ascending_order#:#Ordinamento ascendente
 common#:#ass_log_admin#:#Log Data Administration
 common#:#ass_log_available_tests#:#Test disponibili
 common#:#ass_log_count_datasets#:#Log Entries
@@ -2375,9 +2370,6 @@ common#:#catr_edit_info#:#Please choose one category, for creating a new referen
 common#:#catr_new#:#Creare Nuovo Riferimento di Categoria
 common#:#cc#:#CC
 common#:#censorship#:#Moderatore
-common#:#centra_account#:#Amministratore principale
-common#:#centra_rooms#:#Stanze principali
-common#:#centra_server#:#Server principale
 common#:#certificate#:#Certificato
 common#:#chac_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#chac_read#:#Accedere in lettura alle impostazioni della chat
@@ -2638,7 +2630,6 @@ common#:#delicious#:#del.icio.us Account
 common#:#deliver#:#Invia l&#039;esercitazione
 common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
-common#:#descending_order#:#Ordinamento discendente
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
 common#:#desktop_items#:#Oggetti sul desktop personale
@@ -3346,27 +3337,6 @@ common#:#info_trash#:#Oggetti eliminati
 common#:#info_view_of_user#:#Vista dell&#039;utente
 common#:#inform_user_mail#:#Invia una eMail per informare gli utenti dei cambiamenti
 common#:#information_abbr#:#Informazioni
-common#:#ingmedia_all_offers#:#Tutti i LE
-common#:#ingmedia_back_to_le#:#Torna ai LE
-common#:#ingmedia_good_afternoon#:#Buon pomeriggio
-common#:#ingmedia_good_evening#:#Buona sera
-common#:#ingmedia_good_morning#:#Buon giorno
-common#:#ingmedia_good_night#:#Buona notte
-common#:#ingmedia_hello#:#Ciao
-common#:#ingmedia_info_about_work1#:#Su
-common#:#ingmedia_info_about_work2#:#, hai lavorato qui l&#039;ultima volta. Se vuoi puoi continuare da lì cliccando qui:
-common#:#ingmedia_level_zero#:#Livello superiore
-common#:#ingmedia_pers_dates#:#Dati personali
-common#:#ingmedia_reg_fo#:#Forum registrati
-common#:#ingmedia_reg_le#:#LE registrati
-common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&#039;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite eMail (!).
-common#:#ingmedia_use_info2#:#Non &#232; consentito l&#039;uso di caratteri speciali (come , ; . = - * + #) nella definizione dell&#039;utente e della password INGMEDIA. Per poter accedere alla piattaforma INGMEDIA, devi accettare l&acute;autorizzazione utente.
-common#:#ingmedia_use_info3#:#Per favore, seleziona uno dei link nella barra laterale.
-common#:#ingmedia_use_title#:#Cambia i dati utente.
-common#:#ingmedia_user_agree#:#Autorizzazione
-common#:#ingmedia_vis_le#:#LE visitate
-common#:#ingmedia_visited_le#:#Tutte le LE che hai visitato ultimamente.
-common#:#ingmedia_welcome#:#, benvenuto nel tuo desktop personale!!
 common#:#inifile#:#File ilias.ini
 common#:#inline_file_extensions#:#Web-enabled files
 common#:#inline_file_extensions_info#:#I file le cui estensioni sono mostrate nella finestra del browser.<br/>Per esempio: <b>gif jpg mp3 pdf png</b><br/> Tutti gli altri files disponibili per il download.
@@ -6173,7 +6143,6 @@ crs#:#crs_archives_deleted#:#Gli archivi sono stati eliminati
 crs#:#crs_auto_fill#:#Riempimento automatico
 crs#:#crs_availability_limitless_info#:#Scegli questa modalit&#224; se vuoi rendere il corso disponibile ed accessibile agli utenti (&#232; legato anche alla modalit&#224; di registrazione pi&#249; sotto).
 crs#:#crs_availability_until_info#:#Scegli questa modalit&#224; se vuoi rendere il corso disponibile ed accessibile agli utenti solo per un periodo di tempo.
-crs#:#crs_availability_unvisible_info#:#Scegli questa modalit&#224; durante la fase di preparazione del corso. Solo gli amministratori ed i tutor potranno vedere e modificare il corso.
 crs#:#crs_blocked#:#Accesso negato
 crs#:#crs_blocked_member#:#Stato delle iscrizioni al corso "%s"
 crs#:#crs_blocked_member_body#:#La tua iscrizione al corso "%s" non è più attiva.
@@ -6201,8 +6170,6 @@ crs#:#crs_create_date#:#Crea data
 crs#:#crs_crs_structure#:#Struttura del corso
 crs#:#crs_custom_user_fields#:#Course Relevant User Data
 crs#:#crs_dates#:#Scadenze
-crs#:#crs_deact_auto_noti#:#Suppress notification about new membership
-crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.
 crs#:#crs_deactivate_notification#:#Deactivate Notification
 crs#:#crs_deassign_lm_sure#:#Sei sicuro di volerlo rimuovere?
 crs#:#crs_delete_file#:#Cancella il file?
@@ -6620,10 +6587,8 @@ crs#:#crs_view_info_timing#:#Modo di temporizzazione per la presentazione.
 crs#:#crs_view_mode#:#Presentazione del corso
 crs#:#crs_view_objective#:#Visualizzazione obiettivi formativi
 crs#:#crs_view_timing#:#Visualizzazione temporizzazioni
-crs#:#crs_visibility#:#Visiblit&#224;
 crs#:#crs_visibility_limitless#:#Visibile (senza limiti)
 crs#:#crs_visibility_until#:#Visibile (da ... a ...)
-crs#:#crs_visibility_unvisible#:#Non visibile
 crs#:#crs_wait_info#:#Se selezionato ed il numero di utenti &#232; superiore al numero massimo, le nuove richieste verranno poste in una lista di attesa.
 crs#:#crs_waiting_list#:#Lista di attesa
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Il numero massimo di partecipanti al corso è stato superato. Puoi agiungere la tua richiesta alla lista di attesa. Riceverai un massaggio dall'amministratore se la tua richiesta è stata accettata o rifiutarta
@@ -6632,7 +6597,6 @@ crs#:#crs_wiz_back#:#Indietro
 crs#:#crs_wiz_next#:#Salva
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Posizione nella lista di attesa
-crs#:#edit_content#:#Modifica il contenuto
 crs#:#edit_timings_list#:#Edita Tempi
 crs#:#event#:#Sessione
 crs#:#event_add_new_event#:#Aggiunta nuova sessione
@@ -7870,7 +7834,6 @@ forum#:#new_post#:#Nuovo messaggio
 forum#:#no_forum_available_for_moving_threads#:#Non ci sono forum disponibili dove muovere i topics selezionati.
 forum#:#no_forum_selected#:#Non è selezionato nessun forum dove spostare i topics selezionati.
 forum#:#number_of_threads#:#Numero di discussioni visualizzate per pagina
-forum#:#order_by_posts#:#Sorta per post
 forum#:#post_activation_desc#:#Se abilitato, il moderatore dovrà attivare i nuovi post.
 forum#:#post_censored_comment_by_moderator#:#Post Censurato, Commento del Moderatore
 forum#:#post_reply#:#Re:
@@ -8139,18 +8102,6 @@ jscalendar#:#time_part#:#(Shift-)Clicca o trascina per cambiare il valore
 jscalendar#:#today#:#Oggi
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-jsmath#:#jsmath_default_setting#:#Usa di default
-jsmath#:#jsmath_default_setting_info#:#Se questa opzione è selezionata jsMath verrà usato con metodo di default per la creazione di termini in formato LaTeX per tutti gli utenti che non hanno ancora attivato la loro versione di jsMath nelle impostazioni personali.
-jsmath#:#jsmath_enable_jsmath#:#Attiva jsMath
-jsmath#:#jsmath_enable_jsmath_info#:#Attiva il supporto per la versione basata su jsMath dei contenuti matematici in forma di termini LaTeX.
-jsmath#:#jsmath_enable_user#:#Attiva il supporto jsMath
-jsmath#:#jsmath_enable_user_desc#:#Attivare jsMath per l'uso di termini matematici. L'uso di jsMath permette di disporre di testo scalabile e necessita l'attivazione dei javascript sul suo browser. Se l'opzione jsMath è disattivata, i termini matematici verranno mostrati graficamente.
-jsmath#:#jsmath_extt_jsmath#:#jsMath
-jsmath#:#jsmath_no_javascript#:#Se non vedi la formula matematica corretta accanto a questo suggerimento, hai attivato jsMath per la codifica delle formule matematiche, ma il tuo browser non supporta i javascript oppure hai disattivaso l'utilizzo. Per mostrare correttamente i termini matematici ti preghiamo di attivare i javascript nel tuo browser e ricarica la pagina. oppure disattiva jsMath nelle tue impostazioni personali nel tuo desktop personale.
-jsmath#:#jsmath_path_not_found#:#Non riesco a trovare jsMath.js nel percorso corrispondente. Controlla per favore la localizzazione di jsMath su questo server!
-jsmath#:#jsmath_path_to_jsmath#:#Percorso jsMath
-jsmath#:#jsmath_path_to_jsmath_desc#:#Il percorso alla directory base di jsMath, relativa alla directory principale di ILIAS. Per esempio &quot;./Services/Javascript/jsMath&quot;
-jsmath#:#jsmath_settings#:#Impostazioni jsMath
 ldap#:#ldap_add_missing#:#Assegnare ruoli mancanti
 ldap#:#ldap_add_remove#:#Aggiungi / Rimuovi ruoli
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
@@ -10276,7 +10227,6 @@ rbac#:#itgr_copy#:#User can copy item group
 rbac#:#itgr_delete#:#User can move or delete item group
 rbac#:#itgr_edit_permission#:#User can change permission settings
 rbac#:#itgr_read#:#User can read item group
-rbac#:#itgr_visible#:#Item group is visible
 rbac#:#itgr_write#:#User can edit content and settings of item group
 rbac#:#leave#:#Abbandona
 rbac#:#lm_copy#:#Copia ILIAS Learning Module
@@ -10770,81 +10720,12 @@ sahs#:#sahs_std_sequencing#:#Standard Sequencing
 sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Creare Export File (HTML, One Page, Review Mode)
-scormdebug#:#adl_nav_request#:#Navigation request to be processed immediately following Terminate()
-scormdebug#:#adl_nav_request_valid_choice#:#Usato da uno SCO per determinare se una richiesta di scelta di navigazione, specifica per una particolare attività, sarà accettata.
-scormdebug#:#adl_nav_request_valid_continue#:#Usato da uno SCO per determinare se una richiesta di navigazione, sarà accettata.
-scormdebug#:#adl_nav_request_valid_previous#:#Usato da uno SCO per determinare se una richiesta di navigazione, sarà accettata.
 scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()
 scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
 scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#all_API-calls_shown#:#Sono attualmente mostrati tutti gli API-Calls.
 scormdebug#:#API-call#:#API-call
-scormdebug#:#cmi__version#:#Represents the version of the data model
-scormdebug#:#cmi_comments_from_learner__children#:#Listing of supported data model elements
-scormdebug#:#cmi_comments_from_learner__count#:#Current number of learner comments
-scormdebug#:#cmi_comments_from_learner_n_comment#:#Input testuale
-scormdebug#:#cmi_comments_from_learner_n_location#:#Point in the SCO to which the comment applies
-scormdebug#:#cmi_comments_from_learner_n_timestamp#:#Point in time at which the comment was created or most recently changed
-scormdebug#:#cmi_comments_from_lms__children#:#Listing of supported data model elements
-scormdebug#:#cmi_comments_from_lms__count#:#Current number of comments from the LMS
-scormdebug#:#cmi_comments_from_lms_n_comment#:#Comments or annotations associated with a SCO
-scormdebug#:#cmi_comments_from_lms_n_location#:#Point in the SCO to which the comment applies
-scormdebug#:#cmi_comments_from_lms_n_timestamp#:#Point in time at which the comment was created or most recently changed
-scormdebug#:#cmi_completion_status#:#Indicates whether the learner has completed the SCO
-scormdebug#:#cmi_completion_threshold#:#Used to determine whether the SCO should be considered complete
-scormdebug#:#cmi_credit#:#Indicates whether the learner will be credited for performance in the SCO
-scormdebug#:#cmi_entry#:#Asserts whether the learner has previously accessed the SCO
-scormdebug#:#cmi_exit#:#Indicates how or why the learner left the SCO
-scormdebug#:#cmi_interactions__children#:#Listing of supported data model elements
-scormdebug#:#cmi_interactions__count#:#Current number of interactions being stored by the LMS
-scormdebug#:#cmi_interactions_n_correct_responses__count#:#Current number of correct responses being stored by the LMS for this interaction
-scormdebug#:#cmi_interactions_n_correct_responses_n_pattern#:#One correct response pattern for the interaction
-scormdebug#:#cmi_interactions_n_description#:#Brief informative description of the interaction
-scormdebug#:#cmi_interactions_n_id#:#Unique label for the interaction
-scormdebug#:#cmi_interactions_n_latency#:#Time elapsed between the time the interaction was made available to the learner for response and the time of the first response
-scormdebug#:#cmi_interactions_n_learner_response#:#Data generated when a learner responds to an interaction
-scormdebug#:#cmi_interactions_n_objectives__count#:#Current number of objectives (i.e., objective identifiers) being stored by the LMS for this interaction
-scormdebug#:#cmi_interactions_n_objectives_n_id#:#Label for objectives associated with the interaction
-scormdebug#:#cmi_interactions_n_result#:#Judgment of the correctness of the learner response
-scormdebug#:#cmi_interactions_n_timestamp#:#Point in time at which the interaction was first made available to the learner for learner interaction and response
-scormdebug#:#cmi_interactions_n_type#:#Which type of interaction is recorded
-scormdebug#:#cmi_interactions_n_weighting#:#Weight given to the interaction relative to other interactions
-scormdebug#:#cmi_launch_data#:#Data provided to a SCO after launch, initialized from the dataFromLMS manifest element
-scormdebug#:#cmi_learner_id#:#Identifies the learner on behalf of whom the SCO was launched
-scormdebug#:#cmi_learner_name#:#Name provided for the learner by the LMS
-scormdebug#:#cmi_learner_preference__children#:#Listing of supported data model elements
-scormdebug#:#cmi_learner_preference_audio_captioning#:#Specifies whether captioning text corresponding to audio is displayed
-scormdebug#:#cmi_learner_preference_audio_level#:#Specifies an intended change in perceived audio level
-scormdebug#:#cmi_learner_preference_delivery_speed#:#The learner's preferred relative speed of content delivery
-scormdebug#:#cmi_learner_preference_language#:#The learner's preferred language for SCOs with multilingual capability
-scormdebug#:#cmi_location#:#The learner's current location in the SCO
-scormdebug#:#cmi_max_time_allowed#:#Amount of accumulated time the learner is allowed to use a SCO
-scormdebug#:#cmi_mode#:#Identifies one of three possible modes in which the SCO may be presented to the learner
-scormdebug#:#cmi_objectives__children#:#Listing of supported data model elements
-scormdebug#:#cmi_objectives__count#:#Current number of objectives being stored by the LMS
-scormdebug#:#cmi_objectives_n_completion_status#:#Indicates whether the learner has completed the associated objective
-scormdebug#:#cmi_objectives_n_description#:#Provides a brief informative description of the objective
-scormdebug#:#cmi_objectives_n_id#:#Etichetta unica dell'obiettivo
-scormdebug#:#cmi_objectives_n_progress_measure#:#Measure of the progress the learner has made toward completing the objective
-scormdebug#:#cmi_objectives_n_score__children#:#Listing of supported data model elements
-scormdebug#:#cmi_objectives_n_score_max#:#Maximum value, for the objective, in the range for the raw score
-scormdebug#:#cmi_objectives_n_score_min#:#Minimum value, for the objective, in the range for the raw score
-scormdebug#:#cmi_objectives_n_score_raw#:#Number that reflects the performance of the learner, for the objective, relative to the range bounded by the values of min and max
-scormdebug#:#cmi_objectives_n_score_scaled#:#Number that reflects the performance of the learner for the objective
-scormdebug#:#cmi_objectives_n_success_status#:#Indicates whether the learner has mastered the objective
-scormdebug#:#cmi_progress_measure#:#Measure of the progress the learner has made toward completing the SCO
-scormdebug#:#cmi_scaled_passing_score#:#Scaled passing score required to master the SCO
-scormdebug#:#cmi_score__children#:#Listing of supported data model elements
-scormdebug#:#cmi_score_max#:#Maximum value in the range for the raw score
-scormdebug#:#cmi_score_min#:#Minimum value in the range for the raw score
-scormdebug#:#cmi_score_raw#:#Number that reflects the performance of the learner relative to the range bounded by the values of min and max
-scormdebug#:#cmi_score_scaled#:#Number that reflects the performance of the learner
-scormdebug#:#cmi_session_time#:#Amount of time that the learner has spent in the current learner session for this SCO
-scormdebug#:#cmi_success_status#:#Indicates whether the learner has mastered the SCO
-scormdebug#:#cmi_suspend_data#:#Provides space to store and retrieve data between learner sessions
-scormdebug#:#cmi_time_limit_action#:#Indicates what the SCO should do when cmi.max_time_allowed is exceeded
-scormdebug#:#cmi_total_time#:#Sum of all of the learner's session times accumulated in the current learner attempt
 scormdebug#:#cmi._version#:#Represents the version of the data model
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
@@ -12869,4 +12750,196 @@ wsp#:#wsp_type_excv#:#Verification: Exercise
 wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Weblink
-wsp#:#wsp_type_wfld#:#Folder
+wsp#:#wsp_type_wfld#:#Folderadministration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###27 12 2012 new variable
+assessment#:#edit_page#:#Edit Page###27 12 2012 new variable
+assessment#:#edit_question#:#Edit Question###27 12 2012 new variable
+forum#:#ascending_order#:#Latest postings at the bottom###27 12 2012 new variable
+forum#:#descending_order#:#Latest postings at the top###27 12 2012 new variable
+content#:#cont_LocalFile#:#Local File###27 12 2012 new variable
+mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.###27 12 2012 new variable
+mathjax#:#mathjax_enable_mathjax#:#Enable MathJax###27 12 2012 new variable
+mathjax#:#mathjax_mathjax#:#MathJax###27 12 2012 new variable
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###27 12 2012 new variable
+mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax###27 12 2012 new variable
+mathjax#:#mathjax_settings#:#MathJax Settings###27 12 2012 new variable
+mathjax#:#mathjax_limiter#:#Inline Delimiters###27 12 2012 new variable
+mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.###27 12 2012 new variable
+common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts###27 12 2012 new variable
+common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of inactivation.###27 12 2012 new variable
+common#:#delete_inactivated_user_accounts_period#:#Days past since the inactivation###27 12 2012 new variable
+common#:#delete_inactivated_user_accounts_period_desc#:#Deletion will be executed if this period of time has past since the inactivation.###27 12 2012 new variable
+common#:#delete_inactivated_user_accounts_include_roles#:#Included roles###27 12 2012 new variable
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.###27 12 2012 new variable
+common#:#delete_inactivated_user_accounts_interval#:#Frequency###27 12 2012 new variable
+common#:#delete_inactivated_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###27 12 2012 new variable
+crs#:#crs_auto_notification#:#Notification For New Member###27 12 2012 new variable
+crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.###27 12 2012 new variable
+common#:#obj_dcl_duplicate#:#Copy Data Collection###27 12 2012 new variable
+forum#:#sort_by_posts#:#Sort by Posts###27 12 2012 new variable
+dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###27 12 2012 new variable
+dcl#:#dcl_notimage_exception#:#The file has to be a picture.###27 12 2012 new variable
+blog#:#blog_contributors#:#Contributors###27 12 2012 new variable
+blog#:#blog_add_contributor#:#Add Contributor###27 12 2012 new variable
+blog#:#blog_search_users#:#Search Users###27 12 2012 new variable
+blog#:#blog_contributor_container_add#:#Add Users From Course/Group###27 12 2012 new variable
+common#:#il_blog_contributor#:#Blog Contributor###27 12 2012 new variable
+rbac#:#blog_contribute#:#User can contribute###27 12 2012 new variable
+blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.###27 12 2012 new variable
+dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!###27 12 2012 new variable
+dcl#:#dcl_empty_view#:#Delete this View###27 12 2012 new variable
+dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 12 2012 new variable
+dcl#:#dcl_table_info_title#:#Info###27 12 2012 new variable
+dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?###27 12 2012 new variable
+dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.###27 12 2012 new variable
+dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.###27 12 2012 new variable
+dcl#:#dcl_permissions_form#:#User rights###27 12 2012 new variable
+dcl#:#-dcl_table_info_title-#:#Info###27 12 2012 new variable
+rating#:#rating_number_votes#:#%s Ratings###27 12 2012 new variable
+administration#:#system_check_no_owner#:#Ownerless Objects###27 12 2012 new variable
+blog#:#blog_import#:#Import Blog###27 12 2012 new variable
+poll#:#poll_import#:#Import Poll###27 12 2012 new variable
+user#:#user_account_deleted_confirmation#:#Your account has been deleted. An email containing detailed information has been sent to you.###27 12 2012 new variable
+content#:#cont_initial_attached_content#:#Initial Extra Content###27 12 2012 new variable
+content#:#cont_topic#:#Topic###27 12 2012 new variable
+content#:#cont_selected_topic#:#Selected Topic###27 12 2012 new variable
+content#:#cont_all_topics#:#All Topics###27 12 2012 new variable
+rating#:#rating_export_category#:#Category###27 12 2012 new variable
+rating#:#rating_export_date#:#Date###27 12 2012 new variable
+rating#:#rating_export_rating#:#Rating###27 12 2012 new variable
+trac#:#trac_mode_plugin#:#Plugin###27 12 2012 new variable
+common#:#qpl_copy#:#Copy Question Pool Test###27 12 2012 new variable
+content#:#cont_highlight_class#:#Highlight Class###27 12 2012 new variable
+content#:#cont_presentation#:#Presentation###27 12 2012 new variable
+content#:#cont_scorm_options#:#SCORM Options###27 12 2012 new variable
+content#:#cont_rte_settings#:#RTE Settings###27 12 2012 new variable
+content#:#cont_debugging#:#Debugging###27 12 2012 new variable
+content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.###27 12 2012 new variable
+content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.###27 12 2012 new variable
+content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.###27 12 2012 new variable
+content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.###27 12 2012 new variable
+content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.###27 12 2012 new variable
+content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.###27 12 2012 new variable
+survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool.###27 12 2012 new variable
+survey#:#survey_question_pool_usage_active_info#:#The questions can be re-used in other surveys.###27 12 2012 new variable
+survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.###27 12 2012 new variable
+survey#:#survey_question_pool_usage_inactive_info#:#The questions cannot be re-used in other surveys.###27 12 2012 new variable
+mcst#:#mcst_viewmode#:#Presentation Mode###27 12 2012 new variable
+mcst#:#mcst_list#:#List###27 12 2012 new variable
+mcst#:#mcst_gallery#:#Gallery###27 12 2012 new variable
+mcst#:#mcst_manage#:#Manage###27 12 2012 new variable
+mcst#:#mcst_play#:#Play###27 12 2012 new variable
+common#:#edit_assignments#:#Edit Assignments###27 12 2012 new variable
+mcst#:#mcst_extract_preview_image#:#Extract Preview Image###27 12 2012 new variable
+mcst#:#mcst_image_extracted#:#Image has been extracted.###27 12 2012 new variable
+mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###27 12 2012 new variable
+mcst#:#mcst_second#:#Second###27 12 2012 new variable
+dateplaner#:#cal_notification_crsgrp#:#Notification for Course/Group Participants###27 12 2012 new variable
+dateplaner#:#cal_notification_users#:#Notification for Selected Users###27 12 2012 new variable
+dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.###27 12 2012 new variable
+dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.###27 12 2012 new variable
+dateplaner#:#cal_user_notification#:#User Notification###27 12 2012 new variable
+dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses.###27 12 2012 new variable
+dateplaner#:#cal_cg_notification#:#Course/Group Notification###27 12 2012 new variable
+dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"###27 12 2012 new variable
+dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.###27 12 2012 new variable
+file#:#file_download#:#Download File###27 12 2012 new variable
+trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is available in the main menu.###27 12 2012 new variable
+trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.###27 12 2012 new variable
+content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment###27 12 2012 new variable
+search#:#search_option_online#:#Online###27 12 2012 new variable
+search#:#search_option_offline#:#Offline###27 12 2012 new variable
+common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.###27 12 2012 new variable
+forum#:#sort_by_date#:#Sort by date###27 12 2012 new variable
+forum#:#error_reading_file#:#There was an error reading the file###27 12 2012 new variable
+rbac#:#lp_other_users#:#See learning progress overview of other users###27 12 2012 new variable
+rbac#:#trac_lp_other_users#:#See learning progress overview of other users###27 12 2012 new variable
+dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x minutes.###27 12 2012 new variable
+dateplaner#:#cal_webcal_sync#:#External Calendar Synchronisation###27 12 2012 new variable
+ecs#:#ecs_status_pending_unmapped#:#Pending (unmapped)###27 12 2012 new variable
+ecs#:#ecs_status_pending_unmapped_discon#:#Pending (mapped, disconnection possible)###27 12 2012 new variable
+ecs#:#ecs_status_pending_unmapped_nondiscon#:#Pending (mapped, disconnection impossible)###27 12 2012 new variable
+ecs#:#ecs_status_mapped#:#Mapped###27 12 2012 new variable
+ecs#:#ecs_status_deleted#:#Deleted###27 12 2012 new variable
+ecs#:#ecs_status_legend#:#Legend###27 12 2012 new variable
+webr#:#invalid_links_tbl#:#Invalid Links###27 12 2012 new variable
+common#:#obj_tool_setting_news#:#Show News###27 12 2012 new variable
+common#:#obj_ecss#:#ECS###27 12 2012 new variable
+common#:#obj_ecss_desc#:#General ECS Settings###27 12 2012 new variable
+rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administration###27 12 2012 new variable
+rbac#:#ecss_read#:#User can read general ECS settings###27 12 2012 new variable
+rbac#:#ecss_visible#:#ECS settings are visible ###27 12 2012 new variable
+rbac#:#ecss_write#:#User can edit ECS settings###27 12 2012 new variable
+skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.###27 12 2012 new variable
+help#:#help_imported_on#:#Imported on###27 12 2012 new variable
+help#:#help_tooltips_and_help#:#Tooltips and Workflow Help###27 12 2012 new variable
+help#:#help_help_only#:#Workflow Help Only###27 12 2012 new variable
+help#:#help_tooltips_only#:#Tooltips Only###27 12 2012 new variable
+help#:#help_set_mode#:#Set Mode###27 12 2012 new variable
+poll#:#poll_result#:#Voting Result###27 12 2012 new variable
+fold#:#fold_copy#:#Copy Folder###27 12 2012 new variable
+rbac#:#rfil_delete#:#User can move or delete ECS File ###27 12 2012 new variable
+rbac#:#rfil_edit_permission#:#User can change permission settings###27 12 2012 new variable
+rbac#:#rfil_read#:#User can use ECS File ###27 12 2012 new variable
+rbac#:#rfil_visible#:#ECS File is visible###27 12 2012 new variable
+rbac#:#rfil_write#:#User can edit settings of ECS File###27 12 2012 new variable
+rbac#:#rgrp_delete#:#User can move or delete ECS Group ###27 12 2012 new variable
+rbac#:#rgrp_edit_permission#:#User can change permission settings###27 12 2012 new variable
+rbac#:#rgrp_read#:#User can use ECS Group ###27 12 2012 new variable
+rbac#:#rgrp_visible#:#ECS Group is visible###27 12 2012 new variable
+rbac#:#rgrp_write#:#User can edit settings of ECS Group###27 12 2012 new variable
+rbac#:#rglo_delete#:#User can move or delete ECS Glossary ###27 12 2012 new variable
+rbac#:#rglo_edit_permission#:#User can change permission settings###27 12 2012 new variable
+rbac#:#rglo_read#:#User can use ECS Glossary ###27 12 2012 new variable
+rbac#:#rglo_visible#:#ECS Glossary is visible###27 12 2012 new variable
+rbac#:#rglo_write#:#User can edit settings of ECS Glossary###27 12 2012 new variable
+rbac#:#rlm_delete#:#User can move or delete ECS Learning Module ###27 12 2012 new variable
+rbac#:#rlm_edit_permission#:#User can change permission settings###27 12 2012 new variable
+rbac#:#rlm_read#:#User can use ECS Learning Module ###27 12 2012 new variable
+rbac#:#rlm_visible#:#ECS Learning Module is visible###27 12 2012 new variable
+rbac#:#rlm_write#:#User can edit settings of ECS Learning Module###27 12 2012 new variable
+rbac#:#rtst_delete#:#User can move or delete ECS Test###27 12 2012 new variable
+rbac#:#rtst_edit_permission#:#User can change permission settings###27 12 2012 new variable
+rbac#:#rtst_read#:#User can use ECS Test###27 12 2012 new variable
+rbac#:#rtst_visible#:#ECS Test is visible###27 12 2012 new variable
+rbac#:#rtst_write#:#User can edit settings of ECS Test###27 12 2012 new variable
+rbac#:#rwik_delete#:#User can move or delete ECS Wiki###27 12 2012 new variable
+rbac#:#rwik_edit_permission#:#User can change permission settings###27 12 2012 new variable
+rbac#:#rwik_read#:#User can use ECS Wiki###27 12 2012 new variable
+rbac#:#rwik_visible#:#ECS Wiki is visible###27 12 2012 new variable
+rbac#:#rwik_write#:#User can edit settings of ECS Wiki###27 12 2012 new variable
+rbac#:#rcat_delete#:#User can move or delete ECS Category###27 12 2012 new variable
+rbac#:#rcat_edit_permission#:#User can change permission settings###27 12 2012 new variable
+rbac#:#rcat_read#:#User can use ECS Category###27 12 2012 new variable
+rbac#:#rcat_visible#:#ECS Category is visible###27 12 2012 new variable
+rbac#:#rcat_write#:#User can edit settings of ECS Category###27 12 2012 new variable
+search#:#search_filter_by_type#:#Filter by Type###27 12 2012 new variable
+search#:#search_off#:#Off###27 12 2012 new variable
+ecs#:#ecs_cmap_enable#:#Course Allocation###27 12 2012 new variable
+ecs#:#ecs_cmap_def_cat#:#Default Category###27 12 2012 new variable
+ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one#:#Course in one Category###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one_cat#:#Course Category###27 12 2012 new variable
+ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes###27 12 2012 new variable
+ecs#:#ecs_cmap_att_organisation#:#Organisation###27 12 2012 new variable
+ecs#:#ecs_cmap_att_term#:#Term###27 12 2012 new variable
+ecs#:#ecs_cmap_att_title#:#Title###27 12 2012 new variable
+ecs#:#ecs_cmap_att_lecturer#:#Lecturer###27 12 2012 new variable
+ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration###27 12 2012 new variable
+ecs#:#ecs_cmap_attributes#:#Mapping Attributes###27 12 2012 new variable
+ecs#:#ecs_cmap_overview#:#Mapping Overview###27 12 2012 new variable
+ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter#:#Filter Settings###27 12 2012 new variable
+ecs#:#ecs_cmap_form_all_values#:#All Values###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated###27 12 2012 new variable
+ecs#:#ecs_cmap_form_create_subdirs#:#Create Subdirectories###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name###27 12 2012 new variable
+ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute###27 12 2012 new variable
+ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values###27 12 2012 new variable
+ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
+ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
+content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
+content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable

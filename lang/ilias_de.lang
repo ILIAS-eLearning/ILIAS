@@ -12942,3 +12942,5 @@ ecs#:#ecs_cmap_delete_attribute_btn#:#Letztes Attribut löschen
 ecs#:#ecs_cmap_form_filter_by_values#:#Filter nach Attributwerten
 ecs#:#ecs_cmap_form_current_dir#:#Aktuelles Verzeichnis
 ecs#:#ecs_cmap_form_dir_relation#:#Verzeichnisbezug
+content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
+content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable

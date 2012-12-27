@@ -480,7 +480,6 @@ assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#edit_page#:#Edit Page
-assessment#:#edit_properties#:#تعديل الخصائص
 assessment#:#edit_question#:#Edit Question
 assessment#:#edit_test_questions#:#Edit Test Questions
 assessment#:#element_height#:#Minimum Height
@@ -1792,68 +1791,6 @@ certificate#:#certificate_wrong_unit#:#You have entered a wrong unit
 certificate#:#certificate_wrong_units#:#You have entered a wrong set of units
 certificate#:#default_background_info#:#سيتم اختيار صورة الخلفية هذه كخلفية افتراضية لكل الشهادات. اذا كنت تحتاج لصورة خلفية اخرى في شهادة ما، فعليك تحميل واحدة في محرر الشهادة
 certificate#:#download_certificate#:#تحميل الشهادة
-chat#:#chat_access_blocked#:#لقد تم استبعادك من غرف الدردشة هذه
-chat#:#chat_active#:#فعال
-chat#:#chat_add_private_chatroom#:#اضافة غرفة دردشة خاصة
-chat#:#chat_add_smiley#:#اضافة رمز تعبيري
-chat#:#chat_add_to_addressbook#:#اضافة الى جهات الاتصال
-chat#:#chat_add_to_bookmark#:#اضافة الى المراجع
-chat#:#chat_address#:#عنوان
-chat#:#chat_address_user#:#عنوان
-chat#:#chat_available_smilies#:#الرموز التعبيرية الموجودة
-chat#:#chat_cannot_connect_to_server#:# لا يستطيع اجراء اتصال مع خادم الدردشة ILIAS .
-chat#:#chat_chat_invitation#:#دعوات الدردشة
-chat#:#chat_chatrooms#:#غرف الدردشة
-chat#:#chat_delete_selected#:#حذف الرموز التعبيرية المختارة
-chat#:#chat_edit_smiley#:#تعديل الرموز التعبيرية
-chat#:#chat_export_all#:#لا يوجد قيود- يمكن لجميع المستخدمين الذين يستطيعون الوصول تصدير الملفات
-chat#:#chat_export_info#:#html تعطيل زر التصدير للغرفة الحالية. سيتم تصدير الرسائل الى
-chat#:#chat_export_moderator#:#المشرفون فقط
-chat#:#chat_export_period#:#مدة التصدير
-chat#:#chat_export_period_info#:#تصدير رقم الايام المعطى
-chat#:#chat_export_status#:#صلاحيات التصدير المطلوبة
-chat#:#chat_general_settings#:#الاعدادات العامة
-chat#:#chat_hide_details#:#اخفاء التفاصيل
-chat#:#chat_image_path#:#مسار صورة
-chat#:#chat_invitation_subject#:#دعوة دردشة
-chat#:#chat_level_all#:#الكل
-chat#:#chat_level_debug#:#Debug
-chat#:#chat_level_error#:#خطأ
-chat#:#chat_level_fatal#:#قاتل
-chat#:#chat_level_info#:#معلومات
-chat#:#chat_message_notify#:#مرسل الرسالة
-chat#:#chat_message_notify_activate#:#اشعارات الدردشة
-chat#:#chat_message_notify_deactivate#:#تعطيل اشعار الرسالة
-chat#:#chat_moderator_password#:#كلمة المرور المشرفة
-chat#:#chat_new_invitation_sound_status#:#اصدار صوت عندما يتلقى المستخدم دعوة على الدردشة
-chat#:#chat_new_message_sound_status#:#اصدار صوت عند وجود رسالة جديدة على الدردشة
-chat#:#chat_no_active_users#:#لا يوجد مستخدمون حاضرون
-chat#:#chat_no_online_users#:#لا يوجد مستخدمون اخرون في حالة اتصال
-chat#:#chat_recording_action#:#حدث
-chat#:#chat_refreshed#:#حذف كافة الرسائل من غرف الدردشة المختارة
-chat#:#chat_rooms#:#غرف الدردشة
-chat#:#chat_server_allowed#:#تصريح دخول المضيفين
-chat#:#chat_server_external_ip#:#عنوان الخادم
-chat#:#chat_server_logfile#:#تسجيل مسار الملف
-chat#:#chat_server_loglevel#:#درجة التسجيل
-chat#:#chat_server_port#:#منفذ الخادم
-chat#:#chat_server_settings#:#اعدادات خادم الدردشة
-chat#:#chat_server_ssl_settings#:#SSL اعدادات
-chat#:#chat_smiley_image#:#صورة رمز تعبيري
-chat#:#chat_smiley_image_only_if_changed#:#الرجاء ادخال صورة جديدة فقط اذا كنت تريد تغيير الحالية. اذا لم تعطى اية صورة جديدة، لن يتم تغيير الصورة الحالية
-chat#:#chat_smiley_keyword#:#اختصار رمز تعبيري
-chat#:#chat_smiley_keywords#:#اختصارات رموز تعبيرية
-chat#:#chat_smiley_keywords_one_per_line_note#:#بامكانك ادخال كلمات مفتاحية متعددة لكل رمز تعبيري. وسيستخدم كل سطر على انه كلمة مفتاحية منفصلة
-chat#:#chat_smilies_activate#:#تفعيل الرموز التعبيرية
-chat#:#chat_smilies_deactivate#:#تعطيل الرموز التعبيرية
-chat#:#chat_smilies_status#:#رموز الدردشة التعبيرية
-chat#:#chat_sound_status_activate#:#تفعيل الاصوات
-chat#:#chat_sound_status_deactivate#:# تعطيل الاصوات
-chat#:#chat_sounds#:#الاصوات
-chat#:#chat_upload_smiley#:#تحميل رمز تعبيري
-chat#:#chat_yellow#:#اصفر
-chat#:#check_configuration#:#الرجاء فحص اعدادات خادم الدردشة
-chat#:#edit_smilies#:#تعديل الرموز التعبيرية
 chatroom#:#allow_anonymous#:#Allow anonymous login
 chatroom#:#allow_custom_usernames#:#Allow custom usernames
 chatroom#:#allow_private_rooms#:#Allow private rooms
@@ -2126,10 +2063,6 @@ common#:#accessFree#:#ازالة الوصول المحدود
 common#:#accessRestrict#:#وضع الوصول المحدود
 common#:#account_expires_body#:#حسابك محدود وستنتهي صلاحيته في
 common#:#account_expires_subject#:#انتهت صلاحية حسابك
-common#:#accs_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#accs_read#:#امكانية قراءة اعدادات الوصول
-common#:#accs_visible#:#اعدادات الوصول موجودة
-common#:#accs_write#:#تعديل اعدادات الوصول
 common#:#action#:#وظيفة
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#وظائف
@@ -2162,10 +2095,6 @@ common#:#added_to_desktop#:#The item has been added to the desktop.
 common#:#additional_info#:#معلومات اضافية
 common#:#address#:#عنوان
 common#:#adm_create_tax#:#انشاء تصنيف
-common#:#adm_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#adm_read#:#امكانية القراءة من اعدادات النظام
-common#:#adm_visible#:#اعدادات النظام موجودة
-common#:#adm_write#:#تعديل اعدادات النظام الاساسي
 common#:#admin_force_noti#:#الاشعار مفعل
 common#:#admin_panel#:#Administration Panel
 common#:#administrate#:#ادارة
@@ -2173,7 +2102,6 @@ common#:#administrate_users#:#Local User Administration
 common#:#administration#:#ادارة
 common#:#administrator#:#مدير
 common#:#adopt#:#Adopt
-common#:#adopt_perm_from_template#:#نسخ اعدادات الصلاحية
 common#:#advanced_editing_allow_html_tags#:#لتعديل النص HTML السماح بعلامات المختارة
 common#:#advanced_editing_allow_javascript_editor#:#تمكين تحرير النص
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test & Assessment tool
@@ -2189,15 +2117,11 @@ common#:#advanced_editing_settings#:#اعدادات التعديل المتقد�
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE محرر
 common#:#adve_assessment_settings#:#اعدادات الاختبار والتقييم
-common#:#adve_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#adve_frm_post_settings#:#مشاركات المنتدى
 common#:#adve_general_settings#:#الاعدادات العامة
 common#:#adve_lm_settings#:#LM / Glossary Settings
-common#:#adve_read#:#ادارة تعديل الوصول المتقدم
 common#:#adve_rep_settings#:#اعدادات المكتبة
 common#:#adve_survey_settings#:#ملخص المسح
-common#:#adve_visible#:#ادارة التعديل المتقدم موجودة
-common#:#adve_write#:#ادارة التعديم المتقدم
 common#:#agree_date#:#الموافقة على
 common#:#all_authors#:#كافة المؤلفين
 common#:#all_commands#:#كافة الاوامر
@@ -2213,12 +2137,6 @@ common#:#allow_assign_users#:#Allow user assignment for local administrators.
 common#:#allow_override_alert#:#بالشكل الصحيح .htaccess لم يتم تفسير قواعد
 common#:#allow_register#:#Available in registration form for new users
 common#:#allow_user_toggle_noti#:#يسمح للعضو بعدم تفعيل الاشعار
-common#:#alm_added#:#AICC الوحدة التعليمية المضافة
-common#:#alm_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#alm_join#:#AICC الاشتراك في الوحدة التعليمية
-common#:#alm_read#:# AICC امكانية القراءة من الووحدة التعليمية
-common#:#alm_visible#:#موجودة AICC الوحدة التعليمية
-common#:#alm_write#:#AICC تعديل الوحدة التعليمية
 common#:#already_delivered_files#:#الملفات المقدمة
 common#:#and#:#و
 common#:#announce#:#Announce
@@ -2277,11 +2195,7 @@ common#:#assessment_use_javascript#:#للسحب والادراج JavaScript
 common#:#assessment_use_javascript_desc#:#لسحب وادراج الوظائف افتراضيا للمرة الاولى JavaScript تفعيل نتيجة
 common#:#assf_allowed_questiontypes#:#انواع الاسئلة الموجودة
 common#:#assf_allowed_questiontypes_desc#:#واذا كنت لا تريد السماح بانشاء نوع سؤال معين في هذا الاصدار، عليك اذن ازالة التعيين في صندوق الفحص المختصILIAS ستكون جميع انواع الاسئلة التي تم فحصها موجودة في اصدار
-common#:#assf_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#assf_questiontypes#:#اعدادات السؤال
-common#:#assf_read#:#الوصول الى ادراة الاختبار والتقييم
-common#:#assf_visible#:#ادارة الاختبار والتقييم موجودة
-common#:#assf_write#:#تعديل ادارة الاختبار والتقييم
 common#:#assign#:#تعيين
 common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_lo_forum#:#Assign LO Forum
@@ -2317,7 +2231,6 @@ common#:#auth_create_users#:#انشاء مستخدمين غير موجودين �
 common#:#auth_default#:#الاعدادات الافتراضية
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_ldap_enable#:#LDAP تفعيل دعم
@@ -2344,7 +2257,6 @@ common#:#auth_radius_server#:#خادمات
 common#:#auth_radius_server_desc#:# عند تفسيرهاRound robin fashion يمكن ان تضيف خادمات متعددة بالفصل بينها بفاصلة. تم ادارة الخادمات في
 common#:#auth_radius_settings_saved#:#RADIUS تم حفظ اعدادات
 common#:#auth_radius_shared_secret#:#السر المشترك
-common#:#auth_read#:#الوصول الى اعدادات المصادقة
 common#:#auth_remark_non_local_auth#:#  لن يكون عليك تغيير اسم الدخول وكلمة المرور بعد الان ILIAS عند اختيار اسلوب مصادقة اخر غير قاعدة بيانات
 common#:#auth_role_auth_mode#:#طريقة المصادقة
 common#:#auth_script#:#مخصص
@@ -2373,8 +2285,6 @@ common#:#auth_soap_use_https#:#HTTPS استخدم
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_soap_user_default_role_desc#:#SOAP تم تعيين هذه الوظيفة اليا لمستخدمي
 common#:#auth_user_default_role#:#وظيفة افتراضية
-common#:#auth_visible#:#اعدادات المصادقة موجودة
-common#:#auth_write#:#تعديل اعدادات المصادقة
 common#:#authenticate_ilias#:#ILIAS المصادقة الاصلية ل
 common#:#authenticate_with#:#الدخول الى
 common#:#authentication_settings#:#المصادقة
@@ -2414,10 +2324,6 @@ common#:#bm_add_to_social_bookmarks#:#اضافة الى المراجع
 common#:#bm_manage_social_bm#:#Manage Social Bookmarks
 common#:#bmf#:#Bookmark Folder
 common#:#bold#:#Bold
-common#:#book_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#book_read#:#قراءة الوصول الى مجموعة الحجز
-common#:#book_visible#:#مجموعة الحجز موجودة
-common#:#book_write#:#تعديل مجموعة الحجز
 common#:#bookings#:#Bookings
 common#:#bookmark_added#:#تم انشاء علامة
 common#:#bookmark_edit#:#تعديل علامة
@@ -2456,26 +2362,16 @@ common#:#cat#:#Category
 common#:#cat_a#:#a Category
 common#:#cat_add#:#اضافة فئة
 common#:#cat_added#:#فئة مضافة
-common#:#cat_cat_administrate_users#:#ادارة حسابات مستخدم محلية
 common#:#cat_clear_page#:#Clear Page
-common#:#cat_copy#:#نسخ فئة
-common#:#cat_copy_threads_info#:#الرجاء ان تقرر اي عناصر الفئة التي يجب نسخها او ربطها او حذفها
-common#:#cat_create#:#انشاء فئة
-common#:#cat_delete#:#حذف فئة
 common#:#cat_edit#:#تعديل الفئة
-common#:#cat_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#cat_new#:#فئة جديدة
 common#:#cat_pages#:#Category Pages
 common#:#cat_pages_clear#:#Category page cleared.
 common#:#cat_pages_not_created#:#Category page not createded yet.
 common#:#cat_pages_undone#:#Last changes for cagegory page undone.
-common#:#cat_read#:#قراءة الوصول الى فئة
-common#:#cat_read_users#:#قراءة الوصول الى حسابات مستخدم عام
 common#:#cat_title#:#Category Title
 common#:#cat_undo_last_page_changes#:#Undo Last Page Changes
-common#:#cat_visible#:#الفئة ظاهرة
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)
-common#:#cat_write#:#تعديل فئة
 common#:#categories#:#Categories
 common#:#categories_imported#:#Category import complete.
 common#:#catr#:#Category Reference
@@ -2483,18 +2379,7 @@ common#:#catr_edit#:#تعديل مرجع فئة
 common#:#catr_edit_info#:#الرجاء اختيار فئة واحدة لانشاء مرجع جديد
 common#:#catr_new#:#انشاء مرجع فئة جديد
 common#:#cc#:#نسخة الى
-common#:#cen#:#الاحداث المركزية
-common#:#cen_add#:#اضافة احداث مركزية
-common#:#cen_added#:#تم اضافة احداث مركزية
-common#:#cen_delete#:#حذف الاحداث المركزية
-common#:#cen_edit#:#تعديل الاحداث المركزية
-common#:#cen_new#:#احداث مركزية جديدة
-common#:#cen_save#:#حفظ الاحداث المركزية
 common#:#censorship#:#Censorship
-common#:#cert_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#cert_read#:#امكانية قراءة اعدادات الشهادة
-common#:#cert_visible#:#اعدادات الشهادة موجودة
-common#:#cert_write#:#تعديل اعدادات الشهادة
 common#:#certificate#:#شهادة
 common#:#chac_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#chac_read#:#امكانية القراءة من اعدادات الدردشة
@@ -2503,9 +2388,6 @@ common#:#chac_write#:#تعديل اعدادات الدردشة
 common#:#change#:#تغيير
 common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#تغيير التعيين
-common#:#change_existing_objects_desc#:#ستكون اعدادات الصلاحية لهذه الوظيفة معتمدة على كافة العناصر الموجودة. اذا كنت تريد تغيير صلاحيات لانواع معينة من العناصر، الرجاء النقر على صناديق الفحص للحفاظ على حق نوع العنصر المناسب
-common#:#change_existing_prefix_single#:#تغيير
-common#:#change_existing_suffix#:#&nbsp;
 common#:#change_header_title#:#تعديل عنوان الترويسة
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
@@ -2518,21 +2400,12 @@ common#:#chapter#:#فصل
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#characters#:#characters
-common#:#chat#:#دردشة
-common#:#chat_add#:#اضافة محادثة
 common#:#chat_chatviewer#:#Chat Viewer
-common#:#chat_copy#:#نسخ دردشة
-common#:#chat_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#chat_enter_public_room#:#دردشة عامة
 common#:#chat_enter_public_room_tooltip#:#Enter public chat.
-common#:#chat_invite#:#دردشة
 common#:#chat_invite_public_room#:#دردشة عامة
 common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
-common#:#chat_new#:#دردشة جديدة
-common#:#chat_read#:#امكانية القراءة والكتابة من الدردشة
 common#:#chat_users_active#:#مستخدمون فعالون
-common#:#chat_visible#:#الدردشة موجودة
-common#:#chat_write#:#تعديل الدردشة
 common#:#check#:#Check
 common#:#check_all#:#Check all
 common#:#check_langfile#:#الرجاء فحص ملف اللغة الخاص بك
@@ -2671,16 +2544,8 @@ common#:#crs_at_least_one_admin#:#يجب وجود مدير دورة واحد ع�
 common#:#crs_available#:#Available Courses
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
-common#:#crs_copy#:#نسخ دورة
-common#:#crs_copy_threads_info#:#الرجاء ان تقرر اي مواد الدورة التي يجب نسخها او ربطها او حذفها
-common#:#crs_create#:#انشاء دورة
-common#:#crs_delete#:#حذف دورة
 common#:#crs_edit#:#تعديل دورة
-common#:#crs_edit_learning_progress#:#تعديل حالة التدريب
-common#:#crs_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#crs_info#:#Info
-common#:#crs_join#:#إلتحاق بالدورة
-common#:#crs_leave#:#مغادرة الدورة
 common#:#crs_list_reg_end#:#Registration End
 common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
@@ -2693,16 +2558,13 @@ common#:#crs_member_passed#:#تم المرور
 common#:#crs_members_gallery#:#Course Members Gallery
 common#:#crs_new#:#دورة جديدة
 common#:#crs_no_content#:#بلا محتوى
-common#:#crs_read#:#امكانية قراءة الدورة
 common#:#crs_removed_from_waiting_list#:#"%s" لقد تم فصلك من لائحة الانتظار لدورة
 common#:#crs_status_blocked#:#[تم رفض الوصول]
 common#:#crs_status_pending#:#[انتظار التسجيل]
 common#:#crs_subscribers_assigned#:#Assigned new user(s)
 common#:#crs_title#:#Course Title
 common#:#crs_unsubscribe#:#الغاء الاشتراك
-common#:#crs_visible#:#الدورة موجودة
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)
-common#:#crs_write#:#تعديل دورة
 common#:#crsr#:#Course Reference
 common#:#crsr_edit#:#تعديل مرجع دورة
 common#:#crsr_edit_info#:#الرجاء اختيار دورة واحدة لانشاء مرجع جديد
@@ -2737,14 +2599,6 @@ common#:#db_pass#:#Database Password
 common#:#db_type#:#نوع قاعدة البيانات
 common#:#db_user#:#مستخدم قاعدة البيانات
 common#:#db_version#:#اصدار قاعدة البيانات
-common#:#dbk_add#:#Digilib Book اضافة
-common#:#dbk_copy#:#Digilib-Book نسخ
-common#:#dbk_edit_learning_progress#:#تعديل التقدم التعليمي
-common#:#dbk_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#dbk_new#:#جديد Digilib Book
-common#:#dbk_read#:#Digilib Book امكانية القراءة من
-common#:#dbk_visible#:#موجودة Digilib Book
-common#:#dbk_write#:#Digilib Book تعديل
 common#:#dd_mm_yyyy#:#DD.MM.YYYY
 common#:#deactivate#:#وضعية غير فعال
 common#:#decrease_attempts#:#محاولات- 1
@@ -2847,7 +2701,6 @@ common#:#edit_page#:#تعديل الصفحة
 common#:#edit_page_content#:#تعديل محتوى الصفحة
 common#:#edit_perm_ruleset#:#تعديل قواعد الصلاحية الافتراضية
 common#:#edit_properties#:#تعديل الخصائص
-common#:#edit_roleassignment#:#تعديل تعيين وظيفة
 common#:#edit_stylesheet#:#تعديل التصميم
 common#:#edited_at#:#تم التعديل في
 common#:#editor#:#محرر
@@ -2931,7 +2784,6 @@ common#:#exc_add#:#اضافة تدريب
 common#:#exc_added#:#تدريب مضاف
 common#:#exc_ask_delete#:#Delete file?
 common#:#exc_assign_usr#:#Assign User
-common#:#exc_copy#:#نسخ تدريب
 common#:#exc_create#:#انشاء تدريب
 common#:#exc_date_not_valid#:#The date is not valid
 common#:#exc_deassign_members#:#ازالة المشارك\ين
@@ -2941,8 +2793,6 @@ common#:#exc_download_files#:#Download Files
 common#:#exc_download_new#:#Download New
 common#:#exc_edit#:#تم انشاء تدريب جديد
 common#:#exc_edit_exercise#:#تعديل تدريب
-common#:#exc_edit_learning_progress#:#تعديل التقدم التعليمي
-common#:#exc_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#exc_edit_until#:#تعديل حتى
 common#:#exc_exercise_sent#:#تم ارسال التدريب
 common#:#exc_feedback_sent#:#تم ارسال الاراء
@@ -2961,7 +2811,6 @@ common#:#exc_next_deadline#:#Next Deadline
 common#:#exc_no_members_assigned#:#لم يتم تعيين اعضاء
 common#:#exc_notices#:#مذكرات
 common#:#exc_obj#:#تدريب
-common#:#exc_read#:#الوصول الى التدريب
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#وظائف
 common#:#exc_save_changes#:#حفظ
@@ -2982,8 +2831,6 @@ common#:#exc_time_over_short#:#انتهى الوقت المحدد
 common#:#exc_time_to_send#:#وقت العمل المتبقي
 common#:#exc_upload_error#:#Error uploading file
 common#:#exc_users#:#المستخدمون
-common#:#exc_visible#:#التدريب موجود
-common#:#exc_write#:#تعديل تدريب
 common#:#excs#:#تدريبات
 common#:#execute#:#تنفيذ
 common#:#exercise_time_over#:#لقد انتهى الوقت المخصص لاكمال التدريب. لا يمكن تقديم ملفات بعد الان
@@ -3002,7 +2849,6 @@ common#:#ext_acccount_required#:#الرجاء ادخال اسم الحساب ا�
 common#:#ext_cat_settings#:#تعديل اعدادات الفئة المتقدمة
 common#:#ext_link#:#وصلة
 common#:#extt_configure#:#configure...
-common#:#extt_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#خيارات اضافية
 common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers
@@ -3021,18 +2867,12 @@ common#:#extt_ilinc_server#:#خادم
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_ilinc_timeout#:#الحد الاقصى لوقت انتظار استجابة الخادم
 common#:#extt_name#:#Software/Service
-common#:#extt_read#:#الوصول الى اعدادات برمجيات الطرف الثالث
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.
 common#:#extt_title_configure#:#Configure external software
-common#:#extt_visible#:#اعدادات برمجيات الطرف الثالث موجودة
 common#:#failure_message#:#رسالة فشل المهمة
 common#:#faq_exercise#:#FAQ تدريب
 common#:#fax#:#الفاكس
 common#:#feed#:#نشرة موقع
-common#:#feed_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#feed_read#:#امكانية القراءة من نشرة الموقع
-common#:#feed_visible#:#نشرة الموقع موجودة
-common#:#feed_write#:#تعديل نشرة موقع
 common#:#feedback#:#اراء
 common#:#feedback_recipient#:#اراء المتلقي
 common#:#field_name#:#اسم الحقل
@@ -3043,10 +2883,8 @@ common#:#file_add#:#تحميل ملف
 common#:#file_add_and_metadata#:#تحميل ملف وتعديل البيانات الوصفية
 common#:#file_added#:#File uploaded
 common#:#file_allowed_suffixes#:#الملفات المسموح بها:
-common#:#file_copy#:#نسخ ملف
 common#:#file_created#:#تم اضافة ملف
 common#:#file_edit#:#تعديل ملف وتحميل اصدار جديد
-common#:#file_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#file_icon#:#ايقونة ملف
 common#:#file_info#:#معلومات الملف
 common#:#file_is_infected#:#The file is infected by a virus.
@@ -3062,8 +2900,6 @@ common#:#file_updated#:#تم تحديث الملف
 common#:#file_upload_pending#:#Pending file
 common#:#file_valid#:#File is valid!
 common#:#file_version#:#النسخة مزودة في ملف
-common#:#file_visible#:#الملف موجود
-common#:#file_write#:#تعديل ملف
 common#:#filename#:#اسم الملف
 common#:#filename_extension_missing#:#وصلة اسم الملف مفقودة
 common#:#filename_extension_short#:#وصلة
@@ -3095,17 +2931,11 @@ common#:#fold#:#مجلد
 common#:#fold_a#:#a Folder
 common#:#fold_add#:#اضافة مجلد
 common#:#fold_added#:#مجلد مضاف
-common#:#fold_copy#:#نسخ مجلد
 common#:#fold_copy_threads_info#:#الرجاء ان تقرر اي المواد التي يجب نسخها او ربطها او حذفها
 common#:#fold_edit#:#تعديل مجلد
-common#:#fold_edit_learning_progress#:#تعديل التقدم التعليمي
-common#:#fold_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#fold_new#:#مجلد جديد
-common#:#fold_read#:#امكانية القراءة من المجلد
 common#:#fold_type#:#Folder Type
-common#:#fold_visible#:#المجلد موجود
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
-common#:#fold_write#:#تعديل مجلد
 common#:#folder#:#مجلد
 common#:#folders#:#مجلدات
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:
@@ -3144,30 +2974,17 @@ common#:#forums_your_name#:#اسمك
 common#:#frm#:#منتدى
 common#:#frm_a#:#a Forum
 common#:#frm_add#:#اضافة منتدى
-common#:#frm_add_post#:#اضافة ارسال جديد
-common#:#frm_add_thread#:#اضافة موضوع جديد
 common#:#frm_added#:#منتدى مضاف
 common#:#frm_article#:#بند
-common#:#frm_copy#:#نسخ منتدى
 common#:#frm_create#:#انشاء منتدى
-common#:#frm_delete#:#حذف منتدى
 common#:#frm_delete_post#:#تعديل وحذف الاعلانات
 common#:#frm_edit#:#تعديل منتدى
-common#:#frm_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#frm_edit_post#:#اضافة ارسال جديد
 common#:#frm_latest_postings#:#المقالات الاخيرة
-common#:#frm_moderate_frm#:#تعديل وحذف منتدى
 common#:#frm_new#:#منتدى جديد
-common#:#frm_read#:#امكانية القراءة من المنتدى
 common#:#frm_statistics_ranking#:#تصنيف
 common#:#frm_status_new#:#Status 'New'
 common#:#frm_status_new_desc#:#الرجاء اختيار فترة حفظ حالة "جديد" لمدخلات المنتدى
-common#:#frm_visible#:#المنتدى غير موجود
-common#:#frm_write#:#تعديل منتدى
-common#:#frma_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#frma_read#:#امكانية القراءة من ادارة المنتدى
-common#:#frma_visible#:#ادارة المنتدى موجودة
-common#:#frma_write#:#امكانية الكتابة في ادارة المنتدى
 common#:#from#:#من
 common#:#fullname#:#الاسم الكامل
 common#:#functions#:#وظائف
@@ -3183,9 +3000,7 @@ common#:#glo#:#قائمة مصطلحات
 common#:#glo_a#:#a Glossary
 common#:#glo_add#:#اضافة قائمة مصطلحات
 common#:#glo_added#:#قائمة مصطلحات مضافة
-common#:#glo_copy#:#نسخ قائمة مصطلحات
 common#:#glo_create#:#انشاء قائمة مصطلحات
-common#:#glo_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#glo_import#:#Import Glossary
 common#:#glo_join#:#الاشتراك في قائمة مصطلحات
 common#:#glo_leave#:#Unsubscribe from Glossary
@@ -3195,10 +3010,7 @@ common#:#glo_mode_level#:#virtual (this level only)
 common#:#glo_mode_normal#:#طبيعي
 common#:#glo_mode_subtree#:#virtual (entire subtree)
 common#:#glo_new#:#قائمة مصطللحات جديدة
-common#:#glo_read#:#امكانية القراءة من قائمة المصطلحات
 common#:#glo_upload_file#:#ملف
-common#:#glo_visible#:#قائمة المصطلحات موجودة
-common#:#glo_write#:#تعديل قائمة مصطلحات
 common#:#global#:#عام
 common#:#global_default#:#برنامج افتراضي عام
 common#:#global_fixed#:#عامة ومثبتة
@@ -3260,7 +3072,6 @@ common#:#grp_app_send_mail#:#ارسل راسلة للمتقدم
 common#:#grp_back#:#رجوع
 common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
-common#:#grp_copy#:#نسخ مجموعة
 common#:#grp_copy_threads_info#:#الرجاء ان تقرر اي المواد التي يجب نسخها او ربطها او حذفها
 common#:#grp_count_members#:#عدد الاعضاء
 common#:#grp_create#:#انشاء مجموعة
@@ -3268,8 +3079,6 @@ common#:#grp_deleted_export_files#:#Deleted selected files.
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to leave the group?
 common#:#grp_edit#:#تعديل مجموعة
-common#:#grp_edit_learning_progress#:#تعديل التقدم التعليمي
-common#:#grp_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#grp_err_administrator_required#:#لا يمكن ازالة العضو حتى يتم طلب مدير واحد على الاقل لكل مجموعة
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator
 common#:#grp_err_error#:#An error occurred
@@ -3278,8 +3087,6 @@ common#:#grp_err_member_could_not_be_removed#:#لا يمكن ازالة العض
 common#:#grp_err_no_permission#:#انت لا تملك صلاحيات هذه العملية
 common#:#grp_err_registration_data#:#الرجاء ادخال كلمة المرور وتاريخ ووقت انتهاء الصلاحية لمدة الالتحاق المسموح
 common#:#grp_header_edit_members#:#تعديل الاعضاء
-common#:#grp_join#:#يمكن للمستخدم الالتحاق بالمجموعة
-common#:#grp_leave#:#يمكن للمستخدم مغادرة المجموعة
 common#:#grp_list_reg_end#:#Registration End
 common#:#grp_list_reg_limit_full#:#No places left
 common#:#grp_list_reg_limit_places#:#Free places
@@ -3306,7 +3113,6 @@ common#:#grp_no_groups_selected#:#الرجاء اختيار مجموعة
 common#:#grp_no_results_found#:#لم يتم ايجاد نتائج
 common#:#grp_no_roles_selected#:#الرجاء اختيار وظيفة
 common#:#grp_options#:#Options
-common#:#grp_read#:#تمكانية القراءة من المجموعة
 common#:#grp_register#:#Join
 common#:#grp_registration#:#الإلتحاق بالمجموعة
 common#:#grp_registration_completed#:#لقد إلتحقت بالمجموعة
@@ -3315,9 +3121,7 @@ common#:#grp_search_enter_search_string#:#الرجاء ادخال سلسلة ب�
 common#:#grp_search_members#:#مستخدم البحث
 common#:#grp_select_one_file#:#الرجاء اختيار ملف واحد
 common#:#grp_select_one_file_only#:#الرجاء اختيار ملف واحد محدد
-common#:#grp_visible#:#المجموعة موجودة
 common#:#grp_wizard_page#:#Copy Group (Step 2/2)
-common#:#grp_write#:#تعديل مجموعة
 common#:#guest#:#ضيف
 common#:#guests#:#ضيوف
 common#:#header_searchable#:#قابل للبحث
@@ -3362,12 +3166,6 @@ common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
 common#:#hist_webr_update#:#Modified Weblink with title: "%1"
 common#:#history#:#تاريخ
 common#:#hits_per_page#:#نقلات\ صفحة
-common#:#hlm_added#:#HACP تم اضافة الوحدة التعليمية
-common#:#hlm_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#hlm_join#:#HACP الاشتراك في الوحدة التعليمية
-common#:#hlm_read#:#HACP امكانية القراءة من الوحدة التعليمية
-common#:#hlm_visible#:#موجودة HACP الوحدة التعليمية
-common#:#hlm_write#:#HACP تعديل الوحدة التعليمية
 common#:#hobby#:#الاهتمامات\الهوايات
 common#:#home#:#مساحة عامة
 common#:#host#:#مضيف
@@ -3376,14 +3174,8 @@ common#:#hours#:#ساعة\ات
 common#:#hours_of_day#:#ساعات اليوم
 common#:#htlm#:#HTML الوحدة التعليمية
 common#:#htlm_add#:#HTML اضافة الوحدة التعليمية
-common#:#htlm_copy#:#HTML نسخ الوحدة التعليمية
 common#:#htlm_edit#:#HTML تعديل خصائص الوحدة التعليمية
-common#:#htlm_edit_learning_progress#:#تعديل التقدم التعليمي
-common#:#htlm_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#htlm_new#:#تعليمية جديدة HTML وحدة
-common#:#htlm_read#:#HTML قراءة الوحدة التعليمية
-common#:#htlm_visible#:#موجودة HTML الوحدة التعليمية
-common#:#htlm_write#:#HTML تعديل الوحدة التعليمية
 common#:#html_block#:#HTML كتلة
 common#:#http#:#HTTP
 common#:#http_not_possible#:#http الخادم لا يوفر دعم لطلبات
@@ -3565,18 +3357,6 @@ common#:#info_trash#:#Deleted Objects
 common#:#info_view_of_user#:#مستخدم
 common#:#inform_user_mail#:#ارسال رسالة الكترونية لعرض التغييرات للمستخدم
 common#:#information_abbr#:#Info
-common#:#ingmedia_good_afternoon#:#مساء الخير
-common#:#ingmedia_good_evening#:#مساء الخير
-common#:#ingmedia_good_morning#:#صباح الخير
-common#:#ingmedia_good_night#:#ليلة سعيدة
-common#:#ingmedia_hello#:#مرحبا
-common#:#ingmedia_info_about_work2#:#، انت تعمل هنا للمرة الاخيرة. ويمكنك المتابعة بالنقر هنا:
-common#:#ingmedia_pers_dates#:#البيانات الشخصية
-common#:#ingmedia_reg_fo#:#المنتديات المسجلة
-common#:#ingmedia_reg_le#:#مسجلة LE
-common#:#ingmedia_use_info3#:#الرجاء اختيار واحدة من الروابط في الشريط الجانبي
-common#:#ingmedia_user_agree#:#اتفاقية
-common#:#ingmedia_welcome#:#، اهلا بك في سطح مكتبك الشخصي!
 common#:#inifile#:#Ini-File
 common#:#inline_file_extensions#:#Web-enabled files
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.
@@ -3620,25 +3400,18 @@ common#:#kb#:#كيلو بايت
 common#:#keywords#:#كلمات مفتاحية
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#مسار اللغة
-common#:#lang_pl#:#البولندية
-common#:#lang_pt#:#البرتغالية
 common#:#lang_refresh_confirm#:#هل تريد حقا تحديث كافة اللغات؟
 common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages will read the global language files of ILIAS and probably the local language files from the Customizing directory to the database. Global language files will not affect your manual changes. A local langage file will overwrite all manual changes that are older than the saving date of the local language file.
 common#:#lang_refresh_confirm_selected#:#هل تريد حقا تحديث كافة اللغات المختارة؟
-common#:#lang_ro#:#الرومانية
-common#:#lang_ru#:#الروسية
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_size_bytes#:#bytes
 common#:#lang_size_gb#:#GB
 common#:#lang_size_kb#:#KB
 common#:#lang_size_mb#:#MB
-common#:#lang_sq#:#الالبانية
-common#:#lang_sr#:#الصربية
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_version#:#1
-common#:#lang_vi#:#الفيتنامية
 common#:#langfile_found#:#ملف اللغة موجود
 common#:#language#:#اللغة
 common#:#language_not_installed#:#is not installed. Please install that language first
@@ -3722,25 +3495,16 @@ common#:#lm#:#ILIAS الوحدة التعليمية
 common#:#lm_a#:#an ILIAS Learning Module
 common#:#lm_add#:#ILIAS اضافة الوحدة التعليمية
 common#:#lm_added#:#ILIAS اضافة الوحدة التعليمية
-common#:#lm_copy#:#ILIAS نسخ الوحدة التعليمية
 common#:#lm_create#:#Create ILIAS Learning Module
-common#:#lm_edit_learning_progress#:#تعديل التقدم التعليمي
-common#:#lm_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#lm_join#:#ILIAS الاشتراك في الوحدة التعليمية
 common#:#lm_leave#:#Unsubscribe from ILIASLearning Module
 common#:#lm_new#:# تعليمية جديدة ILIAS وحدة
-common#:#lm_read#:#ILIAS امكانية القراءة من الوحدة التعليمية
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2 (Java-RTE)
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd Edition (JavaScript-RTE)
-common#:#lm_visible#:#موجودة ILIAS الوحدة التعليمية
-common#:#lm_write#:#ILIAS تعديل الوحدة التعليمية
 common#:#lng#:#اللغة
 common#:#lngf#:#اللغات
-common#:#lngf_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#lngf_read#:#امكانية القراءة من اعدادات اللغة
-common#:#lngf_visible#:#اعدادات اللغة موجودة
 common#:#lo#:#Learning Object
 common#:#lo_available#:#Overview Learning Modules & Courses
 common#:#lo_categories#:#LO Categories
@@ -3780,10 +3544,6 @@ common#:#logs#:#تسجيل البيانات
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#lres#:#المصادر التعليمية
-common#:#lrss_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#lrss_read#:#امكانية قراءة اعدادات المصادر التعليمية
-common#:#lrss_visible#:#اعدادات المصادر التعليمية موجودة
-common#:#lrss_write#:#اتعديل اعدادات المصادر التعليمية
 common#:#mail#:#البريد
 common#:#mail_a_root#:#صندوق البريد
 common#:#mail_addressbook#:#جهات الإتصال
@@ -3803,8 +3563,6 @@ common#:#mail_folders#:#مجلدات البريد
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#ملف تصدير
 common#:#mail_intern_enable#:#تمكين
-common#:#mail_mail_to_global_roles#:#يمكن للمستخدم ارسال رسائل الكترونية لوظائف عامة
-common#:#mail_mail_visible#:#يمكن للمستخدم استخدام نظام البريد
 common#:#mail_mails_of#:#رسالة الكترونية
 common#:#mail_maxsize_attach#:#الحجم الاقصى للملحق
 common#:#mail_maxsize_box#:#الحد الاقصى لحجم صندوق البريد
@@ -3817,7 +3575,6 @@ common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. IL
 common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
 common#:#mail_no_valid_group_role#:#لا يوجد وظيفة مجموعة صحيحة
 common#:#mail_not_sent#:#لم يتم ارسال الرسالة
-common#:#mail_read#:#امكانية القراءة من اعدادات البريد
 common#:#mail_search_courses_not_found#:#لم يتم ايجاد دورات انت عضو فيها
 common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.
 common#:#mail_search_no#:#لم يتم العثور على اية مدخلات
@@ -3826,14 +3583,10 @@ common#:#mail_select_one#:#عليك اختيار رسالة الكترونية �
 common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#تم ارسال الرسالة
 common#:#mail_settings#:#اعدادات البريد
-common#:#mail_smtp_mail#:#SMTP يمكن للمستخدم ارسال رسالة الكترونية بواسطة
 common#:#mail_system#:#رسالة النظام
-common#:#mail_system_message#:#يمكن للمستخدم ارسال رسائل نظام داخلية
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
 common#:#mail_use_pear_mail#:#Pear Mail استخدم
 common#:#mail_use_pear_mail_info#:#  بشكل كامل عناوين البريد الالكتروني Pear Mail محدود جدا. يدعم  النظام لتحليل العنواوين البريدية. وذلك لان المحلل المبني في  Pear Mail استخدم
-common#:#mail_visible#:#اعدادات البريد موجودة
-common#:#mail_write#:#تعديل اعدادات البريد
 common#:#mail_z_local#:#مجلدات المستخدم
 common#:#mails#:#الرسائل
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
@@ -3849,13 +3602,7 @@ common#:#max_number_rec#:#الحد الاقصى من عدد التسجيلات
 common#:#max_time#:#الوقت الاقصى
 common#:#mcst#:#بث الوسائط
 common#:#mcst_add#:#اضافة بث وسائط
-common#:#mcst_copy#:#نسخ بث الوسائط
-common#:#mcst_delete#:#حذف بث الوسائط
-common#:#mcst_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#mcst_new#:#بث وسائط جديدة
-common#:#mcst_read#:#امكانية قراءة بث الوسائط
-common#:#mcst_visible#:#بث الوسائط موجودة
-common#:#mcst_write#:#تعديل بث الوسائط
 common#:#mem_add_to_wl#:#اضافة الى لائحة الانتظار
 common#:#mem_alert_no_places#:#لا يوجد اماكن شاغرة
 common#:#mem_end#:#نعاية التسجيل:
@@ -3883,12 +3630,8 @@ common#:#mep#:#مجموعة وسائط
 common#:#mep_add#:#اضافة مجموعة وسائط
 common#:#mep_added#:#مجموعة وسائط مضافة
 common#:#mep_edit#:#تعديل خصائص مجموعة الوسائط
-common#:#mep_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#mep_new#:#مجموعة وسائط جديدة
 common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
-common#:#mep_read#:#قراءة محتوى مجموعة الوسائط
-common#:#mep_visible#:#مجموعة الوسائط موجودة
-common#:#mep_write#:#تعديل محتوى مجموعة الوسائط
 common#:#message#:#رسالة
 common#:#message_content#:#محتوى الرسالة
 common#:#message_no_delivered_files#:#انت لم تقم بتقديم اية ملفات
@@ -3904,10 +3647,6 @@ common#:#missing_perm#:#فقدان الصلاحية
 common#:#missing_precondition#:#فقدان الشروط المسبقة
 common#:#mm_dd_yyyy#:#MM/DD/YYYY
 common#:#mob#:#عنصر وسائط
-common#:#mobs_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#mobs_read#:#امكانية القراءة من اعدادات مجموعات وعناصر الوسائط
-common#:#mobs_visible#:#اعدادات عناصر ومجموعات الوسائط موجودة
-common#:#mobs_write#:#تعديل اعدادات عناصر\مجموعات الوسائط
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.
 common#:#moderators#:#Moderators
 common#:#module#:#وحدة
@@ -4137,10 +3876,6 @@ common#:#nr_following_sessions#:#%1d الجلسة التالية...
 common#:#num_users#:#عدد المستخدمين
 common#:#number_of_accesses#:#عدد عمليات الوصول
 common#:#number_of_records#:#عدد التسجيلات
-common#:#nwss_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#nwss_read#:#امكانية القراءة من اعدادات الاخبار ونشرات المواقع
-common#:#nwss_visible#:#اعدادات اخبار ونشرات المواقع موجودة
-common#:#nwss_write#:#تعديل اعدادات الخبار ونشرات المواقع
 common#:#obj#:#عنصر
 common#:#obj_accs#:#امكانية الوصول
 common#:#obj_accs_desc#:#اعدادات خصائص الوصول
@@ -4367,7 +4102,6 @@ common#:#objs_fold#:#مجلدات
 common#:#objs_frm#:#منتديات
 common#:#objs_glo#:#مصطلحات
 common#:#objs_grp#:#مجموعات
-common#:#objs_hlm#:#HACP الوحدات التعليمية
 common#:#objs_htlm#:#HTML الوحدة التعليمية
 common#:#objs_icla#:#LearnLinc Classrooms
 common#:#objs_icrs#:#التعليمية Learnlinc حلقات
@@ -4442,7 +4176,6 @@ common#:#page_layouts#:#حدود الصفحة
 common#:#pages#:#صفحات
 common#:#parameter#:#مدخل
 common#:#parse#:#تحليل
-common#:#participate#:#مشاركة
 common#:#passed#:#تم المرور
 common#:#passwd#:#كلمة المرور
 common#:#passwd_generation#:#انشاء كلمة المرور
@@ -4491,10 +4224,6 @@ common#:#payment_reminder_notification_subject#:#The access duration af bought o
 common#:#payment_system#:#نظام الدفع
 common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled
 common#:#pays_edit#:#تعديل اعدادات الدفع
-common#:#pays_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#pays_read#:#اعدادات الوصول الى البيع
-common#:#pays_visible#:#اعدادات الدفع موجودة
-common#:#pays_write#:#تعديل اعدادات الدفع
 common#:#pd_enable_chatviewer#:#تفعيل مراقب الدردشة
 common#:#pd_enable_contacts#:#تفعيل جهات الاتصال
 common#:#pd_enable_contacts_requires_mail#:#يتطلب صلاحية البريد
@@ -4580,11 +4309,6 @@ common#:#proxy_port_info#:#الرجاء ادخال منفذ بين 0 و 65535، 
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_status#:#وسيط
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
-common#:#ps_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#ps_export_member_data#:#يمكن للمستخدم تصدير بيانات العضو
-common#:#ps_read#:#امكانية قراءة اعدادات الخصوصية\الحماية
-common#:#ps_visible#:#اعدادات الخصوصية\الحماية موجودة
-common#:#ps_write#:#تعديل الخصوصية\الحماية
 common#:#pub_section#:#منطقة عامة
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#public#:#عام
@@ -4600,12 +4324,8 @@ common#:#purpose#:#الهدف
 common#:#qpl#:#اختبار مجموعة اسئلة
 common#:#qpl_add#:#اضافة اختبار مجموعة اسئلة
 common#:#qpl_copy#:#نسخ اختبار مجموعة اسئلة
-common#:#qpl_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#qpl_new#:#اختبار مجموعة اسئلة جديد
-common#:#qpl_read#:#امكانية القراءة من اختبار مجموعة اسئلة
 common#:#qpl_upload_file#:#Upload file
-common#:#qpl_visible#:#اختبار مجموعة اسئلة موجود
-common#:#qpl_write#:#تعديل اختبار مجموعة اسئلة
 common#:#quarterly#:#فصليا- كل ثلاثة شهور
 common#:#query_data#:#استعلام عن البيانات
 common#:#question#:#سؤال
@@ -4753,27 +4473,18 @@ common#:#rolt_added#:#نموذج وظيفة مضاف
 common#:#rolt_edit#:#تعديل نموذج وظيفة
 common#:#rolt_new#:#نموذج وظيفة جديد
 common#:#root_edit#:#Edit system root node
-common#:#root_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#root_read#:#ILIAS امكانية القراءة من نظام
-common#:#root_visible#:#موجود ILIAS نظام
 common#:#row#:#صف
 common#:#rows#:#صفوف
 common#:#rte_editor_disabled#:#تعطيل محرر النص الثري
 common#:#rte_editor_enabled#:#تقعيل محرر النص الثري
 common#:#sahs#:#وحدة تعليمية
 common#:#sahs_added#:#SCORM/AICC تم اضافة الوحدة التعليمية
-common#:#sahs_copy#:#SCORM/AICC نسخ الوحدة التعليمية
 common#:#sahs_create#:#Create SCORM/AICC Learning Module
-common#:#sahs_edit_learning_progress#:#تعديل التقدم التعليمي
-common#:#sahs_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#sahs_insert_chap_from_clip#:#لصق الفصول من الحافظة
 common#:#sahs_insert_page_from_clip#:#لصق الصفحات من الحافظة
 common#:#sahs_insert_sco_from_clip#:#من الحافظة SCOs الصق
 common#:#sahs_join#:#SCORM/AICC الاشتراك في الوحدة التعليمية
 common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
-common#:#sahs_read#:#SCORM/AICC امكانية القراءة من الوحدة التعليمية
-common#:#sahs_visible#:#موجودة SCORM/AICC الوحدة التعليمية
-common#:#sahs_write#:#SCORM/AICC تعديل الوحدة التعليمية
 common#:#salutation#:#تحية
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#السيد
@@ -4814,14 +4525,9 @@ common#:#search_result#:#نتيجة البحث
 common#:#search_results#:#البحث عن نتائج
 common#:#search_to_short#:#فترة الاستعلام الخاصة بك قصيرة جدا
 common#:#search_user#:#مستخدم البحث
-common#:#seas_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#seas_max_hits#:#الحد الاقصى للمشاهدات
 common#:#seas_max_hits_info#:#الرجاء ادخال رقم للحد الاقصى لعدد نتائج البحث
-common#:#seas_read#:#قراءة اعدادات  البحث
-common#:#seas_search#:#السماح باستخدام البحث
 common#:#seas_settings#:#اعدادات البحث
-common#:#seas_visible#:#اعدادات البحث موجودة
-common#:#seas_write#:#تعديل اعدادات البحث
 common#:#second#:#ثانية
 common#:#seconds#:#ثانية\ثواني
 common#:#sections#:#اقسام
@@ -4855,7 +4561,6 @@ common#:#server_data#:#خادم البيانات
 common#:#server_disabled#:#The Chat is Disabled
 common#:#server_software#:#خادم البرمجيات
 common#:#sess#:#جلسة
-common#:#sess_copy#:#نسخ جلسة
 common#:#sess_fixed_duration#:#فترة ثبات الجلسة
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#طريقة الجلسة
@@ -4885,7 +4590,6 @@ common#:#setSystemLanguage#:#تحديد لغة النظام
 common#:#settings#:#الاعدادات
 common#:#settings_for_all_members#:#الاعدادات العامة لجميع اعضاء الدورة\ المجموعة
 common#:#settings_for_new_members#:#اعدادات للاعضاء الجدد
-common#:#settings_per_members#:#الاعدادات لكل مستخدم
 common#:#settings_per_users#:#الاعدادات لكل عضو دورة\مجموعة
 common#:#settings_saved#:#حفظ الاعدادات
 common#:#setUserLanguage#:#تحديد لغة المستخدم
@@ -4981,14 +4685,9 @@ common#:#sorting_title_header#:#فرز حسب العنوان
 common#:#spacer#:#Spacer
 common#:#spl#:#مسح مجموعة اسئلة
 common#:#spl_add#:#اضافة مسح مجموعة اسئلة
-common#:#spl_copy#:#نسخ مسح مجموعة اسئلة
-common#:#spl_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#spl_import#:#Import Question Pool Survey
 common#:#spl_new#:#مسح مجموعة اسئلة جديد
-common#:#spl_read#:#امكانية القراءة من مسح مجموعة اسئلة
 common#:#spl_upload_file#:#Upload file
-common#:#spl_visible#:#مسح مجموعة اسئلة موجودة
-common#:#spl_write#:#تعديل مسح مجموعة اسئلة
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#a chapter
 common#:#st_add#:#اضافة فصل
@@ -5015,10 +4714,6 @@ common#:#street#:#الشارع
 common#:#structure#:#Structure
 common#:#sty#:#الاسلوب
 common#:#style_activation#:#تفعيل الاسلوب
-common#:#stys_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#stys_read#:#امكانية القراءة من اعدادات التصميم
-common#:#stys_visible#:#اعدادات التصميم موجودة
-common#:#stys_write#:#تعديل اعدادات التصميم
 common#:#sub_request_deleted#:#Deleted membership request
 common#:#sub_request_saved#:#طلب حفظ العضوية
 common#:#subcat_name#:#Subcategory Name
@@ -5037,22 +4732,16 @@ common#:#survey_unlimited_invitation#:#دعوة غير محدودة
 common#:#survey_unlimited_invitation_desc#:#يسمح بدعوة غير محدودة في المسوحات. تضيف الدعوة غير المحدودة المسح الى سطح المكتب الشخصي لكل مستخدم مسجل
 common#:#svy#:#مسح
 common#:#svy_add#:#اضافة مسح
-common#:#svy_copy#:#نسخ مسح
-common#:#svy_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#svy_evaluation#:#Statistics
 common#:#svy_finished#:#لقد اكملت المسح
-common#:#svy_invite#:#دعوة المستخدمين الى اجراء المسح
 common#:#svy_new#:#مسح جديد
 common#:#svy_no_content#:#لا يوجد مسوحات
 common#:#svy_not_finished#:#لم يتم اكمال المسح بعد
 common#:#svy_not_started#:#انت لم تأخذ دورا في هذا المسح
 common#:#svy_participate#:#شارك في مسح
-common#:#svy_read#:#امكانية قراءة المسح
 common#:#svy_run#:#تشغيل
 common#:#svy_upload_file#:#Upload file
-common#:#svy_visible#:#المسح موجود
 common#:#svy_warning_survey_not_complete#:#المسح غير مكتمل
-common#:#svy_write#:#تعديل مسح
 common#:#system#:#نظام
 common#:#system_check#:#فحص النظام
 common#:#system_choose_language#:#لغة اختيار النظام
@@ -5068,10 +4757,6 @@ common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#استيراد البريد
 common#:#tabs#:#علامات
 common#:#tagging_my_tags#:#علاماتي
-common#:#tags_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#tags_read#:#امكانية قراءة اعدادات العلامات
-common#:#tags_visible#:#اعدادات العلامات موجودة
-common#:#tags_write#:#تعديل اعدادات العلامات
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#للفئات او المستخدمة في المجموعات والدورات الى المجلدات zip عند التفعيل، سيتم تخطيط الدلائل الموجودة في ملف
 common#:#target#:#هدف
@@ -5131,10 +4816,6 @@ common#:#tomorrow#:#Tomorrow
 common#:#top_of_page#:#Top of page
 common#:#total#:#Total
 common#:#tpl_path#:#مسار النموذج
-common#:#trac_delete#:#حذف بيانات المتابعة
-common#:#trac_edit_permission#:#تغيير اعدادات الصلاحية
-common#:#trac_read#:#قراءة بيانات المتابعة
-common#:#trac_visible#:#متابعة المستخدم موجودة
 common#:#tracked_objects#:#العناصر المتتبعة
 common#:#tracking_data#:#بيانات المتابعة
 common#:#tracking_data_del_confirm#:#هل حقا تريد حذف كافة بيانات المتابعة في هذا الشهر وما قبله؟
@@ -5151,24 +4832,17 @@ common#:#treeview#:#عرض الشريط الجانبي
 common#:#tst#:#اختبار
 common#:#tst_add#:#اضافة اختبار
 common#:#tst_anon_eval#:#نتائج
-common#:#tst_copy#:#نسخ اختبار
-common#:#tst_edit_learning_progress#:#تعديل التقدم التعليمي
-common#:#tst_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#tst_edit_questions#:#Edit Questions
 common#:#tst_new#:#اختبار جديد
 common#:#tst_no_content#:#لا يوجد اختبارات
 common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>
-common#:#tst_read#:#امكانية قراءة الاختبار
 common#:#tst_run#:#تشغيل
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Access to Test Statistics
-common#:#tst_tst_statistics#:#الوصول الى احصائيات الاختبار
 common#:#tst_upload_file#:#Upload file
 common#:#tst_user_not_invited#:#لا يتوقع ان تقدم هذا الاختبار
 common#:#tst_user_wrong_clientip#:#صحيح لهذا الاختبار ip انت لا تملك
-common#:#tst_visible#:#الاختبار موجود
 common#:#tst_warning_test_not_complete#:#الاختبار غير مكتمل
-common#:#tst_write#:#تعديل اختبار
 common#:#tutors#:#Tutors
 common#:#txt_add_object_instruction1#:#تصفح المكان الذي تريد ان تضيف اليه
 common#:#txt_add_object_instruction2#:#.
@@ -5321,15 +4995,7 @@ common#:#usr_style#:#تصميم  المستخدم
 common#:#usr_without_courses#:#المستخدمون الذين لم يلتحقوا بأية دورة
 common#:#usrf#:#حسابات المستخدم
 common#:#usrf_create_user#:#انشاء حساب مستخدم جديد
-common#:#usrf_delete#:#حذف حسابات المستخدمين
-common#:#usrf_edit_permission#:#تغيير الوصول الى حسابات المستخدمين
-common#:#usrf_edit_roleassignment#:#تغيير تعيين وظيفة في حسابات المستخدمين
 common#:#usrf_profile_link#:#Link to user profile
-common#:#usrf_push_desktop_items#:#السماح بدفع العناصر على سطح المكتب الشخصي
-common#:#usrf_read#:#امكانية القراءة من حسابات المستخدمين
-common#:#usrf_read_users#:#امكانية القراءة من قبل المدراء المحليين
-common#:#usrf_visible#:#حسابات المستخدم موجودة
-common#:#usrf_write#:#تعديل حسابات المستخدم
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
@@ -5382,18 +5048,15 @@ common#:#webfolder_instructions_info#:#The webfolder instructions are shown on b
 common#:#webfolder_instructions_text#:#<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[IF_WINDOWS]<h3>Instructions for Windows Vista</h3><ol><li>Press the key combination Windows+E to open Windows Explorer.</li><li>Click on 'Add Network Place' in the toolbar.<br/>The 'Add a Network Place' wizard will open.</li><li>Click at the link 'Connect to a website'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.<br/>Repeat this step until you get to the next dialog window.</li><li>Enter a name for the webfolder, then select 'Next'.<li>Enter your login and password, and select 'OK'.<br/>Repeat this step until you get to the next dialog window.</li><li>Select 'Finish'.</li><li>You can now access the webfolder from the start menu 'Computer'.</li></ol><h3>Instructions for Windows XP</h3><ol><li>Press the key combination Windows+E to open Windows Explorer.</li><li>Choose the menu 'Extras &gt; Add Network Place...'.<br/>The 'Add a Network Place' wizard will open.</li><li>Click at the link 'Connect to a website ...'.<br/>The assistant window will open.</li><li>Select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.<li>Enter a name for the webfolder, then select 'Next'.<li>Enter your login and password, and select 'OK'.</li><li>Select 'Finish'.</li><li>This will open the webfolder. You can later access the webfolder from the start menu 'Network places' again.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to Server...'<br/>The 'Connect to Server' dialog will open.</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b><br/>and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_LINUX]<p>If opening the webfolder does not work, please contact <a href="mailto:[ADMIN_MAIL]">[ADMIN_MAIL]</a>.</p>
 common#:#webfolder_instructions_titletext#:#Open %1$s as webfolder
 common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">other Browser</a>.
-common#:#webinterface#:#واجهة الموقع
 common#:#webr#:#رابط
 common#:#webr_active#:#فعال
 common#:#webr_add#:#اضافة رابط
 common#:#webr_add_item#:#اضافة رابط
-common#:#webr_copy#:#نسخ رابط
 common#:#webr_delete_items#:#Delete Weblink(s)
 common#:#webr_deleted_items#:#Deleted Weblink(s).
 common#:#webr_disable_check#:#Disable Validation
 common#:#webr_edit#:#تعديل رابط
 common#:#webr_edit_item#:#تعديل رابط
-common#:#webr_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#webr_fillout_all#:#الرجاء نهبئة كافة الحقول المطلوبة
 common#:#webr_item_updated#:#حفظ التعديلات
 common#:#webr_join#:#الاشتراك في الروابط
@@ -5404,10 +5067,7 @@ common#:#webr_modified_items#:#حفظ التعديلات
 common#:#webr_never_checked#:#لم يتم فحصها مطلقا
 common#:#webr_new#:#اضافة رابط جديد
 common#:#webr_no_items_created#:#لم يتم انشاء روابط
-common#:#webr_read#:#امكانية قراءة الروابط
 common#:#webr_sure_delete_items#:#Do you really want to delete the following Weblink(s)?
-common#:#webr_visible#:#الرابط موجود
-common#:#webr_write#:#تعديل روابط
 common#:#webservices#:#خدمات الموقع
 common#:#week#:#الاسبوع
 common#:#weekly#:#اسبوعيا
@@ -5418,23 +5078,12 @@ common#:#width#:#العرض
 common#:#width_x_height#:#العرض x الطولالتع
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Wiki اضافة
-common#:#wiki_copy#:#Wiki نسخ
-common#:#wiki_edit_content#:#Wiki تعديل صفحات
-common#:#wiki_edit_permission#:#تغيير اعدادات الصلاحية
 common#:#wiki_new#:#جديدة Wiki
-common#:#wiki_read#:#Wiki قراءة
-common#:#wiki_visible#:#موجود Wiki
 common#:#with#:#مع
 common#:#wizard_search_list#:#اعطى بحثك النتائج التالية. الرجاء اختيار واحد منها
 common#:#wizard_title_info#:#الرجاء ادخال عنوان العنصر الذي ترغب في تكريره
 common#:#write#:#كتابة
 common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.
-common#:#xcvc_edit_permission#:#تعديل الصلاحية
-common#:#xcvc_participate#:#مشاركة
-common#:#xcvc_read#:#قراءة
-common#:#xcvc_visible#:#موجود
-common#:#xcvc_webinterface#:#واجهة الموقع
-common#:#xcvc_write#:#كتابة
 common#:#year#:#سنة
 common#:#yearly#:#yearly
 common#:#years#:#سنوات
@@ -5643,9 +5292,6 @@ content#:#cont_dir_created#:#Directory has been created.
 content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#دليل\ ملف
 content#:#cont_dir_renamed#:#Directory has been renamed.
-content#:#cont_disable_html#:#HTML غير موجود حاليا
-content#:#cont_disable_js#:#الجافا غير موجودة
-content#:#cont_disable_media#:#الوسائط غير موجودة
 content#:#cont_double_click_to_delete#:#نقرة مزدوجة على عناصر المحتوى لاختيارها من اجل تفعيلها او عدم تفعيلها او من اجل حذفها
 content#:#cont_download_no_download#:#Download will not be available for users, since the download feature is not activated.
 content#:#cont_download_no_menu#:#Download will not be available for users, since the learning module menu is not activated.
@@ -5756,9 +5402,6 @@ content#:#cont_edition#:#Edition
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.
 content#:#cont_empty_question#:#لم ينتهي تعديل السؤال. الرجاء اما النقر لتعديل او حذف السؤال
-content#:#cont_enable_html#:#HTML موجود حاليا
-content#:#cont_enable_js#:#الجافا موجودة
-content#:#cont_enable_media#:#الوسائط موجودة
 content#:#cont_enable_page_history#:#Page History
 content#:#cont_enable_page_history_info#:#Stores older versions of pages and allows to roll back to older versions.
 content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation
@@ -6987,10 +6630,8 @@ crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.
 crs#:#crs_view_mode#:#Course Presentation
 crs#:#crs_view_objective#:#Learning Objectives View
 crs#:#crs_view_timing#:#Timings View
-crs#:#crs_visibility#:#تواجد
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Temporarily Available
-crs#:#crs_visibility_unvisible#:#الظهور دون اتصال (الدورة غير موجودة)
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
@@ -7775,7 +7416,6 @@ ecs#:#ecs_cert_key#:#مفتاح الشهادة
 ecs#:#ecs_cert_valid_until#:#Certificate valid until
 ecs#:#ecs_check_import_id#:#The import id is not valid. Please check this setting.
 ecs#:#ecs_client_cert#:#شهادة العميل
-ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation
 ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS Directory Trees
 ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System
@@ -7931,7 +7571,6 @@ ecs#:#ecs_wiki_export#:#Wiki Releases
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
-eeed#:#block_feed_block_head#:#نشرة موقع خارجية
 exc#:#exc_add_assignment#:#اضافة تعيين
 exc#:#exc_add_feedback_file#:#Add Feedback File
 exc#:#exc_add_participant#:#Add Participant
@@ -10499,7 +10138,6 @@ rbac#:#accs_visible#:#Accessibility Settings are visible
 rbac#:#accs_write#:#Edit Accessibility Settings
 rbac#:#active_preconditions#:#Active Preconditions
 rbac#:#add_consultation_hours#:#اضافة تقويم ساعات الاستشارة
-rbac#:#add_post#:#اضافة اعلان
 rbac#:#add_reply#:#Add Reply
 rbac#:#add_thread#:#اضافة موضوع
 rbac#:#adm_edit_permission#:#Change permission settings
@@ -13272,4 +12910,36 @@ wsp#:#wsp_type_excv#:#Verification: Exercise
 wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Weblink
-wsp#:#wsp_type_wfld#:#Folder
+wsp#:#wsp_type_wfld#:#Foldercommon#:#group_create_chat#:#Create chat###27 12 2012 new variable
+content#:#cont_localfile#:#Local File###27 12 2012 new variable
+rbac#:#rbac_create_chat#:#Create Chat###27 12 2012 new variable
+rbac#:#rbac_create_dbk#:#Create Digilib Book###27 12 2012 new variable
+ecs#:#ecs_cmap_enable#:#Course Allocation###27 12 2012 new variable
+ecs#:#ecs_cmap_def_cat#:#Default Category###27 12 2012 new variable
+ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one#:#Course in one Category###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one_cat#:#Course Category###27 12 2012 new variable
+ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes###27 12 2012 new variable
+ecs#:#ecs_cmap_att_organisation#:#Organisation###27 12 2012 new variable
+ecs#:#ecs_cmap_att_term#:#Term###27 12 2012 new variable
+ecs#:#ecs_cmap_att_title#:#Title###27 12 2012 new variable
+ecs#:#ecs_cmap_att_lecturer#:#Lecturer###27 12 2012 new variable
+ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration###27 12 2012 new variable
+ecs#:#ecs_cmap_attributes#:#Mapping Attributes###27 12 2012 new variable
+ecs#:#ecs_cmap_overview#:#Mapping Overview###27 12 2012 new variable
+ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter#:#Filter Settings###27 12 2012 new variable
+ecs#:#ecs_cmap_form_all_values#:#All Values###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated###27 12 2012 new variable
+ecs#:#ecs_cmap_form_create_subdirs#:#Create Subdirectories###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name###27 12 2012 new variable
+ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute###27 12 2012 new variable
+ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values###27 12 2012 new variable
+ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
+ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
+content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
+content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
