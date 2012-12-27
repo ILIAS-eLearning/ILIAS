@@ -24,29 +24,15 @@ function alterCheckboxes(a_form, a_page, a_nodes)
 //-->
 </script>
 <form name="PublicSelector" action="{FORMACTION}" {TARGET} method="post">
-<table class="std">
-<tr class="tblheader">
-	<td class="tblheader" colspan="2">
-	{TXT_SET_PUBLIC_MODE}
-	</td>
-</tr>
-<tr class="std">
-	<td class="option">
-	{TXT_CHOOSE_PUBLIC_MODE}
-	</td>
-	<td class="option_value">
-	{SELECT_PUBLIC_MODE}
-	</td>
-</tr>
-</table>
+{TOOLBAR}
 <br />
-<div class="il_ExplorerHeader">
-{TXT_EXPLORER_HEADER}
+<!-- BEGIN select_pages -->
+<div>{EXPLORER}</div>
+<br />
+<div class="ilToolbar">
+    <a class="submit" href="#" onclick="setCheckboxes('PublicSelector','page_',{ONCLICK},true); return false;">{TXT_CHECKALL}</a>
+    <a class="submit" href="#" onclick="setCheckboxes('PublicSelector','page_',{ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
+    <input class="submit" type="submit" name="cmd[savePublicSection]" value="{TXT_SAVE}" />
 </div>
-	<div style="margin:15px 0px;">{EXPLORER}</div>
-<div align="left">
-    <a href="" onclick="setCheckboxes('PublicSelector','page_',{ONCLICK},true); return false;">{TXT_CHECKALL}</a>&nbsp;&nbsp;
-    <a href="" onclick="setCheckboxes('PublicSelector','page_',{ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
-<p><input class="submit" type="submit" name="cmd[savePublicSection]" value="{TXT_SAVE}" /></p>
-</div>
+<!-- END select_pages -->
 </form>

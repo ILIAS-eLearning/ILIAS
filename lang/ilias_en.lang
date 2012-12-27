@@ -4501,9 +4501,9 @@ common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrat
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#add_menu_entry#:#Add Menu Entry
-content#:#all_pages#:#the entire Learning module
+content#:#all_pages#:#Entire Learning Module
 content#:#all#:#All
-content#:#choose_public_mode#:#Unregistered users may access
+content#:#choose_public_mode#:#Access for Users not logged-in
 content#:#choose_public_pages#:#Choose public accessible pages
 content#:#citate_from#:#Citate From ...
 content#:#citate_page#:#Citate this Page
@@ -5255,7 +5255,7 @@ content#:#scplayer_showtree#:#Show Tree
 content#:#scplayer_start#:#Start
 content#:#scplayer_suspendall#:#Suspend All
 content#:#select_a_file#:#Please select a file.
-content#:#selected_pages_only#:#only that pages selected below
+content#:#selected_pages_only#:#Only Selected Pages
 content#:#selectFooter#:#Select As Footer
 content#:#selectHeader#:#Select As Header
 content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.
@@ -12942,3 +12942,5 @@ ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute
 ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values
 ecs#:#ecs_cmap_form_current_dir#:#Current Directory
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference
+content#:#cont_custom_menu_entries#:#Custom Menu Entries
+content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.
