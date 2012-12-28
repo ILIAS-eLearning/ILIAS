@@ -3011,9 +3011,9 @@ div.ilCreationFormSection div.ilForm {
 	width: 699px;
 }
 
-/*div.ilCreationFormSection div.ilFormValue {
-	width: 499px;
-}*/
+div.ilCreationFormSection div.ilForm div.ilForm {
+	width: auto;
+}
 
 div.il_adv_sel
 {
