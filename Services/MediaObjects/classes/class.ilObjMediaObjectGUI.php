@@ -1850,6 +1850,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		$a_tpl->addJavascript(iljQueryUtil::getLocalMaphilightPath());
 		$a_tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
+		
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
+		ilPlayerUtil::initMediaElementJs($a_tpl);
 	}
 	
 }
