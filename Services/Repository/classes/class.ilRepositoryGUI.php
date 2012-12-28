@@ -176,7 +176,7 @@ class ilRepositoryGUI
 	*/
 	function &executeCommand()
 	{
-		global $tree, $rbacsystem, $ilias, $lng, $objDefinition,$ilUser, $ilCtrl;
+		global $tree, $rbacsystem, $ilias, $lng, $objDefinition,$ilUser, $ilCtrl, $ilHelp;
 
 		// Check for incomplete profile
 		if($ilUser->getProfileIncomplete())
@@ -200,6 +200,8 @@ class ilRepositoryGUI
 		if ($new_type != "" && $new_type != "sty")
 		{
 			$this->creation_mode = true;
+			$ilHelp->setScreenIdComponent($new_type);
+			$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "create");
 		}
 
 		// handle frameset command
