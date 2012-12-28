@@ -3006,6 +3006,10 @@ div.ilCreationFormSection {
 	width: 700px;
 }
 
+div.ilCreationFormSection div.ilForm {
+	width: 699px;
+}
+
 /*div.ilCreationFormSection div.ilFormValue {
 	width: 499px;
 }*/
