@@ -3356,6 +3356,15 @@ td.ilNoteList {
 	vertical-align: top;
 }
 
+textarea#note {
+	width: 90%;
+	height: 6em;
+}
+
+div.ilNoteInput {
+	padding-bottom:10px;
+}
+
 /* PageLayout Previews */
 
 div.ilc_QuestionPlaceHolderThumb
