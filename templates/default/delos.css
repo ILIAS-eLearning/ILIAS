@@ -226,7 +226,8 @@ div#il_startup_content {
 }
 
 #il_startup_content form table {
-	width: 500px;
+	/* out-commented due to http://www.ilias.de/mantis/view.php?id=10264 */
+	/* width: 500px; */
 }
 
 .ilStartupSection {

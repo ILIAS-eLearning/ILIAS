@@ -3694,6 +3694,8 @@ class ilUtil
 	 */
 	public static function execQuoted($cmd, $args = NULL)
 	{
+		global $ilLog;
+		
 		if(ilUtil::isWindows() && strpos($cmd, " ") !== false && substr($cmd, 0, 1) !== '"')
 		{
 			// cmd won't work without quotes
@@ -3720,6 +3722,7 @@ class ilUtil
 		}
 //echo "<br>".$cmd;
 		exec($cmd, $arr);
+//		$ilLog->write("ilUtil::execQuoted: ".$cmd.".");
 		return $arr;
 	}
 
