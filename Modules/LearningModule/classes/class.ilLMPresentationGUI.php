@@ -722,6 +722,7 @@ class ilLMPresentationGUI
 				{
 					case "ilMainMenu":
 						$this->ilMainMenu();
+						$this->renderPageTitle();
 						break;
 
 					case "ilTOC":
