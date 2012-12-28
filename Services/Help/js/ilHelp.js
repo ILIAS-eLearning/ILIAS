@@ -113,12 +113,25 @@ il.Help = {
 			il.Help.padding_old = obj.style.paddingRight;
 		}
 		obj.style.paddingRight = '300px';
+		il.Help.fixWebkit(obj);
+	},
+	
+	// force repaint on webkit
+	fixWebkit: function (obj) {
+		// http://www.ilias.de/mantis/bug_view_page.php?bug_id=10362
+		// the next few lines are needed to force a repaint in webkit
+		// http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
+		obj.style.display = 'none';
+		obj.offsetHeight;
+		obj.style.display = '';
 	},
 
 	// reset main content area
 	resetMainContentArea: function () {
 		var obj = document.getElementById('mainspacekeeper');
 		obj.style.paddingRight = this.padding_old;
+		
+		il.Help.fixWebkit(obj);
 	},
 
 	// close panel
