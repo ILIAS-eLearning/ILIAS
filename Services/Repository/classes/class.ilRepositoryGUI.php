@@ -373,7 +373,7 @@ class ilRepositoryGUI
 	*/
 	function frameset()
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilAccess;
 		
 		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
 		$fs_gui = new ilFramesetGUI();
@@ -391,8 +391,17 @@ class ilRepositoryGUI
 		{
 			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
 			$ilCtrl->setParameterByClass("ilrepositorygui", "getlast", "true");
-			$fs_gui->setMainFrameSource(
-				$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
+			if ($ilAccess->checkAccess("read", "", $this->cur_ref_id))
+			{
+				$fs_gui->setMainFrameSource(
+					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
+			}
+			else
+			{
+				// if no read permission is given, do not display frameset
+				// see bug http://www.ilias.de/mantis/view.php?id=10305
+				$ilCtrl->redirectByClass("ilrepositorygui", "");
+			}
 			$ilCtrl->clearParametersByClass("ilrepositorygui");
 		}
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);

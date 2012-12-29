@@ -833,7 +833,7 @@ class ilStartUpGUI
 	 */
 	protected function showRegistrationLinks($page_editor_html)
 	{
-		global $lng, $ilSetting, $ilIliasIniFile;
+		global $lng, $ilSetting, $ilIliasIniFile, $ilAccess;
 
 		$rtpl = new ilTemplate('tpl.login_registration_links.html',true,true,'Services/Init');
 
@@ -861,7 +861,8 @@ class ilStartUpGUI
 			$rtpl->parseCurrentBlock();
 		}
 
-		if ($ilSetting->get("pub_section"))
+		if ($ilSetting->get("pub_section") &&
+			$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID))
 		{
 			$rtpl->setCurrentBlock("homelink");
 			$rtpl->setVariable("CLIENT_ID","?client_id=".$_COOKIE["ilClientId"]."&lang=".$lng->getLangKey());
