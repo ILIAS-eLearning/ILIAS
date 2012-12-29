@@ -492,6 +492,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "User":
+				$this->acc_mail->reset();
 				$this->prefs = array();
 				$this->currentPrefKey = null;
 				$this->auth_mode_set = false;
