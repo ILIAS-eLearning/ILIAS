@@ -1820,7 +1820,7 @@ function doMouseClick(e, id, type, char)
 		if (openedMenu == "" && nextMenu != oldOpenedMenu)
 		{
 			openedMenu = nextMenu;
-			showMenu(openedMenu, Mposx, Mposy-10);
+			showMenu(openedMenu, Mposx + 2, Mposy-10);
 		}
 		doCloseContextMenuCounter = 40;
 	}
