@@ -1699,7 +1699,8 @@ else
 		$this->initClientIniForm();
 		if ($this->form->checkInput())
 		{
-			if (strlen($_POST["client_id"]) != strlen(urlencode(($_POST["client_id"]))))
+			if (strlen($_POST["client_id"]) != strlen(urlencode(($_POST["client_id"])))
+				|| is_int(strpos($_POST["client_id"], "_")))
 			{
 				$i = $this->form->getItemByPostVar("client_id");
 				$i->setAlert($this->lng->txt("ini_client_id_invalid"));
