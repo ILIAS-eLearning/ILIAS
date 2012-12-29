@@ -43,6 +43,11 @@ class ilSetupGUI
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery($this->tpl);
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initDomEvent();
+		
 		// CVS - REVISION - DO NOT MODIFY
 		$this->revision = '$Revision$';
 		$this->version = "2 ".substr(substr($this->revision,1),0,-2);
