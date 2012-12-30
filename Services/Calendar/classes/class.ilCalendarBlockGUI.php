@@ -747,25 +747,27 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			return;
 		}
 		
-		if ($this->display_mode == 'mmon')
-		{
-			$this->addFooterLink($lng->txt("month"));
+//		if ($this->display_mode == 'mmon')
+//		{
+//			$this->addFooterLink($lng->txt("month"));
 			
 			$this->addFooterLink($lng->txt("cal_upcoming_events_header"),
 				$ilCtrl->getLinkTarget($this, "setPdModeEvents"),
 				$ilCtrl->getLinkTarget($this, "setPdModeEvents", "", true),
-				"block_".$this->getBlockType()."_".$this->block_id);
+				"block_".$this->getBlockType()."_".$this->block_id,
+				false, false, ($this->display_mode != 'mmon'));
 			
-		}
-		else
-		{
+//		}
+//		else
+//		{
 			$this->addFooterLink( $lng->txt("month"),
 				$ilCtrl->getLinkTarget($this, "setPdModeMonth"),
 				$ilCtrl->getLinkTarget($this, "setPdModeMonth", "", true),
-				"block_".$this->getBlockType()."_".$this->block_id);
+				"block_".$this->getBlockType()."_".$this->block_id,
+				false, false, ($this->display_mode == 'mmon'));
 			
-			$this->addFooterLink($lng->txt("cal_upcoming_events_header"));
-		}
+//			$this->addFooterLink($lng->txt("cal_upcoming_events_header"));
+//		}
 	}
 	
 	function setPdModeEvents()

@@ -201,34 +201,36 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		}
 		
 		// flat
-		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
-		{
+//		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
+//		{
 			$this->addFooterLink( $lng->txt("list"),
 				$ilCtrl->getLinkTarget($this, "setPdFlatMode"),
 				$ilCtrl->getLinkTarget($this, "setPdFlatMode",
 				"", true),
-				"block_".$this->getBlockType()."_".$this->block_id);
-		}
-		else
-		{
-			$this->addFooterLink($lng->txt("list"));
-		}
+				"block_".$this->getBlockType()."_".$this->block_id,
+				false, false, ($ilUser->getPref("il_pd_bkm_mode") != 'tree'));
+//		}
+//		else
+//		{
+//			$this->addFooterLink($lng->txt("list"));
+//		}
 
 		// as tree
-		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
-		{
-			$this->addFooterLink($lng->txt("tree"));
-		}
-		else
-		{
+//		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
+//		{
+//			$this->addFooterLink($lng->txt("tree"));
+//		}
+//		else
+//		{
 			$this->addFooterLink($lng->txt("tree"),
 				$ilCtrl->getLinkTarget($this,
 					"setPdTreeMode"),
 				$ilCtrl->getLinkTarget($this,
 					"setPdTreeMode", "", true),
-				"block_".$this->getBlockType()."_".$this->block_id
+				"block_".$this->getBlockType()."_".$this->block_id,
+				false, false, ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
 				);
-		}
+//		}
 	}
 
 	/**
