@@ -596,7 +596,7 @@ abstract class ilBlockGUI
 	* Add a footer text/link
 	*/
 	function addFooterLink($a_text, $a_href = "", $a_onclick = "", $a_block_id = "",
-		$a_top = false, $a_omit_separator = false)
+		$a_top = false, $a_omit_separator = false, $a_checked = false)
 	{
 		$this->footer_links[] = array(
 			"text" => $a_text,
@@ -604,7 +604,8 @@ abstract class ilBlockGUI
 			"onclick" => $a_onclick,
 			"block_id" => $a_block_id,
 			"top" => $a_top,
-			"omit_separator" => $a_omit_separator);
+			"omit_separator" => $a_omit_separator,
+			"checked" => $a_checked);
 	}
 
 	/**
@@ -1292,8 +1293,8 @@ abstract class ilBlockGUI
 					//$this->tpl->touchBlock("det_delim");
 					//$this->tpl->touchBlock("det_item");
 				}
-				if ($i != $this->getCurrentDetailLevel())
-				{
+//				if ($i != $this->getCurrentDetailLevel())
+//				{
 					$ilCtrl->setParameterByClass("ilcolumngui",
 						$this->getDetailParameter(), $i);
 
@@ -1312,7 +1313,7 @@ abstract class ilBlockGUI
 					}
 																					
 					// normal link										
-					$icon = ilUtil::getImagePath("details".$i.".png");
+					//$icon = ilUtil::getImagePath("details".$i.".png");
 					$text = $lng->txt("details")." ".$i;
 					$url = $ilCtrl->getLinkTargetByClass("ilcolumngui",	"");
 					
@@ -1321,11 +1322,13 @@ abstract class ilBlockGUI
 						$onclick = "ilBlockJSHandler('".$onclick_id."','".$onclick."')";
 					}
 					
+					$checked = ($i == $this->getCurrentDetailLevel());
 					$this->dropdown[] = array("text" => $text,
 						"image" => $icon,
 						"href" => $url,
-						"onclick" => $onclick);
-				}				
+						"onclick" => $onclick,
+						"checked" => $checked);
+//				}				
 			}
 			
 			// info + icon in detail row

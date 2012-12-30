@@ -315,36 +315,38 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 		
 		// by type
-		if ($ilUser->getPref("pd_order_items") == 'location')
-		{
+//		if ($ilUser->getPref("pd_order_items") == 'location')
+//		{
 			$this->addFooterLink( $lng->txt("by_type"),
 				$ilCtrl->getLinkTarget($this,
 				"orderPDItemsByType"),
 				$ilCtrl->getLinkTarget($this,
 				"orderPDItemsByType", "", true),
-				"block_".$this->getBlockType()."_".$this->block_id
+				"block_".$this->getBlockType()."_".$this->block_id,
+				false, false, ($ilUser->getPref("pd_order_items") != 'location')
 				);
-		}
-		else
-		{
-			$this->addFooterLink($lng->txt("by_type"));
-		}
+//		}
+//		else
+//		{
+//			$this->addFooterLink($lng->txt("by_type"));
+//		}
 
-		// by location
-		if ($ilUser->getPref("pd_order_items") == 'location')
-		{
-			$this->addFooterLink($lng->txt("by_location"));
-		}
-		else
-		{
+//		// by location
+//		if ($ilUser->getPref("pd_order_items") == 'location')
+//		{
+//			$this->addFooterLink($lng->txt("by_location"));
+//		}
+//		else
+//		{
 			$this->addFooterLink( $lng->txt("by_location"),
 				$ilCtrl->getLinkTarget($this,
 				"orderPDItemsByLocation"),
 				$ilCtrl->getLinkTarget($this,
 				"orderPDItemsByLocation", "", true),
-				"block_".$this->getBlockType()."_".$this->block_id
+				"block_".$this->getBlockType()."_".$this->block_id,
+				false, false, ($ilUser->getPref("pd_order_items") == 'location')
 				);
-		}
+//		}
 	}
 	
 	/**
