@@ -313,7 +313,7 @@ class ilCalendarPresentationGUI
 	 */
 	protected function showSideBlocks()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 
 		$tpl =  new ilTemplate('tpl.cal_side_block.html',true,true,'Services/Calendar');
 
@@ -324,7 +324,7 @@ class ilCalendarPresentationGUI
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
 		$cat = new ilCalendarCategoryGUI($ilUser->getId(),$this->seed);
-		$tpl->setVariable('CATEGORIES',$cat->getHTML());
+		$tpl->setVariable('CATEGORIES', $ilCtrl->getHTML($cat));
 
 		$this->tpl->setLeftContent($tpl->get());
 	}

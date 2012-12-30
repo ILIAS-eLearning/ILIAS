@@ -27,7 +27,7 @@
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilCalendarCategoryGUI: ilCalendarAppointmentGUI
+* @ilCtrl_Calls ilCalendarCategoryGUI: ilCalendarAppointmentGUI, ilCalendarSelectionBlockGUI
 *
 * @ingroup ServicesCalendar
 */
@@ -583,7 +583,7 @@ class ilCalendarCategoryGUI
 		$table->parse();
 		
 		$tpl->setContent($this->form->getHTML().'<br />'.$table->getHTML());
-	}
+	}                            
 	
 	/**
 	 * share perform search
@@ -1164,30 +1164,12 @@ class ilCalendarCategoryGUI
 
 	public function getHTML()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 
-		/*
-		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
-		
-		$hidden_cats = ilCalendarHidden::_getInstanceByUserId($ilUser->getId());
-		$visible_cats = ilCalendarCategories::_getInstance($ilUser->getId());
-		$visible_cat_ids = implode(',',array_diff($visible_cats->getCategories(),$hidden_cats->getHidden()));
-		*/
-
-
-		include_once('./Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php');
-		$table_gui = new ilCalendarCategoryTableGUI($this,$this->seed);
-		
-		$title = $this->lng->txt('cal_table_categories');
-		$title .= $this->appendCalendarSelection();
-		
-		$table_gui->setTitle($title);
-		$table_gui->addMultiCommand('saveSelection',$this->lng->txt('show'));
-		// $table_gui->addCommandButton('add',$this->lng->txt('add'));
-		$table_gui->parse();
-		
-		return $table_gui->getHTML();
+		include_once("./Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php");
+		$block_gui = new ilCalendarSelectionBlockGUI($this->seed);
+		$html = $ilCtrl->getHTML($block_gui);
+		return $html;
 	}
 	
 	

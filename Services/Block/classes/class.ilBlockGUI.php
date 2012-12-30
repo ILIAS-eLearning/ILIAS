@@ -543,12 +543,13 @@ abstract class ilBlockGUI
 	* @param	string	$a_href		command link target
 	* @param	string	$a_text		text
 	*/
-	function addBlockCommand($a_href, $a_text, $a_target = "", $a_img = "", $a_right_aligned = false)
+	function addBlockCommand($a_href, $a_text, $a_target = "", $a_img = "", $a_right_aligned = false,
+		$a_checked = false)
 	{
 		return $this->block_commands[] = 
 			array("href" => $a_href,
 				"text" => $a_text, "target" => $a_target, "img" => $a_img,
-				"right" => $a_right_aligned);
+				"right" => $a_right_aligned, "checked" => $a_checked);
 	}
 
 	/**
@@ -846,13 +847,17 @@ abstract class ilBlockGUI
 		// adv selection gui
 		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 		$dropdown = new ilAdvancedSelectionListGUI();
-		$dropdown->setUseImages(false);
+		$dropdown->setUseImages(true);
 		$dropdown->setHeaderIcon(ilUtil::getImagePath("icon_sett_s.png"));
 		$dropdown->setId("block_dd_".$this->getBlockType()."_".$this->block_id);
 		foreach($this->dropdown as $item)
 		{						
 			if($item["href"] || $item["onclick"])
 			{
+				if ($item["checked"])
+				{
+					$item["image"] = ilUtil::getImagePath("icon_checked_s.png");
+				}
 				$dropdown->addItem($item["text"], "", $item["href"], $item["image"],
 					$item["text"], "", "", false, $item["onclick"]);
 			}
