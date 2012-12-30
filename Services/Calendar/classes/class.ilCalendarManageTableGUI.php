@@ -170,6 +170,11 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 				$type = ilObject::_lookupType($a_set['obj_id']);
 				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_'.$type.'_s.png'));
 				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
+				break;
+				
+			case ilCalendarCategory::TYPE_BOOK:
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_book_s.png'));
+				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
 				break;				
 		}
 		
@@ -190,12 +195,12 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('BGCOLOR',$a_set['color']);
 		$this->tpl->setVariable("ACTIONS", $current_selection_list->getHTML());
 		
-		if(strlen($a_set['path']))
+/*		if(strlen($a_set['path']))
 		{
 			$this->tpl->setCurrentBlock('calendar_path');
 			$this->tpl->setVariable('ADD_PATH_INFO',$a_set['path']);
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 	}
 	
 	/**

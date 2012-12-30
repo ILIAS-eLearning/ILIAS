@@ -2023,6 +2023,63 @@ td.il_CalDay
 	font-size: 80%;
 }
 
+div#block_cal_sel_0 div.ilBlockContent {
+	padding: 0px;
+}
+
+div.ilCalSelAct {
+	background-color: #F0F0F0;
+	font-size: 90%;
+	padding: 2px 2px 3px 0;
+}
+
+div.ilCalSelSelAll {
+	background-color: #F8F8F8;
+	font-size: 80%;
+	padding: 3px 2px 2px 0;
+}
+
+div.ilCalSelList {
+	max-height: 250px;
+	overflow: auto;
+}
+
+ul.ilCalSel {
+	margin: 0px;
+	padding: 0px;
+	list-style:none;
+}
+
+ul.ilCalSel li {
+	margin: 0px;
+	padding: 0 0 0 48px;
+	border-bottom: 1px solid #F0F0F0;
+	min-height:25px;
+}
+
+span.ilCalColSpan {
+	padding: 2px 0;
+	display: block;
+	margin-left: -48px;
+	width: 24px;
+	height: 25px;
+	float: left;
+}
+
+ul.ilCalSel li img {
+	margin-top: 6px;
+	display: block;
+	float: left;
+	margin-left: -20px;
+}
+
+div.ilCalSelTitle {
+	padding: 3px;
+	padding-top: 5px;
+	font-size: 90%;
+}
+
+
 /* --- content styles (will move to content.css) --- */
 td.ilc_PageDisabled
 {
@@ -3226,45 +3283,12 @@ th
 	font-weight: normal;
 }
 
-td.std, th.std,
-td.calmngColor,
-td.calmngImg,
-td.calmngTitle,
-td.calmngSublink {
+td.std, th.std {
 	padding: 4px 6px;
 	text-align: left;
 }
 
-td.calmngColor {
-	font-size: small;
-	vertical-align: top; 
-	white-space: nowrap; 
-	width: 30px;
-}
 
-span.calmngColorSpan {
-	padding: 0; 
-	margin-top: -21px;
-	display: block; 
-	width: 21px; 
-	height: 21px;
-}
-
-td.calmngImg {
-	font-size: small;
-	vertical-align: top;
-	width: 30px;
-}
-
-td.calmngTitle {
-	font-size: small;
-	vertical-align: top;
-}
-
-td.calmngSublink {
-	font-size: small;
-	vertical-align: top;
-}
 /* Navigation History */
 form.ilNavHistoryForm
 {

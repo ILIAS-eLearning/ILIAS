@@ -13741,3 +13741,7 @@ ilDBUpdateNewObjectType::deleteRBACOperation('rcat', $ops_id);
 		$ilDB->addPrimaryKey('ecs_cmap_rule',array('rid'));
 	}
 ?>
+<#3805>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

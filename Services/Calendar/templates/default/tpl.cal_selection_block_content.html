@@ -1,0 +1,33 @@
+<form class="ilForm" method="post" action="{FORM_ACTION}">
+
+<div class="ilCalSelList">
+<ul class="ilCalSel" id="categories">
+<!-- BEGIN item -->
+	<li>
+		<input type="hidden" name="shown_cat_ids[]" value="{VAL_ID}" />
+		<span class="ilCalColSpan" style="background-color: {BGCOLOR}">
+			<input type="checkbox" name="selected_cat_ids[]" value="{VAL_ID}" {VAL_CHECKED} />
+		</span>
+		<img src="{IMG_SRC}" alt="{IMG_ALT}" title="{IMG_ALT}" />
+		<div class="ilCalSelTitle">
+		<a class="small" href="{EDIT_LINK}">{VAL_TITLE}</a>
+		<!-- BEGIN calendar_path -->
+		<div class="il_Description">
+			<span class="small">{ADD_PATH_INFO}</span>
+		</div>
+		<!-- END calendar_path -->
+		</div>
+	</li>
+<!-- END item -->
+</ul>
+</div>
+<div class="ilCalSelSelAll light">
+<input id="chb_select_all_cat" type="checkbox" onclick="il.Util.setChecked('categories', 'selected_cat_ids',
+	this.checked);" value="1" name="chb_select_all_cat"> <label for="chb_select_all_cat">{TXT_SELECT_ALL}</label>
+</div>
+<div class="ilCalSelAct">
+<img border="0" style="vertical-align:middle;" alt="{TXT_ACTION}" src="{SRC_ACTION}">
+<input class="submit" type="submit" value="{TXT_SHOW}" name="cmd[{CMD_SHOW}]">
+</div>
+
+</form>
