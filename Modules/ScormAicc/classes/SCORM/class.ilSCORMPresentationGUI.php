@@ -450,7 +450,7 @@ class ilSCORMPresentationGUI
 		$b_autoLastVisited='false';
 		if ($this->slm->getAuto_last_visited()) {
 			$b_autoLastVisited='true';
-			$launchId=$slm_obj->getLastVisited($ilUser->getID());
+			if ($launchId == '0') $launchId=$slm_obj->getLastVisited($ilUser->getID());
 		}
 
 		$s_out='IliasScormVars={'
