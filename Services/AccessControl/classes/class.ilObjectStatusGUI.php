@@ -107,7 +107,7 @@ class ilObjectStatusGUI
 		$tbl->setLimit(0);
 		$tbl->setData($result_set);
 	}
-	
+
 	function __showPermissionsTable($a_result_set)
 	{
         global $lng;
@@ -262,12 +262,17 @@ class ilObjectStatusGUI
 				$objDefinition->isPlugin(substr($ops['operation'], 7)))
 			{
 				$result_set[$counter][] = ilPlugin::lookupTxt("rep_robj", substr($ops['operation'],7),
-					$this->object->getType()."_".$ops['operation']);
+					#$this->object->getType()."_".$ops['operation']);
+					'rbac_'.$ops['operation']);
 			}
 			else if ($objDefinition->isPlugin($this->object->getType()))
 			{
 				$result_set[$counter][] = ilPlugin::lookupTxt("rep_robj", $this->object->getType(),
 					$this->object->getType()."_".$ops['operation']);
+			}
+			elseif(substr($ops['operation'],0,7) == 'create_')
+			{
+				$result_set[$counter][] = $lng->txt('rbac_'.$ops['operation']);
 			}
 			else
 			{
