@@ -71,7 +71,7 @@ class ilExportFileInfo
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("DELETE FROM export_file_info WHERE obj_id ".$ilDB->quote($a_obj_id));
+		$ilDB->manipulate("DELETE FROM export_file_info WHERE obj_id = ".$ilDB->quote($a_obj_id));
 		return true;
 	}
 	
