@@ -1286,7 +1286,8 @@ class ilInitialisation
 	{
 		if($a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
-			$a_current_script == "confirmReg.php")
+			$a_current_script == "confirmReg.php" ||
+			$a_current_script == "index.php") // #10316
 		{
 			return true;
 		}
