@@ -1145,8 +1145,9 @@ class ilInitialisation
 				$mandatory_auth = ($current_script != "shib_login.php"
 						&& $current_script != "shib_logout.php"
 						&& $current_script != "error.php"
-						&& $current_script != "chat.php");
-
+						&& $current_script != "chat.php"
+						&& $current_script != "index.php"); // #10316
+				
 				if($mandatory_auth)
 				{
 					self::handleAuthenticationFail();
@@ -1286,8 +1287,7 @@ class ilInitialisation
 	{
 		if($a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
-			$a_current_script == "confirmReg.php") // ||
-//			$a_current_script == "index.php") // #10316
+			$a_current_script == "confirmReg.php") 
 		{
 			return true;
 		}
@@ -1303,7 +1303,8 @@ class ilInitialisation
 			}
 			
 			$cmd = self::getCurrentCmd();
-			if($cmd == "showUserAgreement" || $cmd == "showClientList" || $cmd == 'showAccountMigration' || $cmd == 'migrateAccount')
+			if($cmd == "showUserAgreement" || $cmd == "showClientList" || 
+				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount')
 			{
 				return true;
 			}
