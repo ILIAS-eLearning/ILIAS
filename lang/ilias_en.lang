@@ -12563,7 +12563,7 @@ common#:#obj_itgr_select#:#-- Please select one Item Group --
 common#:#obj_itgr#:#Item Group
 common#:#objs_itgr#:#Item Groups
 itgr#:#itgr_edit#:#Edit Item Groups
-rbac#:#itgr_read#:#User can read item group
+rbac#:#itgr_read#:#User can see items in item group
 rbac#:#itgr_write#:#User can edit content and settings of item group
 rbac#:#itgr_copy#:#User can copy item group
 rbac#:#itgr_delete#:#User can move or delete item group
