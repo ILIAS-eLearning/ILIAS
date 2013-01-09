@@ -11,3 +11,17 @@ action="{FORM_ACTION}" method="post">
 <!-- BEGIN mailform -->
 {FORM}
 <!-- END mailform -->
+<script type="text/javascript">
+	$('#form_{FORM_ID}').on('keyup keydown keypress', function(event) {
+		if (event.which == 13) {
+			if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
+				(
+					$(event.target).prop("tagName").toLowerCase() != "input"
+					||
+					$(event.target).prop("type") != "submit"
+			)) {
+				event.preventDefault();
+			}
+		}
+	});
+</script>
