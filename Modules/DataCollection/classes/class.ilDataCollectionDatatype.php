@@ -48,6 +48,8 @@ class ilDataCollectionDatatype
     // Meida Object
     const INPUTFORMAT_MOB 		    = 9;
 
+    const LINK_MAX_LENGTH = 30;
+
 
 	/**
 	 * Constructor
@@ -631,10 +633,17 @@ class ilDataCollectionDatatype
 				
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 				//Property URL
+
 				$arr_properties = $record_field->getField()->getProperties();
-				if($arr_properties[ilDataCollectionField::PROPERTYID_URL]->value)
+                if($arr_properties[ilDataCollectionField::PROPERTYID_URL])
 				{
-					$html = "<a target='_blank' href='".$value."'>".$value."</a>";
+                    $link = $value;
+                    if(strlen($link) > self::LINK_MAX_LENGTH){
+                        $link = substr($value, 0, (self::LINK_MAX_LENGTH-3)/2);
+                        $link.= "...";
+                        $link .= substr($value, -(self::LINK_MAX_LENGTH-3)/2);
+                    }
+					$html = "<a target='_blank' href='".$value."'>".$link."</a>";
 				}
 				else
 				{
