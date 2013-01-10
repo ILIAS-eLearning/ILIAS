@@ -78,16 +78,18 @@ class ilDataCollectionRecordListGUI
 			$options[$table->getId()] = $table->getTitle();
 		}
 
+        if(count($options) > 0){
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
-		$table_selection = new ilSelectInputGUI('', 'table_id');
-		$table_selection->setOptions($options);
-        $table_selection->setValue($this->table_id);
+            $table_selection = new ilSelectInputGUI('', 'table_id');
+            $table_selection->setOptions($options);
+            $table_selection->setValue($this->table_id);
 
-		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionRecordListGUI", "doTableSwitch"));
-        $ilToolbar->addText($lng->txt("dcl_table"));
-		$ilToolbar->addInputItem($table_selection);
-		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
-        $ilToolbar->addSeparator();
+            $ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionRecordListGUI", "doTableSwitch"));
+            $ilToolbar->addText($lng->txt("dcl_table"));
+            $ilToolbar->addInputItem($table_selection);
+            $ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
+            $ilToolbar->addSeparator();
+        }
         if($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))
             $ilToolbar->addFormButton($lng->txt('dcl_export_table_excel'), "exportExcel");
 
