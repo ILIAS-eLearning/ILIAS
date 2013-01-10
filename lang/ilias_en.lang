@@ -12438,6 +12438,7 @@ dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_any#:#Any
 dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://)
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
+dcl#:#dcl_export_enabled#:#Allow export function for all users
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team

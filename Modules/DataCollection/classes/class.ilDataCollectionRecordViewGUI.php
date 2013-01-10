@@ -25,7 +25,7 @@ class ilDataCollectionRecordViewGUI
 	public function __construct($a_dcl_object)
 	{
 		$this->record_id = $_GET['record_id'];
-		$this->record_obj = new ilDataCollectionRecord($this->record_id);
+		$this->record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
 	}
 
 	/**
@@ -75,7 +75,7 @@ class ilDataCollectionRecordViewGUI
 		$html = $pageObj->getHTML();
         $tpl->addCss("./Services/COPage/css/content.css");
         $tpl->fillCssFiles();
-		$table = new ilDataCollectionTable($this->record_obj->getTableId());
+		$table = ilDataCollectionCache::getTableCache($this->record_obj->getTableId());
 		foreach($table->getFields() as $field)
 		{
             //ILIAS_Ref_Links

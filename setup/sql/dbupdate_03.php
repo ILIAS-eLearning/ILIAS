@@ -13745,3 +13745,18 @@ ilDBUpdateNewObjectType::deleteRBACOperation('rcat', $ops_id);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3806>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_table', 'export_enabled'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_table',
+		'export_enabled',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+		)
+	);
+	
+}
+?>

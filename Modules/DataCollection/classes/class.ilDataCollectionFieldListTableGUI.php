@@ -3,6 +3,8 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once "class.ilDataCollectionCache.php";
+
 
 /**
 * Class ilDataCollectionFieldListTableGUI
@@ -60,7 +62,7 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		$this->setExternalSegmentation(true);
 		$this->setExternalSorting(true);
 
-		$this->table = new ilDataCollectionTable($table_id);
+		$this->table = ilDataCollectionCache::getTableCache($table_id);
 
 		$this->setData($this->table->getFields());
 

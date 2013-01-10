@@ -34,7 +34,7 @@ class ilDataCollectionRecordListGUI
 			$this->table_id = $_GET["table_id"];
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->parent_obj = $a_parent_obj;
-		$this->table_obj = new ilDataCollectionTable($table_id);
+		$this->table_obj = ilDataCollectionCache::getTableCache($table_id);
 
 		return;
 	}
@@ -65,9 +65,7 @@ class ilDataCollectionRecordListGUI
 	{
 		global $ilTabs, $tpl, $lng, $ilCtrl, $ilToolbar;
 
-		//$ilTabs->setTabActive("id_records");
-
-		// Show tables
+        		// Show tables
 		require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 		if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id))
 			$tables = $this->parent_obj->object->getTables();
@@ -90,7 +88,9 @@ class ilDataCollectionRecordListGUI
 		$ilToolbar->addInputItem($table_selection);
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
         $ilToolbar->addSeparator();
-        $ilToolbar->addFormButton($lng->txt('dcl_export_table_excel'), "exportExcel");
+        if($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))
+            $ilToolbar->addFormButton($lng->txt('dcl_export_table_excel'), "exportExcel");
+
         if($_GET['table_id'])
             $table_id = $_GET['table_id'];
         else
@@ -114,11 +114,16 @@ class ilDataCollectionRecordListGUI
 	 */
 	public function exportExcel()
 	{
-		global $ilCtrl;
-		
+        global $ilCtrl, $lng;
+
+        if(!($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))){
+            echo $lng->txt("access_denied");
+            exit;
+        }
+
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
 		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
-		$table = new ilDataCollectionTable($this->table_id);
+		$table = ilDataCollectionCache::getTableCache($this->table_id);
 		$list->setData($table->getRecords());
 		$list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
 		$this->listRecords();
@@ -170,7 +175,7 @@ class ilDataCollectionRecordListGUI
 		if($ilAccess->checkAccess("read", "", $this->parent_obj->ref_id))
 		{
 			$rec_id = $_GET['record_id'];
-			$record = new ilDataCollectionRecord($rec_id);
+			$record = ilDataCollectionCache::getRecordCache($rec_id);
 			$field_id = $_GET['field_id'];
 			$file_obj = new ilObjFile($record->getRecordFieldValue($field_id), false);
 			if(!$this->recordBelongsToCollection($record, $this->parent_obj->ref_id))

@@ -4,6 +4,8 @@
 require_once ("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
 require_once ("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 include_once("class.ilDataCollectionDatatype.php");
+require_once "class.ilDataCollectionCache.php";
+
 
 /**
 * Class ilDataCollectionFieldListGUI
@@ -57,7 +59,7 @@ class ilDataCollectionFieldListGUI
 	public function save()
 	{
 		global $lng;
-		$table = new ilDataCollectionTable($_GET['table_id']);
+		$table = ilDataCollectionCache::getTableCache($_GET['table_id']);
 		$fields = &$table->getFields();
 
 		foreach($fields as &$field)

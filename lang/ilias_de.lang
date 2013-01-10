@@ -12576,6 +12576,7 @@ dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_editable_in_table_gui#:#Die Bewertung kann in der Tabellenansicht abgegeben werden.
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
+dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender anzeigen
@@ -12786,7 +12787,7 @@ dcl#:#dcl_confirm_delete_view_title#:#Seitenvorlage wirklich löschen?
 dcl#:#dcl_confirm_delete_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
 dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen
-dcl#:#-dcl_table_info_title-#:#Info
+dcl#:#dcl_table_info_title#:#Info
 rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
 blog#:#blog_import#:#Blog importieren

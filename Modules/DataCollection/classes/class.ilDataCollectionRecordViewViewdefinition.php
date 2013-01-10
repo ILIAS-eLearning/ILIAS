@@ -196,7 +196,7 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 		$all = array();
 
 		require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
-		$objTable = new ilDataCollectionTable($a_table_id);
+		$objTable = ilDataCollectionCache::getTableCache($a_table_id);
 		$fields = $objTable->getFields($a_table_id);
 
 		foreach($fields as $field)
