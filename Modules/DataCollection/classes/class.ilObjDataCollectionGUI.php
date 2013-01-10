@@ -320,7 +320,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	protected function afterSave(ilObject $a_new_object)
 	{
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-		$this->ctrl->redirect($this, "edit");
+		$this->ctrl->redirectByClass("ilDataCollectionFieldListGUI", "listFields");
 	}
 
 	/**
