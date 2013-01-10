@@ -165,7 +165,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 			$old_nodes = $tree->getSubTree($root_node,true);
 		}
 
-		$GLOBALS['ilLog']->write(__METHOD__.': OLD TREE DATA ........'.print_r($old_nodes,true));
+		//$GLOBALS['ilLog']->write(__METHOD__.': OLD TREE DATA ........'.print_r($old_nodes,true));
 
 		// Delete old cms tree
 		ilECSCmsTree::deleteByTreeId($a_content_id);
