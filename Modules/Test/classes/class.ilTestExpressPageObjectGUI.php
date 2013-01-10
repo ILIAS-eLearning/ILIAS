@@ -210,7 +210,10 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
 	    $questionType = $_REQUEST['sel_question_types'];
 	}
         $q_gui =& assQuestionGUI::_getQuestionGUI($questionType);
+
+	// CHECK THIS !!! --> obj or ref id ???
         $q_gui->object->setObjId($_GET['ref_id']);
+
         $q_gui->object->createNewQuestion();
 
 	
