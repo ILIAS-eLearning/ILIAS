@@ -20,6 +20,7 @@ class ilECSCmsTreeSynchronizer
 	private $tree = null;
 	
 	private $default_settings = array();
+	private $global_settings = null;
 	
 	
 	/**
@@ -31,6 +32,9 @@ class ilECSCmsTreeSynchronizer
 		$this->mid = $mid;
 		$this->tree = new ilECSCmsTree($tree_id);
 		$this->tree_id = $tree_id;
+		
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+		$this->global_settings = ilECSNodeMappingSettings::getInstance();
 	}
 	
 	/**
@@ -57,6 +61,15 @@ class ilECSCmsTreeSynchronizer
 	public function getDefaultSettings()
 	{
 		return (array) $this->default_settings;
+	}
+	
+	/**
+	 * get global settings
+	 * @return ilECSNodeMappingSettings
+	 */
+	public function getGlobalSettings()
+	{
+		return $this->global_settings;
 	}
 	
 	/**
@@ -118,11 +131,14 @@ class ilECSCmsTreeSynchronizer
 		{
 			$parent_id = $this->syncCategory($assignment,$parent_id);
 		}
-				
-		// iterate through childs
-		foreach($childs as $node)
+			
+		if($parent_id)
 		{
-			$this->syncNode($node['child'],$parent_id,$a_mapped);
+			// iterate through childs
+			foreach($childs as $node)
+			{
+				$this->syncNode($node['child'],$parent_id,$a_mapped);
+			}
 		}
 		return true;
 	}
@@ -168,7 +184,7 @@ class ilECSCmsTreeSynchronizer
 			}
 			return $ref_id;
 		}
-		else
+		elseif($this->getGlobalSettings()->isEmptyContainerCreationEnabled())
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Creating new cms category');
 			
@@ -198,6 +214,11 @@ class ilECSCmsTreeSynchronizer
 			$import->save();
 			
 			return $cat->getRefId();
+		}
+		else
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Creation of empty containers is disabled.');
+			return 0;
 		}
 	}
 }
