@@ -264,6 +264,8 @@ class ilDataCollectionDatatype
                 $input = new ilFileInputGUI($title, 'field_'.$field->getId());
                 break;
 		}
+        if($field->getDescription())
+            $input->setInfo($input->getInfo()."<br>".$field->getDescription());
 		return $input;
 	}
 	
