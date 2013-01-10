@@ -12787,7 +12787,8 @@ dcl#:#dcl_confirm_delete_view_title#:#Seitenvorlage wirklich löschen?
 dcl#:#dcl_confirm_delete_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
 dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen
-dcl#:#dcl_table_info_title#:#Info
+dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
+dcl#:#dcl_create_fields#:#Bitte erstellen Sie neue Felder unter dem "Felder" Tab.
 rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
 blog#:#blog_import#:#Blog importieren

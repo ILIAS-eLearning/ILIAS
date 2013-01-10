@@ -102,7 +102,11 @@ class ilDataCollectionRecordListGUI
             $ilToolbar->addButton($lng->txt("dcl_add_new_record"), $ilCtrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"));
 
         // requested not to implement this way...
-//        $tpl->addJavaScript("Modules/DataCollection/js/fastTableSwitcher.js");
+        //$tpl->addJavaScript("Modules/DataCollection/js/fastTableSwitcher.js");
+
+        if(count($this->table_obj->getRecordFields()) == 0){
+            ilUtil::sendInfo($lng->txt("dcl_no_fields_yet")." ".($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id)?$lng->txt("dcl_create_fields"):""));
+        }
 
 		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
 		$tpl->getStandardTemplate();
