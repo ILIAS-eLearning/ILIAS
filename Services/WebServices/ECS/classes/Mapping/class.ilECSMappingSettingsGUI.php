@@ -767,6 +767,20 @@ class ilECSMappingSettingsGUI
 		$tree = new ilECSCmsTree((int) $_REQUEST['tid']);
 		$tree->deleteTree($tree->getNodeData(ilECSCmsTree::lookupRootId((int) $_REQUEST['tid'])));
 
+		
+		
+		// also delete import information
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+		ilECSImport::deleteRessources(
+				$this->getServer()->getServerId(),
+				$this->getMid(),
+				ilECSCmsData::lookupCmsIdsOfTree(
+						$this->getServer()->getServerId(),
+						$this->getMid(),
+						(int) $_REQUEST['tid']
+				)
+		);
+				
 		$data = new ilECSCmsData();
 		$data->setServerId($this->getServer()->getServerId());
 		$data->setMid($this->getMid());

@@ -263,6 +263,25 @@ class ilECSImport
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$ilDB->manipulate($query);
 	}
+	
+	/**
+	 * Delete ressources
+	 * @global  $ilDB
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @param type $a_cms_ids
+	 */
+	public static function deleteRessources($a_server_id, $a_mid, $a_cms_ids)
+	{
+		global $ilDB;
+		
+		$query = 'DELETE FROM ecs_import '.
+				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
+				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+				'AND '.$ilDB->in('econtent_id',(array) $a_cms_ids,false,'integer');
+		$ilDB->manipulate($query);
+		return true;
+	}
 
 	
 	

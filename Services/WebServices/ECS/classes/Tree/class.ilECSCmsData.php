@@ -9,7 +9,7 @@
  */
 class ilECSCmsData
 {
-
+	
 	const MAPPING_UNMAPPED = 1;
 	const MAPPING_PENDING_DISCONNECTABLE = 2;
 	const MAPPING_PENDING_NOT_DISCONNECTABLE = 3;
@@ -226,9 +226,32 @@ class ilECSCmsData
 		}
 		return $cms_ids;
 	}
-
-
+	
 	/**
+	 * 
+	 * @global $ilDB $ilDB
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @param type $a_tree_id
+	 */
+	public static function lookupCmsIdsOfTree($a_server_id,$a_mid, $a_tree_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT cms_id FROM ecs_cms_data '.
+				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
+				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+				'AND tree_id = '.$ilDB->quote($a_tree_id,'integer');
+		$res = $ilDB->query($query);
+		$cms_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cms_ids[] = $row->cms_id;
+		}
+		return $cms_ids;
+	}
+
+		/**
 	 * Update status
 	 * @global  $ilDB
 	 * @param <type> $a_server_id
