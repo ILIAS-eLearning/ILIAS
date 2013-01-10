@@ -77,6 +77,7 @@ class ilECSCmsTreeSynchronizer
 		// return if setting is false => no configuration done
 		if(!$this->getDefaultSettings())
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': No directory allocation settings. Aborting');
 			return true;
 		}
 			
