@@ -42,7 +42,7 @@ class ilDataCollectionRecordEditGUI
 			$this->table_id = $_REQUEST['table_id'];
 		}
 
-		$this->table = new ilDataCollectionTable($this->table_id);
+		$this->table = ilDataCollectionCache::getTableCache($this->table_id);
 	}
 	
 	
@@ -102,7 +102,7 @@ class ilDataCollectionRecordEditGUI
 		$conf->setFormAction($ilCtrl->getFormAction($this));
 		$conf->setHeaderText($lng->txt('dcl_confirm_delete_record'));
 
-		$record = new ilDataCollectionRecord($this->record_id);
+		$record = ilDataCollectionCache::getRecordCache($this->record_id);
 		
 		$conf->addItem('record_id', $record->getId(), implode(", ", $record->getRecordFieldValues()));
 		$conf->addHiddenItem('table_id', $this->table_id);
@@ -129,7 +129,7 @@ class ilDataCollectionRecordEditGUI
 	public function delete()
 	{
 		global $ilCtrl, $lng;
-		$record = new ilDataCollectionRecord($this->record_id);
+		$record = ilDataCollectionCache::getRecordCache($this->record_id);
 		
 		if(!$this->table->hasPermissionToDeleteRecord($this->parent_obj->ref_id, $record))
 		{
@@ -167,10 +167,10 @@ class ilDataCollectionRecordEditGUI
 			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE)
 			{
 				$fieldref = $field->getFieldRef();
-				$reffield = new ilDataCollectionField($fieldref);
+				$reffield = ilDataCollectionCache::getFieldCache($fieldref);
 				$options = array();
 				$options[] = '--';
-				$reftable = new ilDataCollectionTable($reffield->getTableId());
+				$reftable = ilDataCollectionCache::getTableCache($reffield->getTableId());
 				foreach($reftable->getRecords() as $record)
 				{
 					$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
@@ -179,7 +179,7 @@ class ilDataCollectionRecordEditGUI
 			}
 			if($this->record_id)
 			{
-				$record = new ilDataCollectionRecord($this->record_id);
+				$record = ilDataCollectionCache::getRecordCache($this->record_id);
 			}
 				
 
@@ -227,7 +227,7 @@ class ilDataCollectionRecordEditGUI
 	{
 
 		//Get Record-Values
-		$record_obj = new ilDataCollectionRecord($this->record_id);
+		$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
 
 		//Get Table Field Definitions
 		$allFields = $this->table->getFields();
@@ -236,7 +236,6 @@ class ilDataCollectionRecordEditGUI
 		foreach($allFields as $field)
 		{
 			$value = $record_obj->getRecordFieldFormInput($field->getId());
-			$value = ($value=="-"?"":$value);
 			$values['field_'.$field->getId()] = $value;
 		}
 
@@ -273,7 +272,7 @@ class ilDataCollectionRecordEditGUI
 		$this->initForm();
 		if($this->form->checkInput())
 		{
-			$record_obj = new ilDataCollectionRecord($this->record_id);
+			$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
 			$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
 
 			$record_obj->setTableId($this->table_id);

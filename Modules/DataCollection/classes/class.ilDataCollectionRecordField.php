@@ -105,7 +105,6 @@ class ilDataCollectionRecordField
 	public function getValue()
 	{
 		$this->loadValue();
-		
 		return $this->value ? $this->value : "-";
 	}
 

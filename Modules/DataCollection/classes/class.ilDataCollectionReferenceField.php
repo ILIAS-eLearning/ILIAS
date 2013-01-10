@@ -26,9 +26,11 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
 	 */
 	protected $dcl_obj_id;
 
+
+
 	public function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field){
 		parent::__construct($record, $field);
-		$dclTable = new ilDataCollectionTable($this->getField()->getTableId());
+		$dclTable = ilDataCollectionCache::getTableCache($this->getField()->getTableId());
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
 	}
 
@@ -48,7 +50,7 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
             return "";
         }
 
-        $ref_record = new ilDataCollectionRecord($value);
+        $ref_record = ilDataCollectionCache::getRecordCache($value);
         if(!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()){
             //the referenced record_field does not seem to exist.
             $html = "-";
@@ -85,10 +87,10 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
         }
 
         $record_field = $this;
-        $ref_record = new ilDataCollectionRecord($value);
+        $ref_record = ilDataCollectionCache::getRecordCache($value);
 
-        $objRefField = new ilDataCollectionField($record_field->getField()->getFieldRef());
-        $objRefTable = new ilDataCollectionTable($objRefField->getTableId());
+        $objRefField = ilDataCollectionCache::getFieldCache($record_field->getField()->getFieldRef());
+        $objRefTable = ilDataCollectionCache::getTableCache($objRefField->getTableId());
 
         if(!$link_name) {
           $link_name =  $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef());
@@ -103,5 +105,7 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
 
         return $html;
     }
+
+
 }
 ?>

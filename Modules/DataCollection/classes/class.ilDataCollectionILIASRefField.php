@@ -31,7 +31,7 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
 
 	public function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field){
 		parent::__construct($record, $field);
-		$dclTable = new ilDataCollectionTable($this->getField()->getTableId());
+		$dclTable = ilDataCollectionCache::getTableCache($this->getField()->getTableId());
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
 	}
 

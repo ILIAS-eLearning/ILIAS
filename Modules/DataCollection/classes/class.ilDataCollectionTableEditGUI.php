@@ -36,7 +36,7 @@ class ilDataCollectionTableEditGUI
 		$this->parent_object = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $_GET['table_id'];
-		$this->table = new ilDataCollectionTable($this->table_id);
+		$this->table = ilDataCollectionCache::getTableCache($this->table_id);
 	}
 
 	
@@ -89,7 +89,7 @@ class ilDataCollectionTableEditGUI
 		}
 		else
 		{
-			$this->table = new ilDataCollectionTable($this->table_id);
+			$this->table = ilDataCollectionCache::getTableCache($this->table_id);
 		}
 		$this->initForm("edit");
 		$this->getValues();
@@ -107,6 +107,7 @@ class ilDataCollectionTableEditGUI
 			'edit_perm'		=>	$this->table->getEditPerm(),
 			'delete_perm'		=>	$this->table->getDeletePerm(),
 			'edit_by_owner'		=>	$this->table->getEditByOwner(),
+            'export_enabled'    =>  $this->table->getExportEnabled(),
 			'limited'		=>	$this->table->getLimited(),
 			'limit_start'		=>	array("date" => substr($this->table->getLimitStart(),0,10), "time" => substr($this->table->getLimitStart(),-8)),
 			'limit_end'		=>	array("date" => substr($this->table->getLimitEnd(),0,10), "time" => substr($this->table->getLimitEnd(),-8)),
@@ -131,6 +132,7 @@ class ilDataCollectionTableEditGUI
 			'edit_perm'		=>	1,
 			'delete_perm'		=>	1,
 			'edit_by_owner'		=>	1,
+			'export_enabled'		=>	0,
 			'limited'		=>	0,
 			'limit_start'		=>	NULL,
 			'limit_end'		=>	NULL
@@ -187,6 +189,10 @@ class ilDataCollectionTableEditGUI
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_edit_by_owner'),'edit_by_owner');
 //		$item->setInfo($lng->txt("dcl_edit_by_owner_info"));
 		$this->form->addItem($item);
+
+        $item = new ilCheckboxInputGUI($lng->txt('dcl_export_enabled'), 'export_enabled');
+        $this->form->addItem($item);
+
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_limited'),'limited');
 		$sitem1 = new ilDateTimeInputGUI($lng->txt('dcl_limit_start'),'limit_start');
 		$sitem2 = new ilDateTimeInputGUI($lng->txt('dcl_limit_end'),'limit_end');
@@ -239,11 +245,11 @@ class ilDataCollectionTableEditGUI
 		{
             if($a_mode != "update")
             {
-				$this->table = new ilDataCollectionTable();
+				$this->table = ilDataCollectionCache::getTableCache();
             }
 			elseif($this->table_id)
             {
-				$this->table = new ilDataCollectionTable($this->table_id);
+				$this->table = ilDataCollectionCache::getTableCache($this->table_id);
             }
 			else
             {
@@ -258,6 +264,7 @@ class ilDataCollectionTableEditGUI
 			$this->table->setEditPerm($this->form->getInput("edit_perm"));
 			$this->table->setDeletePerm($this->form->getInput("delete_perm"));
 			$this->table->setEditByOwner($this->form->getInput("edit_by_owner"));
+            $this->table->setExportEnabled($this->form->getInput("export_enabled"));
 			$this->table->setLimited($this->form->getInput("limited"));
 			$limit_start = $this->form->getInput("limit_start");
 			$limit_end = $this->form->getInput("limit_end");

@@ -4,6 +4,7 @@
 
 require_once "Services/Object/classes/class.ilObject2.php";
 require_once "class.ilDataCollectionTable.php";
+require_once "class.ilDataCollectionCache.php";
 
 /**
 * Class ilObjDataCollection
@@ -53,7 +54,7 @@ class ilObjDataCollection extends ilObject2
 
 		//Create Main Table - The title of the table is per default the title of the data collection object
 		include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
-		$main_table = new ilDataCollectionTable();
+		$main_table = ilDataCollectionCache::getTableCache();
 		$main_table->setObjId($this->getId());
 		$main_table->setTitle($this->getTitle());
 		$main_table->setAddPerm(1);
@@ -139,7 +140,7 @@ class ilObjDataCollection extends ilObject2
 		{
 			return;
 		}
-		$obj_table = new ilDataCollectionTable($a_table_id);
+		$obj_table = ilDataCollectionCache::getTableCache($a_table_id);
 		$obj_dcl = $obj_table->getCollectionObject();
 		
 		// recipients
@@ -261,7 +262,7 @@ class ilObjDataCollection extends ilObject2
 		//add new tables.
 		foreach($original->getTables() as $table)
 		{
-			$new_table = new ilDataCollectionTable();
+			$new_table = ilDataCollectionCache::getTableCache();
 			$new_table->setObjId($this->getId());
 			$new_table->cloneStructure($table->getId());
 			
@@ -437,7 +438,7 @@ class ilObjDataCollection extends ilObject2
 		
 		while($rec = $ilDB->fetchAssoc($set))
 		{
-			$tables[$rec['id']] = new ilDataCollectionTable($rec['id']);
+			$tables[$rec['id']] = ilDataCollectionCache::getTableCache($rec['id']);
 		}
 		
 		return $tables;

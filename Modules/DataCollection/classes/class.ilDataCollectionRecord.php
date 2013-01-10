@@ -376,7 +376,7 @@ class ilDataCollectionRecord
 		else
 		{
 			return $this->recordfields[$field_id]->getFormInput();
-		}
+        }
 	}
 
 
@@ -387,7 +387,6 @@ class ilDataCollectionRecord
 	 * @param mixed $value
 	 */
 	 
-	// TODO: Bad style, fix with switch statement
 	private function setStandardField($field_id, $value)
 	{
 		switch($field_id)
@@ -406,7 +405,6 @@ class ilDataCollectionRecord
 	 * @param int $field_id
 	 * @return mixed
 	 */
-	// TODO: Bad style, fix with switch statement
 	private function getStandardField($field_id)
 	{
 		switch($field_id)
@@ -424,7 +422,6 @@ class ilDataCollectionRecord
 	 * @param int $field_id
 	 * @return mixed
 	 */
-	// TODO: Bad style, fix with switch statement
 	private function getStandardFieldHTML($field_id)
 	{
 		switch($field_id)
@@ -460,7 +457,8 @@ class ilDataCollectionRecord
 				if($recordfields[$field->getId()] == NULL)
 				{
 					$load = new ilDataCollectionRecordField($this, $field);
-					$recordfields[$field->getId()] = $load->getInstance();
+//                    echo "loading field:".$load->getRecord()->getId().":".$field->getId()."<br>";
+                    $recordfields[$field->getId()] = $load->getInstance();
 				}
 			}
 			
@@ -477,7 +475,7 @@ class ilDataCollectionRecord
 		
 		if($this->table == NULL)
 		{
-			$this->table = new ilDataCollectionTable($this->getTableId());
+			$this->table = ilDataCollectionCache::getTableCache($this->getTableId());
 		}
 	}
 

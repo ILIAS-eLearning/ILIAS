@@ -3,6 +3,7 @@
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+require_once "class.ilDataCollectionCache.php";
 
 /**
 * Class ilDataCollectionFieldEditGUI
@@ -44,17 +45,17 @@ class ilDataCollectionFieldEditGUI
 
 		if(isset($field_id)) 
 		{
-			$this->field_obj = new ilDataCollectionField($field_id);
+			$this->field_obj = ilDataCollectionCache::getFieldCache($field_id);
 		}
 		else
 		{
-			$this->field_obj = new ilDataCollectionField();
+			$this->field_obj = ilDataCollectionCache::getFieldCache();
 			if(!$table_id)
 				$ilCtrl->redirectByClass("ilDataCollectionGUI");
 			$this->field_obj->setTableId($table_id);
 		}
 
-		$this->table = new ilDataCollectionTable($table_id);
+		$this->table = ilDataCollectionCache::getTableCache($table_id);
 	}
 
 	
@@ -357,7 +358,7 @@ class ilDataCollectionFieldEditGUI
 			include_once("./Modules/DataCollection/classes/class.ilDataCollectionFieldProp.php");
 			foreach(ilDataCollectionDatatype::getProperties($this->field_obj->getDatatypeId()) as $property)
 			{
-				$fieldprop_obj = new ilDataCollectionFieldProp();
+				$fieldprop_obj = ilDataCollectionCache::getFieldCacheProp();
 				$fieldprop_obj->setDatatypePropertyId($property['id']);
 				$fieldprop_obj->setFieldId($this->field_obj->getId());
 				$fieldprop_obj->setValue($this->form->getInput("prop_".$property['id']));

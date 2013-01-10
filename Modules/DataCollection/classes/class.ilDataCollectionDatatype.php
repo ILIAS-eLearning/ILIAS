@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once "./Services/Utilities/classes/class.ilMimeTypeUtil.php";
 require_once "class.ilDataCollectionTreePickInputGUI.php";
+require_once "class.ilDataCollectionCache.php";
 require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 require_once "./Modules/File/classes/class.ilObjFile.php";
 require_once "./Services/Form/classes/class.ilSelectInputGUI.php";
@@ -303,8 +304,8 @@ class ilDataCollectionDatatype
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
 				$options = array("" => $lng->txt("dcl_any"));
 				$ref_field_id = $field->getFieldRef();
-				$ref_field = new ilDataCollectionField($ref_field_id);
-				$ref_table = new ilDataCollectionTable($ref_field->getTableId());
+				$ref_field = ilDataCollectionCache::getFieldCache($ref_field_id);
+				$ref_table = ilDataCollectionCache::getTableCache($ref_field->getTableId());
 				foreach($ref_table->getRecords() as $record)
 				{
 					$options[$record->getId()] = $record->getRecordFieldValue($ref_field_id);
@@ -569,6 +570,11 @@ class ilDataCollectionDatatype
 	}
 
 
+    public static function _parseHTML($datatype_id, $value){
+
+
+    }
+
 	/**
 	 * function parses stored value in database to a html output for eg. the record list gui.
 	 * @param $value
@@ -659,7 +665,7 @@ class ilDataCollectionDatatype
 		switch($this->id)
 		{
 			case self::INPUTFORMAT_DATETIME:
-				if(!$value || $value = "-")
+				if(!$value || $value == "-")
 					return NULL;
 				//$datetime = new DateTime();
 				$input = array( "date" => substr($value, 0, -9),

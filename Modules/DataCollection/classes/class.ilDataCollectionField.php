@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Services/Exceptions/classes/class.ilException.php';
+require_once "class.ilDataCollectionCache.php";
 
 /**
 * Class ilDataCollectionField
@@ -75,6 +76,11 @@ class ilDataCollectionField
 	 * @var bool
 	 */
 	protected $locked;
+
+    /**
+     * @var array
+     */
+    protected $property;
 
 	/**
 	 * @var ilDataCollectionDatatype This fields Datatype.
@@ -274,6 +280,8 @@ class ilDataCollectionField
 	 */
 	public function getPropertyvalues()
 	{
+        if($this->property == null)
+            $this->loadProperties();
 		return $this->property;
 	}
 
@@ -525,10 +533,6 @@ class ilDataCollectionField
 		$this->setRequired($rec["required"]);
 		$this->setUnique($rec["is_unique"]);
 		$this->setLocked($rec["is_locked"]);
-
-		//Set the additional properties 
-		$this->setProperties();
-
 	}
 	
 	/*
@@ -544,7 +548,6 @@ class ilDataCollectionField
 		$this->setRequired($rec["required"]);
 		$this->setUnique($rec["is_unique"]);
 		$this->setLocked($rec["is_locked"]);
-		$this->setProperties();
 	}
 
 	/**
@@ -760,7 +763,7 @@ class ilDataCollectionField
 	 *
 	 * @return array
 	 */
-	public function setProperties()
+	private function loadProperties()
 	{  
 		global $ilDB;
 		
@@ -786,21 +789,15 @@ class ilDataCollectionField
 	 */
 	public function getProperties()
 	{  
-		global $ilDB;
-		
-		$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp
-		LEFT JOIN il_dcl_datatype_prop p ON p.id = fp.datatype_prop_id
-		WHERE fp.field_id = ".$ilDB->quote($this->getId(), "integer");
+		if($this->property == null)
+            $this->loadProperties();
 
-		$set = $ilDB->query($query);
-		
-		while($rec = $ilDB->fetchObject($set))
-		{
-			$data[$rec->datatype_prop_id] = $rec;
-		}
-
-		return $data;
+		return $this->property;
 	}
+
+    public function setProperties($data){
+          $this->property = $data;
+    }
 
 	/**
 	 * @param boolean $locked
@@ -868,7 +865,7 @@ class ilDataCollectionField
 		
 		if($this->isUnique())
 		{
-			$table = new ilDataCollectionTable($this->getTableId());
+			$table = ilDataCollectionCache::getTableCache($this->getTableId());
 			
 			foreach($table->getRecords() as $record)
 			{
@@ -905,7 +902,7 @@ class ilDataCollectionField
 	 */
 	public function cloneStructure($original_id)
 	{
-		$original = new ilDataCollectionField($original_id);
+		$original = ilDataCollectionCache::getFieldCache($original_id);
 		$this->setTitle($original->getTitle());
 		$this->setDatatypeId($original->getDatatypeId());
 		$this->setDescription($original->getDescription());

@@ -493,7 +493,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
 	private function emptyInfo(){
 		global $lng;
-		$this->table = new ilDataCollectionTable($this->object->getMainTableId());
+		$this->table = ilDataCollectionCache::getTableCache($this->object->getMainTableId());
 		$tables = $this->object->getTables();
 		if(count($tables) == 1 && count($this->table->getRecordFields()) == 0 && count($this->table->getRecords()) == 0 && $this->object->getOnline()){
 			ilUtil::sendInfo($lng->txt("dcl_no_content_warning"), true);

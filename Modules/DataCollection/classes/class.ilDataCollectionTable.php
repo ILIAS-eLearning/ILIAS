@@ -62,9 +62,12 @@ class ilDataCollectionTable
 	 */
 	private $limit_end;
 
+    /**
+     * @var bool export_enabled
+     */
+    protected $export_enabled;
 
-
-	/**
+    /**
 	 * Constructor
 	 * @access public
 	 * @param  integer fiel_id
@@ -97,6 +100,7 @@ class ilDataCollectionTable
 		$this->setEditPerm($rec["edit_perm"]);
 		$this->setDeletePerm($rec["delete_perm"]);
 		$this->setEditByOwner($rec["edit_by_owner"]);
+		$this->setExportEnabled($rec["export_enabled"]);
 		$this->setLimited($rec["limited"]);
 		$this->setLimitStart($rec["limit_start"]);
 		$this->setLimitEnd($rec["limit_end"]);
@@ -151,6 +155,7 @@ class ilDataCollectionTable
 			", limit_start".
 			", limit_end".
 			", is_visible".
+			", export_enabled".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote($this->getObjId(), "integer")
@@ -163,6 +168,7 @@ class ilDataCollectionTable
 			.",".$ilDB->quote($this->getLimitStart(), "timestamp")
 			.",".$ilDB->quote($this->getLimitEnd(), "timestamp")
 			.",".$ilDB->quote($this->getIsVisible()?1:0, "integer")
+			.",".$ilDB->quote($this->getExportEnabled()?1:0, "integer")
 			.")";
 		$ilDB->manipulate($query);
 
@@ -201,7 +207,8 @@ class ilDataCollectionTable
 			"limited" => array("integer",$this->getLimited()),
 			"limit_start" => array("timestamp",$this->getLimitStart()),
 			"limit_end" => array("timestamp",$this->getLimitEnd()),
-			"is_visible" => array("integer",$this->getIsVisible()?1:0)
+			"is_visible" => array("integer",$this->getIsVisible()?1:0),
+			"export_enabled" => array("integer",$this->getExportEnabled()?1:0)
 		), array(
 			"id" => array("integer", $this->getId())
 		));
@@ -338,7 +345,7 @@ class ilDataCollectionTable
 
 			while($rec = $ilDB->fetchAssoc($set))
 			{
-				$records[$rec['id']] = new ilDataCollectionRecord($rec['id']);
+				$records[$rec['id']] = ilDataCollectionCache::getRecordCache($rec['id']);
 			}
 
 			$this->records = $records;
@@ -377,7 +384,7 @@ class ilDataCollectionTable
 	 */
 	public function deleteField($field_id)
 	{
-		$field = new ilDataCollectionField($field_id);
+		$field = ilDataCollectionCache::getFieldCache($field_id);
 		$records = $this->getRecords();
 
 		foreach($records as $record)
@@ -430,8 +437,9 @@ class ilDataCollectionTable
 			
 			while($rec = $ilDB->fetchAssoc($set))
 			{
-				$field = new ilDataCollectionField();
-				$field->buildFromDBRecord($rec);
+                $field = ilDataCollectionCache::buildFieldFromRecord($rec);
+//				$field = new ilDataCollectionField();
+//				$field->buildFromDBRecord($rec);
 				$fields[$field->getId()] = $field;
 			}
             $this->sortByOrder($fields);
@@ -847,7 +855,7 @@ class ilDataCollectionTable
 	 */
 	public function cloneStructure($original_id)
 	{
-		$original = new ilDataCollectionTable($original_id);
+		$original = ilDataCollectionCache::getTableCache($original_id);
 		$this->setEditByOwner($original->getEditByOwner());
 		$this->setAddPerm($original->getAddPerm());
 		$this->setEditPerm($original->getEditPerm());
@@ -894,6 +902,34 @@ class ilDataCollectionTable
 		$result = $ilDB->query($query);
 		return $result->numRows() != 0;
 	}
+
+
+    public function buildTableAsArray(){
+        global $ilDB;
+        $fields = $this->getVisibleFields();
+        $table = array();
+        $query = "  SELECT  stloc.value AS val rec_field AS  FROM il_dcl_stloc1_value stloc
+                    INNER JOIN il_dcl_record_field rec_field ON rec_field.field_id = 2
+                    WHERE stloc.record_field_id = rec_field.id";
+    }
+
+    /**
+     * @param boolean $export_enabled
+     */
+    public function setExportEnabled($export_enabled)
+    {
+        $this->export_enabled = $export_enabled;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getExportEnabled()
+    {
+        return $this->export_enabled;
+    }
 }
+
+
 
 ?>
