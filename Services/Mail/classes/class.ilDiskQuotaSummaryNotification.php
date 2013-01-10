@@ -72,7 +72,7 @@ class ilDiskQuotaSummaryNotification extends ilMailNotification
 	
 					// We add 0 to some of the values to convert them into a number.
 					// This is needed for correct sorting.
-					"CASE WHEN rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL THEN rq.role_disk_quota+0 ELSE p1.value+0 END disk_quota	".
+					"CASE WHEN rq.role_disk_quota>p1.value+0 OR p1.value IS NULL THEN rq.role_disk_quota ELSE p1.value+0 END disk_quota	".
 				"FROM usr_data u  ".
 	
 				// Fetch the role with the highest disk quota value.
@@ -99,7 +99,9 @@ class ilDiskQuotaSummaryNotification extends ilMailNotification
 	
 				// Fetch only users who have exceeded their quota, and who have
 				// access, and who have not received a reminder in the past seven days
-				'WHERE (p2.value > p1.value AND p2.value > rq.role_disk_quota) '.
+				// #8554 / #10301
+				'WHERE (((p1.value+0 > rq.role_disk_quota OR rq.role_disk_quota IS NULL) AND p2.value+0 > p1.value+0) OR 
+					((rq.role_disk_quota > p1.value+0 OR p1.value IS NULL) AND p2.value+0 > rq.role_disk_quota)) '.
 				'AND (u.active=1 AND (u.time_limit_unlimited = 1 OR '.$ilDB->unixTimestamp().' BETWEEN u.time_limit_from AND u.time_limit_until)) '
 				,
 		        array('integer','integer'),
