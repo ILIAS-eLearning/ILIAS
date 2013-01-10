@@ -358,7 +358,7 @@ class ilDataCollectionFieldEditGUI
 			include_once("./Modules/DataCollection/classes/class.ilDataCollectionFieldProp.php");
 			foreach(ilDataCollectionDatatype::getProperties($this->field_obj->getDatatypeId()) as $property)
 			{
-				$fieldprop_obj = ilDataCollectionCache::getFieldCacheProp();
+				$fieldprop_obj = new ilDataCollectionFieldProp();
 				$fieldprop_obj->setDatatypePropertyId($property['id']);
 				$fieldprop_obj->setFieldId($this->field_obj->getId());
 				$fieldprop_obj->setValue($this->form->getInput("prop_".$property['id']));
