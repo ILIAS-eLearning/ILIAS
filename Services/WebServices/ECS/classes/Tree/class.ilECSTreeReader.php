@@ -68,7 +68,24 @@ class ilECSTreeReader
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 
 		$tree = new ilECSCmsTree($tree_id);
-		foreach((array) $a_nodes as $node)
+		
+		
+		$cms_tree = $a_nodes;
+
+		$data = new ilECSCmsData();
+		$data->setServerId($this->server_id);
+		$data->setMid($this->mid);
+		$data->setCmsId($cms_tree->rootID);
+		$data->setTreeId($tree_id);
+		$data->setTitle($node->directoryTitle);
+		$data->setTerm($node->term);
+		$data->save();
+
+		$tree->insertRootNode($tree_id, $data->getObjId());
+		$tree->setRootId($data->getObjId());
+		
+		
+		foreach((array) $cms_tree->nodes as $node)
 		{
 			// Add data entry
 			$data = new ilECSCmsData();
@@ -90,11 +107,6 @@ class ilECSTreeReader
 					(int) $node->parent->id
 				);
 				$tree->insertNode($data->getObjId(), $parent_id);
-			}
-			else
-			{
-				$tree->insertRootNode($tree_id, $data->getObjId());
-				$tree->setRootId($data->getObjId());
 			}
 		}
 	}

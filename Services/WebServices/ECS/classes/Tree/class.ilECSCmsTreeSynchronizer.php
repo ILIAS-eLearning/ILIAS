@@ -107,7 +107,6 @@ class ilECSCmsTreeSynchronizer
 			$parent_id = $assignment->getRefId();
 		}
 		
-		
 		// information for deeper levels
 		if($assignment->isMapped())
 		{
