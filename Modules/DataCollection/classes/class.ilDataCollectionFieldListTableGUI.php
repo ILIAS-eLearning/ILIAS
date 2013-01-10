@@ -33,18 +33,18 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 	 	
 	 	$this->setId("dcl_field_list");
 	 	
-	 	$this->addColumn($lng->txt("dcl_order"),  "order",  "30px");
-		$this->addColumn($lng->txt("dcl_title"),  "title",  "auto");
-		$this->addColumn($lng->txt("dcl_visible"),  "visible",  "30px");
-		$this->addColumn($lng->txt("dcl_filter"),  "filterable",  "30px");
-		$this->addColumn($lng->txt("dcl_locked"),  "locked",  "30px");
+	 	$this->addColumn($lng->txt("dcl_order"),  null,  "30px");
+		$this->addColumn($lng->txt("dcl_title"),  null,  "auto");
+		$this->addColumn($lng->txt("dcl_visible"),  null,  "30px");
+		$this->addColumn($lng->txt("dcl_filter"),  null,  "30px");
+		$this->addColumn($lng->txt("dcl_locked"),  null,  "30px");
 		// ALWAYS EDITABLE FOR FIRST RELEASE
 		//$this->addColumn($lng->txt("dcl_editable"),  "editable",  "30px");
-		$this->addColumn($lng->txt("dcl_description"),  "description",  "auto");
-		$this->addColumn($lng->txt("dcl_field_datatype"),  "datatype",  "auto");
-		$this->addColumn($lng->txt("dcl_required"),  "required",  "auto");
-		$this->addColumn($lng->txt("dcl_unique"),  "unique",  "auto");
-		$this->addColumn($lng->txt("actions"), 	 "actions", 	 "30px");
+		$this->addColumn($lng->txt("dcl_description"),  null,  "auto");
+		$this->addColumn($lng->txt("dcl_field_datatype"),  null,  "auto");
+		$this->addColumn($lng->txt("dcl_required"),  null,  "auto");
+		$this->addColumn($lng->txt("dcl_unique"),  null,  "auto");
+		$this->addColumn($lng->txt("actions"), 	 null, 	 "30px");
 
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui","table_id", $this->parent_obj->table_id);
 		$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->parent_obj->table_id);
@@ -61,6 +61,14 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		//those two are important as we get our data as objects not as arrays.
 		$this->setExternalSegmentation(true);
 		$this->setExternalSorting(true);
+
+        $this->setTopCommands(true);
+        $this->setEnableHeader(true);
+        $this->setShowRowsSelector(false);
+        $this->setShowTemplates(false);
+        $this->setEnableHeader(true);
+        $this->setEnableTitle(true);
+        $this->setDefaultOrderDirection("asc");
 
 		$this->table = ilDataCollectionCache::getTableCache($table_id);
 
