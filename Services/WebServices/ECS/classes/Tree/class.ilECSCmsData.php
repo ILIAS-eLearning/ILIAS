@@ -48,6 +48,36 @@ class ilECSCmsData
 		}
 		return false;
 	}
+	
+	/**
+	 * Find deleted nodes
+	 * Uses a left join since this is more robust. An alternative implementation 
+	 * could simply check the deleted flag in ecs_cms_data.
+	 * @global  $ilDB
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @param type $a_tree_id
+	 * @return type
+	 */
+	public static function findDeletedNodes($a_server_id,$a_mid, $a_tree_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT ed.obj_id obj_id FROM ecs_cms_data ed '.
+				'LEFT JOIN ecs_cms_tree et ON ed.obj_id = et.child '.
+				'WHERE et.child IS NULL '.
+				'AND server_id = '.$ilDB->quote($a_server_id,'integer').' '.
+				'AND mid = '.$ilDB->quote($a_mid).' '.
+				'AND tree_id  = '.$ilDB->quote($a_tree_id);
+		$res = $ilDB->query($query);
+		
+		$deleted = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$deleted[] = $row->obj_id;
+		}
+		return $deleted;
+	}
 
 	public static function lookupObjId($a_server_id, $a_mid, $a_tree_id, $cms_id)
 	{
@@ -59,6 +89,7 @@ class ilECSCmsData
 			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer').' '.
 			'AND cms_id = '.$ilDB->quote($cms_id,'integer');
 		$res = $ilDB->query($query);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;

@@ -33,6 +33,22 @@ class ilECSCmsTree extends ilTree
 			$ilDB->quote(1,'integer').', '.
 			$ilDB->quote(100,'integer').', '.
 			$ilDB->quote(1,'integer').' )';
+
+		$ilDB->manipulate($query);
+		
+		
+		return true;
+	}
+	
+	/**
+	 * Delete tree by tree_id
+	 */
+	public static function deleteByTreeId($a_tree_id)
+	{
+		global $ilDB;
+		
+		$query = 'DELETE FROM ecs_cms_tree '.
+				'WHERE tree = '.$ilDB->quote($a_tree_id,'integer');
 		$ilDB->manipulate($query);
 		return true;
 	}

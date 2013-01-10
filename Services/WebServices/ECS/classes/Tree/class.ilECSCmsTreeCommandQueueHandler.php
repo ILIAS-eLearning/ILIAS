@@ -57,8 +57,22 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 			return false;
 		}
 		
+		$cms_tree = $nodes;
+		$data = new ilECSCmsData();
+		$data->setServerId($server->getServerId());
+		$data->setMid($this->mid);
+		$data->setCmsId($cms_tree->rootID);
+		$data->setTreeId($a_content_id);
+		$data->setTitle($cms_tree->directoryTreeTitle);
+		$data->setTerm($cms_tree->term);
+		$data->save();
+
 		$tree = new ilECSCmsTree($a_content_id);
-		foreach((array) $nodes as $node)
+		$tree->insertRootNode($a_content_id, $data->getObjId());
+		$tree->setRootId($data->getObjId());
+		
+		
+		foreach((array) $cms_tree->nodes as $node)
 		{
 			// Add data entry
 			$data = new ilECSCmsData();
@@ -80,11 +94,6 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 					(int) $node->parent->id
 				);
 				$tree->insertNode($data->getObjId(), $parent_id);
-			}
-			else
-			{
-				$tree->insertRootNode($a_content_id, $data->getObjId());
-				$tree->setRootId($data->getObjId());
 			}
 		}
 		return true;
@@ -124,11 +133,12 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	public function handleUpdate(ilECSSetting $server, $a_content_id)
 	{
-		// 1) Mark all nodes as deleted
-		// 2) Add cms tree table entries
-		// 2) Replace the cms data table entries
-		// 3) Remove deprecated entries
-		// 4) Sync tree
+		// 1)  Mark all nodes as deleted
+		// 2a) Delete cms tree
+		// 2)  Add cms tree table entries
+		// 2)  Replace the cms data table entries
+		// 3)  Insert deleted tree nodes in tree
+		// 4)  Sync tree
 		
 		try 
 		{
@@ -136,22 +146,31 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 			$dir_reader = new ilECSDirectoryTreeConnector($this->getServer());
 			$res = $dir_reader->getDirectoryTree($a_content_id);
 			$nodes = $res->getResult();
-			var_dump($res->getHeaders());
-			ob_end_flush();
 		}
 		catch(ilECSConnectorException $e) 
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Tree creation failed  with mesage ' . $e->getMessage());
 			return false;
 		}
-
-		// Delete old tree
-		/*
+		
+		// read old tree structure
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		$tree = new ilECSCmsTree($a_content_id);
-		$tree->deleteTree($tree->getNodeData(ilECSCmsTree::lookupRootId($a_content_id)));
-		*/
 		
+		$root_node = $tree->getNodeData(ilECSCmsTree::lookupRootId($a_content_id));
+
+		$old_nodes = array();
+		if($root_node['child'])
+		{
+			$old_nodes = $tree->getSubTree($root_node,true);
+		}
+
+		$GLOBALS['ilLog']->write(__METHOD__.': OLD TREE DATA ........'.print_r($old_nodes,true));
+
+		// Delete old cms tree
+		ilECSCmsTree::deleteByTreeId($a_content_id);
+		
+		// Mark all nodes in cms data as deleted
 	   include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 	   ilECSCmsData::writeAllDeleted(
 			   $this->getServer()->getServerId(), 
@@ -159,10 +178,41 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 			   $a_content_id, 
 			   true
 		);
+	   
+		// Check for update or new entry
+		$cms_tree = $nodes;
+
+		$data_obj_id = ilECSCmsData::lookupObjId(
+				$this->getServer()->getServerId(),
+				$this->mid,
+				$a_content_id,
+				$cms_tree->rootID
+		);
 		
-		foreach((array) $nodes as $node)
+		$data = new ilECSCmsData($data_obj_id);
+		$data->setServerId($server->getServerId());
+		$data->setMid($this->mid);
+		$data->setCmsId($cms_tree->rootID);
+		$data->setTreeId($a_content_id);
+		$data->setTitle($cms_tree->directoryTreeTitle);
+		$data->setTerm($cms_tree->term);
+
+		if($data_obj_id)
 		{
-			include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+			$data->setDeleted(false);
+			$data->update();
+		}
+		else
+		{
+			$data->save();
+		}
+
+		$tree->insertRootNode($a_content_id, $data->getObjId());
+		$tree->setRootId($data->getObjId());
+	   
+		
+		foreach((array) $cms_tree->nodes as $node)
+		{
 			$data_obj_id = ilECSCmsData::lookupObjId(
 					$this->getServer()->getServerId(),
 					$this->mid,
@@ -191,22 +241,40 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 				
 				$data_obj_id = $data->getObjId();
 			}
-
+			
 			// add to tree
-			if($node->parent->id && !$data_obj_id)
+			$parent_id = ilECSCmsData::lookupObjId(
+				$this->getServer()->getServerId(),
+				$this->mid,
+				$a_content_id,
+				(int) $node->parent->id
+			);
+			$tree->insertNode($data->getObjId(), $parent_id);
+		}
+		
+		// Insert deleted nodes in tree
+		$deleted = ilECSCmsData::findDeletedNodes(
+				$this->getServer()->getServerId(),
+				$this->mid,
+				$a_content_id
+		);
+		
+		foreach((array) $deleted as $obj_id)
+		{
+			$parent = 0;
+			foreach((array) $old_nodes as $tmp_id => $node)
 			{
-				$parent_id = ilECSCmsData::lookupObjId(
-					$this->getServer()->getServerId(),
-					$this->mid,
-					$a_content_id,
-					(int) $node->parent->id
-				);
-				$tree->insertNode($data->getObjId(), $parent_id);
+				
+				if($node['child'] == $obj_id)
+				{
+					$parent = $node['parent'];
+					break;
+				}
 			}
-			elseif(!$data_obj_id)
+			
+			if($tree->isInTree($parent) and $parent)
 			{
-				$tree->insertRootNode($a_content_id, $data->getObjId());
-				$tree->setRootId($data->getObjId());
+				$tree->insertNode($obj_id, $parent);
 			}
 		}
 		
