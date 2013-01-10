@@ -377,15 +377,9 @@ class ilObjBlog extends ilObject2
 				
 		include_once "./Modules/Blog/classes/class.ilBlogPosting.php";
 		$posting = new ilBlogPosting($a_posting_id);
-		
-		$admin_only = $author_only = false;	
-		
-		if($a_action == "comment")
-		{
-			$author_only = true;			
-		}
-		
-		// approval handling					
+						
+		// approval handling	
+		$admin_only = false;	
 		if(!$posting->isApproved())
 		{			
 			$blog = new self($blog_obj_id, false);
@@ -408,7 +402,7 @@ class ilObjBlog extends ilObject2
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
 		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG, 
-			$blog_obj_id, $a_posting_id, ($admin_only || $author_only));		
+			$blog_obj_id, $a_posting_id, $admin_only);		
 		if(!sizeof($users))
 		{
 			return;
@@ -434,13 +428,7 @@ class ilObjBlog extends ilObject2
 			{
 				continue;
 			}
-			
-			// only the posting author should get notification
-			if($author_only && $user_id != $author)
-			{
-				continue;
-			}
-									
+						
 			// workspace
 			if($access_handler)
 			{
