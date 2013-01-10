@@ -303,7 +303,7 @@ class ilAccessHandler
 		$act_check = $this->doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 		if(!$act_check)
 		{
-			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt('activation_no_permission'));
+			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt('status_no_permission'));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			return false;
 		}
