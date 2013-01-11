@@ -107,7 +107,7 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 			}
 			else if(is_numeric($code["valid_until"]))
 			{
-				$valid = $code["valid_until"]." ".$lng->txt("days");
+				$valid = $code["valid_until"]." ".($code["valid_until"] == 1 ? $lng->txt("day") : $lng->txt("days"));
 			}
 			else
 			{
