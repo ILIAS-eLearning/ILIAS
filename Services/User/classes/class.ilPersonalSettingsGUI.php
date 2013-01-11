@@ -1034,10 +1034,27 @@ class ilPersonalSettingsGUI
 			$expires = ilSession::getSessionExpireValue();
 			$lead_time_gui = new ilNumberInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
 			$lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilFormat::_secondsToString($expires, true)));
-			$lead_time_gui->setValue($ilUser->getPref('session_reminder_lead_time'));
+
+			$min_value = ilSessionReminder::MIN_LEAD_TIME;
+			$max_value = max($min_value, ((int)$expires / 60) - 1);
+
+			$current_user_value = $ilUser->getPref('session_reminder_lead_time');
+			if($current_user_value < $min_value ||
+			   $current_user_value > $max_value)
+			{
+				$current_user_value = ilSessionReminder::SUGGESTED_LEAD_TIME;
+			}
+			$value = min(
+				max(
+					$min_value, $current_user_value
+				),
+				$max_value
+			);
+
+			$lead_time_gui->setValue($value);
 			$lead_time_gui->setSize(3);
-			$lead_time_gui->setMinValue(ilSessionReminder::MIN_LEAD_TIME);
-			$lead_time_gui->setMaxValue(max(ilSessionReminder::MIN_LEAD_TIME, ((int)$expires / 60) - 1));
+			$lead_time_gui->setMinValue($min_value);
+			$lead_time_gui->setMaxValue($max_value);
 			$cb->addSubItem($lead_time_gui);
 
 			$this->form->addItem($cb);
