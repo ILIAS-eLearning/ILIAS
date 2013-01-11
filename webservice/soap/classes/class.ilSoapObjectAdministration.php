@@ -479,7 +479,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		$xml_writer = new ilObjectXMLWriter();
 		// begin-patch filemanager
-		$xml_writer->enableReferences(false);
+		if(ilFMSettings::getInstance()->isEnabled())
+		{
+			$xml_writer->enableReferences(false);
+		}
 		// end-patch filemanager
 		$xml_writer->enablePermissionCheck(true);
 		$xml_writer->setObjects($objs);
