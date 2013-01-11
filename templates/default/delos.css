@@ -2184,32 +2184,34 @@ div.il_MembersGallery
 	float:left;
 }
 
-div.il_Member
-{
+div.il_Member {
 	page-break-before: auto;
-	margin: 0px 5px 20px 5px;
-	background-color: #EEEEEE;
+	margin: 0 5px 20px;
+	background-color: #EEE;
 	padding: 10px 15px;
 	font-size: 75%;
-	height:14em;
-	width:10em;
-	float:left;
-	text-align:center;
+	width: 10em;
+	float: left;
+	text-align: center;
 	overflow: hidden;
 }
 
-div.il_Tutor
-{
+div.il_Tutor {
 	page-break-before: auto;
-	margin: 0px 5px 20px 5px;
+	margin: 0 5px 20px;
 	padding: 10px 15px;
 	background-color: #BBBBBB;
 	font-size: 75%;
-	height:14em;
-	width:10em;
-	float:left;
-	text-align:center;
+	width: 10em;
+	float: left;
+	text-align: center;
 	overflow: hidden;
+}
+
+div.il_Member img,
+div.il_Tutor img {
+	padding: 2px; 
+	border: 1px solid #000;
 }
 
 /* COPage Comparison */
