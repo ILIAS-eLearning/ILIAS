@@ -457,7 +457,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
  		$objs = array();
 
 		// begin-patch filemanager
-		$objs[] = $target_obj;
+		include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
+		if(ilFMSettings::getInstance()->isEnabled())
+		{
+			$objs[] = $target_obj;
+		}
 		// end-patch filemanager
 
 		foreach($tree->getChilds($ref_id,'title') as $child)
