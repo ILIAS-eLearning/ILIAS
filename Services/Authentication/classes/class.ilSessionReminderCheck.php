@@ -89,7 +89,7 @@ class ilSessionReminderCheck
 
 		$response = array(
 			'extend_url'               => './ilias.php?baseClass=ilPersonalDesktopGUI',
-			'txt'                      => str_replace("\\n", '%0A', sprintf($lng->txt('session_reminder_alert'), ilFormat::_secondsToString($expiretime - time(), true), $formatted_expiration_time, $ilClientIniFile->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath())),
+			'txt'                      => str_replace("\\n", '%0A', sprintf($lng->txt('session_reminder_alert'), ilFormat::_secondsToString($expiretime - time()), $formatted_expiration_time, $ilClientIniFile->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath())),
 			'remind'                   => true
 		);
 
