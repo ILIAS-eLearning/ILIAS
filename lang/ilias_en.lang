@@ -2602,7 +2602,7 @@ common#:#home#:#Public Area
 common#:#host#:#Host
 common#:#hour#:#Hour
 common#:#hours_of_day#:#Hours of day
-common#:#hours#:#Hour(s)
+common#:#hours#:#Hours
 common#:#htlm_add#:#Add HTML Learning Module
 rbac#:#htlm_copy#:#User can copy HTML learning module
 rbac#:#htlm_delete#:#User can move or delete HTML learning module
@@ -3088,7 +3088,7 @@ common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were li
 common#:#migrate#:#Migrate
 common#:#min_time#:#Minimum time
 common#:#minute#:#Minute
-common#:#minutes#:#Minute(s)
+common#:#minutes#:#Minutes
 common#:#missing_perm#:#Missing Permission
 common#:#missing_precondition#:#Missing Precondition
 common#:#missing#:#Missing
@@ -3575,7 +3575,7 @@ common#:#password_assistance_disabled#:#Password assistance is only then availab
 common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.
 common#:#password_change_on_first_login_demand#:#Your initial password have to be changed before you can start using ILIAS services.
 common#:#password_empty#:#The password must not be empty.
-common#:#password_expired#:#Your password is expired and have to be changed, because the last change was %s day(s) ago.
+common#:#password_expired#:#Your password is expired and has to be changed, because the last change was %s days ago.
 common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.
 common#:#password_must_special_chars#:#The password must contain special characters.
 common#:#password_to_long#:#The password must have at most a size of %s characters.
@@ -3922,7 +3922,7 @@ common#:#seas_settings#:#Search settings
 rbac#:#seas_visible#:#Search administration is visible
 rbac#:#seas_write#:#Edit settings in Search administration
 common#:#second#:#Second
-common#:#seconds#:#Second(s)
+common#:#seconds#:#Seconds
 common#:#sections#:#Sections
 common#:#select_all#:#Select All
 common#:#select_at_least_one_object#:#Please choose at least one object.
