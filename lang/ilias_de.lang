@@ -3174,7 +3174,7 @@ common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zum öffentlichen Bereich
 common#:#host#:#Host
 common#:#hour#:#Stunde
-common#:#hours#:#Stunde(n)
+common#:#hours#:#Stunden
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
 common#:#htlm_add#:#HTML-Lernmodul anlegen
@@ -3676,7 +3676,7 @@ common#:#mgs_objects_linked_to_the_following_folders#:#Objekte wurden in folgend
 common#:#migrate#:#Migrieren
 common#:#min_time#:#Mindestzeit
 common#:#minute#:#Minute
-common#:#minutes#:#Minute(n)
+common#:#minutes#:#Minuten
 common#:#missing#:#Nicht vorhanden
 common#:#missing_perm#:#Fehlende Berechtigung
 common#:#missing_precondition#:#Fehlende Vorbedingung
@@ -4553,7 +4553,7 @@ common#:#seas_settings#:#Sucheinstellungen
 rbac#:#seas_visible#:#Administration der Suche ist sichtbar
 rbac#:#seas_write#:#Einstellungen in Administration der Suche bearbeiten
 common#:#second#:#Sekunde
-common#:#seconds#:#Sekunde(n)
+common#:#seconds#:#Sekunden
 common#:#sections#:#Bereiche
 common#:#sel_country#:#Land
 common#:#select#:#Auswählen
