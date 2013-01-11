@@ -11,7 +11,7 @@ include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
 * @ingroup	ServicesForm
 */
 class ilBirthdayInputGUI extends ilDateTimeInputGUI
-{
+{			
 	/**
 	* Set value by array
 	*
@@ -89,6 +89,7 @@ class ilBirthdayInputGUI extends ilDateTimeInputGUI
 		else if ($dt['year'] == 0 && $dt['mon'] == 0 && $dt['mday'] == 0)
 		{
 			$this->date = null;
+			$_POST[$this->getPostVar()]['date'] = ""; // #10413
 		}
 		else
 		{
