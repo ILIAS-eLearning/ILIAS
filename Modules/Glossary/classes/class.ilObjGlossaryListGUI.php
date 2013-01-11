@@ -67,6 +67,11 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 				$cmd_link = "ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$this->ref_id;
 				break;
 
+			case "properties":
+				$this->ctrl->setParameterByClass("ilobjglossarygui", "ref_id", $this->ref_id);
+				$cmd_link = $this->ctrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui"), $a_cmd);
+				break;
+
 			case "infoScreen":
 				$cmd_link = "ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=infoScreen&amp;ref_id=".$this->ref_id;
 				break;
