@@ -8,7 +8,15 @@
  */
 class ilSessionReminder
 {
+	/**
+	 * @var int
+	 */
 	const MIN_LEAD_TIME = 2;
+
+	/**
+	 * @var int
+	 */
+	const SUGGESTED_LEAD_TIME = 5;
 	
 	
 	/**
