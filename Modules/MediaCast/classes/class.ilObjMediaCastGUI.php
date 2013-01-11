@@ -1218,7 +1218,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$ni->setMaxLength(3);
 				$ni->setSize(3);
 				$ni->setInfo($this->lng->txt("news_keep_minimal_x_items_info")." (".
-					ilNewsItem::_lookupRSSPeriod()." ".$lng->txt("days").")");
+					ilNewsItem::_lookupRSSPeriod()." ".(ilNewsItem::_lookupRSSPeriod() == 1 ? $lng->txt("day") : $lng->txt("days")).")");
 				$ni->setValue((int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $this->object->getId()));
 				$ch->addSubItem($ni);
 			

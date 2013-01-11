@@ -1808,12 +1808,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$str_processing_time = "";
 		if ($processing_time_minutes > 0)
 		{
-			$str_processing_time = $processing_time_minutes . " " . $this->lng->txt("minutes");
+			$str_processing_time = $processing_time_minutes . " " . ($processing_time_minutes == 1 ? $this->lng->txt("minute") : $this->lng->txt("minutes"));
 		}
 		if ($processing_time_seconds > 0)
 		{
 			if (strlen($str_processing_time) > 0) $str_processing_time .= " " . $this->lng->txt("and") . " ";
-			$str_processing_time .= $processing_time_seconds . " " . $this->lng->txt("seconds");
+			$str_processing_time .= $processing_time_seconds . " " . ($processing_time_seconds == 1 ? $this->lng->txt("second") : $this->lng->txt("seconds"));
 		}
 		$time_left = $starting_time + $processing_time - mktime();
 		$time_left_minutes = floor($time_left / 60);
@@ -1821,14 +1821,14 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$str_time_left = "";
 		if ($time_left_minutes > 0)
 		{
-			$str_time_left = $time_left_minutes . " " . $this->lng->txt("minutes");
+			$str_time_left = $time_left_minutes . " " . ($time_left_minutes == 1 ? $this->lng->txt("minute") : $this->lng->txt("minutes"));
 		}
 		if ($time_left < 300)
 		{
 			if ($time_left_seconds > 0)
 			{
 				if (strlen($str_time_left) > 0) $str_time_left .= " " . $this->lng->txt("and") . " ";
-				$str_time_left .= $time_left_seconds . " " . $this->lng->txt("seconds");
+				$str_time_left .= $time_left_seconds . " " .  ($time_left_seconds == 1 ? $this->lng->txt("second") : $this->lng->txt("seconds"));
 			}
 		}
 		$date = getdate($starting_time);
