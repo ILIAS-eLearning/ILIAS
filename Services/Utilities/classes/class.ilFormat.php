@@ -563,7 +563,7 @@ class ilFormat
 
 		if($days)
 		{
-			$message = $days . ' '. $lng->txt('days');
+			$message = $days . ' '. ($days == 1 ? $lng->txt('day') : $lng->txt('days'));
 		}
 		if($hours)
 		{
@@ -571,7 +571,7 @@ class ilFormat
 			{
 				$message .= ' ';
 			}
-			$message .= ($hours . ' '. $lng->txt('hours'));
+			$message .= ($hours . ' '. ($hours == 1 ? $lng->txt('hour') : $lng->txt('hours')));
 		}
 		if($minutes)
 		{
@@ -579,7 +579,7 @@ class ilFormat
 			{
 				$message .= ' ';
 			}
-			$message .= ($minutes . ' '. $lng->txt('minutes'));
+			$message .= ($minutes . ' '. ($minutes == 1 ? $lng->txt('minute') : $lng->txt('minutes')));
 		}
 		if($force_with_seconds && $seconds)
 		{
@@ -587,11 +587,11 @@ class ilFormat
 			{
 				$message .= ' ';
 			}
-			$message .= ($seconds . ' '. $lng->txt('seconds'));
+			$message .= ($seconds . ' '. ($seconds == 1 ? $lng->txt('second') : $lng->txt('seconds')));
 		}
 		if(!$days and !$hours and !$minutes)
 		{
-			return $seconds .' '. $lng->txt('seconds');
+			return $seconds .' '. ($seconds == 1 ? $lng->txt('second') : $lng->txt('seconds'));
 		}
 		else
 		{
