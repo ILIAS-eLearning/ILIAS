@@ -25,7 +25,7 @@ public class SoapClientGetTreeChildsRequest extends SoapClientRequest {
 	protected int user_id;
 	
 	@XmlTransient
-	protected String[] defaultTypes = {"root", "cat", "crs", "grp", "fold", "file", "crsr"};
+	protected String[] defaultTypes = {"parent", "root", "cat", "crs", "grp", "fold", "file", "crsr"};
 	
 	/**
 	 * Constructor
