@@ -174,8 +174,8 @@ class ilObjectXMLWriter extends ilXmlWriter
 			       'obj_id' => $id);
 
 		$this->xmlStartTag('Object',$attrs);
-		$this->xmlElement('Title',null,$object->getTitle());
-		$this->xmlElement('Description',null,$object->getDescription());
+		//$this->xmlElement('Title',null,$object->getTitle());
+		//$this->xmlElement('Description',null,$object->getDescription());
 
 		// begin-patch fm
 		if($this->mode == self::MODE_SEARCH_RESULT)
