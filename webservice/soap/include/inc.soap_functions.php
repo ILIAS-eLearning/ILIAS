@@ -866,15 +866,28 @@ class ilSoapFunctions {
 
 	
 	public static function  getInstallationInfoXML() {
-		include_once 'webservice/soap/classes/class.ilSoapAdministration.php';		
+       	include_once 'webservice/soap/classes/class.ilSoapAdministration.php';
 		$roa = new ilSoapAdministration();
-		return $roa->getInstallationInfoXML();
+		return $roa->getInstallationInfoXML("");
 	}
-	
-	public static function  getClientInfoXML($clientid) {
+
+    public static function  getInstallationInfoXML2($sid) {
+        include_once 'webservice/soap/classes/class.ilSoapAdministration.php';
+        $roa = new ilSoapAdministration();
+        return $roa->getInstallationInfoXML($sid);
+    }
+
+    public static function  getClientInfoXML2($sid, $clientid) {
+        include_once 'webservice/soap/classes/class.ilSoapAdministration.php';
+        $roa = new ilSoapAdministration();
+        return $roa->getClientInfoXML($sid, $clientid);
+    }
+
+
+    public static function  getClientInfoXML($clientid) {
 		include_once 'webservice/soap/classes/class.ilSoapAdministration.php';		
 		$roa = new ilSoapAdministration();
-		return $roa->getClientInfoXML($clientid);
+		return $roa->getClientInfoXML("", $clientid);
 	}
 	
 	/**
