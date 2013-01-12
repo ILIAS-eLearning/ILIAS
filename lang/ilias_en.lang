@@ -12947,3 +12947,4 @@ ecs#:#ecs_cmap_form_current_dir#:#Current Directory
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference
 content#:#cont_custom_menu_entries#:#Custom Menu Entries
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.
+rbac#:#itgr_visible#:#Item group is visible
