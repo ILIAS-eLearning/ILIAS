@@ -3328,7 +3328,7 @@ class ilPageObjectGUI
 	function setScreenIdComponent()
 	{
 		global $ilHelp;
-		
+
 		$ilHelp->setScreenIdComponent("copg");
 	}
 
