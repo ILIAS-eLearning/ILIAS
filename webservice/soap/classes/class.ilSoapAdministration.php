@@ -388,6 +388,8 @@ class ilSoapAdministration
 
 	public function getInstallationInfoXML($sid)
 	{
+        include_once "Services/Context/classes/class.ilContext.php";
+        ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
         $this->initAuth($sid);
         $this->initIlias();
 
@@ -423,6 +425,8 @@ class ilSoapAdministration
 	
 	public function getClientInfoXML($sid, $clientid)
 	{
+        include_once "Services/Context/classes/class.ilContext.php";
+        ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
         $this->initAuth($sid);
         $this->initIlias();
 
