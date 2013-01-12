@@ -53,12 +53,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		ilUtil::setCookie('ilClientId',$client);
 
 		global $ilUser;
-        global $ilAuth;
-
-        if (!$ilAuth->checkAuth()) {
-            return $this->__raiseError("User not authenticated", "Server");
-        }
-
 		if(!$ilUser->hasAcceptedUserAgreement())
 		{
 			return $this->__raiseError('User agreement not accepted', 'Server');
