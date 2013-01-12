@@ -3401,7 +3401,12 @@ class ilObjStyleSheet extends ilObject
 			);
 		$rec  = $ilDB->fetchAssoc($set);
 		
-		return (int) $rec["style_id"];
+		if (ilObject::_lookupType($rec["style_id"]) == "sty")
+		{
+			return (int) $rec["style_id"];
+		}
+		
+		return 0;
 	}
 	
 

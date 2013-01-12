@@ -2992,7 +2992,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		$page_gui =& new ilPageObjectGUI($this->object->getType(),
 			$this->object->getId());
-		$page_gui->setStyleId($this->object->getStyleSheetId());
+		$style_id = $this->object->getStyleSheetId();
+		if (ilObject::_lookupType($style_id) == "sty")
+		{
+			$page_gui->setStyleId($style_id);
+		}
+		else
+		{
+			$style_id = 0;
+		}
 		$page_gui->setTabHook($this, "addPageTabs");
 //		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
 //		$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
@@ -3006,7 +3014,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->form = new ilPropertyFormGUI();
 		
 		$fixed_style = $ilSetting->get("fixed_content_style_id");
-		$style_id = $this->object->getStyleSheetId();
+//		$style_id = $this->object->getStyleSheetId();
 
 		if ($fixed_style > 0)
 		{
