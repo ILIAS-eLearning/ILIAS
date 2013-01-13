@@ -70,17 +70,19 @@ $(function() {
 		// right
 		if (e.keyCode == 39) {
 			var a = $('.ilc_page_rnavlink_RightNavigationLink').first().attr('href');
-			if (a != "") {
+			if (a) {
 				top.location.href = a;
 			}
+			return false;
 		}
 		// left
 		if (e.keyCode == 37) {
 			var a = $('.ilc_page_lnavlink_LeftNavigationLink').first().attr('href');
-			if (a != "") {
+			if (a) {
 				top.location.href = a;
 			}
+			return false;
 		}
-		return false;
+		return true;
 	}
 })});
