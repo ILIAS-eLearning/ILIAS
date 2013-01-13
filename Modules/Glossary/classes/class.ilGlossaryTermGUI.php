@@ -615,7 +615,10 @@ class ilGlossaryTermGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $lng;
+		global $lng, $ilHelp;
+		
+		
+		$ilHelp->setScreenIdComponent("glo_term");
 		
 //echo ":".$_GET["term_id"].":";
 		if ($_GET["term_id"] != "")
