@@ -202,7 +202,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$ilCtrl->clearParameters($this);
+		$ilCtrl->clearParameters($this->parent_obj);
 
 	}
 

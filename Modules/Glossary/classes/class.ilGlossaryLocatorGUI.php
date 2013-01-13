@@ -74,7 +74,12 @@ class ilGlossaryLocatorGUI
 		}
 		else
 		{
+			$ilCtrl->setParameterByClass("ilglossarypresentationgui", "term_id", "");
 			$link = $ilCtrl->getLinkTargetByClass("ilglossarypresentationgui");
+			if (is_object($this->term))
+			{
+				$ilCtrl->setParameterByClass("ilglossarypresentationgui", "term_id", $this->term->getId());
+			}
 		}
 		$ilLocator->addItem($title, $link, "");
 		

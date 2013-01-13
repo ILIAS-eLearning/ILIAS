@@ -557,7 +557,7 @@ class ilGlossaryPresentationGUI
 		
 		if (!$this->offlineMode())
 		{
-			$ilCtrl->saveParameter($this, "term_id");
+			$ilCtrl->setParameter($this, "term_id", "");
 			$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
 			if (!empty ($_REQUEST["term"]))
 			{
@@ -569,6 +569,9 @@ class ilGlossaryPresentationGUI
 			{
 				$back = $ilCtrl->getLinkTarget($this, "listTerms");
 			}
+			$ilCtrl->setParameter($this, "term_id", $this->term_id);
+			$ilCtrl->saveParameter($this, "term_id");
+			
 			$ilTabs->setBackTarget($this->lng->txt("obj_glo"), $back);
 			
 			$ilTabs->addTab("content",
