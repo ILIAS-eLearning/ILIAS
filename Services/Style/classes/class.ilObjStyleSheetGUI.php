@@ -80,11 +80,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $rbacsystem, $lng, $tpl;
+		global $rbacsystem, $lng, $tpl, $ilHelp;
 		
 		$forms = array();
 		
 		
+		$ilHelp->setScreenIdComponent("sty");
+		$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "create");
+
 		// --- create
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
@@ -1027,7 +1030,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $lng, $ilCtrl, $ilTabs;
+		global $lng, $ilCtrl, $ilTabs, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("sty");
 		
 		if ($ilCtrl->getCmd() == "editTagStyle")
 		{
