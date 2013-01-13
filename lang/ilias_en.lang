@@ -2414,15 +2414,12 @@ common#:#gender_m#:#Male
 common#:#gender#:#Gender
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
-common#:#glo_a#:#a Glossary
 common#:#glo_add#:#Add Glossary
 common#:#glo_added#:#Glossary added
 rbac#:#glo_copy#:#User can copy glossary
 common#:#glo_create#:#Create Glossary
 rbac#:#glo_delete#:#User can move or delete glossary
 rbac#:#glo_edit_permission#:#User can change permission settings
-common#:#glo_join#:#Subscribe to Glossary
-common#:#glo_leave#:#Unsubscribe from Glossary
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
 common#:#glo_mode_level#:#virtual (this level only)
 common#:#glo_mode_normal#:#normal
