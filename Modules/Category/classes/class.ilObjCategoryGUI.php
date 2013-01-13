@@ -292,7 +292,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	protected function afterSave(ilObject $a_new_object)
 	{
-		global $ilUser;
+		global $ilUser, $tree;
 		
 		// add default translation
 		$a_new_object->addTranslation($a_new_object->getTitle(),
@@ -303,6 +303,19 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$settings = new ilContainerSortingSettings($a_new_object->getId());
 		$settings->setSortMode(ilContainer::SORT_TITLE);
 		$settings->save();
+		
+		// inherit parents content style, if not individual
+		$parent_ref_id = $tree->getParentId($a_new_object->getRefId());
+		$parent_id = ilObject::_lookupObjId($parent_ref_id);
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$style_id = ilObjStyleSheet::lookupObjectStyle($parent_id);
+		if ($style_id > 0)
+		{
+			if (ilObjStyleSheet::_lookupStandard($style_id))
+			{
+				ilObjStyleSheet::writeStyleUsage($a_new_object->getId(), $style_id);
+			}
+		}
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("cat_added"),true);
