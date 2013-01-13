@@ -349,9 +349,9 @@ class ilObjGlossary extends ilObject
 	/**
 	* Get term list
 	*/
-	function getTermList($searchterm = "", $a_letter = "", $a_def = "", $a_tax_node = 0)
+	function getTermList($searchterm = "", $a_letter = "", $a_def = "", $a_tax_node = 0, $a_include_offline_childs = false)
 	{
-		$glo_ids = $this->getAllGlossaryIds();
+		$glo_ids = $this->getAllGlossaryIds($a_include_offline_childs);
  		
 		$list = ilGlossaryTerm::getTermList($glo_ids, $searchterm, $a_letter, $a_def, $a_tax_node);
 		return $list;
@@ -373,26 +373,29 @@ class ilObjGlossary extends ilObject
 	 * @param
 	 * @return
 	 */
-	function getAllGlossaryIds()
+	function getAllGlossaryIds($a_include_offline_childs = false)
 	{
 		global $tree;
-		
+
 		if ($this->isVirtual())
 		{	
 			$glo_ids = array();
-
 
 			$virtual_mode = $this->getRefId() ? $this->getVirtualMode() : '';
 			switch ($virtual_mode)
 			{
 				case "level":
 					$glo_arr = $tree->getChildsByType($tree->getParentId($this->getRefId()),"glo");
-					
+					$glo_ids[] = $this->getId();
 					foreach ($glo_arr as $glo)
 					{
 						{
 							$glo_ids[] = $glo['obj_id'];
 						}
+					}
+					if (!$a_include_offline_childs)
+					{
+						$glo_ids = ilObjGlossary::removeOfflineGlossaries($glo_ids);
 					}
 					break;
 
@@ -405,6 +408,10 @@ class ilObjGlossary extends ilObject
 						{
 							$glo_ids[] = $node['obj_id'];
 						}
+					}
+					if (!$a_include_offline_childs)
+					{
+						$glo_ids = ilObjGlossary::removeOfflineGlossaries($glo_ids);
 					}
 					break;
 				
@@ -1202,6 +1209,27 @@ class ilObjGlossary extends ilObject
 		return $new_obj;
 	}
 
+	/**
+	 * Remove offline glossaries from obj id array
+	 *
+	 * @param
+	 * @return
+	 */
+	function removeOfflineGlossaries($a_glo_ids)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT id FROM glossary ".
+			" WHERE ".$ilDB->in("id", $a_glo_ids, false, "integer").
+			" AND is_online = ".$ilDB->quote("y", "text")
+			);
+		$glo_ids = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$glo_ids[] = $rec["id"];
+		}
+		return $glo_ids;
+	}
 	
 }
 
