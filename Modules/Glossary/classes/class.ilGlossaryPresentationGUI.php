@@ -49,6 +49,20 @@ class ilGlossaryPresentationGUI
 		$this->glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, "");
 		$this->glossary =& $this->glossary_gui->object;
 
+		// determine term id and check whether it is valid (belongs to
+		// current glossary or a virtual (online) sub-glossary)
+		$this->term_id = (int) $_GET["term_id"];
+		$glo_ids = $this->glossary->getAllGlossaryIds();
+		if (!is_array($glo_ids))
+		{
+			$glo_ids = array($glo_ids);
+		}
+		$term_glo_id = ilGlossaryTerm::_lookGlossaryID($this->term_id);
+		if (!in_array($term_glo_id, $glo_ids))
+		{
+			$this->term_id = "";
+		}
+		
 		$this->tax_node = 0;
 		$this->tax_id = $this->glossary->getTaxonomyId();
 		if ($this->tax_id > 0 && $this->glossary->getShowTaxonomy())
@@ -289,7 +303,7 @@ class ilGlossaryPresentationGUI
 		}
 		if ($a_term_id == 0)
 		{
-			$term_id = (int) $_GET["term_id"];
+			$term_id = $this->term_id;
 		}
 		else
 		{
@@ -565,11 +579,11 @@ class ilGlossaryPresentationGUI
 				$lng->txt("print_view"),
 				$ilCtrl->getLinkTarget($this, "printViewSelection"));
 	
-			$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $_GET["term_id"]);
+			$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $this->term_id);
 			$ilTabs->addNonTabbedLink("editing_view",
 				$lng->txt("glo_editing_view"),
 				$ilCtrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui", "ilglossarytermgui"), "listDefinitions"));
-				//"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$_GET["ref_id"]."&amp;edit_term=".$_GET["term_id"]);
+				//"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$_GET["ref_id"]."&amp;edit_term=".$this->term_id);
 			
 			$ilTabs->activateTab($a_act);
 		}
@@ -814,9 +828,9 @@ class ilGlossaryPresentationGUI
 		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc =& new ilGlossaryLocatorGUI();
 		$gloss_loc->setMode("presentation");
-		if (!empty($_GET["term_id"]))
+		if (!empty($this->term_id))
 		{
-			$term =& new ilGlossaryTerm($_GET["term_id"]);
+			$term =& new ilGlossaryTerm($this->term_id);
 			$gloss_loc->setTerm($term);
 		}
 		$gloss_loc->setGlossary($this->glossary);
@@ -1061,7 +1075,7 @@ class ilGlossaryPresentationGUI
 
 		$ilCtrl->saveParameter($this, "term_id");
 		
-		if ((int) $_GET["term_id"] == 0)
+		if ((int) $this->term_id == 0)
 		{
 			$this->setTabs();
 			$ilTabs->activateTab("print_view");
@@ -1069,7 +1083,7 @@ class ilGlossaryPresentationGUI
 		else
 		{
 			$tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
-			$term = new ilGlossaryTerm((int) $_GET["term_id"]);
+			$term = new ilGlossaryTerm((int) $this->term_id);
 			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
 			$this->showDefinitionTabs("print_view");
 		}
@@ -1098,7 +1112,7 @@ class ilGlossaryPresentationGUI
 		$radg->setValue("glossary");
 		
 			// current term
-			if ((int) $_GET["term_id"] > 0)
+			if ((int) $this->term_id > 0)
 			{
 				$op1 = new ilRadioOption($lng->txt("cont_current_term"), "term");
 				$radg->addOption($op1);
@@ -1199,7 +1213,7 @@ class ilGlossaryPresentationGUI
 				break;
 				
 			case "term":
-				$terms = array($_GET["term_id"]);
+				$terms = array($this->term_id);
 				break;
 		}
 
@@ -1296,7 +1310,7 @@ class ilGlossaryPresentationGUI
 		else
 		{
 			$tabs_gui->addTarget("cont_back",
-				"index.html#term_".$_GET["term_id"], "",
+				"index.html#term_".$this->term_id, "",
 				"");
 		}
 	}

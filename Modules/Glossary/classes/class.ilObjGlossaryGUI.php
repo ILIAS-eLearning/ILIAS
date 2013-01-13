@@ -40,9 +40,19 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "offset"));
 		$lng->loadLanguageModule("content");
-
+		
 		$this->type = "glo";
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
+		
+		// determine term id and check whether it is valid (belongs to
+		// current glossary)
+		$this->term_id = (int) $_GET["term_id"];
+		$term_glo_id = ilGlossaryTerm::_lookGlossaryID($this->term_id);
+		if ($this->term_id > 0 && $term_glo_id != $this->object->getId())
+		{
+			$this->term_id = "";
+		}
+
 	}
 
 	/**
@@ -79,7 +89,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			case "ilglossarytermgui":
 //				$this->quickList();
 				$this->ctrl->setReturn($this, "listTerms");
-				$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
+				$term_gui =& new ilGlossaryTermGUI($this->term_id);
 				$term_gui->setGlossary($this->object);
 				//$ret =& $term_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($term_gui);
@@ -937,14 +947,14 @@ return;
 		//$this->displayLocator();
 		//$this->setTabs();
 
-		$term = new ilGlossaryTerm($_GET["term_id"]);
+		$term = new ilGlossaryTerm($this->term_id);
 		
 		$add = "";
-		$nr = ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]);
+		$nr = ilGlossaryTerm::getNumberOfUsages($this->term_id);
 		if ($nr > 0)
 		{
 			$ilCtrl->setParameterByClass("ilglossarytermgui",
-				"term_id", $_GET["term_id"]);
+				"term_id", $this->term_id);
 			$link = "[<a href='".
 				$ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listUsages").
 				"'>".$lng->txt("glo_list_usages")."</a>]";
@@ -1010,7 +1020,7 @@ return;
 	*/
 	function updateTerm()
 	{
-		$term = new ilGlossaryTerm($_GET["term_id"]);
+		$term = new ilGlossaryTerm($this->term_id);
 
 		$term->setTerm(ilUtil::stripSlashes($_POST["term"]));
 		$term->setLanguage($_POST["term_language"]);
@@ -1332,7 +1342,19 @@ return;
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "listTerms");
-		}			
+		}
+		
+		// check ids
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+		foreach ($_POST["id"] as $term_id)
+		{
+			$term_glo_id = ilGlossaryTerm::_lookGlossaryID((int) $term_id);
+			if ($term_glo_id != $this->object->getId())
+			{
+				ilUtil::sendFailure($this->lng->txt("glo_term_must_belong_to_glo"), true);
+				$ilCtrl->redirect($this, "listTerms");
+			}
+		}
 		
 		// display confirmation message
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
@@ -1474,6 +1496,14 @@ return;
 			$ilCtrl->redirect($this, "listTerms");
 		}
 
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+		$term_glo_id = ilGlossaryTerm::_lookGlossaryID((int) $_POST["id"][0]);
+		if ($term_glo_id != $this->object->getId())
+		{
+			ilUtil::sendFailure($this->lng->txt("glo_term_must_belong_to_glo"), true);
+			$ilCtrl->redirect($this, "listTerms");
+		}
+
 		// add term
 		include_once ("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term =& new ilGlossaryTerm($_POST["id"][0]);
@@ -1498,10 +1528,10 @@ return;
 		$title = $this->object->getTitle();
 
 
-		if ($_GET["term_id"] > 0)
+		if ($this->term_id > 0)
 		{
 			$this->tpl->setTitle($this->lng->txt("term").": ".
-				ilGlossaryTerm::_lookGlossaryTerm($_GET["term_id"]));
+				ilGlossaryTerm::_lookGlossaryTerm($this->term_id));
 		}
 		else
 		{

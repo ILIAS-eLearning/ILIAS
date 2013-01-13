@@ -33,6 +33,12 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("cont_usage"));
 		$this->addColumn($this->lng->txt("cont_definitions"));
 		
+		if (in_array($this->glossary->getVirtualMode(),
+			array("level", "subtree")))
+		{
+			$this->addColumn($this->lng->txt("obj_glo"));
+		}
+		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.term_tbl_row.html", "Modules/Glossary");
@@ -43,13 +49,12 @@ class ilTermListTableGUI extends ilTable2GUI
 		
 		$this->initFilter();
 		$this->setData($this->glossary->getTermList($this->filter["term"], "",
-			$this->filter["definition"]));
-		
+			$this->filter["definition"], 0, true));
 	}
 	
-		/**
-	* Init filter
-	*/
+	/**
+	 * Init filter
+	 */
 	function initFilter()
 	{
 		global $lng, $rbacreview, $ilUser, $ilDB;
@@ -92,49 +97,52 @@ class ilTermListTableGUI extends ilTable2GUI
 		{
 			$def = $defs[$j];
 
-			// up
-			if ($j > 0)
+			if ($this->glossary->getId() == $term["glo_id"])
 			{
-				$this->tpl->setCurrentBlock("move_up");
-				$this->tpl->setVariable("TXT_UP", $lng->txt("up"));
+				// up
+				if ($j > 0)
+				{
+					$this->tpl->setCurrentBlock("move_up");
+					$this->tpl->setVariable("TXT_UP", $lng->txt("up"));
+					$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+					$ilCtrl->setParameter($this->parent_obj, "def", $def["id"]);
+					$this->tpl->setVariable("LINK_UP",
+						$ilCtrl->getLinkTarget($this->parent_obj, "moveDefinitionUp"));
+					$this->tpl->parseCurrentBlock();
+				}
+	
+				// down
+				if ($j+1 < count($defs))
+				{
+					$this->tpl->setCurrentBlock("move_down");
+					$this->tpl->setVariable("TXT_DOWN", $lng->txt("down"));
+					$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+					$ilCtrl->setParameter($this->parent_obj, "def", $def["id"]);
+					$this->tpl->setVariable("LINK_DOWN",
+						$ilCtrl->getLinkTarget($this->parent_obj, "moveDefinitionDown"));
+					$this->tpl->parseCurrentBlock();
+				}
+	
+				// delete
+				$this->tpl->setCurrentBlock("delete");
 				$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
 				$ilCtrl->setParameter($this->parent_obj, "def", $def["id"]);
-				$this->tpl->setVariable("LINK_UP",
-					$ilCtrl->getLinkTarget($this->parent_obj, "moveDefinitionUp"));
+				$this->tpl->setVariable("LINK_DELETE",
+					$ilCtrl->getLinkTarget($this->parent_obj, "confirmDefinitionDeletion"));
+				$this->tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
+				$this->tpl->parseCurrentBlock();
+	
+				// edit
+				$this->tpl->setCurrentBlock("edit");
+				$ilCtrl->setParameterByClass("ilpageobjectgui", "term_id", $term["id"]);
+				$ilCtrl->setParameterByClass("ilpageobjectgui", "def", $def["id"]);
+				$this->tpl->setVariable("LINK_EDIT",
+					$ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
+					"iltermdefinitioneditorgui",
+					"ilpageobjectgui"), "edit"));
+				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 				$this->tpl->parseCurrentBlock();
 			}
-
-			// down
-			if ($j+1 < count($defs))
-			{
-				$this->tpl->setCurrentBlock("move_down");
-				$this->tpl->setVariable("TXT_DOWN", $lng->txt("down"));
-				$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-				$ilCtrl->setParameter($this->parent_obj, "def", $def["id"]);
-				$this->tpl->setVariable("LINK_DOWN",
-					$ilCtrl->getLinkTarget($this->parent_obj, "moveDefinitionDown"));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// delete
-			$this->tpl->setCurrentBlock("delete");
-			$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-			$ilCtrl->setParameter($this->parent_obj, "def", $def["id"]);
-			$this->tpl->setVariable("LINK_DELETE",
-				$ilCtrl->getLinkTarget($this->parent_obj, "confirmDefinitionDeletion"));
-			$this->tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
-
-			// edit
-			$this->tpl->setCurrentBlock("edit");
-			$ilCtrl->setParameterByClass("ilpageobjectgui", "term_id", $term["id"]);
-			$ilCtrl->setParameterByClass("ilpageobjectgui", "def", $def["id"]);
-			$this->tpl->setVariable("LINK_EDIT",
-				$ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
-				"iltermdefinitioneditorgui",
-				"ilpageobjectgui"), "edit"));
-			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-			$this->tpl->parseCurrentBlock();
 
 			// text
 			$this->tpl->setCurrentBlock("definition");
@@ -170,14 +178,17 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->tpl->setCurrentBlock("edit_term");
 		$this->tpl->setVariable("TEXT_TERM", $term["term"]);
 		$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-		$this->tpl->setVariable("LINK_EDIT_TERM",
-			$ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
-		$this->tpl->setVariable("TXT_EDIT_TERM", $lng->txt("edit"));
+		if ($this->glossary->getId() == $term["glo_id"])
+		{
+			$this->tpl->setVariable("LINK_EDIT_TERM",
+				$ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
+			$this->tpl->setVariable("TXT_EDIT_TERM", $lng->txt("edit"));
+		}
 		$this->tpl->parseCurrentBlock();
 
 		// usage
 		$nr_usage = ilGlossaryTerm::getNumberOfUsages($term["id"]);
-		if ($nr_usage > 0)
+		if ($nr_usage > 0 && $this->glossary->getId() == $term["glo_id"])
 		{
 			$this->tpl->setCurrentBlock("link_usage");
 			$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
@@ -194,6 +205,15 @@ class ilTermListTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		// glossary title
+		if (in_array($this->glossary->getVirtualMode(),
+			array("level", "subtree")))
+		{
+			$this->tpl->setCurrentBlock("glossary");
+			$this->tpl->setVariable("GLO_TITLE", ilObject::_lookupTitle($term["glo_id"]));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		// output term and language
 		$this->tpl->setVariable("TEXT_LANGUAGE", $lng->txt("meta_l_".$term["language"]));
 
