@@ -1623,7 +1623,7 @@ return;
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
-				$lng->txt("general_settings"),
+				$lng->txt("cont_glo_properties"),
 				$ilCtrl->getLinkTarget($this, 'properties'));
 				
 			// style properties
