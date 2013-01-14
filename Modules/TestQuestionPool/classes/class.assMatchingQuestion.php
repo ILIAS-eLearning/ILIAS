@@ -1354,16 +1354,17 @@ class assMatchingQuestion extends assQuestion
 			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
 			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
 			);
-		$terms = array();
-		foreach ($this->getMatchingPairs() as $pair)
+				
+		$terms = array("" => array("id"=>"-1", 
+			"term"=>$this->lng->txt("please_select")));
+		foreach ($this->getTerms() as $term)
 		{
-			$terms[(int)$pair->term->identifier] = array(
-				"term" => $pair->term->text,
-				"id" =>(int)$pair->term->identifier
+			$terms[(int)$term->identifier] = array(
+				"term" => $term->text,
+				"id" =>(int)$term->identifier
 			);
 		}
-		$terms = $this->pcArrayShuffle($terms);
-		$pairs = array();
+		// $terms = $this->pcArrayShuffle($terms);				
 
 		// alex 9.9.2010 as a fix for bug 6513 I added the question id
 		// to the "def_id" in the array. The $pair->definition->identifier is not
@@ -1372,17 +1373,35 @@ class assMatchingQuestion extends assQuestion
 		// thus copying the same question on a page results in problems
 		// when the second one (the copy) is answered.
 
-		foreach ($this->getMatchingPairs() as $pair)
+		$pairs = array();
+		foreach ($this->getDefinitions() as $def)
 		{
 			array_push($pairs, array(
-				"term_id" => (int) $pair->term->identifier,
-				"points" => (float) $pair->points,
-				"definition" => (string) $pair->definition->text,
-				"def_id" => (int) $this->getId().$pair->definition->identifier,
+				"definition" => (string) $def->text,
+				"def_id" => (int) $this->getId().$def->identifier,
 				"terms" => $terms
 			));
 		}
 		$result['pairs'] = $pairs;
+		
+		// #10353
+		$match = $points = array();
+		foreach ($this->getMatchingPairs() as $pair)
+		{			
+			$pid = $pair->definition->identifier;
+			
+			// we only need pairs with max. points for def-id
+			if(!isset($match[$pid]) || $match[$pid]["points"] < $pair->points)
+			{				
+				$match[$pid] = array(
+					"term_id" => (int) $pair->term->identifier,
+					"def_id" => (int) $this->getId().$pair->definition->identifier,
+					"points" => (int) $pair->points
+				);									
+			}
+		}		
+		$result['match'] = array_values($match);
+			
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
 
