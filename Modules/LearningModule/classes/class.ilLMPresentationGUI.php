@@ -842,10 +842,13 @@ class ilLMPresentationGUI
 						$this->tpl->addOnLoadCode("il.LearningModule.setLastFrameUrl('".$last_frame_url."');");
 					}
 					
-					$this->tpl->addOnLoadCode("il.LearningModule.setSaveUrl('".
-						$ilCtrl->getLinkTarget($this, "saveFrameUrl", "", false, false)."');
-						il.LearningModule.openInitFrames();
-						");
+					if (in_array($layout, array("toc2windyn")))
+					{
+						$this->tpl->addOnLoadCode("il.LearningModule.setSaveUrl('".
+							$ilCtrl->getLinkTarget($this, "saveFrameUrl", "", false, false)."');
+							il.LearningModule.openInitFrames();
+							");
+					}
 				}
 				
 				// from main menu
