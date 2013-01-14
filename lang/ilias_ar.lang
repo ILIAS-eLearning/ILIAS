@@ -2997,13 +2997,10 @@ common#:#gender_m#:#ذكر
 common#:#general_settings#:#الاعدادات العامة
 common#:#generate#:#انشاء
 common#:#glo#:#قائمة مصطلحات
-common#:#glo_a#:#a Glossary
 common#:#glo_add#:#اضافة قائمة مصطلحات
 common#:#glo_added#:#قائمة مصطلحات مضافة
 common#:#glo_create#:#انشاء قائمة مصطلحات
 common#:#glo_import#:#Import Glossary
-common#:#glo_join#:#الاشتراك في قائمة مصطلحات
-common#:#glo_leave#:#Unsubscribe from Glossary
 common#:#glo_mode#:#اسلوب
 common#:#glo_mode_desc#:#تعمل قائمة المصطلحات الفعلية كقائمة مصطلحات عادية. بالاضافة الى انها تحتوي على العناصر الموجودة في جميع قوائم المصطلحات الموجودة في نفس المستوى في المكتبة، تماما كقائمة المصطلحات الفعلية (مستوى) على التوالي مع جميع قوائم المصطلحات الموجودة في المكتبة في وضع قائمة المصطلحات الفعلية- شجرة فرعية
 common#:#glo_mode_level#:#virtual (this level only)
@@ -7224,7 +7221,6 @@ dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
 dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activate Record Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
@@ -12944,3 +12940,9 @@ ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
 content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
+common#:#edited_on#:#Edited on###14 01 2013 new variable

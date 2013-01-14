@@ -2883,7 +2883,6 @@ common#:#gender_m#:#Mężczyzna
 common#:#general_settings#:#Ustawienia Ogólne
 common#:#generate#:#Generuj
 common#:#glo#:#Słownik
-common#:#glo_a#:#Słownik
 common#:#glo_add#:#Dodaj słownik
 common#:#glo_added#:#Słownik został dodany
 rbac#:#glo_copy#:#Kopiuj Słownik
@@ -2891,8 +2890,6 @@ common#:#glo_create#:#Twórz Słownik
 rbac#:#glo_delete#:#Usuń Słownik
 rbac#:#glo_edit_permission#:#Zmień ustawienia uprawnień
 common#:#glo_import#:#Import Glossary
-common#:#glo_join#:#Subskrybuj Słownik
-common#:#glo_leave#:#Rezygnuję z subskrypcji Słownika
 common#:#glo_mode#:#Tryb
 common#:#glo_mode_desc#:#Wirualny słownik działa tak jak normalny słownik. Dodatkowo zawiera hasła ze wszystkich słowników umieszczonych na tym samym poziomie zasobów oraz może zawierać hasła ze słowników położonych poniżej.
 common#:#glo_mode_level#:#wirtualny (tylko ten sam poziom)
@@ -12803,7 +12800,6 @@ forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 10 2012 new variable
 dcl#:#dcl_table_info_title#:#Info###27 10 2012 new variable
 dcl#:#dcl_permissions_form#:#User rights###27 10 2012 new variable
-dcl#:#-dcl_table_info_title-#:#Info###27 10 2012 new variable
 content#:#cont_presentation#:#Presentation###27 10 2012 new variable
 content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
 content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
@@ -12944,3 +12940,9 @@ ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
 content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
+common#:#edited_on#:#Edited on###14 01 2013 new variable

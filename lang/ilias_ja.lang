@@ -2992,13 +2992,10 @@ common#:#gender_m#:#男性
 common#:#general_settings#:#全般設定
 common#:#generate#:#生成
 common#:#glo#:#用語集
-common#:#glo_a#:#用語集
 common#:#glo_add#:#用語集を追加
 common#:#glo_added#:#用語集の追加
 common#:#glo_create#:#用語集を作成
 common#:#glo_import#:#用語集をインポート
-common#:#glo_join#:#用語集へ登録
-common#:#glo_leave#:#用語集から登録解除
 common#:#glo_mode#:#モード
 common#:#glo_mode_desc#:#バーチャル用語集は通常の用語集のように動作します。バーチャル用語集(サブツリー）の位置からリポジトリの下位方向にある全ての用語集からのバーチャル用語集(レベル)リポジトリのようなリポシトリの同一レベルにある全ての用語集からの用語を含みます。
 common#:#glo_mode_level#:#バーチャル(このレベルのみ)
@@ -7213,7 +7210,6 @@ dateplaner#:#wk_short#:#週
 dateplaner#:#year#:#年
 dateplaner#:#yui_cal_choose_month#:#月
 dateplaner#:#yui_cal_choose_year#:#年
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#アクション
 dcl#:#dcl_activate_approval#:#承認レコードを有効化
 dcl#:#dcl_activate_notification#:#通知を有効化
@@ -12948,3 +12944,9 @@ ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
 content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
+common#:#edited_on#:#Edited on###14 01 2013 new variable

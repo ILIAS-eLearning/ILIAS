@@ -2854,7 +2854,6 @@ common#:#gender_m#:#Masculin
 common#:#gender#:#Sexe
 common#:#general_settings#:#Paramètres généraux
 common#:#generate#:#Générer
-common#:#glo_a#:#un glossaire
 common#:#glo_add#:#Ajouter Glossaire
 common#:#glo_added#:#Glossaire ajouté
 rbac#:#glo_copy#:#Copier Glossaire
@@ -2862,8 +2861,6 @@ common#:#glo_create#:#Créer glossaire
 rbac#:#glo_delete#:#Supprimer le glossaire
 rbac#:#glo_edit_permission#:#Modifier les paramètres de permission
 common#:#glo_import#:#Import Glossary###01 04 2011 new variable
-common#:#glo_join#:#S'abonner au glossaire
-common#:#glo_leave#:#Se désabonner du glossaire
 common#:#glo_mode_desc#:#Un glossaire virtuel fonctionne comme un glossaire normal. Mais il peut, en plus, contenir les termes de tous les autres glossaires du même niveau ou de niveaux inférieurs dans l'arborescence des  objets d'ILIAS.
 common#:#glo_mode_level#:#virtuel (seulement pour ce niveau)
 common#:#glo_mode_normal#:#normal
@@ -12803,7 +12800,6 @@ forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 10 2012 new variable
 dcl#:#dcl_table_info_title#:#Info###27 10 2012 new variable
 dcl#:#dcl_permissions_form#:#User rights###27 10 2012 new variable
-dcl#:#-dcl_table_info_title-#:#Info###27 10 2012 new variable
 content#:#cont_presentation#:#Presentation###27 10 2012 new variable
 content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
 content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
@@ -12944,3 +12940,9 @@ ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
 content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
+common#:#edited_on#:#Edited on###14 01 2013 new variable

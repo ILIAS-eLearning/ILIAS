@@ -2251,12 +2251,9 @@ common#:#gender_m#:#მამრობითი
 common#:#gender#:#სქესი
 common#:#general_settings#:#ზოგადი პარამტრები
 common#:#generate#:#წარმოშობა
-common#:#glo_a#:#ლექსიკონის 
 common#:#glo_add#:#ლექსიკონის დამატება
 common#:#glo_added#:#ლექსიკონი დამტებულია
 common#:#glo_create#:#ლექსიკონის შექმნა
-common#:#glo_join#:#ლექსიკონში გაწევრიანება
-common#:#glo_leave#:#ლექსიკონის ხელმოწერაზე უარის თქმა /გამოსვლა
 common#:#glo_mode_desc#:#ვირტუალური ლექსიკონი მუშაობს როგორც საკუთარი ლექსიკონი. Dამატებიტ ის შეიცავს დასახელებებს ყველა ლექსიკონიდან რომლებიც განთავსებულია იმავე დონეზე საცავში როგორც ვირტუალური ლექსიკონი შესაბამისად ყველა ლექსიკონიდან რომელიც განთავსებულია საცავში ვირტუალური ლექსიკონიდან.
 common#:#glo_mode_level#:#ვირტუალური (მხოლოდ ამ დონეზე)
 common#:#glo_mode_normal#:#ნორმალური
@@ -12789,7 +12786,6 @@ dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?###
 dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.###27 10 2012 new variable
 dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.###27 10 2012 new variable
 dcl#:#dcl_permissions_form#:#User rights###27 10 2012 new variable
-dcl#:#-dcl_table_info_title-#:#Info###27 10 2012 new variable
 rating#:#rating_number_votes#:#%s Ratings###27 10 2012 new variable
 administration#:#system_check_no_owner#:#Ownerless Objects###27 10 2012 new variable
 blog#:#blog_import#:#Import Blog###27 10 2012 new variable
@@ -12944,3 +12940,9 @@ ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
 content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
+common#:#edited_on#:#Edited on###14 01 2013 new variable

@@ -1244,14 +1244,11 @@ common#:#gender_m#:#Nam
 common#:#general_settings#:#Thiết lập chung
 common#:#generate#:#Sinh
 common#:#glo#:#Bảng chú giải
-common#:#glo_a#:#một bảng chú giải
 common#:#glo_add#:#Thêm bảng chú giải
 common#:#glo_added#:#Đã thêm bảng chú giải
 common#:#glo_create#:#Tạo bảng chú giải
 rbac#:#glo_delete#:#Xóa bảng chú giải
 rbac#:#glo_edit_permission#:#Thay đổi thiết lập quyền hạn
-common#:#glo_join#:#Đăng ký vào bảng chú giải
-common#:#glo_leave#:#Hủy đăng ký khỏi bảng chú giải
 common#:#glo_mode#:#Chế độ
 common#:#glo_mode_desc#:#Một bảng chú giải ảo làm việc giống như bảng chú giải thường, bổ sung thêm các thuật ngữ từ tất cả các bảng chú giải cùng mức trong kho kiến thức lần lượt theo thứ tự trên xuống kể từ vị trí của bảng chú giải ảo (cây con).
 common#:#glo_mode_level#:#ảo (chỉ mức này)
@@ -12805,7 +12802,6 @@ forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 10 2012 new variable
 dcl#:#dcl_table_info_title#:#Info###27 10 2012 new variable
 dcl#:#dcl_permissions_form#:#User rights###27 10 2012 new variable
-dcl#:#-dcl_table_info_title-#:#Info###27 10 2012 new variable
 content#:#cont_presentation#:#Presentation###27 10 2012 new variable
 content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
 content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
@@ -12946,3 +12942,9 @@ ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
 content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
+common#:#edited_on#:#Edited on###14 01 2013 new variable

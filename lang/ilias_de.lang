@@ -2991,7 +2991,6 @@ common#:#gender_m#:#Männlich
 common#:#general_settings#:#Allgemeine Einstellungen
 common#:#generate#:#generieren
 common#:#glo#:#Glossar
-common#:#glo_a#:#ein Glossar
 common#:#glo_add#:#Glossar anlegen
 common#:#glo_added#:#Glossar angelegt
 rbac#:#glo_copy#:#Glossar kopieren
@@ -2999,8 +2998,6 @@ common#:#glo_create#:#Neues Glossar anlegen
 rbac#:#glo_delete#:#Glossar löschen oder verschieben
 rbac#:#glo_edit_permission#:#Rechteeinstellungen ändern
 common#:#glo_import#:#Glossar importieren
-common#:#glo_join#:#Glossar abonnieren
-common#:#glo_leave#:#Glossarabonnement aufheben
 common#:#glo_mode#:#Modus
 common#:#glo_mode_desc#:#Ein virtuelles Glossar funktioniert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich auch in nachfolgenden Ebenen befinden (ganzer Teilbaum).
 common#:#glo_mode_level#:#Virtuelles Glossar - nur aktuelle Ebene
