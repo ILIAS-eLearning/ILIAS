@@ -129,6 +129,12 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 				"default_lang" => $setting->language,
 			    
 			));
+		$this->xmlEndTag("Client");
+		return;
+		
+		// END here due to security reasons.
+		
+
 		$this->xmlElement ("Name", null, $setting->get("inst_name"));
 		$this->xmlElement ("Description", null, $setting->description);
 		$this->xmlElement ("Institution", null, $setting->get("inst_institution"));
@@ -204,8 +210,8 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	{
 		$this->xmlStartTag("Settings");
 		$this->xmlElement("Setting", array("key" => "default_client"), $GLOBALS['ilIliasIniFile']->readVariable("clients","default"));
-		$this->xmlElement("Setting", array("key" => "post_max_size"), ilSoapAdministration::return_bytes(ini_get("post_max_size")));
-		$this->xmlElement("Setting", array("key" => "upload_max_filesize"), ilSoapAdministration::return_bytes(ini_get("upload_max_filesize")));
+		#$this->xmlElement("Setting", array("key" => "post_max_size"), ilSoapAdministration::return_bytes(ini_get("post_max_size")));
+		#$this->xmlElement("Setting", array("key" => "upload_max_filesize"), ilSoapAdministration::return_bytes(ini_get("upload_max_filesize")));
 		$this->xmlEndTag("Settings");			
 	}
 
