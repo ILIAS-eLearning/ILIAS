@@ -191,12 +191,15 @@ class ilPCTableGUI extends ilPageContentGUI
 		$padding->setMaxLength(6);
 		$this->form->addItem($padding);
 
-		// spacing
-		$spacing = new ilTextInputGUI($this->lng->txt("cont_table_cellspacing"), "spacing");
+		// spacing (deprecated, only hidden)
+		$spacing = new ilHiddenInputGUI("spacing");
+		$spacing->setValue("0px");
+		$this->form->addItem($spacing);
+		/*$spacing = new ilTextInputGUI($this->lng->txt("cont_table_cellspacing"), "spacing");
 		$spacing->setValue("0px");
 		$spacing->setSize(6);
 		$spacing->setMaxLength(6);
-		$this->form->addItem($spacing);
+		$this->form->addItem($spacing);*/
 
 		// table templates and table classes
 		require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
