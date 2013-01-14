@@ -290,17 +290,33 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 	answers[a_id].passed = true;
 	answers[a_id].choice = [];
 	
+	var found = 0;
+	var selected = 0;
 	for (var i=0;i<questions[a_id].pairs.length;i++)
 	{
 		var a_node = jQuery('select#'+questions[a_id].pairs[i].def_id).get(0);
-		if (a_node.options[a_node.selectedIndex].id!=questions[a_id].pairs[i].term_id) {
-			answers[a_id].passed = false;
-			answers[a_id].wrong++;
+
+		if(a_node.options[a_node.selectedIndex].id > 0)	{
+			selected++;
+		}
+
+		for (var j=0;j<questions[a_id].match.length;j++)
+		{
+			if(questions[a_id].match[j].term_id == a_node.options[a_node.selectedIndex].id &&
+				questions[a_id].match[j].def_id == questions[a_id].pairs[i].def_id)	{
+				found++;
+			}
 		}
 		
 		answers[a_id].choice.push(questions[a_id].pairs[i].def_id + '-'
 			+ a_node.options[a_node.selectedIndex].id);
 	}
+	
+	if (found < questions[a_id].match.length || selected > found) {
+			answers[a_id].passed = false;
+			answers[a_id].wrong++;
+	}		
+	
 	ilias.questions.showFeedback(a_id);
 };
 
@@ -752,8 +768,17 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 
 		case 'assMatchingQuestion':
 			for (var i=0;i<questions[a_id].pairs.length;i++) {
+				
+				// #10353 - find correct term for definition
+				var term_id = "-1";
+				for (var j=0;j<questions[a_id].match.length;j++) {
+					if(questions[a_id].match[j].def_id == questions[a_id].pairs[i].def_id)	{
+						term_id = questions[a_id].match[j].term_id;
+					}
+				}
+				
 				jQuery('select#'+questions[a_id].pairs[i].def_id).removeAttr("selected");
-				jQuery('select#'+questions[a_id].pairs[i].def_id+" option[id="+questions[a_id].pairs[i].term_id+"]").attr("selected","selected");
+				jQuery('select#'+questions[a_id].pairs[i].def_id+" option[id="+term_id+"]").attr("selected","selected");
 				jQuery('select#'+questions[a_id].pairs[i].def_id).attr("disabled",true);
 			}
 		break;
