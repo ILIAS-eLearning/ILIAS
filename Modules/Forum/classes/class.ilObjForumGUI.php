@@ -2606,7 +2606,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						
 						$this->ctrl->clearParameters($this);
 
-						$tpl->setVariable('POST_UPDATE', $lng->txt('edited_at').': '.
+						$tpl->setVariable('POST_UPDATE', $lng->txt('edited_on').': '.
 							$frm->convertDate($node->getChangeDate()).' - '.strtolower($lng->txt('by')).' '.$authorinfo->getLinkedAuthorName());
 
 					} // if ($node->getUpdateUserId() > 0)*/

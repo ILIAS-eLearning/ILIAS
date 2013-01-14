@@ -100,7 +100,7 @@ class ilForumExportGUI
 							''
 						);
 						
-						$tplEx->setVariable('POST_UPDATE', "<br />[".$lng->txt("edited_at").": ".
+						$tplEx->setVariable('POST_UPDATE', "<br />[".$lng->txt("edited_on").": ".
 											$this->frm->convertDate($post->getChangeDate())." - ".strtolower($lng->txt("from"))." ".$authorinfo->getAuthorName()."]");
 					}
 					
@@ -199,7 +199,7 @@ class ilForumExportGUI
 						'',
 						''
 					);
-					$tplEx->setVariable('POST_UPDATE', "<br />[".$lng->txt('edited_at').": ".
+					$tplEx->setVariable('POST_UPDATE', "<br />[".$lng->txt('edited_on').": ".
 										$this->frm->convertDate($post->getChangeDate())." - ".strtolower($lng->txt('from'))." ".$authorinfo->getAuthorName()."]");
 				}
 
@@ -302,7 +302,7 @@ class ilForumExportGUI
 								'',
 								''
 							);
-							$tplEx->setVariable('POST_UPDATE', "<br />[".$lng->txt('edited_at').": ".
+							$tplEx->setVariable('POST_UPDATE', "<br />[".$lng->txt('edited_on').": ".
 												$this->frm->convertDate($post->getChangeDate())." - ".strtolower($lng->txt('from'))." ".
 								$authorinfo->getAuthorName()."]");
 						}
