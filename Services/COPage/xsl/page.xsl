@@ -1472,9 +1472,9 @@
 		<xsl:attribute name="width">100%</xsl:attribute><!-- old -->
 		<xsl:attribute name="width"></xsl:attribute>
 	</xsl:if>
-	<xsl:attribute name="border"><xsl:value-of select="@Border"/></xsl:attribute>
+	<!-- <xsl:attribute name="border"><xsl:value-of select="@Border"/></xsl:attribute>
 	<xsl:attribute name="cellspacing"><xsl:value-of select="@CellSpacing"/></xsl:attribute>
-	<xsl:attribute name="cellpadding"><xsl:value-of select="@CellPadding"/></xsl:attribute>
+	<xsl:attribute name="cellpadding"><xsl:value-of select="@CellPadding"/></xsl:attribute> -->
 	<xsl:if test="$mode = 'edit'">
 		<xsl:attribute name="style">
 			<xsl:choose>
@@ -1652,6 +1652,12 @@
 		</xsl:when>						
 	</xsl:choose>
 	<xsl:attribute name = "width"><xsl:value-of select = "@Width"/></xsl:attribute>
+	
+	<xsl:attribute name = "style">
+		<xsl:if test="../../@CellPadding">padding: <xsl:value-of select="../../@CellPadding"/>;</xsl:if>
+		<xsl:if test="../../@Border">border: solid <xsl:value-of select="../../@Border"/>;</xsl:if>
+	</xsl:attribute>
+	
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:call-template name="EditReturnAnchors"/>
