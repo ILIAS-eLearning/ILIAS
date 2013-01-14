@@ -2883,7 +2883,6 @@ common#:#gender_m#:#Masculino
 common#:#general_settings#:#Configurações Gerais###29 Nov 2004 new variable
 common#:#generate#:#Gerar
 common#:#glo#:#Glossário
-common#:#glo_a#:#um Glossário
 common#:#glo_add#:#Adicionar Glossário
 common#:#glo_added#:#Glossário adicionado
 rbac#:#glo_copy#:#Copy Glossary
@@ -2891,8 +2890,6 @@ common#:#glo_create#:#Criar Glossário
 rbac#:#glo_delete#:#Apagar Glossário
 rbac#:#glo_edit_permission#:#Mudar definições de permissões
 common#:#glo_import#:#Importar Glossário###01 04 2011 new variable
-common#:#glo_join#:#Inscrever-se ao Glossário###07 Apr 2005 content changed
-common#:#glo_leave#:#Cancelar do Glossário###07 Apr 2005 content changed
 common#:#glo_mode#:#Mode
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
 common#:#glo_mode_level#:#virtual (this level only)
@@ -12803,7 +12800,6 @@ forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 10 2012 new variable
 dcl#:#dcl_table_info_title#:#Info###27 10 2012 new variable
 dcl#:#dcl_permissions_form#:#User rights###27 10 2012 new variable
-dcl#:#-dcl_table_info_title-#:#Info###27 10 2012 new variable
 content#:#cont_presentation#:#Presentation###27 10 2012 new variable
 content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
 content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
@@ -12944,3 +12940,9 @@ ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
 content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
+common#:#edited_on#:#Edited on###14 01 2013 new variable

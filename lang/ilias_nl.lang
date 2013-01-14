@@ -2524,15 +2524,12 @@ common#:#gender_m#:#Mannelijk
 common#:#general_settings#:#Algemene instellingen
 common#:#generate#:#Genereer
 common#:#glo#:#Woordenlijst
-common#:#glo_a#:#een woordenlijst
 common#:#glo_add#:#Woordenlijst toevoegen
 common#:#glo_added#:#Woordenlijst toegevoegd
 rbac#:#glo_copy#:#Kopieër Woordenlijst
 common#:#glo_create#:#Creëer woordenlijst
 rbac#:#glo_delete#:#Verwijder woordenlijst
 rbac#:#glo_edit_permission#:#Wijzig instellingen van de rechten
-common#:#glo_join#:#Abonneer op een woordenlijst
-common#:#glo_leave#:#Abonnement op woordenlijst beëindigen
 common#:#glo_mode#:#Mode
 common#:#glo_mode_desc#:#Een virtuele woordenlijst werken zoals een normale woordenlijst. Bijkomend bevat het alle termen van alle woordenlijsten op hetzelfde niveau in het Studiecentrum als de virtuele woordenlijst en alle onderliggende woordenlijsten.
 common#:#glo_mode_level#:#virtueel (enkel dit level)
@@ -12807,7 +12804,6 @@ forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 10 2012 new variable
 dcl#:#dcl_table_info_title#:#Info###27 10 2012 new variable
 dcl#:#dcl_permissions_form#:#User rights###27 10 2012 new variable
-dcl#:#-dcl_table_info_title-#:#Info###27 10 2012 new variable
 content#:#cont_presentation#:#Presentation###27 10 2012 new variable
 content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
 content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
@@ -12948,3 +12944,9 @@ ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
 content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
+common#:#edited_on#:#Edited on###14 01 2013 new variable
