@@ -651,6 +651,7 @@ class ilObjMediaObject extends ilObject
 					{
 						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
 					}
+					$xml .= $item->getMapAreasXML();
 					$xml .= "</MediaAliasItem>";
 				}
 				break;

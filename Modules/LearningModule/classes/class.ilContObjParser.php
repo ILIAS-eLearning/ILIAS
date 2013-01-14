@@ -573,6 +573,8 @@ class ilContObjParser extends ilMDSaxParser
 				$this->map_area =& new ilMapArea();
 				$this->map_area->setShape($a_attribs["Shape"]);
 				$this->map_area->setCoords($a_attribs["Coords"]);
+				$this->map_area->setHighlightMode($a_attribs["HighlightMode"]);
+				$this->map_area->setHighlightClass($a_attribs["HighlightClass"]);
 				break;
 
 			case "Glossary":
