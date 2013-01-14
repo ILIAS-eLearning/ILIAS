@@ -12946,3 +12946,4 @@ content#:#cont_custom_menu_entries#:#Custom Menu Entries
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.
 rbac#:#itgr_visible#:#Item group is visible
 content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.
+common#:#edited_on#:#Edited on
