@@ -386,23 +386,13 @@ class ilSoapAdministration
 		return $type;
 	}
 
-	public function getInstallationInfoXML($sid)
-	{
-        include_once "Services/Context/classes/class.ilContext.php";
-        ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
-        $this->initAuth($sid);
-        $this->initIlias();
-
-        if(!$this->__checkSession($sid))
-        {
-            return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-        }
-
-		/*include_once "Services/Context/classes/class.ilContext.php";
+	public function getInstallationInfoXML() 
+	{		
+		include_once "Services/Context/classes/class.ilContext.php";
 		ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 		
 		require_once("Services/Init/classes/class.ilInitialisation.php");
-		ilInitialisation::initILIAS();*/
+		ilInitialisation::initILIAS();
 				
 		$clientdirs = glob(ILIAS_WEB_DIR."/*",GLOB_ONLYDIR);
 		require_once ("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");	
@@ -423,22 +413,13 @@ class ilSoapAdministration
 		return $writer->getXML();
 	}
 	
-	public function getClientInfoXML($sid, $clientid)
-	{
-        include_once "Services/Context/classes/class.ilContext.php";
-        ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
-        $this->initAuth($sid);
-        $this->initIlias();
-
-        if(!$this->__checkSession($sid))
-        {
-            return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-        }
-        /*include_once "Services/Context/classes/class.ilContext.php";
+	public function getClientInfoXML($clientid) 
+	{		
+		include_once "Services/Context/classes/class.ilContext.php";
 		ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 		
 		require_once("Services/Init/classes/class.ilInitialisation.php");
-		ilInitialisation::initILIAS();	*/
+		ilInitialisation::initILIAS();	
 		
 		$clientdir = ILIAS_WEB_DIR."/".$clientid;
 		require_once ("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
