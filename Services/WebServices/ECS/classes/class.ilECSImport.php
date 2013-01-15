@@ -182,6 +182,9 @@ class ilECSImport
 			"AND mid = ".$ilDB->quote($a_mid,'integer')." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
