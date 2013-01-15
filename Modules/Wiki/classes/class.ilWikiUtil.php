@@ -635,7 +635,7 @@ class ilWikiUtil
 		return array( $inside, $trail );
 	}
 
-	static function sendNotification($a_action, $a_type, $a_wiki_ref_id, $a_page_id)
+	static function sendNotification($a_action, $a_type, $a_wiki_ref_id, $a_page_id, $a_comment = null)
 	{
 		global $ilUser, $ilObjDataCache, $ilAccess;
 
@@ -699,8 +699,15 @@ class ilWikiUtil
 					$message .= $ulng->txt('wiki_change_notification_page_body_'.$a_action).":\n\n";
 					$message .= $ulng->txt('wiki').": ".$wiki->getTitle()."\n";
 					$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
-					$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
-					$message .= $ulng->txt('wiki_change_notification_page_link').": ".$link;
+					$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n";
+					
+					// include comment/note text
+					if($a_comment)
+					{	
+						$message .= "\n".$ulng->txt('comment').":\n\"".trim($a_comment)."\"\n";
+					}		
+					
+					$message .= "\n".$ulng->txt('wiki_change_notification_page_link').": ".$link;
 				}
 				else
 				{
