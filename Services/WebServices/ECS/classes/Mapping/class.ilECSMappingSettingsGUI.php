@@ -691,9 +691,15 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function dTrees()
 	{
+		global $ilToolbar;
+		
 		$this->setSubTabs(self::TAB_DIRECTORY);
 		$GLOBALS['ilTabs']->activateSubTab('dTrees');
 		$GLOBALS['ilTabs']->activateTab('ecs_dir_allocation');
+		
+		$ilToolbar->addButton(
+				$this->lng->txt('ecs_sync_trees'),
+				$this->ctrl->getLinkTarget($this, 'dSynchronizeTrees'));
 
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingTreeTableGUI.php';
 
@@ -703,18 +709,6 @@ class ilECSMappingSettingsGUI
 			$this,
 			'dtree');
 
-		/*
-		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSTreeReader.php';
-		$tree_reader = new ilECSTreeReader($this->getServer()->getServerId(), $this->getMid());
-		try
-		{
-			$tree_reader->read();
-		}
-		catch(ilECSConnectorException $e)
-		{
-			ilUtil::sendFailure($e->getMessage());
-		}
-		*/
 
 		$dtreeTable->parse();
 		$GLOBALS['tpl']->setContent($dtreeTable->getHTML());
@@ -956,6 +950,34 @@ class ilECSMappingSettingsGUI
 		$sync->sync();
 		ilUtil::sendSuccess($this->lng->txt('ecs_cms_tree_synchronized'),true);
 		$this->ctrl->redirect($this,'dTrees');
+	}
+	
+	protected function dSynchronizeTrees()
+	{
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSDirectoryTreeConnector.php';
+		
+		try
+		{
+			$connector = new ilECSDirectoryTreeConnector($this->getServer());
+			$res = $connector->getDirectoryTrees();
+			foreach((array) $res->getLinkIds() as $cms_id)
+			{
+				include_once './Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php';
+				include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
+				$event = new ilECSEventQueueReader($this->getServer()->getServerId());
+				$event->add(
+					ilECSEventQueueReader::TYPE_DIRECTORY_TREES,
+					$cms_id,
+					ilECSEvent::UPDATED
+				);
+			}
+			$this->ctrl->redirect($this,'dTrees');
+		}
+		catch(Exception $e)
+		{
+			ilUtil::sendFailure($e->getMessage(),true);
+			$this->ctrl->redirect($this,'dTrees');
+		}
 	}
 
 	/**
