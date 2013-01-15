@@ -1431,6 +1431,9 @@ class ilObject
 			
 			include_once './Services/Tracking/classes/class.ilLPCollections.php';
 			ilLPCollections::_deleteAll($this->getId());
+			
+			include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+			ilECSImport::_deleteByObjId($this->getId());
 
 			$remove = true;
 		}

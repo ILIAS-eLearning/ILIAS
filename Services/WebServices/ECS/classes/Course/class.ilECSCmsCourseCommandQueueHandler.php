@@ -40,21 +40,9 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	public function checkAllocationActivation(ilECSSetting $server, $a_content_id)
 	{
-		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
-		try 
-		{
-			$crs_reader = new ilECSCourseConnector($this->getServer());
-			$course_details = $crs_reader->getCourse($a_content_id);
-
-			$GLOBALS['ilLog']->write(print_r($course_details,true));
-			return false;
-		}
-		catch(ilECSConnectorException $e) 
-		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Course creation failed  with mesage ' . $e->getMessage());
-			return false;
-		}
-		return true;
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+		$gl_settings = ilECSNodeMappingSettings::getInstance();
+		return $gl_settings->isCourseAllocationEnabled();
 	}
 
 
@@ -73,15 +61,11 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 		{
 			return true;
 		}
-		
 		try 
 		{
-			$crs_reader = new ilECSCourseConnector($this->getServer());
-			$course = $crs_reader->getCourse($a_content_id);
-			
+			$course = $this->readCourse($server,$a_content_id);
 			$this->doUpdate($a_content_id, $course[0]);
 			return true;
-			
 		}
 		catch(ilECSConnectorException $e) 
 		{
@@ -98,6 +82,7 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	public function handleDelete(ilECSSetting $server, $a_content_id)
 	{
+		// nothing todo
 		return true;
 	}
 
@@ -113,12 +98,9 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 			return true;
 		}
 		
-		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
 		try 
 		{
-			$crs_reader = new ilECSCourseConnector($this->getServer());
-			$course = $crs_reader->getCourse($a_content_id);
-			
+			$course = $this->readCourse($server,$a_content_id);
 			$this->doUpdate($a_content_id, $course[0]);
 			return true;
 		}
@@ -146,80 +128,31 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	protected function doUpdate($a_content_id, $course)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Handling content id: '.$a_content_id);
+		$GLOBALS['ilLog']->write(__METHOD__.': Starting course creation/update');
 		
-		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-		$obj_id = ilECSImport::_isImported(
-				$this->getServer()->getServerId(),
-				$a_content_id,
-				$this->mid
-			);
-		
-		if($obj_id)
-		{
-			
-			// do update
-			$refs = ilObject::_getAllReferences($obj_id);
-			$ref_id = end($refs);
-			$crs_obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
-			if(!$crs_obj instanceof ilObject)
-			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Cannot create course instance');
-				return false;
-			}
-			
-			// Update title
-			$title = $course->basicData->title;
-			$GLOBALS['ilLog']->write(__METHOD__.': new title is : '. $title);
-			
-			$crs_obj->setTitle($title);
-			$crs_obj->update();
-			return true;
-		}
-		else
-		{
-			
-			// lookup parent
-			$allocationObj = $course->allocation;
-			foreach((array) $allocationObj as $allocs)
-			{
-				$parent_id = $allocs->parentID;
-				break;
-			}
-			$parentObjId = ilECSImport::_isImported(
-					$this->getServer()->getServerId(),
-					$parent_id,
-					$this->mid
-				);
-			if(!$parentObjId)
-			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Cannot create course. no imported parent given.');
-				return false;
-			}
-			$refs = ilObject::_getAllReferences($parentObjId);
-			$parent_ref_id = end($refs);
-			
-			include_once './Modules/Course/classes/class.ilObjCourse.php';
-			$course_obj = new ilObjCourse();
-			$title = $course->basicData->title;
-			$GLOBALS['ilLog']->write(__METHOD__.': new title is : '. $title);
-			$course_obj->setTitle($title);
-			$course_obj->create(); // true for upload
-			$course_obj->createReference();
-			$course_obj->putInTree($parent_ref_id);
-			$course_obj->setPermissions($parent_ref_id);
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseCreationHandler.php';
+		$creation_handler = new ilECSCourseCreationHandler($this->getServer(),$this->mid);
+		$creation_handler->handle($a_content_id, $course);
+	}
+	
 
-			// set imported
-			$import = new ilECSImport(
-					$this->getServer()->getServerId(),
-					$course_obj->getId()
-				);
-			$import->setMID($this->mid);
-			$import->setEContentId($a_content_id);
-			$import->setImported(true);
-			$import->save();
-			return true;
+	/**
+	 * Read course from ecs
+	 * @return boolean
+	 */
+	private function readCourse(ilECSSetting $server, $a_content_id)
+	{
+		try 
+		{
+			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
+			$crs_reader = new ilECSCourseConnector($server);
+			return $crs_reader->getCourse($a_content_id);
 		}
+		catch(ilECSConnectorException $e) 
+		{
+			throw $e;
+		}
+		
 	}
 }
 ?>
