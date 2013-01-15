@@ -404,8 +404,6 @@ class ilECSMappingSettingsGUI
 				}
 			}
 			
-			
-			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 			$this->ctrl->setParameter($this,'lnodes',$current_node);
 			$this->ctrl->redirect($this,'cInitOverview');
