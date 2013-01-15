@@ -1,6 +1,7 @@
 <?php
 
 include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -74,30 +75,84 @@ class ilECSCourseCreationHandler
 		if($this->getMapping()->isAllInOneCategoryEnabled())
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Handling course all in one category setting');
-			return $this->handleAllInOne($a_content_id, $course);
+			return $this->doSync($a_content_id, $course,$this->getMapping()->getAllInOneCategory());
 		}
+
+		$parent_obj_id = $this->syncParentContainer($a_content_id,$course);
+		if($parent_obj_id)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Using already mapped category: '. ilObject::_lookupTitle($parent_obj_id));
+			return $this->doSync($a_content_id,$course,$parent_obj_id);
+		}
+		$GLOBALS['ilLog']->write(__METHOD__.': Using course default category');
+		return $this->doSync($a_content_id,$course,$this->getMapping()->getDefaultCourseCategory());
 	}
 	
+	/**
+	 * Sync parent container
+	 * @param type $a_content_id
+	 * @param type $course
+	 */
+	protected function syncParentContainer($a_content_id, $course)
+	{
+		if(!is_array($course->allocation))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': No allocation in course defined.');
+			return 0;
+		}
+		if(!$course->allocation[0]->parentID)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': No allocation parent in course defined.');
+			return 0;
+		}
+		$parent_id = $course->allocation[0]->parentID;
+		
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+		$parent_tid = ilECSCmsData::lookupFirstTreeOfNode($this->getServer()->getServerId(), $this->getMid(), $parent_id);
+		return $this->syncNodetoTop($parent_tid, $parent_id);
+	}
+	
+	/**
+	 * Sync node to top
+	 * @param type $tree_id
+	 * @param type $parent_id
+	 */
+	protected function syncNodeToTop($tree_id, $cms_id)
+	{
+		$obj_id = $this->getImportId($cms_id);
+		if($obj_id)
+		{
+			// node already imported
+			return $obj_id;
+		}
+
+		$tobj_id = ilECSCmsData::lookupObjId(
+				$this->getServer()->getServerId(), 
+				$this->getMid(), 
+				$tree_id, 
+				$cms_id);
+		
+	}
+
 	/**
 	 * Handle all in one setting
 	 * @param type $a_content_id
 	 * @param type $course
 	 */
-	protected function handleAllInOne($a_content_id, $course)
+	protected function doSync($a_content_id, $course, $a_parent_obj_id)
 	{
 		$obj_id = $this->getImportId($a_content_id);
 		
 		if($obj_id)
 		{
 			// do update
-			$this->updateCourseData($course,$obj_id);
-			return true;
+			return $this->updateCourseData($course,$obj_id);
 		}
 		else
 		{
 			// create new course
 			$crs = $this->createCourseData($course);
-			$this->createCourseReference($crs,$this->getMapping()->getAllInOneCategory());
+			$this->createCourseReference($crs,$a_parent_obj_id);
 			$this->setImported($a_content_id,$crs);
 			return true;
 		}

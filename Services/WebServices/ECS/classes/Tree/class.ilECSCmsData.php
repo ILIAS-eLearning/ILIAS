@@ -90,9 +90,37 @@ class ilECSCmsData
 			'AND cms_id = '.$ilDB->quote($cms_id,'integer');
 		$res = $ilDB->query($query);
 		
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
+		}
+		return 0;
+	}
+
+	/**
+	 * Lookup first obj_id of cms node
+	 * @global $ilDB $ilDB
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @param type $cms_id
+	 * @return int
+	 */
+	public static function lookupFirstTreeOfNode($a_server_id, $a_mid, $cms_id)
+	{
+		global $ilDB;
+
+		$query = 'SELECT tree_id FROM ecs_cms_data '.
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
+			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+			'AND cms_id = '.$ilDB->quote($cms_id,'integer'). ' '.
+			'ORDER BY tree_id ';
+		$res = $ilDB->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->tree_id;
 		}
 		return 0;
 	}
