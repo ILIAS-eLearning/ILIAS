@@ -759,10 +759,15 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	}
 	
 	
-	function observeNoteAction($a_wiki_id, $a_page_id, $a_type, $a_action)
+	function observeNoteAction($a_wiki_id, $a_page_id, $a_type, $a_action, $a_note_id)
 	{			
+		// #10040 - get note text
+		include_once "Services/Notes/classes/class.ilNote.php";
+		$note = new ilNote($a_note_id);
+		$note = $note->getText();
+		
 		include_once "./Services/Notification/classes/class.ilNotification.php";
-		ilWikiUtil::sendNotification("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id);
+		ilWikiUtil::sendNotification("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id, $note);
 	}
 } 
 ?>
