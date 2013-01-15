@@ -116,6 +116,7 @@ class ilECSCourseCreationHandler
 	 * Sync node to top
 	 * @param type $tree_id
 	 * @param type $parent_id
+	 * @return int obj_id of container
 	 */
 	protected function syncNodeToTop($tree_id, $cms_id)
 	{
@@ -132,6 +133,77 @@ class ilECSCourseCreationHandler
 				$tree_id, 
 				$cms_id);
 		
+		// node is not imported
+		$GLOBALS['ilLog']->write(__METHOD__.': ecs node with id '. $cms_id. ' is not imported!');
+		
+		// check for mapping: if mapping is available create category
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignment.php';
+		$ass = new ilECSNodeMappingAssignment(
+				$this->getServer()->getServerId(),
+				$this->getMid(),
+				$tree_id,
+				$tobj_id);
+		
+		if($ass->isMapped())
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': node is mapped');
+			return $this->syncCategory($tobj_id,$ass->getRefId());
+		}
+		
+		// Start recursion to top
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
+		$tree = new ilECSCmsTree($tree_id);
+		$parent_tobj_id = $tree->getParentId($tobj_id);
+		if($parent_tobj_id)
+		{
+			$cms_ids = ilECSCmsData::lookupCmsIds(array($parent_tobj_id));
+			$obj_id = $this->syncNodeToTop($tree_id, $cms_ids[0]);
+		}
+		
+		if($obj_id)
+		{
+			$refs = ilObject::_getAllReferences($obj_id);
+			$ref_id = end($refs);
+			return $this->syncCategory($tobj_id, $ref_id);
+		}
+		return 0;
+	}
+	
+	/**
+	 * Sync category
+	 * @param type $tobj_id
+	 * @param type $parent_ref_id
+	 */
+	protected function syncCategory($tobj_id, $parent_ref_id)
+	{
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+		$data = new ilECSCmsData($tobj_id);
+		
+		include_once './Modules/Category/classes/class.ilObjCategory.php';
+		$cat = new ilObjCategory();
+		$cat->setTitle($data->getTitle());
+		$cat->create(); // true for upload
+		$cat->createReference();
+		$cat->putInTree($parent_ref_id);
+		$cat->setPermissions($parent_ref_id);
+		$cat->updateTranslation(
+				$data->getTitle(),
+				$cat->getLongDescription(),
+				$GLOBALS['lng']->getDefaultLanguage(),
+				$GLOBALS['lng']->getDefaultLanguage()
+		);
+			
+		// set imported
+		$import = new ilECSImport(
+			$this->getServer()->getServerId(),
+			$cat->getId()
+		);
+		$import->setMID($this->getMid());
+		$import->setEContentId($data->getCmsId());
+		$import->setImported(true);
+		$import->save();
+		
+		return $cat->getId();
 	}
 
 	/**
