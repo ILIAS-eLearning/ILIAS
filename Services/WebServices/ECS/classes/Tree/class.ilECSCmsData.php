@@ -239,6 +239,17 @@ class ilECSCmsData
 		}
 	}
 
+	/**
+	 * Lookup cms id
+	 * @param type $a_obj_id
+	 */
+	public static function lookupCmsId($a_obj_id)
+	{
+		$cms_ids = self::lookupCmsIds(array($a_obj_id));
+		return (int) $cms_ids[0];
+	}
+
+
 	public static function lookupCmsIds($a_obj_ids)
 	{
 		global $ilDB;

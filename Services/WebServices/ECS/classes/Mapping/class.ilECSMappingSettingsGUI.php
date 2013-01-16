@@ -857,7 +857,7 @@ class ilECSMappingSettingsGUI
 		// CMS id (readonly)
 		$cmsid = new ilNumberInputGUI($this->lng->txt('ecs_cms_id'), 'cmsid');
 		$cmsid->setValue(
-			ilECSCmsTree::lookupRootId((int) $_REQUEST['tid'])
+				ilECSCmsData::lookupCmsId(ilECSCmsTree::lookupRootId((int) $_REQUEST['tid']))
 		);
 		$cmsid->setDisabled(true);
 		$cmsid->setSize(7);
