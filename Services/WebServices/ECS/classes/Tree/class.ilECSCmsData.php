@@ -90,7 +90,7 @@ class ilECSCmsData
 			'AND cms_id = '.$ilDB->quote($cms_id,'integer');
 		$res = $ilDB->query($query);
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
