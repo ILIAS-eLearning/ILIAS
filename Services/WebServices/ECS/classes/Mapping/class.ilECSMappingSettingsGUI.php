@@ -855,6 +855,7 @@ class ilECSMappingSettingsGUI
 		$form->setTableWidth('30%');
 
 		// CMS id (readonly)
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		$cmsid = new ilNumberInputGUI($this->lng->txt('ecs_cms_id'), 'cmsid');
 		$cmsid->setValue(
 				ilECSCmsData::lookupCmsId(ilECSCmsTree::lookupRootId((int) $_REQUEST['tid']))
