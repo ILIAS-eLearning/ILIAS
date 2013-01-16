@@ -197,7 +197,7 @@ class ilECSNodeMappingAssignment
 			'AND cs_id = '.$ilDB->quote($this->getCSId(), 'integer').' ';
 		$res = $ilDB->query($query);
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
