@@ -131,8 +131,9 @@ class ilECSCmsTreeSynchronizer
 		{
 			$parent_id = $this->syncCategory($assignment,$parent_id);
 		}
-			
-		if($parent_id)
+		
+		// this is not necessary
+		#if($parent_id)
 		{
 			// iterate through childs
 			foreach($childs as $node)
