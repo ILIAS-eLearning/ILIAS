@@ -556,7 +556,7 @@ class ilClient
 	function updateNIC($a_nic_url)
 	{
 		$settings = $this->getAllSettings();
-		if((bool)$settings['proxy_activated'] && strlen($settings['proxy_host']) && strlen($settings['proxy_port']))
+		if((bool)$settings['proxy_status'] && strlen($settings['proxy_host']) && strlen($settings['proxy_port']))
 		{
 			$proxy_options = array(
 				'proxy_host' => $settings['proxy_host'],
