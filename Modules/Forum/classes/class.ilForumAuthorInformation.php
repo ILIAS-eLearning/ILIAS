@@ -45,7 +45,12 @@ class ilForumAuthorInformation
 	/**
 	 * @var string
 	 */
-	protected $authorProfileLink;
+	protected $linked_public_name;
+
+	/**
+	 * @var string
+	 */
+	protected $linked_short_name;
 
 	/**
 	 * @var bool
@@ -66,23 +71,6 @@ class ilForumAuthorInformation
 	 * @var array
 	 */
 	protected $files = array();
-
-	/**
-	 * @param string $authorShortName
-	 */
-	public function setAuthorShortName($authorShortName)
-	{
-		$this->authorShortName = $authorShortName;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getAuthorShortName()
-	{
-		return $this->authorShortName;
-	}
 
 	/**
 	 * @param ilObjUser|int $authorEntity
@@ -161,9 +149,8 @@ class ilForumAuthorInformation
 
 	/**
 	 * @param bool $with_profile_link
-	 * @param bool $only_login_name
 	 */
-	protected function buildAuthorProfileLink($with_profile_link = false, $only_login_name = false)
+	protected function buildAuthorProfileLink($with_profile_link = false)
 	{
 		$link = '';
 
@@ -179,21 +166,17 @@ class ilForumAuthorInformation
 			$link .= '>';
 		}
 
-		if($only_login_name == true)
-		{
-			$link .= $this->authorShortName;	
-		}
-		else
-		{
-			$link .= $this->authorName;	
-		}
-		
+		$linked_login = $link . $this->authorShortName;
+		$link .= $this->authorName;
+
 		if($with_profile_link && $this->publicProfileLinkAttributes)
 		{
 			$link .= '</a>';
+			$linked_login .= '</a>';
 		}
 
-		$this->authorProfileLink = $link;
+		$this->linked_public_name = $link;
+		$this->linked_short_name  = $linked_login;
 	}
 
 	/** 
@@ -234,13 +217,13 @@ class ilForumAuthorInformation
 					$this->getAuthor()->setGender('');
 				}
 
-				$this->buildAuthorProfileLink(true, true);
+				$this->buildAuthorProfileLink(true);
 			}
 			else
 			{
 				$this->getAuthor()->setGender('');
 				$this->authorShortName = $this->authorName = $this->getAuthor()->getLogin();
-				$this->buildAuthorProfileLink(false, true);
+				$this->buildAuthorProfileLink(false);
 				$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 			}
 		}
@@ -250,7 +233,7 @@ class ilForumAuthorInformation
 			$this->authorShortName = $this->authorName = $this->importName ?
 				$this->importName . ' (' . $lng->txt('imported') . ')' :
 				$lng->txt('unknown');
-			$this->buildAuthorProfileLink(false, true);
+			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else if(strlen($this->pseudonym))
@@ -258,14 +241,14 @@ class ilForumAuthorInformation
 			// We have no import name,so we check the pseudonym
 			$this->authorShortName = $this->authorName   = $this->pseudonym . ' (' . $lng->txt('frm_pseudonym') . ')';
 			$this->is_pseudonym = true;
-			$this->buildAuthorProfileLink(false, true);
+			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else
 		{
 			// If we did not find a pseudonym, the author could not be determined
 			$this->authorShortName = $this->authorName = $lng->txt('forums_anonymous');
-			$this->buildAuthorProfileLink(false, true);
+			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 	}
@@ -287,11 +270,27 @@ class ilForumAuthorInformation
 	}
 
 	/**
+	 * @param bool $without_short_name
 	 * @return string
 	 */
-	public function getAuthorName()
+	public function getAuthorName($without_short_name = false)
 	{
-		return $this->authorName;
+		if(!$without_short_name)
+		{
+			return $this->authorName;
+		}
+		else
+		{
+			return trim(preg_replace('/\(?'.$this->getAuthorShortName().'\)?/', '', $this->authorName));
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAuthorShortName()
+	{
+		return $this->authorShortName;
 	}
 
 	/**
@@ -299,8 +298,17 @@ class ilForumAuthorInformation
 	 */
 	public function getLinkedAuthorName()
 	{
-		return $this->authorProfileLink;
+		return $this->linked_public_name;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getLinkedAuthorShortName()
+	{
+		return $this->linked_short_name;
+	}
+
 
 	/**
 	 * @return bool
@@ -308,13 +316,5 @@ class ilForumAuthorInformation
 	public function isPseudonymUsed()
 	{
 		return $this->is_pseudonym;
-	}
-	
-	public function getAuthorPublicFullname()
-	{
-		$fullname = $this->getAuthorName();
-		$exp= explode('(', $fullname);
-		
-		return $exp[0];
 	}
 }
