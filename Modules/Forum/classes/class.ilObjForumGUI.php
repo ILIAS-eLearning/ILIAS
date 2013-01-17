@@ -1506,9 +1506,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				// FINALLY SEND MESSAGE
 				if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
 				{
-					//what's that for???
-					$GLOBALS["frm_notifications_sent"] = array();
-					
 					$objPost =  new ilForumPost((int)$newPost, $this->is_moderator);
 
 					$post_data = array();
@@ -1521,8 +1518,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					
 					$frm->sendForumNotifications($post_data);
 					$frm->sendThreadNotifications($post_data);
-					
-					unset($GLOBALS["frm_notifications_sent"]);
 				}
 				
 				$message = '';

@@ -232,11 +232,9 @@ class ilForum
 	
 	public function setMDB2WhereCondition($query_string, $data_type, $data_value)
 	{
-		
 		$this->mdb2Query = $query_string;
 		$this->mdb2DataValue = $data_value;
 		$this->mdb2DataType = $data_type;
-	
 		
 		return true;
 	}	
@@ -382,7 +380,7 @@ class ilForum
 			$data_value = $data_value + $this->getMDB2DataValue();
 			
 			$sql_res = $ilDB->queryf($query, $data_type, $data_value);
-			$result = $sql_res->fetchRow(DB_FETCHMODE_ASSOC);
+			$result = $ilDB->fetchAssoc($sql_res);
 			$result["thr_subject"] = trim($result["thr_subject"]);
 		}
 
@@ -405,7 +403,7 @@ class ilForum
 			AND pos_usr_id = usr_id',
 			array('integer'), array($post));
 
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($res);
 		
 		
 		$row["pos_date"] = $this->convertDate($row["pos_date"]);		
@@ -514,22 +512,6 @@ class ilForum
 		$pos_data = $objNewPost->getDataAsArray();
 		$pos_data["ref_id"] = $this->getForumRefId();
 
-//@todo notifications should be send after generatePost and storeUploadedFile is finished!!!  
-//@todo nahmad: moved this to ilObjForumGUI->savePostObject()
-			// FINALLY SEND MESSAGE
-	
-//		if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
-//		{
-//			$GLOBALS["frm_notifications_sent"] = array();
-//			$this->__sendMessage($parent_pos, $pos_data);
-//
-//			$pos_data["top_name"] = $forum_obj->getTitle();	
-//	
-//			$this->sendForumNotifications($pos_data);
-//			$this->sendThreadNotifications($pos_data);
-//			unset($GLOBALS["frm_notifications_sent"]);
-//		}
-		
 		// Send notification to moderators if they have to enable a post
 		
 		if (!$status && $send_activation_mail)
@@ -674,7 +656,7 @@ class ilForum
 					ORDER BY pos_date DESC',
 					array('integer'), array($oldFrmData['top_pk']));
 				
-				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);				
+				$row = $ilDB->fetchObject($res);				
 				$last_post_src = $oldFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
 				
 				$statement = $ilDB->manipulateF('
@@ -701,7 +683,7 @@ class ilForum
 					ORDER BY pos_date DESC',
 					array('integer'), array($newFrmData['top_kp']));
 				
-				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+				$row = $ilDB->fetchObject($res);
 				$last_post_dest = $newFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
 
 				$statement = $ilDB->manipulateF('
@@ -777,7 +759,7 @@ class ilForum
 					WHERE pos_pk = %s',
 					array('integer'), array($pos_pk));
 					
-				$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$rec = $ilDB->fetchAssoc($res);
 
 				$news_item = new ilNewsItem($news_id);
 				//$news_item->setTitle($subject);
@@ -847,7 +829,7 @@ class ilForum
 				WHERE pos_thr_fk = %s',
 				array('integer'), array($p_node['tree']));
 			
-			while ($posrec = $posset->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($posrec = $ilDB->fetchAssoc($posset))
 			{
 				include_once("./Services/News/classes/class.ilNewsItem.php");
 				$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
@@ -949,7 +931,7 @@ class ilForum
 			{
 				$z = 0;
 
-				while ($selData = $res1->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($selData = $ilDB->fetchAssoc($res1))
 				{
 					if ($z > 0)
 					{
@@ -992,7 +974,7 @@ class ilForum
 		{
 			$z = 0;
 
-			while ($selData = $res2->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($selData = $ilDB->fetchAssoc($res2))
 			{
 				if ($z > 0)
 				{
@@ -1181,7 +1163,7 @@ class ilForum
 		$res = $ilDB->queryf($query, $data_types, $data);
 		
 		$counter = 0;
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($res))
 		{
 		    $statistic[$counter][] = $row['ranking'];
 		    $statistic[$counter][] = $row['login'];
@@ -1212,7 +1194,7 @@ class ilForum
 			AND parent_pos = %s',
 			array('integer', 'integer'), array($a_thread_id, '0'));
 
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $ilDB->fetchObject($res);
 		
 		return $row->pos_fk ? $row->pos_fk : 0;
 	}
@@ -1383,7 +1365,7 @@ class ilForum
 			array('integer', 'integer'),
 			array($a_parent_id, $tree_id));
 		
-		$res = $sql_res->fetchRow(DB_FETCHMODE_OBJECT);
+		$res = $ilDB->fetchObject($sql_res);
 		
 		$left = $res->lft;
 
@@ -1456,7 +1438,7 @@ class ilForum
 				array('integer', 'integer'),
 				array($a_node_id, $tree_id));
 			
-			$res = $sql_res->fetchRow(DB_FETCHMODE_OBJECT);
+			$res = $ilDB->fetchObject($sql_res);
 			
 			return $res->depth;
 		}
@@ -1484,7 +1466,7 @@ class ilForum
 			array('integer', 'integer'),
 			array('0', $tree_id));
 		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $ilDB->fetchObject($res);
 		
 		return $this->fetchPostNodeData($row);
 	}
@@ -1506,7 +1488,7 @@ class ilForum
 			array('integer'),
 			array($post_id));
 		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $ilDB->fetchObject($res);
 
 		return $this->fetchPostNodeData($row);
 	}
@@ -1585,7 +1567,7 @@ class ilForum
 			array('integer', 'integer', 'integer'), 
 			array($a_node['tree'], $a_node['pos_pk'], $a_node['parent']));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$a_node["lft"] = $row->lft;
 			$a_node["rgt"] = $row->rgt;
@@ -1603,7 +1585,7 @@ class ilForum
 		
 		$del_id = array();
 		
-		while ($treeData = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($treeData = $ilDB->fetchAssoc($result))
 		{
 			$del_id[] = $treeData["pos_fk"];
 		}
@@ -1776,7 +1758,7 @@ class ilForum
 			AND pos_top_fk = top_pk',
 			array('integer'), array($pos_pk));
 		
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($res);
 		
 		return $row;
 		
@@ -1907,7 +1889,7 @@ class ilForum
 				
 				$counter = 1;
 
-				while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+				while($row = $ilDB->fetchAssoc($res))
 				{	
 					if($counter < $res->numRows())
 					{	
@@ -2107,14 +2089,8 @@ class ilForum
 		}
 
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			if(is_array($GLOBALS["frm_notifications_sent"]) &&
-			   in_array($row['user_id'], $GLOBALS["frm_notifications_sent"]))
-			{
-				continue;
-			}
-
 			// do rbac check before sending notification
 			$send_mail = false;			
 			foreach((array)$frm_references as $ref_id)
@@ -2208,14 +2184,8 @@ class ilForum
 		}
 		
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{			
-			if(is_array($GLOBALS["frm_notifications_sent"]) &&
-			   in_array($row['user_id'], $GLOBALS["frm_notifications_sent"]))
-			{
-				continue;
-			}
-
 			// do rbac check before sending notification
 			$send_mail = false;			
 			foreach((array)$frm_references as $ref_id)
@@ -2438,7 +2408,7 @@ class ilForum
 			ORDER BY %s',
 			array('integer', 'text'), array($a_obj_id, $sort));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$threads[$row->thr_pk] = $row->thr_subject;
 		}
@@ -2454,7 +2424,7 @@ class ilForum
 			WHERE top_pk = %s',
 			array('integer'), array($a_for_id));
 		
-		if ($fdata = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($fdata = $ilDB->fetchAssoc($res))
 		{
 			return $fdata["top_frm_fk"];
 		}
