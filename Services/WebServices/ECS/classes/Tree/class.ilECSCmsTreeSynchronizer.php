@@ -97,8 +97,85 @@ class ilECSCmsTreeSynchronizer
 		// lookup obj id of root node
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		
-		$root = ilECSCmsTree::lookupRootId($this->tree_id);
-		$this->syncNode($root,0);
+		$root_obj_id = ilECSCmsTree::lookupRootId($this->tree_id);
+		$this->syncNode($root_obj_id,0);
+		
+		// Tree structure is up to date, now check node movements
+		$this->checkTreeUpdates($root_obj_id);
+		return true;
+	}
+	
+	/**
+	 * Start tree update check
+	 * @param type $a_root_obj_id
+	 * @return bool
+	 */
+	protected function checkTreeUpdates($a_root_obj_id)
+	{
+		if($this->default_settings['tree_update'] == false)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Tree update disabled for tree with id '. $this->getTree());
+			return false;
+		}
+		
+		// Start recursion
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignment.php';
+		$mapping = new ilECSNodeMappingAssignment(
+				$this->getServer()->getServerId(),
+				$this->mid,
+				$this->tree_id,
+				$a_root_obj_id
+		);
+		$a_root_ref_id = $mapping->getRefId();
+		if($a_root_ref_id)
+		{
+			$this->handleTreeUpdate($a_root_ref_id, $a_root_obj_id);
+		}
+	}
+	
+	/**
+	 * Handle tree update (recursively)
+	 * @param type $a_parent_ref_id
+	 * @param type $tnode_id
+	 */
+	protected function handleTreeUpdate($a_parent_ref_id, $a_tnode_id)
+	{
+		global $tree;
+		
+		// Check if node is already imported at location "parent_ref_id"
+		// If not => move it
+		$cms_data = new ilECSCmsData($a_tnode_id);
+		
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+		$import_obj_id = ilECSImport::_lookupObjId(
+				$this->getServer()->getServerId(),
+				$cms_data->getCmsId(),
+				$this->mid);
+		if(!$import_obj_id)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': cms tree node not imported. tnode_id: '. $a_tnode_id);
+			return false;
+		}
+		
+		$GLOBALS['ilLog']->write(__METHOD__.' parent ref:'.$a_parent_ref_id.' tnode:'. $a_tnode_id);
+		$ref_ids = ilObject::_getAllReferences($import_obj_id);
+		$import_ref_id = end($ref_ids);
+		$import_ref_id_parent = $tree->getParentId($import_ref_id);
+		
+		if($a_parent_ref_id != $import_ref_id_parent)
+		{
+			// move node
+			$GLOBALS['ilLog']->write(__METHOD__.': Moving node '.$a_parent_ref_id.' to '.$import_ref_id);
+			$tree->moveTree($import_ref_id,$a_parent_ref_id);
+		}
+		
+		// iterate through childs
+		$childs = $this->getTree()->getChilds($a_tnode_id);
+		foreach((array) $childs as $node)
+		{
+			$this->handleTreeUpdate($import_ref_id, $node['child']);
+		}
+		return true;
 	}
 	
 	/**
@@ -171,13 +248,16 @@ class ilECSCmsTreeSynchronizer
 			if(($cat instanceof ilObject) and $this->default_settings['title_update'])
 			{
 				$GLOBALS['ilLog']->write(__METHOD__.': Updating cms category ');
-				
-				$cat->updateTranslation(
+				$GLOBALS['ilLog']->write(__METHOD__.': Title is '. $data->getTitle());
+				$cat->deleteTranslation($GLOBALS['lng']->getDefaultLanguage());
+				$cat->addTranslation(
 						$data->getTitle(),
 						$cat->getLongDescription(),
 						$GLOBALS['lng']->getDefaultLanguage(),
-						$GLOBALS['lng']->getDefaultLanguage()
+						1
 					);
+				$cat->setTitle($data->getTitle());
+				$cat->update();
 			}
 			else
 			{
@@ -197,11 +277,12 @@ class ilECSCmsTreeSynchronizer
 			$cat->createReference();
 			$cat->putInTree($parent_id);
 			$cat->setPermissions($parent_id);
-			$cat->updateTranslation(
+			$cat->deleteTranslation($GLOBALS['lng']->getDEfaultLanguage());
+			$cat->addTranslation(
 					$data->getTitle(),
 					$cat->getLongDescription(),
 					$GLOBALS['lng']->getDefaultLanguage(),
-					$GLOBALS['lng']->getDefaultLanguage()
+					1
 				);
 			
 			// set imported
