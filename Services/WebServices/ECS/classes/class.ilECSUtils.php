@@ -217,7 +217,7 @@ class ilECSUtils
 			switch($type)
 			{
 				case ilECSUtils::TYPE_ARRAY:
-					$value = array(implode(',', $a_ecs_content->$target), ilECSCategoryMappingRule::ATTR_ARRAY);
+					$value = array(implode(',', (array) $a_ecs_content->$target), ilECSCategoryMappingRule::ATTR_ARRAY);
 					break;
 
 				case ilECSUtils::TYPE_INT:
