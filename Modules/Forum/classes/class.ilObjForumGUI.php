@@ -2547,9 +2547,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					$this->ctrl->clearParameters($this);
 
+					$user_name = $authorinfo->getAuthorPublicFullname();
+					$tpl->setVariable('USR_NAME', $user_name);
+					
 					$tpl->setVariable('AUTHOR',	$authorinfo->getLinkedAuthorName());
 					$tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
-
 					if($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int)$_GET['ref_id'], $authorinfo->getAuthor()->getId()))
 					{
 						if($authorinfo->getAuthor()->getGender() == 'f')
@@ -2602,7 +2604,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$this->ctrl->clearParameters($this);
 
 						$tpl->setVariable('POST_UPDATE', $lng->txt('edited_on').': '.
-							$frm->convertDate($node->getChangeDate()).' - '.strtolower($lng->txt('by')).' '.$authorinfo->getLinkedAuthorName());
+							$frm->convertDate($node->getChangeDate()).' - '.strtolower($lng->txt('by')).' '.$authorinfo->getAuthorPublicFullname().' | '.$authorinfo->getLinkedAuthorName());
 
 					} // if ($node->getUpdateUserId() > 0)*/
 					// Author end
