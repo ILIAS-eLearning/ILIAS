@@ -2547,10 +2547,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					$this->ctrl->clearParameters($this);
 
-					$user_name = $authorinfo->getAuthorPublicFullname();
-					$tpl->setVariable('USR_NAME', $user_name);
-					
-					$tpl->setVariable('AUTHOR',	$authorinfo->getLinkedAuthorName());
+					$tpl->setVariable('AUTHOR', $authorinfo->getLinkedAuthorShortName());
+					if($authorinfo->getAuthorName(true))
+					{
+						$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
+					}
+
 					$tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
 					if($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int)$_GET['ref_id'], $authorinfo->getAuthor()->getId()))
 					{
@@ -2603,8 +2605,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						
 						$this->ctrl->clearParameters($this);
 
-						$tpl->setVariable('POST_UPDATE', $lng->txt('edited_on').': '.
-							$frm->convertDate($node->getChangeDate()).' - '.strtolower($lng->txt('by')).' '.$authorinfo->getAuthorPublicFullname().' | '.$authorinfo->getLinkedAuthorName());
+						$tpl->setVariable('POST_UPDATE_TXT', $lng->txt('edited_on').': '.$frm->convertDate($node->getChangeDate()).' - '.strtolower($lng->txt('by')));
+						$tpl->setVariable('UPDATE_AUTHOR', $authorinfo->getLinkedAuthorShortName());
+						if($authorinfo->getAuthorName(true))
+						{
+							$tpl->setVariable('UPDATE_USR_NAME', $authorinfo->getAuthorName(true));
+						}
 
 					} // if ($node->getUpdateUserId() > 0)*/
 					// Author end
