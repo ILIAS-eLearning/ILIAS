@@ -558,6 +558,20 @@ abstract class ilRemoteObjectBase extends ilObject2
 	}
 	
 	/**
+	 * Handle creation
+	 * 
+	 * called by ilTaskScheduler
+	 * 
+	 * @param ilECSSetting $a_server
+	 * @param type $a_econtent_id
+	 * @param array $a_mids
+	 */
+	public function handleCreate(ilECSSetting $a_server, $a_econtent_id, array $a_mids)
+	{
+		$this->handleUpdate($a_server, $a_econtent_id, $a_mids);
+	}
+	
+	/**
 	 * Handle update event
 	 * 
 	 * called by ilTaskScheduler
