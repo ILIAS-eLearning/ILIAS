@@ -90,6 +90,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		global $lng, $ilCtrl, $ilUser;
 		
 		$has_booking = false;
+		$booking_possible = true;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 	    $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
@@ -116,6 +117,11 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			
 			$this->tpl->setVariable("VALUE_AVAIL", $a_set["nr_items"]-$cnt); 
 			$this->tpl->setVariable("VALUE_AVAIL_ALL", $a_set["nr_items"]); 
+
+			if($a_set["nr_items"] <= $cnt)
+			{
+				$booking_possible = false;
+			}
 			
 			if ($this->may_edit)
 			{
@@ -164,7 +170,10 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	
 		if(!$has_booking)
 		{
-			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+			if($booking_possible)
+			{
+				$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+			}
 		}
 		else
 		{	
