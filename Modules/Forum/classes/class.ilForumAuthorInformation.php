@@ -161,8 +161,9 @@ class ilForumAuthorInformation
 
 	/**
 	 * @param bool $with_profile_link
+	 * @param bool $only_login_name
 	 */
-	protected function buildAuthorProfileLink($with_profile_link = false)
+	protected function buildAuthorProfileLink($with_profile_link = false, $only_login_name = false)
 	{
 		$link = '';
 
@@ -178,8 +179,15 @@ class ilForumAuthorInformation
 			$link .= '>';
 		}
 
-		$link .= $this->authorName;
-
+		if($only_login_name == true)
+		{
+			$link .= $this->authorShortName;	
+		}
+		else
+		{
+			$link .= $this->authorName;	
+		}
+		
 		if($with_profile_link && $this->publicProfileLinkAttributes)
 		{
 			$link .= '</a>';
@@ -226,13 +234,13 @@ class ilForumAuthorInformation
 					$this->getAuthor()->setGender('');
 				}
 
-				$this->buildAuthorProfileLink(true);
+				$this->buildAuthorProfileLink(true, true);
 			}
 			else
 			{
 				$this->getAuthor()->setGender('');
 				$this->authorShortName = $this->authorName = $this->getAuthor()->getLogin();
-				$this->buildAuthorProfileLink(false);
+				$this->buildAuthorProfileLink(false, true);
 				$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 			}
 		}
@@ -242,7 +250,7 @@ class ilForumAuthorInformation
 			$this->authorShortName = $this->authorName = $this->importName ?
 				$this->importName . ' (' . $lng->txt('imported') . ')' :
 				$lng->txt('unknown');
-			$this->buildAuthorProfileLink(false);
+			$this->buildAuthorProfileLink(false, true);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else if(strlen($this->pseudonym))
@@ -250,14 +258,14 @@ class ilForumAuthorInformation
 			// We have no import name,so we check the pseudonym
 			$this->authorShortName = $this->authorName   = $this->pseudonym . ' (' . $lng->txt('frm_pseudonym') . ')';
 			$this->is_pseudonym = true;
-			$this->buildAuthorProfileLink(false);
+			$this->buildAuthorProfileLink(false, true);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else
 		{
 			// If we did not find a pseudonym, the author could not be determined
 			$this->authorShortName = $this->authorName = $lng->txt('forums_anonymous');
-			$this->buildAuthorProfileLink(false);
+			$this->buildAuthorProfileLink(false, true);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 	}
@@ -300,5 +308,13 @@ class ilForumAuthorInformation
 	public function isPseudonymUsed()
 	{
 		return $this->is_pseudonym;
+	}
+	
+	public function getAuthorPublicFullname()
+	{
+		$fullname = $this->getAuthorName();
+		$exp= explode('(', $fullname);
+		
+		return $exp[0];
 	}
 }
