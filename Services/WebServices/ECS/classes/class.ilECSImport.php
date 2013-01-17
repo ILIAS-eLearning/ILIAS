@@ -173,7 +173,7 @@ class ilECSImport
 	 * @param 
 	 * 
 	 */
-	public function _lookupObjId($a_server_id,$a_econtent_id,$a_mid)
+	public static function _lookupObjId($a_server_id,$a_econtent_id,$a_mid)
 	{
 		global $ilDB;
 		
@@ -183,7 +183,7 @@ class ilECSImport
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

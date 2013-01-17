@@ -186,11 +186,12 @@ class ilECSCourseCreationHandler
 		$cat->createReference();
 		$cat->putInTree($parent_ref_id);
 		$cat->setPermissions($parent_ref_id);
-		$cat->updateTranslation(
+		$cat->deleteTranslation($GLOBALS['lng']->getDefaultLanguage());
+		$cat->addTranslation(
 				$data->getTitle(),
 				$cat->getLongDescription(),
 				$GLOBALS['lng']->getDefaultLanguage(),
-				$GLOBALS['lng']->getDefaultLanguage()
+				1
 		);
 			
 		// set imported
