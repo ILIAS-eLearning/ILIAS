@@ -214,7 +214,8 @@ class ilECSCourseCreationHandler
 	 */
 	protected function doSync($a_content_id, $course, $a_parent_obj_id)
 	{
-		$obj_id = $this->getImportId($a_content_id);
+		$course_id = (int) $course->basicData->id;
+		$obj_id = $this->getImportId($course_id);
 		
 		if($obj_id)
 		{
@@ -226,7 +227,7 @@ class ilECSCourseCreationHandler
 			// create new course
 			$crs = $this->createCourseData($course);
 			$this->createCourseReference($crs,$a_parent_obj_id);
-			$this->setImported($a_content_id,$crs);
+			$this->setImported($course_id,$crs);
 			return true;
 		}
 	}
