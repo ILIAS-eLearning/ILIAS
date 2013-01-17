@@ -218,6 +218,11 @@ class ilECSTaskScheduler
 					$handler = new ilECSCmsCourseCommandQueueHandler($this->getServer());
 					break;
 				
+				case ilECSEventQueueReader::TYPE_CMS_COURSE_MEMBERS:
+					include_once './Services/WebServices/ECS/classes/Course/class.ilECSCmsCourseMemberCommandQueueHandler.php';
+					$handler = new ilECSCmsCourseMemberCommandQueueHandler($this->getServer());
+					break;
+
 				default:
 					$this->log->write(__METHOD__.': Unknown event type in queue '.$event['type']);
 					break;

@@ -568,7 +568,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 */
 	public function handleCreate(ilECSSetting $a_server, $a_econtent_id, array $a_mids)
 	{
-		$this->handleUpdate($a_server, $a_econtent_id, $a_mids);
+		return $this->handleUpdate($a_server, $a_econtent_id, $a_mids);
 	}
 	
 	/**
