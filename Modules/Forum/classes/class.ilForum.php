@@ -2109,7 +2109,7 @@ class ilForum
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if(is_array($GLOBALS["frm_notifications_sent"]) &
+			if(is_array($GLOBALS["frm_notifications_sent"]) &&
 			   in_array($row['user_id'], $GLOBALS["frm_notifications_sent"]))
 			{
 				continue;
@@ -2210,7 +2210,7 @@ class ilForum
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{			
-			if(is_array($GLOBALS["frm_notifications_sent"]) &
+			if(is_array($GLOBALS["frm_notifications_sent"]) &&
 			   in_array($row['user_id'], $GLOBALS["frm_notifications_sent"]))
 			{
 				continue;
