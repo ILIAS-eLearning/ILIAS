@@ -597,12 +597,11 @@ abstract class ilRemoteObjectBase extends ilObject2
 		}			 
 
 		$ilLog->write(__METHOD__.': Receivers are '. print_r($details->getReceivers(),true));
-		
-		$owner = $details->getOwner();
+		$ilLog->write(__METHOD__.': Senders are '. print_r($details->getSenders(),true));
 		
 		// check owner
 		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
-		if(!ilECSParticipantSettings::getInstanceByServerId($a_server->getServerId())->isImportAllowed($owner))
+		if(!ilECSParticipantSettings::getInstanceByServerId($a_server->getServerId())->isImportAllowed($details->getSenders()))
 		{
 			$ilLog->write('Ignoring disabled participant. MID: '.$owner);
 			return true;
