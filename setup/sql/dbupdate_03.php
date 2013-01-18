@@ -13760,3 +13760,24 @@ if(!$ilDB->tableColumnExists('il_dcl_table', 'export_enabled'))
 	
 }
 ?>
+<#3807>
+<?php
+
+	if(!$ilDB->tableExists('ecs_course_assignments'))
+	{
+		$fields = array(
+			'id'  => array('notnull' => true,'length' => 4,'type' => 'integer'),
+			"sid" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"mid" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"cms_id" => array("notnull" => true,'length' => 4, "type" => "integer"),
+			"obj_id" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"usr_id" => array("notnull" => false,"length" => 64,"type" => "text"),
+			"status" => array("notnull" => true,"length" => 1,"type" => "integer")
+		);
+			
+		$ilDB->createTable("ecs_course_assignments", $fields);
+		$ilDB->createSequence('ecs_course_assignments');
+		$ilDB->addPrimaryKey('ecs_course_assignments',array('id'));
+	}
+?>
+

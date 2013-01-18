@@ -144,32 +144,98 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			$GLOBALS['ilLog']->write(__METHOD__.': Missing assigned course with id '. $course_id);
 			return false;
 		}
-		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		$part = ilCourseParticipants::_getInstanceByObjId($crs_obj_id);
 		
+		// Lookup already imported users and update their status
+		$this->refreshAssignmentStatus($course_member,$crs_obj_id);
+		return true;
+	}
+	
+	
+	/**
+	 * Refresh status of course member assignments
+	 * @param type $course_member
+	 * @param type $obj_id
+	 */
+	protected function refreshAssignmentStatus($course_member, $obj_id)
+	{
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMemberAssignment.php';
+		
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		$part = ilCourseParticipants::_getInstanceByObjId($obj_id);
+		
+		$person_ids = array();
+		foreach ((array) $course_member->members as $person)
+		{
+			$person_ids[] = $person->personID;
+		}
+
+		$course_id = (int) $course_member->courseID;
+		$usr_ids = ilECSCourseMemberAssignment::lookupUserIds(
+				$course_id,
+				$obj_id);
+		
+		// Delete remote deleted
+		foreach((array) $usr_ids as $usr_id)
+		{
+			if(!in_array($usr_id, $person_ids))
+			{
+				$ass = ilECSCourseMemberAssignment::lookupAssignment($course_id, $obj_id, $usr_id);
+				if($ass instanceof ilECSCourseMemberAssignment)
+				{
+					$acc = ilObjUser::_checkExternalAuthAccount(
+							ilECSSetting::lookupAuthMode(),
+							(string) $usr_id);
+					if($il_usr_id = ilObjUser::_lookupId($acc))
+					{
+						// this removes also admin, tutor roles
+						$part->delete($il_usr_id);
+						$GLOBALS['ilLog']->write(__METHOD__.': Deassigning user ' . $usr_id. ' '. 'from course '. ilObject::_lookupTitle($obj_id));
+					}
+					else
+					{
+						$GLOBALS['ilLog']->write(__METHOD__.': Deassigning unknown ILIAS user ' . $usr_id. ' '. 'from course '. ilObject::_lookupTitle($obj_id));
+					}
+
+					$ass->delete();
+				}
+			}
+		}
+		
+		// Assign new participants
 		foreach((array) $course_member->members as $person)
 		{
-			$acc = ilObjUser::_checkExternalAuthAccount('ldap', (string) $person->personID);
-			
-			if(!$acc)
+			if(in_array($person->personID, $usr_ids))
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': User '. $person->personID . ' has no ILIAS account.');
-			}
-			$usr_id = ilObjUser::_lookupId($acc);
-			
-			if(!$usr_id)
-			{
-				$GLOBALS['ilLog']->write(__METHOD__.': User '. $person->personID . ' not found.');
-			}
-			
-			if(!$part->isAssigned($usr_id))
-			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Assigning user '. $acc);
-				$part->add($usr_id,IL_CRS_MEMBER);
+				// Nothing to do, user is member or is locally deleted
 			}
 			else
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': User '. $person->personID .' is already assigned');
+				$acc = ilObjUser::_checkExternalAuthAccount(
+						ilECSSetting::lookupAuthMode(),
+						(string) $person->personID);
+				$GLOBALS['ilLog']->write(__METHOD__.': Handling user '. (string) $person->personID);
+				
+				if($il_usr_id = ilObjUser::_lookupId($acc))
+				{
+					// Add user
+					$GLOBALS['ilLog']->write(__METHOD__.': Assigning new user ' . $person->personID. ' '. 'to course '. ilObject::_lookupTitle($obj_id));
+					
+					$part->add($il_usr_id,IL_CRS_MEMBER);
+					
+				}
+				else
+				{
+					// @todo 
+					$GLOBALS['ilLog']->write(__METHOD__.': Unknown ILIAS User ' . $person->personID. ' '. ' marked as member for course '. ilObject::_lookupTitle($obj_id));
+				}
+				
+				$assignment = new ilECSCourseMemberAssignment();
+				$assignment->setServer($this->getServer()->getServerId());
+				$assignment->setMid($this->mid);
+				$assignment->setCmsId($course_id);
+				$assignment->setObjId($obj_id);
+				$assignment->setUid($person->personID);
+				$assignment->save();
 			}
 		}
 		return true;

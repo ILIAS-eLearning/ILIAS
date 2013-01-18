@@ -32,6 +32,8 @@
 */
 class ilECSSetting
 {
+	const DEFAULT_AUTH_MODE = 'ldap';
+	
 	const ERROR_EXTRACT_SERIAL = 'ecs_error_extract_serial';
 	const ERROR_REQUIRED = 'fill_out_all_required_fields';
 	const ERROR_INVALID_IMPORT_ID = 'ecs_check_import_id';
@@ -111,6 +113,14 @@ class ilECSSetting
 			return self::$instances[$a_server_id];
 		}
 		return self::$instances[$a_server_id] = new ilECSSetting($a_server_id);
+	}
+	
+	/**
+	 * Lookup auth mode
+	 */
+	public static function lookupAuthMode()
+	{
+		return self::DEFAULT_AUTH_MODE;
 	}
 
 	/**
