@@ -192,12 +192,19 @@ class ilECSParticipantSettings
 
 	/**
 	 * Check if import is allowed for scecific mid
-	 * @param <type> $a_mid
+	 * @param array $a_mids
 	 * @return <type>
 	 */
-	public function isImportAllowed($a_mid)
+	public function isImportAllowed(array $a_mids)
 	{
-		return $this->import[$a_mid] ? true : false;
+		foreach($a_mids as $mid)
+		{
+			if($this->import[$mid])
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
