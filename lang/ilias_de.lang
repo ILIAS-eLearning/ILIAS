@@ -12846,7 +12846,7 @@ mcst#:#mcst_list#:#Liste
 mcst#:#mcst_gallery#:#Galerie
 mcst#:#mcst_manage#:#Verwalten
 mcst#:#mcst_play#:#Abspielen
-common#:#edit_assignments#:#Zuordnung bearbeiten
+common#:#edit_assignments#:#Übungseinheiten bearbeiten
 mcst#:#mcst_extract_preview_image#:#Vorschaubild erzeugen
 mcst#:#mcst_image_extracted#:#Vorschaubild wurde erzeugt
 mcst#:#mcst_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
