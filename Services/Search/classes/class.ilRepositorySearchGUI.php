@@ -529,7 +529,7 @@ class ilRepositorySearchGUI
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
-		foreach(ilUserSearchOptions::_getSearchableFieldsInfo() as $info)
+		foreach(ilUserSearchOptions::_getSearchableFieldsInfo(!$this->isSearchableCheckEnabled()) as $info)
 		{
 			$name = $info['db'];
 			$query_string = $_SESSION['rep_query']['usr'][$name];
