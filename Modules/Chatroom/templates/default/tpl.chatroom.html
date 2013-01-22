@@ -93,65 +93,91 @@ var myId = {MY_ID};
     </tr>
     <tr>
         <td>
-<table class="ilForm" id="chat_toolbox" style="width: 100%">
-                <tr class="ilFormHeader">
-                        <td class="ilFormHeader" colspan="2"><h3 class="ilFormHeader">{LBL_MESSAGE}</h3></td>
-                </tr>
-                <tr>
-					<td class="ilFormOption"><label for="submit_message_text"><span id="message_recipient_info_all">{LBL_TOALL}</span><span id="message_recipient_info"></span></label></td>
-					<td class="ilFormValue">
+			<div class="ilForm" id="chat_toolbox" style="width:100%">
+				
+				<div class="ilFormRow">
+					<div class="ilFormHeader">
+						<h3 class="ilFormHeader"><a name="il_form_top"></a>{LBL_MESSAGE}</h3><div class="ilFormInfo"></div>
+					</div>
+					<div class="ilFormHeader ilFormCommands">
+					</div>
+				</div>
+			
+				<div class="ilFormRow">
+					<div class="ilFormOption">
+						<label for="submit_message_text"><span id="message_recipient_info_all">{LBL_TOALL}</span><span id="message_recipient_info"></span></label>
+					</div>
+					<div class="ilFormValue">
 						<div id="iosChatInputContainer">
 							<input type="text" name="message" id="submit_message_text"/>
 							<input type="button" class="submit" value="{LBL_SEND}" id="submit_message"/>
 						</div>
-					</td>
-                </tr>
-                <tr>
-                        <td class="ilFormOption"><label onclick="$('#show_options').click()">{LBL_LAYOUT}</label></td>
-                        <td class="ilFormValue">
-                                <a id="show_options" href="javascript:;">{LBL_SHOW_SETTINGS}</a>
+					</div>
+				</div>
+				
+				<div class="ilFormRow">
+					<div class="ilFormOption">
+						<label onclick="$('#show_options').click()">{LBL_LAYOUT}</label>
+					</div>
+					<div class="ilFormValue">
+						<a id="show_options" href="javascript:;">{LBL_SHOW_SETTINGS}</a>
 
-                                <div class="chat optionlist ilSubForm">
-                                        <table class="nobackground">
-                                                <tr>
-                                                        <td class="ilFormSubOption"><label for="colorpicker">{LBL_FONTCOLOR}:</label></td>
-                                                        <td class="ilFormSubOption"><input type="text" id="colorpicker" value="{VAL_FONTCOLOR}"/></td>
-                                                </tr>
-                                                <tr>
-                                                        <td class="ilFormSubOption"><label for="fontfamily">{LBL_FONTFAMILY}:</label></td>
-                                                        <td class="ilFormSubOption">
-                                                                <select id="fontfamily">
-                                                                        <!-- BEGIN chat_fontfamily -->
-                                                                        <option value="{VAL_FONTFAMILY}" {SELECTED_FONTFAMILY}>{LBL_FONTFAMILY}</option>
-                                                                        <!-- END chat_fontfamily -->
-                                                                </select>
-                                                        </td>
-                                                </tr>
-                                                <tr>
-                                                        <td class="ilFormSubOption"><label for="fontstyle">{LBL_FONTSTYLE}:</label></td>
-                                                        <td class="ilFormSubOption">
-                                                                <select id="fontstyle">
-                                                                        <!-- BEGIN chat_fontstyle -->
-                                                                        <option value="{VAL_FONTSTYLE}" {SELECTED_FONTSTYLE}>{LBL_FONTSTYLE}</option>
-                                                                        <!-- END chat_fontstyle -->
-                                                                </select>
-                                                        </td>
-                                                </tr>
-                                                <tr>
-                                                        <td class="ilFormSubOption"><label for="fontsize">{LBL_FONTSIZE}:</label></td>
-                                                        <td class="ilFormSubOption">
-                                                                <select id="fontsize">
-                                                                        <!-- BEGIN chat_fontsize -->
-                                                                        <option value="{VAL_FONTSIZE}" {SELECTED_FONTSIZE}>{LBL_FONTSIZE}</option>
-                                                                        <!-- END chat_fontsize -->
-                                                                </select>
-                                                        </td>
-                                                </tr>
-                                        </table>
-                                </div>
-                        </td>
-                </tr>
-        </table>
+						<div class="chat optionlist ilSubForm">
+							<div class="ilForm">
+
+								<div class="ilFormRow">
+									<div class="ilFormSubOption">
+										<label for="colorpicker">{LBL_FONTCOLOR}:</label>
+									</div>
+									<div class="ilFormSubValue">
+										<input type="text" id="colorpicker" value="{VAL_FONTCOLOR}"/>
+									</div>
+								</div>
+
+								<div class="ilFormRow">
+									<div class="ilFormSubOption">
+										<label for="fontfamily">{LBL_FONTFAMILY}:</label>
+									</div>
+									<div class="ilFormSubValue">
+										<select id="fontfamily">
+											<!-- BEGIN chat_fontfamily -->
+											<option value="{VAL_FONTFAMILY}" {SELECTED_FONTFAMILY}>{LBL_FONTFAMILY}</option>
+											<!-- END chat_fontfamily -->
+										</select>
+									</div>
+								</div>
+
+								<div class="ilFormRow">
+									<div class="ilFormSubOption">
+										<label for="fontstyle">{LBL_FONTSTYLE}:</label>
+									</div>
+									<div class="ilFormSubValue">
+										<select id="fontstyle">
+											<!-- BEGIN chat_fontstyle -->
+											<option value="{VAL_FONTSTYLE}" {SELECTED_FONTSTYLE}>{LBL_FONTSTYLE}</option>
+											<!-- END chat_fontstyle -->
+										</select>
+									</div>
+								</div>
+
+								<div class="ilFormRow">
+									<div class="ilFormSubOption">
+										<label for="fontsize">{LBL_FONTSIZE}:</label>
+									</div>
+									<div class="ilFormSubValue">
+										<select id="fontsize">
+											<!-- BEGIN chat_fontsize -->
+											<option value="{VAL_FONTSIZE}" {SELECTED_FONTSIZE}>{LBL_FONTSIZE}</option>
+											<!-- END chat_fontsize -->
+										</select>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
         </td>
     </tr>
 </table>
