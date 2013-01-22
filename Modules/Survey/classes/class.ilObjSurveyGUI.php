@@ -2090,7 +2090,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$tb,
 				array(
 					'auto_complete_name'	=> $lng->txt('user'),
-					'submit_name'			=> $lng->txt('svy_invite')
+					'submit_name'			=> $lng->txt('svy_invite_action')
 				)
 			);
 
