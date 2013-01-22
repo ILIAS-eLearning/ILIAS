@@ -1920,7 +1920,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$ids_for_role_title = ilObject::_getIdsForTitle(ilObject::_lookupTitle($role_id), 'role');
 			if(count($ids_for_role_title) >= 2)
 			{
-				$ilias->setSetting('pear_mail_enable',true);
+				$ilias->setSetting('pear_mail_enable', 1);
 			}
 
 			$this->tpl->setVariable("CHECK_MAILBOX",ilUtil::formCheckbox(1,'roles[]',

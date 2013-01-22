@@ -84,7 +84,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$cb = new ilCheckboxInputGUI($this->lng->txt('mail_use_pear_mail'), 'pear_mail_enable');
 		$cb->setInfo($this->lng->txt('mail_use_pear_mail_info'));
-		$cb->setValue('y');
+		$cb->setValue(1);
 		$this->form->addItem($cb);
 		
 		// prevent smtp mails
@@ -138,7 +138,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->form->setValuesByArray(array(
 			'mail_subject_prefix' => $settings['mail_subject_prefix'] ? $settings['mail_subject_prefix'] : '[ILIAS]',
 			'mail_incoming_mail' => (int)$settings['mail_incoming_mail'],
-			'pear_mail_enable' => $settings['pear_mail_enable'] == 'y' ? true : false,
+			'pear_mail_enable' => $settings['pear_mail_enable'] ? true : false,
 			'mail_external_sender_noreply' => $settings['mail_external_sender_noreply'],
 			'prevent_smtp_globally' => ($settings['prevent_smtp_globally'] == '1') ? true : false,
 			'mail_maxsize_attach' => $settings['mail_maxsize_attach'],
@@ -164,7 +164,7 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->ilias->setSetting('mail_subject_prefix',$this->form->getInput('mail_subject_prefix'));
 			$this->ilias->setSetting('mail_incoming_mail', (int)$this->form->getInput('mail_incoming_mail'));
 			$this->ilias->setSetting('mail_maxsize_attach', $this->form->getInput('mail_maxsize_attach'));
-			$this->ilias->setSetting('pear_mail_enable', $this->form->getInput('pear_mail_enable'));
+			$this->ilias->setSetting('pear_mail_enable', (int)$this->form->getInput('pear_mail_enable'));
 			$this->ilias->setSetting('mail_external_sender_noreply', $this->form->getInput('mail_external_sender_noreply'));
 			$this->ilias->setSetting('prevent_smtp_globally', (int)$this->form->getInput('prevent_smtp_globally'));
 			$this->ilias->setSetting('mail_notification', (int)$this->form->getInput('mail_notification'));
