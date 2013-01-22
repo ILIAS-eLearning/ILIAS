@@ -12948,3 +12948,4 @@ content#:#glo_term_must_belong_to_glo#:#Die Aktion kann nur für Begriffe ausgef
 common#:#edited_on#:#Bearbeitet am
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#NutzerInnen zu einer Umfrage einladen
+rbac#:#chtr_delete#:#Chat löschen oder verschieben
