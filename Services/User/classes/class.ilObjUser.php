@@ -2547,20 +2547,6 @@ class ilObjUser extends ilObject
 		$id = ilObjUser::_lookupId($login);
 		if ($id > 0)
 		{
-			// :TODO: move elsewhere
-			
-			// check for simultaneous logins, except the user is the anonymous one
-			if( $id != ANONYMOUS_USER_ID && 
-				(int)$ilSetting->get('ps_prevent_simultaneous_logins') == 1 &&
-				self::hasActiveSession($id))
-			{				
-				ilSession::setClosingContext(ilSession::SESSION_CLOSE_SIMUL);
-				$ilAuth->logout();
-				@session_destroy();
-				ilUtil::redirect('login.php?simultaneous_login=true');
-				exit();				
-			}
-			
 			return $id;
 		}
 		return false;
