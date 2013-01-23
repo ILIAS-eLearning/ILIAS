@@ -92,7 +92,7 @@
 								url:     data.properties.url,
 								success: function (response) {
 									for(i in internals.sortableContainer) {
-										$elm = $(internals.sortableContainer[i]);
+										var $elm = $(internals.sortableContainer[i]);
 
 										$elm.sortable("enable");
 
