@@ -37,9 +37,11 @@
 
 					$this.addClass('iosPdBlockSortableContainer').find("div .ilBlockHeader").css("cursor", "move");
 					internals.sortableContainer.push($this);
+					
+					var $center_column = $("#il_center_col");
 
 					$this.sortable({
-						onElementDragStart:function (event, ui) {
+						onElementDragStart: function (event, ui) {
 
 							for (i in internals.sortableContainer) {
 								var $elm = $(internals.sortableContainer[i]);
@@ -47,17 +49,17 @@
 									$elm.css({
 										"width":     "",
 										"min-width": "",
-										"height":    $("#il_center_col").height(),
-										"min-height":$("#il_center_col").height()
+										"height":    $center_column.height(),
+										"min-height":$center_column.height()
 									});
 									$elm.html($('<div class="iosPdBlockColumnPlaceholder">&nbsp;</div>'));
-									$("#il_center_col").removeClass("one_side_col");
-									$("#il_center_col").addClass("two_side_col");
+									$center_column.removeClass("one_side_col");
+									$center_column.addClass("two_side_col");
 								}
 							}
 
 						},
-						stop:              function (event, ui) {
+						stop: function (event, ui) {
 
 							var postData = [];
 
@@ -71,8 +73,8 @@
 										"height":    "",
 										"min-height":""
 									});
-									$("#il_center_col").removeClass("two_side_col");
-									$("#il_center_col").addClass("one_side_col");
+									$center_column.removeClass("two_side_col");
+									$center_column.addClass("one_side_col");
 								}
 							}
 							
@@ -90,19 +92,23 @@
 								url:     data.properties.url,
 								success: function (response) {
 									for(i in internals.sortableContainer) {
-										$(internals.sortableContainer[i]).sortable("enable");
+										$elm = $(internals.sortableContainer[i]);
 
-										$(internals.sortableContainer[i]).find("tr.il_adv_sel").each(function() {
+										$elm.sortable("enable");
+
+										$elm.find("tr.il_adv_sel").each(function() {
 											$(this).attr("onclick", $(this).attr("onclick").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
 										});
 
-										$(internals.sortableContainer[i]).find("td.il_adv_sel a").each(function() {
+										$elm.find("td.il_adv_sel a").each(function() {
 											$(this).attr("href", $(this).attr("href").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
 										});
 
-										$(internals.sortableContainer[i]).find(".ilBlockInfo a").each(function() {
+										$elm.find(".ilBlockInfo a").each(function() {
 											$(this).attr("href", $(this).attr("href").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
-											$(this).attr("onclick", $(this).attr("onclick").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
+											if (typeof $(this).attr("onclick") == "string") {
+												$(this).attr("onclick", $(this).attr("onclick").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
+											}
 										});
 									}
 								}
