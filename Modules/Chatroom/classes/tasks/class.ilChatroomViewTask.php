@@ -362,7 +362,6 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	private function setupTemplate() {
 		global $tpl;
 
-		$tpl->addJavaScript('./Modules/Scorm2004/scripts/questions/jquery.js');
 		$tpl->addJavaScript('Modules/Chatroom/js/colorpicker/jquery.colorPicker.js');
 		$tpl->addJavaScript('Modules/Chatroom/js/chat.js');
 		$tpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
