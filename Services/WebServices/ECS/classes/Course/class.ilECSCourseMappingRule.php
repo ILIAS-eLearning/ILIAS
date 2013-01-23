@@ -172,7 +172,7 @@ class ilECSCourseMappingRule
 	
 	public function getSubDirectoryType()
 	{
-		return $this->subdir_type;
+		return self::SUBDIR_VALUE;
 	}
 	
 	public function setDirectory($a_dir)

@@ -302,7 +302,8 @@ class ilECSMappingSettingsGUI
 			$subdirs->setChecked($rule->isSubdirCreationEnabled());
 			$subdirs->setValue(1);
 			
-			// Subdir types
+			// Subdir types (disabled in spec)
+			/*
 			$subdir_type = new ilRadioGroupInputGUI($this->lng->txt('ecs_cmap_form_subdir_type'), $att_name.'_subdir_type');
 			$subdir_type->setValue($rule->getSubDirectoryType());
 			
@@ -313,9 +314,11 @@ class ilECSMappingSettingsGUI
 			$subdir_type->addOption($name);
 			
 			$subdirs->addSubItem($subdir_type);
+			*/
 			$form->addItem($subdirs);
 			
 			// Directory relations
+			/*
 			$upper_attributes = ilECSCourseAttributes::getInstance(
 					$this->getServer()->getServerId(),
 					$this->getMid())->getUpperAttributes($att_name);
@@ -334,10 +337,10 @@ class ilECSMappingSettingsGUI
 			}
 			if($upper_attributes)
 			{
-				var_dump($rule->getDirectory());
 				$dir_relation->setValue((string) $rule->getDirectory());
 				$form->addItem($dir_relation);
 			}
+			*/
 		}
 		
 		// add list of attributes
@@ -391,8 +394,8 @@ class ilECSMappingSettingsGUI
 				$rule->enableFilter($form->getInput($att_name.'_is_filter'));
 				$rule->setFilter($form->getInput($att_name.'_filter'));
 				$rule->enableSubdirCreation($form->getInput($att_name.'_subdirs'));
-				$rule->setSubDirectoryType($form->getInput($att_name.'_subdir_type'));
-				$rule->setDirectory($form->getInput($att_name.'_dir_relation'));
+				//$rule->setSubDirectoryType($form->getInput($att_name.'_subdir_type'));
+				//$rule->setDirectory($form->getInput($att_name.'_dir_relation'));
 				
 				if($rule->getRuleId())
 				{
