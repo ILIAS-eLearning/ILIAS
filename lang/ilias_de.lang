@@ -12918,9 +12918,9 @@ ecs#:#ecs_cmap_enable#:#Kurszuordnung
 ecs#:#ecs_cmap_def_cat#:#Standard-Kategorie
 ecs#:#ecs_cmap_def_cat_info#:#Bitte geben Sie die Kategorie an, in welcher Kurse angelegt werde sollen, die über bestehende Regeln nicht zugeordnet werden können.
 ecs#:#ecs_cmap_all_in_one#:#Kurse in einer Kategorie
-ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werde sollen. In allen weiteren Kategorien werden ggf. Kurs-Referenzen angelegt.
+ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werden sollen. In allen weiteren Kategorien werden ggf. Kurs-Referenzen angelegt.
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
-ecs#:#ecs_cmap_multiple_atts#:#Mehrere Attribute verwenden
+ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
