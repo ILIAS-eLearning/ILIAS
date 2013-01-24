@@ -85,6 +85,7 @@ class ilMailingLists
 			$tmpObj->setDescription($row->description);
 			$tmpObj->setCreatedate($row->createdate);
 			$tmpObj->setChangedate($row->changedae);
+			$tmpObj->setMode($row->lmode);
 			
 			$entries[$counter] = $tmpObj;
 			
@@ -120,6 +121,17 @@ class ilMailingLists
 	public function getCurrentMailingList()
 	{
 		return $this->ml;
+	}
+		
+	public function deleteTemporaryLists()
+	{		
+		foreach($this->getAll() as $mlist)
+		{
+			if($mlist->getMode() == ilMailingList::MODE_TEMPORARY)
+			{
+				$mlist->delete();
+			}
+		}
 	}
 }
 ?>

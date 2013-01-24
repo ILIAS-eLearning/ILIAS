@@ -648,6 +648,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 				
 		if (strcmp($action, "accessRestrict") == 0) return $this->setAccessRestrictionObject();
+		if (strcmp($action, "mail") == 0) return $this->mailObject();
 
 		unset($this->data);
 		
@@ -2676,7 +2677,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	public function getUserMultiCommands($a_search_form = false)
 	{
-		global $rbacsystem;		
+		global $rbacsystem, $ilUser;		
 		
 		// see searchResultHandler()
 		if($a_search_form)
@@ -2718,6 +2719,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$cmds['usrExport'.ucfirst($cmd)] = $this->lng->txt('export').' - '.
 				$this->lng->txt($type);
 		}
+		
+		// check if current user may send mails
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($ilUser->getId());
+		if($rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId()))
+		{			
+			$cmds["mail"] = $this->lng->txt("send_mail");
+		}
 						
 		return $cmds;
 	}
@@ -2757,5 +2766,61 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->object->buildExportFile("userfolder_export_xml", $user_ids);		
 		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
 	}
+	
+	function mailObject()
+	{
+		global $ilUser;
+		
+		$user_ids = $this->getActionUserIds();			
+		if(!$user_ids)
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $this->viewObject();
+		}
+		
+		// remove existing (temporary) lists
+		include_once "Services/Contact/classes/class.ilMailingLists.php";
+		$list = new ilMailingLists($ilUser);
+		$list->deleteTemporaryLists();
+		
+		// create (temporary) mailing list
+		include_once "Services/Contact/classes/class.ilMailingList.php";
+		$list = new ilMailingList($ilUser);		
+		$list->setMode(ilMailingList::MODE_TEMPORARY);
+		$list->setTitle("-TEMPORARY SYSTEM LIST-");
+		$list->setDescription("-USER ACCOUNTS MAIL-");
+		$list->setCreateDate(date("Y-m-d H:i:s"));		
+		$list->insert();
+		$list_id = $list->getId();				
+		
+		// after list has been saved...
+		foreach($user_ids as $user_id)
+		{		
+			$list->assignAddressbookEntry($user_id);
+		}
+		
+		include_once "Services/Mail/classes/class.ilFormatMail.php";
+		$umail = new ilFormatMail($ilUser->getId());		
+		$mail_data = $umail->getSavedData();		
+		
+		// ???
+		// $mail_data = $umail->appendSearchResult(array('#il_ml_'.$list_id), 'to');
+		
+		$umail->savePostData(
+			$mail_data['user_id'],
+			$mail_data['attachments'],
+			'#il_ml_'.$list_id, // $mail_data['rcp_to'],				
+			$mail_data['rcp_cc'],
+			$mail_data['rcp_bcc'],
+			$mail_data['m_type'],
+			$mail_data['m_email'],
+			$mail_data['m_subject'],
+			$mail_data['m_message'],
+			$mail_data['use_placeholders']
+		);		
+
+		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");		
+	}
+	
 } // END class.ilObjUserFolderGUI
 ?>

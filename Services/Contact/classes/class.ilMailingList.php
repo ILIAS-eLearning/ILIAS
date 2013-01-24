@@ -39,6 +39,9 @@ class ilMailingList
 	private $user = null;	
 	private $db = null;
 	
+	const MODE_ADDRESSBOOK = 1;
+	const MODE_TEMPORARY = 2;
+	
 	public function __construct(ilObjUser $user, $id = 0)
 	{
 		global $ilDB;
@@ -49,6 +52,7 @@ class ilMailingList
 		$this->mail_id = $id;
 		$this->user_id = $this->user->getId();
 		
+		$this->setMode(self::MODE_ADDRESSBOOK);
 	
 		$this->read();
 	}
@@ -63,21 +67,24 @@ class ilMailingList
 				title,
 				description,
 				createdate,
-				changedate
+				changedate,
+				lmode
 			)
-			VALUES(%s, %s, %s, %s, %s, %s)',
+			VALUES(%s, %s, %s, %s, %s, %s, %s)',
 			array(	'integer',
 					'integer',
 					'text', 
 					'text', 
 					'timestamp',
-					'timestamp'),
+					'timestamp',
+					'integer'),
 			array(	$nextId,  
 					$this->getUserId(), 
 					$this->getTitle(), 
 					$this->getDescription(), 
 					$this->getCreatedate(), 
-					NULL
+					NULL,
+					$this->getMode()
 		));
 		
 		$this->mail_id = $nextId;
@@ -93,18 +100,21 @@ class ilMailingList
 				UPDATE addressbook_mlist
 				SET title = %s,
 					description = %s,
-					changedate =  %s
+					changedate =  %s,
+					lmode = %s
 				WHERE ml_id =  %s
 				AND user_id =  %s',
 				array(	'text',
 						'text',
 						'timestamp',
 						'integer',
+						'integer',
 						'integer'
 				),
 				array(	$this->getTitle(),
 							$this->getDescription(),
 							$this->getChangedate(),
+							$this->getMode(),
 							$this->getId(),
 							$this->getUserId()
 			));
@@ -159,6 +169,7 @@ class ilMailingList
 				$this->setDescription($row->description);
 				$this->setCreatedate($row->createdate);
 				$this->setChangedate($row->changedae);		
+				$this->setMode($row->lmode);
 			}
 		}		
 		
@@ -168,12 +179,24 @@ class ilMailingList
 	
 	public function getAssignedEntries()
 	{
-		$res = $this->db->queryf('
-			SELECT * FROM addressbook_mlist_ass 
-			INNER JOIN addressbook ON addressbook.addr_id = addressbook_mlist_ass.addr_id 
-			WHERE ml_id = %s',
-			array('integer'),
-			array($this->getId()));
+		if($this->getMode() == self::MODE_ADDRESSBOOK)
+		{
+			$res = $this->db->queryf('
+				SELECT * FROM addressbook_mlist_ass 
+				INNER JOIN addressbook ON addressbook.addr_id = addressbook_mlist_ass.addr_id 
+				WHERE ml_id = %s',
+				array('integer'),
+				array($this->getId()));
+		}
+		else
+		{
+			$res = $this->db->queryf('
+				SELECT * FROM addressbook_mlist_ass 
+				INNER JOIN usr_data ON addressbook_mlist_ass.addr_id = usr_data.usr_id 
+				WHERE ml_id = %s',
+				array('integer'),
+				array($this->getId()));
+		}
 		
 		$entries = array();
 		
@@ -300,5 +323,19 @@ class ilMailingList
 		
 		return is_object($row) ? true : false;
 	}
+	
+	public function setMode($a_mode)
+	{
+		$a_mode = (int)$a_mode;
+		if(in_array($a_mode, array(self::MODE_ADDRESSBOOK, self::MODE_TEMPORARY)))
+		{
+			$this->mode = (int)$a_mode;
+		}
+	}
+	
+	public function getMode()
+	{
+		return $this->mode;
+	}	
 }
 ?>

@@ -13780,4 +13780,20 @@ if(!$ilDB->tableColumnExists('il_dcl_table', 'export_enabled'))
 		$ilDB->addPrimaryKey('ecs_course_assignments',array('id'));
 	}
 ?>
-
+<#3808>
+<?php
+if(!$ilDB->tableColumnExists('addressbook_mlist', 'lmode'))
+{
+	$ilDB->addTableColumn(
+		'addressbook_mlist',
+		'lmode',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 1
+		)
+	);
+	
+}
+?>

@@ -224,6 +224,11 @@ class ilMailingListsGUI
 			
 			foreach ($entries as $entry)
 			{
+				if($entry->getMode() == ilMailingList::MODE_TEMPORARY)
+				{
+					continue;
+				}
+				
 				$result[$counter]['check'] = ilUtil::formCheckbox(0, 'ml_id[]', $entry->getId());
 				$result[$counter]['title'] = $entry->getTitle() . " [#il_ml_" . $entry->getId() . "]";
 				$result[$counter]['description'] = $entry->getDescription();
