@@ -124,9 +124,36 @@ class ilObjectOwnershipManagementGUI
 		$node = $tree->getNodeData($a_ref_id);
 		$gui_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
 		
-		$ilCtrl->setParameterByClass("ilRepositoryGUI", "ref_id", $a_ref_id);	
-		$ilCtrl->setParameterByClass("ilRepositoryGUI", "cmd", $a_cmd);
-		$ilCtrl->redirectByClass(array("ilRepositoryGUI", $gui_class, $a_class));	
+		// #10495 - check if object type supports ilexportgui "directly"
+		if($a_class == "ilExportGUI")
+		{							
+			try
+			{
+				$ilCtrl->getLinkTargetByClass($path);
+			}
+			catch(Exception $e)
+			{
+				switch($node["type"])
+				{
+					case "glo":
+						$cmd = "exportList";
+						$path = array("ilRepositoryGUI", "ilGlossaryEditorGUI", $gui_class);
+						break;
+
+					default:
+						$cmd = "export";
+						$path = array("ilRepositoryGUI", $gui_class);
+						break;
+				}						
+				$ilCtrl->setParameterByClass($gui_class, "ref_id", $a_ref_id);	
+				$ilCtrl->setParameterByClass($gui_class, "cmd", $cmd);
+				$ilCtrl->redirectByClass($path);	
+			}
+		}
+						
+		$ilCtrl->setParameterByClass($a_class, "ref_id", $a_ref_id);	
+		$ilCtrl->setParameterByClass($a_class, "cmd", $a_cmd);
+		$ilCtrl->redirectByClass($path);				
 	}
 	
 	function delete()
