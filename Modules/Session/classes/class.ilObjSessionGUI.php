@@ -618,7 +618,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function editObject()
 	{
-		$this->tabs_gui->setTabActive('edit_properties');
+		$this->tabs_gui->setTabActive('settings');
 		
 		$this->initForm('edit');
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_edit.html','Modules/Session');
@@ -701,7 +701,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function confirmDeleteFilesObject()
 	{
-		$this->tabs_gui->setTabActive('edit_properties');
+		$this->tabs_gui->setTabActive('settings');
 
 		if(!count($_POST['file_id']))
 		{
@@ -1784,7 +1784,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	 	if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 	 	{
-			$tabs_gui->addTarget('edit_properties',
+			$tabs_gui->addTarget('settings',
 								 $this->ctrl->getLinkTarget($this,'edit'));
 			$tabs_gui->addTarget('crs_materials',
 								 $this->ctrl->getLinkTarget($this,'materials'));
