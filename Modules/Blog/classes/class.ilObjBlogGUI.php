@@ -1553,7 +1553,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($blga_set->get("banner"))
 		{		
 			$banner = $this->object->getImageFullPath();
-			copy($banner, $export_dir."/".basename($banner));
+			if($banner)
+			{
+				copy($banner, $export_dir."/".basename($banner));
+			}
 		}
 		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "big");
 		if($ppic)
