@@ -11228,7 +11228,7 @@ skmg#:#skmg_remove_trigger#:#Remove Trigger
 skmg#:#skmg_select_trigger#:#Select Trigger
 adm#:#adm_update_skill_tables#:#Update Competence Tables
 adm#:#adm_update_skill_status#:#Update Competence Status
-skmg#:#skmg_skill_management_deactivated#:#Competence Management is currently deaktivated.
+skmg#:#skmg_skill_management_deactivated#:#Competence Management is currently deactivated.
 skmg#:#skmg_cert_skill_title#:#Competence Title
 skmg#:#skmg_cert_skill_level_title#:#Competence Level Title
 skmg#:#skmg_cert_skill_trigger_title#:#Competence Trigger Title
