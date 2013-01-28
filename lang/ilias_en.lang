@@ -3833,14 +3833,14 @@ common#:#roles_of_import_global#:#Global roles of import file
 common#:#roles_of_import_local#:#Local roles of import file
 common#:#roles#:#Roles
 common#:#rolf_added#:#Role Folder added
-common#:#rolf_create_role#:#Create new Role definition
-common#:#rolf_create_rolt#:#Create new Role definition template
+common#:#rolf_create_role#:#Create New Role
+common#:#rolf_create_rolt#:#Create New Role Template
 common#:#rolf_delete#:#Delete Roles/Role templates
 common#:#rolf_edit_permission#:#Change permission settings
-common#:#rolf_edit_userassignment#:#Change user assignment of Roles
-common#:#rolf_read#:#Read access to Roles/Role templates
-common#:#rolf_visible#:#Roles/Role templates are visible
-common#:#rolf_write#:#Edit default permission settings of Roles/Role templates
+common#:#rolf_edit_userassignment#:#Change user assignment of roles
+common#:#rolf_read#:#Read access to roles/role templates
+common#:#rolf_visible#:#Roles/role templates are visible
+common#:#rolf_write#:#Edit default permission settings of roles/role templates
 common#:#rolf#:#Roles
 common#:#rolt_a#:#a Role Template
 common#:#rolt_add#:#Add Role Template

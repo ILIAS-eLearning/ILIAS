@@ -69,7 +69,7 @@ administration#:#adm_repository_cache_time#:#Zeitspanne Magazin-Cache
 administration#:#adm_repository_cache_time_info#:#Cache-Zeit für Magazinzugriffe. Setzen Sie den Wert auf 0, um den Cache zu deaktivieren. Höhere Werte verbessern die Performanz des Magazins, können aber zur Anzeige von fehlenden Berechtigungen führen.
 administration#:#adm_repository_cache_time_info2#:#Es kann auch vorkommen, daß Magazinobjekte erst nach einer Verzögerung für Benutzer aktiv werden, z.B. nachdem Rechteeinstellungen geändert oder Vorbedingungen erfüllt wurden.
 administration#:#adm_services#:#Services
-administration#:#adm_settings_templates#:#Einstellungs-Vorlagen
+administration#:#adm_settings_templates#:#Einstellungsvorlagen
 administration#:#adm_show_comments_tagging_in_lists#:#Anzahl der Notizen, Kommentare und Tags in Objektlisten anzeigen
 administration#:#adm_sql#:#SQL
 administration#:#adm_sure_delete_settings_template#:#Wollen Sie wirklich die folgenden Vorlagen löschen?
@@ -2091,7 +2091,7 @@ common#:#assessment_log_datetime#:#Datum/Uhrzeit
 common#:#assessment_log_deleted#:#Alle protokollierten Daten für den Test wurden über die Administrationsoberfläche gelöscht.
 common#:#assessment_log_for_test#:#Für den Test
 common#:#assessment_log_log_entries#:#Protokolleinträge
-common#:#assessment_log_logging#:#Protokollierung
+common#:#assessment_log_logging#:#Protokolldaten
 common#:#assessment_log_manual_scoring#:#Manuelle Bewertung
 common#:#assessment_log_manual_scoring_activate#:#Aktivieren der manuellen Bewertung für
 common#:#assessment_log_manual_scoring_desc#:#Wenn die manuelle Bewertung für einen Fragetyp aktiviert ist, können alle Fragen dieses Fragetyps vom Testautor manuell bewertet werden. Seien Sie bitte vorsichtig mit diesen Einstellungen, da das nachträgliche Ändern von Fragenergebnissen eventuell zu rechtlichen Problemen führen kann!
@@ -3926,7 +3926,7 @@ common#:#obj_adve_desc#:#Administrationseinstellungen für den ILIAS Editor und 
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_ass#:#Asset
 common#:#obj_assf#:#Test und Assessment
-common#:#obj_assf_desc#:#Protokollieren Sie Aktivitäten in Tests und werten Sie diese aus.
+common#:#obj_assf_desc#:#Einstellungen und Verwaltung des Test und Assessment-Tools
 common#:#obj_auth#:#Authentifizierung/Neuanmeldung
 common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, CAS, ...) sowie die Neuanmeldungen.
 common#:#obj_blog#:#Blog
