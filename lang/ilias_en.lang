@@ -2969,7 +2969,7 @@ common#:#loginname_already_exists#:#This login name already exists.
 common#:#loginname_settings#:#Login Name Settings
 common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
 common#:#logout#:#Logout
-common#:#logs#:#Log data
+common#:#logs#:#Log Data
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#los#:#Learning Objects
 common#:#lres#:#Learning Resources
