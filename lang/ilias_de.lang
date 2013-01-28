@@ -391,7 +391,7 @@ assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
 assessment#:#cloze_fixed_textlength_description#:#Wenn Sie einen Wert größer als 0 eintragen, werden alle Textlücken und numerischen Lücken mit der angegebenen Länge erzeugt
 assessment#:#cloze_text#:#Lückentextfrage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
-assessment#:#cloze_textgap_case_sensitive#:#Groß-/Kleinschreibung beachten
+assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Abstand von %s
 assessment#:#cloze_textgap_rating#:#Textlückenbewertung
 assessment#:#code#:#Code
@@ -12736,7 +12736,7 @@ common#:#search_at_current_position#:#An der aktuellen Position
 survey#:#svy_copy#:#Umfrage kopieren
 blog#:#blog_authors#:#Autoren
 blog#:#blog_author#:#Autor
-blog#:#blog_enable_approval#:#Neue Beiträge freischalten 
+blog#:#blog_enable_approval#:#Neue Beiträge freischalten
 blog#:#blog_enable_approval_info#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" freigeschaltet werden.
 blog#:#blog_approve#:#Abnahme erteilen
 blog#:#blog_needs_approval#:#Abnahme benötigt
