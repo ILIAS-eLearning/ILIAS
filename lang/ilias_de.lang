@@ -2076,13 +2076,13 @@ common#:#arrow_downright#:#Pfeil von oben nach unten rechts
 common#:#articels_unread#:#Ungelesene Beiträge
 common#:#as_of#:#Stand
 forum#:#ascending_order#:#Neueste Beiträge unten
-common#:#ass_log_admin#:#Administration der Testprotokollierung
+common#:#ass_log_admin#:#Administration der Protokolldaten
 common#:#ass_log_available_tests#:#Verfügbare Tests
 common#:#ass_log_count_datasets#:#Protokolleinträge
 common#:#ass_log_delete_entries#:#Protokolleinträge löschen
 common#:#ass_log_delete_no_selection#:#Bitte wählen Sie mindestens einen Test aus, dessen Protokolleinträge Sie löschen wollen
 common#:#ass_log_deleted#:#Die Protokolleinträge für die ausgewählten Tests wurden gelöscht!
-common#:#ass_log_output#:#Ausgabe der Testprotokollierung
+common#:#ass_log_output#:#Ausgabe der Protokolldaten
 common#:#ass_log_path#:#Position des Tests
 common#:#assessment_defaults#:#Standardeinstellungen für Test und Assessment
 common#:#assessment_imap_line_color#:#Imagemap Linienfarbe
@@ -3552,7 +3552,7 @@ common#:#loginname_already_exists#:#Dieser Benutzername existiert bereits.
 common#:#loginname_settings#:#Einstellungen Benutzername
 common#:#logout#:#Abmelden
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
-common#:#logs#:#Log-Daten
+common#:#logs#:#Protokolldaten
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#lres#:#Lernmaterialien
