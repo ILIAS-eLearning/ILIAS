@@ -253,7 +253,8 @@ abstract class ilRemoteObjectBase extends ilObject2
 			
 			$connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($server_id));
 			$auth = new ilECSAuth();
-			$auth->setUrl($this->getRemoteLink());
+			//$auth->setUrl($this->getRemoteLink());
+			$auth->setRealm(sha1($this->getRemoteLink()));
 			$this->auth_hash = $connector->addAuth(@json_encode($auth),$this->getMID());
 			return true;
 		}
