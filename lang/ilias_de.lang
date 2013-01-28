@@ -12736,7 +12736,7 @@ common#:#search_at_current_position#:#An der aktuellen Position
 survey#:#svy_copy#:#Umfrage kopieren
 blog#:#blog_authors#:#Autoren
 blog#:#blog_author#:#Autor
-blog#:#blog_enable_approval#:#Abname
+blog#:#blog_enable_approval#:#Abnahme
 blog#:#blog_enable_approval_info#:#Vor der Veröffentlichung müssen alle Beiträge durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" abgenommen werden.
 blog#:#blog_approve#:#Abnahme erteilen
 blog#:#blog_needs_approval#:#Abnahme benötigt
