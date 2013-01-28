@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2012 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -6570,7 +6570,7 @@ forum#:#move_chosen_topics#:#Move Chosen Topics
 forum#:#new_post#:#New Post
 forum#:#no_forum_available_for_moving_threads#:#No forum available to move the chosen topics to.
 forum#:#no_forum_selected#:#No forum selected for moving the chosen topics
-forum#:#post_activation_desc#:#If enabled, the moderator has to activate new postings.
+forum#:#post_activation_desc#:#Before being published all postings need to be approved by a moderator.
 forum#:#post_censored_comment_by_moderator#:#Posting Censored, Comment by Moderator
 forum#:#reopen_topics#:#Reopen
 forum#:#select_at_least_one_thread#:#Please select at least one topic.
