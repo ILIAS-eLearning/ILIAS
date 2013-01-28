@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2012 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -7678,7 +7678,7 @@ forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
 forum#:#new_post#:#Neuer Beitrag
 forum#:#no_forum_available_for_moving_threads#:#Es konnte kein Forum gefunden werden, in das die ausgewählten Themen verschoben werden können.
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt
-forum#:#post_activation_desc#:#Wenn diese Option eingeschaltet ist, muss der Moderator neue Beiträge freischalten.
+forum#:#post_activation_desc#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Moderator freigeschaltet werden.
 forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert, Bemerkung des Moderators
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Beim Antworten auf einen Beitrag wird als Titel automatisch der Titel des vorhergehenden Beitrags übernommen.
@@ -12736,8 +12736,8 @@ common#:#search_at_current_position#:#An der aktuellen Position
 survey#:#svy_copy#:#Umfrage kopieren
 blog#:#blog_authors#:#Autoren
 blog#:#blog_author#:#Autor
-blog#:#blog_enable_approval#:#Abnahme
-blog#:#blog_enable_approval_info#:#Vor der Veröffentlichung müssen alle Beiträge durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" abgenommen werden.
+blog#:#blog_enable_approval#:#Neue Beiträge freischalten 
+blog#:#blog_enable_approval_info#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" freigeschaltet werden.
 blog#:#blog_approve#:#Abnahme erteilen
 blog#:#blog_needs_approval#:#Abnahme benötigt
 sess#:#sess_copy#:#Sitzung kopieren
