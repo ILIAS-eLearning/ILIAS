@@ -290,10 +290,10 @@ class ilAuthContainerECS extends Auth_Container
 		$user_obj->setActive(true);
 		
 		$until = $user_obj->getTimeLimitUntil();
+		$user_obj->setTimeLimitFrom(time() - 5);
 
 		if($until < (time() + $ilClientIniFile->readVariable('session','expire')))
 		{		
-			$user_obj->setTimeLimitFrom(time());
 			$user_obj->setTimeLimitUntil(time() + $ilClientIniFile->readVariable("session","expire"));
 		}
 		$user_obj->update();
