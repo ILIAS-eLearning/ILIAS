@@ -12968,3 +12968,5 @@ tos#:#tos_last_modified#:#Letzte Änderung
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#NutzerInnen zu einer Umfrage einladen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
+ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
+ecs#:#ecs_role_mapping_value#:#Attributwert
