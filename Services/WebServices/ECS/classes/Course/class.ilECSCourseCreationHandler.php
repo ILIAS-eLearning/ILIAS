@@ -68,8 +68,7 @@ class ilECSCourseCreationHandler
 		if($this->getMapping()->isAttributeMappingEnabled())
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Handling advanced attribute mapping');
-			// Do advanced attribute mapping
-			return true;
+			return $this->doAttributeMapping($a_content_id,$course);
 		}
 		
 		if($this->getMapping()->isAllInOneCategoryEnabled())
@@ -86,6 +85,51 @@ class ilECSCourseCreationHandler
 		}
 		$GLOBALS['ilLog']->write(__METHOD__.': Using course default category');
 		return $this->doSync($a_content_id,$course,$this->getMapping()->getDefaultCourseCategory());
+	}
+	
+	/**
+	 * Sync attribute mapping
+	 * @param type $a_content_id
+	 * @param type $course
+	 */
+	protected function doAttributeMapping($a_content_id, $course)
+	{
+		// Check if course is already created
+		$course_id = (int) $course->basicData->id;
+		$obj_id = $this->getImportId($course_id);
+		
+		if($obj_id)
+		{
+			// do update
+			$GLOBALS['ilLog']->write(__METHOD__.' Performing update of already imported course.');
+			return $this->updateCourseData($course,$obj_id);
+		}
+		
+		// Get all rules
+		$matching_rule = 0;
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
+		foreach(ilECSCourseMappingRule::getRuleRefIds($this->getServer()->getServerId(), $this->getMid()) as $ref_id)
+		{
+			if(ilECSCourseMappingRule::isMatching(
+					$course,
+					$this->getServer()->getServerId(),
+					$this->getMid(),
+					$ref_id))
+			{
+				$matching_rule = $ref_id;
+			}
+		}
+		if(!$matching_rule)
+		{
+			// Put course in default category
+			$GLOBALS['ilLog']->write(__METHOD__.': No matching attribute mapping rule found.');
+			$GLOBALS['ilLog']->write(__METHOD__.': Using course default category');
+			return $this->doSync($a_content_id,$course,$this->getMapping()->getDefaultCourseCategory());
+		}
+		// map according mapping rules
+		$parent_ref = ilECSCourseMappingRule::doMappings($course,$this->getServer()->getServerId(),$this->getMid(),$ref_id);
+		$this->doSync($a_content_id, $course, ilObject::_lookupObjId($parent_ref));
+		return false;
 	}
 	
 	/**

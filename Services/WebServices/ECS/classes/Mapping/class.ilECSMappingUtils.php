@@ -78,6 +78,34 @@ class ilECSMappingUtils
 		}
 		return $options;
 	}
+	
+	/**
+	 * Get course value by mapping
+	 * @param type $course
+	 * @param type $a_field
+	 */
+	public static function getCourseValueByMappingAttribute($course, $a_field)
+	{
+		switch($a_field)
+		{
+			case 'organisation':
+				return (string) $course->basicData->organisation;
+				
+			case 'term':
+				return (string) $course->basicData->term;
+				
+			case 'title':
+				return (string) $course->basicData->title;
+				
+			case 'lecturer':
+				foreach((array) $course->lecturers as $lecturer)
+				{
+					return (string) ($lecturer->lastName.', '. $lecturer->firstName);
+				}
+				return '';
+		}
+		return '';
+	}
 
 
 }

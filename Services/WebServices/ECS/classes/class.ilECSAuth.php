@@ -35,7 +35,9 @@ class ilECSAuth
 	protected $log;
 	protected $mids = array();
 
-	public $url;
+	//public $url;
+	public $realm;
+	
 
 	/**
 	 * constuctor
@@ -59,7 +61,7 @@ class ilECSAuth
 	{
 		$this->url = $a_url;
 	}
-
+	
 	/**
 	 * get Url
 	 * @return <type>
@@ -67,6 +69,16 @@ class ilECSAuth
 	public function getUrl()
 	{
 		return $this->url;
+	}
+	
+	public function setRealm($a_realm)
+	{
+		$this->realm = $a_realm;
+	}
+	
+	public function getRealm()
+	{
+		return $this->realm;
 	}
 	
 	/**
