@@ -12704,8 +12704,8 @@ fm#:#fm_settings_filesize#:#Maximum Upload File Size###28 08 2012 new variable
 fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.###28 08 2012 new variable
 dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module###02 09 2012 new variable
 dcl#:#dcl_learning_progress#:#Show the learning progess of the linked module of the viewer###02 09 2012 new variable
-dcl#:#dcl_status#:#Your status###02 09 2012 new variable
-dcl#:#dcl_mob#:#Image###02 09 2012 new variable
+dcl#:#dcl_status#:#Din status
+dcl#:#dcl_mob#:#Billede
 dcl#:#dcl_width#:#Width###02 09 2012 new variable
 dcl#:#dcl_height#:#Height###02 09 2012 new variable
 blog#:#blog_authors#:#Authors###02 09 2012 new variable
@@ -12731,10 +12731,10 @@ exc#:#exc_team_notification_link#:#Link to exercise###02 09 2012 new variable
 poll#:#poll_absolute#:#Current Votes###02 09 2012 new variable
 dcl#:#dcl_reference_link#:#Show as link in table view###02 09 2012 new variable
 dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view###02 09 2012 new variable
-dcl#:#dcl_text_area#:#Textarea###02 09 2012 new variable
+dcl#:#dcl_text_area#:#Tekstområde
 forum#:#frm_notification_activated#:#Notification Activated###02 09 2012 new variable
 forum#:#frm_notification_deactivated#:#Notification Deactivated###02 09 2012 new variable
-dcl#:#dcl_delete_table#:#Delete Table###04 09 2012 new variable
+dcl#:#dcl_delete_table#:#Slet tabel
 dcl#:#dcl_table_info#:#Users with the permission "edit settings" (see tab "Permission") always have permission to add/edit/delete entries. Users with permission "edit entry" (see tab "Permissions") only have permissions according to the settings specified in the form below.###04 09 2012 new variable
 dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?###04 09 2012 new variable
 dcl#:#dcl_cant_delete_main_table#:#You can't completely remove this table as it is the default table of this Data Collection. It's content and structure got removed instead.###04 09 2012 new variable
@@ -12778,14 +12778,14 @@ dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this t
 dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.###28 09 2012 new variable
 rating#:#rating_number_votes#:#%s Ratings###28 09 2012 new variable
 administration#:#system_check_no_owner#:#Ownerless Objects###28 09 2012 new variable
-blog#:#blog_import#:#Import Blog###28 09 2012 new variable
+blog#:#blog_import#:#Importer blog
 poll#:#poll_import#:#Import Poll###28 09 2012 new variable
 user#:#user_account_deleted_confirmation#:#Your account has been deleted. An email containing detailed information has been sent to you.###28 09 2012 new variable
 content#:#cont_initial_attached_content#:#Initial Extra Content###28 09 2012 new variable
-content#:#cont_topic#:#Topic###28 09 2012 new variable
-content#:#cont_selected_topic#:#Selected Topic###28 09 2012 new variable
-content#:#cont_all_topics#:#All Topics###28 09 2012 new variable
-rating#:#rating_export_category#:#Category###28 09 2012 new variable
+content#:#cont_topic#:#Emne
+content#:#cont_selected_topic#:#Valgt emne
+content#:#cont_all_topics#:#Alle emner
+rating#:#rating_export_category#:#Kategori
 rating#:#rating_export_date#:#Date###28 09 2012 new variable
 rating#:#rating_export_rating#:#Rating###28 09 2012 new variable
 trac#:#trac_mode_plugin#:#Plugin###28 09 2012 new variable
@@ -12828,7 +12828,7 @@ dateplaner#:#cal_notification_crsgrp#:#Notification for Course/Group Participant
 dateplaner#:#cal_notification_users#:#Notification for Selected Users###27 10 2012 new variable
 dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.###27 10 2012 new variable
 dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.###27 10 2012 new variable
-dateplaner#:#cal_user_notification#:#User Notification###27 10 2012 new variable
+dateplaner#:#cal_user_notification#:#Brugeradvisering
 dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses.###27 10 2012 new variable
 dateplaner#:#cal_cg_notification#:#Course/Group Notification###27 10 2012 new variable
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"###27 10 2012 new variable
@@ -12909,27 +12909,27 @@ rbac#:#rcat_edit_permission#:#User can change permission settings###28 11 2012 n
 rbac#:#rcat_read#:#User can use ECS Category###28 11 2012 new variable
 rbac#:#rcat_visible#:#ECS Category is visible###28 11 2012 new variable
 rbac#:#rcat_write#:#User can edit settings of ECS Category###28 11 2012 new variable
-search#:#search_filter_by_type#:#Filter by Type###28 11 2012 new variable
+search#:#search_filter_by_type#:#Filtrer efter type
 search#:#search_off#:#Off###28 11 2012 new variable
 ecs#:#ecs_cmap_enable#:#Course Allocation###27 12 2012 new variable
-ecs#:#ecs_cmap_def_cat#:#Default Category###27 12 2012 new variable
+ecs#:#ecs_cmap_def_cat#:#Standardkategori
 ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.###27 12 2012 new variable
 ecs#:#ecs_cmap_all_in_one#:#Course in one Category###27 12 2012 new variable
-ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.###27 12 2012 new variable
-ecs#:#ecs_cmap_all_in_one_cat#:#Course Category###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one_info#:#Lav alle nye kurser i en kategori
+ecs#:#ecs_cmap_all_in_one_cat#:#Kursuskategori
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes###27 12 2012 new variable
-ecs#:#ecs_cmap_att_organisation#:#Organisation###27 12 2012 new variable
+ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_term#:#Term###27 12 2012 new variable
-ecs#:#ecs_cmap_att_title#:#Title###27 12 2012 new variable
-ecs#:#ecs_cmap_att_lecturer#:#Lecturer###27 12 2012 new variable
+ecs#:#ecs_cmap_att_title#:#Titel
+ecs#:#ecs_cmap_att_lecturer#:#Underviser
 ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration###27 12 2012 new variable
 ecs#:#ecs_cmap_attributes#:#Mapping Attributes###27 12 2012 new variable
 ecs#:#ecs_cmap_overview#:#Mapping Overview###27 12 2012 new variable
 ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:###27 12 2012 new variable
 ecs#:#ecs_cmap_form_filter#:#Filter Settings###27 12 2012 new variable
-ecs#:#ecs_cmap_form_all_values#:#All Values###27 12 2012 new variable
+ecs#:#ecs_cmap_form_all_values#:#Alle værdier
 ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated###27 12 2012 new variable
-ecs#:#ecs_cmap_form_create_subdirs#:#Create Subdirectories###27 12 2012 new variable
+ecs#:#ecs_cmap_form_create_subdirs#:#Lav undermapper
 ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title###27 12 2012 new variable
 ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value###27 12 2012 new variable
 ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name###27 12 2012 new variable
@@ -12945,4 +12945,4 @@ dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you ca
 dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
 rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
 content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
-common#:#edited_on#:#Edited on###14 01 2013 new variable
+common#:#edited_on#:#Redigeret
