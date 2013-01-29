@@ -107,12 +107,12 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 
 		if($rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'settings'), array('reset', 'confirmReset', 'saveSettings', 'settings', '', 'view'), '', '');
+			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'settings'), array('saveSettings', 'settings', '', 'view'), '', '');
 		}
 
 		if($rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('tos_agreement_by_lng', $this->ctrl->getLinkTarget($this, 'showAgreementByLanguage'), array('showAgreementByLanguage', 'resetAgreementByLanguageFilter', 'applyAgreementByLanguageFilter'), '', '');
+			$tabs_gui->addTarget('tos_agreement_by_lng', $this->ctrl->getLinkTarget($this, 'showAgreementByLanguage'), array('reset', 'confirmReset', 'showAgreementByLanguage', 'resetAgreementByLanguageFilter', 'applyAgreementByLanguageFilter'), '', '');
 		}
 
 		if($rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
