@@ -43,6 +43,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	// Service methods
 	function login($client,$username,$password)
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
 		$_COOKIE['ilClientId'] = $client;
 		$_POST['username'] = $username;
 		$_POST['password'] = $password;
@@ -52,11 +57,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		
 		ilUtil::setCookie('ilClientId',$client);
 
-		global $ilUser;
-		if(!$ilUser->hasAcceptedUserAgreement())
+		if($ilUser->hasToAcceptTermsOfService())
 		{
 			return $this->__raiseError('User agreement not accepted', 'Server');
 		}
+
 		return (session_id().'::'.$client);
 	}
 

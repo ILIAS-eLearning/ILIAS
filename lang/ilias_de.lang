@@ -12946,6 +12946,25 @@ content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no p
 rbac#:#itgr_visible#:#Objektblock ist sichtbar
 content#:#glo_term_must_belong_to_glo#:#Die Aktion kann nur für Begriffe ausgeführt werden, welche innerhalb dieses Glossares definiert wurden.
 common#:#edited_on#:#Bearbeitet am
+common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
+common#:#obj_tos#:#Nutzungsvereinbarungen
+tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt.
+tos#:#tos_agreement_by_lng#:#Nutzungsvereinbarungen
+tos#:#tos_agreement#:#Nutzungsvereinbarungen
+tos#:#tos_agreement_exists#:#Vorhanden
+tos#:#tos_agreement_missing#:#Nicht Vorhanden
+tos#:#tos_agreement_file#:#Datei
+tos#:#tos_agreement_file_missing#:#Nicht Vorhanden
+tos#:#tos_tos_settings#:#Einstellungen
+tos#:#tos_status_enable#:#Aktivieren
+tos#:#tos_status_desc#:#Falls aktiviert, werden Benutzer zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
+tos#:#tos_reset_tos_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
+tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen?
+tos#:#tos_reset_successfull#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
+user#:#tos_show_signed_text#:#Zeige Details
+user#:#tos_not_accepted_yet#:#Noch nicht akzeptiert
+user#:#tos_accepted_content#:#Akzeptierter Text
+tos#:#tos_last_modified#:#Letzte Änderung
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#NutzerInnen zu einer Umfrage einladen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben

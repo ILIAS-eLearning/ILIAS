@@ -13797,3 +13797,134 @@ if(!$ilDB->tableColumnExists('addressbook_mlist', 'lmode'))
 	
 }
 ?>
+<#3809>
+<?php
+$setting = new ilSetting();
+$iltosobjinstall = $setting->get('iltosobjinstall');
+if(!$iltosobjinstall)
+{
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$tos_type_id = ilDBUpdateNewObjectType::addNewType('tos', 'Terms of Service');
+
+	$rbac_ops = array(
+		ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+		ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+		ilDBUpdateNewObjectType::RBAC_OP_READ,
+		ilDBUpdateNewObjectType::RBAC_OP_WRITE
+	);
+	ilDBUpdateNewObjectType::addRBACOperations($tos_type_id, $rbac_ops);
+
+	$obj_id = $ilDB->nextId('object_data');
+	$ilDB->insert(
+		'object_data',
+		array(
+			'obj_id'                => array('integer', $obj_id),
+			'type'                  => array('text', 'tos'),
+			'title'                 => array('text', 'Terms of Service'),
+			'description'           => array('text', 'Terms of Service: Settings'),
+			'owner'                 => array('integer', -1),
+			'create_date'           => array('timestamp', date('Y-m-d H:i:s')),
+			'last_update'           => array('timestamp', date('Y-m-d H:i:s'))
+		)
+	);
+
+	$ref_id = $ilDB->nextId('object_reference');
+	$query  = "
+		INSERT INTO object_reference
+		(ref_id, obj_id)
+		VALUES(" . $ilDB->quote($ref_id, 'integer') . ", " . $ilDB->quote($obj_id, 'integer') . ")
+	";
+	$ilDB->manipulate($query);
+
+	$tree = new ilTree(ROOT_FOLDER_ID);
+	$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
+
+	$setting->set('iltosobjinstall', 1);
+}
+?>
+<#3810>
+<?php
+$setting = new ilSetting();
+$setting->set('tos_status', 1);
+?>
+<#3811>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#3812>
+<?php
+if(!$ilDB->tableExists('tos_versions'))
+{
+	$fields = array(
+		'id' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'lng'    => array(
+			'type'    => 'text',
+			'notnull' => false,
+			'length'  => 2,
+			'default' => null
+		),
+		'path'   => array(
+			'type'    => 'text',
+			'notnull' => false,
+			'length'  => 4000,
+			'default' => null
+		),
+		'text'   => array(
+			'type'    => 'clob',
+			'notnull' => false,
+			'default' => null
+		),
+		'hash'   => array(
+			'type'    => 'text',
+			'notnull' => false,
+			'length'  => 32,
+			'default' => null
+		),
+		'ts'     => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable('tos_versions', $fields);
+	$ilDB->addPrimaryKey('tos_versions', array('id'));
+	$ilDB->createSequence('tos_versions');
+	$ilDB->addIndex('tos_versions', array('hash', 'lng'), 'i1');
+}
+?>
+<#3813>
+<?php
+if(!$ilDB->tableExists('tos_acceptance_track'))
+{
+	$fields = array(
+		'tosv_id'      => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id'      => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'ts'          => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable('tos_acceptance_track', $fields);
+	$ilDB->addPrimaryKey('tos_acceptance_track', array('tosv_id', 'usr_id', 'ts'));
+	$ilDB->createSequence('tos_acceptance_track');
+	$ilDB->addIndex('tos_acceptance_track', array('usr_id', 'ts'), 'i1');
+}
+?>

@@ -557,12 +557,16 @@ class ilInitialisation
 	 */
 	public static function initUserAccount()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilUser;
 
 		// get user id
 		if (!ilSession::get("AccountId"))
 		{
 			ilSession::set("AccountId", $ilUser->checkUserId());
+			$ilUser->hasToAcceptTermsOfServiceInSession(true);
 		}
 		
 		$uid = ilSession::get("AccountId");		

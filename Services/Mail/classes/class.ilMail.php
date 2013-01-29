@@ -1077,8 +1077,7 @@ class ilMail
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
 				$tmp_user = self::getCachedUserInstance($id);
 				$user_is_active = $tmp_user->getActive();
-				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() &&
-											    $tmp_user->checkTimeLimit();
+				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
 				// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
 				if (in_array('system', $a_type) && !$user_can_read_internal_mails)
@@ -1156,8 +1155,7 @@ class ilMail
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
 				$tmp_user = self::getCachedUserInstance($id);
 				$user_is_active = $tmp_user->getActive();
-				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() &&
-											    $tmp_user->checkTimeLimit();
+				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
 				// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
 				if (in_array('system', $a_type) && !$user_can_read_internal_mails)
@@ -1214,8 +1212,7 @@ class ilMail
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
 				$tmp_user = self::getCachedUserInstance($id);
 				$user_is_active = $tmp_user->getActive();
-				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement()
-							&& $tmp_user->checkTimeLimit();
+				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
 				// Do not send external mails to inactive users!!!
 				if($user_is_active)

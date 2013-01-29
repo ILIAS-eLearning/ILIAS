@@ -5310,5 +5310,66 @@ class ilObjUser extends ilObject
 		return $this->inactivation_date;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function hasToAcceptTermsOfService()
+	{
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+
+		if(ilTermsOfServiceHelper::isEnabled() && 
+		   null === $this->agree_date &&
+		   !in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $a_username
+	 * @return bool
+	 */
+	public static function hasUserToAcceptTermsOfService($a_username)
+	{
+		/**
+ 		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+
+		if(!ilTermsOfServiceHelper::isEnabled())
+		{
+			return false;
+		}
+
+		$in = $ilDB->in('usr_id', array(ANONYMOUS_USER_ID, SYSTEM_USER_ID), true, 'integer');
+		$res = $ilDB->queryF(
+			"SELECT usr_id FROM usr_data WHERE login = %s AND agree_date IS NULL $in",
+			array("text"),
+			array($a_username)
+		);
+		return $ilDB->fetchAssoc($res) ? true : false;
+	}
+
+	/**
+	 * @param bool|null $status
+	 * @return void|bool
+	 */
+	public function hasToAcceptTermsOfServiceInSession($status = null)
+	{
+		if(null === $status)
+		{
+			return ilSession::get('has_to_accept_agr_in_session');
+		}
+		
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+		if(ilTermsOfServiceHelper::isEnabled())
+		{
+			ilSession::set('has_to_accept_agr_in_session', (int)$status);
+		}
+	}
 } // END class ilObjUser
 ?>

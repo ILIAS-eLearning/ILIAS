@@ -36,7 +36,6 @@ class ilLanguageTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt("last_change"));
 		}
-		$this->addColumn($this->lng->txt("usr_agreement"));
 		$this->setDefaultOrderField("name");
 		$this->setSelectAllCheckbox("id[]");
 		
@@ -120,28 +119,6 @@ class ilLanguageTableGUI extends ilTable2GUI
 			$remark .= "<span class=\"smallgreen\"> ".$lng->txt('language_translation_enabled')."</span>";
 		}
 
-		if (file_exists("./Customizing/clients/".CLIENT_ID."/agreement/".
-			"agreement_".$a_set["key"].".html"))
-		{
-			$agreement_exists_str = $lng->txt("available")." (".$lng->txt("client").")";
-		}
-		else if (file_exists("./Customizing/global/agreement/".
-			"agreement_".$a_set["key"].".html"))
-		{
-			$agreement_exists_str = $lng->txt("available");
-		}
-		else
-		{
-			if ($a_set["status"] == "system_language")
-			{
-				$agreement_exists_str = "<b>".$lng->txt("missing")."</b>";
-			}
-			else
-			{
-				$agreement_exists_str = $lng->txt("missing");
-			}
-		}
-
 		// make language name clickable
 		if ($rbacsystem->checkAccess("write", $this->folder->getRefId()))
 		{
@@ -187,7 +164,6 @@ class ilLanguageTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("VAL_LANGUAGE", $a_set["name"].$status);
 		$this->tpl->setVariable("VAL_STATUS", $lng->txt($a_set["desc"])."<br/>".$remark);
-		$this->tpl->setVariable("VAL_USER_AGREEMENT", $agreement_exists_str);
 		$this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
 	}
 

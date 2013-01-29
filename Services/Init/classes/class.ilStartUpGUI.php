@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 /**
 * StartUp GUI class. Handles Login and Registration.
 *
@@ -896,18 +897,20 @@ class ilStartUpGUI
 	{
 		global $lng;
 
-		$utpl = new ilTemplate('tpl.login_user_agreement_link.html',true,true,'Services/Init');
-		$utpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
-		$utpl->setVariable("LINK_USER_AGREEMENT",$this->ctrl->getLinkTarget($this, "showUserAgreement"));
-
-		return $this->substituteLoginPageElements(
-			$GLOBALS['tpl'],
-			$page_editor_html,
-			$utpl->get(),
-			'[list-user-agreement]',
-			'USER_AGREEMENT'
-		);
-
+		if(ilTermsOfServiceHelper::isEnabled())
+		{
+			$utpl = new ilTemplate('tpl.login_user_agreement_link.html',true,true,'Services/Init');
+			$utpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
+			$utpl->setVariable("LINK_USER_AGREEMENT",$this->ctrl->getLinkTarget($this, "showUserAgreement"));
+	
+			return $this->substituteLoginPageElements(
+				$GLOBALS['tpl'],
+				$page_editor_html,
+				$utpl->get(),
+				'[list-user-agreement]',
+				'USER_AGREEMENT'
+			);
+		}
 	}
 
 	/**
@@ -1481,7 +1484,8 @@ class ilStartUpGUI
 		{
 			if ($_POST["status"]=="accepted")
 			{
-				$ilUser->writeAccepted();
+				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+				ilTermsOfServiceHelper::trackAcceptance($ilUser, ilUserAgreement::getAgreementFile());
 				ilUtil::redirect("index.php?target=".$_GET["target"]."&client_id=".CLIENT_ID);
 			}
 			$tpl->setVariable("VAL_CMD", "getAcceptance");
@@ -1554,6 +1558,9 @@ class ilStartUpGUI
 	*/
 	function processStartingPage()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilUser;
 
 		// fallback, should never happen
@@ -1564,7 +1571,7 @@ class ilStartUpGUI
 		else
 		{							
 			// user agreement accepted?
-			if(!$ilUser->hasAcceptedUserAgreement())
+			if($ilUser->hasToAcceptTermsOfService() && $ilUser->hasToAcceptTermsOfServiceInSession())
 			{
 				ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
 			}													
