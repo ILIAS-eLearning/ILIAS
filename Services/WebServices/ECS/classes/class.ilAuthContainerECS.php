@@ -287,6 +287,7 @@ class ilAuthContainerECS extends Auth_Container
 		$user_obj->setLastname($user->getLastname());
 		$user_obj->setEmail($user->getEmail());
 		$user_obj->setInstitution($user->getInstitution());
+		$user_obj->setActive(true);
 		
 		$until = $user_obj->getTimeLimitUntil();
 

@@ -26,6 +26,7 @@ class ilECSNodeMappingSettings
 	private $allinone = false;
 	private $allinone_cat = 0;
 	private $attributes = false;
+	private $role_mappings = array();
 
 	/**
 	 * Singeleton constructor
@@ -134,6 +135,16 @@ class ilECSNodeMappingSettings
 	{
 		return $this->attributes;
 	}
+	
+	public function setRoleMappings($a_mappings)
+	{
+		$this->role_mappings = $a_mappings;
+	}
+	
+	public function getRoleMappings()
+	{
+		return $this->role_mappings;
+	}
 
 	/**
 	 * Save settings to db
@@ -147,6 +158,7 @@ class ilECSNodeMappingSettings
 		$this->getStorage()->set('allinone', $this->isAllInOneCategoryEnabled());
 		$this->getStorage()->set('allinone_cat', $this->getAllInOneCategory());
 		$this->getStorage()->set('attributes', $this->isAttributeMappingEnabled());
+		$this->getStorage()->set('role_mappings',serialize($this->getRoleMappings()));
 		return true;
 	}
 
@@ -181,6 +193,7 @@ class ilECSNodeMappingSettings
 		$this->enableAllInOne($this->getStorage()->get('allinone'),$this->allinone);
 		$this->setAllInOneCategory($this->getStorage()->get('allinone_cat'),$this->allinone_cat);
 		$this->enableAttributeMapping($this->getStorage()->get('attributes'),$this->attributes);
+		$this->setRoleMappings(unserialize($this->getStorage()->get('role_mappings')),serialize($this->role_mappings));
 	}
 }
 

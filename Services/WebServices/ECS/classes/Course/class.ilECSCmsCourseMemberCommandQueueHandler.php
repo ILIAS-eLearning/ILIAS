@@ -14,6 +14,8 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 	private $server = null;
 	private $mid = 0;
 	
+	private $mapping = null;
+	
 	
 	/**
 	 * Constructor
@@ -31,6 +33,16 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 	public function getServer()
 	{
 		return $this->server;
+	}
+	
+	
+	/**
+	 * Get mapping settings
+	 * @return ilECSnodeMappingSettings
+	 */
+	public function getMappingSettings()
+	{
+		return $this->mapping;
 	}
 	
 	/**
@@ -119,6 +131,10 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 	{
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
 		$this->mid = ilECSParticipantSettings::loookupCmsMid($this->getServer()->getServerId());
+		
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+		$this->mapping = ilECSNodeMappingSettings::getInstance();
+		
 	}
 	
 	/**
@@ -204,23 +220,32 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		// Assign new participants
 		foreach((array) $course_member->members as $person)
 		{
+			$role = $this->lookupCourseRole($person->courseRole);
+			$acc = ilObjUser::_checkExternalAuthAccount(
+					ilECSSetting::lookupAuthMode(),
+					(string) $person->personID);
+			$GLOBALS['ilLog']->write(__METHOD__.': Handling user '. (string) $person->personID);
+			
 			if(in_array($person->personID, $usr_ids))
 			{
-				// Nothing to do, user is member or is locally deleted
+				if($il_usr_id = ilObjUser::_lookupId($acc))
+				{
+					$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($role,true));
+					$part->updateRoleAssignments($il_usr_id, array($role));
+					// Nothing to do, user is member or is locally deleted
+				}
 			}
 			else
 			{
-				$acc = ilObjUser::_checkExternalAuthAccount(
-						ilECSSetting::lookupAuthMode(),
-						(string) $person->personID);
-				$GLOBALS['ilLog']->write(__METHOD__.': Handling user '. (string) $person->personID);
-				
 				if($il_usr_id = ilObjUser::_lookupId($acc))
 				{
-					// Add user
-					$GLOBALS['ilLog']->write(__METHOD__.': Assigning new user ' . $person->personID. ' '. 'to course '. ilObject::_lookupTitle($obj_id));
 					
-					$part->add($il_usr_id,IL_CRS_MEMBER);
+					if($role)
+					{
+					// Add user
+						$GLOBALS['ilLog']->write(__METHOD__.': Assigning new user ' . $person->personID. ' '. 'to course '. ilObject::_lookupTitle($obj_id));
+						$part->add($il_usr_id,$role);
+					}
 					
 				}
 				else
@@ -239,6 +264,26 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			}
 		}
 		return true;
+	}
+	
+	protected function lookupCourseRole($role_value)
+	{
+		$role_mappings = $this->getMappingSettings()->getRoleMappings();
+		
+		if(!$role_value)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': no role assignment missing attribute courseRole');
+			return 0;
+		}
+		foreach($role_mappings as $name => $map)
+		{
+			if($role_value == $map)
+			{
+				return $name;
+			}
+		}
+		$GLOBALS['ilLog']->write(__METHOD__.': No role assignment mapping for role ' . $role_value);
+		return 0;
 	}
 	
 

@@ -253,8 +253,10 @@ abstract class ilRemoteObjectBase extends ilObject2
 			
 			$connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($server_id));
 			$auth = new ilECSAuth();
-			//$auth->setUrl($this->getRemoteLink());
+			// URL is deprecated
+			#$auth->setUrl($this->getRemoteLink());
 			$auth->setRealm(sha1($this->getRemoteLink()));
+			$GLOBALS['ilLog']->write(__METHOD__.' Mid is '.$this->getMID());
 			$this->auth_hash = $connector->addAuth(@json_encode($auth),$this->getMID());
 			return true;
 		}
@@ -595,8 +597,8 @@ abstract class ilRemoteObjectBase extends ilObject2
 			$this->handleDelete($a_server, $a_econtent_id);
 			$ilLog->write(__METHOD__.': Handling delete of deprecated remote object. DONE');
 			return;
-		}			 
-
+		}
+		
 		$ilLog->write(__METHOD__.': Receivers are '. print_r($details->getReceivers(),true));
 		$ilLog->write(__METHOD__.': Senders are '. print_r($details->getSenders(),true));
 		
@@ -644,12 +646,12 @@ abstract class ilRemoteObjectBase extends ilObject2
 					$ilLog->write(__METHOD__.': Cannot instantiate remote object. Got object type '.$remote->getType());
 					continue;
 				}
-				$remote->updateFromECSContent($a_server,$json,$owner);
+				$remote->updateFromECSContent($a_server,$json,$details->getFirstSender());
 			}
 			else
 			{
 				$ilLog->write(__METHOD__.': Handling create for non existing object');
-				$this->createFromECSEContent($a_server,$json,$owner);	
+				$this->createFromECSEContent($a_server,$json,$details->getFirstSender());
 								
 				// update import status
 				$ilLog->write(__METHOD__.': Updating import status');
