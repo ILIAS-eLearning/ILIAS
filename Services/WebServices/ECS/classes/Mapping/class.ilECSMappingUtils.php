@@ -106,6 +106,44 @@ class ilECSMappingUtils
 		}
 		return '';
 	}
+	
+	
+	public static function getRoleMappingInfo()
+	{
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		return array(
+			IL_CRS_ADMIN => array(
+				'role' => IL_CRS_ADMIN,
+				'lang' => 'il_crs_admin',
+				'create' => true,
+				'required' => true,
+				'type' => 'crs'),
+			IL_CRS_TUTOR => array(
+				'role' => IL_CRS_TUTOR,
+				'lang' => 'il_crs_tutor',
+				'create' => true,
+				'required' => false,
+				'type' => 'crs'),
+			IL_CRS_MEMBER => array(
+				'role' => IL_CRS_MEMBER,
+				'lang' => 'il_crs_member',
+				'create' => false,
+				'required' => true,
+				'type' => 'crs'),
+			IL_GRP_ADMIN => array(
+				'role' => IL_GRP_ADMIN,
+				'lang' => 'il_grp_admin',
+				'create' => true,
+				'required' => false,
+				'type' => 'grp'),
+			IL_GRP_MEMBER => array(
+				'role' => IL_GRP_MEMBER,
+				'lang' => 'il_grp_member',
+				'create' => false,
+				'required' => false,
+				'type' => 'grp')
+		);
+	}
 
 
 }

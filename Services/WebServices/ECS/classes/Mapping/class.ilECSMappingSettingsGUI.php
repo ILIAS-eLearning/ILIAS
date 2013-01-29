@@ -528,6 +528,25 @@ class ilECSMappingSettingsGUI
 
 		$form->addItem($multiple);
 		
+		// role mapping
+		$rm = new ilFormSectionHeaderGUI();
+		$rm->setTitle($this->lng->txt('ecs_role_mappings'));
+		$form->addItem($rm);
+		
+		$mapping_defs = ilECSNodeMappingSettings::getInstance()->getRoleMappings();
+		
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
+		foreach(ilECSMappingUtils::getRoleMappingInfo() as $name => $info)
+		{
+			$role_map = new ilTextInputGUI($this->lng->txt($info['lang']),$name);
+			$role_map->setValue($mapping_defs[$name]);
+			$role_map->setSize(32);
+			$role_map->setMaxLength(64);
+			$role_map->setRequired($info['required']);
+			$form->addItem($role_map);
+		}
+		
+		
 		$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cSettings', $this->lng->txt('cancel'));
 
@@ -573,6 +592,13 @@ class ilECSMappingSettingsGUI
 			$settings->enableAllInOne($form->getInput('allinone'));
 			$settings->setAllInOneCategory($form->getInput('allinone_cat'));
 			$settings->enableAttributeMapping($form->getInput('multiple'));
+			
+			$role_mappings = array();
+			foreach(ilECSMappingUtils::getRoleMappingInfo() as $name => $info)
+			{
+				$role_mappings[$name] = $form->getInput($name);
+			}
+			$settings->setRoleMappings($role_mappings);
 			$settings->update();
 			
 			// store attribute settings

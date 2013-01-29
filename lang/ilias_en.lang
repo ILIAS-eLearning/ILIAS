@@ -12949,3 +12949,5 @@ common#:#edited_on#:#Edited on
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 survey#:#svy_invite_action#:#Invite users to a survey
 rbac#:#chtr_delete#:#User can move or delete course
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
+ecs#:#ecs_role_mapping_value#:#Attribute Value
