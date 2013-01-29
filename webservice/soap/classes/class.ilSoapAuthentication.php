@@ -114,24 +114,22 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	 */
 	protected function __checkAgreement($a_auth_mode)
 	{
-	 	global $ilDB;
-	 	
 		include_once('./Services/User/classes/class.ilObjUser.php');
 		include_once('./Services/Administration/classes/class.ilSetting.php');
-		
+
 		$GLOBALS['ilSetting'] = new ilSetting();
-		
+
 		if(!$login = ilObjUser::_checkExternalAuthAccount($a_auth_mode,$this->getUsername()))
 		{
-			// User does not exist
 			return true;
 		}
-		
-		if(!ilObjUser::_hasAcceptedAgreement($login))
+
+		if(ilObjUser::hasUserToAcceptTermsOfService($login))
 		{
 			$this->__setMessage('User agreement no accepted.');
 			return false;
 		}
+
 		return true;
 	}
 	

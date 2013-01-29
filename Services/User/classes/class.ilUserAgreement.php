@@ -32,79 +32,25 @@
 class ilUserAgreement
 {
 	/**
-	* ilias object
-	* @var object Ilias
-	* @access public
-	*/
-	var $ilias;
-
-
-	/**
-	* Constructor
-	* @access	public
-	*/
-	function ilUserAgreement()
+	 * get user agreement text  (static)
+	 *
+	 * @access	public
+	 */
+	public static function _getText()
 	{
-		global $ilias;
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
 
-		$this->ilias = &$ilias;
-	}
+		$agreement = self::getAgreementFile();
 
-	/**
-	* get user agreement text  (static)
-	*
-	* @access	public
-	*/
-	function _getText()
-	{
-		global $lng, $ilias, $ilLog;
-	
-		
-		// 1st try: client specific / user language agreement
-		$agreement = "./Customizing/clients/".CLIENT_ID."/agreement/".
-			"agreement_".$lng->lang_key.".html";
-	
-		// 2nd try: client specific / default language
-		if (!file_exists($agreement))
-		{
-			$agreement = "./Customizing/clients/".CLIENT_ID."/agreement/".
-				"agreement_".$lng->lang_default.".html";
-		}
-	
-		// 3rd try: client specific / english
-		if (!file_exists($agreement))
-		{
-			$agreement = "./Customizing/clients/".CLIENT_ID."/agreement/".
-				"agreement_en.html";
-		}
-		
-		// 4th try: global / user language
-		if (!file_exists($agreement))
-		{
-			$agreement = "./Customizing/global/agreement/".
-				"agreement_".$lng->lang_key.".html";
-		}
-	
-		// 5th try: global / default language
-		if (!file_exists($agreement))
-		{
-			$agreement = "./Customizing/global/agreement/".
-				"agreement_".$lng->lang_default.".html";
-		}
-	
-		// last try: global / english
-		if (!file_exists($agreement))
-		{
-			$ilLog->write("view_usr_agreement.php: Agreement file "."agreement_".$lng->lang_default.".html"." has not been found (system language).");
-			$agreement = "./Customizing/global/agreement/".
-				"agreement_en.html";
-		}
-		
-		if (file_exists($agreement))
+		if(is_file($agreement))
 		{
 			if ($content = file($agreement))
 			{
-				foreach ($content as $key => $val)
+				$text = '';
+				foreach ($content as $val)
 				{
 					$text .= trim(nl2br($val));
 				}
@@ -114,5 +60,56 @@ class ilUserAgreement
 		
 		return "<br />".$lng->txt("no_agreement_description")."<br /><br />";
 	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getAgreementFile()
+	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
+		// 1st try: client specific / user language agreement
+		$agreement = "./Customizing/clients/" . CLIENT_ID . "/agreement/" .
+			"agreement_" . $lng->lang_key . ".html";
+
+		// 2nd try: client specific / default language
+		if(!is_file($agreement))
+		{
+			$agreement = "./Customizing/clients/" . CLIENT_ID . "/agreement/" .
+				"agreement_" . $lng->lang_default . ".html";
+		}
+
+		// 3rd try: client specific / english
+		if(!is_file($agreement))
+		{
+			$agreement = "./Customizing/clients/" . CLIENT_ID . "/agreement/" .
+				"agreement_en.html";
+		}
+
+		// 4th try: global / user language
+		if(!is_file($agreement))
+		{
+			$agreement = "./Customizing/global/agreement/" .
+				"agreement_" . $lng->lang_key . ".html";
+		}
+
+		// 5th try: global / default language
+		if(!is_file($agreement))
+		{
+			$agreement = "./Customizing/global/agreement/" .
+				"agreement_" . $lng->lang_default . ".html";
+		}
+
+		// last try: global / english
+		if(!is_file($agreement))
+		{
+			$agreement = "./Customizing/global/agreement/".
+				"agreement_en.html";
+		}
+		
+		return $agreement;
+	}
 }
-?>

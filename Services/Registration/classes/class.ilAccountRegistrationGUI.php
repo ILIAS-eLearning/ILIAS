@@ -17,7 +17,11 @@
 
 require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
 require_once "./Services/User/classes/class.ilUserAgreement.php";
+require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 
+/**
+ * 
+ */
 class ilAccountRegistrationGUI
 {
 	protected $registration_settings; // [object]
@@ -213,23 +217,22 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		
-		// user agreement
+		if(ilTermsOfServiceHelper::isEnabled())
+		{
+			$field = new ilFormSectionHeaderGUI();
+			$field->setTitle($lng->txt('usr_agreement'));
+			$this->form->addItem($field);
 
-		$field = new ilFormSectionHeaderGUI();
-		$field->setTitle($lng->txt("usr_agreement"));
-		$this->form->addItem($field);
+			$field = new ilCustomInputGUI();
+			$field->setHTML('<div id="agreement">' . ilUserAgreement::_getText() . '</div>');
+			$this->form->addItem($field);
 
-		$field = new ilCustomInputGUI();
-		$field->setHTML('<div id="agreement">'.ilUserAgreement::_getText().'</div>');
-		$this->form->addItem($field);
+			$field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'usr_agreement');
+			$field->setRequired(true);
+			$field->setValue(1);
+			$this->form->addItem($field);
+		}
 
-		$field = new ilCheckboxInputGUI($lng->txt("accept_usr_agreement"), "usr_agreement");
-		$field->setRequired(true);
-		$field->setValue(1);
-		$this->form->addItem($field);
-		
-		
 		$this->form->addCommandButton("saveForm", $lng->txt("register"));		
 	}
 	
@@ -282,7 +285,7 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		if(!$this->form->getInput("usr_agreement"))
+		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('usr_agreement'))
 		{
 			$agr_obj = $this->form->getItemByPostVar('usr_agreement');
 			$agr_obj->setAlert($lng->txt("force_accept_usr_agreement"));
@@ -561,7 +564,10 @@ class ilAccountRegistrationGUI
 		$this->userObj->saveAsNew();
 
 		// store acceptance of user agreement
-		$this->userObj->writeAccepted();
+		if(ilTermsOfServiceHelper::isEnabled())
+		{
+			ilTermsOfServiceHelper::trackAcceptance($this->userObj, ilUserAgreement::getAgreementFile());
+		}
 
 		// setup user preferences
 		$this->userObj->setLanguage($this->form->getInput('usr_language'));

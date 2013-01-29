@@ -512,7 +512,7 @@ class ilAdministrationGUI
 			2 => array(
 				"services" =>
 					array("pdts", "nwss", "tags", "prfa", "skmg", "cals", "mail", "---", "seas",
-						"mds","cert", 'ecss', "pays", "extt")
+						"mds","cert", 'ecss', "pays", "extt", 'tos')
 				),
 			3 => array(
 				"objects" =>

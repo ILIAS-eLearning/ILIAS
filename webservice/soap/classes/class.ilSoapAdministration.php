@@ -77,7 +77,11 @@ class ilSoapAdministration
 	// PROTECTED
 	function __checkSession($sid)
 	{
-		global $ilAuth;
+		/**
+		 * @var $ilAuth Auth
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilAuth, $ilUser;
 		
 		list($sid,$client) = $this->__explodeSid($sid);
 		
@@ -118,17 +122,13 @@ class ilSoapAdministration
 					return false;
 			}
 		}
-		
-		global $ilUser;
-		
-		if(!$ilUser->hasAcceptedUserAgreement() and $ilUser->getId() != ANONYMOUS_USER_ID)
+
+		if($ilUser->hasToAcceptTermsOfService())
 		{
 			$this->__setMessage('User agreement no accepted.');
 			$this->__setMessageCode('Server');
 			return false;
 		}
-
-		global $ilSetting;
 
 		if($this->soap_check)
 		{
@@ -136,7 +136,7 @@ class ilSoapAdministration
 			$this->__setMessage('SOAP is not enabled in ILIAS administration for this client');
 			$this->__setMessageCode('Server');
 			return ($set->get("soap_user_administration") == 1);
-		}		
+		}
 
 		return true;
 	}
