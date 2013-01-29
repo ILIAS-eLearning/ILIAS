@@ -59,6 +59,161 @@ class ilECSCourseMappingRule
 	}
 	
 	/**
+	 * 
+	 * @param type $a_sid
+	 * @param type $a_mid
+	 */
+	public static function getRuleRefIds($a_sid, $a_mid)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT DISTINCT(ref_id) ref_id, rid FROM ecs_cmap_rule '.
+				'WHERE sid = '.$ilDB->quote($a_sid,'integer').' '.
+				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+				'GROUP BY ref_id'.' '.
+				'ORDER BY rid';
+		
+		$res = $ilDB->query($query);
+		$ref_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ref_ids[] = $row->ref_id;
+		}
+		return $ref_ids;
+	}
+	
+	/**
+	 * Check if rule matches
+	 * @param type $course
+	 * @param type $a_start_rule_id
+	 */
+	public static function isMatching($course, $a_sid, $a_mid, $a_ref_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT rid FROM ecs_cmap_rule '.
+				'WHERE sid = '.$ilDB->quote($a_sid,'integer'). ' '.
+				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+				'AND ref_id = '.$ilDB->quote($a_ref_id,'integer').' '.
+				'ORDER BY rid';
+		$res = $ilDB->query($query);
+		$matches = false;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$rule = new ilECSCourseMappingRule($row->rid);
+			if(!$rule->matches($course))
+			{
+				return false;
+			}
+			else
+			{
+				$matches = true;
+			}
+		}
+		return $matches;
+	}
+	
+	/**
+	 * 
+	 * @param type $course
+	 * @param type $a_sid
+	 * @param type $a_mid
+	 * @param type $a_ref_id
+	 */
+	public static function doMappings($course,$a_sid,$a_mid, $a_ref_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT rid FROM ecs_cmap_rule '.
+				'WHERE sid = '.$ilDB->quote($a_sid,'integer'). ' '.
+				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+				'AND ref_id = '.$ilDB->quote($a_ref_id,'integer').' '.
+				'ORDER BY rid';
+		$res = $ilDB->query($query);
+		
+		$first = true;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$rule = new ilECSCourseMappingRule($row->rid);
+			if($first)
+			{
+				$parent_ref = $rule->getRefId();
+			}
+			$parent_ref = $rule->doMapping($course,$parent_ref);
+			$first = false;
+		}
+		return $parent_ref;
+	}
+	
+	/**
+	 * Do mapping
+	 * @param type $course
+	 * @param type $parent_ref
+	 */
+	public function doMapping($course,$parent_ref)
+	{
+		global $tree;
+		
+		if(!$this->isSubdirCreationEnabled())
+		{
+			return $parent_ref;
+		}
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
+		$value = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
+		
+		$childs = $tree->getChildsByType($parent_ref,'cat');
+		
+		$existing_ref = 0;
+		foreach((array) $childs as $child)
+		{
+			if(strcmp($child['title'], $value) === 0)
+			{
+				$existing_ref = $child['child'];
+				break;
+			}
+		}
+		if(!$existing_ref)
+		{
+			// Create category
+			include_once './Modules/Category/classes/class.ilObjCategory.php';
+			$cat = new ilObjCategory();
+			$cat->setTitle($value);
+			$cat->create();
+			$cat->createReference();
+			$cat->putInTree($parent_ref);
+			$cat->setPermissions($parent_ref);
+			$cat->deleteTranslation($GLOBALS['lng']->getDefaultLanguage());
+			$cat->addTranslation(
+					$value,
+					$cat->getLongDescription(),
+					$GLOBALS['lng']->getDefaultLanguage(),
+					1
+			);
+			return $cat->getRefId();
+		}
+		return $existing_ref;
+	}
+
+
+	/**
+	 * Check if rule matches
+	 * @param type $course
+	 * @return boolean
+	 */
+	public function matches($course)
+	{
+		if($this->isFilterEnabled())
+		{
+			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
+			$value = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
+			$GLOBALS['ilLog']->write(__METHOD__.': Comparing '. $value . ' with ' . $this->getFilter());
+			return strcmp($value, $this->getFilter()) === 0;
+		}
+		return true;
+	}
+	
+	
+	/**
 	 * Get rule instance by attribute 
 	 * @global type $ilDB
 	 * @param type $a_sid
