@@ -74,7 +74,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				if($a_permission == 'join')
 				{
 					include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
-					if(!ilCourseWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+					if(!ilCourseWaitingList::_isOnList($a_user_id, $a_obj_id))
 					{
 						return false;
 					}
@@ -124,7 +124,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				}
 				
 				include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
-				if(ilCourseWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+				if(ilCourseWaitingList::_isOnList($a_user_id, $a_obj_id))
 				{
 					return false;
 				}
