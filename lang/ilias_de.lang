@@ -12959,7 +12959,7 @@ tos#:#tos_tos_settings#:#Einstellungen
 tos#:#tos_status_enable#:#Aktivieren
 tos#:#tos_status_desc#:#Falls aktiviert, werden Benutzer zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
 tos#:#tos_reset_tos_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
-tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen?
+tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die evtl. für die SOAP-Web-Services, den Chatserver, oder Cronjobs genutzt werden.
 tos#:#tos_reset_successfull#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
 user#:#tos_show_signed_text#:#Zeige Details
 user#:#tos_not_accepted_yet#:#Noch nicht akzeptiert

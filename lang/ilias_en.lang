@@ -12959,7 +12959,7 @@ tos#:#tos_tos_settings#:#Settings
 tos#:#tos_status_enable#:#Enable
 tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system?
+tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP webservices, the chat server, or the cron job.
 tos#:#tos_reset_successfull#:#The terms of service have been reset successfully.
 user#:#tos_show_signed_text#:#Show Details
 user#:#tos_not_accepted_yet#:#Not accepted yet
