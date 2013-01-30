@@ -199,9 +199,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 			}
 
 			$tpl->setVariable("LINK_NAME", $a_node_id);
-			$tpl->setVariable("TITLE", ilUtil::shortenText(
-				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
-				$this->textwidth, true));
+			$tpl->setVariable("TITLE", $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]));
 			$tpl->setVariable("DESC", ilUtil::shortenText(
 				$this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]), $this->textwidth, true));
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
@@ -213,8 +211,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 		}
 		else			// output text only
 		{
-			$obj_title = ilUtil::shortenText(
-				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]), $this->textwidth, true);
+			$obj_title = $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]);
 			
 			// highlight current node
 			if($a_node_id == $this->highlighted)
