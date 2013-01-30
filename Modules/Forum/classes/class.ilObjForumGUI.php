@@ -1534,7 +1534,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				
 				ilUtil::sendSuccess($message, true);
 				$this->ctrl->setParameter($this, 'pos_pk', $newPost);
-				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());				
+				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
+				$this->ctrl->redirect($this, 'viewThread');
 			}
 			else
 			{
@@ -1642,7 +1643,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 				$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
-			}	
+				$this->ctrl->redirect($this, 'viewThread');
+			}
 		}
 		else
 		{
@@ -2030,45 +2032,46 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				ilUtil::sendInfo($lng->txt('forums_thread_marked'), true);
 			}
 
-		// delete post and its sub-posts
-		require_once './Modules/Forum/classes/class.ilForum.php';
-
-		if ($_GET['action'] == 'ready_delete' && $_POST['confirm'] != '')
-		{
-			if(!$this->objCurrentTopic->isClosed() &&
-			   ($this->is_moderator ||
-			    ($this->objCurrentPost->isOwner($ilUser->getId()) && !$this->objCurrentPost->hasReplies())) &&
-			   $ilUser->getId() != ANONYMOUS_USER_ID)
+			// delete post and its sub-posts
+			require_once './Modules/Forum/classes/class.ilForum.php';
+	
+			if ($_GET['action'] == 'ready_delete' && $_POST['confirm'] != '')
 			{
-				$frm = new ilForum();
-
-				$frm->setForumId($forumObj->getId());
-				$frm->setForumRefId($forumObj->getRefId());
-
-				$dead_thr = $frm->deletePost($this->objCurrentPost->getId());
-
-				// if complete thread was deleted ...
-				if ($dead_thr == $this->objCurrentTopic->getId())
+				if(!$this->objCurrentTopic->isClosed() &&
+				   ($this->is_moderator ||
+					($this->objCurrentPost->isOwner($ilUser->getId()) && !$this->objCurrentPost->hasReplies())) &&
+				   $ilUser->getId() != ANONYMOUS_USER_ID)
 				{
-
-					$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($forumObj->getId()));
-
-					$topicData = $frm->getOneTopic();
-
-					ilUtil::sendInfo($lng->txt('forums_post_deleted'), true);
-
-					if ($topicData['top_num_threads'] > 0)
+					$frm = new ilForum();
+	
+					$frm->setForumId($forumObj->getId());
+					$frm->setForumRefId($forumObj->getRefId());
+	
+					$dead_thr = $frm->deletePost($this->objCurrentPost->getId());
+	
+					// if complete thread was deleted ...
+					if ($dead_thr == $this->objCurrentTopic->getId())
 					{
-						$this->ctrl->redirect($this, 'showThreads');
+	
+						$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($forumObj->getId()));
+	
+						$topicData = $frm->getOneTopic();
+	
+						ilUtil::sendInfo($lng->txt('forums_post_deleted'), true);
+	
+						if ($topicData['top_num_threads'] > 0)
+						{
+							$this->ctrl->redirect($this, 'showThreads');
+						}
+						else
+						{
+							$this->ctrl->redirect($this, 'createThread');
+						}
 					}
-					else
-					{
-						$this->ctrl->redirect($this, 'createThread');
-					}
+					ilUtil::sendInfo($lng->txt('forums_post_deleted'));
 				}
-				ilUtil::sendInfo($lng->txt('forums_post_deleted'));
 			}
-		}
+
 			// form processing (censor)			
 			if(!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'ready_censor')
 			{
