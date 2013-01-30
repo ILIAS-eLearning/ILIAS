@@ -268,6 +268,11 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			$this->setDate(new ilDate($a_values[$this->getPostVar()]["date"],
 				IL_CAL_DATE));
 		}
+		
+		if($this->activation_post_var)
+		{
+			$this->activation_checked = (bool)$a_values[$this->activation_post_var];
+		}
 	
 		foreach($this->getSubItems() as $item)
 		{
