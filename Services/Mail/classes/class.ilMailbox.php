@@ -119,82 +119,96 @@ class ilMailbox
 	* get Id of the inbox folder of an user
 	* @access	public
 	*/
-	function getInboxFolder()
+	public function getInboxFolder()
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
-		$res = $ilDB->queryf('
-			SELECT * FROM '.$this->table_mail_obj_data.'
+		$res = $ilDB->queryF('
+			SELECT obj_id FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
 			AND m_type = %s',
 			array('integer', 'text'),
-			array($this->user_id, 'inbox'));
+			array($this->user_id, 'inbox')
+		);
 
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $ilDB->fetchAssoc($res);
 
-		return $row->obj_id;
+		return $row['obj_id'];
 	}
 
 	/**
 	* get Id of the inbox folder of an user
 	* @access	public
 	*/
-	function getDraftsFolder()
+	public function getDraftsFolder()
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
-		$res = $ilDB->queryf('
-			SELECT * FROM '.$this->table_mail_obj_data.'
+		$res = $ilDB->queryF('
+			SELECT obj_id FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
 			AND m_type = %s',
 			array('integer', 'text'),
-			array($this->user_id, 'drafts'));
-		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		
-		return $row->obj_id;
+			array($this->user_id, 'drafts')
+		);
+
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['obj_id'];
 	}
 
 	/**
 	* get Id of the trash folder of an user
 	* @access	public
 	*/
-	function getTrashFolder()
+	public function getTrashFolder()
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
 		$res = $ilDB->queryf('
-			SELECT * FROM '.$this->table_mail_obj_data.'
+			SELECT obj_id FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
 			AND m_type = %s',
 			array('integer', 'text'),
-			array($this->user_id, 'trash'));
-		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-				
-		return $row->obj_id;
+			array($this->user_id, 'trash')
+		);
+
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['obj_id'];
 	}
 
 	/**
 	* get Id of the sent folder of an user
 	* @access	public
 	*/
-	function getSentFolder()
+	public function getSentFolder()
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
 		$res = $ilDB->queryf('
-			SELECT * FROM '.$this->table_mail_obj_data.'
+			SELECT obj_id FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
 			AND m_type = %s',
 			array('integer', 'text'),
-			array($this->user_id, 'sent'));
-		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		
-		return $row->obj_id;
+			array($this->user_id, 'sent')
+		);
+
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['obj_id'];
 	}
 
 	/**
