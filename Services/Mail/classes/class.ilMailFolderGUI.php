@@ -229,8 +229,10 @@ class ilMailFolderGUI
 	{
 		global $ilToolbar;
 
-		if($_SESSION['viewmode'] != 'tree')
+		if('tree' != ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
+		{
 			$ilToolbar->addSeparator();
+		}
 		
 		$ilToolbar->addButton($this->lng->txt('mail_add_subfolder'), $this->ctrl->getLinkTarget($this, 'addSubFolder'));
 
@@ -246,6 +248,10 @@ class ilMailFolderGUI
 	*/
 	public function showFolder($a_show_confirmation = false)
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $ilToolbar ilToolbarGUI
+		 */
 		global $ilUser, $ilToolbar;
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
@@ -281,15 +287,14 @@ class ilMailFolderGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// SHOW_FOLDER ONLY IF viewmode is flatview
 		$folders = $this->mbox->getSubFolders();
 		$mtree = new ilTree($ilUser->getId());
 		$mtree->setTableNames('mail_tree', 'mail_obj_data');
 
 		$check_uf = false;
 		$check_local = false;
-
-		if($_SESSION['viewmode'] == 'tree')
+		
+		if('tree' == ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
 		{
 			$folder_d = $mtree->getNodeData($_GET['mobj_id']);
 			if($folder_d['m_type'] == 'user_folder')
@@ -309,13 +314,13 @@ class ilMailFolderGUI
 				  ->setSelectedItems($_POST['mail_id'])
 				  ->prepareHTML();
 
-		#if(!isset($_SESSION['viewmode']) || $_SESSION['viewmode'] == 'flat')
-		if($_SESSION['viewmode'] != 'tree')
+		$folder_options = array();
+		if('tree' != ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
 		{
-			$folder_options = array();
 			foreach($folders as $folder)
 			{
 				$folder_d = $mtree->getNodeData($folder['obj_id']);
+
 				if($folder['obj_id'] == $_GET['mobj_id'])
 				{
 					if($folder['type'] == 'user_folder')
@@ -328,13 +333,20 @@ class ilMailFolderGUI
 						$check_uf = false;
 					}
 				}
+
 				if($folder['type'] == 'user_folder')
 				{
 					$pre = '';
 					for ($i = 2; $i < $folder_d['depth'] - 1; $i++)
+					{
 						$pre .= '&nbsp';
+					}
+					
 					if ($folder_d['depth'] > 1)
-						$pre .= '+';					
+					{
+						$pre .= '+';
+					}
+					
 					$folder_options[$folder['obj_id']] = $pre.' '.$folder['title'];
 				}
 				else
@@ -343,9 +355,10 @@ class ilMailFolderGUI
 				}
 			}
 		}
+
 		if($a_show_confirmation == false)
 		{
-			if($_SESSION['viewmode'] != 'tree')
+			if('tree' != ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
 			{
 				$ilToolbar->addText($this->lng->txt('mail_change_to_folder'));
 				include_once './Services/Form/classes/class.ilSelectInputGUI.php';
@@ -423,7 +436,7 @@ class ilMailFolderGUI
 	{
 		global $ilCtrl;
 
-		if (isset($_POST["subfolder_title"]) && $_SESSION["viewmode"] == "tree") $_SESSION["subfolder_title"] = ilUtil::stripSlashes($_POST['subfolder_title']);
+		if (isset($_POST["subfolder_title"]) && 'tree' == ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY)) $_SESSION["subfolder_title"] = ilUtil::stripSlashes($_POST['subfolder_title']);
 
 		if (empty($_POST['subfolder_title']))
 		{
@@ -503,7 +516,7 @@ class ilMailFolderGUI
 
 	public function performRenameSubFolder()
 	{
-		if (isset($_POST["subfolder_title"]) && $_SESSION["viewmode"] == "tree") $_SESSION["subfolder_title"] = $_POST['subfolder_title'];
+		if (isset($_POST["subfolder_title"]) && 'tree' == ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY)) $_SESSION["subfolder_title"] = $_POST['subfolder_title'];
 
 		$tmp_data = $this->mbox->getFolderData($_GET["mobj_id"]);
 		if ($tmp_data["title"] != $_POST["subfolder_title"])
@@ -700,7 +713,10 @@ class ilMailFolderGUI
 		$this->ctrl->clearParameters($this);
 		$form->setTitle($this->lng->txt('mail_mails_of'));
 
-		if($_SESSION['viewmode'] == 'tree') $this->tpl->setVariable('FORM_TARGET', ilFrameTargetInfo::_getFrame('MainContent'));
+		if('tree' == ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
+		{
+			$this->tpl->setVariable('FORM_TARGET', ilFrameTargetInfo::_getFrame('MainContent'));
+		}
 
 		include_once 'Services/Accessibility/classes/class.ilAccessKeyGUI.php';
 
