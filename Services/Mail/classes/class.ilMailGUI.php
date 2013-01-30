@@ -14,6 +14,11 @@ require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 */
 class ilMailGUI
 {
+	/**
+	 * @var string
+	 */
+	const VIEWMODE_SESSION_KEY = 'mail_viewmode';
+	
 	private $tpl = null;
 	private $ctrl = null;
 	private $lng = null;
@@ -147,7 +152,7 @@ class ilMailGUI
 
 		if (isset($_GET["viewmode"]))
 		{
-			$_SESSION["viewmode"] = $_GET["viewmode"];
+			ilSession::set(self::VIEWMODE_SESSION_KEY, $_GET["viewmode"]);
 			$this->ctrl->setCmd("setViewMode");
 		}
 		
@@ -201,7 +206,7 @@ class ilMailGUI
 		{
 			$_GET["target"] = "ilmailfoldergui";
 		}
-		if ($_SESSION["viewmode"] == "tree")
+		if('tree' == ilSession::get(self::VIEWMODE_SESSION_KEY))
 		{
 			include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
 			$fs_gui = new ilFramesetGUI();
@@ -289,23 +294,15 @@ class ilMailGUI
 		}
 		if(isset($_GET['message_sent'])) $ilTabs->setTabActive('fold');
 		
-		// FLATVIEW <-> TREEVIEW
-		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
+		if('tree' != ilSession::get(self::VIEWMODE_SESSION_KEY))
 		{
-			$this->ctrl->setParameter($this, "viewmode", "tree");
-			$this->tpl->setTreeFlatIcon(
-				$this->ctrl->getLinkTarget($this),
-				"tree");
-			//$this->tpl->setVariable("IMG_TREE", ilUtil::getImagePath("ic_treeview.png"));
-			//$this->tpl->parseCurrentBlock();
+			$this->ctrl->setParameter($this, 'viewmode', 'tree');
+			$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this), 'tree');
 		}
 		else
 		{
-			$this->ctrl->setParameter($this, "viewmode", "flat");
-			$this->tpl->setTreeFlatIcon(
-				$this->ctrl->getLinkTarget($this),
-				"flat");
-			//$this->tpl->parseCurrentBlock();
+			$this->ctrl->setParameter($this, 'viewmode', 'flat');
+			$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this), 'flat');
 		}
 		$this->ctrl->clearParameters($this);
 		$this->tpl->setCurrentBlock("tree_icons");
