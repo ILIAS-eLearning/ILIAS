@@ -35,16 +35,20 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 	 */
 	public function executeDefault($method)
 	{
-	    global $ilUser, $ilCtrl;
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $ilCtrl ilCtrl 
+		 */
+		global $ilUser, $ilCtrl;
 
-	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
-	    if ( !ilChatroom::checkUserPermissions( array('read', 'moderate') , $this->gui->ref_id ) )
-	    {
-	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
-	    }
+		if(!ilChatroom::checkUserPermissions(array('read', 'moderate'), $this->gui->ref_id))
+		{
+			$ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
+			$ilCtrl->redirectByClass('ilrepositorygui', '');
+		}
 
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
@@ -76,24 +80,24 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 				$room->addHistoryEntry($messageObject, '', 1);
 
 				$message = json_encode(array(
-											'type'  => 'userjustkicked',
-											'user'  => $params['userToKick'],
-											'sub'   => 0
-									   ));
+					'type' => 'userjustkicked',
+					'user' => $params['userToKick'],
+					'sub'  => 0
+				));
 
 				$connector->sendMessage($room->getRoomId(), $message, array(
-																		   'public'  => 1,
-																		   'sub'     => 0
-																	  ));
-				$room->disconnectUser(new ilObjUser($params['userToKick']));
+					'public' => 1,
+					'sub'    => 0
+				));
+				$room->disconnectUser($params['userToKick']);
 			}
 		}
 		else
 		{
 			$response = json_encode(array(
-										 'success'   => false,
-										 'reason'    => 'unkown room'
-									));
+				'success' => false,
+				'reason'  => 'unkown room'
+			));
 		}
 
 		echo $response;
