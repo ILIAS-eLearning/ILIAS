@@ -372,6 +372,8 @@ abstract class ilECSObjectSettings
 		$a_export_settings->setExported(true);
 		$a_export_settings->setEContentId($econtent_id);
 		$a_export_settings->save();
+		
+		$this->handlePermissionUpdate($a_server,true);
 
 		// Send mail
 		$this->sendNewContentNotification($a_server, $econtent_id);		
@@ -408,7 +410,9 @@ abstract class ilECSObjectSettings
 
 		$json = $this->buildJson($a_server);										
 		$connector->updateResource($this->getECSObjectType(),
-			$econtent_id, json_encode($json));		
+			$econtent_id, json_encode($json));
+		
+		$this->handlePermissionUpdate($a_server,true);
 	}
 	
 	/**
@@ -583,6 +587,22 @@ abstract class ilECSObjectSettings
 			$message,array(),array('normal'));
 		
 		return true;	
+	}
+	
+	protected function handlePermissionUpdate(ilECSSetting $server)
+	{
+		if($this->content_obj->getType() == 'crs')
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Permission update');
+			if($this->content_obj->getType() == 'crs')
+			{
+				$GLOBALS['rbacadmin']->grantPermission(
+					$server->getGlobalRole(),
+					ilRbacReview::_getOperationIdsByName(array('join','visible')),
+					$this->content_obj->getRefId()
+				);
+			}
+		}
 	}
 	
 	/**
