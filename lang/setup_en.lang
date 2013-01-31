@@ -561,3 +561,4 @@ setup_process_step_proxy#:#Proxy
 step_proxy#:#Proxy
 db_innodb#:#MySQL (InnoDB)
 show_update_steps#:#Show Update Steps
+lang_fa#:#Persian (farsi)
