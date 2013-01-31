@@ -14,7 +14,9 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  */
 class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 {
-
+	/**
+	 * @var ilDBayObjectGUI
+	 */
 	private $gui;
 
 	/**
@@ -43,55 +45,68 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 		$this->byLogin();
 	}
 
-	public function byLogin() {
+	/**
+	 * 
+	 */
+	public function byLogin()
+	{
 		$this->inviteById(ilObjUser::_lookupId($_REQUEST['users']));
 	}
 
-	public function byId() {
+	/**
+	 * 
+	 */
+	public function byId()
+	{
 		$this->inviteById($_REQUEST['users']);
 	}
 
+	/**
+	 * @param int $invited_id
+	 */
 	private function inviteById($invited_id)
 	{
-		global $tpl, $ilUser, $ilCtrl;
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilUser, $ilCtrl;
 
-		if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
+		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
 		{
-	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
+			$ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
+			$ilCtrl->redirectByClass('ilrepositorygui', '');
 		}
 
-		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
+		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
-		$chat_user = new ilChatroomUser( $ilUser, $room );
-		$user_id = $chat_user->getUserId();
+		$chat_user = new ilChatroomUser($ilUser, $room);
+		$user_id   = $chat_user->getUserId();
 
-		if( !$room )
+		if(!$room)
 		{
-			$response = json_encode( array(
-			    'success' => false,
-			    'reason' => 'unkown room'
-			) );
-			echo json_encode( $response );
+			$response = json_encode(array(
+				'success' => false,
+				'reason'  => 'unkown room'
+			));
+			echo json_encode($response);
 			exit;
 		}
-		else if( $_REQUEST['sub'] && !$room->isOwnerOfPrivateRoom( $user_id, $_REQUEST['sub'] ) )
+		else if($_REQUEST['sub'] && !$room->isOwnerOfPrivateRoom($user_id, $_REQUEST['sub']))
 		{
-			$response = json_encode( array(
-			    'success' => false,
-			    'reason' => 'not owner of private room'
-			) );
-			echo json_encode( $response );
+			$response = json_encode(array(
+				'success' => false,
+				'reason'  => 'not owner of private room'
+			));
+			echo json_encode($response);
 			exit;
 		}
 
 		$connector = $this->gui->getConnector();
 
-		//if ($_REQUEST['sub']) {
-			$result = $connector->inviteToPrivateRoom($room, $_REQUEST['sub'], $ilUser, $invited_id);
-		//}
+		$result = $connector->inviteToPrivateRoom($room, $_REQUEST['sub'], $ilUser, $invited_id);
 
-		$room->sendInvitationNotification($this->gui, $ilUser->getId(), $invited_id, (int)$_REQUEST['sub']);
+		$room->sendInvitationNotification($this->gui, $chat_user, $invited_id, (int)$_REQUEST['sub']);
 
 		echo json_encode($result);
 		exit;

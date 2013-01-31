@@ -8062,11 +8062,11 @@ mail#:#advice_mail_body_secured#:#Aus Ihrer Mail wurden aus Sicherheitsgründen 
 mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
 chatroom#:#chat_select_room#:#Chatraum auswählen
-mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen
-mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Account und können nicht eingeladen werden.
-mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum
+mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
+mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Account und können nicht eingeladen werden:
+mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#forward#:#Weiterleiten
-mail#:#goto_invitation_chat#:#öffne Chatraum
+mail#:#goto_invitation_chat#:#Öffne Chatraum
 mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail-Adresse ein, die als Absender für automatisch generierte System- oder Benachrichtigungsmails verwendet werden soll. <b>Hinweis</b>: Diese Adresse muss tatsächlich existieren, damit entsprechende Mails nicht von Spam-Filtern und Mail-Servern abgelehnt werden.
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#linebreak#:#Zeilenumbruch

@@ -205,29 +205,30 @@ class ilChatroom
 	 */
 	public function connectUser(ilChatroomUser $user)
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
 		$userdata = array(
 			'login' => $user->getUsername(),
-			'id' => $user->getUserId()
+			'id'    => $user->getUserId()
 		);
 
-		$query = 'SELECT user_id FROM ' . self::$userTable .
-				 ' WHERE room_id = %s AND user_id = %s';
-
-		$types	= array('integer', 'integer');
+		$query = 'SELECT user_id FROM ' . self::$userTable . ' WHERE room_id = %s AND user_id = %s';
+		$types  = array('integer', 'integer');
 		$values = array($this->roomId, $user->getUserId());
 
-		if( !$ilDB->fetchAssoc( $ilDB->queryF( $query, $types, $values ) ) )
+		if(!$ilDB->fetchAssoc($ilDB->queryF($query, $types, $values)))
 		{
 			$ilDB->insert(
-			self::$userTable,
-			array(
-						'room_id'	=> array('integer', $this->roomId),
-						'user_id'	=> array('integer', $user->getUserId()),
-						'userdata'	=> array('text', json_encode( $userdata )),
-						'connected' => array('integer', time()),
-			)
+				self::$userTable,
+				array(
+					'room_id'   => array('integer', $this->roomId),
+					'user_id'   => array('integer', $user->getUserId()),
+					'userdata'  => array('text', json_encode($userdata)),
+					'connected' => array('integer', time()),
+				)
 			);
 
 			return true;
@@ -883,27 +884,27 @@ class ilChatroom
 		return false;
 	}
 
-	public function inviteUserToPrivateRoom($user_id, $proom_id) {
+	/**
+	 * @param int $user_id
+	 * @param int $proom_id
+	 */
+	public function inviteUserToPrivateRoom($user_id, $proom_id)
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
-		$query = 'DELETE FROM ' . self::$privateRoomsAccessTable . ' WHERE user_id = %s AND proom_id = %s';
-		$types = array('integer', 'integer');
+		$query  = 'DELETE FROM ' . self::$privateRoomsAccessTable . ' WHERE user_id = %s AND proom_id = %s';
+		$types  = array('integer', 'integer');
 		$values = array($user_id, $proom_id);
 
 		$ilDB->manipulateF($query, $types, $values);
 
 		$ilDB->insert(self::$privateRoomsAccessTable, array(
-		    'user_id' => array('integer', $user_id),
-		    'proom_id' => array('integer', $proom_id)
+			'user_id'  => array('integer', $user_id),
+			'proom_id' => array('integer', $proom_id)
 		));
-/*
-		$ilDB->insert(self::$privateSessionsTable, array(
-		    'user_id' => array('integer', $user_id),
-		    'proom_id' => array('integer', $proom_id),
-		    'connected' => array('integer', time()),
-		    'disconnected' => array('integer', 0),
- 		));
- */
 	}
 
 	/**
@@ -949,49 +950,81 @@ class ilChatroom
 		return $link;
 	}
 
-	public function sendInvitationNotification($gui, $sender_id, $recipient_id, $subScope = 0, $invitationLink = '')
+	/**
+	 * @param        $gui
+	 * @param mixed $sender_id (can be an instance of ilChatroomUser or an user id of an ilObjUser instance
+	 * @param int $recipient_id
+	 * @param int    $subScope
+	 * @param string $invitationLink
+	 * @throws InvalidArgumentException
+	 */
+	public function sendInvitationNotification($gui, $sender, $recipient_id, $subScope = 0, $invitationLink = '')
 	{
-	    global $lng;
-	    
-	    $lng->loadLanguageModule('mail');
-	    
-	    if ($gui && !$invitationLink)
-	    {
-		$invitationLink = $this->getChatURL($gui, $subScope);;
-	    }
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
 
-	    if ($sender_id > 0 && $recipient_id > 0 && !in_array( ANONYMOUS_USER_ID, array($sender_id, $recipient_id) ))
-	    {
-		$sender = ilObjectFactory::getInstanceByObjId($sender_id);
-
-		$recipient = new ilObjUser($recipient_id);
-		
-		$bodyParams = array(
-		    'link' => $invitationLink,
-		    'inviter_name' => $sender->getPublicName(),
-		    'room_name' => $this->getTitle(),
-		    'salutation' => $lng->txt('mail_salutation_' . $recipient->getGender()) . ' ' . $recipient->getFullname()
-		);
-
-		if ($subScope)
+		if($gui && !$invitationLink)
 		{
-		    $bodyParams['room_name'] .= ' - ' . self::lookupPrivateRoomTitle($subScope);
+			$invitationLink = $this->getChatURL($gui, $subScope);
 		}
 
-		require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
-		$notification = new ilNotificationConfig('chat_invitation');
-		$notification->setTitleVar('chat_invitation',$bodyParams, 'chatroom');
-		$notification->setShortDescriptionVar('chat_invitation_short',$bodyParams,'chatroom');
-		$notification->setLongDescriptionVar('chat_invitation_long',$bodyParams,'chatroom');
-		$notification->setAutoDisable(false);
-		$notification->setLink($invitationLink);
-		$notification->setIconPath('templates/default/images/icon_chtr_s.png');
-		$notification->setValidForSeconds(0);
+		if($recipient_id > 0 && !in_array(ANONYMOUS_USER_ID, array($recipient_id)))
+		{
+			if(is_numeric($sender) && $sender > 0)
+			{
+				$sender_id = $sender;
+				/**
+				 * @var $usr ilObjUser
+				 */
+				$usr = ilObjectFactory::getInstanceByObjId($sender);
+				$public_name = $usr->getPublicName();
+			}
+			else if($sender instanceof ilChatroomUser)
+			{
+				if($sender->getUserId() > 0)
+				{
+					$sender_id = $sender->getUserId();
+				}
+				else
+				{
+					$sender_id = ANONYMOUS_USER_ID;
+				}
+				$public_name = $sender->getUsername();
+			}
+			else
+			{
+				throw new InvalidArgumentException('$sender must be an instance of ilChatroomUser or an id of an ilObjUser instance');
+			}
 
-		$notification->setHandlerParam('mail.sender', $sender_id);
+			$recipient = ilObjectFactory::getInstanceByObjId($recipient_id);
+			$bodyParams = array(
+				'link'         => $invitationLink,
+				'inviter_name' => $public_name,
+				'room_name'    => $this->getTitle(),
+				'salutation'   => $lng->txt('mail_salutation_' . $recipient->getGender()) . ' ' . $recipient->getFullname()
+			);
 
-		$notification->notifyByUsers(array($recipient_id));
-	    }
+			if($subScope)
+			{
+				$bodyParams['room_name'] .= ' - ' . self::lookupPrivateRoomTitle($subScope);
+			}
+
+			require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
+			$notification = new ilNotificationConfig('chat_invitation');
+			$notification->setTitleVar('chat_invitation', $bodyParams, 'chatroom');
+			$notification->setShortDescriptionVar('chat_invitation_short', $bodyParams, 'chatroom');
+			$notification->setLongDescriptionVar('chat_invitation_long', $bodyParams, 'chatroom');
+			$notification->setAutoDisable(false);
+			$notification->setLink($invitationLink);
+			$notification->setIconPath('templates/default/images/icon_chtr_s.png');
+			$notification->setValidForSeconds(0);
+
+			$notification->setHandlerParam('mail.sender', $sender_id);
+
+			$notification->notifyByUsers(array($recipient_id));
+		}
 	}
 
 	public function inviteUserToPrivateRoomByLogin($login, $proom_id) {
@@ -1191,13 +1224,16 @@ class ilChatroom
     * 
     * @global ilDBMySQL $ilDB
     * @param integer $user_id
-    * @return integer
+    * @return array
     */
    public function getAllRooms($user_id)
    {
-       global $ilDB;
-       
-       $query = "
+	   /**
+		* @var $ilDB ilDB
+		*/
+	   global $ilDB;
+
+	   $query = "
        SELECT      room_id, od.title
        FROM        object_data od
 
@@ -1210,20 +1246,20 @@ class ilChatroom
        WHERE       od.type = 'chtr'
        ";
 
-       $types  = array( 'integer' );
-       $values = array( $user_id );
+	   $types  = array('integer');
+	   $values = array($user_id);
 
-       $res = $ilDB->queryF( $query, $types, $values );
+	   $res = $ilDB->queryF($query, $types, $values);
 
-       $rooms = array();
+	   $rooms = array();
 
-       while( $row = $ilDB->fetchAssoc( $res ) )
-       {
-       $room_id        = $row['room_id'];
-       $rooms[$room_id]    = $row['title'];
-       }
+	   while($row = $ilDB->fetchAssoc($res))
+	   {
+		   $room_id         = $row['room_id'];
+		   $rooms[$room_id] = $row['title'];
+	   }
 
-       return $rooms;
+	   return $rooms;
    }
 
 
