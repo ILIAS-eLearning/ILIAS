@@ -456,52 +456,38 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		}
 	}
 
-	public function invitePD() {
-		global $ilUser,$ilCtrl,$lng;
+	/**
+	 * 
+	 */
+	public function invitePD()
+	{
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilUser, $ilCtrl;
 
 		$chatSettings = new ilSetting('chatroom');
-		if (!$chatSettings->get('chat_enabled')) {
+		if(!$chatSettings->get('chat_enabled'))
+		{
 			$ilCtrl->redirect($this->gui, 'settings-general');
-			exit;
 		}
 
-		$room = ilChatroom::byObjectId($this->gui->object->getId());
+		$room      = ilChatroom::byObjectId($this->gui->object->getId());
 		$chat_user = new ilChatroomUser($ilUser, $room);
-		$user_id = $_REQUEST['usr_id'];
-
+		$user_id   = $_REQUEST['usr_id'];
 		$connector = $this->gui->getConnector();
-/*
-		if (!$room->isSubscribed($chat_user->getUserId()) && $room->connectUser($chat_user)) {
-			$connector->sendMessage(
-			$scope, $message = json_encode(
-			array(
-                        'type' => 'connected',
-                        'users' => array(
-			array(
-                                'login' => $chat_user->getUsername(),
-                                'id' => $user_id,
-			),
-			),
-                        'timestamp' => time() * 1000
-			)
-			)
-			);
-		}
-*/
-		$title = $room->getUniquePrivateRoomTitle($chat_user->getUsername());
-		$response = $connector->createPrivateRoom($room, $title, $chat_user);
+		$title     = $room->getUniquePrivateRoomTitle($chat_user->getUsername());
+		$response  = $connector->createPrivateRoom($room, $title, $chat_user);
 		$connector->inviteToPrivateRoom($room, $response->id, $ilUser, $user_id);
-
-		$room->sendInvitationNotification($this->gui, $ilUser->getId(), $user_id, $response->id);
+		$room->sendInvitationNotification($this->gui, $chat_user, $user_id, $response->id);
 
 		$_REQUEST['sub'] = $response->id;
 
-		//ilUtil::sendInfo($lng->txt('user_invited'), true);
 		$_SESSION['show_invitation_message'] = $user_id;
 
 		$ilCtrl->setParameter($this->gui, 'sub', $response->id);
 		$ilCtrl->redirect($this->gui, 'view');
-
 	}
 
 	/**

@@ -12,7 +12,6 @@
  */
 class ilChatroomUser
 {
-
 	/**
 	 *
 	 * @var ilObjUser
@@ -47,26 +46,25 @@ class ilChatroomUser
 	 */
 	public function getUserId()
 	{
-	    $user_id = $this->user->getId();
+		$user_id = $this->user->getId();
 
-	    if( $user_id == ANONYMOUS_USER_ID )
-	    {
-		if( isset( $_SESSION['chat'][$this->room->getRoomId()]['user_id'] ) )
+		if($user_id == ANONYMOUS_USER_ID)
 		{
-		    return $_SESSION['chat'][$this->room->getRoomId()]['user_id'];
+			if(isset($_SESSION['chat'][$this->room->getRoomId()]['user_id']))
+			{
+				return $_SESSION['chat'][$this->room->getRoomId()]['user_id'];
+			}
+			else
+			{
+				$user_id                                               = mt_rand(-99999, -20);
+				$_SESSION['chat'][$this->room->getRoomId()]['user_id'] = $user_id;
+				return $user_id;
+			}
 		}
 		else
 		{
-		    $user_id = mt_rand( -99999, -20 );
-		    $_SESSION['chat'][$this->room->getRoomId()]['user_id'] = $user_id;
-
-		    return $user_id;
+			return $user_id;
 		}
-	    }
-	    else
-	    {
-		return $user_id;
-	    }
 	}
 
 	/**
@@ -88,14 +86,6 @@ class ilChatroomUser
 	 */
 	public function getUsername()
 	{
-	    /*
-		if( !isset( $this->username ) &&
-		!$_SESSION['chat'][$this->room->getRoomId()]['username'] )
-		{
-			throw new Exception( 'no username set' );
-		}
-	    */
-
 		if( $this->username )
 		{
 			return $this->username;
@@ -116,20 +106,20 @@ class ilChatroomUser
 	 */
 	public function getChatNameSuggestions()
 	{
-	    $options	= array();
+		$options = array();
 
-	    if( $this->user->getId() == ANONYMOUS_USER_ID )
-	    {
-		$options['anonymousName'] = $this->buildAnonymousName();
-	    }
-	    else
-	    {
-		$options['fullname'] = $this->buildFullname();
-		$options['shortname'] = $this->buildShortname();
-		$options['login'] = $this->buildLogin();
-	    }
+		if($this->user->getId() == ANONYMOUS_USER_ID)
+		{
+			$options['anonymousName'] = $this->buildAnonymousName();
+		}
+		else
+		{
+			$options['fullname']  = $this->buildFullname();
+			$options['shortname'] = $this->buildShortname();
+			$options['login']     = $this->buildLogin();
+		}
 
-	    return $options;
+		return $options;
 	}
 
 	/**
