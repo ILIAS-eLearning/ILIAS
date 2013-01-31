@@ -4987,7 +4987,7 @@ class ilUtil
 	{
 		global $ilIliasIniFile;
 		
-		if($_SERVER['SHELL'] || 
+		if($_SERVER['SHELL'] || php_sapi_name() == 'cli' ||
 			// fallback for windows systems, useful in crons
 			(class_exists("ilContext") && !ilContext::usesHTTP()))
 		{

@@ -243,33 +243,39 @@ class ilMainMenuGUI
 			}
 			else
 			{
-				/**
-				 * notifications
-				 */
 				$notificationSettings = new ilSetting('notifications');
 				$chatSettings = new ilSetting('chatroom');
 
+				/**
+				 * @var $tpl ilTemplate
+				 */
 				global $tpl;
-				if ($chatSettings->get('chat_enabled') && $notificationSettings->get('enable_osd')) {
+
+				if($chatSettings->get('chat_enabled') && $notificationSettings->get('enable_osd'))
+				{
 					$this->tpl->touchBlock('osd_enabled');
 					$this->tpl->touchBlock('osd_container');
-					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
-					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
-					
+
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
 					iljQueryUtil::initjQuery();
+
+					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
+					ilPlayerUtil::initMediaElementJs();
+
+					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
+					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
 
 					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
 					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '5');
 					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') ? 'true' : 'false');
-					foreach($notifications as $notification) {
-						if ($notification['type'] == 'osd_maint') {
-							#var_dump($notification);
+					foreach($notifications as $notification)
+					{
+						if($notification['type'] == 'osd_maint')
+						{
 							continue;
 						}
-						#var_dump($notification);
 						$this->tpl->setCurrentBlock('osd_notification_item');
 
 						$this->tpl->setVariable('NOTIFICATION_ICON_PATH', $notification['data']->iconPath);
