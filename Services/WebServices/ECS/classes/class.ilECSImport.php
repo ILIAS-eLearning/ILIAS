@@ -400,7 +400,7 @@ class ilECSImport
 			$this->db->quote($this->obj_id,'integer').", ".
 			$this->db->quote($this->mid,'integer').", ".
 			$this->db->quote($this->econtent_id,'integer').", ".
-			$this->db->quote($this->sub_id,'text'). ' '.
+			$this->db->quote($this->sub_id,'text'). ', '.
 			$this->db->quote($this->getServerId(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
