@@ -13928,3 +13928,17 @@ if(!$ilDB->tableExists('tos_acceptance_track'))
 	$ilDB->addIndex('tos_acceptance_track', array('usr_id', 'ts'), 'i1');
 }
 ?>
+<#3814>
+<?php
+
+	if(!$ilDB->tableColumnExists('ecs_import', 'sub_id'))
+	{
+		$ilDB->addTableColumn('ecs_import', 'sub_id',
+				array(
+					"type" => "text",
+					"notnull" => false,
+					"length" => 64
+				)
+		);
+	}
+?>

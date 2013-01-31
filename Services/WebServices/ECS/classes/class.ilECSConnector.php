@@ -448,7 +448,7 @@ class ilECSConnector
 	 	global $ilLog;
 		
 		$ilLog->write(__METHOD__.': Update resource with id '.$a_econtent_id);
-
+		
 	 	$this->path_postfix = $a_path;
 	 	
 	 	if($a_econtent_id)

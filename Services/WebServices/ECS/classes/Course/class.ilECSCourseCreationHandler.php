@@ -261,18 +261,72 @@ class ilECSCourseCreationHandler
 		$course_id = (int) $course->basicData->id;
 		$obj_id = $this->getImportId($course_id);
 		
+		// Handle parallel groups
+		
 		if($obj_id)
 		{
+			// update multiple courses/groups according to parallel scenario
+			
 			// do update
 			return $this->updateCourseData($course,$obj_id);
 		}
 		else
 		{
-			// create new course
-			$crs = $this->createCourseData($course);
-			$this->createCourseReference($crs,$a_parent_obj_id);
-			$this->setImported($course_id,$crs);
+			switch((int) $course->parallelGroupScenario)
+			{
+				case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
+					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "groups in courses".');
+					$crs = $this->createCourseData($course);
+					$crs = $this->createCourseReference($crs, $a_parent_obj_id);
+					$this->setImported($course_id, $crs);
+
+					// Create parallel groups under crs
+					$this->createParallelGroups($course,$crs);
+					
+					break;
+				
+					
+				
+				case ilECSMappingUtils::PARALLEL_COURSES_FOR_LECTURERS:
+					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "courses foreach lecturer".');
+					// grmpf
+					break;
+
+				case ilECSMappingUtils::PARALLEL_ALL_COURSES:
+					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "Many courses".');
+				default:
+				case ilECSMappingUtils::PARALLEL_ONE_COURSE:
+					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "One Course".');
+					$crs = $this->createCourseData($course);
+					$this->createCourseReference($crs, $a_parent_obj_id);
+					$this->setImported($course_id, $crs);
+					break;
+				
+					
+			}
 			return true;
+		}
+	}
+	
+	
+	/**
+	 * This create parallel groups
+	 * @param type $course
+	 * @param ilObjCourse
+	 */
+	protected function createParallelGroups($course, $crs_obj)
+	{
+		foreach((array) $course->parallelGroups as $group)
+		{
+			include_once './Modules/Group/classes/class.ilObjGroup.php';
+			$group_obj = new ilObjGroup();
+			$group_obj->setTitle($group->title);
+			$group_obj->create();
+			$group_obj->createReference();
+			$group_obj->putInTree($crs_obj->getRefId());
+			$group_obj->setPermissions($crs_obj->getRefId());
+			$group_obj->initGroupStatus(GRP_TYPE_CLOSED);
+			$this->setImported($course->basicData->id, $group_obj, $group->id);
 		}
 	}
 	
@@ -355,13 +409,14 @@ class ilECSCourseCreationHandler
 	 * @param int $a_content_id
 	 * @param ilObjCourse $crs
 	 */
-	protected function setImported($a_content_id, $crs)
+	protected function setImported($a_content_id, $object, $a_sub_id)
 	{
 		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
 		$import = new ilECSImport(
 				$this->getServer()->getServerId(),
-				$crs->getId()
+				$object->getId()
 		);
+		$import->setSubId($a_sub_id);
 		$import->setMID($this->getMid());
 		$import->setEContentId($a_content_id);
 		$import->setImported(true);
