@@ -366,6 +366,22 @@ class ilMediaPlayerGUI
 			$mp_tpl->parseCurrentBlock();
 			return $mp_tpl->get();
 		}
+		
+		// fallback, no preview mode
+		$mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
+		if (strpos($mimeType,"flv") === false 
+		 && strpos($mimeType,"audio/mpeg") === false
+		 && strpos($mimeType,"image/png") === false
+		 && strpos($mimeType,"image/gif") === false)		
+		{
+			
+   			$html = '<embed src="'.$this->getFile().'" '.
+   					'type="'.$mimeType.'" '.
+   					'autoplay="false" autostart="false" '.
+   					'width="320" height="240" scale="aspect" ></embed>';
+   			return $html;
+		}
+
 return;
 		$tpl->addJavaScript("./Services/MediaObjects/flash_flv_player/swfobject.js");		
 		$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
