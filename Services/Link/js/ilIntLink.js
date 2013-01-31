@@ -208,8 +208,9 @@ il.IntLink =
 
 	insertPanelHTML: function(html)
 	{
-		var il_div = document.getElementById('ilIntLinkPanel');
-		il_div.innerHTML = html;
+		//var il_div = document.getElementById('ilIntLinkPanel');
+		//il_div.innerHTML = html;
+		$('div#ilIntLinkPanel').html(html);
 		var el = document.getElementById("ilIntLinkTypeSelector");
 		if (el)
 		{
