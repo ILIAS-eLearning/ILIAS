@@ -404,7 +404,7 @@ abstract class ilECSObjectSettings
 			$a_mids = $this->getParticipants($a_server->getServerId(), $econtent_id);	
 		}												
 		$ilLog->write(__METHOD__.': Start updating ECS content - '.print_r($a_mids,true));
-		$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$a_mids));				
+		$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS,implode(',',(array) $a_mids));
 
 		$json = $this->buildJson($a_server);										
 		$connector->updateResource($this->getECSObjectType(),
@@ -634,7 +634,7 @@ abstract class ilECSObjectSettings
 		
 			if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, $id))
 			{
-				$value = isset($a_values[$field]) ? $a_values[$field] : '';
+				$value = isset($values[$field]) ? $values[$field] : '';
 				
 				switch($type)
 				{

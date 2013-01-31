@@ -38,6 +38,7 @@ class ilECSImport
 	protected $server_id = 0;
 	protected $obj_id = 0;
 	protected $econtent_id = 0;
+	protected $sub_id = 0;
 	protected $mid = 0;
 	protected $imported = false; 
 
@@ -301,7 +302,7 @@ class ilECSImport
 	{
 		return ilECSImport::_lookupObjId($a_server_id,$a_econtent_id,$a_mid);
 	}
-
+	
 	public function setServerId($a_server_id)
 	{
 		$this->server_id = $a_server_id;
@@ -322,6 +323,16 @@ class ilECSImport
 	public function setImported($a_status)
 	{
 	 	$this->imported = $a_status;
+	}
+	
+	public function setSubId($a_id)
+	{
+		$this->sub_id = $a_id;
+	}
+	
+	public function getSubId()
+	{
+		return $this->sub_id;
 	}
 	
 	/**
@@ -384,11 +395,12 @@ class ilECSImport
 			'AND server_id = '.$ilDB->quote($this->getServerId(),'integer');
 		$res = $ilDB->manipulate($query);
 		
-		$query = "INSERT INTO ecs_import (obj_id,mid,econtent_id,server_id) ".
+		$query = "INSERT INTO ecs_import (obj_id,mid,econtent_id,sub_id,server_id) ".
 			"VALUES ( ".
 			$this->db->quote($this->obj_id,'integer').", ".
 			$this->db->quote($this->mid,'integer').", ".
 			$this->db->quote($this->econtent_id,'integer').", ".
+			$this->db->quote($this->sub_id,'text'). ' '.
 			$this->db->quote($this->getServerId(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
@@ -412,6 +424,7 @@ class ilECSImport
 	 	{
 	 		$this->econtent_id = $row->econtent_id;
 			$this->mid = $row->mid;
+			$this->sub_id = $row->sub_id;
 	 	}
 	}
 	
