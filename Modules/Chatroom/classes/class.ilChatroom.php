@@ -268,11 +268,11 @@ class ilChatroom
 	 * Creates userId array by given $user object and calls disconnectUsers
 	 * method.
 	 *
-	 * @param ilObjUser $user
+	 * @param int $user_id
 	 */
-	public function disconnectUser(ilObjUser $user)
+	public function disconnectUser($user_id)
 	{
-		$this->disconnectUsers( array($user->getId()) );
+		$this->disconnectUsers( array($user_id) );
 	}
 
 	/**

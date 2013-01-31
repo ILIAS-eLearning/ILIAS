@@ -152,7 +152,7 @@ class ilChatroomBanTask extends ilDBayTaskHandler
 																		   'public'  => 1,
 																		   'sub'     => 0
 																	  ));
-				$room->disconnectUser(new ilObjUser($params['userToKick']));
+				$room->disconnectUser($params['userToKick']);
 			}
 		}
 		else
