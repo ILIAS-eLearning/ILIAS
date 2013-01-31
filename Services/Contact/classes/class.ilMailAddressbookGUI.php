@@ -517,265 +517,265 @@ class ilMailAddressbookGUI
 
 	/**
 	 * Send chat invitations to selected Users
-	 *
-	 * @global <type> $ilUser
-	 * @global <type> $lng
-	 * @global <type> $ilCtrl
-	 * @global <type> $tpl
 	 */
 	public function inviteToChat()
 	{
-	    global $ilUser, $lng, $ilCtrl, $tpl;
-
-	    $addr_ids = ( (int)$_GET['addr_id'] ) ?
-			array( (int)$_GET['addr_id'] ) :
-			$_POST['addr_id'];
-
-	    if( !$addr_ids )
-	    {
-		ilUtil::sendInfo($lng->txt('chat_no_users_selected'), true);
-		ilUtil::redirect(
-		    $ilCtrl->getLinkTarget($this, 'showAddressbook', '', false, false)
-		);
-		exit;
-	    }
-
-	    // store userdata for users without ilias login
-	    $no_login = array();
-
-	    foreach( $addr_ids as $id )
-	    {
-		$entry = $this->abook->getEntry($id);
-
-		// if login-name available, user has a local account
-		if( !$entry['login'] )
-		{
-		    $no_login[] = $id;
-		}
-	    }
-
-	    if( count($no_login) )
-	    {
-		$message .= $lng->txt('chat_users_without_login') . ':<br>';
-		$list = '';
-
-		foreach( $no_login as $e )
-		{
-		    $list .= '<li>' . $this->abook->entryToString($e) . '</li>';
-		}
-
-		$message .= '<ul>';
-		$message .= $list;
-		$message .= '</ul>';
-
-		ilUtil::sendInfo($message);
-		$this->showAddressbook();
-		exit;
-	    }
-
-	    include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-
-	    $ilChatroom = new ilChatroom();  
-	    $chat_rooms = $ilChatroom->getAllRooms( $ilUser->getId() );
-	    $subrooms	= array();
-
-	    foreach( $chat_rooms as $room_id => $title)
-	    {
-		$subrooms[] = $ilChatroom->getPrivateSubRooms( $room_id, $ilUser->getId() );
-	    }
-	    
-	    include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-
-	    $form = new ilPropertyFormGUI();
-	    $form->setTitle( $lng->txt("mail_invite_users_to_chat") );
-
-	    $psel = new ilSelectInputGUI( $lng->txt("chat_select_room"), 'room_id' );
-	    $options = array();
-
-	    foreach( $chat_rooms as $room_id => $room )
-	    {
-		$ref_id = $room_id;
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $lng    ilLanguage
+		 * @var $ilCtrl ilCtrl
+		 * @var $tpl    ilTemplate
+		 */
+		global $ilUser, $lng, $ilCtrl, $tpl;
 		
-		if( $ilChatroom->isUserBanned( $ilUser->getId() ) )
+		$lng->loadLanguageModule('chatroom');
+
+		$addr_ids = ((int)$_GET['addr_id']) ? array((int)$_GET['addr_id']) : $_POST['addr_id'];
+
+		if(!$addr_ids)
 		{
-		    continue;
+			ilUtil::sendFailure($lng->txt('select_one'), true);
+			$ilCtrl->redirect($this, 'showAddressbook');
 		}
 
-		$options[$ref_id] = $room;
+		$no_login = array();
 
-		foreach( $subrooms as $subroom )
+		foreach($addr_ids as $id)
 		{
-		    foreach( $subroom as $sub_id => $parent_id )
-		    {
-			if( $parent_id == $ref_id )
+			$entry = $this->abook->getEntry($id);
+			if(!$entry['login'])
 			{
-			    $title = ilChatroom::lookupPrivateRoomTitle( $sub_id );
-			    $options[$ref_id . ',' . $sub_id] = '+&nbsp;' . $title;
+				$no_login[] = $id;
 			}
-		    }
 		}
-	    }
 
-	    $psel->setOptions($options);
-	    $form->addItem($psel);
-	    $phidden = new ilHiddenInputGUI( 'addr_ids' );
-	    $phidden->setValue( join( ',', $addr_ids ) );
-	    $form->addItem( $phidden );
-	    $form->addCommandButton( 'submitInvitation', $this->lng->txt( 'submit' ) );
-	    $form->addCommandButton( 'cancel', $this->lng->txt( 'cancel' ) );
-	    $form->setFormAction( $ilCtrl->getFormAction( $this ) );
+		if(count($no_login))
+		{
+			$message = $lng->txt('chat_users_without_login') . ':<br>';
+			$list = '';
 
-	    $tpl->setTitle( $lng->txt( 'mail_invite_users_to_chat' ) );
-	    $tpl->setContent( $form->getHtml() );
-	    $tpl->show();
+			foreach($no_login as $e)
+			{
+				$list .= '<li>' . $this->abook->entryToString($e) . '</li>';
+			}
+
+			$message .= '<ul>';
+			$message .= $list;
+			$message .= '</ul>';
+
+			ilUtil::sendFailure($message, true);
+			$ilCtrl->redirect($this, 'showAddressbook');
+		}
+
+		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+
+		$ilChatroom = new ilChatroom();
+		$chat_rooms = $ilChatroom->getAllRooms($ilUser->getId());
+		$subrooms   = array();
+
+		foreach($chat_rooms as $room_id => $title)
+		{
+			$subrooms[] = $ilChatroom->getPrivateSubRooms($room_id, $ilUser->getId());
+		}
+
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($lng->txt('mail_invite_users_to_chat'));
+
+		$psel    = new ilSelectInputGUI($lng->txt('chat_select_room'), 'room_id');
+		$options = array();
+
+		foreach($chat_rooms as $room_id => $room)
+		{
+			$ref_id = $room_id;
+
+			if($ilChatroom->isUserBanned($ilUser->getId()))
+			{
+				continue;
+			}
+
+			$options[$ref_id] = $room;
+
+			foreach($subrooms as $subroom)
+			{
+				foreach($subroom as $sub_id => $parent_id)
+				{
+					if($parent_id == $ref_id)
+					{
+						$title                            = ilChatroom::lookupPrivateRoomTitle($sub_id);
+						$options[$ref_id . ',' . $sub_id] = '+&nbsp;' . $title;
+					}
+				}
+			}
+		}
+
+		$psel->setOptions($options);
+		$form->addItem($psel);
+		$phidden = new ilHiddenInputGUI('addr_ids');
+		$phidden->setValue(implode(',', $addr_ids));
+		$form->addItem($phidden);
+		$form->addCommandButton('submitInvitation', $this->lng->txt('submit'));
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+
+		$tpl->setTitle($lng->txt('mail_invite_users_to_chat'));
+		$tpl->setContent($form->getHtml());
+		$tpl->show();
 	}
 
 	/**
 	 * Last step of chat invitations
 	 * check access for every selected user and send invitation
-	 *
-	 * @global  $ilUser
-	 * @global  $ilCtrl
-	 * @global  $lng
 	 */
 	public function submitInvitation()
 	{
-	    global $ilUser,$ilCtrl, $lng;
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $ilCtrl ilCtrl
+		 * @var $lng    ilLanguage
+		 */
+		global $ilUser, $ilCtrl, $lng;
 
-	    if( !$_POST["addr_ids"] )
-	    {
-		ilUtil::sendInfo( $lng->txt( 'chat_no_users_selected' ), true );
-		$this->showAddressbook();
-		exit;
-	    }
-
-	    if( !$_POST["room_id"] )
-	    {
-		ilUtil::sendInfo( $lng->txt( 'chat_no_room_selected' ), true );
-		$_POST['addr_id'] = explode( ',', $_POST["addr_ids"] );
-		$this->showAddressbook();
-		exit;
-	    }
-
-	    // get selected users (comma seperated user id list)
-	    $ids = explode( ',', $_POST["addr_ids"] );
-
-	    // get selected chatroom from POST-String, format: "room_id , scope"
-	    $room_ids	= explode( ',', $_POST['room_id'] );
-	    $room_id	= (int)$room_ids[0];
-	    $scope	= 0;
-
-	    if( count($room_ids) > 0 )
-	    {
-		$scope = (int)$room_ids[1];
-	    }
-
-	    include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-
-	    $room	    = ilChatroom::byRoomId( (int)$room_id, true );
-	    $no_access	    = array();
-	    $no_login	    = array();
-	    $valid_users    = array();
-
-	    foreach( $ids as $id )
-	    {
-		$entry = $this->abook->getEntry($id);
-
-		if( $entry['login'] )
+		if(!$_POST['addr_ids'])
 		{
-		    $user_id	= $ilUser->getUserIdByLogin($entry['login']);
-		    $ref_id	= $room->getRefIdByRoomId($room_id);
+			ilUtil::sendFailure($lng->txt('select_one'), true);
+			$ilCtrl->redirect($this, 'showAddressbook');
+		}
 
-		    if
-		    (
-			!ilChatroom::checkPermissionsOfUser($user_id, 'read', $ref_id )
-			|| $room->isUserBanned( $user_id )
-		    )
-		    {
-			$no_access[] = $id;
-		    }
-		    else
-		    {
-			$valid_users[] = $user_id; 
-		    }
+		if(!$_POST['room_id'])
+		{
+			ilUtil::sendFailure($lng->txt('select_one'));
+			$_POST['addr_id'] = explode(',', $_POST['addr_ids']);
+			$this->inviteToChat();
+			return;
+		}
+
+		// get selected users (comma seperated user id list)
+		$ids = explode(',', $_POST['addr_ids']);
+
+		// get selected chatroom from POST-String, format: "room_id , scope"
+		$room_ids = explode(',', $_POST['room_id']);
+		$room_id  = (int)$room_ids[0];
+		$scope    = 0;
+
+		if(count($room_ids) > 0)
+		{
+			$scope = (int)$room_ids[1];
+		}
+
+		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+
+		$room                    = ilChatroom::byRoomId((int)$room_id, true);
+		$no_access               = array();
+		$no_login                = array();
+		$valid_users             = array();
+		$valid_user_to_login_map = array();
+
+		foreach($ids as $id)
+		{
+			$entry = $this->abook->getEntry($id);
+
+			if($entry['login'])
+			{
+				$user_id = $ilUser->getUserIdByLogin($entry['login']);
+				if(!$user_id)
+				{
+					$no_login[] = $id;
+					continue;
+				}
+				$ref_id  = $room->getRefIdByRoomId($room_id);
+
+				if
+				(
+					!ilChatroom::checkPermissionsOfUser($user_id, 'read', $ref_id) ||
+					$room->isUserBanned($user_id)
+				)
+				{
+					$no_access[] = $id;
+				}
+				else
+				{
+					$valid_users[]                     = $user_id;
+					$valid_user_to_login_map[$user_id] = $entry['login'];
+				}
+			}
+			else
+			{
+				$no_login[] = $id;
+			}
+		}
+
+		if(count($no_access) || count($no_login))
+		{
+			$message = '';
+
+			if(count($no_access))
+			{
+				$message .= $lng->txt('chat_users_without_permission') . ':<br>';
+				$list = '';
+
+				foreach($no_access as $e)
+				{
+					$list .= '<li>' . $this->abook->entryToString($e) . '</li>';
+				}
+
+				$message .= '<ul>';
+				$message .= $list;
+				$message .= '</ul>';
+			}
+
+			if(count($no_login))
+			{
+				$message .= $lng->txt('chat_users_without_login') . ':<br>';
+				$list = '';
+
+				foreach($no_login as $e)
+				{
+					$list .= '<li>' . $this->abook->entryToString($e) . '</li>';
+				}
+
+				$message .= '<ul>';
+				$message .= $list;
+				$message .= '</ul>';
+			}
+
+			ilUtil::sendFailure($message);
+			$_POST['addr_id'] = $ids;
+			$this->inviteToChat();
+			return;
+		}
+
+		$ref_id = $room->getRefIdByRoomId($room_id);
+
+		if($scope > 0)
+		{
+			$url = 'ilias.php?baseClass=ilRepositoryGUI&ref_id=' . $ref_id .
+				'&cmd=view&rep_frame=1&sub=' . $scope;
 		}
 		else
 		{
-		    $no_login[] = $id;
+			$url = 'ilias.php?baseClass=ilRepositoryGUI&ref_id=' . $ref_id . '&cmd=view&rep_frame=1';
 		}
-	    }
 
-	    if( count( $no_access ) || count( $no_login ) )
-	    {
-		$message = "";
+		$url = ilUtil::_getHttpPath() . '/' . $url;
+		$link = '<p><a target="chatframe" href="' . $url . '" title="' . $lng->txt('goto_invitation_chat') . '">' .$lng->txt('goto_invitation_chat') . '</a></p>';
 
-		if( count($no_access) )
+		$userlist = array();
+		foreach($valid_users as $id)
 		{
-		    $message .= $lng->txt('chat_users_without_permission') . ':<br>';
-		    $list = '';
-
-		    foreach( $no_access as $e )
-		    {
-			$list .= '<li>'.$this->abook->entryToString($e).'</li>';
-		    }
-
-		    $message .= '<ul>';
-		    $message .= $list;
-		    $message .= '</ul>';
+			$room->inviteUserToPrivateRoom($id, $scope);
+			$room->sendInvitationNotification(
+				null, $ilUser->getId(), $id, (int)$scope, $url
+			);
+			$userlist[] = '<li>'.$valid_user_to_login_map[$id].'</li>';
 		}
 
-		if( count( $no_login ) )
+		if($userlist)
 		{
-		    $message .= $lng->txt('chat_users_without_login') . ':<br>';
-		    $list = '';
-		    
-		    foreach( $no_login as $e )
-		    {
-			$list .= '<li>'.$this->abook->entryToString($e).'</li>';
-		    }
-
-		    $message .= '<ul>';
-		    $message .= $list;
-		    $message .= '</ul>';
+			ilUtil::sendSuccess($lng->txt('chat_users_have_been_invited') . '<ul>'.implode('', $userlist).'</ul>' . $link, true);
 		}
-
-		ilUtil::sendInfo($message);
-		$_POST["addr_id"] = $ids;
-		$this->inviteToChat();
-		exit;
-	    }
-
-	    $ref_id = $room->getRefIdByRoomId( $room_id );
-
-	    if( $scope > 0 )
-	    {
-		$url = 'ilias.php?baseClass=ilRepositoryGUI&ref_id=' . $ref_id .
-			'&cmd=view&rep_frame=1&sub=' . $scope;
-	    }
-	    else
-	    {
-		$url = 'ilias.php?baseClass=ilRepositoryGUI&ref_id=' . $ref_id . '&cmd=view&rep_frame=1';
-	    }
-
-	    $url = ilUtil::_getHttpPath() . '/' .$url;
-
-	    $link = '<p><a target="chatframe" href="'.$url.'">' .
-		    $lng->txt('goto_invitation_chat') . '</a></p>';
-
-	    foreach( $valid_users as $id )
-	    {
-		$room->inviteUserToPrivateRoom( $id, $scope );
-
-		$room->sendInvitationNotification(
-			null, $ilUser->getId(), $id, (int)$scope, $url
-		);
-	    }
-
-	    ilUtil::sendInfo( 
-		$lng->txt('chat_users_have_been_invited') . $userlist . $link, true
-	    );
-	    $link = $ilCtrl->getLinkTarget( $this, 'showAddressbook', '', false, false );
-	    ilUtil::redirect( $link );
+		$ilCtrl->redirect($this, 'showAddressbook');
 	}
 	
 	public function lookupAddressbookAsync()

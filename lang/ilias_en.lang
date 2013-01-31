@@ -6927,9 +6927,9 @@ mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some
 mail#:#also_as_email#:#Also as E-Mail
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
-mail#:#chat_users_have_been_invited#:#The Users have been invited.
-mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room
-mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.
+mail#:#chat_users_have_been_invited#:#The following users have been invited:
+mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:
+mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be used as sender's address for automatically created system messages and notifications send by e-mail. <b<Note</b>: Use only a real existing address to avoid the rejection of such mails by spam filters and mail servers,
