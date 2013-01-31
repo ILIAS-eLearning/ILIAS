@@ -12,7 +12,12 @@ class ilECSMappingUtils
 	const MAPPED_WHOLE_TREE = 1;
 	const MAPPED_MANUAL = 2;
 	const MAPPED_UNMAPPED = 3;
-
+	
+	const PARALLEL_UNDEFINED = 0;
+	const PARALLEL_ONE_COURSE = 1;
+	const PARALLEL_GROUPS_IN_COURSE = 2;
+	const PARALLEL_ALL_COURSES = 3;
+	const PARALLEL_COURSES_FOR_LECTURERS = 4;
 
 	/**
 	 * Lookup mapping status

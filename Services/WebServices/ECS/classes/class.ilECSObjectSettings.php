@@ -372,6 +372,8 @@ abstract class ilECSObjectSettings
 		$a_export_settings->setExported(true);
 		$a_export_settings->setEContentId($econtent_id);
 		$a_export_settings->save();
+		
+		$this->handlePermissionUpdate($a_server,true);
 
 		// Send mail
 		$this->sendNewContentNotification($a_server, $econtent_id);		
@@ -404,11 +406,13 @@ abstract class ilECSObjectSettings
 			$a_mids = $this->getParticipants($a_server->getServerId(), $econtent_id);	
 		}												
 		$ilLog->write(__METHOD__.': Start updating ECS content - '.print_r($a_mids,true));
-		$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$a_mids));				
+		$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS,implode(',',(array) $a_mids));
 
 		$json = $this->buildJson($a_server);										
 		$connector->updateResource($this->getECSObjectType(),
-			$econtent_id, json_encode($json));		
+			$econtent_id, json_encode($json));
+		
+		$this->handlePermissionUpdate($a_server,true);
 	}
 	
 	/**
@@ -585,6 +589,22 @@ abstract class ilECSObjectSettings
 		return true;	
 	}
 	
+	protected function handlePermissionUpdate(ilECSSetting $server)
+	{
+		if($this->content_obj->getType() == 'crs')
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Permission update');
+			if($this->content_obj->getType() == 'crs')
+			{
+				$GLOBALS['rbacadmin']->grantPermission(
+					$server->getGlobalRole(),
+					ilRbacReview::_getOperationIdsByName(array('join','visible')),
+					$this->content_obj->getRefId()
+				);
+			}
+		}
+	}
+	
 	/**
 	 * Build core json structure
 	 * 
@@ -634,7 +654,7 @@ abstract class ilECSObjectSettings
 		
 			if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, $id))
 			{
-				$value = isset($a_values[$field]) ? $a_values[$field] : '';
+				$value = isset($values[$field]) ? $values[$field] : '';
 				
 				switch($type)
 				{

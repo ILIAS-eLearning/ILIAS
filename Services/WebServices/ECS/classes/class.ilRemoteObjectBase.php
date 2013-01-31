@@ -479,15 +479,15 @@ abstract class ilRemoteObjectBase extends ilObject2
 				switch($type)
 				{
 					case ilECSUtils::TYPE_ARRAY:
-						$value = implode(',', $a_json->$target);
+						$value = implode(',', (array) $a_json->$target);
 						break;
 					
 					case ilECSUtils::TYPE_INT:
-						$value = (int)$a_json->$target;
+						$value = (int) $a_json->$target;
 						break;
 					
 					case ilECSUtils::TYPE_STRING:
-						$value = (string)$a_json->$target;
+						$value = (string) $a_json->$target;
 						break;
 					
 					case ilECSUtils::TYPE_TIMEPLACE:						
@@ -523,11 +523,11 @@ abstract class ilRemoteObjectBase extends ilObject2
 						}
 						break;
 				}
-				
-				$value = ilAdvancedMDValue::_getInstance($this->content_obj->getId(),$field);
-				$value->toggleDisabledStatus(true); 
-				$value->setValue($value);
-				$value->save();				
+				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php';
+				$mdv = ilAdvancedMDValue::_getInstance($this->getId(),$field);
+				$mdv->toggleDisabledStatus(true); 
+				$mdv->setValue($value);
+				$mdv->save();				
 			}
 		}
 	}		
