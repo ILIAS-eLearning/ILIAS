@@ -5310,5 +5310,13 @@ class ilObjUser extends ilObject
 		return $this->inactivation_date;
 	}
 
+
+	/**
+	 * @return bool
+	 */
+	public function isAnonymous()
+	{
+		return $this->getId() == ANONYMOUS_USER_ID;
+	}
 } // END class ilObjUser
 ?>
