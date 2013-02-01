@@ -11380,7 +11380,7 @@ rbac#:#chtr_edit_permission#:#User can change Permission Settings for Chatroom
 common#:#objs_chtr#:#Chatrooms
 common#:#obj_chta#:#Chat
 chatroom#:#history_by_day#:#Daily History
-chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
+chatroom#:#no_username_given#:#Please choose a username
 chatroom#:#history_by_session#:#Session History
 chatroom#:#connected#:#Connection Established
 chatroom#:#period#:#Period
