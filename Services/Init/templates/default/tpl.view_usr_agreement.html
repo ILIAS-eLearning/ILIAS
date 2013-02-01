@@ -31,19 +31,21 @@
 <tr class="std">
     <td class="std">
 	<form action="{FORM_ACTION}" method="post">
-	<b><label for="status">{ACCEPT_AGREEMENT}</label></b>&nbsp;
+	<b><label for="status">{ACCEPT_AGREEMENT}</label></b>&nbsp;<!-- BEGIN tos_exists -->
     {ACCEPT_CHECKBOX}&nbsp;
 	<input type="submit" class="submit" name="cmd[getAcceptance]" value="{TXT_SUBMIT}" />
+	<!-- END tos_exists -->
 	</form>
     </td>
 </tr>
 <!-- END get_acceptance -->
-</table>
-
-<br/>
-<div class="ilCenter">
-<!-- BEGIN back -->
-<a class="il_ContainerItemCommand" href="{LINK_BACK}">{BACK}</a>
-<!-- END back -->
+</table><!-- BEGIN links -->
+<br />
+<div class="ilCenter"><!-- BEGIN back -->
+<a class="il_ContainerItemCommand" href="{LINK_BACK}" title="{BACK}">{BACK}</a>
+<!-- END back --><!-- BEGIN tos_missing -->
+<a class="il_ContainerItemCommand" href="{CMD_LOGOUT}" title="{TXT_LOGOUT}">{TXT_LOGOUT}</a>
+<!-- END tos_missing -->
 </div>
+<!-- END links -->
 
