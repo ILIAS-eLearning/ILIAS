@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
 require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
@@ -35,7 +35,6 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 			exit;
 		}
 
-
 		if($a_data == null)
 		{
 			if($_GET['serverInquiry'])
@@ -45,8 +44,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 				return;
 			}
 		}
-		/*require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
-		 var_dump(  ilChatroomServerConnector::checkServerConnection());*/
+
 		$this->type = 'chtr';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 		$this->lng->loadLanguageModule('chatroom');
@@ -81,6 +79,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		 * @var $ilAccess            ilAccessHandler
 		 * @var $ilNavigationHistory ilNavigationHistory
 		 * @var $ilCtrl              ilCtrl
+		 * @var $ilHelp              ilHelpGUI
 		 */
 		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilHelp;
 
@@ -160,7 +159,6 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 	}
 
 	/**
-	 * Returns default connector for this room.
 	 * @return ilChatroomServerConnector
 	 */
 	public function getConnector()
@@ -168,10 +166,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroomServerSettings.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
-		//require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
-		//		ilChatroomInstaller::install();
 
-		//$settings = new ilChatroomServerSettings();
 		$settings  = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
 		$connector = new ilChatroomServerConnector($settings);
 
@@ -227,7 +222,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 
 		// create and insert object in objecttree
 		$class_name = 'ilObj' . $objDefinition->getClassName($new_type);
-		include_once($location . '/class.' . $class_name . '.php');
+		include_once $location . '/class.' . $class_name . '.php';
 
 		/**
 		 * @var $newObj ilObjChatroom
@@ -247,10 +242,10 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 
 		$room->saveSettings(
 			array(
-				'object_id'                    => $objId,
-				'autogen_usernames'            => 'Autogen #',
-				'display_past_msgs'            => 20,
-				'private_rooms_enabled'        => 0
+				'object_id'             => $objId,
+				'autogen_usernames'     => 'Autogen #',
+				'display_past_msgs'     => 20,
+				'private_rooms_enabled' => 0
 			));
 
 		// rbac log

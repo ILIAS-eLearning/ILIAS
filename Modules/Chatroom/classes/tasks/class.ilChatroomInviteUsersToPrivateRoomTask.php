@@ -1,15 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
  * Class ilChatroomInviteUsersToPrivateRoomTask
- *
- * @author Jan Posselt <jposselt@databay.de>
+ * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesChatroom
  */
 class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
@@ -20,10 +18,6 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 	private $gui;
 
 	/**
-	 * Constructor
-	 *
-	 * Sets $this->gui using given $gui
-	 *
 	 * @param ilDBayObjectGUI $gui
 	 */
 	public function __construct(ilDBayObjectGUI $gui)
@@ -35,9 +29,6 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 	 * Prepares and posts message fetched from $_REQUEST['message']
 	 * to recipients fetched from $_REQUEST['recipient']
 	 * and adds an entry to history if successful.
-	 *
-	 * @global ilTemplate $tpl
-	 * @global ilObjUser $ilUser
 	 * @param string $method
 	 */
 	public function executeDefault($method)
@@ -46,7 +37,7 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function byLogin()
 	{
@@ -54,7 +45,7 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function byId()
 	{
@@ -114,15 +105,23 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 
 	public function getUserList()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
 		require_once 'Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
-		$auto->setSearchFields(array('login','firstname','lastname'));
+		if($ilUser->isAnonymous())
+		{
+			$auto->setSearchType(ilUserAutoComplete::SEARCH_TYPE_EQUALS);
+			$auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
+			$auto->setUser($ilUser);
+		}
+		$auto->setSearchFields(array('firstname', 'lastname'));
 		$auto->setResultField('login');
 		$auto->enableFieldSearchableCheck(true);
 		echo $auto->getList($_REQUEST['q']);
 		exit;
 	}
-
 }
-
-?>
