@@ -94,6 +94,10 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_file', '');
 			$row['action_show_agreement_text'] = $action->getHtml();
 		}
+		else
+		{
+			$row['missing_agreement_css_class'] = 'warning';
+		}
 	}
 
 	/**
@@ -106,7 +110,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	 */
 	protected function getStaticColumns()
 	{
-		return array('language', 'agreement', 'agreement_file', 'action_show_agreement_text');
+		return array('language', 'agreement', 'missing_agreement_css_class', 'agreement_file', 'action_show_agreement_text');
 	}
 
 	/**
