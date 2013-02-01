@@ -5371,5 +5371,13 @@ class ilObjUser extends ilObject
 			ilSession::set('has_to_accept_agr_in_session', (int)$status);
 		}
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAnonymous()
+	{
+		return $this->getId() == ANONYMOUS_USER_ID;
+	}
 } // END class ilObjUser
 ?>
