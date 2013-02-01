@@ -897,7 +897,8 @@ class ilStartUpGUI
 	{
 		global $lng;
 
-		if(ilTermsOfServiceHelper::isEnabled())
+		require_once 'Services/User/classes/class.ilUserAgreement.php';
+		if(ilTermsOfServiceHelper::isEnabled() && ilUserAgreement::doesUserAgreementExist())
 		{
 			$utpl = new ilTemplate('tpl.login_user_agreement_link.html',true,true,'Services/Init');
 			$utpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
@@ -1482,30 +1483,35 @@ class ilStartUpGUI
 
 		if ($this->ctrl->getCmd() == "getAcceptance")
 		{
-			if ($_POST["status"]=="accepted")
+			if($_POST["status"] == "accepted" &&
+			   ilTermsOfServiceHelper::isEnabled() &&
+			   ilUserAgreement::doesUserAgreementExist())
 			{
 				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 				ilTermsOfServiceHelper::trackAcceptance($ilUser, ilUserAgreement::getAgreementFile());
 				ilUtil::redirect("index.php?target=".$_GET["target"]."&client_id=".CLIENT_ID);
 			}
 			$tpl->setVariable("VAL_CMD", "getAcceptance");
-			$tpl->setVariable("AGR_LANG_ACTION",
-				$this->ctrl->getFormAction($this));
+			$tpl->setVariable("AGR_LANG_ACTION", $this->ctrl->getFormAction($this));
 			$tpl->setCurrentBlock("get_acceptance");
-			$tpl->setVariable("FORM_ACTION",
-				$this->ctrl->getFormAction($this));
-			$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
-			$tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement"));
-			$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
+			$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			if(ilUserAgreement::doesUserAgreementExist())
+			{
+				$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
+				$tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement"));
+				$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
+			}
+			else
+			{
+				$tpl->setVariable("CMD_LOGOUT", ILIAS_HTTP_PATH.'/logout.php');
+				$tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
+			}
 			$tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$tpl->setCurrentBlock("back");
 			$tpl->setVariable("BACK", $lng->txt("back"));
-			$tpl->setVariable("LINK_BACK",
-				$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
-			$tpl->parseCurrentBlock();
+			$tpl->setVariable("LINK_BACK", $this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
 		}
 
 		$tpl->show();

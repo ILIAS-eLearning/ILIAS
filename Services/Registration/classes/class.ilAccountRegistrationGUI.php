@@ -217,7 +217,7 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		if(ilTermsOfServiceHelper::isEnabled())
+		if(ilTermsOfServiceHelper::isEnabled() && ilUserAgreement::doesUserAgreementExist())
 		{
 			$field = new ilFormSectionHeaderGUI();
 			$field->setTitle($lng->txt('usr_agreement'));
@@ -564,7 +564,7 @@ class ilAccountRegistrationGUI
 		$this->userObj->saveAsNew();
 
 		// store acceptance of user agreement
-		if(ilTermsOfServiceHelper::isEnabled())
+		if(ilTermsOfServiceHelper::isEnabled() && ilUserAgreement::doesUserAgreementExist())
 		{
 			ilTermsOfServiceHelper::trackAcceptance($this->userObj, ilUserAgreement::getAgreementFile());
 		}

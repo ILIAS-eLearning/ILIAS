@@ -112,4 +112,12 @@ class ilUserAgreement
 		
 		return $agreement;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public static function doesUserAgreementExist()
+	{
+		return is_file(self::getAgreementFile());
+	}
 }
