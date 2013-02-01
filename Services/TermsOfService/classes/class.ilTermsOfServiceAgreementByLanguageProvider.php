@@ -36,13 +36,14 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 	}
 
 	/**
-	 * @throws ilException
+	 * @throws ilTermsOfServiceMissingLanguageAdapterException
 	 */
 	protected function collectData()
 	{
 		if(!($this->getLanguageAdapter() instanceof ilLanguage))
 		{
-			throw new ilException("Language adapter has to be injected first before " . __METHOD__ . " is called");
+			require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceMissingLanguageAdapterException.php';
+			throw new ilTermsOfServiceMissingLanguageAdapterException('Incomplete configuration. Please inject a language adapter.');
 		}
 
 		$i = 0;
