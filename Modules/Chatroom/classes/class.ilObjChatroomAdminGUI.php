@@ -1,5 +1,4 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
 require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
@@ -21,11 +20,14 @@ class ilObjChatroomAdminGUI extends ilDBayObjectGUI
 	/**
 	 * Constructor
 	 * @param array   $a_data
-	 * @param integer $a_id
+	 * @param int     $a_id
 	 * @param boolean $a_call_by_reference
 	 */
 	public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
 		$lng->loadLanguageModule('chatroom_adm');
@@ -98,7 +100,6 @@ class ilObjChatroomAdminGUI extends ilDBayObjectGUI
 	}
 
 	/**
-	 * Returns connector.
 	 * @return ilChatroomServerConnector
 	 */
 	public function getConnector()
@@ -114,7 +115,7 @@ class ilObjChatroomAdminGUI extends ilDBayObjectGUI
 
 	/**
 	 * Overwrites $_GET['ref_id'] with given $ref_id.
-	 * @param integer  $ref_id
+	 * @param int  $ref_id
 	 */
 	public static function _goto($ref_id)
 	{
@@ -124,7 +125,7 @@ class ilObjChatroomAdminGUI extends ilDBayObjectGUI
 
 	/**
 	 * Returns RefId.
-	 * @return integer
+	 * @return int
 	 */
 	public function getRefId()
 	{

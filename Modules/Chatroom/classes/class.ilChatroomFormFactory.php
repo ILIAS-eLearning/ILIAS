@@ -1,150 +1,142 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
 /**
  * Class ilChatroomFormFactory
- *
- * @author Jan Posselt <jposselt@databay.de>
+ * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesChatroom
  */
 class ilChatroomFormFactory
 {
-
 	/**
 	 * Constructor
-	 *
-	 * Requires ilPropertyFormGUI
 	 */
 	public function __construct()
 	{
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 	}
 
 	/**
 	 * Instantiates and returns ilPropertyFormGUI containing ilTextInputGUI
 	 * and ilTextAreaInputGUI
-	 * 
 	 * @deprecated replaced by default creation screens
-	 *
-	 * @global ilLanguage $lng
 	 * @return ilPropertyFormGUI
 	 */
 	public function getCreationForm()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
-		$form = new ilPropertyFormGUI();
-		$title = new ilTextInputGUI( $lng->txt( 'title' ), 'title' );
-		$title->setRequired( true );
-		$form->addItem( $title );
+		$form  = new ilPropertyFormGUI();
+		$title = new ilTextInputGUI($lng->txt('title'), 'title');
+		$title->setRequired(true);
+		$form->addItem($title);
 
-		$description = new ilTextAreaInputGUI( $lng->txt( 'description' ), 'desc' );
-		$form->addItem( $description );
+		$description = new ilTextAreaInputGUI($lng->txt('description'), 'desc');
+		$form->addItem($description);
 
-		return $this->addDefaultBehaviour( $form );
+		return $this->addDefaultBehaviour($form);
 	}
 
 	/**
 	 * Applies given values to field in given form.
-	 *
 	 * @param ilPropertyFormGUI $form
-	 * @param array $values
-	 * @todo: $values typehint array?
+	 * @param array             $values
 	 */
-	public static function applyValues(ilPropertyFormGUI $form, $values)
+	public static function applyValues(ilPropertyFormGUI $form, array $values)
 	{
-		foreach( $values as $key => $value )
+		foreach($values as $key => $value)
 		{
-			$field = $form->getItemByPostVar( $key );
+			$field = $form->getItemByPostVar($key);
+			if(!$field)
+			{
+				continue;
+			}
 
-			if( !$field )
-			continue;
-
-			switch(strtolower( get_class( $field ) ))
+			switch(strtolower(get_class($field)))
 			{
 				case 'ilcheckboxinputgui':
-					if( $value )
+					if($value)
 					{
-						$field->setChecked( true );
+						$field->setChecked(true);
 					}
 					break;
 
 				default:
-					$field->setValue( $value );
+					$field->setValue($value);
 			}
 		}
 	}
 
 	/**
-	 * Returns settings form.
-	 *
 	 * @global ilLanguage $lng
 	 * @return ilPropertyFormGUI
 	 */
 	public function getSettingsForm()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
-		$form = new ilPropertyFormGUI();
-		$title = new ilTextInputGUI( $lng->txt( 'title' ), 'title' );
-		$title->setRequired( true );
-		$form->addItem( $title );
+		$form  = new ilPropertyFormGUI();
+		$title = new ilTextInputGUI($lng->txt('title'), 'title');
+		$title->setRequired(true);
+		$form->addItem($title);
 
-		$description = new ilTextAreaInputGUI( $lng->txt( 'description' ), 'desc' );
-		$form->addItem( $description );
+		$description = new ilTextAreaInputGUI($lng->txt('description'), 'desc');
+		$form->addItem($description);
 
-		$cb = new ilCheckboxInputGUI( $lng->txt( 'allow_anonymous' ), 'allow_anonymous' );
-		$cb->setInfo($lng->txt( 'anonymous_hint' ));
-		$form->addItem( $cb );
+		$cb = new ilCheckboxInputGUI($lng->txt('allow_anonymous'), 'allow_anonymous');
+		$cb->setInfo($lng->txt('anonymous_hint'));
+		$form->addItem($cb);
 
-		$txt = new ilTextInputGUI( $lng->txt( 'autogen_usernames' ), 'autogen_usernames' );
-		$txt->setRequired( true );
-		$txt->setInfo( $lng->txt( 'autogen_usernames_info' ) );
-		$form->addItem( $txt );
+		$txt = new ilTextInputGUI($lng->txt('autogen_usernames'), 'autogen_usernames');
+		$txt->setRequired(true);
+		$txt->setInfo($lng->txt('autogen_usernames_info'));
+		$form->addItem($txt);
 
-		$cb = new ilCheckboxInputGUI( $lng->txt( 'allow_custom_usernames' ), 'allow_custom_usernames' );
-		$form->addItem( $cb );
+		$cb = new ilCheckboxInputGUI($lng->txt('allow_custom_usernames'), 'allow_custom_usernames');
+		$form->addItem($cb);
 
-		$cb_history = new ilCheckboxInputGUI( $lng->txt( 'enable_history' ), 'enable_history' );
-		$form->addItem( $cb_history );
-		
-		$num_msg_history = new ilNumberInputGUI( $lng->txt( 'display_past_msgs' ), 'display_past_msgs' );
+		$cb_history = new ilCheckboxInputGUI($lng->txt('enable_history'), 'enable_history');
+		$form->addItem($cb_history);
+
+		$num_msg_history = new ilNumberInputGUI($lng->txt('display_past_msgs'), 'display_past_msgs');
 		$num_msg_history->setInfo($lng->txt('hint_display_past_msgs'));
 		$num_msg_history->setMinValue(0);
 		$num_msg_history->setMaxValue(100);
-		$form->addItem( $num_msg_history );
-		
-		
-		$cb = new ilCheckboxInputGUI( $lng->txt( 'private_rooms_enabled' ), 'private_rooms_enabled' );
-		$cb->setInfo( $lng->txt( 'private_rooms_enabled_info' ) );
-		$form->addItem( $cb );
-		 
-		//$cb = new ilCheckboxInputGUI( $lng->txt( 'allow_private_rooms' ), 'allow_private_rooms' );
-		//$form->addItem( $cb );
+		$form->addItem($num_msg_history);
+
+		$cb = new ilCheckboxInputGUI($lng->txt('private_rooms_enabled'), 'private_rooms_enabled');
+		$cb->setInfo($lng->txt('private_rooms_enabled_info'));
+		$form->addItem($cb);
 
 		return $form;
 	}
 
 	/**
 	 * Prepares Fileupload form and returns it.
-	 *
-	 * @global ilLanguage $lng
 	 * @return ilPropertyFormGUI
 	 */
 	public function getFileUploadForm()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
-		$form		= new ilPropertyFormGUI();
+		$form       = new ilPropertyFormGUI();
 		$file_input = new ilFileInputGUI();
 
 		$file_input->setPostVar('file_to_upload');
-		$file_input->setTitle( $lng->txt( 'upload' ) );
-		$form->addItem( $file_input );
-		$form->addCommandButton( 'UploadFile-uploadFile', $lng->txt( 'submit' ) );
+		$file_input->setTitle($lng->txt('upload'));
+		$form->addItem($file_input);
+		$form->addCommandButton('UploadFile-uploadFile', $lng->txt('submit'));
 
 		$form->setTarget('_blank');
 
@@ -153,232 +145,223 @@ class ilChatroomFormFactory
 
 	/**
 	 * Adds 'create-save' and 'cancel' button to given $form and returns it.
-	 *
-	 * @global ilLanguage $lng
 	 * @param ilPropertyFormGUI $form
 	 * @return ilPropertyFormGUI
 	 */
 	private function addDefaultBehaviour(ilPropertyFormGUI $form)
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
-		$form->addCommandButton( 'create-save', $lng->txt( 'create' ) );
-		$form->addCommandButton( 'cancel', $lng->txt( 'cancel' ) );
+		$form->addCommandButton('create-save', $lng->txt('create'));
+		$form->addCommandButton('cancel', $lng->txt('cancel'));
 
 		return $form;
 	}
 
 	/**
 	 * Returns period form.
-	 *
-	 * @global ilLanguage $lng
 	 * @return ilPropertyFormGUI
 	 */
 	public function getPeriodForm()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
 		$form = new ilPropertyFormGUI();
 
 		require_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
-		$duration = new ilDateDurationInputGUI( $lng->txt( 'period' ), 'timeperiod' );
+		$duration = new ilDateDurationInputGUI($lng->txt('period'), 'timeperiod');
 
 		$duration->setStartText($lng->txt('duration_from'));
 		$duration->setEndText($lng->txt('duration_to'));
-		$duration->setShowTime( true );
-		$form->addItem( $duration );
+		$duration->setShowTime(true);
+		$form->addItem($duration);
 
 		return $form;
 	}
 
 	/**
 	 * Returns chatname selection form.
-	 *
-	 * @global ilLanguage $lng
 	 * @param array $name_options
 	 * @return ilPropertyFormGUI
 	 */
 	public function getUserChatNameSelectionForm(array $name_options)
 	{
-		global $lng;
+		/**
+		 * @var $lng    ilLanguage
+		 * @var $ilUser ilObjUser
+		 */
+		global $lng, $ilUser;
 
 		$form = new ilPropertyFormGUI();
-		$radio = new ilRadioGroupInputGUI(
-		$lng->txt( 'select_custom_username' ), 'custom_username_radio'
-		);
 
-		foreach( $name_options as $key => $option )
+		$radio = new ilRadioGroupInputGUI($lng->txt('select_custom_username'), 'custom_username_radio');
+
+		foreach($name_options as $key => $option)
 		{
-			$opt = new ilRadioOption( $option, $key );
-			$radio->addOption( $opt );
+			$opt = new ilRadioOption($option, $key);
+			$radio->addOption($opt);
 		}
 
-		$custom_opt = new ilRadioOption(
-		$lng->txt( 'custom_username' ), 'custom_username'
-		);
+		$custom_opt = new ilRadioOption($lng->txt('custom_username'), 'custom_username');
+		$radio->addOption($custom_opt);
 
-		$radio->addOption( $custom_opt );
+		$txt = new ilTextInputGUI($lng->txt('custom_username'), 'custom_username_text');
+		$custom_opt->addSubItem($txt);
+		$form->addItem($radio);
 
-		$txt = new ilTextInputGUI(
-		$lng->txt( 'custom_username' ), 'custom_username_text'
-		);
-
-		$custom_opt->addSubItem( $txt );
-		$form->addItem( $radio );
-
-		/**
-		 * @todo irgendwie anders machen :)
-		 */
-		$radio->setValue( 'fullname' );
+		if($ilUser->isAnonymous())
+		{
+			$radio->setValue('anonymousName');
+		}
+		else
+		{
+			$radio->setValue('fullname');
+		}
 
 		return $form;
 	}
 
 	/**
 	 * Returns session form with period set by given $sessions.
-	 *
-	 * @global ilLanguage $lng
-	 * @param array $sessions
+	 * @param array       $sessions
 	 * @return ilPropertyFormGUI
-	 * @todo: $sessions typehint array?
 	 */
-	public function getSessionForm($sessions)
+	public function getSessionForm(array $sessions)
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
 		$form = new ilPropertyFormGUI();
-		$list = new ilSelectInputGUI( $lng->txt( 'session' ), 'session' );
+		$list = new ilSelectInputGUI($lng->txt('session'), 'session');
 
 		$options = array();
 
-		foreach( $sessions as $session )
+		foreach($sessions as $session)
 		{
-			$start = new ilDateTime( $session['connected'], IL_CAL_UNIX );
-			$end = new ilDateTime( $session['disconnected'], IL_CAL_UNIX );
+			$start = new ilDateTime($session['connected'], IL_CAL_UNIX);
+			$end   = new ilDateTime($session['disconnected'], IL_CAL_UNIX);
 
 			$options[$session['connected'] . ',' .
-			$session['disconnected']] = ilDatePresentation::formatPeriod( $start, $end );
+				$session['disconnected']] = ilDatePresentation::formatPeriod($start, $end);
 		}
 
-		$list->setOptions( $options );
-		$list->setRequired( true );
+		$list->setOptions($options);
+		$list->setRequired(true);
 
-		$form->addItem( $list );
+		$form->addItem($list);
 
 		return $form;
 	}
 
 	/**
 	 * Returns general settings form.
-	 *
-	 * @global ilLanguage $lng
 	 * @return ilPropertyFormGUI
 	 */
 	public function getGeneralSettingsForm()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
 		$form = new ilPropertyFormGUI();
 
-		$address = new ilTextInputGUI( $lng->txt( 'chatserver_address' ), 'address' );
-		$address->setRequired( true );
-		$form->addItem( $address );
+		$address = new ilTextInputGUI($lng->txt('chatserver_address'), 'address');
+		$address->setRequired(true);
+		$form->addItem($address);
 
-		$port = new ilNumberInputGUI( $lng->txt( 'chatserver_port' ), 'port' );
-		$port->setMinValue( 1 );
-		$port->setMaxValue( 65535 );
-		$port->setRequired( true );
+		$port = new ilNumberInputGUI($lng->txt('chatserver_port'), 'port');
+		$port->setMinValue(1);
+		$port->setMaxValue(65535);
+		$port->setRequired(true);
 		$port->setInfo($lng->txt('port_info'));
 		$port->setSize(6);
-		$form->addItem( $port );
+		$form->addItem($port);
 
-		/*
-		$instance = new ilTextInputGUI( $lng->txt( 'instance' ), 'instance' );
-		$instance->setRequired( true );
-		$form->addItem( $instance );
-		*/
-		$priv_hosts = new ilTextInputGUI( $lng->txt( 'priv_hosts' ), 'priv_hosts' );
-		$priv_hosts->setRequired( true );
-		$form->addItem( $priv_hosts );
+		$priv_hosts = new ilTextInputGUI($lng->txt('priv_hosts'), 'priv_hosts');
+		$priv_hosts->setRequired(true);
+		$form->addItem($priv_hosts);
 
-		$keystore = new ilTextInputGUI( $lng->txt( 'keystore' ), 'keystore' );
-		$keystore->setRequired( true );
-		$keypass = new ilTextInputGUI( $lng->txt( 'keypass' ), 'keypass' );
-		$keypass->setRequired( true );
-		$storepass = new ilTextInputGUI( $lng->txt( 'storepass' ), 'storepass' );
-		$storepass->setRequired( true );
+		$keystore = new ilTextInputGUI($lng->txt('keystore'), 'keystore');
+		$keystore->setRequired(true);
+		$keypass = new ilTextInputGUI($lng->txt('keypass'), 'keypass');
+		$keypass->setRequired(true);
+		$storepass = new ilTextInputGUI($lng->txt('storepass'), 'storepass');
+		$storepass->setRequired(true);
 
-		$protocol = new ilRadioGroupInputGUI( $lng->txt( 'protocol' ), 'protocol' );
-		$http = new ilRadioOption( $lng->txt( 'http' ), 'http' );
-		$https = new ilRadioOption( $lng->txt( 'https' ), 'https' );
-		$https->addSubItem( $keystore );
-		$https->addSubItem( $keypass );
-		$https->addSubItem( $storepass );
-		$protocol->addOption( $http );
-		$protocol->addOption( $https );
-		$form->addItem( $protocol );
+		$protocol = new ilRadioGroupInputGUI($lng->txt('protocol'), 'protocol');
+		$http     = new ilRadioOption($lng->txt('http'), 'http');
+		$https    = new ilRadioOption($lng->txt('https'), 'https');
+		$https->addSubItem($keystore);
+		$https->addSubItem($keypass);
+		$https->addSubItem($storepass);
+		$protocol->addOption($http);
+		$protocol->addOption($https);
+		$form->addItem($protocol);
 
 		return $form;
 	}
 
+	/**
+	 * @return ilPropertyFormGUI
+	 */
 	public function getClientSettingsForm()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
 		$form = new ilPropertyFormGUI();
 
-		$cb = new ilCheckboxInputGUI( $lng->txt( 'chat_enabled' ), 'chat_enabled' );
-		$form->addItem( $cb );
+		$cb = new ilCheckboxInputGUI($lng->txt('chat_enabled'), 'chat_enabled');
+		$form->addItem($cb);
 
-		$cb = new ilCheckboxInputGUI( $lng->txt( 'enable_osd' ), 'enable_osd' );
+		$cb = new ilCheckboxInputGUI($lng->txt('enable_osd'), 'enable_osd');
 		$cb->setInfo($lng->txt('hint_osd'));
-		$form->addItem( $cb );
+		$form->addItem($cb);
 
-		$txt = new ilNumberInputGUI( $lng->txt( 'osd_intervall' ), 'osd_intervall' );
+		$txt = new ilNumberInputGUI($lng->txt('osd_intervall'), 'osd_intervall');
 		$txt->setMinValue(1);
-		$txt->setRequired( true );
+		$txt->setRequired(true);
 		$txt->setInfo($lng->txt('hint_osd_interval'));
-		$cb->addSubItem( $txt );
-		
-		$cb1 = new ilCheckboxInputGUI( $lng->txt( 'play_invitation_sound' ), 'play_invitation_sound' );
+		$cb->addSubItem($txt);
+
+		$cb1 = new ilCheckboxInputGUI($lng->txt('play_invitation_sound'), 'play_invitation_sound');
 		$cb1->setInfo($lng->txt('play_invitation_sound'));
-		$cb->addSubItem( $cb1 );
+		$cb->addSubItem($cb1);
 
-		/*$hash = new ilTextInputGUI( $lng->txt( 'hash' ), 'hash' );
-		$hash->setRequired( true );
-		$form->addItem( $hash );*/
-
-		$cb = new ilCheckboxInputGUI( $lng->txt( 'enable_smilies' ), 'enable_smilies' );
+		$cb = new ilCheckboxInputGUI($lng->txt('enable_smilies'), 'enable_smilies');
 		$cb->setInfo($lng->txt('hint_enable_smilies'));
-		$form->addItem( $cb );
-		
-		$name = new ilTextInputGUI( $lng->txt( 'instance_name' ), 'name' );
-		$name->setRequired( true );
+		$form->addItem($cb);
+
+		$name = new ilTextInputGUI($lng->txt('instance_name'), 'name');
+		$name->setRequired(true);
 		$name->setValidationRegexp('/^[a-z0-9_-]+$/i');
 		$name->setInfo($lng->txt('hint_unique_name'));
-		$form->addItem( $name );
+		$form->addItem($name);
 
-		$url = new ilTextInputGUI( $lng->txt( 'ilias_url' ), 'url' );
-		$url->setRequired( true );
-		$form->addItem( $url );
+		$url = new ilTextInputGUI($lng->txt('ilias_url'), 'url');
+		$url->setRequired(true);
+		$form->addItem($url);
 
-		$user = new ilTextInputGUI( $lng->txt( 'soap_user' ), 'user' );
+		$user = new ilTextInputGUI($lng->txt('soap_user'), 'user');
 		$user->setInfo($lng->txt('soap_user_hint'));
-		$user->setRequired( true );
-		$form->addItem( $user );
+		$user->setRequired(true);
+		$form->addItem($user);
 
-		$password = new ilPasswordInputGUI( $lng->txt( 'soap_user_password' ), 'password' );
-		$password->setRequired( true );
-		$form->addItem( $password );
-
-		//$client = new ilTextInputGUI( $lng->txt( 'client' ), 'client' );
-		//$client->setRequired( true );
-		//$client->setValue( CLIENT_ID );
-		//$form->addItem( $client );
+		$password = new ilPasswordInputGUI($lng->txt('soap_user_password'), 'password');
+		$password->setRequired(true);
+		$form->addItem($password);
 
 		return $form;
 	}
-
 }
-
-?>

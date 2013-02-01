@@ -1690,6 +1690,7 @@ certificate#:#default_background_info#:#Das hier angegebene Hintergrundbild wird
 certificate#:#download_certificate#:#Zertifikat herunterladen
 common#:#chat_chatviewer#:#Chatviewer
 chatroom#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
+chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
 chatroom#:#chat_message_notify_activate#:#Aktivieren
 chatroom#:#chat_new_invitation_sound_status#:#Einen Klang abspielen, wenn Benutzer eine Einladung zu einem Chat erhalten hat.
 chatroom#:#chat_new_message_sound_status#:#Einen Klang abspielen, wenn es im Chat einen neuen Beitrag gibt.

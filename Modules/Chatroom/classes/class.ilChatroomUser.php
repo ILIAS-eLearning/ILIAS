@@ -1,6 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilChatroomUser
@@ -17,7 +16,15 @@ class ilChatroomUser
 	 * @var ilObjUser
 	 */
 	private $user;
+
+	/**
+	 * @var string
+	 */
 	private $username;
+
+	/**
+	 * @var ilChatroom
+	 */
 	private $room;
 
 	/**
@@ -48,7 +55,7 @@ class ilChatroomUser
 	{
 		$user_id = $this->user->getId();
 
-		if($user_id == ANONYMOUS_USER_ID)
+		if($this->user->isAnonymous())
 		{
 			if(isset($_SESSION['chat'][$this->room->getRoomId()]['user_id']))
 			{
@@ -86,16 +93,17 @@ class ilChatroomUser
 	 */
 	public function getUsername()
 	{
-		if( $this->username )
+		if($this->username)
 		{
 			return $this->username;
 		}
-		else if ($_SESSION['chat'][$this->room->getRoomId()]['username'])
+		else if($_SESSION['chat'][$this->room->getRoomId()]['username'])
 		{
 			return $_SESSION['chat'][$this->room->getRoomId()]['username'];
 		}
-		else {
-		    return $this->user->getLogin();
+		else
+		{
+			return $this->user->getLogin();
 		}
 	}
 
@@ -108,7 +116,7 @@ class ilChatroomUser
 	{
 		$options = array();
 
-		if($this->user->getId() == ANONYMOUS_USER_ID)
+		if($this->user->isAnonymous())
 		{
 			$options['anonymousName'] = $this->buildAnonymousName();
 		}
@@ -167,7 +175,4 @@ class ilChatroomUser
 
 	    return $firstname{0} . '. ' . $this->user->getLastname();
 	}
-
 }
-
-?>
