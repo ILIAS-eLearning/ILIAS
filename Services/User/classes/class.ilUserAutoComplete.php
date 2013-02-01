@@ -246,6 +246,7 @@ class ilUserAutoComplete
 		$result = array();
 		while(($rec = $ilDB->fetchAssoc($res)) && $cnt < $max)
 		{
+			// @todo: Open discussion: We should remove all non public fields from result
 			$label = $rec['lastname'] . ', ' . $rec['firstname'] . ' [' . $rec['login'] . ']';
 
 			if($add_email && $rec['email'] && (self::PRIVACY_MODE_RESPECT_USER_SETTING != $this->getPrivacyMode() || 'y' == $rec['email_value']))
@@ -348,6 +349,8 @@ class ilUserAutoComplete
 				$outer_conditions[] = 'profpref.value = ' . $ilDB->quote('g', 'text');
 			}
 		}
+
+		$outer_conditions[] =  'usr_data.usr_id != ' . $ilDB->quote(ANONYMOUS_USER_ID, 'integer');
 
 		$field_conditions = array();
 		foreach($this->getFields() as $field)
