@@ -2346,6 +2346,23 @@ div.ilMemberViewMainHeader
 	padding-top: 8px;
 }
 
+div.ilMainMenuHeaderIconBox
+{
+	padding:5px 0px 5px 19px;
+	float:left;
+}
+
+div.ilMainMenuHeaderIcon
+{
+	background-image:url(images/HeaderIcon.png);
+	background-repeat:none;
+	margin:0px; 
+	padding:0px;" 
+	width:44px; 
+	height:44px; 
+	border:0px;
+}
+
 div.ilMainMenu
 {
 	background-repeat: repeat-x;
