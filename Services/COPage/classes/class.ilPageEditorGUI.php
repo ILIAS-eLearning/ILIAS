@@ -646,6 +646,8 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 			// PlaceHolder
 			case "ilpcplaceholdergui":
 				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
+					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
 				$ilHelp->setScreenIdComponent("copg_plach");
 				include_once ("./Services/COPage/classes/class.ilPCPlaceHolderGUI.php");	
 				$plch_gui =& new ilPCPlaceHolderGUI($this->page, $cont_obj, $hier_id, $pc_id);
