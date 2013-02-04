@@ -1099,7 +1099,8 @@
 
 <xsl:template name="Sourcecode">
 	<xsl:param name="p_id" select="-1"/>
-	<p class="ilc_Code"><table class="ilc_Sourcecode" cellpadding="0" cellspacing="0" border="0">
+	<div class="ilc_Code">
+		<table class="ilc_Sourcecode" cellpadding="0" cellspacing="0" border="0">
 		<!--- <xsl:value-of select="." /> -->
 		[[[[[Code;<xsl:number count="Paragraph" level="any"/>]]]]]
 		<xsl:if test="@DownloadTitle != ''" >
@@ -1125,7 +1126,8 @@
 					</xsl:when >
 				</xsl:choose>
 		</xsl:if>
-	</table></p>
+		</table>
+	</div>
 </xsl:template>
 
 <xsl:template name="DownloadLink">
