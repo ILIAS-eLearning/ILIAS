@@ -952,7 +952,7 @@ class ilChatroom
 
 	/**
 	 * @param        $gui
-	 * @param mixed $sender_id (can be an instance of ilChatroomUser or an user id of an ilObjUser instance
+	 * @param mixed $sender (can be an instance of ilChatroomUser or an user id of an ilObjUser instance
 	 * @param int $recipient_id
 	 * @param int    $subScope
 	 * @param string $invitationLink
@@ -997,6 +997,8 @@ class ilChatroom
 			{
 				throw new InvalidArgumentException('$sender must be an instance of ilChatroomUser or an id of an ilObjUser instance');
 			}
+
+			$lng->loadLanguageModule('mail');
 
 			$recipient = ilObjectFactory::getInstanceByObjId($recipient_id);
 			$bodyParams = array(
