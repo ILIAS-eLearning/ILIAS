@@ -1,5 +1,7 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once 'Services/Table/interfaces/interface.ilTableFilterItem.php';
 
 /**
 * input GUI for a time span (start and end date)
@@ -9,7 +11,7 @@
 *
 * @ingroup ServicesForm
 */
-class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI
+class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
 	protected $start = null;
 	protected $start_year = null;
@@ -628,4 +630,39 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->parseCurrentBlock();
 	}
 
+	/**
+	 * Used for table filter presentation
+	 * @return string
+	 */
+	public function getTableFilterHTML()
+	{
+		return $this->render();
+	}
+
+	/**
+	 * Used for storing the date duration data in session for table gui filters
+	 * @return array
+	 */
+	public function getValue()
+	{
+		return array(
+			'start' => $this->getStart()->get(IL_CAL_UNIX),
+			'end' => $this->getEnd()->get(IL_CAL_UNIX)
+		);
+	}
+
+	/**
+	 * Called from table gui with the stored session value
+	 * Attention: If the user resets the table filter, a boolean false is passed by the table gui
+	 * @see getValue()
+	 * @param array|bool $value
+	 */
+	public function setValue($value)
+	{
+		if(is_array($value))
+		{
+			$this->setStart(new ilDateTime($value['start'], IL_CAL_UNIX));
+			$this->setEnd(new ilDateTime($value['end'], IL_CAL_UNIX));
+		}
+	}
 }
