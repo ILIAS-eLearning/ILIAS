@@ -74,6 +74,7 @@ class ilLog
 		$this->filename = ($a_log_file) ? $a_log_file : "ilias.log";
 		$this->tag = ($a_tag == "") ? "unknown" : $a_tag;
 		$this->enabled = (bool) $a_enabled;
+
 		$this->setLogFormat(@date("[y-m-d H:i:s] ")."[".$this->tag."] ");
 		
 		$this->open();
@@ -274,6 +275,12 @@ class ilLog
 		if(!$this->fp)
 		{
 		    $this->fp = @fopen ($this->path."/".$this->filename, "a");
+		}
+
+		if (!$this->fp && $this->enabled)
+		{
+			include_once("./Services/Logging/exceptions/class.ilLogException.php");
+			throw new ilLogException('Unable to open log file for writing. Please check setup path to log file and possible write access.');
 		}
 	}
 	
