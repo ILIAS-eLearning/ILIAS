@@ -9,6 +9,6 @@
 *
 * @package ilias-core
 */
-define("ILIAS_VERSION", "4.3.1 2013-01-14");
+define("ILIAS_VERSION", "4.3.1  2013-01-14");
 define("ILIAS_VERSION_NUMERIC", "4.3.1");			// must be always x.y.z: x, y and z are numbers
 ?>

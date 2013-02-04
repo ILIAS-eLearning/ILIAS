@@ -173,6 +173,12 @@ tr, td {
     vertical-align: top;
 }
 
+code {
+	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+	font-size: 90%;
+	color: #858585;
+}
+
 @media print {
   h1, h2, h3,
   h4, h5, h6    { page-break-after: avoid }
