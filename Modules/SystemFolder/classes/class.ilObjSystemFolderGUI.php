@@ -1800,7 +1800,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$lng->loadLanguageModule("pd");
-	
+		
 		// installation short title
 		$ti = new ilTextInputGUI($this->lng->txt("short_inst_name"), "short_inst_name");
 		$ti->setMaxLength(200);
@@ -2730,6 +2730,17 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 		$this->form->addItem($crsgrp_ntf);
 
+		// auto-update addressbook entries
+		$options = array(
+			"0" => $lng->txt("cron_mail_notification_never"),
+			"1" => $lng->txt("cron_mail_notification_cron")
+		);
+		$si_adr = new ilSelectInputGUI($this->lng->txt("cron_update_addressbook"), "cron_upd_adrbook");
+		$si_adr->setOptions($options);
+		$si_adr->setInfo($this->lng->txt("cron_update_addressbook_desc"));
+		$si_adr->setValue($ilSetting->get("cron_upd_adrbook"));
+		$this->form->addItem($si_adr);
+
 		$this->form->addCommandButton("saveCronJobs", $lng->txt("save"));
 	                
 		$this->form->setTitle($lng->txt("cron_jobs"));
@@ -2790,6 +2801,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$ilSetting->set('payment_notification_days', $_POST['payment_notification_days']);
 
 			$ilSetting->set('crsgrp_ntf', $_POST['crsgrp_ntf']);
+
+			// auto_update addressbook
+			$ilSetting->set('cron_upd_adrbook', $_POST['cron_upd_adrbook'] ? 1 : 0);
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showCronJobs");
