@@ -13942,3 +13942,27 @@ if(!$ilDB->tableExists('tos_acceptance_track'))
 		);
 	}
 ?>
+<#3815>
+	<?php
+	if(!$ilDB->tableColumnExists('frm_settings', 'thread_sorting'))
+	{
+		$ilDB->addTableColumn("frm_settings", "thread_sorting", array(
+			"type" => "integer",
+			"length" => 4,
+			"default" => 0,
+			"notnull" => true,
+		));
+	}
+	?>
+<#3816>
+	<?php
+	if(!$ilDB->tableColumnExists('frm_threads', 'thread_sorting'))
+	{
+		$ilDB->addTableColumn("frm_threads", "thread_sorting", array(
+			"type" => "integer",
+			"length" => 4,
+			"default" => 0,
+			"notnull" => true,
+		));
+	}
+	?>

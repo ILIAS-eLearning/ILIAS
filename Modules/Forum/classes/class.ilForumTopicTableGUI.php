@@ -64,7 +64,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		$this->lng  = $lng;
 		$this->ctrl = $ilCtrl;
-
+		$this->parent_cmd = $a_parent_cmd;
 		$this->setIsModerator($is_moderator);
 		$this->setOverviewSetting($overview_setting);
 		$this->setRefId($ref_id);
@@ -84,9 +84,24 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		// Add global css for table styles
 		$tpl->addCss('./Modules/Forum/css/forum_table.css');
+	}
 
+	public function populate()
+	{
+		$this->initTopicsOverviewTable();
+	}
+
+	public function initTopicsOverviewTable()
+	{
 		// Columns
-		$this->addColumn('', 'check', '1px', true);
+		if($this->parent_cmd  == "showThreads")
+		{
+			$this->addColumn('', 'check', '1px', true);
+		}
+		else
+		{
+			$this->addColumn('', 'check', '10px', true);
+		}
 		$this->addColumn($this->lng->txt('forums_thread'), 'th_title');
 		$this->addColumn($this->lng->txt('forums_created_by'), 'author');
 		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
@@ -103,6 +118,13 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		// Row template
 		$this->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');
 
+		if($this->parent_cmd == 'sortThreads')
+		{
+			$this->addCommandButton('saveThreadSorting', $this->lng->txt('save'));
+		}
+		else
+		{
+		
 		// Multi commands
 		$this->addMultiCommand('', $this->lng->txt('please_choose'));
 		if($this->ilias->getSetting('forum_notification') == 1)
@@ -124,10 +146,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		{
 			$this->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
 		}
-
+		}
 		$this->setShowRowsSelector(true);
 		$this->setRowSelectorLabel($this->lng->txt('number_of_threads'));
-	}
+	}	
+
 
 	/**
 	 * @param ilForumTopic $thread
@@ -141,10 +164,24 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		$this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $thread->getId());
 
+		if($this->parent_cmd == 'showThreads')
+		{
 		$this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
 			(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]', $thread->getId()
 		));
-
+		}
+		else
+		{
+			if($thread->isSticky())
+			{
+				$this->tpl->setVariable('VAL_CHECK', ilUtil::formInput('thread_sorting['.$thread->getId().']', number_format( (float)$this->position, 1, '.', '.')));
+			}
+			else
+			{
+				$this->tpl->setVariable('VAL_CHECK', ilUtil::formInput('thread_sorting['.$thread->getId().']', number_format( (float)$this->position, 1, '.', '.'), true));
+			}
+			$this->position++;
+		}
 		$subject = '';
 
 		if($thread->isSticky())

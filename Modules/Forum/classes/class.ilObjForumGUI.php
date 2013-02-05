@@ -292,6 +292,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->settingsTabs();
 
+		//sorting for threads
+		$rg_thr = new ilRadioGroupInputGUI($this->lng->txt('frm_sorting_threads'), 'thread_sorting');
+		$rg_thr->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), '0'));
+		$rg_thr->addOption(new ilRadioOption($this->lng->txt('sorting_manual_sticky'), '1'));
+		$a_form->addItem($rg_thr);
+		$rg_thr->setInfo($this->lng->txt('sticky_threads_always_on_top'));
+
+		// sorting for postings
 		$rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
 
 		$rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), ilForumProperties::VIEW_TREE));
@@ -350,6 +358,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$a_values['post_activation'] = $this->objProperties->isPostActivationEnabled();
 		$a_values['subject_setting'] = $this->objProperties->getSubjectSetting();
 		$a_values['mark_mod_posts'] = $this->objProperties->getMarkModeratorPosts();
+		$a_values['thread_sorting'] = $this->objProperties->getThreadSorting();
 		
 		$default_view = 
 			in_array((int)$this->objProperties->getDefaultView(), array(ilForumProperties::VIEW_DATE_ASC, ilForumProperties::VIEW_DATE_DESC)) 
@@ -394,6 +403,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->objProperties->setPostActivation((int) $a_form->getInput('post_activation'));
 		$this->objProperties->setSubjectSetting( $a_form->getInput('subject_setting'));
 		$this->objProperties->setMarkModeratorPosts((int) $a_form->getInput('mark_mod_posts'));
+		$this->objProperties->setThreadSorting((int)$a_form->getInput('thread_sorting'));
+		
 		$this->objProperties->update();
 	}
 	
@@ -455,10 +466,28 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	public function showThreadsObject()
 	{
+		$this->getSubTabs();
 		$this->tpl->setRightContent($this->getRightColumnHTML());
 		$this->getCenterColumnHTML();
 	}
+	public function sortThreadsObject()
+	{
+		$this->getSubTabs();
+		$this->tpl->setRightContent($this->getRightColumnHTML());
+		$this->getCenterColumnHTML(true);
+	}
 
+
+	public function getSubTabs()
+	{
+		global $ilTabs;
+
+		if($this->objProperties->getThreadSorting() == 1)
+		{
+			$ilTabs->addSubTabTarget('show', $this->ctrl->getLinkTarget($this, 'showThreads'), 'showThreads', get_class($this), '', $_GET['cmd']=='showThreads'? true : false );
+			$ilTabs->addSubTabTarget('sorting_header', $this->ctrl->getLinkTarget($this, 'sortThreads'), 'sortThreads', get_class($this), '', $_GET['cmd']=='sortThreads'? true : false );
+		}
+	}
 	public function getContent()
 	{
 		/**
@@ -474,6 +503,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
 
+		$cmd = $this->ctrl->getCmd();
 		$frm = $this->object->Forum;
 		$frm->setForumId($this->object->getId());
 		$frm->setForumRefId($this->object->getRefId());
@@ -515,8 +545,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$frm->updateVisits($topicData['top_pk']);
 
 			include_once 'Modules/Forum/classes/class.ilForumTopicTableGUI.php';
-			$tbl = new ilForumTopicTableGUI($this, 'showThreads', '', (int) $_GET['ref_id'], $topicData, $this->is_moderator, $this->forum_overview_setting);
+			if(!in_array($cmd, array('showThreads', 'sortThreads') ))
+			{
+				$cmd = 'showThreads';
+			}
+			$tbl = new ilForumTopicTableGUI($this, $cmd, '', (int) $_GET['ref_id'], $topicData, $this->is_moderator, $this->forum_overview_setting);
 			$tbl->setMapper($frm)->fetchData();
+			$tbl->populate();
 			$this->tpl->setVariable('THREADS_TABLE', $tbl->getHTML());
 		}
 
@@ -552,6 +587,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$description_gui->setRows(2);
 		$this->create_form_gui->addItem($description_gui);
 		
+		// view sorting threads
+		$sorting_threads_gui = new ilRadioGroupInputGUI($this->lng->txt('frm_sorting_threads'), 'thread_sorting');
+		$sort_dat = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), 0);
+		$sorting_threads_gui->addOption($sort_dat);
+
+		$sort_man = new ilRadioOption($this->lng->txt('sorting_manual_sticky'), 1);
+		$sorting_threads_gui->addOption($sort_man);
+		$sorting_threads_gui->setInfo($this->lng->txt('sticky_threads_always_on_top'));
+		$this->create_form_gui->addItem($sorting_threads_gui);
+
 		// view
 		$view_group_gui = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'sort');
 			$view_hir = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), ilForumProperties::VIEW_TREE);
@@ -611,6 +656,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->objProperties->setAnonymisation(0);
 		$this->objProperties->setStatisticsStatus(0);
 		$this->objProperties->setPostActivation(0);
+		$this->objProperties->setThreadSorting(0);
 		$this->objProperties->insert();
 
 		$forumObj->createSettings();
@@ -4231,4 +4277,20 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->showThreadsObject();
 	}
+
+	public function saveThreadSortingObject()
+	{
+		$_POST['thread_sorting'] ? $thread_sorting = $_POST['thread_sorting'] :$thread_sorting =  array();
+
+		foreach($thread_sorting as $thr_pk=>$sorting_value)
+		{
+			$sorting_value = str_replace(',','.',$sorting_value);
+			$sorting_value =  (float)$sorting_value * 100;
+			$this->object->setThreadSorting($thr_pk,$sorting_value);
+		}
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+		$this->showThreadsObject();
+		return true;
+	}
+
 }

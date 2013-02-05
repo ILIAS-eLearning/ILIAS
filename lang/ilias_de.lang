@@ -12971,3 +12971,7 @@ survey#:#svy_invite_action#:#NutzerInnen zu einer Umfrage einladen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
+frm#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen 
+frm#:#frm_sorting_threads#:#Themen-Sortierung
+frm#:#frm_sorting_posts#:#Beitrags-Sortierung
+frm#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.

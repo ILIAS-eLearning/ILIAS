@@ -810,6 +810,16 @@ class ilObjForum extends ilObject
 			));
 	}
 
+	public function setThreadSorting($a_thr_pk, $a_sorting_value)
+	{
+		global $ilDB;
+
+		$ilDB->update('frm_threads',
+			array('thread_sorting' => array('integer',$a_sorting_value)),
+			array('thr_pk' => array('integer', $a_thr_pk)));
+	}
+
+
 	/**
 	 * @static
 	 * @param int $obj_id

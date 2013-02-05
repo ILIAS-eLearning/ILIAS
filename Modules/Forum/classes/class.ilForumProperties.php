@@ -93,6 +93,15 @@ class ilForumProperties
 	private $mark_mod_posts = 0;
 
 	/**
+	 * sorting type for threads
+	 * 0 = default
+	 * 1 = manual
+	 * 
+	 * @access private
+	 */
+	private $thread_sorting = 0;
+	
+	/**
 	 * DB Object
 	 * @access	private
 	 */
@@ -147,6 +156,7 @@ class ilForumProperties
 
 				$this->notification_type = $row->notification_type == null ? 'default': $row->notification_type;
 				$this->mark_mod_posts = $row->mark_mod_posts == 1 ? true : false;
+				$this->thread_sorting = $row->thread_sorting == 1? true : false;
 
 				return true;
 			}
@@ -172,7 +182,9 @@ class ilForumProperties
 					'preset_subject'	=> array('integer', $this->preset_subject),
 					'add_re_subject'	=> array('integer', $this->add_re_subject),
 					'notification_type' => array('text', $this->notification_type),
-					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts))
+					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
+					'thread_sorting'	=> array('integer', $this->thread_sorting)
+				)
 			);
 
 			return true;
@@ -195,7 +207,9 @@ class ilForumProperties
 					'preset_subject'	=> array('integer', $this->preset_subject),
 					'add_re_subject'	=> array('integer', $this->add_re_subject),
 					'notification_type' => array('text', $this->notification_type),
-					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts)),
+					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
+					'thread_sorting'	=> array('integer', $this->thread_sorting)
+				),
 			array(	'obj_id'			=> array('integer', $this->obj_id))
 			);
 			return true;
@@ -218,7 +232,9 @@ class ilForumProperties
 					'preset_subject'	=> array('integer', $this->preset_subject),
 					'add_re_subject'	=> array('integer', $this->add_re_subject),
 					'notification_type' => array('text', $this->notification_type),
-					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts))
+					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
+					'thread_sorting'	=> array('integer', $this->thread_sorting)
+				)
 			);
 			return true;
 		}
@@ -419,5 +435,13 @@ class ilForumProperties
 		return $this->mark_mod_posts;
 	}
 
+	public function setThreadSorting($a_thread_sorting)
+	{
+		$this->thread_sorting = $a_thread_sorting;
+	}
+	public function getThreadSorting()
+	{
+		return $this->thread_sorting;	
+	}
 }
 ?>
