@@ -178,6 +178,16 @@ class ilChatroomTabFactory
 			$commandParts[0] = 'settings';
 			$commandParts[1] = 'settings';
 		}
+		else if($command == 'view_savesettings')
+		{
+			$commandParts[0] = 'view';
+			$commandParts[1] = 'serversettings';
+		}
+		else if($command == 'view_saveclientsettings')
+		{
+			$commandParts[0] = 'view';
+			$commandParts[1] = 'clientsettings';
+		}
 		else if($ilCtrl->getCmdClass() == 'ilpermissiongui' && $_REQUEST['ref_id'] == $public_room_ref)
 		{
 			$commandParts[0] = 'perm';
