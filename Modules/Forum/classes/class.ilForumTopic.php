@@ -884,6 +884,7 @@ class ilForumTopic
 				array('0', $this->id));
 			
 			$this->is_sticky = 0;
+			$this->thread_sorting = 0;
 			
 			return true;
 		}
@@ -1186,6 +1187,23 @@ class ilForumTopic
 	public function getOrderDirection()
 	{
 		return $this->orderDirection;
-	}	
+	}
 	
+	public static function lookupForumIdByTopicId($a_topic_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF('SELECT thr_top_fk FROM frm_threads WHERE thr_pk = %s',
+			array('integer'), array($a_topic_id));
+
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['thr_top_fk'];
+	}
+	
+	public function getSorting()
+	{
+		return $this->thread_sorting;
+	}
+
 }

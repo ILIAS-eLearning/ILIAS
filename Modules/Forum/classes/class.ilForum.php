@@ -1064,12 +1064,22 @@ class ilForum
 				  
 				  LEFT JOIN frm_user_read postread
 				  	ON postread.post_id = pos_pk
-				  	AND postread.usr_id = %s
+				  	AND postread.usr_id = %s";
 				 
-				  WHERE thr_top_fk = %s
+		$frm_props = ilForumProperties::getInstance($this->getForumId());
+				 
+		if($frm_props->getThreadSorting() == 1)
+		{
+			$query .= ' WHERE thr_top_fk = %s
+				  GROUP BY thr_pk, is_sticky, thread_sorting
+				  ORDER BY is_sticky DESC, thread_sorting ASC';		
+		}
+		else
+		{
+			$query .= " WHERE thr_top_fk = %s
 					GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					ORDER BY is_sticky DESC, post_date DESC, thr_date DESC";
-
+		}
 		$data_types[] = 'integer';
 		$data_types[] = 'integer';
 		$data_types[] = 'integer';
@@ -2415,7 +2425,7 @@ class ilForum
 		return $threads ? $threads : array();
 	}
 		
-	function _lookupObjIdForForumId($a_for_id)
+	public static function _lookupObjIdForForumId($a_for_id)
 	{
 		global $ilDB;
 		
