@@ -13779,5 +13779,18 @@ if(!$ilDB->tableColumnExists('il_dcl_table', 'export_enabled'))
 		$ilDB->createSequence('ecs_course_assignments');
 		$ilDB->addPrimaryKey('ecs_course_assignments',array('id'));
 	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////
+	//
+	//      PLEASE DO  NOT ADD ANY ADDITIONAL STEPS IN THIS BRANCH
+	//
+	//      CONTACT THE CORE TEAM, IF A BUGFIX NEEDS ANY DB CHANGES
+	//
+	//////////////////////////////////////////////////////////////////
+
+	
+	
 ?>
 
