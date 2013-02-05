@@ -140,26 +140,45 @@ class ilMailAddressbookGUI
 	 */
 	public function saveEntry()
 	{
-		global $lng;
+		/**
+		 * @var $lng       ilLanguage
+		 * @var $ilSetting ilSetting
+		 */
+		global $lng, $ilSetting;
 		
-		if ($this->checkInput($_GET["addr_id"]))
+		$autoupdate = (int)$_POST['auto_update'];
+		if(!$ilSetting->get('cron_upd_adrbook', 0))
 		{
-			if ($_GET["addr_id"])
+			$autoupdate = 0;
+		}
+		
+		if($this->checkInput($_GET['addr_id']))
 			{
-				$this->abook->updateEntry(ilUtil::stripSlashes($_GET["addr_id"]),
-										ilUtil::stripSlashes($_POST["login"]),
-										ilUtil::stripSlashes($_POST["firstname"]),
-										ilUtil::stripSlashes($_POST["lastname"]),
-										ilUtil::stripSlashes($_POST["email"]));
-				ilUtil::sendInfo($lng->txt("mail_entry_changed"));
+			if(!isset($_POST['login']) || !strlen($_POST['login']))
+			{
+				$autoupdate = 0;
+			}
+
+			if($_GET['addr_id'])
+			{
+				$this->abook->updateEntry(ilUtil::stripSlashes($_GET['addr_id']),
+					ilUtil::stripSlashes($_POST['login']),
+					ilUtil::stripSlashes($_POST['firstname']),
+					ilUtil::stripSlashes($_POST['lastname']),
+					ilUtil::stripSlashes($_POST['email']),
+					$autoupdate
+				);
+				ilUtil::sendInfo($lng->txt('mail_entry_changed'));
 			}
 			else
 			{
-				$this->abook->addEntry(ilUtil::stripSlashes($_POST["login"]),
-									   ilUtil::stripSlashes($_POST["firstname"]),
-						 			   ilUtil::stripSlashes($_POST["lastname"]),
-									   ilUtil::stripSlashes($_POST["email"]));
-				ilUtil::sendInfo($lng->txt("mail_entry_added"));
+				$this->abook->addEntry(ilUtil::stripSlashes($_POST['login']),
+					ilUtil::stripSlashes($_POST['firstname']),
+					ilUtil::stripSlashes($_POST['lastname']),
+					ilUtil::stripSlashes($_POST['email']),
+					$autoupdate
+				);
+				ilUtil::sendInfo($lng->txt('mail_entry_added'));
 			}
 			
 			unset($_SESSION['addr_search']);
@@ -253,7 +272,11 @@ class ilMailAddressbookGUI
 	
 	public function showAddressForm()
 	{
-		global $rbacsystem, $lng, $ilUser;
+		/**
+		 * @var $lng ilLanguage
+		 * @var $ilSetting ilSetting
+		 */
+		global $lng, $ilSetting;
 
 		$this->tpl->setTitle($this->lng->txt("mail_addressbook"));		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_form.html", "Services/Contact");
@@ -270,10 +293,19 @@ class ilMailAddressbookGUI
 		$entry = $this->abook->getEntry($_GET['addr_id']);
 		$form->setFormAction($this->ctrl->getFormAction($this, "saveEntry"));
 		
-		$formItem = new ilTextInputGUI($this->lng->txt("username"), "login");
-		$formItem->setValue(isset($_POST['login']) ? ilUtil::prepareFormOutput($_POST['login'], true) : ilUtil::prepareFormOutput($entry['login']));
-		$form->addItem($formItem);
+		$login = new ilTextInputGUI($this->lng->txt("username"), "login");
+		$login->setValue(isset($_POST['login']) ? ilUtil::prepareFormOutput($_POST['login'], true) : ilUtil::prepareFormOutput($entry['login']));
+		$form->addItem($login);
 		
+		if($ilSetting->get('cron_upd_adrbook', 0))
+		{
+			$formItem = new ilCheckboxInputGUI('', 'auto_update');
+			$formItem->setChecked(isset($_POST['auto_update']) ? ilUtil::prepareFormOutput($_POST['auto_update'], true) : ilUtil::prepareFormOutput($entry['auto_update']));
+			$formItem->setInfo($this->lng->txt('cron_update_addressbook'));
+
+			$login->addSubItem($formItem);
+		}
+
 		$formItem = new ilTextInputGUI($this->lng->txt("firstname"), "firstname");
 		$formItem->setValue(isset($_POST['firstname']) ? ilUtil::prepareFormOutput($_POST['firstname'], true) : ilUtil::prepareFormOutput($entry['firstname']));
 		$form->addItem($formItem);
@@ -370,7 +402,13 @@ class ilMailAddressbookGUI
 	 */
 	public function showAddressbook()
 	{
-	    global $rbacsystem, $lng, $ilUser, $ilCtrl, $ilias;
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 * @var $lng ilLanguage
+		 * @var $ilCtrl ilCtrl
+		 * @var $ilSetting ilSetting
+		 */
+		global $rbacsystem, $lng, $ilCtrl, $ilSetting;
 
 		$this->tpl->setTitle($this->lng->txt("mail_addressbook"));		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Contact");		
@@ -409,16 +447,25 @@ class ilMailAddressbookGUI
 
 	    $tbl->setDefaultOrderField('login');
 
+		$width = '20%';
+		if($ilSetting->get('cron_upd_adrbook', 0))
+		{
+			$width = '16.6%';
+		}
+
 	    $result = array();
 	    $this->abook->setSearchQuery($_SESSION['addr_search']);
 	    $entries = $this->abook->getEntries();
-
-	    $tbl->addColumn('', 'check', '10%', true);
-	    $tbl->addColumn($this->lng->txt('login'), 'login', '20%');
-	    $tbl->addColumn($this->lng->txt('firstname'), 'firstname', '20%');
-	    $tbl->addColumn($this->lng->txt('lastname'), 'lastname', '20%');
-	    $tbl->addColumn($this->lng->txt('email'), 'email', '20%');
-	    $tbl->addColumn($this->lng->txt('actions'), '', '10%');
+		$tbl->addColumn('', 'check', '1px', true);
+		$tbl->addColumn($this->lng->txt('login'), 'login', $width);
+		$tbl->addColumn($this->lng->txt('firstname'), 'firstname', $width);
+		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', $width);
+		$tbl->addColumn($this->lng->txt('email'), 'email', $width);
+		if($ilSetting->get('cron_upd_adrbook', 0))
+		{
+			$tbl->addColumn($this->lng->txt('auto_update'), '', $width);
+		}
+		$tbl->addColumn($this->lng->txt('actions'), '', '20%');
 
 	    include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
@@ -480,6 +527,11 @@ class ilMailAddressbookGUI
 			$current_selection_list->addItem($this->lng->txt("invite_to_chat"), '', $this->ctrl->getLinkTarget($this, "inviteToChat"));
 
 		    $this->ctrl->clearParameters($this);
+
+				if($ilSetting->get('cron_upd_adrbook', 0))
+				{
+					$result[$counter]['auto_update'] = $entry['auto_update'] ? $lng->txt('yes') : $lng->txt('no');
+				}
 
 		    $result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
 		    ++$counter;

@@ -12975,3 +12975,6 @@ frm#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 frm#:#frm_sorting_threads#:#Thread Sorting
 frm#:#frm_sorting_posts#:#Posts Sorting
 frm#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of topics. Within the "Sticky Threads" you are able to sort the topics manually, if you have chosen this option.
+mail#:#cron_update_addressbook#:#Synchronize address book entries automatically
+mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.
+mail#:#auto_update#:#Update

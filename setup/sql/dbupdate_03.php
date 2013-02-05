@@ -13966,3 +13966,15 @@ if(!$ilDB->tableExists('tos_acceptance_track'))
 		));
 	}
 	?>
+<#3817>
+<?php
+	if(!$ilDB->tableColumnExists('addressbook', 'auto_update'))
+	{
+		$ilDB->addTableColumn("addressbook", "auto_update", array(
+			"type" => "integer",
+			"length" => 4,
+			"default" => 1,
+			"notnull" => true,
+		));
+	}
+?>

@@ -124,15 +124,16 @@ class ilAddressbook
 	* @param string firstname
 	* @param string lastname
 	* @param string email 
+	 * @param int $a_auto_update
 	* @return boolean
 	* @access	public
 	*/
-	function addEntry($a_login,$a_firstname,$a_lastname,$a_email)
+	public function addEntry($a_login,$a_firstname,$a_lastname,$a_email, $a_auto_update = 0)
 	{
 		global $ilDB;
 		
 		$nextId = $ilDB->nextId($this->table_addr);   //addr_id,
-		$statement = $ilDB->manipulateF("
+		$ilDB->manipulateF("
 			INSERT INTO ".$this->table_addr."
 			( 	
 				addr_id,
@@ -140,11 +141,12 @@ class ilAddressbook
 				login,
 				firstname,
 				lastname,
-				email
+				email,
+				auto_update
 			)
-			VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer', 'integer', 'text', 'text', 'text', 'text'),
-			array($nextId, $this->user_id, $a_login, $a_firstname, $a_lastname, $a_email));
+			VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			array('integer', 'integer', 'text', 'text', 'text', 'text', 'integer'),
+			array($nextId, $this->user_id, $a_login, $a_firstname, $a_lastname, $a_email, $a_auto_update));
 		
 		return true;
 	}
@@ -156,10 +158,11 @@ class ilAddressbook
 	* @param string firstname
 	* @param string lastname
 	* @param string email 
+	 * @param int $a_auto_update
 	* @return boolean
 	* @access	public
 	*/
-	function updateEntry($a_addr_id,$a_login,$a_firstname,$a_lastname,$a_email)
+	public function updateEntry($a_addr_id,$a_login,$a_firstname,$a_lastname,$a_email, $a_auto_update = 0)
 	{
 		global $ilDB;
 		$statement = $ilDB->manipulateF( 
@@ -167,11 +170,12 @@ class ilAddressbook
 			SET login = %s,
 				firstname = %s,
 				lastname = %s,
-				email = %s
+				email = %s,
+				auto_update = %s
 			WHERE user_id = %s
 			AND addr_id = %s",
-			array('text', 'text', 'text', 'text', 'integer', 'integer'),
-			array($a_login, $a_firstname, $a_lastname, $a_email, $this->user_id, $a_addr_id));
+			array('text', 'text', 'text', 'text', 'integer', 'integer', 'integer'),
+			array($a_login, $a_firstname, $a_lastname, $a_email, $a_auto_update, $this->user_id, $a_addr_id));
 		
 		return true;
 	}
@@ -181,7 +185,7 @@ class ilAddressbook
 	* @return array array of entries found in addressbook
 	* @access	public
 	*/
-	function getEntries()
+	public function getEntries()
 	{
 		global $ilDB;
 		
@@ -209,14 +213,16 @@ class ilAddressbook
 		
 		$res = $ilDB->query($query, $data_types, $data);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$entries[] = array(
 				"addr_id"    => $row->addr_id,
 				"login"      => ($row->login),
 				"firstname"  => ($row->firstname),
 				"lastname"   => ($row->lastname),
-				"email"      => ($row->email));
+				"email"      => ($row->email),
+				"auto_update"=> $row->auto_update
+			);
 		}
 		return $entries ? $entries : array();
 	}
@@ -226,7 +232,7 @@ class ilAddressbook
 	* @return array array of entry data
 	* @access	public
 	*/
-	function getEntry($a_addr_id)
+	public function getEntry($a_addr_id)
 	{
 		global $ilDB;
 		
@@ -237,14 +243,16 @@ class ilAddressbook
 			array('integer', 'integer'),
 			array($this->user_id, $a_addr_id));
 		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $ilDB->fetchObject($res);
 
 		return array(
 			"addr_id"    => $row->addr_id,
 			"login"      => ($row->login),
 			"firstname"  => ($row->firstname),
 			"lastname"   => ($row->lastname),
-			"email"      => ($row->email));
+			"email"      => ($row->email),
+			"auto_update"=> $row->auto_update
+		);
 	}
 
 	/**

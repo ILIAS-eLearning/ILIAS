@@ -152,6 +152,7 @@ class ilCronCheck
 				'ilCronDeleteInactivatedUserAccounts::run',
 				'ilCronPaymentNotification::sendNotifications',
 				'ilCronCourseGroupNotification::check',
+				'ilCronAddressbook::syncAddressbook',
 				'ilCronPaymentUDInvoiceNumberReset::check',
 				'ilCronObjectStatisticsCheck::check'
 		);
@@ -296,6 +297,13 @@ class ilCronCheck
 					'method'		=> 'check',
 					'location'		=> 'cron',
 					'condition'		=> ilUserDefinedInvoiceNumber::_isUDInvoiceNumberActive()
+				),
+				// Check Addressbook and update on login
+				'ilCronAddressbook::syncAddressbook' => array(
+					'classname'		=> 'ilCronAddressbook',
+					'method'		=> 'syncAddressbook',
+					'location'		=> 'cron',
+					'condition'		=> $ilias->getSetting("cron_upd_adrbook")
 				),
 			
 				// (object) statistics
