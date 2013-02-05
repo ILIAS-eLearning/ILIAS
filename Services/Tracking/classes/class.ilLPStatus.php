@@ -531,7 +531,7 @@ class ilLPStatus
 	 * @param int $a_obj_id object id
 	 * @param int $a_user_id user id
 	 */
-	function _lookupStatus($a_obj_id, $a_user_id)
+	public static function _lookupStatus($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
 		
