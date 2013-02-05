@@ -112,11 +112,11 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 
 		require_once 'Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
+		$auto->setUser($ilUser);
+		$auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
 		if($ilUser->isAnonymous())
 		{
 			$auto->setSearchType(ilUserAutoComplete::SEARCH_TYPE_EQUALS);
-			$auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
-			$auto->setUser($ilUser);
 		}
 		$auto->setSearchFields(array('firstname', 'lastname'));
 		$auto->setResultField('login');
