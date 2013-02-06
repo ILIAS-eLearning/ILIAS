@@ -40,6 +40,7 @@ public class HighlightItem implements ResultExport {
 	protected static Logger logger = Logger.getLogger(HighlightItem.class); 
 	
 	private int subId;
+	private double absoluteScore = 0;
 	private Vector<HighlightField> fields = new Vector<HighlightField>();
 	
 
@@ -72,6 +73,22 @@ public class HighlightItem implements ResultExport {
 	public int getSubId() {
 		return subId;
 	}
+	
+	/**
+	 * Score
+	 * @param score 
+	 */
+	public void setAbsoluteScore(double score) {
+		this.absoluteScore = score;
+	}
+	
+	/**
+	 * Get absolute score
+	 * @return 
+	 */
+	public double getAbsoluteScore() {
+		return absoluteScore;
+	}
 
 	/**
 	 * 
@@ -98,6 +115,8 @@ public class HighlightItem implements ResultExport {
 	public Element addXML() {
 
 		Element item = new Element("Item").setAttribute("id", String.valueOf(getSubId()));
+		item.setAttribute("id",String.valueOf(getSubId()));
+		item.setAttribute("absoluteScore",String.valueOf(getAbsoluteScore()));
 		
 		for(Object field : fields) {
 			
