@@ -12953,3 +12953,4 @@ rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
 blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
+blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.

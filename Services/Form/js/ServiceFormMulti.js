@@ -26,6 +26,15 @@ var ilMultiFormValues = {
 		$('input:image[id*="ilMultiUp"]').bind('click', function(e) {
 			ilMultiFormValues.upEvent(e);
 		});		
+		// return triggers add (BEFORE adding preset items)
+		$('input:image[id*="ilMultiAdd"]').each(function() {						
+			var id = $(this).attr('id').split('~');				
+			// only text inputs are supported yet
+			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').bind('keydown', function(e) {
+				ilMultiFormValues.keyDown(e);
+			});		
+		});
+		
 		// handle preset values (in hidden inputs)
 		$('input[id*="ilMultiValues"]').each(function() {		
 			ilMultiFormValues.handlePreset(this);				
@@ -216,8 +225,27 @@ var ilMultiFormValues = {
 			$(element).find('select[id*="' + group_id + '"] option:selected').removeAttr('selected');
 		}
 		$(element).find('input:text[id*="' + group_id + '"]').attr('value', preset);
+		
+		// return triggers add 		
+		$(element).find('input:text[id*="' + group_id + '"]').bind('keydown', function(e) {
+			ilMultiFormValues.keyDown(e);
+		});		
 
 		return;		
+	},
+	
+	keyDown: function(e) {
+		if(e.which == 13)
+		{
+			e.preventDefault();
+
+			var id = $(e.target).attr('id').split('~');
+			if(id.length  < 2)
+			{
+				id[1] = "0";
+			}
+			$('[id="ilMultiAdd~'+id[0]+'~'+id[1]+'"]').click();
+		}
 	},
 	
 	addAutocomplete: function (id, url) {
