@@ -1076,7 +1076,7 @@ class ilForum
 				 
 		if($frm_props->getThreadSorting() == 1)
 		{
-			$additional_sort = ', thread_sorting ASC ';
+			$additional_sort = ', thread_sorting ASC, post_date DESC ';
 		}
 		else
 		{
