@@ -580,11 +580,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$form->setTitle($this->lng->txt("blog_edit_keywords"));
 		
 		$txt = new ilTextInputGUI($this->lng->txt("blog_keywords"), "keywords");
-		$txt->setRequired(true);
+		// $txt->setRequired(true); #10504
 		$txt->setMulti(true);
 		$txt->setDataSource($this->ctrl->getLinkTarget($this, "keywordAutocomplete", "", true));
 		$txt->setMaxLength(200);
 		$txt->setSize(50);
+		$txt->setInfo($this->lng->txt("blog_keywords_info"));
 		$form->addItem($txt);
 				
 		$md_section = $this->getMDSection();

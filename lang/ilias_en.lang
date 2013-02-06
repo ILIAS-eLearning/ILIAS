@@ -12979,3 +12979,4 @@ mail#:#cron_update_addressbook#:#Synchronize address book entries automatically
 mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.
 mail#:#auto_update#:#Update
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
