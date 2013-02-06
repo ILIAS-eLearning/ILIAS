@@ -1079,6 +1079,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);						
 		
 		$can_approve = ($this->object->hasApproval() && $this->checkPermissionBool("write"));
+		$can_deactivate = $this->checkPermissionBool("write");
 		
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
 		foreach($items as $item)
@@ -1135,6 +1136,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editdate"));
 					$alist->addItem($lng->txt("delete"), "delete",
 						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));				
+				}
+				else if($is_active && $can_deactivate)
+				{
+					// #10513
+					$ilCtrl->setParameter($this, "apid", $item["id"]);
+					$alist->addItem($lng->txt("blog_toggle_draft_admin"), "deactivate", 
+						$ilCtrl->getLinkTarget($this, "deactivateAdmin"));
+					$ilCtrl->setParameter($this, "apid", "");
 				}
 
 				$wtpl->setCurrentBlock("actions");
@@ -2252,6 +2261,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 		ilDesktopItemGUI::removeFromDesktop();
 		ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
+	}
+	
+	public function deactivateAdmin()
+	{
+		if($this->checkPermissionBool("write") && (int)$_GET["apid"])
+		{			
+			// ilBlogPostingGUI::deactivatePage()
+			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+			$post = new ilBlogPosting((int)$_GET["apid"]);
+			$post->setApproved(false);
+			$post->setActive(false);
+			$post->update(true, false, false);
+			
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		}
+				
+		$this->ctrl->redirect($this, "render");
 	}
 	
 	/**
