@@ -29,7 +29,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import oracle.jdbc.OraclePreparedStatement;
 
 import org.apache.log4j.Logger;
 
@@ -37,6 +36,7 @@ import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 import de.ilias.services.settings.ServerSettings;
+import oracle.jdbc.OraclePreparedStatement;
 
 /**
  * A thread local singleton for db connections

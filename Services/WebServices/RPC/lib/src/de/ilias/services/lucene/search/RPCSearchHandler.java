@@ -207,7 +207,7 @@ public class RPCSearchHandler {
 			logger.info("What occurs" + occurs.toString());
 			logger.debug("Rewritten query is: " + query.toString());
 			
-			TopDocCollector collector = new TopDocCollector(500);
+			TopDocCollector collector = new TopDocCollector(1000);
 			searcher.search(query,collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
