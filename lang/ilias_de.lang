@@ -12978,3 +12978,4 @@ frm#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz
 common#:#cron_update_addressbook#:#Adressbucheinträge automatisch synchronisieren 
 common#:#cron_update_addressbook_desc#:#Wenn diese Option eingeschaltet ist, haben Benutzer die Möglichkeit festzulegen, ob mit Benutzerkonten verknüpfte Adressbucheintrage durch den Cronjob synchronisiert werden sollen. Es werden nur jene Daten aktualisiert, die vom Benutzer freigegeben wurden. 
 mail#:#auto_update#:#Aktualisierung
+blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
