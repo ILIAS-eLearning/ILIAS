@@ -466,26 +466,26 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	public function showThreadsObject()
 	{
-		$this->getSubTabs();
+		$this->getSubTabs('showThreads');
 		$this->tpl->setRightContent($this->getRightColumnHTML());
 		$this->getCenterColumnHTML();
 	}
 	public function sortThreadsObject()
 	{
-		$this->getSubTabs();
+		$this->getSubTabs('sortThreads');
 		$this->tpl->setRightContent($this->getRightColumnHTML());
 		$this->getCenterColumnHTML(true);
 	}
 
 
-	public function getSubTabs()
+	public function getSubTabs($subtab = 'showThreads')
 	{
 		global $ilTabs;
 
 		if($this->objProperties->getThreadSorting() == 1)
 		{
-			$ilTabs->addSubTabTarget('show', $this->ctrl->getLinkTarget($this, 'showThreads'), 'showThreads', get_class($this), '', $_GET['cmd']=='showThreads'? true : false );
-			$ilTabs->addSubTabTarget('sorting_header', $this->ctrl->getLinkTarget($this, 'sortThreads'), 'sortThreads', get_class($this), '', $_GET['cmd']=='sortThreads'? true : false );
+			$ilTabs->addSubTabTarget('show', $this->ctrl->getLinkTarget($this, 'showThreads'), 'showThreads', get_class($this), '', $subtab=='showThreads'? true : false );
+			$ilTabs->addSubTabTarget('sorting_header', $this->ctrl->getLinkTarget($this, 'sortThreads'), 'sortThreads', get_class($this), '', $subtab=='sortThreads'? true : false );
 		}
 	}
 	public function getContent()
