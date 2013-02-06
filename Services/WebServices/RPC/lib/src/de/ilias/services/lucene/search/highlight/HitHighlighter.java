@@ -105,6 +105,11 @@ public class HitHighlighter {
 		String[] fields = fieldInfo.getFieldsAsStringArray();
 		for(int i = 0; i < hits.length;i++) {
 			
+			// first score is max score
+			if(i == 0) {
+				result.setMaxScore(hits[i].score);
+			}
+			
 			StringBuffer allContent = new StringBuffer();
 			Document hitDoc = searcher.doc(hits[i].doc);
 
@@ -128,6 +133,7 @@ public class HitHighlighter {
 			
 			resObject = result.initObject(objId);
 			resItem = resObject.addItem(subItem);
+			resItem.setAbsoluteScore(hits[i].score);
 			
 			// Title
 			if(hitDoc.get("title") != null ) { 

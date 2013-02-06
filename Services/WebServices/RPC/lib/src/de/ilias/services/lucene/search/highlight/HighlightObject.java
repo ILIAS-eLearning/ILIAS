@@ -22,12 +22,13 @@
 
 package de.ilias.services.lucene.search.highlight;
 
-import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 
 import de.ilias.services.lucene.search.ResultExport;
+import java.util.Comparator;
+import java.util.TreeMap;
 
 /**
  * 
@@ -35,11 +36,13 @@ import de.ilias.services.lucene.search.ResultExport;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class HighlightObject implements ResultExport {
+public class HighlightObject implements ResultExport, Comparator {
 
 	protected static Logger logger = Logger.getLogger(HighlightObject.class);
 	
-	private HashMap<Integer, HighlightItem> items = new HashMap<Integer, HighlightItem>();
+	private TreeMap<Integer, HighlightItem> items = new TreeMap<Integer, HighlightItem>();
+	private TreeMap<Integer, HighlightItem> sortedItems = new TreeMap<Integer, HighlightItem>();
+	
 	private int objId;
 	/**
 	 * 
@@ -67,7 +70,7 @@ public class HighlightObject implements ResultExport {
 	/**
 	 * @return the items
 	 */
-	public HashMap<Integer, HighlightItem> getItems() {
+	public TreeMap<Integer, HighlightItem> getItems() {
 		return items;
 	}
 
@@ -94,11 +97,33 @@ public class HighlightObject implements ResultExport {
 		Element obj = new Element("Object");
 		obj.setAttribute("id",String.valueOf(getObjId()));
 		
-		for(Object item : items.values()) {
+		sortedItems = new TreeMap(this);
+		sortedItems.putAll(items);
+		
+		for(Object item : sortedItems.values()) {
 			
 			obj.addContent(((ResultExport) item).addXML());
 		}
 		return obj;
 	}
 
+	/**
+	 * Compare items by absolute score
+	 * @param o1
+	 * @param o2
+	 * @return 
+	 */
+	public int compare(Object o1, Object o2) {
+		
+		int index1 = (Integer) o1;
+		int index2 = (Integer) o2;
+		
+		if(items.get(index1).getAbsoluteScore() < items.get(index2).getAbsoluteScore()) {
+			return 1;
+		}
+		if(items.get(index1).getAbsoluteScore() > items.get(index2).getAbsoluteScore()) {
+			return -1;
+		}
+		return 0;
+	}
 }
