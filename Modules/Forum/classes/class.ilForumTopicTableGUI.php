@@ -46,6 +46,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	protected $ctrl;
 
 	/**
+	 * @var int for displaying thread_sorting position 
+	 */
+	public $position = 1;
+
+	/**
 	 * @param        $a_parent_obj
 	 * @param string $a_parent_cmd
 	 * @param string $template_context
@@ -174,11 +179,12 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		{
 			if($thread->isSticky())
 			{
-				$this->tpl->setVariable('VAL_CHECK', ilUtil::formInput('thread_sorting['.$thread->getId().']', number_format( (float)$this->position, 1, '.', '.')));
+				$this->tpl->setVariable('VAL_SORTING_NAME','thread_sorting['.$thread->getId().']' );
+				$this->tpl->setVariable('VAL_SORTING', (int)$this->position * 10 );
 			}
 			else
 			{
-				$this->tpl->setVariable('VAL_CHECK', ilUtil::formInput('thread_sorting['.$thread->getId().']', number_format( (float)$this->position, 1, '.', '.'), true));
+				$this->tpl->setVariable('VAL_CHECK', '');
 			}
 			$this->position++;
 		}
