@@ -1027,6 +1027,14 @@ class ilForum
 			$active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_usr_id = %s) ';
 		}
 
+		$frm_props = ilForumProperties::getInstance($this->getForumId());
+
+		$optional_fields = '';
+		if($frm_props->getThreadSorting() == 1)
+		{
+			$optional_fields = ',thread_sorting';
+		}
+
 		$query = "SELECT
 				  (CASE WHEN COUNT(DISTINCT(notification_id)) > 0 THEN 1 ELSE 0 END) usr_notification_is_enabled,
 				  MAX(pos_date) post_date,
@@ -1052,7 +1060,7 @@ class ilForum
 				  ) num_new_posts,
 				  
 				  thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-				  
+				  {$optional_fields}
 				  FROM frm_threads
 				  
 				  LEFT JOIN frm_notification
@@ -1066,20 +1074,20 @@ class ilForum
 				  	ON postread.post_id = pos_pk
 				  	AND postread.usr_id = %s";
 				 
-		$frm_props = ilForumProperties::getInstance($this->getForumId());
-				 
 		if($frm_props->getThreadSorting() == 1)
 		{
-			$query .= ' WHERE thr_top_fk = %s
-				  GROUP BY thr_pk, is_sticky, thread_sorting
-				  ORDER BY is_sticky DESC, thread_sorting ASC';		
+			$additional_sort = ', thread_sorting ASC ';
 		}
 		else
 		{
-			$query .= " WHERE thr_top_fk = %s
-					GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-					ORDER BY is_sticky DESC, post_date DESC, thr_date DESC";
+			$additional_sort = ', post_date DESC';
 		}
+
+		$query .= " WHERE thr_top_fk = %s
+					GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+					{$optional_fields}
+					ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
+		
 		$data_types[] = 'integer';
 		$data_types[] = 'integer';
 		$data_types[] = 'integer';
