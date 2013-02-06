@@ -174,17 +174,24 @@ class ilECSImport
 	 * @param 
 	 * 
 	 */
-	public static function _lookupObjId($a_server_id,$a_econtent_id,$a_mid)
+	public static function _lookupObjId($a_server_id,$a_econtent_id,$a_mid, $a_sub_id = NULL)
 	{
 		global $ilDB;
 		
 		$query = "SELECT obj_id FROM ecs_import ".
 			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ".
 			"AND mid = ".$ilDB->quote($a_mid,'integer')." ".
-			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
-		$res = $ilDB->query($query);
+			'AND server_id = '.$ilDB->quote($a_server_id,'integer').' ';
 		
-		#$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		if($a_sub_id)
+		{
+			$query .= 'AND sub_id = '.$ilDB->quote($a_sub_id,'integer');
+		}
+		else
+		{
+			$query .= 'AND sub_id IS NULL';
+		}
+		$res = $ilDB->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -298,9 +305,9 @@ class ilECSImport
 	 * @param int econtent id
 	 * @param int mid
 	 */
-	public static function _isImported($a_server_id,$a_econtent_id,$a_mid)
+	public static function _isImported($a_server_id,$a_econtent_id,$a_mid, $a_sub_id = 0)
 	{
-		return ilECSImport::_lookupObjId($a_server_id,$a_econtent_id,$a_mid);
+		return ilECSImport::_lookupObjId($a_server_id,$a_econtent_id,$a_mid, $a_sub_id);
 	}
 	
 	public function setServerId($a_server_id)
@@ -332,7 +339,7 @@ class ilECSImport
 	
 	public function getSubId()
 	{
-		return $this->sub_id;
+		return $this->sub_id ? $this->sub_id : NULL;
 	}
 	
 	/**
@@ -400,7 +407,7 @@ class ilECSImport
 			$this->db->quote($this->obj_id,'integer').", ".
 			$this->db->quote($this->mid,'integer').", ".
 			$this->db->quote($this->econtent_id,'integer').", ".
-			$this->db->quote($this->sub_id,'text'). ', '.
+			$this->db->quote($this->getSubId(),'text'). ', '.
 			$this->db->quote($this->getServerId(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
