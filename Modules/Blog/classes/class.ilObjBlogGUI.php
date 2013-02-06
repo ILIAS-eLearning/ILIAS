@@ -1104,7 +1104,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 			// actions					
 			$item_contribute = $this->mayContribute($item["id"], $item["author"]);
-			if(($item_contribute || $can_approve) && !$a_link_template && $a_cmd == "preview")
+			if(($item_contribute || $can_approve || $can_deactivate) && !$a_link_template && $a_cmd == "preview")
 			{
 				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 				$alist = new ilAdvancedSelectionListGUI();
