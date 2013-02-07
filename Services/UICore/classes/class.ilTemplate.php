@@ -2082,6 +2082,28 @@ class ilTemplate extends ilTemplateX
 	}
 
 	/**
+	 * Reset javascript files
+	 */
+	function resetJavascript()
+	{
+		$this->js_files = array();
+		$this->js_files_vp = array();
+		$this->js_files_batch = array();
+	}
+	
+	/**
+	 * Reset css files
+	 *
+	 * @param
+	 * @return
+	 */
+	function resetCss()
+	{
+		$this->css_files = array();
+	}
+	
+	
+	/**
 	* Add on load code
 	*/
 	function addOnLoadCode($a_code, $a_batch = 2)

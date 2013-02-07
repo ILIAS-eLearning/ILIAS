@@ -132,10 +132,10 @@ class ilCOPageHTMLExport
 	function exportSupportScripts()
 	{
 		// export flv/mp3 player
-		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
-			$this->flv_dir."/".ilPlayerUtil::getFlashVideoPlayerFilename());
-		copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
-			$this->mp3_dir."/mp3player.swf");
+		//copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
+		//	$this->js_dir."/".ilPlayerUtil::getFlashVideoPlayerFilename());
+		//copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
+		//	$this->mp3_dir."/mp3player.swf");
 		
 		// basic js
 		copy('./Services/JavaScript/js/Basic.js', $this->js_dir.'/Basic.js');
@@ -177,10 +177,12 @@ class ilCOPageHTMLExport
 		
 		// mediaelement.js
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
-		copy(ilPlayerUtil::getLocalMediaElementCssPath(),
-			$this->css_dir.'/mediaelementplayer.css');
-		copy(ilPlayerUtil::getLocalMediaElementJsPath(),
-			$this->js_dir.'/mediaelement-and-player.js');
+		ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
+
+//		copy(ilPlayerUtil::getLocalMediaElementCssPath(),
+//			$this->css_dir.'/mediaelementplayer.css');
+//		copy(ilPlayerUtil::getLocalMediaElementJsPath(),
+//			$this->js_dir.'/mediaelement-and-player.js');
 	}
 
 	/**
@@ -192,6 +194,8 @@ class ilCOPageHTMLExport
 	function getPreparedMainTemplate($a_tpl = "")
 	{
 		global $ilUser;
+		
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		
 		if ($a_tpl != "")
 		{
@@ -208,7 +212,9 @@ class ilCOPageHTMLExport
 			"./js/yahoo/animation-min.js", "./js/yahoo/container-min.js",
 			"./js/Basic.js", "./js/jquery.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js",
-			"./js/ilTooltip.js", "./js/maphilight.js", "./js/mediaelement-and-player.js");
+			"./js/ilTooltip.js", "./js/maphilight.js");
+		$scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
+
 		foreach ($scripts as $script)
 		{
 			$tpl->setCurrentBlock("js_file");
@@ -219,8 +225,9 @@ class ilCOPageHTMLExport
 		// css files needed
 		$style_name = $ilUser->prefs["style"].".css";
 		$css_files = array("./css/accordion.css", "./css/container.css",
-			"./css/mediaelementplayer.css",
 			"./content_style/content.css", "./style/".$style_name);
+		$css_files = array_merge($css_files, ilPlayerUtil::getCssFilePaths());
+
 		foreach ($css_files as $css)
 		{
 			$tpl->setCurrentBlock("css_file");

@@ -1883,8 +1883,9 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($flv_dir);
 		$mp3_dir = $media_service_dir."/flash_mp3_player";
 		ilUtil::makeDir($mp3_dir);
-		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
-			$flv_dir."/".ilPlayerUtil::getFlashVideoPlayerFilename());
+//		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
+//			$flv_dir."/".ilPlayerUtil::getFlashVideoPlayerFilename());
+		ilPlayerUtil::copyPlayerFilesToTargetDirectory($flv_dir);
 		copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
 			$mp3_dir."/mp3player.swf");
 
@@ -1973,10 +1974,10 @@ class ilObjContentObject extends ilObject
 				"target" => $a_target_dir.'/css/question_handling.css',
 				"type" => "css"),
 			array("source" => ilPlayerUtil::getLocalMediaElementJsPath(),
-				"target" => $a_target_dir.'/js/mediaelement-and-player.js',
+				"target" => $a_target_dir."/".ilPlayerUtil::getLocalMediaElementJsPath(),
 				"type" => "js"),
 			array("source" => ilPlayerUtil::getLocalMediaElementCssPath(),
-				"target" => $a_target_dir.'/css/mediaelementplayer.css',
+				"target" => $a_target_dir."/".ilPlayerUtil::getLocalMediaElementCssPath(),
 				"type" => "css")
 		);
 	}
