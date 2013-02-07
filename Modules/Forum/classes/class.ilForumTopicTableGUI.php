@@ -46,6 +46,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	protected $ctrl;
 
 	/**
+	 * @var ilForumTopic
+	 */
+	protected $merge_thread_obj = NULL;
+
+	/**
 	 * @var int for displaying thread_sorting position 
 	 */
 	public $position = 1;
@@ -76,8 +81,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->setTopicData($topicData);
 
 		// Call this immediately in constructor
-		$this->setId('il_frm_thread_table_' . $this->getRefId());
-		$this->setPrefix('frm_threads');
+		$this->setId('frm_tt_' . substr(md5($this->parent_cmd), 0, 3) . '_'. $this->getRefId());
 
 		// Let the database do the work
 		$this->setDefaultOrderDirection('DESC');
@@ -90,10 +94,17 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		// Add global css for table styles
 		$tpl->addCss('./Modules/Forum/css/forum_table.css');
 	}
-
+	
 	public function populate()
 	{
-		$this->initTopicsOverviewTable();
+		if($this->parent_cmd == 'mergeThreads')
+		{
+			$this->initMergeThreadsTable();
+		}
+		else
+		{
+			$this->initTopicsOverviewTable();
+		}
 	}
 
 	public function initTopicsOverviewTable()
@@ -129,33 +140,58 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		}
 		else
 		{
-		
-		// Multi commands
-		$this->addMultiCommand('', $this->lng->txt('please_choose'));
-		if($this->ilias->getSetting('forum_notification') == 1)
-		{
-			$this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
-			$this->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
-		}
-		if($this->getIsModerator())
-		{
-			$this->addMultiCommand('makesticky', $this->lng->txt('make_topics_sticky'));
-			$this->addMultiCommand('unmakesticky', $this->lng->txt('make_topics_non_sticky'));
-			$this->addMultiCommand('editThread', $this->lng->txt('frm_edit_title'));
-			$this->addMultiCommand('close', $this->lng->txt('close_topics'));
-			$this->addMultiCommand('reopen', $this->lng->txt('reopen_topics'));
-			$this->addMultiCommand('move', $this->lng->txt('move'));
-		}
-		$this->addMultiCommand('html', $this->lng->txt('export_html'));
-		if($this->getIsModerator())
-		{
-			$this->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
-		}
+			// Multi commands
+			$this->addMultiCommand('', $this->lng->txt('please_choose'));
+			if($this->ilias->getSetting('forum_notification') == 1)
+			{
+				$this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
+				$this->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
+			}
+			if($this->getIsModerator())
+			{
+				$this->addMultiCommand('makesticky', $this->lng->txt('make_topics_sticky'));
+				$this->addMultiCommand('unmakesticky', $this->lng->txt('make_topics_non_sticky'));
+				$this->addMultiCommand('editThread', $this->lng->txt('frm_edit_title'));
+				$this->addMultiCommand('close', $this->lng->txt('close_topics'));
+				$this->addMultiCommand('reopen', $this->lng->txt('reopen_topics'));
+				$this->addMultiCommand('move', $this->lng->txt('move'));
+			}
+			$this->addMultiCommand('html', $this->lng->txt('export_html'));
+			if($this->getIsModerator())
+			{
+				$this->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
+				$this->addMultiCommand('merge', $this->lng->txt('merge'));
+			}
 		}
 		$this->setShowRowsSelector(true);
 		$this->setRowSelectorLabel($this->lng->txt('number_of_threads'));
 	}	
+	
+	public function initMergeThreadsTable()
+	{
+		// Columns
+		$this->addColumn('', 'check', '1px', true);
+		$this->addColumn($this->lng->txt('forums_thread'), 'th_title');
+		$this->addColumn($this->lng->txt('forums_created_by'), 'author');
+	
+		// Disable sorting
+		$this->disable('sort');
 
+		// Default Form Action
+		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'confirmMergeThreads'));
+
+		// Row template
+		$this->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');
+
+		ilUtil::sendInfo($this->lng->txt('please_choose_target'));
+		
+		$this->setTitle(sprintf($this->lng->txt('frm_selected_merge_src'), $this->getSelectedThread()->getSubject()));
+		
+		$this->addCommandButton('confirmMergeThreads',$this->lng->txt('merge'));
+		$this->addCommandButton('showThreads', $this->lng->txt('cancel'));
+		$this->setShowRowsSelector(true);
+		$this->setRowSelectorLabel($this->lng->txt('number_of_threads'));
+	}
 
 	/**
 	 * @param ilForumTopic $thread
@@ -168,12 +204,20 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		global $ilUser;
 
 		$this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $thread->getId());
-
-		if($this->parent_cmd == 'showThreads')
+		if($this->parent_cmd == 'showThreads' || $this->parent_cmd == 'mergeThreads')
 		{
-		$this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
-			(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]', $thread->getId()
-		));
+			if('mergeThreads' == $this->parent_cmd)
+			{
+				$this->tpl->setVariable('VAL_CHECK', ilUtil::formRadioButton(
+					(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]', $thread->getId()
+				));	
+			}
+			else
+			{
+				$this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
+					(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]', $thread->getId()
+				));	
+			}
 		}
 		else
 		{
@@ -199,7 +243,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			$subject .= '<span class="light">[' . $this->lng->txt('topic_close') . ']</span> ';
 		}
 
-		if($ilUser->getId() != ANONYMOUS_USER_ID &&
+		if(!$ilUser->isAnonymous() &&
 			$this->ilias->getSetting('forum_notification') != 0 &&
 			$thread->getUserNotificationEnabled()
 		)
@@ -222,8 +266,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_SUBJECT', $subject);
 
 		// Author
-		$this->ctrl->setParameter($this->getParentObject(), 'backurl',
-			urlencode($this->ctrl->getLinkTargetByClass("ilrepositorygui", "")));
+		$this->ctrl->setParameter($this->getParentObject(), 'backurl', urlencode($this->ctrl->getLinkTargetByClass("ilrepositorygui", "")));
 		$this->ctrl->setParameter($this->getParentObject(), 'user', $thread->getUserId());
 
 		$authorinfo = new ilForumAuthorInformation(
@@ -238,7 +281,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_AUTHOR', $authorinfo->getLinkedAuthorName());
 
 		$topicStats = $num_posts;
-		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		if(!$ilUser->isAnonymous())
 		{
 			if($num_unread > 0)
 			{
@@ -252,8 +295,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable('VAL_ARTICLE_STATS', $topicStats);
 		$this->tpl->setVariable('VAL_NUM_VISIT', $thread->getVisits());
-
-		$this->ctrl->clearParameters($this->getParentObject());
 
 		// Last posting
 		if($num_posts > 0)
@@ -269,9 +310,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 			if(is_object($objLastPost))
 			{
-				$this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $thread->getId());
-				$this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $objLastPost->getThreadId());
-
 				$authorinfo = new ilForumAuthorInformation(
 					$objLastPost->getUserId(),
 					$objLastPost->getUserAlias(),
@@ -284,8 +322,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('VAL_LP_DATE', '<div style="white-space:nowrap">' . ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(), IL_CAL_DATETIME)) . '</div>' .
 					'<div style="white-space:nowrap">' . $this->lng->txt('from') . ' ' . $authorinfo->getLinkedAuthorName() . '</div>'
 				);
-
-				$this->ctrl->clearParameters($this->getParentObject());
 			}
 		}
 
@@ -296,6 +332,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			$css_row = $css_row == 'tblrow1' ? 'tblstickyrow1' : 'tblstickyrow2';
 		}
 		$this->tpl->setVariable('CSS_ROW', $css_row);
+
+		$this->ctrl->setParameter($this->getParentObject(), 'thr_pk', '');
+		$this->ctrl->setParameter($this->getParentObject(), 'user', '');
+		$this->ctrl->setParameter($this->getParentObject(), 'backurl', '');
 	}
 
 	/**
@@ -324,15 +364,25 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	 */
 	public function fetchData()
 	{
-		global $ilAccess;
-
 		$this->determineOffsetAndOrder();
+		
+		$excluded_ids = array();
+		if($this->parent_cmd == 'mergeThreads' &&
+		   $this->getSelectedThread() instanceof ilForumTopic)
+		{
+			$excluded_ids[] = $this->getSelectedThread()->getId();	
+		}
 
-		$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $this->getIsModerator(), (int)$this->getLimit(), (int)$this->getOffset());
+		$params = array(
+			'is_moderator' => $this->getIsModerator(),
+			'excluded_ids' => $excluded_ids
+		);
+
+		$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int)$this->getLimit(), (int)$this->getOffset());
 		if(!count($data['items']) && $this->getOffset() > 0)
 		{
 			$this->resetOffset();
-			$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $this->getIsModerator(), (int)$this->getLimit(), (int)$this->getOffset());
+			$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int)$this->getLimit(), (int)$this->getOffset());
 		}
 
 		$this->setMaxCount($data['cnt']);
@@ -451,5 +501,21 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	public function getTopicData()
 	{
 		return $this->topicData;
+	}
+
+	/**
+	 * @param ilForumTopic $thread_obj
+	 */
+	public function setSelectedThread(ilForumTopic $thread_obj)
+	{
+		$this->merge_thread_obj = $thread_obj;
+	}
+
+	/**
+	 * @return ilForumTopic
+	 */
+	public function getSelectedThread()
+	{
+		return $this->merge_thread_obj;
 	}
 }

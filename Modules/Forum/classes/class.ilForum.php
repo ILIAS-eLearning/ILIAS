@@ -143,6 +143,7 @@ class ilForum
 	}
 	
 	/**
+	 * // @todo  this should be renamed to getObjId()
 	* get forum id
 	* @access	public
 	* @return	integer	object id of forum
@@ -997,19 +998,29 @@ class ilForum
 
 	/**
 	 * @param $a_topic_id
-	 * @param bool $is_moderator
+	 * @param array $params
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array
 	 */
-	public function getAllThreads($a_topic_id, $is_moderator = false, $limit = 0, $offset = 0)
+	public function getAllThreads($a_topic_id, array $params = array(), $limit = 0, $offset = 0)
 	{
+		/**
+		 * @var $ilDB   ilDB
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilDB, $ilUser;
+		
+		$excluded_ids_condition = '';
+		if(isset($params['excluded_ids']) && is_array($params['excluded_ids']) && $params['excluded_ids'])
+		{
+			$excluded_ids_condition = ' AND ' . $ilDB->in('thr_pk', $params['excluded_ids'], true, 'integer'). ' ';
+		}
 
 		// Count all threads for the passed forum
-		$query = 'SELECT COUNT(thr_pk) cnt
+		$query = "SELECT COUNT(thr_pk) cnt
 				  FROM frm_threads
-				  WHERE thr_top_fk = %s';
+				  WHERE thr_top_fk = %s {$excluded_ids_condition}";
 		$res = $ilDB->queryF($query, array('integer'), array($a_topic_id));
 		$data = $ilDB->fetchAssoc($res);
 		$cnt = (int) $data['cnt'];
@@ -1021,7 +1032,7 @@ class ilForum
 
 		$active_query = '';
 		$active_inner_query = '';
-		if(!$is_moderator)
+		if(!$params['is_moderator'])
 		{
 			$active_query = ' AND (pos_status = %s OR pos_usr_id = %s) ';
 			$active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_usr_id = %s) ';
@@ -1084,6 +1095,7 @@ class ilForum
 		}
 
 		$query .= " WHERE thr_top_fk = %s
+					{$excluded_ids_condition}
 					GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					{$optional_fields}
 					ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
@@ -1091,12 +1103,12 @@ class ilForum
 		$data_types[] = 'integer';
 		$data_types[] = 'integer';
 		$data_types[] = 'integer';
-		if(!$is_moderator)
+		if(!$params['is_moderator'])
 		{
 			array_push($data_types, 'integer', 'integer');
 		}
 		$data_types[] = 'integer';
-		if(!$is_moderator)
+		if(!$params['is_moderator'])
 		{
 			array_push($data_types, 'integer', 'integer');
 		}
@@ -1106,12 +1118,12 @@ class ilForum
 		$data[] = $ilUser->getId();
 		$data[] = $ilUser->getId();
 		$data[] = $ilUser->getId();
-		if(!$is_moderator)
+		if(!$params['is_moderator'])
 		{
 			array_push($data, '1', $ilUser->getId());
 		}
 		$data[] = $ilUser->getId();
-		if(!$is_moderator)
+		if(!$params['is_moderator'])
 		{
 			array_push($data, '1', $ilUser->getId());
 		}
@@ -1125,7 +1137,7 @@ class ilForum
 		$res = $ilDB->queryF($query, $data_types, $data);
 		while($row = $ilDB->fetchAssoc($res))
 		{
-			$thread = new ilForumTopic($row['thr_pk'], $is_moderator, true);
+			$thread = new ilForumTopic($row['thr_pk'], $params['is_moderator'], true);
 			$thread->assignData($row);
 			$threads[] = $thread;
 		}
@@ -2447,6 +2459,45 @@ class ilForum
 			return $fdata["top_frm_fk"];
 		}
 		return false;
+	}
+	
+	public static function updateLastPostByObjId($a_obj_id)
+	{
+		global $ilDB;
+		// get latest post of forum and update last_post
+		$ilDB->setLimit(1);
+		$res2 = $ilDB->queryf('
+			SELECT pos_top_fk, pos_thr_fk, pos_pk FROM frm_posts, frm_data 
+			WHERE pos_top_fk = top_pk 
+			AND top_frm_fk = %s
+			ORDER BY pos_date DESC',
+			array('integer'), array($a_obj_id));
+
+		if ($res2->numRows() == 0)
+		{
+			$lastPost_top = "";
+		}
+		else
+		{
+			$z = 0;
+
+			while ($selData = $ilDB->fetchAssoc($res2))
+			{
+				if ($z > 0)
+				{
+					break;
+				}
+
+				$lastPost_top = $selData["pos_top_fk"]."#".$selData["pos_thr_fk"]."#".$selData["pos_pk"];
+				$z ++;
+			}
+		}
+
+		$ilDB->update('frm_data',
+			array('top_last_post' => array('text', $lastPost_top)),
+			array('top_frm_fk' => array('integer',  $a_obj_id))
+		);
+		
 	}
 
 } // END class.Forum

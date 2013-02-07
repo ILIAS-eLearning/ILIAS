@@ -12980,3 +12980,9 @@ common#:#cron_update_addressbook_desc#:#Wenn diese Option eingeschaltet ist, hab
 mail#:#auto_update#:#Aktualisierung
 blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
+forum#:#merge#:#Zusammenführen
+forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung
+forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden! Das ältere gewählte Thema wird immer als Zusammenführungs-Ziel behandelt. 
+forum#:#not_allowed_to_merge_into_another_forum#:#Es ist nicht möglich Themen verschiedener Foren zusammenzuführen.
+forum#:#frm_selected_merge_src#:#Selektiertes Thema für die Zusammenführung: %s
+forum#:#error_same_thread_ids#:#Es müssen zwei verschiedene Themen ausgewählt werden.

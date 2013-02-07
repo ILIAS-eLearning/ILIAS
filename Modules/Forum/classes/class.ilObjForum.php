@@ -1136,4 +1136,13 @@ class ilObjForum extends ilObject
 
 		return array_unique($usr_ids);
 	}
+	
+	public static function mergeForumUserRead($merge_source_thread_id, $merge_target_thread_id)
+	{
+		global $ilDB;
+		
+		$ilDB->update('frm_user_read',
+			array('thread_id' => array('integer', $merge_target_thread_id)),
+			array('thread_id' => array('integer',$merge_source_thread_id)));
+	}
 }

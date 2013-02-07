@@ -410,4 +410,42 @@ class ilForumNotification
 		}
 		return $result;
 	}
+	
+	public static function mergeThreadNotificiations($merge_source_thread_id, $merge_target_thread_id)
+	{
+		// check notifications etc..
+		global $ilDB;
+
+		$res = $ilDB->queryF('SELECT notification_id, user_id FROM frm_notification 
+		WHERE frm_id = %s 
+		AND  thread_id = %s
+		 ORDER BY user_id ASC',
+			array('integer', 'integer'), array(0, $merge_source_thread_id));
+
+
+
+		$res_2 = $ilDB->queryF('SELECT user_id FROM frm_notification 
+		WHERE frm_id = %s 
+		AND  thread_id = %s
+		 ORDER BY user_id ASC',
+			array('integer', 'integer'), array(0, $merge_target_thread_id));
+
+		$users_already_notified = $ilDB->fetchAssoc($res_2);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			if(in_array($row['user_id'], $users_already_notified))
+			{
+				// delete source notification because already exists for target_id
+				$ilDB->manipulatef('DELETE FROM frm_notification WHERE notification_id = %s',
+					array('integer'), array($row['notification_id']));
+			}
+			else
+			{
+				// update source notification
+				$ilDB->update('frm_notification',
+					array('thread_id' => array('integer', $merge_target_thread_id)));
+			}
+		}
+	}
+	
 } // END class.ilForumNotification

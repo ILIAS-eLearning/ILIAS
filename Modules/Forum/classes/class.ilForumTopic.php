@@ -884,7 +884,6 @@ class ilForumTopic
 				array('0', $this->id));
 			
 			$this->is_sticky = 0;
-			$this->thread_sorting = 0;
 			
 			return true;
 		}
@@ -1205,5 +1204,25 @@ class ilForumTopic
 	{
 		return $this->thread_sorting;
 	}
+	public function updateMergedThread()
+	{
+		global $ilDB;
 
+		$ilDB->update('frm_threads',
+			array(
+				'thr_num_posts' => array('integer', $this->getNumPosts()),
+				'visits' 		=> array('integer', $this->getVisits()),
+				'thr_last_post' => array('text', $this->getLastPostString()),
+				'thr_subject'		=> array('text', $this->getSubject())
+			),
+			array('thr_pk' => array('integer', $this->getId())));
+	}
+
+	public static function deleteByThreadId($thr_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s',
+			array('integer'), array($thr_id));
+	}
 }
