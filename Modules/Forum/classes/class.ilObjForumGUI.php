@@ -4304,6 +4304,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function mergeThreadsObject()
 	{
+		// @todo 4 nahmad: Access check, if !moderate raise error
+
 		$selected_thread_id = 0;
 		if(isset($_GET['merge_thread_id']) && (int)$_GET['merge_thread_id'])
 		{
@@ -4364,6 +4366,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function confirmMergeThreadsObject()
 	{
+		// @todo 4 nahmad: Access check, if !moderate raise error
+
 		if(!isset($_GET['merge_thread_id']) || !(int)$_GET['merge_thread_id'] || !is_array($_POST['thread_ids']) || count($_POST['thread_ids']) != 1)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
@@ -4409,6 +4413,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function performMergeThreadsObject()
 	{
+		// @todo 4 nahmad: Access check, if !moderate raise error
+		
 		if(!isset($_POST['thread_ids']) || !is_array($_POST['thread_ids']) || count($_POST['thread_ids']) != 2)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
