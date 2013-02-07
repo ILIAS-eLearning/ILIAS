@@ -278,10 +278,14 @@ class ilECSCourseCreationHandler
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
 			switch((int) $course->basicData->parallelGroupScenario)
 			{
-
 				case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
 					$GLOBALS['ilLog']->write(__METHOD__.': Performing update for parallel groups in course.');
 					$this->updateParallelGroups($course,$obj_id);
+					break;
+				
+				case ilECSMappingUtils::PARALLEL_ALL_COURSES:
+					$GLOBALS['ilLog']->write(__METHOD__.': Performing update for parallel courses.');
+					$this->updateParallelCourses($course, $a_parent_obj_id);
 					break;
 				
 				case ilECSMappingUtils::PARALLEL_ONE_COURSE:
@@ -311,13 +315,19 @@ class ilECSCourseCreationHandler
 					
 				
 				case ilECSMappingUtils::PARALLEL_COURSES_FOR_LECTURERS:
-					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "courses foreach lecturer".');
-					// grmpf
+					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "Courses foreach Lecturer".');
 					break;
 
 				case ilECSMappingUtils::PARALLEL_ALL_COURSES:
 					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "Many courses".');
 					
+					$refs = ilObject::_getAllReferences($a_parent_obj_id);
+					$ref = end($refs);
+					$crs = $this->createCourseData($course);
+					$this->createCourseReference($crs, $a_parent_obj_id);
+					$this->setImported($course_id, $crs);
+					$this->createParallelCourses($course, $ref);
+					break;
 					
 				default:
 				case ilECSMappingUtils::PARALLEL_ONE_COURSE:
@@ -333,6 +343,75 @@ class ilECSCourseCreationHandler
 		}
 	}
 	
+	/**
+	 * Create parallel courses
+	 * @param type $course
+	 * @param type $parent_ref
+	 */
+	protected function createParallelCourses($course, $parent_ref)
+	{
+		foreach((array) $course->parallelGroups as $group)
+		{
+			$this->createParallelCourse($course, $group, $parent_ref);
+		}
+		return true;
+	}
+	
+	/**
+	 * Create parallel course
+	 * @param type $course
+	 * @param type $group
+	 * @param type $parent_ref
+	 */
+	protected function createParallelCourse($course, $group, $parent_ref)
+	{
+		include_once './Modules/Course/classes/class.ilObjCourse.php';
+		$course_obj = new ilObjCourse();
+		$title = $group->title;
+		$GLOBALS['ilLog']->write(__METHOD__.': Creating new parallel course instance from ecs : '. $title);
+		$course_obj->setTitle($title);
+		$course_obj->setSubscriptionMaxMembers((int) $group->maxParticipants);
+		$course_obj->create();
+		
+		$this->createCourseReference($course_obj, ilObject::_lookupObjId($parent_ref));
+		$this->setImported($course->basicData->id, $course_obj, $group->id);
+		return true;
+	}
+	
+	/**
+	 * Update parallel group data
+	 * @param type $course
+	 * @param type $parent_obj
+	 */
+	protected function updateParallelCourses($course,$parent_obj)
+	{
+		$parent_refs = ilObject::_getAllReferences($parent_obj);
+		$parent_ref = end($parent_refs);
+		
+		foreach((array) $course->parallelGroups as $group)
+		{
+			$obj_id = $this->getImportId($course->basicData->id, $group->id);
+			$GLOBALS['ilLog']->write(__METHOD__.': Imported obj id is ' .$obj_id);
+			if(!$obj_id)
+			{
+				$this->createParallelCourse($course, $group, $parent_ref);
+			}
+			else
+			{
+				$course_obj = ilObjectFactory::getInstanceByObjId($obj_id,false);
+				if($course_obj instanceof ilObjCourse)
+				{
+					$GLOBALS['ilLog']->write(__METHOD__.': New title is '. $group->title);
+					$course_obj->setTitle($group->title);
+					$course_obj->setSubscriptionMaxMembers($group->maxParticipants);
+					$course_obj->update();
+				}
+			}
+		}
+		return true;
+	}
+	
+	
 	
 	/**
 	 * This create parallel groups
@@ -345,6 +424,7 @@ class ilECSCourseCreationHandler
 		{
 			$this->createParallelGroup($course, $group, $parent_ref);
 		}
+		return true;
 	}
 
 	/**
@@ -458,8 +538,8 @@ class ilECSCourseCreationHandler
 	
 	/**
 	 * Create course reference
-	 * @param type $crs
-	 * @param ilObjCourse $a_parent_obj_id
+	 * @param ilObjCourse $crs_obj
+	 * @param int $a_parent_obj_id
 	 * @return ilObjCourse
 	 */
 	protected function createCourseReference($crs,$a_parent_obj_id)
