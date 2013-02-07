@@ -341,7 +341,7 @@ class ilDataCollectionField
 		$props = $this->getProperties();
 		$t = self::PROPERTYID_TEXTAREA;
 
-		return $props[$t]->value;
+		return $props[$t];
 	}
 
 	/**

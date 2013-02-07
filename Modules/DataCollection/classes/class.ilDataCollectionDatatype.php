@@ -223,9 +223,7 @@ class ilDataCollectionDatatype
 	{
 		global $lng;
 		$type_id = $field->getDatatypeId();
-		$input = NULL;
 		$title = $field->getTitle();
-		
 		switch($type_id)
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
