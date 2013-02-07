@@ -12551,7 +12551,7 @@ dcl#:#dcl_limited#:#Zeitliche Beschränkung für das Hinzufügen, Bearbeiten und
 dcl#:#dcl_record_id#:#Datensatz-ID
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#Ende
-dcl#:#dcl_url#:#URL
+dcl#:#dcl_url#:#URL oder E-Mail
 dcl#:#dcl_edit_record#:#Datensatz bearbeiten
 dcl#:#dcl_update_record#:#Datensatz aktualisieren
 dcl#:#dcl_edit_field#:#Feld bearbeiten
@@ -12666,7 +12666,7 @@ dcl#:#dcl_record_edit_viewdefinition#:#Bearbeite Seitenvorlage
 dcl#:#dcl_record_list_viewdefinition#:#Liste der Seitenvorlagen
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
-dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link ein (beginnend mit http://)
+dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine Email Adresse ein.
 pd#:#pd_export_profile#:#Persönliche Daten exportieren
 pd#:#pd_download_last_export_file#:#Aktuelle Exportdatei herunterladen
 pd#:#pd_import_personal_data#:#Persönliche Daten importieren
