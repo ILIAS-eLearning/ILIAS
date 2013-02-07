@@ -1939,6 +1939,10 @@ class ilPageObjectGUI
 		
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 
+		$flv_video_player = ($this->getOutputMode() != "offline")
+			? ilPlayerUtil::getFlashVideoPlayerFilename(true)
+			: ilPlayerUtil::getFlashVideoPlayerFilename(true);
+		
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
 						 'layout_mode' => $this->getLayoutMode() ? "y" : "n",
@@ -1984,7 +1988,7 @@ class ilPageObjectGUI
 						 'enable_blog' =>  $this->getEnabledBlog() ? "y" : "n",
 						 'enable_skills' =>  $this->getEnabledSkills() ? "y" : "n",
 						 'enable_qover' =>  $this->getEnablePCType("QuestionOverview") ? "y" : "n",
-						 'flv_video_player' => ilPlayerUtil::getFlashVideoPlayerFilename(true)
+						 'flv_video_player' => $flv_video_player
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
