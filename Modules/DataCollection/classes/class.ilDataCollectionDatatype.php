@@ -571,12 +571,6 @@ class ilDataCollectionDatatype
 		return $return;
 	}
 
-
-    public static function _parseHTML($datatype_id, $value){
-
-
-    }
-
 	/**
 	 * function parses stored value in database to a html output for eg. the record list gui.
 	 * @param $value

@@ -50,6 +50,7 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
             return "";
         }
 
+
         $ref_record = ilDataCollectionCache::getRecordCache($value);
         if(!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()){
             //the referenced record_field does not seem to exist.
@@ -59,12 +60,17 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
         }
         else
         {
-            $record = $record_field->getRecord();
+            $html = $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef());
 
             if($options['link']['display']) {
-                $html = $this->getLinkHTML($options['link']['name']);
-            } else {
-                $html = $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef());
+                global $ilDB;
+                $ref_record = ilDataCollectionCache::getRecordCache($value);
+                $ref_table = $ref_record->getTableId();
+
+                $query = "SELECT table_id FROM il_dcl_view WHERE table_id = ".$ref_table." AND type = ".$ilDB->quote(0, "integer")." AND formtype = ".$ilDB->quote(0, "integer");
+                $set = $ilDB->query($query);
+                if($set->numRows())
+                    $html = $this->getLinkHTML($options['link']['name']);
             }
         }
 

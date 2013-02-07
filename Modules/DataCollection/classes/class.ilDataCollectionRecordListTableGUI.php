@@ -132,10 +132,10 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             //Check Options of Displaying
             $options = array();
             $arr_properties = $field->getProperties();
-            if($arr_properties[ilDataCollectionField::PROPERTYID_REFERENCE_LINK]->value) {
+            if($arr_properties[ilDataCollectionField::PROPERTYID_REFERENCE_LINK]) {
                 $options['link']['display'] = true;
             }
-            if($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]->value) {
+            if($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
                 $options['link']['display'] = true;
             }
 
