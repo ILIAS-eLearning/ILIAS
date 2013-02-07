@@ -41,9 +41,38 @@ class ilPlayerUtil
 			$a_tpl = $tpl;
 		}
 		
-		$a_tpl->addJavaScript(self::getLocalMediaElementJsPath());
-		$a_tpl->addCss(self::getLocalMediaElementCssPath());
+		foreach (self::getJsFilePaths() as $js_path)
+		{
+			$a_tpl->addJavaScript($js_path);
+		}
+		foreach (self::getCssFilePaths() as $css_path)
+		{
+			$a_tpl->addCss($css_path);
+		}
 	}
+	
+	/**
+	 * Get css file paths
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getCssFilePaths()
+	{
+		return array(self::getLocalMediaElementCssPath());
+	}
+	
+	/**
+	 * Get js file paths
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getJsFilePaths()
+	{
+		return array(self::getLocalMediaElementJsPath());
+	}
+	
 
 	/**
 	 * Get flash video player directory
@@ -69,6 +98,18 @@ class ilPlayerUtil
 			return self::getFlashVideoPlayerDirectory()."/".$file;
 		}
 		return $file;
+	}
+	
+	/**
+	 * Copy css files to target dir
+	 *
+	 * @param
+	 * @return
+	 */
+	function copyPlayerFilesToTargetDirectory($a_target_dir)
+	{
+		ilUtil::rCopy("./Services/MediaObjects/media_element_".self::$mejs_ver,
+			$a_target_dir);
 	}
 	
 }

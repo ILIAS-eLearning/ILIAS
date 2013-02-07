@@ -1889,13 +1889,19 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$this->co_page_html_export->exportStyles();
 		$this->co_page_html_export->exportSupportScripts();
 
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
+		$this->flv_dir = $a_target_dir."/".ilPlayerUtil::getFlashVideoPlayerDirectory();
+		
 		ilUtil::makeDir($a_target_dir.'/css/yahoo');
 		ilUtil::makeDir($a_target_dir.'/objects');
 		ilUtil::makeDir($a_target_dir.'/players');
+		ilUtil::makeDir($this->flv_dir);
 
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
-		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
-			$a_target_dir.'/players/'.ilPlayerUtil::getFlashVideoPlayerFilename());
+//		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
+//			$a_target_dir.'/js/'.ilPlayerUtil::getFlashVideoPlayerFilename());
+		ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
+		
 		copy('./Services/MediaObjects/flash_mp3_player/mp3player.swf', $a_target_dir.'/players/mp3player.swf');
 		copy('./Modules/Scorm2004/scripts/scorm_2004.js',$a_target_dir.'/js/scorm.js');
 		copy('./Modules/Scorm2004/scripts/pager.js',$a_target_dir.'/js/pager.js');

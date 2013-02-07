@@ -861,6 +861,10 @@ class ilLMPresentationGUI
 			}
 			else
 			{
+				// reset standard css files
+				$this->tpl->resetJavascript();
+				$this->tpl->resetCss();
+				
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				foreach (ilObjContentObject::getSupplyingExportFiles() as $f)
 				{
