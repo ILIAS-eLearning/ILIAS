@@ -697,5 +697,14 @@ class ilForumPost
 		$this->setUserId($row['pos_usr_id']);
 		$this->buildUserRelatedData($row);
 	}
+	
+	public static function mergePosts($source_thread_id, $target_thread_id)
+	{
+		global $ilDB;
+		
+		$ilDB->update('frm_posts',
+		array('pos_thr_fk' => array('integer', $target_thread_id)),
+		array('pos_thr_fk' => array('integer', $source_thread_id)));
+	}
 }
 ?>
