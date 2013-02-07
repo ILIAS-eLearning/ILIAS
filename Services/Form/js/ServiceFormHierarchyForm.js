@@ -297,10 +297,9 @@ function doCloseContextMenu()
 }
 setTimeout("doCloseContextMenu()",200);
 
-function M_in(cell) 
-{
+function M_in(cell)  {
     cell.style.cursor='pointer';
-    cell.bgColor='#C0C0FF';
+    $(cell).css("background-color", "#C0C0FF");
 	
 	if (cell.id.substr(0, 5) == "hftd_")
 	{
@@ -335,7 +334,7 @@ function M_in(cell)
 
 function M_out(cell) 
 {
-    cell.bgColor='';
+    $(cell).css("background-color", "");
 	if (cell.id.substr(0, 5) == "hftd_")
 	{
 		var t = cell.id.substr(5);
