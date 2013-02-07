@@ -118,6 +118,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		{
 			$this->addColumn('', 'check', '10px', true);
 		}
+
 		$this->addColumn($this->lng->txt('forums_thread'), 'th_title');
 		$this->addColumn($this->lng->txt('forums_created_by'), 'author');
 		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
@@ -173,6 +174,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->addColumn('', 'check', '1px', true);
 		$this->addColumn($this->lng->txt('forums_thread'), 'th_title');
 		$this->addColumn($this->lng->txt('forums_created_by'), 'author');
+		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
+		$this->addColumn($this->lng->txt('visits'), 'num_visit');
+		$this->addColumn($this->lng->txt('forums_last_post'), 'lp_date');
 	
 		// Disable sorting
 		$this->disable('sort');

@@ -12981,8 +12981,10 @@ mail#:#auto_update#:#Update
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 forum#:#merge#:#Merge
-forum#:#please_choose_target#:#Please choose a thread as a merge target
-forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Of the both selected threads, the older one will be handled as merge target
-forum#:#not_allowed_to_merge_into_another_forum#:#it is not possible to merge threads of different forums
-forum#:#frm_selected_merge_src#:#Selected thread to merge: %s
-forum#:#error_same_thread_ids#:#The both selected threads musst be different
+forum#:#please_choose_target#:#Please choose a thread as a merge target.
+forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target topic if the first thread of the source target is created earlier than the first thread of the target topic.
+forum#:#not_allowed_to_merge_into_another_forum#:#It is not possible to merge threads of different forums.
+forum#:#frm_selected_merge_src#:#Selected Thread to Merge: %s
+forum#:#error_same_thread_ids#:#Source and target thread have to be different.
+forum#:#frm_merge_src#:#Selected Topic: %s
+forum#:#frm_merge_target#:#Target: %s
