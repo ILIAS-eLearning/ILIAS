@@ -852,7 +852,7 @@ class ilDataCollectionField
 			if(!($properties[$regex_id] == NULL || preg_match('~'.preg_quote($regex, '~').'~', $value)))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
             //email or url
-			if($properties[$url] && !(preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value) || preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/", $value)))
+			if($properties[$url] && !(preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value) || preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/", $value)))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
 		}
 
