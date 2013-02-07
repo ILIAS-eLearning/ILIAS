@@ -680,6 +680,13 @@ class ilSurveyPageGUI
 
 		$page = $this->object->getSurveyPages();
 		$page = $page[$this->current_page-1];
+		
+		// #10567
+		if($_REQUEST["csum"] != md5(print_r($page, true)))
+		{
+			$ilCtrl->redirect($this, "renderPage");
+		}
+		
 		$page = array_shift($page);
 		$block_id = $page["questionblock_id"];
 		if($block_id)
@@ -712,6 +719,8 @@ class ilSurveyPageGUI
 	 */
 	protected function confirmRemoveQuestions()
 	{
+		global $ilCtrl;
+		
 		// gather ids
 		$ids = array();
 		foreach ($_POST as $key => $value)
@@ -771,7 +780,9 @@ class ilSurveyPageGUI
 
 		$this->object->saveCompletionStatus();
 		
-		$this->renderPage();
+		// #10567
+		$ilCtrl->setParameter($this, "pgov", $this->current_page);
+		$ilCtrl->redirect($this, "renderPage");
 	}
 
 	/**
@@ -1283,7 +1294,10 @@ class ilSurveyPageGUI
 			if(!$this->has_datasets)
 			{
 				$ilToolbar->addSeparator();
+				$ilCtrl->setParameter($this, "csum", md5(print_r($a_pages[$this->current_page-1], true)));
 				$ilToolbar->addButton($lng->txt("survey_delete_page"), $ilCtrl->getLinkTarget($this, "deleteBlock"));
+				$ilCtrl->setParameter($this, "csum", "");		
+				
 				$ilToolbar->addSeparator();
 				$ilToolbar->addButton($lng->txt("survey_move_page"), $ilCtrl->getLinkTarget($this, "movePageForm"));
 			}
