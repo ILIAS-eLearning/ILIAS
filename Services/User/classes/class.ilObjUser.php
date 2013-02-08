@@ -4860,7 +4860,7 @@ class ilObjUser extends ilObject
 				"JOIN usr_data ON user_id=usr_id ".
 				"WHERE user_id = ".$ilDB->quote($a_user_id, "integer")." ".
 				$no_anonym.
-				" AND agree_date IS NOT NULL ".
+				" AND (agree_date IS NOT NULL OR user_id = " . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ") ".
 				"AND expires > ".$ilDB->quote(time(), "integer")." ".
 				"GROUP BY user_id,ctime,firstname,lastname,title,login,last_login";
 			$r = $ilDB->query($q);
