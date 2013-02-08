@@ -4745,63 +4745,71 @@ class ilObjUser extends ilObject
 	* @param	integer	user_id (optional)
 	* @return	array
 	*/
-	function _getUsersOnline($a_user_id = 0, $a_no_anonymous = false)
+	public static function _getUsersOnline($a_user_id = 0, $a_no_anonymous = false)
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
-		$pd_set = new ilSetting("pd");
-		$atime = $pd_set->get("user_activity_time") * 60;
-		$ctime = time();
+		$pd_set = new ilSetting('pd');
+		$atime  = $pd_set->get('user_activity_time') * 60;
+		$ctime  = time();
+		
+		$where = array();
 
-		if ($a_user_id == 0)
+		if($a_user_id == 0)
 		{
-			$where = "WHERE user_id != 0 AND NOT agree_date IS NULL ";
-			$type_array = array("integer");
-			$val_array = array(time());
+			$where[] = 'user_id > 0';
+			$where[] = '(agree_date IS NOT NULL OR user_id = ' . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ')';
 		}
 		else
 		{
-			$where = "WHERE user_id = %s ";
-			$type_array = array("integer", "integer");
-			$val_array = array($a_user_id, time());
+			$where[] = 'user_id = ' . $ilDB->quote($a_user_id, 'integer');
 		}
 
-		$no_anonym = ($a_no_anonymous)
-			? "AND user_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer")." "
-			: "";
-			
-		include_once './Services/User/classes/class.ilUserAccountSettings.php';
+		if($a_no_anonymous)
+		{
+			$where[] = 'user_id != ' . $ilDB->quote(ANONYMOUS_USER_ID, 'integer'); 
+		}
+
+		include_once 'Services/User/classes/class.ilUserAccountSettings.php';
 		if(ilUserAccountSettings::getInstance()->isUserAccessRestricted())
 		{
-			include_once './Services/User/classes/class.ilUserFilter.php';
-			$user_filter = 'AND '.$ilDB->in('time_limit_owner',ilUserFilter::getInstance()->getFolderIds(),false,'integer').' ';
+			include_once 'Services/User/classes/class.ilUserFilter.php';
+			$where[] =  $ilDB->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer');
 		}
-		else
-		{
-			$user_filter = ' ';
-		}
-		$r = $ilDB->queryF($q = "SELECT count(user_id) as num,user_id,firstname,lastname,title,login,last_login,max(ctime) AS ctime ".
-			"FROM usr_session ".
-			"LEFT JOIN usr_data u ON user_id = u.usr_id ".
-			"LEFT JOIN usr_pref p ON (p.usr_id = u.usr_id AND p.keyword = ".
-				$ilDB->quote("hide_own_online_status", "text").") ".$where.
-			"AND expires > %s ".
-			"AND (p.value IS NULL OR NOT p.value = ".$ilDB->quote("y", "text").") ".
-			$no_anonym.
-			$user_filter.
-			"GROUP BY user_id,firstname,lastname,title,login,last_login ".
-			"ORDER BY lastname, firstname", $type_array, $val_array);
 
-		while ($user = $ilDB->fetchAssoc($r))
+		$where[] = 'expires > ' . $ilDB->quote($ctime, 'integer');
+		$where[] = '(p.value IS NULL OR NOT p.value = ' . $ilDB->quote('y', 'text') . ')';
+
+		$where = 'WHERE ' . implode(' AND ', $where);
+
+		$r = $ilDB->queryF("
+			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime
+			FROM usr_session
+			LEFT JOIN usr_data u
+				ON user_id = u.usr_id
+			LEFT JOIN usr_pref p
+				ON (p.usr_id = u.usr_id AND p.keyword = %s)
+			{$where}
+			GROUP BY user_id, firstname, lastname, title, login, last_login
+			ORDER BY lastname, firstname
+			",
+			array('text'),
+			array('hide_own_online_status')
+		);
+
+		$users = array();
+		while($user = $ilDB->fetchAssoc($r))
 		{
-			if ($atime <= 0
-				|| $user["ctime"] + $atime > $ctime)
+			if($atime <= 0 || $user['ctime'] + $atime > $ctime)
 			{
-				$users[$user["user_id"]] = $user;
+				$users[$user['user_id']] = $user;
 			}
 		}
 
-		return $users ? $users : array();
+		return $users;
 	}
 
 	/**
@@ -4812,7 +4820,7 @@ class ilObjUser extends ilObject
 	* @param	integer	user_id User ID of the current user.
 	* @return	array
 	*/
-	function _getAssociatedUsersOnline($a_user_id, $a_no_anonymous = false)
+	public static function _getAssociatedUsersOnline($a_user_id, $a_no_anonymous = false)
 	{
 		global $ilias, $ilDB;
 
@@ -4852,7 +4860,7 @@ class ilObjUser extends ilObject
 				"JOIN usr_data ON user_id=usr_id ".
 				"WHERE user_id = ".$ilDB->quote($a_user_id, "integer")." ".
 				$no_anonym.
-				" AND NOT agree_date IS NULL ".
+				" AND agree_date IS NOT NULL ".
 				"AND expires > ".$ilDB->quote(time(), "integer")." ".
 				"GROUP BY user_id,ctime,firstname,lastname,title,login,last_login";
 			$r = $ilDB->query($q);
@@ -4874,7 +4882,7 @@ class ilObjUser extends ilObject
 				"AND (p.value IS NULL OR NOT p.value = ".$ilDB->quote("y", "text").") ".
 				"AND s.expires > ".$ilDB->quote(time(),"integer")." ".
 				"AND fa.assign = ".$ilDB->quote("y", "text")." ".
-				" AND NOT ud.agree_date IS NULL ".
+				" AND (ud.agree_date IS NOT NULL OR " . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ") ".
 				"AND ".$ilDB->in("od.obj_id", $groups_and_courses_of_user, false, "integer")." ".
 				"GROUP BY s.user_id,s.ctime,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
 				"ORDER BY ud.lastname, ud.firstname";
