@@ -3720,7 +3720,7 @@ class ilObjUser extends ilObject
 				WHERE inactivation_date IS NULL
 				AND $usrId_IN_usrIds
 			";
-			$ilDB->manipulateF($queryString, array('timstamp'), array(ilUtil::now()));			
+			$ilDB->manipulateF($queryString, array('timestamp'), array(ilUtil::now()));			
 		}
 		
 		return true;
