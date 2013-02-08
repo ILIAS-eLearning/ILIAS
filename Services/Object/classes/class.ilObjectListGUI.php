@@ -87,6 +87,9 @@ class ilObjectListGUI
 	
 	protected $timings_enabled = true;
 	
+	protected $force_visible_only = false;
+
+
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
 	static protected $comments_activation = array();
@@ -891,6 +894,12 @@ class ilObjectListGUI
 	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id="")
 	{
 		global $ilAccess;
+		
+		// e.g: subitems should not be readable since their parent sesssion is readonly.
+		if($a_permission != 'visible' and $this->isVisibleOnlyForced())
+		{
+			return false;
+		}
 
 		$cache_prefix = null;
 		if($this->context == self::CONTEXT_WORKSPACE || $this->context == self::CONTEXT_WORKSPACE_SHARING)
@@ -1282,7 +1291,24 @@ class ilObjectListGUI
 			array("link" => $a_link, "lang_var" => $a_lang_var,
 			"frame" => $a_frame, "onclick" => $onclick);
 	}
+	
+	/**
+	 * Force visible access only.
+	 * @param type $a_stat
+	 */
+	public function forceVisibleOnly($a_stat)
+	{
+		$this->force_visible_only = $a_stat;
+	}
 
+	/**
+	 * Force unreadable 
+	 * @return type
+	 */
+	public function isVisibleOnlyForced()
+	{
+		return $this->force_visible_only;
+	}
 
 	/**
 	* get all current commands for a specific ref id (in the permission

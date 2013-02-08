@@ -461,77 +461,62 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		}
 
 		// @todo move to gui class
-		if((int) $_GET['crs_prev_sess'])
+		if(isset($_GET['crs_prev_sess']))
 		{
-			$ilUser->setPref('crs_sess_show_prev_'.$this->getId(), (int) $_GET['crs_prev_sess']);
+			$ilUser->writePref('crs_sess_show_prev_'.$this->getId(), (string) (int) $_GET['crs_prev_sess']);
 		}
-		if((int) $_GET['crs_next_sess'])
+		if(isset($_GET['crs_next_sess']))
 		{
-			$ilUser->setPref('crs_sess_show_next_'.$this->getId(), (int) $_GET['crs_next_sess']);
+			$ilUser->writePref('crs_sess_show_next_'.$this->getId(), (string) (int) $_GET['crs_next_sess']);
 		}
-
-
-		// Search key of next appointment
+		
 		$sessions = ilUtil::sortArray($this->items['sess'],'start','ASC',true,false);
-
-		$num = 0;
 		$today = new ilDate(date('Ymd',time()),IL_CAL_DATE);
-		$today = $today->get(IL_CAL_UNIX);
+		$previous = $current = $next = array();
 		foreach($sessions as $key => $item)
 		{
-			if($item['start'] >= $today)
+			$start = new ilDateTime($item['start'],IL_CAL_UNIX);
+			if(ilDateTime::_before($start, $today, IL_CAL_DAY))
 			{
-				break;
+				$previous[] = $item;
 			}
-			$num++;
+			if(ilDateTime::_equals($start, $today, IL_CAL_DAY))
+			{
+				$current[] = $item;
+			}
+			if(ilDateTime::_after($start, $today, IL_CAL_DAY))
+			{
+				$next[] = $item;
+			}
 		}
-		
-		$previous = $sessions;
-		$next = $sessions;
-		
-		// Cut previous sessions
-		$previous = array_slice($previous, 0, $num);
-		$hidden_previous =
-			array_slice(
-				$previous,
-				0,
-				count($previous) - $this->getNumberOfPreviousSessions()
-			);
-		if($hidden_previous)
+		$num_previous_remove = max(
+				count($previous) - $this->getNumberOfPreviousSessions(), 
+				0
+		);
+		while($num_previous_remove--)
 		{
-			// @fixme
+			if(!$ilUser->getPref('crs_sess_show_prev_'.$this->getId()))
+			{
+				array_shift($previous);
+			}
 			$this->items['sess_link']['prev']['value'] = 1;
 		}
-
-		$show_prev = $ilUser->getPref('crs_sess_show_prev_'.$this->getId());
-		if($this->getNumberOfPreviousSessions() >= 0 and !$show_prev)
-		{
-			$to_remove = (count($previous) - $this->getNumberOfPreviousSessions() > 0) ?
-				count($previous) - $this->getNumberOfPreviousSessions() :
-				0;
-			array_splice($previous, 0, $to_remove);
-		}
-
-		// Cut next sessions
-		$next = array_slice($next, $num);
-		$hidden_next =
-			array_slice(
-				$next,
-				$this->getNumberOfNextSessions()
+		
+		$num_next_remove = max(
+				count($next) - $this->getNumberOfNextSessions(),
+				0
 		);
-		if($hidden_next)
+		while($num_next_remove--)
 		{
+			if(!$ilUser->getPref('crs_sess_show_next_'.$this->getId()))
+			{
+				array_pop($next);
+			}
 			// @fixme
 			$this->items['sess_link']['next']['value'] = 1;
 		}
-
-		$show_next = $ilUser->getPref('crs_sess_show_next_'.$this->getId());
-		if($this->getNumberOfNextSessions() >= 0 and !$show_next)
-		{
-			$next = array_splice($next, 0, $this->getNumberOfNextSessions());
-		}
-
-		$sessions = array_merge($previous,$next);
+		
+		$sessions = array_merge($previous,$current,$next);
 		$this->items['sess'] = $sessions;
 		$this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block] = $this->items;
 		return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];

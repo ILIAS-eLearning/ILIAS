@@ -494,6 +494,9 @@ abstract class ilContainerContentGUI
 			$items = ilObjectActivation::getItemsByEvent($a_item_data['obj_id']);
 			$items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('sess',$a_item_data['obj_id'],$items);
 			
+			
+			$item_readable = $ilAccess->checkAccess('read','',$a_item_data['ref_id']);
+			
 			foreach($items as $item)
 			{				
 				// TODO: this should be removed and be handled by if(strlen($sub_item_html))
@@ -506,6 +509,13 @@ abstract class ilContainerContentGUI
 				$item_list_gui2 = $this->getItemGUI($item);
 				$item_list_gui2->enableIcon(true);
 				$item_list_gui2->enableItemDetailLinks(false);
+				
+				// @see mantis 10488
+				if(!$item_readable and !$ilAccess->checkAccess('write','',$item['ref_id']))
+				{
+					$item_list_gui2->forceVisibleOnly(true);
+				}
+				
 				if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
 				{
 					$item_list_gui2->enableCheckbox(true);
