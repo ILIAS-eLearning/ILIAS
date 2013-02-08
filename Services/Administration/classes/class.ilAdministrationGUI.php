@@ -507,12 +507,12 @@ class ilAdministrationGUI
 				"basic" =>
 					array("adm", "stys", "adve", "lngf", "cmps", "accs", "hlps", "trac"),
 				"users" =>
-					array("usrf", "rolf", "auth", "ps")
+					array("usrf", "rolf", "auth", "ps", 'tos')
 				),
 			2 => array(
 				"services" =>
 					array("pdts", "nwss", "tags", "prfa", "skmg", "cals", "mail", "---", "seas",
-						"mds","cert", 'ecss', "pays", "extt", 'tos')
+						"mds","cert", 'ecss', "pays", "extt")
 				),
 			3 => array(
 				"objects" =>
