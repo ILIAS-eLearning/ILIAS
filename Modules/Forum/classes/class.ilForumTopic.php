@@ -1225,4 +1225,22 @@ class ilForumTopic
 		$ilDB->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s',
 			array('integer'), array($thr_id));
 	}
+
+
+	/**
+	 * @param integer $thread_id
+	 * @return string datetime
+	 */
+	public static function _lookupDate($thread_id)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->queryF('SELECT thr_date FROM frm_threads WHERE thr_pk = %s',
+		array('integer'), array((int)$thread_id));
+		
+		$row = $ilDB->fetchAssoc($res);
+		
+		return $row['thr_date'] ? $row['thr_date'] : '0000-00-00 00:00:00';
+			
+	}
 }
