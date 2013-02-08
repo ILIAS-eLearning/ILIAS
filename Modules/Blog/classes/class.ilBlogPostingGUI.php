@@ -182,6 +182,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		// page commands		 
 		if(!$a_mode)
 		{		
+			/*
 			// delete
 			$page_commands = false;
 			if ($this->checkAccess("write"))
@@ -197,6 +198,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				$wtpl->setCurrentBlock("page_commands");
 				$wtpl->parseCurrentBlock();
 			}
+			*/ 
 		}
 		else
 		{
