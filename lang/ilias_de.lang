@@ -6754,7 +6754,7 @@ crs#:#sess_gen_mark_title#:#Erzeuge Spalte für Noten
 crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
 crs#:#sess_join_info#:#Bitte klicken Sie die Anmelden-Schaltfläche, wenn Sie an der Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Sitzungsanzahl begrenzen
-crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen einzuschränken. 
+crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu bestimmen. 
 crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
 crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
 crs#:#sess_print_attendance_list#:#Liste drucken

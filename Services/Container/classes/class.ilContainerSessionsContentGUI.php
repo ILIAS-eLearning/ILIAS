@@ -237,14 +237,14 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			if($prefp)
 			{
 				$tpl->setVariable('TXT_TITLE_LINKED',$lng->txt('crs_link_hide_prev_sessions'));
-				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_prev_sess',!$prefp);
+				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_prev_sess',(int) !$prefp);
 				$tpl->setVariable('HREF_TITLE_LINKED',$ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
 				$ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
 			}
 			else
 			{
 				$tpl->setVariable('TXT_TITLE_LINKED',$lng->txt('crs_link_show_all_prev_sessions'));
-				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_prev_sess',!$prefp);
+				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_prev_sess',(int) !$prefp);
 				$tpl->setVariable('HREF_TITLE_LINKED',$ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
 				$ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
 			}
@@ -256,14 +256,14 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			if($prefn)
 			{
 				$tpl->setVariable('TXT_TITLE_LINKED',$lng->txt('crs_link_hide_next_sessions'));
-				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_next_sess',!$prefn);
+				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_next_sess',(int) !$prefn);
 				$tpl->setVariable('HREF_TITLE_LINKED',$ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
 				$ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
 			}
 			else
 			{
 				$tpl->setVariable('TXT_TITLE_LINKED',$lng->txt('crs_link_show_all_next_sessions'));
-				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_next_sess',!$prefn);
+				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_next_sess',(int) !$prefn);
 				$tpl->setVariable('HREF_TITLE_LINKED',$ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
 				$ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
 			}
