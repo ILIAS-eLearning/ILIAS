@@ -1137,13 +1137,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$alist->addItem($lng->txt("delete"), "delete",
 						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));				
 				}
-				else if($is_active && $can_deactivate)
+				else if($can_deactivate)
 				{
-					// #10513
-					$ilCtrl->setParameter($this, "apid", $item["id"]);
-					$alist->addItem($lng->txt("blog_toggle_draft_admin"), "deactivate", 
-						$ilCtrl->getLinkTarget($this, "deactivateAdmin"));
-					$ilCtrl->setParameter($this, "apid", "");
+					// #10513				
+					if($is_active)
+					{					
+						$ilCtrl->setParameter($this, "apid", $item["id"]);
+						$alist->addItem($lng->txt("blog_toggle_draft_admin"), "deactivate", 
+							$ilCtrl->getLinkTarget($this, "deactivateAdmin"));
+						$ilCtrl->setParameter($this, "apid", "");
+					}
+					
+					$alist->addItem($lng->txt("delete"), "delete",
+						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));		
 				}
 
 				$wtpl->setCurrentBlock("actions");
