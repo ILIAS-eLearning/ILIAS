@@ -4399,6 +4399,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return;
 		}
 
+		if(ilForumTopic::_lookupDate($source_thread_id) < ilForumTopic::_lookupDate($target_thread_id))
+		{
+			ilUtil::sendInfo('switch_threads_for_merge');
+		}	
+		
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$c_gui = new ilConfirmationGUI();
 
