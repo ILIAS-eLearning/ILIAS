@@ -1119,7 +1119,7 @@ class ilObjUser extends ilObject
 		 * @var $ilDB ilDB
 		 */
 		global $ilDB;
-
+		
 		self::_deletePref($a_usr_id, $a_keyword);
 		if(strlen($a_value))
 		{
