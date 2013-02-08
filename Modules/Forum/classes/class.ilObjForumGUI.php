@@ -4440,6 +4440,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		ilForum::mergeThreads($this->object->id, (int)$_POST['thread_ids'][0], (int)$_POST['thread_ids'][1]);
 	
+		ilUtil::sendSuccess($this->lng->txt('merged_threads_successfully'));
 		$this->showThreadsObject();
 	}
 
