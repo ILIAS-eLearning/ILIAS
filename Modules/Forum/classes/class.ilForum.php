@@ -2524,7 +2524,7 @@ class ilForum
 			$merge_thread_target = $source_thread_obj;
 		}
 
-		$thread_subject = $merge_thread_target->getSubject();
+		$thread_subject = $target_thread_obj->getSubject();
 
 		// remember if the threads are open or closed and then close both threads ! 
 		$targed_was_closed = $merge_thread_target->isClosed();

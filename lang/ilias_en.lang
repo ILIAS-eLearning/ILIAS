@@ -12988,3 +12988,4 @@ forum#:#frm_selected_merge_src#:#Selected Topic to Merge: %s
 forum#:#error_same_thread_ids#:#Source and target topic have to be different.
 forum#:#frm_merge_src#:#Selected Topic: %s
 forum#:#frm_merge_target#:#Target: %s
+forum#:#merged_threads_successfully#:#The selected threads were merged successfully

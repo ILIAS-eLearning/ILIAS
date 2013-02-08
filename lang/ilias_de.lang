@@ -12988,3 +12988,4 @@ forum#:#frm_selected_merge_src#:#Gewähltes Thema für die Zusammenführung: %s
 forum#:#error_same_thread_ids#:#Es müssen zwei verschiedene Themen ausgewählt werden.
 forum#:#frm_merge_src#:#Ausgewähltes Thema: %s
 forum#:#frm_merge_target#:#Ziel: %s
+forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
