@@ -4304,7 +4304,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function mergeThreadsObject()
 	{
-		// @todo 4 nahmad: Access check, if !moderate raise error
+		if(!$this->is_moderator)
+		{
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
 
 		$selected_thread_id = 0;
 		if(isset($_GET['merge_thread_id']) && (int)$_GET['merge_thread_id'])
@@ -4366,7 +4369,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function confirmMergeThreadsObject()
 	{
-		// @todo 4 nahmad: Access check, if !moderate raise error
+		if(!$this->is_moderator)
+		{
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
 
 		if(!isset($_GET['merge_thread_id']) || !(int)$_GET['merge_thread_id'] || !is_array($_POST['thread_ids']) || count($_POST['thread_ids']) != 1)
 		{
@@ -4413,8 +4419,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function performMergeThreadsObject()
 	{
-		// @todo 4 nahmad: Access check, if !moderate raise error
-		
+		if(!$this->is_moderator)
+		{
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
+
 		if(!isset($_POST['thread_ids']) || !is_array($_POST['thread_ids']) || count($_POST['thread_ids']) != 2)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
@@ -4429,149 +4438,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return;
 		}
 		
-		// @todo 4 nahmad: Move to application layer
-
-		// selected source & target objects
-		$source_thread_obj = new ilForumTopic((int)$_POST['thread_ids'][0]);
-		$target_thread_obj = new ilForumTopic((int)$_POST['thread_ids'][1]);
-
-		if($source_thread_obj->getForumId() != $target_thread_obj->getForumId())
-		{
-			ilUtil::sendFailure($this->lng->txt('not_allowed_to_merge_into_another_forum'));
-			$this->ctrl->clearParameters($this);
-			$this->showThreadsObject();
-			return;
-		}
-		// use the "older" thread as target
-		if($source_thread_obj->getCreateDate() > $target_thread_obj->getCreateDate())
-		{
-			$merge_thread_source = $source_thread_obj;
-			$merge_thread_target = $target_thread_obj;
-		}
-		else
-		{
-			$merge_thread_source = $target_thread_obj;
-			$merge_thread_target = $source_thread_obj;
-		}
-
-		$thread_subject = $merge_thread_target->getSubject();
-
-		// remember if the threads are open or closed and then close both threads ! 
-		$targed_was_closed = $merge_thread_target->isClosed();
-
-		$merge_thread_source->close();
-
-		if($targed_was_closed == false)
-		{
-			$merge_thread_target->close();
-		}
-
-		$source_all_posts = $merge_thread_source->getAllPosts();
-		$source_root_node = $merge_thread_source->getFirstPostNode();
-		$target_root_node = $merge_thread_target->getFirstPostNode();
-
-		$add_difference = $target_root_node->getRgt();
-
-// update target root node rgt
-		include_once 'Modules/Forum/classes/class.ilForumPostsTree.php';
-		$new_target_rgt = ($target_root_node->getRgt() + $source_root_node->getRgt() + 1);
-		ilForumPostsTree::updateTargetRootRgt($target_root_node->getId(), $new_target_rgt);
-
-		$new_target_root = $target_root_node->getId();
-
-		// get source post tree and update posts tree
-		foreach($source_all_posts as $post)
-		{
-			$post_obj = new ilForumPost($post->pos_pk);
-
-			$posts_tree_obj = new ilForumPostsTree();
-
-			if($post_obj->getParentId() == 0)
-			{
-				$posts_tree_obj->setParentPos($new_target_root);
-				$posts_tree_obj->setLft(($post_obj->getLft() + $add_difference));
-				$posts_tree_obj->setRgt($new_target_rgt);
-				$posts_tree_obj->setDepth(($post_obj->getDepth() + 1));
-				$posts_tree_obj->setSourceThreadId($merge_thread_source->getId());
-
-				$posts_tree_obj->setTargetThreadId($merge_thread_target->getId());
-
-				$posts_tree_obj->mergeParentPos();
-			}
-			else
-			{
-				$posts_tree_obj->setLft(($post_obj->getLft() + $add_difference));
-				$posts_tree_obj->setRgt(($post_obj->getRgt() + $add_difference));
-				$posts_tree_obj->setDepth(($post_obj->getDepth() + 1));
-				$posts_tree_obj->setSourceThreadId($merge_thread_source->getId());
-
-				$posts_tree_obj->setParentPos($post_obj->getParentId());
-				$posts_tree_obj->setTargetThreadId($merge_thread_target->getId());
-
-				$posts_tree_obj->merge();
-			}
-		}
-
-// update frm_posts pos_thr_fk = target_thr_id
-		include_once 'Modules/Forum/classes/class.ilForumPost.php';
-		ilForumPost::mergePosts($merge_thread_source->getId(), $merge_thread_target->getId());
-
-// check notifications
-		include_once 'Modules/Forum/classes/class.ilForumNotification.php';
-		ilForumNotification::mergeThreadNotificiations($merge_thread_source->getId(), $merge_thread_target->getId());
-
-// delete frm_thread_access entries
-		include_once './Modules/Forum/classes/class.ilObjForum.php';
-		ilObjForum::_deleteAccessEntries($merge_thread_source->getId());
-
-// update frm_user_read  
-		ilObjForum::mergeForumUserRead($merge_thread_source->getId(), $merge_thread_target->getId());
-
-// update visits, thr_num_posts, last_post, subject
-
-		$post_date_source = $merge_thread_source->getLastPost()->getCreateDate();
-		$post_date_target = $merge_thread_target->getLastPost()->getCreateDate();
-
-		$target_last_post = $merge_thread_target->getLastPostString();
-		$exp              = explode('#', $target_last_post);
-
-		if($post_date_source > $post_date_target)
-		{
-			$exp[2] = $merge_thread_source->getLastPost()->getId();
-		}
-		else
-		{
-			$exp[2] = $merge_thread_target->getLastPost()->getId();
-		}
-		$new_thr_last_post = implode('#', $exp);
-
-		$num_posts_source  = (int)$merge_thread_source->getNumPosts();
-		$num_visits_source = (int)$merge_thread_source->getVisits();
-		$num_posts_target  = (int)$merge_thread_target->getNumPosts();
-		$num_visits_target = (int)$merge_thread_source->getVisits();
-
-
-		$frm_topic_obj = new ilForumTopic(0, false, true);
-		$frm_topic_obj->setNumPosts(($num_posts_source + $num_posts_target));
-		$frm_topic_obj->setVisits(($num_visits_source + $num_visits_target));
-		$frm_topic_obj->setLastPostString($new_thr_last_post);
-		$frm_topic_obj->setSubject($thread_subject);
-		$frm_topic_obj->setId($merge_thread_target->getId());
-
-		$frm_topic_obj->updateMergedThread();
-
-// update frm_data:  top_last_post , top_num_threads
-		ilForum::updateLastPostByObjId($this->object->id);
-
-// reopen target if was not "closed" before merging
-		if(!$targed_was_closed)
-		{
-			$merge_thread_target->reopen();
-		}
-
-// delete source thread 
-		ilForumTopic::deleteByThreadId($merge_thread_source->getId());
-
+		ilForum::mergeThreads($this->object->id, (int)$_POST['thread_ids'][0], (int)$_POST['thread_ids'][1]);
+	
 		$this->showThreadsObject();
 	}
 
