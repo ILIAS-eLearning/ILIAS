@@ -548,6 +548,7 @@ class ilSurveyEvaluationGUI
 			$resultset =& $this->object->getEvaluationByUser($questions, $user_id);
 			$csvrow = array();
 			array_push($csvrow, $resultset["name"]);
+			array_push($csvrow, $resultset["login"]); // #10579
 			if ($this->object->canExportSurveyCode())
 			{
 				array_push($csvrow, $user_id);
