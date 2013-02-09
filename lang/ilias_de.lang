@@ -12954,8 +12954,8 @@ tos#:#tos_agreement_by_lng#:#Nutzungsvereinbarungen
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
 tos#:#tos_agreement_exists#:#Vorhanden
 tos#:#tos_agreement_missing#:#Nicht Vorhanden
-tos#:#tos_agreement_file#:#Datei
-tos#:#tos_agreement_file_missing#:#Nicht Vorhanden
+tos#:#tos_agreement_document#:#Dokument
+tos#:#tos_agreement_document_missing#:#Nicht Vorhanden
 tos#:#tos_tos_settings#:#Einstellungen
 tos#:#tos_status_enable#:#Aktivieren
 tos#:#tos_status_desc#:#Falls aktiviert, werden Benutzer zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.

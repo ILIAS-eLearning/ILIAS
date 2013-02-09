@@ -12954,8 +12954,8 @@ tos#:#tos_agreement_by_lng#:#Terms of Service
 tos#:#tos_agreement#:#Terms of Service
 tos#:#tos_agreement_exists#:#Existent
 tos#:#tos_agreement_missing#:#Missing
-tos#:#tos_agreement_file#:#File
-tos#:#tos_agreement_file_missing#:#Missing
+tos#:#tos_agreement_document#:#Document
+tos#:#tos_agreement_document_missing#:#Missing
 tos#:#tos_tos_settings#:#Settings
 tos#:#tos_status_enable#:#Enable
 tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.

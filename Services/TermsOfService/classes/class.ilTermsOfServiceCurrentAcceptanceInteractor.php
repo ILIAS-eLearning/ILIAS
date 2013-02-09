@@ -10,28 +10,15 @@ require_once 'Services/TermsOfService/interfaces/interface.ilTermsOfServiceInter
 class ilTermsOfServiceCurrentAcceptanceInteractor implements ilTermsOfServiceInteractor
 {
 	/**
-	 * @param ilTermsOfServiceRequest $request
-	 * @return ilTermsOfServiceResponse
+	 * @param ilTermsOfServiceCurrentAcceptanceRequest $request
+	 * @return ilTermsOfServiceAcceptanceEntity
 	 */
 	public function invoke(ilTermsOfServiceRequest $request)
 	{
 		$entity = $request->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 		$entity->setUserId($request->getUserId());
+		$entity->loadCurrentOfUser();
 
-		$response = $request->getResponseFactory()->getByName('ilTermsOfServiceCurrentAcceptanceResponse');
-
-		try
-		{
-			$entity->loadCurrentOfUser();
-			$response->setLanguage($entity->getLanguage());
-			$response->setPathToFile($entity->getPathToFile());
-			$response->setSignedText($entity->getSignedText());
-			$response->setHasCurrentAcceptance(true);
-		}
-		catch(ilException $e)
-		{
-		}
-
-		return $response;
+		return $entity;
 	}
 }

@@ -116,7 +116,7 @@ class ilAuthApache extends Auth
 			!$this->apache_settings->get('apache_auth_authenticate_on_login_page') &&
 			(
 				preg_match('/.*login\.php$/', $_SERVER['SCRIPT_NAME']) ||
-				((in_array($_REQUEST['cmd'], array('showLogin', 'showUserAgreement')) || isset($_POST['change_lang_to'])) && strtolower($_REQUEST['cmdClass']) == 'ilstartupgui')
+				((in_array($_REQUEST['cmd'], array('showLogin', 'showTermsOfService')) || isset($_POST['change_lang_to'])) && strtolower($_REQUEST['cmdClass']) == 'ilstartupgui')
 			)
 		)
 		{

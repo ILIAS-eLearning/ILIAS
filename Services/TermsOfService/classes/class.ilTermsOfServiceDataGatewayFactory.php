@@ -11,7 +11,7 @@ class ilTermsOfServiceDataGatewayFactory implements ilTermsOfServiceFactory
 {
 	/**
 	 * @param string $name
-	 * @return ilTermsOfServiceAcceptanceDataGateway
+	 * @return ilTermsOfServiceAcceptanceDataGateway|ilTermsOfServiceAcceptanceDatabaseGateway
 	 * @throws InvalidArgumentException
 	 */
 	public function getByName($name)

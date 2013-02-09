@@ -66,8 +66,8 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 		$this->assertEquals(count($installed_languages), $data['cnt']);
 		$this->assertArrayHasKey('language', $data['items'][0]);
 		$this->assertArrayHasKey('agreement', $data['items'][0]);
-		$this->assertArrayHasKey('agreement_file', $data['items'][0]);
-		$this->assertArrayHasKey('agreement_file_mtime', $data['items'][0]);
+		$this->assertArrayHasKey('agreement_document', $data['items'][0]);
+		$this->assertArrayHasKey('agreement_document_modification_ts', $data['items'][0]);
 	}
 
 	/**

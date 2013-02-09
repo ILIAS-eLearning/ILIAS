@@ -16,7 +16,7 @@ class ilTermsOfServiceEntityFactory implements ilTermsOfServiceFactory
 
 	/**
 	 * @param ilTermsOfServiceInteractor $interactor
-	 * @return ilTermsOfServiceAcceptanceEntity
+	 * @return ilTermsOfServiceAcceptanceEntity|ilTermsOfServiceAcceptanceEntity
 	 * @throws InvalidArgumentException
 	 */
 	public function getByName($name)

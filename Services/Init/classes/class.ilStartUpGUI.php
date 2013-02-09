@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+
 /**
 * StartUp GUI class. Handles Login and Registration.
 *
@@ -326,7 +327,7 @@ class ilStartUpGUI
 		$page_editor_html = $this->showOpenIdLoginForm($page_editor_html);
 		$page_editor_html = $this->showLanguageSelection($page_editor_html);
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
-		$page_editor_html = $this->showUserAgreementLink($page_editor_html);
+		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
 
 		$page_editor_html = $this->purgePlaceholders($page_editor_html);
 
@@ -889,29 +890,47 @@ class ilStartUpGUI
 	}
 
 	/**
-	 * Show user agreement link 
+	 * Show terms of service link 
 	 * @global ilLanguage $lng
 	 * @param string $page_editor_html 
 	 */
-	protected function showUserAgreementLink($page_editor_html)
+	protected function showTermsOfServiceLink($page_editor_html)
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
-		require_once 'Services/User/classes/class.ilUserAgreement.php';
-		if(ilTermsOfServiceHelper::isEnabled() && ilUserAgreement::doesUserAgreementExist())
+		
+		try
 		{
-			$utpl = new ilTemplate('tpl.login_user_agreement_link.html',true,true,'Services/Init');
-			$utpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
-			$utpl->setVariable("LINK_USER_AGREEMENT",$this->ctrl->getLinkTarget($this, "showUserAgreement"));
+			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+			if(ilTermsOfServiceHelper::isEnabled() && ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng))
+			{
+				$utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
+				$utpl->setVariable('TXT_TERMS_OF_SERVICE', $lng->txt('usr_agreement'));
+				$utpl->setVariable('LINK_TERMS_OF_SERVICE', $this->ctrl->getLinkTarget($this, 'showTermsOfService'));
 	
-			return $this->substituteLoginPageElements(
-				$GLOBALS['tpl'],
-				$page_editor_html,
-				$utpl->get(),
-				'[list-user-agreement]',
-				'USER_AGREEMENT'
-			);
+				return $this->substituteLoginPageElements(
+					$GLOBALS['tpl'],
+					$page_editor_html,
+					$utpl->get(),
+					'[list-user-agreement]',
+					'USER_AGREEMENT'
+				);
+			}
 		}
+		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
+		{
+		}
+
+		return $this->substituteLoginPageElements(
+			$GLOBALS['tpl'],
+			$page_editor_html,
+			'',
+			'[list-user-agreement]',
+			'USER_AGREEMENT'
+		);
 	}
 
 	/**
@@ -1422,101 +1441,87 @@ class ilStartUpGUI
 	}
 
 	/**
-	* get user agreement acceptance
-	*/
-	function getAcceptance()
-	{						
-		$this->showUserAgreement();
+	 * Get terms of service
+	 */
+	protected function getAcceptance()
+	{
+		$this->showTermsOfService();
 	}
 
 	/**
-	* show user agreement
-	*/
-	function showUserAgreement()
+	 * Show terms of service
+	 */
+	protected function showTermsOfService()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 * @var $tpl ilTemplate
+		 * @var $ilUser ilObjUser
+		 */
 		global $lng, $tpl, $ilUser;
 		
-		require_once "./Services/User/classes/class.ilUserAgreement.php";
+		$tpl->addBlockFile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
+		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
+		$tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', 'tpl.view_terms_of_service.html', 'Services/Init');
+		$tpl->addBlockFile('STATUSLINE', 'statusline', 'tpl.statusline.html');
 
-		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html",
-			"Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.view_usr_agreement.html",
-			"Services/Init");
-		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-//		ilUtil::sendInfo();
-		// display infopanel if something happened
 		ilUtil::infoPanel();
 
-		$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-		$tpl->setVariable("TXT_OK", $lng->txt("ok"));
+		$tpl->setVariable('TXT_PAGEHEADLINE', $lng->txt('usr_agreement'));
+		$tpl->setVariable('TXT_PAGETITLE', - 'ILIAS3' . $lng->txt('usr_agreement'));
+		$tpl->setVariable('LANG_VAL_CMD', $this->ctrl->getCmd());
+		$tpl->setVariable('AGR_LANG_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+		$tpl->setVariable('TXT_CHOOSE_LANGUAGE', $lng->txt('choose_language'));
+		$tpl->setVariable('TXT_OK', $lng->txt('ok'));
 
-		// language selection
 		$languages = $lng->getInstalledLanguages();
-
-		$count = (int) round(count($languages) / 2);
-		$num = 1;
-
-		foreach ($languages as $lang_key)
+		foreach($languages as $lang_key)
 		{
-			$tpl->setCurrentBlock("languages");
-			$tpl->setVariable("LANG_VAL_CMD", $this->ctrl->getCmd());
-			$tpl->setVariable("AGR_LANG_ACTION",
-				$this->ctrl->getFormAction($this));
-			$tpl->setVariable("LANG_NAME",
-				ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
-			$tpl->setVariable("LANG_ICON", $lang_key);
-			$tpl->setVariable("LANG_KEY", $lang_key);
-			$tpl->setVariable("BORDER", 0);
-			$tpl->setVariable("VSPACE", 0);
+			$tpl->setCurrentBlock('languages');
+			$tpl->setVariable('LANG_NAME', ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_'.$lang_key));
+			$tpl->setVariable('LANG_KEY', $lang_key);
 			$tpl->parseCurrentBlock();
-
-			$num++;
 		}
-		$tpl->setCurrentBlock("content");
 
-		// display tabs
-		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
-		$tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("usr_agreement"));
-		$tpl->setVariable("TXT_USR_AGREEMENT", ilUserAgreement::_getText());
-
-		if ($this->ctrl->getCmd() == "getAcceptance")
+		if('getAcceptance' == $this->ctrl->getCmd())
 		{
-			if($_POST["status"] == "accepted" &&
-			   ilTermsOfServiceHelper::isEnabled() &&
-			   ilUserAgreement::doesUserAgreementExist())
-			{
-				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-				ilTermsOfServiceHelper::trackAcceptance($ilUser, ilUserAgreement::getAgreementFile());
-				ilUtil::redirect("index.php?target=".$_GET["target"]."&client_id=".CLIENT_ID);
-			}
-			$tpl->setVariable("VAL_CMD", "getAcceptance");
-			$tpl->setVariable("AGR_LANG_ACTION", $this->ctrl->getFormAction($this));
-			$tpl->setCurrentBlock("get_acceptance");
-			$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			if(ilUserAgreement::doesUserAgreementExist())
-			{
-				$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
-				$tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement"));
-				$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
-			}
-			else
-			{
-				$tpl->setVariable("CMD_LOGOUT", ILIAS_HTTP_PATH.'/logout.php');
-				$tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
-			}
-			$tpl->parseCurrentBlock();
+			$tpl->setVariable('BACK', $lng->txt('logout'));
+			$tpl->setVariable('LINK_BACK', ILIAS_HTTP_PATH.'/logout.php');
 		}
 		else
 		{
-			$tpl->setVariable("BACK", $lng->txt("back"));
-			$tpl->setVariable("LINK_BACK", $this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
+			$tpl->setVariable('BACK', $lng->txt('back'));
+			$tpl->setVariable('LINK_BACK', $this->ctrl->getLinkTarget($this, 'showLogin'));
+		}
+
+		try
+		{
+			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+			$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
+
+			if('getAcceptance' == $this->ctrl->getCmd())
+			{
+				if(isset($_POST['status']) && 'accepted' == $_POST['status'])
+				{
+					require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+					ilTermsOfServiceHelper::trackAcceptance($ilUser, $document);
+					ilUtil::redirect('index.php?target='.$_GET['target'].'&client_id='.CLIENT_ID);
+				}
+
+				$tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+				$tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
+				$tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $lng->txt('accept_usr_agreement'));
+				$tpl->setVariable('TXT_SUBMIT', $lng->txt('submit'));
+			}
+
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->getContent());
+		}
+		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
+		{
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $lng->txt('no_agreement_description'));
 		}
 
 		$tpl->show();
-
-
 	}
 
 	/**
@@ -1576,10 +1581,10 @@ class ilStartUpGUI
 		}
 		else
 		{							
-			// user agreement accepted?
+			// Terms of service accepted?
 			if($ilUser->hasToAcceptTermsOfService() && $ilUser->hasToAcceptTermsOfServiceInSession())
 			{
-				ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
+				ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target='.$_GET['target'].'&cmd=getAcceptance');
 			}													
 			
 			// for password change and incomplete profile 

@@ -48,11 +48,11 @@ class ilTermsOfServiceCurrentAcceptanceRequestTest extends PHPUnit_Framework_Tes
 	 */
 	public function testRequestShouldReturnUserIdWhenUserIdIsSet()
 	{
-		$exptected = 1337;
+		$expected = 1337;
 
 		$request = new ilTermsOfServiceCurrentAcceptanceRequest();
-		$request->setUserId($exptected);
-		$this->assertEquals($exptected, $request->getUserId());
+		$request->setUserId($expected);
+		$this->assertEquals($expected, $request->getUserId());
 	}
 
 	/**

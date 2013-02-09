@@ -49,21 +49,21 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 		$i = 0;
 		foreach($this->getLanguageAdapter()->getInstalledLanguages() as $lng)
 		{
-			$this->data['items'][$i]['language']             = $lng;
-			$this->data['items'][$i]['agreement']            = false;
-			$this->data['items'][$i]['agreement_file']       = null;
-			$this->data['items'][$i]['agreement_file_mtime'] = null;
+			$this->data['items'][$i]['language']                           = $lng;
+			$this->data['items'][$i]['agreement']                          = false;
+			$this->data['items'][$i]['agreement_document']                 = null;
+			$this->data['items'][$i]['agreement_document_modification_ts'] = null;
 			if(is_file('./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $lng . '.html'))
 			{
-				$this->data['items'][$i]['agreement_file']       = './Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $lng . '.html';
-				$this->data['items'][$i]['agreement_file_mtime'] = filemtime('./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $lng . '.html');
-				$this->data['items'][$i]['agreement']            = true;
+				$this->data['items'][$i]['agreement_document']                 = './Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $lng . '.html';
+				$this->data['items'][$i]['agreement_document_modification_ts'] = filemtime('./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $lng . '.html');
+				$this->data['items'][$i]['agreement']                          = true;
 			}
 			else if(is_file('./Customizing/global/agreement/agreement_' . $lng . '.html'))
 			{
-				$this->data['items'][$i]['agreement_file']       = './Customizing/global/agreement/agreement_' . $lng . '.html';
-				$this->data['items'][$i]['agreement_file_mtime'] = filemtime('./Customizing/global/agreement/agreement_' . $lng . '.html');
-				$this->data['items'][$i]['agreement']            = true;
+				$this->data['items'][$i]['agreement_document']                 = './Customizing/global/agreement/agreement_' . $lng . '.html';
+				$this->data['items'][$i]['agreement_document_modification_ts'] = filemtime('./Customizing/global/agreement/agreement_' . $lng . '.html');
+				$this->data['items'][$i]['agreement']                          = true;
 			}
 
 			++$i;

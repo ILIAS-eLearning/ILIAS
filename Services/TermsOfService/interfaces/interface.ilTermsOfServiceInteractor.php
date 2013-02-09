@@ -8,7 +8,6 @@
 interface ilTermsOfServiceInteractor
 {
 	/**
-	 * @abstract
 	 * @param ilTermsOfServiceRequest $request
 	 */
 	public function invoke(ilTermsOfServiceRequest $request);

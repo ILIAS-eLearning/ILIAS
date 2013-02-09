@@ -20,24 +20,24 @@ class ilTermsOfServiceAcceptanceRequest extends ilTermsOfServiceBaseRequest
 	protected $timestamp = 0;
 
 	/**
-	 * @var string
+	 * @var ilTermsOfServiceSignableDocument
 	 */
-	protected $path_to_file = '';
+	protected $document;
 
 	/**
-	 * @param string $path_to_file
+	 * @param ilTermsOfServiceSignableDocument $document
 	 */
-	public function setPathToFile($path_to_file)
+	public function setDocument(ilTermsOfServiceSignableDocument $document)
 	{
-		$this->path_to_file = $path_to_file;
+		$this->document = $document;
 	}
 
 	/**
-	 * @return string
+	 * @return ilTermsOfServiceSignableDocument
 	 */
-	public function getPathToFile()
+	public function getDocument()
 	{
-		return $this->path_to_file;
+		return $this->document;
 	}
 
 	/**

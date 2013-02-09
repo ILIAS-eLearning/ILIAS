@@ -8,19 +8,17 @@
 interface ilTermsOfServiceEntity
 {
 	/**
-	 * @abstract
 	 * @return mixed
 	 */
 	public function getId();
 
 	/**
-	 * @abstract
-	 * @param $id
+	 * @param mixed $id
 	 */
 	public function setId($id);
 
 	/**
-	 * @abstract
+	 * 
 	 */
 	public function save();
 }

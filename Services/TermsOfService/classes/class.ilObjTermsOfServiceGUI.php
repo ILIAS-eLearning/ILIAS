@@ -346,12 +346,12 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 		 */
 		global $rbacsystem;
 
-		if(!isset($_GET['agreement_file']) || !strlen($_GET['agreement_file']) || !$rbacsystem->checkAccess('read', $this->object->getRefId()))
+		if(!isset($_GET['agreement_document']) || !strlen($_GET['agreement_document']) || !$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			exit();
 		}
 
-		$file = realpath(strip_tags(rawurldecode(ilUtil::stripOnlySlashes($_GET['agreement_file']))));
+		$file = realpath(strip_tags(rawurldecode(ilUtil::stripOnlySlashes($_GET['agreement_document']))));
 		if(preg_match('/Customizing[\/\\\](global[\/\\\]agreement|clients[\/\\\]' . CLIENT_ID . '[\/\\\]agreement)[\/\\\]agreement_([a-z]{2})\.html$/', $file))
 		{
 			echo '<div style="overflow:auto;max-width:640px;max-height:480px;padding:5px">' . nl2br(trim(file_get_contents($file))) . '</div>';

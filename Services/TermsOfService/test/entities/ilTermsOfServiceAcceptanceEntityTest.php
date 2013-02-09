@@ -66,7 +66,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	public function testPathToFileIsInitiallyEmpty()
 	{
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$this->assertEmpty($entity->getPathToFile());
+		$this->assertEmpty($entity->getSource());
 	}
 
 	/**
@@ -75,7 +75,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	public function testLanguageOfAcceptanceIsInitiallyEmpty()
 	{
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$this->assertEmpty($entity->getLanguage());
+		$this->assertEmpty($entity->getIso2LanguageCode());
 	}
 
 	/**
@@ -101,11 +101,11 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEntityShouldReturnIdWhenIdIsSet()
 	{
-		$exptected = 4711;
+		$expected = 4711;
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setId($exptected);
-		$this->assertEquals($exptected, $entity->getId());
+		$entity->setId($expected);
+		$this->assertEquals($expected, $entity->getId());
 	}
 
 	/**
@@ -113,11 +113,11 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEntityShouldReturnUserIdWhenUserIdIsSet()
 	{
-		$exptected = 1337;
+		$expected = 1337;
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setUserId($exptected);
-		$this->assertEquals($exptected, $entity->getUserId());
+		$entity->setUserId($expected);
+		$this->assertEquals($expected, $entity->getUserId());
 	}
 
 	/**
@@ -125,11 +125,11 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEntityShouldReturnAcceptanceWhenAcceptanceIsSet()
 	{
-		$exptected = 'Lorem Ipsum';
+		$expected = 'Lorem Ipsum';
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setSignedText($exptected);
-		$this->assertEquals($exptected, $entity->getSignedText());
+		$entity->setSignedText($expected);
+		$this->assertEquals($expected, $entity->getSignedText());
 	}
 
 	/**
@@ -137,11 +137,11 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEntityShouldReturnPathToFileWhenSignedPathToFileIsSet()
 	{
-		$exptected = '/path/to/file';
+		$expected = '/path/to/file';
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setPathToFile($exptected);
-		$this->assertEquals($exptected, $entity->getPathToFile());
+		$entity->setSource($expected);
+		$this->assertEquals($expected, $entity->getSource());
 	}
 
 	/**
@@ -149,11 +149,11 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEntityShouldReturnLanguageWhenLanguageIsSet()
 	{
-		$exptected = 'de';
+		$expected = 'de';
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setLanguage($exptected);
-		$this->assertEquals($exptected, $entity->getLanguage());
+		$entity->setIso2LanguageCode($expected);
+		$this->assertEquals($expected, $entity->getIso2LanguageCode());
 	}
 
 	/**
@@ -161,11 +161,11 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEntityShouldReturnTimestampTextWhenTimestampIsSet()
 	{
-		$exptected = time();
+		$expected = time();
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setTimestamp($exptected);
-		$this->assertEquals($exptected, $entity->getTimestamp());
+		$entity->setTimestamp($expected);
+		$this->assertEquals($expected, $entity->getTimestamp());
 	}
 
 	/**
@@ -201,20 +201,6 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 		$entity = new ilTermsOfServiceAcceptanceEntity();
 		$entity->setDataGateway($gateway);
 		$this->assertEquals($gateway, $entity->getDataGateway());
-	}
-
-	/**
-	 * @expectedException ilTermsOfServiceEntityNotFoundException
-	 */
-	public function testExceptionIsRaisedWhenCurrentEntityWasNotFound()
-	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-
-		$gateway = $this->getMock('ilTermsOfServiceAcceptanceDataGateway');
-		$gateway->expects($this->once())->method('loadCurrentOfUser')->with($entity);
-
-		$entity->setDataGateway($gateway);
-		$entity->loadCurrentOfUser();
 	}
 
 	/**
