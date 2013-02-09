@@ -2510,6 +2510,7 @@ class ilForum
 
 		if($source_thread_obj->getForumId() != $target_thread_obj->getForumId())
 		{
+			// @todo 4 nahmad: Please move this to presentaton layer. Throw an exception here ...
 			return ilUtil::sendFailure($lng->txt('not_allowed_to_merge_into_another_forum'));
 		}
 		// use the "older" thread as target
@@ -2639,7 +2640,5 @@ class ilForum
 
 // delete source thread 
 		ilForumTopic::deleteByThreadId($merge_thread_source->getId());
-
-		return;
 	}
 } // END class.Forum
