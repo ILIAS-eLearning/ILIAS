@@ -12966,6 +12966,11 @@ user#:#tos_show_signed_text#:#Zeige Details
 user#:#tos_not_accepted_yet#:#Noch nicht akzeptiert
 user#:#tos_accepted_content#:#Akzeptierter Text
 tos#:#tos_last_modified#:#Letzte Änderung
+tos#:#tos_acceptance_history#:#Zustimmungshistorie
+tos#:#tos_period#:#Zeitraum
+tos#:#tos_period_from#:#Von
+tos#:#tos_period_until#:#Bis
+tos#:#tos_acceptance_datetime#:#Datum
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#NutzerInnen zu einer Umfrage einladen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben

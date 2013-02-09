@@ -1,0 +1,39 @@
+<tr class="{CSS_ROW}">
+	<td class="std">{VAL_TS}</td>
+	<td class="std">{VAL_LOGIN}</td><!-- BEGIN optional_column -->
+	<td class="std">{OPTIONAL_COLUMN_VAL}</td><!-- END optional_column -->
+	<td class="std">{VAL_LNG}</td>
+	<td class="std">{VAL_PATH}
+		<span style="white-space:nowrap" id="ilAdvSelListAnchorElement_{VAL_ID}">
+			<a onclick="return false" href="#">
+				<img border="0" src="{VAL_IMG_DOWN}" alt="" />
+			</a>
+		</span>
+		<div style="position:absolute;z-index:5000;left:0px;right:0px;">
+			<div class="il_adv_sel" style="padding:5px;overflow:auto;background-color:white;clear:both;display:none;position:absolute" id="ilAdvSelListTable_{VAL_ID}">{VAL_TEXT}</div>
+		</div>
+	
+		<script type="text/javascript">
+			$(function() {
+				il.Overlay.add(
+					'ilAdvSelListTable_{VAL_ID}',
+					{
+						yuicfg:
+						{
+							visible: false,
+							context: ['ilAdvSelListAnchorElement_{VAL_ID}', 'tl', 'bl', ['beforeShow', 'windowResize']]
+						},
+						trigger: 'ilAdvSelListAnchorElement_{VAL_ID}',
+						trigger_event: 'click',
+						anchor_id: 'ilAdvSelListAnchorElement_{VAL_ID}',
+						toggle_el: undefined,
+						toggle_class_on: undefined,
+						asynch: false,
+						asynch_url: false,
+						auto_hide: false
+					}
+				);
+			});
+		</script>
+	</td>
+</tr>

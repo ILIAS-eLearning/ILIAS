@@ -101,14 +101,9 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	}
 
 	/**
-	 * Return an array of all static (always visible) columns.
-	 * For each column key there has to be a variable name VAL_<COLUMN_KEY> in your defined row template.
-	 * Example:
-	 *     return array('title', 'checkbox');
-	 *     There have to be two template variables: VAL_TITLE and VAL_CHECKBOX
 	 * @return array
 	 */
-	protected function getStaticColumns()
+	protected function getStaticData()
 	{
 		return array('language', 'agreement', 'missing_agreement_css_class', 'agreement_file', 'action_show_agreement_text');
 	}

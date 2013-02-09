@@ -6,7 +6,7 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDataProviderFactory.php';
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAgreementByLanguageTableGUI.php';
-
+require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceHistoryTableGUI.php';
 
 /**
  * @author            Michael Jansen <mjansen@databay.de>
@@ -55,9 +55,10 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		/**
-		 * @var $lng ilLanguage
+		 * @var $lng  ilLanguage
+		 * @var $ilDB ilDB
 		 */
-		global $lng;
+		global $lng, $ilDB;
 
 		$this->type = 'tos';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -65,6 +66,7 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 
 		$this->factory = new ilTermsOfServiceTableDataProviderFactory();
 		$this->factory->setLanguageAdapter($lng);
+		$this->factory->setDatabaseAdapter($ilDB);
 	}
 
 	/**
@@ -115,6 +117,13 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 			$tabs_gui->addTarget('tos_agreement_by_lng', $this->ctrl->getLinkTarget($this, 'showAgreementByLanguage'), array('reset', 'confirmReset', 'showAgreementByLanguage', 'resetAgreementByLanguageFilter', 'applyAgreementByLanguageFilter'), '', '');
 		}
 
+		if($rbacsystem->checkAccess('read', $this->object->getRefId()) &&
+			$rbacsystem->checkAccess('read', USER_FOLDER_ID)
+		)
+		{
+			$tabs_gui->addTarget('tos_acceptance_history', $this->ctrl->getLinkTarget($this, 'showAcceptanceHistory'), array('showAcceptanceHistory', 'resetAcceptanceHistoryFilter', 'applyAcceptanceHistoryFilter'), '', '');
+		}
+
 		if($rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
 		{
 			$tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
@@ -146,12 +155,12 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 	protected function saveSettings()
 	{
 		/**
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilErr    ilErrorHandling
+		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilErr      ilErrorHandling
 		 */
-		global $ilAccess, $ilErr;
+		global $rbacsystem, $ilErr;
 
-		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
@@ -172,13 +181,13 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 	protected function settings($init_from_database = true)
 	{
 		/**
-		 * @var $ilAccess  ilAccessHandler
-		 * @var $ilErr     ilErrorHandling
-		 * @var $tpl       ilTemplate
+		 * @var $rbacsystem  ilRbacSystem
+		 * @var $ilErr       ilErrorHandling
+		 * @var $tpl         ilTemplate
 		 */
-		global $ilAccess, $ilErr, $tpl;
+		global $rbacsystem, $ilErr, $tpl;
 
-		if(!$ilAccess->checkAccess('read', '', $this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
@@ -204,13 +213,13 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 	protected function confirmReset()
 	{
 		/**
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilErr    ilErrorHandling
-		 * @var $tpl      ilTemplate
+		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilErr      ilErrorHandling
+		 * @var $tpl        ilTemplate
 		 */
-		global $ilAccess, $ilErr, $tpl;
+		global $rbacsystem, $ilErr, $tpl;
 
-		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
@@ -230,14 +239,14 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 	protected function reset()
 	{
 		/**
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilErr    ilErrorHandling
-		 * @var $ilLog    ilLog
-		 * @var $ilUser   ilObjUser
+		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilErr      ilErrorHandling
+		 * @var $ilLog      ilLog
+		 * @var $ilUser     ilObjUser
 		 */
-		global $ilAccess, $ilErr, $ilLog, $ilUser;
+		global $rbacsystem, $ilErr, $ilLog, $ilUser;
 
-		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
@@ -255,21 +264,21 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 	protected function showAgreementByLanguage()
 	{
 		/**
-		 * @var $ilAccess  ilAccessHandler
-		 * @var $ilErr     ilErrorHandling
-		 * @var $tpl       ilTemplate
-		 * @var $ilToolbar ilToolbarGUI
+		 * @var $rbacsystem  ilRbacSystem
+		 * @var $ilErr       ilErrorHandling
+		 * @var $tpl         ilTemplate
+		 * @var $ilToolbar   ilToolbarGUI
 		 */
-		global $ilAccess, $ilErr, $tpl, $ilToolbar;
+		global $rbacsystem, $ilErr, $tpl, $ilToolbar;
 
-		if(!$ilAccess->checkAccess('read', '', $this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
 
 		$this->lng->loadLanguageModule('meta');
 
-		if($ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		if($rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'settings'));
 			$ilToolbar->addFormButton($this->lng->txt('tos_reset_tos_for_all_users'), 'confirmReset');
@@ -333,11 +342,11 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 	protected function showAgreementTextAsynch()
 	{
 		/**
-		 * @var $ilAccess ilAccessHandler
+		 * @var $rbacsystem ilRbacSystem
 		 */
-		global $ilAccess;
+		global $rbacsystem;
 
-		if(!isset($_GET['agreement_file']) || !strlen($_GET['agreement_file']) || !$ilAccess->checkAccess('read', '', $this->object->getRefId()))
+		if(!isset($_GET['agreement_file']) || !strlen($_GET['agreement_file']) || !$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			exit();
 		}
@@ -349,5 +358,83 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 		}
 
 		exit();
+	}
+
+	/**
+	 *
+	 */
+	protected function showAcceptanceHistory()
+	{
+		/**
+		 * @var $rbacsystem  ilRbacSystem
+		 * @var $ilErr       ilErrorHandling
+		 * @var $tpl         ilTemplate
+		 */
+		global $rbacsystem, $ilErr, $tpl;
+
+		if(!$rbacsystem->checkAccess('read', '', $this->object->getRefId()) ||
+			!$rbacsystem->checkAccess('read', '', USER_FOLDER_ID)
+		)
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+		}
+
+		$this->lng->loadLanguageModule('meta');
+
+		$table = new ilTermsOfServiceAcceptanceHistoryTableGUI($this, 'showAcceptanceHistory');
+		$table->setProvider($this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
+		$table->populate();
+
+		$tpl->setContent($table->getHtml());
+	}
+
+	/**
+	 * Show auto complete results
+	 */
+	protected function addUserAutoComplete()
+	{
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('read', '', $this->object->getRefId()) ||
+			!$rbacsystem->checkAccess('read', '', USER_FOLDER_ID)
+		)
+		{
+			echo json_encode(array());
+			exit();
+		}
+		
+		include_once 'Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields(array('login', 'firstname', 'lastname', 'email'));
+		$auto->enableFieldSearchableCheck(false);
+		echo $auto->getList($_REQUEST['term']);
+		exit();
+	}
+
+	/**
+	 * 
+	 */
+	protected function applyAcceptanceHistoryFilter()
+	{
+		$table = new ilTermsOfServiceAcceptanceHistoryTableGUI($this, 'showAcceptanceHistory');
+		$table->resetOffset();
+		$table->writeFilterToSession();
+
+		$this->showAcceptanceHistory();
+	}
+
+	/**
+	 * 
+	 */
+	protected function resetAcceptanceHistoryFilter()
+	{
+		$table = new ilTermsOfServiceAcceptanceHistoryTableGUI($this, 'showAcceptanceHistory');
+		$table->resetOffset();
+		$table->resetFilter();
+
+		$this->showAcceptanceHistory();
 	}
 }
