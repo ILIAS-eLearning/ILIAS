@@ -11,9 +11,15 @@ class ilTermsOfServiceAcceptanceInteractor implements ilTermsOfServiceInteractor
 {
 	/**
 	 * @param ilTermsOfServiceRequest $request
+	 * @throws InvalidArgumentException
 	 */
 	public function invoke(ilTermsOfServiceRequest $request)
 	{
+		if(!is_file($request->getPathToFile()) || !is_readable($request->getPathToFile()))
+		{
+			throw new InvalidArgumentException("Terms of service {$request->getPathToFile()} does not exists or is not readable.");
+		}
+
 		$entity = $request->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 		$entity->setUserId($request->getUserId());
 		$entity->setPathToFile($request->getPathToFile());

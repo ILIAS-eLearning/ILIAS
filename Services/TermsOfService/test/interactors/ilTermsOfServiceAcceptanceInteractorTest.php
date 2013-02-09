@@ -49,7 +49,7 @@ class ilTermsOfServiceAcceptanceInteractorTest extends PHPUnit_Framework_TestCas
 	 */
 	public function testInvoke()
 	{
-		vfsStream::newFile('agreement_de.html', 644)->at(vfsStreamWrapper::getRoot());
+		vfsStream::newFile('agreement_de.html', 0777)->at(vfsStreamWrapper::getRoot());
 		$expected_path = vfsStream::url('phpunit/agreement_de.html');
 		$expected_content = 'phpunit';
 		file_put_contents($expected_path, $expected_content);
@@ -72,6 +72,16 @@ class ilTermsOfServiceAcceptanceInteractorTest extends PHPUnit_Framework_TestCas
 		$entity->expects($this->once())->method('setHash');
 		$entity->expects($this->once())->method('save');
 
+		$interactor->invoke($request);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testExceptionIsRaisedWhenInvokedAndTheRequestFileDoesNotExistsOrIsNotReadable()
+	{
+		$interactor = new ilTermsOfServiceAcceptanceInteractor();
+		$request = $this->getMock('ilTermsOfServiceAcceptanceRequest');
 		$interactor->invoke($request);
 	}
 }

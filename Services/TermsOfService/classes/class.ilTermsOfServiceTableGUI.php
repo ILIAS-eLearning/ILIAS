@@ -36,6 +36,11 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 	protected $filter = array();
 
 	/**
+	 * @var array
+	 */
+	protected $optional_filter = array();
+
+	/**
 	 * Set the provider to be used for data retrieval.
 	 * @params    ilTableDataProvider $mapper
 	 */
@@ -104,7 +109,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 	{
 		$this->prepareRow($row);
 
-		foreach($this->getStaticColumns() as $column)
+		foreach($this->getStaticData() as $column)
 		{
 			$value = $this->formatCellValue($column, $row);
 			$this->tpl->setVariable('VAL_' . strtoupper($column), $value);
@@ -133,15 +138,15 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 * Return an array of all static (always visible) columns.
-	 * For each column key there has to be a variable name VAL_<COLUMN_KEY> in your defined row template.
+	 * Return an array of all static (always visible) data fields in a row.
+	 * For each key there has to be a variable name VAL_<COLUMN_KEY> in your defined row template.
 	 * Example:
 	 *     return array('title', 'checkbox');
 	 *     There have to be two template variables: VAL_TITLE and VAL_CHECKBOX
 	 * @return array
 	 * @abstract
 	 */
-	abstract protected function getStaticColumns();
+	abstract protected function getStaticData();
 
 	/**
 	 * @throws ilException
@@ -169,14 +174,25 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 			$params['order_direction'] = $this->getOrderDirection();
 		}
 
-		$data = $this->getProvider()->getList($params, $this->filter);
+		$this->determineSelectedFilters();
+		$filter = $this->filter;
+		
+		foreach($this->optional_filter as $key => $value)
+		{
+			if($this->isFilterSelected($key))
+			{
+				$filter[$key] = $value;
+			}
+		}
+
+		$data = $this->getProvider()->getList($params, $filter);
 
 		if(!count($data['items']) && $this->getOffset() > 0 && $this->getExternalSegmentation())
 		{
 			$this->resetOffset();
 			$params['limit']  = $this->getLimit();
 			$params['offset'] = $this->getOffset();
-			$data             = $this->getProvider()->getList($params, $this->filter);
+			$data             = $this->getProvider()->getList($params, $filter);
 		}
 
 		$this->prepareData($data);

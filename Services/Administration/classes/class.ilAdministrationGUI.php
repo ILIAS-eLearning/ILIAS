@@ -507,7 +507,7 @@ class ilAdministrationGUI
 				"basic" =>
 					array("adm", "stys", "adve", "lngf", "cmps", "accs", "hlps", "trac"),
 				"users" =>
-					array("usrf", "rolf", "auth", "ps", 'tos')
+					array("usrf", 'tos', "rolf", "auth", "ps")
 				),
 			2 => array(
 				"services" =>

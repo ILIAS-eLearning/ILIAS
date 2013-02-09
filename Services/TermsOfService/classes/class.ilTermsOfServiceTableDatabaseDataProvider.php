@@ -50,10 +50,17 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
 
 	/**
 	 * @param array $filter
-	 * @return mixed
+	 * @return string
 	 * @abstract
 	 */
 	abstract protected function getHavingPart(array $filter);
+
+	/**
+	 * @param array $params
+	 * @return string
+	 * @abstract
+	 */
+	abstract protected function getOrderByPart(array $params);
 
 	/**
 	 * @param array $params
@@ -71,28 +78,9 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
 		$select = $this->getSelectPart();
 		$where  = $this->getWherePart($filter);
 		$from   = $this->getFromPart();
-		$order  = '';
+		$order  = $this->getOrderByPart($params);
 		$group  = $this->getGroupByPart();
 		$having = $this->getHavingPart($filter);
-
-		if(isset($params['order_field']))
-		{
-			if(!is_string($params['order_field']))
-			{
-				throw new InvalidArgumentException('Please provide a valid order field.');
-			}
-
-			if(!isset($params['order_direction']))
-			{
-				$params['order_direction'] = 'ASC';
-			}
-			else if(!in_array(strtolower($params['order_direction']), array('asc', 'desc')))
-			{
-				throw new InvalidArgumentException('Please provide a valid order direction.');
-			}
-
-			$order = $params['order_field'] . ' ' . $params['order_direction'];
-		}
 
 		if(isset($params['group']))
 		{
