@@ -210,20 +210,18 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		global $ilUser;
 
 		$this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $thread->getId());
-		if($this->parent_cmd == 'showThreads' || $this->parent_cmd == 'mergeThreads')
+		if('mergeThreads' == $this->parent_cmd)
 		{
-			if('mergeThreads' == $this->parent_cmd)
-			{
-				$this->tpl->setVariable('VAL_CHECK', ilUtil::formRadioButton(
-					(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]', $thread->getId()
-				));	
-			}
-			else
-			{
-				$this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
-					(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]', $thread->getId()
-				));	
-			}
+			$checked = $this->max_count == 1 || (isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']));
+			$this->tpl->setVariable('VAL_CHECK', ilUtil::formRadioButton(
+				$checked, 'thread_ids[]', $thread->getId()
+			));
+		}
+		else if('showThreads' == $this->parent_cmd)
+		{
+			$this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
+				(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]', $thread->getId()
+			));
 		}
 		else
 		{
