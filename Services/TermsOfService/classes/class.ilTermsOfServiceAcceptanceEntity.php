@@ -47,7 +47,7 @@ class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
 	/**
 	 * @var string
 	 */
-	protected $hash = '';
+	protected $hash;
 
 	/**
 	 * @param string $hash

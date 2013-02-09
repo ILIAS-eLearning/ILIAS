@@ -19,8 +19,6 @@ class ilTermsOfServiceInteractorFactoryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		require_once 'Services/PHPUnit/classes/class.ilUnitUtil.php';
-		ilUnitUtil::performInitialisation();
 	}
 
 	/**

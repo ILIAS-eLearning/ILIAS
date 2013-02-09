@@ -19,8 +19,6 @@ class ilTermsOfServiceAcceptanceRequestTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		require_once 'Services/PHPUnit/classes/class.ilUnitUtil.php';
-		ilUnitUtil::performInitialisation();
 	}
 
 	/**
@@ -97,7 +95,7 @@ class ilTermsOfServiceAcceptanceRequestTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testRequestShouldReturnTimestampTextWhenTimestampIsSet()
+	public function testRequestShouldReturnTimestampWhenTimestampIsSet()
 	{
 		$expected = time();
 

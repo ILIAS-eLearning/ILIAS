@@ -17,7 +17,7 @@ class ilTermsOfServiceAcceptanceRequest extends ilTermsOfServiceBaseRequest
 	/**
 	 * @var int
 	 */
-	protected $timestamp = 0;
+	protected $timestamp;
 
 	/**
 	 * @var ilTermsOfServiceSignableDocument
