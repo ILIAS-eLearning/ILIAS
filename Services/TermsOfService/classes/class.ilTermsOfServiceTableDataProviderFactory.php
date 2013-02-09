@@ -29,7 +29,7 @@ class ilTermsOfServiceTableDataProviderFactory
 
 	/**
 	 * @param string $context
-	 * @return ilTermsOfServiceAgreementByLanguageProvider
+	 * @return ilTermsOfServiceAgreementByLanguageProvider|ilTermsOfServiceAgreementByLanguageProvider|ilTermsOfServiceAcceptanceHistoryProvider
 	 * @throws ilTermsOfServiceMissingLanguageAdapterException
 	 * @throws InvalidArgumentException
 	 */

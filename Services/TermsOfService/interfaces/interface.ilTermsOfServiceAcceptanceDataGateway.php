@@ -8,13 +8,11 @@
 interface ilTermsOfServiceAcceptanceDataGateway
 {
 	/**
-	 * @abstract
 	 * @param ilTermsOfServiceAcceptanceEntity $entity
 	 */
 	public function save(ilTermsOfServiceAcceptanceEntity $entity);
 
 	/**
-	 * @abstract
 	 * @param ilTermsOfServiceAcceptanceEntity $entity
 	 * @return ilTermsOfServiceAcceptanceEntity
 	 */

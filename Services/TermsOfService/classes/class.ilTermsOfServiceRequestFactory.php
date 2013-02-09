@@ -11,7 +11,7 @@ class ilTermsOfServiceRequestFactory implements ilTermsOfServiceFactory
 {
 	/**
 	 * @param string $name
-	 * @return ilTermsOfServiceRequest
+	 * @return ilTermsOfServiceRequest|ilTermsOfServiceAcceptanceRequest|ilTermsOfServiceCurrentAcceptanceRequest
 	 * @throws InvalidArgumentException
 	 */
 	public function getByName($name)

@@ -13955,7 +13955,7 @@ if(!$ilDB->tableExists('tos_acceptance_track'))
 	}
 	?>
 <#3816>
-	<?php
+<?php
 	if(!$ilDB->tableColumnExists('frm_threads', 'thread_sorting'))
 	{
 		$ilDB->addTableColumn("frm_threads", "thread_sorting", array(
@@ -13965,7 +13965,7 @@ if(!$ilDB->tableExists('tos_acceptance_track'))
 			"notnull" => true,
 		));
 	}
-	?>
+?>
 <#3817>
 <?php
 	if(!$ilDB->tableColumnExists('addressbook', 'auto_update'))
@@ -13977,4 +13977,23 @@ if(!$ilDB->tableExists('tos_acceptance_track'))
 			"notnull" => true,
 		));
 	}
+?>
+<#3818>
+<?php
+if(!$ilDB->tableColumnExists('tos_versions', 'src_type'))
+{
+	$ilDB->addTableColumn('tos_versions', 'src_type', array(
+		'type' => 'integer',
+		'length' => 1,
+		'default' => 0,
+		'notnull' => true,
+	));
+}
+?>
+<#3819>
+<?php
+if($ilDB->tableColumnExists('tos_versions', 'path'))
+{
+	$ilDB->renameTableColumn('tos_versions', 'path', 'src');
+}
 ?>

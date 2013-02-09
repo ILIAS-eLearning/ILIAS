@@ -584,7 +584,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// get form
 		$this->initForm("edit");
 		$this->getValues();
-		$this->showAcceptedAgreement();
+		$this->showAcceptedTermsOfService();
 		$this->tpl->setContent($this->form_gui->getHTML());
 	}
 	
@@ -3604,15 +3604,18 @@ class ilObjUserGUI extends ilObjectGUI
 	}
 	
 	/**
-	 * 
+	 *
 	 */
 	protected function showAgreementTextAsynchObject()
 	{
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-		$response = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
-		if($response->getHasCurrentAcceptance())
+		/**
+		 * @var $entity ilTermsOfServiceAcceptanceEntity
+		 */
+		$entity = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
+		if($entity->getId())
 		{
-			echo '<div style="max-width:640px;max-height:480px;overflow:auto;padding:5px">' . $response->getSignedText() . '</div>';
+			echo '<div style="max-width:640px;max-height:480px;overflow:auto;padding:5px">' . $entity->getSignedText() . '</div>';
 		}
 		exit();
 	}
@@ -3620,7 +3623,7 @@ class ilObjUserGUI extends ilObjectGUI
 	/**
 	 * 
 	 */
-	protected function showAcceptedAgreement()
+	protected function showAcceptedTermsOfService()
 	{
 		/**
 		 * @var $agree_date ilNonEditableValueGUI
@@ -3628,22 +3631,21 @@ class ilObjUserGUI extends ilObjectGUI
 		$agree_date = $this->form_gui->getItemByPostVar('agree_date');
 		if($agree_date && $agree_date->getValue())
 		{
+			$this->lng->loadLanguageModule('tos');
 			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-			$response = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
-			if($response->getHasCurrentAcceptance())
+			/**
+			 * @var $entity ilTermsOfServiceAcceptanceEntity
+			 */
+			$entity = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
+			if($entity->getId())
 			{
-				$this->lng->loadLanguageModule('tos');
-
 				$show_agreement_text = new ilCheckboxInputGUI($this->lng->txt('tos_show_signed_text'), 'tos_show_signed_text');
 
 				$agreement_lang = new ilNonEditableValueGUI($this->lng->txt('language'), '');
-				if($response->getLanguage())
-				{
-					$agreement_lang->setValue($this->lng->txt('meta_l_' . $response->getLanguage()));
-				}
+				$agreement_lang->setValue($this->lng->txt('meta_l_' . $entity->getIso2LanguageCode()));
 				$show_agreement_text->addSubItem($agreement_lang);
 
-				$agreement_file = new ilNonEditableValueGUI($this->lng->txt('tos_agreement_file'), '', true);
+				$agreement_document = new ilNonEditableValueGUI($this->lng->txt('tos_agreement_document'), '', true);
 
 				require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 				$action = new ilAdvancedSelectionListGUI();
@@ -3651,9 +3653,9 @@ class ilObjUserGUI extends ilObjectGUI
 				$action->setListTitle($this->lng->txt('tos_accepted_content'));
 				$action->setAsynch(true);
 				$action->setAsynchUrl($this->ctrl->getLinkTarget($this, 'showAgreementTextAsynch', '', true, false));
-				$agreement_file->setValue($response->getPathToFile().$action->getHtml());
+				$agreement_document->setValue($entity->getSource().$action->getHtml());
 
-				$show_agreement_text->addSubItem($agreement_file);
+				$show_agreement_text->addSubItem($agreement_document);
 				$agree_date->addSubItem($show_agreement_text);
 			}
 		}

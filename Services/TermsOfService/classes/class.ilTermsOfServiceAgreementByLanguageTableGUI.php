@@ -37,7 +37,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 
 		$this->addColumn($this->lng->txt('language'), 'language');
 		$this->addColumn($this->lng->txt('tos_agreement'), 'agreement');
-		$this->addColumn($this->lng->txt('tos_agreement_file'), 'agreement_file');
+		$this->addColumn($this->lng->txt('tos_agreement_document'), 'agreement_document');
 		$this->optionalColumns        = (array)$this->getSelectableColumns();
 		$this->visibleOptionalColumns = (array)$this->getSelectedColumns();
 		foreach($this->visibleOptionalColumns as $column)
@@ -61,7 +61,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	 */
 	public function getSelectableColumns()
 	{
-		$cols = array('agreement_file_mtime' => array('txt' => $this->lng->txt('tos_last_modified'), 'default' => true));
+		$cols = array('agreement_document_modification_ts' => array('txt' => $this->lng->txt('tos_last_modified'), 'default' => true));
 
 		return $cols;
 	}
@@ -84,14 +84,14 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	 */
 	protected function prepareRow(array &$row)
 	{
-		if(is_string($row['agreement_file']) && strlen($row['agreement_file']))
+		if(is_string($row['agreement_document']) && strlen($row['agreement_document']))
 		{
 			$action = new ilAdvancedSelectionListGUI();
 			$action->setId('asl_content_' . md5($row['language']));
 			$action->setAsynch(true);
-			$this->ctrl->setParameter($this->getParentObject(), 'agreement_file', rawurlencode($row['agreement_file']));
+			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', rawurlencode($row['agreement_document']));
 			$action->setAsynchUrl($this->ctrl->getLinkTarget($this->getParentObject(), 'showAgreementTextAsynch', '', true, false));
-			$this->ctrl->setParameter($this->getParentObject(), 'agreement_file', '');
+			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', '');
 			$row['action_show_agreement_text'] = $action->getHtml();
 		}
 		else
@@ -105,7 +105,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	 */
 	protected function getStaticData()
 	{
-		return array('language', 'agreement', 'missing_agreement_css_class', 'agreement_file', 'action_show_agreement_text');
+		return array('language', 'agreement', 'missing_agreement_css_class', 'agreement_document', 'action_show_agreement_text');
 	}
 
 	/**
@@ -115,11 +115,11 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	 */
 	protected function formatCellValue($column, array $row)
 	{
-		if($column == 'agreement_file')
+		if($column == 'agreement_document')
 		{
 			if(!is_string($row[$column]) || !strlen($row[$column]))
 			{
-				return $this->lng->txt('tos_agreement_file_missing');
+				return $this->lng->txt('tos_agreement_document_missing');
 			}
 		}
 		else if($column == 'agreement')
@@ -133,7 +133,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 				return $this->lng->txt('tos_agreement_missing');
 			}
 		}
-		else if($column == 'agreement_file_mtime')
+		else if($column == 'agreement_document_modification_ts')
 		{
 			return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
 		}
@@ -147,7 +147,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	 */
 	public function numericOrdering($column)
 	{
-		if('agreement_file_mtime' == $column)
+		if('agreement_document_modification_ts' == $column)
 		{
 			return true;
 		}

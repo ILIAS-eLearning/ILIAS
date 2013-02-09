@@ -753,7 +753,7 @@ class ilInitialisation
 		}
 
 		// prefer personal setting when coming from login screen
-		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the user agreement should be displayes (Helmut Schottmï¿½ï¿½ller, 2006-10-14)
+		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the terms of service should be displayes (Helmut Schottmï¿½ï¿½ller, 2006-10-14)
 		if (is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID && $ilUser->getId() > 0)
 		{
 			ilSession::set('lang', $ilUser->getPref('language'));
@@ -1307,7 +1307,7 @@ class ilInitialisation
 			}
 			
 			$cmd = self::getCurrentCmd();
-			if($cmd == "showUserAgreement" || $cmd == "showClientList" || 
+			if($cmd == "showTermsOfService" || $cmd == "showClientList" || 
 				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount')
 			{
 				return true;

@@ -31,6 +31,8 @@ class ilObjTermsOfService extends ilObject
 		 */
 		global $ilDB, $ilSetting;
 
+		// @todo: Delegate
+
 		$in = $ilDB->in('usr_id', array(ANONYMOUS_USER_ID, SYSTEM_USER_ID), true, 'integer');
 		$ilDB->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
 
@@ -46,6 +48,8 @@ class ilObjTermsOfService extends ilObject
 		 * @var $ilSetting ilSetting
 		 */
 		global $ilSetting;
+
+		// @todo: Delegate
 
 		return new ilDateTime($ilSetting->get('tos_last_reset'), IL_CAL_UNIX);
 	}

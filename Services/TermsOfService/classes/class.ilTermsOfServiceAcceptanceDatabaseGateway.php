@@ -31,7 +31,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 		$res   = $this->db->queryF(
 			$query,
 			array('text', 'text'),
-			array($entity->getHash(), $entity->getLanguage())
+			array($entity->getHash(), $entity->getIso2LanguageCode())
 		);
 
 		if($this->db->numRows($res))
@@ -45,12 +45,13 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 			$this->db->insert(
 				'tos_versions',
 				array(
-					'id'   => array('integer', $tosv_id),
-					'lng'  => array('text', $entity->getLanguage()),
-					'path' => array('text', $entity->getPathToFile()),
-					'text' => array('text', $entity->getSignedText()),
-					'hash' => array('text', $entity->getHash()),
-					'ts'   => array('integer', $entity->getTimestamp())
+					'id'       => array('integer', $tosv_id),
+					'lng'      => array('text', $entity->getIso2LanguageCode()),
+					'src'      => array('text', $entity->getSource()),
+					'src_type' => array('integer', $entity->getSourceType()),
+					'text'     => array('text', $entity->getSignedText()),
+					'hash'     => array('text', $entity->getHash()),
+					'ts'       => array('integer', $entity->getTimestamp())
 				)
 			);
 		}
@@ -88,10 +89,12 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 		{
 			$entity->setId($row['id']);
 			$entity->setUserId($row['usr_id']);
-			$entity->setLanguage($row['lng']);
-			$entity->setPathToFile($row['path']);
+			$entity->setIso2LanguageCode($row['lng']);
+			$entity->setSource($row['src']);
+			$entity->setSourceType($row['src_type']);
 			$entity->setSignedText($row['text']);
 			$entity->setTimestamp($row['accepted_ts']);
+			$entity->setHash($row['hash']);
 		}
 
 		return $entity;

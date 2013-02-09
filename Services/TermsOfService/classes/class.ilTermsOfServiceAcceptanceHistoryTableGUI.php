@@ -44,7 +44,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 			$this->addColumn($this->optionalColumns[$column]['txt'], $column);
 		}
 		$this->addColumn($this->lng->txt('language'), 'lng');
-		$this->addColumn($this->lng->txt('tos_agreement_file'), 'path');
+		$this->addColumn($this->lng->txt('tos_agreement_document'), 'src');
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, 'applyAcceptanceHistoryFilter'));
 
@@ -97,7 +97,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 	 */
 	protected function getStaticData()
 	{
-		return array('ts', 'login', 'lng', 'path', 'text', 'id', 'img_down');
+		return array('ts', 'login', 'lng', 'src', 'text', 'id', 'img_down');
 	}
 
 	/**

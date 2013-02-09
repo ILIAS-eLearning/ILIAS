@@ -11,7 +11,7 @@ class ilTermsOfServiceInteractorFactory implements ilTermsOfServiceFactory
 {
 	/**
 	 * @param string $name
-	 * @return ilTermsOfServiceInteractor
+	 * @return ilTermsOfServiceInteractor|ilTermsOfServiceAcceptanceInteractor|ilTermsOfServiceCurrentAcceptanceInteractor
 	 * @throws InvalidArgumentException
 	 */
 	public function getByName($name)

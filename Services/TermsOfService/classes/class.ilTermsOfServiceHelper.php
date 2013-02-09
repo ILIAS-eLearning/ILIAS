@@ -35,7 +35,7 @@ class ilTermsOfServiceHelper
 
 	/**
 	 * @param ilObjUser $user
-	 * @return ilTermsOfServiceCurrentAcceptanceResponse
+	 * @return ilTermsOfServiceAcceptanceEntity
 	 */
 	public static function getCurrentAcceptanceForUser(ilObjUser $user)
 	{
@@ -47,22 +47,24 @@ class ilTermsOfServiceHelper
 	}
 
 	/**
-	 * @param ilObjUser $user
-	 * @param string    $agreement_file
+	 * @param ilObjUser                        $user
+	 * @param ilTermsOfServiceSignableDocument $document
 	 */
-	public static function trackAcceptance(ilObjUser $user, $agreement_file)
+	public static function trackAcceptance(ilObjUser $user, ilTermsOfServiceSignableDocument $document)
 	{
-		$user->writeAccepted();
+		if(self::isEnabled())
+		{
+			$interactor = self::getInteractorFactory()->getByName('ilTermsOfServiceAcceptanceInteractor');
+			$request    = self::getRequestFactory()->getByName('ilTermsOfServiceAcceptanceRequest');
+			self::setFactoriesToRequest($request);
+			$request->setUserId($user->getId());
+			$request->setTimestamp(time());
+			$request->setDocument($document);
+			$interactor->invoke($request);
 
-		$user->hasToAcceptTermsOfServiceInSession(false);
-
-		$interactor = self::getInteractorFactory()->getByName('ilTermsOfServiceAcceptanceInteractor');
-		$request    = self::getRequestFactory()->getByName('ilTermsOfServiceAcceptanceRequest');
-		self::setFactoriesToRequest($request);
-		$request->setUserId($user->getId());
-		$request->setTimestamp(time());
-		$request->setPathToFile($agreement_file);
-		$interactor->invoke($request);
+			$user->writeAccepted();
+			$user->hasToAcceptTermsOfServiceInSession(false);
+		}
 	}
 
 	/**
@@ -104,15 +106,6 @@ class ilTermsOfServiceHelper
 	}
 
 	/**
-	 * @return ilTermsOfServiceResponseFactory
-	 */
-	private static function getResponseFactory()
-	{
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceResponseFactory.php';
-		return new ilTermsOfServiceResponseFactory();
-	}
-
-	/**
 	 * @param ilTermsOfServiceRequest $request
 	 */
 	private static function setFactoriesToRequest(ilTermsOfServiceRequest $request)
@@ -120,6 +113,5 @@ class ilTermsOfServiceHelper
 		$request->setDataGatewayFactory(self::getDataGatewayFactory());
 		$request->setEntityFactory(self::getEntityFactory());
 		$request->setInteractorFactory(self::getInteractorFactory());
-		$request->setResponseFactory(self::getResponseFactory());
 	}
 }

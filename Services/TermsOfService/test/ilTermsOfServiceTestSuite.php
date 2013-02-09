@@ -20,9 +20,6 @@ class ilTermsOfServiceTestSuite extends PHPUnit_Framework_TestSuite
 		require_once 'Services/TermsOfService/test/requests/ilTermsOfServiceCurrentAcceptanceRequestTest.php';
 		$suite->addTestSuite('ilTermsOfServiceCurrentAcceptanceRequestTest');
 
-		require_once 'Services/TermsOfService/test/responses/ilTermsOfServiceCurrentAcceptanceResponseTest.php';
-		$suite->addTestSuite('ilTermsOfServiceCurrentAcceptanceResponseTest');
-
 		require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceTableDataProviderFactoryTest.php';
 		$suite->addTestSuite('ilTermsOfServiceTableDataProviderFactoryTest');
 
@@ -34,9 +31,6 @@ class ilTermsOfServiceTestSuite extends PHPUnit_Framework_TestSuite
 
 		require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceRequestFactoryTest.php';
 		$suite->addTestSuite('ilTermsOfServiceRequestFactoryTest');
-
-		require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceResponseFactoryTest.php';
-		$suite->addTestSuite('ilTermsOfServiceResponseFactoryTest');
 
 		require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceDataGatewayFactoryTest.php';
 		$suite->addTestSuite('ilTermsOfServiceDataGatewayFactoryTest');

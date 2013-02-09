@@ -27,7 +27,7 @@ class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
 	/**
 	 * @var string
 	 */
-	protected $language;
+	protected $iso2_language_code;
 
 	/**
 	 * @var int
@@ -37,7 +37,12 @@ class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
 	/**
 	 * @var string
 	 */
-	protected $path_to_file;
+	protected $source;
+
+	/**
+	 * @var int
+	 */
+	protected $source_type;
 
 	/**
 	 * @var string
@@ -68,17 +73,17 @@ class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
 	/**
 	 * @param string $language
 	 */
-	public function setLanguage($language)
+	public function setIso2LanguageCode($language)
 	{
-		$this->language = $language;
+		$this->iso2_language_code = $language;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getLanguage()
+	public function getIso2LanguageCode()
 	{
-		return $this->language;
+		return $this->iso2_language_code;
 	}
 
 	/**
@@ -130,19 +135,35 @@ class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
 	}
 
 	/**
-	 * @param string $path_to_file
+	 * @param string $source
 	 */
-	public function setPathToFile($path_to_file)
+	public function setSource($source)
 	{
-		$this->path_to_file = $path_to_file;
+		$this->source = $source;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPathToFile()
+	public function getSource()
 	{
-		return $this->path_to_file;
+		return $this->source;
+	}
+
+	/**
+	 * @param int $source_type
+	 */
+	public function setSourceType($source_type)
+	{
+		$this->source_type = $source_type;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getSourceType()
+	{
+		return $this->source_type;
 	}
 
 	/**
@@ -192,16 +213,10 @@ class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
 	}
 
 	/**
-	 * @throws ilTermsOfServiceEntityNotFoundException
+	 * 
 	 */
 	public function loadCurrentOfUser()
 	{
 		$this->data_gateway->loadCurrentOfUser($this);
-
-		if(!$this->getId())
-		{
-			require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceEntityNotFoundException.php';
-			throw new ilTermsOfServiceEntityNotFoundException('No acceptance found for the passed user.');
-		}
 	}
 }

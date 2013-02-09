@@ -16,7 +16,6 @@
 */
 
 require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
-require_once "./Services/User/classes/class.ilUserAgreement.php";
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 
 /**
@@ -217,20 +216,28 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		if(ilTermsOfServiceHelper::isEnabled() && ilUserAgreement::doesUserAgreementExist())
+		if(ilTermsOfServiceHelper::isEnabled())
 		{
-			$field = new ilFormSectionHeaderGUI();
-			$field->setTitle($lng->txt('usr_agreement'));
-			$this->form->addItem($field);
+			try
+			{
+				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+				$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
+				$field    = new ilFormSectionHeaderGUI();
+				$field->setTitle($lng->txt('usr_agreement'));
+				$this->form->addItem($field);
 
-			$field = new ilCustomInputGUI();
-			$field->setHTML('<div id="agreement">' . ilUserAgreement::_getText() . '</div>');
-			$this->form->addItem($field);
+				$field = new ilCustomInputGUI();
+				$field->setHTML('<div id="agreement">' . $document->getContent() . '</div>');
+				$this->form->addItem($field);
 
-			$field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'usr_agreement');
-			$field->setRequired(true);
-			$field->setValue(1);
-			$this->form->addItem($field);
+				$field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'accept_terms_of_service');
+				$field->setRequired(true);
+				$field->setValue(1);
+				$this->form->addItem($field);
+			}
+			catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
+			{
+			}
 		}
 
 		$this->form->addCommandButton("saveForm", $lng->txt("register"));		
@@ -285,10 +292,10 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('usr_agreement'))
+		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service'))
 		{
-			$agr_obj = $this->form->getItemByPostVar('usr_agreement');
-			$agr_obj->setAlert($lng->txt("force_accept_usr_agreement"));
+			$agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
+			$agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
 			$form_valid = false;
 		}
 
@@ -386,7 +393,12 @@ class ilAccountRegistrationGUI
 	
 	protected function __createUser($a_role)
 	{
-		global $ilSetting, $rbacadmin;
+		/**
+		 * @var $ilSetting ilSetting
+		 * @var $rbacadmin ilRbacAdmin
+		 * @var $lng       ilLanguage
+		 */
+		global $ilSetting, $rbacadmin, $lng;
 
 		$this->userObj = new ilObjUser();
 		
@@ -563,10 +575,13 @@ class ilAccountRegistrationGUI
 		//insert user data in table user_data
 		$this->userObj->saveAsNew();
 
-		// store acceptance of user agreement
-		if(ilTermsOfServiceHelper::isEnabled() && ilUserAgreement::doesUserAgreementExist())
+		try
 		{
-			ilTermsOfServiceHelper::trackAcceptance($this->userObj, ilUserAgreement::getAgreementFile());
+			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
+			ilTermsOfServiceHelper::trackAcceptance($this->userObj, ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng));
+		}
+		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
+		{
 		}
 
 		// setup user preferences

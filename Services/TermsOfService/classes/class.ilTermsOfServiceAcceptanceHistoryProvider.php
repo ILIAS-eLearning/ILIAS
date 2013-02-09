@@ -20,7 +20,7 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
 			'ud.firstname',
 			'ud.lastname',
 			'tos_acceptance_track.ts',
-			'tos_versions.path',
+			'tos_versions.src',
 			'tos_versions.text',
 			'tos_versions.lng'
 		);
@@ -106,7 +106,7 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
 				throw new InvalidArgumentException('Please provide a valid order field.');
 			}
 			
-			if(!in_array($params['order_field'], array('lng', 'login', 'firstname', 'lastname', 'path', 'ts')))
+			if(!in_array($params['order_field'], array('lng', 'login', 'firstname', 'lastname', 'src', 'ts')))
 			{
 				throw new InvalidArgumentException('Please provide a valid order field.');
 			}

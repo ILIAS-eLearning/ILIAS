@@ -46,10 +46,10 @@ class ilTermsOfServiceAcceptanceRequestTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testPathToFileIsInitiallyEmpty()
+	public function testDocumentIsInitiallyEmpty()
 	{
 		$request = new ilTermsOfServiceAcceptanceRequest();
-		$this->assertEmpty($request->getPathToFile());
+		$this->assertEmpty($request->getDocument());
 	}
 
 	/**
@@ -75,23 +75,23 @@ class ilTermsOfServiceAcceptanceRequestTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRequestShouldReturnUserIdWhenUserIdIsSet()
 	{
-		$exptected = 1337;
+		$expected = 1337;
 
 		$request = new ilTermsOfServiceAcceptanceRequest();
-		$request->setUserId($exptected);
-		$this->assertEquals($exptected, $request->getUserId());
+		$request->setUserId($expected);
+		$this->assertEquals($expected, $request->getUserId());
 	}
 
 	/**
 	 *
 	 */
-	public function testRequestShouldReturnPathToFileWhenSignedPathToFileIsSet()
+	public function testRequestShouldReturnDocumentWhenDocumentIsSet()
 	{
-		$exptected = '/path/to/file';
+		$expected = $this->getMock('ilTermsOfServiceSignableDocument');
 
 		$request = new ilTermsOfServiceAcceptanceRequest();
-		$request->setPathToFile($exptected);
-		$this->assertEquals($exptected, $request->getPathToFile());
+		$request->setDocument($expected);
+		$this->assertEquals($expected, $request->getDocument());
 	}
 
 	/**
@@ -99,11 +99,11 @@ class ilTermsOfServiceAcceptanceRequestTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRequestShouldReturnTimestampTextWhenTimestampIsSet()
 	{
-		$exptected = time();
+		$expected = time();
 
 		$request = new ilTermsOfServiceAcceptanceRequest();
-		$request->setTimestamp($exptected);
-		$this->assertEquals($exptected, $request->getTimestamp());
+		$request->setTimestamp($expected);
+		$this->assertEquals($expected, $request->getTimestamp());
 	}
 
 	/**

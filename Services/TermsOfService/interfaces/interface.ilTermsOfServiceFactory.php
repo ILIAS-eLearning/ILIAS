@@ -8,7 +8,6 @@
 interface ilTermsOfServiceFactory
 {
 	/**
-	 * @abstract
 	 * @param string $name
 	 * @return mixed
 	 */

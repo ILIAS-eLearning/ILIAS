@@ -26,11 +26,6 @@ abstract class ilTermsOfServiceBaseRequest implements ilTermsOfServiceRequest
 	protected $interactor_factory;
 
 	/**
-	 * @var ilTermsOfServiceResponseFactory
-	 */
-	protected $response_factory;
-
-	/**
 	 * @param ilTermsOfServiceEntityFactory $entity_factory
 	 */
 	public function setEntityFactory(ilTermsOfServiceEntityFactory $entity_factory)
@@ -47,7 +42,7 @@ abstract class ilTermsOfServiceBaseRequest implements ilTermsOfServiceRequest
 	}
 
 	/**
-	 * @param  $data_gateway_factory
+	 * @param ilTermsOfServiceDataGatewayFactory $data_gateway_factory
 	 */
 	public function setDataGatewayFactory(ilTermsOfServiceDataGatewayFactory $data_gateway_factory)
 	{
@@ -76,21 +71,5 @@ abstract class ilTermsOfServiceBaseRequest implements ilTermsOfServiceRequest
 	public function getInteractorFactory()
 	{
 		return $this->interactor_factory;
-	}
-
-	/**
-	 * @param ilTermsOfServiceResponseFactory $response_factory
-	 */
-	public function setResponseFactory(ilTermsOfServiceResponseFactory $response_factory)
-	{
-		$this->response_factory = $response_factory;
-	}
-
-	/**
-	 * @return ilTermsOfServiceResponseFactory
-	 */
-	public function getResponseFactory()
-	{
-		return $this->response_factory;
 	}
 }
