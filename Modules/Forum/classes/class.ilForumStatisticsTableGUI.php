@@ -55,4 +55,3 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
 		}
 	}
 }
-?>
