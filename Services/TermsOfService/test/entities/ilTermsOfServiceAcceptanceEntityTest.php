@@ -19,8 +19,6 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		require_once 'Services/PHPUnit/classes/class.ilUnitUtil.php';
-		ilUnitUtil::performInitialisation();
 	}
 
 	/**
@@ -54,7 +52,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testAcceptanceIsInitiallyEmpty()
+	public function testTextIsInitiallyEmpty()
 	{
 		$entity = new ilTermsOfServiceAcceptanceEntity();
 		$this->assertEmpty($entity->getSignedText());
@@ -63,10 +61,19 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testPathToFileIsInitiallyEmpty()
+	public function testSourceIsInitiallyEmpty()
 	{
 		$entity = new ilTermsOfServiceAcceptanceEntity();
 		$this->assertEmpty($entity->getSource());
+	}
+
+	/**
+	 *
+	 */
+	public function testSourceTypeIsInitiallyEmpty()
+	{
+		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$this->assertEmpty($entity->getSourceType());
 	}
 
 	/**
@@ -85,6 +92,15 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	{
 		$entity = new ilTermsOfServiceAcceptanceEntity();
 		$this->assertEmpty($entity->getTimestamp());
+	}
+
+	/**
+	 *
+	 */
+	public function testHashIsInitiallyEmpty()
+	{
+		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$this->assertEmpty($entity->getHash());
 	}
 
 	/**
@@ -123,7 +139,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testEntityShouldReturnAcceptanceWhenAcceptanceIsSet()
+	public function testEntityShouldReturnTextWhenTextIsSet()
 	{
 		$expected = 'Lorem Ipsum';
 
@@ -135,13 +151,25 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testEntityShouldReturnPathToFileWhenSignedPathToFileIsSet()
+	public function testEntityShouldReturnSourceWhenSourceIsSet()
 	{
 		$expected = '/path/to/file';
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
 		$entity->setSource($expected);
 		$this->assertEquals($expected, $entity->getSource());
+	}
+
+	/**
+	 *
+	 */
+	public function testEntityShouldReturnSourceTypeWhenSourceTypeIsSet()
+	{
+		$expected = 1;
+
+		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity->setSourceType($expected);
+		$this->assertEquals($expected, $entity->getSourceType());
 	}
 
 	/**
@@ -159,13 +187,25 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testEntityShouldReturnTimestampTextWhenTimestampIsSet()
+	public function testEntityShouldReturnTimestampWhenTimestampIsSet()
 	{
 		$expected = time();
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
 		$entity->setTimestamp($expected);
 		$this->assertEquals($expected, $entity->getTimestamp());
+	}
+
+	/**
+	 *
+	 */
+	public function testEntityShouldReturnHashWhenHashIsSet()
+	{
+		$expected = md5(uniqid(rand()));
+
+		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity->setHash($expected);
+		$this->assertEquals($expected, $entity->getHash());
 	}
 
 	/**

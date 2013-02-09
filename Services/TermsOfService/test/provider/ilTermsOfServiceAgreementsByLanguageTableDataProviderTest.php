@@ -17,14 +17,12 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function setUp()
 	{
-		require_once 'Services/PHPUnit/classes/class.ilUnitUtil.php';
-		ilUnitUtil::performInitialisation();
 	}
 
 	/**
 	 * @return ilTermsOfServiceAgreementByLanguageProvider
 	 */
-	public function testInstanceCanByCreatedByFactory()
+	public function testAgreementByLanguageProviderCanBeCreatedByFactory()
 	{
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDataProviderFactory.php';
 		$factory = new ilTermsOfServiceTableDataProviderFactory();
@@ -39,7 +37,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 
 	/**
 	 * @param ilTermsOfServiceAgreementByLanguageProvider $provider
-	 * @depends testInstanceCanByCreatedByFactory
+	 * @depends testAgreementByLanguageProviderCanBeCreatedByFactory
 	 * @expectedException ilException
 	 */
 	public function testExceptionIsRaisedWhenListShouldBeRetrievedWithMissingLanguageAdapter(ilTermsOfServiceAgreementByLanguageProvider $provider)
@@ -50,7 +48,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 
 	/**
 	 * @param ilTermsOfServiceAgreementByLanguageProvider $provider
-	 * @depends testInstanceCanByCreatedByFactory
+	 * @depends testAgreementByLanguageProviderCanBeCreatedByFactory
 	 */
 	public function testProviderReturnsAResultForEveryInstalledLanguage(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{
@@ -72,7 +70,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 
 	/**
 	 * @param ilTermsOfServiceAgreementByLanguageProvider $provider
-	 * @depends           testInstanceCanByCreatedByFactory
+	 * @depends           testAgreementByLanguageProviderCanBeCreatedByFactory
 	 */
 	public function testFactoryShouldReturnLanguageAdapterWhenLanguageAdapterIsSet(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{

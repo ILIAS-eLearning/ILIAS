@@ -19,8 +19,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	 */
 	public function setUp()
 	{
-		require_once 'Services/PHPUnit/classes/class.ilUnitUtil.php';
-		ilUnitUtil::performInitialisation();
 	}
 
 	/**

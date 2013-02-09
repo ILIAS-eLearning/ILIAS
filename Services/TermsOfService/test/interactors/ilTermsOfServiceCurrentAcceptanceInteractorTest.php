@@ -23,8 +23,6 @@ class ilTermsOfServiceCurrentAcceptanceInteractorTest extends PHPUnit_Framework_
 	 */
 	public function setUp()
 	{
-		require_once 'Services/PHPUnit/classes/class.ilUnitUtil.php';
-		ilUnitUtil::performInitialisation();
 	}
 
 	/**
