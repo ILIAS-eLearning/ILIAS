@@ -107,11 +107,14 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public function initTopicsOverviewTable()
 	{
-		// Columns
 		if($this->parent_cmd  == "showThreads")
 		{
+			$this->setSelectAllCheckbox('thread_ids');
 			$this->addColumn('', 'check', '1px', true);
 		}
 		else
@@ -127,7 +130,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		// Disable sorting
 		$this->disable('sort');
-		$this->setSelectAllCheckbox('thread_ids');
 
 		// Default Form Action
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showThreads'));
