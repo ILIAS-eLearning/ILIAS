@@ -25,3 +25,33 @@
 		);
 	}
 ?>
+<#2>
+<?php
+
+	if(!$ilDB->tableColumnExists('ecs_course_assignments', 'cms_sub_id'))
+	{
+		$ilDB->addTableColumn('ecs_course_assignments', 'cms_sub_id',
+				array(
+					"type" => "integer",
+					"notnull" => false,
+					"length" => 4,
+					'default' => 0
+				)
+		);
+	}
+?>
+<#3>
+<?php
+
+	if(!$ilDB->tableColumnExists('ecs_import', 'ecs_id'))
+	{
+		$ilDB->addTableColumn('ecs_import', 'ecs_id',
+				array(
+					"type" => "integer",
+					"notnull" => false,
+					"length" => 4,
+					'default' => 0
+				)
+		);
+	}
+?>

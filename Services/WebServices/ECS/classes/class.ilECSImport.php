@@ -41,6 +41,7 @@ class ilECSImport
 	protected $sub_id = 0;
 	protected $mid = 0;
 	protected $imported = false; 
+	protected $ecs_id = 0;
 
 	/**
 	 * Constructor 
@@ -57,6 +58,22 @@ class ilECSImport
 		$this->obj_id = $a_obj_id;
 	 	$this->db = $ilDB;
 	 	$this->read();
+	}
+	
+	public static function lookupECSId($a_server_id, $a_mid, $a_econtent_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT * from ecs_import '.
+				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
+				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+				'AND econtent_id = '.$ilDB->quote($a_econtent_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->ecs_id;
+		}
+		return 0;
 	}
 	
 	/**
@@ -79,7 +96,6 @@ class ilECSImport
 		}
 		return $all ? $all : array();
 	}
-	
 	
 	/**
 	 * lookup obj ids by mid 
@@ -402,14 +418,16 @@ class ilECSImport
 			'AND server_id = '.$ilDB->quote($this->getServerId(),'integer');
 		$res = $ilDB->manipulate($query);
 		
-		$query = "INSERT INTO ecs_import (obj_id,mid,econtent_id,sub_id,server_id) ".
+		$query = "INSERT INTO ecs_import (obj_id,mid,econtent_id,sub_id,server_id,ecs_id) ".
 			"VALUES ( ".
 			$this->db->quote($this->obj_id,'integer').", ".
 			$this->db->quote($this->mid,'integer').", ".
 			$this->db->quote($this->econtent_id,'integer').", ".
 			$this->db->quote($this->getSubId(),'text'). ', '.
-			$this->db->quote($this->getServerId(),'integer').' '.
+			$this->db->quote($this->getServerId(),'integer').', '.
+			$this->db->quote($this->getECSId(),'integer').' '.
 			")";
+		
 		$res = $ilDB->manipulate($query);
 		
 		return true;
@@ -432,6 +450,7 @@ class ilECSImport
 	 		$this->econtent_id = $row->econtent_id;
 			$this->mid = $row->mid;
 			$this->sub_id = $row->sub_id;
+			$this->ecs_id = $row->ecs_id;
 	 	}
 	}
 	
@@ -443,6 +462,16 @@ class ilECSImport
 			' WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$ilDB->manipulate($query);
 		return true;
+	}
+	
+	public function getECSId()
+	{
+		return $this->ecs_id;
+	}
+	
+	public function setECSId($a_id)
+	{
+		$this->ecs_id = $a_id;
 	}
 }
 ?>
