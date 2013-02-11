@@ -4515,10 +4515,10 @@ class ilObjTestGUI extends ilObjectGUI
 		 * */
 		if($big_button)
 		{
-		    $out = '<div class="il_ButtonGroup" style="margin:25px; text-align:center; font-size:25px;">';
+		    $out = '<div class="il_ButtonGroup bigButton">';
 		    foreach($big_button as $button) {
 			$out .= '<input type="submit" class="submit" name="cmd['.$button[0].']" value="'.
-				$button[1].'" style="padding:10px;" />&nbsp;&nbsp;';
+				$button[1].'" />&nbsp;&nbsp;';
 		    }
 		    $out .= '</div>';
 		    $big_button = $out;
