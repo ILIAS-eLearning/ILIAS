@@ -3624,9 +3624,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if($big_button)
 		{
-			$big_button = '<div class="il_ButtonGroup" style="margin:25px; text-align:center; font-size:25px;">'.
+			$big_button = '<div class="il_ButtonGroup bigButton">'.
 				'<input type="submit" class="submit" name="cmd['.$big_button[0].']" value="'.
-				$big_button[1].'" style="padding:10px;" /></div>';
+				$big_button[1].'" /></div>';
 		}
 		
 		if (strlen($this->object->getIntroduction()))

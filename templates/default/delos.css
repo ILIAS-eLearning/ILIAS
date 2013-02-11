@@ -1409,87 +1409,80 @@ div.ilForumQuoteHead
 
 /* ------------------ buttons -------------- */
 
-div.il_ButtonGroup
-{
-	margin: 3px 0px 10px 0px;
+div.il_ButtonGroup {
+	margin: 3px 0 10px;
 	line-height: 150%;
 	white-space: nowrap;
 	display: block;
 }
 
-input.submit, a.submit, a.submit:hover
-{
+div.il_ButtonGroup.bigButton {
+	 margin: 25px; 
+	 text-align: center; 
+	 font-size: 25px;
+}
+
+input.submit, a.submit, a.submit:hover {
 	font-size: 80%;
-	font-weight:normal;
-	line-height:17px; /* Safari */
-	background-image: url(images/ButtonsBack.png);
-	background-position: bottom;
-	background-repeat:repeat-x;
-	color:#335599;
-	border:1px solid #D0D0D0;
+	font-weight: normal;
+	line-height: 17px; /* Safari */
+	background: url(images/ButtonsBack.png) bottom repeat-x;
+	color: #359;
+	border: 1px solid #D0D0D0;
 	padding: 1px 5px;
-	margin: 0px;
-	text-decoration:none;
-	cursor:pointer;
+	margin: 0;
+	text-decoration: none;
+	cursor: pointer;
 	display: inline-block;
 }
 
-input.submit:hover, a.submit:hover
-{
+input.submit:hover, a.submit:hover {
 	border-color: #B0B0B0;
-	color:#404040;
+	color: #404040;
 	box-shadow: 0px 0px 1px #A0A0A0;
 }
 
+div.il_ButtonGroup.bigButton > input.submit {
+	 padding: 10px;
+}
+
+div.il_ButtonGroup.bigButton > input.submit:hover {
+}
+
 input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
-	background-color:#E6ECF8;
-	color:gray;
-	border-width:1px;
-	border-color:#B6B6B6;
-	border-style:solid;
-	padding:2px;
+	background-color: #E6ECF8;
+	color: gray;
+	border: 1px solid #B6B6B6;
+	padding: 2px;
 	text-decoration:none;
 	font-size: 90%;
-	cursor:pointer;
+	cursor: pointer;
 }
 
 a.ilEditSubmit {
-	background-color: #FFF;
-	background-image: url(images/ButtonsBack.png);
-	background-position: bottom;
-	background-repeat:repeat-x;
+	background: url(images/ButtonsBack.png) bottom repeat-x #FFF;
 	padding: 2px;
-	margin: 0px;
-	border-width:1px;
-	border-top-color: #BABABA;
-	border-left-color: #BABABA;
+	margin: 0;
+	border: 1px solid #BABABA;
 	border-bottom-color: #808080;
 	border-right-color: #808080;
-	border-style:solid;
 	text-decoration: none;
 	font-size: 80%;
 	line-height: 14px;
-	cursor:pointer;
+	cursor: pointer;
 }
 
 input.ilEditSubmit {
-	color:#2255a0;
+	color: #2255A0;
 	padding: 1px;
-	margin: 0px;
+	margin: 0;
 	font-size: 12px;
 	line-height: 14px;
-	cursor:pointer;
-	
-	background-color: #FFF;
-	background-image: url(images/ButtonsBack.png);
-	background-position: bottom;
-	background-repeat:repeat-x;
-	border-width:1px;
-	border-top-color: #BABABA;
-	border-left-color: #BABABA;
+	cursor: pointer;
+	background: url(images/ButtonsBack.png) bottom repeat-x #FFF;
+	border: 1px solid #BABABA;
 	border-bottom-color: #808080;
 	border-right-color: #808080;
-	border-style:solid;
 }
 
 div.ilEditHelpline {
@@ -1509,8 +1502,8 @@ input.tblrow1, input.tblrow2
 }
 
 
-input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
-	color:#000000;
+input.ilEditSubmit:hover {
+	color: #000;
 }
 
 /* Messages */
