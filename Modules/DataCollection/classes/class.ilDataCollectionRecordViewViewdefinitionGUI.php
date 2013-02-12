@@ -51,11 +51,11 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 
 		}
 
-		parent::__construct("dclf", $a_definition_id);
+        parent::__construct("dclf", $a_definition_id);
 
-		// content style (using system defaults)
+        // content style (using system defaults)
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		
+
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
@@ -65,8 +65,8 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
-		
-		// config
+
+        // config
 		$this->setPreventHTMLUnmasking(true);
 		$this->setEnabledPCTabs(true);
 		$this->setEnabledMaps(false);
@@ -204,7 +204,7 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	{
 		// You can use this to parse placeholders and the like before outputting
 
-		// user view (IL_PAGE_PRESENTATION?)
+        // user view (IL_PAGE_PRESENTATION?)
 		if($this->getOutputMode() == IL_PAGE_PREVIEW)
 		{						
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";

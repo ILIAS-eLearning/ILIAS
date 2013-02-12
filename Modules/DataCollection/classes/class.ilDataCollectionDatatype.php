@@ -223,9 +223,7 @@ class ilDataCollectionDatatype
 	{
 		global $lng;
 		$type_id = $field->getDatatypeId();
-		$input = NULL;
 		$title = $field->getTitle();
-		
 		switch($type_id)
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
@@ -573,12 +571,6 @@ class ilDataCollectionDatatype
 		return $return;
 	}
 
-
-    public static function _parseHTML($datatype_id, $value){
-
-
-    }
-
 	/**
 	 * function parses stored value in database to a html output for eg. the record list gui.
 	 * @param $value
@@ -640,6 +632,9 @@ class ilDataCollectionDatatype
                 if($arr_properties[ilDataCollectionField::PROPERTYID_URL])
 				{
                     $link = $value;
+                    if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/", $value))
+                        $value = "mailto:".$value;
+
                     if(strlen($link) > self::LINK_MAX_LENGTH){
                         $link = substr($value, 0, (self::LINK_MAX_LENGTH-3)/2);
                         $link.= "...";

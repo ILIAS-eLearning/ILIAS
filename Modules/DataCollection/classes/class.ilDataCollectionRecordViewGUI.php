@@ -24,8 +24,23 @@ class ilDataCollectionRecordViewGUI
 {
 	public function __construct($a_dcl_object)
 	{
+        global $tpl;
+
 		$this->record_id = $_GET['record_id'];
 		$this->record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
+
+        // content style (using system defaults)
+        include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+
+        $tpl->setCurrentBlock("SyntaxStyle");
+        $tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+            ilObjStyleSheet::getSyntaxStylePath());
+        $tpl->parseCurrentBlock();
+
+        $tpl->setCurrentBlock("ContentStyle");
+        $tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+            ilObjStyleSheet::getContentStylePath(0));
+        $tpl->parseCurrentBlock();
 	}
 
 	/**
