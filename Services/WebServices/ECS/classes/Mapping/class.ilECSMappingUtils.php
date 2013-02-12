@@ -113,10 +113,13 @@ class ilECSMappingUtils
 	}
 	
 	
-	public static function getRoleMappingInfo()
+	/**
+	 * Get role mapping info
+	 */
+	public static function getRoleMappingInfo($a_role_type_info = 0)
 	{
 		include_once './Services/Membership/classes/class.ilParticipants.php';
-		return array(
+		$roles = array(
 			IL_CRS_ADMIN => array(
 				'role' => IL_CRS_ADMIN,
 				'lang' => 'il_crs_admin',
@@ -148,8 +151,18 @@ class ilECSMappingUtils
 				'required' => false,
 				'type' => 'grp')
 		);
+		if(!$a_role_type_info)
+		{
+			return $roles;
+		}
+		else
+		{
+			return $roles[$a_role_type_info];
+		}
+		
+		
+		
 	}
-
 
 }
 ?>

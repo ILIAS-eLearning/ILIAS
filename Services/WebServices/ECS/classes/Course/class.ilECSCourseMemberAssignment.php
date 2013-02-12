@@ -15,6 +15,7 @@ class ilECSCourseMemberAssignment
 	private $server;
 	private $mid;
 	private $cms_id;
+	private $cms_sub_id = 0;
 	private $obj_id;
 	private $uid;
 	private $status = 0;
@@ -66,12 +67,13 @@ class ilECSCourseMemberAssignment
 	 * @param type $a_obj_id
 	 * @return type
 	 */
-	public static function lookupUserIds($a_cms_id, $a_obj_id)
+	public static function lookupUserIds($a_cms_id, $a_cms_sub_id, $a_obj_id)
 	{
 		global $ilDB;
 		
 		$query = 'SELECT usr_id FROM ecs_course_assignments '.
 				'WHERE cms_id = '.$ilDB->quote($a_cms_id,'integer').' '.
+				'AND cms_sub_id = '.$ilDB->quote($a_cms_sub_id).' '.
 				'AND obj_id = '.$ilDB->quote($a_obj_id,'integer');
 		$res = $ilDB->query($query);
 		
@@ -91,12 +93,13 @@ class ilECSCourseMemberAssignment
 	 * @param type $a_usr_id
 	 * @return \ilECSCourseMemberAssignment|null
 	 */
-	public static function lookupAssignment($a_cms_id,$a_obj_id,$a_usr_id)
+	public static function lookupAssignment($a_cms_id,$a_cms_sub_id,$a_obj_id,$a_usr_id)
 	{
 		global $ilDB;
 		
 		$query = 'SELECT id FROM ecs_course_assignments '.
 				'WHERE cms_id = '.$ilDB->quote($a_cms_id,'integer').' '.
+				'AND cms_sub_id = '.$ilDB->quote($a_cms_sub_id,'integer').' '.
 				'AND obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
 				'AND usr_id = '.$ilDB->quote($a_usr_id,'text');
 		$res = $ilDB->query($query);
@@ -151,6 +154,16 @@ class ilECSCourseMemberAssignment
 		return $this->cms_id;
 	}
 	
+	public function setCmsSubId($a_id)
+	{
+		$this->cms_sub_id = $a_id;
+	}
+	
+	public function getCmsSubId()
+	{
+		return $this->cms_sub_id;
+	}
+	
 	public function setObjId($a_id)
 	{
 		$this->obj_id = $a_id;
@@ -192,12 +205,13 @@ class ilECSCourseMemberAssignment
 		$this->id = $ilDB->nextId('ecs_course_assignments');
 		
 		$query = 'INSERT INTO ecs_course_assignments '.
-				'(id,sid,mid,cms_id,obj_id,usr_id,status) '.
+				'(id,sid,mid,cms_id,cms_sub_id,obj_id,usr_id,status) '.
 				'VALUES( '.
 				$ilDB->quote($this->getId(),'integer').', '.
 				$ilDB->quote($this->getServer(),'integer').', '.
 				$ilDB->quote($this->getMid(),'integer').', '.
 				$ilDB->quote($this->getCmsId(),'integer').', '.
+				$ilDB->quote($this->getCmsSubId(),'integer').', '.
 				$ilDB->quote($this->getObjId(),'integer').', '.
 				$ilDB->quote($this->getUid(),'text').', '.
 				$ilDB->quote($this->getStatus(),'integer').' '.
@@ -219,6 +233,7 @@ class ilECSCourseMemberAssignment
 				'sid = '.$ilDB->quote($this->getServer(),'integer').', '.
 				'mid = '.$ilDB->quote($this->getMid(),'integer').', '.
 				'cms_id = '.$ilDB->quote($this->getCmsId(),'integer').', '.
+				'cms_sub_id = '.$ilDB->quote($this->getCmsSubId(),'integer').' '.
 				'obj_id = '.$ilDB->quote($this->getObjId(),'integer').', '.
 				'usr_id = '.$ilDB->quote($this->getUid(),'text').', '.
 				'status = '.$ilDB->quote($this->get,'integer').' '.
@@ -263,6 +278,7 @@ class ilECSCourseMemberAssignment
 			$this->setServer($row->sid);
 			$this->setMid($row->mid);
 			$this->setCmsId($row->cms_id);
+			$this->setCmsSubId($row->cms_sub_id);
 			$this->setObjId($row->obj_id);
 			$this->uid = $row->uid;
 			$this->setStatus($row->status);
