@@ -77,6 +77,7 @@ class ilDataCollectionRecordField
 		$query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$ilDB->quote($this->id, "integer");
 		$ilDB->manipulate($query);
 		$next_id = $ilDB->nextId("il_dcl_stloc".$datatype->getStorageLocation()."_value");
+
 		$ilDB->insert("il_dcl_stloc".$datatype->getStorageLocation()."_value",
 			array("value" => array($datatype->getDbType(), $this->value),
 			"record_field_id " => array("integer", $this->id),
@@ -119,7 +120,7 @@ class ilDataCollectionRecordField
 		$tmp = $this->field->getDatatype()->parseValue($value, $this);
 		$old = $this->value;
 		//if parse value fails keep the old value
-		if($tmp)
+		if($tmp !== null)
 		{
 			$this->value = $tmp;
 			//delete old file from filesystem

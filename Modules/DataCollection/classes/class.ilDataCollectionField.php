@@ -90,7 +90,10 @@ class ilDataCollectionField
 	const PROPERTYID_LENGTH = 1;
 	const PROPERTYID_REGEX = 2;
 	const PROPERTYID_REFERENCE = 3;
-	const PROPERTYID_URL = 4;
+    /**
+     * LINK OR EMAIL!
+     */
+    const PROPERTYID_URL = 4;
 	const PROPERTYID_TEXTAREA = 5;
     const PROPERTYID_REFERENCE_LINK = 6;
     const PROPERTYID_WIDTH = 7;
@@ -341,7 +344,7 @@ class ilDataCollectionField
 		$props = $this->getProperties();
 		$t = self::PROPERTYID_TEXTAREA;
 
-		return $props[$t]->value;
+		return $props[$t];
 	}
 
 	/**
@@ -848,7 +851,8 @@ class ilDataCollectionField
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
 			if(!($properties[$regex_id] == NULL || preg_match('~'.preg_quote($regex, '~').'~', $value)))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
-			if($properties[$url] && !preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value))
+            //email or url
+			if($properties[$url] && !(preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value) || preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/", $value)))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
 		}
 
