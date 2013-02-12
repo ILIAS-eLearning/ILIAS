@@ -523,6 +523,7 @@ class ilCalendarCategories
 			"AND t1.lft <= (SELECT rgt FROM tree WHERE child = ".$this->db->quote($this->root_ref_id,'integer')." ) ".
 			"AND ".$ilDB->in('type',array('crs','grp','sess'),false,'text')." ".
 			"AND tree = 1";
+		
 		$res = $ilDB->query($query);
 		$obj_ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -532,6 +533,15 @@ class ilCalendarCategories
 				continue;
 			}
 			
+			$obj_type = ilObject::_lookupType($row->obj_id);
+			if($obj_type == 'crs' or $obj_type == 'grp')
+			{
+				// Check for global/local activation
+				if(!ilCalendarSettings::_getInstance()->lookupCalendarActivated($row->obj_id))
+				{
+					continue;
+				}
+			}
 			if($ilAccess->checkAccess('read','',$row->ref_id))
 			{
 				$obj_ids[] = $row->obj_id;
@@ -712,6 +722,16 @@ class ilCalendarCategories
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			// check activation/deactivation
+			$obj_type = ilObject::_lookupType($row->obj_id);
+			if($obj_type == 'crs' or $obj_type == 'grp')
+			{
+				if(!ilCalendarSettings::_getInstance()->lookupCalendarActivated($row->obj_id))
+				{
+					continue;
+				}
+			}
+		
 			$editable = false;
 			$exists = false;
 			foreach(ilObject::_getAllReferences($row->obj_id) as $ref_id)

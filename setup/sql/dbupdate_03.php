@@ -13997,3 +13997,33 @@ if($ilDB->tableColumnExists('tos_versions', 'path'))
 	$ilDB->renameTableColumn('tos_versions', 'path', 'src');
 }
 ?>
+<#3820>
+<?php
+
+	if(!$ilDB->tableColumnExists('ecs_course_assignments', 'cms_sub_id'))
+	{
+		$ilDB->addTableColumn('ecs_course_assignments', 'cms_sub_id',
+				array(
+					"type" => "integer",
+					"notnull" => false,
+					"length" => 4,
+					'default' => 0
+				)
+		);
+	}
+?>
+<#3821>
+<?php
+
+	if(!$ilDB->tableColumnExists('ecs_import', 'ecs_id'))
+	{
+		$ilDB->addTableColumn('ecs_import', 'ecs_id',
+				array(
+					"type" => "integer",
+					"notnull" => false,
+					"length" => 4,
+					'default' => 0
+				)
+		);
+	}
+?>
