@@ -13,4 +13,7 @@
 	<events>		
 		<event type="raise" id="updateStatus" />
 	</events>
+	<crons>
+		<cron id="lp_object_statistics" class="ilLPCronObjectStatistics" />
+	</crons>
 </service>

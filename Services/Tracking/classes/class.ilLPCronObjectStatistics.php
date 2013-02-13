@@ -1,60 +1,74 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once "Services/Cron/classes/class.ilCronJob.php";
 
 /**
-* Object statistics garbage collection
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjectStatisticsCheck.php 29621 2011-06-22 16:51:14Z jluetzen $
-*
-* @package ilias
-*/
-
-class ilCronObjectStatisticsCheck
-{
-	function __construct()
+ * Cron for lp object statistics
+ * 
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesTracking
+ */
+class ilLPCronObjectStatistics extends ilCronJob
+{		
+	protected $date; // [string]
+	
+	public function getId()
 	{
-		global $ilLog,$ilDB;
-
-		$this->log =& $ilLog;
-		$this->db =& $ilDB;
-		
+		return "lp_object_statistics";
+	}
+	
+	public function getDefaultScheduleType()
+	{
+		return self::SCHEDULE_TYPE_DAILY;
+	}
+	
+	public function getDefaultScheduleValue()
+	{
+		return;
+	}
+	
+	public function hasAutoActivation()
+	{
+		return true;
+	}
+	
+	public function hasFlexibleSchedule()
+	{
+		return false;
+	}
+	
+	public function run()
+	{		
 		// all date related operations are based on this timestamp
 		// should be midnight of yesterday (see gatherUserData()) to always have full day
 		$this->date = strtotime("yesterday");
-	}
-
-	function check()
-	{
-		$this->gatherCourseLPData();
-		$this->gatherTypesData();
-		$this->gatherUserData();
-	}
+		
+		$status = ilCronJobResult::STATUS_NO_ACTION;
+		$message = array();
+		
+		$count = 0;
+		$count += $this->gatherCourseLPData();
+		$count += $this->gatherTypesData();
+		$count += $this->gatherUserData();	
+		
+		if($count)
+		{
+			$status = ilCronJobResult::STATUS_OK;
+		}
+		
+		$result = new ilCronJobResult();
+		$result->setStatus($status);
+		
+		return $result;
+	}	
 	
-	function gatherCourseLPData()
+	protected function gatherCourseLPData()
 	{
 		global $tree, $ilDB;
+		
+		$count = 0;
 				
 		// process all courses
 		$all_courses = array_keys(ilObject::_getObjectsByType("crs"));	
@@ -108,14 +122,20 @@ class ilCronObjectStatisticsCheck
 						);	
 					
 					$ilDB->insert("obj_lp_stat", $set);
+					
+					$count++;
 				}						
 			}
 		}
+		
+		return $count;
 	}
 	
-	function gatherTypesData()
+	protected function gatherTypesData()
 	{
 		global $ilDB;
+		
+		$count = 0;
 		
 		include_once "Services/Tracking/classes/class.ilTrQuery.php";
 		$data = ilTrQuery::getObjectTypeStatistics();		
@@ -138,12 +158,18 @@ class ilCronObjectStatisticsCheck
 				);	
 
 			$ilDB->insert("obj_type_stat", $set);
+			
+			$count++;
 		}
+		
+		return $count;
 	}
 	
-	function gatherUserData()
+	protected function gatherUserData()
 	{
 		global $ilDB;
+		
+		$count = 0;
 		
 		$to = mktime(23, 59, 59, date("m", $this->date), date("d", $this->date), date("Y", $this->date));
 					
@@ -169,7 +195,12 @@ class ilCronObjectStatisticsCheck
 				);	
 
 			$ilDB->insert("obj_user_stat", $iset);	
+			
+			$count++;
 		}
+		
+		return $count;
 	}
 }
+
 ?>

@@ -156,8 +156,7 @@ class ilCronCheck
 				'ilCronPaymentNotification::sendNotifications',
 				'ilCronCourseGroupNotification::check',
 				'ilCronAddressbook::syncAddressbook',
-				'ilCronPaymentUDInvoiceNumberReset::check',
-				'ilCronObjectStatisticsCheck::check'
+				'ilCronPaymentUDInvoiceNumberReset::check'
 		);
 
 		$this->possible_tasks = array(
@@ -307,14 +306,6 @@ class ilCronCheck
 					'method'		=> 'syncAddressbook',
 					'location'		=> 'cron',
 					'condition'		=> $ilias->getSetting("cron_upd_adrbook")
-				),
-			
-				// (object) statistics
-				'ilCronObjectStatisticsCheck::check' => array(
-					'classname'		=> 'ilCronObjectStatisticsCheck',
-					'method'		=> 'check',
-					'location'		=> 'cron',
-					'condition'		=> true
 				)
 		);
 	}	
