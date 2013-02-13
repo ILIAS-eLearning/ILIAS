@@ -10,17 +10,17 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
+class ilChatroomInviteUsersToPrivateRoomTask extends ilChatroomTaskHandler
 {
 	/**
-	 * @var ilDBayObjectGUI
+	 * @var ilChatroomObjectGUI
 	 */
 	private $gui;
 
 	/**
-	 * @param ilDBayObjectGUI $gui
+	 * @param ilChatroomObjectGUI $gui
 	 */
-	public function __construct(ilDBayObjectGUI $gui)
+	public function __construct(ilChatroomObjectGUI $gui)
 	{
 		$this->gui = $gui;
 	}

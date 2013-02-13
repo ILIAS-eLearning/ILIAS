@@ -13,7 +13,7 @@
  *
  * @ingroup ModulesChatroom
  */
-class ilChatroomSmileyTask extends ilDBayTaskHandler
+class ilChatroomSmileyTask extends ilChatroomTaskHandler
 {
 
     private $gui;
@@ -23,9 +23,9 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
      *
      * Sets $this->gui
      *
-     * @param ilDBayObjectGUI $gui
+     * @param ilChatroomObjectGUI $gui
      */
-    public function __construct(ilDBayObjectGUI $gui)
+    public function __construct(ilChatroomObjectGUI $gui)
     {
 	$this->gui = $gui;
     }

@@ -5,7 +5,7 @@ require_once 'Services/Object/classes/class.ilObjectGUI.php';
 require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilObjChatroomAccess.php';
-require_once 'Modules/Chatroom/lib/DatabayHelper/databayHelperLoader.php';
+require_once 'Modules/Chatroom/classes/class.ilChatroomObjectGUI.php';
 
 /**
  * Class ilObjChatroomGUI
@@ -17,7 +17,7 @@ require_once 'Modules/Chatroom/lib/DatabayHelper/databayHelperLoader.php';
  * @ilCtrl_IsCalledBy ilObjChatroomGUI: ilRepositoryGUI, ilpersonaldesktopgui, iladministrationgui, ilobjrootfoldergui
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilDBayObjectGUI
+class ilObjChatroomGUI extends ilChatroomObjectGUI
 {
 	/**
 	 * Constructor
@@ -53,12 +53,12 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 
 	/**
 	 * Returns object definition by calling getDefaultDefinition method
-	 * in ilDBayObjectDefinition.
-	 * @return ilDBayObjectDefinition
+	 * in ilChatroomObjectDefinition.
+	 * @return ilChatroomObjectDefinition
 	 */
 	protected function getObjectDefinition()
 	{
-		return ilDBayObjectDefinition::getDefaultDefinition('Chatroom');
+		return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
 	}
 
 	/**

@@ -12,7 +12,7 @@
  *
  * @ingroup ModulesChatroom
  */
-class ilChatroomHistoryTask extends ilDBayTaskHandler
+class ilChatroomHistoryTask extends ilChatroomTaskHandler
 {
 
     private $gui;
@@ -22,9 +22,9 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
      *
      * Requires needed classes and sets $this->gui using given $gui.
      *
-     * @param ilDBayObjectGUI $gui
+     * @param ilChatroomObjectGUI $gui
      */
-    public function __construct(ilDBayObjectGUI $gui)
+    public function __construct(ilChatroomObjectGUI $gui)
     {
 	require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
 	require_once 'Modules/Chatroom/classes/class.ilChatroom.php';

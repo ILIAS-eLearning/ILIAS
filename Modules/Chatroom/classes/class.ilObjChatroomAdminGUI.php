@@ -3,7 +3,7 @@
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
 require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilObjChatroomAccess.php';
-require_once 'Modules/Chatroom/lib/DatabayHelper/databayHelperLoader.php';
+require_once 'Modules/Chatroom/classes/class.ilChatroomObjectGUI.php';
 
 /**
  * Class ilObjChatroomAdminGUI
@@ -15,7 +15,7 @@ require_once 'Modules/Chatroom/lib/DatabayHelper/databayHelperLoader.php';
  * @ilCtrl_IsCalledBy ilObjChatroomAdminGUI: ilRepositoryGUI, ilAdministrationGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomAdminGUI extends ilDBayObjectGUI
+class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 {
 	/**
 	 * Constructor
@@ -48,12 +48,12 @@ class ilObjChatroomAdminGUI extends ilDBayObjectGUI
 
 	/**
 	 * Returns object definition by calling getDefaultDefinitionWithCustomTaskPath
-	 * method in ilDBayObjectDefinition.
-	 * @return ilDBayObjectDefinition
+	 * method in ilChatroomObjectDefinition.
+	 * @return ilChatroomObjectDefinition
 	 */
 	protected function getObjectDefinition()
 	{
-		return ilDBayObjectDefinition::getDefaultDefinitionWithCustomTaskPath(
+		return ilChatroomObjectDefinition::getDefaultDefinitionWithCustomTaskPath(
 			'Chatroom', 'admintasks'
 		);
 	}

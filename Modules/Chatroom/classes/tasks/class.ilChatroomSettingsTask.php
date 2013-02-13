@@ -10,7 +10,7 @@
  *
  * @ingroup ModulesChatroom
  */
-class ilChatroomSettingsTask extends ilDBayTaskHandler
+class ilChatroomSettingsTask extends ilChatroomTaskHandler
 {
 
 	private $gui;
@@ -22,9 +22,9 @@ class ilChatroomSettingsTask extends ilDBayTaskHandler
 	 * sets $this->gui using given $gui and calls ilChatroomInstaller::install()
 	 * method.
 	 *
-	 * @param ilDBayObjectGUI $gui
+	 * @param ilChatroomObjectGUI $gui
 	 */
-	public function __construct(ilDBayObjectGUI $gui)
+	public function __construct(ilChatroomObjectGUI $gui)
     {
 	    $this->gui = $gui;
 
