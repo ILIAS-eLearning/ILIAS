@@ -89,6 +89,8 @@ define("OUTPUT_RANDOM", "1");
 */
 define ("OQ_PICTURES", 0);
 define ("OQ_TERMS", 1);
+define ("OQ_NESTED_PICTURES", 2);
+define ("OQ_NESTED_TERMS", 3);
 
 /**
 * Test constants

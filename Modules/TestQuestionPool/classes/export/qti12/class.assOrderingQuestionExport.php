@@ -107,20 +107,20 @@ class assOrderingQuestionExport extends assQuestionExport
 		$this->object->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
 		// add answers to presentation
 		$attrs = array();
+
 		if ($this->object->getOrderingType() == OQ_PICTURES)
-		{
+			$ordering_type ='OQP';
+		else if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
+			$ordering_type ='OQNP';
+		else if($this->object->getOrderingType() == OQ_NESTED_TERMS)
+			$ordering_type ='OQNT';
+		else if($this->object->getOrderingType() == OQ_TERMS)
+			$ordering_type ='OQT';
+
 			$attrs = array(
-				"ident" => "OQP",
-				"rcardinality" => "Ordered"
-			);
-		}
-			else
-		{
-			$attrs = array(
-				"ident" => "OQT",
-				"rcardinality" => "Ordered"
-			);
-		}
+			"ident" => $ordering_type,
+			"rcardinality" => "Ordered");
+
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{
 			$attrs["output"] = "javascript";
@@ -174,8 +174,11 @@ class assOrderingQuestionExport extends assQuestionExport
 				"ident" => $index
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			if ($this->object->getOrderingType() == OQ_PICTURES)
+			if ($this->object->getOrderingType() == OQ_PICTURES
+			|| $this->object->getOrderingType() == OQ_NESTED_PICTURES)
 			{
+				$imagetype = "image/jpeg";
+				
 				$a_xml_writer->xmlStartTag("material");
 				if ($force_image_references)
 				{
@@ -195,7 +198,7 @@ class assOrderingQuestionExport extends assQuestionExport
 						$imagefile = fread($fh, filesize($imagepath));
 						fclose($fh);
 						$base64 = base64_encode($imagefile);
-						$imagetype = "image/jpeg";
+						
 						if (preg_match("/.*\.(png|gif)$/", $answer->getAnswertext(), $matches))
 						{
 							$imagetype = "image/".$matches[1];
@@ -210,12 +213,23 @@ class assOrderingQuestionExport extends assQuestionExport
 				}
 				$a_xml_writer->xmlEndTag("material");
 			}
-			else
+			else if ($this->object->getOrderingType() == OQ_TERMS
+			|| $this->object->getOrderingType() == OQ_NESTED_TERMS)
 			{
 				$a_xml_writer->xmlStartTag("material");
 				$this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), TRUE, FALSE);
+				
+				$a_xml_writer->xmlStartTag("material");
+				if ($this->object->getOldLeveledOrdering())
+				{
+					$attrs = array(
+						"label" => "answerdepth"
+					);
+					$a_xml_writer->xmlElement("mattext", $attrs, $answer->getOrderingDepth());
+				}
 				$a_xml_writer->xmlEndTag("material");
 			}
+			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}
 		$a_xml_writer->xmlEndTag("render_choice");
@@ -239,18 +253,18 @@ class assOrderingQuestionExport extends assQuestionExport
 			// qti conditionvar
 			$a_xml_writer->xmlStartTag("conditionvar");
 			$attrs = array();
+			
 			if ($this->object->getOrderingType() == OQ_PICTURES)
-			{
-				$attrs = array(
-					"respident" => "OQP"
-				);
-			}
-				else
-			{
-				$attrs = array(
-					"respident" => "OQT"
-				);
-			}
+				$ordering_type ='OQP';
+			else if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
+				$ordering_type ='OQNP';
+			else if($this->object->getOrderingType() == OQ_NESTED_TERMS)
+				$ordering_type ='OQNT';
+			else if($this->object->getOrderingType() == OQ_TERMS)
+				$ordering_type ='OQT';
+			
+			$attrs = array("respident" => $ordering_type);
+			
 			$attrs["index"] = $index;
 			$a_xml_writer->xmlElement("varequal", $attrs, $index);
 			$a_xml_writer->xmlEndTag("conditionvar");
@@ -281,18 +295,18 @@ class assOrderingQuestionExport extends assQuestionExport
 			foreach ($this->object->getAnswers() as $index => $answer)
 			{
 				$attrs = array();
+				
 				if ($this->object->getOrderingType() == OQ_PICTURES)
-				{
-					$attrs = array(
-						"respident" => "OQP"
-					);
-				}
-					else
-				{
-					$attrs = array(
-						"respident" => "OQT"
-					);
-				}
+					$ordering_type ='OQP';
+				else if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
+					$ordering_type ='OQNP';
+				else if($this->object->getOrderingType() == OQ_NESTED_TERMS)
+					$ordering_type ='OQNT';
+				else if($this->object->getOrderingType() == OQ_TERMS)
+					$ordering_type ='OQT';
+
+				$attrs = array("respident" => $ordering_type);
+
 				$attrs["index"] = $index;
 				$a_xml_writer->xmlElement("varequal", $attrs, $index);
 			}
@@ -322,17 +336,16 @@ class assOrderingQuestionExport extends assQuestionExport
 			{
 				$attrs = array();
 				if ($this->object->getOrderingType() == OQ_PICTURES)
-				{
-					$attrs = array(
-						"respident" => "OQP"
-					);
-				}
-					else
-				{
-					$attrs = array(
-						"respident" => "OQT"
-					);
-				}
+					$ordering_type ='OQP';
+				else if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
+					$ordering_type ='OQNP';
+				else if($this->object->getOrderingType() == OQ_NESTED_TERMS)
+					$ordering_type ='OQNT';
+				else if($this->object->getOrderingType() == OQ_TERMS)
+					$ordering_type ='OQT';
+
+				$attrs = array("respident" => $ordering_type);
+				
 				$attrs["index"] = $index;
 				$a_xml_writer->xmlElement("varequal", $attrs, $index);
 			}

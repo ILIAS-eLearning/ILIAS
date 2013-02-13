@@ -42,6 +42,9 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 */
 	protected $random_id;
   
+	public $answer_id = 0;
+	public $ordering_depth = 0;
+	
 /**
 * ASS_AnswerOrdering constructor
 * 
@@ -53,11 +56,13 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 */
 	function ASS_AnswerOrdering (
 		$answertext = "",
-		$random_id = 0
+		$random_id = 0,
+		$depth = 0
 	)
 	{
 		$this->ASS_AnswerSimple($answertext, 0, 0);
 		$this->setRandomID($random_id);
+		$this->setOrderingDepth($depth);
 	}
   
   
@@ -82,6 +87,40 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 	{
 		$this->random_id = $random_id;
 	}
-}
 
+	public function getAdditionalOrderingFieldsByRandomId($a_random_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF('
+			SELECT * 
+			FROM qpl_a_ordering 
+			WHERE random_id = %s',
+			array('integer'), array($a_random_id));
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$this->setAnswerId($row['answer_id']);
+			$this->setOrderingDepth($row['depth']);
+}
+	}
+
+	public function setAnswerId($a_answer_id)
+	{
+		$this->answer_id = $a_answer_id;
+	}
+	public function getAnswerId()
+	{
+		return $this->answer_id;
+	}
+	
+	public function setOrderingDepth($a_ordering_depth)
+	{
+		$this->ordering_depth = (int)$a_ordering_depth;
+	}
+	public function getOrderingDepth()
+	{
+		return $this->ordering_depth;
+	}
+}
 ?>

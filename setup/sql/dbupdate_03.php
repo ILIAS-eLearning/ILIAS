@@ -14027,3 +14027,14 @@ if($ilDB->tableColumnExists('tos_versions', 'path'))
 		);
 	}
 ?>
+<#3822>
+<?php
+	if( !$ilDB->tableColumnExists('qpl_a_ordering', 'depth') )
+	{
+		$ilDB->addTableColumn('qpl_a_ordering', 'depth',
+			array('type'		=> 'integer',
+				  'length'	=> 4,
+				  'notnull'	=> true,
+				  'default'	=> 0));
+	}	
+?>

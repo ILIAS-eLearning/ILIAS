@@ -678,8 +678,8 @@ assessment#:#online_exam_show_answer_print_sheet#:#Sie haben Ihre Online-Prüfun
 assessment#:#online_exam_show_finish_test#:#Sie müssen Ihre Online-Prüfung noch endgültig abschicken. Bitte klicken Sie auf die &quot;Test beenden&quot;-Schaltfläche, um die Online-Prüfung endgültig abzuschicken.
 assessment#:#optional_keywords#:#Optionale Eingabe von Schlagwörtern
 assessment#:#or#:#oder
-assessment#:#order_pictures#:#Bilder ordnen
-assessment#:#order_terms#:#Terme ordnen
+assessment#:#order_pictures#:#Verwende Antwort mit Bildern
+assessment#:#order_terms#:#Verwende Antwort mit Termen
 assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der Antworten wird als korrekte Lösungsreihenfolge verwendet.
 assessment#:#ordering_question_javascript_hint#:#Bitte ziehen Sie die Bilder bzw. Texte in vertikaler Richtung, um die Reihenfolge zu verändern.
 assessment#:#ordertext#:#Anzuordnender Text
@@ -12994,4 +12994,6 @@ forum#:#error_same_thread_ids#:#Es müssen zwei verschiedene Themen ausgewählt 
 forum#:#frm_merge_src#:#Ausgewähltes Thema: %s
 forum#:#frm_merge_target#:#Ziel: %s
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
-forum#:#switch_threads_for_merge#:#Das augewählte Thema ist älter als das Ziel-Thema. Um eine erfolgreiche Zusammenführung zu gewährleisten werden Quell- und Ziel-Thema getauscht. 
+forum#:#switch_threads_for_merge#:#Das augewählte Thema ist älter als das Ziel-Thema. Um eine erfolgreiche Zusammenführung zu gewährleisten werden Quell- und Ziel-Thema getauscht.
+assessment#:#order_nested_terms#:#Ansicht wechseln: Terme verschachten
+assessment#:#order_nested_pictures#:#Ansicht wechselnn: Bilder verschachteln
