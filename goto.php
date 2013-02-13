@@ -109,6 +109,12 @@ if(IS_PAYMENT_ENABLED)
 			
 			$link = 'ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
 				.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']).$additional_param;
+
+			//additional parameters needed for shop
+			if(isset($target_arr[3]))
+			{
+				$link .='&'.$target_arr[3]; 
+			}
 			
 			ilUtil::redirect($link);
 		}

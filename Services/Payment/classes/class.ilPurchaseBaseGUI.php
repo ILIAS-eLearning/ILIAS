@@ -484,6 +484,9 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 		$bookings['country'] = $book_obj->getCountry();
 		$bookings['transaction_extern'] = $book_obj->getTransactionExtern();
 
+		$this->user_obj->_toggleActiveStatusOfUsers(array($this->user_obj->getId()), 1);
+		$_SESSION['forceRedirectToShoppingcart'] = 1;
+		
 		$this->__sendBill($bookings);
 	}
 	
