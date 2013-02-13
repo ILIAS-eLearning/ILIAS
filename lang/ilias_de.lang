@@ -12997,3 +12997,45 @@ forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich
 forum#:#switch_threads_for_merge#:#Das augewählte Thema ist älter als das Ziel-Thema. Um eine erfolgreiche Zusammenführung zu gewährleisten werden Quell- und Ziel-Thema getauscht.
 assessment#:#order_nested_terms#:#Ansicht wechseln: Terme verschachten
 assessment#:#order_nested_pictures#:#Ansicht wechselnn: Bilder verschachteln
+cron#:#cron_job_id#:#Id
+cron#:#cron_component#:#Komponente
+cron#:#cron_schedule#:#Zeitplan
+cron#:#cron_status#:#Status
+cron#:#cron_status_info#:#Status-Info
+cron#:#cron_result#:#Ergebnis
+cron#:#cron_result_info#:#Ergebnis-Info
+cron#:#cron_last_run#:#Letzter Durchlauf
+cron#:#cron_result_status_invalid_configuration#:#Ungültige Konfiguration
+cron#:#cron_result_status_no_action#:#Ok, keine Bearbeitung
+cron#:#cron_result_status_ok#:#Ok
+cron#:#cron_result_status_crashed#:#Abbruch
+cron#:#cron_result_status_reset#:#Reset
+cron#:#cron_action_activate#:#Aktivieren
+cron#:#cron_action_deactivate#:#Deaktivieren
+cron#:#cron_action_reset#:#Reset
+cron#:#cron_action_edit#:#Zeitplan bearbeiten
+cron#:#cron_status_active#:#Aktiv
+cron#:#cron_status_inactive#:#Inaktiv
+cron#:#cron_schedule_daily#:#Täglich
+cron#:#cron_schedule_weekly#:#Wöchentlich
+cron#:#cron_schedule_monthly#:#Monatlich
+cron#:#cron_schedule_quarterly#:#Vierteljährlich
+cron#:#cron_schedule_yearly#:#Jährlich
+cron#:#cron_schedule_in_minutes#:#Alle %s Minuten
+cron#:#cron_schedule_in_hours#:#Alle %s Stunden
+cron#:#cron_schedule_in_days#:#Alle %s Tage
+cron#:#cron_schedule_type#:#Zeitplan-Typ
+cron#:#cron_schedule_value#:#Intervall
+cron#:#cron_changed_by_crontab#:#SYSTEM
+cron#:#cron_running_since#:#Läuft seit
+cron#:#cron_action_run#:#Ausführen
+cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job "%s" ausführen?
+cron#:#cron_action_activate_sure#:#Wollen Sie wirklich den Cron-Job "%s" aktivieren?
+cron#:#cron_action_deactivate_sure#:#Wollen Sie wirklich den Cron-Job "%s" deaktivieren?
+cron#:#cron_action_reset_sure#:#Wollen Sie wirklich den Cron-Job "%s" zurücksetzen?
+cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt.
+cron#:#cron_action_run_fail#:#Ausführung gescheitert.
+cron#:#cron_action_activate_success#:#Cron-Job aktiviert.
+cron#:#cron_action_deactivate_success#:#Cron-Job deaktiviert.
+cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
+cron#:#cron_action_edit_success#:#Zeitplan aktualisiert.

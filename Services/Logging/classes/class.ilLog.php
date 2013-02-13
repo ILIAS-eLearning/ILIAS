@@ -141,6 +141,13 @@ class ilLog
 	function setFilename($a_str)
 	{
 		$this->filename = $a_str;
+		
+		// on filename change reload close current file
+		if($this->fp)
+		{
+			fclose($this->fp);
+			$this->fp = null;
+		}
 	}
 
 	function setTag($a_str)

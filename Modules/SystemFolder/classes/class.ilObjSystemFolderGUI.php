@@ -9,7 +9,8 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
  * @author Stefan Meyer <meyer@leifos.com>
  * $Id$
  *
- * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI, ilImprintGUI, ilObjectOwnershipManagementGUI
+ * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI, ilImprintGUI
+ * @ilCtrl_Calls ilObjSystemFolderGUI: ilObjectOwnershipManagementGUI, ilCronManagerGUI
  *
  * @extends ilObjectGUI
  */
@@ -77,6 +78,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->setSystemCheckSubTabs("no_owner");
 				include_once("Services/Object/classes/class.ilObjectOwnershipManagementGUI.php");
 				$gui = new ilObjectOwnershipManagementGUI(0);
+				$this->ctrl->forwardCommand($gui);
+				break;		
+			
+			case "ilcronmanagergui":
+				$this->setGeneralSettingsSubTabs("cron_jobs2");
+				include_once("Services/Cron/classes/class.ilCronManagerGUI.php");
+				$gui = new ilCronManagerGUI();
 				$this->ctrl->forwardCommand($gui);
 				break;		
 			
@@ -1760,6 +1768,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ilTabs->addSubTabTarget("basic_settings", $ilCtrl->getLinkTarget($this, "showBasicSettings"));
 		$ilTabs->addSubTabTarget("header_title", $ilCtrl->getLinkTarget($this, "showHeaderTitle"));
 		$ilTabs->addSubTabTarget("cron_jobs", $ilCtrl->getLinkTarget($this, "showCronJobs"));
+		$ilTabs->addSubTabTarget("cron_jobs2",  $ilCtrl->getLinkTargetByClass("ilCronManagerGUI"));				
 		$ilTabs->addSubTabTarget("contact_data", $ilCtrl->getLinkTarget($this, "showContactInformation"));
 		$ilTabs->addSubTabTarget("adm_imprint", $ilCtrl->getLinkTargetByClass("ilimprintgui", "preview"));
 		$ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));

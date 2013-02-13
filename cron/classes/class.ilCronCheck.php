@@ -41,6 +41,9 @@ class ilCronCheck
 		global $ilLog;
 
 		$this->log = $ilLog;
+		
+		// separate log for cron
+		// $this->log->setFilename($_COOKIE["ilClientId"]."_cron.txt");
 
 		$this->initTasks();
 	}

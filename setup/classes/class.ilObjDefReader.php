@@ -180,6 +180,17 @@ class ilObjDefReader extends ilSaxParser
 					$ilDB->quote($a_attribs["id"], "text").")";
 				$ilDB->manipulate($q);
 				break;
+				
+			case "cron":				
+				$component = $a_attribs["component"];
+				if(!$component)
+				{
+					$component = $this->current_component;
+				}				
+				include_once "Services/Cron/classes/class.ilCronManager.php";
+				ilCronManager::updateFromXML($component, $a_attribs["id"], $a_attribs["class"], $a_attribs["path"]);		
+				$this->has_cron[$component][] = $a_attribs["id"];
+				break;
 		}
 	}
 			
@@ -192,6 +203,13 @@ class ilObjDefReader extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
+		// cron
+		if($a_name == "module" || $a_name == "service")
+		{
+			include_once "Services/Cron/classes/class.ilCronManager.php";
+			ilCronManager::clearFromXML($this->current_component, 
+				(array)$this->has_cron[$this->current_component]);				
+		}
 	}
 
 			
