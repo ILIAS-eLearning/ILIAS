@@ -759,6 +759,23 @@ class ilAccountRegistrationGUI
 		else if ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 		{
 			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_submitted"));
+			
+			if(IS_PAYMENT_ENABLED == true)
+			{
+				if(isset($_SESSION['forceShoppingCartRedirect']))
+				{
+					$this->tpl->setCurrentBlock("activation");
+					include_once 'Services/Payment/classes/class.ilShopLinkBuilder.php';
+					$shop_link = new ilShopLinkBuilder();
+					$this->tpl->setVariable("FORMACTION", $shop_link->buildLink('ilshopshoppingcartgui', '_forceShoppingCartRedirect_user='.$this->userObj->getId()));
+					$this->tpl->setVariable("TARGET","target=\"_parent\"");
+					
+					$this->lng->loadLanguageModule('payment');
+					$this->tpl->setVariable("TXT_LOGIN", $lng->txt("pay_goto_shopping_cart"));
+					$this->tpl->parseCurrentBlock();
+					$this->lng->loadLanguageModule('registration');
+				}
+			}
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{

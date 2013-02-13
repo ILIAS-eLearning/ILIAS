@@ -104,7 +104,8 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 				$keyarray[urldecode($key)] = urldecode($val);
 			}
 // check customer
-			if ($ilUser->getId() != $keyarray["custom"])
+			if ($ilUser->getId() != $keyarray["custom"]
+			&& $_SESSION['shop_user_id'] != $keyarray['custom'])
 			{
 #echo "Wrong customer";
 				return ERROR_WRONG_CUSTOMER;

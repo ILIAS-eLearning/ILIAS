@@ -38,11 +38,29 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	public function __construct($user_obj)
 	{	
+		global $ilUser;
+		
 		parent::__construct();
 
-		$this->user_obj = $user_obj;
-		$this->session_id = session_id();
-
+		if(isset($_SESSION['shop_user_id']) && $_SESSION['shop_user_id'] != ANONYMOUS_USER_ID)
+		{
+			ilPaymentShoppingCart::_assignObjectsToUserId($_SESSION['shop_user_id']);
+			$this->user_obj = new ilObjUser($_SESSION['shop_user_id']);
+		}
+		else if($user_obj != NULL)
+		{
+			$this->user_obj = $user_obj;
+		}
+		else if($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$this->user_obj = $ilUser;
+			$_SESSION['shop_user_id'] = null;
+		}
+		else 
+		{
+			$this->session_id = session_id();	
+		}	
+		
 		$this->coupon_obj = new ilPaymentCoupons($this->user_obj);
 
 		$ppSet = ilPaypalSettings::getInstance();
@@ -222,10 +240,10 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			
 			if(ilPaymethods::_EnabledSaveUserAddress($booking_obj->getPayMethod()))
 			{
-				$booking_obj->setStreet($ilUser->getStreet(), $ilUser->getHouseNumber);
-				$booking_obj->setZipcode($ilUser->getZipcode());
-				$booking_obj->setCity($ilUser->getCity());
-				$booking_obj->setCountry($ilUser->getCountry());
+				$booking_obj->setStreet($this->user_obj->getStreet(), $this->user_obj->getHouseNumber);
+				$booking_obj->setZipcode($this->user_obj->getZipcode());
+				$booking_obj->setCity($this->user_obj->getCity());
+				$booking_obj->setCountry($this->user_obj->getCountry());
 			}			
 			
 			$current_booking_id = $booking_obj->add();
@@ -368,7 +386,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			if ($res == SUCCESS)
 			{
 				ilUtil::sendSuccess($this->lng->txt('pay_paypal_success'), true);		
-				if($ilUser->getId() == ANONYMOUS_USER_ID || $_SESSION['is_crs_object'] || $_SESSION['is_lm_object'] || $_SESSION['is_file_object'])
+				if($this->user_obj->getId() == ANONYMOUS_USER_ID || $_SESSION['is_crs_object'] || $_SESSION['is_lm_object'] || $_SESSION['is_file_object'])
 				{
 		
 					$this->ctrl->redirectByClass('ilShopShoppingCartGUI', '');
@@ -458,6 +476,19 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
      return $base . $a_pm_title . $suffix;
   }
 
+	public function forceShoppingCartRedirect()
+	{
+		if(isset($_GET['user']))
+		{
+			$_SESSION['shop_user_id'] = (int)$_GET['user'];
+		}
+		$_SESSION['forceShoppingCartRedirect'] ='1';
+		ilPaymentShoppingCart::_assignObjectsToUserId($_SESSION['shop_user_id']);
+		$this->user_obj = new ilObjUser($_SESSION['shop_user_id']);
+
+		$this->showItems();
+	}
+
 	public function showItems()
 	{
 		global $ilObjDataCache, $ilUser, $ilToolbar;
@@ -466,8 +497,15 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html','Services/Payment');
+//		var_dump($_SESSION['shop_user_id']);
+//		if(isset($_SESSION['shop_user_id']))
+//		{
+//			
+//			$this->user_obj->_toggleActiveStatusOfUsers(array($this->user_obj->getId()), 1);
+//		}
 
-		if($_SESSION['forceShoppingCartRedirect'] == '1' && $ilUser->getId() != ANONYMOUS_USER_ID)
+		if($_SESSION['forceShoppingCartRedirect'] == '1') 
+//			&& $this->user_obj->getId() != ANONYMOUS_USER_ID)
 		{
 			$_SESSION['forceShoppingCartRedirect'] = 0;
 			$this->tpl->touchBlock("close_js");
@@ -653,7 +691,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 				switch($pay_method['pm_title'])
 				{
 					case 'bill':
-						if ($this->totalAmount[$pay_method['pm_id']] <= 0 && ANONYMOUS_USER_ID == $ilUser->getId())
+						if ($this->totalAmount[$pay_method['pm_id']] <= 0 && ANONYMOUS_USER_ID == $this->user_obj->getId())
 						{
 							$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBillObjectsInShoppingCart'));
@@ -661,7 +699,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						else
 						{
 							# Anonymous user has to login
-							if(ANONYMOUS_USER_ID == $ilUser->getId())
+							if(ANONYMOUS_USER_ID == $this->user_obj->getId())
 							{
 								ilUtil::sendInfo($this->lng->txt('click_to_continue_info'));
 								$tpl->touchBlock('attach_submit_event_bill');
@@ -680,7 +718,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 					case 'bmf':
 						#$tpl->setVariable("SCRIPT_LINK", './payment.php?view=start_bmf');
-						if ($this->totalAmount[$pay_method['pm_id']] <= 0 && ANONYMOUS_USER_ID != $ilUser->getId())
+						if ($this->totalAmount[$pay_method['pm_id']] <= 0 && ANONYMOUS_USER_ID != $this->user_obj->getId())
 						{
 							$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBMFObjectsInShoppingCart'));
@@ -688,7 +726,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						else
 						{
 							# Anonymous user has to login
-							if(ANONYMOUS_USER_ID == $ilUser->getId())
+							if(ANONYMOUS_USER_ID == $this->user_obj->getId())
 							{
 								ilUtil::sendInfo($this->lng->txt('click_to_continue_info'));
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('continue'));
@@ -734,7 +772,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						break;
 								
 					case 'paypal':
-						if ($this->totalAmount[$pay_method['pm_id']] <= 0 && ANONYMOUS_USER_ID != $ilUser->getId())
+						if ($this->totalAmount[$pay_method['pm_id']] <= 0 && ANONYMOUS_USER_ID != $this->user_obj->getId())
 						{
 							$tpl->touchBlock('attach_submit_event');
 							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
@@ -742,7 +780,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						}
 						else
 						{
-							if(ANONYMOUS_USER_ID == $ilUser->getId())# && $force_user_login == true)
+							if(ANONYMOUS_USER_ID == $this->user_obj->getId())# && $force_user_login == true)
 							{
 								ilUtil::sendInfo($this->lng->txt('click_to_continue_info'));
 								$tpl->touchBlock('attach_submit_event');
@@ -763,7 +801,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						$tpl->setVariable('VENDOR', $this->paypalConfig['vendor']);
 						$tpl->setVariable('RETURN', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishPaypal'));
 						$tpl->setVariable('CANCEL_RETURN', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelPaypal'));
-						$tpl->setVariable('CUSTOM', $ilUser->getId());
+						$tpl->setVariable('CUSTOM', $this->user_obj->getId());
 						$tpl->setVariable('CURRENCY', $genSet->get('currency_unit'));
 						$tpl->setVariable('PAGE_STYLE', $this->paypalConfig['page_style']);
 

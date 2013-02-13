@@ -342,20 +342,21 @@ class ilPaymentShoppingCart
 
 		$this->sc_entries = array();
 
-		
-		if(ANONYMOUS_USER_ID == $ilUser->getId())
+		if(isset($_SESSION['shop_user_id']) 
+		&& $_SESSION['shop_user_id'] != ANONYMOUS_USER_ID
+		|| $this->user_obj->getId() != ANONYMOUS_USER_ID)
+		{
+			$res = $this->db->queryf('
+				SELECT * FROM payment_shopping_cart
+				WHERE customer_id = %s',
+				array('integer'), array($this->user_obj->getId()));
+		}
+		else if(ANONYMOUS_USER_ID == $ilUser->getId())
 		{
 			$res = $this->db->queryf('
 				SELECT * FROM payment_shopping_cart
 				WHERE session_id = %s',
 				array('text'), array($this->getSessionId()));			
-		}
-		else
-		{
-			$res = $this->db->queryf('
-				SELECT * FROM payment_shopping_cart
-				WHERE customer_id = %s',
-				array('integer'), array($this->user_obj->getId()));			
 		}
 			
 		while($row = $this->db->fetchObject($res))
