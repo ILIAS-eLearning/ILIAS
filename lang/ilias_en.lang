@@ -565,8 +565,8 @@ assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.
 assessment#:#optional_keywords#:#Optional input of keywords
 assessment#:#or#:#or
-assessment#:#order_pictures#:#Order Pictures
-assessment#:#order_terms#:#Order Terms
+assessment#:#order_pictures#:#Use answer pictures
+assessment#:#order_terms#:#Use answer terms
 assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.
 assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.
 assessment#:#ordertext#:#Ordering Text
@@ -12995,3 +12995,5 @@ forum#:#frm_merge_src#:#Selected Topic: %s
 forum#:#frm_merge_target#:#Target: %s
 forum#:#merged_threads_successfully#:#The selected threads were merged successfully
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
+assessment#:#order_nested_terms#:#Switch to term nesting view 
+assessment#:#order_nested_pictures#:#Switch to picture nesting view

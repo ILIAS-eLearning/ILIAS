@@ -60,12 +60,24 @@ class assOrderingQuestionImport extends assQuestionImport
 		$foundimage = FALSE;
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 		$answers = array();
+		$type = OQ_TERMS;
+		
 		foreach ($presentation->order as $entry)
 		{
 			switch ($entry["type"])
 			{
 				case "response":
 					$response = $presentation->response[$entry["index"]];
+					$type = $response->getIdent();
+					if($response->getIdent() == 'OQP' )
+						$type = OQ_PICTURES;
+					else if($response->getIdent() == 'OQNP')
+						$type = OQ_NESTED_PICTURES;
+					else if($response->getIdent() == 'OQNT')
+						$type = OQ_NESTED_TERMS;
+					else if($response->getIdent() == 'OQT')
+						$type = OQ_TERMS;
+
 					$rendertype = $response->getRenderType(); 
 					switch (strtolower(get_class($rendertype)))
 					{
@@ -81,11 +93,18 @@ class assOrderingQuestionImport extends assQuestionImport
 									for ($m = 0; $m < $mat->getMaterialCount(); $m++)
 									{
 										$foundmat = $mat->getMaterial($m);
-										if (strcmp($foundmat["type"], "mattext") == 0)
+
+									if (strcmp($foundmat["material"]->getLabel(), "answerdepth") == 0)
+										{
+										$answerdepth = $foundmat["material"]->getContent();
+									}
+										if (strcmp($foundmat["type"], "mattext") == 0
+										&& strcmp($foundmat["material"]->getLabel(), "answerdepth") != 0)
 										{
 											$answertext .= $foundmat["material"]->getContent();
 										}
-										if (strcmp($foundmat["type"], "matimage") == 0)
+										if (strcmp($foundmat["type"], "matimage") == 0
+											&& strcmp($foundmat["material"]->getLabel(), "answerdepth") != 0)
 										{
 											$foundimage = TRUE;
 											$answerimage = array(
@@ -101,6 +120,7 @@ class assOrderingQuestionImport extends assQuestionImport
 									"answerimage" => $answerimage,
 									"points" => 0,
 									"answerorder" => $answerorder++,
+									"answerdepth" => $answerdepth,
 									"correctness" => "",
 									"action" => ""
 								);
@@ -203,11 +223,7 @@ class assOrderingQuestionImport extends assQuestionImport
 				}
 			}
 		}
-		$type = 1; // terms
-		if ($foundimage)
-		{
-			$type = 0; // pictures
-		}
+
 		$this->object->setTitle($item->getTitle());
 		$this->object->setNrOfTries($item->getMaxattempts());
 		$this->object->setComment($item->getComment());
@@ -222,6 +238,7 @@ class assOrderingQuestionImport extends assQuestionImport
 		$this->object->setShuffle($shuffle);
 		$points = 0;
 		$solanswers = array();
+		
 		foreach ($answers as $answer)
 		{
 			$solanswers[$answer["solutionorder"]] = $answer;
@@ -230,13 +247,13 @@ class assOrderingQuestionImport extends assQuestionImport
 		foreach ($solanswers as $answer)
 		{
 			$points += $answer["points"];
-			if ($type == 1)
+			if ($type == OQ_TERMS || $type == OQ_NESTED_TERMS)
 			{
-				$this->object->addAnswer($answer["answertext"]);
+				$this->object->addAnswer($answer["answertext"], -1, $answer['answerdepth']);
 			}
-			else
+			else if($type == OQ_PICTURES || $type == OQ_NESTED_PICTURES)
 			{
-				$this->object->addAnswer($answer["answerimage"]["label"]);
+				$this->object->addAnswer($answer["answerimage"]["label"], -1, $answer['answerdepth']);
 			}
 		}
 		$points = ($item->getMetadataEntry("points") > 0) ? $item->getMetadataEntry("points") : $points;
@@ -252,7 +269,7 @@ class assOrderingQuestionImport extends assQuestionImport
 		}
 		foreach ($answers as $answer)
 		{
-			if ($type == 0)
+			if ($type == OQ_PICTURES || $type == OQ_NESTED_PICTURES)
 			{
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$image =& base64_decode($answer["answerimage"]["content"]);

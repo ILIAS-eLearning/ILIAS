@@ -53,6 +53,9 @@ class assOrderingQuestion extends assQuestion
 	*/
 	var $element_height;
 
+	public $old_ordering_depth = array();
+	public $leveled_ordering = array();
+	
 	/**
 	* assOrderingQuestion constructor
 	*
@@ -135,26 +138,23 @@ class assOrderingQuestion extends assQuestion
 		{
 			$answer_obj = $this->answers[$key];
 			$next_id = $ilDB->nextId('qpl_a_ordering');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_ordering (answer_id, question_fi, answertext, solution_order, ".
-				"random_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer','integer','text','integer','integer','integer'),
+			$affectedRows = $ilDB->insert('qpl_a_ordering',
 				array(
-					$next_id,
-					$this->getId(),
-					ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
-					$key,
-					$answer_obj->getRandomID(),
-					time()
-				)
-			);
+						'answer_id' => array('integer', $next_id),
+						'question_fi' => array('integer', $this->getId()),
+						'answertext' => array('text', ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0)),
+						'solution_order' => array('integer', $key),
+						'random_id' => array('integer',$answer_obj->getRandomID()),
+						'tstamp' => array('integer',time()),
+						'depth' => array('integer', $answer_obj->getOrderingDepth())
+						));
 		}
 
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{			
 			$this->rebuildThumbnails();
+			$this->cleanImagefiles();
 		}
-
-		$this->cleanImagefiles();
 		parent::saveToDb($original_id);
 	}
 	
@@ -205,7 +205,7 @@ class assOrderingQuestion extends assQuestion
 			{
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
-				array_push($this->answers, new ASS_AnswerOrdering($data["answertext"], $data["random_id"]));
+				array_push($this->answers, new ASS_AnswerOrdering($data["answertext"], $data["random_id"], $data['depth'] ? $data['depth'] : 0));
 			}
 		}
 		parent::loadFromDb($question_id);
@@ -410,17 +410,15 @@ class assOrderingQuestion extends assQuestion
 	* @param integer $order A possible display order of the answer
 	* @param integer $solution_order An unique integer value representing the correct
 	* order of that answer in the solution of a question
+	* @param integer	$depth 		represents the depth of that answer
 	* @access public
 	* @see $answers
 	* @see ASS_AnswerOrdering
 	*/
-	function addAnswer(
-		$answertext = "",
-		$solution_order = -1
-	)
+	function addAnswer($answertext = "", $solution_order = -1 ,$depth = 0)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerOrdering.php";
-		$answer = new ASS_AnswerOrdering($answertext, $this->getRandomID());
+		$answer = new ASS_AnswerOrdering($answertext, $this->getRandomID(), $depth);
 		if (($solution_order >= 0) && ($solution_order < count($this->answers)))
 		{
 			$part1 = array_slice($this->answers, 0, $solution_order);
@@ -601,24 +599,62 @@ class assOrderingQuestion extends assQuestion
 			array($active_id, $this->getId(), $pass)
 		);
 		$user_order = array();
+		$nested_solution = false;
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0))
 			{
-				$user_order[$data["value2"]] = $data["value1"];
+				if(strchr( $data['value2'],':') == true)
+				{
+//					//i.e. "61463:0" = "random_id:depth" 
+					$current_solution = explode(':', $data['value2']);
+
+					$user_order[$current_solution[0]]['index'] =  $data["value1"];
+					$user_order[$current_solution[0]]['depth'] = $current_solution[1];
+					$user_order[$current_solution[0]]['random_id'] = $current_solution[0];
+
+					$nested_solution = true;
+				}
+				else
+				{
+					$user_order[$data["value2"]] = $data["value1"];
+					$nested_solution = false;
+				}
 			}
 		}
-		ksort($user_order);
-		$user_order = array_values($user_order);
+		
+		if($this->getOrderingType() != OQ_NESTED_PICTURES
+		&& $this->getOrderingType() != OQ_NESTED_TERMS)
+		{
+			ksort($user_order);
+			$user_order = array_values($user_order);
+		}
+
 		$points = 0;
 		$correctcount = 0;
+		
 		foreach ($this->answers as $index => $answer)
 		{
-			if ($index == $user_order[$index])
+			if($nested_solution == true)
 			{
-				$correctcount++;
+				$random_id = $answer->getRandomID();
+
+				if($random_id == $user_order[$random_id]['random_id']
+				&& $answer->getOrderingDepth() == $user_order[$random_id]['depth']
+				&& $index == $user_order[$random_id]['index'])
+				{
+					$correctcount++;
+				}
+			}
+			else
+			{	
+				if ($index == $user_order[$index])
+				{
+					$correctcount++;
+				}
 			}
 		}
+
 		if ($correctcount == count($this->answers))
 		{
 			$points = $this->getPoints();
@@ -758,6 +794,16 @@ class assOrderingQuestion extends assQuestion
 			{
 				return $result;
 			}
+			else if(strlen($_POST['answers_ordering']))
+			{
+				$answers_ordering = $_POST['answers_ordering'];
+				$new_hierarchy = json_decode($answers_ordering);
+				$with_random_id = true;
+				$this->setLeveledOrdering($new_hierarchy, $with_random_id);
+			
+				//return value as "random_id:depth"
+				return serialize($this->leveled_ordering);
+			}
 		}
 		$order_values = array();
 		foreach ($_POST as $key => $value)
@@ -839,6 +885,33 @@ class assOrderingQuestion extends assQuestion
 							}
 						}
 					}
+				}
+			}
+			else if($this->getOrderingType() == OQ_NESTED_TERMS 
+				||$this->getOrderingType() == OQ_NESTED_PICTURES) 
+			{
+				$answers_ordering = $_POST['answers_ordering'];
+				$user_solution_hierarchy = json_decode($answers_ordering);
+				$with_random_id = true;
+				$this->setLeveledOrdering($user_solution_hierarchy, $with_random_id);
+				
+				$index = 0;
+				foreach($this->leveled_ordering as $random_id=>$depth)
+				{
+					$value_2 = implode(':',array($random_id,$depth));
+					$next_id = $ilDB->nextId('tst_solutions');
+					
+					$affectedRows = $ilDB->insert("tst_solutions", array(
+						"solution_id" => array("integer", $next_id),
+						"active_fi" => array("integer", $active_id),
+						"question_fi" => array("integer", $this->getId()),
+						"value1" => array("clob", $index),
+						"value2" => array("clob", $value_2),
+						"pass" => array("integer", $pass),
+						"tstamp" => array("integer", time())
+					));
+					$index++;
+					$entered_values++;
 				}
 			}
 			else
@@ -1063,7 +1136,7 @@ class assOrderingQuestion extends assQuestion
 	*/
 	public function rebuildThumbnails()
 	{
-		if ($this->getOrderingType() == OQ_PICTURES)
+		if ($this->getOrderingType() == OQ_PICTURES || $this->getOrderingType() == OQ_NESTED_PICTURES)
 		{
 			foreach ($this->getAnswers() as $answer)
 			{
@@ -1158,6 +1231,148 @@ class assOrderingQuestion extends assQuestion
 		}
 	}
 
+	/***
+	 * @param object 	$child
+	 * @param integer 	$ordering_depth
+	 * @param bool 		$with_random_id
+	 */
+	private function getDepthRecursive($child, $ordering_depth, $with_random_id = false)
+	{
+		if($with_random_id == true)
+		{
+			// for test ouput
+			if(is_array($child->children))
+			{
+				foreach($child->children as $grand_child)
+				{
+					$ordering_depth++;
+					$this->leveled_ordering[$child->id] = $ordering_depth;
+					$this->getDepthRecursive($grand_child, $ordering_depth, true);
+				}
+			}
+			else
+			{
+				$ordering_depth++;
+				$this->leveled_ordering[$child->id] = $ordering_depth;
+			}
+		}
+		else
+		{
+			if(is_array($child->children))
+			{
+				foreach($child->children as $grand_child)
+				{
+					$ordering_depth++;
+					$this->leveled_ordering[] = $ordering_depth;
+					$this->getDepthRecursive($grand_child, $ordering_depth);
+				}
+			}
+			else
+			{
+				$ordering_depth++;
+				$this->leveled_ordering[] = $ordering_depth;
+			}		
+		}
+	}
+	
+	/***
+	 * @param array $new_hierarchy
+	 * @param bool 	$with_random_id
+	 */
+	public function setLeveledOrdering($new_hierarchy, $with_random_id = false)
+	{
+		if($with_random_id == true)
+		{
+			//for test output
+			foreach($new_hierarchy as $id)
+			{
+				$ordering_depth = 0;
+				$this->leveled_ordering[$id->id] = $ordering_depth;
+				
+				if(is_array($id->children))
+				{
+					foreach($id->children as $child)
+					{
+						$this->getDepthRecursive($child, $ordering_depth, true);
 }
+				}
+			}			
+		}	
+		else
+		{
+			foreach($new_hierarchy as $id)
+			{
+				$ordering_depth = 0;
+				$this->leveled_ordering[] = $ordering_depth;
 
+				if(is_array($id->children))
+				{
+					foreach($id->children as $child)
+					{
+						$this->getDepthRecursive($child, $ordering_depth, $with_random_id);
+					}
+				}
+			}
+		}
+	}
+	public function getLeveledOrdering()
+	{
+		return $this->leveled_ordering;
+	}
+
+	public function getOldLeveledOrdering()
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF('SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_order ASC',
+			array('integer'), array($this->getId()));
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$this->old_ordering_depth[] = $row['depth'];
+		}
+		return $this->old_ordering_depth;
+	}
+	
+	/***
+	 * @param integer $a_random_id
+	 * @return integer
+	 */
+	public function lookupSolutionOrderByRandomid($a_random_id)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->queryF('SELECT solution_order FROM qpl_a_ordering WHERE random_id = %s',
+		array('integer'), array($a_random_id));
+		$row = $ilDB->fetchAssoc($res);
+		
+		return $row['solution_order'];
+	}
+	
+	/***
+	 * @param integer $a_random_id
+	 * @return string
+	 */
+	public function lookupAnswerTextByRandomId($a_random_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF('SELECT answertext FROM qpl_a_ordering WHERE random_id = %s',
+			array('integer'), array($a_random_id));
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['answertext'];
+	}
+
+	public function updateLeveledOrdering($a_index, $a_answer_text, $a_depth)
+	{
+		global $ilDB;
+		
+		$ilDB->update('qpl_a_ordering',
+		array('solution_order'=> array('integer', $a_index),
+			  'depth'		=> array('integer', $a_depth)),
+		array('answertext' 	=> array('text', $a_answer_text)));
+		
+		return true;
+	}
+}
 ?>
