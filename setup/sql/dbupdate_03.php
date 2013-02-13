@@ -14026,6 +14026,9 @@ if($ilDB->tableColumnExists('tos_versions', 'path'))
 				)
 		);
 	}
+
+
+
 ?>
 <#3822>
 <?php
@@ -14037,4 +14040,70 @@ if($ilDB->tableColumnExists('tos_versions', 'path'))
 				  'notnull'	=> true,
 				  'default'	=> 0));
 	}	
+?>
+<#3823>
+<?php
+
+	if(!$ilDB->tableExists('cron_job'))
+	{		
+		$fields = array(
+			"job_id"  => array("notnull" => true,"length" => 50,"type" => "text"),
+			"component" => array("notnull" => false,"length" => 200,"type" => "text"),			
+			"schedule_type" => array("notnull" => false,"length" => 1,"type" => "integer"),
+			"schedule_value" => array("notnull" => false,"length" => 4,"type" => "integer"),			
+			"job_status" => array("notnull" => false,"length" => 1, "type" => "integer"),
+			"job_status_user_id" => array("notnull" => false,"length" => 4,"type" => "integer"),
+			"job_status_type" => array("notnull" => false,"length" => 1,"type" => "integer"),
+			"job_status_ts" => array("notnull" => false,"length" => 4,"type" => "integer"),
+			"job_result_status" => array("notnull" => false,"length" => 1,"type" => "integer"),
+			"job_result_user_id" => array("notnull" => false,"length" => 4,"type" => "integer"),
+			"job_result_code" => array("notnull" => false,"length" => 64,"type" => "text"),
+			"job_result_message" => array("notnull" => false,"length" => 400,"type" => "text"),
+			"job_result_type" => array("notnull" => false,"length" => 1,"type" => "integer"),
+			"job_result_ts" => array("notnull" => false,"length" => 4,"type" => "integer")
+		);
+			
+		$ilDB->createTable("cron_job", $fields);
+		$ilDB->addPrimaryKey("cron_job", array("job_id"));
+	}
+
+?>
+<#3824>
+<?php
+
+if(!$ilDB->tableColumnExists('cron_job', 'running_ts'))
+{
+	$ilDB->addTableColumn('cron_job', 'class',
+		array('type' => 'text', 'length' => 255, 'notnull' => false));	
+	$ilDB->addTableColumn('cron_job', 'path',
+		array('type' => 'text', 'length' => 400, 'notnull' => false));
+	
+	$ilDB->addTableColumn('cron_job', 'running_ts',
+		array('type' => 'integer', 'length' => 4, 'notnull' => false));
+}
+
+?>
+<#3825>
+<?php
+
+if(!$ilDB->tableColumnExists('cron_job', 'job_result_dur'))
+{
+	$ilDB->addTableColumn('cron_job', 'job_result_dur',
+		array('type' => 'integer', 'length' => 4, 'notnull' => false));
+}
+
+?>
+<#3826>
+<?php
+
+if(!$ilDB->tableColumnExists('cron_job', 'alive_ts'))
+{
+	$ilDB->addTableColumn('cron_job', 'alive_ts',
+		array('type' => 'integer', 'length' => 4, 'notnull' => false));
+}
+
+?>
+<#3827>
+<?php
+	$ilCtrlStructureReader->getStructure();
 ?>

@@ -23,4 +23,8 @@ include_once './include/inc.header.php';
 include_once './cron/classes/class.ilCronCheck.php';
 $cron_check = new ilCronCheck();
 $cron_check->start();
+
+include_once './Services/Cron/classes/class.ilCronManager.php';
+ilCronManager::runActiveJobs();
+
 ?>

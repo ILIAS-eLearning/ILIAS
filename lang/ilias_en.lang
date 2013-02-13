@@ -12997,3 +12997,45 @@ forum#:#merged_threads_successfully#:#The selected threads were merged successfu
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
 assessment#:#order_nested_terms#:#Switch to term nesting view 
 assessment#:#order_nested_pictures#:#Switch to picture nesting view
+cron#:#cron_job_id#:#Id
+cron#:#cron_component#:#Component
+cron#:#cron_schedule#:#Schedule
+cron#:#cron_status#:#Status
+cron#:#cron_status_info#:#Status Info
+cron#:#cron_result#:#Result
+cron#:#cron_result_info#:#Result Info
+cron#:#cron_last_run#:#Last Run
+cron#:#cron_result_status_invalid_configuration#:#Invalid Configuration
+cron#:#cron_result_status_no_action#:#Ok, no processing
+cron#:#cron_result_status_ok#:#Ok
+cron#:#cron_result_status_crashed#:#Crashed
+cron#:#cron_result_status_reset#:#Reset
+cron#:#cron_action_activate#:#Activate
+cron#:#cron_action_deactivate#:#Deactivate
+cron#:#cron_action_reset#:#Reset
+cron#:#cron_action_edit#:#Edit Schedule
+cron#:#cron_status_active#:#Active
+cron#:#cron_status_inactive#:#Inactive
+cron#:#cron_schedule_daily#:#Daily
+cron#:#cron_schedule_weekly#:#Weekly
+cron#:#cron_schedule_monthly#:#Monthly
+cron#:#cron_schedule_quarterly#:#Quarterly
+cron#:#cron_schedule_yearly#:#Yearly
+cron#:#cron_schedule_in_minutes#:#Every %s minutes
+cron#:#cron_schedule_in_hours#:#Every %s hours
+cron#:#cron_schedule_in_days#:#Every %s days
+cron#:#cron_schedule_type#:#Schedule Type
+cron#:#cron_schedule_value#:#Interval
+cron#:#cron_changed_by_crontab#:#SYSTEM 
+cron#:#cron_running_since#:#Running since
+cron#:#cron_action_run#:#Execute
+cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?
+cron#:#cron_action_activate_sure#:#Are you sure you want to activate the cron-job "%s"?
+cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron-job "%s"?
+cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron-job "%s"?
+cron#:#cron_action_run_success#:#Cron-Job run successfully.
+cron#:#cron_action_run_fail#:#Cron-Job failed.
+cron#:#cron_action_activate_success#:#Cron-Job activated.
+cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
+cron#:#cron_action_reset_success#:#Cron-Job reset.
+cron#:#cron_action_edit_success#:#Schedule updated.
