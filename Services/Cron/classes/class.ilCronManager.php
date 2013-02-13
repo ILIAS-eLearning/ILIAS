@@ -259,6 +259,11 @@ class ilCronManager
 	{
 		global $ilDB, $ilLog;
 		
+		if(!$ilDB->tableExists("cron_job"))
+		{
+			return;
+		}
+		
 		// only if job seems valid
 		$job = self::getJobInstance($a_id, $a_component, $a_class, $a_path);
 		if($job)
@@ -319,6 +324,11 @@ class ilCronManager
 	public static function clearFromXML($a_component, array $a_xml_job_ids)
 	{
 		global $ilDB, $ilLog;	
+		
+		if(!$ilDB->tableExists("cron_job"))
+		{
+			return;
+		}
 		
 		// gather existing jobs
 		$all_jobs = array();
