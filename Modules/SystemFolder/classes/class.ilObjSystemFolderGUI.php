@@ -2735,6 +2735,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			"0" => $lng->txt("cron_mail_notification_never"),
 			"1" => $lng->txt("cron_mail_notification_cron")
 		);
+		
+		$this->lng->loadLanguageModule('mail');
 		$si_adr = new ilSelectInputGUI($this->lng->txt("cron_update_addressbook"), "cron_upd_adrbook");
 		$si_adr->setOptions($options);
 		$si_adr->setInfo($this->lng->txt("cron_update_addressbook_desc"));
