@@ -11,7 +11,7 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  *
  * @ingroup ModulesChatroom
  */
-class ilChatroomBanTask extends ilDBayTaskHandler
+class ilChatroomBanTask extends ilChatroomTaskHandler
 {
 
 	private $gui;
@@ -22,9 +22,9 @@ class ilChatroomBanTask extends ilDBayTaskHandler
 	 * Sets $this->gui using given $gui.
 	 * Requires ilChatroom.
 	 *
-	 * @param ilDBayObjectGUI $gui
+	 * @param ilChatroomObjectGUI $gui
 	 */
-	public function __construct(ilDBayObjectGUI $gui)
+	public function __construct(ilChatroomObjectGUI $gui)
 	{
 		$this->gui = $gui;
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';

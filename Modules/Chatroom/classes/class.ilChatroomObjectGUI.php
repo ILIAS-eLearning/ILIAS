@@ -1,15 +1,17 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Chatroom/classes/class.ilChatroomObjectDefinition.php';
+require_once 'Modules/Chatroom/classes/class.ilChatroomTaskHandler.php';
+
 /**
- * Description of ilDBayObject
- * @author jposselt
+ * @author jposselt@databay.de
  * @abstract
  */
-abstract class ilDBayObjectGUI extends ilObjectGUI
+abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
 	/**
-	 * @return ilDBayObjectDefinition
+	 * @return ilChatroomObjectDefinition
 	 * @abstract
 	 */
 	abstract protected function getObjectDefinition();
@@ -27,8 +29,10 @@ abstract class ilDBayObjectGUI extends ilObjectGUI
 	 */
 	protected function dispatchCall($task, $method)
 	{
+		/**
+		 * @var $definition ilChatroomObjectDefinition
+		 */
 		$definition = $this->getObjectDefinition();
-
 		if($definition->hasTask($task))
 		{
 			$definition->loadTask($task);
@@ -55,7 +59,7 @@ abstract class ilDBayObjectGUI extends ilObjectGUI
 		 */
 		global $tree;
 
-		if($_GET['admin_mode'] == 'repository')
+		if(isset($_GET['admin_mode']) && $_GET['admin_mode'] == 'repository')
 		{
 			$this->ctrl->setParameterByClass('iladministrationgui', 'admin_mode', 'settings');
 			$tabs_gui->setBackTarget(

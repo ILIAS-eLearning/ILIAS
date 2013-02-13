@@ -12,7 +12,7 @@
  *
  * @ingroup ModulesChatroom
  */
-class ilChatroomUploadFileTask extends ilDBayTaskHandler
+class ilChatroomUploadFileTask extends ilChatroomTaskHandler
 {
 
 	private $gui;
@@ -20,9 +20,9 @@ class ilChatroomUploadFileTask extends ilDBayTaskHandler
 	/**
 	 * Constructor
 	 *
-	 * @param ilDBayObjectGUI $gui
+	 * @param ilChatroomObjectGUI $gui
 	 */
-	public function __construct(ilDBayObjectGUI $gui)
+	public function __construct(ilChatroomObjectGUI $gui)
 	{
 		$this->gui = $gui;
 	}

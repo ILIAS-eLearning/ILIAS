@@ -9,10 +9,10 @@ require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomViewTask extends ilDBayTaskHandler
+class ilChatroomViewTask extends ilChatroomTaskHandler
 {
 	/**
-	 * @var ilDBayObjectGUI
+	 * @var ilChatroomObjectGUI
 	 */
 	private $gui;
 
@@ -24,9 +24,9 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	/**
 	 * Constructor
 	 * Sets $this->gui using given $gui
-	 * @param ilDBayObjectGUI $gui
+	 * @param ilChatroomObjectGUI $gui
 	 */
-	public function __construct(ilDBayObjectGUI $gui)
+	public function __construct(ilChatroomObjectGUI $gui)
 	{
 		$this->gui            = $gui;
 		$this->commonSettings = new ilSetting('common');

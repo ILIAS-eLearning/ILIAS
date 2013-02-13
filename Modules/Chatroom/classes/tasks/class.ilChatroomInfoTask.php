@@ -12,7 +12,7 @@
  *
  * @ingroup ModulesChatroom
  */
-class ilChatroomInfoTask extends ilDBayTaskHandler
+class ilChatroomInfoTask extends ilChatroomTaskHandler
 {
 	private $gui;
 
@@ -21,9 +21,9 @@ class ilChatroomInfoTask extends ilDBayTaskHandler
 	 *
 	 * Requires ilInfoScreenGUI and sets $this->gui using given $gui.
 	 *
-	 * @param ilDBayObjectGUI $gui
+	 * @param ilChatroomObjectGUI $gui
 	 */
-	public function __construct(ilDBayObjectGUI $gui)
+	public function __construct(ilChatroomObjectGUI $gui)
 	{
 		$this->gui = $gui;
 		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
