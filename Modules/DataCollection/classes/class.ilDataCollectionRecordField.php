@@ -167,7 +167,7 @@ class ilDataCollectionRecordField
 	 */
 	private function loadValue()
 	{
-		if($this->value == NULL)
+		if($this->value === NULL)
 		{
 			global $ilDB;
 			$datatype = $this->field->getDatatype();
