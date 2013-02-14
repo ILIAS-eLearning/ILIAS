@@ -10213,7 +10213,7 @@ book#:#book_edit_schedule#:#Edit Schedule###16 07 2010 new variable
 book#:#book_schedule_type#:#Type###16 07 2010 new variable
 book#:#book_schedule_type_fix#:#Fix###16 07 2010 new variable
 book#:#book_schedule_type_fix_info#:#Can only be booked in given time slots###16 07 2010 new variable
-book#:#book_schedule_type_flexible#:#Flexible###16 07 2010 new variable
+book#:#book_schedule_type_flexible#:#Fleksibel
 book#:#book_schedule_type_flexible_info#:#Can be booked freely for given days and hours###16 07 2010 new variable
 book#:#book_schedule_raster#:#Time raster###16 07 2010 new variable
 book#:#book_schedule_raster_info#:#Minimum time entity###16 07 2010 new variable
@@ -10222,11 +10222,11 @@ book#:#book_schedule_rent_max#:#Maximum booking time###16 07 2010 new variable
 book#:#book_schedule_rent_info#:#Given in multiples of time raster###16 07 2010 new variable
 book#:#book_schedule_break#:#Auto-Break between Bookings###16 07 2010 new variable
 book#:#book_schedule_break_info#:#Given in multiples of time raster###16 07 2010 new variable
-book#:#book_schedule_days#:#Weekdays###16 07 2010 new variable
-book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)###16 07 2010 new variable
+book#:#book_schedule_days#:#Ugedage
+book#:#book_schedule_days_info#:#Mulige bookinger for hver dag (TT:MM-TT:MM)
 book#:#book_schedule_slot#:#Slot###16 07 2010 new variable
 book#:#book_deadline#:#Deadline###16 07 2010 new variable
-book#:#book_minutes#:#Minutes###16 07 2010 new variable
+book#:#book_minutes#:#Minutter
 book#:#book_deadline_info#:#Minimum time between booking and booked period###16 07 2010 new variable
 book#:#book_type_added#:#A booking type has been added.###16 07 2010 new variable
 book#:#book_type_updated#:#The booking type has been updated.###16 07 2010 new variable
@@ -10267,30 +10267,30 @@ book#:#book_confirm_booking#:#Confirm Booking###19 07 2010 new variable
 dateplaner#:#cal_reg_registered_users#:#Registered Users###19 07 2010 new variable
 dateplaner#:#cal_confirm_unreg_info#:#Please confirm the cancellation of this registration.###19 07 2010 new variable
 dateplaner#:#cal_confirm_reg_info#:#Please confirm the registration for this appointment.###19 07 2010 new variable
-book#:#book_reservation_confirmed#:#Your booking has been confirmed.###19 07 2010 new variable
-book#:#book_reservation_failed#:#Your booking has failed.###19 07 2010 new variable
+book#:#book_reservation_confirmed#:#Bookning blev godkendt
+book#:#book_reservation_failed#:#Bookning ikke godkendt
 book#:#book_reservation_status_2#:#In Use###19 07 2010 new variable
-book#:#book_reservation_status_5#:#Cancelled###19 07 2010 new variable
-book#:#book_period#:#Period###19 07 2010 new variable
+book#:#book_reservation_status_5#:#Anulleret
+book#:#book_period#:#Periode
 book#:#book_change_status#:#Change Status###19 07 2010 new variable
 book#:#book_reservation_cancel#:#Cancel###19 07 2010 new variable
 book#:#book_reservation_block#:#Block###19 07 2010 new variable
-book#:#book_log#:#Log###19 07 2010 new variable
+book#:#book_log#:#Log
 book#:#book_reservations_list#:#Reservations###19 07 2010 new variable
 book#:#book_cal_entry#:#Booking of:###19 07 2010 new variable
 dateplaner#:#cal_ch_booking#:#Ressource Booking###19 07 2010 new variable
 dateplaner#:#cal_ch_personal_book#:#Personal Booking###19 07 2010 new variable
-survey#:#nr_max_answers#:#Maximum###28 07 2010 new variable
+survey#:#nr_max_answers#:#Maksimum
 survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater than the minimum value and less or equal than the maximum number of answers.###28 07 2010 new variable
 survey#:#err_minvalueganswers#:#The minimum must be less or equal than the maximum number of answers.###28 07 2010 new variable
 survey#:#err_no_max_answers#:#Please check at most %s answers.###28 07 2010 new variable
 survey#:#msg_min_nr_answers#:#Please select at least %s answers###28 07 2010 new variable
 survey#:#msg_max_nr_answers#:#Please select at most %s answers###28 07 2010 new variable
 survey#:#msg_min_max_nr_answers#:#Please select at least %s and at most %s answers###28 07 2010 new variable
-survey#:#workingtime#:#Working time###28 07 2010 new variable
+survey#:#workingtime#:#Arbejdstid
 ps#:#ps_cdf_data_fields#:#Available User Fields###28 07 2010 new variable
 ps#:#ps_cdf_edit_field#:#Edit Data Field###28 07 2010 new variable
-rbac#:#perm_global_role#:#Global Role###28 07 2010 new variable
+rbac#:#perm_global_role#:#Global rolle
 rbac#:#perm_protected_global_role#:#Protected Global Role###28 07 2010 new variable
 rbac#:#perm_protected_local_role#:#Protected Local Role###28 07 2010 new variable
 rbac#:#perm_role_path_info_created#:#Created in %1$s "%2$s"###28 07 2010 new variable
@@ -10298,9 +10298,9 @@ rbac#:#perm_role_path_info_inheritance#:#using local policy from %1$s "%2$s"###2
 book#:#book_public_log#:#Public Reservations###28 07 2010 new variable
 book#:#book_public_log_info#:#The list of reservations can be viewed by all users.###28 07 2010 new variable
 book#:#book_fromto#:#Date Range###28 07 2010 new variable
-book#:#book_all#:#Show all###28 07 2010 new variable
-book#:#book_earlier#:#Earlier###28 07 2010 new variable
-book#:#book_later#:#Later###28 07 2010 new variable
+book#:#book_all#:#Vis alle
+book#:#book_earlier#:#Tidligere
+book#:#book_later#:#Senere
 grp#:#grp_info_new_grp_type#:#New Group Type###28 07 2010 new variable
 grp#:#grp_user_agreement_info#:#Visible Personal Data for Group Administrators###28 07 2010 new variable
 rbac#:#read_users#:#Read Access to Local User Accounts###28 07 2010 new variable
@@ -12316,52 +12316,52 @@ forum#:#forums_forum_notification_disabled#:#You will no longer be notified abou
 forum#:#number_of_threads#:#Displayed Number of Threads per Page###28 08 2012 new variable
 common#:#obj_wiki_duplicate#:#Copy Wiki###28 08 2012 new variable
 common#:#obj_sahs_duplicate#:#Copy Learning Module###28 08 2012 new variable
-common#:#obj_poll#:#Poll###28 08 2012 new variable
-common#:#objs_poll#:#Polls###28 08 2012 new variable
-common#:#obj_poll_dupliate:#:#Copy Poll###28 08 2012 new variable
-poll#:#poll_new#:#Add New Poll###28 08 2012 new variable
+common#:#obj_poll#:#Afstemning
+common#:#objs_poll#:#Afstemninger
+common#:#obj_poll_dupliate:#:#Kopier afstemning
+poll#:#poll_new#:#Lav ny afstemning
 poll#:#poll_add#:#Add Poll###28 08 2012 new variable
-poll#:#poll_copy#:#Copy Poll###28 08 2012 new variable
-poll#:#poll_edit#:#Edit Poll###28 08 2012 new variable
-rbac#:#poll_visible#:#Poll is visible###28 08 2012 new variable
-rbac#:#poll_read#:#User can participate at poll###28 08 2012 new variable
-rbac#:#poll_write#:#User can edit poll settings and content###28 08 2012 new variable
-rbac#:#poll_delete#:#User can move or delete poll###28 08 2012 new variable
-rbac#:#poll_copy#:#User can copy poll###28 08 2012 new variable
+poll#:#poll_copy#:#Kopier afstemning
+poll#:#poll_edit#:#Ret afstemning
+rbac#:#poll_visible#:#Afstemning er synlig
+rbac#:#poll_read#:#Bruger kan afgive stemme
+rbac#:#poll_write#:#Bruger kan rette afstemningsindstillinger og indhold
+rbac#:#poll_delete#:#Bruger kan flytte eller slette afstemning
+rbac#:#poll_copy#:#Bruger kan kopiere afstemning
 rbac#:#poll_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#rbac_create_poll#:#Create Poll###28 08 2012 new variable
-rbac#:#fld_create_poll#:#Create Poll###28 08 2012 new variable
-poll#:#poll_question#:#Question###28 08 2012 new variable
-poll#:#poll_image#:#Image###28 08 2012 new variable
-poll#:#poll_view_results#:#Display Results###28 08 2012 new variable
-poll#:#poll_view_results_always#:#Always###28 08 2012 new variable
-poll#:#poll_view_results_never#:#Never###28 08 2012 new variable
-poll#:#poll_view_results_after_vote#:#After Vote###28 08 2012 new variable
-poll#:#poll_view_results_after_period#:#After Voting Period ###28 08 2012 new variable
+rbac#:#rbac_create_poll#:#Lav afstemning
+rbac#:#fld_create_poll#:#Lav afstemning
+poll#:#poll_question#:#Spørgsmål
+poll#:#poll_image#:#Billede
+poll#:#poll_view_results#:#Vis resultat
+poll#:#poll_view_results_always#:#Altid
+poll#:#poll_view_results_never#:#Aldrig
+poll#:#poll_view_results_after_vote#:#Efter stemmeafgivelse
+poll#:#poll_view_results_after_period#:#Efter stemmeperiode
 poll#:#poll_activation_online_info#:#If offline, only administrators can see and edit the poll.###28 08 2012 new variable
 poll#:#poll_availability_limitless_info#:#Choose this mode for making the poll available and accessible to users.###28 08 2012 new variable
 poll#:#poll_availability_until_info#:#Choose this mode for making the poll available and accessible to users for a fixed period of time.###28 08 2012 new variable
 poll#:#poll_activation_limited_visibility_info#:#If chosen, the poll is visible even outside of the given availability.###28 08 2012 new variable
-poll#:#poll_add_answer#:#Add Answer###28 08 2012 new variable
-poll#:#poll_answer#:#Answer###28 08 2012 new variable
-poll#:#poll_answers#:#Possible Answers###28 08 2012 new variable
-poll#:#poll_sortorder#:#Order###28 08 2012 new variable
-poll#:#poll_percentage#:#Current Percentage###28 08 2012 new variable
-poll#:#poll_update_order#:#Update Order###28 08 2012 new variable
-poll#:#poll_edit_answer#:#Edit Answer###28 08 2012 new variable
-poll#:#poll_info_delete_sure#:#Are you sure that you want to delete the following answers?###28 08 2012 new variable
-poll#:#poll_vote#:#Vote###28 08 2012 new variable
-poll#:#poll_block_message_offline#:#This poll is offline.###28 08 2012 new variable
-poll#:#poll_block_message_inactive#:#This poll will be available from %s.###28 08 2012 new variable
-poll#:#poll_block_message_already_voted#:#You already voted in this poll.###28 08 2012 new variable
-poll#:#poll_block_message_no_answers#:#This poll is incomplete.###28 08 2012 new variable
-survey#:#svy_neutral_answer#:#Text for a Neutral Answer ("Not Specified", "I don't know" etc.)###28 08 2012 new variable
+poll#:#poll_add_answer#:#Tilføj valg
+poll#:#poll_answer#:#Valg
+poll#:#poll_answers#:#Mulige valg
+poll#:#poll_sortorder#:#Sortering
+poll#:#poll_percentage#:#Nuværende procent
+poll#:#poll_update_order#:#Opdater sortering
+poll#:#poll_edit_answer#:#Ret valg
+poll#:#poll_info_delete_sure#:#Er du sikker på du vil slette svar?
+poll#:#poll_vote#:#Stem
+poll#:#poll_block_message_offline#:#Afstemningen er offline
+poll#:#poll_block_message_inactive#:#Afstemningen er tilgængelig fra %s.
+poll#:#poll_block_message_already_voted#:#Du har allerede stemt i afstemningen
+poll#:#poll_block_message_no_answers#:#Afstemningen er ufuldstændig
+survey#:#svy_neutral_answer#:#Tekst for neutralt svar ("ikke angivet", "ved ikke" osv.)
 dcl#:#dcl_edit_type#:#Edit Type###28 08 2012 new variable
 dcl#:#dcl_activate_rating#:#Activate Record Rating###28 08 2012 new variable
 dcl#:#dcl_activate_approval#:#Activate Record Approval###28 08 2012 new variable
-dcl#:#dcl_activate_notification#:#Activate Notification###28 08 2012 new variable
-dcl#:#dcl_table_id#:#Table ID###28 08 2012 new variable
-dcl#:#dcl_add_new_record#:#Add New Record###28 08 2012 new variable
+dcl#:#dcl_activate_notification#:#Brug advisering
+dcl#:#dcl_table_id#:#Tabel ID
+dcl#:#dcl_add_new_record#:#Ny post
 dcl#:#dcl_list_fields#:#List Fields###28 08 2012 new variable
 dcl#:#dcl_record_view_viewdefinition#:#View Viewdefinition###28 08 2012 new variable
 dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition###28 08 2012 new variable
