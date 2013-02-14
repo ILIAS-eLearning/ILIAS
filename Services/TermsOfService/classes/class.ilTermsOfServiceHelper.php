@@ -39,11 +39,10 @@ class ilTermsOfServiceHelper
 	 */
 	public static function getCurrentAcceptanceForUser(ilObjUser $user)
 	{
-		$interactor = self::getInteractorFactory()->getByName('ilTermsOfServiceCurrentAcceptanceInteractor');
-		$request    = self::getRequestFactory()->getByName('ilTermsOfServiceCurrentAcceptanceRequest');
-		self::setFactoriesToRequest($request);
-		$request->setUserId($user->getId());
-		return $interactor->invoke($request);
+		$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+		$entity->setUserId($user->getId());
+		return $data_gateway->loadCurrentAcceptanceOfUser($entity);
 	}
 
 	/**
@@ -54,35 +53,20 @@ class ilTermsOfServiceHelper
 	{
 		if(self::isEnabled())
 		{
-			$interactor = self::getInteractorFactory()->getByName('ilTermsOfServiceAcceptanceInteractor');
-			$request    = self::getRequestFactory()->getByName('ilTermsOfServiceAcceptanceRequest');
-			self::setFactoriesToRequest($request);
-			$request->setUserId($user->getId());
-			$request->setTimestamp(time());
-			$request->setDocument($document);
-			$interactor->invoke($request);
-
+			$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+			$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+			$entity->setUserId($user->getId());
+			$entity->setTimestamp(time());
+			$entity->getIso2LanguageCode($document->getIso2LanguageCode());
+			$entity->setSource($document->getSource());
+			$entity->setSourceType($document->getSourceType());
+			$entity->setText($document->getContent());
+			$entity->setHash(md5($document->getContent()));
+			$data_gateway->trackAcceptance($entity);
+			
 			$user->writeAccepted();
 			$user->hasToAcceptTermsOfServiceInSession(false);
 		}
-	}
-
-	/**
-	 * @return ilTermsOfServiceInteractorFactory
-	 */
-	private static function getInteractorFactory()
-	{
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceInteractorFactory.php';
-		return new ilTermsOfServiceInteractorFactory();
-	}
-
-	/**
-	 * @return ilTermsOfServiceRequestFactory
-	 */
-	private static function getRequestFactory()
-	{
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceRequestFactory.php';
-		return new ilTermsOfServiceRequestFactory();
 	}
 
 	/**
@@ -91,9 +75,7 @@ class ilTermsOfServiceHelper
 	private static function getEntityFactory()
 	{
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceEntityFactory.php';
-		$entity_factory = new ilTermsOfServiceEntityFactory();
-		$entity_factory->setDataGatewayFactory(self::getDataGatewayFactory());
-		return $entity_factory;
+		return new ilTermsOfServiceEntityFactory();
 	}
 
 	/**
@@ -101,17 +83,14 @@ class ilTermsOfServiceHelper
 	 */
 	private static function getDataGatewayFactory()
 	{
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceDataGatewayFactory.php';
-		return new ilTermsOfServiceDataGatewayFactory();
-	}
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
 
-	/**
-	 * @param ilTermsOfServiceRequest $request
-	 */
-	private static function setFactoriesToRequest(ilTermsOfServiceRequest $request)
-	{
-		$request->setDataGatewayFactory(self::getDataGatewayFactory());
-		$request->setEntityFactory(self::getEntityFactory());
-		$request->setInteractorFactory(self::getInteractorFactory());
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceDataGatewayFactory.php';
+		$factory = new ilTermsOfServiceDataGatewayFactory();
+		$factory->setDatabaseAdapter($ilDB);
+		return $factory;
 	}
 }

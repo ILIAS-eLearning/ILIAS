@@ -25,7 +25,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 	/**
 	 * @param ilTermsOfServiceAcceptanceEntity $entity
 	 */
-	public function save(ilTermsOfServiceAcceptanceEntity $entity)
+	public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity)
 	{
 		$query = 'SELECT id FROM tos_versions WHERE hash = %s AND lng = %s';
 		$res   = $this->db->queryF(
@@ -49,7 +49,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 					'lng'      => array('text', $entity->getIso2LanguageCode()),
 					'src'      => array('text', $entity->getSource()),
 					'src_type' => array('integer', $entity->getSourceType()),
-					'text'     => array('text', $entity->getSignedText()),
+					'text'     => array('text', $entity->getText()),
 					'hash'     => array('text', $entity->getHash()),
 					'ts'       => array('integer', $entity->getTimestamp())
 				)
@@ -70,7 +70,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 	 * @param ilTermsOfServiceAcceptanceEntity $entity
 	 * @return ilTermsOfServiceAcceptanceEntity
 	 */
-	public function loadCurrentOfUser(ilTermsOfServiceAcceptanceEntity $entity)
+	public function loadCurrentAcceptanceOfUser(ilTermsOfServiceAcceptanceEntity $entity)
 	{
 		$this->db->setLimit(1, 0);
 		$res = $this->db->queryF('
@@ -83,19 +83,16 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 			array('integer'),
 			array($entity->getUserId())
 		);
-
 		$row = $this->db->fetchAssoc($res);
-		if(is_array($row) && !empty($row))
-		{
-			$entity->setId($row['id']);
-			$entity->setUserId($row['usr_id']);
-			$entity->setIso2LanguageCode($row['lng']);
-			$entity->setSource($row['src']);
-			$entity->setSourceType($row['src_type']);
-			$entity->setSignedText($row['text']);
-			$entity->setTimestamp($row['accepted_ts']);
-			$entity->setHash($row['hash']);
-		}
+
+		$entity->setId($row['id']);
+		$entity->setUserId($row['usr_id']);
+		$entity->setIso2LanguageCode($row['lng']);
+		$entity->setSource($row['src']);
+		$entity->setSourceType($row['src_type']);
+		$entity->setText($row['text']);
+		$entity->setTimestamp($row['accepted_ts']);
+		$entity->setHash($row['hash']);
 
 		return $entity;
 	}

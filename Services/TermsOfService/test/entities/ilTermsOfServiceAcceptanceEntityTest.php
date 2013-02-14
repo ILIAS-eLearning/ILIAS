@@ -28,7 +28,6 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	{
 		$entity = new ilTermsOfServiceAcceptanceEntity();
 		$this->assertInstanceOf('ilTermsOfServiceAcceptanceEntity', $entity);
-		$this->assertInstanceOf('ilTermsOfServiceEntity', $entity);
 	}
 
 	/**
@@ -55,7 +54,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	public function testTextIsInitiallyEmpty()
 	{
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$this->assertEmpty($entity->getSignedText());
+		$this->assertEmpty($entity->getText());
 	}
 
 	/**
@@ -106,15 +105,6 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testDataGatewayIsInitiallyEmpty()
-	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$this->assertEmpty($entity->getDataGateway());
-	}
-
-	/**
-	 *
-	 */
 	public function testEntityShouldReturnIdWhenIdIsSet()
 	{
 		$expected = 4711;
@@ -144,8 +134,8 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 		$expected = 'Lorem Ipsum';
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setSignedText($expected);
-		$this->assertEquals($expected, $entity->getSignedText());
+		$entity->setText($expected);
+		$this->assertEquals($expected, $entity->getText());
 	}
 
 	/**
@@ -201,60 +191,10 @@ class ilTermsOfServiceAcceptanceEntityTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEntityShouldReturnHashWhenHashIsSet()
 	{
-		$expected = md5(uniqid(rand()));
+		$expected = 'hash';
 
 		$entity = new ilTermsOfServiceAcceptanceEntity();
 		$entity->setHash($expected);
 		$this->assertEquals($expected, $entity->getHash());
-	}
-
-	/**
-	 * @expectedException ilTermsOfServiceMissingDataGatewayException
-	 */
-	public function testExceptionIsRaisedWhenEntityIsSavedWithAnIncompleteConfiguration()
-	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->save();
-	}
-
-	/**
-	 *
-	 */
-	public function testEntityIsSaved()
-	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-
-		$gateway = $this->getMock('ilTermsOfServiceAcceptanceDataGateway');
-		$gateway->expects($this->once())->method('save')->with($entity);
-
-		$entity->setDataGateway($gateway);
-		$entity->save();
-	}
-
-	/**
-	 *
-	 */
-	public function testEntityShouldReturnDataGatewayWhenDataGatewayIsSet()
-	{
-		$gateway = $this->getMock('ilTermsOfServiceAcceptanceDataGateway');
-
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setDataGateway($gateway);
-		$this->assertEquals($gateway, $entity->getDataGateway());
-	}
-
-	/**
-	 *
-	 */
-	public function testCurrentEntityIsLoaded()
-	{
-		$entity = new ilTermsOfServiceAcceptanceEntity();
-		$entity->setId(4177);
-
-		$gateway = $this->getMock('ilTermsOfServiceAcceptanceDataGateway');
-		$gateway->expects($this->once())->method('loadCurrentOfUser')->with($entity);
-
-		$entity->setDataGateway($gateway);
-		$entity->loadCurrentOfUser();
 	}
 }

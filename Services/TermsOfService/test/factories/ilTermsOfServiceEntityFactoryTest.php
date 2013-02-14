@@ -32,34 +32,20 @@ class ilTermsOfServiceEntityFactoryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilTermsOfServiceMissingDataGatewayFactoryException
-	 */
-	public function testExceptionIsRaisedWhenEntityIsRequestedWithoutDataGatewayConfiguration()
-	{
-		$factory = new ilTermsOfServiceEntityFactory();
-		$factory->getByName('PHP Unit');
-	}
-
-	/**
 	 * @expectedException InvalidArgumentException
 	 */
-	public function testExceptionIsRaisedWhenEntityIsRequestedWithUnsupportedName()
+	public function testExceptionIsRaisedWhenUnknowEntityIsRequested()
 	{
 		$factory = new ilTermsOfServiceEntityFactory();
-		$factory->setDataGatewayFactory($this->getMock('ilTermsOfServiceDataGatewayFactory'));
 		$factory->getByName('PHP Unit');
 	}
 
 	/**
 	 *
 	 */
-	public function testAcceptanceEntityIsReturnedWhenEntityIsRequestedByName()
+	public function testAcceptanceEntityIsReturnedWhenRequestedByName()
 	{
-		$data_gateway_factory = $this->getMock('ilTermsOfServiceDataGatewayFactory');
-		$data_gateway_factory->expects($this->once())->method('getByName')->will($this->returnValue($this->getMock('ilTermsOfServiceAcceptanceDataGateway')));
-
 		$factory = new ilTermsOfServiceEntityFactory();
-		$factory->setDataGatewayFactory($data_gateway_factory);
 		$this->assertInstanceOf('ilTermsOfServiceAcceptanceEntity', $factory->getByName('ilTermsOfServiceAcceptanceEntity'));
 	}
 }
