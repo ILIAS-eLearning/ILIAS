@@ -24,7 +24,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		$this->ctrl = $ilCtrl;
 
 		// Call this immediately in constructor
-		$this->setId('tos_agreement_by_lng');
+		$this->setId('tos_acceptance_history');
 
 		$this->setDefaultOrderDirection('DESC');
 		$this->setDefaultOrderField('ts');
