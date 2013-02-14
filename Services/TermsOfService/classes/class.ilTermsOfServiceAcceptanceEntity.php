@@ -1,13 +1,11 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/TermsOfService/interfaces/interface.ilTermsOfServiceEntity.php';
-
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
+class ilTermsOfServiceAcceptanceEntity
 {
 	/**
 	 * @var int
@@ -22,7 +20,7 @@ class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
 	/**
 	 * @var string
 	 */
-	protected $signed_text;
+	protected $text;
 
 	/**
 	 * @var string
@@ -87,19 +85,19 @@ class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
 	}
 
 	/**
-	 * @param string $signed_text
+	 * @param string $text
 	 */
-	public function setSignedText($signed_text)
+	public function setText($text)
 	{
-		$this->signed_text = $signed_text;
+		$this->text = $text;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getSignedText()
+	public function getText()
 	{
-		return $this->signed_text;
+		return $this->text;
 	}
 
 	/**
@@ -180,43 +178,5 @@ class ilTermsOfServiceAcceptanceEntity implements ilTermsOfServiceEntity
 	public function setId($id)
 	{
 		$this->id = $id;
-	}
-
-	/**
-	 * @throws ilTermsOfServiceMissingDataGatewayException
-	 */
-	public function save()
-	{
-		if(null === $this->data_gateway)
-		{
-			require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceMissingDataGatewayException.php';
-			throw new ilTermsOfServiceMissingDataGatewayException('Incomplete entity configuration. Please inject a data gateway.');
-		}
-
-		$this->data_gateway->save($this);
-	}
-
-	/**
-	 * @param ilTermsOfServiceAcceptanceDataGateway $data_gateway
-	 */
-	public function setDataGateway($data_gateway)
-	{
-		$this->data_gateway = $data_gateway;
-	}
-
-	/**
-	 * @return ilTermsOfServiceAcceptanceDataGateway
-	 */
-	public function getDataGateway()
-	{
-		return $this->data_gateway;
-	}
-
-	/**
-	 * 
-	 */
-	public function loadCurrentOfUser()
-	{
-		$this->data_gateway->loadCurrentOfUser($this);
 	}
 }

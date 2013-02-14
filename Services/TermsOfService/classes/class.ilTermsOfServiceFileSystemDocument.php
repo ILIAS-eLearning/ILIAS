@@ -48,12 +48,12 @@ class ilTermsOfServiceFileSystemDocument implements ilTermsOfServiceSignableDocu
 	public function init()
 	{
 		$files = array(
-			'./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $this->lng->lang_key . '.html'     => $this->lng->lang_key,
-			'./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $this->lng->lang_default . '.html' => $this->lng->lang_default,
-			'./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_en.html'                               => 'en',
-			'./Customizing/global/agreement/agreement_' . $this->lng->lang_key . '.html'                        => $this->lng->lang_key,
-			'./Customizing/global/agreement/agreement_' . $this->lng->lang_default . '.html'                    => $this->lng->lang_default,
-			'./Customizing/global/agreement/agreement_en.html'                                                  => 'en'
+			'./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $this->lng->getLangKey() . '.html'         => $this->lng->getLangKey(),
+			'./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $this->lng->getDefaultLanguage() . '.html' => $this->lng->getDefaultLanguage(),
+			'./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_en.html'                                       => 'en',
+			'./Customizing/global/agreement/agreement_' . $this->lng->getLangKey() . '.html'                            => $this->lng->getLangKey(),
+			'./Customizing/global/agreement/agreement_' . $this->lng->getDefaultLanguage() . '.html'                    => $this->lng->getDefaultLanguage(),
+			'./Customizing/global/agreement/agreement_en.html'                                                          => 'en'
 		);
 
 		foreach($files as $file => $iso2_language_code)

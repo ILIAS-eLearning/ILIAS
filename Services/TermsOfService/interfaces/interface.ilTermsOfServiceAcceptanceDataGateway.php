@@ -10,11 +10,11 @@ interface ilTermsOfServiceAcceptanceDataGateway
 	/**
 	 * @param ilTermsOfServiceAcceptanceEntity $entity
 	 */
-	public function save(ilTermsOfServiceAcceptanceEntity $entity);
+	public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity);
 
 	/**
 	 * @param ilTermsOfServiceAcceptanceEntity $entity
 	 * @return ilTermsOfServiceAcceptanceEntity
 	 */
-	public function loadCurrentOfUser(ilTermsOfServiceAcceptanceEntity $entity);
+	public function loadCurrentAcceptanceOfUser(ilTermsOfServiceAcceptanceEntity $entity);
 }

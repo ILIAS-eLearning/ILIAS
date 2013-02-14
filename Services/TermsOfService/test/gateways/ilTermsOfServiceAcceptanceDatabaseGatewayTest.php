@@ -29,7 +29,6 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 	{
 		$database = $this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock();
 		$gateway  = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
-
 		$this->assertInstanceOf('ilTermsOfServiceAcceptanceDatabaseGateway', $gateway);
 	}
 
@@ -43,9 +42,9 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 		$entity->setIso2LanguageCode('de');
 		$entity->setSource('/path/to/file');
 		$entity->setSourceType(0);
-		$entity->setSignedText('PHP Unit');
+		$entity->setText('PHP Unit');
 		$entity->setTimestamp(time());
-		$entity->setHash(md5($entity->getSignedText()));
+		$entity->setHash(md5($entity->getText()));
 
 		$expected_id = 4711;
 
@@ -61,7 +60,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 			'lng'      => array('text', $entity->getIso2LanguageCode()),
 			'src'      => array('text', $entity->getSource()),
 			'src_type' => array('integer', $entity->getSourceType()),
-			'text'     => array('text', $entity->getSignedText()),
+			'text'     => array('text', $entity->getText()),
 			'hash'     => array('text', $entity->getHash()),
 			'ts'       => array('integer', $entity->getTimestamp())
 		);
@@ -76,7 +75,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 		);
 
 		$gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
-		$gateway->save($entity);
+		$gateway->trackAcceptance($entity);
 	}
 
 	/**
@@ -89,9 +88,9 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 		$entity->setIso2LanguageCode('de');
 		$entity->setSource('/path/to/file');
 		$entity->setSourceType(0);
-		$entity->setSignedText('PHP Unit');
+		$entity->setText('PHP Unit');
 		$entity->setTimestamp(time());
-		$entity->setHash(md5($entity->getSignedText()));
+		$entity->setHash(md5($entity->getText()));
 
 		$expected_id = 4711;
 
@@ -110,13 +109,13 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 		$database->expects($this->once())->method('insert')->with('tos_acceptance_track', $expectedTracking);
 
 		$gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
-		$gateway->save($entity);
+		$gateway->trackAcceptance($entity);
 	}
 
 	/**
 	 *
 	 */
-	public function testLatestEntityIsLoaded()
+	public function testCurrentAcceptanceOfUserIsLoaded()
 	{
 		$entity = new ilTermsOfServiceAcceptanceEntity();
 
@@ -133,14 +132,14 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 		$database = $this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock();
 		$database->expects($this->once())->method('fetchAssoc')->will($this->onConsecutiveCalls($expected));
 		$gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
-		$gateway->loadCurrentOfUser($entity);
+		$gateway->loadCurrentAcceptanceOfUser($entity);
 
 		$this->assertEquals($expected['id'], $entity->getId());
 		$this->assertEquals($expected['usr_id'], $entity->getUserId());
 		$this->assertEquals($expected['lng'], $entity->getIso2LanguageCode());
 		$this->assertEquals($expected['src'], $entity->getSource());
 		$this->assertEquals($expected['src_type'], $entity->getSourceType());
-		$this->assertEquals($expected['text'], $entity->getSignedText());
+		$this->assertEquals($expected['text'], $entity->getText());
 		$this->assertEquals($expected['accepted_ts'], $entity->getTimestamp());
 	}
 }

@@ -42,7 +42,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	}
 
 	/**
-	 * @param ilTermsOfServiceAcceptanceRequest $entity
+	 * @param ilTermsOfServiceTableDataProviderFactory $factory
 	 * @depends           testInstanceCanBeCreated
 	 */
 	public function testFactoryShouldReturnLanguageAdapterWhenLanguageAdapterIsSet(ilTermsOfServiceTableDataProviderFactory $factory)
@@ -53,7 +53,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	}
 
 	/**
-	 * @param ilTermsOfServiceAcceptanceRequest $entity
+	 * @param ilTermsOfServiceTableDataProviderFactory $factory
 	 * @depends           testInstanceCanBeCreated
 	 */
 	public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet(ilTermsOfServiceTableDataProviderFactory $factory)
@@ -86,24 +86,22 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	}
 
 	/**
-	 * @param ilTermsOfServiceAcceptanceRequest $entity
+	 * @param ilTermsOfServiceTableDataProviderFactory $factory
 	 * @depends           testInstanceCanBeCreated
 	 */
 	public function testFactoryShouldReturnAgreementByLanguageProviderWhenRequested(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
-		$lng = $this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock();
-		$factory->setLanguageAdapter($lng);
+		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock());
 		$this->assertInstanceOf('ilTermsOfServiceAgreementByLanguageProvider', $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE));
 	}
 
 	/**
-	 * @param ilTermsOfServiceAcceptanceRequest $entity
+	 * @param ilTermsOfServiceTableDataProviderFactory $factory
 	 * @depends           testInstanceCanBeCreated
 	 */
 	public function testFactoryShouldReturnAcceptanceHistoryProviderWhenRequested(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
-		$db = $this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock();
-		$factory->setDatabaseAdapter($db);
+		$factory->setDatabaseAdapter($this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock());
 		$this->assertInstanceOf('ilTermsOfServiceAcceptanceHistoryProvider', $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
 	}
 }
