@@ -3615,7 +3615,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$entity = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
 		if($entity->getId())
 		{
-			echo '<div style="max-width:640px;max-height:480px;overflow:auto;padding:5px">' . $entity->getSignedText() . '</div>';
+			echo '<div style="max-width:640px;max-height:480px;overflow:auto;padding:5px">' . $entity->getText() . '</div>';
 		}
 		exit();
 	}
