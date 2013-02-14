@@ -111,6 +111,10 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		{
 			return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
 		}
+		else if($column == 'text')
+		{
+			return json_encode($row[$column]);
+		}
 
 		return $row[$column];
 	}
