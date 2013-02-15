@@ -142,4 +142,19 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 		$this->assertEquals($expected['text'], $entity->getText());
 		$this->assertEquals($expected['accepted_ts'], $entity->getTimestamp());
 	}
+
+	/**
+	 * 
+	 */
+	public function testAcceptanceHistoryOfAUserIsDeleted()
+	{
+		$entity = new ilTermsOfServiceAcceptanceEntity();
+		$entity->setUserId(4711);
+
+		$database = $this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock();
+		$database->expects($this->once())->method('quote')->with($entity->getUserId(), 'integer')->will($this->returnValue($entity->getUserId()));
+		$database->expects($this->once())->method('manipulate')->with('DELETE FROM tos_acceptance_track WHERE usr_id = ' . $entity->getUserId());
+		$gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
+		$gateway->deleteAcceptanceHistoryByUser($entity);
+	}
 }

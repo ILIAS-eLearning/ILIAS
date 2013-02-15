@@ -96,4 +96,12 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 
 		return $entity;
 	}
+
+	/**
+	 * @param ilTermsOfServiceAcceptanceEntity $entity
+	 */
+	public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity)
+	{
+		$this->db->manipulate('DELETE FROM tos_acceptance_track WHERE usr_id = ' . $this->db->quote($entity->getUserId(), 'integer'));
+	}
 }

@@ -17,4 +17,9 @@ interface ilTermsOfServiceAcceptanceDataGateway
 	 * @return ilTermsOfServiceAcceptanceEntity
 	 */
 	public function loadCurrentAcceptanceOfUser(ilTermsOfServiceAcceptanceEntity $entity);
+
+	/**
+	 * @param ilTermsOfServiceAcceptanceEntity $entity
+	 */
+	public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity);
 }

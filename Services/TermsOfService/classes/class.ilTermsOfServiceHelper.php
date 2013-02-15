@@ -34,12 +34,23 @@ class ilTermsOfServiceHelper
 	}
 
 	/**
+	 * @param int $usr_id
+	 */
+	public static function deleteAcceptanceHistoryByUser($usr_id)
+	{
+		$entity       = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+		$entity->setUserId($usr_id);
+		$data_gateway->deleteAcceptanceHistoryByUser($entity);
+	}
+
+	/**
 	 * @param ilObjUser $user
 	 * @return ilTermsOfServiceAcceptanceEntity
 	 */
 	public static function getCurrentAcceptanceForUser(ilObjUser $user)
 	{
-		$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$entity       = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 		$entity->setUserId($user->getId());
 		return $data_gateway->loadCurrentAcceptanceOfUser($entity);
@@ -53,7 +64,7 @@ class ilTermsOfServiceHelper
 	{
 		if(self::isEnabled())
 		{
-			$entity = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+			$entity       = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 			$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 			$entity->setUserId($user->getId());
 			$entity->setTimestamp(time());
@@ -63,7 +74,7 @@ class ilTermsOfServiceHelper
 			$entity->setText($document->getContent());
 			$entity->setHash(md5($document->getContent()));
 			$data_gateway->trackAcceptance($entity);
-			
+
 			$user->writeAccepted();
 			$user->hasToAcceptTermsOfServiceInSession(false);
 		}
