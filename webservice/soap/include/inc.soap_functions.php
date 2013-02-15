@@ -418,7 +418,7 @@ class ilSoapFunctions {
 
 		$soa = new ilSoapGroupAdministration();
 
-		return $soa->addGroup($sid,$title);
+		return $soa->groupExists($sid,$title);
 	}
 	public static function  getGroup($sid,$ref_id)
 	{
