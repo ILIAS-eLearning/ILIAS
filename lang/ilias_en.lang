@@ -77,8 +77,8 @@ administration#:#language_error_write_local#:#The local language file can't be w
 administration#:#language_export_file#:#Export Language File
 administration#:#language_file_imported#:#The language file %s was imported.
 administration#:#language_file_scope#:#Language file scope
-administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab. 
-administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to the current language file. 
+administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab.
+administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to the current language file.
 administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.
 administration#:#language_import_file#:#Import Language File
 administration#:#language_load_local_changes#:#Load local language file into the database
@@ -219,7 +219,7 @@ assessment#:#answer_image#:#Answer Image
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
 assessment#:#answer_is_right#:#Your solution is correct
 assessment#:#answer_is_wrong#:#Your solution is wrong
-assessment#:#answer_characters#:# characters allowed, entered number of characters: 
+assessment#:#answer_characters#:# characters allowed, entered number of characters:
 assessment#:#answer_picture#:#Answer Picture
 assessment#:#answer_text#:#Answer Text
 assessment#:#answer_types#:#Answer Types
@@ -384,7 +384,7 @@ assessment#:#error_random_question_generation#:#A fatal error occured during the
 assessment#:#error_save_image_file#:#Error saving an image file!
 assessment#:#errors_section#:#Error Data
 assessment#:#errors#:#Errors
-assessment#:#errortext_info#:#Please enter the error text. To mark a word as an error please insert a hash sign (#) in front of the word. If you press the &quot;Analyze Error Text&quot; button, all marked words will be extracted for further processing.
+assessment#:#errortext_info#:#Please enter the error text. To mark a word as an error please insert a hash sign (#) in front of the word. To mark a group of words as an error please encapsulate the words group between double brackets (i.e.: here is ((an example)) of it). If you press the &quot;Analyze Error Text&quot; button, all marked words will be extracted for further processing.
 assessment#:#errortext#:#Error Text
 assessment#:#eval_all_users#:#Evaluation for All Users
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
@@ -529,7 +529,7 @@ assessment#:#maxchars#:#Maximum Number of Characters
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
-assessment#:#maxsize#:#Maximum file upload size 
+assessment#:#maxsize#:#Maximum file upload size
 assessment#:#meaning#:#Meaning
 assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.
 assessment#:#msg_circle_added#:#Circle added
@@ -716,7 +716,7 @@ assessment#:#shape#:#Shape
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User's Marked Answers
-assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introductory message (if available) and the required properties will be shown on the Test Information Page. 
+assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introductory message (if available) and the required properties will be shown on the Test Information Page.
 assessment#:#showinfo#:#Show the complete Information Page
 assessment#:#showSuggestedSolution#:#Type
 assessment#:#shuffle_answers#:#Shuffle Answers
@@ -1347,7 +1347,7 @@ certificate#:#certificate_var_user_street#:#100 Main Street
 certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#12345
 certificate#:#certificate_visibility_always#:#Always Visible
-certificate#:#certificate_visibility_introduction#:#Participants will be offered to download the certificate from the test results screen. 
+certificate#:#certificate_visibility_introduction#:#Participants will be offered to download the certificate from the test results screen.
 certificate#:#certificate_visibility_never#:#Not Visible
 certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
 certificate#:#certificate_visibility#:#Visibility
@@ -2577,7 +2577,7 @@ common#:#hist_dbk_pg_update#:#Page changed.
 common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.
 common#:#hist_file_create#:#File created, file name is "%1".
-common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2. 
+common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2.
 common#:#hist_file_replace#:#File replaced. New file name is "%1", new version is %2.
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
@@ -2974,7 +2974,7 @@ common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#los#:#Learning Objects
 common#:#lres#:#Learning Resources
 rbac#:#lrss_edit_permission#:#User can change permission settings of Learning Resources administration
-rbac#:#lrss_read#:#Read access to administration of Learning Resources 
+rbac#:#lrss_read#:#Read access to administration of Learning Resources
 rbac#:#lrss_visible#:#Administration of Learning Resources is visible
 rbac#:#lrss_write#:#User can edit settings of Learning Resources in administration
 common#:#mail_a_root#:#Mailbox
@@ -3416,7 +3416,7 @@ common#:#obj_ps#:#Privacy and Security
 common#:#obj_qpl_duplicate#:#Copy Question Pool Test
 common#:#obj_qpl_select#:#-- Please select one Question Pool Test --
 common#:#obj_qpl#:#Question Pool Test
-common#:#obj_rcrs#:#ECS Course 
+common#:#obj_rcrs#:#ECS Course
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_recf#:#Restored Objects
 common#:#obj_role#:#Role
@@ -5282,7 +5282,7 @@ crs#:#crs_access#:#Access
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Create a HTML Archive
 crs#:#crs_add_archive_xml#:#Create a XML Archive
-crs#:#crs_add_grouping#:#Add Membership Limitation 
+crs#:#crs_add_grouping#:#Add Membership Limitation
 crs#:#crs_add_grp_assignment#:#Assign course(s)
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_member#:#Add Member(s)
@@ -5460,7 +5460,7 @@ crs#:#crs_moved_objective#:#Moved learning objective.
 crs#:#crs_new_search#:#New search
 crs#:#crs_new_status#:#Your new status is:
 crs#:#crs_new_subscription_body#:#%s has registered for course "%s".
-crs#:#crs_new_subscription_request_body#:#%s has requested membership for course "%s". 
+crs#:#crs_new_subscription_request_body#:#%s has requested membership for course "%s".
 crs#:#crs_new_subscription_request_body2#:#To confirm this registration, go to:
 crs#:#crs_new_subscription_request#:#Request to join course "%s"
 crs#:#crs_new_subscription#:#User registered for course "%s"
@@ -5885,7 +5885,7 @@ dateplaner#:#cal_apps#:#Number of Appointments
 dateplaner#:#cal_assigned_appointments#:#Assigned Appointments
 dateplaner#:#cal_cache_disabled#:#Disabled
 dateplaner#:#cal_cache_enabled#:#Enabled
-dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.  
+dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.
 dateplaner#:#cal_cache#:#Calendar Cache
 dateplaner#:#cal_cal_details#:#Calendar Details
 dateplaner#:#cal_cal_type#:#Calendar Type
@@ -6544,7 +6544,7 @@ forum#:#frm_moderator_role_added_successfully#:#The user was added as moderator 
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.
 forum#:#frm_moderators_do_search#:#Search
 forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any results.
-forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator. 
+forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator.
 forum#:#frm_moderators_search_query#:#Search term(s)
 forum#:#frm_moderators_search#:#User Search
 forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.
@@ -6658,7 +6658,7 @@ grp#:#grp_members#:#Members
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
-grp#:#grp_missing_title#:#Please enter a group title. 
+grp#:#grp_missing_title#:#Please enter a group title.
 grp#:#grp_new_status#:#Your new status is:
 grp#:#grp_notification_explanation_admin#:#You receive mail from ILIAS because you are group administrator with notification enabled.
 grp#:#grp_notification#:#Notification
@@ -6913,7 +6913,7 @@ license#:#existing_licenses#:#Existng licenses
 license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules
 license#:#license_counter#:#License counter
 license#:#license_updated#:#The license data was updated.
-license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. 
+license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course.
 license#:#license_warning#:#License warning
 license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.
 license#:#potential_accesses#:#Potential accesses
@@ -7864,7 +7864,7 @@ payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one
 payment#:#info#:#Information about the pay method
 payment#:#new_topic#:#New Topic
 payment#:#no_topics_yet#:#No topics created yet
-payment#:#no_vendor_selected#:#No vendor selected. 
+payment#:#no_vendor_selected#:#No vendor selected.
 payment#:#object_deleted#:#Object Deleted
 payment#:#pay_abstract#:#Abstract
 payment#:#pay_add_to_shopping_cart#:#Add to shopping cart
@@ -8146,8 +8146,8 @@ payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.
 payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.
 payment#:#payment_edit_vat#:#Edit VAT
 payment#:#payment_login_to_buy_object#:#Please login for purchasing the object.
-payment#:#payment_news_add_news#:#Add Shop News 
-payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive 
+payment#:#payment_news_add_news#:#Add Shop News
+payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive
 payment#:#payment_news_archive_period#:#Archive-Period
 payment#:#payment_news_created#:#Shop news added
 payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?
@@ -8519,11 +8519,11 @@ rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to t
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.
 rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.
-rbac#:#rcrs_delete#:#User can move or delete ECS Course 
+rbac#:#rcrs_delete#:#User can move or delete ECS Course
 rbac#:#rcrs_edit_permission#:#User can change permission settings
-rbac#:#rcrs_read#:#User can use ECS Course 
+rbac#:#rcrs_read#:#User can use ECS Course
 rbac#:#rcrs_visible#:#ECS Course is visible
-rbac#:#rcrs_write#:#User can edit settings of ECS Course 
+rbac#:#rcrs_write#:#User can edit settings of ECS Course
 rbac#:#recf_edit_permission#:#User can change permission settings of Restored Objects administration
 rbac#:#recf_read#:#User has read access to Restored Objects administration
 rbac#:#recf_visible#:#Restored Objects administration is visible
@@ -8562,7 +8562,7 @@ rbac#:#svyf_edit_permission#:#User change permission settings in Survey administ
 rbac#:#svyf_read#:#User has read access to Survey administration
 rbac#:#svyf_visible#:#Survey administration is visible
 rbac#:#svyf_write#:#Edit settings in Survey administration
-rcrs#:#rcrs_call#:#Call ECS Course 
+rcrs#:#rcrs_call#:#Call ECS Course
 rcrs#:#rcrs_general_info#:#General Information
 rcrs#:#rcrs_local_informations#:#Further Information
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
@@ -9756,7 +9756,7 @@ trac#:#trac_mode_deactivated#:#Deactivated
 trac#:#trac_mode_event#:#Participation in Sessions
 trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.
 trac#:#trac_mode_exercise_returned#:#Exercise Solved
-trac#:#trac_mode_manual_by_tutor_info#:#The overall status (i.e. 'Completed' or 'Failed') is be set by tutors. 
+trac#:#trac_mode_manual_by_tutor_info#:#The overall status (i.e. 'Completed' or 'Failed') is be set by tutors.
 trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor
 trac#:#trac_mode_manual_info#:#Users have to decide if they reached the 'Completed' status.
 trac#:#trac_mode_manual#:#Manual by Learner
@@ -10032,8 +10032,8 @@ news#:#news_add_news#:#Add News
 news#:#news_rss_title_format#:#Title Format of RSS Entries
 news#:#news_rss_title_format_obj_news#:#Object Title - News Headline
 news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)
-trac#:#trac_learners#:#Learners 
-trac#:#trac_summary#:#Summary 
+trac#:#trac_learners#:#Learners
+trac#:#trac_summary#:#Summary
 trac#:#trac_learners_back#:#Back To Learners
 trac#:#trac_user_objects#:#Learning Objects for User
 content#:#cont_link_whole_picture#:#Link Whole Picture
@@ -10043,7 +10043,7 @@ common#:#settings_per_users#:#Settings per Course/Group Member
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.
 user#:#restrict_user_access#:#Restricted Access to User Accounts
-user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission "Read Access to Local User Account". 
+user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission "Read Access to Local User Account".
 common#:#backto_lua#:#Back to Local User Administration
 common#:#sort_activation_header#:#Nach Zeitvorgaben
 common#:#sort_inherit_prefix#:#Default
@@ -10127,7 +10127,7 @@ dateplaner#:#cal_delete_recurrences#:#Delete all recurrences
 dateplaner#:#cal_back_to_cal#:#Back to Calendar
 rbac#:#cals_add_consultation_hours#:#User can offer and edit consultation hours in calendar
 dateplaner#:#cal_ch_form_header#:#Consultation Hours
-dateplaner#:#cal_ch_form_info#:#This option enables the managment of personal consultation hours in the calendar. 
+dateplaner#:#cal_ch_form_info#:#This option enables the managment of personal consultation hours in the calendar.
 dateplaner#:#cal_ch_form#:#Enable Consultation Hours
 dateplaner#:#app_consultation_hours#:#Consultation Hours
 rbac#:#log#:#Log
@@ -10158,7 +10158,7 @@ dateplaner#:#cal_ch_deadline_info#:#Please define the number of hours until the 
 dateplaner#:#cal_ch_num_appointments_info#:#Please define the number of sequent appointments.
 dateplaner#:#cal_ch_personal_ch#:#Personal Consultation Hours
 dateplaner#:#cal_ch_ch#:#Consultation Hours
-ps#:#rbac_log_age#:#Keep Log Entries 
+ps#:#rbac_log_age#:#Keep Log Entries
 ps#:#rbac_log_age_info#:#Maximum age of log entries in month
 rbac#:#rbac_role_add_to_desktop#:#Add To Personal Desktop
 rbac#:#rbac_role_add_to_desktop_info#:#Make object a selected desktop item for all role members
@@ -10940,7 +10940,7 @@ style#:#sty_type_qetcorr#:#Error Text Corrected
 prtf#:#prtf_portfolios#:#Portfolios
 prtf#:#prtf_add_portfolio#:#Add Portfolio
 prtf#:#prtf_edit_portfolio#:#Edit Portfolio
-prtf#:#prtf_create_portfolio#:#Add Portfolio 
+prtf#:#prtf_create_portfolio#:#Add Portfolio
 prtf#:#prtf_portfolio_created#:#Portfolio added
 prtf#:#prtf_portfolio_updated#:#Portfolio updated
 prtf#:#prtf_set_as_default#:#Set As My Profile
@@ -10953,7 +10953,7 @@ prtf#:#prtf_portfolio_page_deleted#:#Portfolio pages deleted
 content#:#cont_ed_insert_profile#:#Insert Personal Data
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_insert_profile#:#Publish Personal Data
-content#:#cont_update_profile#:#Edit Published Data 
+content#:#cont_update_profile#:#Edit Published Data
 content#:#cont_profile_mode#:#Mode
 content#:#cont_profile_mode_inherit#:#Automatic
 content#:#cont_profile_mode_inherit_info#:#Use your profile settings
@@ -11007,7 +11007,7 @@ content#:#cont_correct_answer_also#:#Also correct is:
 common#:#file_upload_pending#:#Pending file
 wsp#:#wsp_permission_add_users#:#Add Users
 wsp#:#wsp_set_permission_registered#:#All Registered Users
-wsp#:#wsp_set_permission_all#:#Publish 
+wsp#:#wsp_set_permission_all#:#Publish
 wsp#:#wsp_remove_permission#:#Remove Permission
 wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
 wsp#:#wsp_permission_all_info#:#This object has been published.
@@ -11016,8 +11016,8 @@ style#:#sty_type_marker#:#Interactive Image Marker
 style#:#sty_import_page_layout#:#Import Page Layout
 content#:#cont_remove_format#:#Remove Format
 content#:#cont_ed_edit_multiple#:#Edit Paragraph Sequence
-survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. 
-survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. 
+survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
+survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
 survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.
 survey#:#survey_edit_heading#:#Edit Heading
 survey#:#survey_delete_heading#:#Remove Heading
@@ -11341,7 +11341,7 @@ rbac#:#rbac_auto_local#:#Auto generated local role
 rbac#:#rbac_ud_local#:#User defined local role
 rbac#:#rbac_auto_rolt#:#Auto generated role template
 rbac#:#rbac_ud_rolt#:#User defined role template
-didactic#:#didactic_import_failed#:#Importing the didactical template failed with message: 
+didactic#:#didactic_import_failed#:#Importing the didactical template failed with message:
 rbac#:#rbac_context_global#:#Global
 content#:#cont_select_other_qpool#:#Select other Pool
 content#:#cont_copy_question_into_page#:#Copy into Page
@@ -11426,7 +11426,7 @@ chatroom#:#chat_kick#:#Kick
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_whisper#:#Whisper
-chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chatroom +++ 
+chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chatroom +++
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chatroom ---
 chatroom#:#chat_invite_users#:#Invite Users
 chatroom#:#chat_right_box_user#:#User
@@ -11525,7 +11525,7 @@ grp#:#grp_view_info_by_type#:#This content presentation groups all items by reso
 grp#:#grp_view_info_simple#:#This content presentation lists all items in one block.
 grp#:#grp_presentation_type#:#Presentation Type
 grp#:#grp_view_inherit#:#Default
-grp#:#grp_view_inherit_info#:#The group presentation type is adopted from a parent course. 
+grp#:#grp_view_inherit_info#:#The group presentation type is adopted from a parent course.
 content#:#cont_open#:#Display
 content#:#cont_open_normal#:#in tab / new window with link
 content#:#cont_open_iframe_max#:#in iframe with full size
@@ -11737,7 +11737,7 @@ skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of 
 prtf#:#prtf_public_comments#:#Public Comments
 prtf#:#prtf_copy_page#:#Copy Page(s)
 prtf#:#prtf_existing_portfolio#:#Existing Portfolio
-prtf#:#prtf_new_portfolio#:#New Portfolio 
+prtf#:#prtf_new_portfolio#:#New Portfolio
 prtf#:#prtf_pages_copied#:#The pages have been copied.
 skmg#:#skmg_level#:#Level
 skmg#:#skmg_material#:#Material
@@ -11768,7 +11768,7 @@ style#:#sty_type_rte_tclink#:#Tree Control Link
 style#:#sty_type_rte_texp#:#Tree Icon
 style#:#sty_type_rte_tli#:#Tree List Item
 style#:#sty_type_rte_tul#:#Tree List
-chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked. 
+chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked.
 payment#:#check_shop_activation#:#Check Shop Settings for activation
 payment#:#please_enter_currency#:#Please enter a currency
 payment#:#please_enter_address#:#Please enter an address
@@ -11966,7 +11966,7 @@ blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Perso
 prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
 prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
 survey#:#svy_participation#:#Participation
-blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. 
+blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list.
 survey#:#svy_page_add_question#:#Add new %s
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
@@ -12046,7 +12046,7 @@ ecs#:#ecs_setting_deleted#:#ECS deleted
 ecs#:#ecs_cat_mapping_by_type#:#By Type
 ecs#:#ecs_cat_mapping_by_type_info#:#Choose this mode to assign by object type.
 ecs#:#ecs_err_invalid_by_type#:#Please select a type when assigning by type.
-common#:#obj_rcat#:#ECS Category 
+common#:#obj_rcat#:#ECS Category
 ecs#:#ecs_server_deleted#:#Deleted Server
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.
@@ -12096,7 +12096,7 @@ trac#:#trac_session_statistics_mode_month#:#Month
 trac#:#trac_current_system_load#:#Current System Load
 trac#:#trac_short_system_load#:#Short term
 trac#:#trac_long_system_load#:#Long term
-trac#:#trac_periodic_system_load#:#Periodic 
+trac#:#trac_periodic_system_load#:#Periodic
 trac#:#trac_begin_at#:#Start date
 trac#:#trac_scale#:#Scale
 trac#:#trac_measure#:#Figure
@@ -12149,11 +12149,11 @@ rep#:#rep_no_permission_to_delete#:#No permission to delete
 rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more references.
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:
-blog#:#blog_enable_rss#:#Activate RSS 
+blog#:#blog_enable_rss#:#Activate RSS
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
 user#:#user_allow_delete_own_account#:#Allow users to delete own account
 user#:#user_delete_own_account_notification_email#:#Notification Email
-user#:#user_delete_own_account_info#:#Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible! 
+user#:#user_delete_own_account_info#:#Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible!
 user#:#user_delete_own_account_password_confirmation#:#Enter password for authorisation
 user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last time to remove your user account from ILIAS!
 user#:#user_delete_own_account_email_subject#:#User account deleted
@@ -12364,7 +12364,7 @@ poll#:#poll_view_results#:#Display Results
 poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
 poll#:#poll_view_results_after_vote#:#After Vote
-poll#:#poll_view_results_after_period#:#After Voting Period 
+poll#:#poll_view_results_after_period#:#After Voting Period
 poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
 poll#:#poll_availability_limitless_info#:#Choose this mode for making the poll available limitless.
 poll#:#poll_availability_until_info#:#Choose this mode for making the poll available for a fixed period of time.
@@ -12606,7 +12606,7 @@ ecs#:#ecs_cat_export#:#Category Releases
 ecs#:#ecs_cat_export_obj_settings#:#Category Release Settings
 ecs#:#ecs_cat_export_disabled#:#Do not release this Category
 ecs#:#ecs_cat_export_enabled#:#Release this Category
-rcat#:#rcat_call#:#Call ECS Category 
+rcat#:#rcat_call#:#Call ECS Category
 common#:#obj_rwik#:#ECS Wiki
 common#:#objs_rwik#:#ECS Wikis
 ecs#:#ecs_wiki_export#:#Wiki Releases
@@ -12635,7 +12635,7 @@ ecs#:#ecs_file_export#:#File Releases
 ecs#:#ecs_file_export_obj_settings#:#File Release Settings
 ecs#:#ecs_file_export_disabled#:#Do not release this File
 ecs#:#ecs_file_export_enabled#:#Release this File
-rfil#:#rfil_call#:#Call ECS File 
+rfil#:#rfil_call#:#Call ECS File
 rfil#:#rfil_version_tstamp#:#Upload Date
 common#:#obj_rgrp#:#ECS Group
 common#:#objs_rgrp#:#ECS Groups
@@ -12643,7 +12643,7 @@ ecs#:#ecs_grp_export#:#Group Releases
 ecs#:#ecs_grp_export_obj_settings#:#Group Release Settings
 ecs#:#ecs_grp_export_disabled#:#Do not release this Group
 ecs#:#ecs_grp_export_enabled#:#Release this Group
-rgrp#:#rgrp_call#:#Call ECS Group 
+rgrp#:#rgrp_call#:#Call ECS Group
 dcl#:#dcl_edit_record#:#Edit Record
 dcl#:#dcl_update_record#:#Update Record
 dcl#:#dcl_edit_field#:#Edit Field
@@ -12652,14 +12652,14 @@ dcl#:#dcl_create_field#:#Create Field
 dcl#:#dcl_msg_field_modified#:#Field updated
 common#:#obj_tstv#:#Test Certificate
 common#:#obj_excv#:#Exercise Certificate
-common#:#obj_prtf#:#Portfolio 
+common#:#obj_prtf#:#Portfolio
 common#:#obj_rtst#:#ECS Test
 common#:#objs_rtst#:#ECS Tests
 ecs#:#ecs_tst_export#:#Test Releases
 ecs#:#ecs_tst_export_obj_settings#:#Test Release Settings
 ecs#:#ecs_tst_export_disabled#:#Do not release this Test
 ecs#:#ecs_tst_export_enabled#:#Release this Test
-rtst#:#rtst_call#:#Call ECS Test 
+rtst#:#rtst_call#:#Call ECS Test
 rbac#:#contribute#:#Contribute
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
 dcl#:#dcl_edit_notification#:#Email Notification on Change

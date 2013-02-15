@@ -9,11 +9,12 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  * Class for error text questions
  *
  * @extends		assQuestion
- * 
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Grégory Saive <gsaive@databay.de>
  * @version		$Id$
- * 
+ *
  * @ingroup		ModulesTestQuestionPool
  */
 class assErrorText extends assQuestion
@@ -22,7 +23,7 @@ class assErrorText extends assQuestion
 	protected $textsize;
 	protected $errordata;
 	protected $points_wrong;
-	
+
 	/**
 	* assErorText constructor
 	*
@@ -48,7 +49,7 @@ class assErrorText extends assQuestion
 		$this->textsize = 100.0;
 		$this->errordata = array();
 	}
-	
+
 	/**
 	* Returns true, if a single choice question is complete for use
 	*
@@ -77,12 +78,12 @@ class assErrorText extends assQuestion
 		$this->saveQuestionDataToDb($original_id);
 
 		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 			array("integer"),
 			array($this->getId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, textsize, points_wrong) VALUES (%s, %s, %s, %s)", 
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, textsize, points_wrong) VALUES (%s, %s, %s, %s)",
 			array("integer", "text", "float", "float"),
 			array(
 				$this->getId(),
@@ -91,7 +92,7 @@ class assErrorText extends assQuestion
 				$this->getPointsWrong()
 			)
 		);
-	
+
 		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_errortext WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
@@ -113,7 +114,7 @@ class assErrorText extends assQuestion
 				)
 			);
 		}
-		
+
 		parent::saveToDb();
 	}
 
@@ -285,7 +286,7 @@ class assErrorText extends assQuestion
 	/**
 	 * Returns the points, a learner has reached answering the question.
 	 * The points are calculated from the given answers.
-	 * 
+	 *
 	 * @access public
 	 * @param integer $active_id
 	 * @param integer $pass
@@ -298,26 +299,25 @@ class assErrorText extends assQuestion
 		{
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
-		
+
 		global $ilDB;
-		
-		$found_values = array();
-		if (is_null($pass))
-		{
+
+		/* First get the positions which were selected by the user. */
+		$positions = array();
+		if (is_null($pass)) {
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$result = $ilDB->queryF( "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			array_push($found_values, $row['value1']);
+			array($active_id, $this->getId(), $pass) );
+
+		while ($row = $ilDB->fetchAssoc($result)) {
+			array_push($positions, $row['value1']);
 		}
-		$points = $this->getPointsForSelectedPositions($found_values);
+		$points = $this->getPointsForSelectedPositions($positions);
 		return $points;
 	}
-	
+
 	/*
 	* Change the selection during a test when a user selects/deselects a word without using javascript
 	*/
@@ -356,10 +356,10 @@ class assErrorText extends assQuestion
 		}
 		$this->calculateReachedPoints($active_id, $pass);
 	}
-	
+
 	/**
 	 * Saves the learners input of the question to the database.
-	 * 
+	 *
 	 * @access public
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
@@ -416,7 +416,7 @@ class assErrorText extends assQuestion
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -442,7 +442,7 @@ class assErrorText extends assQuestion
 	{
 		return "assErrorText";
 	}
-	
+
 	/**
 	* Returns the name of the additional question data table in the database
 	*
@@ -452,7 +452,7 @@ class assErrorText extends assQuestion
 	{
 		return "qpl_qst_errortext";
 	}
-	
+
 	/**
 	* Returns the name of the answer table in the database
 	*
@@ -489,7 +489,7 @@ class assErrorText extends assQuestion
 		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
 		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
-		
+
 		$i= 0;
 		$selections = array();
 		$solutions =& $this->getSolutionValues($active_id, $pass);
@@ -508,7 +508,7 @@ class assErrorText extends assQuestion
 		$i++;
 		return $startrow + $i + 1;
 	}
-	
+
 	/**
 	* Creates a question from a QTI file
 	*
@@ -527,7 +527,7 @@ class assErrorText extends assQuestion
 		$import = new assErrorTextImport($this);
 		$import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
 	}
-	
+
 	/**
 	* Returns a QTI xml representation of the question and sets the internal
 	* domxml variable with the DOM XML representation of the QTI xml representation
@@ -551,43 +551,67 @@ class assErrorText extends assQuestion
 		$user_solution = array();
 		return $user_solution;
 	}
-	
+
 	public function getErrorsFromText($a_text = "")
 	{
-		if (strlen($a_text) == 0) $a_text = $this->getErrorText();
-		preg_match_all("/#([^\s]+)/is", $a_text, $matches);
-		if (is_array($matches[1]))
-		{
-			return $matches[1];
+		if (strlen($a_text) == 0)
+			$a_text = $this->getErrorText();
+
+		/* Workaround to allow '(' and ')' in passages.
+		   The beginning- and ending- Passage delimiters are
+		   replaced by a ~ (Tilde) symbol. */
+		$a_text = str_replace(array("((", "))"), array("~", "~"), $a_text);
+
+		/* Match either Passage delimited by double brackets
+		   or single words marked with a hash (#). */
+		$r_passage = "/(~([^~]+)~|#([^\s]+))/";
+
+		preg_match_all($r_passage, $a_text, $matches);
+
+		if (is_array($matches[0]) && !empty($matches[0])) {
+			/* At least one match. */
+
+			/* We need only groups 2 and 3, respectively representing
+			   passage matches and single word matches. */
+			$matches = array_intersect_key($matches, array(2 => '', 3 => ''));
+
+			/* Remove empty values. */
+			$matches[2] = array_diff($matches[2], array(''));
+			$matches[3] = array_diff($matches[3], array(''));
+
+			return array(
+				"passages"  => $matches[2],
+				"words"		=> $matches[3],);
 		}
-		else
-		{
-			return array();
-		}
+
+		return array();
 	}
-	
+
 	public function setErrorData($a_data)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
 		$temp = $this->errordata;
 		$this->errordata = array();
-		foreach ($a_data as $error)
-		{
-			$text_correct = "";
-			$points = 0.0;
-			foreach ($temp as $object)
-			{
-				if (strcmp($object->text_wrong, $error) == 0)
-				{
-					$text_correct = $object->text_correct;
-					$points = $object->points;
-					continue;
+		foreach ($a_data as $err_type => $errors) {
+			/* Iterate through error types (Passages|single words) */
+
+			foreach ($errors as $idx => $error) {
+				/* Iterate through errors of this type. */
+				$text_correct = "";
+				$points = 0.0;
+				foreach ($temp as $object) {
+					if (strcmp($object->text_wrong, $error) == 0) {
+						$text_correct = $object->text_correct;
+						$points = $object->points;
+						continue;
+					}
 				}
+				$this->errordata[$idx] = new assAnswerErrorText($error, $text_correct, $points);
 			}
-			array_push($this->errordata, new assAnswerErrorText($error, $text_correct, $points));
 		}
+		ksort($this->errordata);
 	}
-	
+
 	public function createErrorTextOutput($selections = null, $graphicalOutput = false, $correct_solution = false)
 	{
 		$counter = 0;
@@ -595,42 +619,79 @@ class assErrorText extends assQuestion
 		include_once "./Services/Utilities/classes/class.ilStr.php";
 		if (!is_array($selections)) $selections = array();
 		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
+
 		foreach ($textarray as $textidx => $text)
 		{
+			$in_passage	 = false;
+			$passage_end = false;
 			$items = preg_split("/\s+/", $text);
 			foreach ($items as $idx => $item)
 			{
-				if (strpos($item, '#') === 0)
-				{
-					$item = ilStr::substr($item, 1, ilStr::strlen($item));
-					if ($correct_solution)
-					{
+				if (($posHash = strpos($item, '#')) === 0
+					|| ($posOpeningBrackets = strpos($item, '((')) === 0
+					|| ($posClosingBrackets = strpos($item, '))')) !== false) {
+					/* (Word|Passage)-Marking delimiter found. */
+
+					if ($posHash !== false)
+						$item = ilStr::substr($item, 1, ilStr::strlen($item) - 1);
+					elseif ($posOpeningBrackets !== false) {
+						$in_passage  = true;
+						$passage_end = false;
+						$item = ilStr::substr($item, 2, ilStr::strlen($item) - 2);
+
+						/* Sometimes a closing bracket group needs
+						   to be removed as well. */
+						if (strpos($item, '))') !== false)
+							$item = ilStr::substr($item, 0, ilStr::strlen($item) - 2);
+					}
+					else {
+						$passage_end = true;
+						$appendComma = "";
+						if ($item{$posClosingBrackets+2} == ',')
+							$appendComma = ",";
+
+						$item = ilStr::substr($item, 0, $posClosingBrackets) . $appendComma;
+					}
+
+					if ($correct_solution) {
 						$errorobject = $this->errordata[$errorcounter];
-						if (is_object($errorobject))
-						{
+						if (is_object($errorobject) && ! empty($errorobject->text_correct))
 							$item = $errorobject->text_correct;
-						}
+
 						$errorcounter++;
 					}
 				}
+
+				if ($in_passage && $passage_end) {
+					$in_passage  = false;
+				}
+
 				$class = '';
 				$img = '';
-				if (in_array($counter, $selections))
-				{
-					$class = ' class="sel"';
-					if ($graphicalOutput)
-					{
+				if (in_array($counter, $selections)) {
+					$class = "sel";
+					if ($graphicalOutput) {
 						if ($this->getPointsForSelectedPositions(array($counter)) >= 0)
-						{
 							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-						}
 						else
-						{
 							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-						}
 					}
 				}
-				$items[$idx] = '<a' . $class . ' href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
+
+				if ($in_passage || $passage_end) {
+					/* Passages require 'wrong' image next to incomplete passage selections
+					   (missing words). While clicked words of a passage are marked with a
+					   'correct' image. */
+
+					if (in_array($counter, $selections) && $this->getPointsForSelectedPositions(array($counter)) >= 0)
+						$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+					else
+						$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+
+					$passage_end = false;
+				}
+
+				$items[$idx] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
 				$counter++;
 			}
 			$textarray[$textidx] = '<p>' . join($items, " ") . '</p>';
@@ -650,19 +711,30 @@ class assErrorText extends assQuestion
 			$items = preg_split("/\s+/", $text);
 			foreach ($items as $idx => $item)
 			{
-				if (strpos($item, '#') === 0)
-				{
-					$item = ilStr::substr($item, 1, ilStr::strlen($item));
-					if ($correct_solution)
-					{
-						$errorobject = $this->errordata[$errorcounter];
-						if (is_object($errorobject))
-						{
-							$item = $errorobject->text_correct;
-						}
-						$errorcounter++;
+				if (($posHash = strpos($item, '#')) === 0
+					|| ($posOpeningBrackets = strpos($item, '((')) === 0
+					|| ($posClosingBrackets = strpos($item, '))')) !== false) {
+					/* (Word|Passage)-Marking delimiter found. */
+
+					if ($posHash !== false)
+						$item = ilStr::substr($item, 1, ilStr::strlen($item) - 1);
+					elseif ($posOpeningBrackets !== false) {
+						$item = ilStr::substr($item, 2, ilStr::strlen($item) - 2);
+
+						/* Sometimes a closing bracket group needs
+						   to be removed as well. */
+						if (strpos($item, '))') !== false)
+							$item = ilStr::substr($item, 0, ilStr::strlen($item) - 2);
+					}
+					else{
+						$appendComma = "";
+						if ($item{$posClosingBrackets+2} == ',')
+							$appendComma = ",";
+
+						$item = ilStr::substr($item, 0, $posClosingBrackets) . $appendComma;
 					}
 				}
+
 				$word = "";
 				if (in_array($counter, $selections))
 				{
@@ -680,76 +752,157 @@ class assErrorText extends assQuestion
 		}
 		return join($textarray, "\n");
 	}
-	
+
 	public function getBestSelection()
 	{
-		$words = array();
-		$counter = 0;
+		$passages	= array();
+		$words		= array();
+		$counter	= 0;
 		$errorcounter = 0;
 		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
 		foreach ($textarray as $textidx => $text)
 		{
-			$items = preg_split("/\s+/", $text);
+			$items		= preg_split("/\s+/", $text);
+			$inPassage  = false;
 			foreach ($items as $word)
 			{
 				$points = $this->getPointsWrong();
-				if (strpos($word, '#') === 0)
-				{
+				if (strpos($word, '#') === 0) {
+					/* Word selection detected */
 					$errorobject = $this->errordata[$errorcounter];
 					if (is_object($errorobject))
-					{
 						$points = $errorobject->points;
-					}
+
 					$errorcounter++;
 				}
+				elseif (($posOpeningBracket = strpos($word, '((')) === 0
+						|| ($posClosingBracket = strpos($word, '))')) !== false
+						|| $inPassage) {
+					/* Passage selection detected */
+
+					if ($posOpeningBracket !== false) {
+						$passages[] = array('begin_pos' => $counter, 'cnt_words' => 0);
+						$inPassage  = true;
+					}
+					elseif ($posClosingBracket !== false) {
+						$inPassage = false;
+						$cur_pidx  = count($passages) - 1;
+						$passages[$cur_pidx]['end_pos'] = $counter;
+
+						$errorobject = $this->errordata[$errorcounter];
+						if (is_object($errorobject))
+							$passages[$cur_pidx]['score'] = (int) $errorobject->points;
+
+						$errorcounter++;
+					}
+
+					$cur_pidx = count($passages) - 1;
+					$passages[$cur_pidx]['cnt_words']++;
+					$points = 0;
+				}
+
 				$words[$counter] = array("word" => $word, "points" => $points);
 				$counter++;
 			}
 		}
+
 		$selections = array();
-		foreach ($words as $idx => $word)
-		{
-			if ($word['points'] > 0)
-			{
-				array_push($selections, $idx);
+		foreach ($passages as $cnt => $pdata) {
+			$indexes = range($pdata['begin_pos'], $pdata['end_pos']);
+			foreach ($indexes as $t => $ix) {
+				$selections[] = $ix;
 			}
 		}
+
+		foreach ($words as $idx => $word) {
+			if ($word['points'] > 0) {
+				$selections[] = $idx;
+			}
+		}
+
+		sort($selections);
 		return $selections;
 	}
-	
+
 	protected function getPointsForSelectedPositions($positions)
 	{
-		$words = array();
-		$counter = 0;
+		$passages	= array();
+		$words		= array();
+		$counter	= 0;
 		$errorcounter = 0;
-		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
+		$textarray	  = preg_split("/[\n\r]+/", $this->getErrorText());
 		foreach ($textarray as $textidx => $text)
 		{
-			$items = preg_split("/\s+/", $text);
-			foreach ($items as $word)
-			{
-				$points = $this->getPointsWrong();
-				if (strpos($word, '#') === 0)
-				{
+			$items		= preg_split("/\s+/", $text);
+			$inPassage  = false;
+			foreach ($items as $word) {
+				$points  = $this->getPointsWrong();
+				if (strpos($word, '#') === 0) {
+					/* Word selection detected */
 					$errorobject = $this->errordata[$errorcounter];
 					if (is_object($errorobject))
-					{
 						$points = $errorobject->points;
-					}
+
 					$errorcounter++;
 				}
+				elseif (($posOpeningBracket = strpos($word, '((')) === 0
+						|| ($posClosingBracket = strpos($word, '))')) !== false
+						|| $inPassage) {
+					/* Passage selection detected */
+
+					if ($posOpeningBracket !== false) {
+						$passages[] = array('begin_pos' => $counter, 'cnt_words' => 0);
+						$inPassage  = true;
+					}
+					elseif ($posClosingBracket !== false) {
+						$inPassage = false;
+						$cur_pidx  = count($passages) - 1;
+						$passages[$cur_pidx]['end_pos'] = $counter;
+
+						$errorobject = $this->errordata[$errorcounter];
+						if (is_object($errorobject))
+							$passages[$cur_pidx]['score'] = (int) $errorobject->points;
+
+						$errorcounter++;
+					}
+
+					$cur_pidx = count($passages) - 1;
+					$passages[$cur_pidx]['cnt_words']++;
+					$points = 0;
+				}
+
 				$words[$counter] = array("word" => $word, "points" => $points);
 				$counter++;
 			}
 		}
-		$total = 0;
-		foreach ($positions as $position)
-		{
+
+		/* Calculate reached points */
+		$total 		 = 0;
+		foreach ($positions as $position) {
+			/* First iterate through positions
+			   to identify single-word-selections. */
+
 			$total += $words[$position]['points'];
 		}
+
+		foreach ($passages as $cnt => $p_data) {
+			/* Iterate through configured passages to check
+			   wether the entire passage is selected or not.
+			   The total points is incremented by the passage's
+			   score only if the entire passage is selected. */
+			$isSelected = in_array($p_data['begin_pos'], $positions);
+
+			for ($i = 0; $i < $p_data['cnt_words']; $i++) {
+				$current_pos = $p_data['begin_pos'] + $i;
+				$isSelected  = $isSelected && in_array($current_pos, $positions);
+			}
+
+			$total += $isSelected ? $p_data['score'] : 0;
+		}
+
 		return $total;
 	}
-	
+
 	/**
 	* Flush error data
 	*/
@@ -757,13 +910,13 @@ class assErrorText extends assQuestion
 	{
 		$this->errordata = array();
 	}
-	
+
 	public function addErrorData($text_wrong, $text_correct, $points)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
 		array_push($this->errordata, new assAnswerErrorText($text_wrong, $text_correct, $points));
 	}
-	
+
 	/**
 	* Get error data
 	*
@@ -773,7 +926,7 @@ class assErrorText extends assQuestion
 	{
 		return $this->errordata;
 	}
-	
+
 	/**
 	* Get error text
 	*
@@ -783,7 +936,7 @@ class assErrorText extends assQuestion
 	{
 		return $this->errortext;
 	}
-	
+
 	/**
 	* Set error text
 	*
@@ -793,7 +946,7 @@ class assErrorText extends assQuestion
 	{
 		$this->errortext = $a_value;
 	}
-	
+
 	/**
 	* Set text size in percent
 	*
@@ -803,7 +956,7 @@ class assErrorText extends assQuestion
 	{
 		return $this->textsize;
 	}
-	
+
 	/**
 	* Set text size in percent
 	*
@@ -818,7 +971,7 @@ class assErrorText extends assQuestion
 		}
 		$this->textsize = $a_value;
 	}
-	
+
 	/**
 	* Get wrong points
 	*
@@ -828,7 +981,7 @@ class assErrorText extends assQuestion
 	{
 		return $this->points_wrong;
 	}
-	
+
 	/**
 	* Set wrong points
 	*
@@ -838,7 +991,7 @@ class assErrorText extends assQuestion
 	{
 		$this->points_wrong = $a_value;
 	}
-	
+
 	/**
 	* Object getter
 	*/
@@ -946,7 +1099,7 @@ class assErrorText extends assQuestion
 
 		return json_encode($result);
 	}
-	
+
 	/**
 	* Saves feedback for a single selected answer to the database
 	*
@@ -957,7 +1110,7 @@ class assErrorText extends assQuestion
 	function saveFeedbackSingleAnswer($answer_index, $feedback)
 	{
 		global $ilDB;
-		
+
 		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_errortext WHERE question_fi = %s AND answer = %s",
 			array('integer','integer'),
 			array($this->getId(), $answer_index)
@@ -978,7 +1131,7 @@ class assErrorText extends assQuestion
 			);
 		}
 	}
-	
+
 	/**
 	* Returns the feedback for a single selected answer
 	*
@@ -989,7 +1142,7 @@ class assErrorText extends assQuestion
 	function getFeedbackSingleAnswer($answer_index)
 	{
 		global $ilDB;
-		
+
 		$feedback = "";
 		$result = $ilDB->queryF("SELECT * FROM qpl_fb_errortext WHERE question_fi = %s AND answer = %s",
 			array('integer','integer'),
@@ -1042,8 +1195,8 @@ class assErrorText extends assQuestion
 	{
 		global $ilDB;
 		$ilDB->manipulateF(
-			'DELETE 
-			FROM qpl_fb_errortext 
+			'DELETE
+			FROM qpl_fb_errortext
 			WHERE question_fi = %s',
 			array('integer'),
 			array($question_id)
