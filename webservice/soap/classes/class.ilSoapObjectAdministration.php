@@ -1143,33 +1143,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				return $this->__raiseError("Object already exists in target.","Client");
 		}
 		
-		// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-		$node_data = $tree->getNodeData($ref_id);
-		$subtree_nodes = $tree->getSubTree($node_data);
-
-		$all_node_data[] = $node_data;
-		$all_subtree_nodes[] = $subtree_nodes;
-
-		// CHECK DELETE PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
-		foreach ($subtree_nodes as $node)
-		{
-			if($node['type'] == 'rolf')
-			{
-				continue;
-			}
-			
-			if (!$rbacsystem->checkAccess('delete',$node["ref_id"]))
-			{
-				$no_cut[] = $node["ref_id"];
-			}
-		}
-		
-		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
-		if (count($no_cut))
-		{
-			return $this->__raiseError("Object contains references which you are not allowed to delete.","Client");
-		}
-		
 		// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF		
 		if ($tree->isGrandChild($ref_id,$target_id))
 		{
