@@ -11,7 +11,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Access-Key
@@ -318,7 +318,7 @@ assessment#:#answer_image#:#Antwort-Grafik
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten, allerdings handelt es sich dabei nicht um die beste Lösung
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
-assessment#:#answer_characters#:# Zeichen zugelassen, Anzahl der eingegebenen Zeichen: 
+assessment#:#answer_characters#:# Zeichen zugelassen, Anzahl der eingegebenen Zeichen:
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
 assessment#:#answer_types#:#Antwort-Typen
@@ -494,7 +494,7 @@ assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bilddatei!
 assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehler/Worte markieren
-assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
+assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern (z.B.: Dies ist ((ein Beispiel)) für mehrere Wörter). Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
 assessment#:#eval_all_users#:#Auswertung für alle Benutzer
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -813,7 +813,7 @@ assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test zu bestehen
 assessment#:#scored_pass#:#Bewerteter Durchlauf
 assessment#:#scoring#:#Auswertung
 assessment#:#search_found_groups#:#Gefundene Gruppen
-assessment#:#search_found_users#:#Gefundene Benutzer 
+assessment#:#search_found_users#:#Gefundene Benutzer
 assessment#:#search_groups#:#nach Gruppen
 assessment#:#search_results#:#Suchergebnisse
 assessment#:#search_roles#:#nach Rollen
@@ -1680,7 +1680,7 @@ certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#51147
 certificate#:#certificate_visibility#:#Sichtbarkeit
 certificate#:#certificate_visibility_always#:#Immer sichtbar
-certificate#:#certificate_visibility_introduction#:#Den Teilnehmern wird in der Ergebnisansicht des Tests das Zertifikat zum Herunterladen angeboten. 
+certificate#:#certificate_visibility_introduction#:#Den Teilnehmern wird in der Ergebnisansicht des Tests das Zertifikat zum Herunterladen angeboten.
 certificate#:#certificate_visibility_never#:#Nicht sichtbar
 certificate#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
 certificate#:#certificate_visibility_passed_exercise#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin die Übung bestanden hat
@@ -2379,7 +2379,7 @@ rbac#:#chtr_edit_permission#:#Rechteeinstellungen für Chatraum ändern
 rbac#:#chtr_moderate#:#Diskussion im Chatraum moderieren
 rbac#:#chtr_read#:#An Diskussion im Chatraum teilnehmen
 rbac#:#chtr_visible#:#Chatraum ist sichtbar
-rbac#:#chtr_write#:#Einstellungen des Chatraums bearbeiten und Benutzer sperren 
+rbac#:#chtr_write#:#Einstellungen des Chatraums bearbeiten und Benutzer sperren
 common#:#city#:#Ort
 common#:#cleaned_file#:#Datei wurde bereinigt.
 common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
@@ -3341,7 +3341,7 @@ common#:#info_activate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer a
 common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden Benutzer aufnehmen möchten?
 common#:#info_assigned#:#zugewiesen
 common#:#info_available_roles#:#Verfügbare Rollen
-common#:#info_change_user_view#:#Rechte dieses Benutzers anzeigen 
+common#:#info_change_user_view#:#Rechte dieses Benutzers anzeigen
 common#:#info_deactivate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer nicht als aktive Benutzer bestätigen wollen?
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_delete_warning_no_trash#:#(WARNUNG: Die ausgewählten Objekte werden unwiderruflich aus dem System entfernt und können nicht wiederhergestellt werden!)
@@ -4221,7 +4221,7 @@ common#:#payment_system#:#Bezahlungssystem
 common#:#payment_userdefined_invoice_number_not_activated#:#Benutzerdefinierte Rechnungsnummern sind nicht aktiviert
 common#:#pays_edit#:#Shopeinstellungen können bearbeitet werden
 rbac#:#pays_edit_permission#:#Rechteeinstellungen in Shop-Administration ändern
-rbac#:#pays_read#:#Lesezugriff auf Shop-Administration 
+rbac#:#pays_read#:#Lesezugriff auf Shop-Administration
 rbac#:#pays_visible#:#Shop-Administration ist sichtbar
 rbac#:#pays_write#:#Einstellungen in Shop-Administration bearbeiten
 common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
@@ -4311,7 +4311,7 @@ common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
 rbac#:#ps_edit_permission#:#Rechteeinstellungen der Datenschutz- und Sicherheitseinstellungen ändern
 rbac#:#ps_export_member_data#:#Export von Mitgliederdaten in Gruppen und Kursen erlauben
-rbac#:#ps_read#:#Lesezugriff auf Datenschutz- und Sicherheitseinstellungen 
+rbac#:#ps_read#:#Lesezugriff auf Datenschutz- und Sicherheitseinstellungen
 rbac#:#ps_visible#:#Datenschutz- und Sicherheitseinstellungen sind sichtbar
 rbac#:#ps_write#:#Bearbeiten der Datenschutz- und Sicherheitseinstellungen erlauben
 common#:#pub_section#:#Öffentlicher Bereich
@@ -7344,7 +7344,7 @@ ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten 
 ecs#:#ecs_new_econtent_subject#:#Neuer ECS-Kurs
 ecs#:#ecs_new_user_body#:#Ein neuer ECS-Benutzer wurde angelegt.
 ecs#:#ecs_new_user_profile#:#Profildaten:
-ecs#:#ecs_new_user_subject#:#Neue ECS-Benutzer 
+ecs#:#ecs_new_user_subject#:#Neue ECS-Benutzer
 ecs#:#ecs_no_owner#:#Bitte wählen Sie aus, unter welcher Community Sie diesen Kurs veröffentlichen möchten.
 ecs#:#ecs_no_value#:#Nicht angegeben
 ecs#:#ecs_node_mapping_activate#:#Verzeichniszuordnung aktivieren
@@ -11734,7 +11734,7 @@ trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht an
 trac#:#trac_mode_event#:#Teilnahme an Sitzungen
 trac#:#trac_mode_exercise_returned#:#Übung gelöst
 trac#:#trac_mode_exercise_returned_info#:#Den Lernstand der Benutzer (etwa 'Bearbeitet' oder 'Nicht bestanden') bestimmen Tutoren.
-trac#:#trac_mode_manual#:#Manuell durch Benutzer 
+trac#:#trac_mode_manual#:#Manuell durch Benutzer
 trac#:#trac_mode_manual_by_tutor#:#Manuell durch Tutor
 trac#:#trac_mode_manual_by_tutor_info#:#Den Lernstand der Benutzer (etwa 'Bearbeitet' oder 'Nicht bestanden') bestimmen Tutoren.
 trac#:#trac_mode_manual_info#:#Die Benutzer entscheiden selbst, ob Sie den Lernstand 'Bearbeitet' erreicht haben.
@@ -12315,7 +12315,7 @@ rep#:#rep_activation_limited_start#:#Startzeit
 rep#:#rep_activation_limited_end#:#Endzeit
 rep#:#rep_activation_limited_visibility#:#Immer sichtbar
 crs#:#crs_activation_limited_visibility_info#:#Falls aktiv, ist der Kurs auch ausserhab der Zugriffszeiten sichtbar.
-rep#:#rep_visibility_limitless#:#Unbegrenzt 
+rep#:#rep_visibility_limitless#:#Unbegrenzt
 rep#:#rep_visibility_until#:#Zeitlich begrenzt
 assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
 assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer - nur während eines definierten Zeitraums freizuschalten.
@@ -12388,7 +12388,7 @@ administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und so
 common#:#imprint#:#Impressum
 trac#:#trac_filter_has_status#:#Zeige Objekte ohne Zugriff
 cat#:#cat_import#:#Kategorie importieren
-objref#:#objref_edit_ref#:#Ziel der Referenz 
+objref#:#objref_edit_ref#:#Ziel der Referenz
 objref#:#objref_edit_title#:#Titel
 objref#:#objref_title_settings#:#Titel der Referenz
 objref#:#objref_reuse_title#:#Titel der Referenz übernehmen
@@ -12398,7 +12398,7 @@ dateplaner#:#cal_import_appointments#:#Termine importieren
 dateplaner#:#cal_import_tbl#:#Kalendertermine importieren
 dateplaner#:#cal_import_file#:#Importdatei
 dateplaner#:#cal_import_file_info#:#Wählen Sie die Datei aus, die Ihre Termine enthält.
-dateplaner#:#cal_imported_success#:#Es wurden %1$s neue Termine importiert. 
+dateplaner#:#cal_imported_success#:#Es wurden %1$s neue Termine importiert.
 form#:#form_link_internal#:#Innerhalb von ILIAS
 form#:#form_link_external#:#WWW / Internet
 form#:#form_get_link#:#Ziel-Objekt wählen
@@ -12512,7 +12512,7 @@ ecs#:#ecs_grp_export_obj_settings#:#Einstellungen für Gruppenfreigaben
 ecs#:#ecs_grp_export_disabled#:#Nicht freigeben
 ecs#:#ecs_grp_export_enabled#:#Freigeben
 rgrp#:#rgrp_call#:#ECS-Gruppe aufrufen
-common#:#obj_tstv#:#Testzertifikat 
+common#:#obj_tstv#:#Testzertifikat
 common#:#obj_excv#:#Übungszertifikat
 common#:#obj_prtf#:#Portfolio
 common#:#obj_rtst#:#ECS-Test
@@ -12601,7 +12601,7 @@ blog#:#blog_no_keywords#:#Es sind bisher keine Schlagwörter vergeben worden.
 blog#:#blog_edit_keywords#:#Schlagwörter bearbeiten
 blog#:#blog_keyword#:#Schlagwort
 administration#:#adm_adm_role_protect#:#Administratorrolle schützen
-administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen. 
+administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen.
 fm#:#fm_settings_tab#:#Dateimanager
 fm#:#fm_settings_active#:#Dateimanager aktivieren
 fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Kurse, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
