@@ -119,6 +119,7 @@ class ilForumPostsTree
 				'thr_fk'     => array('integer', $this->getTargetThreadId())
 			),
 			array(
+				'pos_fk'	 => array('integer', $this->getPosFk()),
 				'parent_pos' => array('integer', 0),
 				'thr_fk'     => array('integer', $this->getSourceThreadId())
 			));
@@ -134,6 +135,7 @@ class ilForumPostsTree
 				'thr_fk'     => array('integer', $this->getTargetThreadId())
 			),
 			array(
+				'pos_fk'	 => array('integer', $this->getPosFk()),
 				'parent_pos' => array('integer', $this->getParentPos()),
 				'thr_fk'     => array('integer', $this->getSourceThreadId())
 			));
