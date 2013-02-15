@@ -824,7 +824,7 @@ class ilConditionHandler
 		}
 		else
 		{
-			$result = 0;
+			$result = count($all);
 		}
 		if($a_force_update)
 		{
