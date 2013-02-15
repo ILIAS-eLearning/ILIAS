@@ -476,15 +476,17 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		foreach($sessions as $key => $item)
 		{
 			$start = new ilDateTime($item['start'],IL_CAL_UNIX);
-			if(ilDateTime::_before($start, $today, IL_CAL_DAY))
-			{
-				$previous[] = $item;
-			}
-			if(ilDateTime::_equals($start, $today, IL_CAL_DAY))
+			$end = new ilDateTime($item['end'],IL_CAL_UNIX);
+			
+			if(ilDateTime::_within($today, $start, $end, IL_CAL_DAY))
 			{
 				$current[] = $item;
 			}
-			if(ilDateTime::_after($start, $today, IL_CAL_DAY))
+			elseif(ilDateTime::_before($start, $today, IL_CAL_DAY))
+			{
+				$previous[] = $item;
+			}
+			elseif(ilDateTime::_after($start, $today, IL_CAL_DAY))
 			{
 				$next[] = $item;
 			}
