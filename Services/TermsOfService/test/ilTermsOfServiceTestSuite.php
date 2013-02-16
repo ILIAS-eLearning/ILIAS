@@ -38,8 +38,8 @@ class ilTermsOfServiceTestSuite extends PHPUnit_Framework_TestSuite
 		require_once 'Services/TermsOfService/test/gateways/ilTermsOfServiceAcceptanceDatabaseGatewayTest.php';
 		$suite->addTestSuite('ilTermsOfServiceAcceptanceDatabaseGatewayTest');
 
-		require_once 'Services/TermsOfService/test/factories/ilTermsOfServiceSignableDocumentFactoryTest.php';
-		$suite->addTestSuite('ilTermsOfServiceSignableDocumentFactoryTest');
+		require_once 'Services/TermsOfService/test/documents/ilTermsOfServiceFileSystemDocumentTest.php';
+		$suite->addTestSuite('ilTermsOfServiceFileSystemDocumentTest');
 
 		return $suite;
 	}

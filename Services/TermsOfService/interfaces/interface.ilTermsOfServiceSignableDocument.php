@@ -43,7 +43,7 @@ interface ilTermsOfServiceSignableDocument
 	public function getIso2LanguageCode();
 
 	/**
-	 * Called from factory
+	 * Called from client to initiate the content determination
 	 */
-	public function init();
+	public function determine();
 }

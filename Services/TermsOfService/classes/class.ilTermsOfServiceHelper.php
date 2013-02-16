@@ -68,7 +68,7 @@ class ilTermsOfServiceHelper
 			$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 			$entity->setUserId($user->getId());
 			$entity->setTimestamp(time());
-			$entity->getIso2LanguageCode($document->getIso2LanguageCode());
+			$entity->setIso2LanguageCode($document->getIso2LanguageCode());
 			$entity->setSource($document->getSource());
 			$entity->setSourceType($document->getSourceType());
 			$entity->setText($document->getContent());
