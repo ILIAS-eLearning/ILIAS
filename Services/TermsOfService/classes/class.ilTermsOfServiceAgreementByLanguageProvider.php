@@ -71,8 +71,8 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 	protected function initSourceDirectories()
 	{
 		$this->source_directories = array(
-			implode('/', array('Customizing', 'clients', CLIENT_ID, 'agreement')),
-			implode('/', array('Customizing', 'global', 'agreement'))
+			implode('/', array('.', 'Customizing', 'clients', CLIENT_ID, 'agreement')),
+			implode('/', array('.', 'Customizing', 'global', 'agreement'))
 		);
 	}
 
