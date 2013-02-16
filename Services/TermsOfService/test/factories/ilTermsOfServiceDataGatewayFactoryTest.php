@@ -33,7 +33,7 @@ class ilTermsOfServiceDataGatewayFactoryTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @expectedException ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public function testExceptionIsRaisedWhenWhenGatewayIsRequestedWithMissingDependencies  ()
+	public function testExceptionIsRaisedWhenWhenGatewayIsRequestedWithMissingDependencies()
 	{
 		$factory = new ilTermsOfServiceDataGatewayFactory();
 		$factory->getByName('PHP Unit');
@@ -50,12 +50,24 @@ class ilTermsOfServiceDataGatewayFactoryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function testAcceptanceDatabaseGatewayIsReturnedWhenRequestedByName()
 	{
 		$factory = new ilTermsOfServiceDataGatewayFactory();
 		$factory->setDatabaseAdapter($this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock());
 		$this->assertInstanceOf('ilTermsOfServiceAcceptanceDatabaseGateway', $factory->getByName('ilTermsOfServiceAcceptanceDatabaseGateway'));
+	}
+
+	/**
+	 *
+	 */
+	public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet()
+	{
+		$expected = $this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock();
+
+		$factory = new ilTermsOfServiceDataGatewayFactory();
+		$factory->setDatabaseAdapter($expected);
+		$this->assertEquals($expected, $factory->getDatabaseAdapter());
 	}
 }
