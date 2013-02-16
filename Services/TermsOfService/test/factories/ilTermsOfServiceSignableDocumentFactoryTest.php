@@ -26,6 +26,7 @@ class ilTermsOfServiceSignableDocumentFactoryTest extends PHPUnit_Framework_Test
 	 */
 	public function testSignableDocumentCanBeRetrievedByFactory()
 	{
+		// @todo: file system decoupling
 		//$this->assertInstanceOf('ilTermsOfServiceSignableDocument', ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock()));
 	}
 }

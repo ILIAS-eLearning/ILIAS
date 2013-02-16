@@ -10,7 +10,7 @@ require_once 'Services/TermsOfService/interfaces/interface.ilTermsOfServiceTable
 class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTableDataProvider
 {
 	/**
-	 * @var ilLanguage|null
+	 * @var ilLanguage
 	 */
 	protected $lng;
 
@@ -18,6 +18,63 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 	 * @var array
 	 */
 	protected $data = array();
+
+	/**
+	 * @var array
+	 */
+	protected $terms_of_service_source_directories = array();
+
+	/**
+	 * @param ilLanguage $lng
+	 */
+	public function __construct(ilLanguage $lng)
+	{
+		$this->setLanguageAdapter($lng);
+		$this->initTermsOfServiceSourceDirectories();
+	}
+
+	/**
+	 * @param array $terms_of_service_source_directories
+	 */
+	public function setTermsOfServiceSourceDirectories($terms_of_service_source_directories)
+	{
+		$this->terms_of_service_source_directories = $terms_of_service_source_directories;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTermsOfServiceSourceDirectories()
+	{
+		return $this->terms_of_service_source_directories;
+	}
+
+	/**
+	 * @param ilLanguage $lng
+	 */
+	public function setLanguageAdapter($lng)
+	{
+		$this->lng = $lng;
+	}
+
+	/**
+	 * @return ilLanguage
+	 */
+	public function getLanguageAdapter()
+	{
+		return $this->lng;
+	}
+
+	/**
+	 *
+	 */
+	protected function initTermsOfServiceSourceDirectories()
+	{
+		$this->terms_of_service_source_directories = array(
+			implode('/', array('Customizing', 'clients', CLIENT_ID, 'agreement')),
+			implode('/', array('Customizing', 'global', 'agreement'))
+		);
+	}
 
 	/**
 	 * @param array $params
@@ -36,55 +93,33 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 	}
 
 	/**
-	 * @throws ilTermsOfServiceMissingLanguageAdapterException
+	 *
 	 */
 	protected function collectData()
 	{
-		if(!($this->getLanguageAdapter() instanceof ilLanguage))
-		{
-			require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceMissingLanguageAdapterException.php';
-			throw new ilTermsOfServiceMissingLanguageAdapterException('Incomplete configuration. Please inject a language adapter.');
-		}
-
 		$i = 0;
-		foreach($this->getLanguageAdapter()->getInstalledLanguages() as $lng)
+		foreach($this->getLanguageAdapter()->getInstalledLanguages() as $iso2_language_code)
 		{
-			$this->data['items'][$i]['language']                           = $lng;
+			$this->data['items'][$i]['language']                           = $iso2_language_code;
 			$this->data['items'][$i]['agreement']                          = false;
 			$this->data['items'][$i]['agreement_document']                 = null;
 			$this->data['items'][$i]['agreement_document_modification_ts'] = null;
-			if(is_file('./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $lng . '.html'))
+
+			foreach($this->getTermsOfServiceSourceDirectories() as $directory)
 			{
-				$this->data['items'][$i]['agreement_document']                 = './Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $lng . '.html';
-				$this->data['items'][$i]['agreement_document_modification_ts'] = filemtime('./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $lng . '.html');
-				$this->data['items'][$i]['agreement']                          = true;
-			}
-			else if(is_file('./Customizing/global/agreement/agreement_' . $lng . '.html'))
-			{
-				$this->data['items'][$i]['agreement_document']                 = './Customizing/global/agreement/agreement_' . $lng . '.html';
-				$this->data['items'][$i]['agreement_document_modification_ts'] = filemtime('./Customizing/global/agreement/agreement_' . $lng . '.html');
-				$this->data['items'][$i]['agreement']                          = true;
+				$file = $directory . '/agreement_' . $iso2_language_code . '.html';
+				if(is_file($file) && is_readable($file))
+				{
+					$this->data['items'][$i]['agreement_document']                 = $file;
+					$this->data['items'][$i]['agreement_document_modification_ts'] = filemtime($file);
+					$this->data['items'][$i]['agreement']                          = true;
+					break;
+				}
 			}
 
 			++$i;
 		}
 
 		$this->data['cnt'] = $i;
-	}
-
-	/**
-	 * @param ilLanguage|null $lng
-	 */
-	public function setLanguageAdapter($lng)
-	{
-		$this->lng = $lng;
-	}
-
-	/**
-	 * @return ilLanguage|null
-	 */
-	public function getLanguageAdapter()
-	{
-		return $this->lng;
 	}
 }
