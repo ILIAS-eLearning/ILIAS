@@ -40,15 +40,12 @@ class ilTermsOfServiceTableDataProviderFactory
 			case self::CONTEXT_AGRREMENT_BY_LANGUAGE:
 				$this->validateConfiguration(array('lng'));
 				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAgreementByLanguageProvider.php';
-				$provider = new ilTermsOfServiceAgreementByLanguageProvider();
-				$provider->setLanguageAdapter($this->lng);
-				return $provider;
+				return new ilTermsOfServiceAgreementByLanguageProvider($this->lng);
 
 			case self::CONTEXT_ACCEPTANCE_HISTORY:
 				$this->validateConfiguration(array('db'));
 				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceHistoryProvider.php';
-				$provider = new ilTermsOfServiceAcceptanceHistoryProvider($this->getDatabaseAdapter());
-				return $provider;
+				return new ilTermsOfServiceAcceptanceHistoryProvider($this->getDatabaseAdapter());
 
 			default:
 				throw new InvalidArgumentException('Provider not supported');
@@ -56,13 +53,13 @@ class ilTermsOfServiceTableDataProviderFactory
 	}
 
 	/**
-	 * @param array $mandatory
+	 * @param array $mandatory_members
 	 * @throws ilTermsOfServiceMissingLanguageAdapterException
 	 * @throws ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	protected function validateConfiguration(array $mandatory)
+	protected function validateConfiguration(array $mandatory_members)
 	{
-		foreach($mandatory as $member)
+		foreach($mandatory_members as $member)
 		{
 			if(null == $this->{$member})
 			{
