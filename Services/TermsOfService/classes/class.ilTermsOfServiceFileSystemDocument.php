@@ -35,28 +35,25 @@ class ilTermsOfServiceFileSystemDocument implements ilTermsOfServiceSignableDocu
 	protected $source = '';
 
 	/**
+	 * @var array
+	 */
+	protected $source_files = array();
+
+	/**
 	 * @param ilLanguage $lng
 	 */
 	public function __construct(ilLanguage $lng)
 	{
-		$this->lng = $lng;
+		$this->setLanguageAdapter($lng);
+		$this->initSourceFiles();
 	}
 
 	/**
 	 * @throws ilTermsOfServiceNoSignableDocumentFoundException
 	 */
-	public function init()
+	public function determine()
 	{
-		$files = array(
-			'./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $this->lng->getLangKey() . '.html'         => $this->lng->getLangKey(),
-			'./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_' . $this->lng->getDefaultLanguage() . '.html' => $this->lng->getDefaultLanguage(),
-			'./Customizing/clients/' . CLIENT_ID . '/agreement/agreement_en.html'                                       => 'en',
-			'./Customizing/global/agreement/agreement_' . $this->lng->getLangKey() . '.html'                            => $this->lng->getLangKey(),
-			'./Customizing/global/agreement/agreement_' . $this->lng->getDefaultLanguage() . '.html'                    => $this->lng->getDefaultLanguage(),
-			'./Customizing/global/agreement/agreement_en.html'                                                          => 'en'
-		);
-
-		foreach($files as $file => $iso2_language_code)
+		foreach($this->getSourceFiles() as $file => $iso2_language_code)
 		{
 			if(is_file($file) && is_readable($file))
 			{
@@ -75,6 +72,53 @@ class ilTermsOfServiceFileSystemDocument implements ilTermsOfServiceSignableDocu
 
 		require_once 'Services/TermsOfService/exceptions/class.ilTermsOfServiceNoSignableDocumentFoundException.php';
 		throw new ilTermsOfServiceNoSignableDocumentFoundException('Could not find any terms of service document for the passed language object');
+	}
+
+	/**
+	 *
+	 */
+	protected function initSourceFiles()
+	{
+		$this->source_files = array(
+			implode('/', array('Customizing', 'clients', CLIENT_ID, 'agreement', 'agreement_' . $this->getLanguageAdapter()->getLangKey() . '.html'))         => $this->getLanguageAdapter()->getLangKey(),
+			implode('/', array('Customizing', 'clients', CLIENT_ID, 'agreement', 'agreement_' . $this->getLanguageAdapter()->getDefaultLanguage() . '.html')) => $this->getLanguageAdapter()->getDefaultLanguage(),
+			implode('/', array('Customizing', 'clients', CLIENT_ID, 'agreement', 'agreement_en.html'))                                                        => 'en',
+			implode('/', array('Customizing', 'global', 'agreement', 'agreement_' . $this->getLanguageAdapter()->getLangKey() . '.html'))                     => $this->getLanguageAdapter()->getLangKey(),
+			implode('/', array('Customizing', 'global', 'agreement', 'agreement_' . $this->getLanguageAdapter()->getDefaultLanguage() . '.html'))             => $this->getLanguageAdapter()->getDefaultLanguage(),
+			implode('/', array('Customizing', 'global', 'agreement', 'agreement_en.html'))                                                                    => 'en'
+		);
+	}
+
+	/**
+	 * @param ilLanguage $lng
+	 */
+	public function setLanguageAdapter($lng)
+	{
+		$this->lng = $lng;
+	}
+
+	/**
+	 * @return ilLanguage
+	 */
+	public function getLanguageAdapter()
+	{
+		return $this->lng;
+	}
+
+	/**
+	 * @param array $source_directories
+	 */
+	public function setSourceFiles($source_directories)
+	{
+		$this->source_files = $source_directories;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getSourceFiles()
+	{
+		return $this->source_files;
 	}
 
 	/**

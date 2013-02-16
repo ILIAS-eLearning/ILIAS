@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'vfsStream/vfsStream.php';
 
@@ -44,22 +44,23 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function testProviderReturnsAResultForEveryInstalledLanguage(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{
-		$client_path = implode('/', array('clients', 'default', 'agreement'));
-		$global_path = implode('/', array('global', 'agreement'));
+		$client_rel_path = implode('/', array('clients', 'default', 'agreement'));
+		$global_rel_path = implode('/', array('global', 'agreement'));
 
 		$root = vfsStreamWrapper::setRoot(new vfsStreamDirectory('root'));
+		$customizing_dir = vfsStream::newDirectory('Customizing')->at($root);
 
-		$client_dir = vfsStream::newDirectory($client_path)->at($root);
+		$client_dir = vfsStream::newDirectory($client_rel_path)->at($customizing_dir);
 		vfsStream::newFile('agreement_de.html', 0777)->at($client_dir);
-		file_put_contents(vfsStream::url('root/' . $client_path . '/agreement_de.html'), 'phpunit');
+		file_put_contents(vfsStream::url('root/Customizing/' . $client_rel_path . '/agreement_de.html'), 'phpunit');
 
-		$global_dir = vfsStream::newDirectory($global_path)->at($root);
+		$global_dir = vfsStream::newDirectory($global_rel_path)->at($customizing_dir);
 		vfsStream::newFile('agreement_en.html', 0777)->at($global_dir);
-		file_put_contents(vfsStream::url('root/' . $global_path . '/agreement_en.html'), 'phpunit');
+		file_put_contents(vfsStream::url('root/Customizing/' . $global_rel_path . '/agreement_en.html'), 'phpunit');
 
-		$provider->setTermsOfServiceSourceDirectories(array(
-			vfsStream::url('root/' . $client_path),
-			vfsStream::url('root/' . $global_path)
+		$provider->setSourceDirectories(array(
+			vfsStream::url('root/Customizing/' . $client_rel_path),
+			vfsStream::url('root/Customizing/' . $global_rel_path)
 		));
 
 		$lng                 = $this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock();
@@ -97,9 +98,10 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function testProviderShouldReturnLanguageAdapterWhenLanguageAdapterIsSet(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{
-		$lng = $this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock();
-		$provider->setLanguageAdapter($lng);
-		$this->assertEquals($lng, $provider->getLanguageAdapter());
+		$expected = $this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock();
+
+		$provider->setLanguageAdapter($expected);
+		$this->assertEquals($expected, $provider->getLanguageAdapter());
 	}
 
 	/**
@@ -110,7 +112,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	{
 		$expected = array('/phpunit', '/ilias');
 
-		$provider->setTermsOfServiceSourceDirectories($expected);
-		$this->assertEquals($expected, $provider->getTermsOfServiceSourceDirectories());
+		$provider->setSourceDirectories($expected);
+		$this->assertEquals($expected, $provider->getSourceDirectories());
 	}
 }

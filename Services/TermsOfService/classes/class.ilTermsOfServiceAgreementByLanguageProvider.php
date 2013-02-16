@@ -22,7 +22,7 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 	/**
 	 * @var array
 	 */
-	protected $terms_of_service_source_directories = array();
+	protected $source_directories = array();
 
 	/**
 	 * @param ilLanguage $lng
@@ -30,23 +30,23 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 	public function __construct(ilLanguage $lng)
 	{
 		$this->setLanguageAdapter($lng);
-		$this->initTermsOfServiceSourceDirectories();
+		$this->initSourceDirectories();
 	}
 
 	/**
 	 * @param array $terms_of_service_source_directories
 	 */
-	public function setTermsOfServiceSourceDirectories($terms_of_service_source_directories)
+	public function setSourceDirectories($terms_of_service_source_directories)
 	{
-		$this->terms_of_service_source_directories = $terms_of_service_source_directories;
+		$this->source_directories = $terms_of_service_source_directories;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getTermsOfServiceSourceDirectories()
+	public function getSourceDirectories()
 	{
-		return $this->terms_of_service_source_directories;
+		return $this->source_directories;
 	}
 
 	/**
@@ -68,9 +68,9 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 	/**
 	 *
 	 */
-	protected function initTermsOfServiceSourceDirectories()
+	protected function initSourceDirectories()
 	{
-		$this->terms_of_service_source_directories = array(
+		$this->source_directories = array(
 			implode('/', array('Customizing', 'clients', CLIENT_ID, 'agreement')),
 			implode('/', array('Customizing', 'global', 'agreement'))
 		);
@@ -105,7 +105,7 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 			$this->data['items'][$i]['agreement_document']                 = null;
 			$this->data['items'][$i]['agreement_document_modification_ts'] = null;
 
-			foreach($this->getTermsOfServiceSourceDirectories() as $directory)
+			foreach($this->getSourceDirectories() as $directory)
 			{
 				$file = $directory . '/agreement_' . $iso2_language_code . '.html';
 				if(is_file($file) && is_readable($file))

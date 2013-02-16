@@ -17,7 +17,7 @@ class ilTermsOfServiceSignableDocumentFactory
 	{
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceFileSystemDocument.php';
 		$document = new ilTermsOfServiceFileSystemDocument($lng);
-		$document->init();
+		$document->determine();
 		return $document;
 	}
 }
