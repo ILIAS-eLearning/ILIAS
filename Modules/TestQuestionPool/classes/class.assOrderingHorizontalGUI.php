@@ -75,7 +75,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 			$this->object->setTitle($_POST["title"]);
 			$this->object->setAuthor($_POST["author"]);
 			$this->object->setComment($_POST["comment"]);
-			if ($this->getSelfAssessmentEditingMode())
+			if ($this->object->getSelfAssessmentEditingMode())
 			{
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
@@ -468,13 +468,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 				$classname, "", $force_active);
 		}
 
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("feedback",
-				$this->ctrl->getLinkTargetByClass($classname, "feedback"),
-				array("feedback", "saveFeedback"),
-				$classname, "");
-		}
+		// add tab for question feedback within common class assQuestionGUI
+		$this->addTab_QuestionFeedback($ilTabs);
 
 		// add tab for question hint within common class assQuestionGUI
 		$this->addTab_QuestionHints($ilTabs);

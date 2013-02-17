@@ -177,6 +177,14 @@ class assTextSubset extends assQuestion
 			$this->setCorrectAnswers($data["correctanswers"]);
 			$this->setTextRating($data["textgap_rating"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+			
+			try
+			{
+				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
+			}
+			catch(ilTestQuestionPoolException $e)
+			{
+			}
 		}
 
 
@@ -286,9 +294,8 @@ class assTextSubset extends assQuestion
 		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($this_id);
-		$clone->onDuplicate($this_id);
+
+		$clone->onDuplicate($this_id, $clone->getId());
 
 		return $clone->id;
 	}
@@ -298,7 +305,7 @@ class assTextSubset extends assQuestion
 	*
 	* @access public
 	*/
-	function copyObject($target_questionpool, $title = "")
+	function copyObject($target_questionpool_id, $title = "")
 	{
 		if ($this->id <= 0)
 		{
@@ -310,8 +317,8 @@ class assTextSubset extends assQuestion
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
-		$source_questionpool = $this->getObjId();
-		$clone->setObjId($target_questionpool);
+		$source_questionpool_id = $this->getObjId();
+		$clone->setObjId($target_questionpool_id);
 		if ($title)
 		{
 			$clone->setTitle($title);
@@ -322,9 +329,8 @@ class assTextSubset extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($original_id);
-		$clone->onCopy($this->getObjId(), $this->getId());
+
+		$clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
 
 		return $clone->id;
 	}

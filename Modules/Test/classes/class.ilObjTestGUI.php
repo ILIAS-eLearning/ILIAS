@@ -31,7 +31,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilPageObjectGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestToplistGUI
  *
  * @extends ilObjectGUI
@@ -2638,6 +2638,14 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($_REQUEST['test_express_mode']) {
 			    $baselink .= '&test_express_mode=1';
 			}
+			
+			if( isset($_REQUEST['add_quest_cont_edit_mode']) )
+			{
+				$baselink = ilUtil::appendUrlParameterString(
+						$baselink, "add_quest_cont_edit_mode={$_REQUEST['add_quest_cont_edit_mode']}", false
+				);
+			}
+			
 #var_dump($_REQUEST['prev_qid']);
 			ilUtil::redirect($baselink);
 			
@@ -2677,7 +2685,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		    $form = new ilPropertyFormGUI();
 		    $form->setFormAction($ilCtrl->getFormAction($this, "executeCreateQuestion"));
-		    $form->setTitle($lng->txt("test_create_question"));
+		    $form->setTitle($lng->txt("ass_create_question"));
 		    include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 
 
@@ -2685,6 +2693,32 @@ class ilObjTestGUI extends ilObjectGUI
 		    $hidden->setValue($_REQUEST["sel_question_types"]);
 		    $form->addItem($hidden);
 
+			// content editing mode
+			if( ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
+			{
+				$ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
+
+				$ri->addOption(new ilRadioOption(
+						$lng->txt('tst_add_quest_cont_edit_mode_default'),
+						assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
+				));
+
+				$ri->addOption(new ilRadioOption(
+						$lng->txt('tst_add_quest_cont_edit_mode_page_object'),
+						assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+				));
+				
+				$ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+
+				$form->addItem($ri, true);
+			}
+			else
+			{
+				$hi = new ilHiddenInputGUI("question_content_editing_type");
+				$hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+				$form->addItem($hi, true);
+			}
+			
 		    // use pool
 		    $usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
 		    $usage->setRequired(true);
@@ -3115,7 +3149,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$types->setOptions($qtypes);
 
 				$ilToolbar->addInputItem($types);
-				$ilToolbar->addFormButton($this->lng->txt("test_create_question"), "createQuestion");
+				$ilToolbar->addFormButton($this->lng->txt("ass_create_question"), "createQuestion");
 
 				if ($this->object->getPoolUsage()) {
 					$ilToolbar->addSeparator();
@@ -5259,7 +5293,7 @@ class ilObjTestGUI extends ilObjectGUI
                         $ilToolbar->addInputItem($cb, true);
                     }
 		    */
-                    $ilToolbar->addFormButton($lng->txt("test_create_question"), "addQuestion");
+                    $ilToolbar->addFormButton($lng->txt("ass_create_question"), "addQuestion");
 		    
 		    $ilToolbar->addSeparator();		    
 		    

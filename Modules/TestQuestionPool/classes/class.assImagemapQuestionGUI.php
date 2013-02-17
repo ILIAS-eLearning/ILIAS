@@ -91,7 +91,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
-			if ($this->getSelfAssessmentEditingMode())
+			if ($this->object->getSelfAssessmentEditingMode())
 			{
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
@@ -114,7 +114,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			}
 			if (strlen($_FILES['image']['tmp_name']))
 			{
-				if ($this->getSelfAssessmentEditingMode() && $this->object->getId() < 1) $this->object->createNewQuestion();
+				if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1) $this->object->createNewQuestion();
 				$this->object->setImageFilename($_FILES['image']['name'], $_FILES['image']['tmp_name']);
 			}
 
@@ -130,7 +130,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 				if (strlen($_FILES['imagemapfile']['tmp_name']))
 				{
-					if ($this->getSelfAssessmentEditingMode() && $this->object->getId() < 1) $this->object->createNewQuestion();
+					if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1) $this->object->createNewQuestion();
 					$this->object->uploadImagemap($_FILES['imagemapfile']['tmp_name']);
 				}
 			}
@@ -656,7 +656,9 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			{
 				if (strlen($user_solution) && $user_solution == $answer_id)
 				{
-					$feedback = $this->object->getFeedbackSingleAnswer($user_solution);
+					$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+							$this->object->getId(), $answer_id
+					);
 					if (strlen($feedback))
 					{
 						$template->setCurrentBlock("feedback");
@@ -674,113 +676,6 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
-	}
-
-	/**
-	* Saves the feedback for a single choice question
-	*/
-	function saveFeedback()
-	{
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$errors = $this->feedback(true);
-		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
-		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
-		foreach ($this->object->answers as $index => $answer)
-		{
-			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
-		}
-		$this->object->cleanupMediaObjectUsage();
-		parent::saveFeedback();
-	}
-
-	/**
-	* Creates the output of the feedback page for a single choice question
-	*
-	* @access public
-	*/
-	function feedback($checkonly = false)
-	{
-		$save = (strcmp($this->ctrl->getCmd(), "saveFeedback") == 0) ? TRUE : FALSE;
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('feedback_answers'));
-		$form->setTableWidth("100%");
-		$form->setId("feedback");
-
-		$complete = new ilTextAreaInputGUI($this->lng->txt("feedback_complete_solution"), "feedback_complete");
-		$complete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)));
-		$complete->setRequired(false);
-		$complete->setRows(10);
-		$complete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$complete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$complete->addPlugin("latex");
-		$complete->addButton("latex");
-		$complete->addButton("pastelatex");
-		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($complete);
-
-		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
-		$incomplete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)));
-		$incomplete->setRequired(false);
-		$incomplete->setRows(10);
-		$incomplete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$incomplete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$incomplete->addPlugin("latex");
-		$incomplete->addButton("latex");
-		$incomplete->addButton("pastelatex");
-		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($incomplete);
-
-		if (!$this->getSelfAssessmentEditingMode())
-		{
-			foreach ($this->object->answers as $index => $answer)
-			{
-				$text = $this->lng->txt('region') . " " . ($index+1);
-				if (strlen($answer->getAnswertext()))
-				{
-					$text = $answer->getAnswertext() . ": " . $text;
-				}
-				$answerobj = new ilTextAreaInputGUI($this->object->prepareTextareaOutput($text), "feedback_answer_$index");
-				$answerobj->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackSingleAnswer($index)));
-				$answerobj->setRequired(false);
-				$answerobj->setRows(10);
-				$answerobj->setCols(80);
-				$answerobj->setUseRte(true);
-				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-				$answerobj->addPlugin("latex");
-				$answerobj->addButton("latex");
-				$answerobj->addButton("pastelatex");
-				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment");
-				$form->addItem($answerobj);
-			}
-		}
-
-		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']) || $this->getSelfAssessmentEditingMode())
-		{
-			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
-		}
-
-		if ($save)
-		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-		}
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return $errors;
 	}
 
 	/**
@@ -841,13 +736,8 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$classname, "", $force_active);
 		}
 
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("feedback",
-				$this->ctrl->getLinkTargetByClass($classname, "feedback"),
-				array("feedback", "saveFeedback"),
-				$classname, "");
-		}
+		// add tab for question feedback within common class assQuestionGUI
+		$this->addTab_QuestionFeedback($ilTabs);
 
 		// add tab for question hint within common class assQuestionGUI
 		$this->addTab_QuestionHints($ilTabs);

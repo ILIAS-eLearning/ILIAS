@@ -72,6 +72,10 @@ class assOrderingHorizontalImport extends assQuestionImport
 		$this->object->setOrderText($item->getMetadataEntry("ordertext"));
 		$this->object->setTextSize($item->getMetadataEntry("textsize"));
 		$this->object->setSeparator($item->getMetadataEntry("separator"));
+		// additional content editing mode information
+		$this->object->setAdditionalContentEditingMode(
+				$this->fetchAdditionalContentEditingModeInformation($item)
+		);		
 		$this->object->saveToDb();
 
 		// handle the import of media objects in XHTML code

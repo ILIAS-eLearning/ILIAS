@@ -292,6 +292,10 @@ class assClozeTestImport extends assQuestionImport
 			$clozetext = str_replace("<<" . $idx . ">>", $val, $clozetext);
 		}
 		$this->object->setQuestion($clozetext);
+		// additional content editing mode information
+		$this->object->setAdditionalContentEditingMode(
+				$this->fetchAdditionalContentEditingModeInformation($item)
+		);		
 		$this->object->saveToDb();
 
 		// handle the import of media objects in XHTML code
@@ -338,11 +342,15 @@ class assClozeTestImport extends assQuestionImport
 		$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
 		foreach ($feedbacks as $ident => $material)
 		{
-			//$this->object->saveFeedbackSingleAnswer($ident, ilRTE::_replaceMediaObjectImageSrc($material, 1));
+			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
+					$this->object->getId(), $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)
 		{
-			$this->object->saveFeedbackGeneric($correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1));
+			$this->object->feedbackOBJ->importGenericFeedback(
+					$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
 		}
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))

@@ -79,6 +79,10 @@ class assTextSubsetExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getAuthor());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		// additional content editing information
+		$this->addAdditionalContentEditingModeInformation($a_xml_writer);		
+		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "textrating");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getTextRating());
@@ -186,8 +190,12 @@ class assTextSubsetExport extends assQuestionExport
 			}
 		}
 
-		$feedback_allcorrect = $this->object->getFeedbackGeneric(1);
-		$feedback_onenotcorrect = $this->object->getFeedbackGeneric(0);
+		$feedback_allcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
+				$this->object->getId(), true
+		);
+		$feedback_onenotcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
+				$this->object->getId(), false
+		);
 		if (strlen($feedback_allcorrect . $feedback_onenotcorrect))
 		{
 			if (strlen($feedback_allcorrect))

@@ -71,6 +71,10 @@ class assFlashQuestionImport extends assQuestionImport
 		$this->object->setApplet($item->getMetadataEntry("applet"));
 		$this->object->setParameters(unserialize($item->getMetadataEntry("params")));
 		$this->object->setPoints($item->getMetadataEntry("points"));
+		// additional content editing mode information
+		$this->object->setAdditionalContentEditingMode(
+				$this->fetchAdditionalContentEditingModeInformation($item)
+		);		
 		$this->object->saveToDb();
 
 		$flashapplet =& base64_decode($item->getMetadataEntry("swf"));
@@ -126,7 +130,9 @@ class assFlashQuestionImport extends assQuestionImport
 		$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
 		foreach ($feedbacksgeneric as $correctness => $material)
 		{
-			$this->object->saveFeedbackGeneric($correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1));
+			$this->object->feedbackOBJ->importGenericFeedback(
+					$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
 		}
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))

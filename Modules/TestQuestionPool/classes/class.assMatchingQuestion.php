@@ -227,6 +227,14 @@ class assMatchingQuestion extends assQuestion
 			$this->setElementHeight($data["element_height"]);
 			$this->setShuffle($data["shuffle"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+			
+			try
+			{
+				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
+			}
+			catch(ilTestQuestionPoolException $e)
+			{
+			}
 		}
 
 		$termids = array();
@@ -333,21 +341,18 @@ class assMatchingQuestion extends assQuestion
 		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($this_id);
-		// duplicate the specific feedback
-		$clone->duplicateSpecificFeedback($this_id);
-
 		// duplicate the image
 		$clone->duplicateImages($this_id, $thisObjId);
-		$clone->onDuplicate($this_id);
+
+		$clone->onDuplicate($this_id, $clone->getId());
+		
 		return $clone->id;
 	}
 
 	/**
 	* Copies an assMatchingQuestion
 	*/
-	public function copyObject($target_questionpool, $title = "")
+	public function copyObject($target_questionpool_id, $title = "")
 	{
 		if ($this->id <= 0)
 		{
@@ -363,22 +368,19 @@ class assMatchingQuestion extends assQuestion
 		{
 			$clone->setTitle($title);
 		}
-		$source_questionpool = $this->getObjId();
-		$clone->setObjId($target_questionpool);
+		$source_questionpool_id = $this->getObjId();
+		$clone->setObjId($target_questionpool_id);
 		$clone->saveToDb();
 
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($original_id);
-		// duplicate specific feedback
-		$clone->duplicateSpecificFeedback($original_id);
-
 		// duplicate the image
-		$clone->copyImages($original_id, $source_questionpool);
-		$clone->onCopy($this->getObjId(), $this->getId());
+		$clone->copyImages($original_id, $source_questionpool_id);
+		
+		$clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
+		
 		return $clone->id;
 	}
 
@@ -1406,108 +1408,5 @@ class assMatchingQuestion extends assQuestion
 		$result['mobs'] = $mobs;
 
 		return json_encode($result);
-	}
-	
-	/**
-	* Saves feedback for a single selected answer to the database
-	*
-	* @param integer $answer_index The index of the answer
-	* @param string $feedback Feedback text
-	* @access public
-	*/
-	function saveFeedbackSingleAnswer($answer_index, $feedback)
-	{
-		global $ilDB;
-		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_matching WHERE question_fi = %s AND answer = %s",
-			array('integer','integer'),
-			array($this->getId(), $answer_index)
-		);
-		if (strlen($feedback))
-		{
-			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$next_id = $ilDB->nextId('qpl_fb_matching');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_matching (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','integer','integer','text','integer'),
-				array(
-					$next_id,
-					$this->getId(),
-					$answer_index,
-					ilRTE::_replaceMediaObjectImageSrc($feedback, 0),
-					time()
-				)
-			);
-		}
-	}
-	
-	/**
-	* Returns the feedback for a single selected answer
-	*
-	* @param integer $answer_index The index of the answer
-	* @return string Feedback text
-	* @access public
-	*/
-	function getFeedbackSingleAnswer($answer_index)
-	{
-		global $ilDB;
-		
-		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_fb_matching WHERE question_fi = %s AND answer = %s",
-			array('integer','integer'),
-			array($this->getId(), $answer_index)
-		);
-		if ($result->numRows())
-		{
-			$row = $ilDB->fetchAssoc($result);
-			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
-		}
-		return $feedback;
-	}
-
-	protected function deleteFeedbackSpecific($question_id)
-	{
-		global $ilDB;
-		$ilDB->manipulateF(
-			'DELETE 
-			FROM qpl_fb_matching 
-			WHERE question_fi = %s',
-			array('integer'),
-			array($question_id)
-		);
-	}
-
-	/**
-	 * Duplicates the answer specific feedback
-	 *
-	 * @param integer $original_id The database ID of the original question
-	 * @access public
-	 */
-	function duplicateSpecificFeedback($original_id)
-	{
-		global $ilDB;
-
-		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_fb_matching WHERE question_fi = %s",
-								array('integer'),
-								array($original_id)
-		);
-		if ($result->numRows())
-		{
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				$next_id = $ilDB->nextId('qpl_fb_matching');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_matching (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-												   array('integer','integer','integer','text','integer'),
-												   array(
-													   $next_id,
-													   $this->getId(),
-													   $row["answer"],
-													   $row["feedback"],
-													   time()
-												   )
-				);
-			}
-		}
 	}
 }

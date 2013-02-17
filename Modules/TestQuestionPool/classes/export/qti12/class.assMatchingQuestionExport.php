@@ -79,6 +79,10 @@ class assMatchingQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getAuthor());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		// additional content editing information
+		$this->addAdditionalContentEditingModeInformation($a_xml_writer);		
+		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "shuffle");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getShuffle());
@@ -298,7 +302,9 @@ class assMatchingQuestionExport extends assQuestionExport
 			$a_xml_writer->xmlEndTag("respcondition");
 		}
 
-		$feedback_allcorrect = $this->object->getFeedbackGeneric(1);
+		$feedback_allcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
+				$this->object->getId(), true
+		);
 		if (strlen($feedback_allcorrect))
 		{
 			$attrs = array(
@@ -324,7 +330,9 @@ class assMatchingQuestionExport extends assQuestionExport
 			$a_xml_writer->xmlElement("displayfeedback", $attrs);
 			$a_xml_writer->xmlEndTag("respcondition");
 		}
-		$feedback_onenotcorrect = $this->object->getFeedbackGeneric(0);
+		$feedback_onenotcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
+				$this->object->getId(), false
+		);
 		if (strlen($feedback_onenotcorrect))
 		{
 			$attrs = array(

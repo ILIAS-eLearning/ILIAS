@@ -14,7 +14,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.p
  * @package		Modules/TestQuestionPool
  * 
  * @ilCtrl_Calls ilAssQuestionHintRequestGUI: ilAssQuestionHintsTableGUI
- * @ilCtrl_Calls ilAssQuestionHintRequestGUI: ilConfirmationGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilAssQuestionHintRequestGUI: ilConfirmationGUI, ilPropertyFormGUI, ilPageObjectGUI
  */
 class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 {
@@ -61,13 +61,21 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs, $lng;
 		
 		$cmd = $ilCtrl->getCmd(self::CMD_SHOW_LIST);
 		$nextClass = $ilCtrl->getNextClass($this);
 
 		switch($nextClass)
 		{
+			case 'ilpageobjectgui':
+				
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
+				$forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
+				$forwarder->setPresentationMode(ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_REQUEST);
+				$forwarder->forward();
+				break;
+
 			default:
 				
 				$cmd .= 'Cmd';
@@ -240,9 +248,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		
 		$this->testOutputGUI->saveQuestionSolution();
 		
-		$redirectTarget = ilUtil::appendUrlParameterString(
-				$ilCtrl->getLinkTarget($this, self::CMD_SHOW_HINT, '', false, false), "hintId={$nextRequestableHint->getId()}"
-		);
+		$redirectTarget = $this->getHintPresentationLinkTarget($nextRequestableHint->getId(), false);
 		
 		ilUtil::redirect($redirectTarget);
 	}
@@ -288,5 +294,31 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		{
 			$tpl->setContent($content);
 		}
+	}
+	
+	/**
+	 * returns the link target for hint request presentation
+	 * 
+	 * @global ilCtrl $ilCtrl
+	 * @param integer $hintId
+	 * @param boolean $xmlStyle
+	 * @return string $linkTarget
+	 */
+	public function getHintPresentationLinkTarget($hintId, $xmlStyle = true)
+	{
+		global $ilCtrl;
+		
+		if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
+		{
+			$ilCtrl->setParameterByClass('ilPageObjectGUI', 'hint_id', $hintId);
+			$linkTarget = $ilCtrl->getLinkTargetByClass('ilPageObjectGUI', '', '', false, $xmlStyle);
+		}
+		else
+		{
+			$ilCtrl->setParameter($this, 'hintId', $hintId);
+			$linkTarget = $ilCtrl->getLinkTarget($this, self::CMD_SHOW_HINT, '', false, $xmlStyle);	
+		}
+		
+		return $linkTarget;
 	}
 }

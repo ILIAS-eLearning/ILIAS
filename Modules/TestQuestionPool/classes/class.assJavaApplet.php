@@ -310,6 +310,14 @@ class assJavaApplet extends assQuestion
 			$this->setJavaAppletFilename($data["image_file"]);
 			$this->splitParams($data["params"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+			
+			try
+			{
+				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
+			}
+			catch(ilTestQuestionPoolException $e)
+			{
+			}
 		}
 		parent::loadFromDb($question_id);
 	}
@@ -369,12 +377,11 @@ class assJavaApplet extends assQuestion
 		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($this_id);
-
 		// duplicate the image
 		$clone->duplicateApplet($this_id, $thisObjId);
-		$clone->onDuplicate($this_id);
+
+		$clone->onDuplicate($this_id, $clone->getId());
+		
 		return $clone->id;
 	}
 
@@ -385,7 +392,7 @@ class assJavaApplet extends assQuestion
 	*
 	* @access public
 	*/
-	function copyObject($target_questionpool, $title = "")
+	function copyObject($target_questionpool_id, $title = "")
 	{
 		if ($this->id <= 0)
 		{
@@ -397,8 +404,8 @@ class assJavaApplet extends assQuestion
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
-		$source_questionpool = $this->getObjId();
-		$clone->setObjId($target_questionpool);
+		$source_questionpool_id = $this->getObjId();
+		$clone->setObjId($target_questionpool_id);
 		if ($title)
 		{
 			$clone->setTitle($title);
@@ -409,12 +416,11 @@ class assJavaApplet extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($original_id);
-
 		// duplicate the image
-		$clone->copyApplet($original_id, $source_questionpool);
-		$clone->onCopy($this->getObjId(), $this->getId());
+		$clone->copyApplet($original_id, $source_questionpool_id);
+		
+		$clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
+		
 		return $clone->id;
 	}
 	

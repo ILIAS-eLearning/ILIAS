@@ -415,9 +415,10 @@ assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script
 assessment#:#failed_official#:#failed
 assessment#:#failed_short#:#failed
 assessment#:#false#:#False
-assessment#:#feedback_answers#:#Feedback for every answer of the question
+assessment#:#feedback_generic#:#Common Solution Feedback
 assessment#:#feedback_complete_solution#:#Correct solution
 assessment#:#feedback_incomplete_solution#:#At least one answer is not correct
+assessment#:#feedback_answers#:#Feedback for Every Answer
 assessment#:#file_uploads#:#File Uploads
 assessment#:#fileDownload#:#File download
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!
@@ -1118,6 +1119,11 @@ assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
+assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
+assessment#:#tst_question_feedback_edit_page#:#Edit Content
+assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
@@ -1514,6 +1520,8 @@ common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
 common#:#advanced_editing_no_rte#:#Do not use rich text editing
 common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages. If deactivated, existing content will be hidden.
 common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository
+common#:#advanced_editing_tst_editing_desc#:#This feature allows to add text/media to feedback or hints of test questions.
+common#:#advanced_editing_tst_editing#:#Enable Content Editing in Test & Assessment
 common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s
 common#:#advanced_editing_settings#:#Editing Settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
@@ -10777,7 +10785,7 @@ assessment#:#questions_per_page_view#:#Page View
 assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
 assessment#:#test_jump_to#:#Jump to Question
-assessment#:#test_create_question#:#Create Question
+assessment#:#ass_create_question#:#Create Question
 assessment#:#adm_settings_templates#:#Settings Templates
 survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 survey#:#survey_template_reset#:#The template has been removed.
@@ -12225,6 +12233,11 @@ assessment#:#tst_question_hints_back_to_question#:#Back to Question
 assessment#:#tst_question_hints_index_column_label#:#Hint %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
+assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
+assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
+assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
+assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page
+assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List
 assessment#:#conf_delete_pass#:#Really delete pass?
 help#:#help_tooltips#:#Help Tooltips
 help#:#help_tooltip_id#:#Tooltip ID

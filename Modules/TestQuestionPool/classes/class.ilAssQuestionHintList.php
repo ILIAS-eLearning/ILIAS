@@ -148,19 +148,38 @@ class ilAssQuestionHintList implements Iterator
 		}
 	}
 	
+	/**
+	 * duplicates a hint list from given original question id to
+	 * given duplicate question id and returns an array of duplicate hint ids
+	 * mapped to the corresponding original hint ids
+	 * 
+	 * @param integer $originalQuestionId
+	 * @param integer $duplicateQuestionId
+	 * @return array $hintIds containing the map from original hint ids to duplicate hint ids
+	 */
 	public static function duplicateListForQuestion($originalQuestionId, $duplicateQuestionId)
 	{
+		$hintIds = array();
+		
 		$questionHintList = self::getListByQuestionId($originalQuestionId);
 
 		foreach($questionHintList as $questionHint)
 		{
 			/* @var $questionHint ilAssQuestionHint */
 			
+			$originalHintId = $questionHint->getId();
+			
 			$questionHint->setId(null);
 			$questionHint->setQuestionId($duplicateQuestionId);
 			
 			$questionHint->save();
+			
+			$duplicateHintId = $questionHint->getId();
+			
+			$hintIds[$originalHintId] = $duplicateHintId;
 		}
+		
+		return $hintIds;
 	}
 	
 	/**

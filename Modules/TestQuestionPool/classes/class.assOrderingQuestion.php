@@ -191,6 +191,14 @@ class assOrderingQuestion extends assQuestion
 			$this->thumb_geometry = $data["thumb_geometry"];
 			$this->element_height = $data["element_height"];
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+			
+			try
+			{
+				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
+			}
+			catch(ilTestQuestionPoolException $e)
+			{
+			}
 		}
 
 		$result = $ilDB->queryF("SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_order ASC",
@@ -266,12 +274,11 @@ class assOrderingQuestion extends assQuestion
 		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($this_id);
-
 		// duplicate the image
 		$clone->duplicateImages($this_id, $testObjId);
-		$clone->onDuplicate($this_id);
+		
+		$clone->onDuplicate($this_id, $clone->getId());
+		
 		return $clone->id;
 	}
 
@@ -280,7 +287,7 @@ class assOrderingQuestion extends assQuestion
 	*
 	* @access public
 	*/
-	function copyObject($target_questionpool, $title = "")
+	function copyObject($target_questionpool_id, $title = "")
 	{
 		if ($this->id <= 0)
 		{
@@ -292,8 +299,8 @@ class assOrderingQuestion extends assQuestion
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
-		$source_questionpool = $this->getObjId();
-		$clone->setObjId($target_questionpool);
+		$source_questionpool_id = $this->getObjId();
+		$clone->setObjId($target_questionpool_id);
 		if ($title)
 		{
 			$clone->setTitle($title);
@@ -305,12 +312,11 @@ class assOrderingQuestion extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($original_id);
-
 		// duplicate the image
-		$clone->copyImages($original_id, $source_questionpool);
-		$clone->onCopy($this->getObjId(), $this->getId());
+		$clone->copyImages($original_id, $source_questionpool_id);
+		
+		$clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
+		
 		return $clone->id;
 	}
 	

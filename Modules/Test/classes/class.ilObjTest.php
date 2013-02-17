@@ -5777,6 +5777,12 @@ function getAnswerFeedbackPoints()
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);
+			
+			global $ilCtrl, $ilDB, $lng;
+			
+			$feedbackObjectClassname = str_replace('ass', 'ilAss', $question_type).'Feedback';
+			require_once "Modules/TestQuestionPool/classes/feedback/class.$feedbackObjectClassname.php";
+			$question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $ilCtrl, $ilDB, $lng);
 		}
 		
 		return $question;

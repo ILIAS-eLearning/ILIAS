@@ -311,7 +311,24 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 	
-		if ($this->cgrp == "rep")
+		if( $this->cgrp == "test" )
+		{
+			require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
+		
+			$this->form->setTitle($lng->txt("adve_activation"));
+			$cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_tst_editing"), "tst_page_edit");
+			$cb->setInfo($this->lng->txt("advanced_editing_tst_editing_desc"));
+			if ($ilSetting->get("enable_tst_page_edit", ilObjAssessmentFolder::ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED))
+			{
+				$cb->setChecked(true);
+			}
+			$this->form->addItem($cb);
+
+			$sh = new ilFormSectionHeaderGUI();
+			$sh->setTitle($lng->txt("adve_text_content_features"));
+			$this->form->addItem($sh);
+		}
+		elseif ($this->cgrp == "rep")
 		{
 			$this->form->setTitle($lng->txt("adve_activation"));
 			$cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_rep_page_editing"), "cat_page_edit");
@@ -371,7 +388,11 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 					$this->form->getInput("active_".$b));
 			}
 			
-			if ($_GET["grp"] == "rep")
+			if ($_GET["grp"] == "test")
+			{
+				$ilSetting->set("enable_tst_page_edit", (int) $_POST["tst_page_edit"]);
+			}
+			elseif ($_GET["grp"] == "rep")
 			{
 				$ilSetting->set("enable_cat_page_edit", (int) $_POST["cat_page_edit"]);
 			}

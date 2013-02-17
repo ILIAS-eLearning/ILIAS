@@ -24,7 +24,9 @@
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 include_once "./Modules/Test/classes/class.ilObjTest.php";
 
 /**
@@ -42,8 +44,9 @@ include_once "./Modules/Test/classes/class.ilObjTest.php";
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextSubsetGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI, ilQuestionBrowserTableGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilToolbarGUI, ilPropertyFormGUI, ilCommonActionDispatcherGUI
  *
  * @extends ilObjectGUI
  * @ingroup ModulesTestQuestionPool
@@ -73,16 +76,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	 * execute command
 	 *
-	 * @global	ilLocatorGUI		$ilLocator
-	 * @global	ilAccessHandler		$ilAccess
-	 * @global	ilNavigationHistory	$ilNavigationHistory
-	 * @global	ilTemplate			$tpl
-	 * @global	ilCtrl				$ilCtrl
-	 * @global	ILIAS				$ilias 
+	 * @global ilLocatorGUI $ilLocator
+	 * @global ilAccessHandler $ilAccess
+	 * @global ilNavigationHistory $ilNavigationHistory
+	 * @global ilTemplate $tpl
+	 * @global ilCtrl $ilCtrl
+	 * @global ilTabsGUI $ilTabs
+	 * @global ilLanguage $lng
+	 * @global ILIAS $ilias 
 	 */
 	function executeCommand()
 	{
-		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl, $ilErr;
+		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl, $ilErr, $ilTabs, $lng;
 		
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -233,6 +238,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				// forward to ilAssQuestionHintsGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
 				$gui = new ilAssQuestionHintsGUI($questionGUI);
+				$ilCtrl->forwardCommand($gui);
+				
+				break;
+			
+			case 'ilassquestionfeedbackeditinggui':
+	
+				// set return target
+				$this->ctrl->setReturn($this, "questions");
+
+				// set context tabs
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI->object->setObjId($this->object->getId());
+				$questionGUI->setQuestionTabs();
+				
+				// forward to ilAssQuestionFeedbackGUI
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
 				$ilCtrl->forwardCommand($gui);
 				
 				break;
@@ -665,9 +688,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionObject()
 	{
+		if( ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
+		{
+			$addContEditMode = $_POST['add_quest_cont_edit_mode'];
+		}
+		else
+		{
+			$addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
+		}
+
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$q_gui =& assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
+		$q_gui->object->setAdditionalContentEditingMode($addContEditMode);
 		$q_gui->object->createNewQuestion();
 		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $q_gui->object->getId());
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_POST["sel_question_types"]);
@@ -679,23 +712,38 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionForTestObject()
 	{
-	    if (!$_REQUEST['q_id']) {
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-		$q_gui =& assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
-		$q_gui->object->setObjId($this->object->getId());
-		$q_gui->object->createNewQuestion();
-		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $q_gui->object->getId());
-		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_REQUEST["sel_question_types"]);
-		$this->ctrl->setParameterByClass(get_class($q_gui), "prev_qid", $_REQUEST["prev_qid"]);
-		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
+	    if( !$_REQUEST['q_id'] )
+		{
+			require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
+			if( ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
+			{
+				$addContEditMode = $_REQUEST['add_quest_cont_edit_mode'];
+			}
+			else
+			{
+				$addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
+			}
+			
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+			$q_gui =& assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
+			$q_gui->object->setObjId($this->object->getId());
+			$q_gui->object->setAdditionalContentEditingMode($addContEditMode);
+			$q_gui->object->createNewQuestion();
+			
+			$class = get_class($q_gui);
+			$qId = $q_gui->object->getId();
 	    }
-	    else {
-		$class = $_GET["sel_question_types"] . 'gui';
-		$this->ctrl->setParameterByClass($class, "q_id", $_REQUEST['q_id']);
+	    else
+		{
+			$class = $_GET["sel_question_types"] . 'gui';
+			$qId = $_REQUEST['q_id'];
+	    }
+		
+		$this->ctrl->setParameterByClass($class, "q_id", $qId);
 		$this->ctrl->setParameterByClass($class, "sel_question_types", $_REQUEST["sel_question_types"]);
 		$this->ctrl->setParameterByClass($class, "prev_qid", $_REQUEST["prev_qid"]);
+		
 		$this->ctrl->redirectByClass($class, "editQuestion");
-	    }
 	}
 
 	/**
@@ -864,8 +912,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function questionsObject($arrFilter = null)
 	{
-		global $rbacsystem;
-		global $ilUser;
+		global $rbacsystem, $ilUser;
 
 		if(get_class($this->object) == "ilObjTest")
 		{
@@ -890,10 +937,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_questionbrowser.html", "Modules/TestQuestionPool");
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
+
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)
 		{
@@ -902,29 +949,93 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$arrFilter[$item->getPostVar()] = $item->getValue();
 			}
 		}
+		
 		$data = $this->object->getQuestionBrowserData($arrFilter);
 		$table_gui->setData($data);
-		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
 
-		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
+		if( $rbacsystem->checkAccess('write', $_GET['ref_id']) )
 		{
-			$this->tpl->setCurrentBlock("QTypes");
-			$types =& $this->object->getQuestionTypes(false, true);
-			$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
-			foreach ($types as $translation => $data)
-			{
-				if ($data["type_tag"] == $lastquestiontype)
-				{
-					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
-				}
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
-				$this->tpl->setVariable("QUESTION_TYPE", $translation);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'questions'));
-			$this->tpl->parseCurrentBlock();
+			$toolbar = new ilToolbarGUI();
+			
+			$toolbar->addButton(
+					$this->lng->txt("ass_create_question"),
+					$this->ctrl->getLinkTarget($this, 'createQuestionForm')
+			);
+			
+			$this->tpl->setContent( $this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table_gui) );
 		}
+		else
+		{
+			$this->tpl->setContent( $this->ctrl->getHTML($table_gui) );
+		}
+	}
+	
+	private function createQuestionFormObject()
+	{
+		$form = $this->buildCreateQuestionForm();
+		
+		$this->tpl->setContent( $this->ctrl->getHTML($form) );
+	}
+	
+	private function buildCreateQuestionForm()
+	{
+		global $ilUser;
+		
+		// form
+		
+		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTitle('ass_create_question');
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		// question type
+		
+		$options = array();
+		foreach( $this->object->getQuestionTypes(false, true) as $translation => $data )
+		{
+			$options[$data['type_tag']] = $translation;
+		}
+		
+		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
+        $si = new ilSelectInputGUI($this->lng->txt('question_type'), 'sel_question_types');
+        $si->setOptions($options);
+		$si->setValue($ilUser->getPref("tst_lastquestiontype"));
+		
+		$form->addItem($si);
+		
+		// content editing mode
+		
+		if( ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
+		{
+			$ri = new ilRadioGroupInputGUI($this->lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
+			
+			$ri->addOption(new ilRadioOption(
+				$this->lng->txt('tst_add_quest_cont_edit_mode_default'),
+					assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
+			));
+
+			$ri->addOption(new ilRadioOption(
+					$this->lng->txt('tst_add_quest_cont_edit_mode_page_object'),
+					assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+			));
+			
+			$ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+
+			$form->addItem($ri, true);
+		}
+		else
+		{
+			$hi = new ilHiddenInputGUI("question_content_editing_type");
+			$hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+			$form->addItem($hi, true);
+		}
+		
+		// commands
+		
+		$form->addCommandButton('questions', $this->lng->txt('cancel'));
+		$form->addCommandButton('createQuestion', $this->lng->txt('create'));
+		
+		return $form;
 	}
 
 	/**

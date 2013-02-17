@@ -132,14 +132,14 @@ class ilQuestionEditGUI
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI($this->getQuestionType(),
 					$this->getQuestionId());
-				$q_gui->setSelfAssessmentEditingMode(
+				$q_gui->object->setSelfAssessmentEditingMode(
 					$this->getSelfAssessmentEditingMode());
-				$q_gui->setDefaultNrOfTries(
+				$q_gui->object->setDefaultNrOfTries(
 					$this->getDefaultNrOfTries());
 
 				if (is_object($this->page_config))
 				{
-					$q_gui->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+					$q_gui->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
 				}
 				$q_gui->object->setObjId((int) $this->getPoolObjId());
 				

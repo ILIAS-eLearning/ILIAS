@@ -289,6 +289,10 @@ class assMatchingQuestionImport extends assQuestionImport
 			}
 			$this->object->addMatchingPair(new assAnswerMatchingTerm('', '', $term["ident"]), new assAnswerMatchingDefinition('', '', $definition["answerorder"]), $response['points']);
 		}
+		// additional content editing mode information
+		$this->object->setAdditionalContentEditingMode(
+				$this->fetchAdditionalContentEditingModeInformation($item)
+		);		
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
 		{
@@ -351,7 +355,9 @@ class assMatchingQuestionImport extends assQuestionImport
 		$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
 		foreach ($feedbacksgeneric as $correctness => $material)
 		{
-			$this->object->saveFeedbackGeneric($correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1));
+			$this->object->feedbackOBJ->importGenericFeedback(
+					$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
 		}
 		$this->object->saveToDb();
 		if ($tst_id > 0)

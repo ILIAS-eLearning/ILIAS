@@ -433,21 +433,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 	}
 
 	/**
-	* Saves the feedback for a single choice question
-	*
-	* @access public
-	*/
-	function saveFeedback()
-	{
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$errors = $this->feedback(true);
-		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
-		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
-		$this->object->cleanupMediaObjectUsage();
-		parent::saveFeedback();
-	}
-
-	/**
 	 * Sets the ILIAS tabs for this question type
 	 *
 	 * @access public
@@ -510,13 +495,8 @@ class assFlashQuestionGUI extends assQuestionGUI
 				$classname, "", $force_active);
 		}
 
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("feedback",
-				$this->ctrl->getLinkTargetByClass($classname, "feedback"),
-				array("feedback", "saveFeedback"),
-				$classname, "");
-		}
+		// add tab for question feedback within common class assQuestionGUI
+		$this->addTab_QuestionFeedback($ilTabs);
 
 		// add tab for question hint within common class assQuestionGUI
 		$this->addTab_QuestionHints($ilTabs);

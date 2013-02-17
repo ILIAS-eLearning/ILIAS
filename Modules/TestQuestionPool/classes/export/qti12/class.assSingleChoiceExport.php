@@ -79,10 +79,14 @@ class assSingleChoiceExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getAuthor());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		// additional content editing information
+		$this->addAdditionalContentEditingModeInformation($a_xml_writer);		
+		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "thumb_size");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getThumbSize());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlEndTag("qtimetadatafield");		
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 
@@ -233,7 +237,9 @@ class assSingleChoiceExport extends assQuestionExport
 			$a_xml_writer->xmlEndTag("respcondition");
 		}
 
-		$feedback_allcorrect = $this->object->getFeedbackGeneric(1);
+		$feedback_allcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
+				$this->object->getId(), true
+		);
 		if (strlen($feedback_allcorrect))
 		{
 			$attrs = array(
@@ -266,7 +272,9 @@ class assSingleChoiceExport extends assQuestionExport
 			$a_xml_writer->xmlEndTag("respcondition");
 		}
 		
-		$feedback_onenotcorrect = $this->object->getFeedbackGeneric(0);
+		$feedback_onenotcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
+				$this->object->getId(), false
+		);
 		if (strlen($feedback_onenotcorrect))
 		{
 			$attrs = array(
@@ -314,7 +322,10 @@ class assSingleChoiceExport extends assQuestionExport
 			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
 			// qti flow_mat
 			$a_xml_writer->xmlStartTag("flow_mat");
-			$this->object->addQTIMaterial($a_xml_writer, $this->object->getFeedbackSingleAnswer($index));
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
+				$this->object->getId(), $index
+			);
+			$this->object->addQTIMaterial($a_xml_writer, $fb);
 			$a_xml_writer->xmlEndTag("flow_mat");
 			$a_xml_writer->xmlEndTag("itemfeedback");
 		}

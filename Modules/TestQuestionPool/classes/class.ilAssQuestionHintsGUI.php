@@ -17,6 +17,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsOrderingC
  * @package		Modules/TestQuestionPool
  * 
  * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssQuestionHintsTableGUI
+ * @ilCtrl_Calls ilAssQuestionHintsGUI: ilPageObjectGUI
  * @ilCtrl_Calls ilAssQuestionHintsGUI: ilToolbarGUI, ilConfirmationGUI
  */
 class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
@@ -63,7 +64,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs, $lng;
 		
 		$cmd = $ilCtrl->getCmd(self::CMD_SHOW_LIST);
 		$nextClass = $ilCtrl->getNextClass($this);
@@ -74,13 +75,22 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
 				$gui = new ilAssQuestionHintGUI($this->questionGUI);
+				$ilCtrl->forwardCommand($gui);
+				break;
 				
-				return $ilCtrl->forwardCommand($gui);
+			case 'ilpageobjectgui':
 				
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
+				$forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
+				$forwarder->setPresentationMode(ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_AUTHOR);
+				$forwarder->forward();
+				break;
+
 			default:
 				
 				$cmd .= 'Cmd';
-				return $this->$cmd();
+				$this->$cmd();
+				break;
 		}
 	}
 	
