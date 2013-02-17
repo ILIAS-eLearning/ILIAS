@@ -103,7 +103,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 * Setter/Getter for folder status
 	 * @access	public
 	 * @param	mixed	$a_bool	Boolean folder status or null
-	 * @return	mixed	Either an object of type ilMailFolderTableGUI or the boolean folder status
+	 * @return	bool|ilMailFolderTableGUI	Either an object of type ilMailFolderTableGUI or the boolean folder status
 	 *
 	 */
 	public function isDraftFolder($a_bool = null)
@@ -122,8 +122,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 * Setter/Getter for folder status
 	 * @access	public
 	 * @param	mixed	$a_bool	Boolean folder status or null
-	 * @return	mixed	Either an object of type ilMailFolderTableGUI or the boolean folder status
-	 *
+	 * @return	bool|ilMailFolderTableGUI	Either an object of type ilMailFolderTableGUI or the boolean folder status
+	 
 	 */
 	public function isSentFolder($a_bool = null)
 	{
@@ -141,7 +141,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 * Setter/Getter for folder status
 	 * @access	public
 	 * @param	mixed	$a_bool	Boolean folder status or null
-	 * @return	mixed	Either an object of type ilMailFolderTableGUI or the boolean folder status
+	 * @return	bool|ilMailFolderTableGUI	Either an object of type ilMailFolderTableGUI or the boolean folder status
 	 *
 	 */
 	public function isTrashFolder($a_bool = null)

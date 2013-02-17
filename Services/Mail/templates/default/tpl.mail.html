@@ -1,32 +1,3 @@
 {CONFIRMATION}
 {FORM}
-<!-- BEGIN confirm_empty_trash -->
-<form action="{ACTION_EMPTY_TRASH_CONFIRMATION}" class="il_Form" method="POST">
-  <table class="fullwidth_invisible">
-          <tr>
-                <td align="center">
-                  <input class="submit" type="submit" name="cmd[performEmptyTrash]" value="{BUTTON_CONFIRM_EMPTY_TRASH}" />
-                  <input class="submit" type="submit" name="cmd[cancelEmptyTrash]" value="{BUTTON_CANCEL_EMPTY_TRASH}" />
-                </td>
-          </tr>
-  </table>
-  </form>
-<!-- END confirm_empty_trash -->
-
-<!-- BEGIN confirm_delete -->
-<form method="post" name="cmd" action="{ACTION}">
-	<table class="fullwidth_invisible">
-		<tr>
-			<td align="center">
-				<input class="submit" type="submit" name="cmd[confirmDeleteMails]" value="{BUTTON_CONFIRM}" />
-				<input class="submit" type="submit" name="cmd[cancelDeleteMails]" value="{BUTTON_CANCEL}" />
-				<!-- BEGIN mail_ids -->
-				<input type="hidden" name="mail_id[]" value="{MAIL_ID_VALUE}" />
-				<!-- END mail_ids -->
-			</td>
-		</tr>
-	</table>
-</form>
-<!-- END confirm_delete -->
-	  
 {MAIL_TABLE}
