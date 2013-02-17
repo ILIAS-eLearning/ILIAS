@@ -570,3 +570,4 @@ setup_process_step_proxy#:#Proxy###02 09 2012 new variable
 step_proxy#:#Proxy###02 09 2012 new variable
 db_innodb#:#MySQL (InnoDB)###02 09 2012 new variable
 show_update_steps#:#Show Update Step###02 09 2012 new variable
+lang_fa#:#Persian (farsi###17 02 2013 new variable

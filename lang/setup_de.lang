@@ -569,3 +569,4 @@ info_text_clone#:#This function will overwrite the currently selected client wit
 populate#:#Populate###02 09 2012 new variable
 show_update_steps#:#Show Update Step###02 09 2012 new variable
 client_cloned#:#All files and settings of the source are copied into the client.###04 09 2012 new variable
+lang_fa#:#Persian (farsi###17 02 2013 new variable

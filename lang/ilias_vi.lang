@@ -12948,3 +12948,11 @@ dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fiel
 rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
 content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
 common#:#edited_on#:#Edited on###14 01 2013 new variable
+chatroom#:#no_username_given#:#Please choose a username###17 02 2013 new variable
+ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###17 02 2013 new variable
+survey#:#svy_invite_action#:#Invite users to a survey###17 02 2013 new variable
+rbac#:#chtr_delete#:#User can move or delete course###17 02 2013 new variable
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###17 02 2013 new variable
+ecs#:#ecs_role_mapping_value#:#Attribute Value###17 02 2013 new variable
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###17 02 2013 new variable
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###17 02 2013 new variable
