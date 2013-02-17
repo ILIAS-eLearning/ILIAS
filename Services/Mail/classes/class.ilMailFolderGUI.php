@@ -5,6 +5,7 @@
 require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Services/Mail/classes/class.ilMailbox.php';
 require_once 'Services/Mail/classes/class.ilMail.php';
+require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 
 /**
 * @author Jens Conze
@@ -174,16 +175,13 @@ class ilMailFolderGUI
 	}
 	
 	/**
-	* empty Trash and return to folder
-	*/
+	 * empty Trash and return to folder
+	 */
 	public function performEmptyTrash()
 	{
-		$this->umail->deleteMailsOfFolder($_GET["mobj_id"]); 
-
-		ilUtil::sendInfo($this->lng->txt("mail_deleted"));		
+		$this->umail->deleteMailsOfFolder($_GET['mobj_id']); 
+		ilUtil::sendInfo($this->lng->txt('mail_deleted'));
 		$this->showFolder();
-		
-		return true;
 	}
 	
 	/**
@@ -193,7 +191,6 @@ class ilMailFolderGUI
 	{
 		if($this->umail->countMailsOfFolder((int)$_GET['mobj_id']))
 		{	
-			ilUtil::sendQuestion($this->lng->txt('mail_empty_trash_confirmation'));
 			$this->askForConfirmation = true;
 		}
 		
@@ -266,25 +263,19 @@ class ilMailFolderGUI
 		$isSentFolder = $_GET['mobj_id'] == $sentFolderId;	
 		$isDraftFolder = $_GET['mobj_id'] == $draftsFolderId;		
 
-		// BEGIN CONFIRM_DELETE
 		if($this->current_selected_cmd == 'deleteMails' &&
 			!$this->errorDelete &&
 			$this->current_selected_cmd != 'confirm' &&
 			$isTrashFolder)
 		{
 			if(isset($_REQUEST['mail_id']) && !is_array($_REQUEST['mail_id'])) $_REQUEST['mail_id'] = array($_REQUEST['mail_id']);
-			foreach((array)$_REQUEST['mail_id'] as $id)
-			{
-				$this->tpl->setCurrentBlock('mail_ids');
-				$this->tpl->setVariable('MAIL_ID_VALUE', $id);
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock('confirm_delete');
-			$this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this, 'confirmDeleteMails'));
-			$this->tpl->setVariable('BUTTON_CONFIRM',$this->lng->txt('confirm'));
-			$this->tpl->setVariable('BUTTON_CANCEL',$this->lng->txt('cancel'));			
-			$this->tpl->parseCurrentBlock();
+			$confirmation = new ilConfirmationGUI();
+			$confirmation->setHeaderText($this->lng->txt('mail_sure_delete'));
+			$this->ctrl->setParameter($this, 'mail_id', implode(',', (array)$_REQUEST['mail_id']));
+			$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmDeleteMails'));
+			$confirmation->setConfirm($this->lng->txt('confirm'), 'confirmDeleteMails');
+			$confirmation->setCancel($this->lng->txt('cancel'), 'cancelDeleteMails');
+			$this->tpl->setVariable('CONFIRMATION', $confirmation->getHTML());
 		}
 
 		$folders = $this->mbox->getSubFolders();
@@ -377,21 +368,18 @@ class ilMailFolderGUI
 		}
 		// END SHOW_FOLDER
 		
-		// BEGIN Trash delete confirmation	
 		if($mailtable->isTrashFolder() && 
-		   $mailtable->getNumerOfMails() > 0)
+		   $mailtable->getNumerOfMails() > 0 &&
+		   $this->askForConfirmation)
 		{
-			if($this->askForConfirmation == true)
-			{
-				$this->tpl->setCurrentBlock('confirm_empty_trash');
-                $this->tpl->setVariable('ACTION_EMPTY_TRASH_CONFIRMATION', $this->ctrl->getFormAction($this, 'performEmptyTrash'));
-                $this->tpl->setVariable('BUTTON_CONFIRM_EMPTY_TRASH', $this->lng->txt('confirm'));
-                $this->tpl->setVariable('BUTTON_CANCEL_EMPTY_TRASH', $this->lng->txt('cancel'));
-                $this->tpl->parseCurrentBlock();
-			}		
+			$confirmation = new ilConfirmationGUI();
+			$confirmation->setHeaderText($this->lng->txt('mail_empty_trash_confirmation'));
+			$confirmation->setFormAction($this->ctrl->getFormAction($this, 'performEmptyTrash'));
+			$confirmation->setConfirm($this->lng->txt('confirm'), 'performEmptyTrash');
+			$confirmation->setCancel($this->lng->txt('cancel'), 'cancelEmptyTrash');
+			$this->tpl->setVariable('CONFIRMATION', $confirmation->getHTML());
 		}
-		// END Trash delete confirmation		
-		
+
 		$this->tpl->setVariable('MAIL_TABLE', $mailtable->getHtml());
 		$this->tpl->show();
 	}
@@ -605,10 +593,6 @@ class ilMailFolderGUI
 						ilUtil::sendInfo($this->lng->txt("mail_select_one"));
 						$this->errorDelete = true;
 					}
-					else
-					{
-						ilUtil::sendQuestion($this->lng->txt("mail_sure_delete"));
-					}
 				} // END IF MAILBOX IS TRASH FOLDER
 				else
 				{
@@ -652,33 +636,35 @@ class ilMailFolderGUI
 		
 		$this->showFolder();
 	}
-	
+
+	/**
+	 * 
+	 */
 	public function confirmDeleteMails()
 	{
-		// ONLY IF FOLDER IS TRASH, IT WAS ASKED FOR CONFIRMATION
-		if($this->mbox->getTrashFolder() == $_GET["mobj_id"])
+		if($this->mbox->getTrashFolder() == $_GET['mobj_id'])
 		{
-			if(!is_array($_POST["mail_id"]))
+			$_POST['mail_id'] = $mail_ids = explode(',', $_GET['mail_id']);
+			if(!is_array($mail_ids))
 			{
-				ilUtil::sendInfo($this->lng->txt("mail_select_one"));
+				ilUtil::sendInfo($this->lng->txt('mail_select_one'));
 			}
-			else if($this->umail->deleteMails($_POST["mail_id"]))
+			else if($this->umail->deleteMails($mail_ids))
 			{
-				$_GET["offset"] = 0;
-				ilUtil::sendInfo($this->lng->txt("mail_deleted"));
+				$_GET['offset'] = 0;
+				ilUtil::sendInfo($this->lng->txt('mail_deleted'));
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("mail_delete_error"));
+				ilUtil::sendInfo($this->lng->txt('mail_delete_error'));
 			}
 		}
-		
+
 		$this->showFolder();
 	}
 
 	public function cancelDeleteMails()
 	{
-		//$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
 		$this->ctrl->redirect($this);
 	}
 
