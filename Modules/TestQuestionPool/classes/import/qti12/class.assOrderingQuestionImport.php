@@ -258,6 +258,10 @@ class assOrderingQuestionImport extends assQuestionImport
 		}
 		$points = ($item->getMetadataEntry("points") > 0) ? $item->getMetadataEntry("points") : $points;
 		$this->object->setPoints($points);
+		// additional content editing mode information
+		$this->object->setAdditionalContentEditingMode(
+				$this->fetchAdditionalContentEditingModeInformation($item)
+		);		
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
 		{
@@ -343,7 +347,9 @@ class assOrderingQuestionImport extends assQuestionImport
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)
 		{
-			$this->object->saveFeedbackGeneric($correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1));
+			$this->object->feedbackOBJ->importGenericFeedback(
+					$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
 		}
 		$this->object->saveToDb();
 		if ($tst_id > 0)

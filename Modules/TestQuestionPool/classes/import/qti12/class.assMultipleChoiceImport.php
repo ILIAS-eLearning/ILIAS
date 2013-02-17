@@ -274,6 +274,10 @@ class assMultipleChoiceImport extends assQuestionImport
 			}
 			$this->object->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"]);
 		}
+		// additional content editing mode information
+		$this->object->setAdditionalContentEditingMode(
+				$this->fetchAdditionalContentEditingModeInformation($item)
+		);		
 		$this->object->saveToDb();
 		foreach ($answers as $answer)
 		{
@@ -354,11 +358,15 @@ class assMultipleChoiceImport extends assQuestionImport
 		}
 		foreach ($feedbacks as $ident => $material)
 		{
-			$this->object->saveFeedbackSingleAnswer($ident, ilRTE::_replaceMediaObjectImageSrc($material, 1));
+			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
+					$this->object->getId(), $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)
 		{
-			$this->object->saveFeedbackGeneric($correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1));
+			$this->object->feedbackOBJ->importGenericFeedback(
+					$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
 		}
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))

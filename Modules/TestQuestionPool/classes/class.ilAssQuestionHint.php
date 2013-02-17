@@ -14,6 +14,8 @@ require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolExcept
  */
 class ilAssQuestionHint
 {
+	const PAGE_OBJECT_TYPE = 'qht';
+	
 	/**
 	 * this is the primary key for a hint single hint
 	 * 
@@ -354,5 +356,15 @@ class ilAssQuestionHint
 		$questionHint = new self();
 		$questionHint->load($hintId);
 		return $questionHint;
+	}
+	
+	public function getPageObjectType()
+	{
+		return self::PAGE_OBJECT_TYPE;
+	}
+	
+	public static function getHintIndexLabel(ilLanguage $lng, $hintIndex)
+	{
+		return sprintf($lng->txt('tst_question_hints_index_column_label'), $hintIndex);
 	}
 }

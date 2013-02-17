@@ -1237,6 +1237,11 @@ class ilQTIParser extends ilSaxParser
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 				assQuestion::_includeClass($qt);
 				$question = new $qt();
+				$fbt = str_replace('ass', 'ilAss', $qt).'Feedback';
+				require_once "Modules/TestQuestionPool/classes/feedback/class.$fbt.php";
+				$question->feedbackOBJ = new $fbt(
+						$question, $GLOBALS['ilCtrl'], $GLOBALS['ilDB'], $GLOBALS['lng']
+				);
 				$question->fromXML($this->item, $this->qpl_id, $this->tst_id, $this->tst_object, $this->question_counter, $this->import_mapping);
 				break;
 			case "material":

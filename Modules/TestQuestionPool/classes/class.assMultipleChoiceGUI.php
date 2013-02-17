@@ -87,8 +87,8 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				$_POST["Estimated"]["ss"]
 			);
 			
-			$this->object->setFeedbackSetting($_POST['feedback_setting']);
-			if ($this->getSelfAssessmentEditingMode())
+			$this->object->setSpecificFeedbackSetting($_POST['feedback_setting']);
+			if ($this->object->getSelfAssessmentEditingMode())
 			{
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
@@ -191,7 +191,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$form->addItem($hidden);
 		}
 
-		if(!$this->getSelfAssessmentEditingMode())
+		if(!$this->object->getSelfAssessmentEditingMode())
 		{
 			// Answer types
 			$types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
@@ -224,7 +224,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$choices->setQuestionObject($this->object);
 		$choices->setSingleline($isSingleline);
 		$choices->setAllowMove(false);
-		if ($this->getSelfAssessmentEditingMode())
+		if ($this->object->getSelfAssessmentEditingMode())
 		{
 			$choices->setSize(40);
 			$choices->setMaxLength(800);
@@ -448,13 +448,15 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			if ($show_feedback)
 			{
 				
-				if ($this->object->getFeedbackSetting() == 2)
+				if ($this->object->getSpecificFeedbackSetting() == 2)
 				{
 					foreach ($user_solution as $mc_solution)
 					{
 						if (strcmp($mc_solution, $answer_id) == 0)
 						{
-							$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+							$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+									$this->object->getId(), $answer_id
+							);
 							if (strlen($fb))
 							{
 								$template->setCurrentBlock("feedback");
@@ -465,9 +467,11 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					}
 				}
 				
-				if ($this->object->getFeedbackSetting() == 1)
+				if ($this->object->getSpecificFeedbackSetting() == 1)
 				{
-					$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+							$this->object->getId(), $answer_id
+					);
 					if (strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");
@@ -476,13 +480,15 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					}					
 				}
 				
-				if ($this->object->getFeedbackSetting() == 3)
+				if ($this->object->getSpecificFeedbackSetting() == 3)
 				{
 					$answer = $this->object->getAnswer($answer_id);
 					
 					if ($answer->getPoints() > 0)
 					{
-						$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+						$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+								$this->object->getId(), $answer_id
+						);
 						if (strlen($fb))
 						{
 							$template->setCurrentBlock("feedback");
@@ -526,8 +532,9 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
 		$questionoutput = $template->get();
-		#$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-		#if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
+		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+		
+		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 
@@ -667,13 +674,15 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					$template->parseCurrentBlock();
 				}
 			}
-			if ($show_feedback && $this->object->getFeedbackSetting() == 2)
+			if ($show_feedback && $this->object->getSpecificFeedbackSetting() == 2)
 				{
 					foreach ($user_solution as $mc_solution)
 					{
 						if (strcmp($mc_solution, $answer_id) == 0)
 						{
-							$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+							$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+									$this->object->getId(), $answer_id
+							);
 							if (strlen($fb))
 							{
 								$template->setCurrentBlock("feedback");
@@ -684,9 +693,11 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					}
 				}
 
-				if ($show_feedback && $this->object->getFeedbackSetting() == 1)
+				if ($show_feedback && $this->object->getSpecificFeedbackSetting() == 1)
 				{
-					$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+							$this->object->getId(), $answer_id
+					);
 					if (strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");
@@ -695,13 +706,15 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					}					
 				}
 
-				if ($show_feedback && $this->object->getFeedbackSetting() == 3)
+				if ($show_feedback && $this->object->getSpecificFeedbackSetting() == 3)
 				{
 					$answer = $this->object->getAnswer($answer_id);
 
 					if ($answer->getPoints() > 0)
 					{
-						$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+						$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+								$this->object->getId(), $answer_id
+						);
 						if (strlen($fb))
 						{
 							$template->setCurrentBlock("feedback");
@@ -730,120 +743,6 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
-	}
-
-	/**
-	* Saves the feedback for a single choice question
-	*
-	* @access public
-	*/
-	function saveFeedback()
-	{
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$errors = $this->feedback(true);
-		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
-		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
-		$this->object->saveFeedbackSetting($_POST['feedback_setting']);
-		foreach ($this->object->answers as $index => $answer)
-		{
-			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
-		}
-		$this->object->cleanupMediaObjectUsage();
-		parent::saveFeedback();
-	}
-
-	/**
-	* Creates the output of the feedback page for a single choice question
-	*
-	* @access public
-	*/
-	function feedback($checkonly = false)
-	{
-		$save = (strcmp($this->ctrl->getCmd(), "saveFeedback") == 0) ? TRUE : FALSE;
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('feedback_answers'));
-		$form->setTableWidth("100%");
-		$form->setId("feedback");
-
-		$complete = new ilTextAreaInputGUI($this->lng->txt("feedback_complete_solution"), "feedback_complete");
-		$complete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)));
-		$complete->setRequired(false);
-		$complete->setRows(10);
-		$complete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$complete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$complete->addPlugin("latex");
-		$complete->addButton("latex");
-		$complete->addButton("pastelatex");
-		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($complete);
-
-		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
-		$incomplete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)));
-		$incomplete->setRequired(false);
-		$incomplete->setRows(10);
-		$incomplete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$incomplete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$incomplete->addPlugin("latex");
-		$incomplete->addButton("latex");
-		$incomplete->addButton("pastelatex");
-		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($incomplete);
-
-		require_once './Services/Form/classes/class.ilRadioGroupInputGUI.php';
-		require_once './Services/Form/classes/class.ilRadioOption.php';
-		
-		$feedback = new ilRadioGroupInputGUI($this->lng->txt('feedback_setting'), 'feedback_setting');
-		$feedback->addOption(new ilRadioOption($this->lng->txt('feedback_all'), 1), true);
-		$feedback->addOption(new ilRadioOption($this->lng->txt('feedback_checked'), 2));
-		$feedback->addOption(new ilRadioOption($this->lng->txt('feedback_correct'), 3));
-		$feedback->setValue($this->object->getFeedbackSetting());
-		$form->addItem($feedback);
-		
-		if (!$this->getSelfAssessmentEditingMode())
-		{
-			foreach ($this->object->answers as $index => $answer)
-			{
-				$answerobj = new ilTextAreaInputGUI($this->object->prepareTextareaOutput($answer->getAnswertext(), true), "feedback_answer_$index");
-				$answerobj->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackSingleAnswer($index)));
-				$answerobj->setRequired(false);
-				$answerobj->setRows(10);
-				$answerobj->setCols(80);
-				$answerobj->setUseRte(true);
-				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-				$answerobj->addPlugin("latex");
-				$answerobj->addButton("latex");
-				$answerobj->addButton("pastelatex");
-				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment");
-				$form->addItem($answerobj);
-			}
-		}
-
-		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']) || $this->getSelfAssessmentEditingMode())
-		{
-			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
-		}
-		if ($save)
-		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-		}
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return $errors;
 	}
 
 	/**
@@ -898,13 +797,8 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				$classname, "", $force_active);
 		}
 
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("feedback",
-				$this->ctrl->getLinkTargetByClass($classname, "feedback"),
-				array("feedback", "saveFeedback"),
-				$classname, "");
-		}
+		// add tab for question feedback within common class assQuestionGUI
+		$this->addTab_QuestionFeedback($ilTabs);
 
 		// add tab for question hint within common class assQuestionGUI
 		$this->addTab_QuestionHints($ilTabs);

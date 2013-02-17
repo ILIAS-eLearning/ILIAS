@@ -14107,3 +14107,236 @@ if(!$ilDB->tableColumnExists('cron_job', 'alive_ts'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3828>
+<?php
+
+if( !$ilDB->tableColumnExists('qpl_questions', 'add_cont_edit_mode') )
+{
+	$ilDB->addTableColumn('qpl_questions', 'add_cont_edit_mode', array(
+		'type' => 'text', 'length' => 16, 'notnull' => false, 'default' => null
+	));
+}
+
+$ilDB->modifyTableColumn('qpl_hints', 'qht_hint_text', array(
+		'type' => 'text', 'length' => 4000, 'fixed' => false, 'notnull' => false, 'default' => null
+));
+
+?>
+<#3829>
+<?php
+
+if( !$ilDB->tableExists('qpl_fb_specific') )
+{
+	// create new feedback table for all answer specific feedbacks,
+	// regardless from question type
+	
+	$ilDB->createTable('qpl_fb_specific', array(
+		'feedback_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'answer' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'feedback' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		)
+	));
+
+	$ilDB->createSequence('qpl_fb_specific');
+	
+	$ilDB->addPrimaryKey('qpl_fb_specific', array('feedback_id'));
+
+	$ilDB->addIndex('qpl_fb_specific', array('question_fi'), 'i1');
+}
+
+?>
+<#3830>
+<?php
+
+if( $ilDB->tableExists('qpl_fb_cloze') )
+{
+	$res = $ilDB->query("SELECT * FROM qpl_fb_cloze");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$feedbackId = $ilDB->nextId('qpl_fb_specific');
+
+		$ilDB->insert('qpl_fb_specific', array(
+			'feedback_id' => array('integer', $feedbackId),
+			'question_fi' => array('integer', $row['question_fi']),
+			'answer' => array('integer', $row['answer']),
+			'feedback' => array('text', $row['feedback']),
+			'tstamp' => array('integer', $row['tstamp'])
+		));
+	}
+
+	$ilDB->dropTable('qpl_fb_cloze');
+}
+
+?>
+<#3831>
+<?php
+
+if( $ilDB->tableExists('qpl_fb_errortext') )
+{
+	$res = $ilDB->query("SELECT * FROM qpl_fb_errortext");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$feedbackId = $ilDB->nextId('qpl_fb_specific');
+
+		$ilDB->insert('qpl_fb_specific', array(
+			'feedback_id' => array('integer', $feedbackId),
+			'question_fi' => array('integer', $row['question_fi']),
+			'answer' => array('integer', $row['answer']),
+			'feedback' => array('text', $row['feedback']),
+			'tstamp' => array('integer', $row['tstamp'])
+		));
+	}
+
+	$ilDB->dropTable('qpl_fb_errortext');
+}
+
+?>
+<#3832>
+<?php
+
+if( $ilDB->tableExists('qpl_fb_essay') )
+{
+	$res = $ilDB->query("SELECT * FROM qpl_fb_essay");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$feedbackId = $ilDB->nextId('qpl_fb_specific');
+
+		$ilDB->insert('qpl_fb_specific', array(
+			'feedback_id' => array('integer', $feedbackId),
+			'question_fi' => array('integer', $row['question_fi']),
+			'answer' => array('integer', $row['answer']),
+			'feedback' => array('text', $row['feedback']),
+			'tstamp' => array('integer', $row['tstamp'])
+		));
+	}
+
+	$ilDB->dropTable('qpl_fb_essay');
+}
+
+?>
+<#3833>
+<?php
+
+if( $ilDB->tableExists('qpl_fb_imap') )
+{
+	$res = $ilDB->query("SELECT * FROM qpl_fb_imap");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$feedbackId = $ilDB->nextId('qpl_fb_specific');
+
+		$ilDB->insert('qpl_fb_specific', array(
+			'feedback_id' => array('integer', $feedbackId),
+			'question_fi' => array('integer', $row['question_fi']),
+			'answer' => array('integer', $row['answer']),
+			'feedback' => array('text', $row['feedback']),
+			'tstamp' => array('integer', $row['tstamp'])
+		));
+	}
+
+	$ilDB->dropTable('qpl_fb_imap');
+}
+
+?>
+<#3834>
+<?php
+
+if( $ilDB->tableExists('qpl_fb_matching') )
+{
+	$res = $ilDB->query("SELECT * FROM qpl_fb_matching");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$feedbackId = $ilDB->nextId('qpl_fb_specific');
+
+		$ilDB->insert('qpl_fb_specific', array(
+			'feedback_id' => array('integer', $feedbackId),
+			'question_fi' => array('integer', $row['question_fi']),
+			'answer' => array('integer', $row['answer']),
+			'feedback' => array('text', $row['feedback']),
+			'tstamp' => array('integer', $row['tstamp'])
+		));
+	}
+
+	$ilDB->dropTable('qpl_fb_matching');
+}
+
+?>
+<#3835>
+<?php
+
+if( $ilDB->tableExists('qpl_fb_mc') )
+{
+	$res = $ilDB->query("SELECT * FROM qpl_fb_mc");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$feedbackId = $ilDB->nextId('qpl_fb_specific');
+
+		$ilDB->insert('qpl_fb_specific', array(
+			'feedback_id' => array('integer', $feedbackId),
+			'question_fi' => array('integer', $row['question_fi']),
+			'answer' => array('integer', $row['answer']),
+			'feedback' => array('text', $row['feedback']),
+			'tstamp' => array('integer', $row['tstamp'])
+		));
+	}
+
+	$ilDB->dropTable('qpl_fb_mc');
+}
+
+?>
+<#3836>
+<?php
+
+if( $ilDB->tableExists('qpl_fb_sc') )
+{
+	$res = $ilDB->query("SELECT * FROM qpl_fb_sc");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$feedbackId = $ilDB->nextId('qpl_fb_specific');
+
+		$ilDB->insert('qpl_fb_specific', array(
+			'feedback_id' => array('integer', $feedbackId),
+			'question_fi' => array('integer', $row['question_fi']),
+			'answer' => array('integer', $row['answer']),
+			'feedback' => array('text', $row['feedback']),
+			'tstamp' => array('integer', $row['tstamp'])
+		));
+	}
+
+	$ilDB->dropTable('qpl_fb_sc');
+}
+
+?>
+<#3837>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>

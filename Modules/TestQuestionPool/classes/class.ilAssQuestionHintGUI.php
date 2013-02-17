@@ -8,9 +8,12 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintAbstractGU
  * GUI class for management of a single hint for assessment questions
  *
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Grégory Saive <gsaive@databay.de>
  * @version		$Id$
  * 
  * @package		Modules/TestQuestionPool
+ *
+ * @ilCtrl_Calls ilAssQuestionHintGUI: ilPageObjectGUI
  */
 class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 {
@@ -30,19 +33,29 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs, $lng, $tpl;
 		
 		$cmd = $ilCtrl->getCmd(self::CMD_SHOW_FORM);
 		$nextClass = $ilCtrl->getNextClass($this);
 
 		switch($nextClass)
 		{
+			case 'ilpageobjectgui':
+				
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
+				$forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
+				$forwarder->setPresentationMode(ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_AUTHOR);
+				$forwarder->forward();
+				break;
+
 			default:
 				
 				$cmd .= 'Cmd';
-				return $this->$cmd();
+				$this->$cmd();
 				break;
 		}
+
+		return true;
 	}
 	
 	/**
@@ -54,7 +67,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function showFormCmd(ilPropertyFormGUI $form = null)
 	{
-		global $ilCtrl, $tpl;
+		global $ilCtrl, $tpl, $ilToolbar, $lng, $ilCtrl;
 		
 		if( $form instanceof ilPropertyFormGUI )
 		{
@@ -100,6 +113,8 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 			if( (int)$form->getInput('hint_id') )
 			{
 				$questionHint->load( (int)$form->getInput('hint_id') );
+				
+				$hintJustCreated = false;
 			}
 			else
 			{
@@ -108,15 +123,26 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 				$questionHint->setIndex(
 						ilAssQuestionHintList::getNextIndexByQuestionId($this->questionOBJ->getId())
 				);
+				
+				$hintJustCreated = true;
 			}
-			
+
 			$questionHint->setText( $form->getInput('hint_text') );
 			$questionHint->setPoints( $form->getInput('hint_points') );
-			
+
 			$questionHint->save();
 			
 			ilUtil::sendSuccess($lng->txt('tst_question_hints_form_saved_msg'), true);
-			$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+
+			if( $hintJustCreated && $this->questionOBJ->isAdditionalContentEditingModePageObject() )
+			{
+				$ilCtrl->setParameterByClass('ilPageObjectGUI', 'hint_id', $questionHint->getId());
+				$ilCtrl->redirectByClass('ilPageObjectGUI', 'edit');
+			}
+			else
+			{
+				$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+			}
 		}
 		
 		ilUtil::sendFailure($lng->txt('tst_question_hints_form_invalid_msg'));
@@ -156,25 +182,28 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTableWidth('100%');
 		
-		// form input: hint text
-		
-		$areaInp = new ilTextAreaInputGUI($lng->txt('tst_question_hints_form_label_hint_text'), 'hint_text');
-		$areaInp->setRequired(true);
-		$areaInp->setRows(10);
-		$areaInp->setCols(80);
-				
-		if( !$this->questionGUI->getPreventRteUsage() ) $areaInp->setUseRte(true);
+		if( !$this->questionOBJ->isAdditionalContentEditingModePageObject() )
+		{
+			// form input: hint text
 
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$areaInp->setRteTags( ilObjAdvancedEditing::_getUsedHTMLTags("assessment") );
+			$areaInp = new ilTextAreaInputGUI($lng->txt('tst_question_hints_form_label_hint_text'), 'hint_text');
+			$areaInp->setRequired(true);
+			$areaInp->setRows(10);
+			$areaInp->setCols(80);
 
-		$areaInp->setRTESupport($this->questionOBJ->getId(), 'qpl', 'assessment');
+			if( !$this->questionOBJ->getPreventRteUsage() ) $areaInp->setUseRte(true);
 
-		$areaInp->addPlugin("latex");
-		$areaInp->addButton("latex");
-		$areaInp->addButton("pastelatex");
-		
-		$form->addItem($areaInp);
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$areaInp->setRteTags( ilObjAdvancedEditing::_getUsedHTMLTags("assessment") );
+
+			$areaInp->setRTESupport($this->questionOBJ->getId(), 'qpl', 'assessment');
+
+			$areaInp->addPlugin("latex");
+			$areaInp->addButton("latex");
+			$areaInp->addButton("pastelatex");
+
+			$form->addItem($areaInp);
+		}
 		
 		// form input: hint points
 		
@@ -204,7 +233,10 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 			
 			require_once 'Services/Utilities/classes/class.ilUtil.php';
 			
-			$areaInp->setValue(	ilUtil::prepareTextareaOutput($questionHint->getText(), true) );
+			if( !$this->questionOBJ->isAdditionalContentEditingModePageObject() )
+			{
+				$areaInp->setValue(	ilUtil::prepareTextareaOutput($questionHint->getText(), true) );
+			}
 			
 			$numInp->setValue($questionHint->getPoints());
 			
@@ -219,11 +251,28 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 			));
 		}
 
-		$form->setFormAction($ilCtrl->getFormAction($this));
+		if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
+		{
+			if( $questionHint instanceof ilAssQuestionHint )
+			{
+				$saveCmdLabel = $lng->txt('tst_question_hints_form_cmd_save_points');
+			}
+			else
+			{
+				$saveCmdLabel = $lng->txt('tst_question_hints_form_cmd_save_points_and_edit_page');
+			}
+		}
+		else
+		{
+			$saveCmdLabel = $lng->txt('tst_question_hints_form_cmd_save');
+		}
+		
+		$form->setFormAction($ilCtrl->getFormAction($this));		
 		
 		$form->addCommandButton(self::CMD_CANCEL_FORM, $lng->txt('cancel'));
-		$form->addCommandButton(self::CMD_SAVE_FORM, $lng->txt('tst_question_hints_form_cmd_save'));
+		$form->addCommandButton(self::CMD_SAVE_FORM, $saveCmdLabel);
 		
 		return $form;
 	}
+
 }

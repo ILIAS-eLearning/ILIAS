@@ -524,9 +524,10 @@ assessment#:#externalscript_use_kvc#:#Bitte verwenden Sie Schlüssel/Wert-Kodier
 assessment#:#failed_official#:#nicht bestanden
 assessment#:#failed_short#:#nicht bestanden
 assessment#:#false#:#Falsch
-assessment#:#feedback_answers#:#Rückmeldung für jede Antwort
+assessment#:#feedback_generic#:#Allgemeine Rückmeldung zur Lösung
 assessment#:#feedback_complete_solution#:#Richtige Lösung
 assessment#:#feedback_incomplete_solution#:#Mindestens eine Antwort ist nicht richtig
+assessment#:#feedback_answers#:#Rückmeldung für jede Antwort
 assessment#:#file_uploads#:#Hochgeladene Dateien
 assessment#:#fileDownload#:#Datei-Download
 assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
@@ -859,7 +860,7 @@ assessment#:#term_text#:#Text
 assessment#:#terms#:#Terme
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#test_confirm_template_reset#:#Sind Sie sicher, dass Sie die Vorlage nicht mehr verwenden wollen?
-assessment#:#test_create_question#:#Frage erstellen
+assessment#:#ass_create_question#:#Frage erstellen
 assessment#:#test_delete_page#:#Frage löschen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
 assessment#:#test_enable_view_both#:#Listen- und Seitenansicht
@@ -1290,6 +1291,11 @@ assessment#:#feedback_setting#:#Modus des antwortspezifischen Feedback.
 assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Feedback bei ausgewählten Antworten des Prüflings.
 assessment#:#feedback_correct#:#Zeige Feedback bei richtigen Antworten.(Richtige Antworten sind die, die zu einer positiven Punktvergabe führen.)
+assessment#:#tst_add_quest_cont_edit_mode#:#Editierungsmodus für zusätzliche Frageninhalte
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard Editierungsmodus für zusätzliche Frageninhalte
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Editierung zusätzlicher Frageninhalte mit dem ILIAS Seiten Editor
+assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
+assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code
@@ -2022,6 +2028,8 @@ common#:#advanced_editing_lm_settings#:#Lernmodul- und Glossar-Einstellungen
 common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Rich-Text-Editor nicht erlauben
 common#:#advanced_editing_rep_page_editing#:#Aktiviere Seitenbearbeitung im Magazin
 common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen. Wenn die Funktion deaktiviert wird, werden bereits existierende Texte/Medien nicht mehr angezeigt.
+common#:#advanced_editing_tst_editing#:#Aktiviere Seitenbearbeitung im Test & Assessment
+common#:#advanced_editing_tst_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu Feedback oder Hinweisen von Testfragen.
 common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
 common#:#advanced_editing_settings#:#Editoreinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
@@ -12194,6 +12202,11 @@ assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
 assessment#:#tst_question_hints_index_column_label#:#Hinweis %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Hinweise
+assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
+assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
+assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
+assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Speichere Punkte und Bearbeite Seite
+assessment#:#tst_question_hints_back_to_hint_list#:#Fragen Hinweis Liste
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
 common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Blog kopieren

@@ -77,6 +77,10 @@ class assErrorTextImport extends assQuestionImport
 				$this->object->addErrorData($data[1], $data[0], $data[2]);
 			}
 		}
+		// additional content editing mode information
+		$this->object->setAdditionalContentEditingMode(
+				$this->fetchAdditionalContentEditingModeInformation($item)
+		);		
 		$this->object->saveToDb();
 
 		// handle the import of media objects in XHTML code

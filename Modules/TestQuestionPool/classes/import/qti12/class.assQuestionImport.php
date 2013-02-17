@@ -38,7 +38,7 @@ class assQuestionImport
 	*
 	* The question object
 	*
-	* @var object
+	* @var assQuestion
 	*/
 	var $object;
 
@@ -161,6 +161,27 @@ class assQuestionImport
 	{
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		return ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"];
+	}
+	
+	/**
+	 * fetches the "additional content editing mode" information from qti item
+	 * and falls back to ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT when no or invalid information is given
+	 * 
+	 * @final
+	 * @access protected
+	 * @param type $qtiItem
+	 * @return string $additionalContentEditingMode
+	 */
+	final protected function fetchAdditionalContentEditingModeInformation($qtiItem)
+	{
+		$additionalContentEditingMode = $qtiItem->getMetadataEntry('additional_cont_edit_mode');
+		
+		if( !$this->object->isValidAdditionalContentEditingMode($additionalContentEditingMode) )
+		{
+			$additionalContentEditingMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
+		}
+		
+		return $additionalContentEditingMode;
 	}
 }
 

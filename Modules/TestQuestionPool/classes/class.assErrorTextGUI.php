@@ -75,7 +75,7 @@ class assErrorTextGUI extends assQuestionGUI
 			$this->object->setTitle($_POST["title"]);
 			$this->object->setAuthor($_POST["author"]);
 			$this->object->setComment($_POST["comment"]);
-			if ($this->getSelfAssessmentEditingMode())
+			if ($this->object->getSelfAssessmentEditingMode())
 			{
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
@@ -94,7 +94,7 @@ class assErrorTextGUI extends assQuestionGUI
 			if (strlen($points_wrong) == 0) $points_wrong = -1.0;
 			$this->object->setPointsWrong($points_wrong);
 
-			if (!$this->getSelfAssessmentEditingMode())
+			if (!$this->object->getSelfAssessmentEditingMode())
 			{
 				$this->object->setTextSize($_POST["textsize"]);
 			}
@@ -144,7 +144,7 @@ class assErrorTextGUI extends assQuestionGUI
 		$errortext->setCols(80);
 		$form->addItem($errortext);
 
-		if (!$this->getSelfAssessmentEditingMode())
+		if (!$this->object->getSelfAssessmentEditingMode())
 		{
 			// textsize
 			$textsize = new ilNumberInputGUI($this->lng->txt("textsize"), "textsize");
@@ -368,26 +368,6 @@ class assErrorTextGUI extends assQuestionGUI
 	}
 
 	/**
-	* Saves the feedback for a single choice question
-	*
-	* @access public
-	*/
-	function saveFeedback()
-	{
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$errors = $this->feedback(true);
-		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
-		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
-		foreach ($this->object->getErrorData() as $index => $answer)
-		{
-			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
-		}
-
-		$this->object->cleanupMediaObjectUsage();
-		parent::saveFeedback();
-	}
-
-	/**
 	 * Sets the ILIAS tabs for this question type
 	 *
 	 * @access public
@@ -439,13 +419,8 @@ class assErrorTextGUI extends assQuestionGUI
 				$classname, "", $force_active);
 		}
 
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("feedback",
-				$this->ctrl->getLinkTargetByClass($classname, "feedback"),
-				array("feedback", "saveFeedback"),
-				$classname, "");
-		}
+		// add tab for question feedback within common class assQuestionGUI
+		$this->addTab_QuestionFeedback($ilTabs);
 
 		// add tab for question hint within common class assQuestionGUI
 		$this->addTab_QuestionHints($ilTabs);
@@ -492,95 +467,6 @@ class assErrorTextGUI extends assQuestionGUI
 		}
 	}
 
-			/**
-	* Creates the output of the feedback page for a single choice question
-	*
-	* @access public
-	*/
-	function feedback($checkonly = false)
-	{
-		$save = (strcmp($this->ctrl->getCmd(), "saveFeedback") == 0) ? TRUE : FALSE;
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('feedback_answers'));
-		$form->setTableWidth("98%");
-		$form->setId("feedback");
-
-		$complete = new ilTextAreaInputGUI($this->lng->txt("feedback_complete_solution"), "feedback_complete");
-		$complete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)));
-		$complete->setRequired(false);
-		$complete->setRows(10);
-		$complete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$complete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$complete->addPlugin("latex");
-		$complete->addButton("latex");
-		$complete->addButton("pastelatex");
-		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($complete);
-
-		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
-		$incomplete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)));
-		$incomplete->setRequired(false);
-		$incomplete->setRows(10);
-		$incomplete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$incomplete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$incomplete->addPlugin("latex");
-		$incomplete->addButton("latex");
-		$incomplete->addButton("pastelatex");
-		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($incomplete);
-
-		if (!$this->getSelfAssessmentEditingMode())
-		{
-			foreach ($this->object->getErrorData() as $index => $answer)
-			{
-				$caption = $ordinal = $index+1;
-				$caption .= '. <br />"' . $answer->text_wrong . '" =&gt; ';
-				$caption .= '"' . $answer->text_correct . '"';
-				$caption .= '</i>';
-
-				$answerobj = new ilTextAreaInputGUI($this->object->prepareTextareaOutput($caption, true), "feedback_answer_$index");
-				$answerobj->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackSingleAnswer($index)));
-				$answerobj->setRequired(false);
-				$answerobj->setRows(10);
-				$answerobj->setCols(80);
-				$answerobj->setUseRte(true);
-				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-				$answerobj->addPlugin("latex");
-				$answerobj->addButton("latex");
-				$answerobj->addButton("pastelatex");
-				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment");
-				$form->addItem($answerobj);
-			}
-		}
-
-		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']) || $this->getSelfAssessmentEditingMode())
-		{
-			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
-		}
-		if ($save)
-		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-		}
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return $errors;
-	}
-
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		$feedback = '<table><tbody>';
@@ -601,7 +487,10 @@ class assErrorTextGUI extends assQuestionGUI
 				$cand = '#'.$ans->text_wrong;
 				if ($elements[$answer] == $cand)
 				{
-					$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
+					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+							$this->object->getId(), $idx
+					);
+					$feedback .= $fb . '</td> </tr>';
 				}
 			}
 			#$feedback .= $this->object->getFeedbackSingleAnswer($answer) . '</td> </tr>';

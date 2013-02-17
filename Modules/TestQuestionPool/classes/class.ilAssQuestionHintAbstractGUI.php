@@ -8,6 +8,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
  * abstract parent class for concrete question hint GUI classes
  *
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Grégory Saive <gsaive@databay.de>
  * @version		$Id$
  * 
  * @package		Modules/TestQuestionPool
@@ -29,7 +30,7 @@ abstract class ilAssQuestionHintAbstractGUI
 	 * @var		assQuestion 
 	 */
 	protected $questionOBJ = null;
-	
+
 	/**
 	 * Constructor
 	 * 

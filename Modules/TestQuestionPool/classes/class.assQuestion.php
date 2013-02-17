@@ -170,6 +170,51 @@ abstract class assQuestion
 	private $obligationsToBeConsidered = false;
 	
 	/**
+	 * constant for additional content editing mode "default"
+	 */
+	const ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT = 'default';
+
+	/**
+	 * constant for additional content editing mode "pageobject"
+	 */
+	const ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT = 'pageobject';
+	
+	/**
+	 * additional content editing mode set for this question
+	 *
+	 * @var string
+	 */
+	private $additinalContentEditingMode = null;
+	
+	/**
+	 * feedback object for question
+	 *
+	 * @var ilAssQuestionFeedback
+	 */
+	public $feedbackOBJ = null;
+
+	/**
+	 * do not use rte for editing
+	 * 
+	 * @var boolean
+	 */
+	var $prevent_rte_usage = false;
+
+	/**
+	 * $selfassessmenteditingmode
+	 * 
+	 * @var boolean
+	 */
+	var $selfassessmenteditingmode = false;
+
+	/**
+	 * $defaultnroftries
+	 * 
+	 * @var boolean
+	 */
+	var $defaultnroftries = false;
+	
+	/**
 	* assQuestion constructor
 	*
 	* @param string $title A title string to describe the question
@@ -1534,8 +1579,8 @@ abstract class assQuestion
 		{
 			$this->deleteAdditionalTableData($question_id);
 			$this->deleteAnswers($question_id);
-			$this->deleteFeedbackGeneric($question_id);
-			$this->deleteFeedbackSpecific($question_id);
+			$this->feedbackOBJ->deleteGenericFeedbacks($question_id, $this->isAdditionalContentEditingModePageObject());
+			$this->feedbackOBJ->deleteSpecificAnswerFeedbacks($question_id, $this->isAdditionalContentEditingModePageObject());
 		}
 		catch (Exception $e)
 		{
@@ -1960,7 +2005,8 @@ abstract class assQuestion
 				"complete" => array("text", $complete),
 				"created" => array("integer", time()),
 				"original_id" => array("integer", NULL),
-				"tstamp" => array("integer", $tstamp)
+				"tstamp" => array("integer", $tstamp),
+				'add_cont_edit_mode' => array('text', $this->getAdditionalContentEditingMode())
 			));
 			$this->setId($next_id);
 			
@@ -2000,7 +2046,8 @@ abstract class assQuestion
 				"nr_of_tries" => array("integer", (strlen($this->getNrOfTries())) ? $this->getNrOfTries() : 1),
 				"created" => array("integer", time()),
 				"original_id" => array("integer", ($original_id) ? $original_id : NULL),
-				"tstamp" => array("integer", time())
+				"tstamp" => array("integer", time()),
+				'add_cont_edit_mode' => array('text', $this->getAdditionalContentEditingMode())
 			));
 			$this->setId($next_id);
 			// create page object of question
@@ -2068,20 +2115,35 @@ abstract class assQuestion
 	/**
 	* Will be called when a question is duplicated (inside a question pool or for insertion in a test)
 	*/
-	protected function onDuplicate($source_question_id)
+	protected function onDuplicate($originalQuestionId, $duplicateQuestionId)
 	{
-		$this->duplicateSuggestedSolutionFiles($source_question_id);
+		$this->duplicateSuggestedSolutionFiles($originalQuestionId);
+		
+		// duplicate question feeback
+		$this->feedbackOBJ->duplicateFeedback($originalQuestionId, $duplicateQuestionId);
 		
 		// duplicate question hints
-		$this->duplicateQuestionHints($source_question_id, $this->getId());
+		$this->duplicateQuestionHints($originalQuestionId, $duplicateQuestionId);
+	}
+	
+	protected function onSyncWithOriginal($originalQuestionId, $duplicateQuestionId)
+	{
+		// sync question feeback
+		$this->feedbackOBJ->syncFeedback($originalQuestionId, $duplicateQuestionId);
 	}
 	
 	/**
 	* Will be called when a question is copied (into another question pool)
 	*/
-	protected function onCopy($source_questionpool_id, $source_question_id)
+	protected function onCopy($sourceParentId, $sourceQuestionId, $targetParentId, $targetQuestionId)
 	{
-		$this->copySuggestedSolutionFiles($source_questionpool_id, $source_question_id);
+		$this->copySuggestedSolutionFiles($sourceParentId, $sourceQuestionId);
+		
+		// duplicate question feeback
+		$this->feedbackOBJ->duplicateFeedback($sourceQuestionId, $targetQuestionId);
+		
+		// duplicate question hints
+		$this->duplicateQuestionHints($sourceQuestionId, $targetQuestionId);
 	}
 	
 /**
@@ -2520,8 +2582,9 @@ abstract class assQuestion
 			$this->setId($id);
 			$this->setOriginalId($original);
 			$this->updateSuggestedSolutions($original);
-			$this->syncFeedbackGeneric();
 			$this->syncXHTMLMediaObjectsOfQuestion();
+			
+			$this->onSyncWithOriginal($original, $this->getId());
 		}
 	}
 
@@ -2598,6 +2661,8 @@ abstract class assQuestion
 */
 	function &_instanciateQuestion($question_id) 
 	{
+		global $ilCtrl, $ilDB, $lng;
+		
 		if (strcmp($question_id, "") != 0)
 		{
 			$question_type = assQuestion::_getQuestionType($question_id);
@@ -2605,6 +2670,11 @@ abstract class assQuestion
 			assQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
+			
+			$feedbackObjectClassname = str_replace('ass', 'ilAss', $question_type).'Feedback';
+			require_once "Modules/TestQuestionPool/classes/feedback/class.$feedbackObjectClassname.php";
+			$question->feedbackOBJ = new $feedbackObjectClassname($question, $ilCtrl, $ilDB, $lng);
+			
 			return $question;
 		}
 	}
@@ -3078,132 +3148,7 @@ abstract class assQuestion
 		}
 		return 0;
 	}
-	
-	/**
-	* Saves generic feedback to the database. Generic feedback is either
-	* feedback for either the complete solution of the question or at least one
-	* incorrect answer.
-	*
-	* @param integer $correctness 0 for at least one incorrect answer, 1 for the correct solution
-	* @param string $feedback Feedback text
-	* @access public
-	*/
-	function saveFeedbackGeneric($correctness, $feedback)
-	{
-		global $ilDB;
 		
-		switch ($correctness)
-		{
-			case 0:
-				$correctness = 0;
-				break;
-			case 1:
-			default:
-				$correctness = 1;
-				break;
-		}
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_generic WHERE question_fi = %s AND correctness = %s",
-			array('integer', 'text'),
-			array($this->getId(), $correctness)
-		);
-		if (strlen($feedback))
-		{
-			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$next_id = $ilDB->nextId('qpl_fb_generic');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','integer','text','text','integer'),
-				array($next_id, $this->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($feedback, 0), time())
-			);
-		}
-	}
-	
-	/**
-	* Returns the generic feedback for a given question state. The
-	* state is either the complete solution of the question or at least one
-	* incorrect answer
-	*
-	* @param integer $correctness 0 for at least one incorrect answer, 1 for the correct solution
-	* @return string Feedback text
-	* @access public
-	*/
-	function getFeedbackGeneric($correctness)
-	{
-		global $ilDB;
-		
-		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_fb_generic WHERE question_fi = %s AND correctness = %s",
-			array('integer', 'text'),
-			array($this->getId(), $correctness)
-		);
-		if ($result->numRows())
-		{
-			$row = $ilDB->fetchAssoc($result);
-			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
-		}
-		return $feedback;
-	}
-
-	/**
-	* Duplicates the generic feedback of a question
-	*
-	* @param integer $original_id The database ID of the original question
-	* @access public
-	*/
-	function duplicateGenericFeedback($original_id)
-	{
-		global $ilDB;
-		
-		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_fb_generic WHERE question_fi = %s",
-			array('integer'),
-			array($original_id)
-		);
-		if ($result->numRows())
-		{
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				$next_id = $ilDB->nextId('qpl_fb_generic');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer','text','text','integer'),
-					array($next_id, $this->getId(), $row["correctness"], $row["feedback"], time())
-				);
-			}
-		}
-	}
-	
-	function syncFeedbackGeneric()
-	{
-		global $ilDB;
-
-		$feedback = "";
-
-		// delete generic feedback of the original
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_generic WHERE question_fi = %s",
-			array('integer'),
-			array($this->original_id)
-		);
-			
-		// get generic feedback of the actual question
-		$result = $ilDB->queryF("SELECT * FROM qpl_fb_generic WHERE question_fi = %s",
-			array('integer'),
-			array($this->getId())
-		);
-
-		// save generic feedback to the original
-		if ($result->numRows())
-		{
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				$next_id = $ilDB->nextId('qpl_fb_generic');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer','text','text','integer'),
-					array($next_id, $this->original_id, $row["correctness"], $row["feedback"], time())
-				);
-			}
-		}
-	}
-	
 	/**
 	* Collects all text in the question which could contain media objects
 	* which were created with the Rich Text Editor
@@ -3213,22 +3158,17 @@ abstract class assQuestion
 		// must be called in parent classes. add additional RTE text in the parent
 		// classes and call this method to add the standard RTE text
 		$collected = $this->getQuestion();
-		$collected .= $this->getFeedbackGeneric(0);
-		$collected .= $this->getFeedbackGeneric(1);
+		$collected .= $this->feedbackOBJ->getGenericFeedbackContent($this->getId(), false);
+		$collected .= $this->feedbackOBJ->getGenericFeedbackContent($this->getId(), true);
 		for( $i = 0; $i <= $this->getTotalAnswers(); $i++ )
 		{
-			$collected .= $this->getFeedbackSingleAnswer($i);
+			$collected .= $this->feedbackOBJ->getSpecificAnswerFeedbackContent($this->getId(), $i);
 		}
 		foreach ($this->suggested_solutions as $solution_array)
 		{
 			$collected .= $solution_array["value"];
 		}
 		return $collected;
-	}
-	
-	function getFeedbackSingleAnswer($answer_index)
-	{
-		return '';
 	}
 
 	/**
@@ -3398,6 +3338,8 @@ abstract class assQuestion
 */
 	function &_instanciateQuestionGUI($question_id) 
 	{
+		global $ilCtrl, $ilDB, $lng;
+		
 		if (strcmp($question_id, "") != 0)
 		{
 			$question_type = assQuestion::_getQuestionType($question_id);
@@ -3405,6 +3347,11 @@ abstract class assQuestion
 			assQuestion::_includeClass($question_type, 1);
 			$question_gui = new $question_type_gui();
 			$question_gui->object->loadFromDb($question_id);
+			
+			$feedbackObjectClassname = str_replace('ass', 'ilAss', $question_type).'Feedback';
+			require_once "Modules/TestQuestionPool/classes/feedback/class.$feedbackObjectClassname.php";
+			$question_gui->object->feedbackOBJ = new $feedbackObjectClassname($question_gui->object, $ilCtrl, $ilDB, $lng);
+			
 			return $question_gui;
 		}
 	}
@@ -3607,26 +3554,94 @@ abstract class assQuestion
 		$a_q = str_replace("</li><br>", "</li>", $a_q);
 		return $a_q;
 	}
+
+	// scorm2004-start ???
+	
+	/**
+	 * Set prevent rte usage
+	 *
+	 * @param	boolean	prevent rte usage
+	 */
+	function setPreventRteUsage($a_val)
+	{
+		$this->prevent_rte_usage = $a_val;
+	}
+
+	/**
+	 * Get prevent rte usage
+	 *
+	 * @return	boolean	prevent rte usage
+	 */
+	function getPreventRteUsage()
+	{
+		return $this->prevent_rte_usage;
+	}
+	
+	/**
+	 * Set Self-Assessment Editing Mode.
+	 *
+	 * @param	boolean	$a_selfassessmenteditingmode	Self-Assessment Editing Mode
+	 */
+	function setSelfAssessmentEditingMode($a_selfassessmenteditingmode)
+	{
+		$this->selfassessmenteditingmode = $a_selfassessmenteditingmode;
+	}
+
+	/**
+	 * Get Self-Assessment Editing Mode.
+	 *
+	 * @return	boolean	Self-Assessment Editing Mode
+	 */
+	function getSelfAssessmentEditingMode()
+	{
+		return $this->selfassessmenteditingmode;
+	}
+
+	/**
+	 * Set  Default Nr of Tries
+	 *
+	 * @param	int	$a_defaultnroftries		Default Nr. of Tries
+	 */
+	function setDefaultNrOfTries($a_defaultnroftries)
+	{
+		$this->defaultnroftries = $a_defaultnroftries;
+	}
+	
+	/**
+	 * Get Default Nr of Tries
+	 *
+	 * @return	int	Default Nr of Tries
+	 */
+	function getDefaultNrOfTries()
+	{
+		return $this->defaultnroftries;
+	}
+	
+	// scorm2004-end ???
 	
 	protected function duplicateQuestionHints($originalQuestionId, $duplicateQuestionId)
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
-		ilAssQuestionHintList::duplicateListForQuestion($originalQuestionId, $duplicateQuestionId);
-	}
-
-	protected function deleteFeedbackSpecific($question_id)
-	{
-		return;
-	}
-
-	private function deleteFeedbackGeneric($question_id)
-	{
-		global $ilDB;
-		$ilDB->manipulateF(
-			'DELETE FROM qpl_fb_generic WHERE question_fi = %s',
-			array('integer'),
-			array($question_id)
-		);
+		$hintIds = ilAssQuestionHintList::duplicateListForQuestion($originalQuestionId, $duplicateQuestionId);
+		
+		if( $this->isAdditionalContentEditingModePageObject() )
+		{
+			require_once 'Services/COPage/classes/class.ilPageObject.php';
+			
+			foreach($hintIds as $originalHintId => $duplicateHintId)
+			{
+				$originalPageObject = new ilPageObject(ilAssQuestionHint::PAGE_OBJECT_TYPE, $originalHintId);
+				$originalXML = $originalPageObject->getXMLContent();
+				
+				$duplicatePageObject = new ilPageObject(ilAssQuestionHint::PAGE_OBJECT_TYPE);
+				$duplicatePageObject->setId($duplicateHintId);
+				$duplicatePageObject->setParentId($this->getId());
+				$duplicatePageObject->setXMLContent($originalXML);
+				$duplicatePageObject->saveMobUsage($originalXML);
+				
+				$duplicatePageObject->createFromXML();
+			}
+		}
 	}
 	
 	/**
@@ -3728,5 +3743,75 @@ abstract class assQuestion
 		);
 
 		return $solutionRecordsExist;
+	}
+	
+	/**
+	 * getter for additional content editing mode for this question
+	 * 
+	 * @access public
+	 * @return string
+	 */
+	public function getAdditionalContentEditingMode()
+	{
+		return $this->additinalContentEditingMode;
+	}
+	
+	/**
+	 * setter for additional content editing mode for this question
+	 * 
+	 * @access public
+	 * @return string
+	 */
+	public function setAdditionalContentEditingMode($additinalContentEditingMode)
+	{
+		if( !in_array($additinalContentEditingMode, $this->getValidAdditionalContentEditingModes()) )
+		{
+			require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
+			throw new ilTestQuestionPoolException('invalid additional content editing mode given: '.$additinalContentEditingMode);
+		}
+		
+		$this->additinalContentEditingMode = $additinalContentEditingMode;
+	}
+	
+	/**
+	 * isser for additional "pageobject" content editing mode
+	 * 
+	 * @access public
+	 * @return boolean
+	 */
+	public function isAdditionalContentEditingModePageObject()
+	{
+		return $this->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT;
+	}
+	
+	/**
+	 * returns the fact wether the passed additional content mode is valid or not
+	 * 
+	 * @access public
+	 * @param string $additionalContentEditingMode
+	 * @return boolean $isValidAdditionalContentEditingMode
+	 */
+	public function isValidAdditionalContentEditingMode($additionalContentEditingMode)
+	{
+		if( in_array($additionalContentEditingMode, $this->getValidAdditionalContentEditingModes()) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * getter for valid additional content editing modes
+	 * 
+	 * @access public
+	 * @return array
+	 */
+	public function getValidAdditionalContentEditingModes()
+	{
+		return array(
+			self::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT,
+			self::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+		);
 	}
 }

@@ -60,7 +60,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
-			if (!$this->getSelfAssessmentEditingMode())
+			if (!$this->object->getSelfAssessmentEditingMode())
 			{
 				$this->object->setShuffle($_POST["shuffle"]);
 			}
@@ -70,7 +70,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			}
 			$this->object->setThumbGeometry($_POST["thumb_geometry"]);
 			$this->object->setElementHeight($_POST["element_height"]);
-			if ($this->getSelfAssessmentEditingMode())
+			if ($this->object->getSelfAssessmentEditingMode())
 			{
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
@@ -265,7 +265,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// title, author, description, question, working time (assessment mode)
 		$this->addBasicQuestionFormProperties($form);
 
-		if (!$this->getSelfAssessmentEditingMode())
+		if (!$this->object->getSelfAssessmentEditingMode())
 		{
 			// shuffle
 			$shuffle = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
@@ -302,7 +302,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// Definitions
 		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
 		$definitions = new ilMatchingWizardInputGUI($this->lng->txt("definitions"), "definitions");
-		if ($this->getSelfAssessmentEditingMode()) $definitions->setHideImages(true);
+		if ($this->object->getSelfAssessmentEditingMode()) $definitions->setHideImages(true);
 		$definitions->setRequired(true);
 		$definitions->setQuestionObject($this->object);
 		$definitions->setTextName($this->lng->txt('definition_text'));
@@ -316,7 +316,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// Terms
 		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
 		$terms = new ilMatchingWizardInputGUI($this->lng->txt("terms"), "terms");
-		if ($this->getSelfAssessmentEditingMode()) $terms->setHideImages(true);
+		if ($this->object->getSelfAssessmentEditingMode()) $terms->setHideImages(true);
 		$terms->setRequired(true);
 		$terms->setQuestionObject($this->object);
 		$terms->setTextName($this->lng->txt('term_text'));
@@ -351,7 +351,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ((!$errors) && (count($terms->getValues()) < (count($definitions->getValues())))
-				&& !$this->getSelfAssessmentEditingMode())
+				&& !$this->object->getSelfAssessmentEditingMode())
 			{
 				$errors = true;
 				$terms->setAlert($this->lng->txt("msg_number_of_terms_too_low"));
@@ -1191,24 +1191,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		return true;
 	}
 
-
-	/**
-	* Saves the feedback for a single choice question
-	*/
-	function saveFeedback()
-	{
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$errors = $this->feedback(true);
-		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
-		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
-		foreach ($this->object->getMatchingPairs() as $index => $answer)
-		{
-			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
-		}		
-		$this->object->cleanupMediaObjectUsage();
-		parent::saveFeedback();
-	}
-
 	/**
 	 * Sets the ILIAS tabs for this question type
 	 *
@@ -1262,13 +1244,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$classname, "", $force_active);
 		}
 
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("feedback",
-				$this->ctrl->getLinkTargetByClass($classname, "feedback"),
-				array("feedback", "saveFeedback"),
-				$classname, "");
-		}
+		// add tab for question feedback within common class assQuestionGUI
+		$this->addTab_QuestionFeedback($ilTabs);
 
 		// add tab for question hint within common class assQuestionGUI
 		$this->addTab_QuestionHints($ilTabs);
@@ -1315,105 +1292,18 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 	}
 
-		
-	/**
-	* Creates the output of the feedback page for a single choice question
-	*
-	* @access public
-	*/
-	function feedback($checkonly = false)
-	{
-		$save = (strcmp($this->ctrl->getCmd(), "saveFeedback") == 0) ? TRUE : FALSE;
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('feedback_answers'));
-		$form->setTableWidth("98%");
-		$form->setId("feedback");
-
-		$complete = new ilTextAreaInputGUI($this->lng->txt("feedback_complete_solution"), "feedback_complete");
-		$complete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)));
-		$complete->setRequired(false);
-		$complete->setRows(10);
-		$complete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$complete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$complete->addPlugin("latex");
-		$complete->addButton("latex");
-		$complete->addButton("pastelatex");
-		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($complete);
-
-		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
-		$incomplete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)));
-		$incomplete->setRequired(false);
-		$incomplete->setRows(10);
-		$incomplete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$incomplete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$incomplete->addPlugin("latex");
-		$incomplete->addButton("latex");
-		$incomplete->addButton("pastelatex");
-		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($incomplete);
-	
-		if (!$this->getSelfAssessmentEditingMode())
-		{
-			foreach ($this->object->getMatchingPairs() as $index => $answer)
-			{
-				$caption = $ordinal = $index+1;
-				$caption .= '. <br />"' . $answer->term->text . '" =&gt; ';
-				$caption .= '"' . $answer->definition->text . '"';
-				$caption .= '</i>';
-				
-				$answerobj = new ilTextAreaInputGUI($this->object->prepareTextareaOutput($caption, true), "feedback_answer_$index");
-				$answerobj->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackSingleAnswer($index)));
-				$answerobj->setRequired(false);
-				$answerobj->setRows(10);
-				$answerobj->setCols(80);
-				$answerobj->setUseRte(true);
-				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-				$answerobj->addPlugin("latex");
-				$answerobj->addButton("latex");
-				$answerobj->addButton("pastelatex");
-				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment");
-				$form->addItem($answerobj);
-			}
-		}
-
-		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']) || $this->getSelfAssessmentEditingMode())
-		{
-			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
-		}
-		if ($save)
-		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-		}
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return $errors;
-	}
-
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		$feedback = '<table><tbody>';
 
 		foreach ($this->object->getMatchingPairs() as $idx => $ans)
 		{
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+					$this->object->getId(), $idx
+			);
 			$feedback .= '<tr><td><b><i>' . $ans->definition->text . '</i></b></td><td>'. $this->lng->txt("matches") . '&nbsp;';
 			$feedback .= '</td><td><b><i>' . $ans->term->text . '</i></b></td><td>&nbsp;</td><td>';
-			$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
+			$feedback .= $fb . '</td> </tr>';
 		}
 
 		$feedback .= '</tbody></table>';

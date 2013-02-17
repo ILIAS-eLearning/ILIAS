@@ -266,7 +266,7 @@ class assSingleChoiceImport extends assQuestionImport
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setShuffle($shuffle);
-		$this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
+		$this->object->setThumbSize($item->getMetadataEntry("thumb_size"));		
 		foreach ($answers as $answer)
 		{
 			if (is_array($answer["imagefile"]) && (count($answer["imagefile"]) > 0))
@@ -275,6 +275,10 @@ class assSingleChoiceImport extends assQuestionImport
 			}
 			$this->object->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"], $answer["imagefile"]["label"]);
 		}
+		// additional content editing mode information
+		$this->object->setAdditionalContentEditingMode(
+				$this->fetchAdditionalContentEditingModeInformation($item)
+		);		
 		$this->object->saveToDb();
 		foreach ($answers as $answer)
 		{
@@ -355,11 +359,15 @@ class assSingleChoiceImport extends assQuestionImport
 		}
 		foreach ($feedbacks as $ident => $material)
 		{
-			$this->object->saveFeedbackSingleAnswer($ident, ilRTE::_replaceMediaObjectImageSrc($material, 1));
+			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
+					$this->object->getId(), $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)
 		{
-			$this->object->saveFeedbackGeneric($correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1));
+			$this->object->feedbackOBJ->importGenericFeedback(
+					$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
 		}
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))

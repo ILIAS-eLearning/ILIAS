@@ -75,7 +75,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			$this->object->setTitle($_POST["title"]);
 			$this->object->setAuthor($_POST["author"]);
 			$this->object->setComment($_POST["comment"]);
-			if ($this->getSelfAssessmentEditingMode())
+			if ($this->object->getSelfAssessmentEditingMode())
 			{
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
@@ -150,7 +150,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
 			"cs" => $this->lng->txt("cloze_textgap_case_sensitive")
 		);
-		if (!$this->getSelfAssessmentEditingMode())
+		if (!$this->object->getSelfAssessmentEditingMode())
 		{
 			$text_options["l1"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1");
 			$text_options["l2"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2");
@@ -409,21 +409,6 @@ class assTextSubsetGUI extends assQuestionGUI
 	}
 
 	/**
-	* Saves the feedback for a single choice question
-	*
-	* @access public
-	*/
-	function saveFeedback()
-	{
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$errors = $this->feedback(true);
-		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
-		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
-		$this->object->cleanupMediaObjectUsage();
-		parent::saveFeedback();
-	}
-
-	/**
 	 * Sets the ILIAS tabs for this question type
 	 *
 	 * @access public
@@ -475,13 +460,8 @@ class assTextSubsetGUI extends assQuestionGUI
 				$classname, "", $force_active);
 		}
 
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("feedback",
-				$this->ctrl->getLinkTargetByClass($classname, "feedback"),
-				array("feedback", "saveFeedback"),
-				$classname, "");
-		}
+		// add tab for question feedback within common class assQuestionGUI
+		$this->addTab_QuestionFeedback($ilTabs);
 
 		// add tab for question hint within common class assQuestionGUI
 		$this->addTab_QuestionHints($ilTabs);

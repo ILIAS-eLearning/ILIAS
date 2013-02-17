@@ -38,7 +38,7 @@ class assQuestionExport
 	*
 	* The question object
 	*
-	* @var object
+	* @var assQuestion
 	*/
 	var $object;
 
@@ -55,8 +55,12 @@ class assQuestionExport
 	
 	function exportFeedbackOnly($a_xml_writer)
 	{
-		$feedback_allcorrect = $this->object->getFeedbackGeneric(1);
-		$feedback_onenotcorrect = $this->object->getFeedbackGeneric(0);
+		$feedback_allcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
+				$this->object->getId(), true
+		);
+		$feedback_onenotcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
+				$this->object->getId(), false
+		);
 		if (strlen($feedback_allcorrect . $feedback_onenotcorrect))
 		{
 			$a_xml_writer->xmlStartTag("resprocessing");
@@ -152,6 +156,39 @@ class assQuestionExport
 	*/
 	function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
+	}
+	
+	/**
+	 * adds a qti meta data field with given name and value to the passed xml writer
+	 * (xml writer must be in context of opened "qtimetadata" tag)
+	 * 
+	 * @final
+	 * @access protected
+	 * @param ilXmlWriter $a_xml_writer
+	 * @param string $fieldLabel
+	 * @param string $fieldValue
+	 */
+	final protected function addQtiMetaDataField(ilXmlWriter $a_xml_writer, $fieldLabel, $fieldValue)
+	{
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, $fieldLabel);
+		$a_xml_writer->xmlElement("fieldentry", NULL, $fieldValue);
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+	}
+	
+	/**
+	 * adds a qti meta data field for ilias specific information of "additional content editing mode"
+	 * (xml writer must be in context of opened "qtimetadata" tag)
+	 * 
+	 * @final
+	 * @access protected
+	 * @param ilXmlWriter $a_xml_writer
+	 */
+	final protected function addAdditionalContentEditingModeInformation(ilXmlWriter $a_xml_writer)
+	{
+		$this->addQtiMetaDataField(
+			$a_xml_writer, 'additional_cont_edit_mode', $this->object->getAdditionalContentEditingMode()
+		);
 	}
 }
 

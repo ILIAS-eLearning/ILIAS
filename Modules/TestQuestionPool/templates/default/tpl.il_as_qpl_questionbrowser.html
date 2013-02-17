@@ -1,12 +1,27 @@
 <!-- BEGIN commandbar -->
 <div style="text-align: right;" class="ilToolbar"><h3 class="ilAccHeadingHidden">Add Questions</h3>
 	<form name="form_questions" method="POST" action="{FORMACTION}">
+
 		<select name="sel_question_types">
-		<!-- BEGIN QTypes -->
-		<option value="{QUESTION_TYPE_ID}"{QUESTION_TYPE_SELECTED}>{QUESTION_TYPE}</option>
-		<!-- END QTypes -->
+			<!-- BEGIN QTypes -->
+			<option value="{QUESTION_TYPE_ID}"{QUESTION_TYPE_SELECTED}>{QUESTION_TYPE}</option>
+			<!-- END QTypes -->
 		</select>
+
+		<!-- BEGIN sel_editing_mode -->
+		<select name="add_quest_cont_edit_mode">
+			<!-- BEGIN sel_editing_mode_option -->
+			<option value="{SEL_EDITING_MODE_VALUE}">{SEL_EDITING_MODE_TEXT}</option>
+			<!-- END sel_editing_mode_option -->
+		</select>
+		<!-- END sel_editing_mode -->
+		
+		<!-- BEGIN hid_editing_mode -->
+		<input type="hidden" name="add_quest_cont_edit_mode" value="{HID_EDITING_MODE_VALUE}" />
+		<!-- END hid_editing_mode -->
+		
 		<input class="submit" type="submit" name="cmd[createQuestion]" value="{QUESTION_ADD}"{DISABLED} />
+
 	</form>
 </div>
 <!-- END commandbar -->

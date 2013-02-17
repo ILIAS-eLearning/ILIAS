@@ -77,6 +77,10 @@ class assFlashQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getAuthor());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		// additional content editing information
+		$this->addAdditionalContentEditingModeInformation($a_xml_writer);		
+		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "points");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getPoints());

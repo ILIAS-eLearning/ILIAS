@@ -60,11 +60,6 @@ abstract class assQuestionGUI
 	 * question count in test
 	 */
 	var $question_count;
-
-	/**
-	 * do not use rte for editing
-	 */
-	var $prevent_rte_usage = false;
 	
 	/**
 	* assQuestionGUI constructor
@@ -214,19 +209,31 @@ abstract class assQuestionGUI
 	*/
 	function &_getQuestionGUI($question_type, $question_id = -1)
 	{
+		global $ilCtrl, $ilDB, $lng;
+		
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		
 		if ((!$question_type) and ($question_id > 0))
 		{
 			$question_type = assQuestion::getQuestionTypeFromDb($question_id);
 		}
+		
 		if (strlen($question_type) == 0) return NULL;
+		
 		$question_type_gui = $question_type . "GUI";
+		
 		assQuestion::_includeClass($question_type, 1);
 		$question =& new $question_type_gui();
+
+		$feedbackObjectClassname = str_replace('ass', 'ilAss', $question_type).'Feedback';
+		require_once "Modules/TestQuestionPool/classes/feedback/class.$feedbackObjectClassname.php";
+		$question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $ilCtrl, $ilDB, $lng);
+		
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);
 		}
+		
 		return $question;
 	}
 	
@@ -443,30 +450,6 @@ abstract class assQuestionGUI
 		{
 			$_GET["ref_id"] = $_GET["calling_test"];
 			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
-		}
-	}
-		
-	/**
-	* Saves the feedback for a single choice question
-	*
-	* Saves the feedback for a single choice question
-	*
-	* @access public
-	*/
-	function saveFeedback()
-	{
-		global $ilUser;
-		
-		$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
-		{
-			$this->originalSyncForm("feedback");
-		}
-		else
-		{
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), false);
-			$this->feedback();
 		}
 	}
 	
@@ -824,72 +807,12 @@ abstract class assQuestionGUI
 	}
 	
 	/**
-	* Set Self-Assessment Editing Mode.
-	*
-	* @param	boolean	$a_selfassessmenteditingmode	Self-Assessment Editing Mode
-	*/
-	function setSelfAssessmentEditingMode($a_selfassessmenteditingmode)
-	{
-		$this->selfassessmenteditingmode = $a_selfassessmenteditingmode;
-	}
-
-	/**
-	* Get Self-Assessment Editing Mode.
-	*
-	* @return	boolean	Self-Assessment Editing Mode
-	*/
-	function getSelfAssessmentEditingMode()
-	{
-		return $this->selfassessmenteditingmode;
-	}
-
-	/**
-	 * Set prevent rte usage
-	 *
-	 * @param	boolean	prevent rte usage
-	 */
-	function setPreventRteUsage($a_val)
-	{
-		$this->prevent_rte_usage = $a_val;
-	}
-
-	/**
-	 * Get prevent rte usage
-	 *
-	 * @return	boolean	prevent rte usage
-	 */
-	function getPreventRteUsage()
-	{
-		return $this->prevent_rte_usage;
-	}
-
-	/**
-	* Set  Default Nr of Tries
-	*
-	* @param	int	$a_defaultnroftries		Default Nr. of Tries
-	*/
-	function setDefaultNrOfTries($a_defaultnroftries)
-	{
-		$this->defaultnroftries = $a_defaultnroftries;
-	}
-	
-	/**
-	* Get Default Nr of Tries
-	*
-	* @return	int	Default Nr of Tries
-	*/
-	function getDefaultNrOfTries()
-	{
-		return $this->defaultnroftries;
-	}
-	
-	/**
 	* Add the command buttons of a question properties form
 	*/
 	function addQuestionFormCommandButtons($form)
 	{
-		//if (!$this->getSelfAssessmentEditingMode() && !$_GET["calling_test"]) $form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
-		if(!$this->getSelfAssessmentEditingMode())
+		//if (!$this->object->getSelfAssessmentEditingMode() && !$_GET["calling_test"]) $form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		if(!$this->object->getSelfAssessmentEditingMode())
 		{
 			$form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
 		}
@@ -910,7 +833,7 @@ abstract class assQuestionGUI
 		$title->setRequired(TRUE);
 		$form->addItem($title);
 
-		if (!$this->getSelfAssessmentEditingMode())
+		if (!$this->object->getSelfAssessmentEditingMode())
 		{
 			// author
 			$author = new ilTextInputGUI($this->lng->txt("author"), "author");
@@ -944,15 +867,18 @@ abstract class assQuestionGUI
 		$question->setRequired(TRUE);
 		$question->setRows(10);
 		$question->setCols(80);
-		if (!$this->getSelfAssessmentEditingMode())
+		if (!$this->object->getSelfAssessmentEditingMode())
 		{
-			$question->setUseRte(TRUE);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-			$question->addPlugin("latex");
-			$question->addButton("latex");
-			$question->addButton("pastelatex");
-			$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+			if( $this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT )
+			{
+				$question->setUseRte(TRUE);
+				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+				$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$question->addPlugin("latex");
+				$question->addButton("latex");
+				$question->addButton("pastelatex");
+				$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+			}
 		}
 		else
 		{
@@ -961,7 +887,7 @@ abstract class assQuestionGUI
 		}
 		$form->addItem($question);
 
-		if (!$this->getSelfAssessmentEditingMode())
+		if (!$this->object->getSelfAssessmentEditingMode())
 		{
 			// duration
 			$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
@@ -984,7 +910,7 @@ abstract class assQuestionGUI
 			}
 			else
 			{
-				$nr_tries = $this->getDefaultNrOfTries();
+				$nr_tries = $this->object->getDefaultNrOfTries();
 			}
 			/*if ($nr_tries <= 0)
 			{
@@ -1050,8 +976,10 @@ abstract class assQuestionGUI
 		{
 			return $manual_feedback;
 		}
-		$correct_feedback = $this->object->getFeedbackGeneric(1);
-		$incorrect_feedback = $this->object->getFeedbackGeneric(0);
+		
+		$correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
+		$incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
+		
 		if (strlen($correct_feedback.$incorrect_feedback))
 		{
 			$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
@@ -1116,71 +1044,6 @@ abstract class assQuestionGUI
 	 * @access public
 	 */
 	abstract function getSpecificFeedbackOutput($active_id, $pass);
-
-	/**
-	* Creates the output of the feedback page for the question
-	*
-	* @access public
-	*/
-	function feedback($checkonly = false)
-	{
-		$save = (strcmp($this->ctrl->getCmd(), "saveFeedback") == 0) ? TRUE : FALSE;
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('feedback_answers'));
-		$form->setTableWidth("100%");
-		$form->setId("feedback");
-
-		$complete = new ilTextAreaInputGUI($this->lng->txt("feedback_complete_solution"), "feedback_complete");
-		$complete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)));
-		$complete->setRequired(false);
-		$complete->setRows(10);
-		$complete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$complete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$complete->addPlugin("latex");
-		$complete->addButton("latex");
-		$complete->addButton("pastelatex");
-		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($complete);
-
-		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
-		$incomplete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)));
-		$incomplete->setRequired(false);
-		$incomplete->setRows(10);
-		$incomplete->setCols(80);
-		if (!$this->getPreventRteUsage())
-		{
-			$incomplete->setUseRte(true);
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-		$incomplete->addPlugin("latex");
-		$incomplete->addButton("latex");
-		$incomplete->addButton("pastelatex");
-		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($incomplete);
-
-		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']) || $this->getSelfAssessmentEditingMode())
-		{
-			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
-		}
-
-		if ($save)
-		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-		}
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return $errors;
-	}
 	
 	public function outQuestionType()
 	{
@@ -1685,9 +1548,57 @@ abstract class assQuestionGUI
 	{
 	    return in_array($this->ctrl->getCmd(), array('save', 'saveEdit', 'saveReturn'));
 	}
+		
+	/**
+	 * extracts values of all constants of given class with given prefix as array
+	 * can be used to get all possible commands in case of these commands are defined as constants
+	 * 
+	 * @param string $guiClassName
+	 * @param string $cmdConstantNameBegin
+	 * @return array
+	 */
+	public static function getCommandsFromClassConstants($guiClassName, $cmdConstantNameBegin = 'CMD_')
+	{
+		$reflectionClass = new ReflectionClass($guiClassName);
+		
+		$commands = null;
+		
+		if( $reflectionClass instanceof ReflectionClass )
+		{
+			$commands = array();
+		
+			foreach($reflectionClass->getConstants() as $constName => $constValue)
+			{
+				if( substr($constName, 0, strlen($cmdConstantNameBegin)) == $cmdConstantNameBegin )
+				{
+					$commands[] = $constValue;
+				}
+			}
+		}
+		
+		return $commands;
+	}
 	
 	public function setQuestionTabs()
 	{
+	}
+	
+	/**
+	 * adds the feedback tab to ilTabsGUI
+	 *
+	 * @global ilCtrl $ilCtrl
+	 * @param ilTabsGUI $tabs
+	 */
+	protected function addTab_QuestionFeedback(ilTabsGUI $tabs)
+	{
+		global $ilCtrl;
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+		$tabCommands = self::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
+		
+		$tabLink = $ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
+		
+		$tabs->addTarget('feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
 	}
 	
 	/**
@@ -1702,28 +1613,24 @@ abstract class assQuestionGUI
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
 
-		$reflectionClass = null;
-
 		switch( $ilCtrl->getCmdClass() )
 		{
 			case 'ilassquestionhintsgui':
 				
-				$reflectionClass = new ReflectionClass('ilAssQuestionHintsGUI');
+				$tabCommands = self::getCommandsFromClassConstants('ilAssQuestionHintsGUI');
 				break;
 
 			case 'ilassquestionhintgui':
 				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
-				$reflectionClass = new ReflectionClass('ilAssQuestionHintGUI');
+				$tabCommands = self::getCommandsFromClassConstants('ilAssQuestionHintGUI');
 				break;
+			
+			default:
+				
+				$tabCommands = array();
 		}
-		
-		$tabCommands = array();
-		
-		if( $reflectionClass instanceof ReflectionClass )
-			foreach($reflectionClass->getConstants() as $constName => $constValue)
-				if( substr($constName, 0, strlen('CMD_')) == 'CMD_' ) $tabCommands[] = $constValue;
-		
+
 		$tabLink = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
 		
 		$tabs->addTarget('tst_question_hints_tab', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');

@@ -132,6 +132,14 @@ class assFileUpload extends assQuestion
 			$this->setMaxSize($data["maxsize"]);
 			$this->setAllowedExtensions($data["allowedextensions"]);
 			$this->setCompletionBySubmission($data['compl_by_submission'] == 1 ? true : false);
+			
+			try
+			{
+				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
+			}
+			catch(ilTestQuestionPoolException $e)
+			{
+			}
 		}
 		parent::loadFromDb($question_id);
 	}
@@ -191,17 +199,16 @@ class assFileUpload extends assQuestion
 		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($this_id);
 
-		$clone->onDuplicate($this_id);
+		$clone->onDuplicate($this_id, $clone->getId());
+		
 		return $clone->id;
 	}
 
 	/**
 	* Copies an assFileUpload object
 	*/
-	public function copyObject($target_questionpool, $title = "")
+	public function copyObject($target_questionpool_id, $title = "")
 	{
 		if ($this->id <= 0)
 		{
@@ -213,8 +220,8 @@ class assFileUpload extends assQuestion
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
-		$source_questionpool = $this->getObjId();
-		$clone->setObjId($target_questionpool);
+		$source_questionpool_id = $this->getObjId();
+		$clone->setObjId($target_questionpool_id);
 		if ($title)
 		{
 			$clone->setTitle($title);
@@ -225,10 +232,8 @@ class assFileUpload extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-		// duplicate the generic feedback
-		$clone->duplicateGenericFeedback($original_id);
 
-		$clone->onCopy($this->getObjId(), $this->getId());
+		$clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
 
 		return $clone->id;
 	}

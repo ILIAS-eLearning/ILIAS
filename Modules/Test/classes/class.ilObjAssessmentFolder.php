@@ -35,6 +35,9 @@ require_once "./Services/Object/classes/class.ilObject.php";
 
 class ilObjAssessmentFolder extends ilObject
 {
+	const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED = 0;
+	const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_ENABLED = 1;
+	
 	var $setting;
 	
 	/**
@@ -553,6 +556,25 @@ class ilObjAssessmentFolder extends ilObject
 			);
 			$this->_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
 		}
+	}
+	
+	/**
+	 * returns the fact wether content editing with ilias page editor is enabled for questions or not
+	 * 
+	 * @global ilSetting $ilSetting
+	 * @return bool $isPageEditorEnabled
+	 */
+	public static function isAdditionalQuestionContentEditingModePageObjectEnabled()
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+		
+		global $ilSetting;
+		
+		$isPageEditorEnabled = $ilSetting->get(
+				'enable_tst_page_edit', self::ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED
+		);
+		
+		return $isPageEditorEnabled;
 	}
 } // END class.ilObjAssessmentFolder
 ?>

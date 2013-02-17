@@ -86,6 +86,19 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 		$this->setExternalSegmentation(true);
 		
 		$tableData = $questionHintList->getTableData();
+		
+		if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
+		{
+			require_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+			
+			foreach( $tableData as $key => $data )
+			{
+				$pageObjectGUI = new ilPageObjectGUI(ilAssQuestionHint::PAGE_OBJECT_TYPE, $data['hint_id']);
+				$pageObjectGUI->setOutputMode("presentation");
+				$tableData[$key]['hint_text'] = $pageObjectGUI->presentation();
+			}
+		}
+		
 		$this->setData($tableData);
 
 		if( $this->tableMode == self::TBL_MODE_ADMINISTRATION )
@@ -256,17 +269,29 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 		
 		if( $this->tableMode == self::TBL_MODE_ADMINISTRATION )
 		{
-			$editHref = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM);
-			$editHref = ilUtil::appendUrlParameterString($editHref, "hint_id={$rowData['hint_id']}", true);
-
-			$deleteHref = $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintsGUI::CMD_CONFIRM_DELETE);
-			$deleteHref = ilUtil::appendUrlParameterString($deleteHref, "hint_id={$rowData['hint_id']}", true);
-			
 			$list = new ilAdvancedSelectionListGUI();
 			$list->setListTitle($lng->txt('actions'));
 			$list->setId("advsl_hint_{$rowData['hint_id']}_actions");
 
-			$list->addItem($lng->txt('tst_question_hints_table_link_edit_hint'), '', $editHref);
+			if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
+			{
+				$editPointsHref = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM);
+				$editPointsHref = ilUtil::appendUrlParameterString($editPointsHref, "hint_id={$rowData['hint_id']}", true);
+				$list->addItem($lng->txt('tst_question_hints_table_link_edit_hint_points'), '', $editPointsHref);
+				
+				$editPageHref = $ilCtrl->getLinkTargetByClass('ilPageObjectGUI', 'edit');
+				$editPageHref = ilUtil::appendUrlParameterString($editPageHref, "hint_id={$rowData['hint_id']}", true);
+				$list->addItem($lng->txt('tst_question_hints_table_link_edit_hint_page'), '', $editPageHref);
+			}
+			else
+			{
+				$editHref = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM);
+				$editHref = ilUtil::appendUrlParameterString($editHref, "hint_id={$rowData['hint_id']}", true);
+				$list->addItem($lng->txt('tst_question_hints_table_link_edit_hint'), '', $editHref);
+			}
+			
+			$deleteHref = $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintsGUI::CMD_CONFIRM_DELETE);
+			$deleteHref = ilUtil::appendUrlParameterString($deleteHref, "hint_id={$rowData['hint_id']}", true);
 			$list->addItem($lng->txt('tst_question_hints_table_link_delete_hint'), '', $deleteHref);
 
 			$this->tpl->setVariable('ACTIONS', $list->getHTML());
@@ -278,12 +303,12 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$showHref = $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintRequestGUI::CMD_SHOW_HINT);
-			$showHref = ilUtil::appendUrlParameterString($showHref, "hintId={$rowData['hint_id']}", true);
+			
+			$showHref = $this->parent_obj->getHintPresentationLinkTarget($rowData['hint_id']);
 			
 			$this->tpl->setVariable('HINT_HREF', $showHref);
 
-			$hintIndex = sprintf($lng->txt('tst_question_hints_index_column_label'), $rowData['hint_index']);
+			$hintIndex = ilAssQuestionHint::getHintIndexLabel($lng, $rowData['hint_index']);
 		}
 		
 		$this->tpl->setVariable('HINT_INDEX', $hintIndex);
