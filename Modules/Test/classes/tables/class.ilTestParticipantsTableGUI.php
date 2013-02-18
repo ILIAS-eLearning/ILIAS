@@ -109,6 +109,15 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	}
 
 	/**
+	 * @param $field
+	 * @return bool|void
+	 */
+	public function numericOrdering($field)
+	{
+		return $field == 'access';
+	}
+
+	/**
 	 * fill row 
 	 *
 	 * @access public
@@ -130,7 +139,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("STARTED", ($data['started']) ? $started : '');
 		$this->tpl->setVariable("PASSES", $passes);
 		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $finished : '');
-		$this->tpl->setVariable("ACCESS", $data['access']);
+		$this->tpl->setVariable("ACCESS", ilDatePresentation::formatDate(new ilDateTime($data['access'],IL_CAL_DATETIME)));
 		if ($data['active_id'] > 0)
 		{
 			$this->tpl->setCurrentBlock('results');

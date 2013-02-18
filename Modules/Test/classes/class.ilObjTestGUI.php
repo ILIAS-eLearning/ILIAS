@@ -3767,7 +3767,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (strlen($data["active_id"]))
 				{
 					$last_access = $this->object->_getLastAccess($data["active_id"]);
-					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));					
+					$access = $last_access;
 				}
 				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
 				
@@ -3824,7 +3824,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (strlen($data["active_id"]))
 				{
 					$last_access = $this->object->_getLastAccess($data["active_id"]);
-					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));
+					$access = $last_access;
 				}
 				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
 
