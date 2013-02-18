@@ -13052,3 +13052,14 @@ cron#:#cron_action_activate_success#:#Cron-Job aktiviert.
 cron#:#cron_action_deactivate_success#:#Cron-Job deaktiviert.
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_edit_success#:#Zeitplan aktualisiert.
+dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
+dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
+dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
+dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden sie das XSL Dateiformat.
+dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze:
+dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
+dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
+dcl#:#dcl_import_records .xls#:#Import .xls
+dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel .XML Format vorliegen mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen jeden Import zuerst zu simulieren.
+dcl#:#dcl_simulate_import#:#Import Simulieren
+dcl#:#dcl_simulate_info#:#Wird der Import simuliert, werden keine Datensätze angelegt aber Sie erhalten Feedback zu eventuellen Fehlern in der Import Datei. Dadurch können Sie fehlerhafte Imports vermeiden.
