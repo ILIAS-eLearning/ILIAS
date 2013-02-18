@@ -83,7 +83,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 			$this->addColumn($lng->txt("tst_question_hints_requested_hint_count_header"), "hint_count", "");
 		}
 		
-		$this->addColumn($lng->txt("tst_mark"), "tst_mark", "");
+		$this->addColumn($lng->txt("tst_mark"), "mark", "");
 		
 		if ($this->parent_obj->object->ects_output)
 		{
