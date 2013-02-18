@@ -130,10 +130,15 @@ il.Form = {
 	// initialisation for number fields
 	initNumericCheck: function (id, decimals_allowed) {
 		var current;
-
+		
 		$('#' + id).keydown(function (event) {
 
-			if (event.keyCode == 190) {
+			// #10562
+			var kcode = event.which;
+			var is_shift = event.shiftKey;
+			var is_ctrl = event.ctrlKey;
+			
+			if (kcode == 190) {
 				// decimals are not allowed
 				if (decimals_allowed == undefined || decimals_allowed == 0) {
 					event.preventDefault();
@@ -145,16 +150,16 @@ il.Form = {
 					}
 				}
 			// Allow: backspace, delete, tab, escape, and enter
-			} else if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+			} else if (kcode == 46 || kcode == 8 || kcode == 9 || kcode == 27 || kcode == 13 ||
 					 // Allow: Ctrl+A
-					(event.keyCode == 65 && event.ctrlKey === true) ||
-					 // Allow: home, end, left, right
-					(event.keyCode >= 35 && event.keyCode <= 39)) {
+					(kcode == 65 && is_ctrl === true) ||
+					 // Allow: home, end, left, right (up [38] does not matter)
+					(kcode >= 35 && kcode <= 39)) {
 				// let it happen, don't do anything
 				return;
 			} else {
-				// Ensure that it is a number and stop the keypress
-				if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+				// Ensure that it is a number and stop the keypress (2nd block: num pad)
+				if (is_shift || (kcode < 48 || kcode > 57) && (kcode < 96 || kcode > 105)) {
 					event.preventDefault();
 				}
 			}
