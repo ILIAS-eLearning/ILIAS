@@ -867,7 +867,7 @@ class ilDataCollectionField
         }
 
 		
-		if($this->isUnique())
+		if($this->isUnique() && $record_id)
 		{
 			$table = ilDataCollectionCache::getTableCache($this->getTableId());
 			

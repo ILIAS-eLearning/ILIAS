@@ -13052,3 +13052,14 @@ cron#:#cron_action_activate_success#:#Cron-Job activated.
 cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
 cron#:#cron_action_reset_success#:#Cron-Job reset.
 cron#:#cron_action_edit_success#:#Schedule updated.
+dcl#:#dcl_no_warnings#:#The import terminated with no warnings.
+dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
+dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
+dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLS file.
+dcl#:#dcl_import_terminated#:#The import terminated. Entries added
+dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
+dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
+dcl#:#dcl_import_records .xls#:#Import .xls
+dcl#:#dcl_file_format_description#:#The file needs to be an excel .XSL file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
+dcl#:#dcl_simulate_import#:#Simulate Import
+dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
