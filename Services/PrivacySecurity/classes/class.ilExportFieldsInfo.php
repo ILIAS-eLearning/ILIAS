@@ -155,12 +155,21 @@ class ilExportFieldsInfo
 		}
 		
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
-		$udf = ilUserDefinedFields::_getInstance()->getGroupExportableFields();
-
-		foreach($udf as $field_id => $field)
+		if($this->getType() == 'crs')
 		{
-			$fields['udf_'.$field_id]['txt'] = $field['field_name'];
-			$fields['udf_'.$field_id]['default'] = 0;
+			$udf = ilUserDefinedFields::_getInstance()->getCourseExportableFields();
+		}
+		elseif($this->getType() == 'grp')
+		{
+			$udf = ilUserDefinedFields::_getInstance()->getGroupExportableFields();
+		}		
+		if($udf)
+		{
+			foreach($udf as $field_id => $field)
+			{
+				$fields['udf_'.$field_id]['txt'] = $field['field_name'];
+				$fields['udf_'.$field_id]['default'] = 0;
+			}
 		}
 		
 		include_once './Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php';
