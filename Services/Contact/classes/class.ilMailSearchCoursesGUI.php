@@ -493,8 +493,8 @@ class ilMailSearchCoursesGUI
 			{
 				$members_obj = ilCourseParticipants::_getinstanceByObjId($crs_id);
 				$tmp_members = $members_obj->getParticipants();
-				$course_members = ilUtil::_sortIds($tmp_members,'usr_data','lastname','usr_id');
-					
+				$course_members = ilUtil::_sortIds($tmp_members, 'usr_data', 'lastname', 'usr_id');
+
 				foreach ($course_members as $member)
 				{
 					$tmp_usr = new ilObjUser($member);
@@ -513,11 +513,11 @@ class ilMailSearchCoursesGUI
 						$fullname = $name['lastname'].', '.$name['firstname'];
 
 					$rowData = array(
-						'MEMBERS_ID' => $member,
-						'MEMBERS_LOGIN' => $login,
-						'MEMBERS_NAME' => $fullname,
-						'MEMBERS_CRS_GRP' => $ilObjDataCache->lookupTitle($crs_id),
-						'MEMBERS_IN_ADDRESSBOOK' => $this->abook->checkEntryByLogin($login) ? $lng->txt("yes") : $lng->txt("no"),
+						'members_id' => $member,
+						'members_login' => $login,
+						'members_name' => $fullname,
+						'members_crs_grp' => $ilObjDataCache->lookupTitle($crs_id),
+						'members_in_addressbook' => $this->abook->checkEntryByLogin($login) ? $lng->txt("yes") : $lng->txt("no"),
 						'search_crs' => $crs_id
 					);
 					
@@ -527,13 +527,8 @@ class ilMailSearchCoursesGUI
 			$table->setData($tableData);
 			if (count($tableData))
 			{
-				//$table->addCommandButton('mail', $lng->txt("grp_mem_send_mail"));
-				//$table->addCommandButton('adoptMembers', $lng->txt("mail_into_addressbook"));
-				
 				$searchTpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
 			}
-			
-
 
 			$searchTpl->setVariable('TABLE', $table->getHtml());
 			$this->tpl->setContent($searchTpl->get());
