@@ -1647,6 +1647,20 @@ class ilObjectListGUI
 		
 		$props = $this->getProperties($a_item);
 		$props = $this->getCustomProperties($props);
+		
+		// add activation custom property	
+		$act_item = array("ref_id" => $this->ref_id,
+			"obj_id" => $this->obj_id,
+			"type" => $this->type);
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
+		$activation = ilObjectActivation::getListGUIProperties($act_item);		
+		if($activation)
+		{	
+			$props[] = array("alert" => false,
+				"property" => $lng->txt($activation[0]),
+				"value" => $activation[1],
+				"newline" => true);	
+		}
 
 		// add no item access note in public section
 		// for items that are visible but not readable
