@@ -6249,7 +6249,7 @@ crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_crs_structure#:#Kursstruktur
 crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
 crs#:#crs_dates#:#Termine
-crs#:#crs_auto_notification#:#Mail-Benachrichtigungen aktivieren
+crs#:#crs_auto_notification#:#Begrüßungsmail für neue Mitglieder
 crs#:#crs_auto_notification_info#:#Versand von Mail-Benachrichtigungen an jene Mitglieder, die über die Teilnehmerverwaltung in den Kurs aufgenommen wurden.
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, dass diese Zuordnung entfernt werden soll?
@@ -13063,3 +13063,4 @@ dcl#:#dcl_import_records .xls#:#Import .xls
 dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel .XML Format vorliegen mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen jeden Import zuerst zu simulieren.
 dcl#:#dcl_simulate_import#:#Import Simulieren
 dcl#:#dcl_simulate_info#:#Wird der Import simuliert, werden keine Datensätze angelegt aber Sie erhalten Feedback zu eventuellen Fehlern in der Import Datei. Dadurch können Sie fehlerhafte Imports vermeiden.
+crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
