@@ -6242,7 +6242,7 @@ crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_crs_structure#:#Kursstruktur
 crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
 crs#:#crs_dates#:#Termine
-crs#:#crs_auto_notification#:#Mail-Benachrichtigungen aktivieren
+crs#:#crs_auto_notification#:#Begrüßungsmail für neue Mitglieder
 crs#:#crs_auto_notification_info#:#Versand von Mail-Benachrichtigungen an jene Mitglieder, die über die Teilnehmerverwaltung in den Kurs aufgenommen wurden.
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, dass diese Zuordnung entfernt werden soll?
@@ -12955,3 +12955,4 @@ ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
 blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
+crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
