@@ -1208,9 +1208,21 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#getClientInfoXML',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getClientInfoXML(): returns XML following installation_info dtd, contains the client the data of given client id');
+								'ILIAS getClientInfoXML(): returns XML following installation_info dtd');
 
-		$this->server->register('getSkillCompletionDateForTriggerRefId',
+        $this->server->register ('getClientDetailsXML',
+                                array('sid' => 'xsd:string',
+                                      'clientid' => 'xsd:string'),
+                                array('xml' => 'xsd:string'),
+                                SERVICE_NAMESPACE,
+                                SERVICE_NAMESPACE.'#getClientDetailsXML',
+                                SERVICE_STYLE,
+                                SERVICE_USE,
+                                'ILIAS getClientDetailsXML(): returns XML following installation_info dtd, contains the client the data of given client id');
+
+
+
+        $this->server->register('getSkillCompletionDateForTriggerRefId',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:string',
 									  'ref_id' => 'xsd:string'),

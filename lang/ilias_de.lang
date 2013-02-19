@@ -4685,6 +4685,7 @@ common#:#skin_style#:#Standard-Skin / -Style
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administration über SOAP
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über die SOAP-Schnittstelle verwaltet werden.
+common#:#soap_user_administration_desc_extended#:#Wenn SOAP aktiviert ist, ist dieser auch Mandant über die API sichtbar.
 common#:#soap_wsdl_path#:#WSDL-Pfad
 common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Webservice genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
 common#:#socialbm_disable#:#Deaktivieren

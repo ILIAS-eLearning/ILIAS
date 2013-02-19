@@ -391,6 +391,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		if(!count($objs))
 		{
+            //rku: todo: das ist nicht soap konform! - hier muss ein XML zurück geliefert werden
 			return '';
 		}
 
@@ -415,6 +416,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 
 		$xml_writer->setObjects($objs);
+
 		if($xml_writer->start())
 		{
 			#$GLOBALS['ilLog']->write(__METHOD__.': '.$xml_writer->xmlDumpMem(true));

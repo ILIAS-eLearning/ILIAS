@@ -876,6 +876,12 @@ class ilSoapFunctions {
 		$roa = new ilSoapAdministration();
 		return $roa->getClientInfoXML($clientid);
 	}
+
+    public static function  getClientDetailsXML($sid, $clientid) {
+        include_once 'webservice/soap/classes/class.ilSoapAdministration.php';
+        $roa = new ilSoapAdministration();
+        return $roa->getClientDetailsXML($sid, $clientid);
+    }
 	
 	/**
 	 * builds http path if no client is available

@@ -404,7 +404,9 @@ class ilSoapAdministration
 			{				
 				if (is_object($clientInfo= $this->getClientInfo($init, $clientdir)))
 				{
-					$writer->addClient ($clientInfo);
+                    // only export soap enabled  clients
+					if ($clientInfo->access == 1)
+                        $writer->addClient ($clientInfo);
 				}
 			}
 		}
@@ -436,6 +438,44 @@ class ilSoapAdministration
 		$writer->end();
 		return $writer->getXML();
 	}
+
+    public function getClientDetailsXML($sid, $clientid)
+    {
+        $this->initAuth($sid);
+        $this->initIlias();
+
+        if(!$this->__checkSession($sid))
+        {
+            return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+        }
+
+        global $ilClientIniFile;
+
+        if (!is_object($ilClientIniFile)) {
+            return $this->__raiseError("Client ini is not initialized","Server");
+        }
+
+      /*  include_once "Services/Context/classes/class.ilContext.php";
+        ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
+
+        require_once("Services/Init/classes/class.ilInitialisation.php");
+        ilInitialisation::initILIAS();*/
+
+        $clientdir = ILIAS_WEB_DIR."/".$clientid;
+        require_once ("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
+        $writer = new ilSoapInstallationInfoXMLWriter ();
+        $writer->setExportAdvancedMetaDataDefinitions (true);
+        $writer->setExportUDFDefinitions (true);
+        $writer->start();
+        if (is_object($client = $this->getClientInfo($init, $clientdir)))
+        {
+            $writer->addClient($client, true);
+        }
+        else
+            return $this->__raiseError("Client ID $clientid does not exist!", 'Client');
+        $writer->end();
+        return $writer->getXML();
+    }
 	
 	private function getClientInfo ($init, $client_dir) 
 	{

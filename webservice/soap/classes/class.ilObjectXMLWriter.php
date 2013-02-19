@@ -145,7 +145,8 @@ class ilObjectXMLWriter extends ilXmlWriter
 					continue;
 				}
 			}
-			$this->__appendObject($object);
+            if (is_object($object))
+			    $this->__appendObject($object);
 		}
 		$this->__buildFooter();
 
@@ -159,7 +160,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 
 	// PRIVATE
-	function __appendObject(&$object)
+	function __appendObject($object)
 	{
 
 	  global $tree, $rbacreview;

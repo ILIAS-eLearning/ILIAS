@@ -542,7 +542,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_WEBSERVICES",$this->lng->txt('webservices'));
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION",$this->lng->txt('soap_user_administration'));
-		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION_DESC",$this->lng->txt('soap_user_administration_desc'));
+		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION_DESC",$this->lng->txt('soap_user_administration_desc').$this->lng->txt('soap_user_administration_desc_extended'));
 
 		$this->tpl->setVariable("TXT_JAVA_SERVER",$this->lng->txt('java_server'));
 		$this->tpl->setVariable("TXT_JAVA_SERVER_HOST",$this->lng->txt('java_server_host'));
@@ -2999,7 +2999,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	
 		// soap administration
 		$cb = new ilCheckboxInputGUI($this->lng->txt("soap_user_administration"), "soap_user_administration");
-		$cb->setInfo($this->lng->txt("soap_user_administration_desc"));
+		$cb->setInfo($this->lng->txt("soap_user_administration_desc").$this->lng->txt('soap_user_administration_desc_extended'));
 		if ($ilSetting->get("soap_user_administration"))
 		{
 			$cb->setChecked(true);

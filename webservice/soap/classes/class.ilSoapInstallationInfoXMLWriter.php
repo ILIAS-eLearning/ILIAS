@@ -38,10 +38,10 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$this->xmlStartTag("Clients");		
 	}
 	
-	public function addClient ($client) {
+	public function addClient ($client, $add_details) {
 		if (is_object($client)) 
 		{
-			$this->__buildClient ($client);
+			$this->__buildClient ($client, $add_details);
 		}
 		
 	}
@@ -61,7 +61,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	{
 		// we have to build the http path here since this request is client independent!
 		$httpPath = ilSoapFunctions::buildHTTPPath();	
-		$this->xmlSetDtdDef("<!DOCTYPE Installation PUBLIC \"-//ILIAS//DTD Group//EN\" \"".$httpPath ."/xml/ilias_client_3_10.dtd\">");  
+		$this->xmlSetDtdDef("<!DOCTYPE Installation PUBLIC \"-//ILIAS//DTD Group//EN\" \"".$httpPath ."/xml/ilias_installation_info_4_3.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS clients.");
 		$this->xmlHeader();
 		$this->xmlStartTag("Installation",
@@ -82,8 +82,9 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	 * create client tag
 	 *
 	 * @param ilSetting $setting
+     * @param boolean $add_details if true, details of installation are append
 	 */
-	private function __buildClient($setting) {
+	private function __buildClient($setting, $add_details) {
 		$auth_modes = ilAuthUtils::_getActiveAuthModes();
 		$auth_mode_default =  strtoupper(ilAuthUtils::_getAuthModeName(array_shift($auth_modes)));
 		$auth_mode_names = array();
@@ -129,16 +130,18 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 				"default_lang" => $setting->language,
 			    
 			));
-		$this->xmlEndTag("Client");
-		return;
-		
-		// END here due to security reasons.
-		
+
+        if (!$add_details) {
+            $this->xmlEndTag("Client");
+            return;
+
+        }
+
 
 		$this->xmlElement ("Name", null, $setting->get("inst_name"));
 		$this->xmlElement ("Description", null, $setting->description);
 		$this->xmlElement ("Institution", null, $setting->get("inst_institution"));
-		$this->xmlStartTag("Responsible");
+/*		$this->xmlStartTag("Responsible");
 		$this->xmlElement ("Firstname", null, $setting->get("admin_firstname"));
 		$this->xmlElement ("Lastname", null, $setting->get("admin_lastname"));
 		$this->xmlElement ("Title", null, $setting->get("admin_title"));
@@ -150,7 +153,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$this->xmlElement ("City", null, $setting->get("admin_city"));
 		$this->xmlElement ("Country", null, $setting->get("admin_country"));
 		$this->xmlElement ("Phone", null, $setting->get("admin_phone"));		
-		$this->xmlEndTag("Responsible");
+		$this->xmlEndTag("Responsible");*/
 		$this->xmlStartTag("Settings");
 		$this->xmlElement("Setting", array("key" => "error_recipient"), $setting->get("error_recipient"));		
 		$this->xmlElement("Setting", array("key" => "feedback_recipient"), $setting->get("feedback_recipient"));
