@@ -549,44 +549,6 @@ abstract class ilContainerContentGUI
 			$ilCtrl->setParameter($this->container_gui, "cmdrefid", "");
 		}
 		
-		
-		
-		
-							
-		// add activation custom property		
-		if(isset($a_item_data['timing_type']))
-		{
-			include_once "Services/Object/classes/class.ilObjectActivation.php";
-			
-			$activation = '';
-			switch($a_item_data['timing_type'])
-			{
-				case ilObjectActivation::TIMINGS_ACTIVATION:
-					$activation = ilDatePresentation::formatPeriod(
-						new ilDateTime($a_item_data['start'],IL_CAL_UNIX),
-						new ilDateTime($a_item_data['end'],IL_CAL_UNIX));
-					break;
-						
-				case ilObjectActivation::TIMINGS_PRESETTING:
-					$activation = ilDatePresentation::formatPeriod(
-						new ilDate($a_item_data['start'],IL_CAL_UNIX),
-						new ilDate($a_item_data['end'],IL_CAL_UNIX));
-					break;					
-			}
-			
-			if ($activation != "")
-			{
-				global $lng;
-				$lng->loadLanguageModule('crs');
-				
-				$item_list_gui->addCustomProperty($lng->txt($a_item_data['activation_info']),
-					$activation, false, true);	
-			}
-		}
-					
-		
-		
-		
 		$html = $item_list_gui->getListItemHTML($a_item_data['ref_id'],
 			$a_item_data['obj_id'], $a_item_data['title'], $a_item_data['description'],
 			$asynch, false, $asynch_url);

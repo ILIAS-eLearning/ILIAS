@@ -229,8 +229,7 @@ class ilObjFolder extends ilContainer
 	*/
 	function addAdditionalSubItemInformation(&$a_item_data)
 	{		
-		include_once './Services/Object/classes/class.ilObjectActivation.php';
-		ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
+
 	}
 	
 	/**
