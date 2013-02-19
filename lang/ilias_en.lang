@@ -10882,7 +10882,7 @@ exc#:#exc_completion_by_submission#:#Completed by Submission
 exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:
-crs#:#crs_auto_notification#:#Notification For New Member
+crs#:#crs_auto_notification#:#Welcome-Mail For New Members
 crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.
 wsp#:#wsp_type_tstv#:#Certificate: Test
 content#:#cont_par_format#:#Paragraph
@@ -13063,3 +13063,4 @@ dcl#:#dcl_import_records .xls#:#Import .xls
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XSL file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
+crs#:#crs_notification_list_title#:#Notification About New Members

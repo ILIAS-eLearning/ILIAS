@@ -115,13 +115,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		if($this->type == 'admin')
 		{
 			$this->setSelectAllCheckbox('admins');
-			$this->addColumn($this->lng->txt('crs_notification'), 'notification');
+			$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
 			$this->addCommandButton('updateAdminStatus', $this->lng->txt('save'));
 		}
 		elseif($this->type == 'tutor')
 		{
 			$this->setSelectAllCheckbox('tutors');
-			$this->addColumn($this->lng->txt('crs_notification'), 'notification');
+			$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
 			$this->addCommandButton('updateTutorStatus', $this->lng->txt('save'));
 		}
 		elseif($this->type == 'member')
