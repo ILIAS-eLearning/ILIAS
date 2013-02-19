@@ -80,16 +80,16 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 
 		// setup columns
 		$this->addColumn('', '', '1%', true);
-		$this->addColumn($lng->txt('login'), 'USR_LOGIN', '22%');
-		$this->addColumn($lng->txt('name'), 'USR_NAME', '22%');
-		$this->addColumn($lng->txt($mode['long']), 'CRS_GRP', '22%');
-		$this->addColumn($lng->txt('mail_in_addressbook'), 'USR_IN_ADDRESSBOOK', '23%');
+		$this->addColumn($lng->txt('login'), 'members_login', '22%');
+		$this->addColumn($lng->txt('name'), 'members_name', '22%');
+		$this->addColumn($lng->txt($mode['long']), 'members_crs_grp', '22%');
+		$this->addColumn($lng->txt('mail_in_addressbook'), 'members_in_addressbook', '23%');
 		$this->addColumn($lng->txt('actions'), '', '10%');
 		
 		if($this->context == "mail")
 		{
 			if ($this->mailing_allowed)
-				$this->addMultiCommand('mail', $lng->txt('mail_member'));
+				$this->addMultiCommand('mail', $lng->txt('mail_members'));
 			$this->addMultiCommand('adoptMembers', $lng->txt("mail_into_addressbook"));
 		}
 		else
@@ -114,9 +114,9 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
-		$current_selection_list->setId("act_".$a_set['MEMBERS_ID']);
+		$current_selection_list->setId("act_".md5($a_set['members_id'].'::'.$a_set['search_' . $this->mode['short']]));
 
-		$ilCtrl->setParameter($this->parentObject, 'search_members', $a_set['MEMBERS_ID']);
+		$ilCtrl->setParameter($this->parentObject, 'search_members', $a_set['members_id']);
 		$ilCtrl->setParameter($this->parentObject, 'search_' . $this->mode['short'], 
 			is_array($_REQUEST['search_' . $this->mode['short']]) ?
 			implode(',', $_REQUEST['search_' . $this->mode['short']]) :
@@ -127,7 +127,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		if($this->context == "mail")
 		{
 			if ($this->mailing_allowed)
-				$current_selection_list->addItem($this->lng->txt("mail_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
+				$current_selection_list->addItem($this->lng->txt("mail_member"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
 			$current_selection_list->addItem($this->lng->txt("mail_into_addressbook"), '', $ilCtrl->getLinkTarget($this->parentObject, "adoptMembers"));
 		}
 		else

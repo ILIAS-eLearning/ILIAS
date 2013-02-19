@@ -452,11 +452,11 @@ class ilMailSearchGroupsGUI
 							$fullname = $member['lastname'].', '.$member['firstname'];
 
 						$rowData = array(
-							'MEMBERS_ID' => $member["id"],
-							'MEMBERS_LOGIN' => $member["login"],
-							'MEMBERS_NAME' => $fullname,
-							'MEMBERS_CRS_GRP' => $group_obj->getTitle(),
-							'MEMBERS_IN_ADDRESSBOOK' => $this->abook->checkEntryByLogin($member["login"]) ? $lng->txt("yes") : $lng->txt("no"),
+							'members_id' => $member["id"],
+							'members_login' => $member["login"],
+							'members_name' => $fullname,
+							'members_crs_grp' => $group_obj->getTitle(),
+							'members_in_addressbook' => $this->abook->checkEntryByLogin($member["login"]) ? $lng->txt("yes") : $lng->txt("no"),
 							'search_grp' => $grp_id
 						);
 						$tableData[] = $rowData;
@@ -466,8 +466,6 @@ class ilMailSearchGroupsGUI
 			$table->setData($tableData);
 			if (count($tableData))
 			{
-				//$table->addCommandButton('mail', $lng->txt("grp_mem_send_mail"));
-				//$table->addCommandButton('adoptMembers', $lng->txt("mail_into_addressbook"));
 				$searchTpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
 			}
 			$searchTpl->setVariable('TABLE', $table->getHtml());
