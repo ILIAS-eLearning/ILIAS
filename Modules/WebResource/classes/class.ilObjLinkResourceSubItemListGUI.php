@@ -61,6 +61,21 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
 			
 			$link_data = ilLinkResourceItems::lookupItem($this->getObjId(),$sub_item);
 			$link_data = ilParameterAppender::_append($link_data);
+			
+			// handle internal links (#10620)
+			if(stristr($link_data["target"], "|"))
+			{
+				$parts = explode("|", $link_data["target"]);
+				if ($parts[0] == "page")
+				{
+					$parts[0] = "pg";
+				}
+				if ($parts[0] == "term")
+				{
+					$parts[0] = "git";
+				}
+				$link_data["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
+			}
 
 			#$this->getItemListGUI()->setChildId($sub_item);
 			$this->tpl->setVariable('LINK',$link_data['target']);

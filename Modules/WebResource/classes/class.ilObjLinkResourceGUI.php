@@ -1517,7 +1517,16 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			// handle internal links
 			if(stristr($url["target"], "|"))
 			{
+				// #10612
 				$parts = explode("|", $url["target"]);
+				if ($parts[0] == "page")
+				{
+					$parts[0] = "pg";
+				}
+				if ($parts[0] == "term")
+				{
+					$parts[0] = "git";
+				}
 				$url["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
 			}
 			
