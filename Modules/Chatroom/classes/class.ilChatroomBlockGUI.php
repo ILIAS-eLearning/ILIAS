@@ -174,13 +174,13 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		}
 		$body_tpl->setVariable('SMILIES', json_encode($smilieys));
 
-		$labels = array(
+		$js_translations = array(
 			'LBL_CONNECT'    => 'chat_connection_established',
 			'LBL_DISCONNECT' => 'chat_connection_disconnected',
 			'LBL_TIMEFORMAT' => 'lang_timeformat_no_sec',
 			'LBL_DATEFORMAT' => 'lang_dateformat'
 		);
-		foreach($labels as $placeholder => $lng_variable)
+		foreach($js_translations as $placeholder => $lng_variable)
 		{
 			$body_tpl->setVariable($placeholder, json_encode($lng->txt($lng_variable)));
 		}
