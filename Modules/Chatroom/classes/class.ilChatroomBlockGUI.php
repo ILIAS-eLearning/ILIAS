@@ -173,58 +173,17 @@ class ilChatroomBlockGUI extends ilBlockGUI
 			$smilieys = new stdClass();
 		}
 		$body_tpl->setVariable('SMILIES', json_encode($smilieys));
-		
-		$body_tpl->setVariable('LBL_MAINROOM', $lng->txt('chat_mainroom'));
-		$body_tpl->setVariable('LBL_LEAVE_PRIVATE_ROOM', $lng->txt('leave_private_room'));
-		$body_tpl->setVariable('LBL_JOIN', $lng->txt('chat_join'));
-		$body_tpl->setVariable('LBL_DELETE_PRIVATE_ROOM', $lng->txt('delete_private_room'));
-		$body_tpl->setVariable('LBL_INVITE_TO_PRIVATE_ROOM', $lng->txt('invite_to_private_room'));
-		$body_tpl->setVariable('LBL_KICK', $lng->txt('chat_kick'));
-		$body_tpl->setVariable('LBL_BAN', $lng->txt('chat_ban'));
-		$body_tpl->setVariable('LBL_KICK_QUESTION', $lng->txt('kick_question'));
-		$body_tpl->setVariable('LBL_BAN_QUESTION', $lng->txt('ban_question'));
-		$body_tpl->setVariable('LBL_ADDRESS', $lng->txt('chat_address'));
-		$body_tpl->setVariable('LBL_WHISPER', $lng->txt('chat_whisper'));
-		$body_tpl->setVariable('LBL_CONNECT', $lng->txt('chat_connection_established'));
-		$body_tpl->setVariable('LBL_DISCONNECT', $lng->txt('chat_connection_disconnected'));
-		$body_tpl->setVariable('LBL_INVITE_USERS', $lng->txt('chat_invite_users'));
-		$body_tpl->setVariable('LBL_USER_TAB', $lng->txt('chat_right_box_user'));
-		$body_tpl->setVariable('LBL_PRIVATE_ROOM', $lng->txt('chat_private_room'));
-		$body_tpl->setVariable('LBL_CREATE_NEW_PRIVATE_ROOM', $lng->txt('chat_create_new_private_room'));
-		$body_tpl->setVariable('LBL_TO_MAINROOM', $lng->txt('chat_to_mainroom'));
-		$body_tpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('chat_create_private_room_button'));
-		$body_tpl->setVariable('LBL_CREATE_PRIVATE_ROOM_TEXT', $lng->txt('create_private_room_text'));
 
-		$body_tpl->setVariable('LBL_WELCOME_TO_CHAT', $lng->txt('welcome_to_chat'));
-		$body_tpl->setVariable('LBL_USER_INVITED', $lng->txt('user_invited'));
-		$body_tpl->setVariable('LBL_USER_KICKED', $lng->txt('user_kicked'));
-		$body_tpl->setVariable('LBL_USER_INVITED_SELF', $lng->txt('user_invited_self'));
-		$body_tpl->setVariable('LBL_PRIVATE_ROOM_CLOSED', $lng->txt('private_room_closed'));
-		$body_tpl->setVariable('LBL_PRIVATE_ROOM_ENTERED', $lng->txt('private_room_entered'));
-		$body_tpl->setVariable('LBL_PRIVATE_ROOM_LEFT', $lng->txt('private_room_left'));
-		$body_tpl->setVariable('LBL_PRIVATE_ROOM_ENTERED_USER', $lng->txt('private_room_entered_user'));
-		$body_tpl->setVariable('LBL_KICKED_FROM_PRIVATE_ROOM', $lng->txt('kicked_from_private_room'));
-		$body_tpl->setVariable('LBL_OK', $lng->txt('ok'));
-		$body_tpl->setVariable('LBL_CANCEL', $lng->txt('cancel'));
-		$body_tpl->setVariable('LBL_WHISPER_TO', $lng->txt('whisper_to'));
-		$body_tpl->setVariable('LBL_SPEAK_TO', $lng->txt('speak_to'));
-
-		$body_tpl->setVariable('LBL_USER_IN_ROOM', $lng->txt('user_in_room'));
-		$body_tpl->setVariable('LBL_USER_IN_ILIAS', $lng->txt('user_in_ilias'));
-
-		$body_tpl->setVariable('LBL_HISTORY_CLEARED', $lng->txt('history_cleared'));
-		$body_tpl->setVariable('LBL_CLEAR_ROOM_HISTORY', $lng->txt('clear_room_history'));
-		$body_tpl->setVariable('LBL_CLEAR_ROOM_HISTORY_QUESTION', $lng->txt('clear_room_history_question'));
-
-		$body_tpl->setVariable('LBL_LAYOUT', $lng->txt('layout'));
-		$body_tpl->setVariable('LBL_SHOW_SETTINGS', $lng->txt('show_settings'));
-		$body_tpl->setVariable('LBL_HIDE_SETTINGS', $lng->txt('hide_settings'));
-		$body_tpl->setVariable('LBL_NO_FURTHER_USERS', $lng->txt('no_further_users'));
-		$body_tpl->setVariable('LBL_USERS', $lng->txt('users'));
-		$body_tpl->setVariable('LBL_END_WHISPER', $lng->txt('end_whisper'));
-
-		$body_tpl->setVariable('LBL_TIMEFORMAT', $lng->txt('lang_timeformat_no_sec'));
-		$body_tpl->setVariable('LBL_DATEFORMAT', $lng->txt('lang_dateformat'));
+		$labels = array(
+			'LBL_CONNECT'    => 'chat_connection_established',
+			'LBL_DISCONNECT' => 'chat_connection_disconnected',
+			'LBL_TIMEFORMAT' => 'lang_timeformat_no_sec',
+			'LBL_DATEFORMAT' => 'lang_dateformat'
+		);
+		foreach($labels as $placeholder => $lng_variable)
+		{
+			$body_tpl->setVariable($placeholder, json_encode($lng->txt($lng_variable)));
+		}
 
 		$content = $body_tpl->get() . $chatblock->getRoomSelect();
 		$this->setDataSection($content);
