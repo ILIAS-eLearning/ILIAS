@@ -202,8 +202,16 @@ class ilSoapAdministration
 	{		
 		if(ilContext::getType() == ilContext::CONTEXT_SOAP)
 		{
-			require_once("Services/Init/classes/class.ilInitialisation.php");
-			ilInitialisation::initILIAS();
+			try
+			{
+				require_once("Services/Init/classes/class.ilInitialisation.php");
+				ilInitialisation::initILIAS();
+			}
+			catch(Exception $e)
+			{				
+				// #10608				
+				// no need to do anything here, see __checkSession() below
+			}
 		}
 	}
 

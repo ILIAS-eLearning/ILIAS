@@ -721,7 +721,7 @@ class ilInitialisation
 
 		$script = "login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
 			"&auth_stat=".$a_auth_stat.$add;
-	
+					
 		self::redirect($script, "Authentication failed.");
 	}
 
@@ -1184,6 +1184,12 @@ class ilInitialisation
 		 * @var $ilSetting ilSetting
 		 */
 		global $ilAuth, $ilSetting;
+						
+		// #10608
+		if(ilContext::getType() == ilContext::CONTEXT_SOAP)
+		{
+			throw new Exception("Authentication failed.");
+		}				
 
 		$status = $ilAuth->getStatus();
 
