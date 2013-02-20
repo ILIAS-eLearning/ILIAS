@@ -74,6 +74,9 @@ class ilDataCollectionRecordField
 		
 		$this->loadValue();
 		$datatype = $this->field->getDatatype();
+
+        //FIXME MST - Wir hatten immer sämltiche Werte gelöscht. Bei 1:n-Beziehungen verunmöglicht dieses Vorgehen mehrere Werte zu einem entsprechenden Feld zuzuweisen.
+		//FIXME Für 1:1-Beziehungen müssen wir nun eine neue Lösung suchen.
 		$query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$ilDB->quote($this->id, "integer");
 		$ilDB->manipulate($query);
 		$next_id = $ilDB->nextId("il_dcl_stloc".$datatype->getStorageLocation()."_value");

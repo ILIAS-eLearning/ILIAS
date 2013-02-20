@@ -14340,3 +14340,17 @@ if( $ilDB->tableExists('qpl_fb_sc') )
 $ilCtrlStructureReader->getStructure();
 
 ?>
+<#3838>
+<?php
+    $ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
+    " VALUES (".
+    $ilDB->quote(10, "integer").", ".$ilDB->quote("referencelist", "text").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote(2, "integer").
+    ")");
+?>
+<#3839>
+<?php
+$ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,inputformat) VALUES ".
+        " (%s,%s,%s,%s)",
+    array("integer", "integer", "text", "integer"),
+    array(11, 10, "table_id", 1));
+?>

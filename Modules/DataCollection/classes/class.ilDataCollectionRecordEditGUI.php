@@ -177,6 +177,18 @@ class ilDataCollectionRecordEditGUI
 				}
 				$item->setOptions($options);
 			}
+            if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST)
+            {
+                $fieldref = $field->getFieldReflist();
+                $reffield = ilDataCollectionCache::getFieldCache($fieldref);
+                $options = array();
+                $reftable = ilDataCollectionCache::getTableCache($reffield->getTableId());
+                foreach($reftable->getRecords() as $record)
+                {
+                    $options[$record->getId()] = $record->getRecordFieldValue($fieldref);
+                }
+                $item->setOptions($options);
+            }
 			if($this->record_id)
 			{
 				$record = ilDataCollectionCache::getRecordCache($this->record_id);
@@ -333,9 +345,23 @@ class ilDataCollectionRecordEditGUI
 			//edit values, they are valid we already checked them above
 			foreach($all_fields as $field)
 			{
-				$value = $this->form->getInput("field_".$field->getId());
-				$record_obj->setRecordFieldValue($field->getId(), $value);
-
+                //ReferenceList save n-values
+                if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST)
+                {
+                    $arrValue = $this->form->getInput("field_".$field->getId());
+                    foreach($arrValue as $value)
+                    {
+                        $record_obj->setRecordFieldValue($field->getId(), $value);
+                        //FIXME jede Einzelne 1:n-Beziehung speichern?
+                        //$record_obj->doUpdate();
+                    }
+                }
+                //All other datatypes save 1-value
+                else
+                {
+                    $value = $this->form->getInput("field_".$field->getId());
+                    $record_obj->setRecordFieldValue($field->getId(), $value);
+                }
 			}
 
 			$record_obj->doUpdate();

@@ -6,6 +6,7 @@ require_once "class.ilDataCollectionCache.php";
 require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 require_once "./Modules/File/classes/class.ilObjFile.php";
 require_once "./Services/Form/classes/class.ilSelectInputGUI.php";
+require_once "./Services/Form/classes/class.ilMultiSelectInputGUI.php";
 require_once "./Services/Form/classes/class.ilDateTimeInputGUI.php";
 require_once "./Services/Form/classes/class.ilTextInputGUI.php";
 require_once "./Services/Form/classes/class.ilFileInputGUI.php";
@@ -43,10 +44,12 @@ class ilDataCollectionDatatype
 	const INPUTFORMAT_FILE 			= 6;
 	// Rating
 	const INPUTFORMAT_RATING 		= 7;
-		// ILIAS REFERENCE
+	// ILIAS REFERENCE
 	const INPUTFORMAT_ILIAS_REF 	= 8;
     // Meida Object
     const INPUTFORMAT_MOB 		    = 9;
+    // REFERENCELIST
+    const INPUTFORMAT_REFERENCELIST = 10;
 
     const LINK_MAX_LENGTH = 30;
 
@@ -261,6 +264,9 @@ class ilDataCollectionDatatype
             case ilDataCollectionDatatype::INPUTFORMAT_MOB:
                 $input = new ilFileInputGUI($title, 'field_'.$field->getId());
                 break;
+            case ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST:
+                $input = new ilMultiSelectInputGUI($title,'field_'.$field->getId());
+                break;
 		}
         if($field->getDescription())
             $input->setInfo($input->getInfo()."<br>".$field->getDescription());
@@ -327,6 +333,19 @@ class ilDataCollectionDatatype
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_TEXT, false, $field->getId());
 				$input->setSubmitFormOnEnter(true);
 				break;
+            case ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST:
+                //FIXME
+                $input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
+                $options = array("" => $lng->txt("dcl_any"));
+                $ref_field_id = $field->getFieldRef();
+                $ref_field = ilDataCollectionCache::getFieldCache($ref_field_id);
+                $ref_table = ilDataCollectionCache::getTableCache($ref_field->getTableId());
+                foreach($ref_table->getRecords() as $record)
+                {
+                    $options[$record->getId()] = $record->getRecordFieldValue($ref_field_id);
+                }
+                $input->setOptions($options);
+                break;
 		}
 		
 		if($input != NULL)
@@ -393,6 +412,11 @@ class ilDataCollectionDatatype
                 $m_obj = new ilObjMediaObject($value, false);
                 $file_name = $m_obj->getTitle();
                 if(!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false)
+                    $pass = true;
+                break;
+            case ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST:
+                //FIXME
+                if(!$filter || $filter == $value)
                     $pass = true;
                 break;
 		}
