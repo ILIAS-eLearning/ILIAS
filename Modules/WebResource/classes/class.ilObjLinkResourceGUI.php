@@ -113,6 +113,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				$this->lng->loadLanguageModule("content");
 				require_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
+				$link_gui->filterLinkType("PageObject");
+				$link_gui->filterLinkType("GlossaryItem");
 				$link_gui->filterLinkType("RepositoryItem");
 				$link_gui->setFilterWhiteList(true);
 				$link_gui->setMode("asynch");			
