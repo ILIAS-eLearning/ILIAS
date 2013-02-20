@@ -1180,6 +1180,12 @@ class ilInitialisation
 		 * @var $ilSetting ilSetting
 		 */
 		global $ilAuth, $ilSetting;
+		
+		// #10608
+		if(ilContext::getType() == ilContext::CONTEXT_SOAP)
+		{
+			throw new Exception("Authentication failed.");
+		}		
 
 		$status = $ilAuth->getStatus();
 
