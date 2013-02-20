@@ -4,6 +4,8 @@
 include_once './Services/Table/classes/class.ilTable2GUI.php';
 include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
+include_once './Services/Form/classes/class.ilFormPropertyGUI.php';
+include_once './Services/Form/classes/class.ilLinkInputGUI.php';
 
 
 /**
@@ -193,11 +195,14 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			if($a_set['target'])
 			{			
 				$parts = explode('|', $a_set['target']);
+				
 				$this->tpl->setVariable('VAL_INTERNAL_TYPE',$parts[0]);
 				$this->tpl->setVariable('VAL_INTERNAL_ID',$parts[1]);
 				
-				$this->tpl->setVariable('TXT_TRIGGER_INFO', $this->lng->txt('obj_'.$parts[0]).' "'.					
-					ilObject::_lookupTitle(ilObject::_lookupObjId($parts[1])).'"');				
+				$parts = ilLinkInputGUI::getTranslatedValue($a_set['target']);
+				
+				$this->tpl->setVariable('TXT_TRIGGER_INFO', $parts['type'].' "'.					
+					$parts['name'].'"');			
 			}
 			
 			$this->tpl->parseCurrentBlock();

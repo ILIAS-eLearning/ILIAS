@@ -316,38 +316,15 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			{
 				$mode->setValue("int");
 				
+				$value_trans = self::getTranslatedValue($value);
+				
 				$value = explode("|", $value);
 				$hidden_type->setValue($value[0]);
 				$hidden_id->setValue($value[1]);
 				$hidden_target->setValue($value[2]);
 				
-				switch($value[0])
-				{
-					case "media":
-						$type = $lng->txt("obj_mob");
-						$name = ilObject::_lookupTitle($value[1]);
-						break;
-					
-					case "page":
-						include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-						$type = $lng->txt("obj_pg");
-						$name =	ilLMPageObject::_lookupTitle($value[1]);
-						break;
-					
-					case "term":
-						include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-						$type = $lng->txt("term");
-						$name =	ilGlossaryTerm::_lookGlossaryTerm($value[1]);
-						break;
-					
-					default:
-						$type = $lng->txt("obj_".$value[0]);
-						$name =	ilObject::_lookupTitle(ilObject::_lookupObjId($value[1]));
-						break;
-				}
-				
-				$itpl->setVariable("VAL_OBJECT_TYPE", $type);						
-				$itpl->setVariable("VAL_OBJECT_NAME", $name);						
+				$itpl->setVariable("VAL_OBJECT_TYPE", $value_trans["type"]);						
+				$itpl->setVariable("VAL_OBJECT_NAME", $value_trans["name"]);			
 			}
 			else if($has_ext)
 			{
@@ -396,6 +373,40 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		}
 		
 		return $html;
+	}
+	
+	public static function getTranslatedValue($a_value)
+	{
+		global $lng;
+		
+		$value = explode("|", $a_value);
+		
+		switch($value[0])
+		{
+			case "media":
+				$type = $lng->txt("obj_mob");
+				$name = ilObject::_lookupTitle($value[1]);
+				break;
+
+			case "page":
+				include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+				$type = $lng->txt("obj_pg");
+				$name =	ilLMPageObject::_lookupTitle($value[1]);
+				break;
+
+			case "term":
+				include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+				$type = $lng->txt("term");
+				$name =	ilGlossaryTerm::_lookGlossaryTerm($value[1]);
+				break;
+
+			default:
+				$type = $lng->txt("obj_".$value[0]);
+				$name =	ilObject::_lookupTitle(ilObject::_lookupObjId($value[1]));
+				break;
+		}
+		
+		return array("type"=>$type, "name"=>$name);
 	}
 
 	/**
