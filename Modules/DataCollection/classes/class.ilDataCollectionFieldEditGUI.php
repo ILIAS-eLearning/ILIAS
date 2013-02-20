@@ -244,7 +244,30 @@ class ilDataCollectionFieldEditGUI
 					$opt->addSubItem($table_selection);
 
 				}
-
+                //ReferenceList
+                elseif($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST  AND $property['id'] == ilDataCollectionField::PROPERTYID_REFERENCELIST)
+                {
+                    // Get Tables
+                    require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+                    $tables = $this->parent_obj->getDataCollectionObject()->getTables();
+                    foreach($tables as $table)
+                    {
+                        foreach($table->getRecordFields() as $field)
+                        {
+                            //referencing references may lead to endless loops.
+                            if($field->getDatatypeId() != ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST)
+                            {
+                                $options[$field->getId()] = $table->getTitle()."->".$field->getTitle();
+                            }
+                        }
+                    }
+                    $table_selection = new ilSelectInputGUI(
+                        '',
+                        'prop_'.$property['id']
+                    );
+                    $table_selection->setOptions($options);
+                    $opt->addSubItem($table_selection);
+                }
 				//All other Types: List properties saved in propertie definition table
 				elseif($property['datatype_id'] == $datatype['id'])
 				{
@@ -260,6 +283,10 @@ class ilDataCollectionFieldEditGUI
 					}
 				}
 			}
+
+
+
+
 			$edit_datatype->addOption($opt);
 		}
 		$edit_datatype->setRequired(true);
@@ -361,19 +388,18 @@ class ilDataCollectionFieldEditGUI
 				$fieldprop_obj = new ilDataCollectionFieldProp();
 				$fieldprop_obj->setDatatypePropertyId($property['id']);
 				$fieldprop_obj->setFieldId($this->field_obj->getId());
-				$fieldprop_obj->setValue($this->form->getInput("prop_".$property['id']));
-				if($a_mode == "update")
-				{
-					$fieldprop_obj->doUpdate();
-				}
-				else
-				{
-					$fieldprop_obj->doCreate();
-				}
+                $fieldprop_obj->setValue($this->form->getInput("prop_".$property['id']));
+
+                if($a_mode == "update")
+                {
+                    $fieldprop_obj->doUpdate();
+                }
+                else
+                {
+                    $fieldprop_obj->doCreate();
+                }
 
 			}
-			
-			
 
 			$ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
 

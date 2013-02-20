@@ -20,8 +20,6 @@ require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListT
 class ilDataCollectionRecordListGUI
 {
 
-    protected $supported_import_datatypes = array(ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN, ilDataCollectionDatatype::INPUTFORMAT_NUMBER, ilDataCollectionDatatype::INPUTFORMAT_REFERENCE, ilDataCollectionDatatype::INPUTFORMAT_TEXT);
-
     protected $max_imports = 100;
 
 	private $table_obj;
