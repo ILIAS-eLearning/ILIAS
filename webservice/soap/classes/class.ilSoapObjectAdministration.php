@@ -339,7 +339,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			foreach ((array) $result_ids as $ref_id => $obj_id) {
 
 				$obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
-				$objs[] = $obj;
+				if($obj instanceof ilObject)
+				{
+					$objs[] = $obj;
+				}
 			}
 			include_once './Services/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
 			$highlighter = new ilLuceneHighlighterResultParser();
@@ -385,7 +388,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$objs = array();
 			foreach($res->getUniqueResults() as $entry)
 			{
-				$objs[] = ilObjectFactory::getInstanceByRefId($entry['ref_id'],false);
+				$obj = ilObjectFactory::getInstanceByRefId($entry['ref_id'],false);
+				if($obj instanceof ilObject)
+				{
+					$objs[] = $obj;
+				}
 			}
 		}
 
