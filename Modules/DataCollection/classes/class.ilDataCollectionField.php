@@ -101,6 +101,7 @@ class ilDataCollectionField
     const PROPERTYID_HEIGHT = 8;
     const PROPERTYID_LEARNING_PROGRESS = 9;
     const PROPERTYID_ILIAS_REFERENCE_LINK = 10;
+    const PROPERTYID_N_REFERENCE = 11;
 
 
 	// type of table il_dcl_view
@@ -770,6 +771,16 @@ class ilDataCollectionField
         $props = $this->getPropertyvalues();
         $id = self::PROPERTYID_REFERENCELIST;
 
+        return $props[$id];
+    }
+
+    /**
+     * @return bool returns true iff this is a reference field AND the reference field has multiple input possibilities.
+     */
+    public function isNRef()
+    {
+        $props = $this->getPropertyvalues();
+        $id = self::PROPERTYID_N_REFERENCE;
         return $props[$id];
     }
 

@@ -106,7 +106,7 @@ class ilDataCollectionRecordViewGUI
             }
 
 
-			$html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
+			$html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldSingleHTML($field->getId()), $html);
 
 		}
 

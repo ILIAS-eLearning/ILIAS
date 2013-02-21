@@ -14354,3 +14354,31 @@ $ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,input
     array("integer", "integer", "text", "integer"),
     array(11, 10, "table_id", 1));
 ?>
+<#3840>
+<?php
+$ilDB->manipulate("DELETE FROM il_dcl_datatype WHERE id = ".$ilDB->quote(10, "integer"));
+$ilDB->manipulate("DELETE FROM il_dcl_datatype_prop WHERE id = ".$ilDB->quote(11, "integer"));
+$ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,inputformat) VALUES ".
+        " (%s,%s,%s,%s)",
+    array("integer", "integer", "text", "integer"),
+    array(11, 3, "multiple_selection", 4));
+?>
+
+<#3841>
+<?php
+if( !$ilDB->tableColumnExists('il_dcl_datatype', 'sort') )
+{
+	$ilDB->addTableColumn('il_dcl_datatype', 'sort', array(
+		'type' => 'integer', 'length' => 2, 'notnull' => false, 'default' => 0
+	));
+	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote( 0, "integer")." WHERE title=".$ilDB->quote("text", "text"));
+	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote(10, "integer")." WHERE title=".$ilDB->quote("integer", "text"));
+	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote(20, "integer")." WHERE title=".$ilDB->quote("boolean", "text"));
+	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote(30, "integer")." WHERE title=".$ilDB->quote("datetime", "text"));
+	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote(40, "integer")." WHERE title=".$ilDB->quote("mob", "text"));
+	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote(50, "integer")." WHERE title=".$ilDB->quote("file", "text"));
+	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote(60, "integer")." WHERE title=".$ilDB->quote("reference", "text"));
+	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote(70, "integer")." WHERE title=".$ilDB->quote("ILIAS_reference", "text"));	
+	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote(80, "integer")." WHERE title=".$ilDB->quote("rating", "text"));
+}
+?>

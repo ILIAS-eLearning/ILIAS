@@ -85,6 +85,8 @@ class ilDataCollectionRecordListGUI
 			$options[$table->getId()] = $table->getTitle();
 		}
 
+        $tpl->addCss("./Modules/DataCollection/css/dcl_reference_hover.css");
+
         if(count($options) > 0){
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
             $table_selection = new ilSelectInputGUI('', 'table_id');
@@ -111,6 +113,7 @@ class ilDataCollectionRecordListGUI
 
         // requested not to implement this way...
         //$tpl->addJavaScript("Modules/DataCollection/js/fastTableSwitcher.js");
+        $tpl->addJavaScript("Modules/DataCollection/js/datacollection.js");
 
         if(count($this->table_obj->getRecordFields()) == 0){
             ilUtil::sendInfo($lng->txt("dcl_no_fields_yet")." ".($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id)?$lng->txt("dcl_create_fields"):""));
