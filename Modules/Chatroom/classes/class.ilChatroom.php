@@ -221,11 +221,15 @@ class ilChatroom
 
 		if(!$ilDB->fetchAssoc($ilDB->queryF($query, $types, $values)))
 		{
-			$ilDB->insert(
+			// Notice: Using replace instead of insert looks strange, because we actually know whether the selected data exists or not
+			// But we occasionally found some duplicate key errors although the data set should not exist when the following code is reached
+			$ilDB->replace(
 				self::$userTable,
 				array(
-					'room_id'   => array('integer', $this->roomId),
-					'user_id'   => array('integer', $user->getUserId()),
+					'room_id' => array('integer', $this->roomId),
+					'user_id' => array('integer', $user->getUserId())
+				),
+				array(
 					'userdata'  => array('text', json_encode($userdata)),
 					'connected' => array('integer', time()),
 				)
