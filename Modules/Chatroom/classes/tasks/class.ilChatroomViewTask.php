@@ -269,56 +269,57 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		 */
 		global $lng;
 
-		$roomTpl->setVariable('LBL_MAINROOM', $lng->txt('chat_mainroom'));
-		$roomTpl->setVariable('LBL_LEAVE_PRIVATE_ROOM', $lng->txt('leave_private_room'));
-		$roomTpl->setVariable('LBL_JOIN', $lng->txt('chat_join'));
-		$roomTpl->setVariable('LBL_DELETE_PRIVATE_ROOM', $lng->txt('delete_private_room'));
-		$roomTpl->setVariable('LBL_INVITE_TO_PRIVATE_ROOM', $lng->txt('invite_to_private_room'));
-		$roomTpl->setVariable('LBL_KICK', $lng->txt('chat_kick'));
-		$roomTpl->setVariable('LBL_BAN', $lng->txt('chat_ban'));
-		$roomTpl->setVariable('LBL_KICK_QUESTION', $lng->txt('kick_question'));
-		$roomTpl->setVariable('LBL_BAN_QUESTION', $lng->txt('ban_question'));
-		$roomTpl->setVariable('LBL_ADDRESS', $lng->txt('chat_address'));
-		$roomTpl->setVariable('LBL_WHISPER', $lng->txt('chat_whisper'));
-		$roomTpl->setVariable('LBL_CONNECT', $lng->txt('chat_connection_established'));
-		$roomTpl->setVariable('LBL_DISCONNECT', $lng->txt('chat_connection_disconnected'));
-		$roomTpl->setVariable('LBL_INVITE_USERS', $lng->txt('chat_invite_users'));
-		$roomTpl->setVariable('LBL_USER_TAB', $lng->txt('chat_right_box_user'));
-		$roomTpl->setVariable('LBL_PRIVATE_ROOM', $lng->txt('chat_private_room'));
-		$roomTpl->setVariable('LBL_CREATE_NEW_PRIVATE_ROOM', $lng->txt('chat_create_new_private_room'));
-		$roomTpl->setVariable('LBL_TO_MAINROOM', $lng->txt('chat_to_mainroom'));
+		$js_translations = array(
+			'LBL_MAINROOM' => 'chat_mainroom',
+			'LBL_LEAVE_PRIVATE_ROOM' => 'leave_private_room',
+			'LBL_JOIN' => 'chat_join',
+			'LBL_DELETE_PRIVATE_ROOM' => 'delete_private_room',
+			'LBL_INVITE_TO_PRIVATE_ROOM' => 'invite_to_private_room',
+			'LBL_KICK' => 'chat_kick',
+			'LBL_BAN' => 'chat_ban',
+			'LBL_KICK_QUESTION' => 'kick_question',
+			'LBL_BAN_QUESTION' => 'ban_question',
+			'LBL_ADDRESS' => 'chat_address',
+			'LBL_WHISPER' => 'chat_whisper',
+			'LBL_CONNECT' => 'chat_connection_established',
+			'LBL_DISCONNECT' => 'chat_connection_disconnected',
+			'LBL_TO_MAINROOM' => 'chat_to_mainroom',
+			'LBL_CREATE_PRIVATE_ROOM_JS' => 'chat_create_private_room_button',
+			'LBL_WELCOME_TO_CHAT' => 'welcome_to_chat',
+			'LBL_USER_INVITED' => 'user_invited',
+			'LBL_USER_KICKED' => 'user_kicked',
+			'LBL_USER_INVITED_SELF' => 'user_invited_self',
+			'LBL_PRIVATE_ROOM_CLOSED' => 'private_room_closed',
+			'LBL_PRIVATE_ROOM_ENTERED' => 'private_room_entered',
+			'LBL_PRIVATE_ROOM_LEFT' => 'private_room_left',
+			'LBL_PRIVATE_ROOM_ENTERED_USER' => 'private_room_entered_user',
+			'LBL_KICKED_FROM_PRIVATE_ROOM' => 'kicked_from_private_room',
+			'LBL_OK' => 'ok',
+			'LBL_CANCEL' => 'cancel',
+			'LBL_WHISPER_TO' => 'whisper_to',
+			'LBL_SPEAK_TO' => 'speak_to',
+			'LBL_HISTORY_CLEARED' => 'history_cleared',
+			'LBL_CLEAR_ROOM_HISTORY' => 'clear_room_history',
+			'LBL_CLEAR_ROOM_HISTORY_QUESTION' => 'clear_room_history_question',
+			'LBL_END_WHISPER' => 'end_whisper',
+			'LBL_SHOW_SETTINGS_JS' => 'show_settings',
+			'LBL_HIDE_SETTINGS' => 'hide_settings',
+			'LBL_TIMEFORMAT' => 'lang_timeformat_no_sec',
+			'LBL_DATEFORMAT' => 'lang_dateformat'
+		);
+		foreach($js_translations as $placeholder => $lng_variable)
+		{
+			$roomTpl->setVariable($placeholder, json_encode($lng->txt($lng_variable)));
+		}
+
 		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('chat_create_private_room_button'));
 		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM_TEXT', $lng->txt('create_private_room_text'));
-
-		$roomTpl->setVariable('LBL_WELCOME_TO_CHAT', $lng->txt('welcome_to_chat'));
-		$roomTpl->setVariable('LBL_USER_INVITED', $lng->txt('user_invited'));
-		$roomTpl->setVariable('LBL_USER_KICKED', $lng->txt('user_kicked'));
-		$roomTpl->setVariable('LBL_USER_INVITED_SELF', $lng->txt('user_invited_self'));
-		$roomTpl->setVariable('LBL_PRIVATE_ROOM_CLOSED', $lng->txt('private_room_closed'));
-		$roomTpl->setVariable('LBL_PRIVATE_ROOM_ENTERED', $lng->txt('private_room_entered'));
-		$roomTpl->setVariable('LBL_PRIVATE_ROOM_LEFT', $lng->txt('private_room_left'));
-		$roomTpl->setVariable('LBL_PRIVATE_ROOM_ENTERED_USER', $lng->txt('private_room_entered_user'));
-		$roomTpl->setVariable('LBL_KICKED_FROM_PRIVATE_ROOM', $lng->txt('kicked_from_private_room'));
-		$roomTpl->setVariable('LBL_OK', $lng->txt('ok'));
-		$roomTpl->setVariable('LBL_CANCEL', $lng->txt('cancel'));
-		$roomTpl->setVariable('LBL_WHISPER_TO', $lng->txt('whisper_to'));
-		$roomTpl->setVariable('LBL_SPEAK_TO', $lng->txt('speak_to'));
-
-		$roomTpl->setVariable('LBL_USER_IN_ROOM', $lng->txt('user_in_room'));
-		$roomTpl->setVariable('LBL_USER_IN_ILIAS', $lng->txt('user_in_ilias'));
-
-		$roomTpl->setVariable('LBL_HISTORY_CLEARED', $lng->txt('history_cleared'));
-		$roomTpl->setVariable('LBL_CLEAR_ROOM_HISTORY', $lng->txt('clear_room_history'));
-		$roomTpl->setVariable('LBL_CLEAR_ROOM_HISTORY_QUESTION', $lng->txt('clear_room_history_question'));
-
+		$roomTpl->setVariable('LBL_USERS', $lng->txt('users'));
 		$roomTpl->setVariable('LBL_LAYOUT', $lng->txt('layout'));
 		$roomTpl->setVariable('LBL_SHOW_SETTINGS', $lng->txt('show_settings'));
-		$roomTpl->setVariable('LBL_HIDE_SETTINGS', $lng->txt('hide_settings'));
 		$roomTpl->setVariable('LBL_NO_FURTHER_USERS', $lng->txt('no_further_users'));
-		$roomTpl->setVariable('LBL_USERS', $lng->txt('users'));
-		$roomTpl->setVariable('LBL_END_WHISPER', $lng->txt('end_whisper'));
-		$roomTpl->setVariable('LBL_TIMEFORMAT', $lng->txt('lang_timeformat_no_sec'));
-		$roomTpl->setVariable('LBL_DATEFORMAT', $lng->txt('lang_dateformat'));
+		$roomTpl->setVariable('LBL_USER_IN_ROOM', $lng->txt('user_in_room'));
+		$roomTpl->setVariable('LBL_USER_IN_ILIAS', $lng->txt('user_in_ilias'));
 	}
 
 	/**
