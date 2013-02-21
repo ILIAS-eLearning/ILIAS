@@ -169,7 +169,8 @@ class ilDataCollectionRecordEditGUI
 				$fieldref = $field->getFieldRef();
 				$reffield = ilDataCollectionCache::getFieldCache($fieldref);
 				$options = array();
-				$options[] = '--';
+                if(!$field->isNRef())
+				    $options[] = '--';
 				$reftable = ilDataCollectionCache::getTableCache($reffield->getTableId());
 				foreach($reftable->getRecords() as $record)
 				{
@@ -177,18 +178,6 @@ class ilDataCollectionRecordEditGUI
 				}
 				$item->setOptions($options);
 			}
-            if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST)
-            {
-                $fieldref = $field->getFieldReflist();
-                $reffield = ilDataCollectionCache::getFieldCache($fieldref);
-                $options = array();
-                $reftable = ilDataCollectionCache::getTableCache($reffield->getTableId());
-                foreach($reftable->getRecords() as $record)
-                {
-                    $options[$record->getId()] = $record->getRecordFieldValue($fieldref);
-                }
-                $item->setOptions($options);
-            }
 			if($this->record_id)
 			{
 				$record = ilDataCollectionCache::getRecordCache($this->record_id);

@@ -134,7 +134,7 @@ class ilDataCollectionDatatype
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM il_dcl_datatype WHERE id = ".$ilDB->quote($this->getId(),"integer");
+		$query = "SELECT * FROM il_dcl_datatype WHERE id = ".$ilDB->quote($this->getId(),"integer")." ORDER BY sort";
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 
@@ -153,7 +153,7 @@ class ilDataCollectionDatatype
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM il_dcl_datatype";
+		$query = "SELECT * FROM il_dcl_datatype ORDER BY sort";
 		$set = $ilDB->query($query);
 		
 		$all = array();
@@ -197,8 +197,6 @@ class ilDataCollectionDatatype
 	 */
 	static function checkValidity($type_id, $value)
 	{
-		//TODO: finish this list.
-
 		//required is checked by form. so null input is valid.
 		if($value == NULL)
 		{
@@ -250,12 +248,14 @@ class ilDataCollectionDatatype
 				$input = new ilFileInputGUI($title, 'field_'.$field->getId());
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-				$input = new ilSelectInputGUI($title, 'field_'.$field->getId());
-				break;
+                if(!$field->isNRef())
+				    $input = new ilSelectInputGUI($title, 'field_'.$field->getId());
+                else
+                    $input = new ilMultiSelectInputGUI($title,'field_'.$field->getId());
+                break;
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
 				$input->setValue($lng->txt("dcl_editable_in_table_gui"));
-				//$input->setInfo($lng->txt("dcl_editable_in_table_gui"));
 				$input->setDisabled(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
@@ -263,9 +263,6 @@ class ilDataCollectionDatatype
 				break;
             case ilDataCollectionDatatype::INPUTFORMAT_MOB:
                 $input = new ilFileInputGUI($title, 'field_'.$field->getId());
-                break;
-            case ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST:
-                $input = new ilMultiSelectInputGUI($title,'field_'.$field->getId());
                 break;
 		}
         if($field->getDescription())
@@ -658,6 +655,8 @@ class ilDataCollectionDatatype
                     $link = $value;
                     if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/", $value))
                         $value = "mailto:".$value;
+                    elseif(!(preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value)))
+                        return $link;
 
                     if(strlen($link) > self::LINK_MAX_LENGTH){
                         $link = substr($value, 0, (self::LINK_MAX_LENGTH-3)/2);

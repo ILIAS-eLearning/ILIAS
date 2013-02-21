@@ -71,8 +71,8 @@ class ilDataCollectionCache{
 
     /**
      * This function is used to decide which type of record field is to be instanciated.
-     * @param $record
-     * @param $field
+     * @param $record ilDataCollectionRecord
+     * @param $field ilDataCollectionField
      * @return ilDataCollectionRecordField
      */
     public static function getInstance($record, $field){
@@ -82,7 +82,10 @@ class ilDataCollectionCache{
             case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
                 return new ilDataCollectionILIASRefField($record, $field);
             case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-                return new ilDataCollectionReferenceField($record, $field);
+                if(!$field->isNRef())
+                    return new ilDataCollectionReferenceField($record, $field);
+                else
+                    return new ilDataCollectionNReferenceField($record, $field);
             default:
                 return new ilDataCollectionRecordField($record, $field);
         }

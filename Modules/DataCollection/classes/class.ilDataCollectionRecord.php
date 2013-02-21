@@ -358,6 +358,27 @@ class ilDataCollectionRecord
 		}
 	}
 
+    /*
+ * getRecordFieldSingleHTML
+ *
+ * @param int $field_id
+ * @param array $options
+ * @return array
+ */
+    public function getRecordFieldSingleHTML($field_id,array $options = array())
+    {
+        $this->loadRecordFields();
+
+        if(ilDataCollectionStandardField::_isStandardField($field_id))
+        {
+            return $this->getStandardFieldHTML($field_id);
+        }
+        else
+        {
+            return $this->recordfields[$field_id]->getSingleHTML($options);
+        }
+    }
+
 
 
 	/*

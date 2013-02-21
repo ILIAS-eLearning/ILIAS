@@ -4,6 +4,7 @@
 require_once './Modules/DataCollection/exceptions/class.ilDataCollectionInputException.php';
 require_once './Modules/DataCollection/classes/class.ilDataCollectionILIASRefField.php';
 require_once './Modules/DataCollection/classes/class.ilDataCollectionReferenceField.php';
+require_once './Modules/DataCollection/classes/class.ilDataCollectionNReferenceField.php';
 require_once 'class.ilDataCollectionRatingField.php';
 
 /**
@@ -19,10 +20,10 @@ require_once 'class.ilDataCollectionRatingField.php';
  */
 class ilDataCollectionRecordField
 {
-	private $id;
-	private $field;
-	private $record;
-	private $value;
+	protected $id;
+    protected $field;
+    protected $record;
+    protected $value;
 	
 	/*
 	 * __construct
@@ -75,8 +76,6 @@ class ilDataCollectionRecordField
 		$this->loadValue();
 		$datatype = $this->field->getDatatype();
 
-        //FIXME MST - Wir hatten immer sämltiche Werte gelöscht. Bei 1:n-Beziehungen verunmöglicht dieses Vorgehen mehrere Werte zu einem entsprechenden Feld zuzuweisen.
-		//FIXME Für 1:1-Beziehungen müssen wir nun eine neue Lösung suchen.
 		$query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$ilDB->quote($this->id, "integer");
 		$ilDB->manipulate($query);
 		$next_id = $ilDB->nextId("il_dcl_stloc".$datatype->getStorageLocation()."_value");
@@ -165,11 +164,18 @@ class ilDataCollectionRecordField
 		return $datatype->parseHTML($this->getValue(), $this);
 	}
 
+    /**
+     * this funciton is used to in the viewdefinition of a single record. By default it returns the getHTML methods return.
+     * @return mixed
+     */
+    public function getSingleHTML(){
+        return $this->getHTML();
+    }
 
 	/*
 	 * loadValue
 	 */
-	private function loadValue()
+	protected function loadValue()
 	{
 		if($this->value === NULL)
 		{

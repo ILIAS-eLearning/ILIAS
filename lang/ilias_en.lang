@@ -13063,4 +13063,5 @@ dcl#:#dcl_import_records .xls#:#Import .xls
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XSL file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
+dcl#:#dcl_multiple_selection#:#Multiple Selection
 crs#:#crs_notification_list_title#:#Notification About New Members
