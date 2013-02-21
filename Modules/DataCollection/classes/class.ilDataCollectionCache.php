@@ -25,9 +25,11 @@ class ilDataCollectionCache{
     protected static $records_cache;
 
     /**
-     * @var ilDataCollectionRecordField[]
+     * record_field_cache[record_id][field_id]
+     * @var ilDataCollectionRecordField[][]
      */
     protected static $record_field_cache;
+
 
     public static function getTableCache($table_id = 0){
         $tables_cache = &self::$tables_cache;
@@ -48,6 +50,42 @@ class ilDataCollectionCache{
         if(!isset($records_cache[$record_id]))
             $records_cache[$record_id] = new ilDataCollectionRecord($record_id);
         return $records_cache[$record_id];
+    }
+
+    /**
+     * @param $field ilDataCollectionField
+     * @param $record ilDataCollectionRecord
+     * @return ilDataCollectionRecordField
+     */
+    public static function getRecordFieldCache($record, $field){
+        $fid = $field->getId();
+        $rid = $record->getId();
+        if(!isset(self::$record_field_cache[$rid])){
+            self::$record_field_cache[$rid] = array();
+            self::$record_field_cache[$rid][$fid] = self::getInstance($record, $field);
+        }elseif(!isset(self::$record_field_cache[$rid][$fid])){
+            self::$record_field_cache[$rid][$fid] = self::getInstance($record, $field);
+        }
+        return self::$record_field_cache[$rid][$fid];
+    }
+
+    /**
+     * This function is used to decide which type of record field is to be instanciated.
+     * @param $record
+     * @param $field
+     * @return ilDataCollectionRecordField
+     */
+    public static function getInstance($record, $field){
+        switch($field->getDatatypeId()){
+            case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+                return new ilDataCollectionRatingField($record, $field);
+            case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
+                return new ilDataCollectionILIASRefField($record, $field);
+            case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
+                return new ilDataCollectionReferenceField($record, $field);
+            default:
+                return new ilDataCollectionRecordField($record, $field);
+        }
     }
 
     public static function buildFieldFromRecord($rec){
