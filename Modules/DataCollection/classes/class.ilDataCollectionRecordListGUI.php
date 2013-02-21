@@ -22,6 +22,8 @@ class ilDataCollectionRecordListGUI
 
     protected $max_imports = 100;
 
+    protected $supported_import_datatypes = array(ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN, ilDataCollectionDatatype::INPUTFORMAT_NUMBER, ilDataCollectionDatatype::INPUTFORMAT_REFERENCE, ilDataCollectionDatatype::INPUTFORMAT_TEXT);
+
 	private $table_obj;
 	/**
 	 * Constructor

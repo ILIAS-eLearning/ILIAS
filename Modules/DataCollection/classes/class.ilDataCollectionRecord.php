@@ -456,9 +456,7 @@ class ilDataCollectionRecord
 			{
 				if($recordfields[$field->getId()] == NULL)
 				{
-					$load = new ilDataCollectionRecordField($this, $field);
-//                    echo "loading field:".$load->getRecord()->getId().":".$field->getId()."<br>";
-                    $recordfields[$field->getId()] = $load->getInstance();
+                    $recordfields[$field->getId()] = ilDataCollectionCache::getRecordFieldCache($this, $field);
 				}
 			}
 			
