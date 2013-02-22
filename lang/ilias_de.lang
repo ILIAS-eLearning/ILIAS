@@ -13065,3 +13065,24 @@ dcl#:#dcl_simulate_import#:#Import Simulieren
 dcl#:#dcl_simulate_info#:#Wird der Import simuliert, werden keine Datensätze angelegt aber Sie erhalten Feedback zu eventuellen Fehlern in der Import Datei. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
+common#:#objs_bibl#:#Literaturlisten
+common#:#obj_bibl#:#Literaturliste
+bibl#:#bibl_new#:#Neue Literaturliste
+bibl#:#bibl_add#:#Literaturliste hinzufügen
+bibl#:#Download Original File#:#Original-Datei herunterladen
+bibl#:#Type#:#Typ
+bibl#:#Override entries#:#Einträge überschreiben
+bibl#:#bibl_edit#:#Edit Literaturliste bearbeiten
+bibl#:#bibliography file#:#Literaturlisten-Datei
+bibl#:#obj_bibl_duplicate#:#Literaturliste duplizieren
+rbac#:#bibl_visible#:#Literaturliste ist sichtbar
+rbac#:#bibl_read#:#Literaturliste lesen
+rbac#:#bibl_copy#:#Literaturliste kopieren
+rbac#:#bibl_write#:#Literaturliste bearbeiten
+rbac#:#bibl_delete#:#Literaturliste löschen
+rbac#:#bibl_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#cat_create_bibl#:#Literaturliste anlegen
+rbac#:#crs_create_bibl#:#Literaturliste anlegen
+rbac#:#fold_create_bibl#:#Literaturliste anlegen
+rbac#:#grp_create_bibl#:#Literaturliste anlegen
+rbac#:#root_create_bibl#:#Literaturliste anlegen

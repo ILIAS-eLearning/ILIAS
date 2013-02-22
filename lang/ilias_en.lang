@@ -13065,3 +13065,24 @@ dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 crs#:#crs_notification_list_title#:#Notification About New Members
+common#:#obj_bibl#:#Bibliography
+common#:#objs_bibl#:#Bibliographies
+bibl#:#bibl_new#:#New Bibliography
+bibl#:#bibl_add#:#Add Bibliography
+bibl#:#Download Original File#:#Download Original File
+bibl#:#Type#:#Type
+bibl#:#Override Entries#:#Override Entries
+bibl#:#bibl_edit#:#Edit Bibliography
+bibl#:#bibliography file#:#Bibliography File
+bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
+rbac#:#bibl_visible#:#Bibliography is visible
+rbac#:#bibl_read#:#User can read bibliography content
+rbac#:#bibl_copy#:#User can copy bibliography
+rbac#:#bibl_write#:#User can edit bibliography settings
+rbac#:#bibl_delete#:#User can move or delete bibliography
+rbac#:#bibl_edit_permission#:#User can change permission settings
+rbac#:#cat_create_bibl#:#Create Bibliography
+rbac#:#crs_create_bibl#:#Create Bibliography
+rbac#:#fold_create_bibl#:#Create Bibliography
+rbac#:#grp_create_bibl#:#Create Bibliography
+rbac#:#root_create_bibl#:#Create Bibliography

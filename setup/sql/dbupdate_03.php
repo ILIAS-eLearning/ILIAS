@@ -14382,3 +14382,163 @@ if( !$ilDB->tableColumnExists('il_dcl_datatype', 'sort') )
 	$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = ".$ilDB->quote(80, "integer")." WHERE title=".$ilDB->quote("rating", "text"));
 }
 ?>
+<#3842>
+<?php
+
+if(!$ilDB->tableExists('il_bibl_data'))
+{
+	$fields = array(
+		'id'	=> array(
+			'type'		=> 'integer',
+			'length'	=> 4
+		),
+		'filename' 		=> array(
+			'type' 			=> 'text',
+			'length' 		=> 256
+		),
+        'is_online' => array(
+            'type' => 'integer',
+            'length' => 1,
+        ),
+	);
+	$ilDB->createTable('il_bibl_data',$fields);
+	$ilDB->addPrimaryKey('il_bibl_data',array('id'));
+}
+?>
+<#3843>
+<?php
+
+if(!$ilDB->tableExists('il_bibl_entry'))
+{
+	$fields = array(
+		'data_id'	=> array(
+				'type'		=> 'integer',
+				'length'	=> 4
+		),
+		'id' 	=> array(
+			'type' 			=> 'integer',
+			'length' 		=> 4
+		),
+		'type' 	=> array(
+			'type' 			=> 'text',
+			'length' 		=> 128
+		)
+	);
+	$ilDB->createTable('il_bibl_entry',$fields);
+	$ilDB->addPrimaryKey('il_bibl_entry',array('id'));
+}
+?>
+<#3844>
+<?php
+
+if(!$ilDB->tableExists('il_bibl_attribute'))
+{
+	$fields = array(
+		'entry_id'	=> array(
+			'type'		=> 'integer',
+			'length'	=> 4
+		),
+		'name' 		=> array(
+			'type' 		=> 'text',
+			'length' 	=> 32
+		),
+		'value' 		=> array(
+			'type' 		=> 'text',
+			'length' 	=> 512
+		),
+		'id' 		=> array(
+			'type' 		=> 'integer',
+			'length' 	=> 4
+		)
+	);
+	$ilDB->createTable('il_bibl_attribute',$fields);
+	$ilDB->addPrimaryKey('il_bibl_attribute',array('id'));
+}
+?>
+<#3845>
+<?php
+if(!$ilDB->tableExists('il_bibl_entry_seq'))
+{
+    $ilDB->createSequence('il_bibl_entry');
+}
+?>
+<#3846>
+<?php
+if(!$ilDB->tableExists('il_bibl_attribute_seq'))
+{
+    $ilDB->createSequence('il_bibl_attribute');
+}
+?>
+<#3847>
+<?php
+// create file upload directory for bibliographic module
+$bibl_data_dir = ilUtil::getDataDir() . "/bibl";
+ilUtil::makeDir($bibl_data_dir);
+?>
+<#3848>
+<?php
+if(!$ilDB->tableExists('il_bibl_overview_model'))
+{
+    $fields = array(
+        'ovm_id'	=> array(
+            'type'		=> 'integer',
+            'length'	=> 4
+        ),
+        'filetype' 		=> array(
+            'type' 		=> 'text',
+            'length' 	=> 8
+        ),
+        'literature_type' => array(
+            'type' 		=> 'text',
+            'length' 	=> 32
+        ),
+        'pattern' 		=> array(
+            'type' 		=> 'text',
+            'length' 	=> 512
+        )
+    );
+    $ilDB->createTable('il_bibl_overview_model',$fields);
+    $ilDB->addPrimaryKey('il_bibl_overview_model',array('ovm_id'));
+}
+?>
+<#3849>
+<?php
+//fill bibliographic overview model default-patterns
+//BibTeX
+$ilDB->manipulateF('INSERT INTO  il_bibl_overview_model (ovm_id, filetype, literature_type, pattern)
+	VALUES(%s, %s, %s, %s)',
+    array('integer', 'text', 'text', 'text'),
+    array(1, 'bib', 'default', '[<strong>|bib_default_author|</strong>: ][|bib_default_title|. ]<Emph>[|bib_default_publisher|][, |bib_default_year|][, |bib_default_address|].</Emph>')
+);
+//RIS
+$ilDB->manipulateF('INSERT INTO  il_bibl_overview_model (ovm_id, filetype, literature_type, pattern)
+	VALUES(%s, %s, %s, %s)',
+    array('integer', 'text', 'text', 'text'),
+    array(2, 'ris', 'default', '<strong>[|ris_default_au|][; |ris_default_a2|]</strong>: [ |ris_default_t1|.]<Emph>[|ris_default_pb|][, |ris_default_py|][, |ris_default_xy|].</Emph>')
+);
+?>
+<#3850>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$dcl_type_id = ilDBUpdateNewObjectType::addNewType('bibl', 'Bibliographic Object');
+
+$rbac_ops = array(
+    ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+    ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+    ilDBUpdateNewObjectType::RBAC_OP_READ,
+    ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+    ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+    ilDBUpdateNewObjectType::RBAC_OP_COPY
+);
+ilDBUpdateNewObjectType::addRBACOperations($dcl_type_id, $rbac_ops);
+
+$parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
+ilDBUpdateNewObjectType::addRBACCreate('create_bibl', 'Create Bibliographic', $parent_types);
+?>
+<#3851>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+
