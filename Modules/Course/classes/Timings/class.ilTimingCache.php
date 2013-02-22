@@ -53,14 +53,14 @@ class ilTimingCache
 		global $objDefinition;
 		
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		include_once './Services/Tracking/classes/class.ilLPStatus.php';
 		include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
 
 		global $ilObjDataCache;
 		$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
 
 		// if completed no warning
-		if(ilLPStatusWrapper::_determineStatus($obj_id, $a_usr_id) == LP_STATUS_COMPLETED_NUM)
+		if(ilLPStatus::_lookupStatus($obj_id, $a_usr_id) == LP_STATUS_COMPLETED_NUM)
 		{
 			return false;
 		}
