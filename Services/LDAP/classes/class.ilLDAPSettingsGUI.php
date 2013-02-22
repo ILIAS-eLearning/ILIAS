@@ -721,12 +721,6 @@ class ilLDAPSettingsGUI
 		return true;
 	}
 	
-	public function reset()
-	{
-	 	unset($_POST['mapping_template']);
-	 	$this->userMapping();
-	}
-	
 	public function saveRoleMapping()
 	{
 		global $ilErr;
@@ -758,56 +752,6 @@ class ilLDAPSettingsGUI
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->roleMapping();
 		return true;
-	}
-	
-	public function userMapping($a_show_defaults = false)
-	{
-		$this->initAttributeMapping();
-		
-		$this->setSubTabs();
-		$this->tabs_gui->setSubTabActive('ldap_user_mapping');
-		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ldap_user_mapping.html','Services/LDAP');
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		
-		$this->tpl->setVariable('TXT_LDAP_MAPPING',$this->lng->txt('ldap_mapping_table'));
-		$this->tpl->setVariable('SELECT_MAPPING',$this->prepareMappingSelect());
-		
-		if($_POST['mapping_template'])
-		{
-			$this->tpl->setCurrentBlock('reset');
-			$this->tpl->setVariable('TXT_RESET',$this->lng->txt('reset'));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		foreach($this->getMappingFields() as $mapping => $translation)
-		{
-			$this->tpl->setCurrentBlock('attribute_row');
-			$this->tpl->setVariable('TXT_NAME',$translation);
-			$this->tpl->setVariable('FIELD_NAME',$mapping.'_value');
-			$this->tpl->setVariable('FIELD_VALUE',$this->mapping->getValue($mapping));
-			$this->tpl->setVariable('CHECK_FIELD',ilUtil::formCheckbox($this->mapping->enabledUpdate($mapping),$mapping.'_update',1));
-			$this->tpl->setVariable('UPDATE_INFO',$this->lng->txt('ldap_update_field_info'));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// Show user defined fields
-		$this->initUserDefinedFields();
-		foreach($this->udf->getDefinitions() as $definition)
-		{
-			$this->tpl->setCurrentBlock('attribute_row');
-			$this->tpl->setVariable('TXT_NAME',$definition['field_name']);
-			$this->tpl->setVariable('FIELD_NAME','udf_'.$definition['field_id'].'_value');
-			$this->tpl->setVariable('FIELD_VALUE',$this->mapping->getValue('udf_'.$definition['field_id']));
-			$this->tpl->setVariable('CHECK_FIELD',ilUtil::formCheckbox($this->mapping->enabledUpdate('udf_'.$definition['field_id']),
-																		'udf_'.$definition['field_id'].'_update',1));
-			$this->tpl->setVariable('UPDATE_INFO',$this->lng->txt('ldap_update_field_info'));
-			$this->tpl->parseCurrentBlock();
-
-		}
-		
-		$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
-		$this->tpl->setVariable('TXT_SHOW',$this->lng->txt('show'));
 	}
 	
 	public function chooseMapping()
@@ -1537,5 +1481,87 @@ class ilLDAPSettingsGUI
 		ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
 	}
 	
+	public function userMapping()
+	{
+		global $tpl;
+		$this->initAttributeMapping();
+		
+		$this->setSubTabs();
+		$this->tabs_gui->setSubTabActive('ldap_user_mapping');
+		$this->userMappingToolbar();
+		
+		$propertie_form = $this->initUserMappingForm();
+		
+		$tpl->setContent($propertie_form->getHTML());
+	}
+	
+	/**
+	 * Create Toolbar
+	 * @global ilToolbarGUI $ilToolbar
+	 */
+	private function userMappingToolbar()
+	{
+		global $ilToolbar;
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		
+		$select_form = new ilSelectInputGUI("mapping_template");
+		$select_form->setPostVar("mapping_template");
+		$options = array(
+						"" => $this->lng->txt('ldap_mapping_template'),
+						"inetOrgPerson" => 'inetOrgPerson',
+						"organizationalPerson" => 'organizationalPerson',
+						"person" => 'person',
+						"ad_2003" => 'Active Directory (Win 2003)');
+		$select_form->setOptions($options);
+		$select_form->setValue($_POST['mapping_template']);
+		
+		$ilToolbar->addInputItem($select_form);
+		$ilToolbar->addFormButton($this->lng->txt('show'), "chooseMapping");
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "chooseMapping"));
+	}
+	
+	private function initUserMappingForm()
+	{
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$propertie_form = new ilPropertyFormGUI();
+		$propertie_form->setTitle($this->lng->txt('ldap_mapping_table'));
+		$propertie_form->setFormAction($this->ctrl->getFormAction($this, 'saveMapping'));
+		$propertie_form->addCommandButton('saveMapping',$this->lng->txt('save'));
+		
+		foreach($this->getMappingFields() as $mapping => $lang)
+		{
+			$text_form = new ilTextInputGUI($lang);
+			$text_form->setPostVar($mapping."_value");
+			$text_form->setValue($this->mapping->getValue($mapping));
+			$text_form->setSize(32);
+			$text_form->setMaxLength(255);
+			$propertie_form->addItem($text_form);
+			
+			$checkbox_form = new ilCheckboxInputGUI("");
+			$checkbox_form->setPostVar($mapping . "_update");
+			$checkbox_form->setChecked($this->mapping->enabledUpdate($mapping));
+			$checkbox_form->setOptionTitle($this->lng->txt('ldap_update_field_info'));
+			$propertie_form->addItem($checkbox_form);
+		}
+		
+		$this->initUserDefinedFields();
+		foreach($this->udf->getDefinitions() as $definition)
+		{
+			$text_form = new ilTextInputGUI($definition['field_name']);
+			$text_form->setPostVar('udf_'.$definition['field_id'].'_value');
+			$text_form->setValue($this->mapping->getValue('udf_'.$definition['field_id']));
+			$text_form->setSize(32);
+			$text_form->setMaxLength(255);
+			$propertie_form->addItem($text_form);
+			
+			$checkbox_form = new ilCheckboxInputGUI("");
+			$checkbox_form->setPostVar('udf_'.$definition['field_id'].'_update');
+			$checkbox_form->setChecked($this->mapping->enabledUpdate('udf_'.$definition['field_id']));
+			$checkbox_form->setOptionTitle($this->lng->txt('ldap_update_field_info'));
+			$propertie_form->addItem($checkbox_form);
+		}
+		
+		return $propertie_form;
+	}		
 }
 ?>
