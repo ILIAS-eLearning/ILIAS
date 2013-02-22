@@ -4061,6 +4061,12 @@ td.dcl_actions {
 	padding: 2px
 }
 
+/* Modules/Bibliographic */
+
+span.bibl_text_inline_Emph {
+        font-style:italic; 
+}
+
 /* Services/MediaObjects */
 
 .ilPlayerPreviewOverlayOuter {
