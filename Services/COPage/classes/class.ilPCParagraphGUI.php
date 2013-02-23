@@ -519,7 +519,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				case "Headline2": $t = "heading2"; $tag = "h2"; break;
 				case "Headline3": $t = "heading3"; $tag = "h3"; break; 
 			}
-			$html = '<'.$tag.' class="ilc_'.$t.'_'.$char.'" style="margin-top:2px; margin-bottom:2px; position:static;">'.$char_lang."</".$tag.">";
+			$html = '<'.$tag.' class="ilc_'.$t.'_'.$char.'" style="margin-top:2px; margin-bottom:2px; text-indent:0px; position:static;">'.$char_lang."</".$tag.">";
 			$selection->addItem($char_lang, $char, "",
 				"", $char, "", $html);
 		}
