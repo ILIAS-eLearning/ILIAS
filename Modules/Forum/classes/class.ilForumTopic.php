@@ -576,21 +576,27 @@ class ilForumTopic
 				}
 			}
 
-			$res = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE frm_user_read
 				SET obj_id = %s
 				WHERE thread_id = %s',
 				array('integer', 'integer'),
 				array($new_obj_id, $this->id));
+
+			$this->db->manipulateF('
+				DELETE FROM frm_thread_access
+				WHERE obj_id = %s AND thread_id =%s',
+				array('integer', 'integer'),
+				array($new_obj_id, $this->id));
 			
-			$res = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE frm_thread_access
 				SET obj_id = %s
 				WHERE thread_id =%s',
 				array('integer', 'integer'),  
 				array($new_obj_id, $this->id));
 			
-			$res = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE frm_posts
 				SET pos_top_fk = %s
 				WHERE pos_thr_fk = %s',
