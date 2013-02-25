@@ -397,6 +397,41 @@ class ilObjectActivation
 			$a_item['start'] = 'abc';
 		}			
 	}
+	
+	/**
+	 * Get timing details for list gui
+	 *
+	 * @param array &$a_item
+	 * @return array caption, value
+	 */
+	public static function getListGUIProperties(array &$a_item)
+	{
+		self::addAdditionalSubItemInformation($a_item);
+		if(isset($a_item['timing_type']))
+		{			
+			$activation = '';
+			switch($a_item['timing_type'])
+			{
+				case ilObjectActivation::TIMINGS_ACTIVATION:
+					$activation = ilDatePresentation::formatPeriod(
+						new ilDateTime($a_item['start'],IL_CAL_UNIX),
+						new ilDateTime($a_item['end'],IL_CAL_UNIX));
+					break;
+						
+				case ilObjectActivation::TIMINGS_PRESETTING:
+					$activation = ilDatePresentation::formatPeriod(
+						new ilDate($a_item['start'],IL_CAL_UNIX),
+						new ilDate($a_item['end'],IL_CAL_UNIX));
+					break;					
+			}
+			if ($activation != "")
+			{
+				global $lng;
+				$lng->loadLanguageModule('crs');
+				return array($a_item['activation_info'], $activation);				
+			}
+		}
+	}
 		
 	/**
 	 * Create db entry with default values

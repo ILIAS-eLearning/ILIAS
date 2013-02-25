@@ -435,6 +435,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
 			
+			include_once "Services/Object/classes/class.ilObjectActivation.php";
+			ilObjectActivation::preloadData($ref_ids);		
+			
 			foreach($items as $item)
 			{
 				//echo "1";
@@ -447,9 +450,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						continue;
 					}
 										
-					$item_list_gui->enableNotes(true);
-					$item_list_gui->enableComments(true);
-					$item_list_gui->enableTags(true);
+					// notes, comment currently do not work properly on desktop
+					$item_list_gui->enableNotes(false);
+					$item_list_gui->enableComments(false);
+					$item_list_gui->enableTags(false);
 					
 					$item_list_gui->enableIcon(true);
 					$item_list_gui->enableDelete(false);
@@ -571,6 +575,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			}
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
+			
+			include_once "Services/Object/classes/class.ilObjectActivation.php";
+			ilObjectActivation::preloadData($ref_ids);		
+			
 			$item_html = array();
 			
 			if ($this->getCurrentDetailLevel() == 3)
@@ -609,9 +617,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						include_once($location."/class.".$full_class.".php");
 						$item_list_gui = new $full_class();
 						
-						$item_list_gui->enableNotes(true);
-						$item_list_gui->enableComments(true);
-						$item_list_gui->enableTags(true);
+						// notes, comment currently do not work properly on desktop
+						$item_list_gui->enableNotes(false);
+						$item_list_gui->enableComments(false);
+						$item_list_gui->enableTags(false);
 						
 						$item_list_gui->enableIcon(true);
 						$item_list_gui->enableDelete(false);
@@ -764,6 +773,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$tree->preloadDeleted($ref_ids);
 			$tree->preloadDepthParent($ref_ids);
 			$ilObjDataCache->preloadReferenceCache($ref_ids, true);
+			
+			include_once "Services/Object/classes/class.ilObjectActivation.php";
+			ilObjectActivation::preloadData($ref_ids);		
 		}
 		
 		$output = false;
@@ -826,9 +838,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						include_once($location."/class.".$full_class.".php");
 						$item_list_gui = new $full_class();
 						
-						$item_list_gui->enableNotes(true);
-						$item_list_gui->enableComments(true);
-						$item_list_gui->enableTags(true);
+						// notes, comment currently do not work properly on desktop
+						$item_list_gui->enableNotes(false);
+						$item_list_gui->enableComments(false);
+						$item_list_gui->enableTags(false);
 						
 						$item_list_gui->enableIcon(true);
 						$item_list_gui->enableDelete(false);
@@ -939,6 +952,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$tree->preloadDepthParent($ref_ids);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
 			
+			include_once "Services/Object/classes/class.ilObjectActivation.php";
+			ilObjectActivation::preloadData($ref_ids);		
+			
 			foreach($items as $item)
 			{
 				//echo "1";
@@ -951,9 +967,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						continue;
 					}
 					
-					$item_list_gui->enableNotes(true);
-					$item_list_gui->enableComments(true);
-					$item_list_gui->enableTags(true);
+					// notes, comment currently do not work properly on desktop
+					$item_list_gui->enableNotes(false);
+					$item_list_gui->enableComments(false);
+					$item_list_gui->enableTags(false);
 					
 					$item_list_gui->enableIcon(true);
 					$item_list_gui->enableDelete(false);

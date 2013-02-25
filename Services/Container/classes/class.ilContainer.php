@@ -693,7 +693,7 @@ class ilContainer extends ilObject
 				$type = $object["type"];
 			}
 			
-			// this will add activation properties (ilObjectActivation)
+			// this will add activation properties 
 			$this->addAdditionalSubItemInformation($object);
 			
 			$this->items[$type][$key] = $object;
