@@ -4214,10 +4214,21 @@ body.ilBodyPrint {
 	padding: 0;
 }
 
-/* basic responsiveness (beta) */
+/* basic responsiveness (beta)
+
+   The following section targets smartphones.
+  
+   iPads come with a device width of 768, the iPhone with 320, most smartphones seem to
+   use a width under 640px, so 640 seems to be a good choice here.
+   If you make any changes in this query, please add a reason to this comment and if possible an url that
+   backs this decision.
+   
+   List of common devices width values: http://cssmediaqueries.com/target/
+   Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
+   
+   */
 @media
-	only screen and (max-width: 640px),
-	only screen and (min-device-width: 640px) and (max-device-width: 1136px) and (-webkit-min-device-pixel-ratio: 2)
+	only screen and (max-width: 640px)
 {
 	html {
 		-webkit-text-size-adjust: none;
