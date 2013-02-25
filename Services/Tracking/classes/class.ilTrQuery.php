@@ -865,10 +865,18 @@ class ilTrQuery
 						break;
 
 					case "status":
+						if($value == LP_STATUS_NOT_ATTEMPTED_NUM)
+						{
+							// #10645 - not_attempted is default
+							$where[] = "(ut_lp_marks.status = ".$ilDB->quote(LP_STATUS_NOT_ATTEMPTED_NUM ,"text").
+								" OR ut_lp_marks.status IS NULL)";
+							break;
+						}
+						// fallthrough
+						
 					case "mark":
 						$where[] = "ut_lp_marks.".$id." = ".$ilDB->quote($value ,"text");
 						break;
-
 
 					case "percentage":
 						if(!$a_aggregate)
