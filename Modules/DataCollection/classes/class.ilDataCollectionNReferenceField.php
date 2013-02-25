@@ -16,17 +16,19 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField{
     {
         global $ilDB;
 
-        $this->loadValue();
+        $values = $this->getValue();
+        if(!is_array($values))
+            $values = array($values);
         $datatype = $this->field->getDatatype();
 
         $query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$ilDB->quote($this->id, "integer");
         $ilDB->manipulate($query);
 
-        if(!count($this->getValue()))
+        if(!count($values)|| $values[0] == 0)
             return;
 
         $query = "INSERT INTO il_dcl_stloc".$datatype->getStorageLocation()."_value (value, record_field_id, id) VALUES";
-        foreach($this->getValue() as $value){
+        foreach($values as $value){
             $next_id = $ilDB->nextId("il_dcl_stloc".$datatype->getStorageLocation()."_value");
             $query .= " (".$ilDB->quote($value, $datatype->getDbType()).", ".$ilDB->quote($this->getId(), "integer").", ".$ilDB->quote($next_id, "integer")."),";
         }
@@ -68,7 +70,7 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField{
             $ref_record = ilDataCollectionCache::getRecordCache($value);
             if(!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()){
                 //the referenced record_field does not seem to exist.
-                $record_field->setValue(NULL);
+                $record_field->setValue(0);
                 $record_field->doUpdate();
             }else{
                 $tpl->setCurrentBlock("reference");
