@@ -349,7 +349,7 @@ class ilLinkResourceItems
 
 		$next_id = $ilDB->nextId('webr_items');
 		$query = "INSERT INTO webr_items (link_id,title,description,target,active,disable_check,".
-			"last_update,create_date,webr_id) ".
+			"last_update,create_date,webr_id,valid) ".
 			"VALUES( ". 
 			$ilDB->quote($next_id ,'integer').", ".
 			$ilDB->quote($this->getTitle() ,'text').", ".
@@ -359,7 +359,8 @@ class ilLinkResourceItems
 			$ilDB->quote($this->getDisableCheckStatus() ,'integer').", ".
 			$ilDB->quote($this->getLastUpdateDate() ,'integer').", ".
 			$ilDB->quote($this->getCreateDate() ,'integer').", ".
-			$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
+			$ilDB->quote($this->getLinkResourceId() ,'integer').", ".
+			$ilDB->quote($this->getValidStatus(),'integer'). ' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
