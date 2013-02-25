@@ -562,8 +562,8 @@ class ilCalendarSettings
 		$this->enableNotification($this->storage->get('notification',$this->isNotificationEnabled()));
 		$this->enableConsultationHours($this->storage->get('consultation_hours',$this->areConsultationHoursEnabled()));
 		$this->enableCGRegistration($this->storage->get('cg_registration',$this->isCGRegistrationEnabled()));
-		$this->enableCourseCalendar($this->storage->get('course_cal'),$this->isCourseCalendarEnabled());
-		$this->enableGroupCalendar($this->storage->get('group_cal'),$this->isGroupCalendarEnabled());
+		$this->enableCourseCalendar($this->storage->get('course_cal',$this->isCourseCalendarEnabled()));
+		$this->enableGroupCalendar($this->storage->get('group_cal',$this->isGroupCalendarEnabled()));
 		$this->enableUserNotification($this->storage->get('notification_user',$this->isUserNotificationEnabled()));
 		$this->enableWebCalSync($this->storage->get('webcal_sync',$this->isWebCalSyncEnabled()));
 		$this->setWebCalSyncHours($this->storage->get('webcal_sync_hours',$this->getWebCalSyncHours()));
