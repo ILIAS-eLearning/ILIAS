@@ -112,6 +112,19 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
         return $html;
     }
 
+    /*
+ * getExportValue
+ */
+    public function getExportValue()
+    {
+        if($this->getValue()){
+            $ref_rec = ilDataCollectionCache::getRecordCache($this->getValue());
+            return $ref_rec->getRecordField($this->getField()->getFieldRef())->getValue();
+        }
+        else
+            return "";
+    }
+
 
 }
 ?>

@@ -129,6 +129,29 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField{
 
         return $tpl->get();
     }
+
+    /*
+    * getExportValue
+    */
+    public function getExportValue()
+    {
+        $values = $this->getValue();
+        $names = array();
+        foreach($values as $value){
+            if($value){
+                $ref_rec = ilDataCollectionCache::getRecordCache($value);
+                $names[] = $ref_rec->getRecordField($this->getField()->getFieldRef())->getValue();
+            }
+        }
+        $string = "";
+        foreach($names as $name){
+            $string.=$name.", ";
+        }
+        if(!count($names))
+            return "";
+        $string = substr($string, 0, -2);
+        return $string;
+    }
 }
 
 ?>
