@@ -223,6 +223,21 @@ class ilDateTime
 	}
 	
 	/**
+	 * Check whether an date is within a date duration given by start and end
+	 * @param ilDateTime $dt
+	 * @param ilDateTime $start
+	 * @param ilDateTime $end
+	 * @param type $a_compare_field
+	 * @param type $a_tz
+	 */
+	public static function _within(ilDateTime $dt, ilDateTime $start, ilDateTime $end, $a_compare_field = '', $a_tz = '')
+	{
+		return 
+			(ilDateTime::_after($dt, $start,$a_compare_field,$a_tz) or ilDateTime::_equals($dt, $start,$a_compare_field,$a_tz)) &&
+			(ilDateTime::_before($dt, $end,$a_compare_field,$a_tz) or ilDateTime::_equals($dt, $end,$a_compare_field,$a_tz));
+	}
+	
+	/**
 	 * increment
 	 *
 	 * @access public
