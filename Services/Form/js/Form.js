@@ -154,7 +154,9 @@ il.Form = {
 					 // Allow: Ctrl+A
 					(kcode == 65 && is_ctrl === true) ||
 					 // Allow: home, end, left, right (up [38] does not matter)
-					(kcode >= 35 && kcode <= 39)) {
+					(kcode >= 35 && kcode <= 39) ||
+					 // Allow: negative values (#10652)
+					kcode == 173) {
 				// let it happen, don't do anything
 				return;
 			} else {
