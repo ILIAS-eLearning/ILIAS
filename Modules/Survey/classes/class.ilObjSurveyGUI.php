@@ -663,7 +663,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$link = $this->ctrl->getLinkTarget($this, "confirmResetTemplate");
 			$link = "<a href=\"".$link."\">".$this->lng->txt("survey_using_template_link")."</a>";
 			$message = "<div style=\"margin-top:10px\">".
-				$this->tpl->getMessageHTML(sprintf($this->lng->txt("survey_using_template"), $template->getTitle(), $link), "info").
+				$this->tpl->getMessageHTML(sprintf($this->lng->txt("survey_using_template"), 
+					ilSettingsTemplate::lookupTitle($this->object->getTemplate()), $link), "info").  // #10651
 				"</div>";
 		}
 	
