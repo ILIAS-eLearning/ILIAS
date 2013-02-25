@@ -281,10 +281,11 @@ il.IntLink =
 		if (typeof ilCOPage != "undefined")
 		{
 			ilCOPage.cmdIntLink(b, e);
-		}
-		else
-		{			
+		} else if (il.Form) {
 			il.Form.addInternalLink(b,e,this.id,ev);
+		} else if (addInternalLink) {
+			// old style, needs clean-up
+			addInternalLink(b);
 		}
 
 		il.IntLink.panel.hide();
