@@ -3,6 +3,9 @@
 	id="grp">
 	<baseclasses>
 	</baseclasses>
+	<objectgroups>
+		<objectgroup id="grp" name="Groups" default_pres_pos="70"/>
+	</objectgroups>
 	<objects>
 		<object id="grp" class_name="Group" dir="classes" default_pos="50" default_pres_pos="70"
 			checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1" export="1">
