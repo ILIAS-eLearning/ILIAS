@@ -152,8 +152,9 @@ class ilItemGroupItems
 	/**
 	 * Read item group items
 	 */
-	protected function read()
+	public function read()
 	{
+		$this->items = array();
 		$set = $this->db->query("SELECT * FROM item_group_item ".
 			" WHERE item_group_id = ".$this->db->quote($this->getItemGroupId(), "integer")
 			);
