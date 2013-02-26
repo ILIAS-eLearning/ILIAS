@@ -461,7 +461,7 @@ class ilObjPoll extends ilObject2
 		return (array)$ilDB->fetchAssoc($set);
 	}	
 	
-	function saveAnswer($a_text, $a_pos)
+	function saveAnswer($a_text, $a_pos = null)
 	{
 		global $ilDB;
 		
