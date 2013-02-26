@@ -2164,7 +2164,7 @@
 <xsl:template name="MOBTable">
 	<xsl:variable name="cmobid" select="@OriginId"/>
 
-	<table width="1">
+	<table>
 		<xsl:if test="@Class">
 			<xsl:attribute name="class">ilc_media_cont_<xsl:value-of select="@Class"/></xsl:attribute>
 		</xsl:if>
