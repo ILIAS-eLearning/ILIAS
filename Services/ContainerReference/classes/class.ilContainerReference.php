@@ -253,7 +253,24 @@ class ilContainerReference extends ilObject
 		
 		if($this->getTitleType() == ilContainerReference::TITLE_TYPE_REUSE)
 		{
-			$this->title = $this->lng->txt('reference_of').' '.ilObject::_lookupTitle($this->getTargetId());
+			#$this->title = $this->lng->txt('reference_of').' '.ilObject::_lookupTitle($this->getTargetId());
+			$this->title = ilObject::_lookupTitle($this->getTargetId());
+		}
+	}
+
+	/**
+	 * Get presentation title
+	 * @return string presentation title
+	 */
+	public function getPresentationTitle()
+	{
+		if($this->getTitleType() == self::TITLE_TYPE_CUSTOM)
+		{
+			return $this->getTitle();
+		}
+		else
+		{
+			return $this->lng->txt('reference_of').' '.$this->getTitle();
 		}
 	}
 	
