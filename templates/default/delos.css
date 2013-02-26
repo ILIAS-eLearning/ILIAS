@@ -92,15 +92,27 @@ ol { list-style-type: decimal }
 ol ul, ul ol,
 ul ul, ol ol { margin-top: 0; margin-bottom: 0 }
 
-small {
+small, sub, sup {
 	font-size: .8em;
 }
 
-em {
+em, i {
 	font-style: italic;
 }
 
-strong {
+u {
+	text-decoration: underline;
+}
+
+sub {
+	vertical-align: sub;
+}
+
+sup {
+	vertical-align: super;
+}
+
+strong, b {
 	font-weight: bold;
 }
 
