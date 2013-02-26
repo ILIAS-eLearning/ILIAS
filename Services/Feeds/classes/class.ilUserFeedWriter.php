@@ -87,6 +87,7 @@ class ilUserFeedWriter extends ilFeedWriter
 					$item["agg_ref_id"], $item["aggregation"]);
 
 				// path
+				include_once("./Services/Locator/classes/class.ilLocatorGUI.php");
 				$cont_loc = new ilLocatorGUI();
 				$cont_loc->addContextItems($item["ref_id"], true);
 				$cont_loc->setTextOnly(true);
