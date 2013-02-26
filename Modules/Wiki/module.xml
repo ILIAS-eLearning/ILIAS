@@ -4,6 +4,9 @@
 	<baseclasses>
 		<baseclass name="ilWikiHandlerGUI" dir="classes" />
 	</baseclasses>
+	<objectgroups>
+		<objectgroup id="wiki" name="Wikis" default_pres_pos="140"/>
+	</objectgroups>
 	<objects>
 		<object id="wiki" class_name="Wiki" dir="classes" default_pos="115" default_pres_pos="140"
 			checkbox="1" inherit="1" allow_link="1" rbac="1" export="1" allow_copy="1">

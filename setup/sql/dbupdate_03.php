@@ -14540,5 +14540,7 @@ ilDBUpdateNewObjectType::addRBACCreate('create_bibl', 'Create Bibliographic', $p
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
-
+<#3852>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
