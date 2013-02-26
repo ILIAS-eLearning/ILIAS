@@ -1641,7 +1641,7 @@ class ilLDAPSettingsGUI
 			$mapping = new ilLDAPRoleGroupMappingSetting($id);
 			$mapping->read();
 			$txt = $this->lng->txt('obj_role') . ": " . $mapping->getRoleName(). ", ";
-			$txt .= $this->lng->txt('obj_grp') . ": " . $mapping->getDN() . ", ";
+			$txt .= $this->lng->txt('ldap_group_dn') . ": " . $mapping->getDN() . ", ";
 			$txt .= $this->lng->txt('ldap_server_short') . " " . $mapping->getURL() . ", ";
 			$txt .= $this->lng->txt('ldap_group_member_short') . " " . $mapping->getMemberAttribute();
 			

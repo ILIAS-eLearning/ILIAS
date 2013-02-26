@@ -52,11 +52,11 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
 	 	$this->ctrl = $ilCtrl;
 	 	
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
-	 	$this->addColumn('','f',1);
+	 	$this->addColumn('','',1);
 	 	$this->addColumn($this->lng->txt('ldap_rule_type'),'type',"20%");
 	 	$this->addColumn($this->lng->txt('ldap_ilias_role'),'role',"30%");
 	 	$this->addColumn($this->lng->txt('ldap_rule_condition'),'condition',"20%");
-		$this->addColumn($this->lng->txt('ldap_add_remove'),'add_remove','30%');
+		$this->addColumn($this->lng->txt('ldap_add_remove'),'','30%');
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_role_assignment_row.html","Services/LDAP");

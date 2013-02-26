@@ -24,14 +24,14 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
 	 	$this->server_id = $a_server_id;
 		
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
-	 	$this->addColumn('','f',1);
-		$this->addColumn($this->lng->txt('title'), "title");
+	 	$this->addColumn("");
+		$this->addColumn($this->lng->txt('title'), "role");
 		$this->addColumn($this->lng->txt('obj_role'), "role");
-		$this->addColumn($this->lng->txt('obj_grp'), "group");
-		$this->addColumn($this->lng->txt('ldap_server_short'), "url");
-		$this->addColumn($this->lng->txt('ldap_group_member_short'), "member");
-		$this->addColumn($this->lng->txt('ldap_info_text_short'), "info");
-		$this->addColumn($this->lng->txt('action'), "a");
+		$this->addColumn($this->lng->txt('ldap_group_dn'), "dn");
+		$this->addColumn($this->lng->txt('ldap_server'), "url");
+		$this->addColumn($this->lng->txt('ldap_group_member'), "member_attribute");
+		$this->addColumn($this->lng->txt('ldap_info_text'), "info");
+		$this->addColumn($this->lng->txt('action'));
 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.ldap_role_mapping_row.html","Services/LDAP");
