@@ -303,9 +303,9 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	* Insert property html
+	* Render item
 	*/
-	function insert(&$a_tpl)
+	function render()
 	{
 		global $lng;
 		
@@ -377,11 +377,21 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 			}
 
 		}
-		$a_tpl->setCurrentBlock("prop_generic");
-		$a_tpl->setVariable("PROP_GENERIC" ,$ptpl->get());
-		$a_tpl->parseCurrentBlock();
+		return $ptpl->get();
 	}
 	
-	
+	/**
+	* Insert property html
+	*
+	* @return	int	Size
+	*/
+	function insert(&$a_tpl)
+	{
+		$html = $this->render();
+
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $html);
+		$a_tpl->parseCurrentBlock();
+	}
 }
 ?>
