@@ -55,3 +55,7 @@
 		);
 	}
 ?>
+<#4>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
