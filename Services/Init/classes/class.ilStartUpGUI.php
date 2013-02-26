@@ -1599,7 +1599,7 @@ class ilStartUpGUI
 
 	function _checkGoto($a_target)
 	{
-		global $objDefinition, $ilPluginAdmin;
+		global $objDefinition, $ilPluginAdmin, $ilUser;
 
 		if (is_object($ilPluginAdmin))
 		{
@@ -1652,11 +1652,12 @@ class ilStartUpGUI
 		// if no access and repository object => check for parent course/group
 		if(!$ret && 
 			!stristr($a_target, "_wsp") && 
+			$ilUser->getId() != ANONYMOUS_USER_ID && // #10637
 			!$objDefinition->isAdministrationObject($type) && 
 			$objDefinition->isRBACObject($type) &&
 			$t_arr[1])
 		{			
-			global $tree, $ilUser, $rbacsystem;
+			global $tree, $rbacsystem;
 			
 			// original type "pg" => pg_<page_id>[_<ref_id>]
 			if($t_arr[0] == "pg")
