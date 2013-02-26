@@ -352,7 +352,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	/**
 	* Render item
 	*/
-	protected function render($a_mode = "")
+	public function render($a_mode = "")
 	{
 		$tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
 		if (strlen($this->getValue()))

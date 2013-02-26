@@ -60,7 +60,7 @@ class ilLDAPRoleGroupMappingSettings
 	 *
 	 * @access public
 	 * @param int server_id
-	 * 
+	 * @return ilLDAPRoleGroupMappingSettings
 	 */
 	public static function _getInstanceByServerId($a_server_id)
 	{
@@ -140,6 +140,11 @@ class ilLDAPRoleGroupMappingSettings
 	public function loadFromPost($a_mappings)
 	{
 		global $rbacreview;
+		
+		if(!$a_mappings)
+		{
+			return;
+		}
 		
 		$this->mappings = array();
 		foreach($a_mappings as $mapping_id => $data)
@@ -297,6 +302,7 @@ class ilLDAPRoleGroupMappingSettings
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			$this->mappings[$row->mapping_id]['mapping_id'] 			= $row->mapping_id;
 			$this->mappings[$row->mapping_id]['dn'] 					= $row->dn;
 			$this->mappings[$row->mapping_id]['url']					= $row->url;
 			$this->mappings[$row->mapping_id]['member_attribute'] 		= $row->member_attribute;

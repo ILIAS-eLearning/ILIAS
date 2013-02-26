@@ -545,162 +545,6 @@ class ilLDAPSettingsGUI
 		return true;
 	}
 	
-	
-	public function roleMapping()
-	{
-		$this->initRoleMapping();
-
-		$this->setSubTabs();
-		$this->tabs_gui->setSubTabActive('ldap_role_mapping');
-		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ldap_role_mapping.html','Services/LDAP');
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'saveRoleMapping'));
-		
-		// Role Sync
-		$this->tpl->setVariable('TXT_ROLE_SETTINGS',$this->lng->txt('ldap_role_settings'));
-		$this->tpl->setVariable('TXT_ROLE_ACTIVE',$this->lng->txt('ldap_role_active'));
-		$this->tpl->setVariable('TXT_ROLE_BIND_USER',$this->lng->txt('ldap_role_bind_user'));
-		$this->tpl->setVariable('TXT_ROLE_BIND_PASS',$this->lng->txt('ldap_role_bind_pass'));
-		$this->tpl->setVariable('TXT_ROLE_ASSIGNMENTS',$this->lng->txt('ldap_role_assignments'));
-		$this->tpl->setVariable('TXT_BINDING',$this->lng->txt('ldap_server_binding'));
-		
-		$this->tpl->setVariable('TXT_ROLE_BIND_USER_INFO',$this->lng->txt('ldap_role_bind_user_info'));
-		$this->tpl->setVariable('TXT_ROLE_ASSIGNMENTS_INFO',$this->lng->txt('ldap_role_assignments_info'));
-		
-		
-		$mapping_data = $this->role_mapping->getMappings();
-		$mapping_data = $this->loadMappingCopy($mapping_data);
-		$this->loadMappingDetails();
-		
-		// Section new assignment
-		$this->tpl->setVariable('TXT_NEW_ASSIGNMENT',$this->lng->txt('ldap_new_role_assignment'));
-		$this->tpl->setVariable('TXT_URL',$this->lng->txt('ldap_server'));
-		$this->tpl->setVariable('TXT_DN',$this->lng->txt('ldap_group_dn'));
-		$this->tpl->setVariable('TXT_MEMBER',$this->lng->txt('ldap_group_member'));
-		$this->tpl->setVariable('TXT_MEMBER_ISDN',$this->lng->txt('ldap_memberisdn'));
-		$this->tpl->setVariable('TXT_ROLE',$this->lng->txt('ldap_ilias_role'));
-		$this->tpl->setVariable('TXT_ROLE_INFO',$this->lng->txt('ldap_role_info'));
-		$this->tpl->setVariable('TXT_DN_INFO',$this->lng->txt('ldap_dn_info'));
-		$this->tpl->setVariable('TXT_MEMBER_INFO',$this->lng->txt('ldap_member_info'));
-		$this->tpl->setVariable('TXT_MEMBERISDN',$this->lng->txt('ldap_memberisdn'));
-		$this->tpl->setVariable('TXT_INFO',$this->lng->txt('ldap_info_text'));
-		$this->tpl->setVariable('TXT_INFO_INFO',$this->lng->txt('ldap_info_text_info'));
-		
-		
-		$this->tpl->setVariable('ROLE_BIND_USER',$this->server->getRoleBindDN());
-		$this->tpl->setVariable('ROLE_BIND_PASS',$this->server->getRoleBindPassword());
-		$this->tpl->setVariable('CHECK_ROLE_ACTIVE',ilUtil::formCheckbox($this->server->enabledRoleSynchronization() ? true : false,
-			'role_sync_active',
-			1));
-			
-		// Section new assignment
-		$this->tpl->setVariable('URL',$mapping_data[0]['url'] ? $mapping_data[0]['url'] : $this->server->getUrl());
-		$this->tpl->setVariable('DN',$mapping_data[0]['dn']);
-		$this->tpl->setVariable('ROLE',$mapping_data[0]['role_name']);
-		$this->tpl->setVariable('MEMBER',$mapping_data[0]['member_attribute']);
-		$this->tpl->setVariable('CHECK_MEMBERISDN',ilUtil::formCheckbox($mapping_data[0]['memberisdn'],
-			'mapping[0][memberisdn]',
-			1));
-		$this->tpl->setVariable('MAPPING_INFO',$mapping_data[0]['info']);
-		
-		$info_type_checked = isset($mapping_data[0]['info_type']) ? $mapping_data[0]['info_type'] : 1;
-		
-		$this->tpl->setVariable('TXT_MAPPING_INFO_TYPE',$this->lng->txt('ldap_mapping_info_type'));
-		$this->tpl->setVariable('CHECK_MAPPING_INFO_TYPE',ilUtil::formCheckbox($info_type_checked,
-			'mapping[0][info_type]',
-			1));
-		
-		unset($mapping_data[0]);
-		
-		// Section assignments
-		if(count($mapping_data))
-		{
-			$this->tpl->setCurrentBlock('txt_assignments');
-			$this->tpl->setVariable('TXT_ASSIGNMENTS',$this->lng->txt('ldap_role_group_assignments'));
-			$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setCurrentBlock('delete_btn');
-			$this->tpl->setVariable('SOURCE',ilUtil::getImagePath("arrow_downright.png"));
-			$this->tpl->setVariable('TXT_DELETE',$this->lng->txt('delete'));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$mapping_data = $this->sortMappingData($mapping_data);
-		
-		foreach($mapping_data as $data)
-		{
-			$mapping_id = $data['mapping_id'];
-			if(in_array($mapping_id,$_SESSION['ldap_mapping_details']))
-			{
-				$this->tpl->setCurrentBlock('show_mapping_details');
-				$this->tpl->setVariable('ASS_GROUP_URL',$this->lng->txt('ldap_server_short'));
-				$this->tpl->setVariable('ASS_GROUP_DN',$this->lng->txt('ldap_group_dn_short'));
-				$this->tpl->setVariable('ASS_MEMBER_ATTR',$this->lng->txt('ldap_group_member_short'));
-				$this->tpl->setVariable('ASS_ROLE',$this->lng->txt('ldap_ilias_role_short'));
-				$this->tpl->setVariable('ASS_INFO',$this->lng->txt('ldap_info_text_short'));
-				$this->tpl->setVariable('ROW_ID',$mapping_id);
-				$this->tpl->setVariable('ROW_URL',$data['url']);
-				$this->tpl->setVariable('ROW_ROLE',$data['role_name'] ? $data['role_name'] : $data['role']);
-				$this->tpl->setVariable('ROW_DN',$data['dn']);
-				$this->tpl->setVariable('ROW_MEMBER',$data['member_attribute']);
-				$this->tpl->setVariable('TXT_ROW_MEMBERISDN',$this->lng->txt('ldap_memberisdn'));
-				$this->tpl->setVariable('ROW_CHECK_MEMBERISDN',ilUtil::formCheckbox($data['member_isdn'],
-					'mapping['.$mapping_id.'][memberisdn]',
-					1));
-				$this->tpl->setVariable('ROW_INFO',ilUtil::prepareFormOutput($data['info']));
-				$this->tpl->setVariable('TXT_ROW_INFO_TYPE',$this->lng->txt('ldap_mapping_info_type'));
-				$this->tpl->setVariable('ROW_CHECK_INFO_TYPE',ilUtil::formCheckbox($data['info_type'],
-					'mapping['.$mapping_id.'][info_type]',
-					1));
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			// assignment row			
-			$this->tpl->setCurrentBlock('assignments');
-			
-			// Copy link
-			$this->ctrl->setParameter($this,'mapping_id',$mapping_id);
-			$this->tpl->setVariable('COPY_LINK',$this->ctrl->getLinkTarget($this,'roleMapping'));
-			$this->tpl->setVariable('TXT_COPY',$this->lng->txt('copy'));
-			$this->ctrl->clearParameters($this);
-
-			// Details link
-			if(!in_array($mapping_id,$_SESSION['ldap_mapping_details']))
-			{
-				$this->ctrl->setParameter($this,'details_show',$mapping_id);
-				$this->tpl->setVariable('DETAILS_LINK',$this->ctrl->getLinkTarget($this,'roleMapping'));
-				$this->tpl->setVariable('TXT_DETAILS',$this->lng->txt('show_details'));
-				$this->ctrl->clearParameters($this);
-			}
-			else
-			{
-				$this->ctrl->setParameter($this,'details_hide',$mapping_id);
-				$this->tpl->setVariable('DETAILS_LINK',$this->ctrl->getLinkTarget($this,'roleMapping'));
-				$this->tpl->setVariable('TXT_DETAILS',$this->lng->txt('hide_details'));
-				$this->ctrl->clearParameters($this);
-			}
-			if(!count($_SESSION['ldap_mapping_details']))
-			{
-				$this->tpl->setVariable('WIDTH',"50%");
-			}
-			$this->tpl->setVariable('ROW_CHECK',ilUtil::formCheckbox(0,
-				'mappings[]',$mapping_id));
-			$this->tpl->setVariable('TXT_TITLE_TITLE',$this->lng->txt('title'));
-			$this->tpl->setVariable('TXT_TITLE_ROLE',$this->lng->txt('obj_role'));
-			$this->tpl->setVariable('TXT_TITLE_GROUP',$this->lng->txt('obj_grp'));
-			$this->tpl->setVariable('TITLE_GROUP',$this->role_mapping->getMappingInfoString($mapping_id));
-			$this->tpl->setVariable('TITLE_TITLE',ilUtil::shortenText($data['obj_title'],30,true));
-			$this->tpl->setVariable('TITLE_ROLE',$data['role_name']);
-			
-			$this->tpl->parseCurrentBlock();
-		}
-		
-
-		$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
-		$this->tpl->setVariable('TXT_REQUIRED_FLD',$this->lng->txt('required_field'));
-	}
-	
-	
 	public function deleteRoleMapping()
 	{
 		if(!count($_POST['mappings']))
@@ -717,39 +561,6 @@ class ilLDAPSettingsGUI
 			$this->role_mapping->delete($mapping_id);
 		}
 		ilUtil::sendSuccess($this->lng->txt('ldap_deleted_role_mapping'));
-		$this->roleMapping();
-		return true;
-	}
-	
-	public function saveRoleMapping()
-	{
-		global $ilErr;
-		
-		$this->server->setRoleBindDN(ilUtil::stripSlashes($_POST['role_bind_user']));
-		$this->server->setRoleBindPassword(ilUtil::stripSlashes($_POST['role_bind_pass']));
-		$this->server->enableRoleSynchronization((int) $_POST['role_sync_active']);
-		
-		// Update or create
-		if($this->server->getServerId())
-		{
-			$this->server->update();
-		}
-		else
-		{
-			$_GET['ldap_server_id'] = $this->server->create();
-		}
-		
-		$this->initRoleMapping();
-		$this->role_mapping->loadFromPost($_POST['mapping']);
-		if(!$this->role_mapping->validate())
-		{
-			ilUtil::sendFailure($ilErr->getMessage());
-			$this->roleMapping();
-			return false;				
-		}
-		$this->role_mapping->save();
-
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->roleMapping();
 		return true;
 	}
@@ -1140,7 +951,6 @@ class ilLDAPSettingsGUI
 		$this->tabs_gui->addSubTabTarget("ldap_role_mapping",
 			$this->ctrl->getLinkTarget($this,'roleMapping'),
 			"roleMapping",get_class($this));
-			
 	}
 	
 	
@@ -1262,26 +1072,6 @@ class ilLDAPSettingsGUI
 	}
 	
 	/**
-	 * Load mapping data in cas of copy
-	 *
-	 * @access private
-	 * @param array mapping data
-	 * @return array mapping_data
-	 * 
-	 */
-	private function loadMappingCopy($a_mapping_data)
-	{
-	 	if(!isset($_GET['mapping_id']))
-	 	{
-	 		return $a_mapping_data;
-	 	}
-	 	$mapping_id = $_GET['mapping_id'];
-	 	$a_mapping_data[0] = $a_mapping_data[$mapping_id];
-	 	
-	 	return $a_mapping_data;
-	}
-	
-	/**
 	 * Load info about hide/show details
 	 *
 	 * @access private
@@ -1301,30 +1091,6 @@ class ilLDAPSettingsGUI
 	 	{
 	 		unset($_SESSION['ldap_mapping_details'][$_GET['details_hide']]);
 	 	}
-	}
-	
-	/**
-	 * Sort mapping data by title
-	 *
-	 * @access private
-	 * @param array mapping data
-	 * 
-	 */
-	private function sortMappingData($a_mapping_data)
-	{
-		global $rbacreview,$ilObjDataCache;
-	
-		$new_mapping = array();
-		$new_mapping = array();		
-	 	foreach($a_mapping_data as $mapping_id => $data)
-	 	{
-	 		$new_mapping[$mapping_id] = $data;
-	 		$new_mapping[$mapping_id]['obj_id'] = $obj_id = $rbacreview->getObjectOfRole($data['role']);
-	 		$new_mapping[$mapping_id]['obj_title'] = $ilObjDataCache->lookupTitle($obj_id); 
-			$new_mapping[$mapping_id]['mapping_id'] = $mapping_id;
-	 	}
-	 	return ilUtil::sortArray($new_mapping,'obj_title','DESC');
-		
 	}
 	
 	/**
@@ -1481,9 +1247,11 @@ class ilLDAPSettingsGUI
 		ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
 	}
 	
+	/**
+	 * Ldap User Mapping
+	 */
 	public function userMapping()
 	{
-		global $tpl;
 		$this->initAttributeMapping();
 		
 		$this->setSubTabs();
@@ -1492,7 +1260,7 @@ class ilLDAPSettingsGUI
 		
 		$propertie_form = $this->initUserMappingForm();
 		
-		$tpl->setContent($propertie_form->getHTML());
+		$this->tpl->setContent($propertie_form->getHTML());
 	}
 	
 	/**
@@ -1520,6 +1288,10 @@ class ilLDAPSettingsGUI
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "chooseMapping"));
 	}
 	
+	/**
+	 * Create Property Form GUI for User Mapping
+	 * @return \ilPropertyFormGUI 
+	 */
 	private function initUserMappingForm()
 	{
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1563,5 +1335,282 @@ class ilLDAPSettingsGUI
 		
 		return $propertie_form;
 	}		
+	
+	/**
+	 * Role Mapping Tab
+	 * @global ilToolbarGUI $ilToolbar 
+	 */
+	public function roleMapping()
+	{
+		global $ilToolbar;
+		$this->setSubTabs();
+		$this->tabs_gui->setSubTabActive('ldap_role_mapping');
+		$ilToolbar->addButton($this->lng->txt("ldap_new_role_assignment") ,
+				$this->ctrl->getLinkTarget($this,'addRoleMapping'));
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		
+		//Set propertyform for synchronization settings
+				include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
+		$propertie_form = new ilPropertyFormGUI();
+		$propertie_form->setTitle($this->lng->txt('ldap_role_settings'));
+		$propertie_form->setFormAction($this->ctrl->getFormAction($this, "saveSyncronizationSettings"));
+		$propertie_form->addCommandButton("saveSyncronizationSettings" ,$this->lng->txt('save'));
+		$role_active = new ilCheckboxInputGUI($this->lng->txt('ldap_role_active'));
+		$role_active->setPostVar('role_sync_active');
+		$role_active->setChecked($this->server->enabledRoleSynchronization() ? true : false);
+		$propertie_form->addItem($role_active);
+		$binding = new ilCombinationInputGUI($this->lng->txt('ldap_server_binding'));
+		$binding->setInfo($this->lng->txt('ldap_role_bind_user_info'));
+		$user = new ilTextInputGUI("");
+		$user->setPostVar("role_bind_user");
+		$user->setValue($this->server->getRoleBindDN());
+		$user->setSize(50);
+		$user->setMaxLength(255);
+		$binding->addCombinationItem(0, $user, $this->lng->txt('ldap_role_bind_user'));
+		$pass = new ilPasswordInputGUI("");
+		$pass->setPostVar("role_bind_pass");
+		$pass->setValue($this->server->getRoleBindPassword());
+		$pass->setSize(12);
+		$pass->setMaxLength(36);
+		$pass->setRetype(false);
+		$binding->addCombinationItem(1, $pass, $this->lng->txt('ldap_role_bind_pass'));
+		$propertie_form->addItem($binding);
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ldap_role_mappings.html','Services/LDAP');
+		$this->tpl->setVariable("NEW_ASSIGNMENT_TBL",$propertie_form->getHTML());
+		
+		//Set Group Assignments Table if mappings exist
+		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php');
+		$mapping_instance = ilLDAPRoleGroupMappingSettings::_getInstanceByServerId($this->server->getServerId());
+		$mappings = $mapping_instance->getMappings();
+		if(count($mappings))
+		{
+			include_once("./Services/LDAP/classes/class.ilLDAPRoleMappingTableGUI.php");
+			$table_gui = new ilLDAPRoleMappingTableGUI($this, $this->server->getServerId());
+			$table_gui->setTitle($this->lng->txt('ldap_role_group_assignments'));
+			$table_gui->setData($mappings);
+			$this->tpl->setVariable("RULES_TBL",$table_gui->getHTML());
+		}
+	}
+	
+	/**
+	 * init propertyformgui for Assignment of LDAP Attributes to ILIAS User Profile
+	 * @param string $command command methode
+	 * @return \ilPropertyFormGUI 
+	 */
+	private function initRoleMappingForm($command)
+	{
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->setSubTabs();
+		$this->tabs_gui->setSubTabActive('ldap_role_mapping');
+		
+		if(isset($_GET["mapping_id"]))
+		{
+			$this->ctrl->setParameter($this,'mapping_id', $_GET["mapping_id"]);
+		}
+		
+		$propertie_form = new ilPropertyFormGUI();
+		$propertie_form->setTitle($this->lng->txt('ldap_mapping_table'));
+		$propertie_form->setFormAction($this->ctrl->getFormAction($this, $command));
+		$propertie_form->addCommandButton($command ,$this->lng->txt('save'));
+		$propertie_form->addCommandButton("roleMapping", $this->lng->txt('cancel'));
+		
+		$url = new ilTextInputGUI($this->lng->txt('ldap_server'));
+		$url->setPostVar("url");
+		$url->setSize(50);
+		$url->setMaxLength(255);
+		$url->setRequired(true);
+		
+		$group_dn = new ilTextInputGUI($this->lng->txt('ldap_group_dn'));
+		$group_dn->setPostVar("dn");
+		$group_dn->setSize(50);
+		$group_dn->setMaxLength(255);
+		$group_dn->setInfo($this->lng->txt('ldap_dn_info'));
+		$group_dn->setRequired(true);
+		
+		$member = new ilTextInputGUI($this->lng->txt('ldap_group_member'));
+		$member->setPostVar("member");
+		$member->setSize(32);
+		$member->setMaxLength(255);
+		$member->setInfo($this->lng->txt('ldap_member_info'));
+		$member->setRequired(true);
+
+		$member_isdn = new ilCheckboxInputGUI("");
+		$member_isdn->setPostVar("memberisdn");
+		$member_isdn->setOptionTitle($this->lng->txt('ldap_memberisdn'));
+			
+		$role = new ilTextInputGUI($this->lng->txt('ldap_ilias_role'));
+		$role->setPostVar("role");
+		$role->setSize(32);
+		$role->setMaxLength(255);
+		$role->setInfo($this->lng->txt('ldap_role_info'));
+		$role->setRequired(true);
+		
+		$info = new ilTextAreaInputGUI($this->lng->txt('ldap_info_text'));
+		$info->setPostVar("info");
+		$info->setCols(50);
+		$info->setRows(3);
+		$info->setInfo($this->lng->txt('ldap_info_text_info'));
+		
+		$info_type = new ilCheckboxInputGUI("");
+		$info_type->setPostVar("info_type");
+		$info_type->setOptionTitle($this->lng->txt('ldap_mapping_info_type'));
+		
+		$propertie_form->addItem($url);
+		$propertie_form->addItem($group_dn);
+		$propertie_form->addItem($member);
+		$propertie_form->addItem($member_isdn);
+		$propertie_form->addItem($role);
+		$propertie_form->addItem($info);
+		$propertie_form->addItem($info_type);
+		
+		return $propertie_form;
+	}
+	
+	/**
+	 * Add Assigments for role mapping 
+	 */
+	public function addRoleMapping()
+	{
+		$propertie_form = $this->initRoleMappingForm("createRoleMapping");
+		$propertie_form->getItemByPostVar("url")->setValue($this->server->getUrl());
+		
+		if(isset($_GET["mapping_id"]))
+		{
+			include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSetting.php');
+			$mapping = new ilLDAPRoleGroupMappingSetting($_GET["mapping_id"]);
+			$mapping->read();
+			
+			$propertie_form->getItemByPostVar("url")->setValue($mapping->getURL());
+			$propertie_form->getItemByPostVar("dn")->setValue($mapping->getDN());
+			$propertie_form->getItemByPostVar("member")->setValue($mapping->getMemberAttribute());
+			$propertie_form->getItemByPostVar("memberisdn")->setChecked($mapping->getMemberISDN());
+			$propertie_form->getItemByPostVar("role")->setValue($mapping->getRoleName());
+			$propertie_form->getItemByPostVar("info")->setValue($mapping->getMappingInfo());
+			$propertie_form->getItemByPostVar("info_type")->setChecked($mapping->getMappingInfoType());
+		}
+		
+		$this->tpl->setContent($propertie_form->getHTML());
+	}
+	
+	/**
+	 * Edit Assigments for role mapping 
+	 */
+	public function editRoleMapping()
+	{
+		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSetting.php');
+		$mapping = new ilLDAPRoleGroupMappingSetting($_GET["mapping_id"]);
+		$mapping->read();
+		
+		$propertie_form = $this->initRoleMappingForm("updateRoleMapping");
+		$propertie_form->getItemByPostVar("url")->setValue($mapping->getURL());
+		$propertie_form->getItemByPostVar("dn")->setValue($mapping->getDN());
+		$propertie_form->getItemByPostVar("member")->setValue($mapping->getMemberAttribute());
+		$propertie_form->getItemByPostVar("memberisdn")->setChecked($mapping->getMemberISDN());
+		$propertie_form->getItemByPostVar("role")->setValue($mapping->getRoleName());
+		$propertie_form->getItemByPostVar("info")->setValue($mapping->getMappingInfo());
+		$propertie_form->getItemByPostVar("info_type")->setChecked($mapping->getMappingInfoType());
+		
+		$this->tpl->setContent($propertie_form->getHTML());
+	}
+	
+	/**
+	 * Check add screen input and save to db
+	 * @global ilRbacReview $rbacreview 
+	 */
+	public function createRoleMapping()
+	{
+		global $rbacreview;
+		$propertie_form = $this->initRoleMappingForm("createRoleMapping");
+		
+		if($propertie_form->checkInput() && $rbacreview->roleExists($propertie_form->getInput("role"))) 
+		{
+			include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSetting.php');
+			$mapping = new ilLDAPRoleGroupMappingSetting(0);
+			$mapping->setServerId($this->server->getServerId());
+			$mapping->setURL($propertie_form->getInput("url"));
+			$mapping->setDN($propertie_form->getInput("dn"));
+			$mapping->setMemberAttribute($propertie_form->getInput("member"));
+			$mapping->setMemberISDN($propertie_form->getInput("memberisdn"));
+			$mapping->setRoleByName($propertie_form->getInput("role"));
+			$mapping->setMappingInfo($propertie_form->getInput("info"));
+			$mapping->setMappingInfoType($propertie_form->getInput("info_type"));
+			$mapping->save();
+			
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+			$this->ctrl->redirect($this, "roleMapping");
+		}
+		else
+		{
+			if(!$rbacreview->roleExists($propertie_form->getInput("role")))
+			{
+				ilUtil::sendFailure($this->lng->txt("ldap_role_not_exists") . " " . 
+						$propertie_form->getInput("role"));
+			}
+			$propertie_form->setValuesByPost();
+			$this->tpl->setContent($propertie_form->getHTML());
+		}
+	}
+	
+	/**
+	 * Check edit screen input and save to db
+	 * @global ilRbacReview $rbacreview 
+	 */
+	public function updateRoleMapping()
+	{
+		global $rbacreview;
+		$propertie_form = $this->initRoleMappingForm("updateRoleMapping");
+		
+		if($propertie_form->checkInput() && $rbacreview->roleExists($propertie_form->getInput("role"))) 
+		{
+			include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSetting.php');
+			$mapping = new ilLDAPRoleGroupMappingSetting($_GET["mapping_id"]);
+			$mapping->setServerId($this->server->getServerId());
+			$mapping->setURL($propertie_form->getInput("url"));
+			$mapping->setDN($propertie_form->getInput("dn"));
+			$mapping->setMemberAttribute($propertie_form->getInput("member"));
+			$mapping->setMemberISDN($propertie_form->getInput("memberisdn"));
+			$mapping->setRoleByName($propertie_form->getInput("role"));
+			$mapping->setMappingInfo($propertie_form->getInput("info"));
+			$mapping->setMappingInfoType($propertie_form->getInput("info_type"));
+			$mapping->update();
+			
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+			$this->ctrl->redirect($this, "roleMapping");
+		}
+		else
+		{
+			if(!$rbacreview->roleExists($propertie_form->getInput("role")))
+			{
+				ilUtil::sendFailure($this->lng->txt("ldap_role_not_exists") . " " . 
+						$propertie_form->getInput("role"));
+			}
+			$propertie_form->setValuesByPost();
+			$this->tpl->setContent($propertie_form->getHTML());
+		}
+	}
+	
+	/**
+	 * save Syncronization Settings on Role Mapping screen
+	 */
+	public function saveSyncronizationSettings()
+	{
+		$this->server->setRoleBindDN(ilUtil::stripSlashes($_POST['role_bind_user']));
+		$this->server->setRoleBindPassword(ilUtil::stripSlashes($_POST['role_bind_pass']));
+		$this->server->enableRoleSynchronization((int) $_POST['role_sync_active']);
+		
+		// Update or create
+		if($this->server->getServerId())
+		{
+			$this->server->update();
+		}
+		else
+		{
+			$_GET['ldap_server_id'] = $this->server->create();
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this, "roleMapping");
+	}
 }
 ?>
