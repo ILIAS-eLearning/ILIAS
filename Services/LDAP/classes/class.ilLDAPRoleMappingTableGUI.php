@@ -33,7 +33,7 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('ldap_info_text_short'), "info");
 		$this->addColumn($this->lng->txt('action'), "a");
 	
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.ldap_role_mapping_row.html","Services/LDAP");
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderDirection("desc");

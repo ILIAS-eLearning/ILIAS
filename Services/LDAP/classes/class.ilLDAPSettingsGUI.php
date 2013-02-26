@@ -1386,7 +1386,7 @@ class ilLDAPSettingsGUI
 		if(count($mappings))
 		{
 			include_once("./Services/LDAP/classes/class.ilLDAPRoleMappingTableGUI.php");
-			$table_gui = new ilLDAPRoleMappingTableGUI($this, $this->server->getServerId());
+			$table_gui = new ilLDAPRoleMappingTableGUI($this, $this->server->getServerId(), "roleMapping");
 			$table_gui->setTitle($this->lng->txt('ldap_role_group_assignments'));
 			$table_gui->setData($mappings);
 			$this->tpl->setVariable("RULES_TBL",$table_gui->getHTML());
