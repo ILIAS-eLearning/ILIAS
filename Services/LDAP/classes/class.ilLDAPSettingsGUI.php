@@ -1410,7 +1410,6 @@ class ilLDAPSettingsGUI
 		}
 		
 		$propertie_form = new ilPropertyFormGUI();
-		$propertie_form->setTitle($this->lng->txt('ldap_mapping_table'));
 		$propertie_form->setFormAction($this->ctrl->getFormAction($this, $command));
 		$propertie_form->addCommandButton($command ,$this->lng->txt('save'));
 		$propertie_form->addCommandButton("roleMapping", $this->lng->txt('cancel'));
@@ -1474,6 +1473,7 @@ class ilLDAPSettingsGUI
 	{
 		$propertie_form = $this->initRoleMappingForm("createRoleMapping");
 		$propertie_form->getItemByPostVar("url")->setValue($this->server->getUrl());
+		$propertie_form->setTitle($this->lng->txt("ldap_new_role_assignment"));
 		
 		if(isset($_GET["mapping_id"]))
 		{
@@ -1503,6 +1503,7 @@ class ilLDAPSettingsGUI
 		$mapping->read();
 		
 		$propertie_form = $this->initRoleMappingForm("updateRoleMapping");
+		$propertie_form->setTitle($this->lng->txt('ldap_edit_role_assignment'));
 		$propertie_form->getItemByPostVar("url")->setValue($mapping->getURL());
 		$propertie_form->getItemByPostVar("dn")->setValue($mapping->getDN());
 		$propertie_form->getItemByPostVar("member")->setValue($mapping->getMemberAttribute());
@@ -1611,6 +1612,42 @@ class ilLDAPSettingsGUI
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this, "roleMapping");
+	}
+	
+	/**
+	 * confirm delete role mappings 
+	 */
+	public function confirmDeleteRoleMapping()
+	{
+		if(!is_array($_POST['mappings']))
+	 	{
+	 		ilUtil::sendFailure($this->lng->txt('select_one'), true);
+	 		$this->ctrl->redirect($this, "roleMapping");
+	 		return false;
+	 	}
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteRoleMapping"));
+		$c_gui->setHeaderText($this->lng->txt("ldap_confirm_del_role_ass"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "roleMapping");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteRoleMapping");
+		
+		foreach ($_POST['mappings'] as $id)
+		{
+			include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSetting.php');
+			$mapping = new ilLDAPRoleGroupMappingSetting($id);
+			$mapping->read();
+			$txt = $this->lng->txt('obj_role') . ": " . $mapping->getRoleName(). ", ";
+			$txt .= $this->lng->txt('obj_grp') . ": " . $mapping->getDN() . ", ";
+			$txt .= $this->lng->txt('ldap_server_short') . " " . $mapping->getURL() . ", ";
+			$txt .= $this->lng->txt('ldap_group_member_short') . " " . $mapping->getMemberAttribute();
+			
+			$c_gui->addItem("mappings[]", $id, $txt);
+		}
+		$this->tpl->setContent($c_gui->getHTML());
 	}
 }
 ?>
