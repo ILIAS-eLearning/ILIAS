@@ -52,7 +52,20 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		parent::__construct($a_data, $a_id,$a_call_by_reference,$a_prepare_output);
 		
 		$lng->loadLanguageModule('objref');
-		 
+	}
+	
+	/**
+	 * Add locator item
+	 * @global type $ilLocator
+	 */
+	protected function addLocatorItems()
+	{
+		global $ilLocator;
+		
+		if($this->object instanceof ilObject)
+		{
+			$ilLocator->addItem($this->object->getPresentationTitle(),$this->ctrl->getLinkTarget($this));
+		}
 	}
 	
 	/**
@@ -83,7 +96,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
 
-		return $this->initTargetSelection(self::MODE_CREATE);
+		$this->initTargetSelection(self::MODE_CREATE);
+		ilUtil::sendInfo($this->lng->txt($this->getReferenceType().'_edit_info'));
 	}
 	
 	
@@ -129,8 +143,17 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 		$this->ctrl->setParameter($this,'ref_id',$a_new_object->getRefId());
-		$this->ctrl->redirect($this,'edit');
+		$this->ctrl->redirect($this,'firstEdit');
 	}
+	
+	/**
+	 * show edit screen without info message
+	 */
+	protected function firstEditObject()
+	{
+		$this->editObject(false);
+	}
+	
 	
 	/**
 	 * edit object
@@ -139,7 +162,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 * @param
 	 * @return
 	 */
-	public function editObject()
+	public function editObject($a_show_info_message = true)
 	{
 		global $ilUser,$ilSetting,$ilTabs;
 		
@@ -149,6 +172,11 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$ilTabs->setTabActive('edit');
 		$ilTabs->activateSubTab('edit');
 		$this->initTargetSelection(self::MODE_EDIT);
+		
+		if($a_show_info_message)
+		{
+			ilUtil::sendInfo($this->lng->txt($this->getReferenceType().'_edit_info'));
+		}
 	}
 
 	public function editReferenceObject()
@@ -450,7 +478,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	
 		include_once './Services/ContainerReference/classes/class.ilContainerSelectionExplorer.php';
 		
-		ilUtil::sendInfo($this->lng->txt($this->getReferenceType().'_edit_info'));
 		if($_SESSION['ref_mode'] == self::MODE_CREATE)
 		{
 			$ilToolbar->addButton($this->lng->txt('back'), $ilCtrl->getLinkTarget($this,'cancel'));
