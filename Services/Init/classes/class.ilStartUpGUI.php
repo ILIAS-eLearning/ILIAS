@@ -1617,7 +1617,7 @@ class ilStartUpGUI
 
 	function _checkGoto($a_target)
 	{
-		global $objDefinition, $ilPluginAdmin;
+		global $objDefinition, $ilPluginAdmin, $ilUser;
 
 		if (is_object($ilPluginAdmin))
 		{
@@ -1668,13 +1668,14 @@ class ilStartUpGUI
 		$ret = call_user_func(array($full_class, "_checkGoto"), $a_target);
 				
 		// if no access and repository object => check for parent course/group
-		if(!$ret && 
+		if(!$ret &&						
 			!stristr($a_target, "_wsp") && 
+			$ilUser->getId() != ANONYMOUS_USER_ID && // #10637
 			!$objDefinition->isAdministrationObject($type) && 
 			$objDefinition->isRBACObject($type) &&
-			$t_arr[1])
+			$t_arr[1]) 
 		{			
-			global $tree, $ilUser, $rbacsystem;
+			global $tree, $rbacsystem;
 			
 			// original type "pg" => pg_<page_id>[_<ref_id>]
 			if($t_arr[0] == "pg")
@@ -1772,8 +1773,8 @@ class ilStartUpGUI
 				
 				// redirect to infopage of 1st blocking object in path	
 				if($redirect_infopage)
-				{
-					if($rbacsystem->checkAccess("visible", $path_ref_id))
+				{					
+					if($rbacsystem->checkAccess("visible", $path_ref_id)) 
 					{										
 						ilUtil::redirect("ilias.php?baseClass=ilRepositoryGUI".
 							"&ref_id=".$path_ref_id."&cmd=infoScreen");		
