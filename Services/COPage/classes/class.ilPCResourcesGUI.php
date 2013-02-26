@@ -234,46 +234,64 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	static function insertResourcesIntoPageContent($a_content)
 	{
 		global $objDefinition, $tree, $lng;
-		
+
 		$ref_id = (int) $_GET["ref_id"];
 		$obj_id = (int) ilObject::_lookupObjId($ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
+		
+		// determine type -> group
+		$type_to_grp = array();
+		$type_grps =
+			$objDefinition->getGroupedRepositoryObjectTypes($obj_type);
+		foreach ($type_grps as $grp => $def)
+		{
+			foreach ($def["objs"] as $t)
+			{
+				$type_to_grp[$t] = $grp;
+			}
+		}
+
 		$childs = $tree->getChilds($ref_id);
 		$childs_by_type = array();
 		$item_groups = array();
 		foreach ($childs as $child)
 		{
-			$childs_by_type[$child["type"]][] = $child;
+			$childs_by_type[$type_to_grp[$child["type"]]][] = $child;
 			if ($child["type"] == "itgr")
 			{
 				$item_groups[(int) $child["ref_id"]] = $child["title"];
 			}
 		}
-		$type_grps =
-			$objDefinition->getGroupedRepositoryObjectTypes($obj_type);
 
 		// handle "by type" lists
 		foreach ($type_grps as $type => $v)
 		{
 			if (is_int(strpos($a_content, "[list-".$type."]")))
 			{
-				if (is_array($childs_by_type[$type]))
+				// render block
+				$tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
+				$cnt = 0;
+				
+				if (is_array($childs_by_type[$type]) && count($childs_by_type[$type]) > 0)
 				{
-					// render block
-					$tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
 					foreach ($childs_by_type[$type] as $child)
 					{
 						$tpl->setCurrentBlock("row");
 						$tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($child["obj_id"], "small")));
 						$tpl->setVariable("TITLE", $child["title"]);
 						$tpl->parseCurrentBlock();
+						$cnt++;
 					}
 					$tpl->setVariable("HEADER", $lng->txt("objs_".$type));
 					$a_content = str_replace("[list-".$type."]", $tpl->get(), $a_content);
 				}
 				else
 				{
-					$a_content = str_replace("[list-".$type."]", "", $a_content);
+					$tpl->setCurrentBlock("row");
+					$tpl->setVariable("TITLE", $lng->txt("no_items"));
+					$tpl->parseCurrentBlock();
+					$tpl->setVariable("HEADER", $lng->txt("objs_".$type));
+					$a_content = str_replace("[list-".$type."]", $tpl->get(), $a_content);
 				}
 			}
 		}

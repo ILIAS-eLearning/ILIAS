@@ -2074,7 +2074,7 @@ class ilPageObjectGUI
 		// insert page snippets
 		$output = $this->insertContentIncludes($output);
 
-		// insert page snippets
+		// insert resource blocks
 		$output = $this->insertResources($output);
 
 		// insert page toc
@@ -2972,7 +2972,9 @@ class ilPageObjectGUI
 	function insertResources($a_output)
 	{
 		// this is edit mode only
-		if ($this->getOutputMode() == "edit")
+		
+		if ($this->getEnablePCType("Resources") &&
+			($this->getOutputMode() == "edit" || $this->getOutputMode() == "preview"))
 		{
 			include_once("./Services/COPage/classes/class.ilPCResourcesGUI.php");
 			$a_output = ilPCResourcesGUI::insertResourcesIntoPageContent($a_output, $this->getOutputMode());
