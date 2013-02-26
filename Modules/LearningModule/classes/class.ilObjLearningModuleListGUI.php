@@ -159,6 +159,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				break;
 
 			case "edit":
+			case "properties":
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 				
