@@ -101,6 +101,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 		{
 			case "view":
 			case "edit":
+			case "properties":
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 
