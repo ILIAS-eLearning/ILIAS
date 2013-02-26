@@ -13086,3 +13086,4 @@ rbac#:#crs_create_bibl#:#Literaturliste anlegen
 rbac#:#fold_create_bibl#:#Literaturliste anlegen
 rbac#:#grp_create_bibl#:#Literaturliste anlegen
 rbac#:#root_create_bibl#:#Literaturliste anlegen
+ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
