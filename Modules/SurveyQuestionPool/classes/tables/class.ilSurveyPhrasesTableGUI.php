@@ -69,8 +69,7 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
 		else
 		{
 			$this->addMultiCommand('editPhrase', $this->lng->txt('edit'));
-			$this->addMultiCommand('deletePhrase', $this->lng->txt('delete'));
-			$this->addCommandButton('newPhrase', $this->lng->txt('phrase_new'));
+			$this->addMultiCommand('deletePhrase', $this->lng->txt('delete'));			
 		}
 
 		$this->setRowTemplate("tpl.il_svy_qpl_phrase_row.html", "Modules/SurveyQuestionPool");
