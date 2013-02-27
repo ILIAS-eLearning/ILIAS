@@ -416,6 +416,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		global $ilUser;
+		global $ilToolbar;
 
 		if(get_class($this->object) == "ilObjSurvey")
 		{
@@ -441,7 +442,29 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->object->purgeQuestions();
 
 		$_SESSION['q_id_table_nav'] = $_GET['q_id_table_nav'];
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questionbrowser.html", "Modules/SurveyQuestionPool");
+			
+		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
+		{
+			include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+			$qtypes = new ilSelectInputGUI("", "sel_question_types");
+			$qtypes->setValue($ilUser->getPref("svy_lastquestiontype"));
+			$ilToolbar->addInputItem($qtypes);
+
+			$options = array();
+			foreach (ilObjSurveyQuestionPool::_getQuestionTypes() as $translation => $data)
+			{
+				$options[$data["type_tag"]] = $translation;
+			}
+			$qtypes->setOptions($options);
+			
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+			$ilToolbar->addFormButton($this->lng->txt("create"), "createQuestion");
+			
+			$ilToolbar->addSeparator();
+			
+			$ilToolbar->addFormButton($this->lng->txt('import'), 'importQuestions');
+		}
+				
 		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";
 		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
@@ -453,29 +476,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$arrFilter[$item->getPostVar()] = $item->getValue();
 			}
 		}
-		$data = $this->object->getQuestionsData($arrFilter);
-		$table_gui->setData($data);
-		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
-
-		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
-		{
-			$this->tpl->setCurrentBlock("QTypes");
-			$types =& ilObjSurveyQuestionPool::_getQuestionTypes();
-			$lastquestiontype = $ilUser->getPref("svy_lastquestiontype");
-			foreach ($types as $translation => $data)
-			{
-				if ($data["type_tag"] == $lastquestiontype)
-				{
-					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
-				}
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
-				$this->tpl->setVariable("QUESTION_TYPE", $translation);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'questions'));
-			$this->tpl->parseCurrentBlock();
-		}
+		$table_gui->setData($this->object->getQuestionsData($arrFilter));
+		$this->tpl->setContent($table_gui->getHTML());			
 	}
 
 	public function updateObject() 
@@ -498,6 +500,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function exportObject()
 	{
+		global $ilToolbar;
+		
+		$ilToolbar->addButton($this->lng->txt('create_export_file'),
+			$this->ctrl->getLinkTarget($this, 'createExportFile'));
+		
 		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionPoolExportTableGUI.php";
 		$table_gui = new ilSurveyQuestionPoolExportTableGUI($this, 'export');
 		$export_dir = $this->object->getExportDirectory();
@@ -509,7 +516,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir."/".$exp_file)));
 		}
 		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+		$this->tpl->setContent($table_gui->getHTML());	
 	}
 
 	/**

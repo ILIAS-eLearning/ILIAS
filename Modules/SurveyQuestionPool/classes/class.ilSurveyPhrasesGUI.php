@@ -118,12 +118,15 @@ class ilSurveyPhrasesGUI
 	*/
 	public function phrases()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilToolbar;
 		
 		$this->ctrl->setParameter($this, "p_id", "");
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
+			$ilToolbar->addButton($this->lng->txt('phrase_new'), 
+				$this->ctrl->getLinkTarget($this, 'newPhrase'));
+			
 			include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyPhrasesTableGUI.php";
 			$table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases');
 			$phrases =& ilSurveyPhrases::_getAvailablePhrases(1);
@@ -134,7 +137,7 @@ class ilSurveyPhrasesGUI
 				array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join($categories, ", ")));
 			}
 			$table_gui->setData($data);
-			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+			$this->tpl->setContent($table_gui->getHTML());	
 		}
 		else
 		{
