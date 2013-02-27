@@ -421,9 +421,18 @@ class ilCalendarUtil
 		{
 			return '#000000';
 		}
-		$hex = str_replace('#','0x',$a_html_color_code);
 		
-		return hexdec($hex) > 8000000 ? '#000000' : '#FFFFFF';
+		// http://en.wikipedia.org/wiki/Luminance_(relative)
+		$lum = round(hexdec(substr($a_html_color_code, 1, 2))*0.2126+
+			hexdec(substr($a_html_color_code, 3, 2))*0.7152+
+			hexdec(substr($a_html_color_code, 5, 2))*0.0722);		
+		
+		return ($lum <= 128) ? "#FFFFFF" : "#000000";
+		
+		/*
+		$hex = str_replace('#','0x',$a_html_color_code);		
+		return hexdec($hex) > 8000000 ? '#000000' : '#FFFFFF';		 
+		*/
 	}
 	
 	/**
