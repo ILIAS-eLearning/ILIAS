@@ -3979,6 +3979,39 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	 * Get profile picture direcotory
+	 *
+	 * @param
+	 * @return
+	 */
+	static function copyProfilePicturesToDirectory($a_user_id, $a_dir)
+	{
+		$a_dir = trim(str_replace("..", "", $a_dir));
+		if ($a_dir == "" || !is_dir($a_dir))
+		{
+			return;
+		}
+		
+		$webspace_dir = ilUtil::getWebspaceDir();
+		$image_dir = $webspace_dir."/usr_images";
+		$images = array(
+			"upload_".$a_user_id."pic",
+			"usr_".$a_user_id."."."jpg",
+			"usr_".$a_user_id."_small.jpg",
+			"usr_".$a_user_id."_xsmall.jpg",
+			"usr_".$a_user_id."_xxsmall.jpg",
+			"upload_".$a_user_id);
+		foreach ($images as $image)
+		{
+			if (is_file($image_dir."/".$image))
+			{
+				copy($image_dir."/".$image, $a_dir."/".$image);
+			}
+		}
+	}
+	
+	
+	/**
 	* Remove user picture.
 	*/
 	function removeUserPicture()
