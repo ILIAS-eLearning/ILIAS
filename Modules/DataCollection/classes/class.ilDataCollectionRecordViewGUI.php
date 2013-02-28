@@ -94,15 +94,16 @@ class ilDataCollectionRecordViewGUI
 		foreach($table->getFields() as $field)
 		{
             //ILIAS_Ref_Links
-            $pattern = '/\[dcliln field="'.$field->getTitle().'"\](.*?)\[\/dcliln\]/';
-            if (preg_match('~'.preg_quote($pattern,'~').'~',$html)) {
-                $html = preg_replace($pattern, $this->record_obj->getRecordFieldHTML($field->getId(),$this->setOptions("$1")), $html);
+            $pattern = '/\[dcliln field="'.preg_quote($field->getTitle(), "/").'"\](.*?)\[\/dcliln\]/';
+            if (preg_match($pattern,$html)) {
+                $html = preg_replace($pattern, $this->record_obj->getRecordFieldSingleHTML($field->getId(),$this->setOptions("$1")), $html);
             }
 
             //DataCollection Ref Links
-            $pattern = '/\[dclrefln field="'.$field->getTitle().'"\](.*?)\[\/dclrefln\]/';
-            if (preg_match('~'.preg_quote($pattern,'~').'~',$html)) {
-                $html = preg_replace($pattern, $this->record_obj->getRecordFieldHTML($field->getId(),$this->setOptions("$1")), $html);
+            $pattern = '/\[dclrefln field="'.preg_quote($field->getTitle(), "/").'"\](.*?)\[\/dclrefln\]/';
+            if (preg_match($pattern ,$html)) {
+                $this->currentField = $field;
+                $html = preg_replace_callback($pattern, array($this, "doReplace"), $html);
             }
 
 

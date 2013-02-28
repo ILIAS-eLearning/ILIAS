@@ -194,8 +194,6 @@ class ilDataCollectionDatatype
 	 */
 	static function checkValidity($type_id, $value)
 	{
-		//TODO: finish this list.
-
 		//required is checked by form. so null input is valid.
 		if($value == NULL)
 		{
@@ -252,7 +250,6 @@ class ilDataCollectionDatatype
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
 				$input->setValue($lng->txt("dcl_editable_in_table_gui"));
-				//$input->setInfo($lng->txt("dcl_editable_in_table_gui"));
 				$input->setDisabled(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
@@ -634,6 +631,8 @@ class ilDataCollectionDatatype
                     $link = $value;
                     if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/", $value))
                         $value = "mailto:".$value;
+                    elseif(!(preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value)))
+                        return $link;
 
                     if(strlen($link) > self::LINK_MAX_LENGTH){
                         $link = substr($value, 0, (self::LINK_MAX_LENGTH-3)/2);

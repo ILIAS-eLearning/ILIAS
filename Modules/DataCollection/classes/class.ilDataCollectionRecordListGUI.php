@@ -28,13 +28,15 @@ class ilDataCollectionRecordListGUI
 	 */
 	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
 	{
-		$this->main_table_id = $a_parent_obj->object->getMainTableId();
-		$this->table_id = $table_id;
-		if($this->table_id == NULL)
-			$this->table_id = $_GET["table_id"];
-		$this->obj_id = $a_parent_obj->obj_id;
-		$this->parent_obj = $a_parent_obj;
-		$this->table_obj = ilDataCollectionCache::getTableCache($table_id);
+        global $ilCtrl;
+        $this->main_table_id = $a_parent_obj->object->getMainTableId();
+        $this->table_id = $table_id;
+        if($this->table_id == NULL)
+            $this->table_id = $_GET["table_id"];
+        $this->obj_id = $a_parent_obj->obj_id;
+        $this->parent_obj = $a_parent_obj;
+        $this->table_obj = ilDataCollectionCache::getTableCache($table_id);
+        $ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "table_id", $table_id);
 
 		return;
 	}
@@ -79,7 +81,7 @@ class ilDataCollectionRecordListGUI
 		}
 
         if(count($options) > 0){
-		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
+            include_once './Services/Form/classes/class.ilSelectInputGUI.php';
             $table_selection = new ilSelectInputGUI('', 'table_id');
             $table_selection->setOptions($options);
             $table_selection->setValue($this->table_id);
@@ -97,7 +99,6 @@ class ilDataCollectionRecordListGUI
             $table_id = $_GET['table_id'];
         else
             $table_id = $this->main_table_id;
-        $ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "table_id", $table_id);
         if($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) && $this->table_obj->hasCustomFields())
             $ilToolbar->addButton($lng->txt("dcl_add_new_record"), $ilCtrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"));
 

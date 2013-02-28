@@ -372,8 +372,6 @@ class ilDataCollectionFieldEditGUI
 				}
 
 			}
-			
-			
 
 			$ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
 

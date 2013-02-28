@@ -19,10 +19,10 @@ require_once 'class.ilDataCollectionRatingField.php';
  */
 class ilDataCollectionRecordField
 {
-	private $id;
-	private $field;
-	private $record;
-	private $value;
+	protected $id;
+    protected $field;
+    protected $record;
+    protected $value;
 	
 	/*
 	 * __construct
@@ -165,7 +165,7 @@ class ilDataCollectionRecordField
 	/*
 	 * loadValue
 	 */
-	private function loadValue()
+	protected function loadValue()
 	{
 		if($this->value === NULL)
 		{
@@ -201,23 +201,5 @@ class ilDataCollectionRecordField
 	{
 		return $this->record;
 	}
-
-	/**
-	 * This method is in order to get the correct class after using it's constructor.
-	 * @return ilDataCollectionRecordField If this recordField is a rating you'll get back a ilDaraCollectionRating field, otherwise you get a record Field.
-	 */
-	public function getInstance(){
-		switch($this->getField()->getDatatypeId()){
-			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
-				return new ilDataCollectionRatingField($this->getRecord(), $this->getField());
-			case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
-				return new ilDataCollectionILIASRefField($this->getRecord(), $this->getField());
-            case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-                return new ilDataCollectionReferenceField($this->getRecord(), $this->getField());
-			default:
-				return $this;
-		}
-	}
-
 }
 ?>
