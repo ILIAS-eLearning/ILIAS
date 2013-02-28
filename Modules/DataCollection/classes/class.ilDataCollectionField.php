@@ -872,7 +872,7 @@ class ilDataCollectionField
 				$regex .= "/";
 			if($properties[$length] < strlen($value) && is_numeric($properties[$length]))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
-			if(!($properties[$regex_id] == NULL || preg_match('~'.preg_quote($regex, '~').'~', $value)))
+			if(!($properties[$regex_id] == NULL || @preg_match($regex, $value)))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
             //email or url
 			if($properties[$url] && !(preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value) || preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/", $value)))

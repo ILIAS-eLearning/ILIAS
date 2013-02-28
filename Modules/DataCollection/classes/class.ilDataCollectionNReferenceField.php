@@ -56,7 +56,9 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField{
      * this funciton is used to in the viewdefinition of a single record.
      * @return mixed
      */
-    public function getSingleHTML(){
+    public function getSingleHTML($options = NULL){
+
+        // if we are in a record view and the n-ref should be displayed as a link to it's reference
         $values = $this->getValue();
         $record_field = $this;
 
@@ -64,24 +66,39 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField{
             return "-";
         }
 
-        $tpl = new ilTemplate("tpl.reference_list.html",true, true, "Modules/DataCollection");
+        $tpl = $this->buildTemplate($record_field, $values, $options);
+
+        return $tpl->get();
+    }
+
+    public function buildTemplate($record_field, $values, $options)
+    {
+        $tpl = new ilTemplate("tpl.reference_list.html", true, true, "Modules/DataCollection");
         $tpl->setCurrentBlock("reference_list");
-        foreach($values as $value){
+        foreach ($values as $value) {
             $ref_record = ilDataCollectionCache::getRecordCache($value);
-            if(!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()){
+            if (!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
                 //the referenced record_field does not seem to exist.
                 $record_field->setValue(0);
                 $record_field->doUpdate();
-            }else{
+            } else {
                 $tpl->setCurrentBlock("reference");
-                $tpl->setVariable("CONTENT", $ref_record->getRecordFieldHTML($this->getField()->getFieldRef()));
+                if (!$options)
+                    $tpl->setVariable("CONTENT", $ref_record->getRecordFieldHTML($this->getField()->getFieldRef()));
+                else
+                    $tpl->setVariable("CONTENT", $this->getLinkHTML($options['link']['name'], $value));
                 $tpl->parseCurrentBlock();
             }
         }
-
         $tpl->parseCurrentBlock();
+        return $tpl;
+    }
 
-        return $tpl->get();
+    protected function getLinkHTML($link, $value){
+        if($link == "[".$this->getField()->getTitle()."]"){
+            $link = null;
+        }
+        return parent::getLinkHTML($link, $value);
     }
 
     /*

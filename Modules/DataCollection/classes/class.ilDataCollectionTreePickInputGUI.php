@@ -58,9 +58,12 @@ class ilDataCollectionTreePickInputGUI extends ilCustomInputGUI{
 		include_once './Services/Tree/classes/class.ilPathGUI.php';
 		$path = new ilPathGUI();
 		$reference = $value[$this->getPostVar()];
-		$pathString = $path->getPath(ROOT_FOLDER_ID, $reference);
-		$id = ilObject::_lookupObjId($reference);
-		$this->title_input->setValue($pathString." > ".ilObject::_lookupTitle($id));
+        if($reference){
+		    $pathString = $path->getPath(ROOT_FOLDER_ID, $reference);
+            $id = ilObject::_lookupObjId($reference);
+            $this->title_input->setValue($pathString." > ".ilObject::_lookupTitle($id));
+            $this->hidden_input->setValue($reference);
+        }
 	}
 
 }

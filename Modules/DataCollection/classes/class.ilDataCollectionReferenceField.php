@@ -70,7 +70,7 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
                 $query = "SELECT table_id FROM il_dcl_view WHERE table_id = ".$ref_table." AND type = ".$ilDB->quote(0, "integer")." AND formtype = ".$ilDB->quote(0, "integer");
                 $set = $ilDB->query($query);
                 if($set->numRows())
-                    $html = $this->getLinkHTML($options['link']['name']);
+                    $html = $this->getLinkHTML($options['link']['name'], $this->getValue());
             }
         }
 
@@ -83,10 +83,8 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
       *
       * @param  string    $link_name
       */
-    public function getLinkHTML($link_name = NULL) {
+    protected function getLinkHTML($link_name = NULL, $value) {
         global $ilCtrl;
-
-        $value = $this->getValue();
 
         if(!$value || $value == "-"){
             return "";
