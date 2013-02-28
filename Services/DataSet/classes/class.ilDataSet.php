@@ -341,10 +341,12 @@ abstract class ilDataSet
 					//	array(), $c);
 					$a_writer->xmlElement($f, array(), $c);
 				}
-
+				
 				$a_writer->xmlEndTag($this->getXmlEntityTag($a_entity, $a_schema_version));
 
 				$a_writer->xmlEndTag($this->getDSPrefixString()."Rec");
+				
+				$this->afterXmlRecordWriting($a_entity, $a_schema_version, $d);
 
 				// foreach record records of dependent entities (no record)
 				$deps = $this->getDependencies($a_entity, $a_schema_version, $rec, $a_ids);
@@ -371,6 +373,16 @@ abstract class ilDataSet
 		}
 	}
 	
+	/**
+	 * After xml record writing hook record
+	 *
+	 * @param
+	 * @return
+	 */
+	function afterXmlRecordWriting($a_entity, $a_version, $a_set)
+	{
+	}
+
 	/**
 	 * Add types to xml writer
 	 *

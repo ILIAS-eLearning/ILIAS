@@ -21,6 +21,7 @@ class ilUserImporter extends ilXmlImporter
 		include_once("./Services/User/classes/class.ilUserDataSet.php");
 		$this->ds = new ilUserDataSet();
 		$this->ds->setDSPrefix("ds");
+		$this->ds->setImportDirectory($this->getImportDirectory());
 	}
 
 
