@@ -59,3 +59,7 @@
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
