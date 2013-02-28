@@ -46,10 +46,22 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function getDescription()
 	{
+		global $ilSetting;
+	
 		if(ilObjLinkResourceAccess::_checkDirectLink($this->obj_id))
 		{
 			$this->__readLink();
-			return ilUtil::shortenText($this->link_data['description'],MAXLENGTH_OBJ_DESC,true);
+			
+			$desc = $this->link_data['description'];
+			
+			// #10682
+			if($ilSetting->get("rep_shorten_description"))
+			{
+				$desc = ilUtil::shortenText($desc,
+					$ilSetting->get("rep_shorten_description_length"), true);
+			}
+			
+			return $desc;
 		}
 		return parent::getDescription();
 	}
@@ -100,7 +112,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 
 		return $frame;
 	}
-
+			
 
 
 	/**
