@@ -13060,7 +13060,7 @@ dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter 
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_import_records .xls#:#Import .xls
-dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel .XML Format vorliegen mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen jeden Import zuerst zu simulieren.
+dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel .XSL Format vorliegen mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen jeden Import zuerst zu simulieren.
 dcl#:#dcl_simulate_import#:#Import Simulieren
 dcl#:#dcl_simulate_info#:#Wird der Import simuliert, werden keine Datensätze angelegt aber Sie erhalten Feedback zu eventuellen Fehlern in der Import Datei. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
