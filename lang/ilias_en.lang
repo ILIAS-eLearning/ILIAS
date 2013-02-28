@@ -1817,7 +1817,7 @@ common#:#chac_write#:#Edit chat settings
 common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#Change assignment
 rbac#:#change_existing_object_type_desc#:#This will also change the permissions of already existing objects of that type
-rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropriate object type.
+rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adopted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropriate object type.
 rbac#:#change_existing_objects#:#Change Existing Objects
 rbac#:#change_existing_prefix_single#:#Change
 rbac#:#change_existing_prefix#:#Change Existing
@@ -2130,7 +2130,7 @@ common#:#enable_js_edit_info#:#This option enables JavaScript editing for all co
 common#:#enable_js_edit#:#Enable JavaScript Editing
 common#:#enable_password_assistance#:#Enable password assistance
 common#:#enable_registration#:#Enable new user registration
-common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).<br />The Apache module "mod_rewrite" is required for this extension. Please take care that you have appropiate permissions to use .htaccess configurations.
+common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).<br />The Apache module "mod_rewrite" is required for this extension. Please take care that you have appropriate permissions to use .htaccess configurations.
 common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!
 common#:#enable_trash#:#Enable Trash
 common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
@@ -10536,7 +10536,7 @@ administration#:#language_error_delete_local#:#The local language file can't be 
 administration#:#language_local_file_deleted#:#The local language file was deleted.
 administration#:#language_remove_local_file#:#Delete the local language file
 rbac#:#export_member_data#:#Access User Data
-rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adpoted to ALL existing objects.
+rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 forum#:#frm_edit_title#:#Edit Title
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
