@@ -12,6 +12,8 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  */
 class ilUserDataSet extends ilDataSet
 {	
+	protected $temp_picture_dirs = array();
+	
 	/**
 	 * Get supported versions
 	 *
@@ -73,7 +75,8 @@ class ilUserDataSet extends ilDataSet
 						"Matriculation" => "text",
 						"Delicious" => "text",
 						"Latitude" => "text",
-						"Longitude" => "text"
+						"Longitude" => "text",
+						"Picture" => "directory"
 						);
 			}
 		}
@@ -102,6 +105,51 @@ class ilUserDataSet extends ilDataSet
 			}
 		}
 
+	}
+
+	
+	/**
+	 * Get xml record
+	 *
+	 * @param
+	 * @return
+	 */
+	function getXmlRecord($a_entity, $a_version, $a_set)
+	{
+		global $ilLog;
+		
+		if ($a_entity == "usr_profile")
+		{
+			$tmp_dir = ilUtil::ilTempnam();
+			ilUtil::makeDir($tmp_dir);
+			include_once("./Services/User/classes/class.ilObjUser.php");
+			ilObjUser::copyProfilePicturesToDirectory($a_set["Id"], $tmp_dir);
+			
+			$this->temp_picture_dirs[$a_set["Id"]] = $tmp_dir;
+			
+			$a_set["Picture"] = $tmp_dir;
+		}
+
+		return $a_set;
+	}
+
+	/**
+	 * After xml record writing hook record
+	 *
+	 * @param
+	 * @return
+	 */
+	function afterXmlRecordWriting($a_entity, $a_version, $a_set)
+	{
+		if ($a_entity == "usr_profile")
+		{
+			// cleanup temp dirs for pictures
+			$tmp_dir = $this->temp_picture_dirs[$a_set["Id"]];
+			if ($tmp_dir != "" && is_dir($tmp_dir))
+			{
+				ilUtil::delDir($tmp_dir);
+			}
+		}
 	}
 
 	/**
@@ -257,6 +305,17 @@ class ilUserDataSet extends ilDataSet
 						}
 					}
 					$user->update();
+					
+					// personal picture
+					$pic_dir = $this->getImportDirectory()."/".str_replace("..", "", $a_rec["Picture"]);
+					if ($pic_dir != "" && is_dir($pic_dir))
+					{
+						$upload_file = $pic_dir."/upload_".$a_rec["Id"]."pic";
+						if (is_file($upload_file))
+						{
+							ilObjUser::_uploadPersonalPicture($upload_file, $user->getId());
+						}
+					}
 				}
 				break;
 
