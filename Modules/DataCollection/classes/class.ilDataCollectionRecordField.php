@@ -168,8 +168,8 @@ class ilDataCollectionRecordField
      * this funciton is used to in the viewdefinition of a single record. By default it returns the getHTML methods return.
      * @return mixed
      */
-    public function getSingleHTML(){
-        return $this->getHTML();
+    public function getSingleHTML($link = null){
+        return $this->getHTML($link);
     }
 
 	/*

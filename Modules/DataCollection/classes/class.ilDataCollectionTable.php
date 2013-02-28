@@ -693,6 +693,20 @@ class ilDataCollectionTable
 		}
 	}
 
+    /**
+     * @param $name
+     * @return ilDataCollectionField
+     */
+    public function getFieldByTitle($name){
+        $return = null;
+        foreach($this->getFields() as $field)
+            if($field->getTitle() == $name){
+                $return = $field;
+                break;
+            }
+        return $return;
+    }
+
 	/**
 	 * @param boolean $add_perm
 	 */
