@@ -738,6 +738,9 @@ assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbe
 assessment#:#qpl_export_excel#:#Microsoft Excel Datei
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
 assessment#:#qpl_export_xml#:#QTI XML Datei
+assessment#:#tst_pass_deletion#:#Vorherige Durchläufe
+assessment#:#tst_pass_deletion_not_allowed#:#Die Löschung von vorherigen Durchläufen ist NICHT erlaubt
+assessment#:#tst_pass_deletion_allowed#:#Die Löschung von vorherigen Durchläufen ist erlaubt
 assessment#:#qpl_general_properties#:#Allgemeine Eigenschaften
 assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine temporäre Vorschaudatei mit den Imagemap-Regionen erzeugen. Statt dessen wird das Original-Bild angezeigt. Das bedeutet, dass entweder das ImageMagick-Werkzeug auf dem Webserver nicht korrekt konfiguriert ist oder dass Sie im temporären Verzeichnis nicht über Schreibrechte verfügen! Bitte kontaktieren Sie den Systemadministrator.
 assessment#:#qpl_import_create_new_qpl#:#In einen neuen Fragenpool importieren
