@@ -2567,25 +2567,35 @@ abstract class assQuestion
 	{
 		global $ilDB;
 
-		if ($this->getOriginalId())
+		if( !$this->getOriginalId() )
 		{
-			$id = $this->getId();
-			$original = $this->getOriginalId();
-
-			$this->setId($this->getOriginalId());
-			$this->setOriginalId(NULL);
-			$this->saveToDb();
-			$this->deletePageOfQuestion($original);
-			$this->createPageObject();
-			$this->copyPageOfQuestion($id);
-
-			$this->setId($id);
-			$this->setOriginalId($original);
-			$this->updateSuggestedSolutions($original);
-			$this->syncXHTMLMediaObjectsOfQuestion();
-			
-			$this->onSyncWithOriginal($original, $this->getId());
+			return;
 		}
+		
+		$originalObjId = self::lookupOriginalParentObjId($this->getOriginalId());
+		
+		if ( !$originalObjId )
+		{
+			return;
+		}
+		
+		$id = $this->getId();
+		$original = $this->getOriginalId();
+
+		$this->setId($this->getOriginalId());
+		$this->setOriginalId(NULL);
+		$this->setObjId($originalObjId);
+		$this->saveToDb();
+		$this->deletePageOfQuestion($original);
+		$this->createPageObject();
+		$this->copyPageOfQuestion($id);
+
+		$this->setId($id);
+		$this->setOriginalId($original);
+		$this->updateSuggestedSolutions($original);
+		$this->syncXHTMLMediaObjectsOfQuestion();
+
+		$this->onSyncWithOriginal($original, $this->getId());
 	}
 
 	function createRandomSolution($test_id, $user_id)
@@ -3615,6 +3625,26 @@ abstract class assQuestion
 	function getDefaultNrOfTries()
 	{
 		return $this->defaultnroftries;
+	}
+	
+	/**
+	 * returns the parent object id for given original question id
+	 * (should be a qpl id, but theoretically it can be a tst id, too)
+	 * 
+	 * @global ilDB $ilDB
+	 * @param integer $originalQuestionId
+	 * @return integer $originalQuestionParentObjectId
+	 */
+	public static function lookupOriginalParentObjId($originalQuestionId)
+	{
+		global $ilDB;
+		
+		$query = "SELECT obj_fi FROM qpl_questions WHERE question_id = %s";
+		
+		$res = $ilDB->queryF($query, array('integer'), array((int)$originalQuestionId));
+		$row = $ilDB->fetchAssoc($res);
+		
+		return $row['obj_fi'];
 	}
 	
 	// scorm2004-end ???
