@@ -14457,14 +14457,14 @@ if(!$ilDB->tableExists('il_bibl_attribute'))
 ?>
 <#3845>
 <?php
-if(!$ilDB->tableExists('il_bibl_entry_seq'))
+if(!$ilDB->sequenceExists('il_bibl_entry'))
 {
     $ilDB->createSequence('il_bibl_entry');
 }
 ?>
 <#3846>
 <?php
-if(!$ilDB->tableExists('il_bibl_attribute_seq'))
+if(!$ilDB->sequenceExists('il_bibl_attribute'))
 {
     $ilDB->createSequence('il_bibl_attribute');
 }
