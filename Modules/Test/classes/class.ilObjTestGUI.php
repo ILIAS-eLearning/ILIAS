@@ -4652,7 +4652,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$score_reporting_text = $this->lng->txt("tst_report_after_date");
 					break;
 				case 4:
-					$score_reporting_text = $this->lng->txt("tst_report_after_never");
+					$score_reporting_text = $this->lng->txt("tst_report_never");
 					break;
 			}
 			$info->addProperty($this->lng->txt("tst_score_reporting"), $score_reporting_text); 
