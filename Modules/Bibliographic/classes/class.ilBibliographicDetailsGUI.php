@@ -28,7 +28,7 @@ class ilBibliographicDetailsGUI
         $entry = new ilBibliographicEntry($bibl_obj->getFiletype(), $_GET['entryId']);
 
 
-        $form->setTitle($entry->getOverwiew());
+        $form->setTitle($lng->txt('detail_view'));
 
         foreach($entry->getAttributes() as $key => $attribute){
 
