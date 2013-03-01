@@ -416,8 +416,12 @@ div.ilTableCell {
 
 div.ilCommandRow {
 	 text-align: right; 
-	 padding-right: 22%; 
+	 padding-right: 1%; 
 	 margin-bottom: 15px;
+}
+
+div.ilCommandRow.one_side_col {
+	 padding-right: 22%; 
 }
 
 div.ilAdminRow {
