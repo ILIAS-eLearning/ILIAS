@@ -3711,7 +3711,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				// GET USER IMAGE
 				$file = $usr_obj->getPersonalPicturePath("xsmall");
 				
-				if($this->object->getMembersObject()->isAdmin($member["id"]) or $this->object->getMembersObject()->isTutor($member["id"]))
+				/*if($this->object->getMembersObject()->isAdmin($member["id"]) or $this->object->getMembersObject()->isTutor($member["id"]))
 				{
 					if ($public_profile == "y")
 					{
@@ -3725,10 +3725,15 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->tpl->setCurrentBlock("tutor_not_linked");
 						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
 						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("tutor");
+						$this->tpl->setCurrentBlock("tutor");*/
+				
+				if ($public_profile == "y") {
+					$this->tpl->setCurrentBlock("member_linked");
+					$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+					$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+					$this->tpl->parseCurrentBlock();
 				}
-				else
+				/*else
 				{
 					if ($public_profile == "y")
 					{
@@ -3743,8 +3748,25 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
 						$this->tpl->parseCurrentBlock();
 					}
-					$this->tpl->setCurrentBlock("member");
+					$this->tpl->setCurrentBlock("member");*/
+				else {
+					$this->tpl->setCurrentBlock("member_not_linked");
+					$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+					$this->tpl->parseCurrentBlock();
+ 				}
+				$this->tpl->setCurrentBlock("member");
+ 				
+				if ($this->object->getMembersObject()->isAdmin($member["id"])) {
+					$this->tpl->setVariable("MEMBER_CLASS", "il_Admin");
 				}
+				elseif ($this->object->getMembersObject()->isTutor($member["id"])) {
+						$this->tpl->setVariable("MEMBER_CLASS", "il_Tutor");
+				}
+				else {
+						$this->tpl->setVariable("MEMBER_CLASS", "il_Member");
+				}
+	
+				
 				
 				// do not show name, if public profile is not activated
 				if ($public_profile == "y")
@@ -3754,12 +3776,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				$this->tpl->setVariable("LOGIN", $member["login"]);
 				$this->tpl->parseCurrentBlock();
-
 			}
 			$this->tpl->setCurrentBlock("members");	
 			$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
 			$this->tpl->parseCurrentBlock();
-			
 		}
 		
 		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
