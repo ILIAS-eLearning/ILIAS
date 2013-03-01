@@ -13078,6 +13078,7 @@ bibl#:#Override Entries#:#Override Entries
 bibl#:#bibl_edit#:#Edit Bibliography
 bibl#:#bibliography file#:#Bibliography File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
+bibl#:#detail_view#:#Detail View
 rbac#:#bibl_visible#:#Bibliography is visible
 rbac#:#bibl_read#:#User can read bibliography content
 rbac#:#bibl_copy#:#User can copy bibliography

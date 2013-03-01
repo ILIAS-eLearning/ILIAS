@@ -14514,7 +14514,7 @@ $ilDB->manipulateF('INSERT INTO  il_bibl_overview_model (ovm_id, filetype, liter
 $ilDB->manipulateF('INSERT INTO  il_bibl_overview_model (ovm_id, filetype, literature_type, pattern)
 	VALUES(%s, %s, %s, %s)',
     array('integer', 'text', 'text', 'text'),
-    array(2, 'ris', 'default', '<strong>[|ris_default_au|][; |ris_default_a2|]</strong>: [ |ris_default_t1|.]<Emph>[|ris_default_pb|][, |ris_default_py|][, |ris_default_xy|].</Emph>')
+    array(2, 'ris', 'default', '[<strong>|ris_default_a1|</strong>:][ |ris_default_t1|][: |ris_default_t2|]. <Emph>[|ris_default_pb|][, |ris_default_y1|][, |ris_default_cy|].</Emph>')
 );
 ?>
 <#3850>

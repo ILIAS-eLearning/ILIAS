@@ -13078,6 +13078,7 @@ bibl#:#Override entries#:#Einträge überschreiben
 bibl#:#bibl_edit#:#Edit Literaturliste bearbeiten
 bibl#:#bibliography file#:#Literaturlisten-Datei
 bibl#:#obj_bibl_duplicate#:#Literaturliste duplizieren
+bibl#:#detail_view#:#Detailansicht
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren

@@ -246,40 +246,10 @@ class ilObjBibliographicGUI extends ilObject2GUI
 
     /**
      * afterSave
-     * If you change this function, be sure to take a look at the function cloneStructure
      */
     protected function afterSave(ilObject $a_new_object)
     {
         $a_new_object->doUpdate();
-
-        //Read File
-        switch($a_new_object->getFiletype()){
-            case("ris"):
-            $entries_from_file = ilObjBibliographic::__readRisFile($a_new_object->getFilename());
-                break;
-            case("bib"):
-            $entries_from_file = ilObjBibliographic::__readBibFile($a_new_object->getFilename());
-                break;
-        }
-
-        foreach($entries_from_file as $file_entry){
-            $type = null;
-            foreach($file_entry as $key => $attribute){
-                // ty is the type and is treated seperately
-                if(strtolower($attribute['name']) == 'ty'){
-                    $type = $attribute['value'];
-                    unset($file_entry[$key]);
-                    break;
-                }
-            }
-
-            //create the entry and fill data into database by executing doCreate()
-            $entry_model = new ilBibliographicEntry($a_new_object->getFiletype());
-            $entry_model->setType($type);
-            $entry_model->setAttributes($file_entry);
-            $entry_model->setBibliographicObjId($a_new_object->getId());
-            $entry_model->doCreate();
-        }
 
         $this->ctrl->redirect($this, "edit");
     }

@@ -116,11 +116,12 @@ class ilObjBibliographic extends ilObject2
             $this->moveFile();
         }
 
-
         $ilDB->manipulate("UPDATE il_bibl_data SET " .
             "filename = " . $ilDB->quote($this->getFilename(), "text") . ", " .// filename
             "is_online = " . $ilDB->quote($this->getOnline(), "integer") . // is_online
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+
+        $this->writeSourcefileEntriesToDb($this);
 
     }
 
@@ -303,14 +304,18 @@ class ilObjBibliographic extends ilObject2
                     $value = substr($value, 0, strlen($value)-1);
                 }
 
+                echo "<br />";
+                echo '<br />$key = '.$key;
+                echo '<br />$key_before = '.$key_before;
                 if($key != $key_before){
                     $key_before = $key;
 
                     $entry[] = array('name' => $key, 'value' => $value);
                 }else{
-                    foreach($entry as $attribute){
+                    echo "<br />same";
+                    foreach($entry as $entry_key => $attribute){
                         if($attribute['name'] == $key){
-                            $attribute['value'] .= ", " . $value;
+                            $entry[$entry_key]['value'] .= "; " . $value;
                         }
                     }
                 }
@@ -319,6 +324,7 @@ class ilObjBibliographic extends ilObject2
                 $entry = array();
             }
         }
+
         return $entries;
     }
 
@@ -430,17 +436,39 @@ class ilObjBibliographic extends ilObject2
         $this->setTitle($original->getTitle());
         $this->setType($original->getType());
 
+        $this->doUpdate();
+
+        $this->writeSourcefileEntriesToDb();
+    }
+
+
+    protected static function __removeSpacesAndDashesAtBeginning($input){
+        for($i = 0; $i < strlen($input); $i++){
+            if($input[$i] != " " && $input[$i] != "-"){
+                return substr($input, $i);
+            }
+        }
+
+    }
+
+
+    /**
+     * Reads out the source file and writes all entries to the database
+     * @return void
+     */
+    public function writeSourcefileEntriesToDb(){
 
         //Read File
-        switch($original->getFiletype()){
+        switch($this->getFiletype()){
             case("ris"):
-                $entries_from_file = ilObjBibliographic::__readRisFile($original->getFilename());
+                $entries_from_file = self::__readRisFile($this->getFilename());
                 break;
             case("bib"):
-                $entries_from_file = ilObjBibliographic::__readBibFile($original->getFilename());
+                $entries_from_file = self::__readBibFile($this->getFilename());
                 break;
         }
 
+        //fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
         foreach($entries_from_file as $file_entry){
             $type = null;
             foreach($file_entry as $key => $attribute){
@@ -453,26 +481,15 @@ class ilObjBibliographic extends ilObject2
             }
 
             //create the entry and fill data into database by executing doCreate()
-            $entry_model = new ilBibliographicEntry($original->getFiletype());
+            $entry_model = new ilBibliographicEntry($this->getFiletype());
             $entry_model->setType($type);
             $entry_model->setAttributes($file_entry);
             $entry_model->setBibliographicObjId($this->getId());
             $entry_model->doCreate();
         }
-
-        $this->doUpdate();
-
     }
 
 
-    protected static function __removeSpacesAndDashesAtBeginning($input){
-        for($i = 0; $i < strlen($input); $i++){
-            if($input[$i] != " " && $input[$i] != "-"){
-                return substr($input, $i);
-            }
-        }
-
-    }
 
 
     /**
