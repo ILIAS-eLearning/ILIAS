@@ -4888,7 +4888,7 @@ rbac#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_edit_questions#:#Fragen bearbeiten
 common#:#tst_new#:#Neuen Test anlegen
 common#:#tst_no_content#:#Es sind keine Tests vorhanden.
-common#:#tst_random_test_description_warning#:#<br /><b>Dieser Test beinhaltet Fragen, die zu keinem Fragenpool gehören. Wenn Sei zum Modus "Zufallstest" wechseln, gehen diese Fragen verloren.
+common#:#tst_random_test_description_warning#:#<br /><b>Dieser Test beinhaltet Fragen, die zu keinem Fragenpool gehören. Wenn Sei zum Modus "Zufallstest" wechseln, gehen diese Fragen verloren.</b>
 rbac#:#tst_read#:#Test durchführen
 common#:#tst_run#:#Ausführen
 common#:#tst_statistical_evaluation#:#Statistik
