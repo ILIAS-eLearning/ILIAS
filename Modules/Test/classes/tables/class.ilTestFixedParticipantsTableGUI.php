@@ -133,7 +133,7 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("STARTED", ($data['started']) ? $started : '');
 		$this->tpl->setVariable("PASSES", $passes);
 		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $finished : '');
-		$this->tpl->setVariable("ACCESS", (strlen($data['access'])) ? $data['access'] : $this->lng->txt('not_yet_accessed'));
+		$this->tpl->setVariable("ACCESS", (strlen($data['access'])) ? ilDatePresentation::formatDate(new ilDateTime($data['access'], IL_CAL_DATETIME)) : $this->lng->txt('not_yet_accessed'));
 		if ($data['active_id'] > 0)
 		{
 			$this->tpl->setCurrentBlock('results');
@@ -142,5 +142,14 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function numericOrdering($field)
+	{
+		return in_array($field, array(
+			'access', 'maxpass'
+		));
+	}
 }
-?>
