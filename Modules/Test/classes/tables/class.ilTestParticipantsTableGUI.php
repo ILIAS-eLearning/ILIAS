@@ -109,15 +109,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 * @param $field
-	 * @return bool|void
-	 */
-	public function numericOrdering($field)
-	{
-		return $field == 'access';
-	}
-
-	/**
 	 * fill row 
 	 *
 	 * @access public
@@ -170,5 +161,14 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$ti->readFromSession();        // get currenty value from session (always after addFilterItem())
 		$this->filter["title"] = $ti->getValue();
 	}
- 	
+
+	/**
+	 * @return bool
+	 */
+	public function numericOrdering($field)
+	{
+		return in_array($field, array(
+			'access', 'maxpass'
+		));
+	}
 }
