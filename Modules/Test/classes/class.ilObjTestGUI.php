@@ -1102,14 +1102,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setScoreReporting($_POST["results_access"]);
 			if ($this->object->getScoreReporting() == REPORT_AFTER_DATE)
 			{
-				$this->object->setReportingDate(sprintf("%04d%02d%02d%02d%02d%02d",
-					$_POST["reporting_date"]['date']["y"],
-					$_POST["reporting_date"]['date']["m"],
-					$_POST["reporting_date"]['date']["d"],
-					$_POST["reporting_date"]['time']["h"],
-					$_POST["reporting_date"]['time']["m"],
-					$_POST["reporting_date"]['time']["s"]
-				));
+				$this->object->setReportingDate(str_replace(array(':', '-'), '', $_POST["reporting_date"]['date'].$_POST["reporting_date"]['time']));
 			}
 			else
 			{
