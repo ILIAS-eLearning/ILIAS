@@ -179,7 +179,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
 				$page_gui->setEnabledInternalLinks(false);
-				if (strlen($this->ctrl->getCmd()) == 0)
+				if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) // workaround for page edit imagemaps, keep in mind
 				{
 					$this->ctrl->setCmdClass(get_class($page_gui));
 					$this->ctrl->setCmd("preview");
