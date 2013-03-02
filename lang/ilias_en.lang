@@ -1051,9 +1051,9 @@ assessment#:#tst_type_comment#:#Warning: Changing the test type of a running tes
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
-assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes.
+assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes. Thefore an option is shown on the info screen, that is deactivated by default.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
-assessment#:#tst_use_previous_answers#:#Use Previous Answers
+assessment#:#tst_use_previous_answers#:#Option to Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.
