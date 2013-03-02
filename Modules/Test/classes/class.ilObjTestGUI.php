@@ -390,6 +390,8 @@ class ilObjTestGUI extends ilObjectGUI
 				
 			case 'ilassquestionhintsgui':
 	
+				$this->tpl->getStandardTemplate();
+				
 				// set return target
 				$this->ctrl->setReturn($this, "questions");
 
@@ -439,7 +441,13 @@ class ilObjTestGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
                          default:
-                                // elba hack for storing question id for inserting new question after
+								$this->ctrl->setParameter($this, 'q_id', $_REQUEST['q_id']);
+								$this->ctrl->setParameter($this, 'calling_test', $_REQUEST['ref_id']);
+								if ($_REQUEST['test_express_mode'])
+								{
+									$this->ctrl->setParameter($this, 'test_express_mode', 1);
+								}
+                               // elba hack for storing question id for inserting new question after
                                 if ($_REQUEST['prev_qid']) {
                                     global $___prev_question_id;
                                     $___prev_question_id = $_REQUEST['prev_qid'];
