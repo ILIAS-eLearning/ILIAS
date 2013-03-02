@@ -11224,7 +11224,7 @@ function getAnswerFeedbackPoints()
 
 		$classConcreteQuestion = assQuestion::_getQuestionType($questionId);
 
-		assQuestion::_includeClass($classConcreteQuestion, 1);
+		assQuestion::_includeClass($classConcreteQuestion, 0);
 
 		// static binder is not at work yet (in PHP < 5.3)
 		//$obligationPossible = $classConcreteQuestion::isObligationPossible();
