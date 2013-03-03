@@ -514,52 +514,78 @@ class assTextQuestion extends assQuestion
 		{
 			return $row["points"];
 		}
+		
+		// Return min points when keyword relation is NON KEYWORDS
+		if( $this->getKeywordRelation() == 'non' )
+		{
+			return $this->getMinimumPoints();
+		}
 
 		// Return min points if there are no answers present.
 		$answers = $this->getAnswers();
+		
 		if (count($answers) == 0)
 		{
 			return $this->getMinimumPoints();
 		}
 		
-		$answered_count = 0;
-		foreach ($answers as $answer)
+		switch( $this->getKeywordRelation() )
 		{
-			
-			$qst_answer  = $answer->answertext;
-			$user_answer = '  '.$row['value1'];
-
-			
-			if ($this->isKeywordInAnswer( $user_answer, $qst_answer ))
-			{
-				$answered_count++;
-				$points = $points + $answer->points;
-			}
+			case 'any':
+				
+				$points = 0;
+				
+				foreach ($answers as $answer)
+				{
+					$qst_answer  = $answer->answertext;
+					$user_answer = '  '.$row['value1'];
+					
+					if( $this->isKeywordInAnswer( $user_answer, $qst_answer ) )
+					{
+						$points += $answer->points;
+					}
+				}
+				
+				break;
+				
+			case 'all':
+				
+				$points = $this->getMaximumPoints();
+				
+				foreach ($answers as $answer)
+				{
+					$qst_answer  = $answer->answertext;
+					$user_answer = '  '.$row['value1'];
+					
+					if( !$this->isKeywordInAnswer( $user_answer, $qst_answer ) )
+					{
+						$points = 0;
+						break;
+					}
+				}
+				
+				break;
+				
+			case 'one':
+				
+				$points = 0;
+				
+				foreach ($answers as $answer)
+				{
+					$qst_answer  = $answer->answertext;
+					$user_answer = '  '.$row['value1'];
+					
+					if( $this->isKeywordInAnswer( $user_answer, $qst_answer ) )
+					{
+						$points = $this->getMaximumPoints();
+						break;
+					}
+				}
+				
+				break;
 		}
 
-		if ($this->getKeywordRelation() == 'all')
-		{
-			if (count($answers) == $answered_count)
-			{
-				return $points;
-			}
-			else
-			{
-				return $this->getMinimumPoints();
-			}
-		}
-		
-		if ($this->getKeywordRelation() == 'any')
-		{
-			return $points;
-		}
-
-		if ($this->getKeywordRelation() == 'one' && $answered_count > 0)
-		{
-			return $this->getMaximumPoints();
-		}
-
-		return $this->getMinimumPoints();
+		return $points;
 
 	}
 
