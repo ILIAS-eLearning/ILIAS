@@ -284,10 +284,11 @@ assessment#:#autosave_ival#:#Intervall
 assessment#:#autosave_ival_info#:#Intervall in dem Antworten im Hintergrund gespeichert werden. (Microsekunden)
 assessment#:#for#:#für
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe gewährt:
-assessment#:#essay_keyword_relation#:#Punktvergabe bei
-assessment#:#essay_keyword_relation_any#:#Nennung von einzelnen Begriffen in der Antwort
-assessment#:#essay_keyword_relation_all#:#Nennung von allen Begriffen in der Antwort
-assessment#:#essay_keyword_relation_one#:#Nennung eines beliebigen Begriffs in der Antwort
+assessment#:#essay_scoring_mode#:#Bewertungs Modus
+assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatische Bewertung bei Nennung einzelner Begriffe
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatische Bewertung bei Nennung aller Begriffe
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatische Bewertung bei Nennung eines Begriffs
 assessment#:#essay_keyword_relation_desc#:#Wenn die Option 'alle Begriffe' gewählt wurde, werden nur dann überhaupt Punkte vergeben, wenn alle Begriffe genannt wurden. Die Option 'beliebiger Begriff' führt zur Vergabe der Punktzahl aller Einzelantworten, sobald ein Begriff der Liste genannt wurde.
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein valides Schema.
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
