@@ -14558,3 +14558,154 @@ $ilCtrlStructureReader->getStructure();
         array('ris', 'default', '[<strong>|ris_default_a1|</strong>:][ |ris_default_t1|][: |ris_default_t2|]. <Emph>[|ris_default_pb|][, |ris_default_y1|][, |ris_default_cy|].</Emph>',2)
     );
 ?>
+
+<#3854>
+<?php
+
+// find all essay questions without keywords stored in qpl_a_essay
+// and migrate them to scoring mode "NON" (keyword relation)
+
+$res = $ilDB->query("
+	SELECT qstq.question_fi
+	
+	FROM qpl_qst_essay qstq
+	
+	LEFT JOIN qpl_a_essay qsta
+	ON qstq.question_fi = qsta.question_fi
+	
+	WHERE qsta.answer_id IS NULL
+");
+
+$questionIds = array();
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$questionIds[] = $row['question_fi'];
+}
+
+$questionId__IN__questionIds = $ilDB->in('question_fi', $questionIds, false, 'integer');
+
+$query = "
+	UPDATE qpl_qst_essay
+	SET keyword_relation = %s
+	WHERE $questionId__IN__questionIds
+";
+
+$ilDB->manipulateF($query, array('text'), array('non'));
+
+?>
+<#3855>
+<?php
+
+// find all essay questions with exactly one keyword stored in qpl_a_essay
+// and migrate them to scoring mode "ONE" (keyword relation)
+
+$query = "
+	SELECT	qstq.question_fi,
+			COUNT(qsta.answer_id) count_keywords,
+			SUM(qsta.points) qst_points
+	
+	FROM qpl_qst_essay qstq
+	
+	LEFT JOIN qpl_a_essay qsta
+	ON qstq.question_fi = qsta.question_fi
+	
+	WHERE qstq.keywords IS NOT NULL
+	AND qsta.answer_id IS NOT NULL
+	
+	GROUP BY qstq.question_fi
+	
+	HAVING count_keywords = %s
+";
+
+$res = $ilDB->queryF($query, array('integer'), array(1));
+
+$questionPoints = array();
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$questionPoints[$row['question_fi']] = $row['qst_points'];
+}
+
+$questionId__IN__questionIds = $ilDB->in(
+		'question_fi', array_keys($questionPoints), false, 'integer'
+);
+
+$query = "
+	UPDATE qpl_qst_essay
+	SET keyword_relation = %s
+	WHERE $questionId__IN__questionIds
+";
+
+$ilDB->manipulateF($query, array('text'), array('one'));
+
+$updateQuestionPoints = $ilDB->prepareManip(
+	"UPDATE qpl_questions SET points = ? WHERE question_id = ?", array('integer', 'integer')
+);
+
+foreach($questionPoints as $questionId => $points)
+{
+	$ilDB->execute($updateQuestionPoints, array($points, $questionId));
+}
+
+?>
+<#3856>
+<?php
+
+// find all essay questions with more than one keywords stored in qpl_a_essay
+// where only one of them has store points > 0
+// and migrate them to scoring mode "ONE" (keyword relation)
+
+$query = "
+	SELECT	qstq.question_fi,
+			SUM(qsta.points) points_sum,
+			MIN(qsta.points) points_min,
+			MAX(qsta.points) points_max,
+			COUNT(qsta.answer_id) count_keywords
+	
+	FROM qpl_qst_essay qstq
+	
+	LEFT JOIN qpl_a_essay qsta
+	ON qstq.question_fi = qsta.question_fi
+	
+	WHERE qstq.keywords IS NOT NULL
+	AND qsta.answer_id IS NOT NULL
+	
+	GROUP BY qstq.question_fi
+	
+	HAVING count_keywords > %s
+	AND points_sum = points_max
+	AND points_min = %s
+";
+
+$res = $ilDB->queryF($query, array('integer', 'integer'), array(1, 0));
+
+$questionPoints = array();
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$questionPoints[$row['question_fi']] = $row['points_sum'];
+}
+
+$questionId__IN__questionIds = $ilDB->in(
+		'question_fi', array_keys($questionPoints), false, 'integer'
+);
+
+$query = "
+	UPDATE qpl_qst_essay
+	SET keyword_relation = %s
+	WHERE $questionId__IN__questionIds
+";
+
+$ilDB->manipulateF($query, array('text'), array('one'));
+
+$updateQuestionPoints = $ilDB->prepareManip(
+	"UPDATE qpl_questions SET points = ? WHERE question_id = ?", array('integer', 'integer')
+);
+
+foreach($questionPoints as $questionId => $points)
+{
+	$ilDB->execute($updateQuestionPoints, array($points, $questionId));
+}
+
+?>
