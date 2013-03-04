@@ -122,8 +122,10 @@ function getStyleByForm(f) {
 		if (!isNaN(v)) {
 			dom.setStyle(img, 'marginLeft', '');
 			dom.setStyle(img, 'marginRight', '');
-			img.style.marginLeft = v + 'px';
-			img.style.marginRight = v + 'px';
+			if (v) {
+				img.style.marginLeft = v + 'px';
+				img.style.marginRight = v + 'px';
+			}
 		}
 
 		// Handle vspace
@@ -131,8 +133,10 @@ function getStyleByForm(f) {
 		if (!isNaN(v)) {
 			dom.setStyle(img, 'marginTop', '');
 			dom.setStyle(img, 'marginBottom', '');
-			img.style.marginTop = v + 'px';
-			img.style.marginBottom = v + 'px';
+			if (v) {
+				img.style.marginTop = v + 'px';
+				img.style.marginBottom = v + 'px';
+			}
 		}
 
 		// Merge
