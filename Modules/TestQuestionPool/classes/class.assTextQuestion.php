@@ -344,7 +344,13 @@ class assTextQuestion extends assQuestion
 	*/
 	function getMaximumPoints()
 	{
+		if( in_array($this->getKeywordRelation(), self::getScoringModesWithPointsByQuestion()) )
+		{
+			return parent::getPoints();
+		}
+		
 		$points = 0;
+		
 		foreach ($this->answers as $answer)
 		{
 			if ($answer->points > 0)
@@ -358,6 +364,11 @@ class assTextQuestion extends assQuestion
 	
 	function getMinimumPoints()
 	{
+		if( in_array($this->getKeywordRelation(), self::getScoringModesWithPointsByQuestion()) )
+		{
+			return 0;
+		}
+		
 		$points = 0;
 
 		foreach ($this->answers as $answer)
@@ -864,11 +875,29 @@ class assTextQuestion extends assQuestion
 
 	public function setAnswers($answers)
 	{
-		$count = count($answers['answer']);
+		if( isset($answers['answer']) )
+		{
+			$count = count($answers['answer']);
+			$withPoints = true;
+		}
+		else
+		{
+			$count = count($answers);
+			$withPoints = false;
+		}
+		
 		$this->flushAnswers();
+		
 		for ($i = 0; $i < count($answers['answer']); $i++ )
 		{
-			$this->addAnswer($answers['answer'][$i], $answers['points'][$i]);
+			if($withPoints)
+			{
+				$this->addAnswer($answers['answer'][$i], $answers['points'][$i]);
+			}
+			else
+			{
+				$this->addAnswer($answers[$i], 0);
+			}
 		}
 	}
 
@@ -906,15 +935,12 @@ class assTextQuestion extends assQuestion
 	 */
 	public function setKeywordRelation($a_relation)
 	{
-		if ($a_relation == 'any' || $a_relation == 'all' || $a_relation == 'one')
+		if( !in_array($a_relation, self::getValidScoringModes()) )
 		{
-			$this->keyword_relation = $a_relation;
+			throw new ilTestQuestionPoolException('given essay scoring mode is invalid: "'.$a_relation.'"');
 		}
-		else
-		{
-			$this->keyword_relation = 'one';
-			return;
-		}
+		
+		$this->keyword_relation = $a_relation;
 	}
 	/**
 	 * Saves feedback for a single selected answer to the database
@@ -985,6 +1011,22 @@ class assTextQuestion extends assQuestion
 		);
 	}
 
+	public static function getValidScoringModes()
+	{
+		return array_merge(self::getScoringModesWithPointsByQuestion(), self::getScoringModesWithPointsByKeyword());
+	}
+	
+	public static function getScoringModesWithPointsByQuestion()
+	{
+		return array('non', 'all', 'one');
+	}
+	
+	public static function getScoringModesWithPointsByKeyword()
+	{
+		return array('any');
+	}
+	
+	
 	/**
 	 * Duplicates the answer specific feedback
 	 *
