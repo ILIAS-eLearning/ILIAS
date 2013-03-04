@@ -14602,28 +14602,30 @@ $ilDB->manipulateF($query, array('text'), array('non'));
 
 $query = "
 	SELECT	qstq.question_fi,
-			COUNT(qsta.answer_id) count_keywords,
+			COUNT(qsta.answer_id) keywordscount,
 			SUM(qsta.points) qst_points
 	
 	FROM qpl_qst_essay qstq
 	
-	LEFT JOIN qpl_a_essay qsta
+	INNER JOIN qpl_a_essay qsta
 	ON qstq.question_fi = qsta.question_fi
 	
 	WHERE qstq.keywords IS NOT NULL
-	AND qsta.answer_id IS NOT NULL
 	
 	GROUP BY qstq.question_fi
-	
-	HAVING count_keywords = %s
 ";
 
-$res = $ilDB->queryF($query, array('integer'), array(1));
+$res = $ilDB->query($query);
 
 $questionPoints = array();
 
 while( $row = $ilDB->fetchAssoc($res) )
 {
+	if( $row['keywordscount'] != 1 )
+	{
+		continue;
+	}
+	
 	$questionPoints[$row['question_fi']] = $row['qst_points'];
 }
 
@@ -14661,7 +14663,7 @@ $query = "
 			SUM(qsta.points) points_sum,
 			MIN(qsta.points) points_min,
 			MAX(qsta.points) points_max,
-			COUNT(qsta.answer_id) count_keywords
+			COUNT(qsta.answer_id) keywordscount
 	
 	FROM qpl_qst_essay qstq
 	
@@ -14672,18 +14674,29 @@ $query = "
 	AND qsta.answer_id IS NOT NULL
 	
 	GROUP BY qstq.question_fi
-	
-	HAVING count_keywords > %s
-	AND points_sum = points_max
-	AND points_min = %s
 ";
 
-$res = $ilDB->queryF($query, array('integer', 'integer'), array(1, 0));
+$res = $ilDB->queryF($query, array('integer'), array(0));
 
 $questionPoints = array();
 
 while( $row = $ilDB->fetchAssoc($res) )
 {
+	if( $row['keywordscount'] <= 1 )
+	{
+		continue;
+	}
+	
+	if( $row['points_sum'] != $row['points_max'] )
+	{
+		continue;
+	}
+	
+	if( $row['points_min'] > 0 )
+	{
+		continue;
+	}
+	
 	$questionPoints[$row['question_fi']] = $row['points_sum'];
 }
 
