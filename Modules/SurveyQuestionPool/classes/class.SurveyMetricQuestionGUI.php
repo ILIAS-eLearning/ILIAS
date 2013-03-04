@@ -80,8 +80,8 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$this->object->label = $_POST['label'];
 
 			$this->object->setSubtype($_POST["type"]);
-			$this->object->setMinimum($_POST["minimum"]);
-			$this->object->setMaximum($_POST["maximum"]);
+			$this->object->setMinimum($_POST["minimum".(int)$_POST["type"]]);
+			$this->object->setMaximum($_POST["maximum".(int)$_POST["type"]]);
 			return 0;
 		}
 		else
@@ -145,40 +145,87 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$question->setRTESupport($this->object->getId(), "spl", "survey");
 		$form->addItem($question);
 		
+		
 		// subtype
 		$subtype = new ilRadioGroupInputGUI($this->lng->txt("subtype"), "type");
 		$subtype->setRequired(true);
 		$subtype->setValue($this->object->getSubtype());
-		$subtype->addOption(new ilRadioOption($this->lng->txt('non_ratio'), 3, $this->lng->txt("metric_subtype_description_interval")));
-		$subtype->addOption(new ilRadioOption($this->lng->txt('ratio_non_absolute'), 4, $this->lng->txt("metric_subtype_description_rationonabsolute")));
-		$subtype->addOption(new ilRadioOption($this->lng->txt('ratio_absolute'), 5, $this->lng->txt("metric_subtype_description_ratioabsolute")));
-		$form->addItem($subtype);
-
+			$form->addItem($subtype);
+				
+		// #10652
+		$opt = new ilRadioOption($this->lng->txt('non_ratio'), 3, $this->lng->txt("metric_subtype_description_interval"));
+		$subtype->addOption($opt);
+		
 		// minimum value
-		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum");
-		$minimum->setValue($this->object->getMinimum());
+		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum3");
+		if($this->object->getSubtype() == 3)
+		{
+			$minimum->setValue($this->object->getMinimum());
+		}
 		$minimum->setRequired(false);
-		$minimum->setSize(6);
-		if ($this->object->getSubtype() > 3)
-		{
-			$minimum->setMinValue(0);
-		}
-		if ($this->object->getSubtype() == 5)
-		{
-			$minimum->setDecimals(0);
-		}
-		$form->addItem($minimum);
+		$minimum->setSize(6);		
+		$opt->addSubItem($minimum);
 		
 		// maximum value
-		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum");
-		if ($this->object->getSubtype() == 5)
+		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum3");	
+		if($this->object->getSubtype() == 3)
 		{
-			$maximum->setDecimals(0);
+			$maximum->setValue($this->object->getMaximum());
 		}
-		$maximum->setValue($this->object->getMaximum());
 		$maximum->setRequired(false);
 		$maximum->setSize(6);
-		$form->addItem($maximum);
+		$opt->addSubItem($maximum);
+		
+		$opt = new ilRadioOption($this->lng->txt('ratio_non_absolute'), 4, $this->lng->txt("metric_subtype_description_rationonabsolute"));
+		$subtype->addOption($opt);
+		
+		// minimum value
+		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum4");
+		if($this->object->getSubtype() == 4)
+		{
+			$minimum->setValue($this->object->getMinimum());
+		}
+		$minimum->setRequired(false);
+		$minimum->setSize(6);	
+		$minimum->setMinValue(0);		
+		$opt->addSubItem($minimum);
+		
+		// maximum value
+		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum4");
+		if($this->object->getSubtype() == 4)
+		{
+			$maximum->setValue($this->object->getMaximum());
+		}
+		$maximum->setRequired(false);
+		$maximum->setSize(6);
+		$opt->addSubItem($maximum);
+		
+		$opt = new ilRadioOption($this->lng->txt('ratio_absolute'), 5, $this->lng->txt("metric_subtype_description_ratioabsolute"));
+		$subtype->addOption($opt);	
+		
+		// minimum value
+		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum5");
+		if($this->object->getSubtype() == 5)
+		{
+			$minimum->setValue($this->object->getMinimum());
+		}
+		$minimum->setRequired(false);
+		$minimum->setSize(6);		
+		$minimum->setMinValue(0);		
+		$minimum->setDecimals(0);		
+		$opt->addSubItem($minimum);
+		
+		// maximum value
+		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum5");
+		$maximum->setDecimals(0);
+		if($this->object->getSubtype() == 5)
+		{
+			$maximum->setValue($this->object->getMaximum());
+		}
+		$maximum->setRequired(false);
+		$maximum->setSize(6);
+		$opt->addSubItem($maximum);
+		
 		
 		// obligatory
 		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
