@@ -1444,7 +1444,8 @@ input.submit, a.submit, a.submit:hover {
 	font-size: 80%;
 	font-weight: normal;
 	line-height: 17px; /* Safari */
-	background: url(images/ButtonsBack.png) bottom repeat-x;
+	background: url(images/ButtonsBack.png) repeat-x top;
+	background-size: auto 100%;
 	color: #359;
 	border: 1px solid #D0D0D0;
 	padding: 1px 5px;
