@@ -183,6 +183,8 @@ img {
 
 tr, td {
     vertical-align: top;
+	white-space: normal;
+    word-wrap: break-word;
 }
 
 code {
@@ -2854,13 +2856,14 @@ div.il_Block, table.il_Block, .ilOverlay
 
 /* Blocks */
 
-div.il_Block, table.il_Block
-{
-	width:100%;
+div.il_Block, table.il_Block {
+	width: 100%;
 	border-spacing:0px;
 	border-collapse:collapse;
 	margin-bottom: 20px;
-	clear:both;
+	clear: both;
+	table-layout: fixed;
+	word-wrap: break-word;
 }
 
 div.ilBlockHeader, div.ilBlockHeaderBig,
@@ -2957,26 +2960,22 @@ table.ilContainerBlock
 }
 
 
-h3.ilPDBlockSubHeader
-{
+h3.ilPDBlockSubHeader {
 	font-weight: normal;
-	padding: 0px;
 	margin: 0px;
 	display: block;
 	font-size: 100%;
 	font-weight: normal;
-	text-align:left;
+	text-align: left;
 	font-size: 90%;
 	background-color: #F8F8F8;
 	vertical-align: middle;
-	border-top-color: #F0F0F0;
-	border-top-style: solid;
-	border-top-width: 1px;
+	border-top: 1px solid #F0F0F0;
 	padding: 1px 3px;
 }
 
 .ilBlockRow1, .ilBlockRow2 {
-	padding:3px;
+	padding: 3px;
 	border-bottom: 1px solid #F0F0F0;
 }
 
