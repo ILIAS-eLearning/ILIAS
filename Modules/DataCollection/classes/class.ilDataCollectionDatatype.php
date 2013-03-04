@@ -578,7 +578,7 @@ class ilDataCollectionDatatype
         }
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
 		{
-			$return = $value["date"]." ".$value["time"];
+			$return = substr($value, 0, 10);
 		}
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
 		{
