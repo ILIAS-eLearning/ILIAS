@@ -89,7 +89,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	{
 		$this->writeFilterToSession();
 		$this->initFilter();
-		$this->setData($this->table->getRecordsByFilter($this->filter));
+//		$this->setData($this->table->getRecordsByFilter($this->filter));
 		$col = 0;
 		
 		foreach($this->table->getFields() as $field)
@@ -173,14 +173,14 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	/*
 	 * fillRowExcel
 	 */
-	public function fillRowExcel($worksheet, &$row, ilDataCollectionRecord $record)
+	public function fillRowExcel($worksheet, &$row, $record)
 	{
 		$col = 0;
 		foreach($this->table->getFields() as $field)
 		{
 			if($field->isVisible())
 			{
-				$worksheet->writeString($row, $col, $record["record"]->getRecordFieldExportValue($field->getId()));
+				$worksheet->writeString($row, $col, $record["_record"]->getRecordFieldExportValue($field->getId()));
 				$col++;
 			}
 		}
