@@ -966,11 +966,6 @@ class assTextQuestion extends assQuestion
 	 */
 	public function setKeywordRelation($a_relation)
 	{
-		if( !in_array($a_relation, self::getValidScoringModes()) )
-		{
-			throw new ilTestQuestionPoolException('given essay scoring mode is invalid: "'.$a_relation.'"');
-		}
-		
 		$this->keyword_relation = $a_relation;
 	}
 	
