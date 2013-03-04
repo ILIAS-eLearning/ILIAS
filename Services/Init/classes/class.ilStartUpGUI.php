@@ -1341,11 +1341,12 @@ class ilStartUpGUI
 			exit();
 		}
 
+		$hasPublicSection = false;
 		foreach ($list as $key => $client)
 		{
 			$client->setDSN();
-			$hasPublicSection = false;
-			if ($client->checkDatabaseExists() and $client->ini->readVariable("client","access") and $client->getSetting("setup_ok"))
+						
+			if ($client->checkDatabaseExists(true) and $client->ini->readVariable("client","access") and $client->getSetting("setup_ok"))
 			{
 				$this->ctrl->setParameter($this, "client_id", $key);
 				$tmp = array();
@@ -1373,7 +1374,7 @@ class ilStartUpGUI
 		if($hasPublicSection)
 		{
 			$tbl->setTitle("Available Clients");
-			$tbl->setHeaderNames(array("Installation Name","Public Access","Login"));
+			$tbl->setHeaderNames(array("Installation Name","Login","Public Access"));
 			$tbl->setHeaderVars(array("name","index","login"));
 			$tbl->setColumnWidth(array("50%","25%","25%"));
 		}
