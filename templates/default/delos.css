@@ -1439,20 +1439,18 @@ div.il_ButtonGroup
 	display: block;
 }
 
-input.submit, a.submit, a.submit:hover
-{
+input.submit, a.submit, a.submit:hover {
 	font-size: 80%;
-	font-weight:normal;
-	line-height:17px; /* Safari */
-	background-image: url(images/ButtonsBack.png);
-	background-position: bottom;
-	background-repeat:repeat-x;
-	color:#335599;
-	border:1px solid #D0D0D0;
+	font-weight: normal;
+	line-height: 17px; /* Safari */
+	background: url(images/ButtonsBack.png) repeat-x center top;
+	background-size: auto 100%;
+	color: #359;
+	border: 1px solid #D0D0D0;
 	padding: 1px 5px;
 	margin: 0px;
-	text-decoration:none;
-	cursor:pointer;
+	text-decoration: none;
+	cursor: pointer;
 	display: inline-block;
 }
 
