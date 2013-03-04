@@ -92,6 +92,7 @@ class assTextQuestionGUI extends assQuestionGUI
 					
 				case 'non':
 					
+					$this->object->setAnswers(array());
 					$this->object->setPoints($_POST['non_keyword_points']);
 					break;
 				
@@ -401,21 +402,29 @@ class assTextQuestionGUI extends assQuestionGUI
 			
 			foreach ($answers as $answer)
 			{
-				$user_solution .= '<li>'. $answer->getAnswertext() . ' ';
-				$user_solution .= $this->lng->txt('for') . ' ';
-				$user_solution .= $answer->getPoints() . ' ' . $this->lng->txt('points') . '</li>';
+				$user_solution .= '<li>'. $answer->getAnswertext();
+				
+				if( in_array($this->object->getKeywordRelation(), assTextQuestion::getScoringModesWithPointsByKeyword()) )
+				{
+					$user_solution .= ' ' . $this->lng->txt('for') . ' ';
+					$user_solution .= $answer->getPoints() . ' ' . $this->lng->txt('points') . '</li>';
+				}
 			}
 			$user_solution .= '</ul>';
 			
 			$user_solution .= $this->lng->txt('essay_keyword_relation') . ' ';
 			
-			if ($this->object->getKeywordRelation() == 'any')
+			switch( $this->object->getKeywordRelation() )
 			{
-				$user_solution .= $this->lng->txt('essay_keyword_relation_any');
-			}
-			else
-			{
-				$user_solution .= $this->lng->txt('essay_keyword_relation_all');				
+				case 'any':
+					$user_solution .= $this->lng->txt('essay_keyword_relation_any');
+					break;
+				case 'all':
+					$user_solution .= $this->lng->txt('essay_keyword_relation_all');
+					break;
+				case 'one':
+					$user_solution .= $this->lng->txt('essay_keyword_relation_one');
+					break;
 			}
 		}
 		return $user_solution;

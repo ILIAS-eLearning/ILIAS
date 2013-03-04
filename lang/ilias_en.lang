@@ -190,10 +190,13 @@ assessment#:#for#:#for
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:
 assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
-assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
