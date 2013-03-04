@@ -919,7 +919,7 @@ class assTextQuestion extends assQuestion
 		
 		$this->flushAnswers();
 		
-		for ($i = 0; $i < count($answers['answer']); $i++ )
+		for( $i = 0; $i < $count; $i++ )
 		{
 			if($withPoints)
 			{
