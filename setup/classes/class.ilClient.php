@@ -439,7 +439,7 @@ class ilClient
 	* check database connection with database name
 	* @return	boolean
 	*/
-	function checkDatabaseExists()
+	function checkDatabaseExists($a_keep_connection = false)
 	{
 		//try to connect to database
 		$db = $this->db_connections->connectDB($this->dsn);
@@ -451,6 +451,12 @@ class ilClient
 		if (!$this->isInstalledDB($db))
 		{
 			return false;
+		}
+		
+		// #10633
+		if($a_keep_connection)
+		{
+			$GLOBALS["ilDB"] = $this->db;
 		}
 
 		return true;
