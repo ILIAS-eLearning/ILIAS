@@ -171,6 +171,9 @@ class ilDataCollectionField
 	 */
 	public function setTitle($a_title)
 	{
+        //title cannot begin with _ as this is saved for other purposes. make __ instead.
+        if(substr($a_title,0,1) == "_" && substr($a_title, 0, 2) != "__")
+            $a_title = "_".$a_title;
 		$this->title = $a_title;
 	}
 

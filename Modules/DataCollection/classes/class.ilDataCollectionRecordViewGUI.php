@@ -22,9 +22,16 @@ require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewV
 */
 class ilDataCollectionRecordViewGUI
 {
+    /**
+     * @var ilObjDataCollectionGUI
+     */
+    protected $dcl_gui_object;
+
 	public function __construct($a_dcl_object)
 	{
         global $tpl;
+
+        $this->dcl_gui_object = $a_dcl_object;
 
 		$this->record_id = $_GET['record_id'];
 		$this->record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
@@ -137,14 +144,16 @@ class ilDataCollectionRecordViewGUI
         $tpl = new ilTemplate("tpl.reference_list.html", true, true, "Modules/DataCollection");
         $tpl->setCurrentBlock("reference_list");
 
+        if(!$field){
+            if(ilObjDataCollection::_hasWriteAccess($this->dcl_gui_object->ref_id))
+                ilUtil::sendInfo("Bad Viewdefinition at [ext tableOf=\"".$found[1]."\" ...]", true);
+            return;
+        }
+
         foreach($ref_recs as $ref_record){
-            try{
                 $tpl->setCurrentBlock("reference");
                 $tpl->setVariable("CONTENT", $ref_record->getRecordFieldHTML($field->getId()));
                 $tpl->parseCurrentBlock();
-            }catch(ErrorException $e){
-                ilUtil::sendInfo("Bad Viewdefinition", true);
-            }
         }
 
         //$ref_rec->getRecordFieldHTML($field->getId())

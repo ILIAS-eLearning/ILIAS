@@ -80,6 +80,12 @@ class ilDataCollectionRatingField extends ilDataCollectionRecordField{
 			$this->getField()->getId(), "dcl_field");
 	}
 
+    public function getPlainText(){
+        $val = ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record",
+            $this->getField()->getId(), "dcl_field");
+        return $val["avg"];
+    }
+
 	/**
 	  * delete
 	  */

@@ -153,7 +153,13 @@ class ilDataCollectionRecordField
 
 		return $datatype->parseExportValue($this->getValue());
 	}
-	
+
+    /**
+     * @return mixed used for the sorting.
+     */
+    public function getPlainText(){
+        return getExportValue();
+    }
 	
 	/*
 	 * getHTML

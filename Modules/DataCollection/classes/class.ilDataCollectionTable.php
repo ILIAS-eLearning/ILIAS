@@ -313,6 +313,7 @@ class ilDataCollectionTable
 	 * For dates and integers this filter must be of the form array("from" => from, "to" => to). 
 	 * In case of dates from and to have to be ilDateTime objects 
 	 * in case of integers they have to be integers as well.
+     * @return ilDataCollectionRecord[]
 	 */
 	public function getRecordsByFilter($filter)
 	{

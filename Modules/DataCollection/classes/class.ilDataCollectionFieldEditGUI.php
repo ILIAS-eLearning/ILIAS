@@ -39,6 +39,8 @@ class ilDataCollectionFieldEditGUI
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->table_id = $table_id;
+        if(!$table_id)
+            $table_id = $_GET["table_id"];
 
 		if(!isset($field_id))
 			$this->field_id = $_GET['field_id'];
@@ -51,8 +53,9 @@ class ilDataCollectionFieldEditGUI
 		{
 			$this->field_obj = ilDataCollectionCache::getFieldCache();
 			if(!$table_id)
-				$ilCtrl->redirectByClass("ilDataCollectionGUI");
+				$ilCtrl->redirectByClass("ilDataCollectionGUI", "listFields");
 			$this->field_obj->setTableId($table_id);
+            $ilCtrl->saveParameter($this, "table_id");
 		}
 
 		$this->table = ilDataCollectionCache::getTableCache($table_id);
@@ -208,6 +211,7 @@ class ilDataCollectionFieldEditGUI
 
 		$text_prop = new ilTextInputGUI($lng->txt("title"), "title");
 		$text_prop->setRequired(true);
+        $text_prop->setValidationRegexp("/^[a-zA-Z\d -.,]*$/");
 		$this->form->addItem($text_prop);
 
 
@@ -360,7 +364,7 @@ class ilDataCollectionFieldEditGUI
 			return;
 		}
 
-		$this->initForm();
+		$this->initForm($a_mode == "update"?"edit":"create");
 		if ($this->form->checkInput())
 		{
 
