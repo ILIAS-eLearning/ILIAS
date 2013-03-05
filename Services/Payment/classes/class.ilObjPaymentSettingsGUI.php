@@ -383,20 +383,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		 */
 		global $ilTabs;
 		
-		if(!(int)$_GET['pobject_id'])
+		if(isset($_GET['pobject_id']) && $_GET['pobject_id'] > 0)
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
-			return $this->objectsObject();
-		}
 		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
 		$this->__initPaymentObject((int)$_GET['pobject_id']);		
-		
 		$this->lng->loadLanguageModule('content');
 		
 		$ilTabs->clearTargets();
 		$ilTabs->clearSubTabs();
 		$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'editDetails'));
-
 
 		include_once 'Services/COPage/classes/class.ilPageObject.php';
 		include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
@@ -415,6 +410,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				
 		$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
 
+			if(!(int)$_GET['pobject_id'])
+			{
+				ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
+				return $this->objectsObject();
+			}
+			$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
+			$this->__initPaymentObject((int)$_GET['pobject_id']);
+	
 		$page_gui = new ilPageObjectGUI('shop', (int)$this->pobject->getPobjectId());
 		$this->ctrl->setParameter($page_gui, 'pobject_id', (int)$_GET['pobject_id']);
 		$page_gui->setIntLinkHelpDefault('StructureObject', $this->pobject->getPobjectId());
@@ -430,7 +433,54 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$page_gui->setEnabledFileLists(true);
 		$page_gui->setEnabledMaps(true);
 		$page_gui->setEnabledPCTabs(true);
+		}
+		else 
+		{
+			/**
+			 * @var $lng $lng
+			 * @var $ilCtrl ilCtrl
+			 */
+			global $lng, $ilCtrl;
 
+			$ilTabs->clearTargets();
+			$ilTabs->setBackTarget($lng->txt('back'), $this->ctrl->getLinkTarget($this), '_top');
+
+			// page object
+			include_once 'Services/COPage/classes/class.ilPageObject.php';
+			include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+
+			$lng->loadLanguageModule('content');
+
+			include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+			$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
+
+			if(!ilPageObject::_exists('shop', self::CONDITIONS_EDITOR_PAGE_ID))
+			{
+				// doesn't exist -> create new one
+				$new_page_object = new ilPageObject('shop');
+				$new_page_object->setParentId(0);
+				$new_page_object->setId(self::CONDITIONS_EDITOR_PAGE_ID);
+				$new_page_object->createFromXML();
+			}
+
+			$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
+
+			$page_gui = new ilPageObjectGUI('shop', self::CONDITIONS_EDITOR_PAGE_ID);
+			$page_gui->setIntLinkHelpDefault('StructureObject', self::CONDITIONS_EDITOR_PAGE_ID);
+			$page_gui->setTemplateTargetVar('ADM_CONTENT');
+			$page_gui->setLinkXML('');
+			$page_gui->setFileDownloadLink($ilCtrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
+			$page_gui->setFullscreenLink($ilCtrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
+			$page_gui->setSourcecodeDownloadScript($ilCtrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
+			$page_gui->setPresentationTitle('');
+			$page_gui->setTemplateOutput(false);
+			$page_gui->setHeader('');
+			$page_gui->setEnabledRepositoryObjects(false);
+			$page_gui->setEnabledFileLists(true);
+			$page_gui->setEnabledMaps(true);
+			$page_gui->setEnabledPCTabs(true);
+		}
+		
 		return $this->ctrl->forwardCommand($page_gui);
 	}
 	
@@ -720,7 +770,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		// Fill table cells
 		/** 
-		 * @var $tpl ilTemplate 
+		 * @var object $tpl ilTemplate 
 		 */
 		$tpl = new ilTemplate('tpl.table.html',true,true);
 
@@ -807,6 +857,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			
 	public function addPriceObject()
 	{
+		/**
+		 * @var $ilToolbar ilToolbarGUI
+		 */
 		global $ilToolbar;
 		
 		if(!$_GET['pobject_id'])
@@ -2237,7 +2290,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	/**
 	* get tabs
 	* @access	public
-	* @param	object	ilTabs gui object
+	* @param	object	ilTabsGUI gui object
 	*/
 	public function getTabs($tabs_gui)
 	{
@@ -2366,7 +2419,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 	}
 
-	public function generalSettingsObject($a_show_confirm = false)
+	public function generalSettingsObject()
 	{	
 		global $rbacsystem, $ilSetting;
 
