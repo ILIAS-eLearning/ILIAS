@@ -1197,9 +1197,19 @@ class ilForum
 		{
 		    $statistic[$counter][] = $row['ranking'];
 		    $statistic[$counter][] = $row['login'];
-		    $statistic[$counter][] = ($row['value'] != 'y' ? '' : $row['lastname']);
-		    $statistic[$counter][] = ($row['value'] != 'y' ? '' : $row['firstname']);
-		    
+
+			$lastname ='';
+			$firstname = '';
+			if(!$ilUser->isAnonymous() && in_array($row['value'], array('y', 'g')) ||
+			    $ilUser->isAnonymous() && 'g' == $row['value'])
+			{
+				$lastname = $row['lastname'];
+				$firstname = $row['firstname'];
+			}
+
+			$statistic[$counter][] = $lastname;
+		    $statistic[$counter][] = $firstname;
+			
 		    ++$counter;
 		}	  
 			  
