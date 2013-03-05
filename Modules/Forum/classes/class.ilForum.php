@@ -1849,36 +1849,45 @@ class ilForum
 
 			$tmp_mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$message = $tmp_mail_obj->sendMail($tmp_user->getLogin(),"","",
-											   $this->__formatSubject($thread_data),
-											   $this->__formatMessage($thread_data, $post_data),
+											  	$this->formatNotificationSubject($post_data),
+											   $this->__formatMessage($thread_data, $post_data, $tmp_user),
 											   array(),array("system"));
 
 			unset($tmp_user);
 			unset($tmp_mail_obj);
 		}
 	}
-	
-	function __formatSubject($thread_data)
-	{
-		return $this->lng->txt("forums_notification_subject");		
-	}
-	
-	function __formatMessage($thread_data, $post_data = array())
+
+	/**
+	 * generates the notificiation message, if a post has been answered
+	 * 
+	 * @param array $thread_data
+	 * @param array $post_data
+	 * @param object $user_obj ilObjUser
+	 * @return string
+	 */
+	private function __formatMessage($thread_data, $post_data = array(), $user_obj)
 	{
 		include_once "./Services/Object/classes/class.ilObjectFactory.php";
+		$user_lang = self::_getLanguageInstanceByUsrId($user_obj->getId());
 		
 		$frm_obj =& ilObjectFactory::getInstanceByRefId($this->getForumRefId());
 		$title = $frm_obj->getTitle();
 		unset($frm_obj);
 		
-		$message = $this->lng->txt("forum").": ".$title." -> ".$thread_data["thr_subject"]."\n\n";
-		$message .= $this->lng->txt("forum_post_replied");
+		$message = '';
+		$message .= $this->lng->txt(ilMail::getSalutation($user_obj->getId, $user_lang));
 		
+		$message .= "\n\n";
+		$message .= $this->lng->txt("forum_post_replied");	
+		$message .= $this->lng->txt("forum").": ".$title." -> ".$thread_data["thr_subject"]."\n\n";
+
 		$message .= "\n------------------------------------------------------------\n";
 		$message .= $post_data["pos_message"];
 		$message .= "\n------------------------------------------------------------\n";
-		$message .= sprintf($this->lng->txt("forums_notification_show_post"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"].'&client_id='.CLIENT_ID);
+		$message .= sprintf($this->lng->txt("forums_notification_show_post"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"].'&client_id='.CLIENT_ID)."\n\n";
 		
+		$message .= ilMail::_getInstallationSignature(); 
 		return $message;
 	}
 
@@ -2150,7 +2159,7 @@ class ilForum
 				// SEND NOTIFICATIONS BY E-MAIL
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
-												   strip_tags($this->formatNotification($post_data, 0, $attachments)),
+												   strip_tags($this->formatNotification($post_data, 0, $attachments),$row['user_id']),
 												  array(),array("system"));
 			}
 		}
@@ -2245,27 +2254,27 @@ class ilForum
 				// SEND NOTIFICATIONS BY E-MAIL			
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
-												   strip_tags($this->formatNotification($post_data, 0, $attachments)),
+												   strip_tags($this->formatNotification($post_data, 0, $attachments, $row['user_id'])),
 												   array(),array("system"));
-			
 			}
 		}
 		
 		// reset language
 		$this->setLanguage($userLanguage);
 	}
-	
-	function formatPostActivationNotificationSubject()
-	{
-		return $this->lng->txt('forums_notification_subject');
-	}
-	
-	function formatPostActivationNotification($post_data)
-	{		
-		$message = sprintf($this->lng->txt('forums_notification_intro'),
-								$this->ilias->ini->readVariable('client', 'name'),
-								ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
 
+	/**
+	 * @param $post_data
+	 * @param $user_id
+	 * @return string
+	 */
+	private function formatPostActivationNotification($post_data, $user_id)
+	{		
+		$user_lang = self::_getLanguageInstanceByUsrId($user_id);
+		
+		$message = "";
+		$message .= ilMail::getSalutation($user_id, $user_lang);
+		$message .= "\n\n";
 		$message .= $this->lng->txt('forums_post_activation_mail')."\n\n";
 		
 		$message .= $this->lng->txt("forum").": ".$post_data["top_name"]."\n\n";
@@ -2284,8 +2293,10 @@ class ilForum
 		}
 		$message .= "------------------------------------------------------------\n";
 	
-		$message .= sprintf($this->lng->txt('forums_notification_show_post'), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID);
-
+		$message .= sprintf($this->lng->txt('forums_notification_show_post'), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID)."\n\n";
+		$message .= sprintf($this->lng->txt('forums_notification_intro'),
+			$this->ilias->ini->readVariable('client', 'name'),
+			ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
 
 		return $message;
 	}
@@ -2334,8 +2345,8 @@ class ilForum
 				// set forum language instance for earch user
 				$this->setLanguage(self::_getLanguageInstanceByUsrId($moderator));
 				
-				$subject = $this->formatPostActivationNotificationSubject();
-				$message = $this->formatPostActivationNotification($post_data);
+				$subject = $this->formatNotificationSubject($post_data);
+				$message = $this->formatPostActivationNotification($post_data, $moderator);
 //@todo possible fix for mantis	9733 --> not confirmed yet!			
 //				$message = preg_replace('/<br(\s+)?\>/i', "\\n", $message);
 				
@@ -2350,7 +2361,11 @@ class ilForum
 		}
 	}
 
-	function formatNotificationSubject($post_data)
+	/**
+	 * @param array $post_data use $post_data['top_name'] for forum-title
+	 * @return string
+	 */
+	public function formatNotificationSubject($post_data)
 	{
 		return $this->lng->txt("forums_notification_subject").' '.$post_data['top_name'];
 	}
@@ -2359,30 +2374,28 @@ class ilForum
 	 * @param      $post_data
 	 * @param int  $cron
 	 * @param array $attachments 
+	 * @param int 	$user_id 	user_id of mail-recipient
 	 * @return string
 	 */
-	function formatNotification($post_data, $cron = 0, $attachments = array())
+	private function formatNotification($post_data, $cron = 0, $attachments = array(), $user_id)
 	{
 		global $ilIliasIniFile;
 
-		if ($cron == 1)
-		{
-			$message = sprintf($this->lng->txt("forums_notification_intro"),
-								$this->ilias->ini->readVariable("client","name"),
-								$ilIliasIniFile->readVariable("server","http_path").'/?client_id='.CLIENT_ID)."\n\n";
-		}
-		else
-		{
-			$message = sprintf($this->lng->txt("forums_notification_intro"),
-								$this->ilias->ini->readVariable("client","name"),
-								ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
-		}
+		$user_lang = self::_getLanguageInstanceByUsrId($user_id);
+		
+		$message = "";
+
+		$message .= ilMail::getSalutation($user_id, $user_lang);
+		$message .= "\n\n";
+		$message .= $this->lng->txt("forums_notification_subject")." ".$post_data['top_name']."\n\n";
+		
 		$message .= $this->lng->txt("forum").": ".$post_data["top_name"]."\n\n";
 		$message .= $this->lng->txt("thread").": ".$post_data["thr_subject"]."\n\n";
 		$message .= $this->lng->txt("new_post").":\n------------------------------------------------------------\n";
 		$message .= $this->lng->txt("author").": ".$post_data["pos_usr_name"]."\n";
 		$message .= $this->lng->txt("date").": ".$post_data["pos_date"]."\n";
 		$message .= $this->lng->txt("subject").": ".$post_data["pos_subject"]."\n\n";
+		
 		if ($post_data["pos_cens"] == 1)
 		{	
 			$message .= $post_data["pos_cens_com"]."\n";
@@ -2395,22 +2408,36 @@ class ilForum
 			$message .= $post_data["pos_message"]."\n";
 		}
 		$message .= "------------------------------------------------------------\n";
-		if ($cron == 1)
-		{
-			$message .= sprintf($this->lng->txt("forums_notification_show_post"), $ilIliasIniFile->readVariable("server","http_path")."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID);
-		}
-		else
-		{
-			$message .= sprintf($this->lng->txt("forums_notification_show_post"), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID);
-		}
 
 		if(count($attachments) > 0)
 		{
-			$message .= "\n------------------------------------------------------------\n";
 			foreach($attachments as $attachment)
 			{
 				$message .= $this->lng->txt('attachment').": ".$attachment."\n";
 			}
+			$message .= "\n------------------------------------------------------------\n";
+		}
+		
+		if ($cron == 1)
+		{
+			$message .= sprintf($this->lng->txt("forums_notification_show_post"), $ilIliasIniFile->readVariable("server","http_path")."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID)."\n\n";
+		}
+		else
+		{
+			$message .= sprintf($this->lng->txt("forums_notification_show_post"), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID)."\n\n";
+		}
+
+		if ($cron == 1)
+		{
+			$message .= sprintf($this->lng->txt("forums_notification_intro"),
+				$this->ilias->ini->readVariable("client","name"),
+				$ilIliasIniFile->readVariable("server","http_path").'/?client_id='.CLIENT_ID)."\n\n";
+		}
+		else
+		{
+			$message .= sprintf($this->lng->txt("forums_notification_intro"),
+				$this->ilias->ini->readVariable("client","name"),
+				ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
 		}
 		
 		return $message;
