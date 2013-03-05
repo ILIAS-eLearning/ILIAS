@@ -1648,40 +1648,43 @@ class ilObjectListGUI
 		$props = $this->getProperties($a_item);
 		$props = $this->getCustomProperties($props);
 		
-		// add activation custom property	
-		$act_item = array("ref_id" => $this->ref_id,
-			"obj_id" => $this->obj_id,
-			"type" => $this->type);
-		include_once "Services/Object/classes/class.ilObjectActivation.php";
-		$activation = ilObjectActivation::getListGUIProperties($act_item);		
-		if($activation)
-		{	
-			$props[] = array("alert" => false,
-				"property" => $lng->txt($activation[0]),
-				"value" => $activation[1],
-				"newline" => true);	
-		}
-		
-		// add learning progress custom property		
-		include_once "Services/Tracking/classes/class.ilLPStatus.php";
-		$lp = ilLPStatus::getListGUIStatus($this->obj_id);
-		if($lp)
-		{										
-			$props[] = array("alert" => false,
-				"property" => $lng->txt("learning_progress"),
-				"value" => $lp,
-				"newline" => true);	
-		}
+		if($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING)
+		{			
+			// add activation custom property	
+			$act_item = array("ref_id" => $this->ref_id,
+				"obj_id" => $this->obj_id,
+				"type" => $this->type);
+			include_once "Services/Object/classes/class.ilObjectActivation.php";
+			$activation = ilObjectActivation::getListGUIProperties($act_item);		
+			if($activation)
+			{	
+				$props[] = array("alert" => false,
+					"property" => $lng->txt($activation[0]),
+					"value" => $activation[1],
+					"newline" => true);	
+			}
 
-		// add no item access note in public section
-		// for items that are visible but not readable
-		if ($this->ilias->account->getId() == ANONYMOUS_USER_ID)
-		{
-			if (!$ilAccess->checkAccess("read", "", $this->ref_id, $this->type, $this->obj_id))
+			// add learning progress custom property		
+			include_once "Services/Tracking/classes/class.ilLPStatus.php";
+			$lp = ilLPStatus::getListGUIStatus($this->obj_id);
+			if($lp)
+			{										
+				$props[] = array("alert" => false,
+					"property" => $lng->txt("learning_progress"),
+					"value" => $lp,
+					"newline" => true);	
+			}			
+			
+			// add no item access note in public section
+			// for items that are visible but not readable
+			if ($this->ilias->account->getId() == ANONYMOUS_USER_ID)
 			{
-				$props[] = array("alert" => true,
-					"value" => $lng->txt("no_access_item_public"),
-					"newline" => true);
+				if (!$ilAccess->checkAccess("read", "", $this->ref_id, $this->type, $this->obj_id))
+				{
+					$props[] = array("alert" => true,
+						"value" => $lng->txt("no_access_item_public"),
+						"newline" => true);
+				}
 			}
 		}
 		
