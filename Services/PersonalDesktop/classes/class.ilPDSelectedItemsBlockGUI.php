@@ -427,13 +427,17 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		if(count($items) > 0)
 		{
 			// preload object data cache
-			$ref_ids = array();
+			$ref_ids = $obj_ids = array();
 			foreach($items as $item)
 			{
 				$ref_ids[] = $item['ref_id'];
+				$obj_ids[] = $item['obj_id'];
 			}
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
+			
+			include_once "Services/Tracking/classes/class.ilLPStatus.php";
+			ilLPStatus::preloadListGUIData($obj_ids);
 			
 			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::preloadData($ref_ids);		
@@ -568,13 +572,17 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$items = $this->getObjectsByMembership($type);
 //var_dump($items);
 			// preload object data cache
-			$ref_ids = array();
+			$ref_ids = $obj_ids = array();
 			foreach($items as $item)
 			{
 				$ref_ids[] = $item['ref_id'];
+				$obj_ids[] = $item["obj_id"];
 			}
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
+			
+			include_once "Services/Tracking/classes/class.ilLPStatus.php";
+			ilLPStatus::preloadListGUIData($obj_ids);
 			
 			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::preloadData($ref_ids);		
@@ -765,14 +773,18 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		if (count($items) > 0)
 		{
 			// preload object data cache
-			$ref_ids = array();
+			$ref_ids = $obj_ids = array();
 			foreach($items as $item)
 			{
 				$ref_ids[] = $item["ref_id"];
+				$obj_ids[] = $item["obj_id"];
 			}
 			$tree->preloadDeleted($ref_ids);
 			$tree->preloadDepthParent($ref_ids);
 			$ilObjDataCache->preloadReferenceCache($ref_ids, true);
+			
+			include_once "Services/Tracking/classes/class.ilLPStatus.php";
+			ilLPStatus::preloadListGUIData($obj_ids);
 						
 			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::preloadData($ref_ids);					
@@ -942,15 +954,19 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		if (count($items) > 0)
 		{
 			// preload object data cache
-			$ref_ids = array();
+			$ref_ids = $obj_ids = array();
 			foreach($items as $item)
 			{
 				$ref_ids[] = $item["ref_id"];
+				$obj_ids[] = $item["obj_id"];
 			}
 			reset($items);
 			$tree->preloadDeleted($ref_ids);
 			$tree->preloadDepthParent($ref_ids);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
+			
+			include_once "Services/Tracking/classes/class.ilLPStatus.php";
+			ilLPStatus::preloadListGUIData($obj_ids);
 			
 			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::preloadData($ref_ids);					

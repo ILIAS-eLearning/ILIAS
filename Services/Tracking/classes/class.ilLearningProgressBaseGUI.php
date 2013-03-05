@@ -202,13 +202,15 @@ class ilLearningProgressBaseGUI
 
 					}
 
+					/*
 					if ($this->statistics_activated)
 					{
 						$this->tabs_gui->addSubTabTarget('trac_lm_statistics',
 														 $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''),
 														 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);
 					}
-
+					*/ 
+					
 					if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'htlm', 'exc')))
 					{
 						// do not show status if learning progress is deactivated

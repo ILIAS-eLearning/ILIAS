@@ -33,6 +33,8 @@ class ilLPStatus
 	var $obj_id = null;
 
 	var $db = null;
+	
+	static $list_gui_cache;
 
 	function ilLPStatus($a_obj_id)
 	{
@@ -667,6 +669,93 @@ class ilLPStatus
 	public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
 	{
 		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+	}
+	
+	public static function preloadListGUIData($a_obj_ids)
+	{
+		global $ilDB, $ilUser, $lng;
+		
+		$res = array();
+		
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if($ilUser->getId() != ANONYMOUS_USER_ID &&
+			ilObjUserTracking::_enabledLearningProgress() &&
+			ilObjUserTracking::_hasLearningProgressListGUI())
+		{								
+			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+			
+			// validate objects
+			$valid = $existing = array();
+			$sql = "SELECT obj_id, u_mode FROM ut_lp_settings".
+				" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer");
+			$set = $ilDB->query($sql);
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$existing[] = $row["obj_id"];
+												
+				if($row["u_mode"] != LP_MODE_DEACTIVATED)
+				{
+					$valid[] = $row["obj_id"];
+				}
+			}
+			
+			// missing objects?	
+			if(sizeof($existing) != sizeof($a_obj_ids))
+			{								
+				foreach(array_diff($a_obj_ids, $existing) as $obj_id)
+				{
+					$mode = ilLPObjSettings::__getDefaultMode($obj_id, ilObject::_lookupType($obj_id));
+					if($mode != LP_MODE_UNDEFINED)
+					{
+						$valid[] = $obj_id;
+					}
+				}
+				unset($existing);
+			}
+			
+			// get user lp data			
+			$sql = "SELECT status, status_dirty, obj_id FROM ut_lp_marks".			
+				" WHERE ".$ilDB->in("obj_id", $valid, "", "integer").
+				" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer");
+			$set = $ilDB->query($sql);
+			while($row = $ilDB->fetchAssoc($set))
+			{				
+				if(!$row["status_dirty"])
+				{				
+					$res[$row["obj_id"]] = $row["status"];				
+				}
+				else
+				{
+					$res[$row["obj_id"]] = self::_lookupStatus($row["obj_id"], $ilUser->getId());
+				}
+			}
+			
+			// add not attempted for missing user entries
+			foreach($valid as $obj_id)
+			{
+				if(!isset($res[$obj_id]))
+				{
+					$res[$obj_id] = LP_STATUS_NOT_ATTEMPTED_NUM;
+				}
+			}
+
+			// value to icon
+			$lng->loadLanguageModule("trac");		
+			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+			foreach($res as $obj_id => $status)
+			{			
+				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+				$text = ilLearningProgressBaseGUI::_getStatusText($status);
+				$res[$obj_id] = ilUtil::img($path, $text);
+			}
+		}
+		
+		self::$list_gui_cache = $res;		
+	}
+	
+	public static function getListGUIStatus($a_obj_id)
+	{
+		return self::$list_gui_cache[$a_obj_id];
 	}
 }	
 ?>

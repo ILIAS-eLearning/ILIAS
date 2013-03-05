@@ -22,6 +22,8 @@ class ilObjUserTracking extends ilObject
 	var $learning_progress;
 	var $tracking_user_related;
 	var $object_statistics_enabled;
+	var $lp_list_gui;
+	var $lp_learner;
 
 	// BEGIN ChangeEvent
 	/**
@@ -183,6 +185,7 @@ class ilObjUserTracking extends ilObject
 		$ilSetting->set("object_statistics", (int)$this->enabledObjectStatistics());		
 		// $ilSetting->set("lp_desktop", (int)$this->hasLearningProgressDesktop());
 		$ilSetting->set("lp_learner", (int)$this->hasLearningProgressLearner());
+		$ilSetting->set("lp_list_gui", (int)$this->hasLearningProgressListGUI());
 
 		// BEGIN ChangeEvent
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
@@ -212,6 +215,7 @@ class ilObjUserTracking extends ilObject
 		$this->setValidTimeSpan($ilSetting->get("tracking_time_span", self::DEFAULT_TIME_SPAN));
 		// $this->setLearningProgressDesktop($ilSetting->get("lp_desktop"), 1);
 		$this->setLearningProgressLearner($ilSetting->get("lp_learner"), 1);
+		$this->setLearningProgressListGUI($ilSetting->get("lp_list_gui"), 0);
 
 		// BEGIN ChangeEvent
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
@@ -291,6 +295,23 @@ class ilObjUserTracking extends ilObject
 		global $ilias;
 		
 		return (bool)$ilias->getSetting("lp_learner");
+	}
+	
+	function setLearningProgressListGUI($a_value)
+	{
+		$this->lp_list_gui = (bool)$a_value;
+	}
+	
+	function hasLearningProgressListGUI()
+	{
+		return (bool)$this->lp_list_gui;
+	}
+	
+	static function _hasLearningProgressListGUI()
+	{
+		global $ilias;
+		
+		return (bool)$ilias->getSetting("lp_list_gui");
 	}
 
 } // END class.ilObjUserTracking
