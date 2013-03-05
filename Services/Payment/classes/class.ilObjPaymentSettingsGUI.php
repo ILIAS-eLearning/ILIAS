@@ -383,54 +383,104 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		 */
 		global $ilTabs;
 		
-		if(!(int)$_GET['pobject_id'])
+		if(isset($_GET['pobject_id']) && $_GET['pobject_id'] > 0)
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
-			return $this->objectsObject();
+			$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
+			$this->__initPaymentObject((int)$_GET['pobject_id']);		
+			$this->lng->loadLanguageModule('content');
+			
+			$ilTabs->clearTargets();
+			$ilTabs->clearSubTabs();
+			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'editDetails'));
+	
+			include_once 'Services/COPage/classes/class.ilPageObject.php';
+			include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+			include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+			
+			$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
+	
+			if(!ilPageObject::_exists('shop', (int)$this->pobject->getPobjectId()))
+			{
+				// doesn't exist -> create new one
+				$new_page_object = new ilPageObject('shop');
+				$new_page_object->setParentId(0);
+				$new_page_object->setId($this->pobject->getPobjectId());
+				$new_page_object->createFromXML();
+			}
+					
+			$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
+	
+			if(!(int)$_GET['pobject_id'])
+			{
+				ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
+				return $this->objectsObject();
+			}
+			$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
+			$this->__initPaymentObject((int)$_GET['pobject_id']);
+	
+			$page_gui = new ilPageObjectGUI('shop', (int)$this->pobject->getPobjectId());
+			$this->ctrl->setParameter($page_gui, 'pobject_id', (int)$_GET['pobject_id']);
+			$page_gui->setIntLinkHelpDefault('StructureObject', $this->pobject->getPobjectId());
+			$page_gui->setTemplateTargetVar('ADM_CONTENT');
+			$page_gui->setLinkXML('');
+			$page_gui->setFileDownloadLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
+			$page_gui->setFullscreenLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
+			$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
+			$page_gui->setPresentationTitle('');
+			$page_gui->setTemplateOutput(false);
+			$page_gui->setHeader('');
+			$page_gui->setEnabledRepositoryObjects(false);
+			$page_gui->setEnabledFileLists(true);
+			$page_gui->setEnabledMaps(true);
+			$page_gui->setEnabledPCTabs(true);
 		}
-		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
-		$this->__initPaymentObject((int)$_GET['pobject_id']);		
-		
-		$this->lng->loadLanguageModule('content');
-		
-		$ilTabs->clearTargets();
-		$ilTabs->clearSubTabs();
-		$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'editDetails'));
-
-
-		include_once 'Services/COPage/classes/class.ilPageObject.php';
-		include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
-		include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
-		
-		$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
-
-		if(!ilPageObject::_exists('shop', (int)$this->pobject->getPobjectId()))
+		else 
 		{
-			// doesn't exist -> create new one
-			$new_page_object = new ilPageObject('shop');
-			$new_page_object->setParentId(0);
-			$new_page_object->setId($this->pobject->getPobjectId());
-			$new_page_object->createFromXML();
+			/**
+			 * @var $lng $lng
+			 * @var $ilCtrl ilCtrl
+			 */
+			global $lng, $ilCtrl;
+
+			$ilTabs->clearTargets();
+			$ilTabs->setBackTarget($lng->txt('back'), $this->ctrl->getLinkTarget($this), '_top');
+
+			// page object
+			include_once 'Services/COPage/classes/class.ilPageObject.php';
+			include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+
+			$lng->loadLanguageModule('content');
+
+			include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+			$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
+
+			if(!ilPageObject::_exists('shop', self::CONDITIONS_EDITOR_PAGE_ID))
+			{
+				// doesn't exist -> create new one
+				$new_page_object = new ilPageObject('shop');
+				$new_page_object->setParentId(0);
+				$new_page_object->setId(self::CONDITIONS_EDITOR_PAGE_ID);
+				$new_page_object->createFromXML();
+			}
+
+			$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
+
+			$page_gui = new ilPageObjectGUI('shop', self::CONDITIONS_EDITOR_PAGE_ID);
+			$page_gui->setIntLinkHelpDefault('StructureObject', self::CONDITIONS_EDITOR_PAGE_ID);
+			$page_gui->setTemplateTargetVar('ADM_CONTENT');
+			$page_gui->setLinkXML('');
+			$page_gui->setFileDownloadLink($ilCtrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
+			$page_gui->setFullscreenLink($ilCtrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
+			$page_gui->setSourcecodeDownloadScript($ilCtrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
+			$page_gui->setPresentationTitle('');
+			$page_gui->setTemplateOutput(false);
+			$page_gui->setHeader('');
+			$page_gui->setEnabledRepositoryObjects(false);
+			$page_gui->setEnabledFileLists(true);
+			$page_gui->setEnabledMaps(true);
+			$page_gui->setEnabledPCTabs(true);
 		}
-				
-		$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
-
-		$page_gui = new ilPageObjectGUI('shop', (int)$this->pobject->getPobjectId());
-		$this->ctrl->setParameter($page_gui, 'pobject_id', (int)$_GET['pobject_id']);
-		$page_gui->setIntLinkHelpDefault('StructureObject', $this->pobject->getPobjectId());
-		$page_gui->setTemplateTargetVar('ADM_CONTENT');
-		$page_gui->setLinkXML('');
-		$page_gui->setFileDownloadLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
-		$page_gui->setFullscreenLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
-		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
-		$page_gui->setPresentationTitle('');
-		$page_gui->setTemplateOutput(false);
-		$page_gui->setHeader('');
-		$page_gui->setEnabledRepositoryObjects(false);
-		$page_gui->setEnabledFileLists(true);
-		$page_gui->setEnabledMaps(true);
-		$page_gui->setEnabledPCTabs(true);
-
+		
 		return $this->ctrl->forwardCommand($page_gui);
 	}
 	
@@ -720,7 +770,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		// Fill table cells
 		/** 
-		 * @var $tpl ilTemplate 
+		 * @var object $tpl ilTemplate 
 		 */
 		$tpl = new ilTemplate('tpl.table.html',true,true);
 
@@ -807,6 +857,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			
 	public function addPriceObject()
 	{
+		/**
+		 * @var $ilToolbar ilToolbarGUI
+		 */
 		global $ilToolbar;
 		
 		if(!$_GET['pobject_id'])
@@ -2237,7 +2290,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	/**
 	* get tabs
 	* @access	public
-	* @param	object	ilTabs gui object
+	* @param	object	ilTabsGUI gui object
 	*/
 	public function getTabs($tabs_gui)
 	{
@@ -2366,7 +2419,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 	}
 
-	public function generalSettingsObject($a_show_confirm = false)
+	public function generalSettingsObject()
 	{	
 		global $rbacsystem, $ilSetting;
 
@@ -2595,6 +2648,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$genSet->set('objects_allow_custom_sorting', $_POST['objects_allow_custom_sorting'], 'gui');
 		$genSet->set('hide_coupons', $_POST['hide_coupons'], 'gui');
 		$genSet->set('hide_news', $_POST['hide_news'], 'gui');
+		
+		if( (int)$_POST['hide_news']  == 0 )
+		{
+			if( (int)$ilSetting->get('payment_news_archive_period') == 0)
+			{
+				$ilSetting->set('payment_news_archive_period', '5');
+			}
+		}
+		
 		$genSet->set('hide_shop_info', $_POST['hide_shop_info'], 'gui');
 		$genSet->set('use_shop_specials', $_POST['use_shop_specials'], 'gui');
 		$genSet->set('show_general_filter', $_POST['show_general_filter'], 'gui');
@@ -2619,388 +2681,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->generalSettingsObject();
 		return true;
 	}
-
-	/*
-  * Genereates the EPAY setup form
-  */
-  public function epaySettingsObject($a_show_confirm = false)
-  {
-//    global $rbacsystem;
-//		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
-//		{
-//			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilErr->MESSAGE);
-//		}
-//
-//		include_once './Services/Payment/classes/class.ilEPaySettings.php';
-//
-//		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pays_epay_settings.html','Services/Payment');
-//		
-//		$ePayObj = ilEPaySettings::getInstance();
-//		
-//		$ep = $ePayObj->getAll();
-//				
-//		$form = new ilPropertyFormGUI();
-//		$form->setFormAction($this->ctrl->getFormAction($this, 'saveEPaySettings'));
-//		$form->setTitle($this->lng->txt('pays_epay_settings'));
-//		
-//		$form->addCommandButton('saveEPaySettings',$this->lng->txt('save'));
-//		
-//	    $fields = array (
-//	      array('pays_epay_server_host', 'server_host',  true, null),
-//	      array('pays_epay_server_path', 'server_path', true, null),
-//	      array('pays_epay_merchant_number', 'merchant_number', true, null),
-//	      array('pays_epay_auth_token', 'auth_token', true, 'pays_epay_auth_token_info'),
-//	      array('pays_epay_auth_email', 'auth_email', true, 'pays_epay_auth_email_info')
-//	    );
-//		
-//		foreach ($fields as $f)
-//		{
-//	      $fi = new ilTextInputGUI($this->lng->txt($f[0]), $f[1]);
-//	      $fi->setValue($ep[$f[1]]);
-//	      $fi->setRequired($f[2]);
-//	      if ($f[3] != null ) $fi->setInfo($this->lng->txt($f[3]));
-//	      if ($f[1] == 'auth_token') $fi->setInputType('password');
-//	      $form->addItem($fi);		
-//		}		
-//
-//		$formItem = new ilCheckboxInputGUI($this->lng->txt('pays_epay_instant_capture'), 'instant_capture');
-//		$formItem->setChecked($ep['instant_capture'] == 1);
-//		$formItem->setInfo($this->lng->txt('pays_epay_instant_capture_info'));
-//		$form->addItem($formItem);
-//			
-//		$this->tpl->setVariable('EPAY_INFO', $this->lng->txt('pays_epay_info'));
-//		$this->tpl->setVariable('EPAY_SETTINGS',$form->getHTML());		
-	}
-
-  	public function saveEPaySettingsObject()
-	{
-//		include_once './Services/Payment/classes/class.ilEPaySettings.php';
-//		global $rbacsystem;
-//		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
-//		{
-//			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilErr->MESSAGE);
-//		}
-//		
-//		$epSet = ilEPaySettings::getInstance();
-//		
-//		$arr = ilUtil::stripSlashesArray( array ($_POST['server_host'], $_POST['server_path'], $_POST['merchant_number'],
-//      	$_POST['auth_token'], $_POST['auth_email']));    
-//   	 	$arr['instant_capture'] = isset($_POST['instant_capture']) ? 1 : 0;
-//		
-//		$epSet->setAll($arr);
-//		
-//		if (!$epSet->valid()) 
-//		{
-//			$this->error = $this->lng->txt('pays_epay_settings_not_valid');
-//			ilUtil::sendFailure($this->error);
-//			$this->epaySettingsObject();
-//			return true;
-//		}
-//		
-//		$epSet->save();
-//		ilUtil::sendSuccess($this->lng->txt('pays_updated_epay_settings'));
-//				
-//		$this->epaySettingsObject();
-//		return true;
-	}
-
-	/*
-	* Generate the ERP setup form for display
-	*
-	*/	
-	private function getERPform_eco(&$op, $erps_id = 0)
-	{
-//	    $erp = new ilERP_eco();
-//	    $erp->loadSettings($erps_id);
-//	    $set = $erp->getSettings(0);
-//	    
-//	    $fields = array(
-//	      array("pays_eco_agreement", "agreement", 10),
-//	      array("username", "username", 16),
-//	      array("password", "password", 16),
-//	      array("pays_eco_product_number", "product", 6),
-//	      array("pays_eco_payment_terms", "terms", 6),
-//	      array("pays_eco_layout", "layout", 6), 
-//	      array("pays_eco_cur_handle_code", "code", 3)
-//	    );
-//	    
-//	    foreach ($fields as $f)
-//	    {
-//	      $txt = new ilTextInputGUI($this->lng->txt($f[0]), $f[1]);
-//	      $txt->setMaxLength($f[2]);
-//	      $txt->setValue($set[$f[1]]);
-//	      if ($f[0] == 'password') $txt->setInputType('password');
-//	      $op->addSubItem($txt);
-//	    }
-	}
 	
-	private function getERPform_none(&$op, $erps_id = 0)
-	{
-	
-	}
-	
-
-	/**
-	* Generates the settings form for ERP
-	*
-	*/	
-	private function getERPform()
-	{
-//
-//	    require_once './Services/Payment/classes/class.ilERP_eco.php';
-//	      
-//	    $systems = ilERP::getAllERPs();
-//	    $active = ilERP::getActive();    
-//	
-//	    $frm = new ilPropertyFormGUI();
-//	    
-//		$frm->setFormAction($this->ctrl->getFormAction($this, 'saveEEPsettings'));		
-//		$frm->setTitle($this->lng->txt('pays_erp_settings'));		
-//	
-//		if (ilERP::preview_exists()) 
-//		{
-//			$preview_link = "<br/><a href='". ilERP::getPreviewUrl() ."' target='_blank'>" . $this->lng->txt('pays_erp_invoice_preview') . "</a>";
-//			$frm->addCommandButton('delERPpreview', $this->lng->txt('pays_erp_invoice_delpreview') );
-//	    }		
-//		
-//		$frm->addCommandButton('saveERPsettings',$this->lng->txt('save'));		
-//		$frm->addCommandButton('testERPsettings',$this->lng->txt('test'));		
-//		
-//		$savepdf = new ilCheckboxInputGUI($this->lng->txt('pays_erp_invoice_copies'), 'save_copy');		
-//		$chk =     new ilCheckboxInputGUI($this->lng->txt('enable_ean'),    'use_ean');
-//		
-//		$savepdf->setDisabled( $active['erp_id']  == ERP_NONE);        
-//    	$chk->setDisabled( $active['erp_id'] == ERP_NONE);
-//
-//   	 	$rdo = new ilRadioGroupInputGUI($this->lng->txt("pays_erp_system"), "erp_id");
-//		$rdo->setInfo("The ERP is currently in development");   
-//		
-//		$rdo->setValue($active['erp_id']);
-//
-//    	foreach ($systems as $system)
-//		{
-//			$desc = $system['description'];
-//			$desc .= empty($system['url']) ? '' : ' <a href="'.$system['url'].'" target="_blank">' . $this->lng->txt("additional_info") ."</a>";
-//      
-//			$op = new ilRadioOption($system['name'], $system['erp_id'], $desc);
-//      
-//			$function = "getERPform_" . $system['erp_short'];      
-//			$this->$function(&$op, $active['erps_id']);
-//
-//			$rdo->addOption($op);
-//    	}      
-//		$frm->addItem($rdo);
-//		
-//		$savepdf->setChecked( $active['save_copy'] );       
-//	    $chk->setChecked( $active['use_ean']);                
-//	    
-//	    $save_msg = $this->lng->txt('pays_erp_invoice_copies_info') .' ' .ilERP::getSaveDirectory();
-//    
-//	    if (!is_writable( ilERP::getSaveDirectory() )) $save_msg .= "<br/><b>" . $this->lng->txt('pays_erp_invoice_nowrite') . "</b>";
-//	    $save_msg .= $preview_link;
-//	    $savepdf->setInfo($save_msg);
-//	    $frm->addItem($savepdf);
-//		
-//		$chk->setInfo($this->lng->txt('enable_ean_info'));
-//		$frm->addItem($chk);
-//		
-//		return $frm;
-	}
-	
-	/**
-	* ERP Object factory. Should be moved
-	* @access private
-	* @return mixed ERP instance
-	*/
-	private function getERPObject($system)
-	{		
-//	    require_once './Services/Payment/classes/class.ilERP.php';
-//	    
-//		switch ($system)
-//		{		
-//	      case ERP_NONE:        
-//	        require_once './Services/Payment/classes/class.ilERP_none.php';		
-//	        $instance = new ilERP_none();
-//	        break;
-//	      case ERP_ECONOMIC:
-//	        require_once './Services/Payment/classes/class.ilERP_eco.php';		
-//	        $instance = new ilERP_eco();                
-//	        break;
-//	      default:        
-//	        throw new ilERPException("System " . $system . " is invalid.");        
-//	        break;
-//	    }
-//    	return $instance;	
-	}
-	
-	private function getERParray()
-	{
-//	    $a = array();    
-//	    foreach ($_POST as $a_post => $a_value) if ($a_post != 'cmd') $a[$a_post] = ilUtil::stripSlashes($a_value);    
-//	    $a['use_ean'] =   (isset($_POST['use_ean'])) ? 1 : 0;
-//	    $a['save_copy'] = (isset($_POST['save_copy'])) ? 1 : 0;
-//	    return $a;
-	}
-  
-
-	private function delERPpreviewObject()
-	{
-//		require_once './Services/Payment/classes/class.ilERP.php';
-//		if (ilERP::preview_exists()) ilERP::preview_delete();
-//		ilUtil::sendInfo($this->lng->txt('pays_erp_invoice_deleted'));
-//		$this->erpSettingsObject();
-  	}
-  
-  
-  	private function testERPSettingsObject()
-  	{
-		  /**
-		   * @var $ilUser ilObjUser
-		   * @var $rbacsystem ilRbacSystem
-		   */
-//		global $rbacsystem;
-//  		global $ilUser;
-//
-//  		
-//  		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
-//  		{
-//			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$this->ilErr->MESSAGE);
-//		}
-//			
-//		try
-//	    {        	
-//	      $this->saveERPsettingsObject();		
-//	      $active = ilERP::getActive();
-//	      assert ($active['erp_id'] == (int) $_POST['erp_id']);
-//	        
-//	      $cls = "ilERPDebtor_" . $active['erp_short'] ;
-//	      require_once './Services/Payment/classes/class.' . $cls . ".php";
-//	            
-//	      if ($active['erp_id']== ERP_NONE) ilUtil::sendInfo($this->lng->txt('saved_successfully'));
-//	      else
-//	      { 
-//	        $deb = new $cls();        
-//	        $nr = rand(1030,1040);        
-//	        if ($deb->getDebtorByNumber($nr))
-//	        {          
-//	          $good .= $this->lng->txt('pays_erp_tst_existing');        
-//	        }
-//	        else
-//	        {
-//	          $deb->setTestValues();
-//	          $deb->createDebtor($nr);
-//	          
-//	          $good = $this->lng->txt('pays_erp_tst_new');     
-//	          
-//	        } 
-//	        $good .= " " . $nr . ", " . $deb->getName() . " ";
-//	        
-//	        $amount = rand(10,1000);      
-//	        $pcs = rand(1,10);
-//	        $good .= $this->lng->txt('pays_erp_tst_billed') . " " . $pcs . " x " . $amount .
-//	          "<br/>" . $this->lng->txt('total') . " " . number_format( $pcs*$amount, 2, ',','.');
-//	        
-//	        $deb->createInvoice();
-//	        $deb->createInvoiceLine( 0, $this->lng->txt('pays_erp_tst_product'), $pcs, $amount);
-//	        $deb->createInvoiceLine( 0, "www.ilias.dk", 1, 1);       
-//	        $v = $deb->bookInvoice();
-//	        $good .= ", # " . $deb->getInvoiceNumber(); 
-//	        
-//	        $attach = $deb->getInvoicePDF($v); 
-//	        
-//	        $deb->saveInvoice($attach, true);                 
-//	        $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura");
-//	        
-//	        $good .= "<br/>" . $ilUser->getEmail() . " => " . $this->lng->txt('mail_sent');      
-//	        ilUtil::sendInfo($good);       
-//	      }
-//	    }
-//	    catch (ilERPException $e)
-//	    {
-//	      ilUtil::sendInfo($good);
-//	      ilUtil::sendFailure($e->getMessage());
-//	    }    
-//		$this->erpSettingsObject();
-
-	}
-
-	
-  /*
-  * When updating ERP settings test connection and report error.
-  */
-  private function checkForERPerror(&$instance)
-  {
-//    $message ="";
-//    
-//    if (!$instance->looksValid()) $message = str_replace('%s', $instance->getName, $this->lng->txt('pays_erp_bad_settings'));
-//    else 
-//    {    
-//      try
-//      {
-//        $instance->connect();
-//        ilUtil::sendInfo(str_replace('%s', $instance->getName(), $this->lng->txt("pays_erp_connection_established")));
-//      }
-//      catch (ilERPException $e)
-//      {
-//        ilUtil::sendFailure($e->getMessage());
-//      }
-//    }    
-  }
-   
-	/**
-	* Save settings for ERP
-	*/	
-	private function saveERPsettingsObject()
-	{
-//    	global $rbacsystem;
-//    	if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
-//    	{
-//			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$this->ilErr->MESSAGE);
-//		}		
-//		
-//		$settings = $this->getERParray();    		
-//		$system = (int) $_POST['erp_id'];		
-//		$instance = $this->getERPObject($system);				
-//    	$instance->setSettings($settings);
-//    
-//	    switch ($system)
-//	    {
-//	      case ERP_NONE:
-//	        break;
-//	      case ERP_ECONOMIC:
-//	        $this->checkForERPerror($instance);
-//	        break;      
-//	    }			
-//		
-//		$instance->setActive($system);      
-//	    $instance->saveSettings($settings);
-//	    ilUtil::sendSuccess(str_replace('%s', $instance->getName(), $this->lng->txt('pays_erp_updated_settings')));
-//	    $this->erpSettingsObject();    
-//
-//	    return true;	
-	}
-	
-	/*
-	* ERP
-	*
-	*/	
-	public function erpSettingsObject($a_show_confirm = false)
-	{
-//		global $rbacsystem;
-//
-//    	if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
-//		{
-//			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilErr->MESSAGE);
-//		}
-//		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pays_erp_settings.html','Services/Payment');
-//		
-//		$form = $this->getERPform();
-//		
-//		$this->tpl->setVariable('ERP_INFO', $this->lng->txt('pays_erp_info'));
-//		$this->tpl->setVariable('ERP_SETTINGS',$form->getHTML());		    
-  }
-	
-	public function paypalSettingsObject($a_show_confirm = false)
+	public function paypalSettingsObject()
 	{	
 		/**
 		 * @var $rbacsystem ilRbacSystem
@@ -3099,7 +2781,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	}
 
 	//function vendorsObject($a_show_confirm = false)
-	public function vendorsObject($a_show_confirm = false, $confirmation_gui = '')
+	public function vendorsObject($a_show_confirm = false)
 	{
 	//	include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 		#include_once './Services/Table/classes/class.ilTable2GUI.php';
@@ -3378,7 +3060,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		return true;
 	}		
 	
-	public function payMethodsObject($askForDeletingAddresses = array(),$oConfirmationGUI = '')
+	public function payMethodsObject($askForDeletingAddresses = array())
 	{
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
 
@@ -4331,7 +4013,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		return true;
 	}
 
-	private function __showSearchUserTable($a_result_set,$a_cmd = 'search')
+	private function __showSearchUserTable($a_result_set)
 	{
 		$tbl = new ilShopTableGUI($this);
 
