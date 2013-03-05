@@ -13095,3 +13095,12 @@ rbac#:#fold_create_bibl#:#Literaturliste anlegen
 rbac#:#grp_create_bibl#:#Literaturliste anlegen
 rbac#:#root_create_bibl#:#Literaturliste anlegen
 ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
+trac#:#trac_mode_collection_tlt#:#Typische Lerndauer (je Kapitel)
+trac#:#trac_mode_collection_tlt_info#:#Die Bearbeitungszeit der NutzerInnen aller relevanten Kapitel muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen.
+trac#:#trac_mode_collection_manual#:#MManuell durch NutzerInnen (je Kapitel)
+trac#:#trac_mode_collection_manual_info#:#Die NutzerInnen entscheiden selbst (je Kapitel), ob Sie den Status 'Bearbeitet' haben oder nicht.
+trac#:#trac_collection_manual_learner_info#:#Der Lernfortschritt für dieses Objekt wird manuell gesetzt.
+trac#:#trac_collection_manual_learner_changed_ts#:#Geändert am
+trac#:#trac_collection_manual_learner_lm_info#:#Aktivieren Sie alle Kapitel, die sie abgeschlossen haben.
+trac#:#trac_collection_tlt_learner_info#:#Der Lernfortschritt für dieses Objekt basiert auf der typischen Lerndauer.
+trac#:#trac_collection_tlt_learner_subitem#:#Sie haben bisher %s der geforderten %s erbracht (%s%%).

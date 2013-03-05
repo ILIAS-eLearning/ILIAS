@@ -16,13 +16,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	protected $obj_ids = NULL;
 	protected $objective_ids = NULL;
 	protected $sco_ids = NULL;
+	protected $subitem_ids = NULL;
 
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $ref_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
+		global $ilCtrl, $lng;
 
 		$this->setId("trsmtx_".$ref_id);
 		$this->ref_id = $ref_id;
@@ -126,9 +127,17 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					$tmp_cols[strtolower($title)."#~#objsco_".$obj_id] = array("txt" => $title, "icon"=>$icon, "default" => true);
 				}
 			}
+			if(sizeof($this->subitem_ids))
+			{
+				foreach($this->subitem_ids as $obj_id => $title)
+				{
+					$icon = ilUtil::getTypeIconPath("st", $obj_id, "tiny");
+					$tmp_cols[strtolower($title)."#~#objsub_".$obj_id] = array("txt" => $title, "icon"=>$icon, "default" => true);
+				}
+			}
 
-			// alex, 5 Nov 2011: Do not sort SCORM items
-			if(!sizeof($this->sco_ids))
+			// alex, 5 Nov 2011: Do not sort SCORM items or "chapters"
+			if(!sizeof($this->sco_ids) && !sizeof($this->subitem_ids))
 			{
 				ksort($tmp_cols);
 			}
@@ -241,6 +250,31 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					}
 				}
 			}
+			
+			if($collection["subitems"] && $data["set"])
+			{				
+				foreach(array_keys($data["set"]) as $user_id)
+				{
+					foreach($collection["subitems"]["items"] as $item_id)
+					{
+						$this->subitem_ids[$item_id] = $collection["subitems"]["item_titles"][$item_id];
+						
+						$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+						if(in_array($user_id, $collection["subitems"]["completed"][$item_id]))
+						{
+							$status = LP_STATUS_COMPLETED_NUM;
+						}
+						else if(is_array($collection["subitems"]["in_progress"]) &&
+							in_array($user_id, $collection["subitems"]["in_progress"][$item_id]))
+						{
+							$status = LP_STATUS_IN_PROGRESS_NUM;
+						}			
+						
+						$obj_id = "objsub_".$item_id;
+						$data["set"][$user_id]["objects"][$obj_id] = array("status"=>$status);
+					}				
+				}
+			}
 
 			$this->setMaxCount($data["cnt"]);
 			$this->setData($data["set"]);
@@ -309,6 +343,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 				case (substr($c, 0, 6) == "objtv_"):
 				case (substr($c, 0, 7) == "objsco_"):
+				case (substr($c, 0, 7) == "objsub_"):		
 					$obj_id = $c;
 					if(!isset($a_set["objects"][$obj_id]))
 					{
@@ -372,6 +407,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				
 				case (substr($c, 0, 6) == "objtv_"):
 				case (substr($c, 0, 7) == "objsco_"):
+				case (substr($c, 0, 7) == "objsub_"):
 					$obj_id = $c;
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
 					break;										
@@ -426,6 +462,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				
 				case (substr($c, 0, 6) == "objtv_"):
 				case (substr($c, 0, 7) == "objsco_"):
+				case (substr($c, 0, 7) == "objsub_"):
 					$obj_id = $c;
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
 					break;										

@@ -23,6 +23,8 @@ class ilLMExplorer extends ilExplorer
 	var $root_id;
 	var $lm_obj;
 	var $output;
+			
+	protected $lp_cache; // [array]
 
 	/**
 	* Constructor
@@ -100,5 +102,65 @@ class ilLMExplorer extends ilExplorer
 	
 		return true;
 	}
+	
+	protected function checkLPIcon($a_id)
+	{
+		global $ilUser;
+						
+		// do it once for all chapters
+		if($this->lp_cache[$this->lm_obj->getId()] === null)
+		{				
+			$this->lp_cache[$this->lm_obj->getId()] = false;
+
+			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+			if(ilLearningProgressAccess::checkAccess($this->lm_obj->getRefId()))
+			{			
+				$info = null;
+
+				include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+				include_once "Services/Tracking/classes/class.ilLPStatus.php";
+				$lp = new ilLPObjSettings($this->lm_obj->getId());	
+				if($lp->getMode() == LP_MODE_COLLECTION_MANUAL)
+				{
+					include_once "Services/Tracking/classes/class.ilLPStatusCollectionManual.php";
+					$info = ilLPStatusCollectionManual::_getStatusInfo($this->lm_obj->getId());						
+				}
+				else if($lp->getMode() == LP_MODE_COLLECTION_TLT)
+				{						
+					include_once "Services/Tracking/classes/class.ilLPStatusCollectionTLT.php";
+					$info = ilLPStatusCollectionTLT::_getStatusInfo($this->lm_obj->getId());
+				}
+
+				// parse collection items
+				if(is_array($info["items"]))
+				{
+					foreach($info["items"] as $item_id)
+					{
+						$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+						if(is_array($info["in_progress"][$item_id]) && 
+							in_array($ilUser->getId(), $info["in_progress"][$item_id]))
+						{
+							$status = LP_STATUS_IN_PROGRESS_NUM;
+						}
+						else if(is_array($info["completed"][$item_id]) && 
+							in_array($ilUser->getId(), $info["completed"][$item_id]))
+						{
+							$status = LP_STATUS_COMPLETED_NUM;
+						}
+						$this->lp_cache[$this->lm_obj->getId()][$item_id] =$status;
+					}
+				}						
+			}		
+
+			include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
+		}		
+
+		if(is_array($this->lp_cache[$this->lm_obj->getId()]) &&
+			isset($this->lp_cache[$this->lm_obj->getId()][$a_id]))
+		{
+			return ilLearningProgressBaseGUI::_getImagePathForStatus($this->lp_cache[$this->lm_obj->getId()][$a_id]);					
+		}				
+	}
+	
 } // END class ilLMExplorer
 ?>

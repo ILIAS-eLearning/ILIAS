@@ -13095,3 +13095,12 @@ rbac#:#fold_create_bibl#:#Create Bibliography
 rbac#:#grp_create_bibl#:#Create Bibliography
 rbac#:#root_create_bibl#:#Create Bibliography
 ldap#:#ldap_edit_role_assignment#:#Edit Role -> Group Assignment
+trac#:#trac_mode_collection_tlt#:#Typical Learning Time (per Chapter)
+trac#:#trac_mode_collection_tlt_info#:#Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'.
+trac#:#trac_mode_collection_manual#:#Manual by Learner (per Chapter)
+trac#:#trac_mode_collection_manual_info#:#Users have to decide for each chapter whether their status is completed or not.
+trac#:#trac_collection_manual_learner_info#:#The learning progress for this object has to be set manually.
+trac#:#trac_collection_manual_learner_changed_ts#:#Changed on
+trac#:#trac_collection_manual_learner_lm_info#:#Activate all chapters you completed.
+trac#:#trac_collection_tlt_learner_info#:#The learning progress for this object is based on the typical learning time.
+trac#:#trac_collection_tlt_learner_subitem#:#You have spent %s of the %s needed for completion (%s%%).

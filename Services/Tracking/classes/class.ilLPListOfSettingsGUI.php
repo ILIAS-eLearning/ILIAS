@@ -134,11 +134,21 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$form = $this->initFormSettings();
 		if($form->checkInput())
 		{
-			$this->obj_settings->setMode((int) $form->getInput('modus'));
+			// do not confuse collections
+			$new_mode = (int) $form->getInput('modus');
+			$old_mode = $this->obj_settings->getMode();
+			if($old_mode != $new_mode &&
+				in_array($old_mode, array(LP_MODE_COLLECTION, LP_MODE_COLLECTION_MANUAL, LP_MODE_COLLECTION_TLT)))
+			{
+				include_once "Services/Tracking/classes/class.ilLPCollections.php";
+				ilLPCollections::_deleteAll($this->getObjId());				
+			}
+			
+			$this->obj_settings->setMode($new_mode);
 			$this->obj_settings->setVisits($form->getInput('visits'));
 			$this->obj_settings->update();
 
-			if($this->obj_settings->getMode() == LP_MODE_COLLECTION)
+			if(in_array($new_mode, array(LP_MODE_COLLECTION, LP_MODE_COLLECTION_MANUAL, LP_MODE_COLLECTION_TLT)))
 			{
 				ilUtil::sendInfo($this->lng->txt('trac_edit_collection'),true);
 			}
@@ -167,6 +177,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			case LP_MODE_COLLECTION:
 			case LP_MODE_MANUAL_BY_TUTOR:
 			case LP_MODE_SCORM:
+			case LP_MODE_COLLECTION_MANUAL:
+			case LP_MODE_COLLECTION_TLT:
 				$table = new ilLPCollectionSettingsTableGUI($this->getRefId(),$this,'show');
 				$table->setMode($this->obj_settings->getMode());
 				$table->parse();
@@ -300,7 +312,30 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			ilUtil::sendInfo($this->lng->txt('err_check_input'),true);
 			$this->ctrl->redirect($this,'show');
 		}
-
+	}
+	
+	protected function updateTLT()
+	{
+		include_once "Services/MetaData/classes/class.ilMD.php";
+		foreach($_POST['tlt'] as $item_id => $item)
+		{			
+			$md_obj = new ilMD($this->getObjId(),$item_id,'st');
+			if(!is_object($md_section = $md_obj->getEducational()))
+			{
+				$md_section = $md_obj->addEducational();
+				$md_section->save();
+			}			
+			$md_section->setPhysicalTypicalLearningTime((int)$item['mo'],
+				(int)$item['d'],(int)$item['h'],(int)$item['m'],0);
+			$md_section->update();
+		}		
+		
+		// refresh learning progress
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_refreshStatus($this->getObjId());		
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+		$this->ctrl->redirect($this,'show');
 	}
 }
 ?>

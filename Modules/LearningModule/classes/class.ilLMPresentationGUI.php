@@ -15,6 +15,7 @@ require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 *
 * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilPageObjectGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -110,7 +111,7 @@ class ilLMPresentationGUI
 	*/
 	function executeCommand()
 	{
-		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilCtrl;
+		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilCtrl, $ilUser;
 
 		if(IS_PAYMENT_ENABLED)
 		{
@@ -151,6 +152,8 @@ class ilLMPresentationGUI
 		$cmd = (isset($_POST['cmd']['citation']))
 			? "ilCitation"
 			: $cmd;
+		
+		$this->trackChapterAccess();			
 
 		// ### AA 03.09.01 added page access logger ###
 		$this->lmAccess($this->ilias->account->getId(),$_GET["ref_id"],$_GET["obj_id"]);
@@ -189,6 +192,13 @@ class ilLMPresentationGUI
 				}
 				$this->basicPageGuiInit($page_gui);
 				$ret = $ilCtrl->forwardCommand($page_gui);
+				break;
+				
+			case "illearningprogressgui":
+				$this->initScreenHead("learning_progress");
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';				
+				$new_gui = new ilLearningProgressGUI(LP_MODE_REPOSITORY, $_GET["ref_id"], $ilUser->getId());						
+				$this->ctrl->forwardCommand($new_gui);				
 				break;
 
 			default:
@@ -3001,14 +3011,11 @@ class ilLMPresentationGUI
 	{
 		$this->outputInfoScreen(true);
 	}
-
-	/**
-	* info screen
-	*/
-	function outputInfoScreen($a_standard_locator = false)
+	
+	protected function initScreenHead($a_active_tab = "info")
 	{
-		global $ilBench, $ilLocator, $ilAccess;
-
+		global $ilAccess, $ilLocator;
+		
 		$this->renderPageTitle();
 		
 		// set style sheets
@@ -3027,7 +3034,7 @@ class ilLMPresentationGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
 
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "info", true));
+			,$this->getExportFormat(), $a_active_tab, true));
 		
 		// Full locator, if read permission is given
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -3039,6 +3046,16 @@ class ilLMPresentationGUI
 			$ilLocator->addRepositoryItems();
 			$this->tpl->setLocator();
 		}
+	}
+
+	/**
+	* info screen
+	*/
+	function outputInfoScreen($a_standard_locator = false)
+	{
+		global $ilAccess;
+
+		$this->initScreenHead();
 		
 		$this->lng->loadLanguageModule("meta");
 
@@ -4424,5 +4441,88 @@ class ilLMPresentationGUI
 		$this->tpl->setHeaderPageTitle($this->lm->getTitle());
 		$this->tpl->fillWindowTitle();
 	}	
+	
+	protected function trackChapterAccess()
+	{
+		global $ilDB, $ilUser;
+			
+		// get last accessed page
+		$set = $ilDB->query("SELECT * FROM lo_access WHERE ".
+			"usr_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ".
+			"lm_id = ".$ilDB->quote($this->lm->getRefId(), "integer"));
+		$res = $ilDB->fetchAssoc($set);
+		if($res["obj_id"])
+		{	
+			include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
+			$valid_timespan = ilObjUserTracking::_getValidTimeSpan();		
+
+			$pg_ts = new ilDateTime($res["timestamp"], IL_CAL_DATETIME);
+			$pg_ts = $pg_ts->get(IL_CAL_UNIX);
+			$pg_id = $res["obj_id"];			
+			if(!$this->lm_tree->isInTree($pg_id))
+			{
+				return;
+			}
+			
+			$now = time();
+			$time_diff = $read_diff = 0;
+
+			// spent_seconds or read_count ?
+			if (($now-$pg_ts) <= $valid_timespan)
+			{
+				$time_diff = $now-$pg_ts;
+			}
+			else 
+			{
+				$read_diff = 1;
+			}				
+
+			// find parent chapter(s) for that page
+			$parent_st_ids = array();
+			foreach($this->lm_tree->getPathFull($pg_id) as $item)
+			{
+				if($item["type"] == "st")
+				{
+					$parent_st_ids[] = $item["obj_id"];
+				}
+			}
+
+			if($parent_st_ids && ($time_diff || $read_diff))
+			{
+				// get existing chapter entries
+				$ex_st = array();
+				$set = $ilDB->query("SELECT obj_id FROM lm_read_event".
+					" WHERE ".$ilDB->in("obj_id", $parent_st_ids, "", "integer").
+					" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
+				while($row = $ilDB->fetchAssoc($set))
+				{
+					$ex_st[] = $row["obj_id"];
+				}
+
+				// add missing chapter entries
+				$missing_st = array_diff($parent_st_ids, $ex_st);
+				if(sizeof($missing_st))
+				{
+					foreach($missing_st as $st_id)
+					{
+						$fields = array(
+							"obj_id" => array("integer", $st_id),
+							"usr_id" => array("integer", $ilUser->getId())
+						);
+						$ilDB->insert("lm_read_event", $fields);							
+					}
+				}
+
+				// update all parent chapters
+				$ilDB->manipulate("UPDATE lm_read_event SET".
+					" read_count = read_count + ".$ilDB->quote($read_diff, "integer").
+					" , spent_seconds = spent_seconds + ".$ilDB->quote($time_diff, "integer").
+					" , last_access = ".$ilDB->quote($now, "integer").
+					" WHERE ".$ilDB->in("obj_id", $parent_st_ids, "", "integer").
+					" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
+			}
+		}			
+	}
 }
+
 ?>

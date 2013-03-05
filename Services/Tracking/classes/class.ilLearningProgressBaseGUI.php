@@ -209,7 +209,7 @@ class ilLearningProgressBaseGUI
 														 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);
 					}
 
-					if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'lm', 'htlm', 'exc')))
+					if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'htlm', 'exc')))
 					{
 						// do not show status if learning progress is deactivated
 						// matrix only consists of status...
