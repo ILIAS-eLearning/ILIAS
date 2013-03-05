@@ -224,6 +224,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		}
 		$extdata->setValue($ext_value);
 		
+		$listgui = new ilCheckboxInputGUI($this->lng->txt('trac_lp_list_gui'), 'lp_list');
+		$listgui->setInfo($this->lng->txt('trac_lp_list_gui_info'));
+		$listgui->setChecked($this->object->hasLearningProgressListGUI());
+		$lp->addSubItem($listgui);
+		
+		
 		// change event
 		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
 		if($this->object->enabledChangeEventTracking())
@@ -300,6 +306,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$this->object->setValidTimeSpan($form->getInput('valid_request'));						
 			// $this->object->setLearningProgressDesktop($form->getInput('lp_desktop'));
 			$this->object->setLearningProgressLearner($form->getInput('lp_learner'));
+			$this->object->setLearningProgressListGUI($form->getInput('lp_list'));
 							
 			$this->object->updateSettings();
 			

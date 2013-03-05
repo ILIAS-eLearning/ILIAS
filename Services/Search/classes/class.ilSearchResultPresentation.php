@@ -242,7 +242,7 @@ class ilSearchResultPresentation
 		$ilBench->stop('Lucene','2000_pr');
 		
 
-		$set = array();
+		$set = $obj_ids = array();
 		foreach($this->getResults() as $c_ref_id => $res_data)
 		{
 			$ilBench->start('Lucene','2100_res');
@@ -265,6 +265,8 @@ class ilSearchResultPresentation
 					"relevance"		=> $this->getRelevance($res_data),
 					"s_relevance"	=> sprintf("%03d",$this->getRelevance($res_data))
 				);
+				
+				$obj_ids[] = $res_data;
 			}
 			$ilBench->stop('Lucene','2100_res');
 		}
@@ -273,6 +275,9 @@ class ilSearchResultPresentation
 		{
 			return false;
 		}
+		
+		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		ilLPStatus::preloadListGUIData($obj_ids);
 
 		$ilBench->start('Lucene','2900_tb');
 		include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");

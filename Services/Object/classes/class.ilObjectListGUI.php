@@ -1661,6 +1661,17 @@ class ilObjectListGUI
 				"value" => $activation[1],
 				"newline" => true);	
 		}
+		
+		// add learning progress custom property		
+		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		$lp = ilLPStatus::getListGUIStatus($this->obj_id);
+		if($lp)
+		{										
+			$props[] = array("alert" => false,
+				"property" => $lng->txt("learning_progress"),
+				"value" => $lp,
+				"newline" => true);	
+		}
 
 		// add no item access note in public section
 		// for items that are visible but not readable
@@ -3425,6 +3436,9 @@ class ilObjectListGUI
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($a_obj_ids, true);
 		self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);	
+		
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+		ilLPStatus::preloadListGUIData($a_obj_ids);
 		
 		self::$preload_done = true;
 	}
