@@ -2595,6 +2595,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$genSet->set('objects_allow_custom_sorting', $_POST['objects_allow_custom_sorting'], 'gui');
 		$genSet->set('hide_coupons', $_POST['hide_coupons'], 'gui');
 		$genSet->set('hide_news', $_POST['hide_news'], 'gui');
+		
+		if( (int)$_POST['hide_news']  == 0 )
+		{
+			if( (int)$ilSetting->get('payment_news_archive_period') == 0)
+			{
+				$ilSetting->set('payment_news_archive_period', '5');
+			}
+		}
+		
 		$genSet->set('hide_shop_info', $_POST['hide_shop_info'], 'gui');
 		$genSet->set('use_shop_specials', $_POST['use_shop_specials'], 'gui');
 		$genSet->set('show_general_filter', $_POST['show_general_filter'], 'gui');
