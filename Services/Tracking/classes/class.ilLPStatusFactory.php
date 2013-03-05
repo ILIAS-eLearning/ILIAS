@@ -91,6 +91,14 @@ class ilLPStatusFactory
 			case LP_MODE_PLUGIN:
 				include_once('./Services/Tracking/classes/class.ilLPStatusPlugin.php');
 				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusPlugin';
+				
+			case LP_MODE_COLLECTION_TLT:
+				include_once('./Services/Tracking/classes/class.ilLPStatusCollectionTLT.php');
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusCollectionTLT';
+				
+			case LP_MODE_COLLECTION_MANUAL:
+				include_once('./Services/Tracking/classes/class.ilLPStatusCollectionManual.php');
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusCollectionManual';
 
 			case LP_MODE_UNDEFINED:
 				$type = ilObject::_lookupType($a_obj_id);
@@ -180,6 +188,14 @@ class ilLPStatusFactory
 			case LP_MODE_PLUGIN:
 				include_once 'Services/Tracking/classes/class.ilLPStatusPlugin.php';
 				return new ilLPStatusEvent($a_obj_id);
+				
+			case LP_MODE_COLLECTION_TLT:
+				include_once('./Services/Tracking/classes/class.ilLPStatusCollectionTLT.php');
+				return new ilLPStatusCollectionTLT($a_obj_id);
+				
+			case LP_MODE_COLLECTION_MANUAL:
+				include_once('./Services/Tracking/classes/class.ilLPStatusCollectionManual.php');
+				return new ilLPStatusCollectionManual($a_obj_id);
 				
 			case LP_MODE_UNDEFINED:
 				$type = ilObject::_lookupType($a_obj_id);

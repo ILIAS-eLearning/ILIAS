@@ -121,6 +121,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			{			
 				case LP_MODE_SCORM:					
 				case LP_MODE_OBJECTIVES:
+				case LP_MODE_COLLECTION_MANUAL:
+				case LP_MODE_COLLECTION_TLT:
 					$obj_ids[] = $ref_id;
 					break;
 				

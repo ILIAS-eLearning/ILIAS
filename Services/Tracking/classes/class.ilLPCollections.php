@@ -18,14 +18,18 @@ class ilLPCollections
 
 	var $obj_id = null;
 	var $items = array();
+	var $mode = null;
+	
+	static $possible_items = array();
 
 	function ilLPCollections($a_obj_id)
 	{
-		global $ilObjDataCache,$ilDB;
+		global $ilDB;
 
 		$this->db =& $ilDB;
 
 		$this->obj_id = $a_obj_id;
+		$this->mode = ilLPObjSettings::_lookupMode($a_obj_id);
 
 		$this->__read();
 	}
@@ -114,22 +118,27 @@ class ilLPCollections
 			"AND grouping_id = ".$ilDB->quote(0, 'integer');
 		$ilDB->manipulate($query);
 
-		// Select all grouping ids and deactivate them
-		$query = "SELECT grouping_id FROM ut_lp_collections ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
-			"AND ".$ilDB->in('item_id', $a_item_ids, false, 'integer');
-		$res = $ilDB->query($query);
-
-		$grouping_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$mode = ilLPObjSettings::_lookupMode($a_obj_id);		
+		if($mode == LP_MODE_COLLECTION)
 		{
-			$grouping_ids[] = $row->grouping_id;
-		}
+			// Select all grouping ids and deactivate them
+			$query = "SELECT grouping_id FROM ut_lp_collections ".
+				"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+				"AND ".$ilDB->in('item_id', $a_item_ids, false, 'integer');
+			$res = $ilDB->query($query);
 
-		$query = "UPDATE ut_lp_collections ".
-			"SET active = ".$ilDB->quote(0,'integer')." ".
-			"WHERE ".$ilDB->in('grouping_id', $grouping_ids, false, 'integer');
-		$ilDB->manipulate($query);
+			$grouping_ids = array();
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$grouping_ids[] = $row->grouping_id;
+			}
+
+			$query = "UPDATE ut_lp_collections ".
+				"SET active = ".$ilDB->quote(0,'integer')." ".
+				"WHERE ".$ilDB->in('grouping_id', $grouping_ids, false, 'integer');
+			$ilDB->manipulate($query);			
+		}
+		
 		return;
 	}
 
@@ -154,12 +163,15 @@ class ilLPCollections
 			$items_existing[] = $row->item_id;
 		}
 
+		$mode = ilLPObjSettings::_lookupMode($a_obj_id);
+		
 		$items_not_existing = array_diff($a_item_ids, $items_existing);
 		foreach($items_not_existing as $item)
 		{
-			$query = "INSERT INTO ut_lp_collections (obj_id,item_id,grouping_id,num_obligatory,active ) ".
+			$query = "INSERT INTO ut_lp_collections (obj_id,lpmode,item_id,grouping_id,num_obligatory,active ) ".
 				"VALUES( ".
 				$ilDB->quote($a_obj_id,'integer').", ".
+				$ilDB->quote($mode,'integer').", ".	
 				$ilDB->quote($item,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
@@ -167,23 +179,28 @@ class ilLPCollections
 				")";
 			$ilDB->manipulate($query);
 		}
-		// Select all grouping ids and activate them
-		$query = "SELECT grouping_id FROM ut_lp_collections ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
-			"AND ".$ilDB->in('item_id', $a_item_ids, false, 'integer')." ".
-			"AND grouping_id > ".$ilDB->quote(0,'integer')." ";
-		$res = $ilDB->query($query);
-
-		$grouping_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		
+		if($mode == LP_MODE_COLLECTION)
 		{
-			$grouping_ids[] = $row->grouping_id;
-		}
+			// Select all grouping ids and activate them
+			$query = "SELECT grouping_id FROM ut_lp_collections ".
+				"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+				"AND ".$ilDB->in('item_id', $a_item_ids, false, 'integer')." ".
+				"AND grouping_id > ".$ilDB->quote(0,'integer')." ";
+			$res = $ilDB->query($query);
 
-		$query = "UPDATE ut_lp_collections ".
-			"SET active = ".$ilDB->quote(1,'integer')." ".
-			"WHERE ".$ilDB->in('grouping_id', $grouping_ids, false, 'integer');
-		$ilDB->manipulate($query);
+			$grouping_ids = array();
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$grouping_ids[] = $row->grouping_id;
+			}
+
+			$query = "UPDATE ut_lp_collections ".
+				"SET active = ".$ilDB->quote(1,'integer')." ".
+				"WHERE ".$ilDB->in('grouping_id', $grouping_ids, false, 'integer');
+			$ilDB->manipulate($query);
+		}
+		
 		return;
 	}
 
@@ -509,6 +526,10 @@ class ilLPCollections
 		$query = "DELETE FROM ut_lp_collections ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')."";
 		$res = $ilDB->manipulate($query);
+		
+		$query = "DELETE FROM ut_lp_coll_manual ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -541,10 +562,9 @@ class ilLPCollections
 		return $grouped;
 	}
 
-	function &_getItems($a_obj_id, $a_use_subtree_by_id = false)
+	public static function &_getItems($a_obj_id, $a_use_subtree_by_id = false)
 	{
-		global $ilObjDataCache;
-		global $ilDB, $tree;
+		global $ilDB;
 
 		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 
@@ -554,24 +574,17 @@ class ilLPCollections
 			include_once 'Modules/Course/classes/class.ilCourseObjective.php';
 			return ilCourseObjective::_getObjectiveIds($a_obj_id);
 		}
-		if($mode != LP_MODE_SCORM and $mode != LP_MODE_COLLECTION and $mode != LP_MODE_MANUAL_BY_TUTOR)
+		if($mode != LP_MODE_SCORM and 
+			$mode != LP_MODE_COLLECTION and 
+			$mode != LP_MODE_MANUAL_BY_TUTOR and
+			$mode != LP_MODE_COLLECTION_MANUAL and
+			$mode != LP_MODE_COLLECTION_TLT)
 		{
 			return array();
 		}
 
-		if($ilObjDataCache->lookupType($a_obj_id) != 'sahs')
+		if($mode == LP_MODE_COLLECTION || $mode == LP_MANUAL_BY_TUTOR)
 		{
-			$course_ref_ids = ilObject::_getAllReferences($a_obj_id);
-			$course_ref_id = end($course_ref_ids);
-			if (!$a_use_subtree_by_id)
-			{
-				$possible_items = ilLPCollections::_getPossibleItems($course_ref_id);
-			}
-			else
-			{
-				$possible_items = $tree->getSubTreeIds($course_ref_id);
-			}
-
 			$query = "SELECT * FROM ut_lp_collections utc ".
 				"JOIN object_reference obr ON item_id = ref_id ".
 				"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
@@ -581,33 +594,19 @@ class ilLPCollections
 		}
 		else
 		{
-			// SAHS
-			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			// SAHS / LM
+			$query = "SELECT * FROM ut_lp_collections".
+				" WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
 				"AND active = ".$ilDB->quote(1,'integer');
 		}
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if($ilObjDataCache->lookupType($a_obj_id) != 'sahs')
+			if(self::validateItem($a_obj_id, $mode, $row->item_id, $a_use_subtree_by_id))
 			{
-				if(!in_array($row->item_id,$possible_items))
-				{
-					ilLPCollections::__deleteEntry($a_obj_id,$row->item_id);
-					continue;
-				}
+				$items[] = $row->item_id;
 			}
-			// Check anonymized
-			if($ilObjDataCache->lookupType($item_obj_id = $ilObjDataCache->lookupObjId($row->item_id)) == 'tst')
-			{
-				include_once './Modules/Test/classes/class.ilObjTest.php';
-				if(ilObjTest::_lookupAnonymity($item_obj_id))
-				{
-					ilLPCollections::__deleteEntry($a_obj_id,$row->item_id);
-					continue;
-				}
-			}
-			$items[] = $row->item_id;
 		}
 		return $items ? $items : array();
 	}
@@ -627,14 +626,12 @@ class ilLPCollections
 
 	function __read()
 	{
-		global $ilObjDataCache, $ilDB;
+		global $ilDB;
 
 		$this->items = array();
 
-		if($ilObjDataCache->lookupType($this->getObjId()) != 'sahs')
-		{
-			$course_ref_ids = ilObject::_getAllReferences($this->getObjId());
-			$course_ref_id = end($course_ref_ids);
+		if($this->mode == LP_MODE_COLLECTION || $this->mode == LP_MANUAL_BY_TUTOR)
+		{			
 			$query = "SELECT * FROM ut_lp_collections utc ".
 				"JOIN object_reference obr ON item_id = ref_id ".
 				"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
@@ -650,27 +647,11 @@ class ilLPCollections
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if($ilObjDataCache->lookupType($this->getObjId()) != 'sahs')
+			if($this->validateItem($this->getObjId(), $this->mode, $row->item_id))
 			{
-				if(!in_array($row->item_id,ilLPCollections::_getPossibleItems($course_ref_id)))
-				{
-					$this->__deleteEntry($this->getObjId(),$row->item_id);
-					continue;
-				}
+				$this->items[] = $row->item_id;
 			}
-			// Check anonymized
-			if($ilObjDataCache->lookupType($item_obj_id = $ilObjDataCache->lookupObjId($row->item_id)) == 'tst')
-			{
-				include_once './Modules/Test/classes/class.ilObjTest.php';
-				if(ilObjTest::_lookupAnonymity($item_obj_id))
-				{
-					$this->__deleteEntry($this->getObjId(),$row->item_id);
-					continue;
-				}
-			}
-			$this->items[] = $row->item_id;
-		}
-		
+		}				
 	}
 
 	function _getScoresForUserAndCP_Node_Id ($target_id, $item_id, $user_id)
@@ -696,5 +677,69 @@ class ilLPCollections
 		return array("raw" => null, "max" => null, "scaled" => null);
 	}
 
+	protected static function validateItem($a_obj_id, $a_mode, $a_item_id, $a_use_subtree_by_id = false)
+	{
+		global $ilObjDataCache, $tree;
+		
+		if($a_mode == LP_MODE_COLLECTION || $a_mode == LP_MANUAL_BY_TUTOR)
+		{						
+			if(!isset(self::$possible_items[$a_obj_id]))
+			{
+				$course_ref_ids = ilObject::_getAllReferences($a_obj_id);
+				$course_ref_id = end($course_ref_ids);
+				if (!$a_use_subtree_by_id)
+				{
+					self::$possible_items[$a_obj_id] = ilLPCollections::_getPossibleItems($course_ref_id);
+				}
+				else
+				{
+					self::$possible_items[$a_obj_id] = $tree->getSubTreeIds($course_ref_id);
+				}
+			}
+							
+			if(!in_array($a_item_id,self::$possible_items[$a_obj_id]))
+			{				
+				self::__deleteEntry($a_obj_id,$a_item_id);
+				return false;
+			}
+
+			// Check anonymized
+			if($ilObjDataCache->lookupType($item_obj_id = $ilObjDataCache->lookupObjId($a_item_id)) == 'tst')
+			{
+				include_once './Modules/Test/classes/class.ilObjTest.php';
+				if(ilObjTest::_lookupAnonymity($item_obj_id))
+				{
+					self::__deleteEntry($a_obj_id,$a_item_id);
+					return false;
+				}
+			}			
+		}	
+		
+		return true;
+	}
+	
+	public static function _getPossibleLMItems($a_obj_id)
+	{
+		include_once "Services/MetaData/classes/class.ilMDEducational.php";
+		
+		$items = array();
+		
+		// only top-level chapters
+		
+		$tree = new ilTree($a_obj_id);
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+		foreach ($tree->getChilds($tree->readRootId()) as $child)
+		{		
+			if($child["type"] == "st")
+			{											
+				$child["tlt"] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id, $child["obj_id"]);				
+				$items[$child["obj_id"]] = $child;
+			}
+		}
+		
+		return $items;
+	}
 }
+
 ?>

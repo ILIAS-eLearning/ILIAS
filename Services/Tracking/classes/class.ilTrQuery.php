@@ -178,6 +178,54 @@ class ilTrQuery
 		
 		return $items;
 	}
+	
+	function getSubItemsStatusForUser($a_user_id, $a_parent_obj_id, array $a_item_ids)
+	{
+		self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));	
+		
+		switch(ilObject::_lookupType($a_parent_obj_id))
+		{
+			case "lm":
+				$item_data = ilLPCollections::_getPossibleLMItems($a_parent_obj_id);
+				break;
+			
+			default:
+				return array();
+		}
+	
+		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_parent_obj_id);
+		
+		$items = array();
+		foreach($a_item_ids as $item_id)
+		{			
+			if(!isset($item_data[$item_id]))
+			{
+				continue;
+			}
+			
+			if(in_array($a_user_id, $status_info["completed"][$item_id]))
+			{
+				$status = LP_STATUS_COMPLETED;
+			}
+			elseif(in_array($a_user_id, $status_info["in_progress"][$item_id]))
+			{
+				$status = LP_STATUS_IN_PROGRESS;
+			}
+			else
+			{
+				$status = LP_STATUS_NOT_ATTEMPTED;
+			}
+			
+			$items[$item_id] = array(
+				"title" => $item_data[$item_id]["title"],
+				"status" => $status,
+				"type" => "st"
+				);						
+		}
+		
+		return $items;
+	}
 
 	/**
 	 * Get all user-based tracking data for object
@@ -1139,7 +1187,7 @@ class ilTrQuery
 		
 		$object_ids = array($a_parent_obj_id);
 		$ref_ids = array($a_parent_obj_id => $a_parent_ref_id);
-		$objectives_parent_id = $scorm = false;		
+		$objectives_parent_id = $scorm = $subitems = false;		
 		
 		$mode = ilLPObjSettings::_lookupMode($a_parent_obj_id);
 		switch($mode)
@@ -1156,6 +1204,18 @@ class ilTrQuery
 				{
 					$objectives_parent_id = $a_parent_obj_id;
 				}
+				break;
+				
+			case LP_MODE_COLLECTION_MANUAL:
+				include_once "Services/Tracking/classes/class.ilLPStatusCollectionManual.php";
+				$status_coll_man = new ilLPStatusCollectionManual($a_parent_obj_id);
+				$subitems = $status_coll_man->_getStatusInfo($a_parent_obj_id);
+				break;
+				
+			case LP_MODE_COLLECTION_TLT:
+				include_once "Services/Tracking/classes/class.ilLPStatusCollectionTLT.php";
+				$status_coll_tlt = new ilLPStatusCollectionTLT($a_parent_obj_id);
+				$subitems = $status_coll_tlt->_getStatusInfo($a_parent_obj_id);
 				break;
 				
 			default:
@@ -1195,7 +1255,8 @@ class ilTrQuery
 		return array("object_ids" => $object_ids,
 			"ref_ids" => $ref_ids,
 			"objectives_parent_id" => $objectives_parent_id,
-			"scorm" => $scorm);
+			"scorm" => $scorm,
+			"subitems" => $subitems);
 	}
 
 	/**

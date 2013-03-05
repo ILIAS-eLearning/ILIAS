@@ -14722,3 +14722,90 @@ foreach($questionPoints as $questionId => $points)
 }
 
 ?>
+<#3857>
+<?php
+
+	if (!$ilDB->tableColumnExists("ut_lp_collections", "lpmode"))
+	{
+		$ilDB->addTableColumn("ut_lp_collections", "lpmode", array(
+			"type" => "integer",
+			"notnull" => false,
+		 	"length" => 1,
+		 	"default" => 5));
+	}
+	
+?>
+<#3858>
+<?php
+if(!$ilDB->tableExists('lm_read_event'))
+{
+	$fields = array (
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'read_count' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'spent_seconds' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'last_access' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0)
+	);
+	$ilDB->createTable('lm_read_event', $fields);
+	$ilDB->addPrimaryKey('lm_read_event', array('obj_id', 'usr_id'));
+}
+?>
+<#3859>
+<?php
+if(!$ilDB->tableExists('ut_lp_coll_manual'))
+{
+	$fields = array (
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'subitem_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'completed' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0),
+		'last_change' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0)
+	);
+	$ilDB->createTable('ut_lp_coll_manual', $fields);
+	$ilDB->addPrimaryKey('ut_lp_coll_manual', array('obj_id', 'usr_id', 'subitem_id'));
+}
+?>
+<#3860>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

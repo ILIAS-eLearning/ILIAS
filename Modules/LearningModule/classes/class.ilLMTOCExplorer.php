@@ -88,6 +88,16 @@ class ilLMTOCExplorer extends ilLMExplorer
 	 */
 	function getImage($a_name, $a_type = "", $a_id = "")
 	{
+		// overwrite chapter icons with lp info?
+		if(!$this->offlineMode() && $a_type == "st")
+		{	
+			$icon = $this->checkLPIcon($a_id);
+			if($icon)
+			{
+				return $icon;
+			}
+		}		
+		
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 
 		if ($a_type == "pg")

@@ -2250,6 +2250,25 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					"", "", $buttonTarget, $active["info"]);
 		}
 		
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($_GET["ref_id"]))
+		{			
+			include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+			$lp = new ilLPObjSettings(ilObject::_lookupObjId($_GET["ref_id"]));			
+			if($lp->getMode() == LP_MODE_COLLECTION_MANUAL)
+			{
+				$tabs_gui->$addcmd("learning_progress", 
+					$this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "editmanual"),
+						"", "", $buttonTarget, $active["learning_progress"]);
+			}
+			else if($lp->getMode() == LP_MODE_COLLECTION_TLT)
+			{
+				$tabs_gui->$addcmd("learning_progress", 
+					$this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "showtlt"),
+						"", "", $buttonTarget, $active["learning_progress"]);
+			}
+		}
+		
 		// edit learning module
 		if (!$a_offline && $a_cur_page > 0)
 		{

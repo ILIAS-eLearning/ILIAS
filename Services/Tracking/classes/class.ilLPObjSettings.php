@@ -47,6 +47,8 @@ define("LP_MODE_MANUAL_BY_TUTOR",11);
 define("LP_MODE_SCORM_PACKAGE",12);
 define("LP_MODE_UNDEFINED",13);
 define("LP_MODE_PLUGIN",14);
+define("LP_MODE_COLLECTION_TLT", 15);
+define("LP_MODE_COLLECTION_MANUAL", 16);
 
 define("LP_DEFAULT_VISITS",30);
 
@@ -195,7 +197,9 @@ class ilLPObjSettings
 		return $a_mode == LP_MODE_COLLECTION or
 			$a_mode == LP_MODE_SCORM or
 			$a_mode == LP_MODE_OBJECTIVES or
-			$a_mode == LP_MODE_MANUAL_BY_TUTOR;
+			$a_mode == LP_MODE_MANUAL_BY_TUTOR or
+			$a_mode == LP_MODE_COLLECTION_TLT or
+			$a_mode == LP_MODE_COLLECTION_MANUAL;
 	}
 		
 
@@ -271,8 +275,10 @@ class ilLPObjSettings
 				);
 			case 'lm':
 				return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
+							 LP_MODE_COLLECTION_MANUAL => $lng->txt('trac_mode_collection_manual'),
 							 LP_MODE_VISITS => $lng->txt('trac_mode_visits'),
 							 LP_MODE_TLT => $lng->txt('trac_mode_tlt'),
+							 LP_MODE_COLLECTION_TLT => $lng->txt('trac_mode_collection_tlt'),
 							 LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
 
 			case 'htlm':
@@ -388,6 +394,12 @@ class ilLPObjSettings
 				
 			case LP_MODE_PLUGIN:
 				return $lng->txt('trac_mode_plugin');
+				
+			case LP_MODE_COLLECTION_TLT:
+				return $lng->txt('trac_mode_collection_tlt');
+	
+			case LP_MODE_COLLECTION_MANUAL:
+				return $lng->txt('trac_mode_collection_manual');		
 		}
 	}
 	
@@ -444,6 +456,12 @@ class ilLPObjSettings
 				
 			case LP_MODE_EVENT:
 				return $lng->txt('trac_mode_event_info');
+				
+			case LP_MODE_COLLECTION_TLT:
+				return $lng->txt('trac_mode_collection_tlt_info');
+	
+			case LP_MODE_COLLECTION_MANUAL:
+				return $lng->txt('trac_mode_collection_manual_info');
 		}
 		
 	}

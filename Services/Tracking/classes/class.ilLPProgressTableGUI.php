@@ -32,6 +32,9 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setLimit(9999);
+		
+		$this->has_object_subitems = !in_array($this->mode, 
+			array(LP_MODE_SCORM, LP_MODE_OBJECTIVES, LP_MODE_COLLECTION_MANUAL, LP_MODE_COLLECTION_TLT));		
 
 		if(!$this->details)
 		{
@@ -77,7 +80,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 				$this->lng->loadLanguageModule('content');
 				$this->addColumn($this->lng->txt('cont_score'),'score','10%');
 			}
-			else if($this->mode != LP_MODE_OBJECTIVES)
+			else if($this->has_object_subitems)
 			{
 				$this->addColumn($this->lng->txt('trac_status_changed'),'status_changed','10%');
 				$this->addColumn($this->lng->txt("trac_percentage"), "percentage", "7%");
@@ -98,7 +101,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->setDefaultOrderDirection("asc");
 		$this->setShowTemplates(true);
 
-		if($this->mode != LP_MODE_SCORM && $this->mode != LP_MODE_OBJECTIVES)
+		if($this->has_object_subitems)
 		{
 			$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 		}
@@ -140,6 +143,11 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 				
 				case LP_MODE_OBJECTIVES:
 					$data = ilTrQuery::getObjectivesStatusForUser($this->tracked_user->getId(), $obj_ids);
+					break;
+				
+				case LP_MODE_COLLECTION_MANUAL:
+				case LP_MODE_COLLECTION_TLT:				
+					$data = ilTrQuery::getSubItemsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id, $obj_ids);					
 					break;
 				
 				default:
@@ -194,7 +202,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		{
 			$this->tpl->setVariable('SCORE_VAL', $a_set["score"]); 
 		}
-		else if($this->mode != LP_MODE_OBJECTIVES)
+		else if($this->has_object_subitems)
 		{
 			$this->tpl->setCurrentBlock("status_details");		
 			

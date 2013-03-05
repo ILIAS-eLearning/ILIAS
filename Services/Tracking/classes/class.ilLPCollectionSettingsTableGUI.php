@@ -82,6 +82,11 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			case LP_MODE_SCORM:
 				$this->parseScormCollection();
 				break;
+			
+			case LP_MODE_COLLECTION_MANUAL:
+			case LP_MODE_COLLECTION_TLT:
+				$this->parseSubItemCollection();
+				break;
 		}
 		$this->initTable();
 	}
@@ -118,26 +123,69 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			}			
 			$this->tpl->setVariable('ALT_IMG', $alt);
 			$this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon("", "tiny", $a_set['type']));
-			$this->tpl->setVariable('COLL_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
-			$this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent', $a_set['type']));
 			
-			include_once './Services/Tree/classes/class.ilPathGUI.php';
-			$path = new ilPathGUI();
-			$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path->getPath($this->getNode(),$a_set['ref_id']));
+			if($this->getMode() != LP_MODE_COLLECTION_MANUAL && 
+				$this->getMode() != LP_MODE_COLLECTION_TLT)
+			{
+				$this->tpl->setVariable('COLL_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
+				$this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent', $a_set['type']));
 
-			$mode = $a_set['mode_id'];
-			if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_UNDEFINED)
-			{
-				$this->tpl->setVariable("COLL_MODE", $a_set['mode']);
+				include_once './Services/Tree/classes/class.ilPathGUI.php';
+				$path = new ilPathGUI();
+				$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path->getPath($this->getNode(),$a_set['ref_id']));
+
+				$mode = $a_set['mode_id'];
+				if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_UNDEFINED)
+				{
+					$this->tpl->setVariable("COLL_MODE", $a_set['mode']);
+				}
+				else
+				{
+					$this->tpl->setVariable("COLL_MODE", "");
+					$this->tpl->setVariable("COLL_MODE_DEACTIVATED", $a_set['mode']);			
+				}
+				if($this->isAnonymized($a_set))
+				{
+					$this->tpl->setVariable("ANONYMIZED", $this->lng->txt('trac_anonymized_info_short'));
+				}
 			}
-			else
-			{
-				$this->tpl->setVariable("COLL_MODE", "");
-				$this->tpl->setVariable("COLL_MODE_DEACTIVATED", $a_set['mode']);			
-			}
-			if($this->isAnonymized($a_set))
-			{
-				$this->tpl->setVariable("ANONYMIZED", $this->lng->txt('trac_anonymized_info_short'));
+			else if($this->getMode() == LP_MODE_COLLECTION_TLT)
+			{								
+				// handle tlt settings
+				$this->tpl->setCurrentBlock("tlt");				
+				$this->tpl->setVariable("TXT_MONTH",$this->lng->txt('md_months'));				
+				$this->tpl->setVariable("TXT_DAYS",$this->lng->txt('md_days'));
+				$this->tpl->setVariable("TXT_TIME",$this->lng->txt('md_time'));
+				$this->tpl->setVariable("TLT_HINT", '(hh:mm)');		
+				
+				// seconds to units
+				$mon = floor($a_set["tlt"]/(60*60*24*30));
+				$tlt = $a_set["tlt"]%(60*60*24*30);
+				$day = floor($tlt/(60*60*24));
+				$tlt = $tlt%(60*60*24);
+				$hr = floor($tlt/(60*60));
+				$tlt = $tlt%(60*60);				
+				$min = floor($tlt/60);
+				
+				$options = array();
+				for($i = 0;$i <= 24;$i++)
+				{
+					$options[$i] = sprintf('%02d',$i);
+				}
+				$this->tpl->setVariable("SEL_MONTHS",
+					ilUtil::formSelect($mon,'tlt['.$a_set['id'].'][mo]',$options,false,true));
+
+				for($i = 0;$i <= 31;$i++)
+				{
+					$options[$i] = sprintf('%02d',$i);
+				}
+				$this->tpl->setVariable("SEL_DAYS", 
+					ilUtil::formSelect($day,'tlt['.$a_set['id'].'][d]',$options,false,true));
+				
+				$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt['.$a_set['id'].']',
+					true,$hr,$min,null,false));
+				
+				$this->tpl->parseCurrentBlock();			
 			}
 		}
 
@@ -269,6 +317,44 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		
 		return $tmp;
 	}
+	
+	/**
+	 * parse scorm collection
+	 */
+	protected function parseSubItemCollection()
+	{
+		$obj_id = ilObject::_lookupObjId($this->getNode());
+		$this->collections = new ilLPCollections($obj_id);
+		
+		$items = array();
+		switch(ilObject::_lookupType($obj_id))
+		{
+			case "lm":
+				$items = ilLPCollections::_getPossibleLMItems($obj_id);
+				break;
+		}
+						
+		$data = array();		
+		foreach ($items as $item)
+		{														
+			$tmp['id'] = $item["obj_id"];
+			$tmp['ref_id'] = 0;
+			$tmp['title'] = $item['title'];
+			$tmp['type'] = $item['type'];
+			
+			if($this->getMode() == LP_MODE_COLLECTION_TLT)
+			{
+				$tmp['tlt'] = $item['tlt'];
+			}
+			
+			// status (sorting)
+			$tmp["status"] = $this->getCollection()->isAssigned($item["obj_id"]);
+			
+			$data[] = $tmp;			
+		}		
+		$this->setData($data);
+		return;
+	}
 
 	/**
 	 * Init table
@@ -281,6 +367,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		switch($this->getMode())
 		{
 			case LP_MODE_COLLECTION:
+			case LP_MODE_COLLECTION_MANUAL:
 				$this->setRowTemplate('tpl.lp_collection_row.html', 'Services/Tracking');
 				$this->setTitle($this->lng->txt('trac_lp_determination'));
 				$this->setDescription($this->lng->txt('trac_lp_determination_info_crs'));
@@ -297,15 +384,30 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 				$this->setTitle($this->lng->txt('trac_lp_determination'));
 				$this->setDescription($this->lng->txt('trac_lp_determination_info_sco'));
 				break;
+			
+			case LP_MODE_COLLECTION_TLT:
+				$this->setRowTemplate('tpl.lp_collection_subitem_row.html', 'Services/Tracking');
+				$this->setTitle($this->lng->txt('trac_lp_determination'));
+				$this->setDescription($this->lng->txt('trac_lp_determination_info_crs'));
+				$this->lng->loadLanguageModule("meta");
+				
+				$this->addCommandButton('updateTLT', $this->lng->txt('save'));
+				break;
 		}
 
 		$this->addColumn('','','1px');
 		$this->addColumn($this->lng->txt('item'), 'title', '50%');
 		
-		if($this->getMode() != LP_MODE_SCORM)
+		if($this->getMode() != LP_MODE_SCORM &&
+			$this->getMode() != LP_MODE_COLLECTION_MANUAL && 
+			$this->getMode() != LP_MODE_COLLECTION_TLT)
 		{
 			$this->addColumn($this->lng->txt('trac_mode'), 'mode');
 		}	
+		else if($this->getMode() == LP_MODE_COLLECTION_TLT)
+		{
+			$this->addColumn($this->lng->txt('meta_typical_learning_time'), 'tlt');
+		}
 		
 		if($this->getMode() != LP_MODE_MANUAL_BY_TUTOR)
 		{
