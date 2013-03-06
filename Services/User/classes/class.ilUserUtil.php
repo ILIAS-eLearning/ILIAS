@@ -287,8 +287,17 @@ class ilUserUtil
 		}
 		else if(!$current || !in_array($current, $valid))
 		{
-			self::setStartingPoint(self::START_PD_OVERVIEW);
 			$current = self::START_PD_OVERVIEW;
+					
+			// #10715 - if 1 is disabled overview will display the current default
+			if($ilSetting->get('disable_my_offers') == 0 &&
+				$ilSetting->get('disable_my_memberships') == 0 &&
+				$ilSetting->get('personal_items_default_view') == 1)
+			{
+				$current = self::START_PD_SUBSCRIPTION;
+			}						
+			
+			self::setStartingPoint($current);
 		}
 		return $current;
 	}	
@@ -403,18 +412,13 @@ class ilUserUtil
 								
 		$valid = array_keys(self::getPossibleStartingPoints());
 		$current = $ilUser->getPref("usr_starting_point");	
-		if(!$current)
-		{
-			return self::getStartingPoint();
-		}
-		else if($current == self::START_REPOSITORY_OBJ)
+		if($current == self::START_REPOSITORY_OBJ)
 		{
 			return $current;
-		}
-		else if(!in_array($current, $valid))
+		}		
+		else if(!$current || !in_array($current, $valid))
 		{
-			// self::setPersonalStartingPoint(self::START_PD_OVERVIEW);
-			$current = self::START_PD_OVERVIEW;
+			return self::getStartingPoint();
 		}
 		return $current;
 	}
