@@ -1377,7 +1377,9 @@ class ilObjPortfolioGUI
 		// wiki/forum will set locator items
 		$tpl->setVariable("LOCATOR", "");
 		
-		$tpl->setContent($content.$notes.$plink);			
+		// #10717
+		$tpl->setContent($content.
+			'<div class="ilClearFloat">'.$notes.$plink.'</div>');			
 		$tpl->setFrameFixedWidth(true);
 		
 		echo $tpl->show("DEFAULT", true, true);
