@@ -839,6 +839,16 @@ class ilTestServiceGUI
 		$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, $show_question_only, $this->object->getShowSolutionFeedback(), FALSE, FALSE, TRUE);
 		$best_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE, FALSE, FALSE);
+		if( $this->object->getShowSolutionFeedback() )
+		{
+			$specificAnswerFeedback = $question_gui->getSpecificFeedbackOutput($active_id, $pass);
+			if( strlen($specificAnswerFeedback) )
+			{
+				$template->setCurrentBlock("outline_specific_feedback");
+				$template->setVariable("OUTLINE_SPECIFIC_FEEDBACK", $specificAnswerFeedback);
+				$template->parseCurrentBlock();
+			}
+		}
 		if ($this->object->isBestSolutionPrintedWithResult() && strlen($best_output))
 		{
 			$template->setCurrentBlock("best_solution");
