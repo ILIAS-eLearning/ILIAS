@@ -274,5 +274,35 @@ class ilHistory
 		
 		return $ilDB->fetchAssoc($r);
 	}
+	
+	/**
+	 * Removes a single entry from the history.
+	 * 
+	 * @param int $a_hist_entry_id The id of the entry to remove.
+	 */
+	public static function _removeEntryByHistoryID($a_hist_entry_id)
+	{
+		global $ilDB;
+
+		$q = "DELETE FROM history WHERE id = ".
+			$ilDB->quote($a_hist_entry_id, "integer");
+		$ilDB->manipulate($q);
+	}
+	
+	/**
+	 * Changes the user id of the specified history entry.
+	 * 
+	 * @param int $a_hist_entry_id The history entry to change the user id.
+	 * @param int $new_user_id The new user id.
+	 */
+	public static function _changeUserId($a_hist_entry_id, $new_user_id)
+	{
+		global $ilDB;
+
+		$ilDB->update("history", 
+			array("usr_id" => array("integer", $new_user_id)), 
+			array("id" => array("integer", $a_hist_entry_id)));
+	}
+	
 } // END class.ilHistory
 ?>

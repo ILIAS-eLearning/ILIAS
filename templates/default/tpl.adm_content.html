@@ -65,12 +65,15 @@
 	</div>
 	<!-- END fullscreen_headerbl -->
 	
-	<div class="il_HeaderInner">
+	<div class="il_HeaderInner"{FILEUPLOAD_DROPZONE_ID}>
 	<!-- BEGIN head_action --><div class="ilHeadAction" id="il_head_action"><!-- BEGIN head_action_inner -->{HEAD_ACTION}<!-- END head_action_inner --></div><!-- END head_action -->
 	<!-- BEGIN headerbl --><h1 class="ilHeader {HICONCL}"><!-- BEGIN header_image --><span style="float:left; display:block; margin: 1px 0px 0px -45px;"><img id="headerimage" src="{IMG_HEADER}" alt="{IMAGE_ALT}" <!-- BEGIN header_image_desc -->title="{IMAGE_DESC}" <!-- END header_image_desc -->/></span><!-- END header_image --><a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus">{HEADER}</a></h1><!-- END headerbl -->
 	<!-- BEGIN header_desc --><div class="ilHeaderDesc">{H_DESCRIPTION}</div><!-- END header_desc -->
 	<!-- BEGIN header_alert --><div class="ilHeaderAlert"><!-- BEGIN header_alert_prop_name -->{H_PROP} <!-- END header_alert_prop_name -->{H_VALUE}</div><!-- END header_alert -->
 	</div>
+    <!-- BEGIN header_fileupload -->
+    {HEADER_FILEUPLOAD_SCRIPT}
+    <!-- END header_fileupload -->
 	<!-- BEGIN tree_icons -->
 	<div class="il_TreeIcons ilNoDisplay">
 		<!-- BEGIN top -->

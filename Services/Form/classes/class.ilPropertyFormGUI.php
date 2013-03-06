@@ -58,6 +58,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected $tbl_width = false;
 	protected $show_top_buttons = true;
 	protected $reloaded_files;
+	protected $hide_labels = false;
 	
 	/**
 	* Constructor
@@ -327,6 +328,26 @@ class ilPropertyFormGUI extends ilFormGUI
 	function getDisableStandardMessage()
 	{
 		return $this->disable_standard_message;
+	}
+	
+	/**
+	* Get a value indicating whether the labels should be hidden or not.
+	*
+	* @return	boolean		true, to hide the labels; otherwise, false.
+	*/
+	function getHideLabels()
+	{
+		return $this->hide_labels;	
+	}
+	
+	/**
+	* Set a value indicating whether the labels should be hidden or not.
+	*
+	* @param	boolean	$a_value	Indicates whether the labels should be hidden.
+	*/
+	function setHideLabels($a_value = true)
+	{
+		$this->hide_labels = $a_value;
 	}
 	
 	/**
@@ -728,6 +749,10 @@ class ilPropertyFormGUI extends ilFormGUI
 				if ($item->getType() != "non_editable_value")
 				{
 					$this->tpl->setVariable("LAB_ID", $item->getFieldId());
+				}
+				if ($this->getHideLabels())
+				{
+					$this->tpl->setVariable("HIDE_LABELS_STYLE", " ilFormOptionHidden");
 				}
 				$this->tpl->parseCurrentBlock();
 			}

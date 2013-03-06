@@ -3339,6 +3339,12 @@ class ilObjectListGUI
 
 		// subitems
 		$this->insertSubItems();
+		
+		// file upload
+		if ($this->isFileUploadAllowed())
+		{
+			$this->insertFileUpload();	
+		}
 
 		// reset properties and commands
 		$this->cust_prop = array();
@@ -3499,6 +3505,40 @@ class ilObjectListGUI
 	public function enableTimings($a_status)
 	{
 		$this->timings_enabled = (bool)$a_status;
+	}
+	
+	/**
+	 * Gets a value indicating whether file uploads to this object are allowed or not.
+	 *
+	 * @return bool true, if file upload is allowed; otherwise, false.
+	 */
+	public function isFileUploadAllowed()
+	{
+		// only repository is supported by now
+		if ($this->context != self::CONTEXT_REPOSITORY)
+			return false;
+		
+		// personal desktop is not supported right now
+		if (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui")
+			return false;
+			
+		include_once("./Services/FileUpload/classes/class.ilFileUploadUtil.php");
+		return ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->type);
+	}
+	
+	/**
+	 * Inserts a file upload component
+	 */
+	public function insertFileUpload()
+	{
+		include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
+		ilFileUploadGUI::initFileUpload();
+
+		$upload = new ilFileUploadGUI($this->getUniqueItemId(true), $this->ref_id);				
+		
+		$this->tpl->setCurrentBlock("fileupload");
+		$this->tpl->setVariable("FILE_UPLOAD", $upload->getHTML());
+		$this->tpl->parseCurrentBlock();
 	}
 }
 

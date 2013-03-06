@@ -268,17 +268,68 @@ class ilObjFile extends ilObject2
 		$this->createDirectory();
 	}
 	
-	public function deleteVersions()
+	/**
+	 * Deletes the specified history entries or all entries if no ids are specified.
+	 *
+	 * @param array	$a_hist_entry_ids The ids of the entries to delete or null to delete all entries
+	 */
+	public function deleteVersions($a_hist_entry_ids = null)
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("UPDATE file_data SET version = 1 WHERE file_id = ".$ilDB->quote($this->getId() ,'integer'));
-		$this->setVersion(0);
-		$this->clearDataDirectory();
-		
 		require_once("./Services/History/classes/class.ilHistory.php");
-		ilHistory::_removeEntriesForObject($this->getId());
 		
+		if ($a_hist_entry_ids == null || count($a_hist_entry_ids) < 1)
+		{
+			$ilDB->manipulate("UPDATE file_data SET version = 1 WHERE file_id = ".$ilDB->quote($this->getId() ,'integer'));
+			$this->setVersion(0);
+			$this->clearDataDirectory();
+		
+			ilHistory::_removeEntriesForObject($this->getId());
+		}
+		else
+		{
+			$actualVersionDeleted = false;
+			
+			// get all versions
+			$versions = $this->getVersions();
+			
+			// delete each version
+			foreach ($a_hist_entry_ids as $hist_id)
+			{
+				$entry = null;
+				
+				// get version
+				foreach ($versions as $index => $version)
+				{
+					if ($version["hist_entry_id"] == $hist_id)	
+					{
+						// remove each history entry
+						ilHistory::_removeEntryByHistoryID($hist_id);
+				
+						// delete directory				
+						$version_dir = $this->getDirectory($version["version"]);
+						ilUtil::delDir($version_dir);
+						
+						// is actual version?
+						if ($version["version"] == $this->getVersion())
+							$actualVersionDeleted = true;
+						
+						// remove from array
+						unset($versions[$index]);						
+						break;
+					}
+				}
+			}
+			
+			// update actual version if it was deleted before
+			if ($actualVersionDeleted)
+			{			
+				// get newest version (already sorted by getVersions) 
+				$version = reset($versions);
+				$this->updateWithVersion($version);
+			}
+		}
 	}
 
 	/**
@@ -427,16 +478,8 @@ class ilObjFile extends ilObject2
 				return false;
 			}
 
-			$data = explode(",",$entry["info_params"]);
-			
-			// bugfix: first created file had no version number
-			// this is a workaround for all files created before the bug was fixed
-			if (empty($data[1]))
-			{
-				$data[1] = "1";
-			}
-
-			$file = $this->getDirectory($data[1])."/".$data[0];
+			$data = $this->parseInfoParams($entry);
+			$file = $this->getDirectory($data["version"])."/".$data["filename"];
 		}
 		return $file;
 	}
@@ -530,15 +573,8 @@ class ilObjFile extends ilObject2
 				return false;
 			}
 
-			$data = explode(",",$entry["info_params"]);
-			
-			// bugfix: first created file had no version number
-			// this is a workaround for all files created before the bug was fixed
-			if (empty($data[1]))
-			{
-				$data[1] = "1";
-			}
-			$file = $this->getDirectory($data[1])."/".$data[0];
+			$data = $this->parseInfoParams($entry);
+			$file = $this->getDirectory($data["version"])."/".$data["filename"];
 		}
 		$this->setFileSize(filesize($file));
 	}
@@ -565,16 +601,8 @@ class ilObjFile extends ilObject2
 				echo "3";return false;
 			}
 
-			$data = explode(",",$entry["info_params"]);
-			
-			// bugfix: first created file had no version number
-			// this is a workaround for all files created before the bug was fixed
-			if (empty($data[1]))
-			{
-				$data[1] = "1";
-			}
-
-			$file = $this->getDirectory($data[1])."/".$data[0];
+			$data = $this->parseInfoParams($entry);
+			$file = $this->getDirectory($data["version"])."/".$data["filename"];
 			
 			// if not found lookup for file in file object's main directory for downward compability
 			if (@!is_file($file))
@@ -589,7 +617,9 @@ class ilObjFile extends ilObject2
 		if (@is_file($file))
 		{
 			global $ilClientIniFile;
-			if ($ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') != '1')
+			
+			// also returning the 'real' filename if a history file is delivered
+			if ($ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') != '1' && is_null($a_hist_entry_id))
 			{
 				ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType($file), $this->isInline());
 			}
@@ -990,7 +1020,184 @@ class ilObjFile extends ilObject2
 		}
 		return $new_title;
 	}
+	
+	/**
+	 * Gets the file versions for this object.
+	 * 
+	 * @param array $version_ids The file versions to get. If not specified all versions are returned.
+	 * @return The file versions.
+	 */
+	public function getVersions($version_ids = null)
+	{
+		include_once("./Services/History/classes/class.ilHistory.php");
+		$versions = ilHistory::_getEntriesForObject($this->getId(), $this->getType());
+		
+		if ($version_ids != null && count($version_ids) > 0)
+		{
+			foreach ($versions as $index => $version) 
+			{
+				if (!in_array($version["hist_entry_id"], $version_ids, true))
+				{
+					unset($versions[$index]);
+				}
+			}		
+		}
+		
+		// add custom entries
+		foreach ($versions as $index => $version) 
+		{
+			$params = $this->parseInfoParams($version);
+			$versions[$index] = array_merge($version, $params);
+		}
+		
+		// sort by version number (hist_entry_id will do for that)
+		usort($versions, array($this, "compareVersions"));
+		
+		return $versions;
+	}
+	
+	/**
+	 * Gets a specific file version.
+	 * 
+	 * @param int $version_id The version id to get.
+	 * @return array The specific version or false if the version was not found. 
+	 */
+	public function getSpecificVersion($version_id)
+	{
+		include_once("./Services/History/classes/class.ilHistory.php");
+		$version = ilHistory::_getEntryByHistoryID($version_id);
+		if ($version === false)
+			return false;
+		
+		// ilHistory returns different keys in _getEntryByHistoryID and _getEntriesForObject
+		// so this makes it the same
+		$version["hist_entry_id"] = $version["id"];
+		$version["user_id"] = $version["usr_id"];
+		$version["date"] = $version["hdate"];
+		unset($version["id"], $version["usr_id"], $version["hdate"]);
+		
+		// parse params
+		$params = $this->parseInfoParams($version);
+		return array_merge($version, $params);
+	}
+	
+	/**
+	 * Makes the specified version the current one and returns theSummary of rollbackVersion
+	 * 
+	 * @param int $version_id The id of the version to make the current one.
+	 * @return array The new actual version. 
+	 */
+	public function rollback($version_id)
+	{
+		global $ilDB, $ilUser;
+		
+		$source = $this->getSpecificVersion($version_id);
+		if ($source === false)
+		{
+			$this->ilErr->raiseError($this->lng->txt("obj_not_found"), $this->ilErr->MESSAGE);
+		}
+		
+		// get the new version number
+		$new_version_nr = $this->getVersion() + 1;
+		
+		// copy file 
+		$source_path = $this->getDirectory($source["version"]) . "/" . $source["filename"];
+		$dest_dir = $this->getDirectory($new_version_nr);
+		if (@!is_dir($dest_dir))
+			ilUtil::makeDir($dest_dir);
 
+		copy($source_path, $dest_dir . "/" . $source["filename"]);
+		
+		// create new history entry based on the old one
+		include_once("./Services/History/classes/class.ilHistory.php");
+		ilHistory::_createEntry(
+			$this->getId(), 
+			"rollback", 
+			$source["filename"] . "," . $new_version_nr . "|" . $source["version"] . "|" . $ilUser->getId());
+		
+		// get id of newest entry
+		$new_version = $this->getSpecificVersion($ilDB->getLastInsertId());
+		
+		// change user back to the original uploader
+		ilHistory::_changeUserId($new_version["hist_entry_id"], $source["user_id"]);
+		
+		// update this file with the new version
+		$this->updateWithVersion($new_version);
+		
+		$this->addNewsNotification("file_updated");
+		
+		return $new_version;
+	}
+	
+	/**
+	 * Updates the file object with the specified file version.
+	 * 
+	 * @param array $version The version to update the file object with.
+	 */
+	protected function updateWithVersion($version)
+	{
+		// update title (checkFileExtension must be called before setFileName!)
+		$this->setTitle($this->checkFileExtension($version["filename"], $this->getTitle()));
+		
+		$this->setVersion($version["version"]);
+		$this->setFileName($version["filename"]);
+		
+		// evaluate mime type (reset file type before)
+		$this->setFileType("");
+		$this->setFileType($this->guessFileType($version["filename"]));
+		
+		// set filesize
+		$this->determineFileSize();
+
+		$this->update();	
+	}
+	
+	/**
+	 * Compares two file versions. 
+	 * 
+	 * @param array $v1 First file version to compare.
+	 * @param array $v2 Second file version to compare.
+	 * @return int Returns an integer less than, equal to, or greater than zero if the first argument is considered to be respectively less than, equal to, or greater than the second.
+	 */
+	function compareVersions($v1, $v2)
+	{
+		// v2 - v1 because version should be descending
+		return (int)$v2["version"] - (int)$v1["version"];
+	}
+
+	/**
+	 * Parses the info parameters ("info_params") of the specified history entry.
+	 * 
+	 * @param array $entry The history entry.
+	 * @return array Returns an array containing the "filename" and "version" contained within the "info_params".
+	 */
+	function parseInfoParams($entry)
+	{
+		$data = preg_split("/(.*),(.*)/", $entry["info_params"], 0, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		
+		// bugfix: first created file had no version number
+		// this is a workaround for all files created before the bug was fixed
+		if (empty($data[1]))
+			$data[1] = "1";
+		
+		$result = array("filename" => $data[0], "version" => $data[1], "rollback_version" => "", "rollback_user_id" => "");
+
+		// if rollback, the version contains the rollback version as well
+		if ($entry["action"] == "rollback")
+		{
+			$tokens = explode("|", $result["version"]);
+			if (count($tokens) > 1)
+			{
+				$result["version"] = $tokens[0];
+				$result["rollback_version"] = $tokens[1];
+				
+				if (count($tokens) > 2)
+					$result["rollback_user_id"] = $tokens[2];
+			}
+		}
+		
+		return $result;
+	}
 
 } // END class.ilObjFile
 ?>

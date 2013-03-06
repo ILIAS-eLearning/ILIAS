@@ -123,6 +123,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "editDownloadingSettings"),
 				array("editDownloadingSettings", "view"));
 
+			$this->tabs_gui->addTarget('upload_settings',
+				$this->ctrl->getLinkTarget($this, "editUploadSettings"),
+				array("editUploadSettings", "view"));
+
 			$this->tabs_gui->addTarget('webdav',
 				$this->ctrl->getLinkTarget($this, "editWebDAVSettings"),
 				array("editWebDAVSettings", "view"));
@@ -766,6 +770,114 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 		$this->ctrl->redirect($this, "editDiskQuotaMailTemplate");
 	}
+	
+	/**
+	* Initializes the upload settings form.
+	*/
+	private function initUploadSettingsForm()
+	{
+		global $ilCtrl, $lng;
 
+		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("settings"));
+		
+		require_once("Services/FileUpload/classes/class.ilFileUploadSettings.php");
+		
+		// drag and drop file upload
+		$chk_enabled = new ilCheckboxInputGUI($lng->txt("enable_dnd_upload"), "enable_dnd_upload");
+		$chk_enabled->setValue('1');
+		$chk_enabled->setChecked(ilFileUploadSettings::isDragAndDropUploadEnabled());
+		$chk_enabled->setInfo($lng->txt('enable_dnd_upload_info'));
+		$form->addItem($chk_enabled);
+		
+		// drag and drop file upload in repository
+		$chk_repo = new ilCheckboxInputGUI($lng->txt("enable_repository_dnd_upload"), "enable_repository_dnd_upload");
+		$chk_repo->setValue('1');
+		$chk_repo->setChecked(ilFileUploadSettings::isRepositoryDragAndDropUploadEnabled());
+		$chk_repo->setInfo($lng->txt('enable_repository_dnd_upload_info'));
+		$chk_enabled->addSubItem($chk_repo);
+		
+		// concurrent uploads
+		$num_prop = new ilNumberInputGUI($lng->txt("concurrent_uploads"), "concurrent_uploads");
+		$num_prop->setDecimals(0);
+		$num_prop->setMinValue(1);
+		$num_prop->setMinvalueShouldBeGreater(false);
+		$num_prop->setMaxValue(ilFileUploadSettings::CONCURRENT_UPLOADS_MAX);
+		$num_prop->setMaxvalueShouldBeLess(false);
+		$num_prop->setMaxLength(5);
+		$num_prop->setSize(10);
+		$num_prop->setValue(ilFileUploadSettings::getConcurrentUploads());
+		$num_prop->setInfo($lng->txt('concurrent_uploads_info'));
+		$chk_enabled->addSubItem($num_prop);
+
+		// command buttons
+		$form->addCommandButton('saveUploadSettings', $lng->txt('save'));
+		$form->addCommandButton('view', $lng->txt('cancel'));
+		
+		return $form;
+	}
+
+	/**
+	 * Edit upload settings.
+	 */
+	public function editUploadSettings()
+	{
+		global $rbacsystem, $ilErr, $tpl, $ilCtrl, $lng;
+
+		$this->tabs_gui->setTabActive('upload_settings');
+
+		if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
+		{
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
+		}
+		
+		// get form
+		$form = $this->initUploadSettingsForm();
+		
+		require_once("Services/FileUpload/classes/class.ilFileUploadSettings.php");
+		
+		// set current values
+		$val = array();
+		$val["enable_dnd_upload"] = ilFileUploadSettings::isDragAndDropUploadEnabled();
+		$val["enable_repository_dnd_upload"] = ilFileUploadSettings::isRepositoryDragAndDropUploadEnabled();
+		$val["concurrent_uploads"] = ilFileUploadSettings::getConcurrentUploads();
+		$form->setValuesByArray($val);
+
+		// set content
+		$tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Save upload settings
+	 */
+	public function saveUploadSettings()
+	{
+		global $rbacsystem, $ilErr, $ilCtrl, $lng, $tpl;
+
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
+		}
+		
+		// get form
+		$form = $this->initUploadSettingsForm();
+		if ($form->checkInput())
+		{
+			require_once("Services/FileUpload/classes/class.ilFileUploadSettings.php");
+			ilFileUploadSettings::setDragAndDropUploadEnabled($_POST["enable_dnd_upload"] == 1);
+			ilFileUploadSettings::setRepositoryDragAndDropUploadEnabled($_POST["enable_repository_dnd_upload"] == 1);
+			ilFileUploadSettings::setConcurrentUploads($_POST["concurrent_uploads"]);
+
+			ilUtil::sendSuccess($lng->txt('settings_saved'), true);
+			$ilCtrl->redirect($this, "editUploadSettings");
+		}
+		else
+		{
+			$form->setValuesByPost();	
+			$tpl->setContent($form->getHTML());
+		}
+	}
 } 
 ?>

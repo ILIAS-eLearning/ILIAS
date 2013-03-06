@@ -8,6 +8,7 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 * Class ilObjFileListGUI
 *
 * @author 		Alex Killing <alex.killing@gmx.de>
+* @author		Stefan Born <stefan.born@phzh.ch> 
 * $Id$
 *
 * @ingroup ModulesFile
@@ -155,8 +156,19 @@ class ilObjFileListGUI extends ilObjectListGUI
 		$version = $fileData['version'];
 		if ($version > 1)
 		{
+			// add versions link
+			if (parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type))
+			{
+				$link = $this->getCommandLink("versions");
+				$value = "<a href=\"$link\">".$lng->txt("version").": $version</a>";
+			}
+			else
+			{
+				$value = $lng->txt("version").": $version";
+			}
 			$props[] = array("alert" => false, "property" => $lng->txt("version"),
-				"value" => $version);
+				"value" => $value,
+				"propertyNameVisible" => false);
 		}
 		$props[] = array("alert" => false, "property" => $lng->txt("last_update"),
 			"value" => ilObject::_lookupLastUpdate($this->obj_id, true),
@@ -197,7 +209,25 @@ class ilObjFileListGUI extends ilObjectListGUI
 		}
 	}
 
-
+	/**
+	 * Get command link url.
+	 * 
+	 * @param string $a_cmd The command to get the link for.
+	 * @return string The command link.
+	 */
+	function getCommandLink($a_cmd)
+	{
+		// overwritten to always return the permanent download link
+		
+		// only create permalink for repository
+		if ($a_cmd == "sendfile" && $this->context == self::CONTEXT_REPOSITORY)
+		{
+			// return the perma link for downloads
+			return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
+		}
+		
+		return parent::getCommandLink($a_cmd);
+	}
 
 } // END class.ilObjFileListGUI
 ?>

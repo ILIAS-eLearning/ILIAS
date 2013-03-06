@@ -13107,3 +13107,37 @@ trac#:#trac_collection_tlt_learner_info#:#The learning progress for this object 
 trac#:#trac_collection_tlt_learner_subitem#:#You have spent %s of the %s needed for completion (%s%%).
 trac#:#trac_lp_list_gui#:#Personal Desktop, Repository, Search
 trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.
+common#:#hide_all_details#:#Hide all details
+common#:#show_all_details#:#Show all details
+common#:#select_files_from_computer#:#Select the files from your computer
+common#:#drag_files_here#:#Drag-and-drop your files here
+common#:#selected_files#:#Selected files
+common#:#num_of_selected_files#:#%s file(s) selected
+common#:#cancel_file_upload#:#Do you really want to cancel all pending uploads?
+common#:#upload_files#:#Upload files
+common#:#upload_files_title#:#Upload files
+common#:#upload_pending#:#Pending
+common#:#error_empty_file_or_folder#:#The file size is 0 bytes or it is a folder.
+common#:#error_upload_was_zero_bytes#:#The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile.
+common#:#uploading#:#Uploading...
+common#:#extracting#:#Extracting...
+common#:#drop_files_on_repo_obj_info#:#Drop the files here to upload them into this object.
+common#:#error_extraction_failed#:#The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object.
+common#:#upload_settings#:#Uploading Settings
+common#:#enable_dnd_upload#:#Enable drag-and-drop upload
+common#:#enable_dnd_upload_info#:#Files can be uploaded with drag-and-drop from the local computer if enabled.
+common#:#enable_repository_dnd_upload#:#Enable in Repository
+common#:#enable_repository_dnd_upload_info#:#Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object.
+common#:#concurrent_uploads#:#Number of concurrent uploads
+common#:#concurrent_uploads_info#:#Defines the number of files that can be uploaded per upload process at the same time.
+common#:#download_link#:#Download Link
+common#:#file_confirm_delete_versions#:#Are you sure to delete the following file versions?
+common#:#file_confirm_delete_all_versions#:#You selected all file versions. This will delete the whole file object. Do you want to continue?
+common#:#file_versions_deleted#:#The selected file versions were successfully deleted.
+common#:#file_rollback_select_exact_one#:#Only one file version can be selected to make it the current version.
+common#:#file_rollback_done#:#File version %s is now the current version.
+common#:#file_version_new_version#:#New version
+common#:#file_version_create#:#Initial version
+common#:#file_version_replace#:#All versions replaced
+common#:#file_version_rollback#:#Rollback from version %s by %s
+common#:#file_rollback#:#Make this the current version
