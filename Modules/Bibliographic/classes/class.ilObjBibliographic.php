@@ -304,15 +304,11 @@ class ilObjBibliographic extends ilObject2
                     $value = substr($value, 0, strlen($value)-1);
                 }
 
-                echo "<br />";
-                echo '<br />$key = '.$key;
-                echo '<br />$key_before = '.$key_before;
                 if($key != $key_before){
                     $key_before = $key;
 
                     $entry[] = array('name' => $key, 'value' => $value);
                 }else{
-                    echo "<br />same";
                     foreach($entry as $entry_key => $attribute){
                         if($attribute['name'] == $key){
                             $entry[$entry_key]['value'] .= "; " . $value;
