@@ -3627,6 +3627,8 @@ abstract class assQuestion
 		return $this->defaultnroftries;
 	}
 	
+	// scorm2004-end ???
+	
 	/**
 	 * returns the parent object id for given original question id
 	 * (should be a qpl id, but theoretically it can be a tst id, too)
@@ -3646,8 +3648,6 @@ abstract class assQuestion
 		
 		return $row['obj_fi'];
 	}
-	
-	// scorm2004-end ???
 	
 	protected function duplicateQuestionHints($originalQuestionId, $duplicateQuestionId)
 	{

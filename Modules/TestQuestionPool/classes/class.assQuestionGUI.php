@@ -1014,8 +1014,8 @@ abstract class assQuestionGUI
 		{
 			return $manual_feedback;
 		}
-		$correct_feedback = $this->object->getFeedbackGeneric(1);
-		$incorrect_feedback = $this->object->getFeedbackGeneric(0);
+		$correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
+		$incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
 		if (strlen($correct_feedback.$incorrect_feedback))
 		{
 			$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
