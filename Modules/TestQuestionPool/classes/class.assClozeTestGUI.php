@@ -877,7 +877,9 @@ class assClozeTestGUI extends assQuestionGUI
 			$feedback .= '<tr><td>';
 
 			$feedback .= $caption .'</td><td>';
-			$feedback .= $this->object->getFeedbackSingleAnswer($index) . '</td> </tr>';
+			$feedback .= $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+					$this->object->getId(), $index
+			) . '</td> </tr>';
 		}
 		$feedback .= '</tbody></table>';
 

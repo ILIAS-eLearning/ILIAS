@@ -542,7 +542,10 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			
 		if ($show_feedback)
 		{
-			$fb = $this->object->getFeedbackSingleAnswer($solution_id);
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+					$this->object->getId(), $solution_id
+			);
+			
 			if (strlen($fb))
 			{
 				$template->setCurrentBlock("feedback");

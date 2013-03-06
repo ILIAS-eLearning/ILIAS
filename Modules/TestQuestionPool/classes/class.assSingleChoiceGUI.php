@@ -437,7 +437,10 @@ class assSingleChoiceGUI extends assQuestionGUI
 			{
 				if (strcmp($user_solution, $answer_id) == 0)
 				{
-					$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+							$this->object->getId(), $answer_id
+					);
+					
 					if (strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");

@@ -71,7 +71,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr;
+		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs;
 
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -404,6 +404,24 @@ class ilObjTestGUI extends ilObjectGUI
 				// forward to ilAssQuestionHintsGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
 				$gui = new ilAssQuestionHintsGUI($questionGUI);
+				$ilCtrl->forwardCommand($gui);
+				
+				break;
+			
+			case 'ilassquestionfeedbackeditinggui':
+	
+				// set return target
+				$this->ctrl->setReturn($this, "questions");
+
+				// set context tabs
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI->object->setObjId($this->object->getId());
+				$questionGUI->setQuestionTabs();
+				
+				// forward to ilAssQuestionFeedbackGUI
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
 				$ilCtrl->forwardCommand($gui);
 				
 				break;
