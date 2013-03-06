@@ -4487,7 +4487,7 @@ common#:#rolt_add#:#Rollenvorlage anlegen
 common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
-rbac#:#rbac_create_cat#:#Benutzer kann Kategorien anlegen
+rbac#:#rbac_create_cat#:#Neue Kategorie anlegen
 common#:#root_edit#:#Systemknoten bearbeiten
 rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#root_read#:#Lesezugriff auf ILIAS System
@@ -9781,7 +9781,7 @@ rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
 rbac#:#cmps_visible#:#Administration für Plugins, Module und Dienste ist sichtbar
 rbac#:#cmps_write#:#Einstellungen für Plugins, Module und Dienste bearbeiten
-rbac#:#rbac_create_sess#:#Sitzung anlegen
+rbac#:#rbac_create_sess#:#Neue Sitzung anlegen
 rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
 rbac#:#crsr_copy#:#Kurs-Referenzen kopieren
 rbac#:#crsr_delete#:#Kurs-Referenzen verschieben oder löschen
@@ -9938,8 +9938,8 @@ rbac#:#role_block_role#:#Rolle sperren
 rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobjekte werden weggenommen.
 rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich die ausgewählten Rollen sperren?
 rbac#:#role_confirm_block_role_info#:#Die folgenden Einstellungsänderungen werden vorgenommen:<br /><br />- Alle Rechte für dieses Objekt und seine Unterobjekte werden entfernt.<br />- Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem 'Rolle sperren' wieder aufgehoben wird.
-rbac#:#rbac_create_book#:#Buchungspool anlegen
-rbac#:#rbac_create_catr#:#Kategorienreferenz erzeugen
+rbac#:#rbac_create_book#:#Neuen Buchungspool anlegen
+rbac#:#rbac_create_catr#:#Neue Kategorienreferenz anlegen
 rbac#:#rbac_create_chat#:#Neuen Chat anlegen
 rbac#:#rbac_create_chtr#:#Neuen Chatraum anlegen
 rbac#:#rbac_create_crs#:#Neuen Kurs anlegen
@@ -12715,7 +12715,7 @@ rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
 rbac#:#itgr_copy#:#Objekteblock kopieren
 rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben 
 rbac#:#itgr_edit_permission#:#Rechteeinstellungen des Objekteblocks ändern
-rbac#:#rbac_create_itgr#:#Objekteblock anlegen
+rbac#:#rbac_create_itgr#:#Neuen Objekteblock anlegen
 itgr#:#itgr_materials#:#Objekte
 itgr#:#itgr_item#:#Objekte, die eingebunden werden können
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
