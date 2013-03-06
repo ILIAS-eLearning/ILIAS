@@ -230,6 +230,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 	include_once('./Services/WebServices/ECS/classes/class.ilECSUser.php');
 	 	$user = new ilECSUser($ilUser);
 	 	$ecs_user_data = $user->toGET();
+		$GLOBALS['ilLog']->write(__METHOD__.': Using ecs user data '.$ecs_user_data);
 	 	return $this->getRemoteLink().'&ecs_hash='.$this->auth_hash.$ecs_user_data;
 	}
 	
@@ -625,8 +626,13 @@ abstract class ilRemoteObjectBase extends ilObject2
 				}				
 				$json = $res->getResult();
 				if(!is_object($json))
-				{					
-					throw new ilECSConnectorException('invalid json');
+				{
+					// try as array (workaround for invalid content)
+					$json = $json[0];
+					if(!is_object($json))
+					{
+						throw new ilECSConnectorException('invalid json');
+					}
 				}
 			}
 			catch(ilECSConnectorException $exc)
