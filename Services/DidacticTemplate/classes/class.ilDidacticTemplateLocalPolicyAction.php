@@ -216,7 +216,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		foreach($roles as $role_id => $role)
 		{
 			// Do not delete local roles of auto genrated roles
-			if($rbacreview->isLocalRole($role['obj_id'],$role['parent']) and
+			if(!$rbacreview->isGlobalRole($role['obj_id']) and
+				$rbacreview->isAssignable($role['obj_id'],$role['parent']) and
 				$rbacreview->isSystemGeneratedRole($role['obj_id']))
 			{
 				$this->revertLocalPolicy($source, $role);

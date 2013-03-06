@@ -1609,6 +1609,11 @@ class ilRbacReview
 		return false;
 	}
 	
+	/**
+	 * Check if role is a global role
+	 * @param type $a_role_id
+	 * @return type
+	 */
 	public function isGlobalRole($a_role_id)
 	{
 		return in_array($a_role_id,$this->getGlobalRoles());
