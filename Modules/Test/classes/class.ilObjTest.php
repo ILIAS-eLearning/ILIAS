@@ -9823,6 +9823,7 @@ function getAnswerFeedbackPoints()
 			$html = str_replace("&nbsp;", "&#160;", $html);
 			$html = str_replace("&otimes;", "X", $html);
 		}
+		$html = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
 		$this->deliverPDFfromFO($this->processPrintoutput2FO($html), $title);
 	}
 	
