@@ -304,7 +304,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
 		// $directfeedback holds a boolean stating if the instant feedback was requested using the "Check" button.
 		$answer_feedback = FALSE;
-		if (($directfeedback) && ($this->object->getGenericAnswerFeedback()))
+		if (($directfeedback) && ($this->object->getSpecificAnswerFeedback()))
 		{
 			$answer_feedback = TRUE;
 		}
@@ -2252,13 +2252,18 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		
 		$parseQuestionRelatedNavigation = false;
 		
-		if( $this->object->getInstantFeedbackSolution() == 1 || $this->object->getAnswerFeedback() == 1 || $this->object->getAnswerFeedbackPoints() == 1 )
+		switch( 1 )
 		{
-			$tpl->setCurrentBlock("direct_feedback");
-			$tpl->setVariable("TEXT_DIRECT_FEEDBACK", $lng->txt("check"));
-			$tpl->parseCurrentBlock();
+			case $this->object->getSpecificAnswerFeedback():
+			case $this->object->getGenericAnswerFeedback():
+			case $this->object->getAnswerFeedbackPoints():
+			case $this->object->getInstantFeedbackSolution():
 			
-			$parseQuestionRelatedNavigation = true;
+				$tpl->setCurrentBlock("direct_feedback");
+				$tpl->setVariable("TEXT_DIRECT_FEEDBACK", $lng->txt("check"));
+				$tpl->parseCurrentBlock();
+
+				$parseQuestionRelatedNavigation = true;
 		}
 		
 		if( $this->object->isOfferingQuestionHintsEnabled() )
