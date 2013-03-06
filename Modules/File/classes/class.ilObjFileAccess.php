@@ -7,7 +7,8 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 /**
 * Access class for file objects.
 *
-* @author 		Alex Killing <alex.killing@gmx.de>
+* @author Alex Killing <alex.killing@gmx.de>
+* @author Stefan Born <stefan.born@phzh.ch> 
 * @version $Id$
 *
 * @ingroup ModulesFile
@@ -273,8 +274,8 @@ class ilObjFileAccess extends ilObjectAccess
          * - Calling ilObjFileAccess::_appendCopyToTitle('Hello - Copy (3).txt', null)
          *   returns: "Hello - Copy (4).txt".
 	 */
-        public static function _appendNumberOfCopyToFilename($a_file_name, $nth_copy = null)
-        {
+	public static function _appendNumberOfCopyToFilename($a_file_name, $nth_copy = null)
+	{
 		global $lng;
                 
 		// Get the extension and the filename without the extension
@@ -339,8 +340,17 @@ class ilObjFileAccess extends ilObjectAccess
 			$newFilename = $filenameWithoutCopy.' '.$lng->txt('copy_of_suffix').$extension;
 		}
                 
-                return $newFilename;
-        }
+		return $newFilename;
+	}
+		
+	/**
+	* Gets the permanent download link for the file.
+	*/
+	public static function _getPermanentDownloadLink($ref_id)
+	{
+		include_once("./Services/Link/classes/class.ilLink.php");
+		return ilLink::_getStaticLink($ref_id, "file", true, "_download");
+	}
 }
 
 ?>

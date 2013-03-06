@@ -13107,3 +13107,37 @@ trac#:#trac_collection_tlt_learner_info#:#Der Lernfortschritt für dieses Objekt
 trac#:#trac_collection_tlt_learner_subitem#:#Sie haben bisher %s der geforderten %s erbracht (%s%%).
 trac#:#trac_lp_list_gui#:#Persönlicher Schreibtisch, Magazin, Suche
 trac#:#trac_lp_list_gui_info#:#Wenn aktiviert, wird der Lernfortschrittsstatus in Objekt-Listen angezeigt.
+common#:#hide_all_details#:#Alle Details ausblenden
+common#:#show_all_details#:#Alle Details anzeigen
+common#:#select_files_from_computer#:#Wählen Sie die Dateien von Ihrem Computer aus
+common#:#drag_files_here#:#Ziehen Sie die Dateien in diesen Bereich
+common#:#selected_files#:#Ausgewählte Dateien
+common#:#num_of_selected_files#:#%s Datei(en) ausgewählt
+common#:#cancel_file_upload#:#Wollen Sie das Hochladen der ausstehenden Dateien abbrechen?
+common#:#upload_files#:#Dateien hochladen
+common#:#upload_files_title#:#Dateien hochladen
+common#:#upload_pending#:#Ausstehend
+common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder es handelt sich um einen Ordner.
+common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist oder die Datei inzwischen gelöscht oder umbenannt wurde.
+common#:#uploading#:#Hochladen...
+common#:#extracting#:#Entpacken...
+common#:#drop_files_on_repo_obj_info#:#Ziehen Sie die Dateien hier hin, um sie in dieses Objekt hochzuladen.
+common#:#error_extraction_failed#:#Das Entpacken des Archivs und dessen Ordnerstruktur ist fehlgeschlagen. Wahrscheinlich verfügen Sie nicht über die Rechte um Ordner oder Kategorien in diesem Objekt zu erstellen.
+common#:#upload_settings#:#Upload-Einstellungen
+common#:#enable_dnd_upload#:#Drag-and-Drop-Upload aktivieren
+common#:#enable_dnd_upload_info#:#Wenn aktiviert, können Dateien mittels Drag-and-Drop hochgeladen werden.
+common#:#enable_repository_dnd_upload#:#Im Magazin zulassen
+common#:#enable_repository_dnd_upload_info#:#Ermöglicht das Ziehen von Dateien vom Computer direkt auf ein Magazin-Objekt, um sie dort hochzuladen.
+common#:#concurrent_uploads#:#Anzahl gleichzeitiger Uploads
+common#:#concurrent_uploads_info#:#Legt die Anzahl Dateien fest, welche pro Vorgang gleichzeitig hochgeladen werden.
+common#:#download_link#:#Download-Link
+common#:#file_confirm_delete_versions#:#Sind Sie sicher, dass folgende Dateiversionen gelöscht werden sollen?
+common#:#file_confirm_delete_all_versions#:#Sie haben alle Dateiversionen ausgewählt. Daher wird das ganze Datei-Objekt gelöscht. Wollen Sie fortfahren?
+common#:#file_versions_deleted#:#Die ausgewählten Dateiversionen wurden erfolgreich gelöscht.
+common#:#file_rollback_select_exact_one#:#Es darf nur eine Dateiversion ausgewählten werden, um sie zur aktuellen Version zu machen.
+common#:#file_rollback_done#:#Dateiversion %s ist nun die aktuelle Version.
+common#:#file_version_new_version#:#Neue Version
+common#:#file_version_create#:#Initiale Version
+common#:#file_version_replace#:#Alle Versionen ersetzt
+common#:#file_version_rollback#:#Rollback von Version %s durch %s
+common#:#file_rollback#:#Zur aktuellen Version machen

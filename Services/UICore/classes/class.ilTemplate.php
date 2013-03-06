@@ -1670,6 +1670,22 @@ class ilTemplate extends ilTemplateX
 				$this->parseCurrentBlock();
 			}
 		}
+		
+		// add file upload drop zone in header
+		if ($this->enable_fileupload != null)
+		{
+			$ref_id = $this->enable_fileupload;
+			$upload_id = "dropzone_" . $ref_id;
+			
+			include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
+			$upload = new ilFileUploadGUI($upload_id, $ref_id, true);
+			
+			$this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
+			
+			$this->setCurrentBlock("header_fileupload");
+			$this->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
+			$this->parseCurrentBlock();
+		}
 	}
 	
 	/**
@@ -2503,7 +2519,16 @@ if ($a == "HEADER") mk();
 		$this->setDescription(null);
 		$this->setAlertProperties(array());
 		$this->setHeaderActionMenu(null);
+		$this->enableDragDropFileUpload(null);
 	}	
+	
+	/**
+	 * Enables the file upload into this object by dropping a file.
+	 */
+	function enableDragDropFileUpload($a_ref_id)
+	{
+		$this->enable_fileupload = $a_ref_id;
+	}
 }
 
 ?>

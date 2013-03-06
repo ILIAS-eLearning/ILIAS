@@ -9,6 +9,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 * GUI class for file objects.
 *
 * @author Sascha Hofmann <shofmann@databay.de> 
+* @author Stefan Born <stefan.born@phzh.ch> 
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
@@ -169,8 +170,18 @@ class ilObjFileGUI extends ilObject2GUI
 	protected function initCreationForms()
 	{
 		$forms = array();
-		$forms[] = $this->initSingleUploadForm();
-		$forms[] = $this->initZipUploadForm();
+		
+		// use drag-and-drop upload if configured
+		require_once("Services/FileUpload/classes/class.ilFileUploadSettings.php");
+		if (ilFileUploadSettings::isDragAndDropUploadEnabled())
+		{
+			$forms[] = $this->initMultiUploadForm();
+		}
+		else
+		{
+			$forms[] = $this->initSingleUploadForm();
+			$forms[] = $this->initZipUploadForm();
+		}
 		
 		// repository only
 		if($this->id_type != self::WORKSPACE_NODE_ID)
@@ -654,18 +665,17 @@ class ilObjFileGUI extends ilObject2GUI
 		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
-
-		require_once("./Services/History/classes/class.ilHistoryGUI.php");
 		
-		$hist_gui =& new ilHistoryGUI($this->object->getId());
+		// get versions
+		$versions = $this->object->getVersions();
 		
-		// not nice, should be changed, if ilCtrl handling
-		// has been introduced to administration
-		$hist_html = $hist_gui->getVersionsTable(
-			array("ref_id" => $this->node_id, "cmd" => "versions",
-			"cmdClass" =>$_GET["cmdClass"], "cmdNode" =>$_GET["cmdNode"]));
+		// build versions table
+		require_once("Modules/File/classes/class.ilFileVersionTableGUI.php");
+		$table = new ilFileVersionTableGUI($this, "versions");
+		$table->setMaxCount(sizeof($versions));
+		$table->setData($versions);		
 		
-		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
+		$this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
 	}
 	
 	/**
@@ -701,8 +711,13 @@ class ilObjFileGUI extends ilObject2GUI
 		{
 			// 9876
 			$this->lng->loadLanguageModule("file");
-			$info->addButton($this->lng->txt("file_download"), $this->ctrl->getLinkTarget($this, "sendfile"));
-		}
+			
+			// get permanent download link for repository
+			if ($this->id_type == self::REPOSITORY_NODE_ID)
+				$info->addButton($this->lng->txt("file_download"), ilObjFileAccess::_getPermanentDownloadLink($this->node_id));
+			else
+				$info->addButton($this->lng->txt("file_download"), $this->ctrl->getLinkTarget($this, "sendfile"));
+			}
 		
 		$info->enablePrivateNotes();
 		
@@ -741,14 +756,22 @@ class ilObjFileGUI extends ilObject2GUI
 		$info->addProperty($this->lng->txt("version"),
 			$this->object->getVersion());
 		
-		include_once "./Services/History/classes/class.ilHistory.php";
-		$uploader = ilHistory::_getEntriesForObject($this->object->getId(), $this->object->getType());
+		// using getVersions function instead of ilHistory direct
+		$uploader = $this->object->getVersions();
 		$uploader = array_shift($uploader);
 		$uploader = $uploader["user_id"];		
 		
 		$this->lng->loadLanguageModule("file");
 		include_once "Services/User/classes/class.ilUserUtil.php";
 		$info->addProperty($this->lng->txt("file_uploaded_by"), ilUserUtil::getNamePresentation($uploader));
+		
+		// download link added in repository
+		if ($this->id_type == self::REPOSITORY_NODE_ID && $this->checkPermissionBool("read", "sendfile"))
+		{
+			$tpl = new ilTemplate("tpl.download_link.html", true, true, "Modules/File");
+			$tpl->setVariable("LINK", ilObjFileAccess::_getPermanentDownloadLink($this->node_id));
+			$info->addProperty($this->lng->txt("download_link"), $tpl->get());
+		}
 		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{			
@@ -823,6 +846,12 @@ class ilObjFileGUI extends ilObject2GUI
 			include("ilias.php");
 			exit;
 		}
+		
+		// added support for direct download goto links
+		if($a_additional && substr($a_additional, -8) == "download")
+		{
+			ilObjectGUI::_gotoRepositoryNode($a_target, "sendfile");
+		}
 
 		// static method, no workspace support yet
 
@@ -851,6 +880,416 @@ class ilObjFileGUI extends ilObject2GUI
 		{
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
 		}
+	}
+	
+	/**
+	 * Initializes the upload form for multiple files.
+	 *
+	 * @return object The created property form.
+	 */
+	public function initMultiUploadForm()
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$dnd_form_gui = new ilPropertyFormGUI();
+		$dnd_form_gui->setMultipart(true);
+		$dnd_form_gui->setHideLabels();
+		
+		// file input
+		include_once("Services/Form/classes/class.ilDragDropFileInputGUI.php");
+		$dnd_input = new ilDragDropFileInputGUI($this->lng->txt("files"), "upload_files");
+		$dnd_input->setArchiveSuffixes(array("zip"));
+		$dnd_input->setCommandButtonNames("uploadFiles", "cancel");
+		$dnd_form_gui->addItem($dnd_input);
+		
+		// add commands
+		$dnd_form_gui->addCommandButton("uploadFiles", $this->lng->txt("upload_files"));
+		$dnd_form_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
+		
+		$dnd_form_gui->setTableWidth("100%");
+		$dnd_form_gui->setTarget($this->getTargetFrame("save"));
+		$dnd_form_gui->setTitle($this->lng->txt("upload_files_title"));
+		$dnd_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
+		
+		$this->ctrl->setParameter($this, "new_type", "file");
+		$dnd_form_gui->setFormAction($this->ctrl->getFormAction($this, "uploadFiles"));
+		
+		return $dnd_form_gui;
+	}
+	
+	/**
+	 * Called after a file was uploaded.
+	 */
+	public function uploadFiles()
+	{
+		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+		
+		$response = new stdClass();	
+		$response->error = null;
+		$response->debug = null;	
+		
+		$files = $_FILES;
+		
+		// load form
+		$dnd_form_gui = $this->initMultiUploadForm();
+		if ($dnd_form_gui->checkInput())
+		{
+			try
+			{
+				if (!$this->checkPermissionBool("create", "", "file"))
+				{
+					$response->error = $this->lng->txt("permission_denied");
+				}
+				else
+				{
+					// handle the file
+					$fileresult = $this->handleFileUpload($dnd_form_gui->getInput("upload_files"));
+					if ($fileresult)
+						$response = (object)array_merge((array)$response, (array)$fileresult);
+				}
+			}
+			catch (Exception $ex)
+			{
+				$response->error = $ex->getMessage() . " ## " . $ex->getTraceAsString();
+			}
+		}
+		else
+		{
+			$dnd_input = $dnd_form_gui->getItemByPostVar("upload_files");
+			$response->error = $dnd_input->getAlert();
+		}
+
+		// send response object (don't use 'application/json' as IE wants to download it!)
+		header('Vary: Accept');
+		header('Content-type: text/plain');
+		echo ilJsonUtil::encode($response);
+		
+		// no further processing!
+		exit;
+	}	
+	
+	/**
+	 * Handles the upload of a single file and adds it to the parent object.
+	 * 
+	 * @param array $file_upload An array containing the file upload parameters.
+	 * @return object The response object.
+	 */
+	protected function handleFileUpload($file_upload) 
+	{
+		global $ilUser;
+
+		// file upload params
+		$filename = $file_upload["name"];
+		$type = $file_upload["type"];
+		$size = $file_upload["size"];
+		$temp_name = $file_upload["tmp_name"];
+		
+		// additional params
+		$title = $file_upload["title"];
+		$description = $file_upload["description"];
+		$extract = $file_upload["extract"];
+		$keep_structure = $file_upload["keep_structure"];
+		
+		// create answer object		
+		$response = new stdClass();
+		$response->fileName = $filename;
+		$response->fileSize = intval($size);
+		$response->fileType = $type;
+		$response->fileUnzipped = $extract;
+		$response->error = null;
+
+		// extract archive?
+		if ($extract)
+		{
+			$zip_file = $filename;
+			$adopt_structure = $keep_structure;
+
+			include_once ("Services/Utilities/classes/class.ilFileUtils.php");
+
+			// Create unzip-directory
+			$newDir = ilUtil::ilTempnam();
+			ilUtil::makeDir($newDir);
+			
+			// Check if permission is granted for creation of object, if necessary
+			if($this->id_type != self::WORKSPACE_NODE_ID)
+			{					
+				$type = ilObject::_lookupType((int)$this->parent_id, true);
+			}
+			else
+			{
+				$type = ilObject::_lookupType($this->tree->lookupObjectId($this->parent_id), false);
+			}			
+			
+			$tree = $access_handler = null;
+			switch($type)
+			{
+				// workspace structure
+				case 'wfld':
+				case 'wsrt':
+					$permission = $this->checkPermissionBool("create", "", "wfld");
+					$containerType = "WorkspaceFolder";	
+					$tree = $this->tree;
+					$access_handler = $this->getAccessHandler();						
+					break;
+				
+				// use categories as structure
+				case 'cat':
+				case 'root':
+					$permission = $this->checkPermissionBool("create", "", "cat");
+					$containerType = "Category";
+					break;
+				
+				// use folders as structure (in courses)
+				default:
+					$permission = $this->checkPermissionBool("create", "", "fold");
+					$containerType = "Folder";	
+					break;					
+			}												
+			
+			try 
+			{
+				// 	processZipFile ( 
+				//		Dir to unzip, 
+				//		Path to uploaded file, 
+				//		should a structure be created (+ permission check)?
+				//		ref_id of parent
+				//		object that contains files (folder or category)  
+				//		should sendInfo be persistent?)
+				ilFileUtils::processZipFile( 
+					$newDir, 
+					$temp_name,
+					($adopt_structure && $permission),
+					$this->parent_id,
+					$containerType,
+					$tree,
+					$access_handler);
+			}
+			catch (ilFileUtilsException $e) 
+			{
+				$response->error = $e->getMessage();
+			}
+			catch (Exception $ex)
+			{
+				$response->error = $ex->getMessage();	   
+			}
+
+			ilUtil::delDir($newDir);
+		}
+		else
+		{
+			if (trim($title) == "")
+			{
+				$title = $filename;
+			}
+			else
+			{
+				// BEGIN WebDAV: Ensure that object title ends with the filename extension
+				$fileExtension = ilObjFileAccess::_getFileExtension($filename);
+				$titleExtension = ilObjFileAccess::_getFileExtension($title);
+				if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
+				{
+					$title .= '.'.$fileExtension;
+				}
+				// END WebDAV: Ensure that object title ends with the filename extension
+			}
+			
+			// create and insert file in grp_tree
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$fileObj = new ilObjFile();
+			$fileObj->setTitle($title);
+			$fileObj->setDescription($description);
+			$fileObj->setFileName($filename);
+			
+			include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+			$fileObj->setFileType(ilMimeTypeUtil::getMimeType("", $filename, $type));
+			$fileObj->setFileSize($size);
+			$this->object_id = $fileObj->create();
+			
+			$this->putObjectInTree($fileObj, $this->parent_id);
+			
+			// upload file to filesystem
+			$fileObj->createDirectory();
+			$fileObj->raiseUploadError(false);
+			$fileObj->getUploadFile($temp_name, $filename);
+			
+			// BEGIN ChangeEvent: Record write event.
+			require_once('./Services/Tracking/classes/class.ilChangeEvent.php');
+			ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
+			// END ChangeEvent: Record write event.    
+		}
+		
+		return $response;
+	}
+	
+	/**
+	 * Displays a confirmation screen with selected file versions that should be deleted.
+	 */
+	function deleteVersions()
+	{
+		global $ilTabs, $ilLocator;
+		
+		// get ids either from GET (if single item was clicked) or 
+		// from POST (if multiple items were selected)
+		$version_ids = isset($_GET["hist_id"]) ? array($_GET["hist_id"]) : $_POST["hist_id"];
+		
+		if (count($version_ids) < 1)
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "versions");
+		}
+		else
+		{
+			$ilTabs->activateTab("id_versions");
+
+			// check if all versions are selected
+			$versionsToKeep = array_udiff($this->object->getVersions(), $version_ids, array($this, "compareHistoryIds"));
+			if (count($versionsToKeep) < 1) 
+			{
+				// set our message
+				ilUtil::sendQuestion($this->lng->txt("file_confirm_delete_all_versions"));
+				
+				// show confirmation gui
+				include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+				$conf_gui = new ilConfirmationGUI();
+				$conf_gui->setFormAction($this->ctrl->getFormAction($this, "versions"));
+				$conf_gui->setCancel($this->lng->txt("cancel"), "cancelDeleteFile");
+				$conf_gui->setConfirm($this->lng->txt("confirm"), "confirmDeleteFile");
+				
+				$conf_gui->addItem("id[]", $this->ref_id, $this->object->getTitle(),
+					ilObject::_getIcon($this->object->getId(), "small", $this->object->getType()),
+					$this->lng->txt("icon")." ".$this->lng->txt("obj_".$this->object->getType()));
+			
+				$html = $conf_gui->getHTML();
+			}
+			else
+			{		
+				include_once("./Modules/File/classes/class.ilFileVersionTableGUI.php");
+			
+				ilUtil::sendQuestion($this->lng->txt("file_confirm_delete_versions"));
+				$versions = $this->object->getVersions($version_ids);
+			
+				$table = new ilFileVersionTableGUI($this, 'versions', true);
+				$table->setMaxCount(sizeof($versions));
+				$table->setData($versions);
+			
+				$html = $table->getHTML();
+			}
+
+			$this->tpl->setVariable('ADM_CONTENT', $html);
+		}
+	}
+
+	/**
+	 * Deletes the file versions that were confirmed by the user.
+	 */
+	function confirmDeleteVersions()
+	{
+		global $ilTabs;
+		
+		// has the user the rights to delete versions?
+		if (!$this->checkPermissionBool("write"))
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+		}
+		
+		// delete versions after confirmation
+		if (count($_POST["hist_id"]) > 0)
+		{
+			$this->object->deleteVersions($_POST["hist_id"]);
+			ilUtil::sendSuccess($this->lng->txt("file_versions_deleted"), true);
+		}
+
+		$this->ctrl->setParameter($this, "hist_id", "");		
+		$this->ctrl->redirect($this, "versions");
+	}
+	
+	/**
+	 * Cancels the file version deletion.
+	 */
+	function cancelDeleteVersions()
+	{
+		$this->ctrl->redirect($this, "versions");
+	}
+	
+	/**
+	 * Deletes this file object.
+	 */
+	function confirmDeleteFile()
+	{
+		// has the user the rights to delete the file?
+		if (!$this->checkPermissionBool("write"))
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+		}
+		
+		// delete this file object
+		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+		$ru = new ilRepUtilGUI($this);
+		$ru->deleteObjects($this->parent_id, array($this->ref_id));
+		
+		// redirect to parent object
+		$this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->parent_id);
+		$this->ctrl->redirectByClass("ilrepositorygui");
+	}
+	
+	/**
+	 * Cancels the file deletion.
+	 */
+	function cancelDeleteFile()
+	{
+		$this->ctrl->redirect($this, "versions");
+	}
+	
+	/**
+	 * Compares two versions either by passing a history entry or an id.
+	 * 
+	 * @param $v1 The first version to compare.
+	 * @param $v2 The second version to compare.
+	 * @return 
+	 */
+	function compareHistoryIds($v1, $v2)
+	{
+		if (is_array($v1))
+			$v1 = (int)$v1["hist_entry_id"];
+		else if (!is_int($v1))
+			$v1 = (int)$v1;
+			
+		if (is_array($v2))
+			$v2 = (int)$v2["hist_entry_id"];
+		else if (!is_int($v2))
+			$v2 = (int)$v2;
+		
+		return $v1 - $v2;
+	}
+
+	/**
+	 * Performs a rollback with the selected file version.
+	 */
+	function rollbackVersion()
+	{
+		global $ilTabs;
+		
+		// has the user the rights to delete the file?
+		if (!$this->checkPermissionBool("write"))
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+		}
+		
+		// get ids either from GET (if single item was clicked) or 
+		// from POST (if multiple items were selected)
+		$version_ids = isset($_GET["hist_id"]) ? array($_GET["hist_id"]) : $_POST["hist_id"];
+		
+		// more than one entry selected?
+		if (count($version_ids) != 1)
+		{
+			ilUtil::sendInfo($this->lng->txt("file_rollback_select_exact_one"), true);
+			$this->ctrl->redirect($this, "versions");
+		}
+
+		// rollback the version
+		$new_version = $this->object->rollback($version_ids[0]);
+
+		ilUtil::sendSuccess(sprintf($this->lng->txt("file_rollback_done"), $new_version["rollback_version"]), true);
+		$this->ctrl->redirect($this, "versions");
 	}
 
 } // END class.ilObjFileGUI

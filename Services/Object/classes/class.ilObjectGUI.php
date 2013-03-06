@@ -303,6 +303,13 @@ class ilObjectGUI
 				$this->showMountWebfolderIcon();
 			}
 			// END WebDAV: Display Mount Webfolder icon.
+			
+			// fileupload support
+			require_once './Services/FileUpload/classes/class.ilFileUploadUtil.php';
+			if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType()))
+			{
+				$this->enableDragDropFileUpload();		
+			}
 		}
 		
 		return true;
@@ -2089,8 +2096,16 @@ class ilObjectGUI
 		exit;
 	}
 	
-	
-	
+	/**
+	 * Enables the file upload into this object by dropping files.
+	 */
+	protected function enableDragDropFileUpload()
+	{
+		include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
+		ilFileUploadGUI::initFileUpload();
+		
+		$this->tpl->enableDragDropFileUpload($this->ref_id);
+	}
 
 } // END class.ilObjectGUI (3.10: 2896 loc)
 

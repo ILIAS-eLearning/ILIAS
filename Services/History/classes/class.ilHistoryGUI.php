@@ -249,7 +249,8 @@ class ilHistoryGUI
 				$name = ilObjUser::_lookupName($entry["user_id"]);
 				$this->tpl->setVariable("TXT_USER",
 					$name["title"]." ".$name["firstname"]." ".$name["lastname"]." [".$entry["user_id"]."]");
-				$info_params = explode(",", $entry["info_params"]);
+				// Bugfix if filename contains a comma, using regex instead of explode
+				$info_params = preg_split("/(.*),(.*)/", $entry["info_params"], 0, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 				$info_text = $this->lng->txt("hist_".$this->obj_type.
 					"_".$entry["action"]);
 				$i=1;

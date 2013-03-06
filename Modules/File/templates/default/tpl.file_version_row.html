@@ -1,0 +1,35 @@
+<tr class="{CSS_ROW}">
+    <!-- BEGIN version_selection -->
+    <td class="std">
+        <input type="checkbox" name="hist_id[]" value="{OBJ_ID}" />
+    </td>
+    <!-- END version_selection -->
+    <td class="std ilRight">
+        {TXT_VERSION}
+        <!-- BEGIN version_id -->
+        <input type="hidden" name="hist_id[]" value="{OBJ_ID}" />
+        <!-- END version_id -->
+    </td>
+    <td class="std">
+        {TXT_DATE}
+    </td>
+    <td class="std">
+        {TXT_UPLOADED_BY}
+    </td>
+    <td class="std">
+        <a href="{DL_LINK}">{TXT_FILENAME}</a>
+    </td>
+    <td class="std ilRight">
+        {TXT_FILESIZE}
+    </td>
+    <!-- BEGIN version_txt_actions -->
+    <td class="std">
+        {TXT_ACTION}
+    </td>
+    <!-- END version_txt_actions -->
+    <!-- BEGIN version_actions -->
+    <td class="std">
+        {ACTIONS}
+    </td>
+    <!-- END version_actions -->
+</tr>
