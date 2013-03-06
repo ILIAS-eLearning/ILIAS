@@ -626,8 +626,13 @@ abstract class ilRemoteObjectBase extends ilObject2
 				}				
 				$json = $res->getResult();
 				if(!is_object($json))
-				{					
-					throw new ilECSConnectorException('invalid json');
+				{
+					// try as array (workaround for invalid content)
+					$json = $json[0];
+					if(!is_object($json))
+					{
+						throw new ilECSConnectorException('invalid json');
+					}
 				}
 			}
 			catch(ilECSConnectorException $exc)
