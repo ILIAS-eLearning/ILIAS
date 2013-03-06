@@ -367,8 +367,11 @@ class ilDataCollectionFieldEditGUI
 		$this->initForm($a_mode == "update"?"edit":"create");
 		if ($this->form->checkInput())
 		{
+            $title = $this->form->getInput("title");
+            if($a_mode != "create" && $title != $this->field_obj->getTitle())
+                ilUtil::sendInfo($lng->txt("dcl_field_title_change_warning"), true);
 
-			$this->field_obj->setTitle($this->form->getInput("title"));
+			$this->field_obj->setTitle($title);
 			$this->field_obj->setDescription($this->form->getInput("description"));
 			$this->field_obj->setDatatypeId($this->form->getInput("datatype"));
 			$this->field_obj->setRequired($this->form->getInput("required"));

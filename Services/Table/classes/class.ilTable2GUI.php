@@ -542,7 +542,7 @@ class ilTable2GUI extends ilTableGUI
 		if(DEVMODE && 
 			$this->enabled["header"] && $this->enabled["sort"] && 
 			$this->columns_determined && is_array($this->column) && 
-			is_array($a_data) && sizeof($a_data))
+			is_array($a_data) && sizeof($a_data) && !$this->getExternalSorting())
 		{
 			$check = $a_data;
 			$check = array_keys(array_shift($check));			
