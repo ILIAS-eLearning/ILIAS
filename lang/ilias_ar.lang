@@ -1,16 +1,16 @@
-/* Copyright (c) 1998-2012 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
 * @module			language file Arabic
 * @modulegroup		language
-* @author			Matthias Kunkel <mkunkel@me.com>
+* @author			Abdelraheem Tamimi <atamimi@itsecurityct.com>
 * @version			$Id: ilias_en.lang 25461 2010-08-30 13:20:45Z jluetzen $
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -27,7 +27,7 @@ acc#:#acc_last_rep_visited#:#Repository/Last Visited
 acc#:#acc_last_visited#:#آخر زيارة
 acc#:#acc_mark_all_read#:#جعلها مقروءة
 acc#:#acc_next#:#التالي
-acc#:#acc_personal_desktop#:#Personal Desktop
+acc#:#acc_personal_desktop#:#سطح المكتب الشخصي
 acc#:#acc_previous#:#السابق
 acc#:#acc_reply#:#رد
 acc#:#acc_tree_off#:#الشجرة لا تعمل
@@ -39,7 +39,7 @@ administration#:#adm_activate_db_benchmark_desc#:#سيتم تعطيل القيا
 administration#:#adm_add_settings_template#:#Add Template
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
-administration#:#adm_basic#:#Basic
+administration#:#adm_basic#:#أساسي
 administration#:#adm_captcha_wiki_forum#:#Activate Captcha for Anonymous (Forum/Wiki)
 administration#:#adm_db_bench_by_first_table#:#SQL تم تجميعها بواسطة الجدول الاول في
 administration#:#adm_db_bench_chronological#:#ترتيب زمني
@@ -87,7 +87,7 @@ administration#:#adm_time#:#الوقت
 administration#:#adm_user_starting_point#:#Personal Starting Point
 administration#:#adm_user_starting_point_info#:#Select the page or object which is shown after login.
 administration#:#adm_user_starting_point_object#:#Repository Object
-administration#:#adm_user_starting_point_personal#:#Personal Setting
+administration#:#adm_user_starting_point_personal#:#إعدادات شخصية
 administration#:#adm_user_starting_point_personal_info#:#If activated users may select their starting page.
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id
 administration#:#adm_users#:#Users
@@ -221,7 +221,7 @@ administration#:#obj_mds#:#بيانات وصفية
 administration#:#obj_mds_desc#:#تمكين البيانات الوصفية واعدادات البيانات الوصفية المتقدمة
 administration#:#obj_otpl#:#Object Templates
 administration#:#obj_otpl_desc#:#Template for the creation of new objects
-administration#:#obj_prfa#:#Portfolio
+administration#:#obj_prfa#:#محفظة
 administration#:#obj_prfa_desc#:#Global Portfolio Settings
 administration#:#options#:#خيارات
 administration#:#output_options#:#خيارات الاخراج
@@ -319,7 +319,7 @@ assessment#:#allowedextensions#:#Allowed File Extensions
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
 assessment#:#analyze_errortext#:#Analyze Error Text
 assessment#:#answer#:#جواب
-assessment#:#answer_characters#:# characters allowed, entered number of characters: 
+assessment#:#answer_characters#:# characters allowed, entered number of characters:
 assessment#:#answer_image#:#Answer Image
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
 assessment#:#answer_is_right#:#Your solution is correct
@@ -1550,7 +1550,7 @@ blog#:#blog_edit_keywords#:#Edit Keywords
 blog#:#blog_enable_approval#:#Approval
 blog#:#blog_enable_approval_info#:#All postings need to be approved by an administrator before being published.
 blog#:#blog_enable_notes#:#Public Comments
-blog#:#blog_enable_rss#:#Activate RSS 
+blog#:#blog_enable_rss#:#Activate RSS
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
 blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of the exercise "%s".
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.
@@ -1564,7 +1564,7 @@ blog#:#blog_list_more#:#more
 blog#:#blog_navigation#:#Postings
 blog#:#blog_needs_approval#:#Needs Approval
 blog#:#blog_new#:#Create New Blog
-blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. 
+blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list.
 blog#:#blog_no_keywords#:#No keywords have been entered yet.
 blog#:#blog_notification_activated#:#Notification Activated
 blog#:#blog_notification_deactivated#:#Notification Deactivated
@@ -1575,7 +1575,7 @@ blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting#:#Blog Posting
 blog#:#blog_posting_deleted#:#The entry has been deleted.
 blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following entry?
-blog#:#blog_preview#:#Preview
+blog#:#blog_preview#:#عرض
 blog#:#blog_preview_banner#:#Custom Banner
 blog#:#blog_preview_banner_height#:#Banner Height
 blog#:#blog_preview_banner_info#:#Default size is 880x100 pixels.
@@ -1950,7 +1950,7 @@ chatroom_adm#:#keypass#:#Keypass
 chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
-chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked. 
+chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked.
 chatroom_adm#:#priv_hosts#:#Privileged hosts
 chatroom_adm#:#protocol#:#Protocol
 chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions
@@ -2481,7 +2481,7 @@ common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highligh
 common#:#cont_object#:#عنصر
 common#:#contact#:#جهة إتصال
 common#:#contact_data#:#معلومات جهة الإتصال
-common#:#contact_sysadmin#:#Contact System Administration
+common#:#contact_sysadmin#:#إتصل بمسؤول الموقع
 common#:#container#:#Container
 common#:#container_no_items#:#لا يوجد مواد
 common#:#content#:#محتوى
@@ -2507,8 +2507,8 @@ common#:#count#:#Count
 common#:#country#:#الدولة
 common#:#country_free_text#:#الدولة- نص ادخال حر
 common#:#country_selection#:#الدولة-يجب الاختيار
-common#:#course#:#Course
-common#:#courses#:#Courses
+common#:#course#:#مساق
+common#:#courses#:#المساقات
 common#:#create#:#انشاء
 common#:#create_block#:#انشاء كتلة
 common#:#create_date#:#تم انشاؤها على
@@ -2534,14 +2534,14 @@ common#:#cron_mail_notification_never#:#مطلقا
 common#:#cronjob_last_start#:#Last Start of the Cron Job
 common#:#cronjob_last_start_unknown#:#Indeterminate
 common#:#crs#:#دورة
-common#:#crs_a#:#a Course
+common#:#crs_a#:#مساق
 common#:#crs_activation_start_invalid#:#وقت البداية والنهاية غير صحيحان
 common#:#crs_add#:#اضافة دورة
 common#:#crs_added#:#دورة مضافة
 common#:#crs_all_questions_answered_successfully#:#لقد اجبت عن جميع الاسئلة بنجاح
 common#:#crs_archives#:#الارشيف
 common#:#crs_at_least_one_admin#:#يجب وجود مدير دورة واحد على الاقل
-common#:#crs_available#:#Available Courses
+common#:#crs_available#:#المساقات المتوفرة
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
 common#:#crs_edit#:#تعديل دورة
@@ -2562,7 +2562,7 @@ common#:#crs_removed_from_waiting_list#:#"%s" لقد تم فصلك من لائح
 common#:#crs_status_blocked#:#[تم رفض الوصول]
 common#:#crs_status_pending#:#[انتظار التسجيل]
 common#:#crs_subscribers_assigned#:#Assigned new user(s)
-common#:#crs_title#:#Course Title
+common#:#crs_title#:#عنوان المساق
 common#:#crs_unsubscribe#:#الغاء الاشتراك
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)
 common#:#crsr#:#Course Reference
@@ -2997,10 +2997,13 @@ common#:#gender_m#:#ذكر
 common#:#general_settings#:#الاعدادات العامة
 common#:#generate#:#انشاء
 common#:#glo#:#قائمة مصطلحات
+common#:#glo_a#:#a Glossary
 common#:#glo_add#:#اضافة قائمة مصطلحات
 common#:#glo_added#:#قائمة مصطلحات مضافة
 common#:#glo_create#:#انشاء قائمة مصطلحات
 common#:#glo_import#:#Import Glossary
+common#:#glo_join#:#الاشتراك في قائمة مصطلحات
+common#:#glo_leave#:#Unsubscribe from Glossary
 common#:#glo_mode#:#اسلوب
 common#:#glo_mode_desc#:#تعمل قائمة المصطلحات الفعلية كقائمة مصطلحات عادية. بالاضافة الى انها تحتوي على العناصر الموجودة في جميع قوائم المصطلحات الموجودة في نفس المستوى في المكتبة، تماما كقائمة المصطلحات الفعلية (مستوى) على التوالي مع جميع قوائم المصطلحات الموجودة في المكتبة في وضع قائمة المصطلحات الفعلية- شجرة فرعية
 common#:#glo_mode_level#:#virtual (this level only)
@@ -3020,6 +3023,7 @@ common#:#go#:#اذهب
 common#:#group#:#مجموعة
 common#:#group_access_denied#:#الوصول مرفوض
 common#:#group_any_objects#:#لا يوجد عناصر فرعية
+common#:#group_create_chat#:#Create chat
 common#:#group_desc#:#وصف المجموعة
 common#:#group_details#:#تفاصيل المجموعة
 common#:#group_filesharing#:#ملف مشاركة المجموعة
@@ -3067,7 +3071,7 @@ common#:#grp_added#:#مجموعة مضافة
 common#:#grp_already_applied#:#لقد قمت بالالتحاق بهذه المجموعة الرجاء الانتظار حتى يتم التأكيد
 common#:#grp_app_send_mail#:#ارسل راسلة للمتقدم
 common#:#grp_back#:#رجوع
-common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
+common#:#grp_btn_unsubscribe#:#إلغاء العضوية في المجموعة
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
 common#:#grp_copy_threads_info#:#الرجاء ان تقرر اي المواد التي يجب نسخها او ربطها او حذفها
 common#:#grp_count_members#:#عدد الاعضاء
@@ -3790,7 +3794,7 @@ common#:#msg_wrong_format#:#القيمة التي قمت بادخالها غير
 common#:#multimedia#:#وسائط متعددة
 common#:#my_bms#:#المراجع
 common#:#my_courses#:#دوراتي
-common#:#my_courses_groups#:#My Courses & Groups
+common#:#my_courses_groups#:#مساقاتي ومجموعاتي
 common#:#my_frms#:#منتدياتي
 common#:#my_grps#:#مجموعاتي
 common#:#my_los#:#My Learning Objects
@@ -3954,7 +3958,7 @@ common#:#obj_itgr_duplicate#:#Copy Item Group
 common#:#obj_itgr_select#:#-- Please select one Item Group --
 common#:#obj_ldap#:#LDAP Settings
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
-common#:#obj_lm#:#Learning Module ILIAS
+common#:#obj_lm#:#وحدة تعليمية - ILIAS
 common#:#obj_lm_duplicate#:#Copy Learning Module
 common#:#obj_lng#:#اللغة
 common#:#obj_lngf#:#اللغات
@@ -3990,13 +3994,13 @@ common#:#obj_pg#:#صفحة
 common#:#obj_poll#:#Poll
 common#:#obj_poll_dupliate:#:#Copy Poll
 common#:#obj_poll_duplicate#:#Copy Poll
-common#:#obj_prtf#:#Portfolio 
+common#:#obj_prtf#:#محفظة
 common#:#obj_ps#:#الخصوصية والحماية
 common#:#obj_ps_desc#:#تكوين اعدادات الخصوصية والحماية من هنا
 common#:#obj_qpl#:#اختبار مجموعة اسئلة
 common#:#obj_qpl_duplicate#:#نسخ اختبار مجموعة اسئلة
 common#:#obj_qpl_select#:#-- الرجاء اختيار اختبار مجموعة اسئلة --
-common#:#obj_rcat#:#ECS Category 
+common#:#obj_rcat#:#ECS Category
 common#:#obj_rcrs#:#Course-Link
 common#:#obj_recf#:#العناصر المستعادة
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
@@ -4062,7 +4066,7 @@ common#:#obj_webr#:#رابط
 common#:#obj_webr_duplicate#:#نسخ قائمة روابط
 common#:#obj_webr_select#:#-- الرجاء اختيار قائمة رابط --
 common#:#obj_wfld#:#Folder
-common#:#obj_wiki#:#Wiki
+common#:#obj_wiki#:#ويكي
 common#:#obj_wiki_duplicate#:#Copy Wiki
 common#:#object#:#عنصر
 common#:#object_added#:#عنصر مضاف
@@ -4245,8 +4249,8 @@ common#:#personal_data#:#معلومات شخصية
 common#:#personal_desktop#:#سطح المكتب الشخصي
 common#:#personal_picture#:#الصورة الشخصية
 common#:#personal_profile#:#الملف الشخصي
-common#:#personal_settings#:#Personal Settings
-common#:#personal_workspace#:#Resources
+common#:#personal_settings#:#إعدادات شخصية
+common#:#personal_workspace#:#موارد
 common#:#persons#:#اشخاص
 common#:#pg_a#:#a page
 common#:#pg_add#:#اضافة صفحة
@@ -4266,7 +4270,7 @@ common#:#please_select_a_delivered_file_to_delete#:#عليك اختيار ملف
 common#:#please_select_a_delivered_file_to_download#:#عليك اختيار ملف مستلم واحد على الاقل لتنزيله
 common#:#please_wait#:#الرجاء الانتظار...
 common#:#port#:#منفذ
-common#:#portfolio#:#Portfolio
+common#:#portfolio#:#محفظة
 common#:#pos_bottom#:#اسفل
 common#:#pos_left#:#يسار
 common#:#pos_right#:#يمين
@@ -5143,6 +5147,7 @@ content#:#cont_alphabetic_s#:#ترتيب ابجدي أ، ب، ...
 content#:#cont_always#:#Always
 content#:#cont_anchor#:#Anchor
 content#:#cont_annex#:#Annex
+content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.
@@ -5256,6 +5261,7 @@ content#:#cont_current_term#:#Current Term
 content#:#cont_current_usages#:#Current Usages
 content#:#cont_current_version#:#Current Version
 content#:#cont_custom#:#Custom
+content#:#cont_custom_menu_entries#:#Custom Menu Entries
 content#:#cont_custom_size#:#Custom Size
 content#:#cont_dark#:#Dark
 content#:#cont_data_from_lms#:#adlcp:datafromlms
@@ -5580,7 +5586,7 @@ content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#خصائص الوحدة التعليمية
-content#:#cont_LocalFile#:#Local File
+content#:#cont_localfile#:#Local File
 content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".
 content#:#cont_location#:#Location
@@ -5800,8 +5806,8 @@ content#:#cont_resize_img#:#Resize Image File
 content#:#cont_resource#:#مصدر
 content#:#cont_resource_size#:#Original Resource Size
 content#:#cont_resource_type#:#type
-content#:#cont_resources#:#Resources
-content#:#cont_resources_of_type#:#Resources of Type
+content#:#cont_resources#:#موارد
+content#:#cont_resources_of_type#:#موارد النوع
 content#:#cont_Ressources#:#Ressources
 content#:#cont_revision#:#Revision
 content#:#cont_right#:#Right
@@ -6274,7 +6280,7 @@ crs#:#crs_header_members#:#Course members
 crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users
 crs#:#crs_hide_link_lms#:#Hide materials
 crs#:#crs_hide_link_objectives#:#Hide objectives
-crs#:#crs_hide_link_or#:#Hide other resources
+crs#:#crs_hide_link_or#:#إخفاء الموارد الأخرى
 crs#:#crs_hide_link_session#:#Hide sessions
 crs#:#crs_hide_link_tst#:#Hide tests
 crs#:#crs_html#:#HTML
@@ -6452,7 +6458,7 @@ crs#:#crs_objectives_reseted#:#Reseted results.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Options
 crs#:#crs_other_groupings#:#Groupings of other courses
-crs#:#crs_other_resources#:#Other Resources
+crs#:#crs_other_resources#:#موارد أخرى
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Your password is not valid
 crs#:#crs_password_required#:#This registration procedure requires a password.
@@ -6511,7 +6517,7 @@ crs#:#crs_settings#:#Course Settings
 crs#:#crs_settings_saved#:#Settings saved
 crs#:#crs_show_link_lms#:#Show learning materials
 crs#:#crs_show_link_objectives#:#Show objectives
-crs#:#crs_show_link_or#:#Show other resources
+crs#:#crs_show_link_or#:#أظهر موارد أخرى
 crs#:#crs_show_link_session#:#Show sessions
 crs#:#crs_show_link_tst#:#Show tests
 crs#:#crs_show_members#:#Show Members
@@ -7041,7 +7047,7 @@ dateplaner#:#dv_keywordselect#:#Keyword select:
 dateplaner#:#dv_message#:#Message:
 dateplaner#:#dv_noGroup#:#لا يوجد مجموعة
 dateplaner#:#dv_noKey#:#لا يوجد كلمات مفتاحية
-dateplaner#:#dv_preview#:#<b>! Preview !</b>
+dateplaner#:#dv_preview#:#<b>! عرض !</b>
 dateplaner#:#dv_rotation#:#Recurrence:
 dateplaner#:#dv_rotation_date#:#Recurrence date:
 dateplaner#:#dv_rotation_end#:#Recurrence end:
@@ -7154,7 +7160,7 @@ dateplaner#:#menue#:#Menu
 dateplaner#:#mmonth#:#Last Month
 dateplaner#:#Mo_long#:#الاثنين
 dateplaner#:#Mo_short#:#الاثنين
-dateplaner#:#month#:#Month
+dateplaner#:#month#:#شهر
 dateplaner#:#Month_long#:#Month View
 dateplaner#:#more#:#More
 dateplaner#:#mweek#:#الأسبوع الماضي
@@ -7221,6 +7227,7 @@ dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
 dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
+dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activate Record Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
@@ -7366,10 +7373,10 @@ didactic#:#didactic_delete_msg#:#Deleted didactical templates.
 didactic#:#didactic_do_export#:#Export
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template
 didactic#:#didactic_import_btn#:#Import Didactic Template
-didactic#:#didactic_import_failed#:#Importing the didactical template failed with message: 
+didactic#:#didactic_import_failed#:#Importing the didactical template failed with message:
 didactic#:#didactic_import_success#:#Successfully imported didactical template
 didactic#:#didactic_import_table_title#:#Import of a didactic template
-didactic#:#didactic_install_info#:#General Information
+didactic#:#didactic_install_info#:#معلومات عامة
 didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.
 didactic#:#didactic_selected_tpl_option#:#Applied didactic template:
 didactic#:#didactic_template_applied#:#Applied didactic template.
@@ -7412,6 +7419,33 @@ ecs#:#ecs_cert_key#:#مفتاح الشهادة
 ecs#:#ecs_cert_valid_until#:#Certificate valid until
 ecs#:#ecs_check_import_id#:#The import id is not valid. Please check this setting.
 ecs#:#ecs_client_cert#:#شهادة العميل
+ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute
+ecs#:#ecs_cmap_all_in_one#:#Course in one Category
+ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
+ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.
+ecs#:#ecs_cmap_att_lecturer#:#Lecturer
+ecs#:#ecs_cmap_att_organisation#:#Organisation
+ecs#:#ecs_cmap_att_term#:#Term
+ecs#:#ecs_cmap_att_title#:#Title
+ecs#:#ecs_cmap_attributes#:#Mapping Attributes
+ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration
+ecs#:#ecs_cmap_def_cat#:#Default Category
+ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.
+ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute
+ecs#:#ecs_cmap_enable#:#Course Allocation
+ecs#:#ecs_cmap_form_all_values#:#All Values
+ecs#:#ecs_cmap_form_create_subdirs#:#Create Subdirectories
+ecs#:#ecs_cmap_form_current_dir#:#Current Directory
+ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference
+ecs#:#ecs_cmap_form_filter#:#Filter Settings
+ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values
+ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated
+ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name
+ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title
+ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value
+ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:
+ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
+ecs#:#ecs_cmap_overview#:#Mapping Overview
 ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS Directory Trees
 ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System
@@ -7469,7 +7503,7 @@ ecs#:#ecs_file_export#:#File Releases
 ecs#:#ecs_file_export_disabled#:#Do not release this File
 ecs#:#ecs_file_export_enabled#:#Release this File
 ecs#:#ecs_file_export_obj_settings#:#File Release Settings
-ecs#:#ecs_general_info#:#General Information
+ecs#:#ecs_general_info#:#معلومات عامة
 ecs#:#ecs_glo_export#:#Glossary Releases
 ecs#:#ecs_glo_export_disabled#:#Do not release this Glossary
 ecs#:#ecs_glo_export_enabled#:#Release this Glossary
@@ -7583,7 +7617,7 @@ exc#:#exc_conf_del_assignments#:#Do you really want to delete the following assi
 exc#:#exc_copy#:#Copy Exercise
 exc#:#exc_create_blog#:#Create Blog
 exc#:#exc_create_blog_select_info#:#Please select the resource folder to add the blog to.
-exc#:#exc_create_portfolio#:#Create Portfolio
+exc#:#exc_create_portfolio#:#إنشاء محفظة
 exc#:#exc_create_portfolio_select_info#:#Please select the resource folder to add the portfolio to.
 exc#:#exc_deadline#:#Deadline
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.
@@ -7675,7 +7709,7 @@ exc#:#exc_team_notification_subject_add#:#Added as team member to upload assignm
 exc#:#exc_team_notification_subject_rmv#:#Removed from a team upload assignment
 exc#:#exc_total_exc#:#Total Exercise
 exc#:#exc_type_blog#:#Blog
-exc#:#exc_type_portfolio#:#Portfolio
+exc#:#exc_type_portfolio#:#محفظة
 exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_upload_team#:#Team Upload
 excv#:#excv_create#:#Create Exercise Verification
@@ -7712,7 +7746,7 @@ export#:#export_omit#:#Omit
 export#:#export_omit_resource#:#Omit Resource
 export#:#export_resource#:#Resource
 export#:#export_save_selection#:#Start Export
-export#:#export_select_resources#:#Select Resources
+export#:#export_select_resources#:#إختر موارد
 feed#:#block_feed_block_feed_url#:#Feed URL
 feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#نشرة موقع خارجية
@@ -8077,7 +8111,7 @@ grp#:#grp_users_removed_from_list#:#The selected users have been removed from th
 grp#:#grp_view_info_by_type#:#This content presentation groups all items by resource type.
 grp#:#grp_view_info_simple#:#This content presentation lists all items in one block.
 grp#:#grp_view_inherit#:#Standard
-grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. 
+grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course.
 grp#:#grp_waiting_list#:#Enable Waiting List
 grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reseted.
@@ -8531,7 +8565,7 @@ mcst#:#mcst_ordering_manual#:#Manual
 mcst#:#mcst_ordering_title#:#By Title
 mcst#:#mcst_play#:#Play
 mcst#:#mcst_play_time#:#Play Time
-mcst#:#mcst_preview_picture#:#Preview Picture
+mcst#:#mcst_preview_picture#:#إعرض الصورة
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
 mcst#:#mcst_purpose_standard#:#Standard File
 mcst#:#mcst_purpose_videoalternative#:#Alternative Video File
@@ -9309,7 +9343,7 @@ notes#:#notes_add_comment#:#اضافة تعليق
 notes#:#notes_add_note#:#اضافة ملاحظة
 notes#:#notes_all_comments#:#All Comments
 notes#:#notes_comment#:#تعليق
-notes#:#notes_comments#:#Comments
+notes#:#notes_comments#:#ملاحظات
 notes#:#notes_deactivate_comments#:#عدم تفعيل التعليقات العامة
 notes#:#notes_edit_comment#:#Edit Comment
 notes#:#notes_edit_note#:#Edit Note
@@ -9483,7 +9517,7 @@ payment#:#pay_paypal_error_wrong_vendor#:#Checking this transaction resulted in 
 payment#:#pay_paypal_failed#:#Your puchase of ILIAS objects using PayPal failed!
 payment#:#pay_paypal_success#:#Thanks for your purchase of ILIAS objects using PayPal! You'll receive a written confirmation in PDF format by e-mail.
 payment#:#pay_paypal_unreachable#:#The connection to the payment server of PayPal failed.
-payment#:#pay_personal_settings#:#Personal Settings
+payment#:#pay_personal_settings#:#إعدادات شخصية
 payment#:#pay_reset_filter#:#Reset filter
 payment#:#pay_save_sorting#:#Save Sorting
 payment#:#pay_select_one_item#:#الرجاء اختيار عنصر واحد
@@ -9841,7 +9875,7 @@ payment#:#vat_rate#:#Vat-Rate
 payment#:#vat_title#:#Vat-Title
 payment#:#vat_unit#:#Vat-Unit
 payment#:#vats#:#Vats
-pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
+pd#:#block_create_pdfeed#:#إضافة تغذية ويب جديدة
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_pdcal#:#Kalender anzeigen
@@ -9932,7 +9966,7 @@ poll#:#poll_result#:#Voting Result
 poll#:#poll_sortorder#:#Order
 poll#:#poll_update_order#:#Update Order
 poll#:#poll_view_results#:#Display Results
-poll#:#poll_view_results_after_period#:#After Voting Period 
+poll#:#poll_view_results_after_period#:#After Voting Period
 poll#:#poll_view_results_after_vote#:#After Vote
 poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
@@ -9946,13 +9980,13 @@ poll#:#poll_voting_period_start#:#Starting Time
 poll#:#poll_voting_period_unlimited#:#Unlimited
 prtf#:#prtf_add_blog#:#Add Blog
 prtf#:#prtf_add_page#:#Add Page
-prtf#:#prtf_add_portfolio#:#Add Portfolio
+prtf#:#prtf_add_portfolio#:#إضافة محفظة
 prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
 prtf#:#prtf_background_color#:#Background Color
 prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_copy_page#:#Copy Page(s)
-prtf#:#prtf_create_portfolio#:#Add Portfolio 
+prtf#:#prtf_create_portfolio#:#إضافة محفظة
 prtf#:#prtf_default_portfolio#:#My Profile
 prtf#:#prtf_edit_portfolio#:#Edit Portfolio
 prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of the exercise "%s".
@@ -9962,7 +9996,7 @@ prtf#:#prtf_finalize_portfolio#:#Finalize and Submit Portfolio
 prtf#:#prtf_finalized#:#The portfolio has been submitted.
 prtf#:#prtf_first_page_title#:#Title of first page
 prtf#:#prtf_font_color#:#Font Color
-prtf#:#prtf_new_portfolio#:#New Portfolio 
+prtf#:#prtf_new_portfolio#:#New Portfolio
 prtf#:#prtf_no_blogs_info#:#Your workspace does not contain any blogs. Create blogs to use them as part of your portfolios.
 prtf#:#prtf_page_created#:#Page created
 prtf#:#prtf_pages_copied#:#The pages have been copied.
@@ -10238,7 +10272,7 @@ rbac#:#dcl_visible#:#Data Collection is visible
 rbac#:#dcl_write#:#User can edit settings and content of data collection
 rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administration
 rbac#:#ecss_read#:#User can read general ECS settings
-rbac#:#ecss_visible#:#ECS settings are visible 
+rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
 rbac#:#edit_event#:#تعديل التقويم
 rbac#:#edit_learning_progress#:#تعديل حالة التدريب
@@ -10463,28 +10497,30 @@ rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings
 rbac#:#rbac_copy_finished#:#Finished copying.
 rbac#:#rbac_copy_role#:#Copy Role
-rbac#:#rbac_create_blog#:#Create Blog###28 08 2012 new variable
+rbac#:#rbac_create_blog#:#Create Blog
 rbac#:#rbac_create_book#:#انشاء مجموعة حجز
 rbac#:#rbac_create_cat#:#انشاء فئة
 rbac#:#rbac_create_catr#:#انشاء مرجع فئة
+rbac#:#rbac_create_chat#:#Create Chat
 rbac#:#rbac_create_chtr#:#انشاء محادثة
 rbac#:#rbac_create_crs#:#انشاء دورة
 rbac#:#rbac_create_crsr#:#انشاء مرجع دورة
-rbac#:#rbac_create_dcl#:#Create Data Collection###28 08 2012 new variable
+rbac#:#rbac_create_dbk#:#Create Digilib Book
+rbac#:#rbac_create_dcl#:#Create Data Collection
 rbac#:#rbac_create_exc#:#انشاء تدريب
 rbac#:#rbac_create_feed#:#انشاء نشرة موقع
 rbac#:#rbac_create_file#:#تحميل ملف
-rbac#:#rbac_create_frm#:#انشاء منتدى
 rbac#:#rbac_create_fold#:#انشاء مجلد
+rbac#:#rbac_create_frm#:#انشاء منتدى
 rbac#:#rbac_create_glo#:#انشاء قائمة مصطلحات
 rbac#:#rbac_create_grp#:#انشاء مجموعة
-rbac#:#rbac_create_itgr#:#Create Item Group###28 08 2012 new variable
 rbac#:#rbac_create_htlm#:#HTML انشاء الوحدة التعليمية
 rbac#:#rbac_create_icrs#:#الدراسيةLearnLinc انشاء حلقة
+rbac#:#rbac_create_itgr#:#Create Item Group
 rbac#:#rbac_create_lm#:#ILIAS انشاء الوحدة التعليمية
 rbac#:#rbac_create_mcst#:#انشاء بث وسائط
 rbac#:#rbac_create_mep#:#انشاء مجموعة وسائط
-rbac#:#rbac_create_poll#:#Create Poll###28 08 2012 new variable
+rbac#:#rbac_create_poll#:#Create Poll
 rbac#:#rbac_create_qpl#:#انشاء اختبار مجموعة اسئلة
 rbac#:#rbac_create_rcrs#:#انشاء وصلة- دورة
 rbac#:#rbac_create_sahs#:#SCORM/AICC انشاء الوحدة التعليمية
@@ -10563,24 +10599,24 @@ rbac#:#recf_edit_permission#:#تغيير اعدادات الصلاحية
 rbac#:#recf_read#:#Read access to Restored Objects
 rbac#:#recf_visible#:#Restored Objects are visible
 rbac#:#recf_write#:#Edit Restored Objects
-rbac#:#rfil_delete#:#User can move or delete ECS File 
+rbac#:#rfil_delete#:#User can move or delete ECS File
 rbac#:#rfil_edit_permission#:#User can change permission settings
-rbac#:#rfil_read#:#User can use ECS File 
+rbac#:#rfil_read#:#User can use ECS File
 rbac#:#rfil_visible#:#ECS File is visible
 rbac#:#rfil_write#:#User can edit settings of ECS File
-rbac#:#rglo_delete#:#User can move or delete ECS Glossary 
+rbac#:#rglo_delete#:#User can move or delete ECS Glossary
 rbac#:#rglo_edit_permission#:#User can change permission settings
-rbac#:#rglo_read#:#User can use ECS Glossary 
+rbac#:#rglo_read#:#User can use ECS Glossary
 rbac#:#rglo_visible#:#ECS Glossary is visible
 rbac#:#rglo_write#:#User can edit settings of ECS Glossary
-rbac#:#rgrp_delete#:#User can move or delete ECS Group 
+rbac#:#rgrp_delete#:#User can move or delete ECS Group
 rbac#:#rgrp_edit_permission#:#User can change permission settings
-rbac#:#rgrp_read#:#User can use ECS Group 
+rbac#:#rgrp_read#:#User can use ECS Group
 rbac#:#rgrp_visible#:#ECS Group is visible
 rbac#:#rgrp_write#:#User can edit settings of ECS Group
-rbac#:#rlm_delete#:#User can move or delete ECS Learning Module 
+rbac#:#rlm_delete#:#User can move or delete ECS Learning Module
 rbac#:#rlm_edit_permission#:#User can change permission settings
-rbac#:#rlm_read#:#User can use ECS Learning Module 
+rbac#:#rlm_read#:#User can use ECS Learning Module
 rbac#:#rlm_visible#:#ECS Learning Module is visible
 rbac#:#rlm_write#:#User can edit settings of ECS Learning Module
 rbac#:#role_block_role#:#حجب وظيفة
@@ -10687,7 +10723,7 @@ rbac#:#wiki_read#:#Read Wiki
 rbac#:#wiki_visible#:#Wiki is visible
 rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners
 rbac#:#write#:#تعديل اعدادات
-rcat#:#rcat_call#:#Call ECS Category 
+rcat#:#rcat_call#:#Call ECS Category
 rcrs#:#rcrs_call#:#Call Remote Course
 rcrs#:#rcrs_general_info#:#معلومات عامة
 rcrs#:#rcrs_local_informations#:#Further Information
@@ -10805,12 +10841,12 @@ rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more referenc
 rep#:#rep_object_to_delete#:#To Delete
 rep#:#rep_visibility_limitless#:#Umlimited
 rep#:#rep_visibility_until#:#Temporarily Available
-rfil#:#rfil_call#:#Call ECS File 
+rfil#:#rfil_call#:#Call ECS File
 rfil#:#rfil_version_tstamp#:#Upload Date
 rglo#:#rglo_call#:#Call ECS Glossary
-rgrp#:#rgrp_call#:#Call ECS Group 
+rgrp#:#rgrp_call#:#Call ECS Group
 rlm#:#rlm_call#:#Call ECS Learning Module
-rtst#:#rtst_call#:#Call ECS Test 
+rtst#:#rtst_call#:#Call ECS Test
 rwik#:#rwik_call#:#Call ECS Wiki
 sahs#:#cont_insert_after_chap#:#Insert items after chapter
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter
@@ -11609,7 +11645,7 @@ style#:#style_current_style#:#الاسلوب الحالي
 style#:#style_delete_style#:#Delete Style
 style#:#style_edit_style#:#Edit Style
 style#:#style_move_style_into#:#Into
-style#:#style_page_layout_module_portfolio#:#Portfolio
+style#:#style_page_layout_module_portfolio#:#محفظة
 style#:#style_page_layout_module_scorm#:#Scorm
 survey#:#add_category#:#اضافة جواب
 survey#:#add_heading#:#اضافة كتلة نص
@@ -12100,8 +12136,8 @@ survey#:#survey_available_question_pools#:#Available Pools
 survey#:#survey_behind_page#:#Behind
 survey#:#survey_block_hidden#:#hidden
 survey#:#survey_block_visible#:#visible
-survey#:#survey_cancel_preview#:#Cancel Preview
-survey#:#survey_cannot_preview_survey#:#Preview not available
+survey#:#survey_cancel_preview#:#إلغاء العرض
+survey#:#survey_cannot_preview_survey#:#العرض غير متوفر
 survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.
 survey#:#survey_code#:#Survey Access Code
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!
@@ -12163,8 +12199,8 @@ survey#:#survey_question_text_hidden#:#Text hidden
 survey#:#survey_question_text_visible#:#Text visible
 survey#:#survey_question_title#:#Question Title
 survey#:#survey_questions#:#Questions
-survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. 
-survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. 
+survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
+survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
 survey#:#survey_show_blocktitle#:#Show Block Title
 survey#:#survey_show_blocktitle_description#:#If activated the block title will be shown in the survey.
@@ -12574,7 +12610,7 @@ trac#:#trac_others#:#Others
 trac#:#trac_participants#:#الأعضاء
 trac#:#trac_participated#:#Participated
 trac#:#trac_percentage#:#النسبة المئوية
-trac#:#trac_periodic_system_load#:#Periodic 
+trac#:#trac_periodic_system_load#:#Periodic
 trac#:#trac_processing_time#:#Assumed Processing Time
 trac#:#trac_progress#:#حالة التدريب الشخصي
 trac#:#trac_query#:#Title/Description
@@ -12691,7 +12727,7 @@ user#:#user_delete_own_account#:#Delete Account
 user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s.
 user#:#user_delete_own_account_email_subject#:#User account deleted
 user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last time to remove your user account from ILIAS!
-user#:#user_delete_own_account_info#:#Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible! 
+user#:#user_delete_own_account_info#:#Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible!
 user#:#user_delete_own_account_notification_email#:#Notification Email
 user#:#user_delete_own_account_password_confirmation#:#Enter password for authorisation
 user#:#user_ext_profile#:#Extended Profile
@@ -12714,7 +12750,7 @@ user#:#user_portfolios#:#Portfolios
 user#:#user_portfolios_desc#:#Users can create portfolios and use them as profile.
 user#:#user_profile_portfolio#:#You can use a portfolio as public profile.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile.
-user#:#user_profile_preview#:#Preview
+user#:#user_profile_preview#:#عرض
 user#:#user_public_profile_info#:#الرجاء اختيار اي البيانات الشخصية التي يجب ان تكون ظاهرة لمستخدمين اخرين
 user#:#user_save_ordering_and_titles#:#Save ordering and titles
 user#:#user_screen_reader_optimization#:#قارئ الشاشة الامثل
@@ -12880,11 +12916,11 @@ wsp#:#wsp_permission_all_info#:#This object has been published.
 wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
 wsp#:#wsp_permission_removed#:#The item has been removed.
 wsp#:#wsp_permissions#:#Share
-wsp#:#wsp_personal_workspace#:#Resources
+wsp#:#wsp_personal_workspace#:#موارد
 wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.
 wsp#:#wsp_remove_permission#:#Remove Permission
-wsp#:#wsp_root_folder#:#Resources
-wsp#:#wsp_set_permission_all#:#Publish 
+wsp#:#wsp_root_folder#:#موارد
+wsp#:#wsp_set_permission_all#:#Publish
 wsp#:#wsp_set_permission_all_password#:#Publish (Password required)
 wsp#:#wsp_set_permission_course#:#Course
 wsp#:#wsp_set_permission_group#:#Group
@@ -12895,11 +12931,11 @@ wsp#:#wsp_share_select_user#:#Please select a user.
 wsp#:#wsp_share_success#:#A new entry has been added.
 wsp#:#wsp_share_with_members#:#Share with members
 wsp#:#wsp_share_with_users#:#Share with users
-wsp#:#wsp_shared_resources#:#Shared Resources
+wsp#:#wsp_shared_resources#:#موارد مشتركة
 wsp#:#wsp_shared_with#:#Shared With
 wsp#:#wsp_status_shared#:#Shared
 wsp#:#wsp_tab_ownership#:#My Repository Objects
-wsp#:#wsp_tab_personal#:#My Resources
+wsp#:#wsp_tab_personal#:#مواردي
 wsp#:#wsp_tab_shared#:#Shared By Other Users
 wsp#:#wsp_type_blog#:#Blog
 wsp#:#wsp_type_excv#:#Verification: Exercise
@@ -12907,50 +12943,3 @@ wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
-common#:#group_create_chat#:#Create chat###27 12 2012 new variable
-content#:#cont_localfile#:#Local File###27 12 2012 new variable
-rbac#:#rbac_create_chat#:#Create Chat###27 12 2012 new variable
-rbac#:#rbac_create_dbk#:#Create Digilib Book###27 12 2012 new variable
-ecs#:#ecs_cmap_enable#:#Course Allocation###27 12 2012 new variable
-ecs#:#ecs_cmap_def_cat#:#Default Category###27 12 2012 new variable
-ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.###27 12 2012 new variable
-ecs#:#ecs_cmap_all_in_one#:#Course in one Category###27 12 2012 new variable
-ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.###27 12 2012 new variable
-ecs#:#ecs_cmap_all_in_one_cat#:#Course Category###27 12 2012 new variable
-ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes###27 12 2012 new variable
-ecs#:#ecs_cmap_att_organisation#:#Organisation###27 12 2012 new variable
-ecs#:#ecs_cmap_att_term#:#Term###27 12 2012 new variable
-ecs#:#ecs_cmap_att_title#:#Title###27 12 2012 new variable
-ecs#:#ecs_cmap_att_lecturer#:#Lecturer###27 12 2012 new variable
-ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration###27 12 2012 new variable
-ecs#:#ecs_cmap_attributes#:#Mapping Attributes###27 12 2012 new variable
-ecs#:#ecs_cmap_overview#:#Mapping Overview###27 12 2012 new variable
-ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:###27 12 2012 new variable
-ecs#:#ecs_cmap_form_filter#:#Filter Settings###27 12 2012 new variable
-ecs#:#ecs_cmap_form_all_values#:#All Values###27 12 2012 new variable
-ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated###27 12 2012 new variable
-ecs#:#ecs_cmap_form_create_subdirs#:#Create Subdirectories###27 12 2012 new variable
-ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title###27 12 2012 new variable
-ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value###27 12 2012 new variable
-ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name###27 12 2012 new variable
-ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute###27 12 2012 new variable
-ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute###27 12 2012 new variable
-ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values###27 12 2012 new variable
-ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
-ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
-content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
-content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
-dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
-dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
-dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
-rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
-content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
-common#:#edited_on#:#Edited on###14 01 2013 new variable
-chatroom#:#no_username_given#:#Please choose a username###17 02 2013 new variable
-ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###17 02 2013 new variable
-survey#:#svy_invite_action#:#Invite users to a survey###17 02 2013 new variable
-rbac#:#chtr_delete#:#User can move or delete course###17 02 2013 new variable
-ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###17 02 2013 new variable
-ecs#:#ecs_role_mapping_value#:#Attribute Value###17 02 2013 new variable
-blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###17 02 2013 new variable
-blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###17 02 2013 new variable
