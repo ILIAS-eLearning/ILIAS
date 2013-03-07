@@ -1559,17 +1559,23 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 					{
 						$parts[0] = "pg";
 					}
+					$item["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
 					if ($parts[0] == "term")
 					{
 						$parts[0] = "git";
+						$item["target"] =
+							ilLink::_getStaticLink(0,
+								$parts[0],
+								true,
+								"&target=git_".$parts[1]);
 					}
-					$item["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
 				}
 				include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 				if(ilParameterAppender::_isEnabled())
 				{
 				   $item = ilParameterAppender::_append($item);
 				}
+//var_dump($item); exit;
 				$this->redirectToLink($this->ref_id, $obj_id, $item["target"]);
 			}
 		}
