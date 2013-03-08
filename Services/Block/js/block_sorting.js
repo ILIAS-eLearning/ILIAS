@@ -127,7 +127,7 @@
 						forcePlaceholderSize: true,
 						cursor: "move",
 						items: ">div"
-					}).disableSelection();
+					});
 				});
 			}
 		};
