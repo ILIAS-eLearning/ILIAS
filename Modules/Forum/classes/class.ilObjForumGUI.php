@@ -3214,8 +3214,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->initTopicCreateForm();
 		$this->setTopicCreateDefaultValues();
-		
-		$this->tpl->setContent($this->create_topic_form_gui->getHTML());
+
+		$create_form = new ilTemplate('tpl.create_thread_form.html', true, true, 'Modules/Forum');
+		$create_form->setVariable('CREATE_FORM',$this->create_topic_form_gui->getHTML());
+		$create_form->parseCurrentBlock();
+
+		$this->tpl->setContent($create_form->get());
 	}
 	
 	public function addThreadObject($a_prevent_redirect = false)
