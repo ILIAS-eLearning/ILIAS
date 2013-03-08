@@ -3504,9 +3504,12 @@ class ilObjectListGUI
 		if ($this->context != self::CONTEXT_REPOSITORY)
 			return false;
 		
-		// personal desktop is not supported right now
-		if (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui")
+		// personal desktop (and search) is not supported right now
+		if (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" ||
+			strtolower($_GET["baseClass"]) == "ilsearchcontroller")
+		{		
 			return false;
+		}
 			
 		include_once("./Services/FileUpload/classes/class.ilFileUploadUtil.php");
 		return ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->type);
