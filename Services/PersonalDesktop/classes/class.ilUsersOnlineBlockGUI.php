@@ -317,63 +317,59 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 					$osi_enable = true;
 				}
 
+				// removed calls to external servers due to
+				// bug 10583, alex 8 Mar 2013
+				
 				foreach ($im_arr as $im_name => $im_check)
 				{
 					if ($im_id = ilObjUser::_lookupIm($a_set["id"], $im_name))
 					{
-						$im_url = "#";
+						$im_url = "";
+
 						switch ($im_name)
 						{
 							case "icq":
-								//$im_url = "http://people.icq.com/people/webmsg.php?to=".$im_id;
-								$im_url = "http://people.icq.com/people/about_me.php?uin=".$im_id;
-								//$im_img = "http://status.icq.com/online.gif?icq=".$im_id."&img=5";
-								$im_img = "http://wwp.icq.com/scripts/online.dll?icq=".$im_id."&img=5";
+								$im_url = "http://http://www.icq.com/people/".$im_id;
 								break;
 							
 							case "yahoo":
-								$im_url = "http://edit.yahoo.com/config/send_webmesg?.target=".$im_id."&.src=pg";
-								$im_img = "http://opi.yahoo.com/online?u=".$im_id."&m=g&t=5";
+								$im_url = "http://edit.yahoo.com/config/send_webmesg?target=".$im_id."&src=pg";
 								break;
 								
 							case "msn":
 								$im_url = "http://messenger.live.com";
-								$im_img = ilUtil::getImagePath($im_name.'offline.png'); // online check not possible
 								break;
 		
 							case "aim":
 								//$im_url = "aim:GoIM?screenname=".$im_id;
 								$im_url = "http://aimexpress.aim.com";
-								//$im_img = "http://api.oscar.aol.com/SOA/key=<put_your_key_here>/presence/".$im_id; // doesn't work. you need a key
-								$im_img = ilUtil::getImagePath($im_name.'offline.png'); // online check not possible
 								break;
 		
 							case "skype":
 								$im_url = "skype:".$im_id."?call";
-								/* the link above needs this piece of js to work
-								<script type="text/javascript" 
-								src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js">
-								</script>
-								*/
-								//$im_url = "http://www.skype.com/go/download";
-								$im_img = "http://mystatus.skype.com/smallicon/".$im_id;
 								break;
 						}
-		
-						$this->tpl->setCurrentBlock("instant_messengers");
+						$im_img = ilUtil::getImagePath($im_name.'online.png');
+
 						
-						if ($osi_enable)
+						if ($im_url != "")
 						{
-							$this->tpl->setVariable("URL_IM",$osi_server."/message/".$im_name."/".$im_id);
-							$this->tpl->setVariable("IMG_IM_ICON",$osi_server."/".$im_name."/".$im_id);
-						}
-						else
-						{
+							$this->tpl->setCurrentBlock("im_link_start");
 							$this->tpl->setVariable("URL_IM",$im_url);
-							$this->tpl->setVariable("IMG_IM_ICON", $im_check ? $im_img : ilUtil::getImagePath($im_name.'offline.png'));
+							$this->tpl->parseCurrentBlock();
+							$this->tpl->touchBlock("im_link_end");
 						}
-						
+
+						$this->tpl->setCurrentBlock("instant_messengers");
+						$this->tpl->setVariable("IMG_IM_ICON", $im_img);
 						$this->tpl->setVariable("TXT_IM_ICON", $lng->txt("im_".$im_name));
+						$icon_id = "im_".$im_name."_usr_".$a_set["id"];
+						$this->tpl->setVariable("ICON_ID", $icon_id);
+						
+						include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+						ilTooltipGUI::addTooltip($icon_id, $lng->txt("im_".$im_name).": ".$im_id, "",
+							"top center", "bottom center");
+						
 						$this->tpl->parseCurrentBlock();
 					}
 				}
