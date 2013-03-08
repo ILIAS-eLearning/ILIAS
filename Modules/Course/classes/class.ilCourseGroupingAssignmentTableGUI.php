@@ -24,6 +24,9 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 		$this->type = ilObject::_lookupType($a_content_obj->getId());
 		$this->lng->loadLanguageModule($this->type);		
 					
+		// #9017
+		$this->setLimit(9999);
+		
 		$this->addColumn('','', 1);
 		$this->addColumn($this->lng->txt('title'), 'title');
 		$this->addColumn($this->lng->txt('path'), 'path');
