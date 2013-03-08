@@ -362,8 +362,11 @@ class ilContObjectManifestBuilder
 				$file_ids = $page_obj->collectFileItems();
 				foreach($file_ids as $file_id)
 				{
-					$file_obj = new ilObjFile($file_id, false);
-					$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_file_".$file_id."/".rawurlencode($file_obj->filename)), "");
+					if (ilObject::_lookupType($file_id) == "file")
+					{
+						$file_obj = new ilObjFile($file_id, false);
+						$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_file_".$file_id."/".rawurlencode($file_obj->filename)), "");
+					}
 				}
 				unset($page_obj);
 			}
