@@ -206,8 +206,10 @@ class ilObject
 			// check number of records
 			if ($ilDB->numRows($object_set) == 0)
 			{
-				$message = "ilObject::read(): Object with obj_id: ".$this->id." (".$this->type.") not found!";
-				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+				include_once("./Services/Object/exceptions/class.ilObjectNotFoundException.php");
+				throw new ilObjectNotFoundException("ilObject::read(): Object with obj_id: ".$this->id.
+					" (".$this->type.") not found!");
+				return;
 			}
 
 			$obj = $ilDB->fetchAssoc($object_set);

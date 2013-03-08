@@ -804,9 +804,16 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			foreach ($this->file_ids as $file_id)
 			{
 				$expLog->write(date("[y-m-d H:i:s] ")."File Item ".$file_id);
-				$file_obj = new ilObjFile($file_id, false);
-				$file_obj->export($a_target_dir);
-				unset($file_obj);
+				if (ilObject::_lookupType($file_id) == "file")
+				{
+					$file_obj = new ilObjFile($file_id, false);
+					$file_obj->export($a_target_dir);
+					unset($file_obj);
+				}
+				else
+				{
+					$expLog->write(date("[y-m-d H:i:s] ")."File Item not found, ID: ".$file_id);
+				}
 			}
 
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
