@@ -512,11 +512,6 @@ assessment#:#errors#:#Errors
 assessment#:#errors_section#:#Error Data
 assessment#:#errortext#:#Error Text
 assessment#:#errortext_info#:#Please enter the error text.
-assessment#:#essay_keyword_relation#:#Score is granted
-assessment#:#essay_keyword_relation_all#:#Only if all keywords are found.
-assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.
-assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.
-assessment#:#essay_keyword_relation_one#:#in full if one keyword is found.
 assessment#:#eval_all_users#:#Оценивание всех пользователей
 assessment#:#eval_choice_result#:#Выбор весом %s из %s. У вас %s балла(ов).
 assessment#:#eval_cloze_result#:#Интервал номер %s весом %s из %s. У вас %s балла(ов).
@@ -3001,13 +2996,10 @@ common#:#gender_m#:#Мужской
 common#:#general_settings#:#Основные параметры
 common#:#generate#:#Генерировать
 common#:#glo#:#Словарь
-common#:#glo_a#:#Словарь
 common#:#glo_add#:#Добавить Словарь
 common#:#glo_added#:#Словарь добавлен
 common#:#glo_create#:#Создать Словарь
 common#:#glo_import#:#Import Glossary
-common#:#glo_join#:#Подписаться на Словарь
-common#:#glo_leave#:#Отписаться от Словаря
 common#:#glo_mode#:#Mode
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
 common#:#glo_mode_level#:#virtual (this level only)
@@ -7231,7 +7223,6 @@ dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#год
 dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activate Record Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
@@ -12947,3 +12938,32 @@ wsp#:#wsp_type_file#:#Файл
 wsp#:#wsp_type_tstv#:#Сертификат: Тест
 wsp#:#wsp_type_webr#:#Web ссылка
 wsp#:#wsp_type_wfld#:#Папка
+assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###08 03 2013 new variable
+content#:#cont_localfile#:#Local File###08 03 2013 new variable
+chatroom#:#no_username_given#:#Please choose a username###08 03 2013 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###08 03 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###08 03 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###08 03 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###08 03 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###08 03 2013 new variable
+common#:#edited_on#:#Edited on###08 03 2013 new variable
+ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###08 03 2013 new variable
+survey#:#svy_invite_action#:#Invite users to a survey###08 03 2013 new variable
+rbac#:#chtr_delete#:#User can move or delete course###08 03 2013 new variable
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###08 03 2013 new variable
+ecs#:#ecs_role_mapping_value#:#Attribute Value###08 03 2013 new variable
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###08 03 2013 new variable
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###08 03 2013 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###08 03 2013 new variable

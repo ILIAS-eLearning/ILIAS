@@ -508,11 +508,6 @@ assessment#:#errors#:#შეცდომები
 assessment#:#errors_section#:#მცდარი მონაცემები
 assessment#:#errortext#:#მცდარი ტექსტი
 assessment#:#errortext_info#:#
-assessment#:#essay_keyword_relation#:#Score is granted
-assessment#:#essay_keyword_relation_all#:#Only if all keywords are found.
-assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.
-assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.
-assessment#:#essay_keyword_relation_one#:#in full if one keyword is found.
 assessment#:#eval_all_users#:#შეფასება ყველა მომხმარებლისთვის
 assessment#:#eval_choice_result#:#არჩევანი ღირებულებით %s არის %s. თქვენ მიირეთ %s ქულა.
 assessment#:#eval_cloze_result#:#ნაპრალის რიცხვი ღირებულებით %s არის %s. თქვენ მიიღეთ %s.
@@ -2997,13 +2992,10 @@ common#:#gender_m#:#მამრობითი
 common#:#general_settings#:#ზოგადი პარამტრები
 common#:#generate#:#წარმოშობა
 common#:#glo#:#ლექსიკონი
-common#:#glo_a#:#ლექსიკონის
 common#:#glo_add#:#ლექსიკონის დამატება
 common#:#glo_added#:#ლექსიკონი დამტებულია
 common#:#glo_create#:#ლექსიკონის შექმნა
 common#:#glo_import#:#ლექსიკონის იმპორტი
-common#:#glo_join#:#ლექსიკონში გაწევრიანება
-common#:#glo_leave#:#ლექსიკონის ხელმოწერაზე უარის თქმა /გამოსვლა
 common#:#glo_mode#:#მდგომარეობა
 common#:#glo_mode_desc#:#ვირტუალური ლექსიკონი მუშაობს როგორც საკუთარი ლექსიკონი. Dამატებიტ ის შეიცავს დასახელებებს ყველა ლექსიკონიდან რომლებიც განთავსებულია იმავე დონეზე საცავში როგორც ვირტუალური ლექსიკონი შესაბამისად ყველა ლექსიკონიდან რომელიც განთავსებულია საცავში ვირტუალური ლექსიკონიდან.
 common#:#glo_mode_level#:#ვირტუალური (მხოლოდ ამ დონეზე)
@@ -7227,7 +7219,6 @@ dateplaner#:#wk_short#:#ვკ
 dateplaner#:#year#:#წელი
 dateplaner#:#yui_cal_choose_month#:#თვე:
 dateplaner#:#yui_cal_choose_year#:#წელი:
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activate Record Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
@@ -12943,3 +12934,32 @@ wsp#:#wsp_type_file#:#ფაილი
 wsp#:#wsp_type_tstv#:#სერთიფიკატი: ტესტი
 wsp#:#wsp_type_webr#:#ვებლინკი
 wsp#:#wsp_type_wfld#:#ფოლდერი
+assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###08 03 2013 new variable
+content#:#cont_localfile#:#Local File###08 03 2013 new variable
+chatroom#:#no_username_given#:#Please choose a username###08 03 2013 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###08 03 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###08 03 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###08 03 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###08 03 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###08 03 2013 new variable
+common#:#edited_on#:#Edited on###08 03 2013 new variable
+ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###08 03 2013 new variable
+survey#:#svy_invite_action#:#Invite users to a survey###08 03 2013 new variable
+rbac#:#chtr_delete#:#User can move or delete course###08 03 2013 new variable
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###08 03 2013 new variable
+ecs#:#ecs_role_mapping_value#:#Attribute Value###08 03 2013 new variable
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###08 03 2013 new variable
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###08 03 2013 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###08 03 2013 new variable

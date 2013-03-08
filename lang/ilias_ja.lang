@@ -508,11 +508,6 @@ assessment#:#errors#:#エラー
 assessment#:#errors_section#:#エラーデータ
 assessment#:#errortext#:#エラーテキスト
 assessment#:#errortext_info#:#エラーテキストを入力してください。エラーとしてマークするには、単語の前にハッシュ (#)を挿入してください。 &quot;エラーテキストを分析&quot; ボタンを押すと全てのマークした単語は以降の処理用として展開されます。
-assessment#:#essay_keyword_relation#:#点数が承諾されます
-assessment#:#essay_keyword_relation_all#:#全キーワードで検索されたものに限る。
-assessment#:#essay_keyword_relation_any#:#キーワードに依存しない検索
-assessment#:#essay_keyword_relation_desc#:#オプション"キーワード"を選択すると、全ての条件が見つからない限り受験者の点数は採点されません。オプション"キーワード一つ"はキーワード一つが見つかると全解答は満点で採点を承諾します。
-assessment#:#essay_keyword_relation_one#:#一つキーワードが見つかれば充分。
 assessment#:#eval_all_users#:#全ユーザーの評価
 assessment#:#eval_choice_result#:#選択の値%sは %sです。 %s 点です。
 assessment#:#eval_cloze_result#:#穴埋め番号 %s の値 %sは%sです。 %s 点です。
@@ -3001,13 +2996,10 @@ common#:#gender_m#:#男性
 common#:#general_settings#:#全般設定
 common#:#generate#:#生成
 common#:#glo#:#用語集
-common#:#glo_a#:#用語集
 common#:#glo_add#:#用語集を追加
 common#:#glo_added#:#用語集の追加
 common#:#glo_create#:#用語集を作成
 common#:#glo_import#:#用語集をインポート
-common#:#glo_join#:#用語集へ登録
-common#:#glo_leave#:#用語集から登録解除
 common#:#glo_mode#:#モード
 common#:#glo_mode_desc#:#バーチャル用語集は通常の用語集のように動作します。バーチャル用語集(サブツリー）の位置からリポジトリの下位方向にある全ての用語集からのバーチャル用語集(レベル)リポジトリのようなリポシトリの同一レベルにある全ての用語集からの用語を含みます。
 common#:#glo_mode_level#:#バーチャル(このレベルのみ)
@@ -7232,7 +7224,6 @@ dateplaner#:#wk_short#:#週
 dateplaner#:#year#:#年
 dateplaner#:#yui_cal_choose_month#:#月
 dateplaner#:#yui_cal_choose_year#:#年
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#アクション
 dcl#:#dcl_activate_approval#:#承認レコードを有効化
 dcl#:#dcl_activate_notification#:#通知を有効化
@@ -7454,7 +7445,6 @@ ecs#:#ecs_cmap_form_subdir_value#:#サブディレクトリ値Subdirectory Value
 ecs#:#ecs_cmap_mapping_form_title#:#カテゴリのコース割当て:Course Assignment for Category:
 ecs#:#ecs_cmap_multiple_atts#:#複数属性Multiple Attributes
 ecs#:#ecs_cmap_overview#:#マッピング概要Mapping Overview
-ecs#:#ecs_cmpa_enabled#:#コース配置を有効化
 ecs#:#ecs_cms_dir_tree#:#CMSディレクトリツリー
 ecs#:#ecs_cms_directory_trees_tbl#:#CMSディレクトリツリー
 ecs#:#ecs_cms_id#:#キャンパス管理システムのRoot-ID
@@ -10225,35 +10215,6 @@ rbac#:#cat_administrate_users#:#ローカルユーザーアカウントを管理
 rbac#:#cat_cat_administrate_users#:#ユーザはこのカテゴリ内でローカルユーザアカウント管理と作成ができます
 rbac#:#cat_copy#:#ユーザはカテゴリをコピーできます
 rbac#:#cat_copy_threads_info#:#どのカテゴリアイテムを、コピー、リンク、省略するのか決定してください。
-rbac#:#cat_create_blog#:#ブログ作成
-rbac#:#cat_create_book#:#予約集を作成
-rbac#:#cat_create_cat#:#カテゴリを作成
-rbac#:#cat_create_catr#:#カテゴリー参照を作成
-rbac#:#cat_create_chtr#:#チャットルームを作成
-rbac#:#cat_create_crs#:#コースを作成
-rbac#:#cat_create_crsr#:#新コースレファレンスを作成
-rbac#:#cat_create_dcl#:#データ収集作成
-rbac#:#cat_create_exc#:#演習問題を作成
-rbac#:#cat_create_feed#:#Webフィードを作成
-rbac#:#cat_create_file#:#ファイルをアップロード
-rbac#:#cat_create_frm#:#掲示板を作成
-rbac#:#cat_create_glo#:#用語集を作成
-rbac#:#cat_create_grp#:#グループを作成
-rbac#:#cat_create_htlm#:#HTML学習モジュールを作成
-rbac#:#cat_create_icrs#:#LearnLincセミナーを作成
-rbac#:#cat_create_itgr#:#アイテムグループ作成
-rbac#:#cat_create_lm#:#ILIAS学習モジュールを作成
-rbac#:#cat_create_mcst#:#メディアキャストを作成
-rbac#:#cat_create_mep#:#メディア集を作成
-rbac#:#cat_create_poll#:#投票を作成
-rbac#:#cat_create_qpl#:#問題集を作成
-rbac#:#cat_create_rcrs#:#コースリンクを作成
-rbac#:#cat_create_sahs#:#SCORM/AICC学習モジュールを作成
-rbac#:#cat_create_spl#:#質問集サーベイを作成
-rbac#:#cat_create_svy#:#サーベイを作成
-rbac#:#cat_create_tst#:#テストを作成
-rbac#:#cat_create_webr#:#Webリンクを作成
-rbac#:#cat_create_wiki#:#Wikiを作成
 rbac#:#cat_delete#:#ユーザはカテゴリを移動または削除できます
 rbac#:#cat_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#cat_read#:#ユーザはカテゴリの読込みアクセス権があります
@@ -10290,34 +10251,6 @@ rbac#:#cmps_write#:#コンポーネント設定を編集
 rbac#:#contribute#:#貢献
 rbac#:#crs_copy#:#ユーザはコースをコピーできます
 rbac#:#crs_copy_threads_info#:#どのコース教材を、コピー、リンク、省略するか決定してください
-rbac#:#crs_create_blog#:#ブログ作成
-rbac#:#crs_create_book#:#予約集を作成
-rbac#:#crs_create_catr#:#カテゴリー参照の作成
-rbac#:#crs_create_chtr#:#チャットルームを作成
-rbac#:#crs_create_crsr#:#新規コース参照の作成
-rbac#:#crs_create_dcl#:#データ収集作成
-rbac#:#crs_create_exc#:#演習問題を作成
-rbac#:#crs_create_feed#:#Webフィードを作成
-rbac#:#crs_create_file#:#ファイルをアップロード
-rbac#:#crs_create_fold#:#フォルダを作成
-rbac#:#crs_create_frm#:#掲示板を作成
-rbac#:#crs_create_glo#:#用語集を作成
-rbac#:#crs_create_grp#:#グループを作成
-rbac#:#crs_create_htlm#:#HTML学習モジュールを作成
-rbac#:#crs_create_icrs#:#LearnLincセミナーを作成
-rbac#:#crs_create_itgr#:#アイテムグループ作成
-rbac#:#crs_create_lm#:#ILIAS学習モジュールを作成
-rbac#:#crs_create_mcst#:#メディアキャストを作成
-rbac#:#crs_create_mep#:#メディア集を作成
-rbac#:#crs_create_poll#:#投票を作成
-rbac#:#crs_create_qpl#:#テスト問題集を作成
-rbac#:#crs_create_sahs#:#SCORM/AICC学習モジュールを作成
-rbac#:#crs_create_sess#:#セクションを作成
-rbac#:#crs_create_spl#:#質問集サーベイを作成
-rbac#:#crs_create_svy#:#サーベイを作成
-rbac#:#crs_create_tst#:#テストを作成
-rbac#:#crs_create_webr#:#Webリンクを作成
-rbac#:#crs_create_wiki#:#Wikiを作成
 rbac#:#crs_delete#:#ユーザはコースを移動または削除できます
 rbac#:#crs_edit_event#:#カレンダー行事を編集
 rbac#:#crs_edit_learning_progress#:#ユーザはコースメンバーの学習進捗閲覧と学習進捗設定編集ができます
@@ -10382,31 +10315,6 @@ rbac#:#filter_local_roles_object#:#このポジションのローカル役割定
 rbac#:#filter_roles_local_policy#:#このポジションのローカルポリシーを使用中のみ表示
 rbac#:#fld_create_poll#:#投票を作成
 rbac#:#fold_copy#:#ユーザはフォルダをコピーできます
-rbac#:#fold_create_blog#:#ブログ作成
-rbac#:#fold_create_book#:#予約集を作成
-rbac#:#fold_create_chtr#:#チャットルームを作成
-rbac#:#fold_create_dcl#:#データ収集作成
-rbac#:#fold_create_exc#:#演習問題を作成
-rbac#:#fold_create_file#:#ファイルをアップロード
-rbac#:#fold_create_fold#:#フォルダを作成
-rbac#:#fold_create_frm#:#掲示板を作成
-rbac#:#fold_create_glo#:#用語集を作成
-rbac#:#fold_create_grp#:#グループを作成
-rbac#:#fold_create_htlm#:#HTML学習モジュールを作成
-rbac#:#fold_create_icrs#:#LearnLincセミナーを作成
-rbac#:#fold_create_itgr#:#アイテムグループ作成
-rbac#:#fold_create_lm#:#ILIAS学習モジュールを作成
-rbac#:#fold_create_mcst#:#メディアキャストを作成
-rbac#:#fold_create_mep#:#メディア集を作成
-rbac#:#fold_create_poll#:#投票を作成
-rbac#:#fold_create_qpl#:#テスト問題集を作成
-rbac#:#fold_create_sahs#:#SCORM/AICC学習モジュールを作成
-rbac#:#fold_create_sess#:#セッションを作成
-rbac#:#fold_create_spl#:#質問集サーベイを作成
-rbac#:#fold_create_svy#:#サーベイを作成
-rbac#:#fold_create_tst#:#テストを作成
-rbac#:#fold_create_webr#:#Webリンクを作成
-rbac#:#fold_create_wiki#:#Wikiを作成
 rbac#:#fold_delete#:#ユーザはフォルダを移動または削除できます
 rbac#:#fold_edit_learning_progress#:#ユーザは他のユーザの学習進捗閲覧と学習進捗設定の編集ができます
 rbac#:#fold_edit_permission#:#ユーザはアクセス権設定を変更できます
@@ -10434,34 +10342,6 @@ rbac#:#glo_visible#:#用語集を表示
 rbac#:#glo_write#:#ユーザはコンテンツと用語集設定の編集ができます
 rbac#:#grp#:#ユーザはグループをコピーする事ができます
 rbac#:#grp_copy#:#ユーザはグループをコピーできます
-rbac#:#grp_create_blog#:#ブログ作成
-rbac#:#grp_create_book#:#予約集を作成
-rbac#:#grp_create_catr#:#カテゴリ参照を作成
-rbac#:#grp_create_chtr#:#チャットルームを作成
-rbac#:#grp_create_crsr#:#コース参照を作成
-rbac#:#grp_create_dcl#:#データ収集作成
-rbac#:#grp_create_exc#:#演習問題を作成
-rbac#:#grp_create_feed#:#Webフィードを作成
-rbac#:#grp_create_file#:#ファイルをアップロード
-rbac#:#grp_create_fold#:#フォルダを作成
-rbac#:#grp_create_frm#:#掲示板を作成
-rbac#:#grp_create_glo#:#用語集を作成
-rbac#:#grp_create_grp#:#グループを作成
-rbac#:#grp_create_htlm#:#HTML学習モジュールを作成
-rbac#:#grp_create_icrs#:#LearnLincセミナーを作成
-rbac#:#grp_create_itgr#:#アイテムグループ作成
-rbac#:#grp_create_lm#:#ILIAS学習モジュールを作成
-rbac#:#grp_create_mcst#:#メディアキャストを作成
-rbac#:#grp_create_mep#:#メディア集を作成
-rbac#:#grp_create_poll#:#投票を作成
-rbac#:#grp_create_qpl#:#テスト問題集を作成
-rbac#:#grp_create_sahs#:#SCORM/AICC学習モジュールを作成
-rbac#:#grp_create_sess#:#セッション作成
-rbac#:#grp_create_spl#:#質問集サーベイを作成
-rbac#:#grp_create_svy#:#サーベイを作成
-rbac#:#grp_create_tst#:#テストを作成
-rbac#:#grp_create_webr#:#Webリンクを作成
-rbac#:#grp_create_wiki#:#Wikiを作成
 rbac#:#grp_delete#:#ユーザはグループを移動または削除できます
 rbac#:#grp_edit_event#:#カレンダー行事を編集
 rbac#:#grp_edit_learning_progress#:#ユーザはグループメンバーの学習進捗閲覧と学習進捗設定の編集ができます
@@ -10747,37 +10627,6 @@ rbac#:#role_block_role#:#役割をブロック
 rbac#:#role_block_role_desc#:#これをアクセスすると全ての従属オブジェクトは無効になります。
 rbac#:#role_confirm_block_role_header#:#選択された役割を本当にブロックしますか?
 rbac#:#role_confirm_block_role_info#:#以降の操作が実行されます。<br /><br />-この役割権限と配下の全てのオブジェクトがブロックされます。<br />- 新しいアクセス権限設定は保護されます。
-rbac#:#root_create_blog#:#ブログ作成
-rbac#:#root_create_book#:#予約集を作成
-rbac#:#root_create_cat#:#カテゴリを作成
-rbac#:#root_create_catr#:#カテゴリー参照を作成
-rbac#:#root_create_chat#:#チャットを作成
-rbac#:#root_create_chtr#:#チャットルームを作成
-rbac#:#root_create_crs#:#コースを作成
-rbac#:#root_create_crsr#:#コースレファレンスを作成
-rbac#:#root_create_dbk#:#Digilibブックを作成
-rbac#:#root_create_dcl#:#データ収集作成
-rbac#:#root_create_exc#:#練習問題を作成
-rbac#:#root_create_feed#:#Webフィードを作成
-rbac#:#root_create_file#:#アップロードファイル
-rbac#:#root_create_frm#:#フォーラムを作成
-rbac#:#root_create_glo#:#用語集を作成
-rbac#:#root_create_grp#:#グループを作成
-rbac#:#root_create_htlm#:#HTML ラーニングモジュールを作成
-rbac#:#root_create_icrs#:#LearnLincセミナーを作成
-rbac#:#root_create_itgr#:#アイテムグループ作成
-rbac#:#root_create_lm#:#ILIASラーニングモジュールを作成
-rbac#:#root_create_mcst#:#メディアキャストを作成
-rbac#:#root_create_mep#:#メディア集を作成
-rbac#:#root_create_poll#:#投票を作成
-rbac#:#root_create_qpl#:#テスト問題集を作成
-rbac#:#root_create_rcrs#:#コースリンクを作成
-rbac#:#root_create_sahs#:#SCORM/AICCラーニングモジュールを作成
-rbac#:#root_create_spl#:#問題集サーベイを作成
-rbac#:#root_create_svy#:#サーベイを作成
-rbac#:#root_create_tst#:#テストを作成
-rbac#:#root_create_webr#:#Webリンクを作成
-rbac#:#root_create_wiki#:#Wikiを作成
 rbac#:#root_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#root_read#:#ユーザは<i>リポジトリ - ホーム</i>の読込アクセス権があります
 rbac#:#root_visible#:#<i>リポジトリ - ホーム</i>を表示
@@ -13099,3 +12948,18 @@ wsp#:#wsp_type_file#:#ファイル
 wsp#:#wsp_type_tstv#:#検証: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダー
+assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###08 03 2013 new variable
+content#:#cont_localfile#:#Local File###08 03 2013 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###08 03 2013 new variable

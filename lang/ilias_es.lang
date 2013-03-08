@@ -508,11 +508,6 @@ assessment#:#errors#:#Errores
 assessment#:#errors_section#:#Error de Datos
 assessment#:#errortext_info#:#Por favor, introduzca el texto con los errores. Para marcar una palabra con error, colocar el prefijo (#) pegado a la misma. Si presiona "Seleccionar errores marcados", todas las palabras marcadas serán seleccionada para asignarles puntuación
 assessment#:#errortext#:#Texto con errores
-assessment#:#essay_keyword_relation_all#:#Solo si se encuetran todas las palabras clave.
-assessment#:#essay_keyword_relation_any#:#Al buscar cualquier de las palabras clave.
-assessment#:#essay_keyword_relation_desc#:#Si se activa 'todas las palabras clave', no se asignará puntuación hasta que se encuentren todas ellas. La opción 'una palabra clave' asigna la máxima puntuación si se encuentra una única palabra clave.
-assessment#:#essay_keyword_relation#:#La puntuación se ha asignado
-assessment#:#essay_keyword_relation_one#:#de forma total si se encuentra una palabra clave.
 assessment#:#eval_all_users#:#Evaluación de todos los usuarios
 assessment#:#eval_choice_result#:#La elección con el valor %s es %s. Usted recibió %s puntos.
 assessment#:#eval_cloze_result#:#Hueco número %s con el valor %s es %s.Usted recibió %s puntos.
@@ -6076,7 +6071,6 @@ content#:#glo_usages#:#El glosario se utiliza en ...
 content#:#glo_used_in_scorm#:#El glosario es usado por el modulo SCORM. Si se borra, los enlaces al glosario se perderán y no podrán ser resueltos de nuevo.
 content#:#help_assign_help_ids#:#Asignación de Capítulo/IDs de pantalla
 content#:#htlm_import#:#Importar Modulo de Aprendizaje HTML.
-ontent#:#HTML export#:#Exportar a HTML
 content#:#import_sco_object#:#Importar SCO
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
 content#:#lm_menu_entry_target#:#-Objetivo(Target)-
@@ -6094,13 +6088,11 @@ content#:#msg_page_no_public_access#:#La página solicitada no está disponible 
 content#:#msg_page_not_public#:#La página no es pública
 content#:#page_does_not_exist#:#Lo sentimos, la página no existe
 content#:#pages from#:#Páginas Desde
-ontent#:#Pages#:#Páginas
 content#:#par#:#Párrafo
 content#:#PDF export#:#exportar a PDF
 content#:#pg#:#Página
 content#:#public_section#:#Sección Pública
 content#:#read offline#:#Leer Offline
-ontent#:#sahs_empty_objectives_are_not_allowed#:#Por favor, inserte un objetivo de aprendizaje
 content#:#saved_media_object#:#Objeto Media guardado.
 content#:#scplayer_collapsetree#:#Plegar todas.
 content#:#scplayer_continue#:#Continuar
@@ -12956,3 +12948,18 @@ wsp#:#wsp_type_file#:#Archivo
 wsp#:#wsp_type_tstv#:#Verificación: Test
 wsp#:#wsp_type_webr#:#Enlace web
 wsp#:#wsp_type_wfld#:#Carpeta
+assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
+content#:#HTML export#:#HTML Export###08 03 2013 new variable
+content#:#Pages#:#Pages###08 03 2013 new variable
+content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###08 03 2013 new variable

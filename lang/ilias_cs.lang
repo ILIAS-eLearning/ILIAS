@@ -508,11 +508,6 @@ assessment#:#errors#:#Chyby
 assessment#:#errors_section#:#Chyba dat
 assessment#:#errortext#:#Chyba textu
 assessment#:#errortext_info#:#Vložte prosím chybný text. K označení slova jako chyby vložte prosím znak křížku (#) na začátku slova. Pokud stisknete tlačítko &quot;Analyzovat chyby textu&quot;, všechna označená slova budou vyjmuta pro další zpracování.
-assessment#:#essay_keyword_relation#:#Body jsou přiděleny
-assessment#:#essay_keyword_relation_all#:#Jen když jsou nalezena všechna klíčová slova.
-assessment#:#essay_keyword_relation_any#:#Při nalezení některého klíčového slova.
-assessment#:#essay_keyword_relation_desc#:#Je-li vybrána volba 'všechna klíčová slova', účastníkovi nejsou přiděleny žádné body dokud nejsou nalezena všechna klíčová slova. Volba 'jedno klíčové slovo' přiděluje plné body na všechny odpovědi, pokud je nalezeno jedno klíčové slovo.
-assessment#:#essay_keyword_relation_one#:#nezkráceně, když je nalezeno jedno klíčové slovo.
 assessment#:#eval_all_users#:#Hodnocení pro všechny uživatele
 assessment#:#eval_choice_result#:#Volba s hodnotou %s je %s. Získal(a) jste %s bodů.
 assessment#:#eval_cloze_result#:#Mezera číslo %s s hodnotou %s je %s. Získal(a) jste %s bodů.
@@ -2997,13 +2992,10 @@ common#:#gender_m#:#muž
 common#:#general_settings#:#Obecná nastavení
 common#:#generate#:#Generovat
 common#:#glo#:#Glosář
-common#:#glo_a#:#Glosář
 common#:#glo_add#:#Přidat glosář
 common#:#glo_added#:#Glosář přidán
 common#:#glo_create#:#Vytvořit glosář
 common#:#glo_import#:#Import glosáře
-common#:#glo_join#:#Odebírat glosář
-common#:#glo_leave#:#Odepsat se z glosáře
 common#:#glo_mode#:#Mód
 common#:#glo_mode_desc#:#Virtuální glosář pracuje jako běžný glosář. Obsahuje navíc termíny ze všech glosářů umístěných na stejné úrovni úložiště jako virtuální glosář, respektive všech glosářů umístěných na nižší úrovni úložiště.
 common#:#glo_mode_level#:#virtuální (jen tato úroveň)
@@ -3449,7 +3441,6 @@ common#:#ldap_version#:#Verze protokolu LDAP
 common#:#ldap_visible#:#Nastavení LDAP je viditelné
 common#:#ldap_write#:#Upravit nastavení LDAP
 common#:#learning module#:#Learning Module
-common#:#learning_module#:#Výukový modul
 common#:#learning_objects#:#Výukové objekty
 common#:#learning_progress#:#Postup výuky
 common#:#learning_resourc#:#Výukový materiál
@@ -6074,7 +6065,6 @@ content#:#glo_used_in_scorm#:#Daný glosář je používán SCORM modulem. Bude-
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 content#:#htlm_import#:#Import výukového modulu HTML
 content#:#HTML export#:#HTML Export
-content#:#HTML_export#:#HTML Export
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Upravit položky menu
 content#:#lm_menu_entry_target#:#Cíl
@@ -6093,14 +6083,11 @@ content#:#msg_page_not_public#:#Stránka není veřejná
 content#:#page_does_not_exist#:#Je nám líto, ale tato stránka neexistuje.
 content#:#Pages#:#Stránky
 content#:#pages from#:#Pages From
-content#:#pages_from#:#Stránky z
 content#:#par#:#Odstavec
 content#:#PDF export#:#PDF Export
-content#:#PDF_export#:#PDF Export
 content#:#pg#:#Stránka
 content#:#public_section#:#Veřejná plocha
 content#:#read offline#:#Read Offline
-content#:#read_offline#:#Read Offline
 content#:#sahs_empty_objectives_are_not_allowed#:#Vložte prosím cíl výuky.
 content#:#saved_media_object#:#Uložené mediální objekty.
 content#:#scplayer_collapsetree#:#Sklapnout všechno
@@ -6134,7 +6121,6 @@ content#:#seq_toc#:#Z tabulky obsahu vlevo vyberte aktivitu k započetí kurzu.
 content#:#set_public_mode#:#Nastavit mód veřejného přístupu
 content#:#st#:#Kapitola
 content#:#start export#:#Start Export
-content#:#start_export#:#Start Export
 content#:#text_repr#:#Reprezentace textu
 content#:#text_repr_info#:#Pro obrázek použit "alt" atribut.
 cptch#:#cptch_freetype_support_needed#:#K použití tohoto rysu musíte zapnout podporu volného typu ve Vašem PHP.
@@ -7233,7 +7219,6 @@ dateplaner#:#wk_short#:#Týd
 dateplaner#:#year#:#Rok
 dateplaner#:#yui_cal_choose_month#:#Měsíc:
 dateplaner#:#yui_cal_choose_year#:#Rok:
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Akce
 dcl#:#dcl_activate_approval#:#Aktivivat schválení záznamu
 dcl#:#dcl_activate_notification#:#Aktivovat upozornění
@@ -12949,3 +12934,32 @@ wsp#:#wsp_type_file#:#Soubor
 wsp#:#wsp_type_tstv#:#Verifikace: Test
 wsp#:#wsp_type_webr#:#Weblový odkaz
 wsp#:#wsp_type_wfld#:#Složka
+assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###08 03 2013 new variable
+content#:#cont_localfile#:#Local File###08 03 2013 new variable
+chatroom#:#no_username_given#:#Please choose a username###08 03 2013 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###08 03 2013 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###08 03 2013 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###08 03 2013 new variable
+rbac#:#itgr_visible#:#Item group is visible###08 03 2013 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###08 03 2013 new variable
+common#:#edited_on#:#Edited on###08 03 2013 new variable
+ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###08 03 2013 new variable
+survey#:#svy_invite_action#:#Invite users to a survey###08 03 2013 new variable
+rbac#:#chtr_delete#:#User can move or delete course###08 03 2013 new variable
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###08 03 2013 new variable
+ecs#:#ecs_role_mapping_value#:#Attribute Value###08 03 2013 new variable
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###08 03 2013 new variable
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###08 03 2013 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###08 03 2013 new variable

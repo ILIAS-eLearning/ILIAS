@@ -11925,11 +11925,6 @@ assessment#:#autosave_ival#:#Interval###28 08 2012 new variable
 assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (microseconds)###28 08 2012 new variable
 assessment#:#for#:#for###28 08 2012 new variable
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:###28 08 2012 new variable
-assessment#:#essay_keyword_relation#:#Score is granted###28 08 2012 new variable
-assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.###28 08 2012 new variable
-assessment#:#essay_keyword_relation_all#:#Only if all keywords are found.###28 08 2012 new variable
-assessment#:#essay_keyword_relation_one#:#in full if one keyword is found.###28 08 2012 new variable
-assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.###28 08 2012 new variable
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.###28 08 2012 new variable
 assessment#:#answer_characters#:# characters allowed, entered number of characters: ###28 08 2012 new variable
 assessment#:#mark_tst_failed_obligations_answered#:#Sorry, you failed the test.<br />You filled out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;###28 08 2012 new variable
@@ -12954,3 +12949,17 @@ ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###17 02 2013 new variable
 ecs#:#ecs_role_mapping_value#:#Attribute Value###17 02 2013 new variable
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###17 02 2013 new variable
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###17 02 2013 new variable
+assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###08 03 2013 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###08 03 2013 new variable

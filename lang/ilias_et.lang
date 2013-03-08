@@ -227,7 +227,6 @@ administration#:#options#:#Valikud
 administration#:#output_options#:#Väljundi valikud.
 administration#:#passwd_auto_generate#:#Salasõna edastamine/loomine
 administration#:#path_to_mkisofs#:#Path to mkisofs
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Kui on aktiveeritud <u>ei ole</u> lubatud taaskasutada ajalukku salvestunud kasutajanime (isegi kui see kuulub kustutatud kasutajale).
 administration#:#purge_age_limit#:#Limit age
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.
 administration#:#purge_count_limit#:#Limit count
@@ -295,17 +294,6 @@ adve#:#adve_text_content_features#:#Tekstisisu menüü
 adve#:#adve_use_physical#:#Kasuta b/i/u str/emp/imp asemel
 adve#:#adve_use_physical_info#:#See seadistus asendab semantilise stiiliklassi nupud strong, emphatic ja important füüsiliste atribuutnuppudega b (bold), i (italic) ja u (underline). Pane tähele, et see võib põhjustada vastuolusid, kui stiili toimetit on kasutatud ja teis füüsilisi atribuute kasutatud strong/emphatic/important stiiliklasside jaoks.
 adve#:#adve_use_tiny_mce#:#Võimalda TinyMCE WYSIWYG toimetamiseks
-apache#:#apache_auth_authenticate_on_login_page#:#Proovi Apache autentimist logimislehel
-apache#:#apache_auth_enable_override_login#:#Kirjuta vaikimisi esileht üle
-apache#:#apache_auth_indicator_name#:#Indikaatori väli autentimise õnnestumisel
-apache#:#apache_auth_indicator_value#:#Indikaatori väärtus autentimise õnnestumisel
-apache#:#apache_auth_username_by_function#:#Assign usernames by custom function
-apache#:#apache_auth_username_config#:#Kasutajanime konfigureerimine
-apache#:#apache_auth_username_config_type#:#Type
-apache#:#apache_auth_username_direct_mapping#:#Laiendatud määrangud
-apache#:#apache_auth_username_extended_mapping#:#Laiendatud määrangud
-apache#:#apache_enable_auth#:#Voimalda autentimine
-apache#:#apache_enable_local#:#Võimalda kohalik
 assessment#:#0_unlimited#:#(0=piiramatu)
 assessment#:#action#:#Tegevus
 assessment#:#add_answer#:#Lisa vastus
@@ -398,11 +386,6 @@ assessment#:#cannot_maintain_test#:#Teil puudub luba testi hooldada!
 assessment#:#cannot_read_questionpool#:#Teil puudub luba lugeda küsimuste andmeid!
 assessment#:#cannot_save_metaobject#:#Teil puudub luba salvestada metaandmeid!
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Staatust ei saa muuta &quot;online&quot; kuna testis pole küsimusi ja/või hindeid!
-assessment#:#certificate_error_upload_bgimage#:#Tagaplaani üleslaadimisel tekkis viga!
-assessment#:#certificate_page_format#:#Lehe formaat
-assessment#:#certificate_pageheight#:#Lehe kõrgus
-assessment#:#certificate_pagewidth#:#Lehe laius
-assessment#:#certificate_text#:#Sertifikaadi tekst
 assessment#:#change_properties_from_random_to_standard#:#Sa hakkad juhuküsimustega testi muutma kindlate küsimustega testiks. Testile lisatud küsimustevaramud eemaldatakse. Kas soovid testi seadeid kindlasti muuta?
 assessment#:#change_properties_from_standard_to_random#:#Olete muutmas kindla küsimuste valikuga testi juhuvalikuga testiks. Testi juba sisestatud küsimused selle valiku tegemisega eemaldatakse kuna peate valima juhuvalikuga testi jaoks küsimuste varamu. Soovite jätkata testi seadistuste muutamisega?
 assessment#:#change_solution#:#Muuda soovitavat lahendust
@@ -471,7 +454,6 @@ assessment#:#dont_use_questionpool#:#Ärge lisage küsimusi varamusse (ainult k�
 assessment#:#duplicate#:#Duplitseeri
 assessment#:#duplicate_matching_values_selected#:#Sa valisid duplitseerimiseks võrdsed väärtused!
 assessment#:#duplicate_order_values_entered#:#Sa valisid duplitseerimiseks järjestatud (order) väärtused!
-assessment#:#duplicate_question#:#Duplitseeri
 assessment#:#ects_allow_ects_grades#:#Näita ECTS hinnet lisaks saadud hindele.
 assessment#:#ects_fill_out_all_values#:#Palun sisesta igale ECTS hindele väärtus!
 assessment#:#ects_grade#:#ECTS hinne
@@ -497,9 +479,7 @@ assessment#:#ects_range_error_d#:#Palun sisesta väärtus 0 ja 100 vahel ECTS hi
 assessment#:#ects_range_error_e#:#Palun sisesta väärtus 0 ja 100 vahel ECTS hinde F jaoks!
 assessment#:#ects_use_fx_grade#:#Kasuta  'FX' hinnet, kui ebaõnnestunud osalejad said kõige kehvemad tulemused.
 assessment#:#ects_use_fx_grade_part2#:#protsenti maksimumpunktidest.
-assessment#:#edit_content#:#Muuda sisu
 assessment#:#edit_page#:#Edit Page
-assessment#:#edit_properties#:#Muuda seadeid
 assessment#:#edit_question#:#Edit Question
 assessment#:#edit_test_questions#:#Muuda testiküsimusi
 assessment#:#element_height#:#Minimaalne kõrgus
@@ -528,11 +508,6 @@ assessment#:#errors#:#Vead
 assessment#:#errors_section#:#Vea andmed
 assessment#:#errortext#:#Vigane tekst
 assessment#:#errortext_info#:#Palun sisesta veatekst.
-assessment#:#essay_keyword_relation#:#Score is granted
-assessment#:#essay_keyword_relation_all#:#Only if all keywords are found.
-assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.
-assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.
-assessment#:#essay_keyword_relation_one#:#in full if one keyword is found.
 assessment#:#eval_all_users#:#Kasutajate tulemused
 assessment#:#eval_choice_result#:#Väärtusega %s antud valik on %s. Saite %s punkti.
 assessment#:#eval_cloze_result#:#Lünk %s väärtusega %s on %s. Sa said  %s punkti.
@@ -771,8 +746,6 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Valitud küsimuse jaoks
 assessment#:#qpl_assessment_of_questions#:#Küsimuste hindamine
 assessment#:#qpl_assessment_total_of_answers#:#Vastuste koguarv
 assessment#:#qpl_assessment_total_of_right_answers#:#Õigete vastuste protsent (maksimaalselt võimalikest punktidest)
-assessment#:#qpl_browsercolumns#:#Küsimuste mugandatud nimestik
-assessment#:#qpl_browsercolumns_description#:#Vali küsimuse andmete veerud, mis on näha varamus asuvas küsimuste nimestikus. See seadistus määratakse kõikidele küsimustevaramule.
 assessment#:#qpl_confirm_delete_questions#:#Kas oled kindel, et soovid järgmise(d) küsimuse(d) kustutada? Kui sa kustutad lukustatud küsimused, kustutatakse ka kõiki lukustatud küsimusi sisaldavad testitulemused.
 assessment#:#qpl_copy_insert_clipboard#:#Valitud küsimus(ed) on puhvrisse salvestatud.
 assessment#:#qpl_copy_select_none#:#Palun märgista puhvrisse kopeerimiseks vähemalt üks küsimus
@@ -901,7 +874,6 @@ assessment#:#term#:#Mõiste
 assessment#:#term_image#:#Mõiste pilt
 assessment#:#term_text#:#Mõiste tekst
 assessment#:#terms#:#Mõisted
-assessment#:#test_add_new_question#:#Lisa küsimus
 assessment#:#test_cancelled#:#Test tühistati
 assessment#:#test_confirm_template_reset#:#Olete kindel, et ei soobi seda malli enam kasutada?
 assessment#:#test_create_question#:#Create Question
@@ -963,7 +935,6 @@ assessment#:#tst_already_submitted#:#Test on juba lõpetatud ja kinnitatud.
 assessment#:#tst_already_taken#:#Juba alustatud testid
 assessment#:#tst_anonymity#:#Anonüümsus
 assessment#:#tst_anonymity_anonymous_test#:#Anonüümne test
-assessment#:#tst_anonymity_description#:#Anonüümse valiku korral kasutajate nimesid ei näe.
 assessment#:#tst_anonymity_no_anonymization#:#Anonüümsust pole
 assessment#:#tst_answer_sheet#:#Testivastuste leht
 assessment#:#tst_answered_questions#:#Vastatud küsimusi
@@ -973,9 +944,7 @@ assessment#:#tst_availability_until_info#:#Choose this mode for making the test 
 assessment#:#tst_beginning_ending_information#:#Info testi alguse ja lõpu kohta
 assessment#:#tst_best_solution_is#:#Parim lahendus on
 assessment#:#tst_browse_for_questions#:#Otsi küsimusi
-assessment#:#tst_change_points_done#:#Vastuse punktid on edukalt muudetud!
 assessment#:#tst_change_points_for_question#:#Muuda küsimuse punkte
-assessment#:#tst_change_points_not_done#:#Ei olnud võimalik muuta vastuse punkte! Palun kontrolli võimalike punktide määrasid.
 assessment#:#tst_confirm_delete_results#:#Olete kustutamas selles testis kõiki seniseid tulemusi. Antud valik lähtestab küsimuste vaikimisi väärtused. Pange tähele, et te ei saa lähtestada läbimiste arvu, mis teil oli selle testi jaoks vaja. Soovite tõepoolest lähtestada kõik eelnevad tulemused?
 assessment#:#tst_confirm_delete_results_info#:#Sinu eelnevalt salvestunud tulemused on kustutatud. Test on edukalt nullitud!
 assessment#:#tst_confirm_print#:#Klikka nupul, et printida välja kõik küsimused koos punktide ja lahendustega lehe lõpus.
@@ -1273,8 +1242,6 @@ assessment#:#tst_sequence_fixed#:#Küsimuste järgnevus on fikseeritud
 assessment#:#tst_sequence_postpone#:#Küsimusi võib edasi lükata testi lõppu.
 assessment#:#tst_sequence_properties#:#Järgnevuse seaded
 assessment#:#tst_session_settings#:#Seansi seaded
-assessment#:#tst_set_feedback_done#:#Käsitsi tagasiside määratud
-assessment#:#tst_set_feedback_not_done#:#Tekkis viga! Manuaalne tagasiside ei salvestunud.
 assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test pole enam võrgus, sest juhuvaliku testi seadete ümberlülitus põhjustas kõikide olemasolevate küsimuste eemaldamise.
 assessment#:#tst_setting_enable_obligations_info#:#If checked, questions of the test can be marked as obligatory (*). All obligatory questions need to be filled out to pass this test. You can set obligatory questions in the "list view". We recommend to also activate "Show List of Questions" when obligatory questions are defined.
 assessment#:#tst_setting_enable_obligations_label#:#Obligatory Questions
@@ -1386,19 +1353,6 @@ assessment#:#worked_through#:#Vastatud
 assessment#:#working_time#:#Tööaeg
 assessment#:#working_time_avg#:#Avg. töötamisaeg
 assessment#:#you_received_a_of_b_points#:#Saite %d punkti  %d-st võimalikust punktist
-auth#:#apache_auth_authenticate_on_login_page#:#.3
-auth#:#apache_auth_enable_override_login#:#..2
-auth#:#apache_auth_indicator_name#:#Indicator field
-auth#:#apache_auth_indicator_value#:#.1
-auth#:#apache_auth_settings#:#Apache
-auth#:#apache_auth_username_by_function#:#reraraa
-auth#:#apache_auth_username_config#:#Kasutajanime konfigureerimine
-auth#:#apache_auth_username_config_type#:#Type
-auth#:#apache_auth_username_direct_mapping#:#rr
-auth#:#apache_auth_username_extended_mapping#:#rahu
-auth#:#apache_enable_auth#:#Võimalda autentimine
-auth#:#apache_enable_local#:#Enable local
-auth#:#apache_settings#:#Apache seaded
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.
 auth#:#auth_account_code_title#:#Account Code
@@ -1437,7 +1391,6 @@ auth#:#auth_radius_ldap#:#Synchronization using LDAP
 auth#:#auth_radius_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 auth#:#auth_radius_sync_rad#:#Automatic generation of user accounts
 auth#:#auth_radius_sync_rad_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against Radius, without having an ILIAS account yet.
-auth#:#auth_settings#:#Apache
 auth#:#auth_sync#:#User Synchronisation
 auth#:#auth_sync_cas#:#Automatic generation of user accounts
 auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.
@@ -1833,217 +1786,6 @@ certificate#:#certificate_wrong_unit#:#Sa sisestasid vale üksuse
 certificate#:#certificate_wrong_units#:#Sa oled sisetanud vale üksuste kogumi
 certificate#:#default_background_info#:#See taustapilt valitakse kõikide tunnistuste taustapildiks. Kui soovid tunnistusele teist taustapilti, pead selle tunnistusemootoris üles laadima.
 certificate#:#download_certificate#:#Lae tunnistus alla
-chat#:#cancel_talk#:#Tühista aadress
-chat#:#cancel_whisper#:#Tühista sosin
-chat#:#chat_access_blocked#:#Olete järgnevatest jututubadest välja arvatud
-chat#:#chat_activate_status_notification#:#Show notification about new chat invitations and messages in main menu bar
-chat#:#chat_active#:#Aktiivne
-chat#:#chat_active_users#:#Further users (present)
-chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
-chat#:#chat_add_blocking#:#Blokeeri kasutaja
-chat#:#chat_add_external_ip#:#Please add the server's external IP.
-chat#:#chat_add_internal_ip#:#Please add the server's internal IP.
-chat#:#chat_add_moderator_password#:#Please add a moderator password.
-chat#:#chat_add_port#:#Please add the server port.
-chat#:#chat_add_private_chatroom#:#Lisa privaatne jututuba
-chat#:#chat_add_smiley#:#Lisa smaili
-chat#:#chat_add_ssl_port#:#Please add the server SSL port.
-chat#:#chat_add_to_addressbook#:#Lisa kontaktidesse
-chat#:#chat_add_to_bookmark#:#Lisa järjehoidjatesse
-chat#:#chat_added_to_addressbook#:#Kasutaja ' %s ' on sinus kontaktidesse lisatud.
-chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folder of your Bookmarks
-chat#:#chat_address#:#Address
-chat#:#chat_address_user#:#Address
-chat#:#chat_aqua#:#aqua
-chat#:#chat_arial#:#Arial
-chat#:#chat_available_smilies#:#Smailid
-chat#:#chat_black#:#tagasi
-chat#:#chat_block_user#:#Blokeeri
-chat#:#chat_blocked#:#Restricted access
-chat#:#chat_blocked_unlocked#:#Lukust lahti
-chat#:#chat_blocked_users#:#Blokeeritud kasutajad
-chat#:#chat_blue#:#sinine
-chat#:#chat_bold#:#Rasvane
-chat#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
-chat#:#chat_chat_invitation#:#Jututoa kutse
-chat#:#chat_chatroom_body#:#Jututuba:
-chat#:#chat_chatroom_rename#:#Muuda jututoa nime
-chat#:#chat_chatrooms#:#Jututoad
-chat#:#chat_chatviewer#:#Jututoa vaatur
-chat#:#chat_color#:#Fondi värv
-chat#:#chat_confirm_delete#:#Kas oled kindel, et soovid selle ruumi kustutada?
-chat#:#chat_confirm_delete_private_room#:#Kas oled kindel, et soovid selle privaatse ruumi kustutada?
-chat#:#chat_confirm_delete_smiley#:#Kas oled kindel, et soovid valitud smailid kustutada?
-chat#:#chat_confirm_kick_user#:#Kas oled kindel, et soovid selle kasutaja eemaldada?
-chat#:#chat_confirm_user_invite#:#The User will be invited to this Chat Room
-chat#:#chat_current_image_path#:#Aktiivse pildi tee
-chat#:#chat_default_bookmark_description#:#Jututoa link ' %s '
-chat#:#chat_default_bookmark_title#:#Jututoa link: %s
-chat#:#chat_delete_selected#:#Kustuta valitud smailid
-chat#:#chat_delete_sure#:#Kas oled kindel, et soovid selle jututoa kustutada?
-chat#:#chat_disinvite#:#Disinvite
-chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom
-chat#:#chat_drop_user#:#Kasutajat müksati
-chat#:#chat_edit#:#Jututoa muutmine
-chat#:#chat_edit_smiley#:#Muuda emotikoni
-chat#:#chat_empty#:#Tühi
-chat#:#chat_enable_autoscroll#:#Võimalda automaatne kerimine
-chat#:#chat_enter_valid_username#:#Please enter a valid username.
-chat#:#chat_export_all#:#No restrictions (all users with access may export)
-chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.
-chat#:#chat_export_moderator#:#Ainult moderaatorid
-chat#:#chat_export_period#:#Ekspordi periood
-chat#:#chat_export_period_info#:#Export the given number of days
-chat#:#chat_export_status#:#Required export permissions
-chat#:#chat_face#:#Kirjatüüp
-chat#:#chat_fuchsia#:#fuchsia
-chat#:#chat_general_settings#:#Üldised seaded
-chat#:#chat_gray#:#hall
-chat#:#chat_green#:#roheline
-chat#:#chat_hide_details#:#Peida detailid
-chat#:#chat_hide_smilies#:#Peida emotikonid
-chat#:#chat_hide_textformat#:#Peida teksti formaat
-chat#:#chat_html_export#:#HTML eksport
-chat#:#chat_ilias#:#ILIAS Chat module
-chat#:#chat_image_path#:#Image Path
-chat#:#chat_inactive#:#Inactive
-chat#:#chat_input#:#Sisend
-chat#:#chat_insert_message#:#Lisa sõnum
-chat#:#chat_invitation_body#:#Kutse jututuppa kellelt:
-chat#:#chat_invitation_subject#:#Jututoa kutse
-chat#:#chat_invite#:#Invite
-chat#:#chat_invite_user#:#kutsu kasutaja
-chat#:#chat_invited_by#:#Invited by
-chat#:#chat_italic#:#Italic
-chat#:#chat_kick#:#Kick
-chat#:#chat_kick_user_session#:#Kick user
-chat#:#chat_kicked_from_room#:#Sa oled jututoast eemaldatud ega saa enam sõnumeid kirjutada.
-chat#:#chat_level_all#:#Kõik
-chat#:#chat_level_debug#:#Debug
-chat#:#chat_level_error#:#Viga
-chat#:#chat_level_fatal#:#Fataal
-chat#:#chat_level_info#:#Info
-chat#:#chat_lime#:#lime
-chat#:#chat_maroon#:#maroon
-chat#:#chat_message_notify#:#Sõnumi märguanne
-chat#:#chat_message_notify_activate#:#Aktiveeri sõnumi märguanne
-chat#:#chat_message_notify_deactivate#:#Inaktiveeri sõnumi märguanne
-chat#:#chat_messages_deleted#:#Sõnumid on kustutatud.
-chat#:#chat_moderator_password#:#Moderaatori salasõna
-chat#:#chat_navy#:#meresinine
-chat#:#chat_new_invitation_sound_status#:#Mängi kõlli, kui kasutaja saab uue kutse jututuppa
-chat#:#chat_new_message#:#Uus sõnum
-chat#:#chat_new_message_sound_status#:#Mängi kõlli, kui uus sõnum saabub
-chat#:#chat_no_active_users#:#No further users present.
-chat#:#chat_no_blocked#:#Blokeeritud kasutajaid pole
-chat#:#chat_no_connection#:#Cannot contact chat server.
-chat#:#chat_no_delete_public#:#Avalikku jututuba ei saa kustutada
-chat#:#chat_no_online_users#:#Rohkem kasutajaid sees pole.
-chat#:#chat_no_recordings_available#:#Ühtegi salvestust praegu pole.
-chat#:#chat_no_refresh_public#:#Avalikku jututuba ei saa värskendada.
-chat#:#chat_no_rename_public#:#The public room cannot be renamed
-chat#:#chat_no_room_selected#:#No room has been selected.
-chat#:#chat_no_users_selected#:#Sa pead valima ühe kasutaja.
-chat#:#chat_no_write_perm#:#Puudub luba kirjutada.
-chat#:#chat_notification_intro#:#See e-kiri saadeti sulle automaatselt ILIASe installatsiooni %s, % poolt.
-chat#:#chat_olive#:#olive
-chat#:#chat_online_users#:#Kasutajad (sees)
-chat#:#chat_open#:#Sisene ruumi
-chat#:#chat_private_message#:#Private Message
-chat#:#chat_profile#:#Profile
-chat#:#chat_public_room#:#Avalik jututuba
-chat#:#chat_purple#:#purple
-chat#:#chat_recent_postings#:#Recent Chat Postings
-chat#:#chat_recording_action#:#Tegevus
-chat#:#chat_recording_description#:#Kirjeldus
-chat#:#chat_recording_moderator#:#Moderaator
-chat#:#chat_recording_not_found#:#Ei leia salvestist.
-chat#:#chat_recording_running#:#Recording running
-chat#:#chat_recording_started#:#Recording started
-chat#:#chat_recording_stopped#:#Salvestamine peatus
-chat#:#chat_recording_time_frame#:#Time frame
-chat#:#chat_recording_title#:#Salvestuse pealkiri
-chat#:#chat_recordings#:#Salvestused
-chat#:#chat_recordings_delete_sure#:#Salvestiste kustutamine - oled kindel?
-chat#:#chat_recordings_deleted#:#Salvestused kustutati.
-chat#:#chat_recordings_select_one#:#Palun vali salvestused, mida soovid kustutada.
-chat#:#chat_red#:#red
-chat#:#chat_refresh#:#Värskenda
-chat#:#chat_refreshed#:#Valitud jututubade kõik sõnumid on kustutatud.
-chat#:#chat_room_added#:#Uus jututuba lisatud
-chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.
-chat#:#chat_room_name#:#Jututoa nimi
-chat#:#chat_room_renamed#:#Jututuba on ümber nimetatud.
-chat#:#chat_room_select#:#Private chat room
-chat#:#chat_rooms#:#Jututoad
-chat#:#chat_rooms_deleted#:#Jututuba kustutatud.
-chat#:#chat_select_one_room#:#Please select one chat room
-chat#:#chat_server_allowed#:#Allowed hosts
-chat#:#chat_server_allowed_b#:#(nagu 192.168.1.1,192.168.1.2)
-chat#:#chat_server_external_ip#:#Server external IP
-chat#:#chat_server_internal_ip#:#Server internal IP
-chat#:#chat_server_logfile#:#Log file path
-chat#:#chat_server_loglevel#:#Logimise tase
-chat#:#chat_server_not_active#:#Jututoa server pole aktiivne
-chat#:#chat_server_port#:#Server Port
-chat#:#chat_server_settings#:#jututoa serveri seaded
-chat#:#chat_server_ssl_active#:#SSL aktiivne
-chat#:#chat_server_ssl_port#:#Server SSL Port
-chat#:#chat_server_ssl_settings#:#SSL seaded
-chat#:#chat_settings_saved#:#Seaded on salvestatud
-chat#:#chat_show_details#:#Näida detaile
-chat#:#chat_show_smilies#:#Näita emotikone
-chat#:#chat_show_textformat#:#Muuda teksti
-chat#:#chat_silver#:#hõbedane
-chat#:#chat_smiley_image#:#Emotikoni pilt
-chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.
-chat#:#chat_smiley_keyword#:#Emotikoni võtmesõna
-chat#:#chat_smiley_keywords#:#Emotikoni võtmesõna
-chat#:#chat_smiley_keywords_one_per_line_note#:#Saate lisada iga emotikoni jaoks mitu võtmesõna. Iga rida kasutatakse kui eraldi võtmesõna.
-chat#:#chat_smilies_activate#:#Aktiveeri smailid
-chat#:#chat_smilies_deactivate#:#Inaktiveeri smailid
-chat#:#chat_smilies_dir_not_available#:#The smiley data directory could not be created. This ILIAS will not be able to use chat smilies as further actions are needed.
-chat#:#chat_smilies_dir_not_exists#:#The smiley data directory does not exist. Trying to setup folders and database.
-chat#:#chat_smilies_dir_not_writable#:#Teie emotikoni andmete kataloog on olemas aga teil ei ole kirjutusõigusi. Seega ei saa te emotikone lisada.
-chat#:#chat_smilies_initialized#:#The smiley data has been initialized and is ready to use.
-chat#:#chat_smilies_status#:#Jututoa smailid
-chat#:#chat_sound_status_activate#:#Aktiveeri helid
-chat#:#chat_sound_status_deactivate#:#Inaktiveeri helid
-chat#:#chat_sounds#:#Helid
-chat#:#chat_start_recording#:#Alusta salvestamist
-chat#:#chat_status#:#Staatus
-chat#:#chat_status_saved#:#Staatust on muudetud
-chat#:#chat_stop_recording#:#Lõpeta salvestamine
-chat#:#chat_tahoma#:#Tahoma
-chat#:#chat_teal#:#teal
-chat#:#chat_textformat#:#Muuda teksti
-chat#:#chat_times#:#Times
-chat#:#chat_title_missing#:#Lisa nimi.
-chat#:#chat_to_chat_body#:#Jututuppa
-chat#:#chat_type#:#Fondi šrift
-chat#:#chat_unblocked_user#:#The selected user have been unlocked.
-chat#:#chat_underlined#:#Allajoonitud
-chat#:#chat_unkick#:#Ära müksa
-chat#:#chat_unkick_user_session#:#Ära müksa kasutajat
-chat#:#chat_upload_smiley#:#Lae emotikon üles
-chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.
-chat#:#chat_user_already_in_addressbook#:#Kasutaja juba on sinu kontaktides.
-chat#:#chat_user_blocked#:#Valitud kasutajale on ligipääs blokeeritud.
-chat#:#chat_user_dropped#:#Kasutajat müksati
-chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.
-chat#:#chat_user_hidden#:#peidetud
-chat#:#chat_user_invited#:#Invited user to chat.
-chat#:#chat_user_invited_private#:#The user was invited to the private chatroom '%s'.
-chat#:#chat_user_invited_public#:#Kasutaja kutsuti avalikku jutukasse.
-chat#:#chat_user_name#:#Kasutajanimi
-chat#:#chat_user_unkicked#:#The user has been unkicked.
-chat#:#chat_user_visible#:#nähtav
-chat#:#chat_whisper#:#Sosin
-chat#:#chat_yellow#:#kollane
-chat#:#chats#:#Jututoad
-chat#:#check_configuration#:#Please check the chat server's settings.
-chat#:#edit_smilies#:#Muuda emotikone
-chat#:#my_chats#:#Minu jututoad
 chatroom#:#allow_anonymous#:#Allow anonymous login
 chatroom#:#allow_custom_usernames#:#Allow custom usernames
 chatroom#:#allow_private_rooms#:#Allow private rooms
@@ -2193,10 +1935,6 @@ chatroom_adm#:#chatroom_smiley_keywords#:#Keywords
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One keyword per line
 chatroom_adm#:#chatroom_upload_smiley#:#Upload smiley
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
-chatroom_adm#:#chta_edit_permission#:#Change Permission Settings
-chatroom_adm#:#chta_read#:#Read access to Chatroom Administration
-chatroom_adm#:#chta_visible#:#Chatroom Administration is visible
-chatroom_adm#:#chta_write#:#Edit Chatroom Administration
 chatroom_adm#:#client_settings#:#Üldised seaded
 chatroom_adm#:#enable_osd#:#Enable On-Screen notifications
 chatroom_adm#:#general_settings_title#:#Üldised jututoa seaded
@@ -2205,7 +1943,6 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#instance#:#Instance
 chatroom_adm#:#keypass#:#Keypass
 chatroom_adm#:#keystore#:#Keystore
-chatroom_adm#:#obj_chta_desc#:#Jututoa haldus
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
 chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked.
@@ -2321,10 +2058,6 @@ common#:#accessFree#:#Eemalda piiratud ligipääs
 common#:#accessRestrict#:#Sea piiratud ligipääs
 common#:#account_expires_body#:#Teie juurdepääs on piiratud, see aegub:
 common#:#account_expires_subject#:#[ILIAS] Teie konto aegub
-common#:#accs_edit_permission#:#Muuda õiguste seadeid
-common#:#accs_read#:#Lugemisõigused to Accessibility Settings
-common#:#accs_visible#:#Juurdepääsu seaded on nähtavad
-common#:#accs_write#:#Muuda juurdepääsu seadeid
 common#:#action#:#Tegevus
 common#:#action_aborted#:#Toiming on lõpetatud
 common#:#actions#:#Tegevused
@@ -2357,10 +2090,6 @@ common#:#added_to_desktop#:#The item has been added to the desktop.
 common#:#additional_info#:#Lisaks
 common#:#address#:#Aadress
 common#:#adm_create_tax#:#Loo taksonoomia
-common#:#adm_edit_permission#:#Muuda õiguste seadeid
-common#:#adm_read#:#Lugemisõigused to System settings
-common#:#adm_visible#:#Süsteemi seaded on nähtavad
-common#:#adm_write#:#Muuda süsteemi põhiseadeid
 common#:#admin_force_noti#:#Teavitus aktiivne
 common#:#admin_panel#:#Haldusepaneel
 common#:#administrate#:#Halda
@@ -2368,11 +2097,9 @@ common#:#administrate_users#:#Kohaliku kasutaja haldus
 common#:#administration#:#Administreerimine
 common#:#administrator#:#Administraator
 common#:#adopt#:#Kinnita
-common#:#adopt_perm_from_template#:#Kinnita rollimalli õiguste seaded
 common#:#advanced_editing_allow_html_tags#:#Võimalda teksti redigeerimiseks HTML märgendid
 common#:#advanced_editing_allow_javascript_editor#:#Võimalda rikastekst
 common#:#advanced_editing_assessment_settings#:#lubatud HTML märgendid ILIASe testi ja hindamise tööriistale
-common#:#advanced_editing_cat_page_editing#:#Võimalda sisu muutmine liigituse lehtedel
 common#:#advanced_editing_frm_post_settings#:#Foorumi postituste seaded
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
@@ -2385,15 +2112,11 @@ common#:#advanced_editing_settings#:#Täisutatud muutmise seaded
 common#:#advanced_editing_survey_settings#:#Lubatud HTML märgendid ILIASe küsitluse vahendis
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Testimise&hindamise seaded
-common#:#adve_edit_permission#:#Muuda õiguste seadeid
 common#:#adve_frm_post_settings#:#Foorumi postitused
 common#:#adve_general_settings#:#Üldised seaded
 common#:#adve_lm_settings#:#LM / Sõnastiku seaded
-common#:#adve_read#:#Ligipääs täpsema redigeerimise haldusele
 common#:#adve_rep_settings#:#Varamu seaded
 common#:#adve_survey_settings#:#Küsitluse seaded
-common#:#adve_visible#:#Täpsema redigeerimise haldus on nähtav
-common#:#adve_write#:#Täpsema redigeerimise haldus
 common#:#agree_date#:#Nõustunud kasutustingimustega
 common#:#all_authors#:#Kõik autorid
 common#:#all_commands#:#Kõik käsud
@@ -2409,16 +2132,6 @@ common#:#allow_assign_users#:#Luba kohalikele administraatoritele kasutajate mä
 common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.
 common#:#allow_register#:#Nähtav uute kasutajate registreerimisvormis
 common#:#allow_user_toggle_noti#:#Liikmed võivad teavitused deaktiveerida
-common#:#alm#:#AICC õppemoodul
-common#:#alm_added#:#AICC õpimoodul lisatud
-common#:#alm_create#:#Loo AICC õppemoodul
-common#:#alm_delete#:#Kustuta AICC õppemoodul
-common#:#alm_edit_permission#:#Muuda õiguste seadeid
-common#:#alm_join#:#Subscribe to AICC Learning Module
-common#:#alm_leave#:#Loobu AICC õppemoodulist
-common#:#alm_read#:#Lugemisõigused to AICC Learning Module
-common#:#alm_visible#:#AICC õpimoodul nähtav
-common#:#alm_write#:#Muuda AICC õppemoodulit
 common#:#already_delivered_files#:#Saadetud failid
 common#:#and#:#ja
 common#:#announce#:#Teadaanne
@@ -2427,22 +2140,6 @@ common#:#anonymous#:#Anonüümne
 common#:#answers#:#vastused
 common#:#any_language#:#Kõik keeled
 common#:#apache_auth#:#<img src="templates/default/images/idkaart.gif" alt="Log with id card" onclick="setTimeout('document.forms[\'formlogin\'].submit()',1250);">
-common#:#apache_auth_authenticate_on_login_page#:#Try apache authentication when entering the login page
-common#:#apache_auth_enable_override_login#:#Kirjuta vaikimisi esileht üle
-common#:#apache_auth_indicator_name#:#Indikaatori väli autentimise õnnestumisel
-common#:#apache_auth_indicator_value#:#Indikaatori väärtus autentimise õnnestumisel
-common#:#apache_auth_settings#:#Apache
-common#:#apache_auth_target_override_login#:#URL kohandatud esilehe jaoks
-common#:#apache_auth_username_by_function#:#Assign usernames by custom function
-common#:#apache_auth_username_config#:#Kasutajanime konfigureerimine
-common#:#apache_auth_username_config_type#:#Tüüp
-common#:#apache_auth_username_direct_mapping#:#Laiendatud määrangud
-common#:#apache_auth_username_extended_mapping#:#Straight assignment
-common#:#apache_autocreate#:#Võimalda kasutajakonto loomine
-common#:#apache_default_role#:#Roll vaikimisi
-common#:#apache_enable_auth#:#Võimalda Apache autentimise tugi
-common#:#apache_enable_local#:#Võimalda kohalike kasutajate määramine
-common#:#apache_settings#:#Konfigureeri Apache seadeid
 common#:#append_search#:#Liida otsingutulemused
 common#:#application_completed#:#Rakendus on valmis
 common#:#application_date#:#Rakenduse kuupäev
@@ -2460,7 +2157,6 @@ common#:#are_you_sure#:#Oled kindel?
 common#:#arrow_downright#:#Nool ülevalt alla paremale
 common#:#articels_unread#:#Lugemata artiklid
 common#:#as_of#:#as of
-common#:#ascending_order#:#Kasvav järjekord
 common#:#ass_log_admin#:#Logimisandmete haldus
 common#:#ass_log_available_tests#:#Saadaval olevad testid
 common#:#ass_log_count_datasets#:#Logimise kirjed
@@ -2494,11 +2190,7 @@ common#:#assessment_use_javascript#:#Javaskript lohistamiseks
 common#:#assessment_use_javascript_desc#:#Aktiveerib esimene kord javaskripti lohistamisülesannete jaoks vaikimisi
 common#:#assf_allowed_questiontypes#:#Võimalikud küsimusetüübid
 common#:#assf_allowed_questiontypes_desc#:#Kõik valitud küsimuste tüübid on antud ILIASe installatsioonis kättesaadavad. Kui te ei taha lubada teatud tüüpi küsimuste loomist selles installatsioonis, eemaldage linnuke vastavast valikukastist.
-common#:#assf_edit_permission#:#Muuda õiguste seadeid
 common#:#assf_questiontypes#:#Küsimuse seaded
-common#:#assf_read#:#Testi&hindamise juurdepääsu haldus
-common#:#assf_visible#:#Testimise&hindamise haldus on nähtav
-common#:#assf_write#:#Muuda testi/hindamise haldust
 common#:#assign#:#Luba
 common#:#assign_global_role#:#Lisa üldisele rollile
 common#:#assign_lo_forum#:#Lisa LO foorum
@@ -2519,7 +2211,6 @@ common#:#attempts#:#Üritusi
 common#:#attend#:#Osa võtma
 common#:#auth_active_roles#:#Registreerumisankeedil võimalikud üldised rollid
 common#:#auth_allow_local#:#Võimalda kohalikku autentimist
-common#:#auth_apache#:#Apache
 common#:#auth_cas#:#CAS
 common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
 common#:#auth_cas_auth#:#Configure CAS Authentication
@@ -2535,7 +2226,6 @@ common#:#auth_create_users#:#Create non-existing users automatically
 common#:#auth_default#:#Vaikimisi seadmine
 common#:#auth_default_mode_changed_to#:#Autentimisviis muudetud:
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Muuda õiguste seadeid
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_ldap_enable#:#Enable LDAP support
@@ -2562,7 +2252,6 @@ common#:#auth_radius_server#:#Serverid
 common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.
 common#:#auth_radius_settings_saved#:#RADIUS settings saved
 common#:#auth_radius_shared_secret#:#Shared secret
-common#:#auth_read#:#Juurdepääs autentimisseadetele
 common#:#auth_remark_non_local_auth#:#Valides ILIASe asemel muu autentimissüsteemi, võib kaduda võimalus muuta kasutajanime ja parooli.
 common#:#auth_role_auth_mode#:#Autentimisviis
 common#:#auth_script#:#Kohandatud
@@ -2591,8 +2280,6 @@ common#:#auth_soap_use_https#:#Kasuta HTTPS
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
 common#:#auth_user_default_role#:#Roll vaikimisi
-common#:#auth_visible#:#Autentimisseaded on nähtavad
-common#:#auth_write#:#Muuda autentimise seadeid
 common#:#authenticate_ilias#:#ILIASe kasutajanimi
 common#:#authenticate_with#:#Login to:
 common#:#authentication_settings#:#Autentimine
@@ -2632,10 +2319,6 @@ common#:#bm_add_to_social_bookmarks#:#Lisa sotsiaalsetesse järjehoidjatesse
 common#:#bm_manage_social_bm#:#Halda sotsiaalseid järjehoidjaid
 common#:#bmf#:#Veebilehtede kaust
 common#:#bold#:#Rasvane
-common#:#book_edit_permission#:#Muuda õiguste seadeid
-common#:#book_read#:#Lugemispääs broneerimisvaramusse
-common#:#book_visible#:#Broneerimisvaramu on nähtav
-common#:#book_write#:#Muuda broneeringu varamut
 common#:#bookings#:#Broneeringud
 common#:#bookmark_added#:#Järjehoidja on loodud.
 common#:#bookmark_edit#:#Muuda veebilehte
@@ -2674,51 +2357,16 @@ common#:#cat#:#Kategooria
 common#:#cat_a#:#liigitus
 common#:#cat_add#:#Lisa liigitus
 common#:#cat_added#:#Kategooria lisatud
-common#:#cat_cat_administrate_users#:#Administreeri kohalikke kasutajakontosid
 common#:#cat_clear_page#:#Puhasta leht
-common#:#cat_copy#:#Kopeeri liigitus
-common#:#cat_copy_threads_info#:#Palun vali, millised kategooriad tuleb kopeerida, linkida või vahele jätta.
-common#:#cat_create#:#Loo kategooria
-common#:#cat_create_alm#:#Loo AICC õppemoodul
-common#:#cat_create_cat#:#Loo liigitus
-common#:#cat_create_chat#:#Loo jututuba
-common#:#cat_create_crs#:#Loo kursus
-common#:#cat_create_dbk#:#Loo Digilib-raamat
-common#:#cat_create_exc#:#Loo ülesanne/harjutus
-common#:#cat_create_feed#:#Loo veebivoog
-common#:#cat_create_file#:#Lae fail üles
-common#:#cat_create_frm#:#Loo foorum
-common#:#cat_create_glo#:#Loo sõnastik
-common#:#cat_create_grp#:#Loo grupp
-common#:#cat_create_hlm#:#Create HACP Learning Module
-common#:#cat_create_htlm#:#Loo HTML õppemoodul
-common#:#cat_create_icrs#:#Loo LearnLinc seminar
-common#:#cat_create_lm#:#Loo ILIAS õppemoodul
-common#:#cat_create_mcst#:#Loo MediaCast
-common#:#cat_create_mep#:#Loo meediavaramu
-common#:#cat_create_qpl#:#Loo testiküsimuste varamu
-common#:#cat_create_sahs#:#Loo SCORM/AICC õppemoodul
-common#:#cat_create_spl#:#Loo küsimustiku varamu
-common#:#cat_create_svy#:#Loo küsimustik/tagasiside
-common#:#cat_create_tst#:#Loo test
-common#:#cat_create_url#:#Loo URL
-common#:#cat_create_webr#:#Loo veebiressurss
-common#:#cat_create_write#:#Loo wiki
-common#:#cat_delete#:#Kustuta liigitus
 common#:#cat_edit#:#Muuda liigitust
-common#:#cat_edit_permission#:#Muuda õiguste seadeid
 common#:#cat_new#:#Uus kategooria
 common#:#cat_pages#:#Liigituse lehed
 common#:#cat_pages_clear#:#Liigituste leht puhastatud
 common#:#cat_pages_not_created#:#Liigituste lehte pole veel loodud
 common#:#cat_pages_undone#:#Last changes for cagegory page undone.
-common#:#cat_read#:#Vaatamisõigused liigituses
-common#:#cat_read_users#:#Vaatamisõigused kohalikes rollides
 common#:#cat_title#:#Liigituse tiitel
 common#:#cat_undo_last_page_changes#:#Nulli viimased muudatused lehel
-common#:#cat_visible#:#Liigitus on nähtav
 common#:#cat_wizard_page#:#Kopeeri kategooria (Aste 2/2)
-common#:#cat_write#:#Muuda liigutus
 common#:#categories#:#Liigitus
 common#:#categories_imported#:#Liigituse import puudulik.
 common#:#catr#:#Kategooria viide
@@ -2726,21 +2374,7 @@ common#:#catr_edit#:#Kategooria viite muutmine
 common#:#catr_edit_info#:#Uue viite loomiseks vali üks liigitus.
 common#:#catr_new#:#Loo uus kategooria viide
 common#:#cc#:#CC
-common#:#cen#:#Keskne sündmus
-common#:#cen_add#:#Lisa põhisündmus
-common#:#cen_added#:#Keskne sündmus lisatud
-common#:#cen_delete#:#Kustuta keskne sündmus
-common#:#cen_edit#:#Muuda põhisündmust
-common#:#cen_new#:#Uus keskne sündmus
-common#:#cen_save#:#Salvesta keskne sündmus
 common#:#censorship#:#Tsenseerimine
-common#:#centra_account#:#Centra Admin Account
-common#:#centra_rooms#:#Centra Rooms
-common#:#centra_server#:#Centra Server
-common#:#cert_edit_permission#:#Muuda õiguste seadeid
-common#:#cert_read#:#Lugemisõigused to Certificate Settings
-common#:#cert_visible#:#Tunnistuse seaded on nähtavad
-common#:#cert_write#:#Muuda tunnistuse seadeid
 common#:#certificate#:#Tunnistus
 common#:#chac_edit_permission#:#Muuda õiguste seadeid
 common#:#chac_read#:#Lugemisõigused jututoa seadetes
@@ -2749,13 +2383,6 @@ common#:#chac_write#:#Muuda jututoa seadeid
 common#:#change#:#Muuda
 common#:#change_active_assignment#:#Muuda aktiivset ülesannet
 common#:#change_assignment#:#Muuda omistust
-common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
-common#:#change_existing_objects#:#Muuda olemasolevaid objekte
-common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
-common#:#change_existing_prefix#:#Muuda olemasolevad
-common#:#change_existing_prefix_single#:#Muuda
-common#:#change_existing_suffix#:#&nbsp;
-common#:#change_existing_suffix_single#:#&nbsp;
 common#:#change_header_title#:#Muuda päise pealkirja
 common#:#change_lo_info#:#Muuda LO infot
 common#:#change_metadata#:#Muuda metaandmeid
@@ -2768,26 +2395,12 @@ common#:#chapter#:#Peatükk
 common#:#chapter_number#:#Peatüki number
 common#:#chapter_title#:#Peatüki nimetus
 common#:#characters#:#kirjamärgid
-common#:#chat#:#Jututuba
-common#:#chat_active_in#:#Aktiivne jututoas:
-common#:#chat_add#:#Lisa jututuba
 common#:#chat_chatviewer#:#Chat Viewer
-common#:#chat_copy#:#Jututoa kopeerimine
-common#:#chat_delete#:#Jututoa kustutamine
-common#:#chat_edit_permission#:#Muuda õiguste seadeid
 common#:#chat_enter_public_room#:#Avalik jututuba
 common#:#chat_enter_public_room_tooltip#:#Avalik jututuba
-common#:#chat_invite#:#Jututuba
 common#:#chat_invite_public_room#:#Avalik jutukas
 common#:#chat_invite_public_room_tooltip#:#Kutsu avalikku jutukasse.
-common#:#chat_link_to_this_chat#:#Link sellesse jututuppa
-common#:#chat_moderate#:#Jututoa modereerimine
-common#:#chat_new#:#Uus jututuba
-common#:#chat_read#:#Lugemine/kirjutamine jututoas
-common#:#chat_settings#:#Jututoa seaded
 common#:#chat_users_active#:#Aktiivsed kasutajad
-common#:#chat_visible#:#Jututuba on nähtav
-common#:#chat_write#:#Jututoa muutmine
 common#:#check#:#Kontrolli
 common#:#check_all#:#Märgi kõik
 common#:#check_langfile#:#Palun kontrolli oma keelefaili
@@ -2814,11 +2427,6 @@ common#:#chta_read#:#Read access to Chatroom Administration
 common#:#chta_visible#:#Chatroom Administration is visible
 common#:#chta_write#:#Edit Chatroom Administration
 common#:#chtr_copy#:#Copy Chatroom
-common#:#chtr_edit_permission#:#Change Permissions
-common#:#chtr_moderate#:#Moderate Chatroom
-common#:#chtr_read#:#Read
-common#:#chtr_visible#:#Visible
-common#:#chtr_write#:#Write
 common#:#city#:#Linn
 common#:#cleaned_file#:#Fail on puhastatud.
 common#:#cleaning_failed#:#Puhastamine ebaõnnestus.
@@ -2931,39 +2539,8 @@ common#:#crs_at_least_one_admin#:#Kursusel peab olema vähemalt üks administraa
 common#:#crs_available#:#Olemasolevad kursused
 common#:#crs_cancel_waiting_list#:#Kas soovid tõesti ennast eemaldada kursuse "%s" ootejärjekorrast?
 common#:#crs_container_link_not_allowed#:#Konteinerobjekte pole võimalik linkida
-common#:#crs_copy#:#Kursuse kopeerimine
-common#:#crs_copy_threads_info#:#Palun vali, millised materjalid kopeeritakse, lingitakse või jäetakse vahele.
-common#:#crs_create#:#Loo kursus
-common#:#crs_create_alm#:#Loo AICC õppemoodul
-common#:#crs_create_chat#:#Loo jututuba
-common#:#crs_create_dbk#:#Loo Digilib-raamat
-common#:#crs_create_exc#:#Loo ülesanne/harjutus
-common#:#crs_create_feed#:#Loo veebivoog
-common#:#crs_create_file#:#Lae fail alla
-common#:#crs_create_fold#:#Loo kaust
-common#:#crs_create_frm#:#Loo foorum
-common#:#crs_create_glo#:#Loo sõnastik
-common#:#crs_create_grp#:#Loo grupp
-common#:#crs_create_hlm#:#Loo HACP õppemoodul
-common#:#crs_create_htlm#:#Loo HTML õpiobjekt
-common#:#crs_create_icrs#:#Loo LearnLinc seminar
-common#:#crs_create_lm#:#Loo ILIASe õpiobjekt
-common#:#crs_create_mcst#:#Loo MediaCast
-common#:#crs_create_mep#:#Loo meediavaramu
-common#:#crs_create_qpl#:#Loo küsimustevaramu testi jaoks
-common#:#crs_create_sahs#:#Loo SCORM/AICC õppemoodul
-common#:#crs_create_spl#:#Loo küsimustevaramu küsitluse jaoks
-common#:#crs_create_svy#:#Loo küsitlus
-common#:#crs_create_tst#:#Loo test
-common#:#crs_create_webr#:#Loo veebiallikas
-common#:#crs_create_write#:#Loo wiki
-common#:#crs_delete#:#Kustuta kursus
 common#:#crs_edit#:#Muuda kursust
-common#:#crs_edit_learning_progress#:#Õpitulemuste muutmine
-common#:#crs_edit_permission#:#Muuda õiguste seadeid
 common#:#crs_info#:#Info
-common#:#crs_join#:#Kursusega liit(u)mine
-common#:#crs_leave#:#KursUselt eemaldamine
 common#:#crs_list_reg_end#:#Registration End
 common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
@@ -2976,16 +2553,13 @@ common#:#crs_member_passed#:#Läbitud
 common#:#crs_members_gallery#:#Kursuse liikmete galerii
 common#:#crs_new#:#Uus kursus
 common#:#crs_no_content#:#Sisuta
-common#:#crs_read#:#Lugemisõigused kursusel
 common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".
 common#:#crs_status_blocked#:#[juurdepääs puudub]
 common#:#crs_status_pending#:#[registreerumise ootel]
 common#:#crs_subscribers_assigned#:#Lisatud uus kasutaja(d)
 common#:#crs_title#:#Kursuse pealkiri
 common#:#crs_unsubscribe#:#Tühista tellimus
-common#:#crs_visible#:#Kursus on nähtav
 common#:#crs_wizard_page#:#Kursuse kopeerimine (aste 2/2)
-common#:#crs_write#:#Muuda kursust
 common#:#crsr#:#Kursuse link
 common#:#crsr_edit#:#Muuda kursuse linki
 common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
@@ -3020,20 +2594,6 @@ common#:#db_pass#:#Andmebaasi parool
 common#:#db_type#:#Andmebaasi tüüp
 common#:#db_user#:#Andmebaas kasutaja
 common#:#db_version#:#Andmebaas versioon
-common#:#dbk#:#Digilib-raamat
-common#:#dbk_a#:#digilib-raamat
-common#:#dbk_add#:#Lisa digilib-raamat
-common#:#dbk_added#:#Digilib-raamat on lisatud
-common#:#dbk_copy#:#Kopeeri digilib-raamat
-common#:#dbk_create#:#Loo Digilib-raamat
-common#:#dbk_delete#:#Kustuta Digilib-raamat
-common#:#dbk_edit_learning_progress#:#Muuda õpitulemusi
-common#:#dbk_edit_permission#:#Muuda õiguste seadeid
-common#:#dbk_new#:#Uus Digilib-raamat
-common#:#dbk_read#:#Lugemisõigused to Digilib Book
-common#:#dbk_visible#:#Digilib-raamat on nähtav
-common#:#dbk_write#:#Muuda Digilib-raamatut
-common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Muuda mitteaktiivseks
 common#:#decrease_attempts#:#üritusi - 1
 common#:#def_repository_view#:#Vaikimisi varamu vaade
@@ -3082,7 +2642,6 @@ common#:#delicious#:#del.icio.us konto
 common#:#deliver#:#Saada ülesande vastus
 common#:#department#:#Osakond/rühm
 common#:#desc#:#Kirjeldus
-common#:#descending_order#:#Kahanev järjestus
 common#:#description#:#Kirjeldus
 common#:#desired_password#:#Uus salasõna
 common#:#desktop_items#:#Isikliku töölaua objektid
@@ -3136,7 +2695,6 @@ common#:#edit_page#:#Muuda lehte
 common#:#edit_page_content#:#Muuda lehe sisu
 common#:#edit_perm_ruleset#:#Muuda vaikimisi õiguste reegleid
 common#:#edit_properties#:#Muuda seadeid
-common#:#edit_roleassignment#:#Muuda rolliomistust
 common#:#edit_stylesheet#:#Muuda stiili
 common#:#edited_at#:#Muudetud
 common#:#edited_on#:#Edited on
@@ -3221,19 +2779,15 @@ common#:#exc_add#:#Lisa ülesanne/harjutus
 common#:#exc_added#:#Ülesanne/harjutus on lisatud
 common#:#exc_ask_delete#:#Kustutan faili?
 common#:#exc_assign_usr#:#Määra kasutaja
-common#:#exc_copy#:#Kopeeri harjutus
 common#:#exc_create#:#Loo ülesanne
 common#:#exc_date_not_valid#:#Aeg ei ole õige
 common#:#exc_deassign_members#:#Kustuta liikmed
-common#:#exc_delete#:#Kustuta ülesanne
 common#:#exc_details#:#Harjutuse detailid
 common#:#exc_download_all#:#Lae kõik alla
 common#:#exc_download_files#:#Lae failid alla
 common#:#exc_download_new#:#Lae alla uus
 common#:#exc_edit#:#Uus ülesanne/harjutus lisatud
 common#:#exc_edit_exercise#:#Muuda ülesannet
-common#:#exc_edit_learning_progress#:#Muuda õpitulemusi
-common#:#exc_edit_permission#:#Muuda õiguste seadeid
 common#:#exc_edit_until#:#Tähtaeg
 common#:#exc_exercise_sent#:#Saatmisaeg
 common#:#exc_feedback_sent#:#Tagasiside on saadetud
@@ -3252,7 +2806,6 @@ common#:#exc_next_deadline#:#Järgmine tähtaeg
 common#:#exc_no_members_assigned#:#Ühtegi liiget pole määratud
 common#:#exc_notices#:#Teated
 common#:#exc_obj#:#Ülesanne
-common#:#exc_read#:#Juurdepääs harjutusele
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#Rollid
 common#:#exc_save_changes#:#Salvesta
@@ -3273,8 +2826,6 @@ common#:#exc_time_over_short#:#Aeg on läbi
 common#:#exc_time_to_send#:#Aega saatmiseni
 common#:#exc_upload_error#:#Faili üleslaadimise viga
 common#:#exc_users#:#Kasutajad
-common#:#exc_visible#:#Ülesanne on nähtav
-common#:#exc_write#:#Muuda ülesannet
 common#:#excs#:#Ülesanded
 common#:#execute#:#OK
 common#:#exercise_time_over#:#Oled ületanud tähtaja, sa ei saa enam faile saata!
@@ -3293,7 +2844,6 @@ common#:#ext_acccount_required#:#Sisesta välise konto nimi
 common#:#ext_cat_settings#:#Muuda täiendatud liigituse seadeid
 common#:#ext_link#:#Link
 common#:#extt_configure#:#seadista...
-common#:#extt_edit_permission#:#Muuda õiguste seadeid
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Lisavalikud
 common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers
@@ -3312,20 +2862,12 @@ common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_ilinc_timeout#:#Serveri reageerimise suurim ooteaeg
 common#:#extt_name#:#Tarkvara/Teenus
-common#:#extt_read#:#Access third party software settings
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.
 common#:#extt_title_configure#:#Konfigureeri väline tarkvara
-common#:#extt_visible#:#Kolmanda osapoole tarkvara seaded on nähtavad
-common#:#extt_write#:#Konfigureeri kolmanda osapoole tarkvara
 common#:#failure_message#:#Ebaõnnestumise sõnum
 common#:#faq_exercise#:#KKK harjutus
 common#:#fax#:#Faks
 common#:#feed#:#Uudistevoog (RSS)
-common#:#feed_delete#:#Kustuta veebivoog
-common#:#feed_edit_permission#:#Muuda õiguste seadeid
-common#:#feed_read#:#Lugemisõigused to Web Feed
-common#:#feed_visible#:#Veebivoog on nähtav
-common#:#feed_write#:#Muuda veebivooge
 common#:#feedback#:#Kiire tagasiside
 common#:#feedback_recipient#:#Tagasiside saaja
 common#:#field_name#:#Välja nimi
@@ -3336,11 +2878,8 @@ common#:#file_add#:#Lae fail üles
 common#:#file_add_and_metadata#:#Lae fail üles ja muuda metaandmeid
 common#:#file_added#:#Fail on olemas.
 common#:#file_allowed_suffixes#:#Lubatud failitüübid:
-common#:#file_copy#:#Kopeeri fail
 common#:#file_created#:#Uus fail on lisatud.
-common#:#file_delete#:#Kustuta fail
 common#:#file_edit#:#Muuda faili
-common#:#file_edit_permission#:#Muuda õiguste seadeid
 common#:#file_icon#:#Faili ikoon
 common#:#file_info#:#Faili informatsioon
 common#:#file_is_infected#:#Fail sisaldab viirust.
@@ -3350,15 +2889,12 @@ common#:#file_new#:#Uus fail
 common#:#file_not_found#:#Faili ei leitud
 common#:#file_not_valid#:#Fail ei ole kehtiv!
 common#:#file_notice#:#Lubatud failisuurus:
-common#:#file_read#:#Lae fail alla
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
 common#:#file_updated#:#Faili on uuendatud.
 common#:#file_upload_pending#:#Pending file
 common#:#file_valid#:#Fail on kehtiv!
 common#:#file_version#:#Version Provided in File
-common#:#file_visible#:#Fail on nähtav
-common#:#file_write#:#Muuda faili
 common#:#filename#:#Faili nimi
 common#:#filename_extension_missing#:#Puudub faili laiend
 common#:#filename_extension_short#:#Laiend
@@ -3390,40 +2926,11 @@ common#:#fold#:#Kaust
 common#:#fold_a#:#kaust
 common#:#fold_add#:#Lisa kaust
 common#:#fold_added#:#Kaust lisatud
-common#:#fold_copy#:#Kopeeri kaust
 common#:#fold_copy_threads_info#:#Palun otsusta, millised materjalid peaks kopeerima, linkima või üldse vahele jätma.
-common#:#fold_create_alm#:#Loo AICC õppemoodul
-common#:#fold_create_chat#:#Loo jututuba
-common#:#fold_create_dbk#:#Loo Digilib-raamat
-common#:#fold_create_exc#:#Loo harjutus
-common#:#fold_create_file#:#Lae fail
-common#:#fold_create_fold#:#Loo kaust
-common#:#fold_create_frm#:#Loo foorum
-common#:#fold_create_glo#:#Loo sõnastik
-common#:#fold_create_grp#:#Lisa uus grupp
-common#:#fold_create_hlm#:#Create HACP Learning Module
-common#:#fold_create_htlm#:#Loo HTML õppemoodul
-common#:#fold_create_icrs#:#Create LearnLinc Seminar
-common#:#fold_create_lm#:#Loo ILIASe õppemoodul
-common#:#fold_create_mcst#:#Loo meedialevi
-common#:#fold_create_mep#:#Loo meediavaramu
-common#:#fold_create_qpl#:#Loo testiküsimuste varamu
-common#:#fold_create_sahs#:#Loo SCORM/AICC õpimoodul
-common#:#fold_create_spl#:#Loo küsitluse varamu
-common#:#fold_create_svy#:#Loo küsitlus
-common#:#fold_create_tst#:#Loo test
-common#:#fold_create_webr#:#Loo veebilink
-common#:#fold_create_write#:#Loo wiki
-common#:#fold_delete#:#Kustuta kaust
 common#:#fold_edit#:#Muuda kausta
-common#:#fold_edit_learning_progress#:#Muuda õpitulemusi
-common#:#fold_edit_permission#:#Muuda õiguste seadeid
 common#:#fold_new#:#Uus kaust
-common#:#fold_read#:#Lugemisõigused to Folder
 common#:#fold_type#:#Folder Type
-common#:#fold_visible#:#Kaust on nähtav
 common#:#fold_wizard_page#:#Kopeeri kaust (aste 2/2)
-common#:#fold_write#:#Muuda kausta
 common#:#folder#:#Kaust
 common#:#folders#:#Kaustad
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:
@@ -3462,30 +2969,17 @@ common#:#forums_your_name#:#Sinu nimi
 common#:#frm#:#Foorum
 common#:#frm_a#:#foorum
 common#:#frm_add#:#Lisa foorum
-common#:#frm_add_post#:#Uue postituse lisamine
-common#:#frm_add_thread#:#Uue teema lisamine
 common#:#frm_added#:#Foorum on lisatud
 common#:#frm_article#:#artikkel
-common#:#frm_copy#:#Foorumi kopeerimine
 common#:#frm_create#:#Loo foorum
-common#:#frm_delete#:#Kustuta foorum
 common#:#frm_delete_post#:#Kustuta või muuda postitust
 common#:#frm_edit#:#Muuda foorumit
-common#:#frm_edit_permission#:#Muuda õiguste seadeid
 common#:#frm_edit_post#:#Lisa uus postitus
 common#:#frm_latest_postings#:#Viimased sissekanded
-common#:#frm_moderate_frm#:#Postituse kustutamine, tsenseerimine
 common#:#frm_new#:#Uus foorum
-common#:#frm_read#:#Lugemis
 common#:#frm_statistics_ranking#:#Koht edetabelis
 common#:#frm_status_new#:#Staatus 'Uus'
 common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
-common#:#frm_visible#:#Foorum on nähtav
-common#:#frm_write#:#Muuda foorumit
-common#:#frma_edit_permission#:#Muuda õiguste seadeid
-common#:#frma_read#:#Lugemisõigused foorumi haldusesse
-common#:#frma_visible#:#Foorumi haldus on nähtav
-common#:#frma_write#:#Kirjutamisõigused foorumi haldusesse
 common#:#from#:#->-
 common#:#fullname#:#Täisnimi
 common#:#functions#:#Funktsioonid
@@ -3498,26 +2992,17 @@ common#:#gender_m#:#Mees
 common#:#general_settings#:#Üldised seaded
 common#:#generate#:#Genereerima
 common#:#glo#:#Sõnastik
-common#:#glo_a#:#sõnastik
 common#:#glo_add#:#Lisa sõnastik
 common#:#glo_added#:#Sõnastik on lisatud
-common#:#glo_copy#:#Kopeeri sõnastik
 common#:#glo_create#:#Loo sõnastik
-common#:#glo_delete#:#Kustuta sõnastik
-common#:#glo_edit_permission#:#Muuda õiguste seadeid
 common#:#glo_import#:#Import Glossary
-common#:#glo_join#:#Subscribe to Glossary
-common#:#glo_leave#:#Loobu sõnastikust
 common#:#glo_mode#:#Olek
 common#:#glo_mode_desc#:#Virtuaalne sõnastik toimib nagu tavaline sõnastik. Lisaks sisaldab see mõisteid kõikidest sõnastikest, mis asuvad varamus samal tasemel virtuaalse sõnastikuga (ainult see tase), kõiki sellest tasemest allapoole jäävaid mõisteid sisaldab virtuaalne sõnastik (allpuu).
 common#:#glo_mode_level#:#virtuaalne (ainult see tase)
 common#:#glo_mode_normal#:#tavaline
 common#:#glo_mode_subtree#:#virtuaalne (kogu allpuu)
 common#:#glo_new#:#Uus sõnastik
-common#:#glo_read#:#Lugemisõigused to Glossary
 common#:#glo_upload_file#:#Fail
-common#:#glo_visible#:#Sõnaraamat on nähtav
-common#:#glo_write#:#Muuda sõnaraamatut
 common#:#global#:#Üldine
 common#:#global_default#:#Üldine vaikimisi
 common#:#global_fixed#:#Parandatud üldiselt
@@ -3580,40 +3065,13 @@ common#:#grp_app_send_mail#:#Saada kandideerijale sõnum
 common#:#grp_back#:#Tagasi
 common#:#grp_btn_unsubscribe#:#Loobu sellest grupist
 common#:#grp_cancel_waiting_list#:#Kas soovid tõesti ennast eemaldada grupi "%s" ootejärjekorrast?
-common#:#grp_copy#:#Kopeeri grupp
 common#:#grp_copy_threads_info#:#Palun otsusta, millised materjalid peaks kopeerima, linkima või üldse vahele jätma.
 common#:#grp_count_members#:#Liikmete arv
 common#:#grp_create#:#Loo grupp
-common#:#grp_create_alm#:#Loo AICC õpiobjekt
-common#:#grp_create_chat#:#Loo jutukas
-common#:#grp_create_dbk#:#Loo Digilib-raamat
-common#:#grp_create_exc#:#Loo ülesanne
-common#:#grp_create_feed#:#Loo veebivoog
-common#:#grp_create_file#:#Lae fail üles
-common#:#grp_create_fold#:#Loo kaust
-common#:#grp_create_frm#:#Loo foorum
-common#:#grp_create_glo#:#Loo sõnaraamat
-common#:#grp_create_grp#:#Loo grupp
-common#:#grp_create_hlm#:#Loo HACP õpiobjekt
-common#:#grp_create_htlm#:#Loo HTML õpiobjekt
-common#:#grp_create_icrs#:#Loo LearnLinc seminar
-common#:#grp_create_lm#:#Loo ILIASe õpiobjekt
-common#:#grp_create_mcst#:#Loo meedialevi
-common#:#grp_create_mep#:#Loo meediavaramu
-common#:#grp_create_qpl#:#Loo testiküsimuste varamu
-common#:#grp_create_sahs#:#Loo SCORM/AICC õpiobjekt
-common#:#grp_create_spl#:#Loo küsitluse varamu
-common#:#grp_create_svy#:#Loo ankeetküsitlus
-common#:#grp_create_tst#:#Loo test
-common#:#grp_create_webr#:#Loo veebiallikas
-common#:#grp_create_write#:#Loo wiki
-common#:#grp_delete#:#Kustuta grupp
 common#:#grp_deleted_export_files#:#Kustutatud failid
 common#:#grp_dismiss_member#:#Kas tahad kindlasti järgmisi liikmeid grupist vabastada?
 common#:#grp_dismiss_myself#:#Kas tahad kindlasti grupist  lahkuda?
 common#:#grp_edit#:#Muuda gruppi
-common#:#grp_edit_learning_progress#:#Muuda õpitulemusi
-common#:#grp_edit_permission#:#Muuda õiguste seadeid
 common#:#grp_err_administrator_required#:#Liiget ei saa eemaldada, grupi kohta peab olema vähemalt üks administraator!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Igas grupis peab olema vähemalt üks grupiadministraator
 common#:#grp_err_error#:#Tekkis viga
@@ -3622,8 +3080,6 @@ common#:#grp_err_member_could_not_be_removed#:#Liiget ei saa eemaldada. Kontroll
 common#:#grp_err_no_permission#:#Sul pole selleks toiminguks piisavalt õigusi.
 common#:#grp_err_registration_data#:#Palun sisesta kehtiva liitumisperioodi jaoks parool ning aegumise kuupäev ja kellaaeg !
 common#:#grp_header_edit_members#:#Muuda liikmeid
-common#:#grp_join#:#Kasutaja võib grupiga liituda
-common#:#grp_leave#:#Kasutaja võib grupist lahkuda
 common#:#grp_list_reg_end#:#Registration End
 common#:#grp_list_reg_limit_full#:#No places left
 common#:#grp_list_reg_limit_places#:#Free places
@@ -3650,7 +3106,6 @@ common#:#grp_no_groups_selected#:#Palun vali grupp
 common#:#grp_no_results_found#:#Midagi ei leitud.
 common#:#grp_no_roles_selected#:#Palun vali roll
 common#:#grp_options#:#Valikud
-common#:#grp_read#:#Lugemisõigused grupis
 common#:#grp_register#:#Liitu
 common#:#grp_registration#:#Liitu grupiga
 common#:#grp_registration_completed#:#Sa oled liitunud grupiga
@@ -3659,9 +3114,7 @@ common#:#grp_search_enter_search_string#:#Palun sisesta otsisõna
 common#:#grp_search_members#:#Kasutajate otsing
 common#:#grp_select_one_file#:#Palun vali üks fail.
 common#:#grp_select_one_file_only#:#Palun vali ainult üks fail.
-common#:#grp_visible#:#Grupp on nähtav
 common#:#grp_wizard_page#:#Kopeeri grupp (aste 2/2)
-common#:#grp_write#:#Muuda gruppi
 common#:#guest#:#Külaline
 common#:#guests#:#Külalised
 common#:#header_searchable#:#Otsitav
@@ -3706,16 +3159,6 @@ common#:#hist_webr_delete#:#Kustutatud veebiallikas. Nimetus: "%1"
 common#:#hist_webr_update#:#Uenda veebiallikat. Nimetus: "%1"
 common#:#history#:#Ajalugu
 common#:#hits_per_page#:#Vastust/lk
-common#:#hlm#:#HACP õppemoodul
-common#:#hlm_added#:#HACP õppemoodul on lisatud
-common#:#hlm_create#:#Loo HACP õppemoodul
-common#:#hlm_delete#:#Kustuta HACP õppemoodul
-common#:#hlm_edit_permission#:#Muuda õiguste seadeid
-common#:#hlm_join#:#Liitu HACP õppemooduliga
-common#:#hlm_leave#:#Lahku HACP õppemoodulist
-common#:#hlm_read#:#Lugemispääs HACP õppemoodulisse
-common#:#hlm_visible#:#HACP õppemoodul on nähtav
-common#:#hlm_write#:#Muuda HACP õppemoodulit
 common#:#hobby#:#Huvialad/hobid
 common#:#home#:#Avatud ala
 common#:#host#:#Võõrustaja
@@ -3724,15 +3167,8 @@ common#:#hours#:#tund(i)
 common#:#hours_of_day#:#Tundi päevas
 common#:#htlm#:#HTML õppemoodul
 common#:#htlm_add#:#Lisa HTML õppemoodul
-common#:#htlm_copy#:#Kopeeri HTML õppemoodul
-common#:#htlm_delete#:#Kustuta HTML õppemoodul
 common#:#htlm_edit#:#Muuda HTML õppemooduli omadusi
-common#:#htlm_edit_learning_progress#:#Muuda õpitulemusi
-common#:#htlm_edit_permission#:#Muuda õiguste seadeid
 common#:#htlm_new#:#Uus HTML õppemoodul
-common#:#htlm_read#:#HTML õppemooduli lugemine
-common#:#htlm_visible#:#HTML õppemoodul on nähtav
-common#:#htlm_write#:#Muuda HTML õppemoodulit
 common#:#html_block#:#HTML plokk
 common#:#http#:#HTTP
 common#:#http_not_possible#:#See server ei toeta http päringuid.
@@ -3865,7 +3301,6 @@ common#:#import_forum_finished#:#Foorum on imporditud.
 common#:#import_glossary#:#Impordi sõnastik
 common#:#import_grp#:#Impordi grupp
 common#:#import_grp_finished#:#Imported group without any error
-common#:#import_hlm#:#Impordi HACP pakett
 common#:#import_lm#:#Impordi ILIAS õppemoodul
 common#:#import_qpl#:#Impordi küsimustevaramu
 common#:#import_questions_into_qpl#:#Impordi küsimus(ed) küsimustevaramusse
@@ -3915,27 +3350,6 @@ common#:#info_trash#:#Kustutatud objektid
 common#:#info_view_of_user#:#Kasutaja
 common#:#inform_user_mail#:#Saada kasutajale kiri teavitusega muudatustest
 common#:#information_abbr#:#Info
-common#:#ingmedia_all_offers#:#All LE
-common#:#ingmedia_back_to_le#:#Tagasi LE juurde
-common#:#ingmedia_good_afternoon#:#Tere päevast
-common#:#ingmedia_good_evening#:#Tere õhtust
-common#:#ingmedia_good_morning#:#Tere hommikust
-common#:#ingmedia_good_night#:#Head ööd
-common#:#ingmedia_hello#:#Tere
-common#:#ingmedia_info_about_work1#:#On
-common#:#ingmedia_info_about_work2#:#, kui töötasid siin viimati. Võid jätkata, klikates siin:
-common#:#ingmedia_level_zero#:#Tase üles
-common#:#ingmedia_pers_dates#:#Isiklikud andmed
-common#:#ingmedia_reg_fo#:#Registreeritud foorumid
-common#:#ingmedia_reg_le#:#Registered LE
-common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by email (!).
-common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you must accept the user agreement.
-common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.
-common#:#ingmedia_use_title#:#Muuda kasutaja andmeid.
-common#:#ingmedia_user_agree#:#Nõusolek
-common#:#ingmedia_vis_le#:#Visited LE
-common#:#ingmedia_visited_le#:#All LE you have visited so far.
-common#:#ingmedia_welcome#:#, tere tulemast sinu isiklikule töölauale!!
 common#:#inifile#:#Ini-File
 common#:#inline_file_extensions#:#Web-enabled files
 common#:#inline_file_extensions_info#:#Selliste laienditega failid kuvatakse brauseriaknas.<br/>Näiteks: <b>gif jpg mp3 pdf png</b><br/> Kõiki teisi faile on võimalik alla laadida.
@@ -3977,50 +3391,20 @@ common#:#join#:#Liitu
 common#:#join_session#:#Liitu
 common#:#kb#:#KByte
 common#:#keywords#:#Võtmesõnad
-common#:#lang_bg#:#Bulgarian
-common#:#lang_cs#:#Czech
-common#:#lang_da#:#Danish
 common#:#lang_dateformat#:#A-k-p
-common#:#lang_de#:#German
-common#:#lang_el#:#Greek
-common#:#lang_en#:#English
-common#:#lang_es#:#Spanish
-common#:#lang_et#:#Eesti
-common#:#lang_fi#:#Finnish
-common#:#lang_fr#:#French
-common#:#lang_ge#:#Georgian
-common#:#lang_hu#:#Hungarian
-common#:#lang_id#:#Indonesian
-common#:#lang_it#:#Italian
-common#:#lang_ja#:#Japanese
-common#:#lang_lt#:#Lithuanian
-common#:#lang_nl#:#Dutch
-common#:#lang_no#:#Norwegian
 common#:#lang_path#:#Keele tee
-common#:#lang_pl#:#Polish
-common#:#lang_pt#:#Portuguese
 common#:#lang_refresh_confirm#:#Kas soovid tõesti värskendada kõiki keeli?
 common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages will read the global language files of ILIAS and probably the local language files from the Customizing directory to the database. Global language files will not affect your manual changes. A local langage file will overwrite all manual changes that are older than the saving date of the local language file.
 common#:#lang_refresh_confirm_selected#:#Kas soovid tõesti värksendada valitud keeli?
-common#:#lang_ro#:#Romanian
-common#:#lang_ru#:#Russian
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_size_bytes#:#baidid
 common#:#lang_size_gb#:#GB
 common#:#lang_size_kb#:#KB
 common#:#lang_size_mb#:#MB
-common#:#lang_sq#:#Albanian
-common#:#lang_sr#:#Serbian
-common#:#lang_sv#:#Swedish
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
-common#:#lang_tr#:#Turkish
-common#:#lang_uk#:#Ukrainian
 common#:#lang_version#:#1
-common#:#lang_vi#:#Vietnamese
-common#:#lang_xx#:#Kohandatud
-common#:#lang_zh#:#Simplified Chinese
 common#:#langfile_found#:#Keelefail leitud
 common#:#language#:#Keel
 common#:#language_not_installed#:#pole installeeritud. Palun installeeri kõigepealt see keel.
@@ -4057,7 +3441,6 @@ common#:#ldap_version#:#LDAP protokoll version
 common#:#ldap_visible#:#LDAP settings are visible
 common#:#ldap_write#:#Muuda LDAP seadeid
 common#:#learning module#:#Õpimoodul
-common#:#learning_module#:#Õpimoodul
 common#:#learning_objects#:#Õpiobjektid
 common#:#learning_progress#:#Edasijõudmine
 common#:#learning_resourc#:#Õppematerjal
@@ -4105,27 +3488,16 @@ common#:#lm#:#ILIASe õppemoodul
 common#:#lm_a#:#ILIASe õppemoodul
 common#:#lm_add#:#Lisa ILIAS õpiobjekt
 common#:#lm_added#:#ILIAS õpiobjekt lisatud
-common#:#lm_copy#:#Kopeeri ILIASe õppemoodul
 common#:#lm_create#:#Loo ILIAS õpiobjekt
-common#:#lm_delete#:#Kustuta ILIAS õpiobjekt
-common#:#lm_edit_learning_progress#:#Muuda edasijõudmist
-common#:#lm_edit_permission#:#Muuda õiguste seadeid
 common#:#lm_join#:#Subscribe to ILIAS Learning Module
 common#:#lm_leave#:#Loobu ILIASe õppemoodulist
 common#:#lm_new#:#Uus ILIASe õpimoodul
-common#:#lm_read#:#ILIAS õppemooduli lugemine
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd Edition (JavaScript-RTE)
-common#:#lm_visible#:#ILIAS õpiobjekt on nähtav
-common#:#lm_write#:#Muuda ILIAS õpiobjekti
 common#:#lng#:#Keel
 common#:#lngf#:#Keeled
-common#:#lngf_edit_permission#:#Muuda õiguste seadeid
-common#:#lngf_read#:#Lugemisõigused to Language settings
-common#:#lngf_visible#:#Keeleseaded nähtavad
-common#:#lngf_write#:#Write access, needed for extended language maintenance
 common#:#lo#:#Õpiobjekt
 common#:#lo_available#:#Overview Learning Modules & Courses
 common#:#lo_categories#:#LO kategooriad
@@ -4165,10 +3537,6 @@ common#:#logs#:#Logimise andmed
 common#:#los#:#Õpiobjektid
 common#:#los_last_visited#:#Viimati vaadatud õpiobjektid
 common#:#lres#:#Õpiressursid
-common#:#lrss_edit_permission#:#Muuda õiguste seadeid
-common#:#lrss_read#:#Õpiressursside lugemisõigused
-common#:#lrss_visible#:#Õpiressursside seaded on nähtavad
-common#:#lrss_write#:#Muuda õpiressursside seaded
 common#:#mail#:#E-post
 common#:#mail_a_root#:#Kirjakast
 common#:#mail_addressbook#:#Kontaktid
@@ -4188,8 +3556,6 @@ common#:#mail_folders#:#Kirjade kaustad
 common#:#mail_import#:#Impordi
 common#:#mail_import_file#:#Ekspordi fail
 common#:#mail_intern_enable#:#Võimalda
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles
-common#:#mail_mail_visible#:#Kasutaja saab kasutada e-maili süsteemi
 common#:#mail_mails_of#:#Postkast
 common#:#mail_maxsize_attach#:#Maksimaalne manuse suurus
 common#:#mail_maxsize_box#:#Maksimaalne kirjakasti suurus
@@ -4202,8 +3568,6 @@ common#:#mail_multiple_recipients_found#:#Sisesta teistsugune e-posti aadres. IL
 common#:#mail_no_recipient_found#:#Sisesta teine e-posti aadress. ILIAS ei leidnud sellise e-posti aadressi omanikku.
 common#:#mail_no_valid_group_role#:#Pole kehtivat grupi rolli
 common#:#mail_not_sent#:#Kirja ei saadetud!
-common#:#mail_pear_mail_needed#:#You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.
-common#:#mail_read#:#Lugemisõigused to Mail settings
 common#:#mail_search_courses_not_found#:#Ei leitud kursusi, mille liige sa oled.
 common#:#mail_search_groups_not_found#:#Ei leitud ühtegi gruppi, mille liige sa oleksid. .
 common#:#mail_search_no#:#Üksused puuduvad
@@ -4212,21 +3576,16 @@ common#:#mail_select_one#:#Sa pead valima vähemalt ühe kirja
 common#:#mail_send_error#:#Viga kirja saatmisel
 common#:#mail_sent#:#Kiri saadetud!
 common#:#mail_settings#:#E-posti seaded
-common#:#mail_smtp_mail#:#User may send mail via SMTP
 common#:#mail_system#:#Süsteemisisene sõnum
-common#:#mail_system_message#:#Kasutaja võib saata süsteemisiseseid sõnumeid
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
 common#:#mail_use_pear_mail#:#Use Pear Mail
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
-common#:#mail_visible#:#E-posti seaded on nähtavad
-common#:#mail_write#:#Muuda e-posti seadeid
 common#:#mail_z_local#:#Kasutajate kaustad
 common#:#mails#:#Postkast
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
 common#:#mails_pl#:#Kirjad
 common#:#main_menu#:#Põhimenüü
 common#:#main_menu_frame#:#Ülamenüü
-common#:#manage#:#Halda
 common#:#manage_tracking_data#:#Halda seireandmeid
 common#:#mark_all_read#:#Märgi kõik loetuks
 common#:#mark_all_unread#:#Märgi kõik mitteloetuks
@@ -4236,13 +3595,7 @@ common#:#max_number_rec#:#Suurim kirjete arv
 common#:#max_time#:#Suurim aeg
 common#:#mcst#:#Meedialevi
 common#:#mcst_add#:#Lisa meedialevi
-common#:#mcst_copy#:#Kopeeri mediacast
-common#:#mcst_delete#:#Kustuta meedialevi
-common#:#mcst_edit_permission#:#Muuda õiguste seadeid
 common#:#mcst_new#:#Uus meedialevi
-common#:#mcst_read#:#Lugemisõigused to MediaCast
-common#:#mcst_visible#:#MediaCast on nähtav
-common#:#mcst_write#:#Muuda meedialevi
 common#:#mem_add_to_wl#:#Lisatud ootejärjekorda
 common#:#mem_alert_no_places#:#Vabu kohti pole.
 common#:#mem_end#:#Registreerumine lõpeb:
@@ -4269,14 +3622,9 @@ common#:#membership_leave#:#välju
 common#:#mep#:#Meediavaramu
 common#:#mep_add#:#Lisa meediavaramu
 common#:#mep_added#:#Meediavaramu lisatud
-common#:#mep_delete#:#Kustuta meediavaramu
 common#:#mep_edit#:#Muuda meediavaramu seadeid
-common#:#mep_edit_permission#:#Muuda õiguste seadeid
 common#:#mep_new#:#Uus meediavaramu
 common#:#mep_not_insert_already_exist#:#Järgnevaid ei lisatud kuna on meediavaramus juba olemas:
-common#:#mep_read#:#Vaata meediavaramu sisu
-common#:#mep_visible#:#Meediavaramu on nähtav
-common#:#mep_write#:#Muuda meediavaramu sisu
 common#:#message#:#Teade
 common#:#message_content#:#Teate sisu
 common#:#message_no_delivered_files#:#Sa ei ole faili saatnud!
@@ -4292,10 +3640,6 @@ common#:#missing_perm#:#Missing Permission
 common#:#missing_precondition#:#Puuduv eeltingimus
 common#:#mm_dd_yyyy#:#PP/KK/AAAA
 common#:#mob#:#Meediaobjekt
-common#:#mobs_edit_permission#:#Muuda õiguste seadeid
-common#:#mobs_read#:#Lugemisõigused meediaobjektide/varamute seadetes
-common#:#mobs_visible#:#Meediaobjektide/varamute seaded on nähtavad
-common#:#mobs_write#:#Muuda meediaobjektide/varamute seadeid
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.
 common#:#moderators#:#Moderators
 common#:#module#:#moodul
@@ -4525,10 +3869,6 @@ common#:#nr_following_sessions#:#%1d järgnev(aid) sessioon(e)...
 common#:#num_users#:#Kasutajate arv
 common#:#number_of_accesses#:#Külastuste arv
 common#:#number_of_records#:#Kirjete arv
-common#:#nwss_edit_permission#:#Muuda õiguste seadeid
-common#:#nwss_read#:#Lugemisõigused to News and Web Feeds Settings
-common#:#nwss_visible#:#Uudiste ja veebivoogude seaded on nähtavad
-common#:#nwss_write#:#Muuda uudiste ja veebivoogude seadeid
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Juurdepääs
 common#:#obj_accs_desc#:#Settings for accessibility features.
@@ -4598,7 +3938,6 @@ common#:#obj_glo_duplicate#:#Copy Glossary
 common#:#obj_grp#:#Grupp
 common#:#obj_grp_duplicate#:#Kopeeri grupp
 common#:#obj_grp_select#:#-- Palun vali üks grupp --
-common#:#obj_hlm#:#HACP õppemoodul
 common#:#obj_hlps#:#Help System
 common#:#obj_hlps_desc#:#Settings for the online help
 common#:#obj_htlm#:#HTML õppemoodul
@@ -4756,7 +4095,6 @@ common#:#objs_fold#:#Kaustad
 common#:#objs_frm#:#Foorumid
 common#:#objs_glo#:#Sõnastikud
 common#:#objs_grp#:#Grupid
-common#:#objs_hlm#:#HACP Learning Modules
 common#:#objs_htlm#:#HTML õppemoodulid
 common#:#objs_icla#:#LearnLinc Classrooms
 common#:#objs_icrs#:#LearnLinc seminarid
@@ -4879,10 +4217,6 @@ common#:#payment_reminder_notification_subject#:#The access duration af bought o
 common#:#payment_system#:#Payment System
 common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled
 common#:#pays_edit#:#Muuda maksmise seadeid
-common#:#pays_edit_permission#:#Muuda õiguste seadeid
-common#:#pays_read#:#Access payment settings
-common#:#pays_visible#:#Payment settings are visible
-common#:#pays_write#:#Muuda maksmise seadeid
 common#:#pd_enable_chatviewer#:#Võimalda jututoa vaade
 common#:#pd_enable_contacts#:#Võimalda kontaktid
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
@@ -4968,11 +4302,6 @@ common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
-common#:#ps_edit_permission#:#Muuda õiguste seadeid
-common#:#ps_export_member_data#:#User may Export Member Data
-common#:#ps_read#:#Lugemisõigused to Privacy/Security Settings
-common#:#ps_visible#:#Privaatsuse/turvalisuse seaded nähtavad
-common#:#ps_write#:#Muuda privaatsust/turvalisust
 common#:#pub_section#:#Avatud ala
 common#:#pub_section_info#:#Kui võimaldatud, on võimalik osa süsteemist (nt varamu, kasutajaprofiilid) teha internetis nähtavak ilma autentimiseta. "Anonüümse" roll kontrollib ligipääsu varamu üksustele.
 common#:#public#:#avalik/nähtav
@@ -4988,13 +4317,8 @@ common#:#purpose#:#eesmärk
 common#:#qpl#:#Testiküsimuste varamu
 common#:#qpl_add#:#Lisa küsimustevaramu testi jaoks
 common#:#qpl_copy#:#Kopeeri testiküsimuste varamu
-common#:#qpl_delete#:#Kustuta testiküsimuste varamu
-common#:#qpl_edit_permission#:#Muuda õiguste seadeid
 common#:#qpl_new#:#Uus testiküsimuste varamu
-common#:#qpl_read#:#Lugemisõigused testiküsimuste varamud
 common#:#qpl_upload_file#:#Lae fail üles
-common#:#qpl_visible#:#Testiküsimuste varamu on nähtav
-common#:#qpl_write#:#Muuda testi küsimustevaramut
 common#:#quarterly#:#Kvartalis
 common#:#query_data#:#Päringuandmed
 common#:#question#:#Küsimus
@@ -5141,31 +4465,19 @@ common#:#rolt_add#:#Lisa rolli mall
 common#:#rolt_added#:#Lisatud rollimall
 common#:#rolt_edit#:#Muuda rolli malli
 common#:#rolt_new#:#Uus rolli mall
-common#:#root_create_cat#:#Kasutaja võib luua kategooriaid
 common#:#root_edit#:#Edit system root node
-common#:#root_edit_permission#:#Muuda õiguste seadeid
-common#:#root_read#:#Lugemisõigused to ILIAS system
-common#:#root_visible#:#ILIASe süsteem on nähtav
-common#:#root_write#:#Edit metadata of system root node
 common#:#row#:#Rida
 common#:#rows#:#Read
 common#:#rte_editor_disabled#:#Rikastekst eemaldatud
 common#:#rte_editor_enabled#:#Rikastekst võimaldatud
 common#:#sahs#:#SCORM/AICC õppemoodul
 common#:#sahs_added#:#SCORM/AICC õppemoodul on lisatud
-common#:#sahs_copy#:#Kopeeri SCORM/AICC õppemoodul
 common#:#sahs_create#:#Loo SCORM/AICC õppemoodul
-common#:#sahs_delete#:#Kustuta  SCORM/AICC õppemoodul
-common#:#sahs_edit_learning_progress#:#Muuda õpitulemusi
-common#:#sahs_edit_permission#:#Muuda õiguste seadeid
 common#:#sahs_insert_chap_from_clip#:#Kleebi lõikepuhvrist peatükid
 common#:#sahs_insert_page_from_clip#:#Kleebi lehed puhvrist
 common#:#sahs_insert_sco_from_clip#:#Kleebi SCOd vahemälust
 common#:#sahs_join#:#Liitu SCORM/AICC õppemooduliga
 common#:#sahs_leave#:#Loobu SCORM/AICC õppemoodulist
-common#:#sahs_read#:#Lugemisõigused to SCORM/AICC Learning Module
-common#:#sahs_visible#:#SCORM/AICC õppemoodul on nähtav
-common#:#sahs_write#:#Muuda SCORM/AICC õppemoodulit
 common#:#salutation#:#Tervitus
 common#:#salutation_f#:#Pr
 common#:#salutation_m#:#Mr.
@@ -5206,14 +4518,9 @@ common#:#search_result#:#Otsingu tulemused
 common#:#search_results#:#Otsingutulemused
 common#:#search_to_short#:#Päring on liiga lühike.
 common#:#search_user#:#Otsi kasutajat
-common#:#seas_edit_permission#:#Muuda õiguste seadeid
 common#:#seas_max_hits#:#Maksimaalselt vastuseid
 common#:#seas_max_hits_info#:#Sisestage suurim arv otsingutulemuste kirjete jaoks.
-common#:#seas_read#:#Loe otsinguseadeid
-common#:#seas_search#:#Luba otsingu kasutamist
 common#:#seas_settings#:#Otsingu seaded
-common#:#seas_visible#:#Otsingu seaded on nähtavad
-common#:#seas_write#:#Muuda otsingu seadeid
 common#:#second#:#sekund
 common#:#seconds#:#sekundit
 common#:#sections#:#Sektsioon
@@ -5247,7 +4554,6 @@ common#:#server_data#:#Serveri andmed
 common#:#server_disabled#:#The Chat is Disabled
 common#:#server_software#:#Serveri tarkvara
 common#:#sess#:#Kohtumine
-common#:#sess_copy#:#Kopeeri kohtumine
 common#:#sess_fixed_duration#:#Fikseeritud kestvus sessioonile
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Sessiooni olek
@@ -5277,7 +4583,6 @@ common#:#setSystemLanguage#:#Määra süsteemikeel
 common#:#settings#:#Seaded
 common#:#settings_for_all_members#:#Üldised seaded kõigile kursuse/grupi liikmetele
 common#:#settings_for_new_members#:#Seaded uue liikme jaoks
-common#:#settings_per_members#:#Seade kasutajate kaupa
 common#:#settings_per_users#:#Seaded kursuse/grupiliikmete kaupa
 common#:#settings_saved#:#Seaded salvestatud
 common#:#setUserLanguage#:#Määra kasutaja keel
@@ -5373,15 +4678,9 @@ common#:#sorting_title_header#:#Sordi pealkirja järgi
 common#:#spacer#:#Spacer
 common#:#spl#:#Küsitluse varamu
 common#:#spl_add#:#Lisa küsitluse varamu
-common#:#spl_copy#:#Kopeeri küsitluse varamu
-common#:#spl_delete#:#Kustuta küsitluse varamu
-common#:#spl_edit_permission#:#Muuda õiguste seadeid
 common#:#spl_import#:#Import Question Pool Survey
 common#:#spl_new#:#Uus küsitluse varamu
-common#:#spl_read#:#Lugemisõigused küsitluse varamus
 common#:#spl_upload_file#:#Lae fail üles
-common#:#spl_visible#:#Küsitluse varamu on nähtav
-common#:#spl_write#:#Muuda küsitluse varamut
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#peatükk
 common#:#st_add#:#Lisa peatükk
@@ -5408,10 +4707,6 @@ common#:#street#:#Tänav
 common#:#structure#:#Ülesehitus
 common#:#sty#:#Stiil
 common#:#style_activation#:#Kujunduslaadi aktiveerimine
-common#:#stys_edit_permission#:#Muuda õiguste seadeid
-common#:#stys_read#:#Lugemisõigused to style settings
-common#:#stys_visible#:#Stiiliseaded on nähtavad
-common#:#stys_write#:#Muuda kujunduslaadi seadeid
 common#:#sub_request_deleted#:#Liikmestaatuse taotlus kustutatud
 common#:#sub_request_saved#:#Liikmelisuse taotlused salvestatud
 common#:#subcat_name#:#Alamliigituse nimi
@@ -5430,23 +4725,16 @@ common#:#survey_unlimited_invitation#:#Lõputu kutse
 common#:#survey_unlimited_invitation_desc#:#Lubab küsimustikes lõputut kutset. Lõputu kutse lisab küsimustiku iga registreerunud kautaja töölauale.
 common#:#svy#:#Küsitlus
 common#:#svy_add#:#Lisa küsitlus
-common#:#svy_copy#:#Kopeeri küsitlus
-common#:#svy_delete#:#Kustuta küsitlus
-common#:#svy_edit_permission#:#Muuda õiguste seadeid
 common#:#svy_evaluation#:#Tulemused
 common#:#svy_finished#:#Lõpetatud
-common#:#svy_invite#:#Kutsu kasutajad küsitlusse
 common#:#svy_new#:#Uus küsitlus
 common#:#svy_no_content#:#Küsitlusi pole saadaval
 common#:#svy_not_finished#:#pole lõpetatud
 common#:#svy_not_started#:#pole alustatud
 common#:#svy_participate#:#Osale küsitluses
-common#:#svy_read#:#Küsitluse lugemine
 common#:#svy_run#:#Käivita
 common#:#svy_upload_file#:#Lae fail alla
-common#:#svy_visible#:#Küsitlus on nähtav!
 common#:#svy_warning_survey_not_complete#:#Küsitlus pole lõpetatud!
-common#:#svy_write#:#Muuda küsitlust
 common#:#system#:#System
 common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
@@ -5462,10 +4750,6 @@ common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#E-posti import
 common#:#tabs#:#Sakid
 common#:#tagging_my_tags#:#Minu sildid
-common#:#tags_edit_permission#:#Muuda õiguste seadeid
-common#:#tags_read#:#Lugemisõigused to Tagging Settings
-common#:#tags_visible#:#Sildistamise seaded on nähtavad
-common#:#tags_write#:#Muuda sildistamise seadeid
 common#:#take_over_structure#:#Kinnita struktuur
 common#:#take_over_structure_info#:#Kui on aktiveeritud, on kataloogid zip-failis jaotatud kategooriatesse, gruppides-kursustes kasutamise puhul kaustadesse.
 common#:#target#:#Sihtkoht
@@ -5525,10 +4809,6 @@ common#:#tomorrow#:#Homme
 common#:#top_of_page#:#Top of page
 common#:#total#:#Kokku
 common#:#tpl_path#:#Malli teekond
-common#:#trac_delete#:#Kustuta jälgimisandmed
-common#:#trac_edit_permission#:#Muuda õiguste seadeid
-common#:#trac_read#:#Jälgimisandmete lugemine
-common#:#trac_visible#:#Kasutaja jägimine on nähtav
 common#:#tracked_objects#:#Jälgitud objektid
 common#:#tracking_data#:#Jälgitavad andmed
 common#:#tracking_data_del_confirm#:#Kas soovid tõesti kustutada kõik kuni valitud kuuni jälgitud andmed?
@@ -5545,25 +4825,17 @@ common#:#treeview#:#Puu vaade
 common#:#tst#:#Test
 common#:#tst_add#:#Lisa test
 common#:#tst_anon_eval#:#Tulemused
-common#:#tst_copy#:#Kopeeri test
-common#:#tst_delete#:#Kustuta test
-common#:#tst_edit_learning_progress#:#Muuda edasijõudmist
-common#:#tst_edit_permission#:#Muuda õiguste seadeid
 common#:#tst_edit_questions#:#Muuda küsimusi
 common#:#tst_new#:#Uus test
 common#:#tst_no_content#:#Kättesaadavat testi pole
 common#:#tst_random_test_description_warning#:#<br /><b>Selles testis on küsimusi, millele ei ole määratud säilitamiseks varamut. Kui lülitate sisse juhuvalikutesti, kaovad need küsimused jäädavalt </b>
-common#:#tst_read#:#Lugemisõigused testis
 common#:#tst_run#:#Käivita
 common#:#tst_statistical_evaluation#:#Statistika
 common#:#tst_statistics#:#Ligipääs testi statistikale
-common#:#tst_tst_statistics#:#Ligipääs statistikale
 common#:#tst_upload_file#:#Lae fail üles
 common#:#tst_user_not_invited#:#Sa ei pea seda testi tegema.
 common#:#tst_user_wrong_clientip#:#Sellelt IP-lt testi ei pääse
-common#:#tst_visible#:#Test on nähtav
 common#:#tst_warning_test_not_complete#:#Test pole valmis!
-common#:#tst_write#:#Muuda testi
 common#:#tutors#:#Tuutorid
 common#:#txt_add_object_instruction1#:#Sirvi asukohta, kust soovite lisada
 common#:#txt_add_object_instruction2#:#.
@@ -5716,15 +4988,7 @@ common#:#usr_style#:#Kasutaja stiil
 common#:#usr_without_courses#:#Ilma kursusteta kasutajad
 common#:#usrf#:#Kasutajad
 common#:#usrf_create_user#:#Loo uus kasutajanimi
-common#:#usrf_delete#:#Kustuta kasutajad
-common#:#usrf_edit_permission#:#Muuda kasutjakontodele juurdepääsu
-common#:#usrf_edit_roleassignment#:#Muuda rollimääranguid kasutajakontodele
 common#:#usrf_profile_link#:#Link kasutaja profiilile
-common#:#usrf_push_desktop_items#:#Võimalda objektide lisamist kasutaja töölauale.
-common#:#usrf_read#:#Lugemisõigused to user accounts
-common#:#usrf_read_users#:#Lugemise õigus kohalikele administraatoritele
-common#:#usrf_visible#:#Kasutajad on nähtavad
-common#:#usrf_write#:#Muuda kasutajakontosid
 common#:#usrimport_action_failed#:#Toiming %1$s ebaõnnestus.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
@@ -5781,14 +5045,11 @@ common#:#webr#:#Veebiallikas
 common#:#webr_active#:#Aktiivne
 common#:#webr_add#:#Lisa veebiallikas
 common#:#webr_add_item#:#Lisa veebiallikas
-common#:#webr_copy#:#Kopeeri veebiallikas
-common#:#webr_delete#:#Kustuta veebiallikas
 common#:#webr_delete_items#:#Kustuta veebiallikas
 common#:#webr_deleted_items#:#Kustutatud veebiallikas
 common#:#webr_disable_check#:#Kehtivuse kontroll
 common#:#webr_edit#:#Muuda veebiallikat
 common#:#webr_edit_item#:#Muuda veebiallikat
-common#:#webr_edit_permission#:#Muuda õiguste seadeid
 common#:#webr_fillout_all#:#.Täida kõik nõutud väljad.
 common#:#webr_item_updated#:#Muudatused salvestatud
 common#:#webr_join#:#Subscribe Web Resource
@@ -5799,10 +5060,7 @@ common#:#webr_modified_items#:#Muudatused salvestatud.
 common#:#webr_never_checked#:#Pole valitud
 common#:#webr_new#:#Lisa uus veebiallikas
 common#:#webr_no_items_created#:#veebilinke pole loodud
-common#:#webr_read#:#Lugemisõigused to Web Resource
 common#:#webr_sure_delete_items#:#Kas soovid kindlasti kustutada järgmise(d) veebiallika(d)?
-common#:#webr_visible#:#Veebiallikas on nähtaval
-common#:#webr_write#:#Muuda veebiallikat
 common#:#webservices#:#Veebiteenused
 common#:#week#:#nädal
 common#:#weekly#:#iganädalane
@@ -5813,27 +5071,12 @@ common#:#width#:#laius
 common#:#width_x_height#:#laius x kõrgus
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Lisa wiki
-common#:#wiki_copy#:#Kopeeri wiki
-common#:#wiki_delete#:#Kustuta wiki
-common#:#wiki_edit_content#:#Muuda wiki lehti
-common#:#wiki_edit_permission#:#Muuda õiguste seadeid
 common#:#wiki_new#:#Uus wiki
-common#:#wiki_read#:#Loe wikit
-common#:#wiki_visible#:#Wiki on nähtav
-common#:#wiki_write#:#Muuda Wiki seadeid, hinda õppureid
 common#:#with#:#koos
 common#:#wizard_search_list#:#Sinu otsing andis järgmised vastused. Palun vali neist üks.
 common#:#wizard_title_info#:#Palun sisesta selle objekti nimi, mida duplitseerida soovid.
 common#:#write#:#Kirjutama
 common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.
-common#:#xcvc_delete#:#Kustuta
-common#:#xcvc_edit_permission#:#Muuda õigusi
-common#:#xcvc_manage#:#Halda
-common#:#xcvc_moderate#:#Mõõdukas
-common#:#xcvc_participate#:#Võta osa
-common#:#xcvc_read#:#Loe
-common#:#xcvc_visible#:#Nähtav
-common#:#xcvc_write#:#Kirjuta
 common#:#year#:#aasta
 common#:#yearly#:#igal aastal
 common#:#years#:#Aastad
@@ -6044,9 +5287,6 @@ content#:#cont_dir_created#:#Kataloog loodud.
 content#:#cont_dir_deleted#:#Kataloog kustutatud.
 content#:#cont_dir_file#:#Kataloog/Fail
 content#:#cont_dir_renamed#:#Kataloog ümbernimetatud.
-content#:#cont_disable_html#:#HTML mitteaktiivne
-content#:#cont_disable_js#:#javaskript ei ole aktiivne
-content#:#cont_disable_media#:#Media mitteaktiivne
 content#:#cont_double_click_to_delete#:#Topeltklikka sisuelementidel, et nad märgistada kas (in)aktiveerimiseks või kustutamiseks.
 content#:#cont_download_no_download#:#Kasutajad ei saa alla laadida kuna see võimalus pole aktiveeritud.
 content#:#cont_download_no_menu#:#Allalaadimine pole kasutajatele võimaldatud kuna õppemooduli menüü pole aktiveeritud.
@@ -6157,9 +5397,6 @@ content#:#cont_edition#:#Väljaanne
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
 content#:#cont_empty_mep_folder#:#Kaustas pole meediaobjekte.
 content#:#cont_empty_question#:#Küsimuse muutmine on lõpetamata. Palun kustuta küsimus või klikka sellel ja muuda.
-content#:#cont_enable_html#:#HTML aktiivne
-content#:#cont_enable_js#:#JavaScript aktiivne
-content#:#cont_enable_media#:#Meedia aktiivne
 content#:#cont_enable_page_history#:#Lehe ajalugu
 content#:#cont_enable_page_history_info#:#Säilitab lehe vanemad versioonid ja lubab neid sisse lülitada.
 content#:#cont_enable_time_scheduled_page_activation#:#Ajakava põhine lehe aktiveerimine
@@ -6829,7 +6066,6 @@ content#:#glo_used_in_scorm#:#Sõnastik on kasutusel SCORM moodulis. Pärast sõ
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 content#:#htlm_import#:#Impordi HTML õppemoodul
 content#:#HTML export#:#HTML Export
-content#:#HTML_export#:#HTML Export
 content#:#import_sco_object#:#Impordi SCO
 content#:#lm_menu_edit_entry#:#Muuda menüükirjet
 content#:#lm_menu_entry_target#:#Sihtkoht
@@ -6848,18 +6084,13 @@ content#:#msg_page_not_public#:#Leht pole avalik
 content#:#page_does_not_exist#:#Vabandust aga sellist lehte ei eksisteeri.
 content#:#Pages#:#Lehed
 content#:#pages from#:#Pages From
-content#:#pages_from#:#Pages From
 content#:#par#:#Lõik
 content#:#PDF export#:#PDF Export
-content#:#PDF_export#:#PDF Export
 content#:#pg#:#Leht
 content#:#public_section#:#Avalik ala
 content#:#read offline#:#Read Offline
-content#:#read_offline#:#Read Offline
 content#:#sahs_empty_objectives_are_not_allowed#:#Sisesta õpieesmärk.
 content#:#saved_media_object#:#Meediaobjekt salvestatud
-content#:#scorm_editable#:#Impordi muudetavana
-content#:#scorm_editable_comments#:#Töötab vaid SCORM 1.2/2004 paketi puhul
 content#:#scplayer_collapsetree#:#Sule kõik
 content#:#scplayer_continue#:#Jätka
 content#:#scplayer_debugger#:#Näita silurit
@@ -6891,7 +6122,6 @@ content#:#seq_toc#:#Kursuse alustamiseks vali vasemal asuvast sisutabelist tegev
 content#:#set_public_mode#:#Seadista avalik juurdepääs
 content#:#st#:#Peatükk
 content#:#start export#:#Start Export
-content#:#start_export#:#Start Export
 content#:#text_repr#:#Teksti esitus
 content#:#text_repr_info#:#Kasutatud pildi "alt" atribuudina.
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
@@ -6952,7 +6182,6 @@ crs#:#crs_auto_notification#:#Notification For New Member
 crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.
 crs#:#crs_availability_limitless_info#:#Tee see valik, kui soovid kursust õppuritele nähtavaks ja ligipääsetavaks muuta (olenevalt allpool olevatest registreerumise seadetest).
 crs#:#crs_availability_until_info#:#Tee see valik, kui soovid kursust nähtavaks ja ligipääsetavaks teha kindla ajaperioodi vältel (Olenevalt allpool olevatest registreerumise seadetest).
-crs#:#crs_availability_unvisible_info#:#Kasuta kursuse ettevalmistamiseks. Kursust näevad ja saavad muuta ainult administraatorid ja tuutorid.
 crs#:#crs_blocked#:#Ligipääs piiratud
 crs#:#crs_blocked_member#:#Liikmelisus kursusel on "%s"
 crs#:#crs_blocked_member_body#:#Sinu liikmelisus kursusel "%s" on blokeeritud.
@@ -6980,8 +6209,6 @@ crs#:#crs_create_date#:#Määra kuupäev
 crs#:#crs_crs_structure#:#Kursuse ülesehitus
 crs#:#crs_custom_user_fields#:#Kursuse jaoks olulised kasutaja andmed
 crs#:#crs_dates#:#Kuupäevad
-crs#:#crs_deact_auto_noti#:#Suppress notification about new membership
-crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.
 crs#:#crs_deactivate_notification#:#Deaktiveeri märguanne
 crs#:#crs_deassign_lm_sure#:#Kas oled kindel, et soovid selle määrangu kustutada?
 crs#:#crs_delete_file#:#Kustutan faili?
@@ -7187,7 +6414,6 @@ crs#:#crs_objective_self_assessment#:#Algtest
 crs#:#crs_objective_status#:#Õpieesmärgi staatus
 crs#:#crs_objective_step#:#Samm
 crs#:#crs_objective_updated_test#:#Uuendatud muudatused
-crs#:#crs_objective_view#:#Õpieesmärkide vaade
 crs#:#crs_objective_wiz_final#:#Lõputesti küsimused
 crs#:#crs_objective_wiz_final_info#:#Määratud lõputesti küsimused
 crs#:#crs_objective_wiz_final_limit#:#Lõputesti nõutud punktid
@@ -7381,7 +6607,6 @@ crs#:#crs_unblocked#:#Vaba ligipääs
 crs#:#crs_unblocked_member#:#Staatus kursusel "%s"
 crs#:#crs_unblocked_member_body#:#Sinu liikmelisus kursusel "%s" on taastatud
 crs#:#crs_unlimited#:#piiramatu
-crs#:#crs_unsubscribe#:#Loobu
 crs#:#crs_unsubscribe_member#:#Teie liikmestaatuse katkestamine kursusel "%s"
 crs#:#crs_unsubscribe_member_body#:#kinnitame Teie loobumist kursuselt "%s". Loodame, et leiate võimaluse osaleda mõnel teisel kursusel.
 crs#:#crs_unsubscribe_sure#:#Kas soovid sellest kursusest loobuda?
@@ -7397,16 +6622,12 @@ crs#:#crs_users_already_assigned#:#Kasutaja on juba määratud kursusele
 crs#:#crs_users_removed_from_list#:#Valitud kasutajad on eemaldatud kursusele saamise järjekorrast
 crs#:#crs_view_archive#:#Arhiivivaade
 crs#:#crs_view_info_objective#:#Seda esitusviisi kasutatakse õpieesmärkide kuvamiseks.
-crs#:#crs_view_info_standard#:#See sisu esitus on sarnane varamu sisu esitusele.
 crs#:#crs_view_info_timing#:#Ajastuse eelseadete esitusviis.
 crs#:#crs_view_mode#:#Kursuse esitus
 crs#:#crs_view_objective#:#Õpieesmärkide vaade
-crs#:#crs_view_standard#:#Standardvaade
 crs#:#crs_view_timing#:#Ajastuste vaade
-crs#:#crs_visibility#:#Kättesaadavus
 crs#:#crs_visibility_limitless#:#Avatud
 crs#:#crs_visibility_until#:#Ajutiselt avatud
-crs#:#crs_visibility_unvisible#:#Kinni (pole nähtav)
 crs#:#crs_wait_info#:#Kui märgitud siis kõik maksimaalse arvu ületanud taotlused saadetakse kursusel osaleda soovijate nimekirja.
 crs#:#crs_waiting_list#:#Kursusel osaleda soovijate nimekiri
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Maksimaalne kursusel osalejate arv on ületatud. Saate esitada liitumistaotluse ja jääda ootejärjekorda. Kui kursuse haldur on taotluse üle vaadanud, saate teate kinnitamise või tagasi lükkamise kohta.
@@ -7415,7 +6636,6 @@ crs#:#crs_wiz_back#:#Tagasi
 crs#:#crs_wiz_next#:#Salvesta
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Sinu asukoht kursusel osaleda soovijate nimekirjas
-crs#:#edit_content#:#Muuda sisu
 crs#:#edit_timings_list#:#Muuda ajastust
 crs#:#event#:#Kohtumised
 crs#:#event_add_new_event#:#Uus kohtumine on lisatud
@@ -8733,7 +7953,6 @@ forum#:#to_forum#:#Foorumisse
 forum#:#topic_close#:#Suletud
 forum#:#topics_please_select_one_action#:#Valige tegevus
 forum#:#user_decides_notification#:#Iga kasutaja otsustab ise teavituse
-frm#:#frm_import#:#Impordi foorum
 gmaps#:#gmaps_api_key#:#API Key
 gmaps#:#gmaps_api_key_desc#:#Google kaardi laienduste kasutamiseks registreeru  Google Maps API võtme saamiseks:
 gmaps#:#gmaps_enable_gmaps#:#Võimalda Google kaardid
@@ -8754,7 +7973,6 @@ grp#:#crs_grouping_select_one#:#Valige üks liikmelisuse piirang.
 grp#:#crs_grp_added_grouping#:#Uus liikmelisuse piirang on lisatud.
 grp#:#crs_grp_assign_crs#:#Gruppide ülesanded
 grp#:#crs_grp_enter_title#:#Täitke nõutud väljad.
-grp#:#crs_grp_info_reg#:#Saate liituda ühega järgnevatest gruppidest:
 grp#:#crs_grp_no_courses_assigned#:#Gruppe pole määratud
 grp#:#crs_grp_table_assigned_courses#:#Määratud gruppidele
 grp#:#events#:#Sessions
@@ -8768,7 +7986,6 @@ grp#:#grp_agree#:#Vastuvõtt
 grp#:#grp_agreement_header#:#Kasutajatingimused
 grp#:#grp_agreement_required#:#Grupiga ühinemiseks tuleb nõustuda kasutaja tingimustega.
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
-grp#:#grp_btn_unsubscribe#:#Loobu grupist
 grp#:#grp_cancel_subscr_request#:#Kustuta liikmelisuse taotlus
 grp#:#grp_change_type#:#Muuda grupi tüüp
 grp#:#grp_closed#:#Suletud grupp
@@ -8993,18 +8210,6 @@ jscalendar#:#time_part#:#(Shift-)väärtuse muutmiseks kliki või lohista
 jscalendar#:#today#:#Täna
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#ndl
-jsmath#:#jsmath_default_setting#:#Use as default
-jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.
-jsmath#:#jsmath_enable_jsmath#:#Enable jsMath
-jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output of LaTeX expressions.
-jsmath#:#jsmath_enable_user#:#Enable jsMath support
-jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.
-jsmath#:#jsmath_extt_jsmath#:#jsMath
-jsmath#:#jsmath_no_javascript#:#If you don't see the correct mathematical formula next to this hint, then you have jsMath output enabled but your web browser doesn't support JavaScript or JavaScript is disabled. To see mathematical formulae, please activate JavaScript in your web browser and reload this page or go to <strong>Personal Desktop &gt; Personal Profile &gt; jsMath</strong> and disable jsMath output.
-jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!
-jsmath#:#jsmath_path_to_jsmath#:#Path to jsMath
-jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;
-jsmath#:#jsmath_settings#:#jsMath Settings
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
@@ -9142,7 +8347,6 @@ mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
 mail#:#also_as_email#:#Also as E-Mail
 mail#:#bc#:#BCC
-mail#:#chat_select_room#:#Select Chat Room
 mail#:#chat_users_have_been_invited#:#The Users have been invited.
 mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room
 mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.
@@ -10037,7 +9241,6 @@ news#:#finish_publishing_date#:#Lõpeta publitseerimine:
 news#:#news_1_file_created#:#1 fail on lisatud.
 news#:#news_1_file_updated#:#1 fail on uuendatud.
 news#:#news_1_postings#:#1 postitus lisatud.
-news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.
 news#:#news_add_news#:#Lisa uudis(ed)
 news#:#news_all_items#:#Kõik objektid
 news#:#news_allow_longer_periods#:#Luba pikemad perioodid
@@ -10960,7 +10163,6 @@ rbac#:#accs_visible#:#Accessibility Settings are visible
 rbac#:#accs_write#:#Edit Accessibility Settings
 rbac#:#active_preconditions#:#Nõutavad eeltingimused
 rbac#:#add_consultation_hours#:#Lisa kalendrisse konsultatsiooniajad
-rbac#:#add_post#:#Lisa postitus
 rbac#:#add_reply#:#Add Reply
 rbac#:#add_thread#:#Lisa jutulõng
 rbac#:#adm_edit_permission#:#Change permission settings
@@ -11006,12 +10208,6 @@ rbac#:#cat_administrate_users#:#Halda kohalikke kasutajakontosid
 rbac#:#cat_cat_administrate_users#:#Administrate local user accounts
 rbac#:#cat_copy#:#Copy Category
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
-rbac#:#cat_create_book#:#Loo broneerimise varamu
-rbac#:#cat_create_catr#:#Loo liigituse link
-rbac#:#cat_create_chtr#:#Create Chatroom
-rbac#:#cat_create_crsr#:#Loo uus kursuse link
-rbac#:#cat_create_rcrs#:#Loo kursuselingid
-rbac#:#cat_create_wiki#:#Loo wiki
 rbac#:#cat_delete#:#Delete Category
 rbac#:#cat_edit_permission#:#Change permission settings
 rbac#:#cat_read#:#Read access to Category
@@ -11047,12 +10243,6 @@ rbac#:#cmps_write#:#Edit component settings
 rbac#:#contribute#:#Contribute
 rbac#:#crs_copy#:#Copy Course
 rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
-rbac#:#crs_create_book#:#Loo registreerimisala
-rbac#:#crs_create_catr#:#Loo kategooria viide
-rbac#:#crs_create_chtr#:#Create Chatroom
-rbac#:#crs_create_crsr#:#Loo uus kursuse viide
-rbac#:#crs_create_sess#:#Loo kohtumine
-rbac#:#crs_create_wiki#:#Loo wiki
 rbac#:#crs_delete#:#Kustuta kursus
 rbac#:#crs_edit_event#:#Kalendrisündmuste muutmine
 rbac#:#crs_edit_learning_progress#:#Õpitulemuste muutmine
@@ -11117,9 +10307,6 @@ rbac#:#filter_local_roles_object#:#Näita ainult ainult siia määratud kohalikk
 rbac#:#filter_roles_local_policy#:#Näita siin ainult kohalikke õigusi omavaid rolle
 rbac#:#fld_create_poll#:#Create Poll
 rbac#:#fold_copy#:#Copy Folder
-rbac#:#fold_create_book#:#Loo broneerimisvaramu
-rbac#:#fold_create_chtr#:#Create Chatroom
-rbac#:#fold_create_wiki#:#Loo wiki
 rbac#:#fold_delete#:#Kustuta kaust
 rbac#:#fold_edit_learning_progress#:#Muuda õpitulemusi
 rbac#:#fold_edit_permission#:#Change Permission settings
@@ -11147,9 +10334,6 @@ rbac#:#glo_visible#:#Sõnaraamat on nähtav
 rbac#:#glo_write#:#Muuda sõnaraamatut
 rbac#:#grp#:#User can copy group
 rbac#:#grp_copy#:#Copy Group
-rbac#:#grp_create_book#:#Loo broneerimisvaramu
-rbac#:#grp_create_chtr#:#Create Chatroom
-rbac#:#grp_create_wiki#:#Loo wiki
 rbac#:#grp_delete#:#Kustuta grupp
 rbac#:#grp_edit_event#:#Kalendrisündmuste muutmine
 rbac#:#grp_edit_learning_progress#:#Muuda õpitulemusi
@@ -11435,32 +10619,6 @@ rbac#:#role_block_role#:#Blokeeri roll
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
 rbac#:#role_confirm_block_role_header#:#Soovite valitud rollid tõepoolest blokeerida?
 rbac#:#role_confirm_block_role_info#:#Tehakse järgnevad tegevused :<br /><br />- rolli õigused sellele ja alamobjektidele blokeeritakse.<br />- kaitstakse uued õiguste seaded.
-rbac#:#root_create_book#:#Loo broneerimise varamu
-rbac#:#root_create_catr#:#Loo liigituse viide
-rbac#:#root_create_chat#:#Loo jututuba
-rbac#:#root_create_chtr#:#Create Chatroom
-rbac#:#root_create_crs#:#Loo kursus
-rbac#:#root_create_crsr#:#Loo kursuse viide
-rbac#:#root_create_dbk#:#Loo digilib raamat
-rbac#:#root_create_exc#:#Loo harjutus
-rbac#:#root_create_feed#:#Loo uudisvoog
-rbac#:#root_create_file#:#Laadi fail üles
-rbac#:#root_create_frm#:#Loo foorum
-rbac#:#root_create_glo#:#Loo sõnastik
-rbac#:#root_create_grp#:#Loo grupp
-rbac#:#root_create_htlm#:#Loo HTML õppemoodul
-rbac#:#root_create_icrs#:#Loo LearnLinc kohtumine
-rbac#:#root_create_lm#:#Loo ILIAS õppemoodul
-rbac#:#root_create_mcst#:#Loo meedia
-rbac#:#root_create_mep#:#Loo meediavaramu
-rbac#:#root_create_qpl#:#Loo testiküsimuste varamu
-rbac#:#root_create_rcrs#:#Loo kursuse link
-rbac#:#root_create_sahs#:#Loo SCORM/AICC õppemoodul
-rbac#:#root_create_spl#:#Loo küsitluse varamu
-rbac#:#root_create_svy#:#Loo küsitlus
-rbac#:#root_create_tst#:#Loo test
-rbac#:#root_create_webr#:#Loo veebilink
-rbac#:#root_create_wiki#:#Loo wiki
 rbac#:#root_edit_permission#:#Change permission settings
 rbac#:#root_read#:#Read access to ILIAS system
 rbac#:#root_visible#:#ILIASe süsteem on nähtav
@@ -11695,7 +10853,6 @@ sahs#:#sahs_authoring_mode_info#:#Pakett peab olema loodud ILIAS SCORM toimetiga
 sahs#:#sahs_chapter#:#Peatükk
 sahs#:#sahs_choose_page_template#:#Choose Page Template
 sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Vali üks järgnevatest, kas SCO, teadmiseks või peatükk.
-sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Palun vali kas ainult lehed, SCO-d või peatükid.
 sahs#:#sahs_choose_special_page#:#Choose Special Page
 sahs#:#sahs_desc_objectives#:#Description/Objectives
 sahs#:#sahs_hide_objectives_page#:#Peida kirjelduse/eesmärgi leht
@@ -11737,81 +10894,12 @@ sahs#:#sahs_std_sequencing#:#Tavaline järjestus
 sahs#:#sahs_std_sequencing_info#:#Kasuta ILIASe tavalist järjestust.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
-scormdebug#:#adl_nav_request#:#Navigation request to be processed immediately following Terminate()
-scormdebug#:#adl_nav_request_valid_choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
-scormdebug#:#adl_nav_request_valid_continue#:#Used by a SCO to determine if a Continue navigation request will succeed.
-scormdebug#:#adl_nav_request_valid_previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()
 scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
 scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.
 scormdebug#:#API-call#:#API-call
-scormdebug#:#cmi__version#:#Represents the version of the data model
-scormdebug#:#cmi_comments_from_learner__children#:#Listing of supported data model elements
-scormdebug#:#cmi_comments_from_learner__count#:#Current number of learner comments
-scormdebug#:#cmi_comments_from_learner_n_comment#:#Tekstiline sisend
-scormdebug#:#cmi_comments_from_learner_n_location#:#Point in the SCO to which the comment applies
-scormdebug#:#cmi_comments_from_learner_n_timestamp#:#Point in time at which the comment was created or most recently changed
-scormdebug#:#cmi_comments_from_lms__children#:#Listing of supported data model elements
-scormdebug#:#cmi_comments_from_lms__count#:#Current number of comments from the LMS
-scormdebug#:#cmi_comments_from_lms_n_comment#:#Comments or annotations associated with a SCO
-scormdebug#:#cmi_comments_from_lms_n_location#:#Point in the SCO to which the comment applies
-scormdebug#:#cmi_comments_from_lms_n_timestamp#:#Point in time at which the comment was created or most recently changed
-scormdebug#:#cmi_completion_status#:#Indicates whether the learner has completed the SCO
-scormdebug#:#cmi_completion_threshold#:#Used to determine whether the SCO should be considered complete
-scormdebug#:#cmi_credit#:#Indicates whether the learner will be credited for performance in the SCO
-scormdebug#:#cmi_entry#:#Asserts whether the learner has previously accessed the SCO
-scormdebug#:#cmi_exit#:#Indicates how or why the learner left the SCO
-scormdebug#:#cmi_interactions__children#:#Listing of supported data model elements
-scormdebug#:#cmi_interactions__count#:#Current number of interactions being stored by the LMS
-scormdebug#:#cmi_interactions_n_correct_responses__count#:#Current number of correct responses being stored by the LMS for this interaction
-scormdebug#:#cmi_interactions_n_correct_responses_n_pattern#:#One correct response pattern for the interaction
-scormdebug#:#cmi_interactions_n_description#:#Brief informative description of the interaction
-scormdebug#:#cmi_interactions_n_id#:#Unique label for the interaction
-scormdebug#:#cmi_interactions_n_latency#:#Time elapsed between the time the interaction was made available to the learner for response and the time of the first response
-scormdebug#:#cmi_interactions_n_learner_response#:#Data generated when a learner responds to an interaction
-scormdebug#:#cmi_interactions_n_objectives__count#:#Current number of objectives (i.e., objective identifiers) being stored by the LMS for this interaction
-scormdebug#:#cmi_interactions_n_objectives_n_id#:#Label for objectives associated with the interaction
-scormdebug#:#cmi_interactions_n_result#:#Judgment of the correctness of the learner response
-scormdebug#:#cmi_interactions_n_timestamp#:#Point in time at which the interaction was first made available to the learner for learner interaction and response
-scormdebug#:#cmi_interactions_n_type#:#Which type of interaction is recorded
-scormdebug#:#cmi_interactions_n_weighting#:#Weight given to the interaction relative to other interactions
-scormdebug#:#cmi_launch_data#:#Data provided to a SCO after launch, initialized from the dataFromLMS manifest element
-scormdebug#:#cmi_learner_id#:#Identifies the learner on behalf of whom the SCO was launched
-scormdebug#:#cmi_learner_name#:#Name provided for the learner by the LMS
-scormdebug#:#cmi_learner_preference__children#:#Listing of supported data model elements
-scormdebug#:#cmi_learner_preference_audio_captioning#:#Specifies whether captioning text corresponding to audio is displayed
-scormdebug#:#cmi_learner_preference_audio_level#:#Specifies an intended change in perceived audio level
-scormdebug#:#cmi_learner_preference_delivery_speed#:#The learner's preferred relative speed of content delivery
-scormdebug#:#cmi_learner_preference_language#:#The learner's preferred language for SCOs with multilingual capability
-scormdebug#:#cmi_location#:#The learner's current location in the SCO
-scormdebug#:#cmi_max_time_allowed#:#Amount of accumulated time the learner is allowed to use a SCO
-scormdebug#:#cmi_mode#:#Identifies one of three possible modes in which the SCO may be presented to the learner
-scormdebug#:#cmi_objectives__children#:#Listing of supported data model elements
-scormdebug#:#cmi_objectives__count#:#Current number of objectives being stored by the LMS
-scormdebug#:#cmi_objectives_n_completion_status#:#Indicates whether the learner has completed the associated objective
-scormdebug#:#cmi_objectives_n_description#:#Provides a brief informative description of the objective
-scormdebug#:#cmi_objectives_n_id#:#Unique label for the objective
-scormdebug#:#cmi_objectives_n_progress_measure#:#Measure of the progress the learner has made toward completing the objective
-scormdebug#:#cmi_objectives_n_score__children#:#Listing of supported data model elements
-scormdebug#:#cmi_objectives_n_score_max#:#Maximum value, for the objective, in the range for the raw score
-scormdebug#:#cmi_objectives_n_score_min#:#Minimum value, for the objective, in the range for the raw score
-scormdebug#:#cmi_objectives_n_score_raw#:#Number that reflects the performance of the learner, for the objective, relative to the range bounded by the values of min and max
-scormdebug#:#cmi_objectives_n_score_scaled#:#Number that reflects the performance of the learner for the objective
-scormdebug#:#cmi_objectives_n_success_status#:#Indicates whether the learner has mastered the objective
-scormdebug#:#cmi_progress_measure#:#Measure of the progress the learner has made toward completing the SCO
-scormdebug#:#cmi_scaled_passing_score#:#Scaled passing score required to master the SCO
-scormdebug#:#cmi_score__children#:#Listing of supported data model elements
-scormdebug#:#cmi_score_max#:#Maximum value in the range for the raw score
-scormdebug#:#cmi_score_min#:#Minimum value in the range for the raw score
-scormdebug#:#cmi_score_raw#:#Number that reflects the performance of the learner relative to the range bounded by the values of min and max
-scormdebug#:#cmi_score_scaled#:#Number that reflects the performance of the learner
-scormdebug#:#cmi_session_time#:#Amount of time that the learner has spent in the current learner session for this SCO
-scormdebug#:#cmi_success_status#:#Indicates whether the learner has mastered the SCO
-scormdebug#:#cmi_suspend_data#:#Provides space to store and retrieve data between learner sessions
-scormdebug#:#cmi_time_limit_action#:#Indicates what the SCO should do when cmi.max_time_allowed is exceeded
-scormdebug#:#cmi_total_time#:#Sum of all of the learner's session times accumulated in the current learner attempt
 scormdebug#:#cmi._version#:#Represents the version of the data model
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
@@ -12701,7 +11789,6 @@ survey#:#dp_standard_beliefs_true_undecided_false#:#Standardveendumus (õige-ei 
 survey#:#dp_standard_beliefs_true5#:#Standardveendumus (kindlasti õige-õige-ei oska öelda-vale-kindlasti vale)
 survey#:#dp_standard_numbers#:#Standardnumbrid
 survey#:#duplicate#:#Duplitseeri
-survey#:#duplicate_question#:#Duplitseeri
 survey#:#duplicate_svy#:#Duplitseeri küsitlus
 survey#:#edit_ask_continue#:#Soovite jätkata küsimuse muutmist?
 survey#:#edit_constraints_introduction#:#Sa oled eeltingimuste muutmiseks valinud järgmise(d) küsimus(ed)/küsimusteploki(d)
@@ -12906,7 +11993,6 @@ survey#:#no_target_selected_for_move#:#Pead valima sihtkoha!
 survey#:#no_user_invited#:#Ühelgi kutsutud kasutajal polnud küsimustiku täitmiseks vajalikke õigusi. Ühtki kasutajat ei kutsutud.
 survey#:#no_user_or_group_selected#:#Palun märgista valik, mida otsid (kasutajad ja/või grupid)!
 survey#:#no_user_phrases_defined#:#Kasutaja loodud skaalad puuduvad!
-survey#:#nominal_question_mr_not_checked#:#Palun märgista vähemalt üks pakutud vastustest!
 survey#:#nominal_question_not_checked#:#Palun märgista üks pakutud vastustest!
 survey#:#non_ratio#:#Täisarv
 survey#:#not_sent_only#:#Ainult uutele  saajatele (kes pole veel kirja saanud)
@@ -12919,7 +12005,6 @@ survey#:#offline#:#Kinni
 survey#:#on#:#sees
 survey#:#on_additional#:#Sees, ja lisaks
 survey#:#or#:#või
-survey#:#ordinal_question_not_checked#:#Palun märgista üks pakutud vastustest!
 survey#:#orientation#:#Esitus
 survey#:#other_answer#:#Teine vastus
 survey#:#other_answer_desc#:#Lisa uus tekstiväljaga valik (muu).
@@ -13023,8 +12108,6 @@ survey#:#show_questiontext#:#Kuva küsimuse tekst
 survey#:#show_questiontext_description#:#Kui see märkeruut on märgistatud, näidatakse iga küsimusteplokis oleva küsimuse juures küsimuse teksti. Kui märkeruut on märgistamata, on see tekst peidetud.
 survey#:#skipped#:#Vahele jäetud
 survey#:#specialusers#:#Eri kasutajad
-survey#:#spl_browsercolumns#:#Täpsustatud küsimuste nimestik
-survey#:#spl_browsercolumns_description#:#Vali küsimuse andmeveerud, mis on varamus küsimuste nimestikus näha. See seadistus kehtib kõikide võimalike küsimuste varamute kohta.
 survey#:#spl_copy_insert_clipboard#:#Valitud küsimus(ed) on puhvrisse kopeeritud
 survey#:#spl_copy_select_none#:#Palun märgista puhvrisse kopeerimiseks vähemalt üks küsimus
 survey#:#spl_general_properties#:#Üldised seaded
@@ -13856,3 +12939,27 @@ wsp#:#wsp_type_file#:#Fail
 wsp#:#wsp_type_tstv#:#Tunnistus: test
 wsp#:#wsp_type_webr#:#Veebilink
 wsp#:#wsp_type_wfld#:#Kaust
+assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
+common#:#dd_mm_yyyy#:#DD.MM.YYYY###08 03 2013 new variable
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###08 03 2013 new variable
+content#:#cont_LocalFile#:#Local File###08 03 2013 new variable
+chatroom#:#no_username_given#:#Please choose a username###08 03 2013 new variable
+ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###08 03 2013 new variable
+survey#:#svy_invite_action#:#Invite users to a survey###08 03 2013 new variable
+rbac#:#chtr_delete#:#User can move or delete course###08 03 2013 new variable
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###08 03 2013 new variable
+ecs#:#ecs_role_mapping_value#:#Attribute Value###08 03 2013 new variable
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###08 03 2013 new variable
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###08 03 2013 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###08 03 2013 new variable

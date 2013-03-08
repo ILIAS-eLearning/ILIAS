@@ -188,11 +188,6 @@ assessment#:#autosave_ival#:#Időköz
 assessment#:#autosave_ival_info#:#Időközök, amelyekben a válaszok automatikusan mentésre kerülnek. (mikroszekundum)
 assessment#:#for#:#ehhez
 assessment#:#solution_contain_keywords#:#Pontozás az alábbi kulcsszavak előfordulása alapján:
-assessment#:#essay_keyword_relation#:#Megadott pontok
-assessment#:#essay_keyword_relation_any#:#A kulcsszavak bármelyikének megtalálása esetén.
-assessment#:#essay_keyword_relation_all#:#Csak ha minden kulcsszó megvan.
-assessment#:#essay_keyword_relation_one#:#Teljesen, ha egy kulcsszó megvan.
-assessment#:#essay_keyword_relation_desc#:#Ha a 'minden kulcsszó' van kiválasztva, a résztvevő csak akkor kap pontot, ha megtalálható minden kifejezés. Az 'egy kulcsszó' megadadja az összes válasz teljes pontszámát, ha akár egy kulcsszó is megtalálható.
 assessment#:#mark_schema_invalid#:#A jelölésséma nem érvényesít. Megfelelő sémát hozzon létre!
 assessment#:#0_unlimited#:#(0 = korlátlan)
 assessment#:#action#:#Művelet
@@ -12954,3 +12949,17 @@ ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###17 02 2013 new variable
 ecs#:#ecs_role_mapping_value#:#Attribute Value###17 02 2013 new variable
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###17 02 2013 new variable
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###17 02 2013 new variable
+assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###08 03 2013 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###08 03 2013 new variable
