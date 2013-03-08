@@ -913,18 +913,18 @@ class ilObjGroupGUI extends ilContainerGUI
 					case 1:
 						if ($public_profile == "y")
 						{
-							$this->tpl->setCurrentBlock("tutor_linked");
+							$this->tpl->setCurrentBlock("member_linked");
 							$this->tpl->setVariable("LINK_PROFILE", $profile_target);
 							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
 							$this->tpl->parseCurrentBlock();
 						}
 						else
 						{
-							$this->tpl->setCurrentBlock("tutor_not_linked");
+							$this->tpl->setCurrentBlock("member_not_linked");
 							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
 							$this->tpl->parseCurrentBlock();
 						}
-						$this->tpl->setCurrentBlock("tutor");
+						$this->tpl->setCurrentBlock("member");
 						break;
 				
 					case 0:
@@ -944,6 +944,14 @@ class ilObjGroupGUI extends ilContainerGUI
 						$this->tpl->setCurrentBlock("member");
 						break;
 				}
+				
+				if (in_array($member["id"],$admin_ids)) {
+					$this->tpl->setVariable("MEMBER_CLASS", "il_Admin");
+				}
+				else {
+						$this->tpl->setVariable("MEMBER_CLASS", "il_Member");
+				}
+
 			
 				// do not show name, if public profile is not activated
 				if ($public_profile == "y")
