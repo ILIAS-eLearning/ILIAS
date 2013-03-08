@@ -644,7 +644,15 @@ class ilInternalLinkGUI
 
 			// file download link
 			case "File":
-				$tpl->setVariable("LINK_HELP_CONTENT", $this->getFileLinkHTML());
+				if (!is_object($this->uploaded_file))
+				{
+					$tpl->setVariable("LINK_HELP_CONTENT", $this->getFileLinkHTML());
+				}
+				else
+				{
+					echo $this->getFileLinkHTML();
+					exit;
+				}
 				break;
 				
 		}
@@ -655,7 +663,6 @@ class ilInternalLinkGUI
 			exit;
 		}
 		
-		$tpl->show();
 		exit;
 	}
 	
@@ -696,7 +703,7 @@ class ilInternalLinkGUI
 				"[/iln]");
 			$tpl->setVariable("TXT_FILE",
 				$this->uploaded_file->getTitle());
-			$tpl->parseCurrentBlock();
+//			$tpl->parseCurrentBlock();
 			return $tpl->get();
 		}		
 	}
