@@ -363,14 +363,17 @@ class ilFileUploadGUI
 		
 		include_once("Modules/File/classes/class.ilObjFileGUI.php");
 			
-		// build upload URL
-		$ilCtrl->setParameterByClass(self::FILE_OBJ_GUI_CLASS, "ref_id", $this->ref_id);
-		$ilCtrl->setParameterByClass(self::FILE_OBJ_GUI_CLASS, "new_type", "file");
-			
-		// TODO: set upload link for personal desktop object!
+		// TODO: set upload link for personal desktop object and search!
 		$url = null;
-		if (strtolower($_GET["baseClass"]) != "ilpersonaldesktopgui")
+		if (strtolower($_GET["baseClass"]) != "ilpersonaldesktopgui" &&
+			strtolower($_GET["baseClass"]) != "ilsearchcontroller")
+		{				
+			// build upload URL
+			$ilCtrl->setParameterByClass(self::FILE_OBJ_GUI_CLASS, "ref_id", $this->ref_id);
+			$ilCtrl->setParameterByClass(self::FILE_OBJ_GUI_CLASS, "new_type", "file");
+		
 			$url = $ilCtrl->getFormActionByClass(self::FILE_OBJ_GUI_CLASS, "uploadFiles", "", true, false);
+		}
 		
 		return $url;
 	}
