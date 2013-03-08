@@ -401,11 +401,14 @@ class ilObjectActivation
 	/**
 	 * Get timing details for list gui
 	 *
+	 * @param ilObjectListGUI $a_list_gui
 	 * @param array &$a_item
 	 * @return array caption, value
 	 */
-	public static function getListGUIProperties(array &$a_item)
+	public static function addListGUIActivationProperty(ilObjectListGUI $a_list_gui, array &$a_item)
 	{
+		global $lng;
+		
 		self::addAdditionalSubItemInformation($a_item);
 		if(isset($a_item['timing_type']))
 		{			
@@ -428,7 +431,9 @@ class ilObjectActivation
 			{
 				global $lng;
 				$lng->loadLanguageModule('crs');
-				return array($a_item['activation_info'], $activation);				
+				
+				$a_list_gui->addCustomProperty($lng->txt($a_item['activation_info']),
+					$activation, false, true);		
 			}
 		}
 	}
