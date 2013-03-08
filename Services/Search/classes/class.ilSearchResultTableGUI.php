@@ -47,6 +47,8 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
 		$this->setEnableNumInfo(false);
+		
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
 	}
 	
 	/**
@@ -74,6 +76,8 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		$item_list_gui->setContainerObject($this->parent_obj);
 		$item_list_gui->setSearchFragment($this->presenter->lookupContent($obj_id,0));
 		$item_list_gui->setSeparateCommands(true);
+		
+		ilObjectActivation::addListGUIActivationProperty($item_list_gui, $a_set);
 		
 		$this->presenter->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);
 		

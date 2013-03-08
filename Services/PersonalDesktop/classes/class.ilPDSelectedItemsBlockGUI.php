@@ -449,6 +449,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					{
 						continue;
 					}
+				
+					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);		
 										
 					// notes, comment currently do not work properly on desktop
 					$item_list_gui->enableNotes(false);
@@ -616,6 +618,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$full_class = "ilObj".$class."ListGUI";
 						include_once($location."/class.".$full_class.".php");
 						$item_list_gui = new $full_class();
+						
+						ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);		
 						
 						// notes, comment currently do not work properly on desktop
 						$item_list_gui->enableNotes(false);
@@ -838,6 +842,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						include_once($location."/class.".$full_class.".php");
 						$item_list_gui = new $full_class();
 						
+						ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);		
+						
 						// notes, comment currently do not work properly on desktop
 						$item_list_gui->enableNotes(false);
 						$item_list_gui->enableComments(false);
@@ -966,6 +972,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					{
 						continue;
 					}
+					
+					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);		
 					
 					// notes, comment currently do not work properly on desktop
 					$item_list_gui->enableNotes(false);
