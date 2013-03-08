@@ -50,42 +50,6 @@ class ilInternalLinkGUI
 		$this->filter_link_types = array();
 		$this->mode = "text";
 
-		// determine link type and target
-		$this->determineLinkType();
-
-		$def_type = ilObject::_lookupType($this->default_obj, true);
-
-		// determine content object id
-		switch($this->link_type)
-		{
-			case "PageObject":
-			case "StructureObject":
-				if  (empty($_SESSION["il_link_cont_obj"]) &&
-					($def_type != "mep" && $def_type != "glo"))
-				{
-					$_SESSION["il_link_cont_obj"] = $this->default_obj;
-				}
-				break;
-
-			case "GlossaryItem":
-				if  (empty($_SESSION["il_link_glossary"]) && $def_type == "glo")
-				{
-					$_SESSION["il_link_glossary"] = $this->default_obj;
-				}
-				break;
-
-			case "Media":
-				if  (empty($_SESSION["il_link_mep"]) && $def_type == "mep")
-				{
-					$_SESSION["il_link_mep"] = $this->default_obj;
-				}
-				break;
-		}
-
-		/*
-		$target_str = ($link_target == "")
-			? ""
-			: " target=\"".$link_target."\" ";*/
 	}
 
 	/**
@@ -122,10 +86,18 @@ class ilInternalLinkGUI
 			? $this->default_type
 			: $_SESSION["il_link_type"];
 		$ltype_arr = explode("_", $ltype);
-		$this->link_type = ($ltype_arr[0] == "")
-			? $this->default_type
-			: $ltype_arr[0];
-		$this->link_target = $ltype_arr[1];
+		
+		if (!isset($this->ltypes[$ltype_arr[0]]))
+		{
+			$this->link_type = $this->default_type;
+		}
+		else
+		{
+			$this->link_type = ($ltype_arr[0] == "")
+				? $this->default_type
+				: $ltype_arr[0];
+			$this->link_target = $ltype_arr[1];
+		}
 	}
 
 	/**
@@ -231,6 +203,71 @@ class ilInternalLinkGUI
 	{
 		global $ilUser, $ilCtrl;
 		
+		// filter link types
+		if (!$this->filter_white_list)
+		{
+			foreach($this->filter_link_types as $link_type)
+			{
+				unset($this->ltypes[$link_type]);
+			}
+		}
+		else
+		{
+			$ltypes = array();
+			foreach($this->ltypes as $k => $l)
+			{
+				if (in_array($k, $this->filter_link_types))
+				{
+					$ltypes[$k] = $l;
+				}
+			}
+			$this->ltypes = $ltypes;
+		}
+
+
+		// determine link type and target
+		$this->determineLinkType();
+
+		$ltype = ($this->link_target != "")
+			? $this->link_type."_".$this->link_target
+			: $this->link_type;
+
+		$def_type = ilObject::_lookupType($this->default_obj, true);
+
+		// determine content object id
+		switch($this->link_type)
+		{
+			case "PageObject":
+			case "StructureObject":
+				if  (empty($_SESSION["il_link_cont_obj"]) &&
+					($def_type != "mep" && $def_type != "glo"))
+				{
+					$_SESSION["il_link_cont_obj"] = $this->default_obj;
+				}
+				break;
+
+			case "GlossaryItem":
+				if  (empty($_SESSION["il_link_glossary"]) && $def_type == "glo")
+				{
+					$_SESSION["il_link_glossary"] = $this->default_obj;
+				}
+				break;
+
+			case "Media":
+				if  (empty($_SESSION["il_link_mep"]) && $def_type == "mep")
+				{
+					$_SESSION["il_link_mep"] = $this->default_obj;
+				}
+				break;
+		}
+
+		/*
+		$target_str = ($link_target == "")
+			? ""
+			: " target=\"".$link_target."\" ";*/
+
+		
+		
 		$target_str = ($this->link_target == "")
 			? ""
 			: " target=\"".$this->link_target."\"";
@@ -287,30 +324,6 @@ class ilInternalLinkGUI
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
 
-		// filter link types
-		if (!$this->filter_white_list)
-		{
-			foreach($this->filter_link_types as $link_type)
-			{
-				unset($this->ltypes[$link_type]);
-			}
-		}
-		else
-		{
-			$ltypes = array();
-			foreach($this->ltypes as $k => $l)
-			{
-				if (in_array($k, $this->filter_link_types))
-				{
-					$ltypes[$k] = $l;
-				}
-			}
-			$this->ltypes = $ltypes;
-		}
-
-		$ltype = ($this->link_target != "")
-			? $this->link_type."_".$this->link_target
-			: $this->link_type;
 
 //echo "<br><br>".$ltype;
 
@@ -631,7 +644,15 @@ class ilInternalLinkGUI
 
 			// file download link
 			case "File":
-				$tpl->setVariable("LINK_HELP_CONTENT", $this->getFileLinkHTML());
+				if (!is_object($this->uploaded_file))
+				{
+					$tpl->setVariable("LINK_HELP_CONTENT", $this->getFileLinkHTML());
+				}
+				else
+				{
+					echo $this->getFileLinkHTML();
+					exit;
+				}
 				break;
 				
 		}
@@ -642,7 +663,6 @@ class ilInternalLinkGUI
 			exit;
 		}
 		
-		$tpl->show();
 		exit;
 	}
 	
@@ -683,7 +703,7 @@ class ilInternalLinkGUI
 				"[/iln]");
 			$tpl->setVariable("TXT_FILE",
 				$this->uploaded_file->getTitle());
-			$tpl->parseCurrentBlock();
+//			$tpl->parseCurrentBlock();
 			return $tpl->get();
 		}		
 	}
