@@ -548,6 +548,9 @@ abstract class ilContainerContentGUI
 					"getAsynchItemList", "", true, false);
 			$ilCtrl->setParameter($this->container_gui, "cmdrefid", "");
 		}
+					
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
+		ilObjectActivation::addListGUIActivationProperty($item_list_gui, $a_item_data);		
 		
 		$html = $item_list_gui->getListItemHTML($a_item_data['ref_id'],
 			$a_item_data['obj_id'], $a_item_data['title'], $a_item_data['description'],
