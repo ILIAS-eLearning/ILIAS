@@ -93,41 +93,54 @@ class ilUserSearchOptions
 			 * @todo: implement a more general solution
 			 */
 			$fields[$counter]['autoComplete'] = false;
-			if($field == 'login')
+			
+			switch($field)
 			{
-				$fields[$counter]['autoComplete'] = true;
+				case 'login':
+				case 'firstname':	
+				case 'lastname':	
+				case 'email':	
+					$fields[$counter]['autoComplete'] = true;
+					break;
+				
+				case 'title':
+					$fields[$counter]['lang'] = $lng->txt('person_title');
+					break;
+				
+				// SELECTS
+				
+				case 'gender':
+					$fields[$counter]['type'] = FIELD_TYPE_SELECT;
+					$fields[$counter]['values'] = array(0 => $lng->txt('please_choose'),
+													'f' => $lng->txt('gender_f'),
+													'm' => $lng->txt('gender_m'));					
+					break;
+				
+				case 'sel_country':
+					$fields[$counter]['type'] = FIELD_TYPE_SELECT;										
+					$fields[$counter]['values'] = array(0 => $lng->txt('please_choose'));
+					
+					// #7843 -- see ilCountrySelectInputGUI
+					$lng->loadLanguageModule('meta');
+					include_once('./Services/Utilities/classes/class.ilCountry.php');
+					foreach (ilCountry::getCountryCodes() as $c)
+					{
+						$fields[$counter]['values'][$c] = $lng->txt('meta_c_'.$c);
+					}
+					asort($fields[$counter]['values']);					
+					break;
+										
+				/*
+				case 'active':
+					$fields[$counter]['type'] = FIELD_TYPE_SELECT;
+					$fields[$counter]['values'] = array(-1 => $lng->txt('please_choose'),
+													'1' => $lng->txt('active'),
+													'0' => $lng->txt('inactive'));
+					
+					break;
+				*/				
 			}
-			if($field == 'firstname')
-			{
-				$fields[$counter]['autoComplete'] = true;
-			}
-			if($field == 'lastname')
-			{
-				$fields[$counter]['autoComplete'] = true;
-			}
-			if($field == 'email')
-			{
-				$fields[$counter]['autoComplete'] = true;
-			}
-
-			if($field == 'gender')
-			{
-				$fields[$counter]['values'] = array(0 => $lng->txt('please_choose'),
-												  'f' => $lng->txt('gender_f'),
-												  'm' => $lng->txt('gender_m'));
-				$fields[$counter]['type'] = FIELD_TYPE_SELECT;
-			}
-			if($field == 'title')
-			{
-				$fields[$counter]['lang'] = $lng->txt('person_title');
-			}
-			/*if($field == 'active')
-			{
-				$fields[$counter]['values'] = array(-1 => $lng->txt('please_choose'),
-												  '1' => $lng->txt('active'),
-												  '0' => $lng->txt('inactive'));
-				$fields[$counter]['type'] = FIELD_TYPE_SELECT;
-			}*/
+			
 			++$counter;
 		}
 		 $fields = ilUserSearchOptions::__appendUserDefinedFields($fields,$counter);
@@ -148,6 +161,7 @@ class ilUserSearchOptions
 					 'zipcode',
 					 'city',
 					 'country',
+					 'sel_country',
 					 'email',
 					 'hobby',
 					 'matriculation');
