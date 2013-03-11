@@ -291,6 +291,7 @@ var model = {
 function getElementModel(s_el){
 	var a_elmod=s_el.split('.');
 	var o_elmod=model[a_elmod[0]];
+	if (typeof o_elmod == "undefined") return null;
 	for (var i=1;i<a_elmod.length;i++){
 		if (isNaN(a_elmod[i])) o_elmod=o_elmod[a_elmod[i]];
 		else o_elmod=o_elmod['n'];
