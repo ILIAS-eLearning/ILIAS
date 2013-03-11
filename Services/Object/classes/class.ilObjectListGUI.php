@@ -119,6 +119,8 @@ class ilObjectListGUI
 		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$this->ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
+		
+		$lng->loadLanguageModule("obj");
 	}
 
 
