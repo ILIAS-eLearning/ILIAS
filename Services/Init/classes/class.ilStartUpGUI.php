@@ -1137,17 +1137,15 @@ class ilStartUpGUI
 					ilAuthFactory::setContext(ilAuthFactory::CONTEXT_OPENID);
 					include_once './Services/OpenId/classes/class.ilAuthOpenId.php';
 					$ilAuth = ilAuthFactory::factory($container);
-					
-
-					//$ilAuth->callProvider($_POST['username'], null, null);
 
 					// logout first to initiate a new login session
 					$ilAuth->logout();
 					ilSession::_destroy(session_id());
 					ilSession::set('force_creation', true);
 					$ilAuth->start();
-					break;
 			}
+			// Redirect to acceptance
+			ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
 	 	}
 		// show personal desktop
 		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
