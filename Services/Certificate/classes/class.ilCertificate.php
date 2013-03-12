@@ -295,7 +295,19 @@ class ilCertificate
 		$marginbody_right = "2cm";
 		$marginbody_bottom = "0cm";
 		$marginbody_left = "2cm";
-		if(preg_match("/fo:region-body[^>]*margin\=\"([^\"]+)\"/", $xslfo, $matches))
+		if(preg_match("/fo:flow[^>]*margin\=\"([^\"]+)\"/", $xslfo, $matches))
+		{
+			// Backwards compatibility
+			$marginbody = $matches[1];
+			if (preg_match_all("/([^\s]+)/", $marginbody, $matches))
+			{
+				$marginbody_top = $matches[1][0];
+				$marginbody_right = $matches[1][1];
+				$marginbody_bottom = $matches[1][2];
+				$marginbody_left = $matches[1][3];
+			}
+		}
+		else if(preg_match("/fo:region-body[^>]*margin\=\"([^\"]+)\"/", $xslfo, $matches))
 		{
 			$marginbody = $matches[1];
 			if (preg_match_all("/([^\s]+)/", $marginbody, $matches))
