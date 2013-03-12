@@ -2342,6 +2342,7 @@ div.ilMainMenuSection {
 	background-image: url(images/mm_back.png);
 	min-height:31px;
 	clear:both;
+	background-color: #9BC5ED;
 }
 
 div#il_main_logo {
