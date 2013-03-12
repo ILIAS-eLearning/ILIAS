@@ -180,7 +180,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock("team_member");
 			asort($member["team"]);
-			foreach($member["team"] as $member_id => $member_name)
+			foreach($member["team"] as $member_name)  // #10749
 			{
 				$this->tpl->setVariable("TXT_MEMBER_NAME", $member_name);
 				$this->tpl->parseCurrentBlock();
