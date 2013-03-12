@@ -13142,3 +13142,4 @@ common#:#file_version_replace#:#Alle Versionen ersetzt
 common#:#file_version_rollback#:#Rollback von Version %s durch %s
 common#:#file_rollback#:#Zur aktuellen Version machen
 obj#:#edit_questions#:#Fragen bearbeiten
+common#:#frm_import#:#Forum importieren
