@@ -54,7 +54,7 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
         $ref_record = ilDataCollectionCache::getRecordCache($value);
         if(!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()){
             //the referenced record_field does not seem to exist.
-            $html = "-";
+            $html = "";
             $record_field->setValue(NULL);
             $record_field->doUpdate();
         }

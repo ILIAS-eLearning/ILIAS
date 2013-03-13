@@ -63,7 +63,7 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField{
         $record_field = $this;
 
         if(!$values || !count($values)){
-            return "-";
+            return "";
         }
 
         $tpl = $this->buildTemplate($record_field, $values, $options);
@@ -114,7 +114,7 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField{
         $record_field = $this;
 
         if(!$values || !count($values)){
-            return "-";
+            return "";
         }
 
         $html = "";

@@ -237,7 +237,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	 */
 	private function getStatus(ilDataCollectionRecord $record, ilDataCollectionField $field){
 		$record_field = ilDataCollectionCache::getRecordFieldCache($record, $field);
-        $return = "-";
+        $return = "";
         if($record_field->getStatus()){
 			$status = $record_field->getStatus();
             $return = "<img src='".ilLearningProgressBaseGUI::_getImagePathForStatus($status->status)."'>";
