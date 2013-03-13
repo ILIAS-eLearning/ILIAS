@@ -542,8 +542,10 @@ class ilDataCollectionRecord
 	 */
 	public function deleteFile($obj_id)
 	{
-		$file = new ilObjFile($obj_id, false);
-		$file->delete();
+        if(ilObject2::_lookupObjId($obj_id)){
+		    $file = new ilObjFile($obj_id, false);
+		    $file->delete();
+        }
 	}
 
 
