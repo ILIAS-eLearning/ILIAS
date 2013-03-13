@@ -108,6 +108,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         $data = array();
         foreach($this->object_data as $record){
             $record_data = array();
+            $record_data["_front"] = null;
 
             foreach($this->table->getVisibleFields() as $field)
             {
