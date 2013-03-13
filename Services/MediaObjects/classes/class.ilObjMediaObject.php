@@ -1118,12 +1118,12 @@ class ilObjMediaObject extends ilObject
 					$obj_id = $id;
 				}
 				// Test InfoScreen Text
-				if ($cont_type == "tst")
+				if ($cont_type == "tst" || $cont_type == "svy")
 				{
 					$obj_id = $id;
 					//var_dump($qinfo);
 				}
-				// Question Pool *Question* Text
+				// Question Pool *Question* Text (Test)
 				if ($cont_type == "qpl")
 				{
 					include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -1136,6 +1136,25 @@ class ilObjMediaObject extends ilObject
 					else
 					{
 						$obj_id = $qinfo["obj_fi"];		// usage in pool
+					}
+				}
+				
+				// Question Pool *Question* Text (Survey)
+				if ($cont_type == "spl")
+				{
+					include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
+					$quest = SurveyQuestion::_instanciateQuestion($id);
+					if($quest)
+					{
+						if ($quest->getOriginalId() > 0)
+						{
+							$obj_id = $quest->getSurveyId();
+						}
+						else
+						{
+							$obj_id = $quest->getObjId(); // usage in pool
+						}
+						unset($quest);
 					}
 				}
 				
