@@ -462,7 +462,8 @@ class ilDataCollectionDatatype
 
 				$file_id = $file_obj->getId();
 				$return = $file_id;
-			}
+			}else
+                $return = $record_field->getValue();
 		}
         elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB)
         {
@@ -513,7 +514,8 @@ class ilDataCollectionDatatype
 
                 $mob->update();
                 $return = $mob->getId();
-            }
+            }else
+                $return = $record_field->getValue();
         }
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
 		{
