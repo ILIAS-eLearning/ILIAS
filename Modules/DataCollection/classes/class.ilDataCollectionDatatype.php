@@ -685,10 +685,17 @@ class ilDataCollectionDatatype
 
                 $file_obj = new ilObjFile($value, false);
 				//$input = ilObjFile::_lookupAbsolutePath($value);
-				$input = $file_obj->getFile();
+				$input = $file_obj->getFileName();
 				break;
             case self::INPUTFORMAT_MOB:
-                $input = "";
+                if(!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "mob") {
+                    $input = "";
+                    break;
+                }
+
+                $media_obj = new ilObjMediaObject($value, false);
+                //$input = ilObjFile::_lookupAbsolutePath($value);
+                $input = $media_obj->getTitle();
                 break;
 			default:
 				$input = $value;
