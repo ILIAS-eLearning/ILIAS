@@ -12257,6 +12257,7 @@ rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administra
 common#:#obj_dcl#:#Data Collection
 common#:#objs_dcl#:#Data Collections
 common#:#obj_dcl_dupliate#:#Copy Data Collection
+dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_add#:#Create Data Collection
 dcl#:#dcl_copy#:#Copy Data Collection

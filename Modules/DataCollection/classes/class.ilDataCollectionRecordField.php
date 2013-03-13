@@ -155,7 +155,7 @@ class ilDataCollectionRecordField
      * @return mixed used for the sorting.
      */
     public function getPlainText(){
-        return getExportValue();
+        return $this->getExportValue();
     }
 
 	/*

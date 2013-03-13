@@ -12225,6 +12225,7 @@ rbac#:#trac_write#:#Einstellungen für Zugriffsstatistiken und Lernfortschrittsv
 common#:#obj_dcl#:#Datensammlung
 common#:#objs_dcl#:#Datensammlungen
 common#:#obj_dcl_dupliate#:#Datensammlung kopieren
+dcl#:#dcl_hello#:#Guten Tag
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_add#:#Datensammlung anlegen
 dcl#:#dcl_copy#:#Datensammlung kopieren

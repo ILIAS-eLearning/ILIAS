@@ -169,7 +169,7 @@ class ilDataCollectionRecordEditGUI
 				$fieldref = $field->getFieldRef();
 				$reffield = ilDataCollectionCache::getFieldCache($fieldref);
 				$options = array();
-				$options[] = '--';
+				    $options[""] = '--';
 				$reftable = ilDataCollectionCache::getTableCache($reffield->getTableId());
 				foreach($reftable->getRecords() as $record)
 				{
