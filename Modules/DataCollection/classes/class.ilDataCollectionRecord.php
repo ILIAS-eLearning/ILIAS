@@ -521,8 +521,10 @@ class ilDataCollectionRecord
 	 */
 	public function deleteFile($obj_id)
 	{
-		$file = new ilObjFile($obj_id, false);
-		$file->delete();
+        if(ilObject2::_lookupObjId($obj_id)){
+		    $file = new ilObjFile($obj_id, false);
+		    $file->delete();
+        }
 	}
 
 
@@ -531,8 +533,10 @@ class ilDataCollectionRecord
       */
     public function deleteMob($obj_id)
     {
-        $mob = new ilObjMediaObject($obj_id);
-        $mob->delete();
+        if(ilObject2::_lookupObjId($obj_id)){
+            $mob = new ilObjMediaObject($obj_id);
+            $mob->delete();
+        }
     }
 	
 	/*
