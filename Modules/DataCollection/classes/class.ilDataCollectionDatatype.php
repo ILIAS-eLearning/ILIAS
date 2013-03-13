@@ -260,7 +260,7 @@ class ilDataCollectionDatatype
                 break;
 		}
         if($field->getDescription())
-            $input->setInfo($input->getInfo()."<br>".$field->getDescription());
+            $input->setInfo($field->getDescription().($input->getInfo()?"<br>".$input->getInfo():""));
 		return $input;
 	}
 	
@@ -470,14 +470,14 @@ class ilDataCollectionDatatype
                 list($width, $height, $type, $attr) = getimagesize($file);
 
                 $arr_properties = $record_field->getField()->getProperties();
-                $new_width = $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH]->value;
-                $new_height = $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]->value;
+                $new_width = $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
+                $new_height = $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
                 if($new_width || $new_height)
                 {
                     //only resize if it is bigger, not if it is smaller
                     if($new_height < $height && $new_width < $width)
-                    $location = ilObjMediaObject::_resizeImage($file, (int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH]->value,
-                        (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]->value, true);
+                    $location = ilObjMediaObject::_resizeImage($file, (int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH],
+                        (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT], true);
                 } else {
                     $location = $title;
                 }
