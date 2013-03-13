@@ -554,8 +554,10 @@ class ilDataCollectionRecord
       */
     public function deleteMob($obj_id)
     {
-        $mob = new ilObjMediaObject($obj_id);
-        $mob->delete();
+        if(ilObject2::_lookupObjId($obj_id)){
+            $mob = new ilObjMediaObject($obj_id);
+            $mob->delete();
+        }
     }
 	
 	/*
