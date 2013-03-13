@@ -12269,6 +12269,7 @@ rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administra
 common#:#obj_dcl#:#Data Collection
 common#:#objs_dcl#:#Data Collections
 common#:#obj_dcl_dupliate#:#Copy Data Collection
+dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_add#:#Create Data Collection
 dcl#:#dcl_copy#:#Copy Data Collection
@@ -12686,9 +12687,10 @@ dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
 dcl#:#dcl_edit_notification#:#Email Notification on Change
 dcl#:#dcl_edit_notification_info#:#You will be notified when any table is edited
 dcl#:#dcl_change_notification_link#:#URL
-dcl#:#dcl_change_notification_dcl_new_record#:#the following record was created
-dcl#:#dcl_change_notification_dcl_update_record#:#the following record was updated
-dcl#:#dcl_change_notification_dcl_delete_record#:#the following record page was deleted
+dcl#:#dcl_change_notification_dcl_new_record#:#The following record has been created
+dcl#:#dcl_change_notification_dcl_update_record#:#The following record has been updated
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following record page has been deleted
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection

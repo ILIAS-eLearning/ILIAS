@@ -182,16 +182,25 @@ class ilObjDataCollection extends ilObject2
 		
 				$subject = sprintf($ulng->txt('dcl_change_notification_subject'), $obj_dcl->getTitle());
 				// update/delete
+                $message = $ulng->txt("dcl_hello")." ".ilObjUser::_lookupFullname($user_id).",\n\n";
 				$message .= $ulng->txt('dcl_change_notification_dcl_'.$a_action).":\n\n";
 				$message .= $ulng->txt('obj_dcl').": ".$obj_dcl->getTitle()."\n";
 				$message .= $ulng->txt('dcl_table').": ".$obj_table->getTitle()."\n";
 				if($a_record_id)
 				{
-					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id."\n";
+                    $record = ilDataCollectionCache::getRecordCache($a_record_id);
+					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
+                    $t = "";
+                    foreach($record->getTable()->getVisibleFields() as $field){
+                        $t .= $record->getRecordField($field->getId())->getPlainText()." ";
+                    }
+                    $message .= $t."\n";
 				}
 		
 				$message .= $ulng->txt('dcl_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
-				$message .= $ulng->txt('dcl_change_notification_link').": ".$link;
+				$message .= $ulng->txt('dcl_change_notification_link').": ".$link."\n\n";
+
+                $message .= $ulng->txt('dcl_change_why_you_receive_this_email');
 		
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);

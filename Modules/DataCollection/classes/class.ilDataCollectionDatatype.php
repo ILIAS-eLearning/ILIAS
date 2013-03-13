@@ -611,7 +611,7 @@ class ilDataCollectionDatatype
 				global $ilCtrl;
 
                  if(!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
-                    $html = "-";
+                    $html = "";
                     break;
                 }
 
