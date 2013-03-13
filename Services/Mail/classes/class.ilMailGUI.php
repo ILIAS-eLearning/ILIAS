@@ -162,6 +162,9 @@ class ilMailGUI
 			$this->showHeader();
 		}
 
+		include_once "Services/jQuery/classes/class.iljQueryUtil.php";
+		iljQueryUtil::initjQuery();
+
 		switch($this->forwardClass)
 		{			
 			case 'ilmailformgui':
