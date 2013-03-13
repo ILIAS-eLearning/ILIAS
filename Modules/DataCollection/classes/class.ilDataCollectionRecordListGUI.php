@@ -92,8 +92,8 @@ class ilDataCollectionRecordListGUI
             $ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
             $ilToolbar->addSeparator();
         }
-        if($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))
-            $ilToolbar->addFormButton($lng->txt('dcl_export_table_excel'), "exportExcel");
+        if(($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id)) && count($this->table_obj->getRecordFields()))
+            $ilToolbar->addButton($lng->txt('dcl_export_table_excel'), $ilCtrl->getFormActionByClass("ildatacollectionrecordlistgui", "exportExcel"));
 
         if($_GET['table_id'])
             $table_id = $_GET['table_id'];
@@ -128,13 +128,14 @@ class ilDataCollectionRecordListGUI
             exit;
         }
 
-		require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
-		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
-		$table = ilDataCollectionCache::getTableCache($this->table_id);
-		$list->setData($table->getRecords());
-		$list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
-		$this->listRecords();
-	}
+        require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
+        $list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
+        $table = ilDataCollectionCache::getTableCache($this->table_id);
+//        $list->setData($table->getRecords());
+        $list->setExternalSorting(true);
+        $list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
+        $this->listRecords();
+    }
 
 
 	/**

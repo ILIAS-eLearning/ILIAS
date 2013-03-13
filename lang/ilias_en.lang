@@ -12269,6 +12269,7 @@ rbac#:#dcl_delete#:#User can move or delete data collection
 rbac#:#dcl_edit_permission#:#User can change permission settings
 rbac#:#dcl_add_entry#:#User can add/edit entries
 rbac#:#rbac_create_dcl#:#Create Data Collection
+dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.
 common#:#obj_dcl_duplicate#:#Copy Data Collection
 survey#:#freetext_answers#:#Open Answers
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.

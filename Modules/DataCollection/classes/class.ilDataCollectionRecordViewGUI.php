@@ -22,9 +22,16 @@ require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewV
 */
 class ilDataCollectionRecordViewGUI
 {
+    /**
+     * @var ilObjDataCollectionGUI
+     */
+    protected $dcl_gui_object;
+
 	public function __construct($a_dcl_object)
 	{
         global $tpl;
+
+        $this->dcl_gui_object = $a_dcl_object;
 
 		$this->record_id = $_GET['record_id'];
 		$this->record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
@@ -106,6 +113,11 @@ class ilDataCollectionRecordViewGUI
                 $html = preg_replace_callback($pattern, array($this, "doReplace"), $html);
             }
 
+            $pattern = '/\[ext tableOf="'.preg_quote($field->getTitle(), "/").'" field="(.*?)"\]/';
+            if (preg_match($pattern ,$html)) {
+                $this->currentField = $field;
+                $html = preg_replace_callback($pattern, array($this, "doExtReplace"), $html);
+            }
 
 			$html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
 
@@ -114,6 +126,40 @@ class ilDataCollectionRecordViewGUI
 		$tpl->setContent($html);
 	}
 
+    public function doReplace($found){
+        return $this->record_obj->getRecordFieldSingleHTML($this->currentField->getId(),$this->setOptions($found[1]));
+    }
+
+    public function doExtReplace($found){
+        $ref_rec_ids = $this->record_obj->getRecordFieldValue($this->currentField->getId());
+        if(!is_array($ref_rec_ids))
+            $ref_rec_ids = array($ref_rec_ids);
+        if(!count($ref_rec_ids) || !$ref_rec_ids)
+            return;
+        $ref_recs = array();
+        foreach($ref_rec_ids as $ref_rec_id)
+            $ref_recs[] = ilDataCollectionCache::getRecordCache($ref_rec_id);
+        $field = $ref_recs[0]->getTable()->getFieldByTitle($found[1]);
+
+        $tpl = new ilTemplate("tpl.reference_list.html", true, true, "Modules/DataCollection");
+        $tpl->setCurrentBlock("reference_list");
+
+        if(!$field){
+            if(ilObjDataCollection::_hasWriteAccess($this->dcl_gui_object->ref_id))
+                ilUtil::sendInfo("Bad Viewdefinition at [ext tableOf=\"".$found[1]."\" ...]", true);
+            return;
+        }
+
+        foreach($ref_recs as $ref_record){
+                $tpl->setCurrentBlock("reference");
+                $tpl->setVariable("CONTENT", $ref_record->getRecordFieldHTML($field->getId()));
+                $tpl->parseCurrentBlock();
+        }
+
+        //$ref_rec->getRecordFieldHTML($field->getId())
+        if($field)
+            return $tpl->get();
+    }
 
     /**
      * setOptions

@@ -39,6 +39,8 @@ class ilDataCollectionFieldEditGUI
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->table_id = $table_id;
+        if(!$table_id)
+            $table_id = $_GET["table_id"];
 
 		if(!isset($field_id))
 			$this->field_id = $_GET['field_id'];
@@ -51,8 +53,9 @@ class ilDataCollectionFieldEditGUI
 		{
 			$this->field_obj = ilDataCollectionCache::getFieldCache();
 			if(!$table_id)
-				$ilCtrl->redirectByClass("ilDataCollectionGUI");
+				$ilCtrl->redirectByClass("ilDataCollectionGUI", "listFields");
 			$this->field_obj->setTableId($table_id);
+            $ilCtrl->saveParameter($this, "table_id");
 		}
 
 		$this->table = ilDataCollectionCache::getTableCache($table_id);
@@ -333,11 +336,14 @@ class ilDataCollectionFieldEditGUI
 			return;
 		}
 
-		$this->initForm();
+		$this->initForm($a_mode == "update"?"edit":"create");
 		if ($this->form->checkInput())
 		{
+            $title = $this->form->getInput("title");
+            if($a_mode != "create" && $title != $this->field_obj->getTitle())
+                ilUtil::sendInfo($lng->txt("dcl_field_title_change_warning"), true);
 
-			$this->field_obj->setTitle($this->form->getInput("title"));
+			$this->field_obj->setTitle($title);
 			$this->field_obj->setDescription($this->form->getInput("description"));
 			$this->field_obj->setDatatypeId($this->form->getInput("datatype"));
 			$this->field_obj->setRequired($this->form->getInput("required"));

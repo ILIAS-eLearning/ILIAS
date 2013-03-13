@@ -43,7 +43,7 @@ class ilDataCollectionDatatype
 	const INPUTFORMAT_FILE 			= 6;
 	// Rating
 	const INPUTFORMAT_RATING 		= 7;
-		// ILIAS REFERENCE
+	// ILIAS REFERENCE
 	const INPUTFORMAT_ILIAS_REF 	= 8;
     // Meida Object
     const INPUTFORMAT_MOB 		    = 9;
@@ -554,7 +554,7 @@ class ilDataCollectionDatatype
         }
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
 		{
-			$return = $value["date"]." ".$value["time"];
+			$return = substr($value, 0, 10);
 		}
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
 		{
