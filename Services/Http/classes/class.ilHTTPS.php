@@ -187,7 +187,7 @@ class ilHTTPS
 		$secure_disabled = $ilClientIniFile->readVariable('session','disable_secure_cookies');
 		if(!$secure_disabled and !$this->enabled and $this->isDetected() and !session_id())
 		{
-			$ilLog->write(__CLASS__.': Enabled secure cookies');
+			#$ilLog->write(__CLASS__.': Enabled secure cookies');
 
 			// session_set_cookie_params() supports 5th parameter
 			// only for php version 5.2.0 and above
