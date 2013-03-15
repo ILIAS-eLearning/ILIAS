@@ -146,6 +146,11 @@ td.ilc_FileItem
 	padding: 3px;
 }
 
+
+div#printViewPageContainer {
+	border: 0;
+}
+
 /* --- Test & Assessment styles --- */
 
 div.ilc_Question
