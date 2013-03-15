@@ -3754,7 +3754,8 @@ $tabs_gui = $ilTabs;
 			{
 				$im_tag = ilUtil::img($im, $l);
 			}
-			$option[$l] = "<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc")."</td></tr></table>";
+			$option[$l] = "<table><tr><td style='padding: 0px 5px 5px;'>".$im_tag."</td><td style='padding:5px;'><b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc")."</td></tr></table>";
+			//$option[$l] = " ".$im_tag." <b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc");
 		}
 		$layout->setOptions($option);
 		

@@ -1063,6 +1063,10 @@ class ilLMPresentationGUI
 		if ($this->lm->cleanFrames())
 		{
 			$page_id = $this->getCurrentPageId();
+			if ($this->deactivated_page)
+			{
+				$page_id = $_GET["obj_id"];
+			}
 			if ($page_id > 0)
 			{
 				$path = $this->lm_tree->getPathId($page_id);
@@ -1729,7 +1733,7 @@ class ilLMPresentationGUI
 		if ($a_page_id == 0)
 		{
 			$page_id = $this->getCurrentPageId();
-			
+//echo ":".$page_id.":";
 			// highlighting?
 			
 			if ($_GET["srcstring"] != "" && !$this->offlineMode())
