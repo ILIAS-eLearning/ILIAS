@@ -2420,6 +2420,10 @@ class ilLMPresentationGUI
 
 		// unmask user html
 		$this->tpl->setVariable("MEDIA_CONTENT", $output);
+		
+		// add js
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		ilObjMediaObjectGUI::includePresentationJS($this->tpl);
 
 		$ilBench->stop("ContentPresentation", "ilMedia");
 	}
