@@ -663,6 +663,11 @@ h4.il_ContainerItemTitle
 	display: inline;
 }
 
+div.il_ContainerItemTitle {
+	float:left;
+	padding-bottom: 5px;
+}
+
 div.il_ItemProperties
 {
 	margin-top: 2px;
