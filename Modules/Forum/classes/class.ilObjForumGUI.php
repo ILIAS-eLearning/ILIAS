@@ -817,7 +817,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 				$_GET['ref_id'] = $a_target;
 				$_GET['pos_pk'] = $a_posting;
-				$_GET['thr_pk'] = $a_thread;				
+				$_GET['thr_pk'] = $a_thread;
+				$_GET['anchor'] = $a_posting;
 				$_GET['cmdClass'] = 'ilObjForumGUI';
 				$_GET['cmd'] = 'viewThread';
 				$_GET['baseClass'] = 'ilRepositoryGUI';
@@ -1949,6 +1950,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->prepareThreadScreen($forumObj);
 		
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_view.html', 'Modules/Forum');
+		
+		if(isset($_GET['anchor']))
+		{
+			$tpl->setVariable('JUMP2ANCHOR_ID', (int)$_GET['anchor']);	
+		}
 
 		// download file
 		if($_GET['file'])

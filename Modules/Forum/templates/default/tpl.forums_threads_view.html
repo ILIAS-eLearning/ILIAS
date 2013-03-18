@@ -30,7 +30,13 @@
 		{FORM_ADDITIONAL_JS}
 	</li><!-- END posts_row --><!-- BEGIN posts_no -->
 	<li>{TXT_MSG_NO_POSTS_AVAILABLE}</li><!-- END posts_no -->
-</ul><!-- END posttable -->
+</ul><!-- BEGIN jump2anchor -->
+<script type="text/javascript">
+    $(function() {
+        document.location.href = "#{JUMP2ANCHOR_ID}"; 
+    });
+</script><!-- END jump2anchor -->
+<!-- END posttable -->
 
 {THREAD_MENU}
 {THREAD_TOOLBAR}
