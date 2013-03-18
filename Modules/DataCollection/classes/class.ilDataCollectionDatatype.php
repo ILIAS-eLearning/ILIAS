@@ -629,9 +629,9 @@ class ilDataCollectionDatatype
                 if($arr_properties[ilDataCollectionField::PROPERTYID_URL])
 				{
                     $link = $value;
-                    if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/", $value))
+                    if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $value))
                         $value = "mailto:".$value;
-                    elseif(!(preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value)))
+                    elseif(!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value)))
                         return $link;
 
                     if(strlen($link) > self::LINK_MAX_LENGTH){

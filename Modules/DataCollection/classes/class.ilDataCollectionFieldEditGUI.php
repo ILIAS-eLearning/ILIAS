@@ -211,6 +211,7 @@ class ilDataCollectionFieldEditGUI
 
 		$text_prop = new ilTextInputGUI($lng->txt("title"), "title");
 		$text_prop->setRequired(true);
+        $text_prop->setValidationRegexp("/^[a-zA-Z\d -.,äöüÄÖÜàéèÀÉÈç¢]*$/i");
 		$this->form->addItem($text_prop);
 
 
