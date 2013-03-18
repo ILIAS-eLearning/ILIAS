@@ -9962,7 +9962,7 @@ content#:#cont_set_alignment#:#Set Alignment###16 07 2010 new variable
 rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.###16 07 2010 new variable
 administration#:#adm_db_benchmark#:#DB Benchmark###16 07 2010 new variable
 administration#:#adm_activate_db_benchmark#:#Activate Benchmark###16 07 2010 new variable
-administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.###16 07 2010 new variable
+administration#:#adm_activate_db_benchmark_desc#:#Benchmarking bliver automatisk deaktiveret efter et enkelt kald.
 administration#:#adm_db_benchmark_user#:#User Account Name###16 07 2010 new variable
 administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.###16 07 2010 new variable
 administration#:#adm_db_bench_chronological#:#Chronological###16 07 2010 new variable
@@ -10191,7 +10191,7 @@ meta#:#meta_c_MF#:#Saint Martin (French part)###16 07 2010 new variable
 meta#:#meta_c_PS#:#Palestinian Territories (Occupied)###16 07 2010 new variable
 meta#:#meta_c_RS#:#Serbia###16 07 2010 new variable
 meta#:#meta_c_TL#:#Timor-Leste###16 07 2010 new variable
-common#:#sel_country#:#Country###16 07 2010 new variable
+common#:#sel_country#:#Land
 book#:#book_booking_types#:#Types###16 07 2010 new variable
 book#:#book_schedules#:#Schedules###16 07 2010 new variable
 book#:#book_no_of_objects#:#No. of Objects###16 07 2010 new variable
@@ -10242,10 +10242,10 @@ common#:#obj_book#:#Booking Pool###16 07 2010 new variable
 common#:#objs_book#:#Booking Pools###16 07 2010 new variable
 book#:#book_pool_added#:#A booking pool has been added.###16 07 2010 new variable
 book#:#book_create_title#:#Add Booking Pool###16 07 2010 new variable
-common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
-common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable
+common#:#country_selection#:#Land (valg fra rullemenu)
+common#:#country_free_text#:#Land (fritekst indtastning)
 survey#:#mail_survey_codes#:#Mail access codes###19 07 2010 new variable
-survey#:#recipients#:#Recipients###19 07 2010 new variable
+survey#:#recipients#:#Modtagere
 survey#:#not_sent_only#:#Only to new recipients (who did not receive a mail yet)###19 07 2010 new variable
 survey#:#message_content_info#:#Enter the mail message for the notification mail containing the survey codes for the participants. You may use the placeholders [code] (the access code), [url] (the URL to this survey), and participant related data depending on your import fields: %s. The placeholders will be replaced with the imported user data in the mail.###19 07 2010 new variable
 survey#:#default_codes_mail_subject#:#Your access code for %s###19 07 2010 new variable
@@ -10253,7 +10253,7 @@ survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can
 survey#:#please_enter_mail_subject#:#Please enter a mail subject###19 07 2010 new variable
 survey#:#please_enter_mail_message#:#Please enter a mail message###19 07 2010 new variable
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]###19 07 2010 new variable
-survey#:#mail_sent_short#:#Sent###19 07 2010 new variable
+survey#:#mail_sent_short#:#Sent
 survey#:#finished_mail_subject#:#The survey was finished###19 07 2010 new variable
 dateplaner#:#cal_registrations#:#Appointment Registrations###19 07 2010 new variable
 dateplaner#:#cal_cg_registrations#:#Registration for Course/Group Appointments###19 07 2010 new variable
@@ -10397,8 +10397,8 @@ common#:#disk_quota_exceeded_headline#:#the following users have exceeded their 
 common#:#usrf_profile_link#:#Link to user profile###27 08 2010 new variable
 common#:#currently_used_disk_space#:#Currently used disk space###27 08 2010 new variable
 common#:#cronjob_last_start_unknown#:#Indeterminate###27 08 2010 new variable
-trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress###27 08 2010 new variable
-trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.###27 08 2010 new variable
+trac#:#trac_lp_determination_tutor#:#Liste over materialer i læringsfremskridt
+trac#:#trac_lp_determination_info_crs_tutor#:#Denne This selection is not connected to the learning progress status.###27 08 2010 new variable
 trac#:#trac_average#:#Gennemsnit
 trac#:#trac_sum#:#Sum
 trac#:#trac_others#:#Andre
@@ -11681,7 +11681,7 @@ prtf#:#prtf_tab_other_users#:#Portfolios From Other Users###02 09 2011 new varia
 wsp#:#wsp_password_protected_resource#:#Password-protected Resource###02 09 2011 new variable
 wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.###02 09 2011 new variable
 wsp#:#wsp_password_for#:#Password for###02 09 2011 new variable
-administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
+administration#:#adm_show_comments_tagging_in_lists#:#Vis antal noter, kommentarer og tags i lister med objekter.
 content#:#cont_edit_mode#:#Redigeringstype
 wiki#:#wiki_block_page#:#Bloker side
 wiki#:#wiki_unblock_page#:#Fjern sideblokering
@@ -12936,11 +12936,11 @@ ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name###27 12 2012 new variable
 ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute###27 12 2012 new variable
 ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute###27 12 2012 new variable
 ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values###27 12 2012 new variable
-ecs#:#ecs_cmap_form_current_dir#:#Current Directory###27 12 2012 new variable
+ecs#:#ecs_cmap_form_current_dir#:#Nuværende mappe
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
 content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
 content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
-dcl#:#dcl_export_enabled#:#Allow export function for all users###14 01 2013 new variable
+dcl#:#dcl_export_enabled#:#Tillad eksport for alle brugere
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
 dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
 rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
