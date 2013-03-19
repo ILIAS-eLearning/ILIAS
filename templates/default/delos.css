@@ -1439,7 +1439,13 @@ div.il_ButtonGroup
 	display: block;
 }
 
-input.submit, a.submit, a.submit:hover {
+div.il_ButtonGroup.il_BigButton {
+	margin: 25px; 
+	text-align: center; 
+	font-size: 25px;
+}
+
+input.submit, a.submit {
 	font-size: 80%;
 	font-weight: normal;
 	line-height: 17px; /* Safari */
@@ -1452,6 +1458,11 @@ input.submit, a.submit, a.submit:hover {
 	text-decoration: none;
 	cursor: pointer;
 	display: inline-block;
+}
+
+input.submit.il_BigButton {
+	padding: 10px;
+	margin: 0 10px 0 0;
 }
 
 input.submit:hover, a.submit:hover
