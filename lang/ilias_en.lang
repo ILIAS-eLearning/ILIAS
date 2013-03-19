@@ -12695,6 +12695,7 @@ dcl#:#dcl_record_id#:#Record ID
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_url#:#URL or Email
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.
 dateplaner#:#cal_setting_global_vis_repos#:#Repository Calendar
 dateplaner#:#cal_setting_global_crs_vis#:#Show in Courses
 dateplaner#:#cal_setting_global_grp_vis#:#Show in Groups
