@@ -7588,20 +7588,15 @@ forum#:#add_re_to_subject#:#Beim Antworten auf einen Beitrag wird der Titel des 
 forum#:#add_re_to_subject_info#:#Wenn diese Option aktiviert ist, wird dem Beitragstitel der Zusatz 'Re:' hinzugefügt.
 forum#:#close_topics#:#Schließen
 forum#:#deactivate_current_and_childs#:#Alle Beitrage sperren
-forum#:#deactivate_post#:#Sperren
 forum#:#deactivate_post_txt#:#Möchten Sie wirklich diesen Beitrag und alle seine Folgebeiträge sperren?
 forum#:#empty_subject#:#Beim Antworten auf einen Beitrag bleibt die Titelzeile leer und muss vom Benutzer gefüllt werden.
 forum#:#enter_new_subject#:#Bitte geben Sie einen neuen Beitragstitel ein
 forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
 forum#:#forum_add_quote#:#Zitieren
-forum#:#forum_anonymize#:#Anonym Schreiben
-forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS-Benutzername wird nicht angezeigt).
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Themen wurden als gelesen markiert.
 forum#:#forums_attachments#:#Dateianhänge
 forum#:#forums_attachments_add#:#Datei anhängen
-forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
-forum#:#forums_available#:#Verfügbare Foren
 forum#:#forums_censor_comment#:#Bemerkung des Zensors
 forum#:#forums_count#:#Anzahl Foren
 forum#:#forums_count_art#:#Anzahl Beiträge
@@ -7616,22 +7611,15 @@ forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht meh
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller darauf folgenden Beiträge gelöscht werden soll?
 forum#:#forums_mark_read#:#Alle auf gelesen setzen
-forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
 forum#:#forums_no_posts_available#:#Dieses Thema hat noch keine Beiträge oder der Startbeitrag wurde vom Moderator deaktiviert.
-forum#:#forums_not_available#:#Keine Foren verfügbar
-forum#:#forums_notification#:#Benachrichtigung
 forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
 forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
-forum#:#forums_notification_is_disabled#:#Sie werden noch nicht über neue Beiträge in diesem Thema benachrichtigt.
-forum#:#forums_notification_is_enabled#:#Sie werden bereits über neue Beiträge in diesem Thema benachrichtigt.
 forum#:#forums_notification_show_post#:#Zum Beitrag gehen: %s
 forum#:#forums_notification_subject#:#Neuer Beitrag im Forum:
-forum#:#forums_overview#:#Übersicht Foren
 forum#:#forums_post_activation_mail#:#Solange der folgende Beitrag nicht aktiviert ist, ist er für andere Forenteilnehmer nicht sichtbar. Sie erhalten diese Mail, da sie als Moderator eingetragen sind und die Berechtigung besitzen, diesen Beitrag zu aktivieren.
 forum#:#forums_post_and_children_were_activated#:#Der Beitrag und seine Folgebeiträge wurden aktiviert.
-forum#:#forums_post_and_children_were_deactivated#:#Der Beitrag und seine Folgebeiträge wurden deaktiviert.
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_needs_to_be_activated#:#Der Beitrag wurde eingetragen, muss aber von einem Moderator aktiviert werden.
@@ -7640,19 +7628,13 @@ forum#:#forums_post_was_activated#:#Der Beitrag wurde aktiviert.
 forum#:#forums_posts#:#Alle Beiträge
 forum#:#forums_posts_not_available#:#Keine Beiträge verfügbar
 forum#:#forums_print_thread#:#Thema drucken
-forum#:#forums_print_view#:#Druckansicht
-forum#:#forums_quote#:#Zitieren
-forum#:#forums_respond#:#Antworten
 forum#:#forums_subject#:#Titel
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
-forum#:#forums_thread_articles#:#Beiträge zum Thema
 forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
-forum#:#forums_threads_not_available#:#Keine Themen verfügbar
-forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihr Beitrag
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer nur mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge in diesem Forum schreiben.
@@ -7664,11 +7646,7 @@ forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_role_added_successfully#:#Der Benutzer wurde als Moderator hinzugefügt.
 forum#:#frm_moderators#:#Moderatoren
 forum#:#frm_moderators_detached_role_successfully#:#Für die ausgewählten Benutzer wurde die Moderatorenrolle erfolgreich entfernt.
-forum#:#frm_moderators_do_search#:#Suchen
-forum#:#frm_moderators_matches_in_no_results#:#Ihre Suche ergab keine Treffer.
 forum#:#frm_moderators_not_exist_yet#:#Bitte wählen Sie einen Moderator aus.
-forum#:#frm_moderators_search#:#Benutzersuche
-forum#:#frm_moderators_search_query#:#Suchbegriff(e)
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens einen Moderator aus.
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer, dem Sie die Moderatorenrolle zuweisen möchten.
 forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht aktiviert.
@@ -7681,31 +7659,24 @@ forum#:#frm_statistics_enabled_desc#:#Statistik für alle Forenteilnehmer anzeig
 forum#:#frm_statistics_ranking#:#Anzahl der Beiträge
 forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
-forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
 forum#:#is_read#:#Gelesen
-forum#:#make_topic_non_sticky#:#"Top-Thema"-Einstufung aufheben
-forum#:#make_topic_sticky#:#Thema zu "Top-Thema" machen
 forum#:#make_topics_non_sticky#:#"Top-Thema"-Einstufung aufheben
 forum#:#make_topics_sticky#:#Thema zu "Top-Thema" machen
 forum#:#mark_moderator_posts#:#Moderatoren-Beiträge markieren
 forum#:#mark_moderator_posts_desc#:#Wenn aktiviert, werden Beiträge der Benutzer farblich hervorgehoben, die die Moderatorenrolle in diesem Forum inne haben.
 forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
 forum#:#new_post#:#Neuer Beitrag
-forum#:#no_forum_available_for_moving_threads#:#Es konnte kein Forum gefunden werden, in das die ausgewählten Themen verschoben werden können.
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt
 forum#:#post_activation_desc#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Moderator freigeschaltet werden.
 forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert, Bemerkung des Moderators
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Beim Antworten auf einen Beitrag wird als Titel automatisch der Titel des vorhergehenden Beitrags übernommen.
-forum#:#preset_subject_info#:#Wenn diese Option ausgeschaltet ist, muss der Benutzer bei Beiträgen einen neuen Titel eingeben.
 forum#:#reopen_topics#:#Wiedereröffnen
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
 forum#:#sticky#:#'Top-Thema'
-forum#:#sure_move_threads#:#Sollen die gewählten Themen wirklich verschoben werden?
 forum#:#thread#:#Thema
 forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
-forum#:#to_forum#:#In Forum
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Benutzer entscheidet selbst über Benachrichtigung
@@ -12999,10 +12970,10 @@ survey#:#svy_invite_action#:#NutzerInnen zu einer Umfrage einladen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
-frm#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen 
-frm#:#frm_sorting_threads#:#Themen-Sortierung
-frm#:#frm_sorting_posts#:#Beitrags-Sortierung
-frm#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.
+forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen 
+forum#:#frm_sorting_threads#:#Themen-Sortierung
+forum#:#frm_sorting_posts#:#Beitrags-Sortierung
+forum#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.
 mail#:#cron_update_addressbook#:#Adressbucheinträge automatisch synchronisieren 
 mail#:#cron_update_addressbook_desc#:#Wenn diese Option eingeschaltet ist, haben Benutzer die Möglichkeit festzulegen, ob mit Benutzerkonten verknüpfte Adressbucheintrage durch den Cronjob synchronisiert werden sollen. Es werden nur jene Daten aktualisiert, die vom Benutzer freigegeben wurden. 
 mail#:#auto_update#:#Aktualisierung
