@@ -2008,7 +2008,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			if(!$path = $file_obj->getFileDataByMD5Filename($_GET['file']))
 			{
-				ilUtil::sendFailure('error_reading_file');
+				ilUtil::sendFailure($this->lng->txt('error_reading_file'));
 			}
 			else
 			{

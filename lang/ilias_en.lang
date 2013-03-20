@@ -1948,7 +1948,7 @@ common#:#create_stylesheet#:#Create Style
 common#:#create#:#Create
 common#:#created#:#Creation Date
 common#:#cron_forum_notification_cron#:#regularly per cron job
-common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by mail.
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 common#:#cron_forum_notification_directly#:#directly on new entries
 common#:#cron_forum_notification_never#:#never
 common#:#cron_forum_notification#:#Send Forum Notifications
@@ -2374,9 +2374,8 @@ common#:#forum_direct_notification#:#Direct Notification
 common#:#forum_general_notification#:#General Notification
 common#:#forum_import_file#:#Import file
 common#:#forum_import#:#Forum import
-common#:#forum_notification#:#Notification
 common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.
-common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my thread.
 common#:#forum_notify_me#:#Notify me when a reply is posted
 common#:#forum_post_replied#:#Your forum entry has been replied.
 common#:#forum#:#Forum
@@ -2391,13 +2390,13 @@ common#:#forums_moderators#:#Moderators
 common#:#forums_new_articles#:#New Articles
 common#:#forums_notification_settings#:#Forums Notification Settings
 common#:#forums_overview#:#Forums Overview
-common#:#forums_threads#:#Topics
+common#:#forums_threads#:#Threads
 common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by 'anonym'.
 common#:#forums_your_name#:#Your Name
 common#:#forums#:#Forums
 common#:#frm_a#:#a Forum
 rbac#:#frm_add_reply#:#Users can reply to a posting
-rbac#:#frm_add_thread#:#User can add a new topic
+rbac#:#frm_add_thread#:#User can add a new thread
 common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
 common#:#frm_article#:#article
@@ -6487,45 +6486,34 @@ forum#:#activate_post#:#Activate
 forum#:#close_topics#:#Close
 forum#:#deactivate_current_and_childs#:#Deactivate All Postings
 forum#:#deactivate_post_txt#:#Would you really like to deactivate the current posting and all its child postings?
-forum#:#deactivate_post#:#Deactivate
 forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.
 forum#:#forum_add_quote#:#Add Quotation
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
-forum#:#forum_anonymize#:#Write anonymously
-forum#:#forums_all_threads_marked_read#:#All topics have been marked as read
+forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
 forum#:#forums_attachments_add#:#Add attachment
-forum#:#forums_attachments_edit#:#Edit attachment
 forum#:#forums_attachments#:#Attachments
-forum#:#forums_available#:#Available Forums
 forum#:#forums_censor_comment#:#Comment of Censor
 forum#:#forums_count_art#:#Number of Articles
-forum#:#forums_count_thr#:#Number of Topics
+forum#:#forums_count_thr#:#Number of Threads
 forum#:#forums_count#:#Number of Forums
 forum#:#forums_created_by#:#Created by
 forum#:#forums_delete_file#:#Delete attachment
-forum#:#forums_disable_notification#:#Disable Notification for this Topic
+forum#:#forums_disable_notification#:#Disable Notification for this Thread
 forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_post#:#Edit Article
-forum#:#forums_enable_notification#:#Enable Notification for this Topic
+forum#:#forums_enable_notification#:#Enable Notification for this Thread
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_mark_read#:#Mark All as Read
-forum#:#forums_new_entries#:#New Forum Entries
-forum#:#forums_new_thread#:#New Topic
-forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.
-forum#:#forums_not_available#:#Forums Not Available
+forum#:#forums_new_thread#:#New Thread
+forum#:#forums_no_posts_available#:#This thread has no posts yet or the moderator deactivated the first post.
 forum#:#forums_notification_disabled#:#Notification disabled
 forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
-forum#:#forums_notification_is_disabled#:#Your notification about new postings in this topic is not (yet) enabled.
-forum#:#forums_notification_is_enabled#:#At the moment your notification about new postings in this topic is already enabled.
 forum#:#forums_notification_show_post#:#Show posting: %s
 forum#:#forums_notification_subject#:#New posting in forum
 forum#:#forums_notification#:#Notification
-forum#:#forums_overview#:#Forums Overview
 forum#:#forums_post_and_children_were_activated#:#The posting and all its child postings were activated.
-forum#:#forums_post_and_children_were_deactivated#:#The posting and all its child postings were deactivated.
 forum#:#forums_post_deleted#:#Posting has been deleted
 forum#:#forums_post_modified#:#Posting has been modified
 forum#:#forums_post_needs_to_be_activated#:#A new posting has been created, but it needs to be activated by a moderator.
@@ -6533,20 +6521,14 @@ forum#:#forums_post_new_entry#:#A new posting has been created
 forum#:#forums_post_was_activated#:#The posting was activated.
 forum#:#forums_posts_not_available#:#Postings Not Available
 forum#:#forums_posts#:#All postings
-forum#:#forums_print_thread#:#Print Topic
-forum#:#forums_print_view#:#Print View
-forum#:#forums_quote#:#Quote
-forum#:#forums_respond#:#Post Reply
+forum#:#forums_print_thread#:#Print Thread
 forum#:#forums_subject#:#Subject
 forum#:#forums_the_post#:#Posting
-forum#:#forums_thread_articles#:#Postings of the topic
 forum#:#forums_thread_create_date#:#Created on
 forum#:#forums_thread_create_from#:#Created from
-forum#:#forums_thread_marked#:#The topic has been marked as read.
+forum#:#forums_thread_marked#:#The thread has been marked as read.
 forum#:#forums_thread_new_entry#:#New topic has been created
-forum#:#forums_thread#:#Topic
-forum#:#forums_threads_not_available#:#Topics Not Available
-forum#:#forums_topics_overview#:#Topics Overview
+forum#:#forums_thread#:#Thread
 forum#:#forums_your_reply#:#Your Reply
 forum#:#forums#:#Forums
 forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name.
@@ -6557,11 +6539,7 @@ forum#:#frm_moderator_f#:#Moderator
 forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_role_added_successfully#:#The user was added as moderator successfully.
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.
-forum#:#frm_moderators_do_search#:#Search
-forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any results.
 forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator.
-forum#:#frm_moderators_search_query#:#Search term(s)
-forum#:#frm_moderators_search#:#User Search
 forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.
 forum#:#frm_moderators_select_one#:#Please choose one user.
 forum#:#frm_moderators#:#Moderators
@@ -6574,26 +6552,20 @@ forum#:#frm_statistics_enabled#:#Enable Statistics
 forum#:#frm_statistics_ranking#:#Number of Postings
 forum#:#frm_statistics#:#Statistics
 forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads?
-forum#:#frm_title_required#:#Please insert a title.
 forum#:#frm_wizard_page#:#Copy Forum (Step 2/2)
 forum#:#is_read#:#Mark as Read
-forum#:#make_topic_non_sticky#:#Make Topic Non-Sticky
-forum#:#make_topic_sticky#:#Make Topic Sticky
-forum#:#make_topics_non_sticky#:#Make Topics Non-Sticky
-forum#:#make_topics_sticky#:#Make Topics Sticky
-forum#:#move_chosen_topics#:#Move Chosen Topics
+forum#:#make_topics_non_sticky#:#Make Threads Non-Sticky
+forum#:#make_topics_sticky#:#Make Threads Sticky
+forum#:#move_chosen_topics#:#Move Chosen Threads
 forum#:#new_post#:#New Post
-forum#:#no_forum_available_for_moving_threads#:#No forum available to move the chosen topics to.
-forum#:#no_forum_selected#:#No forum selected for moving the chosen topics
+forum#:#no_forum_selected#:#No forum selected for moving the chosen threads
 forum#:#post_activation_desc#:#Before being published all postings need to be approved by a moderator.
 forum#:#post_censored_comment_by_moderator#:#Posting Censored, Comment by Moderator
 forum#:#reopen_topics#:#Reopen
-forum#:#select_at_least_one_thread#:#Please select at least one topic.
+forum#:#select_at_least_one_thread#:#Please select at least one thread.
 forum#:#sticky#:#Sticky
-forum#:#sure_move_threads#:#Are you sure you want to move the chosen topics?
-forum#:#thread#:#Topic
-forum#:#threads_moved_successfully#:#The chosen topics were moved to another forum successfully.
-forum#:#to_forum#:#To Forum
+forum#:#thread#:#Thread
+forum#:#threads_moved_successfully#:#The chosen threads were moved to another forum successfully.
 forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:
@@ -10005,7 +9977,6 @@ mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via
 content#:#glo_quick_navigation#:#Quick Navigation
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Preset subject on reply
-forum#:#preset_subject_info#:#If disabled the user have to enter a new title for postings.
 administration#:#obj_frma#:#Forum
 administration#:#obj_frma_desc#:#Global Forum Settings
 administration#:#forum_settings#:#Forumsettings
@@ -12999,22 +12970,22 @@ survey#:#svy_invite_action#:#Invite users to a survey
 rbac#:#chtr_delete#:#User can move or delete course
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
-frm#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
-frm#:#frm_sorting_threads#:#Thread Sorting
-frm#:#frm_sorting_posts#:#Posts Sorting
-frm#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of topics. Within the "Sticky Threads" you are able to sort the topics manually, if you have chosen this option.
+forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
+forum#:#frm_sorting_threads#:#Thread Sorting
+forum#:#frm_sorting_posts#:#Posts Sorting
+forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.
 mail#:#cron_update_addressbook#:#Synchronize address book entries automatically
 mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.
 mail#:#auto_update#:#Update
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 forum#:#merge#:#Merge
-forum#:#please_choose_target#:#Please choose a topic as merge target.
-forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these topics? Warning: This action can not be undone! Eventually ILIAS swaps source and target topic if the first posting of the source topic is created earlier than the first posting of the target topic.
-forum#:#not_allowed_to_merge_into_another_forum#:#It is not possible to merge topics of different forums.
-forum#:#frm_selected_merge_src#:#Selected Topic to Merge: %s
-forum#:#error_same_thread_ids#:#Source and target topic have to be different.
-forum#:#frm_merge_src#:#Selected Topic: %s
+forum#:#please_choose_target#:#Please choose a thread as merge target.
+forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target thread if the first posting of the source thread is created earlier than the first posting of the target thread.
+forum#:#not_allowed_to_merge_into_another_forum#:#It is not possible to merge threads of different forums.
+forum#:#frm_selected_merge_src#:#Selected Thread to Merge: %s
+forum#:#error_same_thread_ids#:#Source and target thread have to be different.
+forum#:#frm_merge_src#:#Selected Thread: %s
 forum#:#frm_merge_target#:#Target: %s
 forum#:#merged_threads_successfully#:#The selected threads were merged successfully
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
