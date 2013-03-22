@@ -12815,9 +12815,9 @@ content#:#cont_sc_usession_info#:#This setting activates periodical requests to 
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
 content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.
 survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool.
-survey#:#survey_question_pool_usage_active_info#:#The questions can be re-used in other surveys.
+survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used. 
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
-survey#:#survey_question_pool_usage_inactive_info#:#The questions cannot be re-used in other surveys.
+survey#:#survey_question_pool_usage_inactive_info#:#The questions can be added to a question pool manually later but are created only for the survey first.
 mcst#:#mcst_viewmode#:#Presentation Mode
 mcst#:#mcst_list#:#List
 mcst#:#mcst_gallery#:#Gallery
