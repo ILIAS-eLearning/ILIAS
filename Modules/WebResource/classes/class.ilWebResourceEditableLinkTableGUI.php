@@ -281,9 +281,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 		
 		// Column title
 		$this->tpl->setVariable('TXT_TITLE',$this->lng->txt('title'));
-		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
+		$this->tpl->setVariable('VAL_TITLE',ilUtil::prepareFormOutput($a_set['title']));
 		$this->tpl->setVariable('TXT_DESC',$this->lng->txt('description'));
-		$this->tpl->setVariable('VAL_DESC',$a_set['description']);
+		$this->tpl->setVariable('VAL_DESC',ilUtil::prepareFormOutput($a_set['description']));
 		
 		// Column Target
 		$this->tpl->setVariable('TXT_TARGET',$this->lng->txt('target'));
