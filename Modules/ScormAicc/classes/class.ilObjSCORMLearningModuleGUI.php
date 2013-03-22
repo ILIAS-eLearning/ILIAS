@@ -584,21 +584,22 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
 	function confirmedDelete()
 	{
-		global $ilDB, $ilUser;
+		global $ilDB;
+		
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 
 		foreach($_POST["user"] as $user)
 		{
-			$ret = $ilDB->manipulateF('
-			DELETE FROM scorm_tracking
-			WHERE user_id = %s
-			AND obj_id = %s',
-			array('integer', 'integer'),
-			array($user, $this->object->getID()));
+			$ilDB->manipulateF('
+				DELETE FROM scorm_tracking
+				WHERE user_id = %s
+				AND obj_id = %s',
+				array('integer', 'integer'),
+				array($user, $this->object->getID()));
+			
+			ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
 		}
-
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
-
+				
 		$this->ctrl->redirect($this, "showTrackingItems");
 	}
 
