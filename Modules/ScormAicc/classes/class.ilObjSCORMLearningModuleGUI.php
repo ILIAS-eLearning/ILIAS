@@ -586,7 +586,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	{
 		global $ilDB, $ilUser;
 
-		foreach($_SESSION["scorm_user_delete"] as $user)
+		foreach($_POST["user"] as $user)
 		{
 			$ret = $ilDB->manipulateF('
 			DELETE FROM scorm_tracking
