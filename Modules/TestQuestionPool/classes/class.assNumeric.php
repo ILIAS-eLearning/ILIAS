@@ -290,11 +290,13 @@ class assNumeric extends assQuestion
 	
 	function setLowerLimit($a_limit)
 	{
+		$a_limit = str_replace(',', '.', $a_limit);
 		$this->lower_limit = $a_limit;
 	}
 	
 	function setUpperLimit($a_limit)
 	{
+		$a_limit = str_replace(',', '.', $a_limit);
 		$this->upper_limit = $a_limit;
 	}
 	
