@@ -235,8 +235,16 @@ class ilICalParser
 					$this->log->write(__METHOD__.': Do not handling line:'.$line);
 					continue;
 				}
-				list($params,$values) = $this->splitLine($line);
-				$this->storeItems($params,$values);
+				if(strpos(trim($line),'X-WR-TIMEZONE') === 0)
+				{
+					list($param,$value) = $this->splitLine($line);
+					$this->default_timezone = $this->getTZ($value);
+				}
+				else
+				{
+					list($params,$values) = $this->splitLine($line);
+					$this->storeItems($params,$values);
+				}
 				break;
 		}
 	
@@ -393,7 +401,7 @@ class ilICalParser
 			else
 			{
 				$this->log->write(__METHOD__.': Found new timezone: '.$timezone);
-				return ilTimeZone::_getInstance($timezone);
+				return ilTimeZone::_getInstance(trim($timezone));
 			}
 		}
 		catch(ilTimeZoneException $e)
