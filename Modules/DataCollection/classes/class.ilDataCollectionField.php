@@ -824,7 +824,7 @@ class ilDataCollectionField
 	/*
 	 * checkValidity
 	 */
-	public function checkValidity($value, $record_id)
+	public function checkValidity($value, $record_id = null)
 	{
 		//Don't check empty values
 		if($value == NULL)
@@ -870,7 +870,7 @@ class ilDataCollectionField
         }
 
 		
-		if($this->isUnique() && $record_id)
+		if($this->isUnique() && $record_id === null)
 		{
 			$table = ilDataCollectionCache::getTableCache($this->getTableId());
 			
