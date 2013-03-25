@@ -41,8 +41,7 @@ class ilGoogleMapUtil
 	static function isActivated()
 	{
 		$gm_set = new ilSetting("google_maps");
-		if (trim($gm_set->get("api_key")) != "" &&
-			$gm_set->get("enable"))
+		if ($gm_set->get("enable"))
 		{
 			return true;
 		}
