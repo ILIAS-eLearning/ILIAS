@@ -338,7 +338,16 @@ class ilDateTime
 					throw new ilDateTimeException('Cannot parse date.');
 				}
 				
-				$this->timezone->switchTZ();
+				// UTC designator
+				if($d_parts[9] == 'Z')
+				{
+					$utc = ilTimeZone::_getInstance('UTC');
+					$utc->switchTZ();
+				}
+				else
+				{
+					$this->timezone->switchTZ();
+				}
 				$this->unix = mktime(
 					isset($d_parts[5]) ? $d_parts[5] : 0, 
 					isset($d_parts[6]) ? $d_parts[6] : 0,
@@ -352,7 +361,14 @@ class ilDateTime
 					$this->unix = 0;
 				}
 
-				$this->timezone->restoreTZ();
+				if($d_parts[9] == 'Z')
+				{
+					$utc->restoreTZ();
+				}
+				else
+				{
+					$this->timezone->restoreTZ();
+				}
 				break;
 
 			case IL_CAL_DATE:
