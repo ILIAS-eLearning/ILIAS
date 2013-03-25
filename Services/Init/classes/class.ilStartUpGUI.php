@@ -1561,13 +1561,7 @@ class ilStartUpGUI
 			ilInitialisation::goToPublicSection();
 		}
 		else
-		{							
-			// user agreement accepted?
-			if(!$ilUser->hasAcceptedUserAgreement())
-			{
-				ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
-			}													
-			
+		{										
 			// for password change and incomplete profile 
 			// see ilPersonalDesktopGUI
 			
