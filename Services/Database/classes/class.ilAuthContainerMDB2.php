@@ -81,5 +81,37 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 		return $username;
 	}
 	
+	
+	/** 
+	 * Called from fetchData after successful login.
+	 *
+	 * @param string username
+	 */
+	public function loginObserver($a_username,$a_auth)
+	{
+		$usr_id = ilObjUser::_lookupId($a_username);
+		$auth_mode = ilObjUser::_lookupAuthMode($usr_id);
+		$auth_id = ilAuthUtils::_getAuthMode($auth_mode);
+
+		$GLOBALS['ilLog']->write(__METHOD__.': auth id =  ' . $auth_id);
+		
+		switch($auth_id)
+		{
+			case AUTH_LOCAL:
+				return true;
+				
+			default:
+				if(ilAuthUtils::isPasswordModificationEnabled($auth_id))
+				{
+					return true;
+				}
+		}
+		
+
+		$a_auth->status = AUTH_WRONG_LOGIN;
+		$a_auth->logout();
+		
+		return false;
+	}	
 }
 ?>
