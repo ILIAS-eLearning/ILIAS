@@ -594,14 +594,13 @@ class ilInitialisation
 	protected static function checkUserAgreement(ilObjUser $a_user)
 	{
 		// are we currently in user agreement acceptance?
-		if (strtolower($_GET["cmdClass"]) == "ilstartupgui" &&
-			(strtolower($_GET["cmd"]) == "getacceptance" ||
-			(is_array($_POST["cmd"]) &&
-			key($_POST["cmd"]) == "getAcceptance")))
+		if(strtolower($_GET["cmdClass"]) == "ilstartupgui" && 
+		   (strtolower($_GET["cmd"]) == "getacceptance" || (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "getAcceptance")) || 
+		   substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) ==  'logout.php')
 		{
 			return;
 		}
-				
+
 		if($a_user->hasToAcceptTermsOfService() &&			
 			$a_user->hasToAcceptTermsOfServiceInSession() &&
 			$a_user->checkTimeLimit())
