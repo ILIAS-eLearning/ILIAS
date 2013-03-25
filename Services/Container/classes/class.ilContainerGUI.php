@@ -483,21 +483,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
 						{
-							if (!$row["plugin"])
-							{
-								$subobj[] = array("value" => $row["name"],
-									"title" => $lng->txt("obj_".$row["name"]),
-									"img" => ilObject::_getIcon("", "tiny", $row["name"]),
-									"alt" => $lng->txt("obj_".$row["name"]));
-							}
-							else
+							$title = $this->lng->txt("obj_".$row["name"]);
+							if ($row["plugin"])
 							{
 								include_once("./Services/Component/classes/class.ilPlugin.php");
-								$subobj[] = array("value" => $row["name"],
-									"title" => ilPlugin::lookupTxt("rep_robj", $row["name"], "obj_".$row["name"]),
-									"img" => ilObject::_getIcon("", "tiny", $row["name"]),
-									"alt" => $lng->txt("obj_".$row["name"]));
-							}
+								$title = ilPlugin::lookupTxt("rep_robj", $row["name"], "obj_".$row["name"]);
+							}							
+							$subobj[] = array("value" => $row["name"],
+								"title" => $title,
+								"img" => ilObject::_getIcon("", "tiny", $row["name"]),
+								"alt" => $title);				
 						}
 					}
 				}
