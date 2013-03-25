@@ -12537,8 +12537,8 @@ dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_locked#:#Gesperrt
 dcl#:#dcl_table_settings#:#Tabelleneinstellungen
 dcl#:#dcl_add_perm#:#Neuen Datensatz hinzufügen
-dcl#:#dcl_edit_perm#:#Alle Datensätze bearbeiten
-dcl#:#dcl_delete_perm#:#Alle Datensätze löschen
+dcl#:#dcl_edit_perm#:#Datensätze bearbeiten
+dcl#:#dcl_delete_perm#:#Datensätze löschen
 dcl#:#dcl_edit_by_owner#:#Nur eigene Datensätze bearbeiten oder löschen
 dcl#:#dcl_limited#:#Zeitliche Beschränkung für das Hinzufügen, Bearbeiten und Löschen
 dcl#:#dcl_record_id#:#Datensatz-ID
