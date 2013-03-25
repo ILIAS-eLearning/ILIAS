@@ -1042,7 +1042,7 @@ class ilPersonalProfileGUI
 		$this->form = new ilPropertyFormGUI();
 		
 		$this->form->setTitle($lng->txt("public_profile"));
-		$this->form->setDescription($lng->txt("user_public_profile_info").$prtf);
+		$this->form->setDescription($lng->txt("user_public_profile_info"));
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		
 		$portfolio_id = $this->getProfilePortfolio();
@@ -1071,7 +1071,11 @@ class ilPersonalProfileGUI
 			}
 			$this->form->addItem($radg);
 			
-			$radg->setInfo($lng->txt("user_profile_portfolio"));
+			// #10826
+			$prtf = $lng->txt("user_profile_portfolio");
+			$prtf .= "<br /><a href=\"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio\">&raquo; ".
+				$lng->txt("user_portfolios")."</a>";			
+			$radg->setInfo($prtf);
 		}
 		else
 		{
