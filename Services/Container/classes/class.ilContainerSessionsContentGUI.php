@@ -128,19 +128,24 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		// sessions
 		$done_sessions = false;
 		$tpl = $this->newBlockTemplate();
-		if (is_array($this->items["sess"]))
+		if (
+				is_array($this->items["sess"]) or 
+				$this->items['sess_link']['prev']['value'] or
+				$this->items['sess_link']['next']['value'])
 		{
 			$this->items['sess'] = ilUtil::sortArray($this->items['sess'],'start','ASC',true,true);
 			
 			// all rows
 			$item_html = array();
 			$position = 1;
+			
+			if($this->items['sess_link']['prev']['value'])
+			{
+				$item_html[] = $this->renderSessionLimitLink(true);
+			}
+			
 			foreach($this->items["sess"] as $item_data)
 			{
-				if($position == 1 and $this->items['sess_link']['prev']['value'])
-				{
-					$item_html[] = $this->renderSessionLimitLink(true);
-				}
 				if ($this->rendered_items[$item_data["child"]] !== true)
 				{
 					$html = $this->renderItem($item_data,$position++,true);
