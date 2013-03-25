@@ -11,7 +11,7 @@
 <!ELEMENT CreateDate (#PCDATA)>
 <!ELEMENT LastUpdate (#PCDATA)>
 <!ELEMENT ImportId (#PCDATA)>
-<!ELEMENT Properties(*Property)>
+<!ELEMENT Properties(Property*)>
 <!ELEMENT Property(#PCDATA)>
 <!ATTLIST Property
 	name CDATA #REQUIRED
