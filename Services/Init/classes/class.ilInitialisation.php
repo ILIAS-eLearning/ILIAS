@@ -574,12 +574,40 @@ class ilInitialisation
 		{
 			$ilUser->setId($uid);	
 			$ilUser->read();
+						
+			// #10822 - Terms of service accepted?
+			self::checkUserAgreement($ilUser);
+			
 		}
 		else
 		{
 			$GLOBALS['ilLog']->logStack();
 			self::abortAndDie("Init user account failed");
 		}
+	}
+	
+	/**
+	 * Check user agreement for every request
+	 * 
+	 * @param ilObjUser $a_user
+	 */
+	protected static function checkUserAgreement(ilObjUser $a_user)
+	{
+		// are we currently in user agreement acceptance?
+		if (strtolower($_GET["cmdClass"]) == "ilstartupgui" &&
+			(strtolower($_GET["cmd"]) == "getacceptance" ||
+			(is_array($_POST["cmd"]) &&
+			key($_POST["cmd"]) == "getAcceptance")))
+		{
+			return;
+		}
+				
+		if($a_user->hasToAcceptTermsOfService() &&			
+			$a_user->hasToAcceptTermsOfServiceInSession() &&
+			$a_user->checkTimeLimit())
+		{
+			ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target='.$_GET['target'].'&cmd=getAcceptance');
+		}	
 	}
 	
 	/**

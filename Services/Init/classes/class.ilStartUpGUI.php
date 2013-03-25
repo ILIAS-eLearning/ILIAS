@@ -1579,13 +1579,7 @@ class ilStartUpGUI
 			ilInitialisation::goToPublicSection();
 		}
 		else
-		{							
-			// Terms of service accepted?
-			if($ilUser->hasToAcceptTermsOfService() && $ilUser->hasToAcceptTermsOfServiceInSession())
-			{
-				ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target='.$_GET['target'].'&cmd=getAcceptance');
-			}													
-			
+		{										
 			// for password change and incomplete profile 
 			// see ilPersonalDesktopGUI
 			
