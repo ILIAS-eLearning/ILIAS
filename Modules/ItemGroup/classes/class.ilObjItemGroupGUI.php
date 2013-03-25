@@ -137,17 +137,25 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		if($subtypes)
 		{
 			$subobj = array();
-			foreach(array_keys($subtypes) as $type)
-			{
+			foreach($subtypes as $type => $sub_item)
+			{				
 				if (!in_array($type, array("itgr", "sess")))
 				{
 					// #9950
 					if ($ilAccess->checkAccess("create_".$type, "", $parent_node["child"], $parent_node["type"]))
 					{
+						// #10787
+						$title = $this->lng->txt('obj_'.$type);
+						if ($sub_item["plugin"])
+						{
+							include_once("./Services/Component/classes/class.ilPlugin.php");
+							$title = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+						}
+						
 						$subobj[] = array('value' => $type,
-										  'title' => $this->lng->txt('obj_'.$type),
+										  'title' => $title,
 										  'img' => ilObject::_getIcon('', 'tiny', $type),
-										  'alt' => $this->lng->txt('obj_'.$type));
+										  'alt' => $title);
 					}
 				}
 			}			

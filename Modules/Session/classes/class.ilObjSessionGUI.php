@@ -824,17 +824,25 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if($subtypes)
 		{
 			$subobj = array();
-			foreach(array_keys($subtypes) as $type)
+			foreach($subtypes as $type => $sub_item)
 			{
 				if (!in_array($type, array("itgr", "sess")))
 				{					
 					// #9950
 					if ($ilAccess->checkAccess("create_".$type, "", $this->container_ref_id, $root["type"]))
 					{
-						$subobj[] = array('value' => $type,
+						// #10787
+						$title = $this->lng->txt('obj_'.$type);
+						if ($sub_item["plugin"])
+						{
+							include_once("./Services/Component/classes/class.ilPlugin.php");
+							$title = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+						}
+						
+						$subobj[] = array('value' => $title,
 										  'title' => $this->lng->txt('obj_'.$type),
 										  'img' => ilObject::_getIcon('', 'tiny', $type),
-										  'alt' => $this->lng->txt('obj_'.$type));
+										  'alt' => $title);						
 					}
 				}
 			}			
