@@ -2582,7 +2582,8 @@ class ilForum
 
 // update target root node rgt
 		include_once 'Modules/Forum/classes/class.ilForumPostsTree.php';
-		$new_target_rgt = ($target_root_node->getRgt() + $source_root_node->getRgt() + 1);
+//		$new_target_rgt = ($target_root_node->getRgt() + $source_root_node->getRgt() + 1);
+		$new_target_rgt = ($target_root_node->getRgt() + $source_root_node->getRgt());
 		ilForumPostsTree::updateTargetRootRgt($target_root_node->getId(), $new_target_rgt);
 
 		$new_target_root = $target_root_node->getId();
@@ -2599,7 +2600,8 @@ class ilForum
 			{
 				$posts_tree_obj->setParentPos($new_target_root);
 
-				$posts_tree_obj->setRgt(($post_obj->getRgt() + $add_difference));
+				//$posts_tree_obj->setRgt(($post_obj->getRgt() + $add_difference));
+				$posts_tree_obj->setRgt(($post_obj->getRgt() + $add_difference) - 1);
 				$posts_tree_obj->setLft($target_root_node->getRgt());
 				
 				$posts_tree_obj->setDepth(($post_obj->getDepth() + 1));
@@ -2611,8 +2613,9 @@ class ilForum
 			}
 			else
 			{
-				$posts_tree_obj->setLft(($post_obj->getLft() + $add_difference));
-				$posts_tree_obj->setRgt(($post_obj->getRgt() + $add_difference));
+				$posts_tree_obj->setRgt(($post_obj->getRgt() + $add_difference) - 1);
+				$posts_tree_obj->setLft(($post_obj->getLft() + $add_difference) - 1);
+
 				$posts_tree_obj->setDepth(($post_obj->getDepth() + 1));
 				$posts_tree_obj->setSourceThreadId($merge_thread_source->getId());
 
