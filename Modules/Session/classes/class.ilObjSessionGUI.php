@@ -839,8 +839,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 							$title = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
 						}
 						
-						$subobj[] = array('value' => $title,
-										  'title' => $this->lng->txt('obj_'.$type),
+						$subobj[] = array('value' => $type,
+										  'title' => $title,
 										  'img' => ilObject::_getIcon('', 'tiny', $type),
 										  'alt' => $title);						
 					}
