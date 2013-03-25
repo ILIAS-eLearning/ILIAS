@@ -279,7 +279,11 @@ class assFlashQuestionGUI extends assQuestionGUI
 
 		if ($show_correct_solution)
 		{
-
+			array_push($params, "solution=correct");
+		}
+		else
+		{
+			array_push($params, "solution=user");
 		}
 
 		if (($active_id > 0) && (!$show_correct_solution))
