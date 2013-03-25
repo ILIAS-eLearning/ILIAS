@@ -368,6 +368,7 @@ class ilCertificateGUI
 		$form->addItem($rect);
 		
 		$certificate = new ilTextAreaInputGUI($this->lng->txt("certificate_text"), "certificate_text");
+		$certificate->removePlugin('ilimgupload');
 		$certificate->setValue($form_fields["certificate_text"]);
 		$certificate->setRequired(TRUE);
 		$certificate->setRows(20);
@@ -386,7 +387,7 @@ class ilCertificateGUI
 		// fraunhpatch start
 		
 		$certificate->setInfo($this->object->getAdapter()->getCertificateVariablesDescription().$common_desc);
-		$certificate->setUseRte(TRUE);
+		$certificate->setUseRte(TRUE, '3.4.7');
 		$tags = array(
 		"br",
 		"em",
@@ -397,7 +398,7 @@ class ilCertificateGUI
 		"span",
 		"strong",
 		"u",
-		"ul"			
+		"ul"	
 		);
 		$certificate->setRteTags($tags);
 		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $certificate->checkInput();
