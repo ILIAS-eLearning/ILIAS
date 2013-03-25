@@ -178,7 +178,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$scoringMode->addOption($scoringOptionAnyKeyword);
 			$scoringMode->addOption($scoringOptionAllKeyword);
 			$scoringMode->addOption($scoringOptionOneKeyword);
-			
+			$scoringMode->setRequired(true);
 			$scoringMode->setValue($this->object->getKeywordRelation());
 			
 			require_once "./Modules/TestQuestionPool/classes/class.ilEssayKeywordWizardInputGUI.php";
