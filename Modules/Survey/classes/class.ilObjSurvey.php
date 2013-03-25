@@ -4111,12 +4111,15 @@ class ilObjSurvey extends ilObject
 		foreach ($this->questions as $key => $question_id)
 		{
 			$question = ilObjSurvey::_instanciateQuestion($question_id);
-			$question->id = -1;
-			$original_id = SurveyQuestion::_getOriginalId($question_id);
-			$question->saveToDb($original_id);
-			$newObj->questions[$key] = $question->getId();
-			$question_pointer[$question_id] = $question->getId();
-			$mapping[$question_id] = $question->getId();
+			if($question) // #10824
+			{
+				$question->id = -1;
+				$original_id = SurveyQuestion::_getOriginalId($question_id);
+				$question->saveToDb($original_id);
+				$newObj->questions[$key] = $question->getId();
+				$question_pointer[$question_id] = $question->getId();
+				$mapping[$question_id] = $question->getId();
+			}
 		}
 
 		$newObj->saveToDb();		
@@ -4147,12 +4150,16 @@ class ilObjSurvey extends ilObject
 		// create new questionblock questions
 		foreach ($questionblock_questions as $key => $value)
 		{
-			$next_id = $ilDB->nextId('svy_qblk_qst');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk_qst (qblk_qst_id, survey_fi, questionblock_fi, question_fi) ".
-				"VALUES (%s, %s, %s, %s)",
-				array('integer','integer','integer','integer'),
-				array($next_id, $newObj->getSurveyId(), $questionblocks[$value["questionblock_fi"]], $question_pointer[$value["question_fi"]])
-			);
+			if($questionblocks[$value["questionblock_fi"]] &&
+				$question_pointer[$value["question_fi"]])
+			{
+				$next_id = $ilDB->nextId('svy_qblk_qst');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk_qst (qblk_qst_id, survey_fi, questionblock_fi, question_fi) ".
+					"VALUES (%s, %s, %s, %s)",
+					array('integer','integer','integer','integer'),
+					array($next_id, $newObj->getSurveyId(), $questionblocks[$value["questionblock_fi"]], $question_pointer[$value["question_fi"]])
+				);
+			}
 		}
 		
 		// clone the constraints
@@ -4160,7 +4167,8 @@ class ilObjSurvey extends ilObject
 		$newConstraints = array();
 		foreach ($constraints as $key => $constraint)
 		{
-			if ($question_pointer[$constraint["for_question"]])
+			if ($question_pointer[$constraint["for_question"]] &&
+				$question_pointer[$constraint["question"]])
 			{
 				if (!array_key_exists($constraint['id'], $newConstraints))
 				{
@@ -4180,12 +4188,15 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$next_id = $ilDB->nextId('svy_qst_oblig');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_oblig (question_obligatory_id, survey_fi, question_fi, ".
-					"obligatory, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer','integer','text','integer'),
-					array($next_id, $newObj->getSurveyId(), $question_pointer[$row["question_fi"]], $row["obligatory"], time())
-				);
+				if($question_pointer[$row["question_fi"]])
+				{
+					$next_id = $ilDB->nextId('svy_qst_oblig');
+					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_oblig (question_obligatory_id, survey_fi, question_fi, ".
+						"obligatory, tstamp) VALUES (%s, %s, %s, %s, %s)",
+						array('integer','integer','integer','text','integer'),
+						array($next_id, $newObj->getSurveyId(), $question_pointer[$row["question_fi"]], $row["obligatory"], time())
+					);
+				}
 			}
 		}
 		return $newObj;
