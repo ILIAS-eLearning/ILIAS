@@ -4079,7 +4079,7 @@ td.dcl_actions {
 	padding-right: 5px;
 }
 
-#dcl_record_list td {
+#dcl_record_list td, #dcl_field_list td {
 	padding: 4px 6px;
 	font-size: 90%;
 }
