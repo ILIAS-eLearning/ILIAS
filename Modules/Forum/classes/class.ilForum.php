@@ -439,7 +439,7 @@ class ilForum
 	* @param	integer	$anonymize	
 	* @param	string	$subject	
 	* @param	datetime	$date	
-	* @return	integer	$lastInsert: new post ID
+	* @return	integer	$last: new post ID
 	* @access	public
 	*/
 	public function generatePost($forum_id, $thread_id, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)

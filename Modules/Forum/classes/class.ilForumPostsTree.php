@@ -154,7 +154,6 @@ class ilForumPostsTree
 			'rgt' => array('integer', $rgt)),
 		array(
 			'parent_pos' => array('integer', 0),
-			'fpt_pk'	=> array('integer', $root_node_id),
 			'pos_fk'	=> array('integer', $root_node_id)
 		));
 	}
