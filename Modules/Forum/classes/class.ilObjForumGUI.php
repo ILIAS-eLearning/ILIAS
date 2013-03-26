@@ -4441,7 +4441,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if(!isset($_POST['thread_ids']) || !is_array($_POST['thread_ids']) || count($_POST['thread_ids']) != 2)
 		{
-			ilUtil::sendFailure($this->lng->txt('select_one'). ' x');
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->showThreadsObject();
 			return;
 		}
