@@ -2563,6 +2563,10 @@
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				<param>
+					<xsl:attribute name = "name">wmode</xsl:attribute>
+					<xsl:attribute name = "value">opaque</xsl:attribute>
+				</param>
+				<param>
 					<xsl:attribute name = "name">movie</xsl:attribute>
 					<xsl:attribute name = "value"><xsl:value-of select="$data"/></xsl:attribute>
 				</param>
