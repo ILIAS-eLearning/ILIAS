@@ -50,6 +50,16 @@ class ilECSAppEventListener implements ilAppEventListener
 		
 		switch($a_component)
 		{
+			case 'Services/User':
+				switch($a_event)
+				{
+					case 'afterCreation':
+						$user = $a_parameter['user_obj'];
+						$this->handleMembership($user);
+						break;
+				}
+				break;
+				
 			case 'Modules/Course':
 				switch($a_event)
 				{
@@ -122,6 +132,19 @@ class ilECSAppEventListener implements ilAppEventListener
 		
 		$mail->sendMail($settings->getUserRecipientsAsString(),"","",$subject,$body,array(),array("normal"));
 		return true;
+	}
+	
+	/**
+	 * Assign mmissing course/groups to new user accounts
+	 * @param ilObjUser $user
+	 */
+	protected function handleMembership(ilObjUser $user)
+	{
+		if($user->getAuthMode() != ilECSSetting::lookupAuthMode())
+		{
+			return true;
+		}
+		
 	}
 }
 ?>

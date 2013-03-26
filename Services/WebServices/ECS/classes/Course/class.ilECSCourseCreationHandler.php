@@ -135,7 +135,7 @@ class ilECSCourseCreationHandler
 			// Put course in default category
 			$GLOBALS['ilLog']->write(__METHOD__.': No matching attribute mapping rule found.');
 			$GLOBALS['ilLog']->write(__METHOD__.': Using course default category');
-			return $this->doSync($a_content_id,$course,$this->getMapping()->getDefaultCourseCategory());
+			return $this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
 		}
 		// map according mapping rules
 		$parent_ref = ilECSCourseMappingRule::doMappings($course,$this->getServer()->getServerId(),$this->getMid(),$ref_id);
