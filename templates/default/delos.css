@@ -4080,7 +4080,8 @@ td.dcl_actions {
 }
 
 #dcl_record_list td {
-	padding: 2px
+	padding: 4px 6px;
+	font-size: 90%;
 }
 
 /* Services/MediaObjects */
