@@ -1481,7 +1481,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		// rss
 		if($this->object->hasRSS() && !$a_link_template && $a_list_cmd == "preview")
 		{
-			$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$this->node_id.
+			// #10827
+			$blog_id = $this->node_id;		
+			if($this->id_type != self::WORKSPACE_NODE_ID)
+			{	
+				$blog_id .= "_cll";
+			}			
+			$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$blog_id.
 				"&client_id=".rawurlencode(CLIENT_ID);
 		
 			$wtpl->setCurrentBlock("rss");
