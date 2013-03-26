@@ -501,9 +501,20 @@ class ilObjBlog extends ilObject2
 			return;
 		}
 		
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		$wsp_id = new ilWorkspaceTree(0);
-		$obj_id = $wsp_id->lookupObjectId($a_wsp_id);		
+		// #10827		
+		if(substr($a_wsp_id, -4) != "_cll")
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$wsp_id = new ilWorkspaceTree(0);
+			$obj_id = $wsp_id->lookupObjectId($a_wsp_id);		
+			$is_wsp = "_wsp";
+		}
+		else
+		{
+			$a_wsp_id = substr($a_wsp_id, 0, -4);
+			$obj_id = ilObject::_lookupObjId($a_wsp_id);
+			$is_wsp = null;
+		}	
 		if(!$obj_id)
 		{
 			return;
@@ -519,7 +530,7 @@ class ilObjBlog extends ilObject2
 		$feed = new ilFeedWriter();
 				
 		include_once "Services/Link/classes/class.ilLink.php";
-		$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, "_wsp");
+		$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, $is_wsp);
 		$url = str_replace("&", "&amp;", $url);
 		
 		$feed->setChannelTitle($blog->getTitle());
@@ -545,7 +556,7 @@ class ilObjBlog extends ilObject2
 			$snippet = strip_tags(ilBlogPostingGUI::getSnippet($id));
 			$snippet = str_replace("&", "&amp;", $snippet);	
 
-			$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, "_".$id."_wsp");
+			$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, "_".$id.$is_wsp);
 			$url = str_replace("&", "&amp;", $url);				
 
 			$feed_item = new ilFeedItem();
