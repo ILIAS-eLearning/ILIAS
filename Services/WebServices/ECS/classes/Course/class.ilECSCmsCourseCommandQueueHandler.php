@@ -64,7 +64,8 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 		try 
 		{
 			$course = $this->readCourse($server,$a_content_id);
-			$this->doUpdate($a_content_id, $course[0]);
+			$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($course,true));
+			$this->doUpdate($a_content_id, $course);
 			return true;
 		}
 		catch(ilECSConnectorException $e) 
@@ -101,7 +102,7 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 		try 
 		{
 			$course = $this->readCourse($server,$a_content_id);
-			$this->doUpdate($a_content_id, $course[0]);
+			$this->doUpdate($a_content_id, $course);
 			return true;
 		}
 		catch(ilECSConnectorException $e) 
