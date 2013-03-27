@@ -2316,6 +2316,8 @@ class ilTemplate extends ilTemplateX
 			
 			$this->setVariable("SELECT_OBJTYPE_REPOS",
 				$selection->getHTML());
+				
+			$this->setVariable("CENTER_COL_CLASS", trim($this->right_content) != "" ? "one_side_col" : "");
 			
 			$this->parseCurrentBlock();
 			$creation_selector = true;
