@@ -130,16 +130,16 @@ class ilTestExport
 
 		//get Log File
 		$expDir = $this->test_obj->getExportDirectory();
-		//$expLog = &$log;
-		$expLog = new ilLog($expDir, "export.log");
-		$expLog->delete();
-		$expLog->setLogFormat("");
-		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Of Results");
-
+		
 		// make_directories
 		$this->test_obj->createExportDirectory();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir);
+
+		$expLog = new ilLog($expDir, "export.log");
+		$expLog->delete();
+		$expLog->setLogFormat("");
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Of Results");
 
 		$data = $this->exportToCSV($deliver = FALSE);
 		$file = fopen($this->export_dir."/".$this->filename, "w");
