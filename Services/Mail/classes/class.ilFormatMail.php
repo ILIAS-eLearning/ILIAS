@@ -214,5 +214,13 @@ class ilFormatMail extends ilMail
 	{
 		return $this->mail_data["m_message"] .= chr(13).chr(10).$this->mail_options->getSignature();
 	}
+
+	/**
+	 * @return string
+	 */
+	public function prependSignature()
+	{
+		return $this->mail_options->getSignature().chr(13).chr(10).chr(13).chr(10).$this->mail_data["m_message"];
+	}
 } // END class.ilFormatMail
 ?>
