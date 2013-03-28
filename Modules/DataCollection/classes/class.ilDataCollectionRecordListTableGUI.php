@@ -36,7 +36,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
     {
         global $lng, $tpl, $ilCtrl;
 
-        $this->setPrefix("dcl_record_list");
+		$this->setPrefix("dcl_record_list");
+        $this->setFormName('record_list');
+        $this->setId("dcl_record_list");
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->table = $table;
@@ -44,7 +46,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         include_once("class.ilDataCollectionDatatype.php");
 
         $this->parent_obj = $a_parent_obj;
-        $this->setFormName('record_list');
 
         $this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
 
@@ -64,7 +65,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
-        $this->setShowRowsSelector(false);
+		$this->setShowRowsSelector(true);
         $this->setShowTemplates(false);
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
