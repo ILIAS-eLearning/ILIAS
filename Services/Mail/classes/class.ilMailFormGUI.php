@@ -537,7 +537,7 @@ class ilMailFormGUI
 				$mailData = $this->umail->getMail($_GET["mail_id"]);
 				$mailData["m_subject"] = $this->umail->formatReplySubject();
 				$mailData["m_message"] = $this->umail->formatReplyMessage(); 
-				$mailData["m_message"] = $this->umail->appendSignature();
+				$mailData["m_message"] = $this->umail->prependSignature();
 				// NO ATTACHMENTS FOR REPLIES
 				$mailData["attachments"] = array();
 				//$mailData["rcp_cc"] = $this->umail->formatReplyRecipientsForCC();
@@ -588,7 +588,7 @@ class ilMailFormGUI
 				$mailData = $this->umail->getMail($_GET["mail_id"]);
 				$mailData["rcp_to"] = $mailData["rcp_cc"] = $mailData["rcp_bcc"] = '';
 				$mailData["m_subject"] = $this->umail->formatForwardSubject();
-				$mailData["m_message"] = $this->umail->appendSignature();
+				$mailData["m_message"] = $this->umail->prependSignature();
 				if(count($mailData["attachments"]))
 				{
 					if($error = $this->mfile->adoptAttachments($mailData["attachments"],$_GET["mail_id"]))
