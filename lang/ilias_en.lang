@@ -12383,9 +12383,9 @@ dcl#:#dcl_activate_notification#:#Activate Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Record
 dcl#:#dcl_list_fields#:#Fields
-dcl#:#dcl_record_view_viewdefinition#:#View Viewdefinition
-dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition
-dcl#:#dcl_record_list_viewdefinition#:#List Viewdefinition
+dcl#:#dcl_record_view_viewdefinition#:#Edit Detailed View
+dcl#:#dcl_record_edit_viewdefinition#:#Edit Detailed View
+dcl#:#dcl_record_list_viewdefinition#:#List Detailed Views
 dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_field_datatype#:#Field Datatype

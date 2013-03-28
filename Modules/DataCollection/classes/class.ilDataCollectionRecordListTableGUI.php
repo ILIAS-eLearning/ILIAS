@@ -37,15 +37,16 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		global $lng, $tpl, $ilCtrl;
 
 		$this->setPrefix("dcl_record_list");
-		parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->setFormName('record_list');
+        $this->setId("dcl_record_list");
+        parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$this->table = $table;
+        $this->table = $table;
 
-		include_once("class.ilDataCollectionDatatype.php");
-		
-	 	$this->parent_obj = $a_parent_obj;
-		$this->setFormName('record_list');
-		
+        include_once("class.ilDataCollectionDatatype.php");
+
+        $this->parent_obj = $a_parent_obj;
+
 		$this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
 		
 		$this->addColumn("", "_front", "15px");
@@ -60,12 +61,12 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setId("dcl_record_list");
 		
 		$this->addColumn($lng->txt("actions"), "_actions", 	 "30px");
-
+        //$ilCtrl->saveParameterByClass("ildatacollectionrecordlistgui", "dcl_record_list_trows");
 
 		$this->setTopCommands(true);
 		$this->setEnableHeader(true);
-		$this->setShowRowsSelector(false);
-		$this->setShowTemplates(false);
+		$this->setShowRowsSelector(true);
+		$this->setShowTemplates(true);
 		$this->setEnableHeader(true);
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderDirection("asc");
@@ -78,7 +79,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 //		$this->setData($table->getRecordsByFilter($this->filter));
 
 		//leave these two
-		$this->setExternalSegmentation(true);
+		$this->setExternalSegmentation(false);
 //		$this->setExternalSorting(true);
 	}
 	

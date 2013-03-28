@@ -211,8 +211,10 @@ class ilDataCollectionRecordListGUI
         }catch (Exception $e){
             $warnings[] = $lng->txt("dcl_file_not_readable");
         }
-        if(count($warnings))
+        if(count($warnings)){
             $this->endImport(0, $warnings);
+            return;
+        }
         $field_names = array();
         for($i = 1; $i <= $excel->colcount(); $i++)
             $field_names[$i] = $excel->val(1, $i);
