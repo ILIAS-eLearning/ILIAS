@@ -138,6 +138,23 @@ class ilLPStatusPlugin extends ilLPStatus
 		}		
 	}
 	
+	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		$plugin = self::initPluginObj($a_obj_id);
+		if($plugin)
+		{					
+			if($plugin !== self::INACTIVE_PLUGIN)
+			{
+				if (method_exists($plugin, "getPercentageForUser"))
+				{
+					return $plugin->getPercentageForUser($a_user_id);
+				}
+			}
+			// re-use existing data for inactive plugin
+			return self::getPercentageForUser($a_obj_id, $a_user_id);
+		}		
+	}
+	
 	/**
 	 * Read existing LP status data
 	 * 
@@ -184,6 +201,18 @@ class ilLPStatusPlugin extends ilLPStatus
 			$status = LP_STATUS_NOT_ATTEMPTED_NUM;
 		}
 		return $status;
+	}
+	
+	protected static function getPercentageForUser($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT percentage".
+			" FROM ut_lp_marks".
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		return (int) $row["percentage"];
 	}
 }	
 

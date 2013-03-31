@@ -69,7 +69,9 @@ class ilPageObject
 		$this->page_not_found = false;
 		$this->old_nr = $a_old_nr;
 		$this->layout_mode = false;
-		$this->encoding = "UTF-8";		
+		$this->encoding = "UTF-8";
+		
+		// pc-dep
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
 				"Section", "Tab", "ContentPopup");
@@ -636,6 +638,8 @@ class ilPageObject
 		{
 			return false;
 		}
+		
+		// pc-dep
 		switch($cont_node->node_name())
 		{
 			case "PageContent":
@@ -1056,6 +1060,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
+	// pc-dep
 	/**
 	 * Replaces media objects in interactive images
 	 * with copies of the interactive images
@@ -1093,6 +1098,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
+	// pc-dep
 	/**
 	 * Replaces media objects with copies
 	 */
@@ -1129,6 +1135,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
+	// pc-dep
 	/**
 	 * Replaces existing question content elements with
 	 * new copies
@@ -1172,6 +1179,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
+	// pc-dep
 	/**
 	 * Remove questions from document
 	 *
@@ -1221,6 +1229,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		else
 		{
+			// pc-dep
 			// append multimedia object elements
 			if ($a_append_mobs || $a_append_bib || $a_append_link_info)
 			{
@@ -1271,6 +1280,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	// pc-dep
 	/**
 	* get language variables as XML
 	*/
@@ -1317,6 +1327,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$xml.= "<LV name=\"$var\" value=\"".$lng->txt("cont_".$var)."\"/>";
 	}
 
+	// pc-dep
 	function getFirstParagraphText()
 	{
 		if($this->dom)
@@ -1336,6 +1347,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return "";
 	}
 
+	// pc-dep
 	/**
 	* Set content of paragraph
 	*
@@ -1388,6 +1400,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $this->needs_parsing;
 	}
 
+	// pc-dep
 	/**
 	 * Set contains question
 	 *
@@ -1398,6 +1411,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$this->contains_question = $a_val;
 	}
 
+	// pc-dep
 	/**
 	 * Get contains question
 	 *
@@ -1432,6 +1446,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
     }
 
 
+    // pc-dep
 	/**
 	* get all media objects, that are referenced and used within
 	* the page
@@ -1489,7 +1504,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $mob_ids;
 	}
 
-
+	// pc-dep
 	/**
 	* get all internal links that are used within the page
 	*/
@@ -1564,6 +1579,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $links;
 	}
 
+	// pc-dep
 	/**
 	* get all file items that are used within the page
 	*/
@@ -1611,6 +1627,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $file_ids;
 	}
 
+	// pc-dep
 	/**
 	* get a xml string that contains all media object elements, that
 	* are referenced by any media alias in the page
@@ -1634,6 +1651,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $mobs_xml;
 	}
 
+	// pc-dep
 	/**
 	* get complete media object (alias) element
 	*/
@@ -1713,6 +1731,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				}
 			}
 
+			// pc-dep
 			if ($sib_hier_id != "")		// set id to sibling id "+ 1"
 			{
 				require_once("./Services/COPage/classes/class.ilPageContent.php");
@@ -1886,6 +1905,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $ret;
 	}
 
+	// pc-dep
 	/**
 	* add file sizes
 	*/
@@ -1922,6 +1942,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		unset($xpc);
 	}
 
+	// pc-dep
 	/**
 	 * Resolves all internal link targets of the page, if targets are available
 	 * (after import)
@@ -1973,6 +1994,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	// pc-dep
 	/**
 	 * Resolve media aliases
 	 * (after import)
@@ -2002,6 +2024,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $changed;
 	}
 
+	// pc-dep
 	/**
 	 * Resolve iim media aliases
 	 * (in ilContObjParse)
@@ -2029,6 +2052,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $changed;
 	}
 
+	// pc-dep
 	/**
 	 * Resolve file items
 	 * (after import)
@@ -2058,6 +2082,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $changed;
 	}
 
+	// pc-dep
 	/**
 	 * Resolve all quesion references
 	 * (after import)
@@ -2080,7 +2105,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		unset($xpc);
 	}
 
-
+	// pc-dep
 	/**
 	* Move internal links from one destination to another. This is used
 	* for pages and structure links. Just use IDs in "from" and "to".
@@ -2247,6 +2272,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $changed;
 	}
 
+	// pc-dep
 	/**
 	* Change targest of repository links. Use full targets in "from" and "to"!!!
 	*
@@ -2278,7 +2304,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			}
 		}
 	}
-		
+	
+	// pc-dep
 	function handleImportRepositoryLink($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
 	{
 		$this->buildDom();
@@ -2561,6 +2588,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 //			$this->ilias->db->query($query);
 			
+			// pc-dep
 			if (!$skip_handle_usages)
 			{
 				// handle media object usage
@@ -2642,6 +2670,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$files = $this->collectFileItems();
 		}
 
+		// pc-dep
 		// delete mob usages
 		$this->saveMobUsage("<dummy></dummy>");
 
@@ -2720,6 +2749,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	*/
 	function saveMetaKeywords($a_xml)
 	{
+		// pc-dep
 		// not nice, should be set by context per method
 		if ($this->getParentType() == "gdf" ||
 			$this->getParentType() == "lm" ||
@@ -2793,6 +2823,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	// pc-dep
 	/**
 	* save all usages of media objects (media aliases, media objects, internal links)
 	*
@@ -2857,6 +2888,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $usages;
 	}
 
+	// pc-dep
 	/**
 	* save file usages
 	*/
@@ -2871,6 +2903,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	// pc-dep
 	/**
 	* save content include usages
 	*/
@@ -2888,6 +2921,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	// pc-dep
 	/**
 	* get all content includes that are used within the page
 	*/
@@ -2921,6 +2955,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $ci_ids;
 	}
 	
+	// pc-dep
 	/**
 	* save content include usages
 	*/
@@ -2938,6 +2973,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	// pc-dep
 	/**
 	* get all content includes that are used within the page
 	*/
@@ -2971,7 +3007,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $skl_ids;
 	}
 
-	
+	// pc-dep
 	/**
 	* Save all style class/template usages
 	*
@@ -3130,6 +3166,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$xpc = xpath_new_context($doc);
 		$path = "//IntLink";
 		$res =& xpath_eval($xpc, $path);
+		// pc-dep
 		for ($i=0; $i < count($res->nodeset); $i++)
 		{
 			$link_type = $res->nodeset[$i]->get_attribute("Type");
@@ -3218,6 +3255,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	// pc-dep
 	/**
 	 * Get all questions of a page
 	 */
@@ -3238,6 +3276,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $q_ids;
 	}
 
+	// pc-dep
 	/**
 	* save anchors
 	*
@@ -3903,6 +3942,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $this->update();
 	}
 
+	// pc-dep
 	/**
 	* transforms bbCode to corresponding xml
 	*/
@@ -3916,6 +3956,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$a_content = eregi_replace("\[\/str\]","</Strong>",$a_content);
 	}
 
+	// pc-dep
 	/**
 	* inserts installation id into ids (e.g. il__pg_4 -> il_23_pg_4)
 	* this is needed for xml export of page
@@ -4001,10 +4042,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 	}
 
+	// pc-dep
 	/**
-	* Highligths Text with given ProgLang
-	*/
-
+	 * Highligths Text with given ProgLang
+	 */
 	function highlightText($a_text, $proglang, $autoindent)
 	{
 
@@ -4031,11 +4072,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return file_exists ("Services/COPage/syntax_highlight/php/HFile/HFile_".$hfile_ext.".php");
 	}
 
+	// pc-dep
 	/**
-	* depending on the SubCharacteristic and ShowLineNumbers
-	* attribute the line numbers and html tags for the syntax
-	* highlighting will be inserted using the dom xml functions
-	*/
+	 * depending on the SubCharacteristic and ShowLineNumbers
+	 * attribute the line numbers and html tags for the syntax
+	 * highlighting will be inserted using the dom xml functions
+	 */
 	function insertSourceCodeParagraphs($a_output, $outputmode = "presentation")
 	{
 		$xpc = xpath_new_context($this->dom);
@@ -4285,6 +4327,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$xpc = xpath_new_context($mydom);
 		$res = & xpath_eval($xpc, $path);
 
+		// pc-dep
 		$hashes = array();
 		require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 		for ($i = 0; $i < count ($res->nodeset); $i++)
@@ -4318,6 +4361,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $hashes;
 	}
 	
+	// pc-dep
 	/**
 	* Get question ids
 	*/
@@ -4351,7 +4395,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $q_ids;
 	}
 
-	function send_paragraph ($par_id, $filename)
+	// pc-dep
+	function send_paragraph($par_id, $filename)
 	{
 		$this->builddom();
 
@@ -4565,6 +4610,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $ret;
 	}
 	
+	// pc-dep?
 	function addChangeDivClasses($a_hashes)
 	{
 		$xpc = xpath_new_context($this->dom);
@@ -4587,6 +4633,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
+	// pc-dep
 	/**
 	* Compares to revisions of the page
 	*
@@ -4888,6 +4935,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			array($a_content, $a_md5, $this->getId(), $this->getParentType()));*/
 	}
 
+	// pc-dep
 	/**
 	* Get all pages for parent object that contain internal links
 	*
@@ -4938,6 +4986,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	{
 	}
 	
+	// pc-dep
 	/**
 	 * Save initial opened content
 	 *
