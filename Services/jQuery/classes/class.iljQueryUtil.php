@@ -10,8 +10,8 @@
 class iljQueryUtil
 {	
 	// #9508 - 1.8.0 needs at least ui 1.8.22 to work properly!	
-	private static $ver = "1_8_3"; 
-	private static $ui_ver = "1_9_1";
+	private static $ver = "1_9_1"; 
+	private static $ui_ver = "1_9_2";
 	private static $maphilight_ver = "12_09_22";
 	private static $min = "-min";
 	
@@ -26,8 +26,22 @@ class iljQueryUtil
 		{
 			$a_tpl = $tpl;
 		}
-		
+
 		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 1);
+		
+		// adding jquery-migrate for 1.9.x
+		if(substr(self::$ver, 0, 3) == "1_9")
+		{
+			$path = str_replace("jquery", "jquery-migrate", self::getLocaljQueryPath());
+			
+			// this will enable console error logging!
+			if(DEVMODE)
+			{
+				$path = str_replace(self::$min, "", $path);
+			}
+			
+			$a_tpl->addJavaScript($path, true, 1);
+		}
 	}
 	
 	/**
