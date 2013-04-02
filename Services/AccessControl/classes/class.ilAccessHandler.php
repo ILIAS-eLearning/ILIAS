@@ -566,7 +566,7 @@ class ilAccessHandler
 	 */
 	function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
-		global $ilBench,$ilObjDataCache;
+		global $ilBench,$ilUser;
 		
 		$ilBench->start("AccessControl", "3150_checkAccess_check_course_activation");
 
@@ -587,6 +587,16 @@ class ilAccessHandler
 		{
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
+		}
+		
+		// #10852 - member view check
+		if($a_user_id == $ilUser->getId())
+		{
+			include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+			if(ilMemberViewSettings::getInstance()->isActiveForRefId($a_ref_id))
+			{				
+				return true;
+			}		
 		}
 		
 		include_once 'Services/Object/classes/class.ilObjectActivation.php';	

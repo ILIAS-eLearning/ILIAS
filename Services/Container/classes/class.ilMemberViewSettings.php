@@ -115,6 +115,28 @@ class ilMemberViewSettings
 	}
 	
 	/**
+	 * Check if member view is currently enabled for given ref id
+	 * @param int $a_ref_id
+	 * @return bool
+	 */
+	public function isActiveForRefId($a_ref_id)
+	{
+		if(!$this->active || !(int)$a_ref_id)
+		{
+			// Not active
+			return false;
+		}
+		
+		if(!in_array($a_ref_id,$this->container_items) and 
+			$this->getContainer() != $a_ref_id) 
+		{
+			// outside of course
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Enable member view for this session and container.
 	 * @return 
 	 * @param int $a_ref_id Reference Id of course or group
