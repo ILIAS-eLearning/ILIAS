@@ -2075,10 +2075,11 @@ class ilMail
 	* @param string subject
 	* @param string message
 	* @param array attachments
+	* @param bool prevent soap
 	* @access	public
 	* @return	array of saved data
 	*/
-	function sendMimeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachments)
+	function sendMimeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachments,$a_no_soap = false)
 	{
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
@@ -2091,7 +2092,8 @@ class ilMail
 
 		$sender = $this->getMimeMailSender();
 
-		if($this->isSOAPEnabled())
+		// #10854
+		if($this->isSOAPEnabled() && !$a_no_soap)
 		{
 			// Send per soap
 			include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
