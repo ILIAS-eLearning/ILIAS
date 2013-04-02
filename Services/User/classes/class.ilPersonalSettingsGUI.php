@@ -1386,12 +1386,12 @@ class ilPersonalSettingsGUI
 		// to user, admin as bcc
 		if($user_email)
 		{											
-			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null);		
+			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null, true);		
 		}
 		// admin only
 		else if($admin_mail)
 		{
-			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null);		
+			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null, true);		
 		}
 				
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");
