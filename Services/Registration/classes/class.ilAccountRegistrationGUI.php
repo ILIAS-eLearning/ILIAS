@@ -481,11 +481,15 @@ class ilAccountRegistrationGUI
 		$this->code_was_used = false;
 		if($this->code_enabled)
 		{		
-			// set code to used
-			$code = $this->form->getInput('usr_registration_code');						
-			include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-			ilRegistrationCode::useCode($code);
-			$this->code_was_used = true;
+			// #10853 - could be optional
+			$code = $this->form->getInput('usr_registration_code');							
+			if($code)
+			{	
+				// set code to used
+				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+				ilRegistrationCode::useCode($code);
+				$this->code_was_used = true;
+			}
 		}
 		
 		// something went wrong with the form validation
