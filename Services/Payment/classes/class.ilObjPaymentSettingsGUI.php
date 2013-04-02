@@ -2668,7 +2668,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$ilSetting->set('payment_notification_days', $_POST['payment_notification_days']);
 
 		$check = $this->checkShopActivationObject();
-		if($check == true)
+		if($check == true && (int)$_POST['shop_enabled'])
 		{
 			$genSet->set('shop_enabled', 1, 'common');
 		}
