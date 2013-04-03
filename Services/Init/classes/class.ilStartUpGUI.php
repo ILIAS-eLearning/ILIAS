@@ -631,7 +631,7 @@ class ilStartUpGUI
 		{
 			$tpl = new ilTemplate('tpl.login_form_shibboleth.html',true,true,'Services/Init');
 
-			$tpl->setVariable('SHIB_FORMACTION',$this->ctrl->getFormAction($this));
+			$tpl->setVariable('SHIB_FORMACTION', './shib_login.php'); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
 			
 			if($ilSetting->get("shib_hos_type") == 'external_wayf')
 			{
