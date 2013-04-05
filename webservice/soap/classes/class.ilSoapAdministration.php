@@ -414,7 +414,7 @@ class ilSoapAdministration
 				{
                     // only export soap enabled  clients
 					if ($clientInfo->access == 1)
-                        $writer->addClient ($clientInfo);
+                        $writer->addClient ($clientInfo, false);
 				}
 			}
 		}
