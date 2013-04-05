@@ -529,6 +529,10 @@ abstract class ilContainerContentGUI
 						$pos++;
 					}					
 				}
+				
+				// #10611
+				ilObjectActivation::addListGUIActivationProperty($item_list_gui2, $item);		
+				
 				$sub_item_html = $item_list_gui2->getListItemHTML($item['ref_id'],
 					$item['obj_id'], $item['title'], $item['description']);
 										

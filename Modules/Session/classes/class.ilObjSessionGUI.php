@@ -270,6 +270,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// if folder is in a course, modify item list gui according to course requirements
 		if ($course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs'))
 		{
+			// #10611
+			include_once "Services/Object/classes/class.ilObjectActivation.php";
+			ilObjectActivation::addListGUIActivationProperty($a_item_list_gui, $a_item_data);	
+			
 			include_once("./Modules/Course/classes/class.ilObjCourse.php");
 			include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
 			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
