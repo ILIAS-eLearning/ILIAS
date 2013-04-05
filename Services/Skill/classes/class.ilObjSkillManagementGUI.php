@@ -125,8 +125,15 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 				{
 					$cmd = "editSkills";
 				}
-
-				$this->$cmd();
+				
+				if ($cmd == "showTree")
+				{
+					$this->showTree($_GET["templates_tree"]);
+				}
+				else
+				{
+					$this->$cmd();
+				}
 				break;
 		}
 		return true;
@@ -963,19 +970,24 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 	/**
 	 * Show Editing Tree
 	 */
-	function showTree($a_templates, $a_gui, $a_gui_cmd)
+	function showTree($a_templates, $a_gui = "", $a_gui_cmd = "")
 	{
 		global $ilUser, $tpl, $ilCtrl, $lng;
 
-//		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
+		
+		include_once("./Services/Skill/classes/class.ilSkillTreeExplorerGUI.php");
+		$ilCtrl->setParameter($this, "templates_tree", $a_templates);
+		$exp = new ilSkillTreeExplorerGUI($this, "showTree", $a_templates);
+		if (!$exp->handleCommand())
+		{
+			$tpl->setLeftNavContent($exp->getHTML());
+		}
+		
+		return;
 
-//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-//		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
-
-		require_once ("./Services/Skill/classes/class.ilSkillExplorer.php");
+		/*require_once ("./Services/Skill/classes/class.ilSkillExplorer.php");
 		$exp = new ilSkillExplorer($ilCtrl->getLinkTarget($a_gui, $a_gui_cmd),
 			$a_templates);
-//		$exp->setFrameUpdater("content", "ilHierarchyFormUpdater");
 		$exp->setTargetGet("obj_id");
 		
 		if ($a_templates)
@@ -1007,27 +1019,14 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 			$exp->highlightNode($this->skill_tree->readRootId());
 		}
 		$exp->setExpand($expanded);
-		// build html-output
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 
-		// asynchronous output
 		if ($ilCtrl->isAsynch())
 		{
 			echo $output; exit;
 		}
-		
-//		$this->tpl->setCurrentBlock("content");
-//		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("sahs_organization"));
-//		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-//		$this->tpl->setVariable("EXPLORER",$output);
-		
-//		$this->ctrl->setParameter($this, "scexpand", $_GET["scexpand"]);
-//		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "showTree"));
-//		$this->tpl->parseCurrentBlock();
-//		$this->tpl->show(false);
-		
-		$tpl->setLeftNavContent($output);
+		$tpl->setLeftNavContent($output);*/
 	}
 
 }
