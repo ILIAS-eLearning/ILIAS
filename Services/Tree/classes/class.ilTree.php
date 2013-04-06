@@ -492,7 +492,7 @@ class ilTree
 	* @param	array		array of object type
 	* @return	array		with node data of all childs or empty array
 	*/
-	public function getChildsByTypeFilter($a_node_id,$a_types)
+	public function getChildsByTypeFilter($a_node_id,$a_types,$a_order = "",$a_direction = "ASC")
 	{
 		global $ilDB;
 		
@@ -508,12 +508,22 @@ class ilTree
 			$filter = 'AND '.$this->table_obj_data.'.type IN('.implode(',',ilUtil::quoteArray($a_types)).') ';
 		}
 
+		// set order_clause if sort order parameter is given
+		if (!empty($a_order))
+		{
+			$order_clause = "ORDER BY ".$a_order." ".$a_direction;
+		}
+		else
+		{
+			$order_clause = "ORDER BY ".$this->table_tree.".lft";
+		}
+		
 		$query = 'SELECT * FROM '.$this->table_tree.' '.
 			$this->buildJoin().
 			'WHERE parent = '.$ilDB->quote($a_node_id,'integer').' '.
 			'AND '.$this->table_tree.'.'.$this->tree_pk.' = '.$ilDB->quote($this->tree_id,'integer').' '.
 			$filter.
-			'ORDER BY '.$this->table_tree.'.lft';
+			$order_clause;
 		
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))

@@ -974,7 +974,6 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 	{
 		global $ilUser, $tpl, $ilCtrl, $lng;
 
-		
 		include_once("./Services/Skill/classes/class.ilSkillTreeExplorerGUI.php");
 		$ilCtrl->setParameter($this, "templates_tree", $a_templates);
 		$exp = new ilSkillTreeExplorerGUI($this, "showTree", $a_templates);
