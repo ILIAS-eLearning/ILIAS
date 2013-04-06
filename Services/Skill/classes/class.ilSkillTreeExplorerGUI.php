@@ -23,6 +23,15 @@ class ilSkillTreeExplorerGUI extends ilTreeExplorerGUI
 		$tree = new ilSkillTree();
 		parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
+		if ($this->templates)
+		{
+			$this->setTypeWhiteList(array("skrt", "sktp", "sctp"));
+		}
+		else
+		{
+			$this->setTypeWhiteList(array("skrt", "skll", "scat", "sktr"));
+		}
+		
 		$this->setSkipRootNode(false);
 		$this->setAjax(true);
 		$this->setOrderField("order_nr");
@@ -36,7 +45,7 @@ class ilSkillTreeExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getChildsOfNode($a_parent_id)
 	{
-		$childs =  $this->tree->getChilds($a_parent_id, $this->getOrderField());
+		$childs = parent::getChildsOfNode($a_parent_id);
 		
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 		foreach ($childs as $c)
@@ -120,27 +129,6 @@ class ilSkillTreeExplorerGUI extends ilTreeExplorerGUI
 		}
 		
 		return $icon;
-	}
-
-	/**
-	 * Is node visible? This method should be used for filtering of any kind.
-	 *
-	 * @param mixed $a_node node object/array
-	 * @return boolean node visible true/false
-	 */
-	function isNodeVisible($a_node)
-	{
-		if ($this->templates &&
-			in_array($a_node["type"], array("skrt", "sktp", "sctp")))
-		{
-			return true;
-		}
-		if (!$this->templates &&
-			in_array($a_node["type"], array("skrt", "skll", "scat", "sktr")))
-		{
-			return true;
-		}
-		return false;
 	}
 
 	/**
