@@ -145,6 +145,19 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	}
 
 	/**
+	 * Get node icon alt attribute
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return string image alt attribute
+	 */
+	function getNodeIconAlt($a_node)
+	{
+		global $lng;
+		
+		return $lng->txt("icon")." ".$lng->txt("obj_".$a_node["type"]);
+	}
+
+	/**
 	 * Get root node
 	 *
 	 * @param

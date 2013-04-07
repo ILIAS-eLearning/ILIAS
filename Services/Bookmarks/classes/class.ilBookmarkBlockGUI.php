@@ -143,32 +143,12 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $ilUser;
 		
-		include_once("./Services/Bookmarks/classes/class.ilBookmarkExplorer.php");
-		
-		$showdetails = ($this->getCurrentDetailLevel() > 2);
-
-		$exp = new ilBookmarkExplorer($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
-			$_SESSION["AccountId"]);
-		$exp->setAllowedTypes(array('dum','bmf','bm'));
-		$exp->setEnableSmallMode(true);
-		$exp->setTargetGet("bmf_id");
-		$exp->setSessionExpandVariable('mexpand');
-		$ilCtrl->setParameter($this, "bmf_id", $this->id);
-		$exp->setExpandTarget($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"));
-		if ($_GET["mexpand"] == "")
+		include_once("./Services/Bookmarks/classes/class.ilBookmarkBlockExplorerGUI.php");
+		$exp = new ilBookmarkBlockExplorerGUI($this, "getPDBookmarkListHTMLTree");
+		if (!$exp->handleCommand())
 		{
-			$expanded = $this->id;
+			return "<div id='tree_div'>".$exp->getHTML()."</div>";
 		}
-		else
-		{
-			$expanded = $_GET["mexpand"];
-		}
-		$exp->setExpand($expanded);
-		$exp->setShowDetails($showdetails);
-
-		// build html-output
-		$exp->setOutput(0);
-		return $exp->getOutput();
 	}
 
 	/**

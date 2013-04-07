@@ -177,6 +177,52 @@ abstract class ilExplorerBaseGUI
 	}
 
 	/**
+	 * Get node icon alt attribute
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return string image alt attribute
+	 */
+	function getNodeIconAlt($a_node)
+	{
+		return "";
+	}
+
+	/**
+	 * Get node target (frame) attribute
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return string target
+	 */
+	function getNodeTarget($a_node)
+	{
+		return "";
+	}
+
+	/**
+	 * Get node onclick attribute
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return string onclick value
+	 */
+	function getNodeOnClick($a_node)
+	{
+		return "";
+	}
+
+	/**
+	 * Get onclick attribute for node toggling
+	 *
+	 * @param
+	 * @return
+	 */
+	final protected function getNodeToggleOnClick($a_node)
+	{
+		return "$('#".$this->getContainerId()."').jstree('toggle_node' , '#".
+			$this->getDomNodeIdForNodeId($this->getNodeId($a_node))."'); return false;";
+	}
+	
+	
+	/**
 	 * Is node visible?
 	 *
 	 * This method should be used for filtering of any kind.
@@ -389,10 +435,20 @@ abstract class ilExplorerBaseGUI
 		$tpl->setCurrentBlock("content");
 		if ($this->getNodeIcon($a_node) != "")
 		{
-			$tpl->setVariable("ICON", ilUtil::img($this->getNodeIcon($a_node))." ");
+			$tpl->setVariable("ICON", ilUtil::img($this->getNodeIcon($a_node), $this->getNodeIconAlt($a_node))." ");
 		}
 		$tpl->setVariable("CONTENT", $this->getNodeContent($a_node));
 		$tpl->setVariable("HREF", $this->getNodeHref($a_node));
+		$target = $this->getNodeTarget($a_node);
+		if ($target != "")
+		{
+			$tpl->setVariable("TARGET", 'target="'.$target.'"');
+		}
+		$onclick = $this->getNodeOnClick($a_node);
+		if ($onclick != "")
+		{
+			$tpl->setVariable("ONCLICK", 'onclick="'.$onclick.'"');
+		}
 		$tpl->parseCurrentBlock();
 		
 		$tpl->touchBlock("tag");
