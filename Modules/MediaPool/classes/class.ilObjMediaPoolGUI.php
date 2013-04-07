@@ -307,7 +307,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			default:
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				$cmd = $this->ctrl->getCmd("frameset");
+				$cmd = $this->ctrl->getCmd("listMedia");
 				$this->$cmd();
 				if (!$this->getCreationMode())
 				{
@@ -418,6 +418,19 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			}		
 		}
 
+		// tree
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolExplorerGUI.php");
+		$exp = new ilMediaPoolExplorerGUI($this, "listMedia", $this->object);
+		if (!$exp->handleCommand())
+		{
+			$this->tpl->setLeftNavContent($exp->getHTML());
+		}
+		else
+		{
+			return;
+		}
+
+		
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "mepitem_id");
 		$tpl->setContent($mep_table_gui->getHTML());
@@ -523,107 +536,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		{
 			return "";
 		}
-	}
-	
-
-	/**
-	* output main frameset of media pool
-	* left frame: explorer tree of folders
-	* right frame: media pool content
-	*/
-	function frameset()
-	{
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-		$fs_gui->setMainFrameSource(
-			$this->ctrl->getLinkTarget($this, "listMedia"));
-		$this->ctrl->setParameter($this, "expand", "1");
-		$fs_gui->setSideFrameSource(
-			$this->ctrl->getLinkTarget($this, "explorer"));
-		$fs_gui->setFramesetTitle($this->object->getTitle());
-		$fs_gui->show();
-		exit;
-	}
-
-	/**
-	* output main frameset of media pool
-	* left frame: explorer tree of folders
-	* right frame: media pool content
-	*/
-	function infoScreenFrameset()
-	{
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-		$fs_gui->setMainFrameSource(
-			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
-		$this->ctrl->setParameter($this, "expand", "1");
-		$fs_gui->setSideFrameSource(
-			$this->ctrl->getLinkTarget($this, "explorer"));
-		$fs_gui->setFramesetTitle($this->object->getTitle());
-		$fs_gui->show();
-		exit;
-	}
-
-	/**
-	* output explorer tree
-	*/
-	function explorer()
-	{
-		global $ilAccess, $ilCtrl;
-		
-		$ilCtrl->setParameter($this, "obj_id", "");
-		$ilCtrl->setParameter($this, "mepitem_id", "");
-		
-		if (!$ilAccess->checkAccess("read", "", $this->object->getRefId()) &&
-			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			return;
-		}
-		
-		require_once ("./Modules/MediaPool/classes/class.ilMediaPoolExplorer.php");
-		$exp = new ilMediaPoolExplorer($this->ctrl->getLinkTarget($this, "listMedia"), $this->object);
-		$exp->setUseStandardFrame(true);
-		$exp->setTargetGet("mepitem_id");
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, "explorer"));
-		$exp->setTitle($this->lng->txt("cont_mep_structure"));
-
-		$exp->addFilter("dummy");
-		$exp->addFilter("fold");
-		$exp->setFiltered(true);
-		$exp->setFilterMode(IL_FM_POSITIVE);
-
-
-		if ($_GET["mepexpand"] == "")
-		{
-			$mep_tree =& $this->object->getTree();
-			$expanded = $mep_tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["mepexpand"];
-		}
-
-		$exp->setExpand($expanded);
-
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-		echo $output;
-		exit;
-/*		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_mep_structure"));
-		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-		$this->tpl->setVariable("EXPLORER",$output);
-		$this->ctrl->setParameter($this, "mepexpand", $_GET["mepexpand"]);
-		$this->tpl->setVariable("ACTION",
-			$this->ctrl->getLinkTarget($this, "explorer"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->show(false);
-*/
 	}
 	
 	/**
@@ -1427,7 +1339,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		if ($ilAccess->checkAccess("read", "", $ref_id))
 		{
-			$_GET["cmd"] = "frameset";
 			$_GET["baseClass"] = "ilMediaPoolPresentationGUI";
 			$_GET["ref_id"] = $ref_id;
 			$_GET['mepitem_id'] = $subitem_id;
