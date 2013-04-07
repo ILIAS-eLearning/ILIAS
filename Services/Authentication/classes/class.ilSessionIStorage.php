@@ -83,7 +83,7 @@ class ilSessionIStorage
 		global $ilDB;
 		
 		if (is_array(self::$values[$this->component_id]) &&
-			is_set(self::$values[$this->component_id][$a_key]))
+			isset(self::$values[$this->component_id][$a_key]))
 		{
 			return self::$values[$this->component_id][$a_key];
 		}

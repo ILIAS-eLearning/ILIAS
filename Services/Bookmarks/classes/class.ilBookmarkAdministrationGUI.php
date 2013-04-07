@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once ("./Services/Bookmarks/classes/class.ilBookmarkExplorer.php");
 require_once ("./Services/Bookmarks/classes/class.ilBookmarkFolder.php");
 require_once ("./Services/Bookmarks/classes/class.ilBookmark.php");
 require_once ("./Services/Table/classes/class.ilTableGUI.php");
@@ -133,50 +132,12 @@ class ilBookmarkAdministrationGUI
 	{
 		global $tpl;
 
-		$etpl = new ilTemplate("tpl.bookmark_explorer.html", true, true,
-			"Services/Bookmarks");
-		$exp  = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this), $this->user_id);
-		$exp->setAllowedTypes(array('dum', 'bmf'));
-		$exp->setTargetGet("bmf_id");
-		$exp->setSessionExpandVariable('mexpand');
-		$exp->setExpand($this->id);
-		$this->ctrl->setParameter($this, "bmf_id", $this->id);
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this));
-		if($_GET["mexpand"] == "")
+		include_once("./Services/Bookmarks/classes/class.ilBookmarkExplorerGUI.php");
+		$exp = new ilBookmarkExplorerGUI($this, "explorer");
+		if (!$exp->handleCommand())
 		{
-			$mtree = new ilTree($this->user_id);
-			$mtree->setTableNames('bookmark_tree', 'bookmark_data');
-			$expanded = $mtree->readRootId();
+			$tpl->setLeftNavContent($exp->getHTML());
 		}
-		else
-		{
-			$expanded = $_GET["mexpand"];
-		}
-
-		$exp->setExpand($expanded);
-		$exp->highlightNode($_GET["bmf_id"]);
-
-		// build html-output
-		$exp->setOutput(0);
-		$exp->highlightNode($this->id);
-		$output = $exp->getOutput();
-
-//		$etpl->setCurrentBlock("adm_tree_content");
-		$etpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("bookmarks"));
-		$this->ctrl->setParameter($this, "bmf_id", 1);
-
-		if($_REQUEST['bm_link'])
-		{
-			$link = $_SERVER['REQUEST_URI'];
-			$link = ereg_replace('bmf_id=[0-9]*', 'bmf_id=1', $link);
-			$etpl->setVariable("LINK_EXPLORER_HEADER", $link);
-		}
-		else
-			$etpl->setVariable("LINK_EXPLORER_HEADER", $this->ctrl->getLinkTarget($this));
-
-		$etpl->setVariable("EXPLORER", $output);
-		$tpl->setLeftNavContent($etpl->get());
-		;
 	}
 
 
@@ -1046,10 +1007,10 @@ class ilBookmarkAdministrationGUI
 
 	function move()
 	{
-		global $ilUser, $ilTabs;
+		global $ilUser, $ilTabs, $tpl;
 
 		$bm_ids = $_REQUEST['bm_id'];
-		if(!$bm_ids)
+		if(!$bm_ids && $_GET["bm_id_tgt"] == "")
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return $this->view();
@@ -1057,19 +1018,15 @@ class ilBookmarkAdministrationGUI
 
 		$ilTabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
 
-		$this->ctrl->setParameter($this, "bm_id_tgt", implode(";", $bm_ids));
-		$exp = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this, "confirmedMove"), $ilUser->getId());
-		$exp->setAllowedTypes(array('bmf'));
-		$exp->setTargetGet("bmfmv_id");
-		$exp->forceExpandAll(true, false);
-		$exp->addRoot($this->lng->txt("bookmarks"));
-		$exp->setOutput(0);
-
+		$this->ctrl->setParameter($this, "bm_id_tgt", $_GET["bm_id_tgt"] ?  $_GET["bm_id_tgt"] : implode(";", $bm_ids));
 		ilUtil::sendInfo($this->lng->txt("bookmark_select_target"));
-		$this->tpl->setContent($exp->getOutput());
-
-		// do not display navigation tree
-		$this->mode = "flat";
+		include_once("./Services/Bookmarks/classes/class.ilBookmarkMoveExplorerGUI.php");
+		$exp = new ilBookmarkMoveExplorerGUI($this, "move");
+		if (!$exp->handleCommand())
+		{
+			$this->mode = "flat";
+			$this->tpl->setContent($exp->getHTML());
+		}
 	}
 
 	function confirmedMove()
