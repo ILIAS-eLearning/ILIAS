@@ -137,6 +137,9 @@ class ilDataCollectionRecord
 	{
 		$this->loadRecordFields();
 		$this->recordfields[$field_id]->delete();
+        if(count($this->recordfields) == 1)
+        if(count($this->recordfields) == 1)
+            $this->doDelete();
 	}
 	
 	/**
@@ -346,6 +349,7 @@ class ilDataCollectionRecord
 	 */
 	public function getRecordFieldHTML($field_id,array $options = array())
 	{
+        global $lng;
 		$this->loadRecordFields();
 		
 		if(ilDataCollectionStandardField::_isStandardField($field_id))
@@ -354,6 +358,11 @@ class ilDataCollectionRecord
 		}
 		else
 		{
+            if(!$this->recordfields[$field_id]){
+                ilUtil::sendInfo($lng->txt("dcl_inconsistent"), true);
+                return "-";
+            }
+
 			return $this->recordfields[$field_id]->getHTML($options);
 		}
 	}

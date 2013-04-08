@@ -192,7 +192,9 @@ class ilObjDataCollection extends ilObject2
 					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
                     $t = "";
                     foreach($record->getTable()->getVisibleFields() as $field){
-                        $t .= $record->getRecordField($field->getId())->getPlainText()." ";
+                        if($record->getRecordField($field->getId())){
+                            $t .= $record->getRecordField($field->getId())->getPlainText()." ";
+                        }
                     }
                     $message .= $t."\n";
 				}
