@@ -130,6 +130,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				break;
 
 			case "edit":
+			case "editContent":
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 				
