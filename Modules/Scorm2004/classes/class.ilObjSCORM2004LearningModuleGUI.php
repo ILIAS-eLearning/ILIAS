@@ -48,6 +48,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
+		
+		if ($this->object->getEditable() && $cmd != "showEditTree")	// show editing frameset
+		{
+			$this->showEditTree();
+		}
 
 		// update expander
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
@@ -113,14 +118,54 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	}
 
 	/**
+	 * Show tree
+	 *
+	 * @param
+	 * @return
+	 */
+	function showEditTree()
+	{
+		global $tpl;
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EditorExplorerGUI.php");
+		$exp = new ilSCORM2004EditorExplorerGUI($this, "showEditTree", $this->object);
+		if (!$exp->handleCommand())
+		{
+			$tpl->setLeftNavContent($exp->getHTML());
+		}
+	}
+	
+	
+	/**
 	 * Edit organization (called from listgui, must setup frameset)
 	 *
 	 * @param
 	 * @return
 	 */
-	function editOrganization()
+	function editOrganization($a_to_organization = true)
 	{
-		$this->frameset(true);
+		if ($_GET["obj_id"] > 0)
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+			$type = ilSCORM2004Node::_lookupType($_GET["obj_id"]);
+		}
+		if (in_array($type, array("sco", "chap", "seqc", "page")))
+		{
+			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+			$this->ctrl->redirect($this, "jumpToNode");
+		}
+		else
+		{
+			if ($a_to_organization)
+			{
+				$this->ctrl->redirect($this, "showOrganization");
+			}
+			else
+			{
+				$this->ctrl->redirect($this, "properties");
+			}
+		}
+
 	}
 
 	/**
@@ -132,9 +177,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	{
 		if ($this->object->getEditable())	// show editing frameset
 		{
+$this->ctrl->redirect($this, "properties");
 			include_once("./Services/Frameset/classes/class.ilFramesetGUI.php");
 			$fs_gui = new ilFramesetGUI();
-				
 			$fs_gui->setFramesetTitle($this->lng->txt("editor"));
 			$fs_gui->setMainFrameName("content");
 			$fs_gui->setSideFrameName("tree");
