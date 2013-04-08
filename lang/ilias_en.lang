@@ -12400,7 +12400,7 @@ dcl#:#dcl_edit_start#:#Start-Date
 dcl#:#dcl_edit_end#:#End-Date
 dcl#:#dcl_export#:#Export
 dcl#:#dcl_table_list_fields#:#Fields Of Selected Table
-dcl#:#dcl_view_viewdefinition#:#Viewdefinition
+dcl#:#dcl_view_viewdefinition#:#Detailed View
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_table_create#:#Create Table
 dcl#:#dcl_table_edit#:#Update Table
@@ -12432,6 +12432,7 @@ dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".
+dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team

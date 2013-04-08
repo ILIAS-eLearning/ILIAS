@@ -4472,80 +4472,84 @@ class ilObjCourseGUI extends ilContainerGUI
 						));
 				$this->ctrl->forwardCommand($service);
 				break;
-				
-			default:
-				if(!$this->creation_mode)
-				{
-					$this->checkPermission('visible');
-				}
-				/*
-				if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
-				{
-					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
-				}
-				*/		
-				
-				// #9401 - see also ilStartupGUI::_checkGoto()
-				if($cmd == 'infoScreenGoto')
-				{											
-					if(ilObjCourse::_isActivated($this->object->getId()) &&
-						ilObjCourse::_registrationEnabled($this->object->getId()))
-					{
-						$cmd = 'join';						
-					}
-					else
-					{
-						$cmd = 'infoScreen';
-					}
-				}
-				
-				if( !$this->creation_mode
-					&& $cmd != 'infoScreen'
-					&& $cmd != 'sendfile'
-					&& $cmd != 'unsubscribe'
-					&& $cmd != 'performUnsubscribe'
-					&& !$ilAccess->checkAccess("read",'',$this->object->getRefId())
-					|| $cmd == 'join'
-					|| $cmd == 'subscribe')
-				{											
-					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-					if($rbacsystem->checkAccess('join',$this->object->getRefId()) &&
-						!ilCourseParticipants::_isParticipant($this->object->getRefId(),$ilUser->getId()))
-					{
-						include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
-						$this->ctrl->redirectByClass("ilCourseRegistrationGUI");
-					}
-					else
-					{
-						$this->infoScreenObject();
-						break;
-					}
-				}
-				
-				if($cmd == 'listObjectives')
-				{
-					include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
 
-					$this->ctrl->setReturn($this,"");
-					$obj_gui =& new ilCourseObjectivesGUI($this->object->getRefId());
-					$ret =& $this->ctrl->forwardCommand($obj_gui);
-					break;
-				}
-				
-				// Dirty hack for course timings view
-				if($this->forwardToTimingsView())
-				{
-					break;
-				}
+            //OTX: needed for plug-ins
+            case '':
+            //OTX END
+                if(!$this->creation_mode)
+                {
+                    $this->checkPermission('visible');
+                }
+                /*
+                if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
+                {
+                    $ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+                }
+                */
+                if( !$this->creation_mode
+                    && $cmd != 'infoScreen'
+                    && $cmd != 'sendfile'
+                    && $cmd != 'unsubscribe'
+                    && $cmd != 'performUnsubscribe'
+                    && !$ilAccess->checkAccess("read",'',$this->object->getRefId())
+                    || $cmd == 'join'
+                    || $cmd == 'subscribe')
+                {
+                    include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+                    if($rbacsystem->checkAccess('join',$this->object->getRefId()) &&
+                        !ilCourseParticipants::_isParticipant($this->object->getRefId(),$ilUser->getId()))
+                    {
+                        include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
+                        $this->ctrl->redirectByClass("ilCourseRegistrationGUI");
+                    }
+                    else
+                    {
+                        $this->infoScreenObject();
+                        break;
+                    }
+                }
 
-				if(!$cmd)
-				{
-					$cmd = 'view';
-				}
-				$cmd .= 'Object';
-				$this->$cmd();
-					
-				break;
+                if($cmd == 'listObjectives')
+                {
+                    include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
+
+                    $this->ctrl->setReturn($this,"");
+                    $obj_gui =& new ilCourseObjectivesGUI($this->object->getRefId());
+                    $ret =& $this->ctrl->forwardCommand($obj_gui);
+                    break;
+                }
+
+                if((!$this->creation_mode)&&(!$rbacsystem->checkAccess("write",$this->object->getRefId())))
+                {
+                    $this->ctrl->setReturn($this,'view');
+                    include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
+                    $feedbackGUI = new ilFeedbackGUI();
+                    $feedbackGUI->handleRequiredFeedback($this->object->getRefId());
+                }
+
+                // Dirty hack for course timings view
+                if($this->forwardToTimingsView())
+                {
+                    break;
+                }
+
+                if(!$cmd)
+                {
+                    $cmd = 'view';
+                }
+                $cmd .= 'Object';
+                $this->$cmd();
+
+                break;
+            // OTX: needed for plug-ins
+            default:
+                $class_path = $this->ctrl->lookupClassPath($next_class);
+                include_once($class_path);
+                $class_name = $this->ctrl->getClassForClasspath($class_path);
+                $next = new $class_name($this);
+                $this->ctrl->forwardCommand($next);
+                break;
+            // OTX END
 		}
 		
 		$this->addHeaderAction();
