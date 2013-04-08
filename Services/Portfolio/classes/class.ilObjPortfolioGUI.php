@@ -1432,7 +1432,8 @@ class ilObjPortfolioGUI
 			$a_portfolio->getFontColor(),
 			$banner_width,
 			$banner_height,
-			$a_export);				
+			$a_export);
+		$a_tpl->setBodyClass("std ilExternal ilPortfolio");
 	}
 			
 	function export()
