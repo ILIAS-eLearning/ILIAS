@@ -12568,6 +12568,7 @@ dcl#:#dcl_editable_in_table_gui#:#Die Bewertung kann in der Tabellenansicht abge
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
+dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender anzeigen
