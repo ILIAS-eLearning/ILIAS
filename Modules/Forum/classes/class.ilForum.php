@@ -2159,7 +2159,7 @@ class ilForum
 				// SEND NOTIFICATIONS BY E-MAIL
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
-												   strip_tags($this->formatNotification($post_data, 0, $attachments),$row['user_id']),
+												   strip_tags($this->formatNotification($post_data, 0, $attachments, $row['user_id'])),
 												  array(),array("system"));
 			}
 		}
@@ -2377,7 +2377,7 @@ class ilForum
 	 * @param int 	$user_id 	user_id of mail-recipient
 	 * @return string
 	 */
-	private function formatNotification($post_data, $cron = 0, $attachments = array(), $user_id)
+	public function formatNotification($post_data, $cron = 0, $attachments = array(), $user_id)
 	{
 		global $ilIliasIniFile;
 

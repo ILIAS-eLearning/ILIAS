@@ -93,7 +93,7 @@ class ilCronForumNotification
 					$frm->setLanguage(ilForum::_getLanguageInstanceByUsrId($row['user_id']));			
 					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row['user_id']),'','',
 													   $frm->formatNotificationSubject($row),
-													   strip_tags($frm->formatNotification($row, 1, $attached_files)),
+													   strip_tags($frm->formatNotification($row, 1, $attached_files, $row['user_id'])),
 													   array(),array('normal'));
 					$numRows++;					
 				}
