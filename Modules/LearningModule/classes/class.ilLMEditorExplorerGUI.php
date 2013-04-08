@@ -33,7 +33,6 @@ class ilLMEditorExplorerGUI extends ilTreeExplorerGUI
 //		$this->setTypeWhiteList(array("dummy", "fold"));
 		$this->setSkipRootNode(false);
 		$this->setAjax(false);
-		$this->setOrderField("title");
 	}
 
 	/**
