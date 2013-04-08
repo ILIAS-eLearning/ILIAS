@@ -69,7 +69,7 @@ class ilSoapClient
 			return $this->server = trim($ilSetting->get('soap_wsdl_path'));
 		}
 
-		$this->setTimeout($ilSetting->get('soap_connect_timeout'), self::DEFAULT_CONNECT_TIMEOUT);
+		$this->setTimeout($ilSetting->get('soap_connect_timeout', self::DEFAULT_CONNECT_TIMEOUT));
 		
 		$this->server = ilUtil::_getHttpPath().'/webservice/soap/server.php?wsdl';
 	}

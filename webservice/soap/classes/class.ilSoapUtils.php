@@ -41,7 +41,7 @@ class ilSoapUtils extends ilSoapAdministration
 
 	function ignoreUserAbort()
 	{
-		ignore_user_abort();
+		return ignore_user_abort(true);
 	}
 
 	function disableSOAPCheck()
