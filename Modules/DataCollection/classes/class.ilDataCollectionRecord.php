@@ -138,7 +138,6 @@ class ilDataCollectionRecord
 		$this->loadRecordFields();
 		$this->recordfields[$field_id]->delete();
         if(count($this->recordfields) == 1)
-        if(count($this->recordfields) == 1)
             $this->doDelete();
 	}
 	
