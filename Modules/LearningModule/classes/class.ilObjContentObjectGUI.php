@@ -58,7 +58,17 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$next_class = $this->ctrl->getNextClass($this);
 
 		// get current command
-		$cmd = $this->ctrl->getCmd("", array("downloadExportFile"));
+//		$cmd = $this->ctrl->getCmd("", array("downloadExportFile"));
+		if ($_GET["to_props"] == 1)
+		{
+			$cmd = $this->ctrl->getCmd("properties");
+		}
+		else
+		{
+			$cmd = $this->ctrl->getCmd("chapters");
+		}
+
+		
 //echo "-$cmd-".$next_class."-";
 		switch($next_class)
 		{
