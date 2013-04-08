@@ -87,13 +87,20 @@ class ilLMEditorGUI
 
 		global $ilHelp;
 		
-		$cmd = $this->ctrl->getCmd("frameset");
+		if ($_GET["to_page"]== 1)
+		{
+			$this->ctrl->redirectByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
+		}
+		
+		if ($cmd != "showTree")
+		{
+			$this->showTree();
+		}
 
 		$next_class = $this->ctrl->getNextClass($this);
 //echo "lmeditorgui:$next_class:".$this->ctrl->getCmdClass().":$cmd:<br>";
-		$cmd = $this->ctrl->getCmd("frameset");
 
-		if ($next_class == "" && ($cmd != "explorer") && ($cmd != "frameset")
+		if ($next_class == "" && ($cmd != "explorer")
 			&& ($cmd != "showImageMap"))
 		{
 			switch($this->lm_obj->getType())
@@ -173,74 +180,29 @@ class ilLMEditorGUI
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 	}
 
 	/**
-	* output main frameset of editor
-	* left frame: explorer tree of chapters
-	* right frame: editor content
-	*/
-	function frameset()
+	 * Show tree
+	 *
+	 * @param
+	 * @return
+	 */
+	function showTree()
 	{
-		include_once("./Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-		
-		$fs_gui->setFramesetTitle($this->lng->txt("editor"));
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		global $tpl;
 
-		if ($this->lm_obj->getType() == "dbk")
+		include_once("./Modules/LearningModule/classes/class.ilLMEditorExplorerGUI.php");
+		$exp = new ilLMEditorExplorerGUI($this, "showTree", $this->lm_obj);
+		if (!$exp->handleCommand())
 		{
-			$fs_gui->setSideFrameSource(
-				$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "explorer"));
-			if ($_GET["to_page"]== 1)
-			{
-				$fs_gui->setMainFrameSource(
-					$this->ctrl->getLinkTargetByClass(
-						array("ilobjdlbookgui", "illmpageobjectgui"),
-						"edit"));
-			}
-			else
-			{
-				$fs_gui->setMainFrameSource(
-					$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "chapters"));
-			}
+			$tpl->setLeftNavContent($exp->getHTML());
 		}
-		else
-		{
-			$fs_gui->setSideFrameSource(
-				$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer"));
-			if ($_GET["to_page"]== 1)
-			{
-				$fs_gui->setMainFrameSource(
-					$this->ctrl->getLinkTargetByClass(
-						array("ilobjlearningmodulegui", "illmpageobjectgui"),
-						"edit"));
-			}
-			else
-			{
-				if ($_GET["to_props"] == 1)
-				{
-					$fs_gui->setMainFrameSource(
-						$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "properties"));
-				}
-				else
-				{
-					$fs_gui->setMainFrameSource(
-						$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "chapters"));
-				}
-			}
-		}
-		$fs_gui->show();
-		exit;
 	}
 	
-	
-
 	/**
 	* output main header (title and locator)
 	*/
