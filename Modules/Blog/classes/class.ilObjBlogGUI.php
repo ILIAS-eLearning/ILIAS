@@ -1011,6 +1011,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$banner_width,
 			$banner_height,
 			$a_export);
+		$a_tpl->setBodyClass("std ilExternal ilBlog");
+		
 	}
 	
 	/**
