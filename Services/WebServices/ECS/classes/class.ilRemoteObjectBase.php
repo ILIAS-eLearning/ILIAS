@@ -258,6 +258,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 			$auth->setUrl($this->getRemoteLink());
 			$auth->setRealm(sha1($this->getRemoteLink()));
 			$GLOBALS['ilLog']->write(__METHOD__.' Mid is '.$this->getMID());
+			$GLOBALS['ilLog']->write(__METHOD__.': Realm is '. $this->getRemoteLink());
 			$this->auth_hash = $connector->addAuth(@json_encode($auth),$this->getMID());
 			return true;
 		}
@@ -652,12 +653,12 @@ abstract class ilRemoteObjectBase extends ilObject2
 					$ilLog->write(__METHOD__.': Cannot instantiate remote object. Got object type '.$remote->getType());
 					continue;
 				}
-				$remote->updateFromECSContent($a_server,$json,$details->getFirstSender());
+				$remote->updateFromECSContent($a_server,$json,$details->getMySender());
 			}
 			else
 			{
 				$ilLog->write(__METHOD__.': Handling create for non existing object');
-				$this->createFromECSEContent($a_server,$json,$details->getFirstSender());
+				$this->createFromECSEContent($a_server,$json,$details->getMySender());
 								
 				// update import status
 				$ilLog->write(__METHOD__.': Updating import status');

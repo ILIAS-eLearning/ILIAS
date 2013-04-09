@@ -33,6 +33,7 @@ class ilECSEContentDetails
 {
 
 	public $senders = array();
+	public $sender_index = NULL;
 	public $receivers = array();
 	public $url = array();
 	public $content_type = array();
@@ -101,6 +102,15 @@ class ilECSEContentDetails
 	{
 		return isset($this->senders[0]) ? $this->senders[0] : 0;
 	}
+	
+	/**
+	 * Get sender from whom we received the ressource
+	 * According to the documentation the sender and receiver arrays have corresponding indexes.
+	 */
+	public function getMySender()
+	{
+		return $this->senders[$this->sender_index];
+	}
 
 	/**
 	 * Get recievers
@@ -156,9 +166,15 @@ class ilECSEContentDetails
 			$this->senders[] = $sender->mid;
 		}
 
+		$index = 0;
 		foreach((array) $json->receivers as $receiver)
 		{
 			$this->receivers[] = $receiver->mid;
+			if($receiver->itsyou and $this->sender_index === NULL)
+			{
+				$this->sender_index = $index;
+			}
+			++$index;
 		}
 
 		// Collect in one array
