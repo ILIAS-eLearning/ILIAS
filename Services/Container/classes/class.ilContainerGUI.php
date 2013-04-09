@@ -3299,5 +3299,56 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		exit;
 	}
 	// begin-patch fm
+		
+	/**
+	 * Show tree
+	 *
+	 * @param boolean $a_initial_call should be true if not called through standard
+	 *        $ilCtrl->getCmd() procedure 
+	 */
+	function showRepTree($a_initial_call = false)
+	{
+		global $tpl, $ilUser, $ilSetting, $ilCtrl;
+		
+		// set current repository view mode
+		if (!empty($_GET["set_mode"]))
+		{
+			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
+			if ($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				$ilUser->writePref("il_rep_mode", $_GET["set_mode"]);
+			}
+		}
+
+		// get user setting
+		if ($_SESSION["il_rep_mode"] == "")
+		{
+			if ($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				$_SESSION["il_rep_mode"] = $ilUser->getPref("il_rep_mode");
+			}
+		}
+
+		// if nothing set, get default view
+		if ($_SESSION["il_rep_mode"] == "")
+		{
+			$_SESSION["il_rep_mode"] = $ilSetting->get("default_repository_view");
+		}
+		
+		$mode = ($_SESSION["il_rep_mode"] != "")
+			? $_SESSION["il_rep_mode"]
+			: "flat";
+			
+		if ($mode == "tree")
+		{
+			include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
+			$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
+			if (!$exp->handleCommand())
+			{
+				$tpl->setLeftNavContent($exp->getHTML());
+			}
+		}
+	}
+	
 }
 ?>

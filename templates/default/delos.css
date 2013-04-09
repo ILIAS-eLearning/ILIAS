@@ -1079,6 +1079,8 @@ a.ilTreeViewRight:hover {
 /* Explorer2, jsTree */
 
 .jstree a {color:#3444aa !important;}
+.jstree a.disabled {color:#303030 !important; cursor: default !important;}
+
 .jstree a {font-size: 90%;}
 
 .jstree li, 

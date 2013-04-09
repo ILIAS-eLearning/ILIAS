@@ -154,6 +154,7 @@ abstract class ilExplorerBaseGUI
 	function nodeHasVisibleChilds($a_node)
 	{
 		$childs = $this->getChildsOfNode($this->getNodeId($a_node));
+
 		foreach ($childs as $child)
 		{
 			if ($this->isNodeVisible($child))
@@ -164,6 +165,18 @@ abstract class ilExplorerBaseGUI
 		return false;
 	}
 	
+	/**
+	 * Sort childs
+	 *
+	 * @param array $a_childs array of child nodes
+	 * @param mixed $a_parent_node parent node
+	 *
+	 * @return array array of childs nodes
+	 */
+	function sortChilds($a_childs, $a_parent_node_id)
+	{
+		return $a_childs;
+	}
 
 	/**
 	 * Get node icon path
@@ -225,8 +238,6 @@ abstract class ilExplorerBaseGUI
 	/**
 	 * Is node visible?
 	 *
-	 * This method should be used for filtering of any kind.
-	 *
 	 * @param mixed $a_node node object/array
 	 * @return boolean node visible true/false
 	 */
@@ -239,12 +250,23 @@ abstract class ilExplorerBaseGUI
 	 * Is node highlighted?
 	 *
 	 * @param mixed $a_node node object/array
-	 * @return boolean node visible true/false
+	 * @return boolean node highlighted true/false
 	 */
 	function isNodeHighlighted($a_node)
 	{
 		return false;
 	}	
+
+	/**
+	 * Is node clickable?
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return boolean node clickable true/false
+	 */
+	function isNodeClickable($a_node)
+	{
+		return true;
+	}
 	
 	/**
 	 * Handle explorer internal command.
@@ -338,7 +360,7 @@ abstract class ilExplorerBaseGUI
 	 * @param
 	 * @return
 	 */
-	function getHTML()
+	final function getHTML()
 	{
 		global $tpl, $ilCtrl;
 		
@@ -363,6 +385,7 @@ abstract class ilExplorerBaseGUI
 			"url" => $url,
 			"ajax" => $this->getAjax(),
 			);
+		
 		
 		// jstree config options
 		$js_tree_config = array(
@@ -394,6 +417,7 @@ abstract class ilExplorerBaseGUI
 		else
 		{		
 			$childs = $this->getChildsOfNode($this->getNodeId($root_node));
+			$childs = $this->sortChilds($childs, $this->getNodeId($root_node));
 			$any = false;
 			foreach ($childs as $child_node)
 			{
@@ -444,10 +468,18 @@ abstract class ilExplorerBaseGUI
 		{
 			$tpl->setVariable("TARGET", 'target="'.$target.'"');
 		}
-		$onclick = $this->getNodeOnClick($a_node);
-		if ($onclick != "")
+		if (!$this->isNodeClickable($a_node))
 		{
-			$tpl->setVariable("ONCLICK", 'onclick="'.$onclick.'"');
+			$tpl->setVariable("ONCLICK", 'onclick="return false;"');
+			$tpl->setVariable("A_CLASS", 'class="disabled"');
+		}
+		else
+		{
+			$onclick = $this->getNodeOnClick($a_node);
+			if ($onclick != "")
+			{
+				$tpl->setVariable("ONCLICK", 'onclick="'.$onclick.'"');
+			}
 		}
 		$tpl->parseCurrentBlock();
 		
@@ -467,9 +499,11 @@ abstract class ilExplorerBaseGUI
 	 * @param
 	 * @return
 	 */
-	function renderChilds($a_node_id, $tpl)
+	final function renderChilds($a_node_id, $tpl)
 	{
 		$childs = $this->getChildsOfNode($a_node_id);
+		$childs = $this->sortChilds($childs, $a_node_id);
+
 		if (count($childs) > 0)
 		{
 			$any = false;
