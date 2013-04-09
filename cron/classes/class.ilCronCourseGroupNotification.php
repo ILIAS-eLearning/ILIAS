@@ -208,6 +208,7 @@ class ilCronCourseGroupNotification extends ilMailNotification
 		
 		// #10044
 		$mail = new ilMail($ilUser->getId());
+		$mail->enableSOAP(false); // #10410
 		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id),null,null,
 			$this->getSubject(),$this->getBody(),null,array("system"));
 	}
