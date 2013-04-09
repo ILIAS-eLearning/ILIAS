@@ -653,12 +653,12 @@ abstract class ilRemoteObjectBase extends ilObject2
 					$ilLog->write(__METHOD__.': Cannot instantiate remote object. Got object type '.$remote->getType());
 					continue;
 				}
-				$remote->updateFromECSContent($a_server,$json,$details->getFirstSender());
+				$remote->updateFromECSContent($a_server,$json,$details->getMySender());
 			}
 			else
 			{
 				$ilLog->write(__METHOD__.': Handling create for non existing object');
-				$this->createFromECSEContent($a_server,$json,$details->getFirstSender());
+				$this->createFromECSEContent($a_server,$json,$details->getMySender());
 								
 				// update import status
 				$ilLog->write(__METHOD__.': Updating import status');
