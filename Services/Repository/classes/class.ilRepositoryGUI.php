@@ -375,6 +375,8 @@ class ilRepositoryGUI
 	{
 		global $lng, $ilCtrl, $ilAccess;
 		
+$ilCtrl->redirectByClass("ilrepositorygui", "");
+
 		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
 		$fs_gui = new ilFramesetGUI();
 

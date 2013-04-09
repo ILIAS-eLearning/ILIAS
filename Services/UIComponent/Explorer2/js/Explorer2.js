@@ -6,6 +6,7 @@ il.Explorer2 = {
 	configs: {},
 	
 	init: function (config, js_tree_config) {
+console.log(js_tree_config);
 		if (config.ajax) {
 			js_tree_config.html_data.ajax = {url: config.url + "&exp_cmd=getNodeAsync",
 				data: function(n) {
