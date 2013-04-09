@@ -384,7 +384,7 @@ class ilTestEvaluationUserData
 		{
 			$reached = $this->getReachedPointsInPercentForPass( $pass->getPass() );
 			
-			if($reached > $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists) )
+			if($reached >= $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists) )
 			{
 				$bestpoints = $reached;
 				$bestpass = $pass->getPass();
@@ -568,7 +568,7 @@ class ilTestEvaluationUserData
 		{
 			$reached = $this->getReachedPointsInPercentForPass( $pass->getPass() );
 			
-			if($reached > $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists) )
+			if($reached >= $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists) )
 			{
 				$bestpoints = $reached;
 				$bestpassObject = $pass;
