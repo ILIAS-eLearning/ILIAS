@@ -706,6 +706,10 @@ abstract class ilRemoteObjectBase extends ilObject2
 
 		$mail = new ilMail(self::MAIL_SENDER);
 		$message = $lang->txt('ecs_'.$this->getType().'_created_body_a')."\n\n";
+		if(strlen($this->getOrganization()))
+		{
+			$message .= $lang->txt('organization').': '.$this->getOrganization()."\n";
+		}
 		$message .= $lang->txt('title').': '.$this->getTitle()."\n";
 		if(strlen($desc = $this->getDescription()))
 		{
