@@ -107,6 +107,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 					break;
 
 		  }
+        echo "check permission";
 		  switch($a_permission)
 		  {
 			   case "read":
