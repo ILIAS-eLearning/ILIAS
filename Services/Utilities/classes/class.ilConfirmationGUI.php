@@ -114,16 +114,11 @@ class ilConfirmationGUI
 	}
 	
 	/**
-	* Hidden items are currently not supported in a table gui.
-	* Problem: after clicking prev/next links the information
-	* of the hidden items is lost.
-	* Add hidden item.
-	*
-	* @param	string	name of post variable used for id (e.g. "id[]")
-	* @param	mixed	value
-	* 
-	* @deprecated 
-	*/
+	 * Add hidden item.
+	 *
+	 * @param	string	name of post variable used for id (e.g. "id[]")
+	 * @param	mixed	value
+	 */
 	public function addHiddenItem($a_post_var, $a_value)
 	{
 		$this->hidden_item[] = array("var" => $a_post_var, "value" => $a_value);
@@ -172,6 +167,13 @@ class ilConfirmationGUI
 		{
 			$tb = new ilToolbarGUI();
 			$tb->setFormAction($this->getFormAction());
+			require_once 'Services/Form/classes/class.ilHiddenInputGUI.php';
+			foreach($this->hidden_item as $hidden_item)
+			{
+				$hiddenInput = new ilHiddenInputGUI($hidden_item['var']);
+				$hiddenInput->setValue($hidden_item['value']);
+				$tb->addInputItem($hiddenInput);
+			}
 			$tb->addFormButton($this->confirm_txt, $this->confirm_cmd);
 			$tb->addFormButton($this->cancel_txt, $this->cancel_cmd);
 			return $tb->getHTML();
