@@ -309,6 +309,34 @@ class ilPropertyFormGUI extends ilFormGUI
 	{
 		return $this->items;
 	}
+	
+	/**
+	 * returns a flat array of all input items including
+	 * the possibly existing subitems recursively
+	 * 
+	 * @return array
+	 */
+	public function getInputItemsRecursive()
+	{
+		$inputItems = array();
+		
+		foreach($this->items as $item)
+		{
+			if( $item->getType() == 'section_header' )
+			{
+				continue;
+			}
+			
+			$inputItems[] = $item;
+			
+			if( $item instanceof ilSubEnabledFormPropertyGUI )
+			{				
+				$inputItems = array_merge( $inputItems, $item->getSubInputItemsRecursive() );
+			}
+		}
+		
+		return $inputItems;
+	}
 
 	/**
 	* Set disable standard message
