@@ -2277,6 +2277,9 @@
 						<xsl:otherwise></xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
+				
+				<!-- set width of td, see bug #10911 -->
+				<xsl:attribute name="width"><xsl:value-of select="$width" /></xsl:attribute>
 
 				<!-- determine height -->
 				<xsl:variable name="height">
