@@ -46,7 +46,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
-		$this->setType("checkbox");
+		$this->setType("checkboxgroup");
 	}
 
 	/**
