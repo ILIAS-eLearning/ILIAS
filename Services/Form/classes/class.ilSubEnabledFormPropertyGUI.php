@@ -53,6 +53,33 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 	{
 		return $this->sub_items;
 	}
+	
+	/**
+	 * returns a flat array of possibly existing subitems recursively
+	 * 
+	 * @return array
+	 */
+	public function getSubInputItemsRecursive()
+	{
+		$subInputItems = array();
+		
+		foreach( $this->sub_items as $subItem )
+		{
+			if( $subItem->getType() == 'section_header' )
+			{
+				continue;
+			}
+			
+			$subInputItems[] = $subItem;
+			
+			if( $subItem instanceof ilSubEnabledFormPropertyGUI )
+			{
+				$subInputItems = array_merge( $subInputItems, $subItem->getSubInputItemsRecursive() );
+			}
+		}
+		
+		return $subInputItems;
+	}
 
 	/**
 	* Check SubItems
