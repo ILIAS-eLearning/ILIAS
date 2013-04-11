@@ -35,6 +35,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	{
 		parent::__construct($a_title, $a_postvar);
 		$this->setInputType("text");
+		$this->setType("text");
 		$this->validationRegexp = "";
 	}
 
