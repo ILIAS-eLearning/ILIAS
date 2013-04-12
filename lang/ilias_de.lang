@@ -13117,3 +13117,6 @@ common#:#file_version_rollback#:#Rollback von Version %s durch %s
 common#:#file_rollback#:#Zur aktuellen Version machen
 obj#:#edit_questions#:#Fragen bearbeiten
 common#:#frm_import#:#Forum importieren
+user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zur Löschung markiert, bitten authentifizieren Sie sich, um den Vorgang fortzusetzen.
+user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
+user#:#user_delete_own_account_aborted#:#Der Lösch-Prozess wurde abgebrochen, der Account ist unverändert.

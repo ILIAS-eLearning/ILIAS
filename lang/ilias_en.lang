@@ -13117,3 +13117,6 @@ common#:#file_version_rollback#:#Rollback from version %s by %s
 common#:#file_rollback#:#Make this the current version
 obj#:#edit_questions#:#Edit Questions
 common#:#frm_import#:#Import Forum
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.
+user#:#user_delete_own_account_logout_button#:#Proceed to Authentication
+user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.
