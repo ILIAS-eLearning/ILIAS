@@ -91,6 +91,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		
 		$has_booking = false;
 		$booking_possible = true;
+		$has_reservations = false;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 	    $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
@@ -112,6 +113,8 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 					{
 						$has_booking = true;
 					}
+					
+					$has_reservations = true;
 				}
 			}
 			
@@ -143,12 +146,14 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 				$reservation = ilBookingReservation::getCurrentOrUpcomingReservation($a_set['booking_object_id']);
 			
 				if($reservation)
-				{
+				{					
 					$date_from = new ilDateTime($reservation['date_from'], IL_CAL_UNIX);
 					$date_to = new ilDateTime($reservation['date_to'], IL_CAL_UNIX);
 
 					$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($reservation['user_id']));
 					$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
+					
+					$has_reservations = true;					
 				}
 				else
 				{
@@ -187,7 +192,8 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
 		if ($this->may_edit)
 		{
-			if(!$reservation)
+			// #10890
+			if(!$has_reservations)
 			{
 				$items['delete'] = array($lng->txt('delete'), $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
 			}
