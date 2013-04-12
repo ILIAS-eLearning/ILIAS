@@ -89,7 +89,7 @@ class ilAuthUtils
              $_SESSION['_authsession']['registered'] !== true))
         {
 			// no sesssion found
-			if (isset($_POST['username']) and $_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']) or isset($_POST['oid_username']) or isset($_GET['oid_check_status']))
+			if (isset($_POST['username']) and $_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']) or isset($_POST['oid_username']) or isset($_GET['oid_check_status']))
 			{
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
 
@@ -282,7 +282,7 @@ class ilAuthUtils
 	{
 		global $ilDB;
 		
-		if(isset($_GET['ecs_hash']))
+		if(isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']))
 		{
 			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_ECS);
 			return AUTH_ECS;

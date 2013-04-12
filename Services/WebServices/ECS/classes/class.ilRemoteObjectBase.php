@@ -232,15 +232,24 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 	$ecs_user_data = $user->toGET();
 		$GLOBALS['ilLog']->write(__METHOD__.': Using ecs user data '.$ecs_user_data);
 		
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+		$server_id = ilECSImport::lookupServerId($this->getId());
+		$server = ilECSSetting::getInstanceByServerId($server_id);
+		
+		$ecs_url_hash = 'ecs_hash_url='.urlencode($server->getServerURI().'/sys/auths/'.$this->auth_hash);
+		
+		
 		if(strpos($this->getRemoteLink(), '?'))
 		{
-		 	return $this->getRemoteLink().'&ecs_hash='.$this->auth_hash.$ecs_user_data;
+		 
+			$link = $this->getRemoteLink().'&ecs_hash='.$this->auth_hash.$ecs_user_data.'&'.$ecs_url_hash;
 		}
 		else
 		{
-			return $this->getRemoteLink().'?ecs_hash='.$this->auth_hash.$ecs_user_data;
+			$link = $this->getRemoteLink().'?ecs_hash='.$this->auth_hash.$ecs_user_data.'&'.$ecs_url_hash;
 		}
-		
+		$GLOBALS['ilLog']->write(__METHOD__.': ECS full link: '. $link);
+		return $link;
 	}
 	
 	/**
