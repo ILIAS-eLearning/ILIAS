@@ -592,8 +592,11 @@ class ilAccessHandler
 		// #10852 - member view check
 		if($a_user_id == $ilUser->getId())
 		{
+			// #10905 - activate parent container ONLY
 			include_once './Services/Container/classes/class.ilMemberViewSettings.php';
-			if(ilMemberViewSettings::getInstance()->isActiveForRefId($a_ref_id))
+			$memview = ilMemberViewSettings::getInstance();
+			if($memview->isActiveForRefId($a_ref_id) &&
+				$memview->getContainer() == $a_ref_id)
 			{				
 				return true;
 			}		
