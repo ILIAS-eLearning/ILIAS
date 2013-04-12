@@ -167,12 +167,15 @@ class ilConfirmationGUI
 		{
 			$tb = new ilToolbarGUI();
 			$tb->setFormAction($this->getFormAction());
-			require_once 'Services/Form/classes/class.ilHiddenInputGUI.php';
-			foreach($this->hidden_item as $hidden_item)
+			if($this->hidden_item)
 			{
-				$hiddenInput = new ilHiddenInputGUI($hidden_item['var']);
-				$hiddenInput->setValue($hidden_item['value']);
-				$tb->addInputItem($hiddenInput);
+				require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+				foreach($this->hidden_item as $hidden_item)
+				{
+					$hiddenInput = new ilHiddenInputGUI($hidden_item['var']);
+					$hiddenInput->setValue($hidden_item['value']);
+					$tb->addInputItem($hiddenInput);
+				}
 			}
 			$tb->addFormButton($this->confirm_txt, $this->confirm_cmd);
 			$tb->addFormButton($this->cancel_txt, $this->cancel_cmd);

@@ -3539,7 +3539,19 @@ class ilObjUserGUI extends ilObjectGUI
 	 */
 	function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng, $ilNavigationHistory;
+		global $ilUser, $ilCtrl;
+		
+		// #10888
+		if($a_target == md5("usrdelown"))
+		{						
+			if($ilUser->hasDeletionFlag())
+			{
+				$ilCtrl->setTargetScript("ilias.php");
+				$ilCtrl->initBaseClass("ilpersonaldesktopgui");
+				$ilCtrl->redirectByClass(array("ilpersonaldesktopgui", "ilpersonalsettingsgui"), "deleteOwnAccount3");						
+			}
+			exit;
+		}
 
 		if (substr($a_target, 0, 1) == "n")
 		{

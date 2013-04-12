@@ -407,7 +407,7 @@ class ilPersonalSettingsGUI
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */
-		global $ilTabs, $ilSetting, $ilHelp, $rbacsystem;
+		global $ilTabs, $ilSetting, $ilHelp, $rbacsystem, $ilUser;
 
 		$ilHelp->setScreenIdComponent("user");
 		
@@ -453,7 +453,8 @@ class ilPersonalSettingsGUI
 									 "", "", "", $showjsMath);
 		}*/
 		
-		if((bool)$ilSetting->get('user_delete_own_account'))
+		if((bool)$ilSetting->get('user_delete_own_account') &&
+			$ilUser->getId() != SYSTEM_USER_ID)
 		{
 			$ilTabs->addTab("delacc", $this->lng->txt('user_delete_own_account'),
 				$this->ctrl->getLinkTarget($this, "deleteOwnAccount1"));
@@ -1255,7 +1256,16 @@ class ilPersonalSettingsGUI
 	 */
 	protected function deleteOwnAccount1()
 	{	
-		global $ilTabs, $ilUser, $ilToolbar;
+		global $ilTabs, $ilToolbar, $ilUser, $ilSetting;
+		
+		if(!(bool)$ilSetting->get('user_delete_own_account') ||
+			$ilUser->getId() == SYSTEM_USER_ID)
+		{
+			$this->ctrl->redirect($this, "showGeneralSettings");
+		}
+		
+		// too make sure
+		$ilUser->removeDeletionFlag();		
 		
 		$this->setHeader();
 		$this->__initSubTabs("deleteOwnAccount");
@@ -1269,48 +1279,56 @@ class ilPersonalSettingsGUI
 	}
 	
 	/**
-	 * Delete own account dialog - password confirmation
-	 * 
-	 * Only available for AUTH_LOCAL
+	 * Delete own account dialog - login redirect
 	 */
-	protected function deleteOwnAccount2($a_form = null)
+	protected function deleteOwnAccount2()
 	{	
-		global $ilTabs;
+		global $ilTabs, $ilUser, $ilSetting;
+		
+		if(!(bool)$ilSetting->get('user_delete_own_account') ||
+			$ilUser->getId() == SYSTEM_USER_ID)
+		{
+			$this->ctrl->redirect($this, "showGeneralSettings");
+		}
 		
 		$this->setHeader();
 		$this->__initSubTabs("deleteOwnAccount");
 		$ilTabs->activateTab("delacc");
 		
-		if(!$a_form)
-		{
-			$a_form = $this->initDeleteAccountPasswordForm();
-		}
-		
-		$this->tpl->setContent($a_form->getHTML());			
-		$this->tpl->show();
+		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$cgui = new ilConfirmationGUI();		
+		$cgui->setHeaderText($this->lng->txt('user_delete_own_account_logout_confirmation'));
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "abortDeleteOwnAccount");
+		$cgui->setConfirm($this->lng->txt("user_delete_own_account_logout_button"), "deleteOwnAccountLogout");		
+		$this->tpl->setContent($cgui->getHTML());			
+		$this->tpl->show();	
 	}
 	
-	/**
-	 * Init delete own account password form
-	 * 
-	 * @return ilPropertyFormGUI
-	 */
-	protected function initDeleteAccountPasswordForm()
-	{		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->lng->txt('user_delete_own_account_password_confirmation'));
-		$form->setFormAction($this->ctrl->getFormAction($this));
+	protected function abortDeleteOwnAccount()
+	{
+		global $ilCtrl, $ilUser;
 		
-		$pass = new ilPasswordInputGUI($this->lng->txt("password"), "pwd");
-		$pass->setRetype(false);
-		$pass->setRequired(true);		
-		$form->addItem($pass);
-						
-		$form->addCommandButton("deleteOwnAccount3", $this->lng->txt("confirm"));
-		$form->addCommandButton("showGeneralSettings", $this->lng->txt("cancel"));
+		$ilUser->removeDeletionFlag();			
 		
-		return $form;		
+		ilUtil::sendInfo($this->lng->txt("user_delete_own_account_aborted"), true);
+		$ilCtrl->redirect($this, "showGeneralSettings");
+	}
+	
+	protected function deleteOwnAccountLogout()
+	{
+		global $ilAuth, $ilUser;
+				
+		// we are setting the flag and ending the session in the same step
+		
+		$ilUser->activateDeletionFlag();				
+				
+		// see ilStartupGUI::showLogout()
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
+		$ilAuth->logout();
+		session_destroy();
+		
+		ilUtil::redirect("login.php?target=usr_".md5("usrdelown"));		
 	}
 	
 	/**
@@ -1318,34 +1336,27 @@ class ilPersonalSettingsGUI
 	 */
 	protected function deleteOwnAccount3()
 	{	
-		global $ilTabs, $ilUser;
+		global $ilTabs, $ilUser, $ilSetting;	
 		
-		$form = $this->initDeleteAccountPasswordForm();
-		if($form->checkInput())
-		{			
-			if(md5($form->getInput("pwd")) == $ilUser->getPasswd())
-			{
-				$this->setHeader();
-				$this->__initSubTabs("deleteOwnAccount");
-				$ilTabs->activateTab("delacc");
-
-				include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
-				$cgui = new ilConfirmationGUI();		
-				$cgui->setHeaderText($this->lng->txt('user_delete_own_account_final_confirmation'));
-				$cgui->setFormAction($this->ctrl->getFormAction($this));
-				$cgui->setCancel($this->lng->txt("cancel"), "showGeneralSettings");
-				$cgui->setConfirm($this->lng->txt("confirm"), "deleteOwnAccount4");		
-				$this->tpl->setContent($cgui->getHTML());			
-				$this->tpl->show();
-				return;
-			}
-			
-			$input = $form->getItemByPostVar("pwd");
-			$input->setAlert($this->lng->txt("passwd_wrong"));
+		if(!(bool)$ilSetting->get('user_delete_own_account') ||
+			$ilUser->getId() == SYSTEM_USER_ID ||
+			!$ilUser->hasDeletionFlag())
+		{
+			$this->ctrl->redirect($this, "showGeneralSettings");
 		}
-		
-		$form->setValuesByPost();
-		$this->deleteOwnAccount2($form);
+	
+		$this->setHeader();
+		$this->__initSubTabs("deleteOwnAccount");
+		$ilTabs->activateTab("delacc");
+
+		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$cgui = new ilConfirmationGUI();		
+		$cgui->setHeaderText($this->lng->txt('user_delete_own_account_final_confirmation'));
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "abortDeleteOwnAccount");
+		$cgui->setConfirm($this->lng->txt("confirm"), "deleteOwnAccount4");		
+		$this->tpl->setContent($cgui->getHTML());			
+		$this->tpl->show();	
 	}
 	
 	/**
@@ -1355,7 +1366,9 @@ class ilPersonalSettingsGUI
 	{	
 		global $ilUser, $ilAuth, $ilSetting, $ilLog;
 		
-		if(!(bool)$ilSetting->get("user_delete_own_account"))
+		if(!(bool)$ilSetting->get('user_delete_own_account') ||
+			$ilUser->getId() == SYSTEM_USER_ID ||
+			!$ilUser->hasDeletionFlag())
 		{
 			$this->ctrl->redirect($this, "showGeneralSettings");
 		}
