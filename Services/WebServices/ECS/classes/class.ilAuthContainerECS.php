@@ -158,9 +158,9 @@ class ilAuthContainerECS extends Auth_Container
 		}
 		if(isset($_GET['ecs_hash_url']))
 		{
-			//$hashurl = urldecode($_GET['ecs_hash_url']);
-			//$hash = basename(parse_url($hashurl,PHP_URL_PATH));
-			$hash = urldecode($_GET['ecs_hash_url']);
+			$hashurl = urldecode($_GET['ecs_hash_url']);
+			$hash = basename(parse_url($hashurl,PHP_URL_PATH));
+			//$hash = urldecode($_GET['ecs_hash_url']);
 		}
 		
 
