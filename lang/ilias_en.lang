@@ -12968,3 +12968,6 @@ blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 crs#:#crs_notification_list_title#:#Notification About New Members
 obj#:#edit_questions#:#Edit Questions
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.
+user#:#user_delete_own_account_logout_button#:#Proceed to Authentication
+user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.

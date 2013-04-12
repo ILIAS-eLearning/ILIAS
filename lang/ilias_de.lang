@@ -12968,3 +12968,6 @@ blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
 crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
 obj#:#edit_questions#:#Fragen bearbeiten
+user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zur Löschung markiert, bitten authentifizieren Sie sich, um den Vorgang fortzusetzen.
+user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
+user#:#user_delete_own_account_aborted#:#Der Lösch-Prozess wurde abgebrochen, der Account ist unverändert.

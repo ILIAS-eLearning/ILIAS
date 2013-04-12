@@ -5351,5 +5351,21 @@ class ilObjUser extends ilObject
 	{
 		return $this->getId() == ANONYMOUS_USER_ID;
 	}
+	
+	public function activateDeletionFlag()
+	{		
+		$this->writePref("delete_flag", true);
+	}
+	
+	public function removeDeletionFlag()
+	{
+		$this->writePref("delete_flag", false);
+	}
+	
+	public function hasDeletionFlag()
+	{
+		return (bool)$this->getPref("delete_flag");
+	}
+	
 } // END class ilObjUser
 ?>
