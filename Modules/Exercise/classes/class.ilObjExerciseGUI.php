@@ -1496,7 +1496,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			
 			// team upload?
-			if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+			if(is_object($this->ass) and $this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{
 				$team_id = $this->ass->getTeamId($user_id);
 				$user_ids = $this->ass->getTeamMembers($team_id);		
