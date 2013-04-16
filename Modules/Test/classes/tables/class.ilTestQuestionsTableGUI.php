@@ -208,8 +208,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
 		$this->totalPoints += $data["points"];
 		$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-		if (ilObject::_lookupType($data["obj_fi"]) == 'qpl') {
-		    $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["obj_fi"]));
+		if (ilObject::_lookupType($data["orig_obj_fi"]) == 'qpl') {
+		    $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["orig_obj_fi"]));
 		}
 		else {
 		    $this->tpl->setVariable("QUESTION_POOL", '&nbsp;');
