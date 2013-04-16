@@ -8469,17 +8469,26 @@ function getAnswerFeedbackPoints()
 		global $ilDB;
 		
 		$query = "
-			SELECT		qpl_questions.*,
-						qpl_qst_type.type_tag,
-						tst_test_question.sequence,
-						tst_test_question.obligatory
-			FROM		qpl_questions,
-						qpl_qst_type,
-						tst_test_question
-			WHERE		qpl_questions.question_type_fi = qpl_qst_type.question_type_id
-			AND			tst_test_question.test_fi = %s
-			AND			tst_test_question.question_fi = qpl_questions.question_id
-			ORDER BY	tst_test_question.sequence
+			SELECT		questions.*,
+						questtypes.type_tag,
+						tstquest.sequence,
+						tstquest.obligatory,
+						origquest.obj_fi orig_obj_fi
+			
+			FROM		qpl_questions questions
+			
+			INNER JOIN	qpl_qst_type questtypes
+			ON			questtypes.question_type_id = questions.question_type_fi
+			
+			INNER JOIN	tst_test_question tstquest
+			ON			tstquest.question_fi = questions.question_id
+
+			LEFT JOIN	qpl_questions origquest
+			ON			origquest.question_id = questions.original_id
+
+			WHERE		tstquest.test_fi = %s
+			
+			ORDER BY	tstquest.sequence
 		";
 		
 		$query_result = $ilDB->queryF(
