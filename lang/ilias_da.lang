@@ -8372,7 +8372,7 @@ payment#:#payment_no_topic#:#Intet emne
 assessment#:#error_cloze_not_numeric#:#Du skal indtaste en tal-værdi.
 assessment#:#error_no_upper_limit#:#Du skal indtaste en øvre grænse.
 assessment#:#error_no_lower_limit#:#Du skal indtaste en nedre grænse.
-content#:#cont_assign_characteristic#:#Assign Characteristic###24 02 2009 new variable
+content#:#cont_assign_characteristic#:#Tildel karakteristika
 content#:#cont_anchor#:#Anker
 content#:#cont_choose_characteristic#:#Choose Characteristic###24 02 2009 new variable
 content#:#cont_choose_characteristic_text#:#Tekstelementer
@@ -9083,7 +9083,7 @@ content#:#cont_mob_files#:#Object Files###26 06 2009 new variable
 content#:#cont_mob_prop#:#Object Properties###26 06 2009 new variable
 meta#:#meta_pointofcontact#:#Point of Contact###26 06 2009 new variable
 meta#:#sco_propagate#:#Propagate to all SCOs###26 06 2009 new variable
-content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.###26 06 2009 new variable
+content#:#cont_empty_question#:#Redigering af spørgsmål ikke færdig. Du skal enten redigere eller slette.
 content#:#cont_media_placeh#:#Click and edit to insert media###26 06 2009 new variable
 content#:#cont_question_placeh#:#Click and edit to insert question###26 06 2009 new variable
 content#:#cont_text_placeh#:#Klik og ret for at indsætte tekst
@@ -10828,8 +10828,8 @@ sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Please select either pages, SCOs, 
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter###12 06 2011 new variable
 sahs#:#cont_insert_after_chap#:#Insert items after chapter###12 06 2011 new variable
 common#:#saving#:#Gemmer...
-content#:#cont_ed_insert_iim#:#Insert Interactive Image###12 06 2011 new variable
-content#:#cont_pc_iim#:#Interactive Image###12 06 2011 new variable
+content#:#cont_ed_insert_iim#:#Indsæt interaktivt billede
+content#:#cont_pc_iim#:#Interaktivt billede
 style#:#sty_type_qimg#:#Question Image###12 06 2011 new variable
 style#:#sty_type_qimgd#:#Image Details Link###12 06 2011 new variable
 style#:#sty_type_qordli#:#Order List Item###12 06 2011 new variable
@@ -11798,8 +11798,8 @@ rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects###01 10
 rbac#:#rbac_copy_role#:#Kopier rolle
 rbac#:#rbac_copy_finished#:#Færdig med at kopiere.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise###01 10 2011 new variable
-content#:#cont_ed_copy#:#Copy###01 10 2011 new variable
-content#:#cont_ed_cut#:#Cut###01 10 2011 new variable
+content#:#cont_ed_copy#:#Kopier
+content#:#cont_ed_cut#:#Klip
 content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select "Paste".###01 10 2011 new variable
 content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select "Paste".###01 10 2011 new variable
 survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")###01 10 2011 new variable
