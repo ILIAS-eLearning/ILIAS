@@ -123,6 +123,7 @@ class ilObjectOwnershipManagementGUI
 			
 		$node = $tree->getNodeData($a_ref_id);
 		$gui_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
+		$path = array("ilRepositoryGUI", $gui_class, $a_class);  // #10880
 		
 		// #10495 - check if object type supports ilexportgui "directly"
 		if($a_class == "ilExportGUI")
