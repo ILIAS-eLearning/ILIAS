@@ -71,7 +71,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 	
 		$this->setRowTemplate("tpl.il_svy_svy_results_cumulated_row.html", "Modules/Survey");
 
-		$this->addCommandButton('printEvaluation', $this->lng->txt('print'), 'javascript:window.print();');
+		$this->addCommandButton('printEvaluation', $this->lng->txt('print'), 'javascript:window.print(); return false;'); // #10944
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
