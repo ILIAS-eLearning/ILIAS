@@ -85,7 +85,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 
-        if($next_class != "ilinfoscreengui" && !$this->checkPermissionBool("read")){
+		// #10932
+		if(!$this->getCreationMode() && $next_class != "ilinfoscreengui" && !$this->checkPermissionBool("read")){
             $tpl->getStandardTemplate();
             $tpl->setContent("Permission Denied.");
             return;
