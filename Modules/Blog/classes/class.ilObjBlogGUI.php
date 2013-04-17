@@ -1421,7 +1421,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						$ilCtrl->setParameter($this, "ath", "");
 
 						$name = ilUserUtil::getNamePresentation($user_id, true);
-						$list[$name."///".$user_id] = array($name, $url);	
+						$idx = trim(strip_tags($name))."///".$user_id;  // #10934
+						$list[$idx] = array($name, $url);	
 					}
 				}
 				ksort($list);
