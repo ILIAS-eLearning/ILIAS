@@ -659,6 +659,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 					continue;
 				}				
 				$json = $res->getResult();
+				$GLOBALS['ilLog']->write(__METHOD__.': Received json: '.print_r($json,true));
 				if(!is_object($json))
 				{
 					// try as array (workaround for invalid content)
