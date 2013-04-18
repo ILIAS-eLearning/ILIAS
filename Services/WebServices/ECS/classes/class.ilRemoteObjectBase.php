@@ -233,6 +233,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 * Including ecs generated hash and auth mode
 	 *
 	 * @return string
+	 * @throws ilECSConnectorException
 	 */
 	public function getFullRemoteLink()
 	{
@@ -247,20 +248,18 @@ abstract class ilRemoteObjectBase extends ilObject2
 		$server_id = ilECSImport::lookupServerId($this->getId());
 		$server = ilECSSetting::getInstanceByServerId($server_id);
 		
-		$ecs_url_hash = 'ecs_hash_url='.urlencode($server->getServerURI().'/sys/auths/'.$this->auth_hash);
 		
-		// Store realm as plain text string
-		$this->realm_plain = $this->getRemoteLink().$ecs_user_data;
-		
+		$auth_hash = $this->createAuthResource($this->getRemoteLink().$ecs_user_data);
+		$ecs_url_hash = 'ecs_hash_url='.urlencode($server->getServerURI().'/sys/auths/'.$auth_hash);
 		
 		if(strpos($this->getRemoteLink(), '?'))
 		{
 		 
-			$link = $this->getRemoteLink().'&ecs_hash='.$this->auth_hash.$ecs_user_data.'&'.$ecs_url_hash;
+			$link = $this->getRemoteLink().'&ecs_hash='.$auth_hash.$ecs_user_data.'&'.$ecs_url_hash;
 		}
 		else
 		{
-			$link = $this->getRemoteLink().'?ecs_hash='.$this->auth_hash.$ecs_user_data.'&'.$ecs_url_hash;
+			$link = $this->getRemoteLink().'?ecs_hash='.$auth_hash.$ecs_user_data.'&'.$ecs_url_hash;
 		}
 		$GLOBALS['ilLog']->write(__METHOD__.': ECS full link: '. $link);
 		return $link;
@@ -270,8 +269,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 * create authentication resource on ecs server
 	 *
 	 * @return bool
+	 * @throws ilECSConnectorException
 	 */
-	public function createAuthResource()
+	public function createAuthResource($a_plain_realm)
 	{
 	 	global $ilLog;
 	 	
@@ -288,14 +288,12 @@ abstract class ilRemoteObjectBase extends ilObject2
 			$auth = new ilECSAuth();
 			// URL is deprecated
 			$auth->setUrl($this->getRemoteLink());
-			#$auth->setRealm(sha1($this->getRemoteLink()));
-			$realm = sha1($this->getRealmPlain());
-			$GLOBALS['ilLog']->write(__METHOD__.': Using realm '.$this->getRealmPlain());
+			$realm = sha1($a_plain_realm);
+			$GLOBALS['ilLog']->write(__METHOD__.': Using realm '.$a_plain_realm);
 			$auth->setRealm($realm);
 			$GLOBALS['ilLog']->write(__METHOD__.' Mid is '.$this->getMID());
-			#$GLOBALS['ilLog']->write(__METHOD__.': Realm is '. $this->getRemoteLink());
 			$this->auth_hash = $connector->addAuth(@json_encode($auth),$this->getMID());
-			return true;
+			return $this->auth_hash;
 		}
 		catch(ilECSConnectorException $exc)
 		{
