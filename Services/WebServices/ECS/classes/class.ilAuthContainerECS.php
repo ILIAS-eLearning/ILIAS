@@ -150,13 +150,27 @@ class ilAuthContainerECS extends Auth_Container
 	public function validateHash()
 	{
 	 	global $ilLog;
+		
+		// fetch hash
+		if(isset($_GET['ecs_hash']) and strlen($_GET['ecs_hash']))
+		{
+			$hash = $_GET['ecs_hash'];
+		}
+		if(isset($_GET['ecs_hash_url']))
+		{
+			$hashurl = urldecode($_GET['ecs_hash_url']);
+			$hash = basename(parse_url($hashurl,PHP_URL_PATH));
+			//$hash = urldecode($_GET['ecs_hash_url']);
+		}
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': Using ecs hash '. $hash);
 
 		// Check if hash is valid ...
 	 	try
 	 	{
 		 	include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
 	 		$connector = new ilECSConnector($this->getCurrentServer());
-	 		$res = $connector->getAuth($_GET['ecs_hash']);
+	 		$res = $connector->getAuth($hash);
 			$auths = $res->getResult();
 			$this->abreviation = $auths->abbr;
 			$ilLog->write(__METHOD__.': Got abr: '.$this->abreviation);
