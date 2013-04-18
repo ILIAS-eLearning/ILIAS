@@ -73,8 +73,9 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 		}
 		else 
 		{
+			$link = $this->object->getFullRemoteLink();
 			$this->object->createAuthResource();
-			ilUtil::redirect($this->object->getFullRemoteLink());
+			ilUtil::redirect($link);
 		}	
 	}
 	
@@ -109,9 +110,10 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	public function callObject()
 	{
 		// check if the assigned object is hosted on the same installation
+		$link = $this->object->getFullRemoteLink();
 		if($this->object->createAuthResource())
 		{
-			ilUtil::redirect($this->object->getFullRemoteLink());
+			ilUtil::redirect($link);
 		 	return true;
 		}
 		else

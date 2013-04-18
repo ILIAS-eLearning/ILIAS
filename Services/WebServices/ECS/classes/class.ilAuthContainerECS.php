@@ -163,6 +163,7 @@ class ilAuthContainerECS extends Auth_Container
 			//$hash = urldecode($_GET['ecs_hash_url']);
 		}
 		
+		$GLOBALS['ilLog']->write(__METHOD__.': Using ecs hash '. $hash);
 
 		// Check if hash is valid ...
 	 	try
