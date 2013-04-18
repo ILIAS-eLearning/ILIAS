@@ -67,6 +67,15 @@ abstract class ilECSObjectSettings
 	}
 	
 	/**
+	 * Get content object
+	 * @return object ilObject
+	 */
+	public function getContentObject()
+	{
+		return $this->content_obj;
+	}
+	
+	/**
 	 * Get ECS resource identifier, e.g. "/campusconnect/courselinks"
 	 * 
 	 * @return string
@@ -404,11 +413,11 @@ abstract class ilECSObjectSettings
 		if(!$a_mids)
 		{
 			$a_mids = $this->getParticipants($a_server->getServerId(), $econtent_id);	
-		}												
+		}
 		$ilLog->write(__METHOD__.': Start updating ECS content - '.print_r($a_mids,true));
 		$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS,implode(',',(array) $a_mids));
 
-		$json = $this->buildJson($a_server);										
+		$json = $this->buildJson($a_server);	
 		$connector->updateResource($this->getECSObjectType(),
 			$econtent_id, json_encode($json));
 		
@@ -499,9 +508,25 @@ abstract class ilECSObjectSettings
 	 */
 	protected function getParticipants($a_server_id, $a_econtent_id)
 	{
-		global $ilLog;
-		
-		
+		$receivers = array();
+		include_once('./Services/WebServices/ECS/classes/class.ilECSEContentDetails.php');
+		foreach((array) $a_server_id as $sid)
+		{
+			$participants = null;
+			$details = ilECSEContentDetails::getInstance($sid, $a_econtent_id,$this->getECSObjectType());
+			if($details instanceof ilECSEContentDetails)
+			{
+				$participants = $details->getReceivers();
+			}				
+			if($participants)
+			{
+				foreach($participants as $mid)
+				{
+					$receivers[] = $mid;
+				}
+			}
+		}
+		return (array) $receivers;
 	}
 	
 	/**
@@ -615,6 +640,7 @@ abstract class ilECSObjectSettings
 	{				
 		$json = new stdClass();
 		$json->lang = 'en_EN'; // :TODO: obsolet?
+		$json->id = 'il_'.IL_INST_ID.'_'.$this->getContentObject()->getType().'_'.$this->getContentObject()->getId();
 		$json->etype = $a_etype;
 		$json->title = $this->content_obj->getTitle();
 		$json->abstract = $this->content_obj->getLongDescription();	
