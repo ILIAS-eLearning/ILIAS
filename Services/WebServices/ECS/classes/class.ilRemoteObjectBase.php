@@ -20,6 +20,8 @@ abstract class ilRemoteObjectBase extends ilObject2
 	protected $mid;	
 	protected $auth_hash = '';
 	
+	protected $realm_plain = '';
+	
 	const MAIL_SENDER = 6;
 
 	/**
@@ -115,6 +117,15 @@ abstract class ilRemoteObjectBase extends ilObject2
 		}
 		return '';
 	}	
+	
+	/**
+	 * Get realm plain
+	 * @return type
+	 */
+	public function getRealmPlain()
+	{
+		return $this->realm_plain;
+	}
 
 	/**
 	 * set organization
@@ -232,15 +243,27 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 	$ecs_user_data = $user->toGET();
 		$GLOBALS['ilLog']->write(__METHOD__.': Using ecs user data '.$ecs_user_data);
 		
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+		$server_id = ilECSImport::lookupServerId($this->getId());
+		$server = ilECSSetting::getInstanceByServerId($server_id);
+		
+		$ecs_url_hash = 'ecs_hash_url='.urlencode($server->getServerURI().'/sys/auths/'.$this->auth_hash);
+		
+		// Store realm as plain text string
+		$this->realm_plain = $this->getRemoteLink().$ecs_user_data;
+		
+		
 		if(strpos($this->getRemoteLink(), '?'))
 		{
-		 	return $this->getRemoteLink().'&ecs_hash='.$this->auth_hash.$ecs_user_data;
+		 
+			$link = $this->getRemoteLink().'&ecs_hash='.$this->auth_hash.$ecs_user_data.'&'.$ecs_url_hash;
 		}
 		else
 		{
-			return $this->getRemoteLink().'?ecs_hash='.$this->auth_hash.$ecs_user_data;
+			$link = $this->getRemoteLink().'?ecs_hash='.$this->auth_hash.$ecs_user_data.'&'.$ecs_url_hash;
 		}
-		
+		$GLOBALS['ilLog']->write(__METHOD__.': ECS full link: '. $link);
+		return $link;
 	}
 	
 	/**
@@ -265,9 +288,12 @@ abstract class ilRemoteObjectBase extends ilObject2
 			$auth = new ilECSAuth();
 			// URL is deprecated
 			$auth->setUrl($this->getRemoteLink());
-			$auth->setRealm(sha1($this->getRemoteLink()));
+			#$auth->setRealm(sha1($this->getRemoteLink()));
+			$realm = sha1($this->getRealmPlain());
+			$GLOBALS['ilLog']->write(__METHOD__.': Using realm '.$this->getRealmPlain());
+			$auth->setRealm($realm);
 			$GLOBALS['ilLog']->write(__METHOD__.' Mid is '.$this->getMID());
-			$GLOBALS['ilLog']->write(__METHOD__.': Realm is '. $this->getRemoteLink());
+			#$GLOBALS['ilLog']->write(__METHOD__.': Realm is '. $this->getRemoteLink());
 			$this->auth_hash = $connector->addAuth(@json_encode($auth),$this->getMID());
 			return true;
 		}
