@@ -14809,3 +14809,10 @@ if(!$ilDB->tableExists('ut_lp_coll_manual'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3861>
+<?php
+
+	$query = 'UPDATE rbac_operations SET op_order = ' . $ilDB->quote(2500, 'integer'). ' WHERE operation = '.$ilDB->quote('edit_userassignment', 'text');
+	$ilDB->manipulate($query);
+
+?>
