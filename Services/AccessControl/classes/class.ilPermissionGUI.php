@@ -49,6 +49,7 @@ class ilPermissionGUI extends ilPermission2GUI
 		switch($next_class)
 		{
 			case "ilobjrolegui":
+				$this->ctrl->setReturn($this,'perm');
 				include_once("Services/AccessControl/classes/class.ilObjRoleGUI.php");
 				$this->gui_obj = new ilObjRoleGUI("",(int) $_GET["obj_id"], false, false);
 				$this->gui_obj->setBackTarget($this->lng->txt("perm_settings"),$this->ctrl->getLinkTarget($this, "perm"));
