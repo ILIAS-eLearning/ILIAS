@@ -965,14 +965,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->object->delete();
 		ilUtil::sendSuccess($this->lng->txt('msg_deleted_role'),true);
 		
-		if($back = $this->getBackTarget())
-		{
-			ilUtil::redirect($back['link']);
-		}
-		else
-		{
-			$this->ctrl->returnToParent($this);
-		}
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**
