@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+include_once 'Services/Search/classes/class.ilSearchResult.php';
+
 /**
 * Generic user filter used for learning progress in courses, course member list ...
 * Reads and stores user specific filter settings.
@@ -30,14 +33,10 @@
 *
 * @version $Id$
 *
-* @package ilias-tracking
+* @package ServicesSearch
 *
 */
-
-include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-include_once 'Services/Search/classes/class.ilSearchResult.php';
-
-class ilUserFilter
+class ilUserSearchFilter
 {
 	var $limit = 0;
 	var $limit_reached = false;
@@ -55,7 +54,7 @@ class ilUserFilter
 	var $usr_id = null;
 	var $db = null;
 
-	function ilUserFilter($a_usr_id)
+	public function __construct($a_usr_id)
 	{
 		global $ilDB,$ilias;
 
