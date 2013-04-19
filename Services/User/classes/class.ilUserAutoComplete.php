@@ -241,7 +241,8 @@ class ilUserAutoComplete
 			$add_email = false;
 		}
 
-		$max    = 20;
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		$max = ilSearchSettings::getInstance()->getAutoCompleteLength();
 		$cnt    = 0;
 		$result = array();
 		while(($rec = $ilDB->fetchAssoc($res)) && $cnt < $max)
