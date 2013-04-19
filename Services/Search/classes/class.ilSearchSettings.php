@@ -31,7 +31,7 @@ class ilSearchSettings
 	protected $lucene_item_filter_enabled = false;
 	protected $lucene_item_filter = array();
 	protected $lucene_offline_filter = true;
-	
+	protected $auto_complete_length = 10;
 	
 	
 	var $ilias = null;
@@ -325,7 +325,7 @@ class ilSearchSettings
 		}
 		
 		$this->setHideAdvancedSearch($this->ilias->getSetting('hide_adv_search',0));
-		$this->setAutoCompleteLength($this->ilias->getSetting('auto_complete_length',10));
+		$this->setAutoCompleteLength($this->ilias->getSetting('auto_complete_length',$this->getAutoCompleteLength()));
 		
 		$this->enableLuceneItemFilter($this->ilias->getSetting('lucene_item_filter_enabled',(int) $this->isLuceneItemFilterEnabled()));
 		
