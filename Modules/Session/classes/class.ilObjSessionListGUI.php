@@ -244,12 +244,14 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	{
 		global $ilDB;
 		
-		$query = 'SELECT * FROM event_items '.
-			'WHERE event_id = '.$ilDB->quote($a_sess_id).' ';
+		$query = 'SELECT * FROM event_items ei '.
+				'JOIN tree ON item_id = child '.
+				'WHERE event_id = '.$ilDB->quote($a_sess_id,'integer').' '.
+				'AND tree > 0';
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(FETCHMODE_OBJECT))
 		{
-			$items[] = $row['item_id'];
+			$items[] = $row->item_id;
 		}
 		return $items ? $items : array();	
 	}
