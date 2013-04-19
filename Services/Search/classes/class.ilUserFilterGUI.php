@@ -37,9 +37,6 @@
 * @package ilias-tracking
 *
 */
-include_once 'Services/Search/classes/class.ilUserFilter.php';
-
-
 class ilUserFilterGUI
 {
 	var $usr_id = null;
@@ -119,7 +116,8 @@ class ilUserFilterGUI
 	{
 		global $ilUser;
 
-		$this->filter = new ilUserFilter($ilUser->getId());
+		include_once 'Services/Search/classes/class.ilUserSearchFilter.php';
+		$this->filter = new ilUserSearchFilter($ilUser->getId());
 		return true;
 	}
 }	
