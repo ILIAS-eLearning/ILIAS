@@ -63,7 +63,7 @@ class ilECSDataMappingSettings
 		$GLOBALS['ilLog']->write(__METHOD__.': Using deprecate call');
 		$GLOBALS['ilLog']->logStack();
 
-		return self::getInstanceByServerId(15);
+		return self::getInstanceByServerId(1);
 	}
 
 	/**
