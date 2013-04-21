@@ -2061,15 +2061,15 @@ class ilPageObjectGUI
 		$output = str_replace("&amp;", "&", $output);
 		
 		// replace latex code: todo: finish
-		if ($this->getOutputMode() != "offline")
-		{
+//		if ($this->getOutputMode() != "offline")
+//		{
 			$output = ilUtil::insertLatexImages($output);
-		}
+/*		}
 		else
 		{
 			$output = ilUtil::buildLatexImages($output,
 				$this->getOfflineDirectory());
-		}
+		}*/
 
 		// insert page snippets
 		$output = $this->insertContentIncludes($output);

@@ -215,6 +215,13 @@ class ilCOPageHTMLExport
 			"./js/ilTooltip.js", "./js/maphilight.js");
 		$scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
 
+		$mathJaxSetting = new ilSetting("MathJax");
+		$use_mathjax = $mathJaxSetting->get("enable");
+		if ($use_mathjax)
+		{
+			$scripts[] = $mathJaxSetting->get("path_to_mathjax");
+		}
+
 		foreach ($scripts as $script)
 		{
 			$tpl->setCurrentBlock("js_file");
