@@ -1896,7 +1896,10 @@ class ilObjContentObject extends ilObject
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		foreach (self::getSupplyingExportFiles($a_target_dir) as $f)
 		{
-			copy($f["source"], $f["target"]);
+			if ($f["source"] != "")
+			{
+				copy($f["source"], $f["target"]);
+			}
 		}
 		
 		// template workaround: reset of template 
@@ -1933,7 +1936,7 @@ class ilObjContentObject extends ilObject
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
-		return array(
+		$scripts = array(
 			array("source" => ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
 				"target" => $a_target_dir.'/js/yahoo/yahoo-min.js',
 				"type" => "js"),
@@ -1980,6 +1983,18 @@ class ilObjContentObject extends ilObject
 				"target" => $a_target_dir."/".ilPlayerUtil::getLocalMediaElementCssPath(),
 				"type" => "css")
 		);
+		
+		$mathJaxSetting = new ilSetting("MathJax");
+		$use_mathjax = $mathJaxSetting->get("enable");
+		if ($use_mathjax)
+		{
+			$scripts[] = array("source" => "",
+				"target" => $mathJaxSetting->get("path_to_mathjax"),
+				"type" => "js");
+		}
+		
+		return $scripts;
+
 	}
 	
 	/**
