@@ -556,11 +556,11 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
 					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
-				$ilHelp->setScreenIdComponent("copg_media");
 				$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pcmob_gui->setStyleId($this->page_gui->getStyleId());
 				$pcmob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 				$ret =& $this->ctrl->forwardCommand($pcmob_gui);
+				$ilHelp->setScreenIdComponent("copg_media");
 				break;
 
 			// only for "linked" media
