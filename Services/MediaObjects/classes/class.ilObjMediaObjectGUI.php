@@ -207,8 +207,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $tpl;
+		global $tpl, $ilHelp;
 		
+		$ilHelp->setScreenId("create");
 		$this->initForm();
 		$tpl->setContent($this->form_gui->getHTML());
 	}
@@ -1737,12 +1738,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilTabs;
+		global $ilTabs, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("mob");
+		
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject"
 			&& $this->object->getId() > 0)
-		{
+		{	
 			// object properties
 			$ilTabs->addTarget("cont_mob_def_prop",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit",
