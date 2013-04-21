@@ -1942,8 +1942,16 @@ class ilObject
 			if (ilContainer::_lookupContainerSetting($a_obj_id, "icon_".$a_size))
 			{
 				$cont_dir = ilContainer::_getContainerDirectory($a_obj_id);
+				
+				// png version? (introduced with ILIAS 4.3)
 				$file_name = $cont_dir."/icon_".$a_size.".png";
-	
+				if (is_file($file_name))
+				{
+					return $file_name;
+				}
+
+				// gif version? (prior to ILIAS 4.3)
+				$file_name = $cont_dir."/icon_".$a_size.".gif";
 				if (is_file($file_name))
 				{
 					return $file_name;

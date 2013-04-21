@@ -244,8 +244,16 @@ class ilContainer extends ilObject
 		if (ilContainer::_lookupContainerSetting($a_id, "icon_".$size))
 		{
 			$cont_dir = ilContainer::_getContainerDirectory($a_id);
+			
+			// png version? (introduced with ILIAS 4.3)
 			$file_name = $cont_dir."/icon_".$a_size.".png";
-
+			if (is_file($file_name))
+			{
+				return $file_name;
+			}
+			
+			// gif version? (prior to ILIAS 4.3)
+			$file_name = $cont_dir."/icon_".$a_size.".gif";
 			if (is_file($file_name))
 			{
 				return $file_name;
@@ -274,7 +282,7 @@ class ilContainer extends ilObject
 		{
 			$a_big_icon = ilUtil::escapeShellArg($a_big_icon);
 			$big_file_name = ilUtil::escapeShellArg($big_file_name);
-			ilUtil::execConvert($a_big_icon."[0] -geometry ".$big_geom." GIF:".$big_file_name);
+			ilUtil::execConvert($a_big_icon."[0] -geometry ".$big_geom." PNG:".$big_file_name);
 		}
 
 		if (is_file($cont_dir."/icon_big.png"))
@@ -295,7 +303,7 @@ class ilContainer extends ilObject
 		{
 			$a_small_icon = ilUtil::escapeShellArg($a_small_icon);
 			$small_file_name = ilUtil::escapeShellArg($small_file_name);
-			ilUtil::execConvert($a_small_icon."[0] -geometry ".$small_geom." GIF:".$small_file_name);
+			ilUtil::execConvert($a_small_icon."[0] -geometry ".$small_geom." PNG:".$small_file_name);
 		}
 		if (is_file($cont_dir."/icon_small.png"))
 		{
@@ -315,7 +323,7 @@ class ilContainer extends ilObject
 		{
 			$a_tiny_icon = ilUtil::escapeShellArg($a_tiny_icon);
 			$tiny_file_name = ilUtil::escapeShellArg($tiny_file_name);
-			ilUtil::execConvert($a_tiny_icon."[0] -geometry ".$tiny_geom." GIF:".$tiny_file_name);
+			ilUtil::execConvert($a_tiny_icon."[0] -geometry ".$tiny_geom." PNG:".$tiny_file_name);
 		}
 		if (is_file($cont_dir."/icon_tiny.png"))
 		{
