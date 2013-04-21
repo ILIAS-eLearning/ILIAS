@@ -540,6 +540,13 @@ echo htmlentities($a_text);*/
 			$a_text = ilPCParagraph::input2xmlReplaceLists($a_text);
 		}
 		
+		// remove empty tags
+		$atags = array("com", "emp", "str", "fn", "quot", "code", "acc", "imp", "kw");
+		foreach ($atags as $at)
+		{
+			$a_text = str_replace("[".$at."][/".$at."]", "", $a_text);
+		}
+		
 		// bb code to xml
 		$a_text = eregi_replace("\[com\]","<Comment Language=\"".$a_lang."\">",$a_text);
 		$a_text = eregi_replace("\[\/com\]","</Comment>",$a_text);
@@ -563,9 +570,17 @@ echo htmlentities($a_text);*/
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-
+		$ltypes = "page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|mep|wiki|sahs|mcst|obj|dfile"; 
+		// empty internal links
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
-			"((page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|mep|wiki|sahs|mcst|obj|dfile)$ws=$ws([\"0-9])*)$ws".
+			"((".$ltypes.")$ws=$ws([\"0-9])*)$ws".
+			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]\[\/iln\]", $a_text, $found))
+		{
+			$a_text = str_replace($found[0], "",$a_text);
+		}
+		
+		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
+			"((".$ltypes.")$ws=$ws([\"0-9])*)$ws".
 			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
@@ -696,6 +711,16 @@ echo htmlentities($a_text);*/
 
 		// external link
 		$ws= "[ \t\r\f\v\n]*";
+		// remove empty external links
+		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]\[\/xln\]", $a_text, $found))
+		{
+			$a_text = str_replace($found[0], "",$a_text);
+		}
+		while (eregi("\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]\[\/xln\]", $a_text, $found))
+		{
+			$a_text = str_replace($found[0], "",$a_text);
+		}
+		// external links
 		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
@@ -737,7 +762,7 @@ echo htmlentities($a_text);*/
 			$a_text = str_replace("[".$found[1]."]", "<Anchor Name=\"".$attribs["name"]."\">", $a_text);
 		}
 		$a_text = eregi_replace("\[\/anc\]","</Anchor>",$a_text);
-//echo htmlentities($a_text);
+//echo htmlentities($a_text); exit;
 		return $a_text;
 	}
 	
