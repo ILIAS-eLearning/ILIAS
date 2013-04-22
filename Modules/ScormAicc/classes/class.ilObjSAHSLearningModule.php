@@ -1160,6 +1160,8 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj->setWidth($this->getWidth());
 		$new_obj->setHeight($this->getHeight());
 		$new_obj->setAutoContinue($this->getAutoContinue());
+		$new_obj->setAuto_last_visited($this->getAuto_last_visited());
+		$new_obj->setCheck_values($this->getCheck_values());
 		$new_obj->update();
 
 
@@ -1184,7 +1186,6 @@ class ilObjSAHSLearningModule extends ilObject
 				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 				$source_obj = new ilObjSCORMLearningModule($this->getRefId());
 				$new_obj = new ilObjSCORMLearningModule($new_obj->getRefId());
-				$source_obj->cloneIntoNewObject($new_obj,$a_target_id,$a_copy_id);
 				break;
 				
 			case "scorm2004":
