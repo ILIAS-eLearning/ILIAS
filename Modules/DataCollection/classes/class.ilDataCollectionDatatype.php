@@ -524,7 +524,11 @@ class ilDataCollectionDatatype
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
 		{
 			$return = $value ? 1 : 0;
-		}
+		}elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
+            $arr_properties = $record_field->getField()->getProperties();
+            if($arr_properties[ilDataCollectionField::PROPERTYID_TEXTAREA])
+                $return = nl2br(htmlentities($value, ENT_QUOTES, 'UTF-8'));
+        }
 		else
 		{
 			$return = $value;
@@ -585,12 +589,11 @@ class ilDataCollectionDatatype
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
 		{
 			$return = $value ? 1 : 0;
-		}
-		else
-		{
-			$return = $value;
-		}
-		
+        }
+        else
+        {
+           $return = $value;
+        }
 		return $return;
 	}
 
