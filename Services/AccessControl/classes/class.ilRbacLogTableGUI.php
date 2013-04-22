@@ -140,9 +140,9 @@ class ilRbacLogTableGUI extends ilTable2GUI
 			foreach($raw["ops"] as $role_id => $ops)
 			{
 				foreach($ops as $op)
-				{
+				{					
 					$result[] = array("action"=>sprintf($this->lng->txt("rbac_log_operation_add"), ilObject::_lookupTitle($role_id)),
-						"operation"=>$this->lng->txt($type."_".$this->operations[$op]));
+						"operation"=>$this->lng->txt($this->getOPCaption($type, $op)));
 				}
 			}
 		}
@@ -152,11 +152,10 @@ class ilRbacLogTableGUI extends ilTable2GUI
 			{
 				foreach($actions as $action => $ops)
 				{
-
 					foreach((array) $ops as $op)
-					{
+					{												
 						$result[] = array("action"=>sprintf($this->lng->txt("rbac_log_operation_".$action), ilObject::_lookupTitle($role_id)),
-							"operation"=>$this->lng->txt($type."_".$this->operations[$op]));
+							"operation"=>$this->lng->txt($this->getOPCaption($type, $op)));
 					}
 				}
 			}
@@ -177,20 +176,34 @@ class ilRbacLogTableGUI extends ilTable2GUI
 	}
 
 	protected function parseChangesTemplate(array $raw)
-	{
+	{		
 		$result = array();
 		foreach($raw as $type => $actions)
 		{
 			foreach($actions as $action => $ops)
 			{
 				foreach($ops as $op)
-				{
-					$result[] = array("action"=>sprintf($this->lng->txt("rbac_log_operation_add"), $this->lng->txt("obj_".$type)),
-						"operation"=>$this->lng->txt($type."_".$this->operations[$op]));
+				{					
+					$result[] = array("action"=>sprintf($this->lng->txt("rbac_log_operation_".$action), $this->lng->txt("obj_".$type)),
+						"operation"=>$this->lng->txt($this->getOPCaption($type, $op)));
 				}
 			}
 		}
 		return $result;
+	}
+	
+	// #10946
+	protected function getOPCaption($a_type, $a_op)
+	{
+		$op_id = $this->operations[$a_op];
+		if(substr($op_id, 0, 7) != "create_")
+		{
+			return $a_type."_".$this->operations[$a_op];
+		}
+		else
+		{
+			return "rbac_".$this->operations[$a_op];
+		}
 	}
 }
 
