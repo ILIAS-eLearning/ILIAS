@@ -14,7 +14,7 @@ include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
  *
  * @ilCtrl_Calls ilObjItemGroupGUI: ilPermissionGUI
  * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI
- * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI
+ * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI, ilAdministrationGUI
  * @ingroup ModulesItemGroup
  */
 class ilObjItemGroupGUI extends ilObject2GUI
