@@ -527,7 +527,7 @@ class ilDataCollectionDatatype
 		}elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
             $arr_properties = $record_field->getField()->getProperties();
             if($arr_properties[ilDataCollectionField::PROPERTYID_TEXTAREA])
-                $return = nl2br(htmlentities($value, ENT_QUOTES, 'UTF-8'));
+                $return = nl2br($value);
             else
                 $return = $value;
         }
@@ -698,7 +698,7 @@ class ilDataCollectionDatatype
 	 * @param $value
 	 * @return mixed
 	 */
-	public function parseFormInput($value){
+	public function parseFormInput($value, ilDataCollectionRecordField $record_field){
 		switch($this->id)
 		{
 			case self::INPUTFORMAT_DATETIME:
@@ -729,8 +729,18 @@ class ilDataCollectionDatatype
                 //$input = ilObjFile::_lookupAbsolutePath($value);
                 $input = $media_obj->getTitle();
                 break;
+            case self::INPUTFORMAT_TEXT:
+                $arr_properties = $record_field->getField()->getProperties();
+                if($arr_properties[ilDataCollectionField::PROPERTYID_TEXTAREA]){
+                    $breaks = array("<br />","<br>","<br/>");
+                    $input = str_ireplace($breaks, "\r\n", $value);
+                }
+                else
+                    $input= $value;
+                break;
 			default:
 				$input = $value;
+                break;
 		}
 		return $input;
 	}
