@@ -1030,8 +1030,16 @@ class ilInitialisation
 		self::initGlobal("ilAppEventHandler", "ilAppEventHandler",
 			"./Services/EventHandling/classes/class.ilAppEventHandler.php");
 
-		self::initGlobal("ilPluginAdmin", "ilPluginAdmin",
-			"./Services/Component/classes/class.ilPluginAdmin.php");
+		// there are rare cases where initILIAS is called twice for a request
+		// example goto.php is called and includes ilias.php later
+		// we must prevent that ilPluginAdmin is initialized twice in
+		// this case, since this won't get the values out of plugin.php the
+		// second time properly
+		if (!is_object($GLOBALS["ilPluginAdmin"]))
+		{
+			self::initGlobal("ilPluginAdmin", "ilPluginAdmin",
+				"./Services/Component/classes/class.ilPluginAdmin.php");
+		}
 
 		self::setSessionHandler();
 
