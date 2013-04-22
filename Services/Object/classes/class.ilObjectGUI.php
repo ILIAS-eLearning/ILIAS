@@ -1066,7 +1066,7 @@ class ilObjectGUI
 		// rbac log
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 		$rbac_log_roles = $rbacreview->getParentRoleIds($this->ref_id, false);
-		$rbac_log = ilRbacLog::gatherFaPa($this->ref_id, array_keys($rbac_log_roles));
+		$rbac_log = ilRbacLog::gatherFaPa($this->ref_id, array_keys($rbac_log_roles), true);
 		ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
 		
 		// use forced callback after object creation

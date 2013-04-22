@@ -251,7 +251,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 		// rbac log
 		include_once 'Services/AccessControl/classes/class.ilRbacLog.php';
 		$rbac_log_roles = $rbacreview->getParentRoleIds($newObj->getRefId(), false);
-		$rbac_log       = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles));
+		$rbac_log       = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
 		ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 
 		$this->object = $newObj;

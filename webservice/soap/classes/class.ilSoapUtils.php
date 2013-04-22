@@ -477,7 +477,7 @@ class ilSoapUtils extends ilSoapAdministration
 		// rbac log
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 		$rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
-		$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles));
+		$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles), true);
 		ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, (int)$source_id);
 		
 		// Finally add new mapping entry
@@ -554,7 +554,7 @@ class ilSoapUtils extends ilSoapAdministration
 		// rbac log
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 		$rbac_log_roles = $rbacreview->getParentRoleIds($new_ref_id, false);
-		$rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles));
+		$rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles), true);
 		ilRbacLog::add(ilRbacLog::LINK_OBJECT, $new_ref_id, $rbac_log, (int)$source_id);
 		
 		// Finally add new mapping entry
