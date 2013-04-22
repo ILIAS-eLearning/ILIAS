@@ -640,7 +640,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				// rbac log
 				include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 				$rbac_log_roles = $rbacreview->getParentRoleIds($this->node_id, false);
-				$rbac_log = ilRbacLog::gatherFaPa($this->node_id, array_keys($rbac_log_roles));
+				$rbac_log = ilRbacLog::gatherFaPa($this->node_id, array_keys($rbac_log_roles), true);
 				ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->node_id, $rbac_log);
 
 				$this->ctrl->setParameter($this, "ref_id", $this->node_id);

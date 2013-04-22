@@ -1927,7 +1927,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					if($rbac_log_active)
 					{
 						$rbac_log_roles = $rbacreview->getParentRoleIds($new_ref_id, false);
-						$rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles));
+						$rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles), true);
 						ilRbacLog::add(ilRbacLog::LINK_OBJECT, $new_ref_id, $rbac_log, $key);
 					}
 	

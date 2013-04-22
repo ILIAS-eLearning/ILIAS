@@ -622,7 +622,7 @@ class ilObjectCopyGUI
 		if(ilRbacLog::isActive())
 		{
 			$rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
-			$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles));
+			$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles), true);
 			ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, (int)$this->getSource());
 		}
 

@@ -33,18 +33,28 @@ class ilRbacLog
 		return false;
 	}
 
-	static public function gatherFaPa($a_ref_id, array $a_role_ids)
+	static public function gatherFaPa($a_ref_id, array $a_role_ids, $a_add_action = false)
 	{
 		global $rbacreview;
 
 		$result = array();
+		
+		// #10946 - if result is written to log directly we need to add an "action" dimension
+		// if result is used as input to diffFaPa() we need "raw" data
 
 		// roles
 		foreach($a_role_ids as $role_id)
 		{
 			if ($role_id != SYSTEM_ROLE_ID)
 			{
-				$result["ops"][$role_id] = $rbacreview->getRoleOperationsOnObject($role_id, $a_ref_id);
+				if($a_add_action)
+				{
+					$result["ops"][$role_id]["add"] = $rbacreview->getRoleOperationsOnObject($role_id, $a_ref_id);
+				}
+				else
+				{
+					$result["ops"][$role_id] = $rbacreview->getRoleOperationsOnObject($role_id, $a_ref_id);
+				}
 			}
 		}
 
@@ -53,7 +63,14 @@ class ilRbacLog
 		$rolf_id = $rolf_data["child"];
 		if($rolf_id && $rolf_id != ROLE_FOLDER_ID)
 		{
-		   $result["inht"] = $rbacreview->getRolesOfRoleFolder($rolf_id);
+			if($a_add_action)
+			{
+				$result["inht"]["add"] = $rbacreview->getRolesOfRoleFolder($rolf_id);
+			}
+			else
+			{
+				$result["inht"] = $rbacreview->getRolesOfRoleFolder($rolf_id);
+			}
 		}
 		
 		return $result;
