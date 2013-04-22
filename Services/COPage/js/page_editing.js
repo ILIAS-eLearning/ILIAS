@@ -63,12 +63,13 @@ var ilCOPage =
 		if (!epan)
 		{
 			var ediv = document.createElement('div');
-			var mc = document.getElementById("il_CenterColumn");
+//			var mc = document.getElementById("il_CenterColumn");
 		
 			ediv.innerHTML = "<div style='background-color:#FFFFFF;' id='error_panel'>" +
 			"<div style='padding:20px; width:800px; height: 350px; overflow:auto;' id='error_panel_inner'>" + estr + "</div></div>";
 			ediv.className = "yui-skin-sam";
-			ediv = mc.appendChild(ediv);
+			$('body').append(ediv);
+//			ediv = mc.appendChild(ediv);
 			var error_panel = new YAHOO.widget.Panel("error_panel", {
 				close: true,
 				constraintoviewport:true
