@@ -336,7 +336,6 @@ class ilGlossaryTermGUI
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("definitions");
-
 		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
 		// content style

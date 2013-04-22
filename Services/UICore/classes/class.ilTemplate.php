@@ -264,9 +264,9 @@ class ilTemplate extends ilTemplateX
 				{
 					$this->fillMainMenu();
 				}
+				$this->fillLightbox();
 				$this->parseCurrentBlock();
 			}
-			$this->fillLightbox();
 		}
 
 		if ($handle_referer)
@@ -523,9 +523,9 @@ class ilTemplate extends ilTemplateX
 				$this->fillTabs();
 				$this->fillMainContent();
 				$this->fillMainMenu();
+				$this->fillLightbox();
 				$this->parseCurrentBlock();
 			}
-			$this->fillLightbox();
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
