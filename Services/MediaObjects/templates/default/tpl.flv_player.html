@@ -35,18 +35,22 @@
 </p>
 <!-- END flv -->
 <!-- BEGIN audio -->
-<div id="player{APLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter">
+<div id="player{APLAYER_NR}_wrapper">
 	<!-- BEGIN apreview -->
+	<div class="ilPlayerPreviewOverlayOuter">
 	<div class="ilPlayerPreviewOverlay">
 		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
 		<div class="ilPlayerPreviewDescription">{PTITLE}</div>
 		<div class="ilPlayerPreviewPlayButton"></div>
 	</div>
+	</div>
 	<!-- END apreview -->
 	<div style="{ASTYLE}">
 	<audio id="player_{APLAYER_NR}" src="{AFILE}" width="{AWIDTH}" height="{AHEIGHT}"></audio>
 	<script>
-	$('#player_{APLAYER_NR}').mediaelementplayer({});
+	$(function() {
+		$('#player_{APLAYER_NR}').mediaelementplayer({});
+	});
 	</script>
 	</div>
 </div>
