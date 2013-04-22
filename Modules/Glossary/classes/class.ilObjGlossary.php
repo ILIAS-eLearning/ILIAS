@@ -635,6 +635,10 @@ class ilObjGlossary extends ilObject
 	{
 		global $ilUser;
 		
+		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
+		$copage_export = new ilCOPageHTMLExport($a_target_dir);
+		$copage_export->exportSupportScripts();
+		
 		// index.html file
 		$a_glo_gui->tpl = new ilTemplate("tpl.main.html", true, true);
 		$style_name = $ilUser->prefs["style"].".css";;
@@ -663,6 +667,7 @@ class ilObjGlossary extends ilObject
 		foreach($terms as $term)
 		{
 			$a_glo_gui->tpl = new ilTemplate("tpl.main.html", true, true);
+			$a_glo_gui->tpl = $copage_export->getPreparedMainTemplate();
 			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 			
 			// set style
@@ -671,7 +676,7 @@ class ilObjGlossary extends ilObject
 
 			$_GET["term_id"] = $term["id"];
 			$_GET["frame"] = "_blank";
-			$content =& $a_glo_gui->listDefinitions();
+			$content =& $a_glo_gui->listDefinitions($_GET["ref_id"],$term["id"],false);
 			$file = $a_target_dir."/term_".$term["id"].".html";
 							
 			// open file
