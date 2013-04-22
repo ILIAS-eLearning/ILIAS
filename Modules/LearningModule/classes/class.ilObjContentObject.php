@@ -2842,6 +2842,7 @@ class ilObjContentObject extends ilObject
 		$new_obj->setCleanFrames($this->cleanFrames());
 		$new_obj->setHistoryUserComments($this->isActiveHistoryUserComments());
 		$new_obj->setPublicAccessMode($this->getPublicAccessMode());
+		$new_obj->setPageHeader($this->getPageHeader());
 		
 		$new_obj->update();
 		
