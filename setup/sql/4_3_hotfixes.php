@@ -226,3 +226,8 @@ foreach($questionPoints as $questionId => $points)
 }
 
 ?>
+<#9>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

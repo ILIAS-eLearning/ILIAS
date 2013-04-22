@@ -237,7 +237,14 @@ class ilAdministrationGUI
 						}
 						else
 						{
-							$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+							if(is_subclass_of($class_name, "ilObject2GUI"))
+							{
+								$this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
+							}
+							else
+							{
+								$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+							}						
 						}
 						$this->gui_obj->setCreationMode($this->creation_mode);
 					}
