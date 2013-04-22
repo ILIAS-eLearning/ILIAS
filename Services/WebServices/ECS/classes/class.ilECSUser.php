@@ -204,12 +204,27 @@ class ilECSUser
 	 */
 	public function toGET()
 	{
-	 	return '&ecs_login='.urlencode($this->login).
-	 		'&ecs_firstname='.urlencode($this->firstname).
-	 		'&ecs_lastname='.urlencode($this->lastname).
-	 		'&ecs_email='.urlencode($this->email).
-	 		'&ecs_institution='.urlencode($this->institution).
-	 		'&ecs_uid_hash='.urlencode($this->uid_hash);
+	 	return '&ecs_login='.urlencode((string) $this->login).
+	 		'&ecs_firstname='.urlencode((string) $this->firstname).
+	 		'&ecs_lastname='.urlencode((string) $this->lastname).
+	 		'&ecs_email='.urlencode((string) $this->email).
+	 		'&ecs_institution='.urlencode((string) $this->institution).
+	 		'&ecs_uid_hash='.urlencode((string) $this->uid_hash);
+	}
+	
+	/**
+	 * Concatenate all attributes to one string
+	 * @return string
+	 */
+	public function toREALM()
+	{
+		return 
+			(string) $this->login.''.
+			(string) $this->firstname.''.
+			(string) $this->lastname.''.
+			(string) $this->email.''.
+			(string) $this->institution.''.
+			(string) $this->uid_hash;
 	}
 }
 
