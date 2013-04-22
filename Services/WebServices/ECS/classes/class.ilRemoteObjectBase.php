@@ -249,7 +249,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 		$server = ilECSSetting::getInstanceByServerId($server_id);
 		
 		
-		$auth_hash = $this->createAuthResource($this->getRemoteLink().$ecs_user_data);
+		$auth_hash = $this->createAuthResource($this->getRemoteLink().$user->toREALM());
 		$ecs_url_hash = 'ecs_hash_url='.urlencode($server->getServerURI().'/sys/auths/'.$auth_hash);
 		
 		if(strpos($this->getRemoteLink(), '?'))
