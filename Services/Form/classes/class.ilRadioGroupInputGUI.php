@@ -173,7 +173,8 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
 			{
 				if ($option->getValue() != $this->getValue())
 				{
-					$tpl->touchBlock("prop_radio_opt_hide");
+					// #10930
+					$tpl->setCurrentBlock("prop_radio_opt_hide");
 					$tpl->setVariable("HOP_ID", $this->getFieldId()."_".$option->getValue());
 					$tpl->parseCurrentBlock();
 				}
