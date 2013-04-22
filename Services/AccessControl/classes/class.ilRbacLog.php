@@ -78,7 +78,7 @@ class ilRbacLog
 			}
 		}
 
-		if(isset($a_old["int"]) || isset($a_new["inht"]))
+		if(isset($a_old["inht"]) || isset($a_new["inht"]))
 		{
 			if(isset($a_old["inht"]) && !isset($a_new["inht"]))
 			{
