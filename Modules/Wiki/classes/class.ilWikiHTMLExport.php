@@ -105,8 +105,10 @@ class ilWikiHTMLExport
 	 */
 	function exportPageHTML($a_page_id)
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilTabs;
 
+		$ilTabs->clearTargets();
+		
 		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();
 		
 		$this->tpl->getStandardTemplate();
@@ -135,7 +137,9 @@ class ilWikiHTMLExport
 		$ep_tpl->setVariable("RIGHT_CONTENT", $bl->getHTML(true));
 
 		// workaround
-		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
+//		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
+		$this->tpl->setVariable("MAINMENU", "");
+
 		$this->tpl->setTitle($this->wiki->getTitle());
 		$this->tpl->setTitleIcon("./images/icon_wiki_b.png",
 			$lng->txt("obj_wiki"));
@@ -143,9 +147,9 @@ class ilWikiHTMLExport
 		$this->tpl->setContent($ep_tpl->get());
 		//$this->tpl->fillMainContent();
 		$content = $this->tpl->get("DEFAULT", false, false, false,
-			true, true, false);
+			true, true, true);
 
-		//echo htmlentities($content); exit;
+//echo htmlentities($content); exit;
 		// open file
 		if (!($fp = @fopen($file,"w+")))
 		{
