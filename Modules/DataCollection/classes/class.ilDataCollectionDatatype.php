@@ -500,7 +500,13 @@ class ilDataCollectionDatatype
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
 		{
 			$return = $value ? 1 : 0;
-		}
+		}elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
+            $arr_properties = $record_field->getField()->getProperties();
+            if($arr_properties[ilDataCollectionField::PROPERTYID_TEXTAREA])
+                $return = nl2br($value);
+            else
+                $return = $value;
+        }
 		else
 		{
 			$return = $value;
@@ -561,12 +567,11 @@ class ilDataCollectionDatatype
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
 		{
 			$return = $value ? 1 : 0;
-		}
-		else
-		{
-			$return = $value;
-		}
-		
+        }
+        else
+        {
+           $return = $value;
+        }
 		return $return;
 	}
 
@@ -592,6 +597,7 @@ class ilDataCollectionDatatype
                 }
 
 				$file_obj = new ilObjFile($value,false);
+
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "record_id", $record_field->getRecord()->getId());
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "field_id", $record_field->getField()->getId());
 
@@ -668,7 +674,7 @@ class ilDataCollectionDatatype
 	 * @param $value
 	 * @return mixed
 	 */
-	public function parseFormInput($value){
+	public function parseFormInput($value, ilDataCollectionRecordField $record_field){
 		switch($this->id)
 		{
 			case self::INPUTFORMAT_DATETIME:
@@ -698,6 +704,15 @@ class ilDataCollectionDatatype
                 $media_obj = new ilObjMediaObject($value, false);
                 //$input = ilObjFile::_lookupAbsolutePath($value);
                 $input = $media_obj->getTitle();
+                break;
+            case self::INPUTFORMAT_TEXT:
+                $arr_properties = $record_field->getField()->getProperties();
+                if($arr_properties[ilDataCollectionField::PROPERTYID_TEXTAREA]){
+                    $breaks = array("<br />","<br>","<br/>");
+                    $input = str_ireplace($breaks, "\r\n", $value);
+                }
+                else
+                    $input= $value;
                 break;
 			default:
 				$input = $value;

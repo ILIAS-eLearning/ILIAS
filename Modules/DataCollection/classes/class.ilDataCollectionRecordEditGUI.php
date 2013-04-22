@@ -235,7 +235,7 @@ class ilDataCollectionRecordEditGUI
 		$values = array();
 		foreach($allFields as $field)
 		{
-			$value = $record_obj->getRecordFieldFormInput($field->getId());
+			$value = $record_obj->getRecordFieldFormInput($field->getId(), ilDataCollectionCache::getRecordFieldCache($record_obj, $field));
 			$values['field_'.$field->getId()] = $value;
 		}
 

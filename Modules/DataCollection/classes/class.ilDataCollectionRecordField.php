@@ -138,7 +138,7 @@ class ilDataCollectionRecordField
 	{
 		$datatype = $this->field->getDatatype();
 		
-		return $datatype->parseFormInput($this->getValue());
+		return $datatype->parseFormInput($this->getValue(), $this);
 	}
 	
 	/*
