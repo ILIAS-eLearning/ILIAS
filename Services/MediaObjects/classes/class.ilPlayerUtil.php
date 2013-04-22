@@ -11,7 +11,7 @@
  */
 class ilPlayerUtil
 {
-	private static $mejs_ver = "2_9_5";
+	private static $mejs_ver = "2_11_3";
 	
 	/**
 	 * Get local path of jQuery file
@@ -81,7 +81,7 @@ class ilPlayerUtil
 	 */
 	static function getFlashVideoPlayerDirectory()
 	{
-		return "Services/MediaObjects/media_element_2_9_5";
+		return "Services/MediaObjects/media_element_2_11_3";
 	}
 	
 	

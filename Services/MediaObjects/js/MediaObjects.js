@@ -37,7 +37,7 @@ il.MediaObjects = {
 			il.MediaObjects.current_player = player;
 		} else {
 			// audio ?
-			audio_el = $(t).find('audio');
+			audio_el = $(t).parent().find('audio');
 			if (audio_el.length > 0) {
 				player = $('#' + audio_el.attr('id'))[0].player.media;
 				player.play();
