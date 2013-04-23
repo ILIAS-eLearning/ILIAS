@@ -1895,8 +1895,8 @@ class ilUtil
 	public static function isConvertVersionAtLeast($a_version)
 	{		
 		$current_version = ilUtil::execQuoted(PATH_TO_CONVERT, "--version");
-		$current_version = self::processConvertVersion($current_version[0]);		
-		$version = self::processConvertVersion($a_version);		
+		$current_version = self::processConvertVersion($current_version[0]);
+		$version = self::processConvertVersion($a_version);
 		if($current_version >= $version)
 		{		
 			return true;
@@ -1912,12 +1912,12 @@ class ilUtil
 	 */
 	protected static function processConvertVersion($a_version)
 	{
-		if(preg_match("/([0-9]+)\.([0-9]+)\.([0-9]+)[\.|\-]([0-9]+)/", $a_version, $match))
+		if(preg_match("/([0-9]+)\.([0-9]+)\.([0-9]+)([\.|\-]([0-9]+))?/", $a_version, $match))
 		{
 			$version = str_pad($match[1], 2, 0, STR_PAD_LEFT).
 				str_pad($match[2], 2, 0, STR_PAD_LEFT).
 				str_pad($match[3], 2, 0, STR_PAD_LEFT).
-				str_pad($match[4], 2, 0, STR_PAD_LEFT);				
+				str_pad($match[5], 2, 0, STR_PAD_LEFT);				
 			return (int)$version;
 		}
 	}
@@ -1937,9 +1937,19 @@ class ilUtil
 		$format_str = ($a_target_format != "")
 			? strtoupper($a_target_format).":"
 			: "";
-		$geometry = ($a_geometry != "")
-			? " -geometry ".$a_geometry."x".$a_geometry." "
-			: "";
+		$geometry = "";
+		if ($a_geometry != "")
+		{
+			if (is_int(strpos($a_geometry, "x")))
+			{
+				$geometry = " -geometry ".$a_geometry." ";
+			}
+			else
+			{
+				$geometry = " -geometry ".$a_geometry."x".$a_geometry." ";
+			}
+		}
+		
 		$bg_color = ($a_background_color != "")
 			? " -background color ".$a_background_color." "
 			: "";

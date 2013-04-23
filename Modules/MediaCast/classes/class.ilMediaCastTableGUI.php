@@ -107,11 +107,20 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				$lng->txt("created"));
 			$this->tpl->setVariable("VAL_CREATED",
 				ilDatePresentation::formatDate(new ilDateTime($a_set["creation_date"], IL_CAL_DATETIME)));
+			
 			$this->tpl->setVariable("TXT_DURATION",
 				$lng->txt("mcst_play_time"));
-			$this->tpl->setVariable("VAL_DURATION",
-				$a_set["playtime"]);
 			
+			if ($a_set["playtime"] != "00:00:00")
+			{
+				$this->tpl->setVariable("VAL_DURATION",
+					$a_set["playtime"]);
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_DURATION", "-");
+			}
+
 			if(!$this->edit_order)
 			{
 				if ($this->downloadable) 
@@ -177,9 +186,13 @@ class ilMediaCastTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 					$this->tpl->setVariable("CMD_EDIT",
 						$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "editCastItem"));
-					$this->tpl->setVariable("TXT_DET_PLAYTIME", $lng->txt("mcst_det_playtime"));
-					$this->tpl->setVariable("CMD_DET_PLAYTIME",
-						$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "determinePlaytime"));
+					
+					if (!is_int(strpos($med->getFormat(), "image/")))
+					{
+						$this->tpl->setVariable("TXT_DET_PLAYTIME", $lng->txt("mcst_det_playtime"));
+						$this->tpl->setVariable("CMD_DET_PLAYTIME",
+							$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "determinePlaytime"));
+					}
 					$this->tpl->parseCurrentBlock();
 					
 					$this->tpl->setCurrentBlock("edit_checkbox");

@@ -43,6 +43,22 @@ il.MediaObjects = {
 				player.play();
 				il.MediaObjects.current_player_id = audio_el.attr('id');
 				il.MediaObjects.current_player = player;
+			} else {
+				
+				// image?
+				if ($(t).hasClass('ilPlayerPreviewImage')) {
+					$(t).find('.ilPlayerPreviewOverlay').addClass('ilNoDisplay');
+					var img_el = $(t).parent().find('div.ilPlayerImage');
+//					video_el_wrap = $('#' + video_el.attr('id') + "_vtwrap");
+					
+					il.Lightbox.activateView('media_lightbox');
+					//il.Lightbox.onDeactivation('media_lightbox', il.MediaObjects.onLightboxDeactivation);
+//console.log(img_el);
+					img_el.removeClass('ilNoDisplay');
+					il.Lightbox.loadWrapperToLightbox($(t).parent().attr('id'), "media_lightbox");
+					//video_el_wrap.removeClass('ilNoDisplay');
+					il.MediaObjects.current_player_id = img_el.attr('id');
+				}
 			}
 		}
 	},
@@ -60,18 +76,23 @@ il.MediaObjects = {
 		var video_el, video_el_wrap;
 		if (il.MediaObjects.current_player_id) {
 			video_el = $('#' + il.MediaObjects.current_player_id);
-			video_el_wrap = $('#' + il.MediaObjects.current_player_id + "_vtwrap");
-			video_el.attr('autoplay', 'false');
-			video_el.addClass('ilNoDisplay');
-			video_el_wrap.addClass('ilNoDisplay');
-			$('#' + il.MediaObjects.current_player_id + "_wrapper").find('.ilPlayerPreviewOverlay').removeClass('ilNoDisplay');
-			
-			il.MediaObjects.current_player_id = null;
-			
-			// the next line currently fails on safari if a flv file has been called:
-			// TypeError: 'undefined' is not a function (evaluating 'this.pluginApi.pauseMedia()'), see also:
-			// http://stackoverflow.com/questions/10487575/show-hiding-video-container-produces-pluginapi-errors-mediaelement-js
-			il.MediaObjects.current_player.pause();
+			if (video_el.hasClass('ilPlayerImage')) {
+				video_el.addClass('ilNoDisplay');
+				video_el.parent().find('.ilPlayerPreviewOverlay').removeClass('ilNoDisplay');
+			} else {
+				video_el_wrap = $('#' + il.MediaObjects.current_player_id + "_vtwrap");
+				video_el.attr('autoplay', 'false');
+				video_el.addClass('ilNoDisplay');
+				video_el_wrap.addClass('ilNoDisplay');
+				$('#' + il.MediaObjects.current_player_id + "_wrapper").find('.ilPlayerPreviewOverlay').removeClass('ilNoDisplay');
+				
+				il.MediaObjects.current_player_id = null;
+				
+				// the next line currently fails on safari if a flv file has been called:
+				// TypeError: 'undefined' is not a function (evaluating 'this.pluginApi.pauseMedia()'), see also:
+				// http://stackoverflow.com/questions/10487575/show-hiding-video-container-produces-pluginapi-errors-mediaelement-js
+				il.MediaObjects.current_player.pause();
+			}
 		}
 	}
 }

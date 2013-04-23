@@ -4136,6 +4136,7 @@ td.dcl_actions {
 	right: 0px;
 	left: 0px;
 	background-color:#303030;
+	overflow: auto;
 }
 
 a.ilMediaLightboxClose {

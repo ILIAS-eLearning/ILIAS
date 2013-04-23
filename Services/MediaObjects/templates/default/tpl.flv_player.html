@@ -55,6 +55,27 @@
 	</div>
 </div>
 <!-- END audio -->
+<!-- BEGIN image -->
+<div id="player{IPLAYER_NR}_wrapper">
+	<!-- BEGIN ipreview -->
+	<div class="ilPlayerPreviewOverlayOuter ilPlayerPreviewImage">
+	<div class="ilPlayerPreviewOverlay">
+		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
+		<div class="ilPlayerPreviewDescription">{PTITLE}</div>		
+		<!-- <div class="ilPlayerPreviewPlayButton"></div> -->
+	</div>
+	</div>
+	<!-- END ipreview -->
+	<div id="player{IPLAYER_NR}_vtwrap" class="ilPlayerImage ilNoDisplay" width="{IWIDTH}" style="max-width:100%;">
+		<img src="{IFILE}" alt="{IMG_ALT}" style="max-width:100%;"/>
+		<div style="padding-top: 10px; font-size: 80%; color: #808080;">
+				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose"></a>
+				<p>{ITITLE}</p>
+				<div>{IDESCRIPTION}</div>
+		</div>
+	</div>
+</div>
+<!-- END image -->
 <!-- BEGIN default -->
 <p id="player{PLAYER_NR}">
 <script type="text/javascript">
