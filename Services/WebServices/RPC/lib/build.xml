@@ -37,6 +37,7 @@
           target: depends                      
          - - - - - - - - - - - - - - - - - -->
     <target name="buildSource" depends="build">
+	<!--
     	<delete file="ilServer.source.jar" />
     	<zip destfile="ilServer.source.zip">
     		<zipfileset dir="${lib}" prefix="lib"/>
@@ -45,6 +46,7 @@
     		<zipfileset file="*.properties" />
 	    </zip>
 	<delete dir="${tmp}" />
+	-->
     </target>
     <target name="build" depends="compile">
     	<mkdir dir="${tmp}"/>

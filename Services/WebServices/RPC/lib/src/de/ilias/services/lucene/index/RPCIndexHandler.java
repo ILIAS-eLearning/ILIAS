@@ -112,7 +112,6 @@ public class RPCIndexHandler {
 			}
 			// Join threads
 			for(int i = 0; i < server.getNumThreads();i++) {
-				
 				threads.get(i).join();
 			}
 			controller.writeToIndex();
@@ -125,7 +124,7 @@ public class RPCIndexHandler {
 
 		} 
 		catch (Exception e) {
-			logger.error("Unknokn error",e);
+			logger.error("Unknown error",e);
 		}
 		finally {
 			// Purge resources
