@@ -977,7 +977,7 @@ if (add_final_spacer)
 	// object uses in the background
 	synchInputRegion: function()
 	{
-		var back_el;
+		var back_el, dummy;
 		
 		if (this.current_td)
 		{
@@ -1048,6 +1048,12 @@ if (add_final_spacer)
 					back_reg.height);
 			}
 		}
+		
+		// force redraw for webkit based browsers (ILIAS chrome bug #0010871)
+		// http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
+		back_el.style.display='none';
+		dummy = back_el.offsetHeight;
+		back_el.style.display='block';
 	},
 
 	autoResize: function(ed)
