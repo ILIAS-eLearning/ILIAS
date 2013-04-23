@@ -2604,6 +2604,8 @@ class ilMail
 		{
 			$signature .= '/?client_id='.CLIENT_ID;
 		}
+		
+		$signature .= "\n\n";
 
 		return $signature;
 	}
