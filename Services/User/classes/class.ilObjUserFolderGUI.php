@@ -493,17 +493,27 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 	}
 	
-	function setAccessRestrictionObject($a_form = null)
+	function setAccessRestrictionObject($a_form = null, $a_from_search = false)
 	{
 		if(!$a_form)
 		{
-			$a_form = $this->initAccessRestrictionForm();
+			$a_form = $this->initAccessRestrictionForm($a_from_search);
 		}
 		$this->tpl->setContent($a_form->getHTML());
+		
+		// #10963
+		return true;
 	}
 	
-	protected function initAccessRestrictionForm()
+	protected function initAccessRestrictionForm($a_from_search = false)
 	{
+		$user_ids = $this->getActionUserIds();			
+		if(!$user_ids)
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $this->viewObject();
+		}
+						
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng->txt("time_limit_add_time_limit_for_selected"));
@@ -521,6 +531,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$form->addCommandButton("confirmaccessRestrict", $this->lng->txt("confirm"));
 		$form->addCommandButton("cancelaccessRestrict", $this->lng->txt("cancel"));
+		
+		foreach($user_ids as $user_id)
+		{
+			$ufield = new ilHiddenInputGUI("id[]");
+			$ufield->setValue($user_id);
+			$form->addItem($ufield);
+		}
+		
+		// return to search?
+		if($a_from_search || $_POST["frsrch"])
+		{
+			$field = new ilHiddenInputGUI("frsrch");
+			$field->setValue(1);
+			$form->addItem($field);
+		}
 		
 		return $form;
 	}
@@ -547,7 +572,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
-		}
+		}		
 		
 		// FOR ALL SELECTED OBJECTS
 		foreach ($_POST["id"] as $id)
@@ -647,8 +672,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 				
-		if (strcmp($action, "accessRestrict") == 0) return $this->setAccessRestrictionObject();
-		if (strcmp($action, "mail") == 0) return $this->mailObject();
+		if (strcmp($action, "accessRestrict") == 0) 
+		{			
+			return $this->setAccessRestrictionObject(null, $a_from_search);
+		}		
+		if (strcmp($action, "mail") == 0) 
+		{
+			return $this->mailObject();
+		}
 
 		unset($this->data);
 		
