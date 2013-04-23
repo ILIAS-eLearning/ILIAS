@@ -346,6 +346,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		// #10986
+		$this->tabs_gui->setTabActive('info_short');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
