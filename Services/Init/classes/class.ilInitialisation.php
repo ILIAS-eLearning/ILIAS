@@ -601,8 +601,11 @@ class ilInitialisation
 			$a_user->getId() != ANONYMOUS_USER_ID &&
 			$a_user->checkTimeLimit())
 		{
-			ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target='.$_GET['target'].'&cmd=getAcceptance');
-		}	
+			if(!defined('IL_CERT_SSO'))
+			{
+				self::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target='.$_GET['target'].'&cmd=getAcceptance', '');
+			}
+		}
 	}
 	
 	/**
