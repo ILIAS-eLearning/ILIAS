@@ -569,8 +569,7 @@ class ilLinkResourceItems
 
 		$query = "SELECT * FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer').' '.
-			"AND active = ".$ilDB->quote(1,'integer').' '.
-			'AND valid = '.$ilDB->quote(1,'integer');
+			"AND active = ".$ilDB->quote(1,'integer').' ';
 		$res = $ilDB->query($query);
 		return $res->numRows() == 1 ? true : false;
 	}
