@@ -605,8 +605,11 @@ class ilInitialisation
 			$a_user->hasToAcceptTermsOfServiceInSession() &&
 			$a_user->checkTimeLimit())
 		{
-			ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target='.$_GET['target'].'&cmd=getAcceptance');
-		}	
+			if(!defined('IL_CERT_SSO'))
+			{
+				self::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target='.$_GET['target'].'&cmd=getAcceptance', '');
+			}
+		}
 	}
 	
 	/**
