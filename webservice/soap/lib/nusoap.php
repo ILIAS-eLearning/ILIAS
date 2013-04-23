@@ -1060,8 +1060,8 @@ class nusoap_fault extends nusoap_base {
 				'<SOAP-ENV:Body>'.
 				'<SOAP-ENV:Fault>'.
 					$this->serialize_val($this->faultcode, 'faultcode').
-					$this->serialize_val($this->faultactor, 'faultactor').
 					$this->serialize_val($this->faultstring, 'faultstring').
+					$this->serialize_val($this->faultactor, 'faultactor').
 					$this->serialize_val($this->faultdetail, 'detail').
 				'</SOAP-ENV:Fault>'.
 				'</SOAP-ENV:Body>'.
