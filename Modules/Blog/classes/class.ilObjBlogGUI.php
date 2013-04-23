@@ -349,6 +349,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							{
 								$info[] = $lng->txt("blog_new_posting_info");
 							}
+							if($this->object->hasApproval())
+							{
+								// #9737
+								$info[] = $lng->txt("blog_posting_edit_approval_info");
+							}
 							if(sizeof($info))
 							{
 								ilUtil::sendInfo(implode("<br />", $info));	

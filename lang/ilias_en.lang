@@ -12972,3 +12972,4 @@ user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagg
 user#:#user_delete_own_account_logout_button#:#Proceed to Authentication
 user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.
 rbac#:#edit_userassignment#:#Edit User Assignment
+blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.
