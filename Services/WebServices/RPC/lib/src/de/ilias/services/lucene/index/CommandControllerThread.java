@@ -47,6 +47,29 @@ public class CommandControllerThread extends Thread {
 		
 		clientKey = ck;
 		controller = con;
+		
+		this.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+			/**
+			 * Overwrite uncuaght exception handler
+			 */
+			public void uncaughtException(Thread t, Throwable e) {
+				
+				logger.error("Caught uncaught error: " + e);
+
+				try {
+					
+					CommandControllerThread nt = new CommandControllerThread(clientKey,controller);
+					nt.start();
+					nt.join();
+				}
+				catch(Exception ex) {
+					logger.error("New error " + ex);
+				}
+			}
+		});
+		
+		
 	}
 	
 	/**
@@ -71,4 +94,5 @@ public class CommandControllerThread extends Thread {
 			DBFactory.closeAll();
 		}
 	}
+			
 }

@@ -178,17 +178,17 @@ public class HitHighlighter {
 					allContent.append(" ");
 				}
 			}
-			logger.debug("All content" + allContent.toString());
+			//logger.debug("All content" + allContent.toString());
 			token =	new StandardAnalyzer().tokenStream("content", new StringReader(allContent.toString()));
 			fragment = highlighter.getBestFragments(
 					token,
 					allContent.toString(),
 					luceneSettings.getNumFragments(),
 					HIGHLIGHT_SEPARATOR);
-			logger.info("Fragmented: " + fragment);
+			//logger.debug("Fragmented: " + fragment);
 			
 			if(fragment.length() != 0) {
-				logger.debug("Found fragment: " + fragment);
+				//logger.debug("Found fragment: " + fragment);
 				resItem.addField(new HighlightField("content",fragment));
 			}
 		}
