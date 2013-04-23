@@ -118,8 +118,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 		}
 		$query = "SELECT * FROM webr_items ".
 			"WHERE webr_id = ".	$ilDB->quote($a_webr_id ,'integer').' '.
-			"AND active = ".$ilDB->quote(1,'integer').' '.
-			'AND valid = '.$ilDB->quote(1,'integer');
+			"AND active = ".$ilDB->quote(1,'integer').' ';
 		$res = $ilDB->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -148,9 +147,10 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 	{
 		global $ilDB, $ilUser;
 		
-		$res = $ilDB->query("SELECT * FROM webr_items WHERE ".
-			$ilDB->in("webr_id", $a_obj_ids, false, "integer").
-			" AND active = ". $ilDB->quote(1,'integer').' AND valid = '.$ilDB->quote(1,'integer'));
+		$res = $ilDB->query(
+				"SELECT * FROM webr_items WHERE ".
+				$ilDB->in("webr_id", $a_obj_ids, false, "integer").
+				" AND active = ". $ilDB->quote(1,'integer'));
 		foreach ($a_obj_ids as $id)
 		{
 			self::$item[$id] = array();
