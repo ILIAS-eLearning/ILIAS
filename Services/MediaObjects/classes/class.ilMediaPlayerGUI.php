@@ -366,6 +366,38 @@ class ilMediaPlayerGUI
 			$mp_tpl->parseCurrentBlock();
 			return $mp_tpl->get();
 		}
+
+		// images
+		if (is_int(strpos($mimeType,"image/")))
+		{
+			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
+			$mp_tpl->setCurrentBlock("ipreview");
+			if ($this->getVideoPreviewPic() != "")
+			{
+				$mp_tpl->setVariable("IMG_SRC", $this->getVideoPreviewPic());
+			}
+			else
+			{
+				$mp_tpl->setVariable("IMG_SRC", $this->getFile());
+			}
+			$mp_tpl->setVariable("PTITLE", $this->getTitle());
+			$mp_tpl->parseCurrentBlock();
+
+			$mp_tpl->setCurrentBlock("image");
+			$mp_tpl->setVariable("IFILE", $this->getFile());
+			$mp_tpl->setVariable("IPLAYER_NR", $this->current_nr);
+			$mp_tpl->setVariable("ITITLE", $this->getTitle());
+			$mp_tpl->setVariable("IDESCRIPTION", $this->getDescription());
+			
+			$height = $this->getDisplayHeight();
+			$width = $this->getDisplayWidth();
+ 
+			$mp_tpl->setVariable("IHEIGHT", $height);
+			$mp_tpl->setVariable("IWIDTH", $width);
+			$mp_tpl->parseCurrentBlock();
+			
+			return $mp_tpl->get();
+		}
 		
 		// fallback, no preview mode
 		$mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;

@@ -4210,6 +4210,7 @@ span.bibl_text_inline_Emph {
 	right: 0px;
 	left: 0px;
 	background-color:#303030;
+	overflow: auto;
 }
 
 a.ilMediaLightboxClose {

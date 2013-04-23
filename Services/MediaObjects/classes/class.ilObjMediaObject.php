@@ -1629,6 +1629,36 @@ class ilObjMediaObject extends ilObject
 	}
 
 	/**
+	 * Upload video preview picture
+	 *
+	 * @param
+	 * @return
+	 */
+	function generatePreviewPic($a_width, $a_height)
+	{
+		$item = $this->getMediaItem("Standard");
+
+		if ($item->getLocationType() == "LocalFile" &&
+			is_int(strpos($item->getFormat(), "image/")))
+		{
+			$dir = ilObjMediaObject::_getDirectory($this->getId());
+			$file = $dir."/".
+				$item->getLocation();
+			if (is_file($file))
+			{
+				if(ilUtil::isConvertVersionAtLeast("6.3.8-3"))
+				{
+					ilUtil::execConvert($file."[0] -geometry ".$a_width."x".$a_height."^ -gravity center -extent ".$a_width."x".$a_height." PNG:".$dir."/mob_vpreview.png");
+				}
+				else
+				{
+					ilUtil::convertImage($file, $dir."/mob_vpreview.png", "PNG", $a_width."x".$a_height);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Get video preview pic
 	 *
 	 * @param
