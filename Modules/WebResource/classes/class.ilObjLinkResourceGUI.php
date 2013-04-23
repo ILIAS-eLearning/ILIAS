@@ -618,7 +618,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		
 		if($a_mode == self::LINK_MOD_EDIT)
 		{
-			$this->link->setValidStatus($this->form->getInput('val'));
+			$this->link->setValidStatus($this->form->getInput('vali'));
 		}
 		else
 		{
