@@ -203,6 +203,11 @@ class ilAuthContainerECS extends Auth_Container
 			$username = $this->updateUser($user,$usr_id);
 		}
 		
+		// set user imported
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+		$import = new ilECSImport($this->getCurrentServer()->getServerId(), $usr_id);
+		$import->save();
+		
 		$a_auth->setAuth($username);
 		$this->log->write(__METHOD__.': Login succesesful');
 		return true;
@@ -354,6 +359,7 @@ class ilAuthContainerECS extends Auth_Container
 		}
 
 		include_once('./Services/Language/classes/class.ilLanguageFactory.php');
+		include_once './Services/Language/classes/class.ilLanguage.php';
 		$lang = ilLanguageFactory::_getLanguage();
 		$GLOBALS['lng'] = $lang;
 		$GLOBALS['ilUser'] = $user_obj;
