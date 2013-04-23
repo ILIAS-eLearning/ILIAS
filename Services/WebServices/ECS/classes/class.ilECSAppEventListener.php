@@ -70,11 +70,13 @@ class ilECSAppEventListener implements ilAppEventListener
 						{
 							if(!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id']))
 							{
+								$GLOBALS['ilLog']->write(__METHOD__.': No valid user found for usr_id '.$a_parameter['usr_id']);
 								return true;
 							}
 							
 							include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
 							$server_id = ilECSImport::lookupServerId($a_parameter['usr_id']);
+							$GLOBALS['ilLog']->write(__METHOD__.': Found server id: '.$server_id);
 
 							include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
 							$settings = ilECSSetting::getInstanceByServerId($server_id);
@@ -86,16 +88,8 @@ class ilECSAppEventListener implements ilAppEventListener
 							{
 								$user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
 								$user->update();
-								
-								$start = $user->getTimeLimitFrom();
-								$end = $user->getTimeLimitUntil();
-
-								// send notification only for non session accounts
-								if(($end - $start) > (60 * 60 * 24))
-								{
-									self::_sendNotification($settings,$user);
-								}
 							}
+							self::_sendNotification($settings,$user);
 							unset($user);
 						}
 						break;
