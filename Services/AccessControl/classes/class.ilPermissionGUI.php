@@ -160,6 +160,16 @@ class ilPermissionGUI extends ilPermission2GUI
 	{
 		return $this->getCurrentObject()->getType() == 'adm';
 	}
+
+	/**
+	 * Check if node is subobject of administration folder
+	 * @return type
+	 */
+	protected function isInAdministration()
+	{
+		return (bool) $GLOBALS['tree']->isGrandChild(SYSTEM_FOLDER_ID,$this->getCurrentObject()->getRefId());
+	}
+	
 	
 	/**
 	 * Apply filter
@@ -642,37 +652,41 @@ class ilPermissionGUI extends ilPermission2GUI
 		$pd->setValue(1);
 		$form->addItem($pd);
 
-		$rights = new ilRadioGroupInputGUI($this->lng->txt("rbac_role_rights_copy"), 'rights');
-		$option = new ilRadioOption($this->lng->txt("rbac_role_rights_copy_empty"), 0);
-	    $rights->addOption($option);
-
-		$parent_role_ids = $rbacreview->getParentRoleIds($this->gui_obj->object->getRefId(),true);
-		$ids = array();
-		foreach($parent_role_ids as $id => $tmp)
+		
+		if(!$this->isInAdministration())
 		{
-			$ids[] = $id;
-		}
+			$rights = new ilRadioGroupInputGUI($this->lng->txt("rbac_role_rights_copy"), 'rights');
+			$option = new ilRadioOption($this->lng->txt("rbac_role_rights_copy_empty"), 0);
+			$rights->addOption($option);
 
-		// Sort ids
-		$sorted_ids = ilUtil::_sortIds($ids,'object_data','type DESC,title','obj_id');
-
-		// Sort roles by title
-		$sorted_roles = ilUtil::sortArray(array_values($parent_role_ids), 'title', ASC);
-		$key = 0;
-
-		foreach($sorted_ids as $id)
-		{
-			$par = $parent_role_ids[$id];
-			if ($par["obj_id"] != SYSTEM_ROLE_ID)
+			$parent_role_ids = $rbacreview->getParentRoleIds($this->gui_obj->object->getRefId(),true);
+			$ids = array();
+			foreach($parent_role_ids as $id => $tmp)
 			{
-				include_once './Services/AccessControl/classes/class.ilObjRole.php';
-				$option = new ilRadioOption(($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt('obj_rolt')).": ".ilObjRole::_getTranslation($par["title"]), $par["obj_id"]);
-				$option->setInfo($par["desc"]);
-				$rights->addOption($option);
+				$ids[] = $id;
 			}
-			$key++;
+
+			// Sort ids
+			$sorted_ids = ilUtil::_sortIds($ids,'object_data','type DESC,title','obj_id');
+
+			// Sort roles by title
+			$sorted_roles = ilUtil::sortArray(array_values($parent_role_ids), 'title', ASC);
+			$key = 0;
+
+			foreach($sorted_ids as $id)
+			{
+				$par = $parent_role_ids[$id];
+				if ($par["obj_id"] != SYSTEM_ROLE_ID)
+				{
+					include_once './Services/AccessControl/classes/class.ilObjRole.php';
+					$option = new ilRadioOption(($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt('obj_rolt')).": ".ilObjRole::_getTranslation($par["title"]), $par["obj_id"]);
+					$option->setInfo($par["desc"]);
+					$rights->addOption($option);
+				}
+				$key++;
+			}
+			$form->addItem($rights);
 		}
-		$form->addItem($rights);
 
 		// Local policy only for containers
 		if($objDefinition->isContainer($this->getCurrentObject()->getType()))
