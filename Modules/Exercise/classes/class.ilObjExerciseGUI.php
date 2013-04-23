@@ -2451,7 +2451,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 		$acc = new ilAccordionGUI();
-		$acc->setBehaviour("OneOpenSession");
 		$acc->setId("exc_ow_".$this->object->getId());
 		$ass_data = ilExAssignment::getAssignmentDataOfExercise($this->object->getId());
 		include_once("./Modules/Exercise/classes/class.ilExAssignmentGUI.php");
@@ -2462,6 +2461,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$acc->addItem($ass_gui->getOverviewHeader($ass),
 				$ass_gui->getOverviewBody($ass));
 		}
+		
+		if (count($ass_data) < 2)
+		{
+			$acc->setBehaviour("FirstOpen");
+		}
+		else
+		{
+			$acc->setBehaviour("OneOpenSession");
+		}
+		
 		
 		$tpl->setContent($acc->getHTML());
 	}

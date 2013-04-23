@@ -295,11 +295,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						{
 							if ($type == "PageObject")
 							{
-								$href = "../goto.php?target=pg_".$target_id.$anc_add;
+								$href = "goto.php?target=pg_".$target_id.$anc_add;
 							}
 							else
 							{
-								$href = "../goto.php?target=st_".$target_id;
+								$href = "goto.php?target=st_".$target_id;
 							}
 							$ltarget = "ilContObj".$lm_id;
 						}
