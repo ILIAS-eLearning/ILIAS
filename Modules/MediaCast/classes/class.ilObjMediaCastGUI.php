@@ -456,7 +456,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     			// preview picure
     			$pp = new ilImageFileInputGUI($lng->txt("mcst_preview_picture"), "preview_pic");
     			$pp->setSuffixes(array("png", "jpeg", "jpg"));
-    			$pp->setInfo($lng->txt("mcst_preview_picture_info")." mp4");
+    			$pp->setInfo($lng->txt("mcst_preview_picture_info")." mp4, mp3, png, jp(e)g, gif");
     			$this->form_gui->addItem($pp);
     			
     		}
@@ -549,7 +549,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 		else if ($this->form_gui->checkInput())
 		{
-			
 			// create dummy object in db (we need an id)
 			include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 			$mob = new ilObjMediaObject();
@@ -561,7 +560,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			// set title and description
 			// set title to basename of file if left empty
 			$title = $this->form_gui->getInput("title") != "" ? $this->form_gui->getInput("title") : basename($file);
-			$description = $this->form_gui->getInput("description"); 
+			$description = $this->form_gui->getInput("description");
 			$mob->setTitle($title);
 			$mob->setDescription($description);
 
@@ -588,6 +587,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			}
 
 			$mob->update();
+
+			if ($prevpic["size"] == 0)
+			{
+				// re-read media object
+				$mob = new ilObjMediaObject($mob->getId());
+	        	$mob->generatePreviewPic(320, 240);
+			}
 			
 			//
 			// @todo: save usage
@@ -701,6 +707,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	        $location = $title;
 	        ilUtil::moveUploadedFile($_FILES['file_'.$purpose]['tmp_name'], $file_name, $file);
 	        ilUtil::renameExecutables($mob_dir);
+	        
 	    }
 	    
 	    // check if not automatic mimetype detection
