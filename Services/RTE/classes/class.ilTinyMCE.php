@@ -57,7 +57,9 @@ class ilTinyMCE extends ilRTE
 				$this->vd = "_3_3_9_2";
 				break;
 			
+			// #10991
 			case "3.4.7":
+			default:
 				$this->version = $a_version;
 				$this->vd = "_3_4_7";
 				break;
