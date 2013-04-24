@@ -215,7 +215,9 @@ class ilTaxonomyExplorer extends ilExplorer
 	 */
 	function sortNodes($a_nodes,$a_parent_obj_id)
 	{
-		$a_nodes = ilUtil::sortArray($a_nodes, "order_nr", "asc");
+		$a_nodes = ilUtil::sortArray($a_nodes, "order_nr", "asc", true);
+		
+		
 		return $a_nodes;
 	}
 
