@@ -1229,6 +1229,7 @@ if (add_final_spacer)
 	// send request per ajax
 	sendAjaxPostRequest: function(form_id, url, args, success_cb)
 	{
+		args.il = il;
 		var cb =
 		{
 			success: success_cb,
@@ -1400,6 +1401,10 @@ if (add_final_spacer)
 //			var center_td = edit_div.parentNode;
 //			center_td.innerHTML = o.responseText;
 			//edit_div.innerHTML = o.responseText;
+			if (typeof il == 'undefined'){
+				il = o.argument.il;
+			}
+			
 			$('#il_EditPage').replaceWith(o.responseText);
 			ilCOPage.initDragElements();
 			il.Tooltip.init();

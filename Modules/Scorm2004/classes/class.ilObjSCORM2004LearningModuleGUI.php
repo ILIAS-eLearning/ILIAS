@@ -1476,7 +1476,13 @@ function showTrackingItem()
 		$this->ctrl->setParameter($this, "scexpand", $_GET["scexpand"]);
 		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "showTree"));
 		$this->tpl->parseCurrentBlock();
+
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery($this->tpl);
+
 		$this->tpl->show(false);
+		
+		
 		exit;
 	}
 
