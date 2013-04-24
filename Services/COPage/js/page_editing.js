@@ -1053,7 +1053,7 @@ if (add_final_spacer)
 		// http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
 		back_el.style.display='none';
 		dummy = back_el.offsetHeight;
-		back_el.style.display='block';
+		back_el.style.display='';
 	},
 
 	autoResize: function(ed)
