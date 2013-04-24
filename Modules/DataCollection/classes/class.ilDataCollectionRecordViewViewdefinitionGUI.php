@@ -27,12 +27,11 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	 * @param	int $table_id 
 	 * @param	int $a_definition_id 
 	 */
-	public function __construct($a_parent_obj, $table_id, $a_definition_id = 0)
+	public function __construct($table_id, $a_definition_id = 0)
 	{
 		global $tpl;
 		
 		//TODO Permission-Check
-		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $table_id;
 			
 		if(!$a_definition_id)
