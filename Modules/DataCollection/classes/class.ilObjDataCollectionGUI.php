@@ -173,7 +173,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$ilCtrl->getLinkTargetByClass("ildatacollectionfieldlistgui", "listFields"));
 
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionGUI.php");
-				$recordedit_gui = new ilDataCollectionRecordViewViewdefinitionGUI($this, $this->table_id);
+				$recordedit_gui = new ilDataCollectionRecordViewViewdefinitionGUI($this->table_id);
 
 				// needed for editor
 				$recordedit_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
