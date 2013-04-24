@@ -557,14 +557,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		$intro->setRows(10);
 		$intro->setCols(80);
-		$intro->setUseRte(TRUE, "3.4.7");
+		$intro->setUseRte(TRUE);
 		$intro->setInfo($this->lng->txt("survey_introduction_info"));
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$intro->addPlugin("latex");
 		$intro->addButton("latex");
-		$intro->addPlugin("pastelatex");
-		$intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
+		$intro->addButton("pastelatex");
+		$intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch, "3.4.7");
 		$form->addItem($intro);
 
 		// final statement
@@ -572,12 +572,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$finalstatement->setValue($this->object->prepareTextareaOutput($this->object->getOutro()));
 		$finalstatement->setRows(10);
 		$finalstatement->setCols(80);
-		$finalstatement->setUseRte(TRUE, "3.4.7");
+		$finalstatement->setUseRte(TRUE);		
 		$finalstatement->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$finalstatement->addPlugin("latex");
 		$finalstatement->addButton("latex");
-		$finalstatement->addPlugin("pastelatex");
-		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
+		$finalstatement->addButton("pastelatex");
+		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch, "3.4.7");				
 		$form->addItem($finalstatement);
 
 		
@@ -1302,11 +1302,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$heading->setValue($this->object->prepareTextareaOutput(array_key_exists('heading', $_POST) ? $_POST['heading'] : $survey_questions[$question_id]["heading"]));
 		$heading->setRows(10);
 		$heading->setCols(80);
-		$heading->setUseRte(TRUE, "3.4.7");
+		$heading->setUseRte(TRUE);
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$heading->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
-		$heading->setRTESupport($this->object->getId(), "svy", "survey");
+		$heading->setRTESupport($this->object->getId(), "svy", "survey", null, false, "3.4.7");
 		$heading->setRequired(true);
 		$form->addItem($heading);
 

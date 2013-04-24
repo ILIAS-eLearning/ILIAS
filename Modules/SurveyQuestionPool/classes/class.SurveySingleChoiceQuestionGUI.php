@@ -145,13 +145,13 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		$question->setRequired(TRUE);
 		$question->setRows(10);
 		$question->setCols(80);
-		$question->setUseRte(TRUE, "3.4.7");
+		$question->setUseRte(TRUE);
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$question->addPlugin("latex");
 		$question->addButton("latex");
 		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "spl", "survey");
+		$question->setRTESupport($this->object->getId(), "spl", "survey", null, false, "3.4.7");
 		$form->addItem($question);
 		
 		// obligatory
