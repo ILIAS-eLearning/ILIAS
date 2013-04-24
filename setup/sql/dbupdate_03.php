@@ -14816,3 +14816,15 @@ if(!$ilDB->tableExists('ut_lp_coll_manual'))
 	$ilDB->manipulate($query);
 
 ?>
+<#3862>
+<?php
+	$set = $ilDB->query("SELECT * FROM tax_node_seq");
+	if ($rec = $ilDB->fetchAssoc($set))
+	{
+		if ($rec["sequence"] == 0)
+		{
+			$ilDB->manipulate("UPDATE tax_node_seq SET sequence = sequence + 1");
+		}
+	}
+
+?>

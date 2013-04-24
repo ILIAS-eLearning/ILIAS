@@ -51,7 +51,9 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt(""), "", "1px", true);
 		if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
 		{
-			$this->addColumn($this->lng->txt("tax_order"), "", "1px");
+			$this->addColumn($this->lng->txt("tax_order"), "order_nr", "1px");
+			$this->setDefaultOrderField("order_nr");
+			$this->setDefaultOrderDirection("asc");
 		}
 		$this->addColumn($this->lng->txt("title"));
 		
@@ -61,6 +63,20 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 		$this->addMultiCommand("deleteItems", $lng->txt("delete"));
 		$this->addMultiCommand("moveItems", $lng->txt("move"));
 		$this->addCommandButton("saveSettingsAndSorting", $lng->txt("save"));
+	}
+	
+		
+	/**
+	* Should this field be sorted numeric?
+	*
+	* @return	boolean		numeric ordering; default is false
+	*/
+	function numericOrdering($a_field)
+	{
+		if (in_array($a_field, array("order_nr")))
+		{
+			return true;
+		}
 	}
 	
 	/**
