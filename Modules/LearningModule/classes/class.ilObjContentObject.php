@@ -971,7 +971,7 @@ class ilObjContentObject extends ilObject
 		asort($layouts);
 		
 		// workaround: fix ordering
-		return array(
+		$ret = array(
 			'toc2win' => 'toc2win',
 			'toc2windyn' => 'toc2windyn',
 			'1window' => '1window',
@@ -980,8 +980,16 @@ class ilObjContentObject extends ilObject
 			'presentation' => 'presentation',
 			'fullscreen' => 'fullscreen'
 			);
+		
+		foreach ($layouts as $l)
+		{
+			if (!in_array($l, $ret))
+			{
+				$ret[$l] = $l;
+			}
+		}
 
-		return $layouts;
+		return $ret;
 	}
 
 	/**
