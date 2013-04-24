@@ -92,7 +92,17 @@ class ilDataCollectionRecordViewGUI
 			$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 		}
 
-		$pageObj = new ilPageObjectGUI("dclf", $view_id);
+		// please do not use ilPageObjectGUI directly here, use derived class
+		// ilDataCollectionRecordViewViewdefinitionGUI
+		
+		//$pageObj = new ilPageObjectGUI("dclf", $view_id);
+		
+		// see ilObjDataCollectionGUI->executeCommand about instantiation
+		include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionGUI.php");
+		$pageObj = new ilDataCollectionRecordViewViewdefinitionGUI($this->record_obj->getTableId(), $view_id);
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
+		
 
 		$html = $pageObj->getHTML();
         $tpl->addCss("./Services/COPage/css/content.css");
