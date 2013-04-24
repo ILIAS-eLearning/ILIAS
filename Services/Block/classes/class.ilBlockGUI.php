@@ -708,12 +708,15 @@ abstract class ilBlockGUI
 		
 		$this->fillDataSection();
 		
-		if ($this->getRepositoryMode() && $this->isRepositoryObject()
-			&& $this->getAdminCommands())
+		if ($this->getRepositoryMode() && $this->isRepositoryObject())
 		{
-			$this->tpl->setCurrentBlock("block_check");
-			$this->tpl->setVariable("BL_REF_ID", $this->getRefId());
-			$this->tpl->parseCurrentBlock();
+			// #10993
+			if ($this->getAdminCommands())
+			{
+				$this->tpl->setCurrentBlock("block_check");
+				$this->tpl->setVariable("BL_REF_ID", $this->getRefId());
+				$this->tpl->parseCurrentBlock();
+			}
 			
 			if ($ilAccess->checkAccess("delete", "", $this->getRefId()))
 			{
