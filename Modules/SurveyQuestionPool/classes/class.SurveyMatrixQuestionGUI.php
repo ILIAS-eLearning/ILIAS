@@ -175,7 +175,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$question->setRequired(TRUE);
 		$question->setRows(10);
 		$question->setCols(80);
-		$question->setUseRte(TRUE);
+		$question->setUseRte(TRUE, "3.4.7");
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$question->addPlugin("latex");

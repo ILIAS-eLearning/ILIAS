@@ -557,7 +557,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		$intro->setRows(10);
 		$intro->setCols(80);
-		$intro->setUseRte(TRUE);
+		$intro->setUseRte(TRUE, "3.4.7");
 		$intro->setInfo($this->lng->txt("survey_introduction_info"));
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
@@ -572,7 +572,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$finalstatement->setValue($this->object->prepareTextareaOutput($this->object->getOutro()));
 		$finalstatement->setRows(10);
 		$finalstatement->setCols(80);
-		$finalstatement->setUseRte(TRUE);
+		$finalstatement->setUseRte(TRUE, "3.4.7");
 		$finalstatement->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$finalstatement->addPlugin("latex");
 		$finalstatement->addButton("latex");
@@ -1302,7 +1302,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$heading->setValue($this->object->prepareTextareaOutput(array_key_exists('heading', $_POST) ? $_POST['heading'] : $survey_questions[$question_id]["heading"]));
 		$heading->setRows(10);
 		$heading->setCols(80);
-		$heading->setUseRte(TRUE);
+		$heading->setUseRte(TRUE, "3.4.7");
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$heading->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
