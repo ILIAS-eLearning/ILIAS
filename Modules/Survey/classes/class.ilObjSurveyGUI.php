@@ -563,7 +563,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$intro->addPlugin("latex");
 		$intro->addButton("latex");
-		$intro->addPlugin("pastelatex");
+	    $intro->addButton("pastelatex");
 		$intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
 		$form->addItem($intro);
 
@@ -576,7 +576,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$finalstatement->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$finalstatement->addPlugin("latex");
 		$finalstatement->addButton("latex");
-		$finalstatement->addPlugin("pastelatex");
+		$finalstatement->addButton("pastelatex");
 		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
 		$form->addItem($finalstatement);
 
