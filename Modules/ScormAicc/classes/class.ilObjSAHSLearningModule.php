@@ -101,6 +101,12 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setAutoContinue(ilUtil::yn2tf($lm_rec["auto_continue"]));
 			$this->setAuto_last_visited(ilUtil::yn2tf($lm_rec["auto_last_visited"]));
 			$this->setCheck_values(ilUtil::yn2tf($lm_rec["check_values"]));
+			
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			if (ilObject::_lookupType($this->getStyleSheetId()) != "sty")
+			{
+				$this->setStyleSheetId(0);
+			}
 		}
 	}
 
