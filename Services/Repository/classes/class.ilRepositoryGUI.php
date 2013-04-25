@@ -537,6 +537,10 @@ $ilCtrl->redirectByClass("ilrepositorygui", "");
 		$ilCtrl->setParameter($this, "repexpand", $_GET["repexpand"]);
 		$this->tpl->setVariable("ACTION", $ilCtrl->getLinkTarget($this, "showTree", "", false, false));
 		$this->tpl->parseCurrentBlock();
+		
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery($this->tpl);
+		
 		$this->tpl->show(false);
 		exit;
 	}
