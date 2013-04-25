@@ -4300,12 +4300,17 @@ div.ilFrmPostHeader span.small {
 	margin-top: 20px
 }
 
+.ilFrmPostRow div.ilForm {
+	width: 100%;
+	max-width: 1000px;
+}
+
 .ilFrmPostRow div.ilForm div.ilFormValue {
-	width: 600px;
+	width: auto;
 }
 
 .ilFrmPostRow div.ilForm div.ilFormOption {
-	width: auto;
+	width: 150px;
 }
 
 .ilFrmPostCensorshipAdvice {
