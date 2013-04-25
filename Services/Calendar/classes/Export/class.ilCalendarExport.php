@@ -111,7 +111,7 @@ class ilCalendarExport
 	{
 		foreach($this->calendars as $category_id)
 		{
-			foreach(ilCalendarCategoryAssignments::_getAssignedAppointments($this->calendars) as $app_id)
+			foreach(ilCalendarCategoryAssignments::_getAssignedAppointments(array($category_id)) as $app_id)
 			{
 				$this->addAppointment($app_id);
 			}
