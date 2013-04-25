@@ -1047,6 +1047,13 @@ class ilExAssignment
 	function deliverReturnedFiles($a_exc_id, $a_ass_id, $a_user_id, $a_only_new = false)
 	{
 		global $ilUser, $ilDB;
+		
+		// #11000
+		$user_ids = self::getTeamMembersByAssignmentId($a_ass_id, $a_user_id);
+		if(!$user_ids)
+		{
+			$user_ids = array($a_user_id);
+		}		
 
 		// get last download time
 		$and_str = "";
@@ -1054,7 +1061,7 @@ class ilExAssignment
 		{
 			$q = "SELECT download_time FROM exc_usr_tutor WHERE ".
 				" ass_id = ".$ilDB->quote($a_ass_id, "integer")." AND ".
-				" usr_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
+				$ilDB->in("usr_id", $user_ids, "", "integer")." AND ".
 				" tutor_id = ".$ilDB->quote($ilUser->getId(), "integer");
 			$lu_set = $ilDB->query($q);
 			if ($lu_rec = $ilDB->fetchAssoc($lu_set))
@@ -1066,12 +1073,16 @@ class ilExAssignment
 			}
 		}
 
-		ilExAssignment::updateTutorDownloadTime($a_exc_id, $a_ass_id, $a_user_id);
+		foreach($user_ids as $user_id)
+		{
+			ilExAssignment::updateTutorDownloadTime($a_exc_id, $a_ass_id, $user_id);
+		}
 
-		$query = sprintf("SELECT * FROM exc_returned WHERE ass_id = %s AND user_id = %s".
-			$and_str,
-			$ilDB->quote($a_ass_id, "integer"),
-			$ilDB->quote($a_user_id, "integer"));
+		$query = "SELECT * FROM exc_returned".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND ".$ilDB->in("user_id", $user_ids, "", "integer").
+			$and_str;
+		
 		$result = $ilDB->query($query);
 		$count = $ilDB->numRows($result);
 		if ($count == 1)
@@ -1082,7 +1093,7 @@ class ilExAssignment
 			{
 				case self::TYPE_BLOG:
 				case self::TYPE_PORTFOLIO:
-					$row["filetitle"] = ilObjUser::_lookupName($a_user_id);
+					$row["filetitle"] = ilObjUser::_lookupName($row["user_id"]);
 					$row["filetitle"] = ilObject::_lookupTitle($a_exc_id)." - ".
 						self::lookupTitle($a_ass_id)." - ".
 						$row["filetitle"]["firstname"]." ".
@@ -1094,7 +1105,7 @@ class ilExAssignment
 					break;
 			}			
 			
-			ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $a_user_id,
+			ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $row["user_id"],
 				$row["filename"], $row["filetitle"]);
 		}
 		else if ($count > 0)
@@ -1103,17 +1114,12 @@ class ilExAssignment
 			$filename = "";
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				array_push($array_files, basename($row["filename"]));
-//				$filename = $row["filename"];
-//				$pathinfo = pathinfo($filename);
-//				$dir = $pathinfo["dirname"];
-//				$file = $pathinfo["basename"];
-//				array_push($array_files, $file);
+				$array_files[$row["user_id"]][] = basename($row["filename"]);
 			}
 			$pathinfo = pathinfo($filename);
 			$dir = $pathinfo["dirname"];
-
-			ilExAssignment::downloadMultipleFiles($a_exc_id, $a_ass_id, $array_files, $a_user_id);
+			
+			ilExAssignment::downloadMultipleFiles($a_exc_id, $a_ass_id, $array_files, null, true);
 		}
 		else
 		{
@@ -1223,14 +1229,17 @@ class ilExAssignment
 	 */
 // @todo: check whether files of multiple users are downloaded this way
 	function downloadMultipleFiles($a_exc_id, $a_ass_id, $array_filenames,
-		$a_user_id)
+		$a_user_id, $a_multi_user = false)
 	{
 		global $lng, $ilObjDataCache;
 		
+		if(!$a_multi_user)
+		{
+			$array_filenames = array($a_user_id => $array_filenames);
+		}
+		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$fs = new ilFSStorageExercise($a_exc_id, $a_ass_id);
-		$pathname = $fs->getAbsoluteSubmissionPath().
-			"/".$a_user_id;
 		
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		$cdir = getcwd();
@@ -1245,7 +1254,7 @@ class ilExAssignment
 
 		$assTitle = ilExAssignment::lookupTitle($a_ass_id);
 		$deliverFilename = str_replace(" ", "_", $assTitle);
-		if ($a_user_id > 0)
+		if ($a_user_id > 0 && !$a_multi_user)
 		{
 			$userName = ilObjUser::_lookupName($a_user_id);
 			$deliverFilename .= "_".$userName["lastname"]."_".$userName["firstname"];
@@ -1258,31 +1267,38 @@ class ilExAssignment
 		$deliverFilename = ilUtil::getASCIIFilename($orgDeliverFilename);
 		ilUtil::makeDir($tmpdir."/".$deliverFilename);
 		chdir($tmpdir."/".$deliverFilename);
-
+		
 		//copy all files to a temporary directory and remove them afterwards
-		foreach ($array_filenames as $key => $filename)
+		$parsed_files = array();
+		foreach ($array_filenames as $user_id => $files)
 		{
-			// remove timestamp
-			$newFilename = trim($filename);
-			$pos = strpos($newFilename , "_");
-			if ($pos === false)
+			$pathname = $fs->getAbsoluteSubmissionPath()."/".$user_id;
+
+			foreach($files as $filename)
 			{
-			} else
-			{
-				$newFilename= substr($newFilename, $pos + 1);
+				// remove timestamp
+				$newFilename = trim($filename);
+				$pos = strpos($newFilename , "_");
+				if ($pos === false)
+				{
+				} else
+				{
+					$newFilename= substr($newFilename, $pos + 1);
+				}
+				$newFilename = $tmpdir.DIRECTORY_SEPARATOR.$deliverFilename.DIRECTORY_SEPARATOR.$newFilename;
+				// copy to temporal directory
+				$oldFilename =  $pathname.DIRECTORY_SEPARATOR.$filename;
+				if (!copy ($oldFilename, $newFilename))
+				{
+					echo 'Could not copy '.$oldFilename.' to '.$newFilename;
+				}
+				touch($newFilename, filectime($oldFilename));
+				$parsed_files[] =  ilUtil::escapeShellArg($deliverFilename.DIRECTORY_SEPARATOR.basename($newFilename)); 
 			}
-			$newFilename = $tmpdir.DIRECTORY_SEPARATOR.$deliverFilename.DIRECTORY_SEPARATOR.$newFilename;
-			// copy to temporal directory
-			$oldFilename =  $pathname.DIRECTORY_SEPARATOR.$filename;
-			if (!copy ($oldFilename, $newFilename))
-			{
-				echo 'Could not copy '.$oldFilename.' to '.$newFilename;
-			}
-			touch($newFilename, filectime($oldFilename));
-			$array_filenames[$key] =  ilUtil::escapeShellArg($deliverFilename.DIRECTORY_SEPARATOR.basename($newFilename)); //$array_filenames[$key]);
-		}
+		}				
+		
 		chdir($tmpdir);
-		$zipcmd = $zip." ".ilUtil::escapeShellArg($tmpzipfile)." ".join($array_filenames, " ");
+		$zipcmd = $zip." ".ilUtil::escapeShellArg($tmpzipfile)." ".join($parsed_files, " ");
 //echo getcwd()."<br>";
 //echo $zipcmd;
 		exec($zipcmd);
