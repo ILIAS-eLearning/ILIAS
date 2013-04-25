@@ -390,7 +390,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$lng->txt("exc_send_mail"));;
 
 		// file feedback
-		$cnt_files = $this->storage->countFeedbackFiles($member_id);
+		$cnt_files = $this->storage->countFeedbackFiles($member_id, $this->type == ilExAssignment::TYPE_UPLOAD_TEAM);
 		$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedback");
 		$this->tpl->setVariable("LINK_FILE_FEEDBACK",
 			$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));

@@ -1157,9 +1157,15 @@ class ilExAssignment
 		
 		if (count($array_file_id))
 		{
+			$user_ids = self::getTeamMembersByAssignmentId($a_ass_id, $a_user_id);
+			if(!$user_ids)
+			{
+				$user_ids = array($a_user_id);
+			}		
+			
 			$result = $ilDB->query("SELECT * FROM exc_returned WHERE ".
 				$ilDB->in("returned_id", $array_file_id, false, "integer").
-				" AND user_id = ".$ilDB->quote($a_user_id));
+				" AND ".$ilDB->in("user_id", $user_ids, "", "integer"));
 			if ($ilDB->numRows($result))
 			{
 				$array_found = array();
@@ -1186,7 +1192,7 @@ class ilExAssignment
 						}
 					}
 					
-					ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $a_user_id,
+					ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $row["user_id"],
 						$array_found[0]["filename"], $array_found[0]["filetitle"]);
 				}
 				else
@@ -1196,14 +1202,10 @@ class ilExAssignment
 					$file = "";
 					foreach ($array_found as $key => $value)
 					{
-						//$pathinfo = pathinfo(ilObjExercise::_fixFilename($value["filename"]));
-						//$dir = $pathinfo["dirname"];
-						//$file = $pathinfo["basename"];
-						//array_push($filenames, $file);
-						array_push($filenames, basename($value["filename"]));
+						$filenames[$value["user_id"]][] = basename($value["filename"]);
 					}
 					ilExAssignment::downloadMultipleFiles($a_exc_id, $a_ass_id, 
-						$filenames, $a_user_id);
+						$filenames, null, true);
 				}
 			}
 		}

@@ -97,8 +97,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$fs_gui->setTitle($lng->txt("exc_fb_files")." - ".
 						ilExAssignment::lookupTitle((int) $_GET["ass_id"])." - ".
 						ilUserUtil::getNamePresentation((int) $_GET["member_id"], false, false, "", true));
-					$pcommand = $fs_gui->getLastPerformedCommand();
-					if ($pcommand["cmd"] == "create_file")
+					$pcommand = $fs_gui->getLastPerformedCommand();					
+					if ($pcommand == "create_file")
 					{
 						$this->object->sendFeedbackFileNotification($pcommand["name"], (int) $_GET["member_id"],
 							(int) $_GET["ass_id"]);
@@ -556,27 +556,31 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "view");
 		}
 		
+		$ass = new ilExAssignment((int) $_GET["ass_id"]);
+		
 		// check, whether file belongs to assignment
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->object->getId(), (int) $_GET["ass_id"]);
-		$files = $storage->getFeedbackFiles($ilUser->getId());
-		$file_exist = false;
-		foreach($files as $fb_file)
+		$files = $storage->getFeedbackFiles($ilUser->getId(), $ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM, true);
+		$file_found_user_id = false;
+		foreach($files as $user_id => $user_files)
 		{
-			if($fb_file == urldecode($file))
+			foreach($user_files as $fb_file)
 			{
-				$file_exist = true;
-				break;
+				if($fb_file == urldecode($file))
+				{
+					$file_found_user_id = $user_id;
+					break;
+				}
 			}
 		}
-		if(!$file_exist)
+		if(!$file_found_user_id)
 		{
 			echo "FILE DOES NOT EXIST";
 			exit;
 		}
 		
-		// check whether assignment as already started
-		$ass = new ilExAssignment((int) $_GET["ass_id"]);
+		// check whether assignment as already started		
 		$not_started_yet = false;
 		if ($ass->getStartTime() > 0 && time() - $ass->getStartTime() <= 0)
 		{
@@ -586,7 +590,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// deliver file
 		if (!$not_started_yet)
 		{
-			$p = $storage->getFeedbackFilePath($ilUser->getId(), urldecode($file));
+			$p = $storage->getFeedbackFilePath($file_found_user_id, urldecode($file));
 			ilUtil::deliverFile($p, urldecode($file));
 		}
 	

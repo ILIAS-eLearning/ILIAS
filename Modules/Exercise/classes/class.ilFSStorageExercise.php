@@ -247,7 +247,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	/**
 	 * Get number of feedback files
 	 */
-	function getFeedbackFiles($a_user_id, $a_handle_team = false)
+	function getFeedbackFiles($a_user_id, $a_handle_team = false, $a_return_by_user_id = false)
 	{
 		$files = array();
 	
@@ -270,7 +270,14 @@ class ilFSStorageExercise extends ilFileSystemStorage
 				{
 					if(!is_dir($this->path.'/'.$file) && substr($file, 0, 1) != ".")
 					{
-						$files[] = $file;
+						if(!$a_return_by_user_id)
+						{
+							$files[] = $file;
+						}
+						else
+						{
+							$files[$user_id][] = $file;
+						}
 					}
 				}
 			}
@@ -282,9 +289,9 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	/**
 	 * Count number of feedback files for a user
 	 */
-	function countFeedbackFiles($a_user_id)
+	function countFeedbackFiles($a_user_id, $a_handle_team = false)
 	{
-		$fbf = $this->getFeedbackFiles($a_user_id);
+		$fbf = $this->getFeedbackFiles($a_user_id, $a_handle_team);
 		return count($fbf);
 	}
 	
