@@ -1192,7 +1192,7 @@ class ilExAssignment
 						}
 					}
 					
-					ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $row["user_id"],
+					ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $array_found[0]["user_id"],
 						$array_found[0]["filename"], $array_found[0]["filetitle"]);
 				}
 				else

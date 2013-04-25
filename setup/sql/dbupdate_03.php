@@ -14828,3 +14828,54 @@ if(!$ilDB->tableExists('ut_lp_coll_manual'))
 	}
 
 ?>
+<#3863>
+<?php
+
+$base_path = ilUtil::getDataDir();
+
+$set = $ilDB->query("SELECT at.*,ea.exc_id".
+	" FROM exc_assignment ea".
+	" JOIN il_exc_team at ON (at.ass_id = ea.id)".
+	" WHERE ea.type = ".$ilDB->quote(4, "integer"));
+while($row = $ilDB->fetchAssoc($set))
+{	
+	// see ilFileSystemStorage::_createPathFromId()
+	$tpath = array();
+	$tfound = false;
+	$tnum = $row["exc_id"];
+	for($i = 3; $i > 0;$i--)
+	{
+		$factor = pow(100, $i);
+		if(($tmp = (int) ($tnum / $factor)) or $tfound)
+		{
+			$tpath[] = $tmp;
+			$tnum = $tnum % $factor;
+			$tfound = true;
+		}	
+	}
+	
+	$ass_path = $base_path."/ilExercise/";
+	if(count($tpath))
+	{
+		$ass_path .= (implode('/',$tpath).'/');
+	}
+	$ass_path .= "exc_".$row["exc_id"]."/feedb_".$row["ass_id"]."/";
+	
+	$team_path = $ass_path."t".$row["id"]."/";
+	$user_path = $ass_path.$row["user_id"]."/";
+	
+	foreach(glob($user_path."*") as $ufile)
+	{
+		if(!is_dir($team_path))
+		{
+			mkdir($team_path);
+		}
+		$tfile = $team_path.basename($ufile);		
+		if(!file_exists($tfile))
+		{
+			copy($ufile, $tfile);
+		}
+	}
+}
+
+?>
