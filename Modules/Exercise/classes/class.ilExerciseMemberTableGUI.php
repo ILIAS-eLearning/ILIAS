@@ -50,7 +50,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$team_map = ilExAssignment::getAssignmentTeamMap($this->ass_id);
 			$tmp = array();
 			
-			foreach($data as $idx => $item)
+			foreach($data as $item)
 			{
 				$team_id = $team_map[$item["usr_id"]];
 				
@@ -60,6 +60,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				}
 				
 				$tmp[$team_id]["team"][$item["usr_id"]] = $item["name"];
+				$tmp[$team_id]["team_id"] = $team_id;
 			}
 			
 			$data = $tmp;
@@ -387,10 +388,19 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("LINK_FEEDBACK",
 			$ilCtrl->getLinkTarget($this->parent_obj, "redirectFeedbackMail"));
 		$this->tpl->setVariable("TXT_FEEDBACK",
-			$lng->txt("exc_send_mail"));;
-
+			$lng->txt("exc_send_mail"));
+		
+		if($this->type == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			$feedback_id = "t".$member["team_id"];
+		}
+		else
+		{
+			$feedback_id = $member_id;
+		}
+							
 		// file feedback
-		$cnt_files = $this->storage->countFeedbackFiles($member_id, $this->type == ilExAssignment::TYPE_UPLOAD_TEAM);
+		$cnt_files = $this->storage->countFeedbackFiles($feedback_id);
 		$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedback");
 		$this->tpl->setVariable("LINK_FILE_FEEDBACK",
 			$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
