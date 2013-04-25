@@ -54,7 +54,17 @@ class ilPersonalWorkspaceGUI
 		if($_REQUEST["new_type"])
 		{
 			$class_name = $objDefinition->getClassName($_REQUEST["new_type"]);
-			$ilCtrl->setCmdClass("ilObj".$class_name."GUI");
+
+			// Only set the fixed cmdClass if the next class is different to
+			// the GUI class of the new object.
+			// An example:
+			// ilObjLinkResourceGUI tries to forward to ilLinkInputGUI (adding an internal link
+			// when creating a link resource)
+			// Without this fix, the cmdClass ilObjectCopyGUI would never be reached
+			if (strtolower($ilCtrl->getNextClass($this)) != strtolower("ilObj".$class_name."GUI"))
+			{
+				$ilCtrl->setCmdClass("ilObj".$class_name."GUI");
+			}
 		}
 
 		// root node
