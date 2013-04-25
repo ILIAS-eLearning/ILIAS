@@ -91,6 +91,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$fstorage->create();
 					
 					include_once("./Services/User/classes/class.ilUserUtil.php");
+					$noti_rec_ids = array();
 					if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 					{
 						$team_id = $this->ass->getTeamId((int) $_GET["member_id"]);
@@ -99,12 +100,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 						foreach($this->ass->getTeamMembers($team_id) as $team_user_id)
 						{
 							$fs_title[] = ilUserUtil::getNamePresentation($team_user_id, false, false, "", true);
+							$noti_rec_ids[] = $team_user_id;
 						}
 						$fs_title = implode(" / ", $fs_title);
 					}
 					else
 					{
-						$feedback_id = (int) $_GET["member_id"];
+						$feedback_id = $noti_rec_ids = (int) $_GET["member_id"];
 						$fs_title = ilUserUtil::getNamePresentation((int) $_GET["member_id"], false, false, "", true);
 					}
 					
@@ -118,8 +120,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$pcommand = $fs_gui->getLastPerformedCommand();					
 					if (is_array($pcommand) && $pcommand["cmd"] == "create_file")
 					{
-						$this->object->sendFeedbackFileNotification($pcommand["name"], (int) $_GET["member_id"],
-							(int) $_GET["ass_id"]);
+						$this->object->sendFeedbackFileNotification($pcommand["name"], 
+							$noti_rec_ids, (int) $_GET["ass_id"]);
 					}					 
 					$ret = $this->ctrl->forwardCommand($fs_gui);
 				}
