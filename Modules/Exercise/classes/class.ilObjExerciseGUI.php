@@ -234,9 +234,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
-			default:
-				var_dump($_SESSION["fsys"]["lastcomm"]);
-				
+			default:				
 				if(!$cmd)
 				{
 					$cmd = "infoScreen";
