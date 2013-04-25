@@ -393,8 +393,16 @@ class ilExAssignmentGUI
 				}
 				
 				// feedback from tutor
+				if($a_data["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
+				{
+					$feedback_id = "t".ilExAssignment::getTeamIdByAssignment($a_data["id"], $ilUser->getId());
+				}
+				else
+				{
+					$feedback_id = $ilUser->getId();
+				}
 				$storage = new ilFSStorageExercise($a_data["exc_id"], $a_data["id"]);					
-				$cnt_files = $storage->countFeedbackFiles($ilUser->getId(), $a_data["type"] == ilExAssignment::TYPE_UPLOAD_TEAM);
+				$cnt_files = $storage->countFeedbackFiles($feedback_id);
 				$lpcomment = ilExAssignment::lookupCommentForUser($a_data["id"], $ilUser->getId());
 				$mark = ilExAssignment::lookupMarkOfUser($a_data["id"], $ilUser->getId());
 				$status = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());
@@ -429,7 +437,7 @@ class ilExAssignmentGUI
 					if ($cnt_files > 0)
 					{
 						$info->addSection($lng->txt("exc_fb_files"));
-						$files = $storage->getFeedbackFiles($ilUser->getId(), $a_data["type"] == ilExAssignment::TYPE_UPLOAD_TEAM);
+						$files = $storage->getFeedbackFiles($feedback_id);
 						foreach($files as $file)
 						{
 							$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file));
