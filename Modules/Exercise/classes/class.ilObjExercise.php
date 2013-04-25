@@ -952,12 +952,18 @@ class ilObjExercise extends ilObject
 	 */
 	function sendFeedbackFileNotification($a_feedback_file, $a_user_id, $a_ass_id)
 	{
+		$user_ids = $a_user_id;
+		if(!is_array($user_ids))
+		{
+			$user_ids = array($user_ids);
+		}
+		
 		include_once("./Modules/Exercise/classes/class.ilExerciseMailNotification.php");
 		$not = new ilExerciseMailNotification();
 		$not->setType(ilExerciseMailNotification::TYPE_FEEDBACK_FILE_ADDED);
 		$not->setAssignmentId($a_ass_id);
 		$not->setRefId($this->getRefId());
-		$not->setRecipients(array($a_user_id));
+		$not->setRecipients($user_ids);
 		$not->send();
 	}
 	
