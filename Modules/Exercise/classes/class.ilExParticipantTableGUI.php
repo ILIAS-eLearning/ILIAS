@@ -260,8 +260,17 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			$lng->txt("exc_send_mail"));
 		$ilCtrl->setParameter($this->parent_obj, "rcp_to", "");
 		
+		if($d["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			$feedback_id = "t".ilExAssignment::getTeamIdByAssignment($d["id"], $this->part_id);
+		}
+		else
+		{
+			$feedback_id = $this->part_id;
+		}
+		
 		$storage = new ilFSStorageExercise($this->exc_id, $d["id"]);
-		$cnt_files = $storage->countFeedbackFiles($this->part_id);
+		$cnt_files = $storage->countFeedbackFiles($feedback_id);
 		$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedbackpart");
 		$this->tpl->setVariable("LINK_FILE_FEEDBACK",
 			$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));

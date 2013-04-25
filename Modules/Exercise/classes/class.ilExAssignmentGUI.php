@@ -218,14 +218,15 @@ class ilExAssignmentGUI
 					$times_up = true;
 				}
 		
+				$team_members = null;
 				switch($a_data["type"])
 				{
 					case ilExAssignment::TYPE_UPLOAD_TEAM:	
-						$members = ilExAssignment::getTeamMembersByAssignmentId($a_data["id"], $ilUser->getId());
-						if(sizeof($members) > 1)
+						$team_members = ilExAssignment::getTeamMembersByAssignmentId($a_data["id"], $ilUser->getId());
+						if(sizeof($team_members) > 1)
 						{
 							$team = array();						
-							foreach($members as $member_id)
+							foreach($team_members as $member_id)
 							{
 								$team[] = ilObjUser::_lookupFullname($member_id);
 							}
@@ -390,10 +391,18 @@ class ilExAssignmentGUI
 					$info->addProperty($lng->txt("exc_last_submission"),
 						$last_sub);
 				}
-										
+				
 				// feedback from tutor
-				$storage = new ilFSStorageExercise($a_data["exc_id"], $a_data["id"]);
-				$cnt_files = $storage->countFeedbackFiles($ilUser->getId());
+				if($a_data["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
+				{
+					$feedback_id = "t".ilExAssignment::getTeamIdByAssignment($a_data["id"], $ilUser->getId());
+				}
+				else
+				{
+					$feedback_id = $ilUser->getId();
+				}
+				$storage = new ilFSStorageExercise($a_data["exc_id"], $a_data["id"]);					
+				$cnt_files = $storage->countFeedbackFiles($feedback_id);
 				$lpcomment = ilExAssignment::lookupCommentForUser($a_data["id"], $ilUser->getId());
 				$mark = ilExAssignment::lookupMarkOfUser($a_data["id"], $ilUser->getId());
 				$status = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());
@@ -428,7 +437,7 @@ class ilExAssignmentGUI
 					if ($cnt_files > 0)
 					{
 						$info->addSection($lng->txt("exc_fb_files"));
-						$files = $storage->getFeedbackFiles($ilUser->getId(), $a_data["type"] == ilExAssignment::TYPE_UPLOAD_TEAM);
+						$files = $storage->getFeedbackFiles($feedback_id);
 						foreach($files as $file)
 						{
 							$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file));

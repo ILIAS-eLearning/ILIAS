@@ -247,31 +247,19 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	/**
 	 * Get number of feedback files
 	 */
-	function getFeedbackFiles($a_user_id, $a_handle_team = false)
+	function getFeedbackFiles($a_user_id)
 	{
 		$files = array();
 	
-		if($a_handle_team)
+		$dir = $this->getFeedbackPath($a_user_id);		
+		if (@is_dir($dir))
 		{
-			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($this->ass_id, $a_user_id);			
-		}
-		else
-		{
-			$user_ids = array($a_user_id);
-		}
-		
-		foreach($user_ids as $user_id)
-		{
-			$dir = $this->getFeedbackPath($user_id);		
-			if (@is_dir($dir))
+			$dp = opendir($dir);
+			while($file = readdir($dp))
 			{
-				$dp = opendir($dir);
-				while($file = readdir($dp))
-				{
-					if(!is_dir($this->path.'/'.$file) && substr($file, 0, 1) != ".")
-					{
-						$files[] = $file;
-					}
+				if(!is_dir($this->path.'/'.$file) && substr($file, 0, 1) != ".")
+				{					
+					$files[] = $file;					
 				}
 			}
 		}

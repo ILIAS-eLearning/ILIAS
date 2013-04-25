@@ -89,20 +89,38 @@ class ilObjExerciseGUI extends ilObjectGUI
 					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 					$fstorage = new ilFSStorageExercise($this->object->getId(), (int) $_GET["ass_id"]);
 					$fstorage->create();
-					include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
-					$fs_gui = new ilFileSystemGUI($fstorage->getFeedbackPath((int) $_GET["member_id"]));
-					$fs_gui->setTableId("excfbfil".(int)$_GET["ass_id"]."_".(int)$_GET["member_id"]);
-					$fs_gui->setAllowDirectories(false);
+					
 					include_once("./Services/User/classes/class.ilUserUtil.php");
+					if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+					{
+						$team_id = $this->ass->getTeamId((int) $_GET["member_id"]);
+						$feedback_id = "t".$team_id;
+						$fs_title = array();
+						foreach($this->ass->getTeamMembers($team_id) as $team_user_id)
+						{
+							$fs_title[] = ilUserUtil::getNamePresentation($team_user_id, false, false, "", true);
+						}
+						$fs_title = implode(" / ", $fs_title);
+					}
+					else
+					{
+						$feedback_id = (int) $_GET["member_id"];
+						$fs_title = ilUserUtil::getNamePresentation((int) $_GET["member_id"], false, false, "", true);
+					}
+					
+					include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
+					$fs_gui = new ilFileSystemGUI($fstorage->getFeedbackPath($feedback_id));
+					$fs_gui->setTableId("excfbfil".(int)$_GET["ass_id"]."_".$feedback_id);
+					$fs_gui->setAllowDirectories(false);					
 					$fs_gui->setTitle($lng->txt("exc_fb_files")." - ".
 						ilExAssignment::lookupTitle((int) $_GET["ass_id"])." - ".
-						ilUserUtil::getNamePresentation((int) $_GET["member_id"], false, false, "", true));
-					$pcommand = $fs_gui->getLastPerformedCommand();
-					if ($pcommand["cmd"] == "create_file")
+						$fs_title);
+					$pcommand = $fs_gui->getLastPerformedCommand();					
+					if (is_array($pcommand) && $pcommand["cmd"] == "create_file")
 					{
 						$this->object->sendFeedbackFileNotification($pcommand["name"], (int) $_GET["member_id"],
 							(int) $_GET["ass_id"]);
-					}
+					}					 
 					$ret = $this->ctrl->forwardCommand($fs_gui);
 				}
 				else 		// assignment files
@@ -556,11 +574,22 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "view");
 		}
 		
+		$ass = new ilExAssignment((int) $_GET["ass_id"]);
+		
+		if($ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{			
+			$feedback_id = "t".$ass->getTeamId($ilUser->getId());
+		}
+		else
+		{
+			$feedback_id = $ilUser->getId();
+		}
+		
 		// check, whether file belongs to assignment
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->object->getId(), (int) $_GET["ass_id"]);
-		$files = $storage->getFeedbackFiles($ilUser->getId());
-		$file_exist = false;
+		$files = $storage->getFeedbackFiles($feedback_id);
+		$file_exist = false;	
 		foreach($files as $fb_file)
 		{
 			if($fb_file == urldecode($file))
@@ -568,15 +597,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$file_exist = true;
 				break;
 			}
-		}
+		}		
 		if(!$file_exist)
 		{
 			echo "FILE DOES NOT EXIST";
 			exit;
 		}
 		
-		// check whether assignment as already started
-		$ass = new ilExAssignment((int) $_GET["ass_id"]);
+		// check whether assignment as already started		
 		$not_started_yet = false;
 		if ($ass->getStartTime() > 0 && time() - $ass->getStartTime() <= 0)
 		{
@@ -586,7 +614,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// deliver file
 		if (!$not_started_yet)
 		{
-			$p = $storage->getFeedbackFilePath($ilUser->getId(), urldecode($file));
+			$p = $storage->getFeedbackFilePath($feedback_id, urldecode($file));
 			ilUtil::deliverFile($p, urldecode($file));
 		}
 	
