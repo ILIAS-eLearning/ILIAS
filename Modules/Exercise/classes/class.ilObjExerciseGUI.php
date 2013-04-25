@@ -115,14 +115,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$fs_gui->setTitle($lng->txt("exc_fb_files")." - ".
 						ilExAssignment::lookupTitle((int) $_GET["ass_id"])." - ".
 						$fs_title);
-					/*
 					$pcommand = $fs_gui->getLastPerformedCommand();					
-					if ($pcommand == "create_file")
+					if (is_array($pcommand) && $pcommand["cmd"] == "create_file")
 					{
 						$this->object->sendFeedbackFileNotification($pcommand["name"], (int) $_GET["member_id"],
 							(int) $_GET["ass_id"]);
 					}					 
-					*/
 					$ret = $this->ctrl->forwardCommand($fs_gui);
 				}
 				else 		// assignment files
@@ -235,6 +233,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				break;
 
 			default:
+				var_dump($_SESSION["fsys"]["lastcomm"]);
+				
 				if(!$cmd)
 				{
 					$cmd = "infoScreen";
