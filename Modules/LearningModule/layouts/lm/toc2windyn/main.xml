@@ -2,7 +2,7 @@
 <ilLayout>
 	<ilFrame name="maincontent">
 		<StructureObject template="tpl.page_new.html" template_location="module">
-			<ilTOC target_frame="maincontent" />
+			<ilTOC />
 			<ilPage/>
 			<ilLMNavigation/>
 			<ilLocator/>
@@ -13,7 +13,7 @@
 			<ilLMNotes />
 		</StructureObject>
 		<PageObject template="tpl.page_new.html" template_location="module">
-			<ilTOC target_frame="maincontent" />
+			<ilTOC />
 			<ilPage/>
 			<ilLMNavigation/>
 			<ilLocator/>

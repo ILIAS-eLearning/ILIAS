@@ -2650,7 +2650,7 @@ div.ilBotCenterArea {
 	bottom:	0px;
 	left:	310px;
 	right: 0px;
-	height: 200px;
+	height: 300px;
 	position: fixed;
 	padding: 5px;
 	background-color: #F5F5F5;
@@ -2658,6 +2658,28 @@ div.ilBotCenterArea {
 	border-top: 3px solid #E9E9E9;
 	box-shadow: inset 0px 2px 2px #D0D0D0;
 }
+
+div#bot_center_area_drag {
+	left: 0px;
+	right: 0px;
+	height: 4px;
+	cursor: row-resize;
+	margin-top: -8px;
+	position: absolute;
+}
+
+#drag_zmove{
+	position:absolute;
+	width:100%;
+	height:100%;
+	z-index:7;
+	display:none;
+}
+
+div#bot_center_area_drag:hover {
+	background: #FFAA99;
+}
+
 
 div.ilBotCenterArea iframe {
 	border-width: 0px;

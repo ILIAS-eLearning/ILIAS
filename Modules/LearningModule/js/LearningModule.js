@@ -31,17 +31,21 @@ il.LearningModule = {
 	loadContentFrame: function (href) {
 		var faqt = $("#bot_center_area");
 		if (faqt.length == 0) {
-			$('body').append('<div id="bot_center_area" class="ilBotCenterArea"><img class="ilAreaClose" /><iframe /></div>');
+			$('body').append('<div id="bot_center_area" class="ilBotCenterArea"><div id="bot_center_area_drag"></div><img class="ilAreaClose" /><iframe /></div>');
 		}
 		$("img.ilAreaClose").click(function () {
 			il.LearningModule.closeContentFrame();
 			});
 		$("#bot_center_area > iframe").attr("src", href);
+		
+		il.UICore.initLayoutDrag();
+		
 		il.UICore.refreshLayout();
 		if (il.LearningModule.save_url != '') {
 			il.Util.sendAjaxGetRequestToUrl(il.LearningModule.save_url + "&url=" + encodeURIComponent(href),
 				{}, {}, il.LearningModule.handleSuccess);
 		}
+		
 		return false;
 	},
 	

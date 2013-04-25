@@ -349,6 +349,25 @@ il.UICore = {
 				$(fc).css("bottom", "0px");
 			}
 		}
+	},
+	
+	initLayoutDrag: function() {
+		$('#bot_center_area_drag').mousedown(function(e){
+			e.preventDefault();
+			$('#drag_zmove').css("display","block");
+			$('#drag_zmove').mousemove(function(e){
+				var vp_reg = il.Util.getViewportRegion();
+				var drag_y = e.pageY;
+				$('#bot_center_area').css("height", vp_reg.height - drag_y);
+				il.UICore.refreshLayout();
+			});
+		});
+		$(document).mouseup(function(e){
+			$('#bot_center_area_drag').unbind('mousemove');
+			$('#drag_zmove').css("display","none");
+			$(document).unbind('mousemove');
+		});
+
 	}
 };
 
