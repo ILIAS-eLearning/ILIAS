@@ -12688,7 +12688,7 @@ pd#:#pd_notes#:#Notizen vom Persönlichen Schreibtisch
 pd#:#pd_private_calendars#:#Private Kalender
 mcst#:#mcst_preview_picture#:#Vorschaubild
 mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
-news#:#news_keep_minimal_x_items#:#Behalten Sie wenigstens ein Element
+news#:#news_keep_minimal_x_items#:#Mindestanzahl von Einträgen
 news#:#news_keep_minimal_x_items_info#:#Wenn auf einen Wert größer 0 gesetzt, ist dies die Anzahl an Einträgen die der Feed erhält, selbst wenn diese älter als die maximale Vorhaltezeit sind.
 mcst#:#mcst_conv_standard_to#:#Standarddatei umwandeln in
 mcst#:#mcst_conv_videoalternative_to#:#Alternatives Videoformat umwandeln in
