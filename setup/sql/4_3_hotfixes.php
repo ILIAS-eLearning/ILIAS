@@ -232,15 +232,8 @@ foreach($questionPoints as $questionId => $points)
 ?>
 <#10>
 <?php
-	$set = $ilDB->query("SELECT * FROM tax_node_seq");
-	if ($rec = $ilDB->fetchAssoc($set))
-	{
-		if ($rec["sequence"] == 0)
-		{
-			$ilDB->manipulate("UPDATE tax_node_seq SET sequence = sequence + 1");
-		}
-	}
-
+	// ensure that ID 1 is not used
+	$ilDB->nextId("tax_node");
 ?>
 <#11>
 <?php
