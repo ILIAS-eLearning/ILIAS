@@ -150,6 +150,9 @@ final class ilLinkCheckerTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 		
+		// #11002
+		$lng->loadLanguageModule("webr");
+		
 		$title = $this->getParentObject()->object->getTitle().' ('.$lng->txt('invalid_links_tbl').')';
 		if($last_access = $this->getLinkChecker()->getLastCheckTimestamp())
 		{
