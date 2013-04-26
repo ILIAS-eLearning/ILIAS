@@ -71,6 +71,7 @@ class ilContObjParser extends ilMDSaxParser
 	var $qst_mapping;
 	var $metadata_parsing_disabled;
 	var $in_meta_meta_data = false;
+	protected $glossary_term_map = array();
 
 	/**
 	* Constructor
@@ -1338,6 +1339,8 @@ class ilContObjParser extends ilMDSaxParser
 			case "GlossaryTerm":
 				$this->glossary_term->setTerm(trim($this->chr_data));
 				$this->glossary_term->create();
+				$iia = explode("_", $this->glossary_term->getImportId());
+				$this->glossary_term_map[(int) $iia[count($iia) - 1]] = $this->glossary_term->getId();
 				break;
 
 			case "Paragraph":
@@ -1583,7 +1586,17 @@ class ilContObjParser extends ilMDSaxParser
 		$this->media_meta_start = false;
 		$this->media_meta_cache[] = array();
 	}
-	
 
+	/**
+	 * Get glossary term map (imported ids to new ids)
+	 *
+	 * @param
+	 * @return
+	 */
+	function getGlossaryTermMap()
+	{
+		return $this->glossary_term_map;
+	}
+	
 }
 ?>
