@@ -1559,6 +1559,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 					{
 						$parts[0] = "pg";
 					}
+					include_once("./Services/Link/classes/class.ilLink.php");
 					$item["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
 					if ($parts[0] == "term")
 					{
