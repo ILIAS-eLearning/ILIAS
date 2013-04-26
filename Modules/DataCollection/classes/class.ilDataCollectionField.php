@@ -930,6 +930,8 @@ class ilDataCollectionField
      */
     public function cloneProperties($originalField){
         $orgProps = $originalField->getProperties();
+        if($orgProps == NULL)
+            return;
         foreach($orgProps as $id => $value){
             $fieldprop_obj = new ilDataCollectionFieldProp();
             $fieldprop_obj->setDatatypePropertyId($id);
