@@ -17,19 +17,6 @@ include_once("./Services/Object/classes/class.ilObject2GUI.php");
 class ilObjHelpSettingsGUI extends ilObject2GUI
 {
 	/**
-	 * Constructor (please note that we, due to the general call in
-	 * ilAdministrationGUI, we simulate the old ilObjectGUI constructor here)
-	 *
-	 * @param
-	 * @return
-	 */
-	function __construct($a_data, $a_ref_id)
-	{
-		parent::__construct($a_ref_id);
-	}
-	
-	
-	/**
 	 * Get type
 	 */
 	function getType()
