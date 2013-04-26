@@ -3,6 +3,7 @@
 
 require_once './Services/Exceptions/classes/class.ilException.php';
 require_once "class.ilDataCollectionCache.php";
+require_once "class.ilDataCollectionFieldProp.php";
 
 /**
 * Class ilDataCollectionField
@@ -920,9 +921,23 @@ class ilDataCollectionField
 		$this->setOrder($original->getOrder());
 		$this->setRequired($original->getRequired());
 		$this->setUnique($original->isUnique());
-		$this->setProperties($original->getProperties());
-		$this->doCreate();
-	}
+        $this->doCreate();
+        $this->cloneProperties($original);
+    }
+
+    /**
+     * @param $originalField ilDataCollectionField
+     */
+    public function cloneProperties($originalField){
+        $orgProps = $originalField->getProperties();
+        foreach($orgProps as $id => $value){
+            $fieldprop_obj = new ilDataCollectionFieldProp();
+            $fieldprop_obj->setDatatypePropertyId($id);
+            $fieldprop_obj->setFieldId($this->getId());
+            $fieldprop_obj->setValue($value);
+            $fieldprop_obj->doCreate();
+        }
+    }
 }
 
 ?>
