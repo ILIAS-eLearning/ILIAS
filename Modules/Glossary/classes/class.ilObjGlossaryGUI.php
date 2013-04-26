@@ -19,7 +19,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 *
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI
 * 
 * @ingroup ModulesGlossary
 */
@@ -164,6 +164,23 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$tax_gui = new ilObjTaxonomyGUI();
 				$tax_gui->setAssignedObject($this->object->getId());
 				$ret = $this->ctrl->forwardCommand($tax_gui);
+				break;
+
+			case "ilexportgui":
+				$this->getTemplate();
+				$this->setTabs();
+				$ilTabs->activateTab("export");
+				$this->setLocator();
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this);
+				//$exp_gui->addFormat("xml", "", $this, "export");
+				$exp_gui->addFormat("xml");
+				$exp_gui->addFormat("html", "", $this, "exportHTML");
+				$exp_gui->addCustomColumn($lng->txt("cont_public_access"),
+						$this, "getPublicAccessColValue");
+				$exp_gui->addCustomMultiCommand($lng->txt("cont_public_access"),
+						$this, "publishExportFile");
+				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
 
 			default:
@@ -369,6 +386,21 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			// determine filename of xml file
 			$subdir = basename($file["basename"],".".$file["extension"]);
 			$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
+			
+			// check whether this is a new export file.
+			// this is the case if manifest.xml exits
+//echo "1-".$newObj->getImportDirectory()."/".$subdir."/manifest.xml"."-";
+			if (is_file($newObj->getImportDirectory()."/".$subdir."/manifest.xml"))
+			{
+				include_once("./Services/Export/classes/class.ilImport.php");
+				$imp = new ilImport((int) $_GET["ref_id"]);
+				$map = $imp->getMapping();
+				$map->addMapping("Modules/Glossary", "glo", "new_id", $newObj->getId());
+				$imp->importObject($newObj, $full_path, $upload["name"], "glo",
+					"Modules/Glossary", true);
+				ilUtil::sendSuccess($this->lng->txt("glo_added"),true);
+				ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$newObj->getRefId());
+			}
 
 			// check whether subdirectory exists within zip file
 			if (!is_dir($newObj->getImportDirectory()."/".$subdir))
@@ -1030,142 +1062,6 @@ return;
 	}
 
 
-	/*
-	* list all export files
-	*/
-	function exportList()
-	{
-		global $tree;
-
-		//$this->setTabs();
-
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// create export file button (xml)
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "export"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_xml"));
-		$this->tpl->parseCurrentBlock();
-
-		// create export file button (html)
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportHTML"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_html"));
-		$this->tpl->parseCurrentBlock();
-
-		// view last export log button
-		if (is_file($this->object->getExportDirectory()."/export.log"))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "viewExportLog"));
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_view_last_export_log"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-
-		$export_dir = $this->object->getExportDirectory();
-
-		$export_files = $this->object->getExportFiles();
-		
-		// create table
-		require_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.glo_export_file_row.html", true);
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tbl->setTitle($this->lng->txt("cont_export_files"));
-
-		$tbl->setHeaderNames(array("", $this->lng->txt("type"),
-			$this->lng->txt("cont_file"),
-			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
-
-		$cols = array("", "type", "file", "size", "date");
-		$header_params = array("ref_id" => $_GET["ref_id"],
-			"cmd" => "exportList", "cmdClass" => get_class($this));
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "9%", "40%", "25%", "25%"));
-		$tbl->disable("sort");
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-
-		$this->tpl->setVariable("COLUMN_COUNTS", 5);
-
-		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-		$this->tpl->parseCurrentBlock();
-
-		// public access
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "publishExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_public_access"));
-		$this->tpl->parseCurrentBlock();
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-
-		$tbl->setMaxCount(count($export_files));
-		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-
-		$tbl->render();
-		if(count($export_files) > 0)
-		{
-			$i=0;
-			foreach($export_files as $exp_file)
-			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-
-				$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
-
-				$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
-					? " <b>(".$this->lng->txt("public").")<b>"
-					: "";
-				$this->tpl->setVariable("TXT_TYPE", $exp_file["type"].$public_str);
-				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
-
-				$file_arr = explode("__", $exp_file["file"]);
-				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
-
-				$this->tpl->parseCurrentBlock();
-			}
-		} //if is_array
-		else
-		{
-			//$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 3);
-			//$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->parseCurrentBlock();
-	}
-
 
 	/**
 	* export content object
@@ -1175,7 +1071,7 @@ return;
 		require_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
 		$glo_exp = new ilGlossaryExport($this->object);
 		$glo_exp->buildExportFile();
-		$this->ctrl->redirect($this, "exportList");
+		$this->ctrl->redirectByClass("ilexportgui", "");
 	}
 	
 	/**
@@ -1187,29 +1083,7 @@ return;
 		$glo_exp = new ilGlossaryExport($this->object, "html");
 		$glo_exp->buildExportFile();
 //echo $this->tpl->get();
-		$this->ctrl->redirect($this, "exportList");
-	}
-
-
-	/**
-	* download export file
-	*/
-	function downloadExportFile()
-	{
-		if(!isset($_POST["file"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (count($_POST["file"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$file = explode(":", $_POST["file"][0]);
-		$export_dir = $this->object->getExportDirectory($file[0]);
-		ilUtil::deliverFile($export_dir."/".$file[1],
-			$file[1]);
+		$this->ctrl->redirectByClass("ilexportgui", "");
 	}
 
 	/**
@@ -1239,7 +1113,7 @@ return;
 			$this->object->setPublicExportFile($file[0], $file[1]);
 		}
 		$this->object->update();
-		$this->ctrl->redirect($this, "exportList");
+		$this->ctrl->redirectByClass("ilexportgui", "");
 	}
 
 	/*
@@ -1248,7 +1122,7 @@ return;
 	function viewExportLog()
 	{
 		global $tree;
-
+/*
 		$this->setTabs();
 
 		//add template for view button
@@ -1264,70 +1138,7 @@ return;
 		$this->tpl->setVariable("ADM_CONTENT",
 			nl2br(file_get_contents($this->object->getExportDirectory()."/export.log")));
 
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
-	* confirmation screen for export file deletion
-	*/
-	function confirmDeleteExportFile()
-	{
-		if(!isset($_POST["file"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->setTabs();
-
-		// display confirmation message
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$cgui = new ilConfirmationGUI();
-		$cgui->setFormAction($this->ctrl->getFormAction($this));
-		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
-		$cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteExportFile");
-		$cgui->setConfirm($this->lng->txt("confirm"), "deleteExportFile");
-
-		foreach($_POST["file"] as $file)
-		{
-			$caption = explode(":", $file);
-			$caption = $caption[1]." (".$caption[0].")";
-				
-			$cgui->addItem("file[]", $file, $caption);
-		}
-
-		$this->tpl->setContent($cgui->getHTML());
-	}
-
-	/**
-	* cancel deletion of export files
-	*/
-	function cancelDeleteExportFile()
-	{
-		$this->ctrl->redirect($this, "exportList");
-	}
-
-	/**
-	* delete export files
-	*/
-	function deleteExportFile()
-	{
-		foreach($_POST["file"] as $file)
-		{
-			$file = explode(":", $file);
-			$export_dir = $this->object->getExportDirectory($file[0]);
-			
-			$exp_file = $export_dir."/".$file[1];
-			$exp_dir = $export_dir."/".substr($file[1], 0, strlen($file[1]) - 4);
-			if (@is_file($exp_file))
-			{
-				unlink($exp_file);
-			}
-			if (@is_dir($exp_dir))
-			{
-				ilUtil::delDir($exp_dir);
-			}
-		}
-		$this->ctrl->redirect($this, "exportList");
+		$this->tpl->parseCurrentBlock();*/
 	}
 
 	/**
@@ -1586,9 +1397,14 @@ return;
 			 "", "ilmdeditorgui");
 
 		// export
-		$tabs_gui->addTarget("export",
+		/*$tabs_gui->addTarget("export",
 			 $this->ctrl->getLinkTarget($this, "exportList"),
-			 array("exportList", "viewExportLog"), get_class($this));
+			 array("exportList", "viewExportLog"), get_class($this));*/
+
+		// export
+		$tabs_gui->addTarget("export",
+			 $this->ctrl->getLinkTargetByClass("ilexportgui", ""),
+			 "", "ilexportgui");
 
 		// permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -1867,6 +1683,22 @@ return;
 		}
 		$this->ctrl->redirect($this, "editStyleProperties");
 	}
+	
+	/**
+	 * Get public access value for export table 
+	 */
+	function getPublicAccessColValue($a_type, $a_file)
+	{
+		global $lng, $ilCtrl;
+
+		if ($this->object->getPublicExportFile($a_type) == $a_file)
+		{
+			return $lng->txt("yes");
+		}
+	
+		return " ";		
+	}
+
 }
 
 ?>

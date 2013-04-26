@@ -4,13 +4,13 @@
 include_once("./Services/Export/classes/class.ilXmlExporter.php");
 
 /**
- * Exporter class for html learning modules
+ * Export class for taxonomies
  *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id: $
- * @ingroup ModulesGlossary
+ * @ingroup ServicesTaxonomy
  */
-class ilGlossaryExporter extends ilXmlExporter
+class ilTaxonomyExporter extends ilXmlExporter
 {
 	private $ds;
 
@@ -19,7 +19,25 @@ class ilGlossaryExporter extends ilXmlExporter
 	 */
 	function init()
 	{
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyDataSet.php");
+		$this->ds = new ilTaxonomyDataSet();
+		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+		$this->ds->setDSPrefix("ds");
 	}
+
+	/**
+	 * Get head dependencies
+	 *
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
+	 */
+	function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		return array();
+	}
+
 
 	/**
 	 * Get tail dependencies
@@ -31,46 +49,20 @@ class ilGlossaryExporter extends ilXmlExporter
 	 */
 	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
 	{
-		if ($a_entity == "glo")
-		{
-			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
-			$tax_ids = array();
-			foreach ($a_ids as $id)
-			{
-				$t_ids = ilObjTaxonomy::getUsageOfObject($id);
-				if (count($t_ids) > 0)
-				{
-					$tax_ids[$t_ids[0]] = $t_ids[0];
-				}
-			}
-
-			return array (
-				array(
-					"component" => "Services/Taxonomy",
-					"entity" => "tax",
-					"ids" => $tax_ids)
-				);
-		}
 		return array();
 	}
-
 
 	/**
 	 * Get xml representation
 	 *
 	 * @param	string		entity
-	 * @param	string		target release
+	 * @param	string		schema version
 	 * @param	string		id
 	 * @return	string		xml string
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		include_once './Modules/Glossary/classes/class.ilObjGlossary.php';
-		$glo = new ilObjGlossary($a_id,false);
-
-		include_once './Modules/Glossary/classes/class.ilGlossaryExport.php';
-		$exp = new ilGlossaryExport($glo,'xml');
-		$zip = $exp->buildExportFile();
+		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 	}
 
 	/**
@@ -83,11 +75,11 @@ class ilGlossaryExporter extends ilXmlExporter
 	function getValidSchemaVersions($a_entity)
 	{
 		return array (
-			"4.1.0" => array(
-				"namespace" => "http://www.ilias.de/Modules/Glossary/htlm/4_1",
-				"xsd_file" => "ilias_glo_4_1.xsd",
-				"uses_dataset" => false,
-				"min" => "4.1.0",
+			"4.3.0" => array(
+				"namespace" => "http://www.ilias.de/Services/Taxonomy/tax/4_3",
+				"xsd_file" => "ilias_tax_4_3.xsd",
+				"uses_dataset" => true,
+				"min" => "4.3.0",
 				"max" => "")
 		);
 	}
