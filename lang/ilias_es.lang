@@ -12963,3 +12963,13 @@ assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allo
 content#:#HTML export#:#HTML Export###08 03 2013 new variable
 content#:#Pages#:#Pages###08 03 2013 new variable
 content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###08 03 2013 new variable
+dcl#:#dcl_hello#:#Dear###26 04 2013 new variable
+dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.###26 04 2013 new variable
+dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.###26 04 2013 new variable
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###26 04 2013 new variable
+obj#:#edit_questions#:#Edit Questions###26 04 2013 new variable
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.###26 04 2013 new variable
+user#:#user_delete_own_account_logout_button#:#Proceed to Authentication###26 04 2013 new variable
+user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.###26 04 2013 new variable
+rbac#:#edit_userassignment#:#Edit User Assignment###26 04 2013 new variable
+blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.###26 04 2013 new variable

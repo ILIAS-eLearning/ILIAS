@@ -231,7 +231,6 @@ administration#:#options#:#Options
 administration#:#output_options#:#Options de restitution
 administration#:#passwd_auto_generate#:#Envoi/Génération de Mot de Passe
 administration#:#path_to_mkisofs#:#Chemin d'accès à "mkisofs"
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Lorsque activé, il <u>n'est  pas</ u> permis de réutiliser un nom d'utilisateur déjà enregistrée dans l'historique (même si l'utilisateur correspondant a été supprimé).
 administration#:#purge_age_limit#:#Limiter l'âge
 administration#:#purge_age_limit_desc#:#Si ce champ contient une valeur, seuls les objets qui ont été supprimés avant le nombre de jours spécifié seront purgés.
 administration#:#purge_count_limit#:#Limiter le nombre
@@ -484,7 +483,6 @@ assessment#:#ects_range_error_d#:#Veuillez saisir une valeur entre 0 et 100 pour
 assessment#:#ects_range_error_e#:#Veuillez saisir une valeur entre 0 et 100 pour le niveau ECTS E.
 assessment#:#ects_use_fx_grade#:#Utiliser le niveau 'FX', si des participants ont échoué
 assessment#:#ects_use_fx_grade_part2#:#pourcentage du total
-assessment#:#edit_content#:#Modifier Contenu
 assessment#:#edit_page#:#Editer la Page
 assessment#:#edit_question#:#Editer la Question
 assessment#:#edit_test_questions#:#Vue par Liste
@@ -514,11 +512,6 @@ assessment#:#errors#:#Erreurs
 assessment#:#errors_section#:#Pondération des Erreurs
 assessment#:#errortext#:#Texte Erroné
 assessment#:#errortext_info#:#Veuillez saisir le texte erroné. Ajouter le symbole "#" devant les mots incorrects. Cliquez ensuite sur "Analyser le Texte Erroné" pour poursuivre.
-assessment#:#essay_keyword_relation#:#Les points sont obtenus
-assessment#:#essay_keyword_relation_all#:#Si tous les mots-clés sont présents
-assessment#:#essay_keyword_relation_any#:#Pour chaque mot-clé présent
-assessment#:#essay_keyword_relation_desc#:#Lorsque l'option "Si tous les mots-clés sont présents" est sélectionnée, tous les termes doivent êtres présents dans la réponse pour obtenir des points. Lorsque l'option "Pour chaque mot-clé présent" est sélectionnée, le maximum de points est attribué si un mot-clé est présent.
-assessment#:#essay_keyword_relation_one#:#Si un des mots-clés est présent
 assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
@@ -2401,7 +2394,6 @@ common#:#catr_edit_info#:#Choisissez une catégorie pour créer un nouvelle réf
 common#:#catr_new#:#Créer une Référence à une Catégorie
 common#:#cc#:#CC
 common#:#censorship#:#Censurer
-common#:#centra_account#:#Compte d'Administration Centra
 common#:#certificate#:#Certificat
 common#:#chac_edit_permission#:#Modifier les permissions
 common#:#chac_read#:#Accès en lecture aux paramètres du Chat
@@ -3020,13 +3012,10 @@ common#:#gender_m#:#Masculin
 common#:#general_settings#:#Paramètres Généraux
 common#:#generate#:#Générer
 common#:#glo#:#Glossaire
-common#:#glo_a#:#un Glossaire
 common#:#glo_add#:#Ajouter Glossaire
 common#:#glo_added#:#Glossaire ajouté
 common#:#glo_create#:#Créer Glossaire
 common#:#glo_import#:#Importer Glossaire
-common#:#glo_join#:#S'Abonner au Glossaire
-common#:#glo_leave#:#Se Désabonner du glossaire
 common#:#glo_mode#:#Mode
 common#:#glo_mode_desc#:#Un glossaire virtuel fonctionne comme un glossaire normal. Mais il peut, en plus, contenir les termes de tous les autres glossaires du même niveau ou de niveaux inférieurs dans l'arborescence des objets d'ILIAS.
 common#:#glo_mode_level#:#virtuel (seulement ce niveau)
@@ -3381,8 +3370,6 @@ common#:#info_trash#:#Objets Supprimés
 common#:#info_view_of_user#:#Utilisateur
 common#:#inform_user_mail#:#Envoyer un mail pour informer l'utilisateur des changements
 common#:#information_abbr#:#Info
-common#:#ingmedia_use_info1#:#Ici, vous pouvez modifier vos données personnelles.  Excepté pour le nom d'utilisateur et le mot de passe INGMEDIA, vous n'avez pas à remplir les autres champs.  Souvenez-vous que les mots de passe perdus ne peuvent être redonnés que par e-mail (!).
-common#:#ingmedia_use_title#:#Modifier les données utilisateurs
 common#:#inifile#:#Fichier INI
 common#:#inline_file_extensions#:#Fichiers Web
 common#:#inline_file_extensions_info#:#Les fichiers avec ces extensions sont affichées dans la fenêtre du navigateur.<br/>Par exemple: <b>gif jpg mp3 pdf png</b><br/> Tous les autres fichiers sont proposés en téléchargement.
@@ -3474,7 +3461,6 @@ common#:#ldap_version#:#Version Protocole LDAP
 common#:#ldap_visible#:#Les paramètres LDAP sont visibles
 common#:#ldap_write#:#Modifier paramètres LDAP
 common#:#learning module#:#document
-common#:#learning_module#:#document
 common#:#learning_objects#:#Objets Pédagogiques
 common#:#learning_progress#:#Progression
 common#:#learning_resourc#:#Ressource Pédagogique
@@ -6101,7 +6087,6 @@ content#:#glo_used_in_scorm#:#Le glossaire est utilisé par le module SCORM. S'i
 content#:#help_assign_help_ids#:#Assignation Chapitre/Screen-IDs
 content#:#htlm_import#:#Importer Module HTML
 content#:#HTML export#:#Exportation HTML
-content#:#HTML_export#:#Export HTML
 content#:#import_sco_object#:#Importer SCO
 content#:#lm_menu_edit_entry#:#Editer entrée du menu
 content#:#lm_menu_entry_target#:#Cible
@@ -6120,14 +6105,11 @@ content#:#msg_page_not_public#:#La page n'est pas publique
 content#:#page_does_not_exist#:#Désole, cette page n'existe pas.
 content#:#Pages#:#Pages
 content#:#pages from#:#Pages From
-content#:#pages_from#:#Pages De
 content#:#par#:#Paragraphe
 content#:#PDF export#:#Exportation PDF
-content#:#PDF_export#:#Export PDF
 content#:#pg#:#Page
 content#:#public_section#:#Espace Public
 content#:#read offline#:#Lire hors ligne
-content#:#read_offline#:#Lire Hors-Ligne
 content#:#sahs_empty_objectives_are_not_allowed#:#Veuillez entrer un objectif pédagogique.
 content#:#saved_media_object#:#Média enregistré.
 content#:#scplayer_collapsetree#:#Tout Replier
@@ -6161,7 +6143,6 @@ content#:#seq_toc#:#Veuillez choisir une activité dans la table des matières �
 content#:#set_public_mode#:#Définir le mode d'accès public
 content#:#st#:#Chapitre
 content#:#start export#:#Commencer l'exportation
-content#:#start_export#:#Commencer l'Export
 content#:#text_repr#:#Texte de Substitution
 content#:#text_repr_info#:#Attribut "alt" utilisé pour l'image.
 cptch#:#cptch_freetype_support_needed#:#Pour utiliser cette fonction, vous devez activer le support de FreeType dans PHP.
@@ -7261,7 +7242,6 @@ dateplaner#:#wk_short#:#Sem.
 dateplaner#:#year#:#Année
 dateplaner#:#yui_cal_choose_month#:#Mois :
 dateplaner#:#yui_cal_choose_year#:#Année :
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activer l'Approbation des Enregistrements
 dcl#:#dcl_activate_notification#:#Activer Notification
@@ -7483,7 +7463,6 @@ ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value
 ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
 ecs#:#ecs_cmap_overview#:#Mapping Overview
-ecs#:#ecs_cmpa_enabled#:#Autoriser l'Allocation de Cours
 ecs#:#ecs_cms_dir_tree#:#Arborescences CMS
 ecs#:#ecs_cms_directory_trees_tbl#:#Arborescences CMS
 ecs#:#ecs_cms_id#:#Root-Id dans le Campus-Managment-System
@@ -7943,7 +7922,6 @@ forum#:#frm_copy#:#Copier Forum
 forum#:#frm_default_view#:#Affichage par défaut
 forum#:#frm_detach_moderator_role#:#Retirer un modérateur
 forum#:#frm_edit_title#:#Renommer le sujet
-forum#:#frm_import#:#Importer Forum
 forum#:#frm_moderator_f#:#Modérateur
 forum#:#frm_moderator_m#:#Modérateur
 forum#:#frm_moderator_role_added_successfully#:#Le modérateur a été ajouté.
@@ -10255,32 +10233,6 @@ rbac#:#cat_administrate_users#:#Administratrer les Comptes Utilisateurs Locaux
 rbac#:#cat_cat_administrate_users#:#L'utilisateur peut créer et administrer des comptes utilisateurs locaux
 rbac#:#cat_copy#:#L'utilisateur peut copier l'objet
 rbac#:#cat_copy_threads_info#:#SVP, décidez quels éléments de catégorie doivent être copiés, liés ou même omis.
-rbac#:#cat_create_blog#:#Créer Blog
-rbac#:#cat_create_book#:#Créer Réservations
-rbac#:#cat_create_cat#:#Créer Catégorie
-rbac#:#cat_create_catr#:#Créer Référence à Catégorie
-rbac#:#cat_create_chtr#:#Créer Salle de Chat
-rbac#:#cat_create_crs#:#Créer Cours
-rbac#:#cat_create_crsr#:#Créer Référence à Cours
-rbac#:#cat_create_dcl#:#Créer Collection de Données
-rbac#:#cat_create_exc#:#Créer Exercice
-rbac#:#cat_create_feed#:#Créer Flux RSS
-rbac#:#cat_create_file#:#Déposer Fichier
-rbac#:#cat_create_frm#:#Créer Forum
-rbac#:#cat_create_glo#:#Créer Glossaire
-rbac#:#cat_create_grp#:#Créer Groupe
-rbac#:#cat_create_htlm#:#Créer Module HTML
-rbac#:#cat_create_itgr#:#Créer Groupe d'Objets
-rbac#:#cat_create_lm#:#Créer Module ILIAS
-rbac#:#cat_create_mcst#:#Créer Mediacasts
-rbac#:#cat_create_mep#:#Créer Galerie de Médias
-rbac#:#cat_create_poll#:#Créer Vote
-rbac#:#cat_create_qpl#:#Créer Banque de Questions (Test)
-rbac#:#cat_create_sahs#:#Créer Module SCORM/AICC
-rbac#:#cat_create_spl#:#Créer Banque de Questions (Enquête)
-rbac#:#cat_create_svy#:#Créer Enquête
-rbac#:#cat_create_tst#:#Créer Test
-rbac#:#cat_create_webr#:#Créer Liens Web
 rbac#:#cat_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#cat_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
 rbac#:#cat_read#:#L'utilisateur a accès à la catégorie
@@ -10317,32 +10269,6 @@ rbac#:#cmps_write#:#Administration autorisée
 rbac#:#contribute#:#Contribuer
 rbac#:#crs_copy#:#L'utilisateur peut copier l'objet
 rbac#:#crs_copy_threads_info#:#Veuillez désigner quels matériaux de cours doit être copié, lié ou même omis.
-rbac#:#crs_create_blog#:#Créer Blog
-rbac#:#crs_create_book#:#Créer Réservations
-rbac#:#crs_create_catr#:#Créer Référence à Catégorie
-rbac#:#crs_create_chtr#:#Créer Salle de Chat
-rbac#:#crs_create_crsr#:#Créer Référence à Cours
-rbac#:#crs_create_dcl#:#Créer Collection de Données
-rbac#:#crs_create_exc#:#Créer Exercice
-rbac#:#crs_create_feed#:#Créer Flux RSS
-rbac#:#crs_create_file#:#Déposer Fichier
-rbac#:#crs_create_fold#:#Créer Dossier
-rbac#:#crs_create_frm#:#Créer Forum
-rbac#:#crs_create_glo#:#Créer Glossaire
-rbac#:#crs_create_grp#:#Créer Groupe
-rbac#:#crs_create_htlm#:#Créer Module HTML
-rbac#:#crs_create_itgr#:#Créer Groupe d'Objets
-rbac#:#crs_create_lm#:#Créer Module ILIAS
-rbac#:#crs_create_mcst#:#Créer Mediacasts
-rbac#:#crs_create_mep#:#Créer Galerie de Médias
-rbac#:#crs_create_poll#:#Créer Vote
-rbac#:#crs_create_qpl#:#Créer  Banque de Questions (Test)
-rbac#:#crs_create_sahs#:#Créer Module SCORM/AICC
-rbac#:#crs_create_sess#:#Créer Session
-rbac#:#crs_create_spl#:#Créer Banque de Questions (Enquête)
-rbac#:#crs_create_svy#:#Créer Enquête
-rbac#:#crs_create_tst#:#Créer Test
-rbac#:#crs_create_webr#:#Créer Liens Web
 rbac#:#crs_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#crs_edit_event#:#L'utilisateur peut éditer les événements de l'agenda
 rbac#:#crs_edit_learning_progress#:#L'utilisateur peut voir la progression et modifer ses paramètres
@@ -10407,30 +10333,6 @@ rbac#:#filter_local_roles_object#:#Afficher seulement les rôles locaux définis
 rbac#:#filter_roles_local_policy#:#Afficher uniquement les rôles utilisant une politique locale à cette position
 rbac#:#fld_create_poll#:#Créer Vote
 rbac#:#fold_copy#:#L'utilisateur peut copier l'objet
-rbac#:#fold_create_blog#:#Créer Blog
-rbac#:#fold_create_book#:#Créer Système de Réservation
-rbac#:#fold_create_chtr#:#Créer Salle de Chat
-rbac#:#fold_create_dcl#:#Créer Collection de Données
-rbac#:#fold_create_exc#:#Créer Exercice
-rbac#:#fold_create_file#:#Déposer Fichier
-rbac#:#fold_create_fold#:#Créer Dossier
-rbac#:#fold_create_frm#:#Créer Forum
-rbac#:#fold_create_glo#:#Créer Glossaire
-rbac#:#fold_create_grp#:#Créer Groupe
-rbac#:#fold_create_htlm#:#Créer Module HTML
-rbac#:#fold_create_itgr#:#Créer Groupe d'Objets
-rbac#:#fold_create_lm#:#Créer Module ILIAS
-rbac#:#fold_create_mcst#:#Créer Mediacasts
-rbac#:#fold_create_mep#:#Créer Galerie de Médias
-rbac#:#fold_create_poll#:#Créer Vote
-rbac#:#fold_create_qpl#:#Créer Banque de Questions (Test)
-rbac#:#fold_create_sahs#:#Créer Module SCORM/AICC
-rbac#:#fold_create_sess#:#Créer Session
-rbac#:#fold_create_spl#:#Créer Banque de Questions (Enquête)
-rbac#:#fold_create_svy#:#Créer Enquête
-rbac#:#fold_create_tst#:#Créer Test
-rbac#:#fold_create_webr#:#Créer Liens Web
-rbac#:#fold_create_wiki#:#Créer Wiki
 rbac#:#fold_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#fold_edit_learning_progress#:#L'utilisateur peut voir la progression et modifer ses paramètres
 rbac#:#fold_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
@@ -10458,31 +10360,6 @@ rbac#:#glo_visible#:#L'objet est visible
 rbac#:#glo_write#:#L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet
 rbac#:#grp#:#L'utilisateur peut copier l'objet
 rbac#:#grp_copy#:#L'utilisateur peut copier l'objet
-rbac#:#grp_create_blog#:#Créer Blog
-rbac#:#grp_create_book#:#Créer Réservations
-rbac#:#grp_create_catr#:#Créer Référence à Catégorie
-rbac#:#grp_create_chtr#:#Créer Salle de Chat
-rbac#:#grp_create_crsr#:#Créer Référence à Cours
-rbac#:#grp_create_dcl#:#Créer Collection de Données
-rbac#:#grp_create_exc#:#Créer Exercice
-rbac#:#grp_create_feed#:#Créer Flux RSS
-rbac#:#grp_create_file#:#Déposer Fichier
-rbac#:#grp_create_fold#:#Créer Dossier
-rbac#:#grp_create_glo#:#Créer Glossaire
-rbac#:#grp_create_grp#:#Créer Groupe
-rbac#:#grp_create_htlm#:#Créer Module HTML
-rbac#:#grp_create_itgr#:#Créer Groupe d'Objets
-rbac#:#grp_create_lm#:#Créer Module ILIAS
-rbac#:#grp_create_mcst#:#Créer Mediacasts
-rbac#:#grp_create_mep#:#Créer Galerie de Médias
-rbac#:#grp_create_poll#:#Créer Vote
-rbac#:#grp_create_qpl#:#Créer Banque de Questions (Test)
-rbac#:#grp_create_sahs#:#Créer Module SCORM/AICC
-rbac#:#grp_create_sess#:#Créer Session
-rbac#:#grp_create_spl#:#Créer Banque de Questions (Enquête)
-rbac#:#grp_create_svy#:#Créer Enquête
-rbac#:#grp_create_tst#:#Créer Test
-rbac#:#grp_create_webr#:#Créer Liens Web
 rbac#:#grp_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#grp_edit_event#:#L'utilisateur peut éditer les événements de l'agenda
 rbac#:#grp_edit_learning_progress#:#L'utilisateur peut voir la progression et modifer ses paramètres
@@ -10768,33 +10645,6 @@ rbac#:#role_block_role#:#Bloquer le Rôle
 rbac#:#role_block_role_desc#:#L'accès à cet objet et à ses descendants va être supprimé.
 rbac#:#role_confirm_block_role_header#:#Voulez-vous vraiment bloquer ces rôles ?
 rbac#:#role_confirm_block_role_info#:#Les opérations suivantes vont être réalisées :<br /><br />- Les permissions pour cet objet et ses descendants vont être bloquées.<br />- Les nouveaux réglages de permissions vont être protégés.
-rbac#:#root_create_blog#:#Créer Blog
-rbac#:#root_create_book#:#Créer Réservations
-rbac#:#root_create_cat#:#Créer Catégories
-rbac#:#root_create_catr#:#Créer Référence à Catégorie
-rbac#:#root_create_chtr#:#Créer Salle de Chat
-rbac#:#root_create_crs#:#Créer Cours
-rbac#:#root_create_crsr#:#Créer Référence à Cours
-rbac#:#root_create_dcl#:#Créer Collection de Données
-rbac#:#root_create_exc#:#Créer Exercice
-rbac#:#root_create_feed#:#Créer Flux RSS
-rbac#:#root_create_file#:#Déposer Fichier
-rbac#:#root_create_frm#:#Créer Forum
-rbac#:#root_create_glo#:#Créer Glossaire
-rbac#:#root_create_grp#:#Créer Groupe
-rbac#:#root_create_htlm#:#Créer Module HTML
-rbac#:#root_create_itgr#:#Créer Groupe d'Objets
-rbac#:#root_create_lm#:#Créer Module ILIAS
-rbac#:#root_create_mcst#:#Créer Mediacasts
-rbac#:#root_create_mep#:#Créer Galerie de Médias
-rbac#:#root_create_poll#:#Créer Vote
-rbac#:#root_create_qpl#:#Créer Banque de Questions (Test)
-rbac#:#root_create_sahs#:#Créer Module SCORM/AICC
-rbac#:#root_create_spl#:#Créer Banque de Questions (Enquête)
-rbac#:#root_create_svy#:#Créer Enquête
-rbac#:#root_create_tst#:#Créer Test
-rbac#:#root_create_webr#:#Créer Liens Web
-rbac#:#root_create_wiki#:#Créer Wiki
 rbac#:#root_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
 rbac#:#root_read#:#L'utilisateur a accès au <i>Catalogue</i>
 rbac#:#root_visible#:#L'objet est visible
@@ -11076,9 +10926,6 @@ scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Co
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.
 scormdebug#:#API-call#:#API-call
-scormdebug#:#cmi_comments_from_learner__count#:#Current number of learner comments
-scormdebug#:#cmi_comments_from_lms__count#:#Current number of comments from the LMS
-scormdebug#:#cmi_comments_from_lms_n_comment#:#Comments or annotations associated with a SCO
 scormdebug#:#cmi._version#:#Represents the version of the data model
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
@@ -13119,3 +12966,14 @@ wsp#:#wsp_type_file#:#Fichier
 wsp#:#wsp_type_tstv#:#Certificat : Test
 wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
+content#:#cont_localfile#:#Local File###26 04 2013 new variable
+dcl#:#dcl_hello#:#Dear###26 04 2013 new variable
+dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.###26 04 2013 new variable
+dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.###26 04 2013 new variable
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###26 04 2013 new variable
+obj#:#edit_questions#:#Edit Questions###26 04 2013 new variable
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.###26 04 2013 new variable
+user#:#user_delete_own_account_logout_button#:#Proceed to Authentication###26 04 2013 new variable
+user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.###26 04 2013 new variable
+rbac#:#edit_userassignment#:#Edit User Assignment###26 04 2013 new variable
+blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.###26 04 2013 new variable
