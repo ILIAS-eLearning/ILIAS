@@ -577,7 +577,7 @@ class ilLMPresentationGUI
 				{
 					$pg_id = (int) $_GET["from_page"];
 				}
-				
+
 				if ($pg_id > 0)
 				{
 					$lay = ilLMObject::lookupLayout($pg_id);
@@ -4242,7 +4242,11 @@ class ilLMPresentationGUI
 			else
 			{
 				// faq link on page (in faq frame) includes faq link on other page
-				$this->ctrl->setParameter($this, "from_page", $_GET["from_page"]);
+				// if added due to bug #11007
+				if (!in_array($a_frame, array("", "_blank")))
+				{
+					$this->ctrl->setParameter($this, "from_page", $_GET["from_page"]);
+				}
 			}
 			
 			if ($a_anchor !=  "")
