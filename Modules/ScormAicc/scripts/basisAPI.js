@@ -139,7 +139,7 @@ function warning(s_send){
 // avoid sessionTimeOut
 function SchedulePing() {
 	var r = sendRequest('./ilias.php?baseClass=ilSAHSPresentationGUI&cmd=pingSession&ref_id='+iv.refId);
-	setTimeout("SchedulePing()", iv.pingSession*1000);
+	setTimeout("API.SchedulePing()", iv.pingSession*1000);
 }
 
 // launch functions
@@ -344,6 +344,7 @@ this.IliasLaunch=IliasLaunch;
 this.IliasAbortSco=IliasAbortSco;
 this.IliasWaitLaunch=IliasWaitLaunch;
 this.IliasWaitTree=IliasWaitTree;
+this.SchedulePing=SchedulePing;
 basisInit();
 
 if(window.addEventListener) window.addEventListener('unload',onWindowUnload);
