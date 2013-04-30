@@ -179,7 +179,9 @@ class ilMath
 	{
 		// make sure its a standard php float string (i.e. change 0.2e+2 to 20)
 		// php will automatically format floats decimally if they are within a certain range
+		$original = $float_str; // store original float, so we can return a float keeping the pecision when possible
 		$float_str = (string)((float)($float_str));
+		$float_str = str_replace(",", ".", $float_str); // convert ',' to '.' (float casting was locale sensitive)
 
 		// if there is an E in the float string
 		if(($pos = strpos(strtolower($float_str), 'e')) !== false)
@@ -218,7 +220,7 @@ class ilMath
 			else return $num_sign.'0.'.$zeros.$num;
 		}
 		// otherwise, assume already in decimal notation and return
-		else return $float_str;
+		else return $original;
 	}
 		    
 	public static function isCoprimeFraction($numerator, $denominator)
