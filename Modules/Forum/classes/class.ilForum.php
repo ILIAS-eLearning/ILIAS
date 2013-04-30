@@ -2120,17 +2120,16 @@ class ilForum
 					break;
 				}
 			}
-			
+
 			if($send_mail)
 			{
-				// set forum language instance for earch user
 				$this->setLanguage(self::_getLanguageInstanceByUsrId($row['user_id']));
-				
-				// SEND NOTIFICATIONS BY E-MAIL
-				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
-												   $this->formatNotificationSubject($post_data),
-												   strip_tags($this->formatNotification($post_data, 0, $attachments, $row['user_id'])),
-												  array(),array("system"));
+				$mail_obj->sendMail(
+					ilObjUser::_lookupLogin($row["user_id"]), "", "",
+					$this->formatNotificationSubject($post_data),
+					$this->formatNotification($post_data, 0, $attachments, $row['user_id']),
+					array(), array("system")
+				);
 			}
 		}
 		
@@ -2184,7 +2183,7 @@ class ilForum
 			AND frm_notification.user_id <> %s
 			GROUP BY frm_notification.user_id',
 			array('integer', 'integer'),
-			array($post_data['pos_top_fk'], $_SESSION['AccountId']));
+			array($post_data['pos_top_fk'], $ilUser->getId()));
 		
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($obj_id);
@@ -2218,14 +2217,13 @@ class ilForum
 			
 			if($send_mail)
 			{
-				// set forum language instance for earch user
 				$this->setLanguage(self::_getLanguageInstanceByUsrId($row['user_id']));
-				
-				// SEND NOTIFICATIONS BY E-MAIL			
-				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
-												   $this->formatNotificationSubject($post_data),
-												   strip_tags($this->formatNotification($post_data, 0, $attachments, $row['user_id'])),
-												   array(),array("system"));
+				$mail_obj->sendMail(
+					ilObjUser::_lookupLogin($row["user_id"]), "", "",
+					$this->formatNotificationSubject($post_data),
+					$this->formatNotification($post_data, 0, $attachments, $row['user_id']),
+					array(), array("system")
+				);
 			}
 		}
 		
@@ -2259,7 +2257,15 @@ class ilForum
 		}
 		else
 		{
-			$message .= $post_data["pos_message"]."\n";
+			$pos_message = $post_data['pos_message'];
+			if(strip_tags($pos_message) != $pos_message)
+			{
+				$pos_message = preg_replace("/\n/i", "", $pos_message);
+				$pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
+				$pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
+				$pos_message = preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
+			}
+			$message .= strip_tags($pos_message)."\n";
 		}
 		$message .= "------------------------------------------------------------\n";
 	
@@ -2310,20 +2316,18 @@ class ilForum
 			$userLanguage = $lng;
 			
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-			foreach ($moderators as $moderator)		
+			foreach($moderators as $moderator)
 			{
 				// set forum language instance for earch user
 				$this->setLanguage(self::_getLanguageInstanceByUsrId($moderator));
-				
 				$subject = $this->formatNotificationSubject($post_data);
 				$message = $this->formatPostActivationNotification($post_data, $moderator);
-//@todo possible fix for mantis	9733 --> not confirmed yet!			
-//				$message = preg_replace('/<br(\s+)?\>/i', "\\n", $message);
-				
-				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($moderator), '', '',
-												   $subject,
-												   strip_tags($message),
-												   array(), array("system"));
+				$mail_obj->sendMail(
+					ilObjUser::_lookupLogin($moderator), '', '',
+					$subject,
+					$message,
+					array(), array("system")
+				);
 			}
 			
 			// reset language
@@ -2372,10 +2376,15 @@ class ilForum
 		}
 		else
 		{
-//@todo possible fix for mantis	9733 --> not confirmed yet!
-//			$pos_message = preg_replace('/<br(\s+)?\>/i', "\\n", $post_data["pos_message"]);
-//			$message .= $pos_message."\n";
-			$message .= $post_data["pos_message"]."\n";
+			$pos_message = $post_data['pos_message'];
+			if(strip_tags($pos_message) != $pos_message)
+			{
+				$pos_message = preg_replace("/\n/i", "", $pos_message);
+				$pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
+				$pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
+				$pos_message = preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
+			}
+			$message .= strip_tags($pos_message)."\n";
 		}
 		$message .= "------------------------------------------------------------\n";
 
