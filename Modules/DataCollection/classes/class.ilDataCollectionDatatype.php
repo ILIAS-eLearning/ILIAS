@@ -504,11 +504,12 @@ class ilDataCollectionDatatype
                 } else {
                     $location = $title;
                 }
-
+                ilObjMediaObject::_saveUsage($mob->getId(), "dcl:html", $record_field->getRecord()->getTable()->getCollectionObject()->getId());
                 $format = ilObjMediaObject::getMimeType($file);
                 $media_item->setFormat($format);
                 $media_item->setLocation($location);
                 $media_item->setLocationType("LocalFile");
+
 
                 $mob->update();
                 $return = $mob->getId();

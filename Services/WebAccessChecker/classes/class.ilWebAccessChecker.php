@@ -434,7 +434,15 @@ class ilWebAccessChecker
 					return true;
 				}
 				break;
-				
+
+            case 'dcl:html':
+                include_once("./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php");
+                include_once("./Services/Object/classes/class.ilObject2.php");
+                $ref_ids = ilObject2::_getAllReferences($oid);
+                foreach($ref_ids as $ref_id)
+                    if(ilObjDataCollectionAccess::_checkAccess("view", "read", $ref_id, $oid))
+                        return true;
+                break;
 				
 			case 'frm~:html':
 				// $oid = userid

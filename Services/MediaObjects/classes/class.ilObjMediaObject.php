@@ -1174,7 +1174,12 @@ class ilObjMediaObject extends ilObject
 				{
 					$obj_id = $a_usage['id'];
 				}
-				
+
+                if ($cont_type == "dcl")
+                {
+                    $obj_id = $id;
+                }
+
 				break;
 				
 			case "pg":
