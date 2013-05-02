@@ -519,8 +519,8 @@ class ilMainMenuGUI
 					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 					$cnt ++;
 					$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
-					$gl->addEntry($icon." ".ilUtil::shortenText($item["title"], 50, true), $item["link"],
-						"_top", "", "ilLVNavEnt");
+					$ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
+					$gl->addEntry($icon." ".$ititle, $item["link"],	"_top", "", "ilLVNavEnt");
 
 				}
 				$first = false;
