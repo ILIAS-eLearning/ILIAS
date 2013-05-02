@@ -393,6 +393,9 @@ class ilDataCollectionDatatype
                         $pass = true;
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
+                $props = $field->getProperties();
+                if($filter && $props[ilDataCollectionField::PROPERTYID_N_REFERENCE] && is_array($value) && in_array($filter, $value))
+                    $pass = true;
 				if(!$filter || $filter == $value)
 					$pass = true;
 				break;
@@ -409,11 +412,6 @@ class ilDataCollectionDatatype
                 $m_obj = new ilObjMediaObject($value, false);
                 $file_name = $m_obj->getTitle();
                 if(!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false)
-                    $pass = true;
-                break;
-            case ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST:
-                //FIXME
-                if(!$filter || $filter == $value)
                     $pass = true;
                 break;
 		}
