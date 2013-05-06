@@ -361,10 +361,28 @@ class ilDataCollectionRecord
                 ilUtil::sendInfo($lng->txt("dcl_inconsistent"), true);
                 return "-";
             }
+        }
+    }
+    /*
+ * getRecordFieldSingleHTML
+ *
+ * @param int $field_id
+ * @param array $options
+ * @return array
+ */
+    public function getRecordFieldSingleHTML($field_id,array $options = array())
+    {
+        $this->loadRecordFields();
 
-			return $this->recordfields[$field_id]->getHTML($options);
-		}
-	}
+        if(ilDataCollectionStandardField::_isStandardField($field_id))
+        {
+            return $this->getStandardFieldHTML($field_id);
+        }
+        else
+        {
+            return $this->recordfields[$field_id]->getSingleHTML($options);
+        }
+    }
 
 
 

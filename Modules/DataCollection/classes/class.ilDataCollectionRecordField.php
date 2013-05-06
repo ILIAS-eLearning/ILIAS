@@ -167,6 +167,13 @@ class ilDataCollectionRecordField
 		return $datatype->parseHTML($this->getValue(), $this);
 	}
 
+    /**
+     * this funciton is used to in the viewdefinition of a single record. By default it returns the getHTML methods return.
+     * @return mixed
+     */
+    public function getSingleHTML($link = null){
+        return $this->getHTML($link);
+    }
 
 	/*
 	 * loadValue
