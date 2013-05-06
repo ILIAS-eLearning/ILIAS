@@ -190,7 +190,7 @@ class ilPersonalSkillsGUI
 			}
 			reset($path);
 			
-			$se_level = ilPersonalSkill::getSelfEvaluation($ilUser->getId(),
+			$se_level = ilPersonalSkill::getSelfEvaluation($user->getId(),
 				$a_top_skill_id, $bs["tref"], $bs["id"]);
 			
 			$skill = ilSkillTreeNodeFactory::getInstance($bs["id"]);
@@ -245,7 +245,7 @@ class ilPersonalSkillsGUI
 				if ($this->use_materials)
 				{
 
-					$mat_cnt = ilPersonalSkill::countAssignedMaterial($ilUser->getId(),
+					$mat_cnt = ilPersonalSkill::countAssignedMaterial($user->getId(),
 						$bs["tref"], $v["id"]);
 					if ($mat_cnt == 0)
 					{
@@ -260,7 +260,7 @@ class ilPersonalSkillsGUI
 											
 						$mat_tt = array();
 						$cnt = 1;
-						foreach(ilPersonalSkill::getAssignedMaterial($ilUser->getId(),
+						foreach(ilPersonalSkill::getAssignedMaterial($user->getId(),
 							$bs["tref"], $v["id"]) as $item)
 						{												
 							$mat_data = $this->getMaterialInfo($item["wsp_id"]);
