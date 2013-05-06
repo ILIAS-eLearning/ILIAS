@@ -240,6 +240,7 @@ class ilDataCollectionRecordListGUI
                             $warnings [] = "(".$i.", ".$this->getExcelCharForInteger($col).") ".$lng->txt("dcl_no_such_reference")." ".$old;
                     }
                     $field->checkValidity($value, $record->getId());
+                    $value = utf8_encode($value);
                     if(!$simulate)
                         $record->setRecordFieldValue($field->getId(), $value);
                 }catch(ilDataCollectionInputException $e){
