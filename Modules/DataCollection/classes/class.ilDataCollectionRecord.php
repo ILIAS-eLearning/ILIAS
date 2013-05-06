@@ -361,6 +361,7 @@ class ilDataCollectionRecord
                 ilUtil::sendInfo($lng->txt("dcl_inconsistent"), true);
                 return "-";
             }
+            return $this->recordfields[$field_id]->getHTML($options);
         }
     }
     /*
