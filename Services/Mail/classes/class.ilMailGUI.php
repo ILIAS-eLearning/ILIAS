@@ -157,9 +157,13 @@ class ilMailGUI
 		}
 		
 		$this->forwardClass = $this->ctrl->getNextClass($this);
-		if ($this->ctrl->getCmd() != "showMenu" && $this->ctrl->getCmd() != "refresh")
+		
+		$this->showHeader();
+		
+		if('tree' == ilSession::get(self::VIEWMODE_SESSION_KEY) &&
+			$this->ctrl->getCmd() != "showExplorer")
 		{
-			$this->showHeader();
+			$this->showExplorer();		
 		}
 
 		include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -209,47 +213,23 @@ class ilMailGUI
 		{
 			$_GET["target"] = "ilmailfoldergui";
 		}
-		if('tree' == ilSession::get(self::VIEWMODE_SESSION_KEY))
+				
+		if ($_GET["type"] == "add_subfolder")
 		{
-			include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-			$fs_gui = new ilFramesetGUI();
-			$fs_gui->setFramesetTitle($this->lng->txt("mail"));
-			$fs_gui->setMainFrameName("content");
-			$fs_gui->setSideFrameName("tree");
-		
-			$this->ctrl->setParameter($this, "cmd", "showMenu");
-			$this->ctrl->setParameter($this, "mexpand", 1);
-			$fs_gui->setSideFrameSource($this->ctrl->getLinkTarget($this));
-			$this->ctrl->clearParameters($this);
-		
-			if ($_GET["type"] == "add_subfolder")
-			{
-				$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"], "addSubFolder"));
-			}
-			else if ($_GET["type"] == "enter_folderdata")
-			{
-				$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"], "enterFolderData"));
-			}
-			else if ($_GET["type"] == "confirmdelete_folderdata")
-			{
-				$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"], "confirmDeleteFolder"));
-			}
-			else
-			{
-				$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"]));
-			}
-			$fs_gui->show();
+			$this->ctrl->redirectByClass($_GET["target"], "addSubFolder");
+		}
+		else if ($_GET["type"] == "enter_folderdata")
+		{
+			$this->ctrl->redirectByClass($_GET["target"], "enterFolderData");
+		}
+		else if ($_GET["type"] == "confirmdelete_folderdata")
+		{
+			$this->ctrl->redirectByClass($_GET["target"], "confirmDeleteFolder");
 		}
 		else
 		{
-//echo "-".$_GET["target"]."-";
 			$this->ctrl->redirectByClass($_GET["target"]);
 		}
-	}
-	
-	public function refresh()
-	{
-		$this->showMenu();
 	}
 	
 	private function showHeader()
@@ -309,45 +289,19 @@ class ilMailGUI
 		}
 		$this->ctrl->clearParameters($this);
 		$this->tpl->setCurrentBlock("tree_icons");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();		 
 	}
 
-	private function showMenu()
+	private function showExplorer()
 	{
 		global $ilUser;
 		
 		require_once "Services/Mail/classes/class.ilMailExplorer.php";
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
-		
-		$this->exp = new ilMailExplorer($this->ctrl->getLinkTargetByClass("ilmailfoldergui"),$ilUser->getId());
-		$this->exp->setTargetGet("mobj_id");
-
-		if ($_GET["mexpand"] == "")
-		{
-			$this->mtree = new ilTree($ilUser->getId());
-			$this->mtree->setTableNames('mail_tree','mail_obj_data');
-			$expanded = $this->mtree->readRootId();
+		$exp = new ilMailExplorer($this, "showExplorer", $ilUser->getId());		
+		if (!$exp->handleCommand())
+		{			
+			$this->tpl->setLeftNavContent($exp->getHTML());
 		}
-		else
-			$expanded = $_GET["mexpand"];
-			
-		$this->exp->setExpand($expanded);
-		
-		//build html-output
-		$this->exp->setOutput(0);
-		$this->output = $this->exp->getOutput();
-
-		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("mail_folders"));
-		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-		$this->tpl->setVariable("EXPLORER",$this->output);
-		$this->ctrl->setParameter($this, "mexpand", $_GET["mexpand"]);
-		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, 'showMenu'));
-		$this->tpl->parseCurrentBlock();
-		
-		$this->tpl->show(false);
 	}
 }
 
