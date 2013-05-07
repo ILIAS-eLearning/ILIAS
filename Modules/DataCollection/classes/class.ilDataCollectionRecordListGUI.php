@@ -102,11 +102,8 @@ class ilDataCollectionRecordListGUI
         if(($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id)) && count($this->table_obj->getRecordFields()))
             $ilToolbar->addButton($lng->txt('dcl_export_table_excel'), $ilCtrl->getFormActionByClass("ildatacollectionrecordlistgui", "exportExcel"));
 
-        if($_GET['table_id'])
-            $table_id = $_GET['table_id'];
-        else
-            $table_id = $this->main_table_id;
         if($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) && $this->table_obj->hasCustomFields()){
+            $ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","record_id", null);
             $ilToolbar->addButton($lng->txt("dcl_import_records .xls"), $ilCtrl->getFormActionByClass("ildatacollectionrecordlistgui", "showImportExcel"));
             $ilToolbar->addButton($lng->txt("dcl_add_new_record"), $ilCtrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"));
         }
