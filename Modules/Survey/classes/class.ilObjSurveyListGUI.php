@@ -148,25 +148,34 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 			{
 				if ($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
-					$finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
-		
-					// finished
-					if ($finished === 1)
+					if(!ilObjSurveyAccess::_lookup360Mode($this->obj_id))
 					{
-						$stat = $this->lng->txt("svy_finished");
+						$finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
+
+						// finished
+						if ($finished === 1)
+						{
+							$stat = $this->lng->txt("svy_finished");
+						}
+						// not finished
+						else if ($finished === 0)
+						{
+							$stat = $this->lng->txt("svy_not_finished");
+						}
+						// not started
+						else
+						{
+							$stat = $this->lng->txt("svy_not_started");
+						}
+						$props[] = array("alert" => false, "property" => $lng->txt("participation"),
+							"value" => $stat, 'propertyNameVisible' => false);
 					}
-					// not finished
-					else if ($finished === 0)
-					{
-						$stat = $this->lng->txt("svy_not_finished");
-					}
-					// not started
 					else
 					{
-						$stat = $this->lng->txt("svy_not_started");
+						$lng->loadLanguageModule("survey");
+						$props[] = array("alert" => false, "property" => "",
+							"value" => $lng->txt("survey_360_list_title"), 'propertyNameVisible' => false);
 					}
-					$props[] = array("alert" => false, "property" => $lng->txt("participation"),
-						"value" => $stat, 'propertyNameVisible' => false);
 				}
 			}
 			// END Usability Distinguish between status and participation

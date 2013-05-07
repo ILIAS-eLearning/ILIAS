@@ -13122,3 +13122,88 @@ user#:#user_delete_own_account_logout_button#:#Proceed to Authentication
 user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.
 rbac#:#edit_userassignment#:#Edit User Assignment
 blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.
+survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following access codes?
+survey#:#survey_360_title#:#360°
+survey#:#survey_360_mode#:#Activate 360° Mode
+survey#:#survey_360_self_evaluation#:#Appraisees Can Rate Themselves
+survey#:#survey_360_self_raters#:#Appraisees Can Manage Their Raters
+survey#:#survey_360_self_appraisee#:#Users Can Add Themselves As Appraisees
+survey#:#survey_360_results#:#Access To Results For Appraisees
+survey#:#survey_360_results_none#:#None
+survey#:#survey_360_results_own#:#To Own Raters
+survey#:#survey_360_results_all#:#To All Appraisees
+survey#:#survey_360_appraisees#:#Appraisees
+survey#:#survey_360_edit_raters#:#Manage Raters
+survey#:#survey_360_sure_delete_appraises#:#Are you sure you want to remove the following appraisees?
+survey#:#survey_360_sure_delete_raters#:#Are you sure you want to remove the following raters for %s?
+survey#:#survey_360_add_external_rater#:#Add External Rater
+survey#:#survey_360_no_appraisees#:#There are currently no appraisees for you to rate.
+survey#:#survey_360_add_self_appraisee#:#Add yourself as appraisee to this survey
+survey#:#survey_360_list_title#:#360° Mode
+survey#:#survey_360_select_appraisee#:#Select
+survey#:#survey_360_appraisee#:#Appraisee
+skmg#:#skmg_skill_profiles#:#Profiles
+skmg#:#skmg_add_profile#:#Add Profile
+skmg#:#skmg_edit_profile#:#Edit Profile
+skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
+skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Levels
+skmg#:#skmg_assign_level#:#Assign Level
+skmg#:#skmg_profile#:#Profile
+skmg#:#skmg_remove_levels#:#Remove Levels
+skmg#:#skmg_select_skill_level_assign#:#Please select a skill.
+skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
+skmg#:#skmg_assigned_users#:#Assigned Users
+skmg#:#skmg_assign_user#:#Assign User
+skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
+skmg#:#skmg_resources#:#Resources
+skmg#:#skmg_add_resource#:#Add Resource
+skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the followin resources from the competence level?
+survey#:#survey_activate_skill_service#:#Activate Competence Service
+survey#:#survey_skill_assign#:#Question/Competence Assignment
+survey#:#survey_skill#:#Competence
+survey#:#survey_assign_competence#:#Assign Competence
+survey#:#survey_remove_competence#:#Remove Competence
+survey#:#survey_skill_thresholds#:#Competence Thresholds
+survey#:#survey_skill_level#:#Competence Level
+survey#:#survey_up_to_x_points#:#Up to x points
+survey#:#survey_skill_nr_q#:#Number of Questions
+survey#:#survey_skill_max_scale_points#:#Max. Scale Points
+survey#:#survey_reached_level#:#Reached Level
+survey#:#survey_sum_of_means#:#Sum of Arithm. Means per Question
+survey#:#survey_calc_skills#:#Determine Competence Levels
+survey#:#survey_write_skills#:#Write Competences
+skmg#:#skmg_target_level#:#Profile Target Level
+skmg#:#skmg_360_survey#:#360° Survey
+skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.
+skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.
+skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.
+survey#:#survey_360_rater_mail_sent#:#Mail sent
+survey#:#survey_360_rater_code_mail_on_demand#:#generated on demand
+survey#:#survey_360_rater_message_content_registered#:#Message Content (Registered)
+survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)
+survey#:#survey_360_rater_message_content_registered_default#:#You can start the survey in your web browser using the URL [url].
+survey#:#survey_360_rater_message_content_anonymous_default#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url].
+survey#:#survey_360_rater_subject_default#:#You have been invited as rater to a 360° survey.
+survey#:#survey_360_raters_finished#:#Raters Finished
+survey#:#survey_360_rater_finished#:#Survey Finished
+survey#:#survey_competences#:#Competences
+survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not supported for this question type.
+survey#:#svy_back#:#Back
+survey#:#survey_360_appraisee_is_closed#:#The appraisee has closed his survey.
+survey#:#survey_360_no_closed_appraisees#:#No appraisee has closed his survey yet.
+survey#:#survey_360_rate_other_appraisees#:#Rate appraisees
+survey#:#survey_360_appraisee_info#:#Appraisee Info
+survey#:#survey_360_raters_status_info#:#Raters finished
+survey#:#survey_360_appraisee_close_action#:#Close Survey For Raters
+survey#:#survey_360_appraisee_close_action_info#:#This will give access to your statistics.
+survey#:#survey_360_appraisee_close_action_info_skill#:#This will give access to your statistics and update your competence levels.
+survey#:#survey_360_appraisee_close_action_success#:#You have closed your 360° survey for your raters.
+survey#:#survey_360_appraisee_close_action_status#:#Survey was closed on %s.
+survey#:#survey_360_sure_appraisee_close#:#Are you sure you want to close the survey for all of your raters?
+survey#:#survey_360_appraisee_close_table#:#Closed on
+survey#:#svy_eval_competences#:#Competence Results
+survey#:#svy_gap_analysis#:#Gap Analysis
+survey#:#svy_all_survey_competences#:#All Survey Competences
+survey#:#survey_360_raters#:#Raters
+survey#:#svy_results#:#Results
+survey#:#svy_analysis#:#Analysis

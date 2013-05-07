@@ -32,10 +32,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 
 class ilSurveyCodesTableGUI extends ilTable2GUI
-{
-	protected $counter;
-	protected $confirmdelete;
-	
+{	
 	/**
 	 * Constructor
 	 *
@@ -43,7 +40,7 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $confirmdelete = false)
+	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -51,53 +48,34 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
-		$this->counter = 1;
-		$this->confirmdelete = $confirmdelete;
 		
 		$this->setFormName('codesform');
-		$this->setStyle('table', 'fullwidth');
-
-		if (!$confirmdelete)
-		{
-			$this->addColumn('','f','1%');
-		}
+		
+		$this->addColumn('','','1%');
 		$this->addColumn($this->lng->txt("survey_code"),'code', '');
+		$this->addColumn($this->lng->txt("email"),'email', '');
+		$this->addColumn($this->lng->txt("lastname"),'last_name', '');
+		$this->addColumn($this->lng->txt("firstname"),'first_name', '');
 		$this->addColumn($this->lng->txt("create_date"),'date', '');
 		$this->addColumn($this->lng->txt("survey_code_used"),'used', '');
-		$this->addColumn($this->lng->txt("survey_code_url"),'url', '');
+		$this->addColumn($this->lng->txt("mail_sent_short"),'sent', '');
+		$this->addColumn($this->lng->txt("survey_code_url"));
 	
 		$this->setRowTemplate("tpl.il_svy_svy_codes_row.html", "Modules/Survey");
 
-		if ($confirmdelete)
-		{
-			$this->addCommandButton('deleteExportFile', $this->lng->txt('confirm'));
-			$this->addCommandButton('cancelDeleteExportFile', $this->lng->txt('cancel'));
-		}
-		else
-		{
-			$this->addMultiCommand('exportCodes', $this->lng->txt('export'));
-			$this->addMultiCommand('deleteCodes', $this->lng->txt('delete'));
-			$this->addCommandButton('exportAllCodes', $this->lng->txt('export_all_survey_codes'));
-		}
-
+		$this->addMultiCommand('editCodes', $this->lng->txt('edit'));
+		$this->addMultiCommand('exportCodes', $this->lng->txt('export'));
+		$this->addMultiCommand('deleteCodesConfirm', $this->lng->txt('delete'));
+		
+		$this->addCommandButton('exportAllCodes', $this->lng->txt('export_all_survey_codes'));
+	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
 		$this->setDefaultOrderField("code");
 		$this->setDefaultOrderDirection("asc");
-		
-		if ($confirmdelete)
-		{
-			$this->disable('sort');
-			$this->disable('select_all');
-		}
-		else
-		{
-			$this->setPrefix('chb_code');
-			$this->setSelectAllCheckbox('chb_code');
-			$this->enable('sort');
-			$this->enable('select_all');
-		}
-		$this->enable('header');
+
+		$this->setPrefix('chb_code');
+		$this->setSelectAllCheckbox('chb_code');		
 	}
 
 	/**
@@ -110,30 +88,26 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 	public function fillRow($data)
 	{
 		global $lng;
-		
-		if (!$this->confirmdelete)
-		{
-			$this->tpl->setCurrentBlock('checkbox');
-			$this->tpl->setVariable('CB_CODE', $data['code']);
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock('hidden');
-			$this->tpl->setVariable('HIDDEN_CODE', $data["code"]);
-			$this->tpl->parseCurrentBlock();
-		}
+				
+		$this->tpl->setVariable('CB_CODE', $data['id']);
+	
+		// :TODO: see permalink gui
 		if (strlen($data['href']))
 		{
 			$this->tpl->setCurrentBlock('url');
-			$this->tpl->setVariable("URL", $data['url']);
+			$this->tpl->setVariable("URL", $lng->txt("survey_code_url_name"));
 			$this->tpl->setVariable("HREF", $data['href']);
 			$this->tpl->parseCurrentBlock();
 		}
+		
 		$this->tpl->setVariable("USED", ($data['used']) ? $lng->txt("used") : $lng->txt("not_used"));
+		$this->tpl->setVariable("SENT", ($data['sent']) ?  '&#10003;' : '');
 		$this->tpl->setVariable("USED_CLASS", ($data['used']) ? ' smallgreen' : ' smallred');
-		$this->tpl->setVariable("DATE", $data['date']);
+		$this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($data['date'], IL_CAL_UNIX)));
 		$this->tpl->setVariable("CODE", $data['code']);
+		$this->tpl->setVariable("EMAIL", $data['email']);
+		$this->tpl->setVariable("LAST_NAME", $data['last_name']);
+		$this->tpl->setVariable("FIRST_NAME", $data['first_name']);
 	}
 }
 ?>

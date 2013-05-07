@@ -2222,13 +2222,23 @@ class SurveyQuestion
 		return null;
 	}
 	
-	protected function &calculateCumulatedResults($survey_id)
+	protected function &calculateCumulatedResults($survey_id, $finished_ids)
 	{
 		if (count($this->cumulated) == 0)
-		{
-			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
-			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
-			$this->cumulated =& $this->getCumulatedResults($survey_id, $nr_of_users);
+		{			
+			if(!$finished_ids)
+			{
+				include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
+				$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
+			}
+			else
+			{
+				$nr_of_users = sizeof($finished_ids);
+			}
+			if($nr_of_users)
+			{
+				$this->cumulated =& $this->getCumulatedResults($survey_id, $nr_of_users, $finished_ids);
+			}
 		}
 		return $this->cumulated;
 	}
@@ -2238,9 +2248,9 @@ class SurveyQuestion
 	*
 	* @return array Data
 	*/
-	public function getCumulatedResultData($survey_id, $counter)
-	{
-		$cumulated =& $this->calculateCumulatedResults($survey_id);
+	public function getCumulatedResultData($survey_id, $counter, $finished_ids)
+	{		
+		$cumulated =& $this->calculateCumulatedResults($survey_id, $finished_ids);
 		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->getQuestiontext());
 		
 		$maxlen = 75;

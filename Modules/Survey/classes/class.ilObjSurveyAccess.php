@@ -134,7 +134,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "svy_run", "default" => true),
 			array("permission" => "write", "cmd" => "questionsrepo", "lang_var" => "edit_questions"),
 			array("permission" => "write", "cmd" => "properties", "lang_var" => "settings"),
-			array("permission" => "read", "cmd" => "evaluation", "lang_var" => "svy_evaluation")
+			array("permission" => "read", "cmd" => "evaluation", "lang_var" => "svy_results")
 		);
 		
 		return $commands;
@@ -236,28 +236,50 @@ class ilObjSurveyAccess extends ilObjectAccess
 					return false;
 				}
 				break;
-			case 2:
-				// evaluation access for participants
-				// check if the user with the given id is a survey participant
-
-				// show the evaluation button for anonymized surveys for all users
-				// access is only granted with the survey access code
-				if (ilObjSurveyAccess::_lookupAnonymize($a_obj_id) == 1) return true;
-				
-				global $ilDB;
-				$result = $ilDB->queryF("SELECT survey_id FROM svy_svy WHERE obj_fi = %s",
-					array('integer'),
-					array($a_obj_id)
-				);
-				if ($result->numRows() == 1)
+			case 2:				
+				if(!self::_lookup360Mode($a_obj_id))
 				{
-					$row = $ilDB->fetchAssoc($result);
-					if (ilObjSurveyAccess::_isSurveyParticipant($user_id, $row["survey_id"]))
+					// evaluation access for participants
+					// check if the user with the given id is a survey participant
+
+					// show the evaluation button for anonymized surveys for all users
+					// access is only granted with the survey access code
+					if (ilObjSurveyAccess::_lookupAnonymize($a_obj_id) == 1) return true;
+
+					global $ilDB;
+					$result = $ilDB->queryF("SELECT survey_id FROM svy_svy WHERE obj_fi = %s",
+						array('integer'),
+						array($a_obj_id)
+					);
+					if ($result->numRows() == 1)
 					{
-						return true;
+						$row = $ilDB->fetchAssoc($result);
+					
+						if (ilObjSurveyAccess::_isSurveyParticipant($user_id, $row["survey_id"]))
+						{
+							return true;
+						}
 					}
+					return false;
 				}
-				return false;
+				// 360°
+				else
+				{									
+					include_once "Modules/Survey/classes/class.ilObjSurvey.php";
+					$svy = new ilObjSurvey($a_obj_id, false);
+					$svy->read();					
+					switch($svy->get360Results())
+					{
+						case ilObjSurvey::RESULTS_360_NONE:
+							return false;
+							
+						case ilObjSurvey::RESULTS_360_OWN:
+							return $svy->isAppraiseeClosed($user_id);
+							
+						case ilObjSurvey::RESULTS_360_ALL:
+							return $svy->isAppraisee($user_id);					
+					}
+				}				
 				break;
 		}
 	}
@@ -323,6 +345,18 @@ class ilObjSurveyAccess extends ilObjectAccess
 		}
 
 		return $finished;
+	}
+	
+	function _lookup360Mode($a_obj_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT mode_360 FROM svy_svy".
+			" WHERE obj_fi = %s AND mode_360 = %s",
+			array('integer','integer'),
+			array($a_obj_id, 1)
+		);
+		return (bool)$ilDB->numRows($result);
 	}
 	
 	/**

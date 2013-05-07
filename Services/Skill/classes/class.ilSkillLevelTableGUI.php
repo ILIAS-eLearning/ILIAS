@@ -37,7 +37,8 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("title"));
 		$this->addColumn($this->lng->txt("description"));
 //		$this->addColumn($this->lng->txt("skmg_trigger"));
-//		$this->addColumn($this->lng->txt("skmg_certificate"));
+//		$this->addColumn($this->lng->txt("skmg_certificate"))
+		$this->addColumn($this->lng->txt("resources"));
 		$this->addColumn($this->lng->txt("actions"));
 		$this->setDefaultOrderField("nr");
 		$this->setDefaultOrderDirection("asc");
@@ -52,6 +53,8 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		{
 			$this->addCommandButton("updateLevelOrder", $lng->txt("skmg_update_order"));
 		}
+		
+		include_once "classes/class.ilLink.php";
 	}
 
 	/**
@@ -77,6 +80,21 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 	function getSkillLevelData()
 	{
 		$levels = $this->skill->getLevelData();
+	
+		// add ressource data
+		$res = array();
+		include_once("./Services/Skill/classes/class.ilSkillResources.php");
+		$resources = new ilSkillResources($this->skill_id);
+		foreach($resources->getResources() as $level_id => $item)
+		{			
+			$res[$level_id] = array_keys($item);
+		}
+		
+		foreach($levels as $idx => $item)
+		{
+			$levels[$idx]["ressources"] = $res[$item["id"]];
+		}
+		
 		return $levels;
 	}
 
@@ -117,6 +135,19 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_TRIGGER",
 				ilObject::_lookupTitle($trigger["obj_id"]));
 		}*/
+		
+		if(is_array($a_set["ressources"]))
+		{
+			$this->tpl->setCurrentBlock("ressource_bl");
+			foreach($a_set["ressources"] as $rref_id)
+			{
+				$robj_id = ilObject::_lookupObjId($rref_id);
+				$this->tpl->setVariable("RSRC_IMG", ilUtil::img(ilObject::_getIcon($robj_id, "tiny")));
+				$this->tpl->setVariable("RSRC_TITLE", ilObject::_lookupTitle($robj_id));
+				$this->tpl->setVariable("RSRC_URL", ilLink::_getStaticLink($rref_id));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 	}
 
 }

@@ -1,25 +1,7 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
@@ -40,6 +22,7 @@ class ilSurveyEvaluationGUI
 	var $lng;
 	var $tpl;
 	var $ctrl;
+	var $appr_id = null;
 	
 /**
 * ilSurveyEvaluationGUI constructor
@@ -53,10 +36,14 @@ class ilSurveyEvaluationGUI
   {
 		global $lng, $tpl, $ilCtrl;
 
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->object =& $a_object;
+		if ($this->object->get360SkillService())
+		{
+			$this->determineAppraiseeId();
+		}
 	}
 	
 	/**
@@ -64,13 +51,24 @@ class ilSurveyEvaluationGUI
 	*/
 	function &executeCommand()
 	{
-		$cmd = $this->ctrl->getCmd();
+		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
+		$skmg_set = new ilSkillManagementSettings();
+		if ($this->object->get360SkillService() && $skmg_set->isActivated())
+		{
+			$cmd = $this->ctrl->getCmd("competenceEval");
+		}
+		else
+		{
+			$cmd = $this->ctrl->getCmd("evaluation");
+		}
+		
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->getCommand($cmd);
 		switch($next_class)
 		{
 			default:
+				$this->setEvalSubTabs();
 				$ret =& $this->$cmd();
 				break;
 		}
@@ -83,6 +81,122 @@ class ilSurveyEvaluationGUI
 	}
 
 	/**
+	* Set the tabs for the evaluation output
+	*
+	* @access private
+	*/
+	function setEvalSubtabs()
+	{
+		global $ilTabs;
+		global $ilAccess;
+
+		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
+		$skmg_set = new ilSkillManagementSettings();
+		if ($this->object->get360SkillService() && $skmg_set->isActivated())
+		{
+			$ilTabs->addSubTabTarget(
+				"svy_eval_competences", 
+				$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "competenceEval"), 
+				array("competenceEval"),	
+				""
+			);
+		}
+
+		$ilTabs->addSubTabTarget(
+			"svy_eval_cumulated", 
+			$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"), 
+			array("evaluation", "checkEvaluationAccess"),	
+			""
+		);
+
+		$ilTabs->addSubTabTarget(
+			"svy_eval_detail", 
+			$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluationdetails"), 
+			array("evaluationdetails"),	
+			""
+		);
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$ilTabs->addSubTabTarget(
+				"svy_eval_user", 
+				$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluationuser"), 
+				array("evaluationuser"),	
+				""
+			);
+		}
+	}
+
+	
+	/**
+	 * Set appraisee id
+	 *
+	 * @param int $a_val appraisee id	
+	 */
+	function setAppraiseeId($a_val)
+	{
+		$this->appr_id = $a_val;
+	}
+	
+	/**
+	 * Get appraisee id
+	 *
+	 * @return int appraisee id
+	 */
+	function getAppraiseeId()
+	{
+		return $this->appr_id;
+	}
+	
+	/**
+	 * Determine appraisee id
+	 */
+	function determineAppraiseeId()
+	{
+		global $ilUser, $rbacsystem;
+		
+		$appr_id = "";
+		
+		// always start with current user
+		if ($_REQUEST["appr_id"] == "")
+		{
+			$req_appr_id = $ilUser->getId();
+		}
+		else
+		{
+			$req_appr_id = (int) $_REQUEST["appr_id"];
+		}
+		
+		// write access? allow selection
+		if ($req_appr_id > 0)
+		{
+			foreach($this->object->getAppraiseesData() as $item)
+			{
+				if($item["closed"] && ($item["user_id"] == $req_appr_id))
+				{
+					if ($req_appr_id == $ilUser->getId() ||
+						$rbacsystem->checkAccess("write", $this->object->getRefId()))
+					{
+						$appr_id = $req_appr_id;
+					}
+				}
+			}
+		}
+		
+		if ($appr_id != $ilUser->getId())
+		{
+			$this->ctrl->setParameter($this, "appr_id", $appr_id);
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "appr_id", "");
+		}
+		
+		$this->setAppraiseeId($appr_id);
+	}
+	
+	
+	/**
 	* Show the detailed evaluation
 	*
 	* Show the detailed evaluation
@@ -91,37 +205,57 @@ class ilSurveyEvaluationGUI
 	*/
 	function checkAnonymizedEvaluationAccess()
 	{
-		global $rbacsystem;
 		global $ilUser;
 		
-		if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		if($this->object->getAnonymize() == 1 && 
+			$_SESSION["anon_evaluation_access"] == $_GET["ref_id"])
 		{
-			// people with write access always have access to the evaluation
-			$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
-			return $this->evaluation();
+			return true;
 		}
-		if ($this->object->getEvaluationAccess() == EVALUATION_ACCESS_ALL)
+		
+		include_once "Modules/Survey/classes/class.ilObjSurveyAccess.php";
+		if(ilObjSurveyAccess::_hasEvaluationAccess(ilObject::_lookupObjId($_GET["ref_id"]), $ilUser->getId()))
 		{
-			// if the evaluation access is open for all users, grant it
-			$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
-			return $this->evaluation();
+			if($this->object->getAnonymize() == 1)
+			{
+				$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
+			}
+			return true;
 		}
-		$surveycode = $this->object->getUserAccessCode($ilUser->getId());
-		if ($this->object->isAnonymizedParticipant($surveycode))
+		
+		if($this->object->getAnonymize() == 1)
 		{
-			$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
-			return $this->evaluation();
+			// autocode
+			$surveycode = $this->object->getUserAccessCode($ilUser->getId());		
+			if ($this->object->isAnonymizedParticipant($surveycode))
+			{
+				$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
+				return true;
+			}
+			
+			/* try to find code for current (registered) user from existing run		
+			if($this->object->findCodeForUser($ilUser->getId()))
+			{
+				$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
+				return true;
+			}		
+			*/
+			
+			// code needed
+			$this->tpl->setVariable("TABS", "");
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", "Modules/Survey");
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("AUTHENTICATION_NEEDED", $this->lng->txt("svy_check_evaluation_authentication_needed"));
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "checkEvaluationAccess"));
+			$this->tpl->setVariable("EVALUATION_CHECKACCESS_INTRODUCTION", $this->lng->txt("svy_check_evaluation_access_introduction"));
+			$this->tpl->setVariable("VALUE_CHECK", $this->lng->txt("ok"));
+			$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TEXT_SURVEY_CODE", $this->lng->txt("survey_code"));
+			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("TABS", "");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", "Modules/Survey");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("AUTHENTICATION_NEEDED", $this->lng->txt("svy_check_evaluation_authentication_needed"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "checkAnonymizedEvaluationAccess"));
-		$this->tpl->setVariable("EVALUATION_CHECKACCESS_INTRODUCTION", $this->lng->txt("svy_check_evaluation_access_introduction"));
-		$this->tpl->setVariable("VALUE_CHECK", $this->lng->txt("ok"));
-		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TEXT_SURVEY_CODE", $this->lng->txt("survey_code"));
-		$this->tpl->parseCurrentBlock();
+		
+		$_SESSION["anon_evaluation_access"] = null;
+		return false;
 	}
 
 	/**
@@ -178,7 +312,7 @@ class ilSurveyEvaluationGUI
 	}
 	
 	function exportCumulatedResults($details = 0)
-	{
+	{		
 		$format_bold = "";
 		$format_percent = "";
 		$format_datetime = "";
@@ -274,14 +408,29 @@ class ilSurveyEvaluationGUI
 				array_push($csvfile, $csvrow);
 				break;
 		}
+		
+		$finished_ids = null;
+		if($this->object->get360Mode())
+		{
+			$appr_id = $_REQUEST["appr_id"];
+			if(!$appr_id)
+			{
+				$this->ctrl->redirect($this, $details ? "evaluationdetails" : "evaluation");
+			}			
+			$finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);	
+			if(!sizeof($finished_ids))
+			{
+				$finished_ids = array(-1);
+			}
+		}
+				
 		$questions =& $this->object->getSurveyQuestions();
 		$counter++;
 		foreach ($questions as $data)
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
-
-			$eval = $this->object->getCumulatedResults($question);
+			$question = SurveyQuestion::_instanciateQuestion($data["question_id"]);		
+			$eval = $this->object->getCumulatedResults($question, $finished_ids);
 			switch ($_POST["export_format"])
 			{
 				case TYPE_XLS:
@@ -363,114 +512,128 @@ class ilSurveyEvaluationGUI
 	
 	function evaluation($details = 0)
 	{
-		global $ilUser;
 		global $rbacsystem;
-		global $ilias;
 		global $ilToolbar;
+		global $ilUser;
 
-		if (!$rbacsystem->checkAccess("read",$_GET["ref_id"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("permission_denied"));
-			return;
-		}		
+		// auth
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{			
+			if (!$rbacsystem->checkAccess("read",$_GET["ref_id"]))
+			{
+				ilUtil::sendFailure($this->lng->txt("permission_denied"));
+				return;
+			}		
+				
+			switch ($this->object->getEvaluationAccess())
+			{
+				case EVALUATION_ACCESS_OFF:
+					ilUtil::sendFailure($this->lng->txt("permission_denied"));
+					return;
+
+				case EVALUATION_ACCESS_ALL:				
+				case EVALUATION_ACCESS_PARTICIPANTS:
+					if(!$this->checkAnonymizedEvaluationAccess())
+					{
+						ilUtil::sendFailure($this->lng->txt("permission_denied"));
+						return;
+					}
+					break;
+			}
+		}
 		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$format = new ilSelectInputGUI("", "export_format");
-		$format->setOptions(array(
-			"excel" => $this->lng->txt('exp_type_excel'),
-			"csv" => $this->lng->txt('exp_type_csv')
-			));
-		$ilToolbar->addInputItem($format);
-		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$label = new ilSelectInputGUI("", "export_label");
-		$label->setOptions(array(
-			'label_only' => $this->lng->txt('export_label_only'), 
-			'title_only' => $this->lng->txt('export_title_only'), 
-			'title_label'=> $this->lng->txt('export_title_label')
-			));
-		$ilToolbar->addInputItem($label);
-		
-		if ($details)
-		{
-			$ilToolbar->addFormButton($this->lng->txt("export"), 'exportDetailData');			
-		}
-		else
-		{
-			$ilToolbar->addFormButton($this->lng->txt("export"), 'exportData');
-		}
-		
-		switch ($this->object->getEvaluationAccess())
-		{
-			case EVALUATION_ACCESS_OFF:
-				if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
-				{
-					ilUtil::sendFailure($this->lng->txt("permission_denied"));
-					return;
-				}
-				break;
-			case EVALUATION_ACCESS_ALL:
-				include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
-				if (!($rbacsystem->checkAccess("write",$_GET["ref_id"]) || ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId())))
-				{
-					ilUtil::sendFailure($this->lng->txt("permission_denied"));
-					return;
-				}
-				break;
-			case EVALUATION_ACCESS_PARTICIPANTS:
-				if (($this->object->getAnonymize() == 1) && ($_SESSION["anon_evaluation_access"] != $_GET["ref_id"]))
-				{
-					$this->checkAnonymizedEvaluationAccess();
-					return;
-				}
-				break;
-		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
-		$questions =& $this->object->getSurveyQuestions();
-		$data = array();
-		$counter = 1;
-		$last_questionblock_id = null;
-		foreach ($questions as $qdata)
-		{			
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$question_gui = SurveyQuestion::_instanciateQuestionGUI($qdata["question_id"]);
-			$question = $question_gui->object;
-			$c = $question->getCumulatedResultData($this->object->getSurveyId(), $counter);
-			if (is_array($c[0]))
+		
+		$data = null;
+
+		if($this->object->get360Mode())
+		{				
+			$appr_id = $this->getAppraiseeId();
+			$this->addApprSelectionToToolbar();
+		}
+
+		if(!$this->object->get360Mode() || $appr_id)
+		{
+			$format = new ilSelectInputGUI("", "export_format");
+			$format->setOptions(array(
+				"excel" => $this->lng->txt('exp_type_excel'),
+				"csv" => $this->lng->txt('exp_type_csv')
+				));
+			$ilToolbar->addInputItem($format);
+
+			$label = new ilSelectInputGUI("", "export_label");
+			$label->setOptions(array(
+				'label_only' => $this->lng->txt('export_label_only'), 
+				'title_only' => $this->lng->txt('export_title_only'), 
+				'title_label'=> $this->lng->txt('export_title_label')
+				));
+			$ilToolbar->addInputItem($label);
+
+			if ($details)
 			{
-				foreach ($c as $a)
-				{
-					array_push($data, $a);
-				}
+				$ilToolbar->addFormButton($this->lng->txt("export"), 'exportDetailData');			
 			}
 			else
 			{
-				array_push($data, $c);
+				$ilToolbar->addFormButton($this->lng->txt("export"), 'exportData');
 			}
-			$counter++;
-			if ($details)
-			{								
-				// questionblock title handling
-				if($qdata["questionblock_id"] && $qdata["questionblock_id"] != $last_questionblock_id)
+			
+			$finished_ids = null;
+			if($appr_id)
+			{
+				$finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);	
+				if(!sizeof($finished_ids))
 				{
-					$qblock = $this->object->getQuestionblock($qdata["questionblock_id"]);
-					if($qblock["show_blocktitle"])
-					{
-						$this->tpl->setCurrentBlock("detail_qblock");
-						$this->tpl->setVariable("BLOCKTITLE", $qdata["questionblock_title"]);		
-						$this->tpl->parseCurrentBlock();						
-					}
-					
-					$last_questionblock_id = $qdata["questionblock_id"];
+					$finished_ids = array(-1);
 				}
-				
-				$detail = $question_gui->getCumulatedResultsDetails($this->object->getSurveyId(), $counter-1);
-				$this->tpl->setCurrentBlock("detail");
-				$this->tpl->setVariable("DETAIL", $detail);				
-				$this->tpl->parseCurrentBlock();
+			}
+			
+			$questions =& $this->object->getSurveyQuestions();
+			$data = array();
+			$counter = 1;
+			$last_questionblock_id = null;
+			foreach ($questions as $qdata)
+			{			
+				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+				$question_gui = SurveyQuestion::_instanciateQuestionGUI($qdata["question_id"]);
+				$question = $question_gui->object;
+				$c = $question->getCumulatedResultData($this->object->getSurveyId(), $counter, $finished_ids);
+				if (is_array($c[0]))
+				{
+					foreach ($c as $a)
+					{
+						array_push($data, $a);
+					}
+				}
+				else
+				{
+					array_push($data, $c);
+				}
+				$counter++;
+				if ($details)
+				{								
+					// questionblock title handling
+					if($qdata["questionblock_id"] && $qdata["questionblock_id"] != $last_questionblock_id)
+					{
+						$qblock = $this->object->getQuestionblock($qdata["questionblock_id"]);
+						if($qblock["show_blocktitle"])
+						{
+							$this->tpl->setCurrentBlock("detail_qblock");
+							$this->tpl->setVariable("BLOCKTITLE", $qdata["questionblock_title"]);		
+							$this->tpl->parseCurrentBlock();						
+						}
+
+						$last_questionblock_id = $qdata["questionblock_id"];
+					}
+
+					$detail = $question_gui->getCumulatedResultsDetails($this->object->getSurveyId(), $counter-1, $finished_ids);
+					$this->tpl->setCurrentBlock("detail");
+					$this->tpl->setVariable("DETAIL", $detail);				
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 		}
 		
@@ -479,8 +642,65 @@ class ilSurveyEvaluationGUI
 		$table_gui->setData($data);
 		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());	
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
-		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));
+		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));		
 	}
+	
+	/**
+	 * Add appraisee selection to toolbar
+	 *
+	 * @param
+	 * @return
+	 */
+	function addApprSelectionToToolbar()
+	{
+		global $ilToolbar, $rbacsystem;
+		
+		if($this->object->get360Mode())
+		{
+			$appr_id = $this->getAppraiseeId();
+
+			$options = array();
+			if(!$appr_id)
+			{
+				$options[""] = $this->lng->txt("please_select");
+			}
+			$no_appr = true;
+			foreach($this->object->getAppraiseesData() as $item)
+			{
+				if($item["closed"])
+				{
+					$options[$item["user_id"]] = $item["login"];
+					$no_appr = false;
+				}
+			}
+
+			if(!$no_appr)
+			{
+				if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
+				{			
+					include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+					$appr = new ilSelectInputGUI($this->lng->txt("survey_360_appraisee"), "appr_id");
+					$appr->setOptions($options);
+					$appr->setValue($this->getAppraiseeId());
+					$ilToolbar->addInputItem($appr, true);
+	
+					$ilToolbar->addFormButton($this->lng->txt("survey_360_select_appraisee"), 
+						$this->ctrl->getCmd());							
+	
+					if($appr_id)
+					{
+						$ilToolbar->addSeparator();												
+					}
+				}
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("survey_360_no_closed_appraisees"));				
+			}
+		}
+
+	}
+	
 	
 	/**
 	* Export the user specific results for the survey
@@ -489,7 +709,7 @@ class ilSurveyEvaluationGUI
 	*
 	* @access private
 	*/
-	function exportUserSpecificResults($export_format, $export_label = "")
+	function exportUserSpecificResults($export_format, $export_label, $finished_ids)
 	{
 		global $ilLog;
 		$surveyname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->object->getTitle()));
@@ -541,10 +761,22 @@ class ilSurveyEvaluationGUI
 		if(sizeof($csvrow2) && implode("", $csvrow2))
 		{
 			array_push($csvfile, $csvrow2);
+		}				
+		if(!$finished_ids)
+		{
+			$participants =& $this->object->getSurveyFinishedIds();
 		}
-		$participants =& $this->object->getSurveyFinishedIds();
+		else
+		{
+			$participants = $finished_ids;
+		}
 		foreach ($participants as $user_id)
 		{
+			if($user_id < 1)
+			{
+				continue;
+			}
+			
 			$resultset =& $this->object->getEvaluationByUser($questions, $user_id);
 			$csvrow = array();
 			array_push($csvrow, $resultset["name"]);
@@ -680,6 +912,26 @@ class ilSurveyEvaluationGUI
 		}
 	}
 	
+	function exportEvaluationUser()
+	{
+		$finished_ids = null;
+		if($this->object->get360Mode())
+		{
+			$appr_id = $_REQUEST["appr_id"];
+			if(!$appr_id)
+			{
+				$this->ctrl->redirect($this, "evaluationuser");
+			}			
+			$finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);	
+			if(!sizeof($finished_ids))
+			{
+				$finished_ids = array(-1);
+			}
+		}
+		
+		return $this->exportUserSpecificResults($_POST["export_format"], $_POST["export_label"], $finished_ids);						
+	}
+	
 	/**
 	* Print the survey evaluation for a selected user
 	*
@@ -696,37 +948,97 @@ class ilSurveyEvaluationGUI
 			ilUtil::sendFailure($this->lng->txt("no_permission"), TRUE);
 			$this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
 		}
-		if (!is_array($_POST))
-		{
-			$_POST = array();
-		}
-		if (array_key_exists("export_format", $_POST))
-		{
-			return $this->exportUserSpecificResults($_POST["export_format"], $_POST["export_label"]);
-		}
 		
-		$userResults =& $this->object->getUserSpecificResults();	
-		$questions =& $this->object->getSurveyQuestions(true);
-		$participants =& $this->object->getSurveyParticipants();
-		$tabledata = array();
-		foreach ($participants as $data)
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
+		
+		if($this->object->get360Mode())
+		{				
+			$appr_id = $this->getAppraiseeId();
+			$this->addApprSelectionToToolbar();
+		}
+
+		$tabledata = null;
+		if(!$this->object->get360Mode() || $appr_id)
 		{
-			$questioncounter = 1;
-			$question = "";
-			$results = "";
-			$first = true;
-			foreach ($questions as $question_id => $question_data)
+			$format = new ilSelectInputGUI("", "export_format");
+			$format->setOptions(array(
+				"excel" => $this->lng->txt('exp_type_excel'),
+				"csv" => $this->lng->txt('exp_type_csv')
+				));
+			$ilToolbar->addInputItem($format);
+
+			$label = new ilSelectInputGUI("", "export_label");
+			$label->setOptions(array(
+				'label_only' => $this->lng->txt('export_label_only'), 
+				'title_only' => $this->lng->txt('export_title_only'), 
+				'title_label'=> $this->lng->txt('export_title_label')
+				));
+			$ilToolbar->addInputItem($label);
+
+			$ilToolbar->addFormButton($this->lng->txt("export"), 'exportevaluationuser');		
+
+			$ilToolbar->addSeparator();
+
+			$ilToolbar->addButton($this->lng->txt("print"), "#", "", "", "onclick=\"javascript:window.print()\"");
+
+			$finished_ids = null;
+			if($appr_id)
 			{
-				$found = $userResults[$question_id][$data["active_id"]];
-				$text = "";
-				if (is_array($found))
+				$finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);	
+				if(!sizeof($finished_ids))
 				{
-					$text = implode("<br />", $found);
+					$finished_ids = array(-1);
 				}
-				else
+			}
+
+			$userResults =& $this->object->getUserSpecificResults($finished_ids);	
+			$questions =& $this->object->getSurveyQuestions(true);
+			$participants =& $this->object->getSurveyParticipants($finished_ids);
+			$tabledata = array();
+			foreach ($participants as $data)
+			{
+				$questioncounter = 1;
+				$question = "";
+				$results = "";
+				$first = true;
+				foreach ($questions as $question_id => $question_data)
 				{
-					$text = $found;
+					$found = $userResults[$question_id][$data["active_id"]];
+					$text = "";
+					if (is_array($found))
+					{
+						$text = implode("<br />", $found);
+					}
+					else
+					{
+						$text = $found;
+					}
+					if (strlen($text) == 0) $text = $this->lng->txt("skipped");
+					$wt = $this->object->getWorkingtimeForParticipant($data['active_id']);
+					if ($first)
+					{
+						array_push($tabledata, array(
+								'username' => $data["sortname"],
+								'gender' => $data["gender"],
+								'question' => $questioncounter++ . ". " . $question_data["title"],
+								'results' => $text,
+								'workingtime' => $wt
+							));
+						$first = false;
+					}
+					else
+					{
+						array_push($tabledata, array(
+								'username' => " ",
+								'gender' => " ",
+								'question' => $questioncounter++ . ". " . $question_data["title"],
+								'results' => $text,
+								'workingtime' => null
+							));
+					}
 				}
+
 				if (strlen($text) == 0) $text = $this->lng->txt("skipped");
 				$wt = $this->object->getWorkingtimeForParticipant($data['active_id']);
 				if ($first)
@@ -750,6 +1062,7 @@ class ilSurveyEvaluationGUI
 							'workingtime' => null
 						));
 				}
+
 			}
 		}
 		
@@ -757,37 +1070,167 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setCurrentBlock("generic_css");
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
-		
-		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
-
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$format = new ilSelectInputGUI("", "export_format");
-		$format->setOptions(array(
-			"excel" => $this->lng->txt('exp_type_excel'),
-			"csv" => $this->lng->txt('exp_type_csv')
-			));
-		$ilToolbar->addInputItem($format);
-		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$label = new ilSelectInputGUI("", "export_label");
-		$label->setOptions(array(
-			'label_only' => $this->lng->txt('export_label_only'), 
-			'title_only' => $this->lng->txt('export_title_only'), 
-			'title_label'=> $this->lng->txt('export_title_label')
-			));
-		$ilToolbar->addInputItem($label);
-		
-		$ilToolbar->addFormButton($this->lng->txt("export"), 'evaluationuser');		
-		
-		$ilToolbar->addSeparator();
-		
-		$ilToolbar->addButton($this->lng->txt("print"), "#", "", "", "onclick=\"javascript:window.print()\"");
+		$this->tpl->parseCurrentBlock();				
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsUserTableGUI.php";
 		$table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser', $this->object->getAnonymize());
 		$table_gui->setData($tabledata);
 		$this->tpl->setContent($table_gui->getHTML());			
+	}
+	
+	/**
+	 * Competence Evaluation
+	 *
+	 * @param
+	 * @return
+	 */
+	function competenceEval()
+	{
+		global $ilUser, $lng, $ilCtrl, $ilToolbar, $tpl, $ilTabs;
+		
+		$survey = $this->object;
+		
+		$ilTabs->activateSubtab("svy_eval_competences");
+		$ilTabs->activateTab("svy_results");
+
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "competenceEval"));
+		
+		if($this->object->get360Mode())
+		{				
+			$appr_id = $this->getAppraiseeId();
+			$this->addApprSelectionToToolbar();
+		}
+		
+		if ($appr_id == 0)
+		{
+			return;
+		}
+		
+		// evaluation modes
+		$eval_modes = array();
+		
+		// get all competences of survey
+		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
+		$sskill = new ilSurveySkill($survey);
+		$opts = $sskill->getAllAssignedSkillsAsOptions();
+		$skills = array();
+		foreach ($opts as $id => $o)
+		{
+			$idarr = explode(":", $id);
+			$skills[$id] = array("id" => $id, "title" => $o, "profiles" => array(),
+				"base_skill" => $idarr[0], "tref_id" => $idarr[1]);
+		}
+//var_dump($opts);
+		
+		// get matching user competence profiles
+		// -> add gap analysis to profile
+		include_once("./Services/Skill/classes/class.ilSkillProfile.php");
+		$profiles = ilSkillProfile::getProfilesOfUser($appr_id);
+		foreach ($profiles as $p)
+		{
+			$prof = new ilSkillProfile($p["id"]);
+			$prof_levels = $prof->getSkillLevels();
+			foreach ($prof_levels as $pl)
+			{
+				if (isset($skills[$pl["base_skill_id"].":".$pl["tref_id"]]))
+				{
+					$skills[$pl["base_skill_id"].":".$pl["tref_id"]]["profiles"][] =
+						$p["id"];
+
+					$eval_modes["gap_".$p["id"]] =
+						$lng->txt("svy_gap_analysis").": ".$prof->getTitle();
+				}
+			}
+		}
+//var_dump($skills);
+//var_dump($eval_modes);
+
+		// if one competence does not match any profiles
+		// -> add "competences of survey" alternative
+		reset($skills);
+		foreach ($skills as $sk)
+		{
+			if (count($sk["profiles"]) == 0)
+			{
+				$eval_modes["skills_of_survey"] = $lng->txt("svy_all_survey_competences");
+			}
+		}
+		
+		// final determination of current evaluation mode
+		$comp_eval_mode = $_GET["comp_eval_mode"];
+		if ($_POST["comp_eval_mode"] != "")
+		{
+			$comp_eval_mode = $_POST["comp_eval_mode"];
+		}
+		
+		if (!isset($eval_modes[$comp_eval_mode]))
+		{
+			reset($eval_modes);
+			$comp_eval_mode = key($eval_modes);
+			$ilCtrl->setParameter($this, "comp_eval_mode", $comp_eval_mode);
+		}
+		
+		$ilCtrl->saveParameter($this, "comp_eval_mode");
+		
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$mode_sel = new ilSelectInputGUI($lng->txt("svy_analysis"), "comp_eval_mode");
+		$mode_sel->setOptions($eval_modes);
+		$mode_sel->setValue($comp_eval_mode);
+		$ilToolbar->addInputItem($mode_sel, true);
+		
+		$ilToolbar->addFormButton($lng->txt("select"), "competenceEval");
+		
+		if (substr($comp_eval_mode, 0, 4) == "gap_")
+		{
+			// gap analysis
+			$profile_id = (int) substr($comp_eval_mode, 4);
+			
+			include_once("./Services/Skill/classes/class.ilPersonalSkillsGUI.php");
+			$pskills_gui = new ilPersonalSkillsGUI();
+			$pskills_gui->setProfileId($profile_id);
+			$pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("survey_360_raters"));
+			if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0)
+			{
+				$sskill = new ilSurveySkill($survey);
+				$self_levels = array();
+				foreach ($sskill->determineSkillLevelsForAppraisee($appr_id, true) as $sl)
+				{
+					$self_levels[$sl["base_skill_id"]][$sl["tref_id"]] = $sl["new_level_id"];
+				}
+				$pskills_gui->setGapAnalysisSelfEvalLevels($self_levels);
+			}
+			$html = $pskills_gui->getGapAnalysisHTML($appr_id);
+			
+			$tpl->setContent($html);
+		}
+		else // must be all survey competences
+		{
+			include_once("./Services/Skill/classes/class.ilPersonalSkillsGUI.php");
+			$pskills_gui = new ilPersonalSkillsGUI();
+			$pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("survey_360_raters"));
+			if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0)
+			{
+				$sskill = new ilSurveySkill($survey);
+				$self_levels = array();
+				foreach ($sskill->determineSkillLevelsForAppraisee($appr_id, true) as $sl)
+				{
+					$self_levels[$sl["base_skill_id"]][$sl["tref_id"]] = $sl["new_level_id"];
+				}
+				$pskills_gui->setGapAnalysisSelfEvalLevels($self_levels);
+			}
+			$sk = array();
+			foreach ($skills as $skill)
+			{
+				$sk[] = array(
+					"base_skill_id" => (int) $skill["base_skill"],
+					"tref_id" => (int) $skill["tref_id"]
+					);
+			}
+			$html = $pskills_gui->getGapAnalysisHTML($appr_id, $sk);
+
+			$tpl->setContent($html);
+		}
+		
 	}
 }
 

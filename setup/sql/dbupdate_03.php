@@ -14872,3 +14872,398 @@ while($row = $ilDB->fetchAssoc($set))
 }
 
 ?>
+<#3864>
+<?php
+
+if(!$ilDB->tableColumnExists('svy_svy', 'mode_360'))
+{
+	$ilDB->addTableColumn('svy_svy', 'mode_360', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0));
+}
+
+if(!$ilDB->tableColumnExists('svy_svy', 'mode_360_self_eval'))
+{
+	$ilDB->addTableColumn('svy_svy', 'mode_360_self_eval', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0));
+}
+
+if(!$ilDB->tableColumnExists('svy_svy', 'mode_360_self_rate'))
+{
+	$ilDB->addTableColumn('svy_svy', 'mode_360_self_rate', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0));
+}
+
+if(!$ilDB->tableColumnExists('svy_svy', 'mode_360_self_appr'))
+{
+	$ilDB->addTableColumn('svy_svy', 'mode_360_self_appr', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0));
+}
+
+if(!$ilDB->tableColumnExists('svy_svy', 'mode_360_results'))
+{
+	$ilDB->addTableColumn('svy_svy', 'mode_360_results', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0));
+}
+
+?>
+<#3865>
+<?php
+
+if(!$ilDB->tableExists("svy_360_appr"))
+{
+	$fields = array (
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0)
+	);
+	$ilDB->createTable('svy_360_appr', $fields);
+	$ilDB->addPrimaryKey('svy_360_appr', array('obj_id', 'user_id'));		
+}
+
+?>
+<#3866>
+<?php
+
+if(!$ilDB->tableExists("svy_360_rater"))
+{
+	$fields = array (
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'appr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'anonymous_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0)
+	);
+	$ilDB->createTable('svy_360_rater', $fields);
+	$ilDB->addPrimaryKey('svy_360_rater', array('obj_id', 'appr_id', 'user_id', 'anonymous_id'));		
+}
+
+?>
+<#3867>
+<?php
+
+if(!$ilDB->tableColumnExists('svy_finished', 'appr_id'))
+{
+	$ilDB->addTableColumn('svy_finished', 'appr_id', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => 0));
+}
+
+?>
+<#3868>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3869>
+<?php
+
+if(!$ilDB->tableExists("skl_profile"))
+{
+	$fields = array (
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'title' => array(
+			'type' => 'text',
+			'length' => 200,
+			'notnull' => false),
+		'description' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false)
+	);
+	$ilDB->createTable('skl_profile', $fields);
+	$ilDB->addPrimaryKey('skl_profile', array('id'));		
+}
+
+?>
+<#3870>
+<?php
+
+if(!$ilDB->tableExists("skl_profile_level"))
+{
+	$fields = array (
+		'profile_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'base_skill_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'tref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'level_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true)
+	);
+	$ilDB->createTable('skl_profile_level', $fields);
+	$ilDB->addPrimaryKey('skl_profile_level', array('profile_id', 'tref_id', 'level_id'));		
+}
+
+?>
+<#3871>
+<?php
+$ilDB->createSequence('skl_profile');
+?>
+<#3872>
+<?php
+$ilDB->dropPrimaryKey('skl_profile_level');
+$ilDB->addPrimaryKey('skl_profile_level', array('profile_id', 'tref_id', 'base_skill_id'));
+?>
+<#3873>
+<?php
+
+if(!$ilDB->tableExists("skl_profile_user"))
+{
+	$fields = array (
+		'profile_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true)
+	);
+	$ilDB->createTable('skl_profile_user', $fields);
+	$ilDB->addPrimaryKey('skl_profile_user', array('profile_id', 'user_id'));		
+}
+
+?>
+<#3874>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3875>
+<?php
+	$fields = array (
+		'base_skill_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'tref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'level_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'rep_ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'imparting' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0),
+		'ltrigger' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0)
+	);
+	$ilDB->createTable('skl_skill_resource', $fields);
+	$ilDB->addPrimaryKey('skl_skill_resource', array('base_skill_id', 'tref_id', 'level_id', 'rep_ref_id'));		
+?>
+<#3876>
+<?php
+if(!$ilDB->tableColumnExists('svy_svy', 'skill_service'))
+{
+	$ilDB->addTableColumn('svy_svy', 'mode_360_skill_service', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0));
+}
+?>
+<#3877>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3878>
+<?php
+	$fields = array (
+		'q_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'survey_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'base_skill_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'tref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true)
+	);
+	$ilDB->createTable('svy_quest_skill', $fields);
+	$ilDB->addPrimaryKey('svy_quest_skill', array('q_id'));		
+?>
+<#3879>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3880>
+<?php
+	$fields = array (
+		'survey_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'base_skill_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'tref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'level_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'threshold' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0)
+	);
+	$ilDB->createTable('svy_skill_threshold', $fields);
+	$ilDB->addPrimaryKey('svy_skill_threshold', array('survey_id', 'base_skill_id', 'tref_id', 'level_id'));		
+?>
+<#3881>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3882>
+<?php
+
+if (!$ilDB->tableColumnExists('skl_user_skill_level', 'tref_id'))
+{
+	$ilDB->addTableColumn('skl_user_skill_level', 'tref_id', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0));
+}
+
+if (!$ilDB->tableColumnExists('skl_user_skill_level', 'trigger_obj_type'))
+{
+	$ilDB->addTableColumn('skl_user_skill_level', 'trigger_obj_type', array(
+		'type' => 'text',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 'crs'));
+}
+
+?>
+<#3883>
+<?php
+
+if (!$ilDB->tableColumnExists('skl_user_has_level', 'tref_id'))
+{
+	$ilDB->addTableColumn('skl_user_has_level', 'tref_id', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0));
+}
+
+if (!$ilDB->tableColumnExists('skl_user_has_level', 'trigger_obj_type'))
+{
+	$ilDB->addTableColumn('skl_user_has_level', 'trigger_obj_type', array(
+		'type' => 'text',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 'crs'));
+}
+
+?>
+<#3884>
+<?php
+$ilDB->dropPrimaryKey('skl_user_has_level');
+$ilDB->addPrimaryKey('skl_user_has_level', array('level_id', 'tref_id', 'user_id', 'trigger_obj_id'));
+?>
+<#3885>
+<?php
+
+if (!$ilDB->tableColumnExists('svy_360_rater', 'mail_sent'))
+{
+	$ilDB->addTableColumn('svy_360_rater', 'mail_sent', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => 0));
+}
+?>
+<#3886>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3887>
+<?php
+
+if (!$ilDB->tableColumnExists('svy_360_appr', 'has_closed'))
+{
+	$ilDB->addTableColumn('svy_360_appr', 'has_closed', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => 0));
+}
+
+?>

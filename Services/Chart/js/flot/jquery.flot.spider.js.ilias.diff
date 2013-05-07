@@ -1,0 +1,90 @@
+Index: Services/Chart/js/flot/jquery.flot.spider.js
+===================================================================
+--- Services/Chart/js/flot/jquery.flot.spider.js	(revision 39500)
++++ Services/Chart/js/flot/jquery.flot.spider.js	(working copy)
+@@ -126,7 +126,11 @@
+ 		function setupspider(){
+ 			maxRadius =  Math.min(canvas.width,canvas.height)/2 * data[0].spider.spiderSize;
+ 			centerTop = (canvas.height/2);
+-			centerLeft = centerTop;
++			
++			// alex-patch start
++			centerLeft = (canvas.width/2);
++			// centerLeft = centerTop;
++			// alex-patch end
+ 		}
+ 		function drawspiderPoints(ctx,cnt,serie,opt){
+ 			for(var j = 0; j < serie.data.length; j++) { drawspiderPoint(ctx,cnt,serie,j,opt); }
+@@ -240,24 +244,37 @@
+       	ctx.beginPath();
+       	ctx.lineWidth = options.series.spider.lineWidth;
+        	ctx.strokeStyle = options.series.spider.lineStyle;
+-     		ctx.moveTo(centerTop, centerLeft);
++       	// alex-patch start
++     	// ctx.moveTo(centerTop, centerLeft);
++     	ctx.moveTo(centerLeft, centerTop);
++     	// alex-patch start
+       	pos = calculateXY(cnt,j,100);
+       	ctx.lineTo(pos.x, pos.y);
+         ctx.stroke();
+    		}
+       function drawspiderLeg(ctx,j,startPoint,breakPoint,gridColor){
+-				var pos,metrics,extraX,extraY;
++      	  		// alex-patch: added tp
++				var pos,metrics,extraX,extraY,tp;
+ 				pos = calculateXY(cnt,j,100);
++	// pos is position of end point
+ 				ctx.font = data[0].spider.legs.font;
+ 				ctx.fillStyle = data[0].spider.legs.fillStyle;
+ 				// based on patch created by Thomasz Janik
+ 				metrics = ctx.measureText(data[0].spider.legs.data[j].label);
+-				if(pos.y > startPoint.y){ extraY = 15;}
++	// pos is position of end point
++	
++				// alex-patch start
++				tp = calculateTextPos(cnt, j, metrics.width);
++/*				if(pos.y > startPoint.y){ extraY = 15;}
+ 				else{ extraY = -15;}
+ 				if(pos.y < startPoint.y+10 && pos.y >startPoint.y-10){ extraY = 0;}
+ 				if(pos.x < breakPoint.x){ extraX = (metrics.width*-1)-metrics.width/2;}
+ 				else{ extraX = 0;}
+-				if(pos.x < startPoint.x+10 && pos.x >startPoint.x-10){ extraX = metrics.width/2;}
++				if(pos.x < startPoint.x+10 && pos.x >startPoint.x-10){ extraX = metrics.width/2;}*/
++				extraX = tp.x;
++				extraY = tp.y;
++				// alex-patch end
++				
+ 				ctx.fillText(data[0].spider.legs.data[j].label, pos.x + extraX, pos.y + extraY);
+ 			}
+ 		}
+@@ -266,6 +283,29 @@
+ 			p = Math.max(Math.min(serie.data[j][1],ranges[j].max),ranges[j].min);
+ 			return (p - ranges[j].min) / ranges[j].range * 100; 
+ 		}
++		// alex-patch start
++		function calculateTextPos(cnt, j, tw)
++		{
++			var s,c,lh,x,y,xs;
++			
++			// line height
++			lh = 10;
++			
++			// x-space
++			xs = 20;
++			
++			s = 2 * Math.PI * opt.series.spider.legs.legStartAngle / 360;
++			// right: 1, left -1, top, bottom: 0
++			co = Math.cos(2 * Math.PI / cnt * j + s);
++			// right: 0, bottom: -1, top 1, left: 0
++			si = Math.sin(2 * Math.PI / cnt * j + s);
++			
++			x = (co * xs) + ((co / 2 - 0.5) * tw);
++			y = ((si * 1.5) + 0.5) * lh;
++			
++			return {x: x, y: y};
++		}
++		// alex-patch end
+ 		function calculateXY(cnt,j,d){
+ 			var x,y,s;
+ 			s = 2 * Math.PI * opt.series.spider.legs.legStartAngle / 360;
+

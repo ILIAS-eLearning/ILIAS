@@ -438,8 +438,9 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 		// tabs
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("skmg_skill_levels"),
+		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "edit"));
+		$tpl->setLeftContent("");
 
 		if ($_GET["level_id"] > 0)
 		{
@@ -449,8 +450,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 /*			$ilTabs->addTab("level_trigger",
 				$lng->txt("skmg_trigger"),
-				$ilCtrl->getLinkTarget($this, "editLevelTrigger"));
-
+				$ilCtrl->getLinkTarget($this, "editLevelTrigger"));*/
+				
+			$ilTabs->addTab("level_resources",
+				$lng->txt("skmg_resources"),
+				$ilCtrl->getLinkTarget($this, "showLevelResources"));
+/*
 			$ilTabs->addTab("level_certificate",
 				$lng->txt("certificate"),
 				$ilCtrl->getLinkTargetByClass("ilcertificategui", "certificateEditor"));*/
@@ -653,5 +658,149 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		parent::redirectToParent();
 	}
 
+	
+	////
+	//// Level resources
+	////
+	
+	/**
+	 * Show level resources
+	 *
+	 * @param
+	 * @return
+	 */
+	function showLevelResources()
+	{
+		global $tpl, $ilTabs, $ilToolbar, $lng, $ilCtrl;
+
+		$ilToolbar->addButton(
+			$lng->txt("skmg_add_resource"),
+			$ilCtrl->getLinkTarget($this, "addLevelResource"));
+		
+		$this->setLevelHead();
+		$ilTabs->activateTab("level_resources");
+		
+		include_once("./Services/Skill/classes/class.ilSkillLevelResourcesTableGUI.php");
+		$tab = new ilSkillLevelResourcesTableGUI($this, "showLevelResources",
+			$this->node_object->getId(), 0, (int) $_GET["level_id"]);
+		
+		$tpl->setContent($tab->getHTML());
+	}
+	
+	/**
+	 * Add level resource
+	 */
+	function addLevelResource()
+	{
+		global $ilCtrl, $ilTabs, $lng, $tree, $tpl;
+		
+		$this->setLevelHead();
+		$ilTabs->activateTab("level_resources");
+
+		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
+		$exp = new ilSearchRootSelector(
+			$ilCtrl->getLinkTarget($this,'addLevelResource'));
+		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($ilCtrl->getLinkTarget($this,'addLevelResource'));
+		$exp->setTargetClass(get_class($this));
+		$exp->setCmd('saveLevelResource');
+		$exp->setClickableTypes(array("crs", "file", "lm", "tst", "sahs", "glo"));
+		$exp->addFilter("root");
+		$exp->addFilter("cat");
+		$exp->addFilter("grp");
+		$exp->addFilter("fold");
+		$exp->addFilter("crs");
+		$exp->addFilter("file");
+		$exp->addFilter("lm");
+		$exp->addFilter("tst");
+		$exp->addFilter("sahs");
+		$exp->addFilter("glo");
+		
+		// build html-output
+		$exp->setOutput(0);
+		$tpl->setContent($exp->getOutput());
+	}
+
+	/**
+	 * Save level resource
+	 */
+	function saveLevelResource()
+	{
+		global $ilCtrl, $lng;
+
+		$ref_id = (int) $_GET["root_id"];
+
+		if ($ref_id > 0)
+		{
+			include_once("./Services/Skill/classes/class.ilSkillResources.php");
+			$sres = new ilSkillResources($this->node_object->getId(), 0);
+			$sres->setResourceAsImparting((int) $_GET["level_id"], $ref_id);
+			$sres->save();
+
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+
+		$ilCtrl->redirect($this, "showLevelResources");
+	}
+
+	/**
+	* Confirm level resources removal
+	*/
+	function confirmLevelResourcesRemoval()
+	{
+		global $ilCtrl, $tpl, $lng, $ilTabs;
+
+		$this->setLevelHead();
+		$ilTabs->activateTab("level_resources");
+
+		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "showLevelResources");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("skmg_confirm_level_resources_removal"));
+			$cgui->setCancel($lng->txt("cancel"), "showLevelResources");
+			$cgui->setConfirm($lng->txt("remove"), "removeLevelResources");
+			
+			foreach ($_POST["id"] as $i)
+			{
+				$title = ilObject::_lookupTitle(ilObject::_lookupObjId($i));
+				$cgui->addItem("id[]", $i, $title);
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+	
+	/**
+	 * Remove level resource
+	 *
+	 * @param
+	 * @return
+	 */
+	function removeLevelResources()
+	{
+		global $ilCtrl, $lng;
+		
+		if (is_array($_POST["id"]))
+		{
+			include_once("./Services/Skill/classes/class.ilSkillResources.php");
+			$sres = new ilSkillResources($this->node_object->getId(), 0);
+			foreach ($_POST["id"] as $i)
+			{
+				$sres->setResourceAsImparting((int) $_GET["level_id"], $i, false);
+			}
+			$sres->save();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		
+		$ilCtrl->redirect($this, "showLevelResources");
+	}
+	
 }
 ?>

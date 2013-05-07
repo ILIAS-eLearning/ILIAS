@@ -299,13 +299,20 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 * @return string HTML text with the cumulated results
 * @access private
 */
-	function getCumulatedResultsDetails($survey_id, $counter)
+	function getCumulatedResultsDetails($survey_id, $counter, $finished_ids)
 	{
 		if (count($this->cumulated) == 0)
 		{
-			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
-			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
-			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users);
+			if(!$finished_ids)
+			{
+				include_once "./Modules/Survey/classes/class.ilObjSurvey.php";			
+				$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
+			}
+			else
+			{
+				$nr_of_users = sizeof($finished_ids);
+			}
+			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users, $finished_ids);
 		}
 		
 		$output = "";
