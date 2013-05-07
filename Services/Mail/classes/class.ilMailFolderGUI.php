@@ -411,7 +411,9 @@ class ilMailFolderGUI
 		if ($this->mbox->deleteFolder($_GET["mobj_id"]))
 		{			
 			ilUtil::sendInfo($this->lng->txt("mail_folder_deleted"),true);
-			ilUtil::redirect("ilias.php?baseClass=ilMailGUI");			
+			
+			$this->ctrl->setParameterByClass("ilMailGUI", "mobj_id", $new_parent);
+			$this->ctrl->redirectByClass("ilMailGUI");		
 		}
 		else
 		{
@@ -421,9 +423,7 @@ class ilMailFolderGUI
 	}
 	
 	public function performAddSubFolder()
-	{
-		global $ilCtrl;
-
+	{		
 		if (isset($_POST["subfolder_title"]) && 'tree' == ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY)) $_SESSION["subfolder_title"] = ilUtil::stripSlashes($_POST['subfolder_title']);
 
 		if (empty($_POST['subfolder_title']))
@@ -432,19 +432,18 @@ class ilMailFolderGUI
 			return $this->addSubFolder();
 		}
 		else if ($mobj_id = $this->mbox->addFolder($_GET["mobj_id"], ilUtil::stripSlashes($_POST["subfolder_title"])))
-		{
-			$ilCtrl->saveParameter($this, 'mobj_id');
-			$ilCtrl->setParameter($this, 'mobj_id', $mobj_id);
-
+		{			
 			unset($_SESSION["subfolder_title"]);
-			ilUtil::sendInfo($this->lng->txt("mail_folder_created"));						
+			ilUtil::sendInfo($this->lng->txt("mail_folder_created"), true);		
+			
+			$this->ctrl->setParameterByClass("ilMailGUI", 'mobj_id', $mobj_id);
+			$this->ctrl->redirectByClass("ilMailGUI");
 		}
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt("mail_folder_exists"));
-			$this->addSubFolder();
-		}
-		return $this->showFolder();
+			return $this->addSubFolder();
+		}		
 	}
 
 	public function addSubFolder()
@@ -520,6 +519,7 @@ class ilMailFolderGUI
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_folder_name_changed"), true);
 					unset($_SESSION["subfolder_title"]);
+					$this->ctrl->redirectByClass("ilMailGUI");
 				}
 				else
 				{
@@ -527,7 +527,7 @@ class ilMailFolderGUI
 					return $this->renameSubFolder();
 				}
 			}
-		}
+		}		
 		return $this->showFolder();
 	}
 
