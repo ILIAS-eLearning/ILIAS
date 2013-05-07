@@ -1,0 +1,31 @@
+<tr class="{CSS_ROW}">
+	<td class="std" style="vertical-align: top">
+		<input type="checkbox" name="{MODE}_id[]" value="{ID}" />
+	</td>	
+	<td class="std" style="vertical-align: top">{LAST_NAME}</td>
+	<td class="std" style="vertical-align: top">{FIRST_NAME}</td>
+	<td class="std" style="vertical-align: top">{EMAIL}</td>	
+	<td class="std" style="vertical-align: top">{LOGIN}</td>	
+	<td class="std" style="vertical-align: top">{FINISHED}</td>	
+	<!-- BEGIN closed_bl -->
+	<td class="std" style="vertical-align: top">{CLOSED}</td>	
+	<!-- END closed_bl -->
+	<!-- BEGIN action_bl -->
+	<td class="std small" style="vertical-align: top">
+		<a href="{HREF}">{URL}</a>
+	</td>
+	<!-- END action_bl -->
+	<!-- BEGIN url_bl -->
+	<td class="std small" style="vertical-align: top">
+		<!-- BEGIN direct_bl -->
+		<input type="text" size="15" value="{DIRECT_HREF}" onclick="this.focus(); this.select(); return false;" />
+		<!-- END direct_bl -->
+		{NO_HREF}
+	</td>
+	<!-- END url_bl -->
+	<!-- BEGIN mail_bl -->
+	<td class="std small" style="vertical-align: top">
+		{MAIL_SENT}
+	</td>
+	<!-- END mail_bl -->
+</tr>

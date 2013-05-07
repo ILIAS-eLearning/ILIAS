@@ -141,6 +141,18 @@ class ilObjSurvey extends ilObject
 	var $pool_usage;
 	
 	protected $activation_visibility;
+	
+	// 360° 
+	protected $mode_360; // [bool]
+	protected $mode_360_self_eval; // [bool]
+	protected $mode_360_self_appr; // [bool]
+	protected $mode_360_self_rate; // [bool]
+	protected $mode_360_results; // [int]
+	protected $mode_360_skill_service; // [bool]
+	
+	const RESULTS_360_NONE = 0;
+	const RESULTS_360_OWN = 1;
+	const RESULTS_360_ALL = 2;
 
 	/**
 	* Constructor
@@ -404,14 +416,18 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	function &getSurveyParticipants()
+	function &getSurveyParticipants($finished_ids = null)
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
+		$sql = "SELECT * FROM svy_finished".
+			" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer");
+		if($finished_ids)
+		{
+			$sql .= " AND ".$ilDB->in("finished_id", $finished_ids, "", "integer");
+		}
+		
+		$result = $ilDB->query($sql);
 		$participants = array();
 		if ($result->numRows() > 0)
 		{
@@ -769,8 +785,15 @@ class ilObjSurvey extends ilObject
 				"mailparticipantdata" => array('text', strlen($this->getMailParticipantData()) ? $this->getMailParticipantData() : NULL),
 				"tstamp" => array("integer", time()),
 				"template_id" => array("integer", $this->getTemplate()),
-				"pool_usage" => array("integer", $this->getPoolUsage())
-			));
+				"pool_usage" => array("integer", $this->getPoolUsage()),
+				// 360°
+				"mode_360" => array("integer", $this->get360Mode()),
+				"mode_360_self_eval" => array("integer", $this->get360SelfEvaluation()),
+				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
+				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
+				"mode_360_results" => array("integer", $this->get360Results()),
+				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService())				
+ 			));
 			$this->setSurveyId($next_id);
 		}
 		else
@@ -791,7 +814,14 @@ class ilObjSurvey extends ilObject
 				"mailparticipantdata" => array('text', strlen($this->getMailParticipantData()) ? $this->getMailParticipantData() : NULL),
 				"tstamp" => array("integer", time()),
 				"template_id" => array("integer", $this->getTemplate()),
-				"pool_usage" => array("integer", $this->getPoolUsage())
+				"pool_usage" => array("integer", $this->getPoolUsage()),
+				// 360°
+				"mode_360" => array("integer", $this->get360Mode()),
+				"mode_360_self_eval" => array("integer", $this->get360SelfEvaluation()),
+				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
+				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
+				"mode_360_results" => array("integer", $this->get360Results()),
+				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService())
 			), array(
 			"survey_id" => array("integer", $this->getSurveyId())
 			));
@@ -987,7 +1017,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function isAccessibleWithoutCode()
 	{
-		if ($this->getAnonymize() == ANONYMIZE_FREEACCESS)
+		if ($this->getAnonymize() == ANONYMIZE_FREEACCESS || !$this->getAnonymize())
 		{
 			return true;
 		}
@@ -1036,6 +1066,13 @@ class ilObjSurvey extends ilObject
 			$this->setMailParticipantData($data['mailparticipantdata']);
 			$this->setTemplate($data['template_id']);
 			$this->setPoolUsage($data['pool_usage']);
+			// 360°
+			$this->set360Mode($data['mode_360']);
+			$this->set360SelfEvaluation($data['mode_360_self_eval']);
+			$this->set360SelfRaters($data['mode_360_self_rate']);
+			$this->set360SelfAppraisee($data['mode_360_self_appr']);
+			$this->set360Results($data['mode_360_results']);
+			$this->set360SkillService($data['mode_360_skill_service']);
 		}
 		
 		// moved activation to ilObjectActivation
@@ -1437,6 +1474,7 @@ class ilObjSurvey extends ilObject
 			array_push($messages, $this->lng->txt("cannot_participate_survey"));
 			$result = FALSE;
 		}
+		/*
 		// 2. check previous access
 		if (!$result["error"])
 		{
@@ -1447,7 +1485,8 @@ class ilObjSurvey extends ilObject
 				array_push($messages, $this->lng->txt("already_completed_survey"));
 				$result = FALSE;
 			}
-		}
+		}		 
+		*/
 		return array(
 			"result" => $result,
 			"messages" => $messages,
@@ -2945,9 +2984,8 @@ class ilObjSurvey extends ilObject
 * @param integer $user_id The database id of the user who starts the survey
 * @access public
 */
-	function startSurvey($user_id, $anonymous_id)
+	function startSurvey($user_id, $anonymous_id, $appraisee_id)
 	{
-		global $ilUser;
 		global $ilDB;
 		
 		if ($this->getAnonymize() && (strlen($anonymous_id) == 0)) return;
@@ -2960,10 +2998,10 @@ class ilObjSurvey extends ilObject
 			}
 		}
 		$next_id = $ilDB->nextId('svy_finished');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_finished (finished_id, survey_fi, user_fi, anonymous_id, state, tstamp) ".
-			"VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer','integer','integer','text','text','integer'),
-			array($next_id, $this->getSurveyId(), $user_id, $anonymous_id, 0, time())
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_finished (finished_id, survey_fi, user_fi, anonymous_id, state, tstamp, appr_id) ".
+			"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			array('integer','integer','integer','text','text','integer','integer'),
+			array($next_id, $this->getSurveyId(), $user_id, $anonymous_id, 0, time(), $appraisee_id)
 		);
 		return $next_id;
 	}
@@ -2974,29 +3012,15 @@ class ilObjSurvey extends ilObject
 * @param integer $user_id The database id of the user who finishes the survey
 * @access public
 */
-	function finishSurvey($user_id, $anonymize_id)
+	function finishSurvey($finished_id)
 	{
 		global $ilDB;
 		
-		if ($this->getAnonymize())
-		{
-			$affectedRows = $ilDB->manipulateF("UPDATE svy_finished SET state = %s, user_fi = %s, tstamp = %s ".
-				"WHERE survey_fi = %s AND anonymous_id = %s",
-				array('text','integer','integer','integer','text'),
-				array(1, $user_id, time(), $this->getSurveyId(), $anonymize_id)
-			);
-		}
-		else
-		{
-			$affectedRows = $ilDB->manipulateF("UPDATE svy_finished SET state = %s, tstamp = %s WHERE survey_fi = %s AND user_fi = %s",
-				array('text','integer','integer','integer'),
-				array(1, time(), $this->getSurveyId(), $user_id)
-			);
-		}
-		if ($this->getMailNotification())
-		{
-			$this->sendNotificationMail($user_id, $anonymize_id);
-		}
+		$ilDB->manipulateF("UPDATE svy_finished SET state = %s, tstamp = %s".
+			" WHERE survey_fi = %s AND finished_id = %s",
+			array('text','integer','integer','integer'),
+			array(1, time(), $this->getSurveyId(), $finished_id)
+		);								
 	}
 
 	/**
@@ -3016,8 +3040,8 @@ class ilObjSurvey extends ilObject
 		);
 	}
 
-	function sendNotificationMail($user_id, $anonymize_id)
-	{
+	function sendNotificationMail($user_id, $anonymize_id, $appr_id)
+	{		
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail(ANONYMOUS_USER_ID);
@@ -3039,6 +3063,11 @@ class ilObjSurvey extends ilObject
 			}
 			$active_id = $this->getActiveID($user_id, $anonymize_id);
 			$messagetext .= ((strlen($messagetext)) ? "\n\n\n" : '') . $this->lng->txt('results') . "\n\n". $this->getParticipantTextResults($active_id);
+		
+			if($appr_id)
+			{
+				// :TODO: add appraisee data?
+			}
 		
 			$mail->sendMail(
 				$recipient, // to
@@ -3135,7 +3164,7 @@ class ilObjSurvey extends ilObject
 * @return mixed false, if the user has not started the survey, 0 if the user has started the survey but not finished it, 1 if the user has finished the survey
 * @access public
 */
-	function isSurveyStarted($user_id, $anonymize_id)
+	function isSurveyStarted($user_id, $anonymize_id, $appr_id = 0)
 	{
 		global $ilDB;
 
@@ -3143,24 +3172,27 @@ class ilObjSurvey extends ilObject
 		{
 			if ((($user_id != ANONYMOUS_USER_ID) && sizeof($anonymize_id)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
 			{
-				$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
-					array('integer','integer'),
-					array($this->getSurveyId(), $user_id)
+				$result = $ilDB->queryF("SELECT * FROM svy_finished".
+					" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
+					array('integer','integer','integer'),
+					array($this->getSurveyId(), $user_id, $appr_id)
 				);
 			}
 			else
 			{
-				$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE survey_fi = %s AND anonymous_id = %s",
+				$result = $ilDB->queryF("SELECT * FROM svy_finished".
+					" WHERE survey_fi = %s AND anonymous_id = %s AND appr_id = %s",
 					array('integer','text'),
-					array($this->getSurveyId(), $anonymize_id)
+					array($this->getSurveyId(), $anonymize_id, $appr_id)
 				);
 			}
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
+			$result = $ilDB->queryF("SELECT * FROM svy_finished".
+				" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
 				array('integer','integer'),
-				array($this->getSurveyId(), $user_id)
+				array($this->getSurveyId(), $user_id, $appr_id)
 			);
 		}
 		if ($result->numRows() == 0)
@@ -3182,7 +3214,7 @@ class ilObjSurvey extends ilObject
 	* @return mixed false, if the user has not started the survey, 0 if the user has started the survey but not finished it, 1 if the user has finished the survey
 	* @access public
 	*/
-	function getActiveID($user_id, $anonymize_id)
+	function getActiveID($user_id, $anonymize_id, $appr_id)
 	{
 		global $ilDB;
 
@@ -3190,24 +3222,27 @@ class ilObjSurvey extends ilObject
 		{
 			if ((($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
 			{
-				$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
-					array('integer','integer'),
-					array($this->getSurveyId(), $user_id)
+				$result = $ilDB->queryF("SELECT finished_id FROM svy_finished".
+					" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
+					array('integer','integer','integer'),
+					array($this->getSurveyId(), $user_id, $appr_id)
 				);
 			}
 			else
 			{
-				$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s AND anonymous_id = %s",
-					array('integer','text'),
-					array($this->getSurveyId(), $anonymize_id)
+				$result = $ilDB->queryF("SELECT finished_id FROM svy_finished".
+					" WHERE survey_fi = %s AND anonymous_id = %s AND appr_id = %s",
+					array('integer','text','integer'),
+					array($this->getSurveyId(), $anonymize_id, $appr_id)
 				);
 			}
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
-				array('integer','integer'),
-				array($this->getSurveyId(), $user_id)
+			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished".
+				" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
+				array('integer','integer','integer'),
+				array($this->getSurveyId(), $user_id, $appr_id)
 			);
 		}
 		if ($result->numRows() == 0)
@@ -3364,22 +3399,10 @@ class ilObjSurvey extends ilObject
 * @return array An array containing the user specific results
 * @access public
 */
-	function &getUserSpecificResults()
+	function &getUserSpecificResults($finished_ids)
 	{
 		global $ilDB;
 		
-		$users = array();
-		$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		if ($result->numRows())
-		{
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				array_push($users, $row);
-			}
-		}
 		$evaluation = array();
 		$questions =& $this->getSurveyQuestions();
 		foreach ($questions as $question_id => $question_data)
@@ -3389,7 +3412,7 @@ class ilObjSurvey extends ilObject
 			SurveyQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
-			$data =& $question->getUserAnswers($this->getSurveyId());
+			$data =& $question->getUserAnswers($this->getSurveyId(), $finished_ids);
 			$evaluation[$question_id] = $data;
 		}
 		return $evaluation;
@@ -3511,17 +3534,24 @@ class ilObjSurvey extends ilObject
 * @return array An array containing the evaluation parameters for the question
 * @access public
 */
-	function getCumulatedResults(&$question)
+	function getCumulatedResults(&$question, $finished_ids)
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		$nr_of_users = $result->numRows();
+		if(!$finished_ids)
+		{
+			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
+				array('integer'),
+				array($this->getSurveyId())
+			);
+			$nr_of_users = $result->numRows();
+		}
+		else
+		{
+			$nr_of_users = sizeof($finished_ids);
+		}
 		
-		$result_array =& $question->getCumulatedResults($this->getSurveyId(), $nr_of_users);
+		$result_array =& $question->getCumulatedResults($this->getSurveyId(), $nr_of_users, $finished_ids);
 		return $result_array;
 	}
 
@@ -4474,42 +4504,62 @@ class ilObjSurvey extends ilObject
 	* @return string A comma separated list of survey codes an URLs for file export
 	* @access public
 	*/
-	function getSurveyCodesForExport($a_array)
+	function getSurveyCodesForExport(array $a_codes = null, array $a_ids = null)
 	{
 		global $ilDB, $ilUser;
 
-		$result = $ilDB->queryF("SELECT svy_anonymous.*, svy_finished.state FROM svy_anonymous ".
-			"LEFT JOIN svy_finished ON svy_anonymous.survey_key = svy_finished.anonymous_id ".
-			"WHERE svy_anonymous.survey_fi = %s AND svy_anonymous.user_key IS NULL",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		$export = "";
+		$sql = "SELECT svy_anonymous.*, svy_finished.state".
+			" FROM svy_anonymous".
+			" LEFT JOIN svy_finished ON (svy_anonymous.survey_key = svy_finished.anonymous_id)".
+			" WHERE svy_anonymous.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND svy_anonymous.user_key IS NULL";
+		
+		if($a_codes)
+		{
+			$sql .= " AND ".$ilDB->in("svy_anonymous.survey_key", $a_codes, "", "text");
+		}
+		else if($a_ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_anonymous.anonymous_id", $a_ids, "", "text");
+		}
+		
+		$result = $ilDB->query($sql);
+		$export = array();
 		$default_lang = $ilUser->getPref("survey_code_language");
 		$lang = (strlen($default_lang)) ? "&lang=" . $default_lang : "";
 		while ($row = $ilDB->fetchAssoc($result))
-		{
-			if (in_array($row["survey_key"], $a_array) || (count($a_array) == 0))
+		{			
+			$item = array();						
+			$item[] = $row["survey_key"];
+			
+			if($row["externaldata"])
 			{
-				$export .= $row["survey_key"] . ",";
-				
-				// No relative (today, tomorrow...) dates in export.
-				$date = new ilDate($row['tstamp'],IL_CAL_UNIX);
-				$created = $date->get(IL_CAL_DATE);
-				$export .= "$created,";
-				if ($this->isSurveyCodeUsed($row["survey_key"]))
-				{
-					$export .= "1,";
-				}
-				else
-				{
-					$export .= "0,";
-				}
-				$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&client_id=" . CLIENT_ID . "&accesscode=".$row["survey_key"].$lang;
-				$export .= $url . "\n";
+				$ext = unserialize($row["externaldata"]);
+				$item[] = $ext["email"];
+				$item[] = $ext["lastname"];
+				$item[] = $ext["firstname"];				
 			}
+			else
+			{
+				$item[] = "";
+				$item[] = "";
+				$item[] = "";
+			}
+						
+			// No relative (today, tomorrow...) dates in export.
+			$date = new ilDate($row['tstamp'],IL_CAL_UNIX);;
+			$item[] = $date->get(IL_CAL_DATE);
+			
+			$item[] = ($this->isSurveyCodeUsed($row["survey_key"])) ? 1 : 0;
+			$item[] = ($row["sent"]) ? 1 : 0;
+			
+			$item[] = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".
+				$this->getRefId() . "&client_id=" . CLIENT_ID . "&accesscode=".
+				$row["survey_key"].$lang;		
+					
+			$export[] = '"'.implode('";"', $item).'"';
 		}
-		return $export;
+		return implode("\n", $export);
 	}
 	
 	/**
@@ -4519,32 +4569,36 @@ class ilObjSurvey extends ilObject
 	* @return array The requested data
 	* @access public
 	*/
-	public function &getSurveyCodesTableData($lang = "en")
+	public function &getSurveyCodesTableData($lang = "en", array $ids = null)
 	{
 		global $ilDB;
+		
+		$codes = array();
 
 		if (strlen($lang) == 0) $lang = "en";
 		
-		$order = "ORDER BY tstamp, survey_key ASC";
-		$codes = array();
-		$result = $ilDB->queryF("SELECT svy_anonymous.anonymous_id, svy_anonymous.survey_key, svy_anonymous.survey_fi, ".
-			"svy_anonymous.tstamp, svy_finished.state FROM svy_anonymous LEFT JOIN svy_finished ".
-			"ON svy_anonymous.survey_key = svy_finished.anonymous_id WHERE svy_anonymous.survey_fi = %s ".
-			"AND svy_anonymous.user_key IS NULL $order",
-			array('integer'),
-			array($this->getSurveyId())
-		);
+		$sql = "SELECT svy_anonymous.*, svy_finished.state".
+			" FROM svy_anonymous".
+			" LEFT JOIN svy_finished ON (svy_anonymous.survey_key = svy_finished.anonymous_id)".
+			" WHERE svy_anonymous.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND svy_anonymous.user_key IS NULL";
+		
+		if($ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_anonymous.anonymous_id", $ids, "", "integer");
+		}
+		
+		$sql .= " ORDER BY tstamp, survey_key ASC";			
+		$result = $ilDB->query($sql);				
 		if ($result->numRows() > 0)
 		{
 			while ($row = $ilDB->fetchAssoc($result))
-			{
-				$created = ilDatePresentation::formatDate(new ilDateTime($row["tstamp"],IL_CAL_UNIX));
-				$url = "";
-				
-				$state = 0;
+			{				
+				$href = "";				
+				$used = false;
 				if ($this->isSurveyCodeUsed($row["survey_key"]))
 				{
-					$state = 1;
+					$used = true;
 				}
 				else
 				{
@@ -4553,10 +4607,31 @@ class ilObjSurvey extends ilObject
 					{
 						$addlang = "&amp;lang=$lang";
 					}
-					$href = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang;
-					$url = $this->lng->txt("survey_code_url_name");
+					$href = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang;					
 				}
-				array_push($codes, array('code' => $row["survey_key"], 'date' => $created, 'used' => $state, 'url' => $url, 'href' => $href));
+				
+				
+				$item = array(
+					'id' => $row["anonymous_id"],
+					'code' => $row["survey_key"],
+					'date' => $row["tstamp"], 
+					'used' => $used, 
+					'sent' => $row['sent'],
+					'href' => $href,
+					'email' => '',
+					'last_name' => '',
+					'first_name' => ''
+				);
+				
+				if($row["externaldata"])
+				{
+					$ext = unserialize($row["externaldata"]);
+					$item['email'] = $ext['email'];
+					$item['last_name'] = $ext['lastname'];
+					$item['first_name'] = $ext['firstname'];
+				}				
+												
+				array_push($codes, $item);
 			}
 		}
 		return $codes;
@@ -4585,21 +4660,28 @@ class ilObjSurvey extends ilObject
 	function createSurveyCodes($nrOfCodes)
 	{
 		global $ilDB;
+		
+		$res = array();
+		
 		for ($i = 0; $i < $nrOfCodes; $i++)
 		{
-			$anonymize_key = $this->createNewAccessCode();
 			$next_id = $ilDB->nextId('svy_anonymous');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_anonymous (anonymous_id, survey_key, survey_fi, tstamp) ".
+			$ilDB->manipulateF("INSERT INTO svy_anonymous (anonymous_id, survey_key, survey_fi, tstamp) ".
 				"VALUES (%s, %s, %s, %s)",
 				array('integer','text','integer','integer'),
-				array($next_id, $anonymize_key, $this->getSurveyId(), time())
+				array($next_id, $this->createNewAccessCode(), $this->getSurveyId(), time())
 			);
+			$res[] = $next_id;
 		}
+		
+		return $res;
 	}
 
 	function createSurveyCodesForExternalData($data)
 	{
 		global $ilDB;
+		
+		$ids = array();
 		foreach ($data as $dataset)
 		{
 			$anonymize_key = $this->createNewAccessCode();
@@ -4609,7 +4691,9 @@ class ilObjSurvey extends ilObject
 				array('integer','text','integer','text','integer'),
 				array($next_id, $anonymize_key, $this->getSurveyId(), serialize($dataset), time())
 			);
+			$ids[] = $next_id;
 		}
+		return $ids;
 	}
 
 	function sendCodes($not_sent, $subject, $message, $lang = "en")
@@ -4684,14 +4768,24 @@ class ilObjSurvey extends ilObject
 	function getExternalCodeRecipients($a_check_finished = false)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT survey_key code, externaldata, sent FROM svy_anonymous WHERE survey_fi = %s AND externaldata IS NOT NULL",
+		$result = $ilDB->queryF("SELECT survey_key code, externaldata, sent FROM svy_anonymous WHERE survey_fi = %s",
 			array('integer'),
 			array($this->getSurveyId())
 		);
 		$res = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
+			if(!$row['externaldata'])
+			{
+				continue;				
+			}
+			
 			$externaldata = unserialize($row['externaldata']);
+			if(!$externaldata['email'])
+			{
+				continue;
+			}
+			
 			$externaldata['code'] = $row['code'];
 			$externaldata['sent'] = $row['sent'];
 			
@@ -5334,6 +5428,550 @@ class ilObjSurvey extends ilObject
 
 		$this->setTemplate($template_id);
 		$this->saveToDb();
+	}
+	
+	public function updateCode($a_id, $a_email, $a_last_name, $a_first_name, $a_sent)
+	{
+		global $ilDB;
+		
+		$a_email = trim($a_email);
+		
+		// :TODO:
+		if($a_email && !ilUtil::is_email($a_email))
+		{
+			return;
+		}
+		
+		$data = array("email" => $a_email,
+			"lastname" => trim($a_last_name),
+			"firstname" => trim($a_first_name));
+		
+		$fields = array(
+			"externaldata" => array("text", serialize($data)),
+			"sent" => array("integer", $a_sent)			
+		);
+		
+		$ilDB->update("svy_anonymous", $fields,
+			array("anonymous_id" => array("integer", $a_id)));							
+	}
+	
+	
+	// 360° 
+	
+	public function set360Mode($a_value)
+	{
+		$this->mode_360 = (bool)$a_value;
+	}
+	
+	public function get360Mode()
+	{
+		return (bool)$this->mode_360;
+	}
+	
+	public function set360SelfEvaluation($a_value)
+	{
+		$this->mode_360_self_eval = (bool)$a_value;
+	}
+	
+	public function get360SelfEvaluation()
+	{
+		return (bool)$this->mode_360_self_eval;
+	}
+	
+	public function set360SelfAppraisee($a_value)
+	{
+		$this->mode_360_self_appr = (bool)$a_value;
+	}
+	
+	public function get360SelfAppraisee()
+	{
+		return (bool)$this->mode_360_self_appr;
+	}
+	
+	public function set360SelfRaters($a_value)
+	{
+		$this->mode_360_self_rate = (bool)$a_value;
+	}
+	
+	public function get360SelfRaters()
+	{
+		return (bool)$this->mode_360_self_rate;
+	}
+	
+	public function set360Results($a_value)
+	{
+		$this->mode_360_results = (int)$a_value;
+	}
+	
+	public function get360Results()
+	{
+		return (int)$this->mode_360_results;
+	}
+	
+	public function addAppraisee($a_user_id)
+	{
+		global $ilDB;
+		
+		if(!$this->isAppraisee($a_user_id) && 
+			$a_user_id != ANONYMOUS_USER_ID)
+		{
+			$fields = array(
+				"obj_id" => array("integer", $this->getSurveyId()),
+				"user_id" => array("integer", $a_user_id)
+			);			
+			$ilDB->insert("svy_360_appr", $fields);			
+		}				
+	}
+	
+	public function isAppraisee($a_user_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT user_id".
+			" FROM svy_360_appr".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer"));		
+		return (bool)$ilDB->numRows($set);		
+	}
+	
+	public function isAppraiseeClosed($a_user_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT has_closed".
+			" FROM svy_360_appr".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer"));		
+		$row = $ilDB->fetchAssoc($set);
+		return $row["has_closed"];				
+	}
+	
+	public function deleteAppraisee($a_user_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM svy_360_rater".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND appr_id = ".$ilDB->quote($a_user_id, "integer"));		
+		
+		$ilDB->manipulate("DELETE FROM svy_360_appr".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer"));		
+	}
+	
+	public function getAppraiseesData()
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT * FROM svy_360_appr".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer"));		
+		while($row = $ilDB->fetchAssoc($set))
+		{		
+			$name = ilObjUser::_lookupName($row["user_id"]);
+			$name["email"] = ilObjUser::_lookupEmail($row["user_id"]);
+			$res[$row["user_id"]] = $name;
+			
+			$finished = 0;
+			$raters = $this->getRatersData($row["user_id"]);	
+			foreach($raters as $rater)
+			{
+				if($rater["finished"])
+				{
+					$finished++;
+				}
+			}
+			$res[$row["user_id"]]["finished"] = $finished."/".sizeof($raters);
+			$res[$row["user_id"]]["closed"] = $row["has_closed"];			
+		}
+		
+		return $res;
+	}
+	
+	public function addRater($a_appraisee_id, $a_user_id, $a_anonymous_id = 0)
+	{
+		global $ilDB;
+		
+		if($this->isAppraisee($a_appraisee_id) &&
+			!$this->isRater($a_appraisee_id, $a_user_id, $a_anonymous_id))
+		{
+			$fields = array(
+				"obj_id" => array("integer", $this->getSurveyId()),
+				"appr_id" => array("integer", $a_appraisee_id),
+				"user_id" => array("integer", $a_user_id),
+				"anonymous_id" => array("integer", $a_anonymous_id)
+			);			
+			$ilDB->insert("svy_360_rater", $fields);			
+		}				
+	}
+	
+	public function isRater($a_appraisee_id, $a_user_id, $a_anonymous_id = 0)
+	{
+		global $ilDB;
+		
+		// user is rater if already appraisee and active self-evaluation
+		if($this->isAppraisee($a_user_id) &&
+			$this->get360SelfEvaluation() && 
+			(!$a_appraisee_id || $a_appraisee_id == $a_user_id))
+		{
+			return true;
+		}
+				
+		// :TODO: should we get rid of code as well?
+		
+		$sql = "SELECT user_id".
+			" FROM svy_360_rater".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").			
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer").		
+			" AND anonymous_id = ".$ilDB->quote($a_anonymous_id, "integer");		
+		if($a_appraisee_id)
+		{
+			$sql .= " AND appr_id = ".$ilDB->quote($a_appraisee_id, "integer");
+		}		
+		$set = $ilDB->query($sql);		
+		return (bool)$ilDB->numRows($set);		
+	}
+	
+	public function deleteRater($a_appraisee_id, $a_user_id, $a_anonymous_id = 0)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM svy_360_rater".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND appr_id = ".$ilDB->quote($a_appraisee_id, "integer").		
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer").		
+			" AND anonymous_id = ".$ilDB->quote($a_anonymous_id, "integer"));			
+	}
+	
+	public function getRatersData($a_appraisee_id)
+	{
+		global $ilDB;
+		
+		$res = $anonymous_ids = array();
+		
+		$set = $ilDB->query("SELECT * FROM svy_360_rater".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").		
+			" AND appr_id = ".$ilDB->quote($a_appraisee_id, "integer"));		
+		while($row = $ilDB->fetchAssoc($set))
+		{					
+		
+			
+			if($row["anonymous_id"])
+			{				
+				$res["a".$row["anonymous_id"]] = array(
+					"lastname" => "unknown code ".$row["anonymous_id"],
+					"sent" => $row["mail_sent"],
+					"finished" => $finished
+				);
+				$anonymous_ids[] = $row["anonymous_id"];
+			}
+			else
+			{			
+				$name = ilObjUser::_lookupName($row["user_id"]);
+				$name["user_id"] = "u".$name["user_id"];
+				$name["email"] = ilObjUser::_lookupEmail($row["user_id"]);
+				$name["sent"] = $row["mail_sent"];
+				$name["finished"] = (bool)$this->is360SurveyStarted($a_appraisee_id, $row["user_id"]);
+				$res["u".$row["user_id"]] = $name;
+			}		
+		}
+		
+		if(sizeof($anonymous_ids))
+		{
+			$data = $this->getSurveyCodesTableData("en", $anonymous_ids);
+			foreach($data as $item)
+			{
+				if(isset($res["a".$item["id"]]))
+				{				
+					$res["a".$item["id"]] = array(
+						"user_id" => "a".$item["id"],
+						"lastname" => $item["last_name"],
+						"firstname" => $item["first_name"],						
+						"login" => "",
+						"email" => $item["email"],
+						"code" => $item["code"],
+						"href" => $item["href"],
+						"sent" => $res["a".$item["id"]]["sent"],
+						"finished" => (bool)$this->is360SurveyStarted($a_appraisee_id, null, $item["id"])
+					);					
+				}
+			}
+		}
+		
+		return $res;
+	}
+	
+	public function getAppraiseesToRate($a_user_id, $a_anonymous_id = null)
+	{
+		global $ilDB;
+	
+		$res = array();
+		
+		$sql = "SELECT appr_id FROM svy_360_rater".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer");
+		
+		if($a_user_id)
+		{
+			$sql .= " AND user_id = ".$ilDB->quote($a_user_id, "integer");		
+		}
+		else
+		{
+			$sql .= " AND anonymous_id = ".$ilDB->quote($a_anonymous_id, "integer");		
+		}	
+				
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{		
+			$res[] = $row["appr_id"];
+		}
+				
+		// user may evaluate himself if already appraisee
+		if($this->get360SelfEvaluation() && 
+			$this->isAppraisee($a_user_id) &&
+			!in_array($a_user_id, $res))
+		{
+			$res[] = $a_user_id;					
+		}
+		
+		return $res;
+	}
+	
+	public function getAnonymousIdByCode($a_code)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT anonymous_id FROM svy_anonymous".
+				" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").		
+				" AND survey_key = ".$ilDB->quote($a_code, "text"));	
+		$res = $ilDB->fetchAssoc($set);
+		return $res["anonymous_id"];
+	}
+	
+	function is360SurveyStarted($appr_id, $user_id, $anonymous_code = null)
+	{
+		global $ilDB;
+
+		$sql = "SELECT * FROM svy_finished".
+			" WHERE survey_fi =".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND appr_id = ".$ilDB->quote($appr_id, "integer");					
+		if ($user_id)
+		{			
+			$sql .= " AND user_fi = ".$ilDB->quote($user_id, "integer");
+		}
+		else
+		{
+			$sql .= " AND anonymous_id = ".$ilDB->quote($anonymous_code, "text");
+		}
+		$result = $ilDB->query($sql);
+		if ($result->numRows() == 0)
+		{
+			return false;
+		}			
+		else
+		{
+			$row = $ilDB->fetchAssoc($result);			
+			return (int)$row["state"];
+		}
+	}
+	
+	function getUserSurveyExecutionStatus($a_code = null)
+	{
+		global $ilUser, $ilDB;
+			
+		$user_id = $ilUser->getId();
+				
+		// code is obligatory?
+		if(!$this->isAccessibleWithoutCode())
+		{
+			if(!$a_code)
+			{
+				// registered raters do not need code
+				if($this->get360Mode() &&
+					$user_id != ANONYMOUS_USER_ID && 
+					$this->isRater(0, $user_id))
+				{
+					// auto-generate code
+					$a_code = $this->createNewAccessCode();		
+					$this->saveUserAccessCode($user_id, $a_code);	
+				}
+				else
+				{
+					return null;
+				}
+			}
+		}		
+		else if($user_id == ANONYMOUS_USER_ID || $this->getAnonymize())
+		{
+			if(!$a_code)
+			{			
+				// auto-generate code
+				$a_code = $this->createNewAccessCode();		
+				$this->saveUserAccessCode($user_id, $a_code);					
+			}
+		}
+		else
+		{
+			$a_code = null;
+		}
+			
+		$res = array();
+								
+		$sql = "SELECT * FROM svy_finished".
+			" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer");		
+		// if proper user id is given, use it or current code
+		if($user_id != ANONYMOUS_USER_ID)
+		{
+			$sql .= " AND (user_fi = ".$ilDB->quote($user_id, "integer").
+				" OR anonymous_id = ".$ilDB->quote($a_code, "text").")";		
+		}
+		// use anonymous code to find finished id(s)
+		else
+		{
+			$sql .= " AND anonymous_id = ".$ilDB->quote($a_code, "text");	
+		}
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[$row["finished_id"]] = array("appr_id" => $row["appr_id"],
+				"user_id" => $row["user_fi"],
+				"code" => $row["anonymous_id"],
+				"finished" => (bool)$row["state"]);
+		}
+		
+		return array("code"=>$a_code, "runs"=>$res);
+	}
+	
+	function findCodeForUser($a_user_id)
+	{		
+		global $ilDB;
+		
+		if($a_user_id != ANONYMOUS_USER_ID)
+		{
+			$set = $ilDB->query("SELECT sf.anonymous_id FROM svy_finished sf".				
+				" WHERE sf.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+				" AND sf.user_fi = ".$ilDB->quote($a_user_id, "integer"));
+			$a_code = $ilDB->fetchAssoc($set);
+			return $a_code["anonymous_id"];
+		}
+	}
+	
+	function isUnusedCode($a_code, $a_user_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT user_fi FROM svy_finished".
+			" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND anonymous_id = ".$ilDB->quote($a_code, "text"));
+		$user_id = $ilDB->fetchAssoc($set);
+		$user_id = $user_id["user_fi"];
+		
+		if($user_id && ($user_id != $a_user_id || $user_id == ANONYMOUS_USER_ID))
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	function getFinishedIdsForAppraiseeId($a_appr_id, $a_exclude_appraisee = false)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT finished_id, user_fi FROM svy_finished".
+			" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND appr_id = ".$ilDB->quote($a_appr_id, "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			if ($a_exclude_appraisee && $row["user_fi"] == $a_appr_id)
+			{
+				continue;
+			}
+			$res[] = $row["finished_id"];
+		}
+		
+		return $res;
+	}
+	
+	/**
+	 * Get finished id for an appraisee and a rater
+	 *
+	 * @param int $a_appraisee_id appraisee id
+	 * @param int $a_rater_id rater id
+	 * @return int finished id
+	 */
+	function getFinishedIdForAppraiseeIdAndRaterId($a_appr_id, $a_rat_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT finished_id, user_fi FROM svy_finished".
+			" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND appr_id = ".$ilDB->quote($a_appr_id, "integer").
+			" AND user_fi = ".$ilDB->quote($a_rat_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		return $row["finished_id"];
+	}
+	
+	
+	// 360° using competence/skill service
+	
+	/**
+	 * Set skill service
+	 *
+	 * @param bool $a_val activate skill service	
+	 */
+	function set360SkillService($a_val)
+	{
+		$this->mode_360_skill_service = $a_val;
+	}
+	
+	/**
+	 * Get skill service
+	 *
+	 * @return bool activate skill service
+	 */
+	function get360SkillService()
+	{
+		return $this->mode_360_skill_service;
+	}
+	
+	function set360RaterSent($a_appraisee_id, $a_user_id, $a_anonymous_id, $a_tstamp = null)
+	{
+		global $ilDB;
+		
+		if(!$a_tstamp)
+		{
+			$a_tstamp = time();
+		}
+		
+		$ilDB->manipulate("UPDATE svy_360_rater".
+			" SET mail_sent = ".$ilDB->quote($a_tstamp, "integer").
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND appr_id = ".$ilDB->quote($a_appraisee_id, "integer").		
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer").		
+			" AND anonymous_id = ".$ilDB->quote($a_anonymous_id, "integer"));	
+	}
+	
+	function closeAppraisee($a_user_id)
+	{
+		global $ilDB;
+		
+		// close the appraisee
+		$ilDB->manipulate("UPDATE svy_360_appr".
+			" SET has_closed = ".$ilDB->quote(time(), "integer").
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer"));
+		
+		// write competences
+		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
+		$skmg_set = new ilSkillManagementSettings();
+		if ($this->get360SkillService() && $skmg_set->isActivated())
+		{
+			include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
+			$sskill = new ilSurveySkill($this);
+			$sskill->writeAppraiseeSkills($a_user_id);
+		}
 	}
 	
 } // END class.ilObjSurvey

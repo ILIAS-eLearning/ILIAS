@@ -13,29 +13,28 @@
 		</td>
 		<!-- END level_td -->
 	</tr>
+	<!-- BEGIN value_row -->
 	<tr>
-		<th class="ilSkill">{TXT_SELF_EVAL}
+		<th class="ilSkill">{TXT_VAL_TITLE}
 		</th>
-		<!-- BEGIN self_eval_td -->
-		<td class="ilSkill {CLASS_SELF_EVAL}">
-			{VAL_SELF_EVAL}
+		<!-- BEGIN val_level_td -->
+		<td class="ilSkill {TD_CLASS}" id="{TT_ID}">
+			<span>{VAL_LEVEL}</span>
+			<!-- BEGIN level_link -->
+			<a id="{LEVEL_LINK_ID}" href="{HREF_LINK}">{TXT_LINK}</a>
+			<!-- END level_link -->
 		</td>
-		<!-- END self_eval_td -->
+		<!-- END val_level_td -->
 	</tr>
-	<!-- BEGIN mat_row -->
-	<tr>
-		<th class="ilSkill">{TXT_MATERIAL}
-		</th>
-		<!-- BEGIN material_td -->
-		<td class="ilSkill {CLASS_MAT}">
-			{VAL_MATERIAL}
-			<!-- BEGIN  material_links -->
-			<a id="{TOOLTIP_MATERIAL_ID}" href="{URL_MATERIAL}">{TXT_MATERIAL}</a>
-			<!-- END  material_links -->
-		</td>
-		<!-- END material_td -->
-	</tr>
-	<!-- END mat_row -->
+	<!-- END value_row -->
 </table>
+<!-- BEGIN resources -->
+<p>{SUGGESTED_MAT_MESS}</p>
+<!-- BEGIN resources_list -->
+<ul>
+<!-- BEGIN resource_item --><li><a href="{HREF_RES}">{TXT_RES}</a></li><!-- END resource_item -->
+</ul>
+<!-- END resources_list -->
+<!-- END resources -->
 <!-- END skill -->
 </div>

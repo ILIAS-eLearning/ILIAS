@@ -581,7 +581,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		);
 	}
 	
-	function &getCumulatedResults($survey_id, $nr_of_users)
+	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)
 	{
 		global $ilDB;
 		
@@ -589,12 +589,17 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		
 		$result_array = array();
 		$cumulated = array();
-
-		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
-			array('integer', 'integer'),
-			array($question_id, $survey_id)
-		);
 		
+		$sql = "SELECT svy_answer.* FROM svy_answer".
+			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
+			" WHERE svy_answer.question_fi = ".$ilDB->quote($question_id, "integer").
+			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
+		if($finished_ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
+		}
+
+		$result = $ilDB->query($sql);		
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$cumulated[$row["value"]]++;
@@ -616,15 +621,18 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$result_array["USERS_ANSWERED"] = $result->numRows();
 		$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
 
-		$prefix = "";
-		if (strcmp(key($cumulated), "") != 0)
+		if(sizeof($cumulated))
 		{
-			$prefix = (key($cumulated)+1) . " - ";
+			$prefix = "";
+			if (strcmp(key($cumulated), "") != 0)
+			{
+				$prefix = (key($cumulated)+1) . " - ";
+			}
+			$category = $this->categories->getCategoryForScale(key($cumulated)+1);
+			$result_array["MODE"] =  $prefix . $category->title;
+			$result_array["MODE_VALUE"] =  key($cumulated)+1;
+			$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		}
-		$category = $this->categories->getCategoryForScale(key($cumulated)+1);
-		$result_array["MODE"] =  $prefix . $category->title;
-		$result_array["MODE_VALUE"] =  key($cumulated)+1;
-		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
 		{
 			$cat = $this->categories->getCategory($key);
@@ -850,16 +858,22 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
 	* @access public
 	*/
-	function &getUserAnswers($survey_id)
+	function &getUserAnswers($survey_id, $finished_ids)
 	{
 		global $ilDB;
 		
 		$answers = array();
-
-		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_finished.survey_fi = %s AND svy_answer.question_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
-			array('integer','integer'),
-			array($survey_id, $this->getId())
-		);
+		
+		$sql = "SELECT svy_answer.* FROM svy_answer".
+			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
+			" WHERE svy_answer.question_fi = ".$ilDB->quote($this->getId(), "integer").
+			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
+		if($finished_ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
+		}
+		
+		$result = $ilDB->query($sql);		
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$category = $this->categories->getCategoryForScale($row["value"]+1);

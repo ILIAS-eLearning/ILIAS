@@ -8,6 +8,7 @@ $(function () {
 			label: "{SERIES_LABEL}",
             data: {SERIES_DATA},
             {SERIES_TYPE}: { {SERIES_OPTIONS} }
+            <!-- BEGIN series_property -->,{SPROP}:{SPROP_VAL}<!-- END series_property -->
         }{SERIES_END}
 		<!-- END series -->
     ], {
@@ -16,7 +17,28 @@ $(function () {
 			shadowSize: {SHADOW},
 			lines: { show: false },
 			pie: { show: {IS_PIE} }
+			<!-- BEGIN spider -->
+			,spider:{
+				active: true
+				,highlight: {mode: "line"}
+				,legs: { 
+					data: [{LEG_LABELS}]
+					,font: "15px Arial"
+					,fillStyle: "rgba(0,0,0,0.7)"
+					,legStartAngle: 0
+				}
+				,spiderSize: 0.7
+				,lineWidth: 1
+				,pointSize: 0
+				,connection: { width: 2 }
+				,legMin: 0.0000001
+				,legMax: {LEG_MAX}
+			}
+			<!-- END spider -->
 		},
+		<!-- BEGIN spider_grid_options -->
+		grid:{ hoverable: false,clickable: false,tickColor: "rgba(0,0,0,0)",mode: "spider"},
+		<!-- END spider_grid_options -->
         colors: [ {COLORS} ],
 		legend: { {LEGEND} }
 		{AXIS}

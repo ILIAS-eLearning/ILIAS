@@ -1199,14 +1199,21 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @return integer The number of users
 	* @access public
 	*/
-	function getNrOfUsersAnswered($survey_id)
+	function getNrOfUsersAnswered($survey_id, $finished_ids = null)
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT svy_answer.active_fi, svy_answer.question_fi FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
-			array('integer', 'integer'),
-			array($this->getId(), $survey_id)
-		);
+		$sql = "SELECT svy_answer.active_fi, svy_answer.question_fi".
+			" FROM svy_answer".
+			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
+			" WHERE svy_answer.question_fi = ".$ilDB->quote($this->getId(), "integer").
+			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
+		if($finished_ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
+		}				
+		
+		$result = $ilDB->query($sql);
 		$found = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
@@ -1223,19 +1230,25 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @return integer The number of users who took part in the survey
 	* @access public
 	*/
-	function &getCumulatedResultsForRow($rowindex, $survey_id, $nr_of_users)
+	function &getCumulatedResultsForRow($rowindex, $survey_id, $nr_of_users, $finished_ids)
 	{
 		global $ilDB;
 		
 		$question_id = $this->getId();
 		
 		$result_array = array();
-		$cumulated = array();
-
-		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_answer.rowvalue = %s AND svy_finished.finished_id = svy_answer.active_fi",
-			array('integer', 'integer', 'integer'),
-			array($question_id, $survey_id, $rowindex)
-		);
+		$cumulated = array();		
+		
+		$sql = "SELECT svy_answer.* FROM svy_answer".
+			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
+			" WHERE svy_answer.question_fi = ".$ilDB->quote($question_id, "integer").
+			" AND svy_answer.rowvalue = ".$ilDB->quote($rowindex, "integer").
+			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
+		if($finished_ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
+		}
+		$result = $ilDB->query($sql);		
 		
 		switch ($this->getSubtype())
 		{
@@ -1261,18 +1274,21 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				break;
 		}
 		$numrows = $result->numRows();
-		$result_array["USERS_ANSWERED"] = $this->getNrOfUsersAnswered($survey_id);
-		$result_array["USERS_SKIPPED"] = $nr_of_users - $this->getNrOfUsersAnswered($survey_id);
+		$result_array["USERS_ANSWERED"] = $this->getNrOfUsersAnswered($survey_id, $finished_ids);
+		$result_array["USERS_SKIPPED"] = $nr_of_users - $this->getNrOfUsersAnswered($survey_id, $finished_ids);
 
-		$prefix = "";
-		if (strcmp(key($cumulated), "") != 0)
+		if(sizeof($cumulated))
 		{
-			$prefix = (key($cumulated)+1) . " - ";
+			$prefix = "";
+			if (strcmp(key($cumulated), "") != 0)
+			{
+				$prefix = (key($cumulated)+1) . " - ";
+			}
+			$cat = $this->getColumnForScale(key($cumulated)+1);
+			$result_array["MODE"] =  $prefix . $cat->title;
+			$result_array["MODE_VALUE"] =  key($cumulated)+1;
+			$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		}
-		$cat = $this->getColumnForScale(key($cumulated)+1);
-		$result_array["MODE"] =  $prefix . $cat->title;
-		$result_array["MODE_VALUE"] =  key($cumulated)+1;
-		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		for ($key = 0; $key < $this->getColumnCount(); $key++)
 		{
 			$cat = $this->getColumn($key);
@@ -1321,7 +1337,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array["ARITHMETIC_MEAN"] = "";
 		$result_array["MEDIAN"] = $median_value;
 		$result_array["QUESTION_TYPE"] = "SurveyMatrixQuestion";
-		$result_array["ROW"] = $this->getRow($rowindex)->title;
+		$result_array["ROW"] = $this->getRow($rowindex)->title;		
 		return $result_array;
 	}
 
@@ -1332,7 +1348,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @return integer The number of users who took part in the survey
 	* @access public
 	*/
-	function &getCumulatedResults($survey_id, $nr_of_users)
+	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)
 	{
 		global $ilDB;
 		
@@ -1340,11 +1356,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		
 		$result_array = array();
 		$cumulated = array();
-
-		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
-			array('integer', 'integer'),
-			array($question_id, $survey_id)
-		);
+		
+		$sql = "SELECT svy_answer.* FROM svy_answer".
+			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
+			" WHERE svy_answer.question_fi = ".$ilDB->quote($question_id, "integer").
+			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
+		if($finished_ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
+		}
+		$result = $ilDB->query($sql);		
 		
 		switch ($this->getSubtype())
 		{
@@ -1359,18 +1380,21 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				break;
 		}
 		$numrows = $result->numRows();
-		$result_array["USERS_ANSWERED"] = $this->getNrOfUsersAnswered($survey_id);
-		$result_array["USERS_SKIPPED"] = $nr_of_users - $this->getNrOfUsersAnswered($survey_id);
+		$result_array["USERS_ANSWERED"] = $this->getNrOfUsersAnswered($survey_id, $finished_ids);
+		$result_array["USERS_SKIPPED"] = $nr_of_users - $this->getNrOfUsersAnswered($survey_id, $finished_ids);
 
-		$prefix = "";
-		if (strcmp(key($cumulated), "") != 0)
+		if(sizeof($cumulated))
 		{
-			$prefix = (key($cumulated)+1) . " - ";
+			$prefix = "";
+			if (strcmp(key($cumulated), "") != 0)
+			{
+				$prefix = (key($cumulated)+1) . " - ";
+			}
+			$cat = $this->getColumnForScale(key($cumulated)+1);
+			$result_array["MODE"] =  $prefix . $cat->title;
+			$result_array["MODE_VALUE"] =  key($cumulated)+1;
+			$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		}
-		$cat = $this->getColumnForScale(key($cumulated)+1);
-		$result_array["MODE"] =  $prefix . $cat->title;
-		$result_array["MODE_VALUE"] =  key($cumulated)+1;
-		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		for ($key = 0; $key < $this->getColumnCount(); $key++)
 		{
 			$cat = $this->getColumn($key);
@@ -1424,7 +1448,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$cumulated_results["TOTAL"] = $result_array;
 		for ($i = 0; $i < $this->getRowCount(); $i++)
 		{
-			$rowresult =& $this->getCumulatedResultsForRow($i, $survey_id, $nr_of_users);
+			$rowresult =& $this->getCumulatedResultsForRow($i, $survey_id, $nr_of_users, $finished_ids);
 			$cumulated_results[$i] = $rowresult;
 		}
 		return $cumulated_results;
@@ -1917,17 +1941,23 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
 	* @access public
 	*/
-	function &getUserAnswers($survey_id)
+	function &getUserAnswers($survey_id, $finished_ids)
 	{
 		global $ilDB;
 		
 		$answers = array();
-
-		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_finished.survey_fi = %s AND svy_answer.question_fi = %s AND svy_finished.finished_id = svy_answer.active_fi ORDER BY rowvalue, value",
-			array('integer','integer'),
-			array($survey_id, $this->getId())
-		);
-		$results = array();
+		
+		$sql = "SELECT svy_answer.* FROM svy_answer".
+			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
+			" WHERE svy_answer.question_fi = ".$ilDB->quote($this->getId(), "integer").
+			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
+		if($finished_ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
+		}
+		$sql .= " ORDER BY rowvalue, value";		
+		$result = $ilDB->query($sql);	
+		
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$column = $this->getColumnForScale($row["value"]+1);
@@ -2434,9 +2464,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	*
 	* @return array Data
 	*/
-	public function getCumulatedResultData($survey_id, $counter)
+	public function getCumulatedResultData($survey_id, $counter, $finished_ids)
 	{				
-		$cumulated =& $this->calculateCumulatedResults($survey_id);
+		$cumulated =& $this->calculateCumulatedResults($survey_id, $finished_ids);
 		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->getQuestiontext());
 		
 		include_once "./Services/Utilities/classes/class.ilStr.php";

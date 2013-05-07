@@ -10,7 +10,7 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillProfileGUI
  * @ilCtrl_isCalledBy ilObjSkillManagementGUI: ilAdministrationGUI
  *
  * @ingroup ServicesSkill
@@ -113,6 +113,13 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($sktr_gui);
 				break;
 
+			case "ilskillprofilegui":
+				$ilTabs->activateTab("profiles");
+				include_once("./Services/Skill/classes/class.ilSkillProfileGUI.php");
+				$skprof_gui = new ilSkillProfileGUI();
+				$ret = $this->ctrl->forwardCommand($skprof_gui);
+				break;
+				
 			case 'ilpermissiongui':
 				$this->tabs_gui->activateTab('permissions');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -163,6 +170,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "editSettings"));
 
+			$this->tabs_gui->addTab("profiles",
+				$lng->txt("skmg_skill_profiles"),
+				$this->ctrl->getLinkTargetByClass("ilskillprofilegui"));
+
 			if (DEVMODE == 1)
 			{
 				$this->tabs_gui->addTab("test",
@@ -188,9 +199,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 		$ilTabs->activateTab("settings");
 
-		$skmg_set = new ilSetting("skmg");
-		$enable_skmg = $skmg_set->get("enable_skmg");
-				
+		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
+		$skmg_set = new ilSkillManagementSettings();
+		$enable_skmg = $skmg_set->isActivated();
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
@@ -216,8 +228,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $ilSetting;
 		
-		$skmg_set = new ilSetting("skmg");
-		$skmg_set->set("enable_skmg", $_POST["enable_skmg"]);
+		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
+		$skmg_set = new ilSkillManagementSettings();
+		$skmg_set->activate((int) $_POST["enable_skmg"]);
 		
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 		

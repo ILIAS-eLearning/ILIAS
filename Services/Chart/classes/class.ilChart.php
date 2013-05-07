@@ -23,6 +23,8 @@ class ilChart
 	protected $colors; // [array]
 	protected $ticks; // [array]
 	protected $integer_axis; // [array]
+	protected $leg_labels = array(); // [array]
+	protected $y_max = 0; // [array]
 
 	/**
 	 * Constructor
@@ -218,6 +220,26 @@ class ilChart
 	}
 
 	/**
+	 * Set leg labels
+	 *
+	 * @param array $a_val leg labels (array of strings)	
+	 */
+	function setLegLabels($a_val)
+	{
+		$this->leg_labels = $a_val;
+	}
+	
+	/**
+	 * Get leg labels
+	 *
+	 * @return array leg labels (array of strings)
+	 */
+	function getLegLabels()
+	{
+		return $this->leg_labels;
+	}
+	
+	/**
 	 * Render (flot only currently)
 	 */
 	public function getHTML()
@@ -230,6 +252,8 @@ class ilChart
 		$tpl->addJavascript("Services/Chart/js/flot/excanvas.min.js");
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.min.js");
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.pie.js");
+		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.highlighter.js");
+		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.spider.js");
 
 		$chart = new ilTemplate("tpl.grid.html", true, true, "Services/Chart");
 		$chart->setVariable("ID", $this->id);
@@ -239,8 +263,24 @@ class ilChart
 		$last = array_keys($this->data);
 		$last = array_pop($last);
 		$has_pie = false;
+		$has_spider = false;
 		foreach($this->data as $idx => $series)
 		{
+			$fill = $series->getFill();
+			
+			if ($series->getType() == "spider")
+			{
+				$has_spider = true;
+				
+				if ($fill["color"] != "")
+				{
+					$chart->setCurrentBlock("series_property");
+					$chart->setVariable("SPROP", "color");
+					$chart->setVariable("SPROP_VAL", self::renderColor($fill["color"] , "0.5"));
+					$chart->parseCurrentBlock();
+				}
+			}
+			
 			$chart->setCurrentBlock("series");
 			$chart->setVariable("SERIES_LABEL", str_replace("\"", "\\\"", $series->getLabel()));
 			$chart->setVariable("SERIES_TYPE", $series->getType());
@@ -303,7 +343,7 @@ class ilChart
 					$options[] = "radius:".$radius;
 				}
 			}
-			$fill = $series->getFill();
+			
 			if($fill["fill"])
 			{
 				$options[] = "fill: ".$fill["fill"];
@@ -317,6 +357,19 @@ class ilChart
 			$chart->parseCurrentBlock();
 		}
 
+		if ($has_spider)
+		{
+			$chart->setCurrentBlock("spider");
+			$lab_strings = array();
+			foreach ($this->getLegLabels() as $l)
+			{
+				$lab_strings[] = "{label: \"".$l."\"}";
+			}
+			$chart->setVariable("LEG_LABELS", implode($lab_strings, ","));
+			$chart->setVariable("LEG_MAX", $this->getYAxisMax());
+			$chart->parseCurrentBlock();
+			$chart->touchBlock("spider_grid_options");
+		}
 		
 		// global options
 
@@ -413,6 +466,26 @@ class ilChart
 	function setXAxisToInteger($a_status)
 	{
 		$this->integer_axis["x"] = (bool)$a_status;
+	}
+	
+	/**
+	 * Set y axis max value
+	 *
+	 * @param float $a_val y axis max value	
+	 */
+	function setYAxisMax($a_val)
+	{
+		$this->y_max = $a_val;
+	}
+	
+	/**
+	 * Get y axis max value
+	 *
+	 * @return float y axis max value
+	 */
+	function getYAxisMax()
+	{
+		return $this->y_max;
 	}
 	
 	/*

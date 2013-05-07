@@ -59,7 +59,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 
 		if (!$confirmdelete)
 		{
-			$this->addColumn('','f','1%');
+			$this->addColumn('','','1%', true);
 		}
 		$this->addColumn($this->lng->txt("name"),'name', '');
 		$this->addColumn($this->lng->txt("login"),'login', '');

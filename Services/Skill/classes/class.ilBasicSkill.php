@@ -211,6 +211,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	 */
 	static function lookupLevelTrigger($a_id)
 	{
+die("ilBasicSkill::lookupLevelTrigger is deprecated.");
 		$ref_id = ilBasicSkill::lookupLevelProperty($a_id, "trigger_ref_id");
 		$obj_id = ilBasicSkill::lookupLevelProperty($a_id, "trigger_obj_id");
 		return array("ref_id" => $ref_id, "obj_id" => $obj_id);
@@ -274,6 +275,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	 */
 	static function writeLevelTrigger($a_id, $a_trigger_ref_id)
 	{
+die("ilBasicSkill::writeLevelTrigger is deprecated.");
 		$a_trigger_obj_id = 0;
 		if ($a_trigger_ref_id > 0)
 		{
@@ -356,7 +358,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	function lookupLevelsForTriggerRefId($a_ref_id)
 	{
 		global $ilDB;
-
+die("ilBasicSkill::lookupLevelsForTriggerRefId is deprecated.");
 		$set = $ilDB->query("SELECT id FROM skl_level WHERE ".
 			" trigger_ref_id = ".$ilDB->quote($a_ref_id, "integer")
 			);
@@ -406,7 +408,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	public static function updateAllUserSkillLevels()
 	{
 		global $ilDB;
-
+die("ilBasicSkill::updateAllUserSkillLevels is deprecated.");
 		$set = $ilDB->query("SELECT id, trigger_obj_id FROM skl_level WHERE ".
 			" trigger_obj_id > ".$ilDB->quote(0, "integer")
 		);
@@ -435,7 +437,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	public static function updateSkillLevelsByTriggerRef($a_user_id, $a_ref_id)
 	{
 		global $ilDB;
-
+die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 		$set = $ilDB->query("SELECT id, trigger_obj_id FROM skl_level WHERE ".
 			" trigger_ref_id = ".$ilDB->quote($a_ref_id, "integer")
 		);
@@ -468,15 +470,15 @@ class ilBasicSkill extends ilSkillTreeNode
 	 * @param	int		status
 	 */
 	static function writeUserSkillLevelStatus($a_level_id, $a_user_id,
-		$a_status = ilBasicSkill::ACHIEVED, $a_force = false)
+		$a_trigger_ref_id, $a_tref_id = 0, $a_status = ilBasicSkill::ACHIEVED, $a_force = false)
 	{
 		global $ilDB;
 
 		$skill_id = ilBasicSkill::lookupLevelSkillId($a_level_id);
-		$trigger = ilBasicSkill::lookupLevelTrigger($a_level_id);
-		$trigger_ref_id = $trigger["ref_id"];
-		$trigger_obj_id = $trigger["obj_id"];
-		$trigger_title = ilObject::_lookupTitle($trigger["obj_id"]);
+		$trigger_ref_id = $a_trigger_ref_id;
+		$trigger_obj_id = ilObject::_lookupObjId($trigger_ref_id);
+		$trigger_title = ilObject::_lookupTitle($trigger_obj_id);
+		$trigger_type = ilObject::_lookupType($trigger_obj_id);
 
 		$save = false;
 
@@ -491,7 +493,9 @@ class ilBasicSkill extends ilSkillTreeNode
 			$ilDB->setLimit(1);
 			$set = $ilDB->query("SELECT status, valid FROM skl_user_skill_level WHERE ".
 				"level_id = ".$ilDB->quote($a_level_id, "integer")." AND ".
-				"user_id = ".$ilDB->quote($a_user_id, "integer").
+				"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
+				"tref_id = ".$ilDB->quote((int) $a_tref_id, "integer")." AND ".
+				"trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer").
 				" ORDER BY status_date DESC"
 			);
 			$rec = $ilDB->fetchAssoc($set);
@@ -505,38 +509,120 @@ class ilBasicSkill extends ilSkillTreeNode
 		{
 			$now = ilUtil::now();
 			$ilDB->manipulate("INSERT INTO skl_user_skill_level ".
-				"(level_id, user_id, status_date, skill_id, status, valid, trigger_ref_id,".
-				"trigger_obj_id, trigger_title) VALUES (".
+				"(level_id, user_id, tref_id, status_date, skill_id, status, valid, trigger_ref_id,".
+				"trigger_obj_id, trigger_obj_type, trigger_title) VALUES (".
 				$ilDB->quote($a_level_id, "integer").",".
 				$ilDB->quote($a_user_id, "integer").",".
+				$ilDB->quote((int) $a_tref_id, "integer").",".
 				$ilDB->quote($now, "timestamp").",".
 				$ilDB->quote($skill_id, "integer").",".
 				$ilDB->quote($a_status, "integer").",".
 				$ilDB->quote(1, "integer").",".
 				$ilDB->quote($trigger_ref_id, "integer").",".
 				$ilDB->quote($trigger_obj_id, "integer").",".
+				$ilDB->quote($trigger_type, "text").",".
 				$ilDB->quote($trigger_title, "text").
 				")");
 
 			$ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
 				." user_id = ".$ilDB->quote($a_user_id, "integer")
 				." AND level_id = ".$ilDB->quote($a_level_id, "integer")
+				." AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer")
+				." AND trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer")
 			);
 
 			if ($a_status == ilBasicSkill::ACHIEVED)
 			{
 				$ilDB->manipulate("INSERT INTO skl_user_has_level ".
-				"(level_id, user_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_title) VALUES (".
+				"(level_id, user_id, tref_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_obj_type, trigger_title) VALUES (".
 				$ilDB->quote($a_level_id, "integer").",".
 				$ilDB->quote($a_user_id, "integer").",".
+				$ilDB->quote($a_tref_id, "integer").",".
 				$ilDB->quote($now, "timestamp").",".
 				$ilDB->quote($skill_id, "integer").",".
 				$ilDB->quote($trigger_ref_id, "integer").",".
 				$ilDB->quote($trigger_obj_id, "integer").",".
+				$ilDB->quote($trigger_type, "text").",".
 				$ilDB->quote($trigger_title, "text").
 				")");
 			}
 		}
+	}
+
+	/**
+	 * Get max levels per type
+	 *
+	 * @param
+	 * @return
+	 */
+	function getMaxLevelPerType($a_tref_id, $a_type, $a_user_id = 0)
+	{
+		global $ilDB, $ilUser;
+		
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		
+		$set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level ".
+			" WHERE trigger_obj_type = ".$ilDB->quote($a_type, "text").
+			" AND skill_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+
+		$has_level = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$has_level[$rec["level_id"]] = true;
+		}
+		$max_level = 0;
+		foreach ($this->getLevelData() as $l)
+		{
+			if (isset($has_level[$l["id"]]))
+			{
+				$max_level = $l["id"];
+			}
+		}
+		return $max_level;
+	}
+	
+	/**
+	 * Get max levels per object
+	 *
+	 * @param
+	 * @return
+	 */
+	function getMaxLevelPerObject($a_tref_id, $a_object_id, $a_user_id = 0)
+	{
+		global $ilDB, $ilUser;
+		
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		
+		$set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level ".
+			" WHERE trigger_obj_id = ".$ilDB->quote($a_object_id, "integer").
+			" AND skill_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+
+		$has_level = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$has_level[$rec["level_id"]] = true;
+		}
+		$max_level = 0;
+		foreach ($this->getLevelData() as $l)
+		{
+			if (isset($has_level[$l["id"]]))
+			{
+				$max_level = $l["id"];
+			}
+		}
+		return $max_level;
 	}
 
 	/**
@@ -548,7 +634,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	static function getCompletionDateForTriggerRefId($a_user_id, $a_ref_id = null)
 	{
 		global $ilDB;
-
+die("ilBasicSkill::getCompletionDateForTriggerRefId is deprecated.");
 		if ($a_ref_id == "")
 		{
 			$a_ref_id = null;
@@ -644,7 +730,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	static function checkUserCertificateForTriggerRefId($a_user_id, $a_ref_id)
 	{
 		global $ilDB;
-
+die("ilBasicSkill::checkUserCertificateForTriggerRefId is deprecated.");
 		if (!is_array($a_ref_id))
 		{
 			$a_ref_id = array($a_ref_id);
@@ -693,7 +779,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	function lookupLevelAchievementDate($a_user_id, $a_level_id)
 	{
 		global $ilDB;
-
+die("ilBasicSkill::lookupLevelAchievementDate is deprecated.");
 		$set = $ilDB->query("SELECT user_id, status_date, trigger_ref_id, level_id, skill_id FROM skl_user_has_level WHERE ".
 			" user_id = ".$ilDB->quote($a_user_id, "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
@@ -715,7 +801,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	static function getTriggerOfAllCertificates($a_user_id)
 	{
 		global $ilDB, $tree;
-
+die("ilBasicSkill::getTriggerOfAllCertificates is deprecated.");
 		if (!is_array($a_user_id))
 		{
 			$a_user_id = array($a_user_id);
@@ -758,7 +844,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	static function getSkillLevelsForTrigger($a_ref_id)
 	{
 		global $ilDB;
-
+die("ilBasicSkill::getSkillLevelsForTrigger is deprecated.");
 		$set = $ilDB->query($q = "SELECT id FROM skl_level".
 			" WHERE trigger_ref_id = ".$ilDB->quote($a_ref_id, "integer"));
 
@@ -797,6 +883,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	 */
 	function getLevelTitleForCertificate($a_level_id)
 	{
+die("ilBasicSkill::getLevelTitleForCertificate is deprecated.");
 		return ilBasicSkill::lookupLevelTitle($a_level_id);
 	}
 
@@ -808,6 +895,7 @@ class ilBasicSkill extends ilSkillTreeNode
 	 */
 	function getTriggerTitleForCertificate($a_level_id)
 	{
+die("ilBasicSkill::getTriggerTitleForCertificate is deprecated.");
 		$tr = ilBasicSkill::lookupLevelTrigger($a_level_id);
 		return ilObject::_lookupTitle($tr["obj_id"]);
 	}

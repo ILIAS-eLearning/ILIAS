@@ -1,0 +1,11 @@
+Skill Management
+----------------
+
+ilSkillTree
+- Table skl_tree joins table skl_tree_node
+- getSkillTreePath($a_base_skill_id, $a_tref_id = 0)
+
+ilSkillTreeNode
+
+
+ilBasicSkill is ilSkillTreeNode

@@ -84,7 +84,7 @@ class ilChartData
 	 */
 	public function isValidType($a_value)
 	{
-		$all = array("lines", "bars", "points", "pie");
+		$all = array("lines", "bars", "points", "pie", "spider");
 		if(in_array((string)$a_value, $all))
 		{
 			return true;

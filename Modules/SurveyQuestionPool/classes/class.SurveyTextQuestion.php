@@ -418,7 +418,7 @@ class SurveyTextQuestion extends SurveyQuestion
 		);
 	}
 	
-	function &getCumulatedResults($survey_id, $nr_of_users)
+	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)
 	{
 		global $ilDB;
 		
@@ -427,12 +427,17 @@ class SurveyTextQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 		$textvalues = array();
-
-		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
-			array('integer','integer'),
-			array($question_id, $survey_id)
-		);
 		
+		$sql = "SELECT svy_answer.* FROM svy_answer".
+			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
+			" WHERE svy_answer.question_fi = ".$ilDB->quote($question_id, "integer").
+			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
+		if($finished_ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
+		}
+
+		$result = $ilDB->query($sql);		
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$cumulated[$row["value"]]++;
@@ -534,16 +539,21 @@ class SurveyTextQuestion extends SurveyQuestion
 	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
 	* @access public
 	*/
-	function &getUserAnswers($survey_id)
+	function &getUserAnswers($survey_id, $finished_ids)
 	{
 		global $ilDB;
 		
 		$answers = array();
-
-		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_finished.survey_fi = %s AND svy_answer.question_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
-			array('integer','integer'),
-			array($survey_id, $this->getId())
-		);
+		
+		$sql = "SELECT svy_answer.* FROM svy_answer, svy_finished".
+			" WHERE svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer").
+			" AND svy_answer.question_fi = ".$ilDB->quote($this->getId(), "integer").
+			" AND svy_finished.finished_id = svy_answer.active_fi";	
+		if($finished_ids)
+		{
+			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
+		}
+		$result = $ilDB->query($sql);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$answers[$row["active_fi"]] = $row["textanswer"];

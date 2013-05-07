@@ -91,6 +91,100 @@ class ilSurveyExecutionGUI
 		}
 		return $ret;
 	}
+	
+	protected function checkAuth($a_may_start = false)
+	{
+		global $rbacsystem, $ilUser;
+		
+		if($this->preview && !$rbacsystem->checkAccess("write", $this->object->ref_id))
+		{
+			// only with write access it is possible to preview the survey
+			$this->ilias->raiseError($this->lng->txt("survey_cannot_preview_survey"),$this->ilias->error_obj->MESSAGE);	
+		}
+						
+		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
+		{
+			// only with read access it is possible to run the test
+			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$user_id = $ilUser->getId();
+
+		// check existing code 
+		// see ilObjSurveyGUI::infoScreen()
+		$anonymous_id = $anonymous_code = null;
+		if ($this->object->getAnonymize() || !$this->object->isAccessibleWithoutCode())
+		{
+			$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];		
+			$anonymous_id = $this->object->getAnonymousIdByCode($anonymous_code);			
+			if(!$anonymous_id)
+			{
+				ilUtil::sendFailure(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $anonymous_code, true));
+				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+			}
+		}
+		
+		// appraisee validation
+		$appr_id = 0;
+		if($this->object->get360Mode())
+		{
+			$appr_id = $_REQUEST["appr_id"];
+			if(!$appr_id)
+			{
+				$appr_id = $_SESSION["appr_id"][$this->object->getId()];
+			}				
+			// check if appraisee is valid
+			if($anonymous_id)
+			{
+				$appraisees = $this->object->getAppraiseesToRate(0, $anonymous_id);
+			}
+			if(!$appraisees && $user_id != ANONYMOUS_USER_ID)
+			{
+				$appraisees = $this->object->getAppraiseesToRate($user_id);
+			}									
+			if(!in_array($appr_id, $appraisees))
+			{
+				ilUtil::sendFailure($this->lng->txt("survey_360_execution_invalid_appraisee"), true);
+				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+			}									
+		}
+		$_SESSION["appr_id"][$this->object->getId()] = $appr_id;
+								
+		$status = $this->object->isSurveyStarted($user_id, $anonymous_code, $appr_id);		
+		// completed
+		if($status === 1)
+		{
+			ilUtil::sendFailure($this->lng->txt("already_completed_survey"), true);
+			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+		}
+		// starting 
+		else if ($status === false)
+		{			
+			if($a_may_start)
+			{								
+				$_SESSION["finished_id"][$this->object->getId()] = 
+					$this->object->startSurvey($user_id, $anonymous_code, $appr_id);				
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("survey_use_start_button"), true);
+				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+			}
+		}		
+		// resuming
+		else
+		{
+			// nothing todo
+		}
+		
+		// validate finished id
+		if($this->object->getActiveID($user_id, $anonymous_code, $appr_id) != 
+			$_SESSION["finished_id"][$this->object->getId()])
+		{
+			ilUtil::sendFailure($this->lng->txt("cannot_read_survey"), true);
+			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");			
+		}
+	}
 
 /**
 * Retrieves the ilCtrl command
@@ -124,77 +218,25 @@ class ilSurveyExecutionGUI
 * @access private
 */
 	function start($resume = false)
-	{
-		global $ilUser;
-		global $rbacsystem;
-
+	{		
 		if($this->preview)
 		{
 			unset($_SESSION["preview_data"]); 
 		}
 		unset($_SESSION["svy_errors"]);
-		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
-		{
-			// only with read access it is possible to run the test
-			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
-		{
-			if ($resume)
-			{
-				$anonymize_key = $this->object->getAnonymousId($_POST["anonymous_id"]);
-				if ($anonymize_key)
-				{
-					$_SESSION["anonymous_id"][$this->object->getId()] = $anonymize_key;
-				}
-				else
-				{
-					unset($_POST["cmd"]["resume"]);
-					ilUtil::sendFailure(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
-				}
-			}
-		}
 		
-		$direction = 0;
-
-		if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
-		{
-			if ($this->object->checkSurveyCode($_POST["anonymous_id"]))
-			{
-				$_SESSION["anonymous_id"][$this->object->getId()] = $_POST["anonymous_id"];
-			}
-			else
-			{
-				ilUtil::sendFailure(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
-				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
-			}
-		}
-		if ($this->object->isAccessibleWithoutCode())
-		{
-			$anonymous_id = $this->object->getUserSurveyCode($ilUser->getId());
-			if (strlen($anonymous_id))
-			{
-				$_SESSION["anonymous_id"][$this->object->getId()] = $anonymous_id;
-			}
-			else
-			{
-				$_SESSION["anonymous_id"][$this->object->getId()] = $this->object->createNewAccessCode();
-			}
-		}
-		
+		$this->checkAuth(!$resume);
+				
 		$activepage = "";
 		if ($resume)
 		{
 			$activepage = $this->object->getLastActivePage($_SESSION["finished_id"][$this->object->getId()]);
-			$direction = 0;
 		}
-		// explicitly set the survey started!
-		if ($this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"][$this->object->getId()]) === FALSE)
+		
+		if (strlen($activepage)) 
 		{
-			$_SESSION["finished_id"][$this->object->getId()] = $this->object->startSurvey($ilUser->getId(), $_SESSION["anonymous_id"][$this->object->getId()]);
+			$this->ctrl->setParameter($this, "qid", $activepage);
 		}
-		if (strlen($activepage)) $this->ctrl->setParameter($this, "qid", $activepage);
 		$this->ctrl->setParameter($this, "activecommand", "default");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
@@ -294,31 +336,11 @@ class ilSurveyExecutionGUI
 * @access private
 */
 	function outSurveyPage($activepage = NULL, $direction = NULL)
-	{
-		global $ilUser,$rbacsystem;
-
-		if(!$this->preview)
-		{
-			// security check if someone tries to go into a survey using an URL to one of the questions
-			$canStart = $this->object->canStartSurvey($_SESSION["anonymous_id"][$this->object->getId()]);
-			if (!$canStart["result"])
-			{
-				ilUtil::sendInfo(implode("<br />", $canStart["messages"]), TRUE);
-				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
-			}
-			$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"][$this->object->getId()]);
-			if ($survey_started === FALSE)
-			{
-				ilUtil::sendInfo($this->lng->txt("survey_use_start_button"), TRUE);
-				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
-			}
-		}
-		else if (!$rbacsystem->checkAccess("write", $this->object->ref_id))
-		{
-			// only with write access it is possible to preview the survey
-			$this->ilias->raiseError($this->lng->txt("survey_cannot_preview_survey"),$this->ilias->error_obj->MESSAGE);
-		}
-
+	{		
+		global $ilUser;
+		
+		$this->checkAuth();			
+		
 		$page = $this->object->getNextPage($activepage, $direction);
 		$constraint_true = 0;
 
@@ -363,8 +385,21 @@ class ilSurveyExecutionGUI
 		}
 		else if ($page === 1)
 		{
-			$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"][$this->object->getId()]);
-			if (array_key_exists("anonymous_id", $_SESSION)) unset($_SESSION["anonymous_id"][$this->object->getId()]);
+			$this->object->finishSurvey($_SESSION["finished_id"][$this->object->getId()]);
+											
+			if ($this->object->getMailNotification())
+			{
+				$this->object->sendNotificationMail($ilUser->getId(), 
+					$_SESSION["anonymous_id"][$this->object->getId()],
+					$_SESSION["appr_id"][$this->object->getId()]);
+			}		
+			
+			/*
+			unset($_SESSION["anonymous_id"][$this->object->getId()]);
+			unset($_SESSION["appr_id"][$this->object->getId()]);
+			unset($_SESSION["finished_id"][$this->object->getId()]);
+			*/ 
+			
 			$this->runShowFinishedPage();
 			return;
 		}
@@ -372,8 +407,18 @@ class ilSurveyExecutionGUI
 		{
 			$required = false;
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
+			
+			if($this->object->get360Mode())
+			{			
+				$appr_id = $_SESSION["appr_id"][$this->object->getId()];
+				
+				include_once "Services/User/classes/class.ilUserUtil.php";
+				$this->tpl->setTitle($this->object->getTitle()." (".
+					$this->lng->txt("survey_360_appraisee").": ".
+					ilUserUtil::getNamePresentation($appr_id).")");
+			}				
 
-			if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)))
+			if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($ilUser->getId() == ANONYMOUS_USER_ID)))
 			{
 				$this->tpl->setCurrentBlock("suspend_survey");
 
@@ -468,16 +513,7 @@ class ilSurveyExecutionGUI
 	* @access private
 	*/
 	function saveUserInput($navigationDirection = "next") 
-	{
-		global $ilUser;
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
-		{
-			// only with read access it is possible to run the test
-			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
-		}
-
+	{		
 		if(!$this->preview)
 		{
 			$this->object->setEndTime($_SESSION["finished_id"][$this->object->getId()]);
@@ -518,17 +554,9 @@ class ilSurveyExecutionGUI
 *
 * @access private
 */
+	/*
 	function navigate($navigationDirection = "next") 
-	{
-		global $ilUser;
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
-		{
-			// only with read access it is possible to run the test
-			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
-		}
-
+	{		
 		// check users input when it is a metric question
 		unset($_SESSION["svy_errors"]);
 		$page_error = 0;
@@ -575,7 +603,8 @@ class ilSurveyExecutionGUI
 		}
 		$this->outSurveyPage($activepage, $direction);
 	}
-
+*/
+	
 /**
 * Saves the users input of the active page
 *
@@ -593,20 +622,10 @@ class ilSurveyExecutionGUI
 		if (strlen($error) == 0)
 		{
 			if(!$this->preview)
-			{
-				$user_id = $ilUser->getId();
-			
+			{							
 				// delete old answers
 				$this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"][$this->object->getId()]);
-
-				if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"][$this->object->getId()]) === false)
-				{
-					$_SESSION["finished_id"][$this->object->getId()] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"][$this->object->getId()]);
-				}
-				if ($this->object->getAnonymize())
-				{
-					$user_id = 0;
-				}				
+		
 				$question->saveUserInput($_POST, $_SESSION["finished_id"][$this->object->getId()]);
 			}
 			else
@@ -643,8 +662,7 @@ class ilSurveyExecutionGUI
 * @access public
 */
 	function runShowFinishedPage()
-	{
-		unset($_SESSION["anonymous_id"][$this->object->getId()]);
+	{		
 		if (strlen($this->object->getOutro()) == 0)
 		{
 			$this->ctrl->redirectByClass("ilobjsurveygui", "backToRepository");
