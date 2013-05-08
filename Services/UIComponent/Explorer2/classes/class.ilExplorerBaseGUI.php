@@ -15,9 +15,10 @@
  */
 abstract class ilExplorerBaseGUI
 {
-	private static $js_tree_path = "Services/UIComponent/Explorer2/lib/jstree-v.pre1.0/jquery.jstree.js";
-	private $skip_root_node = false;
-	private $ajax = false;
+	protected static $js_tree_path = "Services/UIComponent/Explorer2/lib/jstree-v.pre1.0/jquery.jstree.js";
+	protected $skip_root_node = false;
+	protected $ajax = false;
+	protected $custom_open_nodes = array();
 	
 	/**
 	 * Constructor
@@ -130,7 +131,20 @@ abstract class ilExplorerBaseGUI
 		return $this->ajax;
 	}
 	
-
+	/**
+	 * Set node to be opened (additional custom opened node, not standard expand behaviour)
+	 *
+	 * @param
+	 * @return
+	 */
+	function setNodeOpen($a_id)
+	{
+		if (!in_array($a_id, $this->custom_open_nodes))
+		{
+			$this->custom_open_nodes[] = $a_id;
+		}
+	}	
+	
 	/**
 	 * Get href for node
 	 *
@@ -375,6 +389,14 @@ abstract class ilExplorerBaseGUI
 		foreach ($this->open_nodes as $nid)
 		{
 			$open_nodes[] = $this->getDomNodeIdForNodeId($nid);
+		}
+		foreach ($this->custom_open_nodes as $nid)
+		{
+			$dnode = $this->getDomNodeIdForNodeId($nid);
+			if (!in_array($dnode, $open_nodes))
+			{
+				$open_nodes[] = $dnode;
+			}
 		}
 		
 		// ilias config options
