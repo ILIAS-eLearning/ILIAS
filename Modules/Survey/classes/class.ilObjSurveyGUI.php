@@ -348,123 +348,190 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$form = $this->initPropertiesForm();
 		if ($form->checkInput())
-		{		
-			// #10055
-			if ($_POST['online'] && count($this->object->questions) == 0)
-			{
-				$_POST['online'] = null;
-				ilUtil::sendFailure($this->lng->txt("cannot_switch_to_online_no_questions"), true);			
-			}
-			
-			$template_settings = null;
-			$template = $this->object->getTemplate();
-			if($template)
-			{
-				include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-				$template = new ilSettingsTemplate($template);
-				$template_settings = $template->getSettings();
-			}
-
-			include_once 'Services/MetaData/classes/class.ilMD.php';
-			$md_obj =& new ilMD($this->object->getId(), 0, "svy");
-			$md_section = $md_obj->getGeneral();
-			
-			// title
-			$md_section->setTitle(ilUtil::stripSlashes($_POST['title']));
-			$md_section->update();
-
-			// Description
-			$md_desc_ids = $md_section->getDescriptionIds();
-			if($md_desc_ids)
-			{
-				$md_desc = $md_section->getDescription(array_pop($md_desc_ids));
-				$md_desc->setDescription(ilUtil::stripSlashes($_POST['description']));
-				$md_desc->update();
-			}
-
-			// both are saved in object, too
-			$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
-			$this->object->setDescription(ilUtil::stripSlashes($_POST['description']));
-			$this->object->update();
-			
-			$this->object->setStatus($_POST['online']);
-			
-			// activation
-			if($_POST["access_type"] == ilObjectActivation::TIMINGS_ACTIVATION)
-			{	
-				$this->object->setActivationLimited(true);								    			
-				$this->object->setActivationVisibility($_POST["access_visiblity"]);
-				
-				$date = new ilDateTime($_POST['access_begin']['date'] . ' ' . $_POST['access_begin']['time'], IL_CAL_DATETIME);
-				$this->object->setStartDate($date->get(IL_CAL_UNIX));
-				
-				$date = new ilDateTime($_POST['access_end']['date'] . ' ' . $_POST['access_end']['time'], IL_CAL_DATETIME);
-				$this->object->setEndDate($date->get(IL_CAL_UNIX));							
-			}
-			else
-			{
-				$this->object->setActivationLimited(false);
-			}
-
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$introduction = $_POST["introduction"];
-			$this->object->setIntroduction($introduction);
-			$outro = $_POST["outro"];
-			$this->object->setOutro($outro);
-
-			if(!$template_settings["show_question_titles"]["hide"])
-			{
-				$this->object->setShowQuestionTitles($_POST["show_question_titles"]);
-			}
-
-			if(!$template_settings["use_pool"]["hide"])
-			{
-				$this->object->setPoolUsage($_POST["use_pool"]);
-			}
-			
-			$this->object->setMailNotification($_POST['mailnotification']);
-			$this->object->setMailAddresses($_POST['mailaddresses']);
-			$this->object->setMailParticipantData($_POST['mailparticipantdata']);
-			
-			// 360°
-			if($this->object->get360Mode())
-			{
-				$this->object->set360SelfEvaluation((bool)$_POST["self_eval"]);
-				$this->object->set360SelfAppraisee((bool)$_POST["self_eval"]);
-				$this->object->set360SelfRaters((bool)$_POST["self_rate"]);
-				$this->object->set360Results((int)$_POST["ts_res"]);;
-				$this->object->set360SkillService((int)$_POST["skill_service"]);
-			}
-			else
+		{					
+			$valid = true;
+									
+			if($form->getInput("tut"))
 			{				
-				$this->object->setEvaluationAccess($_POST["evaluation_access"]);
-				
-				$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
-				if (!$hasDatasets)
+				// check if given "tutors" have write permission
+				$tut_ids =array();
+				$tut_logins = $form->getInput("tut_ids");
+				foreach($tut_logins as $tut_login)
 				{
-					$anon_map = array('personalized' => ANONYMIZE_OFF,
-						'anonymize_with_code' => ANONYMIZE_ON,
-						'anonymize_without_code' => ANONYMIZE_FREEACCESS);
-					if(array_key_exists($_POST["anonymization_options"], $anon_map))
+					$tut_id = ilObjUser::_lookupId($tut_login);
+					if($tut_id && $rbacsystem->checkAccessOfUser($tut_id, "write", $this->object->getRefId()))
+					{					
+						$tut_ids[] = $tut_id;
+					}				
+				}
+				if(!$tut_ids)
+				{
+					$tut_ids = $form->getItemByPostVar("tut_ids");
+					$tut_ids->setAlert($this->lng->txt("survey_notification_tutor_recipients_invalid"));					
+					$valid = false;
+				}													
+			}			
+			
+			if($valid)
+			{					
+				if($form->getInput("rmd"))
+				{
+					$rmd_start = $form->getInput("rmd_start");
+					$rmd_start = $rmd_start["date"];
+					$rmd_end = null;
+					if($form->getInput("rmd_end_tgl"))
 					{
-						$this->object->setAnonymize($anon_map[$_POST["anonymization_options"]]);
-						if (strcmp($_POST['anonymization_options'], 'anonymize_with_code') == 0) $anonymize = ANONYMIZE_ON;
-						if (strcmp($_POST['anonymization_options'], 'anonymize_with_code_all') == 0) $anonymize = ANONYMIZE_CODE_ALL;
+						$rmd_end = $form->getInput("rmd_end");
+						$rmd_end = $rmd_end["date"];
+						if($rmd_start > $rmd_end)
+						{
+							$tmp = $rmd_start;
+							$rmd_start = $rmd_end;
+							$rmd_end = $tmp;
+						}
+						$rmd_end = new ilDate($rmd_end, IL_CAL_DATE);
+					}
+					$rmd_start = new ilDate($rmd_start, IL_CAL_DATE);
+										
+					$this->object->setReminderStatus(true);
+					$this->object->setReminderStart($rmd_start);
+					$this->object->setReminderEnd($rmd_end);
+					$this->object->setReminderFrequency($form->getInput("rmd_freq"));
+					$this->object->setReminderTarget($form->getInput("rmd_grp"));
+				}		
+				else
+				{
+					$this->object->setReminderStatus(false);
+				}
+				
+				if($form->getInput("tut"))
+				{
+					$this->object->setTutorNotificationStatus(true);		
+					$this->object->setTutorNotificationRecipients($tut_ids); // see above
+					$this->object->setTutorNotificationTarget($form->getInput("tut_grp"));
+				}		
+				else
+				{
+					$this->object->setTutorNotificationStatus(false);
+				}
+			
+				// #10055
+				if ($_POST['online'] && count($this->object->questions) == 0)
+				{
+					$_POST['online'] = null;
+					ilUtil::sendFailure($this->lng->txt("cannot_switch_to_online_no_questions"), true);			
+				}
+
+				$template_settings = null;
+				$template = $this->object->getTemplate();
+				if($template)
+				{
+					include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+					$template = new ilSettingsTemplate($template);
+					$template_settings = $template->getSettings();
+				}
+
+				include_once 'Services/MetaData/classes/class.ilMD.php';
+				$md_obj =& new ilMD($this->object->getId(), 0, "svy");
+				$md_section = $md_obj->getGeneral();
+
+				// title
+				$md_section->setTitle(ilUtil::stripSlashes($_POST['title']));
+				$md_section->update();
+
+				// Description
+				$md_desc_ids = $md_section->getDescriptionIds();
+				if($md_desc_ids)
+				{
+					$md_desc = $md_section->getDescription(array_pop($md_desc_ids));
+					$md_desc->setDescription(ilUtil::stripSlashes($_POST['description']));
+					$md_desc->update();
+				}
+
+				// both are saved in object, too
+				$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
+				$this->object->setDescription(ilUtil::stripSlashes($_POST['description']));
+				$this->object->update();
+
+				$this->object->setStatus($_POST['online']);
+
+				// activation
+				if($_POST["access_type"] == ilObjectActivation::TIMINGS_ACTIVATION)
+				{	
+					$this->object->setActivationLimited(true);								    			
+					$this->object->setActivationVisibility($_POST["access_visiblity"]);
+
+					$date = new ilDateTime($_POST['access_begin']['date'] . ' ' . $_POST['access_begin']['time'], IL_CAL_DATETIME);
+					$this->object->setStartDate($date->get(IL_CAL_UNIX));
+
+					$date = new ilDateTime($_POST['access_end']['date'] . ' ' . $_POST['access_end']['time'], IL_CAL_DATETIME);
+					$this->object->setEndDate($date->get(IL_CAL_UNIX));							
+				}
+				else
+				{
+					$this->object->setActivationLimited(false);
+				}
+
+				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+				$introduction = $_POST["introduction"];
+				$this->object->setIntroduction($introduction);
+				$outro = $_POST["outro"];
+				$this->object->setOutro($outro);
+
+				if(!$template_settings["show_question_titles"]["hide"])
+				{
+					$this->object->setShowQuestionTitles($_POST["show_question_titles"]);
+				}
+
+				if(!$template_settings["use_pool"]["hide"])
+				{
+					$this->object->setPoolUsage($_POST["use_pool"]);
+				}
+
+				$this->object->setMailNotification($_POST['mailnotification']);
+				$this->object->setMailAddresses($_POST['mailaddresses']);
+				$this->object->setMailParticipantData($_POST['mailparticipantdata']);
+
+				// 360°
+				if($this->object->get360Mode())
+				{
+					$this->object->set360SelfEvaluation((bool)$_POST["self_eval"]);
+					$this->object->set360SelfAppraisee((bool)$_POST["self_eval"]);
+					$this->object->set360SelfRaters((bool)$_POST["self_rate"]);
+					$this->object->set360Results((int)$_POST["ts_res"]);;
+					$this->object->set360SkillService((int)$_POST["skill_service"]);
+				}
+				else
+				{				
+					$this->object->setEvaluationAccess($_POST["evaluation_access"]);
+
+					$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
+					if (!$hasDatasets)
+					{
+						$anon_map = array('personalized' => ANONYMIZE_OFF,
+							'anonymize_with_code' => ANONYMIZE_ON,
+							'anonymize_without_code' => ANONYMIZE_FREEACCESS);
+						if(array_key_exists($_POST["anonymization_options"], $anon_map))
+						{
+							$this->object->setAnonymize($anon_map[$_POST["anonymization_options"]]);
+							if (strcmp($_POST['anonymization_options'], 'anonymize_with_code') == 0) $anonymize = ANONYMIZE_ON;
+							if (strcmp($_POST['anonymization_options'], 'anonymize_with_code_all') == 0) $anonymize = ANONYMIZE_CODE_ALL;
+						}
 					}
 				}
-			}
-			
-			$this->object->saveToDb();
 
-			if (strcmp($_SESSION["info"], "") != 0)
-			{
-				ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
+				$this->object->saveToDb();
+
+				if (strcmp($_SESSION["info"], "") != 0)
+				{
+					ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
+				}
+				else
+				{
+					ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+				}
+				$this->ctrl->redirect($this, "properties");
 			}
-			else
-			{
-				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-			}
-			$this->ctrl->redirect($this, "properties");
 		}
 		
 		$form->setValuesByPost();
@@ -738,6 +805,115 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$mailnotification->addSubItem($participantdata);
 		$form->addItem($mailnotification);
 		
+		
+		// parent course?
+		global $tree;
+		$has_parent = $tree->checkForParentType($this->object->getRefId(), "crs");
+		if(!$has_parent)
+		{
+			$has_parent = $tree->checkForParentType($this->object->getRefId(), "grp");
+		}
+		$num_inv = sizeof($this->object->getInvitedUsers());
+				
+		$ntf = new ilFormSectionHeaderGUI();
+		$ntf->setTitle($this->lng->txt("survey_notification_settings"));
+		$form->addItem($ntf);
+		
+		// reminder
+		$rmd = new ilCheckboxInputGUI($this->lng->txt("survey_reminder_setting"), "rmd");
+		$rmd->setChecked($this->object->getReminderStatus());
+		$form->addItem($rmd);
+		
+		$rmd_start = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_start"), "rmd_start");
+		$rmd_start->setRequired(true);
+		$start = $this->object->getReminderStart();
+		if($start)
+		{
+			$rmd_start->setDate($start);
+		}
+		$rmd->addSubItem($rmd_start);
+		
+		$end = $this->object->getReminderEnd();
+		$rmd_end = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_end"), "rmd_end");
+		$rmd_end->enableDateActivation("", "rmd_end_tgl", (bool)$end);
+		if($end)
+		{
+			$rmd_end->setDate($end);
+		}
+		$rmd->addSubItem($rmd_end);
+		
+		$rmd_freq = new ilNumberInputGUI($this->lng->txt("survey_reminder_frequency"), "rmd_freq");
+		$rmd_freq->setRequired(true);
+		$rmd_freq->setSize(3);		
+		$rmd_freq->setSuffix($this->lng->txt("survey_reminder_frequency_days"));
+		$rmd_freq->setValue($this->object->getReminderFrequency());
+		$rmd_freq->setMinValue(1);
+		$rmd->addSubItem($rmd_freq);
+		
+		$rmd_grp = new ilRadioGroupInputGUI($this->lng->txt("survey_notification_target_group"), "rmd_grp");
+		$rmd_grp->setRequired(true);
+		$rmd_grp->setValue($this->object->getReminderTarget());
+		$rmd->addSubItem($rmd_grp);
+		
+		$rmd_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"), 
+			ilObjSurvey::NOTIFICATION_PARENT_COURSE);		
+		if(!$has_parent)
+		{
+			$rmd_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
+		}
+		$rmd_grp->addOption($rmd_grp_crs);
+
+		$rmd_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
+			ilObjSurvey::NOTIFICATION_INVITED_USERS);
+		$rmd_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
+		$rmd_grp->addOption($rmd_grp_inv);
+		
+		
+		// notification
+		$tut = new ilCheckboxInputGUI($this->lng->txt("survey_notification_tutor_setting"), "tut");
+		$tut->setChecked($this->object->getTutorNotificationStatus());
+		$form->addItem($tut);
+		
+		$tut_logins = array();
+		$tuts = $this->object->getTutorNotificationRecipients();
+		if($tuts)
+		{
+			foreach($tuts as $tut_id)
+			{
+				$tmp = ilObjUser::_lookupName($tut_id);
+				if($tmp["login"])
+				{
+					$tut_logins[] = $tmp["login"];
+				}
+			}
+		}		
+		$tut_ids = new ilTextInputGUI($this->lng->txt("survey_notification_tutor_recipients"), "tut_ids");
+		$tut_ids->setDataSource($this->ctrl->getLinkTarget($this, "doAutoComplete", "", true));
+		$tut_ids->setRequired(true);
+		$tut_ids->setMulti(true);		
+		$tut_ids->setMultiValues($tut_logins);
+		$tut_ids->setValue(array_shift($tut_logins));		
+		$tut->addSubItem($tut_ids);
+		
+		$tut_grp = new ilRadioGroupInputGUI($this->lng->txt("survey_notification_target_group"), "tut_grp");
+		$tut_grp->setRequired(true);
+		$tut_grp->setValue($this->object->getTutorNotificationTarget());
+		$tut->addSubItem($tut_grp);
+		
+		$tut_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"), 
+			ilObjSurvey::NOTIFICATION_PARENT_COURSE);
+		if(!$has_parent)
+		{
+			$tut_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
+		}
+		$tut_grp->addOption($tut_grp_crs);
+		
+		$tut_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
+			ilObjSurvey::NOTIFICATION_INVITED_USERS);
+		$tut_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
+		$tut_grp->addOption($tut_grp_inv);
+		
+		
 		// competence service activation for 360 mode
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
@@ -767,6 +943,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		
 		return $form;
+	}
+	
+	function doAutoCompleteObject()
+	{
+		$fields = array('login','firstname','lastname','email');
+				
+		include_once './Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields($fields);
+		$auto->setResultField('login');
+		$auto->enableFieldSearchableCheck(true);
+		echo $auto->getList($_REQUEST['term']);
+		exit();
 	}
 
 	/**

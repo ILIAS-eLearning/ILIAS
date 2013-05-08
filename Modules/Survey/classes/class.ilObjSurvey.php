@@ -153,6 +153,21 @@ class ilObjSurvey extends ilObject
 	const RESULTS_360_NONE = 0;
 	const RESULTS_360_OWN = 1;
 	const RESULTS_360_ALL = 2;
+	
+	// reminder/notification	
+	protected $reminder_status; // [bool]
+	protected $reminder_start; // [ilDate]
+	protected $reminder_end; // [ilDate]
+	protected $reminder_frequency; // [int]
+	protected $reminder_target; // [int]
+	protected $reminder_last_sent; // [bool]
+	protected $tutor_ntf_status; // [bool]
+	protected $tutor_ntf_recipients; // [array]
+	protected $tutor_ntf_target; // [int]
+	
+	const NOTIFICATION_PARENT_COURSE = 1;
+	const NOTIFICATION_INVITED_USERS = 2;
+	
 
 	/**
 	* Constructor
@@ -792,7 +807,17 @@ class ilObjSurvey extends ilObject
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
-				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService())				
+				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService()),
+				// reminder/notification
+				"reminder_status" => array("integer", (int)$this->getReminderStatus()),
+				"reminder_start" => array("datetime", $rmd_start),
+				"reminder_end" => array("datetime", $rmd_end),
+				"reminder_frequency" => array("integer", (int)$this->getReminderFrequency()),				
+				"reminder_target" => array("integer", (int)$this->getReminderTarget()),
+				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
+				"tutor_ntf_status" => array("integer", (int)$this->getTutorNotificationStatus()),
+				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
+				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget())
  			));
 			$this->setSurveyId($next_id);
 		}
@@ -821,7 +846,17 @@ class ilObjSurvey extends ilObject
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
-				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService())
+				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService()),
+				// reminder/notification
+				"reminder_status" => array("integer", $this->getReminderStatus()),
+				"reminder_start" => array("datetime", $rmd_start),
+				"reminder_end" => array("datetime", $rmd_end),
+				"reminder_frequency" => array("integer", $this->getReminderFrequency()),
+				"reminder_target" => array("integer", $this->getReminderTarget()),
+				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
+				"tutor_ntf_status" => array("integer", $this->getTutorNotificationStatus()),
+				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
+				"tutor_ntf_target" => array("integer", $this->getTutorNotificationTarget())
 			), array(
 			"survey_id" => array("integer", $this->getSurveyId())
 			));
@@ -1073,6 +1108,16 @@ class ilObjSurvey extends ilObject
 			$this->set360SelfAppraisee($data['mode_360_self_appr']);
 			$this->set360Results($data['mode_360_results']);
 			$this->set360SkillService($data['mode_360_skill_service']);
+			// reminder/notification
+			$this->setReminderStatus($data["reminder_status"]);
+			$this->setReminderStart($data["reminder_start"] ? new ilDate($data["reminder_start"], IL_CAL_DATE) : null);
+			$this->setReminderEnd($data["reminder_end"] ? new ilDate($data["reminder_end"], IL_CAL_DATE) : null);
+			$this->setReminderFrequency($data["reminder_frequency"]);
+			$this->setReminderTarget($data["reminder_target"]);
+			$this->setReminderLastSent($data["reminder_last_sent"]);
+			$this->setTutorNotificationStatus($data["tutor_ntf_status"]);
+			$this->setTutorNotificationRecipients(explode(";", $data["tutor_ntf_reci"]));
+			$this->setTutorNotificationTarget($data["tutor_ntf_target"]);
 		}
 		
 		// moved activation to ilObjectActivation
@@ -3020,7 +3065,9 @@ class ilObjSurvey extends ilObject
 			" WHERE survey_fi = %s AND finished_id = %s",
 			array('text','integer','integer','integer'),
 			array(1, time(), $this->getSurveyId(), $finished_id)
-		);								
+		);			
+		
+		$this->checkTutorNotification();
 	}
 
 	/**
@@ -4132,7 +4179,19 @@ class ilObjSurvey extends ilObject
 		$newObj->setAnonymize($this->getAnonymize());
 		$newObj->setShowQuestionTitles($this->getShowQuestionTitles());
 		$newObj->setTemplate($this->getTemplate());
-
+		
+		// :;TODO: 360° ?!
+				
+		// reminder/notification
+		$newObj->setReminderStatus($this->getReminderStatus());
+		$newObj->setReminderStart($this->getReminderStart());
+		$newObj->setReminderEnd($this->getReminderEnd());
+		$newObj->setReminderFrequency($this->getReminderFrequency());
+		$newObj->setReminderTarget($this->getReminderTarget());
+		// reminder_last_sent must not be copied!
+		$newObj->setTutorNotificationStatus($this->getTutorNotificationStatus());
+		$newObj->setTutorNotificationRecipients($this->getTutorNotificationRecipients());
+		$newObj->setTutorNotificationTarget($this->getTutorNotificationTarget());
 
 		$question_pointer = array();
 		// clone the questions
@@ -5972,6 +6031,256 @@ class ilObjSurvey extends ilObject
 			$sskill = new ilSurveySkill($this);
 			$sskill->writeAppraiseeSkills($a_user_id);
 		}
+	}
+	
+		public function getReminderStatus()
+	{
+		return (bool)$this->reminder_status;
+	}
+	
+	public function setReminderStatus($a_value)
+	{
+		$this->reminder_status = (bool)$a_value;
+	}
+	
+	public function getReminderStart()
+	{
+		return $this->reminder_start;
+	}
+	
+	public function setReminderStart(ilDate $a_value = null)
+	{
+		$this->reminder_start = $a_value;
+	}
+	
+	public function getReminderEnd()
+	{
+		return $this->reminder_end;
+	}
+	
+	public function setReminderEnd(ilDate $a_value = null)
+	{
+		$this->reminder_end = $a_value;
+	}
+	
+	public function getReminderFrequency()
+	{
+		return $this->reminder_frequency;
+	}
+	
+	public function setReminderFrequency($a_value)
+	{
+		$this->reminder_frequency = (int)$a_value;
+	}
+	
+	public function getReminderTarget()
+	{
+		return $this->reminder_target;
+	}
+	
+	public function setReminderTarget($a_value)
+	{
+		$this->reminder_target = (int)$a_value;
+	}
+	
+	public function getReminderLastSent()
+	{
+		return $this->reminder_last_sent;
+	}
+	
+	public function setReminderLastSent($a_value)
+	{
+		$this->reminder_last_sent = $a_value;
+	}
+	
+	public function getTutorNotificationStatus()
+	{
+		return (bool)$this->tutor_ntf_status;
+	}
+	
+	public function setTutorNotificationStatus($a_value)
+	{
+		$this->tutor_ntf_status = (bool)$a_value;
+	}
+	
+	public function getTutorNotificationRecipients()
+	{
+		return $this->tutor_ntf_recipients;
+	}
+	
+	public function setTutorNotificationRecipients(array $a_value)
+	{
+		$this->tutor_ntf_recipients = $a_value;			
+	}
+	
+	public function getTutorNotificationTarget()
+	{
+		return $this->tutor_ntf_target;
+	}	
+	
+	public function setTutorNotificationTarget($a_value)
+	{
+		$this->tutor_ntf_target = (int)$a_value;
+	}	
+	
+	protected function checkTutorNotification()
+	{
+		global $ilDB;
+		
+		if($this->getTutorNotificationStatus())
+		{
+			$user_ids = $this->getNotificationTargetUserIds();
+			if($user_ids)
+			{
+				$set = $ilDB->query("SELECT COUNT(*) numall FROM svy_finished".
+					" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+					" AND state = ".$ilDB->quote(1, "integer").
+					" AND ".$ilDB->in("user_fi", $user_ids, "", "integer"));
+				$row = $ilDB->fetchAssoc($set);
+				if($row["numall"] == sizeof($user_ids))
+				{
+					$this->sendTutorNotification();
+				}
+			}			
+		}
+	}
+	
+	protected function getNotificationTargetUserIds()
+	{
+		global $tree;
+		
+		if($this->getTutorNotificationTarget() == self::NOTIFICATION_INVITED_USERS)
+		{
+			$user_ids = $this->getInvitedUsers();				
+		}
+		else
+		{
+			$parent_crs_ref_id = $tree->checkForParentType($this->getRefId(), "crs");
+			if($parent_crs_ref_id)
+			{
+				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+				$part = new ilCourseParticipants(ilObject::_lookupObjId($parent_crs_ref_id));
+				$user_ids = $part->getMembers();					
+			}
+		}
+		return $user_ids;
+	}
+	
+	protected function sendTutorNotification()
+	{		
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		include_once "./Services/User/classes/class.ilObjUser.php";
+		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
+		include_once "./Services/User/classes/class.ilUserUtil.php";		
+		include_once "./Services/Link/classes/class.ilLink.php";
+		$link = ilLink::_getStaticLink($this->getRefId(), "svy");
+			
+		foreach($this->getTutorNotificationRecipients() as $user_id)
+		{																
+			// use language of recipient to compose message
+			$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+			$ulng->loadLanguageModule('survey');
+
+			$subject = sprintf($ulng->txt('survey_notification_tutor_subject'), $this->getTitle());
+			$message = sprintf($ulng->txt('survey_notification_tutor_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
+
+			$message .= $ulng->txt('survey_notification_tutor_body').":\n\n";
+			$message .= $ulng->txt('obj_svy').": ". $this->getTitle()."\n";			
+			$message .= "\n".$ulng->txt('survey_notification_tutor_link').": ".$link;				
+
+			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+			$mail_obj->appendInstallationSignature(true);
+			$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+				"", "", $subject, $message, array(), array("system"));
+		}
+	}
+	
+	public function checkReminder()
+	{
+		global $ilDB;
+		
+		if($this->getReminderStatus())
+		{
+			// check period
+			$start = $this->getReminderStart();
+			if($start)
+			{
+				$start = $start->get(IL_CAL_DATE);
+			}
+			$end = $this->getReminderEnd();
+			if($end)
+			{
+				$end = $start->get(IL_CAL_DATE);
+			}
+			$today = date("Y-m-d");
+			if($today >= $start && 
+				(!$end || $today <= $end))
+			{
+				// check frequency
+				$cut = new ilDate($today, IL_CAL_DATE);
+				$cut->increment(IL_CAL_DAY, $this->getReminderFrequency()*-1);
+				if(!$this->getReminderLastSent() ||
+					$cut->get(IL_CAL_DATE) > $this->getReminderLastSent())				
+				{				
+					$user_ids = $this->getNotificationTargetUserIds();
+					if($user_ids)
+					{
+						// gather participants who already finished
+						$finished_ids = array();
+						$set = $ilDB->query("SELECT user_fi FROM svy_finished".
+						" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+						" AND state = ".$ilDB->quote(1, "integer").
+						" AND ".$ilDB->in("user_fi", $user_ids, "", "integer"));
+						while($row = $ilDB->fetchAssoc($set))
+						{
+							$finished_ids[] = $row["user_fi"];						
+						}
+
+						// some users missing out?
+						$missing_ids = array_diff($user_ids, $finished_ids);
+						if($missing_ids)
+						{
+							$this->sentReminder($missing_ids);
+						}
+					}
+					
+					$this->setReminderLastSent($today);
+					
+					return true;
+				}
+			}			
+		}		
+		
+		return false;
+	}
+	
+	protected function sentReminder(array $a_recipient_ids)
+	{
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		include_once "./Services/User/classes/class.ilObjUser.php";
+		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
+		include_once "./Services/User/classes/class.ilUserUtil.php";		
+		include_once "./Services/Link/classes/class.ilLink.php";
+		$link = ilLink::_getStaticLink($this->getRefId(), "svy");
+			
+		foreach($a_recipient_ids as $user_id)
+		{																
+			// use language of recipient to compose message
+			$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+			$ulng->loadLanguageModule('survey');
+
+			$subject = sprintf($ulng->txt('survey_reminder_subject'), $this->getTitle());
+			$message = sprintf($ulng->txt('survey_reminder_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
+
+			$message .= $ulng->txt('survey_reminder_body').":\n\n";
+			$message .= $ulng->txt('obj_svy').": ". $this->getTitle()."\n";			
+			$message .= "\n".$ulng->txt('survey_reminder_link').": ".$link;				
+
+			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+			$mail_obj->appendInstallationSignature(true);
+			$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+				"", "", $subject, $message, array(), array("system"));
+		}					
 	}
 	
 } // END class.ilObjSurvey
