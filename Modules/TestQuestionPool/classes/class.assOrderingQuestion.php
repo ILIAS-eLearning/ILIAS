@@ -1195,9 +1195,13 @@ class assOrderingQuestion extends assQuestion
 		$result['shuffle'] = (bool) true;
 		$result['points'] = (bool) $this->getPoints();
 		$result['feedback'] = array(
-			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
-			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
-			);
+			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), false), 0
+			),
+			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), true), 0
+			)
+		);
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
 			$result['path'] = $this->getImagePathWeb();

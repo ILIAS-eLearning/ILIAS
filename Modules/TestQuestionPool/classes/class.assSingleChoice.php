@@ -991,9 +991,13 @@ class assSingleChoice extends assQuestion
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
-			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
-			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
-			);
+			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), false), 0
+			),
+			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), true), 0
+			)
+		);
 
 		$answers = array();
 		$has_image = false;
@@ -1008,7 +1012,9 @@ class assSingleChoice extends assQuestion
 				"points" => (float)$answer_obj->getPoints(),
 				"order" => (int)$answer_obj->getOrder(),
 				"image" => (string) $answer_obj->getImage(),
-				"feedback" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackSingleAnswer($key), 0)
+				"feedback" => ilRTE::_replaceMediaObjectImageSrc(
+						$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
+				)
 			));
 		}
 		$result['answers'] = $answers;

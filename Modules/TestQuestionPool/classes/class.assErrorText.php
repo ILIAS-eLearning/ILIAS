@@ -1055,9 +1055,13 @@ class assErrorText extends assQuestion
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
-			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
-			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
-			);
+			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), false), 0
+			),
+			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), true), 0
+			)
+		);
 
 		$answers = array();
 		foreach ($this->getErrorData() as $idx => $answer_obj)
