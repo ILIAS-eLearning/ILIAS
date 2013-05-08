@@ -15267,3 +15267,42 @@ if (!$ilDB->tableColumnExists('svy_360_appr', 'has_closed'))
 }
 
 ?>
+<#3888>
+<?php
+
+if(!$ilDB->tableColumnExists('svy_svy', 'reminder_status'))
+{
+	$ilDB->addTableColumn('svy_svy', 'reminder_status',
+		array('type' => 'integer', 'length'  => 1, 'notnull' => true, 'default' => 0));	
+	$ilDB->addTableColumn('svy_svy', 'reminder_start',
+		array('type' => 'timestamp', 'notnull' => false));
+	$ilDB->addTableColumn('svy_svy', 'reminder_end',
+		array('type' => 'timestamp', 'notnull' => false));
+	$ilDB->addTableColumn('svy_svy', 'reminder_frequency',
+			array('type' => 'integer', 'length'  => 2, 'notnull' => true, 'default' => 0));	
+	$ilDB->addTableColumn('svy_svy', 'reminder_target',
+		array('type' => 'integer', 'length'  => 1, 'notnull' => true, 'default' => 0));	
+	
+	$ilDB->addTableColumn('svy_svy', 'tutor_ntf_status',
+		array('type' => 'integer', 'length'  => 1, 'notnull' => true, 'default' => 0));	
+	$ilDB->addTableColumn('svy_svy', 'tutor_ntf_reci',
+		array('type' => 'text', 'length'  => 2000, 'notnull' => false, 'fixed' => false));	
+	$ilDB->addTableColumn('svy_svy', 'tutor_ntf_target',
+		array('type' => 'integer', 'length'  => 1, 'notnull' => true, 'default' => 0));	
+}
+
+?>
+<#3889>
+<?php
+
+if(!$ilDB->tableColumnExists('svy_svy', 'reminder_last_sent'))
+{
+	$ilDB->addTableColumn('svy_svy', 'reminder_last_sent',
+		array('type' => 'timestamp', 'notnull' => false));
+}
+
+?>
+<#3890>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -13209,3 +13209,25 @@ survey#:#svy_results#:#Ergebnisse
 survey#:#svy_analysis#:#Analyse
 mail#:#mail_add_folder#:#Neuen Ordner erstellen
 mail#:#mail_rename_folder#:#Ordner umbenennen
+survey#:#survey_notification_settings#:#Benachrichtigungen
+survey#:#survey_reminder_setting#:#Benutzer an Teilnahme erinnern
+survey#:#survey_reminder_start#:#Beginn
+survey#:#survey_reminder_end#:#Ende
+survey#:#survey_reminder_frequency#:#Häufigkeit der Erinnerung
+survey#:#survey_reminder_frequency_days#:#Tage
+survey#:#survey_notification_target_group#:#Zielgruppe
+survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe
+survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
+survey#:#survey_notification_target_group_invited#:#Alle eingeladenen Teilnehmer
+survey#:#survey_notification_target_group_invited_info#:#Momentan eingeladene Benutzer: %s
+survey#:#survey_notification_tutor_setting#:#Tutoren benachrichtigen, wenn alle Teilnehmer beendet haben
+survey#:#survey_notification_tutor_recipients#:#Tutoren (Benutzername[n])
+survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie Benutzer mit Schreibrecht an.
+survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage "%s" beendet
+survey#:#survey_notification_tutor_salutation#:#Hallo %s,
+survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Teilnehmern beendet worden
+survey#:#survey_notification_tutor_link#:#URL
+survey#:#survey_reminder_subject#:#Umfrage "%s" wurde noch nicht bearbeitet
+survey#:#survey_reminder_salutation#:#Hallo %s,
+survey#:#survey_reminder_body#:#die folgende Umfrage ist von Ihnen noch nicht beendet worden
+survey#:#survey_reminder_link#:#URL

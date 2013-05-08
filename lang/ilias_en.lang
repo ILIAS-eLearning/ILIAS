@@ -13209,3 +13209,25 @@ survey#:#svy_results#:#Results
 survey#:#svy_analysis#:#Analysis
 mail#:#mail_add_folder#:#Add New Subfolder
 mail#:#mail_rename_folder#:#Rename Folder
+survey#:#survey_notification_settings#:#Notification
+survey#:#survey_reminder_setting#:#Remind Users to Participate
+survey#:#survey_reminder_start#:#Start
+survey#:#survey_reminder_end#:#End
+survey#:#survey_reminder_frequency#:#Frequency
+survey#:#survey_reminder_frequency_days#:#Days
+survey#:#survey_notification_target_group#:#Target Group
+survey#:#survey_notification_target_group_parent_course#:#All members of parent course/group
+survey#:#survey_notification_target_group_parent_course_inactive#:#No parent course/group given - no reminders will be sent!
+survey#:#survey_notification_target_group_invited#:#All invited users
+survey#:#survey_notification_target_group_invited_info#:#Currently invited users: %s
+survey#:#survey_notification_tutor_setting#:#Notify tutors when	all participants have finished
+survey#:#survey_notification_tutor_recipients#:#Tutors (Login[s])
+survey#:#survey_notification_tutor_recipients_invalid#:#Please state users with write permission.
+survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
+survey#:#survey_notification_tutor_salutation#:#Hello %s,
+survey#:#survey_notification_tutor_body#:#The following survey has been finished by all participants
+survey#:#survey_notification_tutor_link#:#URL
+survey#:#survey_reminder_subject#:#Survey "%s" was not finished
+survey#:#survey_reminder_salutation#:#Hello %s,
+survey#:#survey_reminder_body#:#the following survey has not been finished by you yet
+survey#:#survey_reminder_link#:#URL
