@@ -15306,3 +15306,7 @@ if(!$ilDB->tableColumnExists('svy_svy', 'reminder_last_sent'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3891>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
