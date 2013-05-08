@@ -1454,9 +1454,13 @@ class assClozeTest extends assQuestion
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
-			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
-			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
-			);
+			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), false), 0
+			),
+			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), true), 0
+			)
+		);
 		$gaps = array();
 		foreach ($this->getGaps() as $key => $gap)
 		{

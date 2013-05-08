@@ -801,9 +801,13 @@ class assImagemapQuestion extends assQuestion
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
-			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
-			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
-			);
+			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), false), 0
+			),
+			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), true), 0
+			)
+		);
 		$result['image'] = (string) $this->getImagePathWeb() . $this->getImageFilename();
 		
 		$answers = array();
@@ -816,7 +820,9 @@ class assImagemapQuestion extends assQuestion
 				"coords" => $answer_obj->getCoords(),
 				"state" => $answer_obj->getState(),
 				"area" => $answer_obj->getArea(),
-				"feedback" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackSingleAnswer($key), 0)
+				"feedback" => ilRTE::_replaceMediaObjectImageSrc(
+						$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
+				)
 			));
 		}
 		$result['answers'] = $answers;
