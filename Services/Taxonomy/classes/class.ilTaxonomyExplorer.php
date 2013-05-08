@@ -52,6 +52,8 @@ class ilTaxonomyExplorer extends ilExplorer
 		$this->force_open_path = array();
 		
 		$this->setRootNodeTitle($lng->txt("tax_taxonomy"));
+		$this->setRootNodeTitle(ilObject::_lookupTitle($a_tax_tree->getTreeId()));
+		
 	}
 
 	/**
