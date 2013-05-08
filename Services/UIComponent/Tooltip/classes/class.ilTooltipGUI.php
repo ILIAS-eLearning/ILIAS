@@ -25,8 +25,8 @@ class ilTooltipGUI
 		{
 //			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 //			ilYuiUtil::initTooltip();
-$tpl->addCss("./Services/UIComponent/Tooltip/lib/qtip_2_0_nightly/jquery.qtip.min.css");
-$tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_2_0_nightly/jquery.qtip.min.js");
+$tpl->addCss("./Services/UIComponent/Tooltip/lib/qtip_2_0_1/jquery.qtip.min.css");
+$tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_2_0_1/jquery.qtip.min.js");
 			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
 			$tpl->addOnLoadCode('il.Tooltip.init();', 3);
 			self::$initialized = true;
