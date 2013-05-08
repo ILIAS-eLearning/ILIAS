@@ -16,6 +16,7 @@ require_once "./Services/Taxonomy/classes/class.ilObjTaxonomy.php";
  */
 class ilObjTaxonomyGUI extends ilObject2GUI
 {
+	protected $multiple = false;
 	
 	/**
 	 * Execute command
@@ -27,6 +28,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		parent::__construct($a_id, ilObject2GUI::OBJECT_ID);
 		
 		$ilCtrl->saveParameter($this, "tax_node");
+		$ilCtrl->saveParameter($this, "tax_id");
 	}
 	
 	/**
@@ -59,6 +61,25 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		return $this->assigned_object_id;
 	}
 	
+	/**
+	 * Set multiple
+	 *
+	 * @param bool $a_val multiple	
+	 */
+	function setMultiple($a_val)
+	{
+		$this->multiple = $a_val;
+	}
+	
+	/**
+	 * Get multiple
+	 *
+	 * @return bool multiple
+	 */
+	function getMultiple()
+	{
+		return $this->multiple;
+	}
 	
 	/**
 	 * Execute command
@@ -108,14 +129,19 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		global $ilToolbar, $ilCtrl, $lng;
 		
 		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->getAssignedObject());
-		if (count($tax_ids) == 0)
+		if (count($tax_ids) == 0 || $this->getMultiple())
 		{
 			$ilToolbar->addButton($lng->txt("tax_add_taxonomy"),
 				$ilCtrl->getLinkTarget($this, "createAssignedTaxonomy"));
 		}
-		else
+		
+		if (count($tax_ids) != 0 && !$this->getMultiple())
 		{
 			$this->listItems();
+		}
+		else if ($this->getMultiple())
+		{
+			$this->listTaxonomies();
 		}
 		
 		// currently we support only one taxonomy, otherwise we may need to provide
@@ -131,9 +157,23 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	function determineAOCurrentTaxonomy()
 	{
-		// get taxonomy
-		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->getAssignedObject());
-		$tax = new ilObjTaxonomy(current($tax_ids));
+		if ($_GET["tax_id"] > 0 && $this->getMultiple())
+		{
+			$tax = new ilObjTaxonomy((int) $_GET["tax_id"]);
+		}
+		else
+		{
+			// get taxonomy
+			$tax_ids = ilObjTaxonomy::getUsageOfObject($this->getAssignedObject());
+			if (count($tax_ids) == 0)
+			{
+				return false;
+			}
+			else
+			{
+				$tax = new ilObjTaxonomy(current($tax_ids));
+			}
+		}
 		return $tax;
 	}
 	
@@ -746,6 +786,23 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		ilUtil::sendSuccess($lng->txt("tax_tax_deleted"), true);
 		$ilCtrl->redirect($this, "editAOTaxonomySettings");
 	}
-	
+
+	/**
+	 * List taxonomies
+	 *
+	 * @param
+	 * @return
+	 */
+	function listTaxonomies()
+	{
+		global $tpl;
+		
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyListTableGUI.php");
+		
+		$tab = new ilTaxonomyListTableGUI($this, "listTaxonomies", $this->getAssignedObject());
+		
+		$tpl->setContent($tab->getHTML());
+	}
+		
 }
 ?>

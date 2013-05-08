@@ -272,7 +272,7 @@ class ilObjTaxonomy extends ilObject2
 	 * @param int $a_obj_id object id
 	 * @return array array of taxonomies
 	 */
-	static function getUsageOfObject($a_obj_id)
+	static function getUsageOfObject($a_obj_id, $a_include_titles = false)
 	{
 		global $ilDB;
 		
@@ -282,7 +282,16 @@ class ilObjTaxonomy extends ilObject2
 		$tax = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$tax[] = $rec["tax_id"];
+			if (!$a_include_titles)
+			{
+				$tax[] = $rec["tax_id"];
+			}
+			else
+			{
+				$tax[] = array("tax_id" => $rec["tax_id"],
+					"title" => ilObject::_lookupTitle($rec["tax_id"])
+					);
+			}
 		}
 		return $tax;
 	}

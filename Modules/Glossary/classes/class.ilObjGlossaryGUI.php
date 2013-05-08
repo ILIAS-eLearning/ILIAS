@@ -162,6 +162,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
 				$this->ctrl->setReturn($this, "properties");
 				$tax_gui = new ilObjTaxonomyGUI();
+				$tax_gui->setMultiple(false);
 				$tax_gui->setAssignedObject($this->object->getId());
 				$ret = $this->ctrl->forwardCommand($tax_gui);
 				break;
