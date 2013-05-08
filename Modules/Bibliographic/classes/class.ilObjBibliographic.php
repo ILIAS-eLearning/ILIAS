@@ -217,6 +217,12 @@ class ilObjBibliographic extends ilObject2
 
     public function getFiletype()
     {
+	//return bib for filetype .bibtex:
+	if(strtolower(substr($this->getFilename(), -6)) == "bibtex")
+	{
+	    return "bib";
+	}
+	//else return its true filetype
         return strtolower(substr($this->getFilename(), -3 ));
     }
 

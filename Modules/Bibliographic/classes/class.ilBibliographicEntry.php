@@ -37,7 +37,7 @@ class ilBibliographicEntry
     protected $attributes;
 
     /**
-     * file type (bib | ris)
+     * file type (bib (also: bibtex) | ris)
      * @var string
      */
     protected $file_type;
@@ -204,7 +204,7 @@ class ilBibliographicEntry
         //get design for specific entry type or get filetypes default design if type is not specified
         $entryType = $this->getType();
 
-        //if there is no model for the specific entrytype (book, article, ....) the entry overview will be structured by the defualt entrytype from the given filetype (ris, bib, ...)
+        //if there is no model for the specific entrytype (book, article, ....) the entry overview will be structured by the default entrytype from the given filetype (ris, bib, ...)
         if(!$overviewModels[$this->file_type][$entryType]){
             $entryType = 'default';
         }
