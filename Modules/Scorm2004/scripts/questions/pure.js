@@ -4,51 +4,32 @@
 	Licensed under the MIT licenses.
 	More information at: http://www.opensource.org
 
-	Copyright (c) 2012 Michael Cvilic - BeeBole.com
+	Copyright (c) 2013 Michael Cvilic - BeeBole.com
 
 	Thanks to Rog Peppe for the functional JS jump
-	revision: 2.73
+	revision: 2.81
 */
 
-var $p, pure = $p = function(){
-	var sel = arguments[0],
+var $p = function(){
+	var args = arguments,
+		sel = args[0],
 		ctxt = false;
 
 	if(typeof sel === 'string'){
-		ctxt = arguments[1] || false;
+		ctxt = args[1] || false;
 	}else if(sel && !sel[0] && !sel.length){
 		sel = [sel];
 	}
 	return $p.core(sel, ctxt);
-};
+},
+pure = $p;
+
 
 $p.core = function(sel, ctxt, plugins){
 	//get an instance of the plugins
-	var templates = [];
-	plugins = plugins || getPlugins();
-
-	//search for the template node(s)
-	switch(typeof sel){
-		case 'string':
-			templates = plugins.find(ctxt || document, sel);
-			if(templates.length === 0) {
-				error('The template "' + sel + '" was not found');
-			}
-		break;
-		case 'undefined':
-			error('The root of the template is undefined, check your selector');
-		break;
-		default:
-			templates = sel;
-	}
-
-	for(var i = 0, ii = templates.length; i < ii; i++){
-		plugins[i] = templates[i];
-	}
-	plugins.length = ii;
-
-	// set the signature string that will be replaced at render time
-	var Sig = '_s' + Math.floor( Math.random() * 1000000 ) + '_',
+	var templates = [], i, ii,
+		// set the signature string that will be replaced at render time
+		Sig = '_s' + Math.floor( Math.random() * 1000000 ) + '_',
 		// another signature to prepend to attributes and avoid checks: style, height, on[events]...
 		attPfx = '_a' + Math.floor( Math.random() * 1000000 ) + '_',
 		// rx to parse selectors, e.g. "+tr.foo[class]"
@@ -67,6 +48,28 @@ $p.core = function(sel, ctxt, plugins){
 				return Object.prototype.toString.call(o) === "[object Array]";
 			};
 
+	plugins = plugins || getPlugins();
+
+	//search for the template node(s)
+	switch(typeof sel){
+		case 'string':
+			templates = plugins.find(ctxt || document, sel);
+			if(templates.length === 0) {
+				error('The template "' + sel + '" was not found');
+			}
+		break;
+		case 'undefined':
+			error('The root of the template is undefined, check your selector');
+		break;
+		default:
+			templates = sel;
+	}
+
+	for( i = 0, ii = templates.length; i < ii; i++){
+		plugins[i] = templates[i];
+	}
+	plugins.length = ii;
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * *
 		core functions
 	 * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -76,7 +79,7 @@ $p.core = function(sel, ctxt, plugins){
 	function error(e){
 		if(typeof console !== 'undefined'){
 			console.log(e);
-			debugger;
+			//debugger;
 		}
 		throw('pure error: ' + e);
 	}
@@ -110,13 +113,13 @@ $p.core = function(sel, ctxt, plugins){
 				h = div.innerHTML;
 				div = null;
 				return h;
-			})(node);
+			}(node));
 	}
 
 	// returns the string generator function
 	function wrapquote(qfn, f){
 		return function(ctxt){
-			return qfn('' + f.call(ctxt.item || ctxt.context, ctxt));
+			return qfn( String( f.call(ctxt.item || ctxt.context, ctxt) ) ) ;
 		};
 	}
 
@@ -126,11 +129,7 @@ $p.core = function(sel, ctxt, plugins){
 			sel = n;
 			n = false;
 		}
-		if(typeof document.querySelectorAll !== 'undefined'){
-			return (n||document).querySelectorAll( sel );
-		}else{
-			return error('You can test PURE standalone with: iPhone, FF3.5+, Safari4+ and IE8+\n\nTo run PURE on your browser, you need a JS library/framework with a CSS selector engine');
-		}
+		return (n||document).querySelectorAll( sel );
 	}
 
 	// create a function that concatenates constant string
@@ -143,25 +142,33 @@ $p.core = function(sel, ctxt, plugins){
 		return function(ctxt){
 			var strs = [ parts[ 0 ] ],
 				n = parts.length,
-				fnVal, pVal, attLine, pos;
+				fnVal, pVal, attLine, pos, i;
+			try{
+				for(i = 1; i < n; i++){
+					fnVal = fns[i].call( this, ctxt );
+					pVal = parts[i];
 
-			for(var i = 1; i < n; i++){
-				fnVal = fns[i].call( this, ctxt );
-				pVal = parts[i];
-
-				// if the value is empty and attribute, remove it
-				if(fnVal === ''){
-					attLine = strs[ strs.length - 1 ];
-					if( ( pos = attLine.search( /[^\s]+=\"?$/ ) ) > -1){
-						strs[ strs.length - 1 ] = attLine.substring( 0, pos );
-						pVal = pVal.substr( 1 );
+					// if the value is empty and attribute, remove it
+					if(fnVal === ''){
+						attLine = strs[ strs.length - 1 ];
+						if( ( pos = attLine.search( /[^\s]+=\"?$/ ) ) > -1){
+							strs[ strs.length - 1 ] = attLine.substring( 0, pos );
+							pVal = pVal.substr( 1 );
+						}
 					}
-				}
 
-				strs[ strs.length ] = fnVal;
-				strs[ strs.length ] = pVal;
+					strs[ strs.length ] = fnVal;
+					strs[ strs.length ] = pVal;
+				}
+				return strs.join('');
+			}catch(e){
+				if(console && console.log){
+					console.log( 
+						e.stack || 
+						e.message + ' (' + e.type + ( e['arguments'] ? ', ' + e['arguments'].join('-') : '' ) + '). Use Firefox or Chromium/Chrome to get a full stack of the error. ' );
+				}
+				return '';
 			}
-			return strs.join('');
 		};
 	}
 
@@ -193,9 +200,10 @@ $p.core = function(sel, ctxt, plugins){
 			};
 		}
 		//check for a valid js variable name with hyphen(for properties only), $, _ and :
-		var m = sel.match(/^[\da-zA-Z\$_\@][\w\$:-]*(\.[\w\$:-]*[^\.])*$/);
+		var m = sel.match(/^[\da-zA-Z\$_\@][\w\$:\-]*(\.[\w\$:\-]*[^\.])*$/),
+			found = false, s = sel, parts = [], pfns = [], i = 0, retStr;
+
 		if(m === null){
-			var found = false, s = sel, parts = [], pfns = [], i = 0, retStr;
 			// check if literal
 			if(/\'|\"/.test( s.charAt(0) )){
 				if(/\'|\"/.test( s.charAt(s.length-1) )){
@@ -221,31 +229,39 @@ $p.core = function(sel, ctxt, plugins){
 		return function(ctxt){
 			var data = ctxt.context || ctxt,
 				v = ctxt[m[0]],
-				i = 0;
-			if(v && v.item){
+				i = 0,
+				n,
+				dm;
+
+			if(v && typeof v.item !== 'undefined'){
 				i += 1;
 				if(m[i] === 'pos'){
 					//allow pos to be kept by string. Tx to Adam Freidin
 					return v.pos;
-				}else{
-					data = v.item;
 				}
+				data = v.item;
 			}
-			var n = m.length;
-			for(; i < n; i++){
+			n = m.length;
+				
+			while( i < n ){
 				if(!data){break;}
-				data = data[m[i]];
+				dm = data[ m[i] ];
+				//if it is a function call it
+				data = typeof dm === 'function' ? data[ m[i] ].call( data ) : dm;
+				i++;
 			}
+			
 			return (!data && data !== 0) ? '':data;
 		};
 	}
 
 	// wrap in an object the target node/attr and their properties
 	function gettarget(dom, sel, isloop){
-		var osel, prepend, selector, attr, append, target = [];
+		var osel, prepend, selector, attr, append, target = [], m,
+			setstr, getstr, quotefn, isStyle, isClass, attName, setfn;
 		if( typeof sel === 'string' ){
 			osel = sel;
-			var m = sel.match(selRx);
+			m = sel.match(selRx);
 			if( !m ){
 				error( 'bad selector syntax: ' + sel );
 			}
@@ -280,19 +296,21 @@ $p.core = function(sel, ctxt, plugins){
 				error('cannot append with loop (sel: ' + osel + ')');
 			}
 		}
-		var setstr, getstr, quotefn, isStyle, isClass, attName, setfn;
+		
 		if(attr){
 			isStyle = (/^style$/i).test(attr);
 			isClass = (/^class$/i).test(attr);
 			attName = isClass ? 'className' : attr;
 			setstr = function(node, s) {
 				node.setAttribute(attPfx + attr, s);
-				if (attName in node && !isStyle) {
+				if ( node[attName] && !isStyle) {
 					try{node[attName] = '';}catch(e){} //FF4 gives an error sometimes
 				}
 				if (node.nodeType === 1) {
 					node.removeAttribute(attr);
-					isClass && node.removeAttribute(attName);
+					if(isClass){
+						node.removeAttribute(attName);
+					}
 				}
 			};
 			if (isStyle || isClass) {//IE no quotes special care
@@ -320,6 +338,8 @@ $p.core = function(sel, ctxt, plugins){
 						//replace node with s
 						pn.insertBefore(document.createTextNode(s), node.nextSibling);
 						pn.removeChild(node);
+					}else{
+						error('The template root, can\'t be looped.');
 					}
 				};
 			} else {
@@ -340,8 +360,8 @@ $p.core = function(sel, ctxt, plugins){
 	}
 
 	function setsig(target, n){
-		var sig = Sig + n + ':';
-		for(var i = 0; i < target.nodes.length; i++){
+		var sig = Sig + n + ':', i;
+		for(i = 0; i < target.nodes.length; i++){
 			// could check for overlapping targets here.
 			target.set( target.nodes[i], sig );
 		}
@@ -365,7 +385,7 @@ $p.core = function(sel, ctxt, plugins){
 					ctxt.item = temp.item = a[ idx ];
 					ctxt.items = a;
 					//if array, set a length property - filtered items
-					typeof len !== 'undefined' &&  (ctxt.length = len);
+					if(typeof len !== 'undefined'){ (ctxt.length = len); }
 					//if filter directive
 					if(typeof ftr === 'function' && ftr.call(ctxt.item, ctxt) === false){
 						filtered++;
@@ -376,16 +396,19 @@ $p.core = function(sel, ctxt, plugins){
 					ctxt.pos = save_pos;
 					ctxt.item = save_item;
 					ctxt.items = save_items;
-				};
+				},
+				prop, i, ii;
 			ctxt[name] = temp;
 			if( isArray(a) ){
 				length = a.length || 0;
 				// if sort directive
 				if(typeof sorter === 'function'){
-					a.sort(sorter);
+					a.sort(function(a, b){
+						return sorter.call(ctxt, a, b);
+					});
 				}
 				//loop on array
-				for(var i = 0, ii = length; i < ii; i++){
+				for(i = 0, ii = length; i < ii; i++){
 					buildArg(i, temp, filter, length - filtered);
 				}
 			}else{
@@ -393,52 +416,57 @@ $p.core = function(sel, ctxt, plugins){
 					error('sort is only available on arrays, not objects');
 				}
 				//loop on collections
-				for(var prop in a){
-					a.hasOwnProperty( prop ) && buildArg(prop, temp, filter);
+				for( prop in a ){
+					if( a.hasOwnProperty( prop ) ){
+						buildArg(prop, temp, filter);
+					}
 				}
 			}
 
-			typeof old !== 'undefined' ? ctxt[name] = old : delete ctxt[name];
+			if( typeof old !== 'undefined'){
+				ctxt[name] = old;
+			}else{
+				delete ctxt[name];
+			}
 			return strs.join('');
 		};
 	}
 	// generate the template for a loop node
 	function loopgen(dom, sel, loop, fns){
-		var already = false, ls, sorter, filter, prop;
+		var already = false, ls, sorter, filter, prop, dsel, spec, itersel, target, nodes, node, inner;
 		for(prop in loop){
 			if(loop.hasOwnProperty(prop)){
 				if(prop === 'sort'){
 					sorter = loop.sort;
-					continue;
 				}else if(prop === 'filter'){
 					filter = loop.filter;
-					continue;
-				}
-				if(already){
+				}else if(already){
 					error('cannot have more than one loop on a target');
+				}else{
+					ls = prop;
+					already = true;
 				}
-				ls = prop;
-				already = true;
 			}
 		}
 		if(!ls){
 			error('Error in the selector: ' + sel + '\nA directive action must be a string, a function or a loop(<-)');
 		}
-		var dsel = loop[ls];
+		dsel = loop[ls];
 		// if it's a simple data selector then we default to contents, not replacement.
 		if(typeof(dsel) === 'string' || typeof(dsel) === 'function'){
 			loop = {};
 			loop[ls] = {root: dsel};
 			return loopgen(dom, sel, loop, fns);
 		}
-		var spec = parseloopspec(ls),
-			itersel = dataselectfn(spec.sel),
-			target = gettarget(dom, sel, true),
-			nodes = target.nodes;
+		
+		spec = parseloopspec(ls);
+		itersel = dataselectfn(spec.sel);
+		target = gettarget(dom, sel, true);
+		nodes = target.nodes;
 
 		for(i = 0; i < nodes.length; i++){
-			var node = nodes[i],
-				inner = compiler(node, dsel);
+			node = nodes[i];
+			inner = compiler(node, dsel);
 			fns[fns.length] = wrapquote(target.quotefn, loopfn(spec.name, itersel, inner, sorter, filter));
 			target.nodes = [node];		// N.B. side effect on target.
 			setsig(target, fns.length - 1);
@@ -526,7 +554,7 @@ $p.core = function(sel, ctxt, plugins){
 	function compiler(dom, directive, data, ans){
 		var fns = [], j, jj, cspec, n, target, nodes, itersel, node, inner, dsel, sels, sel, sl, i, h, parts,  pfns = [], p;
 		// autoRendering nodes parsing -> auto-nodes
-		ans = ans || data && getAutoNodes(dom, data);
+		ans = ans || (data && getAutoNodes(dom, data));
 		if(data){
 			// for each auto-nodes
 			while(ans.length > 0){
@@ -608,11 +636,10 @@ $p.core = function(sel, ctxt, plugins){
 	// return an HTML string
 	// should replace the template and return this
 	function render(ctxt, directive){
-		var fn = typeof directive === 'function' && directive, i = 0, ii = this.length;
-		for(; i < ii; i++){
+		var fn = typeof directive === 'function' && directive, i, ii;
+		for(i = 0, ii = this.length; i < ii; i++){
 			this[i] = replaceWith( this[i], (fn || plugins.compile( directive, false, this[i] ))( ctxt, false ));
 		}
-		context = null;
 		return this;
 	}
 
@@ -620,23 +647,27 @@ $p.core = function(sel, ctxt, plugins){
 	// run the template function on the context argument
 	// return an HTML string
 	function autoRender(ctxt, directive){
-		var fn = plugins.compile( directive, ctxt, this[0] );
-		for(var i = 0, ii = this.length; i < ii; i++){
+		var fn = plugins.compile( directive, ctxt, this[0] ), i, ii;
+		for(i = 0, ii = this.length; i < ii; i++){
 			this[i] = replaceWith( this[i], fn( ctxt, false));
 		}
-		context = null;
 		return this;
 	}
 
 	function replaceWith(elm, html) {
 		var ne,
 			ep = elm.parentNode,
-			depth = 0;
+			depth = 0,
+			tmp;
 		if(!ep){ //if no parents
 			ep = document.createElement('DIV');
 			ep.appendChild(elm);
 		}
 		switch (elm.tagName) {
+			case 'BODY': //thanks to milan.adamovsky@gmail.com
+				ep.removeChild(elm);
+				ep.innerHTML += html;
+				return ep.getElementsByTagName('BODY')[0];
 			case 'TBODY': case 'THEAD': case 'TFOOT':
 				html = '<TABLE>' + html + '</TABLE>';
 				depth = 1;
@@ -648,6 +679,10 @@ $p.core = function(sel, ctxt, plugins){
 			case 'TD': case 'TH':
 				html = '<TABLE><TBODY><TR>' + html + '</TR></TBODY></TABLE>';
 				depth = 3;
+			break;
+			case 'OPTGROUP': case 'OPTION':
+				html = '<SELECT>' + html + '</SELECT>';
+				depth = 1;
 			break;
 		}
 		tmp = document.createElement('SPAN');
@@ -674,18 +709,11 @@ $p.plugins = {};
 
 $p.libs = {
 	dojo:function(){
-		if(typeof document.querySelector === 'undefined'){
-			$p.plugins.find = function(n, sel){
-				return dojo.query(sel, n);
-			};
-		}
+		return function(n, sel){
+			return dojo.query(sel, n);
+		};
 	},
 	domassistant:function(){
-		if(typeof document.querySelector === 'undefined'){
-			$p.plugins.find = function(n, sel){
-				return $(n).cssSelect(sel);
-			};
-		}
 		DOMAssistant.attach({
 			publicMethods : [ 'compile', 'render', 'autoRender'],
 			compile:function(directive, ctxt){
@@ -698,13 +726,16 @@ $p.libs = {
 				return $( $p([this]).autoRender(ctxt, directive) )[0];
 			}
 		});
+		return function(n, sel){
+			return $(n).cssSelect(sel);
+		};
+	},
+	ext:function(){//Thanks to Greg Steirer
+		return function(n, sel){
+			return Ext.query(sel, n);
+		};
 	},
 	jquery:function(){
-		if(typeof document.querySelector === 'undefined'){
-			$p.plugins.find = function(n, sel){
-				return jQuery(n).find(sel);
-			};
-		}
 		jQuery.fn.extend({
 			directives:function(directive){
 				this._pure_d = directive; return this;
@@ -719,13 +750,11 @@ $p.libs = {
 				return jQuery( $p( this ).autoRender( ctxt, this._pure_d || directive ) );
 			}
 		});
+		return function(n, sel){
+			return jQuery(n).find(sel);
+		};
 	},
 	mootools:function(){
-		if(typeof document.querySelector === 'undefined'){
-			$p.plugins.find = function(n, sel){
-				return $(n).getElements(sel);
-			};
-		}
 		Element.implement({
 			compile:function(directive, ctxt){
 				return $p(this).compile(directive, ctxt);
@@ -737,14 +766,11 @@ $p.libs = {
 				return $p([this]).autoRender(ctxt, directive);
 			}
 		});
+		return function(n, sel){
+			return $(n).getElements(sel);
+		};
 	},
 	prototype:function(){
-		if(typeof document.querySelector === 'undefined'){
-			$p.plugins.find = function(n, sel){
-				n = n === document ? n.body : n;
-				return typeof n === 'string' ? $$(n) : $(n).select(sel);
-			};
-		}
 		Element.addMethods({
 			compile:function(element, directive, ctxt){
 				return $p([element]).compile(directive, ctxt);
@@ -756,20 +782,20 @@ $p.libs = {
 				return $p([element]).autoRender(ctxt, directive);
 			}
 		});
+		return function(n, sel){
+			n = n === document ? n.body : n;
+			return typeof n === 'string' ? $$(n) : $(n).select(sel);
+		};
 	},
 	sizzle:function(){
-		if(typeof document.querySelector === 'undefined'){
-			$p.plugins.find = function(n, sel){
-				return Sizzle(sel, n);
-			};
-		}
+		return function(n, sel){
+			return Sizzle(sel, n);
+		};
 	},
 	sly:function(){
-		if(typeof document.querySelector === 'undefined'){
-			$p.plugins.find = function(n, sel){
-				return Sly(sel, n);
-			};
-		}
+		return function(n, sel){
+			return Sly(sel, n);
+		};
 	},
 	yui:function(){ //Thanks to https://github.com/soljin
 		if(typeof document.querySelector === 'undefined'){
@@ -793,22 +819,40 @@ $p.libs = {
 				return Y.one($p([this._node]).autoRender(ctxt, this._pure_d || directive));
 			};
 		},"0.1",{requires:["node"]});
+
+		return true;
 	}
 };
 
 // get lib specifics if available
 (function(){
-	var libkey =
-		typeof dojo         !== 'undefined' && 'dojo' ||
-		typeof DOMAssistant !== 'undefined' && 'domassistant' ||
-		typeof jQuery       !== 'undefined' && 'jquery' ||
-		typeof MooTools     !== 'undefined' && 'mootools' ||
-		typeof Prototype    !== 'undefined' && 'prototype' ||
-		typeof Sizzle       !== 'undefined' && 'sizzle' ||
-		typeof Sly          !== 'undefined' && 'sly' ||
-		typeof YUI          !== 'undefined' && 'yui';
-
-	libkey && $p.libs[libkey]();
+	var libSel,
+		libkey =
+			(typeof dojo         !== 'undefined' && 'dojo') ||
+			(typeof DOMAssistant !== 'undefined' && 'domassistant') ||
+			(typeof Ext          !== 'undefined' && 'ext') ||
+			(typeof jQuery       !== 'undefined' && 'jquery') ||
+			(typeof MooTools     !== 'undefined' && 'mootools') ||
+			(typeof Prototype    !== 'undefined' && 'prototype') ||
+			(typeof Sizzle       !== 'undefined' && 'sizzle') ||
+			(typeof Sly          !== 'undefined' && 'sly') ||
+			(typeof YUI          !== 'undefined' && 'yui');
+	
+	//add library methods
+	if(libkey){
+		libSel = $p.libs[libkey]();
+	}
+	
+	//if no native selector available
+	if( typeof document.querySelector === 'undefined' ){
+		//take it from the JS lib
+		if( typeof libSel === 'function' ){
+			$p.plugins.find = libSel;
+		//if nothing throw an error
+		}else if( !libSel ){
+			throw('you need a JS library with a CSS selector engine');
+		}
+	}
 
 	//for node.js
 	if(typeof exports !== 'undefined'){
