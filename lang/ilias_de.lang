@@ -12973,3 +12973,5 @@ user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
 user#:#user_delete_own_account_aborted#:#Der Lösch-Prozess wurde abgebrochen, der Account ist unverändert.
 rbac#:#edit_userassignment#:#Benutzerzuweisung ändern
 blog#:#blog_posting_edit_approval_info#:#Der Eintrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
+mail#:#mail_add_folder#:#Neuen Ordner erstellen
+mail#:#mail_rename_folder#:#Ordner umbenennen

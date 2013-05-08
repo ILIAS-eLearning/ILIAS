@@ -461,15 +461,20 @@ class ilMailFolderGUI
 
 	public function addSubFolder()
 	{
+		/**
+		 * @var $ilCtrl ilCtrl
+		 * @var $tpl    ilTemplate
+		 */
 		global $ilCtrl, $tpl;
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		
+
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
 		$tpl->setTitle($this->lng->txt('mail'));
 
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($ilCtrl->getFormAction($this, 'performAddSubFolder'));
-		$oForm->setTitle('add_folder');
+		$oForm->setTitle($this->lng->txt('mail_add_folder'));
 
 		//title
 		$oTitle = new ilTextInputGUI();
@@ -477,26 +482,31 @@ class ilMailFolderGUI
 		$oTitle->setPostVar('subfolder_title');
 		$oForm->addItem($oTitle);
 
-		$oForm->addCommandButton('performAddSubFolder',$this->lng->txt('save'));
-		$oForm->addCommandButton('showFolder',$this->lng->txt('cancel'));
+		$oForm->addCommandButton('performAddSubFolder', $this->lng->txt('save'));
+		$oForm->addCommandButton('showFolder', $this->lng->txt('cancel'));
 
-		$tpl->setVariable('FORM',$oForm->getHTML());
+		$tpl->setVariable('FORM', $oForm->getHTML());
 		$tpl->show();
-		
+
 		return true;
 	}
 
 	public function renameSubFolder()
 	{
+		/**
+		 * @var $ilCtrl ilCtrl
+		 * @var $tpl    ilTemplate
+		 */
 		global $ilCtrl, $tpl;
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
 		$tpl->setTitle($this->lng->txt('mail'));
 
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($ilCtrl->getFormAction($this, 'performRenameSubFolder'));
-		$oForm->setTitle('rename_folder');
+		$oForm->setTitle($this->lng->txt('mail_rename_folder'));
 
 		//title
 		$oTitle = new ilTextInputGUI();
@@ -506,9 +516,9 @@ class ilMailFolderGUI
 		$oTitle->setPostVar('subfolder_title');
 		$oForm->addItem($oTitle);
 
-		$oForm->addCommandButton('performRenameSubFolder',$this->lng->txt('save'));
-		$oForm->addCommandButton('showFolder',$this->lng->txt('cancel'));
-		$tpl->setVariable('FORM',$oForm->getHTML());
+		$oForm->addCommandButton('performRenameSubFolder', $this->lng->txt('save'));
+		$oForm->addCommandButton('showFolder', $this->lng->txt('cancel'));
+		$tpl->setVariable('FORM', $oForm->getHTML());
 		$tpl->show();
 
 		return true;
