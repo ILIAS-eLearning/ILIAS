@@ -118,6 +118,8 @@ class ilAssQuestionFeedbackEditingGUI
 	{
 		$cmd = $this->ctrl->getCmd(self::CMD_SHOW);
 		$nextClass = $this->ctrl->getNextClass($this);
+		
+		$this->ctrl->setParameter($this, 'q_id', (int)$_GET['q_id']);
 
 		switch($nextClass)
 		{

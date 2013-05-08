@@ -13,6 +13,7 @@ include_once "./Services/COPage/classes/class.ilPCQuestion.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilPCQuestionGUI: ilQuestionEditGUI
+* @ilCtrl_Calls ilPCQuestionGUI: ilAssQuestionFeedbackEditingGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -57,7 +58,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng;
 		
 		// get current command
 		$cmd = $ilCtrl->getCmd();
@@ -71,7 +72,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		
 		switch($next_class)
 		{
-			
+
 			case "ilquestioneditgui":
 				include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
 
@@ -87,6 +88,29 @@ class ilPCQuestionGUI extends ilPageContentGUI
 				$edit_gui->setSelfAssessmentEditingMode(true);
 				$ret = $ilCtrl->forwardCommand($edit_gui);
 				$this->tpl->setContent($ret);
+				break;
+
+			case 'ilassquestionfeedbackeditinggui':
+
+				// set tabs
+				$this->setTabs();
+				
+				// load required lang mods
+				$lng->loadLanguageModule("assessment");
+
+				// set context tabs
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI->object->setObjId(0);
+				$questionGUI->object->setSelfAssessmentEditingMode(true);
+				$questionGUI->object->setDefaultNrOfTries(null);
+				//$questionGUI->setQuestionTabs();
+				
+				// forward to ilAssQuestionFeedbackGUI
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
+				$ilCtrl->forwardCommand($gui);
+				
 				break;
 			
 			default:
@@ -451,9 +475,14 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		{
 			if (assQuestion::_getQuestionType($q_id)!= "assTextQuestion") 
 			{
-				$ilTabs->addTarget("feedback",
-					$ilCtrl->getLinkTarget($this, "feedback"), array("feedback","saveFeedback"),
-					"");
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+				$tabCommands = assQuestionGUI::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
+				$tabLink = ilUtil::appendUrlParameterString(
+					$ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW),
+					"q_id=".(int)$q_id
+				);
+				$ilTabs->addTarget('feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
 			}	
 		}
 	}
