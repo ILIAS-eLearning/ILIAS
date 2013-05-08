@@ -43,6 +43,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 					$this->top_node_id = $n;
 				}
 			}
+			
 		}
 		
 		parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
@@ -69,7 +70,10 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			}
 			$this->setTypeWhiteList($white);
 		}
-
+		if ((int) $_GET["ref_id"] > 0)
+		{
+			$this->setPathOpen((int) $_GET["ref_id"]);
+		}
 	}
 
 	/**

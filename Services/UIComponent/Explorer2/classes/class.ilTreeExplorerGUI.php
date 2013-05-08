@@ -169,6 +169,20 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 		return $this->getTree()->getNodeData($root_id);
 	}
 	
+	/**
+	 * Set node path to be opened
+	 *
+	 * @param string $a_id node id
+	 */
+	function setPathOpen($a_id)
+	{
+		$path = $this->getTree()->getPathId($a_id);
+		foreach ($path as $id)
+		{
+			$this->setNodeOpen($id);
+		}
+	}
+
 }
 
 ?>
