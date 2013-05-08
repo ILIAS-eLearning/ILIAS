@@ -350,69 +350,75 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($form->checkInput())
 		{					
 			$valid = true;
-									
-			if($form->getInput("tut"))
-			{				
-				// check if given "tutors" have write permission
-				$tut_ids =array();
-				$tut_logins = $form->getInput("tut_ids");
-				foreach($tut_logins as $tut_login)
-				{
-					$tut_id = ilObjUser::_lookupId($tut_login);
-					if($tut_id && $rbacsystem->checkAccessOfUser($tut_id, "write", $this->object->getRefId()))
-					{					
-						$tut_ids[] = $tut_id;
-					}				
-				}
-				if(!$tut_ids)
-				{
-					$tut_ids = $form->getItemByPostVar("tut_ids");
-					$tut_ids->setAlert($this->lng->txt("survey_notification_tutor_recipients_invalid"));					
-					$valid = false;
-				}													
-			}			
+						
+			if(!$this->object->get360Mode())
+			{
+				if($form->getInput("tut"))
+				{				
+					// check if given "tutors" have write permission
+					$tut_ids =array();
+					$tut_logins = $form->getInput("tut_ids");
+					foreach($tut_logins as $tut_login)
+					{
+						$tut_id = ilObjUser::_lookupId($tut_login);
+						if($tut_id && $rbacsystem->checkAccessOfUser($tut_id, "write", $this->object->getRefId()))
+						{					
+							$tut_ids[] = $tut_id;
+						}				
+					}
+					if(!$tut_ids)
+					{
+						$tut_ids = $form->getItemByPostVar("tut_ids");
+						$tut_ids->setAlert($this->lng->txt("survey_notification_tutor_recipients_invalid"));					
+						$valid = false;
+					}													
+				}			
+			}
 			
 			if($valid)
-			{					
-				if($form->getInput("rmd"))
+			{			
+				if(!$this->object->get360Mode())
 				{
-					$rmd_start = $form->getInput("rmd_start");
-					$rmd_start = $rmd_start["date"];
-					$rmd_end = null;
-					if($form->getInput("rmd_end_tgl"))
+					if($form->getInput("rmd"))
 					{
-						$rmd_end = $form->getInput("rmd_end");
-						$rmd_end = $rmd_end["date"];
-						if($rmd_start > $rmd_end)
+						$rmd_start = $form->getInput("rmd_start");
+						$rmd_start = $rmd_start["date"];
+						$rmd_end = null;
+						if($form->getInput("rmd_end_tgl"))
 						{
-							$tmp = $rmd_start;
-							$rmd_start = $rmd_end;
-							$rmd_end = $tmp;
+							$rmd_end = $form->getInput("rmd_end");
+							$rmd_end = $rmd_end["date"];
+							if($rmd_start > $rmd_end)
+							{
+								$tmp = $rmd_start;
+								$rmd_start = $rmd_end;
+								$rmd_end = $tmp;
+							}
+							$rmd_end = new ilDate($rmd_end, IL_CAL_DATE);
 						}
-						$rmd_end = new ilDate($rmd_end, IL_CAL_DATE);
+						$rmd_start = new ilDate($rmd_start, IL_CAL_DATE);
+
+						$this->object->setReminderStatus(true);
+						$this->object->setReminderStart($rmd_start);
+						$this->object->setReminderEnd($rmd_end);
+						$this->object->setReminderFrequency($form->getInput("rmd_freq"));
+						$this->object->setReminderTarget($form->getInput("rmd_grp"));
+					}		
+					else
+					{
+						$this->object->setReminderStatus(false);
 					}
-					$rmd_start = new ilDate($rmd_start, IL_CAL_DATE);
-										
-					$this->object->setReminderStatus(true);
-					$this->object->setReminderStart($rmd_start);
-					$this->object->setReminderEnd($rmd_end);
-					$this->object->setReminderFrequency($form->getInput("rmd_freq"));
-					$this->object->setReminderTarget($form->getInput("rmd_grp"));
-				}		
-				else
-				{
-					$this->object->setReminderStatus(false);
-				}
-				
-				if($form->getInput("tut"))
-				{
-					$this->object->setTutorNotificationStatus(true);		
-					$this->object->setTutorNotificationRecipients($tut_ids); // see above
-					$this->object->setTutorNotificationTarget($form->getInput("tut_grp"));
-				}		
-				else
-				{
-					$this->object->setTutorNotificationStatus(false);
+
+					if($form->getInput("tut"))
+					{
+						$this->object->setTutorNotificationStatus(true);		
+						$this->object->setTutorNotificationRecipients($tut_ids); // see above
+						$this->object->setTutorNotificationTarget($form->getInput("tut_grp"));
+					}		
+					else
+					{
+						$this->object->setTutorNotificationStatus(false);
+					}
 				}
 			
 				// #10055
@@ -805,114 +811,116 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$mailnotification->addSubItem($participantdata);
 		$form->addItem($mailnotification);
 		
-		
-		// parent course?
-		global $tree;
-		$has_parent = $tree->checkForParentType($this->object->getRefId(), "crs");
-		if(!$has_parent)
+		// reminder/notification - currently not available for 360° 
+		if(!$this->object->get360Mode())
 		{
-			$has_parent = $tree->checkForParentType($this->object->getRefId(), "grp");
-		}
-		$num_inv = sizeof($this->object->getInvitedUsers());
-				
-		$ntf = new ilFormSectionHeaderGUI();
-		$ntf->setTitle($this->lng->txt("survey_notification_settings"));
-		$form->addItem($ntf);
-		
-		// reminder
-		$rmd = new ilCheckboxInputGUI($this->lng->txt("survey_reminder_setting"), "rmd");
-		$rmd->setChecked($this->object->getReminderStatus());
-		$form->addItem($rmd);
-		
-		$rmd_start = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_start"), "rmd_start");
-		$rmd_start->setRequired(true);
-		$start = $this->object->getReminderStart();
-		if($start)
-		{
-			$rmd_start->setDate($start);
-		}
-		$rmd->addSubItem($rmd_start);
-		
-		$end = $this->object->getReminderEnd();
-		$rmd_end = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_end"), "rmd_end");
-		$rmd_end->enableDateActivation("", "rmd_end_tgl", (bool)$end);
-		if($end)
-		{
-			$rmd_end->setDate($end);
-		}
-		$rmd->addSubItem($rmd_end);
-		
-		$rmd_freq = new ilNumberInputGUI($this->lng->txt("survey_reminder_frequency"), "rmd_freq");
-		$rmd_freq->setRequired(true);
-		$rmd_freq->setSize(3);		
-		$rmd_freq->setSuffix($this->lng->txt("survey_reminder_frequency_days"));
-		$rmd_freq->setValue($this->object->getReminderFrequency());
-		$rmd_freq->setMinValue(1);
-		$rmd->addSubItem($rmd_freq);
-		
-		$rmd_grp = new ilRadioGroupInputGUI($this->lng->txt("survey_notification_target_group"), "rmd_grp");
-		$rmd_grp->setRequired(true);
-		$rmd_grp->setValue($this->object->getReminderTarget());
-		$rmd->addSubItem($rmd_grp);
-		
-		$rmd_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"), 
-			ilObjSurvey::NOTIFICATION_PARENT_COURSE);		
-		if(!$has_parent)
-		{
-			$rmd_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
-		}
-		$rmd_grp->addOption($rmd_grp_crs);
-
-		$rmd_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
-			ilObjSurvey::NOTIFICATION_INVITED_USERS);
-		$rmd_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
-		$rmd_grp->addOption($rmd_grp_inv);
-		
-		
-		// notification
-		$tut = new ilCheckboxInputGUI($this->lng->txt("survey_notification_tutor_setting"), "tut");
-		$tut->setChecked($this->object->getTutorNotificationStatus());
-		$form->addItem($tut);
-		
-		$tut_logins = array();
-		$tuts = $this->object->getTutorNotificationRecipients();
-		if($tuts)
-		{
-			foreach($tuts as $tut_id)
+			// parent course?
+			global $tree;
+			$has_parent = $tree->checkForParentType($this->object->getRefId(), "crs");
+			if(!$has_parent)
 			{
-				$tmp = ilObjUser::_lookupName($tut_id);
-				if($tmp["login"])
-				{
-					$tut_logins[] = $tmp["login"];
-				}
+				$has_parent = $tree->checkForParentType($this->object->getRefId(), "grp");
 			}
+			$num_inv = sizeof($this->object->getInvitedUsers());
+
+			$ntf = new ilFormSectionHeaderGUI();
+			$ntf->setTitle($this->lng->txt("survey_notification_settings"));
+			$form->addItem($ntf);
+
+			// reminder
+			$rmd = new ilCheckboxInputGUI($this->lng->txt("survey_reminder_setting"), "rmd");
+			$rmd->setChecked($this->object->getReminderStatus());
+			$form->addItem($rmd);
+
+			$rmd_start = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_start"), "rmd_start");
+			$rmd_start->setRequired(true);
+			$start = $this->object->getReminderStart();
+			if($start)
+			{
+				$rmd_start->setDate($start);
+			}
+			$rmd->addSubItem($rmd_start);
+
+			$end = $this->object->getReminderEnd();
+			$rmd_end = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_end"), "rmd_end");
+			$rmd_end->enableDateActivation("", "rmd_end_tgl", (bool)$end);
+			if($end)
+			{
+				$rmd_end->setDate($end);
+			}
+			$rmd->addSubItem($rmd_end);
+
+			$rmd_freq = new ilNumberInputGUI($this->lng->txt("survey_reminder_frequency"), "rmd_freq");
+			$rmd_freq->setRequired(true);
+			$rmd_freq->setSize(3);		
+			$rmd_freq->setSuffix($this->lng->txt("survey_reminder_frequency_days"));
+			$rmd_freq->setValue($this->object->getReminderFrequency());
+			$rmd_freq->setMinValue(1);
+			$rmd->addSubItem($rmd_freq);
+
+			$rmd_grp = new ilRadioGroupInputGUI($this->lng->txt("survey_notification_target_group"), "rmd_grp");
+			$rmd_grp->setRequired(true);
+			$rmd_grp->setValue($this->object->getReminderTarget());
+			$rmd->addSubItem($rmd_grp);
+
+			$rmd_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"), 
+				ilObjSurvey::NOTIFICATION_PARENT_COURSE);		
+			if(!$has_parent)
+			{
+				$rmd_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
+			}
+			$rmd_grp->addOption($rmd_grp_crs);
+
+			$rmd_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
+				ilObjSurvey::NOTIFICATION_INVITED_USERS);
+			$rmd_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
+			$rmd_grp->addOption($rmd_grp_inv);
+
+
+			// notification
+			$tut = new ilCheckboxInputGUI($this->lng->txt("survey_notification_tutor_setting"), "tut");
+			$tut->setChecked($this->object->getTutorNotificationStatus());
+			$form->addItem($tut);
+
+			$tut_logins = array();
+			$tuts = $this->object->getTutorNotificationRecipients();
+			if($tuts)
+			{
+				foreach($tuts as $tut_id)
+				{
+					$tmp = ilObjUser::_lookupName($tut_id);
+					if($tmp["login"])
+					{
+						$tut_logins[] = $tmp["login"];
+					}
+				}
+			}		
+			$tut_ids = new ilTextInputGUI($this->lng->txt("survey_notification_tutor_recipients"), "tut_ids");
+			$tut_ids->setDataSource($this->ctrl->getLinkTarget($this, "doAutoComplete", "", true));
+			$tut_ids->setRequired(true);
+			$tut_ids->setMulti(true);		
+			$tut_ids->setMultiValues($tut_logins);
+			$tut_ids->setValue(array_shift($tut_logins));		
+			$tut->addSubItem($tut_ids);
+
+			$tut_grp = new ilRadioGroupInputGUI($this->lng->txt("survey_notification_target_group"), "tut_grp");
+			$tut_grp->setRequired(true);
+			$tut_grp->setValue($this->object->getTutorNotificationTarget());
+			$tut->addSubItem($tut_grp);
+
+			$tut_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"), 
+				ilObjSurvey::NOTIFICATION_PARENT_COURSE);
+			if(!$has_parent)
+			{
+				$tut_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
+			}
+			$tut_grp->addOption($tut_grp_crs);
+
+			$tut_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
+				ilObjSurvey::NOTIFICATION_INVITED_USERS);
+			$tut_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
+			$tut_grp->addOption($tut_grp_inv);
 		}		
-		$tut_ids = new ilTextInputGUI($this->lng->txt("survey_notification_tutor_recipients"), "tut_ids");
-		$tut_ids->setDataSource($this->ctrl->getLinkTarget($this, "doAutoComplete", "", true));
-		$tut_ids->setRequired(true);
-		$tut_ids->setMulti(true);		
-		$tut_ids->setMultiValues($tut_logins);
-		$tut_ids->setValue(array_shift($tut_logins));		
-		$tut->addSubItem($tut_ids);
-		
-		$tut_grp = new ilRadioGroupInputGUI($this->lng->txt("survey_notification_target_group"), "tut_grp");
-		$tut_grp->setRequired(true);
-		$tut_grp->setValue($this->object->getTutorNotificationTarget());
-		$tut->addSubItem($tut_grp);
-		
-		$tut_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"), 
-			ilObjSurvey::NOTIFICATION_PARENT_COURSE);
-		if(!$has_parent)
-		{
-			$tut_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
-		}
-		$tut_grp->addOption($tut_grp_crs);
-		
-		$tut_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
-			ilObjSurvey::NOTIFICATION_INVITED_USERS);
-		$tut_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
-		$tut_grp->addOption($tut_grp_inv);
-		
 		
 		// competence service activation for 360 mode
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
