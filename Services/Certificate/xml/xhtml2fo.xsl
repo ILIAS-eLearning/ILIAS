@@ -12,7 +12,7 @@
 	</xsl:template>
 
 	<xsl:template match="//body">
-		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" font-family="Helvetica, unifont">
 			<fo:layout-master-set>
 				<fo:simple-page-master master-name="ILIAS_certificate">
 					<xsl:attribute name="page-height">

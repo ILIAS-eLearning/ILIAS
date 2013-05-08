@@ -31,6 +31,12 @@
 			debug="yes">
 			<exclude name="ilias/**" /> 
         </javac>
+	<copy todir="${build}">
+		<fileset dir="${src}">
+			<include name="**/*.xml" />
+			<include name="**/*.ttf" />
+		</fileset>
+	</copy>
     </target>
 
     <!-- - - - - - - - - - - - - - - - - - 
@@ -59,7 +65,10 @@
 			<fileset dir="${tmp}" />
     		<manifest>
     			<attribute name="Main-Class" value="de.ilias.ilServer"/>
-    			<attribute name="MODULE-VERSION" value="4.1.7" />
+    			<attribute name="MODULE-VERSION" value="4.3.2" />
+			<section name="de/ilias/config/unifont.ttf">
+				<attribute name="Content-Type" value="application/x-font" />
+			</section>
     		</manifest>
     	</jar>
     </target>
