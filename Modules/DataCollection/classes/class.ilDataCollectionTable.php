@@ -887,8 +887,14 @@ class ilDataCollectionTable
 			$new_field = new ilDataCollectionField();
 			$new_field->setTableId($this->getId());
 			$new_field->cloneStructure($field->getId());
-			
 		}
+
+        if($old_view_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($original_id)){
+            $old_view = new ilDataCollectionRecordViewViewdefinition($old_view_id, $original_id);
+            $viewdef = new ilDataCollectionRecordViewViewdefinition(0, $this->id);
+            $viewdef->setXMLContent($old_view->getXMLContent(false));
+            $viewdef->create();
+        }
 	}
 	
 	/**
