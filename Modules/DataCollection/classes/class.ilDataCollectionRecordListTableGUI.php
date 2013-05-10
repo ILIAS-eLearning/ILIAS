@@ -29,6 +29,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
      */
     protected $object_data;
 
+    protected $numeric_fields;
+
     /*
      * __construct
      */
@@ -50,6 +52,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         $this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
 
         $this->addColumn("", "_front", "15px");
+        $this->numeric_fields = array();
 
         foreach($this->table->getVisibleFields() as $field)
         {
@@ -57,6 +60,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             if($field->getLearningProgress()){
                 $this->addColumn($lng->txt("dcl_status"), "_status_".$field->getTitle());
             }
+            if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_NUMBER)
+                $this->numeric_fields[] = $field->getTitle();
         }
         $this->setId("dcl_record_list");
 
@@ -103,6 +108,10 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         }
     }
 
+    public function numericOrdering($field){
+        return in_array($field, $this->numeric_fields);
+    }
+
     private function buildData(){
         global $ilCtrl, $lng;
 
@@ -123,12 +132,13 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                 if($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
                     $options['link']['display'] = true;
                 }
-                if(!($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_RATING))
-                    $record_data[$title] = ($record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):"-");
-                else{
+                if(($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_RATING)){
                     $val = ilRating::getOverallRatingForObject($record->getId(), "dcl_record",
                         $field->getId(), "dcl_field");
                     $record_data[$title] = $val["avg"];
+                }
+                else{
+                    $record_data[$title] = ($record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):null);
                 }
                 if($field->getLearningProgress())
                     $record_data["_status_".$title] = $this->getStatus($record, $field);
