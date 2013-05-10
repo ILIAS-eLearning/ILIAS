@@ -1110,7 +1110,7 @@ class ilRegistrationSettingsGUI
 		$utab = new ilRegistrationCodesTableGUI($this, "listCodes");
 		
 		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-		$codes = ilRegistrationCode::getCodesForExport($utab->filter["code"], $utab->filter["role"], $utab->filter["generated"]);
+		$codes = ilRegistrationCode::getCodesForExport($utab->filter["code"], $utab->filter["role"], $utab->filter["generated"], $utab->filter["alimit"]);
 
 		if(sizeof($codes))
 		{
