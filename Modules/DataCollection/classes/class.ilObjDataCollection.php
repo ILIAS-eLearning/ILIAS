@@ -184,22 +184,26 @@ class ilObjDataCollection extends ilObject2
 				// update/delete
                 $message = $ulng->txt("dcl_hello")." ".ilObjUser::_lookupFullname($user_id).",\n\n";
 				$message .= $ulng->txt('dcl_change_notification_dcl_'.$a_action).":\n\n";
-				$message .= $ulng->txt('obj_dcl').": ".$obj_dcl->getTitle()."\n";
-				$message .= $ulng->txt('dcl_table').": ".$obj_table->getTitle()."\n";
+				$message .= $ulng->txt('obj_dcl').": ".$obj_dcl->getTitle()."\n\n";
+				$message .= $ulng->txt('dcl_table').": ".$obj_table->getTitle()."\n\n";
+                $message .= $ulng->txt('dcl_record').":\n";
+                $message .= "------------------------------------\n";
 				if($a_record_id)
 				{
                     $record = ilDataCollectionCache::getRecordCache($a_record_id);
-					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
+                    if(!$record->getTableId())
+                        $record->setTableId($a_table_id);
+//					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
                     $t = "";
                     foreach($record->getTable()->getVisibleFields() as $field){
                         if($record->getRecordField($field->getId())){
-                            $t .= $record->getRecordField($field->getId())->getPlainText()." ";
+                            $t .= $field->getTitle().": ".$record->getRecordField($field->getId())->getPlainText()."\n";
                         }
                     }
                     $message .= $t."\n";
 				}
-
-				$message .= $ulng->txt('dcl_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
+                $message .= "------------------------------------\n";
+                $message .= $ulng->txt('dcl_changed_by').": ".$ilUser->getFullname()." ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
 				$message .= $ulng->txt('dcl_change_notification_link').": ".$link."\n\n";
 
                 $message .= $ulng->txt('dcl_change_why_you_receive_this_email');

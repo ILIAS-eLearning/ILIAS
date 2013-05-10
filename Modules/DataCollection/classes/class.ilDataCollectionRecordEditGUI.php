@@ -321,6 +321,7 @@ class ilDataCollectionRecordEditGUI
 				$record_obj->setTableId($this->table_id);
 				$record_obj->doCreate();
 				$this->record_id = $record_obj->getId();
+                $create_mode = true;
 			}
 			else
 			{
@@ -333,10 +334,12 @@ class ilDataCollectionRecordEditGUI
 			//edit values, they are valid we already checked them above
 			foreach($all_fields as $field)
 			{
-				$value = $this->form->getInput("field_".$field->getId());
-				$record_obj->setRecordFieldValue($field->getId(), $value);
-
+                    $value = $this->form->getInput("field_".$field->getId());
+                    $record_obj->setRecordFieldValue($field->getId(), $value);
 			}
+            if($create_mode){
+                ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
+            }
 
 			$record_obj->doUpdate();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
