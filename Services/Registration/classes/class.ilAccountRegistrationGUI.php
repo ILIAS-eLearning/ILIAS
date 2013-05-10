@@ -245,7 +245,7 @@ class ilAccountRegistrationGUI
 	
 	public function saveForm()
 	{
-		global $lng, $ilSetting;
+		global $lng, $ilSetting, $rbacreview;
 
 		$this->__initForm();
 		$form_valid = $this->form->checkInput();
@@ -254,53 +254,9 @@ class ilAccountRegistrationGUI
 
 		
 		// custom validation
-		
-		// validate email against restricted domains
-		$email = $this->form->getInput("usr_email");
-		if($email)
-		{
-			// #10366
-			$domains = array();
-			foreach($this->registration_settings->getAllowedDomains() as $item)
-			{
-				if(trim($item))
-				{
-					$domains[] = $item;
-				}
-			}			
-			if(sizeof($domains))
-			{								
-				$mail_valid = false;
-				foreach($domains as $domain)
-				{
-					$domain = str_replace("*", "~~~", $domain);
-					$domain = preg_quote($domain);
-					$domain = str_replace("~~~", ".+", $domain);					
-					if(preg_match("/^".$domain."$/", $email, $hit))
-					{
-						$mail_valid = true;
-						break;
-					}
-				}
-				if(!$mail_valid)
-				{
-					$mail_obj = $this->form->getItemByPostVar('usr_email');
-					$mail_obj->setAlert(sprintf($lng->txt("reg_email_domains"),
-						implode(", ", $domains)));
-					$form_valid = false;
-				}
-			}
-		}
-
-		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service'))
-		{
-			$agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
-			$agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
-			$form_valid = false;
-		}
-
-		$valid_role = false;
-		
+				
+		$valid_code = $valid_role = false;
+		 		
 		// code		
 		if($this->code_enabled)
 		{
@@ -318,10 +274,64 @@ class ilAccountRegistrationGUI
 				}
 				else
 				{
-					// get role from valid code
-					$valid_role = (int)ilRegistrationCode::getCodeRole($code);
+					$valid_code = true;
+					
+					// get role from code, check if (still) valid
+					$role_id = (int)ilRegistrationCode::getCodeRole($code);
+					if($role_id && $rbacreview->isGlobalRole($role_id))
+					{
+						$valid_role = $role_id;
+					}
 				}
 			}			
+		}
+		
+		// valid codes override email domain check
+		if(!$valid_code)
+		{
+			// validate email against restricted domains
+			$email = $this->form->getInput("usr_email");
+			if($email)
+			{
+				// #10366
+				$domains = array();
+				foreach($this->registration_settings->getAllowedDomains() as $item)
+				{
+					if(trim($item))
+					{
+						$domains[] = $item;
+					}
+				}			
+				if(sizeof($domains))
+				{								
+					$mail_valid = false;
+					foreach($domains as $domain)
+					{
+						$domain = str_replace("*", "~~~", $domain);
+						$domain = preg_quote($domain);
+						$domain = str_replace("~~~", ".+", $domain);					
+						if(preg_match("/^".$domain."$/", $email, $hit))
+						{
+							$mail_valid = true;
+							break;
+						}
+					}
+					if(!$mail_valid)
+					{
+						$mail_obj = $this->form->getItemByPostVar('usr_email');
+						$mail_obj->setAlert(sprintf($lng->txt("reg_email_domains"),
+							implode(", ", $domains)));
+						$form_valid = false;
+					}
+				}
+			}
+		}
+
+		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service'))
+		{
+			$agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
+			$agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
+			$form_valid = false;
 		}
 
 		// no need if role is attached to code
@@ -399,6 +409,16 @@ class ilAccountRegistrationGUI
 		 * @var $lng       ilLanguage
 		 */
 		global $ilSetting, $rbacadmin, $lng;
+		
+		
+		// something went wrong with the form validation
+		if(!$a_role)
+		{			
+			global $ilias;
+			$ilias->raiseError("Invalid role selection in registration".
+				", IP: ".$_SERVER["REMOTE_ADDR"], $ilias->error_obj->FATAL);
+		}
+		
 
 		$this->userObj = new ilObjUser();
 		
@@ -492,56 +512,79 @@ class ilAccountRegistrationGUI
 		$this->userObj->setUserDefinedData($udf);
 
 		$this->userObj->setTimeLimitOwner(7);
+		
+		
+		$access_limit = null;
 
 		$this->code_was_used = false;
 		if($this->code_enabled)
-		{		
+		{					 
+			$code_local_roles = $code_has_access_limit = null;
+			
 			// #10853 - could be optional
 			$code = $this->form->getInput('usr_registration_code');							
 			if($code)
 			{	
-				// set code to used
 				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+				
+				// set code to used				
 				ilRegistrationCode::useCode($code);
 				$this->code_was_used = true;
+				
+				// handle code attached local role(s) and access limitation
+				$code_data = ilRegistrationCode::getCodeData($code);
+				if($code_data["role_local"])
+				{
+					// need user id before we can assign role(s)
+					$code_local_roles = explode(";", $code_data["role_local"]);
+				}
+				if($code_data["alimit"])
+				{
+					// see below					
+					$code_has_access_limit = true;
+					
+					switch($code_data["alimit"])
+					{
+						case "absolute":					
+							$access_limit = new ilDate($code_data["alimitdt"], IL_CAL_DATE);
+							$access_limit = $access_limit->get(IL_CAL_UNIX);
+							break;
+						
+						case "relative":					
+							$rel = unserialize($code_data["alimitdt"]);
+							$access_limit = $rel["d"] * 86400 + $rel["m"] * 2592000 + 
+								$rel["y"] * 31536000 + time();		
+							break;
+					}
+				}
 			}
 		}
 		
-		// something went wrong with the form validation
-		if(!$a_role)
-		{			
-			global $ilias;
-			$ilias->raiseError("Invalid role selection in registration".
-				", IP: ".$_SERVER["REMOTE_ADDR"], $ilias->error_obj->FATAL);
-		}
-
-		if ($this->registration_settings->getAccessLimitation())
+		// code access limitation will override any other access limitation setting
+		if (!($this->code_was_used && $code_has_access_limit) &&
+			$this->registration_settings->getAccessLimitation())
 		{
 			include_once 'Services/Registration/classes/class.ilRegistrationRoleAccessLimitations.php';
 			$access_limitations_obj = new ilRegistrationRoleAccessLimitations();
-
-			$access_limit_mode = $access_limitations_obj->getMode($a_role);
-			if ($access_limit_mode == 'absolute')
+			switch($access_limitations_obj->getMode($a_role))
 			{
-				$access_limit = $access_limitations_obj->getAbsolute($a_role);
-				$this->userObj->setTimeLimitUnlimited(0);
-				$this->userObj->setTimeLimitUntil($access_limit);
+				case 'absolute':			
+					$access_limit = $access_limitations_obj->getAbsolute($a_role);
+					break;
+				
+				case 'relative':			
+					$rel_d = (int) $access_limitations_obj->getRelative($a_role,'d');
+					$rel_m = (int) $access_limitations_obj->getRelative($a_role,'m');
+					$rel_y = (int) $access_limitations_obj->getRelative($a_role,'y');
+					$access_limit = $rel_d * 86400 + $rel_m * 2592000 + $rel_y * 31536000 + time();		
+					break;
 			}
-			elseif ($access_limit_mode == 'relative')
-			{
-				$rel_d = (int) $access_limitations_obj->getRelative($a_role,'d');
-				$rel_m = (int) $access_limitations_obj->getRelative($a_role,'m');
-				$rel_y = (int) $access_limitations_obj->getRelative($a_role,'y');
-
-				$access_limit = $rel_d * 86400 + $rel_m * 2592000 + $rel_y * 31536000 + time();
-				$this->userObj->setTimeLimitUnlimited(0);
-				$this->userObj->setTimeLimitUntil($access_limit);
-			}
-			else
-			{
-				$this->userObj->setTimeLimitUnlimited(1);
-				$this->userObj->setTimeLimitUntil(time());
-			}
+		}
+		
+		if($access_limit)
+		{
+			$this->userObj->setTimeLimitUnlimited(0);
+			$this->userObj->setTimeLimitUntil($access_limit);
 		}
 		else
 		{
@@ -604,7 +647,21 @@ class ilAccountRegistrationGUI
 		$this->userObj->setPref("show_users_online", $show_online);
 		$this->userObj->writePrefs();
 
-		$rbacadmin->assignUser((int)$a_role, $this->userObj->getId(), true);
+		
+		$rbacadmin->assignUser((int)$a_role, $this->userObj->getId());
+		
+		// local roles from code
+		if($this->code_was_used && is_array($code_local_roles))
+		{
+			foreach(array_unique($code_local_roles) as $local_role_obj_id)
+			{
+				// is given role (still) valid?
+				if(ilObject::_lookupType($local_role_obj_id) == "role")
+				{
+					$rbacadmin->assignUser($local_role_obj_id, $this->userObj->getId());
+				}
+			}
+		}
 
 		return $password;
 	}

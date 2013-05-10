@@ -29,7 +29,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		$this->addColumn("", "", "1", true);
 		foreach ($this->getSelectedColumns() as $c => $caption)
 		{
-			if($c == "role_local")
+			if($c == "role_local" || $c == "alimit")
 			{
 				$c = "";
 			}
@@ -56,7 +56,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		
 		$this->getItems();
 	}
-
+	
 	/**
 	* Get user items
 	*/
@@ -106,16 +106,15 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		
 		$result = array();
 		foreach ($codes_data["set"] as $k => $code)
-		{
+		{						
+			$result[$k]["code"] = $code["code"];
+			$result[$k]["code_id"] = $code["code_id"];
+			
 			$result[$k]["generated"] = ilDatePresentation::formatDate(new ilDateTime($code["generated"],IL_CAL_UNIX));
 
 			if($code["used"])
 			{
 				$result[$k]["used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"],IL_CAL_UNIX));
-			}
-			else
-			{
-				$result[$k]["used"] = "";
 			}
 
 			if($code["role"])
@@ -141,54 +140,42 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 				}
 			}
 			
-			$result[$k]["alimit"] = 0;
 			if($code["alimit"])
 			{
 				switch($code["alimit"])
 				{
 					case "unlimited":
-						$result[$k]["alimit"] = mktime(0, 0, 1, 1, 1, 2038);
-						$result[$k]["limit_caption"] = $this->lng->txt("reg_access_limitation_none");
+						$result[$k]["alimit"] = $this->lng->txt("reg_access_limitation_none");
 						break;
 					
 					case "absolute":
-						$dt_obj = new ilDate($code["alimitdt"], IL_CAL_DATE);
-						$result[$k]["alimit"] = $dt_obj->get(IL_CAL_UNIX);
-						$result[$k]["limit_caption"] =  $this->lng->txt("reg_access_limitation_mode_absolute_target").
-							": ".ilDatePresentation::formatDate($dt_obj);					
+						$result[$k]["alimit"] =  $this->lng->txt("reg_access_limitation_mode_absolute_target").
+							": ".ilDatePresentation::formatDate(new ilDate($code["alimitdt"], IL_CAL_DATE));					
 						break;
 					
-					case "relative":
-						$result[$k]["alimit"] = time();
-							
+					case "relative":							
 						$limit_caption = array();
 						$limit = unserialize($code["alimitdt"]);												
 						if((int)$limit["d"])							
 						{
-							$result[$k]["alimit"] += (int)$limit["d"]*(60*60*24);
 							$limit_caption[] = (int)$limit["d"]." ".$this->lng->txt("days");
 						}
 						if((int)$limit["m"])							
 						{
-							$result[$k]["alimit"] += (int)$limit["m"]*(60*60*24*31);
 							$limit_caption[] = (int)$limit["m"]." ".$this->lng->txt("months");
 						}
 						if((int)$limit["y"])							
 						{
-							$result[$k]["alimit"] += (int)$limit["y"]*(60*60*24*365);
 							$limit_caption[] = (int)$limit["y"]." ".$this->lng->txt("years");
-						}												
+						}										
 						if(sizeof($limit_caption))
 						{
-							$result[$k]["limit_caption"] = $this->lng->txt("reg_access_limitation_mode_relative_target").
+							$result[$k]["alimit"] = $this->lng->txt("reg_access_limitation_mode_relative_target").
 								": ".implode(", ", $limit_caption);
 						}
 						break;
 				}
 			}
-			
-			$result[$k]["code"] = $code["code"];
-			$result[$k]["code_id"] = $code["code_id"];
 		}
 		
 		$this->setMaxCount($codes_data["cnt"]);
@@ -278,7 +265,6 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("VAL_".strtoupper($c), $code[$c]);
 		}
-		$this->tpl->setVariable("VAL_ALIMIT", $code["limit_caption"]);
 	}
 
 }
