@@ -336,13 +336,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$objCb = new ilCheckboxInputGUI($this->lng->txt('ps_prevent_simultaneous_logins'), 'ps_prevent_simultaneous_logins');
 		$objCb->setChecked((int)$security->isPreventionOfSimultaneousLoginsEnabled());
 		$objCb->setValue(1);
-		$objCb->setOptionTitle($this->lng->txt('ps_prevent_simultaneous_logins_info'));
+		$objCb->setInfo($this->lng->txt('ps_prevent_simultaneous_logins_info'));
 		$form->addItem($objCb);
 		
 		// protected admin
 		$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('adm_adm_role_protect'),'admin_role');
 		$admin->setDisabled(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID));
-		$admin->setInfo($GLOBALS['lng']->txt('adm_adm_role_protect_info'));
+		$admin->setInfo($this->lng->txt('adm_adm_role_protect_info'));
 		$admin->setChecked((int) $security->isAdminRoleProtected());
 		$admin->setValue(1);
 		$form->addItem($admin);

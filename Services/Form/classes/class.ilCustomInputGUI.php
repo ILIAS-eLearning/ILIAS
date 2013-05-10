@@ -99,11 +99,14 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		global $lng;
 		
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
-		{
-			$this->setAlert($lng->txt("msg_input_is_required"));
-			return false;
+		if($this->getPostVar())
+		{		
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+			if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
+			{
+				$this->setAlert($lng->txt("msg_input_is_required"));
+				return false;
+			}
 		}
 		return $this->checkSubItemsInput();
 	}

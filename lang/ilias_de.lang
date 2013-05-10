@@ -10034,7 +10034,7 @@ registration#:#registration_codes_add#:#Codes erzeugen
 registration#:#registration_codes_edit_header#:#Neue Codes erzeugen
 registration#:#registration_codes_export#:#Codes exportieren
 registration#:#registration_codes_number#:#Anzahl Codes
-registration#:#registration_codes_roles#:#Rolle für neue Accounts
+registration#:#registration_codes_roles#:#Globale Rolle 
 registration#:#registration_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
 registration#:#registration_generated#:#Erzeugt am
 registration#:#registration_generated_all#:#Alle Daten
@@ -13231,3 +13231,9 @@ survey#:#survey_reminder_subject#:#Umfrage "%s" wurde noch nicht bearbeitet
 survey#:#survey_reminder_salutation#:#Hallo %s,
 survey#:#survey_reminder_body#:#die folgende Umfrage ist von Ihnen noch nicht beendet worden
 survey#:#survey_reminder_link#:#URL
+registration#:#registration_codes_no_assigned_role#:#Keine vorgegebene zugewiesene Rolle
+registration#:#registration_codes_roles_local#:#Lokale Rolle(n) 
+registration#:#registration_codes_roles_title#:#Rolle für neue Accounts
+registration#:#registration_codes_roles_limitation_none#:#Keine vorgegebene Zugangsbefristung
+registration#:#reg_access_limitation_mode_absolute_target#:#Gültig bis
+registration#:#reg_access_limitation_mode_relative_target#:#Gültig für
