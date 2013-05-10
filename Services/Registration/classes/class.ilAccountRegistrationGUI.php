@@ -546,8 +546,8 @@ class ilAccountRegistrationGUI
 					switch($code_data["alimit"])
 					{
 						case "absolute":					
-							$access_limit = new ilDate($code_data["alimitdt"], IL_CAL_DATE);
-							$access_limit = $access_limit->get(IL_CAL_UNIX);
+							$abs = date_parse($code_data["alimitdt"]);
+							$access_limit = mktime(23, 59, 59, $abs['month'], $abs['day'], $abs['year']);
 							break;
 						
 						case "relative":					
