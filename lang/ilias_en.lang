@@ -12975,3 +12975,6 @@ rbac#:#edit_userassignment#:#Edit User Assignment
 blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.
 mail#:#mail_add_folder#:#Add New Subfolder
 mail#:#mail_rename_folder#:#Rename Folder
+common#:#rpc_pdf_generation#:#PDF-Generation
+common#:#rpc_pdf_font#:#Fonts
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.

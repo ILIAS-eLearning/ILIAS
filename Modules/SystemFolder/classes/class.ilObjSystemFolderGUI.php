@@ -3235,6 +3235,20 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setValue($ilSetting->get("rpc_server_port"));
 		$this->form->addItem($ti);
 		
+		// pdf fonts
+		$pdf = new ilFormSectionHeaderGUI();
+		$pdf->setTitle($this->lng->txt('rpc_pdf_generation'));
+		$this->form->addItem($pdf);
+		
+		$pdf_font = new ilTextInputGUI($this->lng->txt('rpc_pdf_font'), 'rpc_pdf_font');
+		$pdf_font->setInfo($this->lng->txt('rpc_pdf_font_info'));
+		$pdf_font->setSize(64);
+		$pdf_font->setMaxLength(1024);
+		$pdf_font->setRequired(true);
+		$pdf_font->setValue(
+				$ilSetting->get('rpc_pdf_font','Helvetica, unifont'));
+		$this->form->addItem($pdf_font);
+		
 	
 		// save and cancel commands
 		$this->form->addCommandButton("saveJavaServer", $lng->txt("save"));
@@ -3265,6 +3279,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$ilSetting->set("rpc_server_host", trim($_POST["rpc_server_host"]));
 			$ilSetting->set("rpc_server_port", trim($_POST["rpc_server_port"]));
+			$ilSetting->set('rpc_pdf_font',ilUtil::stripSlashes($_POST['rpc_pdf_font']));
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showJavaServer");
 			
