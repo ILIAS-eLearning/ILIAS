@@ -11,7 +11,7 @@
 	</xsl:template>
 	
 	<xsl:template match="body">
-		<fo:root>
+		<fo:root font-family="Helvetica, unifont">
 			<fo:layout-master-set>
 				<fo:simple-page-master>
 					<xsl:attribute name="master-name"><xsl:value-of select="//title"/></xsl:attribute>
