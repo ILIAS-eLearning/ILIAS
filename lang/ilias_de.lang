@@ -13208,7 +13208,6 @@ survey#:#survey_360_raters#:#Bewerter
 survey#:#svy_results#:#Ergebnisse
 survey#:#svy_analysis#:#Analyse
 mail#:#mail_add_folder#:#Neuen Ordner erstellen
-mail#:#mail_rename_folder#:#Ordner umbenennen
 survey#:#survey_notification_settings#:#Benachrichtigungen
 survey#:#survey_reminder_setting#:#Benutzer an Teilnahme erinnern
 survey#:#survey_reminder_start#:#Beginn
@@ -13231,6 +13230,10 @@ survey#:#survey_reminder_subject#:#Umfrage "%s" wurde noch nicht bearbeitet
 survey#:#survey_reminder_salutation#:#Hallo %s,
 survey#:#survey_reminder_body#:#die folgende Umfrage ist von Ihnen noch nicht beendet worden
 survey#:#survey_reminder_link#:#URL
+mail#:#mail_rename_folder#:#Ordner umbenennen
+common#:#rpc_pdf_generation#:#PDF-Erstellung
+common#:#rpc_pdf_font#:#Schriftarten
+common#:#rpc_pdf_font_info#:#Zusätzliche Schriftarten zur Erzeugung von PDF-Dateien. Alle zusätzlich angegebenen Schriftarten müssen serverseitig installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
 registration#:#registration_codes_no_assigned_role#:#Keine vorgegebene zugewiesene Rolle
 registration#:#registration_codes_roles_local#:#Lokale Rolle(n) 
 registration#:#registration_codes_roles_title#:#Rolle für neue Accounts

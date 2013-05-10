@@ -13208,7 +13208,6 @@ survey#:#survey_360_raters#:#Raters
 survey#:#svy_results#:#Results
 survey#:#svy_analysis#:#Analysis
 mail#:#mail_add_folder#:#Add New Subfolder
-mail#:#mail_rename_folder#:#Rename Folder
 survey#:#survey_notification_settings#:#Notification
 survey#:#survey_reminder_setting#:#Remind Users to Participate
 survey#:#survey_reminder_start#:#Start
@@ -13231,6 +13230,10 @@ survey#:#survey_reminder_subject#:#Survey "%s" was not finished
 survey#:#survey_reminder_salutation#:#Hello %s,
 survey#:#survey_reminder_body#:#the following survey has not been finished by you yet
 survey#:#survey_reminder_link#:#URL
+mail#:#mail_rename_folder#:#Rename Folder
+common#:#rpc_pdf_generation#:#PDF-Generation
+common#:#rpc_pdf_font#:#Fonts
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.
 registration#:#registration_codes_no_assigned_role#:#No Predefined Assigned Role
 registration#:#registration_codes_roles_local#:#Local Role(s) 
 registration#:#registration_codes_roles_title#:#Role for New Accounts

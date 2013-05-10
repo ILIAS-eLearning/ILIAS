@@ -376,6 +376,14 @@ class ilCertificate
 		}
 
 		$xsl = file_get_contents("./Services/Certificate/xml/xhtml2fo.xsl");
+		
+		// additional font support
+		$xsl = str_replace(
+				'font-family="Helvetica, unifont"',
+				'font-family="'.$GLOBALS['ilSetting']->get('rpc_pdf_font','Helvetica, unifont').'"',
+				$xsl
+		);
+		
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
 		if (strcmp($form_data["pageformat"], "custom") == 0)

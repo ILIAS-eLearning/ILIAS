@@ -35,7 +35,7 @@ public class RPCTransformationHandler {
 
     public RPCTransformationHandler() {
         
-        fo2pdf = new FO2PDF();
+        fo2pdf = FO2PDF.getInstance();
 
     }
     
@@ -47,6 +47,7 @@ public class RPCTransformationHandler {
     public byte[] ilFO2PDF(String foString) { 
         
     	try {
+			
     		fo2pdf.setFoString(foString);
 			fo2pdf.transform();
 			return fo2pdf.getPdf();

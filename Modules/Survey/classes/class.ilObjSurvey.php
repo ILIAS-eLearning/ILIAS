@@ -5140,6 +5140,14 @@ class ilObjSurvey extends ilObject
 			$print_output = str_replace("&otimes;", "X", $print_output);
 		}
 		$xsl = file_get_contents("./Modules/Survey/xml/question2fo.xsl");
+
+		// additional font support
+		$xsl = str_replace(
+				'font-family="Helvetica, unifont"',
+				'font-family="'.$GLOBALS['ilSetting']->get('rpc_pdf_font','Helvetica, unifont').'"',
+				$xsl
+		);
+		
 		$args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
 		$xh = xslt_create();
 		$params = array();

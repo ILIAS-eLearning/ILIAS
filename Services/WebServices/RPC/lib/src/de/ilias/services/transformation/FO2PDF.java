@@ -25,8 +25,12 @@ package de.ilias.services.transformation;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -36,33 +40,91 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.FopFactoryConfigurator;
 import org.apache.fop.apps.FormattingResults;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.fop.apps.PageSequenceResults;
+import org.apache.fop.fonts.apps.TTFReader;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.xml.sax.SAXException;
 
 public class FO2PDF {
     
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private static FO2PDF instance = null;
+	
+	private Logger logger = Logger.getLogger(this.getClass().getName());
     private String foString = null;
     private byte[] pdfByteArray = null;
+	private FopFactory fopFactory = null;
 
-    public FO2PDF() {
-
+	/**
+	 * Singleton contructor
+	 */
+    public FO2PDF() 
+	{
+		try 
+		{
+			// add font config
+			URL fopConfigUrl = getClass().getResource("/de/ilias/config/fopConfig.xml");
+			logger.info("Using config uri: " + fopConfigUrl.toURI());
+				
+			// load custom config
+			DefaultConfigurationBuilder config = new DefaultConfigurationBuilder();
+			Configuration cfg = config.build(fopConfigUrl.toURI().toString());
+				
+			fopFactory = FopFactory.newInstance();
+			fopFactory.setUserConfig(cfg);
+			fopFactory.getFontManager().deleteCache();
+			fopFactory.getFontManager().useCache();
+			
+		} 
+		catch (SAXException ex) {
+			logger.error("Cannot load fop configuration:" + ex);
+		} 
+		catch (IOException ex) {
+			logger.error("Cannot load fop configuration:" + ex);
+		} 
+		catch (ConfigurationException ex) {
+			logger.error("Cannot load fop configuration:" + ex);
+		} 
+		catch (URISyntaxException ex) {
+			logger.error("Cannot load fop configuration:" + ex);
+		}
         
     }
+	
+	/**
+	 * Get FO2PDF instance
+	 * @return 
+	 */
+	public static FO2PDF getInstance() {
+		
+		if(instance == null) {
+			return instance = new FO2PDF();
+		}
+		return instance;
+	}
     
+	/**
+	 * Transform 
+	 * @throws TransformationException 
+	 */
     public void transform()
         throws TransformationException {
        
         try {
-            logger.info("Started transformation. FO -> PDF.");
-            FopFactory fopFactory = FopFactory.newInstance();
+
+			logger.info("Starting fop transformation...");
+			
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
 //            foUserAgent.setTargetResolution(300);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -92,14 +154,12 @@ public class FO2PDF {
             this.setPdf(out.toByteArray());
 
         }
-        catch (UnsupportedEncodingException e) {
-        	logger.warn("Unsuppoorted encoding: " + e);
-            throw new TransformationException(e);
-        } 
-        catch (FOPException e) {
-        	logger.warn("FOP excception: " + e);
-            throw new TransformationException(e);
-        } 
+		catch (SAXException ex) { 
+			logger.error("Cannot load fop configuration:" + ex);
+		} 
+		catch (IOException ex) {
+			logger.error("Cannot load fop configuration:" + ex);
+		} 
         catch (TransformerConfigurationException e) {
         	logger.warn("Configuration exception: " + e);
             throw new TransformationException(e);

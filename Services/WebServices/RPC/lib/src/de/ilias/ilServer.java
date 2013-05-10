@@ -296,9 +296,6 @@ public class ilServer {
 		catch (InterruptedException e) {
 			logger.error("VM did not allow to sleep. Aborting!");
 		} 
-		catch (MalformedURLException e) {
-			logger.error("Malformed URL " + e.getMessage());
-		} 
 		catch (XmlRpcException e) {
 			System.out.println("Error starting server: " + e);
 			System.exit(1);
@@ -334,9 +331,6 @@ public class ilServer {
 			client.execute("RPCAdministration.stop",new Vector());
 			return true;
 		} 
-		catch (MalformedURLException e) {
-			logger.error("Malformed URL " + e.getMessage());
-		} 
 		catch (ConfigurationException e) {
 			logger.error("Configuration " + e.getMessage());
 		} 
@@ -367,9 +361,6 @@ public class ilServer {
 			status = (String) client.execute("RPCAdministration.status",new Vector());
 			System.out.println(status);
 			return true;
-		} 
-		catch (MalformedURLException e) {
-			logger.error("Malformed URL " + e.getMessage());
 		} 
 		catch (ConfigurationException e) {
 			logger.error("Configuration " + e.getMessage());

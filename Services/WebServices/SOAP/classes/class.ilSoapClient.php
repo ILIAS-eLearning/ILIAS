@@ -119,7 +119,10 @@ class ilSoapClient
 		
 		if($error = $this->client->getError())
 		{
-			$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
+			if(stristr($error, 'socket read of headers') === FALSE)
+			{
+				$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
+			}
 			return false;
 		}
 		return true;
@@ -134,7 +137,10 @@ class ilSoapClient
 
 		if($error = $this->client->getError())
 		{
-			$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
+			if(stristr($error, 'socket read of headers') === FALSE)
+			{
+				$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
+			}
 		}
 
 		return $res;
