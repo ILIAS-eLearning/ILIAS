@@ -279,8 +279,12 @@ class ilCalendarMonthGUI
 		global $tree, $ilUser;
 
 		$count = 0;
+		
+		
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{
+			$additional_styles = '';
+			
 			// booking
 			$booking_subtitle = false;
 			if($item['category_type'] == ilCalendarCategory::TYPE_CH)
@@ -294,21 +298,30 @@ class ilCalendarMonthGUI
 					{
 						$max = (int)$entry->getNumberOfBookings();
 						$current = (int)$entry->getCurrentNumberOfBookings($item['event']->getEntryId());
-						if($max > 1)
+						
+						if(!$current)
 						{
-							$booking_subtitle .= ' ('.$current.'/'.$max.')';
+							$additional_styles .= (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
+							$booking_subtitle .= ' ('.$this->lng->txt('cal_book_free').')';
 						}
-						else if($current == $max)
+						elseif($current >= $max)
 						{
+							$additional_styles .= (';border-left-width: 5px; border-left-style: solid; border-left-color: red');
 							$booking_subtitle .= ' ('.$this->lng->txt('cal_booked_out').')';
 						}
 						else
 						{
-							$booking_subtitle .= ' ('.$this->lng->txt('cal_book_free').')';
+							$additional_styles .= (';border-left-width: 5px; border-left-style: solid; border-left-color: yellow');
+							$booking_subtitle .= ' ('.$current.'/'.$max.')';
 						}
 					}
-					else if($entry->hasBooked($item['event']->getEntryId()))
+					
+					include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+					$apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $item['event']->getContextId(), $item['event']->getStart());
+					$orig_event = $apps[0];
+					if($entry->hasBooked($orig_event))
 					{
+						$additional_styles = (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
 						$booking_subtitle .= ' ('.$this->lng->txt('cal_date_booked').')';
 					}
 				}
@@ -371,6 +384,7 @@ class ilCalendarMonthGUI
 			$this->tpl->setVariable('EVENT_TITLE',$title);
 			$color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());
 			$this->tpl->setVariable('EVENT_BGCOLOR',$color);
+			$this->tpl->setVariable('EVENT_ADD_STYLES',$additional_styles);
 			$this->tpl->setVariable('EVENT_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
 			
 			$this->tpl->parseCurrentBlock();

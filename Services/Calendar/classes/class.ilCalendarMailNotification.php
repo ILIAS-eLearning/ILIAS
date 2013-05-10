@@ -39,9 +39,9 @@ class ilCalendarMailNotification extends ilMailNotification
 	const TYPE_CRS_NEW_NOTIFICATION = 4;
 	const TYPE_BOOKING_CONFIRMATION = 5;
 	const TYPE_BOOKING_CANCELLATION = 6;
-
 	const TYPE_USER = 7;
 	const TYPE_USER_ANONYMOUS = 8;
+	const TYPE_BOOKING_REMINDER = 9;
 	
 	private $appointment_id = null;
 	
@@ -50,6 +50,7 @@ class ilCalendarMailNotification extends ilMailNotification
 	 */
 	public function __construct()
 	{
+		
 		$this->setSender(ANONYMOUS_USER_ID);
 	}
 	
@@ -353,9 +354,38 @@ class ilCalendarMailNotification extends ilMailNotification
 
 				$this->sendMail(array($booking->getObjId()),array('system'),true);
 				break;
-		}
+			
+			case ilCalendarMailNotification::TYPE_BOOKING_REMINDER:
+				
+				$user_id = array_pop($this->getRecipients());
+				
+				include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+				$entry = new ilCalendarEntry($this->getAppointmentId());
+				$booking = new ilBookingEntry($entry->getContextId());
 
+				$this->initLanguage($user_id);
+				$this->getLanguage()->loadLanguageModule('dateplaner');
+				$this->initMail();
+				$this->setSubject(
+					sprintf($this->getLanguageText('cal_ch_booking_reminder_subject'),$entry->getTitle())
+				);
+				$this->setBody(ilMail::getSalutation($user_id,$this->getLanguage()));
+				$this->appendBody("\n\n");
+				$this->appendBody(
+					sprintf($this->getLanguageText('cal_ch_booking_reminder_body'),ilObjUser::_lookupFullname($booking->getObjId()))
+				);
+				$this->appendBody("\n\n");
+
+				$this->appendAppointmentDetails($booking);
+
+				$this->getMail()->appendInstallationSignature(true);
+				$this->sendMail(array($user_id),array('system'),true);
+				break;
+		}
+		
 		$this->deleteAttachments();
+		
 	}
 
 	protected function addAttachment()

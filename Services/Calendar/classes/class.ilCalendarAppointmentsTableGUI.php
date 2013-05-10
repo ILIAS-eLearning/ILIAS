@@ -140,8 +140,15 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('VAL_DURATION','');
 		}
-		
-		
+	}
+	
+	/**
+	 * Get 
+	 * @return ilDateTime
+	 */
+	protected static function getToday()
+	{
+		return $this->today;
 	}
 
 	/**

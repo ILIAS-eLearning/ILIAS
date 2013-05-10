@@ -207,9 +207,13 @@ class ilCalendarEntry implements ilDatePeriod
 		{
 			$title = $this->getTitle();
 		}
-		else
+		elseif(strlen($this->getSubtitle()))
 		{
 			$title = $this->getTitle().' ('.$lng->txt($this->getSubtitle()).')';
+		}
+		else
+		{
+			$title = $this->getTitle();
 		}
 
 		if($a_shorten)
@@ -558,6 +562,9 @@ class ilCalendarEntry implements ilDatePeriod
 		$query = "DELETE FROM cal_entries ".
 			"WHERE cal_id = ".$this->db->quote($this->getEntryId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
+		
+		include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
+		ilCalendarCategoryAssignments::_deleteByAppointmentId($this->getEntryId());
 		
 		return true;
 	}

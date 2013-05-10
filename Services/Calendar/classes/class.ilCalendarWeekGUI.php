@@ -472,6 +472,12 @@ class ilCalendarWeekGUI
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 
+		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
+		$style = 'background-color: '.$color.';';
+		$style .= ('color:'.ilCalendarUtil::calculateFontColor($color));
+		$td_style = $style;
+
+		
 		if($a_app['event']->isFullDay())
 		{
 			$title = $a_app['event']->getPresentationTitle();
@@ -513,23 +519,31 @@ class ilCalendarWeekGUI
 					$title .= ' '.$a_app['event']->getTitle();
 					if($entry->isOwner())
 					{
-						$max = (int)$entry->getNumberOfBookings();
-						$current = (int)$entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());
-						if($max > 1)
+						$max = (int) $entry->getNumberOfBookings();
+						$current = (int) $entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());
+						
+						if(!$current)
 						{
-							$title .= ' ('.$current.'/'.$max.')';
+							$td_style .= (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
+							$title .= ' ('.$this->lng->txt('cal_book_free').')';
 						}
-						else if($current == $max)
+						elseif($current >= $max)
 						{
+							$td_style .= (';border-left-width: 5px; border-left-style: solid; border-left-color: red');
 							$title .= ' ('.$this->lng->txt('cal_booked_out').')';
 						}
 						else
 						{
-							$title .= ' ('.$this->lng->txt('cal_book_free').')';
+							$td_style .= (';border-left-width: 5px; border-left-style: solid; border-left-color: yellow');
+							$title .= ' ('.$current.'/'.$max.')';
 						}
 					}
-					else if($entry->hasBooked($a_app['event']->getEntryId()))
+					include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+					$apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $a_app['event']->getContextId(), $a_app['event']->getStart());
+					$orig_event = $apps[0];
+					if($entry->hasBooked($orig_event))
 					{
+						$td_style .= (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
 						$title .= ' ('.$this->lng->txt('cal_date_booked').')';
 					}
 				}
@@ -541,13 +555,10 @@ class ilCalendarWeekGUI
 		}
 		
 		$this->tpl->setVariable('APP_TITLE',$title);
-		
 		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
 		
-		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
-		$style = 'background-color: '.$color.';';
-		$style .= ('color:'.ilCalendarUtil::calculateFontColor($color));
 		$this->tpl->setVariable('LINK_STYLE',$style);
+
 		
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
@@ -558,7 +569,7 @@ class ilCalendarWeekGUI
 		
 			$this->tpl->setVariable('DAY_CELL_NUM',$this->num_appointments);
 			$this->tpl->setVariable('TD_ROWSPAN',$a_app['rowspan']);
-			$this->tpl->setVariable('TD_STYLE',$style);
+			$this->tpl->setVariable('TD_STYLE',$td_style);
 			$this->tpl->setVariable('TD_CLASS','calevent');
 		
 			$this->tpl->parseCurrentBlock();

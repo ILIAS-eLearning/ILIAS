@@ -271,14 +271,18 @@ class ilCalendarAppointmentPanelGUI
 				{
 					if($entry->hasBooked($ref_event))
 					{
-						$this->tpl->setCurrentBlock('panel_cancel_book_link');
-						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$ref_event);
-						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->getSeed()->get(IL_CAL_DATE));
-						$this->tpl->setVariable('TXT_PANEL_CANCELBOOK', $this->lng->txt('cal_ch_cancel_booking'));
-						$this->tpl->setVariable('PANEL_CANCELBOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
-						$this->tpl->parseCurrentBlock();
+						if(ilDateTime::_after($a_app['event']->getStart(),new ilDateTime(time(),IL_CAL_UNIX)))
+						{
+							$this->tpl->setCurrentBlock('panel_cancel_book_link');
+							$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$ref_event);
+							$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->getSeed()->get(IL_CAL_DATE));
+							$this->tpl->setVariable('TXT_PANEL_CANCELBOOK', $this->lng->txt('cal_ch_cancel_booking'));
+							$this->tpl->setVariable('PANEL_CANCELBOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
+							$this->tpl->parseCurrentBlock();
+						}
 					}
-					else if(!$entry->isBookedOut($ref_event))
+					#else if(!$entry->isBookedOut($ref_event))
+					elseif($entry->isAppointmentBookableForUser($ref_event,$GLOBALS['ilUser']->getId()))
 					{
 						$this->tpl->setCurrentBlock('panel_book_link');
 						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$ref_event);
@@ -295,14 +299,22 @@ class ilCalendarAppointmentPanelGUI
 				}
 				else
 				{
-					$target = $entry->getTargetObjId();
-					if($target)
+					
+					$obj_ids = $entry->getTargetObjIds();
+					foreach($obj_ids as $obj_id)
 					{
-						global $ilObjDataCache;
-						
+						$title = ilObject::_lookupTitle($obj_id);
+						$refs = ilObject::_getAllReferences($obj_id);
+						include_once './Services/Link/classes/class.ilLink.php';
+						$this->tpl->setCurrentBlock('panel_booking_target_row');
+						$this->tpl->setVariable('PANEL_BOOKING_TARGET_TITLE',$title);
+						$this->tpl->setVariable('PANEL_BOOKING_TARGET',ilLink::_getLink(end($refs)));
+						$this->tpl->parseCurrentBlock();
+					}
+					if($obj_ids)
+					{
 						$this->tpl->setCurrentBlock('panel_booking_target');
 						$this->tpl->setVariable('PANEL_TXT_BOOKING_TARGET', $this->lng->txt('cal_ch_target_object'));
-						$this->tpl->setVariable('PANEL_BOOKING_TARGET', $ilObjDataCache->lookupTitle($target));
 						$this->tpl->parseCurrentBlock();
 					}
 

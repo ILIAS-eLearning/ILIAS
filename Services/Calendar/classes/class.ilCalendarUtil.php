@@ -472,11 +472,11 @@ class ilCalendarUtil
 	 */
 	public static function initDefaultCalendarByType($a_type_id, $a_usr_id, $a_title, $a_create = false)
 	{
-		global $ilDB,$lng;
+		global $ilDB;
 
-		if(isset(self::$default_calendar[$a_type_id]))
+		if(isset(self::$default_calendar[$a_usr_id]) and isset(self::$default_calendar[$a_usr_id][$a_type_id]))
 		{
-			return self::$default_calendar[$a_type_id];
+			return self::$default_calendar[$a_usr_id][$a_type_id];
 		}
 
 		include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
@@ -487,7 +487,7 @@ class ilCalendarUtil
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return self::$default_calendar[$a_type_id] = new ilCalendarCategory($row->cat_id);
+			return self::$default_calendar[$a_usr_id][$a_type_id] = new ilCalendarCategory($row->cat_id);
 		}
 
 		if(!$a_create)
@@ -496,14 +496,14 @@ class ilCalendarUtil
 		}
 
 		// Create default calendar
-		self::$default_calendar[$a_type_id] = new ilCalendarCategory();
-		self::$default_calendar[$a_type_id]->setType($a_type_id);
-		self::$default_calendar[$a_type_id]->setColor(ilCalendarCategory::DEFAULT_COLOR);
-		self::$default_calendar[$a_type_id]->setTitle($a_title);
-		self::$default_calendar[$a_type_id]->setObjId($a_usr_id);
-		self::$default_calendar[$a_type_id]->add();
+		self::$default_calendar[$a_usr_id][$a_type_id] = new ilCalendarCategory();
+		self::$default_calendar[$a_usr_id][$a_type_id]->setType($a_type_id);
+		self::$default_calendar[$a_usr_id][$a_type_id]->setColor(ilCalendarCategory::DEFAULT_COLOR);
+		self::$default_calendar[$a_usr_id][$a_type_id]->setTitle($a_title);
+		self::$default_calendar[$a_usr_id][$a_type_id]->setObjId($a_usr_id);
+		self::$default_calendar[$a_usr_id][$a_type_id]->add();
 
-		return self::$default_calendar[$a_type_id];
+		return self::$default_calendar[$a_usr_id][$a_type_id];
 	}
 }
 ?>

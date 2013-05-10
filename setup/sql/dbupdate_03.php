@@ -15324,3 +15324,97 @@ if(!$ilDB->tableColumnExists('reg_registration_codes', 'role_local'))
 }
 
 ?>
+<#3893>
+<?php
+if(!$ilDB->tableExists('cal_ch_group'))
+{
+        $fields = 
+                array (
+                        'grp_id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true),
+                        'usr_id' => array ('type' => 'integer', 'notnull' => true, 'length' => 4),
+                        'multiple_assignments' => array ('type' => 'integer', 'length'  => 1,"notnull" => true),
+                        'title' => array ('type' => 'text', 'length'  => 512,"notnull" => false)
+  );
+  $ilDB->createTable('cal_ch_group', $fields);
+  $ilDB->addPrimaryKey('cal_ch_group', array('grp_id'));
+  $ilDB->createSequence('cal_ch_group');
+}
+?>
+<#3894>
+<?php
+if(!$ilDB->tableColumnExists('booking_entry','booking_group'))
+{
+        $ilDB->addTableColumn(
+                        'booking_entry',
+                        'booking_group',
+                        array(
+                                'type' => 'integer',
+                                'length' => 4,
+                                'default' => 0,
+                                'notnull' => true
+                        )
+        );
+}
+?>
+<#3895>
+<?php
+
+?>
+
+<#3896>
+<?php
+
+if(!$ilDB->tableColumnExists('booking_user','booking_message'))
+{
+        $ilDB->addTableColumn(
+                        'booking_user',
+                        'booking_message',
+                        array(
+                                'type' => 'text',
+                                'length' => 1024,
+                                'notnull' => false
+                        )
+        );
+
+}
+?>
+
+<#3897>
+<?php
+
+if(!$ilDB->tableExists('booking_obj_assignment'))
+{
+        $fields = 
+                array (
+                        'booking_id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true),
+                        'target_obj_id' => array ('type' => 'integer', 'notnull' => true, 'length' => 4)
+  );
+  $ilDB->createTable('booking_obj_assignment', $fields);
+  $ilDB->addPrimaryKey('booking_obj_assignment', array('booking_id','target_obj_id'));
+}
+?>
+
+<#3898>
+<?php
+;
+?>
+
+<#3899>
+<?php
+
+$query = 'SELECT * FROM booking_entry ';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+
+        if($row->target_obj_id)
+        {
+                $query = 'INSERT INTO booking_obj_assignment (booking_id,target_obj_id) '.
+                                'VALUES ('.
+                                $ilDB->quote($row->booking_id).', '.
+                                $ilDB->quote($row->target_obj_id).' '.
+                                ')';
+                $ilDB->manipulate($query);
+        }
+}
+?>

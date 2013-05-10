@@ -95,7 +95,7 @@ class ilCronCheck
 		$method = $task['method'];
 
 		$condition = $task['condition'];
-
+		
 		/**
 		 * check if task is runable
 		 */
@@ -146,6 +146,7 @@ class ilCronCheck
 				'ilCronWebResourceCheck::check',
 				'ilCronForumNotification::sendNotifications',
 				'ilCronMailNotification::sendNotifications',
+				'ilConsultationHourCron::start',
 				'ilCronValidator::check',
 				'ilCronDiskQuotaCheck::updateDiskUsageStatistics',
 				'ilCronDiskQuotaCheck::sendReminderMails',
@@ -216,6 +217,16 @@ class ilCronCheck
 					'location'		=> 'cron',
 					'condition'		=> ($ilias->getSetting('mail_notification') == 1)
 				),
+			
+				// begin-patch ch
+				'ilConsultationHourCron::start' => array(
+					'classname'		=> 'ilConsultationHourCron',
+					'method'		=> 'start',
+					'location'		=> 'Services/Calendar',
+					'sub_location'	=> 'ConsultationHours',
+					'condition'		=> ($ilias->getSetting("ch_reminder") == 1)
+				),
+				// end-patch ch
 				
 				// Start System Check
 				'ilCronValidator::check' => array(

@@ -144,6 +144,16 @@ class ilMemberExportGUI
 		$this->tpl->setVariable('TXT_USER_DATA_SELECTION',$this->lng->txt('ps_export_data'));
 		$this->tpl->setVariable('TXT_EXPORT_USER_DATA_HEADER',$this->lng->txt('ps_export_user_data'));
 		
+		include_once './Services/Booking/classes/class.ilBookingEntry.php';
+		if(ilBookingEntry::hasObjectBookingEntries($this->obj_id, $GLOBALS['ilUser']->getId()))
+		{
+			$this->tpl->setCurrentBlock('consultation');
+			$this->lng->loadLanguageModule('dateplaner');
+			$this->tpl->setVariable('TXT_CH',$this->lng->txt('cal_ch_field_ch'));
+			$this->tpl->setVariable('TXT_EXPORT_CH',$this->lng->txt('cal_ch_export_apps'));
+			$this->tpl->setVariable('CHECK_EXPORT_CH',ilUtil::formCheckbox($this->exportSettings->enabled('consultation_hour'), 'export_members[consultation_hour]', 1));
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		$fields = $this->fields_info->getFieldsInfo();
 		foreach($fields as $field => $exportable)

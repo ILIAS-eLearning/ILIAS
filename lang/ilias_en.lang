@@ -13242,5 +13242,43 @@ registration#:#registration_codes_roles_limitation_none#:#No Predefined Access L
 registration#:#reg_access_limitation_mode_absolute_target#:#Valid until
 registration#:#reg_access_limitation_mode_relative_target#:#Valid for
 registration#:#registration_codes_access_limitation_all#:#All
+crs#:#crs_notification_list_title#:#Notification About New Members
+dateplaner#:#cal_ch_app_grp#:#Consultation Hour Groups
+dateplaner#:#cal_ch_app_list#:#Consultation Hour Appointments
+dateplaner#:#cal_ch_grp_header#:#Consultation Hour Group
+dateplaner#:#cal_ch_add_grp#:#Create new Consultation Hour Group
+dateplaner#:#cal_ch_grps#:#Consultation Hour Groups
+dateplaner#:#cal_ch_assigned_apps#:#Number of Appointments
+dateplaner#:#cal_ch_max_books#:#Bookings per User
+dateplaner#:#cal_ch_grp_add_tbl#:#Create new Consultation Hour Group
+dateplaner#:#cal_ch_grp_update_tbl#:#Edit Consultation Hour Group
+dateplaner#:#cal_ch_grp_multiple#:#Bookings per User
+dateplaner#:#cal_ch_grp_multiple_info#:#You can define the maximum number of bookings per user.
+dateplaner#:#cal_ch_grp_selection#:#Assignment to Consultation Hour Groups
+dateplaner#:#cal_ch_grp_no_assignment#:#-- Not Assigned --
+dateplaner#:#cal_ch_grp_delete_sure#:#Do you really want to delete the following consultation hour groups?
+dateplaner#:#cal_ch_delete_booking#:#Delete Booking
+dateplaner#:#cal_ch_reject_booking#:#Cancel Booking
+dateplaner#:#cal_ch_bookings_tbl#:#Booked Appointments
+dateplaner#:#cal_ch_app_bookings#:#Bookings
+dateplaner#:#cal_ch_canceled_bookings#:#The selected bookings have been deleted.
+dateplaner#:#cal_ch_deleted_bookings#:#The selected bookings have been canceled.
+dateplaner#:#cal_ch_delete_booking_sure#:#Do you really want to delete the following bookings?
+dateplaner#:#cal_ch_cancel_booking_sure#:#Do you really want to cancel the following bookings?
+dateplaner#:#cal_ch_assign_participants#:#Assign Users
+dateplaner#:#cal_ch_booking_message_tbl#:#Comment
+dateplaner#:#cal_ch_field_ch#:#Consultation Hour Appointments
+dateplaner#:#cal_ch_export_apps#:#Booked Appointments
+dateplaner#:#cal_ch_booking_reminder_subject#:#Reminder for "%s"
+dateplaner#:#cal_ch_booking_reminder_body#:#your appointment with "%s" starts soon.
+dateplaner#:#cal_ch_cron_reminder#:#Send Consultation Hour Reminder
+dateplaner#:#cal_ch_cron_reminder_info#:#If enabled, notification mails about upcoming consultation hour events will be send.
+dateplaner#:#cal_ch_cron_reminder_days#:#Number of Days
+dateplaner#:#cal_ch_delete_booking_info#:#"Delete Booking" will not notify users by email. If you want to notify users, please choose the action "Cancele Booking".
+dateplaner#:#cal_ch_cancel_booking_info#:#"Cancel Booking" sends notification mails to the users. If you do not want to notify the users, choose the option "Delete Booking".
+dateplaner#:#cal_ch_delete_app_booking_info#:#The following appointments have existing bookings. If you delete these appointments, the users will not be notified.
+dateplaner#:#cal_ch_user_assignment_success#:#The users have been assigned to the chosen appointments.
+dateplaner#:#cal_ch_user_assignment_failed_info#:#The following users could not be assigned to appointments, since the maximum number of bookings is exceeded.
+dateplaner#:#cal_booking_failed_info#:#This appointment is booked out. Please choose another appointment.
 registration#:#registration_codes_override_info#:#This setting overrides any values defined in "Registration Settings".
 registration#:#registration_codes_override_global_info#:#These settings may be overridden by registration codes.
