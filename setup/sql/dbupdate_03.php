@@ -15310,3 +15310,17 @@ if(!$ilDB->tableColumnExists('svy_svy', 'reminder_last_sent'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3892>
+<?php
+
+if(!$ilDB->tableColumnExists('reg_registration_codes', 'role_local'))
+{
+	$ilDB->addTableColumn('reg_registration_codes', 'role_local',
+		array('type' => 'text', 'length'=>255));
+	$ilDB->addTableColumn('reg_registration_codes', 'alimit',
+		array('type' => 'text', 'length'=>50));
+	$ilDB->addTableColumn('reg_registration_codes', 'alimitdt',
+		array('type' => 'text', 'length'=>255));
+}
+
+?>

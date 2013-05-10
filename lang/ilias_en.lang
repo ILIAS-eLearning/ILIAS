@@ -8622,7 +8622,7 @@ registration#:#registration_codes_add#:#Add Codes
 registration#:#registration_codes_export#:#Export Codes
 registration#:#registration_codes_edit_header#:#Add Codes
 registration#:#registration_codes_number#:#Number Of Codes
-registration#:#registration_codes_roles#:#Role For New Accounts
+registration#:#registration_codes_roles#:#Global Role 
 registration#:#registration_code#:#Code
 registration#:#registration_generated#:#Date Of Generation
 registration#:#registration_used#:#Date Of Usage
@@ -13231,3 +13231,9 @@ survey#:#survey_reminder_subject#:#Survey "%s" was not finished
 survey#:#survey_reminder_salutation#:#Hello %s,
 survey#:#survey_reminder_body#:#the following survey has not been finished by you yet
 survey#:#survey_reminder_link#:#URL
+registration#:#registration_codes_no_assigned_role#:#No Predefined Assigned Role
+registration#:#registration_codes_roles_local#:#Local Role(s) 
+registration#:#registration_codes_roles_title#:#Role for New Accounts
+registration#:#registration_codes_roles_limitation_none#:#No Predefined Access Limitation
+registration#:#reg_access_limitation_mode_absolute_target#:#Valid until
+registration#:#reg_access_limitation_mode_relative_target#:#Valid for

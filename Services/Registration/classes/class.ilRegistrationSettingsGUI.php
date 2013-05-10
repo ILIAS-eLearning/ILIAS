@@ -844,9 +844,14 @@ class ilRegistrationSettingsGUI
 		$count->setMaxValue(1000);
 		$count->setRequired(true);
 		$this->form_gui->addItem($count);
+		
+		
+		$sec = new ilFormSectionHeaderGUI();
+		$sec->setTitle($this->lng->txt('registration_codes_roles_title'));
+		$this->form_gui->addItem($sec);
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$options = array("" => "");
+		$options = array("" => $this->lng->txt('registration_codes_no_assigned_role'));
 		foreach($rbacreview->getGlobalRoles() as $role_id)
 		{
 			if(!in_array($role_id, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID)))
@@ -856,10 +861,77 @@ class ilRegistrationSettingsGUI
 		}
 		$roles = new ilSelectInputGUI($this->lng->txt("registration_codes_roles"), "reg_codes_role");
 		$roles->setOptions($options);
-		// $roles->setRequired(true);
 		$this->form_gui->addItem($roles);
-
+		
+		$local = new ilTextInputGUI($this->lng->txt("registration_codes_roles_local"), "reg_codes_local");
+		$local->setMulti(true);
+		$local->setDataSource($this->ctrl->getLinkTarget($this, "getLocalRoleAutoComplete", "", true));
+		$this->form_gui->addItem($local);
+		
+		
+		$sec = new ilFormSectionHeaderGUI();
+		$sec->setTitle($this->lng->txt('reg_access_limitations'));
+		$this->form_gui->addItem($sec);
+		
+		$limit = new ilRadioGroupInputGUI($this->lng->txt("reg_access_limitation_mode"), "reg_limit");
+		$this->form_gui->addItem($limit);
+	
+		$opt = new ilRadioOption($this->lng->txt("registration_codes_roles_limitation_none"), "none");
+		$limit->addOption($opt);
+		
+		$opt = new ilRadioOption($this->lng->txt("reg_access_limitation_none"), "unlimited");
+		$limit->addOption($opt);
+		
+		$opt = new ilRadioOption($this->lng->txt("reg_access_limitation_mode_absolute"), "absolute");
+		$limit->addOption($opt);
+		
+		$dt = new ilDateTimeInputGUI($this->lng->txt("reg_access_limitation_mode_absolute_target"), "abs_date");
+		$dt->setRequired(true);
+		$opt->addSubItem($dt);
+		
+		$opt = new ilRadioOption($this->lng->txt("reg_access_limitation_mode_relative"), "relative");
+		$limit->addOption($opt);
+		
+		$days = new ilTextInputGUI("", "rel_date[d]");
+		$days->setSize(5);
+		$days->setSuffix($this->lng->txt("days"));
+		
+		$mon = new ilTextInputGUI("", "rel_date[m]");
+		$mon->setSize(5);
+		$mon->setSuffix($this->lng->txt("months"));
+		
+		$yr = new ilTextInputGUI("", "rel_date[y]");
+		$yr->setSize(5);
+		$yr->setSuffix($this->lng->txt("years"));
+		
+		// custom input won't reload
+		if(is_array($_POST["rel_date"]))
+		{
+			$days->setValue($_POST["rel_date"]["d"]);
+			$mon->setValue($_POST["rel_date"]["m"]);
+			$yr->setValue($_POST["rel_date"]["y"]);
+		}
+		
+		$dur = new ilCustomInputGUI($this->lng->txt("reg_access_limitation_mode_relative_target"));
+		$dur->setRequired(true);
+		$dur->setHTML(
+			$days->getToolbarHTML()." ".
+			$mon->getToolbarHTML()." ".
+			$yr->getToolbarHTML()
+		);
+		$opt->addSubItem($dur);
+		
 		$this->form_gui->addCommandButton('createCodes', $this->lng->txt('create'));
+	}
+	
+	// see ilRoleAutoCompleteInputGUI
+	function getLocalRoleAutoComplete()
+	{
+		$q = $_REQUEST["term"];
+		include_once("./Services/AccessControl/classes/class.ilRoleAutoComplete.php");
+		$list = ilRoleAutoComplete::getList($q);
+		echo $list;
+		exit;		
 	}
 	
 	function addCodes()
@@ -874,12 +946,17 @@ class ilRegistrationSettingsGUI
 		$this->setSubTabs('registration_codes');
 		
 		$this->initAddCodesForm();
+	
+		// default
+		$limit = $this->form_gui->getItemByPostVar("reg_limit");
+		$limit->setValue("none");
+		
 		$this->tpl->setContent($this->form_gui->getHTML());
 	}
 	
 	function createCodes()
 	{
-		global $ilAccess, $ilErr;
+		global $ilAccess, $ilErr, $rbacreview;
 
 		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -889,17 +966,68 @@ class ilRegistrationSettingsGUI
 		$this->setSubTabs('registration_codes');
 
 		$this->initAddCodesForm();
-		if($this->form_gui->checkInput())
-		{
+		$valid = $this->form_gui->checkInput();		
+		if($valid)
+		{			
 			$number = $this->form_gui->getInput('reg_codes_number');
 			$role = $this->form_gui->getInput('reg_codes_role');
+			$local = $this->form_gui->getInput("reg_codes_local");
 			
+			if(is_array($local))
+			{
+				$role_ids = array();
+				foreach(array_unique($local) as $item)
+				{
+					if(trim($item))
+					{
+						$role_id = $rbacreview->roleExists($item);
+						if($role_id)
+						{
+							$role_ids[] = $role_id;
+						}
+					}
+				}
+				if(sizeof($role_ids))
+				{
+					$local = $role_ids;
+				}
+			}
+						
+			$date = null;
+			$limit = $this->form_gui->getInput("reg_limit");
+			switch($limit)
+			{
+				case "absolute":
+					$date = $this->form_gui->getInput("abs_date");			
+					$date = $date["date"];
+					if($date < date("Y-m-d"))
+					{
+						$valid = false;
+					}				
+					break;
+				
+				case "relative":
+					$date = $this->form_gui->getInput("rel_date");						
+					if(!array_sum($date))
+					{
+						$valid = false;
+					}
+					break;
+					
+				case "none":
+					$limit = null;
+					break;
+			}
+		}
+		
+		if($valid)
+		{
 			include_once './Services/Registration/classes/class.ilRegistrationCode.php';
 			
 			$stamp = time();
 			for($loop = 1; $loop <= $number; $loop++)
 			{
-				ilRegistrationCode::create($role, $stamp);
+				ilRegistrationCode::create($role, $stamp, $local, $limit, $date);
 			}
 			
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
@@ -907,7 +1035,7 @@ class ilRegistrationSettingsGUI
 		}
 		else
 		{
-			$this->form_gui->setValuesByPost();
+			$this->form_gui->setValuesByPost();			
 			$this->tpl->setContent($this->form_gui->getHtml());
 		}
 	}

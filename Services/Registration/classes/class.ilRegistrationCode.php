@@ -15,7 +15,7 @@ class ilRegistrationCode
 	const DB_TABLE = 'reg_registration_codes';
 	const CODE_LENGTH = 10;
 	
-	public static function create($role, $stamp)
+	public static function create($role, $stamp, $local_roles, $limit, $limit_date)
 	{
 		global $ilDB;
 		
@@ -30,11 +30,23 @@ class ilRegistrationCode
 			$found = (bool)$ilDB->numRows($chk);
 		}
 		
+		if(is_array($local_roles))
+		{
+			$local_roles = implode(";", $local_roles);
+		}
+		if($limit == "relative" && is_array($limit_date))
+		{
+			$limit_date = serialize($limit_date);
+		}
+		
 		$data = array(
 			'code_id' => array('integer', $id),
 			'code' => array('text', $code),
 			'generated' => array('integer', $stamp),
-			'role' => array('integer', $role)
+			'role' => array('integer', $role),
+			'role_local' => array('text', $local_roles),
+			'alimit' => array('text', $limit),
+			'alimitdt' => array('text', $limit_date)
 			);
 
 		$ilDB->insert(self::DB_TABLE, $data);
