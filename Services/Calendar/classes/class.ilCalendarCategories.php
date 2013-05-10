@@ -258,8 +258,11 @@ class ilCalendarCategories
 			// Read categories from cache
 			if($cats = ilCalendarCache::getInstance()->getEntry($this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id))
 			{
-				$this->wakeup($cats);
-				return;
+				if($this->getMode() != self::MODE_CONSULTATION)
+				{
+					$this->wakeup($cats);
+					return;
+				}
 			}
 		}
 		
