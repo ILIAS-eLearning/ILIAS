@@ -48,7 +48,7 @@ class ilObjectOwnershipManagementGUI
 	
 	function listObjects()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		global $tpl, $ilToolbar, $lng, $ilCtrl, $objDefinition;
 		
 		
 		$objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
@@ -64,8 +64,16 @@ class ilObjectOwnershipManagementGUI
 			$options = array();
 			foreach(array_keys($objects) as $type)
 			{			
-				// chatroom is somehow messed up				
-				$options[$type] = $lng->txt("obj_".$type);								
+				// #11050
+				if(!$objDefinition->isPlugin($type))
+				{				
+					$options[$type] = $lng->txt("obj_".$type);								
+				}
+				else
+				{					
+					include_once("./Services/Component/classes/class.ilPlugin.php");
+					$options[$type] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+				}					
 			}		
 			asort($options);
 			$sel->setOptions($options);		

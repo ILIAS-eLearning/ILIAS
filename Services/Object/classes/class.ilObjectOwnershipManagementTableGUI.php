@@ -91,10 +91,21 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 	
 	public function fillRow($row)
 	{			
-		global $lng; 
+		global $lng, $objDefinition; 
+				
+		// #11050
+		if(!$objDefinition->isPlugin($row["type"]))
+		{	
+			$txt_type = $lng->txt("obj_".$row["type"]);
+		}
+		else
+		{
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$txt_type = ilPlugin::lookupTxt("rep_robj", $row["type"], "obj_".$row["type"]);						
+		}
 	
 		$this->tpl->setVariable("TITLE", $row["title"]);
-		$this->tpl->setVariable("ALT_ICON", $lng->txt("obj_".$row["type"]));
+		$this->tpl->setVariable("ALT_ICON", $txt_type);
 		$this->tpl->setVariable("SRC_ICON", ilObject::_getIcon("", "tiny", $row["type"]));
 		$this->tpl->setVariable("PATH", $row["path"]);
 		
