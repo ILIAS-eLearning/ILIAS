@@ -1314,37 +1314,43 @@ class ilCalendarAppointmentGUI
 		$entry = (int)$_GET['app_id'];
 		$user = (int)$_GET['bkid'];
 
+		$this->ctrl->saveParameter($this,'app_id');
+		
 		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
 		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 		$entry = new ilCalendarEntry($entry);
-		$booking = new ilBookingEntry($entry->getContextId());
 
-		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		$timezone = $ilUser->getTimeZone();
-		switch($user_settings->getTimeFormat())
-		{
-			case ilCalendarSettings::TIME_FORMAT_24:
-				$title = $entry->getStart()->get(IL_CAL_FKT_DATE,'H:i',$timezone);
-				$title .= "-".$entry->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$timezone);
-				break;
-
-			case ilCalendarSettings::TIME_FORMAT_12:
-				$title = $entry->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$timezone);
-				$title .= "-".$entry->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$timezone);
-				break;
-		}
-
-		$title .= ' '.$entry->getTitle()." (".ilObjUser::_lookupFullname($user).')';
-
-		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
-		$conf = new ilConfirmationGUI;
-		$conf->setFormAction($this->ctrl->getFormAction($this));
-		$conf->setHeaderText($this->lng->txt('cal_confirm_booking_info'));
-		$conf->setConfirm($this->lng->txt('cal_confirm_booking'), 'bookconfirmed');
-		$conf->setCancel($this->lng->txt('cancel'), 'cancel');
-		$conf->addItem('app_id', $entry->getEntryId(), $title);
+		$form = $this->initFormConfirmBooking();
+		$form->getItemByPostVar('date')->setValue(ilDatePresentation::formatPeriod($entry->getStart(), $entry->getEnd()));
+		$form->getItemByPostVar('title')->setValue($entry->getTitle()." (".ilObjUser::_lookupFullname($user).')');
 		
-		$tpl->setContent($conf->getHTML());
+		$tpl->setContent($form->getHTML());
+		return true;
+	}
+	
+	/**
+	 * 
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initFormConfirmBooking()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->addCommandButton('bookconfirmed',$this->lng->txt('cal_confirm_booking'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		$date = new ilNonEditableValueGUI($this->lng->txt('appointment'),'date');
+		$form->addItem($date);
+		
+		$title = new ilNonEditableValueGUI($this->lng->txt('title'),'title');
+		$form->addItem($title);
+		
+		$message = new ilTextAreaInputGUI($this->lng->txt('cal_ch_booking_message_tbl'), 'comment');
+		$message->setRows(5);
+		$form->addItem($message);
+		
+		return $form;
 	}
 
 	/**
@@ -1354,25 +1360,31 @@ class ilCalendarAppointmentGUI
 	{
 		global $ilUser;
 
-		$entry = (int)$_POST['app_id'];
-		$user = (int)$_GET['bkid'];
-
-		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
-		$entry = new ilCalendarEntry($entry);
-		$booking = new ilBookingEntry($entry->getContextId());
-        $booking->book($entry->getEntryId());
-
-		// create user calendar/appointment
-		include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
-		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
-		include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
-		$user_entry = clone $entry;
-		$user_entry->save();
-		$def_cat = ilCalendarUtil::initDefaultCalendarByType(ilCalendarCategory::TYPE_CH,$ilUser->getId(),$this->lng->txt('cal_ch_personal_ch'),true);
-		$assign = new ilCalendarCategoryAssignments($user_entry->getEntryId());
-		$assign->addAssignment($def_cat->getCategoryID());
-
+		$entry = (int) $_REQUEST['app_id'];
+		$user = (int) $_REQUEST['bkid'];
+		
+		$form = $this->initFormConfirmBooking();
+		if($form->checkInput())
+		{
+			// check if appointment is bookable
+			include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
+			$cal_entry = new ilCalendarEntry($entry);
+			
+			include_once './Services/Booking/classes/class.ilBookingEntry.php';
+			$booking = new ilBookingEntry($cal_entry->getContextId());
+			
+			if(!$booking->isAppointmentBookableForUser($entry, $GLOBALS['ilUser']->getId()))
+			{
+				ilUtil::sendFailure($this->lng->txt('cal_booking_failed_info'), true);
+				$this->ctrl->returnToParent($this);
+			}
+			
+			include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourUtils.php';
+			ilConsultationHourUtils::bookAppointment($ilUser->getId(), $entry);
+			
+			include_once './Services/Booking/classes/class.ilBookingEntry.php';
+			ilBookingEntry::writeBookingMessage($entry, $ilUser->getId(), $form->getInput('comment'));
+		}
 		ilUtil::sendSuccess($this->lng->txt('cal_booking_confirmed'),true);
 		$this->ctrl->returnToParent($this);
 	}
@@ -1413,21 +1425,8 @@ class ilCalendarAppointmentGUI
 			return false;
 		}
 
-		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		$timezone = $ilUser->getTimeZone();
-		switch($user_settings->getTimeFormat())
-		{
-			case ilCalendarSettings::TIME_FORMAT_24:
-				$title = $entry->getStart()->get(IL_CAL_FKT_DATE,'H:i',$timezone);
-				$title .= "-".$entry->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$timezone);
-				break;
-
-			case ilCalendarSettings::TIME_FORMAT_12:
-				$title = $entry->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$timezone);
-				$title .= "-".$entry->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$timezone);
-				break;
-		}
-
+		$title = ilDatePresentation::formatPeriod($entry->getStart(), $entry->getEnd());
+		
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI;
 		$conf->setFormAction($this->ctrl->getFormAction($this));
@@ -1455,13 +1454,22 @@ class ilCalendarAppointmentGUI
 		
 		$category = $this->calendarEntryToCategory($entry);
 		if($category->getType() == ilCalendarCategory::TYPE_CH)
-		{
+		{			
 			// find cloned calendar entry in user calendar
 			include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-			$apps = ilConsultationHourAppointments::getAppointmentIds($ilUser->getId(), $entry->getContextId(), $entry->getStart());
-			if($apps)
+			$GLOBALS['ilLog']->dump($entry->getStart());
+			$apps = ilConsultationHourAppointments::getAppointmentIds(
+					$ilUser->getId(), 
+					$entry->getContextId(), 
+					$entry->getStart(),
+					ilCalendarCategory::TYPE_CH,
+					false);
+			$GLOBALS['ilLog']->dump($apps);
+
+			// Fix for wrong, old entries
+			foreach((array) $apps as $own_app)
 			{
-				$ref_entry = new ilCalendarEntry($apps[0]);
+				$ref_entry = new ilCalendarEntry($own_app);
 				$ref_entry->delete();
 			}
 			

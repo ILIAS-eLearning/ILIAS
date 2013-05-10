@@ -2659,8 +2659,24 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$cb->setChecked(true);
 			}
 			$this->form->addItem($cb);
-		}		
-			
+		}
+		// begin-patch ch
+		$this->lng->loadLanguageModule('dateplaner');
+		$consultation = new ilCheckboxInputGUI($this->lng->txt('cal_ch_cron_reminder'),'ch_reminder');
+		$consultation->setValue(1);
+		$consultation->setInfo($this->lng->txt('cal_ch_cron_reminder_info'));
+		if($ilSetting->get('ch_reminder'))
+		{
+			$consultation->setChecked(true);
+		}
+		$consultation_days = new ilNumberInputGUI($this->lng->txt('cal_ch_cron_reminder_days'),'ch_reminder_days');
+		$consultation_days->setMinValue(1);
+		$consultation_days->setMaxLength(2);
+		$consultation_days->setSize(2);
+		$consultation_days->setValue($ilSetting->get('ch_reminder_days',2));
+		$consultation->addSubItem($consultation_days);
+		$this->form->addItem($consultation);
+		// end-patch ch
 		// disk quota and disk quota reminder mail
 		$dq_settings = new ilSetting('disk_quota');
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota"), "enable_disk_quota");
@@ -2806,6 +2822,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			// disk quota summary mail
 			$dq_settings->set('summary_mail_enabled', $_POST['enable_disk_quota_summary_mail'] ? 1 : 0);
 			$dq_settings->set('summary_rcpt', ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
+			
+			// begin-patch ch
+			// consultation hours
+			$ilSetting->set('ch_reminder',$this->form->getInput('ch_reminder') ? 1 : 0);
+			$ilSetting->set('ch_reminder_days',$this->form->getInput('ch_reminder_days'));
+			// end-patch ch
 
 			// payment notification
 			$ilSetting->set('payment_notification', $_POST['payment_notification'] ? 1 : 0);

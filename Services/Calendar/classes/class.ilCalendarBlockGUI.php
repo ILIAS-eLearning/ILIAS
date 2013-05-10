@@ -260,7 +260,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	{
 		return $this->enable_edit;
 	}
-
+	
 	/**
 	* Fill data section
 	*/
@@ -520,20 +520,27 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$obj_id = $ilObjDataCache->lookupObjId((int) $_GET['ref_id']);
 				$participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
 				$users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
-
+				//$users = $participants->getParticipants();
 				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
-				$users = ilBookingEntry::isBookable($users, $obj_id);
+				//$users = ilBookingEntry::isBookable($users, $obj_id);
+				$users = ilBookingEntry::lookupBookableUsersForObject($obj_id,$users);
 				if($users)
 				{
 					foreach($users as $user_id)
 					{
-						if(!isset($_GET["bkid"]) || $_GET["bkid"] != $user_id)
+						if(!isset($_GET["bkid"]))
 						{
 							$ilCtrl->setParameter($this, "bkid", $user_id);
 							$this->addBlockCommand(
 								$ilCtrl->getLinkTargetByClass("ilCalendarMonthGUI",
 									""),
 								$lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id));
+							
+							$this->cal_footer[] = array(
+								'link' => $ilCtrl->getLinkTargetByClass('ilCalendarMonthGUI',''),
+								'txt' => $lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id)
+							);
+							
 						}
 					}
 					$ilCtrl->setParameter($this, "bkid", "");
@@ -610,7 +617,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_CONSULTATION,(int) $_GET['bkid'],true);
+			ilCalendarCategories::_getInstance()->setCHUserId((int) $_GET['bkid']);
+			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_CONSULTATION,(int) $_GET['ref_id'],true);
 		}
 	}
 	
@@ -727,6 +735,18 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 
+		// begin-patch ch
+		foreach((array) $this->cal_footer as $link_info)
+		{
+			$this->tpl->setCurrentBlock('data_section');
+			$this->tpl->setVariable('DATA',
+					sprintf('<a href="%s">%s</a>',$link_info['link'],$link_info['txt'])
+
+			);
+			$this->tpl->parseCurrentBlock();
+		}
+		// end-patch ch
+
 		$this->setFooterLinks();
 		$this->fillFooterLinks();
 		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
@@ -735,6 +755,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$this->tpl->setCurrentBlock("block_footer");
 			$this->tpl->parseCurrentBlock();
 		}
+		
 	}
 	
 	function setFooterLinks()

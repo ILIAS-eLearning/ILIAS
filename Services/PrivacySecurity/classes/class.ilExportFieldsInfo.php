@@ -154,6 +154,14 @@ class ilExportFieldsInfo
 			}
 		}
 		
+		include_once './Services/Booking/classes/class.ilBookingEntry.php';
+		if(ilBookingEntry::hasObjectBookingEntries($a_obj_id, $GLOBALS['ilUser']->getId()))
+		{
+			$GLOBALS['lng']->loadLanguageModule('dateplaner');
+			$fields['consultation_hour']['txt'] = $GLOBALS['lng']->txt('cal_ch_field_ch');
+			$fields['consultation_hour']['default'] = 0;
+		}
+		
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		if($this->getType() == 'crs')
 		{

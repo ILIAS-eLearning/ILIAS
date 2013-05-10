@@ -402,21 +402,29 @@ class ilCalendarDayGUI
 				{
 					$max = (int)$entry->getNumberOfBookings();
 					$current = (int)$entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());
-					if($max > 1)
+					
+					if(!$current)
 					{
-						$title .= ' ('.$current.'/'.$max.')';
+						$additional_styles .= (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
+						$title .= ' ('.$this->lng->txt('cal_book_free').')';
 					}
-					else if($current == $max)
+					elseif($current >= $max)
 					{
+						$additional_styles .= (';border-left-width: 5px; border-left-style: solid; border-left-color: red');
 						$title .= ' ('.$this->lng->txt('cal_booked_out').')';
 					}
 					else
 					{
-						$title .= ' ('.$this->lng->txt('cal_book_free').')';
+						$additional_styles .= (';border-left-width: 5px; border-left-style: solid; border-left-color: yellow');
+						$title .= ' ('.$current.'/'.$max.')';
 					}
 				}
-				else if($entry->hasBooked($a_app['event']->getEntryId()))
+				include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+				$apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $a_app['event']->getContextId(), $a_app['event']->getStart());
+				$orig_event = $apps[0];
+				if($entry->hasBooked($orig_event))
 				{
+					$additional_styles = (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
 					$title .= ' ('.$this->lng->txt('cal_date_booked').')';
 				}
 			}
@@ -431,6 +439,8 @@ class ilCalendarDayGUI
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_BGCOLOR',$color);
 		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
+		$this->tpl->setVariable('APP_ADD_STYLES',$additional_styles);
+		
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));

@@ -6835,7 +6835,7 @@ dateplaner#:#cal_booking_confirmation_body#:#Ihr Termin mit %s ist gebucht.
 dateplaner#:#cal_booking_confirmation_link#:#Link zum Termin:
 dateplaner#:#cal_booking_confirmation_subject#:#Der Termin "%s" wurde gebucht
 dateplaner#:#cal_booking_confirmation_user#:#Dies ist eine Kopie der Mail an Benutzer:
-dateplaner#:#cal_booking_confirmed#:#DerTermin wurde erfolgreich gebucht.
+dateplaner#:#cal_booking_confirmed#:#Der Termin wurde erfolgreich gebucht.
 dateplaner#:#cal_cache#:#Kalender-Cache
 dateplaner#:#cal_cache_disabled#:#Ausgeschaltet
 dateplaner#:#cal_cache_enabled#:#Eingeschaltet
@@ -6870,12 +6870,12 @@ dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
 dateplaner#:#cal_ch_manager_info#:#Benutzernamen der Anwender, die ebenfalls Ihre Sprechstunden bearbeiten und betreuen dürfen.
 dateplaner#:#cal_ch_multi_edit_sequence#:#Termine editieren
 dateplaner#:#cal_ch_num_appointments#:#Anzahl an Terminen pro Sprechstunde
-dateplaner#:#cal_ch_num_appointments_info#:#Legen Sie fest wie viel aufeinander folgende Termine generiert werden sollen.
+dateplaner#:#cal_ch_num_appointments_info#:#Legen Sie fest, wie viel aufeinander folgende Termine generiert werden sollen.
 dateplaner#:#cal_ch_num_bookings#:#Anmeldungen pro Termin
 dateplaner#:#cal_ch_personal_book#:#Persönliche Buchungen
 dateplaner#:#cal_ch_personal_ch#:#Persönliche Sprechstundentermine
 dateplaner#:#cal_ch_target_object#:#Objekt im Magazin
-dateplaner#:#cal_ch_target_object_info#:#Begrenzt Sprechstunden auf die ausgewählten Objekte im Magazin.
+dateplaner#:#cal_ch_target_object_info#:#Begrenzt Sprechstunden auf die ausgewählten Kurse und Gruppen im Magazin. Mehrere Objekte können kommagetrennt angegeben werden.
 dateplaner#:#cal_ch_unknown_repository_object#:#Die angegebene Kennung des Objekts ist nicht gültig.
 dateplaner#:#cal_ch_unknown_user#:#Der eingegebene Benutzername existiert nicht.
 dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
@@ -13242,5 +13242,43 @@ registration#:#registration_codes_roles_limitation_none#:#Keine vorgegebene Zuga
 registration#:#reg_access_limitation_mode_absolute_target#:#Gültig bis
 registration#:#reg_access_limitation_mode_relative_target#:#Gültig für
 registration#:#registration_codes_access_limitation_all#:#Alle
+crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
+dateplaner#:#cal_ch_app_grp#:#Sprechstundengruppen
+dateplaner#:#cal_ch_app_list#:#Sprechstundentermine
+dateplaner#:#cal_ch_grp_header#:#Sprechstundengruppe
+dateplaner#:#cal_ch_add_grp#:#Neue Sprechstundengruppe anlegen
+dateplaner#:#cal_ch_grps#:#Sprechstundengruppen
+dateplaner#:#cal_ch_assigned_apps#:#Anzahl Termine
+dateplaner#:#cal_ch_max_books#:#Buchungen pro Teilnehmer
+dateplaner#:#cal_ch_grp_add_tbl#:#Neue Sprechstundengruppe anlegen
+dateplaner#:#cal_ch_grp_update_tbl#:#Sprechstundengruppe bearbeiten
+dateplaner#:#cal_ch_grp_multiple#:#Buchungen pro Teilnehmer
+dateplaner#:#cal_ch_grp_multiple_info#:#Sie können hier die Maximalanzahl von Buchungen pro Teilnehmer für diese Termingruppe festlegen.
+dateplaner#:#cal_ch_grp_selection#:#Zuordnung zu Sprechstundengruppen
+dateplaner#:#cal_ch_grp_no_assignment#:#-- Nicht zugeordnet --
+dateplaner#:#cal_ch_grp_delete_sure#:#Sind Sie sicher, dass Sie die folgenden Sprechstundengruppen löschen möchten?
+dateplaner#:#cal_ch_delete_booking#:#Terminbuchung löschen
+dateplaner#:#cal_ch_reject_booking#:#Terminbuchung absagen
+dateplaner#:#cal_ch_bookings_tbl#:#Gebuchte Termine
+dateplaner#:#cal_ch_app_bookings#:#Buchungen
+dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden gelöscht.
+dateplaner#:#cal_ch_deleted_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
+dateplaner#:#cal_ch_delete_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen gelöscht werden sollen?
+dateplaner#:#cal_ch_cancel_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen abgesagt werden sollen?
+dateplaner#:#cal_ch_assign_participants#:#Teilnehmer zuordnen
+dateplaner#:#cal_ch_booking_message_tbl#:#Kommentar zur Anmeldung
+dateplaner#:#cal_ch_field_ch#:#Sprechstundentermine
+dateplaner#:#cal_ch_export_apps#:#Gebuchte Termine
+dateplaner#:#cal_ch_booking_reminder_subject#:#Terminerinnerung "%s"
+dateplaner#:#cal_ch_booking_reminder_body#:#ihr Termin mit "%s" findet in wenigen Tagen statt.
+dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
+dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, werden Erinnerungen über bevorstehende Sprechstundentermine versandt. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
+dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
+dateplaner#:#cal_ch_delete_booking_info#:#Bei der Löschung von Terminbuchungen, werden die Teilnehmer nicht per Mail über die Löschung der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer informiert werden, sollten Sie die Option Terminbuchung(en) absagen auswählen.
+dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen, werden die Teilnehmer per Mail über die Absage der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer nicht informiert werden, sollten Sie die Option Terminbuchung(en) löschen auswählen.
+dateplaner#:#cal_ch_delete_app_booking_info#:#Bei folgenden Terminen bestehen bereits Buchungen. Wenn Sie diese Termine löschen, werden die Teilnehmer nicht über die Löschung informiert.
+dateplaner#:#cal_ch_user_assignment_failed_info#:#Die folgenden Benutzer konnten keinem Termin zugeordnet werden, da die maximale Anzahl an Buchungen überschritten wurde.
+dateplaner#:#cal_ch_user_assignment_success#:#Die Benutzer wurden den ausgewählten Terminen zugeordnet.
+dateplaner#:#cal_booking_failed_info#:#Die Buchung konnte nicht vorgenommen werden, da der Termin ausgebucht ist.
 registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang vor allen anderen entsprechenden Registrierungs-Einstellungen.
 registration#:#registration_codes_override_global_info#:#Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben.

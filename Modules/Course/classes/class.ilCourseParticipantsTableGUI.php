@@ -209,7 +209,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	{
 		if(self::$all_columns)
 		{
-			return self::$all_columns;
+			#return self::$all_columns;
 		}
 
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
@@ -263,6 +263,27 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 					$a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'], IL_CAL_DATE)) : $this->lng->txt('no_date');
 					$this->tpl->setCurrentBlock('custom_fields');
 					$this->tpl->setVariable('VAL_CUST', $a_set[$field]);
+					$this->tpl->parseCurrentBlock();
+					break;
+				
+				case 'consultation_hour':
+
+					$this->tpl->setCurrentBlock('custom_field');
+					$dts = array();
+					foreach((array) $a_set['consultation_hours'] as $ch)
+					{
+						$tmp = ilDatePresentation::formatPeriod(
+								new ilDateTime($ch['dt'],IL_CAL_UNIX),
+								new ilDateTime($ch['dtend'],IL_CAL_UNIX)
+						);
+						if($ch['explanation'])
+						{
+							$tmp .= ' ' . $ch['explanation'];
+						}
+						$dts[] = $tmp;
+					}
+					$dt_string = implode('<br />', $dts);
+					$this->tpl->setVariable('VAL_CUST',$dt_string) ;
 					$this->tpl->parseCurrentBlock();
 					break;
 
@@ -389,6 +410,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		unset($additional_fields["lastname"]);
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
+		unset($additional_fields['consultation_hour']);
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
@@ -506,6 +528,20 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			foreach($usr_data_fields as $field)
 			{
 				$a_user_data[$user['usr_id']][$field] = $user[$field] ? $user[$field] : '';
+			}
+		}
+		// consultation hours
+		if($this->isColumnSelected('consultation_hour'))
+		{
+			include_once './Services/Booking/classes/class.ilBookingEntry.php';
+			foreach(ilBookingEntry::lookupManagedBookingsForObject($this->getParentObject()->object->getId(), $GLOBALS['ilUser']->getId()) as $buser => $booking)
+			{
+				if(isset($a_user_data[$buser]))
+				{
+					$a_user_data[$buser]['consultation_hour'] = $booking[0]['dt'];
+					$a_user_data[$buser]['consultation_hour_end'] = $booking[0]['dtend'];
+					$a_user_data[$buser]['consultation_hours'] = $booking;
+				}
 			}
 		}
 		$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);

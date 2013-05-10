@@ -386,8 +386,11 @@ class ilCalendarSchedule
 
 		$res = $this->db->query($query);
 		
-		$events = array();
 		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
+
+		$cats = ilCalendarCategories::_getInstance();
+		$events = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id) || $this->filter_bookings)
@@ -402,7 +405,12 @@ class ilCalendarSchedule
 					$booking = new ilBookingEntry($event->getContextId());
 					if(!$booking->isBookedOut($row->cal_id, true))
 					{
-						$events[] = $event;
+						// Check target 
+						if($cats->getMode() == ilCalendarCategories::MODE_CONSULTATION and
+							$booking->isTargetObjectVisible($cats->getTargetRefId()))
+						{
+							$events[] = $event;
+						}
 					}
 				}
 			}

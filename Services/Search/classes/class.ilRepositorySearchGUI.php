@@ -276,7 +276,7 @@ class ilRepositorySearchGUI
 	{
 		$class = $this->callback['class'];
 		$method = $this->callback['method'];
-
+		
 		// call callback if that function does give a return value => show error message
 		// listener redirects if everything is ok.
 		$class->$method($_POST['user']);

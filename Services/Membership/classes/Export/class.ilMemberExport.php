@@ -318,6 +318,11 @@ class ilMemberExport
 					#$this->csv->addColumn($this->lng->txt('ps_agreement_accepted'));
 					$this->addCol($this->lng->txt('ps_agreement_accepted'), $row, $col++);
 					break;
+				case 'consultation_hour':
+					$this->lng->loadLanguageModule('dateplaner');
+					$this->addCol($this->lng->txt('cal_ch_field_ch'), $row, $col++);
+					break;
+				
 				default:
 					if(substr($field,0,4) == 'udf_')
 					{
@@ -440,6 +445,28 @@ class ilMemberExport
 					case 'lastname':
 						#$this->csv->addColumn($this->user_profile_data[$usr_id][$field]);
 						$this->addCol($this->user_profile_data[$usr_id][$field],$row,$col++);
+						break;
+					
+					case 'consultation_hour':
+						include_once './Services/Booking/classes/class.ilBookingEntry.php';
+						$bookings = ilBookingEntry::lookupManagedBookingsForObject($this->obj_id, $GLOBALS['ilUser']->getId());
+						
+						$uts = array();
+						foreach((array) $bookings[$usr_id] as $ut)
+						{
+							ilDatePresentation::setUseRelativeDates(false);
+							$tmp = ilDatePresentation::formatPeriod(
+									new ilDateTime($ut['dt'],IL_CAL_UNIX),
+									new ilDateTime($ut['dtend'],IL_CAL_UNIX)
+							);
+							if(strlen($ut['explanation']))
+							{
+								$tmp .= ' '.$ut['explanation'];
+							}
+							$uts[] = $tmp;
+						}
+						$uts_str = implode(',',$uts);
+						$this->addCol($uts_str, $row, $col++);
 						break;
 											
 					default:

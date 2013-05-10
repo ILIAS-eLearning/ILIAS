@@ -23,7 +23,7 @@ class ilConsultationHourAppointments
 	 * @param int $a_type
 	 * @return 
 	 */
-	public static function getAppointmentIds($a_user_id, $a_context_id = NULL, $a_start = NULL, $a_type = NULL)
+	public static function getAppointmentIds($a_user_id, $a_context_id = NULL, $a_start = NULL, $a_type = NULL, $a_check_owner = true)
 	{
 		global $ilDB;
 
@@ -32,15 +32,21 @@ class ilConsultationHourAppointments
 			include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
 			$a_type = ilCalendarCategory::TYPE_CH;
 		}
+		$owner = ' ';
+		if($a_check_owner)
+		{
+			$owner = " AND be.obj_id = ".$ilDB->quote($a_user_id,'integer');
+		}
 
 		$query = "SELECT ce.cal_id FROM cal_entries ce".
 			" JOIN cal_cat_assignments cca ON ce.cal_id = cca.cal_id".
 			" JOIN cal_categories cc ON cca.cat_id = cc.cat_id".
 			" JOIN booking_entry be ON ce.context_id  = be.booking_id".
 			" WHERE cc.obj_id = ".$ilDB->quote($a_user_id,'integer').
-			" AND be.obj_id = ".$ilDB->quote($a_user_id,'integer').
+			$owner.
 			" AND cc.type = ".$ilDB->quote($a_type,'integer');
 
+		
 		if($a_context_id)
 		{
 			$query .= " AND ce.context_id = ".$ilDB->quote($a_context_id, 'integer');
@@ -49,6 +55,7 @@ class ilConsultationHourAppointments
 		{
 			$query .= " AND ce.starta = ".$ilDB->quote($a_start->get(IL_CAL_DATETIME, '', 'UTC'), 'text');
 		}
+		
 
 		$res = $ilDB->query($query);
 		$entries = array();
@@ -57,6 +64,46 @@ class ilConsultationHourAppointments
 			$entries[] = $row->cal_id;
 		}
 		return $entries;
+	}
+	
+	
+	/**
+	 * Get appointment ids by consultation hour group
+	 * @param type $a_user_id
+	 * @param type $a_ch_group_id
+	 * @param ilDateTime $start
+	 */
+	public static function getAppointmentIdsByGroup($a_user_id, $a_ch_group_id, ilDateTime $start = null)
+	{
+		global $ilDB;
+		
+		// @todo check start time
+		
+		include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
+		$type = ilCalendarCategory::TYPE_CH;
+		
+		$start_limit = '';
+		if($start instanceof ilDateTime)
+		{
+			$start_limit = 'AND ce.starta >= '.$ilDB->quote($start->get(IL_CAL_DATETIME,'','UTC'),'timestamp');
+		}
+		
+		$query = 'SELECT ce.cal_id FROM cal_entries ce '.
+				'JOIN cal_cat_assignments ca ON ce.cal_id = ca.cal_id '.
+				'JOIN cal_categories cc ON ca.cat_id = cc.cat_id '.
+				'JOIN booking_entry be ON ce.context_id = be.booking_id '.
+				'WHERE cc.obj_id = '.$ilDB->quote($a_user_id,'integer').' '.
+				'AND cc.type = '.$ilDB->quote($type,'integer').' '.
+				'AND be.booking_group = '.$ilDB->quote($a_ch_group_id,'integer').' '.
+				$start_limit.' '.
+				'ORDER BY ce.starta ';
+		$res = $ilDB->query($query);
+		$app_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$app_ids[] = $row->cal_id;
+		}
+		return $app_ids;
 	}
 	
 	/**
