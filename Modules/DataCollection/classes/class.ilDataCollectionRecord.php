@@ -127,7 +127,6 @@ class ilDataCollectionRecord
 		$ilDB->manipulate($query);
 
 		include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
-		ilObjDataCollection::sendNotification("new_record", $this->getTableId(), $id);
 	}
 	
 	/*
