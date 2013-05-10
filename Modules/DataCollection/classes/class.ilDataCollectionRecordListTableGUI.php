@@ -65,7 +65,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         }
         $this->setId("dcl_record_list");
 
-        $this->addColumn($lng->txt("actions"), "_actions", 	 "30px");
+        $this->addColumn($lng->txt("actions"), "", 	 "30px");
 
 
         $this->setTopCommands(true);
