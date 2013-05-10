@@ -215,5 +215,16 @@ class ilRegistrationCode
 			return $row["role"];
 		}
 	}
+	
+	public static function getCodeData($code)
+    {
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT role, role_local, alimit, alimitdt".
+			" FROM ".self::DB_TABLE.
+			" WHERE code = ".$ilDB->quote($code, "text"));
+		$row = $ilDB->fetchAssoc($set);
+		return $row;
+	}
 }
 ?>

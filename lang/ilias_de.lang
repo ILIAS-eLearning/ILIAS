@@ -12408,7 +12408,7 @@ content#:#cont_show_adv#:#Vertiefungswissen anzeigen
 content#:#cont_hide_adv#:#Vertiefungswissen verbergen
 registration#:#reg_email_domains#:#Die folgenden E-Mail-Adressdomains sind gültig: %s
 registration#:#reg_allowed_domains#:#Erlaubte E-Mail-Adressdomänen
-registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen.
+registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen. Registrierungscodes heben diese Prüfung auf.
 pd#:#block_show_pdcal#:#Kalender anzeigen
 pd#:#block_show_pdmail#:#Mail anzeigen
 pd#:#block_show_pdtag#:#Tags anzeigen
@@ -13241,3 +13241,5 @@ registration#:#registration_codes_roles_limitation_none#:#Keine vorgegebene Zuga
 registration#:#reg_access_limitation_mode_absolute_target#:#Gültig bis
 registration#:#reg_access_limitation_mode_relative_target#:#Gültig für
 registration#:#registration_codes_access_limitation_all#:#Alle
+registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang vor allen anderen entsprechenden Registrierungs-Einstellungen.
+registration#:#registration_codes_override_global_info#:#Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben.

@@ -156,6 +156,7 @@ class ilRegistrationSettingsGUI
 				$list->setHtml($this->__parseRoleList($this->__prepareAutomaticRoleList(), $edit));
 				$option->addSubItem($list);
 			$roles->addOption($option);
+		$roles->setInfo($this->lng->txt('registration_codes_override_global_info'));
 		$this->form_gui->addItem($roles);
 
 		$limit = new ilCheckboxInputGUI($this->lng->txt('reg_access_limitations'), 'reg_access_limitation');
@@ -163,7 +164,8 @@ class ilRegistrationSettingsGUI
 			$list = new ilCustomInputGUI($this->lng->txt('reg_available_roles'));
 			$edit = $this->ctrl->getLinkTarget($this,'editRoleAccessLimitations');
 			$list->setHtml($this->__parseRoleList($this->__prepareAccessLimitationRoleList(), $edit));
-			$limit->addSubItem($list);
+			$list->setInfo($this->lng->txt('registration_codes_override_global_info'));
+			$limit->addSubItem($list);	
 		$this->form_gui->addItem($limit);
 		
 		$domains = new ilTextInputGUI($this->lng->txt('reg_allowed_domains'), 'reg_allowed_domains');
@@ -860,6 +862,7 @@ class ilRegistrationSettingsGUI
 			}
 		}
 		$roles = new ilSelectInputGUI($this->lng->txt("registration_codes_roles"), "reg_codes_role");
+		$roles->setInfo($this->lng->txt("registration_codes_override_info"));
 		$roles->setOptions($options);
 		$this->form_gui->addItem($roles);
 		
@@ -874,6 +877,7 @@ class ilRegistrationSettingsGUI
 		$this->form_gui->addItem($sec);
 		
 		$limit = new ilRadioGroupInputGUI($this->lng->txt("reg_access_limitation_mode"), "reg_limit");
+		$limit->setInfo($this->lng->txt("registration_codes_override_info"));
 		$this->form_gui->addItem($limit);
 	
 		$opt = new ilRadioOption($this->lng->txt("registration_codes_roles_limitation_none"), "none");
