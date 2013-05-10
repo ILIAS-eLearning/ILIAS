@@ -15358,7 +15358,7 @@ if(!$ilDB->tableColumnExists('booking_entry','booking_group'))
 ?>
 <#3895>
 <?php
-
+;
 ?>
 
 <#3896>
