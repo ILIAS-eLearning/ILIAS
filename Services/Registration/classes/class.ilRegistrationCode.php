@@ -67,12 +67,12 @@ class ilRegistrationCode
 		return $code;
 	}
 	
-	public static function getCodesData($order_field, $order_direction, $offset, $limit, $filter_code, $filter_role, $filter_generated)
+	public static function getCodesData($order_field, $order_direction, $offset, $limit, $filter_code, $filter_role, $filter_generated, $filter_access_limitation)
 	{
 		global $ilDB;
 		
 		// filter
-		$where = self::filterToSQL($filter_code, $filter_role, $filter_generated);
+		$where = self::filterToSQL($filter_code, $filter_role, $filter_generated, $filter_access_limitation);
 
 		// count query
 		$set = $ilDB->query("SELECT COUNT(*) AS cnt FROM ".self::DB_TABLE.$where);
@@ -136,7 +136,7 @@ class ilRegistrationCode
 		return $result;
 	}
 	
-	protected static function filterToSQL($filter_code, $filter_role, $filter_generated)
+	protected static function filterToSQL($filter_code, $filter_role, $filter_generated, $filter_access_limitation)
 	{
 		global $ilDB;
 
@@ -153,6 +153,10 @@ class ilRegistrationCode
 		{
 			$where[] ="generated = ".$ilDB->quote($filter_generated, "text");
 		}
+		if($filter_access_limitation)
+		{
+			$where[] ="alimit = ".$ilDB->quote($filter_access_limitation, "text");
+		}
 		if(sizeof($where))
 		{
 			return " WHERE ".implode(" AND ", $where);
@@ -163,12 +167,12 @@ class ilRegistrationCode
 		}
 	}
 	
-	public static function getCodesForExport($filter_code, $filter_role, $filter_generated)
+	public static function getCodesForExport($filter_code, $filter_role, $filter_generated, $filter_access_limitation)
 	{
 		global $ilDB;
 
 		// filter
-		$where = self::filterToSQL($filter_code, $filter_role, $filter_generated);
+		$where = self::filterToSQL($filter_code, $filter_role, $filter_generated, $filter_access_limitation);
 
 		// set query
 		$set = $ilDB->query("SELECT code FROM ".self::DB_TABLE.$where." ORDER BY code_id");

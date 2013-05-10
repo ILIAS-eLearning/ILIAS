@@ -13237,3 +13237,4 @@ registration#:#registration_codes_roles_title#:#Role for New Accounts
 registration#:#registration_codes_roles_limitation_none#:#No Predefined Access Limitation
 registration#:#reg_access_limitation_mode_absolute_target#:#Valid until
 registration#:#reg_access_limitation_mode_relative_target#:#Valid for
+registration#:#registration_codes_access_limitation_all#:#All

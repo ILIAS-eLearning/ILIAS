@@ -27,9 +27,13 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->addColumn("", "", "1", true);
-		foreach ($this->getSelectedColumns() as $c)
+		foreach ($this->getSelectedColumns() as $c => $caption)
 		{
-			$this->addColumn($this->lng->txt($c), $c);
+			if($c == "role_local")
+			{
+				$c = "";
+			}
+			$this->addColumn($this->lng->txt($caption), $c);
 		}
 				
 		$this->setExternalSorting(true);
@@ -58,27 +62,21 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $lng, $rbacreview, $ilObjDataCache;
+		global $rbacreview, $ilObjDataCache;
 
 		$this->determineOffsetAndOrder();
 		
 		include_once("./Services/Registration/classes/class.ilRegistrationCode.php");
-
-		$order_map = array(
-			"registration_code" => "code",
-			"role" => "role", 
-			"registration_generated" => "generated", 
-			"registration_used" => "used"			
-		);
 		
 		$codes_data = ilRegistrationCode::getCodesData(
-			ilUtil::stripSlashes($order_map[$this->getOrderField()]),
+			ilUtil::stripSlashes($this->getOrderField()),
 			ilUtil::stripSlashes($this->getOrderDirection()),
 			ilUtil::stripSlashes($this->getOffset()),
 			ilUtil::stripSlashes($this->getLimit()),
 			$this->filter["code"],
 			$this->filter["role"],
-			$this->filter["generated"]
+			$this->filter["generated"],
+			$this->filter["alimit"]
 			);
 			
 		if (count($codes_data["set"]) == 0 && $this->getOffset() > 0)
@@ -91,7 +89,8 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 				ilUtil::stripSlashes($this->getLimit()),
 				$this->filter["code"],
 				$this->filter["role"],
-				$this->filter["generated"]
+				$this->filter["generated"],
+				$this->filter["alimit"]
 				);
 		}
 		
@@ -108,22 +107,87 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		$result = array();
 		foreach ($codes_data["set"] as $k => $code)
 		{
-			$result[$k]["registration_generated"] = ilDatePresentation::formatDate(new ilDateTime($code["generated"],IL_CAL_UNIX));
+			$result[$k]["generated"] = ilDatePresentation::formatDate(new ilDateTime($code["generated"],IL_CAL_UNIX));
 
 			if($code["used"])
 			{
-				$result[$k]["registration_used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"],IL_CAL_UNIX));
+				$result[$k]["used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"],IL_CAL_UNIX));
 			}
 			else
 			{
-				$result[$k]["registration_used"] = "";
+				$result[$k]["used"] = "";
 			}
 
 			if($code["role"])
 			{
 				$result[$k]["role"] = $this->role_map[$code["role"]];
 			}
-			$result[$k]["registration_code"] = $code["code"];
+			
+			if($code["role_local"])
+			{
+				$local = array();
+				foreach(explode(";", $code["role_local"]) as $role_id)
+				{
+					$role = ilObject::_lookupTitle($role_id);
+					if($role)
+					{
+						$local[] = $role; 	
+					}
+				}
+				if(sizeof($local))
+				{					
+					sort($local);
+					$result[$k]["role_local"] = implode("<br />", $local); 
+				}
+			}
+			
+			$result[$k]["alimit"] = 0;
+			if($code["alimit"])
+			{
+				switch($code["alimit"])
+				{
+					case "unlimited":
+						$result[$k]["alimit"] = mktime(0, 0, 1, 1, 1, 2038);
+						$result[$k]["limit_caption"] = $this->lng->txt("reg_access_limitation_none");
+						break;
+					
+					case "absolute":
+						$dt_obj = new ilDate($code["alimitdt"], IL_CAL_DATE);
+						$result[$k]["alimit"] = $dt_obj->get(IL_CAL_UNIX);
+						$result[$k]["limit_caption"] =  $this->lng->txt("reg_access_limitation_mode_absolute_target").
+							": ".ilDatePresentation::formatDate($dt_obj);					
+						break;
+					
+					case "relative":
+						$result[$k]["alimit"] = time();
+							
+						$limit_caption = array();
+						$limit = unserialize($code["alimitdt"]);												
+						if((int)$limit["d"])							
+						{
+							$result[$k]["alimit"] += (int)$limit["d"]*(60*60*24);
+							$limit_caption[] = (int)$limit["d"]." ".$this->lng->txt("days");
+						}
+						if((int)$limit["m"])							
+						{
+							$result[$k]["alimit"] += (int)$limit["m"]*(60*60*24*31);
+							$limit_caption[] = (int)$limit["m"]." ".$this->lng->txt("months");
+						}
+						if((int)$limit["y"])							
+						{
+							$result[$k]["alimit"] += (int)$limit["y"]*(60*60*24*365);
+							$limit_caption[] = (int)$limit["y"]." ".$this->lng->txt("years");
+						}												
+						if(sizeof($limit_caption))
+						{
+							$result[$k]["limit_caption"] = $this->lng->txt("reg_access_limitation_mode_relative_target").
+								": ".implode(", ", $limit_caption);
+						}
+						break;
+				}
+			}
+			
+			$result[$k]["code"] = $code["code"];
 			$result[$k]["code_id"] = $code["code_id"];
 		}
 		
@@ -172,6 +236,17 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		$si->readFromSession();
 		$this->filter["role"] = $si->getValue();
 		
+		// access limitation
+		$options = array("" => $this->lng->txt("registration_codes_access_limitation_all"),
+			"unlimited" => $this->lng->txt("reg_access_limitation_none"),
+			"absolute" => $this->lng->txt("reg_access_limitation_mode_absolute"),
+			"relative" => $this->lng->txt("reg_access_limitation_mode_relative"));	
+		$si = new ilSelectInputGUI($this->lng->txt("reg_access_limitations"), "alimit");
+		$si->setOptions($options);
+		$this->addFilterItem($si);
+		$si->readFromSession();
+		$this->filter["alimit"] = $si->getValue();
+		
 		// generated
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$options = array("" => $this->lng->txt("registration_generated_all"));
@@ -188,19 +263,22 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 	
 	public function getSelectedColumns()
 	{
-		return array("registration_code", "role", "registration_generated", "registration_used");
+		return array("code" => "registration_code", 
+			"role" => "registration_codes_roles", 
+			"role_local" => "registration_codes_roles_local", 
+			"alimit" => "reg_access_limitations",
+			"generated" => "registration_generated", 
+			"used" => "registration_used");
 	}
-	
-	/**
-	* Fill table row
-	*/
+
 	protected function fillRow($code)
 	{
-		$this->tpl->setVariable("ID", $code["code_id"]);
-		foreach ($this->getSelectedColumns() as $c)
+		$this->tpl->setVariable("ID", $code["code_id"]);		
+		foreach (array_keys($this->getSelectedColumns()) as $c)
 		{
 			$this->tpl->setVariable("VAL_".strtoupper($c), $code[$c]);
 		}
+		$this->tpl->setVariable("VAL_ALIMIT", $code["limit_caption"]);
 	}
 
 }
