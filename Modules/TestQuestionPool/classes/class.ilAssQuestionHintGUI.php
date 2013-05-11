@@ -168,7 +168,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$areaInp->setRteTags( ilObjAdvancedEditing::_getUsedHTMLTags("assessment") );
 
-		$areaInp->setRTESupport($this->questionOBJ->getId(), 'qpl', 'assessment');
+		$areaInp->setRTESupport($this->questionOBJ->getId(), 'qpl', 'assessment', null, false, '3.4.7');
 
 		$areaInp->addPlugin("latex");
 		$areaInp->addButton("latex");

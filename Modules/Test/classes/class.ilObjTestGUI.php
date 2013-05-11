@@ -1563,7 +1563,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$intro->setUseRte(TRUE);
 		$intro->addPlugin("latex");
 		$intro->addButton("latex");
-		$intro->setRTESupport($this->object->getId(), "tst", "assessment");
+		$intro->setRTESupport($this->object->getId(), "tst", 'assessment', null, false, '3.4.7');
 		$intro->setRteTagSet('full');
 		$intro->setInfo($this->lng->txt('intro_desc'));
 		// showinfo
@@ -1583,7 +1583,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$finalstatement->setUseRte(TRUE);
 		$finalstatement->addPlugin("latex");
 		$finalstatement->addButton("latex");
-		$finalstatement->setRTESupport($this->object->getId(), "tst", "assessment");
+		$finalstatement->setRTESupport($this->object->getId(), "tst", "assessment", null, false, '3.4.7');
 		$finalstatement->setRteTagSet('full');
 		// show final statement
 		$showfinal = new ilCheckboxInputGUI('', "showfinalstatement");

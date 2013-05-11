@@ -1345,7 +1345,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$complete->addPlugin("latex");
 		$complete->addButton("latex");
 		$complete->addButton("pastelatex");
-		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$complete->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 		$form->addItem($complete);
 
 		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
@@ -1362,7 +1362,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$incomplete->addPlugin("latex");
 		$incomplete->addButton("latex");
 		$incomplete->addButton("pastelatex");
-		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 		$form->addItem($incomplete);
 	
 		if (!$this->getSelfAssessmentEditingMode())
@@ -1385,7 +1385,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$answerobj->addPlugin("latex");
 				$answerobj->addButton("latex");
 				$answerobj->addButton("pastelatex");
-				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment");
+				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 				$form->addItem($answerobj);
 			}
 		}

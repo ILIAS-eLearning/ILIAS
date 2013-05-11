@@ -722,7 +722,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$complete->addPlugin("latex");
 		$complete->addButton("latex");
 		$complete->addButton("pastelatex");
-		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$complete->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 		$form->addItem($complete);
 
 		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
@@ -739,7 +739,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$incomplete->addPlugin("latex");
 		$incomplete->addButton("latex");
 		$incomplete->addButton("pastelatex");
-		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 		$form->addItem($incomplete);
 
 		if (!$this->getSelfAssessmentEditingMode())
@@ -758,7 +758,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$answerobj->setCols(80);
 				$answerobj->setUseRte(true);
 				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"), null, false, '3.4.7');
 				$answerobj->addPlugin("latex");
 				$answerobj->addButton("latex");
 				$answerobj->addButton("pastelatex");

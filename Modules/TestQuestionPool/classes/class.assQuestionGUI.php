@@ -952,7 +952,7 @@ abstract class assQuestionGUI
 			$question->addPlugin("latex");
 			$question->addButton("latex");
 			$question->addButton("pastelatex");
-			$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+			$question->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 		}
 		else
 		{
@@ -1146,7 +1146,7 @@ abstract class assQuestionGUI
 		$complete->addPlugin("latex");
 		$complete->addButton("latex");
 		$complete->addButton("pastelatex");
-		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$complete->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 		$form->addItem($complete);
 
 		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
@@ -1163,7 +1163,7 @@ abstract class assQuestionGUI
 		$incomplete->addPlugin("latex");
 		$incomplete->addButton("latex");
 		$incomplete->addButton("pastelatex");
-		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 		$form->addItem($incomplete);
 
 		global $ilAccess;
@@ -1347,7 +1347,7 @@ abstract class assQuestionGUI
 				$question->setUseRte(TRUE);
 				$question->addPlugin("latex");
 				$question->addButton("latex");
-				$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+				$question->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 				$hidden = new ilHiddenInputGUI("solutiontype");
 				$hidden->setValue("text");
 				$form->addItem($hidden);
