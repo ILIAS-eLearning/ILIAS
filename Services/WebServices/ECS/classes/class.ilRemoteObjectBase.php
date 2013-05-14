@@ -641,7 +641,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
 		if(!ilECSParticipantSettings::getInstanceByServerId($a_server->getServerId())->isImportAllowed($details->getSenders()))
 		{
-			$ilLog->write('Ignoring disabled participant. MID: '.$owner);
+			$ilLog->write('Ignoring disabled participant. MID: '.$details->getOwner());
 			return true;
 		}
 		
