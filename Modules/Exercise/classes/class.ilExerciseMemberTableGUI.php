@@ -47,12 +47,20 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		// team upload?  (1 row == 1 team)
 		if($this->type == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
+			$ass_obj = new ilExAssignment($this->ass_id);
+			
 			$team_map = ilExAssignment::getAssignmentTeamMap($this->ass_id);
 			$tmp = array();
 			
 			foreach($data as $item)
 			{
 				$team_id = $team_map[$item["usr_id"]];
+				
+				// #11058
+				if(!$team_id)
+				{
+					$team_id = $ass_obj->getTeamId($item["usr_id"], true);
+				}
 				
 				if(!isset($tmp[$team_id]))
 				{
