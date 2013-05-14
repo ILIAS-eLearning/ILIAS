@@ -362,7 +362,7 @@
 			</xsl:if>
 			<xsl:if test="contains(@style, 'font-family')">
 				<xsl:attribute name="font-family">
-					<xsl:call-template name="firstelement">
+					<xsl:call-template name="element">
 						<xsl:with-param name="s">
 							<xsl:call-template name="trim">
 								<xsl:with-param name="s">
@@ -761,6 +761,11 @@
 				<xsl:value-of select="$s"/>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="element">
+		<xsl:param name="s" />
+		<xsl:value-of select="$s" />
 	</xsl:template>
 
 </xsl:stylesheet>
