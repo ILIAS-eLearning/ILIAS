@@ -845,7 +845,7 @@ class ilECSSetting
 		
 		// --- cascading delete
 
-		include_once 'Services/WebServices/ECS/Tree/classes/class.ilECSCmsData.php';
+		include_once 'Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		ilECSCmsData::deleteByServerId($this->getServerId());
 		
 		include_once 'Services/WebServices/ECS/classes/class.ilECSCommunityCache.php';
