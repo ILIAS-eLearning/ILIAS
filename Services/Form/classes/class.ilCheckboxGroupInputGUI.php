@@ -30,7 +30,7 @@ include_once("./Services/Form/classes/class.ilCheckboxOption.php");
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
+class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
 {
 	protected $options = array();
 	protected $value;
@@ -183,6 +183,53 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $this->render());
+		$a_tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Get item by post var
+	*
+	* @return	mixed	false or item object
+	*/
+	function getItemByPostVar($a_post_var)
+	{
+		if ($this->getPostVar() == $a_post_var)
+		{
+			return $this;
+		}
+
+		foreach($this->getOptions() as $option)
+		{
+			foreach($option->getSubItems() as $item)
+			{
+				if ($item->getType() != "section_header")
+				{
+					$ret = $item->getItemByPostVar($a_post_var);
+					if (is_object($ret))
+					{
+						return $ret;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+	
+	public function getTableFilterHTML()
+	{
+		return $this->render();
+	}
+	
+	public function getToolbarHTML()
+	{
+		return $this->render('toolbar');
+	}
+	
+	protected function render($a_mode = '')
+	{
 		$tpl = new ilTemplate("tpl.prop_checkbox_group.html", true, true, "Services/Form");
 
 		foreach($this->getOptions() as $option)
@@ -263,40 +310,6 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		$tpl->setVariable("ID", $this->getFieldId());
 
-		$a_tpl->setCurrentBlock("prop_generic");
-		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
-		$a_tpl->parseCurrentBlock();
-
+		return $tpl->get();
 	}
-
-	/**
-	* Get item by post var
-	*
-	* @return	mixed	false or item object
-	*/
-	function getItemByPostVar($a_post_var)
-	{
-		if ($this->getPostVar() == $a_post_var)
-		{
-			return $this;
-		}
-
-		foreach($this->getOptions() as $option)
-		{
-			foreach($option->getSubItems() as $item)
-			{
-				if ($item->getType() != "section_header")
-				{
-					$ret = $item->getItemByPostVar($a_post_var);
-					if (is_object($ret))
-					{
-						return $ret;
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
 }
