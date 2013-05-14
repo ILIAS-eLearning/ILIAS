@@ -22,9 +22,12 @@ access#:#アクセス
 access_status#:#アクセス状態
 admin_login#:#マスターパスワードでログイン
 antivir#:#ウイルス監視
+applied_custom_updates#:#カスタム更新適用済
 applied_hotfixes#:#適用済みHotfix
+apply_custom_updates#:#カスタム更新を適用
 apply_hotfixes#:#Hotfixを適用
 available_clients#:#利用可能なクライアント
+available_custom_updates#:#適用可能なカスタム更新
 available_hotfixes#:#適用可能なHotfix
 available_languages#:#利用可能な言語
 back#:#戻る
@@ -50,6 +53,7 @@ clamav#:#ClamAV
 clean_command#:#Cleanコマンド
 client#:#クライアント
 client_access_mode_changed#:#クライアントのアクセスモードが変更されました。
+client_cloned#:#全てのファイルとソース設定はクライアントへコピーされます。
 client_data#:#クライアント情報
 client_deleted#:#クライアントの削除
 client_id#:#クライアントID
@@ -59,7 +63,17 @@ client_login#:#クライアント管理者でログイン
 client_name#:#氏名
 client_setup_not_finished#:#クライアントの設定が完了していません
 clients#:#クライアント
-collation#:#Collation
+clone_areyousure#:#間違いありませんか?
+clone_clientismaster#:#クライアントによるメンテナンスを許可"master"という名前がありますので上書きできません。
+clone_clientisnotmysql#:#クライアンントにMySQLデータベースが存在しません。
+clone_clientnodatabase#:#現時点ではMySQLのみがサポートされています。
+clone_clientnotdisabled#:#クライアントがアクティブ状態です。生成する前にクライアントを無効にしてください。
+clone_disabledmessage#:#クローンは次の理由により無効です:
+clone_selectsource#:#ソース
+clone_source#:#クローン用のソースを選択
+clone_youmustcheckiamsure#:#ターゲットのクライアントを上書きするには"間違いありません"をチェックする必要があります。
+cloneit#:#開始
+collation#:#照合
 contact#:#コンタクト情報
 contact_data#:#コンタクト情報
 convert_path#:#Image MagicのコンバートPath
@@ -77,6 +91,8 @@ ctrl_structure#:#制御構造
 ctrl_structure_desc#:#アップデートやパッチの手順書に明確な説明がない限りこの機能は使用しないでください。
 ctrl_structure_reload#:#リロード制御構造
 ctrl_structure_reloaded#:#制御構造をリロードしました。
+custom_update_applied#:#カスタム更新が適用されました
+custom_updates_available#:#カスタム更新可能
 data_directories#:#データディレクトリ
 data_directory_in_ws#:#Web内のデータディレクトリ
 data_directory_in_ws_info#:#このディレクトリは変更できません。
@@ -103,6 +119,7 @@ db_conn#:#データベース接続
 db_control_structure_missing#:#制御構造がありません(詳細 -> 'ツール'を参照)
 db_error_please_check#:#データベースのホスト名、ユーザー名、パスワードを確認してください。
 db_host#:#データベースホスト
+db_innodb#:#MySQL (InnoDB)
 db_mysql#:#MySQL
 db_name#:#データベース名
 db_needs_update#:#データベースの更新が必要です。
@@ -110,6 +127,7 @@ db_not_installed#:#データベースがインストールされていません�
 db_oracle#:#Oracle
 db_pass#:#データベースのパスワード
 db_port#:#データベースポート
+db_postgres#:#PostgreSQL
 db_selection#:#データベースの選択
 db_service_name#:#サービス名
 db_type#:#データベースのタイプ
@@ -148,6 +166,8 @@ err_wrong_login#:#ログインが間違っています
 error_recipient#:#受信者のエラー
 example#:#例
 feedback_recipient#:#受信者へのフィードバック
+ffmpeg_path#:#ffmpegのパス
+ffmpeg_path_comment#:#音声・ビデオ変換オプション、例'/your_path/ffmpeg
 file_does_not_exist#:#ファイルがありません。
 file_version#:#ファイルのバージョン
 fill_both_fields#:#両方の欄に入力してください。
@@ -159,7 +179,6 @@ finish_setup#:#セットアップを終了中
 firstname#:#名
 fop_path#:#FOPのPath
 fop_path_comment#:#PDF文書作成に必要
-form_input_not_valid#:#データが不完全か間違っています。フォーラム入力を訂正してください。
 form_input_not_valid#:#データが不完全か間違っています。フォーラム入力を訂正してください。
 form_retype_password#:#パスワードを再入力してください。
 hide_clientlist#:#クライアントの選択をユーザーへ表示しません。
@@ -177,8 +196,9 @@ ilias_nic#:#登録
 ilias_nic_id#:#NICのID
 ilias_setup#:#ILIASのセットアップ
 ilias_version#:#ILIASのバージョン
-include_local#:#大学固有を含める
+include_local#:#固有の表現を含める
 info_text_3rdparty#:#ILIASに必要なサードパティーのツールのセットアップを行います。それぞれのadd-onのセットアップ情報に従ってステップを完了してください。
+info_text_clone#:#この機能は現在の選択クライアントをもう一方へコピーして上書きします。<p><i>無効にするクライアントの作成のみ可能であることに注意願います。また、'master'名にすることもできません。<br>現在はMySQLのみがサポートされています。</i><p><b>警告! 元へ戻すことはできません! クライアントはここで選択したソース内容で上書きされます!</b>
 info_text_contact#:#追加のクライアント情報並びにこのクライアントのシステム管理者のコンタクト情報を表示します。全ての情報はデータベースに保管されます。次の画面でILIASオープンソースプロジェクトサーバへインストール情報を登録するオプションがあります。
 info_text_db#:#データベースが存在しないか空です。データベースがない場合には、下にある"データベースの作成"をクリックしてください。ILIASは自動的にデータベースを作成します。作成に失敗したり指定したような結合ができなかった場合は次のコマンドを使って手動でデータベースを作成してください。
 info_text_db_collation1#:#指定した結合がUTF-8方式のリストにないような場合にも同じく手動にてデータベースを作成しなければなりません。どのような場合においてもデータベースの文字コードはUTF-8である事を確認してください。
@@ -197,6 +217,7 @@ info_text_nic#:#登録オプションでILIASオープンソースコミュニ�
 info_text_nic3#:#インストールを登録しました。ネットワークインターフェースカードのIDです
 info_text_password#:#セットアッププログラムのマスターパスワードをここで変更できます。
 info_text_pathes#:#ILIASは異なるデータベースのマルチクライアントをサポートします。データベースのディレクトリ、ログファイルの場所、サードパーティ製ツールのPathを以下に入力してください。これらの設定はすべてのクライアントを作成した後に有効になります。
+info_text_proxy#:#Proxy設定
 ini_client_id_exists#:#すでにそのクライアントIDは使用されています。別のクライアントIDを選択してください。
 ini_client_id_invalid#:#入力されたクライアントIDには使用できない文字があります
 ini_client_id_no_change#:#このバージョンではクライアントのディレクトリが作成された後でクライアントIDを変更する事はできません。
@@ -221,7 +242,7 @@ inst_name#:#インストール名
 install#:#インストール
 installation#:#インストール
 installed#:#インストール済
-installed_local#:#ローカルにインストール
+installed_local#:#ローカル(固有表現)をインストール
 institution#:#大学名
 intro_install#:#ILIASセットアップのメインページです。ここからインストールを進める事ができます。
 ip_address#:#IPアドレス
@@ -238,6 +259,7 @@ lang_en#:#English
 lang_error_occurred#:#エラーが発生しました。作業を中止します。
 lang_es#:#Spanish
 lang_et#:#Estonian
+lang_fa#:#ペルシャ語
 lang_fr#:#French
 lang_hu#:#Hungarian
 lang_id#:#Indonesian
@@ -286,11 +308,9 @@ logout#:#ログアウト
 main_datadir_outside_webspace#:#外部のWeb上のメインデータディレクトリ
 master_password#:#マスターパスワードです。
 missing_data#:#データ未入力
-mkisofs_path#:#mkisofsのPath
-mkisofs_path_comment#:#isoイメージ作成用
 msg_input_is_required#:#入力必須です。値を入力してください。
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x以前
-mysql_4_1_x_or_higher_mode#:#MySQL 4.0.x以降
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x以降
 name#:#名前
 need_mysql_4_1_or_higher#:#このMySQLのバージョンはサポート外です。MySQL4.1以降が必要です。
 new#:#新規
@@ -366,6 +386,7 @@ path_to_zip#:#Zipのpath
 pathes#:#Path
 phone#:#電話番号
 please_select#:#選択してください
+populate#:#生成
 port#:#ポート
 position#:#役職名
 pre_cookies_disabled#:#Cokieが有効になっていません。ILIASはcookieが必要です。
@@ -394,6 +415,19 @@ pre_xsl#:#XSLのサポート
 pre_xsl_missing#:#PHPインストール中のXSLサポートを可能にしてください。参照先<a target="_blank" href="%s">PHP Documentation</a>.
 preliminaries#:#準備
 prev#:#前に戻る
+proxy#:#Proxy
+proxy_activated_configurated#:#Proxyを有効
+proxy_connectable#:#コネクションが確立されました。
+proxy_disabled#:#Proxyを無効
+proxy_host#:#ホスト
+proxy_host_info#:#ホストを入力してください。
+proxy_not_connectable#:#ILIASは設定のproxyへ接続できませんでした。
+proxy_pear_net_socket_error#:#PEAR Net_Socketエラー
+proxy_port#:#ポート
+proxy_port_info#:#0～65535(例：8080)のポートを入力してください。
+proxy_port_numeric#:#入力するポート番号は0～65535の数値となる必要があります
+proxy_status#:#Proxy
+proxy_status_info#:#ILIASのproxを使用する(例、webフィードやweblinkチェック用」)には以下のチェックボックスを有効にしてください。
 reload#:#更新
 required_field#:#入力必須欄
 reset#:#リセット
@@ -409,6 +443,8 @@ server_settings#:#サーバの設定値
 server_software#:#サーバソフトウェア
 sess_allow_client_maintenance#:#クライアントによるメンテナンスを許可
 sess_allow_client_maintenance_info#:#セッションパラメータの構成をクライアント管理の中でできるかどうかを定義します。
+sess_fixed_duration#:#固定セッション期間
+sess_load_dependent_session_handling#:#負荷依存セッションハンドリング
 sess_max_session_count#:#最大セッションカウント
 sess_max_session_count_info#:#同時確立可能な最大セッション数を定義します。"0”にすると機能しません。
 sess_max_session_idle#:#最大セッションアイドル
@@ -417,6 +453,7 @@ sess_max_session_idle_after_first_request_info#:#初回リクエスト後に少�
 sess_max_session_idle_info#:#セッションオーバー前にユーザーがアイドルする事のできる最大区間を定義します。
 sess_min_session_idle#:#最小セッションアイドル(分単位)
 sess_min_session_idle_info#:#ユーザーが少なくともこの区間アイドルする時は、別のセッションが別のユーザーと確立されて既存セッションが最大数に達していてもセッションを破棄する事ができます。
+sess_mode#:#セッションモード
 sess_sessions#:#設定
 session_management#:#セッション管理
 session_management_configured#:#構成済み
@@ -434,7 +471,7 @@ settings_longer_values#:#長めの値
 settings_no_longer_values#:#4000以上の文字は見つかりませんでした。データタイプをTEXTへ変更可能です。
 settings_saved#:#設定を保存しました。
 settings_show_longer#:#長めの値を表示
-settings_too_long#	変換するには長すぎる設定があります。設定データタイプを変更する前にそれらを変更してください。
+settings_too_long#:#変換するには長すぎる設定があります。設定データタイプを変更する前にそれらを変更してください。
 settings_type#:#設定データタイプ
 settings_type_changed#:#設定タイプが変更されました
 settings_type_current#:#現在のタイプ
@@ -470,10 +507,12 @@ setup_process_step_finish#:#セットアップ終了
 setup_process_step_ini#:#基本データ
 setup_process_step_lang#:#言語
 setup_process_step_nic#:#登録
+setup_process_step_proxy#:#Proxy
 setup_process_step_sess#:#セッション管理
 setup_ready#:#セットアップの準備ができました。ログインして進みシステム設定を確認します。
 setup_sessions#:#セッション管理
 setup_welcome#:#Welcome to ILIAS Setup。セットアップの流れをお手伝いします。
+show_update_steps#:#更新順序を表示
 sophos#:#Sophos
 sort_by_this_column#:#この列をソート
 status#:#状態
@@ -488,6 +527,7 @@ step_finish#:#セットアップ
 step_ini#:#iniファイル
 step_lang#:#各国語
 step_nic#:#登録
+step_proxy#:#Proxy
 step_sess#:#セッション管理
 street#:#住所
 submit#:#提出
@@ -521,47 +561,3 @@ zip_path#:#ZipのPath
 zip_path_comment#:#エクスポートファイルの作成用　例 '/your_path/zip'
 zip_path_comment_win#:#インポートファイルの解凍用　例 'C
 zipcode#:#郵便番号
-settings_too_long#:#Some settings are too long to be converted. Please change them before you change the settings data type.###10 11 2011 new variable
-sess_mode#:#Session Mode###10 11 2011 new variable
-sess_fixed_duration#:#Fixed Session Duration###10 11 2011 new variable
-sess_load_dependent_session_handling#:#Load Dependent Session Handlin###10 11 2011 new variable
-db_postgres#:#PostgreSQ###18 01 2012 new variable
-client_cloned#:#All files and settings of the source are copied into the client.###02 09 2012 new variable
-clone_clientnotdisabled#:#The client is still active. Please disable the client before populating it.###02 09 2012 new variable
-clone_clientismaster#:#The client has "master" in the name so it cannot be overwritten.###02 09 2012 new variable
-clone_clientisnotmysql#:#The client does not have MySQL database.###02 09 2012 new variable
-clone_clientnodatabase#:#Only MySQL databases are supported at the moment.###02 09 2012 new variable
-clone_disabledmessage#:#Cloning is disabled for the following reason(s):###02 09 2012 new variable
-clone_youmustcheckiamsure#:#You must check "I am sure" to overwrite the target client.###02 09 2012 new variable
-clone_source#:#Select source for cloning###02 09 2012 new variable
-clone_selectsource#:#Source###02 09 2012 new variable
-clone_areyousure#:#Are you sure?###02 09 2012 new variable
-cloneit#:#Start###02 09 2012 new variable
-info_text_clone#:#This function will overwrite the currently selected client with a copy of another.<p><i>Note that you can only populate clients that are disabled. Also, they cannot have 'master' in the name.<br>Currently, only MySQL is supported.</i><p><b>Warning! This cannot be undone! The client will be overwritten with the contents of the source you will select here!</b>###02 09 2012 new variable
-ffmpeg_path_comment#:#Optional to convert audio/videos, e.g. '/your_path/ffmpeg'###02 09 2012 new variable
-ffmpeg_path#:#Path to ffmpeg###02 09 2012 new variable
-populate#:#Populate###02 09 2012 new variable
-custom_updates_available#:#Custom Update Available###02 09 2012 new variable
-applied_custom_updates#:#Applied Custom Updates###02 09 2012 new variable
-available_custom_updates#:#Available Custom Updates###02 09 2012 new variable
-custom_update_applied#:#Custom Update Applied###02 09 2012 new variable
-apply_custom_updates#:#Apply Custom Updates###02 09 2012 new variable
-proxy_connectable#:#Connection established.###02 09 2012 new variable
-proxy_host_info#:#Please enter a host.###02 09 2012 new variable
-proxy_host#:#Host###02 09 2012 new variable
-proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.###02 09 2012 new variable
-proxy_pear_net_socket_error#:#PEAR Net_Socket error###02 09 2012 new variable
-proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.###02 09 2012 new variable
-proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535###02 09 2012 new variable
-proxy_port#:#Port###02 09 2012 new variable
-proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.###02 09 2012 new variable
-proxy_status#:#Proxy###02 09 2012 new variable
-proxy#:#Proxy###02 09 2012 new variable
-proxy_disabled#:#Proxy disabled ###02 09 2012 new variable
-proxy_activated_configurated#:#Proxy enabled ###02 09 2012 new variable
-info_text_proxy#:#Proxy Settings###02 09 2012 new variable
-setup_process_step_proxy#:#Proxy###02 09 2012 new variable
-step_proxy#:#Proxy###02 09 2012 new variable
-db_innodb#:#MySQL (InnoDB)###02 09 2012 new variable
-show_update_steps#:#Show Update Step###02 09 2012 new variable
-lang_fa#:#Persian (farsi###17 02 2013 new variable
