@@ -112,7 +112,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	function _getCommands()
 	{
 		$commands = array();
-		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
+		$commands[] = array("permission" => "join", "cmd" => "view", "lang_var" => "show", "default" => true);
 
 		include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
 		if(ilFMSettings::getInstance()->isEnabled())
