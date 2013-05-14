@@ -1357,7 +1357,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{
 				$members = array();
-				foreach($_POST["member"] as $user_id => $value)
+				foreach(array_keys($_POST["member"]) as $user_id)
 				{					
 					$tmembers = ilExAssignment::getTeamMembersByAssignmentId($this->ass->getId(), $user_id);
 					foreach($tmembers as $tuser_id)
@@ -1407,7 +1407,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{
 				$members = array();
-				foreach($_POST["member"] as $user_id => $value)
+				foreach(array_keys($_POST["member"]) as $user_id)
 				{					
 					$tmembers = ilExAssignment::getTeamMembersByAssignmentId($this->ass->getId(), $user_id);
 					foreach($tmembers as $tuser_id)
@@ -1443,7 +1443,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if(is_array($_POST["member"]))
 		{
-			foreach($_POST["member"] as $usr_id => $member)
+			foreach(array_keys($_POST["member"]) as $usr_id)
 			{
 				$this->object->members_obj->deassignMember((int) $usr_id);
 			}
