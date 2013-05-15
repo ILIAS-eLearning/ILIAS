@@ -52,25 +52,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
 	}
 	
 	/**
-	 * Only check cmd access for cmd 'register' and 'unregister'
-	 * @param string $a_permission
-	 * @param object $a_cmd
-	 * @param object $a_ref_id
-	 * @param object $a_type
-	 * @param object $a_obj_id [optional]
-	 * @return 
-	 */
-	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id="")
-	{
-		if($a_cmd != 'view' and $a_cmd != 'leave')
-		{
-			$a_cmd = '';
-		}
-		return parent::checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
-	}
-	
-
-	/**
 	* inititialize new item
 	*
 	* @param	int			$a_ref_id		reference id
@@ -175,6 +156,33 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}
 
 		return $props;
+	}
+	
+	
+	/**
+	 * Workaround for course titles (linked if join or read permission is granted)
+	 * @param type $a_permission
+	 * @param type $a_cmd
+	 * @param type $a_ref_id
+	 * @param type $a_type
+	 * @param type $a_obj_id
+	 * @return type
+	 */
+	public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
+	{
+		// Only check cmd access for cmd 'register' and 'unregister'
+		if($a_cmd != 'view' and $a_cmd != 'leave')
+		{
+			$a_cmd = '';
+		}
+
+		if($a_permission == 'crs_linked')
+		{
+			return 
+				parent::checkCommandAccess('read', $a_cmd, $a_ref_id, $a_type, $a_obj_id) ||
+				parent::checkCommandAccess('join', $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+		}
+		return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
 	}
 } // END class.ilObjCategoryGUI
 ?>

@@ -35,7 +35,7 @@ class ilObjGroupAccess extends ilObjectAccess
 		{
 			$a_user_id = $ilUser->getId();
 		}
-
+		
 		switch ($a_cmd)
 		{
 			case "info":
@@ -53,6 +53,11 @@ class ilObjGroupAccess extends ilObjectAccess
 				
 			case "join":
 			
+				if(!self::_registrationEnabled($a_obj_id))
+				{
+					return false;
+				}
+
 				include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
 				if(ilGroupWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
 				{
@@ -112,7 +117,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	function _getCommands()
 	{
 		$commands = array();
-		$commands[] = array("permission" => "join", "cmd" => "view", "lang_var" => "show", "default" => true);
+		$commands[] = array("permission" => "grp_linked", "cmd" => "", "lang_var" => "show", "default" => true);
 
 		include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
 		if(ilFMSettings::getInstance()->isEnabled())
