@@ -179,30 +179,22 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	 * @param array data set
 	 */
 	public function fillRow($a_set)
-	{
+	{		
+		if($this->isRegistrationEnabled())
+		{
+			$this->tpl->setCurrentBlock('registered_col');
+			$this->tpl->setVariable('VAL_ID',$a_set['id']);
+			$this->tpl->setVariable('REG_CHECKED',$a_set['registered'] ? 'checked="checked"' : '');			
+			$this->tpl->parseCurrentBlock();
+		}
+				
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('LASTNAME',$a_set['lastname']);
 		$this->tpl->setVariable('FIRSTNAME',$a_set['firstname']);
 		$this->tpl->setVariable('LOGIN',$a_set['login']);
 		$this->tpl->setVariable('MARK',$a_set['mark']);
 		$this->tpl->setVariable('COMMENT',$a_set['comment']);
-		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
-		
-		if($this->isRegistrationEnabled())
-		{
-			$this->tpl->setCurrentBlock('registered_col');
-			if($a_set['registered'])
-			{
-				$this->tpl->setVariable('IMAGE_REGISTERED',ilUtil::getImagePath('icon_ok.png'));
-				$this->tpl->setVariable('REGISTERED',$this->lng->txt('event_registered'));			
-			}
-			else
-			{
-				$this->tpl->setVariable('IMAGE_REGISTERED',ilUtil::getImagePath('icon_not_ok.png'));
-				$this->tpl->setVariable('REGISTERED',$this->lng->txt('event_not_registered'));			
-			}
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');		
 	}
 	
 	

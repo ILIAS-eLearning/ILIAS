@@ -24,6 +24,7 @@ class ilAttendanceList
 	protected $description; // [string]
 	protected $pre_blanks; // [array]
 	protected $id; // [string]
+	protected $members_sub; // [array]
 		
 	/**
 	 * Constructor
@@ -106,6 +107,11 @@ class ilAttendanceList
 	function showMembers($a_value = true)
 	{
 		$this->show_members = (bool)$a_value;
+	}
+	
+	function addMemberSubItem($a_id, $a_caption, $a_checked = false)
+	{
+		$this->members_sub[$a_id] = array($a_caption, $a_checked);
 	}
 	
 	/**
@@ -227,6 +233,19 @@ class ilAttendanceList
 		$member->setChecked(true);
 		$form->addItem($member);
 		
+		if($this->members_sub)
+		{
+			foreach($this->members_sub as $sub_id => $sub_item)
+			{
+				$sub = new ilCheckboxInputGUI($sub_item[0], 'members_'.$sub_id);
+				if($sub_item[1])
+				{
+					$sub->setChecked(true);
+				}
+				$member->addSubItem($sub);
+			}
+		}
+		
 		$form->addCommandButton($a_cmd,$lng->txt('sess_print_attendance_list'));
 		
 		if($this->id && $a_cmd)
@@ -269,6 +288,14 @@ class ilAttendanceList
 			$this->showTutors($form->getInput('show_tutors'));
 			$this->showMembers($form->getInput('show_members'));	
 			
+			if($this->show_members && $this->members_sub)
+			{
+				foreach(array_keys($this->members_sub) as $msub_id)
+				{
+					$this->members_sub[$msub_id][2] = $form->getInput("members_".$msub_id);
+				}			
+			}
+									
 			if($this->id)
 			{
 				$form->setValuesByPost();
@@ -351,21 +378,29 @@ class ilAttendanceList
 		
 		// handle members
 		
-		$member_ids = array();
+		$member_ids = $filters = $all_admin_ids = $all_tutor_ids = $all_member_ids = array();
 		if($this->show_admins)
 		{
-			$member_ids = array_merge((array)$member_ids,$this->participants->getAdmins());
+			$all_admin_ids = $this->participants->getAdmins();
+			$member_ids = array_merge((array)$member_ids, $all_admin_ids);
 		}
 		if($this->show_tutors)
 		{
-			$member_ids = array_merge((array)$member_ids,$this->participants->getTutors());
+			$all_tutor_ids = $this->participants->getTutors();
+			$member_ids = array_merge((array)$member_ids, $all_tutor_ids);
 		}
 		if($this->show_members)
 		{
-			$member_ids = array_merge((array)$member_ids,$this->participants->getMembers());
+			$all_member_ids = $this->participants->getMembers();
+			$member_ids = array_merge((array)$member_ids, $all_member_ids);	
+			
+			foreach($this->members_sub as $sub_id => $sub_item)
+			{
+				$filters["members"][$sub_id] = (bool)$sub_item[2];
+			}
 		}				
-		$member_ids = ilUtil::_sortIds((array) $member_ids,'usr_data','lastname','usr_id');
-				
+		$member_ids = ilUtil::_sortIds((array) $member_ids,'usr_data','lastname','usr_id');						
+		
 		
 		// rows 
 		
@@ -373,7 +408,15 @@ class ilAttendanceList
 		{
 			if($this->callback)
 			{
-				$user_data = call_user_func_array($this->callback, array($user_id));		
+				$user_data = call_user_func_array($this->callback, array($user_id, 
+					in_array($user_id, $all_admin_ids),
+					in_array($user_id, $all_tutor_ids),
+					in_array($user_id, $all_member_ids),
+					$filters));	
+				if(!$user_data)
+				{
+					continue;
+				}
 				
 				$tpl->setCurrentBlock("row_preset");
 				foreach($this->presets as $id => $item)
