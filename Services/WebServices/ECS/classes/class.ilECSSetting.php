@@ -857,7 +857,7 @@ class ilECSSetting
 		include_once 'Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php';
 		ilECSEventQueueReader::deleteByServerId($this->getServerId());
 		
-		include_once 'Services/WebServices/ECS/classes/class.ilECSNodeMappingAssignment.php';
+		include_once 'Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignment.php';
 		ilECSNodeMappingAssignment::deleteByServerId($this->getServerId());
 		
 		include_once 'Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';

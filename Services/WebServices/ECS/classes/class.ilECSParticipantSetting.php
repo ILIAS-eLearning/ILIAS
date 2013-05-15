@@ -234,7 +234,7 @@ class ilECSParticipantSetting
 		global $ilDB;
 
 		$query = 'DELETE FROM ecs_events'.
-			' WHERE sid = '.$ilDB->quote($a_server_id,'integer');
+			' WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$ilDB->manipulate($query);
 		return true;
 	}
