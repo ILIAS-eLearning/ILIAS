@@ -603,10 +603,11 @@ class ilSurveyEvaluationGUI
 				$c = $question->getCumulatedResultData($this->object->getSurveyId(), $counter, $finished_ids);
 				if (is_array($c[0]))
 				{
-					foreach ($c as $a)
-					{
-						array_push($data, $a);
-					}
+					// keep only "main" entry - sub-items will be handled in tablegui
+					// this will enable proper sorting
+					$main = array_shift($c);
+					$main["subitems"] = $c;
+					array_push($data, $main);					
 				}
 				else
 				{
@@ -638,7 +639,7 @@ class ilSurveyEvaluationGUI
 		}
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
-		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, 'evaluation', $detail);
+		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $detail);
 		$table_gui->setData($data);
 		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());	
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
@@ -995,9 +996,10 @@ class ilSurveyEvaluationGUI
 			$userResults =& $this->object->getUserSpecificResults($finished_ids);	
 			$questions =& $this->object->getSurveyQuestions(true);
 			$participants =& $this->object->getSurveyParticipants($finished_ids);
-			$tabledata = array();
+			$tabledata = array();	
+			$counter = -1;
 			foreach ($participants as $data)
-			{
+			{				
 				$questioncounter = 1;
 				$question = "";
 				$results = "";
@@ -1018,24 +1020,24 @@ class ilSurveyEvaluationGUI
 					$wt = $this->object->getWorkingtimeForParticipant($data['active_id']);
 					if ($first)
 					{
-						array_push($tabledata, array(
+						$tabledata[++$counter] = array(
 								'username' => $data["sortname"],
-								'gender' => $data["gender"],
+								// 'gender' => $data["gender"],
 								'question' => $questioncounter++ . ". " . $question_data["title"],
 								'results' => $text,
 								'workingtime' => $wt
-							));
-						$first = false;
+							);
+						$first = false;						
 					}
 					else
 					{
-						array_push($tabledata, array(
+						$tabledata[$counter]["subitems"][] = array(
 								'username' => " ",
-								'gender' => " ",
+								// 'gender' => " ",
 								'question' => $questioncounter++ . ". " . $question_data["title"],
 								'results' => $text,
 								'workingtime' => null
-							));
+							);
 					}
 				}
 
@@ -1043,24 +1045,24 @@ class ilSurveyEvaluationGUI
 				$wt = $this->object->getWorkingtimeForParticipant($data['active_id']);
 				if ($first)
 				{
-					array_push($tabledata, array(
+					$tabledata[++$counter] = array(
 							'username' => $data["sortname"],
 							// 'gender' => $data["gender"],
 							'question' => $questioncounter++ . ". " . $question_data["title"],
 							'results' => $text,
 							'workingtime' => $wt
-						));
+						);
 					$first = false;
 				}
 				else
 				{
-					array_push($tabledata, array(
+					$tabledata[$counter]["subitems"][] = array(
 							'username' => " ",
 							// 'gender' => " ",
 							'question' => $questioncounter++ . ". " . $question_data["title"],
 							'results' => $text,
 							'workingtime' => null
-						));
+						);
 				}
 
 			}

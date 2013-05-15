@@ -33,7 +33,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 {
-	private $totalcount;
 	/**
 	 * Constructor
 	 *
@@ -74,9 +73,10 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		$this->addCommandButton('printEvaluation', $this->lng->txt('print'), 'javascript:window.print(); return false;'); // #10944
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+		
+		$this->setDefaultOrderField("title");
 
 		$this->enable('header');
-		$this->disable('sort');
 		$this->disable('select_all');
 	}
 
@@ -126,16 +126,9 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 	 * @return
 	 */
 	public function fillRow($data)
-	{
-		if (strlen($data['counter']))
-		{
-			$this->tpl->setCurrentBlock('counter');
-			$this->tpl->setVariable("COUNTER", $data['counter']);
-			$this->tpl->parseCurrentBlock();
-			$this->totalcount++;
-		}
+	{		
 		$this->tpl->setVariable("TITLE", $data['title']);
-		$this->tpl->setVariable("CSS_ROW", ($this->totalcount % 2 == 1) ? 'tblrow1' : 'tblrow2');
+	
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if (strcmp($c, 'question') == 0)
@@ -184,6 +177,24 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock('arithmetic_mean');
 				$this->tpl->setVariable("ARITHMETIC_MEAN", $data['arithmetic_mean']);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		if($data["subitems"])
+		{
+			$this->tpl->setCurrentBlock("tbl_content");
+			$this->tpl->parseCurrentBlock();
+			
+			foreach($data["subitems"] as $subitem)
+			{
+				$this->fillRow($subitem);
+				
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->css_row = ($this->css_row != "tblrow1")
+					? "tblrow1"
+					: "tblrow2";
+				$this->tpl->setVariable("CSS_ROW", $this->css_row);
 				$this->tpl->parseCurrentBlock();
 			}
 		}

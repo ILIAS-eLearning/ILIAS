@@ -2479,7 +2479,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result = array();
 		$row = array(
 			'counter' => $counter,
-			'title' => $this->getTitle(),
+			'title' => $counter.'. '.$this->getTitle(),
 			'question' => $questiontext,
 			'users_answered' => $cumulated['TOTAL']['USERS_ANSWERED'],
 			'users_skipped' => $cumulated['TOTAL']['USERS_SKIPPED'],

@@ -64,16 +64,17 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("gender"),'gender', '');
 		}		 
 		*/
-		$this->addColumn($this->lng->txt("question"),'question', '');
-		$this->addColumn($this->lng->txt("results"),'results', '');
+		$this->addColumn($this->lng->txt("question"),'', '');
+		$this->addColumn($this->lng->txt("results"),'', '');
 		$this->addColumn($this->lng->txt("workingtime"),'workingtime', '');
 	
 		$this->setRowTemplate("tpl.il_svy_svy_results_user_row.html", "Modules/Survey");
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+		
+		$this->setDefaultOrderField('username');
 
 		$this->enable('header');
-		$this->disable('sort');
 		$this->disable('select_all');
 	}
 	
@@ -114,6 +115,24 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("QUESTION", $data['question']);
 		$this->tpl->setVariable("RESULTS", $data['results']);
 		$this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));
+		
+		if($data["subitems"])
+		{
+			$this->tpl->setCurrentBlock("tbl_content");
+			$this->tpl->parseCurrentBlock();
+			
+			foreach($data["subitems"] as $subitem)
+			{
+				$this->fillRow($subitem);
+				
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->css_row = ($this->css_row != "tblrow1")
+					? "tblrow1"
+					: "tblrow2";
+				$this->tpl->setVariable("CSS_ROW", $this->css_row);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 	}
 }
 ?>

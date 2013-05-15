@@ -1576,7 +1576,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		if($this->dataExists())
 		{
 			// sort
-			if (!$this->getExternalSorting())
+			if (!$this->getExternalSorting() && $this->enabled["sort"])
 			{
 				$data = ilUtil::sortArray($data, $this->getOrderField(),
 					$this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
@@ -3014,7 +3014,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		if($this->dataExists())
 		{
 			// #9640: sort
-			if (!$this->getExternalSorting())
+			if (!$this->getExternalSorting() && $this->enabled["sort"])
 			{				
 				$this->determineOffsetAndOrder(true);
 				
