@@ -149,6 +149,26 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		return self::$block_type;
 	}
 	
+	public static function getScreenMode()
+	{	
+		$cmd = $_GET["cmd"];
+		if($cmd == "post")
+		{
+			$cmd = $_POST["cmd"];
+			$cmd = array_shift(array_keys($cmd));
+		}
+		
+		switch($cmd)
+		{
+			case "confirmRemove":
+			case "manage":				
+				return IL_SCREEN_FULL;
+				
+			default:
+				return IL_SCREEN_SIDE;
+		}
+	}
+	
 	/**
 	* Get block type
 	*
@@ -318,10 +338,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 //		if ($ilUser->getPref("pd_order_items") == 'location')
 //		{
 			$this->addFooterLink( $lng->txt("by_type"),
-				$ilCtrl->getLinkTarget($this,
-				"orderPDItemsByType"),
-				$ilCtrl->getLinkTarget($this,
-				"orderPDItemsByType", "", true),
+				$ilCtrl->getLinkTarget($this, "orderPDItemsByType"),
+				$ilCtrl->getLinkTarget($this, "orderPDItemsByType", "", true),
 				"block_".$this->getBlockType()."_".$this->block_id,
 				false, false, ($ilUser->getPref("pd_order_items") != 'location')
 				);
@@ -339,14 +357,20 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 //		else
 //		{
 			$this->addFooterLink( $lng->txt("by_location"),
-				$ilCtrl->getLinkTarget($this,
-				"orderPDItemsByLocation"),
-				$ilCtrl->getLinkTarget($this,
-				"orderPDItemsByLocation", "", true),
+				$ilCtrl->getLinkTarget($this, "orderPDItemsByLocation"),
+				$ilCtrl->getLinkTarget($this, "orderPDItemsByLocation", "", true),
 				"block_".$this->getBlockType()."_".$this->block_id,
 				false, false, ($ilUser->getPref("pd_order_items") == 'location')
 				);
 //		}
+		
+		$this->addFooterLink(($this->view == self::VIEW_MY_OFFERS) ?
+				$lng->txt("unsubscribe") :
+				$lng->txt("crs_unsubscribe"),			
+			$ilCtrl->getLinkTarget($this, "manage"),
+			null,
+			"block_".$this->getBlockType()."_".$this->block_id
+			);
 	}
 	
 	/**
@@ -1388,7 +1412,115 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 		}
 	}
+	
+	function manageObject()
+	{	
+		global $ilUser, $objDefinition;
+		
+		$objects = array();
+		
+		if($this->view == self::VIEW_MY_OFFERS)
+		{
+			foreach($ilUser->getDesktopItems() as $item)
+			{
+				$objects[] = $item;
+			}
+		}
+		else
+		{		 
+			$objtype_groups = $objDefinition->getGroupedRepositoryObjectTypes(
+			   array("cat", "crs", "grp", "fold"));
 
+			foreach($objtype_groups as $grpdata)
+			{							
+				foreach($this->getObjectsByMembership($grpdata["objs"]) as $item)
+				{
+					$objects[] = $item;
+				}
+			}
+		}
+		
+		include_once "Services/PersonalDesktop/classes/class.ilPDSelectedItemsTableGUI.php";
+		$tbl = new ilPDSelectedItemsTableGUI($this, "manage", $objects, $this->view, ($ilUser->getPref("pd_order_items") == 'location'));
+		return $tbl->getHTML();
+	}
+	
+	public function confirmRemoveObject()
+	{
+		global $ilCtrl;
+		
+		if(!sizeof($_POST["ref_id"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"), true);
+			$ilCtrl->redirect($this, "manage");
+		}
+		
+		if($this->view == self::VIEW_MY_OFFERS)
+		{
+			$question = $this->lng->txt("pd_info_delete_sure_remove");
+			$cmd = "confirmedRemove";
+		}
+		else
+		{
+			$question = $this->lng->txt("pd_info_delete_sure_unsubscribe");
+			$cmd = "confirmedUnsubscribe";
+		}
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($question);
+
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "manage");
+		$cgui->setConfirm($this->lng->txt("confirm"), $cmd);
+
+		foreach ($_POST["ref_id"] as $ref_id)
+		{
+			$obj_id = ilObject::_lookupObjectId($ref_id);
+			$title = ilObject::_lookupTitle($obj_id);
+			$type = ilObject::_lookupType($obj_id);
+			
+			$cgui->addItem("ref_id[]", $ref_id, $title,
+				ilObject::_getIcon($obj_id, "small", $type),
+				$this->lng->txt("icon")." ".$this->lng->txt("obj_".$type));			
+		}
+		
+		return $cgui->getHTML();
+	}
+		
+	public function confirmedRemove()
+	{
+		global $ilCtrl, $ilUser;
+		
+		if(!sizeof($_POST["ref_id"]))
+		{
+			$ilCtrl->redirect($this, "manage");
+		}
+		
+		foreach($_POST["ref_id"] as $ref_id)
+		{
+			$type = ilObject::_lookupType($ref_id, true);
+			ilObjUser::_dropDesktopItem($ilUser->getId(), $ref_id, $type);			
+		}		
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+	}
+	
+	public function confirmedUnsubscribe()
+	{
+		global $ilCtrl;
+		
+		if(!sizeof($_POST["ref_id"]))
+		{
+			$ilCtrl->redirect($this, "manage");
+		}
+			
+		var_dump(":TODO:");
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+	}
 }
 
 ?>
