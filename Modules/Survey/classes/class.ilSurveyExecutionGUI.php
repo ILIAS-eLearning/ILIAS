@@ -96,10 +96,15 @@ class ilSurveyExecutionGUI
 	{
 		global $rbacsystem, $ilUser;
 		
-		if($this->preview && !$rbacsystem->checkAccess("write", $this->object->ref_id))
+		if($this->preview)
 		{
-			// only with write access it is possible to preview the survey
-			$this->ilias->raiseError($this->lng->txt("survey_cannot_preview_survey"),$this->ilias->error_obj->MESSAGE);	
+			if(!$rbacsystem->checkAccess("write", $this->object->ref_id))
+			{
+				// only with write access it is possible to preview the survey
+				$this->ilias->raiseError($this->lng->txt("survey_cannot_preview_survey"),$this->ilias->error_obj->MESSAGE);	
+			}
+			
+			return true;
 		}
 						
 		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
@@ -343,7 +348,7 @@ class ilSurveyExecutionGUI
 		
 		$page = $this->object->getNextPage($activepage, $direction);
 		$constraint_true = 0;
-
+		
 		// check for constraints
 		if (count($page[0]["constraints"]))
 		{
@@ -373,6 +378,22 @@ class ilSurveyExecutionGUI
 				}
 				if ($constraint_true == 0)
 				{
+					// #11047 - we are skipping the page, so we have to get rid of existing answers for that question(s)
+					foreach($page as $page_question)
+					{
+						$qid = $page_question["question_id"];
+												
+						// see saveActiveQuestionData()
+						if(!$this->preview)
+						{							
+							$this->object->deleteWorkingData($qid, $_SESSION["finished_id"][$this->object->getId()]);
+						}
+						else
+						{
+							$_SESSION["preview_data"][$this->object->getId()][$qid] = null;
+						}
+					}
+					
 					$page = $this->object->getNextPage($page[0]["question_id"], $direction);
 				}
 			}
