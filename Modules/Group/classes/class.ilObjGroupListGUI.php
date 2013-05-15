@@ -184,6 +184,28 @@ class ilObjGroupListGUI extends ilObjectListGUI
 		return parent::getCommandFrame($a_cmd);
 		// end-patch fm
 	}
+	
+	
+	/**
+	 * Workaround for course titles (linked if join or read permission is granted)
+	 * @param type $a_permission
+	 * @param type $a_cmd
+	 * @param type $a_ref_id
+	 * @param type $a_type
+	 * @param type $a_obj_id
+	 * @return type
+	 */
+	public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
+	{
+		if($a_permission == 'grp_linked')
+		{
+			return 
+				parent::checkCommandAccess('read', '', $a_ref_id, $a_type, $a_obj_id) ||
+				parent::checkCommandAccess('join', 'join', $a_ref_id, $a_type, $a_obj_id);
+		}
+		return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+	}
+	
 	// END WebDAV mount_webfolder in _blank frame
 } // END class.ilObjGroupListGUI
 ?>
