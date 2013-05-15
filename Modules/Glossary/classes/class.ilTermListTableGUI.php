@@ -19,7 +19,7 @@ class ilTermListTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng;
 		
 		$this->glossary = $a_parent_obj->object;
 		$this->setId("glotl".$this->glossary->getId());
@@ -57,7 +57,7 @@ class ilTermListTableGUI extends ilTable2GUI
 	 */
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser, $ilDB;
+		global $lng, $ilDB;
 		
 		// term
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");

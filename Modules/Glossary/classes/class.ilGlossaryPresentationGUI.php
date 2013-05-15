@@ -1300,7 +1300,8 @@ class ilGlossaryPresentationGUI
 					//}
 				}
 
-				if ($ilAccess->checkAccess("write", "", (int) $_GET["ref_id"]))
+				if ($ilAccess->checkAccess("write", "", (int) $_GET["ref_id"]) ||
+					$ilAccess->checkAccess("edit_content", "", (int) $_GET["ref_id"]))
 				{
 					$tabs_gui->addNonTabbedLink("editing_view",
 						$lng->txt("glo_editing_view"),
