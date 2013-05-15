@@ -2262,7 +2262,7 @@ class SurveyQuestion
 		
 		$result = array(
 			'counter' => $counter,
-			'title' => $this->getTitle(),
+			'title' => $counter.'. '.$this->getTitle(),
 			'question' => $questiontext,
 			'users_answered' => $cumulated['USERS_ANSWERED'],
 			'users_skipped' => $cumulated['USERS_SKIPPED'],
