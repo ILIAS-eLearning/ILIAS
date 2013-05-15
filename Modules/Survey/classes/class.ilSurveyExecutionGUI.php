@@ -351,6 +351,22 @@ class ilSurveyExecutionGUI
 				}
 				if ($constraint_true == 0)
 				{
+					// #11047 - we are skipping the page, so we have to get rid of existing answers for that question(s)
+					foreach($page as $page_question)
+					{
+						$qid = $page_question["question_id"];					
+												
+						// see saveActiveQuestionData()
+						if(!$this->preview)
+						{							
+							$this->object->deleteWorkingData($qid, $_SESSION["finished_id"][$this->object->getId()]);
+						}
+						else
+						{
+							$_SESSION["preview_data"][$this->object->getId()][$qid] = null;
+						}
+					}
+					
 					$page = $this->object->getNextPage($page[0]["question_id"], $direction);
 				}
 			}
