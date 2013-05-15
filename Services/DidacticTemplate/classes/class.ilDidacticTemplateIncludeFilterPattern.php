@@ -28,6 +28,8 @@ class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPat
 	 */
 	public function valid($a_source)
 	{
+		$a_source = trim($a_source);
+		
 		switch($this->getPatternSubType())
 		{
 			case self::PATTERN_SUBTYPE_REGEX:
