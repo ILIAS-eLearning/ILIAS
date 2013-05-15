@@ -25,7 +25,8 @@ class ilGlossaryEditorGUI
 		$lng->loadLanguageModule("content");
 		
 		// check write permission
-		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
+			!$ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 		}

@@ -68,10 +68,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		switch ($next_class)
 		{
 			case 'ilmdeditorgui':
-				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
+				$this->checkPermission("write");
 				
 				$this->getTemplate();
 				$this->setTabs();
@@ -546,7 +543,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl;
+		global $tpl;
+		
+		$this->checkPermission("write");
 
 		$this->setSettingsSubTabs("general_settings");
 		
@@ -1069,6 +1068,8 @@ return;
 	*/
 	function export()
 	{
+		$this->checkPermission("write");
+		
 		require_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
 		$glo_exp = new ilGlossaryExport($this->object);
 		$glo_exp->buildExportFile();
@@ -1388,24 +1389,27 @@ return;
 			"ilInfoScreenGUI", "", $force_active);
 
 		// properties
-		$tabs_gui->addTarget("settings",
-			$this->ctrl->getLinkTarget($this, "properties"), "properties",
-			get_class($this));
+		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "properties"), "properties",
+				get_class($this));
 
-		// meta data
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-			 "", "ilmdeditorgui");
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", "ilmdeditorgui");
 
-		// export
-		/*$tabs_gui->addTarget("export",
-			 $this->ctrl->getLinkTarget($this, "exportList"),
-			 array("exportList", "viewExportLog"), get_class($this));*/
+			// export
+			/*$tabs_gui->addTarget("export",
+				 $this->ctrl->getLinkTarget($this, "exportList"),
+				 array("exportList", "viewExportLog"), get_class($this));*/
 
-		// export
-		$tabs_gui->addTarget("export",
-			 $this->ctrl->getLinkTargetByClass("ilexportgui", ""),
-			 "", "ilexportgui");
+			// export
+			$tabs_gui->addTarget("export",
+				 $this->ctrl->getLinkTargetByClass("ilexportgui", ""),
+				 "", "ilexportgui");
+		}
 
 		// permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -1498,15 +1502,12 @@ return;
 	 * Apply filter
 	 */
 	function applyFilter()
-	{
-		global $ilTabs;
-
+	{		
 		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
 		$prtab = new ilTermListTableGUI($this, "listTerms");
 		$prtab->resetOffset();
 		$prtab->writeFilterToSession();
-		$this->listTerms();
-		
+		$this->listTerms();		
 	}
 	
 	/**
