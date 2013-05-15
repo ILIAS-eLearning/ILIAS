@@ -71,7 +71,7 @@ class ilDidacticTemplateGUI
 		$toolbar->addText($this->lng->txt('didactic_selected_tpl_option'));
 
 		// Show template options
-		$options = array(0 => $this->lng->txt('default'));
+		$options = array(0 => $this->lng->txt('didactic_default_type'));
 		foreach($tpls as $tpl)
 		{
 			$options[$tpl->getId()] = $tpl->getTitle();

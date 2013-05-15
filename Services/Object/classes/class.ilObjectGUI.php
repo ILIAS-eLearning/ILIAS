@@ -880,7 +880,7 @@ class ilObjectGUI
 		$lng->loadLanguageModule('didactic');
 					
 		$options = array();
-		$options[0] = array($this->lng->txt('default'),
+		$options['dtpl_0'] = array($this->lng->txt('didactic_default_type'),
 			sprintf(
 				$this->lng->txt('didactic_default_type_info'),
 				$this->lng->txt('objs_'.$this->type)

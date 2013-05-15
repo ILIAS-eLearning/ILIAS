@@ -12979,3 +12979,4 @@ mail#:#mail_rename_folder#:#Rename Folder
 common#:#rpc_pdf_generation#:#PDF-Generation
 common#:#rpc_pdf_font#:#Fonts
 common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.
+didactic#:#didactic_default_type#:#Default

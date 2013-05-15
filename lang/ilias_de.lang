@@ -12979,3 +12979,4 @@ mail#:#mail_rename_folder#:#Ordner umbenennen
 common#:#rpc_pdf_generation#:#PDF-Erstellung
 common#:#rpc_pdf_font#:#Schriftarten
 common#:#rpc_pdf_font_info#:#Zusätzliche Schriftarten zur Erzeugung von PDF-Dateien. Alle zusätzlich angegebenen Schriftarten müssen serverseitig installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
+didactic#:#didactic_default_type#:#Standard
