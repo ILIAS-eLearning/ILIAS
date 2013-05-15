@@ -13281,3 +13281,4 @@ dateplaner#:#cal_ch_user_assignment_success#:#Die Benutzer wurden den ausgewähl
 dateplaner#:#cal_booking_failed_info#:#Die Buchung konnte nicht vorgenommen werden, da der Termin ausgebucht ist.
 registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang vor allen anderen entsprechenden Registrierungs-Einstellungen.
 registration#:#registration_codes_override_global_info#:#Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben.
+crs#:#event_list_registered_only#:#Nur angemeldete Mitglieder

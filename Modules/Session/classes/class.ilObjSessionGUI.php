@@ -1131,6 +1131,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->initContainer();
 		
 		$_POST['participants'] = is_array($_POST['participants']) ? $_POST['participants'] : array();
+		$_POST['registered'] = is_array($_POST['registered']) ? $_POST['registered'] : array();
 
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 
@@ -1142,7 +1143,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$part->setMark(ilUtil::stripSlashes($_POST['mark'][$user]));
 			$part->setComment(ilUtil::stripSlashes($_POST['comment'][$user]));
 			$part->setParticipated(isset($_POST['participants'][$user]) ? true : false);
-			$part->setRegistered(ilEventParticipants::_isRegistered($user,$this->object->getId()));
+			$part->setRegistered(isset($_POST['registered'][$user]) ? true : false);
 			$part->updateUser();
 		}
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
@@ -1195,6 +1196,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}	
 		$list->addPreset('participated', $this->lng->txt('event_tbl_participated'), true);		
 		$list->addBlank($this->lng->txt('sess_signature'));
+		
+		$list->addMemberSubItem('registered', $this->lng->txt('event_list_registered_only'));
+		
 		return $list;
 	}
 		
@@ -1204,9 +1208,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 * @access protected
 	 */
 	protected function printAttendanceListObject()
-	{
-		global $ilErr,$ilAccess,$tree;
-		
+	{		
 		$this->checkPermission('write');
 													
 		$list = $this->initAttendanceList();		
@@ -1223,17 +1225,28 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	/**
 	 * Get user data for attendance list
 	 * @param int $a_user_id
+	 * @param bool $a_is_admin
+	 * @param bool $a_is_tutor
+	 * @param bool $a_is_member
+	 * @param array $a_filters
 	 * @return array 
 	 */
-	public function getAttendanceListUserData($a_user_id)
-	{
+	public function getAttendanceListUserData($a_user_id, $a_is_admin, $a_is_tutor, $a_is_member, $a_filters)
+	{			
 		$data = $this->event_part->getUser($a_user_id);	
+		
+		if($a_is_member && $a_filters && $a_filters["members"]["registered"] && !$data["registered"])
+		{
+			return;
+		}
+		
 		$data['registered'] = $data['registered'] ? 
 			$this->lng->txt('yes') : 
 			$this->lng->txt('no');
 		$data['participated'] = $data['participated'] ? 
 			$this->lng->txt('yes') : 
 			$this->lng->txt('no');		
+		
 		return $data;
 	}
 	
