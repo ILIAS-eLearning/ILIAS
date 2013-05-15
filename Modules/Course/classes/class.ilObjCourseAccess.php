@@ -153,7 +153,7 @@ class ilObjCourseAccess extends ilObjectAccess
 	function _getCommands()
 	{
 		$commands = array();
-		$commands[] = array("permission" => "join", "cmd" => "", "lang_var" => "view", "default" => true);
+		$commands[] = array("permission" => "crs_linked", "cmd" => "", "lang_var" => "view", "default" => true);
 
 		include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
 		if(ilFMSettings::getInstance()->isEnabled())
