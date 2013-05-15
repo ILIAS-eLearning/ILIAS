@@ -127,21 +127,26 @@ class ilRoleXmlImporter
 		{
 			foreach($sxml_operations as $sxml_op)
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': New operation for group '. (string) $sxml_op['group']);
-				$GLOBALS['ilLog']->write(__METHOD__.': New operation '.trim((string) $sxml_op));
-				$GLOBALS['ilLog']->write(__METHOD__.': New operation '. $operations[trim((string) $sxml_op)]);
-
-				if(!strlen(trim((string) $sxml_op)))
+				$ops_group = (string) $sxml_op['group'];
+				$ops_id = (int) $operations[trim((string) $sxml_op)];
+				$ops = trim((string) $sxml_op);
+				
+				if($ops_group and $ops_id)
 				{
-					continue;
+					$rbacadmin->setRolePermission(
+						$this->getRole()->getId(),
+						$ops_group,
+						array($ops_id),
+						$this->getRoleFolderId() // #10161
+					);
 				}
-
-				$rbacadmin->setRolePermission(
-					$this->getRole()->getId(),
-					trim((string) $sxml_op['group']),
-					array($operations[trim((string) $sxml_op)]),
-					$this->getRoleFolderId() // #10161
-				);
+				else
+				{
+					$GLOBALS['ilLog']->write(__METHOD__.': Cannot create operation for...');
+					$GLOBALS['ilLog']->write(__METHOD__.': New operation for group '. $ops_group);
+					$GLOBALS['ilLog']->write(__METHOD__.': New operation '.$ops);
+					$GLOBALS['ilLog']->write(__METHOD__.': New operation '. $ops_id);
+				}
 
 			}
 		}
