@@ -15418,3 +15418,18 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
         }
 }
 ?>
+<#3900>
+<?php
+
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');	
+	$glo_type_id = ilDBUpdateNewObjectType::getObjectTypeId('glo');
+	if($glo_type_id)
+	{
+		$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_content');
+		if($ops_id)
+		{
+			ilDBUpdateNewObjectType::addRBACOperation($glo_type_id, $ops_id);
+		}
+	}
+	
+?>
