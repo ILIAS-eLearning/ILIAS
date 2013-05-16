@@ -13285,3 +13285,4 @@ crs#:#event_list_registered_only#:#Only Registered Members
 didactic#:#didactic_default_type#:#Default
 pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following objects from your personal desktop?
 pd#:#pd_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
+pd#:#pd_min_one_admin#:#There has to be at least one administrator assigned to this object.

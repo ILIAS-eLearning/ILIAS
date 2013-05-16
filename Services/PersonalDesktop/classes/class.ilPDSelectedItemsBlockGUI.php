@@ -1509,14 +1509,59 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	
 	public function confirmedUnsubscribe()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess, $ilUser;
 		
 		if(!sizeof($_POST["ref_id"]))
 		{
 			$ilCtrl->redirect($this, "manage");
+		}		
+		
+		foreach($_POST["ref_id"] as $ref_id)
+		{
+			if($ilAccess->checkAccess("leave", "", $ref_id))
+			{
+				switch(ilObject::_lookupType($ref_id, true))
+				{
+					case "crs":
+						// see ilObjCourseGUI:performUnsubscribeObject()		
+						include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+						$members = new ilCourseParticipants(ilObject::_lookupObjId($ref_id));
+						$members->delete($ilUser->getId());
+						
+						$members->sendUnsubscribeNotificationToAdmins($ilUser->getId());
+						$members->sendNotification(
+							$members->NOTIFY_UNSUBSCRIBE,
+							$ilUser->getId()
+						);
+						break;
+					
+					case "grp":
+						// see ilObjGroupGUI:performUnsubscribeObject()		
+						include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+						$members = new ilGroupParticipants(ilObject::_lookupObjId($ref_id));
+						$members->delete($ilUser->getId());		
+						
+						include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+						$members->sendNotification(
+							ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
+							$ilUser->getId()
+						);
+						$members->sendNotification(
+							ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,
+							$ilUser->getId()
+						);
+						break;
+					
+					default:
+						// do nothing
+						continue;
+				}											
+		
+				include_once './Modules/Forum/classes/class.ilForumNotification.php';
+				ilForumNotification::checkForumsExistsDelete($ref_id, $ilUser->getId());				
+			}
 		}
-			
-		var_dump(":TODO:");
+		
 		
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");

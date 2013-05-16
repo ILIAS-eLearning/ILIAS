@@ -13285,3 +13285,4 @@ crs#:#event_list_registered_only#:#Nur angemeldete Mitglieder
 didactic#:#didactic_default_type#:#Standard
 pd#:#pd_info_delete_sure_remove#:#Wollen Sie wirklich die folgenden Objekte vom Persönlichen Schreibtisch entfernen?
 pd#:#pd_info_delete_sure_unsubscribe#:#Wollen Sie sich wirklich aus den folgenden Objekten abmelden?
+pd#:#pd_min_one_admin#:#Diesem Objekt muß mindestens ein Administrator zugeordnet bleiben.
