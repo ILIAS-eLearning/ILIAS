@@ -913,6 +913,10 @@ class ilObjectGUI
 					'dtpl_'.ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId())
 				);
 			}
+			else
+			{
+				$type->setValue('dtpl_0');
+			}
 			$form->addItem($type);		
 
 			ilUtil::sortArray($options, 0);
