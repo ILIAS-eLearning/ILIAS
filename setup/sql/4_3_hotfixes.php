@@ -290,3 +290,13 @@ while($row = $ilDB->fetchAssoc($set))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#13>
+<?php
+	$setting = new ilSetting();
+	$ilfrmthri2 = $setting->get('ilfrmthri2');
+	if(!$ilfrmthri2)
+	{
+		$ilDB->addIndex('frm_threads', array('thr_top_fk'), 'i2');
+		$setting->set('ilfrmthri2', 1);
+	}
+?>
