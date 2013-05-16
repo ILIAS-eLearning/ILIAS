@@ -46,7 +46,12 @@ class ilCourseExporter extends ilXmlExporter
 	{
 		include_once './Services/Export/classes/class.ilExportOptions.php';
 		$eo = ilExportOptions::getInstance();
-		
+
+		$obj_id = end($a_ids);
+		if($eo->getOption(ilExportOptions::KEY_ROOT) != $obj_id)
+		{
+			return array();
+		}
 		if(count(ilExportOptions::getInstance()->getSubitemsForExport()) > 1)
 		{
 			return array(
