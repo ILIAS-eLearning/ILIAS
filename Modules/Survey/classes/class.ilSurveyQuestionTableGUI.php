@@ -78,6 +78,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.il_svy_svy_question_table.html", "Modules/Survey");
+		
+		$this->setShowRowsSelector(true);
 
 		$this->importData();
 	}

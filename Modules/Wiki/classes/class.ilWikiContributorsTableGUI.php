@@ -55,6 +55,8 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), "saveGrading"));
 		$this->addMultiCommand("saveGrading", $lng->txt("save"));
 		
+		$this->setShowRowsSelector(true);
+		
 		$this->setTitle($lng->txt("wiki_contributors"));
 	}
 	

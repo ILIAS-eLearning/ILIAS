@@ -48,6 +48,8 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
+		
+		$this->setShowRowsSelector(true);
 
 		if($this->roleAssignmentEditable)
 		{
@@ -105,14 +107,16 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 			$this->getRoleId()
 			);
 		
+		/*
 		if($rbacreview->isAssigned(SYSTEM_USER_ID, $this->getRoleId()))
 		{
 			$this->setMaxCount($usr_data["cnt"] - 1);
 		}
 		else
 		{
+		*/		 
 			$this->setMaxCount($usr_data["cnt"]);
-		}
+		// }
 		$this->setData($usr_data["set"]);
 	}
 	
@@ -144,11 +148,11 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 		$actions->setListTitle($lng->txt('actions'));
 		$actions->setId($user['usr_id']);
         
-		#$link_contact = ilMailFormCall::getLinkTarget(
-        #    $this->topGuiObj, 'frameset',
-        #    array('fr' => rawurlencode(base64_encode($ilCtrl->getLinkTarget($this->getParentObject(), 'userassignment', '', false, false)))),
-        #    array('type' => 'new', 'rcp_to' => urlencode($user['login']))
-        #);
+		$link_contact = ilMailFormCall::getLinkTarget(
+            $this->getParentObject(), $this->getParentCmd(),
+            array('fr' => rawurlencode(base64_encode($ilCtrl->getLinkTarget($this->getParentObject(), 'userassignment', '', false, false)))),
+            array('type' => 'new', 'rcp_to' => urlencode($user['login']))
+        );
 		$actions->addItem(
 			$lng->txt('message'),
 			'',

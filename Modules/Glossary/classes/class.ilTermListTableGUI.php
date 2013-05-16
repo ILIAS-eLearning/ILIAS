@@ -47,6 +47,8 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->addMultiCommand("confirmTermDeletion", $lng->txt("delete"));
 		$this->addMultiCommand("addDefinition", $lng->txt("cont_add_definition"));
 		
+		$this->setShowRowsSelector(true);
+		
 		$this->initFilter();
 		$this->setData($this->glossary->getTermList($this->filter["term"], "",
 			$this->filter["definition"], 0, true));

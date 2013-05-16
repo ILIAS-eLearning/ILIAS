@@ -73,6 +73,8 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		
 		$this->setDefaultOrderField('username');
+		
+		$this->setShowRowsSelector(true);
 
 		$this->enable('header');
 		$this->disable('select_all');

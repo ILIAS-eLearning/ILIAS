@@ -95,6 +95,8 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		
+		$this->setShowRowsSelector(true);
+		
 		$this->enable('sort');
 		$this->enable('header');
 		$this->enable('select_all');

@@ -166,6 +166,8 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setEnableTitle(true);
 		$this->initFilter();
+		
+		$this->setShowRowsSelector(true);
 			
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		$this->enable_certificates = ilCertificate::isActive();		
@@ -449,7 +451,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		{
 			$usr_ids[] = $user['usr_id'];
 		}
-
+		
 		// merge course data
 		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,$this->type == 'admin');
 		$a_user_data = array();

@@ -84,6 +84,8 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 		$this->setPrefix($mode['tableprefix']);
 		$this->setSelectAllCheckbox($mode["checkbox"].'[]');
 		$this->setRowTemplate('tpl.mail_search_courses_row.html', 'Services/Contact');
+		
+		$this->setShowRowsSelector(true);
 
 		// setup columns
 		$this->addColumn('', '', '1px', true);

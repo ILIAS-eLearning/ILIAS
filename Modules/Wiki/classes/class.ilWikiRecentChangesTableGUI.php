@@ -51,6 +51,8 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 			"Modules/Wiki");
 		$this->getRecentChanges();
 		
+		$this->setShowRowsSelector(true);
+		
 		$this->setTitle($lng->txt("wiki_recent_changes"));
 	}
 	

@@ -102,6 +102,8 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		$this->setPrefix('chbUser');
 		$this->setSelectAllCheckbox('chbUser');
 		
+		$this->setShowRowsSelector(true);
+		
 		$this->enable('header');
 		$this->enable('sort');
 		$this->enable('select_all');
