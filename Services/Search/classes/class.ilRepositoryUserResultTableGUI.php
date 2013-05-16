@@ -43,7 +43,9 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
 		$this->enable('select_all');
-		$this->setSelectAllCheckbox("user[]");				
+		$this->setSelectAllCheckbox("user[]");	
+		
+		$this->setShowRowsSelector(true);
 	}
 
 	/**

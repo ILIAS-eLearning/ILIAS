@@ -2243,7 +2243,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				{
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 					$alist = new ilAdvancedSelectionListGUI();
-					$alist->setId("sellst_rows");
+					$alist->setId("sellst_rows_".$this->getId());
 					$hpp = ($ilUser->getPref("hits_per_page") != 9999)
 						? $ilUser->getPref("hits_per_page")
 						: $lng->txt("unlimited");

@@ -46,6 +46,8 @@ class ilMediaCastTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_media_cast_row.html",
 			"Modules/MediaCast");
+		
+		$this->setShowRowsSelector(true);
 
 		// this messes up the db ordering, where the id is also taken into
 		// account, if the creation date is the same (this happens e.g. on import)

@@ -59,6 +59,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		{
 			$this->initFilter();
 			$this->setFilterCommand("applyFilter");
+			
+			$this->setShowRowsSelector(true);
 		}
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");

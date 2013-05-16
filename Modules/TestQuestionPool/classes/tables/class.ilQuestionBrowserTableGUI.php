@@ -102,6 +102,8 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		
+		$this->setShowRowsSelector(true);
+		
 		if ($confirmdelete)
 		{
 			$this->disable('sort');

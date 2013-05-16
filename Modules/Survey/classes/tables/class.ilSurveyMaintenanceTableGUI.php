@@ -83,6 +83,8 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("name");
 		$this->setDefaultOrderDirection("asc");
 		
+		$this->setShowRowsSelector(true);
+		
 		if ($confirmdelete)
 		{
 			$this->disable('sort');

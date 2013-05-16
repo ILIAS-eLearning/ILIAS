@@ -66,6 +66,8 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->getPages();
 		
+		$this->setShowRowsSelector(true);
+		
 		switch($this->pg_list_mode)
 		{
 			case IL_WIKI_WHAT_LINKS_HERE:
