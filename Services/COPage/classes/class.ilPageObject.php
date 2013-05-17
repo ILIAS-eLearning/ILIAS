@@ -2690,6 +2690,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// delete all file usages
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
+		
+		// delete all mob usages
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		ilObjMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 
 		// delete news
 		include_once("./Services/News/classes/class.ilNewsItem.php");

@@ -353,6 +353,8 @@ class ilObjPortfolio extends ilObject2
 			$storage->delete();
 			
 			$this->setImage(null);
+			
+			$this->handleQuotaUpdate();
 		}
 	}
 		
@@ -424,6 +426,9 @@ class ilObjPortfolio extends ilObject2
 			ilUtil::execConvert($original_file."[0] -geometry ".$dimensions."! -quality 100 JPEG:".$processed_file);
 			
 			$this->setImage($processed);
+			
+			$this->handleQuotaUpdate();
+			
 			return true;
 		}
 		return false;
@@ -450,6 +455,16 @@ class ilObjPortfolio extends ilObject2
 				$portfolio->delete();								
 			}
 		}
+	}
+	
+	protected function handleQuotaUpdate()
+	{										
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+		ilDiskQuotaHandler::handleUpdatedSourceObject($this->getType(), 
+			$this->getId(),
+			ilUtil::dirsize($this->initStorage($this->id)), 
+			array($this->getId()),
+			true);	
 	}
 }
 

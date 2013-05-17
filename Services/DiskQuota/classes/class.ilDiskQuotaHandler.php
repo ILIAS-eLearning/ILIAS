@@ -19,7 +19,7 @@ class ilDiskQuotaHandler
 	 * @param int $a_src_filesize
 	 * @param array $a_owner_obj_ids
 	 */
-	public static function handleUpdatedSourceObject($a_src_obj_type, $a_src_obj_id, $a_src_filesize, $a_owner_obj_ids = null)
+	public static function handleUpdatedSourceObject($a_src_obj_type, $a_src_obj_id, $a_src_filesize, $a_owner_obj_ids = null, $a_is_prtf = false)
 	{
 		global $ilDB;		
 		
@@ -29,12 +29,22 @@ class ilDiskQuotaHandler
 		{
 			// we are (currently) only interested in personal workspace objects
 		
-			$set = $ilDB->query("SELECT DISTINCT(od.owner)".
-				" FROM object_data od".
-				" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
-				" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
-				" WHERE ".$ilDB->in("od.obj_id", $a_owner_obj_ids, "", "integer").
-				" AND t.tree = od.owner");
+			if(!$a_is_prtf)
+			{
+				$set = $ilDB->query("SELECT DISTINCT(od.owner)".
+					" FROM object_data od".
+					" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
+					" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
+					" WHERE ".$ilDB->in("od.obj_id", $a_owner_obj_ids, "", "integer").
+					" AND t.tree = od.owner");
+			}
+			else
+			{
+				$set = $ilDB->query("SELECT DISTINCT(od.owner)".
+					" FROM object_data od".
+					" JOIN usr_portfolio prtf ON (prtf.id = od.obj_id)".
+					" WHERE ".$ilDB->in("od.obj_id", $a_owner_obj_ids, "", "integer"));
+			}
 			while($row = $ilDB->fetchAssoc($set))
 			{					
 				$done[] = $row["owner"];

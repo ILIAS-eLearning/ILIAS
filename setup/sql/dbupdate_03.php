@@ -15613,3 +15613,74 @@ while($row = $ilDB->fetchAssoc($set))
 }
 
 ?>
+<#3904>
+<?php
+
+$quota_done = array();
+
+function quotaHandleFileStorage($a_type, $a_obj_id, $a_owner_id, $a_dir)
+{	
+	global $ilDB;
+		
+	// see ilFileSystemStorage::_createPathFromId()
+	$tpath = array();
+	$tfound = false;
+	$tnum = $a_obj_id;
+	for($i = 3; $i > 0;$i--)
+	{
+		$factor = pow(100, $i);
+		if(($tmp = (int) ($tnum / $factor)) or $tfound)
+		{
+			$tpath[] = $tmp;
+			$tnum = $tnum % $factor;
+			$tfound = true;
+		}	
+	}
+	
+	$file_path = CLIENT_WEB_DIR."/".$a_dir."/";
+	if(count($tpath))
+	{
+		$file_path .= (implode('/',$tpath).'/');
+	}
+	$file_path .= $a_type."_".$a_obj_id;
+	if(file_exists($file_path))
+	{
+		$file_size = (int)ilUtil::dirsize($file_path);						
+		if($file_size > 0)
+		{		
+			$ilDB->manipulate("INSERT INTO il_disk_quota".
+				" (owner_id, src_type, src_obj_id, src_size)".
+				" VALUES (".$ilDB->quote($a_owner_id, "integer").
+				", ".$ilDB->quote($a_type, "text").
+				", ".$ilDB->quote($a_obj_id, "integer").
+				", ".$ilDB->quote($file_size, "integer").")");		
+		}
+	}
+}
+
+// portfolios
+$set = $ilDB->query("SELECT od.owner, od.obj_id".
+	" FROM object_data od".
+	" JOIN usr_portfolio prtf ON (prtf.id = od.obj_id)".
+	" WHERE od.type = ".$ilDB->quote("prtf", "text").
+	" AND prtf.img IS NOT NULL");
+while($row = $ilDB->fetchAssoc($set))
+{
+	quotaHandleFileStorage("prtf", $row["obj_id"], $row["owner"], "ilPortfolio");
+}
+
+// (workspace) blogs
+$set = $ilDB->query("SELECT od.owner, od.obj_id".
+	" FROM object_data od".
+	" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
+	" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
+	" JOIN il_blog blog ON (blog.id = od.obj_id)".
+	" WHERE od.type = ".$ilDB->quote("blog", "text").
+	" AND blog.img IS NOT NULL".
+	" AND t.tree = od.owner");
+while($row = $ilDB->fetchAssoc($set))
+{			
+	quotaHandleFileStorage("blog", $row["obj_id"], $row["owner"], "ilBlog");
+}	
+
+?>
