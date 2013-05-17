@@ -15443,3 +15443,173 @@ if(!$ilfrmthri2)
 	$setting->set('ilfrmthri2', 1);
 }
 ?>
+<#3902>
+<?php
+
+if(!$ilDB->tableExists('il_disk_quota'))
+{
+	$fields = array (
+		'owner_id' => array ('type' => 'integer', 'length' => 4, 'notnull' => true),
+		'src_type' => array ('type' => 'text', 'length' => 50, 'notnull' => false),
+		'src_obj_id' => array ('type' => 'integer', 'length' => 4, 'notnull' => true),
+		'src_size' => array ('type' => 'integer', 'notnull' => true, 'length' => 4)
+	);
+	$ilDB->createTable('il_disk_quota', $fields);
+	$ilDB->addPrimaryKey('il_disk_quota', array('owner_id', 'src_type', 'src_obj_id'));
+}
+
+?>
+<#3903>
+<?php
+
+$quota_done = array();
+
+function quotaHandleFile($a_obj_id, $a_owner_id)
+{	
+	global $ilDB;
+		
+	// see ilFileSystemStorage::_createPathFromId()
+	$tpath = array();
+	$tfound = false;
+	$tnum = $a_obj_id;
+	for($i = 3; $i > 0;$i--)
+	{
+		$factor = pow(100, $i);
+		if(($tmp = (int) ($tnum / $factor)) or $tfound)
+		{
+			$tpath[] = $tmp;
+			$tnum = $tnum % $factor;
+			$tfound = true;
+		}	
+	}
+	
+	$file_path = ilUtil::getDataDir()."/ilFile/";
+	if(count($tpath))
+	{
+		$file_path .= (implode('/',$tpath).'/');
+	}
+	$file_path .= "file_".$a_obj_id;
+	if(file_exists($file_path))
+	{
+		$file_size = (int)ilUtil::dirsize($file_path);						
+		if($file_size > 0)
+		{		
+			$ilDB->manipulate("INSERT INTO il_disk_quota".
+				" (owner_id, src_type, src_obj_id, src_size)".
+				" VALUES (".$ilDB->quote($a_owner_id, "integer").
+				", ".$ilDB->quote("file", "text").
+				", ".$ilDB->quote($a_obj_id, "integer").
+				", ".$ilDB->quote($file_size, "integer").")");		
+		}
+	}
+}
+
+// get all workspace files
+$set = $ilDB->query("SELECT od.owner, od.obj_id".
+	" FROM object_data od".
+	" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
+	" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
+	" WHERE od.type = ".$ilDB->quote("file", "text").
+	" AND t.tree = od.owner");
+while($row = $ilDB->fetchAssoc($set))
+{			
+	$id = $row["owner"]."-".$row["obj_id"];
+	if(!in_array($id, $quota_done))
+	{
+		quotaHandleFile($row["obj_id"], $row["owner"]);
+	}
+}		
+
+// get all file usage for workspace blogs
+$set = $ilDB->query("SELECT od.owner, fu.id".
+	" FROM object_data od".
+	" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
+	" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
+	" JOIN il_blog_posting blp ON (blp.blog_id = od.obj_id)".
+	" JOIN file_usage fu ON (fu.usage_id = blp.id)".	
+	" WHERE fu.usage_type = ".$ilDB->quote("blp:pg", "text").
+	" AND fu.usage_hist_nr = ".$ilDB->quote(0, "integer"));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$id = $row["owner"]."-".$row["id"];
+	if(!in_array($id, $quota_done))
+	{
+		quotaHandleFile($row["id"], $row["owner"]);
+	}
+}
+
+// get all file usage for portfolios
+$set = $ilDB->query("SELECT od.owner, fu.id".
+	" FROM object_data od".
+	" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
+	" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
+	" JOIN usr_portfolio_page prtf ON (prtf.portfolio_id = od.obj_id)".
+	" JOIN file_usage fu ON (fu.usage_id = prtf.id)".	
+	" WHERE fu.usage_type = ".$ilDB->quote("prtf:pg", "text").
+	" AND fu.usage_hist_nr = ".$ilDB->quote(0, "integer"));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$id = $row["owner"]."-".$row["id"];
+	if(!in_array($id, $quota_done))
+	{
+		quotaHandleFile($row["id"], $row["owner"]);
+	}
+}
+
+function quotaHandleMob($a_obj_id, $a_owner_id)
+{	
+	global $ilDB;
+	
+	$file_path = CLIENT_WEB_DIR."/mobs/mm_".$a_obj_id;	
+	if(file_exists($file_path))
+	{		
+		$file_size = (int)ilUtil::dirsize($file_path);						
+		if($file_size > 0)
+		{		
+			$ilDB->manipulate("INSERT INTO il_disk_quota".
+				" (owner_id, src_type, src_obj_id, src_size)".
+				" VALUES (".$ilDB->quote($a_owner_id, "integer").
+				", ".$ilDB->quote("mob", "text").
+				", ".$ilDB->quote($a_obj_id, "integer").
+				", ".$ilDB->quote($file_size, "integer").")");		
+		}
+	}
+}
+
+// get all mob usage for workspace blogs
+$set = $ilDB->query("SELECT od.owner, mu.id".
+	" FROM object_data od".
+	" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
+	" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
+	" JOIN il_blog_posting blp ON (blp.blog_id = od.obj_id)".
+	" JOIN mob_usage mu ON (mu.usage_id = blp.id)".	
+	" WHERE mu.usage_type = ".$ilDB->quote("blp:pg", "text").
+	" AND mu.usage_hist_nr = ".$ilDB->quote(0, "integer"));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$id = $row["owner"]."-".$row["id"];
+	if(!in_array($id, $quota_done))
+	{
+		quotaHandleMob($row["id"], $row["owner"]);
+	}
+}
+
+// get all mob usage for portfolios
+$set = $ilDB->query("SELECT od.owner, mu.id".
+	" FROM object_data od".
+	" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
+	" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
+	" JOIN usr_portfolio_page prtf ON (prtf.portfolio_id = od.obj_id)".
+	" JOIN mob_usage mu ON (mu.usage_id = prtf.id)".	
+	" WHERE mu.usage_type = ".$ilDB->quote("prtf:pg", "text").
+	" AND mu.usage_hist_nr = ".$ilDB->quote(0, "integer"));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$id = $row["owner"]."-".$row["id"];
+	if(!in_array($id, $quota_done))
+	{
+		quotaHandleMob($row["id"], $row["owner"]);
+	}
+}
+
+?>

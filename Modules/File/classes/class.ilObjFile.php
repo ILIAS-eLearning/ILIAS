@@ -215,6 +215,9 @@ class ilObjFile extends ilObject2
 		$file = $this->getDirectory($this->getVersion())."/".$a_filename;
 		//move_uploaded_file($a_upload_file, $file);
 		ilUtil::moveUploadedFile($a_upload_file, $a_filename, $file, $this->raise_upload_error);
+		
+		
+		$this->handleQuotaUpdate($this);
 	}
 
 	/**
@@ -286,6 +289,8 @@ class ilObjFile extends ilObject2
 			$this->clearDataDirectory();
 		
 			ilHistory::_removeEntriesForObject($this->getId());
+			
+			self::handleQuotaUpdate($this);
 		}
 		else
 		{
@@ -329,7 +334,12 @@ class ilObjFile extends ilObject2
 				$version = reset($versions);
 				$this->updateWithVersion($version);
 			}
-		}
+			else
+			{
+				// updateWithVersion() will trigger quota, too
+				self::handleQuotaUpdate($this);
+			}
+		}				
 	}
 
 	/**
@@ -379,6 +389,8 @@ class ilObjFile extends ilObject2
 			", f_mode = ".$ilDB->quote($this->getMode() ,'text')." ".
 			"WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($q);
+		
+		self::handleQuotaUpdate($this);
 		
 		return true;
 	}
@@ -794,6 +806,8 @@ class ilObjFile extends ilObject2
 		{
 			$this->deleteMetaData();
 		}
+		
+		self::handleQuotaUpdate($this);
 	}
 
 	/**
@@ -825,16 +839,31 @@ class ilObjFile extends ilObject2
 	{
 		global $ilDB;
 		
+		$file_ids = array();
+		$set = $ilDB->query("SELECT id FROM file_usage".
+			" WHERE usage_type = ".$ilDB->quote($a_type, "text").
+			" AND usage_id= ".$ilDB->quote($a_id, "integer").
+			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$file_ids[] = $row["id"];
+		}
+		
 		$ilDB->manipulate("DELETE FROM file_usage WHERE usage_type = ".
 			$ilDB->quote($a_type, "text").
 			" AND usage_id = ".$ilDB->quote((int) $a_id, "integer").
 			" AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer"));
+		
+		foreach($file_ids as $file_id)
+		{
+			self::handleQuotaUpdate(new self($file_id, false));	
+		}
 	}
 
 	/**
 	* save usage
 	*/
-	function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0)
+	function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0)
 	{
 		global $ilDB;
 		
@@ -842,13 +871,15 @@ class ilObjFile extends ilObject2
 			$ilDB->quote((string) $a_type, "text").
 			" AND usage_id = ".$ilDB->quote((int) $a_id, "integer").
 			" AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer").
-			" AND id = ".$ilDB->quote((int) $a_mob_id, "integer"));
+			" AND id = ".$ilDB->quote((int) $a_file_id, "integer"));
 
 		$ilDB->manipulate("INSERT INTO file_usage (id, usage_type, usage_id, usage_hist_nr) VALUES".
-			" (".$ilDB->quote((int) $a_mob_id, "integer").",".
+			" (".$ilDB->quote((int) $a_file_id, "integer").",".
 			$ilDB->quote((string) $a_type, "text").",".
 			$ilDB->quote((int) $a_id, "integer").",".
 			$ilDB->quote((int) $a_usage_hist_nr, "integer").")");
+		
+		self::handleQuotaUpdate(new self($a_file_id, false));		
 	}
 
 	/**
@@ -1198,6 +1229,31 @@ class ilObjFile extends ilObject2
 		
 		return $result;
 	}
-
+	
+	protected static function handleQuotaUpdate(ilObjFile $a_file)
+	{				
+		include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";	
+		$mob = new ilObjMediaObject();
+		
+		// file itself could be workspace item
+		$parent_obj_ids = array($a_file->getId());
+		
+		foreach($a_file->getUsages() as $item)
+		{										
+			$parent_obj_id = $mob->getParentObjectIdForUsage($item);
+			if($parent_obj_id && 
+				!in_array($parent_obj_id, $parent_obj_ids))
+			{					
+				$parent_obj_ids[]= $parent_obj_id;
+			}						
+		}
+		
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+		ilDiskQuotaHandler::handleUpdatedSourceObject($a_file->getType(), 
+			$a_file->getId(),
+			$a_file->getDiskUsage(), 
+			$parent_obj_ids);	
+	}
+	
 } // END class.ilObjFile
 ?>
