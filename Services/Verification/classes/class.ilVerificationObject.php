@@ -240,6 +240,8 @@ abstract class ilVerificationObject extends ilObject2
 
 				$ilDB->insert("il_verification", $fields);
 			}
+			
+			$this->handleQuotaUpdate();
 
 			return true;
 		}
@@ -262,6 +264,8 @@ abstract class ilVerificationObject extends ilObject2
 			include_once "Services/Verification/classes/class.ilVerificationStorageFile.php";
 			$storage = new ilVerificationStorageFile($this->id);
 			$storage->delete();
+			
+			$this->handleQuotaUpdate();
 			
 			$ilDB->manipulate("DELETE FROM il_verification".
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
@@ -304,6 +308,16 @@ abstract class ilVerificationObject extends ilObject2
 	public function getOfflineFilename()
 	{
 		return ilUtil::getASCIIFilename($this->getTitle()).".pdf";		
+	}
+	
+	protected function handleQuotaUpdate()
+	{										
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+		ilDiskQuotaHandler::handleUpdatedSourceObject($this->getType(), 
+			$this->getId(),
+			ilUtil::dirsize($this->initStorage($this->getId())), 
+			array($this->getId()),
+			true);	
 	}
 }
 

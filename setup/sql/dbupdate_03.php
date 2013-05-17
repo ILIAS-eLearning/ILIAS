@@ -15684,3 +15684,59 @@ while($row = $ilDB->fetchAssoc($set))
 }	
 
 ?>
+<#3905>
+<?php
+
+function quotaHandleVerification($a_type, $a_obj_id, $a_owner_id)
+{	
+	global $ilDB;
+		
+	// see ilFileSystemStorage::_createPathFromId()
+	$tpath = array();
+	$tfound = false;
+	$tnum = $a_obj_id;
+	for($i = 3; $i > 0;$i--)
+	{
+		$factor = pow(100, $i);
+		if(($tmp = (int) ($tnum / $factor)) or $tfound)
+		{
+			$tpath[] = $tmp;
+			$tnum = $tnum % $factor;
+			$tfound = true;
+		}	
+	}
+	
+	$file_path = ilUtil::getDataDir()."/ilVerification/";
+	if(count($tpath))
+	{
+		$file_path .= (implode('/',$tpath).'/');
+	}
+	$file_path .= "vrfc_".$a_obj_id;
+	if(file_exists($file_path))
+	{
+		$file_size = (int)ilUtil::dirsize($file_path);						
+		if($file_size > 0)
+		{		
+			$ilDB->manipulate("INSERT INTO il_disk_quota".
+				" (owner_id, src_type, src_obj_id, src_size)".
+				" VALUES (".$ilDB->quote($a_owner_id, "integer").
+				", ".$ilDB->quote($a_type, "text").
+				", ".$ilDB->quote($a_obj_id, "integer").
+				", ".$ilDB->quote($file_size, "integer").")");		
+		}
+	}
+}
+
+// (workspace) verifications
+$set = $ilDB->query("SELECT od.owner, od.obj_id, od.type".
+	" FROM object_data od".
+	" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
+	" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
+	" WHERE ".$ilDB->in("od.type", array("tstv", "excv"), "", "text").
+	" AND t.tree = od.owner");
+while($row = $ilDB->fetchAssoc($set))
+{			
+	quotaHandleVerification($row["type"], $row["obj_id"], $row["owner"]);
+}
+
+?>
