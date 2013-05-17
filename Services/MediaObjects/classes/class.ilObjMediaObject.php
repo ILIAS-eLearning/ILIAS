@@ -119,7 +119,11 @@ class ilObjMediaObject extends ilObject
 
 			// delete media items
 			ilMediaItem::deleteAllItemsOfMob($this->getId());
-
+			
+			// this is just to make sure, there should be no entries left at 
+			// this point as they depend on the usage
+			self::handleQuotaUpdate($this);			
+					
 			// delete object
 			parent::delete();
 		}
@@ -449,6 +453,7 @@ class ilObjMediaObject extends ilObject
 			}
 		}
 
+		self::handleQuotaUpdate($this);		
 	}
 
 
@@ -458,10 +463,12 @@ class ilObjMediaObject extends ilObject
 	function update($a_upload=false)
 	{
 		parent::update();
+		
 		if(!$a_upload)
-	{
-		$this->updateMetaData();
+		{
+			$this->updateMetaData();
 		}
+		
 		ilMediaItem::deleteAllItemsOfMob($this->getId());
 
 		// iterate all items
@@ -482,6 +489,33 @@ class ilObjMediaObject extends ilObject
 				$j++;
 			}
 		}
+		
+		self::handleQuotaUpdate($this);		
+	}
+	
+	protected static function handleQuotaUpdate(ilObjMediaObject $a_mob)
+	{				
+		$parent_obj_ids = array();
+		foreach($a_mob->getUsages() as $item)
+		{										
+			$parent_obj_id = $a_mob->getParentObjectIdForUsage($item);
+			if($parent_obj_id && 
+				!in_array($parent_obj_id, $parent_obj_ids))
+			{					
+				$parent_obj_ids[]= $parent_obj_id;
+			}						
+		}
+		
+		// we could suppress this if object is present in a (repository) media pool
+		// but this would lead to "quota-breaches" when the pool item is deleted
+		// and "suddenly" all workspace owners get filesize added to their
+		// respective quotas, regardless of current status
+		
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+		ilDiskQuotaHandler::handleUpdatedSourceObject($a_mob->getType(), 
+			$a_mob->getId(),
+			ilUtil::dirSize($a_mob->getDataDirectory()), 
+			$parent_obj_ids);					
 	}
 
 	/**
@@ -919,11 +953,26 @@ class ilObjMediaObject extends ilObject
 	{
 		global $ilDB;
 		
+		$mob_ids = array();
+		$set = $ilDB->query("SELECT id FROM mob_usage".
+			" WHERE usage_type = ".$ilDB->quote($a_type, "text").
+			" AND usage_id= ".$ilDB->quote($a_id, "integer").
+			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$mob_ids[] = $row["id"];
+		}
+		
 		$q = "DELETE FROM mob_usage WHERE usage_type = ".
 			$ilDB->quote($a_type, "text").
 			" AND usage_id= ".$ilDB->quote($a_id, "integer").
 			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
 		$ilDB->manipulate($q);
+		
+		foreach($mob_ids as $mob_id)
+		{
+			self::handleQuotaUpdate(new self($mob_id));	
+		}
 	}
 
 	/**
@@ -969,6 +1018,8 @@ class ilObjMediaObject extends ilObject
 			$ilDB->quote((int) $a_id, "integer").",".
 			$ilDB->quote((int) $a_usage_hist_nr, "integer").")";
 		$ilDB->manipulate($q);
+		
+		self::handleQuotaUpdate(new self($a_mob_id));		
 	}
 
 	/**
@@ -984,6 +1035,8 @@ class ilObjMediaObject extends ilObject
 			" usage_id = ".$ilDB->quote((int) $a_id, "integer")." AND ".
 			" usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer");
 		$ilDB->manipulate($q);
+		
+		self::handleQuotaUpdate(new self($a_mob_id));	
 	}
 
 	/**
@@ -1392,7 +1445,7 @@ class ilObjMediaObject extends ilObject
 	
 	function getDataDirectory()
 	{
-		return ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
+		return ilUtil::getWebspaceDir()."/mobs/mm_".$this->getId();
 	}
 
 	/**

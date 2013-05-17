@@ -1373,6 +1373,10 @@ class ilObjUser extends ilObject
 		$tree = new ilWorkspaceTree($this->getId());
 		$tree->cascadingDelete();
 		
+		// remove disk quota entries
+		include_once "./Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+		ilDiskQuotaHandler::deleteByOwner($this->getId());
+		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
 		
