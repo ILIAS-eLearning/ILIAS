@@ -462,7 +462,7 @@ class ilObjPortfolio extends ilObject2
 		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
 		ilDiskQuotaHandler::handleUpdatedSourceObject($this->getType(), 
 			$this->getId(),
-			ilUtil::dirsize($this->initStorage($this->id)), 
+			ilUtil::dirsize($this->initStorage($this->getId())), 
 			array($this->getId()),
 			true);	
 	}
