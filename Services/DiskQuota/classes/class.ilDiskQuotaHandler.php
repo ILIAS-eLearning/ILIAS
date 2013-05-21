@@ -280,7 +280,7 @@ class ilDiskQuotaHandler
 			sprintf($lng->txt("personal_workspace_quota_status_legend"), 
 				ilFormat::formatSize($usage), 
 				ilFormat::formatSize($quota), 
-				round($usage/$quota*100)).
+				$quota ? round($usage/$quota*100) : 0).
 			"</div>";
 	}
 }
