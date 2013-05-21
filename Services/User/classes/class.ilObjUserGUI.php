@@ -873,6 +873,11 @@ class ilObjUserGUI extends ilObjectGUI
 				// set disk quota
 				$this->object->setPref("disk_quota", $_POST["disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
 			}
+			if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
+			{
+				// set personal workspace disk quota
+				$this->object->setPref("wsp_disk_quota", $_POST["wsp_disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+			}
 
 			if($this->isSettingChangeable('skin_style'))
 			{
@@ -1007,6 +1012,10 @@ class ilObjUserGUI extends ilObjectGUI
 		if (ilDiskQuotaActivationChecker::_isActive())
 		{
 			$data["disk_quota"] = $this->object->getDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+		}
+		if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
+		{
+			$data["wsp_disk_quota"] = $this->object->getPersonalWorkspaceDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
 		}
 		// W. Randelshofer 2008-09-09: Deactivated display of disk space usage,
 		// because determining the disk space usage may take several minutes.
@@ -1309,7 +1318,43 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 			}
 		}
-
+		
+		if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
+		{
+			$lng->loadLanguageModule("file");
+			
+			// personal workspace disk quota
+			$wsp_disk_quota = new ilTextInputGUI($lng->txt("personal_workspace_disk_quota"), "wsp_disk_quota");
+			$wsp_disk_quota->setSize(10);
+			$wsp_disk_quota->setMaxLength(11);
+			$wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc"));
+			$this->form_gui->addItem($wsp_disk_quota);
+			
+			if ($a_mode == "edit")
+			{
+				// show which disk quota is in effect, and explain why
+				require_once 'Services/WebDAV/classes/class.ilDiskQuotaChecker.php';
+				$dq_info = ilDiskQuotaChecker::_lookupPersonalWorkspaceDiskQuota($this->object->getId());
+				if ($dq_info['user_wsp_disk_quota'] > $dq_info['role_wsp_disk_quota'])
+				{
+					$info_text = sprintf($lng->txt('disk_quota_is_1_instead_of_2_by_3'),
+						ilFormat::formatSize($dq_info['user_wsp_disk_quota'],'short'),
+						ilFormat::formatSize($dq_info['role_wsp_disk_quota'],'short'),
+						$dq_info['role_title']);
+				}
+				else if (is_infinite($dq_info['role_wsp_disk_quota']))
+				{
+					$info_text = sprintf($lng->txt('disk_quota_is_unlimited_by_1'), $dq_info['role_title']);
+				}
+				else
+				{
+					$info_text = sprintf($lng->txt('disk_quota_is_1_by_2'),
+						ilFormat::formatSize($dq_info['role_wsp_disk_quota'],'short'),
+						$dq_info['role_title']);
+				}
+				$wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc").'<br>'.$info_text);
+			}
+		}
          
 		// personal data
 		if(

@@ -35,6 +35,7 @@ class ilDiskQuotaActivationChecker
 	private static $isActive;
 	private static $isReminderMailActive;
 	private static $isSummaryMailActive;
+	private static $isWspActive;
 
    	/**
 	* Static getter. Returns true, if disk quota is active.
@@ -90,6 +91,25 @@ class ilDiskQuotaActivationChecker
 		}
 
 		return self::$isSummaryMailActive;
+	}
+	
+	/**
+	* Static getter. Returns true, if personal workspace disk quota is active.
+	*
+	* Disk quota is active if the variable "wsp_enabled"
+	* is set in ilSetting('disk_quota')
+	*
+	* @return	boolean	value
+	*/
+	public static function _isPersonalWorkspaceActive()
+	{
+		if (self::$isWspActive == null)
+		{
+			$settings = new ilSetting('disk_quota');
+			self::$isWspActive = $settings->get('wsp_enabled') == true;
+		}
+
+		return self::$isWspActive;
 	}
 }
 ?>

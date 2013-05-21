@@ -33,6 +33,7 @@ class ilObjRole extends ilObject
 	
 	/** The disk quota in bytes */
 	var $disk_quota;
+	var $wsp_disk_quota;
 
 	/**
 	* Constructor
@@ -44,6 +45,7 @@ class ilObjRole extends ilObject
 	{
 		$this->type = "role";
 		$this->disk_quota = 0;
+		$this->wsp_disk_quota = 0;
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 	
@@ -132,6 +134,7 @@ class ilObjRole extends ilObject
 		$this->setAllowRegister($a_data["allow_register"]);
 		$this->toggleAssignUsersStatus($a_data['assign_users']);
 		$this->setDiskQuota($a_data['disk_quota']);
+		$this->setPersonalWorkspaceDiskQuota($a_data['wsp_disk_quota']);
 	}
 
 	/**
@@ -145,7 +148,8 @@ class ilObjRole extends ilObject
 		$query = "UPDATE role_data SET ".
 			"allow_register= ".$ilDB->quote($this->allow_register,'integer').", ".
 			"assign_users = ".$ilDB->quote($this->getAssignUsersStatus(),'integer').", ".
-			"disk_quota = ".$ilDB->quote($this->getDiskQuota(),'integer')." ".
+			"disk_quota = ".$ilDB->quote($this->getDiskQuota(),'integer').", ".
+			"wsp_disk_quota = ".$ilDB->quote($this->getPersonalWorkspaceDiskQuota(),'integer')." ".
 			"WHERE role_id= ".$ilDB->quote($this->id,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
@@ -170,12 +174,13 @@ class ilObjRole extends ilObject
 		$this->id = parent::create();
 
 		$query = "INSERT INTO role_data ".
-			"(role_id,allow_register,assign_users,disk_quota) ".
+			"(role_id,allow_register,assign_users,disk_quota,wsp_disk_quota) ".
 			"VALUES ".
 			"(".$ilDB->quote($this->id,'integer').",".
 			$ilDB->quote($this->getAllowRegister(),'integer').",".
 			$ilDB->quote($this->getAssignUsersStatus(),'integer').",".
-			$ilDB->quote($this->getDiskQuota(),'integer').")"
+			$ilDB->quote($this->getDiskQuota(),'integer').",".
+			$ilDB->quote($this->getPersonalWorkspaceDiskQuota(),'integer').")"
 			;
 		$res = $ilDB->query($query);
 
@@ -235,6 +240,35 @@ class ilObjRole extends ilObject
 	{
 		return $this->disk_quota;
 	}
+	
+	
+	/**
+	* Sets the minimal personal workspace disk quota imposed by this role.
+    *
+    * The minimal disk quota is specified in bytes.
+	*
+	* @access	public
+	* @param	integer 
+	*/
+	function setPersonalWorkspaceDiskQuota($a_disk_quota)
+	{
+		$this->wsp_disk_quota = $a_disk_quota;
+	}
+
+	/**
+	* Gets the minimal personal workspace disk quota imposed by this role.
+    *
+    * Returns the minimal disk quota in bytes.
+	* The default value is 0.
+	*
+	* @access	public
+	* @return	integer
+	*/
+	function getPersonalWorkspaceDiskQuota()
+	{
+		return $this->wsp_disk_quota;
+	}
+	
 	/**
 	* get all roles that are activated in user registration
 	*

@@ -515,6 +515,15 @@ class ilObjRoleGUI extends ilObjectGUI
 			$quo->setInfo($this->lng->txt('enter_in_mb_desc').'<br />'.$this->lng->txt('disk_quota_on_role_desc'));
 			$this->form->addItem($quo);
 		}
+		if(ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
+		{
+			$this->lng->loadLanguageModule("file");
+			$wquo = new ilNumberInputGUI($this->lng->txt('personal_workspace_disk_quota'),'wsp_disk_quota');
+			$wquo->setMinValue(0);
+			$wquo->setSize(4);
+			$wquo->setInfo($this->lng->txt('enter_in_mb_desc').'<br />'.$this->lng->txt('disk_quota_on_role_desc'));
+			$this->form->addItem($wquo);
+		}
 			
 		return true;
 	}
@@ -531,6 +540,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$role->setAllowRegister($this->form->getInput('reg'));
 		$role->toggleAssignUsersStatus($this->form->getInput('la'));
 		$role->setDiskQuota($this->form->getInput('disk_quota') * pow(ilFormat::_getSizeMagnitude(),2));
+		$role->setPersonalWorkspaceDiskQuota($this->form->getInput('wsp_disk_quota') * pow(ilFormat::_getSizeMagnitude(),2));
 		return true;
 	}
 	
@@ -552,6 +562,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		if(ilDiskQuotaActivationChecker::_isActive())
 		{
 			$data['disk_quota'] = $role->getDiskQuota() / (pow(ilFormat::_getSizeMagnitude(),2));
+		}
+		if(ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
+		{
+			$data['wsp_disk_quota'] = $role->getPersonalWorkspaceDiskQuota() / (pow(ilFormat::_getSizeMagnitude(),2));		
 		}
 		$data['pro'] = $rbacreview->isProtected($this->rolf_ref_id, $role->getId());
 		

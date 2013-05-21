@@ -382,6 +382,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		require_once("./Services/Form/classes/class.ilRadioOption.php");
 		require_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
 		require_once("./Services/WebDAV/classes/class.ilDAVServer.php");
+		
+		$lng->loadLanguageModule("file");
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
@@ -415,6 +417,15 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$summary_rcpt->setInfo($lng->txt('disk_quota_summary_rctp_desc'));
 		$cb_prop_summary->addSubItem($summary_rcpt);
 		
+		
+		// Enable disk quota
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_personal_workspace_disk_quota"), "enable_personal_workspace_disk_quota");
+		$cb_prop->setValue('1');
+		$cb_prop->setChecked($this->disk_quota_obj->isPersonalWorkspaceDiskQuotaEnabled());
+		$cb_prop->setInfo($lng->txt('enable_personal_workspace_disk_quota_info'));
+		$form->addItem($cb_prop);
+		
+		
 		// command buttons
 		$form->addCommandButton('saveDiskQuotaSettings', $lng->txt('save'));
 		$form->addCommandButton('editDiskQuotaSettings', $lng->txt('cancel'));
@@ -438,6 +449,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->disk_quota_obj->setDiskQuotaReminderMailEnabled($_POST['enable_disk_quota_reminder_mail'] == '1');
 		$this->disk_quota_obj->isDiskQuotaSummaryMailEnabled($_POST['enable_disk_quota_summary_mail'] == '1');
 		$this->disk_quota_obj->setSummaryRecipients(ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
+		$this->disk_quota_obj->setPersonalWorkspaceDiskQuotaEnabled($_POST['enable_personal_workspace_disk_quota'] == '1');
 		$this->disk_quota_obj->update();
 
 

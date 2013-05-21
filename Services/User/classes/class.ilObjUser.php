@@ -2001,6 +2001,11 @@ class ilObjUser extends ilObject
 	{
 		 return $this->prefs["disk_quota"] ? $this->prefs["disk_quota"] : 0;
 	}
+	
+	function getPersonalWorkspaceDiskQuota()
+	{
+		 return $this->prefs["wsp_disk_quota"] ? $this->prefs["wsp_disk_quota"] : 0;
+	}
 
 	public function setLastPasswordChangeTS($a_last_password_change_ts)
 	{
