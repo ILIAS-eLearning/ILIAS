@@ -168,8 +168,19 @@ class ilObjFileGUI extends ilObject2GUI
 	}
 	
 	protected function initCreationForms()
-	{
-		$forms = array();
+	{				
+		$forms = array();		
+			
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+			if(!ilDiskQuotaHandler::isUploadPossible())
+			{				
+				$this->lng->loadLanguageModule("file");
+				ilUtil::sendFailure($this->lng->txt("personal_workspace_quota_exceeded_warning"), true);
+				$this->ctrl->redirect($this, "cancel");
+			}
+		}
 		
 		// use drag-and-drop upload if configured
 		require_once("Services/FileUpload/classes/class.ilFileUploadSettings.php");
@@ -182,12 +193,12 @@ class ilObjFileGUI extends ilObject2GUI
 			$forms[] = $this->initSingleUploadForm();
 			$forms[] = $this->initZipUploadForm();
 		}
-		
+
 		// repository only
 		if($this->id_type != self::WORKSPACE_NODE_ID)
 		{
 			$forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, "file");		
-		}
+		}			
 		
 		return $forms;
 	}
@@ -594,24 +605,40 @@ class ilObjFileGUI extends ilObject2GUI
 		$title->setInfo($this->lng->txt("if_no_title_then_filename"));
 		$form->addItem($title);
 		
-		$file = new ilFileInputGUI($this->lng->txt('obj_file'),'file');
-		$file->setRequired(false);
-//		$file->enableFileNameSelection('title');
-		$form->addItem($file);
+		$upload_possible = false;
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+			$upload_possible = ilDiskQuotaHandler::isUploadPossible();			
+		}
 		
-		$group = new ilRadioGroupInputGUI('','replace');
-		$group->setValue(0);
+		if($upload_possible)
+		{
+			$file = new ilFileInputGUI($this->lng->txt('obj_file'),'file');
+			$file->setRequired(false);
+	//		$file->enableFileNameSelection('title');
+			$form->addItem($file);
 
-		$replace = new ilRadioOption($this->lng->txt('replace_file'),1);
-		$replace->setInfo($this->lng->txt('replace_file_info'));
-		$group->addOption($replace);
+			$group = new ilRadioGroupInputGUI('','replace');
+			$group->setValue(0);
+
+			$replace = new ilRadioOption($this->lng->txt('replace_file'),1);
+			$replace->setInfo($this->lng->txt('replace_file_info'));
+			$group->addOption($replace);
 
 
-		$keep = new ilRadioOption($this->lng->txt('file_new_version'),0);
-		$keep->setInfo($this->lng->txt('file_new_version_info'));
-		$group->addOption($keep);
-		
-		$file->addSubItem($group);
+			$keep = new ilRadioOption($this->lng->txt('file_new_version'),0);
+			$keep->setInfo($this->lng->txt('file_new_version_info'));
+			$group->addOption($keep);
+
+			$file->addSubItem($group);
+		}
+		else
+		{			
+			$file = new ilNonEditableValueGUI($this->lng->txt('obj_file'));
+			$file->setValue($this->lng->txt("personal_workspace_quota_exceeded_warning"));
+			$form->addItem($file);
+		}
 			
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'description');
 		$desc->setRows(3);

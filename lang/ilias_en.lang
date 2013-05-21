@@ -13290,3 +13290,5 @@ file#:#enable_personal_workspace_disk_quota#:#Activate Personal Workspace Disk Q
 file#:#enable_personal_workspace_disk_quota_info#:#Allows to specify a hard disk quota for each user account and each global role. It only affects the personal workspace including portfolios.
 file#:#personal_workspace_disk_quota#:#Disk Quota for Personal Workspace
 file#:#repository_disk_quota#:#Repository Disk Quota
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
+file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk Quota von %2$s (%3$d%%).

@@ -19,6 +19,8 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	protected $pending;
 	protected $allow_deletion;
 	
+	static protected $check_wsp_quota;
+	
 	/**
 	* Constructor
 	*
@@ -318,8 +320,19 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	*/
 	function render($a_mode = "")
 	{
-		global $lng;
+		global $lng;		
 		
+		$quota_exceeded = false;
+		if(self::$check_wsp_quota)
+		{
+			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+			if(!ilDiskQuotaHandler::isUploadPossible())
+			{
+				$lng->loadLanguageModule("file");
+				$quota_exceeded = $lng->txt("personal_workspace_quota_exceeded_warning");			
+			}
+		}
+				
 		$f_tpl = new ilTemplate("tpl.prop_file.html", true, true, "Services/Form");
 		
 		
@@ -354,12 +367,25 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
 		if ($a_mode != "toolbar")
 		{
-			$this->outputSuffixes($f_tpl);
-		
-			$f_tpl->setCurrentBlock("max_size");
-			$f_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
-				$this->getMaxFileSizeString());
-			$f_tpl->parseCurrentBlock();
+			if(!$quota_exceeded)
+			{
+				$this->outputSuffixes($f_tpl);
+
+				$f_tpl->setCurrentBlock("max_size");
+				$f_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
+					$this->getMaxFileSizeString());
+				$f_tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$f_tpl->setCurrentBlock("max_size");
+				$f_tpl->setVariable("TXT_MAX_SIZE", $quota_exceeded);
+				$f_tpl->parseCurrentBlock();
+			}
+		}
+		else if($quota_exceeded)
+		{
+			return $quota_exceeded;
 		}
 
 		$pending = $this->getPending();
@@ -369,6 +395,12 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 			$f_tpl->setVariable("TXT_PENDING", $lng->txt("file_upload_pending").
 				": ".$pending);
 			$f_tpl->parseCurrentBlock();
+		}
+		
+		if ($this->getDisabled() || $quota_exceeded)
+		{
+			$f_tpl->setVariable("DISABLED",
+				" disabled=\"disabled\"");
 		}
 			
 		$f_tpl->setVariable("POST_VAR", $this->getPostVar());
@@ -459,4 +491,18 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		$html = $this->render("toolbar");
 		return $html;
 	}	
+	
+	function setPersonalWorkspaceQuotaCheck($a_value)
+	{
+		if((bool)$a_value)
+		{
+			include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
+			if(ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
+			{
+				self::$check_wsp_quota = true;
+				return;
+			}			
+		}
+		self::$check_wsp_quota = false;
+	}
 }

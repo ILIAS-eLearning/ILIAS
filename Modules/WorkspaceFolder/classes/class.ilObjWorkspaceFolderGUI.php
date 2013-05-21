@@ -126,10 +126,17 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		ilObjectListGUI::prepareJsLinks("",
 			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 
 			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
+		
+		$legend = "";
+		if(get_class($this) == "ilObjWorkspaceRootFolderGUI")
+		{
+			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+			$legend = ilDiskQuotaHandler::getStatusLegend();
+		}
 
 		include_once "Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderTableGUI.php";
 		$table = new ilObjWorkspaceFolderTableGUI($this, "render", $this->node_id, $this->getAccessHandler());
-		$tpl->setContent($table->getHTML());
+		$tpl->setContent($table->getHTML().$legend);
 
 		include_once "Modules/WorkspaceFolder/classes/class.ilWorkspaceFolderExplorer.php";
 		$exp = new ilWorkspaceFolderExplorer($this->ctrl->getLinkTarget($this), $ilUser->getId());

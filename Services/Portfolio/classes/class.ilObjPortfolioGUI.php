@@ -115,7 +115,10 @@ class ilObjPortfolioGUI
 				}
 				break;
 			
-			case 'ilportfoliopagegui':
+			case 'ilportfoliopagegui':										
+				include_once "Services/Form/classes/class.ilFileInputGUI.php";
+				ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);						
+				
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "pages"));
@@ -208,8 +211,10 @@ class ilObjPortfolioGUI
 	
 		include_once "Services/Portfolio/classes/class.ilPortfolioTableGUI.php";
 		$table = new ilPortfolioTableGUI($this, "show", $this->user_id);
+		
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
 
-		$tpl->setContent($table->getHTML());
+		$tpl->setContent($table->getHTML().ilDiskQuotaHandler::getStatusLegend());
 	}
 	
 	protected function saveTitles()
@@ -377,6 +382,9 @@ class ilObjPortfolioGUI
 	protected function initForm($a_mode = "create")
 	{
 		global $lng, $ilCtrl, $ilUser, $ilSetting;
+		
+		include_once "Services/Form/classes/class.ilFileInputGUI.php";
+		ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);	
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();

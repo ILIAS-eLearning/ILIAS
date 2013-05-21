@@ -264,6 +264,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				{						
 					$this->setLocator();						
 				}				
+				else
+				{
+					include_once "Services/Form/classes/class.ilFileInputGUI.php";
+					ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
+				}				
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
 					
