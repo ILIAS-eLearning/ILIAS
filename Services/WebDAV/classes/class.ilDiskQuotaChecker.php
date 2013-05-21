@@ -716,7 +716,7 @@ class ilDiskQuotaChecker
 		// Note: Users with the system role have an infinite disk quota
 		//       We calculate positive infinity by negating the logarithm of 0.
 		$info['role_wsp_disk_quota']  = ($row->role_id == SYSTEM_ROLE_ID) ? -log(0) : $row->wsp_disk_quota;
-		$info['disk_quota'] = max($info['user_disk_quota'], $info['role_disk_quota']);
+		$info['disk_quota'] = max($info['user_wsp_disk_quota'], $info['role_wsp_disk_quota']);
 
 		return $info;
 	}
