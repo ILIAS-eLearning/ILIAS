@@ -13288,7 +13288,7 @@ pd#:#pd_info_delete_sure_unsubscribe#:#Wollen Sie sich wirklich aus den folgende
 pd#:#pd_min_one_admin#:#Diesem Objekt muß mindestens ein Administrator zugeordnet bleiben.
 file#:#enable_personal_workspace_disk_quota#:#Aktiviere Disk Quota für den Persönlichen Arbeitsraum
 file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine harte Disk Quota zu vergeben. Dies betrifft nur den persönlichen Arbeitsraum inclusive der Portfolios.
-file#:#personal_workspace_disk_quota#:#Disk Quota für Persönlichen Arbeitsbereich
+file#:#personal_workspace_disk_quota#:#Disk Quota für Persönlichen Arbeitsraum
 file#:#repository_disk_quota#:#Magazin Disk Quota
-file#:#personal_workspace_quota_exceeded_warning#:#Sie haben die Disk Quota für den persönlichen Arbeitsbereich verbraucht.
+file#:#personal_workspace_quota_exceeded_warning#:#Sie haben die Disk Quota für den persönlichen Arbeitsraum verbraucht.
 file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk Quota von %2$s (%3$d%%).
