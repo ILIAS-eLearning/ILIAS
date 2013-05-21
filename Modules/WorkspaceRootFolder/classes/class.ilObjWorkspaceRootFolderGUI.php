@@ -31,17 +31,9 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 	
 	protected function setTitleAndDescription()
 	{
-		global $tpl, $lng, $ilUser;
+		global $tpl, $lng;
 		
-		$title = $lng->txt("wsp_personal_workspace"); 
-		
-		if(DEVMODE)
-		{
-			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-			ilUtil::sendInfo("Quota: ".ilFormat::formatSize(ilDiskQuotaHandler::getFilesizeByOwner($ilUser->getId())));
-		}
-		
-		$tpl->setTitle($title);
+		$tpl->setTitle($lng->txt("wsp_personal_workspace"));
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_wsrt_b.png"), $title);		
 		$tpl->setDescription($lng->txt("wsp_personal_workspace_description"));
 	}

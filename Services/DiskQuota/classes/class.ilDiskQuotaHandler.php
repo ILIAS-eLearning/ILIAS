@@ -203,7 +203,7 @@ class ilDiskQuotaHandler
 	}	
 	
 	/**
-	 * Get current storage size for owner
+	 * Get current storage size for owner (grouped by type)
 	 * 
 	 * @param int $a_owner_id
 	 * @return int
@@ -225,6 +225,64 @@ class ilDiskQuotaHandler
 		
 		return $res;
 	}	
+	
+	public static function isUploadPossible()
+	{
+		global $ilUser;
+				
+		include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";			
+		if(!ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
+		{			
+			return true;
+		}
+		
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+		$usage = ilDiskQuotaHandler::getFilesizeByOwner($ilUser->getId());
+						
+		include_once "Services/WebDAV/classes/class.ilDiskQuotaChecker.php";	
+		$quota = ilDiskQuotaChecker::_lookupPersonalWorkspaceDiskQuota($ilUser->getId());				
+		$quota = $quota["disk_quota"];
+		
+		// administrator
+		if(is_infinite($quota))
+		{
+			return true;
+		}
+		
+		return $usage < $quota;
+	}
+	
+	public static function getStatusLegend()
+	{
+		global $ilUser, $lng;
+		
+		include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";			
+		if(!ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
+		{			
+			return;
+		}
+		
+		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+		$usage = ilDiskQuotaHandler::getFilesizeByOwner($ilUser->getId());
+						
+		include_once "Services/WebDAV/classes/class.ilDiskQuotaChecker.php";	
+		$quota = ilDiskQuotaChecker::_lookupPersonalWorkspaceDiskQuota($ilUser->getId());				
+		$quota = $quota["disk_quota"];
+		
+		// administrator
+		if(is_infinite($quota))
+		{
+			return;
+		}
+					
+		$lng->loadLanguageModule("file");
+		return '<div class="small">'.
+			sprintf($lng->txt("personal_workspace_quota_status_legend"), 
+				ilFormat::formatSize($usage), 
+				ilFormat::formatSize($quota), 
+				round($usage/$quota*100)).
+			"</div>";
+	}
 }
 
 ?>

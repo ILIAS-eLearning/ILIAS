@@ -117,9 +117,18 @@ class ilImageFileInputGUI extends ilFileInputGUI
 	{
 		global $lng;
 		
-		$i_tpl = new ilTemplate("tpl.prop_image_file.html", true, true, "Services/Form");
+		$quota_exceeded = false;
+		if(self::$check_wsp_quota)
+		{
+			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+			if(!ilDiskQuotaHandler::isUploadPossible())
+			{				
+				$lng->loadLanguageModule("file");		
+				$quota_exceeded = $lng->txt("personal_workspace_quota_exceeded_warning");				
+			}
+		}
 		
-		$this->outputSuffixes($i_tpl, "allowed_image_suffixes");
+		$i_tpl = new ilTemplate("tpl.prop_image_file.html", true, true, "Services/Form");				
 		
 		if ($this->getImage() != "")
 		{
@@ -170,10 +179,20 @@ class ilImageFileInputGUI extends ilFileInputGUI
 		
 		$i_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$i_tpl->setVariable("ID", $this->getFieldId());
-		$i_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
-			$this->getMaxFileSizeString());
+		
+		if(!$quota_exceeded)
+		{
+			$i_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
+				$this->getMaxFileSizeString());
 			
-		if ($this->getDisabled())
+			$this->outputSuffixes($i_tpl, "allowed_image_suffixes");
+		}
+		else
+		{
+			$i_tpl->setVariable("TXT_MAX_SIZE", $quota_exceeded);
+		}
+			
+		if ($this->getDisabled() || $quota_exceeded)
 		{
 			$i_tpl->setVariable("DISABLED",
 				" disabled=\"disabled\"");

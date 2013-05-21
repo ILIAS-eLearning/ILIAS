@@ -1293,7 +1293,7 @@ class ilObjUserGUI extends ilObjectGUI
 				{
 			        require_once './Services/Utilities/classes/class.ilFormat.php';
 					$disk_usage->setValue(ilFormat::formatSize($du_info['disk_usage'],'short'));
-					$info = '<table>';
+				$info = '<table class="il_user_quota_disk_usage_overview">';
 					// write the count and size of each object type
 					foreach ($du_info['details'] as $detail_data)
 					{
@@ -1377,7 +1377,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				require_once './Services/Utilities/classes/class.ilFormat.php';
 				$disk_usage->setValue(ilFormat::formatSize(ilDiskQuotaHandler::getFilesizeByOwner($this->object->getId())));
-				$info = '<table>';
+				$info = '<table class="il_user_quota_disk_usage_overview">';
 				// write the count and size of each object type
 				foreach ($du_info as $detail_data)
 				{

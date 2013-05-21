@@ -4348,6 +4348,10 @@ body.ilBodyPrint {
 	padding: 0;
 }
 
+table.il_user_quota_disk_usage_overview {
+	background-color: white;
+}
+
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
