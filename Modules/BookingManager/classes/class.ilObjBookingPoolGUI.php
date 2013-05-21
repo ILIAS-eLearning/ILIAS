@@ -890,14 +890,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 		if($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE)
 		{
-			// remove user calendar entry
-			include_once 'Services/Calendar/classes/class.ilCalendarCategory.php';
-			include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-			$apps = ilConsultationHourAppointments::getAppointmentIds($obj->getUserId(), $obj->getId(), NULL, ilCalendarCategory::TYPE_BOOK);
-			if($apps)
+			// remove user calendar entry (#11086)
+			$cal_entry_id = $obj->getCalendarEntry();		
+			if($cal_entry_id)
 			{
 				include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-				$entry = new ilCalendarEntry($apps[0]);
+				$entry = new ilCalendarEntry($cal_entry_id);
 				$entry->delete();
 			}
 		}
