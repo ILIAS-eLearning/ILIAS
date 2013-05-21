@@ -109,6 +109,13 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$this->lng->txt('rolf_create_role'),
 			$this->ctrl->getLinkTarget($this,'create')
 		);
+		
+		$ilToolbar->addButton(
+				$this->lng->txt('rbac_import_role'),
+				$this->ctrl->getLinkTargetByClass('ilPermissionGUI','displayImportRoleForm')
+		);
+		
+		
 		$this->ctrl->setParameter($this,'new_type','rolt');
 		$ilToolbar->addButton(
 			$this->lng->txt('rolf_create_rolt'),
