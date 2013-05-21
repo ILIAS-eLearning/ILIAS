@@ -428,6 +428,8 @@ class ilObjTest extends ilObject
 	private $obligationsEnabled = null;
 	
 	protected $activation_visibility;
+	protected $activation_starting_time;
+	protected $activation_ending_time;
 	
 	protected $autosave;
 	protected $autosave_ival;
@@ -1167,7 +1169,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB, $ilLog;
 		
-		// moved starting_time, ending_time, online_status to ilObjectActivation (see below)
+		// moved online_status to ilObjectActivation (see below)
 
 		// cleanup RTE images
 		$this->cleanupMediaobjectUsage();
@@ -1205,6 +1207,8 @@ class ilObjTest extends ilObject
 				'enable_processing_time' => array('text', $this->getEnableProcessingTime()),
 				'reset_processing_time' => array('integer', $this->getResetProcessingTime()),
 				'reporting_date' => array('text', $this->getReportingDate()),
+				'starting_time' => array('text', $this->getStartingTime()),
+				'ending_time' => array('text', $this->getEndingTime()),
 				'complete' => array('text', $this->isComplete()),
 				'ects_output' => array('text', $this->getECTSOutput()),
 				'ects_a' => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
@@ -1281,7 +1285,7 @@ class ilObjTest extends ilObject
 				"finalstatement = %s, showinfo = %s, forcejs = %s, customstyle = %s, showfinalstatement = %s, sequence_settings = %s, " .
 				"score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, " .
 				"fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, " . 
-				"reset_processing_time = %s, reporting_date = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
+				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
 				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, exportsettings = %s, " .
 				"print_bs_with_res = %s,".
@@ -1296,7 +1300,7 @@ class ilObjTest extends ilObject
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
 					'integer', 'text', 'text', 'text', 'text', 'text', 'integer',
 					'text', 'integer', 'integer', 'text', 'text', 'text', 'text',
-					'integer', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
+					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer','integer', 'integer',
 					'integer',
@@ -1331,7 +1335,9 @@ class ilObjTest extends ilObject
 					$this->getProcessingTime(),
 					$this->getEnableProcessingTime(),
 					$this->getResetProcessingTime(),
-					$this->getReportingDate(),					
+					$this->getReportingDate(),	
+					$this->getStartingTime(),
+					$this->getEndingTime(),
 					$this->isComplete(),
 					$this->getECTSOutput(),
 					strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL, 
@@ -1471,8 +1477,8 @@ class ilObjTest extends ilObject
 			else
 			{				
 				$item->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
-				$item->setTimingStart($this->getStartingTime());
-				$item->setTimingEnd($this->getEndingTime());
+				$item->setTimingStart($this->getActivationStartingTime());
+				$item->setTimingEnd($this->getActivationEndingTime());
 				$item->toggleVisible($this->getActivationVisibility());
 			}						
 			
@@ -2141,6 +2147,8 @@ class ilObjTest extends ilObject
 			$this->setEnableProcessingTime($data->enable_processing_time);
 			$this->setResetProcessingTime($data->reset_processing_time);
 			$this->setReportingDate($data->reporting_date);
+			$this->setStartingTime($data->starting_time);
+			$this->setEndingTime($data->ending_time);
 			$this->setShuffleQuestions($data->shuffle_questions);
 			$this->setResultsPresentation($data->results_presentation);
 			$this->setListOfQuestionsSettings($data->show_summary);			
@@ -2203,8 +2211,8 @@ class ilObjTest extends ilObject
 			{				
 				case ilObjectActivation::TIMINGS_ACTIVATION:	
 					$this->setActivationLimited(true);
-					$this->setStartingTime($activation["timing_start"]);
-					$this->setEndingTime($activation["timing_end"]);
+					$this->setActivationStartingTime($activation["timing_start"]);
+					$this->setActivationEndingTime($activation["timing_end"]);
 					$this->setActivationVisibility($activation["visible"]);
 					break;
 				
@@ -11379,5 +11387,25 @@ function getAnswerFeedbackPoints()
 	public function setPassDeletionAllowed($passDeletionAllowed)
 	{
 		$this->passDeletionAllowed = (bool)$passDeletionAllowed;
+	}
+	
+	function setActivationStartingTime($starting_time = NULL)
+	{
+		$this->activation_starting_time = $starting_time;
+	}
+
+	function setActivationEndingTime($ending_time = NULL)
+	{
+		$this->activation_ending_time = $ending_time;
+	}
+	
+	function getActivationStartingTime()
+	{
+		return (strlen($this->activation_starting_time)) ? $this->activation_starting_time : NULL;
+	}
+
+	function getActivationEndingTime()
+	{
+		return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : NULL;
 	}
 }

@@ -141,6 +141,8 @@ class ilObjSurvey extends ilObject
 	var $pool_usage;
 	
 	protected $activation_visibility;
+	protected $activation_starting_time;
+	protected $activation_ending_time;
 
 	/**
 	* Constructor
@@ -757,6 +759,8 @@ class ilObjSurvey extends ilObject
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
 				"status" => array("text", $this->getStatus()),
+				"startdate" => array("text", $this->getStartDate()),
+				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
 				"invitation" => array("text", $this->getInvitation()),
 				"invitation_mode" => array("text", $this->getInvitationMode()),
@@ -780,6 +784,8 @@ class ilObjSurvey extends ilObject
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
 				"status" => array("text", $this->getStatus()),
+				"startdate" => array("text", $this->getStartDate()),
+				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
 				"invitation" => array("text", $this->getInvitation()),
 				"invitation_mode" => array("text", $this->getInvitationMode()),
@@ -816,8 +822,8 @@ class ilObjSurvey extends ilObject
 			else
 			{				
 				$item->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
-				$item->setTimingStart($this->getStartDate());
-				$item->setTimingEnd($this->getEndDate());
+				$item->setTimingStart($this->getActivationStartDate());
+				$item->setTimingEnd($this->getActivationEndDate());
 				$item->toggleVisible($this->getActivationVisibility());
 			}						
 			
@@ -1027,6 +1033,8 @@ class ilObjSurvey extends ilObject
 			$this->setInvitation($data["invitation"]);
 			$this->setInvitationMode($data["invitation_mode"]);
 			$this->setShowQuestionTitles($data["show_question_titles"]);
+			$this->setStartDate($data["startdate"]);
+			$this->setEndDate($data["enddate"]);
 			$this->setAnonymize($data["anonymize"]);
 			$this->setEvaluationAccess($data["evaluation_access"]);
 			$this->loadQuestionsFromDb();
@@ -1047,8 +1055,8 @@ class ilObjSurvey extends ilObject
 			{				
 				case ilObjectActivation::TIMINGS_ACTIVATION:	
 					$this->setActivationLimited(true);
-					$this->setStartDate($activation["timing_start"]);
-					$this->setEndDate($activation["timing_end"]);
+					$this->setActivationStartDate($activation["timing_start"]);
+					$this->setActivationEndDate($activation["timing_end"]);
 					$this->setActivationVisibility($activation["visible"]);
 					break;
 				
@@ -1399,26 +1407,27 @@ class ilObjSurvey extends ilObject
 		$messages = array();
 		$edit_settings = false;
 		// check start date		
-		if ($start_date = $this->getStartDate())
+		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartDate(), $matches))
 		{			
+			$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);		
 			$now = mktime();
-			if ($now < $start_date) 
-			{
+			if ($now < $epoch_time) 
+			{		
 				array_push($messages,$this->lng->txt('start_date_not_reached').' ('.
-					ilDatePresentation::formatDate(new ilDateTime($start_date, IL_CAL_UNIX)). ")");
+					ilDatePresentation::formatDate(new ilDateTime($this->getStartDate(), IL_CAL_TIMESTAMP)). ")");
 				$result = FALSE;
 				$edit_settings = true;
 			}
-		}
-		
+		}				
 		// check end date		
-		if ($end_date = $this->getEndDate())
+		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndDate(), $matches))
 		{
+			$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 			$now = mktime();
-			if ($now > $end_date) 
+			if ($now > $epoch_time) 
 			{
 				array_push($messages,$this->lng->txt('end_date_reached').' ('.
-					ilDatePresentation::formatDate(new ilDateTime($end_date, IL_CAL_UNIX)). ")");
+					ilDatePresentation::formatDate(new ilDateTime($this->getEndDate(), IL_CAL_TIMESTAMP)). ")");
 				$result = FALSE;
 				$edit_settings = true;
 			}
@@ -1490,7 +1499,7 @@ class ilObjSurvey extends ilObject
 			$i = $matches[2];
 			$s = $matches[3];
 		}
-		$this->start_date = mktime($h, $i, $s, $m, $d, $y);
+		$this->start_date = sprintf('%04d%02d%02d%02d%02d%02d', $y, $m, $d, $h, $i, $s);
 	}
 
 /**
@@ -1540,7 +1549,7 @@ class ilObjSurvey extends ilObject
 			$i = $matches[2];
 			$s = $matches[3];
 		}
-		$this->end_date = mktime($h, $i, $s, $m, $d, $y);
+		$this->end_date = sprintf('%04d%02d%02d%02d%02d%02d', $y, $m, $d, $h, $i, $s);
 	}
 
 /**
@@ -3755,13 +3764,16 @@ class ilObjSurvey extends ilObject
 		$a_xml_writer->xmlElement("access", $attribs);
 		if ($this->getStartDate())
 		{
-			$attrs = array("type" => "date");
-			$a_xml_writer->xmlElement("startingtime", $attrs, $this->getStartDate());
+			$attrs = array("type" => "date");			
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartDate(), $matches);
+			$a_xml_writer->xmlElement("startingtime", $attrs, sprintf("%04d-%02d-%02dT%02d:%02d:00", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 		}
 		if ($this->getEndDate())
 		{
 			$attrs = array("type" => "date");
-			$a_xml_writer->xmlElement("endingtime", $attrs, $this->getEndDate());
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndDate(), $matches);
+			$a_xml_writer->xmlElement("endingtime", $attrs, sprintf("%04d-%02d-%02dT%02d:%02d:00", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+
 		}
 		$a_xml_writer->xmlEndTag("restrictions");
 		
@@ -5342,6 +5354,26 @@ class ilObjSurvey extends ilObject
 
 		$this->setTemplate($template_id);
 		$this->saveToDb();
+	}
+	
+	function setActivationStartDate($starting_time = NULL)
+	{
+		$this->activation_starting_time = $starting_time;
+	}
+
+	function setActivationEndDate($ending_time = NULL)
+	{
+		$this->activation_ending_time = $ending_time;
+	}
+	
+	function getActivationStartDate()
+	{
+		return (strlen($this->activation_starting_time)) ? $this->activation_starting_time : NULL;
+	}
+
+	function getActivationEndDate()
+	{
+		return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : NULL;
 	}
 	
 } // END class.ilObjSurvey

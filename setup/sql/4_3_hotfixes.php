@@ -300,3 +300,33 @@ while($row = $ilDB->fetchAssoc($set))
 		$setting->set('ilfrmthri2', 1);
 	}
 ?>
+<#14>
+<?php
+
+// #10745
+if(!$ilDB->tableColumnExists('tst_tests','starting_time'))
+{
+        $ilDB->addTableColumn(
+                        'tst_tests',
+                        'starting_time',
+                        array(
+                                'type' => 'text',
+                                'length' => 14,
+                                'notnull' => false
+                        )
+        );
+}
+if(!$ilDB->tableColumnExists('tst_tests','ending_time'))
+{
+        $ilDB->addTableColumn(
+                        'tst_tests',
+                        'ending_time',
+                        array(
+                                'type' => 'text',
+                                'length' => 14,
+                                'notnull' => false
+                        )
+        );
+}
+
+?>

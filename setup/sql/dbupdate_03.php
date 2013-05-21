@@ -10495,6 +10495,7 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 ?>
 <#3619>
 <?php
+	/* #10745
 	$ts_now = time();
 	$ts_latest = mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 
@@ -10550,11 +10551,12 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 				$ilDB->quote(0,'integer').")";		
 			$ilDB->manipulate($query);				
 		}
-	}
+	}	 
+	*/
 ?>
 <#3620>
 <?php
-
+	/* #10745
 	if( $ilDB->tableColumnExists("tst_tests", "starting_time") )
 	{
 		$ilDB->dropTableColumn("tst_tests", "starting_time");
@@ -10563,7 +10565,7 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 	{
 		$ilDB->dropTableColumn("tst_tests", "ending_time");
 	}
-
+	*/
 ?>
 <#3621>
 <?php
@@ -13058,6 +13060,7 @@ if(trim($ade) && !trim($fbr))
 ?>
 <#3754>
 <?php
+	/* #10745
 	// see 3619
 	$ts_now = time();
 	$ts_latest = mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
@@ -13114,7 +13117,8 @@ if(trim($ade) && !trim($fbr))
 				$ilDB->quote(0,'integer').")";		
 			$ilDB->manipulate($query);				
 		}
-	}
+	}	 
+	*/
 ?>
 <#3755>
 <?php

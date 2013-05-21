@@ -1522,17 +1522,17 @@ class ilObjTestGUI extends ilObjectGUI
 			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
 			$opt->setInfo($this->lng->txt('tst_availability_until_info'));
 
-				$date = $this->object->getStartingTime();				
+				$date = $this->object->getActivationStartingTime();				
 				
-				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'starting_time');
+				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'act_starting_time');
 				#$start->setMode(ilDateTimeInputGUI::MODE_INPUT);
 				$start->setShowTime(true);
 				$start->setDate(new ilDateTime($date ? $date : time(),IL_CAL_UNIX));
 				$opt->addSubItem($start);
 				
-				$date = $this->object->getEndingTime();
+				$date = $this->object->getActivationEndingTime();
 				
-				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'ending_time');
+				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'act_ending_time');
 				#$end->setMode(ilDateTimeInputGUI::MODE_INPUT);
 				$end->setShowTime(true);
 				$end->setDate(new ilDateTime($date ? $date : time(),IL_CAL_UNIX));
@@ -1642,6 +1642,55 @@ class ilObjTestGUI extends ilObjectGUI
 		$resetprocessing->setInfo($this->lng->txt("tst_reset_processing_time_desc"));
 		$processing->addSubItem($resetprocessing);
 		$form->addItem($processing);
+		
+		// enable starting time
+		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
+		$enablestartingtime->setValue(1);
+		//$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
+
+                if ($template_settings && $template_settings['chb_starting_time'] && $template_settings['chb_starting_time']['value'])
+                    $enablestartingtime->setChecked(true);
+                else
+                    $enablestartingtime->setChecked(strlen($this->object->getStartingTime()));
+		// starting time
+		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
+		$startingtime->setShowDate(true);
+		$startingtime->setShowTime(true);
+		if (strlen($this->object->getStartingTime()))
+		{
+			$startingtime->setDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enablestartingtime->addSubItem($startingtime);
+		if ($total) $enablestartingtime->setDisabled(true);
+		if ($total) $startingtime->setDisabled(true);
+		$form->addItem($enablestartingtime);
+
+		// enable ending time
+		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
+		$enableendingtime->setValue(1);
+		//$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
+                if ($template_settings && $template_settings['chb_ending_time'] && $template_settings['chb_ending_time']['value'])
+                    $enableendingtime->setChecked(true);
+                else
+                    $enableendingtime->setChecked(strlen($this->object->getEndingTime()));
+		// ending time
+		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
+		$endingtime->setShowDate(true);
+		$endingtime->setShowTime(true);
+		if (strlen($this->object->getEndingTime()))
+		{
+			$endingtime->setDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enableendingtime->addSubItem($endingtime);
+		$form->addItem($enableendingtime);
 
 		// test password
 		$password = new ilTextInputGUI($this->lng->txt("tst_password"), "password");
@@ -2077,11 +2126,11 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setActivationLimited(true);								    			
 				$this->object->setActivationVisibility($_POST["activation_visibility"]);
 				
-				$date = new ilDateTime($_POST['starting_time']['date'] . ' ' . $_POST['starting_time']['time'], IL_CAL_DATETIME);
-				$this->object->setStartingTime($date->get(IL_CAL_UNIX));
+				$date = new ilDateTime($_POST['act_starting_time']['date'] . ' ' . $_POST['act_starting_time']['time'], IL_CAL_DATETIME);
+				$this->object->setActivationStartingTime($date->get(IL_CAL_UNIX));
 				
-				$date = new ilDateTime($_POST['ending_time']['date'] . ' ' . $_POST['ending_time']['time'], IL_CAL_DATETIME);
-				$this->object->setEndingTime($date->get(IL_CAL_UNIX));							
+				$date = new ilDateTime($_POST['act_ending_time']['date'] . ' ' . $_POST['act_ending_time']['time'], IL_CAL_DATETIME);
+				$this->object->setActivationEndingTime($date->get(IL_CAL_UNIX));							
 			}
 			else
 			{
@@ -2128,7 +2177,24 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->object->setProcessingTime('');
 			}
-			$this->object->setResetProcessingTime(($_POST["chb_reset_processing_time"]) ? 1 : 0);			
+			$this->object->setResetProcessingTime(($_POST["chb_reset_processing_time"]) ? 1 : 0);	
+			
+			if ($_POST['chb_starting_time'])
+			{
+				$this->object->setStartingTime(ilFormat::dateDB2timestamp($_POST['starting_time']['date'] . ' ' . $_POST['starting_time']['time']));
+			}
+			else
+			{
+				$this->object->setStartingTime('');
+			}
+			if ($_POST['chb_ending_time'])
+			{
+				$this->object->setEndingTime(ilFormat::dateDB2timestamp($_POST['ending_time']['date'] . ' ' . $_POST['ending_time']['time']));
+			}
+			else
+			{
+				$this->object->setEndingTime('');
+			}
 			
 			$this->object->setUsePreviousAnswers(($_POST["chb_use_previous_answers"]) ? 1 : 0);
 			$this->object->setForceJS(($_POST["forcejs"]) ? 1 : 0);
@@ -4686,13 +4752,13 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($starting_time)
 			{
 				$info->addProperty($this->lng->txt("tst_starting_time"),
-					ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_UNIX)));
+					ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_TIMESTAMP)));
 			}
 			$ending_time = $this->object->getEndingTime();
 			if ($ending_time)
 			{
 				$info->addProperty($this->lng->txt("tst_ending_time"),
-					ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_UNIX)));
+					ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_TIMESTAMP)));
 			}
 			$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 			// forward the command
