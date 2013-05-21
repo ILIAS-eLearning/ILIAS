@@ -408,6 +408,24 @@ class ilBookingReservation
 
 		}
 	}
+	
+	function getCalendarEntry()
+	{
+		global $ilDB;
+		
+		include_once 'Services/Calendar/classes/class.ilCalendarCategory.php';
+		
+		$set = $ilDB->query("SELECT ce.cal_id FROM cal_entries ce".
+			" JOIN cal_cat_assignments cca ON ce.cal_id = cca.cal_id".
+			" JOIN cal_categories cc ON cca.cat_id = cc.cat_id".
+			" JOIN booking_reservation br ON ce.context_id  = br.booking_reservation_id".
+			" WHERE cc.obj_id = ".$ilDB->quote($this->getUserId(),'integer').
+			" AND br.user_id = ".$ilDB->quote($this->getUserId(),'integer').
+			" AND cc.type = ".$ilDB->quote(ilCalendarCategory::TYPE_BOOK,'integer').
+			" AND ce.context_id = ".$ilDB->quote($this->getId(), 'integer'));
+		$row = $ilDB->fetchAssoc($set);
+		return $row["cal_id"];		
+	}
 }
 
 ?>
