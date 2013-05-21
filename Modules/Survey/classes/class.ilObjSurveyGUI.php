@@ -468,16 +468,42 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->object->setActivationVisibility($_POST["access_visiblity"]);
 
 					$date = new ilDateTime($_POST['access_begin']['date'] . ' ' . $_POST['access_begin']['time'], IL_CAL_DATETIME);
-					$this->object->setStartDate($date->get(IL_CAL_UNIX));
+					$this->object->setActivationStartDate($date->get(IL_CAL_UNIX));
 
 					$date = new ilDateTime($_POST['access_end']['date'] . ' ' . $_POST['access_end']['time'], IL_CAL_DATETIME);
-					$this->object->setEndDate($date->get(IL_CAL_UNIX));							
+					$this->object->setActivationEndDate($date->get(IL_CAL_UNIX));							
 				}
 				else
 				{
 					$this->object->setActivationLimited(false);
 				}
+				
+				
+				if(!$template_settings["enabled_start_date"]["hide"])
+				{
+					if ($_POST["enabled_start_date"])
+					{
+						$this->object->setStartDateAndTime($_POST["start_date"]['date'], $_POST["start_date"]['time']);
+					}
+					else
+					{
+						$this->object->setStartDate(null);
+					}
+				}
 
+				if(!$template_settings["enabled_end_date"]["hide"])
+				{
+					if ($_POST["enabled_end_date"])
+					{
+						$this->object->setEndDateAndTime($_POST["end_date"]['date'], $_POST["end_date"]['time']);
+					}
+					else
+					{
+						$this->object->setEndDate(null);
+					}
+				}
+
+				
 				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 				$introduction = $_POST["introduction"];
 				$this->object->setIntroduction($introduction);
@@ -695,14 +721,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
 			$opt->setInfo($this->lng->txt('svy_availability_until_info'));
 
-				$date = $this->object->getStartDate();
+				$date = $this->object->getActivationStartDate();
 				
 				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'access_begin');
 				$start->setShowTime(true);		
 				$start->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
 				$opt->addSubItem($start);
 				
-				$date = $this->object->getEndDate();
+				$date = $this->object->getActivationEndDate();
 				
 				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'access_end');			
 				$end->setShowTime(true);			
@@ -717,6 +743,41 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$act_type->addOption($opt);
 		
 		$form->addItem($act_type);									
+				
+		
+		// enable start date
+		$start = $this->object->getStartDate();
+		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("start_date"), "enabled_start_date");
+		$enablestartingtime->setValue(1);
+		// $enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
+		$enablestartingtime->setChecked($start);
+		// start date
+		$startingtime = new ilDateTimeInputGUI('', 'start_date');
+		$startingtime->setShowDate(true);
+		$startingtime->setShowTime(true);				
+		if ($start)
+		{
+			$startingtime->setDate(new ilDate($start, IL_CAL_TIMESTAMP));
+		}
+		$enablestartingtime->addSubItem($startingtime);
+		$form->addItem($enablestartingtime);
+
+		// enable end date		
+		$end = $this->object->getEndDate();
+		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("end_date"), "enabled_end_date");
+		$enableendingtime->setValue(1);
+		// $enableendingtime->setOptionTitle($this->lng->txt("enabled"));
+		$enableendingtime->setChecked($end);
+		// end date
+		$endingtime = new ilDateTimeInputGUI('', 'end_date');
+		$endingtime->setShowDate(true);
+		$endingtime->setShowTime(true);		
+		if ($end)
+		{
+			$endingtime->setDate(new ilDate($end, IL_CAL_TIMESTAMP));
+		}
+		$enableendingtime->addSubItem($endingtime);
+		$form->addItem($enableendingtime);
 		
 		
 		// presentation properties

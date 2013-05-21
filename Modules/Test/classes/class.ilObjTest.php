@@ -428,6 +428,8 @@ class ilObjTest extends ilObject
 	private $obligationsEnabled = null;
 	
 	protected $activation_visibility;
+	protected $activation_starting_time;
+	protected $activation_ending_time;
 	
 	protected $autosave;
 	protected $autosave_ival;
@@ -1167,7 +1169,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB, $ilLog;
 		
-		// moved starting_time, ending_time, online_status to ilObjectActivation (see below)
+		// moved online_status to ilObjectActivation (see below)
 
 		// cleanup RTE images
 		$this->cleanupMediaobjectUsage();
@@ -1205,6 +1207,8 @@ class ilObjTest extends ilObject
 				'enable_processing_time' => array('text', $this->getEnableProcessingTime()),
 				'reset_processing_time' => array('integer', $this->getResetProcessingTime()),
 				'reporting_date' => array('text', $this->getReportingDate()),
+				'starting_time' => array('text', $this->getStartingTime()),
+				'ending_time' => array('text', $this->getEndingTime()),
 				'complete' => array('text', $this->isComplete()),
 				'ects_output' => array('text', $this->getECTSOutput()),
 				'ects_a' => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
@@ -1303,6 +1307,8 @@ class ilObjTest extends ilObject
 						'enable_processing_time' => array('text', $this->getEnableProcessingTime()),
 						'reset_processing_time' => array('integer', $this->getResetProcessingTime()),
 						'reporting_date' => array('text', $this->getReportingDate()),
+						'starting_time' => array('text', $this->getStartingTime()),
+						'ending_time' => array('text', $this->getEndingTime()),
 						'complete' => array('text', $this->isComplete()),
 						'ects_output' => array('text', $this->getECTSOutput()),
 						'ects_a' => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
@@ -1444,8 +1450,8 @@ class ilObjTest extends ilObject
 			else
 			{				
 				$item->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
-				$item->setTimingStart($this->getStartingTime());
-				$item->setTimingEnd($this->getEndingTime());
+				$item->setTimingStart($this->getActivationStartingTime());
+				$item->setTimingEnd($this->getActivationEndingTime());
 				$item->toggleVisible($this->getActivationVisibility());
 			}						
 			
@@ -2116,6 +2122,8 @@ class ilObjTest extends ilObject
 			$this->setReportingDate($data->reporting_date);
 			$this->setShuffleQuestions($data->shuffle_questions);
 			$this->setResultsPresentation($data->results_presentation);
+			$this->setStartingTime($data->starting_time);
+			$this->setEndingTime($data->ending_time);
 			$this->setListOfQuestionsSettings($data->show_summary);			
 			$this->setECTSOutput($data->ects_output);
 			$this->setECTSGrades(
@@ -2176,8 +2184,8 @@ class ilObjTest extends ilObject
 			{				
 				case ilObjectActivation::TIMINGS_ACTIVATION:	
 					$this->setActivationLimited(true);
-					$this->setStartingTime($activation["timing_start"]);
-					$this->setEndingTime($activation["timing_end"]);
+					$this->setActivationStartingTime($activation["timing_start"]);
+					$this->setActivationEndingTime($activation["timing_end"]);
 					$this->setActivationVisibility($activation["visible"]);
 					break;
 				
@@ -11358,5 +11366,25 @@ function getAnswerFeedbackPoints()
 	public function setPassDeletionAllowed($passDeletionAllowed)
 	{
 		$this->passDeletionAllowed = (bool)$passDeletionAllowed;
+	}
+		
+	function setActivationStartingTime($starting_time = NULL)
+	{
+		$this->activation_starting_time = $starting_time;
+	}
+
+	function setActivationEndingTime($ending_time = NULL)
+	{
+		$this->activation_ending_time = $ending_time;
+	}
+	
+	function getActivationStartingTime()
+	{
+		return (strlen($this->activation_starting_time)) ? $this->activation_starting_time : NULL;
+	}
+
+	function getActivationEndingTime()
+	{
+		return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : NULL;
 	}
 }
