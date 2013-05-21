@@ -1244,6 +1244,12 @@ class ilObjUserGUI extends ilObjectGUI
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if (ilDiskQuotaActivationChecker::_isActive())
 		{
+			$lng->loadLanguageModule("file");
+			
+			$quota_head = new ilFormSectionHeaderGUI();
+			$quota_head->setTitle($lng->txt("repository_disk_quota"));
+			$this->form_gui->addItem($quota_head);
+			
 			// disk quota
 			$disk_quota = new ilTextInputGUI($lng->txt("disk_quota"), "disk_quota");
 			$disk_quota->setSize(10);
@@ -1292,9 +1298,9 @@ class ilObjUserGUI extends ilObjectGUI
 					foreach ($du_info['details'] as $detail_data)
 					{
 						$info .= '<tr>'.
-							'<td>'.$detail_data['count'].'</td>'.
-							'<td>'.$lng->txt($detail_data['type']).'</td>'.
-							'<td>'.ilFormat::formatSize($detail_data['size'], 'short').'</td>'.
+							'<td class="std">'.$detail_data['count'].'</td>'.
+							'<td class="std">'.$lng->txt($detail_data['type']).'</td>'.
+							'<td class="std">'.ilFormat::formatSize($detail_data['size'], 'short').'</td>'.
 							'</tr>'
 							;
 					}
@@ -1322,9 +1328,13 @@ class ilObjUserGUI extends ilObjectGUI
 		if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 		{
 			$lng->loadLanguageModule("file");
+		
+			$quota_head = new ilFormSectionHeaderGUI();
+			$quota_head->setTitle($lng->txt("personal_workspace_disk_quota"));
+			$this->form_gui->addItem($quota_head);
 			
 			// personal workspace disk quota
-			$wsp_disk_quota = new ilTextInputGUI($lng->txt("personal_workspace_disk_quota"), "wsp_disk_quota");
+			$wsp_disk_quota = new ilTextInputGUI($lng->txt("disk_quota"), "wsp_disk_quota");
 			$wsp_disk_quota->setSize(10);
 			$wsp_disk_quota->setMaxLength(11);
 			$wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc"));
@@ -1354,6 +1364,35 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 				$wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc").'<br>'.$info_text);
 			}
+			
+			// disk usage
+			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+			$du_info = ilDiskQuotaHandler::getFilesizeByTypeAndOwner($this->object->getId());
+			$disk_usage = new ilNonEditableValueGUI($lng->txt("disk_usage"), "disk_usage");
+			if (!sizeof($du_info))
+			{
+				$disk_usage->setValue($lng->txt('unknown'));
+			}
+			else
+			{
+				require_once './Services/Utilities/classes/class.ilFormat.php';
+				$disk_usage->setValue(ilFormat::formatSize(ilDiskQuotaHandler::getFilesizeByOwner($this->object->getId())));
+				$info = '<table>';
+				// write the count and size of each object type
+				foreach ($du_info as $detail_data)
+				{
+					$info .= '<tr>'.
+						'<td class="std">'.$detail_data['count'].'</td>'.
+						'<td class="std">'.$lng->txt("obj_".$detail_data["src_type"]).'</td>'.
+						'<td class="std">'.ilFormat::formatSize($detail_data['filesize'], 'short').'</td>'.
+						'</tr>'
+						;
+				}
+				$info .= '</table>';
+				$disk_usage->setInfo($info);
+
+			}
+			$this->form_gui->addItem($disk_usage);
 		}
          
 		// personal data

@@ -201,6 +201,30 @@ class ilDiskQuotaHandler
 		$row = $ilDB->fetchAssoc($set);
 		return (int)$row["fsize"];
 	}	
+	
+	/**
+	 * Get current storage size for owner
+	 * 
+	 * @param int $a_owner_id
+	 * @return int
+	 */
+	public static function getFilesizeByTypeAndOwner($a_owner_id)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT sum(src_size) filesize, src_type, COUNT(*) count".
+			" FROM il_disk_quota".
+			" WHERE owner_id = ".$ilDB->quote($a_owner_id, "integer").
+			" GROUP BY src_type");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row;
+		}
+		
+		return $res;
+	}	
 }
 
 ?>
