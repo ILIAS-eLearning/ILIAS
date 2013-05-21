@@ -676,5 +676,49 @@ class ilDiskQuotaChecker
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return ($row != null) ? $row['last_update'] : null;
 	}
+	
+	public static function _lookupPersonalWorkspaceDiskQuota($a_user_id)
+	{
+		global $ilDB;
+		
+		$info = array();
+
+		$res = $ilDB->queryf("SELECT keyword, value ".
+			"FROM usr_pref ".
+			"WHERE usr_id = %s ".
+			"AND keyword = %s ",
+	        array('integer', 'text'),
+	        array($a_user_id, "wsp_disk_quota"));
+
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$info['user_wsp_disk_quota'] = $row->value;
+				
+
+		// Note: we order by role_id ASC here, in the assumption that
+		//       the system role has the lowest ID of all roles.
+		//       this way, if a user has the system role, this role
+		//       will always returned first.
+		$ilDB->setLimit(1);
+		$res = $ilDB->queryf("SELECT rd.role_id, rd.wsp_disk_quota, od.title ".
+			"FROM rbac_ua ua ".
+			"JOIN rbac_fa fa ON fa.rol_id=ua.rol_id AND fa.parent = %s ".
+			"JOIN role_data rd ON ua.rol_id=rd.role_id ".
+			"JOIN object_data od ON od.obj_id=rd.role_id ".
+			"WHERE ua.usr_id = %s ".
+			"ORDER BY wsp_disk_quota DESC, role_id ASC",
+	        array('integer','integer'),
+	        array(ROLE_FOLDER_ID, $a_user_id));
+
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$info['role_id'] = $row->role_id;
+		$info['role_title'] = $row->title;
+
+		// Note: Users with the system role have an infinite disk quota
+		//       We calculate positive infinity by negating the logarithm of 0.
+		$info['role_wsp_disk_quota']  = ($row->role_id == SYSTEM_ROLE_ID) ? -log(0) : $row->wsp_disk_quota;
+		$info['disk_quota'] = max($info['user_disk_quota'], $info['role_disk_quota']);
+
+		return $info;
+	}
 }
 ?>

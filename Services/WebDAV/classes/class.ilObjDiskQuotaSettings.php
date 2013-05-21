@@ -56,6 +56,8 @@ class ilObjDiskQuotaSettings extends ilObject
 	
 	/** Recipients  */
 	private $summary_recipients = '';
+	
+	private $personalWorkspaceDiskQuotaEnabled;
 
 	/**
 	* Constructor
@@ -141,6 +143,7 @@ class ilObjDiskQuotaSettings extends ilObject
 		$settings->set('reminder_mail_enabled', $this->diskQuotaReminderMailEnabled);		
 		$settings->set('summary_mail_enabled', $this->isDiskQuotaSummaryMailEnabled() ? 1 : 0);
 		$settings->set('summary_rcpt', $this->getSummaryRecipients());
+		$settings->set('wsp_enabled', $this->personalWorkspaceDiskQuotaEnabled);
 	}
 	/**
 	* read object data from db into object
@@ -154,7 +157,8 @@ class ilObjDiskQuotaSettings extends ilObject
 		$this->diskQuotaEnabled = $settings->get('enabled') == true;
 		$this->diskQuotaReminderMailEnabled = $settings->get('reminder_mail_enabled') == true;		
 		$this->isDiskQuotaSummaryMailEnabled($settings->get('summary_mail_enabled') == 1 ? true : false);
-		$this->setSummaryRecipients($settings->get('summary_rcpt'));		
+		$this->setSummaryRecipients($settings->get('summary_rcpt'));	
+		$this->setPersonalWorkspaceDiskQuotaEnabled($settings->get('wsp_enabled'));
 	}
 
 
@@ -277,5 +281,27 @@ class ilObjDiskQuotaSettings extends ilObject
 		
 		return $this;
 	}
+	
+	/**
+	* Sets the personalWorkspaceDiskQuotaEnabled property.
+	* 
+	* @param	boolean	new value
+	* @return	void
+	*/
+	public function setPersonalWorkspaceDiskQuotaEnabled($newValue)
+	{
+		$this->personalWorkspaceDiskQuotaEnabled = $newValue;
+	}
+	/**
+	* Gets the personalWorkspaceDiskQuotaEnabled property.
+	* 
+	* @return	boolean	value
+	*/
+	public function isPersonalWorkspaceDiskQuotaEnabled()
+	{
+		return $this->personalWorkspaceDiskQuotaEnabled;
+	}
+	
+	
 } // END class.ilObjDiskQuotaSettings
 ?>

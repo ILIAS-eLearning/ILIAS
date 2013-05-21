@@ -15740,3 +15740,20 @@ while($row = $ilDB->fetchAssoc($set))
 }
 
 ?>
+<#3906>
+<?php
+
+if(!$ilDB->tableColumnExists('role_data','wsp_disk_quota'))
+{
+        $ilDB->addTableColumn(
+                        'role_data',
+                        'wsp_disk_quota',
+                        array(
+                                'type' => 'integer',
+                                'length' => 4,
+                                'notnull' => false
+                        )
+        );
+}
+
+?>

@@ -13286,3 +13286,6 @@ didactic#:#didactic_default_type#:#Default
 pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following objects from your personal desktop?
 pd#:#pd_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 pd#:#pd_min_one_admin#:#There has to be at least one administrator assigned to this object.
+file#:#enable_personal_workspace_disk_quota#:#Activate Personal Workspace Disk Quota
+file#:#enable_personal_workspace_disk_quota_info#:#Allows to specify a hard disk quota for each user account and each global role. It only affects the personal workspace including portfolios.
+file#:#personal_workspace_disk_quota#:#Disk Quota for Personal Workspace
