@@ -214,8 +214,14 @@ var ilMultiFormValues = {
 		// only select and text inputs are supported yet
 
 		// fixing id
-		$(element).find('select[id*="' + group_id + '"]').attr('id', group_id + '~' + element_id);
-		$(element).find('input:text[id*="' + group_id + '"]').attr('id', group_id + '~' + element_id);
+		//$(element).find('select[id*="' + group_id + '"]').attr('id', group_id + '~' + element_id);
+		//$(element).find('input:text[id*="' + group_id + '"]').attr('id', group_id + '~' + element_id);
+		// new version, alex 10.5.2013, works also if multiple input fields are within one div
+		$(element).find('select[id*="' + group_id + '"], input:text[id*="' + group_id + '"]').each(function() {
+				var cid = $(this).attr('id').split('~');
+				$(this).attr('id', cid[0] + '~' + element_id);
+			});
+
 
 		// try to set value 
 		if(preset != '') {
