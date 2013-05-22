@@ -1,16 +1,9 @@
-<table class="il_Block" style="margin-bottom:0px;" datatable="0">
-<tr><td class="ilBlockHeader">
-<img border="0" src="{IMG_BLOCK}" alt="{ALT_BLOCK}" title="{ALT_BLOCK}"/>
-<h3 class="ilBlockHeader">{BLOCK_TITLE}</h3>
-</th>
-</tr>
-<tr class="std"><td class="std">{CONTENT}</td></tr>
-<!-- BEGIN block_commands -->
-<tr><td class="submit" colspan="{CCOLSPAN}">
-<!-- BEGIN block_check --><input type="checkbox" name="id[]" value="{BL_REF_ID}" /><!-- END block_check -->
-<!-- BEGIN block_command -->
-<a {BC_CLASS} href="{CMD_HREF}" <!-- BEGIN bc_target -->target="{CMD_TARGET}"<!-- END bc_target --> ><!-- BEGIN bc_image --><img src="{SRC_BC}" title="{ALT_BC}" border="0" alt="{ALT_BC}" /><!-- END bc_image -->{CMD_TEXT}</a>
-<!-- END block_command -->
-</td></tr>
-<!-- END block_commands -->
-</table>
+<div class="il_Block" datatable="0">
+	<div class="ilBlockHeader">
+		<div>
+			<img border="0" src="{IMG_BLOCK}" alt="{ALT_BLOCK}" title="{ALT_BLOCK}"/>
+			<h3 class="ilBlockHeader">{BLOCK_TITLE}</h3>
+		</div>
+	</div>
+	<div class="ilBlockContent">{CONTENT}</div>
+</div>
