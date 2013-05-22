@@ -562,12 +562,23 @@ class ilPermissionGUI extends ilPermission2GUI
 			try {
 			
 				include_once './Services/Export/classes/class.ilImport.php';
-				$imp = new ilImport($this->getCurrentObject()->getRefId());
+				
+				// For global roles set import id to parent of current ref_id (adm)
+				if($this->isAdminRoleFolder())
+				{
+					$parent_ref = $GLOBALS['tree']->getParentId($this->getCurrentObject()->getRefId());
+				}
+				else
+				{
+					$parent_ref = $this->getCurrentObject()->getRefId();
+				}
+				
+				$imp = new ilImport($parent_ref);
 				$imp->getMapping()->addMapping(
 						'Services/AccessControl', 
 						'rolf', 
 						0, 
-						$rbacreview->getRoleFolderIdOfObject($this->getCurrentObject()->getRefId())
+						$rbacreview->getRoleFolderIdOfObject($parent_ref)
 				);
 
 				$imp->importObject(
@@ -601,7 +612,7 @@ class ilPermissionGUI extends ilPermission2GUI
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('role_import'));
+		$form->setTitle($this->lng->txt('rbac_import_role'));
 		$form->addCommandButton('doImportRole', $this->lng->txt('import'));
 		$form->addCommandButton('perm', $this->lng->txt('cancel'));
 		
