@@ -3238,7 +3238,7 @@ class ilObjSurvey extends ilObject
 			{
 				$result = $ilDB->queryF("SELECT * FROM svy_finished".
 					" WHERE survey_fi = %s AND anonymous_id = %s AND appr_id = %s",
-					array('integer','text'),
+					array('integer','text','integer'),
 					array($this->getSurveyId(), $anonymize_id, $appr_id)
 				);
 			}
@@ -3247,7 +3247,7 @@ class ilObjSurvey extends ilObject
 		{
 			$result = $ilDB->queryF("SELECT * FROM svy_finished".
 				" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
-				array('integer','integer'),
+				array('integer','integer','integer'),
 				array($this->getSurveyId(), $user_id, $appr_id)
 			);
 		}
