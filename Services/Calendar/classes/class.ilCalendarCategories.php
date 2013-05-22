@@ -718,7 +718,7 @@ class ilCalendarCategories
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_OBJ ,'integer')." ".
 			"AND ".$ilDB->in('obj_id',$a_obj_ids,false,'integer')." ".
 			"ORDER BY title ";
-
+		
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -768,7 +768,7 @@ class ilCalendarCategories
 	
 	/**
 	 * Add subitem calendars
-	 * E.g. session calendars in courses
+	 * E.g. session calendars in courses, groups
 	 * @param
 	 * @return
 	 */
@@ -779,7 +779,7 @@ class ilCalendarCategories
 		$course_ids = array();
 		foreach($this->categories as $cat_id)
 		{
-			if($this->categories_info[$cat_id]['obj_type'] == 'crs')
+			if($this->categories_info[$cat_id]['obj_type'] == 'crs' or $this->categories_info[$cat_id]['obj_type'] == 'grp')
 			{
 				$course_ids[] = $this->categories_info[$cat_id]['obj_id'];
 			}
@@ -792,10 +792,10 @@ class ilCalendarCategories
 			"JOIN object_data od2 ON or2.obj_id = od2.obj_id ".
 			"JOIN cal_categories cc ON od2.obj_id = cc.obj_id ".
 			"WHERE od2.type = 'sess' ".
-			"AND od1.type = 'crs' ".
+			"AND (od1.type = 'crs' OR od1.type = 'grp') ".
 			"AND ".$ilDB->in('od1.obj_id',$course_ids,false,'integer').' '.
 			"AND or2.deleted IS NULL";
-
+		
 		$res = $ilDB->query($query);
 		$cat_ids = array();
 		$course_sessions = array();
@@ -808,7 +808,9 @@ class ilCalendarCategories
 		
 		foreach($this->categories as $cat_id)
 		{
-			if($this->categories_info[$cat_id]['obj_type'] == 'crs' &&
+			if(
+				($this->categories_info[$cat_id]['obj_type'] == 'crs' ||
+				$this->categories_info[$cat_id]['obj_type'] == 'grp' ) &&
 				isset($this->categories_info[$cat_id]['obj_id']) &&
 				isset($course_sessions[$this->categories_info[$cat_id]['obj_id']]) &&
 				is_array($course_sessions[$this->categories_info[$cat_id]['obj_id']]))
