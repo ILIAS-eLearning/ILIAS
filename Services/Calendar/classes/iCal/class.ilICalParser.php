@@ -317,6 +317,12 @@ class ilICalParser
 			{
 				// First is ical-Parameter
 				$parameter = new ilICalProperty($item['param'],$item['value']);
+				
+				if(!$this->getContainer() instanceof ilICalItem)
+				{
+					continue;
+				}
+				
 				$this->getContainer()->addItem($parameter);
 				$this->pushContainer($parameter);
 				
