@@ -40,7 +40,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->setLimit(99999);
 //		$this->setColSpan(2);
 		$this->setAvailableDetailLevels(3, 1);
-		$this->setBigMode(true);
+//		$this->setBigMode(true);
 		$this->lng = $lng;
 		$this->allow_moving = false;		
 		
@@ -334,6 +334,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			return "";
 		}
 		
+		if ($this->manage)
+		{
+			return;
+		}
+		
 		// by type
 //		if ($ilUser->getPref("pd_order_items") == 'location')
 //		{
@@ -365,8 +370,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 //		}
 		
 		$this->addFooterLink(($this->view == self::VIEW_MY_OFFERS) ?
-				$lng->txt("unsubscribe") :
-				$lng->txt("crs_unsubscribe"),			
+				$lng->txt("pd_remove_multiple") :
+				$lng->txt("pd_unsubscribe_multiple_memberships"),			
 			$ilCtrl->getLinkTarget($this, "manage"),
 			null,
 			"block_".$this->getBlockType()."_".$this->block_id
@@ -493,14 +498,14 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					$item_list_gui->enableLink(false);
 					$item_list_gui->enableInfoScreen(true);
 					$item_list_gui->enableSubscribe(false);
-					if ($this->getCurrentDetailLevel() < 3)
+					if ($this->getCurrentDetailLevel() < 3 || $this->manage)
 					{
 						//echo "3";
 						$item_list_gui->enableDescription(false);
 						$item_list_gui->enableProperties(false);
 						$item_list_gui->enablePreconditions(false);
 					}
-					if ($this->getCurrentDetailLevel() < 2)
+					if ($this->getCurrentDetailLevel() < 2 || $this->manage)
 					{
 						$item_list_gui->enableCommands(true, true);
 					}
@@ -666,14 +671,18 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$item_list_gui->enableLink(false);
 						$item_list_gui->enableInfoScreen(true);
 						$item_list_gui->enableSubscribe(false);
-						if ($this->getCurrentDetailLevel() < 3)
+						if ($this->manage)
+						{
+							$item_list_gui->enableCheckbox(true);
+						}
+						if ($this->getCurrentDetailLevel() < 3 || $this->manage)
 						{
 							$item_list_gui->enableDescription(false);
 							$item_list_gui->enableProperties(false);
 							$item_list_gui->enablePreconditions(false);
 							$item_list_gui->enableNoticeProperties(false);
 						}
-						if ($this->getCurrentDetailLevel() < 2)
+						if ($this->getCurrentDetailLevel() < 2 || $this->manage)
 						{
 							$item_list_gui->enableCommands(true, true);
 						}
@@ -892,15 +901,21 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
 						$item_list_gui->enableInfoScreen(true);
-						$item_list_gui->setContainerObject($this);						
-						if ($this->getCurrentDetailLevel() < 3)
+						$item_list_gui->setContainerObject($this);
+						
+						if ($this->manage)
+						{
+							$item_list_gui->enableCheckbox(true);
+						}
+						
+						if ($this->getCurrentDetailLevel() < 3 || $this->manage)
 						{
 							$item_list_gui->enableDescription(false);
 							$item_list_gui->enableProperties(false);
 							$item_list_gui->enablePreconditions(false);
 							$item_list_gui->enableNoticeProperties(false);
 						}
-						if ($this->getCurrentDetailLevel() < 2)
+						if ($this->getCurrentDetailLevel() < 2 || $this->manage)
 						{
 							$item_list_gui->enableCommands(true, true);
 						}
@@ -1027,14 +1042,14 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					$item_list_gui->enablePayment(false);
 					$item_list_gui->enableLink(false);
 					$item_list_gui->enableInfoScreen(true);
-					if ($this->getCurrentDetailLevel() < 3)
+					if ($this->getCurrentDetailLevel() < 3 || $this->manage)
 					{
 						//echo "3";
 						$item_list_gui->enableDescription(false);
 						$item_list_gui->enableProperties(false);
 						$item_list_gui->enablePreconditions(false);
 					}
-					if ($this->getCurrentDetailLevel() < 2)
+					if ($this->getCurrentDetailLevel() < 2 || $this->manage)
 					{
 						$item_list_gui->enableCommands(true, true);
 					}
@@ -1146,6 +1161,13 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		{
 			$item_list_gui =& $this->item_list_guis[$a_type];
 		}
+
+		if ($this->manage)
+		{
+			$item_list_gui->enableCheckbox(true);
+		}
+		
+		
 		return $item_list_gui;
 	}
 	
@@ -1415,12 +1437,48 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	
 	function manageObject()
 	{	
-		global $ilUser, $objDefinition;
+		global $ilUser, $objDefinition, $ilCtrl, $lng;
 		
 		$objects = array();
 		
+		$this->manage = true;
+		$this->setAvailableDetailLevels(1, 1);
+		
+		$top_tb = new ilToolbarGUI();
+		$top_tb->setFormAction($ilCtrl->getFormAction($this));
+		$top_tb->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), $lng->txt("actions"));
+		if ($this->view == self::VIEW_MY_OFFERS)
+		{
+			$top_tb->addFormButton($lng->txt("remove"), "confirmRemove");
+		}
+		else
+		{
+			$top_tb->addFormButton($lng->txt("pd_unsubscribe_memberships"), "confirmRemove");
+		}
+		$top_tb->addSeparator();
+		$top_tb->addFormButton($lng->txt("cancel"), "getHTML");
+		$top_tb->setCloseFormTag(false);
+
+		$bot_tb = new ilToolbarGUI();
+		$bot_tb->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), $lng->txt("actions"));
+		if ($this->view == self::VIEW_MY_OFFERS)
+		{
+			$bot_tb->addFormButton($lng->txt("remove"), "confirmRemove");
+		}
+		else
+		{
+			$bot_tb->addFormButton($lng->txt("pd_unsubscribe_memberships"), "confirmRemove");
+		}
+		$bot_tb->addSeparator();
+		$bot_tb->addFormButton($lng->txt("cancel"), "getHTML");
+		$bot_tb->setOpenFormTag(false);
+		
+		return $top_tb->getHTML().$this->getHTML().$bot_tb->getHTML();
+/*		
 		if($this->view == self::VIEW_MY_OFFERS)
 		{
+			return $top_tb->getHTML().$this->getHTML().$bot_tb->getHTML();
+			
 			foreach($ilUser->getDesktopItems() as $item)
 			{
 				$objects[] = $item;
@@ -1443,13 +1501,14 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		include_once "Services/PersonalDesktop/classes/class.ilPDSelectedItemsTableGUI.php";
 		$tbl = new ilPDSelectedItemsTableGUI($this, "manage", $objects, $this->view, ($ilUser->getPref("pd_order_items") == 'location'));
 		return $tbl->getHTML();
+*/
 	}
 	
 	public function confirmRemoveObject()
 	{
 		global $ilCtrl;
 		
-		if(!sizeof($_POST["ref_id"]))
+		if(!sizeof($_POST["id"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
 			$ilCtrl->redirect($this, "manage");
@@ -1474,7 +1533,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$cgui->setCancel($this->lng->txt("cancel"), "manage");
 		$cgui->setConfirm($this->lng->txt("confirm"), $cmd);
 
-		foreach ($_POST["ref_id"] as $ref_id)
+		foreach ($_POST["id"] as $ref_id)
 		{
 			$obj_id = ilObject::_lookupObjectId($ref_id);
 			$title = ilObject::_lookupTitle($obj_id);

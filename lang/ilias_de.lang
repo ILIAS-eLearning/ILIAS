@@ -13292,3 +13292,6 @@ file#:#personal_workspace_disk_quota#:#Disk Quota für Persönlichen Arbeitsraum
 file#:#repository_disk_quota#:#Magazin Disk Quota
 file#:#personal_workspace_quota_exceeded_warning#:#Sie haben die Disk Quota für den persönlichen Arbeitsraum verbraucht.
 file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk Quota von %2$s (%3$d%%).
+pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
+pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
+pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
