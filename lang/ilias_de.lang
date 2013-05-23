@@ -12208,7 +12208,7 @@ rbac#:#trac_write#:#Einstellungen für Zugriffsstatistiken und Lernfortschrittsv
 common#:#obj_dcl#:#Datensammlung
 common#:#objs_dcl#:#Datensammlungen
 common#:#obj_dcl_dupliate#:#Datensammlung kopieren
-dcl#:#dcl_hello#:#Guten Tag
+dcl#:#dcl_hello#:#Hallo
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_add#:#Datensammlung anlegen
 dcl#:#dcl_copy#:#Datensammlung kopieren
@@ -12229,7 +12229,7 @@ dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_record_view_viewdefinition#:#Seitenvorlage
-dcl#:#dcl_record#:#Datensatz:
+dcl#:#dcl_record#:#Datensatz
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
 dcl#:#dcl_field_datatype#:#Feld Datentyp
@@ -12524,11 +12524,11 @@ dateplaner#:#cal_setting_global_grp_vis_info#:#Wenn aktiviert, wird der Gruppenk
 dcl#:#dcl_change_notification_subject#:#Die Datensatzsammlung "%s" wurde editiert
 dcl#:#dcl_edit_notification#:#E-Mail-Benachrichtigung Datensatzsammlung
 dcl#:#dcl_edit_notification_info#:#Sie werden benachrichtigt, sobald Datensätze editiert werden
-dcl#:#dcl_change_notification_link#:#URL
+dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Datensatz wurde erzeugt
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Datensatz wurde aktualisiert
 dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Datensatz wurde gelöscht
-dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht weil Sie die Benachrichtigungen für die oben genannte Datensatzsammlung aktiviert haben.
+dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht weil Sie die Benachrichtigungsfunktion für die oben genannte Datensatzsammlung aktiviert haben.
 dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren

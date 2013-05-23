@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-include_once ("./trunk/Services/Export/classes/class.ilExport.php");
+include_once ("./Services/Export/classes/class.ilExport.php");
 
 class ilDataCollectionExporter extends ilXmlExporter {
 
@@ -15,6 +15,7 @@ class ilDataCollectionExporter extends ilXmlExporter {
     }
 
     public function getValidSchemaVersions($entity){
+        return array("0.0.0");
     }
 
     public function getXmlRepresentation($entity, $schema_version, $id){

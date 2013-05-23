@@ -12240,7 +12240,7 @@ rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administra
 common#:#obj_dcl#:#Data Collection
 common#:#objs_dcl#:#Data Collections
 common#:#obj_dcl_dupliate#:#Copy Data Collection
-dcl#:#dcl_record#:#Record:
+dcl#:#dcl_record#:#Record
 dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_add#:#Create Data Collection
@@ -12659,7 +12659,7 @@ rbac#:#contribute#:#Contribute
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
 dcl#:#dcl_edit_notification#:#Email Notification on Change
 dcl#:#dcl_edit_notification_info#:#You will be notified when any table is edited
-dcl#:#dcl_change_notification_link#:#URL
+dcl#:#dcl_change_notification_link#:#Link to the Data Collection
 dcl#:#dcl_change_notification_dcl_new_record#:#The following record has been created
 dcl#:#dcl_change_notification_dcl_update_record#:#The following record has been updated
 dcl#:#dcl_change_notification_dcl_delete_record#:#The following record page has been deleted
