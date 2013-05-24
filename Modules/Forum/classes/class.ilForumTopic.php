@@ -577,6 +577,12 @@ class ilForumTopic
 			}
 
 			$this->db->manipulateF('
+				DELETE FROM frm_user_read
+				WHERE obj_id = %s AND thread_id =%s',
+				array('integer', 'integer'),
+				array($new_obj_id, $this->id));
+			
+			$this->db->manipulateF('
 				UPDATE frm_user_read
 				SET obj_id = %s
 				WHERE thread_id = %s',
