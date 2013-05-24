@@ -2018,5 +2018,28 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		}				
 	}
 	
+	/**
+	 * sync course status from lp 
+	 * 
+	 * as lp data is not deleted on course exit new members may already have lp completed
+	 * 
+	 * @param int $a_member_id
+	 */
+	public function checkLPStatusSync($a_member_id)
+	{
+		// #11113
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if(ilObjUserTracking::_enabledLearningProgress() &&
+			$this->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
+		{			
+			include_once("Services/Tracking/classes/class.ilLPStatus.php");
+			$lp_status = ilLPStatus::_lookupStatus($this->getId(), $a_member_id);			
+			if($lp_status == LP_STATUS_COMPLETED_NUM)
+			{
+				$this->getMembersObject()->updatePassed($a_member_id, true, -1);
+			}						
+		}		
+	}		
+	
 } //END class.ilObjCourse
 ?>
