@@ -354,7 +354,7 @@ il.Util.addOnLoad(function() {
                                 }
                             },
                             {
-                                label: translate('delete'),
+                                label: translate('delete_private_room'),
                                 callback: function() {
                                     var room = this;
                                     $.get(
@@ -892,7 +892,7 @@ if (subRoomId && ((room = $('#private_rooms').ilChatList('getDataById', subRoomI
 
 menuEntries.push(
                             {
-                                label: translate('delete'),
+                                label: translate('delete_private_room'),
                                 callback: function() {
                                     $.get(
                                             posturl.replace(/postMessage/, 'privateRoom-delete') + '&sub=' + room.id,
