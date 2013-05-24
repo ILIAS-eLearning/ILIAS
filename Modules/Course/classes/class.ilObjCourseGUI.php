@@ -2679,6 +2679,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			include_once './Modules/Forum/classes/class.ilForumNotification.php';
 			ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $user_id);
+			
+			$this->object->checkLPStatusSync($user_id);
 
 			++$added_users;
 		}
@@ -2729,6 +2731,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			include_once('./Modules/Forum/classes/class.ilForumNotification.php');
 			ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $user_id);
+			
+			$this->object->checkLPStatusSync($user_id);
+			
 			++$added_users;
 		}
 
@@ -2841,6 +2846,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				include_once('./Modules/Forum/classes/class.ilForumNotification.php');
 				ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $usr_id);
+				
+				$this->object->checkLPStatusSync($usr_id);
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt("crs_subscribers_assigned"));

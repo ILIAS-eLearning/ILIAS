@@ -514,6 +514,11 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
 				include_once './Modules/Forum/classes/class.ilForumNotification.php';
 				ilForumNotification::checkForumsExistsInsert($this->container->getRefId(), $ilUser->getId());
+								
+				if($this->container->getType() == "crs")
+				{
+					$this->container->checkLPStatusSync($ilUser->getId());
+				}
 
 				if(!$_SESSION["pending_goto"])
 				{
