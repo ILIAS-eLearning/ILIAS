@@ -1051,7 +1051,8 @@ if (add_final_spacer)
 		
 		// force redraw for webkit based browsers (ILIAS chrome bug #0010871)
 		// http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
-		// no feature detection here since we are fixing a webkit bug
+		// no feature detection here since we are fixing a webkit bug and IE does not like this patch (starts flickering
+		// on "short" pages)
 		var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 		var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
 		if (isChrome || isSafari) {
