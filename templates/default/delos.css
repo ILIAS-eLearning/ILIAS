@@ -3628,23 +3628,23 @@ h3.ilProfileSectionHead {
 /* revised 4.1 */
 
 /* Tooltip */
-.yui-skin-sam .yui-tt .bd, .yui-tt .bd{
-	color: #333333;
-	padding: 4px 4px 4px 4px;
-	font-size: 90%;
-	border: solid #FFDD77 2px;
-	line-height: 100%;
-	background-color: #FFFF99;
-	border-radius: 5px;
-	box-shadow: 2px 2px 2px #888;
-	-webkit-border-radius: 5px;
-	-webkit-box-shadow: 2px 2px 2px #888;
-	max-width: 300px;
+.ui-tooltip-rounded,
+.ui-tooltip-rounded .ui-tooltip-content,
+.ui-tooltip-tipsy,
+.ui-tooltip-tipsy .ui-tooltip-content,
+.ui-tooltip-youtube,
+.ui-tooltip-youtube .ui-tooltip-content{
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
 }
 
-.yui-skin-sam .yui-tt .yui-tt-shadow {
-	display:none;
+.ui-tooltip-shadow{
+	-webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+	box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
 }
+
 
 /* locator */
 div.ilLocator {
