@@ -2830,62 +2830,62 @@ certificate#:#certificate_top#:#Top
 certificate#:#certificate_right#:#Højre
 certificate#:#certificate_bottom#:#Bund
 certificate#:#certificate_left#:#Venstre
-certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)###10 10 2006 new variable
-certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###10 10 2006 new variable
-certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)###10 10 2006 new variable
-certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###10 10 2006 new variable
-certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###10 10 2006 new variable
-certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###10 10 2006 new variable
-certificate#:#certificate_custom#:#Custom...###10 10 2006 new variable
-certificate#:#certificate_edit#:#Create/edit a certificate template###10 10 2006 new variable
-certificate#:#certificate_export#:#Export Certificate###19 10 2006 new variable
-certificate#:#certificate_page_format#:#Page Format###10 10 2006 new variable
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
+certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
+certificate#:#certificate_custom#:#Brugerdefineret...
+certificate#:#certificate_edit#:#Lav/ret diplom skabelon
+certificate#:#certificate_export#:#Eksporter diplom
+certificate#:#certificate_page_format#:#Sideformat
 certificate#:#certificate_background_image#:#Baggrundsbillede
 certificate#:#certificate_padding_top#:#Top Padding###10 10 2006 new variable
 certificate#:#certificate_margin_body#:#Body Margin###10 10 2006 new variable
-certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###12 11 2006 new variable
-certificate#:#certificate_show#:#Show Certificate###10 10 2006 new variable
-certificate#:#certificate_status#:#Status###10 10 2006 new variable
-certificate#:#certificate_status_complete#:#The certificate is complete and could be used###10 10 2006 new variable
-certificate#:#certificate_status_incomplete#:#The certificate is incomplete###10 10 2006 new variable
-certificate#:#certificate_delete#:#Slet certifikatdata
-certificate#:#certificate_preview#:#Vis certifikat eksempel
-certificate#:#certificate_text#:#Certifikattekst
+certificate#:#certificate_not_well_formed#:#Diplomteksten er ikke formatteret korrekt. Indtast gyldig XHTML i diplomets tekst.
+certificate#:#certificate_show#:#Vis diplom
+certificate#:#certificate_status#:#Status
+certificate#:#certificate_status_complete#:#Diplomet er færdigt og kan anvendes
+certificate#:#certificate_status_incomplete#:#Diplomet er ufuldstændigt
+certificate#:#certificate_delete#:#Slet diplomdata
+certificate#:#certificate_preview#:#Vis diplomeksempel
+certificate#:#certificate_text#:#Diplomtekst
 certificate#:#certificate_var_user_fullname#:#Hr. Jesper Gødvad
 certificate#:#certificate_var_user_firstname#:#Jesper
 certificate#:#certificate_var_user_lastname#:#Gødvad
 certificate#:#certificate_var_result_passed#:#bestået
 certificate#:#certificate_var_result_points#:#42
 certificate#:#certificate_var_result_percent#:#91%
-certificate#:#certificate_var_max_points#:#46###10 10 2006 new variable
+certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_short#:#10
-certificate#:#certificate_var_result_mark_long#:#Good###10 10 2006 new variable
+certificate#:#certificate_var_result_mark_long#:#God
 certificate#:#certificate_passed#:#bestået
 certificate#:#certificate_failed#:#ikke bestået
-certificate#:#certificate_pageheight#:#Page Height###10 10 2006 new variable
-certificate#:#certificate_pagewidth#:#Page Width###10 10 2006 new variable
-certificate#:#certificate_wrong_unit#:#You have entered a wrong unit###10 10 2006 new variable
+certificate#:#certificate_pageheight#:#Sidehøjde
+certificate#:#certificate_pagewidth#:#Sidevidde
+certificate#:#certificate_wrong_unit#:#Du har indtastet en forkert enhed
 certificate#:#certificate_wrong_units#:#You have entered a wrong set of units###10 10 2006 new variable
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###10 10 2006 new variable
 certificate#:#certificate_ph_introduction#:#Nedenstående pladsholdere kan bruges
-certificate#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###11 10 2006 new variable
-certificate#:#certificate_ph_firstname#:#First name of the user###11 10 2006 new variable
-certificate#:#certificate_ph_lastname#:#Last name of the user###11 10 2006 new variable
-certificate#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results###11 10 2006 new variable
-certificate#:#certificate_ph_resultpoints#:#Reached points of the user###11 10 2006 new variable
+certificate#:#certificate_ph_fullname#:#Brugerens fulde navn (titel, fornavn og efternavn)
+certificate#:#certificate_ph_firstname#:#Brugerens fornavn
+certificate#:#certificate_ph_lastname#:#Brugerens efternavn
+certificate#:#certificate_ph_passed#:#"bestået" eller "ikke-bestået" afhængigt af testresultat
+certificate#:#certificate_ph_resultpoints#:#Brugerens opnåede point
 certificate#:#certificate_ph_resultpercent#:#Reached percentage of the user###11 10 2006 new variable
-certificate#:#certificate_ph_maxpoints#:#Maximum available points###11 10 2006 new variable
-certificate#:#certificate_ph_markshort#:#Users mark (short version)###11 10 2006 new variable
-certificate#:#certificate_ph_marklong#:#Users mark (official version)###11 10 2006 new variable
+certificate#:#certificate_ph_maxpoints#:#Maksimal mulige point
+certificate#:#certificate_ph_markshort#:#Brugerscore (kort version)
+certificate#:#certificate_ph_marklong#:#Brugerscore (officiel version)
 certificate#:#certificate_ph_testtitle#:#Testens titel
 certificate#:#certificate_ph_date#:#Faktisk dato
 certificate#:#certificate_ph_datetime#:#Reel dato og tid
-certificate#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###13 10 2006 new variable
+certificate#:#certificate_unit_description#:#Indtast enheder som mål af [cm|mm|in|pt|pc|px|em], fx. 10mm or 3in
 certificate#:#certificate_visibility#:#Synlighed
-certificate#:#certificate_visibility_introduction#:#The button to offer users this certificate is###11 10 2006 new variable
+certificate#:#certificate_visibility_introduction#:#Knappen der giver brugeren sit diplom
 certificate#:#certificate_visibility_always#:#Altid synligt
-certificate#:#certificate_visibility_never#:#Not visible###11 10 2006 new variable
-certificate#:#certificate_visibility_passed#:#Only visible is a user passed the test###11 10 2006 new variable
+certificate#:#certificate_visibility_never#:#Ikke synligt
+certificate#:#certificate_visibility_passed#:#Kun synligt når brugeren har bestået
 certificate#:#certificate_error_import#:#An error occured during the import of a certificate!###19 10 2006 new variable
 certificate#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###19 10 2006 new variable
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###10 05 2007 new variable
@@ -2961,11 +2961,11 @@ assessment#:#ects_grade_f_short#:#Dumpet
 assessment#:#ects_grade_fx#:#En del mere arbejde er nødvendigt før der kan gives en karakter
 assessment#:#ects_grade_fx_short#:#Dumpet
 assessment#:#ects_output_of_ects_grades#:#Output af ECTS karakter
-assessment#:#ects_range_error_a#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter A!
-assessment#:#ects_range_error_b#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter B!
-assessment#:#ects_range_error_c#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter C!
-assessment#:#ects_range_error_d#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter D!
-assessment#:#ects_range_error_e#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter E!
+assessment#:#ects_range_error_a#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter 12!
+assessment#:#ects_range_error_b#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter 10!
+assessment#:#ects_range_error_c#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter 7!
+assessment#:#ects_range_error_d#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter 4!
+assessment#:#ects_range_error_e#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter 02!
 assessment#:#ects_use_fx_grade#:#Brug 'FX' karakteren, hvis dumpet deltagere når mindst
 assessment#:#ects_use_fx_grade_part2#:#procent af de totale point.
 assessment#:#edit_test_questions#:#Ret test-spørgsmål
@@ -3002,7 +3002,7 @@ assessment#:#eval_search_users#:#Brugere
 assessment#:#eval_search_userselection#:#Søg på brugere du vil tilføje i en brugerevaluering
 assessment#:#eval_selected_users#:#Evaluering for udvalgte brugere
 assessment#:#exp_eval_data#:#Eksporter evalueringsdata som
-assessment#:#exp_type_certificate#:#Certificate (PDF)###10 10 2006 new variable
+assessment#:#exp_type_certificate#:#Diplom (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#komma separerede værdier (CSV)
 assessment#:#export#:#Eksporter
@@ -10348,21 +10348,21 @@ survey#:#msg_duplicate_scale#:#Please enter unique scale values###20 08 2010 new
 survey#:#save_reuse_message#:#Save message text for later use###20 08 2010 new variable
 survey#:#save_reuse_title#:#Message text title###20 08 2010 new variable
 survey#:#saved_messages#:#Available messages###20 08 2010 new variable
-survey#:#insert_saved_message#:#Insert Messagetext###20 08 2010 new variable
-survey#:#delete_saved_message#:#Delete Messagetext###20 08 2010 new variable
-survey#:#msg_message_inserted#:#Messagetext inserted###20 08 2010 new variable
+survey#:#insert_saved_message#:#Indsæt beskedtekst
+survey#:#delete_saved_message#:#Slet beskedtekst
+survey#:#msg_message_inserted#:#Beskedtekst indsat
 survey#:#msg_no_message_inserted#:#Please select a messagetext###20 08 2010 new variable
 survey#:#msg_message_deleted#:#Messagetext deleted###20 08 2010 new variable
 survey#:#msg_no_message_deleted#:#Please select a saved messagetext###20 08 2010 new variable
 administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the 'Synchronize Tree Frame' feature.###20 08 2010 new variable
 administration#:#adm_synchronize_rep_tree#:#Synchronize Tree Frame with Repository Main View###20 08 2010 new variable
 administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.###20 08 2010 new variable
-rbac#:#write#:#Edit Settings###20 08 2010 new variable
-rbac#:#rbac_local_policy#:#Local Policy###20 08 2010 new variable
+rbac#:#write#:#Ret indstillinger
+rbac#:#rbac_local_policy#:#Lokal regel
 rbac#:#role_block_role#:#Bloker rolle
-rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.###20 08 2010 new variable
+rbac#:#role_block_role_desc#:#Adgangen til alle underliggende objekter bliver tilbagekaldt
 rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.###20 08 2010 new variable
-rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?###20 08 2010 new variable
+rbac#:#role_confirm_block_role_header#:#Vil du blokere den valgte rolle?
 dateplaner#:#cal_ch_manager#:#Consultation Hour Manager###20 08 2010 new variable
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.###20 08 2010 new variable
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.###20 08 2010 new variable
@@ -11647,32 +11647,32 @@ content#:#cont_pc_skills#:#Skill###02 09 2011 new variable
 content#:#cont_insert_skills#:#Insert Skill###02 09 2011 new variable
 content#:#cont_update_skills#:#Edit Skill###02 09 2011 new variable
 administration#:#adm_basic#:#Basic###02 09 2011 new variable
-administration#:#adm_users#:#Users###02 09 2011 new variable
+administration#:#adm_users#:#Brugere
 administration#:#adm_services#:#Services###02 09 2011 new variable
-administration#:#adm_objects#:#Objects###02 09 2011 new variable
+administration#:#adm_objects#:#Objekter
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data###02 09 2011 new variable
 common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)###02 09 2011 new variable
-search#:#lucene_max_fs#:#Maximum Filesize (in MB)###02 09 2011 new variable
+search#:#lucene_max_fs#:#Maksimal filstørrelse (i MB)
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.###02 09 2011 new variable
 trac#:#trac_determines_learning_progress#:#Afgør læringsfremskridt
 content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary###02 09 2011 new variable
 content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###02 09 2011 new variable
 style#:#sty_type_rte_drag#:#Drag Bar###02 09 2011 new variable
 style#:#sty_type_rte_tclink#:#Tree Control Link###02 09 2011 new variable
-style#:#sty_type_rte_texp#:#Tree Icon###02 09 2011 new variable
-style#:#sty_type_rte_tli#:#Tree List Item###02 09 2011 new variable
-style#:#sty_type_rte_tul#:#Tree List###02 09 2011 new variable
+style#:#sty_type_rte_texp#:#Træikon
+style#:#sty_type_rte_tli#:#Træ listeelement
+style#:#sty_type_rte_tul#:#Træ liste
 chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked. ###02 09 2011 new variable
 payment#:#check_shop_activation#:#Check Shop Settings for activation###02 09 2011 new variable
-payment#:#please_enter_currency#:#Please enter a currency###02 09 2011 new variable
-payment#:#please_enter_address#:#Please enter an address###02 09 2011 new variable
+payment#:#please_enter_currency#:#Indtast en valuta
+payment#:#please_enter_address#:#Indtast en adresse.
 payment#:#please_enter_bank_data#:#Please enter the bank details###02 09 2011 new variable
 payment#:#please_enter_pdf_path#:#Please enter a path for generating bill as PDF file###02 09 2011 new variable
 payment#:#please_activate_one_paymethod#:#Please activate at least one pay method###02 09 2011 new variable
-payment#:#please_enter_bmf_data#:#Please enter your BMF data###02 09 2011 new variable
-payment#:#please_enter_paypal_data#:#Please enter your Paypal data###02 09 2011 new variable
+payment#:#please_enter_bmf_data#:#Indtast dine BMF data
+payment#:#please_enter_paypal_data#:#Indtast dine Paypal data
 payment#:#please_enter_epay_data#:#Please enter your EPay data###02 09 2011 new variable
-payment#:#please_enter_vats#:#Please create at least one vat###02 09 2011 new variable
+payment#:#please_enter_vats#:#Lav mindst en momssats
 payment#:#please_create_vendor#:#Please create at least one vendor###02 09 2011 new variable
 payment#:#shop_activation_ok#:#The payment settings are complete. You can now activate the webshop.###02 09 2011 new variable
 blog#:#blog_rename_posting#:#Rename Posting###02 09 2011 new variable
@@ -12138,12 +12138,12 @@ mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)###28 08 20
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)###28 08 2012 new variable
 mcst#:#mcst_ordering_title#:#By Title###28 08 2012 new variable
 mcst#:#mcst_ordering_manual#:#Manual###28 08 2012 new variable
-user#:#user_store_last_visited#:#Last Visited###28 08 2012 new variable
-user#:#user_lv_keep_entries#:#Remember last visited###28 08 2012 new variable
-user#:#user_lv_keep_only_for_session#:#Remember only during current session###28 08 2012 new variable
-user#:#user_lv_do_not_store#:#Never remeber last visited###28 08 2012 new variable
-common#:#remove_entries#:#Remove Entries###28 08 2012 new variable
-exc#:#exc_no_deadline_specified#:#No deadline specified.###28 08 2012 new variable
+user#:#user_store_last_visited#:#Sidst besøgt
+user#:#user_lv_keep_entries#:#Husk sidst besøgt
+user#:#user_lv_keep_only_for_session#:#Husk kun for hvert login
+user#:#user_lv_do_not_store#:#Husk aldrig
+common#:#remove_entries#:#Ryd listen
+exc#:#exc_no_deadline_specified#:#Ingen deadline afgivet
 mcst#:#mcst_save_order#:#Save Order###28 08 2012 new variable
 content#:#glo_style#:#Glossary Style###28 08 2012 new variable
 pdesk#:#bookmark_select_target#:#Please select target.###28 08 2012 new variable
@@ -12286,7 +12286,7 @@ content#:#cont_highlight_mode#:#Highlight Mode###28 08 2012 new variable
 content#:#cont_light#:#Light###28 08 2012 new variable
 content#:#cont_dark#:#Dark###28 08 2012 new variable
 content#:#cont_accented#:#Accented###28 08 2012 new variable
-content#:#cont_set#:#Set###28 08 2012 new variable
+content#:#cont_set#:#Sæt
 content#:#cont_link_no#:#No Link###28 08 2012 new variable
 rating#:#rating_category_deleted#:#Category deleted.###28 08 2012 new variable
 wiki#:#wiki_activate_sideblock_rating#:#Display Rating as Side Block###28 08 2012 new variable
@@ -12472,14 +12472,14 @@ dateplaner#:#cal_cal_sync_success#:#Successfully synchronised calendar###28 08 2
 style#:#sty_substyle#:#Substyle###28 08 2012 new variable
 style#:#sty_cat_assignments#:#Style/Category Assignments###28 08 2012 new variable
 style#:#sty_add_assignment#:#Add Assignment###28 08 2012 new variable
-administration#:#adm_user_starting_point#:#Personal Starting Point###28 08 2012 new variable
-administration#:#adm_user_starting_point_info#:#Select the page or object which is shown after login.###28 08 2012 new variable
-content#:#cont_AdvancedKnowledge#:#Advanced Knowledge###28 08 2012 new variable
+administration#:#adm_user_starting_point#:#Login startsted
+administration#:#adm_user_starting_point_info#:#Vælg side eller objekt som vises efter login.
+content#:#cont_AdvancedKnowledge#:#Avanceret viden
 content#:#cont_show_adv#:#Show Advanced Knowledge###28 08 2012 new variable
 content#:#cont_hide_adv#:#Hide Advanced Knowledge###28 08 2012 new variable
-registration#:#reg_email_domains#:#The following email address domains are valid: %s###28 08 2012 new variable
-registration#:#reg_allowed_domains#:#Allowed Email Address Domains###28 08 2012 new variable
-registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator.###28 08 2012 new variable
+registration#:#reg_email_domains#:#Følgende email-domæner er tilladt: %s
+registration#:#reg_allowed_domains#:#Tilladte email adresse domæner
+registration#:#reg_allowed_domains_info#:#Brug * som wildcard og ; som separator.
 pd#:#block_show_pdcal#:#Kalender anzeigen###28 08 2012 new variable
 pd#:#block_show_pdmail#:#Mail anzeigen###28 08 2012 new variable
 pd#:#block_show_pdtag#:#Tags anzeigen###28 08 2012 new variable
@@ -12490,9 +12490,9 @@ pd#:#block_show_pdbookm#:#Bookmarks anzeigen###28 08 2012 new variable
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen###28 08 2012 new variable
 pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen###28 08 2012 new variable
 pd#:#block_show_x#:#%s anzeigen###28 08 2012 new variable
-common#:#crs_list_reg_start#:#Registration Begin###28 08 2012 new variable
-common#:#crs_list_reg_end#:#Registration End###28 08 2012 new variable
-common#:#crs_list_reg_noreg#:#No Registration Possible###28 08 2012 new variable
+common#:#crs_list_reg_start#:#Registrering begynder
+common#:#crs_list_reg_end#:#Registrering slutter
+common#:#crs_list_reg_noreg#:#Ingen registrering mulig
 common#:#crs_list_reg_period#:#Registration Period###28 08 2012 new variable
 common#:#crs_list_reg_limit_full#:#No places left###28 08 2012 new variable
 common#:#crs_list_reg_limit_places#:#Free places###28 08 2012 new variable
@@ -12505,12 +12505,12 @@ rbac#:#hlps_edit_permission#:#User can change permissions of Help System adminis
 rbac#:#hlps_read#:#User has read access to Help System administration.###28 08 2012 new variable
 rbac#:#hlps_visible#:#Help System administration is visible.###28 08 2012 new variable
 rbac#:#hlps_write#:#User can edit settings of Help System and upload new versions###28 08 2012 new variable
-common#:#grp_list_reg_start#:#Registration Begin###28 08 2012 new variable
-common#:#grp_list_reg_end#:#Registration End###28 08 2012 new variable
-common#:#grp_list_reg_noreg#:#No Registration Possible###28 08 2012 new variable
-common#:#grp_list_reg_period#:#Registration Period###28 08 2012 new variable
-common#:#grp_list_reg_limit_full#:#No places left###28 08 2012 new variable
-common#:#grp_list_reg_limit_places#:#Free places###28 08 2012 new variable
+common#:#grp_list_reg_start#:#Indmeldelse begynder
+common#:#grp_list_reg_end#:#Indmeldelse slutter
+common#:#grp_list_reg_noreg#:#Indmeldelse ikke mulig
+common#:#grp_list_reg_period#:#Indmeldelses periode
+common#:#grp_list_reg_limit_full#:#Ingen ledige pladser
+common#:#grp_list_reg_limit_places#:#Ledige pladser
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.###28 08 2012 new variable
 crs#:#crs_member_passed_status_changed#:#Passed Status Changed###28 08 2012 new variable
 help#:#help_help_file#:#Help Package File###28 08 2012 new variable
@@ -12518,9 +12518,9 @@ help#:#help_modules#:#Help Packages###28 08 2012 new variable
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?###28 08 2012 new variable
 help#:#help_module_uploaded#:#Help package uploaded.###28 08 2012 new variable
 common#:#add_entry#:#Add/Edit entry###28 08 2012 new variable
-common#:#obj_poll_duplicate#:#Copy Poll###28 08 2012 new variable
-rbac#:#rbac_import_role#:#Import Role###28 08 2012 new variable
-rbac#:#rbac_role_imported#:#The role has been imported.###28 08 2012 new variable
+common#:#obj_poll_duplicate#:#Kopier afstemning
+rbac#:#rbac_import_role#:#Importer rolle
+rbac#:#rbac_role_imported#:#Rollen blev importeret.
 common#:#objs_rcat#:#ECS Categories###28 08 2012 new variable
 administration#:#adm_user_starting_point_object#:#Repository Object###28 08 2012 new variable
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id###28 08 2012 new variable
@@ -12833,22 +12833,22 @@ dateplaner#:#cal_user_notification_info#:#Selected users will be notified about 
 dateplaner#:#cal_cg_notification#:#Course/Group Notification###27 10 2012 new variable
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"###27 10 2012 new variable
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.###27 10 2012 new variable
-file#:#file_download#:#Download File###27 10 2012 new variable
+file#:#file_download#:#Hent fil
 trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is available in the main menu.###27 10 2012 new variable
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.###27 10 2012 new variable
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment###27 10 2012 new variable
-search#:#search_option_online#:#Online###27 10 2012 new variable
-search#:#search_option_offline#:#Offline###27 10 2012 new variable
+search#:#search_option_online#:#Online
+search#:#search_option_offline#:#Offline
 common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.###27 10 2012 new variable
 forum#:#sort_by_date#:#Sorter efter dato
 forum#:#error_reading_file#:#Filen kunne ikke læses
 assessment#:#edit_page#:#Ret side
 assessment#:#edit_question#:#Ret spørgsmål
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
-common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
+common#:#obj_dcl_duplicate#:#Kopier datasamling
 dcl#:#dcl_no_search_results_found_for#:#Der kunne ikke findes moduler til 
 dcl#:#dcl_notimage_exception#:#Filen skal være en billedfil
-rbac#:#lp_other_users#:#See learning progress overview of other users###28 11 2012 new variable
+rbac#:#lp_other_users#:#Overblik over lærefremskridt for andre brugere
 rbac#:#trac_lp_other_users#:#See learning progress overview of other users###28 11 2012 new variable
 dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x minutes.###28 11 2012 new variable
 dateplaner#:#cal_webcal_sync#:#External Calendar Synchronisation###28 11 2012 new variable
@@ -12858,8 +12858,8 @@ ecs#:#ecs_status_pending_unmapped_nondiscon#:#Pending (mapped, disconnection imp
 ecs#:#ecs_status_mapped#:#Mapped###28 11 2012 new variable
 ecs#:#ecs_status_deleted#:#Slettet
 ecs#:#ecs_status_legend#:#Legend###28 11 2012 new variable
-webr#:#invalid_links_tbl#:#Invalid Links###28 11 2012 new variable
-common#:#obj_tool_setting_news#:#Show News###28 11 2012 new variable
+webr#:#invalid_links_tbl#:#Ugyldige links
+common#:#obj_tool_setting_news#:#Vis nyheder
 common#:#obj_ecss#:#ECS###28 11 2012 new variable
 common#:#obj_ecss_desc#:#General ECS Settings###28 11 2012 new variable
 rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administration###28 11 2012 new variable
@@ -12905,12 +12905,12 @@ rbac#:#rwik_read#:#User can use ECS Wiki###28 11 2012 new variable
 rbac#:#rwik_visible#:#ECS Wiki is visible###28 11 2012 new variable
 rbac#:#rwik_write#:#User can edit settings of ECS Wiki###28 11 2012 new variable
 rbac#:#rcat_delete#:#User can move or delete ECS Category###28 11 2012 new variable
-rbac#:#rcat_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rcat_edit_permission#:#Bruger kan ændre rettighedsindstillinger
 rbac#:#rcat_read#:#User can use ECS Category###28 11 2012 new variable
 rbac#:#rcat_visible#:#ECS Category is visible###28 11 2012 new variable
 rbac#:#rcat_write#:#User can edit settings of ECS Category###28 11 2012 new variable
 search#:#search_filter_by_type#:#Filtrer efter type
-search#:#search_off#:#Off###28 11 2012 new variable
+search#:#search_off#:#Fra
 ecs#:#ecs_cmap_enable#:#Course Allocation###27 12 2012 new variable
 ecs#:#ecs_cmap_def_cat#:#Standardkategori
 ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.###27 12 2012 new variable
@@ -12932,7 +12932,7 @@ ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated###27 12 2012 ne
 ecs#:#ecs_cmap_form_create_subdirs#:#Lav undermapper
 ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title###27 12 2012 new variable
 ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value###27 12 2012 new variable
-ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_name#:#Undermappenavn
 ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute###27 12 2012 new variable
 ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute###27 12 2012 new variable
 ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values###27 12 2012 new variable
