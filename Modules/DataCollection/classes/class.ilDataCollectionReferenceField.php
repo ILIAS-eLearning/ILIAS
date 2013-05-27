@@ -102,9 +102,7 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
 
         $ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $ref_record->getId());
 
-        $objDataCollectionRecordViewGUI = new ilDataCollectionRecordViewGUI($objRefTable->getCollectionObject());
-
-        $html = "<a href='". $ilCtrl->getLinkTarget($objDataCollectionRecordViewGUI,"renderRecord")."'>".$link_name."</a>";
+        $html = "<a href='". $ilCtrl->getLinkTargetByClass("ilDataCollectionRecordViewGUI","renderRecord")."'>".$link_name."</a>";
 
 
         return $html;
