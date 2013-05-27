@@ -12408,31 +12408,31 @@ dcl#:#dcl_checked#:#Checked.###28 08 2012 new variable
 dcl#:#dcl_not_checked#:#Not checked.###28 08 2012 new variable
 dcl#:#dcl_any#:#Any###28 08 2012 new variable
 dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://)###28 08 2012 new variable
-common#:#mail_member#:#Mail to Member###28 08 2012 new variable
-exc#:#exc_type_upload_team#:#Team Upload###28 08 2012 new variable
-exc#:#exc_team#:#Team###28 08 2012 new variable
-exc#:#exc_team_member_add#:#Add Team Member (Search)###28 08 2012 new variable
+common#:#mail_member#:#Mail til medlem
+exc#:#exc_type_upload_team#:#Hold upload
+exc#:#exc_team#:#Hold
 exc#:#exc_team_member_container_add#:#Add Team Member from Course/Group###28 08 2012 new variable
-exc#:#exc_team_members#:#Team Members###28 08 2012 new variable
-exc#:#exc_team_at_least_one#:#There has to be at least 1 team member.###28 08 2012 new variable
-pd#:#pd_export_profile#:#Export Personal Data###28 08 2012 new variable
-pd#:#pd_download_last_export_file#:#Download Last Export File###28 08 2012 new variable
-pd#:#pd_import_personal_data#:#Import Personal Data###28 08 2012 new variable
-pd#:#pd_profile_data#:#Profile Data###28 08 2012 new variable
-pd#:#pd_bookmarks#:#Bookmarks###28 08 2012 new variable
+exc#:#exc_team_member_add#:#Tilføj holdmedlem (Søg)
+exc#:#exc_team_members#:#Holdmedlemmer
+exc#:#exc_team_at_least_one#:#Der skal være mindst 1 holdmedlem.
+pd#:#pd_export_profile#:#Eksporter persondata
+pd#:#pd_download_last_export_file#:#Hent sidste eksportfil
+pd#:#pd_import_personal_data#:#Importer persondata
+pd#:#pd_profile_data#:#Profildata
+pd#:#pd_bookmarks#:#Favoritter
 pd#:#pd_notes#:#Personal Desktop Notes###28 08 2012 new variable
-pd#:#pd_private_calendars#:#Private Calendars###28 08 2012 new variable
-exc#:#exc_team_log#:#Team Log###28 08 2012 new variable
-exc#:#exc_team_log_remove_member#:#Removed member %s.###28 08 2012 new variable
-exc#:#exc_team_log_add_member#:#Added member %s.###28 08 2012 new variable
-exc#:#exc_team_log_create_team#:#Team created.###28 08 2012 new variable
-exc#:#exc_team_log_add_file#:#Added file %s.###28 08 2012 new variable
-exc#:#exc_team_log_remove_file#:#Removed file %s.###28 08 2012 new variable
+pd#:#pd_private_calendars#:#Private kalendere
+exc#:#exc_team_log#:#Hold hændelseslog
+exc#:#exc_team_log_remove_member#:#Fjernede medlem %s.
+exc#:#exc_team_log_add_member#:#Tilfjøjede medlem %s.
+exc#:#exc_team_log_create_team#:#Hold oprettet
+exc#:#exc_team_log_add_file#:#Tilføjede fil %s.
+exc#:#exc_team_log_remove_file#:#Fjernede fil %s.
 administration#:#adm_imprint#:#Imprint###28 08 2012 new variable
 administration#:#adm_imprint_inactive#:#The imprint is inactive and users are not able to access it.###28 08 2012 new variable
 common#:#imprint#:#Imprint###28 08 2012 new variable
 trac#:#trac_filter_has_status#:#Show not attempted objects###28 08 2012 new variable
-cat#:#cat_import#:#Import Category###28 08 2012 new variable
+cat#:#cat_import#:#Importer kategori
 mcst#:#mcst_preview_picture#:#Preview Picture###28 08 2012 new variable
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:###28 08 2012 new variable
 objref#:#objref_edit_ref#:#Target Settings###28 08 2012 new variable
@@ -12442,19 +12442,19 @@ objref#:#objref_reuse_title#:#Reuse Title of Reference###28 08 2012 new variable
 objref#:#objref_custom_title#:#Use Custom Title###28 08 2012 new variable
 news#:#news_keep_minimal_x_items#:#Keep at least x items###28 08 2012 new variable
 news#:#news_keep_minimal_x_items_info#:#If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime.###28 08 2012 new variable
-dateplaner#:#cal_add_calendar#:#Add Calendar###28 08 2012 new variable
-dateplaner#:#cal_import_appointments#:#Import Appointments###28 08 2012 new variable
+dateplaner#:#cal_add_calendar#:#Lav kalender
+dateplaner#:#cal_import_appointments#:#Importer aftaler
 dateplaner#:#cal_import_tbl#:#Import Appointments###28 08 2012 new variable
-dateplaner#:#cal_import_file#:#Import File###28 08 2012 new variable
-dateplaner#:#cal_import_file_info#:#Choose the file, that contains your calendar appointments.###28 08 2012 new variable
-mcst#:#mcst_conv_standard_to#:#Convert Standard File to###28 08 2012 new variable
+dateplaner#:#cal_import_file#:#Importer fil
+dateplaner#:#cal_import_file_info#:#Vælg den fil, der indeholder dine kalenderaftaler
+mcst#:#mcst_conv_standard_to#:#Konverter standardfil til
 mcst#:#mcst_conv_videoalternative_to#:#Convert Alternative Video File to###28 08 2012 new variable
 mcst#:#mcst_target#:#Target###28 08 2012 new variable
-mcst#:#mcst_videoalternative_title#:#Alternative Video File (Use in Browser)###28 08 2012 new variable
-mcst#:#mcst_convert#:#Convert###28 08 2012 new variable
-mcst#:#mcst_purpose_standard#:#Standard File###28 08 2012 new variable
-mcst#:#mcst_purpose_videoalternative#:#Alternative Video File###28 08 2012 new variable
-mcst#:#mcst_converted_file#:#File has been converted.###28 08 2012 new variable
+mcst#:#mcst_videoalternative_title#:#Alternativ videofil (brug i browser)
+mcst#:#mcst_convert#:#Konverter
+mcst#:#mcst_purpose_standard#:#Standard fil
+mcst#:#mcst_purpose_videoalternative#:#Alternativ videofil
+mcst#:#mcst_converted_file#:#Filen blev konverteret
 dateplaner#:#cal_imported_success#:#Imported %1$s appointments.###28 08 2012 new variable
 form#:#form_link_internal#:#Internal###28 08 2012 new variable
 form#:#form_link_external#:#External###28 08 2012 new variable
@@ -12539,9 +12539,9 @@ rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
 rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
 rbac#:#itgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
 rbac#:#rbac_create_itgr#:#Create Item Group###28 08 2012 new variable
-poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.###28 08 2012 new variable
-poll#:#poll_votes_no_edit#:#This poll cannot be edited because of existing votes.###28 08 2012 new variable
-itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
+poll#:#poll_active_no_edit#:#Afstemningen er aktiv og kan derfor ikke redigeres.
+poll#:#poll_votes_no_edit#:#Afstemningen kan ikke ændres på grund af de eksisternde stemmer.
+itgr#:#itgr_materials#:#Materiale
 itgr#:#itgr_item#:#Item###28 08 2012 new variable
 itgr#:#itgr_assigned_materials#:#Assigned Materials###28 08 2012 new variable
 itgr#:#itgr_assignment#:#Assignment###28 08 2012 new variable
@@ -12622,7 +12622,7 @@ dcl#:#dcl_create_field#:#Create Field###28 08 2012 new variable
 dcl#:#dcl_msg_field_modified#:#Field updated###28 08 2012 new variable
 common#:#obj_tstv#:#Test Certificate###28 08 2012 new variable
 common#:#obj_excv#:#Exercise Certificate###28 08 2012 new variable
-common#:#obj_prtf#:#Portfolio ###28 08 2012 new variable
+common#:#obj_prtf#:#Portfolio
 common#:#obj_rtst#:#ECS Test###28 08 2012 new variable
 common#:#objs_rtst#:#ECS Tests###28 08 2012 new variable
 ecs#:#ecs_tst_export#:#Test Releases###28 08 2012 new variable
@@ -12638,13 +12638,13 @@ dcl#:#dcl_change_notification_link#:#URL###28 08 2012 new variable
 dcl#:#dcl_change_notification_dcl_new_record#:#the following record was created###28 08 2012 new variable
 dcl#:#dcl_change_notification_dcl_update_record#:#the following record was updated###28 08 2012 new variable
 dcl#:#dcl_change_notification_dcl_delete_record#:#the following record page was deleted###28 08 2012 new variable
-dcl#:#dcl_table#:#Table###28 08 2012 new variable
-dcl#:#dcl_changed_by#:#Changed by###28 08 2012 new variable
+dcl#:#dcl_table#:#Tabel
+dcl#:#dcl_changed_by#:#Ændret af
 dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection###28 08 2012 new variable
 dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection###28 08 2012 new variable
 dcl#:#dcl_notification_activated#:#Notification Activated###28 08 2012 new variable
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated###28 08 2012 new variable
-dcl#:#dcl_locked#:#Locked###28 08 2012 new variable
+dcl#:#dcl_locked#:#Låst
 dcl#:#dcl_table_settings#:#Table Settings###28 08 2012 new variable
 dcl#:#dcl_add_perm#:#Permission Add Entry###28 08 2012 new variable
 dcl#:#dcl_edit_perm#:#Permission Edit Entry###28 08 2012 new variable
@@ -12652,9 +12652,9 @@ dcl#:#dcl_delete_perm#:#Permission Delete Entry###28 08 2012 new variable
 dcl#:#dcl_edit_by_owner#:#Edit / Delete only own entries###28 08 2012 new variable
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period###28 08 2012 new variable
 dcl#:#dcl_record_id#:#Record ID###28 08 2012 new variable
-dcl#:#dcl_limit_start#:#Start###28 08 2012 new variable
-dcl#:#dcl_limit_end#:#End###28 08 2012 new variable
-dcl#:#dcl_url#:#URL###28 08 2012 new variable
+dcl#:#dcl_limit_start#:#Start
+dcl#:#dcl_limit_end#:#Slut
+dcl#:#dcl_url#:#URL
 dateplaner#:#cal_setting_global_vis_repos#:#Repository Calendar###28 08 2012 new variable
 dateplaner#:#cal_setting_global_crs_vis#:#Show in Courses###28 08 2012 new variable
 dateplaner#:#cal_setting_global_grp_vis#:#Show in Groups###28 08 2012 new variable
@@ -12796,12 +12796,12 @@ forum#:#ascending_order#:#Seneste indlæg nederst
 forum#:#descending_order#:#Seneste indlæg øverst
 crs#:#crs_auto_notification#:#Advisering af nye medlemmer
 crs#:#crs_auto_notification_info#:#Nye medlemmer får en mail-advisering når de tilføjes kurset.
-forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
-dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 10 2012 new variable
-dcl#:#dcl_table_info_title#:#Info###27 10 2012 new variable
+forum#:#sort_by_posts#:#Sorter efter bidrag
+dcl#:#dcl_confirm_delete_field#:#Vil du slette dette felt?
+dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_permissions_form#:#Brugerrettigheder
 content#:#cont_presentation#:#Præsentation
-content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
+content#:#cont_scorm_options#:#SCORM valgmuligheder
 content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
 content#:#cont_debugging#:#Debugging###27 10 2012 new variable
 content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.###27 10 2012 new variable
@@ -12816,11 +12816,11 @@ survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in
 survey#:#survey_question_pool_usage_inactive_info#:#The questions cannot be re-used in other surveys.###27 10 2012 new variable
 mcst#:#mcst_viewmode#:#Presentation Mode###27 10 2012 new variable
 mcst#:#mcst_list#:#Liste
-mcst#:#mcst_gallery#:#Gallery###27 10 2012 new variable
+mcst#:#mcst_gallery#:#Galleri
 mcst#:#mcst_manage#:#Administrer
-mcst#:#mcst_play#:#Play###27 10 2012 new variable
+mcst#:#mcst_play#:#Afspil
 common#:#edit_assignments#:#Edit Assignments###27 10 2012 new variable
-mcst#:#mcst_extract_preview_image#:#Extract Preview Image###27 10 2012 new variable
+mcst#:#mcst_extract_preview_image#:#Udtræk forvisnings billede
 mcst#:#mcst_image_extracted#:#Image has been extracted.###27 10 2012 new variable
 mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###27 10 2012 new variable
 mcst#:#mcst_second#:#Second###27 10 2012 new variable
@@ -12868,7 +12868,7 @@ rbac#:#ecss_visible#:#ECS settings are visible ###28 11 2012 new variable
 rbac#:#ecss_write#:#User can edit ECS settings###28 11 2012 new variable
 skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.###28 11 2012 new variable
 help#:#help_imported_on#:#Importeret den
-help#:#help_tooltips_and_help#:#Tooltips and Workflow Help###28 11 2012 new variable
+help#:#help_tooltips_and_help#:#Tips og hjælp til arbejdsgang
 help#:#help_help_only#:#Workflow Help Only###28 11 2012 new variable
 help#:#help_tooltips_only#:#Tooltips Only###28 11 2012 new variable
 help#:#help_set_mode#:#Set Mode###28 11 2012 new variable
@@ -12880,12 +12880,12 @@ rbac#:#rfil_read#:#User can use ECS File ###28 11 2012 new variable
 rbac#:#rfil_visible#:#ECS File is visible###28 11 2012 new variable
 rbac#:#rfil_write#:#User can edit settings of ECS File###28 11 2012 new variable
 rbac#:#rgrp_delete#:#User can move or delete ECS Group ###28 11 2012 new variable
-rbac#:#rgrp_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rgrp_edit_permission#:#Bruger kan ændre rettighedsindstillinger
 rbac#:#rgrp_read#:#User can use ECS Group ###28 11 2012 new variable
 rbac#:#rgrp_visible#:#ECS Group is visible###28 11 2012 new variable
 rbac#:#rgrp_write#:#User can edit settings of ECS Group###28 11 2012 new variable
 rbac#:#rglo_delete#:#User can move or delete ECS Glossary ###28 11 2012 new variable
-rbac#:#rglo_edit_permission#:#User can change permission settings###28 11 2012 new variable
+rbac#:#rglo_edit_permission#:#Bruger kan ændre rettighedsindstillinger
 rbac#:#rglo_read#:#User can use ECS Glossary ###28 11 2012 new variable
 rbac#:#rglo_visible#:#ECS Glossary is visible###28 11 2012 new variable
 rbac#:#rglo_write#:#User can edit settings of ECS Glossary###28 11 2012 new variable
