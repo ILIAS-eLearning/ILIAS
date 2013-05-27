@@ -3871,7 +3871,7 @@ common#:#no#:#Nein
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#no_access_item_public#:#Um dieses Objekt zu nutzen, müssen Sie angemeldet sein und entsprechende Zugriffsrechte besitzen.
 common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
-common#:#no_agreement_description#:#Aktuell wird in dieser Installation keine Benutzervereinbarung angeboten. Bitte kontaktieren Sie Ihren Systemadministrator für weitere Informationen.
+common#:#no_agreement_description#:#Aktuell wird in dieser Installation keine Benutzervereinbarung angeboten. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_chat_in_personal_list#:#Es ist kein Chat abonniert.
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen

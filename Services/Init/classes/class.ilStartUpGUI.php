@@ -1437,8 +1437,9 @@ class ilStartUpGUI
 		 * @var $lng ilLanguage
 		 * @var $tpl ilTemplate
 		 * @var $ilUser ilObjUser
+		 * @var $ilSetting ilSetting
 		 */
-		global $lng, $tpl, $ilUser;
+		global $lng, $tpl, $ilUser, $ilSetting;
 		
 		$tpl->addBlockFile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
 		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
@@ -1498,7 +1499,7 @@ class ilStartUpGUI
 		}
 		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
 		{
-			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $lng->txt('no_agreement_description'));
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:'.$ilSetting->get('feedback_recipient')));
 		}
 
 		$tpl->show();
