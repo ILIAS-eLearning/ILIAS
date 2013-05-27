@@ -3276,7 +3276,7 @@ common#:#nickname#:#Nickname
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissons.
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_access_link_object#:#You are not allowed to link this object
-common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.
+common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_chat_in_personal_list#:#No chats in personal list
 common#:#no_checkbox#:#Please select at least one item.
