@@ -2629,21 +2629,21 @@ common#:#disable_check#:#Nicht überprüfen
 common#:#disable_ext_lang_maint#:#Deaktiviere erweiterte Sprachenverwaltung
 common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
 common#:#disabled#:#Ausgeschaltet
-common#:#disk_quota#:#Disk Quota
-common#:#disk_quota_exceeded_headline#:#die folgenden Benutzer haben ihr Disk Quota überschritten:
-common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s aufgrund Mitgliedschaft in Rolle "%2$s".
-common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk Quota ist %1$s wie definiert in diesem Benutzerkonto. Die Disk Quota durch Rollenzugehörigkeit wäre %2$s über Rolle "%3$s" gewesen.
-common#:#disk_quota_is_unlimited_by_1#:#Die effektive Disk Quota ist unbegrenzt aufgrund Mitgliedschaft in Rolle "%1$s".
+common#:#disk_quota#:#Disk-Quota
+common#:#disk_quota_exceeded_headline#:#die folgenden Benutzer haben ihr Disk-Quota überschritten:
+common#:#disk_quota_is_1_by_2#:#Die effektive Disk-Quota ist %1$s aufgrund der Mitgliedschaft in Rolle "%2$s".
+common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk-Quota ist %1$s wie definiert in diesem Benutzerkonto. Die Disk-Quota durch Rollenzugehörigkeit wäre %2$s über Rolle "%3$s" gewesen.
+common#:#disk_quota_is_unlimited_by_1#:#Die effektive Disk-Quota ist unbegrenzt aufgrund Mitgliedschaft in Rolle "%1$s".
 common#:#disk_quota_last_reminder_sent#:#Letzte Quota-Erinnerung zugestellt
-common#:#disk_quota_last_reminder_sent_desc#:#Datum, an dem der Benutzer zum letzten Mal wegen Überschreitung der Disk Quota eine Erinnerungsnachricht erhalten hat.
-common#:#disk_quota_on_role_desc#:#Die Disk Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind.
+common#:#disk_quota_last_reminder_sent_desc#:#Datum, an dem der Benutzer zum letzten Mal wegen Überschreitung der Disk-Quota eine Erinnerungsnachricht erhalten hat.
+common#:#disk_quota_on_role_desc#:#Die Disk-Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind.
 common#:#disk_quota_reminder_mail#:#Erinnerungsnachricht
-common#:#disk_quota_reminder_mail_desc#:#Die Disk Quota Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk Quota überschritten haben. Der Versand erfolgt einmal täglich. Benutzer die bereits eine Erinnerungsnachricht erhalten haben, erhalten diese alle 7 Tage erneut, bis dass ihre Disk Quota wieder unterschritten wird.
-common#:#disk_quota_report#:#Disk Quota-Bericht
-common#:#disk_quota_report_not_run_yet#:#Keine Disk Quota-Berichte vorhanden. Der tägliche Cronjob zur Ermittlung der Speicherverwendung muss zuerst ausgeführt werden.
+common#:#disk_quota_reminder_mail_desc#:#Die Disk-Quota Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk-Quota überschritten haben. Der Versand erfolgt einmal täglich. Benutzer die bereits eine Erinnerungsnachricht erhalten haben, erhalten diese alle 7 Tage erneut, bis dass ihre Disk-Quota wieder unterschritten wird.
+common#:#disk_quota_report#:#Disk-Quota-Bericht
+common#:#disk_quota_report_not_run_yet#:#Keine Disk-Quota-Berichte vorhanden. Der tägliche Cronjob zur Ermittlung der Speicherverwendung muss zuerst ausgeführt werden.
 common#:#disk_quota_summary_rctp#:#Empfänger der Zusammenfassung
-common#:#disk_quota_summary_rctp_desc#:#Tragen Sie hier kommasepariert die Benutzernamen jender Personen ein, an die ILIAS täglich eine Zusammenfassung der überschrittenen Disk Quotas senden soll.
-common#:#disk_quota_summary_subject#:#Zusammenfassung von überschrittenen Disk Quotas
+common#:#disk_quota_summary_rctp_desc#:#Tragen Sie hier kommasepariert die Benutzernamen jener Personen ein, an die ILIAS täglich eine Zusammenfassung der überschrittenen Disk-Quotas senden soll.
+common#:#disk_quota_summary_subject#:#Zusammenfassung von überschrittenen Disk-Quotas
 common#:#disk_space_used#:#Belegter Festplattenspeicher
 common#:#disk_usage#:#Speicherverwendung
 common#:#disk_usage_details#:#Einzelheiten zur Speicherverwendung
@@ -2686,11 +2686,11 @@ common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kur
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppen hoch.
-common#:#enable_disk_quota#:#Aktiviere Disk Quota
-common#:#enable_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine Disk Quota zu vergeben. Die Speicherplatznutzung wird einmal täglich per Cron Job ermittelt. Die Speicherplatznutzung wird im Benutzerformular im Disk Quota Bericht aufgeführt.
-common#:#enable_disk_quota_reminder_mail#:#Sende Disk Quota-Erinnerungsnachrichten
-common#:#enable_disk_quota_summary_mail#:#Sende Disk Quota-Zusammenfassungen
-common#:#enable_disk_quota_summary_mail_desc#:#Durch das Aktivieren ist es möglich, bestimmten Benutzern eine tägliche Benachrichtigung über die überschrittenen Disk Quotas zukommen zu lassen.
+common#:#enable_disk_quota#:#Aktiviere Disk-Quota
+common#:#enable_disk_quota_info#:#Erlaubt die Bestimmung des maximal verfügbaren Plattenplatzes im Magazin pro Benutzerkonto und für jede globale Rolle. Benutzer die ihre Disk-Quota überschritten haben, können von ILIAS informiert werden. Das Hochladen weiterer Dateien wird aber nicht eingeschränkt. Die Funktion setzt den entsprechenden Cron-Job voraus, der die Speicherplatznutzung pro Benutzer einmal täglich ermittelt. Die tatsächliche Speicherplatznutzung wird im Benutzerformular und im Disk-Quota Bericht aufgeführt.
+common#:#enable_disk_quota_reminder_mail#:#Sende Disk-Quota-Erinnerungsnachrichten
+common#:#enable_disk_quota_summary_mail#:#Sende Disk-Quota-Zusammenfassungen
+common#:#enable_disk_quota_summary_mail_desc#:#Durch das Aktivieren ist es möglich, bestimmten Benutzern eine tägliche Benachrichtigung über die überschrittenen Disk-Quotas zukommen zu lassen.
 common#:#enable_download_folder#:#«Ordner herunterladen» aktivieren
 common#:#enable_download_folder_info#:#Erlaubt das Herunterladen von Ordnern und ihrer Binnenstrukturen als ZIP-Datei.
 common#:#enable_ext_lang_maint#:#Aktiviere «Erweiterte Sprachenverwaltung»
@@ -2911,7 +2911,7 @@ common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felde
 common#:#filter#:#Filter:
 common#:#filter_users_with_access#:#Nur Benutzer mit Zugriff
 common#:#filter_users_with_disk_usage#:#Nur Benutzer die Speicherplatz belegen
-common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk Quota überschreiten
+common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk-Quota überschreiten
 common#:#filter_users_without_access#:#Nur Benutzer ohne Zugriff
 common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
 common#:#first#:#An den Anfang
@@ -13286,12 +13286,12 @@ didactic#:#didactic_default_type#:#Standard
 pd#:#pd_info_delete_sure_remove#:#Wollen Sie wirklich die folgenden Objekte vom Persönlichen Schreibtisch entfernen?
 pd#:#pd_info_delete_sure_unsubscribe#:#Wollen Sie sich wirklich aus den folgenden Objekten abmelden?
 pd#:#pd_min_one_admin#:#Diesem Objekt muß mindestens ein Administrator zugeordnet bleiben.
-file#:#enable_personal_workspace_disk_quota#:#Aktiviere Disk Quota für den Persönlichen Arbeitsraum
-file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine harte Disk Quota zu vergeben. Dies betrifft nur den persönlichen Arbeitsraum inclusive der Portfolios.
-file#:#personal_workspace_disk_quota#:#Disk Quota für Persönlichen Arbeitsraum
-file#:#repository_disk_quota#:#Magazin Disk Quota
-file#:#personal_workspace_quota_exceeded_warning#:#Sie haben die Disk Quota für den persönlichen Arbeitsraum verbraucht.
-file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk Quota von %2$s (%3$d%%).
+file#:#enable_personal_workspace_disk_quota#:#Aktiviere Disk-Quota für den Persönlichen Arbeitsraum
+file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien im persönlichen Arbeitsraum und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
+file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
+file#:#repository_disk_quota#:#Disk-Quota für Magazin
+file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
+file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
 pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
 pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden

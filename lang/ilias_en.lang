@@ -2122,9 +2122,8 @@ common#:#enable_admin_force#:#Activate notification
 common#:#enable_calendar#:#Enable Calendar
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
-common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.
+common#:#enable_disk_quota_info#:#Allows to specify a soft disk quota for each user account and each global role. Users that have exceeded the defined disk quota can be notified by ILIAS but are still able to upload more files. <br />This feature requires the activation of the cron job for disk quota! This cron job analyses the disk usage of all user accounts and list it in Administration » User Accounts as well as in the Disk Quota Report.
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
-common#:#enable_disk_quota#:#Activate Disk Quota
 common#:#enable_download_folder_info#:#Allows to download a folder including sub structures as a zip file.
 common#:#enable_download_folder#:#Enable Downloading Folders
 common#:#enable_ext_lang_maint#:#Enable Extended Maintenance
@@ -10480,8 +10479,8 @@ common#:#cronjob_last_start#:#Last Start of the Cron Job
 common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary
 common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.
 common#:#disk_quota_summary_rctp#:#Recipients
-common#:#disk_quota_summary_rctp_desc#:#Enter a comma-separated list of user names for those users, who should receive a daily summary of the exceeded disk quota.
-common#:#disk_quota_exceeded_headline#:#the following users have exceeded their disk quota:
+common#:#disk_quota_summary_rctp_desc#:#Enter the user names (comma-separated) of those users who shall receive a daily report with users currently exceeding the disk quota.
+common#:#disk_quota_exceeded_headline#:#The following users have exceeded their disk quota:
 common#:#usrf_profile_link#:#Link to user profile
 common#:#currently_used_disk_space#:#Currently used disk space
 common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota
@@ -13283,15 +13282,15 @@ registration#:#registration_codes_override_info#:#This setting overrides any val
 registration#:#registration_codes_override_global_info#:#These settings may be overridden by registration codes.
 crs#:#event_list_registered_only#:#Only Registered Members
 didactic#:#didactic_default_type#:#Default
-pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following objects from your personal desktop?
+pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following objects from your Personal Desktop?
 pd#:#pd_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 pd#:#pd_min_one_admin#:#There has to be at least one administrator assigned to this object.
-file#:#enable_personal_workspace_disk_quota#:#Activate Personal Workspace Disk Quota
-file#:#enable_personal_workspace_disk_quota_info#:#Allows to specify a hard disk quota for each user account and each global role. It only affects the personal workspace including portfolios.
-file#:#personal_workspace_disk_quota#:#Disk Quota for Personal Workspace
-file#:#repository_disk_quota#:#Repository Disk Quota
-file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
-file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk Quota von %2$s (%3$d%%).
+file#:#enable_personal_workspace_disk_quota#:#Activate Hard Quota for Personal Workspace
+file#:#enable_personal_workspace_disk_quota_info#:#Allows to define a hard disk quota for each user account and each global role. This quota only affects files in the personal workspace and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
+file#:#repository_disk_quota#:#Soft Disk Quota for Repository
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace. 
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe
