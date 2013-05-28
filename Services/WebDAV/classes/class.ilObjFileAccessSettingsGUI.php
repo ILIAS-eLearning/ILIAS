@@ -391,7 +391,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 
 		// Enable disk quota
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_disk_quota"), "enable_disk_quota");
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("repository_disk_quota"), "enable_disk_quota");
 		$cb_prop->setValue('1');
 		$cb_prop->setChecked($this->disk_quota_obj->isDiskQuotaEnabled());
 		$cb_prop->setInfo($lng->txt('enable_disk_quota_info'));
@@ -419,7 +419,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		
 		
 		// Enable disk quota
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_personal_workspace_disk_quota"), "enable_personal_workspace_disk_quota");
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("personal_workspace_disk_quota"), "enable_personal_workspace_disk_quota");
 		$cb_prop->setValue('1');
 		$cb_prop->setChecked($this->disk_quota_obj->isPersonalWorkspaceDiskQuotaEnabled());
 		$cb_prop->setInfo($lng->txt('enable_personal_workspace_disk_quota_info'));
