@@ -122,6 +122,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function learningProgressObject()
 	{
 		global $rbacsystem, $tpl;
+		
+		// deprecated JF 27 May 2013
+		exit();
 
 		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()) ||
 			!ilObjUserTracking::_enabledLearningProgress() ||
@@ -2506,12 +2509,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
 
+			/* deprecated, JF 27 May 2013
 			if(ilObjUserTracking::_enabledLearningProgress() &&
 				ilObjUserTracking::_enabledUserRelatedData())
 			{
 				$tabs_gui->addTarget("learning_progress",
 									 $this->ctrl->getLinkTarget($this, "learningProgress"), "learningProgress", "", "");
-			}
+			}			  
+			*/
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
