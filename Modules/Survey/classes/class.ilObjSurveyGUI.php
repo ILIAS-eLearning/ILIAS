@@ -293,7 +293,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$a_new_object->applySettingsTemplate($tpl);
 		}
 		
-		$a_new_object->set360Mode((bool)$_POST["mode360"]);
+		$a_new_object->set360Mode(($_POST["mode"] == "mode360"));
 		if($a_new_object->get360Mode())
 		{
 			$a_new_object->setAnonymize(ANONYMIZE_CODE_ALL);
@@ -345,7 +345,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	* @access private
 	*/
 	function savePropertiesObject()
-	{
+	{		
+		global $rbacsystem;
+		
 		$form = $this->initPropertiesForm();
 		if ($form->checkInput())
 		{					
@@ -528,7 +530,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				if($this->object->get360Mode())
 				{
 					$this->object->set360SelfEvaluation((bool)$_POST["self_eval"]);
-					$this->object->set360SelfAppraisee((bool)$_POST["self_eval"]);
+					$this->object->set360SelfAppraisee((bool)$_POST["self_appr"]);
 					$this->object->set360SelfRaters((bool)$_POST["self_rate"]);
 					$this->object->set360Results((int)$_POST["ts_res"]);;
 					$this->object->set360SkillService((int)$_POST["skill_service"]);
@@ -574,8 +576,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{		
 		$form = parent::initCreateForm($a_new_type);
 		
-		$mode360 = new ilCheckboxInputGUI($this->lng->txt("survey_360_mode"), "mode360");
-		$form->addItem($mode360);
+		$mode = new ilRadioGroupInputGUI($this->lng->txt("survey_mode"), "mode");
+		$mode->setValue("modedef");
+		$form->addItem($mode);
+		
+		$modedef = new ilRadioOption($this->lng->txt("survey_default_mode"), "modedef");
+		$modedef->setInfo($this->lng->txt("survey_default_mode_info"));
+		$mode->addOption($modedef);
+		
+		$mode360 = new ilRadioOption($this->lng->txt("survey_360_mode"), "mode360");
+		$mode360->setInfo($this->lng->txt("survey_360_mode_info"));
+		$mode->addOption($mode360);				
 		
 		return $form;
 	}
@@ -4630,7 +4641,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// properties
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			$force_active = ($this->ctrl->getCmd() == "")
+			$force_active = ($this->ctrl->getCmd() == "" && $this->ctrl->getNextClass() == "")
 				? true
 				: false;
 			$tabs_gui->addTarget("settings",
