@@ -40,7 +40,7 @@ class ilSurveyEvaluationGUI
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->object =& $a_object;
-		if ($this->object->get360SkillService())
+		if ($this->object->get360Mode())
 		{
 			$this->determineAppraiseeId();
 		}
