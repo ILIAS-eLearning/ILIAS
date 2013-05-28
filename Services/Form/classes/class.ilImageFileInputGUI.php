@@ -117,7 +117,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
 	{
 		global $lng;
 		
-		$quota_exceeded = false;
+		$quota_exceeded = $quota_legend = false;
 		if(self::$check_wsp_quota)
 		{
 			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
@@ -125,6 +125,14 @@ class ilImageFileInputGUI extends ilFileInputGUI
 			{				
 				$lng->loadLanguageModule("file");		
 				$quota_exceeded = $lng->txt("personal_workspace_quota_exceeded_warning");				
+			}
+			else
+			{							
+				$quota_legend = ilDiskQuotaHandler::getStatusLegend();
+				if($quota_legend)
+				{
+					$quota_legend = "<br />".$quota_legend;
+				}
 			}
 		}
 		
@@ -183,7 +191,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
 		if(!$quota_exceeded)
 		{
 			$i_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
-				$this->getMaxFileSizeString());
+				$this->getMaxFileSizeString().$quota_legend);
 			
 			$this->outputSuffixes($i_tpl, "allowed_image_suffixes");
 		}

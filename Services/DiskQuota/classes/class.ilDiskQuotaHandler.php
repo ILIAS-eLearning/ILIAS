@@ -270,18 +270,16 @@ class ilDiskQuotaHandler
 		$quota = $quota["disk_quota"];
 		
 		// administrator
-		if(is_infinite($quota))
+		if(is_infinite($quota) || !(int)$quota)
 		{
 			return;
 		}
 					
 		$lng->loadLanguageModule("file");
-		return '<div class="small">'.
-			sprintf($lng->txt("personal_workspace_quota_status_legend"), 
+		return sprintf($lng->txt("personal_workspace_quota_status_legend"), 
 				ilFormat::formatSize($usage), 
 				ilFormat::formatSize($quota), 
-				$quota ? round($usage/$quota*100) : 0).
-			"</div>";
+				$quota ? round($usage/$quota*100) : 0);
 	}
 }
 

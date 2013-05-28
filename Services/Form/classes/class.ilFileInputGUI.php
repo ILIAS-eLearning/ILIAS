@@ -322,7 +322,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	{
 		global $lng;		
 		
-		$quota_exceeded = false;
+		$quota_exceeded = $quota_legend = false;
 		if(self::$check_wsp_quota)
 		{
 			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
@@ -330,6 +330,10 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 			{
 				$lng->loadLanguageModule("file");
 				$quota_exceeded = $lng->txt("personal_workspace_quota_exceeded_warning");			
+			}
+			else
+			{							
+				$quota_legend = ilDiskQuotaHandler::getStatusLegend();
 			}
 		}
 				
@@ -373,8 +377,14 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
 				$f_tpl->setCurrentBlock("max_size");
 				$f_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
-					$this->getMaxFileSizeString());
+					$this->getMaxFileSizeString());										
 				$f_tpl->parseCurrentBlock();
+				
+				if($quota_legend)
+				{
+					$f_tpl->setVariable("TXT_MAX_SIZE", $quota_legend);										
+					$f_tpl->parseCurrentBlock();
+				}
 			}
 			else
 			{

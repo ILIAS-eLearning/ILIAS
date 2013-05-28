@@ -383,9 +383,6 @@ class ilObjPortfolioGUI
 	{
 		global $lng, $ilCtrl, $ilUser, $ilSetting;
 		
-		include_once "Services/Form/classes/class.ilFileInputGUI.php";
-		ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);	
-
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));		
@@ -492,7 +489,10 @@ class ilObjPortfolioGUI
 			
 			$prfa_set = new ilSetting("prfa");
 			if($prfa_set->get("banner"))
-			{	
+			{			
+				include_once "Services/Form/classes/class.ilFileInputGUI.php";
+				ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);	
+				
 				$dimensions = " (".$prfa_set->get("banner_width")."x".
 					$prfa_set->get("banner_height").")";
 				

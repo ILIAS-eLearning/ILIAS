@@ -68,6 +68,21 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 	function render($a_mode = "")
 	{
 		global $lng, $tpl, $ilUser;
+					
+		$quota_exceeded = $quota_legend = false;
+		if(self::$check_wsp_quota)
+		{
+			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+			if(!ilDiskQuotaHandler::isUploadPossible())
+			{
+				$lng->loadLanguageModule("file");
+				return $lng->txt("personal_workspace_quota_exceeded_warning");			
+			}
+			else
+			{							
+				$quota_legend = ilDiskQuotaHandler::getStatusLegend();
+			}
+		}
 
 		// make sure jQuery is loaded
 		iljQueryUtil::initjQuery();
@@ -97,6 +112,12 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 		$this->tpl->setCurrentBlock("max_size");
 		$this->tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".$this->getMaxFileSizeString());
 		$this->tpl->parseCurrentBlock();
+		
+		if($quota_legend)
+		{
+			$this->tpl->setVariable("TXT_MAX_SIZE", $quota_legend);										
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		$this->outputSuffixes($this->tpl);
 		
