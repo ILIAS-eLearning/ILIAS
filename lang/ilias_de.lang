@@ -13125,7 +13125,7 @@ rbac#:#edit_userassignment#:#Benutzerzuweisung ändern
 blog#:#blog_posting_edit_approval_info#:#Der Eintrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
 survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschlüssel löschen?
 survey#:#survey_360_title#:#360°
-survey#:#survey_360_mode#:#360° Modus aktivieren
+survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_self_evaluation#:#Feedback-Nehmer können selbst Feedback geben 
 survey#:#survey_360_self_raters#:#Feedback-Nehmer können ihre Feedback-Geber verwalten
 survey#:#survey_360_self_appraisee#:#Benutzer können sich selbst als Feedback-Nehmer hinzufügen
@@ -13295,3 +13295,7 @@ file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk Quot
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
 pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
 pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
+survey#:#survey_mode#:#Modus
+survey#:#survey_default_mode#:#Klassische Umfrage
+survey#:#survey_default_mode_info#:#Für Evaluation
+survey#:#survey_360_mode_info#:#Für Peer-Reviews

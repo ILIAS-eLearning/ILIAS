@@ -13124,7 +13124,7 @@ rbac#:#edit_userassignment#:#Edit User Assignment
 blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.
 survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following access codes?
 survey#:#survey_360_title#:#360°
-survey#:#survey_360_mode#:#Activate 360° Mode
+survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_self_evaluation#:#Appraisees Can Rate Themselves
 survey#:#survey_360_self_raters#:#Appraisees Can Manage Their Raters
 survey#:#survey_360_self_appraisee#:#Users Can Add Themselves As Appraisees
@@ -13295,3 +13295,7 @@ file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk Quot
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe
+survey#:#survey_mode#:#Mode
+survey#:#survey_default_mode#:#Classic Survey
+survey#:#survey_default_mode_info#:#Use for evaluation
+survey#:#survey_360_mode_info#:#Use for user peer review
