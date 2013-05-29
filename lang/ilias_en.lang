@@ -1525,9 +1525,9 @@ common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript s
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
 common#:#advanced_editing_no_rte#:#Do not use rich text editing
-common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages. If deactivated, existing content will be hidden.
+common#:#advanced_editing_rep_page_editing_desc#:#This feature allows adding text/media to pages of a category, course, group or folder. If deactivated, existing content will be hidden.
 common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository
-common#:#advanced_editing_tst_editing_desc#:#This feature allows to add text/media to feedback or hints of test questions.
+common#:#advanced_editing_tst_editing_desc#:#This feature allows adding text/media to feedback or hints of test questions.
 common#:#advanced_editing_tst_editing#:#Enable Content Editing in Test & Assessment
 common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s
 common#:#advanced_editing_settings#:#Editing Settings
@@ -2120,11 +2120,11 @@ common#:#email_not_valid#:#The e-mail address you entered is not valid!
 common#:#email#:#E-Mail
 common#:#enable_admin_force#:#Activate notification
 common#:#enable_calendar#:#Enable Calendar
-common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
+common#:#enable_custom_icons_info#:#This allows you to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
-common#:#enable_disk_quota_info#:#Allows to specify a soft disk quota for each user account and each global role. Users that have exceeded the defined disk quota can be notified by ILIAS but are still able to upload more files. <br />This feature requires the activation of the cron job for disk quota! This cron job analyses the disk usage of all user accounts and list it in Administration » User Accounts as well as in the Disk Quota Report.
+common#:#enable_disk_quota_info#:#Allows definition of a soft disk quota for each user account and each global role. Users that have exceeded the defined disk quota can be notified by ILIAS but are still able to upload more files. <br />This feature requires the activation of the cron job for disk quota! This cron job analyses the disk usage of all user accounts and list it in Administration » User Accounts as well as in the Disk Quota Report.
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
-common#:#enable_download_folder_info#:#Allows to download a folder including sub structures as a zip file.
+common#:#enable_download_folder_info#:#Allows download of a folder including sub structures as zip file.
 common#:#enable_download_folder#:#Enable Downloading Folders
 common#:#enable_ext_lang_maint#:#Enable Extended Maintenance
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
@@ -5025,7 +5025,7 @@ content#:#cont_Remark#:#Remark
 content#:#cont_remove_fullscreen#:#Remove Full Screen
 content#:#cont_removeiln#:#really remove internal link ?
 content#:#cont_rename_dir#:#Rename Directory
-content#:#cont_replace_mob_feature_info#:#Activates a feature that allows to replace a media object while keeping the other properties of a media instance in the content.
+content#:#cont_replace_mob_feature_info#:#Activates a feature that allows you to replace a media object while keeping the other properties of a media instance in the content.
 content#:#cont_replace_mob_feature#:#Replace Media Objects in Content
 content#:#cont_repository_item_links#:#Repository Item Links
 content#:#cont_repository_item#:#Repository Item
@@ -6896,7 +6896,7 @@ license#:#course_licenses_exceeded#:#By adding users the potential accesses will
 license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.
 license#:#edit_license#:#Edit license
 license#:#existing_licenses#:#Existng licenses
-license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules
+license#:#license_counter_info#:#Allows counting used licenses of purchased SCORM and HTML learning modules
 license#:#license_counter#:#License counter
 license#:#license_updated#:#The license data was updated.
 license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course.
@@ -7753,7 +7753,7 @@ news#:#news_default_visibility#:#Default Access
 news#:#news_edit_news_settings#:#Edit Settings
 news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the personal desktop.
 news#:#news_enable_internal_news#:#Enable Internal News
-news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. These items will be accessible outside of the system without authentication.
+news#:#news_enable_internal_rss_info#:#Allows publishing news items via RSS. These items will be accessible outside of the system without authentication.
 news#:#news_enable_internal_rss#:#Enable RSS for Internal News
 news#:#news_enable_private_feed_info#:#If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentification is provided by password.
 news#:#news_enable_private_feed#:#Enable private Newsfeed
@@ -11093,7 +11093,7 @@ wsp#:#wsp_share_with_members#:#Share with members
 wsp#:#wsp_share_success#:#A new entry has been added.
 wsp#:#wsp_share_search_users#:#Search Users
 content#:#cont_html_export_ids#:#HTML Export IDs
-content#:#cont_html_export_ids_info#:#Allows to maintain extra IDs for ILIAS learning modules, that are used for naming HTML files, when HTML export is done.
+content#:#cont_html_export_ids_info#:#Allows maintaining extra IDs for ILIAS learning modules that are used for naming HTML files when HTML export is done.
 content#:#cont_export_id#:#Export ID
 content#:#cont_exp_ids_not_resp_format1#:#Export IDs may only use the following characters
 content#:#cont_exp_ids_not_resp_format2#:#Please check and correct your input.
@@ -11116,7 +11116,7 @@ content#:#cont_set_layout#:#Set Layout
 mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.
 content#:#cont_missing_snippet#:#Missing Content Snippet. The snippet has been deleted.
 content#:#cont_enable_page_history#:#Page History
-content#:#cont_enable_page_history_info#:#Stores older versions of pages and allows to roll back to older versions.
+content#:#cont_enable_page_history_info#:#Stores older versions of pages and allows roll back to older versions.
 style#:#sty_type_qover#:#Question Overview
 ecs#:#ecs_tbl_settings_for_server#:#ECS Settings for %s
 ecs#:#ecs_back_settings#:#ECS Settings
@@ -13286,7 +13286,7 @@ pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following 
 pd#:#pd_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 pd#:#pd_min_one_admin#:#There has to be at least one administrator assigned to this object.
 file#:#enable_personal_workspace_disk_quota#:#Activate Hard Quota for Personal Workspace
-file#:#enable_personal_workspace_disk_quota_info#:#Allows to define a hard disk quota for each user account and each global role. This quota only affects files in the personal workspace and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
+file#:#enable_personal_workspace_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal workspace and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
 file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
 file#:#repository_disk_quota#:#Soft Disk Quota for Repository
 file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace. 
