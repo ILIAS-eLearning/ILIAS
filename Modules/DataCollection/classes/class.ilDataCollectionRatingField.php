@@ -73,7 +73,7 @@ class ilDataCollectionRatingField extends ilDataCollectionRecordField{
 	public function getExportValue(){
         $val = ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record",
             $this->getField()->getId(), "dcl_field");
-        return $val["avg"];
+        return $val["avg"]." (".$val["cnt"].")";
 	}
 
 	public function getValue(){

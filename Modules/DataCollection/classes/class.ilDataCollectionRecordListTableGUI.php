@@ -135,7 +135,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                 if(($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_RATING)){
                     $val = ilRating::getOverallRatingForObject($record->getId(), "dcl_record",
                         $field->getId(), "dcl_field");
-                    $record_data[$title] = $val["avg"];
+                    $record_data[$title] = $val["avg"]." (".$val["cnt"].")";
                 }
                 else{
                     $record_data[$title] = ($record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):null);
