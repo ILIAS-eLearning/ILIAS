@@ -928,12 +928,21 @@ class ilNewsItem extends ilNewsItemGen
 	{
 		global $ilDB, $ilAppEventHandler;
 		
+		$ilDB->replace("il_news_read",
+			array(
+				"user_id" => array("integer", $a_user_id),
+				"news_id" => array("integer", $a_news_id)
+				),
+			array()
+			);
+		
+		/*
 		$ilDB->manipulate("DELETE FROM il_news_read WHERE ".
 			"user_id = ".$ilDB->quote($a_user_id, "integer").
 			" AND news_id = ".$ilDB->quote($a_news_id, "integer"));
 		$ilDB->manipulate("INSERT INTO il_news_read (user_id, news_id) VALUES (".
 			$ilDB->quote($a_user_id, "integer").",".
-			$ilDB->quote($a_news_id, "integer").")");
+			$ilDB->quote($a_news_id, "integer").")");*/
 
 		$ilAppEventHandler->raise("Services/News", "readNews",
 			array("user_id" => $a_user_id, "news_ids" => array($a_news_id)));
