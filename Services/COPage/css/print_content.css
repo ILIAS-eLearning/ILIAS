@@ -194,3 +194,7 @@ div.ilc_Question
 	background: #cccccc;
 	padding: 5px;
 }
+
+#ilGloContent {
+	border: 0;
+}

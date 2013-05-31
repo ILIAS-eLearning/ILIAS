@@ -220,6 +220,22 @@ il.Util = {
 			return true;
 		}
 		return false;
+	},
+	
+	/**
+	 * print current window, thanks to anoack for the mathjax fix (see bug #)
+	 */
+	print: function () {
+		if (typeof(window.print) != 'undefined') {
+			if (typeof MathJax !== 'undefined') {
+				MathJax.Hub.Queue(
+					["Delay",MathJax.Callback,700],
+					window.print
+				);
+			} else {
+				window.print();
+			}
+		}
 	}
 }
 

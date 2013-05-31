@@ -4375,7 +4375,7 @@ class ilUtil
 	public static function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]")
 	{
 		global $tpl, $lng, $ilUser;
-		
+
 		$cgi = URL_TO_LATEX;
 
 		// - take care of html exports (-> see buildLatexImages)
