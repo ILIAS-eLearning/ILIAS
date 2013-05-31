@@ -1173,7 +1173,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function printView()
 	{
-		global $ilAccess;
+		global $ilAccess, $tpl;
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -1223,6 +1223,7 @@ class ilGlossaryPresentationGUI
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
 		
+/*
 		// syntax style
 		$this->tpl->setCurrentBlock("SyntaxStyle");
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
@@ -1233,22 +1234,23 @@ class ilGlossaryPresentationGUI
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery($tpl);
+		
 		// determine target frames for internal links
 
 		foreach ($terms as $t_id)
 		{
 			$page_content.= $this->listDefinitions($_GET["ref_id"], $t_id, true);
 		}
-		$tpl->setVariable("CONTENT", '<div class="ilInvisibleBorder">'.$page_content.'</div>'.
+		$tpl->setVariable("CONTENT", $page_content.
 		'<script type="text/javascript" language="javascript1.2">
 		<!--
-			// Do print the page
-			if (typeof(window.print) != \'undefined\')
-			{
-				window.print();
-			}
+			il.Util.addOnLoad(function () {
+				il.Util.print();
+			});
 		//-->
 		</script>');
 		$tpl->show(false);
