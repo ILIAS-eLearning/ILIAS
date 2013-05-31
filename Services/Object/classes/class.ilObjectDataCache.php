@@ -237,8 +237,13 @@ class ilObjectDataCache
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 //echo "<br>store_obj-".$row->obj_id."-".$row->type."-".$row->title."-";
-			$this->object_data_cache[$row->obj_id]['title'] = $row->title;
-			$this->object_data_cache[$row->obj_id]['description'] = $row->description;
+
+			// this if fixes #9960
+			if (!$this->trans_loaded[$row->obj_id])
+			{
+				$this->object_data_cache[$row->obj_id]['title'] = $row->title;
+				$this->object_data_cache[$row->obj_id]['description'] = $row->description;
+			}
 			$this->object_data_cache[$row->obj_id]['type'] = $row->type;
 			$this->object_data_cache[$row->obj_id]['owner'] = $row->owner;
 			$this->object_data_cache[$row->obj_id]['last_update'] = $row->last_update;
