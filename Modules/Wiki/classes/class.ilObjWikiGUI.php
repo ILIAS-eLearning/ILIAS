@@ -1233,11 +1233,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		$tpl->setVariable("CONTENT", '<div class="ilInvisibleBorder">'.$page_content.'</div>'.
 		'<script type="text/javascript" language="javascript1.2">
 		<!--
-			// Do print the page
-			if (typeof(window.print) != \'undefined\')
-			{
-				window.print();
-			}
+			il.Util.addOnLoad(function () {
+				il.Util.print();
+			});
 		//-->
 		</script>');
 		$tpl->show(false);
