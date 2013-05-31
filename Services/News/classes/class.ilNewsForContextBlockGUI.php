@@ -636,7 +636,7 @@ if (empty(self::$st_data))
 			{
 				$tpl->setCurrentBlock("content");
 				$tpl->setVariable("VAL_CONTENT",
-					nl2br(ilUtil::makeClickable(
+					nl2br($this->makeClickable(
 					ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"])
 					)));
 //$tpl->setVariable("VAL_CONTENT", nl2br($item["content"]));
@@ -645,7 +645,7 @@ if (empty(self::$st_data))
 			if (trim($item["content_long"]) != "")	// long content
 			{
 				$tpl->setCurrentBlock("long");
-				$tpl->setVariable("VAL_LONG_CONTENT", ilUtil::makeClickable($item["content_long"]));
+				$tpl->setVariable("VAL_LONG_CONTENT", $this->makeClickable($item["content_long"]));
 				$tpl->parseCurrentBlock();
 			}
 			if ($item["update_date"] != $item["creation_date"])		// update date
@@ -819,6 +819,25 @@ if (empty(self::$st_data))
 		return $content_block->getHTML();
 	}
 
+	/**
+	 * Make clickable
+	 *
+	 * @param
+	 * @return
+	 */
+	function makeClickable($a_str)
+	{
+		// this fixes bug 8744. We assume that strings that contain < and >
+		// already contain html, we do not handle these
+		if (is_int(strpos($a_str, ">")) && is_int(strpos($a_str, "<")))
+		{
+			return $a_str;
+		}
+		
+		return ilUtil::makeClickable($a_str);
+	}
+	
+	
 	/**
 	* Unsubscribe current user from news
 	*/
