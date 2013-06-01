@@ -121,8 +121,8 @@ ilias.questions.assSingleChoice = function(a_id) {
 	answers[a_id].choice = [];
 			
 	for (var i=0;i<a_node.length;i++) {
-		if ((!a_node.get(i).checked && questions[a_id].answers[i][tocheck]>0) 
-			|| (a_node.get(i).checked && questions[a_id].answers[i][tocheck]<1))
+		if ((!a_node.get(i).checked && questions[a_id].answers[i][tocheck] > 0) 
+			|| (a_node.get(i).checked && questions[a_id].answers[i][tocheck] <= 0))
 		{
 			answers[a_id].passed = false;
 			answers[a_id].wrong++;
@@ -150,8 +150,8 @@ ilias.questions.assMultipleChoice = function(a_id) {
 	answers[a_id].choice = [];
 	
 	for (var i=0;i<a_node.length;i++) {
-		if ((!a_node.get(i).checked && questions[a_id].answers[i][tocheck]>0) 
-			|| (a_node.get(i).checked && questions[a_id].answers[i][tocheck]<1))
+		if ((!a_node.get(i).checked && questions[a_id].answers[i][tocheck] > 0) 
+			|| (a_node.get(i).checked && questions[a_id].answers[i][tocheck] <= 0))
 		{
 			answers[a_id].wrong++;
 			answers[a_id].passed = false;
@@ -269,7 +269,7 @@ ilias.questions.assImagemapQuestion = function(a_id) {
 	answers[a_id].choice = [];
 		
 	for (var i=0;i<questions[a_id].answers.length;i++) {
-		if ((answers[a_id].areas[i]==false && questions[a_id].answers[i].points>=1) || (answers[a_id].areas[i]==true && questions[a_id].answers[i].points<=0))
+		if ((answers[a_id].areas[i]==false && questions[a_id].answers[i].points > 0) || (answers[a_id].areas[i]==true && questions[a_id].answers[i].points <= 0))
 		{
 			answers[a_id].passed = false;
 			answers[a_id].wrong++;
@@ -347,7 +347,7 @@ ilias.questions.assTextSubset = function(a_id) {
 			{
 				correct_answer = correct_answer.toLowerCase();
 			}			
-			if(correct_answer == answer)
+			if(correct_answer == answer && questions[a_id].correct_answers[c]["points"] >= 0)
 			{
 				found = true;				
 				
@@ -400,7 +400,7 @@ ilias.questions.assClozeTest = function(a_id) {
 		if (type==1) {
 			var a_node = jQuery('select#'+a_id+"_"+i).get(0);
 			var selected = a_node.options[a_node.selectedIndex].id;
-			if (questions[a_id].gaps[i].item[selected].points<1) {
+			if (questions[a_id].gaps[i].item[selected].points <= 0) {
 				answers[a_id].passed = false;
 				answers[a_id].wrong++;
 				answers[a_id].answer[i]=false;
@@ -420,7 +420,7 @@ ilias.questions.assClozeTest = function(a_id) {
 				{
 					if (questions[a_id].gaps[i].item[j].value == a_node.value) {
 						value_found=true;
-						if (questions[a_id].gaps[i].item[j].points<1) {
+						if (questions[a_id].gaps[i].item[j].points <= 0) {
 							answers[a_id].passed = false;
 							answers[a_id].wrong++;
 							answers[a_id].answer[i]=false;
@@ -437,7 +437,7 @@ ilias.questions.assClozeTest = function(a_id) {
 					if (questions[a_id].gaps[i].item[j].lowerbound <= a_node.value && 
 						questions[a_id].gaps[i].item[j].upperbound >= a_node.value) {
 						value_found=true;
-						if (questions[a_id].gaps[i].item[j].points<1) {
+						if (questions[a_id].gaps[i].item[j].points <= 0) {
 							answers[a_id].passed = false;
 							answers[a_id].wrong++;
 							answers[a_id].answer[i]=false;
@@ -711,7 +711,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",false);
 			}
 			for (var i=0;i<questions[a_id].answers.length;i++) {
-				if (questions[a_id].answers[i].points>=1) {
+				if (questions[a_id].answers[i].points > 0) {
 					jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",true);
 				}
 			}
@@ -720,7 +720,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		
 		case 'assMultipleChoice':	
 			for (var i=0;i<questions[a_id].answers.length;i++) {
-				if (questions[a_id].answers[i].points_checked>=1) {
+				if (questions[a_id].answers[i].points_checked > 0) {
 					jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",true);
 				} else {
 					jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",false);
@@ -738,7 +738,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			});
 			for (var i=0;i<questions[a_id].answers.length;i++) {
 				// display correct
-				if (questions[a_id].answers[i].points>=1) {
+				if (questions[a_id].answers[i].points > 0) {
 					// is already selected?
 					if(!jQuery('#canvas_' + a_id + '_' + i).attr('id')) {
 						mouseclick(null,document.getElementById(a_id+"_"+questions[a_id].answers[i].order));
@@ -806,7 +806,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					//look for correct solution
 						for (var j=0;j<questions[a_id].gaps[i].item.length;j++)
 						{
-							if (questions[a_id].gaps[i].item[j].points>=1)
+							if (questions[a_id].gaps[i].item[j].points >= 0)
 							{
 								cvalue = questions[a_id].gaps[i].item[j].value;
 							}
@@ -855,8 +855,10 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			{
 				if($.inArray(c, choice) == -1)
 				{
-					correct_info = correct_info + "<li>" + questions[a_id].correct_answers[c]["answertext"] + "</li>";
-					correct_count++;
+					if (questions[a_id].correct_answers[c]["points"] >= 0) {
+						correct_info = correct_info + "<li>" + questions[a_id].correct_answers[c]["answertext"] + "</li>";
+						correct_count++;
+					}
 				}
 			}
 			if(correct_info.length)
