@@ -30,6 +30,7 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
 
 		include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
 		$this->list = new ilNestedList();
+		$this->list->setListClass("il_Explorer");
 	}
 
 	/**
