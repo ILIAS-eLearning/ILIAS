@@ -347,7 +347,7 @@ ilias.questions.assTextSubset = function(a_id) {
 			{
 				correct_answer = correct_answer.toLowerCase();
 			}			
-			if(correct_answer == answer && questions[a_id].correct_answers[c]["points"] >= 0)
+			if(correct_answer == answer && questions[a_id].correct_answers[c]["points"] > 0)
 			{
 				found = true;				
 				
@@ -806,7 +806,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					//look for correct solution
 						for (var j=0;j<questions[a_id].gaps[i].item.length;j++)
 						{
-							if (questions[a_id].gaps[i].item[j].points >= 0)
+							if (questions[a_id].gaps[i].item[j].points > 0)
 							{
 								cvalue = questions[a_id].gaps[i].item[j].value;
 							}
@@ -855,7 +855,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			{
 				if($.inArray(c, choice) == -1)
 				{
-					if (questions[a_id].correct_answers[c]["points"] >= 0) {
+					if (questions[a_id].correct_answers[c]["points"] > 0) {
 						correct_info = correct_info + "<li>" + questions[a_id].correct_answers[c]["answertext"] + "</li>";
 						correct_count++;
 					}
