@@ -215,7 +215,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		
 		
 		// show tree
-		$this->showTree($tax->getTree());
+		$this->showTree();
 		
 		// show subitems
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTableGUI.php");
@@ -312,48 +312,21 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	/**
 	 * Show Editing Tree
 	 */
-	function showTree($a_tax_tree)
+	function showTree()
 	{
 		global $ilUser, $tpl, $ilCtrl, $lng;
 
-		require_once ("./Services/Taxonomy/classes/class.ilTaxonomyExplorer.php");
-
-		$exp = new ilTaxonomyExplorer($ilCtrl->getLinkTarget($this, "listItems"), $a_tax_tree);
-		$exp->setTargetGet("tax_node");
+		$tax = $this->determineAOCurrentTaxonomy();
 		
-		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "listItems"));
-		
-		if ($_GET["txexpand"] == "")
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
+		$tax_exp = new ilTaxonomyExplorerGUI($this, "showTree", $tax->getId(),
+			"ilobjtaxonomygui", "listItems");
+		if (!$tax_exp->handleCommand())
 		{
-			$expanded = $a_tax_tree->readRootId();
+			//$tpl->setLeftNavContent($tax_exp->getHTML());
+			$tpl->setLeftContent($tax_exp->getHTML()."&nbsp;");
 		}
-		else
-		{
-			$expanded = $_GET["txexpand"];
-		}
-
-		if ($_GET["tax_node"] > 0)
-		{
-			$path = $a_tax_tree->getPathId($_GET["tax_node"]);
-			$exp->setForceOpenPath($path);
-			$exp->highlightNode($_GET["tax_node"]);
-		}
-		else
-		{
-			$exp->highlightNode($a_tax_tree->readRootId());
-		}
-		$exp->setExpand($expanded);
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		// asynchronous output
-		if ($ilCtrl->isAsynch())
-		{
-			echo $output; exit;
-		}
-		
-		$tpl->setLeftContent($output);
+		return;
 	}
 	
 	/**
@@ -362,52 +335,18 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 * @param
 	 * @return
 	 */
-	static function getTreeHTML($a_tax_id, $a_class, $a_cmd, $a_root_node_title = "")
+	static function getTreeHTML($a_tax_id, $a_class, $a_cmd,
+		$a_target_class, $a_target_cmd, $a_root_node_title = "")
 	{
-		global $ilUser, $tpl, $ilCtrl, $lng;
-
-		$lng->loadLanguageModule("tax");
-		
-		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
-		require_once ("./Services/Taxonomy/classes/class.ilTaxonomyExplorer.php");
-		$a_tax_tree = new ilTaxonomyTree($a_tax_id);
-
-		$exp = new ilTaxonomyExplorer($ilCtrl->getLinkTargetByClass($a_class, $a_cmd), $a_tax_tree,
-			$a_class, $a_cmd);
-		$exp->setTargetGet("tax_node");
-		
-		if ($a_root_node_title != "")
+die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
+		$tax_exp = new ilTaxonomyExplorerGUI($a_class, $a_cmd, $a_tax_id,
+			$a_target_class, $a_target_cmd);
+		if (!$tax_exp->handleCommand())
 		{
-			$exp->setRootNodeTitle($a_root_node_title);
+			return $tax_exp->getHTML()."&nbsp;";
 		}
-		
-		$exp->setExpandTarget($ilCtrl->getLinkTargetByClass($a_class, $a_cmd));
-		
-		if ($_GET["txexpand"] == "")
-		{
-			$expanded = $a_tax_tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["txexpand"];
-		}
-
-		if ($_GET["tax_node"] > 0)
-		{
-			$path = $a_tax_tree->getPathId($_GET["tax_node"]);
-			$exp->setForceOpenPath($path);
-			$exp->highlightNode($_GET["tax_node"]);
-		}
-		else
-		{
-			$exp->highlightNode($a_tax_tree->readRootId());
-		}
-		$exp->setExpand($expanded);
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		return $output;
+		return;
 	}
 	
 
@@ -684,21 +623,14 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 			
 			global $ilUser, $tpl, $ilCtrl, $lng;
 
-			require_once ("./Services/Taxonomy/classes/class.ilTaxonomyExplorer.php");
-
-			$exp = new ilTaxonomyExplorer($ilCtrl->getLinkTarget($this, "pasteItems"),
-				$this->determineAOCurrentTaxonomy()->getTree(),
+			include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
+			$tax_exp = new ilTaxonomyExplorerGUI($this, "moveItems", $this->determineAOCurrentTaxonomy()->getId(),
 				"ilobjtaxonomygui", "pasteItems");
-			$exp->forceExpandAll(true, false);
-			$exp->setTargetGet("tax_node");
-		
-			$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "pasteItems"));
-		
-			// build html-output
-			$exp->setOutput(0);
-			$output = $exp->getOutput();
-			
-			$tpl->setContent($output);
+			if (!$tax_exp->handleCommand())
+			{
+				//$tpl->setLeftNavContent($tax_exp->getHTML());
+				$tpl->setContent($tax_exp->getHTML()."&nbsp;");
+			}
 		}
 	}
 	
