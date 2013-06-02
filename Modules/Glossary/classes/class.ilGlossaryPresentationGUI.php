@@ -1442,6 +1442,17 @@ class ilGlossaryPresentationGUI
 			$tax_ids = ilObjTaxonomy::getUsageOfObject($this->glossary->getId());
 			if (count($tax_ids) > 0)
 			{
+				include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
+				$tax_exp = new ilTaxonomyExplorerGUI($this, "showTaxonomy", $tax_ids[0],
+					"ilglossarypresentationgui", "listTerms");
+				if (!$tax_exp->handleCommand())
+				{
+					//$tpl->setLeftNavContent($tax_exp->getHTML());
+					$tpl->setLeftContent($tax_exp->getHTML()."&nbsp;");
+				}
+				return;
+				
+				
 				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
 				$tpl->setLeftNavContent(ilObjTaxonomyGUI::getTreeHTML($tax_ids[0],
 					"ilglossarypresentationgui", "listTerms", $lng->txt("cont_all_topics")));
