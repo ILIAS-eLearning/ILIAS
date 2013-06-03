@@ -2994,10 +2994,20 @@ class ilPageObjectGUI
 	{
 		global $lng;
 		
-		$a_output = str_replace("{{{{{LV_show_adv}}}}}",
-			$lng->txt("cont_show_adv"), $a_output);
-		$a_output = str_replace("{{{{{LV_hide_adv}}}}}",
-			$lng->txt("cont_hide_adv"), $a_output);
+		if (!$this->getAbstractOnly())
+		{
+			$a_output = str_replace("{{{{{LV_show_adv}}}}}",
+				$lng->txt("cont_show_adv"), $a_output);
+			$a_output = str_replace("{{{{{LV_hide_adv}}}}}",
+				$lng->txt("cont_hide_adv"), $a_output);
+		}
+		else
+		{
+			$a_output = str_replace("{{{{{LV_show_adv}}}}}",
+				"", $a_output);
+			$a_output = str_replace("{{{{{LV_hide_adv}}}}}",
+				"", $a_output);
+		}
 		
 		return $a_output;
 	}
