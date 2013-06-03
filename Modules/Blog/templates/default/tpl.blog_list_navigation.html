@@ -1,11 +1,12 @@
 <div class="ilBlogSideBlocks">
 	
-	<table class="il_Block" datatable="0">
-	<tr>
-		<td class="ilBlockHeader">{NAVIGATION_TITLE}</td>
-	</tr>
-	<tr class="tblrow1">
-		<td class="ilBlogSideBlockContent">
+	<div class="il_Block" datatable="0">
+		<div class="ilBlockHeader">
+			<div>				
+				<h3 class="ilBlockHeader">{NAVIGATION_TITLE}</h3>
+			</div>
+		</div>
+		<div class="ilBlockContent">
 			<!-- BEGIN navigation_month_details -->
 			<div>
 				<a href="{URL_MONTH}">{NAV_MONTH}</a>
@@ -28,32 +29,32 @@
 				<a href="{URL_MONTH}">{MONTH_NAME}</a> ({MONTH_COUNT})
 			</div>
 			<!-- END navigation_month -->	
-		</td>
-	</tr>
-	</table>
+		</div>
+	</div>
 	
 	<!-- BEGIN authors -->
-	<table class="il_Block" datatable="0">
-	<tr>
-		<td class="ilBlockHeader">{AUTHORS_TITLE}</td>
-	</tr>
-	<tr class="tblrow1">
-		<td class="ilBlogSideBlockContent">			
+	<div class="il_Block" datatable="0">
+		<div class="ilBlockHeader">
+			<div>				
+				<h3 class="ilBlockHeader">{AUTHORS_TITLE}</h3>
+			</div>
+		</div>
+		<div class="ilBlockContent">
 			<!-- BEGIN author -->
 			<div class="ilBlogSideBlockAuthor small"><a href="{URL_AUTHOR}">{TXT_AUTHOR}</a></div>
 			<!-- END author -->
-		</td>
-	</tr>
-	</table>	
+		</div>
+	</div>	
 	<!-- END authors -->
 	
 	<!-- BEGIN keywords -->
-	<table class="il_Block" datatable="0">
-	<tr>
-		<td class="ilBlockHeader">{KEYWORDS_TITLE}</td>
-	</tr>
-	<tr class="tblrow1">
-		<td class="ilBlogSideBlockContent">
+	<div class="il_Block" datatable="0">
+		<div class="ilBlockHeader">
+			<div>				
+				<h3 class="ilBlockHeader">{KEYWORDS_TITLE}</h3>
+			</div>
+		</div>
+		<div class="ilBlockContent">
 			<!-- BEGIN keywords_list -->
 			<div class="small">
 			<!-- BEGIN keyword -->
@@ -63,15 +64,14 @@
 			<!-- END keywords_list -->
 			<!-- BEGIN no_keywords -->
 			{TXT_NO_KEYWORDS}
-			<!-- END no_keywords -->			
-		</td>
-	</tr>
-	<!-- BEGIN edit_keywords -->
-	<tr>
-		<td class="ilBlogSideBlockCommand"><a href="{URL_EDIT_KEYWORDS}">{TXT_EDIT_KEYWORDS}</a></td>
-	</tr>
-	<!-- END edit_keyWords -->
-	</table>	
+			<!-- END no_keywords -->	
+		</div>
+		<!-- BEGIN edit_keywords -->
+		<div class="ilBlockInfo">
+			<div class="ilBlogSideBlockCommand"><a href="{URL_EDIT_KEYWORDS}">{TXT_EDIT_KEYWORDS}</a></div>
+		</div>
+		<!-- END edit_keyWords -->
+	</div>			
 	<!-- END keywords -->
 	
 	<!-- BEGIN rss -->		
