@@ -581,7 +581,10 @@ class ilInitialisation
 		}
 		else
 		{
-			$GLOBALS['ilLog']->logStack();
+			if(is_object($GLOBALS['ilLog']))
+			{
+				$GLOBALS['ilLog']->logStack();
+			}
 			self::abortAndDie("Init user account failed");
 		}
 	}
@@ -600,14 +603,15 @@ class ilInitialisation
 		{
 			return;
 		}
-
+		
 		if($a_user->hasToAcceptTermsOfService() &&			
 			$a_user->hasToAcceptTermsOfServiceInSession() &&
 			$a_user->checkTimeLimit())
 		{
 			if(!defined('IL_CERT_SSO'))
-			{
-				self::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target='.$_GET['target'].'&cmd=getAcceptance', '');
+			{				
+				self::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target='.$_GET['target'].'&cmd=getAcceptance', 
+					'User Agreement not accepted.');
 			}
 		}
 	}
@@ -876,7 +880,11 @@ class ilInitialisation
 	 * @param string $a_message 
 	 */
 	protected static function abortAndDie($a_message)
-	{
+	{		
+		if(is_object($GLOBALS['ilLog']))
+		{
+			$GLOBALS['ilLog']->write("Fatal Error: ilInitialisation - ".$a_message);
+		}
 		die($a_message);
 	}
 	
@@ -1404,13 +1412,16 @@ class ilInitialisation
 			}
 			// plain text 
 			else
-			{			
-				// :TODO: error handling for asynch calls (error codes/exceptions?)
-							
+			{									
 				// not much we can do here
-				$mess = $a_message_details;						
+				$mess = $a_message_details;		
+				
+				if(!trim($mess))
+				{
+					$mess = 'Redirect not supported by context ('.$a_target.')';					
+				}
 			}
-			
+									
 			self::abortAndDie($mess);			
 		}
 	}
