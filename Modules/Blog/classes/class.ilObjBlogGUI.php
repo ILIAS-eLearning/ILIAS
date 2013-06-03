@@ -342,7 +342,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							$info = array();
 							if(!$is_active)
 							{
-								$info[] = $lng->txt("blog_draft_info");
+								// single author blog (owner) in personal workspace
+								if($this->id_type == self::WORKSPACE_NODE_ID)
+								{								
+									$info[] = $lng->txt("blog_draft_info");
+								}
+								else
+								{
+									$info[] = $lng->txt("blog_draft_info_contributors");
+								}
 							}
 							if($cmd != "history" && !$bpost_gui->getBlogPosting()->getFirstParagraphText())
 							{

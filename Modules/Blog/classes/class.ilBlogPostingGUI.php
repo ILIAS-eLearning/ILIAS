@@ -20,7 +20,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	protected $node_id; // [int]
 	protected $access_handler; // [object]
 	protected $enable_public_notes; // [bool]
-	protected $may_write; // [bool]
+	protected $may_contribute; // [bool]
 
 	/**
 	 * Constructor
@@ -30,10 +30,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 * @param int $a_id
 	 * @param int $a_old_nr
 	 * @param bool $a_enable_notes
-	 * @param bool $a_may_write
+	 * @param bool $a_may_contribute
 	 * @return ilBlogPostingGUI
 	 */
-	function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true, $a_may_write = true)
+	function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true, $a_may_contribute = true)
 	{
 		global $tpl, $lng;
 
@@ -46,8 +46,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		parent::__construct("blp", $a_id, $a_old_nr);
 		
 		// #11151
-		$this->may_write = (bool)$a_may_write;
-		$this->setEnableEditing($a_may_write);
+		$this->may_contribute = (bool)$a_may_contribute;
+		$this->setEnableEditing($a_may_contribute);
 
 		// content style
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -170,9 +170,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	protected function checkAccess($a_cmd)
 	{
-		if($a_cmd == "write")
+		if($a_cmd == "contribute")
 		{
-			return $this->may_write;
+			return $this->may_contribute;
 		}
 		return $this->access_handler->checkAccess($a_cmd, "", $this->node_id);
 	}
@@ -216,7 +216,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			
 			// notes
 			$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
-				false, $this->enable_public_notes, $this->checkAccess("write"), $callback));
+				false, $this->enable_public_notes, $this->checkAccess("contribute"), $callback));
 		}
 
 		// permanent link
@@ -350,7 +350,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	{
 		global $tpl, $ilCtrl, $lng;
 
-		if ($this->checkAccess("write"))
+		if ($this->checkAccess("write") || $this->checkAccess("contribute"))
 		{
 			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$confirmation_gui = new ilConfirmationGUI();
@@ -395,7 +395,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	{
 		global $ilCtrl, $lng;
 
-		if ($this->checkAccess("write"))
+		if ($this->checkAccess("write") || $this->checkAccess("contribute"))
 		{			
 			// delete all md keywords
 			$md_section = $this->getMDSection();
@@ -567,7 +567,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	{
 		global $ilTabs, $tpl;
 		
-		if (!$this->checkAccess("write"))
+		if (!$this->checkAccess("contribute"))
 		{
 			return;
 		}
