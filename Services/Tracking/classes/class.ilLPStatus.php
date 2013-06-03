@@ -695,7 +695,7 @@ class ilLPStatus
 												
 				if($row["u_mode"] != LP_MODE_DEACTIVATED)
 				{
-					$valid[] = $row["obj_id"];
+					$valid[$row["obj_id"]] = $row["obj_id"];
 				}
 			}
 			
@@ -705,13 +705,20 @@ class ilLPStatus
 				foreach(array_diff($a_obj_ids, $existing) as $obj_id)
 				{
 					$mode = ilLPObjSettings::__getDefaultMode($obj_id, ilObject::_lookupType($obj_id));
-					if($mode != LP_MODE_UNDEFINED)
+					if($mode == LP_MODE_DEACTIVATED)
 					{
-						$valid[] = $obj_id;
+						// #11141
+						unset($valid[$obj_id]);
+					}
+					else if($mode != LP_MODE_UNDEFINED)
+					{
+						$valid[$obj_id] = $obj_id;
 					}
 				}
 				unset($existing);
 			}
+			
+			$valid = array_values($valid);
 			
 			// get user lp data			
 			$sql = "SELECT status, status_dirty, obj_id FROM ut_lp_marks".			
@@ -746,7 +753,7 @@ class ilLPStatus
 			{			
 				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
 				$text = ilLearningProgressBaseGUI::_getStatusText($status);
-				$res[$obj_id] = ilUtil::img($path, $text);
+				$res[$obj_id] = ilUtil::img($path, $text);			
 			}
 		}
 		
