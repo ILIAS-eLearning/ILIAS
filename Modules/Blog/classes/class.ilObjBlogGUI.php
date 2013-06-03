@@ -1321,7 +1321,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	function renderNavigation(array $items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilSetting;
 
 		$max_detail_postings = 10;
 		
@@ -1502,7 +1502,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		
 		// rss
-		if($this->object->hasRSS() && !$a_link_template && $a_list_cmd == "preview")
+		if($this->object->hasRSS() && $ilSetting->get('enable_global_profiles') &&
+			!$a_link_template && $a_list_cmd == "preview")
 		{
 			// #10827
 			$blog_id = $this->node_id;		
