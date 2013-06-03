@@ -173,9 +173,15 @@ ilCOPagePres =
 				ov.css('position', 'absolute');
 				ovx = parseInt(tr['ovx']);
 				ovy = parseInt(tr['ovy']);
-				ov.css('left', pos.left + ovx);
-				ov.css('top', pos.top + ovy);
 				ov.css('display', '');
+
+				// this fixes the position in case of the toc2win
+				// view, if the fixed div has been scrolled
+				$(ov).position({
+					my: "left top",
+					at: "left+" + ovx + " top+" + ovy,
+					of: "img#base_img_" + tr.iim_id
+					});
 
 				// on first time we need to initialize the
 				// image map of the overlay image
@@ -404,7 +410,7 @@ ilCOPagePres =
 		
 		// show the overlay
 		var base = $("img#base_img_" + ilCOPagePres.iim_trigger[tr_id]['iim_id']);
-		var pos = base.position();
+		var pos = base.offset();
 		var x = pos.left + parseInt(ilCOPagePres.iim_trigger[tr_id]['popx']);
 		var y = pos.top + parseInt(ilCOPagePres.iim_trigger[tr_id]['popy']);
 		il.Overlay.setWidth("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], ilCOPagePres.iim_trigger[tr_id]['popwidth']);
