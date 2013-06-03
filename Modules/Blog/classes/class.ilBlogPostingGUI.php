@@ -20,6 +20,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	protected $node_id; // [int]
 	protected $access_handler; // [object]
 	protected $enable_public_notes; // [bool]
+	protected $may_write; // [bool]
 
 	/**
 	 * Constructor
@@ -29,9 +30,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 * @param int $a_id
 	 * @param int $a_old_nr
 	 * @param bool $a_enable_notes
+	 * @param bool $a_may_write
 	 * @return ilBlogPostingGUI
 	 */
-	function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true)
+	function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true, $a_may_write = true)
 	{
 		global $tpl, $lng;
 
@@ -42,6 +44,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->enable_public_notes = (bool)$a_enable_public_notes;
 
 		parent::__construct("blp", $a_id, $a_old_nr);
+		
+		// #11151
+		$this->may_write = (bool)$a_may_write;
+		$this->setEnableEditing($a_may_write);
 
 		// content style
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -164,6 +170,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	protected function checkAccess($a_cmd)
 	{
+		if($a_cmd == "write")
+		{
+			return $this->may_write;
+		}
 		return $this->access_handler->checkAccess($a_cmd, "", $this->node_id);
 	}
 
