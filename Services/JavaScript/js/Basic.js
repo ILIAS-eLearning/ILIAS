@@ -325,6 +325,8 @@ il.MainMenu = {
 
 /* UICore */
 il.UICore = {
+	right_panel_wrapper: "",
+	
 	refreshLayout: function () {
 		var el = document.getElementById("left_nav"),
 			sm = document.getElementById("mainspacekeeper"),
@@ -384,7 +386,50 @@ il.UICore = {
 			$(document).unbind('mousemove');
 		});
 
+	},
+	
+	showRightPanel: function () {
+		var n = document.getElementById('ilRightPanel');
+		if (!n) {
+			var b = $("body");
+			b.append("<div class='yui-skin-sam'><div id='ilRightPanel' class='ilOverlay ilRightPanel'>" +
+				"&nbsp;</div>");
+			var n = document.getElementById('ilRightPanel');
+			il.Overlay.add("ilRightPanel", {yuicfg: {}});
+			il.Overlay.show(null, "ilRightPanel");
+		}
+		else
+		{
+			il.Overlay.show(null, "ilRightPanel");
+		}
+		
+		il.Overlay.subscribe("ilRightPanel", "hide", function () {il.UICore.unloadWrapperFromRightPanel();});
+		
+		il.UICore.setRightPanelContent("");
+
+		n = document.getElementById('ilRightPanel');
+		n.style.width = '500px';
+		n.style.height = '100%';
+	},
+	
+	setRightPanelContent: function (c) {
+		$('div#ilRightPanel').html(c);
+	},
+	
+	// load content from wrapper element into right panel
+	loadWrapperToRightPanel: function (wrapper_id) {
+		this.right_panel_wrapper = wrapper_id;
+		$("#" + wrapper_id).children().appendTo('#ilRightPanel');
+	},
+	
+	// move the right panel content back to wrapper
+	unloadWrapperFromRightPanel: function() {
+		if (this.right_panel_wrapper != "") {
+			$('#ilRightPanel').children().appendTo('#' + this.right_panel_wrapper);
+		}
+		this.right_panel_wrapper = '';
 	}
+
 };
 
 il.Util.addOnLoad(function () {
