@@ -238,7 +238,7 @@ class ilNewsItem extends ilNewsItemGen
 		$a_prevent_aggregation = false, $a_per = 0, &$a_cnt = NULL)
 	{
 		global $ilAccess;
-				
+
 		$news_item = new ilNewsItem();
 		$news_set = new ilSetting("news");
 		
@@ -290,7 +290,7 @@ class ilNewsItem extends ilNewsItemGen
 			if (!$a_only_public)
 			{
 				// this loop should not cost too much performance
-				$acc = $ilAccess->checkAccess("read", "", $ref_id);
+				$acc = $ilAccess->checkAccessOfUser($a_user_id, "read", "", $ref_id);
 				
 				if (!$acc)
 				{
@@ -310,7 +310,7 @@ class ilNewsItem extends ilNewsItemGen
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$obj_type = ilObject::_lookupType($obj_id);
 			$news = $news_item->getNewsForRefId($ref_id, $a_only_public, false,
-				$per, $a_prevent_aggregation);
+				$per, $a_prevent_aggregation, false, false, false, $a_user_id);
 			
 			// counter
 			if (!is_null($a_cnt))

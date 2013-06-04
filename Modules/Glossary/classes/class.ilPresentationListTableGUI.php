@@ -17,13 +17,14 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_glossary, $a_offline,
-		$a_tax_node)
+		$a_tax_node, $a_tax_id = 0)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		$this->glossary = $a_glossary;
 		$this->offline = $a_offline;
 		$this->tax_node = $a_tax_node;
+		$this->tax_id = $a_tax_id;
 		$this->setId("glopr".$this->glossary->getId());
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -98,6 +99,16 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			$this->addFilterItem($ti);
 			$ti->readFromSession();
 			$this->filter["definition"] = $ti->getValue();
+		}
+		
+		// temporary tax test
+		if ($this->tax_id > 0)
+		{
+			include_once("./Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
+			$tax = new ilTaxSelectInputGUI($this->tax_id, "tax_node", true);
+			$this->addFilterItem($tax);
+			$tax->readFromSession();
+			$this->filter["tax_node"] = $tax->getValue();
 		}
 	}
 	
