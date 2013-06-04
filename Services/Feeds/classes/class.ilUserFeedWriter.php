@@ -48,9 +48,14 @@ class ilUserFeedWriter extends ilFeedWriter
 		{
 			if ($privFeed) 
 			{
-				ilNewsItem::setPrivateFeedId($a_user_id);
+				//ilNewsItem::setPrivateFeedId($a_user_id);
+				$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, false, true, $rss_period);
 			}
-			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true, true, $rss_period);
+			else
+			{
+				$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true, true, $rss_period);
+			}
+			
 			if ($ilSetting->get('short_inst_name') != "")
 			{
 				$this->setChannelTitle($ilSetting->get('short_inst_name'));
