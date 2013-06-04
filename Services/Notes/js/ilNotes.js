@@ -55,37 +55,7 @@ ilNotes =
 	// init the notes editing panel
 	initPanel: function(comments, e)
 	{
-		if (!this.panel)
-		{
-			var n = document.getElementById('ilNotesPanel');
-			if (!n)
-			{
-				var b = $("body");
-				b.append("<div class='yui-skin-sam'><div id='ilNotesPanel' class='ilOverlay' style='overflow:auto;'>" +
-					"&nbsp;</div>");
-				var n = document.getElementById('ilNotesPanel');
-			}
-			
-			il.Overlay.add("ilNotesPanel", {yuicfg: {}});
-			il.Overlay.show(e, "ilNotesPanel");
-			this.panel = true;
-		}
-		else
-		{
-			il.Overlay.show(e, "ilNotesPanel");
-//			this.panel.show();
-		}
-		
-		ilNotes.insertPanelHTML("");
-
-		var obj = document.getElementById('ilNotesPanel');
-		obj.style.position = 'fixed';
-		obj.style.top = '0px';
-		obj.style.bottom = '0px';
-		obj.style.right = '0px';
-		obj.style.left = '';
-		obj.style.width = '500px';
-		obj.style.height = '100%';
+		il.UICore.showRightPanel(e);
 		
 		if (comments)
 		{
@@ -187,7 +157,8 @@ ilNotes =
 			else
 			{
 				// default action: replace html
-				ilNotes.insertPanelHTML(o.responseText);
+				il.UICore.setRightPanelContent(o.responseText);
+//				ilNotes.insertPanelHTML(o.responseText);
 				if (typeof ilNotes.update_code != "undefined" &&
 					ilNotes.update_code != null && ilNotes.update_code != "")
 				{
@@ -208,12 +179,5 @@ ilNotes =
 	handleAjaxFailure: function(o)
 	{
 		console.log("ilNotes.js: Ajax Failure.");
-	},
-
-	insertPanelHTML: function(html)
-	{
-		$('div#ilNotesPanel').html(html);
 	}
-	
-
 };

@@ -20,13 +20,21 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 	 * @return
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_tax_id,
-		$a_target_gui, $a_target_cmd)
+		$a_target_gui, $a_target_cmd, $a_id = "")
 	{
-		$this->target_gui = $a_target_gui; 
-		$this->target_cmd = $a_target_cmd; 
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
 		$this->tax_tree = new ilTaxonomyTree($a_tax_id);
-		parent::__construct("tax_expl_".$this->tax_tree->getTreeId(), $a_parent_obj, $a_parent_cmd, $this->tax_tree);
+		if ($a_id != "")
+		{
+			$this->id = $a_id;
+		}
+		else
+		{
+			$this->id = "tax_expl_".$this->tax_tree->getTreeId();
+		}
+		$this->target_gui = $a_target_gui; 
+		$this->target_cmd = $a_target_cmd; 
+		parent::__construct($this->id, $a_parent_obj, $a_parent_cmd, $this->tax_tree);
 	}
 	
 	

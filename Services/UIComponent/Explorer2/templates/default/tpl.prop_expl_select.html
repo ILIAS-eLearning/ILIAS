@@ -1,0 +1,16 @@
+<div id="{ID}_cont">
+<input type="hidden" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" />
+<div><a name="{ID}_anchor" class="ilAccAnchor">{TXT_ITEM}</a></div>
+<a href="#" id="{ID}_select">{TXT_SELECT}</a><br />
+<a href="{HREF_RESET}">{TXT_RESET}</a>
+<script type="text/javascript">
+il.Util.addOnLoad(function() {
+	il.Explorer2.initSelect('{ID}');
+});
+</script>
+</div>
+<div id="{ID}_expl_wrapper" class="ilNoDisplay">
+<div id="{ID}_expl_content">
+{EXPL}
+<div>
+</div>

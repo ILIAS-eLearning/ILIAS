@@ -3,6 +3,8 @@
 
 il.Explorer2 = {
 	
+	selects: {},
+	
 	configs: {},
 	
 	init: function (config, js_tree_config) {
@@ -51,5 +53,15 @@ il.Explorer2 = {
 		url = url + "&exp_cont=" + container_id + "&node_id=" + id;
 		
 		il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
+	},
+	
+	// init select input
+	initSelect: function(id) {
+		$("#" + id + "_select").bind("click", function (ev) {
+			il.UICore.showRightPanel();
+			il.UICore.loadWrapperToRightPanel(id + "_expl_wrapper");
+			return false;
+		});
 	}
+
 }

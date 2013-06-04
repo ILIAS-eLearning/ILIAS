@@ -400,7 +400,14 @@ abstract class ilExplorerBaseGUI
 		}
 		
 		// ilias config options
-		$url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd, "", true);
+		if (is_object($this->parent_obj))
+		{
+			$url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd, "", true);
+		}
+		else
+		{
+			$url = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->parent_cmd, "", true);
+		}
 		$config = array(
 			"container_id" => $container_id,
 			"container_outer_id" => $container_outer_id,
@@ -461,7 +468,7 @@ abstract class ilExplorerBaseGUI
 		
 		$etpl->setVariable("CONTAINER_ID", $container_id);
 		$etpl->setVariable("CONTAINER_OUTER_ID", $container_outer_id);
-		
+
 		return $etpl->get();
 	}
 	

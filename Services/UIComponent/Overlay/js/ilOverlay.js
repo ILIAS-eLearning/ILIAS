@@ -303,6 +303,10 @@ il.Overlay = {
 	loadAsynch: function (id, sUrl) {
 		il.Util.ajaxReplaceInner(sUrl, id);
 		return false;
+	},
+	
+	subscribe: function (id, ev, func) {
+		il.Overlay.overlays[id].subscribe(ev, func);
 	}
 };
 
