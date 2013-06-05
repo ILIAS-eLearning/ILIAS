@@ -112,9 +112,9 @@ class ilGlossaryPresentationGUI
 
 
 	/**
-	* executer command ("listTerms" | "listDefinitions")
-	*/
-	function &executeCommand()
+	 * execute command
+	 */
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $ilias;
 		

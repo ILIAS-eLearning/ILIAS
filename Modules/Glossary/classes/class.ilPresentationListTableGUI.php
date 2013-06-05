@@ -73,8 +73,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	}
 	
 	/**
-	* Init filter
-	*/
+	 * Init filter
+	 */
 	function initFilter()
 	{
 		global $lng, $rbacreview, $ilUser, $ilDB;

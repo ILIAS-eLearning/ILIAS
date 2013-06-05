@@ -3562,6 +3562,9 @@ abstract class assQuestion
 		$a_q = nl2br((string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0));
 		$a_q = str_replace("</li><br />", "</li>", $a_q);
 		$a_q = str_replace("</li><br>", "</li>", $a_q);
+		
+		$a_q = ilUtil::insertLatexImages($a_q);
+		
 		return $a_q;
 	}
 
