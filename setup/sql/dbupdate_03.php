@@ -15791,3 +15791,7 @@ if(!$ilDB->tableColumnExists('tst_tests','ending_time'))
 }
 
 ?>
+<#3908>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

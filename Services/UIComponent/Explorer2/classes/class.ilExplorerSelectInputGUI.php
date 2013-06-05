@@ -13,7 +13,7 @@ include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
  *
  * @ingroup	ServicesForm
  */
-class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
+abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {
 	/**
 	 * Constructor
@@ -25,7 +25,7 @@ class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilte
 	{
 		global $lng;
 		
-		$this->multi = $a_multi;
+		$this->multi_nodes = $a_multi;
 		$this->explorer_gui = $a_explorer_gui;
 		
 		parent::__construct($a_title, $a_postvar);
@@ -51,6 +51,13 @@ class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilte
 		$this->explorer_gui->handleCommand();
 	}
 	
+	/**
+	 * Get title for node id (needs to be overwritten, if explorer is not a tree eplorer
+	 *
+	 * @param
+	 * @return
+	 */
+	abstract function getTitleForNodeId($a_id);
 	
 	/**
 	 * Set Value.
@@ -59,7 +66,7 @@ class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilte
 	 */
 	function setValue($a_value)
 	{
-		if ($this->multi && !is_array($a_value))
+		if ($this->multi_nodes && !is_array($a_value))
 		{
 			$this->value = array($a_value);
 		}
@@ -80,6 +87,16 @@ class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilte
 	}
 
 	/**
+	 * Set value by array
+	 *
+	 * @param	array	$a_values	value array
+	 */
+	function setValueByArray($a_values)
+	{		
+		$this->setValue($a_values[$this->getPostVar()]);
+	}
+
+	/**
 	 * Check input, strip slashes etc. set alert, if input is not ok.
 	 *
 	 * @return	boolean		Input ok, true/false
@@ -89,7 +106,7 @@ class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilte
 		global $lng;
 		
 		// sanitize
-		if ($this->multi)
+		if ($this->multi_nodes)
 		{
 			if (!is_array($_POST[$this->getPostVar()]))
 			{
@@ -98,19 +115,19 @@ class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilte
 			
 			foreach ($_POST[$this->getPostVar()] as $k => $v)
 			{
-				$_POST[$this->getPostVar()][$k] = (int) $v;
+				$_POST[$this->getPostVar()][$k] = ilUtil::stripSlashes($v);
 			}
 		}
 		else
 		{
-			$_POST[$this->getPostVar()] = (int) $_POST[$this->getPostVar()];
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		}
 		
 		// check required
 		if ($this->getRequired())
 		{
-			if ((!$this->multi && trim($_POST[$this->getPostVar()]) == "") ||
-				($this->multi && count($_POST[$this->getPostVar()]) == 0))
+			if ((!$this->multi_nodes && trim($_POST[$this->getPostVar()]) == "") ||
+				($this->multi_nodes && count($_POST[$this->getPostVar()]) == 0))
 			{
 				$this->setAlert($lng->txt("msg_input_is_required"));
 				return false;
@@ -133,6 +150,26 @@ class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilte
 		
 		$tpl = new ilTemplate("tpl.prop_expl_select.html", true, true, "Services/UIComponent/Explorer2");
 
+
+		// set values		
+		$val = $this->getValue();
+		if (is_array($val))
+		{
+			$val_txt = $sep = "";
+			foreach ($val as $v)
+			{
+				$tpl->setCurrentBlock("node_hid");
+				$tpl->setVariable("HID_NAME", $this->getPostVar());
+				$tpl->setVariable("HID_VAL", $v);
+				$tpl->parseCurrentBlock();
+				$val_txt.= $sep.$this->getTitleForNodeId($v);
+				$sep = ", ";
+				$this->explorer_gui->setNodeOpen($v);
+				$this->explorer_gui->setNodeSelected($v);
+			}
+			$tpl->setVariable("VAL_TXT", $val_txt);
+		}
+
 		$tpl->setVariable("POST_VAR", $this->getPostVar());
 		$tpl->setVariable("ID", $this->getFieldId());
 //		$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
@@ -140,6 +177,12 @@ class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilte
 		$tpl->setVariable("TXT_RESET", $lng->txt("reset"));
 		
 		$tpl->setVariable("EXPL", $this->explorer_gui->getHTML());
+		
+		$top_tb = new ilToolbarGUI();
+		$top_tb->addButton($lng->txt("select"), "#", "", "", "", "", "submit ilExplSelectInputButS");
+		$top_tb->addButton($lng->txt("cancel"), "#", "", "", "", "", "submit ilExplSelectInputButC");
+		$tpl->setVariable("TOP_TB", $top_tb->getHTML());
+		$tpl->setVariable("BOT_TB", $top_tb->getHTML());
 
 		//$tpl->setVariable("HREF_SELECT",
 		//	$ilCtrl->getLinkTargetByClass(array($parent_gui, "ilformpropertydispatchgui", "ilrepositoryselectorinputgui"),

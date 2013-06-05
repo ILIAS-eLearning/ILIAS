@@ -17,7 +17,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI, ilPresentationListTableGUI
 *
 * @ingroup ModulesGlossary
 */
@@ -158,6 +158,12 @@ class ilGlossaryPresentationGUI
 				case "ilinfoscreengui":
 					$ret =& $this->outputInfoScreen();
 					break;
+					
+				case "ilpresentationlisttablegui":
+					$prtab = $this->getPresentationTable();
+					$this->ctrl->forwardCommand($prtab);
+					return;
+					break;
 
 				default:
 					$ret =& $this->$cmd();
@@ -241,13 +247,12 @@ class ilGlossaryPresentationGUI
 		
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 
-		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
-		$table = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
-			$this->offlineMode(), $this->tax_node, $this->glossary->getTaxonomyId());
+		$table = $this->getPresentationTable();
 	
 		if (!$this->offlineMode())
 		{
-			$tpl->setContent($table->getHTML());
+//			$tpl->setContent($table->getHTML());
+			$tpl->setContent($ilCtrl->getHTML($table));
 		}
 		else
 		{
@@ -257,15 +262,27 @@ class ilGlossaryPresentationGUI
 	}
 
 	/**
+	 * Get presentation table
+	 *
+	 * @param
+	 * @return
+	 */
+	function getPresentationTable()
+	{
+		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
+		$table = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
+			$this->offlineMode(), $this->tax_node, $this->glossary->getTaxonomyId());
+		return $table;
+	}
+	
+	/**
 	 * Apply filter
 	 */
 	function applyFilter()
 	{
 		global $ilTabs;
 
-		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
-		$prtab = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
-			$this->offlineMode(), $this->tax_node);
+		$prtab = $this->getPresentationTable();
 		$prtab->resetOffset();
 		$prtab->writeFilterToSession();
 		$this->listTerms();
@@ -278,9 +295,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function resetFilter()
 	{
-		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
-		$prtab = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
-			$this->offlineMode(), $this->tax_node);
+		$prtab = $this->getPresentationTable();
 		$prtab->resetOffset();
 		$prtab->resetFilter();
 		$this->listTerms();
@@ -1435,7 +1450,6 @@ class ilGlossaryPresentationGUI
 	function showTaxonomy()
 	{
 		global $tpl, $lng;
-		
 		if (!$this->offlineMode() && $this->glossary->getShowTaxonomy())
 		{
 			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");

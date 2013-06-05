@@ -102,11 +102,11 @@ class ilToolbarGUI
 	* @param	string		access key
 	*/
 	public function addButton($a_txt, $a_cmd, $a_target = "", $a_acc_key = "", $a_additional_attrs = '',
-		$a_id = "")
+		$a_id = "", $a_class = 'submit')
 	{
 		$this->items[] = array("type" => "button", "txt" => $a_txt, "cmd" => $a_cmd,
 			"target" => $a_target, "acc_key" => $a_acc_key, 'add_attrs' => $a_additional_attrs,
-			"id" => $a_id);
+			"id" => $a_id, "class" => $a_class);
 	}
 
 	/**
@@ -263,6 +263,7 @@ class ilToolbarGUI
 						{
 							$tpl->setVariable('BTN_ADD_ARG',$item['add_attrs']);
 						}
+						$tpl->setVariable('BTN_CLASS',$item['class']);
 						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("item");
 						break;

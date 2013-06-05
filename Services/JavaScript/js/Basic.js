@@ -428,8 +428,12 @@ il.UICore = {
 			$('#ilRightPanel').children().appendTo('#' + this.right_panel_wrapper);
 		}
 		this.right_panel_wrapper = '';
+	},
+	
+	hideRightPanel: function () {
+		il.UICore.unloadWrapperFromRightPanel();
+		il.Overlay.hide(null, "ilRightPanel");
 	}
-
 };
 
 il.Util.addOnLoad(function () {

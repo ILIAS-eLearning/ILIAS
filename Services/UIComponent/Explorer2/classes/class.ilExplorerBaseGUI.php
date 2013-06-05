@@ -19,6 +19,7 @@ abstract class ilExplorerBaseGUI
 	protected $skip_root_node = false;
 	protected $ajax = false;
 	protected $custom_open_nodes = array();
+	protected $selected_nodes = array();
 	
 	/**
 	 * Constructor
@@ -42,7 +43,7 @@ abstract class ilExplorerBaseGUI
 	}
 
 	//
-	// Abstract function that need to be overwritten in derived classes
+	// Abstract functions that need to be overwritten in derived classes
 	//
 	
 	/**
@@ -79,72 +80,11 @@ abstract class ilExplorerBaseGUI
 	 */
 	abstract function getNodeId($a_node);
 
-	/**
-	 * Get id of explorer element
-	 *
-	 * @return integer id
-	 */
-	function getId()
-	{
-		return $this->id;
-	}
 	
-	/**
-	 * Set skip root node
-	 *
-	 * If set to false, the top node will not be displayed.
-	 *
-	 * @param boolean $a_val skip root node	
-	 */
-	function setSkipRootNode($a_val)
-	{
-		$this->skip_root_node = $a_val;
-	}
-	
-	/**
-	 * Get skip root node
-	 *
-	 * @return boolean skip root node
-	 */
-	function getSkipRootNode()
-	{
-		return $this->skip_root_node;
-	}
-	
-	/**
-	 * Set ajax
-	 *
-	 * @param boolean $a_val ajax	
-	 */
-	function setAjax($a_val)
-	{
-		$this->ajax = $a_val;
-	}
-	
-	/**
-	 * Get ajax
-	 *
-	 * @return boolean ajax
-	 */
-	function getAjax()
-	{
-		return $this->ajax;
-	}
-	
-	/**
-	 * Set node to be opened (additional custom opened node, not standard expand behaviour)
-	 *
-	 * @param
-	 * @return
-	 */
-	function setNodeOpen($a_id)
-	{
-		if (!in_array($a_id, $this->custom_open_nodes))
-		{
-			$this->custom_open_nodes[] = $a_id;
-		}
-	}	
-	
+	//
+	// Functions with standard implementations that may be overwritten
+	//
+
 	/**
 	 * Get href for node
 	 *
@@ -233,23 +173,14 @@ abstract class ilExplorerBaseGUI
 	 */
 	function getNodeOnClick($a_node)
 	{
+		if ($this->select_postvar != "")
+		{			
+			return $this->getSelectOnClick($a_node);
+		}
 		return "";
 	}
 
-	/**
-	 * Get onclick attribute for node toggling
-	 *
-	 * @param
-	 * @return
-	 */
-	final protected function getNodeToggleOnClick($a_node)
-	{
-		return "$('#".$this->getContainerId()."').jstree('toggle_node' , '#".
-			$this->getDomNodeIdForNodeId($this->getNodeId($a_node))."'); return false;";
-	}
-	
-	
-	/**
+		/**
 	 * Is node visible?
 	 *
 	 * @param mixed $a_node node object/array
@@ -281,7 +212,134 @@ abstract class ilExplorerBaseGUI
 	{
 		return true;
 	}
+
 	
+	//
+	// Basic configuration / setter/getter
+	//
+	
+	/**
+	 * Get id of explorer element
+	 *
+	 * @return integer id
+	 */
+	function getId()
+	{
+		return $this->id;
+	}
+	
+	/**
+	 * Set skip root node
+	 *
+	 * If set to false, the top node will not be displayed.
+	 *
+	 * @param boolean $a_val skip root node	
+	 */
+	function setSkipRootNode($a_val)
+	{
+		$this->skip_root_node = $a_val;
+	}
+	
+	/**
+	 * Get skip root node
+	 *
+	 * @return boolean skip root node
+	 */
+	function getSkipRootNode()
+	{
+		return $this->skip_root_node;
+	}
+	
+	/**
+	 * Set ajax
+	 *
+	 * @param boolean $a_val ajax	
+	 */
+	function setAjax($a_val)
+	{
+		$this->ajax = $a_val;
+	}
+	
+	/**
+	 * Get ajax
+	 *
+	 * @return boolean ajax
+	 */
+	function getAjax()
+	{
+		return $this->ajax;
+	}
+	
+	/**
+	 * Set node to be opened (additional custom opened node, not standard expand behaviour)
+	 *
+	 * @param
+	 * @return
+	 */
+	function setNodeOpen($a_id)
+	{
+		if (!in_array($a_id, $this->custom_open_nodes))
+		{
+			$this->custom_open_nodes[] = $a_id;
+		}
+	}	
+
+	/**
+	 * Get onclick attribute for node toggling
+	 *
+	 * @param
+	 * @return
+	 */
+	final protected function getNodeToggleOnClick($a_node)
+	{
+		return "$('#".$this->getContainerId()."').jstree('toggle_node' , '#".
+			$this->getDomNodeIdForNodeId($this->getNodeId($a_node))."'); return false;";
+	}
+
+	/**
+	 * Get onclick attribute for selecting radio/checkbox
+	 *
+	 * @param
+	 * @return
+	 */
+	final protected function getSelectOnClick($a_node)
+	{
+		$dn_id = $this->getDomNodeIdForNodeId($this->getNodeId($a_node));
+		$oc = "il.Explorer2.selectOnClick('".$dn_id."'); return false;";
+		return $oc;
+	}	
+	
+	/**
+	 * Set select mode (to deactivate, pass an empty string as postvar)
+	 *
+	 * @param string $a_postvar variable used for post, a "[]" is added automatically
+	 * @param boolean $a_multi multi select (checkboxes) or not (radio)
+	 * @return
+	 */
+	function setSelectMode($a_postvar, $a_multi = false)
+	{
+		$this->select_postvar = $a_postvar;
+		$this->select_multi = $a_multi;
+	}
+	
+	/**
+	 * Set node to be opened (additional custom opened node, not standard expand behaviour)
+	 *
+	 * @param
+	 * @return
+	 */
+	function setNodeSelected($a_id)
+	{
+		if (!in_array($a_id, $this->selected_nodes))
+		{
+			$this->selected_nodes[] = $a_id;
+		}
+	}	
+
+	//
+	// Standard functions that usually are not overwritten / internal use
+	//
+
 	/**
 	 * Handle explorer internal command.
 	 *
@@ -481,6 +539,31 @@ abstract class ilExplorerBaseGUI
 	function renderNode($a_node, $tpl)
 	{
 		$this->listItemStart($tpl, $a_node);
+		
+		// select mode?
+		if ($this->select_postvar != "")
+		{
+			if ($this->select_multi)
+			{
+				$tpl->setCurrentBlock("cb");
+				if (in_array($this->getNodeId($a_node), $this->selected_nodes))
+				{
+					$tpl->setVariable("CHECKED", 'checked="checked"');
+				}
+				$tpl->setVariable("CB_VAL", $this->getNodeId($a_node));
+				$tpl->setVariable("CB_NAME", $this->select_postvar."[]");
+				$tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$tpl->setCurrentBlock("rd");
+				$tpl->setVariable("RD_VAL", $this->getNodeId($a_node));
+				$tpl->setVariable("RD_NAME", $this->select_postvar);
+				$tpl->parseCurrentBlock();
+			}
+		}
+		
+		
 		if ($this->isNodeHighlighted($a_node))
 		{
 			$tpl->touchBlock("hl");

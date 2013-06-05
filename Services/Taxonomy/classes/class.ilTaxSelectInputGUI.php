@@ -27,14 +27,15 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
 		global $lng, $ilCtrl;
 		
 		$lng->loadLanguageModule("tax");
-		$this->multi = $a_multi;
-		
+		$this->multi_nodes = $a_multi;
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $a_postvar);
 		$this->explorer_gui = new ilTaxonomyExplorerGUI(array("ilformpropertydispatchgui", "iltaxselectinputgui"), $this->getExplHandleCmd(), $a_taxonomy_id, "", "",
 			"tax_expl_".$a_postvar);
-		
-		parent::__construct($lng->txt("obj_tax"), $a_postvar, $this->explorer_gui, $a_multi = false);
+		$this->explorer_gui->setSelectMode($a_postvar."_sel", $this->multi_nodes);
+		$this->explorer_gui->setSkipRootNode(true);
+
+		parent::__construct(ilObject::_lookupTitle($a_taxonomy_id), $a_postvar, $this->explorer_gui, $this->multi_nodes);
 		$this->setType("tax_select");
 		
 		if ((int) $a_taxonomy_id == 0)
@@ -64,5 +65,17 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
 	function getTaxonomyId()
 	{
 		return $this->taxononmy_id;
+	}
+	
+	/**
+	 * Get title for node id (needs to be overwritten, if explorer is not a tree eplorer
+	 *
+	 * @param
+	 * @return
+	 */
+	function getTitleForNodeId($a_id)
+	{
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
+		return ilTaxonomyNode::_lookupTitle($a_id);
 	}
 }

@@ -10,6 +10,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  * @version $Id$
  *
  * @ingroup ModulesGlossary
+ * @ilCtrl_Calls ilPresentationListTableGUI: ilFormPropertyDispatchGUI
  */
 class ilPresentationListTableGUI extends ilTable2GUI
 {	
