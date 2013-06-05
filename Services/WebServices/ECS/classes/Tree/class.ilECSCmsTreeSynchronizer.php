@@ -114,7 +114,7 @@ class ilECSCmsTreeSynchronizer
 	{
 		if($this->default_settings['tree_update'] == false)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Tree update disabled for tree with id '. $this->getTree());
+			$GLOBALS['ilLog']->write(__METHOD__.': Tree update disabled for tree with id '. $this->getTree()->getTreeId());
 			return false;
 		}
 		
