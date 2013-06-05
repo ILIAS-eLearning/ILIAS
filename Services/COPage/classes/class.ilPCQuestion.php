@@ -112,6 +112,35 @@ class ilPCQuestion extends ilPageContent
 		// we remove everything not supported by the non-tiny self
 		// assessment question editor
 		$q = $duplicate->getQuestion();
+
+		// we try to save all latex tags
+		$try = true;
+		$ls = '<span class="latex">';
+		$le = '</span>';
+		while ($try)
+		{
+			// search position of start tag
+			$pos1 = strpos($q, $ls);
+			if (is_int($pos1))
+			{
+				$pos2 = strpos($q, $le, $pos1);
+				if (is_int($pos2))
+				{
+					// both found: replace end tag
+					$q = substr($q, 0, $pos2)."[/tex]".substr($q, $pos2+7);
+					$q = substr($q, 0, $pos1)."[tex]".substr($q, $pos1+20);
+				}
+				else
+				{
+					$try = false;
+				}
+			}
+			else
+			{
+				$try = false;
+			}
+		}
+		
 		$tags = assQuestionGUI::getSelfAssessmentTags();
 		$tstr = "";
 		foreach ($tags as $t)
