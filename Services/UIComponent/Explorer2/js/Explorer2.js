@@ -55,6 +55,10 @@ il.Explorer2 = {
 		il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
 	},
 	
+	//
+	// ExplorerSelectInputGUI related functions
+	//
+	
 	// init select input
 	initSelect: function(id) {
 		$("#" + id + "_select").bind("click", function (ev) {
@@ -62,6 +66,47 @@ il.Explorer2 = {
 			il.UICore.loadWrapperToRightPanel(id + "_expl_wrapper");
 			return false;
 		});
-	}
+		$("#" + id + "_reset").bind("click", function (ev) {
+			$("#" + id + "_hid").empty();
+			$("#" + id + "_cont_txt").empty();
+			$('#' + id + '_expl_content input[type="checkbox"]').each(function() {
+				this.checked = false;
+			});
 
+			return false;
+		});
+		$("#" + id + "_expl_content a.ilExplSelectInputButS").bind("click", function (ev) {
+			var t = sep = "";
+			// create hidden inputs with values
+			$("#" + id + "_hid").empty();
+			$("#" + id + "_cont_txt").empty();
+			$('#' + id + '_expl_content input[type="checkbox"]').each(function() {
+				var n = this.name.substr(0, this.name.length - 6) + "[]",
+					ni = "<input type='hidden' name='" + n + "' value='" + this.value + "' />";
+				if (this.checked) {
+					t = t + sep + $(this).parent().find("span.ilExp2NodeContent").html();
+					sep = ", ";
+					$("#" + id + "_hid").append(ni);
+				}
+				il.UICore.hideRightPanel();
+			});
+			$("#" + id + "_cont_txt").html(t);
+			
+			return false;
+		});		
+		$("#" + id + "_expl_content a.ilExplSelectInputButC").bind("click", function (ev) {
+			il.UICore.hideRightPanel();
+			return false;
+		});		
+	},
+	
+	selectOnClick: function (node_id) {
+		$('#' + node_id + ' input[type="checkbox"]:first').each(function() {
+			this.checked = !this.checked;
+		});
+		$('#' + node_id + ' input[type="radio"]:first').each(function() {
+			this.checked = true;
+		});
+		return false;
+	}
 }
