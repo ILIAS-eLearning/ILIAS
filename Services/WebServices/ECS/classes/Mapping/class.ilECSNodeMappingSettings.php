@@ -186,7 +186,7 @@ class ilECSNodeMappingSettings
 	 */
 	protected function read()
 	{
-		$this->enableDirectoryMapping($this->getStorage()->get('active', $this->directory_active));
+		$this->enableDirectoryMapping($this->getStorage()->get('directory_active', $this->directory_active));
 		$this->enableEmptyContainerCreation($this->getStorage()->get('create_empty'),$this->create_empty_containers);
 		$this->enableCourseAllocation($this->getStorage()->get('course_active'),$this->course_active);
 		$this->setDefaultCourseCategory($this->getStorage()->get('default_category'),$this->default_cat);
