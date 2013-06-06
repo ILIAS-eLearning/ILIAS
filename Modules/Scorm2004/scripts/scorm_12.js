@@ -308,7 +308,7 @@ function init (n) {
         } else {
                 say ('init', 'SCORM RTE found.');
                 say ('dbg', 'SCORM RTE found.');
-                var rv = ScormApi.Initialize('').toString();
+                var rv = ScormApi.LMSInitialize('').toString();
                 if (rv != 'true' && rv != 't' && rv != '1') {
                         say ('init', 'SCORM RTE comminication failed.');
                         say ('dbg', 'SCORM RTE comminication failed.');
@@ -332,6 +332,8 @@ function init (n) {
         initTime = new Date();
         if (window.name && window.name.indexOf('standalone')!=-1) hide('initmsg');
         var count = getValue ('cmi.interactions._count');
+        // bug 11103
+        pager.Init();
 }
 
 var M;

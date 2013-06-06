@@ -382,6 +382,9 @@ function init (n) {
                 }
         }
         xAddEventListener(document, "mousemove", mWatch, false);     */
+        
+        // bug 11103
+        pager.Init();
 }
 
 var M;

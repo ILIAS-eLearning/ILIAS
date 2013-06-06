@@ -123,7 +123,8 @@ var pager =
 
 	
 
- jQuery(document).ready(function(){
-   pager.Init();
- });
+jQuery(document).ready(function(){
+	// bug 11103: one page sco called first paget.Init and afterward init of scorm_2004.js (resetting completion_status to incomplete)
+//   pager.Init();
+});
 
