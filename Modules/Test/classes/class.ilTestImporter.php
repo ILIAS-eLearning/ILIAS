@@ -52,10 +52,14 @@ class ilTestImporter extends ilXmlImporter
 		// TODO: move all logic to ilObjTest::importVerifiedFile and call 
 		// this method from ilObjTestGUI and ilTestImporter 
 		$newObj->mark_schema->flush();
+		
+		// Important: The container question pool is the test object implicitly. If we do not pass a valid object id here, there will be problems concerning
+		// filesystem path determinations
+		$qpl_id = $newObj->getId();
 
 		// start parsing of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
-		$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, -1 , array());
+		$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, $qpl_id , array());
 		$qtiParser->setTestObject($newObj);
 		$result = $qtiParser->startParsing();
 		$newObj->saveToDb();
