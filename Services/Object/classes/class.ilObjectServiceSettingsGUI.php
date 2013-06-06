@@ -63,13 +63,17 @@ class ilObjectServiceSettingsGUI
 		
 		if(in_array(self::CALENDAR_VISIBILITY, $services))
 		{
-			// Container tools (calendar, news, ... activation)
-			$cal = new ilCheckboxInputGUI('', self::CALENDAR_VISIBILITY);
-			$cal->setValue(1);
 			include_once './Services/Calendar/classes/class.ilObjCalendarSettings.php';
-			$cal->setChecked(ilCalendarSettings::lookupCalendarActivated($a_obj_id));
-			$cal->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_calendar'));
-			$form->addItem($cal);
+			if(ilCalendarSettings::_getInstance()->isEnabled())
+			{
+				// Container tools (calendar, news, ... activation)
+				$cal = new ilCheckboxInputGUI('', self::CALENDAR_VISIBILITY);
+				$cal->setValue(1);
+				include_once './Services/Calendar/classes/class.ilObjCalendarSettings.php';
+				$cal->setChecked(ilCalendarSettings::lookupCalendarActivated($a_obj_id));
+				$cal->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_calendar'));
+				$form->addItem($cal);
+			}
 		}
 		if(in_array(self::NEWS_VISIBILITY, $services))
 		{
@@ -101,8 +105,12 @@ class ilObjectServiceSettingsGUI
 	{
 		if(in_array(self::CALENDAR_VISIBILITY, $services))
 		{
-			include_once './Services/Container/classes/class.ilContainer.php';
-			ilContainer::_writeContainerSetting($a_obj_id,self::CALENDAR_VISIBILITY,(int) $form->getInput(self::CALENDAR_VISIBILITY));
+			include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+			if(ilCalendarSettings::_getInstance()->isEnabled())
+			{
+				include_once './Services/Container/classes/class.ilContainer.php';
+				ilContainer::_writeContainerSetting($a_obj_id,self::CALENDAR_VISIBILITY,(int) $form->getInput(self::CALENDAR_VISIBILITY));
+			}
 		}
 		if(in_array(self::NEWS_VISIBILITY, $services))
 		{
@@ -159,11 +167,14 @@ class ilObjectServiceSettingsGUI
 		$form = $this->initSettingsForm();
 		if($form->checkInput())
 		{
-			if($this->isModeActive(self::CALENDAR_VISIBILITY))
+			include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+			if(ilCalendarSettings::_getInstance()->isEnabled())
 			{
-				ilContainer::_writeContainerSetting($this->getObjId(),'show_calendar',(int) $form->getInput('calendar'));
+				if($this->isModeActive(self::CALENDAR_VISIBILITY))
+				{
+					ilContainer::_writeContainerSetting($this->getObjId(),'show_calendar',(int) $form->getInput('calendar'));
+				}
 			}
-			
 			ilUtil::sendSuccess($GLOBALS['lng']->txt('settings_saved'),true);
 			$GLOBALS['ilCtrl']->redirect($this);
 		}
