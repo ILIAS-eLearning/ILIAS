@@ -1458,13 +1458,16 @@ class ilObjPortfolioGUI
 	 */
 	protected function finalize()
 	{
-		global $ilUser, $ilCtrl, $lng;
+		global $ilCtrl, $lng;
 		
 		// to make exercise gui load assignment
 		$_GET["ass_id"] = $_REQUEST["ass"];
 		
+		// #11173 - ref_id is needed for notifications
+		$exc_ref_id = array_shift(ilObject::_getAllReferences($_REQUEST["exc"]));
+		
 		include_once "Modules/Exercise/classes/class.ilObjExerciseGUI.php";
-		$exc_gui = new ilObjExerciseGUI(null, $_REQUEST["exc"], false);
+		$exc_gui = new ilObjExerciseGUI(null, $exc_ref_id, true);
 		$exc_gui->submitPortfolio($this->portfolio->getId());
 		
 		ilUtil::sendSuccess($lng->txt("prtf_finalized"), true);
