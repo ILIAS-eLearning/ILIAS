@@ -44,6 +44,20 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 		$this->access = $a_access_handler;
 
 		parent::__construct($a_target);
+		
+		// #11173
+		if(!$a_tree->readRootId())
+		{
+			// create (workspace) root folder
+			$root = ilObjectFactory::getClassByType("wsrt");
+			$root = new $root(null);
+			$root->create();
+
+			$root_id = $a_tree->createReference($root->getId());
+			$a_tree->addTree($a_tree->getTreeId(), $root_id);
+			$a_tree->setRootId($root_id);
+		}		
+		
 		$this->tree = $a_tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = 'title';
