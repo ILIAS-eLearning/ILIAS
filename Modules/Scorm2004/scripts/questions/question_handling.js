@@ -672,6 +672,10 @@ ilias.questions.updateSuccessStatus = function()
 				s_key = "cmi.core.lesson_status";
 				break;
 			case '1.3':
+				// bug #9413
+				if (status == "") {
+					status = "unknown";
+				}	
 				s_key = "cmi.success_status";
 				break;
 		}
