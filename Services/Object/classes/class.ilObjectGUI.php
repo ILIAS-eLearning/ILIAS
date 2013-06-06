@@ -146,7 +146,7 @@ class ilObjectGUI
 		// set context
 		if (is_object($this->object))
 		{
-			if ($this->call_by_reference && $this->ref_id = $_GET["ref_id"])
+			if ($this->call_by_reference && $this->ref_id == $_GET["ref_id"])
 			{
 				$this->ctrl->setContext($this->object->getId(), 
 					$this->object->getType());
