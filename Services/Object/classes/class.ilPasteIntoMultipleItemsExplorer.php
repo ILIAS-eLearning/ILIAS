@@ -96,15 +96,29 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	public function buildFormItem($a_node_id, $a_type)
 	{
 		if(!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) return '';
+		$disabled = false;
+		if(is_array($_SESSION["clipboard"]["ref_ids"]))
+		{
+			$disabled = in_array($a_node_id, $_SESSION["clipboard"]["ref_ids"]);
+		}
+		else if((int)$_SESSION["clipboard"]["ref_ids"])
+		{
+			$disabled = $a_node_id == $_SESSION["clipboard"]["ref_ids"];
+		}
+		else if($_SESSION["clipboard"]["cmd"] == 'copy' && $a_node_id == $_SESSION["clipboard"]["parent"])
+		{
+			
+			$disabled = true;
+		}
 
 		switch($this->type)
 		{
 			case self::SEL_TYPE_CHECK:
-				return ilUtil::formCheckbox((int)$this->isItemChecked($a_node_id), $this->post_var, $a_node_id);
+				return ilUtil::formCheckbox((int)$this->isItemChecked($a_node_id), $this->post_var, $a_node_id, $disabled);
 				break;
 				
 			case self::SEL_TYPE_RADIO:
-				return ilUtil::formRadioButton((int)$this->isItemChecked($a_node_id), $this->post_var, $a_node_id);
+				return ilUtil::formDisabledRadioButton((int)$this->isItemChecked($a_node_id), $this->post_var, $a_node_id, $disabled);
 				break;
 		}	
 	}
