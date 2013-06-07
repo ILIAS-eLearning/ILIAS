@@ -3842,6 +3842,8 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilToolbar, $lng;
 		
+		$this->getParticipantsSubTabs();
+		
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
@@ -3965,6 +3967,91 @@ class ilObjTestGUI extends ilObjectGUI
 			$table_gui->setData($rows);
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 		}
+	}
+	
+	public function timingObject()
+	{
+		$this->getParticipantsSubTabs();
+
+		global $ilAccess;
+		
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirect($this, "infoScreen");
+		}
+
+		if ($this->object->getProcessingTimeInSeconds() > 0 && $this->object->getNrOfTries() == 1)
+		{
+			$form = $this->formTiming();
+			if (count($_POST) && $form->checkInput())
+			{
+				$res = $this->object->addExtraTime($form->getInput('participant'), $form->getInput('extratime'));
+				ilUtil::sendSuccess(sprintf($this->lng->txt('tst_extratime_added'), $form->getInput('extratime')), true);
+			}
+			else
+			{
+				$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+			}
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("tst_extratime_notavailable"));
+		}
+	}
+
+	private function formTiming()
+	{
+		global $ilAccess;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth("100%");
+		$form->setId("tst_change_workingtime");
+
+		// general properties
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("tst_change_workingtime"));
+		$form->addItem($header);
+
+		// test users
+		$participantslist = new ilSelectInputGUI($this->lng->txt('participants'), "participant");
+		$participants =& $this->object->getTestParticipants();
+		$times = $this->object->getStartingTimeOfParticipants();
+		$addons = $this->object->getTimeExtensionsOfParticipants();
+		$options = array(
+			'' => $this->lng->txt('please_select'),
+			'0' => $this->lng->txt('all_participants')
+		);
+		foreach ($participants as $participant)
+		{
+			$started = "";
+			if ($times[$participant['active_id']])
+			{
+				$started = ", ".$this->lng->txt('tst_started').': '.ilDatePresentation::formatDate(new ilDateTime($times[$participant['active_id']], IL_CAL_DATETIME));
+			}
+			if ($addons[$participant['active_id']] > 0) $started .= ", " . $this->lng->txt('extratime') . ': ' . $addons[$participant['active_id']] . ' ' . $this->lng->txt('minutes');
+			$options[$participant['active_id']] = $participant['login'] . ' (' . $participant['lastname'] . ', ' . $participant['firstname'] . ')'.$started;
+		}
+		$participantslist->setRequired(true);
+		$participantslist->setOptions($options);
+		$form->addItem($participantslist);
+
+		// extra time
+		$extratime = new ilNumberInputGUI($this->lng->txt("extratime"), "extratime");
+		$extratime->setRequired(true);
+		$extratime->setMinValue(0);
+		$extratime->setMinvalueShouldBeGreater(true);
+		$extratime->setSuffix($this->lng->txt('minutes'));
+		$extratime->setSize(5);
+		$form->addItem($extratime);
+
+		if (is_array($_POST) && strlen($_POST['cmd']['timing'])) $form->setValuesByArray($_POST);
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("timing", $this->lng->txt("save"));
+		return $form;
 	}
 	
 	function applyFilterCriteria($in_rows)
@@ -5054,6 +5141,29 @@ class ilObjTestGUI extends ilObjectGUI
                 }
 	}
 
+	function getParticipantsSubTabs()
+	{
+		global $ilTabs;
+
+		// participants subtab
+		$ilTabs->addSubTabTarget("participants",
+			$this->ctrl->getLinkTarget($this,'participants'),
+			array("participants", "saveClientIP",
+				"removeParticipant",
+				"showParticipantAnswersForAuthor",
+				"deleteAllUserResults",
+				"cancelDeleteAllUserData", "deleteSingleUserResults",
+				"outParticipantsResultsOverview", "outParticipantsPassDetails",
+				"showPassOverview", "showUserAnswers", "participantsAction",
+				"showDetailedResults"),
+			"");
+		// extratime subtab
+		$ilTabs->addSubTabTarget("timing",
+			$this->ctrl->getLinkTarget($this,'timing'),
+			array("timing"),
+			"", "");
+	}
+	
 	/**
 	* adds tabs to tab gui object
 	*
@@ -5061,7 +5171,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess,$ilUser, $ilHelp;
+		global $ilAccess, $ilUser, $ilHelp;
 
 		if (preg_match('/^ass(.*?)gui$/i', $this->ctrl->getNextClass($this))) {
 			return;
@@ -5253,7 +5363,8 @@ class ilObjTestGUI extends ilObjectGUI
 					 "cancelDeleteAllUserData", "deleteSingleUserResults",
 					 "outParticipantsResultsOverview", "outParticipantsPassDetails",
 					 "showPassOverview", "showUserAnswers", "participantsAction",
-					"showDetailedResults"), 
+					"showDetailedResults", 
+					 'timing'), 
 					 "");
                             }
 			}

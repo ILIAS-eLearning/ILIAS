@@ -249,7 +249,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			return $this->object->isMaxProcessingTimeReached($starting_time);
+			return $this->object->isMaxProcessingTimeReached($starting_time, $active_id);
 		}
 	}
 	
@@ -1802,7 +1802,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		global $ilUser;
 
 		$starting_time = $this->object->getStartingTimeOfUser($active_id);
-		$processing_time = $this->object->getProcessingTimeInSeconds();
+		$processing_time = $this->object->getProcessingTimeInSeconds($active_id);
 		$processing_time_minutes = floor($processing_time / 60);
 		$processing_time_seconds = $processing_time - $processing_time_minutes * 60;
 		$str_processing_time = "";
