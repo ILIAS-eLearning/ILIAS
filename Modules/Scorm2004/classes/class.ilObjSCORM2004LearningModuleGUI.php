@@ -33,7 +33,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 		$lng->loadLanguageModule("content");
 		$lng->loadLanguageModule("sahs");
-		$lng->loadLanguageModule("search");	
+		$lng->loadLanguageModule("search");
+		$lng->loadLanguageModule("exp");
 		$this->type = "sahs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		#$this->tabs_gui =& new ilTabsGUI();
@@ -2790,6 +2791,7 @@ function showTrackingItem()
 	{
 		$export = new ilScorm2004Export($this->object,'SCORM 2004 4th');
 		$export->buildExportFile();
+		ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
 		$this->ctrl->redirect($this, "showExportList");
 	}
 	
@@ -2797,6 +2799,7 @@ function showTrackingItem()
 	{
 		$export = new ilScorm2004Export($this->object,'SCORM 2004 3rd');
 		$export->buildExportFile();
+		ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
 		$this->ctrl->redirect($this, "showExportList");
 	}
 	
@@ -2804,6 +2807,7 @@ function showTrackingItem()
 	{
 		$export = new ilScorm2004Export($this->object,'SCORM 1.2');
 		$export->buildExportFile();
+		ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
 		$this->ctrl->redirect($this, "showExportList");
 	}
 	
@@ -2811,6 +2815,7 @@ function showTrackingItem()
 	{
 		$export = new ilScorm2004Export($this->object,'HTML');
 		$export->buildExportFile();
+		ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
 		$this->ctrl->redirect($this, "showExportList");
 	}
 
@@ -2818,6 +2823,7 @@ function showTrackingItem()
 	{
 		$export = new ilScorm2004Export($this->object,'HTMLOne');
 		$export->buildExportFile();
+		ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
 		$this->ctrl->redirect($this, "showExportList");
 	}
 
