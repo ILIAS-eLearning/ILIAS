@@ -317,8 +317,7 @@ class ilSurveyEvaluationGUI
 		$format_percent = "";
 		$format_datetime = "";
 		$format_title = "";
-		$surveyname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->object->getTitle()));
-
+		
 		switch ($_POST["export_format"])
 		{
 			case TYPE_XLS:
@@ -454,7 +453,20 @@ class ilSurveyEvaluationGUI
 				}
 			}
 		}
-
+		
+		// #11179
+		if(!$details)
+		{
+			$type = $this->lng->txt("svy_eval_cumulated");
+		}
+		else
+		{
+			$type = $this->lng->txt("svy_eval_detail");
+		}		
+		$surveyname = $this->object->getTitle()." ".$type." ".date("Y-m-d");
+		$surveyname = preg_replace("/\s/", "_", trim($surveyname));
+		$surveyname = ilUtil::getASCIIFilename($surveyname);
+		
 		switch ($_POST["export_format"])
 		{
 			case TYPE_XLS:
@@ -713,7 +725,7 @@ class ilSurveyEvaluationGUI
 	function exportUserSpecificResults($export_format, $export_label, $finished_ids)
 	{
 		global $ilLog;
-		$surveyname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->object->getTitle()));
+		
 		$csvfile = array();
 		$csvrow = array();
 		$csvrow2 = array();
@@ -800,6 +812,12 @@ class ilSurveyEvaluationGUI
 			array_push($csvrow, $wt);
 			array_push($csvfile, $csvrow);
 		}
+		
+		// #11179
+		$surveyname = $this->object->getTitle()." ".$this->lng->txt("svy_eval_user")." ".date("Y-m-d");
+		$surveyname = preg_replace("/\s/", "_", trim($surveyname));
+		$surveyname = ilUtil::getASCIIFilename($surveyname);
+		
 		switch ($export_format)
 		{
 			case TYPE_XLS:
