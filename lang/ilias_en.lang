@@ -13299,3 +13299,10 @@ survey#:#survey_default_mode#:#Classic Survey
 survey#:#survey_default_mode_info#:#Use for evaluation
 survey#:#survey_360_mode_info#:#Use for user peer review
 blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.
+assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
+assessment#:#tst_extratime_nodata#:#There are no entries for the selected participant.
+assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.
+assessment#:#extratime#:#Extra Time
+assessment#:#log_added_extratime#:#Added extra %d minutes for active id %d
+assessment#:#timing#:#Extra Time
+assessment#:#tst_change_workingtime#:#Add extra time for a participant

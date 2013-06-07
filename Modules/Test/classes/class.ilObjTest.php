@@ -3258,11 +3258,12 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $processing_time
 */
-	function getProcessingTimeInSeconds()
+	function getProcessingTimeInSeconds($active_id = "")
 	{
 		if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", $this->getProcessingTime(), $matches))
 		{
-			return ($matches[1] * 3600) + ($matches[2] * 60) + $matches[3];
+			$extratime = $this->getExtraTime($active_id) * 60;
+			return ($matches[1] * 3600) + ($matches[2] * 60) + $matches[3] + $extratime;
 		}
 			else
 		{
@@ -8269,7 +8270,7 @@ function getAnswerFeedbackPoints()
 				$starting_time = $this->getStartingTimeOfUser($active_id);
 				if ($starting_time !== FALSE)
 				{
-					if ($this->isMaxProcessingTimeReached($starting_time))
+					if ($this->isMaxProcessingTimeReached($starting_time, $active_id))
 					{
 						if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > ($this->_getPass($active_id)+1))))
 						{
@@ -8347,7 +8348,7 @@ function getAnswerFeedbackPoints()
 		$notimeleft = FALSE;
 		if ($starting_time !== FALSE)
 		{
-			if ($this->isMaxProcessingTimeReached($starting_time))
+			if ($this->isMaxProcessingTimeReached($starting_time, $active_id))
 			{
 				$notimeleft = TRUE;
 			}
@@ -8430,11 +8431,11 @@ function getAnswerFeedbackPoints()
 *					maximum processing time is not reached or no maximum processing time is given
 * @access public
 */
-	function isMaxProcessingTimeReached($starting_time)
+	function isMaxProcessingTimeReached($starting_time, $active_id)
 	{
 		if ($this->getEnableProcessingTime())
 		{
-			$processing_time = $this->getProcessingTimeInSeconds();
+			$processing_time = $this->getProcessingTimeInSeconds($active_id);
 			$now = mktime();
 			if ($now > ($starting_time + $processing_time))
 			{
@@ -11387,4 +11388,103 @@ function getAnswerFeedbackPoints()
 	{
 		return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : NULL;
 	}
+
+
+	function getStartingTimeOfParticipants()
+	{
+		global $ilDB;
+
+		$times = array();
+		$result = $ilDB->query("SELECT tst_times.active_fi, tst_times.started FROM tst_times, tst_active WHERE tst_times.active_fi = tst_active.active_id ORDER BY tst_times.tstamp DESC");
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$times[$row['active_fi']] = $row['started'];
+		}
+		return $times;
+	}
+
+	function getTimeExtensionsOfParticipants()
+	{
+		global $ilDB;
+
+		$times = array();
+		$result = $ilDB->queryF("SELECT tst_addtime.active_fi, tst_addtime.additionaltime FROM tst_addtime, tst_active WHERE tst_addtime.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
+		);
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$times[$row['active_fi']] = $row['additionaltime'];
+		}
+		return $times;
+	}
+
+
+	public function getExtraTime($active_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT additionaltime FROM tst_addtime WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
+		);
+		if ($result->numRows() > 0)
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return $row['additionaltime'];
+		}
+		return 0;
+	}
+
+	public function addExtraTime($active_id, $minutes)
+	{
+		global $ilDB;
+
+		$participants = array();
+		if ($active_id == 0)
+		{
+			$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s",
+				array('integer'),
+				array($this->getTestId())
+			);
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				array_push($participants, $row['active_id']);
+			}
+		}
+		else
+		{
+			array_push($participants, $active_id);
+		}
+		foreach ($participants as $active_id)
+		{
+			$result = $ilDB->queryF("SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
+			);
+			if ($result->numRows() > 0)
+			{
+				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_addtime WHERE active_fi = %s",
+					array('integer'),
+					array($active_id)
+				);
+			}
+
+			$result = $ilDB->manipulateF("UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
+				array('integer','integer','timestamp','integer'),
+				array(0, 0, NULL, $active_id)
+			);
+
+			$result = $ilDB->manipulateF("INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
+				array('integer','integer','integer'),
+				array($active_id, $minutes, time())
+			);
+
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_added_extratime", ilObjAssessmentFolder::_getLogLanguage()), $minutes, $active_id));
+			}
+		}
+	}
+
 }

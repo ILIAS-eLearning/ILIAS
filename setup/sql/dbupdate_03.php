@@ -15795,3 +15795,33 @@ if(!$ilDB->tableColumnExists('tst_tests','ending_time'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3909>
+<?php
+	if(!$ilDB->tableExists('tst_addtime'))
+	{
+		$ilDB->createTable('tst_addtime',
+			array(
+				'active_fi' => array(
+					'type'  => 'integer',
+					'length'=> 8,
+					'notnull' => true,
+					'default' => 0
+				),
+				'additionaltime' => array(
+					'type'  => 'integer',
+					'length'=> 8,
+					'notnull' => true,
+					'default' => 0,
+				),
+				"tstamp" => array (
+					"notnull" => true,
+					"length" => 8,
+					"default" => "0",
+					"type" => "integer"
+				)
+			)
+		);
+		$ilDB->addIndex("tst_addtime", array('active_fi'), "i1", false);
+	}
+?>
+
