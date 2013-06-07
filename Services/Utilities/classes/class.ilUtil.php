@@ -547,7 +547,7 @@ class ilUtil
 	* @static
 	* 
 	*/
-	public static function formRadioButton($checked,$varname,$value,$onclick=null)
+	public static function formRadioButton($checked,$varname,$value,$onclick=null, $disabled = false)
 	{
 		$str = '<input ';
 
@@ -560,6 +560,11 @@ class ilUtil
 		if ($checked == 1)
 		{
 			$str .= " checked=\"checked\"";
+		}
+
+		if ($disabled)
+		{
+			$str .= " disabled=\"disabled\"";
 		}
 
 		$str .= " value=\"".$value."\"";
