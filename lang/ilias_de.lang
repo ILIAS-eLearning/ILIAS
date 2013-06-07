@@ -13304,6 +13304,6 @@ assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers/der Teil
 assessment#:#tst_extratime_nodata#:#Es gibt noch keine Einträge für den ausgewählten Teilnehmer/die ausgewählte Teilnehmerin.
 assessment#:#tst_extratime_notavailable#:#Zeitverlängerungen können nur für Tests mit einem Durchlauf und einer vorgegebenen Bearbeitungszeit durchgeführt werden.
 assessment#:#extratime#:#Zeitverlängerung
-assessment#:#log_added_extratime#:#Es wurden zusätzliche %d Minuten Bearbeitungsdauer für active id %d hinzugefügt
+assessment#:#log_added_extratime#:#Es wurden zusätzliche %d Minuten Bearbeitungsdauer für die Teilnehmer-ID %d hinzugefügt
 assessment#:#timing#:#Zeitverlängerung
 assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer/eine Teilnehmerin erstellen

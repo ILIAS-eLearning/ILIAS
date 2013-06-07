@@ -13303,6 +13303,6 @@ assessment#:#tst_extratime_added#:#The working time of the participant has been 
 assessment#:#tst_extratime_nodata#:#There are no entries for the selected participant.
 assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.
 assessment#:#extratime#:#Extra Time
-assessment#:#log_added_extratime#:#Added extra %d minutes for active id %d
+assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
 assessment#:#timing#:#Extra Time
 assessment#:#tst_change_workingtime#:#Add extra time for a participant
