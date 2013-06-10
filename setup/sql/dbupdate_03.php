@@ -15824,4 +15824,26 @@ if(!$ilDB->tableColumnExists('tst_tests','ending_time'))
 		$ilDB->addIndex("tst_addtime", array('active_fi'), "i1", false);
 	}
 ?>
-
+<#3910>
+<?php
+if(!$ilDB->tableColumnExists("qpl_qst_imagemap", "is_multiple_choice")) {
+	$atts = array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'default' => 0,
+		'notnull' => true
+	);
+	$ilDB->addTableColumn("qpl_qst_imagemap", "is_multiple_choice", $atts);
+}
+?>
+<#3911>
+<?php
+if (!$ilDB->tableColumnExists("qpl_a_imagemap", "points_unchecked")) {
+	$atts = array(
+		'type' => 'float',
+		'notnull' => true,
+		'default' => 0
+	);
+	$ilDB->addTableColumn("qpl_a_imagemap", "points_unchecked", $atts);
+}
+?>
