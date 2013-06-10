@@ -54,6 +54,9 @@ class ilECSCourseMemberConnector extends ilECSConnector
 				$ecs_result = new ilECSResult($res);
 				
 			}
+			
+			//$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($ecs_result->getResult(),true));
+			
 			return $ecs_result->getResult();
 		}
 		catch(ilCurlConnectionException $e)	
