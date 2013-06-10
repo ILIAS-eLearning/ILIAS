@@ -172,7 +172,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		
 		$course = $this->readCourse($course_member);
 		// Lookup already imported users and update their status
-		$assignments = $this->readAssignments($course[0],$course_member);
+		$assignments = $this->readAssignments($course,$course_member);
 		
 		// iterate through all parallel groups
 		foreach((array) $assignments as $cms_id => $assigned)
@@ -235,7 +235,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		{
 			$assigned[$course_id][$member->personID] = array(
 				'id' => $member->personID,
-				'role' => $member->courseRole
+				'role' => $member->role
 			);
 			
 			foreach((array) $member->parallelGroup as $pgroup)
@@ -245,7 +245,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 					// @todo check hierarchy of roles
 					$assigned[$pgroup->id][$member->personID] = array(
 						'id' => $member->personID,
-						'role' => $pgroup->groupRole
+						'role' => $pgroup->role
 					);
 				}
 			}
@@ -373,7 +373,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		
 		if(!$role_value)
 		{
- 			$GLOBALS['ilLog']->write(__METHOD__.': no role assignment missing attribute courseRole');
+ 			$GLOBALS['ilLog']->write(__METHOD__.': No role assignment missing attribute: role');
 			return 0;
 		}
 		foreach($role_mappings as $name => $map)
