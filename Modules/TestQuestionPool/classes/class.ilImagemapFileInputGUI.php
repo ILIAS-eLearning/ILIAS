@@ -73,7 +73,14 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
 			foreach ($a_areas['name'] as $idx => $name)
 			{
-				array_push($this->areas, new ASS_AnswerImagemap($name, $a_areas['points'][$idx], $idx, $a_areas['coords'][$idx], $a_areas['shape'][$idx]));
+				array_push($this->areas, new ASS_AnswerImagemap(
+					$name,
+					$a_areas['points'][$idx],
+					$idx,
+					$a_areas['coords'][$idx], $a_areas['shape'][$idx],
+					-1,
+					$a_areas['points_unchecked'][$idx]
+				));
 			}
 		}
 	}
@@ -267,7 +274,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 			$template->parseCurrentBlock();
 		}
 		
-		if (is_array($this->getAreas()))
+		if(is_array($this->getAreas()) && $this->getAreas())
 		{
 			$counter = 0;
 			foreach ($this->getAreas() as $area)
@@ -278,6 +285,12 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 					$template->setVariable('VALUE_POINTS', $area->getPoints());
 					$template->parseCurrentBlock();
 				}
+				if (strlen($area->getPointsUnchecked()))
+				{
+					$template->setCurrentBlock('area_points_unchecked_value');
+					$template->setVariable('VALUE_POINTS_UNCHECKED', $area->getPointsUnchecked());
+					$template->parseCurrentBlock();
+				}
 				if (strlen($area->getAnswertext()))
 				{
 					$template->setCurrentBlock('area_name_value');
@@ -285,7 +298,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock('row');
-				$class = ($counter % 2 == 0) ? "even" : "odd";
+				$class = ($counter % 2 == 0) ? "tblrow1" : "tblrow2";
 				if ($counter == 0) $class .= " first";
 				if ($counter == count($this->getAreas())-1) $class .= " last";
 				$template->setVariable("ROW_CLASS", $class);
@@ -302,7 +315,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 			}
 			$template->setCurrentBlock("areas");
 			$template->setVariable("TEXT_NAME", $lng->txt("hint"));
-			$template->setVariable("TEXT_POINTS", $lng->txt("points"));
+			$template->setVariable("TEXT_POINTS", $lng->txt("points_checked"));
+			$template->setVariable("TEXT_POINTS_UNCHECKED", $lng->txt("points_unchecked"));
 			$template->setVariable("TEXT_SHAPE", $lng->txt("shape"));
 			$template->setVariable("TEXT_COORDINATES", $lng->txt("coordinates"));
 			$template->setVariable("TEXT_COMMANDS", $lng->txt("actions"));

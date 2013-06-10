@@ -53,6 +53,15 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 * @var string
 */
   var $area;
+
+	/**
+	 * The points given to the answer when the answer is not checked
+	 *
+	 * The points given to the answer when the answer is not checked
+	 *
+	 * @var double
+	 */
+	protected $points_unchecked = 0.0;
   
 /**
 * ASS_AnswerImagemap constructor
@@ -71,12 +80,14 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 		$order = 0,
 		$coords = "",
 		$area = "",
-		$id = -1
+		$id = -1,
+		$points_unchecked = 0
 	)
 	{
 		$this->ASS_AnswerBinaryState($answertext, $points, $order, 1, $id);
-		$this->coords = $coords;
-		$this->area = $area;
+		$this->coords           = $coords;
+		$this->area             = $area;
+		$this->points_unchecked = $points_unchecked;
 	}
   
   
@@ -128,4 +139,36 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 		$this->area=$area;
 	}
 
+	/**
+	 * Returns the points for an unchecked answer
+	 * Returns the points for an unchecked answer
+	 * @return double The points for an unchecked answer
+	 * @access public
+	 * @see    $points_unchecked
+	 */
+	public function getPointsUnchecked()
+	{
+		return $this->points_unchecked;
+	}
+
+	/**
+	 * Sets the points for an unchecked answer
+	 * Sets the points for an unchecked answer
+	 * @param double $points_unchecked The points for an unchecked answer
+	 * @access public
+	 * @see    $points_unchecked
+	 */
+	public function setPointsUnchecked($points_unchecked)
+	{
+		$new_points = str_replace(",", ".", $points_unchecked);
+
+		if($this->checkPoints($new_points))
+		{
+			$this->points_unchecked = $new_points;
+		}
+		else
+		{
+			$this->points_unchecked = 0.0;
+		}
+	}
 }
