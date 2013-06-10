@@ -76,6 +76,10 @@ class assImagemapQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldentry", NULL, IMAGEMAP_QUESTION_IDENTIFIER);
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "IS_MULTIPLE_CHOICE");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getIsMultipleChoice());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getAuthor());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
@@ -228,7 +232,7 @@ class assImagemapQuestionExport extends assQuestionExport
 				"respident" => "IM",
 				"areatype" => $areatype
 			);
-			$a_xml_writer->xmlElement("varinside", $attrs, $answer->getCoords());
+			$a_xml_writer->xmlElement("varequal", $attrs, $answer->getCoords());
 			if (!$answer->isStateSet())
 			{
 				$a_xml_writer->xmlEndTag("not");
@@ -246,6 +250,25 @@ class assImagemapQuestionExport extends assQuestionExport
 			);
 			$a_xml_writer->xmlElement("displayfeedback", $attrs);
 			$a_xml_writer->xmlEndTag("respcondition");
+			$attrs = array(
+				"continue" => "Yes"
+			);
+			$a_xml_writer->xmlStartTag("respcondition", $attrs);
+			// qti conditionvar
+			$a_xml_writer->xmlStartTag("conditionvar");
+			$attrs = array(
+				"respident" => "IM"
+			);
+			$a_xml_writer->xmlStartTag("not");
+			$a_xml_writer->xmlElement("varequal", $attrs, $answer->getCoords());
+			$a_xml_writer->xmlEndTag("not");
+			$a_xml_writer->xmlEndTag("conditionvar");
+			// qti setvar
+			$attrs = array(
+				"action" => "Add"
+			);
+			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPointsUnchecked());
+			$a_xml_writer->xmlEndTag("respcondition");
 		}
 
 		$answers = $this->object->getAnswers();
@@ -260,39 +283,73 @@ class assImagemapQuestionExport extends assQuestionExport
 			$a_xml_writer->xmlStartTag("respcondition", $attrs);
 			// qti conditionvar
 			$a_xml_writer->xmlStartTag("conditionvar");
-			$bestindex = 0;
-			$maxpoints = 0;
-			foreach ($answers as $index => $answer)
+			if(!$this->object->getIsMultipleChoice())
 			{
-				if ($answer->getPoints() > $maxpoints)
+				$bestindex = 0;
+				$maxpoints = 0;
+				foreach ($answers as $index => $answer)
 				{
-					$maxpoints = $answer->getPoints();
-					$bestindex = $index;
+					if ($answer->getPoints() > $maxpoints)
+					{
+						$maxpoints = $answer->getPoints();
+						$bestindex = $index;
+					}
+				}
+				$attrs = array(
+					"respident" => "IM"
+				);
+	
+				$areatype = "";
+				$answer = $answers[$bestindex];
+				switch ($answer->getArea())
+				{
+					case "rect":
+						$areatype = "Rectangle";
+						break;
+					case "circle":
+						$areatype = "Ellipse";
+						break;
+					case "poly":
+						$areatype = "Bounded";
+						break;
+				}
+				$attrs = array(
+					"respident" => "IM",
+					"areatype" => $areatype
+				);
+				$a_xml_writer->xmlElement("varinside", $attrs, $answer->getCoords());
+			}
+			else
+			{
+				foreach ($answers as $index => $answer)
+				{
+					if ($answer->getPoints() < $answer->getPointsUnchecked())
+					{
+						$a_xml_writer->xmlStartTag("not");
+					}
+					switch ($answer->getArea())
+					{
+						case "rect":
+							$areatype = "Rectangle";
+							break;
+						case "circle":
+							$areatype = "Ellipse";
+							break;
+						case "poly":
+							$areatype = "Bounded";
+							break;
+					}
+					$attrs = array(
+						"respident" => "IM",
+						"areatype" => $areatype
+					);
+					$a_xml_writer->xmlElement("varequal", $attrs, $index);
+					if ($answer->getPoints() < $answer->getPointsUnchecked())
+					{
+						$a_xml_writer->xmlEndTag("not");
+					}
 				}
 			}
-			$attrs = array(
-				"respident" => "IM"
-			);
-
-			$areatype = "";
-			$answer = $answers[$bestindex];
-			switch ($answer->getArea())
-			{
-				case "rect":
-					$areatype = "Rectangle";
-					break;
-				case "circle":
-					$areatype = "Ellipse";
-					break;
-				case "poly":
-					$areatype = "Bounded";
-					break;
-			}
-			$attrs = array(
-				"respident" => "IM",
-				"areatype" => $areatype
-			);
-			$a_xml_writer->xmlElement("varinside", $attrs, $answer->getCoords());
 
 			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti displayfeedback
@@ -315,42 +372,84 @@ class assImagemapQuestionExport extends assQuestionExport
 			$a_xml_writer->xmlStartTag("respcondition", $attrs);
 			// qti conditionvar
 			$a_xml_writer->xmlStartTag("conditionvar");
-			$bestindex = 0;
-			$maxpoints = 0;
-			foreach ($answers as $index => $answer)
+			if(!$this->object->getIsMultipleChoice())
 			{
-				if ($answer->getPoints() > $maxpoints)
+				$bestindex = 0;
+				$maxpoints = 0;
+				foreach ($answers as $index => $answer)
 				{
-					$maxpoints = $answer->getPoints();
-					$bestindex = $index;
+					if ($answer->getPoints() > $maxpoints)
+					{
+						$maxpoints = $answer->getPoints();
+						$bestindex = $index;
+					}
+				}
+				$attrs = array(
+					"respident" => "IM"
+				);
+				$a_xml_writer->xmlStartTag("not");
+
+				$areatype = "";
+				$answer = $answers[$bestindex];
+				switch ($answer->getArea())
+				{
+					case "rect":
+						$areatype = "Rectangle";
+						break;
+					case "circle":
+						$areatype = "Ellipse";
+						break;
+					case "poly":
+						$areatype = "Bounded";
+						break;
+				}
+				$attrs = array(
+					"respident" => "IM",
+					"areatype" => $areatype
+				);
+				$a_xml_writer->xmlElement("varinside", $attrs, $answer->getCoords());
+
+				$a_xml_writer->xmlEndTag("not");
+			}
+			else
+			{
+				foreach ($answers as $index => $answer)
+				{
+					if ($index > 0)
+					{
+						$a_xml_writer->xmlStartTag("or");
+					}
+					if ($answer->getPoints() >= $answer->getPointsUnchecked())
+					{
+						$a_xml_writer->xmlStartTag("not");
+					}
+					switch ($answer->getArea())
+					{
+						case "rect":
+							$areatype = "Rectangle";
+							break;
+						case "circle":
+							$areatype = "Ellipse";
+							break;
+						case "poly":
+							$areatype = "Bounded";
+							break;
+					}
+					$attrs = array(
+						"respident" => "IM",
+						"areatype" => $areatype
+					);
+					$a_xml_writer->xmlElement("varequal", $attrs, $index);
+					if ($answer->getPoints() >= $answer->getPointsUnchecked())
+					{
+						$a_xml_writer->xmlEndTag("not");
+					}
+					if ($index > 0)
+					{
+						$a_xml_writer->xmlEndTag("or");
+					}
 				}
 			}
-			$attrs = array(
-				"respident" => "IM"
-			);
-			$a_xml_writer->xmlStartTag("not");
-
-			$areatype = "";
-			$answer = $answers[$bestindex];
-			switch ($answer->getArea())
-			{
-				case "rect":
-					$areatype = "Rectangle";
-					break;
-				case "circle":
-					$areatype = "Ellipse";
-					break;
-				case "poly":
-					$areatype = "Bounded";
-					break;
-			}
-			$attrs = array(
-				"respident" => "IM",
-				"areatype" => $areatype
-			);
-			$a_xml_writer->xmlElement("varinside", $attrs, $answer->getCoords());
-
-			$a_xml_writer->xmlEndTag("not");
 			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti displayfeedback
 			$attrs = array(

@@ -13307,3 +13307,6 @@ assessment#:#extratime#:#Zeitverlängerung
 assessment#:#log_added_extratime#:#Es wurden zusätzliche %d Minuten Bearbeitungsdauer für die Teilnehmer-ID %d hinzugefügt
 assessment#:#timing#:#Zeitverlängerung
 assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer/eine Teilnehmerin erstellen
+assessment#:#tst_imap_qst_mode#:#Antwortmodus
+assessment#:#tst_imap_qst_mode_sc#:#Single Choice
+assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice

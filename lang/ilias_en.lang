@@ -13306,3 +13306,6 @@ assessment#:#extratime#:#Extra Time
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
 assessment#:#timing#:#Extra Time
 assessment#:#tst_change_workingtime#:#Add extra time for a participant
+assessment#:#tst_imap_qst_mode#:#Mode
+assessment#:#tst_imap_qst_mode_sc#:#Single Choice
+assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice

@@ -125,7 +125,14 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				{
 					foreach ($_POST['image']['coords']['name'] as $idx => $name)
 					{
-						$this->object->addAnswer($name, $_POST['image']['coords']['points'][$idx], $idx, $_POST['image']['coords']['coords'][$idx], $_POST['image']['coords']['shape'][$idx]);
+						$this->object->addAnswer(
+							$name,
+							$_POST['image']['coords']['points'][$idx],
+							$idx,
+							$_POST['image']['coords']['coords'][$idx],
+							$_POST['image']['coords']['shape'][$idx],
+							$_POST['image']['coords']['points_unchecked'][$idx]
+						);
 					}
 				}
 				if (strlen($_FILES['imagemapfile']['tmp_name']))
@@ -134,6 +141,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					$this->object->uploadImagemap($_FILES['imagemapfile']['tmp_name']);
 				}
 			}
+			$this->object->setIsMultipleChoice($_POST['is_multiple_choice'] == assImagemapQuestion::MODE_MULTIPLE_CHOICE);
 			return 0;
 		}
 		else
@@ -162,6 +170,15 @@ class assImagemapQuestionGUI extends assQuestionGUI
 
 		// title, author, description, question, working time (assessment mode)
 		$this->addBasicQuestionFormProperties($form);
+
+		// is MultipleChoice?
+		$radioGroup = new ilRadioGroupInputGUI($this->lng->txt('tst_imap_qst_mode'), 'is_multiple_choice');
+		$radioGroup->setValue($this->object->getIsMultipleChoice());
+		$modeSingleChoice = new ilRadioOption($this->lng->txt('tst_imap_qst_mode_sc'), assImagemapQuestion::MODE_SINGLE_CHOICE);
+		$modeMultipleChoice = new ilRadioOption($this->lng->txt('tst_imap_qst_mode_mc'), assImagemapQuestion::MODE_MULTIPLE_CHOICE);
+		$radioGroup->addOption($modeSingleChoice);
+		$radioGroup->addOption($modeMultipleChoice);
+		$form->addItem($radioGroup);
 	
 		// image
 		include_once "./Modules/TestQuestionPool/classes/class.ilImagemapFileInputGUI.php";
@@ -468,17 +485,36 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		}
 		else
 		{
-			$found_index = -1;
-			$max_points = 0;
-			foreach ($this->object->answers as $index => $answer)
+			if(!$this->object->getIsMultipleChoice())
 			{
-				if ($answer->getPoints() > $max_points)
+				$found_index = -1;
+				$max_points = 0;
+				foreach ($this->object->answers as $index => $answer)
 				{
-					$max_points = $answer->getPoints();
-					$found_index = $index;
+					if ($answer->getPoints() > $max_points)
+					{
+						$max_points = $answer->getPoints();
+						$found_index = $index;
+					}
+				}
+				array_push($solutions, array("value1" => $found_index));
+			}
+			else
+			{
+				// take the correct solution instead of the user solution
+				foreach($this->object->answers as $index => $answer)
+				{
+					$points_checked   = $answer->getPoints();
+					$points_unchecked = $answer->getPointsUnchecked();
+					if($points_checked > $points_unchecked)
+					{
+						if($points_checked > 0)
+						{
+							array_push($solutions, array("value1" => $index));
+						}
+					}
 				}
 			}
-			array_push($solutions, array("value1" => $found_index));
 		}
 		$solution_id = -1;
 		if (is_array($solutions))
@@ -603,6 +639,10 @@ class assImagemapQuestionGUI extends assQuestionGUI
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = "";
+		if($this->object->getIsMultipleChoice())
+		{
+			$user_solution = array();
+		}
 		if ($active_id)
 		{
 			$solutions = NULL;
@@ -614,7 +654,14 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
-				$user_solution = $solution_value["value1"];
+				if($this->object->getIsMultipleChoice())
+				{
+					$user_solution[] = $solution_value["value1"];
+				}
+				else
+				{
+					$user_solution = $solution_value["value1"];
+				}
 			}
 		}
 
@@ -649,7 +696,12 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		foreach ($this->object->answers as $answer_id => $answer)
 		{
 			$template->setCurrentBlock("imagemap_area");
-			$template->setVariable("HREF_AREA", $formaction . "&amp;selImage=$answer_id");
+			$parameter = "&amp;selImage=$answer_id";
+			if(is_array($user_solution) && in_array($answer_id, $user_solution))
+			{
+				$parameter = "&amp;remImage=$answer_id";
+			}
+			$template->setVariable("HREF_AREA", $formaction . $parameter);
 			$template->setVariable("SHAPE", $answer->getArea());
 			$template->setVariable("COORDS", $answer->getCoords());
 			$template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
@@ -657,7 +709,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 			if ($show_feedback)
 			{
-				if (strlen($user_solution) && $user_solution == $answer_id)
+				if(!$this->object->getIsMultipleChoice() && strlen($user_solution) && $user_solution == $answer_id)
 				{
 					$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
 							$this->object->getId(), $answer_id

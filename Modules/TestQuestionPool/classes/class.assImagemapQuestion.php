@@ -20,6 +20,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  */
 class assImagemapQuestion extends assQuestion 
 {
+	const MODE_SINGLE_CHOICE   = 0;
+	const MODE_MULTIPLE_CHOICE = 1;
 
 /**
 * The possible answers of the imagemap question
@@ -49,6 +51,13 @@ class assImagemapQuestion extends assQuestion
 	var $imagemap_contents;
 	var $coords;
 
+	/**
+	 * Defines weather the Question is a Single or a Multiplechoice question
+	 *
+	 * @var bool
+	 */
+	protected $is_multiple_choice = false;
+
 /**
 * assImagemapQuestion constructor
 *
@@ -75,6 +84,26 @@ class assImagemapQuestion extends assQuestion
 		$this->image_filename = $image_filename;
 		$this->answers = array();
 		$this->coords = array();
+	}
+
+	/**
+	 * Set true if the Imagemapquestion is a multiplechoice Question
+	 *
+	 * @param bool $is_multiple_choice
+	 */
+	public function setIsMultipleChoice($is_multiple_choice)
+	{
+		$this->is_multiple_choice = $is_multiple_choice;
+	}
+
+	/**
+	 * Returns true, if the imagemap question is a multiplechoice question
+	 *
+	 * @return bool
+	 */
+	public function getIsMultipleChoice()
+	{
+		return $this->is_multiple_choice;
 	}
 
 /**
@@ -114,11 +143,12 @@ class assImagemapQuestion extends assQuestion
 			array("integer"),
 			array($this->getId())
 		);
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, image_file) VALUES (%s, %s)", 
-			array("integer", "text"),
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, image_file, is_multiple_choice) VALUES (%s, %s, %s)", 
+			array("integer", "text", 'integer'),
 			array(
 				$this->getId(),
-				$this->image_filename
+				$this->image_filename,
+				(int)$this->is_multiple_choice
 			)
 		);
 
@@ -132,9 +162,9 @@ class assImagemapQuestion extends assQuestion
 		{
 			$answer_obj = $this->answers[$key];
 			$next_id = $ilDB->nextId('qpl_a_imagemap');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-				array("integer","integer","text","float","integer","text","text"),
-				array($next_id, $this->id, $answer_obj->getAnswertext(), $answer_obj->getPoints(), $answer_obj->getOrder(), $answer_obj->getCoords(), $answer_obj->getArea())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+				array("integer","integer","text","float","integer","text","text", "float"),
+				array($next_id, $this->id, $answer_obj->getAnswertext(), $answer_obj->getPoints(), $answer_obj->getOrder(), $answer_obj->getCoords(), $answer_obj->getArea(), $answer_obj->getPointsUnchecked())
 			);
 		}
 
@@ -307,6 +337,7 @@ class assImagemapQuestion extends assQuestion
 			$this->setAuthor($data["author"]);
 			$this->setPoints($data["points"]);
 			$this->setOwner($data["owner"]);
+			$this->setIsMultipleChoice($data["is_multiple_choice"] == self::MODE_MULTIPLE_CHOICE);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setImageFilename($data["image_file"]);
@@ -329,7 +360,7 @@ class assImagemapQuestion extends assQuestion
 			{
 				while ($data = $ilDB->fetchAssoc($result)) 
 				{
-					array_push($this->answers, new ASS_AnswerImagemap($data["answertext"], $data["points"], $data["aorder"], $data["coords"], $data["area"]));
+					array_push($this->answers, new ASS_AnswerImagemap($data["answertext"], $data["points"], $data["aorder"], $data["coords"], $data["area"], $data['question_fi'], $data['points_unchecked']));
 				}
 			}
 		}
@@ -439,14 +470,15 @@ class assImagemapQuestion extends assQuestion
 		$points = 0.0,
 		$order = 0,
 		$coords="",
-		$area=""
+		$area="",
+		$points_unchecked = 0.0
 	)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
 		if (array_key_exists($order, $this->answers)) 
 		{
 			// Insert answer
-			$answer = new ASS_AnswerImagemap($answertext, $points, $order, $coords, $area);
+			$answer = new ASS_AnswerImagemap($answertext, $points, $order, $coords, $area, -1, $points_unchecked);
 			for ($i = count($this->answers) - 1; $i >= $order; $i--) 
 			{
 				$this->answers[$i+1] = $this->answers[$i];
@@ -457,7 +489,7 @@ class assImagemapQuestion extends assQuestion
 		else 
 		{
 			// Append answer
-			$answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $coords, $area);
+			$answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $coords, $area, -1, $points_unchecked);
 			array_push($this->answers, $answer);
 		}
 	}
@@ -554,9 +586,23 @@ class assImagemapQuestion extends assQuestion
   function getMaximumPoints() {
 		$points = 0;
 		foreach ($this->answers as $key => $value) {
-			if ($value->getPoints() > $points)
+			if($this->is_multiple_choice)
 			{
-				$points = $value->getPoints();
+				if($value->getPoints() > $value->getPointsUnchecked())
+				{
+					$points += $value->getPoints();
+				}
+				else
+				{
+					$points += $value->getPointsUnchecked();
+				}
+			}
+			else
+			{
+				if($value->getPoints() > $points)
+				{
+					$points = $value->getPoints();
+				}
 			}
 		}
 		return $points;
@@ -606,6 +652,10 @@ class assImagemapQuestion extends assQuestion
 				{
 					$points += $answer->getPoints();
 				}
+				else
+				{
+					$points += $answer->getPointsUnchecked();
+				}
 			}
 		}
 
@@ -631,10 +681,20 @@ class assImagemapQuestion extends assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array("integer","integer","integer"),
-			array($active_id, $this->getId(), $pass)
-		);
+		if($this->is_multiple_choice && strlen($_GET['remImage']))
+		{
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s",
+				array("integer", "integer", "integer", "integer"),
+				array($active_id, $this->getId(), $pass, $_GET['remImage'])
+			);
+		}
+		elseif(!$this->is_multiple_choice)
+		{
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array("integer", "integer", "integer"),
+				array($active_id, $this->getId(), $pass)
+			);
+		}
 
 		if (strlen($_GET["selImage"]))
 		{
@@ -814,14 +874,15 @@ class assImagemapQuestion extends assQuestion
 		foreach ($this->getAnswers() as $key => $answer_obj)
 		{
 			array_push($answers, array(
-				"answertext" => (string) $answer_obj->getAnswertext(),
-				"points" => (float) $answer_obj->getPoints(),
-				"order" => (int) $answer_obj->getOrder(),
-				"coords" => $answer_obj->getCoords(),
-				"state" => $answer_obj->getState(),
-				"area" => $answer_obj->getArea(),
-				"feedback" => ilRTE::_replaceMediaObjectImageSrc(
-						$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
+				"answertext"       => (string)$answer_obj->getAnswertext(),
+				"points"           => (float)$answer_obj->getPoints(),
+				"points_unchecked" => (float)$answer_obj->getPointsUnchecked(),
+				"order"            => (int)$answer_obj->getOrder(),
+				"coords"           => $answer_obj->getCoords(),
+				"state"            => $answer_obj->getState(),
+				"area"             => $answer_obj->getArea(),
+				"feedback"         => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
 				)
 			));
 		}
@@ -832,7 +893,4 @@ class assImagemapQuestion extends assQuestion
 		
 		return json_encode($result);
 	}
-
 }
-
-?>

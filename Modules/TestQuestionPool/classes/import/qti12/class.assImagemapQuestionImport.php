@@ -99,7 +99,8 @@ class assImagemapQuestionImport extends assQuestionImport
 									"points" => 0,
 									"answerorder" => $response_label->getIdent(),
 									"correctness" => "1",
-									"action" => ""
+									"action" => "",
+									"points_unchecked" => 0
 								);
 							}
 							break;
@@ -115,13 +116,20 @@ class assImagemapQuestionImport extends assQuestionImport
 			foreach ($resprocessing->respcondition as $respcondition)
 			{
 				$coordinates = "";
+				$correctness = 1;
 				$conditionvar = $respcondition->getConditionvar();
 				foreach ($conditionvar->order as $order)
 				{
 					switch ($order["field"])
 					{
+						case "arr_not":
+							$correctness = 0;
+							break;
 						case "varinside":
 							$coordinates = $conditionvar->varinside[$order["index"]]->getContent();
+							break;
+						case "varequal":
+							$coordinates = $conditionvar->varequal[$order["index"]]->getContent();
 							break;
 					}
 				}
@@ -131,91 +139,99 @@ class assImagemapQuestionImport extends assQuestionImport
 					{
 						if (strcmp($answer["coordinates"], $coordinates) == 0)
 						{
-							$answers[$ident]["action"] = $setvar->getAction();
-							$answers[$ident]["points"] = $setvar->getContent();
-							if (count($respcondition->displayfeedback))
+							if ($correctness)
 							{
-								foreach ($respcondition->displayfeedback as $feedbackpointer)
+								$answers[$ident]["action"] = $setvar->getAction();
+								$answers[$ident]["points"] = $setvar->getContent();
+								if (count($respcondition->displayfeedback))
 								{
-									if (strlen($feedbackpointer->getLinkrefid()))
+									foreach ($respcondition->displayfeedback as $feedbackpointer)
 									{
-										foreach ($item->itemfeedback as $ifb)
+										if (strlen($feedbackpointer->getLinkrefid()))
 										{
-											if (strcmp($ifb->getIdent(), "response_allcorrect") == 0)
+											foreach ($item->itemfeedback as $ifb)
 											{
-												// found a feedback for the identifier
-												if (count($ifb->material))
+												if (strcmp($ifb->getIdent(), "response_allcorrect") == 0)
 												{
-													foreach ($ifb->material as $material)
+													// found a feedback for the identifier
+													if (count($ifb->material))
 													{
-														$feedbacksgeneric[1] = $material;
-													}
-												}
-												if ((count($ifb->flow_mat) > 0))
-												{
-													foreach ($ifb->flow_mat as $fmat)
-													{
-														if (count($fmat->material))
+														foreach ($ifb->material as $material)
 														{
-															foreach ($fmat->material as $material)
-															{
-																$feedbacksgeneric[1] = $material;
-															}
+															$feedbacksgeneric[1] = $material;
 														}
 													}
-												}
-											} 
-											else if (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0)
-											{
-												// found a feedback for the identifier
-												if (count($ifb->material))
-												{
-													foreach ($ifb->material as $material)
+													if ((count($ifb->flow_mat) > 0))
 													{
-														$feedbacksgeneric[0] = $material;
-													}
-												}
-												if ((count($ifb->flow_mat) > 0))
-												{
-													foreach ($ifb->flow_mat as $fmat)
-													{
-														if (count($fmat->material))
+														foreach ($ifb->flow_mat as $fmat)
 														{
-															foreach ($fmat->material as $material)
+															if (count($fmat->material))
 															{
-																$feedbacksgeneric[0] = $material;
-															}
-														}
-													}
-												}
-											}
-											if (strcmp($ifb->getIdent(), $feedbackpointer->getLinkrefid()) == 0)
-											{
-												// found a feedback for the identifier
-												if (count($ifb->material))
-												{
-													foreach ($ifb->material as $material)
-													{
-														$feedbacks[$ident] = $material;
-													}
-												}
-												if ((count($ifb->flow_mat) > 0))
-												{
-													foreach ($ifb->flow_mat as $fmat)
-													{
-														if (count($fmat->material))
-														{
-															foreach ($fmat->material as $material)
-															{
-																$feedbacks[$ident] = $material;
+																foreach ($fmat->material as $material)
+																{
+																	$feedbacksgeneric[1] = $material;
+																}
 															}
 														}
 													}
 												} 
+												else if (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0)
+												{
+													// found a feedback for the identifier
+													if (count($ifb->material))
+													{
+														foreach ($ifb->material as $material)
+														{
+															$feedbacksgeneric[0] = $material;
+														}
+													}
+													if ((count($ifb->flow_mat) > 0))
+													{
+														foreach ($ifb->flow_mat as $fmat)
+														{
+															if (count($fmat->material))
+															{
+																foreach ($fmat->material as $material)
+																{
+																	$feedbacksgeneric[0] = $material;
+																}
+															}
+														}
+													}
+												}
+												if (strcmp($ifb->getIdent(), $feedbackpointer->getLinkrefid()) == 0)
+												{
+													// found a feedback for the identifier
+													if (count($ifb->material))
+													{
+														foreach ($ifb->material as $material)
+														{
+															$feedbacks[$ident] = $material;
+														}
+													}
+													if ((count($ifb->flow_mat) > 0))
+													{
+														foreach ($ifb->flow_mat as $fmat)
+														{
+															if (count($fmat->material))
+															{
+																foreach ($fmat->material as $material)
+																{
+																	$feedbacks[$ident] = $material;
+																}
+															}
+														}
+													} 
+												}
 											}
 										}
 									}
 								}
+							}
+							else
+							{
+								$answers[$ident]["action"] = $setvar->getAction();
+								$answers[$ident]["points_unchecked"] = $setvar->getContent();
 							}
 						}
 					}
@@ -231,11 +247,12 @@ class assImagemapQuestionImport extends assQuestionImport
 		$this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+		$this->object->setIsMultipleChoice($item->getMetadataEntry("IS_MULTIPLE_CHOICE"));
 		$areas = array("2" => "rect", "1" => "circle", "3" => "poly");
 		$this->object->setImageFilename($questionimage["label"]);
 		foreach ($answers as $answer)
 		{
-			$this->object->addAnswer($answer["answerhint"], $answer["points"], $answer["answerorder"], $answer["coordinates"], $areas[$answer["areatype"]]);
+			$this->object->addAnswer($answer["answerhint"], $answer["points"], $answer["answerorder"], $answer["coordinates"], $areas[$answer["areatype"]], $answer["points_unchecked"]);
 		}
 		// additional content editing mode information
 		$this->object->setAdditionalContentEditingMode(
