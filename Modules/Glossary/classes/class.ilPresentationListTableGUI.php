@@ -103,14 +103,14 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		}
 		
 		// temporary tax test
-		if ($this->tax_id > 0)
+/*		if ($this->tax_id > 0)
 		{
 			include_once("./Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
 			$tax = new ilTaxSelectInputGUI($this->tax_id, "tax_node", true);
 			$this->addFilterItem($tax);
 			$tax->readFromSession();
 			$this->filter["tax_node"] = $tax->getValue();
-		}
+		}*/
 	}
 	
 	/**
