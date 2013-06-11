@@ -13298,6 +13298,7 @@ survey#:#survey_mode#:#Mode
 survey#:#survey_default_mode#:#Classic Survey
 survey#:#survey_default_mode_info#:#Use for evaluation
 survey#:#survey_360_mode_info#:#Use for user peer review
+exp#:#exp_file_created#:#The export file has been created.
 blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
 assessment#:#tst_extratime_nodata#:#There are no entries for the selected participant.
