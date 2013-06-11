@@ -305,9 +305,8 @@ class ilStartUpGUI
 		// --- render
 		
 		// Instantiate login template
-		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html","Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login.html","Services/Init");
+		self::initStartUpTemplate("tpl.login.html");
+		
 				
 		// we need the template for this
 		if($failure)
@@ -357,11 +356,8 @@ class ilStartUpGUI
 	{
 		global $tpl, $lng;
 		
-		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html","Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login_reactivate_code.html",
-			"Services/Init");
-		
+		self::initStartUpTemplate("tpl.login_reactivate_code.html");
+	
 		$this->showFailure($lng->txt("time_limit_reached"));
 		
 		if(!$a_form)
@@ -972,16 +968,9 @@ class ilStartUpGUI
 	{
 	 	global $tpl,$lng;
 	 	
-		$lng->loadLanguageModule('auth');
-	 	$tpl->addBlockFile("CONTENT", 
-			"content", 
-			"tpl.startup_screen.html",
-			"Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-	 	$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login_account_migration.html",
-			"Services/Init");
-
-		
+		$lng->loadLanguageModule('auth');		
+		self::initStartUpTemplate("tpl.login_account_migration.html");
+	 
 	 	include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 	 	$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this,'migrateAccount'));
@@ -1171,12 +1160,8 @@ class ilStartUpGUI
 		ilUtil::setCookie("ilClientId","");
 
 		//instantiate logout template
-		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html",
-			"Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.logout.html",
-			"Services/Init");
-
+		self::initStartUpTemplate("tpl.logout.html");
+		
 		if ($ilSetting->get("pub_section"))
 		{
 			$tpl->setCurrentBlock("homelink");
@@ -1292,12 +1277,7 @@ class ilStartUpGUI
 		$tpl->setVariable("LOCATION_STYLESHEET","./templates/default/delos.css");
 
 		// load client list template
-		$tpl->addBlockfile("CONTENT", "content", "tpl.startup_screen.html",
-			"Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.client_list.html",
-			"Services/Init");
-
+		self::initStartUpTemplate("tpl.client_list.html");	
 
 		// load template for table
 		$tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html");
@@ -1441,9 +1421,9 @@ class ilStartUpGUI
 		 */
 		global $lng, $tpl, $ilUser, $ilSetting;
 		
-		$tpl->addBlockFile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
-		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
-		$tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', 'tpl.view_terms_of_service.html', 'Services/Init');
+		$back_to_login =('getAcceptance' != $this->ctrl->getCmd());
+		
+		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);		
 		$tpl->addBlockFile('STATUSLINE', 'statusline', 'tpl.statusline.html');
 
 		ilUtil::infoPanel();
@@ -1462,17 +1442,6 @@ class ilStartUpGUI
 			$tpl->setVariable('LANG_NAME', ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_'.$lang_key));
 			$tpl->setVariable('LANG_KEY', $lang_key);
 			$tpl->parseCurrentBlock();
-		}
-
-		if('getAcceptance' == $this->ctrl->getCmd())
-		{
-			$tpl->setVariable('BACK', $lng->txt('logout'));
-			$tpl->setVariable('LINK_BACK', ILIAS_HTTP_PATH.'/logout.php');
-		}
-		else
-		{
-			$tpl->setVariable('BACK', $lng->txt('back'));
-			$tpl->setVariable('LINK_BACK', $this->ctrl->getLinkTarget($this, 'showLogin'));
 		}
 
 		try
@@ -1941,6 +1910,40 @@ class ilStartUpGUI
 			'[list-openid-login-form]',
 			'OID_LOGIN_FORM'
 		);
+	}
+	
+	public static function initStartUpTemplate($a_tmpl, $a_show_back = false, $a_show_logout = false)
+	{
+		global $tpl, $lng, $ilCtrl, $ilSetting, $ilAccess;
+		
+		$tpl->addBlockfile("CONTENT", "content", "tpl.startup_screen.html",
+			"Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
+		
+		if($a_show_back)
+		{
+			$tpl->setCurrentBlock("link_item_bl");
+			$tpl->setVariable("LINK_TXT", $lng->txt("login_to_ilias"));
+			$tpl->setVariable("LINK_URL", $ilCtrl->getLinkTargetByClass("ilStartUpGUI", "showLogin"));
+			$tpl->parseCurrentBlock();
+			
+			if ($ilSetting->get("pub_section") &&
+				$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID))
+			{				
+				$tpl->setVariable("LINK_URL","?client_id=".$_COOKIE["ilClientId"]."&lang=".$lng->getLangKey());
+				$tpl->setVariable("LINK_TXT",$lng->txt("home"));
+				$tpl->parseCurrentBlock();
+			}			
+		}
+		else if($a_show_logout)
+		{
+			$tpl->setCurrentBlock("link_item_bl");
+			$tpl->setVariable('LINK_TXT', $lng->txt('logout'));
+			$tpl->setVariable('LINK_URL', ILIAS_HTTP_PATH.'/logout.php');
+			$tpl->parseCurrentBlock();		
+		}
+		
+		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", $a_tmpl,"Services/Init");
 	}
 }
 ?>

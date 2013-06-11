@@ -101,10 +101,8 @@ class ilPasswordAssistanceGUI
 		global $tpl, $ilias, $lng;
 
 		// Create the form
-		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
-			"tpl.pwassist_assistance.html", "Services/Init");
+		
+		ilStartUpGUI::initStartUpTemplate("tpl.pwassist_assistance.html", true);
 		
 		if ($message != "")
 		{
@@ -139,11 +137,7 @@ class ilPasswordAssistanceGUI
 		$tpl->setVariable("USERNAME", htmlentities($username));
 		$tpl->setVariable("EMAIL", htmlentities($email));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
-		$tpl->setVariable("BACK", $lng->txt("back"));
-		$tpl->setVariable("LINK_BACK",
-			$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
-		$tpl->setVariable("LANG", $lng->getLangKey());
-	
+		
 		$tpl->show();
 	}
 	
@@ -167,12 +161,8 @@ class ilPasswordAssistanceGUI
 		global $tpl, $ilias, $lng;
 
 		// Create the form
-		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
-			"tpl.pwassist_username_assistance.html", "Services/Init");
-
-
+		ilStartUpGUI::initStartUpTemplate("tpl.pwassist_username_assistance.html", true);
+	
 		if ($message != "")
 		{
 			$tpl->setCurrentBlock("pw_message");
@@ -206,10 +196,6 @@ class ilPasswordAssistanceGUI
 		$tpl->setVariable("USERNAME", $username);
 		$tpl->setVariable("EMAIL", htmlentities($email));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
-		$tpl->setVariable("BACK", $lng->txt("back"));
-		$tpl->setVariable("LINK_BACK",
-			$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
-		$tpl->setVariable("LANG", $lng->getLangKey());
 	
 		$tpl->show();
 	}
@@ -583,12 +569,8 @@ class ilPasswordAssistanceGUI
 			$this->showAssistanceForm($lng->txt("pwassist_session_expired"));
 		}
 		else
-		{
-			$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
-			$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-			$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
-				"tpl.pwassist_assignpassword.html", "Services/Init");
-
+		{			
+			ilStartUpGUI::initStartUpTemplate("tpl.pwassist_assignpassword.html", true);
 			
 			if ($message != "")
 			{
@@ -612,10 +594,6 @@ class ilPasswordAssistanceGUI
 			$tpl->setVariable("PASSWORD2", $password2);
 			$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 			$tpl->setVariable("KEY", $pwassist_id);
-			$tpl->setVariable("BACK", $lng->txt("back"));
-			$tpl->setVariable("CMD_BACK",
-				$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
-			$tpl->setVariable("LANG", $lng->getLangKey());
 		
 			$tpl->show();
 		}
@@ -766,20 +744,13 @@ class ilPasswordAssistanceGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
-			"tpl.pwassist_message.html", "Services/Init");
-
+		ilStartUpGUI::initStartUpTemplate("tpl.pwassist_message.html", true);
+		
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
 		$tpl->setVariable("IMG_AUTH",
 			ilUtil::getImagePath("icon_auth_b.png"));
 		$tpl->setVariable("TXT_TEXT",str_replace("\\n","<br>",$text));
-		$tpl->setVariable("BACK", $lng->txt("back"));
-		$tpl->setVariable("LINK_BACK",
-			$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
-		$tpl->setVariable("LANG", $lng->getLangKey());
-	
+		
 		$tpl->show();
 	}
 }
