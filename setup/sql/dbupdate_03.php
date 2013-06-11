@@ -15876,3 +15876,37 @@ while ($rec = $ilDB->fetchAssoc($set))
 	}
 }
 ?>
+<#3914>
+<?php
+// Determine the client id: 11.06.2013 ;-). The constant CLIENT_ID is empty in this context
+$client_id = basename(CLIENT_DATA_DIR);
+$status    = 0;
+
+foreach(array(
+	realpath('Customizing/global/agreement'),
+	realpath('Customizing/clients/' . $client_id)
+) as $path)
+{
+	try 
+	{
+		foreach(
+			new RegexIterator(
+				new RecursiveIteratorIterator(
+					new RecursiveDirectoryIterator($path),
+					RecursiveIteratorIterator::SELF_FIRST,
+					RecursiveIteratorIterator::CATCH_GET_CHILD
+				),
+				'/agreement_([a-z]+)\.html$/'
+			) as $file
+		)
+		{
+			$status = 1;
+			break 2;
+		}
+	}
+	catch (Exception $e) { }
+}
+
+$setting = new ilSetting();
+$setting->set('tos_status', $status);
+?>
