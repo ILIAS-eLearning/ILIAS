@@ -68,7 +68,14 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 	{
 		if ($this->multi_nodes && !is_array($a_value))
 		{
-			$this->value = array($a_value);
+			if ($a_value !== false)
+			{
+				$this->value = array($a_value);
+			}
+			else
+			{
+				$this->value = array();
+			}
 		}
 		else
 		{
@@ -159,7 +166,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 			foreach ($val as $v)
 			{
 				$tpl->setCurrentBlock("node_hid");
-				$tpl->setVariable("HID_NAME", $this->getPostVar());
+				$tpl->setVariable("HID_NAME", $this->getPostVar()."[]");
 				$tpl->setVariable("HID_VAL", $v);
 				$tpl->parseCurrentBlock();
 				$val_txt.= $sep.$this->getTitleForNodeId($v);
@@ -168,6 +175,16 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 				$this->explorer_gui->setNodeSelected($v);
 			}
 			$tpl->setVariable("VAL_TXT", $val_txt);
+		}
+		else if ($val != "")
+		{
+			$tpl->setCurrentBlock("node_hid");
+			$tpl->setVariable("HID_NAME", $this->getPostVar());
+			$tpl->setVariable("HID_VAL", $val);
+			$tpl->parseCurrentBlock();
+			$tpl->setVariable("VAL_TXT", $this->getTitleForNodeId($val));
+			$this->explorer_gui->setNodeOpen($val);
+			$this->explorer_gui->setNodeSelected($val);
 		}
 
 		$tpl->setVariable("POST_VAR", $this->getPostVar());

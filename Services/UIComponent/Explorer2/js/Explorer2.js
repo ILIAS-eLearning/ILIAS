@@ -88,9 +88,18 @@ il.Explorer2 = {
 					sep = ", ";
 					$("#" + id + "_hid").append(ni);
 				}
-				il.UICore.hideRightPanel();
+			});
+			$('#' + id + '_expl_content input[type="radio"]').each(function() {
+				var n = this.name.substr(0, this.name.length - 4),
+					ni = "<input type='hidden' name='" + n + "' value='" + this.value + "' />";
+				if (this.checked) {
+					t = t + sep + $(this).parent().find("span.ilExp2NodeContent").html();
+					sep = ", ";
+					$("#" + id + "_hid").append(ni);
+				}
 			});
 			$("#" + id + "_cont_txt").html(t);
+			il.UICore.hideRightPanel();
 			
 			return false;
 		});		

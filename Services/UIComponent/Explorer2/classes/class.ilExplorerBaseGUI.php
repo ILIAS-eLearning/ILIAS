@@ -557,6 +557,10 @@ abstract class ilExplorerBaseGUI
 			else
 			{
 				$tpl->setCurrentBlock("rd");
+				if (in_array($this->getNodeId($a_node), $this->selected_nodes))
+				{
+					$tpl->setVariable("SELECTED", 'checked="checked"');
+				}
 				$tpl->setVariable("RD_VAL", $this->getNodeId($a_node));
 				$tpl->setVariable("RD_NAME", $this->select_postvar);
 				$tpl->parseCurrentBlock();
