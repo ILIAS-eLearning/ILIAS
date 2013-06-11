@@ -150,14 +150,24 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 				}
 
 				// pool title
+				$no_pool_permission = false;
 				if($data["original_id"])
 				{
-					$table_data[$id]["pool"] = $questionpools[$data["obj_fi"]];
+					if(isset($questionpools[$data["obj_fi"]]))
+					{
+						$table_data[$id]["pool"] = $questionpools[$data["obj_fi"]];
+					}
+					else
+					{
+						// #11186
+						$table_data[$id]["pool"] = $this->lng->txt("status_no_permission");
+						$no_pool_permission = true;
+					}
 				}
 
 				if (!$this->read_only)
 				{
-					if ($data["obj_fi"] > 0)
+					if ($data["obj_fi"] > 0 && !$no_pool_permission)
 					{
 						// edit url
 						$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
@@ -336,10 +346,20 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 			
 			$this->tpl->parseCurrentBlock();
 			
-			$this->tpl->setCurrentBlock("title_edit");
-			$this->tpl->setVariable("TITLE", $a_set["title"]);
-			$this->tpl->setVariable("URL_TITLE", $a_set["url"]);
-			$this->tpl->parseCurrentBlock();						
+			// #11186
+			if($a_set["url"])
+			{
+				$this->tpl->setCurrentBlock("title_edit");
+				$this->tpl->setVariable("TITLE", $a_set["title"]);
+				$this->tpl->setVariable("URL_TITLE", $a_set["url"]);
+				$this->tpl->parseCurrentBlock();	
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("title_static");
+				$this->tpl->setVariable("TITLE", $a_set["title"]);
+				$this->tpl->parseCurrentBlock();
+			}					
 		}
 		else
 		{
