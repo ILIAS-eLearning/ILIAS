@@ -12655,20 +12655,20 @@ dcl#:#dcl_record_id#:#Record ID###28 08 2012 new variable
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#Slut
 dcl#:#dcl_url#:#URL
-dateplaner#:#cal_setting_global_vis_repos#:#Repository Calendar###28 08 2012 new variable
-dateplaner#:#cal_setting_global_crs_vis#:#Show in Courses###28 08 2012 new variable
-dateplaner#:#cal_setting_global_grp_vis#:#Show in Groups###28 08 2012 new variable
+dateplaner#:#cal_setting_global_vis_repos#:#Oversigtskalender
+dateplaner#:#cal_setting_global_crs_vis#:#Vis i kurser
+dateplaner#:#cal_setting_global_grp_vis#:#Vis i grupper
 dateplaner#:#cal_setting_global_crs_vis_info#:#If enabled, the calendar is shown in shown in courses by default. In any case the calendar presentation can be enabled/disabled in the course settings.###28 08 2012 new variable
 dateplaner#:#cal_setting_global_grp_vis_info#:#If enabled, the calendar is shown in shown in groups by default. In any case the calendar presentation can be enabled/disabled in the group settings.###28 08 2012 new variable
-dcl#:#dcl_edit_table#:#Edit Table Settings###28 08 2012 new variable
-dcl#:#dcl_msg_table_edited#:#Table Settings saved###28 08 2012 new variable
-dcl#:#dcl_legend_placeholders#:#Placeholders###28 08 2012 new variable
-dcl#:#dcl_rating#:#Rating###28 08 2012 new variable
-dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.###28 08 2012 new variable
-dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.###28 08 2012 new variable
-common#:#obj_tool_settings#:#Tools###28 08 2012 new variable
-common#:#obj_tool_settings_title#:#Tool Settings###28 08 2012 new variable
-common#:#obj_tool_setting_calendar#:#Show Calendar###28 08 2012 new variable
+dcl#:#dcl_edit_table#:#Ret tabelindstillinger
+dcl#:#dcl_msg_table_edited#:#Tabelindstilligner gemt
+dcl#:#dcl_legend_placeholders#:#Pladsholdere
+dcl#:#dcl_rating#:#Vurdering
+dcl#:#dcl_editable_in_table_gui#:#Du skal stemme i tabelvisningen
+dcl#:#dcl_table_settings_saved#:#Tabelindstillinger blev gemt.
+common#:#obj_tool_settings#:#Værktøjer
+common#:#obj_tool_settings_title#:#Værktøjsindstillinger
+common#:#obj_tool_setting_calendar#:#Vis kalender
 crs#:#crs_copy#:#Kopier kursus
 cat#:#cat_copy#:#Kopier kategori
 grp#:#grp_copy#:#Kopier gruppe
@@ -12764,20 +12764,20 @@ common#:#delete_inactivated_user_accounts_include_roles#:#Included roles###28 09
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.###28 09 2012 new variable
 common#:#delete_inactivated_user_accounts_interval#:#Frequency###28 09 2012 new variable
 common#:#delete_inactivated_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###28 09 2012 new variable
-blog#:#blog_contributors#:#Contributors###28 09 2012 new variable
+blog#:#blog_contributors#:#Bidragsydere
 blog#:#blog_add_contributor#:#Add Contributor###28 09 2012 new variable
-blog#:#blog_search_users#:#Search Users###28 09 2012 new variable
+blog#:#blog_search_users#:#Søg brugere
 blog#:#blog_contributor_container_add#:#Add Users From Course/Group###28 09 2012 new variable
-common#:#il_blog_contributor#:#Blog Contributor###28 09 2012 new variable
-rbac#:#blog_contribute#:#User can contribute###28 09 2012 new variable
+common#:#il_blog_contributor#:#Blog bidragsyder
+rbac#:#blog_contribute#:#Brugeren kan bidrage
 blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.###28 09 2012 new variable
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!###28 09 2012 new variable
-dcl#:#dcl_empty_view#:#Delete this View###28 09 2012 new variable
-dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?###28 09 2012 new variable
+dcl#:#dcl_empty_view#:#Slet denne visning
+dcl#:#dcl_confirm_delete_view_title#:#Vil du slette denne visning?
 dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.###28 09 2012 new variable
 dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.###28 09 2012 new variable
-rating#:#rating_number_votes#:#%s Ratings###28 09 2012 new variable
-administration#:#system_check_no_owner#:#Ownerless Objects###28 09 2012 new variable
+rating#:#rating_number_votes#:#%s vurderinger
+administration#:#system_check_no_owner#:#Ejerløse objekter
 blog#:#blog_import#:#Importer blog
 poll#:#poll_import#:#Import Poll###28 09 2012 new variable
 user#:#user_account_deleted_confirmation#:#Your account has been deleted. An email containing detailed information has been sent to you.###28 09 2012 new variable
@@ -12821,9 +12821,9 @@ mcst#:#mcst_manage#:#Administrer
 mcst#:#mcst_play#:#Afspil
 common#:#edit_assignments#:#Edit Assignments###27 10 2012 new variable
 mcst#:#mcst_extract_preview_image#:#Udtræk forvisnings billede
-mcst#:#mcst_image_extracted#:#Image has been extracted.###27 10 2012 new variable
+mcst#:#mcst_image_extracted#:#Billedet blev udtrukket
 mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###27 10 2012 new variable
-mcst#:#mcst_second#:#Second###27 10 2012 new variable
+mcst#:#mcst_second#:#Anden
 dateplaner#:#cal_notification_crsgrp#:#Notification for Course/Group Participants###27 10 2012 new variable
 dateplaner#:#cal_notification_users#:#Notification for Selected Users###27 10 2012 new variable
 dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.###27 10 2012 new variable
@@ -12869,8 +12869,8 @@ rbac#:#ecss_write#:#User can edit ECS settings###28 11 2012 new variable
 skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.###28 11 2012 new variable
 help#:#help_imported_on#:#Importeret den
 help#:#help_tooltips_and_help#:#Tips og hjælp til arbejdsgang
-help#:#help_help_only#:#Workflow Help Only###28 11 2012 new variable
-help#:#help_tooltips_only#:#Tooltips Only###28 11 2012 new variable
+help#:#help_help_only#:#Kun arbejdsgangshjælp
+help#:#help_tooltips_only#:#Kun værktøjstip
 help#:#help_set_mode#:#Set Mode###28 11 2012 new variable
 poll#:#poll_result#:#Afstemningsresultat
 fold#:#fold_copy#:#Kopier mappe
@@ -12914,7 +12914,7 @@ search#:#search_off#:#Fra
 ecs#:#ecs_cmap_enable#:#Course Allocation###27 12 2012 new variable
 ecs#:#ecs_cmap_def_cat#:#Standardkategori
 ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.###27 12 2012 new variable
-ecs#:#ecs_cmap_all_in_one#:#Course in one Category###27 12 2012 new variable
+ecs#:#ecs_cmap_all_in_one#:#Kursus i en kategori
 ecs#:#ecs_cmap_all_in_one_info#:#Lav alle nye kurser i en kategori
 ecs#:#ecs_cmap_all_in_one_cat#:#Kursuskategori
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes###27 12 2012 new variable
@@ -12926,22 +12926,22 @@ ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration###27 12 2012 new var
 ecs#:#ecs_cmap_attributes#:#Mapping Attributes###27 12 2012 new variable
 ecs#:#ecs_cmap_overview#:#Mapping Overview###27 12 2012 new variable
 ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:###27 12 2012 new variable
-ecs#:#ecs_cmap_form_filter#:#Filter Settings###27 12 2012 new variable
+ecs#:#ecs_cmap_form_filter#:#Filtreringsindstillinger
 ecs#:#ecs_cmap_form_all_values#:#Alle værdier
 ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated###27 12 2012 new variable
 ecs#:#ecs_cmap_form_create_subdirs#:#Lav undermapper
-ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title###27 12 2012 new variable
-ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value###27 12 2012 new variable
+ecs#:#ecs_cmap_form_subdir_type#:#Undermappetitel
+ecs#:#ecs_cmap_form_subdir_value#:#Undermappeværdi
 ecs#:#ecs_cmap_form_subdir_name#:#Undermappenavn
-ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute###27 12 2012 new variable
-ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute###27 12 2012 new variable
-ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values###27 12 2012 new variable
+ecs#:#ecs_cmap_add_attribute_btn#:#Lav attribut
+ecs#:#ecs_cmap_delete_attribute_btn#:#Slet sidste attribut
+ecs#:#ecs_cmap_form_filter_by_values#:#Filter efter attributværdier
 ecs#:#ecs_cmap_form_current_dir#:#Nuværende mappe
-ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###27 12 2012 new variable
-content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
-content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+ecs#:#ecs_cmap_form_dir_relation#:#Mappereference
+content#:#cont_custom_menu_entries#:#Brugerdefinerede menupunkter
+content#:#cont_anonymous_user_missing_perm#:#Anonyme brugere har ikke tilladelse til at tilgå læremodulet.
 dcl#:#dcl_export_enabled#:#Tillad eksport for alle brugere
-dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###14 01 2013 new variable
+dcl#:#dcl_no_fields_yet#:#Der er endnu ikke lavet kolonner i tabellen, så du kan endnu ikke lave poster.
 dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
 rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
 content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
