@@ -15847,3 +15847,32 @@ if (!$ilDB->tableColumnExists("qpl_a_imagemap", "points_unchecked")) {
 	$ilDB->addTableColumn("qpl_a_imagemap", "points_unchecked", $atts);
 }
 ?>
+<#3912>
+<?php	
+	if( !$ilDB->tableColumnExists('tax_node_assignment', 'tax_id') )
+	{
+		$ilDB->addTableColumn("tax_node_assignment", "tax_id",
+		array(	'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+		));
+	}
+?>
+<#3913>
+<?php
+$set = $ilDB->query("SELECT * FROM tax_node_assignment");
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$set2 = $ilDB->query("SELECT tax_tree_id FROM tax_tree ".
+		" WHERE child = ".$ilDB->quote($rec["node_id"], "integer"));
+	$rec2 = $ilDB->fetchAssoc($set2);
+	if ($rec2["tax_tree_id"] > 0)
+	{
+		$ilDB->manipulate("UPDATE tax_node_assignment SET ".
+			" tax_id = ".$ilDB->quote($rec2["tax_tree_id"], "integer").
+			" WHERE node_id = ".$ilDB->quote($rec["node_id"], "integer")
+			);
+	}
+}
+?>
