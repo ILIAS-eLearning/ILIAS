@@ -1317,7 +1317,7 @@ class ilSurveyPageGUI
 		$this->has_next_page = ($this->current_page < sizeof($pages));
 		$this->has_previous_page = ($this->current_page > 1);
 		$this->has_datasets = $this->object->_hasDatasets($this->object->getSurveyId());
-
+		
 		if($this->has_datasets)
 		{
 			$link = $ilCtrl->getLinkTarget($this->survey_gui, "maintenance");
@@ -1508,7 +1508,8 @@ class ilSurveyPageGUI
 
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		$questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
-
+		$questionpools = array_keys($this->object->getQuestionpoolTitles(true));
+		
 		$counter = $question_count;
 		$block_done = null;
 		foreach($a_questions as $idx => $question)
@@ -1543,14 +1544,31 @@ class ilSurveyPageGUI
 
 			// question
 			$question_gui = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
-			$question_gui = $question_gui->getWorkingForm(array(), $this->object->getShowQuestionTitles(),
+			$question_form = $question_gui->getWorkingForm(array(), $this->object->getShowQuestionTitles(),
 					$question["questionblock_show_questiontext"], null, $this->object->getSurveyId());
 
 			$menu = array();
 
 			if(!$a_readonly && !$has_clipboard)
-			{
-				$menu[] = array("cmd" => "editQuestion", "text" => $lng->txt("edit"));				
+			{				
+				// #11186
+				$may_edit = false;
+				if(!$question_gui->object->getOriginalId())
+				{
+					$may_edit = true;
+				}
+				else if(sizeof($questionpools))
+				{										
+					if(in_array($question_gui->object->getObjId(), $questionpools))
+					{
+						$may_edit = true;
+					}
+				}
+				if($may_edit)
+				{
+					$menu[] = array("cmd" => "editQuestion", "text" => $lng->txt("edit"));				
+				}
+				
 				$menu[] = array("cmd" => "cutQuestion", "text" => $lng->txt("cut"));
 				$menu[] = array("cmd" => "copyQuestion", "text" => $lng->txt("copy"));
 
@@ -1590,7 +1608,7 @@ class ilSurveyPageGUI
 				$question_title_status = $lng->txt("survey_question_text_hidden");
 			}
 
-			$this->renderPageNode($ttpl, "question", $question["question_id"], $question_gui, $menu,
+			$this->renderPageNode($ttpl, "question", $question["question_id"], $question_form, $menu,
 				false, $question["title"], $question_title_status, $question["heading"]);
 
 			$ilCtrl->setParameter($this, "eqid", "");
