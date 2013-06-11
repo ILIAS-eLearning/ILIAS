@@ -279,6 +279,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 					nl2br(trim($item["description"])));
 			}
 		}
+		
+		// JF, 2013-06-10
+		$a_options["svy360_1"] = array($this->lng->txt("survey_360_mode"),
+			$this->lng->txt("survey_360_mode_info"));
 	}
 
 	/**
@@ -286,14 +290,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 	* @access	public
 	*/
 	function afterSave(ilObject $a_new_object)
-	{
+	{		
 		$tpl = $this->getDidacticTemplateVar("svytpl");
 		if($tpl)
 		{
 			$a_new_object->applySettingsTemplate($tpl);
 		}
 		
-		$a_new_object->set360Mode(($_POST["mode"] == "mode360"));
+		$a_new_object->set360Mode((bool)$this->getDidacticTemplateVar("svy360"));
 		if($a_new_object->get360Mode())
 		{
 			$a_new_object->setAnonymize(ANONYMIZE_CODE_ALL);
@@ -572,6 +576,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->propertiesObject($form);
 	}
 	
+	/*
 	function initCreateForm($a_new_type)
 	{		
 		$form = parent::initCreateForm($a_new_type);
@@ -590,6 +595,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		return $form;
 	}
+	*/
 	
 	/**
 	 * Init survey settings form
@@ -5499,6 +5505,62 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "infoScreen");
    }
    
+   function confirmAdminAppraiseesCloseObject()
+   {
+		global $tpl;
+	   
+		$this->handleWriteAccess();
+	   
+		$appr_ids = $_POST["appr_id"];
+
+		if(!sizeof($appr_ids))
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"), true);
+			$this->ctrl->redirect($this, "listAppraisees");
+		}
+
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($this->lng->txt("survey_360_sure_appraisee_close"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "adminAppraiseesClose"));
+		$cgui->setCancel($this->lng->txt("cancel"), "listAppraisees");
+		$cgui->setConfirm($this->lng->txt("confirm"), "adminAppraiseesClose");	
+
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		foreach($appr_ids as $appr_id)
+		{
+			$cgui->addItem("appr_id[]", $appr_id, ilUserUtil::getNamePresentation($appr_id));
+		}
+
+		$tpl->setContent($cgui->getHTML());
+   }
+   
+   function adminAppraiseesCloseObject()
+   {
+		$this->handleWriteAccess();
+		
+		$appr_ids = $_POST["appr_id"];
+		
+		if(!sizeof($appr_ids))
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"), true);
+			$this->ctrl->redirect($this, "listAppraisees");
+		}
+		
+		$appr_data = $this->object->getAppraiseesData();
+		foreach($appr_ids as $appr_id)
+		{			
+			if(isset($appr_data[$appr_id]) && !$appr_data[$appr_id]["closed"])
+			{
+				$this->object->closeAppraisee($appr_id);
+			}
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt("survey_360_appraisee_close_action_success"), true);
+		$this->ctrl->redirect($this, "listAppraisees");
+   }
+  
    
 } // END class.ilObjSurveyGUI
 ?>
