@@ -586,7 +586,8 @@ class assTextQuestion extends assQuestion
 
 	public function isKeywordInAnswer($user_answer, $qst_answer)
 	{
-		return mb_strpos( $user_answer, $qst_answer ) != FALSE;
+		require_once 'Services/Utilities/classes/class.ilStr.php';
+		return ilStr::strPos( $user_answer, $qst_answer ) != FALSE;
 	}
 
 	/**
