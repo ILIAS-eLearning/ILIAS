@@ -12480,16 +12480,16 @@ content#:#cont_hide_adv#:#Hide Advanced Knowledge###28 08 2012 new variable
 registration#:#reg_email_domains#:#Følgende email-domæner er tilladt: %s
 registration#:#reg_allowed_domains#:#Tilladte email adresse domæner
 registration#:#reg_allowed_domains_info#:#Brug * som wildcard og ; som separator.
-pd#:#block_show_pdcal#:#Kalender anzeigen###28 08 2012 new variable
-pd#:#block_show_pdmail#:#Mail anzeigen###28 08 2012 new variable
-pd#:#block_show_pdtag#:#Tags anzeigen###28 08 2012 new variable
-pd#:#block_show_pdnews#:#Nachrichten anzeigen###28 08 2012 new variable
-pd#:#block_show_pdusers#:#Benutzer anzeigen###28 08 2012 new variable
-pd#:#block_show_pdnotes#:#Notizen anzeigen###28 08 2012 new variable
-pd#:#block_show_pdbookm#:#Bookmarks anzeigen###28 08 2012 new variable
-pd#:#block_show_chatviewer#:#Chatviewer anzeigen###28 08 2012 new variable
-pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen###28 08 2012 new variable
-pd#:#block_show_x#:#%s anzeigen###28 08 2012 new variable
+pd#:#block_show_pdcal#:#Vis kalender
+pd#:#block_show_pdmail#:#Vis mail
+pd#:#block_show_pdtag#:#Vis tags
+pd#:#block_show_pdnews#:#Vis nyheder
+pd#:#block_show_pdusers#:#Vis brugere
+pd#:#block_show_pdnotes#:#Vis noter
+pd#:#block_show_pdbookm#:#Vis favoritter
+pd#:#block_show_chatviewer#:#Vis chatviser
+pd#:#block_create_pdfeed#:#Lav nyt webfeed
+pd#:#block_show_x#:#%s vis
 common#:#crs_list_reg_start#:#Registrering begynder
 common#:#crs_list_reg_end#:#Registrering slutter
 common#:#crs_list_reg_noreg#:#Ingen registrering mulig
