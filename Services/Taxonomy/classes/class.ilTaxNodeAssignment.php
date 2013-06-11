@@ -118,13 +118,15 @@ class ilTaxNodeAssignment
 		if (is_array($a_node_id))
 		{
 			$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
-				" WHERE ".$ilDB->in("node_id", $a_node_id, false, "integer")
+				" WHERE ".$ilDB->in("node_id", $a_node_id, false, "integer").
+				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
 				);
 		}
 		else
 		{
 			$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
-				" WHERE node_id = ".$ilDB->quote($a_node_id, "integer")
+				" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
+				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
 				);
 		}
 		$ass = array();
@@ -149,7 +151,8 @@ class ilTaxNodeAssignment
 		$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
 			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
-			" AND item_id = ".$ilDB->quote($a_item_id, "integer")
+			" AND item_id = ".$ilDB->quote($a_item_id, "integer").
+			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
 			);
 		$ass = array();
 		while ($rec  = $ilDB->fetchAssoc($set))
@@ -192,7 +195,9 @@ class ilTaxNodeAssignment
 				"item_type" => array("text", $this->getItemType()),
 				"item_id" => array("integer", $a_item_id)
 				),
-			array()
+			array(
+				"tax_id" => array("integer", $this->getTaxonomyId())
+				)
 			);
 	}
 	
@@ -208,7 +213,8 @@ class ilTaxNodeAssignment
 		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
 			" component = ".$ilDB->quote($this->getComponentId(), "text").
 			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
-			" AND item_id = ".$ilDB->quote($a_item_id, "integer")
+			" AND item_id = ".$ilDB->quote($a_item_id, "integer").
+			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
 			);
 	}
 
