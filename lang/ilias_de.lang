@@ -6477,11 +6477,11 @@ crs#:#crs_objectives_chapter_assignment#:#Kapitel-Zuordnung
 crs#:#crs_objectives_deassign_question_sure#:#Sind Sie sicher, dass die folgende Zuordnung entfernt werden soll?
 crs#:#crs_objectives_deleted#:#Die Lernziele wurden entfernt.
 crs#:#crs_objectives_edit_question_assignments#:#Fragenzuordnung bearbeiten
-crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele diese Kurses erfüllt. <br />Bitte wählen Sie die markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialen. <br />Wenn Sie alle markierten Lernziele überprüft haben, können Sie den Abschlusstest erneut durchführen.
+crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele dieses Kurses erfüllt. <br />Bitte wählen Sie die markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialen. <br />Wenn Sie alle markierten Lernziele überprüft haben, können Sie den Abschlusstest erneut durchführen.
 crs#:#crs_objectives_info_finished#:#Gratulation, Sie haben alle Lernziele dieses Kurses erreicht.
-crs#:#crs_objectives_info_none#:#Das Folgende ist eine Auflistung aller Lernziele diese Kurses. <br />Bitte wählen Sie ein Lernziel nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien.
-crs#:#crs_objectives_info_pretest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Bitte wählen Sie die markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien. Wenn Sie alle Lernziele bearbeitet haben, können Sie den Abschlusstest durchführen.
-crs#:#crs_objectives_info_pretest_non_suggest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Demnach haben Sie alle Lernziele erreicht. Sie können nun den Abschlusstest durchführen.
+crs#:#crs_objectives_info_none#:#Das Folgende ist eine Auflistung aller Lernziele dieses Kurses. <br />Bitte wählen Sie ein Lernziel nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien.
+crs#:#crs_objectives_info_pretest#:#Dies sind die Ergebnisse des Einstiegstests. <br />Bitte wählen Sie die markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien. Wenn Sie alle Lernziele bearbeitet haben, können Sie den Abschlusstest durchführen.
+crs#:#crs_objectives_info_pretest_non_suggest#:#Dies sind die Ergebnisse des Einstiegstests. <br />Demnach haben Sie bereits alle Lernziele erreicht. Sie können nun den Abschlusstest durchführen.
 crs#:#crs_objectives_lm_assignment#:#Zuordnung von Kursmaterialien
 crs#:#crs_objectives_max_points#:#Maximale Punktzahl
 crs#:#crs_objectives_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
@@ -12225,7 +12225,8 @@ rbac#:#trac_write#:#Einstellungen für Zugriffsstatistiken und Lernfortschrittsv
 common#:#obj_dcl#:#Datensammlung
 common#:#objs_dcl#:#Datensammlungen
 common#:#obj_dcl_dupliate#:#Datensammlung kopieren
-dcl#:#dcl_hello#:#Hallo
+dcl#:#dcl_record#:#Datensatz:
+dcl#:#dcl_hello#:#Guten Tag
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_add#:#Datensammlung anlegen
 dcl#:#dcl_copy#:#Datensammlung kopieren
@@ -12246,7 +12247,6 @@ dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_record_view_viewdefinition#:#Seitenvorlage
-dcl#:#dcl_record#:#Datensatz
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
 dcl#:#dcl_field_datatype#:#Feld Datentyp
@@ -12541,11 +12541,10 @@ dateplaner#:#cal_setting_global_grp_vis_info#:#Wenn aktiviert, wird der Gruppenk
 dcl#:#dcl_change_notification_subject#:#Die Datensatzsammlung "%s" wurde editiert
 dcl#:#dcl_edit_notification#:#E-Mail-Benachrichtigung Datensatzsammlung
 dcl#:#dcl_edit_notification_info#:#Sie werden benachrichtigt, sobald Datensätze editiert werden
-dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
+dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Datensatz wurde erzeugt
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Datensatz wurde aktualisiert
 dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Datensatz wurde gelöscht
-dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht weil Sie die Benachrichtigungsfunktion für die oben genannte Datensatzsammlung aktiviert haben.
 dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
@@ -12586,6 +12585,7 @@ dcl#:#dcl_editable_in_table_gui#:#Die Bewertung kann in der Tabellenansicht abge
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
+dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht weil Sie die Benachrichtigungen für die oben genannte Datensatzsammlung aktiviert haben.
 dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
@@ -12980,4 +12980,3 @@ common#:#rpc_pdf_generation#:#PDF-Erstellung
 common#:#rpc_pdf_font#:#Schriftarten
 common#:#rpc_pdf_font_info#:#Zusätzliche Schriftarten zur Erzeugung von PDF-Dateien. Alle zusätzlich angegebenen Schriftarten müssen serverseitig installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
 didactic#:#didactic_default_type#:#Standard
-blog#:#blog_draft_info_contributors#:#Dieser Eintrag ist als Entwurf nur für die Mitwirkenden sichtbar.
