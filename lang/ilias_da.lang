@@ -11086,11 +11086,11 @@ ecs#:#ecs_auth_type_cert#:#Certificate-Base###18 07 2011 new variable
 ecs#:#ecs_auth_type_apache#:#Username/Password###18 07 2011 new variable
 ecs#:#ecs_apache_user#:#Username###18 07 2011 new variable
 ecs#:#ecs_apache_pass#:#Password###18 07 2011 new variable
-common#:#obj_skmg#:#Skill Management###18 07 2011 new variable
+common#:#obj_skmg#:#Færdigheder
 skmg#:#skmg_settings#:#Skill Management Settings###18 07 2011 new variable
-skmg#:#skmg_enable_skmg#:#Activate Skill Management###18 07 2011 new variable
-skmg#:#skmg_skills#:#Skills###18 07 2011 new variable
-skmg#:#skmg_skill_hierarchie#:#Skill Hierarchy###18 07 2011 new variable
+skmg#:#skmg_enable_skmg#:#Aktiver håndtering af færdigheder
+skmg#:#skmg_skills#:#Færdigheder
+skmg#:#skmg_skill_hierarchie#:#Færdigheds hieraki
 skmg#:#skmg_insert_basic_skill#:#Insert Basic Skill###18 07 2011 new variable
 skmg#:#skmg_insert_skill_category#:#Insert Skill Category###18 07 2011 new variable
 skmg#:#skmg_insert_basic_skill_child#:#Insert Basic Skill as Subitem###18 07 2011 new variable
@@ -11866,7 +11866,7 @@ survey#:#svy_page_add_question#:#Add new %s###10 11 2011 new variable
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.###10 11 2011 new variable
 common#:#spl_import#:#Import Question Pool Survey###10 11 2011 new variable
 skmg#:#skmg_draft#:#Udkast (offline)
-skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
+skmg#:#skmg_draft_info#:#Færdigheden er skjult for brugere.
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
 survey#:#svy_create_question#:#Lav spørgsmål
 common#:#contact_sysadmin#:#Kontakt systemadministrator
@@ -11891,7 +11891,7 @@ search#:#search_err_user_not_exist#:#Der findes ingen brugere med det brugernavn
 blog#:#blog_draft#:#Udkast
 blog#:#blog_draft_info#:#Denne udkast til et indlæg er kun synlig for forfatteren.
 blog#:#blog_toggle_draft#:#Gem som udkast
-blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable
+blog#:#blog_toggle_final#:#Udgiv indlæg
 administration#:#language_scope_dbremarks#:#Shows only entries with comments in database###18 01 2012 new variable
 assessment#:#test_create_question#:#Lav spørgsmål
 dateplaner#:#cal_cal_deleted#:#Kalenderne er slettet
@@ -11951,10 +11951,10 @@ assessment#:#toplist_col_achieved#:#Date###28 08 2012 new variable
 assessment#:#toplist_col_score#:#Score###28 08 2012 new variable
 assessment#:#toplist_col_percentage#:#Percentage###28 08 2012 new variable
 assessment#:#toplist_col_hints#:#Hints###28 08 2012 new variable
-assessment#:#toplist_col_wtime#:#Working Time###28 08 2012 new variable
-assessment#:#toplist_your_result#:#Your ranking###28 08 2012 new variable
-assessment#:#tst_highscore_options#:#Highscore###28 08 2012 new variable
-assessment#:#tst_highscore_enabled#:#Highscore display activated###28 08 2012 new variable
+assessment#:#toplist_col_wtime#:#Arbejdstid
+assessment#:#toplist_your_result#:#Din score
+assessment#:#tst_highscore_options#:#Top-score
+assessment#:#tst_highscore_enabled#:#Top-scoring vises
 assessment#:#tst_highscore_description#:#Should the display of highscores be available?###28 08 2012 new variable
 assessment#:#tst_highscore_anon#:#Anonymization of the entries.###28 08 2012 new variable
 assessment#:#tst_highscore_anon_description#:#Controls, if names are anonymized with the ranks. This option may be overriden by the test anonymization switch.###28 08 2012 new variable
@@ -12012,7 +12012,7 @@ common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will 
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###28 08 2012 new variable
 rbac#:#tst_tst_statistics#:#User has access to test statistics###28 08 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###28 08 2012 new variable
-common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.###28 08 2012 new variable
+common#:#ignore_required_fields_info#:#Hvis afkrydset godkendes formularen, selvom ikke alle krævede felter er udfyldt. Brugeren skal så selv udfylde felterne ved næste login.
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS Directory Trees###28 08 2012 new variable
 ecs#:#ecs_node_mapping_status_1#:#Mapping of the Whole Tree###28 08 2012 new variable
 ecs#:#ecs_node_mapping_status_2#:#Manual Mapping###28 08 2012 new variable
