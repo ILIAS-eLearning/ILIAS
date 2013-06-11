@@ -221,8 +221,8 @@ class ilExportGUI
 	 */
 	function createExportFile()
 	{
-		global $ilCtrl;
-
+		global $ilCtrl, $lng;
+		
 		if ($ilCtrl->getCmd() == "createExportFile")
 		{
 			$format = ilUtil::stripSlashes($_POST["format"]);
@@ -251,6 +251,8 @@ class ilExportGUI
 				}
 			}
 		}
+		
+		ilUtil::sendSuccess($lng->txt("exp_file_created"), true);
 		$ilCtrl->redirect($this, "listExportFiles");
 	}
 	
