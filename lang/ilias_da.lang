@@ -12005,9 +12005,9 @@ crs#:#event_blank_columns#:#Additional Columns###28 08 2012 new variable
 rbac#:#rbac_edit_condition#:#Edit Precondition###28 08 2012 new variable
 rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?###28 08 2012 new variable
 crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following start objects?###28 08 2012 new variable
-common#:#statutory_regulations#:#Statutory Regulations###28 08 2012 new variable
-common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###28 08 2012 new variable
-common#:#attach_sr_invoice#:#An Email anhängen###28 08 2012 new variable
+common#:#statutory_regulations#:#Lovbestemmelser
+common#:#show_sr_shoppingcart#:#I indkøbskurv visning
+common#:#attach_sr_invoice#:#Vedhæft email
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###28 08 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###28 08 2012 new variable
 rbac#:#tst_tst_statistics#:#User has access to test statistics###28 08 2012 new variable
@@ -12035,8 +12035,8 @@ ecs#:#ecs_server_deleted#:#Deleted Server###28 08 2012 new variable
 trac#:#trac_object_stat_lp#:#Learning Progress Statistics Course###28 08 2012 new variable
 trac#:#trac_object_stat_lp_min#:#Min.###28 08 2012 new variable
 trac#:#trac_object_stat_lp_max#:#Max.###28 08 2012 new variable
-trac#:#trac_members_short#:#Members###28 08 2012 new variable
-trac#:#trac_current#:#Current###28 08 2012 new variable
+trac#:#trac_members_short#:#Medlemmer
+trac#:#trac_current#:#Nuværende
 trac#:#trac_aggregation#:#Aggregation###28 08 2012 new variable
 trac#:#session_statistics#:#Session Statistics###28 08 2012 new variable
 trac#:#trac_last_aggregation#:#Last Aggregation###28 08 2012 new variable
@@ -12205,10 +12205,10 @@ help#:#help_tooltips#:#Help Tooltips###28 08 2012 new variable
 help#:#help_tooltip_id#:#Tooltip ID###28 08 2012 new variable
 help#:#help_tt_text#:#Tekst
 help#:#help_all#:#Alt
-help#:#help_component#:#Component###28 08 2012 new variable
-help#:#help_filter#:#Filter###28 08 2012 new variable
-help#:#help_open_online_help#:#Open Online Help###28 08 2012 new variable
-help#:#help_toggle_tooltips#:#Toggle Help Tooltips###28 08 2012 new variable
+help#:#help_component#:#Komplnent
+help#:#help_filter#:#Filter
+help#:#help_open_online_help#:#Åben onlinehjælp
+help#:#help_toggle_tooltips#:#Skift hjælpetips
 common#:#objs_blog#:#Blogs###28 08 2012 new variable
 common#:#obj_blog_duplicate#:#Copy Blog###28 08 2012 new variable
 blog#:#blog_copy#:#Copy Blog###28 08 2012 new variable
@@ -12281,13 +12281,13 @@ rating#:#rating_category_updated#:#Category saved.###28 08 2012 new variable
 rating#:#rating_update_positions#:#Save Order###28 08 2012 new variable
 rating#:#rating_category_delete_sure#:#Are you sure you want to delete the following rating categories?  All ratings for that category will be lost.###28 08 2012 new variable
 content#:#cont_hover#:#Hover###28 08 2012 new variable
-content#:#cont_always#:#Always###28 08 2012 new variable
+content#:#cont_always#:#Altid
 content#:#cont_highlight_mode#:#Highlight Mode###28 08 2012 new variable
-content#:#cont_light#:#Light###28 08 2012 new variable
-content#:#cont_dark#:#Dark###28 08 2012 new variable
+content#:#cont_light#:#Lys
+content#:#cont_dark#:#Mørk
 content#:#cont_accented#:#Accented###28 08 2012 new variable
 content#:#cont_set#:#Sæt
-content#:#cont_link_no#:#No Link###28 08 2012 new variable
+content#:#cont_link_no#:#Intet link
 rating#:#rating_category_deleted#:#Category deleted.###28 08 2012 new variable
 wiki#:#wiki_activate_sideblock_rating#:#Display Rating as Side Block###28 08 2012 new variable
 wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages###28 08 2012 new variable
