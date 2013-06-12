@@ -83,9 +83,9 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		}
 		try 
 		{
-			$course = $this->readCourse($server, $a_content_id);
+			//$course = $this->readCourse($server, $a_content_id);
 			$course_member = $this->readCourseMember($server,$a_content_id);
-			$this->doUpdate($a_content_id, $course,$course_member);
+			$this->doUpdate($a_content_id,$course_member);
 			return true;
 		}
 		catch(ilECSConnectorException $e) 
@@ -431,7 +431,11 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		{
 			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMemberConnector.php';
 			$crs_member_reader = new ilECSCourseMemberConnector($server);
-			return $crs_member_reader->getCourseMember($a_content_id);
+			
+			$member = $crs_member_reader->getCourseMember($a_content_id);
+			//$GLOBALS['ilLog']->write(__METHOD__.': ??????????? crs member:' . print_r($member,true));
+			//$GLOBALS['ilLog']->write(__METHOD__.': ??????????? content id :' . $a_content_id);
+			return $member;
 		}
 		catch(ilECSConnectorException $e) 
 		{
