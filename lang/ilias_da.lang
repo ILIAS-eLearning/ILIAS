@@ -12203,8 +12203,8 @@ assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints###
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
 help#:#help_tooltips#:#Help Tooltips###28 08 2012 new variable
 help#:#help_tooltip_id#:#Tooltip ID###28 08 2012 new variable
-help#:#help_tt_text#:#Text###28 08 2012 new variable
-help#:#help_all#:#All###28 08 2012 new variable
+help#:#help_tt_text#:#Tekst
+help#:#help_all#:#Alt
 help#:#help_component#:#Component###28 08 2012 new variable
 help#:#help_filter#:#Filter###28 08 2012 new variable
 help#:#help_open_online_help#:#Open Online Help###28 08 2012 new variable
@@ -12314,8 +12314,8 @@ common#:#obj_glo_duplicate#:#Copy Glossary###28 08 2012 new variable
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 08 2012 new variable
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.###28 08 2012 new variable
 forum#:#number_of_threads#:#Displayed Number of Threads per Page###28 08 2012 new variable
-common#:#obj_wiki_duplicate#:#Copy Wiki###28 08 2012 new variable
-common#:#obj_sahs_duplicate#:#Copy Learning Module###28 08 2012 new variable
+common#:#obj_wiki_duplicate#:#Kopier Wiki
+common#:#obj_sahs_duplicate#:#Kopier Læremodul
 common#:#obj_poll#:#Afstemning
 common#:#objs_poll#:#Afstemninger
 common#:#obj_poll_dupliate:#:#Kopier afstemning
@@ -12384,12 +12384,12 @@ dcl#:#dcl_view_viewdefinition#:#Viewdefinition###28 08 2012 new variable
 dcl#:#dcl_new_table#:#New Table###28 08 2012 new variable
 dcl#:#dcl_table_create#:#Create Table###28 08 2012 new variable
 dcl#:#dcl_table_edit#:#Update Table###28 08 2012 new variable
-dcl#:#dcl_new_field#:#New Field###28 08 2012 new variable
-dcl#:#dcl_datatype#:#Datatype###28 08 2012 new variable
-dcl#:#dcl_integer#:#Integer###28 08 2012 new variable
-dcl#:#dcl_text#:#Text###28 08 2012 new variable
-dcl#:#dcl_reference#:#Reference###28 08 2012 new variable
-dcl#:#dcl_boolean#:#Boolean###28 08 2012 new variable
+dcl#:#dcl_new_field#:#Nyt felt
+dcl#:#dcl_datatype#:#Datatype
+dcl#:#dcl_integer#:#Heltal
+dcl#:#dcl_text#:#Tekst
+dcl#:#dcl_reference#:#Reference
+dcl#:#dcl_boolean#:#Boolsk
 dcl#:#dcl_datetime#:#Datetime###28 08 2012 new variable
 dcl#:#dcl_file#:#Fileupload###28 08 2012 new variable
 dcl#:#dcl_field_description#:#Description###28 08 2012 new variable
@@ -12441,42 +12441,42 @@ objref#:#objref_title_settings#:#Edit Reference Title###28 08 2012 new variable
 objref#:#objref_reuse_title#:#Reuse Title of Reference###28 08 2012 new variable
 objref#:#objref_custom_title#:#Use Custom Title###28 08 2012 new variable
 news#:#news_keep_minimal_x_items#:#Keep at least x items###28 08 2012 new variable
-news#:#news_keep_minimal_x_items_info#:#If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime.###28 08 2012 new variable
+news#:#news_keep_minimal_x_items_info#:#Hvis værdien er større end 0 angiver det antallet af elementer der beholdes i strømmen, selv hvis de er ældre end standard levetiden.
 dateplaner#:#cal_add_calendar#:#Lav kalender
 dateplaner#:#cal_import_appointments#:#Importer aftaler
-dateplaner#:#cal_import_tbl#:#Import Appointments###28 08 2012 new variable
+dateplaner#:#cal_import_tbl#:#Importer aftaler
 dateplaner#:#cal_import_file#:#Importer fil
 dateplaner#:#cal_import_file_info#:#Vælg den fil, der indeholder dine kalenderaftaler
 mcst#:#mcst_conv_standard_to#:#Konverter standardfil til
-mcst#:#mcst_conv_videoalternative_to#:#Convert Alternative Video File to###28 08 2012 new variable
+mcst#:#mcst_conv_videoalternative_to#:#Konverter alternativ videofil til
 mcst#:#mcst_target#:#Target###28 08 2012 new variable
 mcst#:#mcst_videoalternative_title#:#Alternativ videofil (brug i browser)
 mcst#:#mcst_convert#:#Konverter
 mcst#:#mcst_purpose_standard#:#Standard fil
 mcst#:#mcst_purpose_videoalternative#:#Alternativ videofil
 mcst#:#mcst_converted_file#:#Filen blev konverteret
-dateplaner#:#cal_imported_success#:#Imported %1$s appointments.###28 08 2012 new variable
-form#:#form_link_internal#:#Internal###28 08 2012 new variable
-form#:#form_link_external#:#External###28 08 2012 new variable
+dateplaner#:#cal_imported_success#:#Importerede %1$s aftaler
+form#:#form_link_internal#:#Internt
+form#:#form_link_external#:#Eksternt
 form#:#form_get_link#:#Select Target Object###28 08 2012 new variable
-style#:#sty_move_user_styles#:#Change Style of Users###28 08 2012 new variable
+style#:#sty_move_user_styles#:#Skift stil for brugere
 style#:#sty_substyles#:#Substyles###28 08 2012 new variable
-style#:#sty_assign_categories#:#Assign Categories###28 08 2012 new variable
-dateplaner#:#cal_type_rl#:#Calendar Location###28 08 2012 new variable
-dateplaner#:#cal_type_local#:#Local Calendar###28 08 2012 new variable
-dateplaner#:#cal_type_remote#:#Web Calendar###28 08 2012 new variable
-dateplaner#:#cal_remote_url#:#URL###28 08 2012 new variable
-dateplaner#:#cal_type_rl_info#:#If you know the address to a calendar (in ical format), you can type the address here.###28 08 2012 new variable
-dateplaner#:#cal_cal_synchronize#:#Synchronise Calendar###28 08 2012 new variable
-dateplaner#:#cal_cal_sync_success#:#Successfully synchronised calendar###28 08 2012 new variable
-style#:#sty_substyle#:#Substyle###28 08 2012 new variable
+style#:#sty_assign_categories#:#Tildel kategorier
+dateplaner#:#cal_type_rl#:#Kalender placering
+dateplaner#:#cal_type_local#:#Lokal kalender
+dateplaner#:#cal_type_remote#:#Webkalender
+dateplaner#:#cal_remote_url#:#URL
+dateplaner#:#cal_type_rl_info#:#Hvis du kender adressen til en kalender (i ical format), kan du indtaste den her.
+dateplaner#:#cal_cal_synchronize#:#Synkroniser kalender
+dateplaner#:#cal_cal_sync_success#:#Synkronisering af kalender fuldført.
+style#:#sty_substyle#:#Understil
 style#:#sty_cat_assignments#:#Style/Category Assignments###28 08 2012 new variable
 style#:#sty_add_assignment#:#Add Assignment###28 08 2012 new variable
 administration#:#adm_user_starting_point#:#Login startsted
 administration#:#adm_user_starting_point_info#:#Vælg side eller objekt som vises efter login.
 content#:#cont_AdvancedKnowledge#:#Avanceret viden
-content#:#cont_show_adv#:#Show Advanced Knowledge###28 08 2012 new variable
-content#:#cont_hide_adv#:#Hide Advanced Knowledge###28 08 2012 new variable
+content#:#cont_show_adv#:#Vis avanceret viden
+content#:#cont_hide_adv#:#Skjul avanceret viden
 registration#:#reg_email_domains#:#Følgende email-domæner er tilladt: %s
 registration#:#reg_allowed_domains#:#Tilladte email adresse domæner
 registration#:#reg_allowed_domains_info#:#Brug * som wildcard og ; som separator.
