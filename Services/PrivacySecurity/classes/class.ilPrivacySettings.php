@@ -110,7 +110,7 @@ class ilPrivacySettings
 		
 		$user_id = $a_user_id ? $a_user_id : $ilUser->getId();
 		
-		if(ilObject::_lookupObjId(ilObject::_lookupType($a_ref_id)) == 'crs')
+		if(ilObject::_lookupType($a_ref_id, true) == 'crs')
 		{
 			return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser($user_id,'write','',$a_ref_id) and $rbacsystem->checkAccessOfUser($user_id,'export_member_data',$this->getPrivacySettingsRefId());
 		}
