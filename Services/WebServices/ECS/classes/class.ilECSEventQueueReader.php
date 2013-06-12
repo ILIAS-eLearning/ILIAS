@@ -594,8 +594,10 @@ class ilECSEventQueueReader
 	{
 	 	global $ilDB;
 	 	
-	 	$query = "SELECT * FROM ecs_events ORDER BY event_id ".
-			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
+	 	$query = "SELECT * FROM ecs_events  ".
+			'WHERE server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer').' '.
+			'ORDER BY event_id';
+		
 	 	$res = $this->db->query($query);
 	 	$counter = 0;
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

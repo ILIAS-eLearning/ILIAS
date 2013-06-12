@@ -303,6 +303,7 @@ class ilECSCourseCreationHandler
 		}
 		else
 		{
+			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
 			switch((int) $course->basicData->parallelGroupScenario)
 			{
 				case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
