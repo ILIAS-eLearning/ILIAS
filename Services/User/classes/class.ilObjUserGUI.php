@@ -909,7 +909,9 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->object->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
 			}
 
-
+			// #10054 - profile may have been completed, check below is only for incomplete
+			$this->object->setProfileIncomplete( false );
+			
 			$this->update = $this->object->update();
                         
                 
@@ -940,7 +942,7 @@ class ilObjUserGUI extends ilObjectGUI
 					$this->object->update();
 				}
 			}
-
+			
 			// feedback
 			ilUtil::sendSuccess($msg,true);
 
