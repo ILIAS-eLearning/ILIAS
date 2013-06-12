@@ -15910,3 +15910,28 @@ foreach(array(
 $setting = new ilSetting();
 $setting->set('tos_status', $status);
 ?>
+<#3915>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'redirection_mode'))
+{
+	$ilDB->addTableColumn('tst_tests', 'redirection_mode',
+		array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0));
+}
+?>
+<#3916>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'redirection_url'))
+{
+	$ilDB->addTableColumn('tst_tests', 'redirection_url',
+		array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => false,
+			'default' => null));
+}
+?>
+	

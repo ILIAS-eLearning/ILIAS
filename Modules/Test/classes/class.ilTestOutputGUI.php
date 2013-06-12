@@ -1548,6 +1548,31 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			}
 			$this->object->getTestSession()->increaseTestPass();
 		}
+		
+		$redirection_mode = $this->object->getRedirectionMode();
+		$redirection_url  = $this->object->getRedirectionUrl();
+		if($redirection_url && $redirection_mode && !$this->object->canViewResults())
+		{
+			if($redirection_mode == REDIRECT_KIOSK)
+			{
+				if($this->object->getKioskMode()) 
+				{
+					ilUtil::redirect($redirection_url);
+				}
+			}
+			else if($redirection_mode == REDIRECT_SEB)
+			{
+				if(ilSetting::_lookupValue('assessment', 'assessment_use_seb'))
+				{
+					ilUtil::redirect($redirection_url);
+				}
+			}
+			else
+			{
+				ilUtil::redirect($redirection_url);	
+			}
+		}
+
 		$this->redirectBack();
 	}
 	
