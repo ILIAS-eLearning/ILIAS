@@ -13310,3 +13310,14 @@ assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer/ei
 assessment#:#tst_imap_qst_mode#:#Antwortmodus
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
+assessment#:#assf_seb_settings#:#Safe Exam Browser-Einstellungen
+assessment#:#assessment_use_seb#:#Safe Exam Browser aktivieren
+assessment#:#seb_headerfield#:#Safe Exam Browser-Headerfield
+assessment#:#seb_detect_expr#:#Safe Exam Browser Ausdruck erkennen
+assessment#:#seb_detect_expr_info#:#Bitte geben Sie einen regulären Ausdruck ein, der auf das angegebene Header-Feld angewandt werden soll. (ohne Delimiter)
+assessment#:#tst_test_execution#:#Test Durchführung
+assessment#:#redirect_after_finishing_tst#:#Weiterleitung nach Abgabe der Klausur
+assessment#:#redirect_in_kiosk_mode#:#Weiterleitung nur im Kiosk-Modus
+assessment#:#redirect_if_seb_enabled#:#Weiterleitung nur wenn Safe Exam Browser verwendet wird
+assessment#:#redirection_url#:#Weiterleitungsziel
+assessment#:#seb_headerfield_info#:#Bitte geben Sie hier das Header-Feld ein, aus dem ILIAS die Browser-Information auslesen soll, anhand derer die Verwendung des Safe Exam Browsers erkannt werden kann. Standardmäßig wird das Feld HTTP_USE_AGENT genutzt.

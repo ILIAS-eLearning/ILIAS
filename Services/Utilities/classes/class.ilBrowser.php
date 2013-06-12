@@ -427,5 +427,31 @@ class ilBrowser
 			return false;
 		}
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function isSeb()
+	{
+		$setting     = new ilSetting('assessment');
+		$headerfield = $setting->get('assessment_use_seb');
+		$reg_exp     = $setting->get('seb_headerfield');
+
+		if(!$reg_exp)
+		{
+			return false;
+		}
+
+		if($headerfield)
+		{
+			$value_to_check = $_SERVER[$headerfield];
+		}
+		else
+		{
+			$value_to_check = $this->userAgent;
+		}
+
+		return (bool)preg_match('/' . $reg_exp. '/', $value_to_check);
+	}
 }
 ?>

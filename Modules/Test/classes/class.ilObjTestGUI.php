@@ -1904,13 +1904,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$highscore_top_num->setValue($this->object->getHighscoreTopNum());
 		$highscore_top_table->setInfo($this->lng->txt("tst_highscore_top_num_description"));
 		$highscore->addSubItem($highscore_top_num);
-		
-				if(!$template || $template && $this->formShowKioskSection($template_settings)) {
-                    // kiosk mode properties
-                    $kioskheader = new ilFormSectionHeaderGUI();
-                    $kioskheader->setTitle($this->lng->txt("kiosk"));
-                    $form->addItem($kioskheader);
-                }
+
+		if(!$template || $template && $this->formShowKioskSection($template_settings))
+		{
+			// kiosk mode properties
+			$kioskheader = new ilFormSectionHeaderGUI();
+			$kioskheader->setTitle($this->lng->txt("tst_test_execution"));
+			$form->addItem($kioskheader);
+		}
 
 		// kiosk mode
 		$kiosk = new ilCheckboxInputGUI($this->lng->txt("kiosk"), "kiosk");
@@ -1930,13 +1931,42 @@ class ilObjTestGUI extends ilObjectGUI
 		$kiosk->addSubItem($kiosktitle);
 
 		$form->addItem($kiosk);
+		$redirection_mode = $this->object->getRedirectionMode();
 
-                if(!$template || $template && $this->formShowParticipantSection($template_settings)) {
-                    // participants properties
-                    $restrictions = new ilFormSectionHeaderGUI();
-                    $restrictions->setTitle($this->lng->txt("tst_max_allowed_users"));
-                    $form->addItem($restrictions);
-                }
+		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled' );
+		$rm_enabled->setChecked($redirection_mode ? true : false);
+
+		$radio_rm = new ilRadioGroupInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_mode');
+		
+		$seb_opt_always = new ilRadioOption($this->lng->txt('tst_results_access_always'), REDIRECT_ALWAYS);
+		$seb_opt_kiosk = new ilRadioOption($this->lng->txt('redirect_in_kiosk_mode'), REDIRECT_KIOSK);
+		$seb_opt_seb = new ilRadioOption($this->lng->txt('redirect_if_seb_enabled'), REDIRECT_SEB);
+
+		$radio_rm->addOption($seb_opt_always);
+		$radio_rm->addOption($seb_opt_kiosk);
+		
+		if((boolean) ilSetting::_lookupValue('assessment', 'assessment_use_seb') == true)
+		{
+			$radio_rm->addOption($seb_opt_seb);
+		}
+		
+		$radio_rm->setValue($redirection_mode);
+		$rm_enabled->addSubItem($radio_rm);
+		
+		$redirection_url = new ilTextInputGUI($this->lng->txt('redirection_url'), 'redirection_url');
+		$redirection_url->setValue((string)$this->object->getRedirectionUrl());
+		$redirection_url->setRequired(true);
+		$rm_enabled->addSubItem($redirection_url);
+		
+		$form->addItem($rm_enabled);
+		
+		if(!$template || $template && $this->formShowParticipantSection($template_settings))
+		{
+			// participants properties
+			$restrictions = new ilFormSectionHeaderGUI();
+			$restrictions->setTitle($this->lng->txt("tst_max_allowed_users"));
+			$form->addItem($restrictions);
+		}
 						
 		$fixedparticipants = new ilCheckboxInputGUI($this->lng->txt('participants_invitation'), "fixedparticipants");
 		$fixedparticipants->setValue(1);
@@ -2046,8 +2076,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$template_settings = $template->getSettings();
 			}
-
-
 
 			include_once 'Services/MetaData/classes/class.ilMD.php';
 			$md_obj =& new ilMD($this->object->getId(), 0, "svy");
@@ -2215,6 +2243,9 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->object->setEndingTime('');
 			}
+			
+			$this->object->setRedirectionMode($_POST['redirection_mode']);
+			$this->object->setRedirectionUrl(strlen($_POST['redirection_url']) > 1? (string)$_POST['redirection_url'] : NULL );
 			
 			$this->object->setUsePreviousAnswers(($_POST["chb_use_previous_answers"]) ? 1 : 0);
 			$this->object->setForceJS(($_POST["forcejs"]) ? 1 : 0);
@@ -3969,6 +4000,48 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 	
+	public function timingOverviewObject()
+	{
+		$this->getParticipantsSubTabs();
+
+		include_once "./Modules/Test/classes/tables/class.ilTimingOverviewTableGUI.php";
+		$table_gui = new ilTimingOverviewTableGUI($this, 'timingOverview');
+		
+		$participants =& $this->object->getTestParticipants();#
+		$times = $this->object->getStartingTimeOfParticipants();
+		$addons = $this->object->getTimeExtensionsOfParticipants();
+
+		$tbl_data = array();
+		$i = 0;
+		foreach ($participants as $participant)
+		{
+			$started = "";
+			if ($times[$participant['active_id']])
+			{
+				$started = $this->lng->txt('tst_started').': '.ilDatePresentation::formatDate(new ilDateTime($times[$participant['active_id']], IL_CAL_DATETIME));
+				$tbl_data[$i]['started'] = $started;
+			}
+			else
+			{
+				$tbl_data[$i]['started'] = '';
+			}
+			
+			if ($addons[$participant['active_id']] > 0) 
+			{
+//				$started .= ", " . $this->lng->txt('extratime') . ': ' . $addons[$participant['active_id']] . ' ' . $this->lng->txt('minutes');
+				$tbl_data[$i]['extratime'] = $addons[$participant['active_id']];
+			}	
+			
+			$tbl_data[$i]['login'] = $participant['login'];
+			$tbl_data[$i]['name'] = $participant['lastname']. ', ' . $participant['firstname'];
+			
+//			$options[$participant['active_id']] = $participant['login'] . ' (' . $participant['lastname'] . ', ' . $participant['firstname'] . ')'.$started;
+		}
+		$table_gui->setData($tbl_data);
+		
+		$this->tpl->setContent($table_gui->getHTML());
+	}
+	
 	public function timingObject()
 	{
 		$this->getParticipantsSubTabs();
@@ -3984,15 +4057,16 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($this->object->getProcessingTimeInSeconds() > 0 && $this->object->getNrOfTries() == 1)
 		{
-			$form = $this->formTiming();
+			$form = $this->formTimingObject();
 			if (count($_POST) && $form->checkInput())
 			{
 				$res = $this->object->addExtraTime($form->getInput('participant'), $form->getInput('extratime'));
 				ilUtil::sendSuccess(sprintf($this->lng->txt('tst_extratime_added'), $form->getInput('extratime')), true);
+				$this->ctrl->redirect($this, 'timingOverview');
 			}
 			else
 			{
-				$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+				return $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 			}
 		}
 		else
@@ -4001,7 +4075,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
-	private function formTiming()
+	private function formTimingObject()
 	{
 		global $ilAccess;
 
@@ -4053,6 +4127,12 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("timing", $this->lng->txt("save"));
 		return $form;
 	}
+	
+	public function showTimingFormObject()
+	{
+		$form = $this->formTimingObject();
+		$this->tpl->setContent($form->getHTML());
+	}	
 	
 	function applyFilterCriteria($in_rows)
 	{
@@ -5155,12 +5235,13 @@ class ilObjTestGUI extends ilObjectGUI
 				"cancelDeleteAllUserData", "deleteSingleUserResults",
 				"outParticipantsResultsOverview", "outParticipantsPassDetails",
 				"showPassOverview", "showUserAnswers", "participantsAction",
-				"showDetailedResults"),
+				"showDetailedResults",
+				'npResetFilter', 'npSetFilter'),
 			"");
 		// extratime subtab
 		$ilTabs->addSubTabTarget("timing",
-			$this->ctrl->getLinkTarget($this,'timing'),
-			array("timing"),
+			$this->ctrl->getLinkTarget($this,'timingOverview'),
+			array("timing", "timingOverview"),
 			"", "");
 	}
 	
@@ -5364,7 +5445,7 @@ class ilObjTestGUI extends ilObjectGUI
 					 "outParticipantsResultsOverview", "outParticipantsPassDetails",
 					 "showPassOverview", "showUserAnswers", "participantsAction",
 					"showDetailedResults", 
-					 'timing'), 
+					 'timing', 'timingOverview', 'npResetFilter', 'npSetFilter'), 
 					 "");
                             }
 			}

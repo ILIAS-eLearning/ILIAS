@@ -128,4 +128,14 @@ define("SCORE_BEST_PASS", 1);
 define ("TYPE_XLS_PC", "latin1");
 define ("TYPE_SPSS", "csv");
 
+/** 
+ * Redirect after finishing test constants
+ */
+define ("REDIRECT_NONE", 0);
+define ("REDIRECT_ALWAYS", 1);
+define ("REDIRECT_KIOSK", 2);
+define ("REDIRECT_SEB", 3);
+
+
+
 ?>

@@ -443,6 +443,15 @@ class ilObjTest extends ilObject
 	private $passDeletionAllowed = null;
 
 	/**
+	 * @var int
+	 */
+	private $redirection_mode = 0;
+	/**
+	 * @var string null
+	 */
+	private $redirection_url = NULL;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -521,6 +530,8 @@ class ilObjTest extends ilObject
 		
                 $this->express_mode = false;
                 $this->template_id = '';
+		$this->redirection_mode = 0;
+		$this->redirection_url = NULL;
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
 
@@ -1255,7 +1266,9 @@ class ilObjTest extends ilObject
 				'specific_feedback' => array('integer', (int)$this->getSpecificAnswerFeedback()),
 				'autosave' => array('integer', (int)$this->getAutosave()),
 				'autosave_ival' => array('integer', (int)$this->getAutosaveIval()),
-				'pass_deletion_allowed' => array('integer', (int)$this->isPassDeletionAllowed())
+				'pass_deletion_allowed' => array('integer', (int)$this->isPassDeletionAllowed()),
+				'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
+				'redirection_url' => array('text', (string)$this->getRedirectionUrl())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1355,6 +1368,8 @@ class ilObjTest extends ilObject
 						'autosave' => array('integer', $this->getAutosave()),
 						'autosave_ival' => array('integer', $this->getAutosaveIval()),
 						'pass_deletion_allowed' => array('integer', (int)$this->isPassDeletionAllowed()),
+						'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
+						'redirection_url' => array('text', (string)$this->getRedirectionUrl())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -2115,6 +2130,8 @@ class ilObjTest extends ilObject
 			$this->setNrOfTries($data->nr_of_tries);
 			$this->setKiosk($data->kiosk);
 			$this->setUsePreviousAnswers($data->use_previous_answers);
+			$this->setRedirectionMode($data->redirection_mode);
+			$this->setRedirectionUrl($data->redirection_url);
 			$this->setTitleOutput($data->title_output);
 			$this->setProcessingTime($data->processing_time);
 			$this->setEnableProcessingTime($data->enable_processing_time);
@@ -3371,7 +3388,24 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
+	function setRedirectionMode($redirection_mode = 0)
+	{
+		$this->redirection_mode = $redirection_mode;
+	}
+	function getRedirectionMode()
+	{
+		return $this->redirection_mode;
+	}	
+	function setRedirectionUrl($redirection_url = NULL)
+	{
+		$this->redirection_url = $redirection_url;
+	}
+	function getRedirectionUrl()
+	{
+		return $this->redirection_url;
+	}
+
+	/**
 * Sets the status of the title output
 **
 * @param integer $title_output 0 for full title, 1 for title without points, 2 for no title
@@ -6206,6 +6240,12 @@ function getAnswerFeedbackPoints()
 						$this->setEndingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 					}
 					break;
+				case 'redirection_mode':
+					$this->setRedirectionMode($metadata['entry']);
+					break;
+				case 'redirection_url':
+					$this->setRedirectionUrl($metadata['entry']);
+					break;
 			}
 			if (preg_match("/mark_step_\d+/", $metadata["label"]))
 			{
@@ -6377,6 +6417,19 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getKiosk()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
+		
+		//redirection_mode
+		$a_xml_writer->xmlStartTag('qtimetadatafield');
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "redirection_mode");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getRedirectionMode());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		//redirection_url
+		$a_xml_writer->xmlStartTag('qtimetadatafield');
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "redirection_url");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getRedirectionUrl());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
 		// use previous answers
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "use_previous_answers");
@@ -7118,6 +7171,8 @@ function getAnswerFeedbackPoints()
 		$newObj->setStartingTime($this->getStartingTime());
 		$newObj->setTitleOutput($this->getTitleOutput());
 		$newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
+		$newObj->setRedirectionMode($this->getRedirectionMode());
+		$newObj->setRedirectionUrl($this->getRedirectionUrl());
 		$newObj->setCertificateVisibility($this->getCertificateVisibility());
 		$newObj->mark_schema = clone $this->mark_schema;
 		$newObj->setEnabledViewMode($this->getEnabledViewMode());
@@ -9702,6 +9757,8 @@ function getAnswerFeedbackPoints()
 		$this->setReportingDate($testsettings["ReportingDate"]);
 		$this->setNrOfTries($testsettings["NrOfTries"]);
 		$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
+		$this->setRedirectionMode($testsettings['redirection_mode']);
+		$this->setRedirectionUrl($testsettings['redirection_url']);
 		$this->setProcessingTime($testsettings["ProcessingTime"]);
 		$this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
 		$this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
@@ -11464,18 +11521,18 @@ function getAnswerFeedbackPoints()
 			);
 			if ($result->numRows() > 0)
 			{
-				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_addtime WHERE active_fi = %s",
+				$ilDB->manipulateF("DELETE FROM tst_addtime WHERE active_fi = %s",
 					array('integer'),
 					array($active_id)
 				);
 			}
 
-			$result = $ilDB->manipulateF("UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
+			$ilDB->manipulateF("UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
 				array('integer','integer','timestamp','integer'),
 				array(0, 0, NULL, $active_id)
 			);
 
-			$result = $ilDB->manipulateF("INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
+			$ilDB->manipulateF("INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
 				array('integer','integer','integer'),
 				array($active_id, $minutes, time())
 			);

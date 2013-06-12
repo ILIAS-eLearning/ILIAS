@@ -576,5 +576,97 @@ class ilObjAssessmentFolder extends ilObject
 		
 		return $isPageEditorEnabled;
 	}
+
+	function _getAssessmentUseSeb()
+	{
+		$setting = new ilSetting("assessment");
+
+		return (boolean) $setting->get("assessment_use_seb");
+	}
+	/**
+	 * enable assessment seb
+	 */
+	function _setAssessmentUseSeb($a_enable)
+	{
+		$setting = new ilSetting("assessment");
+
+		if ($a_enable)
+		{
+			$setting->set("assessment_use_seb", 1);
+		}
+		else
+		{
+			$setting->set("assessment_use_seb", 0);
+			$this->_setSebHeaderfield('');
+			$this->_setSebDetectExpression('');
+		}
+	}
+	function _getSebHeaderfield()
+	{
+		$setting = new ilSetting("assessment");
+
+		$shf = $setting->get("seb_headerfield");
+
+		if(strlen($shf) > 0 )
+		{
+			return $shf;
+		}
+		else
+		{
+			return NULL;	
+		}
+		
+	}
+	/**
+	 * enable assessment seb headerfield
+	 */
+	function _setSebHeaderfield($seb_headerfield)
+	{
+		$setting = new ilSetting("assessment");
+
+		if (strlen($seb_headerfield) > 1)
+		{
+			$setting->set("seb_headerfield", $seb_headerfield);
+		}
+		else
+		{
+			$setting->set("seb_headerfield", NULL);
+		}
+	}
+
+
+	function _getSebDetectExpression()
+	{
+		$setting = new ilSetting("assessment");
+
+		$sde = $setting->get("seb_detect_expr");
+		
+		if(strlen($sde) > 0 )
+		{
+			return $sde;
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	/**
+	 * enable assessment seb detect expression
+	 */
+	function _setSebDetectExpression($seb_detect_expr)
+	{
+		$setting = new ilSetting("assessment");
+
+
+		if (strlen($seb_detect_expr) > 1)
+		{
+			$setting->set("seb_detect_expr", $seb_detect_expr);
+		}
+		else
+		{
+			$setting->set("seb_detect_expr", NULL);
+		}
+	}
+	
 } // END class.ilObjAssessmentFolder
 ?>

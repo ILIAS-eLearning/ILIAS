@@ -13310,3 +13310,14 @@ assessment#:#tst_change_workingtime#:#Add extra time for a participant
 assessment#:#tst_imap_qst_mode#:#Mode
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
+assessment#:#assf_seb_settings#:#Safe Exam Browser-Settings
+assessment#:#assessment_use_seb#:#Safe Exam Browser activate
+assessment#:#seb_headerfield#:#Safe Exam Browser-Headerfield
+assessment#:#seb_detect_expr#:#Safe Exam Browser detect expression
+assessment#:#seb_detect_expr_info#:#Please enter a regular expression which is used on the given header field to detect the SEB
+assessment#:#tst_test_execution#:#Test Execution
+assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test
+assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode
+assessment#:#redirect_if_seb_enabled#:#Redirect only if Safe Exam Browser is used
+assessment#:#redirection_url#:#Redirection target
+assessment#:#seb_headerfield_info#:#Please enter the header field, which ILIAS is to utilize to detect the use of the SEB. The default is HTTP_USER_AGENT.

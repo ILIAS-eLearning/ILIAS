@@ -117,10 +117,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function settingsObject()
 	{
-		global $ilAccess;
-
-                global $ilTabs;
-                $ilTabs->setTabActive('settings');
+		
+		global $ilAccess, $ilTabs;
+                
+		$ilTabs->setTabActive('settings');
 
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -154,6 +154,32 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$reporting->setValue($this->object->_getLogLanguage());
 		$form->addItem($reporting);
 
+	
+		$this->lng->loadLanguageModule('assessment');
+		// seb settings
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("assf_seb_settings"));
+		$form->addItem($header);
+
+		// assessment use seb
+		$use_seb = new ilCheckboxInputGUI('', "assessment_use_seb");
+		$use_seb->setValue(1);
+		$use_seb->setChecked($this->object->_getAssessmentUseSeb());
+		$use_seb->setOptionTitle($this->lng->txt("assessment_use_seb"));
+		
+		$seb_headerfield = new ilTextInputGUI($this->lng->txt('seb_headerfield'), 'seb_headerfield');
+		$seb_headerfield->setValue($this->object->_getSebHeaderfield());
+		$seb_headerfield->setInfo($this->lng->txt('seb_headerfield_info'));
+		$use_seb->addSubItem($seb_headerfield);
+		
+		$seb_detect_expr = new ilTextInputGUI($this->lng->txt('seb_detect_expr'), 'seb_detect_expr');
+		$seb_detect_expr->setValue($this->object->_getSebDetectExpression());
+		$seb_detect_expr->setInfo($this->lng->txt('seb_detect_expr_info'));
+		
+		$use_seb->addSubItem($seb_detect_expr);
+		
+		$form->addItem($use_seb);
+		
 		// question settings
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("assf_questiontypes"));
@@ -211,6 +237,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$this->object->_enableAssessmentLogging(0);
 		}
 		$this->object->_setLogLanguage($_POST["reporting_language"]);
+		
+		$this->object->_setAssessmentUseSeb($_POST['assessment_use_seb']);
+		$this->object->_setSebHeaderfield($_POST['seb_headerfield']);
+		$this->object->_setSebDetectExpression($_POST['seb_detect_expr']);
+		
 		$this->object->_setManualScoring($_POST["chb_manual_scoring"]);
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$questiontypes =& ilObjQuestionPool::_getQuestionTypes(TRUE);
