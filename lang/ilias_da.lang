@@ -11257,14 +11257,14 @@ blog#:#blog_settings#:#Blog Administration###06 08 2011 new variable
 blog#:#blog_preview_banner_width#:#Banner Width###06 08 2011 new variable
 blog#:#blog_preview_banner_height#:#Banner Height###06 08 2011 new variable
 blog#:#blog_preview_banner#:#Custom Banner###06 08 2011 new variable
-prtf#:#prtf_settings#:#Portfolio Administration###06 08 2011 new variable
-prtf#:#prtf_preview_banner_width#:#Banner Width###06 08 2011 new variable
-prtf#:#prtf_preview_banner_height#:#Banner Height###06 08 2011 new variable
+prtf#:#prtf_settings#:#Portfolio administration
+prtf#:#prtf_preview_banner_width#:#Banner bredde
+prtf#:#prtf_preview_banner_height#:#Banner højde
 prtf#:#prtf_preview_banner#:#Custom Banner###06 08 2011 new variable
-prtf#:#prtf_banner#:#Banner###06 08 2011 new variable
-prtf#:#prtf_background_color#:#Background Color###06 08 2011 new variable
+prtf#:#prtf_banner#:#Banner
+prtf#:#prtf_background_color#:#Baggrundsfarve
 prtf#:#prtf_font_color#:#Font Color###06 08 2011 new variable
-notes#:#note_add_note#:#Add Note###06 08 2011 new variable
+notes#:#note_add_note#:#Lav note
 notes#:#note_add_comment#:#Send kommentar
 notes#:#note_update_comment#:#Opdater kommentar
 notes#:#note_update_note#:#Opdater note
@@ -11274,10 +11274,10 @@ notes#:#notes_comments#:#Kommentarer
 rbac#:#chtr_visible#:#Synlig
 rbac#:#chtr_read#:#Læs
 rbac#:#chtr_write#:#Skriv
-rbac#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
-common#:#objs_chtr#:#Chats###06 08 2011 new variable
+rbac#:#chtr_edit_permission#:#Ret tilladelser
+common#:#objs_chtr#:#Chater
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
-chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
+chatroom#:#history_by_day#:#Dagshistorik
 chatroom#:#history_by_session#:#Session history###06 08 2011 new variable
 chatroom#:#connected#:#Connection established###06 08 2011 new variable
 chatroom#:#period#:#Periode
@@ -11543,24 +11543,24 @@ scormdebug#:#error#:#error###06 08 2011 new variable
 scormdebug#:#strange_error#:#strange error###06 08 2011 new variable
 scormdebug#:#strange_API-Call#:#strange API-Call###06 08 2011 new variable
 scormdebug#:#unknown#:#unknown###06 08 2011 new variable
-scormdebug#:#undefined_color#:#undefined color###06 08 2011 new variable
-scormdebug#:#description_for#:#description for###06 08 2011 new variable
-scormdebug#:#hide#:#hide###06 08 2011 new variable
+scormdebug#:#undefined_color#:#udefineret farve
+scormdebug#:#description_for#:#beskrivelse af
+scormdebug#:#hide#:#skjul
 scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.###06 08 2011 new variable
 scormdebug#:#show_only_important_API-calls#:#Show only important API-calls!###06 08 2011 new variable
 scormdebug#:#only_important_API-Calls_shown#:#Only important API-Calls are currently shown.###06 08 2011 new variable
-scormdebug#:#show_all_API-calls#:#Show all API-calls!###06 08 2011 new variable
+scormdebug#:#show_all_API-calls#:#Vis alle API-kald!
 scormdebug#:#log_for#:#Log for the learning module###06 08 2011 new variable
-scormdebug#:#started#:#started###06 08 2011 new variable
+scormdebug#:#started#:#påbegyndt
 scormdebug#:#nr_session#:#number of session###06 08 2011 new variable
 scormdebug#:#id_learning_module#:#Id of the learning module###06 08 2011 new variable
-scormdebug#:#SCO-title#:#SCO-title###06 08 2011 new variable
-scormdebug#:#SCO-name#:#SCO-name###06 08 2011 new variable
-scormdebug#:#milliseconds#:#milliseconds###06 08 2011 new variable
-scormdebug#:#API-call#:#API-call###06 08 2011 new variable
+scormdebug#:#SCO-title#:#SCO-titel
+scormdebug#:#SCO-name#:#SCO-navn
+scormdebug#:#milliseconds#:#millisekunder
+scormdebug#:#API-call#:#API-kald
 scormdebug#:#return_value#:#return value###06 08 2011 new variable
 scormdebug#:#generated#:#generated###06 08 2011 new variable
-scormdebug#:#comment#:#Comment###06 08 2011 new variable
+scormdebug#:#comment#:#Kommentar
 scormdebug#:#summary_for_SCO_without_test#:#Summary for a SCO without a test###06 08 2011 new variable
 scormdebug#:#summary_for_SCO_with_test#:#Summary for a SCO with a test###06 08 2011 new variable
 scormdebug#:#no_missing_API-calls#:#Missing API-calls had not been recognized.###06 08 2011 new variable
@@ -11921,7 +11921,7 @@ assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results###1
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.###18 01 2012 new variable
 assessment#:#autosave#:#Automatic saving###28 08 2012 new variable
 assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss. (Does only apply for selected questions.)###28 08 2012 new variable
-assessment#:#autosave_ival#:#Interval###28 08 2012 new variable
+assessment#:#autosave_ival#:#Interval
 assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (microseconds)###28 08 2012 new variable
 assessment#:#for#:#for###28 08 2012 new variable
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:###28 08 2012 new variable
@@ -11949,8 +11949,8 @@ assessment#:#toplist_col_rank#:#Rank###28 08 2012 new variable
 assessment#:#toplist_col_participant#:#Participant###28 08 2012 new variable
 assessment#:#toplist_col_achieved#:#Date###28 08 2012 new variable
 assessment#:#toplist_col_score#:#Score###28 08 2012 new variable
-assessment#:#toplist_col_percentage#:#Percentage###28 08 2012 new variable
-assessment#:#toplist_col_hints#:#Hints###28 08 2012 new variable
+assessment#:#toplist_col_percentage#:#Procent
+assessment#:#toplist_col_hints#:#Tips
 assessment#:#toplist_col_wtime#:#Arbejdstid
 assessment#:#toplist_your_result#:#Din score
 assessment#:#tst_highscore_options#:#Top-score
@@ -11960,11 +11960,11 @@ assessment#:#tst_highscore_anon#:#Anonymization of the entries.###28 08 2012 new
 assessment#:#tst_highscore_anon_description#:#Controls, if names are anonymized with the ranks. This option may be overriden by the test anonymization switch.###28 08 2012 new variable
 assessment#:#tst_highscore_achieved_ts#:#Show date of test###28 08 2012 new variable
 assessment#:#tst_highscore_achieved_ts_description#:#Controls, if a column with the test date should be shown.###28 08 2012 new variable
-assessment#:#tst_highscore_score#:#Show score###28 08 2012 new variable
+assessment#:#tst_highscore_score#:#Vis scoring
 assessment#:#tst_highscore_score_description#:#Controls, if a column with the score should be shown.###28 08 2012 new variable
-assessment#:#tst_highscore_percentage#:#Show percentage###28 08 2012 new variable
+assessment#:#tst_highscore_percentage#:#Vis procent
 assessment#:#tst_highscore_percentage_description#:#Controls, if a column with the tests percentage should be shown.###28 08 2012 new variable
-assessment#:#tst_highscore_hints#:#Show hints###28 08 2012 new variable
+assessment#:#tst_highscore_hints#:#Vis tips
 assessment#:#tst_highscore_hints_description#:#Controls, if a column with the tests requested hints should be shown.###28 08 2012 new variable
 assessment#:#tst_highscore_wtime#:#Show working time###28 08 2012 new variable
 assessment#:#tst_highscore_wtime_description#:#Controls, if a column with the tests working time should be shown.###28 08 2012 new variable
@@ -11979,9 +11979,9 @@ assessment#:#feedback_setting#:#Mode of answer specific feedback.###28 08 2012 n
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.###28 08 2012 new variable
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.###28 08 2012 new variable
 assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).###28 08 2012 new variable
-common#:#chat_chatviewer#:#Chat Viewer###28 08 2012 new variable
+common#:#chat_chatviewer#:#Chat viser
 chatroom#:#chat_settings#:#Chat Settings###28 08 2012 new variable
-common#:#chat_users_active#:#Active users###28 08 2012 new variable
+common#:#chat_users_active#:#Aktive brugere
 rbac#:#frm_add_reply#:#Users can reply to a posting###28 08 2012 new variable
 rbac#:#grp#:#User can copy group###28 08 2012 new variable
 rbac#:#sahs_copy#:#User can copy SCORM/AICC learning module###28 08 2012 new variable
