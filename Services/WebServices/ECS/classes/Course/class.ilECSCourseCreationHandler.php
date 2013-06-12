@@ -150,17 +150,17 @@ class ilECSCourseCreationHandler
 	 */
 	protected function syncParentContainer($a_content_id, $course)
 	{
-		if(!is_array($course->allocation))
+		if(!is_array($course->allocations))
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': No allocation in course defined.');
 			return 0;
 		}
-		if(!$course->allocation[0]->parentID)
+		if(!$course->allocations[0]->parentID)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': No allocation parent in course defined.');
 			return 0;
 		}
-		$parent_id = $course->allocation[0]->parentID;
+		$parent_id = $course->allocations[0]->parentID;
 		
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		$parent_tid = ilECSCmsData::lookupFirstTreeOfNode($this->getServer()->getServerId(), $this->getMid(), $parent_id);
@@ -303,6 +303,7 @@ class ilECSCourseCreationHandler
 		}
 		else
 		{
+			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
 			switch((int) $course->basicData->parallelGroupScenario)
 			{
 				case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
