@@ -86,6 +86,23 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 
 		return $cmd_link;
 	}
+	
+	function getProperties()
+	{
+		global $lng;
+		
+		// #11193
+
+		$props = array();
+
+		include_once("./Modules/BookingManager/classes/class.ilObjBookingPool.php");
+		if (!ilObjBookingPool::_lookupOnline($this->obj_id))
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $lng->txt("offline"));
+		}
+		return $props;
+	}
 }
 
 ?>

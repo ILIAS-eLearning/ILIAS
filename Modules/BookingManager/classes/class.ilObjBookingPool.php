@@ -312,6 +312,23 @@ class ilObjBookingPool extends ilObject
 	{
 		return $this->schedule_type;
 	}
+	
+	/**
+	 * Check object status
+	 * 
+	 * @param int $a_obj_id
+	 * @return boolean
+	 */
+	public static function _lookupOnline($a_obj_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT pool_offline".
+			" FROM booking_settings".
+			" WHERE booking_pool_id = ".$ilDB->quote($a_obj_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);				
+		return !(bool)$row["pool_offline"];
+	}
 }
 
 ?>
