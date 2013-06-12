@@ -436,7 +436,7 @@ class ilCustomUserFieldsGUI
 				$this->confirm_change = true;
 	
 				ilUtil::sendFailure($lng->txt('invalid_visible_required_options_selected'));
-				$this->listUserDefinedFieldsObject();
+				$this->listUserDefinedFields();
 				return false;
 			}		
 		}
