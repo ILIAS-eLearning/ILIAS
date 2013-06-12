@@ -25,6 +25,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	protected $user_fields; // array
 	protected $filter; // array
 	protected $in_course; // int
+	protected $in_group; // int
 	
 	/**
 	* Constructor
@@ -43,7 +44,15 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			$this->in_course = ilObject::_lookupObjId($this->in_course);
 		}
-	
+		else
+		{
+			$this->in_group = $tree->checkForParentType($this->ref_id, "grp");
+			if($this->in_group)
+			{
+				$this->in_group = ilObject::_lookupObjId($this->in_group);
+			}
+		}
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->parseTitle($a_obj_id, "trac_participants");
@@ -196,37 +205,62 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			"txt" => $lng->txt("language"),
 			"default" => false);
 
-	    // add user data only if object is [part of] course
-		if($this->in_course && !$anonymized_object)
-		{
-			$this->user_fields = array();
+	   // add user data only if object is [part of] course
+		if(!$anonymized_object && 
+			($this->in_course || $this->in_group))
+		{						
+			// only show if export permission is granted
+			include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+			if(ilPrivacySettings::_getInstance()->checkExportAccess($this->ref_id))
+			{							
+				$this->user_fields = array();
 
-			// other user profile fields
-			foreach ($ufs as $f => $fd)
-			{
-				if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"]  && ($fd["course_export_fix_value"] || $ilSetting->get("usr_settings_course_export_".$f)))
+				// other user profile fields
+				foreach ($ufs as $f => $fd)
 				{
-					$cols[$f] = array(
-						"txt" => $lng->txt($f),
-						"default" => false);
+					if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"])
+					{
+						if($this->in_course && 
+							!($fd["course_export_fix_value"] || $ilSetting->get("usr_settings_course_export_".$f)))
+						{
+							continue;
+						}
+						if($this->in_group && 
+							!($fd["group_export_fix_value"] || $ilSetting->get("usr_settings_group_export_".$f)))
+						{
+							continue;
+						}
 
-					$this->user_fields[] = $f;
-				}
-			}
-
-			// additional defined user data fields
-			include_once './Services/User/classes/class.ilUserDefinedFields.php';
-			$user_defined_fields = ilUserDefinedFields::_getInstance();
-			foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
-			{
-				if($definition["field_type"] != UDF_TYPE_WYSIWYG && $definition["course_export"])
-				{
-					$f = "udf_".$definition["field_id"];
-					$cols[$f] = array(
-							"txt" => $definition["field_name"],
+						$cols[$f] = array(
+							"txt" => $lng->txt($f),
 							"default" => false);
 
-					$this->user_fields[] = $f;
+						$this->user_fields[] = $f;
+					}
+				}
+
+				// additional defined user data fields
+				include_once './Services/User/classes/class.ilUserDefinedFields.php';
+				$user_defined_fields = ilUserDefinedFields::_getInstance();			
+				if($this->in_course)
+				{
+					$user_defined_fields = $user_defined_fields->getCourseExportableFields();
+				}
+				else
+				{
+					$user_defined_fields = $user_defined_fields->getGroupExportableFields();
+				}			
+				foreach($user_defined_fields as $definition)
+				{
+					if($definition["field_type"] != UDF_TYPE_WYSIWYG)
+					{
+						$f = "udf_".$definition["field_id"];
+						$cols[$f] = array(
+								"txt" => $definition["field_name"],
+								"default" => false);
+
+						$this->user_fields[] = $f;
+					}
 				}
 			}
 		}
