@@ -150,17 +150,17 @@ class ilECSCourseCreationHandler
 	 */
 	protected function syncParentContainer($a_content_id, $course)
 	{
-		if(!is_array($course->allocations))
+		if(!is_array($course->allocation))
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': No allocation in course defined.');
 			return 0;
 		}
-		if(!$course->allocations[0]->parentID)
+		if(!$course->allocation[0]->parentID)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': No allocation parent in course defined.');
 			return 0;
 		}
-		$parent_id = $course->allocations[0]->parentID;
+		$parent_id = $course->allocation[0]->parentID;
 		
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		$parent_tid = ilECSCmsData::lookupFirstTreeOfNode($this->getServer()->getServerId(), $this->getMid(), $parent_id);
