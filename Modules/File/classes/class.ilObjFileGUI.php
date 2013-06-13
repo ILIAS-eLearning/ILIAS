@@ -89,11 +89,11 @@ class ilObjFileGUI extends ilObject2GUI
 				$this->infoScreenForward();	// forwards command
 				break;
 
-			case 'ilmdeditorgui':
-				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+			case 'ilmdeditorgui':								
+				if(!$this->checkPermissionBool("write"))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
+				}			
 				
 				$ilTabs->activateTab("id_meta");
 
