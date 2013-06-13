@@ -4430,10 +4430,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public function performMergeThreadsObject()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+		
 		if(!$this->is_moderator)
 		{
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
@@ -4452,10 +4457,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->showThreadsObject();
 			return;
 		}
-		
-		ilForum::mergeThreads($this->object->id, (int)$_POST['thread_ids'][0], (int)$_POST['thread_ids'][1]);
-	
-		ilUtil::sendSuccess($this->lng->txt('merged_threads_successfully'));
+
+		try
+		{
+			ilForum::mergeThreads($this->object->id, (int)$_POST['thread_ids'][0], (int)$_POST['thread_ids'][1]);
+			ilUtil::sendSuccess($this->lng->txt('merged_threads_successfully'));
+		}
+		catch(ilException $e)
+		{
+			return ilUtil::sendFailure($lng->txt($e->getMessage()));
+		}
 		$this->showThreadsObject();
 	}
 
