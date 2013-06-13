@@ -810,6 +810,164 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 		return $all;
 	}
+		
+	protected function getSelectableUserColumns($a_in_course = false, $a_in_group = false)
+	{
+		global $lng, $ilSetting;
+		
+		$cols = $privacy_fields = array();
+		
+		$anonymized_object = false;
+		include_once './Modules/Test/classes/class.ilObjTest.php';
+		if(ilObjTest::_lookupAnonymity($this->obj_id))
+		{
+			$anonymized_object = true;
+		}
+		
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$up->skipGroup("preferences");
+		$up->skipGroup("settings");
+		$ufs = $up->getStandardFields();
+
+		// default fields
+		$cols["login"] = array(
+			"txt" => $lng->txt("login"),
+			"default" => true);
+
+		if(!$anonymized_object)
+		{
+			$cols["firstname"] = array(
+				"txt" => $lng->txt("firstname"),
+				"default" => true);
+			$cols["lastname"] = array(
+				"txt" => $lng->txt("lastname"),
+				"default" => true);
+		}
+
+		// show only if extended data was activated in lp settings
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+		$tracking = new ilObjUserTracking();
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+		{
+			$cols["first_access"] = array(
+				"txt" => $lng->txt("trac_first_access"),
+				"default" => true);
+			$cols["last_access"] = array(
+				"txt" => $lng->txt("trac_last_access"),
+				"default" => true);
+		}
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
+		{
+			$cols["read_count"] = array(
+				"txt" => $lng->txt("trac_read_count"),
+				"default" => true);
+		}
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		{
+			$cols["spent_seconds"] = array(
+				"txt" => $lng->txt("trac_spent_seconds"),
+				"default" => true);
+		}
+
+		if($this->isPercentageAvailable($this->obj_id))
+		{
+			$cols["percentage"] = array(
+				"txt" => $lng->txt("trac_percentage"),
+				"default" => true);
+		}
+
+		// do not show status if learning progress is deactivated
+		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
+		{
+			$cols["status"] = array(
+				"txt" => $lng->txt("trac_status"),
+				"default" => true);
+
+			$cols['status_changed'] = array(
+				'txt' => $lng->txt('trac_status_changed'),
+				'default' => false);
+		}
+
+		if($this->type != "lm")
+		{
+			$cols["mark"] = array(
+				"txt" => $lng->txt("trac_mark"),
+				"default" => true);
+		}
+
+		$cols["u_comment"] = array(
+			"txt" => $lng->txt("trac_comment"),
+			"default" => false);
+
+		$cols["create_date"] = array(
+			"txt" => $lng->txt("create_date"),
+			"default" => false);
+		$cols["language"] = array(
+			"txt" => $lng->txt("language"),
+			"default" => false);
+
+	    // add user data only if object is [part of] course
+		if(!$anonymized_object && 
+			($a_in_course || $a_in_group))
+		{						
+			// only show if export permission is granted
+			include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+			if(ilPrivacySettings::_getInstance()->checkExportAccess($this->ref_id))
+			{											
+				// other user profile fields
+				foreach ($ufs as $f => $fd)
+				{
+					if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"])
+					{
+						if($a_in_course && 
+							!($fd["course_export_fix_value"] || $ilSetting->get("usr_settings_course_export_".$f)))
+						{
+							continue;
+						}
+						if($a_in_group && 
+							!($fd["group_export_fix_value"] || $ilSetting->get("usr_settings_group_export_".$f)))
+						{
+							continue;
+						}
+
+						$cols[$f] = array(
+							"txt" => $lng->txt($f),
+							"default" => false);
+
+						$privacy_fields[] = $f;
+					}
+				}
+
+				// additional defined user data fields
+				include_once './Services/User/classes/class.ilUserDefinedFields.php';
+				$user_defined_fields = ilUserDefinedFields::_getInstance();			
+				if($a_in_course)
+				{
+					$user_defined_fields = $user_defined_fields->getCourseExportableFields();
+				}
+				else
+				{
+					$user_defined_fields = $user_defined_fields->getGroupExportableFields();
+				}			
+				foreach($user_defined_fields as $definition)
+				{
+					if($definition["field_type"] != UDF_TYPE_WYSIWYG)
+					{
+						$f = "udf_".$definition["field_id"];
+						$cols[$f] = array(
+								"txt" => $definition["field_name"],
+								"default" => false);
+
+						$privacy_fields[] = $f;
+					}
+				}
+			}
+		}
+
+		return array($cols, $privacy_fields);		
+	}
 }
 
 ?>

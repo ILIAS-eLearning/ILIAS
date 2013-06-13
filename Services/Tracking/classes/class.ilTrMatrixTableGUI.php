@@ -17,17 +17,34 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	protected $objective_ids = NULL;
 	protected $sco_ids = NULL;
 	protected $subitem_ids = NULL;
+	protected $in_course; // int
+	protected $in_group; // int
+	protected $privacy_fields; // array
 
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $ref_id)
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $tree;
 
 		$this->setId("trsmtx_".$ref_id);
 		$this->ref_id = $ref_id;
 		$this->obj_id = ilObject::_lookupObjId($ref_id);
+		
+		$this->in_course = $tree->checkForParentType($this->ref_id, "crs");
+		if($this->in_course)
+		{
+			$this->in_course = ilObject::_lookupObjId($this->in_course);
+		}
+		else
+		{
+			$this->in_group = $tree->checkForParentType($this->ref_id, "grp");
+			if($this->in_group)
+			{
+				$this->in_group = ilObject::_lookupObjId($this->in_group);
+			}
+		}
 
 		$this->initFilter();
 
@@ -64,7 +81,18 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					$title = $icon.' '.$title;
 				}
 			}
-			$this->addColumn($title, $labels[$c]["id"], "", false, "", $tooltip);
+			
+			if(isset($labels[$c]["id"]))
+			{
+				$sort_id = $labels[$c]["id"];
+			}
+			else
+			{
+				// list cannot be sorted by udf fields (separate query)
+				$sort_id = (substr($c, 0, 4) == "udf_") ? "" : $c;
+			}
+			
+			$this->addColumn($title, $sort_id, "", false, "", $tooltip);
 		}
 		
 		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
@@ -81,12 +109,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	function getSelectableColumns()
 	{
 		global $ilObjDataCache;
-
-		$columns = array();
+		
+		$user_cols = $this->getSelectableUserColumns($this->in_course, $this->in_group);
 		
 		if($this->obj_ids === NULL)
 		{
-			$this->obj_ids = $this->getItems();
+			// we cannot use the selected columns because they are not ready yet
+			// so we use all available columns, should be ok anyways
+			$this->obj_ids = $this->getItems(array_keys($user_cols[0]), $user_cols[1]);
 		}
 		if($this->obj_ids)
 		{
@@ -154,36 +184,23 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			}
 		}
 
-		$columns["status_changed"] = array("txt" => $this->lng->txt("trac_status_changed"),
-			"id" => "status_changed",
-			"default" => false);
-		
-		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-		$tracking = new ilObjUserTracking();
-		
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+		unset($user_cols[0]["status"]);
+		unset($user_cols[0]["login"]);
+		foreach($user_cols[0] as $col_id => $col_def)
 		{
-			$columns["last_access"] = array("txt" => $this->lng->txt("last_access"), 
-				"id" => "last_access",
-				"default" => false);
-		}
-		
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
-		{
-			$columns["spent_seconds"] = array("txt" => $this->lng->txt("trac_spent_seconds"), 
-				"id" => "spent_seconds",
-				"default" => false);
+			if(!isset($columns[$col_id]))
+			{
+				// these are all additional fields, no default
+				$col_def["default"] = false;
+				$columns[$col_id] = $col_def;
+			}
 		}
 		
 		return $columns;
 	}
 
-	function getItems()
-	{
-		global $lng, $tree;
-
-		// $this->determineOffsetAndOrder();
-
+	function getItems(array $a_user_fields, array $a_privary_fields = null)
+	{		
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
 		if($collection["object_ids"])
@@ -191,7 +208,30 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			// we need these for the timing warnings
 			$this->ref_ids = $collection["ref_ids"];
 
-			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"]);
+			// only if object is [part of] course/group
+			$check_agreement = false;
+			if($this->in_course)
+			{
+				// privacy (if course agreement is activated)
+				include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
+				$privacy = ilPrivacySettings::_getInstance();
+				if($privacy->courseConfirmationRequired())
+				{
+					$check_agreement = $this->in_course;
+				}
+			}
+			else if($this->in_group)
+			{
+				// privacy (if group agreement is activated)
+				include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
+				$privacy = ilPrivacySettings::_getInstance();
+				if($privacy->groupConfirmationRequired())
+				{
+					$check_agreement = $this->in_group;
+				}
+			}
+			
+			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"], $a_user_fields, $a_privary_fields, $check_agreement);
 			if($collection["objectives_parent_id"] && $data["users"])
 			{
 				$objectives = ilTrQuery::getUserObjectiveMatrix($collection["objectives_parent_id"], $data["users"]);
@@ -290,15 +330,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			switch($c)
-			{
-				case "last_access":
-				case "spent_seconds":
-				case 'status_changed':
-					$this->tpl->setCurrentBlock($c);
-					$this->tpl->setVariable("VAL_".strtoupper($c), $this->parseValue($c, $a_set[$c], ""));
-					$this->tpl->parseCurrentBlock();
-					break;
-
+			{				
 				case (substr($c, 0, 4) == "obj_"):
 					$obj_id = substr($c, 4);
 					if(!isset($a_set["objects"][$obj_id]))
@@ -355,6 +387,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					}
 					$this->tpl->setCurrentBlock("objects");
 					$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $data["status"], ""));
+					$this->tpl->parseCurrentBlock();
+					break;
+					
+				default:
+					$this->tpl->setCurrentBlock("user_field");
+					$this->tpl->setVariable("VAL_UF", $this->parseValue($c, $a_set[$c], ""));
 					$this->tpl->parseCurrentBlock();
 					break;
 			}
