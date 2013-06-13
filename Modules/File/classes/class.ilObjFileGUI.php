@@ -83,7 +83,7 @@ class ilObjFileGUI extends ilObject2GUI
 				break;
 
 			case 'ilmdeditorgui':
-				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				if(!$this->checkPermissionBool("write"))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 				}
