@@ -28,8 +28,10 @@ class iljQueryUtil
 
 		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 1);
 		
-		// adding jquery-migrate for 1.9.x
-		if(substr(self::$ver, 0, 3) == "1_9")
+		// adding jquery-migrate for >= 1.9.x
+		$major = explode("_", self::$ver);
+		$major = $major[0]*100+$major[1];
+		if($major >= 109)
 		{
 			$path = str_replace("jquery", "jquery-migrate", self::getLocaljQueryPath());
 			

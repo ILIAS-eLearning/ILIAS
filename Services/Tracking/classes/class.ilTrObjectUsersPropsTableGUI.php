@@ -105,169 +105,17 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	 * @return
 	 */
 	function getSelectableColumns()
-	{
-		global $lng, $ilSetting;
-
+	{		
 		if($this->selectable_columns)
 		{
 			return $this->selectable_columns;
 		}
 
-		$anonymized_object = false;
-		include_once './Modules/Test/classes/class.ilObjTest.php';
-		if(ilObjTest::_lookupAnonymity($this->obj_id))
-		{
-			$anonymized_object = true;
-		}
+		$cols = $this->getSelectableUserColumns($this->in_course, $this->in_group);
+		$this->user_fields = $cols[1];
+		$this->selectable_columns = $cols[0];
 		
-		include_once("./Services/User/classes/class.ilUserProfile.php");
-		$up = new ilUserProfile();
-		$up->skipGroup("preferences");
-		$up->skipGroup("settings");
-		$ufs = $up->getStandardFields();
-
-		// default fields
-		$cols = array();
-		$cols["login"] = array(
-			"txt" => $lng->txt("login"),
-			"default" => true);
-
-		if(!$anonymized_object)
-		{
-			$cols["firstname"] = array(
-				"txt" => $lng->txt("firstname"),
-				"default" => true);
-			$cols["lastname"] = array(
-				"txt" => $lng->txt("lastname"),
-				"default" => true);
-		}
-
-		// show only if extended data was activated in lp settings
-		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-		$tracking = new ilObjUserTracking();
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
-		{
-			$cols["first_access"] = array(
-				"txt" => $lng->txt("trac_first_access"),
-				"default" => true);
-			$cols["last_access"] = array(
-				"txt" => $lng->txt("trac_last_access"),
-				"default" => true);
-		}
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
-		{
-			$cols["read_count"] = array(
-				"txt" => $lng->txt("trac_read_count"),
-				"default" => true);
-		}
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
-		{
-			$cols["spent_seconds"] = array(
-				"txt" => $lng->txt("trac_spent_seconds"),
-				"default" => true);
-		}
-
-		if($this->isPercentageAvailable($this->obj_id))
-		{
-			$cols["percentage"] = array(
-				"txt" => $lng->txt("trac_percentage"),
-				"default" => true);
-		}
-
-		// do not show status if learning progress is deactivated
-		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
-		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
-		{
-			$cols["status"] = array(
-				"txt" => $lng->txt("trac_status"),
-				"default" => true);
-
-			$cols['status_changed'] = array(
-				'txt' => $lng->txt('trac_status_changed'),
-				'default' => false);
-		}
-
-		if($this->type != "lm")
-		{
-			$cols["mark"] = array(
-				"txt" => $lng->txt("trac_mark"),
-				"default" => true);
-		}
-
-		$cols["u_comment"] = array(
-			"txt" => $lng->txt("trac_comment"),
-			"default" => false);
-
-		$cols["create_date"] = array(
-			"txt" => $lng->txt("create_date"),
-			"default" => false);
-		$cols["language"] = array(
-			"txt" => $lng->txt("language"),
-			"default" => false);
-
-	    // add user data only if object is [part of] course
-		if(!$anonymized_object && 
-			($this->in_course || $this->in_group))
-		{						
-			// only show if export permission is granted
-			include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-			if(ilPrivacySettings::_getInstance()->checkExportAccess($this->ref_id))
-			{							
-				$this->user_fields = array();
-
-				// other user profile fields
-				foreach ($ufs as $f => $fd)
-				{
-					if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"])
-					{
-						if($this->in_course && 
-							!($fd["course_export_fix_value"] || $ilSetting->get("usr_settings_course_export_".$f)))
-						{
-							continue;
-						}
-						if($this->in_group && 
-							!($fd["group_export_fix_value"] || $ilSetting->get("usr_settings_group_export_".$f)))
-						{
-							continue;
-						}
-
-						$cols[$f] = array(
-							"txt" => $lng->txt($f),
-							"default" => false);
-
-						$this->user_fields[] = $f;
-					}
-				}
-
-				// additional defined user data fields
-				include_once './Services/User/classes/class.ilUserDefinedFields.php';
-				$user_defined_fields = ilUserDefinedFields::_getInstance();			
-				if($this->in_course)
-				{
-					$user_defined_fields = $user_defined_fields->getCourseExportableFields();
-				}
-				else
-				{
-					$user_defined_fields = $user_defined_fields->getGroupExportableFields();
-				}			
-				foreach($user_defined_fields as $definition)
-				{
-					if($definition["field_type"] != UDF_TYPE_WYSIWYG)
-					{
-						$f = "udf_".$definition["field_id"];
-						$cols[$f] = array(
-								"txt" => $definition["field_name"],
-								"default" => false);
-
-						$this->user_fields[] = $f;
-					}
-				}
-			}
-		}
-
-		$this->selectable_columns = $cols;
-
-		return $cols;
+		return $this->selectable_columns;
 	}
 	
 	/**
@@ -283,7 +131,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		
 		$additional_fields = $this->getSelectedColumns();
 
-	    // only if object is [part of] course
+	    // only if object is [part of] course/group
 		$check_agreement = false;
 		if($this->in_course)
 		{
@@ -293,6 +141,16 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		    if($privacy->courseConfirmationRequired())
 			{
 				$check_agreement = $this->in_course;
+			}
+		}
+		else if($this->in_group)
+		{
+			// privacy (if group agreement is activated)
+			include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
+			$privacy = ilPrivacySettings::_getInstance();
+		    if($privacy->groupConfirmationRequired())
+			{
+				$check_agreement = $this->in_group;
 			}
 		}
 

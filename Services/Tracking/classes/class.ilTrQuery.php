@@ -294,88 +294,111 @@ class ilTrQuery
 		}
 
 		$result = self::executeQueries($queries, $a_order_field, $a_order_dir, $a_offset, $a_limit);
-		if($result["cnt"])
+		
+		self::getUDFAndHandlePrivacy($result, $udf, $check_agreement, $privacy_fields, $a_filters);
+		
+		// as we cannot do this in the query, sort by custom field here
+		if($udf_order)
 		{
-			if(sizeof($udf))
+			include_once "Services/Utilities/classes/class.ilStr.php";
+			$result["set"] = ilUtil::stableSortArray($result["set"],
+				$udf_order, $a_order_dir);
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Handle privacy and add udf data to (user) result data
+	 * 
+	 * @param array $a_result
+	 * @param array $a_udf
+	 * @param int $a_check_agreement
+	 * @param array $a_privacy_fields
+	 * @param array $a_filters
+	 */
+	protected static function getUDFAndHandlePrivacy(array &$a_result, array $a_udf = null, 
+		$a_check_agreement = null, array $a_privacy_fields = null, array $a_filters = null)
+	{
+		global $ilDB;
+		
+		if(!$a_result["cnt"])
+		{
+			return;
+		}
+		
+		if(sizeof($a_udf))
+		{
+			$query = "SELECT usr_id, field_id, value FROM udf_text WHERE ".$ilDB->in("field_id", $a_udf, false, "integer");
+			$set = $ilDB->query($query);
+			$udf = array();
+			while($row = $ilDB->fetchAssoc($set))
 			{
-				$query = "SELECT usr_id, field_id, value FROM udf_text WHERE ".$ilDB->in("field_id", $udf, false, "integer");
-				$set = $ilDB->query($query);
-				$udf = array();
-				while($row = $ilDB->fetchAssoc($set))
-				{
-					$udf[$row["usr_id"]]["udf_".$row["field_id"]] = $row["value"];
-				}
+				$udf[$row["usr_id"]]["udf_".$row["field_id"]] = $row["value"];
+			}
+		}
+
+		// (course/group) user agreement
+		if($a_check_agreement)
+		{
+			// admins/tutors (write-access) will never have agreement ?!
+			include_once "Services/Membership/classes/class.ilMemberAgreement.php";
+			$agreements = ilMemberAgreement::lookupAcceptedAgreements($a_check_agreement);
+
+			// public information for users
+			$query = "SELECT usr_id FROM usr_pref WHERE keyword = ".$ilDB->quote("public_profile", "text").
+				" AND value = ".$ilDB->quote("y", "text")." OR value = ".$ilDB->quote("g", "text");
+			$set = $ilDB->query($query);
+			$all_public = array();
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$all_public[] = $row["usr_id"];
+			}
+			$query = "SELECT usr_id,keyword FROM usr_pref WHERE ".$ilDB->like("keyword", "text", "public_%", false).
+				" AND value = ".$ilDB->quote("y", "text")." AND ".$ilDB->in("usr_id", $all_public, "", "integer");
+			$set = $ilDB->query($query);
+			$public = array();
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$public[$row["usr_id"]][] = substr($row["keyword"], 7);
+			}
+			unset($all_public);
+		}
+
+		foreach($a_result["set"] as $idx => $row)
+		{
+			// add udf data
+			if(isset($udf[$row["usr_id"]]))
+			{
+				$a_result["set"][$idx] = $row = array_merge($row, $udf[$row["usr_id"]]);
 			}
 
-			// (course) user agreement
-			if($check_agreement)
+			// remove all private data - if active agreement and agreement not given by user
+			if(sizeof($a_privacy_fields) && $a_check_agreement && !in_array($row["usr_id"], $agreements))
 			{
-				// admins/tutors (write-access) will never have agreement ?!
-				include_once "Services/Membership/classes/class.ilMemberAgreement.php";
-				$agreements = ilMemberAgreement::lookupAcceptedAgreements($check_agreement);
-				
-				// public information for users
-				$query = "SELECT usr_id FROM usr_pref WHERE keyword = ".$ilDB->quote("public_profile", "text").
-					" AND value = ".$ilDB->quote("y", "text")." OR value = ".$ilDB->quote("g", "text");
-				$set = $ilDB->query($query);
-				$all_public = array();
-				while($row = $ilDB->fetchAssoc($set))
+				foreach($a_privacy_fields as $field)
 				{
-					$all_public[] = $row["usr_id"];
-				}
-				$query = "SELECT usr_id,keyword FROM usr_pref WHERE ".$ilDB->like("keyword", "text", "public_%", false).
-					" AND value = ".$ilDB->quote("y", "text")." AND ".$ilDB->in("usr_id", $all_public, "", "integer");
-				$set = $ilDB->query($query);
-				$public = array();
-				while($row = $ilDB->fetchAssoc($set))
-				{
-					$public[$row["usr_id"]][] = substr($row["keyword"], 7);
-				}
-				unset($all_public);
-			}
-			
-			foreach($result["set"] as $idx => $row)
-			{
-				// add udf data
-				if(isset($udf[$row["usr_id"]]))
-				{
-					$result["set"][$idx] = $row = array_merge($row, $udf[$row["usr_id"]]);
-				}
-
-				// remove all private data - if active agreement and agreement not given by user
-				if(sizeof($privacy_fields) && $check_agreement && !in_array($row["usr_id"], $agreements))
-			    {
-					foreach($privacy_fields as $field)
+					// check against public profile
+					if(isset($row[$field]) && (!isset($public[$row["usr_id"]]) ||
+						!in_array($field, $public[$row["usr_id"]])))
 					{
-						// check against public profile
-						if(isset($row[$field]) && (!isset($public[$row["usr_id"]]) ||
-							!in_array($field, $public[$row["usr_id"]])))
+						// remove complete entry - offending field was filtered
+						if(isset($a_filters[$field]))
 						{
-							// remove complete entry - offending field was filtered
-							if(isset($a_filters[$field]))
-							{
-								unset($result["set"][$idx]);
-								break;
-							}
-							// remove offending field
-							else
-							{
-								$result["set"][$idx][$field] = false;
-							}
+							unset($a_result["set"][$idx]);
+							break;
+						}
+						// remove offending field
+						else
+						{
+							$a_result["set"][$idx][$field] = false;
 						}
 					}
 				}
 			}
-
-			// as we cannot do this in the query, sort by custom field here
-			if($udf_order)
-			{
-				include_once "Services/Utilities/classes/class.ilStr.php";
-				$result["set"] = ilUtil::stableSortArray($result["set"],
-					$udf_order, $a_order_dir);
-			}
 		}
-		return $result;
+		
+		$a_result["cnt"] = sizeof($a_result["set"]);		
 	}
 
 	/**
@@ -1378,15 +1401,19 @@ class ilTrQuery
 	 * @param	int		$a_parent_ref_id
 	 * @param	array	$a_obj_ids
 	 * @param	string	$a_user_filter
+	 * @param	array	$a_additional_fields
+	 * @param	array	$a_privacy_fields
+	 * @param	int		$a_check_agreement
 	 * @return	array	cnt, set
 	 */
-	static function getUserObjectMatrix($a_parent_ref_id, $a_obj_ids, $a_user_filter = NULL)
+	static function getUserObjectMatrix($a_parent_ref_id, $a_obj_ids, $a_user_filter = NULL,
+		array $a_additional_fields = null, array $a_privacy_fields = null, $a_check_agreement = null)
 	{
 		global $ilDB;
 
 		$result = array("cnt"=>0, "set"=>NULL);
 	    if(sizeof($a_obj_ids))
-		{
+		{			
 			$where = array();
 			$where[] = "usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 			if($a_user_filter)
@@ -1402,17 +1429,15 @@ class ilTrQuery
 				$left = "LEFT";
 				$where[] = $ilDB->in("usr_data.usr_id", $a_users, false, "integer");
 			}
-
-			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-
-			$fields = array("usr_data.usr_id", "login", "status", 'status_changed', "percentage",
-				"last_access", "spent_seconds+childs_spent_seconds as spent_seconds");
-
-			$parent_obj_id = ilObject::_lookupObjectId($a_parent_ref_id);
-			self::refreshObjectsStatus(array($parent_obj_id), $a_users);			
 			
+			$parent_obj_id = ilObject::_lookupObjectId($a_parent_ref_id);	
 			self::refreshObjectsStatus($a_obj_ids, $a_users);
 			
+			$fields = array("usr_data.usr_id", "login");
+			$udf = self::buildColumns($fields, $a_additional_fields);
+				
+			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+																							
 			$raw = array();
 			foreach($a_obj_ids as $obj_id)
 			{				
@@ -1421,6 +1446,7 @@ class ilTrQuery
 					" AND read_event.obj_id = ".$ilDB->quote($obj_id, "integer").")".
 					" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
 					" AND ut_lp_marks.obj_id = ".$ilDB->quote($obj_id, "integer").")".
+					" LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = ".$ilDB->quote("language", "text").")".
 					self::buildFilters($where);
 
 				$raw = self::executeQueries(array(array("fields"=>$fields, "query"=>$query)), "login");
@@ -1433,17 +1459,29 @@ class ilTrQuery
 						$result["set"][$row["usr_id"]]["usr_id"] = $row["usr_id"];
 						$result["set"][$row["usr_id"]]["objects"][$obj_id] = array("status"=>$row["status"],
 							"percentage"=>$row["percentage"]);
+						
 						if($obj_id == $parent_obj_id)
 						{
 							$result["set"][$row["usr_id"]]["status_changed"] = $row["status_changed"];
 							$result["set"][$row["usr_id"]]["last_access"] = $row["last_access"];
 							$result["set"][$row["usr_id"]]["spent_seconds"] = $row["spent_seconds"];
 						}
+						
+						foreach($fields as $field)
+						{
+							if(isset($row[$field]))
+							{
+								$result["set"][$row["usr_id"]][$field] = $row[$field];							
+							}
+						}						
 					}
 				}
 			}
-			$result["cnt"] = sizeof($result["set"]);
-			$result["users"] = $a_users;			
+			
+			$result["cnt"] = sizeof($result["set"]);	
+			$result["users"] = $a_users;	
+			
+			self::getUDFAndHandlePrivacy($result, $udf, $a_check_agreement, $a_privacy_fields, $a_additional_fields);																									
 		}
 		return $result;
 	}
