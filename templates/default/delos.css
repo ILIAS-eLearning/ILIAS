@@ -2657,6 +2657,13 @@ div.ilBotCenterArea {
 	border-right: 3px solid #E9E9E9;
 	border-top: 3px solid #E9E9E9;
 	box-shadow: inset 0px 2px 2px #D0D0D0;
+	-webkit-overflow-scrolling:touch; /* Bug 11209 */ 
+	overflow: auto; /* Bug 11209 */
+}
+
+div.ilBotCenterArea iframe {
+	-webkit-overflow-scrolling:touch; /* Bug 11209 */
+	overflow: auto; /* Bug 11209 */
 }
 
 div#bot_center_area_drag {
