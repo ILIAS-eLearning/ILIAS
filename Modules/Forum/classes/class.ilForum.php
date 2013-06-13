@@ -2546,18 +2546,21 @@ class ilForum
 		
 	}
 
+	/**
+	 * @param $obj_id
+	 * @param $source_id
+	 * @param $target_id
+	 * @throws ilException
+	 */
 	public static function mergeThreads($obj_id, $source_id, $target_id)
 	{
-		global $lng; 
-
 		// selected source & target objects
 		$source_thread_obj = new ilForumTopic((int)$source_id);
 		$target_thread_obj = new ilForumTopic((int)$target_id);
 
 		if($source_thread_obj->getForumId() != $target_thread_obj->getForumId())
 		{
-			// @todo 4 nahmad: Please move this to presentaton layer. Throw an exception here ...
-			return ilUtil::sendFailure($lng->txt('not_allowed_to_merge_into_another_forum'));
+			throw new ilException('not_allowed_to_merge_into_another_forum');
 		}
 		// use the "older" thread as target
 		if($source_thread_obj->getCreateDate() > $target_thread_obj->getCreateDate())
