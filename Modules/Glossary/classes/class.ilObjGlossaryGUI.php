@@ -159,11 +159,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
 				$this->ctrl->setReturn($this, "properties");
 				$tax_gui = new ilObjTaxonomyGUI();
-				$tax_gui->setMultiple(true);
+				$tax_gui->setMultiple(false);
 				
 				include_once("./Modules/Glossary/classes/class.ilTermTaxInfo.php");
 				$term_info = new ilTermTaxInfo();
-				$tax_gui->activateAssignedItemSorting($term_info, "glo", "term");
+				//$tax_gui->activateAssignedItemSorting($term_info, "glo", "term");
 				
 				$tax_gui->setAssignedObject($this->object->getId());
 				$ret = $this->ctrl->forwardCommand($tax_gui);

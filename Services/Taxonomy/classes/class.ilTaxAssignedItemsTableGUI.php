@@ -47,6 +47,7 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.tax_ass_items_row.html", "Services/Taxonomy");
+		$this->addCommandButton("saveAssignedItemsSorting", $lng->txt("save"));
 	}
 	
 	/**
@@ -55,7 +56,7 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl;
-var_dump($a_set);
+
 		$this->tpl->setVariable("ONODE_ID", $a_set["item_id"]);
 		$this->tpl->setVariable("ORDER_NR", (int) $a_set["order_nr"]);
 		$this->tpl->setVariable("TITLE", $this->info_obj->getTitle(
