@@ -2192,7 +2192,7 @@ common#:#auth_radius_server#:#Server
 common#:#auth_radius_server_desc#:#Mehrere Server können mit Komma getrennt angegeben werden. Die Server werden dann im Round-Robin-Verfahren angefragt.
 common#:#auth_radius_settings_saved#:#RADIUS-Einstellungen gespeichert
 common#:#auth_radius_shared_secret#:#Shared Secret
-rbac#:#auth_read#:#Lesezugriff auf Administration für Authentifizierung/Neuanmeldung
+rbac#:#auth_read#:#Lesezugriff auf Administration für Authentifizierung / Neuanmeldung
 common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Benutzername und -passwort nicht mehr änderbar.
 common#:#auth_role_auth_mode#:#Authentifizierungsmethode
 common#:#auth_script#:#Benutzerdefiniert
@@ -2221,8 +2221,8 @@ common#:#auth_soap_use_https#:#HTTPS verwenden
 common#:#auth_soap_user_default_role#:#Standardrolle SOAP-Benutzer
 common#:#auth_soap_user_default_role_desc#:#Diese Rolle erhalten gegen SOAP authentifizierte Benutzer.
 common#:#auth_user_default_role#:#Standardrolle
-rbac#:#auth_visible#:#Administration für Authentifizierung/Neuanmeldung ist sichtbar
-rbac#:#auth_write#:#Einstellungen für Authentifizierung/Neuanmeldung bearbeiten
+rbac#:#auth_visible#:#Administration für Authentifizierung / Neuanmeldung ist sichtbar
+rbac#:#auth_write#:#Einstellungen für Authentifizierung / Neuanmeldung bearbeiten
 common#:#authenticate_ilias#:#Direkt über die ILIAS-Datenbank anmelden
 common#:#authenticate_with#:#Anmelden bei:
 common#:#authentication_settings#:#Authentifizierung
@@ -3943,7 +3943,7 @@ common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_ass#:#Asset
 common#:#obj_assf#:#Test und Assessment
 common#:#obj_assf_desc#:#Einstellungen und Verwaltung des Test und Assessment-Tools
-common#:#obj_auth#:#Authentifizierung/Neuanmeldung
+common#:#obj_auth#:#Authentifizierung / Neuanmeldung
 common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, CAS, ...) sowie die Neuanmeldungen.
 common#:#obj_blog#:#Blog
 common#:#obj_book#:#Buchungspool
