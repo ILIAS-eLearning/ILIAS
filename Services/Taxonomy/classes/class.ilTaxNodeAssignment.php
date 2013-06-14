@@ -119,14 +119,20 @@ class ilTaxNodeAssignment
 		{
 			$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
 				" WHERE ".$ilDB->in("node_id", $a_node_id, false, "integer").
-				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
+				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer").
+				" AND component_id = ".$ilDB->quote($this->getComponentId(), "text").
+				" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+				" ORDER BY order_nr ASC"
 				);
 		}
 		else
 		{
 			$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
 				" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
-				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
+				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer").
+				" AND component = ".$ilDB->quote($this->getComponentId(), "text").
+				" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+				" ORDER BY order_nr ASC"
 				);
 		}
 		$ass = array();
@@ -148,7 +154,7 @@ class ilTaxNodeAssignment
 	{
 		global $ilDB;
 
-		$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
+		$set = $ilDB->query("SELECT * FROM tax_node_assignment".
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
 			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
 			" AND item_id = ".$ilDB->quote($a_item_id, "integer").
@@ -168,7 +174,7 @@ class ilTaxNodeAssignment
 	 * @param int $a_node_id node id
 	 * @param int $a_item_id item id
 	 */
-	function addAssignment($a_node_id, $a_item_id)
+	function addAssignment($a_node_id, $a_item_id, $a_order_nr = 0)
 	{
 		global $ilDB;
 		
@@ -188,6 +194,11 @@ class ilTaxNodeAssignment
 			throw new ilTaxonomyException('addAssignment: Node ID does not belong to current taxonomy.');
 		}
 		
+		if ($a_order_nr == 0)
+		{
+			$a_order_nr = $this->getMaxOrderNr($a_node_id) + 10;
+		}
+		
 		$ilDB->replace("tax_node_assignment",
 			array(
 				"node_id" => array("integer", $a_node_id),
@@ -196,10 +207,51 @@ class ilTaxNodeAssignment
 				"item_id" => array("integer", $a_item_id)
 				),
 			array(
-				"tax_id" => array("integer", $this->getTaxonomyId())
+				"tax_id" => array("integer", $this->getTaxonomyId()),
+				"order_nr" => array("integer", $a_order_nr)
 				)
 			);
 	}
+	
+	/**
+	 * Get maximum order number
+	 *
+	 * @param
+	 * @return
+	 */
+	function getMaxOrderNr($a_node_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT max(order_nr) mnr FROM tax_node_assignment ".
+			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
+			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+			" AND node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+		
+		return (int) $rec["mnr"];
+	}
+	
+	/**
+	 * Set order nr
+	 *
+	 * @param
+	 * @return
+	 */
+	function setOrderNr($a_node_id, $a_item_id, $a_order_nr)
+	{
+		$ilDB->manipulate("UPDATE tax_node_assignment SET ".
+			" order_nr = ".$ilDB->quote($a_order_nr, "integer").
+			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
+			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+			" AND node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND item_id = ".$ilDB->quote($a_item_id, "integer").
+			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
+			);
+	}
+	
 	
 	/**
 	 * Delete assignments of item
@@ -223,12 +275,29 @@ class ilTaxNodeAssignment
 	 *
 	 * @param int $a_node_id node id
 	 */
-	static function deleteAssignmentsOfNode($a_node_id)
+	function deleteAssignmentsOfNode($a_node_id)
 	{
 		global $ilDB;
 
 		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
-			" node_id = ".$ilDB->quote($a_node_id, "integer"));
+			" node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND component = ".$ilDB->quote($this->getComponentId(), "text").
+			" AND item_type = ".$ilDB->quote($this->getItemType(), "text")
+		);
+	}
+	
+	/**
+	 * Delete assignments of node
+	 *
+	 * @param int $a_node_id node id
+	 */
+	static function deleteAllAssignmentsOfNode($a_node_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
+			" node_id = ".$ilDB->quote($a_node_id, "integer")
+		);
 	}
 	
 }

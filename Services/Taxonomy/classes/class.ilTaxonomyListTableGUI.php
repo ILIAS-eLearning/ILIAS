@@ -50,8 +50,12 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
 
 		$ilCtrl->setParameter($this->parent_obj, "tax_id", $a_set["tax_id"]);
 		$this->tpl->setCurrentBlock("cmd");
-		$this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj, "listItems"));
+		$this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj, "listNodes"));
 		$this->tpl->setVariable("CMD", $lng->txt("edit"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("cmd");
+		$this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj, "confirmDeleteTaxonomy"));
+		$this->tpl->setVariable("CMD", $lng->txt("delete"));
 		$this->tpl->parseCurrentBlock();
 		$ilCtrl->setParameter($this->parent_obj, "tax_id", $_GET["tax_id"]);
 

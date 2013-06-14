@@ -15934,4 +15934,28 @@ if(!$ilDB->tableColumnExists('tst_tests', 'redirection_url'))
 			'default' => null));
 }
 ?>
-	
+<#3917>
+<?php	
+	if( !$ilDB->tableColumnExists('tax_data', 'item_sorting') )
+	{
+		$ilDB->addTableColumn("tax_data", "item_sorting",
+		array(	'type' => 'integer',
+				'length' => 1,
+				'notnull' => true,
+				'default' => 0
+		));
+	}
+?>
+<#3918>
+<?php	
+	if( !$ilDB->tableColumnExists('tax_node_assignment', 'order_nr') )
+	{
+		$ilDB->addTableColumn("tax_node_assignment", "order_nr",
+		array(	'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+		));
+	}
+?>
+

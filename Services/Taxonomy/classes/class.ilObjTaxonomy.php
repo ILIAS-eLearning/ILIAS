@@ -16,6 +16,7 @@ class ilObjTaxonomy extends ilObject2
 	const SORT_ALPHABETICAL = 0;
 	const SORT_MANUAL = 1;
 	protected $node_mapping = array();
+	protected $item_sorting = false;
 	
 	/**
 	 * Constructor
@@ -60,6 +61,26 @@ class ilObjTaxonomy extends ilObject2
 	}
 	
 	/**
+	 * Set item sorting
+	 *
+	 * @param bool $a_val item sorting	
+	 */
+	function setItemSorting($a_val)
+	{
+		$this->item_sorting = $a_val;
+	}
+	
+	/**
+	 * Get item sorting
+	 *
+	 * @return bool item sorting
+	 */
+	function getItemSorting()
+	{
+		return $this->item_sorting;
+	}
+	
+	/**
 	 * Get tree
 	 *
 	 * @param
@@ -97,9 +118,10 @@ class ilObjTaxonomy extends ilObject2
 		
 		// create tax data record
 		$ilDB->manipulate("INSERT INTO tax_data ".
-			"(id, sorting_mode) VALUES (".
+			"(id, sorting_mode, item_sorting) VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
-			$ilDB->quote((int) $this->getSortingMode(), "integer").
+			$ilDB->quote((int) $this->getSortingMode(), "integer").",".
+			$ilDB->quote((int) $this->getItemSorting(), "integer").
 			")");
 		
 		// create the taxonomy tree
@@ -219,6 +241,7 @@ class ilObjTaxonomy extends ilObject2
 			);
 		$rec  = $ilDB->fetchAssoc($set);
 		$this->setSortingMode($rec["sorting_mode"]);
+		$this->setItemSorting($rec["item_sorting"]);
 	}
 
 	/**
@@ -228,8 +251,9 @@ class ilObjTaxonomy extends ilObject2
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("UPDATE tax_data SET ".
-			" sorting_mode = ".$ilDB->quote((int) $this->getSortingMode(), "integer").
+		$ilDB->manipulate($t = "UPDATE tax_data SET ".
+			" sorting_mode = ".$ilDB->quote((int) $this->getSortingMode(), "integer").", ".
+			" item_sorting = ".$ilDB->quote((int) $this->getItemSorting(), "integer").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
 			);
 	}
