@@ -985,7 +985,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
-		$form->setTitle('ass_create_question');
+		$form->setTitle($this->lng->txt('ass_create_question'));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		
 		// question type
@@ -1032,8 +1032,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		// commands
 		
-		$form->addCommandButton('questions', $this->lng->txt('cancel'));
 		$form->addCommandButton('createQuestion', $this->lng->txt('create'));
+		$form->addCommandButton('questions', $this->lng->txt('cancel'));
 		
 		return $form;
 	}
