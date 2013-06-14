@@ -208,7 +208,7 @@ class ilTaxonomyNode
 		
 		// delete all assignments of the node
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-		ilTaxNodeAssignment::deleteAssignmentsOfNode($this->getId());
+		ilTaxNodeAssignment::deleteAllAssignmentsOfNode($this->getId());
 		
 		$query = "DELETE FROM tax_node WHERE obj_id= ".
 			$ilDB->quote($this->getId(), "integer");

@@ -62,7 +62,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 
 		$this->addMultiCommand("deleteItems", $lng->txt("delete"));
 		$this->addMultiCommand("moveItems", $lng->txt("move"));
-		$this->addCommandButton("saveSettingsAndSorting", $lng->txt("save"));
+		$this->addCommandButton("saveSorting", $lng->txt("save"));
 	}
 	
 		
@@ -87,7 +87,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 		global $lng, $ilCtrl;
 
 		$ilCtrl->setParameter($this->parent_obj, "tax_node", $a_set["child"]);
-		$ret = $ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", "listItems");
+		$ret = $ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", "listNodes");
 		$ilCtrl->setParameter($this->parent_obj, "tax_node", $_GET["tax_node"]);
 		if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
 		{
