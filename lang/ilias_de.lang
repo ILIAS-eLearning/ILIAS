@@ -12935,7 +12935,7 @@ ecs#:#ecs_cmap_all_in_one#:#Kurse in einer Kategorie
 ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werden sollen. In allen weiteren Kategorien werden ggf. Kurs-Referenzen angelegt.
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
-ecs#:#ecs_cmap_att_organisation#:#Organisation
+ecs#:#ecs_cmap_att_organisation#:#Einrichtung
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
 ecs#:#ecs_cmap_att_lecturer#:#Lehrperson
@@ -12980,3 +12980,7 @@ common#:#rpc_pdf_generation#:#PDF-Erstellung
 common#:#rpc_pdf_font#:#Schriftarten
 common#:#rpc_pdf_font_info#:#Zusätzliche Schriftarten zur Erzeugung von PDF-Dateien. Alle zusätzlich angegebenen Schriftarten müssen serverseitig installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
 didactic#:#didactic_default_type#:#Standard
+ecs#:#ecs_cmap_att_courseType#:#Veranstaltungsart
+ecs#:#ecs_cmap_att_degreeProgramme#:#Studiengang
+ecs#:#ecs_cmap_att_module#:#Modul
+ecs#:#ecs_cmap_att_venue#:#Ort

@@ -694,7 +694,7 @@ class ilRbacReview
 	function getAssignableRoles($a_templates = false,$a_internal_roles = false, $title_filter = '')
 	{
 		global $ilDB;
-		
+
 		$role_list = array();
 
 		$where = $this->__setTemplateFilter($a_templates);
@@ -1630,7 +1630,7 @@ class ilRbacReview
 		{
             // all (assignable) roles
             case self::FILTER_ALL:
-				return $this->getAssignableRoles($title_filter);
+				return $this->getAssignableRoles(true,true,$title_filter);
 				break;
 
             // all (assignable) global roles
@@ -1676,7 +1676,7 @@ class ilRbacReview
 				'%'.$title_filter.'%'
 			));
 		}
-
+		
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
 		{
@@ -1869,7 +1869,7 @@ class ilRbacReview
 	// and current postion in the hierarchy.
 	function __setProtectedStatus($a_parent_roles,$a_role_hierarchy,$a_ref_id)
 	{
-		#vd('refId',$a_ref_id,'parent roles',$a_parent_roles,'role-hierarchy',$a_role_hierarchy);
+		//vd('refId',$a_ref_id,'parent roles',$a_parent_roles,'role-hierarchy',$a_role_hierarchy);
 		
 		global $rbacsystem,$ilUser,$log;
 		
@@ -1907,8 +1907,9 @@ class ilRbacReview
 					
 					//$log->write("ilRBACreview::__setProtectedStatus(), 1");
 					// check if role grants 'edit_permission' to parent
-					
-					if ($rbacsystem->checkPermission($a_ref_id,$lvl_role_id,'edit_permission'))
+					$rolf = $a_parent_roles[$role_id]['parent'];
+					$parent_obj = $GLOBALS['tree']->getParentId($rolf);
+					if ($rbacsystem->checkPermission($parent_obj,$lvl_role_id,'edit_permission'))
 					{
 						#echo "<br />Permission granted";
 						//$log->write("ilRBACreview::__setProtectedStatus(), 2");
@@ -1916,7 +1917,7 @@ class ilRbacReview
 						$a_parent_roles[$role_id]['protected'] = false;
 						
 						// remember successful check
-						$leveladmin = true;
+						//$leveladmin = true;
 					}
 				}
 			}

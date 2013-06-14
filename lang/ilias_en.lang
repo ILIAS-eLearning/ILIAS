@@ -12982,3 +12982,7 @@ common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. O
 didactic#:#didactic_default_type#:#Default
 blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.
 exp#:#exp_file_created#:#The export file has been created.
+ecs#:#ecs_cmap_att_courseType#:#Course Type
+ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme
+ecs#:#ecs_cmap_att_module#:#Module
+ecs#:#ecs_cmap_att_venue#:#Venue
