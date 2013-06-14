@@ -242,6 +242,8 @@ class ilTaxNodeAssignment
 	 */
 	function setOrderNr($a_node_id, $a_item_id, $a_order_nr)
 	{
+		global $ilDB;
+		
 		$ilDB->manipulate("UPDATE tax_node_assignment SET ".
 			" order_nr = ".$ilDB->quote($a_order_nr, "integer").
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").

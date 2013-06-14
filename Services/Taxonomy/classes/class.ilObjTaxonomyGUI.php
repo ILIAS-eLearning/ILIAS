@@ -900,5 +900,34 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 		$tpl->setContent($table->getHTML());
 	}
 
+	/**
+	 * Save assigned items sorting
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveAssignedItemsSorting()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+		if (is_array($_POST["order"]))
+		{
+			$order = $_POST["order"];
+			asort($order, SORT_NUMERIC);
+			$cnt = 10;
+			$tax_node = (int) $_GET["tax_node"];
+			foreach ($order as $a_item_id => $ord_nr)
+			{
+				$tax_ass = new ilTaxNodeAssignment($this->assigned_item_comp_id,
+					$this->assigned_item_type, $this->getCurrentTaxonomyId());
+				$tax_ass->setOrderNr($tax_node, $a_item_id, $cnt);				
+				$cnt+= 10;
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "listAssignedItems");
+	}
+	
 }
 ?>
