@@ -48,9 +48,18 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 		$data = array();
 		foreach(ilObjExercise::_lookupFinishedUserExercises($ilUser->getId()) as $exercise_id => $passed)
 		{
-			$data[] = array("id" => $exercise_id,
-				"title" => ilObject::_lookupTitle($exercise_id),
-				"passed" => $passed);
+			// #11210 - only available certificates!
+			$exc = new ilObjExercise($exercise_id, false);				
+			if($exc->hasUserCertificate($ilUser->getId()))
+			{						
+				$adapter = new ilExerciseCertificateAdapter($exc);
+				if(ilCertificate::_isComplete($adapter))
+				{				
+					$data[] = array("id" => $exercise_id,
+						"title" => ilObject::_lookupTitle($exercise_id),
+						"passed" => $passed);
+				}
+			}
 		}
 
 		$this->setData($data);

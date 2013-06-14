@@ -48,9 +48,15 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 		$data = array();
 		foreach(ilObjTest::_lookupFinishedUserTests($ilUser->getId()) as $test_id => $passed)
 		{
-			$data[] = array("id" => $test_id,
-				"title" => ilObject::_lookupTitle($test_id),
-				"passed" => $passed);
+			// #11210 - only available certificates!
+			$test = new ilObjTest($test_id, false);		
+			$active_id = $test->getActiveIdOfUser($ilUser->getId());
+			if($test->canShowCertificate($ilUser->getId(), $active_id))
+			{	
+				$data[] = array("id" => $test_id,
+					"title" => ilObject::_lookupTitle($test_id),
+					"passed" => $passed);
+			}
 		}
 
 		$this->setData($data);
