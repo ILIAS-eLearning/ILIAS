@@ -1010,6 +1010,11 @@ class assClozeTest extends assQuestion
 	*/
 	function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound)
 	{
+		if( !is_numeric($a_entered) )
+		{
+			return 0;
+		}
+		
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
 		$eval->suppress_errors = TRUE;
