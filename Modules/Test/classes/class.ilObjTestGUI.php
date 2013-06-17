@@ -2244,7 +2244,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setEndingTime('');
 			}
 			
-			$this->object->setRedirectionMode($_POST['redirection_mode']);
+			if(!$_POST['redirection_enabled'])
+			{
+				$this->object->setRedirectionMode(REDIRECT_NONE);
+			}
+			else
+			{
+				$this->object->setRedirectionMode($_POST['redirection_mode']);	
+			}	
+			
 			$this->object->setRedirectionUrl(strlen($_POST['redirection_url']) > 1? (string)$_POST['redirection_url'] : NULL );
 			
 			$this->object->setUsePreviousAnswers(($_POST["chb_use_previous_answers"]) ? 1 : 0);
