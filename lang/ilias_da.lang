@@ -10202,12 +10202,12 @@ book#:#book_back_to_list#:#Back to List###16 07 2010 new variable
 book#:#book_edit_type#:#Edit Type###16 07 2010 new variable
 book#:#book_group_objects#:#Group objects###16 07 2010 new variable
 book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally.###16 07 2010 new variable
-book#:#book_schedule#:#Schedule###16 07 2010 new variable
+book#:#book_schedule#:#Plan
 book#:#book_objects_list#:#Objects of Type:###16 07 2010 new variable
-book#:#book_current_user#:#Booked by###16 07 2010 new variable
+book#:#book_current_user#:#Booket af
 book#:#book_add_object#:#Add Object###16 07 2010 new variable
 book#:#book_edit_object#:#Edit Object###16 07 2010 new variable
-book#:#book_is_used#:#Is Used###16 07 2010 new variable
+book#:#book_is_used#:#I brug
 book#:#book_add_schedule#:#Add Schedule###16 07 2010 new variable
 book#:#book_edit_schedule#:#Edit Schedule###16 07 2010 new variable
 book#:#book_schedule_type#:#Type###16 07 2010 new variable
@@ -10217,10 +10217,10 @@ book#:#book_schedule_type_flexible#:#Fleksibel
 book#:#book_schedule_type_flexible_info#:#Can be booked freely for given days and hours###16 07 2010 new variable
 book#:#book_schedule_raster#:#Time raster###16 07 2010 new variable
 book#:#book_schedule_raster_info#:#Minimum time entity###16 07 2010 new variable
-book#:#book_schedule_rent_min#:#Minimum booking time###16 07 2010 new variable
-book#:#book_schedule_rent_max#:#Maximum booking time###16 07 2010 new variable
+book#:#book_schedule_rent_min#:#Mindste booking tid
+book#:#book_schedule_rent_max#:#Maksimale bookning tid
 book#:#book_schedule_rent_info#:#Given in multiples of time raster###16 07 2010 new variable
-book#:#book_schedule_break#:#Auto-Break between Bookings###16 07 2010 new variable
+book#:#book_schedule_break#:#Automatisk pause mellen bookninger
 book#:#book_schedule_break_info#:#Given in multiples of time raster###16 07 2010 new variable
 book#:#book_schedule_days#:#Ugedage
 book#:#book_schedule_days_info#:#Mulige bookinger for hver dag (TT:MM-TT:MM)
@@ -10295,13 +10295,13 @@ rbac#:#perm_protected_global_role#:#Protected Global Role###28 07 2010 new varia
 rbac#:#perm_protected_local_role#:#Protected Local Role###28 07 2010 new variable
 rbac#:#perm_role_path_info_created#:#Created in %1$s "%2$s"###28 07 2010 new variable
 rbac#:#perm_role_path_info_inheritance#:#using local policy from %1$s "%2$s"###28 07 2010 new variable
-book#:#book_public_log#:#Public Reservations###28 07 2010 new variable
-book#:#book_public_log_info#:#The list of reservations can be viewed by all users.###28 07 2010 new variable
-book#:#book_fromto#:#Date Range###28 07 2010 new variable
+book#:#book_public_log#:#Offentlige reservationer
+book#:#book_public_log_info#:#Reservationerne er synlige for alle brugere.
+book#:#book_fromto#:#Periode
 book#:#book_all#:#Vis alle
 book#:#book_earlier#:#Tidligere
 book#:#book_later#:#Senere
-grp#:#grp_info_new_grp_type#:#New Group Type###28 07 2010 new variable
+grp#:#grp_info_new_grp_type#:#Ny gruppetype
 grp#:#grp_user_agreement_info#:#Visible Personal Data for Group Administrators###28 07 2010 new variable
 rbac#:#read_users#:#Read Access to Local User Accounts###28 07 2010 new variable
 rbac#:#cat_administrate_users#:#Administrate Local User Accounts###28 07 2010 new variable
@@ -10309,10 +10309,10 @@ rbac#:#edit_permission#:#Change Permissions###28 07 2010 new variable
 rbac#:#edit_event#:#Ret kalender
 book#:#book_slots_no#:#Number of slots###28 07 2010 new variable
 book#:#book_slots_no_info#:#Available number of slots per day in schedule###28 07 2010 new variable
-book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
-book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
-book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
-book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable
+book#:#book_set_in_use#:#Er i brug
+book#:#book_set_not_in_use#:#Ikke i brug
+book#:#book_set_cancel#:#Fortryd reservation
+book#:#book_set_not_cancel#:#Fortryd annulering
 rbac#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
 rbac#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
 rbac#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
@@ -10441,8 +10441,8 @@ content#:#cont_all_answers_correct#:#Alle besvarelser er korrekte
 content#:#cont_nr_of_tries_exceeded#:#Du har ikke flere forsøg.
 content#:#cont_correct_answers_shown#:#De korrekte svar vises ovenfor.
 survey#:#mail_import_example1#:#email;firstname;lastname###20 10 2010 new variable
-survey#:#mail_import_example2#:#sandraowen@domain.tld;Jesper;Gødvad
-survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt###20 10 2010 new variable
+survey#:#mail_import_example2#:#jespergodvad@domain.tld;Jesper;Gødvad
+survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt
 survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column 'email' with the title 'email' in the first row and the email addresses in the following rows###20 10 2010 new variable
 survey#:#participating_users#:#Participating Users###20 10 2010 new variable
 administration#:#apache_auth_settings#:#Apache###20 10 2010 new variable
@@ -12303,10 +12303,10 @@ assessment#:#tst_availability_until_info#:#Choose this mode for making the test 
 assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.###28 08 2012 new variable
 assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.###28 08 2012 new variable
 book#:#booking_nr_of_items#:#Nr of Items###28 08 2012 new variable
-book#:#book_schedule_type_fixed#:#Fixed Schedule###28 08 2012 new variable
-book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, beamers and such###28 08 2012 new variable
-book#:#book_schedule_type_none#:#No Schedule###28 08 2012 new variable
-book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such###28 08 2012 new variable
+book#:#book_schedule_type_fixed#:#Fast plan
+book#:#book_schedule_type_fixed_info#:#Denne type kan anvendes til lokaler, projektorer og den slags.
+book#:#book_schedule_type_none#:#Ingen plan
+book#:#book_schedule_type_none_info#:#Denne type kan anvendes til seminarer og den slags.
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?###28 08 2012 new variable
 common#:#obj_mep_duplicate#:#Copy Media Pool###28 08 2012 new variable
 common#:#obj_mcst_duplicate#:#Copy Mediacast###28 08 2012 new variable
@@ -12710,14 +12710,14 @@ dcl#:#dcl_width#:#Bredde
 dcl#:#dcl_height#:#Højde
 blog#:#blog_authors#:#Forfattere
 blog#:#blog_author#:#Forfatter
-blog#:#blog_enable_approval#:#Approval###02 09 2012 new variable
-blog#:#blog_enable_approval_info#:#All postings need to be approved by an administrator before being published.###02 09 2012 new variable
+blog#:#blog_enable_approval#:#Godkendelse
+blog#:#blog_enable_approval_info#:#Alld indlæg skal godkendes af en blogadministrator før de udgives.
 blog#:#blog_approve#:#Godkend
 blog#:#blog_needs_approval#:#Kræver godkendelse
 sess#:#sess_copy#:#Copy Session###02 09 2012 new variable
 grp#:#events#:#Sessions###02 09 2012 new variable
 book#:#book_additional_info_file#:#Additional Description###02 09 2012 new variable
-book#:#book_post_booking_information#:#Post Booking Information###02 09 2012 new variable
+book#:#book_post_booking_information#:#Efter bookning information
 book#:#book_post_booking_text#:#Tekst
 book#:#book_post_booking_file#:#Fil
 book#:#book_download_info#:#Download Additional Description###02 09 2012 new variable
