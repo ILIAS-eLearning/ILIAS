@@ -630,68 +630,159 @@ class assErrorText extends assQuestion
 			$items = preg_split("/\s+/", $text);
 			foreach ($items as $idx => $item)
 			{
-				if (($posHash = strpos($item, '#')) === 0
-					|| ($posOpeningBrackets = strpos($item, '((')) === 0
-					|| ($posClosingBrackets = strpos($item, '))')) !== false) {
+				if(
+					($posHash = strpos($item, '#')) === 0 ||
+					($posOpeningBrackets = strpos($item, '((')) === 0 ||
+					($posClosingBrackets = strpos($item, '))')) !== false
+				)
+				{
 					/* (Word|Passage)-Marking delimiter found. */
 
-					if ($posHash !== false)
+					if($posHash !== false)
+					{
 						$item = ilStr::substr($item, 1, ilStr::strlen($item) - 1);
-					elseif ($posOpeningBrackets !== false) {
+						$passage_end = false;
+					}
+					else if($posOpeningBrackets !== false)
+					{
 						$in_passage  = true;
+						$passage_start_idx = $counter;
+						$items_in_passage = array();
 						$passage_end = false;
 						$item = ilStr::substr($item, 2, ilStr::strlen($item) - 2);
 
 						/* Sometimes a closing bracket group needs
 						   to be removed as well. */
-						if (strpos($item, '))') !== false)
-							$item = ilStr::substr($item, 0, ilStr::strlen($item) - 2);
+						if(strpos($item, '))') !== false)
+						{
+							$item = str_replace("))", "", $item);
+							$passage_end = true;
+						}
 					}
-					else {
+					else
+					{
 						$passage_end = true;
-						$appendComma = "";
-						if ($item{$posClosingBrackets+2} == ',')
-							$appendComma = ",";
-
-						$item = ilStr::substr($item, 0, $posClosingBrackets) . $appendComma;
+						$item = str_replace("))", "", $item);
 					}
 
-					if ($correct_solution) {
+					if($correct_solution && !$in_passage)
+					{
 						$errorobject = $this->errordata[$errorcounter];
-						if (is_object($errorobject) && ! empty($errorobject->text_correct))
+						if (is_object($errorobject) )
+						{
 							$item = $errorobject->text_correct;
-
+						}
 						$errorcounter++;
 					}
 				}
+				
+				if($in_passage && !$passage_end)
+				{
+					$items_in_passage[$idx] = $item;
+					$items[$idx] = '';
+					$counter++;
+					continue;
+				}
 
-				if ($in_passage && $passage_end) {
+				if($in_passage && $passage_end)
+				{
 					$in_passage  = false;
+					$passage_end = false;
+					if($correct_solution)
+					{
+						$class = '';
+						if($this->isTokenSelected($counter, $selections))
+						{
+							$class = "sel";
+						}
+						
+						$errorobject = $this->errordata[$errorcounter];
+						if (is_object($errorobject) )
+						{
+							$item = $errorobject->text_correct;
+						}
+						$errorcounter++;
+						if($graphicalOutput)
+						{
+//							if ($this->getPointsForSelectedPositions(array($start_idx)) >= 0)
+//							{
+//								$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+//							}
+//							else
+//							{
+//								$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+//							}
+						}
+						$items[$idx] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
+						$counter++;
+						continue;
+					}
+					
+
+					$item_stack = array();
+					$start_idx = $passage_start_idx;
+					foreach($items_in_passage as $tmp_idx => $tmp_item)
+					{
+						$class = '';
+						if($this->isTokenSelected($start_idx, $selections))
+						{
+							$class = "sel";
+						}
+						if($graphicalOutput)
+						{
+							// @todo: Add images
+//							if ($this->getPointsForSelectedPositions(array($start_idx)) >= 0)
+//							{
+//								$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+//							}
+//							else
+//							{
+//								$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+//							}
+						}
+						$item_stack[] = '<a class="' . $class . '" href="#HREF' . $tmp_idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($tmp_item) . '</a>' . $img;
+						$start_idx++;
+					}
+					$class = '';
+					if($this->isTokenSelected($counter, $selections))
+					{
+						$class = "sel";
+					}
+					if($graphicalOutput)
+					{
+						// @todo: Add images
+//						if ($this->getPointsForSelectedPositions(array($counter)) >= 0)
+//						{
+//							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+//						}
+//						else
+//						{
+//							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+//						}
+					}
+					$item_stack[] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
+					
+					$items[$idx] = implode(" ", $item_stack);
+					$counter++;
+					continue;
 				}
 
 				$class = '';
 				$img = '';
-				if (in_array($counter, $selections)) {
+				if($this->isTokenSelected($counter, $selections))
+				{
 					$class = "sel";
-					if ($graphicalOutput) {
+					if($graphicalOutput)
+					{
 						if ($this->getPointsForSelectedPositions(array($counter)) >= 0)
+						{
 							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+						}
 						else
+						{
 							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+						}
 					}
-				}
-
-				if ($in_passage || $passage_end) {
-					/* Passages require 'wrong' image next to incomplete passage selections
-					   (missing words). While clicked words of a passage are marked with a
-					   'correct' image. */
-
-					if (in_array($counter, $selections) && $this->getPointsForSelectedPositions(array($counter)) >= 0)
-						$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-					else
-						$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-
-					$passage_end = false;
 				}
 
 				$items[$idx] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
@@ -699,7 +790,26 @@ class assErrorText extends assQuestion
 			}
 			$textarray[$textidx] = '<p>' . join($items, " ") . '</p>';
 		}
+		
 		return join($textarray, "\n");
+	}
+	
+	protected function isTokenSelected($counter, array $selection)
+	{
+		foreach($selection as $data)
+		{
+			if(!is_array($data) && $counter == $data)
+			{
+				return true;
+			}
+			
+			if(in_array($counter, $data))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	public function createErrorTextExport($selections = null)
@@ -770,7 +880,8 @@ class assErrorText extends assQuestion
 			foreach ($items as $word)
 			{
 				$points = $this->getPointsWrong();
-				if (strpos($word, '#') === 0) {
+				if (strpos($word, '#') === 0)
+				{
 					/* Word selection detected */
 					$errorobject = $this->errordata[$errorcounter];
 					if (is_object($errorobject))
@@ -780,14 +891,17 @@ class assErrorText extends assQuestion
 				}
 				elseif (($posOpeningBracket = strpos($word, '((')) === 0
 						|| ($posClosingBracket = strpos($word, '))')) !== false
-						|| $inPassage) {
+						|| $inPassage)
+				{
 					/* Passage selection detected */
 
-					if ($posOpeningBracket !== false) {
+					if ($posOpeningBracket !== false)
+					{
 						$passages[] = array('begin_pos' => $counter, 'cnt_words' => 0);
 						$inPassage  = true;
 					}
-					elseif ($posClosingBracket !== false) {
+					elseif ($posClosingBracket !== false)
+					{
 						$inPassage = false;
 						$cur_pidx  = count($passages) - 1;
 						$passages[$cur_pidx]['end_pos'] = $counter;
@@ -810,20 +924,24 @@ class assErrorText extends assQuestion
 		}
 
 		$selections = array();
-		foreach ($passages as $cnt => $pdata) {
+		foreach ($passages as $cnt => $pdata)
+		{
 			$indexes = range($pdata['begin_pos'], $pdata['end_pos']);
-			foreach ($indexes as $t => $ix) {
-				$selections[] = $ix;
+			$selections[$pdata['begin_pos']] = $indexes;
+		}
+
+		foreach ($words as $idx => $word)
+		{
+			if ($word['points'] > 0)
+			{
+				$selections[$idx] = array($idx);
 			}
 		}
 
-		foreach ($words as $idx => $word) {
-			if ($word['points'] > 0) {
-				$selections[] = $idx;
-			}
-		}
-
-		sort($selections);
+		ksort($selections);
+		
+		$selections = array_values($selections);
+		
 		return $selections;
 	}
 

@@ -470,32 +470,44 @@ class assErrorTextGUI extends assQuestionGUI
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		$feedback = '<table><tbody>';
+		
 		$selection = $this->object->getBestSelection();
+		$elements = explode(' ', $this->object->errortext);
+		$i = 0;
 		foreach ($selection as $index => $answer)
 		{
-			$caption = $ordinal = $index+1 .'.<i> ';
-			$elements = explode(' ', $this->object->errortext);
-			$caption .= $elements[$answer];
-			$caption = str_replace('#', '', $caption);
-			$caption .= '</i>:';
-
-			$feedback .= '<tr><td>';
-
-			$feedback .= $caption .'</td><td>';
+			$element = array();
+			foreach($answer as $answerPartIndex)
+			{
+				$element[] = $elements[$answerPartIndex];
+			}
+			
+			$element = implode(' ', $element);
+			$element = str_replace(array('((', '))', '#'), array('', '', ''), $element);
+			
+			$ordinal = $index + 1;
+			
+			$feedback .= '<tr>';
+			
+			$feedback .= '<td>' . $ordinal . '. <i>' . $element . '</i>:</td>';
+			
 			foreach ($this->object->getErrorData() as $idx => $ans)
 			{
-				$cand = '#'.$ans->text_wrong;
-				if ($elements[$answer] == $cand)
+				if ( preg_match('/'.preg_quote($ans->text_wrong, '/').'/', $element) )
 				{
 					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
 							$this->object->getId(), $idx
 					);
-					$feedback .= $fb . '</td> </tr>';
+					
+					$feedback .= '<td>'. $fb . '</td>';
 				}
 			}
-			#$feedback .= $this->object->getFeedbackSingleAnswer($answer) . '</td> </tr>';
+			
+			$feedback .= '</tr>';
 		}
+		
 		$feedback .= '</tbody></table>';
+		
 		return $this->object->prepareTextareaOutput($feedback, TRUE);
 	}
 

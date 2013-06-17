@@ -338,7 +338,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$solutionoutput = $question_gui->getSolutionOutput(
 					$this->object->getTestSession()->getActiveId(), 	#active_id
 					NULL, 												#pass
-					TRUE, 												#graphical_output
+					FALSE, 												#graphical_output
 					$show_question_inline_score,						#result_output
 					FALSE, 												#show_question_only
 					FALSE,												#show_feedback
