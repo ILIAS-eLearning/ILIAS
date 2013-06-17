@@ -412,7 +412,16 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			foreach ($this->object->getMatchingPairs() as $pair)
 			{
-				array_push($solutions, array("value1" => $pair->term->identifier, "value2" => $pair->definition->identifier));
+				if( $pair->points <= 0 )
+				{
+					continue;
+				}
+				
+				$solutions[] = array(
+					"value1" => $pair->term->identifier,
+					"value2" => $pair->definition->identifier,
+					'points' => $pair->points
+				);
 			}
 		}
 
@@ -421,6 +430,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			$definition = $this->object->getDefinitionWithIdentifier($solution['value2']);
 			$term = $this->object->getTermWithIdentifier($solution['value1']);
+			$points = $solution['points'];
 
 			if (is_object($definition))
 			{
@@ -494,17 +504,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 			if ($result_output)
 			{
-				$points = 0.0;
-				foreach ($this->object->getMatchingPairs() as $pair)
-				{
-					foreach ($solutions as $solution)
-					{
-						if (($solution['value2'] == $pair->definition->identifier) && ($solution['value1'] == $pair->term->identifier))
-						{
-							$points = $pair->points;
-						}
-					}
-				}
 				$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
 				$template->setCurrentBlock("result_output");
 				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
