@@ -1193,13 +1193,28 @@ class ilObjContentObject extends ilObject
 		global $ilDB;
 
 		$tree =& $this->getLMTree();
+		
+		// check numbering, if errors, renumber
+		// it is very important to keep this step before deleting subtrees
+		// in the following steps
+		$set = $ilDB->query("SELECT DISTINCT l1.lm_id".
+			" FROM lm_tree l1".
+			" JOIN lm_tree l2 ON ( l1.child = l2.parent".
+			" AND l1.lm_id = l2.lm_id )".
+			" JOIN lm_data ON ( l1.child = lm_data.obj_id )".
+			" WHERE (l2.lft < l1.lft".
+			" OR l2.rgt > l1.rgt OR l2.lft > l1.rgt OR l2.rgt < l1.lft)".
+			" AND l1.lm_id = ".$ilDB->quote($this->getId(), "integer").
+			" ORDER BY lm_data.create_date DESC"
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$tree->renumber();
+		}
 
 		// delete subtrees that have no lm_data records
 		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
-		$trset = $ilDB->query("SELECT * FROM lm_tree ".
-			" WHERE lm_id = ".$ilDB->quote($this->getId(), "integer"));
-		
-		while ($node = $ilDB->fetchAssoc($trset))
+		foreach ($nodes as $node)
 		{
 			$q = "SELECT * FROM lm_data WHERE obj_id = ".
 				$ilDB->quote($node["child"], "integer");
@@ -1207,15 +1222,8 @@ class ilObjContentObject extends ilObject
 			$obj_rec = $ilDB->fetchAssoc($obj_set);
 			if (!$obj_rec)
 			{
-				//$node_data = $tree->getNodeData($node["child"]);
-				$set = $ilDB->query("SELECT * FROM lm_tree ".
-					" WHERE child = ".$ilDB->quote($node["child"], "integer").
-					" AND lm_id = ".$ilDB->quote($this->getId(), "integer")
-					);
-				if ($node_data  = $ilDB->fetchAssoc($set))
-				{
-					$tree->deleteTree($node_data);
-				}
+				$node_data = $tree->getNodeData($node["child"]);
+				$tree->deleteTree($node_data);
 			}
 		}
 
@@ -1237,6 +1245,65 @@ class ilObjContentObject extends ilObject
 			}
 		}
 
+		// check for multi-references pages or chapters
+		// if errors -> create copies of them here
+		$set = $ilDB->query("SELECT DISTINCT l1.lm_id".
+				" FROM lm_tree l1".
+				" JOIN lm_tree l2 ON ( l1.child = l2.child AND l1.lm_id <> l2.lm_id )".
+				" JOIN lm_data ON (l1.child = lm_data.obj_id)".
+				" WHERE l1.child <> 1".
+				" AND l1.lm_id <> lm_data.lm_id".
+				" AND l1.lm_id = ".$ilDB->quote($this->getId(), "integer"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$set = $ilDB->query("SELECT DISTINCT l1.child ".
+				" FROM lm_tree l1".
+				" JOIN lm_tree l2 ON ( l1.child = l2.child AND l1.lm_id <> l2.lm_id )".
+				" JOIN lm_data ON (l1.child = lm_data.obj_id)".
+				" WHERE l1.child <> 1".
+				" AND l1.lm_id <> lm_data.lm_id".
+				" AND l1.lm_id = ".$ilDB->quote($this->getId(), "integer"));
+			include_once("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$cobj = ilLMObjectFactory::getInstance($this, $rec["child"]);
+
+				if (is_object($cobj))
+				{
+					if ($cobj->getType() == "pg")
+					{
+						// make a copy of it
+						$pg_copy = $cobj->copy($this);
+						
+						// replace the child in the tree with the copy (id)
+						$ilDB->manipulate("UPDATE lm_tree SET ".
+							" child = ".$ilDB->quote($pg_copy->getId(), "integer").
+							" WHERE child = ".$ilDB->quote($cobj->getId(), "integer").
+							" AND lm_id = ".$ilDB->quote($this->getId(), "integer")
+							);
+					}
+					else if ($cobj->getType() == "st")
+					{
+						// make a copy of it
+						$st_copy = $cobj->copy($this);
+						
+						// replace the child in the tree with the copy (id)
+						$ilDB->manipulate("UPDATE lm_tree SET ".
+							" child = ".$ilDB->quote($st_copy->getId(), "integer").
+							" WHERE child = ".$ilDB->quote($cobj->getId(), "integer").
+							" AND lm_id = ".$ilDB->quote($this->getId(), "integer")
+							);
+						
+						// make all childs refer to the copy now
+						$ilDB->manipulate("UPDATE lm_tree SET ".
+							" parent = ".$ilDB->quote($st_copy->getId(), "integer").
+							" WHERE parent = ".$ilDB->quote($cobj->getId(), "integer").
+							" AND lm_id = ".$ilDB->quote($this->getId(), "integer")
+							);
+					}
+				}
+			}
+		}
 	}
 
 
