@@ -512,10 +512,11 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 			$template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		
-				$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+			$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 
 			// get the solution of the user for the active pass or from the last pass if allowed
 			$solutions = array();
+
 			if (($active_id > 0) && (!$show_correct_solution))
 			{
 				$solutions = $this->object->getSolutionValues($active_id, $pass);
@@ -530,20 +531,23 @@ class assOrderingQuestionGUI extends assQuestionGUI
 						$user_order[$solution["value1"]]['random_id'] = $current_solution[0];
 						$user_order[$solution["value1"]]['depth'] = $current_solution[1];
 						// needed for graphical output
-						$user_order[$solution["value1"]]['answertext'] =  $this->object->lookupAnswerTextByRandomId($current_solution[0]);
+						$answer_text = $this->object->lookupAnswerTextByRandomId($current_solution[0]);
+						$user_order[$solution["value1"]]['answertext'] =  $answer_text;
 					}
 				}
 				foreach ($this->object->answers as $k => $a)
 				{
 					$ok = FALSE;
-					$user_order[$k]['ok'] = false;
 					if ($k == $user_order[$k]['index']
-						&& $a->getOrderingDepth() == $user_order[$k]['depth'])
+						&& $a->getOrderingDepth() == $user_order[$k]['depth']
+						&& $a->getAnswerText() == $user_order[$k]['answertext'])
 					{
 						$ok = TRUE;
-						$user_order[$k]['ok'] = true;
+						
 					}
+					$user_order[$k]['ok'] = $ok;
 				}
+				
 				$solution_output = $user_order;
 			}
 			else
@@ -562,7 +566,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 					{
 						$expected_solution[$index]['answertext'] = $answer->getAnswertext();
 					}
-					$expected_solution[$index]['ok'] = true;
 				}
 				$solution_output = $expected_solution;
 			}

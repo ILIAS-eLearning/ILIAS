@@ -119,6 +119,26 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 		$js_include_tpl->setCurrentBlock('item_value');
 		$js_include_tpl->setVariable('LIST_ITEM_VALUE', $this->renderAnswerOutput($cur_answer['answertext'], $i));
 		$js_include_tpl->setVariable('LIST_ITEM_ID', $i);
+
+		if(isset($cur_answer['ok']))
+		{
+			global $lng;
+			
+			if($cur_answer['ok'] === true)
+			{
+				$icon_ok = ilUtil::getImagePath("icon_ok.png");
+				$text_ok = $lng->txt("answer_is_right");
+			}
+			else
+			{
+				$icon_ok = ilUtil::getImagePath("icon_not_ok.png");	
+				$text_ok = $lng->txt("answer_is_wrong");
+			}
+
+			$js_include_tpl->setVariable('ICON_OK', $icon_ok);
+			$js_include_tpl->setVariable('TEXT_OK', $text_ok);
+		}
+		
 		$js_include_tpl->parseCurrentBlock();
 
 		return $js_include_tpl->get();
@@ -398,7 +418,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 			$tmp_array[count($tmp_array)]['depth'] = 'END_OF_LIST';
 
 			foreach($a_solution_array as $cur_answer)
-			{		
+			{	
 				$current_depth 	= $cur_answer['depth'];
 				$next_depth 	= $tmp_array[$i+1]['depth'];
 				if($next_depth == 'END_OF_LIST')
