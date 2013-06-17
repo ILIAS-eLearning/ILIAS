@@ -3113,7 +3113,7 @@ assessment#:#not_yet_accessed#:#Endnu ikke tilgået
 assessment#:#nr_of_correct_answers#:#Antal korrekte svar
 assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.###23 Dec 2005 new variable
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
-assessment#:#optional_keywords#:#Optional input of keywords
+assessment#:#optional_keywords#:#Valgfri indtastning af søgeord
 assessment#:#or#:#eller
 assessment#:#order_pictures#:#Sorter billeder
 assessment#:#order_terms#:#Sorter udtryk
@@ -4772,7 +4772,7 @@ dateplaner#:#date#:#Dato
 dateplaner#:#execute#:#Registrer valg
 dateplaner#:#hour#:#Time
 dateplaner#:#inbox#:#Indbakke
-dateplaner#:#keywords#:#Nøgleord
+dateplaner#:#keywords#:#Søgeord
 dateplaner#:#last_change#:#Sidst ændret
 dateplaner#:#of#:#for
 dateplaner#:#properties#:#Egenskaber
@@ -4849,11 +4849,11 @@ dateplaner#:#dv_enddate#:#Slutdato:
 dateplaner#:#dv_groupselect#:#Valg af gruppe:
 dateplaner#:#dv_groupview#:#Gruppeaftale:
 dateplaner#:#dv_groupview_text#:#Gruppe:<br>
-dateplaner#:#dv_keywords#:#Nøgleord:
-dateplaner#:#dv_keywordselect#:#Valg af nøgleord:
+dateplaner#:#dv_keywords#:#Søgeord:
+dateplaner#:#dv_keywordselect#:#Valg af søgeord:
 dateplaner#:#dv_message#:#Indkaldelse
 dateplaner#:#dv_noGroup#:#[Privat/ingen gruppe]
-dateplaner#:#dv_noKey#:#intet nøgleord
+dateplaner#:#dv_noKey#:#inten søgeord
 dateplaner#:#dv_preview#:#<b>(nuværende tekst)</b>
 dateplaner#:#dv_rotation#:#Rækkefølge:
 dateplaner#:#dv_rotation_date#:#Rotationsdato###Rækkefølge dato:
@@ -6250,14 +6250,14 @@ registration#:#auth_radius_sync_info#:#If enabled new user accounts will be crea
 style#:#sty_all#:#All
 style#:#sty_background#:#Background
 style#:#sty_background_attachment#:#Background Attachment
-style#:#sty_background_color#:#Background Color
-style#:#sty_background_image#:#Background Image
-style#:#sty_background_position#:#Background Position
-style#:#sty_background_repeat#:#Background Repeat
+style#:#sty_background_color#:#Baggrundsfarve
+style#:#sty_background_image#:#Baggrundsbillede
+style#:#sty_background_position#:#Baggrundsposition
+style#:#sty_background_repeat#:#Gentagelse af baggrund
 style#:#sty_border#:#Border
-style#:#sty_border_color#:#Border Color
-style#:#sty_border_style#:#Border Style
-style#:#sty_border_width#:#Border Width
+style#:#sty_border_color#:#Rammefarve
+style#:#sty_border_style#:#Rammestil
+style#:#sty_border_width#:#Rammebredde
 style#:#sty_bottom#:#Bottom
 style#:#sty_clear#:#Ryd
 style#:#sty_color#:#Farve
@@ -7211,8 +7211,8 @@ meta#:#md_copyright_settings#:#Copyright indstillinger
 meta#:#md_copyright_enabled#:#Aktiver copyright
 meta#:#md_copyright_selection#:#Foruddefinerede copyright muligheder
 meta#:#md_used#:#Brug
-meta#:#md_copyright_preview#:#Copyright (Preview)###25 09 2007 new variable
-meta#:#md_copyright_edit#:#Ret Copyright Presetting###25 09 2007 new variable
+meta#:#md_copyright_preview#:#Copyright (forhåndsvisning)
+meta#:#md_copyright_edit#:#Ret copyright indstilling
 meta#:#md_copyright_value#:#Copyright
 meta#:#md_copyright_add#:#Add Copyright Presetting###25 09 2007 new variable
 meta#:#md_delete_cp_sure#:#Do you really want to delete the following entries ?###25 09 2007 new variable
@@ -9709,7 +9709,7 @@ payment#:#currency#:#Møntfod
 payment#:#coupon_type#:#Kupon-type
 payment#:#search_in_title#:#Søg i titler
 common#:#msg_copy_clipboard_source#:#Vælg nu hvilket kursus hvorfra du ønsker indhold kopieret og tryk på 'Fortsæt'
-exp#:#exp_create_file#:#Create Export File###26 03 2010 new variable
+exp#:#exp_create_file#:#Lav eksportfil
 exp#:#exp_xml#:#XML
 exp#:#exp_html#:#HTML
 exp#:#exp_scorm#:#SCORM
@@ -10561,11 +10561,11 @@ wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
 wsp#:#wsp_type_blog#:#Blog
 common#:#obj_wfld#:#Folder###22 03 2011 new variable
 common#:#obj_blog#:#Blog
-wfld#:#wfld_new#:#Create New Folder###22 03 2011 new variable
-wfld#:#wfld_add#:#Create Folder###22 03 2011 new variable
-blog#:#blog_new#:#Create New Blog###22 03 2011 new variable
-blog#:#blog_add#:#Create Blog###22 03 2011 new variable
-blog#:#blog_add_posting#:#Add Posting###22 03 2011 new variable
+wfld#:#wfld_new#:#Lav ny mappe
+wfld#:#wfld_add#:#Lav mappe
+blog#:#blog_new#:#Lav ny blog
+blog#:#blog_add#:#Opret bloggen
+blog#:#blog_add_posting#:#Tilføj indlæg
 blog#:#blog_permanent_link#:#Permalink###22 03 2011 new variable
 blog#:#blog_comments#:#Kommentarer
 blog#:#blog_list_more#:#mere
@@ -10875,7 +10875,7 @@ content#:#cont_WholePicture#:#Whole Picture###12 06 2011 new variable
 content#:#cont_overlay_image#:#Overlay Image###12 06 2011 new variable
 content#:#cont_content_popup#:#Content Popup###12 06 2011 new variable
 content#:#cont_update_titles_and_actions#:#Update Titles and Actions###12 06 2011 new variable
-user#:#user_profile_preview#:#Preview###12 06 2011 new variable
+user#:#user_profile_preview#:#Forhåndsvisning
 prtf#:#prtf_portfolio_default#:#Default###12 06 2011 new variable
 content#:#cont_trigger_area#:#Trigger Area###12 06 2011 new variable
 content#:#cont_marker#:#Marker###12 06 2011 new variable
@@ -11162,7 +11162,7 @@ skmg#:#skmg_insert_skill_template_reference#:#Insert Skill Template Reference###
 skmg#:#skmg_insert_skill_template_reference_child#:#Insert Skill Template Reference as Subitem###18 07 2011 new variable
 skmg#:#skmg_insert_skill_template_reference_from_clip#:#Insert Skill Template Reference from Clipboard###18 07 2011 new variable
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!###18 07 2011 new variable
-blog#:#blog_preview#:#Preview###18 07 2011 new variable
+blog#:#blog_preview#:#Forhåndsvisning
 ecs#:#ecs_field_community#:#Community###18 07 2011 new variable
 skmg#:#skmg_new_sktr#:#New Skill Template Reference###18 07 2011 new variable
 skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference###18 07 2011 new variable
@@ -11254,9 +11254,9 @@ administration#:#obj_blga_desc#:#Global Blog Settings###06 08 2011 new variable
 administration#:#obj_prfa#:#Portfolio###06 08 2011 new variable
 administration#:#obj_prfa_desc#:#Global Portfolio Settings###06 08 2011 new variable
 blog#:#blog_settings#:#Blog Administration###06 08 2011 new variable
-blog#:#blog_preview_banner_width#:#Banner Width###06 08 2011 new variable
-blog#:#blog_preview_banner_height#:#Banner Height###06 08 2011 new variable
-blog#:#blog_preview_banner#:#Custom Banner###06 08 2011 new variable
+blog#:#blog_preview_banner_width#:#Bannerbredde
+blog#:#blog_preview_banner_height#:#Bannerhøjde
+blog#:#blog_preview_banner#:#Brugerdefineret banner
 prtf#:#prtf_settings#:#Portfolio administration
 prtf#:#prtf_preview_banner_width#:#Banner bredde
 prtf#:#prtf_preview_banner_height#:#Banner højde
@@ -11265,7 +11265,7 @@ prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_background_color#:#Baggrundsfarve
 prtf#:#prtf_font_color#:#Font Color###06 08 2011 new variable
 notes#:#note_add_note#:#Lav note
-notes#:#note_add_comment#:#Send kommentar
+notes#:#note_add_comment#:#Tilføj kommentar
 notes#:#note_update_comment#:#Opdater kommentar
 notes#:#note_update_note#:#Opdater note
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
@@ -11276,7 +11276,7 @@ rbac#:#chtr_read#:#Læs
 rbac#:#chtr_write#:#Skriv
 rbac#:#chtr_edit_permission#:#Ret tilladelser
 common#:#objs_chtr#:#Chater
-common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
+common#:#obj_chta#:#Chatrum
 chatroom#:#history_by_day#:#Dagshistorik
 chatroom#:#history_by_session#:#Session history###06 08 2011 new variable
 chatroom#:#connected#:#Connection established###06 08 2011 new variable
@@ -11346,8 +11346,8 @@ chatroom_adm#:#chatroom_delete_selected#:#Delete selected smilies###06 08 2011 n
 chatroom_adm#:#chatroom_smiley_image#:#Smiley###06 08 2011 new variable
 chatroom_adm#:#chatroom_add_smiley#:#Add smiley###06 08 2011 new variable
 chatroom_adm#:#chatroom_image_path#:#Path to smiley###06 08 2011 new variable
-chatroom_adm#:#chatroom_smiley_keywords#:#Keywords###06 08 2011 new variable
-chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One keyword per line###06 08 2011 new variable
+chatroom_adm#:#chatroom_smiley_keywords#:#Søgeord
+chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Et søgeord pr. linje
 chatroom_adm#:#chatroom_upload_smiley#:#Upload smiley###06 08 2011 new variable
 chatroom_adm#:#protocol#:#Protocol###06 08 2011 new variable
 chatroom_adm#:#instance#:#Instance###06 08 2011 new variable
@@ -11749,7 +11749,7 @@ chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions###01 10 201
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation###01 10 2011 new variable
 chatroom#:#create_private_room_text#:#Private room name###01 10 2011 new variable
 chatroom#:#invite_username#:#Brugernavn
-notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not ativated for this resource.###01 10 2011 new variable
+notes#:#comments_feature_currently_not_activated_for_object#:#Annonyme offentlige kommentarer er ikke aktiveret i denne sammenhæng.
 chatroom#:#layout#:#Layout
 chatroom#:#show_settings#:#Vis indstillinger
 chatroom#:#hide_settings#:#Skjul indstillinger
@@ -11861,7 +11861,7 @@ blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Perso
 prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?###10 11 2011 new variable
 prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.###10 11 2011 new variable
 survey#:#svy_participation#:#Participation###10 11 2011 new variable
-blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. ###10 11 2011 new variable
+blog#:#blog_new_posting_info#:#Den første tekstblok bliver brugt som resume i listen over indlæg.
 survey#:#svy_page_add_question#:#Add new %s###10 11 2011 new variable
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.###10 11 2011 new variable
 common#:#spl_import#:#Import Question Pool Survey###10 11 2011 new variable
@@ -12209,8 +12209,8 @@ help#:#help_component#:#Komplnent
 help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Åben onlinehjælp
 help#:#help_toggle_tooltips#:#Skift hjælpetips
-common#:#objs_blog#:#Blogs###28 08 2012 new variable
-common#:#obj_blog_duplicate#:#Copy Blog###28 08 2012 new variable
+common#:#objs_blog#:#Blogs
+common#:#obj_blog_duplicate#:#Kopier blog
 blog#:#blog_copy#:#Copy Blog###28 08 2012 new variable
 rbac#:#blog_visible#:#Blog is visible###28 08 2012 new variable
 rbac#:#blog_read#:#User can read blog content###28 08 2012 new variable
@@ -12765,9 +12765,9 @@ common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles
 common#:#delete_inactivated_user_accounts_interval#:#Frequency###28 09 2012 new variable
 common#:#delete_inactivated_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###28 09 2012 new variable
 blog#:#blog_contributors#:#Bidragsydere
-blog#:#blog_add_contributor#:#Add Contributor###28 09 2012 new variable
+blog#:#blog_add_contributor#:#Tilføj bidragsyder
 blog#:#blog_search_users#:#Søg brugere
-blog#:#blog_contributor_container_add#:#Add Users From Course/Group###28 09 2012 new variable
+blog#:#blog_contributor_container_add#:#Tilføj brugere fra kurser/grupper
 common#:#il_blog_contributor#:#Blog bidragsyder
 rbac#:#blog_contribute#:#Brugeren kan bidrage
 blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.###28 09 2012 new variable
