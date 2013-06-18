@@ -13324,3 +13324,5 @@ assessment#:#seb_headerfield_info#:#Bitte geben Sie hier das Header-Feld ein, au
 assessment#:#tst_man_scoring_by_part#:#Bewertung nach Teilnehmer
 assessment#:#tst_man_scoring_by_qst#:#Bewertung nach Frage
 assessment#:#tst_no_scorable_qst_available#:#Keine manuell bewertbare Frage verfügbar
+assessment#:#part_received_a_of_b_points#:#Der Teilnehmer hat %s von %s möglichen Punkten erreicht.
+assessment#:#answers_of#:#Antworten von:

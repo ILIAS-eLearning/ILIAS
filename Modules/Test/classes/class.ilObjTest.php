@@ -8552,6 +8552,53 @@ function getAnswerFeedbackPoints()
 		return $questions;
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getPotentialRandomTestQuestions()
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$query = "
+			SELECT		questions.*,
+						questtypes.type_tag,
+						origquest.obj_fi orig_obj_fi
+			
+			FROM		qpl_questions questions
+			
+			INNER JOIN	qpl_qst_type questtypes
+			ON			questtypes.question_type_id = questions.question_type_fi
+			
+			INNER JOIN	tst_rnd_cpy tstquest
+			ON			tstquest.qst_fi = questions.question_id
+
+			LEFT JOIN	qpl_questions origquest
+			ON			origquest.question_id = questions.original_id
+
+			WHERE		tstquest.tst_fi = %s
+		";
+
+		$query_result = $ilDB->queryF(
+			$query, array('integer'), array($this->getTestId())
+		);
+
+		$questions = array();
+
+		while ($row = $ilDB->fetchAssoc($query_result))
+		{
+			$question = $row;
+
+			$question['obligationPossible'] = self::isQuestionObligationPossible($row['question_id']);
+
+			$questions[] = $question;
+		}
+
+		return $questions;
+	}
+
 /**
 * Returns the status of the shuffle_questions variable
 *
@@ -11544,4 +11591,21 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
+	public function getMaxPassOfTest()
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+		
+		$query = '
+			SELECT MAX(tst_pass_result.pass) + 1 max_res
+			FROM tst_pass_result 
+			INNER JOIN tst_active ON tst_active.active_id = tst_pass_result.active_fi
+			WHERE test_fi = '.$ilDB->quote($this->getTestId(), 'integer').'
+		';
+		$res = $ilDB->query($query);
+		$data = $ilDB->fetchAssoc($res);
+		return (int)$data['max_res'];
+	}
 }

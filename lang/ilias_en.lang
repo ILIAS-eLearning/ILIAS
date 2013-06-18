@@ -13329,3 +13329,5 @@ tax#:#tax_assigned_items#:#Assigned Items
 assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
 assessment#:#tst_man_scoring_by_qst#:#Scoring by Question
 assessment#:#tst_no_scorable_qst_available#:#No scorable question available
+assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
+assessment#:#answers_of#:#Answers of:
