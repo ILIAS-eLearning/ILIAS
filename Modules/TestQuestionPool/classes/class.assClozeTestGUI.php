@@ -622,6 +622,17 @@ class assClozeTestGUI extends assQuestionGUI
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$questionoutput = $template->get();
 
+		$feedback = '';
+		if($show_feedback)
+		{
+			$fb = $this->getGenericFeedbackOutput($active_id, $pass);
+			$feedback .=  strlen($fb) ? $fb : '';
+			
+			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
+			$feedback .=  strlen($fb) ? $fb : '';
+		}
+		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
+		
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 
