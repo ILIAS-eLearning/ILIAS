@@ -839,7 +839,7 @@ class ilTestServiceGUI
 		$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, $show_question_only, $this->object->getShowSolutionFeedback(), FALSE, FALSE, TRUE);
 		$best_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE, FALSE, FALSE);
-		if( $this->object->getShowSolutionFeedback() )
+		if( $this->object->getShowSolutionFeedback() && $_GET['cmd'] != 'outCorrectSolution' )
 		{
 			$specificAnswerFeedback = $question_gui->getSpecificFeedbackOutput($active_id, $pass);
 			if( strlen($specificAnswerFeedback) )
