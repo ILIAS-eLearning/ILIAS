@@ -527,6 +527,17 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		
 		$questionoutput = $template->get();
 		
+		$feedback = '';
+		if($show_feedback)
+		{
+			$fb = $this->getGenericFeedbackOutput($active_id, $pass);
+			$feedback .=  strlen($fb) ? $fb : '';
+			
+			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
+			$feedback .=  strlen($fb) ? $fb : '';
+		}
+		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
+		
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 
