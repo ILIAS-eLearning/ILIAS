@@ -806,12 +806,12 @@ class assErrorText extends assQuestion
 	{
 		foreach($selection as $data)
 		{
-			if(!is_array($data) && $counter == $data)
+			if( !is_array($data) )
 			{
-				return true;
+				return $counter == $data;
 			}
 			
-			if(in_array($counter, $data))
+			if( in_array($counter, $data) )
 			{
 				return true;
 			}
