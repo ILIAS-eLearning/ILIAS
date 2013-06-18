@@ -808,10 +808,12 @@ class assErrorText extends assQuestion
 		{
 			if( !is_array($data) )
 			{
-				return $counter == $data;
+				if($counter == $data)
+				{
+					return true;
+				}
 			}
-			
-			if( in_array($counter, $data) )
+			elseif( in_array($counter, $data) )
 			{
 				return true;
 			}
