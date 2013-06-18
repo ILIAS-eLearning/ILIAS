@@ -32,7 +32,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestToplistGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestToplistGUI, ilTestScoringByQuestionsGUI
  *
  * @extends ilObjectGUI
  * @ingroup ModulesTest
@@ -206,7 +206,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$output_gui = new ilTestScoringGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
-				
+
+			case 'iltestscoringbyquestionsgui':
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				include_once 'Modules/Test/classes/class.ilTestScoringByQuestionsGUI.php';
+				$output_gui = new ilTestScoringByQuestionsGUI($this->object);
+				$this->ctrl->forwardCommand($output_gui);
+				break;
+
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -5501,7 +5509,11 @@ class ilObjTestGUI extends ilObjectGUI
 					// scoring tab
 					$tabs_gui->addTarget(
 							"manscoring", $this->ctrl->getLinkTargetByClass('ilTestScoringGUI', 'showManScoringParticipantsTable'),
-							array('showManScoringParticipantsTable', 'applyManScoringParticipantsFilter', 'resetManScoringParticipantsFilter', 'showManScoringParticipantScreen'), ''
+							array(
+								'showManScoringParticipantsTable', 'applyManScoringParticipantsFilter', 'resetManScoringParticipantsFilter', 'showManScoringParticipantScreen',
+								'showManScoringByQuestionParticipantsTable', 'applyManScoringByQuestionFilter', 'resetManScoringByQuestionFilter', 'saveManScoringByQuestion'
+								
+							), ''
 					);
 				}
 			}

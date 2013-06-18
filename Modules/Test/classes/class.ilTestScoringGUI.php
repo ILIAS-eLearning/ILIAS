@@ -36,6 +36,20 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	{
 		parent::ilTestServiceGUI($a_object);
 	}
+
+	/**
+	 * @param string $active_sub_tab
+	 */
+	protected function buildSubTabs($active_sub_tab = 'man_scoring')
+	{
+		/**
+		 * @var $ilTabs ilTabsGUI
+		 */
+		global $ilTabs;
+		$ilTabs->addSubTab('man_scoring', $this->lng->txt('tst_man_scoring_by_part'), $this->ctrl->getLinkTargetByClass('ilTestScoringGUI', 'showManScoringParticipantsTable'));
+		$ilTabs->addSubTab('man_scoring_by_qst', $this->lng->txt('tst_man_scoring_by_qst'), $this->ctrl->getLinkTargetByClass('ilTestScoringByQuestionsGUI', 'showManScoringParticipantsTable'));
+		$ilTabs->setSubTabActive($active_sub_tab);
+	}
 	
 	private function fetchActiveIdParameter()
 	{
@@ -109,7 +123,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		}
 		
 		$cmd = $this->getCommand($cmd);
-		
+		$this->buildSubTabs();
 		switch($next_class)
 		{
 			default:
@@ -152,6 +166,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		
 		$table->resetOffset();
 		$table->resetFilter();
+
+		$this->showManScoringParticipantsTable();
 	}
 	
 	private function showManScoringParticipantScreen(ilPropertyForm $form = null)
