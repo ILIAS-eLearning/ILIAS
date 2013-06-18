@@ -702,20 +702,32 @@ class assErrorText extends assQuestion
 							$item = $errorobject->text_correct;
 						}
 						$errorcounter++;
-						if($graphicalOutput)
-						{
-//							if ($this->getPointsForSelectedPositions(array($start_idx)) >= 0)
-//							{
-//								$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-//							}
-//							else
-//							{
-//								$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-//							}
-						}
 						$items[$idx] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
 						$counter++;
 						continue;
+					}
+					
+					$group_selected = true;
+					if($graphicalOutput)
+					{
+						$start_idx = $passage_start_idx;
+						foreach($items_in_passage as $tmp_idx => $tmp_item)
+						{
+							if(!$this->isTokenSelected($start_idx, $selections))
+							{
+								$group_selected = false;
+								break;
+							}
+							
+							++$start_idx;
+						}
+						if($group_selected)
+						{
+							if(!$this->isTokenSelected($counter, $selections))
+							{
+								$group_selected = false;
+							}
+						}
 					}
 					
 
@@ -728,18 +740,6 @@ class assErrorText extends assQuestion
 						{
 							$class = "sel";
 						}
-						if($graphicalOutput)
-						{
-							// @todo: Add images
-//							if ($this->getPointsForSelectedPositions(array($start_idx)) >= 0)
-//							{
-//								$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-//							}
-//							else
-//							{
-//								$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-//							}
-						}
 						$item_stack[] = '<a class="' . $class . '" href="#HREF' . $tmp_idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($tmp_item) . '</a>' . $img;
 						$start_idx++;
 					}
@@ -751,18 +751,26 @@ class assErrorText extends assQuestion
 					if($graphicalOutput)
 					{
 						// @todo: Add images
-//						if ($this->getPointsForSelectedPositions(array($counter)) >= 0)
-//						{
-//							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-//						}
-//						else
-//						{
-//							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-//						}
+						if ($group_selected)
+						{
+							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+						}
+						else
+						{
+							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+						}
 					}
 					$item_stack[] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
 					
-					$items[$idx] = implode(" ", $item_stack);
+					if($graphicalOutput)
+					{
+						$items[$idx] = '<span class="selGroup">'.implode(" ", $item_stack).'</span>';
+					}
+					else
+					{
+						$items[$idx] = implode(" ", $item_stack);
+					}
+					
 					$counter++;
 					continue;
 				}
@@ -788,10 +796,10 @@ class assErrorText extends assQuestion
 				$items[$idx] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
 				$counter++;
 			}
-			$textarray[$textidx] = '<p>' . join($items, " ") . '</p>';
+			$textarray[$textidx] = '<p>' . implode(" ", $items) . '</p>';
 		}
 		
-		return join($textarray, "\n");
+		return implode("\n", $textarray);
 	}
 	
 	protected function isTokenSelected($counter, array $selection)
@@ -956,34 +964,41 @@ class assErrorText extends assQuestion
 		{
 			$items		= preg_split("/\s+/", $text);
 			$inPassage  = false;
-			foreach ($items as $word) {
+			foreach ($items as $word)
+			{
 				$points  = $this->getPointsWrong();
-				if (strpos($word, '#') === 0) {
+				if (strpos($word, '#') === 0)
+				{
 					/* Word selection detected */
 					$errorobject = $this->errordata[$errorcounter];
 					if (is_object($errorobject))
+					{
 						$points = $errorobject->points;
-
+					}
 					$errorcounter++;
 				}
 				elseif (($posOpeningBracket = strpos($word, '((')) === 0
 						|| ($posClosingBracket = strpos($word, '))')) !== false
-						|| $inPassage) {
+						|| $inPassage)
+				{
 					/* Passage selection detected */
 
-					if ($posOpeningBracket !== false) {
+					if ($posOpeningBracket !== false)
+					{
 						$passages[] = array('begin_pos' => $counter, 'cnt_words' => 0);
 						$inPassage  = true;
 					}
-					elseif ($posClosingBracket !== false) {
+					elseif ($posClosingBracket !== false)
+					{
 						$inPassage = false;
 						$cur_pidx  = count($passages) - 1;
 						$passages[$cur_pidx]['end_pos'] = $counter;
 
 						$errorobject = $this->errordata[$errorcounter];
 						if (is_object($errorobject))
+						{
 							$passages[$cur_pidx]['score'] = (int) $errorobject->points;
-
+						}
 						$errorcounter++;
 					}
 
@@ -999,21 +1014,24 @@ class assErrorText extends assQuestion
 
 		/* Calculate reached points */
 		$total 		 = 0;
-		foreach ($positions as $position) {
+		foreach ($positions as $position)
+		{
 			/* First iterate through positions
 			   to identify single-word-selections. */
 
 			$total += $words[$position]['points'];
 		}
 
-		foreach ($passages as $cnt => $p_data) {
+		foreach ($passages as $cnt => $p_data)
+		{
 			/* Iterate through configured passages to check
 			   wether the entire passage is selected or not.
 			   The total points is incremented by the passage's
 			   score only if the entire passage is selected. */
 			$isSelected = in_array($p_data['begin_pos'], $positions);
 
-			for ($i = 0; $i < $p_data['cnt_words']; $i++) {
+			for ($i = 0; $i < $p_data['cnt_words']; $i++)
+			{
 				$current_pos = $p_data['begin_pos'] + $i;
 				$isSelected  = $isSelected && in_array($current_pos, $positions);
 			}
