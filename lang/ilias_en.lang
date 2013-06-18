@@ -13326,3 +13326,6 @@ tax#:#tax_max_one_tax#:#You can use maximum one taxonomy in this context.
 tax#:#tax_node_sorting#:#Sorting of Nodes
 tax#:#tax_item_sorting#:#Support Sorting of Assigned Items
 tax#:#tax_assigned_items#:#Assigned Items
+assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
+assessment#:#tst_man_scoring_by_qst#:#Scoring by Question
+assessment#:#tst_no_scorable_qst_available#:#No scorable question available
