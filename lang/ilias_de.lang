@@ -13326,3 +13326,5 @@ assessment#:#tst_man_scoring_by_qst#:#Bewertung nach Frage
 assessment#:#tst_no_scorable_qst_available#:#Keine manuell bewertbare Frage verfügbar
 assessment#:#part_received_a_of_b_points#:#Der Teilnehmer hat %s von %s möglichen Punkten erreicht.
 assessment#:#answers_of#:#Antworten von:
+survey#:#survey_360_appraisee_close_action_success_admin#:#Die 360° Umfragen der Feedback-Nehmer wurden geschlossen.
+survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage für die folgenden Feedback-Nehmer schliessen?
