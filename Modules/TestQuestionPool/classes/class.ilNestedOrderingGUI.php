@@ -18,10 +18,13 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 	public $thumb_prefix = null;
 	
 	private $perform_js = 1;
+	
+	private $graphical_output = FALSE;
 
-	public function __construct($a_title = "", $a_postvar = "")
+	public function __construct($a_title = "", $a_postvar = "", $graphical_output = false)
 	{
 		parent::__construct($a_title, $a_postvar);
+		$this->graphical_output = (bool)$graphical_output;
 	}
 
 	/**
@@ -72,6 +75,21 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 	{
 		return $this->thumb_prefix;
 	}
+
+	/**
+	 * @param bool $graphical_output
+	 */
+	public function setGraphicalOutput($graphical_output)
+	{
+		$this->graphical_output = $graphical_output;
+	}
+
+	public function getGraphicalOutput()
+	{
+		return $this->graphical_output;
+	}
+	
+	
 	
 	/***
 	 * @param array $a_answers_array  contain objects  
@@ -120,7 +138,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 		$js_include_tpl->setVariable('LIST_ITEM_VALUE', $this->renderAnswerOutput($cur_answer['answertext'], $i));
 		$js_include_tpl->setVariable('LIST_ITEM_ID', $i);
 
-		if(isset($cur_answer['ok']))
+		if(isset($cur_answer['ok']) && $this->getGraphicalOutput() == true)
 		{
 			global $lng;
 			

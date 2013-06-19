@@ -573,7 +573,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
 
-			$answers_gui = new ilNestedOrderingGUI($this->lng->txt("answers"), "answers");
+			$answers_gui = new ilNestedOrderingGUI($this->lng->txt("answers"), "answers", $graphicalOutput);
 			
 			$no_js_for_cmds = array('outParticipantsPassDetails', 'outCorrectSolution');
 			
