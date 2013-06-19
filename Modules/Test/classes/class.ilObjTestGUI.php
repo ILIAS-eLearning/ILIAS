@@ -1004,6 +1004,9 @@ class ilObjTestGUI extends ilObjectGUI
 		// delete import directory
 		ilUtil::delDir(dirname(ilObjTest::_getImportDirectory()));
 		ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
+
+		$newObj->updateMetaData();
+		
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjTestGUI");
 	}
@@ -2030,7 +2033,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 
 			include_once 'Services/MetaData/classes/class.ilMD.php';
-			$md_obj =& new ilMD($this->object->getId(), 0, "svy");
+			$md_obj =& new ilMD($this->object->getId(), 0, "tst");
 			$md_section = $md_obj->getGeneral();
 
 			// title
