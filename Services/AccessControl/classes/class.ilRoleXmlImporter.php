@@ -100,8 +100,9 @@ class ilRoleXmlImporter
 			return 0;
 		}
 
-		$this->getRole()->setTitle((string) $role->title);
-		$this->getRole()->setDescription((string) $role->description);
+		$this->getRole()->setTitle(trim((string) $role->title));
+		$this->getRole()->setDescription(trim((string) $role->description));
+		
 
 		// Create or update
 		if($this->getRole()->getId())
