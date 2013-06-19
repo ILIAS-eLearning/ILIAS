@@ -13320,6 +13320,10 @@ assessment#:#redirect_after_finishing_tst#:#Weiterleitung nach Abgabe der Klausu
 assessment#:#redirect_in_kiosk_mode#:#Weiterleitung nur im Kiosk-Modus
 assessment#:#redirect_if_seb_enabled#:#Weiterleitung nur wenn Safe Exam Browser verwendet wird
 assessment#:#redirection_url#:#Weiterleitungsziel
+ecs#:#ecs_cmap_att_courseType#:#Veranstaltungsart
+ecs#:#ecs_cmap_att_degreeProgramme#:#Studiengang
+ecs#:#ecs_cmap_att_module#:#Modul
+ecs#:#ecs_cmap_att_venue#:#Ort
 assessment#:#seb_headerfield_info#:#Bitte geben Sie hier das Header-Feld ein, aus dem ILIAS die Browser-Information auslesen soll, anhand derer die Verwendung des Safe Exam Browsers erkannt werden kann. Standardmäßig wird das Feld HTTP_USE_AGENT genutzt.
 assessment#:#tst_man_scoring_by_part#:#Bewertung nach Teilnehmer
 assessment#:#tst_man_scoring_by_qst#:#Bewertung nach Frage
