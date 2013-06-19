@@ -234,9 +234,9 @@ public class ClientSettings {
 			logger.error("Absolute path required: " + iliasIniFile);
 			throw new ConfigurationException("Absolute path required: " + iliasIniFile);
 		}
-		if (!this.iliasIniFile.canWrite()) {
-			logger.error("Path not writable: " + iliasIniFile);
-			throw new ConfigurationException("Path not writable: " + iliasIniFile);
+		if (!this.iliasIniFile.canRead()) {
+			logger.error("Path not readable: " + iliasIniFile);
+			throw new ConfigurationException("Path not readable: " + iliasIniFile);
 		}
 		if (this.iliasIniFile.isDirectory()) {
 			logger.error("Directory name given: " + iliasIniFile);
