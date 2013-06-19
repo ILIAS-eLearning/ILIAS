@@ -185,9 +185,16 @@ class ilMemberAgreementGUI
 			{
 				case IL_CDF_TYPE_SELECT:
 					$this->tpl->setCurrentBlock('sel_row');
-					$this->tpl->setVariable('SEL_SELECT',ilUtil::formSelect($course_user_data->getValue(),
+
+					// Workaround for mantis 9868
+					$options[0] = $this->lng->txt('links_select_one');
+					foreach($field_obj->getValues() as $value)
+					{
+						$options[$field_obj->getId().'_'.$value] = $value;
+					}
+					$this->tpl->setVariable('SEL_SELECT',ilUtil::formSelect($field_obj->getId().'_'.$course_user_data->getValue(),
 																			'cdf['.$field_obj->getId().']',
-																			$field_obj->prepareSelectBox(),
+																			$options,
 																			false,
 																			true));
 					break;
@@ -228,30 +235,43 @@ class ilMemberAgreementGUI
 		$all_required = true;
 		foreach(ilCourseDefinedFieldDefinition::_getFields($this->obj_id) as $field_obj)
 		{
+			$required_given = false;
 			switch($field_obj->getType())
 			{
 				case IL_CDF_TYPE_SELECT:
-					$tmp_value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);
-					$value = '';
-					foreach((array) $field_obj->getValues() as $v)
+					$tmp_values = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);
+					$tmp_values = explode('_', $tmp_values,2);
+					
+					
+					if(isset($tmp_values[1]))
 					{
-						if($v == $tmp_value)
+						$tmp_value = isset($tmp_values[1]) ? $tmp_values[1] : '';
+						$value = '';
+						foreach((array) $field_obj->getValues() as $v)
 						{
-							$value = $tmp_value;
-							break;
+							if($v == $tmp_value)
+							{
+								$value = $tmp_value;
+								$required_given = true;
+								break;
+							}
 						}
 					}
 					break;
 				
 				case IL_CDF_TYPE_TEXT:
-					$value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);	
+					$value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);
+					if($value)
+					{
+						$required_given = true;
+					}
 					break;
 			}
 			$course_user_data = new ilCourseUserData($ilUser->getId(),$field_obj->getId());
 			$course_user_data->setValue($value);
 			$course_user_data->update();
 			
-			if($field_obj->isRequired() and !$value)
+			if($field_obj->isRequired() and !$required_given)
 			{
 				$all_required = false;
 			}
