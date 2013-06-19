@@ -75,7 +75,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 			$type = $info["question_type_fi"];
 			if(in_array($type, $scoring))
 			{
-				$select_questions[$data["question_id"]] = $data['title'];
+				$select_questions[$data["question_id"]] = $data['title'] . ' ['. $this->lng->txt('question_id_short') . ': ' . $data["question_id"]  . ']';
 			}
 		}
 		if(!$select_questions)
@@ -94,7 +94,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		{
 			$passes[$i] = $i;
 		}
-		$pass->setOptions(array('' => $this->lng->txt('please_choose')) + $passes);
+		$pass->setOptions($passes);
 		$this->addFilterItem($pass);
 		$pass->readFromSession();
 		$this->filter['pass'] = $pass->getValue();
