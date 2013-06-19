@@ -194,7 +194,7 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
                                         
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST',$a_set[$field] ? $a_set[$field] : '');
+                    $this->tpl->setVariable('VAL_CUST',isset($a_set[$field]) ? (string) $a_set[$field] : '');
                     $this->tpl->parseCurrentBlock();
                     break;
             }
