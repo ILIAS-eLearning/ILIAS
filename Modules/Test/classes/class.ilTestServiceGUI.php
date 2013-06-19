@@ -343,6 +343,8 @@ class ilTestServiceGUI
 							$template->parseCurrentBlock();
 						}
 						$template->setVariable("COUNTER_QUESTION", $counter.". ");
+						$template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
+						$template->setVariable("QUESTION_ID", $question_gui->object->getId());
 						$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
 
 						$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
@@ -546,6 +548,7 @@ class ilTestServiceGUI
 				}
 				$template->setCurrentBlock("question");
 				$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$template->setVariable("VALUE_QUESTION_ID", $value["qid"]);
 				$template->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
 				$template->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$template->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
@@ -565,6 +568,7 @@ class ilTestServiceGUI
 		}
 		$template->setCurrentBlock("footer");
 		$template->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
+		$template->setVariable("VALUE_QUESTION_ID", "");
 		$template->setVariable("VALUE_QUESTION_TITLE", "");
 		$template->setVariable("VALUE_MAX_POINTS", "<strong>$total_max</strong>");
 		$template->setVariable("VALUE_REACHED_POINTS", "<strong>$total_reached</strong>");
@@ -586,6 +590,7 @@ class ilTestServiceGUI
 			$template->setCurrentBlock("standard_header");
 			$template->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
 			$template->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
+			$template->setVariable("QUESTION_ID", $this->lng->txt("question_id"));
 			$template->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 			$template->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
 			$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
