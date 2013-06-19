@@ -56,7 +56,20 @@ class ilSearchController
 
 	function &executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
+		
+		// Check for incomplete profile
+		if($ilUser->getProfileIncomplete())
+		{
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
+
+		// check whether password of user have to be changed
+		// due to first login or password of user is expired
+		if( $ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired() )
+		{
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
 
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
@@ -65,8 +78,8 @@ class ilSearchController
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-
 		$forward_class = $this->ctrl->getNextClass($this) ? $this->ctrl->getNextClass($this) : $this->getLastClass();
+
 		switch($forward_class)
 		{
 			case 'illucenesearchgui':

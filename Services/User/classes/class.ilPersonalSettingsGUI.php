@@ -52,6 +52,27 @@ class ilPersonalSettingsGUI
 			
 			default:
 				$cmd = $this->ctrl->getCmd("showGeneralSettings");
+				
+				// check whether password of user have to be changed
+				// due to first login or password of user is expired
+				if( $ilUser->isPasswordChangeDemanded() && $cmd != 'savePassword' )
+				{
+					$cmd = 'showPassword';
+
+					ilUtil::sendInfo(
+						$this->lng->txt('password_change_on_first_login_demand'), true
+					);
+				}
+				elseif( $ilUser->isPasswordExpired() && $cmd != 'savePassword' )
+				{
+					$cmd = 'showPassword';
+
+					$msg = $this->lng->txt('password_expired');
+					$password_age = $ilUser->getPasswordAge();
+
+					ilUtil::sendInfo( sprintf($msg,$password_age), true );
+				}
+
 				$this->$cmd();
 				break;
 		}
@@ -590,27 +611,12 @@ class ilPersonalSettingsGUI
 	*/
 	function showPassword($a_no_init = false)
 	{
-		global $ilTabs, $ilUser;
+		global $ilTabs;
 		
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->activateTab("password");
 
 		$this->setHeader();
-
-		// check whether password of user have to be changed
-		// due to first login or password of user is expired
-		if($ilUser->isPasswordChangeDemanded())
-		{
-			ilUtil::sendInfo(
-				$this->lng->txt('password_change_on_first_login_demand')
-			);
-		}
-		else if($ilUser->isPasswordExpired())
-		{
-			$msg          = $this->lng->txt('password_expired');
-			$password_age = $ilUser->getPasswordAge();
-			ilUtil::sendInfo(sprintf($msg, $password_age));
-		}
 
 		if (!$a_no_init)
 		{
@@ -806,10 +812,6 @@ class ilPersonalSettingsGUI
 					$ilUser->setLastPasswordChangeToNow();
 				}
 				$ilCtrl->redirect($this, "showPassword");
-				if($ilUser->getPref(''))
-				{
-
-				}
 			}
 		}
 		$this->form->setValuesByPost();

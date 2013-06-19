@@ -232,7 +232,6 @@ class ilCertificate
 			ilUtil::delDir($this->getAdapter()->getCertificatePath());
 			$this->getAdapter()->deleteCertificate();
 		}
-		$this->writeActive(false);
 	}
 	
 	/**
