@@ -329,7 +329,7 @@ class ilMediaPlayerGUI
 			$mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
 			$mp_tpl->parseCurrentBlock();
 			$r = $mp_tpl->get();
-
+//echo htmlentities($r);
 			return $r;
 		}
 

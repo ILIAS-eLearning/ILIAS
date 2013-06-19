@@ -199,10 +199,13 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 
 		foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes)
 		{
-			$text = new ilTextInputGUI($lng->txt("mcst_".strtolower($purpose)."_settings_title"),$purpose);
-			$text->setValue(implode(",",$filetypes));
-			$text->setInfo($lng->txt("mcst_".strtolower($purpose)."_settings_info"));
-			$form->addItem($text);
+			if ($purpose != "VideoAlternative")
+			{
+				$text = new ilTextInputGUI($lng->txt("mcst_".strtolower($purpose)."_settings_title"),$purpose);
+				$text->setValue(implode(",",$filetypes));
+				$text->setInfo($lng->txt("mcst_".strtolower($purpose)."_settings_info"));
+				$form->addItem($text);
+			}
 		}
 		
 		$text = new ilTextAreaInputGUI($lng->txt("mcst_mimetypes"), "mimetypes");
