@@ -241,6 +241,7 @@ class ilMimeTypeUtil
 			'.wav'    => 'audio/x-wav',
 			'.wax'    => 'audio/x-ms-wax',
 			'.wiz'    => 'application/msword',
+			'.webm'   => 'video/webm',
 			'.wm'     => 'video/x-ms-wm',
 			'.wma'    => 'audio/x-ms-wma',
 			'.wmd'    => 'video/x-ms-wmd',
