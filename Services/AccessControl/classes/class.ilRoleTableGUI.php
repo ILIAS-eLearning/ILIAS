@@ -309,19 +309,20 @@ class ilRoleTableGUI extends ilTable2GUI
 		
 		if($this->getType() == self::TYPE_VIEW)
 		{
-			$filter = $this->getFilterItemByPostVar('role_title')->getValue();
+			$filter_orig = $filter = $this->getFilterItemByPostVar('role_title')->getValue();
 			$type = $this->getFilterItemByPostVar('role_type')->getValue();
 		}
 		else
 		{
-			$filter = $this->getRoleTitleFilter();
+			$filter_orig = $filter = $this->getRoleTitleFilter();
 			$type = ilRbacReview::FILTER_ALL_LOCAL;
 		}
 
 		
-		// @todo: check this
+		// the translation must be filtered 
 		if($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL)
 		{
+			// roles like il_crs_... are filtered manually
 			$filter = '';
 		}
 
@@ -338,9 +339,9 @@ class ilRoleTableGUI extends ilTable2GUI
 			$title = ilObjRole::_getTranslation($role['title']);
 			if($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL)
 			{
-				if(strlen($filter))
+				if(strlen($filter_orig))
 				{
-					if(stristr($title, $filter) == FALSE)
+					if(stristr($title, $filter_orig) == FALSE)
 					{
 						continue;
 					}
