@@ -67,7 +67,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	/**
 	 *
 	 */
-	private function showManScoringParticipantsTable()
+	private function showManScoringByQuestionParticipantsTable()
 	{
 		/**
 		 * @var $tpl      ilTemplate
@@ -80,6 +80,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
 			$this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
 		}
+
+		$tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
+		$tpl->addJavaScript("./Services/Form/js/Form.js");
 
 		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php';
 		$table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
@@ -143,7 +146,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		
 		if(!isset($_POST['scoring']) || !is_array($_POST['scoring']))
 		{
-			$this->showManScoringParticipantsTable();
+			$this->showManScoringByQuestionParticipantsTable();
 			return;
 		}
 
@@ -189,7 +192,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		{
 			ilUtil::sendSuccess(sprintf($this->lng->txt('tst_saved_manscoring_successfully'), $pass + 1), true);
 		}
-		$this->showManScoringParticipantsTable();
+		$this->showManScoringByQuestionParticipantsTable();
 	}
 
 	/**
@@ -201,7 +204,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		$table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
 		$table->resetOffset();
 		$table->writeFilterToSession();
-		$this->showManScoringParticipantsTable();
+		$this->showManScoringByQuestionParticipantsTable();
 	}
 
 	/**
@@ -213,7 +216,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		$table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
 		$table->resetOffset();
 		$table->resetFilter();
-		$this->showManScoringParticipantsTable();
+		$this->showManScoringByQuestionParticipantsTable();
 	}
 
 	private function getAnswerDetail()

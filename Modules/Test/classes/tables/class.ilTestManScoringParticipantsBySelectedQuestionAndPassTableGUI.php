@@ -27,21 +27,17 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		 */
 		global $ilCtrl;
 
-		$this->setPrefix('man_scor_by_qst_' . $parentObj->object->getId());
-		$this->setId('man_scor_by_qst_ ' . $parentObj->object->getId());
+		$this->setId('man_scor_by_qst_' . $parentObj->object->getId());
 
 		parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
 
-		$this->setFormName('manScorePartTable');
-		$this->setStyle('table', 'fullwidth');
-
-		$this->enable('header');
 		$this->disable('sort');
 
-		$this->setLimit(PHP_INT_MAX);
 		$this->setFormAction($ilCtrl->getFormAction($parentObj, self::PARENT_DEFAULT_CMD));
 
 		$this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
+
+		$this->setShowRowsSelector(true);
 
 		$this->addCommandButton(self::PARENT_SAVE_SCORING_CMD, $this->lng->txt('save'));
 
