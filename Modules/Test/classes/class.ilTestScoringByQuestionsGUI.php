@@ -92,39 +92,56 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
 		$table_data = array();
 
-		if(is_numeric($qst_id) && is_numeric($pass_id))
+		$selected_questionData = null;
+
+		if(is_numeric($qst_id))
+		{
+			$scoring = ilObjAssessmentFolder::_getManualScoring();
+			$info = assQuestion::_getQuestionInfo($qst_id);
+			$selected_questionData = $info;
+			$type = $info["question_type_fi"];
+			if(in_array($type, $scoring))
+			{
+				$selected_questionData = $info;
+			}
+		}
+
+		if($selected_questionData && is_numeric($pass_id))
 		{
 			$data = $this->object->getCompleteEvaluationData(FALSE);
-
-			$scoring = ilObjAssessmentFolder::_getManualScoring();
+			
 			foreach($data->getParticipants() as $active_id => $participant)
 			{
 				$testResultData = $this->object->getTestResult($active_id, $pass_id - 1);
 				foreach($testResultData as $questionData)
 				{
-					if( !isset($questionData['qid']) || $questionData['qid'] != $qst_id )
+					if( !isset($questionData['qid']) || $questionData['qid'] != $selected_questionData['question_id'] )
 					{
 						continue;
 					}
-					$info = assQuestion::_getQuestionInfo($questionData['qid']);
-					$type = $info["question_type_fi"];
-					if(in_array($type, $scoring))
-					{
-						$table_data[] = array(
-							'pass_id'        => $pass_id - 1,
-							'active_id'      => $active_id,
-							'qst_id'         => $questionData['qid'],
-							'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $pass_id - 1),
-							'participant'    => $participant,
-						);
-					}
-					
+
+					$table_data[] = array(
+						'pass_id'        => $pass_id - 1,
+						'active_id'      => $active_id,
+						'qst_id'         => $questionData['qid'],
+						'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $pass_id - 1),
+						'participant'    => $participant,
+					);
 				}
 			}
 		}
 		else
 		{
 			$table->disable('header');
+		}
+
+		if($selected_questionData)
+		{
+			$table->setTitle($this->lng->txt('tst_man_scoring_by_qst') . ': ' . $selected_questionData['title'] . ' ['. $this->lng->txt('question_id_short') . ': ' . $selected_questionData['question_id']  . ']');
+		}
+		else
+		{
+			$table->setTitle($this->lng->txt('tst_man_scoring_by_qst'));
 		}
 
 		$table->setData($table_data);
@@ -250,13 +267,16 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		$result_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, FALSE, $this->object->getShowSolutionFeedback());
 		$tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') .' '. $participant->getName());
 		$maxpoints = $question_gui->object->getMaximumPoints();
+
+		$add_title = ' ['. $this->lng->txt('question_id_short') . ': ' . $question_id  . ']';
+		
 		if($maxpoints == 1)
 		{
-			$tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($question_gui->object->getTitle()) . ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')');
+			$tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($question_gui->object->getTitle()) . ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')' . $add_title);
 		}
 		else
 		{
-			$tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($question_gui->object->getTitle()) . ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')');
+			$tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($question_gui->object->getTitle()) . ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')' . $add_title);
 		}
 		$tmp_tpl->setVariable('SOLUTION_OUTPUT', $result_output);
 		$tmp_tpl->setVariable('RECEIVED_POINTS', sprintf($this->lng->txt('part_received_a_of_b_points'), $question_gui->object->getReachedPoints($active_id, $pass), $maxpoints));

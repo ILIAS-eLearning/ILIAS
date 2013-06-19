@@ -309,7 +309,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$bestSolution = $questionGUI->object->getSuggestedSolutionOutput();
 		
 				$sect = new ilFormSectionHeaderGUI();
-				$sect->setTitle($questionHeader);
+				$sect->setTitle( $questionHeader . ' ['. $this->lng->txt('question_id_short') . ': ' . $questionGUI->object->getId()  . ']');
 			$form->addItem($sect);
 
 				$cust = new ilCustomInputGUI('Frage und Teilnehmer Lösung');
