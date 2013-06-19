@@ -5521,7 +5521,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
-		$cgui->setHeaderText($this->lng->txt("survey_360_sure_appraisee_close"));
+		$cgui->setHeaderText($this->lng->txt("survey_360_sure_appraisee_close_admin"));
 
 		$cgui->setFormAction($this->ctrl->getFormAction($this, "adminAppraiseesClose"));
 		$cgui->setCancel($this->lng->txt("cancel"), "listAppraisees");
@@ -5557,7 +5557,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		
-		ilUtil::sendSuccess($this->lng->txt("survey_360_appraisee_close_action_success"), true);
+		ilUtil::sendSuccess($this->lng->txt("survey_360_appraisee_close_action_success_admin"), true);
 		$this->ctrl->redirect($this, "listAppraisees");
    }
   
