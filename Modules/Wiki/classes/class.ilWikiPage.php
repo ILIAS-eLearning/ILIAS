@@ -474,10 +474,10 @@ class ilWikiPage extends ilPageObject
 					$ids[] = $source["id"];
 				}
 			}
-			// delete record of table il_wiki_data
 			$query = "SELECT count(*) cnt FROM il_wiki_page".
 				" WHERE ".$ilDB->in("id", $ids, false, "integer").
-				" AND wiki_id = ".$ilDB->quote($a_wiki_id, "integer");			
+				" AND wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
+				" GROUP BY wiki_id";
 			$set = $ilDB->query($query);
 			$rec = $ilDB->fetchAssoc($set);
 			if ($rec["cnt"] == 0 &&
