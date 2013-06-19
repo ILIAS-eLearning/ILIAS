@@ -42,6 +42,16 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	protected $position = 0;
 
 	/**
+	 * @var array
+	 */
+	protected $visibleOptionalColumns = array();
+
+	/**
+	 * @var array
+	 */
+	protected $optionalColumns = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @access public
@@ -50,6 +60,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $a_checked_move = false, $a_total = 0)
 	{
+		$this->setId('tst_qst_lst_'.$a_parent_obj->object->getRefId());
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
@@ -63,21 +75,32 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
+		$this->addColumn('','f','1%', true);
 		$this->addColumn('','f','1%');
-		$this->addColumn('','f','1%');
+		$this->visibleOptionalColumns = (array)$this->getSelectedColumns();
+		$this->optionalColumns        = (array)$this->getSelectableColumns();
+		if(isset($this->visibleOptionalColumns['qid']))
+		{
+			$this->addColumn($this->optionalColumns['qid']['txt'],'qid', '');
+		}
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
 		//$this->addColumn($this->lng->txt("tst_sequence"),'sequence', '');
 		if( $a_parent_obj->object->areObligationsEnabled() )
 		{
 			$this->addColumn($this->lng->txt("obligatory"),'obligatory', '');
 		}
-		$this->addColumn($this->lng->txt("description"),'description', '');
+		if(isset($this->visibleOptionalColumns['description']))
+		{
+			$this->addColumn($this->optionalColumns['description']['txt'],'description', '');
+		}
 		$this->addColumn($this->lng->txt("tst_question_type"),'type', '');
 		$this->addColumn($this->lng->txt("points"),'', '');
-		$this->addColumn($this->lng->txt("author"),'author', '');
+		if(isset($this->visibleOptionalColumns['author']))
+		{
+			$this->addColumn($this->optionalColumns['author']['txt'],'author', '');
+		}
 		$this->addColumn($this->lng->txt("qpl"),'qpl', '');
-	 	
-		$this->setPrefix('q_id');
+
 		$this->setSelectAllCheckbox('q_id');
 
 		$this->setExternalSegmentation(true);
@@ -116,6 +139,20 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$this->enable('select_all');
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getSelectableColumns()
+	{
+		$cols = array(
+			'qid'         => array('txt' => $this->lng->txt('question_id'), 'default' => true),
+			'description' => array('txt' => $this->lng->txt('description'), 'default' => false),
+			'author'      => array('txt' => $this->lng->txt('author'), 'default' => false)
+		);
+
+		return $cols;
+	}
+
 	function fillHeader()
 	{
 		foreach ($this->column as $key => $column)
@@ -142,6 +179,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$q_id = $data["question_id"];
 
 		$this->tpl->setVariable("QUESTION_ID", $q_id);
+		if(isset($this->visibleOptionalColumns['qid']))
+		{
+			$this->tpl->setVariable("QUESTION_ID_PRESENTATION", $q_id);
+		}
 		if ($this->getWriteAccess() && !$this->getTotal() && $data["obj_fi"] > 0) 
 		{
                         if (!$data['complete']) {
@@ -199,15 +240,27 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&down=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_down.png") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
 			}
 		}
-		
-		$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
-		
-		$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
+
+		if(isset($this->visibleOptionalColumns['description']))
+		{
+			if($data["description"])
+			{
+				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"] ? $data["description"] : '&nbsp;');
+			}
+			else
+			{
+				$this->tpl->touchBlock('question_comment_block');
+			}
+		}
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 		$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
 		$this->totalPoints += $data["points"];
-		$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+
+		if(isset($this->visibleOptionalColumns['author']))
+		{
+			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+		}
 		if (ilObject::_lookupType($data["orig_obj_fi"]) == 'qpl') {
 		    $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["orig_obj_fi"]));
 		}

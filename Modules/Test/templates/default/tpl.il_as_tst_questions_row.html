@@ -2,7 +2,8 @@
 	<td class="std" style="vertical-align: top">
 		<input type="checkbox" name="q_id[]" value="{QUESTION_ID}" id="cb_{QUESTION_ID}" {VAL_CHECKED} />
 	</td>
-	<td class="{COLOR_CLASS}" name="order[{QUESTION_ID}]">{QUESTION_POSITION}</td>
+	<td class="{COLOR_CLASS}" name="order[{QUESTION_ID}]">{QUESTION_POSITION}</td><!-- BEGIN question_id_presentation_block -->
+	<td class="std">{QUESTION_ID_PRESENTATION}</td><!-- END question_id_presentation_block -->
 	<td class="std" style="vertical-align: top">
             <!-- BEGIN tst_qst_warning -->
                 <img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
@@ -12,10 +13,10 @@
 	
 	<!-- BEGIN tst_obligatory -->
 	<td class="std" style="vertical-align: top">{QUESTION_OBLIGATORY}</td>
-	<!-- END tst_obligatory -->
-	<td class="std" style="vertical-align: top">{QUESTION_COMMENT}</td>
+	<!-- END tst_obligatory --><!-- BEGIN question_comment_block -->
+	<td class="std" style="vertical-align: top">{QUESTION_COMMENT}</td><!-- END question_comment_block -->
 	<td class="std" style="vertical-align: top">{QUESTION_TYPE}</td>
-	<td class="std" style="vertical-align: top">{QUESTION_POINTS}</td>
-	<td class="std" style="vertical-align: top">{QUESTION_AUTHOR}</td>
+	<td class="std" style="vertical-align: top">{QUESTION_POINTS}</td><!-- BEGIN question_author_block -->
+	<td class="std" style="vertical-align: top">{QUESTION_AUTHOR}</td><!-- END question_author_block -->
 	<td class="std" style="vertical-align: top">{QUESTION_POOL}</td>
 </tr>
