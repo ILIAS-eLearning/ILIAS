@@ -557,6 +557,9 @@ class ilInitialisation
 	 */
 	public static function initUserAccount()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilUser;
 
 		// get user id
@@ -565,14 +568,11 @@ class ilInitialisation
 			ilSession::set("AccountId", $ilUser->checkUserId());
 		}
 		
-		$uid = ilSession::get("AccountId");		
+		$uid = ilSession::get("AccountId");
 		if($uid)
 		{
-			$ilUser->setId($uid);	
+			$ilUser->setId($uid);
 			$ilUser->read();
-			
-			// #10822 - Terms of service accepted?
-			self::checkUserAgreement($ilUser);
 		}
 		else
 		{
@@ -599,6 +599,10 @@ class ilInitialisation
 		{
 			return;
 		}
+		global $ilCtrl;
+		var_dump($ilCtrl->getCmdClass(), $ilCtrl->getCmd());
+		exit();
+		// @todo: store original target if not stored
 				
 		if(!$a_user->hasAcceptedUserAgreement() &&
 			$a_user->getId() != ANONYMOUS_USER_ID &&
@@ -610,6 +614,8 @@ class ilInitialisation
 					'User Agreement not accepted.');
 			}
 		}
+
+		// @todo: handle forced password changed
 	}
 	
 	/**
@@ -1262,6 +1268,20 @@ class ilInitialisation
 		// $tpl
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		self::initGlobal("tpl", $tpl);
+
+		if(ilContext::hasUser() && ilContext::doAuthentication())
+		{
+			/**
+			 * @var $ilUser ilObjUser
+			 * @var $ilCtrl ilCtrl
+			 * @var $lng    ilLanguage
+			 */
+			global $ilUser, $ilCtrl, $lng;
+
+			require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
+			$dispatcher = new ilUserRequestTargetAdjustment($ilUser, $ilCtrl, $lng);
+			$dispatcher->adjust();
+		}
 		
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();

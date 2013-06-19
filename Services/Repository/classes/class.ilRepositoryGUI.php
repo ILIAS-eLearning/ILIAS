@@ -178,19 +178,6 @@ class ilRepositoryGUI
 	{
 		global $tree, $rbacsystem, $ilias, $lng, $objDefinition,$ilUser, $ilCtrl, $ilHelp;
 
-		// Check for incomplete profile
-		if($ilUser->getProfileIncomplete())
-		{
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
-		}
-
-		// check whether password of user have to be changed
-		// due to first login or password of user is expired
-		if( $ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired() )
-		{
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
-		}
-
 		// check creation mode
 		// determined by "new_type" parameter
 		$new_type = ($_POST["new_type"] != "" && $ilCtrl->getCmd() == "create")
