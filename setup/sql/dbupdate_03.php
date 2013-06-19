@@ -15958,4 +15958,7 @@ if(!$ilDB->tableColumnExists('tst_tests', 'redirection_url'))
 		));
 	}
 ?>
-
+<#3919>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
