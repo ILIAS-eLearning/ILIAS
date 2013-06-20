@@ -1,25 +1,5 @@
 <?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Base class for course and group participants
@@ -79,6 +59,68 @@ class ilParticipants
 	 	
 	 	$this->readParticipants();
 	 	$this->readParticipantsStatus();
+	}
+	
+	/**
+	 * Get instance by obj type
+	 * 
+	 * @param int $a_obj_id
+	 * @return ilParticipants
+	 */
+	public static function getInstanceByObjId($a_obj_id)
+	{
+		$type = ilObject::_lookupType($a_obj_id);
+		switch($type)
+		{
+			case 'crs':
+				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+				return ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				
+			case 'grp':
+				include_once './Modules/Group/classes/class.ilGroupParticipants.php';
+				return ilGroupParticipants::_getInstanceByObjId($a_obj_id);
+		}
+		// @todo proper error handling
+		return null;
+	}
+	
+	
+	/**
+	 * Check if (current) user has access to the participant list
+	 * @param type $a_obj
+	 * @param type $a_usr_id
+	 */
+	public static function hasParticipantListAccess($a_obj_id, $a_usr_id = null)
+	{
+		if(!$a_usr_id)
+		{
+			$a_usr_id = $GLOBALS['ilUser']->getId();
+		}
+
+		// if write access granted => return true
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		$ref_id = end($refs);
+
+		if($GLOBALS['ilAccess']->checkAccess('write','',$ref_id))
+		{
+			return true;
+		}
+		$part = self::getInstanceByObjId($a_obj_id);
+		if($part->isAssigned($a_usr_id))
+		{
+			if($part->getType() == 'crs')
+			{
+				// Check for show_members
+				include_once './Modules/Course/classes/class.ilObjCourse.php';
+				if(!ilObjCourse::lookupShowMembersEnabled($a_obj_id))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		// User is not assigned to course/group => no read access
+		return false;
 	}
 	
 	/**
@@ -326,6 +368,15 @@ class ilParticipants
 			}
 		}
 		return 0;
+	}
+	
+	/**
+	 * Get object type
+	 * @return string obj_type
+	 */
+	public function getType()
+	{
+		return $this->type;
 	}
 	
 	/**
@@ -605,7 +656,7 @@ class ilParticipants
 	 */
 	public function hasPassed($a_usr_id)
 	{
-	 	if(isset($this->participants_status[$a_usr_id]))
+		if(isset($this->participants_status[$a_usr_id]))
 	 	{
 	 		return $this->participants_status[$a_usr_id]['passed'] ? true : false;
 	 	}

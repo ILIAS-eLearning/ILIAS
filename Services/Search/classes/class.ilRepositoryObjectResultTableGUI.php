@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
@@ -73,7 +53,10 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
-		$this->tpl->setVariable('VAL_ID',$row['id']);
+		if($row['member'])
+		{
+			$this->tpl->setVariable('VAL_ID',$row['id']);
+		}
 		$this->tpl->setVariable('VAL_TITLE',$row['title']);
 		if(strlen($row['desc']))
 		{
@@ -102,18 +85,19 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 			
 			switch($type)
 			{
-				case 'grp':
-					include_once './Modules/Group/classes/class.ilGroupParticipants.php';
-					$part = ilGroupParticipants::_getInstanceByObjId($object_id);
-					include_once './Services/User/classes/class.ilUserFilter.php';
-					$row['member'] = count(ilUserFilter::getInstance()->filter($part->getParticipants()));
-					break;
-
+				
 				case 'crs':
-					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-					$part = ilCourseParticipants::_getInstanceByObjId($object_id);
-					include_once './Services/User/classes/class.ilUserFilter.php';
-					$row['member'] = count(ilUserFilter::getInstance()->filter($part->getParticipants()));
+				case 'grp':
+
+					include_once './Services/Membership/classes/class.ilParticipants.php';
+					if(ilParticipants::hasParticipantListAccess($object_id))
+					{
+						$row['member'] = count(ilParticipants::getInstanceByObjId($object_id)->getParticipants());
+					}
+					else
+					{
+						$row['member'] = 0;
+					}
 					break;
 					
 				case 'role':
