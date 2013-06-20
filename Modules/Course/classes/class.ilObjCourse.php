@@ -103,6 +103,23 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	/**
+	 * Check if show member is enabled
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	public static function lookupShowMembersEnabled($a_obj_id)
+	{
+		$query = 'SELECT show_members FROM crs_settings '.
+				'WHERE obj_id = '.$GLOBALS['ilDB']->quote($a_obj_id,'integer');
+		$res = $GLOBALS['ilDB']->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return (bool) $row->show_members;
+		}
+		return false;
+	}
+	
+	/**
 	 * get access code
 	 * @return 
 	 */
