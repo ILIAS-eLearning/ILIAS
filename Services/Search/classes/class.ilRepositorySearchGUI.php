@@ -485,7 +485,8 @@ class ilRepositorySearchGUI
 			default:
 				echo 'not defined';
 		}
-		$this->result_obj->addObserver($this, 'userFilter');
+		$this->result_obj->setRequiredPermission('read');
+		$this->result_obj->addObserver($this, 'searchResultFilterListener');
 		$this->result_obj->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
 		
 		// User access filter
@@ -899,17 +900,13 @@ class ilRepositorySearchGUI
 			switch($type)
 			{
 				case 'crs':
-					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-					$part = ilCourseParticipants::_getInstanceByObjId($obj_id);
-					include_once './Services/User/classes/class.ilUserFilter.php';
-					$members = array_merge($members,  ilUserFilter::getInstance()->filter($part->getParticipants()));
-					break;
-					
 				case 'grp':
-					include_once './Modules/Group/classes/class.ilGroupParticipants.php';
-					$part = ilGroupParticipants::_getInstanceByObjId($obj_id);
-					include_once './Services/User/classes/class.ilUserFilter.php';
-					$members = array_merge($members,  ilUserFilter::getInstance()->filter($part->getParticipants()));
+					
+					include_once './Services/Membership/classes/class.ilParticipants.php';
+					if(ilParticipants::hasParticipantListAccess($obj_id))
+					{
+						$members = array_merge((array) $members, ilParticipants::getInstanceByObjId($obj_id)->getParticipants());
+					}
 					break;
 					
 				case 'role':
@@ -942,12 +939,14 @@ class ilRepositorySearchGUI
 	}
 	
 	/**
-	 * 
-	 * @param int $a_ref_id
+	 * Listener called from ilSearchResult
+	 * Id is obj_id for role, usr
+	 * Id is ref_id for crs grp
+	 * @param int $a_id 
 	 * @param array $a_data
 	 * @return 
 	 */
-	public function userFilter($a_ref_id,$a_data)
+	public function searchResultFilterListener($a_ref_id,$a_data)
 	{
 		if($a_data['type'] == 'usr')
 		{
@@ -956,7 +955,6 @@ class ilRepositorySearchGUI
 				return false;
 			}
 		}
-		
 		return true;
 	}
 
