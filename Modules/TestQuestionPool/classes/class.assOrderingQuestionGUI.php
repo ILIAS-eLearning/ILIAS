@@ -574,8 +574,8 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
 
 			$answers_gui = new ilNestedOrderingGUI($this->lng->txt("answers"), "answers", $graphicalOutput);
-			
-			$no_js_for_cmds = array('outParticipantsPassDetails', 'outCorrectSolution');
+		
+			$no_js_for_cmds = array('outParticipantsPassDetails', 'outCorrectSolution', 'showManScoringParticipantScreen');
 			
 			//PERFORM_JAVASCRIPT
 			if(in_array($this->ctrl->getCmd(), $no_js_for_cmds))
