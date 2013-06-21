@@ -73,10 +73,7 @@ class ilTestAggregatedResultsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		global $ilUser,$ilAccess;
-
 		$this->tpl->setVariable("RESULT", $data["result"]);
 		$this->tpl->setVariable("VALUE", $data["value"]);
 	}
 }
-?>

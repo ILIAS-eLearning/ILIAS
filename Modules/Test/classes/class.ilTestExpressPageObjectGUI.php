@@ -366,7 +366,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI
 			$options = array('0' => $lng->txt('first'));
 			foreach($questions as $key => $title)
 			{
-				$options[$key] = $lng->txt('behind') . ' '. $title;
+				$options[$key] = $lng->txt('behind') . ' '. $title . ' ['.$this->lng->txt('question_id_short') . ': '. $key .']';
 			}
 			$si->setOptions($options);
 			$si->setValue($_REQUEST['q_id']);

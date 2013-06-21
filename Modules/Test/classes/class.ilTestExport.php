@@ -193,6 +193,7 @@ class ilTestExport
 		}
 		$row++;
 		$col = 0;
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("question_id")), $format_title);
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("question_title")), $format_title);
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("average_reached_points")), $format_title);
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("points")), $format_title);
@@ -202,6 +203,7 @@ class ilTestExport
 		foreach ($data["questions"] as $key => $value)
 		{
 			$col = 0;
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($key));
 			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value[0]));
 			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value[4]));
 			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value[5]));

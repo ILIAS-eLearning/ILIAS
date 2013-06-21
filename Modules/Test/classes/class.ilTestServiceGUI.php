@@ -119,138 +119,102 @@ class ilTestServiceGUI
 	 * 
 	 * @deprecated
 	 */
-	function getPassOverview($active_id, $targetclass = "", $targetcommand = "", $short = FALSE, $hide_details = FALSE)
+	public function getPassOverview($active_id, $targetclass = "", $targetcommand = "", $short = FALSE, $hide_details = FALSE)
 	{
-		global $ilUser;
+		require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+		require_once 'Modules/Test/classes/tables/class.ilTestPassOverviewTableGUI.php';
 
-		if ($short)
-		{
-			$template = new ilTemplate("tpl.il_as_tst_pass_overview_short.html", TRUE, TRUE, "Modules/Test");
-		}
-		else
-		{
-			$template = new ilTemplate("tpl.il_as_tst_pass_overview.html", TRUE, TRUE, "Modules/Test");
-		}
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
+		$table = new ilTestPassOverviewTableGUI(
+			$this,
+			'',
+			$short ? ilTestPassOverviewTableGUI::CONTEXT_SHORT : ilTestPassOverviewTableGUI::CONTEXT_LONG,
+			(isset($_GET['pdf']) && $_GET['pdf'] == 1)
+		);
+		$data  = array();
 
-		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		$counted_pass = $this->object->_getResultPass($active_id);
 		$reached_pass = $this->object->_getPass($active_id);
 
-		$result_percentage = 0;
-		$result_total_reached = 0;
-		$result_total_max = 0;
-		for ($pass = 0; $pass <= $reached_pass; $pass++)
+		for($pass = 0; $pass <= $reached_pass; $pass++)
 		{
+			$row = array();
+
 			$finishdate = $this->object->getPassFinishDate($active_id, $pass);
-			if ($finishdate > 0)
+			if($finishdate > 0)
 			{
-				if (!$short)
+				if(!$short)
 				{
 					$result_array =& $this->object->getTestResult($active_id, $pass);
-					if (!$result_array["pass"]["total_max_points"])
+					if(!$result_array['pass']['total_max_points'])
 					{
 						$percentage = 0;
 					}
 					else
 					{
-						$percentage = ($result_array["pass"]["total_reached_points"]/$result_array["pass"]["total_max_points"])*100;
+						$percentage = ($result_array['pass']['total_reached_points'] / $result_array['pass']['total_max_points']) * 100;
 					}
-					$total_max = $result_array["pass"]["total_max_points"];
-					$total_reached = $result_array["pass"]["total_reached_points"];
-					$total_requested_hints = $result_array["pass"]["total_requested_hints"];
+					$total_max             = $result_array['pass']['total_max_points'];
+					$total_reached         = $result_array['pass']['total_reached_points'];
+					$total_requested_hints = $result_array['pass']['total_requested_hints'];
 				}
-				if (!$hide_details)
+				if(!$hide_details)
 				{
-					if (strlen($targetclass) && strlen($targetcommand))
+					if(strlen($targetclass) && strlen($targetcommand))
 					{
-						$this->ctrl->setParameterByClass($targetclass, "active_id", $active_id);
-						$this->ctrl->setParameterByClass($targetclass, "pass", $pass);
-						$template->setCurrentBlock("pass_details");
-						
-						require_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+						$this->ctrl->setParameterByClass($targetclass, 'active_id', $active_id);
+						$this->ctrl->setParameterByClass($targetclass, 'pass', $pass);
+
 						$aslgui = new ilAdvancedSelectionListGUI();
-						$aslgui->setListTitle($this->lng->txt("actions"));
+						$aslgui->setListTitle($this->lng->txt('actions'));
 						$aslgui->setId($pass);
 						$aslgui->addItem(
-							$this->lng->txt("tst_pass_details"), 
-							'tst_pass_details', 
+							$this->lng->txt('tst_pass_details'),
+							'tst_pass_details',
 							$this->ctrl->getLinkTargetByClass($targetclass, $targetcommand)
 						);
-						
-						if( $this->object->isPassDeletionAllowed() )
+						if($this->object->isPassDeletionAllowed())
 						{
 							$aslgui->addItem(
-								$this->lng->txt("delete"), 
-								'tst_pass_delete', 
+								$this->lng->txt('delete'),
+								'tst_pass_delete',
 								$this->ctrl->getLinkTargetByClass($targetclass, 'confirmDeletePass')
 							);
 						}
-						
-						// Suppress output of advanced selection list for pdf-generation as solution for Mantis #9359 
-						if (!($_GET['pdf'] == 1))
-						{
-							$template->setVariable("TEXT_PASS_DETAILS", $aslgui->getHTML());
-						}
-						$template->parseCurrentBlock();
+						$row['pass_details'] = $aslgui->getHTML();
 					}
 				}
 
-				$template->setCurrentBlock("result_row");
-
-				if (($pass == $counted_pass) && (!$short))
+				if(!$short)
 				{
-					$template->setVariable("COLOR_CLASS", "tblrowmarked");
-					$template->setVariable("VALUE_SCORED", "&otimes;");
-					if (!$result_array["test"]["total_max_points"])
+					if(($pass == $counted_pass))
 					{
-						$result_percentage = 0;
+						$row['scored'] = '&otimes;';
 					}
 					else
 					{
-						$result_percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+						$row['scored'] = '';
 					}
-					$result_total_max = $result_array["test"]["total_max_points"];
-					$result_total_reached = $result_array["test"]["total_reached_points"];
 				}
-				else
+
+				$row['pass'] = $pass + 1;
+				$row['date'] = $finishdate;
+				if(!$short)
 				{
-					$template->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
-				}
-				$template->setVariable("VALUE_PASS", $pass + 1);
-				$template->setVariable("VALUE_DATE",ilDatePresentation::formatDate(new ilDate($finishdate,IL_CAL_UNIX)));
-				
-				if (!$short)
-				{
-					$template->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-2));
-					if( $this->object->isOfferingQuestionHintsEnabled() )
+					$row['answered'] = $this->object->getAnsweredQuestionCount($active_id, $pass) . ' ' . strtolower($this->lng->txt('of')) . ' ' . (count($result_array) - 2);
+					if($this->object->isOfferingQuestionHintsEnabled())
 					{
-						$template->setVariable("VALUE_HINTS", $total_requested_hints);
+						$row['hints'] = $total_requested_hints;
 					}
-					$template->setVariable("VALUE_REACHED", $total_reached . " " . strtolower($this->lng->txt("of")) . " " . $total_max);
-					$template->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
+					$row['reached']    = $total_reached . ' ' . strtolower($this->lng->txt('of')) . ' ' . $total_max;
+					$row['percentage'] = $percentage;
 				}
-				$template->parseCurrentBlock();
+				
+				$data[] = $row;
 			}
 		}
 
-		$template->setVariable("PASS_COUNTER", $this->lng->txt("pass"));
-		$template->setVariable("DATE", $this->lng->txt("date"));
-		if (!$short)
-		{
-			$template->setVariable("PASS_SCORED", $this->lng->txt("scored_pass"));
-			$template->setVariable("ANSWERED_QUESTIONS", $this->lng->txt("tst_answered_questions"));
-			if( $this->object->isOfferingQuestionHintsEnabled() )
-			{
-				$template->setVariable("REQUESTED_HINTS", $this->lng->txt("tst_question_hints_requested_hint_count_header"));
-			}
-			$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
-			$template->setVariable("PERCENTAGE_CORRECT", $this->lng->txt("tst_percent_solved"));
-		}
-		$template->parseCurrentBlock();
-
-		return $template->get();
+		$table->setData($data);
+		return $table->getHTML();
 	}
 
 	/**
@@ -738,10 +702,12 @@ class ilTestServiceGUI
 	{
 		if ($this->object->getShowSolutionSignature() && !$this->object->getAnonymity())
 		{
-			// output of time/date and signature
 			$template = new ilTemplate("tpl.il_as_tst_results_userdata_signature.html", TRUE, TRUE, "Modules/Test");
 			$template->setVariable("TXT_DATE", $this->lng->txt("date"));
-			$template->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", time()));
+			$old_value = ilDatePresentation::useRelativeDates();
+			ilDatePresentation::setUseRelativeDates(false);
+			$template->setVariable("VALUE_DATE", ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)));
+			ilDatePresentation::setUseRelativeDates($old_value);
 			$template->setVariable("TXT_SIGNATURE", $this->lng->txt("tst_signature"));
 			$template->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.png"));
 			return $template->get();
@@ -813,9 +779,12 @@ class ilTestServiceGUI
 		$uname = $this->object->userLookupFullName($user_id, $overwrite_anonymity);
 		$template->setVariable("VALUE_USR_NAME", $uname);
 		$template->setVariable("TXT_TEST_DATE", $this->lng->txt("tst_tst_date"));
-		$template->setVariable("VALUE_TEST_DATE", strftime("%Y-%m-%d %H:%M:%S",ilUtil::date_mysql2time($t)));
 		$template->setVariable("TXT_PRINT_DATE", $this->lng->txt("tst_print_date"));
-		$template->setVariable("VALUE_PRINT_DATE", strftime("%Y-%m-%d %H:%M:%S",$print_date));
+		$old_value = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+		$template->setVariable("VALUE_TEST_DATE", ilDatePresentation::formatDate(new ilDateTime(ilUtil::date_mysql2time($t), IL_CAL_UNIX)));
+		$template->setVariable("VALUE_PRINT_DATE", ilDatePresentation::formatDate(new ilDateTime($print_date, IL_CAL_UNIX)));
+		ilDatePresentation::setUseRelativeDates($old_value);
 		
 		// change the pagetitle
 		$pagetitle = ": " . $this->object->getTitle() . $title_matric . $title_client;
