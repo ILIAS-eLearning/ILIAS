@@ -61,7 +61,7 @@ class assFileUpload extends assQuestion
 	*/
 	public function isComplete()
 	{
-		if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() >= 0))
+		if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() >= 0) and is_numeric($this->getMaximumPoints()))
 		{
 			return true;
 		}

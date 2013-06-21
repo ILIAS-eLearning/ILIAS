@@ -155,7 +155,7 @@ class assFileUploadGUI extends assQuestionGUI
 		$form->addItem($allowedextensions);
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
-		$points->setValue(strlen($this->object->getPoints()) && $this->object->getPoints() > -1 ? $this->object->getPoints() : '');
+		$points->setValue(is_numeric($this->object->getPoints()) && $this->object->getPoints() >= 0 ? $this->object->getPoints() : '');
 		$points->setRequired(TRUE);
 		$points->setSize(3);
 		$points->setMinValue(0.0);
