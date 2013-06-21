@@ -305,6 +305,12 @@ class ilTestServiceGUI
 			$markects = $this->lng->txt("mark_tst_ects");
 			$markects = str_replace("[markects]", $this->lng->txt("ects_grade_". strtolower($ects_mark)), $markects);
 		}
+		
+		// PATCH-BEGIN: HERMES
+		$layerCssClass = $test_data_array['passed'] ? 'tst_result_status_passed' : 'tst_result_status_failed';
+		$markects .= '<div class="tst_result_status_layer '.$layerCssClass.'"></div>';
+		// PATCH-END: HERMES
+		
 		return array("mark" => $mark, "markects" => $markects);
 	}
 
