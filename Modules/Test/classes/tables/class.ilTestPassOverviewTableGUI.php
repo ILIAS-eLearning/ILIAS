@@ -100,7 +100,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	{
 		if(self::CONTEXT_LONG == $this->getContext())
 		{
-			$this->addColumn($this->lng->txt('scored_pass'), '', '8%');
+			$this->addColumn($this->lng->txt('scored_pass'), '', '150');
 		}
 		$this->addColumn($this->lng->txt('pass'), '', '1%');
 		$this->addColumn($this->lng->txt('date'));
