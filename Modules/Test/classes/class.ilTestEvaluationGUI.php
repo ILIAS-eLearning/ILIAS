@@ -463,6 +463,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				{
 					$this->tpl->setCurrentBlock("question_row");
 					$this->tpl->setVariable("QUESTION_COUNTER", $counter);
+					$this->tpl->setVariable("QUESTION_ID", $question["id"]);
+					$this->tpl->setVariable("QUESTION_ID_TXT", $this->lng->txt('question_id_short'));
 					$this->tpl->setVariable("QUESTION_TITLE", $data->getQuestionTitle($question["id"]));
 					$answeredquestion = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
 					if (is_array($answeredquestion))
@@ -635,6 +637,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->setParameter($this, "qid", $question_id);
 			array_push($rows, 
 				array(
+						'qid' => $question_id,
 						'title' => $question_title, 
 						'points' => sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
 						'percentage' => (float)$percent,
@@ -788,8 +791,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsPassDetails()
 	{
-		global $ilias;
-
 		$this->ctrl->saveParameter($this, "pass");
 		$this->ctrl->saveParameter($this, "active_id");
 		$active_id = $_GET["active_id"];
@@ -879,8 +880,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsResultsOverview()
 	{
-		global $ilias;
-		
 		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
 		$active_id = $_GET["active_id"];
@@ -1331,6 +1330,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				}
 				array_push($rows, 
 					array(
+							$question_id,
 							$question_title, 
 							$answered,
 							"<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants"). "\">" . $this->lng->txt("pdf_export") . "</a>",

@@ -73,19 +73,19 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs;
 
-		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
+		if((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 		}
 
 		$cmd = $this->ctrl->getCmd("properties");
-		
+
 		$cmdsDisabledDueToOfflineStatus = array(
-			'resume', 'start', 'outUserResultsOverview', 'outUserListOfAnswerPasses'		
+			'resume', 'start', 'outUserResultsOverview', 'outUserListOfAnswerPasses'
 		);
-		
-		if( !$this->getCreationMode() && !$this->object->isOnline() && in_array($cmd, $cmdsDisabledDueToOfflineStatus) )
+
+		if(!$this->getCreationMode() && !$this->object->isOnline() && in_array($cmd, $cmdsDisabledDueToOfflineStatus))
 		{
 			$cmd = 'infoScreen';
 		}
@@ -93,66 +93,68 @@ class ilObjTestGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
 
-		if (method_exists($this->object, "getTestStyleLocation")) $this->tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
-		
+		if(method_exists($this->object, "getTestStyleLocation")) $this->tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
+
 		// add entry to navigation history
-		if (!$this->getCreationMode() &&
-			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if(!$this->getCreationMode() &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"])
+		)
 		{
 			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=".$_GET["ref_id"], "tst");
+				"ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=" . $_GET["ref_id"], "tst");
 		}
-		
+
 		if(!$this->getCreationMode())
 		{
 			if(IS_PAYMENT_ENABLED)
 			{
 				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-				if(ilPaymentObject::_requiresPurchaseToAccess($this->object->getRefId(), $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) ))
+				if(ilPaymentObject::_requiresPurchaseToAccess($this->object->getRefId(), $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL)))
 				{
 					$this->setLocator();
 					$this->tpl->getStandardTemplate();
 
 					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-					$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
+					$pp  = new ilShopPurchaseGUI((int)$_GET['ref_id']);
 					$ret = $this->ctrl->forwardCommand($pp);
 					$this->tpl->show();
-					exit();			
+					exit();
 				}
 			}
 		}
 
-                // elba hack for storing question id for inserting new question after
-                if ($_REQUEST['prev_qid']) {
-                    global $___prev_question_id;
-                    $___prev_question_id = $_REQUEST['prev_qid'];
-                    $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
-                }
+		// elba hack for storing question id for inserting new question after
+		if($_REQUEST['prev_qid'])
+		{
+			global $___prev_question_id;
+			$___prev_question_id = $_REQUEST['prev_qid'];
+			$this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
+		}
 
-                switch($next_class)
+		switch($next_class)
 		{
 			case "ilinfoscreengui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				$this->infoScreen();	// forwards command
+				$this->infoScreen(); // forwards command
 				break;
-			case 'ilmdeditorgui':		
-				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+			case 'ilmdeditorgui':
+				if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
 				{
-					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+					$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
 				}
-				
+
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+				$md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
 
 				$this->ctrl->forwardCommand($md_gui);
 				break;
-			case "iltestoutputgui":				
+			case "iltestoutputgui":
 				include_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
-				if (!$this->object->getKioskMode()) $this->prepareOutput();
+				if(!$this->object->getKioskMode()) $this->prepareOutput();
 				$output_gui =& new ilTestOutputGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
@@ -164,7 +166,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$evaluation_gui =& new ilTestEvaluationGUI($this->object);
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
-				
+
 			case "iltestservicegui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -178,14 +180,14 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret      =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case "illearningprogressgui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY, $this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
 				break;
@@ -223,7 +225,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$cp->setType('tst');
 				$this->ctrl->forwardCommand($cp);
 				break;
-				
+
 			case 'ilrepositorysearchgui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -231,118 +233,119 @@ class ilObjTestGUI extends ilObjectGUI
 				$rep_search =& new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
 					'addParticipantsObject',
-					array(
-						)
-					);
+					array()
+				);
 
 				// Set tabs
-				$this->ctrl->setReturn($this,'participants');
+				$this->ctrl->setReturn($this, 'participants');
 				$ret =& $this->ctrl->forwardCommand($rep_search);
 				$this->tabs_gui->setTabActive('participants');
 				break;
 
-                        case 'ilpageeditorgui':
-                        case 'iltestexpresspageobjectgui':
-                            $qid = $_REQUEST['q_id'];
+			case 'ilpageeditorgui':
+			case 'iltestexpresspageobjectgui':
+				$qid = $_REQUEST['q_id'];
 
-							// :FIXME: does not work
-							// $this->ctrl->saveParameterByClass(array('iltestexpresspageobjectgui', 'assorderingquestiongui', 'ilpageeditorgui', 'ilpcquestion', 'ilpcquestiongui'), 'test_express_mode');
+				// :FIXME: does not work
+				// $this->ctrl->saveParameterByClass(array('iltestexpresspageobjectgui', 'assorderingquestiongui', 'ilpageeditorgui', 'ilpcquestion', 'ilpcquestiongui'), 'test_express_mode');
 
-							if (!$qid || $qid == 'Array') {
-                                $questions = $this->object->getQuestionTitlesAndIndexes();
-                                if (!is_array($questions))
-                                    $questions = array();
+				if(!$qid || $qid == 'Array')
+				{
+					$questions = $this->object->getQuestionTitlesAndIndexes();
+					if(!is_array($questions))
+						$questions = array();
 
-                                $keys = array_keys($questions);
-                                $qid = $keys[0];
+					$keys = array_keys($questions);
+					$qid  = $keys[0];
 
-                                $_REQUEST['q_id'] = $qid;
-                                $_GET['q_id'] = $qid;
-                                $_POST['q_id'] = $qid;
-                            }
+					$_REQUEST['q_id'] = $qid;
+					$_GET['q_id']     = $qid;
+					$_POST['q_id']    = $qid;
+				}
 
+				$this->prepareOutput();
+				if(!in_array($cmd, array('addQuestion', 'browseForQuestions')))
+				{
+					$this->buildPageViewToolbar($qid);
+				}
 
+				if(!$qid || in_array($cmd, array('insertQuestions', 'browseForQuestions')))
+				{
+					include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
+					$pageObject              = new ilTestExpressPageObjectGUI ("qpl", 0);
+					$pageObject->test_object = $this->object;
+					$ret                     =& $this->ctrl->forwardCommand($pageObject);
+					break;
+				}
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$this->tpl->setCurrentBlock("ContentStyle");
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+				$this->tpl->parseCurrentBlock();
 
-                            $this->prepareOutput();
-			    if (!in_array($cmd, array('addQuestion', 'browseForQuestions'))) {
-				$this->buildPageViewToolbar($qid);
-			    }
-			    
-                            if (!$qid || in_array($cmd, array('insertQuestions', 'browseForQuestions'))) {
-                                include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
-				$pageObject = new ilTestExpressPageObjectGUI ("qpl", 0);
-				$pageObject->test_object = $this->object;
-                                $ret =& $this->ctrl->forwardCommand($pageObject);
-                                break;
-                            }
-                            include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-                            $this->tpl->setCurrentBlock("ContentStyle");
-                            $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-                                    ilObjStyleSheet::getContentStylePath(0));
-                            $this->tpl->parseCurrentBlock();
+				// syntax style
+				$this->tpl->setCurrentBlock("SyntaxStyle");
+				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					ilObjStyleSheet::getSyntaxStylePath());
+				$this->tpl->parseCurrentBlock();
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 
-                            // syntax style
-                            $this->tpl->setCurrentBlock("SyntaxStyle");
-                            $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-                                    ilObjStyleSheet::getSyntaxStylePath());
-                            $this->tpl->parseCurrentBlock();
-                            include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+				$q_gui =& assQuestionGUI::_getQuestionGUI("", $qid);
 
-                            $q_gui =& assQuestionGUI::_getQuestionGUI("", $qid);
+				$q_gui->outAdditionalOutput();
+				$q_gui->object->setObjId($this->object->getId());
+				$question =& $q_gui->object;
+				$this->ctrl->saveParameter($this, "q_id");
 
-							$q_gui->outAdditionalOutput();
-							$q_gui->object->setObjId($this->object->getId());
-							$question =& $q_gui->object;
-							$this->ctrl->saveParameter($this, "q_id");
-							
-                            #$this->lng->loadLanguageModule("content");
-                            $this->ctrl->setReturnByClass("ilTestExpressPageObjectGUI", "view");
-                            $this->ctrl->setReturn($this, "questions");
+				#$this->lng->loadLanguageModule("content");
+				$this->ctrl->setReturnByClass("ilTestExpressPageObjectGUI", "view");
+				$this->ctrl->setReturn($this, "questions");
 
-                            //$page =& new ilPageObject("qpl", $_GET["q_id"]);
-                            include_once("./Services/COPage/classes/class.ilPageObject.php");
-                            include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
+				//$page =& new ilPageObject("qpl", $_GET["q_id"]);
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
 
-                            $page_gui =& new ilTestExpressPageObjectGUI ("qpl", $qid);
-                            $page_gui->test_object = $this->object;
-                            $page_gui->setEditPreview(true);
-                            $page_gui->setEnabledTabs(false);
-                            $page_gui->setEnabledInternalLinks(false);
-                            if (strlen($this->ctrl->getCmd()) == 0)
-                            {
-                                    $this->ctrl->setCmdClass(get_class($page_gui));
-                                    $this->ctrl->setCmd("preview");
-                            }
+				$page_gui              =& new ilTestExpressPageObjectGUI ("qpl", $qid);
+				$page_gui->test_object = $this->object;
+				$page_gui->setEditPreview(true);
+				$page_gui->setEnabledTabs(false);
+				$page_gui->setEnabledInternalLinks(false);
+				if(strlen($this->ctrl->getCmd()) == 0)
+				{
+					$this->ctrl->setCmdClass(get_class($page_gui));
+					$this->ctrl->setCmd("preview");
+				}
 
-                            $page_gui->setQuestionHTML(array($q_gui->object->getId() => $q_gui->getPreview(TRUE)));
-                            $page_gui->setTemplateTargetVar("ADM_CONTENT");
+				$page_gui->setQuestionHTML(array($q_gui->object->getId() => $q_gui->getPreview(TRUE)));
+				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 
-                            $page_gui->setOutputMode($this->object->evalTotalPersons() == 0 ? "edit" : 'preview');
+				$page_gui->setOutputMode($this->object->evalTotalPersons() == 0 ? "edit" : 'preview');
 
-                            $page_gui->setHeader($question->getTitle());
-                            $page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
-                            $page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
-                            $page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
-                            $page_gui->setPresentationTitle($question->getTitle());
-                            $ret =& $this->ctrl->forwardCommand($page_gui);
+				$page_gui->setHeader($question->getTitle());
+				$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
+				$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
+				$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
+				$page_gui->setPresentationTitle($question->getTitle() . ' ['. $this->lng->txt('question_id_short') . ': ' . $question->getId()  . ']');
+				$ret =& $this->ctrl->forwardCommand($page_gui);
 
-			    global $ilTabs;
-			    $ilTabs->activateTab('assQuestions');
+				global $ilTabs;
+				$ilTabs->activateTab('assQuestions');
 
-			    $this->tpl->setContent($ret);
-                            break;
+				$this->tpl->setContent($ret);
+				break;
 
-                        case 'ilpageobjectgui':
-                            include_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
-                                //echo $_REQUEST['prev_qid'];
-                                if ($_REQUEST['prev_qid']) {
-                                    $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
-                                }
+			case 'ilpageobjectgui':
+				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+				//echo $_REQUEST['prev_qid'];
+				if($_REQUEST['prev_qid'])
+				{
+					$this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
+				}
 
-                                $this->prepareOutput();
-                                //global $___test_express_mode;
-                                //$___test_express_mode = true;
-                                $_GET['calling_test'] = $this->object->getRefId();
+				$this->prepareOutput();
+				//global $___test_express_mode;
+				//$___test_express_mode = true;
+				$_GET['calling_test'] = $this->object->getRefId();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -371,7 +374,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
 				$page_gui->setEnabledInternalLinks(false);
-				if (strlen($this->ctrl->getCmd()) == 0)
+				if(strlen($this->ctrl->getCmd()) == 0)
 				{
 					$this->ctrl->setCmdClass(get_class($page_gui));
 					$this->ctrl->setCmd("preview");
@@ -384,22 +387,22 @@ class ilObjTestGUI extends ilObjectGUI
 				$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
 				$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
 				$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
-				$page_gui->setPresentationTitle($question->getTitle());
+				$page_gui->setPresentationTitle($question->getTitle() . ' ['. $this->lng->txt('question_id_short') . ': ' . $question->getId()  . ']');
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 				$this->tpl->setContent($ret);
 
-                break;
-				
+				break;
+
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
-				
+
 			case 'ilassquestionhintsgui':
-				
+
 				$this->prepareSubGuiOutput();
-				
+
 				// set return target
 				$this->ctrl->setReturn($this, "questions");
 
@@ -408,18 +411,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$questionGUI =& assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
-				
+
 				// forward to ilAssQuestionHintsGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
 				$gui = new ilAssQuestionHintsGUI($questionGUI);
 				$ilCtrl->forwardCommand($gui);
-				
+
 				break;
-			
+
 			case 'ilassquestionfeedbackeditinggui':
-				
+
 				$this->prepareSubGuiOutput();
-	
+
 				// set return target
 				$this->ctrl->setReturn($this, "questions");
 
@@ -428,84 +431,87 @@ class ilObjTestGUI extends ilObjectGUI
 				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
-				
+
 				// forward to ilAssQuestionFeedbackGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
 				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
 				$ilCtrl->forwardCommand($gui);
-				
+
 				break;
-			
+
 			case 'iltesttoplistgui':
-				
+
 				$this->prepareOutput();
-				
+
 				require_once 'Modules/Test/classes/class.ilTestToplistGUI.php';
 				$gui = new ilTestToplistGUI($this);
 
-				$this->ctrl->forwardCommand($gui);		
- 				
+				$this->ctrl->forwardCommand($gui);
+
 				break;
-                           
-                        case '':
+
+			case '':
 			case 'ilobjtestgui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				if (preg_match("/deleteqpl_\d+/", $cmd))
+				if(preg_match("/deleteqpl_\d+/", $cmd))
 				{
 					$cmd = "randomQuestions";
 				}
-				if ((strcmp($cmd, "properties") == 0) && ($_GET["browse"]))
+				if((strcmp($cmd, "properties") == 0) && ($_GET["browse"]))
 				{
 					$this->questionBrowser();
 					return;
 				}
-				if ((strcmp($cmd, "properties") == 0) && ($_GET["up"] || $_GET["down"]))
+				if((strcmp($cmd, "properties") == 0) && ($_GET["up"] || $_GET["down"]))
 				{
 					$this->questionsObject();
 					return;
 				}
-				$cmd.= "Object";
+				$cmd .= "Object";
 				$ret =& $this->$cmd();
 				break;
-                         default:
-                               // elba hack for storing question id for inserting new question after
-                                if ($_REQUEST['prev_qid']) {
-                                    global $___prev_question_id;
-                                    $___prev_question_id = $_REQUEST['prev_qid'];
-                                    $this->ctrl->setParameterByClass('ilpageobjectgui', 'prev_qid', $_REQUEST['prev_qid']);
-                                    $this->ctrl->setParameterByClass($_GET['sel_question_types'] . 'gui', 'prev_qid', $_REQUEST['prev_qid']);
-                                }
-                                $this->create_question_mode = true;
-                                $this->prepareOutput();
+			default:
+				// elba hack for storing question id for inserting new question after
+				if($_REQUEST['prev_qid'])
+				{
+					global $___prev_question_id;
+					$___prev_question_id = $_REQUEST['prev_qid'];
+					$this->ctrl->setParameterByClass('ilpageobjectgui', 'prev_qid', $_REQUEST['prev_qid']);
+					$this->ctrl->setParameterByClass($_GET['sel_question_types'] . 'gui', 'prev_qid', $_REQUEST['prev_qid']);
+				}
+				$this->create_question_mode = true;
+				$this->prepareOutput();
 
-                                $this->ctrl->setReturn($this, "questions");
-                                include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-                                $q_gui =& assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $_GET["q_id"]);
-                                $q_gui->object->setObjId($this->object->getId());
-                                if (!$_GET['sel_question_types'])
-                                    $qType = assQuestion::getQuestionTypeFromDb($_GET['q_id']);
-                                else {
-                                    $qType = $_GET['sel_question_types'];
-                                }
-                                $this->ctrl->setParameterByClass($qType . "GUI", 'prev_qid', $_REQUEST['prev_qid']);
-                                $this->ctrl->setParameterByClass($qType . "GUI", 'test_ref_id', $_REQUEST['ref_id']);
-                                $this->ctrl->setParameterByClass($qType . "GUI", 'q_id', $_REQUEST['q_id']);
-				if ($_REQUEST['test_express_mode'])
-				    $this->ctrl->setParameterByClass($qType . "GUI", 'test_express_mode', 1);
-						
-                                #global $___test_express_mode;
-                                #$___test_express_mode = true;
-                                if (!$q_gui->isSaveCommand())
-                                    $_GET['calling_test'] = $this->object->getRefId();
+				$this->ctrl->setReturn($this, "questions");
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+				$q_gui =& assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $_GET["q_id"]);
+				$q_gui->object->setObjId($this->object->getId());
+				if(!$_GET['sel_question_types'])
+					$qType = assQuestion::getQuestionTypeFromDb($_GET['q_id']);
+				else
+				{
+					$qType = $_GET['sel_question_types'];
+				}
+				$this->ctrl->setParameterByClass($qType . "GUI", 'prev_qid', $_REQUEST['prev_qid']);
+				$this->ctrl->setParameterByClass($qType . "GUI", 'test_ref_id', $_REQUEST['ref_id']);
+				$this->ctrl->setParameterByClass($qType . "GUI", 'q_id', $_REQUEST['q_id']);
+				if($_REQUEST['test_express_mode'])
+					$this->ctrl->setParameterByClass($qType . "GUI", 'test_express_mode', 1);
 
-                                $q_gui->setQuestionTabs();
-                                #unset($___test_express_mode);
-                                $ret =& $this->ctrl->forwardCommand($q_gui);
-                                break;
+				#global $___test_express_mode;
+				#$___test_express_mode = true;
+				if(!$q_gui->isSaveCommand())
+					$_GET['calling_test'] = $this->object->getRefId();
+
+				$q_gui->setQuestionTabs();
+				#unset($___test_express_mode);
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
 		}
-		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
-			$this->getCreationMode() != true)
+		if(strtolower($_GET["baseClass"]) != "iladministrationgui" &&
+			$this->getCreationMode() != true
+		)
 		{
 			$this->tpl->show();
 		}
@@ -2841,6 +2847,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->getQuestionsSubTabs();
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, FALSE, "write");
+		
 		if ($this->object->getPoolUsage()) {
 		    global $lng, $ilCtrl, $tpl;
 
@@ -2905,7 +2912,8 @@ class ilObjTestGUI extends ilObjectGUI
 		    $existing_pool->addSubItem($pools);
 
 
-		    $name = new ilTextInputGUI($this->lng->txt("cat_create_qpl"), "txt_qpl");
+			$this->lng->loadLanguageModule('rbac');
+		    $name = new ilTextInputGUI($this->lng->txt("rbac_create_qpl"), "txt_qpl");
 		    $name->setSize(50);
 		    $name->setMaxLength(50);
 		    $new_pool->addSubItem($name);
@@ -3041,6 +3049,8 @@ class ilObjTestGUI extends ilObjectGUI
 				if (in_array($data["question_id"], $checked_questions))
 				{
 					$txt = $data["title"]." (".assQuestion::_getQuestionTypeName($data["type_tag"]).")";
+					$txt .= $q . ' ['. $this->lng->txt('question_id_short') . ': ' . $data['question_id']  . ']';
+					
 					if($data["description"])
 					{
 						$txt .= "<div class=\"small\">".$data["description"]."</div>";
@@ -4429,6 +4439,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$template->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question);
 			$template->setVariable("COUNTER_QUESTION", $counter.".");
+			$template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
+			$template->setVariable("QUESTION_ID", $question_gui->object->getId());
 			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($question_gui->object->getTitle()));
 			if ($question_gui->object->getMaximumPoints() == 1)
 			{
@@ -5610,67 +5622,71 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	function buildPageViewToolbar($qid = 0)
 	{
-            if ($this->create_question_mode)
-                    return;
+		if($this->create_question_mode)
+			return;
 
 		global $ilToolbar, $ilCtrl, $lng;
 
-                $this->getQuestionsSubTabs();
+		$this->getQuestionsSubTabs();
 
-                $ilCtrl->saveParameter($this, 'q_mode');
+		$ilCtrl->saveParameter($this, 'q_mode');
 
-                $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
+		$ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
 		$ilCtrl->setParameter($this, 'test_express_mode', 1);
-                $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $_REQUEST['q_id']);
+		$ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $_REQUEST['q_id']);
 		$ilCtrl->setParameter($this, 'q_id', $_REQUEST['q_id']);
-                $ilToolbar->setFormAction($ilCtrl->getFormActionByClass('iltestexpresspageobjectgui', 'edit'));
+		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass('iltestexpresspageobjectgui', 'edit'));
 
-                if ($this->object->evalTotalPersons() == 0) {
-		    /*
-		    include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
-		    $pool = new ilObjQuestionPool();
-		    $questionTypes = $pool->getQuestionTypes();$options = array();
-		    foreach($questionTypes as $label => $data) {
+		if($this->object->evalTotalPersons() == 0)
+		{
+			/*
+			include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+			$pool = new ilObjQuestionPool();
+			$questionTypes = $pool->getQuestionTypes();$options = array();
+			foreach($questionTypes as $label => $data) {
 			$options[$data['question_type_id']] = $label;
-		    }
+			}
 
-                    include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-                    $si = new ilSelectInputGUI($lng->txt("test_add_new_question"), "qtype");
-                    $si->setOptions($options);
-                    $ilToolbar->addInputItem($si, true);
-		    /*
-                    // use pool
-                    if ($this->object->isExpressModeQuestionPoolAllowed()) {
-                        include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-                        $cb = new ilCheckboxInputGUI($lng->txt("test_use_pool"), "use_pool");
-                        $ilToolbar->addInputItem($cb, true);
-                    }
-		    */
-                    $ilToolbar->addFormButton($lng->txt("ass_create_question"), "addQuestion");
-		    
-		    $ilToolbar->addSeparator();		    
-		    
-		    if ($this->object->getPoolUsage()) {
-			    $ilToolbar->addFormButton($lng->txt("tst_browse_for_questions"), "browseForQuestions");
-			    
-			    $show_separator = true;
-		    }
-                }
+					include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+					$si = new ilSelectInputGUI($lng->txt("test_add_new_question"), "qtype");
+					$si->setOptions($options);
+					$ilToolbar->addInputItem($si, true);
+			/*
+					// use pool
+					if ($this->object->isExpressModeQuestionPoolAllowed()) {
+						include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+						$cb = new ilCheckboxInputGUI($lng->txt("test_use_pool"), "use_pool");
+						$ilToolbar->addInputItem($cb, true);
+					}
+			*/
+			$ilToolbar->addFormButton($lng->txt("ass_create_question"), "addQuestion");
 
-                $questions = $this->object->getQuestionTitlesAndIndexes();
+			$ilToolbar->addSeparator();
+
+			if($this->object->getPoolUsage())
+			{
+				$ilToolbar->addFormButton($lng->txt("tst_browse_for_questions"), "browseForQuestions");
+
+				$show_separator = true;
+			}
+		}
+
+		$questions = $this->object->getQuestionTitlesAndIndexes();
 
 		// desc
-                $options = array();
-                foreach($questions as $id => $label) {
-		    $options[$id] = $label;
-                }
+		$options = array();
+		foreach($questions as $id => $label)
+		{
+			$options[$id] = $label . ' ['. $this->lng->txt('question_id_short') . ': ' . $id . ']';
+		}
 
-                $optionKeys = array_keys($options);
+		$optionKeys = array_keys($options);
 
-                if (!$options) {
-                    $options[] = $lng->txt('none');
-                }
-                //else if (count($options) > 1) {
+		if(!$options)
+		{
+			$options[] = $lng->txt('none');
+		}
+		//else if (count($options) > 1) {
 //                    $addSeparator = false;
 //                    if ($optionKeys[0] != $qid) {
 //                        //$ilToolbar->addFormButton($lng->txt("test_prev_question"), "prevQuestion");
@@ -5694,81 +5710,87 @@ class ilObjTestGUI extends ilObjectGUI
 //                        $ilToolbar->addSeparator();
 //                    //}
 
-		if (count($questions)) {
-	            if (isset($show_separator) && $show_separator) {
-			$ilToolbar->addSeparator();
-		    }
+		if(count($questions))
+		{
+			if(isset($show_separator) && $show_separator)
+			{
+				$ilToolbar->addSeparator();
+			}
 
-		    $ilToolbar->addLink($lng->txt("test_prev_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'), !(count($options) > 1 && $optionKeys[0] != $qid));
-		    $ilToolbar->addLink($lng->txt("test_next_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'), !(count($options) > 1 && $optionKeys[count($optionKeys)-1] != $qid));
+			$ilToolbar->addLink($lng->txt("test_prev_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'), !(count($options) > 1 && $optionKeys[0] != $qid));
+			$ilToolbar->addLink($lng->txt("test_next_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'), !(count($options) > 1 && $optionKeys[count($optionKeys) - 1] != $qid));
 		}
 
-                if (count($questions) > 1) {
+		if(count($questions) > 1)
+		{
 
-		    $ilToolbar->addSeparator();
+			$ilToolbar->addSeparator();
 
-                    include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-                    $si = new ilSelectInputGUI($lng->txt("test_jump_to"), "q_id");
-                    $si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
-                    $si->setOptions($options);
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$si = new ilSelectInputGUI($lng->txt("test_jump_to"), "q_id");
+			$si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
+			$si->setOptions($options);
 
-                    if ($qid) {
-                        $si->setValue($qid);
-                    }
+			if($qid)
+			{
+				$si->setValue($qid);
+			}
 
-                    $ilToolbar->addInputItem($si, true);
-                }
+			$ilToolbar->addInputItem($si, true);
+		}
 
 		$total = $this->object->evalTotalPersons();
 
-                /*if (count($options)) {
-                    include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-                    $si = new ilSelectInputGUI($lng->txt("test_jump_to"), "q_id");
-                    $si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
-                    $si->setOptions($options);
+		/*if (count($options)) {
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$si = new ilSelectInputGUI($lng->txt("test_jump_to"), "q_id");
+			$si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
+			$si->setOptions($options);
 
-                    if ($qid) {
-                        $si->setValue($qid);
-                    }
+			if ($qid) {
+				$si->setValue($qid);
+			}
 
-                    $ilToolbar->addInputItem($si, true);
-                }*/
+			$ilToolbar->addInputItem($si, true);
+		}*/
 
-		if (count($questions) && !$total) {
-		    $ilCtrl->setParameter($this, 'q_id', $_REQUEST['q_id']);
-		    $ilToolbar->addSeparator();
-		    $ilToolbar->addButton($lng->txt("test_delete_page"), $ilCtrl->getLinkTarget($this, "removeQuestions"));
+		if(count($questions) && !$total)
+		{
+			$ilCtrl->setParameter($this, 'q_id', $_REQUEST['q_id']);
+			$ilToolbar->addSeparator();
+			$ilToolbar->addButton($lng->txt("test_delete_page"), $ilCtrl->getLinkTarget($this, "removeQuestions"));
 		}
 
-		if (count($questions) > 1 && !$total) {
-		    $ilToolbar->addSeparator();
-		    $ilToolbar->addButton($lng->txt("test_move_page"), $ilCtrl->getLinkTarget($this, "movePageForm"));
+		if(count($questions) > 1 && !$total)
+		{
+			$ilToolbar->addSeparator();
+			$ilToolbar->addButton($lng->txt("test_move_page"), $ilCtrl->getLinkTarget($this, "movePageForm"));
 		}
-		
+
 		global $ilAccess, $ilUser;
-		$seq = $this->object->getTestSession()->getLastSequence();
+		$seq           = $this->object->getTestSession()->getLastSequence();
 		$online_access = false;
-		if ($this->object->getFixedParticipants())
+		if($this->object->getFixedParticipants())
 		{
 			include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 			$online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
-			if ($online_access_result === true)
+			if($online_access_result === true)
 			{
 				$online_access = true;
 			}
 		}
-		
-		if( $this->object->isOnline() && $this->object->isComplete() )
+
+		if($this->object->isOnline() && $this->object->isComplete())
 		{
-			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
+			if((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
 				$executable = $this->object->isExecutable($ilUser->getId(), $allowPassIncrease = TRUE);
-				if ($executable["executable"])
+				if($executable["executable"])
 				{
-					if ($this->object->getTestSession()->getActiveId() > 0)
+					if($this->object->getTestSession()->getActiveId() > 0)
 					{
 						$ilToolbar->addSeparator();
-						$ilToolbar->addButton($lng->txt('tst_resume_test'), $ilCtrl->getLinkTargetByClass('iltestoutputgui', 'resume'));						
+						$ilToolbar->addButton($lng->txt('tst_resume_test'), $ilCtrl->getLinkTargetByClass('iltestoutputgui', 'resume'));
 					}
 					else
 					{
@@ -5777,9 +5799,7 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 			}
-		}		
-
-
+		}
 	}
 
 	public function copyQuestionsToPoolObject($returnResult = false) {
@@ -6172,7 +6192,7 @@ class ilObjTestGUI extends ilObjectGUI
 		    0 => $lng->txt('first')
 		);
 		foreach($questions as $k => $q) {
-		    $options[$k] = $q;
+		    $options[$k] = $q . ' ['. $this->lng->txt('question_id_short') . ': ' . $k  . ']';
 		}
 
 		$pos = new ilSelectInputGUI($lng->txt("position"), "position_after");

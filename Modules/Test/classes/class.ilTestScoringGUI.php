@@ -183,7 +183,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		
 		if( $this->object->getNrOfTries() != 1 )
 		{
-			require_once 'Modules/Test/classes/tables/class.ilTestPassOverwiewTableGUI.php';
+			require_once 'Modules/Test/classes/tables/class.ilTestPassOverviewTableGUI.php';
 			$table = new ilTestPassOverwiewTableGUI($this, 'showManScoringParticipantScreen');
 
 			$userId = $this->object->_getUserIdFromActiveId($activeId);
