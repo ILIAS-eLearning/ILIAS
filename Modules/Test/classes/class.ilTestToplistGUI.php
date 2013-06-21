@@ -13,7 +13,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class ilTestToplistGUI
 {
-	
+	/** @var $object ilObjTest */
+	protected $object;
 	public function __construct($a_object)
 	{
 		$this->object = $a_object->object;
@@ -188,7 +189,7 @@ class ilTestToplistGUI
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
 			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
 			ORDER BY percentage DESC
-			LIMIT 0, 10
+			LIMIT 0, ' . $ilDB->quote($this->object->getHighscoreTopNum(), 'integer' ) . '
 			'
 		);
 		$i = 0;
@@ -217,7 +218,7 @@ class ilTestToplistGUI
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
 			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
 			ORDER BY workingtime ASC
-			LIMIT 0, 10
+			LIMIT 0, ' . $ilDB->quote($this->object->getHighscoreTopNum(), 'integer' ) . '
 			'
 		);
 		$i = 0;
