@@ -5161,7 +5161,7 @@ function getAnswerFeedbackPoints()
 			$data	->getParticipant($row["active_fi"])
 					->getPass($row["pass"])
 					->addAnsweredQuestion(
-						$row["question_fi"],
+						$row["original_id"] ? $row["original_id"] : $row["question_fi"],
 						$row["maxpoints"],
 						$row["points"],
 						$row['answered']
@@ -5190,8 +5190,8 @@ function getAnswerFeedbackPoints()
 						while ($row = $ilDB->fetchAssoc($result))
 						{
 							$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-							$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["question_fi"], $row["points"], $row["sequence"], $tpass);
-							$data->addQuestionTitle($row["question_fi"], $row["title"]);
+							$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["question_fi"], $row["points"], $row["sequence"], $tpass);
+							$data->addQuestionTitle($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["title"]);
 						}
 					}
 				}
@@ -5225,8 +5225,9 @@ function getAnswerFeedbackPoints()
 						$questionsequence = unserialize($seqrow["sequence"]);
 						foreach ($questionsequence as $sidx => $seq)
 						{
-							$data->getParticipant($active_id)->addQuestion($questionsbysequence[$seq]["original_id"], $questionsbysequence[$seq]["question_fi"], $questionsbysequence[$seq]["points"], $sidx + 1, $seqrow["pass"]);
-							$data->addQuestionTitle($questionsbysequence[$seq]["question_fi"], $questionsbysequence[$seq]["title"]);
+							$qsid = $questionsbysequence[$seq]["original_id"] ? $questionsbysequence[$seq]["original_id"] : $questionsbysequence[$seq]["question_fi"];
+							$data->getParticipant($active_id)->addQuestion($qsid, $questionsbysequence[$seq]["question_fi"], $questionsbysequence[$seq]["points"], $sidx + 1, $seqrow["pass"]);
+							$data->addQuestionTitle($qsid, $questionsbysequence[$seq]["title"]);
 						}
 					}
 				}
