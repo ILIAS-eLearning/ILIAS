@@ -77,7 +77,7 @@ class assImagemapQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "IS_MULTIPLE_CHOICE");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getIsMultipleChoice());
+		$a_xml_writer->xmlElement("fieldentry", NULL, ($this->object->getIsMultipleChoice())? "1": "0" );
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
