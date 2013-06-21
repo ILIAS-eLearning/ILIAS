@@ -11,8 +11,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 *
 * @ingroup	ModulesTest
 */
-
-class ilTestPassOverwiewTableGUI extends ilTable2GUI
+class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 {
 	/**
 	 * @global	ilCtrl		$ilCtrl
