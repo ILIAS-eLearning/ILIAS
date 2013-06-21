@@ -15962,3 +15962,15 @@ if(!$ilDB->tableColumnExists('tst_tests', 'redirection_url'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3920>
+<?php
+if( !$ilDB->tableColumnExists('tst_pass_result', 'exam_id') )
+{
+	$ilDB->addTableColumn("tst_pass_result", "exam_id",
+						  array(	'type' => 'text',
+									'length' => 128,
+									'notnull' => false,
+									'default' => null
+						  ));
+}
+?>
