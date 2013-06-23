@@ -238,7 +238,7 @@ installed#:#Installálva
 institution#:#Intézmény
 intro_install#:#Ez az ILIAS setup-jának főlapja. Innen le tudja folytatni az installációt.
 ip_address#:#IP-cím
-java_path_comment_win#:#Opcionális SCORM tananyagmodulok validálásához, pl. 'C:/Program Files/Java/bin/java.eve'.
+java_path_comment_win#:#Opcionális SCORM tananyagmodulok validálásához, pl. 'C:/Program Files/Java/bin/java.exe'.
 java_path_comment#:#Opcionális SCORM tananyagmodulok validálásához, pl. '/your_path/java'.
 java_path#:#Java elérési út
 lang_ar#:#Arab

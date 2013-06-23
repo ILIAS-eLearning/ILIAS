@@ -480,7 +480,7 @@ clients#:#Klienter
 no_items#:#Ingen emner
 convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.###18 08 2009 new variable
 htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.###18 08 2009 new variable
-java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.###18 08 2009 new variable
+java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.exe'.###18 08 2009 new variable
 log_path_comment_win#:#F.eks. 'C:/iliasdata/iliaslog.txt' (filen bliver oprettet)
 unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.###18 08 2009 new variable
 zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.###18 08 2009 new variable

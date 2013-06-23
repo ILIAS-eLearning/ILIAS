@@ -237,7 +237,7 @@ installed#:#Installed
 institution#:#Institution
 intro_install#:#This is the main page of ILIAS Setup. From here you can step through the installation.
 ip_address#:#IP Address
-java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.
+java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.exe'.
 java_path_comment#:#Optional for validating SCORM Learning Modules, e.g. '/your_path/java'.
 java_path#:#Path to Java
 lang_ar#:#Arabic

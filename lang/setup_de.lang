@@ -225,7 +225,7 @@ installed#:#installiert
 institution#:#Institution
 intro_install#:#Das ist das Hauptmenü von ILIAS-Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS durchführen.
 ip_address#:#IP-Adresse
-java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.###18 08 2009 new variable
+java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.exe'.###18 08 2009 new variable
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
 java_path#:#Java-Befehlszeile
 lang_ar#:#Arabisch
