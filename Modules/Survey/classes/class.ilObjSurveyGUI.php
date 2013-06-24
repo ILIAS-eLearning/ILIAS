@@ -4223,9 +4223,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 						include_once "Services/User/classes/class.ilUserUtil.php";
 						foreach($list as $appr_id => $item)
 						{					
+							$appr_name = ilUserUtil::getNamePresentation($appr_id, false, false, "", true);
+							
 							if(!is_array($item))
 							{							
-								$info->addProperty(ilUserUtil::getNamePresentation($appr_id), $item);							
+								$info->addProperty($appr_name, $item);							
 							}
 							else
 							{
@@ -4236,7 +4238,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 								$big_button_360 = '<div>'.
 									'<a class="submit" href="'.$href.'">'.$item[1].'</a></div>';
 
-								$info->addProperty(ilUserUtil::getNamePresentation($appr_id), $big_button_360);							
+								$info->addProperty($appr_name, $big_button_360);							
 							}						
 						}																
 					}					
