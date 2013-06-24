@@ -1846,7 +1846,7 @@ class ilForum
 		unset($frm_obj);
 		
 		$message = '';
-		$message .= ilMail::getSalutation($user_obj->getId, $user_lang);
+		$message .= ilMail::getSalutation($user_obj->getId(), $user_lang);
 		
 		$message .= "\n\n";
 		$message .= $this->lng->txt("forum_post_replied");
