@@ -1940,9 +1940,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$kiosktitle = new ilCheckboxGroupInputGUI($this->lng->txt("kiosk_options"), "kiosk_options");
 		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_title"), 'kiosk_title', ''));
 		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_participant"), 'kiosk_participant', ''));
+		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt('examid_in_kiosk'), 'examid_in_kiosk'));
 		$values = array();
 		if ($this->object->getShowKioskModeTitle()) array_push($values, 'kiosk_title');
 		if ($this->object->getShowKioskModeParticipant()) array_push($values, 'kiosk_participant');
+		if ($this->object->getExamidInKiosk()) array_push($values, 'examid_in_kiosk');
 		$kiosktitle->setValue($values);
 		$kiosktitle->setInfo($this->lng->txt("kiosk_options_desc"));
 		$kiosk->addSubItem($kiosktitle);
@@ -2229,6 +2231,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setKioskMode(($_POST["kiosk"]) ? 1 : 0);
 			$this->object->setShowKioskModeTitle((is_array($_POST["kiosk_options"]) && in_array('kiosk_title', $_POST["kiosk_options"])) ? 1 : 0);
 			$this->object->setShowKioskModeParticipant((is_array($_POST["kiosk_options"]) && in_array('kiosk_participant', $_POST["kiosk_options"])) ? 1 : 0);
+			$this->object->setExamidInKiosk((is_array($_POST["kiosk_options"]) && in_array('examid_in_kiosk', $_POST["kiosk_options"])) ? true : false);
 			$this->object->setEnableProcessingTime(($_POST["chb_processing_time"]) ? 1 : 0);
 			if ($this->object->getEnableProcessingTime())
 			{

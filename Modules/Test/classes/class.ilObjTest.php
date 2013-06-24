@@ -446,10 +446,14 @@ class ilObjTest extends ilObject
 	 * @var int
 	 */
 	private $redirection_mode = 0;
+	
 	/**
 	 * @var string null
 	 */
 	private $redirection_url = NULL;
+	
+	/** @var bool $examid_in_kiosk */
+	protected $examid_in_kiosk;
 
 	/**
 	* Constructor
@@ -532,6 +536,7 @@ class ilObjTest extends ilObject
                 $this->template_id = '';
 		$this->redirection_mode = 0;
 		$this->redirection_url = NULL;
+		$this->examid_in_kiosk = false;
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
 
@@ -928,6 +933,7 @@ class ilObjTest extends ilObject
 	*/
 	function _createImportDirectory()
 	{
+		global $ilias;
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
@@ -1268,7 +1274,8 @@ class ilObjTest extends ilObject
 				'autosave_ival' => array('integer', (int)$this->getAutosaveIval()),
 				'pass_deletion_allowed' => array('integer', (int)$this->isPassDeletionAllowed()),
 				'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
-				'redirection_url' => array('text', (string)$this->getRedirectionUrl())
+				'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
+				'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1369,7 +1376,8 @@ class ilObjTest extends ilObject
 						'autosave_ival' => array('integer', $this->getAutosaveIval()),
 						'pass_deletion_allowed' => array('integer', (int)$this->isPassDeletionAllowed()),
 						'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
-						'redirection_url' => array('text', (string)$this->getRedirectionUrl())
+						'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
+						'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -2189,6 +2197,7 @@ class ilObjTest extends ilObject
 			$this->setAutosave((bool)$data->autosave);
 			$this->setAutosaveIval((int)$data->autosave_ival);
 			$this->setPassDeletionAllowed($data->pass_deletion_allowed);
+			$this->setExamidInKiosk( (bool)$data->examid_in_kiosk);
 			$this->loadQuestions();
 		}
 		
@@ -6245,6 +6254,9 @@ function getAnswerFeedbackPoints()
 				case 'redirection_url':
 					$this->setRedirectionUrl($metadata['entry']);
 					break;
+				case 'examid_in_kiosk':
+					$this->setExamidInKiosk($metadata['entry']);
+					break;
 			}
 			if (preg_match("/mark_step_\d+/", $metadata["label"]))
 			{
@@ -6453,6 +6465,12 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getResultsPresentation()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
+		// examid in kiosk
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "examid_in_kiosk");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getExamidInKiosk()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
 		// solution details
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_summary");
@@ -7178,6 +7196,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setTemplate($this->getTemplate());
 		$newObj->setPoolUsage($this->getPoolUsage());
 		$newObj->setPrintBestSolutionWithResult($this->isBestSolutionPrintedWithResult());
+		$newObj->setExamidInKiosk($this->getExamidInKiosk());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -9835,7 +9854,7 @@ function getAnswerFeedbackPoints()
 		$this->setHighscoreTopTable($testsettings['highscore_top_table']);
 		$this->setHighscoreTopNum($testsettings['highscore_top_num']);
 		$this->setPassDeletionAllowed($testsettings['pass_deletion_allowed']);
-
+		$this->setExamidInKiosk($testsettings['examid_in_kiosk']);
 		$this->saveToDb();
 
 		return true;
@@ -11606,5 +11625,48 @@ function getAnswerFeedbackPoints()
 		$res = $ilDB->query($query);
 		$data = $ilDB->fetchAssoc($res);
 		return (int)$data['max_res'];
+	}
+
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return array
+	 */
+	public function getExamId($active_id, $pass)
+	{
+		/** @TODO Move this to a proper place. */
+		global $ilDB, $ilSetting;
+
+		$exam_id_query  = 'SELECT exam_id FROM tst_pass_result WHERE active_fi = %s AND pass = %s';
+		$exam_id_result = $ilDB->queryF( $exam_id_query, array( 'integer', 'integer' ), array( $active_id, $pass ) );
+		if ($ilDB->numRows( $exam_id_result ) == 1)
+		{
+			$exam_id_row = $ilDB->fetchAssoc( $exam_id_result );
+
+			if ($exam_id_row['exam_id'] != null)
+			{
+				return $exam_id_row['exam_id'];
+			}
+		}
+
+		$inst_id = $ilSetting->get( 'inst_id', null );
+		$obj_id  = $this->obj_id;
+		return 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
+	}
+
+	/**
+	 * @param boolean $examid_in_kiosk
+	 */
+	public function setExamidInKiosk($examid_in_kiosk)
+	{
+		$this->examid_in_kiosk = $examid_in_kiosk;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getExamidInKiosk()
+	{
+		return $this->examid_in_kiosk;
 	}
 }

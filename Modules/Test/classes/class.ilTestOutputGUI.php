@@ -1631,6 +1631,19 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$template->setVariable("PARTICIPANT_NAME", $this->lng->txt("login_as") . " " . $ilUser->getFullname());
 			$template->parseCurrentBlock();
 		}
+		if ($this->object->getExamidInKiosk())
+		{
+			$template->setCurrentBlock("kiosk_show_exam_id");
+			$template->setVariable("EXAM_ID_TXT", $this->lng->txt("exam_id"));
+			
+			$user_id = $ilUser->getId();
+			$object_id = $this->object->getTestId();
+			$active_id = $this->object->_getActiveIdOfUser( $user_id, $object_id  );
+			$pass = $this->object->_getPass($active_id);			
+			$exam_id = $this->object->getExamId($active_id , $pass);
+			$template->setVariable(	"EXAM_ID", $exam_id);
+			$template->parseCurrentBlock();			
+		}
 		return $template->get();
 	}
 	

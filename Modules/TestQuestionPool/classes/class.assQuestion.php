@@ -980,6 +980,7 @@ abstract class assQuestion
 	 */
 	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered);
 
+	/** @TODO Move this to a proper place. */
 	function _updateTestResultCache($active_id)
 	{
 		global $ilDB;
@@ -1041,6 +1042,7 @@ abstract class assQuestion
 		));
 	}
 
+	/** @TODO Move this to a proper place. */
 	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false)
 	{
 		global $ilDB;
@@ -1106,18 +1108,41 @@ abstract class assQuestion
 			
 			if( $row['hint_count'] === null ) $row['hint_count'] = 0;
 			if( $row['hint_points'] === null ) $row['hint_points'] = 0;
+
+			$exam_identifier = $this->getExamId( $active_id, $pass );
 			
+			/*
 			$query = "
 				DELETE FROM		tst_pass_result
 
 				WHERE			active_fi = %s
 				AND				pass = %s
 			";
-
+		
 			$affectedRows = $ilDB->manipulateF(
 				$query, array('integer','integer'), array($active_id, $pass)
 			);
+			*/
+			/** @var $ilDB ilDB */
+			$ilDB->replace('tst_pass_result', 
+						    array(
+								'active_fi' 			=> array('integer', $active_id), 
+								'pass' 					=> array('integer', strlen($pass) ? $pass : 0)),
+							array(
+								'points'				=> array('float', 	$row['reachedpoints'] ? $row['reachedpoints'] : 0),
+								'maxpoints'				=> array('float', 	$data['points']),
+								'questioncount'			=> array('integer', $data['count']),
+								'answeredquestions'		=> array('integer', $row['answeredquestions']),
+								'workingtime'			=> array('integer', $time),
+								'tstamp'				=> array('integer', time()),
+								'hint_count'			=> array('integer', $row['hint_count']),
+								'hint_points'			=> array('float', 	$row['hint_points']),
+								'obligations_answered'	=> array('integer', $obligations_answered),
+								'exam_id'				=> array('text', 	$exam_identifier)
+							)
+			);
 			
+			/*
 			$ilDB->insert('tst_pass_result', array(
 				'active_fi'				=> array('integer', $active_id),
 				'pass'					=> array('integer', strlen($pass) ? $pass : 0),
@@ -1129,8 +1154,10 @@ abstract class assQuestion
 				'tstamp'				=> array('integer', time()),
 				'hint_count'			=> array('integer', $row['hint_count']),
 				'hint_points'			=> array('float', $row['hint_points']),
-				'obligations_answered'	=> array('integer', $obligations_answered)
+				'obligations_answered'	=> array('integer', $obligations_answered),
+			    'exam_id'				=> array('text', $exam_identifier)
 			));
+			*/
 		}
 		
 		assQuestion::_updateTestResultCache($active_id);
@@ -1146,11 +1173,40 @@ abstract class assQuestion
 			'tstamp' => time(),
 			'hint_count' => $row['hint_count'],
 			'hint_points' => $row['hint_points'],
-			'obligations_answered' => $obligations_answered
+			'obligations_answered' => $obligations_answered,
+			'exam_id' => $exam_identifier
 		);
 	}
-	
-/**
+
+	/**
+	 * @deprecated Use method in ilObjTest.
+	 * @param $active_id
+	 * @param $pass
+	 * @return array
+	 */
+	public function getExamId($active_id, $pass)
+	{
+		/** @TODO Move this to a proper place. */
+		global $ilDB, $ilSetting;
+
+		$exam_id_query  = 'SELECT exam_id FROM tst_pass_result WHERE active_fi = %s AND pass = %s';
+		$exam_id_result = $ilDB->queryF( $exam_id_query, array( 'integer', 'integer' ), array( $active_id, $pass ) );
+		if ($ilDB->numRows( $exam_id_result ) == 1)
+		{
+			$exam_id_row = $ilDB->fetchAssoc( $exam_id_result );
+			
+			if ($exam_id_row['exam_id'] != null)
+			{
+				return $exam_id_row['exam_id'];
+			}
+		}
+
+		$inst_id = $ilSetting->get( 'inst_id', null );
+		$obj_id  = $this->obj_id;
+		return 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
+	}
+
+	/**
 * Logs an action into the Test&Assessment log
 *
 * @param string $logtext The log text

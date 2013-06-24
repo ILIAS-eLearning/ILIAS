@@ -15974,3 +15974,15 @@ if( !$ilDB->tableColumnExists('tst_pass_result', 'exam_id') )
 						  ));
 }
 ?>
+<#3921>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'examid_in_kiosk') )
+{
+	$ilDB->addTableColumn("tst_tests", "examid_in_kiosk",
+						  array(	'type' => 'integer',
+									'length' => 4,
+									'notnull' => true,
+									'default' => 0
+						  ));
+}
+?>
