@@ -6401,7 +6401,7 @@ exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.
 exc#:#exc_total_exc#:#Total Exercise
 exercise#:#exc_comment_for_learner#:#Comment for Learner
 exercise#:#exc_comment#:#Comment
-exercise#:#exc_crs_add_members#:#Add students from this course
+exercise#:#exc_crs_add_members#:#Add Users of Current Course
 exercise#:#exc_failed#:#Failed
 exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor
 exercise#:#exc_grading#:#Grading
