@@ -1055,6 +1055,8 @@ assessment#:#tst_type_changed#:#You have changed the test type. All previous pro
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
+assessment#:#exam_id#:#Exam Id: 
+assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode 
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes. Thefore an option is shown on the info screen, that is deactivated by default.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
