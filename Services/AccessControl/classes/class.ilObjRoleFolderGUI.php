@@ -303,14 +303,15 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	protected function doCopyRole($source, $target, $change_existing)
 	{
 		global $tree, $rbacadmin, $rbacreview;
-
-
+		
+		$srolf = $rbacreview->getRoleFolderOfRole($source);
+		$trolf = $rbacreview->getRoleFolderOfRole($target);
 
 		// Copy role template permissions
 		$rbacadmin->copyRoleTemplatePermissions(
 			$source,
-			$this->object->getRefId(),
-			$rbacreview->getRoleFolderOfRole($target),
+			$srolf,
+			$trolf,
 			$target
 		);
 
@@ -319,11 +320,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			return true;
 		}
 
-		$start = ($this->object->getRefId() == ROLE_FOLDER_ID) ?
+		$start = (($trolf == ROLE_FOLDER_ID) ?
 			ROOT_FOLDER_ID :
-			$tree->getParentId($this->object->getRefId());
-
-
+			$tree->getParentId($trolf));
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		if($rbacreview->isProtected($this->object->getRefId(),$source))
