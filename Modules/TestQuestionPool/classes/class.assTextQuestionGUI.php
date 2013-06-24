@@ -84,7 +84,6 @@ class assTextQuestionGUI extends assQuestionGUI
 				$_POST["Estimated"]["mm"],
 				$_POST["Estimated"]["ss"]
 			);
-			//vd($_POST);
 			$this->object->setKeywordRelation($_POST['scoring_mode']);
 			
 			switch( $this->object->getKeywordRelation() )
@@ -179,7 +178,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$scoringMode->addOption($scoringOptionAllKeyword);
 			$scoringMode->addOption($scoringOptionOneKeyword);
 			$scoringMode->setRequired(true);
-			$scoringMode->setValue($this->object->getKeywordRelation());
+			$scoringMode->setValue(strlen($this->object->getKeywordRelation()) ? $this->object->getKeywordRelation() : 'non');
 			
 			require_once "./Modules/TestQuestionPool/classes/class.ilEssayKeywordWizardInputGUI.php";
 
