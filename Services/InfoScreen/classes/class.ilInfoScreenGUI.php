@@ -1163,7 +1163,7 @@ class ilInfoScreenGUI
 	{
 		global $lng;
 		
-		return "<a class=\"submit\" onClick=\"toggleSections();\" href=\"#\">".$lng->txt("toggle_hidden_sections")."</a>";
+		return "<a onClick=\"toggleSections();\" href=\"#\">".$lng->txt("toggle_hidden_sections")." &raquo;</a>";
 	}
 }
 

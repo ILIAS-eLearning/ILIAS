@@ -4156,8 +4156,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 														
 							if(!$appr_data["closed"])
 							{
-								$close_button_360 = '<div class="submit">'.
-									'<a href="'.$this->ctrl->getLinkTarget($this, "confirmappraiseeclose").'">'.
+								$close_button_360 = '<div>'.
+									'<a class="submit" href="'.$this->ctrl->getLinkTarget($this, "confirmappraiseeclose").'">'.
 									$this->lng->txt("survey_360_appraisee_close_action").'</a></div>';
 								
 								$txt = "survey_360_appraisee_close_action_info";
@@ -4233,8 +4233,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 								$href = $this->ctrl->getLinkTarget($output_gui, $item[0]);
 								$this->ctrl->setParameter($output_gui, "appr_id", "");
 
-								$big_button_360 = '<div class="submit">'.
-									'<a href="'.$href.'">'.$item[1].'</a></div>';
+								$big_button_360 = '<div>'.
+									'<a class="submit" href="'.$href.'">'.$item[1].'</a></div>';
 
 								$info->addProperty(ilUserUtil::getNamePresentation($appr_id), $big_button_360);							
 							}						
