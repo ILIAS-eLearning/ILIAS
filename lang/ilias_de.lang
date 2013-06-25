@@ -13343,3 +13343,7 @@ blog#:#blog_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Blo
 search#:#search_add_members_from_container#:#Benutzer aus aktueller Kurs/Gruppe hinzufügen
 common#:#obj_sysc#:#System Check
 common#:#obj_sysc_desc#:#System Check and Repair Tools
+rbac#:#sysc_edit_permission#:#User can change permissions of System Check.
+rbac#:#sysc_read#:#Rechteeinstellungen für den Systemcheck ändern.
+rbac#:#sysc_visible#:#Lesezugriff auf den Systemcheck
+rbac#:#sysc_write#:#Benutzer darf Systemcheck durchführen.
