@@ -35,9 +35,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 	 *
 	 */
 	public function executeCommand()
-	{
-		global $rbacsystem,$ilErr,$ilAccess;
-
+	{		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
@@ -53,8 +51,8 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$perm_gui = new ilPermissionGUI($this);
+				$this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -77,7 +75,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -126,7 +124,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting;
+		global $ilCtrl;
 		
 		$this->checkPermission("write");
 		
@@ -139,6 +137,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 			$prfa_set->set("banner", $banner);
 			$prfa_set->set("banner_width", (int)$form->getInput("width"));
 			$prfa_set->set("banner_height", (int)$form->getInput("height"));			
+			$prfa_set->set("mask", (bool)$form->getInput("mask"));			
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 			$ilCtrl->redirect($this, "editSettings");
@@ -189,7 +188,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		$banner->addSubItem($height);
 		
 		$prfa_set = new ilSetting("prfa");
-		$banner->setChecked($prfa_set->get("banner"));		
+		$banner->setChecked($prfa_set->get("banner", false));		
 		if($prfa_set->get("banner"))
 		{
 			$width->setValue($prfa_set->get("banner_width"));
@@ -200,6 +199,11 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 			$width->setValue(880);
 			$height->setValue(100);
 		}
+		
+		$mask = new ilCheckboxInputGUI($lng->txt("prtf_allow_html"), "mask");
+		$mask->setInfo($lng->txt("prtf_allow_html_info"));
+		$mask->setChecked($prfa_set->get("mask", false));
+		$form->addItem($mask);
 
 		return $form;
 	}

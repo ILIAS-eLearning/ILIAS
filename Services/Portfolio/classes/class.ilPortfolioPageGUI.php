@@ -45,8 +45,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
 		
-		// $this->setEnabledMaps(true);
-		// $this->setPreventHTMLUnmasking(true);
+		// #11190
+		$prfa_set = new ilSetting("prfa");
+		$this->setPreventHTMLUnmasking((bool)$prfa_set->get("mask", false));
+		
+		// $this->setEnabledMaps(true);		
 		$this->setEnabledInternalLinks(false);
 		$this->setEnabledPCTabs(true);
 		$this->setEnabledProfile(true);

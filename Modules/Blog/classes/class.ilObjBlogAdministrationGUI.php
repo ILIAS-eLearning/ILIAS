@@ -35,9 +35,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 	 *
 	 */
 	public function executeCommand()
-	{
-		global $rbacsystem,$ilErr,$ilAccess;
-
+	{		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
@@ -53,8 +51,8 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$perm_gui = new ilPermissionGUI($this);
+				$this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -77,7 +75,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -126,7 +124,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting;
+		global $ilCtrl;
 		
 		$this->checkPermission("write");
 		
@@ -139,6 +137,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 			$blga_set->set("banner", $banner);
 			$blga_set->set("banner_width", (int)$form->getInput("width"));
 			$blga_set->set("banner_height", (int)$form->getInput("height"));
+			$blga_set->set("mask", (bool)$form->getInput("mask"));
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 			$ilCtrl->redirect($this, "editSettings");
@@ -189,7 +188,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 		$banner->addSubItem($height);
 		
 		$blga_set = new ilSetting("blga");
-		$banner->setChecked($blga_set->get("banner"));		
+		$banner->setChecked($blga_set->get("banner", false));		
 		if($blga_set->get("banner"))
 		{
 			$width->setValue($blga_set->get("banner_width"));
@@ -200,6 +199,11 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 			$width->setValue(880);
 			$height->setValue(100);
 		}
+		
+		$mask = new ilCheckboxInputGUI($lng->txt("blog_allow_html"), "mask");
+		$mask->setInfo($lng->txt("blog_allow_html_info"));
+		$mask->setChecked($blga_set->get("mask", false));
+		$form->addItem($mask);
 
 		return $form;
 	}
