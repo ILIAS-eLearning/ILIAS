@@ -13348,3 +13348,78 @@ rbac#:#sysc_read#:#Rechteeinstellungen für den Systemcheck ändern.
 rbac#:#sysc_visible#:#Lesezugriff auf den Systemcheck
 rbac#:#sysc_write#:#Benutzer darf Systemcheck durchführen.
 assessment#:#apply_def_settings_to_tst#:#Einstellungen für Test übernehmen
+cld#:#cld_add#:#Neues Cloud Objekt
+cld#:#cld_add_download_failed#:#Download Fehlgeschlagen
+cld#:#cld_add_file#:#Datei hinzufügen
+cld#:#cld_add_folder#:#Ordner hinzufügen
+cld#:#cld_add_items_from_service_failed#:#Hinzufügen eines Items vom Service ist Fehlgeschlagen
+cld#:#cld_add_new_item#:#Neues Objekt hinzufügen
+cld#:#cld_auth_failed#:#Authentifzierung fehlgeschlagen
+cld#:#cld_authentication_failed#:#:#Authentifzierung fehlgeschlagen
+cld#:#cld_config_entry_does_not_exist#:#Der Konfigurationswert existiert nicht in der Konfigurationstabelle
+cld#:#cld_config_no_valid_get_or_set_function#:#Ungültige Set- oder Getfunktion
+cld#:#cld_config_table_does_not_exist#:#Konfigurationstabelle existiert nicht
+cld#:#cld_config_unknown_exception#:#Unbekannter Fehler
+cld#:#cld_confirm_delete_file#:#Datei Löschen
+cld#:#cld_confirm_delete_folder#:#Ordner Löschen
+cld#:#cld_create_folder#:#Ordner Erstellen
+cld#:#cld_delete_failed#:#Löschen Fehlgeschlagen
+cld#:#cld_edit_Settings#:#Cloud Einstellungen bearbeiten
+cld#:#cld_empty#:#Leer
+cld#:#cld_file_not_existing_on_service#:#Datei existiert in der Cloud nicht:
+cld#:#cld_folder_already_existing_on_service#:#Ordner existiert bereits in der Cloud
+cld#:#cld_folder_created1#:#Ordner
+cld#:#cld_folder_created2#:#erstellt
+cld#:#cld_folder_creation_failed#:#Ordnererstellung ist fehlgeschlagen
+cld#:#cld_folder_name#:#Ordnername
+cld#:#cld_folder_not_existing_on_service#:#Ornder existiert in der Cloud nicht
+cld#:#cld_id_already_exists_in_file_tree_in_session#:#Die Id existiert bereits in der Session:
+cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Die Id existiert nicht in der Session
+cld#:#cld_info_add_file_to_current_directory#:#Datei zum Verzeichnis hinzufügen
+cld#:#cld_info_add_folder_to_current_directory#:#Ordner zum Verzeichnis hinzufügen
+cld#:#cld_invalid_input#:#Ungültige Eingabe
+cld#:#cld_new#:#Neues Cloud Objekt hinzufügen
+cld#:#cld_no_service_active#:#Leider ist kein Cloud-Plugin aktiviert
+cld#:#cld_no_service_selected#:#Es wurde kein Cloud-Dienst ausgewählt.
+cld#:#cld_not_authenticated_offline#:#Nicht authentifiziert - offline
+cld#:#cld_only_owner_has_permission_to_change_root_path#:#Um die Privatsphäre des Besitzers des Cloud-Ordners zu schützen, kann nur der Ersteller eines Cloud-Objektes dessen Basisverzeichnis ändern.
+cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Pfad existiert in der Session nicht:
+cld#:#cld_permission_denied#:#Zugriff verweigert
+cld#:#cld_permission_to_change_root_folder_denied#:#Zugriff für das Ändern des Basisiverzeichnis wurde verweigert.
+cld#:#cld_plugin_hook_could_not_be_instantiated#:#Die Plugin-Hook Klasse konnte nicht instanziert werden.
+cld#:#cld_plugin_not_active#:#Das Plugin für den gewählten Cloud-Dienst ist nicht aktiv.
+cld#:#cld_root_folder#:#Basisverzeichnis
+cld#:#cld_service#:#Service
+cld#:#cld_service_class_file_not_found#:#Die Datei der Serviceklasse wurde nicht gefunden.
+cld#:#cld_service_not_active#:#Der gewählte Cloud-Dienst ist nicht aktiv
+cld#:#cld_service_specific_settings#:#spezifische Einstellungen
+cld#:#cld_unknown_exception#:#Unbekannter Fehler
+cld#:#cld_upload_failed_max_filesize#:#Heraufladen fehlgeschlagen (Max. Dateigrösse überschritten)
+cld#:#cld_upload_failed#:#Herunterladen fehlgeschlagen
+cld#:#cld_upload_files#:#Heraufladen
+common#:#obj_cld#:#Cloud Objekt
+common#:#objs_cld#:#Cloud Objekte
+rbac#:#delete_files#:#Dateien Löschen
+rbac#:#cld_delete_files#:#Benutzer können Dateien im Cloud Objekt löschen
+rbac#:#delete_folders#:#Ordner Löschen
+rbac#:#cld_delete_folders#:#Benutzer können Ordner im Cloud Objekt löschen
+rbac#:#files_visible#:#Dateien sichtbar
+rbac#:#cld_files_visible#:#Dateien im Cloud Objekt sind für die Benutzer sichtbar
+rbac#:#folders_visible#:#Ordner sichtbar
+rbac#:#cld_folders_visible#:#Ordner im Cloud Objekt sind für die Benutzer sichtbar
+rbac#:#folders_create#:#Ordner erstellen
+rbac#:#cld_folders_create#:#Ordner können im Cloud Objekt erstellt werden
+rbac#:#cld_visible#:#Cloud Objekt sichtbar
+rbac#:#cld_read#:#Benutzer können Cloud Objekt öffnen
+rbac#:#cld_write#:#Benutzer können Cloud Objekt Einstellungen bearbeiten
+rbac#:#cld_delete#:#Benutzer können können Cloud Objekte löschen
+rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
+rbac#:#cat_create_cld#:#Cloud Objekt erstellen
+rbac#:#crs_create_cld#:#Cloud Objekt erstellen
+rbac#:#fold_create_cld#:#Cloud Objekt erstellen
+rbac#:#grp_create_cld#:#Cloud Objekt erstellen
+rbac#:#root_create_cld#:#Cloud Objekt erstellen
+rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud Objekt laden
+rbac#:#cld_download#:#Benutzer können Dateien vom Cloud Objekt herunterladen
+rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rbac_create_cld:#Neues Cloud Objekt anlegen
