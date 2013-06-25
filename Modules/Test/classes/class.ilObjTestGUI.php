@@ -2825,53 +2825,69 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
-	* Remove questions from the test after confirmation
-	*
-	* Remove questions from the test after confirmation
-	*
-	* @access	public
-	*/
-	function confirmRemoveQuestionsObject()
+	 * Remove questions from the test after confirmation
+	 */
+	public function confirmRemoveQuestionsObject()
 	{
-		ilUtil::sendSuccess($this->lng->txt("tst_questions_removed"));
 		$checked_questions = $_POST["q_id"];
-		
+
 		$questions = $this->object->getQuestionTitlesAndIndexes();
-		$first = null;
-		
-		foreach ($checked_questions as $key => $value) {
-			if (!$first)
-			    $first = $value;
+		$deleted   = array();
+		foreach((array)$checked_questions as $value)
+		{
 			$this->object->removeQuestion($value);
+			$deleted[] = $value;
 		}
+
 		$this->object->saveCompleteStatus();
 		
-		if ($_REQUEST['test_express_mode']) {
+		ilUtil::sendSuccess($this->lng->txt("tst_questions_removed"));
 
-		    //$questions = $this->object->getQuestionTitlesAndIndexes();
-		    $prev = null;
-		    foreach($questions as $key => $value) {
-			if ($prev === null) {
-			    $prev = $key;
-			    continue;
+		if($_REQUEST['test_express_mode'])
+		{
+			$prev        = null;
+			$return_to   = null;
+			$deleted_tmp = $deleted;
+			$first       = array_shift($deleted_tmp);
+			foreach((array)$questions as $key => $value)
+			{
+				if(!in_array($key, $deleted))
+				{
+					$prev = $key;
+					if(!$first)
+					{
+						$return_to = $prev;
+						break;
+					}
+					else continue;
+				}
+				else if($key == $first)
+				{
+					if($prev)
+					{
+						$return_to = $prev;
+						break;
+					}
+					$first = array_shift($deleted_tmp);
+				}
 			}
-			if ($key == $first) {
-			    $return_to = $prev;
-			}
-			$prev = $key;
-		    }
 
-		    if (count($questions) == count($checked_questions)) {
+			if(
+				count($questions) == count($checked_questions) ||
+				!$return_to
+			)
+			{
+				$this->ctrl->setParameter($this, 'q_id', '');
+				$this->ctrl->redirect($this, 'showPage');
+			}
+
+			$this->ctrl->setParameter($this, 'q_id', $return_to);
 			$this->ctrl->redirect($this, "showPage");
-		    }
-		    else if (!$return_to)
-			    $return_to = $questions[0];
-
-		    $this->ctrl->setParameter($this, 'q_id', $return_to);
-		    $this->ctrl->redirect($this, "showPage");
 		}
-		else {
-		    $this->ctrl->redirect($this, "questions");
+		else
+		{
+			$this->ctrl->setParameter($this, 'q_id', '');
+			$this->ctrl->redirect($this, 'questions');
 		}
 	}
 	
