@@ -62,8 +62,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
 		
+		// #11190
+		$blga_set = new ilSetting("blga");
+		$this->setPreventHTMLUnmasking((bool)$blga_set->get("mask", false));
+		
 		$this->setEnabledMaps(true);
-		$this->setPreventHTMLUnmasking(true);
 		$this->setEnabledInternalLinks(false);
 		$this->setEnabledWikiLinks(false);
 		$this->setEnabledPCTabs(true);

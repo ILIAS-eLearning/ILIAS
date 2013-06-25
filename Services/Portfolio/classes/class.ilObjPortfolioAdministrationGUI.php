@@ -138,7 +138,8 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 			$prfa_set = new ilSetting("prfa");
 			$prfa_set->set("banner", $banner);
 			$prfa_set->set("banner_width", (int)$form->getInput("width"));
-			$prfa_set->set("banner_height", (int)$form->getInput("height"));			
+			$prfa_set->set("banner_height", (int)$form->getInput("height"));	
+			$prfa_set->set("mask", (bool)$form->getInput("mask"));		
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 			$ilCtrl->redirect($this, "editSettings");
@@ -200,6 +201,11 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 			$width->setValue(880);
 			$height->setValue(100);
 		}
+		
+		$mask = new ilCheckboxInputGUI($lng->txt("prtf_allow_html"), "mask");
+		$mask->setInfo($lng->txt("prtf_allow_html_info"));
+		$mask->setChecked($prfa_set->get("mask", false));
+		$form->addItem($mask);
 
 		return $form;
 	}

@@ -139,6 +139,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 			$blga_set->set("banner", $banner);
 			$blga_set->set("banner_width", (int)$form->getInput("width"));
 			$blga_set->set("banner_height", (int)$form->getInput("height"));
+			$blga_set->set("mask", (bool)$form->getInput("mask"));
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 			$ilCtrl->redirect($this, "editSettings");
@@ -200,6 +201,11 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 			$width->setValue(880);
 			$height->setValue(100);
 		}
+		
+		$mask = new ilCheckboxInputGUI($lng->txt("blog_allow_html"), "mask");
+		$mask->setInfo($lng->txt("blog_allow_html_info"));
+		$mask->setChecked($blga_set->get("mask", false));
+		$form->addItem($mask);
 
 		return $form;
 	}
