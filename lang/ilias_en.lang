@@ -13346,3 +13346,5 @@ prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in
 blog#:#blog_allow_html#:#Allow HTML/Javascript
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
 search#:#search_add_members_from_container#:#Add Users of Current Course/Group
+common#:#obj_sysc#:#System Check
+common#:#obj_sysc_desc#:#System Check and Repair Tools

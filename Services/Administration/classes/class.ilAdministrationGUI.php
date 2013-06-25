@@ -524,7 +524,7 @@ class ilAdministrationGUI
 			3 => array(
 				"objects" =>
 					array("blga", "chta", "facs", "frma", "lrss", "mcts", "mobs", "svyf", "assf", "---",
-						'otpl', "root", "recf")
+						'otpl', 'sysc',"root", "recf")
 				)
 			);
 		
