@@ -6182,22 +6182,22 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$parent_crs_ref_id = $tree->checkForParentType($this->getRefId(), "crs");
-			if($parent_crs_ref_id)
+			$parent_grp_ref_id = $tree->checkForParentType($this->getRefId(), "grp");
+			if($parent_grp_ref_id)
 			{
-				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-				$part = new ilCourseParticipants(ilObject::_lookupObjId($parent_crs_ref_id));
+				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+				$part = new ilGroupParticipants(ilObject::_lookupObjId($parent_grp_ref_id));
 				$user_ids = $part->getMembers();					
 			}
 			else
 			{
-				$parent_grp_ref_id = $tree->checkForParentType($this->getRefId(), "grp");
-				if($parent_grp_ref_id)
+				$parent_crs_ref_id = $tree->checkForParentType($this->getRefId(), "crs");
+				if($parent_crs_ref_id)
 				{
-					include_once "Modules/Group/classes/class.ilGroupParticipants.php";
-					$part = new ilGroupParticipants(ilObject::_lookupObjId($parent_grp_ref_id));
+					include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+					$part = new ilCourseParticipants(ilObject::_lookupObjId($parent_crs_ref_id));
 					$user_ids = $part->getMembers();					
-				}
+				}				
 			}
 		}
 		return $user_ids;

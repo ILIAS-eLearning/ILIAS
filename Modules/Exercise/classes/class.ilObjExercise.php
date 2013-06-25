@@ -1201,63 +1201,6 @@ class ilObjExercise extends ilObject
 		}
 		return false;
 	}
-	
-	/**
-	 * Get object id of parent course/group
-	 * 
-	 * 
-	 * @return int
-	 */
-	function getParentContainerId()
-	{
-		global $tree;
-		
-		if($this->ref_id)
-		{
-			$crs_id = $tree->checkForParentType($this->ref_id, "crs");
-			if($crs_id)
-			{
-				return $crs_id;		
-			}
-
-			$grp_id = $tree->checkForParentType($this->ref_id, "grp");
-			if($grp_id)
-			{
-				return $grp_id;		
-			}
-		}
-	}
-	
-	/**
-	 * Get parent members object
-	 * 
-	 * @return array
-	 */
-	function getParentMemberIds()
-	{		
-		$container_id = $this->getParentContainerId();		
-		if($container_id)
-		{			
-			$members = null;
-			
-			if(ilObject::_lookupType($container_id) == "crs")
-			{
-				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-				$members = new ilCourseParticipants(ilObject::_lookupObjId($container_id));				
-			}
-			else
-			{			
-				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
-				$members = new ilGroupParticipants(ilObject::_lookupObjId($container_id));								
-			}
-			
-			// :TODO: review limit, members vs. participants
-			if($members && $members->getCountParticipants() < 100)
-			{
-				return $members->getParticipants();							
-			}
-		}
-	}
 }
 
 ?>
