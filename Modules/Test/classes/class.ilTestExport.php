@@ -22,6 +22,7 @@
 */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+include_once "Services/Utilities/classes/class.ilFormat.php";
 
 /**
 * Export class for tests
@@ -896,26 +897,21 @@ class ilTestExport
 				$time_minutes  = floor($time_seconds/60);
 				$time_seconds -= $time_minutes * 60;
 				array_push($datarow2, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-				$fv = getdate($data->getParticipant($active_id)->getFirstVisit());
-				$firstvisit = ilUtil::excelTime(
-					$fv["year"],
-					$fv["mon"],
-					$fv["mday"],
-					$fv["hours"],
-					$fv["minutes"],
-					$fv["seconds"]
-				);
-				array_push($datarow2, $firstvisit);
-				$lv = getdate($data->getParticipant($active_id)->getLastVisit());
-				$lastvisit = ilUtil::excelTime(
-					$lv["year"],
-					$lv["mon"],
-					$lv["mday"],
-					$lv["hours"],
-					$lv["minutes"],
-					$lv["seconds"]
-				);
-				array_push($datarow2, $lastvisit);
+				
+				$fv = $data->getParticipant($active_id)->getFirstVisit();
+				$lv = $data->getParticipant($active_id)->getLastVisit();
+				foreach(array($fv, $lv) as $ts)
+				{
+					if($ts)
+					{
+						$visit = ilFormat::formatDate(date('Y-m-d H:i:s', $ts), "datetime", false, false);
+						array_push($datarow2, $visit);
+					}
+					else
+					{
+						array_push($datarow2, "");
+					}
+				}
 
 				$median = $data->getStatistics()->getStatistics()->median();
 				$pct = $data->getParticipant($active_id)->getMaxpoints() ? $median / $data->getParticipant($active_id)->getMaxpoints() * 100.0 : 0;
