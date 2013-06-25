@@ -9658,24 +9658,25 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the available test defaults for the active user
-	*
-	* @param string $sortby Sort field for the database query
-	* @param string $sortorder Sort order for the database query
-	* @return array An array containing the defaults
-	* @access public
-	*/
-	function &getAvailableDefaults($sortby = "name", $sortorder = "asc")
+	 * Returns the available test defaults for the active user
+	 * @return array An array containing the defaults
+	 * @access public
+	 */
+	public function getAvailableDefaults()
 	{
-		global $ilDB;
-		global $ilUser;
-		
-		$result = $ilDB->queryF("SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY $sortby $sortorder",
+		/**
+		 * @var $ilDB   ilDB
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilDB, $ilUser;
+
+		$result   = $ilDB->queryF(
+			"SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY name ASC",
 			array('integer'),
 			array($ilUser->getId())
 		);
 		$defaults = array();
-		while ($row = $ilDB->fetchAssoc($result))
+		while($row = $ilDB->fetchAssoc($result))
 		{
 			$defaults[$row["test_defaults_id"]] = $row;
 		}

@@ -4530,112 +4530,69 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$this->ctrl->redirect($this, "participants");
 	}
-	
-	/**
-	* Displays the settings page for test defaults
-	*
-	* @access public
-	*/
-	function defaultsObject()
-	{
-		global $ilUser;
-		global $ilAccess;
 
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
+	/**
+	 * Displays the settings page for test defaults
+	 */
+	public function defaultsObject()
+	{
+		/**
+		 * @var $ilAccess  ilAccessHandler
+		 * @var $ilToolbar ilToolbarGUI
+		 * @var $tpl       ilTemplage
+		 */
+		global $ilAccess, $ilToolbar, $tpl;
+
+		if(!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			// allow only write access
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_defaults.html", "Modules/Test");
-		
-		$maxentries = $ilUser->getPref("hits_per_page");
-		if ($maxentries < 1)
-		{
-			$maxentries = 9999;
-		}
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'addDefaults'));
+		$ilToolbar->addFormButton($this->lng->txt('add'), 'addDefaults');
+		require_once 'Services/Form/classes/class.ilTextInputGUI.php';
+		$ilToolbar->addInputItem(new ilTextInputGUI($this->lng->txt('tst_defaults_defaults_of_test'), 'name'), true);
 
-		$offset = $_GET["offset"] ? $_GET["offset"] : 0;
-		$sortby = $_GET["sort_by"] ? $_GET["sort_by"] : "name";
-		$sortorder = $_GET["sort_order"] ? $_GET["sort_order"] : "asc";
-		
-		$defaults =& $this->object->getAvailableDefaults($sortby, $sortorder);
-		if (count($defaults) > 0)
-		{
-			$tablerows = array();
-			foreach ($defaults as $row)
-			{
-				array_push($tablerows, array("checkbox" => "<input type=\"checkbox\" name=\"chb_defaults[]\" value=\"" . $row["test_defaults_id"] . "\"/>", "name" => $row["name"]));
-			}
-			$headervars = array("", "name");
-
-			include_once "./Services/Table/classes/class.ilTableGUI.php";
-			$tbl = new ilTableGUI(0, FALSE);
-			$tbl->setTitle($this->lng->txt("tst_defaults_available"));
-			$header_names = array(
-				"",
-				$this->lng->txt("title")
-			);
-			$tbl->setHeaderNames($header_names);
-
-			$tbl->disable("sort");
-			$tbl->disable("auto_sort");
-			$tbl->enable("title");
-			$tbl->enable("action");
-			$tbl->enable("select_all");
-			$tbl->setLimit($maxentries);
-			$tbl->setOffset($offset);
-			$tbl->setData($tablerows);
-			$tbl->setMaxCount(count($tablerows));
-			$tbl->setOrderDirection($sortorder);
-			$tbl->setSelectAllCheckbox("chb_defaults");
-			$tbl->setFormName("formDefaults");
-			$tbl->addActionButton("deleteDefaults", $this->lng->txt("delete"));
-			$tbl->addActionButton("applyDefaults", $this->lng->txt("apply"));
-
-			$header_params = $this->ctrl->getParameterArray($this, "defaults");
-			$tbl->setHeaderVars($headervars, $header_params);
-
-			// footer
-			$tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-			// render table
-			$tableoutput = $tbl->render();
-			$this->tpl->setVariable("TEST_DEFAULTS_TABLE", $tableoutput);
-		}
-		else
-		{
-			$this->tpl->setVariable("TEST_DEFAULTS_TABLE", $this->lng->txt("tst_defaults_not_defined"));
-		}
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "addDefaults"));
-		$this->tpl->setVariable("BUTTON_ADD", $this->lng->txt("add"));
-		$this->tpl->setVariable("TEXT_DEFAULTS_OF_TEST", $this->lng->txt("tst_defaults_defaults_of_test"));
+		require_once 'Modules/Test/classes/tables/class.ilTestPersonalDefaultSettingsTableGUI.php';
+		$table    = new ilTestPersonalDefaultSettingsTableGUI($this, 'defaults');
+		$defaults = $this->object->getAvailableDefaults();
+		$table->setData((array)$defaults);
+		$tpl->setContent($table->getHTML());
 	}
 	
 	/**
-	* Deletes selected test defaults
-	*/
-	function deleteDefaultsObject()
+	 * Deletes selected test defaults
+	 */
+	public function deleteDefaultsObject()
 	{
-		if (count($_POST["chb_defaults"]))
+		if(isset($_POST['chb_defaults']) && is_array($_POST['chb_defaults']) && count($_POST['chb_defaults']))
 		{
-			foreach ($_POST["chb_defaults"] as $test_default_id)
+			foreach($_POST['chb_defaults'] as $test_default_id)
 			{
 				$this->object->deleteDefaults($test_default_id);
 			}
 		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+		}
 		$this->defaultsObject();
 	}
 
-	private function confirmedApplyDefaultsObject()
+	/**
+	 * 
+	 */
+	public function confirmedApplyDefaultsObject()
 	{
-		return $this->applyDefaultsObject(true);
+		$this->applyDefaultsObject(true);
+		return;
 	}
 
 	/**
-	* Applies the selected test defaults
-	*/
-	function applyDefaultsObject($confirmed = false)
+	 * Applies the selected test defaults
+	 */
+	public function applyDefaultsObject($confirmed = false)
 	{
 		if( count($_POST["chb_defaults"]) != 1 )
 		{
