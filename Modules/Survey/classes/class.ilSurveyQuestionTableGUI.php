@@ -150,7 +150,6 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 				}
 
 				// pool title
-				$no_pool_permission = false;
 				if($data["original_id"])
 				{
 					if(isset($questionpools[$data["obj_fi"]]))
@@ -161,13 +160,12 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 					{
 						// #11186
 						$table_data[$id]["pool"] = $this->lng->txt("status_no_permission");
-						$no_pool_permission = true;
 					}
 				}
 
 				if (!$this->read_only)
 				{
-					if ($data["obj_fi"] > 0 && !$no_pool_permission)
+					if ($data["obj_fi"] > 0)
 					{
 						// edit url
 						$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));

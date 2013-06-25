@@ -67,11 +67,30 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilNavigationHistory, $ilErr;
 		
-		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
+		if($this->ctrl->getCmd("questions") != "questions")
+		{
+			// #11186
+			$rbac_ref_id = $_REQUEST["calling_survey"];
+			if(!$rbac_ref_id)
+			{
+				$rbac_ref_id = $_REQUEST["new_for_survey"];
+			}
+			if(!$rbac_ref_id)
+			{
+				$rbac_ref_id = $_REQUEST["ref_id"];
+			}	
+		}
+		else
+		{
+			$rbac_ref_id = $_REQUEST["ref_id"];
+		}
+		if (!$ilAccess->checkAccess("read", "", $rbac_ref_id) && 
+			!$ilAccess->checkAccess("visible", "", $rbac_ref_id))
 		{
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 		}
+		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
 			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))

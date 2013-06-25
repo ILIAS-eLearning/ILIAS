@@ -1550,25 +1550,8 @@ class ilSurveyPageGUI
 			$menu = array();
 
 			if(!$a_readonly && !$has_clipboard)
-			{
-				// #11186
-				$may_edit = false;
-				if(!$question_gui->object->getOriginalId())
-				{
-					$may_edit = true;
-				}
-				else if(sizeof($questionpools))
-				{										
-					if(in_array($question_gui->object->getObjId(), $questionpools))
-					{
-						$may_edit = true;
-					}
-				}
-				if($may_edit)
-				{
-					$menu[] = array("cmd" => "editQuestion", "text" => $lng->txt("edit"));				
-				}
-			
+			{				
+				$menu[] = array("cmd" => "editQuestion", "text" => $lng->txt("edit"));										
 				$menu[] = array("cmd" => "cutQuestion", "text" => $lng->txt("cut"));
 				$menu[] = array("cmd" => "copyQuestion", "text" => $lng->txt("copy"));
 
