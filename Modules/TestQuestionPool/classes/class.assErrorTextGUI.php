@@ -484,7 +484,7 @@ class assErrorTextGUI extends assQuestionGUI
 		$feedback = '<table><tbody>';
 		
 		$selection = $this->object->getBestSelection();
-		$elements = explode(' ', $this->object->errortext);
+		$elements = explode(' ', str_replace(array("\r", "\n"), array('', ' '), $this->object->errortext));
 		$i = 0;
 		foreach ($selection as $index => $answer)
 		{
