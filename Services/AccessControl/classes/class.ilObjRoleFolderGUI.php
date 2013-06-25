@@ -192,14 +192,14 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		);
 
 		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
-
+		
 		$form = $this->initRoleSearchForm();
 		if($form->checkInput())
 		{
 			ilUtil::sendInfo($this->lng->txt('rbac_select_copy_targets'));
 
 			include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
-			$table = new ilRoleTableGUI($this,'view');
+			$table = new ilRoleTableGUI($this,'roleSearchList');
 			$table->setType(ilRoleTableGUI::TYPE_SEARCH);
 			$table->setRoleTitleFilter($form->getInput('title'));
 			$table->init();
@@ -335,12 +335,15 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$mode = ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES;
 		}
 
-		$role = new ilObjRole($target);
-		$role->changeExistingObjects(
-			$start,
-			$mode,
-			array('all')
-		);
+		if($start)
+		{
+			$role = new ilObjRole($target);
+			$role->changeExistingObjects(
+				$start,
+				$mode,
+				array('all')
+			);
+		}
 	}
 
 	/**
