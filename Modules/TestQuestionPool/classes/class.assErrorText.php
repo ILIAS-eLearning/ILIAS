@@ -670,7 +670,7 @@ class assErrorText extends assQuestion
 						$errorobject = $this->errordata[$errorcounter];
 						if (is_object($errorobject) )
 						{
-							$item = $errorobject->text_correct;
+							$item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
 						}
 						$errorcounter++;
 					}
@@ -699,10 +699,10 @@ class assErrorText extends assQuestion
 						$errorobject = $this->errordata[$errorcounter];
 						if (is_object($errorobject) )
 						{
-							$item = $errorobject->text_correct;
+							$item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
 						}
 						$errorcounter++;
-						$items[$idx] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
+						$items[$idx] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</a>' . $img;
 						$counter++;
 						continue;
 					}
@@ -760,15 +760,18 @@ class assErrorText extends assQuestion
 							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
 						}
 					}
-					$item_stack[] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
+					
+					$item_stack[] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</a>' . $img;
+					$item_stack = trim(implode(" ", $item_stack));
+					$item_stack = strlen($item_stack) ? $item_stack : '&nbsp;';
 					
 					if($graphicalOutput)
 					{
-						$items[$idx] = '<span class="selGroup">'.implode(" ", $item_stack).'</span>';
+						$items[$idx] = '<span class="selGroup">'.$item_stack.'</span>';
 					}
 					else
 					{
-						$items[$idx] = implode(" ", $item_stack);
+						$items[$idx] = $item_stack;
 					}
 					
 					$counter++;
@@ -793,7 +796,7 @@ class assErrorText extends assQuestion
 					}
 				}
 
-				$items[$idx] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
+				$items[$idx] = '<a class="' . $class . '" href="#HREF' . $idx . '" onclick="javascript: return false;">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</a>' . $img;
 				$counter++;
 			}
 			$textarray[$textidx] = '<p>' . implode(" ", $items) . '</p>';
@@ -876,7 +879,7 @@ class assErrorText extends assQuestion
 		return join($textarray, "\n");
 	}
 
-	public function getBestSelection()
+	public function getBestSelection($withPositivePointsOnly = true)
 	{
 		$passages	= array();
 		$words		= array();
@@ -890,13 +893,16 @@ class assErrorText extends assQuestion
 			foreach ($items as $word)
 			{
 				$points = $this->getPointsWrong();
+				$isErrorItem = false;
 				if (strpos($word, '#') === 0)
 				{
 					/* Word selection detected */
 					$errorobject = $this->errordata[$errorcounter];
 					if (is_object($errorobject))
+					{
 						$points = $errorobject->points;
-
+						$isErrorItem = true;
+					}
 					$errorcounter++;
 				}
 				elseif (($posOpeningBracket = strpos($word, '((')) === 0
@@ -918,8 +924,11 @@ class assErrorText extends assQuestion
 
 						$errorobject = $this->errordata[$errorcounter];
 						if (is_object($errorobject))
+						{
 							$passages[$cur_pidx]['score'] = (int) $errorobject->points;
-
+							$passages[$cur_pidx]['isError'] = true;
+						}
+						
 						$errorcounter++;
 					}
 
@@ -928,7 +937,7 @@ class assErrorText extends assQuestion
 					$points = 0;
 				}
 
-				$words[$counter] = array("word" => $word, "points" => $points);
+				$words[$counter] = array("word" => $word, "points" => $points, "isError" => $isErrorItem);
 				$counter++;
 			}
 		}
@@ -936,13 +945,16 @@ class assErrorText extends assQuestion
 		$selections = array();
 		foreach ($passages as $cnt => $pdata)
 		{
-			$indexes = range($pdata['begin_pos'], $pdata['end_pos']);
-			$selections[$pdata['begin_pos']] = $indexes;
+			if (!$withPositivePointsOnly && $pdata['isError'] || $pdata['score'] > 0)
+			{
+				$indexes = range($pdata['begin_pos'], $pdata['end_pos']);
+				$selections[$pdata['begin_pos']] = $indexes;
+			}
 		}
 
 		foreach ($words as $idx => $word)
 		{
-			if ($word['points'] > 0)
+			if (!$withPositivePointsOnly && $word['isError'] || $word['points'] > 0)
 			{
 				$selections[$idx] = array($idx);
 			}
