@@ -1030,35 +1030,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ilToolbar,
 			array(
 				'auto_complete_name'	=> $lng->txt('user'),
-				'submit_name'			=> $lng->txt('add')
+				'submit_name'			=> $lng->txt('add'),
+				'add_search'			=> true,
+				'add_from_container'    => $_GET["ref_id"]
 			)
 		);
-
-		$ilToolbar->addSpacer();
-
-		$ilToolbar->addButton(
-			$lng->txt("exc_search_users"),
-			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-		
-		// add course members button, in case the exercise is inside a course
-		$parent_id = $tree->getParentId($_GET["ref_id"]);
-		$parent_obj_id = ilObject::_lookupObjId($parent_id);
-		$type = ilObject::_lookupType($parent_obj_id);
-		while ($parent_id != 1 && $type != "crs")
-		{
-			$parent_id = $tree->getParentId($parent_id);
-			$parent_obj_id = ilObject::_lookupObjId($parent_id);
-			$type = ilObject::_lookupType($parent_obj_id);
-		}
-		if ($type == "crs") 
-		{
-			$this->ctrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", $parent_obj_id);
-			$this->lng->loadLanguageModule("exercise");
-
-			$ilToolbar->addButton($this->lng->txt("exc_crs_add_members"),
-				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','listUsers'));
-		}
 
 		if (count($ass) > 0)
 		{
@@ -3067,32 +3043,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ilToolbar,
 				array(
 					'auto_complete_name'	=> $this->lng->txt('user'),
-					'submit_name'			=> $this->lng->txt('add')
+					'submit_name'			=> $this->lng->txt('add'),
+					'add_search'			=> true,
+					'add_from_container'    => $this->object->getRefId()		
 				)
 			);
-
-			$ilToolbar->addSpacer();
-
-			$ilToolbar->addButton(
-				$this->lng->txt("exc_search_users"),
-				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
-			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-
-			$parent_container_id = $this->object->getParentContainerId();			
-			if ($parent_container_id) 
-			{
-				$this->ctrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", $parent_container_id);
-				$this->lng->loadLanguageModule("exercise");
-
-				$ilToolbar->addSpacer();
-				
-				/*
-				$ilToolbar->addButton($this->lng->txt("exc_crs_add_members"),
-					$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','listUsers'));				 
-				*/
-				$ilToolbar->addButton($this->lng->txt("exc_team_member_container_add"), 
-					$this->ctrl->getLinkTarget($this, "addTeamMemberContainer"));
-			}			
 	 	}
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php";
@@ -3102,62 +3057,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setContent($tbl->getHTML());				
 	}
 	
-	public function addTeamMemberContainerObject()
-	{		
-		$team_id = $this->initTeamSubmission("submissionScreenTeam");
-		
-		$members = $this->object->getParentMemberIds();
-		if(!$members)
-		{
-			$this->ctrl->redirect($this, "submissionScreenTeam");
-		}
-		
-		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php";
-		$tbl = new ilExAssignmentTeamTableGUI($this, "addTeamMemberContainer",
-			ilExAssignmentTeamTableGUI::MODE_ADD, $team_id, $this->ass, $members);
-		
-		$this->tpl->setContent($tbl->getHTML());
-	}
-	
-	public function addTeamMemberContainerActionObject()
-	{
-		global $ilUser;
-		
-		$ids = $_POST["id"];
-		
-		if(!sizeof($ids))
-		{
-			ilUtil::sendFailure($this->lng->txt("select_one"), true);
-			$this->ctrl->redirect($this, "submissionScreenTeam");
-		}
-		
-		$team_id = $this->ass->getTeamId($ilUser->getId());
-		$has_files = $this->ass->getDeliveredFiles($this->object->getId(), 
-			$this->ass->getId(), 
-			$ilUser->getId());
-		
-		foreach($ids as $user_id)
-		{
-			$this->ass->addTeamMember($team_id, $user_id, $this->ref_id);
-			
-			// see ilObjExercise::deliverFile()
-			if($has_files)
-			{
-				if (!$this->object->members_obj->isAssigned($user_id))
-				{
-					$this->object->members_obj->assignMember($user_id);
-				}
-				ilExAssignment::updateStatusReturnedForUser($this->ass->getId(), $user_id, 1);
-				ilExerciseMembers::_writeReturned($this->object->getId(), $user_id, 1);
-			}
-			
-			// :TODO: log, notification
-		}
-		
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-		$this->ctrl->redirect($this, "submissionScreenTeam");		
-	}	
-		
 	public function addTeamMemberActionObject($a_user_ids = array())
 	{		
 		global $ilUser;

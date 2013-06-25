@@ -12772,7 +12772,6 @@ survey#:#svy_activation_limited_visibility_info#:#Falls aktiv, ist die Umfrage a
 blog#:#blog_contributors#:#Blog-Autoren
 blog#:#blog_add_contributor#:#Autor hinzufügen
 blog#:#blog_search_users#:#Benutzer suchen
-blog#:#blog_contributor_container_add#:#Benutzer aus Kurs/Gruppe hinzufügen
 common#:#il_blog_contributor#:#Blog-Autor
 rbac#:#blog_contribute#:#Benutzer darf mitwirken
 blog#:#blog_contribute_other_roles#:#Die folgenden Rollen haben eine aktive "Mitwirken"-Berechtigung: %s.
@@ -13341,3 +13340,4 @@ prtf#:#prtf_allow_html#:#HTML/Javascript erlauben
 prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen.
 blog#:#blog_allow_html#:#HTML/Javascript erlauben
 blog#:#blog_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Blog-Einträgen verwenden. Dies kann zu Sicherheitsproblemen führen.
+search#:#search_add_members_from_container#:#Benutzer aus aktueller Kurs/Gruppe hinzufügen

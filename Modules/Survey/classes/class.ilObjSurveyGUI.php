@@ -155,7 +155,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$rep_search =& new ilRepositorySearchGUI();
 				
 				if(!$_REQUEST["appr360"] && !$_REQUEST["rate360"])
-				{
+				{					
 					$rep_search->setCallback($this,
 						'inviteUserGroupObject',
 						array(
@@ -168,7 +168,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tabs_gui->setTabActive('invitation');
 				}
 				else if($_REQUEST["rate360"])
-				{
+				{				
+					$ilTabs->clearTargets();
+					$ilTabs->setBackTarget($this->lng->txt("btn_back"), 
+						$this->ctrl->getLinkTarget($this, "listAppraisees"));		
+					
+					$this->ctrl->setParameter($this, "rate360", 1);
+					$this->ctrl->saveParameter($this, "appr_id");
+					
 					$rep_search->setCallback($this,
 						'addRater',
 						array(
@@ -178,10 +185,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 					// Set tabs
 					$this->ctrl->setReturn($this, 'editRaters');
 					$ret =& $this->ctrl->forwardCommand($rep_search);
-
 				}
 				else
 				{
+					$ilTabs->activateTab("survey_360_appraisees");
+					$this->ctrl->setParameter($this, "appr360", 1);
+					
 					$rep_search->setCallback($this,
 						'addAppraisee',
 						array(
@@ -894,10 +903,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			// parent course?
 			global $tree;
-			$has_parent = $tree->checkForParentType($this->object->getRefId(), "crs");
+			$has_parent = $tree->checkForParentType($this->object->getRefId(), "grp");
 			if(!$has_parent)
 			{
-				$has_parent = $tree->checkForParentType($this->object->getRefId(), "grp");
+				$has_parent = $tree->checkForParentType($this->object->getRefId(), "crs");
 			}
 			$num_inv = sizeof($this->object->getInvitedUsers());
 
@@ -4952,8 +4961,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this,
 			$ilToolbar,
 			array(
-				'auto_complete_name' => $this->lng->txt('user'),				
-				'submit_name' => $this->lng->txt('add')
+				'auto_complete_name'	=> $this->lng->txt('user'),				
+				'submit_name'			=> $this->lng->txt('add'),
+				'add_search'			=> true,
+				'add_from_container'    => $this->ref_id		
 			)
 		);
 		
@@ -5088,8 +5099,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this,
 			$ilToolbar,
 			array(
-				'auto_complete_name' => $this->lng->txt('user'),				
-				'submit_name' => $this->lng->txt('add')
+				'auto_complete_name'	=> $this->lng->txt('user'),				
+				'submit_name'			=> $this->lng->txt('add'),
+				'add_search'			=> true,
+				'add_from_container'	=> $this->ref_id		
 			)
 		);
 		

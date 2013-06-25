@@ -32,17 +32,17 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$this->ref_id = $ref_id;
 		$this->obj_id = ilObject::_lookupObjId($ref_id);
 		
-		$this->in_course = $tree->checkForParentType($this->ref_id, "crs");
-		if($this->in_course)
+		$this->in_group = $tree->checkForParentType($this->ref_id, "grp");
+		if($this->in_group)
 		{
-			$this->in_course = ilObject::_lookupObjId($this->in_course);
+			$this->in_group = ilObject::_lookupObjId($this->in_group);
 		}
-		else
+		else 
 		{
-			$this->in_group = $tree->checkForParentType($this->ref_id, "grp");
-			if($this->in_group)
+			$this->in_course = $tree->checkForParentType($this->ref_id, "crs");
+			if($this->in_course)
 			{
-				$this->in_group = ilObject::_lookupObjId($this->in_group);
+				$this->in_course = ilObject::_lookupObjId($this->in_course);
 			}
 		}
 

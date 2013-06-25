@@ -39,20 +39,20 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->ref_id = $a_ref_id;
 		$this->type = ilObject::_lookupType($a_obj_id);
 
-		$this->in_course = $tree->checkForParentType($this->ref_id, "crs");
-		if($this->in_course)
+		$this->in_group = $tree->checkForParentType($this->ref_id, "grp");
+		if($this->in_group)
 		{
-			$this->in_course = ilObject::_lookupObjId($this->in_course);
+			$this->in_group = ilObject::_lookupObjId($this->in_group);
 		}
 		else
 		{
-			$this->in_group = $tree->checkForParentType($this->ref_id, "grp");
-			if($this->in_group)
+			$this->in_course = $tree->checkForParentType($this->ref_id, "crs");
+			if($this->in_course)
 			{
-				$this->in_group = ilObject::_lookupObjId($this->in_group);
+				$this->in_course = ilObject::_lookupObjId($this->in_course);
 			}
 		}
-	
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->parseTitle($a_obj_id, "trac_participants");

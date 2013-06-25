@@ -127,13 +127,13 @@ class ilRepositorySearchGUI
 	 */
 	public static function fillAutoCompleteToolbar($parent_object, ilToolbarGUI $toolbar = null, $a_options = array())
 	{
-		global $ilToolbar, $lng, $ilCtrl;
+		global $ilToolbar, $lng, $ilCtrl, $tree;
 
 		if(!$toolbar instanceof ilToolbarGUI)
 		{
 			$toolbar = $ilToolbar;
 		}
-
+		
 		// Fill default options
 		if(!isset($a_options['auto_complete_name']))
 		{
@@ -169,6 +169,45 @@ class ilRepositorySearchGUI
 			$a_options['submit_name'],
 			'addUserFromAutoComplete'
 		);
+		
+		if((bool)$a_options['add_search'] || 
+			is_numeric($a_options['add_from_container']))
+		{		
+			$lng->loadLanguageModule("search");
+			
+			$ilToolbar->addSeparator();
+					
+			if((bool)$a_options['add_search'])
+			{							
+				$ilToolbar->addButton(
+					$lng->txt("search_users"),
+					$ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
+			}
+
+			if(is_numeric($a_options['add_from_container']))
+			{				
+				$parent_ref_id = (int)$a_options['add_from_container'];
+				$parent_container_ref_id = $tree->checkForParentType($parent_ref_id, "grp");
+				if(!$parent_container_ref_id)
+				{			
+					$parent_container_ref_id = $tree->checkForParentType($parent_ref_id, "crs");				
+				}
+				if($parent_container_ref_id)
+				{
+					if((bool)$a_options['add_search'])
+					{	
+						$ilToolbar->addSpacer();
+					}
+					
+					$ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", ilObject::_lookupObjId($parent_container_ref_id));
+
+					$ilToolbar->addButton(
+						$lng->txt("search_add_members_from_container"),
+						$ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 'listUsers')
+					);
+				}
+			}
+		}
 		
 		$toolbar->setFormAction(
 			$ilCtrl->getFormActionByClass(

@@ -2102,28 +2102,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$ilToolbar,
 			array(
 				'auto_complete_name'	=> $lng->txt('user'),
-				'submit_name'			=> $lng->txt('add')
+				'submit_name'			=> $lng->txt('add'),
+				'add_search'			=> true,
+				'add_from_container'    => $this->node_id				
 			)
 		);
 
-		$ilToolbar->addSpacer();
-
-		$ilToolbar->addButton(
-			$lng->txt("blog_search_users"),
-			$ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-
-		$parent_container_id = $this->object->getParentContainerId($this->node_id);			
-		if ($parent_container_id) 
-		{
-			$ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", $parent_container_id);
-			
-			$ilToolbar->addSpacer();
-			
-			$ilToolbar->addButton($lng->txt("blog_contributor_container_add"), 
-				$ilCtrl->getLinkTarget($this, "addContributorContainer"));		
-	 	}
-		
 		$other_roles = $this->object->getRolesWithContribute($this->node_id);
 		if($other_roles)
 		{
@@ -2134,48 +2118,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$tbl = new ilContributorTableGUI($this, "contributors", $this->object->getLocalContributorRole($this->node_id));
 		
 		$tpl->setContent($tbl->getHTML());							
-	}
-	
-	public function addContributorContainer()
-	{				
-		global $ilTabs, $ilCtrl, $tpl;
-		
-		if(!$this->checkPermissionBool("write"))
-		{
-			return;
-		}
-		
-		$ilTabs->activateTab("contributors");
-		
-		$members = $this->object->getParentMemberIds($this->node_id);
-		if(!$members)
-		{
-			$ilCtrl->redirect($this, "contributors");
-		}
-		
-		include_once "Modules/Blog/classes/class.ilContributorTableGUI.php";
-		$tbl = new ilContributorTableGUI($this, "addContributorContainer", 
-			$this->object->getLocalContributorRole($this->node_id), $members);
-		
-		$tpl->setContent($tbl->getHTML());
-	}
-	
-	/**
-	 * Used in ilContributorTableGUI
-	 */
-	public function addContributorContainerAction()
-	{
-		global $ilCtrl, $lng;
-		
-		$ids = $_POST["id"];
-		
-		if(!sizeof($ids))
-		{
-			ilUtil::sendFailure($lng->txt("select_one"), true);
-			$ilCtrl->redirect($this, "addContributorContainer");
-		}
-		
-		return $this->addContributor($ids);
 	}
 	
 	/**

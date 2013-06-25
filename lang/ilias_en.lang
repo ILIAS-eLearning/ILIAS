@@ -12779,7 +12779,6 @@ survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visib
 blog#:#blog_contributors#:#Contributors
 blog#:#blog_add_contributor#:#Add Contributor
 blog#:#blog_search_users#:#Search Users
-blog#:#blog_contributor_container_add#:#Add Users From Course/Group
 common#:#il_blog_contributor#:#Blog Contributor
 rbac#:#blog_contribute#:#User can contribute
 blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.
@@ -13346,3 +13345,4 @@ prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
 blog#:#blog_allow_html#:#Allow HTML/Javascript
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
+search#:#search_add_members_from_container#:#Add Users of Current Course/Group
