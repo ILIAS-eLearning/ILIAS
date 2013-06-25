@@ -606,10 +606,11 @@ class assErrorTextGUI extends assQuestionGUI
 	{
 		$feedback = '<table><tbody>';
 		$selection = $this->object->getBestSelection();
+		$elements = explode(' ', str_replace(array("\r", "\n"), array('', ' '), $this->object->errortext));
+		$i = 0;
 		foreach ($selection as $index => $answer)
 		{
 			$caption = $ordinal = $index+1 .'.<i> ';
-			$elements = explode(' ', $this->object->errortext);
 			$caption .= $elements[$answer];
 			$caption = str_replace('#', '', $caption);
 			$caption .= '</i>:';
