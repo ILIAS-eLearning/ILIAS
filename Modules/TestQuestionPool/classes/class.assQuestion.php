@@ -1109,7 +1109,7 @@ abstract class assQuestion
 			if( $row['hint_count'] === null ) $row['hint_count'] = 0;
 			if( $row['hint_points'] === null ) $row['hint_points'] = 0;
 
-			$exam_identifier = $this->getExamId( $active_id, $pass );
+			$exam_identifier = self::getExamId( $active_id, $pass );
 			
 			/*
 			$query = "
@@ -1299,9 +1299,19 @@ abstract class assQuestion
 	*
 	* @access public
 	*/
-	function getImagePath()
+	function getImagePath($question_id = null, $object_id = null)
 	{
-		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/images/";
+		if( $question_id === null)
+		{
+			$question_id = $this->id;
+		}
+		
+		if( $object_id === null)
+		{
+			$object_id = $this->obj_id;
+		}
+		
+		return CLIENT_WEB_DIR . "/assessment/$object_id/$question_id/images/";
 	}
 
 	/**

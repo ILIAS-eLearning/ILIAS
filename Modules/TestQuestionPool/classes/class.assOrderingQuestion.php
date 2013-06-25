@@ -275,7 +275,7 @@ class assOrderingQuestion extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the image
-		$clone->duplicateImages($this_id, $testObjId);
+		$clone->duplicateImages($this_id, $thisObjId, $clone->getId(), $testObjId);
 		
 		$clone->onDuplicate($this_id, $clone->getId());
 		
@@ -320,18 +320,13 @@ class assOrderingQuestion extends assQuestion
 		return $clone->id;
 	}
 	
-	function duplicateImages($question_id, $objectId = null)
+	function duplicateImages($src_question_id, $src_object_id, $dest_question_id, $dest_object_id)
 	{
 		global $ilLog;
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
-			$imagepath = $this->getImagePath();
-			$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-
-			if( (int)$objectId > 0 )
-			{
-				$imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
-			}
+			$imagepath_original = $this->getImagePath($src_question_id, $src_object_id);
+			$imagepath = $this->getImagePath($dest_question_id, $dest_object_id);
 
 			if (!file_exists($imagepath)) {
 				ilUtil::makeDirParents($imagepath);
