@@ -13353,3 +13353,79 @@ rbac#:#sysc_read#:#User has read access to System Check.
 rbac#:#sysc_visible#:#System Check is visible.
 rbac#:#sysc_write#:#User can execute System Check.
 assessment#:#apply_def_settings_to_tst#:#Apply Settings
+cld#:#cld_add#:#Add Cloud Object
+cld#:#cld_add_download_failed#:#Download Failed
+cld#:#cld_add_file#:#Add File
+cld#:#cld_add_folder#:#Add Folder
+cld#:#cld_add_items_from_service_failed#:#Add Items from Service Failed
+cld#:#cld_add_new_item#:#Add New Item
+cld#:#cld_auth_failed#:#Authentication Failed
+cld#:#cld_authentication_failed#:#:#Authentication Failed
+cld#:#cld_config_entry_does_not_exist#:#Config entry does not exist
+cld#:#cld_config_no_valid_get_or_set_function#:#No valid get or set function for config value
+cld#:#cld_config_table_does_not_exist#:#Config table does not exist
+cld#:#cld_config_unknown_exception#:#Unkown Exception
+cld#:#cld_confirm_delete_file#:#Delete File
+cld#:#cld_confirm_delete_folder#:#Delete Folder
+cld#:#cld_create_folder#:#Create Folder
+cld#:#cld_delete_failed#:#Delete Failed
+cld#:#cld_edit_Settings#:#Edit Cloud Settings
+cld#:#cld_empty#:#Empty
+cld#:#cld_file_not_existing_on_service#:#File not existing on service:
+cld#:#cld_folder_already_existing_on_service#:#Folder already existing on service:
+cld#:#cld_folder_created1#:#Folder
+cld#:#cld_folder_created2#:#created
+cld#:#cld_folder_creation_failed#:#Folder Creation Failed
+cld#:#cld_folder_name#:#Folder Name
+cld#:#cld_folder_not_existing_on_service#:#Folder not existing on service:
+cld#:#cld_id_already_exists_in_file_tree_in_session#:#Id already exists in filetree in Session:
+cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Id does not exist in filetree in Session:
+cld#:#cld_info_add_file_to_current_directory#:#Add Folder to current directory
+cld#:#cld_info_add_folder_to_current_directory#:#Add Folder to current directory
+cld#:#cld_invalid_input#:#Invalid Input
+cld#:#cld_new#:#New Cloud Object
+cld#:#cld_no_service_active#:#No cloud-plugin active
+cld#:#cld_no_service_selected#:#No service selected
+cld#:#cld_not_authenticated_offline#:#Not Authenticated - Offline
+cld#:#cld_only_owner_has_permission_to_change_root_path#:#Due to privacy concerns only the creator of a cloud object has the permission to change it's root path.
+cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Path does not exist in filetree in Session:
+cld#:#cld_permission_denied#:#Permission Denied
+cld#:#cld_permission_to_change_root_folder_denied#:#Permission to change root folder denied
+cld#:#cld_plugin_hook_could_not_be_instantiated#:#Plugin hook cloud not be instantiated
+cld#:#cld_plugin_not_active#:#Plugin is not active
+cld#:#cld_root_folder#:#Root Folder
+cld#:#cld_service#:#Service
+cld#:#cld_service_class_file_not_found#:#Service class file not found
+cld#:#cld_service_not_active#:#Service not active
+cld#:#cld_service_specific_settings#:#Specific Settings
+cld#:#cld_unknown_exception#:#Unknown Exception
+cld#:#cld_upload_failed_max_filesize#:#Upload Failed (Max. File Size exceeded)
+cld#:#cld_upload_failed#:#Upload Failed
+cld#:#cld_upload_files#:#Upload Files
+cld#:#service_specific_settings#:#Specific Settings
+common#:#obj_cld#:#Cloud Object
+common#:#objs_cld#:#Cloud Objects
+rbac#:#delete_files#:#Delete Files
+rbac#:#cld_delete_files#:#Users can delete Files in the cloud object
+rbac#:#delete_folders#:#Delete Folders
+rbac#:#cld_delete_folders#:#Users can delete Folders in the cloud object
+rbac#:#files_visible#:#Files Visible
+rbac#:#cld_files_visible#:#Files are visible in the cloud object
+rbac#:#folders_visible#:#Folders Visible
+rbac#:#cld_folders_visible#:#Folders are visible in the cloud object
+rbac#:#folders_create#:#Create Folders
+rbac#:#cld_folders_create#:#Folders may be created in the cloud object
+rbac#:#cld_visible#:#Cloud Object is visible
+rbac#:#cld_read#:#User can open a Cloud Object
+rbac#:#cld_write#:#User can edit cloud object settings
+rbac#:#cld_delete#:#User can delete cloud object
+rbac#:#cld_permission#:#User can change permission settings
+rbac#:#cat_create_cld#:#Create Cloud Object
+rbac#:#crs_create_cld#:#Create Cloud Object
+rbac#:#fold_create_cld#:#Create Cloud Object
+rbac#:#grp_create_cld#:#Create Cloud Object
+rbac#:#root_create_cld#:#Create Cloud Object
+rbac#:#cld_upload#:#User can upload files to the cloud object Dateien in das Cloud Objekt laden
+rbac#:#cld_download#:#User can download files from the cloud object
+rbac#:#cld_edit_permission#:#User can change permission settings
+rbac#:#rbac_create_cld:#Create new Cloud Object
