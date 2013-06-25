@@ -945,7 +945,7 @@ class assErrorText extends assQuestion
 		$selections = array();
 		foreach ($passages as $cnt => $pdata)
 		{
-			if (!$withPositivePointsOnly && $pdata['isError'] || $pdata['score'] > 0)
+			if (!$withPositivePointsOnly && $pdata['isError'] || $withPositivePointsOnly && $pdata['score'] > 0)
 			{
 				$indexes = range($pdata['begin_pos'], $pdata['end_pos']);
 				$selections[$pdata['begin_pos']] = $indexes;
@@ -954,7 +954,7 @@ class assErrorText extends assQuestion
 
 		foreach ($words as $idx => $word)
 		{
-			if (!$withPositivePointsOnly && $word['isError'] || $word['points'] > 0)
+			if (!$withPositivePointsOnly && $word['isError'] || $withPositivePointsOnly && $word['points'] > 0)
 			{
 				$selections[$idx] = array($idx);
 			}
