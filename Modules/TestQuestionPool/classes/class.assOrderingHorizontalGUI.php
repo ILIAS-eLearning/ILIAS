@@ -141,15 +141,14 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 
 		// mbecker: Fix for mantis bug 7866: Predefined values schould make sense.
 		// This implements a default value of "1" for this question type.
-		if ($this->object->getPoints == null)
+		if($this->object->getPoints() == null)
 		{
-			$points->setValue("1");			
+			$points->setValue("1");
 		} 
 		else 
 		{
 			$points->setValue($this->object->getPoints());
 		}
-		//$points->setValue($this->object->getPoints());
 		$points->setRequired(TRUE);
 		$points->setSize(3);
 		$points->setMinValue(0.0);
