@@ -605,7 +605,7 @@ class assErrorTextGUI extends assQuestionGUI
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		$feedback = '<table><tbody>';
-		$selection = $this->object->getBestSelection();
+		$selection = $this->object->getBestSelection(false);
 		$elements = explode(' ', str_replace(array("\r", "\n"), array('', ' '), $this->object->errortext));
 		$i = 0;
 		foreach ($selection as $index => $answer)

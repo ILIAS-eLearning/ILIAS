@@ -608,7 +608,7 @@ class assErrorText extends assQuestion
 						$errorobject = $this->errordata[$errorcounter];
 						if (is_object($errorobject))
 						{
-							$item = $errorobject->text_correct;
+							$item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
 						}
 						$errorcounter++;
 					}
@@ -630,7 +630,7 @@ class assErrorText extends assQuestion
 						}
 					}
 				}
-				$items[$idx] = '<a' . $class . ' href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
+				$items[$idx] = '<a' . $class . ' href="#HREF' . $idx . '" onclick="javascript: return false;">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</a>' . $img;
 				$counter++;
 			}
 			$textarray[$textidx] = '<p>' . join($items, " ") . '</p>';
@@ -681,7 +681,7 @@ class assErrorText extends assQuestion
 		return join($textarray, "\n");
 	}
 	
-	public function getBestSelection()
+	public function getBestSelection($withPositivePointsOnly = true)
 	{
 		$words = array();
 		$counter = 0;
@@ -693,23 +693,25 @@ class assErrorText extends assQuestion
 			foreach ($items as $word)
 			{
 				$points = $this->getPointsWrong();
+				$isErrorItem = false;
 				if (strpos($word, '#') === 0)
 				{
 					$errorobject = $this->errordata[$errorcounter];
 					if (is_object($errorobject))
 					{
 						$points = $errorobject->points;
+						$isErrorItem = true;
 					}
 					$errorcounter++;
 				}
-				$words[$counter] = array("word" => $word, "points" => $points);
+				$words[$counter] = array("word" => $word, "points" => $points, "isError" => $isErrorItem);
 				$counter++;
 			}
 		}
 		$selections = array();
 		foreach ($words as $idx => $word)
 		{
-			if ($word['points'] > 0)
+			if (!$withPositivePointsOnly && $word['isError'] || $withPositivePointsOnly && $word['points'] > 0)
 			{
 				array_push($selections, $idx);
 			}
