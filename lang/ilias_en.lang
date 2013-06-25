@@ -13352,3 +13352,4 @@ rbac#:#sysc_edit_permission#:#User can change permissions of System Check.
 rbac#:#sysc_read#:#User has read access to System Check.
 rbac#:#sysc_visible#:#System Check is visible.
 rbac#:#sysc_write#:#User can execute System Check.
+assessment#:#apply_def_settings_to_tst#:#Apply Settings

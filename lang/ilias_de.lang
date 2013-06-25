@@ -13347,3 +13347,4 @@ rbac#:#sysc_edit_permission#:#User can change permissions of System Check.
 rbac#:#sysc_read#:#Rechteeinstellungen für den Systemcheck ändern.
 rbac#:#sysc_visible#:#Lesezugriff auf den Systemcheck
 rbac#:#sysc_write#:#Benutzer darf Systemcheck durchführen.
+assessment#:#apply_def_settings_to_tst#:#Einstellungen für Test übernehmen
