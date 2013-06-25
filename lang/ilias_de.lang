@@ -13337,3 +13337,7 @@ survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage
 assessment#:#question_id#:#Fragen-ID
 assessment#:#question_id_short#:#ID
 mcst#:#mcst_download_videoalternative#:#Alternatives Format herunterladen
+prtf#:#prtf_allow_html#:#HTML/Javascript erlauben
+prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen.
+blog#:#blog_allow_html#:#HTML/Javascript erlauben
+blog#:#blog_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Blog-Einträgen verwenden. Dies kann zu Sicherheitsproblemen führen.
