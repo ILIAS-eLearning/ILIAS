@@ -40,6 +40,8 @@ class ilRoleTableGUI extends ilTable2GUI
 
 		$this->ctrl = $ilCtrl;
 
+		$this->setId('rolf_role_tbl');
+		
 		parent::__construct($a_parent_gui, $a_parent_cmd);
 		$this->lng->loadLanguageModule('rbac');
 		$this->lng->loadLanguageModule('search');
@@ -101,9 +103,10 @@ class ilRoleTableGUI extends ilTable2GUI
 		switch($this->getType())
 		{
 			case self::TYPE_VIEW:
+				$this->setShowRowsSelector(true);
 				$this->setDefaultOrderField('title');
 				$this->setDefaultOrderDirection('asc');
-				$this->setId('rolf_role_tbl');
+				//$this->setId('rolf_role_tbl');
 				$this->addColumn($this->lng->txt('search_title_description'),'title','30%');
 				$this->addColumn($this->lng->txt('type'),'rtype','20%');
 				$this->addColumn($this->lng->txt('context'),'','40%');
@@ -113,8 +116,9 @@ class ilRoleTableGUI extends ilTable2GUI
 				break;
 			
 			case self::TYPE_SEARCH:
+				$this->setShowRowsSelector(false);
 				$this->disable('sort');
-				$this->setId('rolf_role_search_tbl');
+				//$this->setId('rolf_role_search_tbl');
 				$this->addColumn($this->lng->txt('search_title_description'),'title','30%');
 				$this->addColumn($this->lng->txt('type'),'rtype','20%');
 				$this->addColumn($this->lng->txt('context'),'','50%');
@@ -125,7 +129,6 @@ class ilRoleTableGUI extends ilTable2GUI
 		}
 
 
-		#$this->setShowRowsSelector(true);
 		$this->setRowTemplate('tpl.role_row.html','Services/AccessControl');
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 		$this->setSelectAllCheckbox('roles');
@@ -250,9 +253,10 @@ class ilRoleTableGUI extends ilTable2GUI
 
 
 		if(
-			$set['obj_id'] != ANONYMOUS_ROLE_ID and
+			($set['obj_id'] != ANONYMOUS_ROLE_ID and
 			$set['obj_id'] != SYSTEM_ROLE_ID and
-			substr($set['title_orig'],0,3) != 'il_')
+			substr($set['title_orig'],0,3) != 'il_') or
+			$this->getType() == self::TYPE_SEARCH)
 		{
 			$this->tpl->setVariable('VAL_ID', $set['obj_id']);
 		}
@@ -315,7 +319,7 @@ class ilRoleTableGUI extends ilTable2GUI
 		else
 		{
 			$filter_orig = $filter = $this->getRoleTitleFilter();
-			$type = ilRbacReview::FILTER_ALL_LOCAL;
+			$type = ilRbacReview::FILTER_ALL;
 		}
 
 		
@@ -331,7 +335,7 @@ class ilRoleTableGUI extends ilTable2GUI
 			0,
 			$filter
 		);
-
+		
 		$counter = 0;
 		$rows = array();
 		foreach((array) $role_list as $role)
