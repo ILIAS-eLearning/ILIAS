@@ -1057,6 +1057,7 @@ assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
 assessment#:#exam_id#:#Exam Id: 
 assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode 
+assessment#:#show_exam_id#:#Display Exam Id 
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes. Thefore an option is shown on the info screen, that is deactivated by default.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
@@ -13428,4 +13429,4 @@ rbac#:#root_create_cld#:#Create Cloud Object
 rbac#:#cld_upload#:#User can upload files to the cloud object Dateien in das Cloud Objekt laden
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
-rbac#:#rbac_create_cld:#Create new Cloud Object
+rbac#:#rbac_create_cld#:#Create new Cloud Object
