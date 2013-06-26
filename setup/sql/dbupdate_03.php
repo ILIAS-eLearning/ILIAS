@@ -16122,3 +16122,13 @@ ilDBUpdateNewObjectType::addRBACOperation($cld_type_id, $ops_id);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3929>
+<?php
+	$setting = new ilSetting();
+	$ilfrmnoti1 = $setting->get('ilfrmnoti1');
+	if(!$ilfrmnoti1)
+	{
+		$ilDB->addIndex('frm_notification', array('user_id', 'thread_id'), 'i1');
+		$setting->set('ilfrmnoti1', 1);
+	}
+?>
