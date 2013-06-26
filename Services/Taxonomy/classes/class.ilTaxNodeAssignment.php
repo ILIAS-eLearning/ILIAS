@@ -120,7 +120,7 @@ class ilTaxNodeAssignment
 			$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
 				" WHERE ".$ilDB->in("node_id", $a_node_id, false, "integer").
 				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer").
-				" AND component_id = ".$ilDB->quote($this->getComponentId(), "text").
+				" AND component = ".$ilDB->quote($this->getComponentId(), "text").
 				" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
 				" ORDER BY order_nr ASC"
 				);
