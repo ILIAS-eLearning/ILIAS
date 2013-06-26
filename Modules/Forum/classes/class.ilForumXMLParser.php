@@ -469,17 +469,14 @@ class ilForumXMLParser extends ilSaxParser
 							$mob = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
 							ilObjMediaObject::_saveUsage($mob->getId(), "frm:html", $this->forumPost->getId());
 
-							$this->setMessage(
-								ilRTE::_replaceMediaObjectImageSrc(
-									str_replace(
-										array(
-											"src=\"" . $mob["label"] . "\"",
-											"src=\"" . $mob["label_without_inst_id"] . "\""
-										),
-										"src=\"" . "il_" . IL_INST_ID . "_mob_" . $mob->getId() . "\"",
-										$this->forumPost->getMessage()
+							$this->forumPost->setMessage(
+								str_replace(
+									array(
+										"src=\"" . $mob_attr["label"] . "\"",
+										"src=\"" . $mob_attr["label_without_inst_id"] . "\""
 									),
-									1
+									"src=\"" . "il_" . IL_INST_ID . "_mob_" . $mob->getId() . "\"",
+									$this->forumPost->getMessage()
 								)
 							);
 							$media_objects_found = true;

@@ -166,7 +166,7 @@ class ilForumXMLWriter extends ilXmlWriter
 						$imgattrs = array(
 							"label"                 => $moblabel,
 							"label_without_inst_id" => $moblabel_without_inst_id,
-							"uri"                   => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+							"uri"                   => $this->target_dir_relative . "/objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
 						);
 
 						$this->xmlElement("MediaObject", $imgattrs, NULL);
