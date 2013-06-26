@@ -975,53 +975,77 @@ class ilObjForum extends ilObject
 
 		$new_deadline = date('Y-m-d H:i:s', time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new') ? $ilSetting->get('frm_store_new') : 8));
 
-		$query = "
-			(SELECT COUNT(frm_posts.pos_pk) cnt
-			FROM frm_posts
-			INNER JOIN frm_threads ON frm_posts.pos_thr_fk = frm_threads.thr_pk 
-			WHERE frm_threads.thr_top_fk = %s $act_clause)
-			
-			UNION ALL
-			 
-			(SELECT COUNT(frm_user_read.post_id) cnt
-			FROM frm_user_read
-			INNER JOIN frm_posts ON frm_user_read.post_id = frm_posts.pos_pk
-			INNER JOIN frm_threads ON frm_threads.thr_pk = frm_posts.pos_thr_fk 
-			WHERE frm_user_read.usr_id = %s AND frm_posts.pos_top_fk = %s $act_clause)
-			
-			UNION ALL
-			
-			(SELECT COUNT(frm_posts.pos_pk) cnt
-			FROM frm_posts
-			LEFT JOIN frm_user_read ON (post_id = frm_posts.pos_pk AND frm_user_read.usr_id = %s)
-			LEFT JOIN frm_thread_access ON (frm_thread_access.thread_id = frm_posts.pos_thr_fk AND frm_thread_access.usr_id = %s)
-			WHERE frm_posts.pos_top_fk = %s
-			AND ((frm_posts.pos_date > frm_thread_access.access_old_ts OR frm_posts.pos_update > frm_thread_access.access_old_ts)
-				OR (frm_thread_access.access_old IS NULL AND (frm_posts.pos_date > %s OR frm_posts.pos_update > %s)))
-			AND frm_posts.pos_usr_id != %s 
-			AND frm_user_read.usr_id IS NULL $act_clause)
-		";
-
-		$types  = array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'timestamp', 'integer');
-		$values = array($forumId, $ilUser->getId(), $forumId, $ilUser->getId(), $ilUser->getId(), $forumId, $new_deadline, $new_deadline, $ilUser->getId());
-
-		$mapping = array_keys($statistics);
-		$res     = $ilDB->queryF(
-			$query,
-			$types,
-			$values
-		);
-		for($i = 0; $i <= 2; $i++)
+		if(!$ilUser->isAnonymous())
 		{
+			$query = "
+				(SELECT COUNT(frm_posts.pos_pk) cnt
+				FROM frm_posts
+				INNER JOIN frm_threads ON frm_posts.pos_thr_fk = frm_threads.thr_pk 
+				WHERE frm_threads.thr_top_fk = %s $act_clause)
+				
+				UNION ALL
+				 
+				(SELECT COUNT(frm_user_read.post_id) cnt
+				FROM frm_user_read
+				INNER JOIN frm_posts ON frm_user_read.post_id = frm_posts.pos_pk
+				INNER JOIN frm_threads ON frm_threads.thr_pk = frm_posts.pos_thr_fk 
+				WHERE frm_user_read.usr_id = %s AND frm_posts.pos_top_fk = %s $act_clause)
+				
+				UNION ALL
+				
+				(SELECT COUNT(frm_posts.pos_pk) cnt
+				FROM frm_posts
+				LEFT JOIN frm_user_read ON (post_id = frm_posts.pos_pk AND frm_user_read.usr_id = %s)
+				LEFT JOIN frm_thread_access ON (frm_thread_access.thread_id = frm_posts.pos_thr_fk AND frm_thread_access.usr_id = %s)
+				WHERE frm_posts.pos_top_fk = %s
+				AND ((frm_posts.pos_date > frm_thread_access.access_old_ts OR frm_posts.pos_update > frm_thread_access.access_old_ts)
+					OR (frm_thread_access.access_old IS NULL AND (frm_posts.pos_date > %s OR frm_posts.pos_update > %s)))
+				AND frm_posts.pos_usr_id != %s 
+				AND frm_user_read.usr_id IS NULL $act_clause)
+			";
+			$types  = array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'timestamp', 'integer');
+			$values = array($forumId, $ilUser->getId(), $forumId, $ilUser->getId(), $ilUser->getId(), $forumId, $new_deadline, $new_deadline, $ilUser->getId());
+			$mapping = array_keys($statistics);
+			$res     = $ilDB->queryF(
+				$query,
+				$types,
+				$values
+			);
+			for($i = 0; $i <= 2; $i++)
+			{
+				$row = $ilDB->fetchAssoc($res);
+
+				$statistics[$mapping[$i]] = (int)$row['cnt'];
+
+				if($i == 1)
+				{
+					// unread = all - read
+					$statistics[$mapping[$i]] = $statistics[$mapping[$i - 1]] - $statistics[$mapping[$i]];
+				}
+			}
+		}
+		else
+		{
+			$query = "
+				SELECT COUNT(frm_posts.pos_pk) cnt
+				FROM frm_posts
+				INNER JOIN frm_threads ON frm_posts.pos_thr_fk = frm_threads.thr_pk 
+				WHERE frm_threads.thr_top_fk = %s $act_clause
+			";
+			$types  = array('integer');
+			$values = array($forumId);
+			$res     = $ilDB->queryF(
+				$query,
+				$types,
+				$values
+			);
 			$row = $ilDB->fetchAssoc($res);
 
-			$statistics[$mapping[$i]] = (int)$row['cnt'];
-
-			if($i == 1)
-			{
-				// unread = all - read
-				$statistics[$mapping[$i]] = $statistics[$mapping[$i - 1]] - $statistics[$mapping[$i]];
-			}
+			$statistics = array(
+				'num_posts'        => $row['cnt'],
+				'num_unread_posts' => $row['cnt'],
+				'num_new_posts'    => $row['cnt']
+			);
 		}
 
 		self::$forum_statistics_cache[$ref_id] = $statistics;

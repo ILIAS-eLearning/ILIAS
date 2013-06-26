@@ -92,8 +92,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 		$num_new_total    = $properties['num_new_posts'];
 		$last_post        = ilObjForumAccess::getLastPostByRefId($this->ref_id);
 
-		// Posts (Unread)
-		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		if(!$ilUser->isAnonymous())
 		{
 			if($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL)
 			{
@@ -119,11 +118,6 @@ class ilObjForumListGUI extends ilObjectListGUI
 				'alert'	=> false,
 				'property' => $lng->txt('forums_articles'),
 				'value'	=> $num_posts_total
-			);
-			$props[] = array(
-				'alert'	=> false,
-				'property' => $lng->txt('forums_new_articles'),
-				'value'	=> 0
 			);
 		}
 
