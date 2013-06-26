@@ -4,6 +4,7 @@
 
 include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
+include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";
 
 /**
 * XML writer class
@@ -57,6 +58,8 @@ class ilForumXMLWriter extends ilXmlWriter
 	function start()
 	{
 		global $ilDB;
+
+		ilUtil::makeDir($this->target_dir_absolute."/objects");
 
 		$query_frm = 'SELECT * FROM frm_settings fs '.
 					'JOIN object_data od ON fs.obj_id = od.obj_id '.
@@ -150,7 +153,27 @@ class ilForumXMLWriter extends ilXmlWriter
 				$this->xmlElement("Notification", null, $rowPost->notify);
 				$this->xmlElement("ImportName", null, $rowPost->import_name);
 				$this->xmlElement("Status", null, (int)$rowPost->pos_status);
-				$this->xmlElement("Message", null, $rowPost->pos_message);
+				$this->xmlElement("Message", null, ilRTE::_replaceMediaObjectImageSrc($rowPost->pos_message, 0));
+				$this->xmlStartTag("MessageMediaObjects");
+				$mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $rowPost->pos_pk);
+				foreach($mobs as $mob)
+				{
+					$moblabel                 = "il_" . IL_INST_ID . "_mob_" . $mob;
+					$moblabel_without_inst_id = "il_0_mob_" . $mob;
+					if(ilObjMediaObject::_exists($mob))
+					{
+						$mob_obj  = new ilObjMediaObject($mob);
+						$imgattrs = array(
+							"label"                 => $moblabel,
+							"label_without_inst_id" => $moblabel_without_inst_id,
+							"uri"                   => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+						);
+
+						$this->xmlElement("MediaObject", $imgattrs, NULL);
+						$mob_obj->exportFiles($this->target_dir_absolute);
+					}
+				}
+				$this->xmlEndTag("MessageMediaObjects");
 				$this->xmlElement("Lft", null, (int)$rowPost->lft);
 				$this->xmlElement("Rgt", null, (int)$rowPost->rgt);
 				$this->xmlElement("Depth", null, (int)$rowPost->depth);
@@ -179,7 +202,6 @@ class ilForumXMLWriter extends ilXmlWriter
 							$contentThumb = $this->target_dir_relative."/".$thumb;
 							$this->xmlElement("ContentThumbnail", null, $contentThumb);
 						}*/
-						++$i;
 						$this->xmlEndTag("Attachment");
 					}
 				}
@@ -212,7 +234,4 @@ class ilForumXMLWriter extends ilXmlWriter
 		// Replace ascii code 11 characters because of problems with xml sax parser
 	    return str_replace('&#11;', '', $this->xmlDumpMem(false));
 	}
-
 }
-
-?>

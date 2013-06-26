@@ -3,6 +3,7 @@
 
 include_once './Services/Xml/classes/class.ilSaxParser.php';
 require_once 'Modules/Forum/classes/class.ilForumProperties.php';
+include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 
 class ilForumXMLParser extends ilSaxParser
 {
@@ -21,6 +22,7 @@ class ilForumXMLParser extends ilSaxParser
 	);
 	private $import_install_id = null;
 	private $user_id_mapping = array();
+	protected $mediaObjects = array();
 
     /**
 	 * Constructor
@@ -91,6 +93,7 @@ class ilForumXMLParser extends ilSaxParser
 				break;
 
 			case 'Post':
+				$this->mediaObjects = array();
 				$this->entity = 'post';
 				$this->postArray = array();
 				break;
@@ -98,6 +101,10 @@ class ilForumXMLParser extends ilSaxParser
 			case 'Content':
 				$this->entity = 'content';
 				$this->contentArray = array();
+				break;
+
+			case 'MediaObject':
+				$this->mediaObjects[] = $a_attribs;
 				break;
 
 		/*	case 'ContentThumbnail':
@@ -452,6 +459,37 @@ class ilForumXMLParser extends ilSaxParser
 
 					$this->mapping['pos'][$this->postArray['Id']] = $this->forumPost->getId();
 					$this->lastHandledPostId = $this->forumPost->getId();
+
+					$media_objects_found = false;
+					foreach($this->mediaObjects as $mob_attr)
+					{
+						$importfile = $this->getImportDirectory().'/'.$mob_attr['uri'];
+						if(file_exists($importfile))
+						{
+							$mob = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+							ilObjMediaObject::_saveUsage($mob->getId(), "frm:html", $this->forumPost->getId());
+
+							$this->setMessage(
+								ilRTE::_replaceMediaObjectImageSrc(
+									str_replace(
+										array(
+											"src=\"" . $mob["label"] . "\"",
+											"src=\"" . $mob["label_without_inst_id"] . "\""
+										),
+										"src=\"" . "il_" . IL_INST_ID . "_mob_" . $mob->getId() . "\"",
+										$this->forumPost->getMessage()
+									),
+									1
+								)
+							);
+							$media_objects_found = true;
+						}
+					}
+					
+					if($media_objects_found)
+					{
+						$this->forumPost->update();
+					}
 
 					unset($this->postArray);
 				}

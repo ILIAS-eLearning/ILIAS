@@ -68,6 +68,7 @@
 				<element name="ImportName" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="Status" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Message" type="string" minOccurs="1" maxOccurs="1" />
+				<element ref="t:MessageMediaObjects" minOccurs="0" maxOccurs="1" />
 				<element name="Lft" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Rgt" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Depth" type="integer" minOccurs="1" maxOccurs="1" />
@@ -81,8 +82,16 @@
 	<element name="Attachment">
 		<complexType>
 			<sequence>
-				<element name="Content" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Content" type="string" minOccurs="1" maxOccurs="unbounded" />
 			<!--	<element name="ContentThumbnail" type="string" minOccurs="0" maxOccurs="1" /> -->
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="MessageMediaObjects">
+		<complexType>
+			<sequence>
+				<element name="MediaObject" minOccurs="0" maxOccurs="unbounded" />
 			</sequence>
 		</complexType>
 	</element>
