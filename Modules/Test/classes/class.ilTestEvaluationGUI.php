@@ -1110,6 +1110,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 			$signature = $this->getResultsSignature();
 			$template->setVariable("SIGNATURE", $signature);
+			if ($this->object->getShowExamid())
+			{
+				$template->setVariable('EXAM_ID',
+										$this->object->getExamId(
+											$this->object->getTestSession()->getActiveId(),
+											$this->object->getTestSession()->getPass() ));
+				$template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+			}
 		}
 		if ($this->object->getAnonymity()) {
 		    $template->setVariable("TEXT_HEADING", $this->lng->txt("tst_result"));

@@ -1780,6 +1780,13 @@ class ilObjTestGUI extends ilObjectGUI
 		$autosave_output->addSubItem($autosave_interval);
 		$form->addItem($autosave_output);
 		
+		
+		// Exam Id
+		$exam_id = new ilCheckboxInputGUI($this->lng->txt('show_exam_id'),'show_exam_id');
+		$exam_id->setValue(1);
+		$exam_id->setChecked($this->object->getShowExamid());
+		$form->addItem($exam_id);
+		
                 if(!$template || $template && $this->formShowSequenceSection($template_settings)) {
                     // sequence properties
                     $seqheader = new ilFormSectionHeaderGUI();
@@ -2322,6 +2329,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setHighscoreOwnTable((bool) $_POST['highscore_own_table']);
 			$this->object->setHighscoreTopTable((bool) $_POST['highscore_top_table']);
 			$this->object->setHighscoreTopNum((int) $_POST['highscore_top_num']);
+			
+			$this->object->setShowExamid( (bool) $_POST['show_exam_id']);
 			
             //$this->object->setExpressModeQuestionPoolAllowed($_POST['express_allow_question_pool']);
             $this->object->setEnabledViewMode($_POST['enabled_view_mode']);

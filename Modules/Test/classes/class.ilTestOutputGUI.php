@@ -1705,7 +1705,19 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$directfeedback = 1;
 		}
 		
+		if ($this->object->getShowExamid() && !$this->object->getKioskMode())
+		{
+			$this->tpl->setCurrentBlock('exam_id');
+			$this->tpl->setVariable('EXAM_ID', 
+								$this->object->getExamId(
+									$this->object->getTestSession()->getActiveId(), 
+									$this->object->getTestSession()->getPass() ));
+			$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+			$this->tpl->parseCurrentBlock();
+		}				
+		
 		$this->outWorkingForm($this->sequence, $this->object->getTestId(), $postpone, $directfeedback, $show_summary);
+		
 	}
 
 /**
