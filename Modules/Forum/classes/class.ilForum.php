@@ -1027,7 +1027,9 @@ class ilForum
 			$active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_usr_id = %s) ';
 		}
 
-		$query = "SELECT
+		if(!$ilUser->isAnonymous())
+		{
+			$query = "SELECT
 				  (CASE WHEN COUNT(DISTINCT(notification_id)) > 0 THEN 1 ELSE 0 END) usr_notification_is_enabled,
 				  MAX(pos_date) post_date,
 				  COUNT(DISTINCT(pos_pk)) num_posts,
@@ -1070,35 +1072,67 @@ class ilForum
 					GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					ORDER BY is_sticky DESC, post_date DESC, thr_date DESC";
 
-		$data_types[] = 'integer';
-		$data_types[] = 'integer';
-		$data_types[] = 'integer';
-		if(!$is_moderator)
-		{
-			array_push($data_types, 'integer', 'integer');
-		}
-		$data_types[] = 'integer';
-		if(!$is_moderator)
-		{
-			array_push($data_types, 'integer', 'integer');
-		}
-		$data_types[] = 'integer';
-		$data_types[] = 'integer';
+			$data_types[] = 'integer';
+			$data_types[] = 'integer';
+			$data_types[] = 'integer';
+			if(!$is_moderator)
+			{
+				array_push($data_types, 'integer', 'integer');
+			}
+			$data_types[] = 'integer';
+			if(!$is_moderator)
+			{
+				array_push($data_types, 'integer', 'integer');
+			}
+			$data_types[] = 'integer';
+			$data_types[] = 'integer';
 
-		$data[] = $ilUser->getId();
-		$data[] = $ilUser->getId();
-		$data[] = $ilUser->getId();
-		if(!$is_moderator)
-		{
-			array_push($data, '1', $ilUser->getId());
+			$data[] = $ilUser->getId();
+			$data[] = $ilUser->getId();
+			$data[] = $ilUser->getId();
+			if(!$is_moderator)
+			{
+				array_push($data, '1', $ilUser->getId());
+			}
+			$data[] = $ilUser->getId();
+			if(!$is_moderator)
+			{
+				array_push($data, '1', $ilUser->getId());
+			}
+			$data[] = $ilUser->getId();
+			$data[] = $a_topic_id;
 		}
-		$data[] = $ilUser->getId();
-		if(!$is_moderator)
+		else
 		{
-			array_push($data, '1', $ilUser->getId());
+			$query = "SELECT
+					  0 usr_notification_is_enabled,
+					  MAX(pos_date) post_date,
+					  COUNT(DISTINCT(pos_pk)) num_posts,
+					  COUNT(DISTINCT(pos_pk)) num_unread_posts,
+					  COUNT(DISTINCT(pos_pk)) num_new_posts,
+					  thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+					  FROM frm_threads
+					  
+					  LEFT JOIN frm_posts
+						ON pos_thr_fk = thr_pk $active_query";
+
+
+			$query .= " WHERE thr_top_fk = %s
+						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+						ORDER BY is_sticky DESC, thr_date DESC";
+
+			if(!$is_moderator)
+			{
+				array_push($data_types, 'integer', 'integer');
+			}
+			$data_types[] = 'integer';
+
+			if(!$is_moderator)
+			{
+				array_push($data, '1', $ilUser->getId());
+			}
+			$data[] = $a_topic_id;
 		}
-		$data[] = $ilUser->getId();
-		$data[] = $a_topic_id;
 
 		if($limit || $offset)
 		{
