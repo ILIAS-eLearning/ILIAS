@@ -129,18 +129,17 @@ class ilObjCloud extends ilObject2
     {
         global $ilDB;
 
-        foreach (ilCloudConnector::getActiveServices() as $service_name)
+        if ($this->getServiceName() != null)
         {
-            if (file_exists("./Customizing/global/plugins/Modules/Cloud/CloudHook/" . $service_name . "/classes/class.il" . $service_name . "Plugin.php"))
+            $plugin_class = ilCloudConnector::getPluginClass($this->getServiceName(), $this->getId());
+            if ($plugin_class)
             {
-                include_once("./Customizing/global/plugins/Modules/Cloud/CloudHook/" . $service_name . "/classes/class.il" . $service_name . "Plugin.php");
-                $service_name  = "il" . $service_name . "Plugin";
-                $service_class = new $service_name();
-                $service_class->doDelete($this->getId());
+                $plugin_class->doDelete($this->getId());
             }
         }
+
         $ilDB->manipulate("DELETE FROM il_cld_data WHERE " .
-                " id = " . $ilDB->quote($this->getId(), "integer")
+            " id = " . $ilDB->quote($this->getId(), "integer")
         );
 
     }
