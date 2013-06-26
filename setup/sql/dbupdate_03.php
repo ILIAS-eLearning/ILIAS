@@ -16132,3 +16132,15 @@ $ilCtrlStructureReader->getStructure();
 		$setting->set('ilfrmnoti1', 1);
 	}
 ?>
+<#3930>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'show_exam_id') )
+{
+	$ilDB->addTableColumn("tst_tests", "show_exam_id",
+						  array(	'type' => 'integer',
+									'length' => 4,
+									'notnull' => true,
+									'default' => 0
+						  ));
+}
+?>
