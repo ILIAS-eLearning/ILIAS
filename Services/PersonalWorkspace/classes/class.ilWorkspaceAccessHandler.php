@@ -195,10 +195,11 @@ class ilWorkspaceAccessHandler
 			return false;
 		}
 
-		$ilDB->manipulate("INSERT INTO acl_ws (node_id, object_id, extended_data)".
+		$ilDB->manipulate("INSERT INTO acl_ws (node_id, object_id, extended_data, tstamp)".
 			" VALUES (".$ilDB->quote($a_node_id, "integer").", ".
 			$ilDB->quote($a_object_id, "integer").",".
-			$ilDB->quote($a_extended_data, "text").")");
+			$ilDB->quote($a_extended_data, "text").",".
+			$ilDB->quote(time(), "integer").")");
 		return true;
 	}
 
@@ -362,11 +363,45 @@ class ilWorkspaceAccessHandler
 		return $res;
 	}
 	
-	public function findSharedObjects(array $a_filter = null)
+	public function findSharedObjects(array $a_filter = null, array $a_crs_ids = null, array $a_grp_ids = null)
 	{
 		global $ilDB, $ilUser;
 		
-		$obj_ids = $this->getPossibleSharedTargets();
+		if(!$a_filter["acl_type"])
+		{
+			$obj_ids = $this->getPossibleSharedTargets();
+		}
+		else
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+			
+			switch($a_filter["acl_type"])
+			{
+				case "all":
+					$obj_ids = array(ilWorkspaceAccessGUI::PERMISSION_ALL);					
+					break;
+				
+				case "password":
+					$obj_ids = array(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD);			
+					break;
+				
+				case "registered":
+					$obj_ids = array(ilWorkspaceAccessGUI::PERMISSION_REGISTERED);		
+					break;
+				
+				case "course":
+					$obj_ids = $a_crs_ids;
+					break;
+								
+				case "group":
+					$obj_ids = $a_grp_ids;
+					break;
+				
+				case "user":
+					$obj_ids = array($ilUser->getId());	
+					break;								
+			}
+		}
 		
 		$res = array();
 		
@@ -379,11 +414,57 @@ class ilWorkspaceAccessHandler
 			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
 			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer");
 		
+		/*
 		if($a_filter["owner"])
 		{			
 			$sql .= " AND obj.owner = ".$ilDB->quote($a_filter["owner"], "integer");
 		}
+		*/
 		
+		if($a_filter["obj_type"])
+		{
+			$sql .= " AND obj.type = ".$ilDB->quote($a_filter["obj_type"], "text");
+		}
+		if($a_filter["title"] && strlen($a_filter["title"]) >= 3)
+		{
+			$sql .= " AND ".$ilDB->like("obj.title", "text", "%".$a_filter["title"]."%");
+		}		
+		if($a_filter["user"] && strlen($a_filter["user"]) >= 3)
+		{				
+			$usr_ids = array();
+			$set = $ilDB->query("SELECT usr_id FROM usr_data".
+				" WHERE (".$ilDB->like("login", "text", "%".$a_filter["user"]."%")." ".
+				"OR ".$ilDB->like("firstname", "text", "%".$a_filter["user"]."%")." ".
+				"OR ".$ilDB->like("lastname", "text", "%".$a_filter["user"]."%")." ".
+				"OR ".$ilDB->like("email", "text", "%".$a_filter["user"]."%").")");
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$usr_ids[] = $row["usr_id"];
+			}
+			if(!sizeof($usr_ids))
+			{
+				return;
+			}
+			$sql .= " AND ".$ilDB->in("obj.owner", $usr_ids, "", "integer");			
+		}		
+		
+		if($a_filter["acl_date"])
+		{
+			$sql .= " AND acl.tstamp > ".$ilDB->quote($a_filter["acl_date"]->get(IL_CAL_UNIX), "integer");
+		}
+		
+		if($a_filter["crsgrp"])
+		{
+			include_once "Services/Membership/classes/class.ilParticipants.php";
+			$part = new ilParticipants($a_filter["crsgrp"]);
+			$part = $part->getParticipants();
+			if(!sizeof($part))
+			{
+				return;
+			}
+			$sql .= " AND ".$ilDB->in("obj.owner", $part, "", "integer");					
+		}
+	
 		// we use the oldest share date
 		$sql .= " ORDER BY acl.tstamp";
 			

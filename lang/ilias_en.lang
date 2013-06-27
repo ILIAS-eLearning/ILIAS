@@ -13432,3 +13432,8 @@ rbac#:#cld_edit_permission#:#User can change permission settings
 rbac#:#rbac_create_cld#:#Create new Cloud Object
 wsp#:#wsp_shared_date#:#Date of Share
 wsp#:#wsp_shared_type#:#Type of Share
+wsp#:#wsp_shared_object_type#:#Type of Resource
+wsp#:#wsp_shared_user_filter#:#Login/Name
+wsp#:#wsp_shared_date_filter#:#Shared after
+wsp#:#wsp_shared_mandatory_filter_info#:#Please set filter attribues to reduce the result size.
+wsp#:#wsp_shared_member_filter#:#Members of Courses/Groups

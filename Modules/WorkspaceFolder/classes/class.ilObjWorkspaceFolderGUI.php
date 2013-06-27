@@ -32,7 +32,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$this->tabs_gui->addTab("wsp", $lng->txt("wsp_tab_personal"), 
 			$this->ctrl->getLinkTarget($this, ""));
 		$this->tabs_gui->addTab("share", $lng->txt("wsp_tab_shared"), 
-			$this->ctrl->getLinkTarget($this, "share"));
+			$this->ctrl->getLinkTarget($this, "shareFilter"));
 		$this->tabs_gui->addTab("ownership", $lng->txt("wsp_tab_ownership"), 
 			$this->ctrl->getLinkTargetByClass(array(get_class($this), "ilObjectOwnershipManagementGUI"), "listObjects"));
 		
@@ -573,19 +573,24 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$this->ctrl->redirect($this);		 
 	}
 	
-	function share()
+	function shareFilter()
+	{
+		$this->share(false);
+	}
+	
+	function share($a_load_data = true)
 	{
 		global $tpl;
 	
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
-		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);		
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id, $a_load_data);		
 		$tpl->setContent($tbl->getHTML());
 	}
 	
 	function applyShareFilter()
 	{
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
-		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler());		
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);		
 		$tbl->resetOffset();
 		$tbl->writeFilterToSession();
 		
@@ -595,7 +600,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	function resetShareFilter()
 	{
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
-		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler());		
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);		
 		$tbl->resetOffset();
 		$tbl->resetFilter();
 		
