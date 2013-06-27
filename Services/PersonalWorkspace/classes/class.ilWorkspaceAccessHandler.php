@@ -412,6 +412,18 @@ class ilWorkspaceAccessHandler
 		
 		return $res;
 	}
+	
+	public static function getObjectDataFromNode($a_node_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT obj.obj_id, obj.type, obj.title".
+			" FROM object_reference_ws ref".
+			" JOIN tree_workspace tree ON (tree.child = ref.wsp_id)".
+			" JOIN object_data obj ON (ref.obj_id = obj.obj_id)".
+			" WHERE ref.wsp_id = ".$ilDB->quote($a_node_id, "integer"));
+		return $ilDB->fetchAssoc($set);
+	}	
 }
 
 ?>

@@ -31,10 +31,15 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		
 		$this->tabs_gui->addTab("wsp", $lng->txt("wsp_tab_personal"), 
 			$this->ctrl->getLinkTarget($this, ""));
+		
+		$this->ctrl->setParameterByClass("ilObjWorkspaceRootFolderGUI", "wsp_id", 
+			$this->getAccessHandler()->getTree()->getRootId());
+		
 		$this->tabs_gui->addTab("share", $lng->txt("wsp_tab_shared"), 
-			$this->ctrl->getLinkTarget($this, "share"));
+			$this->ctrl->getLinkTargetByClass("ilObjWorkspaceRootFolderGUI", "share"));
+		
 		$this->tabs_gui->addTab("ownership", $lng->txt("wsp_tab_ownership"), 
-			$this->ctrl->getLinkTargetByClass(array(get_class($this), "ilObjectOwnershipManagementGUI"), "listObjects"));
+			$this->ctrl->getLinkTargetByClass(array("ilObjWorkspaceRootFolderGUI", "ilObjectOwnershipManagementGUI"), "listObjects"));		
 		
 		if(!$this->ctrl->getNextClass($this))
 		{		
@@ -259,8 +264,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		$current_node = $_REQUEST["item_ref_id"];
 		$owner = $this->tree->lookupOwner($current_node);
-		
-		// if source object is shared do not try to find it in current tree
 		if($owner == $ilUser->getId())
 		{		
 			$parent_node = $this->tree->getParentId($current_node);
@@ -279,17 +282,9 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		}
 		else
 		{		
-			// check if object is shared
-			$handler = $this->getAccessHandler();
-			$objects = $handler->getSharedObjects($owner);
-			if(!array_key_exists($current_node, $objects))
-			{
-				ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-				$this->ctrl->redirect($this);
-			}		
-			
-			// on cancel or fail we return to parent node
-			$this->ctrl->setParameter($this, "wsp_id", $_REQUEST["wsp_id"]);
+			// see copyShared()
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->ctrl->redirect($this);
 		}
 
 		// remember source node
@@ -297,6 +292,39 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$_SESSION['clipboard']['cmd'] = 'copy';
 
 		return $this->showMoveIntoObjectTree();
+	}
+	
+	function copyShared()
+	{				
+		if (!$_REQUEST["item_ref_id"])
+		{
+			$this->ctrl->redirect($this, "share");
+		}
+		
+		$current_node = $_REQUEST["item_ref_id"];
+		$handler = $this->getAccessHandler();
+		
+		// see ilSharedRessourceGUI::hasAccess()		
+		if($handler->checkAccess("read", "", $current_node))
+		{
+			// remember source node
+			$_SESSION['clipboard']['source_id'] = $current_node;
+			$_SESSION['clipboard']['cmd'] = 'copy';
+			$_SESSION['clipboard']['shared'] = true;
+
+			return $this->showMoveIntoObjectTree();
+		}
+		else
+		{
+			$perms = $handler->getPermissions($current_node);
+			if(in_array(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, $perms))
+			{
+				return $this->passwordForm($current_node);
+			}
+		}
+		
+		ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+		$this->ctrl->redirect($this, "share");
 	}
 		
 	/**
@@ -319,8 +347,16 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		
 		$ilTabs->clearTargets();
 
-		$ilTabs->setBackTarget($this->lng->txt('back'),
-			$this->ctrl->getLinkTarget($this));
+		if(!$_SESSION['clipboard']['shared'])
+		{
+			$ilTabs->setBackTarget($this->lng->txt('back'),
+				$this->ctrl->getLinkTarget($this));
+		}
+		else
+		{
+			$ilTabs->setBackTarget($this->lng->txt('back'),
+				$this->ctrl->getLinkTarget($this, 'share'));
+		}
 		
 		$mode = $_SESSION['clipboard']['cmd'];		
 
@@ -535,6 +571,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		unset($_SESSION['clipboard']['cmd']);
 		unset($_SESSION['clipboard']['source_id']);
 		unset($_SESSION['clipboard']['wsp2repo']);
+		unset($_SESSION['clipboard']['shared']);
 		
 		ilUtil::sendSuccess($this->lng->txt('msg_cut_copied'), true);
 		$this->ctrl->setParameter($this, "wsp_id", $redirect_node);
@@ -588,6 +625,86 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$tbl->resetFilter();
 		
 		$this->share();
+	}
+	
+	protected function passwordForm($a_node_id, $form = null)
+	{
+		global $tpl, $lng, $ilTabs;
+		
+		$tpl->setTitle($lng->txt("wsp_password_protected_resource"));
+		$tpl->setDescription($lng->txt("wsp_password_protected_resource_info"));
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$this->ctrl->getLinkTarget($this, "share"));
+		
+		if(!$form)
+		{							
+			$form = $this->initPasswordForm($a_node_id);
+		}
+	
+		$tpl->setContent($form->getHTML());		
+	}
+	
+	protected function initPasswordForm($a_node_id)
+	{
+		global $ilCtrl, $lng;
+						
+		$this->ctrl->setParameter($this, "item_ref_id", $a_node_id);				
+		
+		$object_data = $this->getAccessHandler()->getObjectDataFromNode($a_node_id);
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "checkPassword"));
+		$form->setTitle($lng->txt("wsp_password_for").": ".$object_data["title"]);
+		
+		$password = new ilPasswordInputGUI($lng->txt("password"), "password");
+		$password->setRetype(false);
+		$password->setRequired(true);
+		$password->setSkipSyntaxCheck(true);
+		$form->addItem($password);
+		
+		$form->addCommandButton("checkPassword", $lng->txt("submit"));
+		$form->addCommandButton("share", $lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	protected function checkPassword()
+	{
+		global $lng;
+		
+		$node_id = $_REQUEST["item_ref_id"];
+		if(!$node_id)
+		{
+			$this->ctrl->redirect($this, "share");
+		}
+		 
+		$form = $this->initPasswordForm($node_id);
+		if($form->checkInput())
+		{							
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			$password = ilWorkspaceAccessHandler::getSharedNodePassword($node_id);
+			$input = md5($form->getInput("password"));		
+			if($input == $password)
+			{						
+				// we save password and start over
+				ilWorkspaceAccessHandler::keepSharedSessionPassword($node_id, $input);		
+				
+				$this->ctrl->setParameter($this, "item_ref_id", $node_id);
+				$this->ctrl->redirect($this, "copyShared");	
+			}
+			else
+			{
+				$item = $form->getItemByPostVar("password");
+				$item->setAlert($lng->txt("wsp_invalid_password"));
+				ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+			}						
+		}		
+		
+		$form->setValuesByPost();
+		$this->passwordForm($node_id, $form);
 	}
 	
 	/**

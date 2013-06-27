@@ -184,7 +184,8 @@ class ilSharedResourceGUI
 				
 		if(!$a_is_portfolio)
 		{
-			$object_data = $this->getObjectDataFromNode($a_node_id);
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			$object_data = ilWorkspaceAccessHandler::getObjectDataFromNode($a_node_id);
 			if(!$object_data["obj_id"])
 			{
 				exit("invalid object");
@@ -229,18 +230,6 @@ class ilSharedResourceGUI
 		}		
 	}
 	
-	protected function getObjectDataFromNode($a_node_id)
-	{
-		global $ilDB;
-		
-		$set = $ilDB->query("SELECT obj.obj_id, obj.type, obj.title".
-			" FROM object_reference_ws ref".
-			" JOIN tree_workspace tree ON (tree.child = ref.wsp_id)".
-			" JOIN object_data obj ON (ref.obj_id = obj.obj_id)".
-			" WHERE ref.wsp_id = ".$ilDB->quote($a_node_id, "integer"));
-		return $ilDB->fetchAssoc($set);
-	}
-	
 	protected function passwordForm($form = null)
 	{
 		global $tpl, $lng;
@@ -264,7 +253,8 @@ class ilSharedResourceGUI
 		
 		if($this->node_id)
 		{
-			$object_data = $this->getObjectDataFromNode($this->node_id);
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			$object_data = ilWorkspaceAccessHandler::getObjectDataFromNode($this->node_id);
 		}
 		else
 		{

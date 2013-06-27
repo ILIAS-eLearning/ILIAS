@@ -125,7 +125,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 				$this->parent_node_id);									
 			$ilCtrl->setParameter($this->parent_obj, "item_ref_id", 
 				$node["wsp_id"]);
-			$copy = $ilCtrl->getLinkTarget($this->parent_obj, "copy");
+			$copy = $ilCtrl->getLinkTarget($this->parent_obj, "copyshared");
 			$item_list_gui->addCustomCommand($copy, "copy");			
 		}
 		
