@@ -31,10 +31,15 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		
 		$this->tabs_gui->addTab("wsp", $lng->txt("wsp_tab_personal"), 
 			$this->ctrl->getLinkTarget($this, ""));
+		
+		$this->ctrl->setParameterByClass("ilObjWorkspaceRootFolderGUI", "wsp_id", 
+			$this->getAccessHandler()->getTree()->getRootId());
+		
 		$this->tabs_gui->addTab("share", $lng->txt("wsp_tab_shared"), 
-			$this->ctrl->getLinkTarget($this, "shareFilter"));
+			$this->ctrl->getLinkTargetByClass("ilObjWorkspaceRootFolderGUI", "shareFilter"));
+		
 		$this->tabs_gui->addTab("ownership", $lng->txt("wsp_tab_ownership"), 
-			$this->ctrl->getLinkTargetByClass(array(get_class($this), "ilObjectOwnershipManagementGUI"), "listObjects"));
+			$this->ctrl->getLinkTargetByClass(array("ilObjWorkspaceRootFolderGUI", "ilObjectOwnershipManagementGUI"), "listObjects"));		
 		
 		if(!$this->ctrl->getNextClass($this))
 		{		

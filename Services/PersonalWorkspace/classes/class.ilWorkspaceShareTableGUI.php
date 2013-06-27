@@ -18,6 +18,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	protected $filter; // [array]
 	protected $crs_ids; // [array]
 	protected $grp_ids; // [array]
+	protected $portfolio_mode = false; // [bool]
 
 	/**
 	 * Constructor
@@ -28,13 +29,18 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	 * @param bool $a_load_data
 	 * @param int $a_parent_node_id
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_handler, $a_parent_node_id, $a_load_data = false)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_handler, $a_parent_node_id = null, $a_load_data = false)
 	{
 		global $ilCtrl, $lng;
 
 		$this->handler = $a_handler;
-		$this->parent_node_id = $a_parent_node_id;
-
+		
+		if(stristr(get_class($a_parent_obj), "portfolio"))
+		{
+			$this->parent_node_id = $a_parent_node_id;		
+			$this->portfolio_mode = true;
+		}
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setId("il_tbl_wspsh");
@@ -44,11 +50,20 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("lastname"), "lastname");
 		$this->addColumn($this->lng->txt("firstname"), "firstname");		
 		$this->addColumn($this->lng->txt("login"), "login");
-		$this->addColumn($this->lng->txt("wsp_shared_object_type"), "obj_type");
+		
+		if(!$this->portfolio_mode)
+		{
+			$this->addColumn($this->lng->txt("wsp_shared_object_type"), "obj_type");
+		}
+		
 		$this->addColumn($this->lng->txt("wsp_shared_date"), "acl_date");
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("wsp_shared_type"));
-		$this->addColumn($this->lng->txt("action"));
+		
+		if(!$this->portfolio_mode)
+		{
+			$this->addColumn($this->lng->txt("action"));
+		}
 	
 		$this->setDefaultOrderField("content");
 		$this->setDefaultOrderDirection("asc");
@@ -76,8 +91,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 				return;
 			}
 
-			ilUtil::sendFailure($lng->txt("wsp_shared_mandatory_filter_info"));
-			
+			ilUtil::sendFailure($lng->txt("wsp_shared_mandatory_filter_info"));			
 		}
 
 		$this->disable("header");
@@ -86,7 +100,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	
 	public function initFilter()
 	{		
-		global $lng, $ilSetting, $objDefinition, $ilUser;
+		global $lng, $ilSetting, $ilUser;
 				
 		include_once "Services/Membership/classes/class.ilParticipants.php";
 		$this->crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
@@ -103,33 +117,28 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$item = $this->addFilterItemByMetaType("acl_date", self::FILTER_DATE, false, $lng->txt("wsp_shared_date_filter"));
 		$this->filter["acl_date"] = $item->getDate();
 		
-		// see ilPersonalWorkspaceGUI::renderToolbar
-		$options = array();
-		$root = $this->handler->getTree()->getNodeData($this->parent_node_id);
-		$subtypes = $objDefinition->getCreatableSubObjects($root["type"], ilObjectDefinition::MODE_WORKSPACE);
-		if($subtypes)
+		if(!$this->portfolio_mode)
 		{
+			// see ilPersonalWorkspaceGUI::renderToolbar
+			$options = array();			
 			$settings_map = array("blog" => "blogs",
-				"file" => "files",
-				"tstv" => "certificates",
-				"excv" => "certificates",
-				"webr" => "links");
-			
-			foreach(array_keys($subtypes) as $type)
+				"file" => "files");
+			// see ilObjWorkspaceFolderTableGUI	
+			foreach(array("file", "blog") as $type)
 			{
 				if(isset($settings_map[$type]) && $ilSetting->get("disable_wsp_".$settings_map[$type]))
 				{
 					continue;
-				}				
+				}							
 				$options[$type] = $lng->txt("wsp_type_".$type);
-			}						
-		}
-		if(sizeof($options))
-		{
-			asort($options);
-			$item = $this->addFilterItemByMetaType("obj_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_object_type"));
-			$item->setOptions(array(""=>$lng->txt("search_any"))+$options);
-			$this->filter["obj_type"] = $item->getValue();
+			}								
+			if(sizeof($options))
+			{
+				asort($options);
+				$item = $this->addFilterItemByMetaType("obj_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_object_type"));
+				$item->setOptions(array(""=>$lng->txt("search_any"))+$options);
+				$this->filter["obj_type"] = $item->getValue();
+			}
 		}
 				
 		// see ilWorkspaceAccessGUI::share
@@ -225,6 +234,8 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		}		
 		
 		$this->setData($data);
+		
+		include_once('./Services/Link/classes/class.ilLink.php');
 	}
 	
 	/**
@@ -239,18 +250,26 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("LASTNAME", $node["lastname"]);
 		$this->tpl->setVariable("FIRSTNAME", $node["firstname"]);		
 		$this->tpl->setVariable("LOGIN", $node["login"]);
-		
-		$this->tpl->setVariable("TYPE", $node["obj_type"]);
-		$this->tpl->setVariable("ICON_ALT", $node["obj_type"]);
-		$this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $node["type"]));			
-		
+							
 		$this->tpl->setVariable("TITLE", $node["title"]);
-		$this->tpl->setVariable("URL_TITLE", 
-			$this->handler->getGotoLink($node["wsp_id"], $node["obj_id"]));
+				
+		if(!$this->portfolio_mode)
+		{
+			$this->tpl->setVariable("TYPE", $node["obj_type"]);
+			$this->tpl->setVariable("ICON_ALT", $node["obj_type"]);
+			$this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $node["type"]));		
+			
+			$url = $this->handler->getGotoLink($node["wsp_id"], $node["obj_id"]);
+		}		
+		else
+		{
+			$url = ilLink::_getStaticLink($node["obj_id"], "prtf", true);
+		}
+		$this->tpl->setVariable("URL_TITLE", $url);
 		
 		$this->tpl->setVariable("ACL_DATE", 
 			ilDatePresentation::formatDate(new ilDateTime($node["acl_date"], IL_CAL_UNIX))); 
-						
+		
 		foreach($node["acl_type"] as $obj_id)
 		{
 			// see ilWorkspaceAccessTableGUI
@@ -303,19 +322,22 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// files may be copied to own workspace
-		if($node["type"] == "file")
+		if(!$this->portfolio_mode)
 		{
-			$ilCtrl->setParameter($this->parent_obj, "wsp_id",
-				$this->parent_node_id);									
-			$ilCtrl->setParameter($this->parent_obj, "item_ref_id", 
-				$node["wsp_id"]);
-			$url = $ilCtrl->getLinkTarget($this->parent_obj, "copyshared");
-			
-			$this->tpl->setCurrentBlock("action_bl");
-			$this->tpl->setVariable("URL_ACTION", $url);
-			$this->tpl->setVariable("ACTION", $lng->txt("copy"));
-			$this->tpl->parseCurrentBlock();
+			// files may be copied to own workspace
+			if($node["type"] == "file")
+			{
+				$ilCtrl->setParameter($this->parent_obj, "wsp_id",
+					$this->parent_node_id);									
+				$ilCtrl->setParameter($this->parent_obj, "item_ref_id", 
+					$node["wsp_id"]);
+				$url = $ilCtrl->getLinkTarget($this->parent_obj, "copyshared");
+
+				$this->tpl->setCurrentBlock("action_bl");
+				$this->tpl->setVariable("URL_ACTION", $url);
+				$this->tpl->setVariable("ACTION", $lng->txt("copy"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 }

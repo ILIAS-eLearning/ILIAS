@@ -414,13 +414,6 @@ class ilWorkspaceAccessHandler
 			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
 			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer");
 		
-		/*
-		if($a_filter["owner"])
-		{			
-			$sql .= " AND obj.owner = ".$ilDB->quote($a_filter["owner"], "integer");
-		}
-		*/
-		
 		if($a_filter["obj_type"])
 		{
 			$sql .= " AND obj.type = ".$ilDB->quote($a_filter["obj_type"], "text");
