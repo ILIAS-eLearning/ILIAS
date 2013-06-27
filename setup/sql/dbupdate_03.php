@@ -16163,3 +16163,22 @@ $ilDB->manipulate("UPDATE acl_ws SET tstamp = ".$ilDB->quote(time(), "integer").
 	" WHERE tstamp = ".$ilDB->quote(0, "integer"));
 
 ?>
+<#3933>
+<?php
+if( !$ilDB->tableColumnExists('usr_portf_acl', 'tstamp') )
+{
+	$ilDB->addTableColumn("usr_portf_acl", "tstamp",
+						  array(	'type' => 'integer',
+									'length' => 4,
+									'notnull' => true,
+									'default' => 0
+						  ));
+}
+?>
+<#3934>
+<?php
+
+$ilDB->manipulate("UPDATE usr_portf_acl SET tstamp = ".$ilDB->quote(time(), "integer").
+	" WHERE tstamp = ".$ilDB->quote(0, "integer"));
+
+?>

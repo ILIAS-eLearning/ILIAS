@@ -194,7 +194,7 @@ class ilObjPortfolioGUI
 			$ilCtrl->getLinkTarget($this));
 		
 		$ilTabs->addTab("otpf", $lng->txt("prtf_tab_other_users"),
-			$ilCtrl->getLinkTarget($this, "showother"));
+			$ilCtrl->getLinkTarget($this, "showotherFilter"));
 		
 		$ilTabs->activateTab("mypf");
 	}
@@ -1628,37 +1628,40 @@ class ilObjPortfolioGUI
 		return $form;
 	}
 	
-	protected function showOther()
+	protected function showOtherFilter()
+	{
+		$this->showOther(false);
+	}
+	
+	protected function showOther($a_load_data = true)
 	{		
-		global $tpl, $lng, $ilCtrl, $ilToolbar, $ilTabs;
+		global $tpl, $ilTabs;
 		
 		$ilTabs->activateTab("otpf");
 		
-		include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
-		$handler = new ilPortfolioAccessHandler();
-		$users = $handler->getSharedOwners();
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler, null, $a_load_data);		
+		$tpl->setContent($tbl->getHTML());
+	}
 	
-		// user selection
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$si = new ilSelectInputGUI($lng->txt("user"), "user");
-		$si->setOptions(array(""=>"-")+$users);
-		$ilToolbar->addInputItem($si);
+	function applyShareFilter()
+	{
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler);		
+		$tbl->resetOffset();
+		$tbl->writeFilterToSession();
 		
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-		$ilToolbar->addFormButton($lng->txt("ok"), "showOther");
-
-		if(!$_REQUEST["user"])
-		{			
-			ilUtil::sendInfo($lng->txt("wsp_share_select_user"));
-		}
-		else
-		{
-			$si->setValue($_REQUEST["user"]);
-			
-			include_once "Services/Portfolio/classes/class.ilPortfolioTableGUI.php";
-			$table = new ilPortfolioTableGUI($this, "showOther", $_REQUEST["user"], true);
-			$tpl->setContent($table->getHTML());
-		}	
+		$this->showOther();
+	}
+	
+	function resetShareFilter()
+	{
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler);		
+		$tbl->resetOffset();
+		$tbl->resetFilter();
+		
+		$this->showOther();
 	}
 	
 	/**
