@@ -13426,3 +13426,8 @@ rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rbac_create_cld#:#Neues Cloud Objekt anlegen
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigabetyp
+wsp#:#wsp_shared_object_type#:#Ressourcentyp
+wsp#:#wsp_shared_user_filter#:#Benutzername/Name
+wsp#:#wsp_shared_date_filter#:#Freigabe nach
+wsp#:#wsp_shared_mandatory_filter_info#:#Bitte setzen Sie Filter-Attribute, um das Ergebnis einzuschränken.
+wsp#:#wsp_shared_member_filter#:#Kurs-/Gruppenmitglieder
