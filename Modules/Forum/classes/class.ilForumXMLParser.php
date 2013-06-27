@@ -106,11 +106,6 @@ class ilForumXMLParser extends ilSaxParser
 			case 'MediaObject':
 				$this->mediaObjects[] = $a_attribs;
 				break;
-
-		/*	case 'ContentThumbnail':
-				$this->entity = 'content_thumb';
-				$this->content_thumbArray = array();
-				break;*/
 		}
 	}
 
@@ -473,7 +468,7 @@ class ilForumXMLParser extends ilSaxParser
 								str_replace(
 									array(
 										"src=\"" . $mob_attr["label"] . "\"",
-										"src=\"" . $mob_attr["label_without_inst_id"] . "\""
+										"src=\"" . preg_replace("/(il)_[\d]+_(mob)_([\d]+)/", "$1_0_$2_$3", $mob_attr["label"]) . "\""
 									),
 									"src=\"" . "il_" . IL_INST_ID . "_mob_" . $mob->getId() . "\"",
 									$this->forumPost->getMessage()
@@ -497,10 +492,6 @@ class ilForumXMLParser extends ilSaxParser
 					$x['content'] = $this->cdata;
 					break;
 
-			/*	case 'ContentThumbnail':
-					$x['content_thumb'] = $this->cdata;
-					break;*/
-
 				case 'Attachment':
 					$filedata = new ilFileDataForum($this->forum->getId(), $this->lastHandledPostId);
 
@@ -515,19 +506,6 @@ class ilForumXMLParser extends ilSaxParser
 						$newPath = $path.'/'.$newFilename;
 						@copy($importPath, $newPath);
 					}
-
-				/*	$importPathThumbnail = $this->content_thumbArray['content_thumb'];
-
-					if( strlen($importPathThumbnail) )
-					{
-						$importPathThumbnail = $this->getImportDirectory().'/'.$importPathThumbnail;
-						
-						$newThumbFilename = preg_replace("/^\d+_\d+(_.*)/ims",  $this->forum->getId()."_".$this->lastHandledPostId."$1", basename($importPathThumbnail));
-						$thumbPath = $filedata->getThumbPath();
-						$newThumbnailPath = $thumbPath.'/'.$newThumbFilename;
-						@copy($importPathThumbnail, $newThumbnailPath);
-					}*/
-
 					break;
 		}
 

@@ -154,18 +154,23 @@ class ilForumXMLWriter extends ilXmlWriter
 				$this->xmlElement("ImportName", null, $rowPost->import_name);
 				$this->xmlElement("Status", null, (int)$rowPost->pos_status);
 				$this->xmlElement("Message", null, ilRTE::_replaceMediaObjectImageSrc($rowPost->pos_message, 0));
-				$this->xmlStartTag("MessageMediaObjects");
+
+				$media_exists = false;
 				$mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $rowPost->pos_pk);
 				foreach($mobs as $mob)
 				{
-					$moblabel                 = "il_" . IL_INST_ID . "_mob_" . $mob;
-					$moblabel_without_inst_id = "il_0_mob_" . $mob;
+					$moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
 					if(ilObjMediaObject::_exists($mob))
 					{
+						if(!$media_exists)
+						{
+							$this->xmlStartTag("MessageMediaObjects");
+							$media_exists = true;
+						}
+						
 						$mob_obj  = new ilObjMediaObject($mob);
 						$imgattrs = array(
 							"label"                 => $moblabel,
-							"label_without_inst_id" => $moblabel_without_inst_id,
 							"uri"                   => $this->target_dir_relative . "/objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
 						);
 
@@ -173,7 +178,11 @@ class ilForumXMLWriter extends ilXmlWriter
 						$mob_obj->exportFiles($this->target_dir_absolute);
 					}
 				}
-				$this->xmlEndTag("MessageMediaObjects");
+				if($media_exists)
+				{
+					$this->xmlEndTag("MessageMediaObjects");
+				}
+
 				$this->xmlElement("Lft", null, (int)$rowPost->lft);
 				$this->xmlElement("Rgt", null, (int)$rowPost->rgt);
 				$this->xmlElement("Depth", null, (int)$rowPost->depth);
@@ -194,14 +203,6 @@ class ilForumXMLWriter extends ilXmlWriter
 						$content = $this->target_dir_relative."/".basename($file['path']);
 						$this->xmlElement("Content", null, $content);
 
-
-					/*	$thumb = $tmp_file_obj->getThumbFilename($file);
-						if($thumb)
-						{
-							copy($tmp_file_obj->getThumbPath().'/'.$thumb, $this->target_dir_absolute."/".$thumb);
-							$contentThumb = $this->target_dir_relative."/".$thumb;
-							$this->xmlElement("ContentThumbnail", null, $contentThumb);
-						}*/
 						$this->xmlEndTag("Attachment");
 					}
 				}
