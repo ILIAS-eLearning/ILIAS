@@ -1,4 +1,4 @@
-// Build: 20121119210057 
+// Build: 2013627161303 
 
 function ADLAuxiliaryResource()
 {}
@@ -2672,7 +2672,7 @@ function updateControls(controlState)
 {if(mlaunch!=null){toggleClass('navContinue','disabled',(mlaunch.mNavState.mContinue==false||((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['continue'])=="object":false)));toggleClass('navExit','disabled',(mlaunch.mNavState.mContinueExit==false||((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['exit'])=="object":false)));toggleClass('navPrevious','disabled',(mlaunch.mNavState.mPrevious==false||((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['previous'])=="object":false)));toggleClass('navResumeAll','disabled',mlaunch.mNavState.mResume==false);if(mlaunch.mActivityID){toggleClass('navExitAll','disabled',typeof(activities[mlaunch.mActivityID].hideLMSUIs['exitAll'])=="object");}
 toggleClass('navStart','disabled',mlaunch.mNavState.mStart==false);toggleClass('navSuspendAll','disabled',(mlaunch.mNavState.mSuspend==false||((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['suspendAll'])=="object":false)));}}
 function setResource(id,url,base)
-{url=base+url;if(!top.frames[RESOURCE_NAME])
+{if(url.substring(0,4)!="http")url=base+url;if(!top.frames[RESOURCE_NAME])
 {var elm=window.document.getElementById(RESOURCE_PARENT);if(!elm)
 {return window.alert("Window Container not found");}
 var h=elm.clientHeight-20;if(self.innerHeight&&navigator.userAgent.indexOf("Safari")!=-1)

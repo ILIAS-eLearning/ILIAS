@@ -1748,8 +1748,8 @@ function updateControls(controlState)
 
 function setResource(id, url, base) 
 {
+	if (url.substring(0,4) != "http") url= base + url;
 	
-	url= base + url;
 	if (!top.frames[RESOURCE_NAME])
 	{
 		var elm = window.document.getElementById(RESOURCE_PARENT);
