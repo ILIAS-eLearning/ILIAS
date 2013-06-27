@@ -1,4 +1,4 @@
-// Build: 20121119210057 
+// Build: 2013627221855 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12528,8 +12528,8 @@ function updateControls(controlState)
 
 function setResource(id, url, base) 
 {
+	if (url.substring(0,4) != "http") url= base + url;
 	
-	url= base + url;
 	if (!top.frames[RESOURCE_NAME])
 	{
 		var elm = window.document.getElementById(RESOURCE_PARENT);

@@ -162,7 +162,8 @@ function IliasLaunch(i_l){
 		else status4tree(iv.launchId,getValueIntern(iv.launchId,'cmi.core.lesson_status'),getValueIntern(iv.launchId,'cmi.core.total_time'));
 		b_launched=true;
 		iv.launchId=i_l;
-		frames.sahs_content.document.location.replace(decodeURIComponent(iv.dataDirectory+href));
+		if (href.substring(0,4)!="http") href=iv.dataDirectory+href;
+		frames.sahs_content.document.location.replace(decodeURIComponent(href));
 	}
 	else {
 		status4tree(iv.launchId,getValueIntern(iv.launchId,'cmi.core.lesson_status'),getValueIntern(iv.launchId,'cmi.core.total_time'));
