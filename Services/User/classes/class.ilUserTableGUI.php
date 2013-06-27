@@ -210,44 +210,31 @@ class ilUserTableGUI extends ilTable2GUI
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
 
-		$usr_data = ilUserQuery::getUserListData(
-			ilUtil::stripSlashes($this->getOrderField()),
-			ilUtil::stripSlashes($this->getOrderDirection()),
-			ilUtil::stripSlashes($this->getOffset()),
-			ilUtil::stripSlashes($this->getLimit()),
-			$this->filter["query"],
-			$this->filter["activation"],
-			$this->filter["last_login"],
-			$this->filter["limited_access"],
-			$this->filter["no_courses"],
-			$this->filter["course_group"],
-			$this->filter["global_role"],
-			$user_filter,
-			$additional_fields,
-			null,
-			ilUtil::stripSlashes($_GET["letter"])
-			);
+		$query = new ilUserQuery();
+		$query->setOrderField($this->getOrderField());
+		$query->setOrderDirection($this->getOrderDirection());
+		$query->setOffset($this->getOffset());
+		$query->setLimit($this->getLimit());
+		$query->setTextFilter($this->filter['query']);
+		$query->setActionFilter($this->filter['activation']);
+		$query->setLastLogin($this->filter['last_login']);
+		$query->setLimitedAccessFilter($this->filter['limited_access']);
+		$query->setNoCourseFilter($this->filter['no_courses']);
+		$query->setNoGroupFilter($this->filter['no_groups']);
+		$query->setCourseGroupFilter($this->filter['course_group']);
+		$query->setRoleFilter($this->filter['global_role']);
+		$query->setAdditionalFields($additional_fields);
+		$query->setUserFolder($user_filter);
+		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
+		
+		$usr_data = $query->query();
+		
 			
 		if (count($usr_data["set"]) == 0 && $this->getOffset() > 0)
 		{
 			$this->resetOffset();
-			$usr_data = ilUserQuery::getUserListData(
-				ilUtil::stripSlashes($this->getOrderField()),
-				ilUtil::stripSlashes($this->getOrderDirection()),
-				ilUtil::stripSlashes($this->getOffset()),
-				ilUtil::stripSlashes($this->getLimit()),
-				$this->filter["query"],
-				$this->filter["activation"],
-				$this->filter["last_login"],
-				$this->filter["limited_access"],
-				$this->filter["no_courses"],
-				$this->filter["course_group"],
-				$this->filter["global_role"],
-				$user_filter,
-				$additional_fields,
-				null,
-				ilUtil::stripSlashes($_GET["letter"])
-			);
+			$query->setOffset($this->getOffset());
+			$usr_data = $query->query();
 		}
 
 		foreach ($usr_data["set"] as $k => $user)
@@ -443,6 +430,13 @@ class ilUserTableGUI extends ilTable2GUI
 			$cb->readFromSession();
 			$this->filter["no_courses"] = $cb->getChecked();
 			
+			// no assigned groups
+			include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+			$ng = new ilCheckboxInputGUI($this->lng->txt("user_no_groups"), "no_groups");
+			$this->addFilterItem($ng);
+			$ng->readFromSession();
+			$this->filter['no_groups'] = $ng->getChecked();
+
 			// course/group members
 			include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
 			$rs = new ilRepositorySelectorInputGUI($lng->txt("user_member_of_course_group"), "course_group");
