@@ -362,6 +362,48 @@ class ilWorkspaceAccessHandler
 		return $res;
 	}
 	
+	public function findSharedObjects(array $a_filter = null)
+	{
+		global $ilDB, $ilUser;
+		
+		$obj_ids = $this->getPossibleSharedTargets();
+		
+		$res = array();
+		
+		$sql = "SELECT ref.wsp_id,obj.obj_id,obj.type,obj.title,obj.owner,".
+			"acl.object_id acl_type, acl.tstamp acl_date".
+			" FROM object_data obj".
+			" JOIN object_reference_ws ref ON (obj.obj_id = ref.obj_id)".
+			" JOIN tree_workspace tree ON (tree.child = ref.wsp_id)".
+			" JOIN acl_ws acl ON (acl.node_id = tree.child)".
+			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
+			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer");
+		
+		if($a_filter["owner"])
+		{			
+			$sql .= " AND obj.owner = ".$ilDB->quote($a_filter["owner"], "integer");
+		}
+		
+		// we use the oldest share date
+		$sql .= " ORDER BY acl.tstamp";
+			
+		$set = $ilDB->query($sql);
+		while ($row = $ilDB->fetchAssoc($set))
+		{						
+			if(!isset($res[$row["wsp_id"]]))
+			{
+				$row["acl_type"] = array($row["acl_type"]);
+				$res[$row["wsp_id"]] = $row;
+			}
+			else
+			{
+				$res[$row["wsp_id"]]["acl_type"][] = $row["acl_type"];
+			}
+		}
+	
+		return $res;		
+	}
+	
 	public static function getSharedNodePassword($a_node_id)
 	{
 		global $ilDB;
@@ -412,6 +454,18 @@ class ilWorkspaceAccessHandler
 		
 		return $res;
 	}
+		
+	public static function getObjectDataFromNode($a_node_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT obj.obj_id, obj.type, obj.title".
+			" FROM object_reference_ws ref".
+			" JOIN tree_workspace tree ON (tree.child = ref.wsp_id)".
+			" JOIN object_data obj ON (ref.obj_id = obj.obj_id)".
+			" WHERE ref.wsp_id = ".$ilDB->quote($a_node_id, "integer"));
+		return $ilDB->fetchAssoc($set);
+	}	
 }
 
 ?>

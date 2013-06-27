@@ -13424,3 +13424,5 @@ rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud Objekt laden
 rbac#:#cld_download#:#Benutzer können Dateien vom Cloud Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rbac_create_cld#:#Neues Cloud Objekt anlegen
+wsp#:#wsp_shared_date#:#Freigabedatum
+wsp#:#wsp_shared_type#:#Freigabetyp

@@ -16144,3 +16144,22 @@ if( !$ilDB->tableColumnExists('tst_tests', 'show_exam_id') )
 						  ));
 }
 ?>
+<#3931>
+<?php
+if( !$ilDB->tableColumnExists('acl_ws', 'tstamp') )
+{
+	$ilDB->addTableColumn("acl_ws", "tstamp",
+						  array(	'type' => 'integer',
+									'length' => 4,
+									'notnull' => true,
+									'default' => 0
+						  ));
+}
+?>
+<#3932>
+<?php
+
+$ilDB->manipulate("UPDATE acl_ws SET tstamp = ".$ilDB->quote(time(), "integer").
+	" WHERE tstamp = ".$ilDB->quote(0, "integer"));
+
+?>

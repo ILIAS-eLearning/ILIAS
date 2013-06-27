@@ -13430,3 +13430,5 @@ rbac#:#cld_upload#:#User can upload files to the cloud object Dateien in das Clo
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
 rbac#:#rbac_create_cld#:#Create new Cloud Object
+wsp#:#wsp_shared_date#:#Date of Share
+wsp#:#wsp_shared_type#:#Type of Share
