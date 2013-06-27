@@ -647,6 +647,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$password = new ilPasswordInputGUI($lng->txt("password"), "password");
 		$password->setRetype(false);
 		$password->setRequired(true);
+		$password->setSkipSyntaxCheck(true);
 		$form->addItem($password);
 		
 		$form->addCommandButton("checkPassword", $lng->txt("submit"));
