@@ -3,7 +3,6 @@
 		targetNamespace = "http://www.ilias.de/Modules/Forum/frm/4_1"
 		xmlns:t = "http://www.ilias.de/Modules/Forum/frm/4_1"
 		elementFormDefault = "qualified">
-			
 
 	<element name="Forum">
 		<complexType>
@@ -32,7 +31,6 @@
 		</complexType>
 	</element>
 
-
 	<element name="Thread">
 		<complexType>
 			<sequence>
@@ -50,7 +48,6 @@
 			</sequence>
 		</complexType>
 	</element>
-
 
 	<element name="Post">
 		<complexType>
@@ -77,13 +74,11 @@
 			</sequence>
 		</complexType>
 	</element>
-	
-	
+
 	<element name="Attachment">
 		<complexType>
 			<sequence>
 				<element name="Content" type="string" minOccurs="1" maxOccurs="unbounded" />
-			<!--	<element name="ContentThumbnail" type="string" minOccurs="0" maxOccurs="1" /> -->
 			</sequence>
 		</complexType>
 	</element>
@@ -91,10 +86,16 @@
 	<element name="MessageMediaObjects">
 		<complexType>
 			<sequence>
-				<element name="MediaObject" minOccurs="0" maxOccurs="unbounded" />
+				<element name="MediaObject" minOccurs="1" maxOccurs="unbounded" />
 			</sequence>
 		</complexType>
 	</element>
 
+	<element name="MediaObject">
+		<complexType>
+			<attribute name="label" use="required" type="string" />
+			<attribute name="uri" use="required" type="string" />
+		</complexType>
+	</element>
 
 </schema>
