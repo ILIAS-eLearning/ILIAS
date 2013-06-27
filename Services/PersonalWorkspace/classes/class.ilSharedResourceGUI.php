@@ -263,8 +263,9 @@ class ilSharedResourceGUI
 		global $ilCtrl, $lng, $ilUser, $ilTabs;
 		
 		if($this->node_id)
-		{
-			$object_data = $this->getObjectDataFromNode($this->node_id);
+		{			
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			$object_data = ilWorkspaceAccessHandler::getObjectDataFromNode($this->node_id);
 		}
 		else
 		{
