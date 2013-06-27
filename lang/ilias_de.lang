@@ -11893,6 +11893,7 @@ user#:#user_limited_access#:#Zeitlich begrenzt
 user#:#user_member_of_course_group#:#Mitglied in Kurs/Gruppe
 user#:#user_new_profile_page#:#Neue Profilseite
 user#:#user_no_courses#:#Keinem Kurs zugeordnet
+user#:#user_no_groups#:#Keiner Gruppe zugeordnet
 user#:#user_order#:#Reihenfolge
 user#:#user_please_select_course_group#:#Bitte wählen Sie eine Gruppe oder einen Kurs aus.
 user#:#user_portfolios#:#Portfolios

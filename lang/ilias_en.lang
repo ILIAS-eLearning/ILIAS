@@ -9830,6 +9830,7 @@ user#:#user_last_login_before#:#Last Login Before
 user#:#user_limited_access#:#Limited Access
 user#:#user_member_of_course_group#:#Member of Course/Group
 user#:#user_no_courses#:#No Courses Assigned
+user#:#user_no_groups#:#No Groups Assigned
 user#:#user_please_select_course_group#:#Please select a course or a group.
 user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.
 user#:#user_screen_reader_optimization_info#:#Improve ILIAS for usage with screen readers.
