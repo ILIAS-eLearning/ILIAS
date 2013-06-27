@@ -41,27 +41,27 @@ abstract class ilECSObjectSettings
 				return new ilECSCourseSettings($a_content_obj);		
 				
 			case 'cat':
-				include_once 'Modules/Course/classes/class.ilECSCategorySettings.php';
+				include_once 'Modules/Category/classes/class.ilECSCategorySettings.php';
 				return new ilECSCategorySettings($a_content_obj);		
 				
 			case 'file':
-				include_once 'Modules/Course/classes/class.ilECSFileSettings.php';
+				include_once 'Modules/File/classes/class.ilECSFileSettings.php';
 				return new ilECSFileSettings($a_content_obj);		
 				
 			case 'glo':
-				include_once 'Modules/Course/classes/class.ilECSGlossarySettings.php';
+				include_once 'Modules/Glossary/classes/class.ilECSGlossarySettings.php';
 				return new ilECSGlossarySettings($a_content_obj);		
 				
 			case 'grp':
-				include_once 'Modules/Course/classes/class.ilECSGroupSettings.php';
+				include_once 'Modules/Group/classes/class.ilECSGroupSettings.php';
 				return new ilECSGroupSettings($a_content_obj);		
 				
 			case 'lm':
-				include_once 'Modules/Course/classes/class.ilECSLearningModuleSettings.php';
+				include_once 'Modules/LearningModule/classes/class.ilECSLearningModuleSettings.php';
 				return new ilECSLearningModuleSettings($a_content_obj);		
 				
 			case 'wiki':
-				include_once 'Modules/Course/classes/class.ilECSWikiSettings.php';
+				include_once 'Modules/Wiki/classes/class.ilECSWikiSettings.php';
 				return new ilECSWikiSettings($a_content_obj);		
 		}				
 	}
