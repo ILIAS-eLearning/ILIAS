@@ -8988,6 +8988,22 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
+	/**
+	 * @return boolean TRUE if the results should be compared with the correct results in the list of answers, FALSE otherwise
+	 * @access public
+	 */
+	public function getShowSolutionListComparison()
+	{
+		if(($this->results_presentation & 128) > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
 /**
 * Sets the combined results presentation value
 *
@@ -9155,6 +9171,26 @@ function getAnswerFeedbackPoints()
 			if ($this->getShowSolutionSuggested())
 			{
 				$this->results_presentation = $this->results_presentation ^ 64;
+			}
+		}
+	}
+
+	/**
+	 * Set to TRUE, if the list of answers should be shown prior to finish the test
+	 *
+	 * @param boolean $a_comparison TRUE if the list of answers should be shown prior to finish the test, FALSE otherwise
+	 */
+	public function setShowSolutionListComparison($a_comparison = FALSE)
+	{
+		if($a_comparison)
+		{
+			$this->results_presentation = $this->results_presentation | 128;
+		}
+		else
+		{
+			if($this->getShowSolutionListComparison())
+			{
+				$this->results_presentation = $this->results_presentation ^ 128;
 			}
 		}
 	}

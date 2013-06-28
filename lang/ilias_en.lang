@@ -13407,6 +13407,9 @@ cld#:#cld_upload_files#:#Upload Files
 cld#:#service_specific_settings#:#Specific Settings
 common#:#obj_cld#:#Cloud Object
 common#:#objs_cld#:#Cloud Objects
+assessment#:#tst_show_solution_compare#:#Compare Answer with Solution in List of Answers
+assessment#:#tst_header_participant#:#Result:
+assessment#:#tst_header_solution#:#Correct solution:
 rbac#:#delete_files#:#Delete Files
 rbac#:#cld_delete_files#:#Users can delete Files in the cloud object
 rbac#:#delete_folders#:#Delete Folders

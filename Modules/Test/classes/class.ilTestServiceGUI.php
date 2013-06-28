@@ -312,9 +312,25 @@ class ilTestServiceGUI
 						$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
 
 						$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
-						$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
 
-						$template->setVariable("SOLUTION_OUTPUT", $result_output);
+						if($this->object->getShowSolutionListComparison())
+						{
+							$compare_template = new ilTemplate('tpl.il_as_tst_answers_compare.html', TRUE, TRUE, 'Modules/Test');
+							$compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));
+							$compare_template->setVariable("HEADER_SOLUTION", $this->lng->txt('tst_header_solution'));
+							$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
+							$best_output   = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, FALSE, TRUE);
+
+							$compare_template->setVariable('PARTICIPANT', $result_output);
+							$compare_template->setVariable('SOLUTION', $best_output);
+							$template->setVariable('SOLUTION_OUTPUT', $compare_template->get());
+						}
+						else
+						{
+							$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
+							$template->setVariable('SOLUTION_OUTPUT', $result_output);
+						}
+
 						$maintemplate->setCurrentBlock("printview_question");
 						$maintemplate->setVariable("QUESTION_PRINTVIEW", $template->get());
 						$maintemplate->parseCurrentBlock();
@@ -323,7 +339,7 @@ class ilTestServiceGUI
 				}
 			}
 		}
-		$maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_eval_results_by_pass"), $pass+1));
+		$maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_eval_results_by_pass"), $pass + 1));
 		return $maintemplate->get();
 	}
 	

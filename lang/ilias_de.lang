@@ -13399,6 +13399,9 @@ cld#:#cld_unknown_exception#:#Unbekannter Fehler
 cld#:#cld_upload_failed_max_filesize#:#Heraufladen fehlgeschlagen (Max. Dateigrösse überschritten)
 cld#:#cld_upload_failed#:#Herunterladen fehlgeschlagen
 cld#:#cld_upload_files#:#Heraufladen
+assessment#:#tst_show_solution_compare#:#Antwort und Lösung in der Antwortliste gegenüberstellen
+assessment#:#tst_header_participant#:#Ergebnis:
+assessment#:#tst_header_solution#:#Korrekte Lösung:
 common#:#obj_cld#:#Cloud Objekt
 common#:#objs_cld#:#Cloud Objekte
 rbac#:#delete_files#:#Dateien Löschen
