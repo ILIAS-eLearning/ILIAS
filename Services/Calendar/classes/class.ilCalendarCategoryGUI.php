@@ -1038,6 +1038,7 @@ class ilCalendarCategoryGUI
 		$pass->setMaxLength(50);
 		$pass->setSize(20);
 		$pass->setRetype(false);
+		$pass->setInfo($this->lng->txt('remote_pass_info'));
 		$location_remote->addSubItem($pass);
 		
 		$this->form->addItem($location);

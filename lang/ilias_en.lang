@@ -12987,6 +12987,7 @@ ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme
 ecs#:#ecs_cmap_att_module#:#Module
 ecs#:#ecs_cmap_att_venue#:#Venue
 mcst#:#mcst_download_videoalternative#:#Download Alternative File
+dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.
 prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
 blog#:#blog_allow_html#:#Allow HTML/Javascript

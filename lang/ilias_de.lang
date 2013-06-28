@@ -12985,6 +12985,7 @@ ecs#:#ecs_cmap_att_degreeProgramme#:#Studiengang
 ecs#:#ecs_cmap_att_module#:#Modul
 ecs#:#ecs_cmap_att_venue#:#Ort
 mcst#:#mcst_download_videoalternative#:#Alternatives Format herunterladen
+dateplaner#:#remote_pass_info#:#Bitte tragen Sie die Zugangsdaten zu dem Web-Kalender ein, falls der Zugriff geschützt ist.
 prtf#:#prtf_allow_html#:#HTML/Javascript erlauben
 prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen.
 blog#:#blog_allow_html#:#HTML/Javascript erlauben
