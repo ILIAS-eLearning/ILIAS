@@ -293,23 +293,23 @@ class ilUserTableGUI extends ilTable2GUI
 		}
 		
 		include_once("./Services/User/classes/class.ilUserQuery.php");
-		$usr_data = ilUserQuery::getUserListData(
-			ilUtil::stripSlashes($this->getOrderField()),
-			ilUtil::stripSlashes($this->getOrderDirection()),
-			0,
-			self::getAllCommandLimit(),
-			$this->filter["query"],
-			$this->filter["activation"],
-			$this->filter["last_login"],
-			$this->filter["limited_access"],
-			$this->filter["no_courses"],
-			$this->filter["course_group"],
-			$this->filter["global_role"],
-			$user_filter,
-			null,
-			null,
-			ilUtil::stripSlashes($_GET["letter"])
-			);
+		$query = new ilUserQuery();
+		$query->setOrderField(ilUtil::stripSlashes($this->getOrderField()));
+		$query->setOrderDirection(ilUtil::stripSlashes($this->getOrderDirection()));
+		$query->setOffset(0);
+		$query->setLimit(self::getAllCommandLimit());
+		$query->setTextFilter($this->filter['query']);
+		$query->setActionFilter($this->filter['activation']);
+		$query->setLastLogin($this->filter['last_login']);
+		$query->setLimitedAccessFilter($this->filter['limited_access']);
+		$query->setNoCourseFilter($this->filter['no_courses']);
+		$query->setNoGroupFilter($this->filter['no_groups']);
+		$query->setCourseGroupFilter($this->filter['course_group']);
+		$query->setRoleFilter($this->filter['global_role']);
+		$query->setUserFolder($user_filter);
+		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
+		
+		$usr_data = $query->query();
 		
 		$user_ids = array();
 		foreach($usr_data["set"] as $item)
