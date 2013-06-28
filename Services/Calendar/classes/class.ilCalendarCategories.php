@@ -626,7 +626,6 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['editable'] = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
 			$this->categories_info[$row->cat_id]['accepted'] = false;
 			$this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
-			
 		}
 		
 		return true;
