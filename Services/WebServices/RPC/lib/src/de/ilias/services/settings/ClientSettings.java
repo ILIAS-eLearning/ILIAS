@@ -271,7 +271,7 @@ public class ClientSettings {
 	 */
 	public String getDbUrl() {
 
-		if(getDbType().equals("mysql")) {
+		if(getDbType().equalsIgnoreCase("mysql") || getDbType().equalsIgnoreCase("innodb")) {
 			
 			if(getDbPort().length() > 0) {
 				return "jdbc:mysql://" + getDbHost() + ":" + getDbPort() + "/" + getDbName();
@@ -296,6 +296,11 @@ public class ClientSettings {
 	 * @return the dbType
 	 */
 	public String getDbType() {
+
+		// handle innodb as mysql
+		if(dbType.equalsIgnoreCase("innodb")) {
+			return "mysql";
+		}
 		return dbType;
 	}
 
