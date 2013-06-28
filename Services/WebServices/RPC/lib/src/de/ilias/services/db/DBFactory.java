@@ -86,7 +86,7 @@ public class DBFactory {
 							client.getDbPass());
 				}
 				// Oracle
-				if(client.getDbType().equalsIgnoreCase("oracle")) {
+				else if(client.getDbType().equalsIgnoreCase("oracle")) {
 					
 					logger.info("Loading Oracle driver...");
 					Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -116,7 +116,11 @@ public class DBFactory {
 					);
 					return DriverManager.getConnection(client.getDbUrl());
 				}
-			} 
+				else {
+					logger.error("Unsupported db type given." + client.getDbType());
+					throw new ConfigurationException("Unsupported db type given." + client.getDbType());
+				}
+			}
 			catch (SQLException e) {
 				logger.error("Cannot connect to database: " + e);
 			} 
