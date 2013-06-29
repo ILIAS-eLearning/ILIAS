@@ -207,7 +207,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				if (returnValue && saveOnCommit == true) {
 					if (config.sequencing_enabled) {
 						var sgo=saveSharedData(cmiItem);
-//						sgo=save_global_objectives();
 					}
 					returnValue = save();
 				}
@@ -320,7 +319,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 						}
 					}
 				}
-//				return r;
 				return error ? '' : setReturn(0, '', r); 
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
