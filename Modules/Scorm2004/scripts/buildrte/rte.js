@@ -1,4 +1,4 @@
-// Build: 2013629155948 
+// Build: 2013629164543 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12679,53 +12679,6 @@ function buildNavTree(rootAct,name,tree){
 	
 	$("#treeView").empty();
 	il.NestedList.draw('rte_tree', 0, 'treeView');
-return; //??
-
-	var tocView = all('treeView');
-	
-	//create the TreeView instance:
-	treeYUI = new YAHOO.widget.TreeView(tocView);
-		
-	//get a reusable reference to the root node:
-	var root = treeYUI.getRoot();
-		
-	//root node only when in TOC
-	if (mlaunch.mNavState.mChoice!=null) {
-		var id=rootAct.id;
-		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {	
-			//display the rootNode
-			var rootNode = new YAHOO.widget.TextNode(rootAct.title, root, true);
-			rootNode.href="#this";
-			rootNode.target="_self";
-			rootNode.labelElId=ITEM_PREFIX + rootAct.id;
-		}	
-	}
-	
-	build(rootAct,rootNode);
-	
-	function build(rootAct,attach){
-		if (rootAct.item) {
-			for (var i=0;i<rootAct.item.length;i++) {
-				//only include if visible
-				var id=rootAct.item[i].id;
-				if (mlaunch.mNavState.mChoice!=null) {
-					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-						var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);
-						sub.href="#this";
-						sub.target="_self";
-						sub.labelElId=ITEM_PREFIX + rootAct.item[i].id;
-					}	
-				}
-				//further childs
-				if(rootAct.item[i].item) {
-					build(rootAct.item[i],sub);
-				}
-			}
-		}	
-	}
-	
-	treeYUI.draw();
-	treeYUI.expandAll();
 }
 
 
@@ -14979,7 +14932,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				if (returnValue && saveOnCommit == true) {
 					if (config.sequencing_enabled) {
 						var sgo=saveSharedData(cmiItem);
-//						sgo=save_global_objectives();
 					}
 					returnValue = save();
 				}
@@ -15092,7 +15044,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 						}
 					}
 				}
-//				return r;
 				return error ? '' : setReturn(0, '', r); 
 				// TODO wrap in TRY CATCH
 			case TERMINATED:

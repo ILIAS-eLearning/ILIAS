@@ -1,4 +1,4 @@
-// Build: 2013629155948 
+// Build: 2013629164543 
 
 function ADLAuxiliaryResource()
 {}
@@ -2706,10 +2706,7 @@ function buildNavTree(rootAct,name,tree){il.NestedList.addList('rte_tree',{ul_cl
 {var id=rootAct.id;if(rootAct.isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){il.NestedList.addNode('rte_tree',par_id,ITEM_PREFIX+rootAct.id,"<a href='#this' id='"+ITEM_PREFIX+rootAct.id+"' target='_self'>"+rootAct.title+"</a>",true);par_id=ITEM_PREFIX+rootAct.id;}}
 function build2(rootAct,par_id){if(rootAct.item){for(var i=0;i<rootAct.item.length;i++){var id=rootAct.item[i].id;if(mlaunch.mNavState.mChoice!=null){if(rootAct.item[i].isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){il.NestedList.addNode('rte_tree',par_id,ITEM_PREFIX+rootAct.item[i].id,"<a href='#this' id='"+ITEM_PREFIX+rootAct.item[i].id+"' target='_self'>"+rootAct.item[i].title+"</a>",true);var next_par_id=ITEM_PREFIX+rootAct.item[i].id;}}
 if(rootAct.item[i].item){build2(rootAct.item[i],next_par_id);}}}}
-build2(rootAct,par_id);$("#treeView").empty();il.NestedList.draw('rte_tree',0,'treeView');return;var tocView=all('treeView');treeYUI=new YAHOO.widget.TreeView(tocView);var root=treeYUI.getRoot();if(mlaunch.mNavState.mChoice!=null){var id=rootAct.id;if(rootAct.isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){var rootNode=new YAHOO.widget.TextNode(rootAct.title,root,true);rootNode.href="#this";rootNode.target="_self";rootNode.labelElId=ITEM_PREFIX+rootAct.id;}}
-build(rootAct,rootNode);function build(rootAct,attach){if(rootAct.item){for(var i=0;i<rootAct.item.length;i++){var id=rootAct.item[i].id;if(mlaunch.mNavState.mChoice!=null){if(rootAct.item[i].isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){var sub=new YAHOO.widget.TextNode({label:rootAct.item[i].title,id:ITEM_PREFIX+rootAct.item[i].id},attach,true);sub.href="#this";sub.target="_self";sub.labelElId=ITEM_PREFIX+rootAct.item[i].id;}}
-if(rootAct.item[i].item){build(rootAct.item[i],sub);}}}}
-treeYUI.draw();treeYUI.expandAll();}
+build2(rootAct,par_id);$("#treeView").empty();il.NestedList.draw('rte_tree',0,'treeView');}
 function abortNavigation()
 {state=ABORTING;}
 function init(config)
