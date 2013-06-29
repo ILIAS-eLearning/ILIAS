@@ -1,4 +1,4 @@
-// Build: 2013629094936 
+// Build: 2013629110446 
 
 function ADLAuxiliaryResource()
 {}
@@ -2308,7 +2308,7 @@ return action;},size:function()
 return 0;}};
 var windowOpenerLoc;try{windowOpenerLoc=window.opener.location;}catch(e){}
 window.opener=null;var log_auto_flush=false;var log_buffer="";var ilRTEDisabledClass='ilc_rte_mlink_RTELinkDisabled';debugWindow=null;var leftViewWidth=230;$('#dragbar').mousedown(function(e){e.preventDefault();$('#zmove').css("display","block");$('#zmove').mousemove(function(e){leftViewWidth=e.pageX;$('#dragbar').css("left",e.pageX);$('#leftView').css("width",e.pageX);$('#tdResource').css("left",e.pageX+2);})});$(document).mouseup(function(e){$('#dragbar').unbind('mousemove');$('#zmove').css("display","none");$(document).unbind('mousemove');});function PopupCenter(pageURL,title,w,h){var left=(screen.width/2)-(w/2);var top=(screen.height/2)-(h/2);debugWindow=window.open(pageURL,title,'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);debugWindow.focus();}
-function toggleView(){elm_left=all("leftView");elm_drag=all("dragbar");elm_right=all("tdResource");elm_tree=all("treeView");elm_log=all("ilLog");elm_controls=all("treeControls");elm_toggle=all("treeToggle");if(treeView==false){elm_left.style.width=leftViewWidth+'px';elm_drag.style.left=leftViewWidth+'px';elm_drag.style.display='block';elm_right.style.left=(leftViewWidth+2)+'px';elm_tree.style.display='block';elm_log.style.display='block';elm_controls.style.display='block';elm_toggle.innerHTML=this.config.langstrings['btnhidetree'];treeView=true;}else{elm_left.style.width='0%';elm_drag.style.display='none';elm_right.style.left='0';elm_tree.style.display='none';elm_log.style.display='none';elm_controls.style.display='none';elm_toggle.innerHTML=this.config.langstrings['btnshowtree'];treeView=false;}}
+function toggleView(){elm_left=all("leftView");elm_drag=all("dragbar");elm_right=all("tdResource");elm_tree=all("treeView");elm_log=all("ilLog");elm_controls=all("treeControls");elm_toggle=all("treeToggle");if(treeView==false){elm_left.style.width=leftViewWidth+'px';elm_drag.style.left=leftViewWidth+'px';elm_drag.style.display='block';elm_right.style.left=(leftViewWidth+2)+'px';elm_tree.style.display='block';elm_log.style.display='block';elm_controls.style.display='block';elm_toggle.innerHTML=this.config.langstrings['btnhidetree'];treeView=true;}else{elm_left.style.width='0';elm_drag.style.display='none';elm_right.style.left='0';elm_tree.style.display='none';elm_log.style.display='none';elm_controls.style.display='none';elm_toggle.innerHTML=this.config.langstrings['btnshowtree'];treeView=false;}}
 function toggleTree(){elm=all("toggleTree");if(treeState==false){elm.innerHTML="Collapse All";il.NestedList.expandAll('rte_tree');treeState=true;}else{elm.innerHTML="Expand All";il.NestedList.collapseAll('rte_tree');treeState=false;}}
 function toggleLog(){elm=all("toggleLog");if(logState==false){elm.innerHTML="Hide Log";logState=true;onWindowResize();}else{elm.innerHTML="Show Log";logState=false;onWindowResize();}}
 function sclog(mess,type)
@@ -2878,7 +2878,7 @@ return api;}
 var api={cmi:{},adl:{}};var data=activitiesByCAM[cp_node_id];getAPIWalk(Runtime.models.cmi.cmi,data,api.cmi);return api;}
 function setItemValue(key,dest,source,destkey)
 {if(source&&source.hasOwnProperty(key))
-{var d=source[key];var temp=d;if(!isNaN(parseFloat(d))&&(/^-?\d{1,32}(\.\d{1,32})?$/.test(d))){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}
+{var d=source[key];var temp=d;if(d!=""&&!isNaN(Number(d))&&(/^-?\d{1,32}(\.\d{1,32})?$/.test(d))){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}
 if(key=="title"){d=temp;}
 dest[destkey?destkey:key]=d;}}
 function setAPI(cp_node_id,api)
@@ -2940,15 +2940,11 @@ if(mObjStatus.mHasMaxScore)
 if(mObjStatus.mHasProgressMeasure)
 {obj="cmi.objectives."+idx+".progress_measure";err=currentAPI.SetValueIntern(obj,mObjStatus.mProgressMeasure);}
 obj="cmi.objectives."+idx+".completion_status";err=currentAPI.SetValueIntern(obj,mObjStatus.mCompletionStatus);}}}}
-function syncCMIADLTree(){var mPRIMARY_OBJ_ID=null;var masteryStatus=null;var sessionTime=null;var entry=null;var normalScore=-1.0;var progressMeasure=null;var completionStatus=null;var SCOEntry=null;var suspended=false;SCOEntry=currentAPI.GetValueIntern("cmi.exit");completionStatus=currentAPI.GetValueIntern("cmi.completion_status");var completionSetBySCO=currentAPI.GetValueIntern("cmi.completion_status_SetBySco");if(completionStatus=="not attempted"){completionStatus="incomplete";}
-progressMeasure=currentAPI.GetValueIntern("cmi.progress_measure");if(progressMeasure==""||progressMeasure=="unknown")
+function syncCMIADLTree(){var mPRIMARY_OBJ_ID=null;var masteryStatus=null;var sessionTime=null;var entry=null;var normalScore=-1.0;var progressMeasure=null;var completionStatus=null;var SCOEntry=null;var suspended=false;SCOEntry=currentAPI.GetValueIntern("cmi.exit");completionStatus=currentAPI.GetValueIntern("cmi.completion_status");var completionSetBySCO=currentAPI.GetValueIntern("cmi.completion_status_SetBySco");if(completionStatus=="not attempted")completionStatus="incomplete";progressMeasure=currentAPI.GetValueIntern("cmi.progress_measure");if(progressMeasure==""||progressMeasure=="unknown")
 {progressMeasure=null;}
 masteryStatus=currentAPI.GetValueIntern("cmi.success_status");var masterySetBySCO=currentAPI.GetValueIntern("cmi.success_status_SetBySco");SCOEntry=currentAPI.GetValueIntern("cmi.entry");score=currentAPI.GetValueIntern("cmi.score.scaled");sessionTime=currentAPI.GetValueIntern("cmi.session_time");var act=msequencer.mSeqTree.getActivity(mlaunch.mActivityID);if(act.getIsTracked())
-{var primaryObjID=null;var foundPrimaryObj=false;var setPrimaryObjSuccess=false;var setPrimaryObjScore=false;objs=act.getObjectives();if(objs!=null){for(var j=0;j<objs.length;j++){obj=objs[j];if(obj.mContributesToRollup==true){if(obj.mObjID!=null){primaryObjID=obj.mObjID;}
-break;}}}
-var numObjs=currentAPI.GetValueIntern("cmi.objectives._count");for(var i=0;i<numObjs;i++){var obj="cmi.objectives."+i+".id";var objID=currentAPI.GetValueIntern(obj);if(primaryObjID!=null&&objID==primaryObjID)
-{foundPrimaryObj=true;}else{foundPrimaryObj=false;}
-obj="cmi.objectives."+i+".success_status";objMS=currentAPI.GetValueIntern(obj);var msSetBySCO=currentAPI.GetValueIntern(obj+"_SetBySco");if(objMS=="passed"){msequencer.setAttemptObjSatisfied(mlaunch.mActivityID,objID,"satisfied");if(foundPrimaryObj==true)
+{var primaryObjID=null;var foundPrimaryObj=false;var setPrimaryObjSuccess=false;var setPrimaryObjScore=false;objs=act.getObjectives();if(objs!=null){for(var j=0;j<objs.length;j++){obj=objs[j];if(obj.mContributesToRollup==true){if(obj.mObjID!=null)primaryObjID=obj.mObjID;break;}}}
+var numObjs=currentAPI.GetValueIntern("cmi.objectives._count");for(var i=0;i<numObjs;i++){var obj="cmi.objectives."+i+".id";var objID=currentAPI.GetValueIntern(obj);if(primaryObjID!=null&&objID==primaryObjID)foundPrimaryObj=true;else foundPrimaryObj=false;obj="cmi.objectives."+i+".success_status";objMS=currentAPI.GetValueIntern(obj);var msSetBySCO=currentAPI.GetValueIntern(obj+"_SetBySco");if(objMS=="passed"){msequencer.setAttemptObjSatisfied(mlaunch.mActivityID,objID,"satisfied");if(foundPrimaryObj==true)
 {act.primaryStatusSetBySCO(currentAPI.GetValueIntern(obj+"_SetBySco")=='true');setPrimaryObjSuccess=true;masteryStatus=objMS;}}
 else if(objMS=="failed")
 {msequencer.setAttemptObjSatisfied(mlaunch.mActivityID,objID,"notSatisfied");if(foundPrimaryObj==true)
@@ -3046,8 +3042,6 @@ return valid;}else{return false;}}}
 function pausecomp(millis)
 {var date=new Date();var curDate=null;do{curDate=new Date();}
 while(curDate-date<millis);}
-function initDebug()
-{}
 function refreshDebugger(param){if(param==true){window.setTimeout("debugWindow.location.reload()",2000);}else{if(b_refreshDebugger_busy==false){b_refreshDebugger_busy=true;var i_logLength=a_logEntries.length;for(var i=0;i<i_logLength;i++){if(a_logEntries[i]!="")sendAndLoad(this.config.post_log_url,a_logEntries[i]);a_logEntries[i]="";}
 if(i_logLength==a_logEntries.length){a_logEntries=[];if(i_logLength>0&&debugWindow!=null&&debugWindow.closed!=true){var content=sendJSONRequest(this.config.livelog_url);debugWindow.updateLiveLog();}}
 else window.setTimeout("refreshDebugger()",500);b_refreshDebugger_busy=false;}}}
