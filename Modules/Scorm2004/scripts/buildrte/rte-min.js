@@ -1,4 +1,4 @@
-// Build: 2013629110446 
+// Build: 2013629110833 
 
 function ADLAuxiliaryResource()
 {}
@@ -3011,7 +3011,7 @@ function onTerminate(data)
 if(data.adl&&data.adl.nav){var m=String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|jump|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);if(m){navReq={type:m[3].substr(0,1).toUpperCase()+m[3].substr(1),target:m[2]};}}
 if(navReq)
 {if(navReq.type!="suspend"){adlnavreq=true;if(navReq.type=="Choice"||navReq.type=="Jump"){launchTarget(navReq.target,(navReq.type=="Jump"));}else{launchNavType(navReq.type);}}}
-var valid=new ADLValidRequests();valid=msequencer.getValidRequests(valid);msequencer.mSeqTree.setValidRequests(valid);mlaunch.mNavState=msequencer.mSeqTree.getValidRequests();updateNav(false);updateControls();return true;}
+var valid=new ADLValidRequests();valid=msequencer.getValidRequests(valid);msequencer.mSeqTree.setValidRequests(valid);mlaunch.mNavState=msequencer.mSeqTree.getValidRequests();updateControls();return true;}
 var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore){if(!all("treeView")){return;}
 if(ignore!=true){setToc();}
 var tree=msequencer.mSeqTree.mActivityMap;var disable;var first=true;for(i in tree){var disable=true;var disabled_str="";var test=null;if(mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}
