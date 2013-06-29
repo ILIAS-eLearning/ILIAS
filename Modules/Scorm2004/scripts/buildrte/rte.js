@@ -1,4 +1,4 @@
-// Build: 2013627221855 
+// Build: 2013629094936 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -10804,8 +10804,10 @@ SeqRuleset.prototype =
  * @author  Hendrik Holtmann <holtmann@mac.com>, Alex Killing <alex.killing@gmx.de>, Alfred Kohnert <alfred.kohnert@bigfoot.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @version $Id$
 */
-
-
+//Fix for InternetExplorer to avoid searching API in a non-available opener after closing tab
+var windowOpenerLoc;
+try{windowOpenerLoc=window.opener.location;}catch(e){}
+window.opener=null;
 // settings for log
 var log_auto_flush = false;
 
@@ -13535,8 +13537,8 @@ function save()
 			}
 
 			//if status has to be send to a cms
-			//if (config.status.saved_global_status != new_global_status && typeof window.opener != 'undefined') {
-			//	window.opener.location.reload();
+			//if (config.status.saved_global_status != new_global_status) {
+			//	try{windowOpenerLoc.reload();} catch(e){}
 			//}
 			
 			config.status.saved_global_status = new_global_status;
