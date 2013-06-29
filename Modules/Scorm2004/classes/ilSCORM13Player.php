@@ -290,7 +290,14 @@ class ilSCORM13Player
 		} else {
 			$session_timeout = 0;
 		}
-		
+
+		$initSuspendData = null;
+		$initAdlactData = null;
+		if ($this->slm->getSequencing() == true) {
+			$initSuspendData = json_decode($this->getSuspendDataInit());
+			$initAdlactData = json_decode($this->getADLActDataInit());
+			$initGlobalobjData = $this->readGObjectiveInit();
+		}
 		$config = array
 		(
 			'cp_url' => 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id='.$_GET["ref_id"],
@@ -328,7 +335,12 @@ class ilSCORM13Player
 			'comments_storable' => $this->slm->getComments(),
 			'time_from_lms' => $this->slm->getTime_from_lms(),
 			'auto_last_visited' => $this->slm->getAuto_last_visited(),
-			'checkSetValues' => $this->slm->getCheck_values()
+			'checkSetValues' => $this->slm->getCheck_values(),
+			'suspend_data' => $initSuspendData,
+			'cp_data' => null,
+			'cmi_data' => null,
+			'adlact_data' => null,
+			'globalobj_data' => null
 		);
 
 		$status['saved_global_status']="";//not yet implemented
@@ -362,6 +374,7 @@ class ilSCORM13Player
 			$this->tpl->parseCurrentBlock();
 		}
 
+
 		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		$this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
@@ -369,6 +382,10 @@ class ilSCORM13Player
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
+		$this->tpl->setVariable('INIT_CMI_DATA', json_encode($this->getCMIData($this->userId, $this->packageId)));
+		$this->tpl->setVariable('INIT_ADLACT_DATA', json_encode($initAdlactData));
+		$this->tpl->setVariable('INIT_GLOBALOBJ_DATA', json_encode($initGlobalobjData));
 		$this->tpl->setVariable('JS_DATA', json_encode($config));
 		list($tsfrac, $tsint) = explode(' ', microtime());
 		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
@@ -438,17 +455,7 @@ class ilSCORM13Player
 
 	public function getCPData()
 	{
-		global $ilDB;
-
-		$res = $ilDB->queryF(
-			'SELECT jsdata FROM cp_package WHERE obj_id = %s',
-			array('integer'),
-			array($this->packageId)
-		);
-		$packageData = $ilDB->fetchAssoc($res);		
-		
-		$jsdata = $packageData['jsdata'];
-		if (!$jsdata) $jsdata = 'null';
+		$jsdata = $this->getCPDataInit();
 		if ($this->jsMode) 
 		{
 			header('Content-Type: text/javascript; charset=UTF-8');
@@ -460,9 +467,26 @@ class ilSCORM13Player
 			$jsdata = json_decode($jsdata);
 			print_r($jsdata);
 		}	
-	}	
+	}
+	function getCPDataInit()
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF(
+			'SELECT jsdata FROM cp_package WHERE obj_id = %s',
+			array('integer'),
+			array($this->packageId)
+		);
+		$packageData = $ilDB->fetchAssoc($res);
+
+		$jsdata = $packageData['jsdata'];
+		if (!$jsdata) $jsdata = 'null';
+
+		return $jsdata;
+	}
+
 	
-	public function getADLActData()
+	public function getADLActDataInit()
 	{
 		global $ilDB;
 
@@ -479,6 +503,12 @@ class ilSCORM13Player
 		{
 			$activitytree = 'null';
 		}
+		return $activitytree;
+	}
+
+	public function getADLActData()
+	{
+		$activitytree = $this->getADLActDataInit();
 		if($this->jsMode) 
 		{
 			header('Content-Type: text/javascript; charset=UTF-8');
@@ -531,8 +561,8 @@ class ilSCORM13Player
 			
 		return $gsystem;
 	}	
-	
-	public function getSuspendData()
+
+	public function getSuspendDataInit()
 	{
 		global $ilDB, $ilUser;
 		
@@ -542,8 +572,19 @@ class ilSCORM13Player
 			array($this->packageId, $ilUser->getId())
 		);
 		$data = $ilDB->fetchAssoc($res);
-		
-		$suspend_data = $data['data'];
+
+		//delete delivered suspend data
+		$ilDB->manipulateF(
+			'DELETE FROM cp_suspend WHERE obj_id = %s AND user_id = %s',
+			array('integer', 'integer'),
+			array($this->packageId, $ilUser->getId())
+		);
+		return $data['data'];
+	}
+
+	public function getSuspendData()
+	{
+		$suspend_data = $this->getSuspendDataInit();
 		if($this->jsMode) 
 		{
 			header('Content-Type: text/javascript; charset=UTF-8');
@@ -555,13 +596,6 @@ class ilSCORM13Player
 			$suspend_data = json_decode($suspend_data);
 			print_r($suspend_data);	
 		}
-		
-		//delete delivered suspend data
-		$ilDB->manipulateF(
-			'DELETE FROM cp_suspend WHERE obj_id = %s AND user_id = %s',
-			array('integer', 'integer'),
-			array($this->packageId, $ilUser->getId())
-		);
 	}
 	
 	public function suspendADLActData()
@@ -596,9 +630,9 @@ class ilSCORM13Player
 		}
 	}	
 	
-	public function readGObjective()
+	public function readGObjectiveInit()
 	{
-		global $ilDB, $ilUser, $ilLog;
+		global $ilDB, $ilUser;
 		
 		//get json string
 		$g_data = new stdClass();
@@ -676,8 +710,13 @@ class ilSCORM13Player
 			
 			
 		}
-		$gobjective_data = json_encode($g_data);
-		$ilLog->write("SCORM2004 gobjective_data=".$gobjective_data);
+		return $g_data;
+	}
+
+	public function readGObjective()
+	{
+
+		$gobjective_data = json_encode($this->readGObjectiveInit());
 		if ($this->jsMode) 
 		{
 			header('Content-Type: text/javascript; charset=UTF-8');
