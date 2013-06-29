@@ -1990,8 +1990,23 @@ function init(config)
 			}
 		}
 	}
-	
-	
+
+
+	try {config.cmi_data = init_cmi_data;} catch (e) {}
+	try {config.cp_data = init_cp_data;} catch (e) {}
+	try {config.adlact_data = init_adlact_data;} catch (e) {}
+	try {config.globalobj_data = init_globalobj_data;} catch (e) {}
+	try {
+		delete init_cmi_data;
+		delete init_cp_data;
+		delete init_adlact_data;
+		delete init_globalobj_data;
+	} catch (e) {
+		init_cmi_data = {};
+		init_cp_data = {};
+		init_adlact_data = {};
+		init_globalobj_data = {};
+	}
 	this.config = config;
 	gConfig=config;
 	setInfo('loading');
@@ -2192,7 +2207,7 @@ function init(config)
 	logActive = this.config.debug;
 	//get suspend data
 	suspendData=null;
-	if (this.config.sequencing_enabled) suspendData = sendJSONRequest(this.config.get_suspend_url);
+	if (this.config.sequencing_enabled) suspendData = this.config.suspend_data;//sendJSONRequest(this.config.get_suspend_url);
 	var wasSuspended=false;
 	var wasFirstSession;
 	if (suspendData) {
