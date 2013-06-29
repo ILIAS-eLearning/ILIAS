@@ -1,4 +1,4 @@
-// Build: 2013629110833 
+// Build: 2013629155948 
 
 function ADLAuxiliaryResource()
 {}
@@ -2650,7 +2650,7 @@ else if(target.id.substr(0,3)==='nav')
 else if(target.id.substr(0,3)===ITEM_PREFIX)
 {if(e.altKey){}
 else
-{mlaunch=msequencer.navigateStr(target.id.substr(3));if(mlaunch.mSeqNonContent==null){onItemUndeliver();statusHandler(mlaunch.mActivityID,"completion","unknown");onItemDeliver(activities[mlaunch.mActivityID],false);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}}
+{mlaunch=msequencer.navigateStr(target.id.substr(3));if(mlaunch.mSeqNonContent==null){onItemUndeliver();onItemDeliver(activities[mlaunch.mActivityID],false);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}}
 else if(typeof window[target.id+'_onclick']==="function")
 {window[target.id+'_onclick'](target);}
 else if(target.target==="_blank")
@@ -2994,7 +2994,7 @@ else
 {var obj="cmi.objectives."+i+".id";var objID=currentAPI.GetValueIntern(obj);objScoreRaw=currentAPI.GetValueIntern("cmi.objectives."+i+".score.raw");if(objScoreRaw!=""&&objScoreRaw!="unknown"&&objScoreRaw!=null){msequencer.setAttemptObjRawScore(mlaunch.mActivityID,objID,objScoreRaw)}else{msequencer.clearAttemptObjRawScore(mlaunch.mActivityID,objID);}
 objScoreMin=currentAPI.GetValueIntern("cmi.objectives."+i+".score.min");if(objScoreMin!=""&&objScoreMin!="unknown"&&objScoreMin!=null){msequencer.setAttemptObjMinScore(mlaunch.mActivityID,objID,objScoreMin)}else{msequencer.clearAttemptObjMinScore(mlaunch.mActivityID,objID);}
 objScoreMax=currentAPI.GetValueIntern("cmi.objectives."+i+".score.max");if(objScoreMax!=""&&objScoreMax!="unknown"&&objScoreMax!=null){msequencer.setAttemptObjMaxScore(mlaunch.mActivityID,objID,objScoreMax)}else{msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID,objID);}}}
-return completionStatus;}
+return[completionStatus,masteryStatus];}
 function onItemUndeliver(noControls)
 {if(noControls!=true){updateNav();updateControls();}
 removeResource(undeliverFinish);}
@@ -3101,7 +3101,7 @@ switch(state)
 {case NOT_INITIALIZED:if(logActive)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(typeof cmiItem.cmi.session_time!="undefined"||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
 var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);cmiItem.cmi.total_time=total_time.toString();}
-var returnValue1=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData(cmiItem);}
+var statusValues=syncCMIADLTree();statusHandler(cmiItem.scoid,"completion",statusValues[0]);statusHandler(cmiItem.scoid,"success",statusValues[1]);var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData(cmiItem);}
 returnValue=save();}
 if(returnValue)
 {dirty=false;if(logActive&&commitByTerminate==false)
@@ -3154,9 +3154,7 @@ else{sValue=""+sValue;}
 try
 {var r=setValue(sPath,sValue);if(!error){if(logActive){sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"true",0);removeByElement(scoDebugValues,sPath);removeByElement(scoDebugValuesTest,sPath);if(sPath=="cmi.completion_status"&&cmiItem.cmi.completion_threshold&&cmiItem.cmi.completion_threshold>=0){sendLogEntry("","INFO","completion_status_by_progress_measure",GetValueIntern("cmi.completion_status"),"","");}
 if(sPath=="cmi.success_status"&&cmiItem.cmi.scaled_passing_score&&cmiItem.cmi.scaled_passing_score>=-1){sendLogEntry("","INFO","success_status_by_score_scaled",GetValueIntern("cmi.success_status"),"","");}}
-var lastToken=sPath.substring(sPath.lastIndexOf('.')+1);if(lastToken=="completion_status"||lastToken=="success_status"){setValue(sPath+"_SetBySco","true");}
-if(sPath=="cmi.completion_status"&&cmiItem.scoid!=null){statusHandler(cmiItem.scoid,"completion",sValue);}
-if(sPath=="cmi.success_status"&&cmiItem.scoid!=null){statusHandler(cmiItem.scoid,"success",sValue);}}else{if(logActive)
+var lastToken=sPath.substring(sPath.lastIndexOf('.')+1);if(lastToken=="completion_status"||lastToken=="success_status"){setValue(sPath+"_SetBySco","true");}}else{if(logActive)
 sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",error);}
 return error?'false':'true';}catch(e)
 {if(logActive)

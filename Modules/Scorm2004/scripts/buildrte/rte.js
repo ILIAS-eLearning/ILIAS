@@ -1,4 +1,4 @@
-// Build: 2013629110833 
+// Build: 2013629155948 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12422,7 +12422,7 @@ function onDocumentClick (e)
 				//alert(activities[mlaunch.mActivityID]);
 				//throw away API from previous sco and sync CMI and ADLTree
 				onItemUndeliver();
-				statusHandler(mlaunch.mActivityID,"completion","unknown");
+				//statusHandler(mlaunch.mActivityID,"completion","unknown");
 				onItemDeliver(activities[mlaunch.mActivityID], false);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
 			} else {
@@ -14296,7 +14296,7 @@ function syncCMIADLTree(){
 			}
 		}
 	}
-	return completionStatus;
+	return [completionStatus,masteryStatus];
 }
 
 function onItemUndeliver(noControls) // onUndeliver called from sequencing process (EndAttempt)
@@ -14972,7 +14972,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					cmiItem.cmi.total_time = total_time.toString();
 				}
 				//store correct status in DB; returnValue1 because of IE;
-				var returnValue1 = syncCMIADLTree();
+				var statusValues=syncCMIADLTree();
+				statusHandler(cmiItem.scoid,"completion",statusValues[0]);
+				statusHandler(cmiItem.scoid,"success",statusValues[1]);
 				var returnValue = onCommit(cmiItem);
 				if (returnValue && saveOnCommit == true) {
 					if (config.sequencing_enabled) {
@@ -15206,13 +15208,13 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 						if(lastToken == "completion_status" || lastToken == "success_status") {
 							setValue(sPath + "_SetBySco", "true");
 						}
-						if (sPath == "cmi.completion_status" && cmiItem.scoid != null ) {
-							statusHandler(cmiItem.scoid,"completion",sValue);
-						}
+						// if (sPath == "cmi.completion_status" && cmiItem.scoid != null ) {
+							// statusHandler(cmiItem.scoid,"completion",sValue);
+						// }
 
-						if (sPath == "cmi.success_status" && cmiItem.scoid != null ) {
-							statusHandler(cmiItem.scoid,"success",sValue);
-						}
+						// if (sPath == "cmi.success_status" && cmiItem.scoid != null ) {
+							// statusHandler(cmiItem.scoid,"success",sValue);
+						// }
 					} else {
 						if (logActive)
 							sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",error);
