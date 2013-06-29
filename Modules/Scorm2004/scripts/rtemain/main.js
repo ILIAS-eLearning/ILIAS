@@ -1642,7 +1642,7 @@ function onDocumentClick (e)
 				//alert(activities[mlaunch.mActivityID]);
 				//throw away API from previous sco and sync CMI and ADLTree
 				onItemUndeliver();
-				statusHandler(mlaunch.mActivityID,"completion","unknown");
+				//statusHandler(mlaunch.mActivityID,"completion","unknown");
 				onItemDeliver(activities[mlaunch.mActivityID], false);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
 			} else {
@@ -3516,7 +3516,7 @@ function syncCMIADLTree(){
 			}
 		}
 	}
-	return completionStatus;
+	return [completionStatus,masteryStatus];
 }
 
 function onItemUndeliver(noControls) // onUndeliver called from sequencing process (EndAttempt)
