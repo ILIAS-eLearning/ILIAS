@@ -3627,7 +3627,7 @@ function onTerminate(data)
 	msequencer.mSeqTree.setValidRequests(valid);
 	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
 //check if better without updateNav and updateControls
-	updateNav(false);
+//	updateNav(false);
 	updateControls();
 	
 	return true;
