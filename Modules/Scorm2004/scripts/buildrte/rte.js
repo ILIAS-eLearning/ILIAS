@@ -1,4 +1,4 @@
-// Build: 2013629094936 
+// Build: 2013629110446 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -10835,12 +10835,6 @@ $(document).mouseup(function(e){
 	$(document).unbind('mousemove');
 });
 
-/*disable logging controls
-if (disable_all_logging==true) {
-	elm = all("toggleLog");
-	elm.innerHTML="";
-}*/
-
 // for log
 function PopupCenter(pageURL, title,w,h) {
 	var left = (screen.width/2)-(w/2);
@@ -10848,6 +10842,7 @@ function PopupCenter(pageURL, title,w,h) {
 	debugWindow = window.open (pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
 	debugWindow.focus();
 } 
+
 
 function toggleView() {
 	elm_left = all("leftView");
@@ -10869,7 +10864,7 @@ function toggleView() {
 		elm_toggle.innerHTML=this.config.langstrings['btnhidetree'];
 		treeView=true;
 	} else {
-		elm_left.style.width='0%';
+		elm_left.style.width='0';
 		elm_drag.style.display='none';
 		elm_right.style.left='0';
 		elm_tree.style.display='none';
@@ -13676,7 +13671,7 @@ function setItemValue (key, dest, source, destkey)
 	{
 		var d = source[key];
 		var temp=d;
-		if (!isNaN(parseFloat(d)) && (/^-?\d{1,32}(\.\d{1,32})?$/.test(d))) {
+		if (d!="" && !isNaN(Number(d)) && (/^-?\d{1,32}(\.\d{1,32})?$/.test(d))) {
 			d = Number(d);
 		} else if (d==="true") {
 			d = true;
@@ -13895,7 +13890,6 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 			}
 		}
 
-//		if ((item.exit=="normal" || item.exit=="" || item.exit=="time-out" || item.exit=="logout") && (item.exit!="suspend" && item.entry!="resume") ) {
 		if (item.exit!="suspend") {
 			//provide us with a clean data set - UK not really clean! goal: get out of database only total_time if exit!=suspend
 			//data.cmi=Runtime.models.cmi;
@@ -13912,19 +13906,9 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		if (item.exit=="suspend" || wasSuspendAll) data.cmi.entry="resume";
 		else data.cmi.entry="";
 
-		//previous session has ended
-		//if (item.exit=="time-out" || item.exit=="logout") {
-			//session has ended, reset times to defaults
-			//err = currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");
-			//accessthrough pubAPI
-			//pubAPI.cmi.total_time="PT0H0M0S";
-		//}
 		//RTE-4-45: If there are additional learner sessions within a learner attempt, the cmi.exit becomes uninitialized (i.e., reinitialized to its default value of (“”) - empty characterstring) at the beginning of each additional learner session within the learner attempt.
 		data.cmi.exit="";
 
-		// assign api for public use from sco- only for debug
-		//pubAPI=data;
-		
 		currentAPI = window[Runtime.apiname] = new Runtime(data, onCommit, onTerminate);
 	}
 	// deliver resource (sco)
@@ -13951,7 +13935,6 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 	    && envEditor==false) {
 		item.parameters = "?"+ item.parameters;
 	} 
-	
 	setResource(item.id, item.href+randNumber+item.parameters, this.config.package_url);
 }
 
@@ -14050,14 +14033,11 @@ function syncCMIADLTree(){
 		
     completionStatus = currentAPI.GetValueIntern("cmi.completion_status");
 	var completionSetBySCO = currentAPI.GetValueIntern("cmi.completion_status_SetBySco");
-	
-	if (completionStatus == "not attempted") {
-		completionStatus = "incomplete";
-	}
-	
-	
+
+	if (completionStatus == "not attempted") completionStatus = "incomplete";
+
 	progressMeasure = currentAPI.GetValueIntern("cmi.progress_measure");
-	if ( progressMeasure == "" || progressMeasure == "unknown" )
+	if ( progressMeasure == "" || progressMeasure == "unknown" ) //typeOf?
 	{
 		progressMeasure = null;
 	}
@@ -14092,9 +14072,7 @@ function syncCMIADLTree(){
 			for(var j = 0; j < objs.length; j++ ) {
 				obj = objs[j];
 				if( obj.mContributesToRollup==true ) {
-					if( obj.mObjID != null ){
-						  primaryObjID = obj.mObjID;
-					}
+					if( obj.mObjID != null ) primaryObjID = obj.mObjID;
 					break;
 				}
 			}
@@ -14105,13 +14083,9 @@ function syncCMIADLTree(){
 		for( var i = 0; i < numObjs; i++ ) {
 			var obj = "cmi.objectives." + i + ".id";
 			var objID= currentAPI.GetValueIntern(obj);
-			if( primaryObjID != null && objID==primaryObjID )
-			{
-				foundPrimaryObj = true;	
-			} else {
-				foundPrimaryObj = false;
-			
-			}
+			if( primaryObjID != null && objID==primaryObjID ) foundPrimaryObj = true;
+			else foundPrimaryObj = false;
+
 			obj = "cmi.objectives." + i + ".success_status";
 			objMS= currentAPI.GetValueIntern(obj);
 			var msSetBySCO = currentAPI.GetValueIntern(obj + "_SetBySco");
@@ -14374,27 +14348,6 @@ function syncDynObjectives(){
   }
 }
 
-
-/*
-function save_global_objectives() {
-
-	if (this.config.sequencing_enabled) {
-		if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || 
-			adl_seq_utilities.status!=null  ) {
-			var go2save = toJSONString(this.adl_seq_utilities);
-			if (go2save != saved_global_objectives) {
-				result = this.config.gobjective_url 
-					? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
-					: {};
-				//note: no check for success
-				saved_global_objectives = go2save;
-			}
-		}
-	}
-	return true;
-}
-*/
-
 // sequencer terminated
 function onNavigationEnd()
 {
@@ -14652,11 +14605,6 @@ function pausecomp(millis)
 
 	do { curDate = new Date(); } 
 	while(curDate-date < millis);
-}
-
-function initDebug() 
-{
-	
 }
 
 //debug extensions

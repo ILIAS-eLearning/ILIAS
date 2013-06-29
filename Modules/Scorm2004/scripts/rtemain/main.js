@@ -2891,7 +2891,7 @@ function setItemValue (key, dest, source, destkey)
 	{
 		var d = source[key];
 		var temp=d;
-		if (!isNaN(parseFloat(d)) && (/^-?\d{1,32}(\.\d{1,32})?$/.test(d))) {
+		if (d!="" && !isNaN(Number(d)) && (/^-?\d{1,32}(\.\d{1,32})?$/.test(d))) {
 			d = Number(d);
 		} else if (d==="true") {
 			d = true;
