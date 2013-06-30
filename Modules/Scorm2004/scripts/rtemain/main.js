@@ -273,6 +273,77 @@ function sclogscroll()
 	}
 }
 
+function ISODurationToCentisec(str)
+{
+  // Only gross syntax check is performed here
+  // Months calculated by approximation based on average number
+  // of days over 4 years (365*4+1), not counting the extra day
+  // every 1000 years. If a reference date was available,
+  // the calculation could be more precise, but becomes complex,
+  // since the exact result depends on where the reference date
+  // falls within the period (e.g. beginning, end or ???)
+  // 1 year ~ (365*4+1)/4*60*60*24*100 = 3155760000 centiseconds
+  // 1 month ~ (365*4+1)/48*60*60*24*100 = 262980000 centiseconds
+  // 1 day = 8640000 centiseconds
+  // 1 hour = 360000 centiseconds
+  // 1 minute = 6000 centiseconds
+  var aV = new Array(0,0,0,0,0,0);
+  var bErr = false;
+  var bTFound = false;
+  if (str.indexOf("P") != 0) bErr = true;
+  if (!bErr)
+  {
+    var aT = new Array("Y","M","D","H","M","S")
+    var p=0;
+    var i = 0;
+    str = str.substr(1); //get past the P
+    for (i = 0 ; i < aT.length; i++)
+    {
+      if (str.indexOf("T") == 0)
+      {
+        str = str.substr(1);
+        i = Math.max(i,3);
+        bTFound = true;
+      }
+      p = str.indexOf(aT[i]);
+      //alert("Checking for " + aT[i] + "\nstr = " + str);
+      if (p > -1)
+      {
+        // Is this a M before or after T? Month or Minute?
+        if ((i == 1) && (str.indexOf("T") > -1) && (str.indexOf("T") < p)) continue;
+        if (aT[i] == "S")
+        {
+          aV[i] = parseFloat(str.substr(0,p))
+        }
+        else
+        {
+          aV[i] = parseInt(str.substr(0,p))
+        }
+        if (isNaN(aV[i]))
+        {
+          bErr = true;
+          break;
+        }
+        else if ((i > 2) && (!bTFound))
+        {
+          bErr = true;
+          break;
+        }
+        str = str.substr(p+1);
+      }
+    }
+    if ((!bErr) && (str.length != 0)) bErr = true;
+    //alert(aV.toString())
+  }
+  if (bErr)
+  {
+     //alert("Bad format: " + str)
+    return 0
+  }
+  return aV[0]*3155760000 + aV[1]*262980000
+      + aV[2]*8640000 + aV[3]*360000 + aV[4]*6000
+      + Math.round(aV[5]*100)
+}
 
 function timeStringParse(iTime, ioArray)    
 {
@@ -2605,6 +2676,7 @@ function save()
 						else if (item.completion_status == "completed" || item.success_status == "passed") i_numCompleted++;
 					}
 				}
+				totalTimeCentisec+=ISODurationToCentisec(item.total_time);
 			}
 			if (item.dirty===0)  {continue;}
 			if (item.options) {
@@ -2658,14 +2730,14 @@ function save()
 			if (item.dirty!==2 && type=="node") {continue;}
 		}
 	}
-	var b_statusFailed=false, i_numCompleted=0, b_statusUpdate=true;
+	var b_statusFailed=false, i_numCompleted=0, b_statusUpdate=true, totalTimeCentisec=0;
 	var result = {};
 	for (var k in remoteMapping) 
 	{
 		result[k] = [];
 	}
 	// add shared objectives
-	walk (sharedObjectives, "objective");
+	//walk (sharedObjectives, "objective");
 	// add activities
 	walk (activities, 'node');
 
@@ -2716,9 +2788,9 @@ function save()
 		else if (config.status.scos.length == i_numCompleted) now_global_status = LP_STATUS_COMPLETED_NUM;
 		percentageCompleted=Math.round(i_numCompleted*100/config.status.scos.length);
 	}
-	else {//deactivated = 0 or scorm=12 (global objectives do with php)
-		now_global_status="";
-	}
+//	else {//deactivated = 0 or scorm=12 (global objectives do with php)
+//		now_global_status="";
+//	}
 	if (b_statusUpdate == false) now_global_status=config.status.saved_global_status;
 	result["saved_global_status"]=config.status.saved_global_status;
 	result["now_global_status"]=now_global_status;
@@ -2726,6 +2798,7 @@ function save()
 	result["lp_mode"]=config.status.lp_mode;
 	result["hash"]=config.status.hash;
 	result["p"]=config.status.p;
+	result["totalTimeCentisec"]=totalTimeCentisec;
 	var to_saved_result = toJSONString(result);
 	if (saved_result == to_saved_result) {
 //		alert("no difference");
@@ -2734,9 +2807,9 @@ function save()
 //		alert("difference: saved_result:\n"+saved_result+"\nresult:\n"+toJSONString(result));
 		//alert("Before save "+result.node.length);
 		//if (!result.node.length) {return;} 
-		result = this.config.store_url 
-			? sendJSONRequest(this.config.store_url, result)
-			: {};
+		if (typeof SOP!="undefined" && SOP==true) result=saveRequest(result);
+		else result = this.config.store_url ? sendJSONRequest(this.config.store_url, result): {};
+		
 
 		// set successful updated elements to clean
 		if(typeof result == "object") {
@@ -2757,7 +2830,6 @@ function save()
 	}
 	return false;
 }
-
 
 function getAPI(cp_node_id) 
 {

@@ -1,4 +1,4 @@
-// Build: 2013630033355 
+// Build: 2013630143434 
 
 function ADLAuxiliaryResource()
 {}
@@ -2341,6 +2341,28 @@ sclog(pre+'}',type);break;case'function':break;default:sclog(pre+"unknown: "+(ty
 function sclogscroll()
 {var top=document.getElementById('ilLog').scrollTop;var height=document.getElementById('ilLog').scrollHeight;var offset=document.getElementById('ilLog').offsetHeight;if(top<(height-offset-1))
 {document.getElementById('ilLog').scrollTop=height-offset+20;}}
+function ISODurationToCentisec(str)
+{var aV=new Array(0,0,0,0,0,0);var bErr=false;var bTFound=false;if(str.indexOf("P")!=0)bErr=true;if(!bErr)
+{var aT=new Array("Y","M","D","H","M","S")
+var p=0;var i=0;str=str.substr(1);for(i=0;i<aT.length;i++)
+{if(str.indexOf("T")==0)
+{str=str.substr(1);i=Math.max(i,3);bTFound=true;}
+p=str.indexOf(aT[i]);if(p>-1)
+{if((i==1)&&(str.indexOf("T")>-1)&&(str.indexOf("T")<p))continue;if(aT[i]=="S")
+{aV[i]=parseFloat(str.substr(0,p))}
+else
+{aV[i]=parseInt(str.substr(0,p))}
+if(isNaN(aV[i]))
+{bErr=true;break;}
+else if((i>2)&&(!bTFound))
+{bErr=true;break;}
+str=str.substr(p+1);}}
+if((!bErr)&&(str.length!=0))bErr=true;}
+if(bErr)
+{return 0}
+return aV[0]*3155760000+aV[1]*262980000
++aV[2]*8640000+aV[3]*360000+aV[4]*6000
++Math.round(aV[5]*100)}
 function timeStringParse(iTime,ioArray)
 {var mInitArray=new Array();var mTempArray2=new Array();mTempArray2[0]="0";mTempArray2[1]="0";mTempArray2[2]="0";var mDate="0";var mTime="0";if(iTime==null)
 {return ioArray;}
@@ -2828,7 +2850,8 @@ else
 function save()
 {function walk(collection,type)
 {var schem=remoteMapping[type];var res=result[type];for(var k in collection)
-{var item=collection[k];if(type=="node"){for(j=0;j<config.status.scos.length;j++){if(config.status.scos[j]==item['cp_node_id']){if(item.success_status=="failed")b_statusFailed=true;else if(item.completion_status=="completed"||item.success_status=="passed")i_numCompleted++;}}}
+{var item=collection[k];if(type=="node"){for(j=0;j<config.status.scos.length;j++){if(config.status.scos[j]==item['cp_node_id']){if(item.success_status=="failed")b_statusFailed=true;else if(item.completion_status=="completed"||item.success_status=="passed")i_numCompleted++;}}
+totalTimeCentisec+=ISODurationToCentisec(item.total_time);}
 if(item.dirty===0){continue;}
 if(item.options){if(item.options.notracking===true)
 {b_statusUpdate=false;continue;}}
@@ -2843,15 +2866,14 @@ if(valid){collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];if(col
 if(z=="correct_responses")collection[k][z][y]['cmi_interaction_id']=collection[k]['cmi_interaction_id'];}
 walk(collection[k][z],z.substr(0,z.length-1));}}
 if(item.dirty!==2&&type=="node"){continue;}}}
-var b_statusFailed=false,i_numCompleted=0,b_statusUpdate=true;var result={};for(var k in remoteMapping)
+var b_statusFailed=false,i_numCompleted=0,b_statusUpdate=true,totalTimeCentisec=0;var result={};for(var k in remoteMapping)
 {result[k]=[];}
-walk(sharedObjectives,"objective");walk(activities,'node');result["i_check"]=0;result["i_set"]=0;var check0="",check1="";for(var k in saved){if(result[k].length>0){result["i_check"]+=saved[k].checkplus;check0=toJSONString(result[k]);check1=toJSONString(saved[k].data);if(k=="correct_response"){check0+=result["node"][0][15];check1+=saved[k].node;}
+walk(activities,'node');result["i_check"]=0;result["i_set"]=0;var check0="",check1="";for(var k in saved){if(result[k].length>0){result["i_check"]+=saved[k].checkplus;check0=toJSONString(result[k]);check1=toJSONString(saved[k].data);if(k=="correct_response"){check0+=result["node"][0][15];check1+=saved[k].node;}
 if(check0===check1){result[k]=[];}else{saved[k].data=result[k];if(k=="correct_response")saved[k].node=result["node"][0][15];result["i_set"]+=saved[k].checkplus;}}}
 if(this.config.sequencing_enabled){walk(sharedObjectives,"objective");result["adl_seq_utilities"]=this.adl_seq_utilities;if(toJSONString(saved_adl_seq_utilities)!=toJSONString(this.adl_seq_utilities)){saved_adl_seq_utilities=this.adl_seq_utilities;result["changed_seq_utilities"]=1;}
 else{result["changed_seq_utilities"]=0;}}else{result["adl_seq_utilities"]={};result["changed_seq_utilities"]=0;}
 var LP_STATUS_IN_PROGRESS_NUM=1,LP_STATUS_COMPLETED_NUM=2,LP_STATUS_FAILED_NUM=3;var percentageCompleted=0;var now_global_status=LP_STATUS_IN_PROGRESS_NUM;if(config.status.lp_mode==6){if(b_statusFailed==true)now_global_status=LP_STATUS_FAILED_NUM;else if(config.status.scos.length==i_numCompleted)now_global_status=LP_STATUS_COMPLETED_NUM;percentageCompleted=Math.round(i_numCompleted*100/config.status.scos.length);}
-else{now_global_status="";}
-if(b_statusUpdate==false)now_global_status=config.status.saved_global_status;result["saved_global_status"]=config.status.saved_global_status;result["now_global_status"]=now_global_status;result["percentageCompleted"]=percentageCompleted;result["lp_mode"]=config.status.lp_mode;result["hash"]=config.status.hash;result["p"]=config.status.p;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{result=this.config.store_url?sendJSONRequest(this.config.store_url,result):{};if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
+if(b_statusUpdate==false)now_global_status=config.status.saved_global_status;result["saved_global_status"]=config.status.saved_global_status;result["now_global_status"]=now_global_status;result["percentageCompleted"]=percentageCompleted;result["lp_mode"]=config.status.lp_mode;result["hash"]=config.status.hash;result["p"]=config.status.p;result["totalTimeCentisec"]=totalTimeCentisec;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{if(typeof SOP!="undefined"&&SOP==true)result=saveRequest(result);else result=this.config.store_url?sendJSONRequest(this.config.store_url,result):{};if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
 config.status.saved_global_status=new_global_status;return true;}}
 return false;}
 function getAPI(cp_node_id)
