@@ -470,6 +470,17 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
+	* sessionDisabled for SCORM 2004
+	*/
+	function getSessionDeactivated()
+	{
+		global $ilSetting;
+		$lm_set = new ilSetting("lm");
+		if ($lm_set->get("scorm_without_session") == "1") return true;
+		return false;
+	}
+
+	/**
 	* debugActivated
 	*/
 	function getDebugActivated()

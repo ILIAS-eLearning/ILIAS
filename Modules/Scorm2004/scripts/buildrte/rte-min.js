@@ -1,4 +1,4 @@
-// Build: 2013629185410 
+// Build: 2013630033355 
 
 function ADLAuxiliaryResource()
 {}
@@ -2828,9 +2828,10 @@ else
 function save()
 {function walk(collection,type)
 {var schem=remoteMapping[type];var res=result[type];for(var k in collection)
-{var item=collection[k];if(item.dirty===0){continue;}
+{var item=collection[k];if(type=="node"){for(j=0;j<config.status.scos.length;j++){if(config.status.scos[j]==item['cp_node_id']){if(item.success_status=="failed")b_statusFailed=true;else if(item.completion_status=="completed"||item.success_status=="passed")i_numCompleted++;}}}
+if(item.dirty===0){continue;}
 if(item.options){if(item.options.notracking===true)
-{continue;}}
+{b_statusUpdate=false;continue;}}
 if(type=="node")item.dirty=0;if(type=="objective"){if(item.id==null){continue;}}
 var data=[];for(var i=0,ni=schem.length;i<ni;i++)
 {data.push(item[schem[i]]);}
@@ -2842,13 +2843,15 @@ if(valid){collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];if(col
 if(z=="correct_responses")collection[k][z][y]['cmi_interaction_id']=collection[k]['cmi_interaction_id'];}
 walk(collection[k][z],z.substr(0,z.length-1));}}
 if(item.dirty!==2&&type=="node"){continue;}}}
-var result={};for(var k in remoteMapping)
+var b_statusFailed=false,i_numCompleted=0,b_statusUpdate=true;var result={};for(var k in remoteMapping)
 {result[k]=[];}
 walk(sharedObjectives,"objective");walk(activities,'node');result["i_check"]=0;result["i_set"]=0;var check0="",check1="";for(var k in saved){if(result[k].length>0){result["i_check"]+=saved[k].checkplus;check0=toJSONString(result[k]);check1=toJSONString(saved[k].data);if(k=="correct_response"){check0+=result["node"][0][15];check1+=saved[k].node;}
 if(check0===check1){result[k]=[];}else{saved[k].data=result[k];if(k=="correct_response")saved[k].node=result["node"][0][15];result["i_set"]+=saved[k].checkplus;}}}
 if(this.config.sequencing_enabled){walk(sharedObjectives,"objective");result["adl_seq_utilities"]=this.adl_seq_utilities;if(toJSONString(saved_adl_seq_utilities)!=toJSONString(this.adl_seq_utilities)){saved_adl_seq_utilities=this.adl_seq_utilities;result["changed_seq_utilities"]=1;}
 else{result["changed_seq_utilities"]=0;}}else{result["adl_seq_utilities"]={};result["changed_seq_utilities"]=0;}
-result["saved_global_status"]=config.status.saved_global_status;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{result=this.config.cmi_url?sendJSONRequest(this.config.cmi_url,result):{};if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
+var LP_STATUS_IN_PROGRESS_NUM=1,LP_STATUS_COMPLETED_NUM=2,LP_STATUS_FAILED_NUM=3;var percentageCompleted=0;var now_global_status=LP_STATUS_IN_PROGRESS_NUM;if(config.status.lp_mode==6){if(b_statusFailed==true)now_global_status=LP_STATUS_FAILED_NUM;else if(config.status.scos.length==i_numCompleted)now_global_status=LP_STATUS_COMPLETED_NUM;percentageCompleted=Math.round(i_numCompleted*100/config.status.scos.length);}
+else{now_global_status="";}
+if(b_statusUpdate==false)now_global_status=config.status.saved_global_status;result["saved_global_status"]=config.status.saved_global_status;result["now_global_status"]=now_global_status;result["percentageCompleted"]=percentageCompleted;result["lp_mode"]=config.status.lp_mode;result["hash"]=config.status.hash;result["p"]=config.status.p;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{result=this.config.store_url?sendJSONRequest(this.config.store_url,result):{};if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
 config.status.saved_global_status=new_global_status;return true;}}
 return false;}
 function getAPI(cp_node_id)
@@ -2906,7 +2909,7 @@ return c;}
 function onWindowLoad()
 {attachUIEvent(window,'unload',onWindowUnload);attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
-{summaryOnUnload=true;var tosend="";if(config.auto_last_visited==true)tosend=activities[mlaunch.mActivityID].id;var result=this.config.scorm_player_unload_url?sendJSONRequest(this.config.scorm_player_unload_url,tosend):{};removeResource();}
+{summaryOnUnload=true;var result={};result["hash"]=config.status.hash;result["p"]=config.status.p;result["last"]="";if(config.auto_last_visited==true)result["last"]=activities[mlaunch.mActivityID].id;var result=this.config.scorm_player_unload_url?sendJSONRequest(this.config.scorm_player_unload_url,result):{};removeResource();}
 function onItemDeliver(item,wasSuspendAll)
 {var url=item.href,v;if(item.sco)
 {var data=getAPI(item.foreignId);if(this.config.sequencing_enabled)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
