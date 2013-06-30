@@ -2598,10 +2598,19 @@ function save()
 		for (var k in collection) 
 		{
 			var item = collection[k];
+			if(type=="node"){//notracking!
+				for(j=0;j<config.status.scos.length;j++) {
+					if (config.status.scos[j] == item['cp_node_id']) {
+						if (item.success_status == "failed") b_statusFailed=true;
+						else if (item.completion_status == "completed" || item.success_status == "passed") i_numCompleted++;
+					}
+				}
+			}
 			if (item.dirty===0)  {continue;}
 			if (item.options) {
 				if (item.options.notracking === true) 
 				{
+					b_statusUpdate = false;
 					continue;
 				}
 			}
@@ -2649,6 +2658,7 @@ function save()
 			if (item.dirty!==2 && type=="node") {continue;}
 		}
 	}
+	var b_statusFailed=false, i_numCompleted=0, b_statusUpdate=true;
 	var result = {};
 	for (var k in remoteMapping) 
 	{
@@ -2698,17 +2708,34 @@ function save()
 		result["adl_seq_utilities"]={};
 		result["changed_seq_utilities"]=0;
 	}
-
+	var LP_STATUS_IN_PROGRESS_NUM=1, LP_STATUS_COMPLETED_NUM=2,LP_STATUS_FAILED_NUM=3;
+	var percentageCompleted=0;
+	var now_global_status = LP_STATUS_IN_PROGRESS_NUM;
+	if (config.status.lp_mode == 6) { //distinct scos selected
+		if (b_statusFailed == true) now_global_status = LP_STATUS_FAILED_NUM;
+		else if (config.status.scos.length == i_numCompleted) now_global_status = LP_STATUS_COMPLETED_NUM;
+		percentageCompleted=Math.round(i_numCompleted*100/config.status.scos.length);
+	}
+	else {//deactivated = 0 or scorm=12 (global objectives do with php)
+		now_global_status="";
+	}
+	if (b_statusUpdate == false) now_global_status=config.status.saved_global_status;
 	result["saved_global_status"]=config.status.saved_global_status;
+	result["now_global_status"]=now_global_status;
+	result["percentageCompleted"]=percentageCompleted;
+	result["lp_mode"]=config.status.lp_mode;
+	result["hash"]=config.status.hash;
+	result["p"]=config.status.p;
 	var to_saved_result = toJSONString(result);
 	if (saved_result == to_saved_result) {
 //		alert("no difference");
 		return true;
 	} else {
+//		alert("difference: saved_result:\n"+saved_result+"\nresult:\n"+toJSONString(result));
 		//alert("Before save "+result.node.length);
 		//if (!result.node.length) {return;} 
-		result = this.config.cmi_url 
-			? sendJSONRequest(this.config.cmi_url, result)
+		result = this.config.store_url 
+			? sendJSONRequest(this.config.store_url, result)
 			: {};
 
 		// set successful updated elements to clean
@@ -2973,13 +3000,17 @@ function onWindowLoad ()
 function onWindowUnload () 
 {
 	summaryOnUnload = true;
-	var tosend="";
-	if (config.auto_last_visited==true) tosend=activities[mlaunch.mActivityID].id;
+	var result = {};
+	result["hash"]=config.status.hash;
+	result["p"]=config.status.p;
+	result["last"]="";
+	if (config.auto_last_visited==true) result["last"]=activities[mlaunch.mActivityID].id;
 	var result=this.config.scorm_player_unload_url 
-		? sendJSONRequest(this.config.scorm_player_unload_url, tosend)
+		? sendJSONRequest(this.config.scorm_player_unload_url, result)
 		: {};
-
 	removeResource();
+
+	//try{windowOpenerLoc.reload();} catch(e){}
 }
 
 function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
