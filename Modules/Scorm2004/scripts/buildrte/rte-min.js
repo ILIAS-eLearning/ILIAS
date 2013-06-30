@@ -1,4 +1,4 @@
-// Build: 2013630143434 
+// Build: 2013630153310 
 
 function ADLAuxiliaryResource()
 {}
@@ -2665,7 +2665,7 @@ if(navType==='Previous'){mlaunch=msequencer.navigate(NAV_PREVIOUS);}
 if(navType==='Continue'){mlaunch=msequencer.navigate(NAV_CONTINUE);}
 if(mlaunch.mActivityID){onItemDeliver(activities[mlaunch.mActivityID],false);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
 function onDocumentClick(e)
-{e=new UIEvent(e);var target=e.srcElement;userInteraction=true;if(target.tagName!=='A'||!target.id||  target.className.match(new RegExp(ilRTEDisabledClass))||  target.className.match(new RegExp('ilc_rte_tlink_RTETreeLinkDisabled')))
+{e=new UIEvent(e);var target=e.srcElement;userInteraction=true;if(target.tagName!=='A'||!target.id||target.className.match(new RegExp(ilRTEDisabledClass))||target.className.match(new RegExp('ilc_rte_tlink_RTETreeLinkDisabled')))
 {}
 else if(target.id.substr(0,3)==='nav')
 {var navType=target.id.substr(3);launchNavType(navType,userInteraction);}
@@ -2804,7 +2804,7 @@ if(index=="mChildren"){obj["mActiveChildren"]=toset;}}else if((act[index]instanc
 if(index=="mScopeID"){value=this.config.scope;}
 obj[index]=value;}}
 return obj;}
-function setParents(obj){for(var index in obj){if(index=="mChildren"){var temp=obj[index];if(temp instanceof Array){if(temp.length>0){for(var i=0;i<temp.length;i++) {temp[i]['mParent']=obj;var ch=setParents(temp[i]);temp[i]=ch;}}}}}
+function setParents(obj){for(var index in obj){if(index=="mChildren"){var temp=obj[index];if(temp instanceof Array){if(temp.length>0){for(var i=0;i<temp.length;i++){temp[i]['mParent']=obj;var ch=setParents(temp[i]);temp[i]=ch;}}}}}
 return obj;}
 function load()
 {var cmi=this.config.cmi_data||sendJSONRequest(this.config.cmi_url);if(!cmi)return alert('FATAL: Could not load userdata!');var k,i,ni,row,act,j,nj,dat,id;var cmi_node_id,cmi_interaction_id;if(!remoteMapping)
