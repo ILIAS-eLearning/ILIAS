@@ -73,6 +73,8 @@ class ilInitialisation
 		require_once "./Services/Logging/classes/class.ilLog.php";
 //		require_once "classes/class.ilObjectDataCache.php";
 		require_once "./Services/Init/classes/class.ilErrorHandling.php";
+		
+		require_once "./Services/Administration/classes/class.ilSetting.php";
 	}
 	
 
@@ -279,10 +281,14 @@ class ilInitialisation
 		$this->initDatabase();
 		$this->initLog();
 		
+		// settings
+		$ilSetting = new ilSetting();
+		$GLOBALS['ilSetting'] = & $ilSetting;
+
 		// init tree
-		// require_once "./Services/Tree/classes/class.ilTree.php";
-		// $tree = new ilTree(ROOT_FOLDER_ID);
-		// $GLOBALS['tree'] =& $tree;
+		require_once "./Services/Tree/classes/class.ilTree.php";
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$GLOBALS['tree'] =& $tree;
 
 		
 		if ((string) $_GET['do'] == "unload") {

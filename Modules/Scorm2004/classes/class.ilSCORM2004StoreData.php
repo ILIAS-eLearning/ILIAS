@@ -36,11 +36,6 @@ class ilSCORM2004StoreData
 			array($endDate, $userId, 0, $packageId, 'hash')
 		);
 		
-		//TODO UK increase performance for _syncReadEvent e.g. compute time on client or reduce sql-calls
-		// sync access number and time in read event table
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-		ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", (int)$_GET['ref_id']);
-
 		header('Content-Type: text/plain; charset=UTF-8');
 		print("");
 	}
@@ -364,16 +359,41 @@ class ilSCORM2004StoreData
 		$saved_global_status=$data->saved_global_status;
 		$ilLog->write("saved_global_status=".$saved_global_status);
 		$result["new_global_status"]=$new_global_status;
-		//ATTENTION not at commit - do at unload!
+
 		// sync access number and time in read event table
 		//include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
 		//ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
+		
+		// get attempts
+		$val_set = $ilDB->queryF('
+		SELECT rvalue FROM cmi_custom 
+		WHERE user_id = %s
+				AND sco_id = %s
+				AND lvalue = %s
+				AND obj_id = %s',
+		array('integer','integer', 'text','integer'),
+		array($userId, 0,'package_attempts',$packageId));
+		
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]="";
+		}
+
+		$attempts = $val_rec["rvalue"];
+		$totalTime=(int)$data->totalTimeCentisec;
+		$totalTime=round($totalTime/100);
+		self::ensureObjectDataCacheExistence();
+		global $ilObjDataCache;
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+		ilChangeEvent::_recordReadEvent("sahs", (int)$_GET['ref_id'],$packageId, $userId, false, $attempts, $totalTime);
+
+		//end sync access number and time in read event table
 
 		if($saved_global_status != $new_global_status)
 		{
 			// update learning progress
-			self::ensureObjectDataCacheExistence();
-			global $ilObjDataCache;
 //			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 //			ilLPStatusWrapper::_updateStatus($packageId, $userId);
 			include_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
@@ -596,7 +616,7 @@ class ilSCORM2004StoreData
 			return;
 		}
 
-		require_once 'classes/class.ilObjectDataCache.php';
+		require_once './Services/Object/classes/class.ilObjectDataCache.php';
 		$ilObjDataCache = new ilObjectDataCache();
 		$GLOBALS['ilObjDataCache'] = $ilObjDataCache;
 	}
