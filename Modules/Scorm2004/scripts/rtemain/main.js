@@ -1685,8 +1685,8 @@ function onDocumentClick (e)
 	userInteraction = true;
 	//integration of ADL Sqeuencer
 	
-	if (target.tagName !== 'A' || !target.id ||  target.className.match(new RegExp(ilRTEDisabledClass))
-		||  target.className.match(new RegExp('ilc_rte_tlink_RTETreeLinkDisabled')))
+	if (target.tagName !== 'A' || !target.id || target.className.match(new RegExp(ilRTEDisabledClass))
+		|| target.className.match(new RegExp('ilc_rte_tlink_RTETreeLinkDisabled')))
 	{
 		// ignore clicks on other elements than A
 		// or non identified elements or disabled elements (non active Activities)
@@ -2512,7 +2512,7 @@ function setParents(obj) {
 			var temp=obj[index];	
 			if (temp instanceof Array) {
 				if (temp.length>0) {
-					for (var i=0;i<temp.length;i++) {
+					for (var i=0;i<temp.length;i++) {
 						// get the object
 						temp[i]['mParent']=obj;
 						//check for further childs in array
