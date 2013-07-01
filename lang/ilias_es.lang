@@ -51,7 +51,7 @@ administration#:#adm_db_bench_sorted_by_sql#:#Ordenadas por SQL
 administration#:#adm_edit_settings_template#:#Editar plantilla
 administration#:#adm_hide#:#Oculto
 administration#:#adm_hide_tabs#:#Ocultar pestañas
-administration#:#adm_imprint#:#Impresión
+administration#:#adm_imprint#:#Información
 administration#:#adm_imprint_inactive#:#La impresión está desactivada y a los usuarios no se les permite acceso.
 administration#:#adm_item_cmd_asynch#:#Cargar lista de acciones asíncronamente
 administration#:#adm_item_cmd_asynch_info#:#Comandos de acción, ej., en el repositorio, se cargan de forma asincrónica. Esto aumenta el rendimiento en general, pero ralentiza un poco la carga de listas de comandos de acción.
@@ -5263,7 +5263,7 @@ content#:#cont_custom_size#:#Tamaño personalizado
 content#:#cont_dark#:#Oscuro
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_deactivated#:#Desactivado
-content#:#cont_de_activate#:#Desactivar
+content#:#cont_de_activate#:#Activar-Desactivar
 content#:#cont_deactivate_html#:#Desactivada visualización HTML
 content#:#cont_deactivate_js#:#Desactivado modo Javascript
 content#:#cont_deactivate_media#:#Desactivar elementos multimedia
@@ -5323,7 +5323,7 @@ content#:#cont_ed_edit#:#Editar
 content#:#cont_ed_edit_files#:#Editar Archivos
 content#:#cont_ed_edit_multiple#:#Editar secuencia de párrafos
 content#:#cont_ed_edit_prop#:#Editar propiedades
-content#:#cont_ed_enable#:#Desactivar elementos
+content#:#cont_ed_enable#:#(Des-)Activar elementos
 content#:#cont_ed_flist#:#Lista de archivos
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_atable#:#Insertar tabla avanzada
@@ -7359,7 +7359,7 @@ delic#:#delic_extt_delicious#:#del.icio.us
 delic#:#delic_settings#:#Configuración de del.icio.us
 delic#:#delic_user_profile#:#Habilitar configuración de cuenta del.icio.us en preferencias de usuario
 didactic#:#didactic_activated_msg#:#Plantillas didácticas activadas
-didactic#:#didactic_adm_tab#:#Plantillas didácticas
+didactic#:#didactic_adm_tab#:#Plantillas didácticas 
 didactic#:#didactic_applicable_for#:#Aplicable para
 didactic#:#didactic_available_templates#:#Plantillas didácticas disponibles
 didactic#:#didactic_back_to_overview#:#Volver al resumen
@@ -7367,7 +7367,7 @@ didactic#:#didactic_confirm_apply_new_template#:#¿Realmente quieres aplicar la 
 didactic#:#didactic_confirm_delete_msg#:#¿Desea eliminar las siguientes plantillas didácticas?
 didactic#:#didactic_copy_suc_message#:#Plantilla didáctica copiada
 didactic#:#didactic_deactivated_msg#:#Plantillas didácticas desactivadas
-didactic#:#didactic_default_type_info#:#Usar permisos por defecto para %s
+didactic#:#didactic_default_type_info#:#Usar plantilla didáctica para %s
 didactic#:#didactic_delete_msg#:#Plantillas didáctica eliminadas
 didactic#:#didactic_do_export#:#Exportar
 didactic#:#didactic_edit_tpl#:#Editar plantilla didáctica
@@ -12948,28 +12948,36 @@ wsp#:#wsp_type_file#:#Archivo
 wsp#:#wsp_type_tstv#:#Verificación: Test
 wsp#:#wsp_type_webr#:#Enlace web
 wsp#:#wsp_type_wfld#:#Carpeta
-assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
-assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
-assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
-assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
-assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
-assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
-content#:#HTML export#:#HTML Export###08 03 2013 new variable
-content#:#Pages#:#Pages###08 03 2013 new variable
-content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###08 03 2013 new variable
-dcl#:#dcl_hello#:#Dear###26 04 2013 new variable
-dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.###26 04 2013 new variable
-dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.###26 04 2013 new variable
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###26 04 2013 new variable
-obj#:#edit_questions#:#Edit Questions###26 04 2013 new variable
-user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.###26 04 2013 new variable
-user#:#user_delete_own_account_logout_button#:#Proceed to Authentication###26 04 2013 new variable
-user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.###26 04 2013 new variable
-rbac#:#edit_userassignment#:#Edit User Assignment###26 04 2013 new variable
-blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.###26 04 2013 new variable
+assessment#:#essay_scoring_mode#:#Modo de puntuación
+assessment#:#essay_scoring_mode_without_keywords#:#No hay puntuación automática
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No hay puntuación salvo la asignada de forma manual por el profesor
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Puntuación automática si se encuentra alguna palabras clave
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#Los puntos son asignados automáticamente para cualquier palabra clave encontrada
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Puntuación automática si se encuentran todas las palabras clave
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#Los puntos son asignados automáticamente si se encuentran todas las palabras clave
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Puntuación automática si se encuentra un palabras clave
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#Los puntos son asignados automáticamente si se encuentra al menos una palabra clave
+assessment#:#tst_pass_deletion#:#Realizaciones anteriores
+assessment#:#tst_pass_deletion_not_allowed#:#No es posible borrar las realizaciones pasadas
+assessment#:#tst_pass_deletion_allowed#:#Es posible borrar las realizaciones pasadas
+content#:#HTML export#:#Exportación HTML
+content#:#Pages#:#Páginas
+content#:#sahs_empty_objectives_are_not_allowed#:#Por favor, introduzca un objetivo de aprendizaje
+dcl#:#dcl_hello#:#Estimado/a
+dcl#:#dcl_field_title_change_warning#:#Has cambiado el nombre del campo, por lo que algunos elementos en la definición de vista pueden estar rotos. Si ocurriera, las correcciones deben realizarse a mano
+dcl#:#dcl_inconsistent_at#:#La coleción de datos no consistente. Una referencia no existe.
+dcl#:#dcl_change_why_you_receive_this_email#:#Has recibido este mensaje porque has activado la notificación para esta colección de datos
+obj#:#edit_questions#:#Editar preguntas
+user#:#user_delete_own_account_logout_confirmation#:#Tu cuenta ha sido marcada para borrado. Por favor, identifícate para continuar el proceso.
+user#:#user_delete_own_account_logout_button#:#Realizar identificación
+user#:#user_delete_own_account_aborted#:#Borrado cancelado, la cuenta no ha sido modificada
+rbac#:#edit_userassignment#:#Editar asignación al usuario
+blog#:#blog_posting_edit_approval_info#:#Los envíos deben ser aprobados por el profesor antes de ser publicados
+mail#:#mail_add_folder#:#Crear nueva subcarpeta
+mail#:#mail_rename_folder#:#Cambiar nombre de carpeta
+common#:#rpc_pdf_generation#:#Generación PDF
+common#:#rpc_pdf_font#:#Fuentes
+common#:#rpc_pdf_font_info#:#Fuentes adicionales para la genración de ficheros PDF. Las fuentes aparte de "Helvetica" y "unifont" deben instalarse en el servidor ILIAS.
+didactic#:#didactic_default_type#:#Plantilla didáctica por defecto
+blog#:#blog_draft_info_contributors#:#Este borrador de envío solo es visible por los contribuidores.
+exp#:#exp_file_created#:#Se ha creado el fichero de exportación.
