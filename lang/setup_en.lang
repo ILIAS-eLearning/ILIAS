@@ -562,6 +562,6 @@ step_proxy#:#Proxy
 db_innodb#:#MySQL (InnoDB)
 show_update_steps#:#Show Update Steps
 lang_fa#:#Persian (farsi)
-ghostscript_path_comment_win#:#Required for creating previews of PDFs, e.g. 'C:/tools/Ghostscript/gswin32c.exe'.
-ghostscript_path_comment#:#Required for creating previews of PDFs, e.g. '/your_path/gs'.
+ghostscript_path_comment_win#:#Optional for creating previews of PDFs, e.g. 'C:/tools/Ghostscript/gswin32c.exe'.
+ghostscript_path_comment#:#Optional for creating previews of PDFs, e.g. '/your_path/gs'.
 ghostscript_path#:#Ghostscript Path
