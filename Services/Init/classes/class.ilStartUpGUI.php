@@ -1430,18 +1430,22 @@ class ilStartUpGUI
 
 		$tpl->setVariable('TXT_PAGEHEADLINE', $lng->txt('usr_agreement'));
 		$tpl->setVariable('TXT_PAGETITLE', - 'ILIAS3' . $lng->txt('usr_agreement'));
-		$tpl->setVariable('LANG_VAL_CMD', $this->ctrl->getCmd());
-		$tpl->setVariable('AGR_LANG_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-		$tpl->setVariable('TXT_CHOOSE_LANGUAGE', $lng->txt('choose_language'));
-		$tpl->setVariable('TXT_OK', $lng->txt('ok'));
-
+		
 		$languages = $lng->getInstalledLanguages();
-		foreach($languages as $lang_key)
-		{
-			$tpl->setCurrentBlock('languages');
-			$tpl->setVariable('LANG_NAME', ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_'.$lang_key));
-			$tpl->setVariable('LANG_KEY', $lang_key);
-			$tpl->parseCurrentBlock();
+		if(count($languages) > 1) // #11237
+		{			
+			$tpl->setVariable('LANG_VAL_CMD', $this->ctrl->getCmd());
+			$tpl->setVariable('AGR_LANG_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+			$tpl->setVariable('TXT_CHOOSE_LANGUAGE', $lng->txt('choose_language'));
+			$tpl->setVariable('TXT_OK', $lng->txt('ok'));
+			
+			foreach($languages as $lang_key)
+			{
+				$tpl->setCurrentBlock('languages');
+				$tpl->setVariable('LANG_NAME', ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_'.$lang_key));
+				$tpl->setVariable('LANG_KEY', $lang_key);
+				$tpl->parseCurrentBlock();
+			}			
 		}
 
 		try
