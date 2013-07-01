@@ -83,31 +83,35 @@ class ilAccountRegistrationGUI
 
 		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 
-		// language selection
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_OK",$lng->txt("ok"));
-		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-		$this->ctrl->getFormAction($this);
-		
 		$lang_opts = array();
 		foreach ($lng->getInstalledLanguages() as $lang_key)
 		{
 			$lang_opts[$lang_key] = ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key);
 		}
-		asort($lang_opts);
 		
-		$this->tpl->setCurrentBlock("languages");
-		foreach($lang_opts as $lang_key => $lang_caption)
-		{
-			$this->tpl->setVariable("LANG_NAME", $lang_caption);
-			$this->tpl->setVariable("LANG_ICON", $lang_key);
-			
-			if($lang_key == $lng->getLangKey())
+		// #11237
+		if(sizeof($lang_opts) > 1)
+		{		
+			// language selection
+			$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_OK",$lng->txt("ok"));
+			$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+	
+			asort($lang_opts);
+
+			$this->tpl->setCurrentBlock("languages");
+			foreach($lang_opts as $lang_key => $lang_caption)
 			{
-				$this->tpl->setVariable("SELECTED_LANG", " selected=\"selected\"");
+				$this->tpl->setVariable("LANG_NAME", $lang_caption);
+				$this->tpl->setVariable("LANG_ICON", $lang_key);
+
+				if($lang_key == $lng->getLangKey())
+				{
+					$this->tpl->setVariable("SELECTED_LANG", " selected=\"selected\"");
+				}
+
+				$this->tpl->parseCurrentBlock();
 			}
-			
-			$this->tpl->parseCurrentBlock();
 		}
 
 		if(!$this->form)

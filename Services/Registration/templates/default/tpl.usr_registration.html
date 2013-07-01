@@ -1,8 +1,9 @@
 <div>
-	{STATUSLINE}
-	<form action="{FORMACTION}" {TARGET} method="post">
-	<div class="il_Header" style="margin:20px 0px;">
-		<div style="float:right;">
+	{STATUSLINE}	
+	<div class="il_Header" style="margin:20px 0px;">		
+		<!-- BEGIN lang_sel_bl -->
+		<div style="float:right;">			
+			<form action="{FORMACTION}" {TARGET} method="post">
 			<input type="hidden" name="cmd" value="">
 			<select name="change_lang_to" onChange="this.form.submit()">
 				<option value="">{TXT_CHOOSE_LANGUAGE}</option>
@@ -11,10 +12,11 @@
 				<!-- END languages -->
 			</select>
 			<input class="submit" type="submit" value="{TXT_OK}"/>
+			</form>
 		</div>
-	<h1>{TXT_PAGEHEADLINE}</h1>
+		<!-- END lang_sel_bl -->
+		<h1>{TXT_PAGEHEADLINE}</h1>
 	</div>
-	</form>
 	<p>{TXT_WELCOME}</p>
 	{MESSAGE}
 	{FORM}

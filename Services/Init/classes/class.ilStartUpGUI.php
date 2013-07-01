@@ -1444,31 +1444,36 @@ class ilStartUpGUI
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 
-		$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-		$tpl->setVariable("TXT_OK", $lng->txt("ok"));
-
 		// language selection
 		$languages = $lng->getInstalledLanguages();
 
-		$count = (int) round(count($languages) / 2);
-		$num = 1;
+		// #11237
+		if(sizeof($languages) > 1)
+		{			
+			$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+			$tpl->setVariable("TXT_OK", $lng->txt("ok"));
+		
+			$count = (int) round(count($languages) / 2);
+			$num = 1;
 
-		foreach ($languages as $lang_key)
-		{
-			$tpl->setCurrentBlock("languages");
-			$tpl->setVariable("LANG_VAL_CMD", $this->ctrl->getCmd());
-			$tpl->setVariable("AGR_LANG_ACTION",
-				$this->ctrl->getFormAction($this));
-			$tpl->setVariable("LANG_NAME",
-				ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
-			$tpl->setVariable("LANG_ICON", $lang_key);
-			$tpl->setVariable("LANG_KEY", $lang_key);
-			$tpl->setVariable("BORDER", 0);
-			$tpl->setVariable("VSPACE", 0);
-			$tpl->parseCurrentBlock();
+			foreach ($languages as $lang_key)
+			{
+				$tpl->setCurrentBlock("languages");
+				$tpl->setVariable("LANG_VAL_CMD", $this->ctrl->getCmd());
+				$tpl->setVariable("AGR_LANG_ACTION",
+					$this->ctrl->getFormAction($this));
+				$tpl->setVariable("LANG_NAME",
+					ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
+				$tpl->setVariable("LANG_ICON", $lang_key);
+				$tpl->setVariable("LANG_KEY", $lang_key);
+				$tpl->setVariable("BORDER", 0);
+				$tpl->setVariable("VSPACE", 0);
+				$tpl->parseCurrentBlock();
 
-			$num++;
+				$num++;
+			}
 		}
+		
 		$tpl->setCurrentBlock("content");
 
 		// display tabs

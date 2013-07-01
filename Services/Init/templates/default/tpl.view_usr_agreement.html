@@ -1,6 +1,7 @@
 {STATUSLINE}
 <div class="il_Header">
 	<div style="float:right;">
+		<!-- BEGIN lang_sel_bl -->
 		<form name="languageselection" action="{AGR_LANG_ACTION}" method="post">
 		<input type="hidden" name="cmd[{LANG_VAL_CMD}]" value="{LANG_VAL_CMD}" />
 		<select name="change_lang_to" onChange="this.form.submit()">
@@ -11,6 +12,7 @@
 		</select>
 		<input class="submit" type="submit" value="{TXT_OK}" />
 		</form>
+		<!-- END lang_sel_bl -->
 	</div>
 	<h1>{TXT_PAGEHEADLINE}</h1>
 </div>
