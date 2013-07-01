@@ -236,8 +236,13 @@ class ilDataCollectionRecordEditGUI
 		$values = array();
 		foreach($allFields as $field)
 		{
-			$value = $record_obj->getRecordFieldFormInput($field->getId(), ilDataCollectionCache::getRecordFieldCache($record_obj, $field));
+			$value = $record_obj->getRecordFieldFormInput($field->getId());
 			$values['field_'.$field->getId()] = $value;
+			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB){
+				$img = ilObjMediaObject::_lookupItemPath($value);
+				if($value)
+					$this->form->getItemByPostVar('field_'.$field->getId())->setImage(ilObjMediaObject::_lookupItemPath($img));
+			}
 		}
 
 		$this->form->setValuesByArray($values);
@@ -336,6 +341,10 @@ class ilDataCollectionRecordEditGUI
 			foreach($all_fields as $field)
 			{
                     $value = $this->form->getInput("field_".$field->getId());
+				//deletion flag on MOB inputs.
+					if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB && $this->form->getItemByPostVar("field_".$field->getId())->getDeletionFlag()){
+						$value = -1;
+					}
                     $record_obj->setRecordFieldValue($field->getId(), $value);
 			}
             if($create_mode){
