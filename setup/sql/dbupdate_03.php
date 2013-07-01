@@ -16182,3 +16182,7 @@ $ilDB->manipulate("UPDATE usr_portf_acl SET tstamp = ".$ilDB->quote(time(), "int
 	" WHERE tstamp = ".$ilDB->quote(0, "integer"));
 
 ?>
+<#3935>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

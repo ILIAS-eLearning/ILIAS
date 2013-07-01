@@ -32,7 +32,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestToplistGUI, ilTestScoringByQuestionsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestToplistGUI, ilTestScoringByQuestionsGUI, ilTestExportGUI
  *
  * @extends ilObjectGUI
  * @ingroup ModulesTest
@@ -71,7 +71,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs;
+		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs, $ilPluginAdmin;
 
 		if((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -133,6 +133,21 @@ class ilObjTestGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'iltestexportgui':
+				if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+				}
+
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				require_once 'Modules/Test/classes/class.ilTestExportGUI.php';
+				$export_gui = new ilTestExportGUI($this);
+				$export_gui->addFormat('xml', $this->lng->txt('ass_create_export_file'), $export_gui, 'createTestExport');
+				$export_gui->addFormat('csv', $this->lng->txt('ass_create_export_test_results'), $export_gui, 'createTestResultsExport');
+				$ilCtrl->forwardCommand($export_gui);
+				break;
+
 			case "ilinfoscreengui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -655,174 +670,6 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::redirect($this->getReturnLocation("cancel","./ilias.php?baseClass=ilRepositoryGUI&ref_id=".(int) $_GET['crs_show_result']));
-	}
-	
-	/*
-	* list all export files
-	*/
-	function exportObject()
-	{
-		global $tree;
-		global $ilAccess;
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirect($this, "infoScreen");
-		}
-
-		$export_dir = $this->object->getExportDirectory();
-		$export_files = $this->object->getExportFiles($export_dir);
-		$data = array();
-		if(count($export_files) > 0)
-		{
-			foreach($export_files as $exp_file)
-			{
-				$file_arr = explode("__", $exp_file);
-				array_push($data, array(
-					'file' => $exp_file,
-					'size' => filesize($export_dir."/".$exp_file),
-					'date' => $file_arr[0]
-				));
-			}
-		}
-
-		include_once "./Modules/Test/classes/tables/class.ilTestExportTableGUI.php";
-		$table_gui = new ilTestExportTableGUI($this, 'export');
-		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
-	}
-	
-	/**
-	* create test export file
-	*/
-	function createTestExportObject()
-	{
-		global $ilAccess;
-		
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			include_once("./Modules/Test/classes/class.ilTestExport.php");
-			$test_exp = new ilTestExport($this->object, 'xml');
-			$test_exp->buildExportFile();
-		}
-		else
-		{
-			ilUtil::sendInfo("cannot_export_test", TRUE);
-		}
-		$this->ctrl->redirect($this, "export");
-	}
-	
-	/**
-	* create results export file
-	*/
-	function createTestResultsExportObject()
-	{
-		global $ilAccess;
-		
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			include_once("./Modules/Test/classes/class.ilTestExport.php");
-			$test_exp = new ilTestExport($this->object, 'results');
-			$test_exp->buildExportFile();
-		}
-		else
-		{
-			ilUtil::sendInfo("cannot_export_test", TRUE);
-		}
-		$this->ctrl->redirect($this, "export");
-	}
-	
-	
-	/**
-	* download export file
-	*/
-	function downloadExportFileObject()
-	{
-		if(!isset($_POST["file"]))
-		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
-			$this->ctrl->redirect($this, "export");
-		}
-
-		if (count($_POST["file"]) > 1)
-		{
-			ilUtil::sendInfo($this->lng->txt("select_max_one_item"), true);
-			$this->ctrl->redirect($this, "export");
-		}
-
-
-		$export_dir = $this->object->getExportDirectory();
-		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
-			$_POST["file"][0]);
-	}
-
-	/**
-	* confirmation screen for export file deletion
-	*/
-	function confirmDeleteExportFileObject()
-	{
-		if (!isset($_POST["file"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
-			$this->ctrl->redirect($this, "export");
-		}
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
-		$export_dir = $this->object->getExportDirectory();
-		$export_files = $this->object->getExportFiles($export_dir);
-		$data = array();
-		if (count($_POST["file"]) > 0)
-		{
-			foreach ($_POST["file"] as $exp_file)
-			{
-				$file_arr = explode("__", $exp_file);
-				array_push($data, array(
-					'file' => $exp_file,
-					'size' => filesize($export_dir."/".$exp_file),
-					'date' => $file_arr[0]
-				));
-			}
-		}
-
-		include_once "./Modules/Test/classes/tables/class.ilTestExportTableGUI.php";
-		$table_gui = new ilTestExportTableGUI($this, 'export', true);
-		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
-	}
-
-	/**
-	* cancel deletion of export files
-	*/
-	function cancelDeleteExportFileObject()
-	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
-		$this->ctrl->redirect($this, "export");
-	}
-
-
-	/**
-	* delete export files
-	*/
-	function deleteExportFileObject()
-	{
-		$export_dir = $this->object->getExportDirectory();
-		foreach ($_POST["file"] as $file)
-		{
-			$exp_file = $export_dir."/".$file;
-			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
-			if (@is_file($exp_file))
-			{
-				unlink($exp_file);
-			}
-			if (@is_dir($exp_dir))
-			{
-				ilUtil::delDir($exp_dir);
-			}
-		}
-		ilUtil::sendSuccess($this->lng->txt('msg_deleted_export_files'), true);
-		$this->ctrl->redirect($this, "export");
 	}
 
 	/**
@@ -5547,14 +5394,16 @@ class ilObjTestGUI extends ilObjectGUI
 					 "", "ilmdeditorgui");
                              }
 
-                             if (!in_array('export', $hidden_tabs)) {
-				// export tab
-				$tabs_gui->addTarget("export",
-					 $this->ctrl->getLinkTarget($this,'export'),
-					 array("export", "createExportFile", "confirmDeleteExportFile",
-					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
-					 "");
-                             }
+				if(!in_array('export', $hidden_tabs))
+				{
+					// export tab
+					$tabs_gui->addTarget(
+						"export",
+						 $this->ctrl->getLinkTargetByClass('iltestexportgui' ,''),
+						 '',
+						 array('iltestexportgui')
+					);
+				}
 			}
 			
 			if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id)&& !in_array('permissions', $hidden_tabs))
@@ -5596,10 +5445,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
-
-
-
-
 
 	/**
 	 * Questions per page
