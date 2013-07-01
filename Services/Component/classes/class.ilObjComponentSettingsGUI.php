@@ -267,45 +267,45 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 
 		// component
-		$ne = new ilNonEditableValueGUI($lng->txt("cmps_component"), "");
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_component"), "", true);
 		$ne->setValue($comp->getComponentType()."/".$comp->getName()." [".$comp->getId()."]");
 		$form->addItem($ne);
 
 		// plugin slot
-		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_slot"), "");
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_slot"), "", true);
 		$ne->setValue($comp->getPluginSlotName($_GET["slot_id"])." [".$_GET["slot_id"]."]");
 		$form->addItem($ne);
 
 		// main dir
-		$ne = new ilNonEditableValueGUI($lng->txt("cmps_main_dir"), "");
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_main_dir"), "", true);
 		$ne->setValue($comp->getPluginSlotDirectory($_GET["slot_id"])."/&lt;Plugin_Name&gt;");
 		$form->addItem($ne);
 
 		// plugin file
-		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_file"), "");
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_file"), "", true);
 		$ne->setValue("&lt;".$lng->txt("cmps_main_dir")."&gt;".
 			"/classes/class.il&lt;Plugin_Name&gt;Plugin.php");
 		$form->addItem($ne);
 
 		// language files
-		$ne = new ilNonEditableValueGUI($lng->txt("cmps_lang_files"), "");
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_lang_files"), "", true);
 		$ne->setValue("&lt;".$lng->txt("cmps_main_dir")."&gt;".
 			"/lang/ilias_&lt;Language ID&gt;.lang");
 		$form->addItem($ne);
 
 		// db update
-		$ne = new ilNonEditableValueGUI($lng->txt("cmps_db_update"), "");
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_db_update"), "", true);
 		$ne->setValue("&lt;".$lng->txt("cmps_main_dir")."&gt;".
 			"/sql/dbupdate.php");
 		$form->addItem($ne);
 
 		// lang prefix
-		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_lang_prefixes"), "");
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_lang_prefixes"), "", true);
 		$ne->setValue($comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
 		$form->addItem($ne);
 
 		// db prefix
-		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_db_prefixes"), "");
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_db_prefixes"), "", true);
 		$ne->setValue($comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
 		$form->addItem($ne);
 
