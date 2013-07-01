@@ -33,7 +33,6 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 	{
 	 	global $lng,$ilCtrl, $ilUser, $lng, $rbacsystem;
 		
-		parent::__construct($a_parent_obj);
 		$lng->loadLanguageModule('crs');
 		
 		if($context == "mail")
@@ -66,7 +65,10 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 			$mode["view"] = "mygroups";
 			$this->setTitle($mode["lng_mail"]);
 		}
-				
+
+		$this->setId('search_' . $mode["short"]);
+		parent::__construct($a_parent_obj);
+
 		//$this->courseIds = $crs_ids;
 		$this->parentObject = $a_parent_obj;
 		$this->mode = $mode;
@@ -80,8 +82,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$ilCtrl->clearParameters($a_parent_obj);
-
-		$this->setPrefix($mode['tableprefix']);
+		
 		$this->setSelectAllCheckbox($mode["checkbox"].'[]');
 		$this->setRowTemplate('tpl.mail_search_courses_row.html', 'Services/Contact');
 		
