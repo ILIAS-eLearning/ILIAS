@@ -1,7 +1,7 @@
 <?php 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
  * Export table
@@ -26,21 +26,21 @@ class ilExportTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setData($this->getExportFiles());
-		$this->setTitle($lng->txt("exp_export_files"));
+		$this->setTitle($lng->txt('exp_export_files'));
 		
 		$this->initColumns();
 		
-		$this->setDefaultOrderField("timestamp");
-		$this->setDefaultOrderDirection("desc");
+		$this->setDefaultOrderField('timestamp');
+		$this->setDefaultOrderDirection('desc');
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.export_table_row.html", "Services/Export");
-		//$this->disable("footer");
+		$this->setRowTemplate('tpl.export_table_row.html', 'Services/Export');
+		//$this->disable('footer');
 		//$this->setEnableTitle(true);
 
-		$this->addMultiCommand("download", $lng->txt("download"));
-		$this->addMultiCommand("confirmDeletion", $lng->txt("delete"));
+		$this->addMultiCommand('download', $lng->txt('download'));
+		$this->addMultiCommand('confirmDeletion', $lng->txt('delete'));
 	}
 
 	/**
@@ -48,11 +48,11 @@ class ilExportTableGUI extends ilTable2GUI
 	 */
 	protected function initColumns()
 	{
-		$this->addColumn($this->lng->txt(""), "", "1", true);
-		$this->addColumn($this->lng->txt("type"), "type");
-		$this->addColumn($this->lng->txt("file"), "file");
-		$this->addColumn($this->lng->txt("size"), "size");
-		$this->addColumn($this->lng->txt("date"), "timestamp");
+		$this->addColumn($this->lng->txt(''), '', '1', true);
+		$this->addColumn($this->lng->txt('type'), 'type');
+		$this->addColumn($this->lng->txt('file'), 'file');
+		$this->addColumn($this->lng->txt('size'), 'size');
+		$this->addColumn($this->lng->txt('date'), 'timestamp');
 	}
 
 	/**
@@ -64,9 +64,9 @@ class ilExportTableGUI extends ilTable2GUI
 	function addCustomColumn($a_txt, $a_obj, $a_func)
 	{
 		$this->addColumn($a_txt);
-		$this->custom_columns[] = array("txt" => $a_txt,
-										"obj" => $a_obj,
-										"func" => $a_func);
+		$this->custom_columns[] = array('txt' => $a_txt,
+										'obj' => $a_obj,
+										'func' => $a_func);
 	}
 	
 	/**
@@ -99,38 +99,38 @@ class ilExportTableGUI extends ilTable2GUI
 		$types = array();
 		foreach ($this->parent_obj->getFormats() as $f)
 		{
-			$types[] = $f["key"];
+			$types[] = $f['key'];
 		}
-		include_once("./Services/Export/classes/class.ilExport.php");
+		include_once('./Services/Export/classes/class.ilExport.php');
 		$files = ilExport::_getExportFiles($this->obj->getId(),
 			$types, $this->obj->getType());
 		return $files;
 	}
-	
+
 	/**
-	 * Fill table row
+	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
-
-		foreach ($this->getCustomColumns() as $c)
+		foreach($this->getCustomColumns() as $c)
 		{
-			$this->tpl->setCurrentBlock("custom");
-			$this->tpl->setVariable("VAL_CUSTOM",
-									$c["obj"]->$c["func"]($a_set["type"], $a_set["file"])." ");
+			$this->tpl->setCurrentBlock('custom');
+			$this->tpl->setVariable('VAL_CUSTOM', $c['obj']->$c['func']($a_set['type'], $a_set['file']).' ');
 			$this->tpl->parseCurrentBlock();
 		}
-
-		$this->tpl->setVariable("VAL_ID", $a_set["type"].":".$a_set["file"]);
-		$this->tpl->setVariable("VAL_TYPE", $a_set["type"]);
-		$this->tpl->setVariable("VAL_FILE", $a_set["file"]);
-		$this->tpl->setVariable("VAL_SIZE", $a_set["size"]);
-		$this->tpl->setVariable("VAL_DATE", 
-			ilDatePresentation::formatDate(new ilDateTime($a_set["timestamp"],IL_CAL_UNIX)));
-		
+		$this->tpl->setVariable('VAL_ID', $this->getRowId($a_set));
+		$this->tpl->setVariable('VAL_TYPE', $a_set['type']);
+		$this->tpl->setVariable('VAL_FILE', $a_set['file']);
+		$this->tpl->setVariable('VAL_SIZE', $a_set['size']);
+		$this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX)));
 	}
 
+	/**
+	 * @param array $row
+	 * @return string
+	 */
+	protected function getRowId(array $row)
+	{
+		return $row['type'].':'.$row['file'];
+	}
 }
-
-?>
