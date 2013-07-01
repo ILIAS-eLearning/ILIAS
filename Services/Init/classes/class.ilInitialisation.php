@@ -136,6 +136,7 @@ class ilInitialisation
 		define ("PATH_TO_ZIP",$ilIliasIniFile->readVariable("tools","zip"));
 		define ("PATH_TO_MKISOFS",$ilIliasIniFile->readVariable("tools","mkisofs"));
 		define ("PATH_TO_UNZIP",$ilIliasIniFile->readVariable("tools","unzip"));
+		define ("PATH_TO_GHOSTSCRIPT",$ilIliasIniFile->readVariable("tools","ghostscript"));
 		define ("PATH_TO_JAVA",$ilIliasIniFile->readVariable("tools","java"));
 		define ("PATH_TO_HTMLDOC",$ilIliasIniFile->readVariable("tools","htmldoc"));
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));

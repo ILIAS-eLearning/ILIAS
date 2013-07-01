@@ -1228,6 +1228,7 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "convert", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["convert_path"])));
 		$this->ini->setVariable("tools", "zip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["zip_path"])));
 		$this->ini->setVariable("tools", "unzip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"])));
+		$this->ini->setVariable("tools", "ghostscript", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ghostscript_path"])));
 		$this->ini->setVariable("tools", "java", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"])));
 		$this->ini->setVariable("tools", "htmldoc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"])));
 		//$this->ini->setVariable("tools", "mkisofs", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"])));
@@ -1264,6 +1265,7 @@ class ilSetup extends PEAR
 		$convert_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["convert_path"]));
 		$zip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["zip_path"]));
 		$unzip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
+		$ghostscript_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ghostscript_path"]));
 		$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
 		$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
 		//$mkisofs_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"]));
@@ -1277,6 +1279,7 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "convert", $convert_path);
 		$this->ini->setVariable("tools", "zip", $zip_path);
 		$this->ini->setVariable("tools", "unzip", $unzip_path);
+		$this->ini->setVariable("tools", "ghostscript", $ghostscript_path);
 		$this->ini->setVariable("tools", "java", $java_path);
 		$this->ini->setVariable("tools", "htmldoc", $htmldoc_path);
 		//$this->ini->setVariable("tools", "mkisofs", $mkisofs_path);
@@ -1359,6 +1362,19 @@ class ilSetup extends PEAR
 			if (!$this->testUnzip($unzip_path))
 			{
 				$this->error = "check_failed_unzip";
+				return false;
+			}
+		}
+		
+		// ghostscript path
+		if (!isset($a_formdata["chk_ghostscript_path"]))
+		{
+			// convert backslashes to forwardslashes
+			$ghostscript_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ghostscript_path"]));
+
+			if (($err = $this->testGhostscript($ghostscript_path)) != "")
+			{
+				$this->error = $err;
 				return false;
 			}
 		}
@@ -1632,6 +1648,27 @@ class ilSetup extends PEAR
 			return false;
 		}
 */
+	}
+
+	/**
+	 * Check ghostscript program
+	 *
+	 * @param	string		ghostscript path
+	 * @return	boolean		true -> OK | false -> not OK	
+	 */
+	function testGhostscript($a_ghostscript_path)
+	{
+		// ghostscript is optional, so empty path is ok
+		if (trim($a_ghostscript_path) == "")
+		{
+			return "";
+		}
+		if (!is_file($a_ghostscript_path))
+		{
+			return "check_failed_ghostscript";
+		}
+		
+		return "";
 	}
 
 	/**
