@@ -279,8 +279,16 @@ class ilExportGUI
 			
 			foreach ($_POST["file"] as $i)
 			{
-				$iarr = explode(":", $i);
-				$cgui->addItem("file[]", $i, $iarr[1]);
+				if(strpos($i, ':') !== false)
+				{
+					$iarr     = explode(":", $i);
+					$filename = $iarr[1];
+				}
+				else
+				{
+					$filename = $i;
+				}
+				$cgui->addItem("file[]", $i, $filename);
 			}
 			
 			$tpl->setContent($cgui->getHTML());
