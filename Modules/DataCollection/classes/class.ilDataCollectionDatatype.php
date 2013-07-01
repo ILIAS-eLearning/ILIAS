@@ -9,6 +9,7 @@ require_once "./Services/Form/classes/class.ilSelectInputGUI.php";
 require_once "./Services/Form/classes/class.ilDateTimeInputGUI.php";
 require_once "./Services/Form/classes/class.ilTextInputGUI.php";
 require_once "./Services/Form/classes/class.ilFileInputGUI.php";
+require_once "./Services/Form/classes/class.ilImageFileInputGUI.php";
 
 
 /**
@@ -256,8 +257,9 @@ class ilDataCollectionDatatype
 				$input = new ilDataCollectionTreePickInputGUI($title, 'field_'.$field->getId());
 				break;
             case ilDataCollectionDatatype::INPUTFORMAT_MOB:
-                $input = new ilFileInputGUI($title, 'field_'.$field->getId());
-                break;
+	            $input = new ilImageFileInputGUI($title, 'field_'.$field->getId());
+	            $input->setAllowDeletion(true);
+				break;
 		}
         if($field->getDescription())
             $input->setInfo($field->getDescription().($input->getInfo()?"<br>".$input->getInfo():""));
@@ -443,6 +445,9 @@ class ilDataCollectionDatatype
 			}
         elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB)
         {
+	        if($value == -1) //marked for deletion.
+	            return 0;
+
             $media = $value;
             if($media['tmp_name'])
             {
@@ -492,7 +497,7 @@ class ilDataCollectionDatatype
                 $return = $mob->getId();
             }else
                 $return = $record_field->getValue();
-            }
+        }
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
 		{
 			return $value["date"]." ".$value["time"];
@@ -701,9 +706,9 @@ class ilDataCollectionDatatype
                     break;
                 }
 
-                $media_obj = new ilObjMediaObject($value, false);
+//                $media_obj = new ilObjMediaObject($value, false);
                 //$input = ilObjFile::_lookupAbsolutePath($value);
-                $input = $media_obj->getTitle();
+                $input = $value;
                 break;
             case self::INPUTFORMAT_TEXT:
                 $arr_properties = $record_field->getField()->getProperties();

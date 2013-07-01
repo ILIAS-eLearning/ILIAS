@@ -237,6 +237,11 @@ class ilDataCollectionRecordEditGUI
 		{
 			$value = $record_obj->getRecordFieldFormInput($field->getId(), ilDataCollectionCache::getRecordFieldCache($record_obj, $field));
 			$values['field_'.$field->getId()] = $value;
+			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB){
+				$img = ilObjMediaObject::_lookupItemPath($value);
+				if($value)
+					$this->form->getItemByPostVar('field_'.$field->getId())->setImage($img);
+			}
 		}
 
 		$this->form->setValuesByArray($values);
@@ -334,8 +339,12 @@ class ilDataCollectionRecordEditGUI
 			//edit values, they are valid we already checked them above
 			foreach($all_fields as $field)
 			{
-                    $value = $this->form->getInput("field_".$field->getId());
-                    $record_obj->setRecordFieldValue($field->getId(), $value);
+                $value = $this->form->getInput("field_".$field->getId());
+				//deletion flag on MOB inputs.
+				if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB && $this->form->getItemByPostVar("field_".$field->getId())->getDeletionFlag()){
+					$value = -1;
+				}
+                $record_obj->setRecordFieldValue($field->getId(), $value);
 			}
             if($create_mode){
                 ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
