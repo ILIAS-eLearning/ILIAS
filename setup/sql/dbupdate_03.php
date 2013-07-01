@@ -9802,7 +9802,7 @@ $ilDB->addTableColumn('glossary', 'show_tax', array(
 		" JOIN tree t ON (r.ref_id = t.child)".
 		" LEFT JOIN crs_items i ON (i.obj_id = r.ref_id)".
 		" WHERE c.activation_type = ".$ilDB->quote(2, "integer").
-		" AND i.timing_type IS NULL";
+		" AND i.obj_id IS NULL";
 	$set = $ilDB->query($query);
 	while($row = $ilDB->fetchAssoc($set))
 	{				
@@ -10505,7 +10505,7 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 		" JOIN object_reference r ON (r.obj_id = c.obj_fi)".
 		" JOIN tree t ON (r.ref_id = t.child)".
 		" LEFT JOIN crs_items i ON (i.obj_id = r.ref_id)".
-		" WHERE i.timing_type IS NULL";
+		" WHERE i.obj_id IS NULL";
 	$set = $ilDB->query($query);
 	while($row = $ilDB->fetchAssoc($set))
 	{				
@@ -13071,7 +13071,7 @@ if(trim($ade) && !trim($fbr))
 		" JOIN object_reference r ON (r.obj_id = c.obj_fi)".
 		" JOIN tree t ON (r.ref_id = t.child)".
 		" LEFT JOIN crs_items i ON (i.obj_id = r.ref_id)".
-		" WHERE i.timing_type IS NULL";
+		" WHERE i.obj_id IS NULL";
 	$set = $ilDB->query($query);
 	while($row = $ilDB->fetchAssoc($set))
 	{				
