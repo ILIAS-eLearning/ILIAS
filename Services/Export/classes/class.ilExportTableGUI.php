@@ -28,11 +28,7 @@ class ilExportTableGUI extends ilTable2GUI
 		$this->setData($this->getExportFiles());
 		$this->setTitle($lng->txt("exp_export_files"));
 		
-		$this->addColumn($this->lng->txt(""), "", "1", true);
-		$this->addColumn($this->lng->txt("type"), "type");
-		$this->addColumn($this->lng->txt("file"), "file");
-		$this->addColumn($this->lng->txt("size"), "size");
-		$this->addColumn($this->lng->txt("date"), "timestamp");
+		$this->initColumns();
 		
 		$this->setDefaultOrderField("timestamp");
 		$this->setDefaultOrderDirection("desc");
@@ -45,6 +41,18 @@ class ilExportTableGUI extends ilTable2GUI
 
 		$this->addMultiCommand("download", $lng->txt("download"));
 		$this->addMultiCommand("confirmDeletion", $lng->txt("delete"));
+	}
+
+	/**
+	 * 
+	 */
+	protected function initColumns()
+	{
+		$this->addColumn($this->lng->txt(""), "", "1", true);
+		$this->addColumn($this->lng->txt("type"), "type");
+		$this->addColumn($this->lng->txt("file"), "file");
+		$this->addColumn($this->lng->txt("size"), "size");
+		$this->addColumn($this->lng->txt("date"), "timestamp");
 	}
 
 	/**
