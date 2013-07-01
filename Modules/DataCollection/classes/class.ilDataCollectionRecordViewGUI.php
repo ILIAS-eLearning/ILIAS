@@ -154,11 +154,11 @@ class ilDataCollectionRecordViewGUI
         $tpl = new ilTemplate("tpl.reference_list.html", true, true, "Modules/DataCollection");
         $tpl->setCurrentBlock("reference_list");
 
-//        if(!$field){
+        if(!$field){
 //            if(ilObjDataCollection::_hasWriteAccess($this->dcl_gui_object->ref_id))
 //                ilUtil::sendInfo("Bad Viewdefinition at [ext tableOf=\"".$field->getTitle()."\" ...]", true);
-//            return;
-//        }
+            return;
+        }
 
         foreach($ref_recs as $ref_record){
                 $tpl->setCurrentBlock("reference");
