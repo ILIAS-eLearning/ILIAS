@@ -199,7 +199,7 @@ class ilTrQuery
 	{
 		global $ilDB;
 
-		$fields = array("usr_data.usr_id", "login");
+		$fields = array("usr_data.usr_id", "login", "active");
 		$udf = self::buildColumns($fields, $a_additional_fields);
 		
 	    $where = array();
@@ -1344,8 +1344,9 @@ class ilTrQuery
 
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 
-			$fields = array("usr_data.usr_id", "login", "status", 'status_changed', "percentage",
-				"last_access", "spent_seconds+childs_spent_seconds as spent_seconds");
+			$fields = array("usr_data.usr_id", "login", "active", "status", 
+				"status_changed", "percentage", "last_access", 
+				"spent_seconds+childs_spent_seconds as spent_seconds");
 
 			$parent_obj_id = ilObject::_lookupObjectId($a_parent_ref_id);
 			self::refreshObjectsStatus(array($parent_obj_id), $a_users);			

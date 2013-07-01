@@ -456,6 +456,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
+			
+			// #7694
+			if($c == 'login' && !$data["active"])
+			{
+				$this->tpl->setCurrentBlock('inactive_bl');
+				$this->tpl->setVariable('TXT_INACTIVE', $lng->txt("inactive"));				
+				$this->tpl->parseCurrentBlock();
+			}
 
 			$this->tpl->setCurrentBlock("user_field");
 			$val = $this->parseValue($c, $data[$c], "user");

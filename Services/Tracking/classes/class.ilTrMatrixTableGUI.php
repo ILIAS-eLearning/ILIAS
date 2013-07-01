@@ -252,7 +252,16 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 	function fillRow(array $a_set)
 	{
+		// #7694
+		if(!$a_set["active"])
+		{
+			$this->tpl->setCurrentBlock('inactive_bl');
+			$this->tpl->setVariable('TXT_INACTIVE', $lng->txt("inactive"));				
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
+		
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			switch($c)
