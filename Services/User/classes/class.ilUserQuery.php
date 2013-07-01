@@ -112,7 +112,7 @@ class ilUserQuery
 	 * Set last login filter
 	 * @param ilDateTime $dt
 	 */
-	public function setLastLogin(ilDateTime $dt)
+	public function setLastLogin(ilDateTime $dt = NULL)
 	{
 		$this->last_login = $dt;
 	}
