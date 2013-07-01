@@ -117,7 +117,7 @@ class ilMainMenuGUI
 		}
 		
 		$languages = $lng->getInstalledLanguages();
-		if(sizeof($languages) > 0)
+		if(sizeof($languages) > 1) // #11237
 		{
 			foreach ($languages as $lang_key)
 			{
