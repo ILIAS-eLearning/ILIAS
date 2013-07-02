@@ -154,8 +154,9 @@ class ilForumModeratorsGUI
 			$ilToolbar,
 			array(
 				'auto_complete_name' => $lng->txt('user'),
-				'submit_name' => $lng->txt('add'),
-				'add_search' => true
+				'submit_name'        => $lng->txt('add'),
+				'add_search'         => true,
+				'add_from_container' => $this->oForumModerators->getRefId()
 			)
 		);
 
