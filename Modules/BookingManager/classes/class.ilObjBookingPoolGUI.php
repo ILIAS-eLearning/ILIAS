@@ -567,9 +567,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 * Book object - either of type or specific - for given dates
 	 */
 	function confirmedBookingObject()
-	{		
-		global $tpl;
-		
+	{				
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';		
 		
@@ -827,7 +825,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			else
 			{
 				ilUtil::sendFailure($this->lng->txt('book_reservation_failed'), true);
-				$this->ctrl->redirect($this, 'book');
+				$this->ctrl->redirect($this, 'render');
 			}
 		}
 		else

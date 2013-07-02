@@ -1073,20 +1073,22 @@ class ilObjExercise extends ilObject
 	 * @param int $a_wsp_id
 	 * @param int $a_ass_id
 	 * @param int $user_id 
+	 * @param string $a_text 
 	 */
-	function addResourceObject($a_wsp_id, $a_ass_id, $user_id)
+	function addResourceObject($a_wsp_id, $a_ass_id, $user_id, $a_text = null)
 	{
 		global $ilDB;
 	
 		$next_id = $ilDB->nextId("exc_returned");
 		$query = sprintf("INSERT INTO exc_returned ".
-						 "(returned_id, obj_id, user_id, filetitle, ass_id) ".
-						 "VALUES (%s, %s, %s, %s, %s)",
+						 "(returned_id, obj_id, user_id, filetitle, ass_id, atext) ".
+						 "VALUES (%s, %s, %s, %s, %s, %s)",
 			$ilDB->quote($next_id, "integer"),
 			$ilDB->quote($this->getId(), "integer"),
 			$ilDB->quote($user_id, "integer"),
 			$ilDB->quote($a_wsp_id, "text"),
-			$ilDB->quote($a_ass_id, "integer")
+			$ilDB->quote($a_ass_id, "integer"),
+			$ilDB->quote($a_text, "text")
 		);
 		$ilDB->manipulate($query);
 		if (!$this->members_obj->isAssigned($user_id))
@@ -1096,6 +1098,52 @@ class ilObjExercise extends ilObject
 		// no submission yet
 		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 0);
 		ilExerciseMembers::_writeReturned($this->getId(), $user_id, 0);
+	}
+	
+	/**
+	 * Handle text assignment submissions
+	 *
+	 * @param int $a_exc_id
+	 * @param int $a_ass_id
+	 * @param int $a_user_id
+	 * @param string $a_text
+	 */
+	function updateTextSubmission($a_exc_id, $a_ass_id, $a_user_id, $a_text)
+	{
+		global $ilDB;
+		
+		$files = ilExAssignment::getDeliveredFiles($a_exc_id, $a_ass_id, $a_user_id);
+		
+		// no text = remove submission
+		if(!trim($a_text))
+		{
+			if($files)
+			{
+				$files = array_shift($files);
+				$id = $files["returned_id"];
+				if($id)
+				{
+					return $this->deleteDeliveredFiles($a_exc_id, $a_ass_id, array($id), $a_user_id);
+				}
+			}
+		}
+				
+		if(!$files)
+		{			
+			$this->addResourceObject("TEXT", $a_ass_id, $a_user_id, $a_text);
+		}
+		else
+		{
+			$files = array_shift($files);
+			$id = $files["returned_id"];
+			if($id)
+			{
+				$ilDB->manipulate("UPDATE exc_returned".
+					" SET atext = ".$ilDB->quote($a_text, "text").
+					", ts = ".$ilDB->quote(ilUtil::now(), "timestamp").
+					" WHERE returned_id = ".$ilDB->quote($id, "integer"));
+			}
+		}
 	}
 	
 	/**

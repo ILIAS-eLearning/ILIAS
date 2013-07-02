@@ -67,7 +67,8 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 			ilExAssignment::TYPE_UPLOAD => $lng->txt("exc_type_upload"),
 			ilExAssignment::TYPE_UPLOAD_TEAM => $lng->txt("exc_type_upload_team"),
 			ilExAssignment::TYPE_BLOG => $lng->txt("exc_type_blog"),
-			ilExAssignment::TYPE_PORTFOLIO => $lng->txt("exc_type_portfolio")
+			ilExAssignment::TYPE_PORTFOLIO => $lng->txt("exc_type_portfolio"),
+			ilExAssignment::TYPE_TEXT => $lng->txt("exc_type_text"),
 			);
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
