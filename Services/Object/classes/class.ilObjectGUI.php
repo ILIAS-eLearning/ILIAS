@@ -385,6 +385,9 @@ class ilObjectGUI
 					$lg->setContainerObject($this);
 				}			
 				
+				// enable multi download
+				$lg->enableMultiDownload(true);
+				
 				// comments settings are always on (for the repository)
 				// should only be shown if active or permission to toggle
 				include_once "Services/Notes/classes/class.ilNote.php";

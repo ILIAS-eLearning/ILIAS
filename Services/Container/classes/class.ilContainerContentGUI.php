@@ -19,7 +19,6 @@ abstract class ilContainerContentGUI
 	const DETAILS_TITLE = 1;
 	const DETAILS_ALL = 2;
 	
-	
 	protected $details_level = self::DETAILS_DEACTIVATED;
 	
 	var $container_gui;
@@ -441,15 +440,23 @@ abstract class ilContainerContentGUI
 		{
 			$item_list_gui->enableIcon(true);
 		}
+		
 		if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
 		{
 			$item_list_gui->enableCheckbox(true);
 		}
+		else if ($this->getContainerGUI()->isMultiDownloadEnabled())
+		{
+			// display multi download checkboxes
+			$item_list_gui->enableDownloadCheckbox($a_item_data["ref_id"], true);
+		}
+		
 		if ($this->getContainerGUI()->isActiveOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI'))
 		{
 			$item_list_gui->setPositionInputField($a_pos_prefix."[".$a_item_data["ref_id"]."]",
 				sprintf('%d', (int)$a_position*10));
 		}
+		
 		if($a_item_data['type'] == 'sess' and get_class($this) != 'ilContainerObjectiveGUI')
 		{
 			switch($this->getDetailsLevel($a_item_data['obj_id']))
@@ -520,6 +527,12 @@ abstract class ilContainerContentGUI
 				{
 					$item_list_gui2->enableCheckbox(true);
 				}
+				else if ($this->getContainerGUI()->isMultiDownloadEnabled())
+				{
+					// display multi download checkbox
+					$item_list_gui2->enableDownloadCheckbox($item['ref_id'], true);
+				}
+
 				if ($this->getContainerGUI()->isActiveOrdering())
 				{
 					if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
@@ -618,13 +631,31 @@ abstract class ilContainerContentGUI
 		$a_tpl->setVariable("CB_ID", ' id="bl_cntr_'.$this->bl_cnt.'"');
 		if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
 		{
-			$a_tpl->setCurrentBlock("select_all_row");
-			$a_tpl->setVariable("CHECKBOXNAME", "bl_cb_".$this->bl_cnt);
-			$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
-			$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
-			$a_tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
-			$a_tpl->parseCurrentBlock();
-			$this->bl_cnt++;
+			$this->renderSelectAllBlock($a_tpl);
+		}
+		else if ($this->getContainerGUI()->isMultiDownloadEnabled())
+		{
+			// only add select all row on types that are supported
+			if (in_array($a_type, $this->getDownloadableTypes()))
+			{
+				$this->renderSelectAllBlock($a_tpl);
+			}
+			else if ($a_type == "")
+			{
+				// container with multiple types
+				// evaluate what items aren't rendered yet
+				foreach($this->items["_all"] as $k => $item_data)
+				{
+					if ($this->rendered_items[$item_data["child"]] !== true)
+					{
+						if (in_array($item_data["type"], $this->getDownloadableTypes()))
+						{
+							$this->renderSelectAllBlock($a_tpl);
+							break;
+						}
+					}
+				}
+			}
 		}
 		
 		if ($a_text == "" && $a_type != "")
@@ -665,6 +696,29 @@ abstract class ilContainerContentGUI
 		$this->resetRowType();
 	}
 	
+	/**
+	* Gets an array containing the types that can be downloaded.
+	*/
+	private function getDownloadableTypes()
+	{
+		return array("fold", "file");
+	}
+	
+	/**
+	* Renderes the "Select All" checkbox in the header row.
+	*/
+	private function renderSelectAllBlock($a_tpl)
+	{
+		global $lng;
+		
+		$a_tpl->setCurrentBlock("select_all_row");
+		$a_tpl->setVariable("CHECKBOXNAME", "bl_cb_".$this->bl_cnt);
+		$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
+		$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
+		$a_tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
+		$a_tpl->parseCurrentBlock();
+		$this->bl_cnt++;
+	}
 
 	/**
 	* Reset row type (toggling background colors)
@@ -862,13 +916,19 @@ abstract class ilContainerContentGUI
 		$a_tpl->setVariable("CB_ID", ' id="bl_cntr_'.$this->bl_cnt.'"');
 		if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
 		{
-			$a_tpl->setCurrentBlock("select_all_row");
-			$a_tpl->setVariable("CHECKBOXNAME", "bl_cb_".$this->bl_cnt);
-			$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
-			$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
-			$a_tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
-			$a_tpl->parseCurrentBlock();
-			$this->bl_cnt++;
+			$this->renderSelectAllBlock($a_tpl);
+		}
+		else if ($this->getContainerGUI()->isMultiDownloadEnabled())
+		{
+			// contains file or folder?
+			foreach ($items as $item)
+			{
+				if (in_array($item["type"], $this->getDownloadableTypes()))
+				{
+					$this->renderSelectAllBlock($a_tpl);
+					break;
+				}			
+			}
 		}
 		
 		$a_tpl->setCurrentBlock("container_header_row");

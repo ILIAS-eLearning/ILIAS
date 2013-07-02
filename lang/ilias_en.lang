@@ -13444,3 +13444,9 @@ wsp#:#wsp_shared_member_filter#:#Members of Courses/Groups
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
 common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
 common#:#scorm_without_session_info#:#This ensures the storage of SCORM learning data even if ILIAS session expired
+common#:#msg_obj_no_download#:#cannot be downloaded.
+common#:#download_selected_items#:#Download
+common#:#download_multiple_objects#:#Download Multiple Objects
+common#:#msg_obj_perm_download#:#You do not have sufficient rights to download the following objects:
+common#:#enable_multi_download#:#«Download multiple objects» enabled
+common#:#enable_multi_download_info#:#Enables that multiple folders/files can be selected to download them as zip archive.
