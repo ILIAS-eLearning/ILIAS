@@ -188,9 +188,11 @@ class ilRepositorySearchGUI
 			{				
 				$parent_ref_id = (int)$a_options['add_from_container'];
 				$parent_container_ref_id = $tree->checkForParentType($parent_ref_id, "grp");
+				$parent_container_type = "grp";
 				if(!$parent_container_ref_id)
 				{			
-					$parent_container_ref_id = $tree->checkForParentType($parent_ref_id, "crs");				
+					$parent_container_ref_id = $tree->checkForParentType($parent_ref_id, "crs");	
+					$parent_container_type = "crs";
 				}
 				if($parent_container_ref_id)
 				{
@@ -202,7 +204,7 @@ class ilRepositorySearchGUI
 					$ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", ilObject::_lookupObjId($parent_container_ref_id));
 
 					$ilToolbar->addButton(
-						$lng->txt("search_add_members_from_container"),
+						$lng->txt("search_add_members_from_container_".$parent_container_type),
 						$ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 'listUsers')
 					);
 				}

@@ -13343,7 +13343,6 @@ prtf#:#prtf_allow_html#:#HTML/Javascript erlauben
 prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen.
 blog#:#blog_allow_html#:#HTML/Javascript erlauben
 blog#:#blog_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Blog-Einträgen verwenden. Dies kann zu Sicherheitsproblemen führen.
-search#:#search_add_members_from_container#:#Benutzer aus aktueller Kurs/Gruppe hinzufügen
 common#:#obj_sysc#:#System Check
 common#:#obj_sysc_desc#:#System Check and Repair Tools
 rbac#:#sysc_edit_permission#:#User can change permissions of System Check.
@@ -13451,3 +13450,5 @@ exc#:#exc_files_returned_text#:#Übungseinheit Text
 exc#:#exc_text_assignment_edit#:#Text bearbeiten
 exc#:#exc_text_assignment_show#:#Text anzeigen
 survey#:#survey_360_remove_appraisees#:#Feedback-Nehmer entfernen
+search#:#search_add_members_from_container_grp#:#Benutzer aus aktueller Gruppe hinzufügen
+search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
