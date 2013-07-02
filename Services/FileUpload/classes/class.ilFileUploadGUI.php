@@ -363,10 +363,9 @@ class ilFileUploadGUI
 		
 		include_once("Modules/File/classes/class.ilObjFileGUI.php");
 			
-		// TODO: set upload link for personal desktop object and search!
+		// only repository is supported by now
 		$url = null;
-		if (strtolower($_GET["baseClass"]) != "ilpersonaldesktopgui" &&
-			strtolower($_GET["baseClass"]) != "ilsearchcontroller")
+		if (strtolower($_GET["baseClass"]) == "ilrepositorygui")
 		{				
 			// build upload URL
 			$ilCtrl->setParameterByClass(self::FILE_OBJ_GUI_CLASS, "ref_id", $this->ref_id);

@@ -159,6 +159,9 @@
             {
                 $html.find(".ilFileUploadEntryKeepStructure").hide();
                 $html.find("#extract_" + this.id).bind("click", onExtractChanged);
+				
+				$options.show();
+                $html.addClass("ilFileUploadEntryExpanded");
             }
 
             // add click handler
