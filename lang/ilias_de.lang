@@ -13446,3 +13446,7 @@ common#:#enable_multi_download#:#«Mehrere Objekte herunterladen»  aktivieren
 common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner/Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunter zu laden.
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Objekte.
+exc#:#exc_type_text#:#Text
+exc#:#exc_files_returned_text#:#Übungseinheit Text
+exc#:#exc_text_assignment_edit#:#Text bearbeiten
+exc#:#exc_text_assignment_show#:#Text anzeigen

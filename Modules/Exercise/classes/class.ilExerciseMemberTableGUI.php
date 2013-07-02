@@ -329,6 +329,35 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("VAL_SUBMITTED_FILES", "---");
 				}
 				break;
+				
+			case ilExAssignment::TYPE_TEXT:
+				$has_submitted = false;
+				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
+					$lng->txt("exc_files_returned_text"));
+				$files = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
+				if($files)
+				{
+					$files = array_shift($files);
+					if(trim($files["atext"]))
+					{						
+						$has_submitted = true;
+						
+						$ilCtrl->setParameter($this->parent_obj, "grd", 1);
+						$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
+						$this->tpl->setCurrentBlock("download_link");
+						$this->tpl->setVariable("LINK_DOWNLOAD",
+							$ilCtrl->getLinkTarget($this->parent_obj, "showAssignmentText"));												
+						$ilCtrl->setParameter($this->parent_obj, "grd", "");
+						$this->tpl->setVariable("TXT_DOWNLOAD",
+							$lng->txt("exc_text_assignment_show"));						
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				if(!$has_submitted)
+				{
+					$this->tpl->setVariable("VAL_SUBMITTED_FILES", "---");
+				}
+				break;
 		}
 
 	

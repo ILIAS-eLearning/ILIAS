@@ -14,6 +14,7 @@ class ilExAssignment
 	const TYPE_BLOG = 2;
 	const TYPE_PORTFOLIO = 3;
 	const TYPE_UPLOAD_TEAM = 4;
+	const TYPE_TEXT = 5;
 	
 	const TEAM_LOG_CREATE_TEAM = 1;
 	const TEAM_LOG_ADD_MEMBER = 2;
@@ -227,7 +228,7 @@ class ilExAssignment
 	function isValidType($a_value)
 	{
 		if(in_array((int)$a_value, array(self::TYPE_UPLOAD, self::TYPE_BLOG, 
-			self::TYPE_PORTFOLIO, self::TYPE_UPLOAD_TEAM)))
+			self::TYPE_PORTFOLIO, self::TYPE_UPLOAD_TEAM, self::TYPE_TEXT)))
 		{
 			return true;
 		}

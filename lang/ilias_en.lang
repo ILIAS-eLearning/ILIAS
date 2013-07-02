@@ -13452,3 +13452,7 @@ common#:#enable_multi_download#:#«Download multiple objects» enabled
 common#:#enable_multi_download_info#:#Enables that multiple folders/files can be selected to download them as zip archive.
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please state the numbers of objects to book.
+exc#:#exc_type_text#:#Text
+exc#:#exc_files_returned_text#:#Assignment Text
+exc#:#exc_text_assignment_edit#:#Edit Text
+exc#:#exc_text_assignment_show#:#Show Text

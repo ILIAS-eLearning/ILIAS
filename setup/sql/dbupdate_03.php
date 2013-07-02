@@ -16186,3 +16186,15 @@ $ilDB->manipulate("UPDATE usr_portf_acl SET tstamp = ".$ilDB->quote(time(), "int
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3936>
+<?php
+if( !$ilDB->tableColumnExists('exc_returned', 'atext') )
+{
+	$ilDB->addTableColumn("exc_returned", "atext",
+		array(	
+			"type" => "clob",
+		  "notnull" => false,
+		  "default" => null)
+		);
+}
+?>

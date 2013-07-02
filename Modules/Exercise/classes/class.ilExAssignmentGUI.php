@@ -318,7 +318,7 @@ class ilExAssignmentGUI
 							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", "");
 							
 							$info->addProperty($lng->txt("exc_files_returned"),
-								"<a href=\"".$dl_link."\">".$lng->txt("download")."</a>");		
+								"<a href=\"".$dl_link."\" class=\"submit\">".$lng->txt("download")."</a>");		
 						}							
 						break;
 						
@@ -370,9 +370,29 @@ class ilExAssignmentGUI
 							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", "");
 							
 							$info->addProperty($lng->txt("exc_files_returned"),
-								"<a href=\"".$dl_link."\">".$lng->txt("download")."</a>");		
+								"<a href=\"".$dl_link."\" class=\"submit\">".$lng->txt("download")."</a>");		
 						}			
-						break;												
+						break;			
+						
+					case ilExAssignment::TYPE_TEXT:						
+						$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
+						
+						if(!$times_up)
+						{
+							$files_str = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "editAssignmentText");
+							$files_str = "<a href=\"".$files_str."\" class=\"submit\">".
+								$lng->txt("exc_text_assignment_edit")."</a>";
+						}
+						else
+						{
+							$files_str = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "showAssignmentText");
+							$files_str = "<a href=\"".$files_str."\" class=\"submit\">".
+								$lng->txt("exc_text_assignment_show")."</a>";
+						}
+						
+						$info->addProperty($lng->txt("exc_files_returned_text"),
+							$files_str);											
+						break;
 				}
 				
 				
@@ -444,7 +464,7 @@ class ilExAssignmentGUI
 							$info->addProperty($file,
 								$lng->txt("download"),
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFeedbackFile"));
-							$ilCtrl->setParameter($this, "file", "");
+							$ilCtrl->setParameterByClass("ilobjexercisegui", "file", "");
 						}
 					}
 				}

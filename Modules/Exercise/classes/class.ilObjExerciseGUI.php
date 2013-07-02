@@ -1016,8 +1016,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$si->setOptions($options);
 			$si->setValue($_GET["ass_id"]);
 			$ilToolbar->addInputItem($si);
-			
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+					
 			$ilToolbar->addFormButton($this->lng->txt("exc_select_ass"),
 				"selectAssignment");
 			$ilToolbar->addSeparator();
@@ -1035,6 +1034,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 				'add_from_container'    => $_GET["ref_id"]
 			)
 		);
+		
+		// we do not want the ilRepositorySearchGUI form action
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 
 		if (count($ass) > 0)
 		{
@@ -1985,7 +1987,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// type
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$types = array(ilExAssignment::TYPE_UPLOAD => $this->lng->txt("exc_type_upload"),
-			ilExAssignment::TYPE_UPLOAD_TEAM => $this->lng->txt("exc_type_upload_team"));
+			ilExAssignment::TYPE_UPLOAD_TEAM => $this->lng->txt("exc_type_upload_team"),
+			ilExAssignment::TYPE_TEXT => $this->lng->txt("exc_type_text"));
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$types[ilExAssignment::TYPE_BLOG] = $this->lng->txt("exc_type_blog");
@@ -3202,6 +3205,169 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->tpl->setContent($tbl->getHTML());						
 	}
+	
+	protected function initAssignmentTextForm(ilExAssignment $a_ass, $a_read_only = false, $a_cancel_cmd = "showOverview")
+	{		
+		global $ilCtrl;
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();		
+		$form->setTitle($this->lng->txt("exc_type_text")." \"".$a_ass->getTitle()."\"");
+			
+		if(!$a_read_only)
+		{
+			$text = new ilTextAreaInputGUI($this->lng->txt("exc_files_returned_text"), "atxt");
+			$text->setRequired((bool)$a_ass->getMandatory());
+			$text->setUseRte(true);
+			$text->setRows(40);
+			$form->addItem($text);		
+			
+			$form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
+			$form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));			
+		}
+		else
+		{
+			$text = new ilNonEditableValueGUI($this->lng->txt("exc_files_returned_text"), "atxt", true);	
+			$form->addItem($text);		
+			
+			$form->setFormAction($ilCtrl->getFormAction($this, "showOverview"));
+		}
+		$form->addCommandButton($a_cancel_cmd, $this->lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	function editAssignmentTextObject(ilPropertyFormGUI $a_form = null)
+	{
+		global $ilTabs, $ilCtrl, $ilUser;
+
+		$ass_id = $_REQUEST["ass_id"];
+		$ass = false;
+		if($ass_id)
+		{
+			$ass = new ilExAssignment($ass_id);
+		}
+		if(!$ass || 
+			$ass->getType() != ilExAssignment::TYPE_TEXT ||
+			($ass->getDeadline() && $ass->getDeadline() - time() < 0))				
+		{
+			$ilCtrl->redirect($this, "showOverview");
+		}
+		
+		$ilCtrl->setParameter($this, "ass_id", $ass_id);
+		
+		$this->checkPermission("read");		
+			
+		$ilTabs->activateTab("content");
+		$this->addContentSubTabs("content");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initAssignmentTextForm($ass);		
+
+			$files = ilExAssignment::getDeliveredFiles($ass->getExerciseId(), $ass->getId(), $ilUser->getId());
+			if($files)
+			{
+				$files = array_shift($files);
+				if(trim($files["atext"]))
+				{
+				   $text = $a_form->getItemByPostVar("atxt");
+				   $text->setValue($files["atext"]);
+				}
+			}
+		}
+	
+		$this->tpl->setContent($a_form->getHTML());
+	}
+	
+	function updateAssignmentTextObject()
+	{
+		global $ilCtrl, $ilUser;
+		
+		$ass_id = $_REQUEST["ass_id"];
+		$ass = false;
+		if($ass_id)
+		{
+			$ass = new ilExAssignment($ass_id);
+		}
+		if(!$ass || $ass->getType() != ilExAssignment::TYPE_TEXT)
+		{
+			$ilCtrl->redirect($this, "showOverview");
+		}
+		
+		$ilCtrl->setParameter($this, "ass_id", $ass_id);
+		
+		$this->checkPermission("read");		
+		
+		$form = $this->initAssignmentTextForm($ass);
+		if($form->checkInput())
+		{
+			$text = trim($form->getInput("atxt"));			
+			$this->object->updateTextSubmission($ass->getExerciseId(), $ass->getId(), $ilUser->getId(), $text);			
+						
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "showOverview");
+		}
+		
+		$form->setValuesByPost();
+		$this->editAssignmentTextObject($form);		
+	}
+	
+	function showAssignmentTextObject()
+	{
+		global $ilTabs, $ilCtrl, $ilUser;
+		
+		$ass_id = $_REQUEST["ass_id"];
+		$ass = false;
+		if($ass_id)
+		{
+			$ass = new ilExAssignment($ass_id);
+		}
+		if(!$ass || 
+			$ass->getType() != ilExAssignment::TYPE_TEXT)				
+		{
+			$ilCtrl->redirect($this, "showOverview");
+		}
+		
+		$ilCtrl->setParameter($this, "ass_id", $ass_id);
+		
+		if(!(bool)$_GET["grd"])
+		{
+			$this->checkPermission("read");		
+							
+			$ilTabs->activateTab("content");
+			$this->addContentSubTabs("content");
+		
+			$user_id = $ilUser->getId();
+			$cancel_cmd = null;
+		}
+		else
+		{
+			$this->checkPermission("write");
+						
+			$ilTabs->activateTab("grades");
+			$this->addSubmissionSubTabs("assignment");
+			
+			$user_id = (int)$_GET["member_id"];
+			$cancel_cmd = "members";
+		}
+		
+		$a_form = $this->initAssignmentTextForm($ass, true, $cancel_cmd);		
+
+		$files = ilExAssignment::getDeliveredFiles($ass->getExerciseId(), $ass->getId(), $user_id);
+		if($files)
+		{
+			$files = array_shift($files);
+			if(trim($files["atext"]))
+			{
+			   $text = $a_form->getItemByPostVar("atxt");
+			   $text->setValue($files["atext"]);
+			}
+		}		
+	
+		$this->tpl->setContent($a_form->getHTML());	
+	}
+	
 }
 
 ?>
