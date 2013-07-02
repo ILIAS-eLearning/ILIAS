@@ -20,7 +20,22 @@ class ilForumModerators
 		$this->db = $ilDB;
 		$this->ref_id = $a_ref_id;
 	}
-	
+
+	/**
+	 * @param int $ref_id
+	 */
+	public function setRefId($ref_id)
+	{
+		$this->ref_id = $ref_id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRefId()
+	{
+		return $this->ref_id;
+	}
 	public function addModeratorRole($a_usr_id)
 	{
 		global $rbacreview, $rbacadmin;
