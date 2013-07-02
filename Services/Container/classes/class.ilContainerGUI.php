@@ -19,6 +19,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
 	var $bl_cnt = 1;		// block counter
+	var $multi_download_enabled = false;	
 	
 	/**
 	* Constructor
@@ -646,10 +647,23 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						'cut'
 					);
 					$toolbar->addFormButton(
+						$this->lng->txt('copy_selected_items'),
+						'copy'
+					);
+					$toolbar->addFormButton(
 						$this->lng->txt('link_selected_items'),
 						'link'
 					);
-
+					// add download button if multi download enabled
+					$folder_set = new ilSetting("fold");
+					if ($folder_set->get("enable_multi_download") == true)
+					{
+						$toolbar->addSeparator();
+						$toolbar->addFormButton(
+							$this->lng->txt('download_selected_items'), 
+							'download'
+						);
+					}
 				}
 				if($this->object->getType() == 'crs')
 				{
@@ -680,6 +694,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$this->lng->txt('clear_clipboard'),
 					'clear'
 				);
+
+				if ($this->isMultiDownloadEnabled())
+				{
+					$toolbar->addSeparator();
+					$toolbar->addFormButton(
+						$this->lng->txt('download_selected_items'),
+						'download'
+					);
+				}
 			}
 			$GLOBALS['tpl']->addAdminPanelToolbar(
 				$toolbar,
@@ -702,6 +725,26 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$GLOBALS["tpl"]->admin_panel_bottom = true;
 				}
 			}
+		}
+
+		// add download action if enabled AND admin panel is not showing
+		if ($this->isMultiDownloadEnabled() && !$this->isActiveAdministrationPanel())
+		{
+			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+			$toolbar = new ilToolbarGUI();
+			$this->ctrl->setParameter($this, "type", "");
+			$this->ctrl->setParameter($this, "item_ref_id", "");
+			
+			$toolbar->addFormButton(
+				$this->lng->txt('download_selected_items'),
+				'download'
+			);
+			
+			$GLOBALS['tpl']->addAdminPanelToolbar(
+				$toolbar,
+				$this->object->gotItems() ? true : false,
+				$this->object->gotItems() ? true : false
+			);
 		}
 	}
 
@@ -1545,6 +1588,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->renderObject();
     }
 	
+	function enableMultiDownloadObject()
+	{
+		$this->multi_download_enabled = true;
+		$this->renderObject();
+	}
+	
+	function isMultiDownloadEnabled()
+	{
+		return $this->multi_download_enabled;
+	}
+	
 	// BEGIN WebDAV: Lock/Unlock objects
 	function lockObject()
 	{
@@ -1644,6 +1698,216 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return $this->initAndDisplayMoveIntoObjectObject();
 	} // END CUT
 
+	/**
+	 * Copy object(s) out from a container and write the information to clipboard
+	 * It is not possible to copy multiple objects at once.
+	 *
+	 *
+	 * @access	public
+	 */
+	function copyObject()
+	{
+		global $rbacsystem, $ilCtrl;
+		
+		if ($_GET["item_ref_id"] != "")
+		{
+			$_POST["id"] = array($_GET["item_ref_id"]);
+		}
+
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// FOR ALL OBJECTS THAT SHOULD BE COPIED
+		foreach ($_POST["id"] as $ref_id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			$node_data = $this->tree->getNodeData($ref_id);
+			$subtree_nodes = $this->tree->getSubTree($node_data);
+
+			$all_node_data[] = $node_data;
+			$all_subtree_nodes[] = $subtree_nodes;
+
+			// CHECK COPY PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
+			foreach ($subtree_nodes as $node)
+			{
+				if($node['type'] == 'rolf')
+				{
+					continue;
+				}
+				
+				if (!$rbacsystem->checkAccess('visible,read,copy',$node["ref_id"]))
+				{
+					$no_copy[] = $node["ref_id"];
+				}
+			}
+		}
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
+		if (count($no_copy))
+		{
+			$this->ilias->raiseError(
+				$this->lng->txt("msg_no_perm_copy") . " " . implode(',',$this->getTitlesByRefId($no_copy)),
+				$this->ilias->error_obj->MESSAGE);
+		}
+
+		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+		$_SESSION["clipboard"]["cmd"] = $ilCtrl->getCmd();
+		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
+
+		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"), true);
+
+		return $this->initAndDisplayCopyIntoMultipleObjectsObject();
+	} // END COPY
+	
+	function downloadObject()
+	{
+		global $rbacsystem, $ilCtrl;
+		
+		if ($_GET["item_ref_id"] != "")
+		{
+			$_POST["id"] = array($_GET["item_ref_id"]);
+		}
+
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// FOR ALL OBJECTS THAT SHOULD BE DOWNLOADED
+		foreach ($_POST["id"] as $ref_id)
+		{
+			$object =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
+			$obj_type = $object->getType();
+			if (!in_array($obj_type, array("fold", "file")))
+			{
+				$no_download[] = $object->getType();
+			}
+			else if (!$rbacsystem->checkAccess('read', $ref_id))
+			{
+				$no_perm[] = $ref_id;
+			}
+		}
+		
+		// IF THERE IS ANY OBJECT THAT CANNOT BE DOWNLOADED
+		if (count($no_download))
+		{
+			$no_download = array_unique($no_download);
+			foreach ($no_download as $type)
+			{
+				$txt_objs[] = $this->lng->txt("objs_".$type);
+			}
+			$this->ilias->raiseError(implode(', ',$txt_objs)." ".$this->lng->txt("msg_obj_no_download"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// NO ACCESS
+		if (count($no_perm))
+		{
+			$this->ilias->raiseError(
+				$this->lng->txt("msg_obj_perm_download")." ".implode(',',$no_perm),
+				$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// download the objects
+		$this->downloadMultipleObjects($_POST["id"]);
+	}	
+	
+	private function downloadMultipleObjects($a_ref_ids)
+	{
+		global $lng, $rbacsystem, $ilAccess;
+		
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		include_once 'Modules/Folder/classes/class.ilObjFolder.php';
+		include_once 'Modules/File/classes/class.ilObjFile.php';
+		include_once 'Modules/File/classes/class.ilFileException.php';
+		
+		// create temporary file to download
+		$zip = PATH_TO_ZIP;
+		$tmpdir = ilUtil::ilTempnam();		
+		ilUtil::makeDir($tmpdir);
+		
+		try 
+		{
+			// copy each selected object
+			foreach ($a_ref_ids as $ref_id)
+			{
+				if (!$ilAccess->checkAccess("read", "", $ref_id))
+					continue;
+				
+				if (ilObject::_isInTrash($ref_id))
+					continue;
+				
+				// get object
+				$object =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
+				$obj_type = $object->getType();
+				if ($obj_type == "fold")
+				{
+					// copy folder to temp directory
+					self::recurseFolder($ref_id, $object->getTitle(), $tmpdir);
+				}
+				else if ($obj_type == "file")
+				{
+					// copy file to temp directory
+					self::copyFile($object->getId(), $object->getTitle(), $tmpdir);
+				}
+			}
+
+			// compress the folder
+			$deliverFilename = ilUtil::getAsciiFilename($this->object->getTitle()) . ".zip";
+			$tmpzipfile = ilUtil::ilTempnam() . ".zip";
+			ilUtil::zip($tmpdir, $tmpzipfile, true);
+			ilUtil::delDir($tmpdir);
+			ilUtil::deliverFile($tmpzipfile, $deliverFilename, '', false, true, true);
+		}
+		catch (ilFileException $e) 
+		{
+			ilUtil::sendInfo($e->getMessage(), true);
+		}
+	}
+	
+	/**
+	 * private functions which iterates through all folders and files 
+	 * and create an according file structure in a temporary directory. This function works recursive. 
+	 *
+	 * @param integer $refid reference it
+	 * @param tmpdictory $tmpdir
+	 * @return returns first created directory
+	 */
+	private static function recurseFolder($refid, $title, $tmpdir) 
+	{
+		global $rbacsystem, $tree, $ilAccess;
+		
+		$tmpdir = $tmpdir . DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($title);
+		ilUtil::makeDir($tmpdir);
+		
+		$subtree = $tree->getChildsByTypeFilter($refid, array("fold","file"));
+		
+		foreach ($subtree as $child) 
+		{
+			if (!$ilAccess->checkAccess("read", "", $child["ref_id"]))
+				continue;			
+
+			if (ilObject::_isInTrash($child["ref_id"]))
+				continue;
+
+			if ($child["type"] == "fold")
+				self::recurseFolder($child["ref_id"], $child["title"], $tmpdir);
+			else 
+				self::copyFile($child["obj_id"], $child["title"], $tmpdir);
+		}
+	}
+	
+	private static function copyFile($obj_id, $title, $tmpdir)
+	{
+		$newFilename = $tmpdir . DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($title);
+		
+		// copy to temporary directory
+		$oldFilename = ilObjFile::_lookupAbsolutePath($obj_id);
+		if (!copy($oldFilename, $newFilename))
+			throw new ilFileException("Could not copy ".$oldFilename." to ".$newFilename);
+		
+		touch($newFilename, filectime($oldFilename));								
+	}
 
 	/**
 	* create an new reference of an object in tree
@@ -1748,13 +2012,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $log, $tree, $ilObjDataCache, $ilUser;
 
-		if(!in_array($_SESSION['clipboard']['cmd'], array('cut', 'link')))
+		$command = $_SESSION['clipboard']['cmd'];
+		if(!in_array($command, array('cut', 'link', 'copy')))
 		{
-			$message = __METHOD__.": cmd was neither 'cut' nor 'link'; may be a hack attempt!";
+			$message = __METHOD__.": cmd was neither 'cut', 'link' nor 'copy'; may be a hack attempt!";
 			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
 		}
 		
-		if($_SESSION['clipboard']['cmd'] == 'cut')
+		if($command == 'cut')
 		{
 			if(isset($_POST['node']) && (int)$_POST['node'])
 				$_POST['nodes'] = array($_POST['node']);
@@ -1763,10 +2028,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if(!is_array($_POST['nodes']) || !count($_POST['nodes']))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_at_least_one_object'));
-			if($_SESSION['clipboard']['cmd'] == 'cut')
-				$this->showMoveIntoObjectTreeObject();
-			else
-				$this->showLinkIntoMultipleObjectsTreeObject();
+			switch ($command)
+			{
+				case 'cut':
+					$this->showMoveIntoObjectTreeObject();
+					break;
+				case 'copy':
+					$this->showCopyIntoMultipleObjectsTreeObject();
+					break;
+				case 'link':
+					$this->showLinkIntoMultipleObjectsTreeObject();
+					break;
+			}
 			return;
 		}	
 
@@ -1813,7 +2086,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		////////////////////////////
 		// process checking results
-		if(count($exists))
+		if(count($exists) && $command != "copy")
 		{
 			$error .= implode('<br />', $exists);
 		}
@@ -1839,15 +2112,23 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if($error != '')
 		{
 			ilUtil::sendFailure($error);
-			if($_SESSION['clipboard']['cmd'] == 'cut')
-				$this->showMoveIntoObjectTreeObject();
-			else
-				$this->showLinkIntoMultipleObjectsTreeObject();
+			switch ($command)
+			{
+				case 'cut':
+					$this->showMoveIntoObjectTreeObject();
+					break;
+				case 'copy':
+					$this->showCopyIntoMultipleObjectsTreeObject();
+					break;
+				case 'link':
+					$this->showLinkIntoMultipleObjectsTreeObject();
+					break;
+			}
 			return;
 		}
 
 		// log pasteObject call
-		$log->write(__METHOD__.", cmd: ".$_SESSION["clipboard"]["cmd"]);
+		$log->write(__METHOD__.", cmd: ".$command);
 
 		////////////////////////////////////////////////////////
 		// everything ok: now paste the objects to new location
@@ -1860,8 +2141,44 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		// END ChangeEvent: Record paste event.
 		
+		// process COPY command
+		if($command == 'copy')
+		{			
+			foreach($_POST['nodes'] as $folder_ref_id)
+			{
+				foreach($ref_ids as $ref_id)
+				{
+					$revIdMapping = array(); 
+					
+					$oldNode_data = $tree->getNodeData($ref_id);
+					if ($oldNode_data['parent'] == $folder_ref_id)
+					{
+						require_once 'Modules/File/classes/class.ilObjFileAccess.php';
+						$newTitle = ilObjFileAccess::_appendNumberOfCopyToFilename($oldNode_data['title'],null);
+						$newRef = $this->cloneNodes($ref_id, $folder_ref_id, $refIdMapping, $newTitle);
+					}
+					else
+					{
+						$newRef = $this->cloneNodes($ref_id, $folder_ref_id, $refIdMapping, null);
+					}
+					
+					// BEGIN ChangeEvent: Record copy event.
+					$old_parent_data = $tree->getParentNodeData($ref_id);
+					$newNode_data = $tree->getNodeData($newRef);
+					ilChangeEvent::_recordReadEvent($oldNode_data['type'], $ref_id,
+						$oldNode_data['obj_id'], $ilUser->getId());
+					ilChangeEvent::_recordWriteEvent($newNode_data['obj_id'], $ilUser->getId(), 'add', 
+						$ilObjDataCache->lookupObjId($folder_ref_id));
+					ilChangeEvent::_catchupWriteEvents($newNode_data['obj_id'], $ilUser->getId());				
+					// END PATCH ChangeEvent: Record cut event.
+				}
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt('msg_cloned'), true);
+		} // END COPY	
+		
 		// process CUT command
-		if($_SESSION['clipboard']['cmd'] == 'cut')
+		if($command == 'cut')
 		{			
 			foreach($_POST['nodes'] as $folder_ref_id)
 			{
@@ -1894,7 +2211,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		} // END CUT	
 		
 		// process LINK command
-		if($_SESSION['clipboard']['cmd'] == 'link')
+		if($command == 'link')
 		{
 			$linked_to_folders = array();
 
@@ -2029,6 +2346,75 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		unset($_SESSION['clipboard']);
 		$GLOBALS['ilCtrl']->returnToParent($this);
+	}
+	
+	public function initAndDisplayCopyIntoMultipleObjectsObject()
+	{
+		global $tree;
+		
+		// empty session on init
+		$_SESSION['paste_copy_repexpand'] = array();
+		
+		// copy opend nodes from repository explorer		
+		$_SESSION['paste_copy_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
+		
+		// open current position
+		$path = $tree->getPathId((int)$_GET['ref_id']);
+		foreach((array)$path as $node_id)
+		{
+			if(!in_array($node_id, $_SESSION['paste_copy_repexpand']))
+				$_SESSION['paste_copy_repexpand'][] = $node_id;
+		}
+		
+		return $this->showCopyIntoMultipleObjectsTreeObject();
+	}
+	
+	public function showCopyIntoMultipleObjectsTreeObject()
+	{
+		global $ilTabs, $ilToolbar;
+		
+		$ilTabs->setTabActive('view_content');
+		
+		if(!in_array($_SESSION['clipboard']['cmd'], array('copy')))
+		{
+			$message = __METHOD__.": cmd was not 'copy'; may be a hack attempt!";
+			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
+		}
+
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html', "Services/Object");	
+		
+		require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
+		$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_CHECK, 
+			'ilias.php?baseClass=ilRepositoryGUI&cmd=goto', 'paste_copy_repexpand');	
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showCopyIntoMultipleObjectsTree'));
+		$exp->setTargetGet('ref_id');				
+		$exp->setPostVar('nodes[]');
+		$exp->highlightNode($_GET['ref_id']);
+		is_array($_POST['nodes']) ? $exp->setCheckedItems((array)$_POST['nodes']) : $exp->setCheckedItems(array());
+
+		if($_GET['paste_copy_repexpand'] == '')
+		{
+			$expanded = $this->tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET['paste_copy_repexpand'];
+		}
+		
+		$this->tpl->setVariable('FORM_TARGET', '_top');
+		$this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'performPasteIntoMultipleObjects'));
+
+		$exp->setExpand($expanded);
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		$this->tpl->setVariable('OBJECT_TREE', $output);
+		
+		$this->tpl->setVariable('CMD_SUBMIT', 'performPasteIntoMultipleObjects');
+		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('copy'));
+		
+		$ilToolbar->addButton($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this,'cancelMoveLink'));
 	}
 	
 	public function initAndDisplayMoveIntoObjectObject()
@@ -2325,7 +2711,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*
 	* @access	public
 	*/
-	function copyObject()
+	// stefan.born@phzh.ch (01.07.2013): 
+	// UNCOMMENTED DUE NEW copyObject FUNCTION AND BECAUSE IT SEEMS THIS FUNCTION IS NOT USED ANYWHERE
+	/*function copyObject()
 	{
 		global $ilAccess,$ilObjDefinition;
 		
@@ -2341,6 +2729,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$_SESSION["clipboard"]["cmd"] = 'copy';
 
 		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"),true);
+		
+		// THIS FUNCTION DOES NOT EXIST!
 		return $this->initAndDisplayCopyIntoObjectObject();
 		
 		
@@ -2389,6 +2779,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->returnToParent($this);
 
 	} // END COPY
+	*/
 	// BEGIN WebDAV: Support copy command in repository
 
 

@@ -13438,3 +13438,9 @@ wsp#:#wsp_shared_mandatory_filter_info#:#Bitte setzen Sie Filter-Attribute, um d
 wsp#:#wsp_shared_member_filter#:#Kurs-/Gruppenmitglieder
 common#:#scorm_without_session#:#SCORM 2004 Speicherung ohne Session aktivieren
 common#:#scorm_without_session_info#:#Dies sichert die Speicherung von SCORM-Lernstandsdaten auch bei abgelaufener ILIAS-Session
+common#:#msg_obj_no_download#:#können nicht heruntergeladen werden.
+common#:#download_selected_items#:#Herunterladen
+common#:#download_multiple_objects#:#Mehrere Objekte herunterladen
+common#:#msg_obj_perm_download#:#Sie besitzen keine ausreichende Berechtigung um folgenden Objekte herunterzuladen:
+common#:#enable_multi_download#:#«Mehrere Objekte herunterladen»  aktivieren
+common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner/Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunter zu laden.

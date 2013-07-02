@@ -31,6 +31,10 @@ class ilObjectListGUI
 	const CONTEXT_SHOP = 3;
 	const CONTEXT_WORKSPACE_SHARING = 4;
 	
+	const DOWNLOAD_CHECKBOX_NONE = 0;
+	const DOWNLOAD_CHECKBOX_ENABLED = 1;
+	const DOWNLOAD_CHECKBOX_DISABLED = 2;
+	
 	var $ctrl;
 	var $description_enabled = true;
 	var $preconditions_enabled = true;
@@ -43,6 +47,8 @@ class ilObjectListGUI
 	var $condition_depth = 0;
 	var $std_cmd_only = false;
 	var $sub_item_html = array();
+	var $multi_download_enabled = false;
+	var $download_checkbox_state = self::DOWNLOAD_CHECKBOX_NONE;
 
 	protected $substitutions = null;
 	protected $substitutions_enabled = false;
@@ -2672,6 +2678,12 @@ class ilObjectListGUI
 					$this->insertSubscribeCommand();
 				}
 
+				// multi download
+				if ($this->multi_download_enabled && $a_header_actions)
+				{
+					$this->insertMultiDownloadCommand();
+				}
+
 				// BEGIN PATCH Lucene search
 				if($this->cut_enabled or $this->link_enabled)
 				{
@@ -2755,6 +2767,73 @@ class ilObjectListGUI
 			$a_value = false;			
 		}
 		$this->tags_enabled = (bool)$a_value;
+	}
+	
+	/**
+	 * Toggles whether multiple objects can be downloaded at once or not.
+	 * 
+	 * @param boolean $a_value true, to allow downloading of multiple objects; otherwise, false.
+	 */
+	function enableMultiDownload($a_value)
+	{
+		$folder_set = new ilSetting("fold");
+		if (!$folder_set->get("enable_multi_download"))
+		{
+			$a_value = false;			
+		}
+		$this->multi_download_enabled = (bool)$a_value;
+	}
+	
+	function insertMultiDownloadCommand()
+	{
+		global $ilAccess, $objDefinition;
+		
+		if ($this->std_cmd_only)
+			return;
+		
+		if(!$objDefinition->isContainer(ilObject::_lookupType($this->obj_id)))
+			return false;
+		
+		if(is_object($this->getContainerObject()))
+		{
+			$this->ctrl->setParameter($this->getContainerObject(), "type", "");
+			$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
+			$this->ctrl->setParameter($this->getContainerObject(), "active_node", "");
+			$cmd = $_GET["cmd"] == "enableMultiDownload" ? "render" : "enableMultiDownload";
+			$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), $cmd);
+			$this->insertCommand($cmd_link, $this->lng->txt("download_multiple_objects"));
+			return true;
+		}
+		
+		return false;				
+	}
+	
+	function enableDownloadCheckbox($a_ref_id, $a_value)
+	{
+		global $ilAccess;
+		
+		// TODO: delegate to list object class!
+		if (!$this->getContainerObject()->isActiveAdministrationPanel() || $_SESSION["clipboard"])
+		{
+			if (in_array($this->type, array("file", "fold")) &&
+				$ilAccess->checkAccess("read", "", $a_ref_id, $this->type))
+			{			
+				$this->download_checkbox_state = self::DOWNLOAD_CHECKBOX_ENABLED;
+			}
+			else
+			{
+				$this->download_checkbox_state = self::DOWNLOAD_CHECKBOX_DISABLED;
+			}
+		}
+		else
+		{
+			$this->download_checkbox_state = self::DOWNLOAD_CHECKBOX_NONE;
+		}
+	}
+	
+	function getDownloadCheckboxState()
+	{
+		return $this->download_checkbox_state;	
 	}
 	
 	/**
@@ -3047,6 +3126,16 @@ class ilObjectListGUI
 		{
 			$this->tpl->setCurrentBlock("check");
 			$this->tpl->setVariable("VAL_ID", $this->getCommandId());
+			$this->tpl->parseCurrentBlock();
+			$cnt += 1;
+		}
+		else if ($this->getDownloadCheckboxState() != self::DOWNLOAD_CHECKBOX_NONE)
+		{
+			$this->tpl->setCurrentBlock("check_download");
+			if ($this->getDownloadCheckboxState() == self::DOWNLOAD_CHECKBOX_ENABLED)
+				$this->tpl->setVariable("VAL_ID", $this->getCommandId());
+			else
+				$this->tpl->setVariable("VAL_VISIBILITY", "visibility: hidden;\" disabled=\"disabled");
 			$this->tpl->parseCurrentBlock();
 			$cnt += 1;
 		}
@@ -3511,13 +3600,11 @@ class ilObjectListGUI
 		if ($this->context != self::CONTEXT_REPOSITORY)
 			return false;
 		
-		// personal desktop (and search) is not supported right now
-		if (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" ||
-			strtolower($_GET["baseClass"]) == "ilsearchcontroller")
-		{		
+		// only repository is supported right now
+		if (strtolower($_GET["baseClass"]) != "ilrepositorygui")
 			return false;
-		}
-			
+
+		// check if file upload allowed
 		include_once("./Services/FileUpload/classes/class.ilFileUploadUtil.php");
 		return ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->type);
 	}

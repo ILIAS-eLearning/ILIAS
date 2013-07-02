@@ -194,6 +194,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$dl_prop->setInfo($lng->txt('enable_download_folder_info'));
 		$form->addItem($dl_prop);
 
+		// multi download
+		$dl_prop = new ilCheckboxInputGUI($lng->txt("enable_multi_download"), "enable_multi_download");
+		$dl_prop->setValue('1');
+		// default value should reflect previous behaviour (-> 0)
+		$dl_prop->setChecked($this->folderSettings->get("enable_multi_download", 0) == 1);
+		$dl_prop->setInfo($lng->txt('enable_multi_download_info'));
+		$form->addItem($dl_prop);
 		
 		// Inline file extensions
 		$tai_prop = new ilTextAreaInputGUI($lng->txt('inline_file_extensions'), 'inline_file_extensions');
@@ -228,6 +235,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->object->update();
 
 		$this->folderSettings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
+		$this->folderSettings->set("enable_multi_download", $_POST["enable_multi_download"] == 1);
 
 		ilUtil::sendInfo($lng->txt('settings_saved'),true);
 		$ilCtrl->redirect($this, "editDownloadingSettings");
