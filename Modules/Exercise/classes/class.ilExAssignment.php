@@ -1055,7 +1055,7 @@ class ilExAssignment
 		{
 			$user_ids = array($a_user_id);
 		}		
-
+		
 		// get last download time
 		$and_str = "";
 		if ($a_only_new)
@@ -2021,6 +2021,145 @@ class ilExAssignment
 			"", "", $subject, $message, array(), array("system"));		
 		
 		// var_dump($ret);
+	}
+	
+	public static function getDownloadedFilesInfoForTableGUIS($a_parent_obj, $a_exercise_id, $a_ass_type, $a_ass_id, $a_user_id)
+	{
+		global $lng, $ilCtrl;
+		
+		$result = array();
+		$result["files"]["count"] = "---";
+		
+		$ilCtrl->setParameter($a_parent_obj, "ass_id", $a_ass_id);
+		
+		// submission:
+		// see if files have been resubmmited after solved
+		$last_sub =	self::getLastSubmission($a_ass_id, $a_user_id);
+		if ($last_sub)
+		{
+			$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
+		}
+		else
+		{
+			$last_sub = "---";
+		}
+		if (ilExAssignment::lookupUpdatedSubmission($a_ass_id, $a_user_id) == 1) 
+		{
+			$last_sub = "<b>".$last_sub."</b>";
+		}		
+		$result["last_submission"]["txt"] = $lng->txt("exc_last_submission");
+		$result["last_submission"]["value"] = $last_sub;
+		
+		// assignment type specific
+		switch($a_ass_type)
+		{			
+			case ilExAssignment::TYPE_UPLOAD_TEAM:
+				// data is merged by team - see above
+				// fallthrough
+				
+			case ilExAssignment::TYPE_UPLOAD:
+				// nr of submitted files
+				$result["files"]["txt"] = $lng->txt("exc_files_returned");		
+				$sub_cnt = count(ilExAssignment::getDeliveredFiles($a_exercise_id, $a_ass_id, $a_user_id));
+				$new = ilExAssignment::lookupNewFiles($a_ass_id, $a_user_id);
+				if (count($new) > 0)
+				{
+					$sub_cnt.= " ".sprintf($lng->txt("cnt_new"),count($new));
+				}
+				$result["files"]["count"] = $sub_cnt;
+
+				// download command
+				$ilCtrl->setParameter($a_parent_obj, "member_id", $a_user_id);
+				
+				if ($sub_cnt > 0)
+				{
+					$result["files"]["download_url"] = 
+						$ilCtrl->getLinkTarget($a_parent_obj, "downloadReturned");
+									
+					if (count($new) <= 0)
+					{
+						$result["files"]["download_txt"] = $lng->txt("exc_download_files");
+					}
+					else
+					{
+						$result["files"]["download_txt"] = $lng->txt("exc_download_all");
+					}
+					
+					// download new files only
+					if (count($new) > 0)
+					{
+						$result["files"]["download_new_url"] = 
+							$ilCtrl->getLinkTarget($a_parent_obj, "downloadNewReturned");
+						
+						$result["files"]["download_new_txt"] = $lng->txt("exc_download_new");						
+					}
+				}
+				break;
+				
+			case ilExAssignment::TYPE_BLOG:				
+				$result["files"]["txt"] =$lng->txt("exc_blog_returned");				
+				$blogs = ilExAssignment::getDeliveredFiles($a_exercise_id, $a_ass_id, $a_user_id);
+				if($blogs)
+				{
+					$blogs = array_pop($blogs);					
+					if($blogs && substr($blogs["filename"], -1) != "/")
+					{
+						$result["files"]["count"] = 1;
+						
+						$ilCtrl->setParameter($a_parent_obj, "member_id", $a_user_id);
+						$result["files"]["download_url"] = 
+							$ilCtrl->getLinkTarget($a_parent_obj, "downloadReturned");
+						$ilCtrl->setParameter($a_parent_obj, "member_id", "");
+						
+						$result["files"]["download_txt"] = $lng->txt("exc_download_files");						
+					}
+				}
+				break;
+				
+			case ilExAssignment::TYPE_PORTFOLIO:
+				$result["files"]["txt"] = $lng->txt("exc_portfolio_returned");				
+				$portfolios = ilExAssignment::getDeliveredFiles($a_exercise_id, $a_ass_id, $a_user_id);
+				if($portfolios)
+				{
+					$portfolios = array_pop($portfolios);									
+					if($portfolios && substr($portfolios["filename"], -1) != "/")
+					{	
+						$result["files"]["count"] = 1;
+						
+						$ilCtrl->setParameter($a_parent_obj, "member_id", $a_user_id);
+						$result["files"]["download_url"] = 
+							$ilCtrl->getLinkTarget($a_parent_obj, "downloadReturned");		
+						$ilCtrl->setParameter($a_parent_obj, "member_id", "");
+						
+						$result["files"]["download_txt"] = $lng->txt("exc_download_files");						
+					}
+				}
+				break;
+				
+			case ilExAssignment::TYPE_TEXT:
+				$result["files"]["txt"] = $lng->txt("exc_files_returned_text");
+				$files = ilExAssignment::getDeliveredFiles($a_exercise_id, $a_ass_id, $a_user_id);
+				if($files)
+				{
+					$result["files"]["count"] = 1;
+					
+					$files = array_shift($files);
+					if(trim($files["atext"]))
+					{											
+						$ilCtrl->setParameter($a_parent_obj, "grd", 1);
+						$ilCtrl->setParameter($a_parent_obj, "member_id", $a_user_id);		
+						$result["files"]["download_url"] =
+							$ilCtrl->getLinkTarget($a_parent_obj, "showAssignmentText");												
+						$ilCtrl->setParameter($a_parent_obj, "member_id", "");
+						$ilCtrl->setParameter($a_parent_obj, "grd", "");
+						
+						$result["files"]["download_txt"] = $lng->txt("exc_text_assignment_show");						
+					}
+				}
+				break;
+		}
+		
+		return $result;
 	}
 }
 
