@@ -202,166 +202,31 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$ilCtrl->setParameter($this->parent_obj, "lmem", "");
 		}
 
-		// submission:
-		// see if files have been resubmmited after solved
-		$last_sub =
-			ilExAssignment::getLastSubmission($this->ass_id, $member_id);
-		if ($last_sub)
-		{
-			$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
-		}
-		else
-		{
-			$last_sub = "---";
-		}
-		if (ilExAssignment::lookupUpdatedSubmission($this->ass_id, $member_id) == 1) 
-		{
-			$last_sub = "<b>".$last_sub."</b>";
-		}
-		$this->tpl->setVariable("VAL_LAST_SUBMISSION", $last_sub);
-		$this->tpl->setVariable("TXT_LAST_SUBMISSION",
-			$lng->txt("exc_last_submission"));
 		
-		switch($this->type)
-		{			
-			case ilExAssignment::TYPE_UPLOAD_TEAM:
-				// data is merged by team - see above
-				// fallthrough
-				
-			case ilExAssignment::TYPE_UPLOAD:
-				// nr of submitted files
-				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
-					$lng->txt("exc_files_returned"));
-				//$sub_cnt = count($this->exc->getDeliveredFiles($member_id, $this->ass_id));
-				$sub_cnt = count(ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id));
-				$new = ilExAssignment::lookupNewFiles($this->ass_id, $member_id);
-				if (count($new) > 0)
-				{
-					$sub_cnt.= " ".sprintf($lng->txt("cnt_new"),count($new));
-				}
-				$this->tpl->setVariable("VAL_SUBMITTED_FILES",
-					$sub_cnt);
-
-				// download command
-				$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
-				if ($sub_cnt > 0)
-				{
-					$this->tpl->setCurrentBlock("download_link");
-					$this->tpl->setVariable("LINK_DOWNLOAD",
-						$ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));
-					if (count($new) <= 0)
-					{
-						$this->tpl->setVariable("TXT_DOWNLOAD",
-							$lng->txt("exc_download_files"));
-					}
-					else
-					{
-						$this->tpl->setVariable("TXT_DOWNLOAD",
-							$lng->txt("exc_download_all"));
-					}
-					$this->tpl->parseCurrentBlock();
-
-					// download new files only
-					if (count($new) > 0)
-					{
-						$this->tpl->setCurrentBlock("download_link");
-						$this->tpl->setVariable("LINK_NEW_DOWNLOAD",
-							$ilCtrl->getLinkTarget($this->parent_obj, "downloadNewReturned"));
-						$this->tpl->setVariable("TXT_NEW_DOWNLOAD",
-							$lng->txt("exc_download_new"));
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-				break;
-				
-			case ilExAssignment::TYPE_BLOG:
-				$has_submitted = false;
-				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
-					$lng->txt("exc_blog_returned"));
-				$blogs = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
-				if($blogs)
-				{
-					$blogs = array_pop($blogs);					
-					if($blogs && substr($blogs["filename"], -1) != "/")
-					{
-						$has_submitted = true;
-						$this->tpl->setVariable("VAL_SUBMITTED_FILES", 1);
-						
-						$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
-						$this->tpl->setCurrentBlock("download_link");
-						$this->tpl->setVariable("LINK_DOWNLOAD",
-							$ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));												
-						$this->tpl->setVariable("TXT_DOWNLOAD",
-							$lng->txt("exc_download_files"));						
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-				if(!$has_submitted)
-				{
-					$this->tpl->setVariable("VAL_SUBMITTED_FILES", "---");
-				}
-				break;
-				
-			case ilExAssignment::TYPE_PORTFOLIO:
-				$has_submitted = false;
-				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
-					$lng->txt("exc_portfolio_returned"));
-				$portfolios = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
-				if($portfolios)
-				{
-					$portfolios = array_pop($portfolios);									
-					if($portfolios && substr($portfolios["filename"], -1) != "/")
-					{	
-						$has_submitted = true;
-						$this->tpl->setVariable("VAL_SUBMITTED_FILES", 1);
-						
-						$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
-						$this->tpl->setCurrentBlock("download_link");
-						$this->tpl->setVariable("LINK_DOWNLOAD",
-							$ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));												
-						$this->tpl->setVariable("TXT_DOWNLOAD",
-							$lng->txt("exc_download_files"));						
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-				if(!$has_submitted)
-				{
-					$this->tpl->setVariable("VAL_SUBMITTED_FILES", "---");
-				}
-				break;
-				
-			case ilExAssignment::TYPE_TEXT:
-				$has_submitted = false;
-				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
-					$lng->txt("exc_files_returned_text"));
-				$files = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
-				if($files)
-				{
-					$files = array_shift($files);
-					if(trim($files["atext"]))
-					{						
-						$has_submitted = true;
-						
-						$ilCtrl->setParameter($this->parent_obj, "grd", 1);
-						$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
-						$this->tpl->setCurrentBlock("download_link");
-						$this->tpl->setVariable("LINK_DOWNLOAD",
-							$ilCtrl->getLinkTarget($this->parent_obj, "showAssignmentText"));												
-						$ilCtrl->setParameter($this->parent_obj, "grd", "");
-						$this->tpl->setVariable("TXT_DOWNLOAD",
-							$lng->txt("exc_text_assignment_show"));						
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-				if(!$has_submitted)
-				{
-					$this->tpl->setVariable("VAL_SUBMITTED_FILES", "---");
-				}
-				break;
-		}
-
-	
+		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $this->type, $this->ass_id, $member_id);
 		
+		$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
+		$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
+		
+		$this->tpl->setVariable("TXT_SUBMITTED_FILES", $file_info["files"]["txt"]);
+		$this->tpl->setVariable("VAL_SUBMITTED_FILES", $file_info["files"]["count"]);
+		
+		if($file_info["files"]["download_url"])
+		{
+			$this->tpl->setCurrentBlock("download_link");
+			$this->tpl->setVariable("LINK_DOWNLOAD", $file_info["files"]["download_url"]);
+			$this->tpl->setVariable("TXT_DOWNLOAD", $file_info["files"]["download_txt"]);		
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if($file_info["files"]["download_new_url"])
+		{
+			$this->tpl->setCurrentBlock("download_link");
+			$this->tpl->setVariable("LINK_NEW_DOWNLOAD", $file_info["files"]["download_new_url"]);
+			$this->tpl->setVariable("TXT_NEW_DOWNLOAD", $file_info["files"]["download_new_txt"]);		
+			$this->tpl->parseCurrentBlock();
+		}
+				
 		// note
 		$this->tpl->setVariable("TXT_NOTE", $lng->txt("note"));
 		$this->tpl->setVariable("NAME_NOTE",
