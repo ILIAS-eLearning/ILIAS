@@ -727,6 +727,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$form->setDescription($this->lng->txt("book_confirm_booking_schedule_number_of_objects_info"));
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$section = false;
 		foreach($a_objects_counter as $id => $counter)
 		{			
 			$id = explode("_", $id);
@@ -734,17 +735,25 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			
 			$obj = new ilBookingObject($id[0]);
 			
-			$period = $this->lng->txt("book_period").": ".
+			if(!$section)
+			{
+				$section = new ilFormSectionHeaderGUI();
+				$section->setTitle($obj->getTitle());
+				$form->addItem($section);
+				
+				$section = true;
+			}
+			
+			$period = /* $this->lng->txt("book_period").": ". */
 				ilDatePresentation::formatPeriod(
 					new ilDateTime($id[1], IL_CAL_UNIX),
 					new ilDateTime($id[2], IL_CAL_UNIX));
 			
-			$nr_field = new ilNumberInputGUI($obj->getTitle(), "conf_nr__".$book_id);
+			$nr_field = new ilNumberInputGUI($period, "conf_nr__".$book_id);
 			$nr_field->setValue(1);
 			$nr_field->setSize(3);
 			$nr_field->setMaxValue($counter);
 			$nr_field->setMinValue(1);
-			$nr_field->setInfo($period);
 			$nr_field->setRequired(true);
 			$form->addItem($nr_field);				
 		}
