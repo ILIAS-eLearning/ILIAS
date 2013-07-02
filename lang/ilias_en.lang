@@ -13347,7 +13347,6 @@ dateplaner#:#remote_pass_info#:#Please enter your account data if the access to 
 prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
 blog#:#blog_allow_html#:#Allow HTML/Javascript
-search#:#search_add_members_from_container#:#Add Users of Current Course/Group
 common#:#obj_sysc#:#System Check
 common#:#obj_sysc_desc#:#System Check and Repair Tools
 rbac#:#sysc_edit_permission#:#User can change permissions of System Check.
@@ -13457,3 +13456,5 @@ exc#:#exc_files_returned_text#:#Assignment Text
 exc#:#exc_text_assignment_edit#:#Edit Text
 exc#:#exc_text_assignment_show#:#Show Text
 survey#:#survey_360_remove_appraisees#:#Remove Appraisee(s)
+search#:#search_add_members_from_container_grp#:#Add Users of Current Group
+search#:#search_add_members_from_container_crs#:#Add Users of Current Course
