@@ -101,7 +101,7 @@ class ilForumModeratorsGUI
 			return;
 		}
 
-		foreach($_POST['user'] as $user_id)
+		foreach($users as $user_id)
 		{
 			$this->oForumModerators->addModeratorRole((int)$user_id);
 		}
