@@ -144,10 +144,20 @@ class ilForumModeratorsGUI
 	{
 		/**
 		 * @var $ilToolbar ilToolbarGUI
+		 * @var $lng       ilLanguage
 		 */
-		global $ilToolbar;
+		global $ilToolbar, $lng;
 
-		$ilToolbar->addButton($this->lng->txt("search_users"), $this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', 'start'));
+		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$ilToolbar,
+			array(
+				'auto_complete_name' => $lng->txt('user'),
+				'submit_name' => $lng->txt('add'),
+				'add_search' => true
+			)
+		);
 
 		$tbl = new ilTable2GUI($this);
 		$tbl->setId('frm_show_mods_tbl_' . (int)$_GET['ref_id']);
