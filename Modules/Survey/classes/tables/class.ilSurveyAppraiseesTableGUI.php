@@ -91,7 +91,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 		{
 			$this->addCommandButton('deleteAllUserData', $this->lng->txt('svy_delete_all_user_data'));
 			$this->addMultiCommand('confirmAdminAppraiseesClose', $this->lng->txt('survey_360_appraisee_close_action'));
-			$this->addMultiCommand('confirmDeleteAppraisees', $this->lng->txt('remove'));			
+			$this->addMultiCommand('confirmDeleteAppraisees', $this->lng->txt('survey_360_remove_appraisees'));			
 			$this->setPrefix('appr_id');
 			$this->setSelectAllCheckbox('appr_id');		
 		}
