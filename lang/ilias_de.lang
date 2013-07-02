@@ -13444,3 +13444,5 @@ common#:#download_multiple_objects#:#Mehrere Objekte herunterladen
 common#:#msg_obj_perm_download#:#Sie besitzen keine ausreichende Berechtigung um folgenden Objekte herunterzuladen:
 common#:#enable_multi_download#:#«Mehrere Objekte herunterladen»  aktivieren
 common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner/Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunter zu laden.
+book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Objekte.
