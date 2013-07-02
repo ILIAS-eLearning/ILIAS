@@ -570,18 +570,28 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	{		
 		global $tpl;
 		
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';		
+		
 		$success = false;
 		
 		if($this->object->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE)
 		{	
 			if($_POST['object_id'])
 			{
-				$this->processBooking($_POST['object_id']);
-				$success = $_POST['object_id'];	
+				$object_id = $_POST['object_id'];
+				if($object_id)
+				{
+					if(ilBookingReservation::isObjectAvailableNoSchedule($object_id))				
+					{
+						$this->processBooking($object_id);
+						$success = $object_id;	
+					}
+				}
 			}
 		}	
 		else
-		{
+		{												
 			if(!isset($_POST['date']))
 			{
 				ilUtil::sendFailure($this->lng->txt('select_one'));
@@ -591,17 +601,36 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			// single object reservation(s)
 			if(isset($_GET['object_id']))
 			{
-				foreach($_POST['date'] as $date)
-				{
-					$fromto = explode('_', $date);
-					$fromto[1]--;
+				$confirm = array();
+				
+				$object_id = (int)$_GET['object_id'];
+				if($object_id)
+				{	
+					foreach($_POST['date'] as $date)
+					{										
+						$fromto = explode('_', $date);
+						$fromto[1]--;
 
-					$object_id = (int)$_GET['object_id'];
-					if($object_id)
-					{	
-						$this->processBooking($object_id, $fromto[0], $fromto[1]);
-						$success = $object_id;		
+						$counter = ilBookingReservation::getAvailableObject(array($object_id), $fromto[0], $fromto[1], false, true);
+						$counter = $counter[$object_id];
+						if($counter)
+						{						
+							if($counter > 1)
+							{
+								$confirm[$object_id."_".$fromto[0]."_".($fromto[1]+1)] = $counter;
+							}
+							else
+							{
+								$this->processBooking($object_id, $fromto[0], $fromto[1]);
+								$success = $object_id;									
+							}
+						}
 					}
+				}
+				
+				if(sizeof($confirm))
+				{
+					return $this->confirmBookingNumbers($confirm);					
 				}
 			}
 			/*
@@ -660,28 +689,143 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if($success)
 		{
-			ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
-			
-			// show post booking information?
-			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-			$obj = new ilBookingObject($success);
-			$pfile = $obj->getPostFile();
-			$ptext = $obj->getPostText();
-			if(trim($ptext) || $pfile)
-			{
-				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $obj->getId());				
-				$this->ctrl->redirectByClass('ilbookingobjectgui', 'displayPostInfo');
-			}
-			else
-			{				
-				$this->ctrl->redirect($this, 'render');
-			}
+			$this->handleBookingSuccess($success);
 		}
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt('book_reservation_failed'), true);
 			$this->ctrl->redirect($this, 'book');
 		}
+	}
+	
+	protected function handleBookingSuccess($a_obj_id)
+	{
+		ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
+			
+		// show post booking information?
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$obj = new ilBookingObject($a_obj_id);
+		$pfile = $obj->getPostFile();
+		$ptext = $obj->getPostText();
+		if(trim($ptext) || $pfile)
+		{
+			$this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $obj->getId());				
+			$this->ctrl->redirectByClass('ilbookingobjectgui', 'displayPostInfo');
+		}
+		else
+		{				
+			$this->ctrl->redirect($this, 'render');
+		}
+	}
+	
+	protected function initBookingNumbersForm(array $a_objects_counter)
+	{
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "confirmedBooking"));
+		$form->setTitle($this->lng->txt("book_confirm_booking_schedule_number_of_objects"));
+		$form->setDescription($this->lng->txt("book_confirm_booking_schedule_number_of_objects_info"));
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		foreach($a_objects_counter as $id => $counter)
+		{			
+			$id = explode("_", $id);
+			$book_id = $id[0]."_".$id[1]."_".$id[2]."_".$counter;
+			
+			$obj = new ilBookingObject($id[0]);
+			
+			$period = $this->lng->txt("book_period").": ".
+				ilDatePresentation::formatPeriod(
+					new ilDateTime($id[1], IL_CAL_UNIX),
+					new ilDateTime($id[2], IL_CAL_UNIX));
+			
+			$nr_field = new ilNumberInputGUI($obj->getTitle(), "conf_nr__".$book_id);
+			$nr_field->setValue(1);
+			$nr_field->setSize(3);
+			$nr_field->setMaxValue($counter);
+			$nr_field->setMinValue(1);
+			$nr_field->setInfo($period);
+			$nr_field->setRequired(true);
+			$form->addItem($nr_field);				
+		}
+				
+		$form->addCommandButton("confirmedBookingNumbers", $this->lng->txt("confirm"));
+		$form->addCommandButton("render", $this->lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	function confirmBookingNumbers(array $a_objects_counter, ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl;
+		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));
+
+		if(!$a_form)
+		{
+			$a_form = $this->initBookingNumbersForm($a_objects_counter);
+		}
+	
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	public function confirmedBookingNumbersObject()
+	{
+		// convert post data to initial form config
+		$counter = array();
+		foreach(array_keys($_POST) as $id)
+		{
+			if(substr($id, 0, 9) == "conf_nr__")
+			{
+				$id = explode("_", substr($id, 9));
+				$counter[$id[0]."_".$id[1]."_".$id[2]] = $id[3];		
+			}
+		}
+
+		$form = $this->initBookingNumbersForm($counter);
+		if($form->checkInput())
+		{			
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';					
+			
+			$success = false;
+			foreach($counter as $id => $all_nr)
+			{				
+				$book_nr = $form->getInput("conf_nr__".$id."_".$all_nr);
+				$parts = explode("_", $id);
+				$obj_id = $parts[0];
+				$from = $parts[1];
+				$to = $parts[2]-1;
+				
+				// get currently available slots
+				$counter = ilBookingReservation::getAvailableObject(array($obj_id), $from, $to, false, true);
+				$counter = $counter[$obj_id];
+				if($counter)
+				{	
+					// we can only book what is left
+					$book_nr = min($book_nr, $counter);							
+					for($loop = 0; $loop < $book_nr; $loop++)
+					{
+						$this->processBooking($obj_id, $from, $to);
+						$success = $obj_id;									
+					}
+				}
+			}
+			if($success)
+			{
+				$this->handleBookingSuccess($success);
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt('book_reservation_failed'), true);
+				$this->ctrl->redirect($this, 'book');
+			}
+		}
+		else
+		{
+			$form->setValuesByPost();
+			return $this->confirmBookingNumbers($counter, $form);				
+		}		
 	}
 	
 	/**

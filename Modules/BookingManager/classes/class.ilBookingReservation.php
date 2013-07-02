@@ -251,7 +251,7 @@ class ilBookingReservation
 	 * @param	int		$a_return_single
 	 * @return	int
 	 */
-	static function getAvailableObject(array $a_ids, $a_from, $a_to, $a_return_single = true)
+	static function getAvailableObject(array $a_ids, $a_from, $a_to, $a_return_single = true, $a_return_counter = false)
 	{
 		global $ilDB;				
 		
@@ -268,18 +268,33 @@ class ilBookingReservation
 			' OR (date_from <= '.$to.' AND date_to >= '.$to.')'.
 			' OR (date_from >= '.$from.' AND date_to <= '.$to.'))'.
 			' GROUP BY object_id');
-		$blocked = array();
+		$blocked = $counter = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			if($row['cnt'] >= $nr_map[$row['object_id']])
 			{
 				$blocked[] = $row['object_id'];
 			}
-		}
+			else if($a_return_counter)
+			{
+				$counter[$row['object_id']] = (int)$nr_map[$row['object_id']]-(int)$row['cnt'];
+			}
+		}		
 		$available = array_diff($a_ids, $blocked);
 		if(sizeof($available))
 		{
-			if($a_return_single)
+			if($a_return_counter)
+			{
+				foreach($a_ids as $id)
+				{
+					if(!isset($counter[$id]))
+					{
+						$counter[$id] = (int)$nr_map[$id];
+					}
+				}
+				return $counter;
+			}
+			else if($a_return_single)
 			{
 				return array_shift($available);
 			}
@@ -288,6 +303,24 @@ class ilBookingReservation
 				return $available;
 			}
 		}
+	}
+	
+	static function isObjectAvailableNoSchedule($a_obj_id)
+	{
+		global $ilDB;
+		
+		$all = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));
+		$all = (int)$all[$a_obj_id];
+		
+		$set = $ilDB->query('SELECT COUNT(*) cnt'.
+			' FROM booking_reservation r'.
+			' JOIN booking_object o ON (o.booking_object_id = r.object_id)'.
+			' WHERE (status IS NULL OR status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').')'.
+			' AND r.object_id = '.$ilDB->quote($a_obj_id, 'integer'));		
+		$cnt = $ilDB->fetchAssoc($set);
+		$cnt = (int)$cnt['cnt'];
+		
+		return (bool)$all-$cnt;
 	}
 
 	/**

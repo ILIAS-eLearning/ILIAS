@@ -337,6 +337,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		}
 		
 		$this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
+		
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			switch($c)

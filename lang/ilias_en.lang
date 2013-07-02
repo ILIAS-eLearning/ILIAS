@@ -13450,3 +13450,5 @@ common#:#download_multiple_objects#:#Download Multiple Objects
 common#:#msg_obj_perm_download#:#You do not have sufficient rights to download the following objects:
 common#:#enable_multi_download#:#«Download multiple objects» enabled
 common#:#enable_multi_download_info#:#Enables that multiple folders/files can be selected to download them as zip archive.
+book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please state the numbers of objects to book.
