@@ -468,6 +468,15 @@ class ilExAssignmentGUI
 						}
 					}
 				}
+				
+				// peer feedback
+				if($times_up && $a_data["peer"])
+				{		
+					$peer_url = "";
+					
+					$info->addProperty($lng->txt("exc_peer_review"),
+						$peer_url);															
+				}								
 			}
 		}
 
