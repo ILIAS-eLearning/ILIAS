@@ -24,17 +24,21 @@ class ilFileUploadUtil
 	{
 		global $objDefinition, $ilAccess;
 		
-		include_once("./Services/FileUpload/classes/class.ilFileUploadSettings.php");
-		
-		// repository upload enabled?
-		if (ilFileUploadSettings::isDragAndDropUploadEnabled() &&
-			ilFileUploadSettings::isRepositoryDragAndDropUploadEnabled())
-		{		
-			if ($a_type == "")
-				$a_type = ilObject::_lookupType($a_ref_id, true);
+		// right now, only the repository is supported
+		if (strtolower($_GET["baseClass"]) == "ilrepositorygui")
+		{
+			include_once("./Services/FileUpload/classes/class.ilFileUploadSettings.php");
 			
-			if ($objDefinition->isContainer($a_type))
-				return $ilAccess->checkAccess("create_file", "", $a_ref_id, "file");
+			// repository upload enabled?
+			if (ilFileUploadSettings::isDragAndDropUploadEnabled() &&
+				ilFileUploadSettings::isRepositoryDragAndDropUploadEnabled())
+			{		
+				if ($a_type == "")
+					$a_type = ilObject::_lookupType($a_ref_id, true);
+				
+				if ($objDefinition->isContainer($a_type))
+					return $ilAccess->checkAccess("create_file", "", $a_ref_id, "file");
+			}
 		}
 		
 		return false;
