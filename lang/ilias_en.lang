@@ -13465,3 +13465,19 @@ exc#:#exc_peer_review_give#:#Give Feedback
 exc#:#exc_peer_review_no_peers#:#There are no peers to give feedback for.
 exc#:#exc_peer_review_rating#:#Rating
 exc#:#exc_peer_review_updated#:#Your feedback has been saved.
+common#:#preview#:#Preview
+common#:#preview_settings#:#File Preview
+common#:#enable_preview#:#Enable Preview
+common#:#enable_preview_info#:#Enable this option to display preview images on supported file types.
+common#:#max_previews_per_object#:#Number of preview images per file
+common#:#max_previews_per_object_info#:#Defines the maximum number of preview images that are created per file.
+common#:#preview_status_pending#:#The preview has not been created yet. Please try again later.
+common#:#preview_status_failed#:#Failed to created the preview.
+common#:#preview_status_missing#:#No preview exists for this file.
+common#:#preview_loading#:#Loading Preview...
+common#:#loaded_preview_renderers#:#Loaded Preview Renderers
+common#:#renderer_type_plugin#:#Plugin
+common#:#renderer_type_builtin#:#Built-in
+common#:#renderer_supported_repo_types#:#Supported Repository Types
+common#:#renderer_supported_file_types#:#Supported File Types
+common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.
