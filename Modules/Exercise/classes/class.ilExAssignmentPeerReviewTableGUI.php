@@ -39,13 +39,12 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		$this->setLimit(9999);
 	
-		$this->addColumn($this->lng->txt("name"), "name");
 		$this->addColumn($this->lng->txt("exc_submission"), "");
 		$this->addColumn($this->lng->txt("exc_peer_review_rating"), "mark");
 		$this->addColumn($this->lng->txt("comment"), "");
 		$this->addColumn($this->lng->txt("last_update"), "tstamp");
 		
-		$this->setDefaultOrderField("name");
+		$this->setDefaultOrderField("tstamp");
 						
 		$this->setRowTemplate("tpl.exc_peer_review_row.html", "Modules/Exercise");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -62,15 +61,13 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	protected function getItems()
 	{
 		$data = array();
-		
-		include_once "Services/User/classes/class.ilUserUtil.php";
+				
 		foreach($this->peer_data as $item)
 		{
 			$row = array();
 			
 			$row["giver_id"] = $item["giver_id"];
 			$row["peer_id"] = $item["peer_id"];
-			$row["name"] = ilUserUtil::getNamePresentation($item["peer_id"]);
 			$row["submission"] = "";
 			$row["mark"] = (int)round(ilRating::getRatingForUserAndObject($this->ass->getId(), 
 				"ass", $item["peer_id"], "peer", $item["giver_id"]));
@@ -98,8 +95,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
 		$this->tpl->setVariable("VAL_ID", $idx);		
-		
-		$this->tpl->setVariable("TXT_NAME", $a_set["name"]);				
+					
 		$this->tpl->setVariable("VAL_PCOMMENT", $a_set["comment"]);		
 		
 		if($a_set["tstamp"])

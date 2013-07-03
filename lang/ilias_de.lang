@@ -13474,4 +13474,6 @@ common#:#renderer_type_plugin#:#Plugin
 common#:#renderer_type_builtin#:#Eingebaut
 common#:#renderer_supported_repo_types#:#Unterstützte Magazintypen
 common#:#renderer_supported_file_types#:#Unterstützte Dateitypen
-common#:#ghostscript_not_configured#:#Ghostscript ist nicht konfiguriert. Bitte öffnen Sie das <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> um Ghostscript zu konfigurieren.
+common#:#ghostscript_not_configured#:#Ghostscript ist nicht konfiguriert. Bitte öffnen Sie das <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> um Ghostscript zu konfigurieren.>>>>>>> .r43196
+exc#:#exc_peer_review_show_not_rated_yet#:#Sie müssen Feedback geben, um das erhaltene sehen zu können.
+exc#:#exc_peer_review_show#:#Erhaltenes Feedback zeigen

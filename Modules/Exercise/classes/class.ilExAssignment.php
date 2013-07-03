@@ -2365,6 +2365,11 @@ class ilExAssignment
 			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
 	}
+	
+	public static function maySeeGivenFeedback($a_ass_id)
+	{
+		// var_dump($a_ass_id);
+	}
 }
 
 ?>
