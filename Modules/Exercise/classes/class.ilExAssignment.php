@@ -22,6 +22,18 @@ class ilExAssignment
 	const TEAM_LOG_ADD_FILE = 4;
 	const TEAM_LOG_REMOVE_FILE = 5;
 	
+	protected $id;
+	protected $exc_id;
+	protected $type;
+	protected $start_time;
+	protected $deadline;
+	protected $instruction;
+	protected $title;
+	protected $mandatory;
+	protected $order_nr;
+	protected $peer;
+	protected $peer_min;
+	
 	/**
 	 * Constructor
 	 */
@@ -206,6 +218,11 @@ class ilExAssignment
 		if($this->isValidType($a_value))
 		{
 			$this->type = (int)$a_value;
+			
+			if($this->type == self::TYPE_UPLOAD_TEAM)
+			{
+				$this->setPeerReview(false);
+			}
 		}
 	}
 	
@@ -234,6 +251,46 @@ class ilExAssignment
 		}
 		return false;
 	}
+	
+	/**
+	 * Toggle peer review
+	 * 
+	 * @param bool $a_value
+	 */
+	function setPeerReview($a_value)
+	{
+		$this->peer = (bool)$a_value;
+	}
+	
+	/**
+	 * Get peer review status
+	 * 
+	 * @return bool 
+	 */
+	function getPeerReview()
+	{
+		return (bool)$this->peer;
+	}
+	
+	/**
+	 * Set peer review minimum
+	 * 
+	 * @param int $a_value
+	 */
+	function setPeerReviewMin($a_value)
+	{
+		$this->peer_min = (int)$a_value;
+	}
+	
+	/**
+	 * Get peer review minimum
+	 * 
+	 * @return int 
+	 */
+	function getPeerReviewMin()
+	{
+		return (int)$this->peer_min;
+	}
 
 	/**
 	 * Read from db
@@ -255,6 +312,8 @@ class ilExAssignment
 			$this->setOrderNr($rec["order_nr"]);
 			$this->setMandatory($rec["mandatory"]);
 			$this->setType($rec["type"]);
+			$this->setPeerReview($rec["peer"]);
+			$this->setPeerReviewMin($rec["peer_min"]);
 		}
 	}
 	
@@ -282,7 +341,9 @@ class ilExAssignment
 			"start_time" => array("integer", $this->getStartTime()),
 			"order_nr" => array("integer", $this->getOrderNr()),
 			"mandatory" => array("integer", $this->getMandatory()),
-			"type" => array("integer", $this->getType())
+			"type" => array("integer", $this->getType()),
+			"peer" => array("integer", $this->getPeerReview()),
+			"peer_min" => array("integer", $this->getPeerReviewMin())
 			));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
@@ -306,7 +367,9 @@ class ilExAssignment
 			"start_time" => array("integer", $this->getStartTime()),
 			"order_nr" => array("integer", $this->getOrderNr()),
 			"mandatory" => array("integer", $this->getMandatory()),
-			"type" => array("integer", $this->getType())
+			"type" => array("integer", $this->getType()),
+			"peer" => array("integer", $this->getPeerReview()),
+			"peer_min" => array("integer", $this->getPeerReviewMin())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -355,7 +418,9 @@ class ilExAssignment
 				"start_time" => $rec["start_time"],
 				"order_val" => $order_val,
 				"mandatory" => $rec["mandatory"],
-				"type" => $rec["type"]
+				"type" => $rec["type"],
+				"peer" => $rec["peer"],
+				"peer_min" => $rec["peer_min"],
 				);
 			$order_val += 10;
 		}
@@ -383,6 +448,8 @@ class ilExAssignment
 			$new_ass->setOrderNr($d["order_val"]);
 			$new_ass->setStartTime($d["start_time"]);
 			$new_ass->setType($d["type"]);
+			$new_ass->setPeerReview($d["peer"]);
+			$new_ass->setPeerReviewMin($d["peer_min"]);
 			$new_ass->save();
 			
 			// clone assignment files

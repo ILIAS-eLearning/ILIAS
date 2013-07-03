@@ -16198,3 +16198,26 @@ if( !$ilDB->tableColumnExists('exc_returned', 'atext') )
 		);
 }
 ?>
+<#3937>
+<?php
+if( !$ilDB->tableColumnExists('exc_assignment', 'peer') )
+{
+	$ilDB->addTableColumn("exc_assignment", "peer",
+		array(	
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0)
+		);
+}
+if( !$ilDB->tableColumnExists('exc_assignment', 'peer_min') )
+{
+	$ilDB->addTableColumn("exc_assignment", "peer_min",
+		array(	
+			"type" => "integer",
+			"length" => 2,
+			"notnull" => true,
+			"default" => 0)
+		);
+}
+?>

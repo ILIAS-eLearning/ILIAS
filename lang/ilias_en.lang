@@ -13458,3 +13458,6 @@ exc#:#exc_text_assignment_show#:#Show Text
 survey#:#survey_360_remove_appraisees#:#Remove Appraisee(s)
 search#:#search_add_members_from_container_grp#:#Add Users of Current Group
 search#:#search_add_members_from_container_crs#:#Add Users of Current Course
+exc#:#exc_peer_review#:#Peer-Feedback
+exc#:#exc_peer_review_info#:#Not available for team upload assignments.
+exc#:#exc_peer_review_min_number#:#Minimum number of feedback given required to see personal feedback

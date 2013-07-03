@@ -2046,6 +2046,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
 		$desc_input->setRows(5);
 		$this->form->addItem($desc_input);
+				
+		// peer review
+		$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");				
+		$this->form->addItem($peer);
+		
+		if ($a_mode == "create")
+		{
+			$peer->setInfo($lng->txt("exc_peer_review_info"));
+		}
+		
+		$peer_min = new ilNumberInputGUI($lng->txt("exc_peer_review_min_number"), "peer_min");
+		$peer_min->setRequired(true);
+		$peer_min->setValue(5);
+		$peer_min->setSize(3);
+		$peer->addSubItem($peer_min);
 		
 		// files
 		if ($a_mode == "create")
@@ -2137,6 +2152,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				$ass->setDeadline(null);
 			}
+			
+			if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				$ass->setPeerReview($_POST["peer"]);
+				$ass->setPeerReviewMin($_POST["peer_min"]);
+			}
 
 			$ass->save();
 			
@@ -2191,7 +2212,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if ($ass->getDeadline() > 0)
 		{
 			$values["deadline_cb"] = true;
+		}			
+		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			$this->form->removeItemByPostVar("peer");
+			$this->form->removeItemByPostVar("peer_min");			
 		}
+		else
+		{
+			$values["peer"] = $ass->getPeerReview();
+			$values["peer_min"] = $ass->getPeerReviewMin();
+		}		
 		$this->form->setValuesByArray($values);
 
 		if ($ass->getDeadline() > 0)
@@ -2209,11 +2240,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		// if there are any submissions we cannot change type anymore
-		if(sizeof(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $ass->getId())))
+		if(sizeof(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $ass->getId())) ||
+			$this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			$this->form->getItemByPostVar("type")->setDisabled(true);
 		}
-		
 	}
 
 	/**
@@ -2285,6 +2316,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 			else
 			{
 				$ass->setDeadline(null);
+			}
+			
+			if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				$ass->setPeerReview($_POST["peer"]);
+				$ass->setPeerReviewMin($_POST["peer_min"]);
 			}
 
 			$ass->update();
@@ -3352,8 +3389,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$cancel_cmd = "members";
 		}
 		
-		$a_form = $this->initAssignmentTextForm($ass, true, $cancel_cmd);		
-
+		$a_form = $this->initAssignmentTextForm($ass, true, $cancel_cmd);	
+		
+		if($user_id != $ilUser->getId() || (bool)$_GET["grd"])
+		{
+			include_once "Services/User/classes/class.ilUserUtil.php";
+			$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));
+		}
+			
 		$files = ilExAssignment::getDeliveredFiles($ass->getExerciseId(), $ass->getId(), $user_id);
 		if($files)
 		{
