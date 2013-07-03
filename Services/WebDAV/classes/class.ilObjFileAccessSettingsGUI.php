@@ -127,6 +127,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "editUploadSettings"),
 				array("editUploadSettings", "view"));
 
+			$this->tabs_gui->addTarget('preview_settings',
+				$this->ctrl->getLinkTarget($this, "editPreviewSettings"),
+				array("editPreviewSettings", "view"));
+
 			$this->tabs_gui->addTarget('webdav',
 				$this->ctrl->getLinkTarget($this, "editWebDAVSettings"),
 				array("editWebDAVSettings", "view"));
@@ -899,5 +903,127 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$tpl->setContent($form->getHTML());
 		}
 	}
+	
+	/**
+	* Initializes the preview settings form.
+	*/
+	private function initPreviewSettingsForm()
+	{
+		global $ilCtrl, $lng;
+
+		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("settings"));
+		
+		require_once("Services/Preview/classes/class.ilPreviewSettings.php");
+		
+		// drag and drop file upload in repository
+		$chk_prop = new ilCheckboxInputGUI($lng->txt("enable_preview"), "enable_preview");
+		$chk_prop->setValue('1');
+		$chk_prop->setChecked(ilPreviewSettings::isPreviewEnabled());
+		$chk_prop->setInfo($lng->txt('enable_preview_info'));
+		$form->addItem($chk_prop);
+		
+		$num_prop = new ilNumberInputGUI($lng->txt("max_previews_per_object"), "max_previews_per_object");
+		$num_prop->setDecimals(0);
+		$num_prop->setMinValue(1);
+		$num_prop->setMinvalueShouldBeGreater(false);
+		$num_prop->setMaxValue(ilPreviewSettings::MAX_PREVIEWS_MAX);
+		$num_prop->setMaxvalueShouldBeLess(false);
+		$num_prop->setMaxLength(5);
+		$num_prop->setSize(10);
+		$num_prop->setValue(ilPreviewSettings::getMaximumPreviews());
+		$num_prop->setInfo($lng->txt('max_previews_per_object_info'));
+		$form->addItem($num_prop);
+
+		// command buttons
+		$form->addCommandButton('savePreviewSettings', $lng->txt('save'));
+		$form->addCommandButton('view', $lng->txt('cancel'));
+		
+		return $form;
+	}
+
+	/**
+	 * Edit preview settings.
+	 */
+	public function editPreviewSettings()
+	{
+		global $rbacsystem, $ilErr, $tpl, $lng;
+
+		$this->tabs_gui->setTabActive('preview_settings');
+
+		if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
+		{
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
+		}
+		
+		// set warning if ghostscript not installed
+		if (!is_file(PATH_TO_GHOSTSCRIPT))
+		{
+			ilUtil::sendInfo($lng->txt("ghostscript_not_configured"));
+		}
+		
+		// get form
+		$form = $this->initPreviewSettingsForm();
+		
+		// set current values
+		require_once("Services/Preview/classes/class.ilPreviewSettings.php");
+		
+		$val = array();
+		$val["enable_preview"] = ilPreviewSettings::isPreviewEnabled();
+		$val["max_previews_per_object"] = ilPreviewSettings::getMaximumPreviews();
+		$form->setValuesByArray($val);
+		
+		$html = $form->getHTML();
+		
+		// build renderer HTML
+		require_once("Services/Preview/classes/class.ilRendererFactory.php");
+		require_once("Services/Preview/classes/class.ilRendererTableGUI.php");
+		
+		$renderers = ilRendererFactory::getRenderers();
+		
+		$table = new ilRendererTableGUI($this, array("editPreviewSettings", "view"));
+		$table->setMaxCount(sizeof($renderers));
+		$table->setData($renderers);	
+		
+		$html .= "<br/>" . $table->getHTML();
+		
+		// set content
+		$tpl->setContent($html);
+	}
+
+	/**
+	 * Save preview settings
+	 */
+	public function savePreviewSettings()
+	{
+		global $rbacsystem, $ilErr, $ilCtrl, $tpl, $lng;
+
+		$this->tabs_gui->setTabActive('preview_settings');
+
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
+		}
+		
+		// get form
+		$form = $this->initPreviewSettingsForm();
+		if ($form->checkInput())
+		{
+			require_once("Services/Preview/classes/class.ilPreviewSettings.php");
+			ilPreviewSettings::setPreviewEnabled($_POST["enable_preview"] == 1);
+			ilPreviewSettings::setMaximumPreviews($_POST["max_previews_per_object"]);
+
+			ilUtil::sendSuccess($lng->txt('settings_saved'), true);
+			$ilCtrl->redirect($this, "editPreviewSettings");
+		}
+		else
+		{
+			$form->setValuesByPost();	
+			$tpl->setContent($form->getHTML());
+		}
+	}
+
 } 
 ?>

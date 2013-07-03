@@ -16298,3 +16298,32 @@ if(!$ilDB->tableExists('exc_assignment_peer'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3941>
+<?php
+if(!$ilDB->tableExists('preview'))
+{
+	$fields = array (
+		'obj_id' => array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => true
+		),
+		'render_date' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'render_status' => array(
+			'type' => 'text',
+			'length' => 20,
+			'notnull' => true,
+			'fixed' => false
+		)
+	);
+	$ilDB->createTable('preview', $fields);
+	$ilDB->addPrimaryKey('preview', array('obj_id'));
+}
+?>
+<#3942>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

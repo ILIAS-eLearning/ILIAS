@@ -1,0 +1,9 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" id="prvw">
+  <baseclasses>
+    <baseclass name="ilPreviewGUI" dir="classes" />
+  </baseclasses>
+  <pluginslots>
+    <pluginslot id="pvre" name="PreviewRenderer" />
+  </pluginslots>
+</service>

@@ -1474,6 +1474,21 @@ class ilObjectListGUI
 			$this->tpl->setCurrentBlock("item_title_linked");
 			$this->tpl->setVariable("TXT_TITLE_LINKED", $this->getTitle());
 			$this->tpl->setVariable("HREF_TITLE_LINKED", $this->default_command["link"]);
+			
+			// has preview?
+			include_once("./Services/Preview/classes/class.ilPreview.php");
+			if (ilPreview::hasPreview($this->obj_id))
+			{
+				include_once("./Services/Preview/classes/class.ilPreviewGUI.php");
+				$preview = new ilPreviewGUI($this->ref_id);
+				
+				$this->tpl->setCurrentBlock("item_title_linked");
+				$this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png", "Services/Preview"));
+				$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
+				$this->tpl->setVariable("SCRIPT_PREVIEW_CLICK", $preview->getJSCall($this->getUniqueItemId(true)));
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -3596,14 +3611,6 @@ class ilObjectListGUI
 	 */
 	public function isFileUploadAllowed()
 	{
-		// only repository is supported by now
-		if ($this->context != self::CONTEXT_REPOSITORY)
-			return false;
-		
-		// only repository is supported right now
-		if (strtolower($_GET["baseClass"]) != "ilrepositorygui")
-			return false;
-
 		// check if file upload allowed
 		include_once("./Services/FileUpload/classes/class.ilFileUploadUtil.php");
 		return ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->type);
