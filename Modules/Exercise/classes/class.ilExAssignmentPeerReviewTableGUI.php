@@ -114,7 +114,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		$rating = new ilRatingGUI();
 		$rating->setObject($this->ass->getId(), "ass", $a_set["peer_id"], "peer");
 		$rating->setUserId($a_set["giver_id"]);
-		$this->tpl->setVariable("VAL_RATING", $rating->getHTML(false));	
+		$this->tpl->setVariable("VAL_RATING", $rating->getHTML(false, true, "il.ExcPeerReview.saveComments()"));	
 		$ilCtrl->setParameter($this->parent_obj, "peer_id", "");		
 				
 		

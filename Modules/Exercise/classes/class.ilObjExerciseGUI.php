@@ -3450,6 +3450,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ilCtrl->redirect($this, "showOverview");
 		}
 		
+		$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
+		$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
+			$ilCtrl->getLinkTarget($this, "updatePeerReviewComments", "", true, false).
+			"')");
+		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php";
 		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $user_id, $peer_items);
 		
@@ -3488,6 +3493,29 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		ilUtil::sendInfo($this->lng->txt("exc_peer_review_updated"), true);
 		$ilCtrl->redirect($this, "editPeerReview");	
+	}
+	
+	function updatePeerReviewCommentsObject()
+	{
+		global $ilCtrl;
+		
+		if(!$this->ass || 
+			!$this->ass->getPeerReview() ||
+			!sizeof($_POST["pc"]) ||
+			!$ilCtrl->isAsynch())				
+		{
+			exit();
+		}
+		
+		foreach($_POST["pc"] as $peer_id => $value)
+		{
+			if($peer_id)
+			{
+				$this->ass->updatePeerReviewComment($peer_id, $value);				
+			}
+		}
+		
+		exit();
 	}
 }
 
