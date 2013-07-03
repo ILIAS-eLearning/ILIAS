@@ -3392,7 +3392,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$a_form = $this->initAssignmentTextForm($this->ass, true, $cancel_cmd);	
 		
-		if($user_id != $ilUser->getId() || (bool)$_GET["grd"])
+		if(($user_id != $ilUser->getId() || (bool)$_GET["grd"]) && 
+			!stristr($cancel_cmd, "peer"))
 		{
 			include_once "Services/User/classes/class.ilUserUtil.php";
 			$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));

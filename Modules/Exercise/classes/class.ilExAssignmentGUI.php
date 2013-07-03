@@ -473,11 +473,22 @@ class ilExAssignmentGUI
 				if($times_up && $a_data["peer"])
 				{		
 					$peer_url = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "editPeerReview");
-					$peer_url = "<a href=\"".$peer_url."\" class=\"submit\">".
+					$edit_pc = "<a href=\"".$peer_url."\" class=\"submit\">".
 						$lng->txt("exc_peer_review_give")."</a>";
 					
+					if(ilExAssignment::maySeeGivenFeedback($a_data["id"]))
+					{
+						$view_url = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "showPersonalPeerReview");
+						$view_pc = "<a href=\"".$view_url."\" class=\"submit\">".
+							$lng->txt("exc_peer_review_show")."</a>";
+					}
+					else
+					{
+						$view_pc = $lng->txt("exc_peer_review_show_not_rated_yet");
+					}
+					
 					$info->addProperty($lng->txt("exc_peer_review"),
-						$peer_url);															
+						$edit_pc." ".$view_pc);																									
 				}								
 			}
 		}
