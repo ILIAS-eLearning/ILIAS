@@ -131,7 +131,7 @@ class ilRatingGUI
 	 * @param array $a_categories 
 	 * @return string
 	 */
-	protected function renderDetails($a_js_id, $a_may_rate, array $a_categories = null)
+	protected function renderDetails($a_js_id, $a_may_rate, array $a_categories = null, $a_onclick = null)
 	{
 		global $lng, $ilCtrl;
 		
@@ -155,6 +155,10 @@ class ilRatingGUI
 					$ttpl->setCurrentBlock("rating_link_simple");					
 					$ilCtrl->setParameter($this, "rating", $i);
 					$ttpl->setVariable("HREF_RATING", $ilCtrl->getLinkTarget($this, "saveRating"));
+					if($a_onclick)
+					{
+						$ttpl->setVariable("ONCLICK_RATING", ' onclick="'.$a_onclick.'"');
+					}
 					if ($rating >= $i)
 					{
 						$ttpl->setVariable("SRC_ICON",
@@ -270,7 +274,7 @@ class ilRatingGUI
 	/**
 	* Get HTML for rating of an object (and a user)
 	*/
-	function getHTML($a_show_overall = true, $a_may_rate = true)
+	function getHTML($a_show_overall = true, $a_may_rate = true, $a_onclick = null)
 	{
 		global $lng;	
 		
@@ -397,7 +401,7 @@ class ilRatingGUI
 		if($has_overlay)
 		{
 			$ttpl->setVariable("RATING_DETAILS", 
-				$this->renderDetails("rtov_", $may_rate, $categories));
+				$this->renderDetails("rtov_", $may_rate, $categories, $a_onclick));
 			
 			$ttpl->setCurrentBlock("user_rating");
 			$ttpl->setVariable("ID", $this->id);
