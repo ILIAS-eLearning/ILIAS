@@ -203,7 +203,7 @@ class ilObjFile extends ilObject2
 		$this->raise_upload_error = $a_raise;
 	}
 
-	function getUploadFile($a_upload_file, $a_filename)
+	function getUploadFile($a_upload_file, $a_filename, $a_prevent_preview = false)
 	{
 		$this->setVersion($this->getVersion() + 1);
 
@@ -216,8 +216,13 @@ class ilObjFile extends ilObject2
 		//move_uploaded_file($a_upload_file, $file);
 		ilUtil::moveUploadedFile($a_upload_file, $a_filename, $file, $this->raise_upload_error);
 		
-		
 		$this->handleQuotaUpdate($this);
+		
+		// create preview?
+		if (!$a_prevent_preview)
+		{
+			$this->createPreview(false);
+		}			
 	}
 
 	/**
@@ -225,7 +230,7 @@ class ilObjFile extends ilObject2
 	*/
 	function replaceFile($a_upload_file, $a_filename)
 	{
-		$this->getUploadFile($a_upload_file, $a_filename);
+		$this->getUploadFile($a_upload_file, $a_filename, true);
 		
 		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry(
@@ -235,12 +240,15 @@ class ilObjFile extends ilObject2
 		);
 		$this->setFilename($a_filename);
 		$this->addNewsNotification("file_updated");
+		
+		// create preview
+		$this->createPreview(true);
 	}
 	
 	
 	public function addFileVersion($a_upload_file,$a_filename)
 	{
-		$this->getUploadFile($a_upload_file, $a_filename);
+		$this->getUploadFile($a_upload_file, $a_filename, true);
 		
 		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry(
@@ -251,6 +259,8 @@ class ilObjFile extends ilObject2
 		$this->setFilename($a_filename);
 		$this->addNewsNotification("file_updated");
 				
+		// create preview
+		$this->createPreview($this->getVersion() > 1);
 	}
 
 
@@ -759,6 +769,10 @@ class ilObjFile extends ilObject2
 				$ilDB->quote($this->getVersion() ,'integer').", ".
 				$ilDB->quote($this->getMode() ,'text').")";
 		$res = $ilDB->manipulate($query);
+		 
+		// copy all previews
+		require_once("./Services/Preview/classes/class.ilPreview.php");
+		ilPreview::copyPreviews($this->getId(), $a_new_obj->getId());
 
 		// copy history entries
 		require_once("./Services/History/classes/class.ilHistory.php");
@@ -808,6 +822,9 @@ class ilObjFile extends ilObject2
 		}
 		
 		self::handleQuotaUpdate($this);
+
+		// delete preview
+		$this->deletePreview();
 	}
 
 	/**
@@ -1004,6 +1021,9 @@ class ilObjFile extends ilObject2
 			$file = $this->getDirectory($this->getVersion())."/".$a_filename;
 			//move_uploaded_file($a_upload_file, $file);
 			rename($a_upload_file,  $file);
+			
+			// create preview
+			$this->createPreview();
 	}
 	
 	/**
@@ -1181,6 +1201,9 @@ class ilObjFile extends ilObject2
 		$this->determineFileSize();
 
 		$this->update();	
+		
+		// refresh preview
+		$this->createPreview(true);
 	}
 	
 	/**
@@ -1254,6 +1277,34 @@ class ilObjFile extends ilObject2
 			$a_file->getDiskUsage(), 
 			$parent_obj_ids);	
 	}
+
+	/**
+	 * Creates a preview for the file object.
+	 * 
+	 * @param bool $force true, to force the creation of the preview; false, to create the preview only if the file is newer.
+	 */
+	protected function createPreview($force = false)
+	{
+		// only normal files are supported
+		if ($this->getMode() != "object")
+			return;
+		
+		require_once("./Services/Preview/classes/class.ilPreview.php");
+		ilPreview::createPreview($this, $force);
+	}
 	
+	/**
+	 * Deletes the preview of the file object.
+	 */
+	protected function deletePreview()
+	{
+		// only normal files are supported
+		if ($this->getMode() != "object")
+			return;
+		
+		require_once("./Services/Preview/classes/class.ilPreview.php");
+		ilPreview::deletePreview($this->getId());
+	}
+
 } // END class.ilObjFile
 ?>

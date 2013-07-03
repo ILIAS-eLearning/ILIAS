@@ -810,6 +810,15 @@ class ilObjFileGUI extends ilObject2GUI
 		{			
 			$info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
 		}
+		
+		// display previews
+		include_once("./Services/Preview/classes/class.ilPreview.php");
+		if (!$this->ctrl->isAsynch() && ilPreview::hasPreview($this->object->getId()) && $this->checkPermissionBool("read"))
+		{
+            include_once("./Services/Preview/classes/class.ilPreviewGUI.php");
+            $preview = new ilPreviewGUI($this->node_id);
+			$info->addProperty($this->lng->txt("preview"), $preview->getInlineHTML());
+		}
 
 		// forward the command
 	    // $this->ctrl->setCmd("showSummary");
