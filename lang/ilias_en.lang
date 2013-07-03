@@ -13461,3 +13461,7 @@ search#:#search_add_members_from_container_crs#:#Add Users of Current Course
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_info#:#Not available for team upload assignments.
 exc#:#exc_peer_review_min_number#:#Minimum number of feedback given required to see personal feedback
+exc#:#exc_peer_review_give#:#Give Feedback
+exc#:#exc_peer_review_no_peers#:#There are no peers to give feedback for.
+exc#:#exc_peer_review_rating#:#Rating
+exc#:#exc_peer_review_updated#:#Your feedback has been saved.

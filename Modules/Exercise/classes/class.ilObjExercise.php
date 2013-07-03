@@ -1081,13 +1081,14 @@ class ilObjExercise extends ilObject
 	
 		$next_id = $ilDB->nextId("exc_returned");
 		$query = sprintf("INSERT INTO exc_returned ".
-						 "(returned_id, obj_id, user_id, filetitle, ass_id, atext) ".
-						 "VALUES (%s, %s, %s, %s, %s, %s)",
+						 "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext) ".
+						 "VALUES (%s, %s, %s, %s, %s, %s, %s)",
 			$ilDB->quote($next_id, "integer"),
 			$ilDB->quote($this->getId(), "integer"),
 			$ilDB->quote($user_id, "integer"),
 			$ilDB->quote($a_wsp_id, "text"),
 			$ilDB->quote($a_ass_id, "integer"),
+			$ilDB->quote(ilUtil::now(), "timestamp"),
 			$ilDB->quote($a_text, "text")
 		);
 		$ilDB->manipulate($query);

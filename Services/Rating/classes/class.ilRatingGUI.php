@@ -270,7 +270,7 @@ class ilRatingGUI
 	/**
 	* Get HTML for rating of an object (and a user)
 	*/
-	function getHTML()
+	function getHTML($a_show_overall = true, $a_may_rate = true)
 	{
 		global $lng;	
 		
@@ -280,7 +280,11 @@ class ilRatingGUI
 			$categories = ilRatingCategory::getAllForObject($this->obj_id);		
 		}
 		
-		$may_rate = ($this->getUserId() != ANONYMOUS_USER_ID);		
+		$may_rate = ($this->getUserId() != ANONYMOUS_USER_ID);	
+		if($may_rate && !$a_may_rate)
+		{
+			$may_rate = false;
+		}
 		
 		$has_overlay = false;				
 		if($may_rate || $categories)
@@ -299,12 +303,20 @@ class ilRatingGUI
 		}
 		
 		// (1) overall rating
-		$rating = ilRating::getOverallRatingForObject($this->obj_id, $this->obj_type,
-			$this->sub_obj_id, $this->sub_obj_type);
-
+		if($a_show_overall)
+		{
+			$rating = ilRating::getOverallRatingForObject($this->obj_id, $this->obj_type,
+				$this->sub_obj_id, $this->sub_obj_type);
+		}
+		else
+		{
+			$rating = array("avg"=>$user_rating);
+		}
+		
 		for($i = 1; $i <= 5; $i++)
 		{
-			if ($i == $user_rating)
+			if ($a_show_overall &&
+				$i == $user_rating)
 			{
 				$ttpl->setCurrentBlock("rating_mark");
 				$ttpl->setVariable("SRC_MARK",
@@ -331,27 +343,32 @@ class ilRatingGUI
 			}
 			$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
 			$ttpl->parseCurrentBlock();
-		}
+		}		
 		$ttpl->setCurrentBlock("rating_icon");
-		if ($rating["cnt"] == 0)
-		{
-			$tt = $lng->txt("rat_not_rated_yet");
-		}
-		else if ($rating["cnt"] == 1)
-		{
-			$tt = $lng->txt("rat_one_rating");
-		}
-		else
-		{
-			$tt = sprintf($lng->txt("rat_nr_ratings"), $rating["cnt"]);
-		}
-		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-		ilTooltipGUI::addTooltip($this->id."_tt", $tt);
-		if ($rating["cnt"] > 0)
-		{
-			$ttpl->setCurrentBlock("rat_nr");
-			$ttpl->setVariable("RT_NR", $rating["cnt"]);
-			$ttpl->parseCurrentBlock();
+		
+		if($a_show_overall)
+		{			
+			if ($rating["cnt"] == 0)
+			{
+				$tt = $lng->txt("rat_not_rated_yet");
+			}
+			else if ($rating["cnt"] == 1)
+			{
+				$tt = $lng->txt("rat_one_rating");
+			}
+			else
+			{
+				$tt = sprintf($lng->txt("rat_nr_ratings"), $rating["cnt"]);
+			}		
+			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+			ilTooltipGUI::addTooltip($this->id."_tt", $tt);
+
+			if ($rating["cnt"] > 0)
+			{
+				$ttpl->setCurrentBlock("rat_nr");
+				$ttpl->setVariable("RT_NR", $rating["cnt"]);
+				$ttpl->parseCurrentBlock();
+			}
 		}
 
 		// add overlay (trigger)
