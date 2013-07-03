@@ -2228,6 +2228,143 @@ class ilExAssignment
 		
 		return $result;
 	}
+	
+	protected function initPeerReviews()
+	{
+		global $ilDB;
+		
+		// only if assignment is through
+		if(!$this->getDeadline() || $this->getDeadline() > time())
+		{
+			return false;
+		}
+		
+		$set = $ilDB->query("SELECT count(*) cnt".
+			" FROM exc_assignment_peer".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
+		$cnt = $ilDB->fetchAssoc($set);
+		if(!$cnt["cnt"])
+		{
+			$user_ids = array();
+			$set = $ilDB->query("SELECT user_id".
+				" FROM exc_returned".
+				" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$user_ids[] = $row["user_id"];
+			}
+			
+			if(sizeof($user_ids) < 2)
+			{
+				return false;
+			}
+			
+			$rater_ids = $user_ids;
+			$matrix = array();
+
+			$max = min(sizeof($user_ids)-1, $this->getPeerReviewMin());			
+			for($loop = 0; $loop < $max; $loop++)
+			{				
+				$run_ids = array_combine($user_ids, $user_ids);
+				
+				foreach($rater_ids as $rater_id)
+				{
+					$possible_peer_ids = $run_ids;
+					
+					// may not rate himself
+					unset($possible_peer_ids[$rater_id]);
+					
+					// already has linked peers
+					if(isset($matrix[$rater_id]))
+					{
+						$possible_peer_ids = array_diff($possible_peer_ids, $matrix[$rater_id]);
+						if(sizeof($possible_peer_ids))
+						{
+							$peer_id = array_rand($possible_peer_ids);
+							$matrix[$rater_id][] = $peer_id;	
+						}
+					}
+					// 1st peer
+					else
+					{
+						$peer_id = array_rand($possible_peer_ids);
+						$matrix[$rater_id] = array($peer_id);	
+					}
+					
+					unset($run_ids[$peer_id]);
+				}
+			}	
+			
+			foreach($matrix as $rater_id => $peer_ids)
+			{
+				foreach($peer_ids as $peer_id)
+				{
+					$ilDB->manipulate("INSERT INTO exc_assignment_peer".
+						" (ass_id, giver_id, peer_id)".
+						" VALUES (".$ilDB->quote($this->getId(), "integer").
+						", ".$ilDB->quote($rater_id, "integer").
+						", ".$ilDB->quote($peer_id, "integer").")");					
+				}
+			}
+			
+		}
+		return true;
+	}
+	
+	public function getPeerReviewsByGiver($a_user_id)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		if($this->initPeerReviews())
+		{			
+			$set = $ilDB->query("SELECT * FROM exc_assignment_peer".
+				" WHERE giver_id = ".$ilDB->quote($a_user_id, "integer").
+				" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$res[] = $row;
+			}
+		}				
+		
+		return $res;
+	}
+	
+	public function hasPeerReviewAccess($a_peer_id)
+	{
+		global $ilDB, $ilUser;
+		
+		$set = $ilDB->query("SELECT ass_id FROM exc_assignment_peer".
+			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
+			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		return (bool)$row["ass_id"];		
+	}
+	
+	public function updatePeerReviewTimestamp($a_peer_id)
+	{
+		global $ilDB, $ilUser;
+		
+		$ilDB->manipulate("UPDATE exc_assignment_peer".
+			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
+			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
+			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
+	}
+	
+	public function updatePeerReviewComment($a_peer_id, $a_comment)
+	{
+		global $ilDB, $ilUser;
+		
+		$ilDB->manipulate("UPDATE exc_assignment_peer".
+			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
+			", pcomment  = ".$ilDB->quote($a_comment, "text").
+			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
+			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
+	}
 }
 
 ?>

@@ -16264,4 +16264,37 @@ if(!$ilDB->tableExists('sysc_groups'))
   $ilDB->createSequence("sysc_groups");
 }
 ?>
-
+<#3939>
+<?php
+if(!$ilDB->tableExists('exc_assignment_peer'))
+{
+	$fields = array (
+	'ass_id' => array(
+    		'type' => 'integer',
+    		'length'  => 4,
+    		'notnull' => true),
+	'giver_id' => array(
+    		'type' => 'integer',
+    		'length'  => 4,
+    		'notnull' => true),
+	'peer_id' => array(
+    		'type' => 'integer',
+    		'length'  => 4,
+    		'notnull' => true),
+	'pcomment' => array(
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 2000,
+		 	"fixed" => false),
+	'tstamp' => array(
+			"type" => "timestamp",
+			"notnull" => false)
+	  );
+  $ilDB->createTable('exc_assignment_peer', $fields);
+  $ilDB->addPrimaryKey('exc_assignment_peer', array('ass_id', 'giver_id', 'peer_id'));
+}
+?>
+<#3940>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

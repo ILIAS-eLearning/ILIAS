@@ -13455,3 +13455,7 @@ search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hin
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_info#:#Nicht möglich für Team-Upload-Übungseinheiten
 exc#:#exc_peer_review_min_number#:#Mindestanzahl an Peer-Feedback um eigene Bewertungen zu sehen
+exc#:#exc_peer_review_give#:#Feedback geben
+exc#:#exc_peer_review_no_peers#:#Es konnten keine Peers gefunden werden.
+exc#:#exc_peer_review_rating#:#Bewertung
+exc#:#exc_peer_review_updated#:#Ihr Feedback wurde gespeichert.
