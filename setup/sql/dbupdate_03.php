@@ -16221,3 +16221,47 @@ if( !$ilDB->tableColumnExists('exc_assignment', 'peer_min') )
 		);
 }
 ?>
+<#3938>
+<?php
+if(!$ilDB->tableExists('sysc_groups'))
+{
+	$fields = array (
+    'id'    => array(
+    		'type' => 'integer',
+    		'length'  => 4,
+    		'notnull' => true),
+
+    'title'   => array(
+    		'type' => 'text',
+    		'notnull' => false,
+    		'length' => 64,
+    		'fixed' => true),
+
+	'description' => array(
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 64,
+		 	"fixed" => true),
+
+	'component' => array(
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 16,
+		 	"fixed" => true),
+
+	'last_update' => array(
+			"type" => "timestamp",
+			"notnull" => false),
+		
+	'status' => array(
+			"type" => "integer",
+			"notnull" => true,
+			'length' => 1,
+			'default' => 0)
+	  );
+  $ilDB->createTable('sysc_groups', $fields);
+  $ilDB->addPrimaryKey('sysc_groups', array('id'));
+  $ilDB->createSequence("sysc_groups");
+}
+?>
+
