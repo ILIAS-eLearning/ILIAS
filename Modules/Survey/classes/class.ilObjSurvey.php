@@ -3117,14 +3117,25 @@ class ilObjSurvey extends ilObject
 					$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
 				}
 			}
-			$active_id = $this->getActiveID($user_id, $anonymize_id);
+			$active_id = $this->getActiveID($user_id, $anonymize_id, $appr_id);
 			$messagetext .= ((strlen($messagetext)) ? "\n\n\n" : '') . $this->lng->txt('results') . "\n\n". $this->getParticipantTextResults($active_id);
 		
 			if($appr_id)
 			{
-				// :TODO: add appraisee data?
+				// add appraisee data
+				include_once "Services/User/classes/class.ilUserUtil.php";
+				$messagetext .= "\n\n(".$this->lng->txt("survey_360_mode").") ".
+					$this->lng->txt("survey_360_appraisee").": ".
+					ilUserUtil::getNamePresentation($appr_id);				
 			}
-		
+						
+			// #11298			
+			include_once "./Services/Link/classes/class.ilLink.php";
+			$link = ilLink::_getStaticLink($this->getRefId(), "svy");			
+			$messagetext .= "\n\n".$this->lng->txt('obj_svy').": ". $this->getTitle()."\n";			
+			$messagetext .= "\n".$this->lng->txt('survey_notification_tutor_link').": ".$link;								
+			$mail->appendInstallationSignature(true);
+			
 			$mail->sendMail(
 				$recipient, // to
 				"", // cc
@@ -3140,7 +3151,7 @@ class ilObjSurvey extends ilObject
 	protected function getParticipantTextResults($active_id)
 	{
 		$textresult = "";
-		$userResults =& $this->getUserSpecificResults();
+		$userResults =& $this->getUserSpecificResults(array($active_id));
 		$questions =& $this->getSurveyQuestions(true);
 		$questioncounter = 1;
 		foreach ($questions as $question_id => $question_data)
