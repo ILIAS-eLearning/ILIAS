@@ -3049,6 +3049,13 @@ class ilObjSurvey extends ilObject
 			$active_id = $this->getActiveID($user_id, $anonymize_id);
 			$messagetext .= ((strlen($messagetext)) ? "\n\n\n" : '') . $this->lng->txt('results') . "\n\n". $this->getParticipantTextResults($active_id);
 		
+			// #11298			
+			include_once "./Services/Link/classes/class.ilLink.php";
+			$link = ilLink::_getStaticLink($this->getRefId(), "svy");			
+			$messagetext .= "\n\n".$this->lng->txt('obj_svy').": ". $this->getTitle()."\n";			
+			$messagetext .= "\n".$this->lng->txt('survey_notification_tutor_link').": ".$link;								
+			$mail->appendInstallationSignature(true);
+			
 			$mail->sendMail(
 				$recipient, // to
 				"", // cc
