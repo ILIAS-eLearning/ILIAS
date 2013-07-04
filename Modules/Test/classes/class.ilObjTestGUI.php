@@ -71,7 +71,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs, $ilPluginAdmin;
+		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs;
 
 		if((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -142,10 +142,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilTestExportGUI.php';
-				$export_gui = new ilTestExportGUI($this);
-				$export_gui->addFormat('xml', $this->lng->txt('ass_create_export_file'), $export_gui, 'createTestExport');
-				$export_gui->addFormat('csv', $this->lng->txt('ass_create_export_test_results'), $export_gui, 'createTestResultsExport');
-				$ilCtrl->forwardCommand($export_gui);
+				$ilCtrl->forwardCommand(new ilTestExportGUI($this));
 				break;
 
 			case "ilinfoscreengui":

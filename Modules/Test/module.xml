@@ -30,4 +30,7 @@
 			<parent id="wfld">wfld</parent>
 		</object>
 	</objects>
+	<pluginslots>
+		<pluginslot id="texp" name="Export" />
+	</pluginslots>
 </module>

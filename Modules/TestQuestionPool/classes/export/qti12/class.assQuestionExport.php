@@ -190,6 +190,14 @@ class assQuestionExport
 			$a_xml_writer, 'additional_cont_edit_mode', $this->object->getAdditionalContentEditingMode()
 		);
 	}
+
+	/**
+	 * @param ilXmlWriter $xmlwriter
+	 */
+	protected function addGeneralMetadata(ilXmlWriter $xmlwriter)
+	{
+		$this->addQtiMetaDataField($xmlwriter, 'externalId', $this->object->getExternalId());
+	}
 }
 
 ?>

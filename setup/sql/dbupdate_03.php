@@ -16327,3 +16327,21 @@ if(!$ilDB->tableExists('preview'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3943>
+<?php
+if(!$ilDB->tableColumnExists('qpl_questions', 'external_id'))
+{
+	$ilDB->addTableColumn("qpl_questions", "external_id",
+		array(
+			"type"    => "text",
+			"notnull" => false,
+			"length"  => 255,
+			"default" => null
+		)
+	);
+}
+?>
+<#3944>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

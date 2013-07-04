@@ -144,6 +144,14 @@ class assQuestionImport
 	function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
 	{
 	}
+
+	/**
+	 * @param ilQTIItem $item
+	 */
+	protected function addGeneralMetadata(ilQTIItem $item)
+	{
+		$this->object->setExternalId($item->getMetadataEntry('externalID'));
+	}
 	
 	/**
 	 * returns the full path to extracted qpl import archiv (qpl import dir + qpl archiv subdir)
