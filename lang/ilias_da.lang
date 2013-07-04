@@ -2928,7 +2928,7 @@ assessment#:#delete_all_user_data_confirmation#:#Ønsker du at fortsætte og der
 assessment#:#delete_area#:#Slet område
 assessment#:#delete_image#:#Delete image
 assessment#:#delete_user_data#:#Slet testdata for valgte brugere
-assessment#:#description_maxchars#:#Hvis intet indtastet er det maksimale antal karakterer for dette svar uendeligt.
+assessment#:#description_maxchars#:#Hvis intet indtastet er det maksimale antal bogstaver for dette svar uendeligt.
 assessment#:#detail_ending_time_reached#:#Du er nået til sluttidspunktet for denne test. Testen er ikke tilgængelig efter %s
 assessment#:#detail_max_processing_time_reached#:#Du har brugt dem maksimalt tilladte tid på denne test!
 assessment#:#detail_starting_time_not_reached#:#Du har ikke nået start tidspunktet for denne test. Testen e r tilgængelig efter %s
@@ -9728,8 +9728,8 @@ exc#:#exc_pass_all_info#:#All mandatory assignments must be passed to pass the e
 exc#:#exc_pass_minimum_nr#:#Minimum Number of Assignments###26 03 2010 new variable
 exc#:#exc_pass_minimum_nr_info#:#A minimum number of assignments must be passed to pass the exercise. This value must be equal or higher than the number of mandatory assignments.###26 03 2010 new variable
 exc#:#exc_min_nr#:#Number of Assignments###26 03 2010 new variable
-exc#:#exc_save_order#:#Save Order###26 03 2010 new variable
-exc#:#exc_order_by_deadline#:#Order by Deadline###26 03 2010 new variable
+exc#:#exc_save_order#:#Gem rækkefølge
+exc#:#exc_order_by_deadline#:#Sorter efter tidsfrist
 exc#:#exc_conf_del_assignments#:#Do you really want to delete the following assignments?###26 03 2010 new variable
 exc#:#exc_assignments_deleted#:#The assignments have been deleted.###26 03 2010 new variable
 exc#:#exc_presentation_order#:#Presentation Order###26 03 2010 new variable
@@ -9921,7 +9921,7 @@ administration#:#adm_rep_tree_all_types#:#All Resource Types###16 07 2010 new va
 administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.###16 07 2010 new variable
 administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.###16 07 2010 new variable
 cmps#:#cmps_configure#:#Configure###16 07 2010 new variable
-tbl#:#tbl_templates#:#View###16 07 2010 new variable
+tbl#:#tbl_templates#:#Visning
 tbl#:#tbl_template_create#:#Gem denne visning
 tbl#:#tbl_template_delete#:#Slet gemt visning
 tbl#:#tbl_template_created#:#Visningen blev gemt.
@@ -9933,7 +9933,7 @@ style#:#sty_copied_please_select_target#:#The style classes have been copied. Pl
 style#:#sty_paste_style_classes#:#Paste Style Classes###16 07 2010 new variable
 style#:#sty_if_style_class_already_exists#:#If style class already exists...###16 07 2010 new variable
 style#:#sty_overwrite#:#Overwrite###16 07 2010 new variable
-style#:#sty_keep_existing#:#Keep Existing###16 07 2010 new variable
+style#:#sty_keep_existing#:#Behold eksisterende
 style#:#sty_paste_characteristics#:#Paste Style Classes###16 07 2010 new variable
 style#:#sty_style_classes_copied#:#Style classes have been copied.###16 07 2010 new variable
 news#:#news_attached_to#:#Attached to###16 07 2010 new variable
@@ -9965,14 +9965,14 @@ administration#:#adm_activate_db_benchmark#:#Activate Benchmark###16 07 2010 new
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking bliver automatisk deaktiveret efter et enkelt kald.
 administration#:#adm_db_benchmark_user#:#User Account Name###16 07 2010 new variable
 administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.###16 07 2010 new variable
-administration#:#adm_db_bench_chronological#:#Chronological###16 07 2010 new variable
-administration#:#adm_db_bench_slowest_first#:#Slowest First###16 07 2010 new variable
-administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL###16 07 2010 new variable
+administration#:#adm_db_bench_chronological#:#Kronologisk
+administration#:#adm_db_bench_slowest_first#:#Langsomste først
+administration#:#adm_db_bench_sorted_by_sql#:#Sorteret af SQL
 administration#:#adm_sql#:#SQL###16 07 2010 new variable
 administration#:#adm_time#:#Time###16 07 2010 new variable
 administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL###16 07 2010 new variable
 administration#:#adm_nr_statements#:#Number of Statements###16 07 2010 new variable
-administration#:#adm_table#:#Table###16 07 2010 new variable
+administration#:#adm_table#:#Tabel
 trac#:#trac_subitems#:#Vis under-objekter
 trac#:#trac_participants#:#Vis deltagere
 trac#:#trac_title#:#Titel
@@ -10198,7 +10198,7 @@ book#:#book_no_of_objects#:#No. of Objects###16 07 2010 new variable
 book#:#book_book#:#Book###16 07 2010 new variable
 book#:#book_list_items#:#List Objects###16 07 2010 new variable
 book#:#book_add_type#:#Add Type###16 07 2010 new variable
-book#:#book_back_to_list#:#Back to List###16 07 2010 new variable
+book#:#book_back_to_list#:#Tilbage til liste
 book#:#book_edit_type#:#Edit Type###16 07 2010 new variable
 book#:#book_group_objects#:#Group objects###16 07 2010 new variable
 book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally.###16 07 2010 new variable
@@ -10225,7 +10225,7 @@ book#:#book_schedule_break_info#:#Given in multiples of time raster###16 07 2010
 book#:#book_schedule_days#:#Ugedage
 book#:#book_schedule_days_info#:#Mulige bookinger for hver dag (TT:MM-TT:MM)
 book#:#book_schedule_slot#:#Slot###16 07 2010 new variable
-book#:#book_deadline#:#Deadline###16 07 2010 new variable
+book#:#book_deadline#:#Tidsfrist/deadline
 book#:#book_minutes#:#Minutter
 book#:#book_deadline_info#:#Minimum time between booking and booked period###16 07 2010 new variable
 book#:#book_type_added#:#A booking type has been added.###16 07 2010 new variable
@@ -10598,7 +10598,7 @@ sahs#:#sahs_import_sequencing#:#Import Sequencing###01 04 2011 new variable
 sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).###01 04 2011 new variable
 sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 new variable
 sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.###01 04 2011 new variable
-mep#:#mobs_restrict_file_types#:#Restrict File Types###01 04 2011 new variable
+mep#:#mobs_restrict_file_types#:#Begræns filtyper
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.###01 04 2011 new variable
 common#:#personal_settings#:#Personlige indstillinger
 common#:#rep_main_page#:#Forside
@@ -10734,12 +10734,12 @@ assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to 
 assessment#:#test_template_reset#:#The template has been removed.###12 06 2011 new variable
 assessment#:#test_using_template_link#:#Do not use template anymore###12 06 2011 new variable
 common#:#tst_edit_questions#:#Ret spørgsmål
-assessment#:#tst_mail_notification#:#Mail Notifications###12 06 2011 new variable
-assessment#:#saveOrder#:#Save Order###12 06 2011 new variable
+assessment#:#tst_mail_notification#:#Mailadviseringer
+assessment#:#saveOrder#:#Gem rækkefølge
 assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link###12 06 2011 new variable
 common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>###12 06 2011 new variable
-assessment#:#tst_result#:#Test Result###12 06 2011 new variable
-common#:#first#:#First###12 06 2011 new variable
+assessment#:#tst_result#:#Testresultat
+common#:#first#:#Første
 rating#:#rat_one_rating#:#One Rating###12 06 2011 new variable
 rating#:#rat_not_rated_yet#:#Not Rated Yet###12 06 2011 new variable
 rating#:#rat_nr_ratings#:#%s Ratings###12 06 2011 new variable
@@ -10862,9 +10862,9 @@ content#:#cont_pc_vrfc#:#Verification###12 06 2011 new variable
 content#:#cont_insert_verification#:#Add Verification###12 06 2011 new variable
 content#:#cont_update_verification#:#Edit Verification###12 06 2011 new variable
 content#:#cont_verification_object#:#Verification###12 06 2011 new variable
-content#:#cont_ed_insert_blog#:#Insert Blog###12 06 2011 new variable
-content#:#cont_pc_blog#:#Blog###12 06 2011 new variable
-content#:#cont_insert_blog#:#Add Blog###12 06 2011 new variable
+content#:#cont_ed_insert_blog#:#Indsæt blog
+content#:#cont_pc_blog#:#Blog
+content#:#cont_insert_blog#:#Tilføj blog
 content#:#cont_update_blog#:#Edit Blog###12 06 2011 new variable
 content#:#cont_active_areas#:#Triggers###12 06 2011 new variable
 content#:#cont_content_popups#:#Content Popups###12 06 2011 new variable
@@ -10926,13 +10926,13 @@ content#:#cont_qover_short_message#:#Status Message###12 06 2011 new variable
 content#:#cont_qover_short_message_info#:#A message "You have correctly answered C out of Y questions of this unit." will be displayed.###12 06 2011 new variable
 content#:#cont_qover_list_wrong_q#:#List of Wrong Answered Questions###12 06 2011 new variable
 content#:#cont_qover_list_wrong_q_info#:#A list of wrong or not answered questions will be displayed.###12 06 2011 new variable
-content#:#cont_edit_qover#:#Edit Question Overview###12 06 2011 new variable
-content#:#cont_ov_all_correct#:#You have correctly answered all questions.###12 06 2011 new variable
-content#:#cont_ov_some_correct#:#You have correctly answered [x] out of [y] questions.###12 06 2011 new variable
-content#:#cont_ov_wrong_answered#:#The following questions were not answered or answered wrong###12 06 2011 new variable
+content#:#cont_edit_qover#:#Ret spørgsmål overblik
+content#:#cont_ov_all_correct#:#Du har besvaret alle spørgsmål korrekt.
+content#:#cont_ov_some_correct#:#Du har besvaret [x] ud af [y] spørgsmål korrekt.
+content#:#cont_ov_wrong_answered#:#Nedenstående spørgsmål blev ikke besvaret eller blev forkert besvaret.
 common#:#invoice_number_reset_period#:#Reset incremental number###12 06 2011 new variable
 common#:#invoice_number_reset_period_desc#:#Choose the period for reseting the incremental number to the start value###12 06 2011 new variable
-common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled###12 06 2011 new variable
+common#:#payment_userdefined_invoice_number_not_activated#:#Brugerdefinerede fakturanumre er ikke aktiveret
 common#:#invoice_number#:#Fakturanummer
 common#:#invoice_number_setting#:#Invoice number settings###12 06 2011 new variable
 payment#:#ilias_invoice_number#:#ILIAS fakturanummer
@@ -10966,7 +10966,7 @@ content#:#cont_lpe_cas_login_form#:#CAS Login Form###12 06 2011 new variable
 content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form###12 06 2011 new variable
 content#:#cont_lpe_openid_login_form#:#OpenId Login Form###12 06 2011 new variable
 content#:#cont_lpe_registration_link#:#New Registration Link###12 06 2011 new variable
-content#:#cont_lpe_language_selection#:#Language Selection###12 06 2011 new variable
+content#:#cont_lpe_language_selection#:#Valg af sprog
 content#:#cont_lpe_user_agreement_link#:#User Agreement Link###12 06 2011 new variable
 content#:#cont_insert_login_page#:#Add Login Page Element###12 06 2011 new variable
 survey#:#survey_sync_question_copies#:#Sync Question Copies###12 06 2011 new variable
@@ -10982,10 +10982,10 @@ ecs#:#ecs_deactivate#:#Deaktiveret
 ecs#:#ecs_not_configured#:#Ikke konfigureret
 administration#:#user_criteria#:#Unique user criteria###12 06 2011 new variable
 administration#:#user_criteria_desc#:#Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.###12 06 2011 new variable
-assessment#:#imported#:#imported###12 06 2011 new variable
-ecs#:#ecs_tbl_import#:#Import###12 06 2011 new variable
-ecs#:#ecs_tbl_export#:#Export###12 06 2011 new variable
-ecs#:#ecs_tbl_import_type#:#Import Type###12 06 2011 new variable
+assessment#:#imported#:#importeret
+ecs#:#ecs_tbl_import#:#Import
+ecs#:#ecs_tbl_export#:#Eksport
+ecs#:#ecs_tbl_import_type#:#Importtype
 payment#:#position#:#Pos.###12 06 2011 new variable
 payment#:#amount#:#Amount###12 06 2011 new variable
 payment#:#external_bill_no#:#%s Billing-No.###12 06 2011 new variable
@@ -10998,13 +10998,13 @@ payment#:#period_of_service_provision#:#Period of service provision###12 06 2011
 wsp#:#wsp_permissions#:#Share###12 06 2011 new variable
 wsp#:#wsp_shared_with#:#Shared With###12 06 2011 new variable
 wsp#:#wsp_set_permission_single_user#:#Single User###12 06 2011 new variable
-wsp#:#wsp_set_permission_group#:#Group###12 06 2011 new variable
-wsp#:#wsp_set_permission_course#:#Course###12 06 2011 new variable
-wsp#:#wsp_set_permission_all_password#:#Publish (Password required)###12 06 2011 new variable
-wsp#:#wsp_permission_removed#:#The item has been removed.###12 06 2011 new variable
-wsp#:#wsp_share_with_members#:#Share with members###12 06 2011 new variable
-wsp#:#wsp_share_success#:#A new entry has been added.###12 06 2011 new variable
-wsp#:#wsp_share_search_users#:#Search Users###12 06 2011 new variable
+wsp#:#wsp_set_permission_group#:#Gruppe
+wsp#:#wsp_set_permission_course#:#Kursus
+wsp#:#wsp_set_permission_all_password#:#Udgiv (kodeord krævet)
+wsp#:#wsp_permission_removed#:#Elementet blev fjernet.
+wsp#:#wsp_share_with_members#:#Del med medlemmer
+wsp#:#wsp_share_success#:#Der blev tilføjet en ny ting.
+wsp#:#wsp_share_search_users#:#Søg brugere
 content#:#cont_html_export_ids#:#HTML Export IDs###12 06 2011 new variable
 content#:#cont_html_export_ids_info#:#Allows to maintain extra IDs for ILIAS learning modules, that are used for naming HTML files, when HTML export is done.###12 06 2011 new variable
 content#:#cont_export_id#:#Export ID###12 06 2011 new variable
@@ -11056,15 +11056,15 @@ exc#:#exc_type_blog#:#Blog###12 06 2011 new variable
 exc#:#exc_type_portfolio#:#Portefølge
 exc#:#exc_blog_returned#:#Submitted Blog###12 06 2011 new variable
 exc#:#exc_portfolio_returned#:#Submitted Portfolio###12 06 2011 new variable
-exc#:#exc_create_blog#:#Create Blog###12 06 2011 new variable
-exc#:#exc_create_portfolio#:#Create Portfolio###12 06 2011 new variable
+exc#:#exc_create_blog#:#Lav blog
+exc#:#exc_create_portfolio#:#Lav portfolio
 exc#:#exc_create_blog_select_info#:#Please select the resource folder to add the blog to.###12 06 2011 new variable
 exc#:#exc_create_portfolio_select_info#:#Please select the resource folder to add the portfolio to.###12 06 2011 new variable
-exc#:#exc_blog_created#:#Blog was created.###12 06 2011 new variable
-exc#:#exc_portfolio_created#:#Portfolio was created.###12 06 2011 new variable
+exc#:#exc_blog_created#:#Blog blev oprettet.
+exc#:#exc_portfolio_created#:#Portfolio blev oprettet.
 mail#:#mail_member_notification#:#Participant Notification###15 06 2011 new variable
-mail#:#mail_enable_crs_member_notification#:#Course Notification###15 06 2011 new variable
-mail#:#mail_enable_grp_member_notification#:#Group Notification###15 06 2011 new variable
+mail#:#mail_enable_crs_member_notification#:#Kursusadvisering
+mail#:#mail_enable_grp_member_notification#:#Gruppeadvisering
 mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.###15 06 2011 new variable
 mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.###15 06 2011 new variable
 prtf#:#prtf_portfolios#:#Portfolios###18 07 2011 new variable
@@ -11179,11 +11179,11 @@ skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig ski
 forum#:#mark_moderator_posts#:#Mark moderator posts###18 07 2011 new variable
 forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted###18 07 2011 new variable
 dateplaner#:#cal_cache_settings#:#Cache###18 07 2011 new variable
-dateplaner#:#cal_milestone_settings#:#Milestones###18 07 2011 new variable
+dateplaner#:#cal_milestone_settings#:#Milepunkter
 assessment#:#test_edit_settings#:#Ret indstillinger
 assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been set to offline, because toggling the setting for random question selection causes the allready existing questions to be removed.###18 07 2011 new variable
-ecs#:#ecs_tab_import#:#Import###18 07 2011 new variable
-ecs#:#ecs_tab_export#:#Export###18 07 2011 new variable
+ecs#:#ecs_tab_import#:#Import
+ecs#:#ecs_tab_export#:#Eksport
 ecs#:#ecs_mapping_crs#:#Mapping for Courses###18 07 2011 new variable
 ecs#:#ecs_mapping_rcrs#:#Mapping for Remote Courses###18 07 2011 new variable
 ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data###18 07 2011 new variable
@@ -11567,22 +11567,22 @@ scormdebug#:#no_missing_API-calls#:#Missing API-calls had not been recognized.##
 scormdebug#:#missing_API-calls#:#These API-calls are missing:###06 08 2011 new variable
 scormdebug#:#summary_csv#:#Summary is generated as CSV-file to import for example in Excel###06 08 2011 new variable
 scormdebug#:#summary_download#:#You can klick to 'Logs' and download it when you start this tool again.###06 08 2011 new variable
-scormdebug#:#debugwindow_console#:#Console###06 08 2011 new variable
+scormdebug#:#debugwindow_console#:#Konsol
 scormdebug#:#debugwindow_logs#:#Logs###06 08 2011 new variable
 scormdebug#:#debugwindow_comment#:#comment###06 08 2011 new variable
-scormdebug#:#debugwindow_comment_enter#:#Please enter your comment###06 08 2011 new variable
-scormdebug#:#debugwindow_start_recording#:#Start Recording###06 08 2011 new variable
-scormdebug#:#debugwindow_stop_recording#:#Stop Recording###06 08 2011 new variable
-scormdebug#:#debugwindow_delete_logfile#:#Delete logfile###06 08 2011 new variable
+scormdebug#:#debugwindow_comment_enter#:#Indtast kommentar/note
+scormdebug#:#debugwindow_start_recording#:#Start sporing
+scormdebug#:#debugwindow_stop_recording#:#Stop sporing
+scormdebug#:#debugwindow_delete_logfile#:#Slet logfil
 scormdebug#:#debugwindow_submission_failed#:#Submission failed###06 08 2011 new variable
-scormdebug#:#debugwindow_submit#:#Submit###06 08 2011 new variable
-scormdebug#:#debugwindow_cancel#:#Cancel###06 08 2011 new variable
-scormdebug#:#debugwindow_filename#:#Filename###06 08 2011 new variable
-scormdebug#:#debugwindow_date#:#Date###06 08 2011 new variable
+scormdebug#:#debugwindow_submit#:#Send
+scormdebug#:#debugwindow_cancel#:#Annuller
+scormdebug#:#debugwindow_filename#:#Filnavn
+scormdebug#:#debugwindow_date#:#Dato
 scormdebug#:#debugwindow_action#:#Action###06 08 2011 new variable
-scormdebug#:#debugwindow_delete#:#Delete###06 08 2011 new variable
-scormdebug#:#debugwindow_download#:#Download###06 08 2011 new variable
-scormdebug#:#debugwindow_open#:#Open###06 08 2011 new variable
+scormdebug#:#debugwindow_delete#:#Slet
+scormdebug#:#debugwindow_download#:#Hent
+scormdebug#:#debugwindow_open#:#Åben
 scormdebug#:#debugwindow_password_enter#:#Please enter your password###06 08 2011 new variable
 common#:#password_multiple_errors#:#Multiple criterias are not satisfied:###06 08 2011 new variable
 common#:#password_contains_invalid_chars#:#The password contains invalid characters###06 08 2011 new variable
@@ -11923,7 +11923,7 @@ assessment#:#autosave#:#Automatic saving###28 08 2012 new variable
 assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss. (Does only apply for selected questions.)###28 08 2012 new variable
 assessment#:#autosave_ival#:#Interval
 assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (microseconds)###28 08 2012 new variable
-assessment#:#for#:#for###28 08 2012 new variable
+assessment#:#for#:#af
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:###28 08 2012 new variable
 assessment#:#essay_keyword_relation#:#Score is granted###28 08 2012 new variable
 assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.###28 08 2012 new variable
@@ -12111,20 +12111,20 @@ blog#:#blog_edit_date#:#Edit Date###28 08 2012 new variable
 blog#:#blog_edit_date_info#:#Publication status does not depend on this date.###28 08 2012 new variable
 administration#:#adm_captcha_wiki_forum#:#Activate Captcha for Anonymous (Forum/Wiki)###28 08 2012 new variable
 content#:#cont_captcha_verification#:#User Verification###28 08 2012 new variable
-content#:#cont_captcha_code#:#Code###28 08 2012 new variable
+content#:#cont_captcha_code#:#Kode
 cptch#:#cptch_wrong_input#:#Wrong Input###28 08 2012 new variable
-forum#:#cont_captcha_code#:#Code###28 08 2012 new variable
+forum#:#cont_captcha_code#:#Kode
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.###28 08 2012 new variable
-certificate#:#certificate_file_basename#:#Certificate###28 08 2012 new variable
+certificate#:#certificate_file_basename#:#Certifikat
 grp#:#grp_print_list#:#Generate List###28 08 2012 new variable
-grp#:#grp_members_print_title#:#Group Members###28 08 2012 new variable
-trac#:#trac_closed_misc#:#Misc.###28 08 2012 new variable
+grp#:#grp_members_print_title#:#Gruppemedlemmer
+trac#:#trac_closed_misc#:#Diverse
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.###28 08 2012 new variable
 rep#:#rep_no_permission_to_delete#:#No permission to delete###28 08 2012 new variable
 rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more references.###28 08 2012 new variable
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.###28 08 2012 new variable
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:###28 08 2012 new variable
-blog#:#blog_enable_rss#:#Activate RSS ###28 08 2012 new variable
+blog#:#blog_enable_rss#:#Aktiver RSS
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.###28 08 2012 new variable
 user#:#user_allow_delete_own_account#:#Allow users to delete own account###28 08 2012 new variable
 user#:#user_delete_own_account_notification_email#:#Notification Email###28 08 2012 new variable
@@ -12133,18 +12133,18 @@ user#:#user_delete_own_account_password_confirmation#:#Enter password for author
 user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last time to remove your user account from ILIAS!###28 08 2012 new variable
 user#:#user_delete_own_account_email_subject#:#User account deleted###28 08 2012 new variable
 user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s.###28 08 2012 new variable
-mcst#:#mcst_ordering#:#Sorting###28 08 2012 new variable
+mcst#:#mcst_ordering#:#Sorteing
 mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)###28 08 2012 new variable
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)###28 08 2012 new variable
-mcst#:#mcst_ordering_title#:#By Title###28 08 2012 new variable
-mcst#:#mcst_ordering_manual#:#Manual###28 08 2012 new variable
+mcst#:#mcst_ordering_title#:#Efter titel
+mcst#:#mcst_ordering_manual#:#Manuelt
 user#:#user_store_last_visited#:#Sidst besøgt
 user#:#user_lv_keep_entries#:#Husk sidst besøgt
 user#:#user_lv_keep_only_for_session#:#Husk kun for hvert login
 user#:#user_lv_do_not_store#:#Husk aldrig
 common#:#remove_entries#:#Ryd listen
 exc#:#exc_no_deadline_specified#:#Ingen deadline afgivet
-mcst#:#mcst_save_order#:#Save Order###28 08 2012 new variable
+mcst#:#mcst_save_order#:#Gem rækkefølge
 content#:#glo_style#:#Glossary Style###28 08 2012 new variable
 pdesk#:#bookmark_select_target#:#Please select target.###28 08 2012 new variable
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.###28 08 2012 new variable
@@ -12246,15 +12246,15 @@ common#:#shib_matriculation#:#Attribute for Matriculation Number###28 08 2012 ne
 common#:#soap_connect_timeout#:#Connection Timeout###28 08 2012 new variable
 common#:#soap_connect_timeout_info#:#The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted.###28 08 2012 new variable
 content#:#glo_show_taxonomy#:#Show Taxonomy###28 08 2012 new variable
-dateplaner#:#cal_ical_infoscreen#:#Subscribe###28 08 2012 new variable
-tax#:#tax_sorting#:#Sorting###28 08 2012 new variable
+dateplaner#:#cal_ical_infoscreen#:#Abonner
+tax#:#tax_sorting#:#Sorting
 tax#:#tax_alphabetical#:#Alphabetical###28 08 2012 new variable
 tax#:#tax_manual#:#Manual###28 08 2012 new variable
 tax#:#tax_order_nr#:#Order Nr###28 08 2012 new variable
 tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.###28 08 2012 new variable
 tax#:#tax_please_select_target#:#Please select the target.###28 08 2012 new variable
-rep#:#rep_activation_availability#:#Availability###28 08 2012 new variable
-rep#:#rep_activation_online#:#Online###28 08 2012 new variable
+rep#:#rep_activation_availability#:#Tilgængelighed
+rep#:#rep_activation_online#:#Online
 crs#:#crs_activation_online_info#:#If offline, only course administrators and tutors can see and edit the course.###28 08 2012 new variable
 rep#:#rep_activation_access#:#Access###28 08 2012 new variable
 rep#:#rep_activation_limited_start#:#Starting Time###28 08 2012 new variable
@@ -12285,7 +12285,7 @@ content#:#cont_always#:#Altid
 content#:#cont_highlight_mode#:#Highlight Mode###28 08 2012 new variable
 content#:#cont_light#:#Lys
 content#:#cont_dark#:#Mørk
-content#:#cont_accented#:#Accented###28 08 2012 new variable
+content#:#cont_accented#:#Accenteret
 content#:#cont_set#:#Sæt
 content#:#cont_link_no#:#Intet link
 rating#:#rating_category_deleted#:#Category deleted.###28 08 2012 new variable
@@ -12295,8 +12295,8 @@ wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories###28 08 2012 n
 wiki#:#wiki_activate_page_rating#:#Activate Rating###28 08 2012 new variable
 wiki#:#wiki_deactivate_page_rating#:#Deactivate Rating###28 08 2012 new variable
 rating#:#rating_overlay_title_overall#:#Overall Rating###28 08 2012 new variable
-rating#:#rating_overlay_submit#:#Submit Rating###28 08 2012 new variable
-rep#:#rep_visibility_limitless#:#Umlimited###28 08 2012 new variable
+rating#:#rating_overlay_submit#:#Send score
+rep#:#rep_visibility_limitless#:#Ubegrænset
 rep#:#rep_visibility_until#:#Temporarily Available###28 08 2012 new variable
 assessment#:#tst_availability_limitless_info#:#Choose this mode for making the test available and accessible to users (depending on participants restriction settings below).###28 08 2012 new variable
 assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participants restriction settings below).###28 08 2012 new variable
@@ -12313,7 +12313,7 @@ common#:#obj_mcst_duplicate#:#Copy Mediacast###28 08 2012 new variable
 common#:#obj_glo_duplicate#:#Copy Glossary###28 08 2012 new variable
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 08 2012 new variable
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.###28 08 2012 new variable
-forum#:#number_of_threads#:#Displayed Number of Threads per Page###28 08 2012 new variable
+forum#:#number_of_threads#:#Altal viste tråde pr. side
 common#:#obj_wiki_duplicate#:#Kopier Wiki
 common#:#obj_sahs_duplicate#:#Kopier Læremodul
 common#:#obj_poll#:#Afstemning
@@ -12340,8 +12340,8 @@ poll#:#poll_view_results_after_vote#:#Efter stemmeafgivelse
 poll#:#poll_view_results_after_period#:#Efter stemmeperiode
 poll#:#poll_activation_online_info#:#If offline, only administrators can see and edit the poll.###28 08 2012 new variable
 poll#:#poll_availability_limitless_info#:#Choose this mode for making the poll available and accessible to users.###28 08 2012 new variable
-poll#:#poll_availability_until_info#:#Choose this mode for making the poll available and accessible to users for a fixed period of time.###28 08 2012 new variable
-poll#:#poll_activation_limited_visibility_info#:#If chosen, the poll is visible even outside of the given availability.###28 08 2012 new variable
+poll#:#poll_availability_until_info#:#Vælg denne for at gøre afstemningen synlig og tilgængelig overfor brugerne i en bestemt periode
+poll#:#poll_activation_limited_visibility_info#:#Hvis valgt, er undersøgelsen også synlig uden for den angivne tilgængelighed.
 poll#:#poll_add_answer#:#Tilføj valg
 poll#:#poll_answer#:#Valg
 poll#:#poll_answers#:#Mulige valg
@@ -12376,14 +12376,14 @@ dcl#:#dcl_edit_type_unlim#:#Unlimited###28 08 2012 new variable
 dcl#:#dcl_edit_type_unlim_info#:#Users with add/edit permission can add/edit entries###28 08 2012 new variable
 dcl#:#dcl_edit_type_lim#:#Limited###28 08 2012 new variable
 dcl#:#dcl_edit_type_lim_info#:#Acces for users with add/edit permission is limited to the following daterange###28 08 2012 new variable
-dcl#:#dcl_edit_start#:#Start-Date###28 08 2012 new variable
-dcl#:#dcl_edit_end#:#End-Date###28 08 2012 new variable
-dcl#:#dcl_export#:#Export###28 08 2012 new variable
+dcl#:#dcl_edit_start#:#Startdato
+dcl#:#dcl_edit_end#:#Slutdato
+dcl#:#dcl_export#:#Eksport
 dcl#:#dcl_table_list_fields#:#List Fields of current Table###28 08 2012 new variable
 dcl#:#dcl_view_viewdefinition#:#Viewdefinition###28 08 2012 new variable
-dcl#:#dcl_new_table#:#New Table###28 08 2012 new variable
-dcl#:#dcl_table_create#:#Create Table###28 08 2012 new variable
-dcl#:#dcl_table_edit#:#Update Table###28 08 2012 new variable
+dcl#:#dcl_new_table#:#Ny tabel
+dcl#:#dcl_table_create#:#Lav tabel
+dcl#:#dcl_table_edit#:#Ret tabel
 dcl#:#dcl_new_field#:#Nyt felt
 dcl#:#dcl_datatype#:#Datatype
 dcl#:#dcl_integer#:#Heltal
@@ -12391,23 +12391,23 @@ dcl#:#dcl_text#:#Tekst
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_boolean#:#Boolsk
 dcl#:#dcl_datetime#:#Datetime###28 08 2012 new variable
-dcl#:#dcl_file#:#Fileupload###28 08 2012 new variable
-dcl#:#dcl_field_description#:#Description###28 08 2012 new variable
-dcl#:#dcl_field_required#:#Required###28 08 2012 new variable
-dcl#:#dcl_length#:#Length###28 08 2012 new variable
-dcl#:#dcl_regex#:#Regular Expression###28 08 2012 new variable
-dcl#:#dcl_filter#:#Filter###28 08 2012 new variable
-dcl#:#dcl_max_text_length#:#Maximum Length###28 08 2012 new variable
-dcl#:#dcl_wrong_length#:#The text you entered is to long.###28 08 2012 new variable
-dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).###28 08 2012 new variable
+dcl#:#dcl_file#:#Filupload
+dcl#:#dcl_field_description#:#Beskrivelse
+dcl#:#dcl_field_required#:#Krævet
+dcl#:#dcl_length#:#Længde
+dcl#:#dcl_regex#:#Regulært udtryk
+dcl#:#dcl_filter#:#Filtrering
+dcl#:#dcl_max_text_length#:#Maksimal længde
+dcl#:#dcl_wrong_length#:#Den indtastede tekst er for lang.
+dcl#:#dcl_wrong_regex#:#Den indtastede tekst passer ikke til specifikationen for dette felt (regulært udtryk)
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).###28 08 2012 new variable
-dcl#:#dcl_unique#:#Unique###28 08 2012 new variable
-dcl#:#dcl_unique_exception#:#The value you entered is already taken by another record.###28 08 2012 new variable
-dcl#:#dcl_unknown_exception#:#The value you entered is not valid.###28 08 2012 new variable
-dcl#:#dcl_checked#:#Checked.###28 08 2012 new variable
-dcl#:#dcl_not_checked#:#Not checked.###28 08 2012 new variable
-dcl#:#dcl_any#:#Any###28 08 2012 new variable
-dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://)###28 08 2012 new variable
+dcl#:#dcl_unique#:#Unik
+dcl#:#dcl_unique_exception#:#Den indtastede værdi er allerede anvendt i anden post.
+dcl#:#dcl_unknown_exception#:#Den indtastede værdi er ugyldig.
+dcl#:#dcl_checked#:#Valgt.
+dcl#:#dcl_not_checked#:#Fravalgt.
+dcl#:#dcl_any#:#enhver
+dcl#:#dcl_noturl_exception#:#Du skal indtaste et link (begyndende med http://)
 common#:#mail_member#:#Mail til medlem
 exc#:#exc_type_upload_team#:#Hold upload
 exc#:#exc_team#:#Hold
@@ -12436,11 +12436,11 @@ cat#:#cat_import#:#Importer kategori
 mcst#:#mcst_preview_picture#:#Preview Picture###28 08 2012 new variable
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:###28 08 2012 new variable
 objref#:#objref_edit_ref#:#Target Settings###28 08 2012 new variable
-objref#:#objref_edit_title#:#Title Settings###28 08 2012 new variable
+objref#:#objref_edit_title#:#Titel indstillinger
 objref#:#objref_title_settings#:#Edit Reference Title###28 08 2012 new variable
 objref#:#objref_reuse_title#:#Reuse Title of Reference###28 08 2012 new variable
-objref#:#objref_custom_title#:#Use Custom Title###28 08 2012 new variable
-news#:#news_keep_minimal_x_items#:#Keep at least x items###28 08 2012 new variable
+objref#:#objref_custom_title#:#Brugerdefineret titel
+news#:#news_keep_minimal_x_items#:#Behold mindst x nyheder
 news#:#news_keep_minimal_x_items_info#:#Hvis værdien er større end 0 angiver det antallet af elementer der beholdes i strømmen, selv hvis de er ældre end standard levetiden.
 dateplaner#:#cal_add_calendar#:#Lav kalender
 dateplaner#:#cal_import_appointments#:#Importer aftaler
@@ -12493,14 +12493,14 @@ pd#:#block_show_x#:#%s vis
 common#:#crs_list_reg_start#:#Registrering begynder
 common#:#crs_list_reg_end#:#Registrering slutter
 common#:#crs_list_reg_noreg#:#Ingen registrering mulig
-common#:#crs_list_reg_period#:#Registration Period###28 08 2012 new variable
+common#:#crs_list_reg_period#:#Registreringsperiode
 common#:#crs_list_reg_limit_full#:#No places left###28 08 2012 new variable
 common#:#crs_list_reg_limit_places#:#Free places###28 08 2012 new variable
 search#:#lucene_offline_filter_setting#:#Offline Filter###28 08 2012 new variable
 search#:#lucene_offline_filter_setting_info#:#If enabled, objects can filtered in the "Advanced Search" by their online/offline status.###28 08 2012 new variable
-search#:#lucene_offline_filter#:#Offline-Status###28 08 2012 new variable
-common#:#obj_hlps_desc#:#Settings for the online help###28 08 2012 new variable
-common#:#obj_hlps#:#Help System###28 08 2012 new variable
+search#:#lucene_offline_filter#:#Offline status
+common#:#obj_hlps_desc#:#Indstillinger for onlinehjælp
+common#:#obj_hlps#:#Hjælpesystem
 rbac#:#hlps_edit_permission#:#User can change permissions of Help System administration.###28 08 2012 new variable
 rbac#:#hlps_read#:#User has read access to Help System administration.###28 08 2012 new variable
 rbac#:#hlps_visible#:#Help System administration is visible.###28 08 2012 new variable
@@ -12522,12 +12522,12 @@ common#:#obj_poll_duplicate#:#Kopier afstemning
 rbac#:#rbac_import_role#:#Importer rolle
 rbac#:#rbac_role_imported#:#Rollen blev importeret.
 common#:#objs_rcat#:#ECS Categories###28 08 2012 new variable
-administration#:#adm_user_starting_point_object#:#Repository Object###28 08 2012 new variable
-administration#:#adm_user_starting_point_ref_id#:#Reference-Id###28 08 2012 new variable
-administration#:#adm_user_starting_point_personal#:#Personal Setting###28 08 2012 new variable
-administration#:#adm_user_starting_point_personal_info#:#If activated users may select their starting page.###28 08 2012 new variable
-rbac#:#internal_mail#:#Internal Mail###28 08 2012 new variable
-rbac#:#mail_internal_mail#:#User can use internal mail system (ILIAS)###28 08 2012 new variable
+administration#:#adm_user_starting_point_object#:#Oversigts objekt
+administration#:#adm_user_starting_point_ref_id#:#Reference-Id
+administration#:#adm_user_starting_point_personal#:#Personlig indstilling
+administration#:#adm_user_starting_point_personal_info#:#Hvis aktiveret kan brugerne vælge deres egen startside.
+rbac#:#internal_mail#:#Intern post
+rbac#:#mail_internal_mail#:#Brugeren kan anvende det interne beskedsystem (ILIAS)
 common#:#obj_itgr_duplicate#:#Copy Item Group###28 08 2012 new variable
 common#:#obj_itgr_select#:#-- Please select one Item Group --###28 08 2012 new variable
 common#:#obj_itgr#:#Item Group###28 08 2012 new variable
@@ -12550,27 +12550,27 @@ common#:#itgr_import#:#Import Item Group###28 08 2012 new variable
 common#:#itgr_copy#:#Copy Item Group###28 08 2012 new variable
 common#:#itgr_add#:#Add Item Group###28 08 2012 new variable
 content#:#cont_auto_last_visited#:#load last visited chapter (SCO/Asset)###28 08 2012 new variable
-content#:#cont_check_values#:#check values sent by SCO###28 08 2012 new variable
+content#:#cont_check_values#:#Check værdier sendt af SCO
 administration#:#adm_social_bm_create#:#Create Social Bookmark###28 08 2012 new variable
 administration#:#adm_social_bm_edit#:#Edit Social Bookmark###28 08 2012 new variable
-dcl#:#dcl_actions#:#Actions###28 08 2012 new variable
-dcl#:#dcl_export_table_excel#:#Export .xls###28 08 2012 new variable
-dcl#:#dcl_owner_editable#:#Edit only own records###28 08 2012 new variable
-dcl#:#dcl_order#:#Order###28 08 2012 new variable
-dcl#:#dcl_title#:#Field Title###28 08 2012 new variable
-dcl#:#dcl_visible#:#Visible in Table###28 08 2012 new variable
-dcl#:#dcl_description#:#Field Description###28 08 2012 new variable
-dcl#:#dcl_msg_table_created#:#Table created###28 08 2012 new variable
-dcl#:#dcl_save#:#Save Table###28 08 2012 new variable
-dcl#:#dcl_record_deleted#:#Record deleted###28 08 2012 new variable
-dcl#:#dcl_confirm_delete_record#:#Delete this record?###28 08 2012 new variable
+dcl#:#dcl_actions#:#Valgmuligheder
+dcl#:#dcl_export_table_excel#:#Eksporter .xls
+dcl#:#dcl_owner_editable#:#Ret kun egne poster
+dcl#:#dcl_order#:#Sortering
+dcl#:#dcl_title#:#Felt titel
+dcl#:#dcl_visible#:#Synlig i tabel
+dcl#:#dcl_description#:#Feltbeskrivelse
+dcl#:#dcl_msg_table_created#:#Tabel oprettet
+dcl#:#dcl_save#:#Gem tabel
+dcl#:#dcl_record_deleted#:#Post slettet
+dcl#:#dcl_confirm_delete_record#:#Slet denne post?
 content#:#cont_resources_of_type#:#Resources of Type###28 08 2012 new variable
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.###28 08 2012 new variable
-common#:#search_globally#:#Globally###28 08 2012 new variable
-common#:#search_at_current_position#:#At Current Position###28 08 2012 new variable
+common#:#search_globally#:#Globalt
+common#:#search_at_current_position#:#Fra nuværende position
 ecs#:#ecs_crs_export#:#Course Releases###28 08 2012 new variable
-ecs#:#ecs_crs_export_obj_settings#:#Course Release Settings###28 08 2012 new variable
-ecs#:#ecs_crs_export_disabled#:#Do not release this Course###28 08 2012 new variable
+ecs#:#ecs_crs_export_obj_settings#:#Kursusfrigivelse
+ecs#:#ecs_crs_export_disabled#:#Frigiv ikke kurset
 ecs#:#ecs_crs_export_enabled#:#Release this Course###28 08 2012 new variable
 ecs#:#ecs_cat_export#:#Category Releases###28 08 2012 new variable
 ecs#:#ecs_cat_export_obj_settings#:#Category Release Settings###28 08 2012 new variable
@@ -12803,7 +12803,7 @@ dcl#:#dcl_permissions_form#:#Brugerrettigheder
 content#:#cont_presentation#:#Præsentation
 content#:#cont_scorm_options#:#SCORM valgmuligheder
 content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
-content#:#cont_debugging#:#Debugging###27 10 2012 new variable
+content#:#cont_debugging#:#Fejlsøgning
 content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.###27 10 2012 new variable
 content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.###27 10 2012 new variable
 content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.###27 10 2012 new variable
@@ -12814,7 +12814,7 @@ survey#:#survey_question_pool_usage_active#:#Questions can be added optionally t
 survey#:#survey_question_pool_usage_active_info#:#The questions can be re-used in other surveys.###27 10 2012 new variable
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.###27 10 2012 new variable
 survey#:#survey_question_pool_usage_inactive_info#:#The questions cannot be re-used in other surveys.###27 10 2012 new variable
-mcst#:#mcst_viewmode#:#Presentation Mode###27 10 2012 new variable
+mcst#:#mcst_viewmode#:#Præsentationsvisning
 mcst#:#mcst_list#:#Liste
 mcst#:#mcst_gallery#:#Galleri
 mcst#:#mcst_manage#:#Administrer
