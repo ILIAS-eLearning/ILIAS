@@ -3369,9 +3369,42 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$ilCtrl->redirect($this, "showOverview");
 		}
+		
+		// tutor
+		if((int)$_GET["grd"])
+		{
+			$this->checkPermission("write");
+									
+			$ilTabs->activateTab("grades");
+			
+			if((int)$_GET["grd"] == 1)
+			{				
+				$this->addSubmissionSubTabs("assignment");			
+				$cancel_cmd = "members";
 				
+				$user_id = (int)$_GET["member_id"];				
+			}
+			else
+			{	
+				$this->addSubmissionSubTabs("participant");		
+				$cancel_cmd = "showParticipant";
+				
+				$user_id = (int)$_GET["part_id"];				
+			}			
+		}		
+		// peer review
+		else if($this->ass->hasPeerReviewAccess((int)$_GET["member_id"]))
+		{
+			$this->checkPermission("read");		
+																
+			$ilTabs->activateTab("content");
+			$this->addContentSubTabs("content");
+		
+			$user_id = (int)$_GET["member_id"];
+			$cancel_cmd = "editPeerReview";
+		}
 		// personal
-		if(!(bool)$_GET["grd"] )
+		else
 		{
 			$this->checkPermission("read");		
 							
@@ -3380,28 +3413,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 			$user_id = $ilUser->getId();
 			$cancel_cmd = null;
-		}
-		// peer review
-		else if($this->ass->hasPeerReviewAccess((int)$_GET["member_id"]))
-		{
-			$this->checkPermission("read");		
-							
-			$ilTabs->activateTab("content");
-			$this->addContentSubTabs("content");
-		
-			$user_id = (int)$_GET["member_id"];
-			$cancel_cmd = "editPeerReview";
-		}
-		// tutor
-		else
-		{
-			$this->checkPermission("write");
-						
-			$ilTabs->activateTab("grades");
-			$this->addSubmissionSubTabs("assignment");
-			
-			$user_id = (int)$_GET["member_id"];
-			$cancel_cmd = "members";
 		}
 		
 		$a_form = $this->initAssignmentTextForm($this->ass, true, $cancel_cmd);	
@@ -3461,7 +3472,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			"')");
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php";
-		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $ilUser->getId(), $peer_items);
+		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $ilUser->getId(), $peer_items,  "exc_peer_review_give", "showOverview");
 		
 		$tpl->setContent($tbl->getHTML());
 	}
@@ -3533,7 +3544,30 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ilCtrl->redirect($this, "showOverview");
 		}
 		
-		if(!(bool)$_GET["grd"])
+		// tutor
+		if((int)$_GET["grd"])
+		{
+			$this->checkPermission("write");
+			
+			$ilTabs->activateTab("grades");
+			
+			if((int)$_GET["grd"] == 1)
+			{				
+				$this->addSubmissionSubTabs("assignment");			
+				$cancel_cmd = "members";
+				
+				$user_id = (int)$_GET["member_id"];				
+			}
+			else
+			{	
+				$this->addSubmissionSubTabs("participant");		
+				$cancel_cmd = "showParticipant";
+				
+				$user_id = (int)$_GET["part_id"];				
+			}
+		}
+		// personal
+		else
 		{
 			$this->checkPermission("read");		
 							
@@ -3541,20 +3575,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->addContentSubTabs("content");
 		
 			$user_id = $ilUser->getId();
-			$cancel_cmd = null;
-		}
-		else
-		{
-			$this->checkPermission("write");
-						
-			$ilTabs->activateTab("grades");
-			$this->addSubmissionSubTabs("assignment");
-			
-			$user_id = (int)$_GET["member_id"];
-			$cancel_cmd = "members";
+			$cancel_cmd = "showOverview";
 		}
 		
-		$peer_items = $this->ass->getPeerReviewsByPeerId($ilUser->getId());
+		
+		$peer_items = $this->ass->getPeerReviewsByPeerId($user_id);
 		if(!sizeof($peer_items))
 		{
 			ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers"), true);
@@ -3562,7 +3587,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php";
-		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $ilUser->getId(), $peer_items, true);
+		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $user_id, $peer_items, "exc_peer_review_show", $cancel_cmd, true);
 		
 		$tpl->setContent($tbl->getHTML());		
 	}		

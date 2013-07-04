@@ -4,6 +4,7 @@
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+include_once("./Services/Rating/classes/class.ilRatingGUI.php");
 
 /**
 * Exercise participant table
@@ -130,7 +131,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_ID",
 			$d["id"]);
 				
-		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $d["type"], $d["id"], $this->part_id);
+		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $d["type"], $d["id"], $this->part_id, $this->parent_cmd);
 		
 		$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
 		$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
@@ -244,7 +245,25 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_FILE_FEEDBACK",
 				$lng->txt("exc_fb_files")." (".$cnt_files.")");
 		}
-
+		
+		// peer review / rating
+		if($d["type"] != ilExAssignment::TYPE_UPLOAD_TEAM && $d["peer"])
+		{						
+			$this->tpl->setCurrentBlock("peer_review_bl");
+			$this->tpl->setVariable("TXT_PEER_REVIEW", $lng->txt("exc_peer_review_show"));
+			
+			$ilCtrl->setParameter($this->parent_obj, "grd", 2);
+			$this->tpl->setVariable("LINK_PEER_REVIEW", 
+				$ilCtrl->getLinkTarget($this->parent_obj, "showPersonalPeerReview"));
+			$ilCtrl->setParameter($this->parent_obj, "grd", "");
+			
+			$rating = new ilRatingGUI();
+			$rating->setObject($d["id"], "ass", $this->part_id, "peer");
+			$rating->setUserId(0);			
+			$this->tpl->setVariable("VAL_RATING", $rating->getHTML(true, false));		
+			
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$ilCtrl->setParameter($this->parent_obj, "ass_id", $_GET["ass_id"]);
 	}

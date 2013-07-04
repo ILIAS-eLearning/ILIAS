@@ -14,6 +14,12 @@ include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 */
 class ilExerciseMemberTableGUI extends ilTable2GUI
 {
+	protected $exc;
+	protected $exc_id;
+	protected $ass_id;
+	protected $type;
+	protected $sent_col;
+	protected $peer_review;
 	
 	/**
 	* Constructor
@@ -73,6 +79,16 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			
 			$data = $tmp;
 			unset($tmp);
+		}
+		else
+		{
+			// peer review / rating	
+			$ass_obj = new ilExAssignment($this->ass_id);
+			$this->peer_review = $ass_obj->getPeerReview();
+			if($this->peer_review)
+			{
+				include_once './Services/Rating/classes/class.ilRatingGUI.php';
+			}														
 		}
 		
 		$this->setData($data);
@@ -203,7 +219,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		}
 
 		
-		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $this->type, $this->ass_id, $member_id);
+		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $this->type, $this->ass_id, $member_id, $this->parent_cmd);
 		
 		$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
 		$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
@@ -315,6 +331,25 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("TXT_FILE_FEEDBACK",
 				$lng->txt("exc_fb_files")." (".$cnt_files.")");
+		}
+		
+		// peer review / rating
+		if(!isset($member["team"]) && $this->peer_review)
+		{						
+			$this->tpl->setCurrentBlock("peer_review_bl");
+			$this->tpl->setVariable("TXT_PEER_REVIEW", $lng->txt("exc_peer_review_show"));
+			
+			$ilCtrl->setParameter($this->parent_obj, "grd", 1);
+			$this->tpl->setVariable("LINK_PEER_REVIEW", 
+				$ilCtrl->getLinkTarget($this->parent_obj, "showPersonalPeerReview"));
+			$ilCtrl->setParameter($this->parent_obj, "grd", "");
+			
+			$rating = new ilRatingGUI();
+			$rating->setObject($this->ass_id, "ass", $member_id, "peer");
+			$rating->setUserId(0);			
+			$this->tpl->setVariable("VAL_RATING", $rating->getHTML(true, false));		
+			
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->parseCurrentBlock();
