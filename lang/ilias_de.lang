@@ -13477,3 +13477,8 @@ common#:#renderer_supported_file_types#:#Unterstützte Dateitypen
 common#:#ghostscript_not_configured#:#Ghostscript ist nicht konfiguriert. Bitte öffnen Sie das <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> um Ghostscript zu konfigurieren.>>>>>>> .r43196
 exc#:#exc_peer_review_show_not_rated_yet#:#Sie müssen Feedback geben, um das erhaltene sehen zu können.
 exc#:#exc_peer_review_show#:#Erhaltenes Feedback zeigen
+exc#:#exc_needs_deadline#:#Diese Option benötigt einen Abgabetermin.
+exc#:#exc_team_upload_not_supported#:#Diese Option ist für Team-Upload-Übungseinheiten nicht verfügbar.
+exc#:#exc_global_feedback_file#:#Feedback-Datei für alle Lerner
+exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
+exc#:#exc_global_feedback_file_cron_info#:#Über einen Cron-Job werden die Lerner über die Verfügbarkeit der Feedback-Datei informiert.

@@ -13483,3 +13483,8 @@ common#:#renderer_supported_file_types#:#Supported File Types
 common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.>>>>>>> .r43196
 exc#:#exc_peer_review_show_not_rated_yet#:#You must give feedback before you can see the feedback you received.
 exc#:#exc_peer_review_show#:#Show Received Feedback
+exc#:#exc_needs_deadline#:#This feature does only work with an assignment deadline.
+exc#:#exc_team_upload_not_supported#:#This feature does not support team upload assignments.
+exc#:#exc_global_feedback_file#:#Feedback file for all learners
+exc#:#exc_global_feedback_file_cron#:#Notification
+exc#:#exc_global_feedback_file_cron_info#:#All learners will be notified via cron job when the feedback file becomes available.

@@ -2072,6 +2072,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$desc_input->setRows(5);
 		$this->form->addItem($desc_input);
 				
+		
 		// peer review
 		$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");				
 		$this->form->addItem($peer);
@@ -2086,6 +2087,22 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$peer_min->setValue(5);
 		$peer_min->setSize(3);
 		$peer->addSubItem($peer_min);
+		
+		
+		// global feedback
+		
+		$fb = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file"), "fb");				
+		$this->form->addItem($fb);
+		
+		$fb_file = new ilFileInputGUi($lng->txt("file"), "fb_file");
+		// $fb_file->setRequired(true);
+		$fb_file->setALlowDeletion(true);
+		$fb->addSubItem($fb_file);
+		
+		$fb_cron = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file_cron"), "fb_cron");
+		$fb_cron->setInfo($lng->txt("exc_global_feedback_file_cron_info"));
+		$fb->addSubItem($fb_cron);
+		
 		
 		// files
 		if ($a_mode == "create")
@@ -2127,6 +2144,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			
 			// additional checks
+			
+			$valid = true;
+			
 			if ($_POST["start_time_cb"] && $_POST["deadline_cb"])
 			{
 				// check whether start date is before end date
@@ -2136,16 +2156,44 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$this->form->getItemByPostVar("deadline")->getDate();
 				if ($start_date->get(IL_CAL_UNIX) >=
 					$end_date->get(IL_CAL_UNIX))
-				{
-					ilUtil::sendFailure($lng->txt("form_input_not_valid"), true);
+				{					
 					$this->form->getItemByPostVar("start_time")
 						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
 					$this->form->getItemByPostVar("deadline")
 						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
-					$this->form->setValuesByPost();
-					$tpl->setContent($this->form->getHtml());
-					return;
+					$valid = false;		
 				}
+			}
+			
+			if($_POST["type"] == ilExAssignment::TYPE_UPLOAD_TEAM && $_POST["peer"])
+			{				
+				$this->form->getItemByPostVar("peer")
+					->setAlert($lng->txt("exc_team_upload_not_supported"));
+				$valid = false;
+			}
+			
+			if(!$_POST["deadline_cb"])
+			{
+				if($_POST["peer"])
+				{
+					$this->form->getItemByPostVar("peer")
+						->setAlert($lng->txt("exc_needs_deadline"));
+					$valid = false;
+				}					
+				if($_POST["fb"])
+				{
+					$this->form->getItemByPostVar("fb")
+						->setAlert($lng->txt("exc_needs_deadline"));
+					$valid = false;
+				}				 
+			}
+			
+			if(!$valid)
+			{
+				ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+				$this->form->setValuesByPost();		
+				$tpl->setContent($this->form->getHtml());
+				return;
 			}
 			
 			$ass = new ilExAssignment();
@@ -2188,7 +2236,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 			
 			// save files
 			$ass->uploadAssignmentFiles($_FILES["files"]);
-
+						
+			if($_FILES["fb_file"])
+			{
+				$ass->handleFeedbackFileUpload($_FILES["fb_file"]);
+				$ass->update();
+			}
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "listAssignments");
@@ -2264,6 +2317,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ed_item->setDate($edit_date);
 		}
 		
+		if($ass->getFeedbackFile())
+		{						
+			$this->form->getItemByPostVar("fb")->setChecked(true);
+			$this->form->getItemByPostVar("fb_cron")->setChecked($ass->hasFeedbackCron());			
+			$this->form->getItemByPostVar("fb_file")->setValue(basename($ass->getFeedbackFilePath()));
+		}
+		
 		// if there are any submissions we cannot change type anymore
 		if(sizeof(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $ass->getId())) ||
 			$this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
@@ -2291,6 +2351,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			
 			// additional checks
+			
+			$valid = true;			
+			
 			if ($_POST["start_time_cb"] && $_POST["deadline_cb"])
 			{
 				// check whether start date is before end date
@@ -2300,18 +2363,38 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$this->form->getItemByPostVar("deadline")->getDate();
 				if ($start_date->get(IL_CAL_UNIX) >=
 					$end_date->get(IL_CAL_UNIX))
-				{
-					ilUtil::sendFailure($lng->txt("form_input_not_valid"), true);
+				{					
 					$this->form->getItemByPostVar("start_time")
 						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
 					$this->form->getItemByPostVar("deadline")
 						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
-					$this->form->setValuesByPost();
-					$tpl->setContent($this->form->getHtml());
-					return;
+					$valid = false;					
 				}
 			}
 			
+			if(!$_POST["deadline_cb"])
+			{
+				if($_POST["peer"])
+				{
+					$this->form->getItemByPostVar("peer")
+						->setAlert($lng->txt("exc_needs_deadline"));
+					$valid = false;
+				}	
+				if($_POST["fb"])
+				{
+					$this->form->getItemByPostVar("fb")
+						->setAlert($lng->txt("exc_needs_deadline"));
+					$valid = false;
+				}	
+			}
+			
+			if(!$valid)
+			{
+				ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+				$this->form->setValuesByPost();		
+				$tpl->setContent($this->form->getHtml());
+				return;
+			}
 			
 			$ass = new ilExAssignment($_GET["ass_id"]);
 			$ass->setTitle($_POST["title"]);
@@ -2348,7 +2431,18 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
 			}
-
+			
+			if($this->form->getItemByPostVar("fb_file")->getDeletionFlag())
+			{
+				$ass->deleteFeedbackFile();
+				$ass->setFeedbackFile(null);
+				$ass->update;
+			}
+			else if($_FILES["fb_file"])
+			{
+				$ass->handleFeedbackFileUpload($_FILES["fb_file"]);
+			}
+			
 			$ass->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "listAssignments");

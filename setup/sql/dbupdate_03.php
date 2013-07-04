@@ -16345,3 +16345,25 @@ if(!$ilDB->tableColumnExists('qpl_questions', 'external_id'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3945>
+<?php
+if( !$ilDB->tableColumnExists('exc_assignment', 'fb_file') )
+{
+	$ilDB->addTableColumn("exc_assignment", "fb_file",
+		array(	
+			"type" => "text",
+			"length" => 1000,
+			"notnull" => false)
+		);
+}
+if( !$ilDB->tableColumnExists('exc_assignment', 'fb_cron') )
+{
+	$ilDB->addTableColumn("exc_assignment", "fb_cron",
+		array(	
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0)
+		);
+}
+?>
