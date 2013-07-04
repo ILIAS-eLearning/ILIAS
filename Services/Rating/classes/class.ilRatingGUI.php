@@ -300,7 +300,7 @@ class ilRatingGUI
 
 		// user rating
 		$user_rating = 0;
-		if ($may_rate)
+		if ($may_rate || !$a_show_overall)
 		{
 			$user_rating = round(ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
 				$this->sub_obj_id, $this->sub_obj_type, $this->getUserId()));
