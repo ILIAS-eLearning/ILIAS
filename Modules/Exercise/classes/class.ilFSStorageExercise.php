@@ -115,6 +115,16 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		}
 		return $path;
 	}
+	
+	function getGlobalFeedbackPath()
+	{
+		$path = $this->feedb_path."/0";
+		if(!file_exists($path))
+		{
+			ilUtil::makeDirParents($path);
+		}
+		return $path;
+	}
 
 	/**
 	 * Create directory

@@ -33,6 +33,8 @@ class ilExAssignment
 	protected $order_nr;
 	protected $peer;
 	protected $peer_min;
+	protected $feedback_file;
+	protected $feedback_cron;
 	
 	/**
 	 * Constructor
@@ -291,6 +293,46 @@ class ilExAssignment
 	{
 		return (int)$this->peer_min;
 	}
+	
+	/**
+	 * Set (global) feedback file
+	 * 
+	 * @param string $a_value
+	 */
+	function setFeedbackFile($a_value)
+	{
+		$this->feedback_file = (string)$a_value;
+	}
+	
+	/**
+	 * Get (global) feedback file
+	 * 
+	 * @return int 
+	 */
+	function getFeedbackFile()
+	{
+		return (string)$this->feedback_file;
+	}
+	
+	/**
+	 * Toggle (global) feedback file cron
+	 * 
+	 * @param bool $a_value
+	 */
+	function setFeedbackCron($a_value)
+	{
+		$this->feedback_cron = (string)$a_value;
+	}
+	
+	/**
+	 * Get (global) feedback file cron status
+	 * 
+	 * @return int 
+	 */
+	function hasFeedbackCron()
+	{
+		return (bool)$this->feedback_cron;
+	}
 
 	/**
 	 * Read from db
@@ -314,6 +356,8 @@ class ilExAssignment
 			$this->setType($rec["type"]);
 			$this->setPeerReview($rec["peer"]);
 			$this->setPeerReviewMin($rec["peer_min"]);
+			$this->setFeedbackFile($rec["fb_file"]);
+			$this->setFeedbackCron($rec["fb_cron"]);
 		}
 	}
 	
@@ -343,7 +387,9 @@ class ilExAssignment
 			"mandatory" => array("integer", $this->getMandatory()),
 			"type" => array("integer", $this->getType()),
 			"peer" => array("integer", $this->getPeerReview()),
-			"peer_min" => array("integer", $this->getPeerReviewMin())
+			"peer_min" => array("integer", $this->getPeerReviewMin(),
+			"fb_file" => array("text", $this->getFeedbackFile()),
+			"fb_cron" => array("integer", $this->hasFeedbackCron()))
 			));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
@@ -369,7 +415,9 @@ class ilExAssignment
 			"mandatory" => array("integer", $this->getMandatory()),
 			"type" => array("integer", $this->getType()),
 			"peer" => array("integer", $this->getPeerReview()),
-			"peer_min" => array("integer", $this->getPeerReviewMin())
+			"peer_min" => array("integer", $this->getPeerReviewMin()),
+			"fb_file" => array("text", $this->getFeedbackFile()),
+			"fb_cron" => array("integer", $this->hasFeedbackCron())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -385,6 +433,8 @@ class ilExAssignment
 	{
 		global $ilDB;
 		
+		$this->deleteFeedbackFile();
+		
 		$ilDB->manipulate("DELETE FROM exc_assignment WHERE ".
 			" id = ".$ilDB->quote($this->getId(), "integer")
 			);
@@ -392,6 +442,39 @@ class ilExAssignment
 		$exc->updateAllUsersStatus();
 	}
 	
+	function deleteFeedbackFile()
+	{
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+		$path = $storage->getGlobalFeedbackPath();
+		ilUtil::delDir($path);				
+	}	
+	
+	function handleFeedbackFileUpload(array $a_file)
+	{
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+		$path = $storage->getGlobalFeedbackPath();
+		ilUtil::delDir($path, true);
+		if(@move_uploaded_file($a_file["tmp_name"], $path."/".$a_file["name"]))
+		{
+			$this->setFeedbackFile($a_file["name"]);		
+			return true;
+		}
+		return false;
+	}
+	
+	function getFeedbackFilePath()
+	{
+		$file = $this->getFeedbackFile();
+		if($file)
+		{
+			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+			$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+			$path = $storage->getGlobalFeedbackPath();
+			return $path."/".$file;
+		}
+	}
 	
 	/**
 	 * Get assignments data of an exercise in an array
@@ -421,6 +504,8 @@ class ilExAssignment
 				"type" => $rec["type"],
 				"peer" => $rec["peer"],
 				"peer_min" => $rec["peer_min"],
+				"fb_file" => $rec["fb_file"],
+				"fb_cron" => $rec["fb_cron"],
 				);
 			$order_val += 10;
 		}
@@ -437,7 +522,7 @@ class ilExAssignment
 	{
 		$ass_data = ilExAssignment::getAssignmentDataOfExercise($a_old_exc_id);
 		foreach ($ass_data as $d)
-		{
+		{			
 			// clone assignment
 			$new_ass = new ilExAssignment();
 			$new_ass->setExerciseId($a_new_exc_id);
@@ -450,6 +535,8 @@ class ilExAssignment
 			$new_ass->setType($d["type"]);
 			$new_ass->setPeerReview($d["peer"]);
 			$new_ass->setPeerReviewMin($d["peer_min"]);
+			$new_ass->setFeedbackFile($d["fb_file"]);
+			$new_ass->setFeedbackCron($d["fb_cron"]);
 			$new_ass->save();
 			
 			// clone assignment files
