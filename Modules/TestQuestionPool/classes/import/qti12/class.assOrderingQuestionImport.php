@@ -224,6 +224,7 @@ class assOrderingQuestionImport extends assQuestionImport
 			}
 		}
 
+		$this->addGeneralMetadata($item);
 		$this->object->setTitle($item->getTitle());
 		$this->object->setNrOfTries($item->getMaxattempts());
 		$this->object->setComment($item->getComment());

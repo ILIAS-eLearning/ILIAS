@@ -168,6 +168,12 @@ abstract class assQuestion
 	 * @var bool
 	 */
 	private $obligationsToBeConsidered = false;
+
+	/**
+	 * An external id of a qustion
+	 * @var string
+	 */
+	protected $external_id = '';
 	
 	/**
 	 * constant for additional content editing mode "default"
@@ -263,6 +269,7 @@ abstract class assQuestion
 		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_HTML;
 		$this->arrData = array();
+		$this->setExternalId('');
 	}
 
 	/**
@@ -616,6 +623,36 @@ abstract class assQuestion
 	function setObjId($obj_id = 0)
 	{
 		$this->obj_id = $obj_id;
+	}
+
+	/**
+	 * @param string $external_id
+	 */
+	public function setExternalId($external_id)
+	{
+		$this->external_id = $external_id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getExternalId()
+	{
+		if(!strlen($this->external_id))
+		{
+			if($this->getId() > 0)
+			{
+				return 'il_' . IL_INST_ID . '_qst_' . $this->getId();
+			}
+			else
+			{
+				return uniqid('', true);
+			}
+		}
+		else
+		{
+			return $this->external_id;
+		}
 	}
 
 /**
@@ -2007,6 +2044,17 @@ abstract class assQuestion
 	function loadFromDb($question_id)
 	{
 		global $ilDB;
+
+		$result = $ilDB->queryF(
+			"SELECT external_id FROM qpl_questions WHERE question_id = %s",
+			array("integer"),
+			array($question_id)
+		);
+		if($result->numRows() == 1)
+		{
+			$data = $ilDB->fetchAssoc($result);
+			$this->external_id = $data['external_id'];
+		}
 		
 		$result = $ilDB->queryF("SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
@@ -2072,6 +2120,7 @@ abstract class assQuestion
 				"created" => array("integer", time()),
 				"original_id" => array("integer", NULL),
 				"tstamp" => array("integer", $tstamp),
+				"external_id" => array("text", $this->getExternalId()),
 				'add_cont_edit_mode' => array('text', $this->getAdditionalContentEditingMode())
 			));
 			$this->setId($next_id);
@@ -2113,6 +2162,7 @@ abstract class assQuestion
 				"created" => array("integer", time()),
 				"original_id" => array("integer", ($original_id) ? $original_id : NULL),
 				"tstamp" => array("integer", time()),
+				"external_id" => array("text", $this->getExternalId()),
 				'add_cont_edit_mode' => array('text', $this->getAdditionalContentEditingMode())
 			));
 			$this->setId($next_id);
@@ -2131,7 +2181,8 @@ abstract class assQuestion
 				"points" => array("float", $this->getMaximumPoints()),
 				"nr_of_tries" => array("integer", (strlen($this->getNrOfTries())) ? $this->getNrOfTries() : 1),
 				"working_time" => array("text", $estw_time),
-				"tstamp" => array("integer", time())
+				"tstamp" => array("integer", time()),
+				"external_id" => array("text", $this->getExternalId())
 			), array(
 			"question_id" => array("integer", $this->getId())
 			));

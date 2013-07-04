@@ -81,7 +81,8 @@ class assMultipleChoiceExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		
 		// additional content editing information
-		$this->addAdditionalContentEditingModeInformation($a_xml_writer);		
+		$this->addAdditionalContentEditingModeInformation($a_xml_writer);
+		$this->addGeneralMetadata($a_xml_writer);
 		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "thumb_size");

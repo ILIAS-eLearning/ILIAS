@@ -12,6 +12,31 @@ require_once 'Services/Export/classes/class.ilExportGUI.php';
  */
 class ilTestExportGUI extends ilExportGUI
 {
+	public function __construct($a_parent_gui, $a_main_obj = null)
+	{
+		global $ilPluginAdmin;
+		
+		parent::__construct($a_parent_gui, $a_main_obj);
+		
+		$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
+		$this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'texp');
+		foreach($pl_names as $pl)
+		{
+			/**
+			 * @var $plugin ilTestExportPlugin
+			 */
+			$plugin = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, 'Test', 'texp', $pl);
+			$plugin->setTest($this->obj);
+			$this->addFormat(
+				$plugin->getFormat(),
+				$plugin->getFormatLabel(),
+				$plugin,
+				'export'
+			);
+		}
+	}
+	
 	/**
 	 * Create test export file
 	 */

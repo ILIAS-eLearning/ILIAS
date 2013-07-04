@@ -871,38 +871,28 @@ class ilObjTest extends ilObject
 	function getExportFiles($dir)
 	{
 		// quit if import dir not available
-		if (!@is_dir($dir) or
-			!is_writeable($dir))
+		if(!@is_dir($dir) || !is_writeable($dir))
 		{
 			return array();
 		}
 
-		// open directory
-		$dir = dir($dir);
-
-		// initialize array
-		$file = array();
-
-		// get files and save the in the array
-		while ($entry = $dir->read())
-		{
-			if ($entry != "." and
-				$entry != ".." and
-				//substr($entry, -4) == ".zip" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(tst(__results)?_)*[0-9]+\.[a-z]{1,3}\$", $entry))
+		$files = array();
+		foreach(new DirectoryIterator($dir) as $file)
+		{			
+			/**
+			 * @var $file SplFileInfo
+			 */
+			if($file->isDir())
 			{
-				$file[] = $entry;
+				continue;
 			}
+
+			$files[] = $file->getBasename();
 		}
 
-		// close import directory
-		$dir->close();
+		sort($files);
 
-		// sort files
-		sort ($file);
-		reset ($file);
-
-		return $file;
+		return $files;
 	}
 
 	/**
