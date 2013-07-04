@@ -26,9 +26,11 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	 * @param ilExAssignment $a_ass
 	 * @param int $a_user_id
 	 * @param array $a_peer_data
+	 * @param string $a_title
+	 * @param string $a_cancel_cmd
 	 * @param bool $a_read_only
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_user_id, array $a_peer_data, $a_read_only = false)
+	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_user_id, array $a_peer_data, $a_title, $a_cancel_cmd, $a_read_only = false)
 	{
 		global $ilCtrl;
 				
@@ -42,7 +44,10 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 	
 		$this->addColumn($this->lng->txt("id"), "seq");
-		$this->addColumn($this->lng->txt("exc_submission"), "");
+		if(!$this->read_only)
+		{
+			$this->addColumn($this->lng->txt("exc_submission"), "");
+		}
 		$this->addColumn($this->lng->txt("exc_peer_review_rating"), "mark");
 		$this->addColumn($this->lng->txt("comment"), "");
 		$this->addColumn($this->lng->txt("last_update"), "tstamp");
@@ -52,13 +57,13 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.exc_peer_review_row.html", "Modules/Exercise");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		$this->setTitle($a_ass->getTitle().": ".$this->lng->txt("exc_peer_review"));
+		$this->setTitle($a_ass->getTitle().": ".$this->lng->txt("exc_peer_review")." - ".$this->lng->txt($a_title));
 		
 		if(!$this->read_only)
 		{
 			$this->addCommandButton("updatePeerReview", $this->lng->txt("save"));
 		}
-		$this->addCommandButton("showOverview", $this->lng->txt("cancel"));
+		$this->addCommandButton($a_cancel_cmd, $this->lng->txt("cancel"));
 		
 		$this->disable("numinfo");
 		
@@ -128,46 +133,43 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		// submission
 		
-		$ilCtrl->setParameter($this->parent_obj, "seq", $a_set["seq"]);
-		
-		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->ass->getExerciseId(), $this->ass->getType(), $this->ass->getId(), $a_set["peer_id"]);
-		
-		$ilCtrl->setParameter($this->parent_obj, "seq", "");
-		
-		$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
-		$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
-		
-		$this->tpl->setVariable("TXT_SUBMITTED_FILES", $file_info["files"]["txt"]);
-		$this->tpl->setVariable("VAL_SUBMITTED_FILES", $file_info["files"]["count"]);
-		
-		if($file_info["files"]["download_url"])
-		{
-			$this->tpl->setCurrentBlock("download_link");
-			$this->tpl->setVariable("LINK_DOWNLOAD", $file_info["files"]["download_url"]);
-			$this->tpl->setVariable("TXT_DOWNLOAD", $file_info["files"]["download_txt"]);		
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if($file_info["files"]["download_new_url"])
-		{
-			$this->tpl->setCurrentBlock("download_link");
-			$this->tpl->setVariable("LINK_NEW_DOWNLOAD", $file_info["files"]["download_new_url"]);
-			$this->tpl->setVariable("TXT_NEW_DOWNLOAD", $file_info["files"]["download_new_txt"]);		
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		
-		// comment
-				
 		if(!$this->read_only)
-		{			
-			$this->tpl->setCurrentBlock("pcomment_edit_bl");	
+		{
+			$ilCtrl->setParameter($this->parent_obj, "seq", $a_set["seq"]);
+
+			$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->ass->getExerciseId(), $this->ass->getType(), $this->ass->getId(), $a_set["peer_id"]);
+
+			$ilCtrl->setParameter($this->parent_obj, "seq", "");
+
+			$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
+			$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
+
+			$this->tpl->setVariable("TXT_SUBMITTED_FILES", $file_info["files"]["txt"]);
+			$this->tpl->setVariable("VAL_SUBMITTED_FILES", $file_info["files"]["count"]);
+
+			if($file_info["files"]["download_url"])
+			{
+				$this->tpl->setCurrentBlock("download_link");
+				$this->tpl->setVariable("LINK_DOWNLOAD", $file_info["files"]["download_url"]);
+				$this->tpl->setVariable("TXT_DOWNLOAD", $file_info["files"]["download_txt"]);		
+				$this->tpl->parseCurrentBlock();
+			}
+
+			if($file_info["files"]["download_new_url"])
+			{
+				$this->tpl->setCurrentBlock("download_link");
+				$this->tpl->setVariable("LINK_NEW_DOWNLOAD", $file_info["files"]["download_new_url"]);
+				$this->tpl->setVariable("TXT_NEW_DOWNLOAD", $file_info["files"]["download_new_txt"]);		
+				$this->tpl->parseCurrentBlock();
+			}
 			
+			
+			$this->tpl->setCurrentBlock("pcomment_edit_bl");				
 			$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
 			$this->tpl->setVariable("VAL_ID", $idx);		
 			$this->tpl->setVariable("VAL_PCOMMENT_EDIT", $a_set["comment"]);	
 			$this->tpl->parseCurrentBlock();	
-		}
+		}				
 		else
 		{
 			$this->tpl->setCurrentBlock("pcomment_static_bl");

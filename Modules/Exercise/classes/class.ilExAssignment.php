@@ -2090,7 +2090,7 @@ class ilExAssignment
 		// var_dump($ret);
 	}
 	
-	public static function getDownloadedFilesInfoForTableGUIS($a_parent_obj, $a_exercise_id, $a_ass_type, $a_ass_id, $a_user_id)
+	public static function getDownloadedFilesInfoForTableGUIS($a_parent_obj, $a_exercise_id, $a_ass_type, $a_ass_id, $a_user_id, $a_parent_cmd = null)
 	{
 		global $lng, $ilCtrl;
 		
@@ -2212,8 +2212,8 @@ class ilExAssignment
 					
 					$files = array_shift($files);
 					if(trim($files["atext"]))
-					{											
-						$ilCtrl->setParameter($a_parent_obj, "grd", 1);
+					{																	
+						$ilCtrl->setParameter($a_parent_obj, "grd", (($a_parent_cmd == "members") ? 1 : 2));
 						$ilCtrl->setParameter($a_parent_obj, "member_id", $a_user_id);		
 						$result["files"]["download_url"] =
 							$ilCtrl->getLinkTarget($a_parent_obj, "showAssignmentText");												
