@@ -41,7 +41,8 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("exc_start_time"), "start_time");
 		$this->addColumn($this->lng->txt("exc_deadline"), "deadline");
 		$this->addColumn($this->lng->txt("exc_mandatory"), "mandatory");
-		$this->addColumn($this->lng->txt("exc_instruction"), "", "40%");
+		$this->addColumn($this->lng->txt("exc_peer_review"), "peer");
+		$this->addColumn($this->lng->txt("exc_instruction"), "", "30%");
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setDefaultOrderField("val_order");
@@ -109,6 +110,15 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		else
 		{
 			$this->tpl->setVariable("TXT_MANDATORY", $lng->txt("no"));
+		}
+		
+		if ($d["peer"])
+		{
+			$this->tpl->setVariable("TXT_PEER", $lng->txt("yes")." (".$d["peer_min"].")");
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_PEER", $lng->txt("no"));
 		}
 		
 		$this->tpl->setVariable("TXT_TITLE", $d["title"]);

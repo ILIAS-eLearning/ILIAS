@@ -476,7 +476,7 @@ class ilExAssignmentGUI
 					$edit_pc = "<a href=\"".$peer_url."\" class=\"submit\">".
 						$lng->txt("exc_peer_review_give")."</a>";
 					
-					if(ilExAssignment::maySeeGivenFeedback($a_data["id"]))
+					if(ilExAssignment::maySeeGivenFeedback($a_data["id"], $a_data["peer_min"]))
 					{
 						$view_url = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "showPersonalPeerReview");
 						$view_pc = "<a href=\"".$view_url."\" class=\"submit\">".

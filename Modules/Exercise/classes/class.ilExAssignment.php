@@ -2246,7 +2246,7 @@ class ilExAssignment
 		if(!$cnt["cnt"])
 		{
 			$user_ids = array();
-			$set = $ilDB->query("SELECT user_id".
+			$set = $ilDB->query("SELECT DISTINCT(user_id)".
 				" FROM exc_returned".
 				" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
 			while($row = $ilDB->fetchAssoc($set))
@@ -2254,6 +2254,7 @@ class ilExAssignment
 				$user_ids[] = $row["user_id"];
 			}
 			
+			// forever alone
 			if(sizeof($user_ids) < 2)
 			{
 				return false;
@@ -2319,9 +2320,11 @@ class ilExAssignment
 		
 		if($this->initPeerReviews())
 		{			
-			$set = $ilDB->query("SELECT * FROM exc_assignment_peer".
+			$set = $ilDB->query("SELECT *".
+				" FROM exc_assignment_peer".
 				" WHERE giver_id = ".$ilDB->quote($a_user_id, "integer").
-				" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
+				" AND ass_id = ".$ilDB->quote($this->getId(), "integer").
+				" ORDER BY peer_id");
 			while($row = $ilDB->fetchAssoc($set))
 			{
 				$res[] = $row;
@@ -2331,11 +2334,31 @@ class ilExAssignment
 		return $res;
 	}
 	
+	public function getPeerReviewsByPeerId($a_user_id)
+	{
+		global $ilDB;
+		
+		$res = array();
+					
+		$set = $ilDB->query("SELECT *".
+			" FROM exc_assignment_peer".
+			" WHERE peer_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND ass_id = ".$ilDB->quote($this->getId(), "integer").
+			" ORDER BY peer_id");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row;
+		}						
+		
+		return $res;
+	}
+	
 	public function hasPeerReviewAccess($a_peer_id)
 	{
 		global $ilDB, $ilUser;
 		
-		$set = $ilDB->query("SELECT ass_id FROM exc_assignment_peer".
+		$set = $ilDB->query("SELECT ass_id".
+			" FROM exc_assignment_peer".			
 			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
 			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
@@ -2366,9 +2389,32 @@ class ilExAssignment
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 	
-	public static function maySeeGivenFeedback($a_ass_id)
+	public static function maySeeGivenFeedback($a_ass_id, $a_min)
 	{
-		// var_dump($a_ass_id);
+		global $ilDB, $ilUser;
+		
+		// check if number of returned assignments is lower than assignment peer min
+		$set = $ilDB->query("SELECT COUNT(DISTINCT(user_id)) cnt".
+			" FROM exc_returned".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer"));
+		$cnt = $ilDB->fetchAssoc($set);
+		$cnt = (int)$cnt["cnt"];
+		
+		// forever alone
+		if($cnt < 2)
+		{
+			return;
+		}
+				
+		$a_min = min($cnt-1, $a_min);
+		
+		$set = $ilDB->query("SELECT count(*) cnt".
+			" FROM exc_assignment_peer".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND tstamp IS NOT NULL");			
+		$cnt = $ilDB->fetchAssoc($set);
+		return ((int)$cnt >= (int)$a_min);		
 	}
 }
 

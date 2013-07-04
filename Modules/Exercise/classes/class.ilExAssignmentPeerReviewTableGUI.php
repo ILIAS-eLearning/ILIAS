@@ -16,29 +16,32 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	protected $ass; // [ilExAssignment]
 	protected $user_id; // [int]
 	protected $peer_data; // [array]
+	protected $read_only; // [array]
 
 	/**
 	 * Constructor
 	 *
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
-	 * @param int $a_mode
+	 * @param ilExAssignment $a_ass
 	 * @param int $a_user_id
 	 * @param array $a_peer_data
-	 * @param array $a_member_ids
+	 * @param bool $a_read_only
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_user_id, array $a_peer_data)
+	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_user_id, array $a_peer_data, $a_read_only = false)
 	{
 		global $ilCtrl;
 				
 		$this->ass = $a_ass;
 		$this->user_id = $a_user_id;
 		$this->peer_data = $a_peer_data;
+		$this->read_only = $a_read_only;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setLimit(9999);
 	
+		$this->addColumn($this->lng->txt("id"), "seq");
 		$this->addColumn($this->lng->txt("exc_submission"), "");
 		$this->addColumn($this->lng->txt("exc_peer_review_rating"), "mark");
 		$this->addColumn($this->lng->txt("comment"), "");
@@ -50,7 +53,11 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
 		$this->setTitle($a_ass->getTitle().": ".$this->lng->txt("exc_peer_review"));
-		$this->addCommandButton("updatePeerReview", $this->lng->txt("save"));
+		
+		if(!$this->read_only)
+		{
+			$this->addCommandButton("updatePeerReview", $this->lng->txt("save"));
+		}
 		$this->addCommandButton("showOverview", $this->lng->txt("cancel"));
 		
 		$this->disable("numinfo");
@@ -62,10 +69,11 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	{
 		$data = array();
 				
-		foreach($this->peer_data as $item)
+		foreach($this->peer_data as $idx => $item)
 		{
 			$row = array();
 			
+			$row["seq"] = $idx+1;
 			$row["giver_id"] = $item["giver_id"];
 			$row["peer_id"] = $item["peer_id"];
 			$row["submission"] = "";
@@ -92,12 +100,9 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{		
 		global $ilCtrl;
-		
-		$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
-		$this->tpl->setVariable("VAL_ID", $idx);		
 					
-		$this->tpl->setVariable("VAL_PCOMMENT", $a_set["comment"]);		
-		
+		$this->tpl->setVariable("VAL_SEQ", $a_set["seq"]);		
+			
 		if($a_set["tstamp"])
 		{
 			$a_set["tstamp"] = ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"], IL_CAL_DATETIME));
@@ -110,13 +115,24 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		$rating = new ilRatingGUI();
 		$rating->setObject($this->ass->getId(), "ass", $a_set["peer_id"], "peer");
 		$rating->setUserId($a_set["giver_id"]);
-		$this->tpl->setVariable("VAL_RATING", $rating->getHTML(false, true, "il.ExcPeerReview.saveComments()"));	
+		if(!$this->read_only)
+		{
+			$this->tpl->setVariable("VAL_RATING", $rating->getHTML(false, true, "il.ExcPeerReview.saveComments()"));	
+		}
+		else
+		{
+			$this->tpl->setVariable("VAL_RATING", $rating->getHTML(false, false));	
+		}
 		$ilCtrl->setParameter($this->parent_obj, "peer_id", "");		
 				
 		
 		// submission
 		
+		$ilCtrl->setParameter($this->parent_obj, "seq", $a_set["seq"]);
+		
 		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->ass->getExerciseId(), $this->ass->getType(), $this->ass->getId(), $a_set["peer_id"]);
+		
+		$ilCtrl->setParameter($this->parent_obj, "seq", "");
 		
 		$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
 		$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
@@ -139,6 +155,25 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_NEW_DOWNLOAD", $file_info["files"]["download_new_txt"]);		
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		
+		// comment
+				
+		if(!$this->read_only)
+		{			
+			$this->tpl->setCurrentBlock("pcomment_edit_bl");	
+			
+			$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
+			$this->tpl->setVariable("VAL_ID", $idx);		
+			$this->tpl->setVariable("VAL_PCOMMENT_EDIT", $a_set["comment"]);	
+			$this->tpl->parseCurrentBlock();	
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("pcomment_static_bl");
+			$this->tpl->setVariable("VAL_PCOMMENT_STATIC", $a_set["comment"]);		
+			$this->tpl->parseCurrentBlock();	
+		}				
 	}
 }
 
