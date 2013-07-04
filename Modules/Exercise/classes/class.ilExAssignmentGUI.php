@@ -425,8 +425,9 @@ class ilExAssignmentGUI
 				$cnt_files = $storage->countFeedbackFiles($feedback_id);
 				$lpcomment = ilExAssignment::lookupCommentForUser($a_data["id"], $ilUser->getId());
 				$mark = ilExAssignment::lookupMarkOfUser($a_data["id"], $ilUser->getId());
-				$status = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());
-				if ($lpcomment != "" || $mark != "" || $status != "notgraded" || $cnt_files > 0)
+				$status = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());				
+				if ($lpcomment != "" || $mark != "" || $status != "notgraded" || 
+					$cnt_files > 0 || ($times_up && $a_data["fb_file"]))
 				{
 					$info->addSection($lng->txt("exc_feedback_from_tutor"));
 					if ($lpcomment != "")
@@ -454,21 +455,33 @@ class ilExAssignmentGUI
 							$img." ".$lng->txt("exc_".$status));
 					}
 					
-					if ($cnt_files > 0)
+					if ($cnt_files > 0 || ($times_up && $a_data["fb_file"]))
 					{
 						$info->addSection($lng->txt("exc_fb_files"));
-						$files = $storage->getFeedbackFiles($feedback_id);
-						foreach($files as $file)
+						
+						if($cnt_files > 0)
 						{
-							$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file));
-							$info->addProperty($file,
-								$lng->txt("download"),
-								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFeedbackFile"));
-							$ilCtrl->setParameterByClass("ilobjexercisegui", "file", "");
+							$files = $storage->getFeedbackFiles($feedback_id);
+							foreach($files as $file)
+							{
+								$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file));
+								$info->addProperty($file,
+									$lng->txt("download"),
+									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFeedbackFile"));
+								$ilCtrl->setParameterByClass("ilobjexercisegui", "file", "");
+							}
 						}
-					}
+						
+						// global feedback
+						if($times_up && $a_data["fb_file"])
+						{
+							$info->addProperty($a_data["fb_file"],
+								$lng->txt("download"),
+								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadGlobalFeedbackFile"));								
+						}
+					}										
 				}
-				
+																				
 				// peer feedback
 				if($times_up && $a_data["peer"])
 				{		

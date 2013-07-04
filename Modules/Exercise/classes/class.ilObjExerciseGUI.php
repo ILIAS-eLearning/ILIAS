@@ -3684,7 +3684,22 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $user_id, $peer_items, "exc_peer_review_show", $cancel_cmd, true);
 		
 		$tpl->setContent($tbl->getHTML());		
-	}		
+	}	
+	
+	public function downloadGlobalFeedbackFileObject()
+	{
+		global $ilCtrl;
+		
+		if(!$this->ass || 
+			!$this->ass->getFeedbackFile() ||
+			!$this->ass->getDeadline() ||
+			$this->ass->getDeadline() > time())						
+		{
+			$ilCtrl->redirect($this, "showOverview");
+		}
+		
+		ilUtil::deliverFile($this->ass->getFeedbackFilePath(), $this->ass->getFeedbackFile());
+	}
 }
 
 ?>
