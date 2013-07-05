@@ -22,4 +22,7 @@
 			<parent id="wfld">wfld</parent>
 		</object>
 	</objects>
+	<crons>
+		<cron id="exc_feedback_notification" class="ilExcCronFeedbackNotification" />
+	</crons>
 </module>

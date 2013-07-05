@@ -2503,6 +2503,91 @@ class ilExAssignment
 		$cnt = $ilDB->fetchAssoc($set);
 		return ((int)$cnt >= (int)$a_min);		
 	}
+	
+	public static function getPendingFeedbackNotifications()
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT id,fb_file FROM exc_assignment".
+			" WHERE fb_cron = ".$ilDB->quote(1, "integer").
+			" AND time_stamp IS NOT NULL".
+			" AND time_stamp > ".$ilDB->quote(0, "integer").			
+			" AND time_stamp < ".$ilDB->quote(time(), "integer").
+			" AND fb_cron_done = ".$ilDB->quote(0, "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			if(trim($row["fb_file"]))
+			{
+				$res[] = $row["id"];			
+			}
+		}		
+		
+		return $res;
+	}
+	
+	public function sendFeedbackNotifications($a_ass_id)
+	{
+		global $ilDB;
+		
+		$ass = new self($a_ass_id);
+		
+		// valid assignment?
+		if(!$ass->hasFeedbackCron() || !$ass->getFeedbackFile())
+		{
+			return false;
+		}		
+		
+		// already done?
+		$set = $ilDB->query("SELECT fb_cron_done".
+			" FROM exc_assignment".
+			" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		if($row["fb_cron_done"])
+		{
+			return false;
+		}
+		
+		include_once "./Services/Link/classes/class.ilLink.php";
+		include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
+		include_once "./Services/Language/classes/class.ilLanguageFactory.php";		
+		include_once "./Services/User/classes/class.ilObjUser.php";
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		
+		// link to exercise
+		$exc_ref_id = ilObject::_getAllReferences($ass->getExerciseId());
+		$exc_ref_id = array_shift($exc_ref_id);
+								
+		$exc_title = ilObject::_lookupTitle($ass->getExerciseId());		
+		$link = ilLink::_getStaticLink($exc_ref_id);
+				
+		$user_ids = ilExerciseMembers::_getMembers($ass->getExerciseId());			
+		foreach(array_unique($user_ids) as $user_id)
+		{													
+			// use language of recipient to compose message
+			$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+			$ulng->loadLanguageModule('exc');
+
+			$subject = sprintf($ulng->txt('exc_feedback_notification_subject'), $exc_title, $ass->getTitle());
+			$message = sprintf($ulng->txt('exc_feedback_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
+
+			$message .= $ulng->txt('exc_feedback_notification_body').":\n\n";
+			$message .= $ulng->txt('obj_exc').": ".$exc_title."\n";
+			$message .= $ulng->txt('exc_assignment').": ".$ass->getTitle()."\n";	
+			$message .= "\n".$ulng->txt('exc_feedback_notification_link').": ".$link;				
+
+			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+			$mail_obj->appendInstallationSignature(true);
+			$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+				"", "", $subject, $message, array(), array("system"));
+		}
+		
+		$ilDB->manipulate("UPDATE exc_assignment".
+			" SET fb_cron_done = ".$ilDB->quote(1, "integer").
+			" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
+		return true;		
+	}
 }
 
 ?>

@@ -13482,3 +13482,7 @@ exc#:#exc_team_upload_not_supported#:#Diese Option ist für Team-Upload-Übungse
 exc#:#exc_global_feedback_file#:#Feedback-Datei für alle Lerner
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
 exc#:#exc_global_feedback_file_cron_info#:#Über einen Cron-Job werden die Lerner über die Verfügbarkeit der Feedback-Datei informiert.
+exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit freigeschaltet
+exc#:#exc_feedback_notification_salutation#:#Hallo %s,
+exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet
+exc#:#exc_feedback_notification_link#:#Link zur Übung

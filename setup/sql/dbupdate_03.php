@@ -16367,3 +16367,20 @@ if( !$ilDB->tableColumnExists('exc_assignment', 'fb_cron') )
 		);
 }
 ?>
+<#3946>
+<?php
+if( !$ilDB->tableColumnExists('exc_assignment', 'fb_cron_done') )
+{
+	$ilDB->addTableColumn("exc_assignment", "fb_cron_done",
+		array(	
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0)
+		);
+}
+?>
+<#3947>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
