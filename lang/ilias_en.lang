@@ -13227,7 +13227,7 @@ survey#:#survey_notification_tutor_recipients_invalid#:#Please state users with 
 survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
 survey#:#survey_notification_tutor_salutation#:#Hello %s,
 survey#:#survey_notification_tutor_body#:#The following survey has been finished by all participants
-survey#:#survey_notification_tutor_link#:#URL
+survey#:#survey_notification_tutor_link#:#Link to Survey
 survey#:#survey_reminder_subject#:#Survey "%s" was not finished
 survey#:#survey_reminder_salutation#:#Hello %s,
 survey#:#survey_reminder_body#:#the following survey has not been finished by you yet

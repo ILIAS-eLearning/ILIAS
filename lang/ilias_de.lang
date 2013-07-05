@@ -13229,7 +13229,7 @@ survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie Benutzer
 survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage "%s" beendet
 survey#:#survey_notification_tutor_salutation#:#Hallo %s,
 survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Teilnehmern beendet worden
-survey#:#survey_notification_tutor_link#:#URL
+survey#:#survey_notification_tutor_link#:#Link zur Umfrage
 survey#:#survey_reminder_subject#:#Umfrage "%s" wurde noch nicht bearbeitet
 survey#:#survey_reminder_salutation#:#Hallo %s,
 survey#:#survey_reminder_body#:#die folgende Umfrage ist von Ihnen noch nicht beendet worden
