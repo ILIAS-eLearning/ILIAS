@@ -206,6 +206,7 @@ class ilMail
 
 	private $use_pear = true;
 	protected $appendInstallationSignature = false;
+	protected $appendInstallationSignatureCaption = null;
 	
 	/**
 	 * 
@@ -1849,7 +1850,7 @@ class ilMail
 
 		if($this->appendInstallationSignature())
 		{
-			$a_m_message .= self::_getInstallationSignature();
+			$a_m_message .= self::_getInstallationSignature($this->appendInstallationSignatureCaption);
 		}
 
 		// save mail in sent box
@@ -2006,8 +2007,8 @@ class ilMail
 		global $ilUser;
 		
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
-
-		if($this->user_id != ANONYMOUS_USER_ID)
+		
+		if($this->user_id && $this->user_id != ANONYMOUS_USER_ID)
 		{
 			$email = $ilUser->getEmail();
 			$fullname = $ilUser->getFullname();
@@ -2567,13 +2568,18 @@ class ilMail
 	 * @param	mixed	boolean or nothing
 	 * @return	mixed	boolean if called without passing any params, otherwise $this
 	 */
-	public function appendInstallationSignature($a_flag = null)
+	public function appendInstallationSignature($a_flag = null, $a_caption = null)
 	{
 		if(null === $a_flag) {
 			return $this->appendInstallationSignature;
 		}
 
 		$this->appendInstallationSignature = $a_flag;
+		
+		if($a_caption)
+		{
+			$this->appendInstallationSignatureCaption = $a_caption;
+		}
 
 		return $this;
 	}
@@ -2586,11 +2592,17 @@ class ilMail
 	 *
 	 * @return	string	The installation mail signature
 	 */
-	public static function _getInstallationSignature()
+	public static function _getInstallationSignature($a_caption = null)
 	{
 		global $ilClientIniFile;
 
 		$signature = "\n\n* * * * *\n";
+		
+		if($a_caption)
+		{
+			$signature .= $a_caption.": ";
+		}
+		
 		$signature .= $ilClientIniFile->readVariable('client', 'name')."\n";
 		if(strlen($desc = $ilClientIniFile->readVariable('client', 'description')))
 		{

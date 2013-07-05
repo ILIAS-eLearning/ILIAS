@@ -17,24 +17,24 @@ abstract class ilMailNotification
 {
 	const SUBJECT_TITLE_LENGTH = 60;
 	
-	private $type = null;
-	private $sender = null;
+	protected $type = null;
+	protected $sender = null;
 	
-	private $mail = null;
-	private $subject = '';
-	private $body = '';
+	protected $mail = null;
+	protected $subject = '';
+	protected $body = '';
 
-	private $attachments = array();
+	protected $attachments = array();
 	
 	protected $language = null;
 	
-	private $recipients = array();
+	protected $recipients = array();
 	
-	private $ref_id = null;
-	private $obj_id = null;
-	private $obj_type = null;
+	protected $ref_id = null;
+	protected $obj_id = null;
+	protected $obj_type = null;
 	
-	private $additional_info = array();
+	protected $additional_info = array();
 	
 	/**
 	 * Constructor
