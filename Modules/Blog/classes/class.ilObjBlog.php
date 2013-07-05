@@ -409,7 +409,7 @@ class ilObjBlog extends ilObject2
 		}				
 								
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
-		$ntf = new ilSystemNotification($blog_obj_id, array("blog"));
+		$ntf = new ilSystemNotification($blog_obj_id, array("blog"), $a_in_wsp);
 		$ntf->setRefId($a_blog_node_id);
 		$ntf->setChangedByUserId($ilUser->getId());
 		$ntf->setSubjectLangId('blog_change_notification_subject');
@@ -420,7 +420,7 @@ class ilObjBlog extends ilObject2
 			$ntf->addAdditionalInfo('comment', $a_comment, true);
 		}	
 		$ntf->setGotoLangId('blog_change_notification_link');				
-		$ntf->setReason('blog_change_notification_reason');				
+		$ntf->setReasonLangId('blog_change_notification_reason');				
 				
 		$notified = $ntf->send($users, "_".$a_posting_id, 
 			($admin_only ? "write" : "read"));								
