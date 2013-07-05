@@ -252,6 +252,8 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 	function fillRow(array $a_set)
 	{
+		global $lng;
+		
 		// #7694
 		if(!$a_set["active"])
 		{
