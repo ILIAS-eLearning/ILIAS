@@ -95,7 +95,8 @@ class ilSCORM2004StoreData
 		if (!$data) return;
 		if ($userId == null) {
 			$userId=(int) $data->p;
-			self::checkIfAllowed($packageId,$userId,$data->hash); 
+			self::checkIfAllowed($packageId,$userId,$data->hash);
+			header('Access-Control-Allow-Origin: http://localhost:50012');//just for tests - not for release UK
 		}
 		$return = ilSCORM2004StoreData::setCMIData(
 			$userId, 

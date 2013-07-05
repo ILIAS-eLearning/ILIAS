@@ -2819,10 +2819,10 @@ function save()
 				if(k == "new_global_status") new_global_status=result[k];
 			}
 
-			//if status has to be send to a cms
-			//if (config.status.saved_global_status != new_global_status) {
-			//	try{windowOpenerLoc.reload();} catch(e){}
-			//}
+			//sychronize status
+			if (config.status.saved_global_status != new_global_status) {
+				try{windowOpenerLoc.reload();} catch(e){}
+			}
 			
 			config.status.saved_global_status = new_global_status;
 			return true;
