@@ -160,6 +160,26 @@ abstract class ilCronJob
 				return ($diff >= $a_schedule_value);		
 		}				
 	}
+	
+	/**
+	 * Get title
+	 * 
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		
+	}
+	
+	/**
+	 * Get description
+	 * 
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		
+	}
 
 	/**
 	 * Get id

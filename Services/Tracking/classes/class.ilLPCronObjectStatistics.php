@@ -19,6 +19,14 @@ class ilLPCronObjectStatistics extends ilCronJob
 		return "lp_object_statistics";
 	}
 	
+	public function getTitle()
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("trac");
+		return $lng->txt("trac_object_statistics");
+	}
+	
 	public function getDefaultScheduleType()
 	{
 		return self::SCHEDULE_TYPE_DAILY;

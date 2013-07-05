@@ -55,6 +55,9 @@ class ilCronManagerTableGUI extends ilTable2GUI
 			$job = ilCronManager::getJobInstance($item["job_id"],
 				$item["component"], $item["class"], $item["path"]);
 			
+			$data[$idx]["title"] = $job->getTitle();
+			$data[$idx]["description"] = $job->getDescription();
+			
 			// schedule			
 			if(!$job->hasFlexibleSchedule())
 			{		
@@ -216,7 +219,17 @@ class ilCronManagerTableGUI extends ilTable2GUI
 	{		
 		global $ilCtrl, $lng;
 		
-		$this->tpl->setVariable("VAL_ID", $a_set["job_id"]);
+		if(!$a_set["title"])
+		{
+			$a_set["title"] = $a_set["job_id"];
+		}
+		$this->tpl->setVariable("VAL_ID", $a_set["title"]);
+		
+		if($a_set["description"])
+		{
+			$this->tpl->setVariable("VAL_DESC", $a_set["description"]);
+		}
+		
 		$this->tpl->setVariable("VAL_COMPONENT", $a_set["component"]);
 		$this->tpl->setVariable("VAL_SCHEDULE", $a_set["schedule"]);
 		$this->tpl->setVariable("VAL_STATUS", $a_set["status"]);
