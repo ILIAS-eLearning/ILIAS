@@ -13499,3 +13499,5 @@ exc#:#exc_team_notification_reason#:#You are receiving this email because you ar
 blog#:#blog_change_notification_reason#:#You are receiving this email because you activated notifications for the blog mentioned above.
 survey#:#survey_notification_finished_introduction#:#The following participant has finished the survey.
 survey#:#survey_notification_finished_reason#:#You are receiving this email because you activated notifications for the survey mentioned above.
+content#:#cont_offline_mode_allow#:#allow offline-mode
+content#:#cont_offline_mode_allow_info#:#In offline mode, learning modules can only be processed with the SCORM offline player. The tracking data are transferred if the learner clicks on 'finish offline mode' in ILIAS.

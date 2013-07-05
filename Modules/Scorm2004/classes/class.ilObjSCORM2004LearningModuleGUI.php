@@ -374,7 +374,14 @@ $this->ctrl->redirect($this, "properties");
 			$cb->setChecked(true);
 		}
 		$this->form->addItem($cb);
-		
+
+		// offline Mode
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_offline_mode_allow"), "cobj_offline_mode");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getOfflineMode());
+		$cb->setInfo($this->lng->txt("cont_offline_mode_allow_info"));
+		$this->form->addItem($cb);
+
 		//
 		// presentation
 		//
@@ -676,6 +683,7 @@ $this->ctrl->redirect($this, "properties");
 			$this->object->setComments(ilUtil::yn2tf($_POST["cobj_comments"]));
 			$this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
 			$this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
+			$this->object->setOfflineMode(ilUtil::yn2tf($_POST["cobj_offline_mode"]));
 			$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
 			//$this->object->setDebugPw($_POST["debug_pw"]);
 
