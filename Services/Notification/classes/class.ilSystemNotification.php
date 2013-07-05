@@ -42,6 +42,24 @@ class ilSystemNotification extends ilMailNotification
 		{
 			$this->obj_type = ilObject::_lookupType($this->getObjId());		
 		}
+		
+		$this->setSender(ANONYMOUS_USER_ID);
+	}
+	
+	/**
+	 * Set ref_id
+	 * 
+	 * @param int $a_id
+	 */
+	public function setRefId($a_id)
+	{
+		if($this->is_in_wsp)
+		{
+			// do not try to get obj_id in personal workspace
+			$this->ref_id = $a_id;
+			return;
+		}
+		parent::setRefId($a_id);
 	}
 	
 	/**
@@ -128,11 +146,11 @@ class ilSystemNotification extends ilMailNotification
 	 */
 	public function send(array $a_user_ids, $a_goto_additional = null, $a_permission = "read")
 	{
-		global $ilUser, $ilAccess;
+		global $ilUser, $ilAccess;				
 		
 		if(!$this->getObjId())
 		{
-			return;
+			return array();
 		}
 		
 		// get ref_id(s)
@@ -223,7 +241,8 @@ class ilSystemNotification extends ilMailNotification
 					}
 				}
 			}
-			$this->appendBody("\n");
+			$this->body = trim($this->body);
+			$this->appendBody("\n\n");
 			
 			if($this->changed_by)
 			{				
@@ -291,7 +310,7 @@ class ilSystemNotification extends ilMailNotification
 								
 			$this->getMail()->appendInstallationSignature(true, 
 				$this->getLanguageText("system_notification_installation_signature"));
-
+			
 			$this->sendMail(array($user_id),array('system'));
 			
 			$recipient_ids[] = $user_id;

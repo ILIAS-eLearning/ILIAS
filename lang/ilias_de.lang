@@ -1473,10 +1473,10 @@ blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration des 
 blog#:#blog_back_to_ilias#:#Zurück zu ILIAS
 blog#:#blog_background_color#:#Hintergrundfarbe
 blog#:#blog_banner#:#Banner
-blog#:#blog_change_notification_body_comment#:#der folgende Blog-Eintrag wurde kommentiert
-blog#:#blog_change_notification_body_new#:#der folgende Blog-Eintrag wurde neu angelegt
-blog#:#blog_change_notification_body_update#:#der folgende Blog-Eintrag wurde editiert
-blog#:#blog_change_notification_link#:#URL
+blog#:#blog_change_notification_body_comment#:#der folgende Blog-Eintrag wurde kommentiert.
+blog#:#blog_change_notification_body_new#:#der folgende Blog-Eintrag wurde neu angelegt.
+blog#:#blog_change_notification_body_update#:#der folgende Blog-Eintrag wurde editiert.
+blog#:#blog_change_notification_link#:#Link zum Blog-Eintrag
 blog#:#blog_change_notification_salutation#:#Hallo %s,
 blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
 blog#:#blog_changed_by#:#Letzte Änderung durch
@@ -13484,10 +13484,10 @@ exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
 exc#:#exc_global_feedback_file_cron_info#:#Über einen Cron-Job werden die Lerner über die Verfügbarkeit der Feedback-Datei informiert.
 exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit freigeschaltet
 exc#:#exc_feedback_notification_salutation#:#Hallo %s,
-exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet
+exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
 exc#:#exc_feedback_notification_link#:#Link zur Übung
 mail#:#system_notification_installation_signature#:#Diese E-Mail wurde automatisch versandt von der ILIAS-Installation
 mail#:#system_notification_installation_changed_by#:#Geändert durch
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
 exc#:#exc_team_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
-blog#:#blog_change_notification#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für den oben genannten Blog aktiviert haben.
+blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für den oben genannten Blog aktiviert haben.
