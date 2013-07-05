@@ -16384,3 +16384,20 @@ if( !$ilDB->tableColumnExists('exc_assignment', 'fb_cron_done') )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3948>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','offline_mode'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'offline_mode',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'n'
+			)
+		);
+	$ilDB->query("UPDATE sahs_lm SET offline_mode = 'n'");
+}
+?>
