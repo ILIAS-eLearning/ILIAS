@@ -13492,3 +13492,8 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for exercise ass
 exc#:#exc_feedback_notification_salutation#:#Hello %s,
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment
 exc#:#exc_feedback_notification_link#:#Link to exercise
+mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation
+mail#:#system_notification_installation_changed_by#:#Changed By
+exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
+exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
+blog#:#blog_change_notification#:#You are receiving this email because you activated notifications for the blog mentioned above.

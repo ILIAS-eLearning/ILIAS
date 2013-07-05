@@ -13486,3 +13486,8 @@ exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit freigesch
 exc#:#exc_feedback_notification_salutation#:#Hallo %s,
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet
 exc#:#exc_feedback_notification_link#:#Link zur Übung
+mail#:#system_notification_installation_signature#:#Diese E-Mail wurde automatisch versandt von der ILIAS-Installation
+mail#:#system_notification_installation_changed_by#:#Geändert durch
+exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
+exc#:#exc_team_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
+blog#:#blog_change_notification#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für den oben genannten Blog aktiviert haben.
