@@ -10280,7 +10280,7 @@ survey#:#please_enter_mail_message#:#Please enter a mail message
 survey#:#participating_users#:#Participating Users
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
 survey#:#mail_sent_short#:#Sent
-survey#:#finished_mail_subject#:#The survey was finished
+survey#:#finished_mail_subject#:#The survey "%s" was finished
 survey#:#msg_min_nr_answers#:#Please check at least %s answer(s).
 survey#:#msg_max_nr_answers#:#Please check at most %s answers.
 survey#:#msg_min_max_nr_answers#:#Please check at least %s and at most %s answers.
@@ -12752,9 +12752,9 @@ book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_file#:#File
 book#:#book_download_info#:#Download Additional Description
 exc#:#exc_team_notification_salutation#:#Hello %s,
-exc#:#exc_team_notification_subject_add#:#Added as team member to upload assignment
+exc#:#exc_team_notification_subject_add#:#Added as team member to upload assignment of exercise "%s"
 exc#:#exc_team_notification_body_add#:#you have been added to a team upload assignment.
-exc#:#exc_team_notification_subject_rmv#:#Removed from a team upload assignment
+exc#:#exc_team_notification_subject_rmv#:#Removed from a team upload assignment of exercise "%s"
 exc#:#exc_team_notification_body_rmv#:#you have been removed from  a team upload assignment.
 exc#:#exc_team_notification_changed_by#:#Status changed by
 exc#:#exc_team_notification_link#:#Link to exercise
@@ -13488,7 +13488,7 @@ exc#:#exc_team_upload_not_supported#:#This feature does not support team upload 
 exc#:#exc_global_feedback_file#:#Feedback file for all learners
 exc#:#exc_global_feedback_file_cron#:#Notification
 exc#:#exc_global_feedback_file_cron_info#:#All learners will be notified via cron job when the feedback file becomes available.
-exc#:#exc_feedback_notification_subject#:#Feedback is available for exercise assignment
+exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment of exercise "%s"
 exc#:#exc_feedback_notification_salutation#:#Hello %s,
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.
 exc#:#exc_feedback_notification_link#:#Link to exercise
@@ -13497,3 +13497,5 @@ mail#:#system_notification_installation_changed_by#:#Changed By
 exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
 exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
 blog#:#blog_change_notification_reason#:#You are receiving this email because you activated notifications for the blog mentioned above.
+survey#:#survey_notification_finished_introduction#:#The following participant has finished the survey.
+survey#:#survey_notification_finished_reason#:#You are receiving this email because you activated notifications for the survey mentioned above.

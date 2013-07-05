@@ -3099,53 +3099,55 @@ class ilObjSurvey extends ilObject
 	function sendNotificationMail($user_id, $anonymize_id, $appr_id)
 	{		
 		include_once "./Services/User/classes/class.ilObjUser.php";
-		include_once "./Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail(ANONYMOUS_USER_ID);
+		include_once "./Services/User/classes/class.ilUserUtil.php";		
+
 		$recipients = preg_split('/,/', $this->mailaddresses);
 		foreach ($recipients as $recipient)
-		{
+		{						
+			// #11298		
+			include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+			$ntf = new ilSystemNotification($this->getId(), array("survey"));
+			$ntf->setRefId($this->getRefId());
+			$ntf->setSubjectLangId('finished_mail_subject');
+								
 			$messagetext = $this->mailparticipantdata;
-			$data = ilObjUser::_getUserData(array($user_id));
-			foreach ($data[0] as $key => $value)
+			if(trim($messagetext))
 			{
-				if ($this->getAnonymize())
+				$data = ilObjUser::_getUserData(array($user_id));
+				foreach ($data[0] as $key => $value)
 				{
-					$messagetext = str_replace('[' . $key . ']', '', $messagetext);
-				}
-				else
-				{
-					$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
-				}
+					if ($this->getAnonymize())
+					{
+						$messagetext = str_replace('[' . $key . ']', '', $messagetext);
+					}
+					else
+					{
+						$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
+					}
+				}		
+				$ntf->setIntroductionDirect($messagetext);
 			}
-			$active_id = $this->getActiveID($user_id, $anonymize_id, $appr_id);
-			$messagetext .= ((strlen($messagetext)) ? "\n\n\n" : '') . $this->lng->txt('results') . "\n\n". $this->getParticipantTextResults($active_id);
-		
-			if($appr_id)
+			else
 			{
-				// add appraisee data
-				include_once "Services/User/classes/class.ilUserUtil.php";
-				$messagetext .= "\n\n(".$this->lng->txt("survey_360_mode").") ".
-					$this->lng->txt("survey_360_appraisee").": ".
-					ilUserUtil::getNamePresentation($appr_id);				
+				$ntf->setIntroductionLangId('survey_notification_finished_introduction');
 			}
 						
-			// #11298			
-			include_once "./Services/Link/classes/class.ilLink.php";
-			$link = ilLink::_getStaticLink($this->getRefId(), "svy");			
-			$messagetext .= "\n\n".$this->lng->txt('obj_svy').": ". $this->getTitle()."\n";			
-			$messagetext .= "\n".$this->lng->txt('survey_notification_tutor_link').": ".$link;								
-			$mail->appendInstallationSignature(true);
+			// 360°? add appraisee data
+			if($appr_id)
+			{										
+				$ntf->addAdditionalInfo('survey_360_appraisee', 
+					ilUserUtil::getNamePresentation($appr_id));
+			}
 			
-			$mail->sendMail(
-				$recipient, // to
-				"", // cc
-				"", // bcc
-				$this->lng->txt('finished_mail_subject') . ': ' . $this->getTitle(), // subject
-				$messagetext, // message
-				array(), // attachments
-				array('normal') // type
-			);				
-		}
+			$active_id = $this->getActiveID($user_id, $anonymize_id, $appr_id);
+			$ntf->addAdditionalInfo('results', 
+				$this->getParticipantTextResults($active_id), true);
+									
+			$ntf->setGotoLangId('survey_notification_tutor_link');				
+			$ntf->setReasonLangId('survey_notification_finished_reason');	
+
+			$ntf->send(array($recipient), null, null);		
+		}															
 	}
 
 	protected function getParticipantTextResults($active_id)

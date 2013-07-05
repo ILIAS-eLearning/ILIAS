@@ -18,6 +18,7 @@ class ilSystemNotification extends ilMailNotification
 	protected $lang_modules; // [array]
 	protected $subject_lang_id; // [string]
 	protected $introduction; // [string]
+	protected $introduction_direct; // [string]
 	protected $task; // [string]
 	protected $reason; // [string]
 	protected $additional; // [array]
@@ -80,6 +81,16 @@ class ilSystemNotification extends ilMailNotification
 	public function setIntroductionLangId($a_lang_id)
 	{
 		$this->introduction = (string)$a_lang_id;
+	}
+	
+	/**
+	 * Set introduction text
+	 * 
+	 * @param string $a_text
+	 */
+	public function setIntroductionDirect($a_text)
+	{
+		$this->introduction_direct = trim($a_text);
 	}
 	
 	/**
@@ -148,37 +159,35 @@ class ilSystemNotification extends ilMailNotification
 	{
 		global $ilUser, $ilAccess;				
 		
-		if(!$this->getObjId())
-		{
-			return array();
-		}
-		
-		// get ref_id(s)
-		if(!$this->is_in_wsp)
-		{
-			if(!$this->getRefId())
+		if($this->getObjId())
+		{			
+			// get ref_id(s)
+			if(!$this->is_in_wsp)
 			{
-				$ref_ids = ilObject::_getAllReferences($this->getObjId());				
-				if(sizeof($ref_ids) == 1)
+				if(!$this->getRefId())
 				{
-					$this->ref_id = array_shift($ref_ids);
+					$ref_ids = ilObject::_getAllReferences($this->getObjId());				
+					if(sizeof($ref_ids) == 1)
+					{
+						$this->ref_id = array_shift($ref_ids);
+					}
 				}
 			}
-		}
-		else
-		{
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";			
-			$wsp_tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
-			$wsp_access_handler = new ilWorkspaceAccessHandler($wsp_tree); 		
-			$this->ref_id = $wsp_tree->lookupNodeId($this->getObjId());					
-			$goto = ilWorkspaceAccessHandler::getGotoLink($this->getRefId(), $this->getObjId(), $a_goto_additional);	
-		}		
+			else
+			{
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";			
+				$wsp_tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
+				$wsp_access_handler = new ilWorkspaceAccessHandler($wsp_tree); 		
+				$this->ref_id = $wsp_tree->lookupNodeId($this->getObjId());					
+				$goto = ilWorkspaceAccessHandler::getGotoLink($this->getRefId(), $this->getObjId(), $a_goto_additional);	
+			}		
 		
-		// default values
-		if(!$this->goto_caption)
-		{
-			$this->goto_caption = "url";			
+			// default values
+			if(!$this->goto_caption)
+			{
+				$this->goto_caption = "url";			
+			}
 		}
 		
 		$recipient_ids = array();
@@ -214,6 +223,12 @@ class ilSystemNotification extends ilMailNotification
 				$this->appendBody("\n\n");
 			}
 			
+			if($this->introduction_direct)
+			{
+				$this->appendBody($this->introduction_direct);	
+				$this->appendBody("\n\n");
+			}
+			
 			if($this->task)
 			{
 				$this->appendBody($this->getLanguageText($this->task));	
@@ -221,8 +236,11 @@ class ilSystemNotification extends ilMailNotification
 			}
 			
 			// details table
-			$this->appendBody($this->getLanguageText("obj_".$this->getObjType()).": ".
-				$this->getObjectTitle()."\n");
+			if($this->getObjId())
+			{
+				$this->appendBody($this->getLanguageText("obj_".$this->getObjType()).": ".
+					$this->getObjectTitle()."\n");
+			}
 			if(sizeof($this->additional))
 			{
 				foreach($this->additional as $lang_id => $item)
@@ -251,52 +269,57 @@ class ilSystemNotification extends ilMailNotification
 				$this->appendBody("\n\n");
 			}
 				
-			// repository (for personal workspace see above)
-			if(!$this->is_in_wsp)
-			{				
-				$goto = null;
-				
-				// try to find accessible ref_id
-				if(!$this->getRefId())
-				{
-					$find_ref_id = true;						
-					foreach($ref_ids as $ref_id)
-					{						
-						if($ilAccess->checkAccessOfUser($user_id, $a_permission, "", $ref_id, $this->getObjType()))
-						{
-							$this->ref_id = $ref_id;
-							break;
+			if($this->getObjId())
+			{
+				// repository (for personal workspace see above)
+				if(!$this->is_in_wsp)
+				{				
+					$goto = null;
+
+					// try to find accessible ref_id
+					if(!$this->getRefId())
+					{
+						$find_ref_id = true;						
+						foreach($ref_ids as $ref_id)
+						{						
+							if($ilAccess->checkAccessOfUser($user_id, $a_permission, "", $ref_id, $this->getObjType()))
+							{
+								$this->ref_id = $ref_id;
+								break;
+							}
 						}
 					}
-				}
-					
-				if($this->getRefId())
+
+					if($this->getRefId())
+					{
+						if(trim($a_permission) &&
+							!$ilAccess->checkAccessOfUser($user_id, $a_permission, "", $this->getRefId(), $this->getObjType()))
+						{
+							continue;
+						}
+
+						$goto = $this->createPermanentLink();
+					}
+				}	
+				else
 				{
-					if(!$ilAccess->checkAccessOfUser($user_id, $a_permission, "", $this->getRefId(), $this->getObjType()))
+					if(trim($a_permission) &&
+						!$wsp_access_handler->checkAccessOfUser($wsp_tree, $user_id, $a_permission, "", $this->getRefId(), $this->getObjType()))
 					{
 						continue;
-					}
-					
-					$goto = $this->createPermanentLink();
+					}								
 				}
-			}	
-			else
-			{
-				if(!$wsp_access_handler->checkAccessOfUser($wsp_tree, $user_id, $a_permission, "", $this->getRefId(), $this->getObjType()))
-				{
-					continue;
-				}								
-			}
-			if($goto)
-			{				
-				$this->appendBody($this->getLanguageText($this->goto_caption).": ".
-					$goto);
-				$this->appendBody("\n\n");
-			}
+				if($goto)
+				{				
+					$this->appendBody($this->getLanguageText($this->goto_caption).": ".
+						$goto);
+					$this->appendBody("\n\n");
+				}
 			
-			if(!$this->is_in_wsp && $find_ref_id)
-			{
-				$this->ref_id = null;
+				if(!$this->is_in_wsp && $find_ref_id)
+				{
+					$this->ref_id = null;
+				}
 			}
 			
 			if($this->reason)
@@ -311,7 +334,7 @@ class ilSystemNotification extends ilMailNotification
 			$this->getMail()->appendInstallationSignature(true, 
 				$this->getLanguageText("system_notification_installation_signature"));
 			
-			$this->sendMail(array($user_id),array('system'));
+			$this->sendMail(array($user_id), array('system'), is_numeric($user_id));
 			
 			$recipient_ids[] = $user_id;
 		}	
