@@ -16401,3 +16401,58 @@ $ilCtrlStructureReader->getStructure();
 	$ilDB->query("UPDATE sahs_lm SET offline_mode = 'n'");
 }
 ?>
+<#3949>
+<?php
+if(!$ilDB->tableExists('sahs_user'))
+{
+	$fields = array (
+		'obj_id' => array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => true
+		),
+		'user_id' => array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => true
+		),
+		'package_attempts' => array(
+			'type' => 'integer', 
+			'length' => 2,
+			'notnull' => false
+		),
+		'module_version' => array(
+			'type' => 'integer', 
+			'length' => 2,
+			'notnull' => false
+		),
+		'last_visited' => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'fixed' => false,
+			'default' => null
+		),
+		'hash' => array(
+			'type' => 'text',
+			'length' => 20,
+			'notnull' => false,
+			'fixed' => false,
+			'default' => null
+		),
+		'hash_end' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		),
+		'offline_mode' => array(
+			'type' => 'text',
+			'length' => 8,
+			'notnull' => false,
+			'fixed' => false,
+			'default' => null
+		)
+	);
+	$ilDB->createTable('sahs_user', $fields);
+	$ilDB->addPrimaryKey('sahs_user', array('obj_id','user_id'));
+}
+?>
