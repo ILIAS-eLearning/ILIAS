@@ -16456,3 +16456,7 @@ if(!$ilDB->tableExists('sahs_user'))
 	$ilDB->addPrimaryKey('sahs_user', array('obj_id','user_id'));
 }
 ?>
+<#3950>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
