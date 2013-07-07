@@ -39,10 +39,22 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		$this->info_screen_enabled = true;
 		$this->type = "sahs";
 		$this->gui_class_name = "ilobjsahslearningmodulegui";
-		
-		// general commands array
 		include_once('./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php');
-		$this->commands = ilObjSAHSLearningModuleAccess::_getCommands();
+	}
+
+	/**
+	* inititialize new item
+	*
+	* @param	int			$a_ref_id		reference id
+	* @param	int			$a_obj_id		object id
+	* @param	string		$a_title		title
+	* @param	string		$a_description	description
+	*/
+	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	{
+		// general commands array
+		$this->commands = ilObjSAHSLearningModuleAccess::_getCommands($a_obj_id);
+		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 	}
 
 	/**
@@ -58,32 +70,43 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	{
 		global $ilCtrl;
 		
+		$cmd_link = null;
 		switch($a_cmd)
 		{
 			case "view":
-				$cmd_link = null;
-				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
-				if (!ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id))
-				{
+//				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
+				// if (!ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id))
+				// {
 					$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
-				}
-				else
-				{
-					$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
-				}
+				// }
+				// else
+				// {
+					// $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
+				// }
+				break;
+
+			case "offlineModeView":
+				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id."&amp;cmd=offlineModeView";
 				break;
 
 			case "editContent":
 				$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id."&amp;cmd=editContent";
-				break;
 
 			case "edit":
 				$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
 				break;
 
 			case "infoScreen":
-				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id.
-					"&amp;cmd=infoScreen";
+				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id."&amp;cmd=infoScreen";
+				break;
+
+			case "offlineModeStart":
+				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id."&amp;cmd=offlineModeStart";
+//				$cmd_link = $ilCtrl->getLinkTargetByClass(array('ilsahspresentationgui', 'ilscormofflinemodegui'),'start&amp;ref_id='.$_GET["ref_id"]);
+				break;
+
+			case "offlineModeStop":
+				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id."&amp;cmdClass=ilSCORMOfflineModeGUI&amp;cmd=stop";
 				break;
 
 			default:

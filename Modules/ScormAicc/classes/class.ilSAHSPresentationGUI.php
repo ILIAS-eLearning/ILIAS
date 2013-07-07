@@ -13,7 +13,7 @@
 *
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI, ilAICCPresentationGUI, ilHACPPresentationGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI, ilscorm13player, ilShopPurchaseGUI
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilLearningProgressGUI
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilLearningProgressGUI, ilSCORMOfflineModeGUI
 * 
 * @ingroup ModulesScormAicc
 */
@@ -91,6 +91,8 @@ class ilSAHSPresentationGUI
 			$ret =& $this->ctrl->forwardCommand($scorm_gui);
 		}
 
+		if (substr($cmd,0,11) == "offlineMode") $next_class = "ilscormofflinemodegui";
+
 		switch($type)
 		{
 			
@@ -117,6 +119,7 @@ class ilSAHSPresentationGUI
 
 		if ($next_class != "ilinfoscreengui" &&
 			$cmd != "infoScreen" && 
+			$next_class != "ilscormofflinemodegui" &&
 			$next_class != "illearningprogressgui")
 		{
 			include_once("./Services/License/classes/class.ilLicense.php");
@@ -152,7 +155,6 @@ class ilSAHSPresentationGUI
 
 			case "ilscorm13player":
 				require_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
-		
 				$scorm_gui = new ilSCORM13Player();
 				$ret =& $this->ctrl->forwardCommand($scorm_gui);
 				break;	
@@ -183,11 +185,18 @@ class ilSAHSPresentationGUI
 				$this->tpl->show();
 				break;
 
+			case "ilscormofflinemodegui":
+				$this->setOfflineModeTabs($cmd);
+				include_once "./Modules/ScormAicc/classes/class.ilSCORMOfflineModeGUI.php";
+				$new_gui =& new ilSCORMOfflineModeGUI($type);
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tpl->show();
+				break;
+
 			default:
 				$this->$cmd();
 		}
 	}
-
 
 	function attrib2arr(&$a_attributes)
 	{
@@ -701,6 +710,26 @@ class ilSAHSPresentationGUI
 			//$this->tpl->setContent("aa");
 			$this->tpl->show();
 		//}
+	}
+
+	function setOfflineModeTabs($a_active)
+	{		
+		global $ilTabs, $ilLocator, $ilAccess;
+		$thisurl = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$_GET["ref_id"]."&amp;cmd=".$a_active;
+		$ilTabs->addTab("info_short", $this->lng->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+			
+//		$ilTabs->addTab($a_active, $this->lng->txt($a_active), $this->ctrl->getLinkTargetByClass(array('ilsahspresentationgui', 'ilscormofflinemodegui'),$a_active));
+		$ilTabs->addTab($a_active, $this->lng->txt($a_active), $thisurl);
+			
+		$ilTabs->activateTab($a_active);
+
+		$this->tpl->getStandardTemplate();
+		$this->tpl->setTitle($this->slm_gui->object->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm_b.png"));
+		$ilLocator->addRepositoryItems();
+		$ilLocator->addItem($this->slm_gui->object->getTitle(),$thisurl);
+//			$this->ctrl->getLinkTarget($this, $a_active),'', $_GET["ref_id"]);
+		$this->tpl->setLocator();
 	}
 
 }

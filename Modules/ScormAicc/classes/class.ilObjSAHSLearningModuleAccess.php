@@ -77,15 +77,24 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
      *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *    );
      */
-    function _getCommands()
+    function _getCommands($a_obj_id)
     {
         $commands = array
         (
-            array("permission" => "read", "cmd" => "view", "lang_var" => "show",
-                "default" => true),
+            array("permission" => "read", "cmd" => "view", "lang_var" => "show","default" => true),
             array("permission" => "write", "cmd" => "editContent", "lang_var" => "edit_content"),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings")
         );
+		if (ilObjSAHSLearningModuleAccess::_lookupOfflineModeAvailable($a_obj_id)) {
+			$offlineMode=ilObjSAHSLearningModuleAccess::_lookupUserOfflineMode($a_obj_id);
+			if ($offlineMode == false) {
+				$commands[]=array("permission" => "read", "cmd" => "offlineModeStart", "lang_var" => "offlineModeStart");
+			}
+			else if ($offlineMode == 'offline') {
+				$commands[]=array("permission" => "read", "cmd" => "offlineModeStop", "lang_var" => "offlineModeStop");
+				$commands[0]=array("permission" => "read", "cmd" => "offlineModeView", "lang_var" => "show","default" => true);
+			}
+		}
         
         return $commands;
     }
@@ -101,7 +110,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
     {
         global $ilDB;
 
-        $set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+        $set = $ilDB->queryF('SELECT c_online FROM sahs_lm WHERE id = %s', 
         array('integer'), array($a_id));
         $rec = $ilDB->fetchAssoc($set);
         
@@ -219,6 +228,38 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
 	static function _isOffline($a_obj_id)
 	{
 		return !self::_lookupOnline($a_obj_id);
+	}
+	
+	/**
+		* Checks offlineMode
+		*/
+	static function _lookupUserOfflineMode($obj_id)
+	{
+		global $ilDB,$ilUser;
+
+		$user_id = $ilUser->getId();
+
+		$set = $ilDB->queryF('SELECT offline_mode FROM sahs_user WHERE obj_id = %s AND user_id = %s', 
+			array('integer','integer'),
+			array($a_id, $user_id)
+		);
+		$rec = $ilDB->fetchAssoc($set);
+		if ($rec["offline_mode"] == null) return false;
+		return $rec["offline_mode"];
+	}
+	
+	/**
+	* check wether learning module is online
+	*/
+	function _lookupOfflineModeAvailable($a_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->queryF('SELECT offline_mode FROM sahs_lm WHERE id = %s', 
+		array('integer'), array($a_id));
+		$rec = $ilDB->fetchAssoc($set);
+
+		return ilUtil::yn2tf($rec["offline_mode"]);
 	}
 }
 
