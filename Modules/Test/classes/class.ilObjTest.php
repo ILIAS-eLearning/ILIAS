@@ -394,7 +394,7 @@ class ilObjTest extends ilObject
 	private $_customStyle;
 	
 	protected $mailnotification;
-
+	
 	protected $mailnottype;
 
 	protected $random_questionpool_data;
@@ -448,6 +448,18 @@ class ilObjTest extends ilObject
 	 * @var boolean
 	 */
 	private $passDeletionAllowed = null;
+	
+	/** @var $enable_examview bool */
+	protected $enable_examview;
+	
+	/** @var $show_examview_html bool */
+	protected $show_examview_html;
+	
+	/** @var $show_examview_pdf bool */
+	protected $show_examview_pdf;
+
+	/** @var $enbale_archiving bool */
+	protected $enable_archiving;
 
 	/**
 	 * @var int
@@ -475,10 +487,24 @@ class ilObjTest extends ilObject
 	*/
 	function ilObjTest($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilUser;
+		global $ilUser, $lng;
 		$this->type = "tst";
+
+		$lng->loadLanguageModule("assessment");
+		// Defaults:
 		include_once "./Modules/Test/classes/class.assMarkSchema.php";
 		$this->mark_schema = new ASS_MarkSchema();
+		$this->mark_schema->createSimpleSchema(
+			$lng->txt("failed_short"),
+			$lng->txt("failed_official"),
+			0,
+			0,
+			$lng->txt("passed_short"),
+			$lng->txt("passed_official"),
+			50,
+			1
+		);
+		
 		$this->test_id = -1;
 		$this->author = $ilUser->fullname;
 		$this->introduction = "";
@@ -531,9 +557,7 @@ class ilObjTest extends ilObject
 		$this->testSequence = FALSE;
 		$this->mailnotification = 0;
 		$this->poolUsage = 0;
-		global $lng;
-		$lng->loadLanguageModule("assessment");
-		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
+		
 		$this->ects_grades = array(
 			"A" => 90,
 			"B" => 65,
@@ -541,8 +565,14 @@ class ilObjTest extends ilObject
 			"D" => 10,
 			"E" => 0
 		);
+
 		$this->autosave = FALSE;
 		$this->autosave_ival = 30000;
+
+		$this->enable_examview = false;
+		$this->show_examview_html = false;
+		$this->show_examview_pdf = false;
+		$this->enable_archiving = false;
 		
         $this->express_mode = false;
         $this->template_id = '';
@@ -1277,8 +1307,12 @@ class ilObjTest extends ilObject
 				'autosave' => array('integer', (int)$this->getAutosave()),
 				'autosave_ival' => array('integer', (int)$this->getAutosaveIval()),
 				'pass_deletion_allowed' => array('integer', (int)$this->isPassDeletionAllowed()),
+				'enable_examview' => array('integer', (int)$this->getEnableExamview()),
+				'show_examview_html' => array('integer', (int)$this->getShowExamviewHtml()),
+				'show_examview_pdf' => array('integer', (int)$this->getShowExamviewPdf()),
 				'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
 				'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
+				'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
 				'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk()),
 				'show_exam_id' => array('integer', (int)$this->getShowExamid())
 			));
@@ -1380,8 +1414,12 @@ class ilObjTest extends ilObject
 						'autosave' => array('integer', $this->getAutosave()),
 						'autosave_ival' => array('integer', $this->getAutosaveIval()),
 						'pass_deletion_allowed' => array('integer', (int)$this->isPassDeletionAllowed()),
+						'enable_examview' => array('integer', (int)$this->getEnableExamview()),
+						'show_examview_html' => array('integer', (int)$this->getShowExamviewHtml()),
+						'show_examview_pdf' => array('integer', (int)$this->getShowExamviewPdf()),
 						'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
 						'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
+						'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
 						'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk()),
 						'show_exam_id' => array('integer', (int)$this->getShowExamid())
 					),
@@ -2203,6 +2241,10 @@ class ilObjTest extends ilObject
 			$this->setAutosave((bool)$data->autosave);
 			$this->setAutosaveIval((int)$data->autosave_ival);
 			$this->setPassDeletionAllowed($data->pass_deletion_allowed);
+			$this->setEnableExamview((bool)$data->enable_examview);
+			$this->setShowExamviewHtml((bool)$data->show_examview_html);
+			$this->setShowExamviewPdf((bool)$data->show_examview_pdf);
+			$this->setEnableArchiving((bool)$data->enable_archiving);
 			$this->setExamidInKiosk( (bool)$data->examid_in_kiosk);
 			$this->setShowExamid( (bool)$data->show_exam_id);
 			$this->loadQuestions();
@@ -6255,6 +6297,15 @@ function getAnswerFeedbackPoints()
 						$this->setEndingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 					}
 					break;
+				case "enable_examview":
+					$this->setEnableExamview($metadata["entry"]);
+					break;
+				case 'show_examview_html':
+					$this->setShowExamviewHtml($metadata['entry']);
+					break;
+				case 'show_examview_pdf':
+					$this->setShowExamviewPdf($metadata['entry']);
+					break;
 				case 'redirection_mode':
 					$this->setRedirectionMode($metadata['entry']);
 					break;
@@ -6266,6 +6317,9 @@ function getAnswerFeedbackPoints()
 					break;
 				case 'show_exam_id':
 					$this->setShowExamid($metadata['entry']);
+					break;
+				case 'enable_archiving':
+					$this->setEnableArchiving($metadata['entry']);
 					break;
 			}
 			if (preg_match("/mark_step_\d+/", $metadata["label"]))
@@ -6588,6 +6642,30 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "processing_time");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getProcessingTime());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		// enable_examview
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "enable_examview");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getEnableExamview());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// show_examview_html
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_examview_html");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getShowExamviewHtml());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// show_examview_pdf
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_examview_pdf");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getShowExamviewPdf());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		// enable_archiving
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "enable_archiving");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getEnableArchiving());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");		
 
 		// starting time
 		if ($this->getStartingTime())
@@ -7214,6 +7292,10 @@ function getAnswerFeedbackPoints()
 		$newObj->setPrintBestSolutionWithResult($this->isBestSolutionPrintedWithResult());
 		$newObj->setExamidInKiosk($this->getExamidInKiosk());
 		$newObj->setShowExamid($this->getShowExamid());
+		$newObj->setEnableExamView($this->getEnableExamview());
+		$newObj->setShowExamViewHtml($this->getShowExamviewHtml());
+		$newObj->setShowExamViewPdf($this->getShowExamviewPdf());
+		$newObj->setEnableArchiving($this->getEnableArchiving());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -9833,7 +9915,10 @@ function getAnswerFeedbackPoints()
 			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings(),
 			'obligations_enabled' => (int)$this->areObligationsEnabled(),
 			'offer_question_hints' => (int)$this->isOfferingQuestionHintsEnabled(),
-			'pass_deletion_allowed' => (int)$this->isPassDeletionAllowed()
+			'pass_deletion_allowed' => (int)$this->isPassDeletionAllowed(),
+			'enable_examview' => $this->getEnableExamview(),
+			'show_examview_html' => $this->getShowExamviewHtml(),
+			'show_examview_pdf' => $this->getShowExamviewPdf()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -9910,6 +9995,10 @@ function getAnswerFeedbackPoints()
 		$this->setPassDeletionAllowed($testsettings['pass_deletion_allowed']);
 		$this->setExamidInKiosk($testsettings['examid_in_kiosk']);
 		$this->setShowExamid($testsettings['show_exam_id']);
+		$this->setEnableExamview($testsettings['enable_examview']);
+		$this->setShowExamviewHtml($testsettings['show_examview_html']);
+		$this->setShowExamviewPdf($testsettings['show_examview_pdf']);
+		$this->setEnableArchiving($testsettings['enable_archiving']);
 		$this->saveToDb();
 
 		return true;
@@ -11419,17 +11508,17 @@ function getAnswerFeedbackPoints()
 	public static function isQuestionObligatory($question_id)
 	{
 	    global $ilDB;
-	    
+
 	    $rset = $ilDB->queryF('SELECT obligatory FROM tst_test_question WHERE question_fi = %s', array('integer'), array($question_id));
-	    
+
 		if( $row = $ilDB->fetchAssoc($rset) )
 		{
 			return (bool) $row['obligatory'];
 	    }
-		
+
 	    return false;
 	}
-	
+
 	/**
 	 * checks wether all questions marked as obligatory were answered
 	 * within the test pass with given testId, activeId and pass index
@@ -11445,21 +11534,21 @@ function getAnswerFeedbackPoints()
 	public static function allObligationsAnswered($test_id, $active_id, $pass)
 	{
 	    global $ilDB;
-	    
+  
 	    $rset = $ilDB->queryF(
 		    'SELECT obligations_answered FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
 		    array('integer', 'integer'),
 		    array($active_id, $pass)
 	    );
-	    
+   
 	    if( $row = $ilDB->fetchAssoc($rset) )
 		{
 			return (bool)$row['obligations_answered'];
 	    }
-		
+
 		return !self::hasObligations($test_id);
 	}
-	
+
 	/**
 	 * returns the fact wether the test with given test id
 	 * contains questions markes as obligatory or not
@@ -11501,7 +11590,7 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->autosave_ival;
 	}
-	
+
 	/**
 	 * returns the fact wether questionpools for random question selection are configured
 	 *
@@ -11525,7 +11614,7 @@ function getAnswerFeedbackPoints()
 			!$this->isRandomTest() && count($this->questions) > 0
 		);
 	}
-	
+
 	/**
 	 * getter for the test setting passDeletionAllowed
 	 * 
@@ -11535,7 +11624,7 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->passDeletionAllowed;
 	}
-	
+
 	/**
 	 * setter for the test setting passDeletionAllowed
 	 * 
@@ -11544,6 +11633,269 @@ function getAnswerFeedbackPoints()
 	public function setPassDeletionAllowed($passDeletionAllowed)
 	{
 		$this->passDeletionAllowed = (bool)$passDeletionAllowed;
+	}
+
+	#region Examview / PDF Examview
+	/**
+	 * @param boolean $show_examview_html
+	 */
+	public function setShowExamviewHtml($show_examview_html)
+	{
+		$this->show_examview_html = $show_examview_html;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getShowExamviewHtml()
+	{
+		return $this->show_examview_html;
+	}
+
+	/**
+	 * @param boolean $show_examview_pdf
+	 */
+	public function setShowExamviewPdf($show_examview_pdf)
+	{
+		$this->show_examview_pdf = $show_examview_pdf;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getShowExamviewPdf()
+	{
+		return $this->show_examview_pdf;
+	}
+
+	/**
+	 * @param boolean $enable_examview
+	 */
+	public function setEnableExamview($enable_examview)
+	{
+		$this->enable_examview = $enable_examview;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getEnableExamview()
+	{
+		return $this->enable_examview;
+	}
+
+	#endregion
+
+	function setActivationStartingTime($starting_time = NULL)
+	{
+		$this->activation_starting_time = $starting_time;
+	}
+
+	function setActivationEndingTime($ending_time = NULL)
+	{
+		$this->activation_ending_time = $ending_time;
+	}
+
+	function getActivationStartingTime()
+	{
+		return (strlen($this->activation_starting_time)) ? $this->activation_starting_time : NULL;
+	}
+
+	function getActivationEndingTime()
+	{
+		return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : NULL;
+	}
+
+	function getStartingTimeOfParticipants()
+	{
+		global $ilDB;
+
+		$times = array();
+		$result = $ilDB->query("SELECT tst_times.active_fi, tst_times.started FROM tst_times, tst_active WHERE tst_times.active_fi = tst_active.active_id ORDER BY tst_times.tstamp DESC");
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$times[$row['active_fi']] = $row['started'];
+		}
+		return $times;
+	}
+
+	function getTimeExtensionsOfParticipants()
+	{
+		global $ilDB;
+
+		$times = array();
+		$result = $ilDB->queryF("SELECT tst_addtime.active_fi, tst_addtime.additionaltime FROM tst_addtime, tst_active WHERE tst_addtime.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
+		);
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$times[$row['active_fi']] = $row['additionaltime'];
+		}
+		return $times;
+	}
+
+	public function getExtraTime($active_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT additionaltime FROM tst_addtime WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
+		);
+		if ($result->numRows() > 0)
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return $row['additionaltime'];
+		}
+		return 0;
+	}
+
+	public function addExtraTime($active_id, $minutes)
+	{
+		global $ilDB;
+
+		$participants = array();
+		if ($active_id == 0)
+		{
+			$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s",
+				array('integer'),
+				array($this->getTestId())
+			);
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				array_push($participants, $row['active_id']);
+			}
+		}
+		else
+		{
+			array_push($participants, $active_id);
+		}
+		foreach ($participants as $active_id)
+		{
+			$result = $ilDB->queryF("SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
+			);
+			if ($result->numRows() > 0)
+			{
+				$ilDB->manipulateF("DELETE FROM tst_addtime WHERE active_fi = %s",
+					array('integer'),
+					array($active_id)
+				);
+			}
+
+			$ilDB->manipulateF("UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
+				array('integer','integer','timestamp','integer'),
+				array(0, 0, NULL, $active_id)
+			);
+
+			$ilDB->manipulateF("INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
+				array('integer','integer','integer'),
+				array($active_id, $minutes, time())
+			);
+
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_added_extratime", ilObjAssessmentFolder::_getLogLanguage()), $minutes, $active_id));
+			}
+		}
+	}
+
+	/**
+	 * @param boolean $enable_archiving
+	 * 
+	 * @return $this
+	 */
+	public function setEnableArchiving($enable_archiving)
+	{
+		$this->enable_archiving = $enable_archiving;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getEnableArchiving()
+	{
+		return $this->enable_archiving;
+	}
+
+	public function getMaxPassOfTest()
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+		
+		$query = '
+			SELECT MAX(tst_pass_result.pass) + 1 max_res
+			FROM tst_pass_result 
+			INNER JOIN tst_active ON tst_active.active_id = tst_pass_result.active_fi
+			WHERE test_fi = '.$ilDB->quote($this->getTestId(), 'integer').'
+		';
+		$res = $ilDB->query($query);
+		$data = $ilDB->fetchAssoc($res);
+		return (int)$data['max_res'];
+	}
+
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return array
+	 */
+	public function getExamId($active_id, $pass)
+	{
+		/** @TODO Move this to a proper place. */
+		global $ilDB, $ilSetting;
+
+		$exam_id_query  = 'SELECT exam_id FROM tst_pass_result WHERE active_fi = %s AND pass = %s';
+		$exam_id_result = $ilDB->queryF( $exam_id_query, array( 'integer', 'integer' ), array( $active_id, $pass ) );
+		if ($ilDB->numRows( $exam_id_result ) == 1)
+		{
+			$exam_id_row = $ilDB->fetchAssoc( $exam_id_result );
+
+			if ($exam_id_row['exam_id'] != null)
+			{
+				return $exam_id_row['exam_id'];
+			}
+		}
+
+		$inst_id = $ilSetting->get( 'inst_id', null );
+		$obj_id  = ilObject::_lookupObjId($this->ref_id);
+		return 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
+	}
+
+	/**
+	 * @param boolean $examid_in_kiosk
+	 */
+	public function setExamidInKiosk($examid_in_kiosk)
+	{
+		$this->examid_in_kiosk = $examid_in_kiosk;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getExamidInKiosk()
+	{
+		return $this->examid_in_kiosk;
+	}
+
+	/**
+	 * @param boolean $show_exam_id
+	 */
+	public function setShowExamid($show_exam_id)
+	{
+		$this->show_exam_id = $show_exam_id;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getShowExamid()
+	{
+		return $this->show_exam_id;
 	}
 		
 	function setActivationStartingTime($starting_time = NULL)

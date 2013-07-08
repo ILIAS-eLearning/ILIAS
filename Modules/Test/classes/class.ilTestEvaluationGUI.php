@@ -865,7 +865,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
-			$this->object->deliverPDFfromHTML($template->get());
+			//$this->object->deliverPDFfromHTML($template->get());
+			require_once 'class.ilTestPDFGenerator.php';
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
 		}
 		else
 		{
@@ -890,18 +892,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirect($this, "outParticipantsPassDetails");
 		}
 
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
-		{
-			$this->ctrl->setParameter($this, "pdf", "1");
-			$template->setCurrentBlock("pdf_export");
-			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outParticipantsResultsOverview"));
-			$this->ctrl->setParameter($this, "pdf", "");
-			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
-			$template->parseCurrentBlock();
-		}
+
+		$this->ctrl->setParameter($this, "pdf", "1");
+		$template->setCurrentBlock("pdf_export");
+		$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outParticipantsResultsOverview"));
+		$this->ctrl->setParameter($this, "pdf", "");
+		$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+		$template->parseCurrentBlock();
 
 		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outParticipantsPassDetails");
 		$template->setVariable("PASS_OVERVIEW", $overview);
@@ -932,7 +931,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
-			$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
+			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
+			require_once 'class.ilTestPDFGenerator.php';
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			//ilUtil::deliverData($file, ilUtil::getASCIIFilename($this->object->getTitle()) . ".pdf", "application/pdf", false, true);
+			//$template->setVariable("PDF_FILE_LOCATION", $filename);
 		}
 		else
 		{
@@ -1052,9 +1055,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if (is_null($pass))	$pass = $_GET["pass"];
 		}
 
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
-		{
+
 			$this->ctrl->setParameter($this, "pass", $pass);
 			$this->ctrl->setParameter($this, "pdf", "1");
 			$templatehead->setCurrentBlock("pdf_export");
@@ -1065,6 +1066,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$templatehead->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
 			$templatehead->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
 			$templatehead->parseCurrentBlock();
+		
+			include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+			if(ilRPCServerSettings::getInstance()->isEnabled())
+			{		
 			if ($this->object->canShowCertificate($user_id, $active_id))
 			{
 				$templatehead->setVariable("CERTIFICATE_URL", $this->ctrl->getLinkTarget($this, "outCertificate"));
@@ -1142,7 +1147,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
-			$this->object->deliverPDFfromHTML($template->get(), sprintf($this->lng->txt("tst_result_user_name"), $uname));
+			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
+			require_once 'class.ilTestPDFGenerator.php';
+			$content = $template->get();
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			//$this->object->deliverPDFfromHTML($template->get(), sprintf($this->lng->txt("tst_result_user_name"), $uname));
 		}
 		else
 		{

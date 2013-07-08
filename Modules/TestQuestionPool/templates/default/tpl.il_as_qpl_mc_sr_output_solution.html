@@ -1,5 +1,5 @@
 	{QUESTIONTEXT}
-	<table class="nobackground">
+	<table class="nobackground middle" >
 <!-- BEGIN answer_row -->	
 		<tr>
 			<td class="middle" width="15">
@@ -9,21 +9,19 @@
 <!-- BEGIN answer_image -->
 				<img id="singlechoice" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" {ATTR} />
 <!-- END answer_image -->
-				{ANSWER_TEXT}
+				<span>{ANSWER_TEXT}</span>
 			</td>
-			<td>
+			
 <!-- BEGIN icon_ok -->
-			<img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" />
+            <td><img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" /></td>
 <!-- END icon_ok -->
 <!-- BEGIN icon_not_ok -->
-			<img src="{ICON_NOT_OK}" alt="{TEXT_NOT_OK}" title="{TEXT_NOT_OK}" />
-<!-- END icon_not_ok -->
-			</td>
-			<td>
+            <td><img src="{ICON_NOT_OK}" alt="{TEXT_NOT_OK}" title="{TEXT_NOT_OK}" /></td>
+<!-- END icon_not_ok -->	
 <!-- BEGIN result_output -->
-				<em>{RESULT_OUTPUT}</em>
+            <td><em>{RESULT_OUTPUT}</em></td>
 <!-- END result_output -->
-			</td>
+			
 		</tr>
 <!-- BEGIN feedback -->
 		<tr>

@@ -803,12 +803,13 @@ assessment#:#tst_eval_question_points#:#Question Results for Pass %s
 assessment#:#tst_eval_results_by_pass#:#List of Answers for Pass %s
 assessment#:#tst_eval_show_answer#:#Show Answer
 assessment#:#tst_eval_total_finished_average_time#:#Average Test Processing Time
-assessment#:#tst_eval_total_finished#:#Total Finished Tests (users who submitted the test with the finish test button)
+assessment#:#tst_eval_total_finished#:#Total Finished Tests (Users that used up all possible passes.)
 assessment#:#tst_eval_total_passed_average_points#:#Average Points of Passed Tests
 assessment#:#tst_eval_total_passed_average_time#:#Average Processing Time of all Passed Tests
 assessment#:#tst_eval_total_passed#:#Total Passed Tests
 assessment#:#tst_eval_total_persons#:#Total number of persons who started the test
 assessment#:#tst_eval_user_answer#:#User Answer
+assessment#:#review_view#:#Review
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
 assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers
@@ -1065,6 +1066,9 @@ assessment#:#tst_use_previous_answers#:#Option to Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.
+assessment#:#test_enable_archiving#:#Enable Archiving.
+assessment#:#ass_create_archive_export#:#Create Archive-Export.
+assessment#:#cannot_export_archive#:#Archive-Export cannot be created.
 assessment#:#tt_assessment#:#Assessment Test
 assessment#:#tt_online_exam#:#Online Exam
 assessment#:#tt_self_assessment#:#Self Assessment Test
@@ -1129,6 +1133,17 @@ assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
+assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
+assessment#:#tst_question_feedback_edit_page#:#Edit Content
+assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
+assessment#:#enable_examview#:#Enable Exam View
+assessment#:#enable_examview_desc#:#Enables the view of the test in the shape of an exam at the end of the pass, prior to submission.
+assessment#:#show_examview_html#:#Show exam view on the test submission page.
+assessment#:#show_examview_html_desc#:#Shows the tests questions and answers in ILIAS in a step prior to submission.
+assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
+assessment#:#show_examview_pdf_desc#:#Shows the tests questions and answers in a PDF file in a step prior to submission. (Download button available as well.)
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
@@ -1530,8 +1545,6 @@ common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
 common#:#advanced_editing_no_rte#:#Do not use rich text editing
 common#:#advanced_editing_rep_page_editing_desc#:#This feature allows adding text/media to pages of a category, course, group or folder. If deactivated, existing content will be hidden.
 common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository
-common#:#advanced_editing_tst_editing_desc#:#This feature allows adding text/media to feedback or hints of test questions.
-common#:#advanced_editing_tst_editing#:#Enable Content Editing in Test & Assessment
 common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s
 common#:#advanced_editing_settings#:#Editing Settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool

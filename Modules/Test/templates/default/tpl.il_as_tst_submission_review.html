@@ -1,0 +1,18 @@
+<form name="form_export" action="{FORMACTION}" method="post">
+<div id="finalstatement">
+	{FINALSTATEMENT}
+</div>
+<p>
+    <input type="submit" class="submit" name="cmd[finishTest]" value="{BUTTON_CONTINUE}" />
+    <input type="submit" class="submit" name="cmd[backFromSummary]" value="{BUTTON_BACK}" id="prevbutton" />
+    <!-- BEGIN pdf_export -->
+    <a class="submit" href="{PDF_URL}"><img src="{PDF_IMG_URL}" alt="{PDF_IMG_ALT}" title="{PDF_IMG_ALT}" /> {PDF_TEXT}</a>
+    <script type="text/javascript">
+        setTimeout(function () { window.location = '{PDF_FILE_LOCATION}'; }, 5000)
+    </script>
+    <!-- END pdf_export -->
+    <!-- BEGIN html_review -->
+    {HTML_REVIEW}
+    <!-- END html_review -->
+</p>
+</form>

@@ -1370,7 +1370,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$pool_usage->setChecked($this->object->getPoolUsage());
 		$form->addItem($pool_usage);
 		
-					
+		// enable_archiving
+		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
+		$enable_archiving->setValue(1);
+		$enable_archiving->setChecked($this->object->getEnableArchiving());
+		$form->addItem($enable_archiving);
+		
 		// activation/availability  (no template support yet)
 		
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
@@ -1477,6 +1482,29 @@ class ilObjTestGUI extends ilObjectGUI
 		$finalstatement->addSubItem($showfinal);
 		$form->addItem($finalstatement);
 
+		// examview
+		$enable_examview = new ilCheckboxInputGUI('', 'enable_examview');
+		$enable_examview->setValue(1);
+		$enable_examview->setChecked($this->object->getEnableExamview());
+		$enable_examview->setOptionTitle($this->lng->txt("enable_examview"));
+		$enable_examview->setInfo($this->lng->txt("enable_examview_desc"));	
+		
+			$show_examview_html = new ilCheckboxInputGUI('', 'show_examview_html');
+			$show_examview_html->setValue(1);
+			$show_examview_html->setChecked($this->object->getShowExamviewHtml());
+			$show_examview_html->setOptionTitle($this->lng->txt("show_examview_html"));
+			$show_examview_html->setInfo($this->lng->txt("show_examview_html_desc"));
+			$enable_examview->addSubItem($show_examview_html);
+
+			$show_examview_pdf = new ilCheckboxInputGUI('', 'show_examview_pdf');
+			$show_examview_pdf->setValue(1);
+			$show_examview_pdf->setChecked($this->object->getShowExamviewPdf());
+			$show_examview_pdf->setOptionTitle($this->lng->txt("show_examview_pdf"));
+			$show_examview_pdf->setInfo($this->lng->txt("show_examview_pdf_desc"));
+			$enable_examview->addSubItem($show_examview_pdf);
+
+		$form->addItem($enable_examview);
+		
 		if(!$template || $template && $this->formShowSessionSection($template_settings)) {
                     // session properties
                     $sessionheader = new ilFormSectionHeaderGUI();
@@ -2181,7 +2209,13 @@ class ilObjTestGUI extends ilObjectGUI
             //$this->object->setExpressModeQuestionPoolAllowed($_POST['express_allow_question_pool']);
             $this->object->setEnabledViewMode($_POST['enabled_view_mode']);
             $this->object->setPoolUsage($_POST['use_pool']);
+			$this->object->setEnableArchiving($_POST['enable_archiving']);
 
+			// Examview
+			$this->object->setEnableExamview((bool)$_POST['enable_examview']);
+			$this->object->setShowExamviewHtml((bool)$_POST['show_examview_html']);
+			$this->object->setShowExamviewPdf((bool)$_POST['show_examview_pdf']);
+			
 			$this->object->saveToDb(true);
 			
 			// Update ecs export settings
@@ -2923,7 +2957,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (in_array($data["question_id"], $checked_questions))
 				{
 					$txt = $data["title"]." (".assQuestion::_getQuestionTypeName($data["type_tag"]).")";
-					$txt .= $q . ' ['. $this->lng->txt('question_id_short') . ': ' . $data['question_id']  . ']';
+					$txt .= ' ['. $this->lng->txt('question_id_short') . ': ' . $data['question_id']  . ']';
 					
 					if($data["description"])
 					{
@@ -4285,18 +4319,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->getQuestionsSubTabs();
 		$template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", TRUE, TRUE, "Modules/Test");
 
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
-		{
-			$this->ctrl->setParameter($this, "pdf", "1");
-			$template->setCurrentBlock("pdf_export");
-			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "print"));
-			$this->ctrl->setParameter($this, "pdf", "");
-			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
-			$template->parseCurrentBlock();
-		}
+		$this->ctrl->setParameter($this, "pdf", "1");
+		$template->setCurrentBlock("pdf_export");
+		$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "print"));
+		$this->ctrl->setParameter($this, "pdf", "");
+		$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+		$template->parseCurrentBlock();
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		
@@ -4342,13 +4372,102 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
-			$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
+			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
+			require_once 'class.ilTestPDFGenerator.php';
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
 		}
 		else
 		{
 			$this->tpl->setVariable("PRINT_CONTENT", $template->get());
 		}
 	}
+
+	/**
+	 * Review tab to create a print of all questions without points and solutions
+	 *
+	 * Review tab to create a print of all questions without points and solutions
+	 *
+	 * @access	public
+	 */
+	function reviewobject()
+	{
+		global $ilAccess, $ilias;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirect($this, "infoScreen");
+		}
+		$this->getQuestionsSubTabs();
+		$template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", TRUE, TRUE, "Modules/Test");
+
+		$this->ctrl->setParameter($this, "pdf", "1");
+		$template->setCurrentBlock("pdf_export");
+		$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "review"));
+		$this->ctrl->setParameter($this, "pdf", "");
+		$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+		$template->parseCurrentBlock();
+
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+
+		global $ilUser;
+		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
+		$max_points= 0;
+		$counter = 1;
+
+		foreach ($this->object->questions as $question)
+		{
+			$template->setCurrentBlock("question");
+			$question_gui = $this->object->createQuestionGUI("", $question);
+			$template->setVariable("COUNTER_QUESTION", $counter.".");
+			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($question_gui->object->getTitle()));
+			if ($question_gui->object->getMaximumPoints() == 1)
+			{
+				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("point"));
+			}
+			else
+			{
+				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("points"));
+			}
+			/** @var $question_gui assQuestionGUI  */
+			//$result_output = $question_gui->getTestOutput('', NULL, FALSE, FALSE, FALSE);
+			$result_output = $question_gui->getPreview(false);
+
+			if (strlen($result_output) == 0) $result_output = $question_gui->getPreview(FALSE);
+			$template->setVariable("SOLUTION_OUTPUT", $result_output);
+			$template->parseCurrentBlock("question");
+			$counter ++;
+			$max_points += $question_gui->object->getMaximumPoints();
+		}
+
+
+
+		$template->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$template->setVariable("PRINT_TEST", ilUtil::prepareFormOutput($this->lng->txt("review_view")));
+		$template->setVariable("TXT_PRINT_DATE", ilUtil::prepareFormOutput($this->lng->txt("date")));
+		$template->setVariable("VALUE_PRINT_DATE", ilUtil::prepareFormOutput(strftime("%c",$print_date)));
+		$template->setVariable("TXT_MAXIMUM_POINTS", ilUtil::prepareFormOutput($this->lng->txt("tst_maximum_points")));
+		$template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
+
+		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		{
+			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
+			require_once 'class.ilTestPDFGenerator.php';
+			$content = $template->get();
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+		}
+		else
+		{
+			$template->setCurrentBlock("navigation_buttons");
+			$template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+			$template->parseCurrentBlock();
+			
+			
+			$this->tpl->setVariable("PRINT_CONTENT", $template->get());
+		}
+	}	
 	
 	function addParticipantsObject($a_user_ids = array())
 	{
@@ -5020,7 +5139,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$ilTabs->addSubTabTarget("print_view",
 				 $this->ctrl->getLinkTarget($this,'print'),
 				 "print", "", "", $this->ctrl->getCmd() == 'print');
+			$ilTabs->addSubTabTarget('review_view', 
+				 $this->ctrl->getLinkTarget($this, 'review'), 
+				 'review', '', '', $this->ctrl->getCmd() == 'review');
 		}
+		
 			
 	}
 	

@@ -948,8 +948,9 @@ assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
 assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse für Testdurchlauf %s
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
-assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die den Test durch Drücken der Test beenden Schaltfläche fertiggestellt haben)
+assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die maximale Anzahl Passes eingereicht haben.)
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitungsdauer aller Tests
+assessment#:#review_view#:#Vorschau
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungsdauer aller bestandenen Tests
@@ -1306,6 +1307,15 @@ assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard Editierungsmodus f�
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Editierung zusätzlicher Frageninhalte mit dem ILIAS Seiten Editor
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
+assessment#:#enable_examview#:#Klausuransicht aktivieren
+assessment#:#enable_examview_desc#:#Aktiviert die Klausuransicht des Tests in einem Bildschirm vor Abgabe.
+assessment#:#test_enable_archiving#:#Archivierung aktivieren.
+assessment#:#ass_create_archive_export#:#Archivexport erzeugen.
+assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
+assessment#:#show_examview_html#:#Klausuransicht innerhalb der ILIAS-Seite.
+assessment#:#show_examview_html_desc#:#Zeigt die Klausuransicht innerhalb von ILIAS.
+assessment#:#show_examview_pdf#:#Klausuransicht als PDF.
+assessment#:#show_examview_pdf_desc#:#Zeigt die Klausuransicht als automatischen PDF-Download. (Download-Button als Fallback vorhanden.)
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code
@@ -7634,10 +7644,13 @@ forum#:#forums_print_thread#:#Thema drucken
 forum#:#forums_subject#:#Titel
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
+forum#:#forums_thread_articles#:#Beiträge zum Thema
 forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
+forum#:#forums_threads_not_available#:#Keine Themen verfügbar
+forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihr Beitrag
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer nur mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge in diesem Forum schreiben.

@@ -16460,3 +16460,60 @@ if(!$ilDB->tableExists('sahs_user'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+?>
+<#3951>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'enable_examview') )
+{
+	$ilDB->addTableColumn(
+		'tst_tests',
+		'enable_examview',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		)
+	);
+}
+
+if( !$ilDB->tableColumnExists('tst_tests', 'show_examview_html') )
+{
+	$ilDB->addTableColumn(
+		'tst_tests',
+		'show_examview_html',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		)
+	);
+}
+
+if( !$ilDB->tableColumnExists('tst_tests', 'show_examview_pdf') )
+{
+	$ilDB->addTableColumn(
+		'tst_tests',
+		'show_examview_pdf',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		)
+	);
+}
+
+if( !$ilDB->tableColumnExists('tst_tests', 'enable_archiving') )
+{
+	$ilDB->addTableColumn(
+		'tst_tests',
+		'enable_archiving',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		)
+	);
+}
+
+$ilCtrlStructureReader->getStructure();
+?>
