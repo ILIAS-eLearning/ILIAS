@@ -1144,11 +1144,6 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_examview_html_desc#:#Shows the tests questions and answers in ILIAS in a step prior to submission.
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
 assessment#:#show_examview_pdf_desc#:#Shows the tests questions and answers in a PDF file in a step prior to submission. (Download button available as well.)
-assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
-assessment#:#tst_question_feedback_edit_page#:#Edit Content
-assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
