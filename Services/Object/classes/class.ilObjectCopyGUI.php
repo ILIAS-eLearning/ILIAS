@@ -697,10 +697,11 @@ class ilObjectCopyGUI
 	{
 		global $tpl;
 		
-		if(!$this->sourceExists())
-		{
-			return false;
-		}
+		// Disabled for performance
+		#if(!$this->sourceExists())
+		#{
+		#	return false;
+		#}
 
 		$this->unsetSession();
 		$this->initFormSearch();
