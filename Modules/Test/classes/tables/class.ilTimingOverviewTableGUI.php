@@ -1,10 +1,18 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once 'Services/Utilities/classes/class.ilFormat.php';
+require_once 'Services/Table/classes/class.ilTable2GUI.php';
 
+/**
+ * Class ilTimingOverviewTableGUI
+ */
 class ilTimingOverviewTableGUI extends ilTable2GUI
 {
+	/**
+	 * @param        $a_parent_obj
+	 * @param string $a_parent_cmd
+	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
 		global $lng, $ilCtrl;
@@ -26,11 +34,14 @@ class ilTimingOverviewTableGUI extends ilTable2GUI
 		$this->addCommandButton('showTimingForm', $this->lng->txt('timing'));
 	}
 
-	public function fillRow($data)
+	/**
+	 * @param array $data
+	 */
+	public function fillRow(array $data)
 	{
 		$this->tpl->setVariable("LOGIN", $data['login']);
 		$this->tpl->setVariable("NAME", $data['name']);
 		$this->tpl->setVariable("STARTED", $data['started']);
-		$this->tpl->setVariable("EXTRATIME", $data['extratime']);		
+		$this->tpl->setVariable("EXTRATIME", ilFormat::_secondsToString($data['extratime'] * 60));
 	}
 }
