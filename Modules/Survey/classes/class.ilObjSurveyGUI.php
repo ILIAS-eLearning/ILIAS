@@ -5022,13 +5022,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$data = $this->object->getAppraiseesData();
 		
+		$count = 0;		
 		include_once "Services/User/classes/class.ilUserUtil.php";
 		foreach ($_POST["appr_id"] as $id)
 		{			
-			if(isset($data[$id]))
+			if(isset($data[$id]) && !$data[$id]["closed"])
 			{				
 				$cgui->addItem("appr_id[]", $id, ilUserUtil::getNamePresentation($id));							
+				$count++;
 			}
+		}
+		
+		if(!$count)
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"), true);
+			$this->ctrl->redirect($this, "listAppraisees");			
 		}
 
 		$this->tpl->setContent($cgui->getHTML());		
@@ -5042,7 +5050,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 			foreach ($_POST["appr_id"] as $id)
 			{							
-				if(isset($data[$id]))
+				// #11285
+				if(isset($data[$id]) && !$data[$id]["closed"])
 				{					
 					$this->object->deleteAppraisee($id);
 				}
@@ -5114,7 +5123,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "addExternalRaterForm"));				
 		
 		include_once "Modules/Survey/classes/tables/class.ilSurveyAppraiseesTableGUI.php";
-		$tbl = new ilSurveyAppraiseesTableGUI($this, "editRaters", true);
+		$tbl = new ilSurveyAppraiseesTableGUI($this, "editRaters", true, !$this->object->isAppraiseeClosed($appr_id)); // #11285
 		$tbl->setData($this->object->getRatersData($appr_id));
 		$this->tpl->setContent($tbl->getHTML());				
 	}
