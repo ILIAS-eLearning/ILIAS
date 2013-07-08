@@ -5332,7 +5332,7 @@ class ilObjTestGUI extends ilObjectGUI
 					 "outParticipantsResultsOverview", "outParticipantsPassDetails",
 					 "showPassOverview", "showUserAnswers", "participantsAction",
 					"showDetailedResults", 
-					 'timing', 'timingOverview', 'npResetFilter', 'npSetFilter'), 
+					 'timing', 'timingOverview', 'npResetFilter', 'npSetFilter', 'showTimingForm'), 
 					 "");
                             }
 			}
