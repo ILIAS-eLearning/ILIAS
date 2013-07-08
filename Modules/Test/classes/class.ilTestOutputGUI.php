@@ -101,6 +101,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		
 		switch($next_class)
 		{
+			case 'iltestsubmissionreviewgui':
+				require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
+				$gui = new ilTestSubmissionReviewGUI($this, $this->object);
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			
 			case 'ilassquestionhintrequestgui':
 				
 				$questionGUI = $this->object->createQuestionGUI(
@@ -1151,6 +1157,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				}
 				break;
 				
+			case 'test_submission_overview':
+				require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
+				$this->ctrl->redirect(new ilTestSubmissionReviewGUI($this, $this->object), "show");
+				break;
+			
 			case "back":
 			case "gotoquestion":
 			default:
@@ -1464,7 +1475,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 *
 * @access public
 */
-	function finishTest($confirm = true)
+	function finishTest($requires_confirmation = true)
 	{
 		global $ilUser;
 		global $ilias;
@@ -1477,6 +1488,20 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		
 		$allObligationsAnswered = ilObjTest::allObligationsAnswered($this->object->getTestSession()->getTestId(), $active_id, $actualpass);
 		
+		/*
+		 * The following "endgames" are possible prior to actually finishing the test:
+		 * - Obligations (Ability to finish the test.)
+		 * 		If not all obligatory questions are answered, the user is presented a list
+		 * 		showing the deficits.
+		 * - Examview (Will to finish the test.)
+		 * 		With the examview, the participant can review all answers given in ILIAS or a PDF prior to
+		 * 		commencing to the finished test.
+		 * - Last pass allowed (Reassuring the will to finish the test.)
+		 * 		If passes are limited, on the last pass, an additional confirmation is to be displayed.	
+		 */
+		
+		
+		// Obligations fulfilled? redirectQuestion : one or the other summary -> no finish
 		if( $this->object->areObligationsEnabled() && !$allObligationsAnswered )
 		{
 			if( $this->object->getListOfQuestions() )
@@ -1492,23 +1517,17 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			return;
 		}
 		
-		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$confirm))
+		// Examview enabled & !reviewed & requires_confirmation? test_submission_overview (review gui)
+		if ($this->object->getEnableExamview() && !isset($_GET['reviewed']) && $requires_confirmation)
 		{
-			$this->object->setActiveTestSubmitted($ilUser->getId());
-			$ilAuth->setIdle(ilSession::getIdleValue(), false);
-			$ilAuth->setExpire(0);
-			switch ($this->object->getMailNotification())
-			{
-				case 1:
-					$this->object->sendSimpleNotification($active_id);
-					break;
-				case 2:
-					$this->object->sendAdvancedNotification($active_id);
-					break;
-			}
+			$_GET['activecommand'] = 'test_submission_overview';
+			$this->redirectQuestion();
+			return;
 		}
+	
 		
-		if (($confirm) && ($actualpass == $this->object->getNrOfTries() - 1))
+		// Last try in limited tries & !confirmed
+		if (($requires_confirmation) && ($actualpass == $this->object->getNrOfTries() - 1))
 		{
 			if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 			{
@@ -1530,7 +1549,25 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				return $this->confirmFinishTest();
 			}
 		}
-
+		
+		// Last try in limited tries & confirmed? 
+		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation))
+		{
+			$this->object->setActiveTestSubmitted($ilUser->getId());
+			$ilAuth->setIdle(ilSession::getIdleValue(), false);
+			$ilAuth->setExpire(0);
+			switch ($this->object->getMailNotification())
+			{
+				case 1:
+					$this->object->sendSimpleNotification($active_id);
+					break;
+				case 2:
+					$this->object->sendAdvancedNotification($active_id);
+					break;
+			}
+		}
+		
+		// Non-last try finish
 		if (!$_SESSION['tst_pass_finish'])
 		{
 			if (!$_SESSION['tst_pass_finish']) $_SESSION['tst_pass_finish'] = 1;
@@ -1549,6 +1586,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->object->getTestSession()->increaseTestPass();
 		}
 		
+		if ($this->object->getEnableArchiving())
+		{
+			$this->archiveParticipantSubmission( $active_id, $actualpass );
+		}
+		
+		// Redirect after test
 		$redirection_mode = $this->object->getRedirectionMode();
 		$redirection_url  = $this->object->getRedirectionUrl();
 		if($redirection_url && $redirection_mode && !$this->object->canViewResults())
@@ -1575,9 +1618,95 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$this->redirectBack();
 	}
-	
+
+	/**
+	 * @param $active
+	 * 
+	 * @return void
+	 */
+	protected function archiveParticipantSubmission( $active, $pass )
+	{
+		require_once 'class.ilTestEvaluationGUI.php';
+		$testevaluationgui = new ilTestEvaluationGUI($this->object);
+		$results = $this->object->getTestResult($active,$pass);
+		$results_output = $testevaluationgui->getPassListOfAnswers($results, $active, $pass, false, false, false, false);
+		
+		require_once './Modules/Test/classes/class.ilTestArchiver.php';
+		global $ilSetting;
+		$inst_id = $ilSetting->get('inst_id', null);
+		$archiver = new ilTestArchiver($this->object->getId());
+		
+		$path =  ilUtil::getWebspaceDir() . '/assessment/'. $this->object->getId() . '/exam_pdf';
+		if (!is_dir($path)) mkdir($path, 0777, true);
+		$filename = $path . '/exam_N' . $inst_id . '-' . $this->object->getId() 
+					. '-' . $active . '-' . $pass . '.pdf';
+
+		require_once 'class.ilTestPDFGenerator.php';
+		ilTestPDFGenerator::generatePDF($results_output, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
+		//$template->setVariable("PDF_FILE_LOCATION", $filename);
+		// Participant submission
+		$archiver->handInParticipantSubmission( $active, $pass, $filename, $results_output );
+		//$archiver->handInParticipantMisc( $active, $pass, 'signature_gedoens.sig', $filename );
+		//$archiver->handInParticipantQuestionMaterial( $active, $pass, 123, 'file_upload.pdf', $filename );
+
+		global $ilias;
+		$questions = $this->object->getQuestions();
+		foreach ($questions as $question_id)
+		{
+			$question_object = $this->object->getQuestionDataset( $question_id );
+			if ($question_object->type_tag == 'assFileUpload')
+			{
+				// Pfad: /data/default/assessment/tst_2/14/21/files/file_14_4_1370417414.png
+				// /data/ - klar
+				// /assessment/ - Konvention
+				// /tst_2/ = /tst_<test_id> (ilObjTest)
+				// /14/ = /<active_fi>/ 
+				// /21/ = /<question_id>/ (question_object)
+				// /files/ - Konvention
+				// file_14_4_1370417414.png = file_<active_fi>_<pass>_<some timestamp>.<ext>
+
+				$candidate_path =
+					$ilias->ini_ilias->readVariable( 'server', 'absolute_path' ) . ilTestArchiver::DIR_SEP
+						. $ilias->ini_ilias->readVariable( 'clients', 'path' ) . ilTestArchiver::DIR_SEP
+						. $ilias->client_id . ilTestArchiver::DIR_SEP
+						. 'assessment' . ilTestArchiver::DIR_SEP
+						. 'tst_' . $this->object->test_id . ilTestArchiver::DIR_SEP
+						. $active . ilTestArchiver::DIR_SEP
+						. $question_id . ilTestArchiver::DIR_SEP
+						. 'files' . ilTestArchiver::DIR_SEP;
+				$handle = opendir( $candidate_path );
+				while ($handle !== false && ($file = readdir( $handle )) !== false)
+				{
+					if ($file != null)
+					{
+						$filename_start = 'file_' . $active . '_' . $pass . '_';
+
+						if (strpos( $file, $filename_start ) === 0)
+						{
+							$archiver->handInParticipantQuestionMaterial( $active, $pass, $question_id, $file, $file );
+						}
+					}
+				}
+			}
+		}
+		return;
+	}
+
 	public function redirectBack()
 	{
+		if (isset($_GET['reviewed']))
+		{
+			if (!$_GET["skipfinalstatement"])
+			{
+				if ($this->object->getShowFinalStatement() == 1)
+				{
+					$this->ctrl->redirect($this, "showFinalStatement");
+				}
+			} else {
+				$this->ctrl->redirectByClass("ilTestEvaluationGUI", "outUserResultsOverview");
+			}		
+		}
+		
 		if (!$_GET["skipfinalstatement"])
 		{
 			if ($this->object->getShowFinalStatement())
@@ -1613,7 +1742,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$template->setVariable("BUTTON_CONTINUE", $this->lng->txt("btn_next"));
 		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
 	}
-	
+		
 	public function getKioskHead()
 	{
 		global $ilUser;

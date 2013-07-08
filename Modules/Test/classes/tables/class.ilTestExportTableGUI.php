@@ -4,18 +4,18 @@
 require_once 'Services/Export/classes/class.ilExportTableGUI.php';
 
 /**
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
-*
-* @ingroup ModulesTest
-*/
+ *
+ * @author Helmut Schottmüller <ilias@aurealis.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesTest
+ */
 
 class ilTestExportTableGUI extends ilExportTableGUI
 {
 	protected $counter;
 	protected $confirmdelete;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -69,4 +69,4 @@ class ilTestExportTableGUI extends ilExportTableGUI
 	{
 		return $row['file'];
 	}
-}
+} 

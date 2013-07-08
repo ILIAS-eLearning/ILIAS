@@ -297,13 +297,14 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 	
 	function getPreview($show_question_only = FALSE)
 	{
-		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_preview.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$elements = $this->object->getRandomOrderingElements();
 		foreach ($elements as $id => $element)
 		{
 			$template->setCurrentBlock("element");
 			$template->setVariable("ELEMENT_ID", "e$id");
 			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+			
 			$template->parseCurrentBlock();
 		}
 		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
