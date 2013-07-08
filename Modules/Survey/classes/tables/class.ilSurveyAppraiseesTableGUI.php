@@ -42,7 +42,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_raters_mode = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_raters_mode = false, $a_may_delete_rater = false)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -98,7 +98,10 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 		else
 		{			
 			$this->addMultiCommand('mailRaters', $this->lng->txt('mail'));
-			$this->addMultiCommand('confirmDeleteRaters', $this->lng->txt('remove'));
+			if($a_may_delete_rater)
+			{
+				$this->addMultiCommand('confirmDeleteRaters', $this->lng->txt('remove'));
+			}
 			$this->setPrefix('rtr_id');
 			$this->setSelectAllCheckbox('rtr_id');		
 		}		

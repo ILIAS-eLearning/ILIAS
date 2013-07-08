@@ -5644,13 +5644,23 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("DELETE FROM svy_360_rater".
-			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
-			" AND appr_id = ".$ilDB->quote($a_user_id, "integer"));		
-		
 		$ilDB->manipulate("DELETE FROM svy_360_appr".
 			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer"));		
+				
+		$set = $ilDB->query("SELECT user_id".
+			" FROM svy_360_rater".
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").		
+			" AND appr_id = ".$ilDB->quote($a_user_id, "integer"));		
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$this->deleteRater($a_user_id, $row["user_id"]);
+		}		
+		// appraisee will not be part of raters table
+		if($this->get360SelfEvaluation())
+		{
+			$this->deleteRater($a_user_id, $a_user_id);
+		}
 	}
 	
 	public function getAppraiseesData()
@@ -5730,6 +5740,12 @@ class ilObjSurvey extends ilObject
 	public function deleteRater($a_appraisee_id, $a_user_id, $a_anonymous_id = 0)
 	{
 		global $ilDB;
+		
+		$finished_id = $this->getFinishedIdForAppraiseeIdAndRaterId($a_appraisee_id, $a_user_id);
+		if($finished_id)
+		{
+			$this->removeSelectedSurveyResults(array($finished_id));		
+		}
 		
 		$ilDB->manipulate("DELETE FROM svy_360_rater".
 			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").
