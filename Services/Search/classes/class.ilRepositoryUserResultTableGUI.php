@@ -57,12 +57,21 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	{
 		global $rbacreview, $ilUser;
 
-		if(self::$all_selectable_cols)
-		{
-			return self::$all_selectable_cols;
+		if(!self::$all_selectable_cols)
+		{			
+			include_once './Services/Search/classes/class.ilUserSearchOptions.php';
+			$columns = ilUserSearchOptions::getSelectableColumnInfo($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID));				
+			
+			if($this->admin_mode)
+			{
+				// #11293
+				$columns['access_until'] = array('txt' => $this->lng->txt('access_until'));
+				$columns['last_login'] = array('txt' => $this->lng->txt('last_login'));				
+			}
+			
+			self::$all_selectable_cols = $columns; 
 		}
-		include_once './Services/Search/classes/class.ilUserSearchOptions.php';
-		return ilUserSearchOptions::getSelectableColumnInfo($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID));
+		return self::$all_selectable_cols;
 	}
 	
 	/**
@@ -105,6 +114,20 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 					$this->tpl->setVariable('VAL_CUST', $a_set[$field]);
 					$this->tpl->parseCurrentBlock();
 					break;
+				
+				case 'access_until':
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('CUST_CLASS', ' '.$a_set['access_class']);
+					$this->tpl->setVariable('VAL_CUST', $a_set[$field]);
+					$this->tpl->parseCurrentBlock();
+					break;
+				
+				case 'last_login':
+					$a_set['last_login'] = $a_set['last_login'] ? ilDatePresentation::formatDate(new ilDateTime($a_set['last_login'], IL_CAL_DATETIME)) : $this->lng->txt('no_date');
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST', $a_set[$field]);
+					$this->tpl->parseCurrentBlock();
+					break;				
 
 				case 'login':
 					if($this->admin_mode)
@@ -141,6 +164,13 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		}
 
 		$additional_fields = $this->getSelectedColumns();
+		
+		$parse_access = false;
+		if(isset($additional_fields['access_until']))
+		{
+			$parse_access = true;
+			unset($additional_fields['access_until']);
+		}
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
@@ -169,6 +199,39 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 				$usr_data_fields,
 				$a_user_ids
 		);
+		
+		if($this->admin_mode && $parse_access)
+		{
+			// see ilUserTableGUI
+			$current_time = time();
+			foreach($usr_data['set'] as $k => $user)
+			{					
+				if ($user['active'])
+				{
+					if ($user["time_limit_unlimited"])
+					{
+						$txt_access = $this->lng->txt("access_unlimited");
+						$usr_data["set"][$k]["access_class"] = "smallgreen";
+					}
+					elseif ($user["time_limit_until"] < $current_time)
+					{
+						$txt_access = $this->lng->txt("access_expired");
+						$usr_data["set"][$k]["access_class"] = "smallred";
+					}
+					else
+					{
+						$txt_access = ilDatePresentation::formatDate(new ilDateTime($user["time_limit_until"],IL_CAL_UNIX));
+						$usr_data["set"][$k]["access_class"] = "small";
+					}
+				}
+				else
+				{
+					$txt_access = $this->lng->txt("inactive");
+					$usr_data["set"][$k]["access_class"] = "smallred";
+				}
+				$usr_data["set"][$k]["access_until"] = $txt_access;
+			}
+		}
 
 		// Custom user data fields
 		if($udf_ids)
