@@ -4001,11 +4001,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTableWidth("100%");
 		$form->setId("tst_change_workingtime");
-
-		// general properties
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("tst_change_workingtime"));
-		$form->addItem($header);
+		$form->setTitle($this->lng->txt("tst_change_workingtime"));
 
 		// test users
 		$participantslist = new ilSelectInputGUI($this->lng->txt('participants'), "participant");
@@ -4053,6 +4049,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (is_array($_POST) && strlen($_POST['cmd']['timing'])) $form->setValuesByArray($_POST);
 
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("timing", $this->lng->txt("save"));
+		$form->addCommandButton('timingOverview', $this->lng->txt("cancel"));
 		return $form;
 	}
 	
