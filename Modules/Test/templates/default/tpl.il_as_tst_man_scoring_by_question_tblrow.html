@@ -2,6 +2,46 @@
 	<td class="std">{VAL_NAME}</td>
 	<td class="std">{VAL_REACHED_POINTS}</td>
 	<td class="std">
-		<a class="il_ContainerItemCommand" href="{VAL_LINK_ANSWER}" target="popup" onclick="window.open('', 'popup', 'width=800, height=600, scrollbars=yes, toolbar=no, status=no, resizable=yes, menubar=no, location=no, directories=no');">{VAL_TXT_ANSWER}</a>
+		<a class="il_ContainerItemCommand" id="answ_{VAL_ID}" href="#">{VAL_TXT_ANSWER}</a>
+		<script>
+			(function($) {
+				$("#answ_{VAL_ID}").click(function(e) {
+
+					il.Overlay.hideAllOverlays(e.originalEvent, true);
+
+					var $this = $(this);
+					var $panel = $('#answer_container_' + $this.attr('id'));
+
+					if ($panel.size() == 0) {
+						var $panel = $('<div class="ilOverlay" style="overflow: auto; display: none;" id="answer_container_' + $this.attr('id') + '"></div>')
+								.css({
+									position: 'fixed',
+									top: '0px',
+									bottom: '0px',
+									left: '',
+									right: '0px',
+									width: '40%',
+									padding: '5px'
+								});
+						$panel.insertAfter($this);
+
+						$.ajax({
+							url: '{VAL_LINK_ANSWER}',
+							dataType: 'html',
+							success: function(data) {
+								$panel.html(data);
+								il.Overlay.add('answer_container_' + $this.attr('id'), {yuicfg: {
+								}});
+								il.Overlay.show(e.originalEvent, 'answer_container_' + $this.attr('id'));
+							}
+						})
+					} else {
+						il.Overlay.show(e.originalEvent, 'answer_container_' + $this.attr('id'));
+					}
+					return false;
+
+				});
+			}(jQuery));
+		</script>
 	</td>
 </tr>
