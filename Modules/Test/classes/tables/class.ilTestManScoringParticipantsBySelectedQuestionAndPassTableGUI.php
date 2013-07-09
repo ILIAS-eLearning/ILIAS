@@ -75,7 +75,17 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 			$type = $info["question_type_fi"];
 			if(in_array($type, $scoring))
 			{
-				$select_questions[$data["question_id"]] = $data['title'] . ' ['. $this->lng->txt('question_id_short') . ': ' . $data["question_id"]  . ']';
+				$maxpoints = assQuestion::_getMaximumPoints($data["question_id"]);
+				if($maxpoints == 1)
+				{
+					$maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
+				}
+				else
+				{
+					$maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')';
+				}
+				
+				$select_questions[$data["question_id"]] = $data['title'] . $maxpoints. ' ['. $this->lng->txt('question_id_short') . ': ' . $data["question_id"]  . ']';
 			}
 		}
 		if(!$select_questions)
