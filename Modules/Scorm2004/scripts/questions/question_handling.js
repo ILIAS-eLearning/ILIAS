@@ -292,10 +292,13 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 	
 	var found = 0;
 	var selected = 0;
+	
+	// iterate all pairs
 	for (var i=0;i<questions[a_id].pairs.length;i++)
 	{
 		var a_node = jQuery('select#'+questions[a_id].pairs[i].def_id).get(0);
 
+		// check if a drop down has been selected
 		if(a_node.options[a_node.selectedIndex].id > 0)	{
 			selected++;
 		}
@@ -314,7 +317,8 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 	
 	if (found < questions[a_id].match.length || selected > found) {
 			answers[a_id].passed = false;
-			answers[a_id].wrong++;
+			// # wrong answers is # matches - correctly found pairs
+			answers[a_id].wrong = questions[a_id].match.length - found;
 	}		
 	
 	ilias.questions.showFeedback(a_id);
