@@ -1373,10 +1373,11 @@ class ilPersonalSettingsGUI
 			$this->ctrl->redirect($this, "showGeneralSettings");
 		}
 		
+		// build notification
+		
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();
-		$ntf->setLangModules(array("user"));
-		$ntf->setSubjectLangId("user_delete_own_account_email_subject");	
+		$ntf->setLangModules(array("user"));		
 		$ntf->addAdditionalInfo("profile", $ilUser->getProfileAsString($this->lng), true);		
 		
 		// mail message
@@ -1387,16 +1388,29 @@ class ilPersonalSettingsGUI
 				ILIAS_HTTP_PATH, 
 				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))));
 		
-		// send to user
-		$ntf->sendMail(array($ilUser->getId()));
-							
-		// send to admin?
+		$message = $ntf->composeAndGetMessage($ilUser->getId(), null, null, true);
+		$subject = $this->lng->txt("user_delete_own_account_email_subject");	
+		
+		
+		// send notification
+		
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail(ANONYMOUS_USER_ID);
+		
+		$user_email = $ilUser->getEmail();		
 		$admin_mail = $ilSetting->get("user_delete_own_account_email");		
-		if($admin_mail)
-		{
-			$ntf->sendMail(array($admin_mail));		
+		
+		// to user, admin as bcc
+		if($user_email)
+		{											
+			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null, true);		
 		}
-				
+		// admin only
+		else if($admin_mail)
+		{
+			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null, true);		
+		}
+		
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");
 				
 		$ilUser->delete();

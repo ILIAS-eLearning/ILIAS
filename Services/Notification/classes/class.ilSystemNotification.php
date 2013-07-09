@@ -171,15 +171,16 @@ class ilSystemNotification extends ilMailNotification
 	}	
 	
 	/**
-	 * Send notification to single recipient
+	 * Compose notification to single recipient
 	 * 
 	 * @param mixed $a_rcp
 	 * @param string $a_goto_additional
 	 * @param string $a_permission
+	 * @param bool $a_append_signature_direct
 	 * @return bool
 	 */
-	protected function composeAndSendMail($a_user_id, $a_goto_additional = null, $a_permission = "read")
-	{						
+	public function compose($a_user_id, $a_goto_additional = null, $a_permission = "read", $a_append_signature_direct = false)
+	{
 		$this->initLanguage($a_user_id);		
 		$this->initMail();
 
@@ -289,12 +290,54 @@ class ilSystemNotification extends ilMailNotification
 		// signature will append new lines
 		$this->body = trim($this->body);
 
-		$this->getMail()->appendInstallationSignature(true, 
-			$this->getLanguageText("system_notification_installation_signature"));
-
-		parent::sendMail(array($a_user_id), array('system'), is_numeric($a_user_id));			
+		if(!$a_append_signature_direct)
+		{
+			$this->getMail()->appendInstallationSignature(true, 
+				$this->getLanguageText("system_notification_installation_signature"));
+		}
+		else 
+		{
+			
+			$this->body .= ilMail::_getInstallationSignature(
+				$this->getLanguageText("system_notification_installation_signature"));
+		}	
 		
 		return true;
+	}
+	
+	/**
+	 * Send notification to single recipient
+	 * 
+	 * @param mixed $a_rcp
+	 * @param string $a_goto_additional
+	 * @param string $a_permission
+	 * @return bool
+	 */
+	protected function composeAndSendMail($a_user_id, $a_goto_additional = null, $a_permission = "read")
+	{						
+		if($this->compose($a_user_id, $a_goto_additional, $a_permission))
+		{
+			parent::sendMail(array($a_user_id), array('system'), is_numeric($a_user_id));								
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Compose notification to single recipient
+	 * 
+	 * @param mixed $a_user_id
+	 * @param string $a_goto_additional
+	 * @param string $a_permission
+	 * @param bool $a_append_signature_direct
+	 * @return string
+	 */
+	public function composeAndGetMessage($a_user_id, $a_goto_additional = null, $a_permission = "read", $a_append_signature_direct = false)
+	{
+		if($this->compose($a_user_id, $a_goto_additional, $a_permission, $a_append_signature_direct))
+		{
+			return $this->body;
+		}
 	}
 }
 
