@@ -127,15 +127,15 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		$reachted_points->setValue($row['reached_points']);
 		$reachted_points->setSize(5);
 		$this->tpl->setVariable('VAL_REACHED_POINTS', $reachted_points->render());
+		$this->tpl->setVariable('VAL_ID', md5($row['pass_id'] . $row['active_id'] . $row['qst_id']));
 
 		$ilCtrl->setParameter($this->getParentObject(), 'qst_id', $row['qst_id']);
 		$ilCtrl->setParameter($this->getParentObject(), 'active_id', $row['active_id']);
 		$ilCtrl->setParameter($this->getParentObject(), 'pass_id', $row['pass_id']);
-		$this->tpl->setVariable('VAL_LINK_ANSWER', $ilCtrl->getLinkTarget($this->getParentObject(), 'getAnswerDetail'));
+		$this->tpl->setVariable('VAL_LINK_ANSWER', $ilCtrl->getLinkTarget($this->getParentObject(), 'getAnswerDetail', '', true, false));
 		$ilCtrl->setParameter($this->getParentObject(), 'qst_id', '');
 		$ilCtrl->setParameter($this->getParentObject(), 'active_id', '');
 		$ilCtrl->setParameter($this->getParentObject(), 'pass_id', '');
 		$this->tpl->setVariable('VAL_TXT_ANSWER', $this->lng->txt('tst_eval_show_answer'));
-		
 	}
 }
