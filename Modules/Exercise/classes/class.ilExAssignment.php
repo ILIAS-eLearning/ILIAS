@@ -2149,7 +2149,8 @@ class ilExAssignment
 		}		
 				
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
-		$ntf = new ilSystemNotification(0, array("exc"));
+		$ntf = new ilSystemNotification();
+		$ntf->setLangModules(array("exc"));
 		$ntf->setRefId($a_exc_ref_id);
 		$ntf->setChangedByUserId($ilUser->getId());
 		$ntf->setSubjectLangId('exc_team_notification_subject_'.$a_action);
@@ -2157,7 +2158,7 @@ class ilExAssignment
 		$ntf->addAdditionalInfo("exc_assignment", $this->getTitle());	
 		$ntf->setGotoLangId('exc_team_notification_link');				
 		$ntf->setReasonLangId('exc_team_notification_reason');				
-		$ntf->send(array($a_user_id));		
+		$ntf->sendMail(array($a_user_id));		
 	}
 	
 	public static function getDownloadedFilesInfoForTableGUIS($a_parent_obj, $a_exercise_id, $a_ass_type, $a_ass_id, $a_user_id, $a_parent_cmd = null)
@@ -2533,7 +2534,9 @@ class ilExAssignment
 		}
 		
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
-		$ntf = new ilSystemNotification($ass->getExerciseId(), array("exc"));
+		$ntf = new ilSystemNotification();
+		$ntf->setLangModules(array("exc"));
+		$ntf->setObjId($ass->getExerciseId());
 		$ntf->setSubjectLangId("exc_feedback_notification_subject");
 		$ntf->setIntroductionLangId("exc_feedback_notification_body");
 		$ntf->addAdditionalInfo("exc_assignment", $ass->getTitle());
@@ -2541,7 +2544,7 @@ class ilExAssignment
 		$ntf->setReasonLangId("exc_feedback_notification_reason");		
 		
 		include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
-		$ntf->send(ilExerciseMembers::_getMembers($ass->getExerciseId()));
+		$ntf->sendMail(ilExerciseMembers::_getMembers($ass->getExerciseId()));
 		
 		$ilDB->manipulate("UPDATE exc_assignment".
 			" SET fb_cron_done = ".$ilDB->quote(1, "integer").

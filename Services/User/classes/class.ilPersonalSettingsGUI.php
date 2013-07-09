@@ -1373,38 +1373,28 @@ class ilPersonalSettingsGUI
 			$this->ctrl->redirect($this, "showGeneralSettings");
 		}
 		
-		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail(ANONYMOUS_USER_ID);
-					
-		// send mail(s)
+		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+		$ntf = new ilSystemNotification();
+		$ntf->setLangModules(array("user"));
+		$ntf->setSubjectLangId("user_delete_own_account_email_subject");	
+		$ntf->addAdditionalInfo("profile", $ilUser->getProfileAsString($this->lng), true);		
 		
-		$subject = $this->lng->txt("user_delete_own_account_email_subject");			
-		$message = $this->lng->txt("user_delete_own_account_email_body");
-		
-		// salutation/info
+		// mail message
 		ilDatePresentation::setUseRelativeDates(false);
-		$message = ilMail::getSalutation($ilUser->getId())."\n\n".
-			sprintf($message, $ilUser->getLogin(), ILIAS_HTTP_PATH, 
-				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)));
+		$ntf->setIntroductionDirect(
+			sprintf($this->lng->txt("user_delete_own_account_email_body"), 
+				$ilUser->getLogin(), 
+				ILIAS_HTTP_PATH, 
+				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))));
 		
-		// add profile data (see ilAccountRegistrationGUI)
-		$message .= "\n\n".$ilUser->getProfileAsString($this->lng);
-		
-		// signatur
-		$message .= ilMail::_getInstallationSignature();
-		
-		$user_email = $ilUser->getEmail();		
+		// send to user
+		$ntf->sendMail(array($ilUser->getId()));
+							
+		// send to admin?
 		$admin_mail = $ilSetting->get("user_delete_own_account_email");		
-		
-		// to user, admin as bcc
-		if($user_email)
-		{											
-			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null, true);		
-		}
-		// admin only
-		else if($admin_mail)
+		if($admin_mail)
 		{
-			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null, true);		
+			$ntf->sendMail(array($admin_mail));		
 		}
 				
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");

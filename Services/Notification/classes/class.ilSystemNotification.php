@@ -15,7 +15,6 @@ include_once './Services/Mail/classes/class.ilMailNotification.php';
  */
 class ilSystemNotification extends ilMailNotification
 {
-	protected $lang_modules; // [array]
 	protected $subject_lang_id; // [string]
 	protected $introduction; // [string]
 	protected $introduction_direct; // [string]
@@ -23,45 +22,8 @@ class ilSystemNotification extends ilMailNotification
 	protected $reason; // [string]
 	protected $additional; // [array]
 	protected $goto_caption; // [string]	
-	protected $is_in_wsp; // [bool]	
 	protected $changed_by; // [int]
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param int $a_obj_id
-	 * @param array $a_lang_modules
-	 * @param bool $a_personal_workspace
-	 */
-	public function __construct($a_obj_id, array $a_lang_modules = null, $a_personal_workspace = false)
-	{
-		$this->setObjId($a_obj_id);				
-		$this->lang_modules = $a_lang_modules;	
-		$this->is_in_wsp = (bool)$a_personal_workspace;
-		
-		if($a_obj_id)
-		{
-			$this->obj_type = ilObject::_lookupType($this->getObjId());		
-		}
-		
-		$this->setSender(ANONYMOUS_USER_ID);
-	}
-	
-	/**
-	 * Set ref_id
-	 * 
-	 * @param int $a_id
-	 */
-	public function setRefId($a_id)
-	{
-		if($this->is_in_wsp)
-		{
-			// do not try to get obj_id in personal workspace
-			$this->ref_id = $a_id;
-			return;
-		}
-		parent::setRefId($a_id);
-	}
+	protected $all_ref_ids; // [array]
 	
 	/**
 	 * Set subject lang id
@@ -155,34 +117,34 @@ class ilSystemNotification extends ilMailNotification
 	 * @param string $a_permission
 	 * @return array recipient ids
 	 */
-	public function send(array $a_user_ids, $a_goto_additional = null, $a_permission = "read")
-	{
-		global $ilUser, $ilAccess;				
+	public function sendMail(array $a_user_ids, $a_goto_additional = null, $a_permission = "read")
+	{		
+		$this->all_ref_ids = null;
 		
+		// prepare object related info
 		if($this->getObjId())
-		{			
-			// get ref_id(s)
-			if(!$this->is_in_wsp)
+		{						
+			if(!$this->getRefId())
 			{
-				if(!$this->getRefId())
+				// try to find ref_id(s)
+				if(!$this->is_in_wsp)
 				{
 					$ref_ids = ilObject::_getAllReferences($this->getObjId());				
 					if(sizeof($ref_ids) == 1)
 					{
 						$this->ref_id = array_shift($ref_ids);
 					}
+					else
+					{
+						$this->all_ref_ids = $ref_ids;
+					}
 				}
 			}
-			else
-			{
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";			
-				$wsp_tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
-				$wsp_access_handler = new ilWorkspaceAccessHandler($wsp_tree); 		
-				$this->ref_id = $wsp_tree->lookupNodeId($this->getObjId());					
-				$goto = ilWorkspaceAccessHandler::getGotoLink($this->getRefId(), $this->getObjId(), $a_goto_additional);	
-			}		
-		
+			else 
+			{					
+				$this->ref_id = $this->wsp_tree->lookupNodeId($this->getObjId());
+			}
+			
 			// default values
 			if(!$this->goto_caption)
 			{
@@ -199,148 +161,141 @@ class ilSystemNotification extends ilMailNotification
 				continue;
 			}
 			
-			$this->initLanguage($user_id);
-			if(sizeof($this->lang_modules))
+			if($this->composeAndSendMail($user_id, $a_goto_additional, $a_permission))
 			{
-				foreach($this->lang_modules as $lmod)
-				{
-					$this->language->loadLanguageModule($lmod);
-				}
+				$recipient_ids[] = $user_id;
 			}
-			
-			$this->initMail();
-			
-			$this->setSubject(
-				sprintf($this->getLanguageText($this->subject_lang_id), $this->getObjectTitle(true))
-			);
-			
-			$this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
-			$this->appendBody("\n\n");
-			
-			if($this->introduction)
-			{
-				$this->appendBody($this->getLanguageText($this->introduction));	
-				$this->appendBody("\n\n");
-			}
-			
-			if($this->introduction_direct)
-			{
-				$this->appendBody($this->introduction_direct);	
-				$this->appendBody("\n\n");
-			}
-			
-			if($this->task)
-			{
-				$this->appendBody($this->getLanguageText($this->task));	
-				$this->appendBody("\n\n");
-			}
-			
-			// details table
-			if($this->getObjId())
-			{
-				$this->appendBody($this->getLanguageText("obj_".$this->getObjType()).": ".
-					$this->getObjectTitle()."\n");
-			}
-			if(sizeof($this->additional))
-			{
-				foreach($this->additional as $lang_id => $item)
-				{
-					if(!$item[1])
-					{
-						$this->appendBody($this->getLanguageText($lang_id).": ".
-							$item[0]."\n");						
-					}				
-					else
-					{
-						$this->appendBody("\n".$this->getLanguageText($lang_id)."\n".
-							"----------------------------------------\n".
-							$item[0]."\n".
-							"----------------------------------------\n\n");	
-					}
-				}
-			}
-			$this->body = trim($this->body);
-			$this->appendBody("\n\n");
-			
-			if($this->changed_by)
-			{				
-				$this->appendBody($this->getLanguageText("system_notification_installation_changed_by").": ".
-					ilUserUtil::getNamePresentation($this->changed_by));
-				$this->appendBody("\n\n");
-			}
-				
-			if($this->getObjId())
-			{
-				// repository (for personal workspace see above)
-				if(!$this->is_in_wsp)
-				{				
-					$goto = null;
-
-					// try to find accessible ref_id
-					if(!$this->getRefId())
-					{
-						$find_ref_id = true;						
-						foreach($ref_ids as $ref_id)
-						{						
-							if($ilAccess->checkAccessOfUser($user_id, $a_permission, "", $ref_id, $this->getObjType()))
-							{
-								$this->ref_id = $ref_id;
-								break;
-							}
-						}
-					}
-
-					if($this->getRefId())
-					{
-						if(trim($a_permission) &&
-							!$ilAccess->checkAccessOfUser($user_id, $a_permission, "", $this->getRefId(), $this->getObjType()))
-						{
-							continue;
-						}
-
-						$goto = $this->createPermanentLink();
-					}
-				}	
-				else
-				{
-					if(trim($a_permission) &&
-						!$wsp_access_handler->checkAccessOfUser($wsp_tree, $user_id, $a_permission, "", $this->getRefId(), $this->getObjType()))
-					{
-						continue;
-					}								
-				}
-				if($goto)
-				{				
-					$this->appendBody($this->getLanguageText($this->goto_caption).": ".
-						$goto);
-					$this->appendBody("\n\n");
-				}
-			
-				if(!$this->is_in_wsp && $find_ref_id)
-				{
-					$this->ref_id = null;
-				}
-			}
-			
-			if($this->reason)
-			{
-				$this->appendBody($this->getLanguageText($this->reason));	
-				$this->appendBody("\n\n");
-			}				
-			
-			// signature will append new lines
-			$this->body = trim($this->body);
-								
-			$this->getMail()->appendInstallationSignature(true, 
-				$this->getLanguageText("system_notification_installation_signature"));
-			
-			$this->sendMail(array($user_id), array('system'), is_numeric($user_id));
-			
-			$recipient_ids[] = $user_id;
 		}	
 		
 		return $recipient_ids;
 	}	
+	
+	/**
+	 * Send notification to single recipient
+	 * 
+	 * @param mixed $a_rcp
+	 * @param string $a_goto_additional
+	 * @param string $a_permission
+	 * @return bool
+	 */
+	protected function composeAndSendMail($a_user_id, $a_goto_additional = null, $a_permission = "read")
+	{						
+		$this->initLanguage($a_user_id);		
+		$this->initMail();
+
+		$this->setSubject(
+			sprintf($this->getLanguageText($this->subject_lang_id), $this->getObjectTitle(true))
+		);
+
+		$this->setBody(ilMail::getSalutation($a_user_id, $this->getLanguage()));
+		$this->appendBody("\n\n");
+
+		if($this->introduction)
+		{
+			$this->appendBody($this->getLanguageText($this->introduction));	
+			$this->appendBody("\n\n");
+		}
+
+		if($this->introduction_direct)
+		{
+			$this->appendBody($this->introduction_direct);	
+			$this->appendBody("\n\n");
+		}
+
+		if($this->task)
+		{
+			$this->appendBody($this->getLanguageText($this->task));	
+			$this->appendBody("\n\n");
+		}
+
+		// details table
+		if($this->getObjId())
+		{
+			$this->appendBody($this->getLanguageText("obj_".$this->getObjType()).": ".
+				$this->getObjectTitle()."\n");
+		}
+		if(sizeof($this->additional))
+		{
+			foreach($this->additional as $lang_id => $item)
+			{
+				if(!$item[1])
+				{
+					$this->appendBody($this->getLanguageText($lang_id).": ".
+						$item[0]."\n");						
+				}				
+				else
+				{
+					$this->appendBody("\n".$this->getLanguageText($lang_id)."\n".
+						$this->getBlockBorder().
+						$item[0]."\n".
+						$this->getBlockBorder()."\n");	
+				}
+			}
+		}
+		$this->body = trim($this->body);
+		$this->appendBody("\n\n");
+
+		if($this->changed_by)
+		{				
+			$this->appendBody($this->getLanguageText("system_notification_installation_changed_by").": ".
+				ilUserUtil::getNamePresentation($this->changed_by));
+			$this->appendBody("\n\n");
+		}
+
+		if($this->getObjId())
+		{
+			// try to find accessible ref_id
+			if(!$this->getRefId() && $this->all_ref_ids)
+			{
+				$find_ref_id = true;						
+				foreach($this->all_ref_ids as $ref_id)
+				{		
+					if($this->isRefIdAccessible($a_user_id, $ref_id, $a_permission))						
+					{
+						$this->ref_id = $ref_id;
+						break;
+					}
+				}
+			}
+			
+			// check if initially given ref_id is accessible for current recipient
+			if($this->getRefId() &&
+				!$find_ref_id && 
+				!$this->isRefIdAccessible($a_user_id, $this->getRefId(), $a_permission))
+			{
+				return false;
+			}
+			
+			$goto = $this->createPermanentLink(array(), $a_goto_additional);							
+			if($goto)
+			{				
+				$this->appendBody($this->getLanguageText($this->goto_caption).": ".
+					$goto);
+				$this->appendBody("\n\n");
+			}
+
+			if($find_ref_id)
+			{
+				$this->ref_id = null;
+			}
+		}
+
+		if($this->reason)
+		{
+			$this->appendBody($this->getLanguageText($this->reason));	
+			$this->appendBody("\n\n");
+		}				
+
+		// signature will append new lines
+		$this->body = trim($this->body);
+
+		$this->getMail()->appendInstallationSignature(true, 
+			$this->getLanguageText("system_notification_installation_signature"));
+
+		parent::sendMail(array($a_user_id), array('system'), is_numeric($a_user_id));			
+		
+		return true;
+	}
 }
 
 ?>
