@@ -27,6 +27,7 @@ abstract class ilMailNotification
 	protected $attachments = array();
 	
 	protected $language = null;
+	protected $lang_modules = array();
 	
 	protected $recipients = array();
 	
@@ -36,16 +37,31 @@ abstract class ilMailNotification
 	
 	protected $additional_info = array();
 	
+	protected $is_in_wsp;
+	protected $wsp_tree; 
+	protected $wsp_access_handler; 
+	
 	/**
 	 * Constructor
+	 * @param bool $a_is_personal_workspace
 	 * @return
 	 */
-	public function __construct()
+	public function __construct($a_is_personal_workspace = false)
 	{
-		global $lng;
+		global $lng, $ilUser;
+		
+		$this->is_in_wsp = (bool)$a_is_personal_workspace;
 
 		$this->setSender(ANONYMOUS_USER_ID);
 		$this->language = ilLanguageFactory::_getLanguage($lng->getDefaultLanguage());
+		
+		if($this->is_in_wsp)
+		{			
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";			
+			$this->wsp_tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
+			$this->wsp_access_handler = new ilWorkspaceAccessHandler($this->wsp_tree); 					
+		}
 	}
 	
 	/**
@@ -153,16 +169,33 @@ abstract class ilMailNotification
 		return $this->recipients;
 	}
 
+	/**
+	 * Set attachments	 
+	 * @param array $a_att
+	 */
 	public function setAttachments($a_att)
 	{
 		$this->attachments = $a_att;
 	}
 
+	/**
+	 * Get attachments	 
+	 * @return array
+	 */
 	public function getAttachments()
 	{
 		return (array) $this->attachments;
 	}
-
+		
+	/**
+	 * Set lang modules
+	 * @param array $a_modules
+	 */
+	public function setLangModules(array $a_modules)
+	{
+		$this->lang_modules = $a_modules;
+	}	
+		
 	/**
 	 * Init language
 	 * @param int $a_usr_id
@@ -171,6 +204,14 @@ abstract class ilMailNotification
 	{
 		$this->language = ilLanguageFactory::_getLanguageOfUser($a_usr_id);
 		$this->language->loadLanguageModule('mail');
+		
+		if(sizeof($this->lang_modules))
+		{
+			foreach($this->lang_modules as $lmod)
+			{
+				$this->language->loadLanguageModule($lmod);
+			}
+		}
 	}
 
 	/**
@@ -181,6 +222,14 @@ abstract class ilMailNotification
 	{
 		$this->language = ilLanguageFactory::_getLanguage($a_code);
 		$this->language->loadLanguageModule('mail');
+		
+		if(sizeof($this->lang_modules))
+		{
+			foreach($this->lang_modules as $lmod)
+			{
+				$this->language->loadLanguageModule($lmod);
+			}
+		}
 	}
 	
 	/**
@@ -217,10 +266,19 @@ abstract class ilMailNotification
 	 * @return 
 	 */
 	public function setRefId($a_id)
-	{
-		$this->ref_id = $a_id;
-		$this->obj_id = ilObject::_lookupObjId($this->ref_id);
-		$this->obj_type = ilObject::_lookupType($this->obj_id);
+	{						
+		if(!$this->is_in_wsp)
+		{
+			$this->ref_id = $a_id;
+			$obj_id = ilObject::_lookupObjId($this->ref_id);		
+		}		
+		else
+		{
+			$this->ref_id = (int)$a_id;			
+			$obj_id = $this->wsp_tree->lookupObjectId($this->getRefId());					
+		}
+		
+		$this->setObjId($obj_id);
 	}
 	
 	/**
@@ -248,6 +306,7 @@ abstract class ilMailNotification
 	public function setObjId($a_obj_id)
 	{
 		$this->obj_id = $a_obj_id;
+		$this->obj_type = ilObject::_lookupType($this->obj_id);
 	}
 	
 	/**
@@ -289,20 +348,12 @@ abstract class ilMailNotification
 		{
 			return '';
 		}
-		return ilUtil::shortenText(ilObject::_lookupTitle($this->getObjId()), self::SUBJECT_TITLE_LENGTH,true);
-	}
-	
-	
-	/**
-	 * Send notifications
-	 * @return 
-	 */
-	public function send()
-	{
-		switch($this->getType())
+		$txt = ilObject::_lookupTitle($this->getObjId());
+		if((bool)$a_shorten)
 		{
-			
+			$txt = ilUtil::shortenText($txt, self::SUBJECT_TITLE_LENGTH,true);
 		}
+		return $txt;
 	}
 	
 	/**
@@ -370,7 +421,14 @@ abstract class ilMailNotification
 		
 		if($this->getRefId())
 		{
-			return ilLink::_getLink($this->ref_id,$this->getObjType(),$a_params,$a_append);
+			if(!$this->is_in_wsp)
+			{			
+				return ilLink::_getLink($this->ref_id,$this->getObjType(),$a_params,$a_append);
+			}
+			else
+			{
+				return ilWorkspaceAccessHandler::getGotoLink($this->getRefId(), $this->getObjId(), $a_append);	
+			}
 		}
 		else
 		{
@@ -378,8 +436,7 @@ abstract class ilMailNotification
 			return ilLink::_getLink(ROOT_FOLDER_ID,'root');
 		}
 	}
-	
-	
+		
 	/**
 	 * Utility function 
 	 * @param int $a_usr_id
@@ -392,5 +449,48 @@ abstract class ilMailNotification
 			($name['firstname'] ? $name['firstname'].' ' : '').
 			($name['lastname'] ? $name['lastname'].' ' : '');
 	}
+		
+	/**
+	 * Check if ref id is accessible for user
+	 * 
+	 * @param int $a_user_id
+	 * @param int $a_ref_id
+	 * @param string $a_permission
+	 * @return bool
+	 */
+	protected function isRefIdAccessible($a_user_id, $a_ref_id, $a_permission = "read")
+	{
+		global $ilAccess;
+		
+		// no given permission == accessible
+		
+		if(!$this->is_in_wsp)
+		{												
+			if(trim($a_permission) &&
+				!$ilAccess->checkAccessOfUser($a_user_id, $a_permission, "", $a_ref_id, $this->getObjType()))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if(trim($a_permission) &&
+				!$this->wsp_access_handler->checkAccessOfUser($this->wsp_tree, $a_user_id, $a_permission, "", $a_ref_id, $this->getObjType()))
+			{
+				return false;
+			}								
+		}
+		return true;		
+	}	
+	
+	/**
+	 * Get (ascii) block border
+	 * @return string
+	 */
+	protected function getBlockBorder()
+	{
+		return "----------------------------------------\n";
+	}
 }
+
 ?>

@@ -3106,7 +3106,8 @@ class ilObjSurvey extends ilObject
 		{						
 			// #11298		
 			include_once "./Services/Notification/classes/class.ilSystemNotification.php";
-			$ntf = new ilSystemNotification($this->getId(), array("survey"));
+			$ntf = new ilSystemNotification();
+			$ntf->setLangModules(array("survey"));
 			$ntf->setRefId($this->getRefId());
 			$ntf->setSubjectLangId('finished_mail_subject');
 								
@@ -3146,7 +3147,7 @@ class ilObjSurvey extends ilObject
 			$ntf->setGotoLangId('survey_notification_tutor_link');				
 			$ntf->setReasonLangId('survey_notification_finished_reason');	
 
-			$ntf->send(array($recipient), null, null);		
+			$ntf->sendMail(array($recipient), null, null);		
 		}															
 	}
 
