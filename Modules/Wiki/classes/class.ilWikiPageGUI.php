@@ -713,8 +713,14 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 			{
 				$new_name = $this->form->getInput("new_page_name");
+				
+				$page_title = ilWikiUtil::makeDbTitle($new_name);
+				$pg_id = ilWikiPage::_getPageIdForWikiTitle($this->getPageObject()->getWikiId(), $page_title);
 
-				if (ilWikiPage::exists($this->getPageObject()->getWikiId(), $new_name))
+				// we might get the same page id back here, if the page
+				// name only differs in diacritics
+				// see bug http://www.ilias.de/mantis/view.php?id=11226
+				if ($pg_id > 0 && $pg_id != $this->getPageObject()->getId())
 				{
 					ilUtil::sendFailure($lng->txt("wiki_page_already_exists"));
 				}
