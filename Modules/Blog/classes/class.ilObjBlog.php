@@ -377,6 +377,9 @@ class ilObjBlog extends ilObject2
 				
 		include_once "./Modules/Blog/classes/class.ilBlogPosting.php";
 		$posting = new ilBlogPosting($a_posting_id);
+		
+		// #11138
+		$ignore_threshold = ($a_action == "comment");		
 						
 		// approval handling	
 		$admin_only = false;	
@@ -393,7 +396,8 @@ class ilObjBlog extends ilObject2
 
 					case "new":
 						// un-approved posting was activated - admin-only notification					
-						$admin_only = true;									
+						$admin_only = true;			
+						$ignore_threshold = true;
 						break;				
 				}
 			}
@@ -402,7 +406,7 @@ class ilObjBlog extends ilObject2
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
 		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG, 
-			$blog_obj_id, $a_posting_id, $admin_only);		
+			$blog_obj_id, $a_posting_id, $ignore_threshold);		
 		if(!sizeof($users))
 		{
 			return;

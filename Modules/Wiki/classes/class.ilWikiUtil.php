@@ -646,11 +646,14 @@ class ilWikiUtil
 		$wiki_id = $ilObjDataCache->lookupObjId($a_wiki_ref_id);
 		$wiki = new ilObjWiki($a_wiki_ref_id, true);
 		$page = new ilWikiPage($a_page_id);
+		
+		// #11138
+		$ignore_threshold = ($a_action == "comment");
 
 		if($a_type == ilNotification::TYPE_WIKI_PAGE)
 		{
-			$users = ilNotification::getNotificationsForObject($a_type, $a_page_id);
-			$wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id);
+			$users = ilNotification::getNotificationsForObject($a_type, $a_page_id, null, $ignore_threshold);
+			$wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
 			$users = array_merge($users, $wiki_users);
 			if(!sizeof($users))
 			{
@@ -664,7 +667,7 @@ class ilWikiUtil
 		}
 		else
 		{
-			$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id);
+			$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
 			if(!sizeof($users))
 			{
 				return;
