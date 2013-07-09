@@ -13513,3 +13513,4 @@ survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Im Offline-Modus können Lernmodule nur mit dem SCORM-Offline-Player bearbeitet werden. Die Lernstandsdaten werden von den Lernenden übertragen durch Klick auf 'Offline-Modus beenden' in ILIAS.
+wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt, so wird eine neue (leere) Seite erstellt.
