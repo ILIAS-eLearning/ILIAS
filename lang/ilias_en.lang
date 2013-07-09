@@ -12997,3 +12997,4 @@ prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
 blog#:#blog_allow_html#:#Allow HTML/Javascript
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
+wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.

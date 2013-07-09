@@ -12995,3 +12995,4 @@ prtf#:#prtf_allow_html#:#HTML/Javascript erlauben
 prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen.
 blog#:#blog_allow_html#:#HTML/Javascript erlauben
 blog#:#blog_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Blog-Einträgen verwenden. Dies kann zu Sicherheitsproblemen führen.
+wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt, so wird eine neue (leere) Seite erstellt.
