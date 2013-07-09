@@ -752,7 +752,12 @@ class ilWikiPage extends ilPageObject
 	 */
 	function rename($a_new_name)
 	{
-		if (!ilWikiPage::exists($this->getWikiId(), $a_new_name))
+		global $ilDB;
+		
+		$page_title = ilWikiUtil::makeDbTitle($a_new_name);
+		$pg_id = ilWikiPage::_getPageIdForWikiTitle($this->getWikiId(), $page_title);
+
+		if ($pg_id == 0 || $pg_id == $this->getId())
 		{
 			include_once("./Services/COPage/classes/class.ilInternalLink.php");
 			$sources = ilInternalLink::_getSourcesOfTarget("wpg", $this->getId(), 0);
@@ -767,8 +772,18 @@ class ilWikiPage extends ilPageObject
 					$new_content = $wpage->getXmlContent();
 					foreach ($col as $c)
 					{
-						if (ilWikiUtil::makeDbTitle($c["nt"]->mTextform) ==
-							ilWikiUtil::makeDbTitle($this->getTitle()))
+
+						// this complicated procedure is needed due to the fact
+						// that depending on the collation e = é is true
+						// in the (mysql) database
+						// see bug http://www.ilias.de/mantis/view.php?id=11227
+						$t1 = ilWikiUtil::makeDbTitle($c["nt"]->mTextform);
+						$t2 = ilWikiUtil::makeDbTitle($this->getTitle());
+						$set = $ilDB->query("SELECT ".$ilDB->quote($t1, "text")." = ".$ilDB->quote($t2, "text")." isequal");
+						$rec = $ilDB->fetchAssoc($set);
+						if ($rec["isequal"])
+//						if (ilWikiUtil::makeDbTitle($c["nt"]->mTextform) ==
+//							ilWikiUtil::makeDbTitle($this->getTitle()))
 						{
 							$new_content = 
 								str_replace("[[".$c["nt"]->mTextform."]]",
