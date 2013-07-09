@@ -82,11 +82,20 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 			$ilNavigationHistory->addItem($this->object->getRefId(), $link, "dcl");
 		}
 
+        //Direct-Link Resource
+        if($_GET["dcl_gtr"])
+        {
+            $ilCtrl->setCmdClass("ildatacollectionrecordviewgui");
+            $_GET['record_id'] = $_GET["dcl_gtr"];
+            $ilCtrl->setCmd("renderRecord");
+        }
+
+
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 
-		// #10932
-		if(!$this->getCreationMode() && $next_class != "ilinfoscreengui" && !$this->checkPermissionBool("read")){
+
+        if(!$this->getCreationMode() && $next_class != "ilinfoscreengui" && !$this->checkPermissionBool("read")){
             $tpl->getStandardTemplate();
             $tpl->setContent("Permission Denied.");
             return;
@@ -304,9 +313,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
 		$_GET["baseClass"] = "ilRepositoryGUI";
 		$_GET["ref_id"] = $id[0];
+        $_GET["dcl_gtr"] = $id[1]; //recordID
 		$_GET["cmd"] = "listRecords";
-
 		include("ilias.php");
+        exit;
 	}
 	
 	/*

@@ -83,7 +83,9 @@ class ilDataCollectionRecordViewGUI
 	public function renderRecord()
 	{
 		global $ilTabs, $tpl, $ilCtrl, $lng;
-		
+
+        $rctpl = new ilTemplate("tpl.record_view.html", true, true, "Modules/DataCollection");
+
 		$ilTabs->setTabActive("id_content");
 
 		$view_id = self::_getViewDefinitionId($this->record_obj);
@@ -94,7 +96,6 @@ class ilDataCollectionRecordViewGUI
 
 		// please do not use ilPageObjectGUI directly here, use derived class
 		// ilDataCollectionRecordViewViewdefinitionGUI
-		
 		//$pageObj = new ilPageObjectGUI("dclf", $view_id);
 		
 		// see ilObjDataCollectionGUI->executeCommand about instantiation
@@ -105,8 +106,8 @@ class ilDataCollectionRecordViewGUI
 		
 
 		$html = $pageObj->getHTML();
-        $tpl->addCss("./Services/COPage/css/content.css");
-        $tpl->fillCssFiles();
+        $rctpl->addCss("./Services/COPage/css/content.css");
+        $rctpl->fillCssFiles();
 		$table = ilDataCollectionCache::getTableCache($this->record_obj->getTableId());
 		foreach($table->getFields() as $field)
 		{
@@ -132,8 +133,15 @@ class ilDataCollectionRecordViewGUI
 			$html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
 
 		}
+        $rctpl->setVariable("CONTENT",$html);
 
-		$tpl->setContent($html);
+        //Permanent Link
+        include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
+        $perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_".$_GET['record_id']);
+        $rctpl->setVariable("PERMA_LINK", $perma_link->getHTML());
+
+
+		$tpl->setContent($rctpl->get());
 	}
 
     public function doReplace($found){
