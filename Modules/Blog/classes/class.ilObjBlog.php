@@ -354,7 +354,7 @@ class ilObjBlog extends ilObject2
 	
 	static function sendNotification($a_action, $a_in_wsp, $a_blog_node_id, $a_posting_id, $a_comment = null)
 	{
-		global $ilUser, $ilAccess;
+		global $ilUser;
 		
 		// get blog object id (repository or workspace)		
 		if($a_in_wsp)
@@ -377,7 +377,10 @@ class ilObjBlog extends ilObject2
 				
 		include_once "./Modules/Blog/classes/class.ilBlogPosting.php";
 		$posting = new ilBlogPosting($a_posting_id);
-						
+								
+		// #11138
+		$ignore_threshold = ($a_action == "comment");		
+		
 		// approval handling	
 		$admin_only = false;	
 		if(!$posting->isApproved())
@@ -393,7 +396,8 @@ class ilObjBlog extends ilObject2
 
 					case "new":
 						// un-approved posting was activated - admin-only notification					
-						$admin_only = true;									
+						$admin_only = true;	
+						$ignore_threshold = true;
 						break;				
 				}
 			}
@@ -402,7 +406,7 @@ class ilObjBlog extends ilObject2
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
 		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG, 
-			$blog_obj_id, $a_posting_id, $admin_only);		
+			$blog_obj_id, $a_posting_id, $ignore_threshold);		
 		if(!sizeof($users))
 		{
 			return;
