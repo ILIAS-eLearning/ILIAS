@@ -81,8 +81,16 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			$this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
 		}
 
+		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+		iljQueryUtil::initjQuery();
+
+		include_once 'Services/YUI/classes/class.ilYuiUtil.php';
+		ilYuiUtil::initPanel();
+		ilYuiUtil::initOverlay();
+		$tpl->addJavascript('./Services/UIComponent/Overlay/js/ilOverlay.js');
 		$tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
 		$tpl->addJavaScript("./Services/Form/js/Form.js");
+		$tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
 
 		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php';
 		$table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
@@ -254,14 +262,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		
 		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
-			$this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
+			exit();
 		}
-
-		$tpl = new ilTemplate("tpl.main.html", true, true);
-		$location_stylesheet = ilUtil::getStyleSheetLocation();
-		$tpl->setVariable("LOCATION_STYLESHEET", $location_stylesheet);
-		$tpl->getStandardTemplate();
 
 		$active_id   = $_GET['active_id'];
 		$pass        = $_GET['pass_id'];
@@ -290,17 +292,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		$tmp_tpl->setVariable('SOLUTION_OUTPUT', $result_output);
 		$tmp_tpl->setVariable('RECEIVED_POINTS', sprintf($this->lng->txt('part_received_a_of_b_points'), $question_gui->object->getReachedPoints($active_id, $pass), $maxpoints));
 
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 */
-		global $ilTabs;
-		
-		$ilTabs->clearTargets();
-
-		if (method_exists($this->object, "getTestStyleLocation")) $tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
-
-		$tpl->setContent($tmp_tpl->get());
-		$tpl->show();
+		echo $tmp_tpl->get();
 		exit();
 	}
 }
