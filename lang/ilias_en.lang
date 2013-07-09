@@ -12133,6 +12133,11 @@ content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_screen_ids#:#Screen-IDs
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s was saved successfully.
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!
+assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution
+assessment#:#tst_manscoring_input_best_solution#:#Best Solution
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" comitted
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#the manual scoring for the following test was comitted:
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You received this notification, because you participated in this test.
