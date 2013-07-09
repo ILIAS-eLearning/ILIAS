@@ -1131,11 +1131,6 @@ assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung in Testerge
 assessment#:#tst_results_print_best_solution_info#:#Falls aktiviert, und die Teilnehmer Zugang zu ihren Testergebnissen haben, wird den Lernenden die bestmögliche Lösung präsentiert.
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s wurde erfolgreich gespeichert.
-assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
-assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Die maximale Anzahl von %s Punkt(en) ist überschritten!
-assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
-assessment#:#tst_manscoring_input_question_and_user_solution#:#Frage und Teilnehmerlösung
-assessment#:#tst_manscoring_input_best_solution#:#Muster Lösung
 assessment#:#tst_score_cut_question#:#Negative Punkte für alle Fragen bei Null abschneiden
 assessment#:#tst_score_cut_test#:#Negative Punkte für die Gesamtsumme aller Fragenergebnisse bei Null abschneiden
 assessment#:#tst_score_cutting#:#Negative Punkte abschneiden

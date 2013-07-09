@@ -67,7 +67,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	/**
 	 *
 	 */
-	private function showManScoringByQuestionParticipantsTable($manPointsPost = array())
+	private function showManScoringByQuestionParticipantsTable()
 	{
 		/**
 		 * @var $tpl      ilTemplate
@@ -94,8 +94,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
 		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php';
 		$table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
-		
-		$table->setManualScoringPointsPostData($manPointsPost);
 
 		$qst_id  = $table->getFilterItemByPostVar('question')->getValue();
 		$pass_id = $table->getFilterItemByPostVar('pass')->getValue();
@@ -135,7 +133,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 						'active_id'      => $active_id,
 						'qst_id'         => $questionData['qid'],
 						'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $pass_id - 1),
-						'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
 						'participant'    => $participant,
 					);
 				}
@@ -183,7 +180,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		
 		if(!isset($_POST['scoring']) || !is_array($_POST['scoring']))
 		{
-			ilUtil::sendFailure($this->lng->txt('tst_save_manscoring_failed_unknown'));
 			$this->showManScoringByQuestionParticipantsTable();
 			return;
 		}
@@ -192,58 +188,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		include_once 'Modules/Test/classes/class.ilObjTestAccess.php';
 		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
-		$oneExceededMaxPoints = false;
-		$manPointsPost = array();
-		$skipParticipant = array();
-		$maxPointsByQuestionId = array();
-		foreach($_POST['scoring'] as $pass => $active_ids)
-		{
-			foreach((array)$active_ids as $active_id => $questions)
-			{
-				// check for existing test result data
-				if( !$this->object->getTestResult($active_id, $pass) )
-				{
-					if( !isset($skipParticipant[$pass]) )
-					{
-						$skipParticipant[$pass] = array();
-					}
-					
-					$skipParticipant[$pass][$active_id] = true;
-					
-					continue;
-				}
-				
-				foreach((array)$questions as $qst_id => $reached_points)
-				{
-					if( !isset($manPointsPost[$pass]) )
-					{
-						$manPointsPost[$pass] = array();
-					}
-
-					if( !isset($manPointsPost[$pass][$active_id]) )
-					{
-						$manPointsPost[$pass][$active_id] = array();
-					}
-
-					$maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
-					
-					if( $reached_points > $maxPointsByQuestionId[$qst_id] )
-					{
-						$oneExceededMaxPoints = true;
-					}
-						
-					$manPointsPost[$pass][$active_id][$qst_id] = $reached_points;
-				}
-			}
-		}
-		
-		if( $oneExceededMaxPoints )
-		{
-			ilUtil::sendFailure(sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
-			$this->showManScoringByQuestionParticipantsTable($manPointsPost);
-			return;
-		}
-		
 		$changed_one = false;
 		foreach($_POST['scoring'] as $pass => $active_ids)
 		{
@@ -251,15 +195,17 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			{
 				$update_participant = false;
 				
-				if($skipParticipant[$pass][$active_id])
+				$testResultData = $this->object->getTestResult($active_id, $pass);
+				if(!$testResultData)
 				{
 					continue;
 				}
 
 				foreach((array)$questions as $qst_id => $reached_points)
 				{
+					$maxpoints = assQuestion::_getMaximumPoints($qst_id);
 					$update_participant = assQuestion::_setReachedPoints(
-						$active_id, $qst_id, $reached_points, $maxPointsByQuestionId[$qst_id], $pass, 1, $this->object->areObligationsEnabled()
+						$active_id, $qst_id, $reached_points, $maxpoints, $pass, 1, $this->object->areObligationsEnabled()
 					);
 				}
 
@@ -280,7 +226,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		{
 			ilUtil::sendSuccess(sprintf($this->lng->txt('tst_saved_manscoring_successfully'), $pass + 1), true);
 		}
-		
 		$this->showManScoringByQuestionParticipantsTable();
 	}
 
