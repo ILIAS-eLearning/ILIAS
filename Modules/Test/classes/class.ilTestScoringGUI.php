@@ -170,7 +170,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$this->showManScoringParticipantsTable();
 	}
 	
-	private function showManScoringParticipantScreen(ilPropertyForm $form = null)
+	private function showManScoringParticipantScreen(ilPropertyFormGUI $form = null)
 	{
 		global $tpl, $lng;
 		
@@ -224,62 +224,92 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		
 		$form->setValuesByPost();
 		
-		if( $form->checkInput() )
+		if( !$form->checkInput() )
 		{
-			foreach($questionGuiList as $questionId => $questionGui)
+			ilUtil::sendFailure(sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
+			return $this->showManScoringParticipantScreen($form);
+		}
+		
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		
+		$maxPointsByQuestionId = array();
+		$maxPointsExceeded = false;
+		foreach($questionGuiList as $questionId => $questionGui)
+		{
+			$reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
+			$maxPoints = assQuestion::_getMaximumPoints($questionId);
+			
+			if( $reachedPoints > $maxPoints )
 			{
-				$points = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-				$maxpoints = assQuestion::_getMaximumPoints($questionId);
-				assQuestion::_setReachedPoints(
-						$activeId, $questionId, $points, $maxpoints, $pass, 1, $this->object->areObligationsEnabled()
-				);
-
-				$feedback = $form->getItemByPostVar("question__{$questionId}__feedback")->getValue();
-				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-				$feedback = ilUtil::stripSlashes($feedback, false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-				$this->object->saveManualFeedback($activeId, $questionId, $pass, $feedback);
+				$maxPointsExceeded = true;
 				
-				$notificationData[$questionId] = array(
-					'points' => $points, 'feedback' => $feedback
-				);
+				$form->getItemByPostVar("question__{$questionId}__points")->setAlert( sprintf(
+						$lng->txt('tst_manscoring_maxpoints_exceeded_input_alert'), $maxPoints
+				));
 			}
 			
-			include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-			ilLPStatusWrapper::_updateStatus(
-					$this->object->getId(), ilObjTestAccess::_getParticipantId($activeId)
-			);
-			
-			$manScoringDone = $form->getItemByPostVar("manscoring_done")->getChecked();
-			ilTestService::setManScoringDone($activeId, $manScoringDone);
-			
-			$manScoringNotify = $form->getItemByPostVar("manscoring_notify")->getChecked();
-			if($manScoringNotify)
-			{
-				require_once 'Modules/Test/classes/notifications/class.ilTestManScoringParticipantNotification.php';
-				
-				$notification = new ilTestManScoringParticipantNotification(
-					$this->object->_getUserIdFromActiveId($activeId), $this->object->getRefId()
-				);
-				
-				$notification->setAdditionalInformation(array(
-					'test_title' => $this->object->getTitle(),
-					'test_pass' => $pass + 1,
-					'questions_gui_list' => $questionGuiList,
-					'questions_scoring_data' => $notificationData
-				));
-				
-				$notification->send();
-			}	
-
-			ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1), true);
-			$ilCtrl->redirect($this, 'showManScoringParticipantScreen');
+			$maxPointsByQuestionId[$questionId] = $maxPoints;
 		}
-		else
+		
+		if( $maxPointsExceeded )
 		{
-			$this->showManScoringParticipantScreen($form);
+			ilUtil::sendFailure(sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
+			return $this->showManScoringParticipantScreen($form);
 		}
+		
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		
+		foreach($questionGuiList as $questionId => $questionGui)
+		{
+			$reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
+
+			assQuestion::_setReachedPoints(
+					$activeId, $questionId, $reachedPoints, $maxPointsByQuestionId[$questionId],
+					$pass, 1, $this->object->areObligationsEnabled()
+			);
+
+			$feedback = ilUtil::stripSlashes(
+					$form->getItemByPostVar("question__{$questionId}__feedback")->getValue(),
+					false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+			);
+					
+			$this->object->saveManualFeedback($activeId, $questionId, $pass, $feedback);
+
+			$notificationData[$questionId] = array(
+				'points' => $reachedPoints, 'feedback' => $feedback
+			);
+		}
+
+		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus(
+				$this->object->getId(), ilObjTestAccess::_getParticipantId($activeId)
+		);
+
+		$manScoringDone = $form->getItemByPostVar("manscoring_done")->getChecked();
+		ilTestService::setManScoringDone($activeId, $manScoringDone);
+
+		$manScoringNotify = $form->getItemByPostVar("manscoring_notify")->getChecked();
+		if($manScoringNotify)
+		{
+			require_once 'Modules/Test/classes/notifications/class.ilTestManScoringParticipantNotification.php';
+
+			$notification = new ilTestManScoringParticipantNotification(
+				$this->object->_getUserIdFromActiveId($activeId), $this->object->getRefId()
+			);
+
+			$notification->setAdditionalInformation(array(
+				'test_title' => $this->object->getTitle(),
+				'test_pass' => $pass + 1,
+				'questions_gui_list' => $questionGuiList,
+				'questions_scoring_data' => $notificationData
+			));
+
+			$notification->send();
+		}	
+
+		ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1), true);
+		$ilCtrl->redirect($this, 'showManScoringParticipantScreen');
 	}
 	
 	private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false)
@@ -312,7 +342,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 				$sect->setTitle( $questionHeader . ' ['. $this->lng->txt('question_id_short') . ': ' . $questionGUI->object->getId()  . ']');
 			$form->addItem($sect);
 
-				$cust = new ilCustomInputGUI('Frage und Teilnehmer Lösung');
+				$cust = new ilCustomInputGUI($lng->txt('tst_manscoring_input_question_and_user_solution'));
 				$cust->setHtml($questionSolution);
 			$form->addItem($cust);
 
@@ -320,12 +350,16 @@ class ilTestScoringGUI extends ilTestServiceGUI
 				if( $initValues ) $text->setValue( assQuestion::_getReachedPoints($activeId, $questionId, $pass) );
 			$form->addItem($text);
 			
+				$nonedit = new ilNonEditableValueGUI($lng->txt('tst_manscoring_input_max_points_for_question'), "question__{$questionId}__maxpoints");
+				if( $initValues ) $nonedit->setValue( assQuestion::_getMaximumPoints($questionId) );
+			$form->addItem($nonedit);
+			
 				$area = new ilTextAreaInputGUI($lng->txt('set_manual_feedback'), "question__{$questionId}__feedback");
 				$area->setUseRTE(true);
 				if( $initValues ) $area->setValue( $this->object->getManualFeedback($activeId, $questionId, $pass) );
 			$form->addItem($area);
 
-				$cust = new ilCustomInputGUI('Muster Lösung');
+				$cust = new ilCustomInputGUI($lng->txt('tst_manscoring_input_best_solution'));
 				$cust->setHtml($bestSolution);
 			$form->addItem($cust);
 		}

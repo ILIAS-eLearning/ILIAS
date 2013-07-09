@@ -104,6 +104,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	function setValue($a_value)
 	{
 		$this->value = $a_value;
+		vd($this->value);
 	}
 
 	/**
