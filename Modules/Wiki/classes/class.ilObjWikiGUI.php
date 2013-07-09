@@ -607,6 +607,10 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		// Start Page
 		$sp = new ilTextInputGUI($lng->txt("wiki_start_page"), "startpage");
+		if ($a_mode == "edit")
+		{
+			$sp->setInfo($lng->txt("wiki_start_page_info"));
+		}
 		$sp->setMaxLength(200);
 		$sp->setRequired(true);
 		$this->form_gui->addItem($sp);
