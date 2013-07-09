@@ -137,7 +137,16 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
 		if($selected_questionData)
 		{
-			$table->setTitle($this->lng->txt('tst_man_scoring_by_qst') . ': ' . $selected_questionData['title'] . ' ['. $this->lng->txt('question_id_short') . ': ' . $selected_questionData['question_id']  . ']');
+			$maxpoints = assQuestion::_getMaximumPoints($selected_questionData['question_id']);
+			if($maxpoints == 1)
+			{
+				$maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
+			}
+			else
+			{
+				$maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')';
+			}
+			$table->setTitle($this->lng->txt('tst_man_scoring_by_qst') . ': ' . $selected_questionData['title'] . $maxpoints . ' ['. $this->lng->txt('question_id_short') . ': ' . $selected_questionData['question_id']  . ']');
 		}
 		else
 		{
