@@ -231,6 +231,45 @@ class ilItemGroupItems
 		}
 		return $valid_items;
 	}
+
+	/**
+	 * Clone items
+	 *
+	 * @access public
+	 *
+	 * @param int source event id
+	 * @param int copy id
+	 */
+	public function cloneItems($a_source_id,$a_copy_id)
+	{
+		global $ilObjDataCache,$ilLog;
+		
+		$ilLog->write(__METHOD__.': Begin cloning item group materials ... -'.$a_source_id.'-');
+		
+	 	include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+	 	$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+	 	$mappings = $cwo->getMappings();
+		
+		$new_items = array();
+// check: is this a ref id!?
+		$source_ig = new ilItemGroupItems($a_source_id);
+		foreach($source_ig->getItems() as $item_ref_id)
+		{
+	 		if(isset($mappings[$item_ref_id]) and $mappings[$item_ref_id])
+	 		{
+				$ilLog->write(__METHOD__.': Clone item group item nr. '.$item_ref_id);
+				$new_items[] = $mappings[$item_ref_id];
+	 		}
+	 		else
+	 		{
+				$ilLog->write(__METHOD__.': No mapping found for item group item nr. '.$item_ref_id);
+	 		}
+		}
+		$this->setItems($new_items);
+		$this->update();
+		$ilLog->write(__METHOD__.': Finished cloning item group items ...');
+		return true;
+	}
 	
 }
 ?>
