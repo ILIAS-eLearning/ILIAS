@@ -111,7 +111,7 @@ class ilStyleDefinition extends ilSaxParser
 		{
 			return $this->styles[$a_master_style]["substyle"][$a_substyle]["image_directory"];
 		}
-		return $this->styles[$a_id]["image_directory"];
+		return $this->styles[$a_master_style]["image_directory"];
 	}
 
 	function getSoundDirectory($a_id)
