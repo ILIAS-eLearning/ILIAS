@@ -726,7 +726,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				}
 				else
 				{
-					$this->getPageObject()->rename($new_name);
+					$new_name = $this->getPageObject()->rename($new_name);
 					$ilCtrl->setParameterByClass("ilobjwikigui", "page", ilWikiUtil::makeUrlTitle($new_name));
 					ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 					$ilCtrl->redirect($this, "preview");
