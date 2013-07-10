@@ -144,6 +144,35 @@ class ilPCResources extends ilPageContent
 		return false;
 	}
 
+	/**
+	 * Modify ref ids by mapping
+	 *
+	 * @param
+	 * @return
+	 */
+	static function modifyItemGroupRefIdsByMapping($a_page, $mappings)
+	{
+		$dom = $a_page->getDom();
+		
+		if ($dom instanceof php4DOMDocument)
+		{
+			$dom = $dom->myDOMDocument;
+		}
+ 
+		$xpath_temp = new DOMXPath($dom);
+		$igs = $xpath_temp->query("//Resources/ItemGroup");
+		
+		foreach ($igs as $ig_node) 
+		{
+			$ref_id = $ig_node->getAttribute("RefId");
+			if ($mappings[$ref_id] > 0)
+			{
+				$ig_node->setAttribute("RefId", $mappings[$ref_id]);
+			}
+		}
+
+	}
+	
 }
 
 ?>

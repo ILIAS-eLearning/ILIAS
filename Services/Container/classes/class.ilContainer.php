@@ -418,6 +418,11 @@ class ilContainer extends ilObject
 
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');
 		ilContainerSorting::_getInstance($this->getId())->cloneSorting($a_target_id,$a_copy_id);
+		
+		// fix item group references in page content
+		include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
+		ilObjItemGroup::fixContainerItemGroupRefsAfterCloning($this, $a_copy_id);
+
 		return true;
 	}
 
