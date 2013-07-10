@@ -1,34 +1,40 @@
 <tr class="{CSS_ROW}">
-<td class="std" valign="top">
-{TXT_MODULE_NAME}
-</td>
-<!-- BEGIN rep_object_td -->
-<td class="std" valign="top">{DUMMY}
-<!-- BEGIN rep_object -->
-<div style="margin: 0px 0px 10px 0px;"><img alt="{TXT_REP_OBJECT}" src="{IMG_REP_OBJECT}" border="0"/>&nbsp;{TXT_REP_OBJECT} [{TXT_REP_OBJECT_ID}]
-<div class="small">
-<!-- BEGIN group -->
-{TXT_GROUP}: {VAL_GROUP} [{VAL_GROUP_ID}]<br />
-<!-- END group -->
-{TXT_ADD_NEW_POS}: <input type="text" name="{VAR_POS}" value="{VAL_POS}" size="3" maxlength="3" /><br />
-{TXT_DISABLE_CREATION}: <input type="checkbox" value="1" name="{VAR_DISABLE_CREATION}" {CHECKED_DISABLE_CREATION} />
-</div>
-</div>
-<!-- END rep_object -->
-</td>
-<!-- END rep_object_td -->
-<td class="std" valign="top">
-<!-- BEGIN slot -->
-{SLOT_NAME} [{SLOT_ID}]
-<div class="small" style="margin: 3px 0px;">
-<b>{TXT_DIR}</b>:<br />
-{SLOT_DIR}
-</div>
-<div class="small" style="margin: 3px 0px;">
-<b>{TXT_LANG_PREFIX}</b>:<br />
-{LANG_PREFIX}
-</div>
-<div class="small" style="text-align:right;"><a href="{HREF_SHOW_SLOT}">{TXT_SHOW_SLOT}</a></div>
-<!-- END slot -->
-</td>
+	<td class="std" valign="top">
+		{TXT_MODULE_NAME}
+	</td>
+	<!-- BEGIN rep_object_td -->
+	<td class="std" valign="top">
+		<!-- BEGIN group -->
+		{VAL_GROUP} [{VAL_GROUP_ID}]
+		<!-- END group -->
+	</td>
+	<td class="std" valign="top">{DUMMY}
+		<!-- BEGIN rep_object -->
+		<div style="margin: 0px 0px 10px 0px;">
+			<img alt="{TXT_REP_OBJECT}" src="{IMG_REP_OBJECT}" border="0"/>
+			&nbsp;{TXT_REP_OBJECT} [{TXT_REP_OBJECT_ID}]			
+		</div>
+		<!-- END rep_object -->
+	</td>
+	<td class="std" valign="top">
+		<input type="text" name="{VAR_POS}" value="{VAL_POS}" size="3" maxlength="3" />
+	</td>
+	<td class="std" valign="top">
+		<input type="checkbox" value="1" name="{VAR_DISABLE_CREATION}" {CHECKED_DISABLE_CREATION} />
+	</td>
+	<!-- END rep_object_td -->
+	<!-- BEGIN slot_td -->
+	<td class="std" valign="top">
+		{SLOT_NAME} [{SLOT_ID}]		
+	</td>
+	<td class="std small" valign="top">
+		{SLOT_DIR}
+	</td>
+	<td class="std small" valign="top">
+		{LANG_PREFIX}
+	</td>
+	<td class="std small" valign="top">
+		<a href="{HREF_SHOW_SLOT}">{TXT_SHOW_SLOT}</a>
+	</td>
+	<!-- END slot_td -->
 </tr>

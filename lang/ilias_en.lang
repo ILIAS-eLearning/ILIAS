@@ -13518,5 +13518,7 @@ wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet
 administration#:#https#:#HTTPS
 common#:#obj_reps#:#Repository
 common#:#obj_reps_desc#:#General settings for the Repository
-rep#:#object_lists#:#Object Lists
-rep#:#custom_icons#:#Custom Icons
+rep#:#rep_object_lists#:#Object Lists
+rep#:#rep_custom_icons#:#Custom Icons
+cmps#:#cmps_enable_creation#:#Enable Creation
+cmps#:#cmps_slots#:#Slots
