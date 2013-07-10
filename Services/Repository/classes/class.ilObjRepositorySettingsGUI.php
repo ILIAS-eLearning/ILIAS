@@ -56,7 +56,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	{
 		$tabs_gui->addTab("settings",
 			$this->lng->txt("settings"),
-			$this->ctrl->getLinkTarget($this, "settings"));
+			$this->ctrl->getLinkTarget($this, "view"));
+		
+		$tabs_gui->addTab("icons",
+			$this->lng->txt("custom_icons"),
+			$this->ctrl->getLinkTarget($this, "customIcons"));
 		
 	}
 	
@@ -168,6 +172,44 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$event->setChecked(ilChangeEvent::_isActive());		
 		$form->addItem($event);
 		
+		
+		// disk quota
+		
+		$this->lng->loadLanguageModule("file");
+		
+		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
+		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();		
+		
+		// Enable disk quota
+		$cb_prop = new ilCheckboxInputGUI($this->lng->txt("repository_disk_quota"), "enable_disk_quota");
+		$cb_prop->setValue('1');
+		$cb_prop->setChecked($disk_quota_obj->isDiskQuotaEnabled());
+		$cb_prop->setInfo($this->lng->txt('enable_disk_quota_info'));
+		$form->addItem($cb_prop);
+
+		// Enable disk quota reminder mail
+		$cb_prop_reminder = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
+		$cb_prop_reminder->setValue('1');
+		$cb_prop_reminder->setChecked($disk_quota_obj->isDiskQuotaReminderMailEnabled());
+		$cb_prop_reminder->setInfo($this->lng->txt('disk_quota_reminder_mail_desc'));
+		$cb_prop->addSubItem($cb_prop_reminder);
+		
+		// Enable summary mail for certain users
+		$cb_prop_summary= new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota_summary_mail"), "enable_disk_quota_summary_mail");
+		$cb_prop_summary->setValue(1);
+		$cb_prop_summary->setChecked($disk_quota_obj->isDiskQuotaSummaryMailEnabled());
+		$cb_prop_summary->setInfo($this->lng->txt('enable_disk_quota_summary_mail_desc'));
+		$cb_prop->addSubItem($cb_prop_summary);
+		
+		// Edit disk quota recipients
+		$summary_rcpt = new ilTextInputGUI($this->lng->txt("disk_quota_summary_rctp"), "disk_quota_summary_rctp");
+		$summary_rcpt->setValue($disk_quota_obj->getSummaryRecipients());
+		$summary_rcpt->setInfo($this->lng->txt('disk_quota_summary_rctp_desc'));
+		$cb_prop_summary->addSubItem($summary_rcpt);
+		
+		
+		// object lists
+		
 		$lists = new ilFormSectionHeaderGUI();
 		$lists->setTitle($this->lng->txt("object_lists"));
 		$form->addItem($lists);		
@@ -202,13 +244,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	public function saveSettings()
 	{
-		global $ilSetting, $rbacsystem;
+		global $ilSetting;
 	
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
 		$form = $this->initSettingsForm();
 		if ($form->checkInput())
 		{
@@ -248,6 +285,14 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			{
 				ilChangeEvent::_deactivate();
 			}			
+			
+			require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
+			$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
+			$disk_quota_obj->setDiskQuotaEnabled($_POST['enable_disk_quota'] == '1');
+			$disk_quota_obj->setDiskQuotaReminderMailEnabled($_POST['enable_disk_quota_reminder_mail'] == '1');
+			$disk_quota_obj->isDiskQuotaSummaryMailEnabled($_POST['enable_disk_quota_summary_mail'] == '1');
+			$disk_quota_obj->setSummaryRecipients(ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
+			$disk_quota_obj->update();
 						
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "view");
@@ -255,6 +300,106 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		
 		$form->setValuesByPost();
 		$this->view($form);
+	}
+	
+	public function customIcons(ilPropertyFormGUI $a_form = null)
+	{
+		global $ilTabs, $tpl;
+		
+		$ilTabs->activateTab("icons");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initCustomIconsForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function initCustomIconsForm()
+	{
+		global $ilSetting;
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		include_once "Services/Form/classes/class.ilCombinationInputGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt("custom_icons"));
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveCustomIcons'));			
+				
+		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_custom_icons"), "custom_icons");
+		$cb->setInfo($this->lng->txt("enable_custom_icons_info"));
+		$cb->setChecked($ilSetting->get("custom_icons"));
+		$form->addItem($cb);
+		
+		
+		$size_big = new ilCombinationInputGUI($this->lng->txt("custom_icon_size_big"));
+		$form->addItem($size_big);
+		
+		$width = new ilNumberInputGUI("", "custom_icon_big_width");
+		$width->setSize(3);
+		$width->setValue($ilSetting->get("custom_icon_big_width"));
+		$size_big->addCombinationItem("bgw", $width, $this->lng->txt("width"));
+		
+		$height = new ilNumberInputGUI("", "custom_icon_big_height");
+		$height->setSize(3);
+		$height->setValue($ilSetting->get("custom_icon_big_height"));
+		$size_big->addCombinationItem("bgh", $height, $this->lng->txt("height"));
+		
+		
+		$size_small = new ilCombinationInputGUI($this->lng->txt("custom_icon_size_standard"));
+		$form->addItem($size_small);
+		
+		$width = new ilNumberInputGUI("", "custom_icon_small_width");
+		$width->setSize(3);
+		$width->setValue($ilSetting->get("custom_icon_small_width"));
+		$size_small->addCombinationItem("smw", $width, $this->lng->txt("width"));
+		
+		$height = new ilNumberInputGUI("", "custom_icon_small_height");
+		$height->setSize(3);
+		$height->setValue($ilSetting->get("custom_icon_small_height"));
+		$size_small->addCombinationItem("smh", $height, $this->lng->txt("height"));
+		
+		
+		$size_tiny = new ilCombinationInputGUI($this->lng->txt("custom_icon_size_tiny"));
+		$form->addItem($size_tiny);
+		
+		$width = new ilNumberInputGUI("", "custom_icon_tiny_width");
+		$width->setSize(3);
+		$width->setValue($ilSetting->get("custom_icon_tiny_width"));
+		$size_tiny->addCombinationItem("tnw", $width, $this->lng->txt("width"));
+		
+		$height = new ilNumberInputGUI("", "custom_icon_tiny_height");
+		$height->setSize(3);
+		$height->setValue($ilSetting->get("custom_icon_tiny_height"));
+		$size_tiny->addCombinationItem("tnh", $height, $this->lng->txt("height"));
+		
+		
+		$form->addCommandButton('saveCustomIcons', $this->lng->txt('save'));
+		
+		return $form;
+	}
+	
+	public function saveCustomIcons()
+	{
+		global $ilSetting;
+	
+		$form = $this->initSettingsForm();
+		if ($form->checkInput())
+		{
+			$ilSetting->set("custom_icons", (int)$form->getInput("custom_icons"));
+			$ilSetting->set("custom_icon_big_width", (int)$form->getInput("custom_icon_big_width"));
+			$ilSetting->set("custom_icon_big_height", (int)$form->getInput("custom_icon_big_height"));
+			$ilSetting->set("custom_icon_small_width", (int)$form->getInput("custom_icon_small_width"));
+			$ilSetting->set("custom_icon_small_height", (int)$form->getInput("custom_icon_small_height"));
+			$ilSetting->set("custom_icon_tiny_width", (int)$form->getInput("custom_icon_tiny_width"));
+			$ilSetting->set("custom_icon_tiny_height", (int)$form->getInput("custom_icon_tiny_height"));
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "customIcons");
+		}
+		
+		$form->setValuesByPost();
+		$this->customIcons($form);	
 	}
 }
 
