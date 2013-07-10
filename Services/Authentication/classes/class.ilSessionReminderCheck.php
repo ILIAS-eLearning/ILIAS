@@ -33,10 +33,25 @@ class ilSessionReminderCheck
 			array('text'),
 			array($sessionId)
 		);
-		$data = $ilDB->fetchAssoc($res);
+		
+		$num = $ilDB->numRows($res);
 
+		if($num > 1)
+		{
+			$response['message'] = 'The determined session data is not unique.';
+			return ilJsonUtil::encode($response);
+		}
+
+		if($num == 0)
+		{
+			$response['message'] = 'ILIAS could not determine the session data.';
+			return ilJsonUtil::encode($response);
+		}
+
+		$data = $ilDB->fetchAssoc($res);
 		if(!$this->isAuthenticatedUsrSession($data))
 		{
+			$response['message'] = 'ILIAS could not fetch the session data or the corresponding user is no more authenticated.';
 			return ilJsonUtil::encode($response);
 		}
 
@@ -53,12 +68,14 @@ class ilSessionReminderCheck
 
 		if(null === $idletime)
 		{
+			$response['message'] = 'ILIAS could not determine the idle time from the session data.';
 			return ilJsonUtil::encode($response);
 		}
 
 		$expiretime = $idletime + ilSession::getIdleValue();
 		if($this->isSessionAlreadyExpired($expiretime))
 		{
+			$response['message'] = 'The session is already expired. The client should have received a remind command before.';
 			return ilJsonUtil::encode($response);
 		}
 
@@ -68,9 +85,11 @@ class ilSessionReminderCheck
 		$ilUser = ilObjectFactory::getInstanceByObjId($data['user_id']);
 
 		include_once './Services/Authentication/classes/class.ilSessionReminder.php';
-		if($expiretime - max(ilSessionReminder::MIN_LEAD_TIME, (float)$ilUser->getPref('session_reminder_lead_time')) * 60 > time())
+		$remind_time = $expiretime - max(ilSessionReminder::MIN_LEAD_TIME, (float)$ilUser->getPref('session_reminder_lead_time'));
+		if($remind_time * 60 > time())
 		{
 			// session will expire in <lead_time> minutes
+			$response['message'] = 'Lead time not reached, yet. Current time: ' . date('Y-m-d H:i:s', time()) . ', Reminder time: ' . date('Y-m-d H:i:s', $remind_time);
 			return ilJsonUtil::encode($response);
 		}
 
