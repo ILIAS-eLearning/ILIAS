@@ -820,11 +820,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->tabs_gui->setTabActive('crs_materials');
 		
-		$this->initContainer();
+		// #11337 - support ANY parent container (crs, grp, fld)
+		$parent_ref_id = $tree->getParentId($this->object->getRefId());
+		$parent_type = ilObject::_lookupType($parent_ref_id, true);
 		
 		// add new item
-		$root = $tree->getNodeData($this->container_ref_id);
-		$subtypes = $objDefinition->getCreatableSubObjects($root['type'], ilObjectDefinition::MODE_REPOSITORY);
+		$subtypes = $objDefinition->getCreatableSubObjects($parent_type, ilObjectDefinition::MODE_REPOSITORY);
 		if($subtypes)
 		{
 			$subobj = array();
@@ -833,7 +834,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				if (!in_array($type, array("itgr", "sess")))
 				{					
 					// #9950
-					if ($ilAccess->checkAccess("create_".$type, "", $this->container_ref_id, $root["type"]))
+					if ($ilAccess->checkAccess("create_".$type, "", $parent_ref_id, $parent_type))
 					{
 						// #10787
 						$title = $this->lng->txt('obj_'.$type);
@@ -854,8 +855,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			if(sizeof($subobj))
 			{
 				// add new object to parent container instead		
-				$this->ctrl->setParameter($this, 'ref_id', $this->container_ref_id);
-				// $this->ctrl->setParameter($this, 'crtptrefid', $this->container_ref_id);				
+				$this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
+				// $this->ctrl->setParameter($this, 'crtptrefid', $parent_ref_id);				
 				// force after creation callback
 				$this->ctrl->setParameter($this, 'crtcb', $this->ref_id);
 				
@@ -885,11 +886,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable("TABLE_INFO",$this->lng->txt('event_assign_materials_info'));
 
 		$materials = array();
-		$nodes = $tree->getSubTree($tree->getNodeData($this->container_ref_id));
+		$nodes = $tree->getSubTree($tree->getNodeData($parent_ref_id));
 		foreach($nodes as $node)
 		{
 			// No side blocks here
-			if ($node['child'] == $this->container_ref_id ||
+			if ($node['child'] == $parent_ref_id ||
 				$objDefinition->isSideBlock($node['type']) ||
 				in_array($node['type'], array('sess', 'itgr', 'rolf')))
 			{
