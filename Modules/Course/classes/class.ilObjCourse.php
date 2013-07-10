@@ -899,7 +899,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		include_once('Services/Tracking/classes/class.ilLPCollections.php');
 		$lp_collection = new ilLPCollections($this->getId());
-		$lp_collection->cloneCollections($a_target_id,$a_copy_id);		
+		$lp_collection->cloneCollections($a_target_id,$a_copy_id);
 	 	
 	 	return true;
 	}

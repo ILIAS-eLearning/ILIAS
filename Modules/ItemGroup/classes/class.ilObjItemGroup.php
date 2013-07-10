@@ -144,6 +144,62 @@ class ilObjItemGroup extends ilObject2
 //				" WHERE id = ".$ilDB->quote($this->id, "integer"));
 		}
 	}
+	
+	/**
+	 * Clone obj item group
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id)
+	{
+		
+	}
+
+	/**
+	 * Clone dependencies
+	 *
+	 * @param
+	 * @return
+	 */
+	function cloneDependencies($a_target_id,$a_copy_id)
+	{
+		parent::cloneDependencies($a_target_id,$a_copy_id);
+
+		include_once('./Modules/ItemGroup/classes/class.ilItemGroupItems.php');
+		$ig_items = new ilItemGroupItems($a_target_id);
+		$ig_items->cloneItems($this->getRefId(), $a_copy_id);
+
+		return true;
+	}
+
+	/**
+	 * Fix container item group references after a container has been cloned
+	 *
+	 * @param
+	 * @return
+	 */
+	static function fixContainerItemGroupRefsAfterCloning($a_source_container, $a_copy_id)
+	{
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.': Fix item group references in '.$a_source_container->getType());
+		
+	 	include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+	 	$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+	 	$mappings = $cwo->getMappings();
+	 		 	
+	 	$new_container_ref_id = $mappings[$a_source_container->getRefId()];
+	 	$ilLog->write(__METHOD__.': 2-'.$new_container_ref_id.'-');
+	 	$new_container_obj_id = ilObject::_lookupObjId($new_container_ref_id);
+	 	
+	 	include_once("./Services/COPage/classes/class.ilPageObject.php");
+		$new_page = new ilPageObject($a_source_container->getType(), $new_container_obj_id);
+		$new_page->buildDom();
+		include_once("./Services/COPage/classes/class.ilPCResources.php");
+		ilPCResources::modifyItemGroupRefIdsByMapping($new_page, $mappings);
+		$new_page->update();
+	}
 }
 
 ?>
