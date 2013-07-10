@@ -12981,3 +12981,20 @@ common#:#rpc_pdf_font_info#:#Fuentes adicionales para la genración de ficheros 
 didactic#:#didactic_default_type#:#Plantilla didáctica por defecto
 blog#:#blog_draft_info_contributors#:#Este borrador de envío solo es visible por los contribuidores.
 exp#:#exp_file_created#:#Se ha creado el fichero de exportación.
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.###10 07 2013 new variable
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!###10 07 2013 new variable
+assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question###10 07 2013 new variable
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution###10 07 2013 new variable
+assessment#:#tst_manscoring_input_best_solution#:#Best Solution###10 07 2013 new variable
+dcl#:#dcl_record#:#Record###10 07 2013 new variable
+ecs#:#ecs_cmap_att_courseType#:#Course Type###10 07 2013 new variable
+ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme###10 07 2013 new variable
+ecs#:#ecs_cmap_att_module#:#Module###10 07 2013 new variable
+ecs#:#ecs_cmap_att_venue#:#Venue###10 07 2013 new variable
+mcst#:#mcst_download_videoalternative#:#Download Alternative File###10 07 2013 new variable
+dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.###10 07 2013 new variable
+prtf#:#prtf_allow_html#:#Allow HTML/Javascript###10 07 2013 new variable
+prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.###10 07 2013 new variable
+blog#:#blog_allow_html#:#Allow HTML/Javascript###10 07 2013 new variable
+blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.###10 07 2013 new variable
+wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###10 07 2013 new variable

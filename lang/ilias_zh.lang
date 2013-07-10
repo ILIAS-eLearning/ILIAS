@@ -11986,7 +11986,6 @@ assessment#:#obligatory#:#必修
 assessment#:#not_all_obligations_answered#:#您能完成这个测试之前，必需回答所有必修题目。
 assessment#:#tst_setting_enable_obligations_label#:#必修题目
 assessment#:#tst_setting_enable_obligations_info#:#如果勾选，测试的题目可以被标记为必修(*)。所有必修题目必需被填写才能通过这个测试。在这个“列表视图”中，您可以设置必修题目。我们建议，当必修题目已定义时，也激活“显示题目列表”。
- assessment#:#tst_test_contains_obligatory_questions#:#要通过这个测试，您必需正确地回答所有必修题目(*)。
 administration#:#obj_chta_desc#:#聊天管理
 scormdebug#:#i_gray#:#灰色：错误已由ILIAS更正
 scormdebug#:#sent_values_not_checked#:#已选择属性：值已由SCO发送，是没有完整的检查过。
@@ -12956,3 +12955,44 @@ assessment#:#tst_pass_deletion_not_allowed#:#不允许删除以前通过的
 assessment#:#tst_pass_deletion_allowed#:#允许删除以前通过的
 common#:#soap_user_administration_desc_extended#:#启用此项，ILIAS客户端通过SOAP API是可见的。
 crs#:#crs_notification_list_title#:#关于新成员的通知
+common#:#info_short#:#Info###10 07 2013 new variable
+ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.###10 07 2013 new variable
+payment#:#pays_bmf#:#BMF###10 07 2013 new variable
+survey#:#back#:#<< Back###10 07 2013 new variable
+survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###10 07 2013 new variable
+assessment#:#tst_test_contains_obligatory_questions#:#To pass this test you have to answer at least all obligatory questions (*) correctly.###10 07 2013 new variable
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.###10 07 2013 new variable
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!###10 07 2013 new variable
+assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question###10 07 2013 new variable
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution###10 07 2013 new variable
+assessment#:#tst_manscoring_input_best_solution#:#Best Solution###10 07 2013 new variable
+dcl#:#dcl_record#:#Record###10 07 2013 new variable
+dcl#:#dcl_hello#:#Dear###10 07 2013 new variable
+dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.###10 07 2013 new variable
+dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.###10 07 2013 new variable
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###10 07 2013 new variable
+obj#:#edit_questions#:#Edit Questions###10 07 2013 new variable
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.###10 07 2013 new variable
+user#:#user_delete_own_account_logout_button#:#Proceed to Authentication###10 07 2013 new variable
+user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.###10 07 2013 new variable
+rbac#:#edit_userassignment#:#Edit User Assignment###10 07 2013 new variable
+blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.###10 07 2013 new variable
+mail#:#mail_add_folder#:#Add New Subfolder###10 07 2013 new variable
+mail#:#mail_rename_folder#:#Rename Folder###10 07 2013 new variable
+common#:#rpc_pdf_generation#:#PDF-Generation###10 07 2013 new variable
+common#:#rpc_pdf_font#:#Fonts###10 07 2013 new variable
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.###10 07 2013 new variable
+didactic#:#didactic_default_type#:#Default###10 07 2013 new variable
+blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###10 07 2013 new variable
+exp#:#exp_file_created#:#The export file has been created.###10 07 2013 new variable
+ecs#:#ecs_cmap_att_courseType#:#Course Type###10 07 2013 new variable
+ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme###10 07 2013 new variable
+ecs#:#ecs_cmap_att_module#:#Module###10 07 2013 new variable
+ecs#:#ecs_cmap_att_venue#:#Venue###10 07 2013 new variable
+mcst#:#mcst_download_videoalternative#:#Download Alternative File###10 07 2013 new variable
+dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.###10 07 2013 new variable
+prtf#:#prtf_allow_html#:#Allow HTML/Javascript###10 07 2013 new variable
+prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.###10 07 2013 new variable
+blog#:#blog_allow_html#:#Allow HTML/Javascript###10 07 2013 new variable
+blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.###10 07 2013 new variable
+wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###10 07 2013 new variable

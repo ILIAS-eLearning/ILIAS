@@ -12996,3 +12996,5 @@ prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Por
 blog#:#blog_allow_html#:#HTML/Javascript erlauben
 blog#:#blog_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Blog-Einträgen verwenden. Dies kann zu Sicherheitsproblemen führen.
 wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt, so wird eine neue (leere) Seite erstellt.
+blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###10 07 2013 new variable
+exp#:#exp_file_created#:#The export file has been created.###10 07 2013 new variable
