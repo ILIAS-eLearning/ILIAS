@@ -110,13 +110,18 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 				$lng->txt("cmps_plugins"),
 				$this->ctrl->getLinkTarget($this, "listPlugins"));
 				
+			/* => REPOSITORY
 			$this->tabs_gui->addTab("modules",
 				$lng->txt("cmps_modules"),
-				$this->ctrl->getLinkTarget($this, "listModules"));
-				
-			$this->tabs_gui->addTab("services",
-				$lng->txt("cmps_services"),
-				$this->ctrl->getLinkTarget($this, "listServices"));
+				$this->ctrl->getLinkTarget($this, "listModules"));			 
+			*/
+			
+			if(DEVMODE)
+			{
+				$this->tabs_gui->addTab("services",
+					$lng->txt("cmps_services"),
+					$this->ctrl->getLinkTarget($this, "listServices"));
+			}
 		}
 		
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -163,6 +168,11 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	public function listServices()
 	{
 		global $ilCtrl, $lng, $ilSetting;
+		
+		if(!DEVMODE)
+		{
+			$ilCtrl->redirect($this, "listPlugins");
+		}
 		
 		$this->tabs_gui->activateTab('services');
 
