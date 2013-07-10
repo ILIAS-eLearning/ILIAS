@@ -21,13 +21,18 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 		
-		$this->mode = $a_mode;
-		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		$this->addColumn($lng->txt("cmps_plugin_slot"));
-		$this->addColumn($lng->txt("cmps_plugins"));
+		$this->setId("cmpspl");
+				
+		$this->addColumn($lng->txt("cmps_plugin_slot"), "slot_name");
+		$this->addColumn($lng->txt("cmps_component"), "component_name");	
+		$this->addColumn($lng->txt("cmps_plugin"), "plugin_name");
+		$this->addColumn($lng->txt("active"), "plugin_active");
 		$this->addColumn($lng->txt("actions"));
+		
+		$this->setDefaultOrderField("plugin_name");
+		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.plugin_overview_row.html",
@@ -42,30 +47,27 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	*/
 	function getComponents()
 	{
+		$plugins = array();
+		
 		include_once("./Services/Component/classes/class.ilModule.php");
 		$modules = ilModule::getAvailableCoreModules();
-		$slots = array();
 		foreach ($modules as $m)
 		{
 			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE,
 				$m["subdir"]);
 			foreach ($plugin_slots as $ps)
-			{
-				$plugins = array();
+			{				
 				include_once("./Services/Component/classes/class.ilPluginSlot.php");
 				$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
 				{
-					$plugins[] = $p;
-				}
-				if (count($plugins) > 0)
-				{
-					$slots[] = array("slot_name" => $slot->getSlotName(),
+					$plugins[] = array("slot_name" => $slot->getSlotName(),
 						"component_type" => IL_COMP_MODULE,
 						"component_name" => $m["subdir"],
-						"slot_id" => $ps["id"],
-						"plugins" => $plugins);
-				}
+						"slot_id" => $ps["id"],						
+						"plugin_name" => $p["name"],
+						"active" => $p["is_active"]);
+				}				
 			}
 		}
 		include_once("./Services/Component/classes/class.ilService.php");
@@ -75,26 +77,20 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE,
 				$s["subdir"]);
 			foreach ($plugin_slots as $ps)
-			{
-				$plugins = array();
+			{				
 				$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
 				{
-					$plugins[] = $p;
-				}
-				if (count($plugins) > 0)
-				{
-					$slots[] = array("slot_name" => $slot->getSlotName(),
+					$plugins[] =  array("slot_name" => $slot->getSlotName(),
 						"component_type" => IL_COMP_SERVICE,
 						"component_name" => $s["subdir"],
 						"slot_id" => $ps["id"],
-						"plugins" => $plugins);
-				}
+						"plugin_name" => $p["name"],
+						"plugin_active" => $p["is_active"]);
+				}				
 			}
 		}
-		$this->setData($slots);
-		//include_once("./Services/Component/classes/class.ilService.php");
-		//$services = ilService::getAvailableCoreServices();
+		$this->setData($plugins);
 	}
 	
 	/**
@@ -113,20 +109,16 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("HREF_CMD",
 			$ilCtrl->getLinkTarget($this->parent_obj, "showPluginSlot"));
 		$this->tpl->parseCurrentBlock();
-
-		foreach ($a_set["plugins"] as $p)
-		{
-			$act_str = ($p["is_active"])
-				? " <b>(".$lng->txt("active").")</b>"
-				: "";
-			$this->tpl->setCurrentBlock("plugin");
-			$this->tpl->setVariable("TXT_PLUGIN_NAME", $p["name"].$act_str);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setVariable("TXT_SLOT_NAME",
-			$a_set["slot_name"]);
-		$this->tpl->setVariable("TXT_COMP_NAME",
-			$a_set["component_type"]."/".$a_set["component_name"]);
+		
+		$this->tpl->setVariable("TXT_SLOT_NAME", $a_set["slot_name"]);
+		$this->tpl->setVariable("TXT_COMP_NAME", 
+			$a_set["component_type"]."/".$a_set["component_name"]);	
+		
+		$act_str = ($a_set["plugin_active"])
+			? "<b>".$lng->txt("yes")."</b>"
+			: $lng->txt("no");
+		$this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set["plugin_name"]);		
+		$this->tpl->setVariable("TXT_ACTIVE", $act_str);		
 	}
 
 }
