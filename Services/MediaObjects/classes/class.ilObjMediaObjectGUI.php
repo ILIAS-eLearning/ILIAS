@@ -141,11 +141,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
-				
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI(0, $this->object->getId(), $this->object->getType());
