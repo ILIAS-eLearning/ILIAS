@@ -109,18 +109,12 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 			$this->tabs_gui->addTab("plugins",
 				$lng->txt("cmps_plugins"),
 				$this->ctrl->getLinkTarget($this, "listPlugins"));
-				
-			/* => REPOSITORY
-			$this->tabs_gui->addTab("modules",
-				$lng->txt("cmps_modules"),
-				$this->ctrl->getLinkTarget($this, "listModules"));			 
-			*/
 			
 			if(DEVMODE)
 			{
-				$this->tabs_gui->addTab("services",
-					$lng->txt("cmps_services"),
-					$this->ctrl->getLinkTarget($this, "listServices"));
+				$this->tabs_gui->addTab("slots",
+					$lng->txt("cmps_slots"),
+					$this->ctrl->getLinkTarget($this, "listSlots"));
 			}
 		}
 		
@@ -138,57 +132,21 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	}
 	
 	/**
-	* List Modules
-	*/
-	public function listModules()
-	{
-		global $ilCtrl, $lng, $ilSetting;
-		
-		$this->tabs_gui->activateTab('modules');
-
-		$tpl = new ilTemplate("tpl.component_list.html", true, true, "Services/Component");
-		
-		/*
-		$tpl->setVariable("HREF_REFRESH_PLUGINS_INFORMATION",
-			$ilCtrl->getLinkTarget($this, "refreshPluginsInformation"));
-		$tpl->setVariable("TXT_REFRESH_PLUGINS_INFORMATION",
-			$lng->txt("cmps_refresh_plugins_inf"));
-		*/
-		
-		include_once("./Services/Component/classes/class.ilComponentsTableGUI.php");
-		$comp_table = new ilComponentsTableGUI($this, "listModules");
-		
-		$tpl->setVariable("TABLE", $comp_table->getHTML());
-		$this->tpl->setContent($tpl->get());
-	}
-
-	/**
 	* List Services
 	*/
-	public function listServices()
+	public function listSlots()
 	{
-		global $ilCtrl, $lng, $ilSetting;
-		
 		if(!DEVMODE)
 		{
-			$ilCtrl->redirect($this, "listPlugins");
+			$this->ctrl->redirect($this, "listPlugins");
 		}
 		
-		$this->tabs_gui->activateTab('services');
-
-		$tpl = new ilTemplate("tpl.component_list.html", true, true, "Services/Component");
-		
-		$ilCtrl->setParameter($this, "mode", IL_COMP_SERVICE);
-		$tpl->setVariable("HREF_REFRESH_PLUGINS_INFORMATION",
-			$ilCtrl->getLinkTarget($this, "refreshPluginsInformation"));
-		$tpl->setVariable("TXT_REFRESH_PLUGINS_INFORMATION",
-			$lng->txt("cmps_refresh_plugins_inf"));
+		$this->tabs_gui->activateTab('slots');
 
 		include_once("./Services/Component/classes/class.ilComponentsTableGUI.php");
-		$comp_table = new ilComponentsTableGUI($this, "listServices", IL_COMP_SERVICE);
-		
-		$tpl->setVariable("TABLE", $comp_table->getHTML());
-		$this->tpl->setContent($tpl->get());
+		$comp_table = new ilComponentsTableGUI($this, "listSlots", IL_COMP_SLOTS);
+
+		$this->tpl->setContent($comp_table->getHTML());
 	}
 	
 	/**
@@ -206,70 +164,24 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$table = new ilPluginsOverviewTableGUI($this, "listPlugins");
 		$tpl->setContent($table->getHTML());
 	}
-
-	/**
-	* Save Options.
-	*/
-	function saveOptions()
-	{
-		global $ilSetting, $ilCtrl, $lng;
-
-		// disable creation
-		if (is_array($_POST["obj_pos"]))
-		{
-			foreach($_POST["obj_pos"] as $k => $v)
-			{
-				$ilSetting->set("obj_dis_creation_".$k, (int) $_POST["obj_dis_creation"][$k]);
-			}
-		}
-		
-		// add new position
-		$double = $ex_pos = array();
-		if (is_array($_POST["obj_pos"]))
-		{
-			reset($_POST["obj_pos"]);
-			foreach($_POST["obj_pos"] as $k => $v)
-			{
-				if (in_array($v, $ex_pos))
-				{
-					$double[$v] = $v;
-				}
-				$ex_pos[] = $v;
-				$ilSetting->set("obj_add_new_pos_".$k, $v);
-			}
-		}
-		
-		if (count($double) == 0)
-		{
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-		}
-		else
-		{
-			ilUtil::sendInfo($lng->txt("cmps_duplicate_positions")." ".implode($double, ", "), true);
-		}
-		
-		$ilCtrl->redirect($this, "listModules");
-	}
-
+	
 	/**
 	 * Show information about a plugin slot.
 	 */
 	function showPluginSlotInfo()
 	{
 		global $tpl,$lng, $ilTabs, $ilCtrl;
+		
+		if(!DEVMODE)
+		{
+			$ilCtrl->redirect($this, "listPlugins");
+		}
 
 		$ilTabs->clearTargets();
-		if ($_GET["ctype"] == "Services")
-		{
-			$ilTabs->setBackTarget($lng->txt("cmps_services"),
-				$ilCtrl->getLinkTarget($this, "listServices"));
-		}
-		else
-		{
-			$ilTabs->setBackTarget($lng->txt("cmps_modules"),
-				$ilCtrl->getLinkTarget($this, "listModules"));
-		}
-
+		
+		$ilTabs->setBackTarget($lng->txt("cmps_slots"),
+			$ilCtrl->getLinkTarget($this, "listSlots"));
+		
 		include_once("./Services/Component/classes/class.ilComponent.php");
 		$comp = ilComponent::getComponentObject($_GET["ctype"], $_GET["cname"]);
 

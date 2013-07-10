@@ -5,6 +5,7 @@
 define ("IL_COMP_MODULE", "Modules");
 define ("IL_COMP_SERVICE", "Services");
 define ("IL_COMP_PLUGIN", "Plugins");
+define ("IL_COMP_SLOTS", "Slots");
 
 /**
 * @defgroup ServicesComponent Services/Component

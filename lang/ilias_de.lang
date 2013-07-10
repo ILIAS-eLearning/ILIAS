@@ -13517,5 +13517,7 @@ wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt
 administration#:#https#:#HTTPS
 common#:#obj_reps#:#Magazin 
 common#:#obj_reps_desc#:#Allgemeine Einstellungen für das Magazin
-rep#:#object_lists#:#Objektlisten
-rep#:#custom_icons#:#Angepasste Icons
+rep#:#rep_object_lists#:#Objektlisten
+rep#:#rep_custom_icons#:#Angepasste Icons
+cmps#:#cmps_enable_creation#:#Erstellung einschalten
+cmps#:#cmps_slots#:#Slots

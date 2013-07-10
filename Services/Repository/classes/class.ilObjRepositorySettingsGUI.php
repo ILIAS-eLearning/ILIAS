@@ -20,6 +20,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
 		$this->type = 'reps';
 		$this->lng->loadLanguageModule('rep');
+		$this->lng->loadLanguageModule('cmps');
 	}
 	
 	public function executeCommand()
@@ -52,30 +53,40 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		return true;
 	}	
 	
-	public function getAdminTabs(&$tabs_gui) 
+	public function getAdminTabs() 
 	{
-		$tabs_gui->addTab("settings",
+		global $rbacsystem;
+		
+		$this->tabs_gui->addTab("settings",
 			$this->lng->txt("settings"),
 			$this->ctrl->getLinkTarget($this, "view"));
 		
-		$tabs_gui->addTab("icons",
-			$this->lng->txt("custom_icons"),
+		$this->tabs_gui->addTab("icons",
+			$this->lng->txt("rep_custom_icons"),
 			$this->ctrl->getLinkTarget($this, "customIcons"));
 		
+		$this->tabs_gui->addTab("modules",
+			$this->lng->txt("cmps_modules"),
+			$this->ctrl->getLinkTarget($this, "listModules"));			
+		
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$this->tabs_gui->addTab("perm_settings",
+				$this->lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"));
+		}
 	}
 	
 	public function view(ilPropertyFormGUI $a_form = null)
-	{
-		global $ilTabs, $tpl;
-		
-		$ilTabs->activateTab("settings");
+	{		
+		$this->tabs_gui->activateTab("settings");
 		
 		if(!$a_form)
 		{
 			$a_form = $this->initSettingsForm();
 		}
 		
-		$tpl->setContent($a_form->getHTML());
+		$this->tpl->setContent($a_form->getHTML());
 	}
 	
 	protected function initSettingsForm()
@@ -211,7 +222,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		// object lists
 		
 		$lists = new ilFormSectionHeaderGUI();
-		$lists->setTitle($this->lng->txt("object_lists"));
+		$lists->setTitle($this->lng->txt("rep_object_lists"));
 		$form->addItem($lists);		
 			
 		$sdesc = new ilCheckboxInputGUI($this->lng->txt("adm_rep_shorten_description"), "rep_shorten_description");
@@ -303,17 +314,15 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	}
 	
 	public function customIcons(ilPropertyFormGUI $a_form = null)
-	{
-		global $ilTabs, $tpl;
-		
-		$ilTabs->activateTab("icons");
+	{		
+		$this->tabs_gui->activateTab("icons");
 		
 		if(!$a_form)
 		{
 			$a_form = $this->initCustomIconsForm();
 		}
 		
-		$tpl->setContent($a_form->getHTML());
+		$this->tpl->setContent($a_form->getHTML());
 	}
 	
 	protected function initCustomIconsForm()
@@ -323,7 +332,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		include_once "Services/Form/classes/class.ilCombinationInputGUI.php";
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->lng->txt("custom_icons"));
+		$form->setTitle($this->lng->txt("rep_custom_icons"));
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveCustomIcons'));			
 				
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_custom_icons"), "custom_icons");
@@ -400,6 +409,56 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		
 		$form->setValuesByPost();
 		$this->customIcons($form);	
+	}
+	
+	public function listModules()
+	{		
+		$this->tabs_gui->activateTab('modules');
+
+		include_once("./Services/Component/classes/class.ilComponentsTableGUI.php");
+		$comp_table = new ilComponentsTableGUI($this, "listModules", IL_COMP_MODULE);
+				
+		$this->tpl->setContent($comp_table->getHTML());
+	}
+	
+	public function saveModules()
+	{
+		global $ilSetting, $ilCtrl, $lng;
+
+		// disable creation
+		if (is_array($_POST["obj_pos"]))
+		{
+			foreach($_POST["obj_pos"] as $k => $v)
+			{
+				$ilSetting->set("obj_dis_creation_".$k, !(int)$_POST["obj_enbl_creation"][$k]);
+			}
+		}
+		
+		// add new position
+		$double = $ex_pos = array();
+		if (is_array($_POST["obj_pos"]))
+		{
+			reset($_POST["obj_pos"]);
+			foreach($_POST["obj_pos"] as $k => $v)
+			{
+				if (in_array($v, $ex_pos))
+				{
+					$double[$v] = $v;
+				}
+				$ex_pos[] = $v;
+				$ilSetting->set("obj_add_new_pos_".$k, $v);
+			}
+		}
+		
+		if (count($double) == 0)
+		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		else
+		{			
+			ilUtil::sendInfo($lng->txt("cmps_duplicate_positions")." ".implode($double, ", "), true);
+		}		
+		$ilCtrl->redirect($this, "listModules");		
 	}
 }
 
