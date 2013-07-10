@@ -15,13 +15,20 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilPluginsTableGUI extends ilTable2GUI
 {
+	protected $plugin_id; // [int]
+	
 	function ilPluginsTableGUI($a_parent_obj, $a_parent_cmd = "",
-		$a_c_type, $a_c_name, $a_slot_id)
+		$a_c_type, $a_c_name, $a_slot_id, $a_plugin_id = null)
 	{
 		global $ilCtrl, $lng;
 		
 		include_once("./Services/Component/classes/class.ilPluginSlot.php");
 		$this->slot = new ilPluginSlot($a_c_type, $a_c_name, $a_slot_id);
+		
+		if($a_plugin_id)
+		{
+			$this->plugin_id = $a_plugin_id;
+		}
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -51,6 +58,19 @@ class ilPluginsTableGUI extends ilTable2GUI
 	function getPlugins()
 	{
 		$plugins = $this->slot->getPluginsInformation();
+		
+		if($this->plugin_id)
+		{
+			foreach($plugins as $item)
+			{
+				if($item["plugin_id"] == $this->plugin_id);
+				{
+					$plugins = array($item);
+					break;
+				}
+			}
+		}
+		
 //var_dump($plugins);
 		$this->setData($plugins);
 	}

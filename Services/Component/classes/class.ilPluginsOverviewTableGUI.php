@@ -65,6 +65,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 						"component_type" => IL_COMP_MODULE,
 						"component_name" => $m["subdir"],
 						"slot_id" => $ps["id"],						
+						"plugin_id" => $p["id"],						
 						"plugin_name" => $p["name"],
 						"active" => $p["is_active"]);
 				}				
@@ -85,6 +86,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 						"component_type" => IL_COMP_SERVICE,
 						"component_name" => $s["subdir"],
 						"slot_id" => $ps["id"],
+						"plugin_id" => $p["id"],			
 						"plugin_name" => $p["name"],
 						"plugin_active" => $p["is_active"]);
 				}				
@@ -104,6 +106,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->parent_obj, "ctype", $a_set["component_type"]);
 		$ilCtrl->setParameter($this->parent_obj, "cname", $a_set["component_name"]);
 		$ilCtrl->setParameter($this->parent_obj, "slot_id", $a_set["slot_id"]);
+		$ilCtrl->setParameter($this->parent_obj, "plugin_id", $a_set["plugin_id"]);
 		$this->tpl->setCurrentBlock("cmd");
 		$this->tpl->setVariable("TXT_CMD", $lng->txt("administrate"));
 		$this->tpl->setVariable("HREF_CMD",
