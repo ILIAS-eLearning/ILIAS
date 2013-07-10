@@ -82,7 +82,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				break;		
 			
 			case "ilcronmanagergui":
-				$this->setGeneralSettingsSubTabs("cron_jobs2");
+				$this->setCronJobsSubTabs("cron_jobs2");
 				include_once("Services/Cron/classes/class.ilCronManagerGUI.php");
 				$gui = new ilCronManagerGUI();
 				$this->ctrl->forwardCommand($gui);
@@ -1589,16 +1589,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// server info
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("server_data",
+			$tabs_gui->addTarget("server",
 				$this->ctrl->getLinkTarget($this, "showServerInfo"),
 				array("showServerInfo", "view"), get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			//$tabs_gui->addTarget("edit_properties",
-			//	$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
-
+			$tabs_gui->addTarget("cron_jobs",
+				$this->ctrl->getLinkTarget($this, "showCronJobs"), array("showCronJobs"), get_class($this));
+			
 			$tabs_gui->addTarget("system_check",
 				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog","saveCheckParams","saveCheckCron"), get_class($this));
 
@@ -1627,16 +1627,38 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	// Server Info
 	//
 	//
+	
+	/**
+	* Set sub tabs for server info
+	*/
+	function setServerInfoSubTabs($a_activate)
+	{
+		global $ilTabs, $ilCtrl, $rbacsystem;
+				
+		$ilTabs->addSubTabTarget("server_data", $ilCtrl->getLinkTarget($this, "showServerInfo"));
+		
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));
+			$ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
+			$ilTabs->addSubTabTarget("proxy", $ilCtrl->getLinkTarget($this, "showProxy"));		
+			$ilTabs->addSubTabTarget("https", $ilCtrl->getLinkTarget($this, "showHTTPS"));		
+		}
+		
+		$ilTabs->setSubTabActive($a_activate);
+		$ilTabs->setTabActive("server");
+	}
 
 	/**
 	* Show server info
 	*/
 	function showServerInfoObject()
 	{
-		global $tpl, $ilCtrl, $ilToolbar;
+		global $tpl, $ilCtrl;
 
 
 		$this->initServerInfoForm();
+		$this->setServerInfoSubTabs("server_data");
 		
 		$btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");
 		$btpl->setVariable("FORM", $this->form->getHTML());
@@ -1766,15 +1788,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		global $ilTabs, $ilCtrl;
 		
 		$ilTabs->addSubTabTarget("basic_settings", $ilCtrl->getLinkTarget($this, "showBasicSettings"));
-		$ilTabs->addSubTabTarget("header_title", $ilCtrl->getLinkTarget($this, "showHeaderTitle"));
-		$ilTabs->addSubTabTarget("cron_jobs", $ilCtrl->getLinkTarget($this, "showCronJobs"));
-		$ilTabs->addSubTabTarget("cron_jobs2",  $ilCtrl->getLinkTargetByClass("ilCronManagerGUI"));				
+		$ilTabs->addSubTabTarget("header_title", $ilCtrl->getLinkTarget($this, "showHeaderTitle"));			
 		$ilTabs->addSubTabTarget("contact_data", $ilCtrl->getLinkTarget($this, "showContactInformation"));
 		$ilTabs->addSubTabTarget("adm_imprint", $ilCtrl->getLinkTargetByClass("ilimprintgui", "preview"));
-		$ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));
-		$ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
-		$ilTabs->addSubTabTarget("proxy", $ilCtrl->getLinkTarget($this, "showProxy"));
-		
+	
 		$ilTabs->setSubTabActive($a_activate);
 		$ilTabs->setTabActive("general_settings");
 	}
@@ -1821,60 +1838,60 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// public section
 		$cb = new ilCheckboxInputGUI($this->lng->txt("pub_section"), "pub_section");
 		$cb->setInfo($lng->txt("pub_section_info"));
-			if ($ilSetting->get("pub_section"))
+		if ($ilSetting->get("pub_section"))
+		{
+			$cb->setChecked(true);
+		}				
+		$this->form->addItem($cb);
+				
+			// Enable Global Profiles
+			$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_user_publish'), 'enable_global_profiles');
+			$cb_prop->setInfo($lng->txt('pd_enable_user_publish_info'));
+			$cb_prop->setChecked($ilSetting->get('enable_global_profiles'));
+			$cb->addSubItem($cb_prop);
+
+			// activate captcha for anonymous wiki/forum editing
+			include_once("./Services/Captcha/classes/class.ilCaptchaUtil.php");
+			$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_wiki_forum'),'activate_captcha_anonym');
+			$cap->setValue(1);
+			if (ilCaptchaUtil::checkFreetype())
 			{
-				$cb->setChecked(true);
-			}
-			// search engine
-			include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
-			$robot_settings = ilRobotSettings::_getInstance();
-			$cb2 = new ilCheckboxInputGUI($this->lng->txt("search_engine"), "open_google");
-			$cb2->setInfo($this->lng->txt("enable_search_engine"));
-			$cb->addSubItem($cb2);
-			if(!$robot_settings->checkModRewrite())
-			{
-				$cb2->setAlert($lng->txt("mod_rewrite_disabled"));
-				$cb2->setChecked(false);
-				$cb2->setDisabled(true);
-			}
-			elseif(!$robot_settings->checkRewrite())
-			{
-				$cb2->setAlert($lng->txt("allow_override_alert"));
-				$cb2->setChecked(false);
-				$cb2->setDisabled(true);
+				$cap->setChecked($ilSetting->get('activate_captcha_anonym'));
 			}
 			else
 			{
-				if ($ilSetting->get("open_google"))
-				{
-					$cb2->setChecked(true);
-				}
+				$cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
 			}
-			
-		// Enable Global Profiles
-		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_user_publish'), 'enable_global_profiles');
-		$cb_prop->setInfo($lng->txt('pd_enable_user_publish_info'));
-		$cb_prop->setChecked($ilSetting->get('enable_global_profiles'));
-		$cb->addSubItem($cb_prop);
+			$cb->addSubItem($cap);		
 		
-		
-		// activate captcha for anonymous wiki/forum editing
-		include_once("./Services/Captcha/classes/class.ilCaptchaUtil.php");
-		$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_wiki_forum'),'activate_captcha_anonym');
-		$cap->setValue(1);
-		if (ilCaptchaUtil::checkFreetype())
+		// search engine
+		include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
+		$robot_settings = ilRobotSettings::_getInstance();
+		$cb2 = new ilCheckboxInputGUI($this->lng->txt("search_engine"), "open_google");
+		$cb2->setInfo($this->lng->txt("enable_search_engine"));
+		$this->form->addItem($cb2);
+		if(!$robot_settings->checkModRewrite())
 		{
-			$cap->setChecked($ilSetting->get('activate_captcha_anonym'));
+			$cb2->setAlert($lng->txt("mod_rewrite_disabled"));
+			$cb2->setChecked(false);
+			$cb2->setDisabled(true);
+		}
+		elseif(!$robot_settings->checkRewrite())
+		{
+			$cb2->setAlert($lng->txt("allow_override_alert"));
+			$cb2->setChecked(false);
+			$cb2->setDisabled(true);
 		}
 		else
 		{
-			$cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
+			if ($ilSetting->get("open_google"))
+			{
+				$cb2->setChecked(true);
+			}
 		}
-		$cb->addSubItem($cap);
-		
-		
-		$this->form->addItem($cb);
-		
+					
+		/* => REPOSITORY
+		 
 		// default repository view
 		$options = array(
 			"flat" => $lng->txt("flatview"),
@@ -1917,7 +1934,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$radg->addOption($op2);
 
-		$this->form->addItem($radg);
+		$this->form->addItem($radg);	
 		
 		$sdesc = new ilCheckboxInputGUI($lng->txt("adm_rep_shorten_description"), "rep_shorten_description");
 		$sdesc->setInfo($lng->txt("adm_rep_shorten_description_info"));
@@ -1934,7 +1951,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$cb->setInfo($lng->txt("adm_synchronize_rep_tree_info"));
 		$cb->setChecked($ilSetting->get("rep_tree_synchronize"));
 		$this->form->addItem($cb);
-
+		 
+		*/
+		
 		// repository access check
 /*		$options = array(
 			0 => "0",
@@ -1950,11 +1969,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->lng->txt("adm_repository_cache_time_info2"));
 		$this->form->addItem($si);*/
 		
+		/* => REPOSITORY
 		// load action commands asynchronously 
 		$cb = new ilCheckboxInputGUI($this->lng->txt("adm_item_cmd_asynch"), "item_cmd_asynch");
 		$cb->setInfo($this->lng->txt("adm_item_cmd_asynch_info"));
 		$cb->setChecked($ilSetting->get("item_cmd_asynch"));
 		$this->form->addItem($cb);
+		*/
 		
 		// locale
 		$ti = new ilTextInputGUI($this->lng->txt("adm_locale"), "locale");
@@ -1964,7 +1985,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setValue($ilSetting->get("locale"));
 		$this->form->addItem($ti);
 		
-		
+		/* => REPOSITORY
 		// trash
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_trash"), "enable_trash");
 		$cb->setInfo($this->lng->txt("enable_trash_info"));
@@ -1973,7 +1994,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$cb->setChecked(true);
 		}
 		$this->form->addItem($cb);
+		*/
 		
+		/* => USER ACCOUNTS 
 		// BEGIN SESSION SETTINGS
 		// create session handling radio group
 		$ssettings = new ilRadioGroupInputGUI($this->lng->txt('sess_mode'), 'session_handling_type');
@@ -2082,7 +2105,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->form->addItem($ti);
         }
 		// END SESSION SETTINGS
-
+		*/ 
+		
+		/* => AUTHENTICATION 
 		// password assistance
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_password_assistance"), "password_assistance");
 		if ($ilSetting->get("password_assistance"))
@@ -2091,7 +2116,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 		$cb->setInfo($this->lng->txt("password_assistance_info"));
 		$this->form->addItem($cb);
+		*/
 		
+		/* => USER ACCOUNTS 
 		// password generation
 		$cb = new ilCheckboxInputGUI($this->lng->txt("passwd_generation"), "passwd_auto_generate");
 		if ($ilSetting->get("passwd_auto_generate"))
@@ -2100,7 +2127,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 		$cb->setInfo($this->lng->txt("passwd_generation_info"));
 		$this->form->addItem($cb);
+		*/
 		
+		/* => WEB LINKS
 		// dynamic web links
 		$cb = new ilCheckboxInputGUI($this->lng->txt("links_dynamic"), "links_dynamic");
 		$cb->setInfo($this->lng->txt("links_dynamic_info"));
@@ -2109,20 +2138,24 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$cb->setChecked(true);
 		}
 		$this->form->addItem($cb);
+		*/
 		
+		/* => COURSE/GROUP
 		// Learners View
 		$pl = new ilCheckboxInputGUI($this->lng->txt('preview_learner'),'preview_learner');
 		$pl->setValue(1);
 		$pl->setInfo($this->lng->txt('preview_learner_info'));
 		$pl->setChecked($ilSetting->get('preview_learner'));
 		$this->form->addItem($pl);
-
+		*/
+		
+		/* => REPOSITORY
 		// notes/comments/tagging
 		$pl = new ilCheckboxInputGUI($this->lng->txt('adm_show_comments_tagging_in_lists'),'comments_tagging_in_lists');
 		$pl->setValue(1);
 		$pl->setChecked($ilSetting->get('comments_tagging_in_lists'));
 		$this->form->addItem($pl);
-		
+		*/
 		
 		// starting point
 		include_once "Services/User/classes/class.ilUserUtil.php";
@@ -2191,19 +2224,31 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$ilSetting->set("short_inst_name", $_POST["short_inst_name"]);
 			$ilSetting->set("pub_section", $_POST["pub_section"]);
-			$ilSetting->set("open_google", $_POST["open_google"]);
-			$ilSetting->set("default_repository_view", $_POST["default_rep_view"]);
-			$ilSetting->set("links_dynamic", $_POST["links_dynamic"]);
-			$ilSetting->set("enable_trash", $_POST["enable_trash"]);			
-			$ilSetting->set("password_assistance", $_POST["password_assistance"]);
-			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);
+			
+				$global_profiles = ($_POST["pub_section"])
+					? (int)$_POST['enable_global_profiles']
+					: 0;				
+				$ilSetting->set('enable_global_profiles', $global_profiles);
+				$ilSetting->set('activate_captcha_anonym',(int) $_POST['activate_captcha_anonym']);
+								
+			$ilSetting->set("open_google", $_POST["open_google"]);			
 			$ilSetting->set("locale", $_POST["locale"]);
-			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
-			$ilSetting->set('comments_tagging_in_lists',(int) $_POST['comments_tagging_in_lists']);
-			$ilSetting->set('activate_captcha_anonym',(int) $_POST['activate_captcha_anonym']);
+						
+			include_once "Services/User/classes/class.ilUserUtil.php";
+			ilUserUtil::setStartingPoint($this->form->getInput('usr_start'), $this->form->getInput('usr_start_ref_id'));
+			ilUserUtil::togglePersonalStartingPoint($this->form->getInput('usr_start_pers'));
+
+			/* => WEB LINKS
+			$ilSetting->set("links_dynamic", $_POST["links_dynamic"]);
+			*/
+			
+			/* => REPOSITORY 
+			$ilSetting->set("default_repository_view", $_POST["default_rep_view"]);
+			$ilSetting->set("enable_trash", $_POST["enable_trash"]);			
+     		$ilSetting->set('comments_tagging_in_lists',(int) $_POST['comments_tagging_in_lists']);			
 //			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
-			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);
+			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);			 
 			if ($_POST["tree_pres"] == "")
 			{
 				$_POST["rep_tree_limit_grp_crs"] = "";
@@ -2216,10 +2261,20 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 				$_POST["rep_tree_limit_grp_crs"] = false;
 			}
-
 			$ilSetting->set("rep_tree_limit_grp_crs", $_POST["rep_tree_limit_grp_crs"]);
-			$ilSetting->set("rep_tree_synchronize", $_POST["rep_tree_synchronize"]);
+			$ilSetting->set("rep_tree_synchronize", $_POST["rep_tree_synchronize"]);	
+			 
+			$ilSetting->set("rep_shorten_description", $this->form->getInput('rep_shorten_description'));
+			$ilSetting->set("rep_shorten_description_length", (int)$this->form->getInput('rep_shorten_description_length'));					
+			*/
 			
+			/* => AUTHENTICATION
+			$ilSetting->set("password_assistance", $_POST["password_assistance"]);			 
+			*/
+			
+			/* => USER ACCOUNTS
+			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);	
+			 
 			// BEGIN SESSION SETTINGS
 			$ilSetting->set('session_handling_type',
 				(int)$this->form->getInput('session_handling_type'));			
@@ -2251,21 +2306,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 						(int)$this->form->getInput('session_max_idle_after_first_request'));
         		}	
 			}		
-			// END SESSION SETTINGS
+			// END SESSION SETTINGS		
+			*/
 			
-			$global_profiles = ($_POST["pub_section"])
-				? (int)$_POST['enable_global_profiles']
-				: 0;
-				
-			$ilSetting->set('enable_global_profiles', $global_profiles);
+			/* => COURSE/GROUP
+			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
+			*/
 			
-			$ilSetting->set("rep_shorten_description", $this->form->getInput('rep_shorten_description'));
-			$ilSetting->set("rep_shorten_description_length", (int)$this->form->getInput('rep_shorten_description_length'));
-			
-			include_once "Services/User/classes/class.ilUserUtil.php";
-			ilUserUtil::setStartingPoint($this->form->getInput('usr_start'), $this->form->getInput('usr_start_ref_id'));
-			ilUserUtil::togglePersonalStartingPoint($this->form->getInput('usr_start_pers'));
-
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");
 		}
@@ -2425,6 +2472,20 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	//
 	
 	/**
+	* Set sub tabs for cron jobs
+	*/
+	function setCronJobsSubTabs($a_activate)
+	{
+		global $ilTabs, $ilCtrl;
+				
+		$ilTabs->addSubTabTarget("cron_jobs", $ilCtrl->getLinkTarget($this, "showCronJobs"));
+		$ilTabs->addSubTabTarget("cron_jobs2",  $ilCtrl->getLinkTargetByClass("ilCronManagerGUI"));				
+		
+		$ilTabs->setSubTabActive($a_activate);
+		$ilTabs->setTabActive("cron_jobs");
+	}
+	
+	/**
 	* Show cron jobs settings
 	*/
 	function showCronJobsObject()
@@ -2432,7 +2493,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		global $tpl;
 		
 		$this->initCronJobsForm();
-		$this->setGeneralSettingsSubTabs("cron_jobs");
+		$this->setCronJobsSubTabs("cron_jobs");
 		$tpl->setContent($this->form->getHTML());
 	}
 	
@@ -3030,7 +3091,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		global $tpl;
 		
 		$this->initWebServicesForm();
-		$this->setGeneralSettingsSubTabs("webservices");
+		$this->setServerInfoSubTabs("webservices");
 		$tpl->setContent($this->form->getHTML());
 	}
 	
@@ -3133,7 +3194,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable('ACTION_BUTTONS',$toolbar->getHTML());
 		
 		$this->initJavaServerForm();
-		$this->setGeneralSettingsSubTabs("java_server");
+		$this->setServerInfoSubTabs("java_server");
 		$tpl->setVariable('SETTINGS_TABLE',$this->form->getHTML());
 	}
 	
@@ -3475,7 +3536,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $lng, $ilCtrl;
 		
-		$this->setGeneralSettingsSubTabs('proxy');
+		$this->setServerInfoSubTabs('proxy');
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$this->form = new ilPropertyFormGUI();
@@ -3505,6 +3566,103 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	
 		// save and cancel commands
 		$this->form->addCommandButton('saveProxy', $lng->txt('save'));
+	}
+	
+	public function showHTTPSObject()
+	{
+		global $tpl, $ilAccess;
+		
+		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
+		
+		$form = $this->initHTTPSForm();		
+		$tpl->setContent($form->getHTML());
+	}
+	
+	public function saveHTTPSObject()
+	{
+		global $tpl, $lng, $ilCtrl;
+		
+		$form = $this->initHTTPSForm();
+		if($form->checkInput())
+		{
+			$security = ilSecuritySettings::_getInstance();
+			
+			// auto https detection settings
+			$security->setAutomaticHTTPSEnabled((int) $_POST["auto_https_detect_enabled"]);
+			$security->setAutomaticHTTPSHeaderName(ilUtil::stripSlashes($_POST["auto_https_detect_header_name"]));
+			$security->setAutomaticHTTPSHeaderValue(ilUtil::stripSlashes($_POST["auto_https_detect_header_value"]));
+
+			// ilias https handling settings
+			$security->setHTTPSEnabled($_POST["https_enabled"]);
+			
+			$code = $security->validate();
+
+			// if error code != 0, display error and do not save
+			if ($code != 0)
+			{
+				$msg = $this->getErrorMessage($code);
+				ilUtil::sendFailure($msg);
+			} 
+			else
+			{
+				$security->save();
+				
+				ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
+				$ilCtrl->redirect($this, "showHTTPS");
+			}			
+		}
+		
+		$form->setValuesByPost();		
+		$tpl->setContent($form->getHTML());
+	}
+	
+	private function initHTTPSForm()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->setServerInfoSubTabs('https');
+		
+		$lng->loadLanguageModule('ps');
+		
+		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
+		
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($lng->txt("https"));
+		$form->setFormAction($ilCtrl->getFormAction($this, 'saveHTTPS'));
+		
+		$check = new ilCheckboxInputGUI($lng->txt('ps_auto_https'),'auto_https_detect_enabled');
+		$check->setOptionTitle($lng->txt('ps_auto_https_description'));
+		$check->setChecked($security->isAutomaticHTTPSEnabled() ? 1 : 0);
+		$check->setValue(1);
+
+			$text = new ilTextInputGUI($lng->txt('ps_auto_https_header_name'),'auto_https_detect_header_name');
+			$text->setValue($security->getAutomaticHTTPSHeaderName());
+			$text->setSize(24);
+			$text->setMaxLength(64);
+		$check->addSubItem($text);
+
+			$text = new ilTextInputGUI($lng->txt('ps_auto_https_header_value'),'auto_https_detect_header_value');
+			$text->setValue($security->getAutomaticHTTPSHeaderValue());
+			$text->setSize(24);
+			$text->setMaxLength(64);
+		$check->addSubItem($text);
+
+		$form->addItem($check);
+
+		$check2 = new ilCheckboxInputGUI($lng->txt('activate_https'),'https_enabled');
+		$check2->setChecked($security->isHTTPSEnabled() ? 1 : 0);
+		$check2->setValue(1);
+		$form->addItem($check2);
+		
+		// save and cancel commands
+		$form->addCommandButton('saveHTTPS', $lng->txt('save'));
+		
+		return $form;
 	}
 	
 	/**

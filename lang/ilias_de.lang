@@ -4347,7 +4347,7 @@ rbac#:#ps_export_member_data#:#Export von Mitgliederdaten in Gruppen und Kursen 
 rbac#:#ps_read#:#Lesezugriff auf Datenschutz- und Sicherheitseinstellungen
 rbac#:#ps_visible#:#Datenschutz- und Sicherheitseinstellungen sind sichtbar
 rbac#:#ps_write#:#Bearbeiten der Datenschutz- und Sicherheitseinstellungen erlauben
-common#:#pub_section#:#Öffentlicher Bereich
+common#:#pub_section#:#Anonymer Zugriff
 common#:#pub_section_info#:#Die Option ermöglicht es, Teile des Systems öffentlich und ohne Authentifizierung zugänglich zu machen. Die Berechtigungen der Rolle "Anonymous" bestimmen, wie Ressourcen öffentlich zugänglich sind.
 common#:#public#:#öffentlich
 common#:#public_notes#:#Öffentliche Notizen
@@ -4563,7 +4563,7 @@ common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2
 common#:#scorm_new#:#Neues SCORM-Lernmodul anlegen
 common#:#search#:#Suche
 common#:#search_active#:#Aktive Benutzer
-common#:#search_engine#:#Suchmaschinen
+common#:#search_engine#:#Lesbare .html URLs
 common#:#search_for#:#Suchen
 common#:#search_in#:#Suchen in
 common#:#search_inactive#:#Inaktive Benutzer
@@ -4612,7 +4612,7 @@ common#:#sent#:#Gesendet
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
 common#:#server#:#Server
-common#:#server_data#:#Serverdaten
+common#:#server_data#:#Server-Info
 common#:#server_disabled#:#Der Chat ist deaktiviert
 common#:#server_software#:#Server-Software
 common#:#sess#:#Sitzung
@@ -5168,7 +5168,7 @@ rbac#:#webr_read#:#Weblinks aufrufen
 common#:#webr_sure_delete_items#:#Sind Sie sicher, dass Sie die folgenden Weblinks löschen möchten?
 rbac#:#webr_visible#:#Weblinks sind sichtbar
 rbac#:#webr_write#:#Einstellungen der Weblinks bearbeiten
-common#:#webservices#:#Web-Services
+common#:#webservices#:#SOAP
 common#:#week#:#Woche
 common#:#weekly#:#Wöchentlich
 common#:#weeks#:#Wochen
@@ -13514,3 +13514,4 @@ survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da 
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Im Offline-Modus können Lernmodule nur mit dem SCORM-Offline-Player bearbeitet werden. Die Lernstandsdaten werden von den Lernenden übertragen durch Klick auf 'Offline-Modus beenden' in ILIAS.
 wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt, so wird eine neue (leere) Seite erstellt.
+administration#:#https#:#HTTPS

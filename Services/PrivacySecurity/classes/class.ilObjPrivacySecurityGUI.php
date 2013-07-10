@@ -243,6 +243,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('ps_security_protection'));
 
+		/* <= GENERAL
 		// Form checkbox
 		$check = new ilCheckboxInputGUI($this->lng->txt('ps_auto_https'),'auto_https_detect_enabled');
 		$check->setOptionTitle($this->lng->txt('ps_auto_https_description'));
@@ -262,12 +263,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$check->addSubItem($text);
 
 		$form->addItem($check);
-
+		
 		$check2 = new ilCheckboxInputGUI($this->lng->txt('activate_https'),'https_enabled');
 		$check2->setChecked($security->isHTTPSEnabled() ? 1 : 0);
 		$check2->setValue(1);
 		$form->addItem($check2);
-
+		*/
+		
 		$radio_group = new ilRadioGroupInputGUI($this->lng->txt('ps_account_security_mode'), 'account_security_mode' );
 		$radio_group->setValue($security->getAccountSecurityMode());
 
@@ -428,16 +430,18 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
 		$security = ilSecuritySettings::_getInstance();
 
+		/* <= GENERAL
 		// auto https detection settings
         $security->setAutomaticHTTPSEnabled((int) $_POST["auto_https_detect_enabled"]);
         $security->setAutomaticHTTPSHeaderName(ilUtil::stripSlashes($_POST["auto_https_detect_header_name"]));
         $security->setAutomaticHTTPSHeaderValue(ilUtil::stripSlashes($_POST["auto_https_detect_header_value"]));
         
-         // prevention of simultaneous logins with the same account
-        $security->setPreventionOfSimultaneousLogins((bool)$_POST['ps_prevent_simultaneous_logins']);
-
         // ilias https handling settings
         $security->setHTTPSEnabled($_POST["https_enabled"]);
+		*/
+		
+         // prevention of simultaneous logins with the same account
+        $security->setPreventionOfSimultaneousLogins((bool)$_POST['ps_prevent_simultaneous_logins']);
 
 		// account security settings
 		$security->setAccountSecurityMode((int) $_POST["account_security_mode"]);
