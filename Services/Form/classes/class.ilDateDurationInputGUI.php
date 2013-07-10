@@ -14,7 +14,7 @@ include_once 'Services/Table/interfaces/interface.ilTableFilterItem.php';
 class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
 	protected $start = null;
-	protected $start_year = null;
+	protected $startyear = null;
 	
 	protected $start_text = '';
 	protected $end_text = '';
@@ -550,7 +550,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 				ilUtil::makeDateSelect(
 					$this->getPostVar()."[start][date]",
 					$start_info['year'], $start_info['mon'], $start_info['mday'],
-					$this->start_year,
+					$this->getStartYear(),
 					true,
 					array(
 						'disabled' => $this->getDisabled(),
@@ -567,7 +567,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 				ilUtil::makeDateSelect(
 					$this->getPostVar()."[end][date]",
 					$end_info['year'], $end_info['mon'], $end_info['mday'],
-					$this->start_year,
+					$this->getStartYear(),
 					true,
 					array(
 						'disabled' => $this->getDisabled()
