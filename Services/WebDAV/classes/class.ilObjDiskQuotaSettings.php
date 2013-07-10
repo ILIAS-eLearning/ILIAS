@@ -71,6 +71,31 @@ class ilObjDiskQuotaSettings extends ilObject
 		$this->type = "facs";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
+	
+	/**
+	 * Get settings instance
+	 * 
+	 * @return ilObjDiskQuotaSettings
+	 */
+	public static function getInstance()
+	{
+		global $ilDB;
+		
+		$query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
+			"WHERE tree.parent = ".$ilDB->quote(SYSTEM_FOLDER_ID,'integer')." ".
+			"AND object_data.type = ".$ilDB->quote('facs','text').
+			"AND object_reference.ref_id = tree.child ".
+			"AND object_reference.obj_id = object_data.obj_id";
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$ref_id = $row["ref_id"];		
+		if($ref_id)
+		{
+			$obj = new self($ref_id);
+			$obj->read();
+			return $obj;
+		}
+	}
 
 	/**
 	* Sets the diskQuotaEnabled property.

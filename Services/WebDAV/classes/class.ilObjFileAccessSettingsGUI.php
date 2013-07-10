@@ -401,7 +401,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("settings"));
 
-
+		/* => REPOSITORY
 		// Enable disk quota
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("repository_disk_quota"), "enable_disk_quota");
 		$cb_prop->setValue('1');
@@ -428,7 +428,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$summary_rcpt->setValue($this->disk_quota_obj->getSummaryRecipients());
 		$summary_rcpt->setInfo($lng->txt('disk_quota_summary_rctp_desc'));
 		$cb_prop_summary->addSubItem($summary_rcpt);
-		
+		*/
 		
 		// Enable disk quota
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("personal_workspace_disk_quota"), "enable_personal_workspace_disk_quota");
@@ -457,10 +457,12 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
+		/* => REPOSITORY
 		$this->disk_quota_obj->setDiskQuotaEnabled($_POST['enable_disk_quota'] == '1');
 		$this->disk_quota_obj->setDiskQuotaReminderMailEnabled($_POST['enable_disk_quota_reminder_mail'] == '1');
 		$this->disk_quota_obj->isDiskQuotaSummaryMailEnabled($_POST['enable_disk_quota_summary_mail'] == '1');
-		$this->disk_quota_obj->setSummaryRecipients(ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
+		$this->disk_quota_obj->setSummaryRecipients(ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));		 
+		*/
 		$this->disk_quota_obj->setPersonalWorkspaceDiskQuotaEnabled($_POST['enable_personal_workspace_disk_quota'] == '1');
 		$this->disk_quota_obj->update();
 

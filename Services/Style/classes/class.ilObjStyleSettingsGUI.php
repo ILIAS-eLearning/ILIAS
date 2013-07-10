@@ -81,7 +81,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			default:
 				if ($cmd == "" || $cmd == "view")
 				{
-					$cmd = "editBasicSettings";
+					$cmd = "editSystemStyles";
 				}
 				$cmd .= "Object";
 				$this->$cmd();
@@ -107,100 +107,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"","",false,false)));
-	}
-	
-	/**
-	* edit basic style settings
-	*/
-	function editBasicSettingsObject()
-	{
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		$this->tpl->addBlockfile("ADM_CONTENT", "style_basic_settings", "tpl.stys_basic_settings.html", "Services/Style");
-		//$this->tpl->setCurrentBlock("style_settings");
-
-		$settings = $this->ilias->getAllSettings();
-		
-		if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->tpl->setCurrentBlock("save_but");
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setVariable("FORMACTION_STYLESETTINGS", $this->ctrl->getFormAction($this));
-
-		$this->tpl->setVariable("TXT_TREE_FRAME", $this->lng->txt("tree_frame"));
-		$this->tpl->setVariable("TXT_TREE_FRAME_INFO", $this->lng->txt("tree_frame_info"));
-		$this->tpl->setVariable("TXT_FRAME_LEFT", $this->lng->txt("tree_left"));
-		$this->tpl->setVariable("TXT_FRAME_RIGHT", $this->lng->txt("tree_right"));
-
-		$this->tpl->setVariable("TXT_STYLE_SETTINGS", $this->lng->txt("basic_settings"));
-		$this->tpl->setVariable("TXT_ICONS_IN_TYPED_LISTS", $this->lng->txt("icons_in_typed_lists"));
-		$this->tpl->setVariable("TXT_ICONS_IN_HEADER", $this->lng->txt("icons_in_header"));
-		$this->tpl->setVariable("TXT_ICONS_IN_ITEM_ROWS", $this->lng->txt("icons_in_item_rows"));
-		$this->tpl->setVariable("TXT_ICONS_IN_TYPED_LISTS_INFO", $this->lng->txt("icons_in_typed_lists_info"));
-		
-		$this->tpl->setVariable("TXT_ENABLE_CUSTOM_ICONS", $this->lng->txt("enable_custom_icons"));
-		$this->tpl->setVariable("TXT_ENABLE_CUSTOM_ICONS_INFO", $this->lng->txt("enable_custom_icons_info"));
-		$this->tpl->setVariable("TXT_CUSTOM_ICON_SIZE_BIG", $this->lng->txt("custom_icon_size_big"));
-		$this->tpl->setVariable("TXT_CUSTOM_ICON_SIZE_SMALL", $this->lng->txt("custom_icon_size_standard"));
-		$this->tpl->setVariable("TXT_CUSTOM_ICON_SIZE_TINY", $this->lng->txt("custom_icon_size_tiny"));
-		$this->tpl->setVariable("TXT_WIDTH_X_HEIGHT", $this->lng->txt("width_x_height"));
-		
-		// set current values
-		if ($settings["tree_frame"] == "right")
-		{
-			$this->tpl->setVariable("SEL_FRAME_RIGHT","selected=\"selected\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("SEL_FRAME_LEFT","selected=\"selected\"");
-		}
-		
-		if ($settings["custom_icons"])
-		{
-			$this->tpl->setVariable("CHK_CUSTOM_ICONS","checked=\"checked\"");
-		}
-/*		if ($settings["icon_position_in_lists"] == "item_rows")
-		{
-			$this->tpl->setVariable("SEL_ICON_POS_ITEM_ROWS","selected=\"selected\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("SEL_ICON_POS_HEADER","selected=\"selected\"");
-		}*/
-		$this->tpl->setVariable("CUST_ICON_BIG_WIDTH", $settings["custom_icon_big_width"]);
-		$this->tpl->setVariable("CUST_ICON_BIG_HEIGHT", $settings["custom_icon_big_height"]);
-		$this->tpl->setVariable("CUST_ICON_SMALL_WIDTH", $settings["custom_icon_small_width"]);
-		$this->tpl->setVariable("CUST_ICON_SMALL_HEIGHT", $settings["custom_icon_small_height"]);
-		$this->tpl->setVariable("CUST_ICON_TINY_WIDTH", $settings["custom_icon_tiny_width"]);
-		$this->tpl->setVariable("CUST_ICON_TINY_HEIGHT", $settings["custom_icon_tiny_height"]);
-
-//		$this->tpl->parseCurrentBlock();
-	}
-	
-	/**
-	* save basic style settings
-	*/
-	function saveBasicStyleSettingsObject()
-	{
-		$this->ilias->setSetting("tree_frame", $_POST["tree_frame"]);
-//		$this->ilias->setSetting("icon_position_in_lists", $_POST["icon_position_in_lists"]);
-		$this->ilias->setSetting("custom_icons", $_POST["custom_icons"]);
-		$this->ilias->setSetting("custom_icon_big_width", (int) $_POST["custom_icon_big_width"]);
-		$this->ilias->setSetting("custom_icon_big_height", (int) $_POST["custom_icon_big_height"]);
-		$this->ilias->setSetting("custom_icon_small_width", (int) $_POST["custom_icon_small_width"]);
-		$this->ilias->setSetting("custom_icon_small_height", (int) $_POST["custom_icon_small_height"]);
-		$this->ilias->setSetting("custom_icon_tiny_width", (int) $_POST["custom_icon_tiny_width"]);
-		$this->ilias->setSetting("custom_icon_tiny_height", (int) $_POST["custom_icon_tiny_height"]);
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"editBasicSettings","",false,false));
 	}
 	
 	/**
@@ -1000,12 +906,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 			
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()) && !$this->peditor_active)
-		{
-			$tabs_gui->addTarget("basic_settings",
-				$this->ctrl->getLinkTarget($this, "editBasicSettings"), array("editBasicSettings","", "view"), "", "");
-
+		{			
 			$tabs_gui->addTarget("system_styles",
-				$this->ctrl->getLinkTarget($this, "editSystemStyles"), "editSystemStyles", "", "");
+				$this->ctrl->getLinkTarget($this, "editSystemStyles"), array("editSystemStyles", "", "view"), "", "");
 				
 			$tabs_gui->addTarget("content_styles",
 				$this->ctrl->getLinkTarget($this, "editContentStyles"), "editContentStyles", "", "");
