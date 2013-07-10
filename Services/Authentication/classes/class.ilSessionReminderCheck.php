@@ -85,8 +85,8 @@ class ilSessionReminderCheck
 		$ilUser = ilObjectFactory::getInstanceByObjId($data['user_id']);
 
 		include_once './Services/Authentication/classes/class.ilSessionReminder.php';
-		$remind_time = $expiretime - max(ilSessionReminder::MIN_LEAD_TIME, (float)$ilUser->getPref('session_reminder_lead_time'));
-		if($remind_time * 60 > time())
+		$remind_time = $expiretime - max(ilSessionReminder::MIN_LEAD_TIME, (float)$ilUser->getPref('session_reminder_lead_time')) * 60;
+		if($remind_time > time())
 		{
 			// session will expire in <lead_time> minutes
 			$response['message'] = 'Lead time not reached, yet. Current time: ' . date('Y-m-d H:i:s', time()) . ', Reminder time: ' . date('Y-m-d H:i:s', $remind_time);
