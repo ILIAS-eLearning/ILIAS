@@ -1888,94 +1888,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 				$cb2->setChecked(true);
 			}
-		}
-					
-		/* => REPOSITORY
-		 
-		// default repository view
-		$options = array(
-			"flat" => $lng->txt("flatview"),
-			"tree" => $lng->txt("treeview")
-			);
-		$si = new ilSelectInputGUI($this->lng->txt("def_repository_view"), "default_rep_view");
-		$si->setOptions($options);
-		$si->setInfo($this->lng->txt(""));
-		if ($ilSetting->get("default_repository_view") == "tree")
-		{
-			$si->setValue("tree");
-		}
-		else
-		{
-			$si->setValue("flat");
-		}
-		$this->form->addItem($si);
-
-		//
-		$options = array(
-			"" => $lng->txt("adm_rep_tree_only_container"),
-			"tree" => $lng->txt("adm_all_resource_types")
-			);
-
-		// repository tree
-		$radg = new ilRadioGroupInputGUI($lng->txt("adm_rep_tree_presentation"), "tree_pres");
-		$radg->setValue($ilSetting->get("repository_tree_pres"));
-		$op1 = new ilRadioOption($lng->txt("adm_rep_tree_only_cntr"), "",
-			$lng->txt("adm_rep_tree_only_cntr_info"));
-		$radg->addOption($op1);
-
-		$op2 = new ilRadioOption($lng->txt("adm_rep_tree_all_types"), "all_types",
-			$lng->txt("adm_rep_tree_all_types_info"));
-
-			// limit tree in courses and groups
-			$cb = new ilCheckboxInputGUI($lng->txt("adm_rep_tree_limit_grp_crs"), "rep_tree_limit_grp_crs");
-			$cb->setChecked($ilSetting->get("rep_tree_limit_grp_crs"));
-			$cb->setInfo($lng->txt("adm_rep_tree_limit_grp_crs_info"));
-			$op2->addSubItem($cb);
-
-		$radg->addOption($op2);
-
-		$this->form->addItem($radg);	
-		
-		$sdesc = new ilCheckboxInputGUI($lng->txt("adm_rep_shorten_description"), "rep_shorten_description");
-		$sdesc->setInfo($lng->txt("adm_rep_shorten_description_info"));
-		$sdesc->setChecked($ilSetting->get("rep_shorten_description"));
-		$this->form->addItem($sdesc);
-		
-		$sdesclen = new ilTextInputGUI($lng->txt("adm_rep_shorten_description_length"), "rep_shorten_description_length");
-		$sdesclen->setValue($ilSetting->get("rep_shorten_description_length"));
-		$sdesclen->setSize(3);
-		$sdesc->addSubItem($sdesclen);
-
-		// synchronize repository tree with main view
-		$cb = new ilCheckboxInputGUI($lng->txt("adm_synchronize_rep_tree"), "rep_tree_synchronize");
-		$cb->setInfo($lng->txt("adm_synchronize_rep_tree_info"));
-		$cb->setChecked($ilSetting->get("rep_tree_synchronize"));
-		$this->form->addItem($cb);
-		 
-		*/
-		
-		// repository access check
-/*		$options = array(
-			0 => "0",
-			10 => "10",
-			30 => "30",
-			60 => "60",
-			120 => "120"
-			);
-		$si = new ilSelectInputGUI($this->lng->txt("adm_repository_cache_time"), "rep_cache");
-		$si->setOptions($options);
-		$si->setValue($ilSetting->get("rep_cache"));
-		$si->setInfo($this->lng->txt("adm_repository_cache_time_info")." ".
-			$this->lng->txt("adm_repository_cache_time_info2"));
-		$this->form->addItem($si);*/
-		
-		/* => REPOSITORY
-		// load action commands asynchronously 
-		$cb = new ilCheckboxInputGUI($this->lng->txt("adm_item_cmd_asynch"), "item_cmd_asynch");
-		$cb->setInfo($this->lng->txt("adm_item_cmd_asynch_info"));
-		$cb->setChecked($ilSetting->get("item_cmd_asynch"));
-		$this->form->addItem($cb);
-		*/
+		}			
 		
 		// locale
 		$ti = new ilTextInputGUI($this->lng->txt("adm_locale"), "locale");
@@ -1984,17 +1897,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setInfo($this->lng->txt("adm_locale_info"));
 		$ti->setValue($ilSetting->get("locale"));
 		$this->form->addItem($ti);
-		
-		/* => REPOSITORY
-		// trash
-		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_trash"), "enable_trash");
-		$cb->setInfo($this->lng->txt("enable_trash_info"));
-		if ($ilSetting->get("enable_trash"))
-		{
-			$cb->setChecked(true);
-		}
-		$this->form->addItem($cb);
-		*/
 		
 		/* => USER ACCOUNTS 
 		// BEGIN SESSION SETTINGS
@@ -2149,14 +2051,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->form->addItem($pl);
 		*/
 		
-		/* => REPOSITORY
-		// notes/comments/tagging
-		$pl = new ilCheckboxInputGUI($this->lng->txt('adm_show_comments_tagging_in_lists'),'comments_tagging_in_lists');
-		$pl->setValue(1);
-		$pl->setChecked($ilSetting->get('comments_tagging_in_lists'));
-		$this->form->addItem($pl);
-		*/
-		
 		// starting point
 		include_once "Services/User/classes/class.ilUserUtil.php";
 		$si = new ilRadioGroupInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
@@ -2241,33 +2135,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			/* => WEB LINKS
 			$ilSetting->set("links_dynamic", $_POST["links_dynamic"]);
 			*/
-			
-			/* => REPOSITORY 
-			$ilSetting->set("default_repository_view", $_POST["default_rep_view"]);
-			$ilSetting->set("enable_trash", $_POST["enable_trash"]);			
-     		$ilSetting->set('comments_tagging_in_lists',(int) $_POST['comments_tagging_in_lists']);			
-//			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
-			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
-			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);			 
-			if ($_POST["tree_pres"] == "")
-			{
-				$_POST["rep_tree_limit_grp_crs"] = "";
-			}
-			if ($_POST["rep_tree_limit_grp_crs"] && !$ilSetting->get("rep_tree_limit_grp_crs"))
-			{
-				$_POST["rep_tree_synchronize"] = true;
-			}
-			else if (!$_POST["rep_tree_synchronize"] && $ilSetting->get("rep_tree_synchronize"))
-			{
-				$_POST["rep_tree_limit_grp_crs"] = false;
-			}
-			$ilSetting->set("rep_tree_limit_grp_crs", $_POST["rep_tree_limit_grp_crs"]);
-			$ilSetting->set("rep_tree_synchronize", $_POST["rep_tree_synchronize"]);	
-			 
-			$ilSetting->set("rep_shorten_description", $this->form->getInput('rep_shorten_description'));
-			$ilSetting->set("rep_shorten_description_length", (int)$this->form->getInput('rep_shorten_description_length'));					
-			*/
-			
+					
 			/* => AUTHENTICATION
 			$ilSetting->set("password_assistance", $_POST["password_assistance"]);			 
 			*/

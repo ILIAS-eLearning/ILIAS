@@ -229,7 +229,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$listgui->setChecked($this->object->hasLearningProgressListGUI());
 		$lp->addSubItem($listgui);
 		
-		
+		/* => REPOSITORY
 		// change event
 		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
 		if($this->object->enabledChangeEventTracking())
@@ -237,6 +237,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$event->setChecked(true);
 		}
 		$activate->addSubItem($event);
+		*/
 		
 		// object statistics
 		$objstat = new ilCheckboxInputGUI($this->lng->txt('trac_object_statistics'), 'object_statistics');
