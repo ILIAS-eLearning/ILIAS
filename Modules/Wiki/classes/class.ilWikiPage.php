@@ -754,13 +754,22 @@ class ilWikiPage extends ilPageObject
 	{
 		global $ilDB;
 		
+		// replace unallowed characters
+		$a_new_name = str_replace(array("<", ">"), '', $a_new_name);
+
+		// replace multiple whitespace characters by one single space
+		$a_new_name = trim(preg_replace('!\s+!', ' ', $a_new_name));
+				
 		$page_title = ilWikiUtil::makeDbTitle($a_new_name);
 		$pg_id = ilWikiPage::_getPageIdForWikiTitle($this->getWikiId(), $page_title);
+		
+		$xml_new_name = str_replace("&", "&amp;", $a_new_name);
 
 		if ($pg_id == 0 || $pg_id == $this->getId())
 		{
 			include_once("./Services/COPage/classes/class.ilInternalLink.php");
 			$sources = ilInternalLink::_getSourcesOfTarget("wpg", $this->getId(), 0);
+
 			foreach ($sources as $s)
 			{
 				if ($s["type"] == "wpg:pg")
@@ -779,32 +788,40 @@ class ilWikiPage extends ilPageObject
 						// see bug http://www.ilias.de/mantis/view.php?id=11227
 						$t1 = ilWikiUtil::makeDbTitle($c["nt"]->mTextform);
 						$t2 = ilWikiUtil::makeDbTitle($this->getTitle());
-						$set = $ilDB->query("SELECT ".$ilDB->quote($t1, "text")." = ".$ilDB->quote($t2, "text")." isequal");
+						
+						// this one replaces C2A0 (&nbsp;) by a usual space
+						// otherwise the comparision will fail, since you
+						// get these characters from tiny if more than one
+						// space is repeated in a string. This may not be
+						// 100% but we do not store $t1 anywhere and only
+						// modify it for the comparison
+						$t1 = preg_replace('/\xC2\xA0/', ' ', $t1);
+						$t2 = preg_replace('/\xC2\xA0/', ' ', $t2);
+						
+						$set = $ilDB->query($q = "SELECT ".$ilDB->quote($t1, "text")." = ".$ilDB->quote($t2, "text")." isequal");
 						$rec = $ilDB->fetchAssoc($set);
+						
 						if ($rec["isequal"])
-//						if (ilWikiUtil::makeDbTitle($c["nt"]->mTextform) ==
-//							ilWikiUtil::makeDbTitle($this->getTitle()))
 						{
 							$new_content = 
 								str_replace("[[".$c["nt"]->mTextform."]]",
-								"[[".$a_new_name."]]", $new_content);
+								"[[".$xml_new_name."]]", $new_content);
 							if ($c["text"] != "")
 							{
 								$new_content = 
 									str_replace("[[".$c["text"]."]]",
-									"[[".$a_new_name."]]", $new_content);
+									"[[".$xml_new_name."]]", $new_content);
 							}
 							$add = ($c["text"] != "")
 								? "|".$c["text"]
 								: "";
 							$new_content = 
 								str_replace("[[".$c["nt"]->mTextform.$add."]]",
-								"[[".$a_new_name.$add."]]", $new_content);
-//echo "<br>[[".$c["nt"]->mTextform.$add."]] -> "."[[".$a_new_name.$add."]]";
+								"[[".$xml_new_name.$add."]]", $new_content);
 						}
 					}
-
 					$wpage->setXmlContent($new_content);
+echo htmlentities($new_content);
 					$wpage->update();
 				}
 			}
@@ -819,6 +836,8 @@ class ilWikiPage extends ilPageObject
 
 			$this->update();
 		}
+		
+		return $a_new_name;
 	}
 
 
