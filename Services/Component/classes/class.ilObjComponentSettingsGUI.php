@@ -257,7 +257,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		// plugins table
 		include_once("./Services/Component/classes/class.ilPluginsTableGUI.php");
 		$plugins_table = new ilPluginsTableGUI($this, "showPluginSlot",
-			$_GET["ctype"], $_GET["cname"], $_GET["slot_id"]);
+			$_GET["ctype"], $_GET["cname"], $_GET["slot_id"], $_GET["plugin_id"]);
 		$tpl->setContent($plugins_table->getHTML());
 
 		// set content and title
