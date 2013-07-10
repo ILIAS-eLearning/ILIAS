@@ -3371,8 +3371,8 @@ common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.
 common#:#obj_chac#:#Chat Server
 common#:#obj_chap#:#Chapter
 common#:#obj_chat#:#Chat
-common#:#obj_cmps_desc#:#General settings for Repository Plugins, Modules and Services
-common#:#obj_cmps#:#Plugins, Modules and Services
+common#:#obj_cmps_desc#:#General settings for Repository Plugins
+common#:#obj_cmps#:#Plugins
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crs_select#:#-- Please select one Course --
 common#:#obj_crs#:#Course
@@ -13516,3 +13516,5 @@ content#:#cont_offline_mode_allow#:#allow offline-mode
 content#:#cont_offline_mode_allow_info#:#In offline mode, learning modules can only be processed with the SCORM offline player. The tracking data are transferred if the learner clicks on 'finish offline mode' in ILIAS.
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
 administration#:#https#:#HTTPS
+common#:#obj_reps#:#Repository
+common#:#obj_reps_desc#:#General settings for the Repository

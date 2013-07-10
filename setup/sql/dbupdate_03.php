@@ -16517,3 +16517,45 @@ if( !$ilDB->tableColumnExists('tst_tests', 'enable_archiving') )
 
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3952>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$sysc_type_id = ilDBUpdateNewObjectType::addNewType('reps', 'Repository Settings');
+
+$obj_id = $ilDB->nextId('object_data');
+$ilDB->manipulate("INSERT INTO object_data ".
+	"(obj_id, type, title, description, owner, create_date, last_update) VALUES (".
+	$ilDB->quote($obj_id, "integer").",".
+	$ilDB->quote("reps", "text").",".
+	$ilDB->quote("Repository Settings", "text").",".
+	$ilDB->quote("Repository Settings", "text").",".
+	$ilDB->quote(-1, "integer").",".
+	$ilDB->now().",".
+	$ilDB->now().
+	")");
+
+$ref_id = $ilDB->nextId('object_reference');
+$ilDB->manipulate("INSERT INTO object_reference ".
+	"(obj_id, ref_id) VALUES (".
+	$ilDB->quote($obj_id, "integer").",".
+	$ilDB->quote($ref_id, "integer").
+	")");
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE
+);
+ilDBUpdateNewObjectType::addRBACOperations($sysc_type_id, $rbac_ops);
+
+?>
+<#3953>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

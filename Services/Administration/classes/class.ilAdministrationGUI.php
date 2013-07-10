@@ -32,7 +32,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjForumAdministrationGUI, ilObjBlogGUI, ilObjPollGUI, ilObjDataCollectionGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRemoteCategoryGUI, ilObjRemoteWikiGUI, ilObjRemoteLearningModuleGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRemoteGlossaryGUI, ilObjRemoteFileGUI, ilObjRemoteGroupGUI, ilObjECSSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCloudGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjCloudGUI, ilObjRepositorySettingsGUI
 * // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
 * // END WebDAV
@@ -524,7 +524,7 @@ class ilAdministrationGUI
 				),
 			3 => array(
 				"objects" =>
-					array("blga", "chta", "facs", "frma", "lrss", "mcts", "mobs", "svyf", "assf", "---",
+					array("reps", "---", "blga", "chta", "facs", "frma", "lrss", "mcts", "mobs", "svyf", "assf", "---",
 						'otpl', 'sysc',"root", "recf")
 				)
 			);

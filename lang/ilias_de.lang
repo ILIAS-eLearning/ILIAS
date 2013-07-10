@@ -3982,8 +3982,8 @@ common#:#obj_chat#:#Chat
 common#:#obj_chta#:#Chat
 common#:#obj_chtr#:#Chatraum
 common#:#obj_chtr_duplicate#:#Chatraum kopieren
-common#:#obj_cmps#:#Plugins, Module und Dienste
-common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins, Module und Dienste.
+common#:#obj_cmps#:#Plugins
+common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins
 common#:#obj_crs#:#Kurs
 common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
@@ -13515,3 +13515,5 @@ content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Im Offline-Modus können Lernmodule nur mit dem SCORM-Offline-Player bearbeitet werden. Die Lernstandsdaten werden von den Lernenden übertragen durch Klick auf 'Offline-Modus beenden' in ILIAS.
 wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt, so wird eine neue (leere) Seite erstellt.
 administration#:#https#:#HTTPS
+common#:#obj_reps#:#Magazin 
+common#:#obj_reps_desc#:#Allgemeine Einstellungen für das Magazin
