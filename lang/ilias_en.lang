@@ -3711,7 +3711,7 @@ rbac#:#ps_read#:#User has read access to Privacy/Security administration
 rbac#:#ps_visible#:#Privacy/Security administration is visible
 rbac#:#ps_write#:#User can edit settings in Privacy/Security administration
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, workspace, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
-common#:#pub_section#:#Public Area
+common#:#pub_section#:#Anonymous Access
 common#:#public_notes#:#Public Notes
 common#:#public_profile_not_visible#:#The profile is not public
 common#:#public_profile#:#Profile
@@ -3921,7 +3921,7 @@ common#:#scorm_create_export_file_scrom2004_4th#:#Create Export File (SCORM 2004
 common#:#scorm_create_export_file_scrom2004#:#Create Export File (SCORM 2004 3rd Edition)
 common#:#scorm_new#:#Create SCORM Learning Module (Authoring Mode)
 common#:#search_active#:#Include active users
-common#:#search_engine#:#Search Engines
+common#:#search_engine#:#Readable .html URLs
 common#:#search_for#:#Search For
 common#:#search_in#:#Search in
 common#:#search_inactive#:#Include inactive users
@@ -3969,7 +3969,7 @@ common#:#sender#:#Sender
 common#:#sent#:#Sent
 common#:#sequence#:#Sequence
 common#:#sequences#:#Sequences
-common#:#server_data#:#Server Data
+common#:#server_data#:#Server Info
 common#:#server_software#:#Server Software
 common#:#server#:#Server
 rbac#:#sess_copy#:#User can copy session
@@ -4488,7 +4488,7 @@ common#:#webr_sure_delete_items#:#Do you really want to delete the following Web
 rbac#:#webr_visible#:#Weblink is visible
 rbac#:#webr_write#:#User can edit settings of weblinks
 common#:#webr#:#Weblink
-common#:#webservices#:#Webservices
+common#:#webservices#:#SOAP
 common#:#week#:#Week
 common#:#weekly#:#weekly
 common#:#weeks#:#Weeks
@@ -13515,3 +13515,4 @@ survey#:#survey_notification_finished_reason#:#You are receiving this email beca
 content#:#cont_offline_mode_allow#:#allow offline-mode
 content#:#cont_offline_mode_allow_info#:#In offline mode, learning modules can only be processed with the SCORM offline player. The tracking data are transferred if the learner clicks on 'finish offline mode' in ILIAS.
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
+administration#:#https#:#HTTPS
