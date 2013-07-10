@@ -74,6 +74,10 @@
 					session_id: properties.session_id
 				},
 				success: function (response) {
+					if (response.message && typeof response.message == "string") {
+						internals.log(response.message);
+					}
+
 					if (response.remind) {
 						session_reminder_executer.stop();
 						var extend = confirm(unescape(response.txt));
