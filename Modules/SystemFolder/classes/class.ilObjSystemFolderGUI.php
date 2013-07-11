@@ -3368,6 +3368,42 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		return $form;
 	}
 	
+	public function addToExternalSettingsForm($a_form_id, ilPropertyFormGUI $a_form, ilObjectGUI $a_parent_gui)
+	{
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_SECURITY:
+				
+				include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+				$security = ilSecuritySettings::_getInstance();
+				
+				$inf = new ilNonEditableValueGUI($this->lng->txt('ps_auto_https'));
+				$inf->setValue($security->isAutomaticHTTPSEnabled() ? 
+					$this->lng->txt("yes") :
+					$this->lng->txt("no"));
+				$a_form->addItem($inf);
+				
+				if($security->isAutomaticHTTPSEnabled())
+				{
+					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_auto_https_header_name'));
+					$sub->setValue($security->getAutomaticHTTPSHeaderName());
+					$inf->addSubItem($sub);
+					
+					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_auto_https_header_value'));
+					$sub->setValue($security->getAutomaticHTTPSHeaderValue());
+					$inf->addSubItem($sub);
+				}
+				
+				$inf = new ilNonEditableValueGUI($this->lng->txt('activate_https'));
+				$inf->setValue($security->isHTTPSEnabled() ? 
+					$this->lng->txt("yes") :
+					$this->lng->txt("no"));
+				$a_form->addItem($inf);
+				
+				break;
+		}
+	}
+	
 	/**
 	 * goto target group
 	 */
