@@ -430,13 +430,14 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$cb_prop_summary->addSubItem($summary_rcpt);
 		*/
 		
+		/* => PD
 		// Enable disk quota
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("personal_workspace_disk_quota"), "enable_personal_workspace_disk_quota");
 		$cb_prop->setValue('1');
 		$cb_prop->setChecked($this->disk_quota_obj->isPersonalWorkspaceDiskQuotaEnabled());
 		$cb_prop->setInfo($lng->txt('enable_personal_workspace_disk_quota_info'));
 		$form->addItem($cb_prop);
-		
+		*/
 		
 		// command buttons
 		$form->addCommandButton('saveDiskQuotaSettings', $lng->txt('save'));
@@ -463,9 +464,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->disk_quota_obj->isDiskQuotaSummaryMailEnabled($_POST['enable_disk_quota_summary_mail'] == '1');
 		$this->disk_quota_obj->setSummaryRecipients(ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));		 
 		*/
+		/* => PD
 		$this->disk_quota_obj->setPersonalWorkspaceDiskQuotaEnabled($_POST['enable_personal_workspace_disk_quota'] == '1');
 		$this->disk_quota_obj->update();
-
+		*/
 
 		ilUtil::sendInfo($lng->txt('settings_saved'),true);
 		$ilCtrl->redirect($this, "editDiskQuotaSettings");
@@ -837,6 +839,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$num_prop->setValue(ilFileUploadSettings::getConcurrentUploads());
 		$num_prop->setInfo($lng->txt('concurrent_uploads_info'));
 		$chk_enabled->addSubItem($num_prop);
+		
+		// file suffix replacement
+		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_repl"), "suffix_repl_additional");
+		$ti->setMaxLength(200);
+		$ti->setSize(40);
+		$ti->setInfo($this->lng->txt("file_suffix_repl_info")." ".SUFFIX_REPL_DEFAULT);
+		$form->addItem($ti);
 
 		// command buttons
 		$form->addCommandButton('saveUploadSettings', $lng->txt('save'));
@@ -850,7 +859,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function editUploadSettings()
 	{
-		global $rbacsystem, $ilErr, $tpl, $ilCtrl, $lng;
+		global $rbacsystem, $ilErr, $tpl, $lng, $ilSetting;
 
 		$this->tabs_gui->setTabActive('upload_settings');
 
@@ -869,6 +878,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$val["enable_dnd_upload"] = ilFileUploadSettings::isDragAndDropUploadEnabled();
 		$val["enable_repository_dnd_upload"] = ilFileUploadSettings::isRepositoryDragAndDropUploadEnabled();
 		$val["concurrent_uploads"] = ilFileUploadSettings::getConcurrentUploads();
+		$val["suffix_repl_additional"] = $ilSetting->get("suffix_repl_additional");
 		$form->setValuesByArray($val);
 
 		// set content
@@ -880,7 +890,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function saveUploadSettings()
 	{
-		global $rbacsystem, $ilErr, $ilCtrl, $lng, $tpl;
+		global $rbacsystem, $ilErr, $ilCtrl, $lng, $tpl, $ilSetting;
 
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -895,6 +905,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			ilFileUploadSettings::setDragAndDropUploadEnabled($_POST["enable_dnd_upload"] == 1);
 			ilFileUploadSettings::setRepositoryDragAndDropUploadEnabled($_POST["enable_repository_dnd_upload"] == 1);
 			ilFileUploadSettings::setConcurrentUploads($_POST["concurrent_uploads"]);
+			
+			// file suffic replacements
+			$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
 
 			ilUtil::sendSuccess($lng->txt('settings_saved'), true);
 			$ilCtrl->redirect($this, "editUploadSettings");

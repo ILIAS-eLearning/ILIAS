@@ -212,20 +212,19 @@ abstract class ilAuthBase
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
 		);
-
-		require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
-		$security = ilSecuritySettings::_getInstance();
-		if($a_username &&
-			$security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED
-		)
+		
+		if($a_username)
 		{
 			$usr_id = ilObjUser::_lookupId($a_username);
 			if(!in_array($usr_id, array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)))
 			{
 				ilObjUser::_incrementLoginAttempts($usr_id);
-
 				$login_attempts = ilObjUser::_getLoginAttempts($usr_id);
-				$max_attempts   = $security->getLoginMaxAttempts();
+				
+				require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
+				$security = ilSecuritySettings::_getInstance();			
+				$max_attempts = $security->getLoginMaxAttempts();
+				
 				if((int)$max_attempts && $login_attempts >= $max_attempts)
 				{
 					ilObjUser::_setUserInactive($usr_id);
