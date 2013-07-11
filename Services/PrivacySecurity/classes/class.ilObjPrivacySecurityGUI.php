@@ -270,6 +270,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$form->addItem($check2);
 		*/
 		
+		/* <= USER
 		$radio_group = new ilRadioGroupInputGUI($this->lng->txt('ps_account_security_mode'), 'account_security_mode' );
 		$radio_group->setValue($security->getAccountSecurityMode());
 
@@ -325,7 +326,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$check->setInfo($this->lng->txt('ps_password_change_on_first_login_enabled_info'));
 		$check->setChecked( $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0 );
 		$form->addItem($check);
-
+		*/
+		
 		// file suffix replacement
 		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_repl"), "suffix_repl_additional");
 		$ti->setMaxLength(200);
@@ -440,9 +442,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $security->setHTTPSEnabled($_POST["https_enabled"]);
 		*/
 		
-         // prevention of simultaneous logins with the same account
+        // prevention of simultaneous logins with the same account
         $security->setPreventionOfSimultaneousLogins((bool)$_POST['ps_prevent_simultaneous_logins']);
 
+		/* <= USER 
 		// account security settings
 		$security->setAccountSecurityMode((int) $_POST["account_security_mode"]);
 		$security->setPasswordCharsAndNumbersEnabled((bool) $_POST["password_chars_and_numbers_enabled"]);
@@ -454,7 +457,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
 		// change password on first login settings
 		$security->setPasswordChangeOnFirstLoginEnabled((bool) $_POST['password_change_on_first_login_enabled']);
-
+		*/
+		
 		// file suffic replacements
 		$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
 
@@ -488,7 +492,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      * @return string
      */
 
-	private static function getErrorMessage ($code) {
+	public static function getErrorMessage ($code) {
         return ilObjPrivacySecurityGUI::$ERROR_MESSAGE[$code];
 	}
 }

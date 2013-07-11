@@ -3486,7 +3486,7 @@ common#:#obj_user#:#User
 common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
 common#:#obj_usrf_desc#:#Manage user accounts here.
-common#:#obj_usrf#:#User Accounts
+common#:#obj_usrf#:#User Management
 common#:#obj_webr_duplicate#:#Copy Weblink list
 common#:#obj_webr_select#:#-- Please select one Weblink list --
 common#:#obj_webr#:#Weblink
@@ -8330,9 +8330,9 @@ pdesk#:#pdesk_intro#:#Welcome to your Personal Desktop!
 pdesk#:#pdesk_intro2#:#This is your personal space for organising your working and learning. You can put resources from other areas on your personal desktop. Doing so takes two steps:
 pdesk#:#pdesk_intro3#:#Click on '%s' and browse the existing working and learning resources.
 pdesk#:#pdesk_intro4#:#If you have found something of interest, put it on your desktop by clicking <i>Add to Desktop</i> in the object's <i>Actions</i> menu.
-ps#:#ps_account_security_mode_customized#:#Customized Account Security
-ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security
-ps#:#ps_account_security_mode#:#Account Security
+ps#:#ps_account_security_mode_customized#:#Customized Password Security
+ps#:#ps_account_security_mode_default#:#Standard Ilias Password Security
+ps#:#ps_account_security_mode#:#Password Security
 ps#:#ps_agreement_accepted#:#User Agreement Accepted
 ps#:#crs_ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.
 ps#:#grp_ps_agreement_req_info#:#Please accept the user agreement for having access to the group content.

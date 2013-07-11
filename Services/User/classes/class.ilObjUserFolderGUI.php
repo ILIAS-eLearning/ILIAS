@@ -178,7 +178,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$utab->resetOffset();
 		$utab->writeFilterToSession();
 		$this->viewObject();
-		$ilTabs->activateTab("obj_usrf");
+		$ilTabs->activateTab("usrf");
 	}
 
 	/**
@@ -1709,6 +1709,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$show_blocking_time_in_days = $ilSetting->get('loginname_change_blocking_time') / 86400;
 		$show_blocking_time_in_days = (float)$show_blocking_time_in_days;
 		
+		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
+		
 		$this->form->setValuesByArray(
 			array(
 				'lua'	=> $aset->isLocalUserAdministrationEnabled(),
@@ -1721,7 +1724,24 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				// 'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
 				'user_reactivate_code' => (int)$ilSetting->get('user_reactivate_code'),
 				'user_own_account' => (int)$ilSetting->get('user_delete_own_account'),
-				'user_own_account_email' => $ilSetting->get('user_delete_own_account_email')
+				'user_own_account_email' => $ilSetting->get('user_delete_own_account_email'),
+			
+				'session_handling_type' => $ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED),
+				'session_reminder_enabled' => $ilSetting->get('session_reminder_enabled'),
+				'session_max_count' => $ilSetting->get('session_max_count', ilSessionControl::DEFAULT_MAX_COUNT),
+				'session_min_idle' => $ilSetting->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE),
+				'session_max_idle' => $ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE),
+				'session_max_idle_after_first_request' => $ilSetting->get('session_max_idle_after_first_request', ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST),
+
+				'passwd_auto_generate' => (bool)$ilSetting->get("passwd_auto_generate"),			
+				'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0, 									
+				'account_security_mode' => $security->getAccountSecurityMode(),
+				'password_chars_and_numbers_enabled' => $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0,
+				'password_special_chars_enabled' => $security->isPasswordSpecialCharsEnabled() ? 1 : 0 ,
+				'password_min_length' => $security->getPasswordMinLength(),
+				'password_max_length' => $security->getPasswordMaxLength(),
+				'password_max_age' => $security->getPasswordMaxAge(),
+				'login_max_attempts' => $security->getLoginMaxAttempts()				
 			)
 		);
 						
@@ -1748,9 +1768,31 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->form->getItemByPostVar('loginname_change_blocking_time')
 										->setAlert($this->lng->txt('loginname_change_blocking_time_invalidity_info'));
 			}
+											
+			include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+			$security = ilSecuritySettings::_getInstance();
+
+			// account security settings
+			$security->setAccountSecurityMode((int) $_POST["account_security_mode"]);
+			$security->setPasswordCharsAndNumbersEnabled((bool) $_POST["password_chars_and_numbers_enabled"]);
+			$security->setPasswordSpecialCharsEnabled((bool) $_POST["password_special_chars_enabled"]);
+			$security->setPasswordMinLength((int) $_POST["password_min_length"]);
+			$security->setPasswordMaxLength((int) $_POST["password_max_length"]);
+			$security->setPasswordMaxAge((int) $_POST["password_max_age"]);
+			$security->setLoginMaxAttempts((int) $_POST["login_max_attempts"]);
+
+			// change password on first login settings
+			$security->setPasswordChangeOnFirstLoginEnabled((bool) $_POST['password_change_on_first_login_enabled']);
+				
+			if(!$security->validate($this->form))
+			{
+				$valid = false;
+			}
 			
 			if($valid)
 			{			
+				$security->save();
+				
 				include_once './Services/User/classes/class.ilUserAccountSettings.php';
 				ilUserAccountSettings::getInstance()->enableLocalUserAdministration($this->form->getInput('lua'));
 				ilUserAccountSettings::getInstance()->restrictUserAccess($this->form->getInput('lrua'));
@@ -1771,6 +1813,40 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$ilSetting->set('user_delete_own_account', (int)$this->form->getInput('user_own_account'));
 				$ilSetting->set('user_delete_own_account_email', $this->form->getInput('user_own_account_email'));
 				
+				$ilSetting->set("passwd_auto_generate", $this->form->getInput("passwd_auto_generate"));	
+				
+				// BEGIN SESSION SETTINGS
+				$ilSetting->set('session_handling_type',
+					(int)$this->form->getInput('session_handling_type'));			
+
+				if( $this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_FIXED )
+				{
+					$ilSetting->set('session_reminder_enabled',
+						$this->form->getInput('session_reminder_enabled'));	
+				}
+				else if( $this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_LOAD_DEPENDENT )
+				{
+					require_once 'Services/Authentication/classes/class.ilSessionControl.php';
+					if(
+						$ilSetting->get('session_allow_client_maintenance',
+							ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) 
+					  )
+					{				
+						// has to be done BEFORE updating the setting!
+						include_once "Services/Authentication/classes/class.ilSessionStatistics.php";
+						ilSessionStatistics::updateLimitLog((int)$this->form->getInput('session_max_count'));					
+
+						$ilSetting->set('session_max_count',
+							(int)$this->form->getInput('session_max_count'));
+						$ilSetting->set('session_min_idle',
+							(int)$this->form->getInput('session_min_idle'));
+						$ilSetting->set('session_max_idle',
+							(int)$this->form->getInput('session_max_idle'));
+						$ilSetting->set('session_max_idle_after_first_request',
+							(int)$this->form->getInput('session_max_idle_after_first_request'));
+					}	
+				}		
+				// END SESSION SETTINGS												
 				
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			}
@@ -1794,6 +1870,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	protected function initFormGeneralSettings()
 	{
+		global $ilSetting;
+		
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('general_settings');
@@ -1836,6 +1914,164 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->form->addItem($own);		
 		$own_email = new ilEMailInputGUI($this->lng->txt("user_delete_own_account_notification_email"), "user_own_account_email");
 		$own->addSubItem($own_email);
+		
+		
+		// BEGIN SESSION SETTINGS
+		
+		// create session handling radio group
+		$ssettings = new ilRadioGroupInputGUI($this->lng->txt('sess_mode'), 'session_handling_type');
+	
+		// first option, fixed session duration
+		$fixed = new ilRadioOption($this->lng->txt('sess_fixed_duration'), ilSession::SESSION_HANDLING_FIXED);
+		
+		// create session reminder subform
+		$cb = new ilCheckboxInputGUI($this->lng->txt("session_reminder"), "session_reminder_enabled");
+		$expires = ilSession::getSessionExpireValue();
+		$time = ilFormat::_secondsToString($expires, true);
+		$cb->setInfo($this->lng->txt("session_reminder_info")."<br />".
+			sprintf($this->lng->txt('session_reminder_session_duration'), $time));		
+		$fixed->addSubItem($cb);
+		
+		// add session handling to radio group
+		$ssettings->addOption($fixed);
+		
+		// second option, session control
+		$ldsh = new ilRadioOption($this->lng->txt('sess_load_dependent_session_handling'), ilSession::SESSION_HANDLING_LOAD_DEPENDENT);
+
+		// add session control subform
+		require_once('Services/Authentication/classes/class.ilSessionControl.php');		
+        
+        // this is the max count of active sessions
+		// that are getting started simlutanously
+		$sub_ti = new ilTextInputGUI($this->lng->txt('session_max_count'), 'session_max_count');
+		$sub_ti->setMaxLength(5);
+		$sub_ti->setSize(5);
+		$sub_ti->setInfo($this->lng->txt('session_max_count_info'));		
+		if( !$ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
+			$sub_ti->setDisabled(true);
+		$ldsh->addSubItem($sub_ti);
+		
+		// after this (min) idle time the session can be deleted,
+		// if there are further requests for new sessions,
+		// but max session count is reached yet
+		$sub_ti = new ilTextInputGUI($this->lng->txt('session_min_idle'), 'session_min_idle');
+		$sub_ti->setMaxLength(5);
+		$sub_ti->setSize(5);
+		$sub_ti->setInfo($this->lng->txt('session_min_idle_info'));		
+		if( !$ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
+			$sub_ti->setDisabled(true);
+		$ldsh->addSubItem($sub_ti);
+		
+		// after this (max) idle timeout the session expires
+		// and become invalid, so it is not considered anymore
+		// when calculating current count of active sessions
+		$sub_ti = new ilTextInputGUI($this->lng->txt('session_max_idle'), 'session_max_idle');
+		$sub_ti->setMaxLength(5);
+		$sub_ti->setSize(5);
+		$sub_ti->setInfo($this->lng->txt('session_max_idle_info'));		
+		if( !$ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
+			$sub_ti->setDisabled(true);
+		$ldsh->addSubItem($sub_ti);
+
+		// this is the max duration that can elapse between the first and the secnd
+		// request to the system before the session is immidietly deleted
+		$sub_ti = new ilTextInputGUI(
+			$this->lng->txt('session_max_idle_after_first_request'),
+			'session_max_idle_after_first_request'
+		);
+		$sub_ti->setMaxLength(5);
+		$sub_ti->setSize(5);
+		$sub_ti->setInfo($this->lng->txt('session_max_idle_after_first_request_info'));	
+		if( !$ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
+			$sub_ti->setDisabled(true);
+		$ldsh->addSubItem($sub_ti);
+		
+		// add session control to radio group
+		$ssettings->addOption($ldsh);
+		
+		// add radio group to form
+		if( $ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
+        {
+			// just shows the status wether the session
+			//setting maintenance is allowed by setup			
+			$this->form->addItem($ssettings);
+        }
+        else
+        {
+        	// just shows the status wether the session
+			//setting maintenance is allowed by setup
+			$ti = new ilNonEditableValueGUI($this->lng->txt('session_config'), "session_config");
+			$ti->setValue($this->lng->txt('session_config_maintenance_disabled'));
+			$ssettings->setDisabled(true);
+			$ti->addSubItem($ssettings);
+			$this->form->addItem($ti);
+        }
+		
+		// END SESSION SETTINGS
+								
+		
+		$pass = new ilFormSectionHeaderGUI();
+		$pass->setTitle($this->lng->txt('passwd'));
+		$this->form->addItem($pass);
+		 
+		// password generation
+		$cb = new ilCheckboxInputGUI($this->lng->txt("passwd_generation"), "passwd_auto_generate");
+		$cb->setChecked($ilSetting->get("passwd_auto_generate"));		
+		$cb->setInfo($this->lng->txt("passwd_generation_info"));
+		$this->form->addItem($cb);
+		
+		$this->lng->loadLanguageModule('ps');		
+		
+		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_change_on_first_login_enabled'),'password_change_on_first_login_enabled');
+		$check->setInfo($this->lng->txt('ps_password_change_on_first_login_enabled_info'));
+		$this->form->addItem($check);
+		
+		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		
+		$radio_group = new ilRadioGroupInputGUI($this->lng->txt('ps_account_security_mode'), 'account_security_mode' );
+		
+			$radio_opt = new ilRadioOption($this->lng->txt('ps_account_security_mode_default'),ilSecuritySettings::ACCOUNT_SECURITY_MODE_DEFAULT);
+			$radio_group->addOption($radio_opt);
+
+			$radio_opt = new ilRadioOption($this->lng->txt('ps_account_security_mode_customized'),ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED);
+
+				$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_chars_and_numbers_enabled'),'password_chars_and_numbers_enabled');			
+				//$check->setOptionTitle($this->lng->txt('ps_password_chars_and_numbers_enabled'));
+				$check->setInfo($this->lng->txt('ps_password_chars_and_numbers_enabled_info'));
+				$radio_opt->addSubItem($check);
+
+				$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_special_chars_enabled'),'password_special_chars_enabled');
+				//$check->setOptionTitle($this->lng->txt('ps_password_special_chars_enabled'));
+				$check->setInfo($this->lng->txt('ps_password_special_chars_enabled_info'));
+				$radio_opt->addSubItem($check);
+
+				$text = new ilTextInputGUI($this->lng->txt('ps_password_min_length'),'password_min_length');
+				$text->setInfo($this->lng->txt('ps_password_min_length_info'));
+				$text->setSize(1);
+				$text->setMaxLength(2);
+				$radio_opt->addSubItem($text);
+
+				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_length'),'password_max_length');
+				$text->setInfo($this->lng->txt('ps_password_max_length_info'));
+				$text->setSize(2);
+				$text->setMaxLength(3);
+				$radio_opt->addSubItem($text);
+
+				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_age'),'password_max_age');
+				$text->setInfo($this->lng->txt('ps_password_max_age_info'));
+				$text->setSize(2);
+				$text->setMaxLength(3);
+				$radio_opt->addSubItem($text);
+
+				$text = new ilTextInputGUI($this->lng->txt('ps_login_max_attempts'),'login_max_attempts');
+				$text->setInfo($this->lng->txt('ps_login_max_attempts_info'));
+				$text->setSize(1);
+				$text->setMaxLength(2);
+				$radio_opt->addSubItem($text);
+
+		$radio_group->addOption($radio_opt);
+		$this->form->addItem($radio_group);
+																			
 
 		$log = new ilFormSectionHeaderGUI();
 		$log->setTitle($this->lng->txt('loginname_settings'));
@@ -2489,7 +2725,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("obj_usrf",
+			$tabs_gui->addTarget("usrf",
 				$this->ctrl->getLinkTarget($this, "view"), array("view","delete","resetFilter", "userAction", ""), "", "");
 
 			$tabs_gui->addTarget(

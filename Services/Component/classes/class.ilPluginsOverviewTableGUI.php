@@ -29,7 +29,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("cmps_component"), "component_name");	
 		$this->addColumn($lng->txt("cmps_plugin"), "plugin_name");
 		$this->addColumn($lng->txt("active"), "plugin_active");
-		$this->addColumn($lng->txt("actions"));
+		$this->addColumn($lng->txt("action"));
 		
 		$this->setDefaultOrderField("plugin_name");
 		

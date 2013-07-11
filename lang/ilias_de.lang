@@ -4100,7 +4100,7 @@ common#:#obj_url#:#URL
 common#:#obj_user#:#Benutzer
 common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
-common#:#obj_usrf#:#Benutzerkonten
+common#:#obj_usrf#:#Benutzerverwaltung
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Weblinksammlung kopieren
@@ -9639,7 +9639,7 @@ ps#:#crs_ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Inf
 ps#:#grp_ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Gruppeninhalte zugreifen zu können.
 ps#:#grp_ps_cdf_info#:#Weitere gruppenspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
 ps#:#grp_ps_required_info#:#Für die Teilnahme an dieser Gruppe werden weitere Informationen benötigt.
-ps#:#ps_account_security_mode#:#Account-Sicherheit
+ps#:#ps_account_security_mode#:#Passwort-Sicherheit
 ps#:#ps_account_security_mode_customized#:#Besondere Anforderungen
 ps#:#ps_account_security_mode_default#:#Standardeinstellung
 ps#:#ps_agreement_accepted#:#Nutzungsvereinbarung akzeptiert

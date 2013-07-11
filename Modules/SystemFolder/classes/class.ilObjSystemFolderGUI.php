@@ -1896,118 +1896,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setSize(40);
 		$ti->setInfo($this->lng->txt("adm_locale_info"));
 		$ti->setValue($ilSetting->get("locale"));
-		$this->form->addItem($ti);
-		
-		/* => USER ACCOUNTS 
-		// BEGIN SESSION SETTINGS
-		// create session handling radio group
-		$ssettings = new ilRadioGroupInputGUI($this->lng->txt('sess_mode'), 'session_handling_type');
-		$ssettings->setValue($ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED));
-		
-		// first option, fixed session duration
-		$fixed = new ilRadioOption($this->lng->txt('sess_fixed_duration'), ilSession::SESSION_HANDLING_FIXED);
-		
-		// create session reminder subform
-		$cb = new ilCheckboxInputGUI($this->lng->txt("session_reminder"), "session_reminder_enabled");
-		$expires = ilSession::getSessionExpireValue();
-		$time = ilFormat::_secondsToString($expires, true);
-		$cb->setInfo($this->lng->txt("session_reminder_info")."<br />".
-			sprintf($this->lng->txt('session_reminder_session_duration'), $time));
-		if((int)$ilSetting->get("session_reminder_enabled"))
-		{
-			$cb->setChecked(true);
-		}
-		$fixed->addSubItem($cb);
-		
-		// add session handling to radio group
-		$ssettings->addOption($fixed);
-		
-		// second option, session control
-		$ldsh = new ilRadioOption($this->lng->txt('sess_load_dependent_session_handling'), ilSession::SESSION_HANDLING_LOAD_DEPENDENT);
-
-		// add session control subform
-		require_once('Services/Authentication/classes/class.ilSessionControl.php');		
-        
-        // this is the max count of active sessions
-		// that are getting started simlutanously
-		$sub_ti = new ilTextInputGUI($this->lng->txt('session_max_count'), 'session_max_count');
-		$sub_ti->setMaxLength(5);
-		$sub_ti->setSize(5);
-		$sub_ti->setInfo($this->lng->txt('session_max_count_info'));
-		$sub_ti->setValue($ilSetting->get(
-			"session_max_count", ilSessionControl::DEFAULT_MAX_COUNT
-		));
-		if( !$ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
-			$sub_ti->setDisabled(true);
-		$ldsh->addSubItem($sub_ti);
-		
-		// after this (min) idle time the session can be deleted,
-		// if there are further requests for new sessions,
-		// but max session count is reached yet
-		$sub_ti = new ilTextInputGUI($this->lng->txt('session_min_idle'), 'session_min_idle');
-		$sub_ti->setMaxLength(5);
-		$sub_ti->setSize(5);
-		$sub_ti->setInfo($this->lng->txt('session_min_idle_info'));
-		$sub_ti->setValue($ilSetting->get(
-			"session_min_idle", ilSessionControl::DEFAULT_MIN_IDLE
-		));
-		if( !$ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
-			$sub_ti->setDisabled(true);
-		$ldsh->addSubItem($sub_ti);
-		
-		// after this (max) idle timeout the session expires
-		// and become invalid, so it is not considered anymore
-		// when calculating current count of active sessions
-		$sub_ti = new ilTextInputGUI($this->lng->txt('session_max_idle'), 'session_max_idle');
-		$sub_ti->setMaxLength(5);
-		$sub_ti->setSize(5);
-		$sub_ti->setInfo($this->lng->txt('session_max_idle_info'));
-		$sub_ti->setValue($ilSetting->get(
-			"session_max_idle", ilSessionControl::DEFAULT_MAX_IDLE
-		));
-		if( !$ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
-			$sub_ti->setDisabled(true);
-		$ldsh->addSubItem($sub_ti);
-
-		// this is the max duration that can elapse between the first and the secnd
-		// request to the system before the session is immidietly deleted
-		$sub_ti = new ilTextInputGUI(
-			$this->lng->txt('session_max_idle_after_first_request'),
-			'session_max_idle_after_first_request'
-		);
-		$sub_ti->setMaxLength(5);
-		$sub_ti->setSize(5);
-		$sub_ti->setInfo($this->lng->txt('session_max_idle_after_first_request_info'));
-		$sub_ti->setValue($ilSetting->get(
-			"session_max_idle_after_first_request",
-			ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST
-		));
-		if( !$ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
-			$sub_ti->setDisabled(true);
-		$ldsh->addSubItem($sub_ti);
-		
-		// add session control to radio group
-		$ssettings->addOption($ldsh);
-		
-		// add radio group to form
-		if( $ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
-        {
-			// just shows the status wether the session
-			//setting maintenance is allowed by setup			
-			$this->form->addItem($ssettings);
-        }
-        else
-        {
-        	// just shows the status wether the session
-			//setting maintenance is allowed by setup
-			$ti = new ilNonEditableValueGUI($this->lng->txt('session_config'), "session_config");
-			$ti->setValue($this->lng->txt('session_config_maintenance_disabled'));
-			$ssettings->setDisabled(true);
-			$ti->addSubItem($ssettings);
-			$this->form->addItem($ti);
-        }
-		// END SESSION SETTINGS
-		*/ 
+		$this->form->addItem($ti);				
 		
 		/* => AUTHENTICATION 
 		// password assistance
@@ -2017,17 +1906,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$cb->setChecked(true);
 		}
 		$cb->setInfo($this->lng->txt("password_assistance_info"));
-		$this->form->addItem($cb);
-		*/
-		
-		/* => USER ACCOUNTS 
-		// password generation
-		$cb = new ilCheckboxInputGUI($this->lng->txt("passwd_generation"), "passwd_auto_generate");
-		if ($ilSetting->get("passwd_auto_generate"))
-		{
-			$cb->setChecked(true);
-		}
-		$cb->setInfo($this->lng->txt("passwd_generation_info"));
 		$this->form->addItem($cb);
 		*/
 		
@@ -2138,43 +2016,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 					
 			/* => AUTHENTICATION
 			$ilSetting->set("password_assistance", $_POST["password_assistance"]);			 
-			*/
-			
-			/* => USER ACCOUNTS
-			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);	
-			 
-			// BEGIN SESSION SETTINGS
-			$ilSetting->set('session_handling_type',
-				(int)$this->form->getInput('session_handling_type'));			
-			
-			if( $this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_FIXED )
-			{
-				$ilSetting->set('session_reminder_enabled',
-					$this->form->getInput('session_reminder_enabled'));	
-			}
-			else if( $this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_LOAD_DEPENDENT )
-			{
-				require_once 'Services/Authentication/classes/class.ilSessionControl.php';
-				if(
-					$ilSetting->get('session_allow_client_maintenance',
-				    	ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) 
-				  )
-        		{				
-					// has to be done BEFORE updating the setting!
-					include_once "Services/Authentication/classes/class.ilSessionStatistics.php";
-					ilSessionStatistics::updateLimitLog((int)$this->form->getInput('session_max_count'));					
-					
-					$ilSetting->set('session_max_count',
-						(int)$this->form->getInput('session_max_count'));
-					$ilSetting->set('session_min_idle',
-						(int)$this->form->getInput('session_min_idle'));
-					$ilSetting->set('session_max_idle',
-						(int)$this->form->getInput('session_max_idle'));
-					$ilSetting->set('session_max_idle_after_first_request',
-						(int)$this->form->getInput('session_max_idle_after_first_request'));
-        		}	
-			}		
-			// END SESSION SETTINGS		
 			*/
 			
 			/* => COURSE/GROUP
@@ -3466,15 +3307,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			// ilias https handling settings
 			$security->setHTTPSEnabled($_POST["https_enabled"]);
 			
-			$code = $security->validate();
-
-			// if error code != 0, display error and do not save
-			if ($code != 0)
-			{
-				$msg = $this->getErrorMessage($code);
-				ilUtil::sendFailure($msg);
-			} 
-			else
+			if($security->validate($form))
 			{
 				$security->save();
 				
@@ -3512,13 +3345,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$text->setValue($security->getAutomaticHTTPSHeaderName());
 			$text->setSize(24);
 			$text->setMaxLength(64);
-		$check->addSubItem($text);
+			$text->setRequired(true);
+			$check->addSubItem($text);
 
 			$text = new ilTextInputGUI($lng->txt('ps_auto_https_header_value'),'auto_https_detect_header_value');
 			$text->setValue($security->getAutomaticHTTPSHeaderValue());
 			$text->setSize(24);
 			$text->setMaxLength(64);
-		$check->addSubItem($text);
+			$text->setRequired(true);
+			$check->addSubItem($text);
 
 		$form->addItem($check);
 
