@@ -38,16 +38,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 	function viewObject()
 	{
-		// load ilRegistrationSettingsGUI
-
-		include_once './Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
-		
-		// Enable tabs
-		$this->tabs_gui->setTabActive('registration_settings');
-		
-		$registration_gui =& new ilRegistrationSettingsGUI();
-		$this->ctrl->setCmdClass('ilregistrationsettingsgui');
-		$this->ctrl->forwardCommand($registration_gui);
+		return $this->authSettingsObject();		
 	}
 
 
@@ -825,11 +816,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
 		}
 		
-		if(!$next_class && $cmd == "view")
-		{
-			var_dump("hurz");
-		}
-			
 		switch($next_class)
 		{
 			case 'ilregistrationsettingsgui':
