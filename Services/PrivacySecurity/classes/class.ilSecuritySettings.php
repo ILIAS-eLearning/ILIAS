@@ -492,10 +492,7 @@ class ilSecuritySettings
 		
 		if ($a_form)
 		{
-			// we need to initialise the lang vars
 			include_once "Services/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php";		
-			$gui = new ilObjPrivacySecurityGUI(null, $this->getSecuritySettingsRefId());
-			unset($gui);
 		}		
 		
 		// handled in form itself

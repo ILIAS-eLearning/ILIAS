@@ -87,6 +87,10 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$this->tabs_gui->addTarget("pd_settings",
 				$this->ctrl->getLinkTarget($this, "editSettings"),
 				array("editSettings", "view"));
+			
+			$this->tabs_gui->addTarget("pd_personal_workspace",
+				$this->ctrl->getLinkTarget($this, "editWsp"),
+				array("editWsp"));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -98,7 +102,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	}
 
 	/**
-	* Edit news settings.
+	* Edit personal desktop settings.
 	*/
 	public function editSettings()
 	{
@@ -221,44 +225,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$form->addItem($sb_prop);
 		}
 		
-		// Enable 'Personal Workspace'
-		$wsp_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_personal_workspace'), 'wsp');
-		$wsp_prop->setValue('1');
-		$wsp_prop->setChecked(($ilSetting->get('disable_personal_workspace') ? '0' : '1'));
-		$form->addItem($wsp_prop);
-		
-		// Enable 'Blogs'
-		$blog_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_blogs'), 'blog');
-		$blog_prop->setValue('1');
-		$blog_prop->setChecked(($ilSetting->get('disable_wsp_blogs') ? '0' : '1'));
-		$wsp_prop->addSubItem($blog_prop);
-		
-		// Enable 'Files'
-		$file_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_files'), 'file');
-		$file_prop->setValue('1');
-		$file_prop->setChecked(($ilSetting->get('disable_wsp_files') ? '0' : '1'));
-		$wsp_prop->addSubItem($file_prop);
-		
-		// Enable 'Certificates'
-		$cert_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_certificates'), 'cert');
-		$cert_prop->setValue('1');
-		$cert_prop->setChecked(($ilSetting->get('disable_wsp_certificates') ? '0' : '1'));
-		$wsp_prop->addSubItem($cert_prop);
-		
-		// Enable 'Links'
-		$link_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_links'), 'link');
-		$link_prop->setValue('1');
-		$link_prop->setChecked(($ilSetting->get('disable_wsp_links') ? '0' : '1'));
-		$wsp_prop->addSubItem($link_prop);			
-		
-		// Enable 'Portfolios'
-		$lng->loadLanguageModule('user');
-		$prtf_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_prtf'), 'prtf');
-		$prtf_prop->setValue('1');
-		$prtf_prop->setInfo($lng->txt('user_portfolios_desc'));
-		$prtf_prop->setChecked(($ilSetting->get('user_portfolios') ? '1' : '0'));
-		$form->addItem($prtf_prop);
-		
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -267,7 +233,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	}
 
 	/**
-	* Save news and external webfeeds settings
+	* Save personal desktop settings
 	*/
 	public function saveSettings()
 	{
@@ -315,6 +281,86 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		
 		// Default view of personal items
 		$ilSetting->set('personal_items_default_view', (int)$_POST['personal_items_default_view']);
+	
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
+		$ilCtrl->redirect($this, "view");
+	}
+	
+	/**
+	* Edit personal workspace settings.
+	*/
+	public function editWsp()
+	{
+		global $ilCtrl, $lng, $ilSetting;
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "saveWsp"));
+		$form->setTitle($lng->txt("pd_personal_workspace"));
+		
+		// Enable 'Personal Workspace'
+		$wsp_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_personal_workspace'), 'wsp');
+		$wsp_prop->setValue('1');
+		$wsp_prop->setChecked(($ilSetting->get('disable_personal_workspace') ? '0' : '1'));
+		$form->addItem($wsp_prop);
+		
+		// Enable 'Blogs'
+		$blog_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_blogs'), 'blog');
+		$blog_prop->setValue('1');
+		$blog_prop->setChecked(($ilSetting->get('disable_wsp_blogs') ? '0' : '1'));
+		$wsp_prop->addSubItem($blog_prop);
+		
+		// Enable 'Files'
+		$file_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_files'), 'file');
+		$file_prop->setValue('1');
+		$file_prop->setChecked(($ilSetting->get('disable_wsp_files') ? '0' : '1'));
+		$wsp_prop->addSubItem($file_prop);
+		
+		// Enable 'Certificates'
+		$cert_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_certificates'), 'cert');
+		$cert_prop->setValue('1');
+		$cert_prop->setChecked(($ilSetting->get('disable_wsp_certificates') ? '0' : '1'));
+		$wsp_prop->addSubItem($cert_prop);
+		
+		// Enable 'Links'
+		$link_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_links'), 'link');
+		$link_prop->setValue('1');
+		$link_prop->setChecked(($ilSetting->get('disable_wsp_links') ? '0' : '1'));
+		$wsp_prop->addSubItem($link_prop);			
+		
+		// Enable 'Portfolios'
+		$lng->loadLanguageModule('user');
+		$prtf_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_prtf'), 'prtf');
+		$prtf_prop->setValue('1');
+		$prtf_prop->setInfo($lng->txt('user_portfolios_desc'));
+		$prtf_prop->setChecked(($ilSetting->get('user_portfolios') ? '1' : '0'));
+		$form->addItem($prtf_prop);
+		
+		// Load the disk quota settings object
+		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
+		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
+		
+		// Enable disk quota
+		$lng->loadLanguageModule("file");
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("personal_workspace_disk_quota"), "enable_personal_workspace_disk_quota");
+		$cb_prop->setValue('1');
+		$cb_prop->setChecked($disk_quota_obj->isPersonalWorkspaceDiskQuotaEnabled());
+		$cb_prop->setInfo($lng->txt('enable_personal_workspace_disk_quota_info'));
+		$form->addItem($cb_prop);
+		
+		// command buttons
+		$form->addCommandButton("saveWsp", $lng->txt("save"));
+		$form->addCommandButton("editWsp", $lng->txt("cancel"));
+
+		$this->tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Save personal desktop settings	 
+	 */
+	public function saveWsp()
+	{
+		global $ilCtrl, $ilSetting;
 		
 		// without personal workspace we have to disable to sub-items
 		if(!$_POST["wsp"])
@@ -332,9 +378,15 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set('disable_wsp_links', (int)($_POST['link'] ? 0 : 1));
 		$ilSetting->set('user_portfolios', (int)($_POST['prtf'] ? 1 : 0));
 		
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		// Load the disk quota settings object
+		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
+		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();		
+		$disk_quota_obj->setPersonalWorkspaceDiskQuotaEnabled($_POST['enable_personal_workspace_disk_quota'] == '1');
+		$disk_quota_obj->update();
 		
-		$ilCtrl->redirect($this, "view");
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
+		$ilCtrl->redirect($this, "editWsp");
 	}
 }
+
 ?>

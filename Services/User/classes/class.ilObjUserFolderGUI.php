@@ -1741,7 +1741,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'password_min_length' => $security->getPasswordMinLength(),
 				'password_max_length' => $security->getPasswordMaxLength(),
 				'password_max_age' => $security->getPasswordMaxAge(),
-				'login_max_attempts' => $security->getLoginMaxAttempts()				
+				
+				'login_max_attempts' => $security->getLoginMaxAttempts(),				
+				'ps_prevent_simultaneous_logins' => (int)$security->isPreventionOfSimultaneousLoginsEnabled()		
 			)
 		);
 						
@@ -1780,8 +1782,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$security->setPasswordMaxLength((int) $_POST["password_max_length"]);
 			$security->setPasswordMaxAge((int) $_POST["password_max_age"]);
 			$security->setLoginMaxAttempts((int) $_POST["login_max_attempts"]);
-
-			// change password on first login settings
+			$security->setPreventionOfSimultaneousLogins((bool)$_POST['ps_prevent_simultaneous_logins']);
 			$security->setPasswordChangeOnFirstLoginEnabled((bool) $_POST['password_change_on_first_login_enabled']);
 				
 			if(!$security->validate($this->form))
@@ -2010,8 +2011,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// END SESSION SETTINGS
 								
 		
+		$this->lng->loadLanguageModule('ps');		
+		
 		$pass = new ilFormSectionHeaderGUI();
-		$pass->setTitle($this->lng->txt('passwd'));
+		$pass->setTitle($this->lng->txt('ps_security_protection'));
 		$this->form->addItem($pass);
 		 
 		// password generation
@@ -2019,8 +2022,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$cb->setChecked($ilSetting->get("passwd_auto_generate"));		
 		$cb->setInfo($this->lng->txt("passwd_generation_info"));
 		$this->form->addItem($cb);
-		
-		$this->lng->loadLanguageModule('ps');		
 		
 		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_change_on_first_login_enabled'),'password_change_on_first_login_enabled');
 		$check->setInfo($this->lng->txt('ps_password_change_on_first_login_enabled_info'));
@@ -2045,33 +2046,39 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$check->setInfo($this->lng->txt('ps_password_special_chars_enabled_info'));
 				$radio_opt->addSubItem($check);
 
-				$text = new ilTextInputGUI($this->lng->txt('ps_password_min_length'),'password_min_length');
+				$text = new ilNumberInputGUI($this->lng->txt('ps_password_min_length'),'password_min_length');
 				$text->setInfo($this->lng->txt('ps_password_min_length_info'));
 				$text->setSize(1);
 				$text->setMaxLength(2);
 				$radio_opt->addSubItem($text);
 
-				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_length'),'password_max_length');
+				$text = new ilNumberInputGUI($this->lng->txt('ps_password_max_length'),'password_max_length');
 				$text->setInfo($this->lng->txt('ps_password_max_length_info'));
 				$text->setSize(2);
 				$text->setMaxLength(3);
 				$radio_opt->addSubItem($text);
 
-				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_age'),'password_max_age');
+				$text = new ilNumberInputGUI($this->lng->txt('ps_password_max_age'),'password_max_age');
 				$text->setInfo($this->lng->txt('ps_password_max_age_info'));
 				$text->setSize(2);
 				$text->setMaxLength(3);
 				$radio_opt->addSubItem($text);
-
-				$text = new ilTextInputGUI($this->lng->txt('ps_login_max_attempts'),'login_max_attempts');
-				$text->setInfo($this->lng->txt('ps_login_max_attempts_info'));
-				$text->setSize(1);
-				$text->setMaxLength(2);
-				$radio_opt->addSubItem($text);
-
+				
 		$radio_group->addOption($radio_opt);
 		$this->form->addItem($radio_group);
-																			
+		
+		$text = new ilNumberInputGUI($this->lng->txt('ps_login_max_attempts'),'login_max_attempts');
+		$text->setInfo($this->lng->txt('ps_login_max_attempts_info'));
+		$text->setSize(1);
+		$text->setMaxLength(2);
+		$this->form->addItem($text);		
+		
+		// prevent login from multiple pcs at the same time
+		$objCb = new ilCheckboxInputGUI($this->lng->txt('ps_prevent_simultaneous_logins'), 'ps_prevent_simultaneous_logins');		
+		$objCb->setValue(1);
+		$objCb->setInfo($this->lng->txt('ps_prevent_simultaneous_logins_info'));
+		$this->form->addItem($objCb);
+		
 
 		$log = new ilFormSectionHeaderGUI();
 		$log->setTitle($this->lng->txt('loginname_settings'));

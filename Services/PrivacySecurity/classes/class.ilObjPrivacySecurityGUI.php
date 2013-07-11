@@ -28,19 +28,31 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$this->type = 'ps';
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
-		$this->lng->loadLanguageModule('ps');
+		self::initErrorMessages();
+	}
+	
+	public static function initErrorMessages()
+	{
+		global $lng;
+		
+		if(is_array(self::$ERROR_MESSAGE))
+		{
+			return;
+		}
+		
+		$lng->loadLanguageModule('ps');
 
 		ilObjPrivacySecurityGUI::$ERROR_MESSAGE = array (
-		   ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS => $this->lng->txt("ps_error_message_https_header_missing"),
-		   ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE => $this->lng->txt('https_not_possible'),
-	       ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE => $this->lng->txt('http_not_possible'),
-	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH => $this->lng->txt('ps_error_message_invalid_password_min_length'),
-	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_LENGTH => $this->lng->txt('ps_error_message_invalid_password_max_length'),
-	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE => $this->lng->txt('ps_error_message_invalid_password_max_age'),
-	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS => $this->lng->txt('ps_error_message_invalid_login_max_attempts'),
-	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN2 => $this->lng->txt('ps_error_message_password_min2_because_chars_numbers'),
-	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3 => $this->lng->txt('ps_error_message_password_min3_because_chars_numbers_sc'),
-	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH => $this->lng->txt('ps_error_message_password_max_less_min')
+		   ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS => $lng->txt("ps_error_message_https_header_missing"),
+		   ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE => $lng->txt('https_not_possible'),
+	       ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE => $lng->txt('http_not_possible'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH => $lng->txt('ps_error_message_invalid_password_min_length'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_LENGTH => $lng->txt('ps_error_message_invalid_password_max_length'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE => $lng->txt('ps_error_message_invalid_password_max_age'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS => $lng->txt('ps_error_message_invalid_login_max_attempts'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN2 => $lng->txt('ps_error_message_password_min2_because_chars_numbers'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3 => $lng->txt('ps_error_message_password_min3_because_chars_numbers_sc'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH => $lng->txt('ps_error_message_password_max_less_min')
 		);
 	}
 
@@ -201,11 +213,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$check->setChecked($privacy->enabledAnonymousFora());
 		$form->addItem($check);
 
+		/* => LRES
 		$check = new ilCheckboxInputGui($this->lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
 		$check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
 		$check->setChecked($privacy->enabledSahsProtocolData());
 		$form->addItem($check);
-
+		*/
+		
 		$check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
 		$check->setInfo($this->lng->txt('rbac_log_info'));
 		$check->setChecked($privacy->enabledRbacLog());
@@ -328,6 +342,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$form->addItem($check);
 		*/
 		
+		/* => FILE
 		// file suffix replacement
 		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_repl"), "suffix_repl_additional");
 		$ti->setMaxLength(200);
@@ -335,13 +350,16 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$ti->setInfo($this->lng->txt("file_suffix_repl_info")." ".SUFFIX_REPL_DEFAULT);
 		$ti->setValue($ilSetting->get("suffix_repl_additional"));
 		$form->addItem($ti);
+		*/
 		
+		/* => USER
 		// prevent login from multiple pcs at the same time
 		$objCb = new ilCheckboxInputGUI($this->lng->txt('ps_prevent_simultaneous_logins'), 'ps_prevent_simultaneous_logins');
 		$objCb->setChecked((int)$security->isPreventionOfSimultaneousLoginsEnabled());
 		$objCb->setValue(1);
 		$objCb->setInfo($this->lng->txt('ps_prevent_simultaneous_logins_info'));
 		$form->addItem($objCb);
+		*/
 		
 		// protected admin
 		$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('adm_adm_role_protect'),'admin_role');
@@ -392,7 +410,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy->enableAnonymousFora ((int) $_POST['anonymous_fora']);
 		$privacy->enableRbacLog((int) $_POST['rbac_log']);
 		$privacy->setRbacLogAge((int) $_POST['rbac_log_age']);
+		
+		/* => LRES
 		$privacy->enableSahsProtocolData((int) $_POST['enable_sahs_pd']);
+		*/
 		
         // validate settings
         $code = $privacy->validate();
@@ -406,6 +427,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         else
         {
             $privacy->save();
+			
+			// :TODO: if visiblity activated for course/group
+			// :TODO: if confirmation activated for course/group
+			// :TODO: if last access activated for course/group
+			
 		    include_once('Services/Membership/classes/class.ilMemberAgreement.php');
 		    ilMemberAgreement::_reset();
 		    ilUtil::sendSuccess($this->lng->txt('settings_saved'));
@@ -442,9 +468,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $security->setHTTPSEnabled($_POST["https_enabled"]);
 		*/
 		
+		/* <= USER
         // prevention of simultaneous logins with the same account
         $security->setPreventionOfSimultaneousLogins((bool)$_POST['ps_prevent_simultaneous_logins']);
-
+		*/
+		
 		/* <= USER 
 		// account security settings
 		$security->setAccountSecurityMode((int) $_POST["account_security_mode"]);
@@ -459,9 +487,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$security->setPasswordChangeOnFirstLoginEnabled((bool) $_POST['password_change_on_first_login_enabled']);
 		*/
 		
+		/* <= FILE
 		// file suffic replacements
 		$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
-
+		*/
+		 
         // validate settings
 		if($rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
 		{
@@ -492,7 +522,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      * @return string
      */
 
-	public static function getErrorMessage ($code) {
+	public static function getErrorMessage ($code) 
+	{
+		self::initErrorMessages();
         return ilObjPrivacySecurityGUI::$ERROR_MESSAGE[$code];
 	}
 }

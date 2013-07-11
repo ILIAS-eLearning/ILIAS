@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
+include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 
 /**
 * Learning Resources Settings.
@@ -198,6 +199,12 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$cb_prop->setInfo($lng->txt("scorm_without_session_info"));
 		$cb_prop->setChecked($lm_set->get("scorm_without_session"));
 		$form->addItem($cb_prop);
+		
+		$privacy = ilPrivacySettings::_getInstance();		
+		$check = new ilCheckboxInputGui($lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
+		$check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
+		$check->setChecked($privacy->enabledSahsProtocolData());
+		$form->addItem($check);
 
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
@@ -235,6 +242,10 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 			ilUtil::stripSlashes($_POST["license_counter"]));
 		$lic_set->set("license_warning",
 			ilUtil::stripSlashes($_POST["license_warning"]));
+		
+		$privacy = ilPrivacySettings::_getInstance();
+		$privacy->enableSahsProtocolData((int) $_POST['enable_sahs_pd']);
+		$privacy->save();
 
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 
