@@ -2191,7 +2191,7 @@ common#:#auth_ldap_migration#:#Account-Migration
 common#:#auth_ldap_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS-Benutzerkonten auf LDAP-Authentifizierung umzustellen.
 common#:#auth_ldap_not_configured#:#LDAP ist noch nicht eingerichtet
 common#:#auth_ldap_settings_saved#:#LDAP-Einstellungen gespeichert
-common#:#auth_local#:#ILIAS Datenbank
+common#:#auth_local#:#ILIAS Auth
 common#:#auth_local_desc#:#Benutze die ILIAS Datenbank (Standard)
 common#:#auth_login_instructions#:#Anweisungen auf dem Anmeldebildschirm
 common#:#auth_mode#:#Authentifizierungsmodus
@@ -10063,7 +10063,7 @@ registration#:#registration_no_valid_role#:#Es ist momentan keine Rolle für Reg
 registration#:#registration_reg_type_codes#:#Registrieren mit Codes
 registration#:#registration_reg_type_codes_info#:#Bei dieser Registrierungsmethode benötigt der neue Benutzer einen gültigen Code.
 registration#:#registration_roles_all#:#Alle Rollen
-registration#:#registration_settings#:#Neuanmeldungen
+registration#:#registration_settings#:#ILIAS Auth / Selbstregistrierung
 registration#:#registration_tab_codes#:#Registrierungscodes
 registration#:#registration_tab_settings#:#Einstellungen
 registration#:#registration_used#:#Verbraucht am

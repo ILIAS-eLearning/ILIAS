@@ -1743,7 +1743,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'password_max_age' => $security->getPasswordMaxAge(),
 				
 				'login_max_attempts' => $security->getLoginMaxAttempts(),				
-				'ps_prevent_simultaneous_logins' => (int)$security->isPreventionOfSimultaneousLoginsEnabled()		
+				'ps_prevent_simultaneous_logins' => (int)$security->isPreventionOfSimultaneousLoginsEnabled(),
+				'password_assistance' => (bool)$ilSetting->get("password_assistance")
 			)
 		);
 						
@@ -1815,6 +1816,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$ilSetting->set('user_delete_own_account_email', $this->form->getInput('user_own_account_email'));
 				
 				$ilSetting->set("passwd_auto_generate", $this->form->getInput("passwd_auto_generate"));	
+				$ilSetting->set("password_assistance", $this->form->getInput("password_assistance"));	
 				
 				// BEGIN SESSION SETTINGS
 				$ilSetting->set('session_handling_type',
@@ -2066,6 +2068,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 		$radio_group->addOption($radio_opt);
 		$this->form->addItem($radio_group);
+							
+		// password assistance
+		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_password_assistance"), "password_assistance");		
+		$cb->setInfo($this->lng->txt("password_assistance_info"));
+		$this->form->addItem($cb);
 		
 		$text = new ilNumberInputGUI($this->lng->txt('ps_login_max_attempts'),'login_max_attempts');
 		$text->setInfo($this->lng->txt('ps_login_max_attempts_info'));
@@ -2078,6 +2085,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$objCb->setValue(1);
 		$objCb->setInfo($this->lng->txt('ps_prevent_simultaneous_logins_info'));
 		$this->form->addItem($objCb);
+		
+
 		
 
 		$log = new ilFormSectionHeaderGUI();

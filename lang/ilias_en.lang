@@ -1673,7 +1673,7 @@ common#:#auth_ldap_not_configured#:#LDAP is not configured yet
 common#:#auth_ldap_settings_saved#:#LDAP settings saved
 common#:#auth_ldap#:#LDAP
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)
-common#:#auth_local#:#ILIAS database
+common#:#auth_local#:#ILIAS Auth
 common#:#auth_login_instructions#:#Instructions shown on login page
 common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
@@ -8622,7 +8622,7 @@ registration#:#reg_type_confirmation_info#:#This type allows self-registration o
 registration#:#reg_type_confirmation#:#Registration with E-Mail Confirmation
 registration#:#reg_type#:#Registration Type
 registration#:#reg_unknown_recipients#:#The following logins are not valid:
-registration#:#registration_settings#:#New Registrations
+registration#:#registration_settings#:#ILIAS Auth / Self-Registration
 registration#:#registration_user_new_account_mail#:#Edit New Account Mail
 registration#:#registration_tab_settings#:#Registration Settings
 registration#:#registration_tab_codes#:#Registration Codes
