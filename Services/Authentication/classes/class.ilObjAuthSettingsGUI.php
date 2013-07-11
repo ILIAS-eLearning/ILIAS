@@ -191,12 +191,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		foreach ($reg_roles as $role)
 		{
 			foreach ($active_auth_modes as $auth_name => $auth_key)
-			{
+			{				
 				// do not list auth modes with external login screen
 				// even not default, because it can easily be set to
 				// a non-working auth mode
 				if ($auth_name == "default" || $auth_name == "cas"
-					|| $auth_name == "shibboleth" || $auth_name == 'ldap' || $auth_name == 'apache')
+					|| $auth_name == "shibboleth" || $auth_name == 'ldap' 
+					|| $auth_name == 'apache' || $auth_name == "ecs"
+					|| $auth_name == "openid")
 				{
 					continue;
 				}
@@ -822,6 +824,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
 		}
+		
+		if(!$next_class && $cmd == "view")
+		{
+			var_dump("hurz");
+		}
 			
 		switch($next_class)
 		{
@@ -929,14 +936,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-
-			$tabs_gui->addTarget('registration_settings',
-									   $this->ctrl->getLinkTargetByClass('ilregistrationsettingsgui','view'));
-
+		{		
 			$tabs_gui->addTarget("authentication_settings", $this->ctrl->getLinkTarget($this, "authSettings"),
 										 "", "", "");
-										 
+		
+			$tabs_gui->addTarget('registration_settings',
+									   $this->ctrl->getLinkTargetByClass('ilregistrationsettingsgui','view'));
+			
 			$tabs_gui->addTarget("auth_ldap", $this->ctrl->getLinkTargetByClass('illdapsettingsgui','serverList'),
 								   "", "", "");
 
