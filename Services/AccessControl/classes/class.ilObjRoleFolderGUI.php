@@ -588,7 +588,13 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				array("", "view"),
 				get_class($this)
 			);
-
+			
+			$tabs_gui->addTarget(
+				"settings",
+				$this->ctrl->getLinkTarget($this, "editSettings"),
+				array("editSettings"),
+				get_class($this)
+			);
 		}
 
 		if($this->checkPermissionBool("edit_permission"))
@@ -599,10 +605,94 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				"",
 				"ilpermissiongui");
 		}
-
+	}
+	
+	function editSettingsObject(ilPropertyFormGUI $a_form = null)
+	{
+		if(!$a_form)
+		{
+			$a_form = $this->initSettingsForm();
+		}
+		
+		$this->tpl->setContent($a_form->getHTML());
 	}
 
+	function saveSettingsObject()
+	{
+		global $ilErr, $rbacreview, $ilUser;
+		
+		if (!$this->checkPermissionBool("write"))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+		}
+		
+		$form = $this->initSettingsForm();
+		if($form->checkInput())
+		{
+			include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');			
+			$privacy = ilPrivacySettings::_getInstance();
+			$privacy->enableRbacLog((int) $_POST['rbac_log']);
+			$privacy->setRbacLogAge((int) $_POST['rbac_log_age']);	
+			$privacy->save();
+						
+			if($rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
+			{
+				include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+				$security = ilSecuritySettings::_getInstance();
+				$security->protectedAdminRole((int) $_POST['admin_role']);
+				$security->save();
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+			$this->ctrl->redirect($this, "editSettings");
+		}
+		
+		$form->setValuesByPost();
+		$this->editSettingsObject($form);
+	}
+	
+	protected function initSettingsForm()
+	{
+		global $rbacreview, $ilUser;
+		
+		$this->lng->loadLanguageModule('ps');
+		
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+		$security = ilSecuritySettings::_getInstance();
+	 	
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
+		$form->setTitle($this->lng->txt('settings'));		
+		
+		// protected admin
+		$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('adm_adm_role_protect'),'admin_role');
+		$admin->setDisabled(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID));
+		$admin->setInfo($this->lng->txt('adm_adm_role_protect_info'));
+		$admin->setChecked((int) $security->isAdminRoleProtected());
+		$admin->setValue(1);
+		$form->addItem($admin);
+		
+		$check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
+		$check->setInfo($this->lng->txt('rbac_log_info'));
+		$check->setChecked($privacy->enabledRbacLog());
+		$form->addItem($check);
 
+		$age = new ilNumberInputGUI($this->lng->txt('rbac_log_age'),'rbac_log_age');
+		$age->setInfo($this->lng->txt('rbac_log_age_info'));
+	    $age->setValue($privacy->getRbacLogAge());
+		$age->setMinValue(1);
+		$age->setMaxValue(24);
+		$age->setSize(2);
+		$age->setMaxLength(2);
+		$check->addSubItem($age);
+		
+		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
+	
+		return $form;
+	}
 
 } // END class.ilObjRoleFolderGUI
 ?>

@@ -203,6 +203,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$group->addOption($check);
 		$form->addItem($group);
 
+		/* <= FORUM
 		$check = new ilCheckboxInputGui($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
 		$check->setInfo($this->lng->txt('enable_fora_statistics_desc'));
 		$check->setChecked($privacy->enabledForaStatistics());
@@ -212,14 +213,16 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
 		$check->setChecked($privacy->enabledAnonymousFora());
 		$form->addItem($check);
-
-		/* => LRES
+		*/
+		
+		/* <= LRES
 		$check = new ilCheckboxInputGui($this->lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
 		$check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
 		$check->setChecked($privacy->enabledSahsProtocolData());
 		$form->addItem($check);
 		*/
 		
+		/* => ROLES		
 		$check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
 		$check->setInfo($this->lng->txt('rbac_log_info'));
 		$check->setChecked($privacy->enabledRbacLog());
@@ -233,7 +236,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$age->setSize(2);
 		$age->setMaxLength(2);
 		$check->addSubItem($age);
-
+		*/
+		
 		$form->addCommandButton('save_privacy',$this->lng->txt('save'));
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -361,6 +365,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$form->addItem($objCb);
 		*/
 		
+		/* => ROLES
 		// protected admin
 		$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('adm_adm_role_protect'),'admin_role');
 		$admin->setDisabled(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID));
@@ -368,7 +373,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$admin->setChecked((int) $security->isAdminRoleProtected());
 		$admin->setValue(1);
 		$form->addItem($admin);
-
+		*/
+		
 		$form->addCommandButton('save_security',$this->lng->txt('save'));
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -406,10 +412,16 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy->setGroupConfirmationRequired((int) in_array('export_confirm_group', $_POST['profile_protection']));
 		$privacy->showGroupAccessTimes((int) in_array('grp_access_times', $_POST['profile_protection']));
 		$privacy->showCourseAccessTimes((int) in_array('crs_access_times', $_POST['profile_protection']));
+		
+		/* => FORUM
 		$privacy->enableForaStatistics ((int) $_POST['fora_statistics']);
 		$privacy->enableAnonymousFora ((int) $_POST['anonymous_fora']);
+		*/
+		 
+		/* => ROLES
 		$privacy->enableRbacLog((int) $_POST['rbac_log']);
-		$privacy->setRbacLogAge((int) $_POST['rbac_log_age']);
+		$privacy->setRbacLogAge((int) $_POST['rbac_log_age']);		 
+		*/
 		
 		/* => LRES
 		$privacy->enableSahsProtocolData((int) $_POST['enable_sahs_pd']);
@@ -492,11 +504,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
 		*/
 		 
+		/* => ROLES
         // validate settings
 		if($rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
 		{
 			$security->protectedAdminRole((int) $_POST['admin_role']);
 		}
+		*/
 		
         $code = $security->validate();
 
