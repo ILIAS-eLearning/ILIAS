@@ -202,6 +202,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$check->setValue('crs_access_times');
 		$group->addOption($check);
 		$form->addItem($group);
+		
+		include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_PRIVACY, 
+			$form,
+			$this
+		);
 
 		/* <= FORUM
 		$check = new ilCheckboxInputGui($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
@@ -260,6 +267,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('ps_security_protection'));
+		
+		include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_SECURITY, 
+			$form,
+			$this
+		);
 
 		/* <= GENERAL
 		// Form checkbox

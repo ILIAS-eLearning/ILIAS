@@ -3115,5 +3115,71 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");		
 	}
 	
+	public function addToExternalSettingsForm($a_form_id, ilPropertyFormGUI $a_form, ilObjectGUI $a_parent_gui)
+	{
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_SECURITY:
+				
+				include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+				$security = ilSecuritySettings::_getInstance();
+				
+				$inf = new ilNonEditableValueGUI($this->lng->txt('ps_account_security_mode'));
+				$inf->setValue((int)$security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_DEFAULT ? 
+					$this->lng->txt("ps_account_security_mode_default") :
+					$this->lng->txt("ps_account_security_mode_customized"));
+				$a_form->addItem($inf);
+				
+				if((int)$security->getAccountSecurityMode() != ilSecuritySettings::ACCOUNT_SECURITY_MODE_DEFAULT)
+				{
+					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_password_chars_and_numbers_enabled'));
+					$sub->setValue((int)$security->isPasswordCharsAndNumbersEnabled() ? 
+						$this->lng->txt("yes") :
+						$this->lng->txt("no"));
+					$inf->addSubItem($sub);
+					
+					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_password_special_chars_enabled'));
+					$sub->setValue((int)$security->isPasswordChangeOnFirstLoginEnabled() ? 
+						$this->lng->txt("yes") :
+						$this->lng->txt("no"));
+					$inf->addSubItem($sub);
+					
+					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_password_min_length'));
+					$sub->setValue((int)$security->getPasswordMinLength());
+					$inf->addSubItem($sub);
+					
+					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_password_max_length'));
+					$sub->setValue((int)$security->getPasswordMaxLength());
+					$inf->addSubItem($sub);
+					
+					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_password_max_age'));
+					$sub->setValue((int)$security->getPasswordMaxAge());
+					$inf->addSubItem($sub);
+					
+					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_password_min_length'));
+					$sub->setValue((int)$security->getPasswordMinLength());
+					$inf->addSubItem($sub);				
+				}
+				
+				$inf = new ilNonEditableValueGUI($this->lng->txt('ps_login_max_attempts'));
+				$inf->setValue((int)$security->getLoginMaxAttempts());
+				$a_form->addItem($inf);
+				
+				$inf = new ilNonEditableValueGUI($this->lng->txt('ps_password_change_on_first_login_enabled'));
+				$inf->setValue((int)$security->isPasswordChangeOnFirstLoginEnabled() ? 
+					$this->lng->txt("yes") :
+					$this->lng->txt("no"));
+				$a_form->addItem($inf);
+				
+				$inf = new ilNonEditableValueGUI($this->lng->txt('ps_prevent_simultaneous_logins'));
+				$inf->setValue((int)$security->isPreventionOfSimultaneousLoginsEnabled() ? 
+					$this->lng->txt("yes") :
+					$this->lng->txt("no"));
+				$a_form->addItem($inf);
+				
+				break;			
+		}		
+	}
+	
 } // END class.ilObjUserFolderGUI
 ?>
