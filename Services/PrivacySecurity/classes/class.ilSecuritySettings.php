@@ -486,8 +486,19 @@ class ilSecuritySettings
 	 *
 	 * @return 0, if everything is ok, an error code otherwise
 	 */
-	public function validate()
-	{
+	public function validate(ilPropertyFormGUI $a_form = null)
+	{		
+		$code = null;
+		
+		if ($a_form)
+		{
+			// we need to initialise the lang vars
+			include_once "Services/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php";		
+			$gui = new ilObjPrivacySecurityGUI(null, $this->getSecuritySettingsRefId());
+			unset($gui);
+		}		
+		
+		// handled in form itself
 	    if ($this->isAutomaticHTTPSEnabled() &&
 	        (strlen($this->getAutomaticHTTPSHeaderName()) == 0 ||
 	         strlen($this->getAutomaticHTTPSHeaderValue()) == 0)
@@ -495,30 +506,67 @@ class ilSecuritySettings
         {
 	        return ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS;
 	    }
+		
         include_once './Services/Http/classes/class.ilHTTPS.php';
 
 	    if ($this->isHTTPSEnabled())
 	    {
 			if(!ilHTTPS::_checkHTTPS())
 			{
-				return ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE;
+				$code = ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE;
+				if(!$a_form)
+				{
+					return $code;
+				}
+				else
+				{					
+					$a_form->getItemByPostVar('https_enabled')
+						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+				}
 			}
 	    } 
 		elseif(!ilHTTPS::_checkHTTP())
 		{
-		    return ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE;
+			$code = ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE;
+			if(!$a_form)
+			{
+				return $code;
+			}
+			else
+			{		
+				$a_form->getItemByPostVar('https_enabled')
+						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+			}
 		}
 
 		if( $this->getAccountSecurityMode() == self::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
 		{
 			if( $this->getPasswordMinLength() < 0 )
 			{
-				return self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH;
+				$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH;
+				if(!$a_form)
+				{
+					return $code;
+				}
+				else
+				{		
+					$a_form->getItemByPostVar('password_min_length')
+							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+				}
 			}
 
 			if( $this->getPasswordMaxLength() < 0 )
 			{
-				return self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_LENGTH;
+				$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_LENGTH;
+				if(!$a_form)
+				{
+					return $code;
+				}
+				else
+				{		
+					$a_form->getItemByPostVar('password_max_length')
+							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+				}
 			}
 
 			$password_min_length = 1;
@@ -534,22 +582,58 @@ class ilSecuritySettings
 				}
 			}
 			if( $this->getPasswordMinLength() > 0 && $this->getPasswordMinLength() < $password_min_length )
-			{
-				return $password_min_length_error_code;
+			{				
+				$code = $password_min_length_error_code;
+				if(!$a_form)
+				{
+					return $code;
+				}
+				else
+				{	
+					$a_form->getItemByPostVar('password_min_length')
+							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+				}
 			}
 			if( $this->getPasswordMaxLength() > 0 && $this->getPasswordMaxLength() < $this->getPasswordMinLength() )
 			{
-				return self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH;
+				$code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH;
+				if(!$a_form)
+				{
+					return $code;
+				}
+				else
+				{	
+					$a_form->getItemByPostVar('password_max_length')
+							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+				}
 			}
 
 			if( $this->getPasswordMaxAge() < 0 )
 			{
-				return self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE;
+				$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE;
+				if(!$a_form)
+				{
+					return $code;
+				}
+				else
+				{	
+					$a_form->getItemByPostVar('password_max_age')
+							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+				}
 			}
 
 			if( $this->getLoginMaxAttempts() < 0 )
 			{
-				return self::SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS;
+				$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS;
+				if(!$a_form)
+				{
+					return $code;
+				}
+				else
+				{	
+					$a_form->getItemByPostVar('login_max_attempts')
+							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+				}
 			}
 		}
 
@@ -558,7 +642,14 @@ class ilSecuritySettings
 		 * than: add errorcode
 		 */
 
-	    return 0;
+		if(!$a_form)
+		{
+			return 0;
+		}
+		else
+		{
+			return !(bool)$code;
+		}
 	}
 
 	/**
