@@ -240,30 +240,207 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$tpl->setDescription("");
 	}
 
-	/**
-	 * Show information about a plugin slot.
-	 */
-	function showPluginSlot()
+	function showPlugin()
 	{
-		global $tpl, $lng, $ilTabs, $ilCtrl;
+		global $ilCtrl, $ilTabs, $lng, $tpl, $ilDB, $ilToolbar;
+		
+		if(!$_GET["ctype"] ||
+			!$_GET["cname"] ||
+			!$_GET["slot_id"] ||
+			!$_GET["plugin_id"])
+		{
+			$ilCtrl->redirect($this, "listPlugins");
+		}
+		
+		include_once("./Services/Component/classes/class.ilPluginSlot.php");
+		$slot = new ilPluginSlot($_GET["ctype"], $_GET["cname"], $_GET["slot_id"]);
+		
+		$plugin = null;
+		foreach($slot->getPluginsInformation() as $item)
+		{
+			if($item["plugin_id"] == $_GET["plugin_id"]);
+			{
+				$plugin = $item;
+				break;
+			}
+		}
+		if(!$plugin)
+		{
+			$ilCtrl->redirect($this, "listPlugins");
+		}
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("cmps_plugins"),
 			$ilCtrl->getLinkTarget($this, "listPlugins"));
+		
+		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->setParameter($this, "plugin_id", $_GET["plugin_id"]);
+		$ilCtrl->setParameter($this, "pname", $plugin["name"]);
+		
+		$langs = ilPlugin::getAvailableLangFiles($slot->getPluginsDirectory()."/".
+			$plugin["name"]."/lang");		
+				
+		// dbupdate
+		$file = ilPlugin::getDBUpdateScriptName($_GET["ctype"], $_GET["cname"],
+			ilPluginSlot::lookupSlotName($_GET["ctype"], $_GET["cname"], $_GET["slot_id"]),
+			$plugin["name"]);
+		$db_curr = $db_file = null;
+		if (@is_file($file))
+		{
+			include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
+			$dbupdate = new ilPluginDBUpdate($_GET["ctype"], $_GET["cname"],
+				$_GET["slot_id"], $plugin["name"], $ilDB, true, "");
 
-		include_once("./Services/Component/classes/class.ilComponent.php");
-		$comp = ilComponent::getComponentObject($_GET["ctype"], $_GET["cname"]);
+			$db_curr = $dbupdate->getCurrentVersion();
+			$db_file = $dbupdate->getFileVersion();
+						
+			/* update command
+			if ($db_file > $db_curr)
+			{
+				$ilToolbar->addButton($lng->txt("cmps_update_db"),
+					$ilCtrl->getLinkTarget($this, "updatePluginDB"));
+			} */			
+		}
+				
+		
+		// toolbar actions
+		
+		if ($plugin["activation_possible"])
+		{
+			$ilToolbar->addButton($lng->txt("cmps_activate"),
+				$ilCtrl->getLinkTarget($this, "activatePlugin"));						
+		}
 
-		// plugins table
-		include_once("./Services/Component/classes/class.ilPluginsTableGUI.php");
-		$plugins_table = new ilPluginsTableGUI($this, "showPluginSlot",
-			$_GET["ctype"], $_GET["cname"], $_GET["slot_id"], $_GET["plugin_id"]);
-		$tpl->setContent($plugins_table->getHTML());
+		// deactivation/refresh languages button
+		if ($plugin["is_active"])
+		{			
+			// refresh languages button
+			if (count($langs) > 0)
+			{
+				$ilToolbar->addButton($lng->txt("cmps_refresh"),
+					$ilCtrl->getLinkTarget($this, "refreshLanguages"));				
+			}
 
-		// set content and title
-		$tpl->setTitle($comp->getComponentType()."/".$comp->getName().": ".
-			$lng->txt("cmps_plugin_slot")." \"".$comp->getPluginSlotName($_GET["slot_id"])."\"");
-		$tpl->setDescription("");
+			// configure button
+			if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $plugin["name"]) &&
+				$ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($plugin["name"])))
+			{
+				$ilToolbar->addButton($lng->txt("cmps_configure"),
+					$ilCtrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($plugin["name"])), "configure"));
+			}
+			
+			// deactivate button
+			$ilToolbar->addButton($lng->txt("cmps_deactivate"),
+				$ilCtrl->getLinkTarget($this, "deactivatePlugin"));			
+		}
+		
+		// update button
+		if ($plugin["needs_update"])
+		{
+			$ilToolbar->addButton($lng->txt("cmps_update"),
+				$ilCtrl->getLinkTarget($this, "updatePlugin"));
+		}
+		
+	
+		// info
+		
+		$resp = array();
+		if (strlen($plugin["responsible"]))
+		{
+			$responsibles = explode('/', $plugin["responsible_mail"]);
+			foreach($responsibles as $responsible)
+			{
+				if(!strlen($responsible = trim($responsible)))
+				{
+					continue;
+				}
+				
+				$resp[] = $responsible;			
+			}
+
+			$resp = $plugin["responsible"]." (".implode(" / ", $resp).")";
+		}
+		
+		if ($plugin["is_active"])
+		{
+			$status = $lng->txt("cmps_active");
+		}
+		else
+		{
+			$r = ($status["inactive_reason"] != "")
+				? " (".$status["inactive_reason"].")"
+				: "";
+				
+			$status = $lng->txt("cmps_inactive").$r;
+		}
+		
+		$info[""][$lng->txt("cmps_name")] = $plugin["name"];
+		$info[""][$lng->txt("cmps_id")] = $plugin["id"];		
+		$info[""][$lng->txt("cmps_version")] = $plugin["version"];		
+		if($resp)
+		{
+			$info[""][$lng->txt("cmps_responsible")] = $resp;
+		}		
+		$info[""][$lng->txt("cmps_ilias_min_version")] = $plugin["ilias_min_version"];
+		$info[""][$lng->txt("cmps_ilias_max_version")] = $plugin["ilias_max_version"];
+		$info[""][$lng->txt("cmps_status")] = $status;
+				
+		if(sizeof($langs))
+		{
+			$lang_files = array();
+			foreach($langs as $lang)
+			{
+				$lang_files[] = $lang["file"];		
+			}
+			$info[""][$lng->txt("cmps_languages")] = implode(", ", $lang_files);
+		}
+		else
+		{
+			$info[""][$lng->txt("cmps_languages")] = $lng->txt("cmps_no_language_file_available");
+		}
+		
+		$info[$lng->txt("cmps_basic_files")]["plugin.php"] = $plugin["plugin_php_file_status"] ?
+			$lng->txt("cmps_available") :
+			$lng->txt("cmps_missing");
+		$info[$lng->txt("cmps_basic_files")][$lng->txt("cmps_class_file")] = ($plugin["class_file_status"] ?
+				$lng->txt("cmps_available") :
+				$lng->txt("cmps_missing")).
+			" (".$plugin["class_file"].")";
+		
+		if(!$db_file)
+		{
+			$info[$lng->txt("cmps_database")][$lng->txt("file")] = $lng->txt("cmps_no_db_update_file_available");
+		}
+		else
+		{
+			$info[$lng->txt("cmps_database")][$lng->txt("file")] = "dbupdate.php";
+			$info[$lng->txt("cmps_database")][$lng->txt("cmps_current_version")] = $db_curr;
+			$info[$lng->txt("cmps_database")][$lng->txt("cmps_file_version")] = $db_file;
+		}
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($lng->txt("cmps_plugin"));
+		
+		foreach($info as $section => $items)
+		{
+			if(trim($section))
+			{
+				$sec = new ilFormSectionHeaderGUI();
+				$sec->setTitle($section);
+				$form->addItem($sec);
+			}
+			foreach($items as $key => $value)
+			{
+				$non = new ilNonEditableValueGUI($key);
+				$non->setValue($value);
+				$form->addItem($non);
+			}
+		}
+	
+		$tpl->setContent($form->getHTML());
 	}
 	
 	/**
@@ -272,7 +449,9 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	function refreshPluginsInformation()
 	{
 		global $ilCtrl;
+		
 die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
+
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		ilPlugin::refreshPluginXmlInformation();
 		
@@ -316,8 +495,17 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 			
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
-		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
-		$ilCtrl->redirect($this, "showPluginSlot");
+		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);		
+		
+		if($_GET["plugin_id"])
+		{
+			$ilCtrl->setParameter($this, "plugin_id", $_GET["plugin_id"]);
+			$ilCtrl->redirect($this, "showPlugin");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "listPlugins");
+		}		
 	}
 	
 	/**
@@ -325,7 +513,6 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 	*/
 	function updatePlugin()
 	{
-
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
@@ -348,10 +535,12 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		$ilCtrl->setParameterByClass("iladministrationgui", "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameterByClass("iladministrationgui", "cname", $_GET["cname"]);
 		$ilCtrl->setParameterByClass("iladministrationgui", "slot_id", $_GET["slot_id"]);
+		$ilCtrl->setParameterByClass("iladministrationgui", "plugin_id", $_GET["plugin_id"]);
 		$ilCtrl->setTargetScript("ilias.php");
 //		$ilCtrl->callBaseClass();
-		ilUtil::redirect("ilias.php?admin_mode=settings&baseClass=ilAdministrationGUI&cmd=jumpToPluginSlot&".
-			"ref_id=".$_GET["ref_id"]."&ctype=".$_GET["ctype"]."&cname=".$_GET["cname"]."&slot_id=".$_GET["slot_id"]);
+		ilUtil::redirect("ilias.php?admin_mode=settings&baseClass=ilAdministrationGUI".
+			"&cmd=jumpToPluginSlot&ref_id=".$_GET["ref_id"]."&ctype=".$_GET["ctype"].
+			"&cname=".$_GET["cname"]."&slot_id=".$_GET["slot_id"]."&plugin_id=".$_GET["plugin_id"]);
 		//$ilCtrl->redirectByClass("iladministrationgui", );
 	}
 
@@ -380,7 +569,16 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
 		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
-		$ilCtrl->redirect($this, "showPluginSlot");
+		
+		if($_GET["plugin_id"])
+		{
+			$ilCtrl->setParameter($this, "plugin_id", $_GET["plugin_id"]);
+			$ilCtrl->redirect($this, "showPlugin");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "listPlugins");
+		}
 	}
 
 	/**
@@ -404,7 +602,16 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
 		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
-		$ilCtrl->redirect($this, "showPluginSlot");
+		
+		if($_GET["plugin_id"])
+		{
+			$ilCtrl->setParameter($this, "plugin_id", $_GET["plugin_id"]);
+			$ilCtrl->redirect($this, "showPlugin");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "listPlugins");
+		}
 	}
 
 	/**
@@ -413,6 +620,8 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 	function updatePluginDB()
 	{
 		global $ilDB;
+		
+die ("ilObjComponentSettigsGUI::updatePluginDB: deprecated");
 		
 		include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
 		$dbupdate = new ilPluginDBUpdate($_GET["ctype"], $_GET["cname"],
@@ -437,7 +646,7 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
 		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
-		$ilCtrl->redirect($this, "showPluginSlot");
+		$ilCtrl->redirect($this, "listPlugins");
 	}
 
 

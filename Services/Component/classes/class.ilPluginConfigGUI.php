@@ -45,16 +45,28 @@ abstract class ilPluginConfigGUI
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $_GET["cname"]);
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $_GET["slot_id"]);
+		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "plugin_id", $_GET["plugin_id"]);
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "pname", $_GET["pname"]);
 
 		$tpl->setTitle($lng->txt("cmps_plugin").": ".$_GET["pname"]);
 		$tpl->setDescription("");
 
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget(
-			$lng->txt("cmps_plugin_slot"),
-			$ilCtrl->getLinkTargetByClass("ilobjcomponentsettingsgui", "showPluginSlot")
-		);
+		
+		if($_GET["plugin_id"])
+		{
+			$ilTabs->setBackTarget(
+				$lng->txt("cmps_plugin"),
+				$ilCtrl->getLinkTargetByClass("ilobjcomponentsettingsgui", "showPlugin")
+			);
+		}
+		else
+		{
+			$ilTabs->setBackTarget(
+				$lng->txt("cmps_plugins"),
+				$ilCtrl->getLinkTargetByClass("ilobjcomponentsettingsgui", "listPlugins")
+			);
+		}
 
 		$this->performCommand($ilCtrl->getCmd("configure"));
 
