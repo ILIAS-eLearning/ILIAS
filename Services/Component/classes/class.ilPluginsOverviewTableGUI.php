@@ -47,6 +47,8 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	*/
 	function getComponents()
 	{
+		global $ilCtrl;
+		
 		$plugins = array();
 		
 		include_once("./Services/Component/classes/class.ilModule.php");
@@ -82,13 +84,25 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 				$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
 				{
+					$conf = false;
+					if(ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) &&
+						$ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"])))
+					{
+						$conf = true;
+					}
+					
 					$plugins[] =  array("slot_name" => $slot->getSlotName(),
 						"component_type" => IL_COMP_SERVICE,
 						"component_name" => $s["subdir"],
 						"slot_id" => $ps["id"],
 						"plugin_id" => $p["id"],			
 						"plugin_name" => $p["name"],
-						"plugin_active" => $p["is_active"]);
+						"plugin_active" => $p["is_active"],
+						"activation_possible" => $p["activation_possible"],
+						"needs_update" => $p["needs_update"],
+						"has_conf" => $conf,
+						"has_lang" => (bool)sizeof(ilPlugin::getAvailableLangFiles(
+							$slot->getPluginsDirectory()."/".$p["name"]."/lang")));
 				}				
 			}
 		}
@@ -102,16 +116,60 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $ilCtrl, $lng;
-
+		
+		// actions 
+		
 		$ilCtrl->setParameter($this->parent_obj, "ctype", $a_set["component_type"]);
-		$ilCtrl->setParameter($this->parent_obj, "cname", $a_set["component_name"]);
-		$ilCtrl->setParameter($this->parent_obj, "slot_id", $a_set["slot_id"]);
+		$ilCtrl->setParameter($this->parent_obj, "cname", $a_set["component_name"]);		
+			$ilCtrl->setParameter($this->parent_obj, "slot_id", $a_set["slot_id"]);
+		
+		$action = array();
+					
 		$ilCtrl->setParameter($this->parent_obj, "plugin_id", $a_set["plugin_id"]);
-		$this->tpl->setCurrentBlock("cmd");
-		$this->tpl->setVariable("TXT_CMD", $lng->txt("administrate"));
-		$this->tpl->setVariable("HREF_CMD",
-			$ilCtrl->getLinkTarget($this->parent_obj, "showPluginSlot"));
-		$this->tpl->parseCurrentBlock();
+		$action[$lng->txt("info")] = $ilCtrl->getLinkTarget($this->parent_obj, "showPlugin");
+		$ilCtrl->setParameter($this->parent_obj, "plugin_id", "");
+		
+		$ilCtrl->setParameter($this->parent_obj, "pname", $a_set["plugin_name"]);
+		
+		if ($a_set["plugin_active"])
+		{			
+			if ($a_set["has_lang"])
+			{
+				$action[$lng->txt("cmps_refresh")] = 
+					$ilCtrl->getLinkTarget($this->parent_obj, "refreshLanguages");				
+			}
+			
+			if ($a_set["has_conf"])
+			{			
+				$action[$lng->txt("cmps_configure")] = 
+					$ilCtrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($a_set["plugin_name"])), "configure");			
+			}
+							
+			$action[$lng->txt("cmps_deactivate")] = 
+				$ilCtrl->getLinkTarget($this->parent_obj, "deactivatePlugin");	
+		}
+		else if ($a_set["activation_possible"])		
+		{
+			$action[$lng->txt("cmps_activate")] = 
+				$ilCtrl->getLinkTarget($this->parent_obj, "activatePlugin");	
+		}
+		
+		// update button
+		if ($a_set["needs_update"])
+		{
+			$action[$lng->txt("cmps_update")] =	
+				$ilCtrl->getLinkTarget($this->parent_obj, "updatePlugin");
+		}
+		
+		$ilCtrl->setParameter($this->parent_obj, "pname", "");
+
+		foreach($action as $caption => $cmd)
+		{
+			$this->tpl->setCurrentBlock("cmd");
+			$this->tpl->setVariable("TXT_CMD", $caption);
+			$this->tpl->setVariable("HREF_CMD", $cmd);
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		$this->tpl->setVariable("TXT_SLOT_NAME", $a_set["slot_name"]);
 		$this->tpl->setVariable("TXT_COMP_NAME", 
@@ -123,6 +181,6 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set["plugin_name"]);		
 		$this->tpl->setVariable("TXT_ACTIVE", $act_str);		
 	}
-
 }
+
 ?>

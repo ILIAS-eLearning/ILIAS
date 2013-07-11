@@ -420,8 +420,16 @@ class ilAdministrationGUI
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $_GET["cname"]);
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $_GET["slot_id"]);
-		$ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "showPluginSlot");
-
+		
+		if($_GET["plugin_id"])
+		{
+			$ilCtrl->setParameter($this, "plugin_id", $_GET["plugin_id"]);
+			$ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "showPlugin");
+		}
+		else
+		{
+			$ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugin");
+		}
 	}
 
 	/**
