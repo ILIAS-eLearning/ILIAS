@@ -293,9 +293,7 @@ class ilUserTableGUI extends ilTable2GUI
 		}
 		
 		include_once("./Services/User/classes/class.ilUserQuery.php");
-		$query = new ilUserQuery();
-		$query->setOrderField(ilUtil::stripSlashes($this->getOrderField()));
-		$query->setOrderDirection(ilUtil::stripSlashes($this->getOrderDirection()));
+		$query = new ilUserQuery();		
 		$query->setOffset(0);
 		$query->setLimit(self::getAllCommandLimit());
 		$query->setTextFilter($this->filter['query']);
@@ -308,6 +306,12 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setRoleFilter($this->filter['global_role']);
 		$query->setUserFolder($user_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
+		
+		if($this->getOrderField())
+		{
+			$query->setOrderField(ilUtil::stripSlashes($this->getOrderField()));
+			$query->setOrderDirection(ilUtil::stripSlashes($this->getOrderDirection()));
+		}
 		
 		$usr_data = $query->query();
 		
