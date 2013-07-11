@@ -40,6 +40,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$this->getComponents();
 		$this->setLimit(10000);
 		
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");		
 	}
 	
 	/**
@@ -163,12 +164,18 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		
 		$ilCtrl->setParameter($this->parent_obj, "pname", "");
 
-		foreach($action as $caption => $cmd)
-		{
-			$this->tpl->setCurrentBlock("cmd");
-			$this->tpl->setVariable("TXT_CMD", $caption);
-			$this->tpl->setVariable("HREF_CMD", $cmd);
-			$this->tpl->parseCurrentBlock();
+		if(sizeof($action))
+		{				
+			$alist = new ilAdvancedSelectionListGUI();
+			$alist->setId($a_set["plugin_id"]);
+			$alist->setListTitle($lng->txt("actions"));
+				
+			foreach($action as $caption => $cmd)
+			{
+				$alist->addItem($caption, "", $cmd);
+			}
+			
+			$this->tpl->setVariable("ACTION_SELECTOR", $alist->getHTML());
 		}
 		
 		$this->tpl->setVariable("TXT_SLOT_NAME", $a_set["slot_name"]);
