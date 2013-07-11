@@ -3400,7 +3400,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 					$this->lng->txt("no"));
 				$a_form->addItem($inf);
 				
-				break;
+				return "showHTTPS";
 		}
 	}
 	
