@@ -1813,10 +1813,54 @@ class ilMail
 		}
 
 		// ACTIONS FOR ALL TYPES
+		 
+		
 		// GET RCPT OF MAILING LISTS
-		$rcp_to = $this->parseRcptOfMailingLists($a_rcp_to);
-		$rcp_cc = $this->parseRcptOfMailingLists($a_rcp_cc);
-		$rcp_bc = $this->parseRcptOfMailingLists($a_rcp_bc);
+		
+		$rcp_to_list = $this->parseRcptOfMailingLists($a_rcp_to, true);
+		$rcp_cc_list = $this->parseRcptOfMailingLists($a_rcp_cc, true);
+		$rcp_bc_list = $this->parseRcptOfMailingLists($a_rcp_bc, true);
+			
+		$rcp_to = $rcp_cc = $rcp_bc = array();		
+		foreach($rcp_to_list as $mlist_id => $mlist_rec)
+		{
+			if($mlist_id)
+			{
+				// internal mailing lists are sent as bcc
+				$mlist_id = substr($mlist_id, 7);
+				if($this->mlists->get($mlist_id)->getMode() == ilMailingList::MODE_TEMPORARY)
+				{
+					$rcp_bc = array_merge($rcp_bc, $mlist_rec);
+					continue;
+				}
+			}
+			
+			$rcp_to = array_merge($rcp_to, $mlist_rec);			
+		}
+		foreach($rcp_cc_list as $mlist_id => $mlist_rec)
+		{
+			if($mlist_id)
+			{
+				// internal mailing lists are sent as bcc
+				$mlist_id = substr($mlist_id, 7);
+				if($this->mlists->get($mlist_id)->getMode() == ilMailingList::MODE_TEMPORARY)
+				{
+					$rcp_bc = array_merge($rcp_bc, $mlist_rec);
+					continue;
+				}
+			}
+			
+			$rcp_cc = array_merge($rcp_cc, $mlist_rec);			
+		}
+		foreach($rcp_bc_list as $mlist_id => $mlist_rec)
+		{			
+			$rcp_bc = array_merge($rcp_bc, $mlist_rec);			
+		}
+			
+		$rcp_to = implode(',', $rcp_to);
+		$rcp_cc = implode(',', $rcp_cc);
+		$rcp_bc = implode(',', $rcp_bc);
+		
 
 		if (! ilMail::_usePearMail() )
 		{
@@ -1906,12 +1950,32 @@ class ilMail
 		return '';
 	}
 
-	function parseRcptOfMailingLists($rcpt = '')
+	function parseRcptOfMailingLists($rcpt = '', $maintain_lists = false)
 	{
-		if ($rcpt == '') return $rcpt;
+		if ($rcpt == '') 
+		{
+			if(!$maintain_lists)
+			{
+				return $rcpt;
+			}
+			else
+			{
+				return array();
+			}
+		}
 //@todo check rcp pear validation
 		$arrRcpt = $this->explodeRecipients(trim($rcpt));
-		if (!is_array($arrRcpt) || empty($arrRcpt)) return $rcpt;
+		if (!is_array($arrRcpt) || empty($arrRcpt))
+		{
+			if(!$maintain_lists)
+			{
+				return $rcpt;
+			}
+			else
+			{
+				return array();
+			}
+		}
 
 		$new_rcpt = array();
 
@@ -1925,13 +1989,27 @@ class ilMail
 					{
 						foreach ($this->mlists->getCurrentMailingList()->getAssignedEntries() as $entry)
 						{
-							$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+							if(!$maintain_lists)
+							{
+								$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+							}
+							else
+							{
+								$new_rcpt[$item->mailbox][] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+							}
 						}
 					}
 				}
 				else
 				{
-					$new_rcpt[] = $item->mailbox.'@'.$item->host;
+					if(!$maintain_lists)
+					{
+						$new_rcpt[] = $item->mailbox.'@'.$item->host;
+					}
+					else
+					{
+						$new_rcpt[0][] = $item->mailbox.'@'.$item->host;
+					}
 				}
 			}
 			else
@@ -1942,18 +2020,39 @@ class ilMail
 					{
 						foreach ($this->mlists->getCurrentMailingList()->getAssignedEntries() as $entry)
 						{
-							$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+							if(!$maintain_lists)
+							{
+								$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+							}
+							else
+							{
+								$new_rcpt[$item][] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+							}
 						}
 					}
 				}
 				else
 				{
-					$new_rcpt[] = $item;
+					if(!$maintain_lists)
+					{
+						$new_rcpt[] = $item;
+					}
+					else
+					{
+						$new_rcpt[0][] = $item;
+					}
 				}
 			}
 		}
 
-		return implode(',', $new_rcpt);
+		if(!$maintain_lists)
+		{
+			return implode(',', $new_rcpt);
+		}
+		else
+		{
+			return $new_rcpt;
+		}
 	}
 
 	/**
