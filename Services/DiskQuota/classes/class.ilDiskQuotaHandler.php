@@ -92,7 +92,7 @@ class ilDiskQuotaHandler
 	 * 
 	 * @param int $a_owner_id
 	 */
-	protected static function deleteByOwner($a_owner_id)
+	public static function deleteByOwner($a_owner_id)
 	{
 		global $ilDB;
 		
