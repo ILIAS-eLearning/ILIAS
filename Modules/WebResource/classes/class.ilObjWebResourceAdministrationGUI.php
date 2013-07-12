@@ -90,11 +90,14 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
 	public function saveSettings()
 	{
-				$this->checkPermission("write");
+		global $ilSetting;
+		
+		$this->checkPermission("write");
 		
 		$form = $this->initFormSettings();
 		if($form->checkInput())
 		{			
+			$ilSetting->set("links_dynamic", $form->getInput("links_dynamic"));
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 			$this->ctrl->redirect($this, "editSettings");
@@ -106,13 +109,18 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
 	protected function initFormSettings()
 	{	    
+		global $ilSetting;
+		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
 		$form->setTitle($this->lng->txt("settings"));
 		
-		
-		
+		// dynamic web links
+		$cb = new ilCheckboxInputGUI($this->lng->txt("links_dynamic"), "links_dynamic");
+		$cb->setInfo($this->lng->txt("links_dynamic_info"));	
+		$cb->setChecked($ilSetting->get("links_dynamic"));		
+		$form->addItem($cb);		
 	
 		$form->addCommandButton("saveSettings", $this->lng->txt("save"));
 		$form->addCommandButton("view", $this->lng->txt("cancel"));
