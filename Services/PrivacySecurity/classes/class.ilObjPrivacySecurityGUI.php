@@ -210,41 +210,6 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 			$this
 		);
 
-		/* <= FORUM
-		$check = new ilCheckboxInputGui($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
-		$check->setInfo($this->lng->txt('enable_fora_statistics_desc'));
-		$check->setChecked($privacy->enabledForaStatistics());
-		$form->addItem($check);
-
-		$check = new ilCheckboxInputGui($this->lng->txt('enable_anonymous_fora'), 'anonymous_fora');
-		$check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
-		$check->setChecked($privacy->enabledAnonymousFora());
-		$form->addItem($check);
-		*/
-		
-		/* <= LRES
-		$check = new ilCheckboxInputGui($this->lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
-		$check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
-		$check->setChecked($privacy->enabledSahsProtocolData());
-		$form->addItem($check);
-		*/
-		
-		/* => ROLES		
-		$check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
-		$check->setInfo($this->lng->txt('rbac_log_info'));
-		$check->setChecked($privacy->enabledRbacLog());
-		$form->addItem($check);
-
-		$age = new ilNumberInputGUI($this->lng->txt('rbac_log_age'),'rbac_log_age');
-		$age->setInfo($this->lng->txt('rbac_log_age_info'));
-	    $age->setValue($privacy->getRbacLogAge());
-		$age->setMinValue(1);
-		$age->setMaxValue(24);
-		$age->setSize(2);
-		$age->setMaxLength(2);
-		$check->addSubItem($age);
-		*/
-		
 		$form->addCommandButton('save_privacy',$this->lng->txt('save'));
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -275,121 +240,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 			$this
 		);
 
-		/* <= GENERAL
-		// Form checkbox
-		$check = new ilCheckboxInputGUI($this->lng->txt('ps_auto_https'),'auto_https_detect_enabled');
-		$check->setOptionTitle($this->lng->txt('ps_auto_https_description'));
-		$check->setChecked($security->isAutomaticHTTPSEnabled() ? 1 : 0);
-		$check->setValue(1);
-
-			$text = new ilTextInputGUI($this->lng->txt('ps_auto_https_header_name'),'auto_https_detect_header_name');
-			$text->setValue($security->getAutomaticHTTPSHeaderName());
-			$text->setSize(24);
-			$text->setMaxLength(64);
-		$check->addSubItem($text);
-
-			$text = new ilTextInputGUI($this->lng->txt('ps_auto_https_header_value'),'auto_https_detect_header_value');
-			$text->setValue($security->getAutomaticHTTPSHeaderValue());
-			$text->setSize(24);
-			$text->setMaxLength(64);
-		$check->addSubItem($text);
-
-		$form->addItem($check);
-		
-		$check2 = new ilCheckboxInputGUI($this->lng->txt('activate_https'),'https_enabled');
-		$check2->setChecked($security->isHTTPSEnabled() ? 1 : 0);
-		$check2->setValue(1);
-		$form->addItem($check2);
-		*/
-		
-		/* <= USER
-		$radio_group = new ilRadioGroupInputGUI($this->lng->txt('ps_account_security_mode'), 'account_security_mode' );
-		$radio_group->setValue($security->getAccountSecurityMode());
-
-			$radio_opt = new ilRadioOption($this->lng->txt('ps_account_security_mode_default'),ilSecuritySettings::ACCOUNT_SECURITY_MODE_DEFAULT);
-		$radio_group->addOption($radio_opt);
-
-			$radio_opt = new ilRadioOption($this->lng->txt('ps_account_security_mode_customized'),ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED);
-
-				$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_chars_and_numbers_enabled'),'password_chars_and_numbers_enabled');
-				$check->setChecked( $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0 );
-				//$check->setOptionTitle($this->lng->txt('ps_password_chars_and_numbers_enabled'));
-				$check->setInfo($this->lng->txt('ps_password_chars_and_numbers_enabled_info'));
-			$radio_opt->addSubItem($check);
-
-				$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_special_chars_enabled'),'password_special_chars_enabled');
-				$check->setChecked( $security->isPasswordSpecialCharsEnabled() ? 1 : 0 );
-				//$check->setOptionTitle($this->lng->txt('ps_password_special_chars_enabled'));
-				$check->setInfo($this->lng->txt('ps_password_special_chars_enabled_info'));
-			$radio_opt->addSubItem($check);
-
-				$text = new ilTextInputGUI($this->lng->txt('ps_password_min_length'),'password_min_length');
-				$text->setInfo($this->lng->txt('ps_password_min_length_info'));
-				$text->setValue( $security->getPasswordMinLength() );
-				$text->setSize(1);
-				$text->setMaxLength(2);
-			$radio_opt->addSubItem($text);
-
-				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_length'),'password_max_length');
-				$text->setInfo($this->lng->txt('ps_password_max_length_info'));
-				$text->setValue( $security->getPasswordMaxLength() );
-				$text->setSize(2);
-				$text->setMaxLength(3);
-			$radio_opt->addSubItem($text);
-
-				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_age'),'password_max_age');
-				$text->setInfo($this->lng->txt('ps_password_max_age_info'));
-				$text->setValue( $security->getPasswordMaxAge() );
-				$text->setSize(2);
-				$text->setMaxLength(3);
-			$radio_opt->addSubItem($text);
-
-				$text = new ilTextInputGUI($this->lng->txt('ps_login_max_attempts'),'login_max_attempts');
-				$text->setInfo($this->lng->txt('ps_login_max_attempts_info'));
-				$text->setValue( $security->getLoginMaxAttempts() );
-				$text->setSize(1);
-				$text->setMaxLength(2);
-			$radio_opt->addSubItem($text);
-
-		$radio_group->addOption($radio_opt);
-		$form->addItem($radio_group);
-
-		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_change_on_first_login_enabled'),'password_change_on_first_login_enabled');
-		$check->setInfo($this->lng->txt('ps_password_change_on_first_login_enabled_info'));
-		$check->setChecked( $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0 );
-		$form->addItem($check);
-		*/
-		
-		/* => FILE
-		// file suffix replacement
-		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_repl"), "suffix_repl_additional");
-		$ti->setMaxLength(200);
-		$ti->setSize(40);
-		$ti->setInfo($this->lng->txt("file_suffix_repl_info")." ".SUFFIX_REPL_DEFAULT);
-		$ti->setValue($ilSetting->get("suffix_repl_additional"));
-		$form->addItem($ti);
-		*/
-		
-		/* => USER
-		// prevent login from multiple pcs at the same time
-		$objCb = new ilCheckboxInputGUI($this->lng->txt('ps_prevent_simultaneous_logins'), 'ps_prevent_simultaneous_logins');
-		$objCb->setChecked((int)$security->isPreventionOfSimultaneousLoginsEnabled());
-		$objCb->setValue(1);
-		$objCb->setInfo($this->lng->txt('ps_prevent_simultaneous_logins_info'));
-		$form->addItem($objCb);
-		*/
-		
-		/* => ROLES
-		// protected admin
-		$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('adm_adm_role_protect'),'admin_role');
-		$admin->setDisabled(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID));
-		$admin->setInfo($this->lng->txt('adm_adm_role_protect_info'));
-		$admin->setChecked((int) $security->isAdminRoleProtected());
-		$admin->setValue(1);
-		$form->addItem($admin);
-		*/
-		
-		$form->addCommandButton('save_security',$this->lng->txt('save'));
+		// $form->addCommandButton('save_security',$this->lng->txt('save'));
 		$this->tpl->setContent($form->getHTML());
 	}
 
@@ -426,20 +277,6 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy->setGroupConfirmationRequired((int) in_array('export_confirm_group', $_POST['profile_protection']));
 		$privacy->showGroupAccessTimes((int) in_array('grp_access_times', $_POST['profile_protection']));
 		$privacy->showCourseAccessTimes((int) in_array('crs_access_times', $_POST['profile_protection']));
-		
-		/* => FORUM
-		$privacy->enableForaStatistics ((int) $_POST['fora_statistics']);
-		$privacy->enableAnonymousFora ((int) $_POST['anonymous_fora']);
-		*/
-		 
-		/* => ROLES
-		$privacy->enableRbacLog((int) $_POST['rbac_log']);
-		$privacy->setRbacLogAge((int) $_POST['rbac_log_age']);		 
-		*/
-		
-		/* => LRES
-		$privacy->enableSahsProtocolData((int) $_POST['enable_sahs_pd']);
-		*/
 		
         // validate settings
         $code = $privacy->validate();
@@ -481,51 +318,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
 
-
+		/*
 		$security = ilSecuritySettings::_getInstance();
 
-		/* <= GENERAL
-		// auto https detection settings
-        $security->setAutomaticHTTPSEnabled((int) $_POST["auto_https_detect_enabled"]);
-        $security->setAutomaticHTTPSHeaderName(ilUtil::stripSlashes($_POST["auto_https_detect_header_name"]));
-        $security->setAutomaticHTTPSHeaderValue(ilUtil::stripSlashes($_POST["auto_https_detect_header_value"]));
-        
-        // ilias https handling settings
-        $security->setHTTPSEnabled($_POST["https_enabled"]);
-		*/
-		
-		/* <= USER
-        // prevention of simultaneous logins with the same account
-        $security->setPreventionOfSimultaneousLogins((bool)$_POST['ps_prevent_simultaneous_logins']);
-		*/
-		
-		/* <= USER 
-		// account security settings
-		$security->setAccountSecurityMode((int) $_POST["account_security_mode"]);
-		$security->setPasswordCharsAndNumbersEnabled((bool) $_POST["password_chars_and_numbers_enabled"]);
-		$security->setPasswordSpecialCharsEnabled((bool) $_POST["password_special_chars_enabled"]);
-		$security->setPasswordMinLength((int) $_POST["password_min_length"]);
-		$security->setPasswordMaxLength((int) $_POST["password_max_length"]);
-		$security->setPasswordMaxAge((int) $_POST["password_max_age"]);
-		$security->setLoginMaxAttempts((int) $_POST["login_max_attempts"]);
-
-		// change password on first login settings
-		$security->setPasswordChangeOnFirstLoginEnabled((bool) $_POST['password_change_on_first_login_enabled']);
-		*/
-		
-		/* <= FILE
-		// file suffic replacements
-		$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
-		*/
-		 
-		/* => ROLES
-        // validate settings
-		if($rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
-		{
-			$security->protectedAdminRole((int) $_POST['admin_role']);
-		}
-		*/
-		
         $code = $security->validate();
 
         // if error code != 0, display error and do not save
@@ -538,7 +333,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             $security->save();
 		    ilUtil::sendSuccess($this->lng->txt('settings_saved'));
         }
-
+		*/
+		
 		$this->showSecurity();
 	}
 
@@ -556,4 +352,5 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         return ilObjPrivacySecurityGUI::$ERROR_MESSAGE[$code];
 	}
 }
+
 ?>

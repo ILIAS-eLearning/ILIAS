@@ -265,6 +265,13 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$valid->setRequired(true);
 		$form->addItem($valid);
 		
+		include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_LP, 
+			$form,
+			$this
+		);
+		
 		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
 		
 		return $form;

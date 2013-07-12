@@ -460,6 +460,39 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		}		
 		$ilCtrl->redirect($this, "listModules");		
 	}
+	
+	public function addToExternalSettingsForm($a_form_id)
+	{				
+		switch($a_form_id)
+		{			
+			case ilAdministrationSettingsFormHandler::FORM_FILES_QUOTA:
+				
+				require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
+				$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
+				
+				$fields = array('repository_disk_quota' => array($disk_quota_obj->isDiskQuotaEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+				
+				if((bool)$disk_quota_obj->isDiskQuotaEnabled())
+				{
+					$fields['~enable_disk_quota_reminder_mail'] = array($disk_quota_obj->isDiskQuotaReminderMailEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
+					$fields['~enable_disk_quota_summary_mail'] = array($disk_quota_obj->isDiskQuotaSummaryMailEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
+					
+					if((bool)$disk_quota_obj->isDiskQuotaSummaryMailEnabled())
+					{
+						$fields['~~disk_quota_summary_rctp'] = $disk_quota_obj->getSummaryRecipients();
+					}
+				}
+				
+				return array(array("view", $fields));
+				
+			case ilAdministrationSettingsFormHandler::FORM_LP:
+				
+				require_once 'Services/Tracking/classes/class.ilChangeEvent.php';		
+				$fields = array('trac_repository_changes' => array(ilChangeEvent::_isActive(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+												
+				return array(array("view", $fields));			
+		}
+	}
 }
 
 ?>

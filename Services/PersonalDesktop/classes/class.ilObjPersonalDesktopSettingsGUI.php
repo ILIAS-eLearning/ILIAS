@@ -387,6 +387,21 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
 		$ilCtrl->redirect($this, "editWsp");
 	}
+	
+	public function addToExternalSettingsForm($a_form_id)
+	{				
+		switch($a_form_id)
+		{			
+			case ilAdministrationSettingsFormHandler::FORM_FILES_QUOTA:
+				
+				require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
+				$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
+				
+				$fields = array('personal_workspace_disk_quota' => array($disk_quota_obj->isPersonalWorkspaceDiskQuotaEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+				
+				return array(array("editWsp", $fields));			
+		}
+	}
 }
 
 ?>

@@ -3340,8 +3340,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				
 				if($security->isAutomaticHTTPSEnabled())
 				{
-					$fields['ps_auto_https_header_name'] = $security->getAutomaticHTTPSHeaderName();
-					$fields['ps_auto_https_header_value'] =	$security->getAutomaticHTTPSHeaderValue();	
+					$fields['~ps_auto_https_header_name'] = $security->getAutomaticHTTPSHeaderName();
+					$fields['~ps_auto_https_header_value'] =	$security->getAutomaticHTTPSHeaderValue();	
 				}
 				
 				$fields['activate_https'] = 

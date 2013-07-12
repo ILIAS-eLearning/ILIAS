@@ -13,6 +13,8 @@ class ilAdministrationSettingsFormHandler
 	
 	const FORM_PRIVACY = 1;
 	const FORM_SECURITY = 2;
+	const FORM_FILES_QUOTA = 3;
+	const FORM_LP = 4;
 	
 	const SETTINGS_USER = "usrf";
 	const SETTINGS_GENERAL = "adm";
@@ -20,6 +22,8 @@ class ilAdministrationSettingsFormHandler
 	const SETTINGS_ROLE = "rolf";
 	const SETTINGS_FORUM = "frma";
 	const SETTINGS_LRES = "lrss";
+	const SETTINGS_REPOSITORY = "reps";
+	const SETTINGS_PD = "pdts";
 	
 	const VALUE_BOOL = "bool";
 	
@@ -77,6 +81,14 @@ class ilAdministrationSettingsFormHandler
 				$types = array(self::SETTINGS_ROLE, self::SETTINGS_FORUM, self::SETTINGS_LRES);
 				break;	
 			
+			case self::FORM_FILES_QUOTA:
+				$types = array(self::SETTINGS_REPOSITORY, self::SETTINGS_PD);
+				break;	
+			
+			case self::FORM_LP:
+				$types = array(self::SETTINGS_REPOSITORY);
+				break;	
+			
 			default:
 				return;
 		}		
@@ -122,10 +134,11 @@ class ilAdministrationSettingsFormHandler
 											break;
 									}				
 
-									if(substr($field_caption_id, 0, 1) == "_")
+									if(substr($field_caption_id, 0, 1) == "~")
 									{
-										$ftpl->setVariable("SPACER", ' style="padding-left:20px"');
-										$field_caption_id = substr($field_caption_id, 1);
+										$depth = explode("~", $field_caption_id);
+										$field_caption_id = array_pop($depth);
+										$ftpl->setVariable("SPACER", ' style="padding-left:'.(sizeof($depth)*20).'px"');										
 									}								
 									
 									if(!is_numeric($field_value) && !trim($field_value))

@@ -716,7 +716,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				
 				if((bool)$privacy->enabledRbacLog())
 				{
-					$fields['_rbac_log_age'] = $privacy->getRbacLogAge();
+					$fields['~rbac_log_age'] = $privacy->getRbacLogAge();
 				}
 				
 				return array(array("editSettings", $fields));			
