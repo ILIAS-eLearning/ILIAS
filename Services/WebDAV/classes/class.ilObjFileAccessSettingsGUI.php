@@ -1039,6 +1039,20 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$tpl->setContent($form->getHTML());
 		}
 	}
-
+	
+	public function addToExternalSettingsForm($a_form_id)
+	{
+		global $ilSetting;
+		
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_SECURITY:
+				
+				$fields = array('file_suffix_repl' => $ilSetting->get("suffix_repl_additional"));
+				
+				return array(array("editUploadSettings", $fields));				
+		}
+	}
 } 
+
 ?>

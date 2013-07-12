@@ -13514,7 +13514,7 @@ survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da 
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Im Offline-Modus können Lernmodule nur mit dem SCORM-Offline-Player bearbeitet werden. Die Lernstandsdaten werden von den Lernenden übertragen durch Klick auf 'Offline-Modus beenden' in ILIAS.
 wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt, so wird eine neue (leere) Seite erstellt.
-administration#:#https#:#HTTPS
+administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Magazin 
 common#:#obj_reps_desc#:#Allgemeine Einstellungen für das Magazin
 rep#:#rep_object_lists#:#Objektlisten
@@ -13528,3 +13528,5 @@ common#:#obj_crss#:#Kurs
 common#:#obj_crss_desc#:#Allgemeine Einstellungen für Kurse
 common#:#obj_grps#:#Gruppe
 common#:#obj_grps_desc#:#Allgemeine Einstellungen für Gruppen
+administration#:#adm_external_setting_prefix#:#Externe Einstellungen
+administration#:#adm_external_setting_edit#:#Einstellungen bearbeiten

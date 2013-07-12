@@ -251,5 +251,19 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 
 		$ilCtrl->redirect($this, "view");
 	}
+	
+	public function addToExternalSettingsForm($a_form_id)
+	{				
+		switch($a_form_id)
+		{			
+			case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
+				
+				$privacy = ilPrivacySettings::_getInstance();	
+				
+				$fields = array('enable_sahs_protocol_data' => array($privacy->enabledSahsProtocolData(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+				
+				return array(array("editSettings", $fields));			
+		}
+	}
 }
 ?>
