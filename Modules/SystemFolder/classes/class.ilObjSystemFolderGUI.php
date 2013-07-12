@@ -1897,29 +1897,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setInfo($this->lng->txt("adm_locale_info"));
 		$ti->setValue($ilSetting->get("locale"));
 		$this->form->addItem($ti);				
-		
-		/* => AUTHENTICATION 
-		// password assistance
-		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_password_assistance"), "password_assistance");
-		if ($ilSetting->get("password_assistance"))
-		{
-			$cb->setChecked(true);
-		}
-		$cb->setInfo($this->lng->txt("password_assistance_info"));
-		$this->form->addItem($cb);
-		*/
-		
-		/* => WEB LINKS
-		// dynamic web links
-		$cb = new ilCheckboxInputGUI($this->lng->txt("links_dynamic"), "links_dynamic");
-		$cb->setInfo($this->lng->txt("links_dynamic_info"));
-		if ($ilSetting->get("links_dynamic"))
-		{
-			$cb->setChecked(true);
-		}
-		$this->form->addItem($cb);
-		*/
-		
+	
 		/* => COURSE/GROUP
 		// Learners View
 		$pl = new ilCheckboxInputGUI($this->lng->txt('preview_learner'),'preview_learner');
@@ -2010,14 +1988,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			ilUserUtil::setStartingPoint($this->form->getInput('usr_start'), $this->form->getInput('usr_start_ref_id'));
 			ilUserUtil::togglePersonalStartingPoint($this->form->getInput('usr_start_pers'));
 
-			/* => WEB LINKS
-			$ilSetting->set("links_dynamic", $_POST["links_dynamic"]);
-			*/
-					
-			/* => AUTHENTICATION
-			$ilSetting->set("password_assistance", $_POST["password_assistance"]);			 
-			*/
-			
 			/* => COURSE/GROUP
 			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
 			*/
