@@ -1639,10 +1639,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));
-			$ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
+			$ilTabs->addSubTabTarget("https", $ilCtrl->getLinkTarget($this, "showHTTPS"));	
 			$ilTabs->addSubTabTarget("proxy", $ilCtrl->getLinkTarget($this, "showProxy"));		
-			$ilTabs->addSubTabTarget("https", $ilCtrl->getLinkTarget($this, "showHTTPS"));		
+			$ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));	
+			$ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));							
 		}
 		
 		$ilTabs->setSubTabActive($a_activate);

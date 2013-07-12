@@ -1938,7 +1938,7 @@ cmps#:#cmps_plugin_file#:#Plugin-Datei
 cmps#:#cmps_plugin_lang_prefixes#:#Plugin-Sprachpräfixe
 cmps#:#cmps_plugin_slot#:#Plugin-Slot
 cmps#:#cmps_plugins#:#Plugins
-cmps#:#cmps_refresh#:#Neu laden
+cmps#:#cmps_refresh#:#Sprachen neu laden
 cmps#:#cmps_refresh_plugins_inf#:#Informationen über Plugins aktualisieren
 cmps#:#cmps_rep_object#:#Objekttyp im Magazin
 cmps#:#cmps_responsible#:#Verantwortlich
@@ -11887,7 +11887,7 @@ user#:#user_account_code_valid_until#:#Gültig bis
 user#:#user_account_code_valid_until_dynamic#:#Anzahl Tage
 user#:#user_account_code_valid_until_static#:#Enddatum
 user#:#user_account_code_valid_until_unlimited#:#Unlimitiert
-user#:#user_account_codes#:#Codes
+user#:#user_account_codes#:#Account-Reaktivierungs-Codes
 user#:#user_account_codes_add#:#Codes erzeugen
 user#:#user_account_codes_edit_header#:#Neue Codes erzeugen
 user#:#user_account_codes_export#:#Codes exportieren

@@ -1431,7 +1431,7 @@ cmps#:#cmps_plugin_slot#:#Plugin Slot
 cmps#:#cmps_plugin#:#Plugin
 cmps#:#cmps_plugins#:#Plugins
 cmps#:#cmps_refresh_plugins_inf#:#Refresh Plugins Information
-cmps#:#cmps_refresh#:#Refresh
+cmps#:#cmps_refresh#:#Refresh Languages
 cmps#:#cmps_rep_object#:#Repository Object Type
 cmps#:#cmps_responsible#:#Responsible
 cmps#:#cmps_save_options#:#Save Options
@@ -11482,7 +11482,7 @@ chatroom_adm#:#storepass#:#Storepass
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
 common#:#obj_chtr#:#Chatroom
 chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.
-user#:#user_account_codes#:#Account Codes
+user#:#user_account_codes#:#Account Reactivation Codes
 user#:#user_account_codes_add#:#Add Codes
 user#:#user_account_codes_export#:#Export Codes
 user#:#user_account_codes_edit_header#:#Add Codes
