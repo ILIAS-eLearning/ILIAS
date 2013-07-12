@@ -45,7 +45,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		$this->initFilter();
 		$this->setFilterCommand("applyCodesFilter");
 		$this->setResetCommand("resetCodesFilter");
-		$this->setDefaultOrderField("registration_generated");
+		$this->setDefaultOrderField("generated"); // #11341
 		$this->setDefaultOrderDirection("desc");
 
 		$this->setSelectAllCheckbox("id[]");
