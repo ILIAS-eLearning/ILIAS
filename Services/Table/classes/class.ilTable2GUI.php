@@ -2263,18 +2263,16 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 
 				// export
 				if(sizeof($this->export_formats) && $this->dataExists())
-				{
-					$map = array(self::EXPORT_EXCEL => "tbl_export_excel",
-						self::EXPORT_CSV => "tbl_export_csv");
+				{				
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 					$alist = new ilAdvancedSelectionListGUI();
 					$alist->setId("sellst_xpt");
-					foreach($this->export_formats as $format)
+					foreach($this->export_formats as $format => $caption_lng_id)
 					{
 						$ilCtrl->setParameter($this->parent_obj, $this->prefix."_xpt", $format);
 						$url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd);
 						$ilCtrl->setParameter($this->parent_obj, $this->prefix."_xpt", "");
-						$alist->addItem($lng->txt($map[$format]), $format, $url);
+						$alist->addItem($lng->txt($caption_lng_id), $format, $url);
 					}
 					$alist->setListTitle($lng->txt("export"));
 					$this->tpl->setVariable("EXPORT_SELECTOR", "&nbsp;".$alist->getHTML());
@@ -2964,14 +2962,18 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 * @param	array	$formats
 	 */
     public function setExportFormats(array $formats)
-    {
+    {		
 		$this->export_formats = array();
-		$valid = array(self::EXPORT_EXCEL, self::EXPORT_CSV);
+		
+		// #11339
+		$valid = array(self::EXPORT_EXCEL => "tbl_export_excel",
+			self::EXPORT_CSV => "tbl_export_csv");
+		
 		foreach($formats as $format)
 	    {
-		   if(in_array($format, $valid))
+		   if(array_key_exists($format, $valid))
 		   {
-				$this->export_formats[] = $format;
+				$this->export_formats[$format] = $valid[$format];
 		   }
 		}
 	}
