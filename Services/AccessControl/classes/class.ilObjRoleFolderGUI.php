@@ -693,6 +693,35 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	
 		return $form;
 	}
+	
+	public function addToExternalSettingsForm($a_form_id)
+	{		
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_SECURITY:
+				
+				include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+				$security = ilSecuritySettings::_getInstance();
+				
+				$fields = array('adm_adm_role_protect' => array($security->isAdminRoleProtected(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+				
+				return array(array("editSettings", $fields));			
+				
+			case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
+				
+				include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');	
+				$privacy = ilPrivacySettings::_getInstance();
+				
+				$fields = array('rbac_log' => array($privacy->enabledRbacLog(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+				
+				if((bool)$privacy->enabledRbacLog())
+				{
+					$fields['_rbac_log_age'] = $privacy->getRbacLogAge();
+				}
+				
+				return array(array("editSettings", $fields));			
+		}
+	}
 
 } // END class.ilObjRoleFolderGUI
 ?>

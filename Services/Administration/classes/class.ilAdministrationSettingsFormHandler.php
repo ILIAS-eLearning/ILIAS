@@ -17,6 +17,11 @@ class ilAdministrationSettingsFormHandler
 	const SETTINGS_USER = "usrf";
 	const SETTINGS_GENERAL = "adm";
 	const SETTINGS_FILE = "facs";
+	const SETTINGS_ROLE = "rolf";
+	const SETTINGS_FORUM = "frma";
+	const SETTINGS_LRES = "lrss";
+	
+	const VALUE_BOOL = "bool";
 	
 	protected static function initObjectMap()
 	{		
@@ -65,8 +70,12 @@ class ilAdministrationSettingsFormHandler
 		switch($a_form_id)
 		{
 			case self::FORM_SECURITY:
-				$types = array(self::SETTINGS_GENERAL, self::SETTINGS_USER, self::SETTINGS_FILE);
-				break;				
+				$types = array(self::SETTINGS_GENERAL, self::SETTINGS_USER, self::SETTINGS_FILE, self::SETTINGS_ROLE);
+				break;	
+			
+			case self::FORM_PRIVACY:
+				$types = array(self::SETTINGS_ROLE, self::SETTINGS_FORUM, self::SETTINGS_LRES);
+				break;	
 			
 			default:
 				return;
@@ -76,26 +85,81 @@ class ilAdministrationSettingsFormHandler
 		{
 			$gui = self::getSettingsGUIInstance($type);			
 			if($gui && method_exists($gui, "addToExternalSettingsForm"))
-			{
-				$sec = new ilFormSectionHeaderGUI();
-				$sec->setTitle($lng->txt("obj_".$type));
-				$a_form->addItem($sec);
-				
-				$cmd = $gui->addToExternalSettingsForm($a_form_id, $a_form, $a_parent_gui);
-				
-				if ($rbacsystem->checkAccess("visible,read", $gui->object->getRefId()))
-				{	
-					if(!$cmd)
-					{
-						$cmd = "view";
+			{	
+				$data = $gui->addToExternalSettingsForm($a_form_id);
+				if(is_array($data))
+				{
+					foreach($data as $area_caption => $fields)
+					{	
+						if(is_numeric($area_caption) || !trim($area_caption))
+						{
+							$area_caption = "obj_".$type;
+						}
+						
+						if(is_array($fields) && sizeof($fields) == 2)
+						{
+							$cmd = $fields[0];
+							$fields = $fields[1];
+							if(is_array($fields))
+							{
+								$ftpl = new ilTemplate("tpl.external_settings.html", true, true, "Services/Administration");
+													
+								$ftpl->setCurrentBlock("row_bl");	
+								foreach($fields as $field_caption_id => $field_value)
+								{
+									$field_type = null;
+									if(is_array($field_value))
+									{
+										$field_type = $field_value[1];
+										$field_value = $field_value[0];
+									}
+									switch($field_type)
+									{
+										case self::VALUE_BOOL:
+											$field_value = (bool)$field_value ?
+												$lng->txt("yes") :
+												$lng->txt("no");
+											break;
+									}				
+
+									if(substr($field_caption_id, 0, 1) == "_")
+									{
+										$ftpl->setVariable("SPACER", ' style="padding-left:20px"');
+										$field_caption_id = substr($field_caption_id, 1);
+									}								
+									
+									if(!is_numeric($field_value) && !trim($field_value))
+									{
+										$field_value = "-";
+									}
+										
+									$ftpl->setVariable("KEY", $lng->txt($field_caption_id));
+									$ftpl->setVariable("VALUE", $field_value);
+									$ftpl->parseCurrentBlock();
+								}
+								
+								if ($rbacsystem->checkAccess("visible,read", $gui->object->getRefId()))
+								{	
+									if(!$cmd)
+									{
+										$cmd = "view";
+									}
+									$ilCtrl->setParameter($gui, "ref_id", $gui->object->getRefId());
+									
+									$ftpl->setCurrentBlock("edit_bl");
+									$ftpl->setVariable("URL_EDIT", $ilCtrl->getLinkTarget($gui, $cmd));
+									$ftpl->setVariable("TXT_EDIT", $lng->txt("adm_external_setting_edit"));
+									$ftpl->parseCurrentBlock();
+								}			
+								
+								$ext = new ilCustomInputGUI($lng->txt($area_caption).
+									"<div class=\"small\"><em>".$lng->txt("adm_external_setting_prefix")."</em></div>");
+								$ext->setHtml($ftpl->get());
+								$a_form->addItem($ext);
+							}						
+						}
 					}
-					$ilCtrl->setParameter($gui, "ref_id", $gui->object->getRefId());
-					$link = $ilCtrl->getLinkTarget($gui, $cmd);
-					
-					$url = new ilCustomInputGUI($lng->txt("settings"));
-					$url->setHtml('<a href="'.$link.'" class="submit">'.$lng->txt("edit").'</a>');
-					$a_form->addItem($url);
-				}				
+				}
 			}
 		}
 	}	

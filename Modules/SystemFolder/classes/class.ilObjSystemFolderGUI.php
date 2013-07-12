@@ -1639,7 +1639,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$ilTabs->addSubTabTarget("https", $ilCtrl->getLinkTarget($this, "showHTTPS"));	
+			$ilTabs->addSubTabTarget("adm_https", $ilCtrl->getLinkTarget($this, "showHTTPS"));	
 			$ilTabs->addSubTabTarget("proxy", $ilCtrl->getLinkTarget($this, "showProxy"));		
 			$ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));	
 			$ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));							
@@ -3281,7 +3281,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$this->setServerInfoSubTabs('https');
+		$this->setServerInfoSubTabs('adm_https');
 		
 		$lng->loadLanguageModule('ps');
 		
@@ -3290,7 +3290,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($lng->txt("https"));
+		$form->setTitle($lng->txt("adm_https"));
 		$form->setFormAction($ilCtrl->getFormAction($this, 'saveHTTPS'));
 		
 		$check = new ilCheckboxInputGUI($lng->txt('ps_auto_https'),'auto_https_detect_enabled');
@@ -3325,7 +3325,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		return $form;
 	}
 	
-	public function addToExternalSettingsForm($a_form_id, ilPropertyFormGUI $a_form, ilObjectGUI $a_parent_gui)
+	public function addToExternalSettingsForm($a_form_id)
 	{
 		switch($a_form_id)
 		{
@@ -3334,30 +3334,20 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 				$security = ilSecuritySettings::_getInstance();
 				
-				$inf = new ilNonEditableValueGUI($this->lng->txt('ps_auto_https'));
-				$inf->setValue($security->isAutomaticHTTPSEnabled() ? 
-					$this->lng->txt("yes") :
-					$this->lng->txt("no"));
-				$a_form->addItem($inf);
+				$fields = array('ps_auto_https' => 
+					array($security->isAutomaticHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				);
 				
 				if($security->isAutomaticHTTPSEnabled())
 				{
-					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_auto_https_header_name'));
-					$sub->setValue($security->getAutomaticHTTPSHeaderName());
-					$inf->addSubItem($sub);
-					
-					$sub = new ilNonEditableValueGUI($this->lng->txt('ps_auto_https_header_value'));
-					$sub->setValue($security->getAutomaticHTTPSHeaderValue());
-					$inf->addSubItem($sub);
+					$fields['ps_auto_https_header_name'] = $security->getAutomaticHTTPSHeaderName();
+					$fields['ps_auto_https_header_value'] =	$security->getAutomaticHTTPSHeaderValue();	
 				}
 				
-				$inf = new ilNonEditableValueGUI($this->lng->txt('activate_https'));
-				$inf->setValue($security->isHTTPSEnabled() ? 
-					$this->lng->txt("yes") :
-					$this->lng->txt("no"));
-				$a_form->addItem($inf);
+				$fields['activate_https'] = 
+					array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
 				
-				return "showHTTPS";
+				return array("general_settings" => array("showHTTPS", $fields));				
 		}
 	}
 	

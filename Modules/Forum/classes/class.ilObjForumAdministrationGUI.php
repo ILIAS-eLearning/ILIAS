@@ -198,5 +198,23 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
 		$this->tpl->setContent($form->getHTML());
 	}
+	
+	public function addToExternalSettingsForm($a_form_id)
+	{		
+		global $ilSetting;
+		
+		switch($a_form_id)
+		{			
+			case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
+				
+				$fields = array(
+					'enable_fora_statistics' => array($ilSetting->get('enable_fora_statistics', false), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'enable_anonymous_fora' => array($ilSetting->get('enable_anonymous_fora', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				);
+				
+				return array(array("editSettings", $fields));			
+		}
+	}
 }
+
 ?>

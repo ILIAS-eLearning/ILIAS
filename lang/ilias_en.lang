@@ -13515,7 +13515,7 @@ survey#:#survey_notification_finished_reason#:#You are receiving this email beca
 content#:#cont_offline_mode_allow#:#allow offline-mode
 content#:#cont_offline_mode_allow_info#:#In offline mode, learning modules can only be processed with the SCORM offline player. The tracking data are transferred if the learner clicks on 'finish offline mode' in ILIAS.
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
-administration#:#https#:#HTTPS
+administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Repository
 common#:#obj_reps_desc#:#General settings for the Repository
 rep#:#rep_object_lists#:#Object Lists
@@ -13529,3 +13529,5 @@ common#:#obj_crss#:#Course
 common#:#obj_crss_desc#:#General settings for Courses
 common#:#obj_grps#:#Group
 common#:#obj_grps_desc#:#General settings for Groups
+administration#:#adm_external_setting_prefix#:#External Settings
+administration#:#adm_external_setting_edit#:#Edit Settings
