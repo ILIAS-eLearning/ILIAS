@@ -1898,15 +1898,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setValue($ilSetting->get("locale"));
 		$this->form->addItem($ti);				
 	
-		/* => COURSE/GROUP
-		// Learners View
-		$pl = new ilCheckboxInputGUI($this->lng->txt('preview_learner'),'preview_learner');
-		$pl->setValue(1);
-		$pl->setInfo($this->lng->txt('preview_learner_info'));
-		$pl->setChecked($ilSetting->get('preview_learner'));
-		$this->form->addItem($pl);
-		*/
-		
 		// starting point
 		include_once "Services/User/classes/class.ilUserUtil.php";
 		$si = new ilRadioGroupInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
@@ -1988,10 +1979,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			ilUserUtil::setStartingPoint($this->form->getInput('usr_start'), $this->form->getInput('usr_start_ref_id'));
 			ilUserUtil::togglePersonalStartingPoint($this->form->getInput('usr_start_pers'));
 
-			/* => COURSE/GROUP
-			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
-			*/
-			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");
 		}

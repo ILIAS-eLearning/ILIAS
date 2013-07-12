@@ -194,7 +194,11 @@ class ilMemberViewSettings
 	{
 		global $ilSetting,$tree;
 		
-		$this->enabled = $ilSetting->get('preview_learner');
+		// member view is always enabled 
+		// (2013-06-18, http://www.ilias.de/docu/goto_docu_wiki_1357_Reorganising_Administration.html) 		
+		
+		// $this->enabled = $ilSetting->get('preview_learner');		
+		$this->enabled = true;
 		
 		if(isset($_SESSION['member_view_container']))
 		{
