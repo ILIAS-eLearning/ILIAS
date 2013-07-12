@@ -13522,3 +13522,9 @@ rep#:#rep_custom_icons#:#Angepasste Icons
 cmps#:#cmps_enable_creation#:#Erstellung einschalten
 cmps#:#cmps_slots#:#Slots
 pd#:#pd_personal_workspace#:#Mein Arbeitsraum
+common#:#obj_wbrs#:#Weblink
+common#:#obj_wbrs_desc#:#Allgemeine Einstellungen für Weblinks
+common#:#obj_crss#:#Kurs
+common#:#obj_crss_desc#:#Allgemeine Einstellungen für Kurse
+common#:#obj_grps#:#Gruppe
+common#:#obj_grps_desc#:#Allgemeine Einstellungen für Gruppen

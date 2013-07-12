@@ -14,6 +14,11 @@
 			<parent id="recf">recf</parent>
 			<parent id="root">root</parent>
 		</object>
+		<object id="crss" class_name="CourseAdministration" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+			<subobj id="rolf" max="1">rolf</subobj>
+		</object>
 	</objects>
 	<events>		
 		<event type="listen" id="Services/Tracking" />

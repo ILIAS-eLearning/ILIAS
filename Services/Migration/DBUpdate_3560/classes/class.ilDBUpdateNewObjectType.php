@@ -291,6 +291,55 @@ class ilDBUpdateNewObjectType
 			array('operation' => array('text', $a_operation))		
 		);
 	}
+	
+	/**
+	 * Create new admin object node
+	 * 
+	 * @param string $a_id
+	 * @param string $a_title
+	 */
+	public static function addAdminNode($a_obj_type, $a_title)
+	{
+		global $ilDB, $tree;
+		
+		if(self::getObjectTypeId($a_obj_type))
+		{
+			return;
+		}
+		
+		$obj_type_id = self::addNewType($a_obj_type, $a_title);
+
+		$obj_id = $ilDB->nextId('object_data');
+		$ilDB->manipulate("INSERT INTO object_data ".
+			"(obj_id, type, title, description, owner, create_date, last_update) VALUES (".
+			$ilDB->quote($obj_id, "integer").",".
+			$ilDB->quote($a_obj_type, "text").",".
+			$ilDB->quote($a_title, "text").",".
+			$ilDB->quote($a_title, "text").",".
+			$ilDB->quote(-1, "integer").",".
+			$ilDB->now().",".
+			$ilDB->now().
+			")");
+
+		$ref_id = $ilDB->nextId('object_reference');
+		$ilDB->manipulate("INSERT INTO object_reference ".
+			"(obj_id, ref_id) VALUES (".
+			$ilDB->quote($obj_id, "integer").",".
+			$ilDB->quote($ref_id, "integer").
+			")");
+
+		// put in tree
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
+
+		$rbac_ops = array(
+			self::RBAC_OP_EDIT_PERMISSIONS,
+			self::RBAC_OP_VISIBLE,
+			self::RBAC_OP_READ,
+			self::RBAC_OP_WRITE
+		);
+		self::addRBACOperations($obj_type_id, $rbac_ops);
+	}
 }
 
 ?>
