@@ -13523,3 +13523,9 @@ rep#:#rep_custom_icons#:#Custom Icons
 cmps#:#cmps_enable_creation#:#Enable Creation
 cmps#:#cmps_slots#:#Slots
 pd#:#pd_personal_workspace#:#Personal Workspace
+common#:#obj_wbrs#:#Weblink
+common#:#obj_wbrs_desc#:#General settings for Web Links
+common#:#obj_crss#:#Course
+common#:#obj_crss_desc#:#General settings for Courses
+common#:#obj_grps#:#Group
+common#:#obj_grps_desc#:#General settings for Groups
