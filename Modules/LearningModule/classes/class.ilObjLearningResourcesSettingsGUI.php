@@ -266,4 +266,5 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		}
 	}
 }
+
 ?>

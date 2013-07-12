@@ -3131,11 +3131,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 				if((int)$security->getAccountSecurityMode() != ilSecuritySettings::ACCOUNT_SECURITY_MODE_DEFAULT)
 				{
-					$fields['_ps_password_chars_and_numbers_enabled'] = array($security->isPasswordCharsAndNumbersEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-					$fields['_ps_password_special_chars_enabled'] = array($security->isPasswordSpecialCharsEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-					$fields['_ps_password_min_length'] = (int)$security->getPasswordMinLength();
-					$fields['_ps_password_max_length'] = (int)$security->getPasswordMaxLength();
-					$fields['_ps_password_max_age'] = (int)$security->getPasswordMaxAge();					
+					$fields['~ps_password_chars_and_numbers_enabled'] = array($security->isPasswordCharsAndNumbersEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
+					$fields['~ps_password_special_chars_enabled'] = array($security->isPasswordSpecialCharsEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
+					$fields['~ps_password_min_length'] = (int)$security->getPasswordMinLength();
+					$fields['~ps_password_max_length'] = (int)$security->getPasswordMaxLength();
+					$fields['~ps_password_max_age'] = (int)$security->getPasswordMaxAge();					
 				}
 				
 				$fields['ps_login_max_attempts'] = (int)$security->getLoginMaxAttempts();	
