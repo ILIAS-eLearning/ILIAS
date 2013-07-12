@@ -170,15 +170,9 @@ abstract class ilAuthBase
 				}
 
 				$user->refreshLogin();
-
-				// differentiate account security mode		
-				if($security_settings->getAccountSecurityMode() ==
-					ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED
-				)
-				{
-					// reset counter for failed logins
-					ilObjUser::_resetLoginAttempts($user_id);
-				}
+			
+				// reset counter for failed logins
+				ilObjUser::_resetLoginAttempts($user_id);				
 			}
 
 			// --- anonymous/registered user

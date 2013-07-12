@@ -819,22 +819,16 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->object->setPasswd($_POST['passwd'], IL_PASSWD_PLAIN);
 			}
-			
-			// differentiate account security mode
-			require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-			$security_settings = ilSecuritySettings::_getInstance();
-			if( $security_settings->getAccountSecurityMode() ==
-				ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+						
+			/*
+			 * reset counter for failed logins
+			 * if $_POST['active'] is set to 1
+			 */
+			if( $_POST['active'] == 1 )
 			{
-				/*
-				 * reset counter for failed logins
-				 * if $_POST['active'] is set to 1
-				 */
-				if( $_POST['active'] == 1 )
-				{
-					ilObjUser::_resetLoginAttempts( $this->object->getId() );
-				}
+				ilObjUser::_resetLoginAttempts( $this->object->getId() );
 			}
+			
 			#$this->object->assignData($_POST);
 			$this->loadValuesFromForm('update');
 

@@ -25,9 +25,9 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		
 		$this->setId("cmpspl");
 				
-		$this->addColumn($lng->txt("cmps_plugin_slot"), "slot_name");
-		$this->addColumn($lng->txt("cmps_component"), "component_name");	
 		$this->addColumn($lng->txt("cmps_plugin"), "plugin_name");
+		$this->addColumn($lng->txt("cmps_plugin_slot"), "slot_name");
+		$this->addColumn($lng->txt("cmps_component"), "component_name");			
 		$this->addColumn($lng->txt("active"), "plugin_active");
 		$this->addColumn($lng->txt("action"));
 		
