@@ -75,9 +75,7 @@ class ilAdministrationSettingsFormHandler
 	}
 	
 	public static function addFieldsToForm($a_form_id, ilPropertyFormGUI $a_form, ilObjectGUI $a_parent_gui)
-	{			
-		global $lng, $rbacsystem, $ilCtrl;
-		
+	{					
 		switch($a_form_id)
 		{
 			case self::FORM_SECURITY:
@@ -102,7 +100,7 @@ class ilAdministrationSettingsFormHandler
 			
 			case self::FORM_COURSE:
 			case self::FORM_GROUP:
-				$types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR);
+				$types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL);
 				break;
 			
 			default:
@@ -117,78 +115,100 @@ class ilAdministrationSettingsFormHandler
 				$data = $gui->addToExternalSettingsForm($a_form_id);
 				if(is_array($data))
 				{
-					foreach($data as $area_caption => $fields)
-					{	
-						if(is_numeric($area_caption) || !trim($area_caption))
-						{
-							$area_caption = "obj_".$type;
-						}
-						
-						if(is_array($fields) && sizeof($fields) == 2)
-						{
-							$cmd = $fields[0];
-							$fields = $fields[1];
-							if(is_array($fields))
-							{
-								$ftpl = new ilTemplate("tpl.external_settings.html", true, true, "Services/Administration");
-													
-								$ftpl->setCurrentBlock("row_bl");	
-								foreach($fields as $field_caption_id => $field_value)
-								{
-									$field_type = null;
-									if(is_array($field_value))
-									{
-										$field_type = $field_value[1];
-										$field_value = $field_value[0];
-									}
-									switch($field_type)
-									{
-										case self::VALUE_BOOL:
-											$field_value = (bool)$field_value ?
-												$lng->txt("yes") :
-												$lng->txt("no");
-											break;
-									}				
+					self::parseFieldDefinition($type, $a_form, $gui, $data);					
+				}					
+			}
+		}
+		
+		// cron jobs - special handling
+		
+		include_once "Modules/SystemFolder/classes/class.ilObjSystemFolderGUI.php";
+		$parent_gui = new ilObjSystemFolderGUI(null, SYSTEM_FOLDER_ID, true);
+		
+		include_once "Services/Cron/classes/class.ilCronManagerGUI.php";
+		$gui = new ilCronManagerGUI();
+		$data = $gui->addToExternalSettingsForm($a_form_id);
+		self::parseFieldDefinition("cron", $a_form, $parent_gui, $data);
+	}	
+	
+	protected static function parseFieldDefinition($a_type, ilPropertyFormGUI $a_form, ilObjectGUI $a_gui, $a_data)
+	{
+		global $lng, $rbacsystem, $ilCtrl;
+		
+		if(!is_array($a_data))
+		{
+			return;
+		}
+		
+		foreach($a_data as $area_caption => $fields)
+		{	
+			if(is_numeric($area_caption) || !trim($area_caption))
+			{
+				$area_caption = "obj_".$a_type;
+			}
 
-									if(substr($field_caption_id, 0, 1) == "~")
-									{
-										$depth = explode("~", $field_caption_id);
-										$field_caption_id = array_pop($depth);
-										$ftpl->setVariable("SPACER", ' style="padding-left:'.(sizeof($depth)*20).'px"');										
-									}								
-									
-									if(!is_numeric($field_value) && !trim($field_value))
-									{
-										$field_value = "-";
-									}
-										
-									$ftpl->setVariable("KEY", $lng->txt($field_caption_id));
-									$ftpl->setVariable("VALUE", $field_value);
-									$ftpl->parseCurrentBlock();
-								}
-								
-								if ($rbacsystem->checkAccess("visible,read", $gui->object->getRefId()))
-								{	
-									if(!$cmd)
-									{
-										$cmd = "view";
-									}
-									$ilCtrl->setParameter($gui, "ref_id", $gui->object->getRefId());
-									
-									$ftpl->setCurrentBlock("edit_bl");
-									$ftpl->setVariable("URL_EDIT", $ilCtrl->getLinkTarget($gui, $cmd));
-									$ftpl->setVariable("TXT_EDIT", $lng->txt("adm_external_setting_edit"));
-									$ftpl->parseCurrentBlock();
-								}			
-								
-								$ext = new ilCustomInputGUI($lng->txt($area_caption).
-									"<div class=\"small\"><em>".$lng->txt("adm_external_setting_prefix")."</em></div>");
-								$ext->setHtml($ftpl->get());
-								$a_form->addItem($ext);
-							}						
+			if(is_array($fields) && sizeof($fields) == 2)
+			{
+				$cmd = $fields[0];
+				$fields = $fields[1];
+				if(is_array($fields))
+				{
+					$ftpl = new ilTemplate("tpl.external_settings.html", true, true, "Services/Administration");
+
+					$ftpl->setCurrentBlock("row_bl");	
+					foreach($fields as $field_caption_id => $field_value)
+					{
+						$field_type = null;
+						if(is_array($field_value))
+						{
+							$field_type = $field_value[1];
+							$field_value = $field_value[0];
 						}
+						switch($field_type)
+						{
+							case self::VALUE_BOOL:
+								$field_value = (bool)$field_value ?
+									$lng->txt("yes") :
+									$lng->txt("no");
+								break;
+						}				
+
+						if(substr($field_caption_id, 0, 1) == "~")
+						{
+							$depth = explode("~", $field_caption_id);
+							$field_caption_id = array_pop($depth);
+							$ftpl->setVariable("SPACER", ' style="padding-left:'.(sizeof($depth)*20).'px"');										
+						}								
+
+						if(!is_numeric($field_value) && !trim($field_value))
+						{
+							$field_value = "-";
+						}
+
+						$ftpl->setVariable("KEY", $lng->txt($field_caption_id));
+						$ftpl->setVariable("VALUE", $field_value);
+						$ftpl->parseCurrentBlock();
 					}
-				}
+
+					if ($rbacsystem->checkAccess("visible,read", $a_gui->object->getRefId()))
+					{	
+						if(!$cmd)
+						{
+							$cmd = "view";
+						}
+						$ilCtrl->setParameter($a_gui, "ref_id", $a_gui->object->getRefId());
+
+						$ftpl->setCurrentBlock("edit_bl");
+						$ftpl->setVariable("URL_EDIT", $ilCtrl->getLinkTarget($a_gui, $cmd));
+						$ftpl->setVariable("TXT_EDIT", $lng->txt("adm_external_setting_edit"));
+						$ftpl->parseCurrentBlock();
+					}			
+
+					$ext = new ilCustomInputGUI($lng->txt($area_caption).
+						"<div class=\"small\"><em>".$lng->txt("adm_external_setting_prefix")."</em></div>");
+					$ext->setHtml($ftpl->get());
+					$a_form->addItem($ext);
+				}						
 			}
 		}
 	}	

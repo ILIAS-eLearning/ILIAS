@@ -1612,7 +1612,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
-
+	
 	/**
 	* Show PHP Information
 	*/
@@ -2150,6 +2150,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ilTabs->setSubTabActive($a_activate);
 		$ilTabs->setTabActive("cron_jobs");
 	}
+		
+	function jumpToCronJobsObject()
+	{
+		// this is used for external settings 
+		$this->ctrl->setCmdClass("ilCronManagerGUI");
+		$this->ctrl->setCmd("render");
+		$this->executeCommand();
+	}
 	
 	/**
 	* Show cron jobs settings
@@ -2186,17 +2194,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		$this->form->addItem($cls);
 	
-		
-		// update lucene
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cron_lucene_index"), "cron_lucene_index");
-		$cb->setInfo($this->lng->txt("cron_lucene_index_info"));
-		if ($ilSetting->get("cron_lucene_index"))
-		{
-			$cb->setChecked(true);
-		}
-		$this->form->addItem($cb);
-		
-		
+	
 		// forum notifications
 		$options = array(
 			"0" => $lng->txt("cron_forum_notification_never"),
@@ -2220,8 +2218,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$si->setInfo($this->lng->txt("cron_mail_notification_desc"));
 		$si->setValue($ilSetting->get("mail_notification"));
 		$this->form->addItem($si);
-		
-		
+				
 		if($ilSetting->get("mail_notification") == '1')
 		{	
 			$cb = new ilCheckboxInputGUI($this->lng->txt("cron_mail_notification_message"), "mail_notification_message");
@@ -2232,23 +2229,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			}
 			$this->form->addItem($cb);
 		}
-		// begin-patch ch
-		$this->lng->loadLanguageModule('dateplaner');
-		$consultation = new ilCheckboxInputGUI($this->lng->txt('cal_ch_cron_reminder'),'ch_reminder');
-		$consultation->setValue(1);
-		$consultation->setInfo($this->lng->txt('cal_ch_cron_reminder_info'));
-		if($ilSetting->get('ch_reminder'))
-		{
-			$consultation->setChecked(true);
-		}
-		$consultation_days = new ilNumberInputGUI($this->lng->txt('cal_ch_cron_reminder_days'),'ch_reminder_days');
-		$consultation_days->setMinValue(1);
-		$consultation_days->setMaxLength(2);
-		$consultation_days->setSize(2);
-		$consultation_days->setValue($ilSetting->get('ch_reminder_days',2));
-		$consultation->addSubItem($consultation_days);
-		$this->form->addItem($consultation);
-		// end-patch ch
+		
+		
 		// disk quota and disk quota reminder mail
 		$dq_settings = new ilSetting('disk_quota');
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota"), "enable_disk_quota");
@@ -2266,7 +2248,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$cb_reminder->setChecked(true);
 		}
 		$cb->addSubItem($cb_reminder);
-		
+				
 		// Enable summary mail for certain users
 		$cb_prop_summary= new ilCheckboxInputGUI($lng->txt("enable_disk_quota_summary_mail"), "enable_disk_quota_summary_mail");
 		$cb_prop_summary->setValue(1);
@@ -2280,6 +2262,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$summary_rcpt->setInfo($lng->txt('disk_quota_summary_rctp_desc'));
 		$cb_prop_summary->addSubItem($summary_rcpt);
 
+		
 		// Enable payment notifications
 		$payment_noti = new ilCheckboxInputGUI($lng->txt("payment_notification"), "payment_notification");
 		$payment_noti->setValue(1);
@@ -2318,15 +2301,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->form->addItem($inv_info);
 		}
 
-		// course/group notifications
-		$crsgrp_ntf = new ilCheckboxInputGUI($this->lng->txt("enable_course_group_notifications"), "crsgrp_ntf");
-		$crsgrp_ntf->setInfo($this->lng->txt("enable_course_group_notifications_desc"));
-		if ($ilSetting->get('crsgrp_ntf'))
-		{
-			$crsgrp_ntf->setChecked(true);
-		}
-		$this->form->addItem($crsgrp_ntf);
-
+		
 		// auto-update addressbook entries
 		$options = array(
 			"0" => $lng->txt("cron_mail_notification_never"),
@@ -2340,6 +2315,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$si_adr->setValue($ilSetting->get("cron_upd_adrbook"));
 		$this->form->addItem($si_adr);
 
+		
 		$this->form->addCommandButton("saveCronJobs", $lng->txt("save"));
 	                
 		$this->form->setTitle($lng->txt("cron_jobs"));
@@ -2363,13 +2339,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->initCronJobsForm();
 		if ($this->form->checkInput())
-		{
-			
-			$ilSetting->set("cron_lucene_index", $_POST["cron_lucene_index"]);
+		{						
 			$ilSetting->set("forum_notification", $_POST["forum_notification"]);
 			$ilSetting->set("mail_notification", $_POST["mail_notification"]);
 			$ilSetting->set('mail_notification_message', $_POST['mail_notification_message'] ? 1 : 0);						
 
+			
 			// disk quota and disk quota reminder mail
 			$dq_settings = new ilSetting('disk_quota');
 			$dq_settings->set('enabled', $_POST['enable_disk_quota'] ? 1 : 0);
@@ -2379,17 +2354,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$dq_settings->set('summary_mail_enabled', $_POST['enable_disk_quota_summary_mail'] ? 1 : 0);
 			$dq_settings->set('summary_rcpt', ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
 			
-			// begin-patch ch
-			// consultation hours
-			$ilSetting->set('ch_reminder',$this->form->getInput('ch_reminder') ? 1 : 0);
-			$ilSetting->set('ch_reminder_days',$this->form->getInput('ch_reminder_days'));
-			// end-patch ch
-
+			
 			// payment notification
 			$ilSetting->set('payment_notification', $_POST['payment_notification'] ? 1 : 0);
 			$ilSetting->set('payment_notification_days', $_POST['payment_notification_days']);
-
-			$ilSetting->set('crsgrp_ntf', $_POST['crsgrp_ntf']);
 
 			// auto_update addressbook
 			$ilSetting->set('cron_upd_adrbook', $_POST['cron_upd_adrbook'] ? 1 : 0);
@@ -3176,7 +3144,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$fields['activate_https'] = 
 					array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
 				
-				return array("general_settings" => array("showHTTPS", $fields));				
+				return array("general_settings" => array("showHTTPS", $fields));					
 		}
 	}
 	

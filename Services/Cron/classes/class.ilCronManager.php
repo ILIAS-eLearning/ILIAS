@@ -15,7 +15,7 @@ class ilCronManager
 	 */
 	public static function runActiveJobs()
 	{
-		global $ilLog, $ilSetting;
+		global $ilLog;
 		
 		$ilLog->write("CRON - batch start");
 		

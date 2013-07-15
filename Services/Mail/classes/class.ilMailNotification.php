@@ -202,16 +202,29 @@ abstract class ilMailNotification
 	 */
 	protected function initLanguage($a_usr_id)
 	{
-		$this->language = ilLanguageFactory::_getLanguageOfUser($a_usr_id);
-		$this->language->loadLanguageModule('mail');
+		$this->language = $this->getUserLanguage($a_usr_id);
+	}
+	
+	/**
+	 * Get user language
+	 * 
+	 * @param int $a_usr_id
+	 * @return ilLanguage
+	 */
+	public function getUserLanguage($a_usr_id)
+	{		
+		$language = ilLanguageFactory::_getLanguageOfUser($a_usr_id);
+		$language->loadLanguageModule('mail');
 		
 		if(sizeof($this->lang_modules))
 		{
 			foreach($this->lang_modules as $lmod)
 			{
-				$this->language->loadLanguageModule($lmod);
+				$language->loadLanguageModule($lmod);
 			}
 		}
+		
+		return $language;
 	}
 
 	/**
@@ -487,7 +500,7 @@ abstract class ilMailNotification
 	 * Get (ascii) block border
 	 * @return string
 	 */
-	protected function getBlockBorder()
+	public function getBlockBorder()
 	{
 		return "----------------------------------------\n";
 	}
