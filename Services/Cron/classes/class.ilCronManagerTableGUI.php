@@ -57,7 +57,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 			
 			$data[$idx]["title"] = $job->getTitle();
 			$data[$idx]["description"] = $job->getDescription();
-			$data[$idx]["has_settings"] = $job->hasCustomSettings;			
+			$data[$idx]["has_settings"] = $job->hasCustomSettings();			
 			
 			if(!$data[$idx]["title"])
 			{

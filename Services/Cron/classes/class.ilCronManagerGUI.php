@@ -302,6 +302,28 @@ class ilCronManagerGUI
 
 		$tpl->setContent($cgui->getHTML());		
 	}
+	
+	public function addToExternalSettingsForm($a_form_id)
+	{	
+		$fields = array();
+		
+		$data = ilCronManager::getCronJobData();
+		foreach($data as $item)
+		{
+			$job = ilCronManager::getJobInstance($item["job_id"],
+				$item["component"], $item["class"], $item["path"]);
+			
+			if(method_exists($job, "addToExternalSettingsForm"))
+			{
+				$job->addToExternalSettingsForm($a_form_id, $fields, $item["job_status"]);													
+			}
+		}
+		
+		if(sizeof($fields))
+		{
+			return array("cron_jobs"=>array("jumpToCronJobs", $fields));
+		}
+	}
 }
 
 ?>

@@ -139,18 +139,15 @@ class ilCronCheck
 		require_once('Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php');
 
 		$this->default_tasks = array(
-				'ilLDAPCronSynchronization::start',
-				'ilLuceneIndexer::index',			
+				'ilLDAPCronSynchronization::start',	
 				'ilCronForumNotification::sendNotifications',
-				'ilCronMailNotification::sendNotifications',
-				'ilConsultationHourCron::start',
+				'ilCronMailNotification::sendNotifications',				
 				'ilCronValidator::check',
 				'ilCronDiskQuotaCheck::updateDiskUsageStatistics',
 				'ilCronDiskQuotaCheck::sendReminderMails',
 				// This entry refers to a task that is not completely implemented
 				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC',
-				'ilCronPaymentNotification::sendNotifications',
-				'ilCronCourseGroupNotification::check',
+				'ilCronPaymentNotification::sendNotifications',			
 				'ilCronAddressbook::syncAddressbook',
 				'ilCronPaymentUDInvoiceNumberReset::check'
 		);
@@ -164,15 +161,6 @@ class ilCronCheck
 					'condition'		=> true
 				),
 				
-				// Start lucene indexer
-				'ilLuceneIndexer::index' => array(
-					'classname'		=> 'ilLuceneIndexer',
-					'method'		=> 'index',
-					'location'		=> 'Services/Search',
-					'sub_location'	=> 'Lucene',
-					'condition'		=> $ilias->getSetting("cron_lucene_index")
-				),
-			
 				// Start sending forum notifications
 				'ilCronForumNotification::sendNotifications' => array(
 					'classname'		=> 'ilCronForumNotification',
@@ -189,16 +177,6 @@ class ilCronCheck
 					'condition'		=> ($ilias->getSetting('mail_notification') == 1)
 				),
 			
-				// begin-patch ch
-				'ilConsultationHourCron::start' => array(
-					'classname'		=> 'ilConsultationHourCron',
-					'method'		=> 'start',
-					'location'		=> 'Services/Calendar',
-					'sub_location'	=> 'ConsultationHours',
-					'condition'		=> ($ilias->getSetting("ch_reminder") == 1)
-				),
-				// end-patch ch
-				
 				// Start System Check
 				'ilCronValidator::check' => array(
 					'classname'		=> 'ilCronValidator',
@@ -249,14 +227,6 @@ class ilCronCheck
 					'method'		=> 'sendNotifications',
 					'location'		=> 'cron',
 					'condition'		=> ($ilias->getSetting('payment_notifications') == 1)
-				),
-
-				// Start course group notification check
-				'ilCronCourseGroupNotification::check' => array(
-					'classname'		=> 'ilCronCourseGroupNotification',
-					'method'		=> 'sendNotifications',
-					'location'		=> 'cron',
-					'condition'		=> $ilias->getSetting("crsgrp_ntf")
 				),
 
 				// Reset payment incremental invoice number

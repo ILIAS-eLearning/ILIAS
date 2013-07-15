@@ -1,26 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once "Services/Cron/classes/class.ilCronJob.php";
 
 /**
 * Class for indexing hmtl ,pdf, txt files and htlm Learning modules.
@@ -29,48 +10,86 @@
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @package ilias
+* @package ServicesSearch
 */
-
-class ilLuceneIndexer
+class ilLuceneIndexer extends ilCronJob
 {
-	/**
-	 * Constructor 
-	 */
-	public function __construct()
+	public function getId()
 	{
-		
+		return "src_lucene_indexer";
 	}
 	
-	/**
-	 * index 
-	 * @return 
-	 */
-	public function index()
+	public function getTitle()
 	{
-		global $ilSetting,$ilLog;
+		global $lng;
+		
+		return $lng->txt("cron_lucene_index");
+	}
+	
+	public function getDescription()
+	{
+		global $lng;
+		
+		return $lng->txt("cron_lucene_index_info");
+	}
+	
+	public function getDefaultScheduleType()
+	{
+		return self::SCHEDULE_TYPE_DAILY;
+	}
+	
+	public function getDefaultScheduleValue()
+	{
+		return;
+	}
+	
+	public function hasAutoActivation()
+	{
+		return false;
+	}
+	
+	public function hasFlexibleSchedule()
+	{
+		return true;
+	}
+	
+	public function run()
+	{				
+		global $ilSetting;
+		
+		$status = ilCronJobResult::STATUS_NO_ACTION;		
+		$error_message = null;
 		
 		try
 		{
 			include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
-			$res = ilRpcClientFactory::factory('RPCIndexHandler')->index(
+			ilRpcClientFactory::factory('RPCIndexHandler')->index(
 				CLIENT_ID.'_'.$ilSetting->get('inst_id',0),
 				true
 			);
 		}
 		catch(XML_RPC2_FaultException $e)
 		{
-			// TODO: better error handling
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
-			return;
+			$error_message = $e->getMessage();
 		}
 		catch(Exception $e)
 		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
-			return;
+			$error_message = $e->getMessage();
 		}
+		
+		$result = new ilCronJobResult();
+		if($error_message)
+		{
+			$result->setMessage($error_message);
+			$status = ilCronJobResult::STATUS_CRASHED;
+		}
+		else
+		{
+			$status = ilCronJobResult::STATUS_OK;
+		}			
+		$result->setStatus($status);		
+		return $result;
 	}
-	
-
 }
+
 ?>

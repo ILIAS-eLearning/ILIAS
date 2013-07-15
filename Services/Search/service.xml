@@ -14,4 +14,7 @@
 	<events>		
 		<event type="listen" id="Services/Object" />
 	</events>
+	<crons>
+		<cron id="src_lucene_indexer" class="ilLuceneIndexer" path="Services/Search/classes/Lucene/" />
+	</crons>
 </service>
