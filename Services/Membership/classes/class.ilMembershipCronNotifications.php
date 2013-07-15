@@ -223,11 +223,19 @@ class ilMembershipCronNotifications extends ilCronJob
 		{			
 			case ilAdministrationSettingsFormHandler::FORM_COURSE:				
 			case ilAdministrationSettingsFormHandler::FORM_GROUP:								
-				$a_fields["enable_course_group_notifications"] =$a_is_active ? 
+				$a_fields["enable_course_group_notifications"] = $a_is_active ? 
 					$lng->txt("active") :
 					$lng->txt("inactive");
 				break;
 		}
+	}
+	
+	public function activationWasToggled($a_currently_active)
+	{
+		global $ilSetting;
+				
+		// propagate cron-job setting to object setting
+		$ilSetting->set("crsgrp_ntf", (bool)$a_currently_active);		
 	}
 }
 

@@ -142,9 +142,7 @@ class ilCronCheck
 				'ilLDAPCronSynchronization::start',	
 				'ilCronForumNotification::sendNotifications',
 				'ilCronMailNotification::sendNotifications',				
-				'ilCronValidator::check',
-				'ilCronDiskQuotaCheck::updateDiskUsageStatistics',
-				'ilCronDiskQuotaCheck::sendReminderMails',
+				'ilCronValidator::check',				
 				// This entry refers to a task that is not completely implemented
 				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC',
 				'ilCronPaymentNotification::sendNotifications',			
@@ -183,30 +181,6 @@ class ilCronCheck
 					'method'		=> 'check',
 					'location'		=> 'cron',
 					'condition'		=> ($ilias->getSetting('systemcheck_cron') == 1)
-				),
-				
-				// Start Disk Quota Usage Statistics
-				'ilCronDiskQuotaCheck::updateDiskUsageStatistics' => array(
-					'classname'		=> 'ilCronDiskQuotaCheck',
-					'method'		=> 'updateDiskUsageStatistics',
-					'location'		=> 'cron',
-					'condition'		=> ilDiskQuotaActivationChecker::_isActive()
-				),
-				
-				// Send Disk Quota Reminder Mails
-				'ilCronDiskQuotaCheck::sendReminderMails' => array(
-					'classname'		=> 'ilCronDiskQuotaCheck',
-					'method'		=> 'sendReminderMails',
-					'location'		=> 'cron',
-					'condition'		=> ilDiskQuotaActivationChecker::_isReminderMailActive()
-				),
-				
-				// Send Disk Quota Summary Mails
-				'ilCronDiskQuotaCheck::sendSummaryMails' => array(
-					'classname'		=> 'ilCronDiskQuotaCheck',
-					'method'		=> 'sendSummaryMails',
-					'location'		=> 'cron',
-					'condition'		=> ilDiskQuotaActivationChecker::_isSummaryMailActive()
 				),
 				
 				/**

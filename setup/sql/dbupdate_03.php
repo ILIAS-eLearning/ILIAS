@@ -16525,3 +16525,7 @@ ilDBUpdateNewObjectType::addAdminNode('wbrs', 'WebResource Settings');
 <?php
 $ilDB->renameTable('preview', 'preview_data');
 ?>
+<#3959>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
