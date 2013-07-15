@@ -180,6 +180,26 @@ abstract class ilCronJob
 	{
 		
 	}
+	
+	/**
+	 * Has cron job any custom setting which can be edited?
+	 * 
+	 * @return boolean
+	 */
+	public function hasCustomSettings()
+	{
+		return false;
+	}
+	
+    public function addCustomSettingsToForm(ilObjPropertyFormGUI $a_form)
+	{
+		
+	}
+	
+	public function saveCustomSettings(ilObjPropertyFormGUI $a_form)
+	{
+		return true;
+	}
 
 	/**
 	 * Get id

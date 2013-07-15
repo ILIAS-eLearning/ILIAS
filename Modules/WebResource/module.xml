@@ -24,4 +24,7 @@
 			<subobj id="rolf" max="1">rolf</subobj>
 		</object>
 	</objects>
+	<crons>
+		<cron id="webr_link_check" class="ilWebResourceCronLinkCheck" />
+	</crons>
 </module>
