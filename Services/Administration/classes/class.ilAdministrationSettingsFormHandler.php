@@ -15,6 +15,9 @@ class ilAdministrationSettingsFormHandler
 	const FORM_SECURITY = 2;
 	const FORM_FILES_QUOTA = 3;
 	const FORM_LP = 4;
+	const FORM_MAIL = 5;
+	const FORM_COURSE = 6;
+	const FORM_GROUP = 7;
 	
 	const SETTINGS_USER = "usrf";
 	const SETTINGS_GENERAL = "adm";
@@ -24,6 +27,10 @@ class ilAdministrationSettingsFormHandler
 	const SETTINGS_LRES = "lrss";
 	const SETTINGS_REPOSITORY = "reps";
 	const SETTINGS_PD = "pdts";
+	const SETTINGS_COURSE = "crss";
+	const SETTINGS_GROUP = "grps";
+	const SETTINGS_PRIVACY_SECURITY = "ps";
+	const SETTINGS_CALENDAR = "cals";
 	
 	const VALUE_BOOL = "bool";
 	
@@ -88,6 +95,15 @@ class ilAdministrationSettingsFormHandler
 			case self::FORM_LP:
 				$types = array(self::SETTINGS_REPOSITORY);
 				break;	
+			
+			case self::FORM_MAIL:
+				$types = array(self::SETTINGS_COURSE, self::SETTINGS_GROUP);
+				break;
+			
+			case self::FORM_COURSE:
+			case self::FORM_GROUP:
+				$types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR);
+				break;
 			
 			default:
 				return;

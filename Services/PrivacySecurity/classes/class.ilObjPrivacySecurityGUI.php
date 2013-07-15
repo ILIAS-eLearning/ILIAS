@@ -269,8 +269,19 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		}
 
 		$_POST['profile_protection'] = isset($_POST['profile_protection']) ? $_POST['profile_protection'] : array();
-
+				
 		$privacy = ilPrivacySettings::_getInstance();
+		
+		// to determine if agreements need to be reset - see below
+		$old_settings = array(
+			'export_course' => $privacy->enabledCourseExport(),
+			'export_group' => $privacy->enabledGroupExport(),			
+			'export_confirm_course' => $privacy->courseConfirmationRequired(),
+			'export_confirm_group' => $privacy->groupConfirmationRequired(),
+			'crs_access_times' => $privacy->enabledCourseAccessTimes(),
+			'grp_access_times' => $privacy->enabledGroupAccessTimes()
+		);				
+	
 		$privacy->enableCourseExport((int) in_array('export_course', $_POST['profile_protection']));
 		$privacy->enableGroupExport((int) in_array('export_group', $_POST['profile_protection']));
 		$privacy->setCourseConfirmationRequired((int) in_array('export_confirm_course', $_POST['profile_protection']));
@@ -291,13 +302,38 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         {
             $privacy->save();
 			
-			// :TODO: if visiblity activated for course/group
-			// :TODO: if confirmation activated for course/group
-			// :TODO: if last access activated for course/group
-			
-		    include_once('Services/Membership/classes/class.ilMemberAgreement.php');
-		    ilMemberAgreement::_reset();
-		    ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			// reset agreements?
+			$do_reset = false;
+			if(!$old_settings['export_course'] && $privacy->enabledCourseExport())
+			{
+				$do_reset = true;
+			}
+			if(!$do_reset && !$old_settings['export_group'] && $privacy->enabledGroupExport())
+			{
+				$do_reset = true;
+			}
+			if(!$do_reset && !$old_settings['export_confirm_course'] && $privacy->courseConfirmationRequired())
+			{
+				$do_reset = true;
+			}
+			if(!$do_reset && !$old_settings['export_confirm_group'] && $privacy->groupConfirmationRequired())
+			{
+				$do_reset = true;
+			}
+			if(!$do_reset && !$old_settings['crs_access_times'] && $privacy->enabledCourseAccessTimes())
+			{
+				$do_reset = true;
+			}
+			if(!$do_reset && !$old_settings['grp_access_times'] && $privacy->enabledGroupAccessTimes())
+			{
+				$do_reset = true;
+			}
+			if($do_reset)
+			{
+				include_once('Services/Membership/classes/class.ilMemberAgreement.php');
+				ilMemberAgreement::_reset();				
+			}
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
         }
 
 		$this->showPrivacy();
@@ -350,6 +386,38 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	{
 		self::initErrorMessages();
         return ilObjPrivacySecurityGUI::$ERROR_MESSAGE[$code];
+	}
+	
+	public function addToExternalSettingsForm($a_form_id)
+	{						
+		switch($a_form_id)
+		{			
+			case ilAdministrationSettingsFormHandler::FORM_COURSE:
+				
+				$privacy = ilPrivacySettings::_getInstance();
+				
+				$fields = array(
+					'ps_profile_export' => "&nbsp;",
+					'~ps_export_course' => array($privacy->enabledCourseExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'~ps_export_confirm' => array($privacy->courseConfirmationRequired(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'~ps_show_crs_access' => array($privacy->enabledCourseAccessTimes(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				);
+										
+				return array(array("showPrivacy", $fields));	
+				
+			case ilAdministrationSettingsFormHandler::FORM_GROUP:
+								
+				$privacy = ilPrivacySettings::_getInstance();
+				
+				$fields = array(
+					'ps_profile_export' => "&nbsp;",
+					'~ps_export_groups' => array($privacy->enabledGroupExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'~ps_export_confirm_group' => array($privacy->groupConfirmationRequired(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'~ps_show_grp_access' => array($privacy->enabledGroupAccessTimes(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				);
+										
+				return array(array("showPrivacy", $fields));	
+		}
 	}
 }
 

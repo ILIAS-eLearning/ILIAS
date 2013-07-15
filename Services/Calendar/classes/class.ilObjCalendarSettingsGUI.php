@@ -464,6 +464,40 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->form->addItem($cache);
 	}
 	
-	
+	public function addToExternalSettingsForm($a_form_id)
+	{								
+		switch($a_form_id)
+		{			
+			case ilAdministrationSettingsFormHandler::FORM_COURSE:
+				
+				$this->initCalendarSettings();
+				
+				$fields = array(
+					'cal_setting_global_vis_repos' => '&nbsp;',
+					'~cal_setting_global_crs_vis' => array($this->settings->isCourseCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'cal_notification' => '&nbsp;',
+					'~cal_notification_crsgrp' => array($this->settings->isNotificationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'~cal_notification_users' => array($this->settings->isUserNotificationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'cal_cg_registrations' => array($this->settings->isCGRegistrationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				);
+										
+				return array(array("showPrivacy", $fields));	
+				
+			case ilAdministrationSettingsFormHandler::FORM_GROUP:
+				
+				$this->initCalendarSettings();
+				
+				$fields = array(
+					'cal_setting_global_vis_repos' => '&nbsp;',
+					'~cal_setting_global_grp_vis' => array($this->settings->isGroupCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'cal_notification' => '&nbsp;',
+					'~cal_notification_crsgrp' => array($this->settings->isNotificationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'~cal_notification_users' => array($this->settings->isUserNotificationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'cal_cg_registrations' => array($this->settings->isCGRegistrationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				);
+										
+				return array(array("showPrivacy", $fields));	
+		}
+	}
 }
 ?>
