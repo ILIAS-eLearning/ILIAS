@@ -2394,7 +2394,7 @@ common#:#check_link#:#Externe Links überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule nach ungültigen externen Links überprüft.
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
-common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, zwei Wochen vor Ablauf darüber informiert. Außerdem werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert haben.
+common#:#check_user_accounts_desc#:#Wenn eingeschaltet, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, zwei Wochen vor Ablauf darüber informiert. Außerdem werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert haben.
 common#:#check_web_resources#:#Weblinks überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks nach ungültigen externen Links überprüft.
 common#:#checked#:#Ausgewählt
@@ -13030,7 +13030,7 @@ cron#:#cron_result_status_reset#:#Reset
 cron#:#cron_action_activate#:#Aktivieren
 cron#:#cron_action_deactivate#:#Deaktivieren
 cron#:#cron_action_reset#:#Reset
-cron#:#cron_action_edit#:#Zeitplan bearbeiten
+cron#:#cron_action_edit#:#Bearbeiten
 cron#:#cron_status_active#:#Aktiv
 cron#:#cron_status_inactive#:#Inaktiv
 cron#:#cron_schedule_daily#:#Täglich

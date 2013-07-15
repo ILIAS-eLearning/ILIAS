@@ -19,4 +19,9 @@
 		<event type="raise" id="afterUpdate" />
 		<event type="raise" id="deleteUser" />
 	</events>
+	<crons>
+		<cron id="user_inactive" class="ilCronDeleteInactiveUserAccounts" />
+		<cron id="user_inactivated" class="ilCronDeleteInactivatedUserAccounts" />
+		<cron id="user_check_accounts" class="ilUserCronCheckAccounts" />
+	</crons>
 </service>

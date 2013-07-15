@@ -23,7 +23,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		$this->addColumn($this->lng->txt("cron_job_id"), "job_id");
+		$this->addColumn($this->lng->txt("cron_job_id"), "title");
 		$this->addColumn($this->lng->txt("cron_component"), "component");
 		$this->addColumn($this->lng->txt("cron_schedule"), "schedule");
 		$this->addColumn($this->lng->txt("cron_status"), "status");
@@ -34,7 +34,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("actions"), "");
 		
 		$this->setTitle($this->lng->txt("cron_jobs"));
-		$this->setDefaultOrderField("job_id");
+		$this->setDefaultOrderField("title");
 						
 		$this->setRowTemplate("tpl.cron_job_row.html", "Services/Cron");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -57,6 +57,12 @@ class ilCronManagerTableGUI extends ilTable2GUI
 			
 			$data[$idx]["title"] = $job->getTitle();
 			$data[$idx]["description"] = $job->getDescription();
+			$data[$idx]["has_settings"] = $job->hasCustomSettings;			
+			
+			if(!$data[$idx]["title"])
+			{
+				$data[$idx]["title"] = $item["job_id"];
+			}
 			
 			// schedule			
 			if(!$job->hasFlexibleSchedule())
@@ -219,10 +225,6 @@ class ilCronManagerTableGUI extends ilTable2GUI
 	{		
 		global $ilCtrl, $lng;
 		
-		if(!$a_set["title"])
-		{
-			$a_set["title"] = $a_set["job_id"];
-		}
 		$this->tpl->setVariable("VAL_ID", $a_set["title"]);
 		
 		if($a_set["description"])
@@ -278,11 +280,11 @@ class ilCronManagerTableGUI extends ilTable2GUI
 				$actions[] = "deactivate";
 			}
 			// edit (schedule)
-			if($a_set["editable_schedule"])
+			if($a_set["editable_schedule"] || $a_set["has_settings"])
 			{
 				$actions[] = "edit";
-			}			
-
+			}		
+			
 			$ilCtrl->setParameter($this->getParentObject(), "jid", $a_set["job_id"]);
 			
 			foreach($actions as $action)

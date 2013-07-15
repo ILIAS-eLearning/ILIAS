@@ -140,10 +140,7 @@ class ilCronCheck
 
 		$this->default_tasks = array(
 				'ilLDAPCronSynchronization::start',
-				'ilCronCheckUserAccounts::check',
-				'ilLuceneIndexer::index',
-				'ilCronLinkCheck::check',
-				'ilCronWebResourceCheck::check',
+				'ilLuceneIndexer::index',			
 				'ilCronForumNotification::sendNotifications',
 				'ilCronMailNotification::sendNotifications',
 				'ilConsultationHourCron::start',
@@ -152,8 +149,6 @@ class ilCronCheck
 				'ilCronDiskQuotaCheck::sendReminderMails',
 				// This entry refers to a task that is not completely implemented
 				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC',
-				'ilCronDeleteInactiveUserAccounts::run',
-				'ilCronDeleteInactivatedUserAccounts::run',
 				'ilCronPaymentNotification::sendNotifications',
 				'ilCronCourseGroupNotification::check',
 				'ilCronAddressbook::syncAddressbook',
@@ -169,14 +164,6 @@ class ilCronCheck
 					'condition'		=> true
 				),
 				
-				// Check user accounts if enabled in settings
-				'ilCronCheckUserAccounts::check' => array(
-					'classname'		=> 'ilCronCheckUserAccounts',
-					'method'		=> 'check',
-					'location'		=> 'cron',
-					'condition'		=> $ilias->getSetting('cron_user_check')
-				),
-				
 				// Start lucene indexer
 				'ilLuceneIndexer::index' => array(
 					'classname'		=> 'ilLuceneIndexer',
@@ -185,23 +172,7 @@ class ilCronCheck
 					'sub_location'	=> 'Lucene',
 					'condition'		=> $ilias->getSetting("cron_lucene_index")
 				),
-				
-				// Start Link check
-				'ilCronLinkCheck::check' => array(
-					'classname'		=> 'ilCronLinkCheck',
-					'method'		=> 'check',
-					'location'		=> 'cron',
-					'condition'		=> $ilias->getSetting("cron_link_check")
-				),
-				
-				// Start web resource check
-				'ilCronWebResourceCheck::check' => array(
-					'classname'		=> 'ilCronWebResourceCheck',
-					'method'		=> 'check',
-					'location'		=> 'cron',
-					'condition'		=> $ilias->getSetting("cron_web_resource_check")
-				),
-				
+			
 				// Start sending forum notifications
 				'ilCronForumNotification::sendNotifications' => array(
 					'classname'		=> 'ilCronForumNotification',
@@ -271,22 +242,6 @@ class ilCronCheck
 				#	'location'		=> 'Services/Payment',
 				#	'condition'		=> true
 				#),
-
-				// Delete Inactive User Accounts depending on "inactivity" period
-				'ilCronDeleteInactiveUserAccounts::run' => array(
-					'classname'		=> 'ilCronDeleteInactiveUserAccounts',
-					'method'		=> 'run',
-					'location'		=> 'Services/User',
-					'condition'		=> $ilias->getSetting('cron_inactive_user_delete', 0)
-				),
-
-				// Delete Inactive User Accounts depending on "inactivation" period
-				'ilCronDeleteInactivatedUserAccounts::run' => array(
-					'classname'		=> 'ilCronDeleteInactivatedUserAccounts',
-					'method'		=> 'run',
-					'location'		=> 'Services/User',
-					'condition'		=> $ilias->getSetting('cron_inactivated_user_delete', 0)
-				),
 
 				// Start sending Payment "Buy Extension" Reminder
 				'ilCronPaymentNotification::sendNotifications' => array(
