@@ -813,10 +813,27 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		// display previews
 		include_once("./Services/Preview/classes/class.ilPreview.php");
-		if (!$this->ctrl->isAsynch() && ilPreview::hasPreview($this->object->getId()) && $this->checkPermissionBool("read"))
+		if (!$this->ctrl->isAsynch() && 
+			ilPreview::hasPreview($this->object->getId(), $this->object->getType()) && 
+			$this->checkPermissionBool("read"))
 		{
-            include_once("./Services/Preview/classes/class.ilPreviewGUI.php");
-            $preview = new ilPreviewGUI($this->node_id);
+			include_once("./Services/Preview/classes/class.ilPreviewGUI.php");
+			
+			// get context for access checks later on
+            $context;
+			switch ($this->id_type)
+			{
+				case self::WORKSPACE_NODE_ID:
+				case self::WORKSPACE_OBJECT_ID:
+					$context = ilPreviewGUI::CONTEXT_WORKSPACE;
+					break;	
+				
+				default:
+					$context = ilPreviewGUI::CONTEXT_REPOSITORY;
+					break;	
+			}
+			
+            $preview = new ilPreviewGUI($this->node_id, $context, $this->object->getId(), $this->access_handler);
 			$info->addProperty($this->lng->txt("preview"), $preview->getInlineHTML());
 		}
 

@@ -17,6 +17,7 @@ require_once("./Services/Preview/classes/class.ilFSStoragePreview.php");
 class ilPreview
 {
 	// status values
+	const RENDER_STATUS_NONE = "none";
 	const RENDER_STATUS_PENDING = "pending";
 	const RENDER_STATUS_CREATED = "created";
 	const RENDER_STATUS_FAILED = "failed";
@@ -57,7 +58,7 @@ class ilPreview
 	 * The status of the rendering process.
 	 * @var string
 	 */
-	private $render_status = false;
+	private $render_status = self::RENDER_STATUS_NONE;
 	
 	/**
 	 * Creates a new ilPreview.
@@ -110,18 +111,10 @@ class ilPreview
 		
 		// get source preview
 		$src = new ilPreview($a_src_id);
+		$status = $src->getRenderStatus();
 		
-		// preview failed? don't copy it
-		if ($src->getRenderStatus() == self::RENDER_STATUS_FAILED)
-			return;
-		
-		// preview pending?
-		if ($src->getRenderStatus() == self::RENDER_STATUS_PENDING)
-		{
-			// TODO: what should we do in this case???
-			return;
-		}
-		else
+		// created? copy the previews
+		if ($status == self::RENDER_STATUS_CREATED)
 		{
 			// create destination preview and set it's properties
 			$dest = new ilPreview($a_dest_id);
@@ -137,6 +130,13 @@ class ilPreview
 			// save copy
 			$dest->doCreate();
 		}
+		else
+		{
+			// all other status need no action
+			// self::RENDER_STATUS_FAILED
+			// self::RENDER_STATUS_NONE
+			// self::RENDER_STATUS_PENDING
+		}	
 	}
 	
 	/**
@@ -146,13 +146,31 @@ class ilPreview
 	 * @param string $a_type The type of the object to check.
 	 * @return bool true, if the object has a preview; otherwise, false.
 	 */
-	public static function hasPreview($a_obj_id)
+	public static function hasPreview($a_obj_id, $a_type = "")
 	{
 		if (!ilPreviewSettings::isPreviewEnabled())		
 			return false;
 		
+		$preview = new ilPreview($a_obj_id, $a_type);
+		if ($preview->exists())
+			return true;
+		
+		// does not exist, enable on demand rendering if there's any renderer that supports our object
+		require_once("./Services/Preview/classes/class.ilRendererFactory.php");
+		$renderer = ilRendererFactory::getRenderer($preview);
+		return $renderer != null;
+	}
+	
+	/**
+	 * Gets the render status for the object with the specified id.
+	 * 
+	 * @param int $a_obj_id The id of the object to get the status for.
+	 * @return string The status of the rendering process.
+	 */
+	public static function lookupRenderStatus($a_obj_id)
+	{
 		$preview = new ilPreview($a_obj_id);
-		return $preview->exists();		
+		return $preview->getRenderStatus();
 	}
 	
 	/**
@@ -205,10 +223,7 @@ class ilPreview
 		$renderer->render($this, $a_obj, true);
 		
 		// save to database
-		if ($this->exists())
-			$this->doUpdate();
-		else
-			$this->doCreate();	
+		$this->save();
 		
 		return true;
 	}
@@ -224,6 +239,11 @@ class ilPreview
 			// delete files and database entry
 			$this->getStorage()->delete();
 			$this->doDelete();
+			
+			// reset values
+			$this->exists = false;
+			$this->render_date = false;
+			$this->render_status = self::RENDER_STATUS_NONE;
 		}
 	}
 	
@@ -276,6 +296,17 @@ class ilPreview
 	}
 	
 	/**
+	 * Saves the preview data to the database.
+	 */
+	public function save()
+	{
+		if ($this->exists)
+			$this->doUpdate();
+		else
+			$this->doCreate();
+	}
+	
+	/**
 	 * Create entry in database.
 	 */
 	protected function doCreate()
@@ -283,7 +314,7 @@ class ilPreview
 		global $ilDB;
 		
 		$ilDB->insert(
-			"preview", 
+			"preview_data", 
 			array(
 				"obj_id" => array("integer", $this->getObjId()),
 				"render_date" => array("timestamp", $this->getRenderDate()),
@@ -301,7 +332,7 @@ class ilPreview
 		global $ilDB;
 		
 		$set = $ilDB->queryF(
-			"SELECT * FROM preview WHERE obj_id=%s", 
+			"SELECT * FROM preview_data WHERE obj_id=%s", 
 			array("integer"), 
 			array($this->getObjId()));
 		
@@ -321,7 +352,7 @@ class ilPreview
 		global $ilDB;
 		
 		$ilDB->update(
-			"preview", 
+			"preview_data", 
 			array(
 				"render_date" => array("timestamp", $this->getRenderDate()),
 				"render_status" => array("text", $this->getRenderStatus())
@@ -338,7 +369,7 @@ class ilPreview
 		global $ilDB;
 		
 		$ilDB->manipulateF(
-		    "DELETE FROM preview WHERE obj_id=%s",
+		    "DELETE FROM preview_data WHERE obj_id=%s",
 			array("integer"), 
 			array($this->getObjId()));		
 	}

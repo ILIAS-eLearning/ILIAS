@@ -1,4 +1,4 @@
-<ul class="ilPreviewList">
+<ul class="ilPreviewList" id="{PREVIEW_ID}">
     <!-- BEGIN preview_item -->
     <li class="ilPreviewItem">
         <img src="{IMG_URL}" width="{WIDTH}" height="{HEIGHT}" alt="" />
@@ -6,7 +6,9 @@
     <!-- END preview_item -->
     <!-- BEGIN no_preview -->
     <li class="ilPreviewItem">
-        <div class="ilPreviewText">{TXT_NO_PREVIEW}</div>
+        <div class="ilPreviewText">
+            <span>{TXT_NO_PREVIEW}</span><i class="ilPreviewTextLoading"></i>
+        </div>
     </li>
     <!-- END no_preview -->
 </ul>

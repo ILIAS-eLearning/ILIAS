@@ -2,16 +2,11 @@
 // scripts and/or other plugins which may not be closed properly.
 ;(function ($, window, document, undefined)
 {
-    // TODO: remove for 4.3+
-    if (!window.il)
-        window.il = {};
-
     // constants
-    // TODO: change to false!!!
     var DEBUG_ENABLED = false;
 
     // logging also in IE
-    if (Function.prototype.bind && console && typeof console.log == "object") { ["log", "info", "warn", "error", "assert", "dir", "clear", "profile", "profileEnd"].forEach(function (e) { console[e] = this.call(console[e], console) }, Function.prototype.bind) } var konsole = { log: function (e) { }, dir: function (e) { } }; if (typeof window.console != "undefined" && typeof window.console.log == "function") { konsole = window.console; if (DEBUG_ENABLED) konsole.log("konsole initialized") } log = function () { if (DEBUG_ENABLED) konsole.log.apply(konsole, arguments) }
+    if (Function.prototype.bind && console && typeof console.log == "object") { ["log", "info", "warn", "error", "assert", "dir", "clear", "profile", "profileEnd"].forEach(function (e) { console[e] = this.call(console[e], console) }, Function.prototype.bind) } var konsole = { log: function (e) { }, dir: function (e) { } }; if (typeof window.console != "undefined" && typeof window.console.log == "function") { konsole = window.console; if (DEBUG_ENABLED) konsole.log("konsole initialized") } function log() { if (DEBUG_ENABLED) konsole.log.apply(konsole, arguments) }
 
     /**
      * Preview.
@@ -20,6 +15,12 @@
     {
         // constants
         var QTIP_NAMESPACE = "qtip";
+        var STATUS_NONE = "none";
+        var STATUS_CREATED = "created";
+        var STATUS_PENDING = "pending";
+        var STATUS_FAILED = "failed";
+
+        var HIDDEN_ACTION_CLASS = "ilPreviewActionHidden";
 
         // variables
         var currentId = null;
@@ -35,15 +36,17 @@
         var $previews = null;
         var $label = null;
         var $qtip = null;
+        var $highlightedItem = null;
 
         // public properties
         this.texts = {
             preview: "Preview",
-            close: "Close",
-            loading: "Loading Preview..."
+            showPreview: "Show Preview",
+            close: "Close"
         };
-
+        this.initialHtml = null;
         this.previewSize = 280;
+        this.highlightClass = "ilContainerListItemOuterHighlight";
 
         /**
          * Initializes the preview.
@@ -57,14 +60,15 @@
         /**
          * Adds a new object where files can be uploaded to.
          */
-        this.toggle = function (e, id, options)
+        this.toggle = function (e, options)
         {
-            log("Preview.toggle()")
+            log("Preview.toggle()");
+            var id = options.id;
 
             // current element?
             if (id == null || currentId == id)
             {
-                hide();
+                hideTooltip();
             }
             else
             {
@@ -74,46 +78,119 @@
                 currentId = id;
 
                 // lets show the new one
-                show(e, id, options);
+                showTooltip(e, options);
                 previewVisible = true;
             }
         };
 
-        function show(e, id, options)
+        /**
+         * Renders the preview for the calling object.
+         */
+        this.render = function (e, options)
+        {
+            log("Preview.render()");
+
+            $("#preview_render_" + options.id).addClass(HIDDEN_ACTION_CLASS);
+            executeAction(options);
+        };
+
+        /**
+         * Deletes the preview for the calling object.
+         */
+        this.delete = function (e, options)
+        {
+            log("Preview.delete()");
+
+            $("#preview_delete_" + options.id).addClass(HIDDEN_ACTION_CLASS);
+            executeAction(options);
+        }
+
+        /**
+         * Executes an action as specified in the specified options.
+         */
+        function executeAction(options)
+        {
+            // create new html and display loading animation
+            var $html = $(self.initialHtml.replace("%%0%%", options.loadingText));
+            $html.find(".ilPreviewTextLoading").css("display", "inline-block");
+
+            // replace old content and set new id
+            $("#" + options.htmlId).replaceWith($html);
+            $html.attr("id", options.htmlId);
+
+            // call url
+            $.ajax(
+            {
+                url: options.url,
+                type: "GET",
+                dataType: "json",
+                success: function (data)
+                {
+                    log(" -> Action executed: id=%s, status=%s", options.id, data.status);
+
+                    // replace preview
+                    $html.replaceWith(data.html);
+
+                    // enable / disable actions
+                    if (data.status == STATUS_FAILED || data.status == STATUS_NONE)
+                        $("#preview_render_" + options.id).removeClass(HIDDEN_ACTION_CLASS);
+                    else
+                        $("#preview_render_" + options.id).addClass(HIDDEN_ACTION_CLASS);
+
+                    if (data.status == STATUS_CREATED)
+                        $("#preview_delete_" + options.id).removeClass(HIDDEN_ACTION_CLASS);
+                    else
+                        $("#preview_delete_" + options.id).addClass(HIDDEN_ACTION_CLASS);
+                }
+            });
+        }
+
+        /**
+         * Displays the specified content.
+         */
+        function displayContent(options, content)
+        {
+            // was a different preview requested in the meantime?
+            if (options.id != currentId)
+                return;
+
+            // replace wait
+            $tooltip.qtip("api").set("content.text", buildContent(content));
+
+            // initialize navigation
+            initPreviews();
+
+            // show the tooltip if not showing already
+            // thats generaly the case when content comes from the cache
+            if (!$qtip.is(":visible"))
+                $tooltip.qtip("show");
+        }
+
+        /**
+         * Shows the preview tooltip.
+         */
+        function showTooltip(e, options)
         {
             // remove old event handlers
             removeEventHandlers();
 
             // get preview label
-            $label = $(options.htmlId).find(".il_ContainerItemPreview");
+            $label = $("#" + options.htmlId).find(".il_ContainerItemPreview");
 
             // create tooltip
             initTooltip();
 
             // load preview and show it
-            loadPreview(options.url, function (content)
+            loadPreview(options, function (content)
             {
-                // was a different preview requested in the meantime?
-                if (id != currentId)
-                    return;
-
-                // replace wait
-                $tooltip.qtip("api").set("content.text", buildContent(content));
-
-                // initialize navigation
-                initPreviews();
-
-                // show the tooltip if not showing already
-                // thats generaly the case when content comes from the cache
-                if (!$qtip.is(":visible"))
-                    $tooltip.qtip("show");
+                displayContent(options, content);
             });
         }
 
         /**
          * Loads the preview asynchronously.
          */
-        function loadPreview(previewUrl, callback)
+        function loadPreview(options, callback)
         {
             var idToLoad = currentId;
 
@@ -125,24 +202,97 @@
             }
             else
             {
-                // show preview
-                var loading = "<ul class=\"ilPreviewList\"><il class=\"ilPreviewItem\"><div class=\"ilPreviewText\">" + self.texts.loading + "</div></il></ul>"
+                var loading = self.initialHtml.replace("%%0%%", options.loadingText);
+                // display spinner if needed
+                if (options.status == STATUS_NONE)
+                    $(loading).find(".ilPreviewTextLoading").css("display", "inline-block");
+
                 $tooltip.qtip("api").set("content.text", buildContent(loading));
                 $tooltip.qtip("api").set("position.target", $label);
+
+                // cache the loading text to prevent multiple server calls if
+                // the tooltip is hidden and shown again while the request is running
+                cache[idToLoad] = loading;
 
                 initPreviews();
                 $tooltip.qtip("show");
 
                 $.ajax(
                 {
-                    url: previewUrl,
+                    url: options.url,
                     type: "GET",
+                    dataType: "json",
                     success: function (data)
                     {
-                        cache[idToLoad] = data;
-                        callback(data);
+                        log(" -> Preview loaded: id=%s, status=%s", options.id, data.status);
+                        updateCache(options.id, data.status, data.html);
+                        callback(data.html);
+                        updatePreviewIcon(options, data.status);
                     }
                 });
+            }
+
+            highlightItem(options.htmlId);
+        }
+
+        /**
+         * Updates the preview icon if the preview was renderered on demand.
+         */
+        function updatePreviewIcon(options, newStatus)
+        {
+            // if previous status was none, update status
+            if (options.status == STATUS_NONE &&
+                newStatus == STATUS_CREATED || newStatus == STATUS_FAILED)
+            {
+                $("#" + options.htmlId).find(".il_ContainerItemPreview")
+                    .removeClass("ilPreviewStatusNone")
+                    .children("a").prop("title", self.texts.showPreview);
+            }
+        }
+
+        /**
+         * Updates the cache of the specified item with the specified content.
+         */
+        function updateCache(id, status, content)
+        {
+            // set cache if preview was created
+            switch (status)
+            {
+                // delete cache entry that the request is done again
+                case STATUS_PENDING:
+                    delete cache[id];
+                    break;
+
+                    // cache response
+                case STATUS_CREATED:
+                case STATUS_FAILED:
+                case STATUS_NONE:
+                default:
+                    cache[id] = content;
+                    break;
+            }
+        }
+
+        /**
+         * Highlights the item with the specified id.
+         */
+        function highlightItem(htmlId)
+        {
+            // remove old highlight
+            if ($highlightedItem != null)
+            {
+                $highlightedItem.removeClass(self.highlightClass);
+                $highlightedItem = null;
+            }
+
+            // highlight new item
+            if (htmlId != null)
+            {
+                $highlightedItem = $("#" + htmlId);
+                if ($highlightedItem.length == 1)
+                    $highlightedItem.addClass(self.highlightClass);
+                else
+                    $highlightedItem = null;
             }
         }
 
@@ -166,9 +316,9 @@
         /**
          * Hides the preview.
          */
-        function hide()
+        function hideTooltip()
         {
-            log("Preview.hide()");
+            log("Preview.hideTooltip()");
 
             currentId = null;
             previewVisible = false;
@@ -177,6 +327,8 @@
             removeEventHandlers();
 
             $label = null;
+
+            highlightItem(null);
         }
 
         /**
@@ -238,13 +390,17 @@
          */
         function showPreview(index)
         {
+            var $window = $(window);
+
+            // get a element
             var a = $previews.eq(index).find("a");
             var aTop = a.offset().top;
-            var centerTop = $(window).height() / 2;
-            var scrollTop = document.body.scrollTop;
+            var centerTop = $window.height() / 2;
+            var scrollTop = $window.scrollTop();
             var diff = aTop - (centerTop + scrollTop);
 
-            document.body.scrollTop += diff;
+            $window.scrollTop(scrollTop + diff);
+
             a.click();
         }
 
@@ -259,14 +415,11 @@
             // attach click events
             var $prev = $qtip.find(".ilPreviewTooltipPrev");
             var $next = $qtip.find(".ilPreviewTooltipNext");
-            //var $list = $qtip.find(".ilPreviewList");
             var $items = $qtip.find(".ilPreviewItem");
             var itemCount = $items.length;
 
             var currentIdx = -1;
-
             var previewSize = self.previewSize + 2; // add 2 because the image has a border
-            //$list.css({ width: previewSize + "px", height: previewSize + "px" });
 
             /**
              * Show the preview image at the specified index.
@@ -391,7 +544,7 @@
                         case 27: // ESC
                             e.preventDefault();
                             $tooltip.qtip("hide");
-                            hide();
+                            hideTooltip();
                             break;
                     }
                 }
@@ -428,7 +581,8 @@
                 $prev.show();
                 $next.show();
 
-                // attach mouse wheel (remove old first)
+                // attach mouse wheel
+                // (assign to variable is important that it can be removed later on)
                 mouseWheelHandler = handleMouseWheel;
                 $qtip.bind("mousewheel", mouseWheelHandler);
                 $label.bind("mousewheel", mouseWheelHandler);
@@ -439,7 +593,8 @@
                 $next.hide();
             }
 
-            // key handlers (remove old first)
+            // key handlers
+            // (assign to variable is important that it can be removed later on)
             keyHandler = handleKeyUp;
             $(document).bind("keydown keyup", keyHandler);
 
@@ -489,10 +644,11 @@
                 events: {
                     hide: function (e)
                     {
-                        $container = $(e.target).closest(".il_ContainerItemPreview");
-                        if ($container.length == 0)
+                        if (e.originalEvent)
                         {
-                            hide();
+                            $container = $(e.originalEvent.target).closest(".il_ContainerItemPreview");
+                            if ($container.length == 0)
+                                hideTooltip();
                         }
                     }
                 }

@@ -22,6 +22,26 @@
     font-size: 90%;
     margin-top: -20px;
 }
+.ilPreviewTextLoading {
+    width: 14px;
+    height: 14px;
+	background: transparent url(../../../../templates/default/images/loader.gif) no-repeat 0 0;
+    display: none;
+}
+.ilPreviewActions a.submit,
+.ilPreviewActions a.submit:hover {
+    margin-top: 5px;
+}
+
+.ilPreviewActions a.ilPreviewActionHidden {
+    display: none;
+}
+
+.ilPreviewStatusNone {
+    filter: alpha(opacity=60); 
+    -moz-opacity: 0.60; 
+    opacity: 0.60;
+}
 
 /* tooltip */
 #qtip-preview {
@@ -157,4 +177,8 @@
 .ilPreviewInlineContent .ilPreviewItem img {
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+.ilPreviewInlineContent .ilPreviewText {
+    font-size: 100%;
+    margin-top: 0;
 }
