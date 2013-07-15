@@ -8,6 +8,7 @@
 class ilTooltipGUI
 {
 	static protected $initialized = false;
+	static protected $library_initialized = false;
 	
 	/**
 	 * Adds a tooltip to an HTML element
@@ -21,12 +22,9 @@ class ilTooltipGUI
 	{
 		global $tpl;
 		
+		self::initLibrary();		
 		if (!self::$initialized)
 		{
-//			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-//			ilYuiUtil::initTooltip();
-$tpl->addCss("./Services/UIComponent/Tooltip/lib/qtip_2_0_1/jquery.qtip.min.css");
-$tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_2_0_1/jquery.qtip.min.js");
 			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
 			$tpl->addOnLoadCode('il.Tooltip.init();', 3);
 			self::$initialized = true;
@@ -68,5 +66,22 @@ $tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_2_0_1/jquery.qtip.m
 			' text:"'.$a_text.'" '.$addstr.'} );';
 	}
 	
+	/**
+	 * Initializes the needed tooltip libraries.
+	 */
+	static function initLibrary()
+	{
+		global $tpl;
+		
+		if (self::$library_initialized)
+			return;
+
+		//			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		//			ilYuiUtil::initTooltip();
+		$tpl->addCss("./Services/UIComponent/Tooltip/lib/qtip_2_0_1/jquery.qtip.min.css");
+		$tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_2_0_1/jquery.qtip.min.js");
+		
+		self::$library_initialized = true;
+	}
 }
 ?>

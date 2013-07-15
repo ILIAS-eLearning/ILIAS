@@ -339,8 +339,8 @@ class ilPreviewGUI
 		iljQueryUtil::initjQuery();
 		
 		// load qtip
-		$tpl->addCss("./Services/UIComponent/Tooltip/lib/qtip_2_0_1/jquery.qtip.min.css");
-		$tpl->addJavaScript("./Services/UIComponent/Tooltip/lib/qtip_2_0_1/jquery.qtip.min.js");
+		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+		ilTooltipGUI::initLibrary();
 		
 		// needed scripts & styles
 		$tpl->addJavaScript("./Services/Preview/js/jquery.mousewheel.js");
