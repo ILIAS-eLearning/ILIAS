@@ -184,6 +184,14 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$form->addItem($event);
 		
 		
+		include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_REPOSITORY, 
+			$form,
+			$this
+		);		
+		
+		
 		// object lists
 		
 		$lists = new ilFormSectionHeaderGUI();
@@ -211,15 +219,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$pl->setValue(1);
 		$pl->setChecked($ilSetting->get('comments_tagging_in_lists'));
 		$form->addItem($pl);
-		
-		
-		include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
-		ilAdministrationSettingsFormHandler::addFieldsToForm(
-			ilAdministrationSettingsFormHandler::FORM_REPOSITORY, 
-			$form,
-			$this
-		);
-		
+				
 		
 		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
 		

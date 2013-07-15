@@ -841,6 +841,15 @@ class ilLDAPSettingsGUI
 		$migr->setInfo($this->lng->txt('auth_ldap_migration_info'));
 		$migr->setValue(1);
 		$this->form_gui->addItem($migr);
+				
+		
+		include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_LDAP, 
+			$this->form_gui,
+			ilAdministrationSettingsFormHandler::getSettingsGUIInstance("auth")
+		);					
+		
 		
 		$this->form_gui->addCommandButton('save', $this->lng->txt('save'));			
  	}

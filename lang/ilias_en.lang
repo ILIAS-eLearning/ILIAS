@@ -13537,3 +13537,4 @@ common#:#obj_grps#:#Group
 common#:#obj_grps_desc#:#General settings for Groups
 administration#:#adm_external_setting_prefix#:#External Settings
 administration#:#adm_external_setting_edit#:#Edit Settings
+ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization 

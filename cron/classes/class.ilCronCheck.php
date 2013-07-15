@@ -135,11 +135,9 @@ class ilCronCheck
 	{
 		global $ilias;
 
-		require_once('Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php');
 		require_once('Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php');
 
 		$this->default_tasks = array(
-				'ilLDAPCronSynchronization::start',	
 				'ilCronForumNotification::sendNotifications',
 				'ilCronMailNotification::sendNotifications',				
 				'ilCronValidator::check',				
@@ -152,13 +150,6 @@ class ilCronCheck
 
 		$this->possible_tasks = array(
 
-				'ilLDAPCronSynchronization::start' => array(
-					'classname'		=> 'ilLDAPCronSynchronization',
-					'method'		=> 'start',
-					'location'		=> 'Services/LDAP',
-					'condition'		=> true
-				),
-				
 				// Start sending forum notifications
 				'ilCronForumNotification::sendNotifications' => array(
 					'classname'		=> 'ilCronForumNotification',
