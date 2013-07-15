@@ -12,6 +12,26 @@ define ("IL_NO_HEADER", "none");
 /** @defgroup ServicesCOPage Services/COPage
  */
 
+/*
+	@todo
+	
+	- All PC types could be defined in service/module xml.
+	-- type, class, directory
+	-- internal links used/implemented?
+	-- styles used/implemented?
+	- application classes need
+	-- page object
+	--- page object should return php5 domdoc (getDom() vs getDomDoc()?)
+	    esp. plugins should use this
+	-- remove content element hook, if content is not allowed
+	- PC types could move to components (e.g. blog, login)
+	- Problem: How to modularize xsl?
+	-- read from db?
+	-- xml entries say that xslt code is used -> read file and include in
+	   main xslt file
+ 
+*/ 
+ 
 /**
 * Class ilPageObject
 *
@@ -23,6 +43,7 @@ define ("IL_NO_HEADER", "none");
 *
 * @ingroup ServicesCOPage
 */
+// @todo: make it abstract?
 class ilPageObject
 {
 	static $exists = array();
@@ -69,9 +90,7 @@ class ilPageObject
 		$this->page_not_found = false;
 		$this->old_nr = $a_old_nr;
 		$this->layout_mode = false;
-		$this->encoding = "UTF-8";
-		
-		// pc-dep
+		$this->encoding = "UTF-8";		
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
 				"Section", "Tab", "ContentPopup");
@@ -236,6 +255,7 @@ class ilPageObject
 	{
 		global $ilBench, $ilDB;
 
+		// @todo: remove all ilBench stuff
 		$ilBench->start("ContentPresentation", "ilPageObject_read");
 		
 		$this->setActive(true);
@@ -627,6 +647,8 @@ class ilPageObject
 	 *
 	 * @return object page content object
 	 */
+	// @todo: move this stuff to a decent factory class
+	// or at least generalize this
 	function &getContentObject($a_hier_id, $a_pc_id = "")
 	{
 //echo ":".$a_hier_id.":";
@@ -638,8 +660,6 @@ class ilPageObject
 		{
 			return false;
 		}
-		
-		// pc-dep
 		switch($cont_node->node_name())
 		{
 			case "PageContent":
@@ -1028,6 +1048,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $xml;
 	}
 
+// @todo: begin: generalize, remove concrete dependencies
+
 	/**
 	 * Handle copied content
 	 *
@@ -1060,7 +1082,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
-	// pc-dep
 	/**
 	 * Replaces media objects in interactive images
 	 * with copies of the interactive images
@@ -1098,7 +1119,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
-	// pc-dep
 	/**
 	 * Replaces media objects with copies
 	 */
@@ -1135,7 +1155,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
-	// pc-dep
 	/**
 	 * Replaces existing question content elements with
 	 * new copies
@@ -1179,7 +1198,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
-	// pc-dep
 	/**
 	 * Remove questions from document
 	 *
@@ -1198,6 +1216,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$parent_node->unlink_node($parent_node);
 		}
 	}
+	
+// @todo: end
 	
 	/**
 	 * Remove questions from document
@@ -1229,7 +1249,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		else
 		{
-			// pc-dep
 			// append multimedia object elements
 			if ($a_append_mobs || $a_append_bib || $a_append_link_info)
 			{
@@ -1280,10 +1299,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
-	// pc-dep
 	/**
 	* get language variables as XML
 	*/
+	// @todo: generalize, remove concrete dependencies
 	function getLanguageVariablesXML()
 	{
 		global $lng;
@@ -1327,7 +1346,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$xml.= "<LV name=\"$var\" value=\"".$lng->txt("cont_".$var)."\"/>";
 	}
 
-	// pc-dep
+// @todo begin: move this to paragraph class
+
 	function getFirstParagraphText()
 	{
 		if($this->dom)
@@ -1347,7 +1367,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return "";
 	}
 
-	// pc-dep
 	/**
 	* Set content of paragraph
 	*
@@ -1363,6 +1382,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+// @todo end
+
 	
 	/**
 	* lm parser set this flag to true, if the page contains intern links
@@ -1372,6 +1393,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	*
 	* @param	boolean		$a_contains_link		true, if page contains intern link tag(s)
 	*/
+	// @todo: can we do this better
 	function setContainsIntLink($a_contains_link)
 	{
 		$this->contains_int_link = $a_contains_link;
@@ -1381,6 +1403,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* returns true, if page was marked as containing an intern link (via setContainsIntLink)
 	* (this method should only be called by the import parser)
 	*/
+	// @todo: can we do this better
 	function containsIntLink()
 	{
 		return $this->contains_int_link;
@@ -1400,18 +1423,17 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $this->needs_parsing;
 	}
 
-	// pc-dep
 	/**
 	 * Set contains question
 	 *
 	 * @param	boolean	$a_val	contains question
 	 */
+	 // @todo: can we do this better
 	public function setContainsQuestion($a_val)
 	{
 		$this->contains_question = $a_val;
 	}
 
-	// pc-dep
 	/**
 	 * Get contains question
 	 *
@@ -1422,35 +1444,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $this->contains_question;
 	}
 
-	/**
-	* get a xml string that contains all Bibliography elements, that
-	* are referenced by any bibitem alias in the page
-	*/
-    function getBibliographyXML()
-	{
-        global $ilias, $ilDB;
 
-		// todo: access to $_GET and $_POST variables is not
-		// allowed in non GUI classes!
-		//
-		// access to db table object_reference is not allowed here!
-        $r = $ilias->db->query("SELECT * FROM object_reference WHERE ref_id=".
-			$ilDB->quote($_GET["ref_id"],'integer'));
-        $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
-
-        include_once("./Services/Xml/classes/class.ilNestedSetXML.php");
-        $nested = new ilNestedSetXML();
-        $bibs_xml = $nested->export($row["obj_id"], "bib");
-
-        return $bibs_xml;
-    }
-
-
-    // pc-dep
 	/**
 	* get all media objects, that are referenced and used within
 	* the page
 	*/
+	// @todo: move to media class
 	function collectMediaObjects($a_inline_only = true)
 	{
 //echo htmlentities($this->getXMLFromDom());
@@ -1504,10 +1503,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $mob_ids;
 	}
 
-	// pc-dep
+
 	/**
 	* get all internal links that are used within the page
 	*/
+	// @todo: can we do this better?
 	function getInternalLinks($a_cnt_multiple = false)
 	{
 		// get all internal links of the page
@@ -1579,10 +1579,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $links;
 	}
 
-	// pc-dep
 	/**
 	* get all file items that are used within the page
 	*/
+	// @todo: move to file item class
 	function collectFileItems($a_xml = "")
 	{
 //echo "<br>PageObject::collectFileItems[".$this->getId()."]";
@@ -1627,11 +1627,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $file_ids;
 	}
 
-	// pc-dep
 	/**
 	* get a xml string that contains all media object elements, that
 	* are referenced by any media alias in the page
 	*/
+	// @todo: move to media class
 	function getMultimediaXML()
 	{
 		$mob_ids = $this->collectMediaObjects();
@@ -1651,10 +1651,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $mobs_xml;
 	}
 
-	// pc-dep
 	/**
 	* get complete media object (alias) element
 	*/
+	// @todo: move to media class
 	function getMediaAliasElement($a_mob_id, $a_nr = 1)
 	{
 		$xpc = xpath_new_context($this->dom);
@@ -1693,6 +1693,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* Another example: The first child of the page is a Paragraph -> id 1.
 	* The second child is a table -> id 2. The first row gets the id 2_1, the
 	*/
+	// @todo: can we do this better? remove dependencies?
 	function addHierIDs()
 	{
 		$this->hier_ids = array();
@@ -1731,7 +1732,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				}
 			}
 
-			// pc-dep
 			if ($sib_hier_id != "")		// set id to sibling id "+ 1"
 			{
 				require_once("./Services/COPage/classes/class.ilPageContent.php");
@@ -1825,6 +1825,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* get ids of all first table rows
 	*/
+	// @todo: move to table classes
 	function getFirstRowIds()
 	{
 		return $this->first_row_ids;
@@ -1833,6 +1834,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* get ids of all first table columns
 	*/
+	// @todo: move to table classes
 	function getFirstColumnIds()
 	{
 		return $this->first_col_ids;
@@ -1841,6 +1843,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* get ids of all list items
 	*/
+	// @todo: move to list class
 	function getListItemIds()
 	{
 		return $this->list_item_ids;
@@ -1849,6 +1852,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* get ids of all file items
 	*/
+	// @todo: move to file item class
 	function getFileItemIds()
 	{
 		return $this->file_item_ids;
@@ -1905,10 +1909,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $ret;
 	}
 
-	// pc-dep
 	/**
 	* add file sizes
 	*/
+	// @todo: move to file item class
 	function addFileSizes()
 	{
 		$xpc = xpath_new_context($this->dom);
@@ -1942,11 +1946,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		unset($xpc);
 	}
 
-	// pc-dep
 	/**
 	 * Resolves all internal link targets of the page, if targets are available
 	 * (after import)
 	 */
+	// @todo: possible to improve this?
 	function resolveIntLinks()
 	{
 		// resolve normal internal links
@@ -1994,13 +1998,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
-	// pc-dep
 	/**
 	 * Resolve media aliases
 	 * (after import)
 	 *
 	 * @param	array		mapping array
 	 */
+	 // @todo: move to media classes?
 	function resolveMediaAliases($a_mapping)
 	{
 		// resolve normal internal links
@@ -2024,13 +2028,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $changed;
 	}
 
-	// pc-dep
 	/**
 	 * Resolve iim media aliases
 	 * (in ilContObjParse)
 	 *
 	 * @param	array		mapping array
 	 */
+	 // @todo: move to iim classes?
 	function resolveIIMMediaAliases($a_mapping)
 	{
 		// resolve normal internal links
@@ -2052,13 +2056,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $changed;
 	}
 
-	// pc-dep
 	/**
 	 * Resolve file items
 	 * (after import)
 	 *
 	 * @param	array		mapping array
 	 */
+	 // @todo: move to file classes?
 	function resolveFileItems($a_mapping)
 	{
 		// resolve normal internal links
@@ -2082,11 +2086,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $changed;
 	}
 
-	// pc-dep
 	/**
 	 * Resolve all quesion references
 	 * (after import)
 	 */
+	 // @todo: move to question classes
 	function resolveQuestionReferences($a_mapping)
 	{
 		// resolve normal internal links
@@ -2105,13 +2109,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		unset($xpc);
 	}
 
-	// pc-dep
+
 	/**
 	* Move internal links from one destination to another. This is used
 	* for pages and structure links. Just use IDs in "from" and "to".
 	*
 	* @param	array	keys are the old targets, values are the new targets
 	*/
+	// @todo: generalize, internal links usage info
 	function moveIntLinks($a_from_to)
 	{
 		$this->buildDom();
@@ -2272,12 +2277,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $changed;
 	}
 
-	// pc-dep
 	/**
 	* Change targest of repository links. Use full targets in "from" and "to"!!!
 	*
 	* @param	array	keys are the old targets, values are the new targets
 	*/
+	// @todo: generalize, internal links usage info
 	static function _handleImportRepositoryLinks($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
 	{
 		include_once("./Services/COPage/classes/class.ilInternalLink.php");
@@ -2304,8 +2309,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			}
 		}
 	}
-	
-	// pc-dep
+		
+	// @todo: generalize, internal links usage info
 	function handleImportRepositoryLink($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
 	{
 		$this->buildDom();
@@ -2434,6 +2439,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		$ilDB->query($query);*/
 // 	save style usage
+
+			// @todo: generalize, style usage info
 			$this->saveStyleUsage($this->getXMLContent());
 			
 			// save internal link information
@@ -2471,6 +2478,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "-".htmlentities($this->getXMLFromDom())."-"; exit;
 		if(empty($errors))
 		{
+			// @todo 1: is this page type or pc content type
+			// related -> plugins should be able to hook in!? 
 			$this->performAutomaticModifications();
 			
 			$content = $this->getXMLFromDom();
@@ -2528,6 +2537,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 							$ilDB->quote($last_nr["mnr"] + 1).")";
 //echo "<br><br>+$a_no_history+$h_query";
 						$ilDB->query($h_query);*/
+						
+						// @todo: after update hook needed
 						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveStyleUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
@@ -2546,7 +2557,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				? 1
 				: 0;
 				
+			
 			$iel = $this->containsDeactivatedElements($content);
+			
+			// @todo: hook needed?
 			$inl = $this->containsIntLinks($content);
 			/*$query = "UPDATE page_object ".
 				"SET content = ".$ilDB->quote($content)." ".
@@ -2588,7 +2602,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 //			$this->ilias->db->query($query);
 			
-			// pc-dep
+			// @todo: hook!
 			if (!$skip_handle_usages)
 			{
 				// handle media object usage
@@ -2640,6 +2654,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			}
 			
 			// save internal link information
+			// @todo: hook!
 			$this->saveInternalLinks($this->getXMLFromDom());
 			$this->saveAnchors($this->getXMLFromDom());
 			$this->callUpdateListeners();
@@ -2670,7 +2685,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$files = $this->collectFileItems();
 		}
 
-		// pc-dep
+		
+		// @todo 1: delete hook!
+		
 		// delete mob usages
 		$this->saveMobUsage("<dummy></dummy>");
 
@@ -2690,7 +2707,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// delete all file usages
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
-		
+
 		// delete all mob usages
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		ilObjMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId());
@@ -2751,9 +2768,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	*
 	* @param	string		$a_xml		xml data of page
 	*/
+	// @todo 1: hook
 	function saveMetaKeywords($a_xml)
 	{
-		// pc-dep
 		// not nice, should be set by context per method
 		if ($this->getParentType() == "gdf" ||
 			$this->getParentType() == "lm" ||
@@ -2827,7 +2844,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
-	// pc-dep
+// @todo begin: move to specific classes
+
 	/**
 	* save all usages of media objects (media aliases, media objects, internal links)
 	*
@@ -2892,7 +2910,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $usages;
 	}
 
-	// pc-dep
 	/**
 	* save file usages
 	*/
@@ -2907,7 +2924,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
-	// pc-dep
 	/**
 	* save content include usages
 	*/
@@ -2925,7 +2941,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
-	// pc-dep
 	/**
 	* get all content includes that are used within the page
 	*/
@@ -2959,7 +2974,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $ci_ids;
 	}
 	
-	// pc-dep
 	/**
 	* save content include usages
 	*/
@@ -2977,7 +2991,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
-	// pc-dep
 	/**
 	* get all content includes that are used within the page
 	*/
@@ -3011,12 +3024,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $skl_ids;
 	}
 
-	// pc-dep
+// @todo end
+	
 	/**
 	* Save all style class/template usages
 	*
 	* @param	string		$a_xml		xml data of page
 	*/
+	// @todo: move to specific classes, style useag info in xml
 	function saveStyleUsage($a_xml, $a_old_nr = 0)
 	{
 		global $ilDB;
@@ -3138,6 +3153,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* Get last update of included elements (media objects and files).
 	* This is needed for cache logic, cache must be reloaded if anything has changed.
 	*/
+	// @todo: move to content include class
 	function getLastUpdateOfIncludedElements()
 	{
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -3155,6 +3171,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	 *
 	 * @param	string		xml page code
 	 */
+	// @todo: move to specific classes, internal link use info
 	function saveInternalLinks($a_xml)
 	{
 		global $ilDB;
@@ -3170,7 +3187,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$xpc = xpath_new_context($doc);
 		$path = "//IntLink";
 		$res =& xpath_eval($xpc, $path);
-		// pc-dep
 		for ($i=0; $i < count($res->nodeset); $i++)
 		{
 			$link_type = $res->nodeset[$i]->get_attribute("Type");
@@ -3259,7 +3275,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
-	// pc-dep
+// @todo begin: move to specific classes
+
 	/**
 	 * Get all questions of a page
 	 */
@@ -3280,7 +3297,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $q_ids;
 	}
 
-	// pc-dep
 	/**
 	* save anchors
 	*
@@ -3351,6 +3367,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $anchors;
 	}
 
+// @todo end
+
 	/**
 	* create new page (with current xml data)
 	*/
@@ -3395,6 +3413,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$a_hid = explode(":", $a_hid);
 //echo "-".$a_hid[0]."-".$a_hid[1]."-";
 			
+// @todo: hook
 			// do not delete question nodes in assessment pages
 			if (!$this->checkForTag("Question", $a_hid[0], $a_hid[1]) || $a_self_ass)
 			{
@@ -3715,6 +3734,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// move mode into container elements is always INSERT_CHILD
 		$curr_node = $this->getContentNode($a_pos, $a_pcid);
 		$curr_name = $curr_node->node_name();
+		
+		// @todo: try to generalize this
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
 			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
@@ -3818,6 +3839,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// move mode into container elements is always INSERT_CHILD
 		$curr_node = $this->getContentNode($a_pos, $a_pcid);
 		$curr_name = $curr_node->node_name();
+		
+		// @todo: try to generalize
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
 			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
@@ -3946,10 +3969,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $this->update();
 	}
 
-	// pc-dep
 	/**
 	* transforms bbCode to corresponding xml
 	*/
+	// @todo: move to paragraph
 	function bbCode2XML(&$a_content)
 	{
 		$a_content = eregi_replace("\[com\]","<Comment>",$a_content);
@@ -3960,7 +3983,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$a_content = eregi_replace("\[\/str\]","</Strong>",$a_content);
 	}
 
-	// pc-dep
 	/**
 	* inserts installation id into ids (e.g. il__pg_4 -> il_23_pg_4)
 	* this is needed for xml export of page
@@ -3997,6 +4019,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		unset($xpc);
 
+		// @todo: move to media/fileitems/questions, ...
+		
 		// insert inst id into media aliases
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaAlias";
@@ -4046,10 +4070,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 	}
 
-	// pc-dep
 	/**
-	 * Highligths Text with given ProgLang
-	 */
+	* Highligths Text with given ProgLang
+	*/
+// @todo begin: move to code/paraghraph
 	function highlightText($a_text, $proglang, $autoindent)
 	{
 
@@ -4076,12 +4100,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return file_exists ("Services/COPage/syntax_highlight/php/HFile/HFile_".$hfile_ext.".php");
 	}
 
-	// pc-dep
 	/**
-	 * depending on the SubCharacteristic and ShowLineNumbers
-	 * attribute the line numbers and html tags for the syntax
-	 * highlighting will be inserted using the dom xml functions
-	 */
+	* depending on the SubCharacteristic and ShowLineNumbers
+	* attribute the line numbers and html tags for the syntax
+	* highlighting will be inserted using the dom xml functions
+	*/
 	function insertSourceCodeParagraphs($a_output, $outputmode = "presentation")
 	{
 		$xpc = xpath_new_context($this->dom);
@@ -4185,7 +4208,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		
 		return $a_output;
 	}
-	
+// @todo end
 
 	/**
 	* Check, whether (all) page content hashes are set
@@ -4331,7 +4354,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$xpc = xpath_new_context($mydom);
 		$res = & xpath_eval($xpc, $path);
 
-		// pc-dep
 		$hashes = array();
 		require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 		for ($i = 0; $i < count ($res->nodeset); $i++)
@@ -4365,10 +4387,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $hashes;
 	}
 	
-	// pc-dep
 	/**
 	* Get question ids
 	*/
+// @todo: move to questions
 	function getQuestionIds()
 	{
 		$this->builddom();
@@ -4399,8 +4421,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $q_ids;
 	}
 
-	// pc-dep
-	function send_paragraph($par_id, $filename)
+// @todo: move to paragraph
+	function send_paragraph ($par_id, $filename)
 	{
 		$this->builddom();
 
@@ -4445,6 +4467,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* get fo page content
 	*/
+// @todo: deprecated?
 	function getFO()
 	{
 		$xml = $this->getXMLFromDom(false, true, true);
@@ -4614,7 +4637,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $ret;
 	}
 	
-	// pc-dep?
 	function addChangeDivClasses($a_hashes)
 	{
 		$xpc = xpath_new_context($this->dom);
@@ -4637,13 +4659,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
-	// pc-dep
 	/**
 	* Compares to revisions of the page
 	*
 	* @param	int		$a_left		Nr of first revision
 	* @param	int		$a_right	Nr of second revision
 	*/
+	// @todo: hook?
 	function compareVersion($a_left, $a_right)
 	{
 		global $ilDB;
@@ -4939,7 +4961,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			array($a_content, $a_md5, $this->getId(), $this->getParentType()));*/
 	}
 
-	// pc-dep
 	/**
 	* Get all pages for parent object that contain internal links
 	*
@@ -4990,12 +5011,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	{
 	}
 	
-	// pc-dep
 	/**
 	 * Save initial opened content
 	 *
 	 * @param
 	 */
+// @todo begin: generalize
 	function saveInitialOpenedContent($a_type, $a_id, $a_target)
 	{
 		$this->buildDom();
@@ -5118,6 +5139,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		
 		return array();
 	}
-
+// @todo end
 }
 ?>
