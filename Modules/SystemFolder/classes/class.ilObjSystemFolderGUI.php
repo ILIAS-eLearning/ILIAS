@@ -2318,7 +2318,19 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 			// auto_update addressbook
 			$ilSetting->set('cron_upd_adrbook', $_POST['cron_upd_adrbook'] ? 1 : 0);
-
+									
+			/*
+			 * OLD GLOBAL CRON JOB SWITCHES (ilSetting)
+			 * cron_user_check
+			 * cron_link_check
+			 * cron_web_resource_check
+			 * cron_lucene_index
+			 * cron_inactive_user_delete
+			 * cron_inactivated_user_delete
+			 * disk_quota/enabled => migrated
+			 * crsgrp_ntf => migrated 
+			 */
+						
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showCronJobs");
 		}

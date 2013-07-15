@@ -19,6 +19,7 @@ class ilAdministrationSettingsFormHandler
 	const FORM_COURSE = 6;
 	const FORM_GROUP = 7;
 	const FORM_REPOSITORY = 8;
+	const FORM_LDAP = 9;
 	
 	const SETTINGS_USER = "usrf";
 	const SETTINGS_GENERAL = "adm";
@@ -57,7 +58,7 @@ class ilAdministrationSettingsFormHandler
 		return self::$OBJ_MAP[$a_obj_type];
 	}
 	
-	protected static function getSettingsGUIInstance($a_settings_obj_type)
+	public static function getSettingsGUIInstance($a_settings_obj_type)
 	{				
 		global $objDefinition, $ilCtrl;
 		
@@ -126,9 +127,10 @@ class ilAdministrationSettingsFormHandler
 		}
 		
 		// cron jobs - special handling
-		
+				
 		include_once "Modules/SystemFolder/classes/class.ilObjSystemFolderGUI.php";
-		$parent_gui = new ilObjSystemFolderGUI(null, SYSTEM_FOLDER_ID, true);
+		$parent_gui = new ilObjSystemFolderGUI(null, SYSTEM_FOLDER_ID, true);	
+		$parent_gui->setCreationMode(true);
 		
 		include_once "Services/Cron/classes/class.ilCronManagerGUI.php";
 		$gui = new ilCronManagerGUI();
@@ -207,7 +209,7 @@ class ilAdministrationSettingsFormHandler
 						$ilCtrl->setParameter($a_gui, "ref_id", $a_gui->object->getRefId());
 
 						$ftpl->setCurrentBlock("edit_bl");
-						$ftpl->setVariable("URL_EDIT", $ilCtrl->getLinkTarget($a_gui, $cmd));
+						$ftpl->setVariable("URL_EDIT", $ilCtrl->getLinkTargetByClass(array("ilAdministrationGUI", get_class($a_gui)), $cmd));
 						$ftpl->setVariable("TXT_EDIT", $lng->txt("adm_external_setting_edit"));
 						$ftpl->parseCurrentBlock();
 					}			

@@ -1,25 +1,11 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once "Services/Cron/classes/class.ilCronJob.php";
+include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
+include_once('Services/LDAP/classes/class.ilLDAPAttributeToUser.php');
 
 /** 
 * 
@@ -28,81 +14,121 @@
 * 
 * @ingroup ServicesLDAP  
 */
-
-include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
-include_once('Services/LDAP/classes/class.ilLDAPAttributeToUser.php');
-
-
-class ilLDAPCronSynchronization
+class ilLDAPCronSynchronization extends ilCronJob
 {
 	private $current_server = null;
-	private $ldap_query = null;
-	private $log = null;
+	private $ldap_query = null;	
+	private $ldap_to_ilias = null;	
+	private $counter = 0;	
 	
-	public function __construct()
+	public function getId()
 	{
-		global $ilLog;
-		
-		$this->log = $ilLog;
+		return "ldap_sync";
 	}
 	
-	/**
-	 * Check for LDAP servers and synchronize them
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function start()
+	public function getTitle()
 	{
-	 	foreach(ilLDAPServer::_getCronServerIds() as $server_id)
+		global $lng;
+		
+		$lng->loadLanguageModule('ldap');
+		return $lng->txt('ldap_user_sync_cron');
+	}
+	
+	public function getDescription()
+	{
+
+	}
+	
+	public function getDefaultScheduleType()
+	{
+		return self::SCHEDULE_TYPE_DAILY;
+	}
+	
+	public function getDefaultScheduleValue()
+	{
+		return;
+	}
+	
+	public function hasAutoActivation()
+	{
+		return false;
+	}
+	
+	public function hasFlexibleSchedule()
+	{
+		return false;
+	}
+
+	public function run()
+	{				
+		global $ilLog;
+		
+		$status = ilCronJobResult::STATUS_NO_ACTION;						
+	
+		$messages = array();
+		foreach(ilLDAPServer::_getCronServerIds() as $server_id)
 	 	{
 			try
 			{
 		 		$this->current_server = new ilLDAPServer($server_id);
 		 		$this->current_server->doConnectionCheck();
-		 		$this->log->write("LDAP: starting user synchronization for ".$this->current_server->getName());
+		 		$ilLog->write("LDAP: starting user synchronization for ".$this->current_server->getName());
 		 		
 		 		$this->ldap_query = new ilLDAPQuery($this->current_server);
 		 		$this->ldap_query->bind(IL_LDAP_BIND_DEFAULT);
 		 		
 		 		if(is_array($users = $this->ldap_query->fetchUsers()))
-		 		{
+		 		{										
 			 		// Deactivate ldap users that are not in the list
 			 		$this->deactivateUsers($this->current_server,$users);
 		 		}
 			
 		 		if(count($users))
-		 		{	
-			 		$this->log->write("LDAP: Starting update/creation of users ...");
+		 		{											
+			 		$ilLog->write("LDAP: Starting update/creation of users ...");
 			 		$this->ldap_to_ilias = new ilLDAPAttributeToUser($this->current_server);
 					$this->ldap_to_ilias->setNewUserAuthMode($this->current_server->getAuthenticationMappingKey());
-					#$GLOBALS['ilLog']->write(print_r($users,true));
+					#$ilLog->write(print_r($users,true));
 			 		$this->ldap_to_ilias->setUserData($users);
 			 		$this->ldap_to_ilias->refresh();
-			 		$this->log->write("LDAP: Finished update/creation");
+			 		$ilLog->write("LDAP: Finished update/creation");
+					
+					$this->counter++;
 		 		}
 				else
 				{
-			 		$this->log->write("LDAP: No users for update/create. Aborting.");
+			 		$ilLog->write("LDAP: No users for update/create. Aborting.");
 				}
 			}
 			catch(ilLDAPQueryException $exc)
 			{
-				$this->log->write($exc->getMessage());
+				$mess = $exc->getMessage();
+				$ilLog->write($mess);
+				
+				$messages[] = $mess;
 			}
 	 	}
+	
+		if($this->counter)
+		{
+			$status = ilCronJobResult::STATUS_OK;
+		}			
+		$result = new ilCronJobResult();
+		if(sizeof($messages))
+		{
+			$result->setMessage(implode("\n", $messages));
+		}
+		$result->setStatus($status);		
+		return $result;
 	}
 	
 	/**
 	 * Deactivate users that are disabled in LDAP
-	 *
-	 * @access private
-	 * 
 	 */
 	private function deactivateUsers(ilLDAPServer $server,$a_ldap_users)
 	{
+		global $ilLog;
+		
 	 	include_once './Services/User/classes/class.ilObjUser.php';
 	 	
 	 	foreach($ext = ilObjUser::_getExternalAccountsByAuthMode($server->getAuthenticationMappingKey(),true) as $usr_id => $external_account)
@@ -115,14 +141,29 @@ class ilLDAPCronSynchronization
 	 	if(count($inactive))
 	 	{
 	 		ilObjUser::_toggleActiveStatusOfUsers($inactive,false);
-	 		$this->log->write('LDAP: Found '.count($inactive).' inactive users.');
+	 		$ilLog->write('LDAP: Found '.count($inactive).' inactive users.');
+			
+			$this->counter++;
 	 	}
 		else
 		{
-			$this->log->write('LDAP: No inactive users found');
+			$ilLog->write('LDAP: No inactive users found');
+		}
+	}
+
+	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
+	{				
+		global $lng;
+		
+		switch($a_form_id)
+		{			
+			case ilAdministrationSettingsFormHandler::FORM_LDAP:										
+				$a_fields["ldap_user_sync_cron"] = $a_is_active ? 
+					$lng->txt("active") :
+					$lng->txt("inactive");
+				break;
 		}
 	}
 }
-
 
 ?>
