@@ -13478,11 +13478,17 @@ exc#:#exc_peer_review_no_peers#:#Es konnten keine Peers gefunden werden.
 exc#:#exc_peer_review_rating#:#Bewertung
 exc#:#exc_peer_review_updated#:#Ihr Feedback wurde gespeichert.
 common#:#preview#:#Vorschau
+common#:#preview_show#:#Vorschau anzeigen
+common#:#preview_none#:#Vorschau (noch nicht vorhanden)
 common#:#preview_settings#:#Dateivorschau
 common#:#enable_preview#:#Vorschau aktivieren
 common#:#enable_preview_info#:#Wenn aktiviert, werden Vorschaubilder bei den unterstützten Dateien angezeigt.
 common#:#max_previews_per_object#:#Anzahl Vorschaubildern pro Datei
 common#:#max_previews_per_object_info#:#Legt die Anzahl an Vorschaubildern fest, die pro Datei erzeugt werden.
+common#:#preview_create#:#Vorschau erstellen
+common#:#preview_delete#:#Vorschau löschen
+common#:#preview_status_creating#:#Die Vorschau wird erstellt. Dies kann einige Zeit dauern...
+common#:#preview_status_deleting#:#Die Vorschau wird gelöscht...
 common#:#preview_status_pending#:#Die Vorschau wurde noch nicht erstellt. Bitte versuchen Sie es später nochmals.
 common#:#preview_status_failed#:#Die Vorschau konnte nicht erstellt werden.
 common#:#preview_status_missing#:#Für diese Datei ist keine Vorschau verfügbar.
@@ -13492,7 +13498,7 @@ common#:#renderer_type_plugin#:#Plugin
 common#:#renderer_type_builtin#:#Eingebaut
 common#:#renderer_supported_repo_types#:#Unterstützte Magazintypen
 common#:#renderer_supported_file_types#:#Unterstützte Dateitypen
-common#:#ghostscript_not_configured#:#Ghostscript ist nicht konfiguriert. Bitte öffnen Sie das <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> um Ghostscript zu konfigurieren.>>>>>>> .r43196
+common#:#ghostscript_not_configured#:#Ghostscript ist nicht konfiguriert. Bitte öffnen Sie das <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> um Ghostscript zu konfigurieren.
 exc#:#exc_peer_review_show_not_rated_yet#:#Sie müssen Feedback geben, um das erhaltene sehen zu können.
 exc#:#exc_peer_review_show#:#Erhaltenes Feedback zeigen
 exc#:#exc_needs_deadline#:#Diese Option benötigt einen Abgabetermin.
