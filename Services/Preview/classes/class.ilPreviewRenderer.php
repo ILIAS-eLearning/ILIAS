@@ -73,6 +73,7 @@ abstract class ilPreviewRenderer
 	{
 		$preview->setRenderDate(ilUtil::now());
 		$preview->setRenderStatus(ilPreview::RENDER_STATUS_PENDING);
+		$preview->save();
 		
 		// TODO: this should be done in background if $async is true
 		
@@ -90,7 +91,7 @@ abstract class ilPreviewRenderer
 				$success |= $this->createPreviewImage(
 					$image->getImagePath(), 
 					sprintf($preview->getFilePathFormat(), $idx + 1));
-				
+
 				// if the image is temporary we can delete it
 				if($image->isTemporary())
 					$image->delete();					
@@ -98,7 +99,7 @@ abstract class ilPreviewRenderer
 
 			$preview->setRenderDate(ilUtil::now());
 			$preview->setRenderStatus($success ? ilPreview::RENDER_STATUS_CREATED : ilPreview::RENDER_STATUS_FAILED);
-			return false;
+			return $success;
 		}
 		else
 		{

@@ -14,7 +14,7 @@ include_once("./Services/Preview/classes/class.ilFilePreviewRenderer.php");
 class ilImageMagickRenderer extends ilFilePreviewRenderer
 {
 	// constants
-	const SUPPORTED_FORMATS = "jpg,jpeg,jp2,png,gif,bmp,tif,tiff,psd,cur,ico,pict,tga";
+	const SUPPORTED_FORMATS = "jpg,jpeg,jp2,png,gif,bmp,tif,tiff,cur,ico,pict,tga,psd";
 	
 	// variables
 	private static $supported_formats = null;
@@ -56,7 +56,7 @@ class ilImageMagickRenderer extends ilFilePreviewRenderer
 		$filepath = $obj->getFile();
 		$tmpPath = $this->prepareFileForExec($filepath);
 		$isTemporary = $tmpPath != $filepath;
-		return array(new ilRenderedImage($tmpPath, $isTemporary));
+		return array(new ilRenderedImage($tmpPath . "[0]", $isTemporary));
 	}
 }
 ?>

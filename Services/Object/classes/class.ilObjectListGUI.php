@@ -1477,14 +1477,42 @@ class ilObjectListGUI
 			
 			// has preview?
 			include_once("./Services/Preview/classes/class.ilPreview.php");
-			if (ilPreview::hasPreview($this->obj_id))
+			if (ilPreview::hasPreview($this->obj_id, $this->type))
 			{
 				include_once("./Services/Preview/classes/class.ilPreviewGUI.php");
-				$preview = new ilPreviewGUI($this->ref_id);
 				
+				// get context for access checks later on
+				$access_handler = null;
+				$context;
+				switch ($this->context)
+				{
+					case self::CONTEXT_WORKSPACE:
+					case self::CONTEXT_WORKSPACE_SHARING:
+						$context = ilPreviewGUI::CONTEXT_WORKSPACE;
+						include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php");
+						$access_handler = new ilWorkspaceAccessHandler();
+						break;	
+					
+					default:
+						global $ilAccess;
+						$context = ilPreviewGUI::CONTEXT_REPOSITORY;
+						$access_handler = $ilAccess;
+						break;	
+				}
+				
+				$preview = new ilPreviewGUI($this->ref_id, $context, $this->obj_id, $access_handler);
+				$preview_status = ilPreview::lookupRenderStatus($this->obj_id);
+				$preview_status_class = "";
+				$preview_text_topic = "preview_show";
+				if ($preview_status == ilPreview::RENDER_STATUS_NONE)
+				{
+					$preview_status_class = "ilPreviewStatusNone";
+					$preview_text_topic = "preview_none";
+				}
 				$this->tpl->setCurrentBlock("item_title_linked");
+				$this->tpl->setVariable("PREVIEW_STATUS_CLASS", $preview_status_class);
 				$this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png", "Services/Preview"));
-				$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
+				$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt($preview_text_topic));
 				$this->tpl->setVariable("SCRIPT_PREVIEW_CLICK", $preview->getJSCall($this->getUniqueItemId(true)));
 				$this->tpl->parseCurrentBlock();
 			}
