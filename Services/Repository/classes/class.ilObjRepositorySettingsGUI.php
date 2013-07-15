@@ -184,41 +184,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$form->addItem($event);
 		
 		
-		// disk quota
-		
-		$this->lng->loadLanguageModule("file");
-		
-		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
-		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();		
-		
-		// Enable disk quota
-		$cb_prop = new ilCheckboxInputGUI($this->lng->txt("repository_disk_quota"), "enable_disk_quota");
-		$cb_prop->setValue('1');
-		$cb_prop->setChecked($disk_quota_obj->isDiskQuotaEnabled());
-		$cb_prop->setInfo($this->lng->txt('enable_disk_quota_info'));
-		$form->addItem($cb_prop);
-
-		// Enable disk quota reminder mail
-		$cb_prop_reminder = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
-		$cb_prop_reminder->setValue('1');
-		$cb_prop_reminder->setChecked($disk_quota_obj->isDiskQuotaReminderMailEnabled());
-		$cb_prop_reminder->setInfo($this->lng->txt('disk_quota_reminder_mail_desc'));
-		$cb_prop->addSubItem($cb_prop_reminder);
-		
-		// Enable summary mail for certain users
-		$cb_prop_summary= new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota_summary_mail"), "enable_disk_quota_summary_mail");
-		$cb_prop_summary->setValue(1);
-		$cb_prop_summary->setChecked($disk_quota_obj->isDiskQuotaSummaryMailEnabled());
-		$cb_prop_summary->setInfo($this->lng->txt('enable_disk_quota_summary_mail_desc'));
-		$cb_prop->addSubItem($cb_prop_summary);
-		
-		// Edit disk quota recipients
-		$summary_rcpt = new ilTextInputGUI($this->lng->txt("disk_quota_summary_rctp"), "disk_quota_summary_rctp");
-		$summary_rcpt->setValue($disk_quota_obj->getSummaryRecipients());
-		$summary_rcpt->setInfo($this->lng->txt('disk_quota_summary_rctp_desc'));
-		$cb_prop_summary->addSubItem($summary_rcpt);
-		
-		
 		// object lists
 		
 		$lists = new ilFormSectionHeaderGUI();
@@ -246,7 +211,15 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$pl->setValue(1);
 		$pl->setChecked($ilSetting->get('comments_tagging_in_lists'));
 		$form->addItem($pl);
-
+		
+		
+		include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_REPOSITORY, 
+			$form,
+			$this
+		);
+		
 		
 		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
 		
@@ -296,14 +269,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			{
 				ilChangeEvent::_deactivate();
 			}			
-			
-			require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
-			$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
-			$disk_quota_obj->setDiskQuotaEnabled($_POST['enable_disk_quota'] == '1');
-			$disk_quota_obj->setDiskQuotaReminderMailEnabled($_POST['enable_disk_quota_reminder_mail'] == '1');
-			$disk_quota_obj->isDiskQuotaSummaryMailEnabled($_POST['enable_disk_quota_summary_mail'] == '1');
-			$disk_quota_obj->setSummaryRecipients(ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
-			$disk_quota_obj->update();
 						
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "view");

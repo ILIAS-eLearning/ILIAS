@@ -18,6 +18,10 @@ abstract class ilCronJob
 	const SCHEDULE_TYPE_MONTHLY = 6;
 	const SCHEDULE_TYPE_QUARTERLY = 7;
 	const SCHEDULE_TYPE_YEARLY = 8;
+		
+	//
+	// SCHEDULE
+	//
 	
 	/**
 	 * Is job currently active?
@@ -161,6 +165,11 @@ abstract class ilCronJob
 		}				
 	}
 	
+	
+	//
+	// TITLE / DESCRIPTION
+	//
+	
 	/**
 	 * Get title
 	 * 
@@ -181,6 +190,11 @@ abstract class ilCronJob
 		
 	}
 	
+	
+	// 
+	// SETTINGS
+	//
+	
 	/**
 	 * Has cron job any custom setting which can be edited?
 	 * 
@@ -191,16 +205,59 @@ abstract class ilCronJob
 		return false;
 	}
 	
+	/**
+	 * Add custom settings to form
+	 * 
+	 * @param ilObjPropertyFormGUI $a_form
+	 */
     public function addCustomSettingsToForm(ilObjPropertyFormGUI $a_form)
 	{
 		
 	}
 	
+	/**
+	 * Save custom settings
+	 * 
+	 * @param ilObjPropertyFormGUI $a_form
+	 * @return boolean
+	 */
 	public function saveCustomSettings(ilObjPropertyFormGUI $a_form)
 	{
 		return true;
 	}
 
+	/**
+	 * Add external settings to form
+	 * 
+	 * @param int $a_form_id
+	 * @param array $a_fields
+	 * @param bool $a_is_active
+	 */
+	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
+	{
+		
+	}
+	
+	
+	//
+	// HOOKS
+	//
+	
+	/**
+	 * Cron job status was changed
+	 * 
+	 * @param bool $a_currently_active
+	 */
+	public function activationWasToggled($a_currently_active)
+	{
+		
+	}
+	
+	
+	//
+	// ABSTRACT
+	// 
+	
 	/**
 	 * Get id
 	 * 

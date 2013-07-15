@@ -2231,38 +2231,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 		
 		
-		// disk quota and disk quota reminder mail
-		$dq_settings = new ilSetting('disk_quota');
-		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota"), "enable_disk_quota");
-		$cb->setInfo($this->lng->txt("enable_disk_quota_info"));
-		if ($dq_settings->get('enabled'))
-		{
-			$cb->setChecked(true);
-		}
-		$this->form->addItem($cb);
-		
-		$cb_reminder = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
-		$cb_reminder->setInfo($this->lng->txt("disk_quota_reminder_mail_desc"));
-		if ($dq_settings->get('reminder_mail_enabled'))
-		{
-			$cb_reminder->setChecked(true);
-		}
-		$cb->addSubItem($cb_reminder);
-				
-		// Enable summary mail for certain users
-		$cb_prop_summary= new ilCheckboxInputGUI($lng->txt("enable_disk_quota_summary_mail"), "enable_disk_quota_summary_mail");
-		$cb_prop_summary->setValue(1);
-		$cb_prop_summary->setChecked((int)$dq_settings->get('summary_mail_enabled', 0) == 1);
-		$cb_prop_summary->setInfo($lng->txt('enable_disk_quota_summary_mail_desc'));
-		$cb->addSubItem($cb_prop_summary);
-		
-		// Edit disk quota recipients
-		$summary_rcpt = new ilTextInputGUI($lng->txt("disk_quota_summary_rctp"), "disk_quota_summary_rctp");
-		$summary_rcpt->setValue($dq_settings->get('summary_rcpt', ''));
-		$summary_rcpt->setInfo($lng->txt('disk_quota_summary_rctp_desc'));
-		$cb_prop_summary->addSubItem($summary_rcpt);
-
-		
 		// Enable payment notifications
 		$payment_noti = new ilCheckboxInputGUI($lng->txt("payment_notification"), "payment_notification");
 		$payment_noti->setValue(1);
@@ -2343,18 +2311,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$ilSetting->set("forum_notification", $_POST["forum_notification"]);
 			$ilSetting->set("mail_notification", $_POST["mail_notification"]);
 			$ilSetting->set('mail_notification_message', $_POST['mail_notification_message'] ? 1 : 0);						
-
-			
-			// disk quota and disk quota reminder mail
-			$dq_settings = new ilSetting('disk_quota');
-			$dq_settings->set('enabled', $_POST['enable_disk_quota'] ? 1 : 0);
-			$dq_settings->set('reminder_mail_enabled', $_POST['enable_disk_quota_reminder_mail'] ? 1 : 0);
-			
-			// disk quota summary mail
-			$dq_settings->set('summary_mail_enabled', $_POST['enable_disk_quota_summary_mail'] ? 1 : 0);
-			$dq_settings->set('summary_rcpt', ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
-			
-			
+		
 			// payment notification
 			$ilSetting->set('payment_notification', $_POST['payment_notification'] ? 1 : 0);
 			$ilSetting->set('payment_notification_days', $_POST['payment_notification_days']);

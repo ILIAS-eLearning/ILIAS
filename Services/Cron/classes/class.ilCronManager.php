@@ -458,6 +458,8 @@ class ilCronManager
 			" , job_status_ts = ".$ilDB->quote(time(), "integer"). 
 			" WHERE job_id = ".$ilDB->quote($a_job->getId(), "text");		
 		$ilDB->manipulate($sql);
+		
+		$job->activationWasToggled(true);		
 	}
 	
 	/**
@@ -479,6 +481,8 @@ class ilCronManager
 			" , job_status_ts = ".$ilDB->quote(time(), "integer"). 
 			" WHERE job_id = ".$ilDB->quote($a_job->getId(), "text");
 		$ilDB->manipulate($sql);
+				
+		$job->activationWasToggled(false);				
 	}
 	
 	/**

@@ -18,6 +18,7 @@ class ilAdministrationSettingsFormHandler
 	const FORM_MAIL = 5;
 	const FORM_COURSE = 6;
 	const FORM_GROUP = 7;
+	const FORM_REPOSITORY = 8;
 	
 	const SETTINGS_USER = "usrf";
 	const SETTINGS_GENERAL = "adm";
@@ -87,7 +88,7 @@ class ilAdministrationSettingsFormHandler
 				break;	
 			
 			case self::FORM_FILES_QUOTA:
-				$types = array(self::SETTINGS_REPOSITORY, self::SETTINGS_PD);
+				$types = array(self::SETTINGS_PD);
 				break;	
 			
 			case self::FORM_LP:
@@ -104,19 +105,23 @@ class ilAdministrationSettingsFormHandler
 				break;
 			
 			default:
-				return;
+				$types = null;
+				break;
 		}		
 		
-		foreach($types as $type)
+		if(is_array($types))
 		{
-			$gui = self::getSettingsGUIInstance($type);			
-			if($gui && method_exists($gui, "addToExternalSettingsForm"))
-			{	
-				$data = $gui->addToExternalSettingsForm($a_form_id);
-				if(is_array($data))
-				{
-					self::parseFieldDefinition($type, $a_form, $gui, $data);					
-				}					
+			foreach($types as $type)
+			{
+				$gui = self::getSettingsGUIInstance($type);			
+				if($gui && method_exists($gui, "addToExternalSettingsForm"))
+				{	
+					$data = $gui->addToExternalSettingsForm($a_form_id);
+					if(is_array($data))
+					{
+						self::parseFieldDefinition($type, $a_form, $gui, $data);					
+					}					
+				}
 			}
 		}
 		
@@ -128,7 +133,10 @@ class ilAdministrationSettingsFormHandler
 		include_once "Services/Cron/classes/class.ilCronManagerGUI.php";
 		$gui = new ilCronManagerGUI();
 		$data = $gui->addToExternalSettingsForm($a_form_id);
-		self::parseFieldDefinition("cron", $a_form, $parent_gui, $data);
+		if(sizeof($data))
+		{
+			self::parseFieldDefinition("cron", $a_form, $parent_gui, $data);
+		}
 	}	
 	
 	protected static function parseFieldDefinition($a_type, ilPropertyFormGUI $a_form, ilObjectGUI $a_gui, $a_data)
