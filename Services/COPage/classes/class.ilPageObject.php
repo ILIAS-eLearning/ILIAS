@@ -1260,7 +1260,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				}
 				if ($a_append_bib)
 				{
-					$bibs =& $this->getBibliographyXML();
+// deprecated
+//					$bibs =& $this->getBibliographyXML();
 				}
 				$trans =& $this->getLanguageVariablesXML();
 				return "<dummy>".$this->dom->dump_node($this->node).$mobs.$bibs.$trans.$a_append_str."</dummy>";
