@@ -22,4 +22,7 @@
 	<events>		
 		<event type="listen" id="Services/News" />
 	</events>
+	<crons>		
+		<cron id="frm_notification" class="ilForumCronNotification" />
+	</crons>
 </module>

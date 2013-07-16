@@ -42,17 +42,16 @@ class ilCronCheck
 
 		$this->log = $ilLog;
 		
-		// separate log for cron
-		// $this->log->setFilename($_COOKIE["ilClientId"]."_cron.txt");
-
 		$this->initTasks();
 	}
 	
 	public function start()
 	{
+		/* MOVED TO: ilCronManager::runActiveJobs();
 		global $ilSetting;
 		
 		$ilSetting->set('last_cronjob_start_ts', time());
+		*/
 		
 		if( $_SERVER['argc'] > 4 )
 		{
@@ -137,78 +136,19 @@ class ilCronCheck
 
 		require_once('Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php');
 
-		$this->default_tasks = array(
-				'ilCronForumNotification::sendNotifications',
-				'ilCronMailNotification::sendNotifications',				
-				'ilCronValidator::check',				
-				// This entry refers to a task that is not completely implemented
-				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC',
-				'ilCronPaymentNotification::sendNotifications',			
-				'ilCronAddressbook::syncAddressbook',
-				'ilCronPaymentUDInvoiceNumberReset::check'
+		$this->default_tasks = array(				
+				'ilCronValidator::check'
 		);
 
 		$this->possible_tasks = array(
 
-				// Start sending forum notifications
-				'ilCronForumNotification::sendNotifications' => array(
-					'classname'		=> 'ilCronForumNotification',
-					'method'		=> 'sendNotifications',
-					'location'		=> 'cron',
-					'condition'		=> ($ilias->getSetting('forum_notification') == 2)
-				),
-				
-				// Start sending mail notifications
-				'ilCronMailNotification::sendNotifications' => array(
-					'classname'		=> 'ilCronMailNotification',
-					'method'		=> 'sendNotifications',
-					'location'		=> 'cron',
-					'condition'		=> ($ilias->getSetting('mail_notification') == 1)
-				),
-			
 				// Start System Check
 				'ilCronValidator::check' => array(
 					'classname'		=> 'ilCronValidator',
 					'method'		=> 'check',
 					'location'		=> 'cron',
 					'condition'		=> ($ilias->getSetting('systemcheck_cron') == 1)
-				),
-				
-				/**
-				 * This task entry refers to a method that does not exist!
-				 * When the method will be implemented it has to be non static!
-				 */
-				#// Start Shopping Cart Check
-				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC' => array(
-				#	'classname'		=> 'ilPaymentShoppingCart',
-				#	'method'		=> '__deleteExpiredSessionsPSC',
-				#	'location'		=> 'Services/Payment',
-				#	'condition'		=> true
-				#),
-
-				// Start sending Payment "Buy Extension" Reminder
-				'ilCronPaymentNotification::sendNotifications' => array(
-					'classname'		=> 'ilCronPaymentNotification',
-					'method'		=> 'sendNotifications',
-					'location'		=> 'cron',
-					'condition'		=> ($ilias->getSetting('payment_notifications') == 1)
-				),
-
-				// Reset payment incremental invoice number
-				'ilCronPaymentUDInvoiceNumberReset::check' => array(
-					'classname'		=> 'ilCronPaymentUDInvoiceNumberReset',
-					'method'		=> 'check',
-					'location'		=> 'cron',
-					'condition'		=> ilUserDefinedInvoiceNumber::_isUDInvoiceNumberActive()
-				),
-				// Check Addressbook and update on login
-				'ilCronAddressbook::syncAddressbook' => array(
-					'classname'		=> 'ilCronAddressbook',
-					'method'		=> 'syncAddressbook',
-					'location'		=> 'cron',
-					'condition'		=> $ilias->getSetting("cron_upd_adrbook")
-				)
-		);
+				)				
 	}	
 }
 ?>

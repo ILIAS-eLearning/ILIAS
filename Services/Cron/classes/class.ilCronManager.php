@@ -15,11 +15,14 @@ class ilCronManager
 	 */
 	public static function runActiveJobs()
 	{
-		global $ilLog;
+		global $ilLog, $ilSetting;
+		
+		// separate log for cron
+		// $this->log->setFilename($_COOKIE["ilClientId"]."_cron.txt");
 		
 		$ilLog->write("CRON - batch start");
 		
-		// $ilSetting->set('last_cronjob_start_ts', time());
+		$ilSetting->set('last_cronjob_start_ts', time());
 		
 		foreach(self::getCronJobData(null, false) as $row)
 		{					
