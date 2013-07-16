@@ -16533,3 +16533,51 @@ $ilDB->renameTable('preview', 'preview_data');
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3961>
+<?php
+if (!$ilDB->tableExists('copg_pc_def'))
+{
+	$fields = array (
+		'pc_type' => array(
+			'type' => 'text', 
+			'length' => 20,
+			'notnull' => true
+		),
+		'name' => array(
+			'type' => 'text',
+			'length' => 40,
+			'notnull' => true
+		),
+		'directory' => array(
+			'type' => 'text', 
+			'length' => 40,
+			'notnull' => false
+		),
+		'int_links' => array(
+			'type' => 'integer', 
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'style_classes' => array(
+			'type' => 'integer', 
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'xsl' => array(
+			'type' => 'integer', 
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable('copg_pc_def', $fields);
+	$ilDB->addPrimaryKey('copg_pc_def', array('pc_type'));
+}
+	
+?>
+<#3962>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
