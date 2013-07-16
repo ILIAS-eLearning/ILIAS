@@ -57,7 +57,7 @@ class ilServiceReader extends ilObjDefReader
 	/**
 	* clear the tables
 	*/
-	static function clearTables()
+	function clearTables()
 	{
 		global $ilDB;
 

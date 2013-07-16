@@ -54,9 +54,9 @@ class ilModuleReader extends ilObjDefReader
 
 
 	/**
-	* clear the tables
-	*/
-	static function clearTables()
+	 * clear the tables
+	 */
+	function clearTables()
 	{
 		global $ilDB;
 		

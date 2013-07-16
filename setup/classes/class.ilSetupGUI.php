@@ -3176,7 +3176,9 @@ else
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
 
-		ilModuleReader::clearTables();
+		// clear tables
+		$mr = new ilModuleReader("", "", "");
+		$mr->clearTables();
 		foreach($modules as $module)
 		{
 			$mr = new ilModuleReader(ILIAS_ABSOLUTE_PATH."/Modules/".$module["subdir"]."/module.xml",
@@ -3185,7 +3187,9 @@ else
 			unset($mr);
 		}
 
-		ilServiceReader::clearTables();
+		// clear tables
+		$sr = new ilServiceReader("", "", "");
+		$sr->clearTables();
 		foreach($services as $service)
 		{
 			$sr = new ilServiceReader(ILIAS_ABSOLUTE_PATH."/Services/".$service["subdir"]."/service.xml",

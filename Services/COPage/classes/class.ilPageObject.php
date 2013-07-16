@@ -13,7 +13,7 @@ define ("IL_NO_HEADER", "none");
  */
 
 /*
-	@todo
+	@todo 1
 	
 	- All PC types could be defined in service/module xml.
 	-- type, class, directory
@@ -43,7 +43,8 @@ define ("IL_NO_HEADER", "none");
 *
 * @ingroup ServicesCOPage
 */
-// @todo: make it abstract?
+// @todo: make it abstract? (currently around 78 occurences of new ilPageObject
+// mostly in Learning Modules, Glossaries, Payment)
 class ilPageObject
 {
 	static $exists = array();
@@ -249,15 +250,12 @@ class ilPageObject
 	}
 
 	/**
-	* read page data
-	*/
+	 * Read page data
+	 */
 	function read()
 	{
-		global $ilBench, $ilDB;
+		global $ilDB;
 
-		// @todo: remove all ilBench stuff
-		$ilBench->start("ContentPresentation", "ilPageObject_read");
-		
 		$this->setActive(true);
 		if ($this->old_nr == 0)
 		{
@@ -304,7 +302,6 @@ class ilPageObject
 		$this->setRenderedTime($this->page_record["rendered_time"]);
 		$this->setLastChange($this->page_record["last_change"]);
 
-		$ilBench->stop("ContentPresentation", "ilPageObject_read");
 	}
 	
 	/**
@@ -362,8 +359,6 @@ class ilPageObject
 
 	function buildDom($a_force = false)
 	{
-		global $ilBench;
-
 		if ($this->dom_builded && !$a_force)
 		{
 			return;
@@ -371,9 +366,7 @@ class ilPageObject
 
 //echo "\n<br>buildDomWith:".$this->getId().":xml:".$this->getXMLContent(true).":<br>";
 
-		$ilBench->start("ContentPresentation", "ilPageObject_buildDom");
 		$this->dom = @domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
-		$ilBench->stop("ContentPresentation", "ilPageObject_buildDom");
 
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageObject";
@@ -647,15 +640,11 @@ class ilPageObject
 	 *
 	 * @return object page content object
 	 */
-	// @todo: move this stuff to a decent factory class
+	// @todo 1: move this stuff to a decent factory class
 	// or at least generalize this
-	function &getContentObject($a_hier_id, $a_pc_id = "")
+	function getContentObject($a_hier_id, $a_pc_id = "")
 	{
-//echo ":".$a_hier_id.":";
-//echo "Content:".htmlentities($this->getXMLFromDOM()).":<br>";
-//echo "ilPageObject::getContentObject:hierid:".$a_hier_id.":<br>";
-		$cont_node =& $this->getContentNode($a_hier_id, $a_pc_id);
-//echo "ilPageObject::getContentObject:nodename:".$cont_node->node_name().":<br>";
+		$cont_node = $this->getContentNode($a_hier_id, $a_pc_id);
 		if (!is_object($cont_node))
 		{
 			return false;
@@ -1048,7 +1037,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $xml;
 	}
 
-// @todo: begin: generalize, remove concrete dependencies
+// @todo 1: begin: generalize, remove concrete dependencies
 
 	/**
 	 * Handle copied content
@@ -1303,7 +1292,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* get language variables as XML
 	*/
-	// @todo: generalize, remove concrete dependencies
+	// @todo 1: generalize, remove concrete dependencies
 	function getLanguageVariablesXML()
 	{
 		global $lng;
@@ -2539,7 +2528,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "<br><br>+$a_no_history+$h_query";
 						$ilDB->query($h_query);*/
 						
-						// @todo: after update hook needed
+						// @todo 1: after update hook needed
 						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveStyleUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
@@ -2561,7 +2550,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			
 			$iel = $this->containsDeactivatedElements($content);
 			
-			// @todo: hook needed?
+			// @todo 1: hook needed?
 			$inl = $this->containsIntLinks($content);
 			/*$query = "UPDATE page_object ".
 				"SET content = ".$ilDB->quote($content)." ".
@@ -2603,7 +2592,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 //			$this->ilias->db->query($query);
 			
-			// @todo: hook!
+			// @todo 1: hook!
 			if (!$skip_handle_usages)
 			{
 				// handle media object usage
@@ -2655,7 +2644,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			}
 			
 			// save internal link information
-			// @todo: hook!
+			// @todo 1: hook!
 			$this->saveInternalLinks($this->getXMLFromDom());
 			$this->saveAnchors($this->getXMLFromDom());
 			$this->callUpdateListeners();
@@ -3414,7 +3403,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$a_hid = explode(":", $a_hid);
 //echo "-".$a_hid[0]."-".$a_hid[1]."-";
 			
-// @todo: hook
+// @todo 1: hook
 			// do not delete question nodes in assessment pages
 			if (!$this->checkForTag("Question", $a_hid[0], $a_hid[1]) || $a_self_ass)
 			{
