@@ -16581,3 +16581,7 @@ if (!$ilDB->tableExists('copg_pc_def'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3963>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
