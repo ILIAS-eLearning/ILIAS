@@ -462,7 +462,7 @@ class ilCronManager
 			" WHERE job_id = ".$ilDB->quote($a_job->getId(), "text");		
 		$ilDB->manipulate($sql);
 		
-		$job->activationWasToggled(true);		
+		$a_job->activationWasToggled(true);		
 	}
 	
 	/**
@@ -485,7 +485,7 @@ class ilCronManager
 			" WHERE job_id = ".$ilDB->quote($a_job->getId(), "text");
 		$ilDB->manipulate($sql);
 				
-		$job->activationWasToggled(false);				
+		$a_job->activationWasToggled(false);				
 	}
 	
 	/**
