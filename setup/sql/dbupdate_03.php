@@ -16599,3 +16599,7 @@ if (!$ilDB->tableColumnExists("copg_pc_def", "component"))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3966>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

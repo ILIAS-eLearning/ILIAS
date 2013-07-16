@@ -78,6 +78,17 @@ class ilPCVerification extends ilPageContent
 				"user"=>$this->vrfc_node->get_attribute("User"));
 		}
 	}
+	
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("pc_vrfc",
+			"ed_insert_verification");
+	}
+
 }
 
 ?>

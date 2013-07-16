@@ -1020,6 +1020,18 @@ class ilPCTable extends ilPageContent
 		}
 	}
 
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("ed_insert_dtable", "ed_insert_atable","ed_new_row_after", "ed_new_row_before",
+			"ed_new_col_after", "ed_new_col_before", "ed_delete_col",
+			"ed_delete_row", "ed_edit_data", "ed_row_up", "ed_row_down",
+			"ed_col_left", "ed_col_right");
+	}
+
 }
 
 ?>

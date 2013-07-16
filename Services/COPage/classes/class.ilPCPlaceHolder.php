@@ -116,7 +116,16 @@ class ilPCPlaceHolder extends ilPageContent {
 		return "";
 	}
 	
-	
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("question_placeh","media_placeh","text_placeh",
+			"ed_insert_plach","question_placehl","media_placehl","text_placehl");
+	}
+
 	
 	
 }

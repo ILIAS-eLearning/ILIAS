@@ -138,5 +138,15 @@ class ilPCQuestion extends ilPageContent
 		$this->q_node->set_attribute("QRef", "il__qst_".$duplicate_id);
 	}
 	
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("ed_insert_pcqst", "empty_question", "pc_qst");
+	}
+
+	
 }
 ?>

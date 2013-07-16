@@ -173,6 +173,16 @@ class ilPCResources extends ilPageContent
 
 	}
 	
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("pc_res");
+	}
+
+	
 }
 
 ?>

@@ -12,7 +12,7 @@
 		<pagecontent pc_type="iim" name="InteractiveImage" directory="classes" int_links="1" style_classes="1" xsl="0" />
 		<pagecontent pc_type="list" name="List" directory="classes" int_links="0" style_classes="1" xsl="0" />
 		<pagecontent pc_type="li" name="ListItem" directory="classes" int_links="0" style_classes="0" xsl="0" />
-		<pagecontent pc_type="lpe" name="LoginPageElements" directory="classes" int_links="0" style_classes="0" xsl="0" />
+		<pagecontent pc_type="lpe" name="LoginPageElement" directory="classes" int_links="0" style_classes="0" xsl="0" />
 		<pagecontent pc_type="map" name="Map" directory="classes" int_links="0" style_classes="0" xsl="0" />
 		<pagecontent pc_type="media" name="MediaObject" directory="classes" int_links="0" style_classes="1" xsl="0" />
 		<pagecontent pc_type="par" name="Paragraph" directory="classes" int_links="1" style_classes="1" xsl="0" />
