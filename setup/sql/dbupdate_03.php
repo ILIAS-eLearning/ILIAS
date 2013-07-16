@@ -16529,3 +16529,7 @@ $ilDB->renameTable('preview', 'preview_data');
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3960>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

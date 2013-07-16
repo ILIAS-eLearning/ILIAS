@@ -82,7 +82,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				break;		
 			
 			case "ilcronmanagergui":
-				$this->setCronJobsSubTabs("cron_jobs2");
 				include_once("Services/Cron/classes/class.ilCronManagerGUI.php");
 				$gui = new ilCronManagerGUI();
 				$this->ctrl->forwardCommand($gui);
@@ -854,7 +853,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("cron_jobs",
-				$this->ctrl->getLinkTarget($this, "showCronJobs"), array("showCronJobs"), get_class($this));
+				$this->ctrl->getLinkTargetByClass("ilCronManagerGUI", ""), "", get_class($this));
 			
 			$tabs_gui->addTarget("system_check",
 				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog","saveCheckParams","saveCheckCron"), get_class($this));
@@ -1392,21 +1391,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	//
 	// Cron Jobs
 	//
-	//
-	
-	/**
-	* Set sub tabs for cron jobs
-	*/
-	function setCronJobsSubTabs($a_activate)
-	{
-		global $ilTabs, $ilCtrl;
-				
-		$ilTabs->addSubTabTarget("cron_jobs", $ilCtrl->getLinkTarget($this, "showCronJobs"));
-		$ilTabs->addSubTabTarget("cron_jobs2",  $ilCtrl->getLinkTargetByClass("ilCronManagerGUI"));				
-		
-		$ilTabs->setSubTabActive($a_activate);
-		$ilTabs->setTabActive("cron_jobs");
-	}
+	//	
 		
 	function jumpToCronJobsObject()
 	{
@@ -1416,187 +1401,35 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->executeCommand();
 	}
 	
-	/**
-	* Show cron jobs settings
-	*/
-	function showCronJobsObject()
-	{
-		global $tpl;
-		
-		$this->initCronJobsForm();
-		$this->setCronJobsSubTabs("cron_jobs");
-		$tpl->setContent($this->form->getHTML());
-	}
-	
-	/**
-	* Init cron jobs form.
-	*/
 	public function initCronJobsForm()
 	{
-		global $lng, $ilSetting, $rbacreview, $ilObjDataCache;
-		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		
-		$cls = new ilNonEditableValueGUI($this->lng->txt('cronjob_last_start'), 'cronjob_last_start');
-		if($ilSetting->get('last_cronjob_start_ts'))
-		{
-			include_once('./Services/Calendar/classes/class.ilDatePresentation.php');
-			$cls->setInfo(ilDatePresentation::formatDate(new ilDateTime($ilSetting->get('last_cronjob_start_ts'), IL_CAL_UNIX)));
-		}
-		else
-		{
-			$cls->setInfo($this->lng->txt('cronjob_last_start_unknown'));
-		}
-		
-		$this->form->addItem($cls);
-	
-	
-		// forum notifications
-		$options = array(
-			"0" => $lng->txt("cron_forum_notification_never"),
-			"1" => $lng->txt("cron_forum_notification_directly"),
-			"2" => $lng->txt("cron_forum_notification_cron"),
-			);
-		$si = new ilSelectInputGUI($this->lng->txt("cron_forum_notification"), "forum_notification");
-		$si->setOptions($options);
-		$si->setInfo($this->lng->txt("cron_forum_notification_desc"));
-		$si->setValue($ilSetting->get("forum_notification"));
-		$this->form->addItem($si);
-		
-		
-		// mail notifications
-		$options = array(
-			"0" => $lng->txt("cron_mail_notification_never"),
-			"1" => $lng->txt("cron_mail_notification_cron")
-			);
-		$si = new ilSelectInputGUI($this->lng->txt("cron_mail_notification"), "mail_notification");
-		$si->setOptions($options);
-		$si->setInfo($this->lng->txt("cron_mail_notification_desc"));
-		$si->setValue($ilSetting->get("mail_notification"));
-		$this->form->addItem($si);
-				
-		if($ilSetting->get("mail_notification") == '1')
-		{	
-			$cb = new ilCheckboxInputGUI($this->lng->txt("cron_mail_notification_message"), "mail_notification_message");
-			$cb->setInfo($this->lng->txt("cron_mail_notification_message_info"));
-			if ($ilSetting->get("mail_notification_message"))
-			{
-				$cb->setChecked(true);
-			}
-			$this->form->addItem($cb);
-		}
-		
-		
-		// Enable payment notifications
-		$payment_noti = new ilCheckboxInputGUI($lng->txt("payment_notification"), "payment_notification");
-		$payment_noti->setValue(1);
-		$payment_noti->setChecked((int)$ilSetting->get('payment_notification', 0) == 1);
-		$payment_noti->setInfo($lng->txt('payment_notification_desc'));
-
-		$num_days = new ilNumberInputGUI($this->lng->txt('payment_notification_days'),'payment_notification_days');
-		$num_days->setSize(3);
-		$num_days->setMinValue(0);
-		$num_days->setMaxValue(120);
-		$num_days->setRequired(true);
-		$num_days->setValue($ilSetting->get('payment_notification_days'));
-		$num_days->setInfo($lng->txt('payment_notification_days_desc'));
-
-		$payment_noti->addSubItem($num_days);
-		$this->form->addItem($payment_noti);
-
-		// reset payment incremental invoice number
-		$inv_options = array(
-			"1" => $lng->txt("yearly"),
-			"2" => $lng->txt("monthly")
-			);
-		include_once './Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php';
-		if(ilUserDefinedInvoiceNumber::_isUDInvoiceNumberActive())
-		{
-			$inv_reset = new ilSelectInputGUI($this->lng->txt("invoice_number_reset_period"), "invoice_number_reset_period");
-			$inv_reset->setOptions($inv_options);
-			$inv_reset->setInfo($this->lng->txt("invoice_number_reset_period_desc"));
-			$inv_reset->setValue(ilUserDefinedInvoiceNumber::_getResetPeriod());
-			$this->form->addItem($inv_reset);
-		}
-		else
-		{
-			$inv_info = new ilNonEditableValueGUI($this->lng->txt('invoice_number_reset_period'), 'invoice_number_reset_period');
-			$inv_info->setInfo($lng->txt('payment_userdefined_invoice_number_not_activated'));
-			$this->form->addItem($inv_info);
-		}
-
-		
-		// auto-update addressbook entries
-		$options = array(
-			"0" => $lng->txt("cron_mail_notification_never"),
-			"1" => $lng->txt("cron_mail_notification_cron")
-		);
-		
-		$this->lng->loadLanguageModule('mail');
-		$si_adr = new ilSelectInputGUI($this->lng->txt("cron_update_addressbook"), "cron_upd_adrbook");
-		$si_adr->setOptions($options);
-		$si_adr->setInfo($this->lng->txt("cron_update_addressbook_desc"));
-		$si_adr->setValue($ilSetting->get("cron_upd_adrbook"));
-		$this->form->addItem($si_adr);
-
-		
-		$this->form->addCommandButton("saveCronJobs", $lng->txt("save"));
-	                
-		$this->form->setTitle($lng->txt("cron_jobs"));
-		$this->form->setDescription($lng->txt("cron_jobs_desc"));
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
-	 
+		// DEPRECATED
+		return;		    	 
 	}
 
-	/**
-	* Save cron jobs form
-	*
-	*/
 	public function saveCronJobsObject()
-	{
-		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->initCronJobsForm();
-		if ($this->form->checkInput())
-		{						
-			$ilSetting->set("forum_notification", $_POST["forum_notification"]);
-			$ilSetting->set("mail_notification", $_POST["mail_notification"]);
-			$ilSetting->set('mail_notification_message', $_POST['mail_notification_message'] ? 1 : 0);						
-		
-			// payment notification
-			$ilSetting->set('payment_notification', $_POST['payment_notification'] ? 1 : 0);
-			$ilSetting->set('payment_notification_days', $_POST['payment_notification_days']);
-
-			// auto_update addressbook
-			$ilSetting->set('cron_upd_adrbook', $_POST['cron_upd_adrbook'] ? 1 : 0);
-									
-			/*
-			 * OLD GLOBAL CRON JOB SWITCHES (ilSetting)
-			 * cron_user_check => obsolete
-			 * cron_link_check => obsolete
-			 * cron_web_resource_check => migrated
-			 * cron_lucene_index => obsolete
-			 * cron_inactive_user_delete => obsolete
-			 * cron_inactivated_user_delete => obsolete
-			 * disk_quota/enabled => migrated
-			 * crsgrp_ntf => migrated 
-			 */
-						
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$ilCtrl->redirect($this, "showCronJobs");
-		}
-		else
-		{
-			$this->setGeneralSettingsSubTabs("cron_jobs");
-			$this->form->setValuesByPost();
-			$tpl->setContent($this->form->getHtml());
-		}
+	{		
+		// DEPRECATED
+		return;		
+								
+		/*
+		 * OLD GLOBAL CRON JOB SWITCHES (ilSetting)
+		 * 
+		 * cron_user_check => obsolete
+		 * cron_link_check => obsolete
+		 * 
+		 * cron_web_resource_check => migrated
+		 * cron_lucene_index => obsolete
+		 * cron_inactive_user_delete => obsolete
+		 * cron_inactivated_user_delete => obsolete
+		 * disk_quota/enabled => migrated
+		 * crsgrp_ntf => migrated 
+		 * 
+		 * mail_notification => migrated
+		 * cron_upd_adrbook => migrated
+		 * payment_notification => migrated
+		 * forum_notification => migrated
+		 */		
 	}
 	
 	//

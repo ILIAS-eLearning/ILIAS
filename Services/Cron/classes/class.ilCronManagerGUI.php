@@ -29,7 +29,17 @@ class ilCronManagerGUI
 	
 	function render()
 	{
-		global $tpl;
+		global $tpl, $ilSetting, $lng;
+		
+		if($ilSetting->get('last_cronjob_start_ts'))
+		{
+			$tstamp = ilDatePresentation::formatDate(new ilDateTime($ilSetting->get('last_cronjob_start_ts'), IL_CAL_UNIX));
+		}
+		else
+		{
+			$tstamp = $lng->txt('cronjob_last_start_unknown');
+		}		
+		ilUtil::sendInfo($lng->txt('cronjob_last_start').": ".$tstamp);
 		
 		include_once "Services/Cron/classes/class.ilCronManagerTableGUI.php";
 		$tbl = new ilCronManagerTableGUI($this, "render");
