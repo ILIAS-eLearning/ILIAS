@@ -245,14 +245,17 @@ class ilExportFieldsInfo
 		}
 		$settings_all = $this->settings->getAll();
 
+		$field_part_limit = 5;
 		switch($this->getType())
 		{
 			case 'crs':
 				$field_prefix = 'usr_settings_course_export_';
+				$field_part_limit = 5;
 				break;
 				
 			case 'grp':
 				$field_prefix = 'usr_settings_group_export_';
+				$field_part_limit = 5;
 				break;
 		}
 		
@@ -260,7 +263,8 @@ class ilExportFieldsInfo
 		{
 			if(stristr($key,$field_prefix) and $value)
 			{
-				$field_parts = explode('_',$key);
+				// added limit for mantis 11096
+				$field_parts = explode('_',$key,$field_part_limit);
 				$field = $field_parts[count($field_parts) - 1];
 				if(array_key_exists($field,$this->possible_fields))
 				{
@@ -268,8 +272,6 @@ class ilExportFieldsInfo
 				}
 			}
 		}
-		
-		
 		return true;
 	}
 }
