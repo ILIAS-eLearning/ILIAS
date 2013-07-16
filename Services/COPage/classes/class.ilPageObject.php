@@ -640,8 +640,6 @@ class ilPageObject
 	 *
 	 * @return object page content object
 	 */
-	// @todo 1: move this stuff to a decent factory class
-	// or at least generalize this
 	function getContentObject($a_hier_id, $a_pc_id = "")
 	{
 		$cont_node = $this->getContentNode($a_hier_id, $a_pc_id);
@@ -649,235 +647,87 @@ class ilPageObject
 		{
 			return false;
 		}
-		switch($cont_node->node_name())
+		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+		
+		
+		$node_name = $cont_node->node_name();
+		if ($node_name == "PageContent")
 		{
-			case "PageContent":
-				$child_node =& $cont_node->first_child();
-//echo "<br>nodename:".$child_node->node_name();
-				switch($child_node->node_name())
-				{
-					case "Paragraph":
-						require_once("./Services/COPage/classes/class.ilPCParagraph.php");
-						$par =& new ilPCParagraph($this->dom);
-						$par->setNode($cont_node);
-						$par->setHierId($a_hier_id);
-						$par->setPcId($a_pc_id);
-						return $par;
-
-					case "Table":
-						if ($child_node->get_attribute("DataTable") == "y")
-						{
-							require_once("./Services/COPage/classes/class.ilPCDataTable.php");
-							$tab =& new ilPCDataTable($this->dom);
-							$tab->setNode($cont_node);
-							$tab->setHierId($a_hier_id);
-						}
-						else
-						{
-							require_once("./Services/COPage/classes/class.ilPCTable.php");
-							$tab =& new ilPCTable($this->dom);
-							$tab->setNode($cont_node);
-							$tab->setHierId($a_hier_id);
-						}
-						$tab->setPcId($a_pc_id);
-						return $tab;
-
-					case "MediaObject":
-if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
-
-						//require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-						require_once("./Services/COPage/classes/class.ilPCMediaObject.php");
-						
-						$mal_node =& $child_node->first_child();
-//echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
-						$id_arr = explode("_", $mal_node->get_attribute("OriginId"));
-						$mob_id = $id_arr[count($id_arr) - 1];
-						
-						// allow deletion of non-existing media objects
-						if (!ilObject::_exists($mob_id) && in_array("delete", $_POST))
-						{
-							$mob_id = 0;
-						}
-
-						//$mob =& new ilObjMediaObject($mob_id);
-						$mob = new ilPCMediaObject($this->dom);
-						$mob->readMediaObject($mob_id);
-						
-						//$mob->setDom($this->dom);
-						$mob->setNode($cont_node);
-						$mob->setHierId($a_hier_id);
-						$mob->setPcId($a_pc_id);
-						return $mob;
-
-					case "List":
-						require_once("./Services/COPage/classes/class.ilPCList.php");
-						$list = new ilPCList($this->dom);
-						$list->setNode($cont_node);
-						$list->setHierId($a_hier_id);
-						$list->setPcId($a_pc_id);
-						return $list;
-
-					case "FileList":
-						require_once("./Services/COPage/classes/class.ilPCFileList.php");
-						$file_list = new ilPCFileList($this->dom);
-						$file_list->setNode($cont_node);
-						$file_list->setHierId($a_hier_id);
-						$file_list->setPcId($a_pc_id);
-						return $file_list;
-
-					// note: assessment handling is forwarded to assessment gui classes
-					case "Question":
-						require_once("./Services/COPage/classes/class.ilPCQuestion.php");
-						$pc_question = new ilPCQuestion($this->dom);
-						$pc_question->setNode($cont_node);
-						$pc_question->setHierId($a_hier_id);
-						$pc_question->setPcId($a_pc_id);
-						return $pc_question;
-
-					case "Section":
-						require_once("./Services/COPage/classes/class.ilPCSection.php");
-						$sec = new ilPCSection($this->dom);
-						$sec->setNode($cont_node);
-						$sec->setHierId($a_hier_id);
-						$sec->setPcId($a_pc_id);
-						return $sec;
-						
-					case "Resources":
-						require_once("./Services/COPage/classes/class.ilPCResources.php");
-						$res = new ilPCResources($this->dom);
-						$res->setNode($cont_node);
-						$res->setHierId($a_hier_id);
-						$res->setPcId($a_pc_id);
-						return $res;
-
-					case 'LoginPageElement':
-						include_once './Services/COPage/classes/class.ilPCLoginPageElements.php';
-						$res = new ilPCLoginPageElements($this->dom);
-						$res->setNode($cont_node);
-						$res->setHierId($a_hier_id);
-						$res->setPcId($a_pcid);
-						return $res;
-						
-					case "Map":
-						require_once("./Services/COPage/classes/class.ilPCMap.php");
-						$map = new ilPCMap($this->dom);
-						$map->setNode($cont_node);
-						$map->setHierId($a_hier_id);
-						$map->setPcId($a_pc_id);
-						return $map;
-
-					case "Tabs":
-						require_once("./Services/COPage/classes/class.ilPCTabs.php");
-						$map = new ilPCTabs($this->dom);
-						$map->setNode($cont_node);
-						$map->setHierId($a_hier_id);
-						$map->setPcId($a_pc_id);
-						return $map;
-
-					case "Plugged":
-						require_once("./Services/COPage/classes/class.ilPCPlugged.php");
-						$plugged = new ilPCPlugged($this->dom);
-						$plugged->setNode($cont_node);
-						$plugged->setHierId($a_hier_id);
-						$plugged->setPcId($a_pc_id);
-						return $plugged;
-
-					//Page-Layout-Support
-					case "PlaceHolder":
-						require_once("./Services/COPage/classes/class.ilPCPlaceHolder.php");
-						$placeholder = new ilPCPlaceHolder($this->dom);
-						$placeholder->setNode($cont_node);
-						$placeholder->setHierId($a_hier_id);
-						$placeholder->setPcId($a_pc_id);
-						return $placeholder;
-
-					case "ContentInclude":
-						require_once("./Services/COPage/classes/class.ilPCContentInclude.php");
-						$inc =& new ilPCContentInclude($this->dom);
-						$inc->setNode($cont_node);
-						$inc->setHierId($a_hier_id);
-						$inc->setPcId($a_pc_id);
-						return $inc;
-						
-					case "InteractiveImage":
-						require_once("./Services/COPage/classes/class.ilPCInteractiveImage.php");
-						$iim = new ilPCInteractiveImage($this->dom);
-						$iim->setNode($cont_node);
-						$iim->setHierId($a_hier_id);
-						$iim->setPcId($a_pc_id);
-						return $iim;
-
-					case "Profile":
-						require_once("./Services/COPage/classes/class.ilPCProfile.php");
-						$prof = new ilPCProfile($this->dom);
-						$prof->setNode($cont_node);
-						$prof->setHierId($a_hier_id);
-						$prof->setPcId($a_pc_id);
-						return $prof;
-						
-					case "Verification":
-						require_once("./Services/COPage/classes/class.ilPCVerification.php");
-						$vrfc = new ilPCVerification($this->dom);
-						$vrfc->setNode($cont_node);
-						$vrfc->setHierId($a_hier_id);
-						$vrfc->setPcId($a_pc_id);
-						return $vrfc;
-						
-					case "Blog":
-						require_once("./Services/COPage/classes/class.ilPCBlog.php");
-						$blog = new ilPCBlog($this->dom);
-						$blog->setNode($cont_node);
-						$blog->setHierId($a_hier_id);
-						$blog->setPcId($a_pc_id);
-						return $blog;
-						
-					case "QuestionOverview":
-						require_once("./Services/COPage/classes/class.ilPCQuestionOverview.php");
-						$qover = new ilPCQuestionOverview($this->dom);
-						$qover->setNode($cont_node);
-						$qover->setHierId($a_hier_id);
-						$qover->setPcId($a_pc_id);
-						return $qover;
-						
-					case "Skills":
-						require_once("./Services/COPage/classes/class.ilPCSkills.php");
-						$skill = new ilPCSkills($this->dom);
-						$skill->setNode($cont_node);
-						$skill->setHierId($a_hier_id);
-						$skill->setPcId($a_pc_id);
-						return $skill;
-				}
-				break;
-
-			case "TableData":
-				require_once("./Services/COPage/classes/class.ilPCTableData.php");
-				$td =& new ilPCTableData($this->dom);
-				$td->setNode($cont_node);
-				$td->setHierId($a_hier_id);
-				return $td;
-
-			case "ListItem":
-				require_once("./Services/COPage/classes/class.ilPCListItem.php");
-				$td =& new ilPCListItem($this->dom);
-				$td->setNode($cont_node);
-				$td->setHierId($a_hier_id);
-				return $td;
-
-			case "FileItem":
-				require_once("./Services/COPage/classes/class.ilPCFileItem.php");
-				$file_item =& new ilPCFileItem($this->dom);
-				$file_item->setNode($cont_node);
-				$file_item->setHierId($a_hier_id);
-				return $file_item;
-
-/*			case "Tab":
-				require_once("./Services/COPage/classes/class.ilPCTab.php");
-				$tab =& new ilPCTab($this->dom);
+			$child_node = $cont_node->first_child();
+			$node_name = $child_node->node_name();
+		}
+		
+		// table extra handling (@todo: get rid of it)
+		if ($node_name == "Table")
+		{
+			if ($child_node->get_attribute("DataTable") == "y")
+			{
+				require_once("./Services/COPage/classes/class.ilPCDataTable.php");
+				$tab =& new ilPCDataTable($this->dom);
 				$tab->setNode($cont_node);
 				$tab->setHierId($a_hier_id);
-				return $tab;*/
-
+			}
+			else
+			{
+				require_once("./Services/COPage/classes/class.ilPCTable.php");
+				$tab =& new ilPCTable($this->dom);
+				$tab->setNode($cont_node);
+				$tab->setHierId($a_hier_id);
+			}
+			$tab->setPcId($a_pc_id);
+			return $tab;
 		}
+
+		// media extra handling (@todo: get rid of it)
+		if ($node_name == "MediaObject")
+		{
+			if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
+
+			//require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			require_once("./Services/COPage/classes/class.ilPCMediaObject.php");
+			
+			$mal_node =& $child_node->first_child();
+//echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
+			$id_arr = explode("_", $mal_node->get_attribute("OriginId"));
+			$mob_id = $id_arr[count($id_arr) - 1];
+			
+			// allow deletion of non-existing media objects
+			if (!ilObject::_exists($mob_id) && in_array("delete", $_POST))
+			{
+				$mob_id = 0;
+			}
+
+			//$mob =& new ilObjMediaObject($mob_id);
+			$mob = new ilPCMediaObject($this->dom);
+			$mob->readMediaObject($mob_id);
+			
+			//$mob->setDom($this->dom);
+			$mob->setNode($cont_node);
+			$mob->setHierId($a_hier_id);
+			$mob->setPcId($a_pc_id);
+			return $mob;
+		}
+
+		//
+		// generic procedure
+		//
+		
+		$pc_def = ilCOPagePCDef::getPCDefinitionByName($node_name);
+		
+		// check if pc definition has been found
+		if (!is_array($pc_def))
+		{
+			include_once("./Services/COPage/exceptions/class.ilCOPageUnknownPCTypeException.php");
+			throw new ilCOPageUnknownPCTypeException('Unknown PC Name "'.$node_name.'".');
+		}
+		$pc_class = "ilPC".$pc_def["name"];
+		$pc_path = "./".$pc_def["component"]."/".$pc_def["directory"]."/class.".$pc_class.".php";
+		require_once($pc_path);
+		$pc = new $pc_class($this->dom);
+		$pc->setNode($cont_node);
+		$pc->setHierId($a_hier_id);
+		$pc->setPcId($a_pc_id);
+		return $pc;
 	}
 
 	/**

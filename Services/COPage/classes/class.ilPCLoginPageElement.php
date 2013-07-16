@@ -4,7 +4,7 @@
 include_once './Services/COPage/classes/class.ilPageContent.php';
 
 /**
-* Class ilPCLoginPageElements
+* Class ilPCLoginPageElement
 *
 * Login page element object (see ILIAS DTD). Inserts login page elements
 *
@@ -13,7 +13,7 @@ include_once './Services/COPage/classes/class.ilPageContent.php';
 *
 * @ingroup ServicesCOPage
 */
-class ilPCLoginPageElements extends ilPageContent
+class ilPCLoginPageElement extends ilPageContent
 {
 	public $dom;
 	public $res_node;

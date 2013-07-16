@@ -104,7 +104,8 @@ class ilObjDefReader extends ilSaxParser
 		// call special reader
 		if ($this->current_reader != "")
 		{
-			$this->readers[$this->current_reader]["reader"]->handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
+			$this->readers[$this->current_reader]["reader"]->handlerBeginTag($a_xml_parser,$a_name,$a_attribs,
+				$this->current_component);
 		}
 		else
 		{
