@@ -1148,26 +1148,31 @@ class ilPageObject
 		global $lng;
 
 		$xml = "<LVs>";
-		$lang_vars = array("ed_insert_par", "ed_insert_code",
-			"ed_insert_dtable", "ed_insert_atable", "ed_insert_media", "ed_insert_list",
-			"ed_insert_filelist", "ed_paste_clip", "ed_edit", "ed_insert_section",
-			"ed_edit_prop","ed_edit_files", "ed_edit_data", "ed_delete", "ed_moveafter", "ed_movebefore",
-			"ed_go", "ed_new_row_after", "ed_new_row_before",
-			"ed_new_col_after", "ed_new_col_before", "ed_delete_col",
-			"ed_delete_row", "ed_class", "ed_width", "ed_align_left",
+		$lang_vars = array(
+			"ed_paste_clip", "ed_edit", "ed_edit_prop", "ed_delete", "ed_moveafter",
+			"ed_movebefore", "ed_go", "ed_class", "ed_width", "ed_align_left",
 			"ed_align_right", "ed_align_center", "ed_align_left_float",
 			"ed_align_right_float", "ed_delete_item", "ed_new_item_before",
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
-			"ed_item_up", "ed_item_down", "ed_row_up", "ed_row_down",
-			"ed_col_left", "ed_col_right", "ed_split_page_next","ed_enable",
-			"de_activate", "ed_insert_repobj", "ed_insert_login_page_element", "ed_insert_map", "ed_insert_tabs",
-			"ed_insert_pcqst", "empty_question", "ed_paste","question_placeh","media_placeh","text_placeh",
-			"ed_insert_plach","question_placehl","media_placehl","text_placehl",
-			"pc_flist", "pc_par", "pc_mob", "pc_qst", "pc_sec", "pc_dtab", "pc_tab",
-			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list", "ed_insert_incl", "pc_incl",
-			"pc_iim", "ed_insert_iim", "pc_prof", "ed_insert_profile", "pc_vrfc",
-			"ed_insert_verification", "pc_blog", "ed_insert_blog", "ed_edit_multiple", "pc_qover", "ed_insert_qover",
-			"pc_skills", "ed_insert_skills", "ed_cut", "ed_copy");
+			"ed_item_up", "ed_item_down", "ed_split_page_next","ed_enable",
+			"de_activate", "ed_paste", "ed_edit_multiple", "ed_cut", "ed_copy");
+		
+		// collect lang vars from pc elements
+		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+		$defs = ilCOPagePCDef::getPCDefinitions();
+		foreach ($defs as $def)
+		{
+			$lang_vars[] = "pc_".$def["pc_type"];
+			$lang_vars[] = "ed_insert_".$def["pc_type"];
+			
+			ilCOPagePCDef::requirePCClassByName($def["name"]);
+			$cl = $def["pc_class"];
+			$lvs = call_user_func($def["pc_class"].'::getLangVars');
+			foreach ($lvs as $lv)
+			{
+				$lang_vars[] = $lv;
+			}
+		}
 
 		foreach ($lang_vars as $lang_var)
 		{

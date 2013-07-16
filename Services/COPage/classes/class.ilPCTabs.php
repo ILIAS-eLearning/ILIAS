@@ -365,5 +365,14 @@ class ilPCTabs extends ilPageContent
 		return $this->tabs_node->get_attribute("Template");
 	}
 
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("pc_vacc", "pc_hacc");
+	}
+
 }
 ?>

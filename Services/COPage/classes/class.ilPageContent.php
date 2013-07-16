@@ -322,36 +322,13 @@ abstract class ilPageContent
 	}
 	
 	/**
-	* Set anchor
-	*/
-/*
-	function setAnchor($a_name)
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
 	{
-		$node = $this->getNode();
-		
-		ilDOMUtil::setFirstOptionalElement($this->dom, $node, "Anchor",
-			array("BibItemIdentifier"), $a_name, array());
-	}*/
-	
-	/**
-	* Get Anchor
-	*/
-/*
-	function getAnchor()
-	{
-		$node = $this->getNode();
-		$childs = $node->child_nodes();
-
-		for ($i=0; $i<count($childs); $i++)
-		{
-			if ($childs[$i]->node_name() == "Anchor")
-			{
-				return $childs[$i]->get_content();
-			}
-		}
-
-		return "";
+		return array();
 	}
-*/
+	
 }
 ?>

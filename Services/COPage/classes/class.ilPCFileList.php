@@ -242,5 +242,14 @@ class ilPCFileList extends ilPageContent
 		}
 	}
 
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("ed_edit_files", "ed_insert_filelist", "pc_flist");
+	}
+
 }
 ?>

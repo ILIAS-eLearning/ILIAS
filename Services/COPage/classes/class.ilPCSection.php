@@ -88,6 +88,16 @@ class ilPCSection extends ilPageContent
 			return $char;
 		}
 	}
+	
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("ed_insert_section");
+	}
+
 }
 
 ?>

@@ -113,5 +113,15 @@ class ilPCLoginPageElement extends ilPageContent
 			return $this->res_node->get_attribute('HorizontalAlign');
 		}
 	}
+	
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("ed_insert_login_page_element");
+	}
+
 }
 ?>

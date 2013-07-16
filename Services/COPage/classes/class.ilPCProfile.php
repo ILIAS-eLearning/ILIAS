@@ -118,5 +118,15 @@ class ilPCProfile extends ilPageContent
 		}
 		return $res;
 	}
+	
+	/**
+	 * Get lang vars needed for editing
+	 * @return array array of lang var keys
+	 */
+	static function getLangVars()
+	{
+		return array("pc_prof", "ed_insert_profile");
+	}
+
 }
 ?>
