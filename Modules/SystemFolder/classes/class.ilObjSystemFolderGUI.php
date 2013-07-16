@@ -82,6 +82,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				break;		
 			
 			case "ilcronmanagergui":
+				$ilTabs->activateTab("cron_jobs");
 				include_once("Services/Cron/classes/class.ilCronManagerGUI.php");
 				$gui = new ilCronManagerGUI();
 				$this->ctrl->forwardCommand($gui);
@@ -1392,7 +1393,24 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	// Cron Jobs
 	//
 	//	
-		
+								
+	/*
+	 * OLD GLOBAL CRON JOB SWITCHES (ilSetting)
+	 * 
+	 * cron_user_check => obsolete
+	 * cron_inactive_user_delete => obsolete
+	 * cron_inactivated_user_delete => obsolete
+	 * cron_link_check => obsolete	 
+	 * cron_web_resource_check => migrated
+	 * cron_lucene_index => obsolete	 
+	 * forum_notification => migrated
+	 * mail_notification => migrated
+	 * disk_quota/enabled => migrated
+	 * payment_notification => migrated
+	 * crsgrp_ntf => migrated 
+	 * cron_upd_adrbook => migrated		
+	 */		
+	
 	function jumpToCronJobsObject()
 	{
 		// this is used for external settings 
@@ -1401,36 +1419,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->executeCommand();
 	}
 	
-	public function initCronJobsForm()
-	{
-		// DEPRECATED
-		return;		    	 
-	}
-
-	public function saveCronJobsObject()
-	{		
-		// DEPRECATED
-		return;		
-								
-		/*
-		 * OLD GLOBAL CRON JOB SWITCHES (ilSetting)
-		 * 
-		 * cron_user_check => obsolete
-		 * cron_link_check => obsolete
-		 * 
-		 * cron_web_resource_check => migrated
-		 * cron_lucene_index => obsolete
-		 * cron_inactive_user_delete => obsolete
-		 * cron_inactivated_user_delete => obsolete
-		 * disk_quota/enabled => migrated
-		 * crsgrp_ntf => migrated 
-		 * 
-		 * mail_notification => migrated
-		 * cron_upd_adrbook => migrated
-		 * payment_notification => migrated
-		 * forum_notification => migrated
-		 */		
-	}
 	
 	//
 	//
