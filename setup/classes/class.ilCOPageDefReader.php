@@ -30,7 +30,7 @@ class ilCOPageDefReader
 	 * @param string element tag name
 	 * @param array element attributes
 	 */
-	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
+	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs, $a_comp)
 	{
 		global $ilDB;
 		
@@ -38,9 +38,10 @@ class ilCOPageDefReader
 		{
 			case "pagecontent":
 				$ilDB->manipulate("INSERT INTO copg_pc_def ".
-					"(pc_type, name, directory, int_links, style_classes, xsl) VALUES (".
+					"(pc_type, name, component, directory, int_links, style_classes, xsl) VALUES (".
 					$ilDB->quote($a_attribs["pc_type"], "text").",".
 					$ilDB->quote($a_attribs["name"], "text").",".
+					$ilDB->quote($a_comp, "text").",".
 					$ilDB->quote($a_attribs["directory"], "text").",".
 					$ilDB->quote($a_attribs["int_links"], "integer").",".
 					$ilDB->quote($a_attribs["style_classes"], "integer").",".

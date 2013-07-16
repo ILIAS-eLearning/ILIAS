@@ -16585,3 +16585,17 @@ if (!$ilDB->tableExists('copg_pc_def'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3964>
+<?php
+if (!$ilDB->tableColumnExists("copg_pc_def", "component"))
+{
+	$ilDB->addTableColumn("copg_pc_def", "component", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 40));
+}
+?>
+<#3965>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

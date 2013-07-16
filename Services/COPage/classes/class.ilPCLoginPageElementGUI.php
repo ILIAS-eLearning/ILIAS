@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/COPage/classes/class.ilPageContentGUI.php';
-include_once './Services/COPage/classes/class.ilPCLoginPageElements.php';
+include_once './Services/COPage/classes/class.ilPCLoginPageElement.php';
 
 /**
 * Class ilLoginPageElementGUI
@@ -27,13 +27,13 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 
 		if(!is_object($this->content_obj))
 		{
-			$this->content_obj = new ilPCLoginPageElements(null);
+			$this->content_obj = new ilPCLoginPageElement(null);
 		}
 	}
 
 	/**
 	 * Get login page elements
-	 * @return ilPCLoginPageElements $lp_elements
+	 * @return ilPCLoginPageElement $lp_elements
 	 */
 	public function getLoginPageElements()
 	{
@@ -94,7 +94,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 		// type selection
 		$type_prop = new ilRadioGroupInputGUI($this->lng->txt("cont_type"),"type");
 
-		foreach(ilPCLoginPageElements::getAllTypes() as $index => $lang_key)
+		foreach(ilPCLoginPageElement::getAllTypes() as $index => $lang_key)
 		{
 			$types[$index] = $this->lng->txt('cont_lpe_'.$lang_key);
 
@@ -144,7 +144,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 	*/
 	public function create()
 	{
-		$this->content_obj = new ilPCLoginPageElements($this->dom);
+		$this->content_obj = new ilPCLoginPageElement($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setLoginPageElementType($_POST["type"]);
 		$this->content_obj->setAlignment($_POST['horizontal_align']);
