@@ -363,7 +363,8 @@ class ilDBUpdate
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
 
-		ilModuleReader::clearTables();
+		$mr = new ilModuleReader("", "", "");
+		$mr->clearTables();
 		foreach($modules as $module)
 		{
 			$mr = new ilModuleReader(ILIAS_ABSOLUTE_PATH."/Modules/".$module["subdir"]."/module.xml",
@@ -372,7 +373,8 @@ class ilDBUpdate
 			unset($mr);
 		}
 
-		ilServiceReader::clearTables();
+		$sr = new ilServiceReader("", "", "");
+		$sr->clearTables();
 		foreach($services as $service)
 		{
 			$sr = new ilServiceReader(ILIAS_ABSOLUTE_PATH."/Services/".$service["subdir"]."/service.xml",
