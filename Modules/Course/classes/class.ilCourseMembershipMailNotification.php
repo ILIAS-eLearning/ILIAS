@@ -58,7 +58,8 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 			}
 		}
 
-		parent::send();
+		// #11359
+		// parent::send();
 		
 		switch($this->getType())
 		{
