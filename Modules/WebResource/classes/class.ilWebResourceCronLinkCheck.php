@@ -132,6 +132,14 @@ class ilWebResourceCronLinkCheck extends ilCronJob
 		}
 		return $period;
 	}
+	
+	public function activationWasToggled($a_currently_active)
+	{
+		global $ilSetting;
+				
+		// propagate cron-job setting to object setting
+		$ilSetting->set("cron_web_resource_check", (bool)$a_currently_active);		
+	}
 }
 
 ?>
