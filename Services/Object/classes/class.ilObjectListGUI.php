@@ -49,7 +49,13 @@ class ilObjectListGUI
 	var $sub_item_html = array();
 	var $multi_download_enabled = false;
 	var $download_checkbox_state = self::DOWNLOAD_CHECKBOX_NONE;
-
+	
+	protected $obj_id;
+	protected $ref_id;
+	protected $type;
+	protected $sub_obj_id;
+	protected $sub_obj_type;	
+	
 	protected $substitutions = null;
 	protected $substitutions_enabled = false;
 	
@@ -90,6 +96,12 @@ class ilObjectListGUI
 	protected $comments_settings_enabled = false;
 	protected $notes_enabled = false;
 	protected $tags_enabled = false;
+	
+	protected $rating_enabled = false;
+	protected $rating_categories_enabled = false;
+	protected $rating_text = false;
+	protected $rating_ctrl_path = false;
+	protected $rating_for_subobjects = false;
 	
 	protected $timings_enabled = true;
 	
@@ -2813,6 +2825,28 @@ class ilObjectListGUI
 	}
 	
 	/**
+	 * Toogle rating action status
+	 * 
+	 * @param boolean $a_value 
+	 * @param string $a_text 
+	 * @param boolean $a_categories 
+	 * @param array $a_ctrl_path 
+	 * @param bool $a_enable_subobjects 
+	 */
+	function enableRating($a_value, $a_text = null, $a_categories = false, array $a_ctrl_path = null, $a_enable_subobjects = true)
+	{				
+		$this->rating_enabled = (bool)$a_value;
+		
+		if($this->rating_enabled)
+		{
+			$this->rating_categories_enabled = (bool)$a_categories;
+			$this->rating_text = $a_text;
+			$this->rating_ctrl_path = $a_ctrl_path;							
+			$this->rating_for_subobjects = (bool)$a_enable_subobjects;							
+		}
+	}
+	
+	/**
 	 * Toggles whether multiple objects can be downloaded at once or not.
 	 * 
 	 * @param boolean $a_value true, to allow downloading of multiple objects; otherwise, false.
@@ -2962,7 +2996,7 @@ class ilObjectListGUI
 	 */
 	function getHeaderAction()
 	{
-		global $ilAccess, $ilBench, $ilUser, $ilCtrl, $lng;
+		global $ilUser, $lng, $tpl;
 		
 		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");	
 		
@@ -3014,6 +3048,55 @@ class ilObjectListGUI
 					ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js),
 					$cnt[$this->obj_id][IL_NOTE_PUBLIC]);
 			}			
+		}
+		
+		// rating
+		if($this->rating_enabled)
+		{									
+			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
+			$rating_gui = new ilRatingGUI();
+			$rating_gui->enableCategories($this->rating_categories_enabled);
+			if($this->rating_for_subobjects)
+			{
+				$rating_gui->setObject($this->obj_id, $this->type, $this->sub_obj_id, 
+					$this->sub_obj_type);	
+				
+				$this->ctrl->setParameterByClass("ilRatingGUI", "cadh", $this->ajax_hash);					
+			}
+			else
+			{
+				$rating_gui->setObject($this->obj_id, $this->type);	
+				
+				// we have to get rid of the sub-object in the ajax hash
+				$ajax_hash = $this->ajax_hash;
+				if($this->sub_obj_id)
+				{
+					$ajax_hash = explode(";", $ajax_hash);
+					$ajax_hash[4] = null;
+					$ajax_hash[5] = null;
+					$ajax_hash = implode(";", $ajax_hash);
+				}
+				$this->ctrl->setParameterByClass("ilRatingGUI", "cadh", $ajax_hash);					
+			}			
+			if($this->rating_text)
+			{
+				$rating_gui->setYourRatingText($this->rating_text);
+			}											
+			if($this->rating_ctrl_path)
+			{				
+				$rating_gui->setCtrlPath($this->rating_ctrl_path);		
+				$ajax_url = $this->ctrl->getLinkTargetByClass($this->rating_ctrl_path, "saveRating", "", true, false);
+			}
+			else
+			{
+				// ???
+				$ajax_url = $this->ctrl->getLinkTargetByClass("ilRatingGUI", "saveRating", "", true, false);
+			}		
+			$tpl->addOnLoadCode("il.Object.setRatingUrl('".$ajax_url."');");
+			
+			// $this->addHeaderIconHTML("rating", $this->ctrl->getHtml($rating_gui)); ???	
+			$this->addHeaderIconHTML("rating", 
+				$rating_gui->getHtml($rating_gui, true, "il.Object.saveRating(%rating%);"));								
 		}
 		
 		if($this->header_icons)
@@ -3354,6 +3437,17 @@ class ilObjectListGUI
 			return $this->insertCommands(true, true);
 		}				
 		
+		if(DEVMODE)
+		{
+			$rating = ilRating::getOverallRatingForObject($this->obj_id, $this->type, null, null);
+			if($rating)
+			{
+				$this->addCustomProperty("RATING", $rating."/".
+					ilRating::getRatingForUserAndObject($this->obj_id, $this->type, null, null, $ilUser->getId()),
+					true, true);
+			}
+		}
+		
 		// read from cache
 		include_once("Services/Object/classes/class.ilListItemAccessCache.php");
 		$this->acache = new ilListItemAccessCache();
@@ -3573,6 +3667,9 @@ class ilObjectListGUI
 		
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		ilLPStatus::preloadListGUIData($a_obj_ids);
+		
+		include_once("./Services/Rating/classes/class.ilRating.php");
+		ilRating::preloadListGUIData($a_obj_ids);
 		
 		self::$preload_done = true;
 	}

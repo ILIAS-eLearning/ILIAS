@@ -144,6 +144,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				break;
 			
 			case "ilratinggui":
+				// for rating category editing
 				$this->checkPermission("write");
 				$this->addHeaderAction();
 				$ilTabs->activateTab("settings");

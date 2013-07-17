@@ -8,6 +8,7 @@
 * @version $Id: class.ilInfoScreenGUI.php 30682 2011-09-16 19:33:22Z akill $
 *
 * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI, ilObjectActivationGUI
+* @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI
 *
 * @ingroup ServicesObject
 */
@@ -20,6 +21,7 @@ class ilCommonActionDispatcherGUI
 	protected $sub_type; // [string]
 	protected $sub_id; // [int]	
 	protected $enable_comments_settings; // [bool]
+	protected $rating_callback; // [array]
 	
 	const TYPE_REPOSITORY = 1;
 	const TYPE_WORKSPACE = 2;
@@ -187,8 +189,21 @@ class ilCommonActionDispatcherGUI
 				include_once 'Services/Object/classes/class.ilObjectActivationGUI.php';				
 				$act_gui = new ilObjectActivationGUI((int)$_REQUEST['parent_id'],$this->node_id);
 				$ilCtrl->forwardCommand($act_gui);
-				break;			
-
+				break;	
+			
+			case "ilratinggui":
+				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
+				$rating_gui = new ilRatingGUI();				
+				$rating_gui->setObject($this->obj_id, $this->obj_type, $this->sub_id, $this->sub_type);
+				$ilCtrl->forwardCommand($rating_gui);
+				if($this->rating_callback)
+				{
+					// as rating in categories is form-based we need to redirect
+					// somewhere after saving
+					$ilCtrl->redirect($this->rating_callback[0], $this->rating_callback[1]);
+				}
+				break;
+			
 			default:				
 				break;
 		}
@@ -216,6 +231,17 @@ class ilCommonActionDispatcherGUI
 	function enableCommentsSettings($a_value)
 	{
 		$this->enable_comments_settings = (bool)$a_value;
+	}
+	
+	/**
+	 * Add callback for rating gui
+	 * 
+	 * @param object $a_gui
+	 * @param string $a_cmd
+	 */
+	function setRatingCallback($a_gui, $a_cmd)
+	{
+		$this->rating_callback = array($a_gui, $a_cmd);
 	}
 	
 	/**

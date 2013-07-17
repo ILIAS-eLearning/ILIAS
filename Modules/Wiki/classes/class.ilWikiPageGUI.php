@@ -11,8 +11,8 @@ include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
-* @ilCtrl_Calls ilWikiPageGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
-* @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilWikiPageGUI: ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
+* @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI
 *
 * @ingroup ModulesWiki
 */
@@ -103,8 +103,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$ilTabs->setTabActive("pg");
 				return $this->preview();
 				break;
-
-			case "ilratinggui":
+						
+			case "ilratinggui":				
+				// for rating side block
 				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
 				$rating_gui = new ilRatingGUI();
 				$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
@@ -112,7 +113,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$this->ctrl->forwardCommand($rating_gui);
 				$ilCtrl->redirect($this, "preview");
 				break;
-				
+
 			case "ilpageobjectgui":
 				$page_gui = new ilPageObjectGUI("wpg",
 					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
@@ -123,6 +124,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$gui->enableCommentsSettings(false);
+				$gui->setRatingCallback($this, "preview");
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
@@ -202,10 +204,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{			
 		global $ilUser, $ilAccess;
 		
+		$wiki_id = $this->getPageObject()->getParentId();
+		$page_id = $this->getPageObject()->getId();
+		
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
-			$ilAccess, "wiki", $_GET["ref_id"], $this->getPageObject()->getParentId());
-		$dispatcher->setSubObject("wpg", $this->getPageObject()->getId());
+			$ilAccess, "wiki", $_GET["ref_id"], $wiki_id);
+		$dispatcher->setSubObject("wpg", $page_id);
 
 		include_once "Services/Object/classes/class.ilObjectListGUI.php";
 		ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), 			
@@ -214,13 +219,24 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 		$lg = $dispatcher->initHeaderAction();
 		$lg->enableNotes(true);
-		$lg->enableComments(ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()), false);
+		$lg->enableComments(ilObjWiki::_lookupPublicNotes($wiki_id), false);
+		
+		// rating
+		if (ilObjWiki::_lookupRating($wiki_id)
+			&& $this->getPageObject()->getRating()
+			&& $this->getPageObject()->old_nr == 0)
+		{
+			$lg->enableRating(true, $this->lng->txt("wiki_rate_page"), 
+				ilObjWiki::_lookupRatingCategories($wiki_id),
+				// so ilCtrl does not use the shortcut via ilWikiGUI
+				array("ilcommonactiondispatchergui", "ilratinggui"));
+		}
 
 		// notification
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			include_once "./Services/Notification/classes/class.ilNotification.php";
-			if(ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->getPageObject()->getParentId()))
+			if(ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $wiki_id))
 			{
 				$this->ctrl->setParameter($this, "ntf", 1);
 				$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "wiki_notification_deactivate_wiki");
@@ -234,7 +250,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$this->ctrl->setParameter($this, "ntf", 2);
 				$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "wiki_notification_activate_wiki");
 				
-				if(ilNotification::hasNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId()))
+				if(ilNotification::hasNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $page_id))
 				{
 					$this->ctrl->setParameter($this, "ntf", 3);
 					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "wiki_notification_deactivate_page");
@@ -255,21 +271,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			}
 			$this->ctrl->setParameter($this, "ntf", "");
 		}		
-		
-		// rating
-		$wiki_id = $this->getPageObject()->getParentId();
-		if (ilObjWiki::_lookupRating($wiki_id)
-			&& $this->getPageObject()->getRating()
-			&& $this->getPageObject()->old_nr == 0)
-		{
-			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
-			$rating_gui = new ilRatingGUI();
-			$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
-				$this->getPageObject()->getId(), "wpg");
-			$rating_gui->setYourRatingText($this->lng->txt("wiki_rate_page"));
-			$rating_gui->enableCategories(ilObjWiki::_lookupRatingCategories($wiki_id));
-			$lg->addHeaderIconHTML("rating", $this->ctrl->getHtml($rating_gui));
-		}
 		
 		if(!$a_redraw)
 		{

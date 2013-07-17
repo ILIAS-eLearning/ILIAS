@@ -139,7 +139,6 @@ class ilObjFileGUI extends ilObject2GUI
 				$this->ctrl->forwardCommand($wspacc);
 				break;
 			
-			// personal workspace header actions
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();

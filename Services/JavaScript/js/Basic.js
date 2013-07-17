@@ -243,6 +243,7 @@ il.Util = {
 il.Object = {
 	url_redraw_ah: "",
 	url_redraw_li: "",
+	url_rating: "",
 	
 	setRedrawAHUrl: function(url) {
 		this.url_redraw_ah = url;
@@ -254,7 +255,7 @@ il.Object = {
 	
 	redrawActionHeader: function() {
 		var ah = document.getElementById("il_head_action");
-		if (this.url_redraw_ah && ah != null)
+		if (this.url_redraw_ah && ah !== null)
 		{
 			il.Util.ajaxReplaceInner(this.url_redraw_ah, "il_head_action");
 		}
@@ -270,7 +271,7 @@ il.Object = {
 	
 	redrawListItem: function(ref_id) {
 		var li = document.getElementById("lg_div_" + ref_id);
-		if (this.url_redraw_li && li != null)
+		if (this.url_redraw_li && li !== null)
 		{
 			il.Util.ajaxReplace(this.url_redraw_li + "&child_ref_id=" + ref_id, "lg_div_" + ref_id);
 		}
@@ -278,7 +279,7 @@ il.Object = {
 	
 	togglePreconditions: function(link, id, txt_show, txt_hide) {
 		var li = document.getElementById("il_list_item_precondition_obl_" + id);
-		if(li != null)
+		if(li !== null)
 		{
 			if(li.style.display == "none")
 			{
@@ -292,7 +293,7 @@ il.Object = {
 			}
 		}
 		li = document.getElementById("il_list_item_precondition_opt_" + id);
-		if(li != null)
+		if(li !== null)
 		{
 			if(li.style.display == "none")
 			{
@@ -304,6 +305,22 @@ il.Object = {
 				li.style.display = "none";
 				$(link).html("&raquo; "+txt_show);
 			}
+		}
+	},
+			
+	setRatingUrl: function(url) {
+		this.url_rating = url;
+	},
+			
+	saveRating: function(mark) {		
+		il.Util.sendAjaxGetRequestToUrl(this.url_rating + "&rating=" + mark, {}, {url_redraw: this.url_redraw_ah}, this.redrawAfterRating);
+	},
+			
+	redrawAfterRating: function(o) {
+		var ah = document.getElementById("il_head_action");
+		if (ah !== null)
+		{
+			il.Util.ajaxReplaceInner(o.argument.url_redraw, "il_head_action");
 		}
 	}
 }
