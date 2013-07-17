@@ -2383,6 +2383,32 @@ class ilTemplate extends ilTemplateX
 			}
 		}
 	}
+	
+	/**
+	 * Get js onload code for ajax calls
+	 * 
+	 * @return string
+	 */
+	function getOnLoadCodeForAsynch()
+	{
+		$js = "";
+		for ($i = 1; $i <= 3; $i++)
+		{
+			if (is_array($this->on_load_code[$i]))
+			{
+				foreach ($this->on_load_code[$i] as $code)
+				{
+					$js .= $code."\n";
+				}
+			}
+		}		
+		if($js)
+		{
+			return '<script type="text/javascript">'."\n".
+				$js.
+				'</script>'."\n";
+		}
+	}
 
 	/**
 	 * Set fullscreen header data

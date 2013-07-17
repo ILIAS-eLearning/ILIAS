@@ -375,7 +375,13 @@ class ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 
 				$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
 			
-			$lg = $dispatcher->initHeaderAction();
+			$lg = $dispatcher->initHeaderAction();			
+						
+			if($this->object->getType() == "file")
+			{
+				$lg->enableRating(true, null, false,
+					array("ilcommonactiondispatchergui", "ilratinggui"));
+			}
 			
 			if (is_object($lg))
 			{				
@@ -432,8 +438,14 @@ class ilObjectGUI
 	 */
 	protected function redrawHeaderActionObject()
 	{
+		global $tpl;
+		
 		$lg = $this->initHeaderAction();
-		echo $lg->getHeaderAction();
+		echo $lg->getHeaderAction();		
+		
+		// we need to add onload code manually (rating, comments, etc.)
+		echo $tpl->getOnLoadCodeForAsynch();		
+		
 		exit;
 	}
 	

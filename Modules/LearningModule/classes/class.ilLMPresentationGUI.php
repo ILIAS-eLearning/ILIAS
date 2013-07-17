@@ -1298,7 +1298,7 @@ class ilLMPresentationGUI
 	 */
 	function addHeaderAction($a_redraw = false)
 	{			
-		global $ilUser, $ilAccess;
+		global $ilAccess, $tpl;
 		
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
@@ -1313,6 +1313,9 @@ class ilLMPresentationGUI
 		$lg = $dispatcher->initHeaderAction();
 		$lg->enableNotes(true);
 		$lg->enableComments($this->lm->publicNotes(), false);
+		
+		$lg->enableRating(true, null, false,
+			array("ilcommonactiondispatchergui", "ilratinggui"), false);
 
 		if(!$a_redraw)
 		{
@@ -1320,7 +1323,9 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			return $lg->getHeaderAction();
+			// we need to add onload code manually (rating, comments, etc.)
+			return $lg->getHeaderAction().
+				$tpl->getOnLoadCodeForAsynch();
 		}
 	}
 

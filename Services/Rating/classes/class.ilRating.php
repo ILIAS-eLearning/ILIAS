@@ -14,6 +14,8 @@
 */
 class ilRating
 {	
+	protected static $list_data; // [array]
+	
 	/**
 	* Write rating for a user and an object.
 	*
@@ -25,7 +27,7 @@ class ilRating
 	* @param	int			$a_rating			Rating
 	* @param	int			$a_category_id		Category ID
 	*/
-	static function writeRatingForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
+	public static function writeRatingForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_user_id, $a_rating, $a_category_id = 0)
 	{
 		global $ilDB;
@@ -76,10 +78,15 @@ class ilRating
 	* @param	int			$a_user_id			User ID
 	* @param	int			$a_category_id		Category ID
 	*/
-	static function getRatingForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
+	public static function getRatingForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_user_id, $a_category_id = null)
 	{
 		global $ilDB;
+		
+		if(is_array(self::$list_data))
+		{			
+			return self::$list_data["user"][$a_obj_type."/".$a_obj_id];	
+		}
 		
 		$q = "SELECT AVG(rating) av FROM il_rating WHERE ".
 			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
@@ -105,9 +112,14 @@ class ilRating
 	* @param	string		$a_sub_obj_type		Subobject Type
 	* @param	int			$a_category_id		Category ID
 	*/
-	static function getOverallRatingForObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type, $a_category_id = null)
+	public static function getOverallRatingForObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type, $a_category_id = null)
 	{
 		global $ilDB;
+	
+		if(is_array(self::$list_data))
+		{			
+			return self::$list_data["all"][$a_obj_type."/".$a_obj_id];	
+		}
 		
 		$q = "SELECT AVG(rating) av FROM il_rating WHERE ".
 			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
@@ -136,11 +148,16 @@ class ilRating
 		}
 		return array("cnt" => $cnt, "avg" => $avg);
 	}
-	
+
 	/**
+	 * Get export data
 	 * 
+	 * @param int $a_obj_id
+	 * @param string $a_obj_type
+	 * @param array $a_category_ids
+	 * @return array
 	 */
-	static function getExportData($a_obj_id, $a_obj_type, array $a_category_ids = null)
+	public static function getExportData($a_obj_id, $a_obj_type, array $a_category_ids = null)
 	{
 		global $ilDB;
 		
@@ -160,6 +177,75 @@ class ilRating
 			$res[] = $row;
 		}
 		return $res;
+	}
+	
+	/**
+	 * Preload rating data for list guis
+	 * 
+	 * @param array $a_obj_ids
+	 */
+	public static function preloadListGUIData(array $a_obj_ids)
+	{
+		global $ilDB, $ilUser;
+		
+		$tmp = $tmp_sub = $res = $tmp_user = $res_user = array();
+		
+		// collapse by categories
+		$q = "SELECT obj_id, obj_type, sub_obj_id, sub_obj_type, user_id, AVG(rating) av".
+			" FROM il_rating".
+			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer").
+			" GROUP BY obj_id, obj_type, sub_obj_id, sub_obj_type, user_id";
+		$set = $ilDB->query($q);		
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			if($rec["sub_obj_id"])
+			{
+				$tmp_sub[$rec["obj_type"]."/".$rec["obj_id"]][$rec["sub_obj_type"]."/".$rec["sub_obj_id"]][$rec["user_id"]] = (float)$rec["av"];
+				if($rec["user_id"] == $ilUser->getId())		
+				{
+					// still needs to be aggregated for main object
+					$tmp_user[$rec["obj_type"]."/".$rec["obj_id"]][] = (float)$rec["av"];
+				}
+			}
+			else
+			{
+				$tmp[$rec["obj_type"]."/".$rec["obj_id"]][$rec["user_id"]] = (float)$rec["av"];
+				if($rec["user_id"] == $ilUser->getId())		
+				{
+					// add final average to user result (no sub-objects)
+					$res_user[$rec["obj_type"]."/".$rec["obj_id"]] = (float)$rec["av"];
+				}
+			}								
+		}		
+		
+		// main objects with sub-objects
+		foreach($tmp_sub as $obj_id => $sub_objs)
+		{
+			$res[$obj_id] = 0;			
+			
+			// average per sub-object
+			foreach($sub_objs as $sub_obj)
+			{
+				$res[$obj_id] += array_sum($sub_obj)/sizeof($sub_obj);
+			}
+			
+			// average for main object
+			$res[$obj_id] = $res[$obj_id]/sizeof($sub_objs);
+		}
+		
+		// average for main objects without sub-objects
+		foreach($tmp as $obj_id => $votes)
+		{
+			$res[$obj_id] = array_sum($votes)/sizeof($votes);
+		}
+		
+		// average of current user for main objects with sub-objects
+		foreach($tmp_user as $obj_id => $votes)
+		{
+			$res_user[$obj_id] = array_sum($votes)/sizeof($votes);
+		}
+		
+		self::$list_data = array("all"=>$res, "user"=>$res_user);
 	}
 }
 

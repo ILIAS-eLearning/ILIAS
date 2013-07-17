@@ -19,6 +19,7 @@ class ilRatingGUI
 	protected $id = "rtg_";
 	protected $export_callback;
 	protected $export_subobj_title;
+	protected $ctrl_path;
 
 	function __construct()
 	{
@@ -62,6 +63,12 @@ class ilRatingGUI
 	function setObject($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
 	{
 		global $ilUser;
+		
+		// db-column is defined as not null, el stupido
+		if(!trim($a_sub_obj_type))
+		{
+			$a_sub_obj_type = "-";
+		}
 
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_obj_type;
@@ -124,11 +131,22 @@ class ilRatingGUI
 	}
 	
 	/**
+	 * ilCtrl path
+	 * 
+	 * @param array $a_value
+	 */
+	public function setCtrlPath(array $a_value)
+	{
+		$this->ctrl_path = $a_value;
+	}
+	
+	/**
 	 * Render rating details
 	 * 
 	 * @param string $a_js_id
 	 * @param bool $a_may_rate
 	 * @param array $a_categories 
+	 * @param bool $a_onclick 
 	 * @return string
 	 */
 	protected function renderDetails($a_js_id, $a_may_rate, array $a_categories = null, $a_onclick = null)
@@ -140,25 +158,44 @@ class ilRatingGUI
 		$rate_text = ($this->getYourRatingText() != "")
 			? $this->getYourRatingText()
 			: $lng->txt("rating_your_rating");
-				
+						
 		// no categories: 1 simple rating (link)
 		if(!$a_categories)
-		{				
+		{										
 			if ($a_may_rate)
 			{					
+				
 				$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
 					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), 0);
 
 				// user rating links
 				for($i = 1; $i <= 5; $i++)
 				{
-					$ttpl->setCurrentBlock("rating_link_simple");					
-					$ilCtrl->setParameter($this, "rating", $i);
-					$ttpl->setVariable("HREF_RATING", $ilCtrl->getLinkTarget($this, "saveRating"));
+					$ttpl->setCurrentBlock("rating_link_simple");						
+					if(stristr($a_onclick, "%rating%"))
+					{
+						$url_save = "#";
+					}
+					else 
+					{
+						$ilCtrl->setParameter($this, "rating", $i);					
+						if(!$this->ctrl_path)
+						{
+							$url_save = $ilCtrl->getLinkTarget($this, "saveRating");
+						}
+						else
+						{
+							$url_save = $ilCtrl->getLinkTargetByClass($this->ctrl_path, "saveRating");
+						}														
+					}		
+					$ttpl->setVariable("HREF_RATING", $url_save);
+					
 					if($a_onclick)
 					{
-						$ttpl->setVariable("ONCLICK_RATING", ' onclick="'.$a_onclick.'"');
+						$onclick = str_replace("%rating%", $i, $a_onclick);						
+						$ttpl->setVariable("ONCLICK_RATING", ' onclick="'.$onclick.'"');
 					}
+					
 					if ($rating >= $i)
 					{
 						$ttpl->setVariable("SRC_ICON",
@@ -255,8 +292,16 @@ class ilRatingGUI
 			}
 				
 			if($a_may_rate)
-			{
-				$ttpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, "saveRating"));				
+			{				
+				if(!$this->ctrl_path)
+				{
+					$url_form = $ilCtrl->getFormAction($this, "saveRating"); 
+				}
+				else
+				{
+					$url_form = $ilCtrl->getFormActionByClass($this->ctrl_path, "saveRating"); 
+				}								
+				$ttpl->setVariable("FORM_ACTION", $url_form);				
 				$ttpl->setVariable("TXT_SUBMIT", $lng->txt("rating_overlay_submit"));
 				$ttpl->setVariable("CMD_SUBMIT", "saveRating");
 				$ttpl->touchBlock("user_rating_categories_form_out");				
@@ -272,8 +317,13 @@ class ilRatingGUI
 	}
 
 	/**
-	* Get HTML for rating of an object (and a user)
-	*/
+	 * Get HTML for rating of an object (and a user)
+	 * 
+	 * @param bool $a_show_overall
+	 * @param bool $a_may_rate
+	 * @param string $a_onclick
+	 * @return string
+	 */
 	function getHTML($a_show_overall = true, $a_may_rate = true, $a_onclick = null)
 	{
 		global $lng;	
@@ -438,6 +488,8 @@ class ilRatingGUI
 	*/
 	function saveRating()
 	{		
+		global $ilCtrl;
+		
 		if(!is_array($_REQUEST["rating"]))
 		{				
 			ilRating::writeRatingForUserAndObject($this->obj_id, $this->obj_type,
@@ -452,6 +504,11 @@ class ilRatingGUI
 					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(),
 					$rating, $cat_id);					
 			}
+		}
+		
+		if($ilCtrl->isAsynch())
+		{
+			exit();
 		}
 	}
 	
