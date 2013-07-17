@@ -250,7 +250,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 		$this->initForm("create");
 		if ($this->form->checkInput())
 		{
-			$this->content_obj = new ilPCTabs($this->dom);
+			$this->content_obj = new ilPCTabs($this->getPage());
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 			$this->content_obj->setTabType($_POST["type"]);
 			$this->content_obj->setContentWidth($_POST["content_width"]);

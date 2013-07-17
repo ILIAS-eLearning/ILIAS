@@ -38,11 +38,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 
 	/**
-	* set content object dependent page object (co page)
-	*/
-	function setLMPageObject(&$a_pg_obj)
+	 * Set content object dependent page object (co page)
+	 */
+	function setLMPageObject($a_pg_obj)
 	{
-		$this->obj =& $a_pg_obj;
+		$this->obj = $a_pg_obj;
 		$this->obj->setLMId($this->content_object->getId());
 	}
 
@@ -70,7 +70,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$lm_set = new ilSetting("lm");
 
 				$this->ctrl->setReturn($this, "edit");
-				$page_gui =& new ilPageObjectGUI($this->obj->content_object->getType(),
+				$page_gui = new ilPageObjectGUI($this->obj->content_object->getType(),
 					$this->obj->getId());
 				$page_gui->setEditPreview(true);
 				$page_gui->activateMetaDataEditor($this->content_object->getID(),

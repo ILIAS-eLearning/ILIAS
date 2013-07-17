@@ -89,6 +89,7 @@ class ilLMEditorGUI
 		
 		if ($_GET["to_page"]== 1)
 		{
+			$this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $_GET["obj_id"]);
 			$this->ctrl->redirectByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
 		}
 		

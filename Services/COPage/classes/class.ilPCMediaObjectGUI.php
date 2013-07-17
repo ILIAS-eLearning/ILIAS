@@ -432,7 +432,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 					$fid = ilMediaPoolItem::lookupForeignId($_POST["id"][$i]);
 					include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
-					$this->content_obj = new ilPCMediaObject($this->dom);
+					$this->content_obj = new ilPCMediaObject($this->getPage());
 					$this->content_obj->readMediaObject($fid);
 					$this->content_obj->createAlias($this->pg_obj, $_GET["hier_id"], $this->pc_id);
 				}
@@ -456,7 +456,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 		if ($a_change_obj_ref != true)
 		{
-			$this->content_obj = new ilPCMediaObject($this->dom);
+			$this->content_obj = new ilPCMediaObject($this->getPage());
 		}
 		$this->content_obj->createMediaObject();
 		$media_obj = $this->content_obj->getMediaObject();

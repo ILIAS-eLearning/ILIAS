@@ -650,7 +650,7 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
 				$ilHelp->setScreenIdComponent("copg_plach");
 				include_once ("./Services/COPage/classes/class.ilPCPlaceHolderGUI.php");	
-				$plch_gui =& new ilPCPlaceHolderGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$plch_gui = new ilPCPlaceHolderGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$plch_gui->setEnableInternalLinks($this->getEnableInternalLinks());
 				$plch_gui->setEnableKeywords($this->getEnableKeywords());
 				$plch_gui->setEnableAnchors($this->getEnableAnchors());
@@ -673,7 +673,7 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				$this->tabs_gui->clearTargets();
 				$ilHelp->setScreenIdComponent("copg_repobj");
 				include_once ("./Services/COPage/classes/class.ilPCResourcesGUI.php");
-				$res_gui =& new ilPCResourcesGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$res_gui = new ilPCResourcesGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($res_gui);
 				break;
 
@@ -709,7 +709,7 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 			case "ilpcpluggedgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCPluggedGUI.php");
-				$plugged_gui =& new ilPCPluggedGUI($this->page, $cont_obj, $hier_id,
+				$plugged_gui = new ilPCPluggedGUI($this->page, $cont_obj, $hier_id,
 					$add_type, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($plugged_gui);
 				break;
@@ -1176,7 +1176,7 @@ return true;
 				$id = $id[1];
 				if ($type == "mob")
 				{
-					$this->content_obj = new ilPCMediaObject($this->page->getDom());
+					$this->content_obj = new ilPCMediaObject($this->page);
 					$this->content_obj->readMediaObject($id);
 					$this->content_obj->createAlias($this->page, $_GET["hier_id"]);
 					$this->updated = $this->page->update();
@@ -1184,7 +1184,7 @@ return true;
 				if ($type == "incl")
 				{
 					include_once("./Services/COPage/classes/class.ilPCContentInclude.php");
-					$this->content_obj = new ilPCContentInclude($this->page->getDom());
+					$this->content_obj = new ilPCContentInclude($this->page);
 					$this->content_obj->create($this->page, $_GET["hier_id"]);
 					$this->content_obj->setContentType("mep");
 					$this->content_obj->setContentId($id);

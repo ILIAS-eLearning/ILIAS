@@ -21,13 +21,13 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	public function ilPCLoginPageElementGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	public function ilPCLoginPageElementGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 
 		if(!is_object($this->content_obj))
 		{
-			$this->content_obj = new ilPCLoginPageElement(null);
+			$this->content_obj = new ilPCLoginPageElement($this->getPage());
 		}
 	}
 
@@ -144,7 +144,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 	*/
 	public function create()
 	{
-		$this->content_obj = new ilPCLoginPageElement($this->dom);
+		$this->content_obj = new ilPCLoginPageElement($this->getPage());
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setLoginPageElementType($_POST["type"]);
 		$this->content_obj->setAlignment($_POST['horizontal_align']);

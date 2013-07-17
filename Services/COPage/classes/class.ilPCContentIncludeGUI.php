@@ -167,7 +167,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 				// similar code in ilpageeditorgui::insertFromClipboard
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 				include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
-				$this->content_obj = new ilPCContentInclude($this->dom);
+				$this->content_obj = new ilPCContentInclude($this->getPage());
 				$this->content_obj->create($this->pg_obj, $_GET["hier_id"], $this->pc_id);
 				$this->content_obj->setContentType("mep");
 				$this->content_obj->setContentId($_POST["id"][$i]);

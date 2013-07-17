@@ -176,7 +176,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
 			$type = ilObject::_lookupType($form->getInput("object"));
 			if($type)
 			{			
-				$this->content_obj = new ilPCVerification($this->dom);
+				$this->content_obj = new ilPCVerification($this->getPage());
 				$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 				$this->content_obj->setData($type, $form->getInput("object"));
 				$this->updated = $this->pg_obj->update();

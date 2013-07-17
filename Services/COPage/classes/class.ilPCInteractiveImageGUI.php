@@ -234,7 +234,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$this->content_obj = new ilPCInteractiveImage($this->dom);
+		$this->content_obj = new ilPCInteractiveImage($this->getPage());
 		$this->content_obj->createMediaObject();
 		$media_obj = $this->content_obj->getMediaObject();
 		$media_obj->setTitle($_FILES['image_file']['name']);

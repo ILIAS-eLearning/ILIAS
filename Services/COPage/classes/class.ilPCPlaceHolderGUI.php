@@ -91,7 +91,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 			exit;
 		}
 		
-		$this->content_obj = new ilPCPlaceHolder($this->dom);
+		$this->content_obj = new ilPCPlaceHolder($this->getPage());
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setHeight($_POST["plach_height"]."px");
 		$this->content_obj->setContentClass($_POST['plach_type']);

@@ -178,7 +178,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		$this->content_obj = new ilPCResources($this->dom);
+		$this->content_obj = new ilPCResources($this->getPage());
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		
 		if ($_POST["res_type"] != "itgr")

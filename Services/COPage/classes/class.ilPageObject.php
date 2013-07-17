@@ -663,14 +663,14 @@ class ilPageObject
 			if ($child_node->get_attribute("DataTable") == "y")
 			{
 				require_once("./Services/COPage/classes/class.ilPCDataTable.php");
-				$tab =& new ilPCDataTable($this->dom);
+				$tab = new ilPCDataTable($this);
 				$tab->setNode($cont_node);
 				$tab->setHierId($a_hier_id);
 			}
 			else
 			{
 				require_once("./Services/COPage/classes/class.ilPCTable.php");
-				$tab =& new ilPCTable($this->dom);
+				$tab = new ilPCTable($this);
 				$tab->setNode($cont_node);
 				$tab->setHierId($a_hier_id);
 			}
@@ -698,7 +698,7 @@ class ilPageObject
 			}
 
 			//$mob =& new ilObjMediaObject($mob_id);
-			$mob = new ilPCMediaObject($this->dom);
+			$mob = new ilPCMediaObject($this);
 			$mob->readMediaObject($mob_id);
 			
 			//$mob->setDom($this->dom);
@@ -723,7 +723,7 @@ class ilPageObject
 		$pc_class = "ilPC".$pc_def["name"];
 		$pc_path = "./".$pc_def["component"]."/".$pc_def["directory"]."/class.".$pc_class.".php";
 		require_once($pc_path);
-		$pc = new $pc_class($this->dom);
+		$pc = new $pc_class($this);
 		$pc->setNode($cont_node);
 		$pc->setHierId($a_hier_id);
 		$pc->setPcId($a_pc_id);
@@ -1204,7 +1204,7 @@ class ilPageObject
 			if (count($res->nodeset) > 0)
 			{
 				$cont_node =& $res->nodeset[0]->parent_node();
-				$par =& new ilPCParagraph($this->dom);
+				$par =& new ilPCParagraph($this);
 				$par->setNode($cont_node);
 				return $par->getText();
 			}

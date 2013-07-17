@@ -259,7 +259,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 
 		$ilTabs->setTabActive('question');
 		
-		$this->content_obj = new ilPCQuestion($this->dom);
+		$this->content_obj = new ilPCQuestion($this->getPage());
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		
 		$this->updated = $this->pg_obj->update();
@@ -609,7 +609,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	{
 		global $ilCtrl;
 		
-		$this->content_obj = new ilPCQuestion($this->dom);
+		$this->content_obj = new ilPCQuestion($this->getPage());
 		$this->content_obj->create($this->pg_obj, $_GET["hier_id"]);
 		
 		$this->content_obj->copyPoolQuestionIntoPage(

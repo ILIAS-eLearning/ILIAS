@@ -402,7 +402,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function getNewTableObject()
 	{
-		return new ilPCDataTable($this->dom);
+		return new ilPCDataTable($this->getPage());
 	}
 	
 	/**

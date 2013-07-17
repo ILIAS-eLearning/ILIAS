@@ -15,7 +15,6 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCMediaObject extends ilPageContent
 {
-	var $dom;
 	var $mob_node;
 	
 	/**
