@@ -809,8 +809,8 @@ abstract class ilRemoteObjectBase extends ilObject2
 		{
 			include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
 			$connector = new ilECSConnector($a_server);
-			$connector->connector->addHeader('X-EcsQueryStrings', $a_sender_only ? 'sender=true' : 'all=true');
-			$list = $connector->getResourceList($this->getECSObjectType(), $a_sender_only);
+			$connector->addHeader('X-EcsQueryStrings', $a_sender_only ? 'sender=true' : 'all=true'); // #11301
+			$list = $connector->getResourceList($this->getECSObjectType());
 			if(count($list))
 			{
 				return $list->getLinkIds();
