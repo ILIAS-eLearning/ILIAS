@@ -868,7 +868,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function getNewTableObject()
 	{
-		return new ilPCTable($this->dom);
+		return new ilPCTable($this->getPage());
 	}
 
 	/**

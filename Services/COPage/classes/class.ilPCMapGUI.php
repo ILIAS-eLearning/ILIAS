@@ -197,7 +197,7 @@ class ilPCMapGUI extends ilPageContentGUI
 		$this->initForm("create");
 		if ($this->form->checkInput())
 		{
-			$this->content_obj = new ilPCMap($this->dom);
+			$this->content_obj = new ilPCMap($this->getPage());
 			$location = $this->form->getInput("location");
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 			$this->content_obj->setLatitude($location["latitude"]);

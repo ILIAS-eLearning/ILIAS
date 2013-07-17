@@ -70,7 +70,7 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->initListForm("create");
 		if ($this->form->checkInput())
 		{
-			$this->content_obj = new ilPCList($this->dom);
+			$this->content_obj = new ilPCList($this->getPage());
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 			$this->content_obj->addItems($_POST["nr_items"]);
 			$this->content_obj->setStartValue($_POST["start_value"]);

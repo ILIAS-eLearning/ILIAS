@@ -36,23 +36,43 @@ class ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPageContentGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0, $a_pc_id = "")
+	function ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->pg_obj =& $a_pg_obj;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->pg_obj = $a_pg_obj;
+		$this->ctrl = $ilCtrl;
+		$this->content_obj = $a_content_obj;
 
-		$this->content_obj =& $a_content_obj;
 		if($a_hier_id !== 0)
 		{
 			$this->hier_id = $a_hier_id;
 			$this->pc_id = $a_pc_id;
 //echo "-".$this->pc_id."-";
-			$this->dom =& $a_pg_obj->getDom();
+			$this->dom = $a_pg_obj->getDom();
 		}
+	}
+	
+	/**
+	 * Set page
+	 *
+	 * @param object $a_val page object	
+	 */
+	function setPage($a_val)
+	{
+		$this->pg_obj = $a_val;
+	}
+	
+	/**
+	 * Get page
+	 *
+	 * @return object page object
+	 */
+	function getPage()
+	{
+		return $this->pg_obj;
 	}
 
 	/**

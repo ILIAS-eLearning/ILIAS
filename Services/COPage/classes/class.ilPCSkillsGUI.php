@@ -168,7 +168,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
 		$form = $this->initForm(true);
 		if($form->checkInput())
 		{									
-			$this->content_obj = new ilPCSkills($this->dom);
+			$this->content_obj = new ilPCSkills($this->getPage());
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 			$this->content_obj->setData($form->getInput("skill_id"));
 			$this->updated = $this->pg_obj->update();

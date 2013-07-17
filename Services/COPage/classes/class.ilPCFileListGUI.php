@@ -273,7 +273,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["flst_language"];
 
 //echo "::".is_object($this->dom).":";
-		$this->content_obj = new ilPCFileList($this->dom);
+		$this->content_obj = new ilPCFileList($this->getPage());
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setListTitle(ilUtil::stripSlashes($_POST["flst_title"]), $_POST["flst_language"]);
 		$this->content_obj->appendItem($fileObj->getId(), $fileObj->getFileName(),

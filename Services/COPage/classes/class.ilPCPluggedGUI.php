@@ -147,7 +147,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		$this->content_obj = new ilPCPlugged($this->dom);
+		$this->content_obj = new ilPCPlugged($this->getPage());
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$properties = array(
 			"Table" => $_POST["table"]

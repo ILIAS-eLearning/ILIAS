@@ -765,9 +765,9 @@ class ilPCTable extends ilPageContent
 		/*echo "add Cell";
 		var_dump($cellNode);*/
 		$aCell = $this->addCell($aRow);
-		$par = new ilPCParagraph($this->dom);
+		$par = new ilPCParagraph($this->getPage());
 		$par->createAtNode($aCell);
-		$par->setText($par->input2xml($this->extractText ($cellNode)));
+		$par->setText($par->input2xml($this->extractText($cellNode)));
 		$par->setCharacteristic("TableContent");
 		$par->setLanguage($lng);
 		$this->importCellAttributes($cellNode, $aCell);

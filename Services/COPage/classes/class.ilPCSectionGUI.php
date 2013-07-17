@@ -182,7 +182,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		$this->content_obj = new ilPCSection($this->dom);
+		$this->content_obj = new ilPCSection($this->getPage());
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setCharacteristic($_POST["characteristic"]);
 		$this->updated = $this->pg_obj->update();

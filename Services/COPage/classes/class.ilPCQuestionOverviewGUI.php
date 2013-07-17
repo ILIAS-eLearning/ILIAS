@@ -120,7 +120,7 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
 	 */
 	function create()
 	{
-		$this->content_obj = new ilPCQuestionOverview($this->dom);
+		$this->content_obj = new ilPCQuestionOverview($this->getPage());
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setShortMessage(ilUtil::stripSlashes($_POST["short"]));
 		$this->content_obj->setListWrongQuestions(ilUtil::stripSlashes($_POST["wrong_questions"]));

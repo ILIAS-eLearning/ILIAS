@@ -48,10 +48,10 @@ class ilPCDataTable extends ilPCTable
 		$this->setType("dtab");
 	}
 
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->tab_node =& $a_node->first_child();		// this is the Table node
+		$this->tab_node = $a_node->first_child();		// this is the Table node
 	}
 
 	function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")

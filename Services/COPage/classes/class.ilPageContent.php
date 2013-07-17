@@ -27,14 +27,35 @@ abstract class ilPageContent
 	* All initialisation in derived classes should go to the
 	* init() function
 	*/
-	final function __construct($a_dom)
+	final function __construct($a_pg_obj)
 	{
-		$this->dom = $a_dom;
+		$this->setPage($a_pg_obj);
+		$this->dom = $a_pg_obj->getDom();
 		$this->init();
 		if ($this->getType() == "")
 		{
 			die ("Error: ilPageContent::init() did not set type");
 		}
+	}
+	
+	/**
+	 * Set page
+	 *
+	 * @param object $a_val page object	
+	 */
+	function setPage($a_val)
+	{
+		$this->pg_obj = $a_val;
+	}
+	
+	/**
+	 * Get page
+	 *
+	 * @return object page object
+	 */
+	function getPage()
+	{
+		return $this->pg_obj;
 	}
 	
 	/**

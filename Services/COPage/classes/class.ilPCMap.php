@@ -16,7 +16,6 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCMap extends ilPageContent
 {
-	var $dom;
 	var $map_node;
 
 	/**

@@ -21,7 +21,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCParagraphGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	function ilPCParagraphGUI($a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		$this->setEnableWikiLinks(false);
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
@@ -688,7 +688,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			return $this->createJS();
 		}
 
-		$this->content_obj =& new ilPCParagraph($this->dom);
+		$this->content_obj = new ilPCParagraph($this->getPage());
 //echo "+".$this->pc_id."+";
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 
@@ -724,7 +724,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $ilUser, $ilCtrl;
 
-		$this->content_obj = new ilPCParagraph($this->dom);
+		$this->content_obj = new ilPCParagraph($this->getPage());
 		$this->updated = $this->content_obj->saveJS($this->pg_obj,
 			$_POST["ajaxform_content"],
 			ilUtil::stripSlashes($_POST["ajaxform_char"]),

@@ -204,7 +204,7 @@ class ilPCParagraph extends ilPageContent
 			{
 				if ($ok)
 				{
-					$next_par = new ilPCParagraph($this->dom);
+					$next_par = new ilPCParagraph($this->getPage());
 					$next_par->createAfter($c_node);
 					$next_par->setLanguage($this->getLanguage());
 					if ($text[$i]["level"] > 0)
@@ -1385,7 +1385,7 @@ if (!$a_wysiwyg)
 		// insert new paragraph
 		if ($a_insert_at != "")
 		{
-			$par = new ilPCParagraph($this->dom);
+			$par = new ilPCParagraph($this->getPage());
 			$par->create($a_pg_obj, $insert_at[0], $insert_at[1]);
 		}
 		else

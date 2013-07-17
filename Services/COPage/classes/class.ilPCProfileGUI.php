@@ -219,7 +219,7 @@ class ilPCProfileGUI extends ilPageContentGUI
 		$form = $this->initForm(true);
 		if($form->checkInput())
 		{
-			$this->content_obj = new ilPCProfile($this->dom);
+			$this->content_obj = new ilPCProfile($this->getPage());
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 			$this->content_obj->setFields($form->getInput("mode"),
 				$this->getFieldsValues());

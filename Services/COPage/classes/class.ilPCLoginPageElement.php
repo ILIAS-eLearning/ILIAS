@@ -15,7 +15,6 @@ include_once './Services/COPage/classes/class.ilPageContent.php';
 */
 class ilPCLoginPageElement extends ilPageContent
 {
-	public $dom;
 	public $res_node;
 	
 	private static $types = array(
