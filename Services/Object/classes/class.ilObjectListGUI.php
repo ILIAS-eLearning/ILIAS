@@ -3437,6 +3437,7 @@ class ilObjectListGUI
 			return $this->insertCommands(true, true);
 		}				
 		
+		/*
 		if(DEVMODE)
 		{
 			$rating = ilRating::getOverallRatingForObject($this->obj_id, $this->type, null, null);
@@ -3447,6 +3448,7 @@ class ilObjectListGUI
 					true, true);
 			}
 		}
+		*/
 		
 		// read from cache
 		include_once("Services/Object/classes/class.ilListItemAccessCache.php");
