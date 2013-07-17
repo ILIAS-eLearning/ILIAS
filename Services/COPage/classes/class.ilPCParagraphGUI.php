@@ -23,7 +23,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function ilPCParagraphGUI($a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		$this->setEnableWikiLinks(false);
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
 		// characteristics (should be flexible in the future)
@@ -111,26 +110,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 
 		return $ret;
-	}
-
-	/**
-	* Set Enable Wiki Links.
-	*
-	* @param	boolean	$a_enablewikilinks	Enable Wiki Links
-	*/
-	function setEnableWikiLinks($a_enablewikilinks)
-	{
-		$this->enablewikilinks = $a_enablewikilinks;
-	}
-
-	/**
-	* Get Enable Wiki Links.
-	*
-	* @return	boolean	Enable Wiki Links
-	*/
-	function getEnableWikiLinks()
-	{
-		return $this->enablewikilinks;
 	}
 
 	/**
@@ -768,7 +747,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"===".$lng->txt("cont_Headline3")."===");
 		$a_tpl->parseCurrentBlock();
 		
-		if ($this->getEnableWikiLinks())
+		if ($this->getPageConfig()->getEnableWikiLinks())
 		{
 			$a_tpl->setCurrentBlock("help_item");
 			$a_tpl->setVariable("TXT_HELP", "[[".$lng->txt("cont_wiki_page_link")."]]");

@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Config class for page editing
@@ -13,6 +14,130 @@ class ilPageConfig
 	var $int_link_filter = array();
 	var $prevent_rte_usage = false;
 	var $use_attached_content = false;
+	var $pc_defs = array();
+	var $pc_enabled = array();
+	var $enabledinternallinks = false;
+	var $enable_keywords = false;
+	var $enable_anchors = false;
+	var $enablewikilinks = false;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param
+	 * @return
+	 */
+	function __construct()
+	{
+		// load pc_defs
+		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+		$this->pc_defs = ilCOPagePCDef::getPCDefinitions();
+		foreach ($this->pc_defs as $def)
+		{
+			$this->setEnablePCType($def["name"], (bool) $def["def_enabled"]);
+		}
+	}
+	
+	/**
+	 * Set enable pc type
+	 *
+	 * @param boolean $a_val enable pc type true/false	
+	 */
+	function setEnablePCType($a_pc_type, $a_val)
+	{
+		$this->pc_enabled[$a_pc_type] = $a_val;
+	}
+	
+	/**
+	 * Get enable pc type
+	 *
+	 * @return boolean enable pc type true/false
+	 */
+	function getEnablePCType($a_pc_type)
+	{
+		return $this->pc_enabled[$a_pc_type];
+	}
+
+	/**
+	 * Set enable keywords handling
+	 *
+	 * @param	boolean	keywords handling
+	 */
+	function setEnableKeywords($a_val)
+	{
+		$this->enable_keywords = $a_val;
+	}
+	
+	/**
+	 * Get enable keywords handling
+	 *
+	 * @return	boolean	keywords handling
+	 */
+	function getEnableKeywords()
+	{
+		return $this->enable_keywords;
+	}
+
+	/**
+	 * Set enable anchors
+	 *
+	 * @param	boolean	anchors
+	 */
+	function setEnableAnchors($a_val)
+	{
+		$this->enable_anchors = $a_val;
+	}
+	
+	/**
+	 * Get enable anchors
+	 *
+	 * @return	boolean	anchors
+	 */
+	function getEnableAnchors()
+	{
+		return $this->enable_anchors;
+	}
+
+	/**
+	 * Set Enable internal links.
+	 *
+	 * @param	boolean	$a_enabledinternallinks	Enable internal links
+	 */
+	function setEnableInternalLinks($a_enabledinternallinks)
+	{
+		$this->enabledinternallinks = $a_enabledinternallinks;
+	}
+
+	/**
+	 * Get Enable internal links.
+	 *
+	 * @return	boolean	Enable internal links
+	 */
+	function getEnableInternalLinks()
+	{
+		return $this->enabledinternallinks;
+	}
+
+	/**
+	 * Set Enable Wiki Links.
+	 *
+	 * @param	boolean	$a_enablewikilinks	Enable Wiki Links
+	 */
+	function setEnableWikiLinks($a_enablewikilinks)
+	{
+		$this->enablewikilinks = $a_enablewikilinks;
+	}
+
+	/**
+	 * Get Enable Wiki Links.
+	 *
+	 * @return	boolean	Enable Wiki Links
+	 */
+	function getEnableWikiLinks()
+	{
+		return $this->enablewikilinks;
+	}
+
 
 	/**
 	 * Add internal links filter

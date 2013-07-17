@@ -648,9 +648,11 @@ class ilPageObject
 			return false;
 		}
 		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
-		
-		
 		$node_name = $cont_node->node_name();
+		if ($node_name == "PageObject")
+		{
+			return null;
+		}
 		if ($node_name == "PageContent")
 		{
 			$child_node = $cont_node->first_child();

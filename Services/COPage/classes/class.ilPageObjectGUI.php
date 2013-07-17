@@ -51,7 +51,6 @@ class ilPageObjectGUI
 	var $question_html;
 	var $activation = false;
 	var $activated = true;
-	var $enabledinternallinks = false;
 	var $editpreview = false;
 	var $use_meta_data = false;
 	var $enabledpctabs = false;
@@ -62,8 +61,6 @@ class ilPageObjectGUI
 	var $enabledcontentincludes = false;
 	var $compare_mode = false;
 	var $page_config = null;
-	var $enable_keywords = false;
-	var $enable_anchors = false;
 	var $tabs_enabled = true;
 	private $abstract_only = false;
 	private $enabledloginpage = false;
@@ -72,54 +69,6 @@ class ilPageObjectGUI
 	//var $pl_end = "&#125;&#125;&#125;&#125;&#125;";
 	var $pl_start = "{{{{{";
 	var $pl_end = "}}}}}";
-	
-	// name keys like pc class names!
-	var $pc_types = array(
-		"ContentInclude" => array(
-				"enabled" => false),
-		"DataTable" => array(
-				"enabled" => true),
-		"FileList" => array(
-				"enabled" => true),
-		"InteractiveImage" => array(
-				"enabled" => true),
-		"List" => array(
-				"enabled" => true),
-		"LoginPageElement" => array(
-				"enabled" => false),
-		"Map" => array(
-				"enabled" => false),
-		"MediaObject" => array(
-				"enabled" => true),
-		"Paragraph" => array(
-				"enabled" => true),
-		"PlaceHolder" => array(
-				"enabled" => false),
-		"Question" => array(
-				"enabled" => false),
-		"Resources" => array(
-				"enabled" => false),
-		"Section" => array(
-				"enabled" => true),
-		"SourceCode" => array(
-				"enabled" => true),
-		"Table" => array(
-				"enabled" => true),
-		"Tabs" => array(
-				"enabled" => true),
-		"Profile" => array(
-				"enabled" => false),
-		"Verification" => array(
-				"enabled" => false),
-		"Blog" => array(
-				"enabled" => false),
-		"QuestionOverview" => array(
-				"enabled" => false),
-		"Skills" => array(
-				"enabled" => false)
-		);
-	
-	
 	
 	/**
 	* Constructor
@@ -142,18 +91,13 @@ class ilPageObjectGUI
 		$this->lng =& $lng;
 		$this->setOutputMode(IL_PAGE_PRESENTATION);
 		
-		// defaults (as in learning modules)
-		$this->setEnabledMaps(false);
-		$this->setEnabledFileLists(true);
-		$this->setEnabledRepositoryObjects(false);
-		$this->setEnabledLoginPage(false);
-		$this->setEnabledSelfAssessment(false);
-		$this->setEnabledPageFocus(true);
-		$this->setLayoutMode(false);
-		
 		include_once("./Services/COPage/classes/class.ilPageConfig.php");
 		$this->setPageConfig(new ilPageConfig());
 		
+		// defaults
+		$this->setEnabledSelfAssessment(false);
+		$this->setEnabledPageFocus(true);
+		$this->setLayoutMode(false);		
 
 		if ($a_id > 0)
 		{
@@ -184,10 +128,7 @@ class ilPageObjectGUI
 	 */
 	function setEnablePCType($a_pc_type, $a_val)
 	{
-		if (isset($a_pc_type))
-		{
-			$this->pc_types[$a_pc_type]["enabled"] = $a_val;
-		}
+		$this->getPageConfig()->setEnablePCType($a_pc_type, $a_val);
 	}
 	
 	/**
@@ -197,7 +138,7 @@ class ilPageObjectGUI
 	 */
 	function getEnablePCType($a_pc_type)
 	{
-		return $this->pc_types[$a_pc_type]["enabled"];
+		return $this->getPageConfig()->getEnablePCType($a_pc_type);
 	}
 	
 	/**
@@ -452,7 +393,7 @@ class ilPageObjectGUI
 	 */
 	function setEnableKeywords($a_val)
 	{
-		$this->enable_keywords = $a_val;
+		$this->getPageConfig()->setEnableKeywords($a_val);
 	}
 	
 	/**
@@ -462,7 +403,7 @@ class ilPageObjectGUI
 	 */
 	function getEnableKeywords()
 	{
-		return $this->enable_keywords;
+		return $this->getPageConfig()->getEnableKeywords();
 	}
 
 	/**
@@ -472,7 +413,7 @@ class ilPageObjectGUI
 	 */
 	function setEnableAnchors($a_val)
 	{
-		$this->enable_anchors = $a_val;
+		$this->getPageConfig()->setEnableAnchors($a_val);
 	}
 	
 	/**
@@ -482,7 +423,7 @@ class ilPageObjectGUI
 	 */
 	function getEnableAnchors()
 	{
-		return $this->enable_anchors;
+		return $this->getPageConfig()->getEnableAnchors();
 	}
 
 	function setIntLinkHelpDefault($a_type, $a_id)
@@ -664,7 +605,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledInternalLinks($a_enabledinternallinks)
 	{
-		$this->enabledinternallinks = $a_enabledinternallinks;
+		$this->getPageConfig()->setEnableInternalLinks($a_enabledinternallinks);
 	}
 
 	/**
@@ -674,7 +615,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledInternalLinks()
 	{
-		return $this->enabledinternallinks;
+		return $this->getPageConfig()->getEnableInternalLinks();
 	}
 	
 	/**
@@ -970,7 +911,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledWikiLinks($a_enablewikilinks)
 	{
-		$this->enablewikilinks = $a_enablewikilinks;
+		$this->getPageConfig()->setEnableWikiLinks($a_enablewikilinks);
 	}
 
 	/**
@@ -980,7 +921,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledWikiLinks()
 	{
-		return $this->enablewikilinks;
+		$this->getPageConfig()->getEnableWikiLinks();
 	}
 
 	/**
@@ -1307,9 +1248,6 @@ class ilPageObjectGUI
 				$page_editor->setLocator($this->locator);
 				$page_editor->setHeader($this->getHeader());
 				$page_editor->setPageBackTitle($this->page_back_title);
-				$page_editor->setEnableInternalLinks($this->getEnabledInternalLinks());
-				$page_editor->setEnableKeywords($this->getEnableKeywords());
-				$page_editor->setEnableAnchors($this->getEnableAnchors());
 				$page_editor->setIntLinkHelpDefault($this->int_link_def_type,
 					$this->int_link_def_id);
 				$page_editor->setIntLinkReturn($this->int_link_return);

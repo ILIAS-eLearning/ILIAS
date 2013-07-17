@@ -38,14 +38,15 @@ class ilCOPageDefReader
 		{
 			case "pagecontent":
 				$ilDB->manipulate("INSERT INTO copg_pc_def ".
-					"(pc_type, name, component, directory, int_links, style_classes, xsl) VALUES (".
+					"(pc_type, name, component, directory, int_links, style_classes, xsl, def_enabled) VALUES (".
 					$ilDB->quote($a_attribs["pc_type"], "text").",".
 					$ilDB->quote($a_attribs["name"], "text").",".
 					$ilDB->quote($a_comp, "text").",".
 					$ilDB->quote($a_attribs["directory"], "text").",".
 					$ilDB->quote($a_attribs["int_links"], "integer").",".
 					$ilDB->quote($a_attribs["style_classes"], "integer").",".
-					$ilDB->quote($a_attribs["xsl"], "integer").
+					$ilDB->quote($a_attribs["xsl"], "integer").",".
+					$ilDB->quote($a_attribs["def_enabled"], "integer").
 					")");
 				break;
 		}

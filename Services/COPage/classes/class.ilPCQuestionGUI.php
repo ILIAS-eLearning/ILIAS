@@ -19,8 +19,6 @@ include_once "./Services/COPage/classes/class.ilPCQuestion.php";
 */
 class ilPCQuestionGUI extends ilPageContentGUI
 {
-	var $page_config = null;
-
 	/**
 	* Constructor
 	* @access	public
@@ -31,26 +29,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		$this->scormlmid = $a_pg_obj->parent_id;
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		$ilCtrl->saveParameter($this, array("qpool_ref_id"));
-	}
-
-	/**
-	 * Set Page Config
-	 *
-	 * @param	object	Page Config
-	 */
-	function setPageConfig($a_val)
-	{
-		$this->page_config = $a_val;
-	}
-
-	/**
-	 * Get Page Config
-	 *
-	 * @return	object	Page Config
-	 */
-	function getPageConfig()
-	{
-		return $this->page_config;
 	}
 
 	/**
