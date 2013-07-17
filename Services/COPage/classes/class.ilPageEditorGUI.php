@@ -123,66 +123,6 @@ class ilPageEditorGUI
 	}
 
 	/**
-	 * Set enable internal links
-	 *
-	 * @param	boolean	enable internal links
-	 */
-	function setEnableInternalLinks($a_val)
-	{
-		$this->enable_internal_links = $a_val;
-	}
-	
-	/**
-	 * Get enable internal links
-	 *
-	 * @return	boolean	enable internal links
-	 */
-	function getEnableInternalLinks()
-	{
-		return $this->enable_internal_links;
-	}
-
-	/**
-	 * Set enable keywords handling
-	 *
-	 * @param	boolean	keywords handling
-	 */
-	function setEnableKeywords($a_val)
-	{
-		$this->enable_keywords = $a_val;
-	}
-	
-	/**
-	 * Get enable keywords handling
-	 *
-	 * @return	boolean	keywords handling
-	 */
-	function getEnableKeywords()
-	{
-		return $this->enable_keywords;
-	}
-
-	/**
-	 * Set enable anchors
-	 *
-	 * @param	boolean	anchors
-	 */
-	function setEnableAnchors($a_val)
-	{
-		$this->enable_anchors = $a_val;
-	}
-	
-	/**
-	 * Get enable anchors
-	 *
-	 * @return	boolean	anchors
-	 */
-	function getEnableAnchors()
-	{
-		return $this->enable_anchors;
-	}
-
-	/**
 	* execute command
 	*/
 	function &executeCommand()
@@ -356,110 +296,11 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 
 		if ($next_class == "")
 		{
-			switch($ctype)
+			include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+			$pc_def = ilCOPagePCDef::getPCDefinitionByType($ctype);
+			if (is_array($pc_def))
 			{
-				case "src":
-					$this->ctrl->setCmdClass("ilPCSourcecodeGUI");
-					break;
-
-				case "par":
-					$this->ctrl->setCmdClass("ilPCParagraphGUI");
-					break;
-
-				// advanced table
-				case "tab":
-					$this->ctrl->setCmdClass("ilPCTableGUI");
-					break;
-
-				// data table
-				case "dtab":
-					$this->ctrl->setCmdClass("ilPCDataTableGUI");
-					break;
-
-				case "td":
-					$this->ctrl->setCmdClass("ilPCTableDataGUI");
-					break;
-
-				case "media":
-					$this->ctrl->setCmdClass("ilPCMediaObjectGUI");
-					break;
-
-				case "list":
-					$this->ctrl->setCmdClass("ilPCListGUI");
-					break;
-
-				case "li":
-					$this->ctrl->setCmdClass("ilPCListItemGUI");
-					break;
-
-				case "flst":
-					$this->ctrl->setCmdClass("ilPCFileListGUI");
-					break;
-
-				case "flit":
-					$this->ctrl->setCmdClass("ilPCFileItemGUI");
-					break;
-
-				case "pcqst":
-					$this->ctrl->setCmdClass("ilPCQuestionGUI");
-					break;
-
-				case "sec":
-					$this->ctrl->setCmdClass("ilPCSectionGUI");
-					break;
-					
-				case "repobj":
-					$this->ctrl->setCmdClass("ilPCResourcesGUI");
-					break;
-
-				case 'lpe':
-					$this->ctrl->setCmdClass('ilPCLoginPageElementGUI');
-					break;
-
-				case "map":
-					$this->ctrl->setCmdClass("ilPCMapGUI");
-					break;
-
-				case "tabs":
-					$this->ctrl->setCmdClass("ilPCTabsGUI");
-					break;
-				
-				case "plug":
-					$this->ctrl->setCmdClass("ilPCPluggedGUI");
-					break;
-
-				case "plach":
-					$this->ctrl->setCmdClass("ilPCPlaceHolderGUI");
-					break;
-
-				case "incl":
-					$this->ctrl->setCmdClass("ilPCContentIncludeGUI");
-					break;
-					
-				case "iim":
-					$this->ctrl->setCmdClass("ilPCInteractiveImageGUI");
-					break;
-
-				case "prof":
-					$this->ctrl->setCmdClass("ilPCProfileGUI");
-					break;
-				
-				case "vrfc":
-					$this->ctrl->setCmdClass("ilPCVerificationGUI");
-					break;
-				
-				case "blog":
-					$this->ctrl->setCmdClass("ilPCBlogGUI");
-					break;
-					
-				case "qover":
-					$this->ctrl->setCmdClass("ilPCQuestionOverviewGUI");
-					break;
-				
-				case "skills":					
-					$this->ctrl->setCmdClass("ilPCSkillsGUI");
-					break;
-
+				$this->ctrl->setCmdClass($pc_def["pc_gui_class"]);
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
@@ -494,61 +335,6 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				$ret =& $this->ctrl->forwardCommand($link_gui);
 				break;
 
-			// Sourcecode
-			case "ilpcsourcecodegui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_code");
-				include_once ("./Services/COPage/classes/class.ilPCSourcecodeGUI.php");
-				$src_gui =& new ilPCSourcecodeGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret =& $this->ctrl->forwardCommand($src_gui);
-				break;
-
-			// Paragraph
-			case "ilpcparagraphgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_par");
-				include_once ("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$par_gui->setEnableWikiLinks($this->page_gui->getEnabledWikiLinks());
-				$par_gui->setStyleId($this->page_gui->getStyleId());
-				$par_gui->setEnableInternalLinks($this->getEnableInternalLinks());
-				$par_gui->setEnableKeywords($this->getEnableKeywords());
-				$par_gui->setEnableAnchors($this->getEnableAnchors());
-				$ret =& $this->ctrl->forwardCommand($par_gui);
-				break;
-
-			// Table
-			case "ilpctablegui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_tab");
-				include_once ("./Services/COPage/classes/class.ilPCTableGUI.php");
-				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$tab_gui->setStyleId($this->page_gui->getStyleId());
-				$ret =& $this->ctrl->forwardCommand($tab_gui);
-				break;
-
-			// Table Cell
-			case "ilpctabledatagui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_td");
-				include_once ("./Services/COPage/classes/class.ilPCTableDataGUI.php");
-				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret =& $this->ctrl->forwardCommand($td_gui);
-				break;
-
-			// Data Table
-			case "ilpcdatatablegui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_dtab");
-				include_once ("./Services/COPage/classes/class.ilPCDataTableGUI.php");
-				$tab_gui =& new ilPCDataTableGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$tab_gui->setStyleId($this->page_gui->getStyleId());
-				$tab_gui->setEnableInternalLinks($this->getEnableInternalLinks());
-				$tab_gui->setEnableKeywords($this->getEnableKeywords());
-				$tab_gui->setEnableAnchors($this->getEnableAnchors());
-				$ret =& $this->ctrl->forwardCommand($tab_gui);
-				break;
-
 			// PC Media Object
 			case "ilpcmediaobjectgui":
 				include_once ("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
@@ -576,49 +362,6 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				$ret =& $this->ctrl->forwardCommand($mob_gui);
 				break;
 
-			// List
-			case "ilpclistgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_list");
-				include_once ("./Services/COPage/classes/class.ilPCListGUI.php");
-				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$list_gui->setStyleId($this->page_gui->getStyleId());
-				$ret =& $this->ctrl->forwardCommand($list_gui);
-				break;
-
-			// List Item
-			case "ilpclistitemgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_li");
-				include_once ("./Services/COPage/classes/class.ilPCListItemGUI.php");
-				$list_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				//$ret =& $list_item_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($list_item_gui);
-				break;
-
-			// File List
-			case "ilpcfilelistgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_flst");
-				include_once ("./Services/COPage/classes/class.ilPCFileListGUI.php");
-				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				// scorm2004-start
-				$file_list_gui->setStyleId($this->page_gui->getStyleId());
-				// scorm2004-end
-				//$ret =& $file_list_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($file_list_gui);
-				break;
-
-			// File List Item
-			case "ilpcfileitemgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_flit");
-				include_once ("./Services/COPage/classes/class.ilPCFileItemGUI.php");
-				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				//$ret =& $file_item_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($file_item_gui);
-				break;
-
 			// Question
 			case "ilpcquestiongui":
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
@@ -641,154 +384,53 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 					$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($cont_obj)), "editQuestion");
 				}
 				break;
-
-
-			// PlaceHolder
-			case "ilpcplaceholdergui":
-				$this->tabs_gui->clearTargets();
-				$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
-					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
-				$ilHelp->setScreenIdComponent("copg_plach");
-				include_once ("./Services/COPage/classes/class.ilPCPlaceHolderGUI.php");	
-				$plch_gui = new ilPCPlaceHolderGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$plch_gui->setEnableInternalLinks($this->getEnableInternalLinks());
-				$plch_gui->setEnableKeywords($this->getEnableKeywords());
-				$plch_gui->setEnableAnchors($this->getEnableAnchors());
-				$plch_gui->setStyleId($this->page_gui->getStyleId());
-				$ret =& $this->ctrl->forwardCommand($plch_gui);
-				break;
 					
-			// Section
-			case "ilpcsectiongui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_sec");
-				include_once ("./Services/COPage/classes/class.ilPCSectionGUI.php");
-				$sec_gui =& new ilPCSectionGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$sec_gui->setStyleId($this->page_gui->getStyleId());
-				$ret =& $this->ctrl->forwardCommand($sec_gui);
-				break;
-
-			// Resources
-			case "ilpcresourcesgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_repobj");
-				include_once ("./Services/COPage/classes/class.ilPCResourcesGUI.php");
-				$res_gui = new ilPCResourcesGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret =& $this->ctrl->forwardCommand($res_gui);
-				break;
-
-			// Login Page elements
-			case 'ilpcloginpageelementgui':
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_lpe");
-				include_once './Services/COPage/classes/class.ilPCLoginPageElementGUI.php';
-				$res_gui = new ilPCLoginPageElementGUI($this->page,$cont_obj,$hier_id,$pc_id);
-				$ret = $this->ctrl->forwardCommand($res_gui);
-				break;
-
-			// Map
-			case "ilpcmapgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_map");
-				include_once ("./Services/COPage/classes/class.ilPCMapGUI.php");
-				$map_gui =& new ilPCMapGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret =& $this->ctrl->forwardCommand($map_gui);
-				break;
-
-			// Tabs
-			case "ilpctabsgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_tabs");
-				include_once ("./Services/COPage/classes/class.ilPCTabsGUI.php");
-				$tabs_gui =& new ilPCTabsGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$tabs_gui->setStyleId($this->page_gui->getStyleId());
-				$ret =& $this->ctrl->forwardCommand($tabs_gui);
-				break;
-
 			// Plugged Component
 			case "ilpcpluggedgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCPluggedGUI.php");
 				$plugged_gui = new ilPCPluggedGUI($this->page, $cont_obj, $hier_id,
 					$add_type, $pc_id);
-				$ret =& $this->ctrl->forwardCommand($plugged_gui);
-				break;
-
-			// Content Include
-			case "ilpccontentincludegui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_incl");
-				include_once ("./Services/COPage/classes/class.ilPCContentIncludeGUI.php");
-				$incl_gui = new ilPCContentIncludeGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret =& $this->ctrl->forwardCommand($incl_gui);
-				break;
-
-			// Interactive Image
-			case "ilpcinteractiveimagegui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_iim");
-				include_once ("./Services/COPage/classes/class.ilPCInteractiveImageGUI.php");
-				$iim_gui = new ilPCInteractiveImageGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret = $this->ctrl->forwardCommand($iim_gui);
-				break;
-
-			// Profile
-			case "ilpcprofilegui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_prof");
-				include_once ("./Services/COPage/classes/class.ilPCProfileGUI.php");
-				$prof_gui = new ilPCProfileGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret = $this->ctrl->forwardCommand($prof_gui);
-				break;
-			
-			// Verification
-			case "ilpcverificationgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_vrfc");
-				include_once ("./Services/COPage/classes/class.ilPCVerificationGUI.php");
-				$vrfc_gui = new ilPCVerificationGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret = $this->ctrl->forwardCommand($vrfc_gui);
-				break;
-			
-			// Blog
-			case "ilpcbloggui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_blog");
-				include_once ("./Services/COPage/classes/class.ilPCBlogGUI.php");
-				$blog_gui = new ilPCBlogGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret = $this->ctrl->forwardCommand($blog_gui);
-				break;
-				
-			// Question Overview
-			case "ilpcquestionoverviewgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_qover");
-				include_once ("./Services/COPage/classes/class.ilPCQuestionOverviewGUI.php");
-				$qover_gui =& new ilPCQuestionOverviewGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret = $this->ctrl->forwardCommand($qover_gui);
-				break;
-			
-			// Skills
-			case "ilpcskillsgui":
-				$this->tabs_gui->clearTargets();
-				$ilHelp->setScreenIdComponent("copg_skills");
-				include_once ("./Services/COPage/classes/class.ilPCSkillsGUI.php");
-				$skills_gui = new ilPCSkillsGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$ret = $this->ctrl->forwardCommand($skills_gui);
+				$ret = $this->ctrl->forwardCommand($plugged_gui);
 				break;
 
 			default:
-				if ($cmd == "pasteFromClipboard")
+				
+				// generic calls to gui classes
+				include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+				if (ilCOPagePCDef::isPCGUIClassName($next_class, true))
 				{
-					$ret = $this->pasteFromClipboard($hier_id);
-				}
-				else if ($cmd == "paste")
-				{
-					$ret = $this->paste($hier_id);
+					$pc_def = ilCOPagePCDef::getPCDefinitionByGUIClassName($next_class);
+					$this->tabs_gui->clearTargets();
+					$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
+						$ilCtrl->getLinkTarget($this->page_gui, "edit"));
+					$ilHelp->setScreenIdComponent("copg_".$pc_def["pc_type"]);
+					ilCOPagePCDef::requirePCGUIClassByName($pc_def["name"]);
+					$gui_class_name = $pc_def["pc_gui_class"];
+					$pc_gui = new $gui_class_name($this->page, $cont_obj, $hier_id, $pc_id);
+					if ($pc_def["style_classes"])
+					{
+						$pc_gui->setStyleId($this->page_gui->getStyleId());
+					}
+					$pc_gui->setPageConfig($this->page_gui->getPageConfig());
+					$ret = $this->ctrl->forwardCommand($pc_gui);
 				}
 				else
 				{
-					$ret = $this->$cmd();
+					// cmd belongs to ilPageEditorGUI	
+					
+					if ($cmd == "pasteFromClipboard")
+					{
+						$ret = $this->pasteFromClipboard($hier_id);
+					}
+					else if ($cmd == "paste")
+					{
+						$ret = $this->paste($hier_id);
+					}
+					else
+					{
+						$ret = $this->$cmd();
+					}
 				}
 				break;
 

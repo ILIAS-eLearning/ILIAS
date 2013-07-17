@@ -24,6 +24,7 @@ class ilPageContentGUI
 	var $updated;
 	var $target_script;
 	var $return_location;
+	var $page_config = null;
 
 	// common bb buttons (special ones are iln and wln)
 	protected static $common_bb_buttons = array(
@@ -76,6 +77,26 @@ class ilPageContentGUI
 	}
 
 	/**
+	 * Set Page Config
+	 *
+	 * @param	object	Page Config
+	 */
+	function setPageConfig($a_val)
+	{
+		$this->page_config = $a_val;
+	}
+
+	/**
+	 * Get Page Config
+	 *
+	 * @return	object	Page Config
+	 */
+	function getPageConfig()
+	{
+		return $this->page_config;
+	}
+
+	/**
 	* Get common bb buttons
 	*/
 	static function _getCommonBBButtons()
@@ -104,66 +125,6 @@ class ilPageContentGUI
 		return $this->styleid;
 	}
 
-	/**
-	 * Set enable internal links
-	 *
-	 * @param	boolean	enable internal links
-	 */
-	function setEnableInternalLinks($a_val)
-	{
-		$this->enable_internal_links = $a_val;
-	}
-	
-	/**
-	 * Get enable internal links
-	 *
-	 * @return	boolean	enable internal links
-	 */
-	function getEnableInternalLinks()
-	{
-		return $this->enable_internal_links;
-	}
-
-	/**
-	 * Set enable keywords handling
-	 *
-	 * @param	boolean	keywords handling
-	 */
-	function setEnableKeywords($a_val)
-	{
-		$this->enable_keywords = $a_val;
-	}
-	
-	/**
-	 * Get enable keywords handling
-	 *
-	 * @return	boolean	keywords handling
-	 */
-	function getEnableKeywords()
-	{
-		return $this->enable_keywords;
-	}
-
-	/**
-	 * Set enable anchors
-	 *
-	 * @param	boolean	anchors
-	 */
-	function setEnableAnchors($a_val)
-	{
-		$this->enable_anchors = $a_val;
-	}
-	
-	/**
-	 * Get enable anchors
-	 *
-	 * @return	boolean	anchors
-	 */
-	function getEnableAnchors()
-	{
-		return $this->enable_anchors;
-	}
-	
 	/**
 	* Get style object
 	*/
@@ -279,7 +240,7 @@ class ilPageContentGUI
 		//if ($this->pg_obj->getParentType() == "gdf" ||
 		//	$this->pg_obj->getParentType() == "lm" ||
 		//	$this->pg_obj->getParentType() == "dbk")
-		if ($this->getEnableInternalLinks())
+		if ($this->getPageConfig()->getEnableInternalLinks())
 		{
 			$btpl->setCurrentBlock("bb_ilink_button");
 			$btpl->setVariable("BB_LINK_ILINK",
@@ -296,7 +257,7 @@ class ilPageContentGUI
 
 		}
 		
-		if ($this->getEnableKeywords())
+		if ($this->getPageConfig()->getEnableKeywords())
 		{
 			$btpl->touchBlock("bb_kw_button");
 			$btpl->setVariable("TXT_KW", $this->lng->txt("cont_text_keyword"));
@@ -322,7 +283,7 @@ class ilPageContentGUI
 			}
 		}
 		
-		if ($this->getEnableAnchors())
+		if ($this->getPageConfig()->getEnableAnchors())
 		{
 			$btpl->touchBlock("bb_anc_button");
 			$btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor").":");
