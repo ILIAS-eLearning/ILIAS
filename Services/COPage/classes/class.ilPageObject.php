@@ -15,8 +15,8 @@ define ("IL_NO_HEADER", "none");
 /*
 	@todo 1
 	
-	- All PC types could be defined in service/module xml.
-	-- type, class, directory
+	- All PC types could be defined in service/module xml. (done)
+	-- type, class, directory  (done)
 	-- internal links used/implemented?
 	-- styles used/implemented?
 	- application classes need

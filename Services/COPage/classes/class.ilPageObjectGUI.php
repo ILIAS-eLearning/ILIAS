@@ -10,8 +10,6 @@ define ("IL_PAGE_PRINT", "print");
 include_once ("./Services/COPage/classes/class.ilPageEditorGUI.php");
 include_once("./Services/COPage/classes/class.ilPageObject.php");
 include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
-include_once("./Services/COPage/classes/class.ilParagraphPlugins.php");
-include_once("./Services/COPage/classes/class.ilParagraphPlugin.php");
 include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 
 
@@ -1897,16 +1895,6 @@ class ilPageObjectGUI
 		else
 		{
 			$enable_split_next = "n";
-		}
-
-
-        $paragraph_plugins = new ilParagraphPlugins();
-	    $paragraph_plugins->initialize ();
-
-        if ($this->getOutputMode() == IL_PAGE_PRESENTATION)
-		{
-		    $paragraph_plugin_string = $paragraph_plugins->serializeToString();
-	        $_SESSION ["paragraph_plugins"] = $paragraph_plugins;
 		}
 
 		$img_path = ilUtil::getImagePath("", false, $this->getOutputMode(), $this->getOutputMode() == "offline");
