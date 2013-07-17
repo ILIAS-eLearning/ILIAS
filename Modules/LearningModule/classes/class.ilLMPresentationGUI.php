@@ -1314,9 +1314,14 @@ class ilLMPresentationGUI
 		$lg->enableNotes(true);
 		$lg->enableComments($this->lm->publicNotes(), false);
 		
-		$lg->enableRating(true, null, false,
-			array("ilcommonactiondispatchergui", "ilratinggui"), false);
-
+		/*
+		if(DEVMODE)
+		{
+			$lg->enableRating(true, null, false,
+				array("ilcommonactiondispatchergui", "ilratinggui"), false);
+		}
+		*/
+		
 		if(!$a_redraw)
 		{
 			$this->tpl->setVariable("HEAD_ACTION", $lg->getHeaderAction());

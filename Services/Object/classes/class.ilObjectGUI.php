@@ -377,11 +377,13 @@ class ilObjectGUI
 			
 			$lg = $dispatcher->initHeaderAction();			
 						
-			if($this->object->getType() == "file")
+			/*
+			if(DEVMODE && $this->object->getType() == "file")
 			{
 				$lg->enableRating(true, null, false,
 					array("ilcommonactiondispatchergui", "ilratinggui"));
 			}
+			*/
 			
 			if (is_object($lg))
 			{				
