@@ -3676,7 +3676,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$peer_items = $this->ass->getPeerReviewsByPeerId($user_id);
 		if(!sizeof($peer_items))
 		{
-			ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers"), true);
+			// #11373
+			ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers_reviewed_yet"), true);
 			$ilCtrl->redirect($this, "showOverview");
 		}
 		
