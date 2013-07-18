@@ -50,7 +50,7 @@ class ilExerciseMailNotification extends ilMailNotification
 	{
 		global $ilUser;
 		
-		parent::send();
+		// parent::send();
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		
