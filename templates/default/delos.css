@@ -2705,7 +2705,8 @@ img.ilAreaClose {
 }
 
 div.ilLeftNavSpace {
-	padding: 0 20px 0 310px;
+	/* padding: 0 20px 0 310px; */
+	left: 310px !important;
 }
 
 div.ilContentFixed {
@@ -2713,7 +2714,7 @@ div.ilContentFixed {
 	box-shadow: inset 0px 2px 2px #D0D0D0;
 	right: 0px;
 	bottom: 0px;
-	left: 310px;
+	left: 0px;
 	position: fixed;
 	top:85px;
 	overflow: auto;
