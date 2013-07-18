@@ -1371,6 +1371,7 @@ class ilTrQuery
 					{
 						$result["set"][$row["usr_id"]]["login"] = $row["login"];
 						$result["set"][$row["usr_id"]]["usr_id"] = $row["usr_id"];
+						$result["set"][$row["usr_id"]]["active"] = $row["active"]; // #11377
 						$result["set"][$row["usr_id"]]["objects"][$obj_id] = array("status"=>$row["status"],
 							"percentage"=>$row["percentage"]);
 						if($obj_id == $parent_obj_id)
