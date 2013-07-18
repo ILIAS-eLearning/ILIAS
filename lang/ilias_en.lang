@@ -13542,3 +13542,4 @@ rating#:#rating_new_objects_auto#:#Enable Rating for new Objects
 rating#:#rating_new_objects_auto_info#:#If enabled, new files, learning modules and wikis can be rated.
 rating#:#rating_activate_rating#:#Enable Rating
 rating#:#rating_activate_rating_info#:#if enabled, users can rate this object.
+exc#:#exc_peer_review_no_peers_reviewed_yet#:#There was no feedback given yet.

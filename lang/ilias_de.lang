@@ -13541,3 +13541,4 @@ rating#:#rating_new_objects_auto#:#Bewertung für neue Objekte
 rating#:#rating_new_objects_auto_info#:#Wenn aktiviert, können neuen Dateien, Lernmodule und Wikis bewertet werden.
 rating#:#rating_activate_rating#:#Bewertung aktivieren
 rating#:#rating_activate_rating_info#:#Wenn aktiviert, können Benutzer dieses Objekt bewerten.
+exc#:#exc_peer_review_no_peers_reviewed_yet#:#Es wurden bisher noch keine Bewertungen vorgenommen.
