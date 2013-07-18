@@ -29,7 +29,8 @@
 	<div id="left_nav" class="ilLeftNav">{LEFT_NAV_CONTENT}</div>
 	<!-- END left_nav -->
 
-	<div id="mainspacekeeper" class="<!-- BEGIN left_nav_space -->ilLeftNavSpace<!-- END left_nav_space -->"{FRAME_BG_COLOR}>
+	<div id="mainspacekeeper" class=""{FRAME_BG_COLOR}>
+	  <div id="fixed_content" class="<!-- BEGIN left_nav_space -->ilLeftNavSpace<!-- END left_nav_space --> ilContentFixed">
 		<div id="mainscrolldiv">
 			<!-- BEGIN tree_mode -->
 			<a {TREE_ACC_KEY} class="ilTreeView{RIGHT}" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree">
@@ -144,6 +145,7 @@
 
 <div class="ilPermaLink">{PRMLINK}</div>
 {FOOTER}
+</div>
 </div>
 </div>
 </div>{LIGHTBOX}
