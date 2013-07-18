@@ -1313,14 +1313,12 @@ class ilLMPresentationGUI
 		$lg = $dispatcher->initHeaderAction();
 		$lg->enableNotes(true);
 		$lg->enableComments($this->lm->publicNotes(), false);
-		
-		/*
-		if(DEVMODE)
+				
+		if($this->lm->hasRating())
 		{
 			$lg->enableRating(true, null, false,
-				array("ilcommonactiondispatchergui", "ilratinggui"), false);
-		}
-		*/
+				array("ilcommonactiondispatchergui", "ilratinggui"));
+		}		
 		
 		if(!$a_redraw)
 		{

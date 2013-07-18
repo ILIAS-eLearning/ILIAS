@@ -16622,4 +16622,25 @@ if (!$ilDB->tableColumnExists("copg_pc_def", "def_enabled"))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#3970>
+<?php
+if (!$ilDB->tableColumnExists("file_data", "rating"))
+{
+	$ilDB->addTableColumn("file_data", "rating", array(
+		'type' => 'integer', 
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0));
+}
+?>
+<#3971>
+<?php
+if (!$ilDB->tableColumnExists("content_object", "rating"))
+{
+	$ilDB->addTableColumn("content_object", "rating", array(
+		'type' => 'integer', 
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0));
+}
+?>

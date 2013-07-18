@@ -22,6 +22,7 @@ class ilObjFile extends ilObject2
 	var $filemaxsize = "20000000";	// not used yet
 	var $raise_upload_error;
 	var $mode = "object";
+	protected $rating;
 	
 	private $file_storage = null;
 
@@ -368,6 +369,7 @@ class ilObjFile extends ilObject2
 		$this->setFileSize($row->file_size);
 		$this->setVersion($row->version);
 		$this->setMode($row->f_mode);
+		$this->setRating($row->rating);
 		
 		$this->initFileStorage();
 	}
@@ -397,6 +399,7 @@ class ilObjFile extends ilObject2
 			", file_size = ".$ilDB->quote((int) $this->getFileSize() ,'integer')." ".
 			", version = ".$ilDB->quote($this->getVersion() ,'integer')." ".
 			", f_mode = ".$ilDB->quote($this->getMode() ,'text')." ".
+			", rating = ".$ilDB->quote($this->hasRating() ,'integer')." ".
 			"WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($q);
 		
@@ -1304,6 +1307,16 @@ class ilObjFile extends ilObject2
 		
 		require_once("./Services/Preview/classes/class.ilPreview.php");
 		ilPreview::deletePreview($this->getId());
+	}	
+	
+	public function setRating($a_value)
+	{
+		$this->rating = (bool)$a_value;
+	}
+	
+	public function hasRating()
+	{
+		return $this->rating;
 	}
 
 } // END class.ilObjFile

@@ -308,6 +308,8 @@ class ilObjFileGUI extends ilObject2GUI
 			$fileObj->createDirectory();
 			$fileObj->getUploadFile($upload_file["tmp_name"],
 				$upload_file["name"]);
+			
+			$this->handleAutoRating($fileObj);
 
 			// BEGIN ChangeEvent: Record write event.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -514,7 +516,7 @@ class ilObjFileGUI extends ilObject2GUI
 			$title = $this->object->checkFileExtension($filename,$title);
 		}
 		$this->object->setTitle($title);
-
+		
 		if (!empty($data["name"]))
 		{
 			switch($form->getInput('replace'))
@@ -534,7 +536,10 @@ class ilObjFileGUI extends ilObject2GUI
 				"", $data["name"], $data["type"]));
 			$this->object->setFileSize($data['size']);
 		}
+		
 		$this->object->setDescription($form->getInput('description'));
+		$this->object->setRating($form->getInput('rating'));
+		
 		$this->update = $this->object->update();
 
 		// BEGIN ChangeEvent: Record update event.
@@ -577,6 +582,7 @@ class ilObjFileGUI extends ilObject2GUI
 		$val = array();
 		$val['title'] = $this->object->getTitle();
 		$val['description'] = $this->object->getLongDescription();
+		$val['rating'] = $this->object->hasRating();
 		$form->setValuesByArray($val);
 		
 		// Edit ecs export settings
@@ -649,6 +655,14 @@ class ilObjFileGUI extends ilObject2GUI
 		$desc->setRows(3);
 		#$desc->setCols(40);
 		$form->addItem($desc);
+		
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{			
+			$this->lng->loadLanguageModule('rating');
+			$rate = new ilCheckboxInputGUI($this->lng->txt('rating_activate_rating'), 'rating');
+			$rate->setInfo($this->lng->txt('rating_activate_rating_info'));
+			$form->addItem($rate);
+		}
 
 		return $form;
 	}
@@ -1169,6 +1183,8 @@ class ilObjFileGUI extends ilObject2GUI
 			$fileObj->raiseUploadError(false);
 			$fileObj->getUploadFile($temp_name, $filename);
 			
+			$this->handleAutoRating($fileObj);
+			
 			// BEGIN ChangeEvent: Record write event.
 			require_once('./Services/Tracking/classes/class.ilChangeEvent.php');
 			ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
@@ -1348,6 +1364,20 @@ class ilObjFileGUI extends ilObject2GUI
 
 		ilUtil::sendSuccess(sprintf($this->lng->txt("file_rollback_done"), $new_version["rollback_version"]), true);
 		$this->ctrl->redirect($this, "versions");
+	}
+	
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+	{
+		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);	
+		if(is_object($lg))
+		{			
+			if($this->object->hasRating())
+			{
+				$lg->enableRating(true, null, false,
+					array("ilcommonactiondispatchergui", "ilratinggui"));
+			}						
+		}	
+		return $lg;
 	}
 
 } // END class.ilObjFileGUI

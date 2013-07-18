@@ -533,7 +533,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->form,
 			array(
 				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
-				ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+				ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
 			)
 		);
 			
@@ -2759,7 +2760,8 @@ class ilObjGroupGUI extends ilContainerGUI
 					$this->form,
 					array(
 						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
-						ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
 					)
 				);
 		}
