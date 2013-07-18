@@ -2074,7 +2074,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				
 		
 		// peer review
-		$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");				
+		$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");		
+		$peer->setInfo($this->lng->txt("exc_peer_review_ass_setting_info"));
 		$this->form->addItem($peer);
 		
 		if ($a_mode == "create")
