@@ -3416,15 +3416,21 @@ class ilObjectListGUI
 			return $this->insertCommands(true, true);
 		}				
 		
-		if(DEVMODE)
-		{
-			$rating = ilRating::getOverallRatingForObject($this->obj_id, $this->type, null, null);
-			if($rating)
-			{
-				$this->addCustomProperty("RATING", $rating."/".
-					ilRating::getRatingForUserAndObject($this->obj_id, $this->type, null, null, $ilUser->getId()),
-					true, true);
-
+		if($this->rating_enabled)
+		{						
+			if(ilRating::hasRatingInListGUI($this->obj_id, $this->type))
+			{				
+				$may_rate = ($this->type == "file" &&
+					$this->checkCommandAccess("read", "", $this->ref_id, $this->type));				
+				
+				$rating = new ilRatingGUI();
+				$rating->setObject($this->obj_id, $this->type);
+				$this->addCustomProperty(
+					$this->lng->txt("rating_average_rating"), 
+					$rating->getListGUIProperty($this->ref_id, $may_rate, $this->ajax_hash), 
+					false, 
+					true
+				);
 			}	
 		}
 		
@@ -3637,6 +3643,7 @@ class ilObjectListGUI
 		
 		$lng->loadLanguageModule("notes");
 		$lng->loadLanguageModule("tagging");
+		$lng->loadLanguageModule("rating");
 		
 		include_once("./Services/Tagging/classes/class.ilTagging.php");
 		self::$cnt_tags = ilTagging::_countTags($a_obj_ids);
@@ -3648,7 +3655,8 @@ class ilObjectListGUI
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		ilLPStatus::preloadListGUIData($a_obj_ids);
 		
-		include_once("./Services/Rating/classes/class.ilRating.php");
+		include_once("./Services/Rating/classes/class.ilRating.php");		
+		include_once("./Services/Rating/classes/class.ilRatingGUI.php");		
 		ilRating::preloadListGUIData($a_obj_ids);
 		
 		self::$preload_done = true;

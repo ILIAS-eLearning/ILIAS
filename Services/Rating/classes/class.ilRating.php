@@ -221,22 +221,26 @@ class ilRating
 		// main objects with sub-objects
 		foreach($tmp_sub as $obj_id => $sub_objs)
 		{
-			$res[$obj_id] = 0;			
-			
+			$res[$obj_id] = 0;		
+			$counter = 0;
+						
 			// average per sub-object
 			foreach($sub_objs as $sub_obj)
-			{
+			{				
 				$res[$obj_id] += array_sum($sub_obj)/sizeof($sub_obj);
+				$counter += sizeof($sub_obj);
 			}
 			
 			// average for main object
-			$res[$obj_id] = $res[$obj_id]/sizeof($sub_objs);
+			$res[$obj_id] = array("avg"=>$res[$obj_id]/sizeof($sub_objs),
+				"cnt"=>$counter);
 		}
 		
 		// average for main objects without sub-objects
 		foreach($tmp as $obj_id => $votes)
 		{
-			$res[$obj_id] = array_sum($votes)/sizeof($votes);
+			$res[$obj_id] = array("avg"=>array_sum($votes)/sizeof($votes),
+				"cnt"=>sizeof($votes));
 		}
 		
 		// average of current user for main objects with sub-objects
@@ -245,7 +249,63 @@ class ilRating
 			$res_user[$obj_id] = array_sum($votes)/sizeof($votes);
 		}
 		
+		
+		// file/wiki/lm rating toggles
+		
+		$set = $ilDB->query("SELECT file_id, rating".
+			" FROM file_data".
+			" WHERE ".$ilDB->in("file_id", $a_obj_ids, "", integer));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$id = "file/".$row["file_id"];
+			if($row["rating"] && !isset($res[$id]))
+			{
+				$res[$id] = array("avg"=>0, "cnt"=>0);
+			}
+			else if(!$row["rating"] && isset($res[$id]))
+			{
+				unset($res[$id]);
+			}
+		}
+		
+		$set = $ilDB->query("SELECT id, rating".
+			" FROM il_wiki_data".
+			" WHERE ".$ilDB->in("id", $a_obj_ids, "", integer));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$id = "wiki/".$row["id"];
+			if($row["rating"] && !isset($res[$id]))
+			{
+				$res[$id] = array("avg"=>0, "cnt"=>0);
+			}
+			else if(!$row["rating"] && isset($res[$id]))
+			{
+				unset($res[$id]);
+			}
+		}
+		
+		$set = $ilDB->query("SELECT id, rating".
+			" FROM content_object".
+			" WHERE ".$ilDB->in("id", $a_obj_ids, "", integer));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$id = "lm/".$row["id"];
+			if($row["rating"] && !isset($res[$id]))
+			{
+				$res[$id] = array("avg"=>0, "cnt"=>0);
+			}
+			else if(!$row["rating"] && isset($res[$id]))
+			{
+				unset($res[$id]);
+			}
+		}		
+		
 		self::$list_data = array("all"=>$res, "user"=>$res_user);
+	}
+	
+	public static function hasRatingInListGUI($a_obj_id, $a_obj_type)
+	{
+		return isset(self::$list_data["all"][$a_obj_type."/".$a_obj_id]);
 	}
 }
 

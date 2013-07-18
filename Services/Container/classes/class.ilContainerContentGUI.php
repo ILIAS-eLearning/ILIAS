@@ -152,6 +152,10 @@ abstract class ilContainerContentGUI
 		$tpl->addOnLoadCode("il.Object.setRedrawListItemUrl('".
 			$ilCtrl->getLinkTarget($this->container_gui, "redrawListItem", "", true)."');");
 		
+		$tpl->addOnLoadCode("il.Object.setRatingUrl('".
+			$ilCtrl->getLinkTargetByClass(array(get_class($this->container_gui), "ilcommonactiondispatchergui", "ilratinggui"), 
+				"saveRating", "", true, false)."');");
+		
 		switch ($ilCtrl->getNextClass())
 		{	
 			case "ilcolumngui":
@@ -281,6 +285,7 @@ abstract class ilContainerContentGUI
 		$item_list_gui->enableComments(true);
 		$item_list_gui->enableNotes(true);
 		$item_list_gui->enableTags(true);
+		$item_list_gui->enableRating(true);
 
 		// container specific modifications
 		$this->getContainerGUI()->modifyItemGUI($item_list_gui, $item_data, $a_show_path);
