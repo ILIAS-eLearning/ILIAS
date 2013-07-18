@@ -517,6 +517,19 @@ class ilRatingGUI
 		$this->export_callback = $a_callback;
 		$this->export_subobj_title = $a_subobj_title;
 	}
+	
+	/**
+	 * Build list gui property for object
+	 * 
+	 * @param int $a_ref_id
+	 * @param bool $a_may_rate
+	 * @return string
+	 */
+	public function getListGUIProperty($a_ref_id, $a_may_rate, $a_ajax_hash)
+	{				
+		return $this->getHTML(true, $a_may_rate, 
+			"il.Object.saveRatingFromListGUI(".$a_ref_id.", '".$a_ajax_hash."', %rating%);");		
+	}
 }
 
 ?>

@@ -322,6 +322,18 @@ il.Object = {
 		{
 			il.Util.ajaxReplaceInner(o.argument.url_redraw, "il_head_action");
 		}
+	},
+			
+	saveRatingFromListGUI: function(ref_id, hash, mark) {		
+		il.Util.sendAjaxGetRequestToUrl(this.url_rating + "&rating=" + mark + "&child_ref_id=" + ref_id + "&cadh= " + hash, {}, {url_redraw: this.url_redraw_li, ref_id: ref_id}, this.redrawAfterRatingFromListGUI);
+	},
+			
+	redrawAfterRatingFromListGUI: function(o) {	
+		var li = document.getElementById("lg_div_" + o.argument.ref_id);
+		if (li !== null)
+		{
+			il.Util.ajaxReplace(o.argument.url_redraw + "&child_ref_id=" + o.argument.ref_id, "lg_div_" + o.argument.ref_id);
+		}
 	}
 }
 

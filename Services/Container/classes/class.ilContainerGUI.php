@@ -1035,6 +1035,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 							$item_list_gui->enableComments(true);
 							$item_list_gui->enableNotes(true);
 							$item_list_gui->enableTags(true);
+							$item_list_gui->enableRating(true);
 							
 							$html = $item_list_gui->getListItemHTML($item["ref_id"],
 								$item["obj_id"], $item["title"], $item["description"]);
@@ -3628,14 +3629,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	function redrawListItemObject()
 	{
+		global $tpl;
+		
 		$item_data = $this->object->getSubItems(false, false, (int) $_GET["child_ref_id"]);
 		$container_view = $this->getContentGUI();
 		foreach ($this->object->items["_all"] as $id)
 		{
 			if ($id["child"] == (int) $_GET["child_ref_id"])
 			{
-				$html = $container_view->renderItem($id);
-				echo $html;
+				echo $container_view->renderItem($id);
+				
+				// we need to add onload code manually (rating, comments, etc.)
+				echo $tpl->getOnLoadCodeForAsynch();		
+
 				exit;
 			}
 		}
