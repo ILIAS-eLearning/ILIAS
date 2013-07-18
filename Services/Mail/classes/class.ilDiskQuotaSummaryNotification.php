@@ -49,7 +49,7 @@ class ilDiskQuotaSummaryNotification extends ilMailNotification
 	{
 		global $ilDB;
 		
-		parent::send();
+		// parent::send();
 		
 		if( count($this->getRecipients()) )
 		{
