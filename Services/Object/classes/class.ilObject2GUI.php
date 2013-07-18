@@ -803,6 +803,16 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$plink->setAlignCenter($a_center);
 		return $plink->getHTML();
 	}
+	
+	
+	protected function handleAutoRating(ilObject $a_new_obj)
+	{
+		// only needed in repository
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{
+			parent::handleAutoRating($a_new_obj);
+		}				
+	}
 }
 
 ?>

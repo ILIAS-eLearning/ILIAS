@@ -13538,3 +13538,7 @@ common#:#obj_grps_desc#:#General settings for Groups
 administration#:#adm_external_setting_prefix#:#External Settings
 administration#:#adm_external_setting_edit#:#Edit Settings
 ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization 
+rating#:#rating_new_objects_auto#:#Enable Rating for new Objects
+rating#:#rating_new_objects_auto_info#:#If enabled, new files, learning modules and wikis can be rated.
+rating#:#rating_activate_rating#:#Enable Rating
+rating#:#rating_activate_rating_info#:#if enabled, users can rate this object.

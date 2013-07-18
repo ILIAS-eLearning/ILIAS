@@ -15,6 +15,7 @@ class ilObjectServiceSettingsGUI
 {
 	const CALENDAR_VISIBILITY = 'cont_show_calendar';
 	const NEWS_VISIBILITY = 'cont_show_news';
+	const AUTO_RATING_NEW_OBJECTS = 'cont_auto_rate_new_obj';
 	
 	private $gui = null;
 	private $modes = array();
@@ -91,6 +92,22 @@ class ilObjectServiceSettingsGUI
 				$form->addItem($news);
 			}
 		}
+		if(in_array(self::AUTO_RATING_NEW_OBJECTS, $services))
+		{			
+			$GLOBALS['lng']->loadLanguageModule("rating");
+			
+			// auto rating for new objects
+			$rate = new ilCheckboxInputGUI('', self::AUTO_RATING_NEW_OBJECTS);
+			$rate->setValue(1);
+			$rate->setOptionTitle($GLOBALS['lng']->txt('rating_new_objects_auto'));
+			$rate->setInfo($GLOBALS['lng']->txt('rating_new_objects_auto_info'));
+			$rate->setChecked(ilContainer::_lookupContainerSetting(
+						$a_obj_id,
+						self::AUTO_RATING_NEW_OBJECTS,
+						false
+				));
+			$form->addItem($rate);			
+		}
 		
 		return $form;
 	}
@@ -116,6 +133,11 @@ class ilObjectServiceSettingsGUI
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::NEWS_VISIBILITY,(int) $form->getInput(self::NEWS_VISIBILITY));
+		}
+		if(in_array(self::AUTO_RATING_NEW_OBJECTS, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::AUTO_RATING_NEW_OBJECTS,(int) $form->getInput(self::AUTO_RATING_NEW_OBJECTS));
 		}
 		
 		return true;

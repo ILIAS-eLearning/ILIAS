@@ -1012,7 +1012,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$form,
 				array(
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
-					ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
 				)
 			);
 			
@@ -1402,7 +1403,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$form,
 				array(
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
-					ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
 				)
 			);
 		

@@ -683,6 +683,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		{
 			$values["startpage"] = $lng->txt("wiki_main_page");
 			$values["rating_new"] = true;
+			
+			$values["rating"] = ilObject::hasAutoRating("wiki", $_GET["ref_id"]);
+			
 			$this->form_gui->setValuesByArray($values);
 		}
 		else

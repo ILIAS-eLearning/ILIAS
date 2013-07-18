@@ -26,6 +26,7 @@ class ilObjContentObject extends ilObject
 	var $style_id;
 	var $pg_header;
 	var $online;
+	protected $rating;
 	
 	private $import_dir = '';
 
@@ -876,6 +877,7 @@ class ilObjContentObject extends ilObject
 		$this->setPublicExportFile("html", $lm_rec["public_html_file"]);
 		$this->setPublicExportFile("scorm", $lm_rec["public_scorm_file"]);
 		$this->setLayoutPerPage($lm_rec["layout_per_page"]);
+		$this->setRating($lm_rec["rating"]);
 	}
 
 	/**
@@ -913,7 +915,8 @@ class ilObjContentObject extends ilObject
 			" header_page = ".$ilDB->quote($this->getHeaderPage(), "integer").",".
 			" footer_page = ".$ilDB->quote($this->getFooterPage(), "integer").",".
 			" lm_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()), "text").", ".
-			" layout_per_page = ".$ilDB->quote($this->getLayoutPerPage(), "integer")." ".
+			" layout_per_page = ".$ilDB->quote($this->getLayoutPerPage(), "integer").", ".
+			" rating = ".$ilDB->quote($this->hasRating(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
 	}
@@ -2918,6 +2921,7 @@ class ilObjContentObject extends ilObject
 		$new_obj->setHistoryUserComments($this->isActiveHistoryUserComments());
 		$new_obj->setPublicAccessMode($this->getPublicAccessMode());
 		$new_obj->setPageHeader($this->getPageHeader());
+		$new_obj->setRating($this->hasRating());
 		
 		$new_obj->update();
 		
@@ -3006,6 +3010,15 @@ class ilObjContentObject extends ilObject
 		}
 		return false;
 	}
-
+		
+	public function setRating($a_value)
+	{
+		$this->rating = (bool)$a_value;
+	}
+	
+	public function hasRating()
+	{
+		return $this->rating;
+	}
 }
 ?>

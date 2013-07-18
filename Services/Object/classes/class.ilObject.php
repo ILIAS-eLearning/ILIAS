@@ -2113,6 +2113,44 @@ class ilObject
 		$rec  = $ilDB->fetchAssoc($set);
 		return $rec["create_date"];
 	}
+		
+	/**
+	 * Check if auto rating is active for parent group/course
+	 * 
+	 * @param string $a_type
+	 * @param int $a_ref_id
+	 * @return bool
+	 */
+	public static function hasAutoRating($a_type, $a_ref_id)
+	{
+		global $tree;
+		
+		if(!$a_ref_id ||
+			!in_array($a_type, array("file", "lm", "wiki")))
+		{
+			return false;
+		}
+
+		// find parent container
+		$parent_ref_id = $tree->checkForParentType($a_ref_id, "grp");
+		if(!$parent_ref_id)
+		{					
+			$parent_ref_id = $tree->checkForParentType($a_ref_id, "crs");
+		}				
+		if($parent_ref_id)
+		{
+			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+			
+			// get auto rate setting
+			$parent_obj_id = ilObject::_lookupObjId($parent_ref_id);		
+			return ilContainer::_lookupContainerSetting(
+				$parent_obj_id,
+				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+				false
+			);
+		}
+		return false;
+	}	
 	
 } // END class.ilObject
 ?>

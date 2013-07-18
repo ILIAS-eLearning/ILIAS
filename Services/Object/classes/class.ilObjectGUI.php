@@ -376,14 +376,6 @@ class ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
 			
 			$lg = $dispatcher->initHeaderAction();			
-						
-			/*
-			if(DEVMODE && $this->object->getType() == "file")
-			{
-				$lg->enableRating(true, null, false,
-					array("ilcommonactiondispatchergui", "ilratinggui"));
-			}
-			*/
 			
 			if (is_object($lg))
 			{				
@@ -1017,6 +1009,9 @@ class ilObjectGUI
 			{
 				$newObj->applyDidacticTemplate($dtpl);
 			}
+			
+			// auto rating
+			$this->handleAutoRating($newObj);
 			
 			// additional paramters are added to afterSave()
 			$args = func_get_args();
@@ -2126,6 +2121,21 @@ class ilObjectGUI
 		ilFileUploadGUI::initFileUpload();
 		
 		$this->tpl->enableDragDropFileUpload($this->ref_id);
+	}
+	
+	/**
+	 * Activate rating automatically if parent container setting 
+	 * 
+	 * @param ilObject $a_new_obj
+	 */
+	protected function handleAutoRating(ilObject $a_new_obj)
+	{				
+		if(ilObject::hasAutoRating($a_new_obj->getType(), $a_new_obj->getRefId()) && 
+			method_exists($a_new_obj, "setRating"))
+		{							
+			$a_new_obj->setRating(true);
+			$a_new_obj->update();
+		}		
 	}
 
 } // END class.ilObjectGUI (3.10: 2896 loc)

@@ -101,7 +101,6 @@ class ilObjectListGUI
 	protected $rating_categories_enabled = false;
 	protected $rating_text = false;
 	protected $rating_ctrl_path = false;
-	protected $rating_for_subobjects = false;
 	
 	protected $timings_enabled = true;
 	
@@ -2831,9 +2830,8 @@ class ilObjectListGUI
 	 * @param string $a_text 
 	 * @param boolean $a_categories 
 	 * @param array $a_ctrl_path 
-	 * @param bool $a_enable_subobjects 
 	 */
-	function enableRating($a_value, $a_text = null, $a_categories = false, array $a_ctrl_path = null, $a_enable_subobjects = true)
+	function enableRating($a_value, $a_text = null, $a_categories = false, array $a_ctrl_path = null)
 	{				
 		$this->rating_enabled = (bool)$a_value;
 		
@@ -2841,8 +2839,7 @@ class ilObjectListGUI
 		{
 			$this->rating_categories_enabled = (bool)$a_categories;
 			$this->rating_text = $a_text;
-			$this->rating_ctrl_path = $a_ctrl_path;							
-			$this->rating_for_subobjects = (bool)$a_enable_subobjects;							
+			$this->rating_ctrl_path = $a_ctrl_path;													
 		}
 	}
 	
@@ -3055,33 +3052,15 @@ class ilObjectListGUI
 		{									
 			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
 			$rating_gui = new ilRatingGUI();
-			$rating_gui->enableCategories($this->rating_categories_enabled);
-			if($this->rating_for_subobjects)
-			{
-				$rating_gui->setObject($this->obj_id, $this->type, $this->sub_obj_id, 
-					$this->sub_obj_type);	
-				
-				$this->ctrl->setParameterByClass("ilRatingGUI", "cadh", $this->ajax_hash);					
-			}
-			else
-			{
-				$rating_gui->setObject($this->obj_id, $this->type);	
-				
-				// we have to get rid of the sub-object in the ajax hash
-				$ajax_hash = $this->ajax_hash;
-				if($this->sub_obj_id)
-				{
-					$ajax_hash = explode(";", $ajax_hash);
-					$ajax_hash[4] = null;
-					$ajax_hash[5] = null;
-					$ajax_hash = implode(";", $ajax_hash);
-				}
-				$this->ctrl->setParameterByClass("ilRatingGUI", "cadh", $ajax_hash);					
-			}			
+			$rating_gui->enableCategories($this->rating_categories_enabled);			
+			$rating_gui->setObject($this->obj_id, $this->type, $this->sub_obj_id, 
+				$this->sub_obj_type);										
 			if($this->rating_text)
 			{
 				$rating_gui->setYourRatingText($this->rating_text);
-			}											
+			}							
+			
+			$this->ctrl->setParameterByClass("ilRatingGUI", "cadh", $this->ajax_hash);	
 			if($this->rating_ctrl_path)
 			{				
 				$rating_gui->setCtrlPath($this->rating_ctrl_path);		
@@ -3437,7 +3416,6 @@ class ilObjectListGUI
 			return $this->insertCommands(true, true);
 		}				
 		
-		/*
 		if(DEVMODE)
 		{
 			$rating = ilRating::getOverallRatingForObject($this->obj_id, $this->type, null, null);
@@ -3446,9 +3424,9 @@ class ilObjectListGUI
 				$this->addCustomProperty("RATING", $rating."/".
 					ilRating::getRatingForUserAndObject($this->obj_id, $this->type, null, null, $ilUser->getId()),
 					true, true);
-			}
+
+			}	
 		}
-		*/
 		
 		// read from cache
 		include_once("Services/Object/classes/class.ilListItemAccessCache.php");

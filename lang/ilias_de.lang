@@ -13537,3 +13537,7 @@ common#:#obj_grps_desc#:#Allgemeine Einstellungen für Gruppen
 administration#:#adm_external_setting_prefix#:#Externe Einstellungen
 administration#:#adm_external_setting_edit#:#Einstellungen bearbeiten
 ldap#:#ldap_user_sync_cron#:#LDAP Benutzersynchronisierung
+rating#:#rating_new_objects_auto#:#Bewertung für neue Objekte
+rating#:#rating_new_objects_auto_info#:#Wenn aktiviert, können neuen Dateien, Lernmodule und Wikis bewertet werden.
+rating#:#rating_activate_rating#:#Bewertung aktivieren
+rating#:#rating_activate_rating_info#:#Wenn aktiviert, können Benutzer dieses Objekt bewerten.
