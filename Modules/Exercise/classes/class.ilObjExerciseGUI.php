@@ -3608,7 +3608,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function updatePeerReviewCommentsObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser, $tpl;
 		
 		if(!$this->ass || 
 			!$this->ass->getPeerReview() ||
@@ -3618,6 +3618,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 			exit();
 		}
 		
+		$rating_peer_id = $_POST["rating_peer_id"];
+		$giver_id = $ilUser->getId();
+				
+		// save rating
+		include_once './Services/Rating/classes/class.ilRating.php';
+		ilRating::writeRatingForUserAndObject($this->ass->getId(), "ass", 
+			$rating_peer_id, "peer", $giver_id, $_POST["rating"]);
+		
+		// save comments
 		foreach($_POST["pc"] as $peer_id => $value)
 		{
 			if($peer_id)
@@ -3626,6 +3635,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 		}
 		
+		
+		// render current rating
+		
+		$ilCtrl->setParameter($this->parent_obj, "peer_id", $rating_peer_id);		
+		
+		include_once './Services/Rating/classes/class.ilRatingGUI.php';
+		$rating = new ilRatingGUI();
+		$rating->setObject($this->ass->getId(), "ass", $rating_peer_id, "peer");
+		$rating->setUserId($giver_id);
+	
+		echo $rating->getHTML(false, true, 
+				"il.ExcPeerReview.saveComments(".$rating_peer_id.", %rating%)");	
+		
+		echo $tpl->getOnLoadCodeForAsynch();
 		exit();
 	}
 	
@@ -3683,7 +3706,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php";
-		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $user_id, $peer_items, "exc_peer_review_show", $cancel_cmd, true);
+		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", 
+			$this->ass, $user_id, $peer_items, "exc_peer_review_show", $cancel_cmd, true);
 		
 		$tpl->setContent($tbl->getHTML());		
 	}	
