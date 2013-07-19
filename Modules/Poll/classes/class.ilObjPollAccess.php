@@ -70,20 +70,17 @@ class ilObjPollAccess extends ilObjectAccess
 		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		$item = ilObjectActivation::getItem($a_ref_id);		
 		switch($item['timing_type'])
-		{			
-			case ilObjectActivation::TIMINGS_DEACTIVATED:				
-				return true;
-
+		{						
 			case ilObjectActivation::TIMINGS_ACTIVATION:
 				if(time() < $item['timing_start'] or
 				   time() > $item['timing_end'])
 				{					
 					return false;
 				}
-				return true;
+				// fallthrough
 				
 			default:
-				return false;
+				return true;
 		}
 	}
 	
