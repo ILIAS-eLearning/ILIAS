@@ -225,6 +225,9 @@ class ilFileXMLParser extends ilSaxParser
 			case 'Description':
 			    $this->file->setDescription(trim($this->cdata));
 				break;
+			case 'Rating':
+			    $this->file->setRating((bool)$this->cdata);
+				break;
 			case 'Content':
 				$GLOBALS['ilLog']->write($this->mode);
 				$this->isReadingFile = false;

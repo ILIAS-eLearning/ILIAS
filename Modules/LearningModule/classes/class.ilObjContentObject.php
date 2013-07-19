@@ -1592,6 +1592,11 @@ class ilObjContentObject extends ilObject
 		$attrs = array("Name" => "HistoryUserComments", "Value" =>
 			ilUtil::tf2yn($this->isActiveHistoryUserComments()));
 		$a_xml_writer->xmlElement("Property", $attrs);
+		
+		// Rating
+		$attrs = array("Name" => "Rating", "Value" =>
+			ilUtil::tf2yn($this->hasRating()));
+		$a_xml_writer->xmlElement("Property", $attrs);
 
 		// Header Page
 		if ($this->getHeaderPage() > 0)

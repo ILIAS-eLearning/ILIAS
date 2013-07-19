@@ -135,7 +135,7 @@ class ilFileXMLWriter extends ilXmlWriter
 
 		$this->xmlElement("Title",  null,$this->file->getTitle());
         $this->xmlElement("Description",  null,$this->file->getDescription());
-
+        $this->xmlElement("Rating",  null,(int)$this->file->hasRating());
 
         if ($this->attachFileContents)
         {
