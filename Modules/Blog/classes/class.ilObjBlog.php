@@ -90,6 +90,29 @@ class ilObjBlog extends ilObject2
 		}
 	}
 
+	protected function doCloneObject(ilObjBlog $new_obj, $a_target_id, $a_copy_id = null)
+	{
+		// banner?
+		$img = $this->getImage();
+		if($img)
+		{
+			$new_obj->setImage($img);
+			
+			$source = $this->initStorage($this->getId());
+			$target = $new_obj->initStorage($new_obj->getId());
+			
+			copy($source.$img, $target.$img);
+		}
+		
+		$new_obj->setNotesStatus($this->getNotesStatus());
+		$new_obj->setProfilePicture($this->hasProfilePicture());
+		$new_obj->setBackgroundColor($this->getBackgroundColor());
+		$new_obj->setFontColor($this->getFontColor());
+		$new_obj->setRSS($this->hasRSS());
+		$new_obj->setApproval($this->hasApproval());
+		$new_obj->update();		
+	}
+	
 	/**
 	 * Get notes status
 	 * 
