@@ -155,6 +155,7 @@ class ilObjBookingPool extends ilObject
 	{
 		$new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 		
+		$new_obj->setOffline($this->isOffline());
 		$new_obj->setScheduleType($this->getScheduleType());
 		$new_obj->setPublicLog($this->hasPublicLog());
 		

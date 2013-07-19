@@ -239,6 +239,8 @@ class ilBookingSchedule
 			','.$ilDB->quote($this->getAutoBreak(), 'integer').','.$ilDB->quote($this->getDeadline(), 'integer').')');
 
 		$this->saveDefinition();
+		
+		return $this->id;
 	}
 
 	/**
@@ -271,15 +273,14 @@ class ilBookingSchedule
 	{
 		$new_obj = new self();
 		$new_obj->setPoolId($a_pool_id);
+		$new_obj->setTitle($this->getTitle());
 		$new_obj->setRaster($this->getRaster());
 		$new_obj->setMinRental($this->getMinRental());
 		$new_obj->setMaxRental($this->getMaxRental());
 		$new_obj->setAutoBreak($this->getAutoBreak());
 		$new_obj->setDeadline($this->getDeadline());
 		$new_obj->setDefinition($this->getDefinition());
-		$new_obj->save();	
-		
-		return $new_obj->getId();
+		return $new_obj->save();	
 	}
 
 	/**
