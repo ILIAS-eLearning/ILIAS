@@ -10,7 +10,7 @@ il.ExcPeerReview = {
 	/**
 	 * Save comments on rating redirect
 	 */
-	saveComments: function () {
+	saveComments: function (rating_peer_id, rating) {
 		
 		var pcomm = {};
 		
@@ -28,8 +28,12 @@ il.ExcPeerReview = {
 			dataType: 'text',
 			type: 'POST',
 			data: {
-				pc: pcomm
+				pc: pcomm,
+				rating_peer_id: rating_peer_id,
+				rating: rating
 			}			
+		}).done(function(data) {			
+			 $('#rtr_' + rating_peer_id).html(data);
 		});
-	}
+	}			
 };
