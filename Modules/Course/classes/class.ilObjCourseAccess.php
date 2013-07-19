@@ -298,10 +298,7 @@ class ilObjCourseAccess extends ilObjectAccess
 		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		$item = ilObjectActivation::getItem($ref_id);		
 		switch($item['timing_type'])
-		{			
-			case ilObjectActivation::TIMINGS_DEACTIVATED:						
-				return true;
-
+		{						
 			case ilObjectActivation::TIMINGS_ACTIVATION:
 				if(time() < $item['timing_start'] or
 				   time() > $item['timing_end'])
@@ -309,10 +306,10 @@ class ilObjCourseAccess extends ilObjectAccess
 					$a_visible_flag = $item['visible'];
 					return false;
 				}
-				return true;
+				// fallthrough
 				
 			default:			
-				return false;
+				return true;
 		}
 	}
 
