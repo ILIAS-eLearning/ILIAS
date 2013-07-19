@@ -16644,3 +16644,7 @@ if (!$ilDB->tableColumnExists("content_object", "rating"))
 		'default' => 0));
 }
 ?>
+<#3972>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

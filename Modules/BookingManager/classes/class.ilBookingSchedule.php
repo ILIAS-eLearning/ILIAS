@@ -266,6 +266,21 @@ class ilBookingSchedule
 
 		$this->saveDefinition();
 	}
+	
+	public function doClone($a_pool_id)
+	{
+		$new_obj = new self();
+		$new_obj->setPoolId($a_pool_id);
+		$new_obj->setRaster($this->getRaster());
+		$new_obj->setMinRental($this->getMinRental());
+		$new_obj->setMaxRental($this->getMaxRental());
+		$new_obj->setAutoBreak($this->getAutoBreak());
+		$new_obj->setDeadline($this->getDeadline());
+		$new_obj->setDefinition($this->getDefinition());
+		$new_obj->save();	
+		
+		return $new_obj->getId();
+	}
 
 	/**
 	 * Save current definition

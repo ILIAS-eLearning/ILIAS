@@ -151,6 +151,40 @@ class ilObjBookingPool extends ilObject
 		return true;
 	}
 	
+	public function cloneObject($a_target_id,$a_copy_id = 0,$a_omit_tree = false)
+	{
+		$new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+		
+		$new_obj->setScheduleType($this->getScheduleType());
+		$new_obj->setPublicLog($this->hasPublicLog());
+		
+		$smap = null;
+		if($this->getScheduleType() == self::TYPE_FIX_SCHEDULE)
+		{
+			$new_obj->setNumberOfSlots($this->getNumberOfSlots());
+			
+			// schedules
+			include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
+			foreach(ilBookingSchedule::getList($this->getId()) as $item)
+			{
+				$schedule = new ilBookingSchedule($item["booking_schedule_id"]);
+				$smap[$item["booking_schedule_id"]] = $schedule->doClone($new_obj->getId());				
+			}						
+		}
+		
+		// objects
+		include_once "Modules/BookingManager/classes/class.ilBookingObject.php";
+		foreach(ilBookingObject::getList($this->getId()) as $item)
+		{
+			$bobj = new ilBookingObject($item["booking_object_id"]);
+			$bobj->doClone($new_obj->getId(), $smap);
+		}		
+		
+		$new_obj->update();
+		
+		return $new_obj;
+	}
+	
 	/**
 	* init default roles settings
 	* 

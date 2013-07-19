@@ -11,7 +11,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * 
 * @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingObjectGUI
 * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI
 * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjBookingPoolGUI extends ilObjectGUI
@@ -95,6 +95,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
+			case "ilobjectcopygui":
+				include_once "./Services/Object/classes/class.ilObjectCopyGUI.php";
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType("book");
+				$this->ctrl->forwardCommand($cp);
+				break;
+			
 			default:
 				$cmd = $this->ctrl->getCmd();
 				$cmd .= 'Object';
@@ -108,7 +115,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	protected function initCreationForms($a_new_type)
 	{
-		return array(self::CFORM_NEW => $this->initCreateForm($a_new_type));
+		$forms = parent::initCreationForms($a_new_type);
+		unset($forms[self::CFORM_IMPORT]);		
+		
+		return $forms;
 	}
 
 	protected function afterSave(ilObject $a_new_object)
