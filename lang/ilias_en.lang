@@ -13544,3 +13544,5 @@ rating#:#rating_activate_rating#:#Enable Rating
 rating#:#rating_activate_rating_info#:#if enabled, users can rate this object.
 exc#:#exc_peer_review_no_peers_reviewed_yet#:#There was no feedback given yet.
 exc#:#exc_peer_review_ass_setting_info#:#If enabled, users can rate their peers after the deadline.
+book#:#book_copy#:#Copy Booking Pool
+book#:#obj_book_duplicate#:#Copy Booking Pool

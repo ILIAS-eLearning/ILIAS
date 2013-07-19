@@ -486,6 +486,34 @@ class ilBookingObject
 		
 		return $map;
 	}	
+	
+	public function doClone($a_pool_id, $a_schedule_map = null)
+	{
+		$new_obj = new self();
+		$new_obj->setPoolId($a_pool_id);
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->setNrOfItems($this->getNrOfItems());	
+		$new_obj->setFile($this->getFile());
+		$new_obj->setPostText($this->getPostText());
+		$new_obj->setPostFile($this->getPostFile());
+		
+		if($a_schedule_map)
+		{
+			$schedule_id = $this->getScheduleId();
+			if($schedule_id)
+			{
+				$new_obj->setScheduleId($a_schedule_map[$schedule_id]);
+			}
+		}
+		
+		$new_obj->save();	
+				
+		// files
+		$source = $this->initStorage($this->getId());
+		$target = $new_obj->initStorage($new_obj->getId());		
+		ilUtil::rCopy($source, $target);		
+	}
 }
 
 ?>
