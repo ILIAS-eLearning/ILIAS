@@ -764,12 +764,13 @@ class ilObjFile extends ilObject2
 	 	ilUtil::rCopy($this->getDirectory(),$a_new_obj->getDirectory());
 	 	
 	 	// object created now copy other settings
-		$query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,f_mode) VALUES (".
+		$query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,rating,f_mode) VALUES (".
 				$ilDB->quote($a_new_obj->getId() ,'integer').",".
 				$ilDB->quote($this->getFileName() ,'text').",".
 				$ilDB->quote($this->getFileType() ,'text').",".
 				$ilDB->quote((int) $this->getFileSize() ,'integer').", ".
 				$ilDB->quote($this->getVersion() ,'integer').", ".
+				$ilDB->quote($this->hasRating() ,'integer').", ".
 				$ilDB->quote($this->getMode() ,'text').")";
 		$res = $ilDB->manipulate($query);
 		 
