@@ -13497,7 +13497,7 @@ common#:#preview_loading#:#Loading Preview...
 common#:#loaded_preview_renderers#:#Loaded Preview Renderers
 common#:#renderer_type_plugin#:#Plugin
 common#:#renderer_type_builtin#:#Built-in
-common#:#renderer_supported_repo_types#:#Supported Repository Types
+common#:#renderer_supported_repo_types#:#Supported ILIAS Objects
 common#:#renderer_supported_file_types#:#Supported File Types
 common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.
 exc#:#exc_peer_review_show_not_rated_yet#:#You must give feedback before you can see the feedback you received.
