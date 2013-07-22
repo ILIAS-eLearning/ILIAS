@@ -4369,6 +4369,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilpublicuserprofilegui':
+				$this->tpl->enableDragDropFileUpload(null);				
 				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				$this->setSubTabs('members');
@@ -4376,7 +4377,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "membersGallery"));
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');
 				$html = $this->ctrl->forwardCommand($profile_gui);
-				$this->tpl->setVariable("ADM_CONTENT", $html);
+				$this->tpl->setVariable("ADM_CONTENT", $html);				
 				break;
 
 			case 'ilmemberexportgui':
