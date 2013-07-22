@@ -83,17 +83,22 @@ class ilECSImport
 	 * @static
 	 *
 	 */
-	public static function _getAllImportedLinks($a_server_id)
+	public static function getAllImportedRemoteObjects($a_server_id)
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM ecs_import ".
-			'WHERE server_id = '.$ilDB->quote($a_server_id);
+		include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
+		
+		$query = "SELECT * FROM ecs_import ei JOIN object_data obd ON ei.obj_id = obd.obj_id ".
+			'WHERE server_id = '.$ilDB->quote($a_server_id).' '.
+			'AND '.$ilDB->in('type',  ilECSUtils::getPossibleRemoteTypes(), false, 'text');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$all[$row->econtent_id] = $row->obj_id;
 		}
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($all,true));
 		return $all ? $all : array();
 	}
 	

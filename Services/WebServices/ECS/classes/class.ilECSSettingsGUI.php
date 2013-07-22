@@ -1482,7 +1482,7 @@ class ilECSSettingsGUI
 			$sel_type = "rcrs";
 		}
 		
-		include "Services/WebServices/ECS/classes/class.ilECSUtils.php";
+		include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
 		$options = ilECSUtils::getPossibleRemoteTypes(true);
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
