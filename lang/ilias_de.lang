@@ -13545,3 +13545,4 @@ exc#:#exc_peer_review_no_peers_reviewed_yet#:#Es wurden bisher noch keine Bewert
 exc#:#exc_peer_review_ass_setting_info#:#Wenn aktiviert, können Benutzer sich nach dem Abgabetermin gegenseitig bewerten.
 book#:#book_copy#:#Buchungspool kopieren
 book#:#obj_book_duplicate#:#Buchungspool kopieren
+administration#:#adm_user_starting_point_invalid_info#:#Dieses Feature ist aktuell nicht aktiviert.

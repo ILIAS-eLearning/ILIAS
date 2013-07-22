@@ -147,9 +147,9 @@ class ilUserUtil
 	 * 
 	 * @return array
 	 */
-	public static function getPossibleStartingPoints()
+	public static function getPossibleStartingPoints($a_force_all = false)
 	{
-		global $ilSetting, $rbacsystem, $lng;
+		global $ilSetting, $lng;
 		
 		// for all conditions: see ilMainMenuGUI
 		
@@ -157,78 +157,24 @@ class ilUserUtil
 		
 		$all[self::START_PD_OVERVIEW] = 'overview';
 		
-		if($ilSetting->get('disable_my_offers') == 0 &&
-			$ilSetting->get('disable_my_memberships') == 0)
+		if($a_force_all || ($ilSetting->get('disable_my_offers') == 0 &&
+			$ilSetting->get('disable_my_memberships') == 0))
 		{
 			$all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
 		}
-
-		/*
-		if (!$ilSetting->get("disable_bookmarks"))
-		{
-			$all[self::START_PD_BOOKMARKS] = 'bookmarks';
-		}
-		
-		if (!$ilSetting->get("disable_notes"))
-		{
-			$all[self::START_PD_NOTES] = 'notes_and_comments';
-		}
-		
-		if ($ilSetting->get("block_activated_news"))
-		{
-			$all[self::START_PD_NEWS] = 'news';
-		}
-		*/
-		
-		if(!$ilSetting->get("disable_personal_workspace"))
+	
+		if($a_force_all || !$ilSetting->get("disable_personal_workspace"))
 		{
 			$all[self::START_PD_WORKSPACE] = 'personal_workspace';		
 		}
 
-		/*
-		if ($ilSetting->get('user_portfolios'))
-		{
-			$all[self::START_PD_PORTFOLIO] = 'portfolio';					
-		}
-		
-		$skmg_set = new ilSetting("skmg");
-		if ($skmg_set->get("enable_skmg"))
-		{
-			$all[self::START_PD_SKILLS] = 'skills';					
-		}
-
-		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if (ilObjUserTracking::_enabledLearningProgress() && 
-			ilObjUserTracking::_hasLearningProgressDesktop())
-		{
-			$all[self::START_PD_LP] = 'learning_progress';					
-		}
-		*/
-		
 		include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 		$settings = ilCalendarSettings::_getInstance();
-		if($settings->isEnabled())
+		if($a_force_all || $settings->isEnabled())
 		{
 			$all[self::START_PD_CALENDAR] = 'calendar';		
 		}
 
-		/*
-		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
-		{	
-			$all[self::START_PD_MAIL] = 'mail';	
-		}
-					
-		if(!$ilSetting->get('disable_contacts') &&
-			($ilSetting->get('disable_contacts_require_mail') ||
-			$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
-		{
-			$all[self::START_PD_CONTACTS] = 'mail_addressbook';					
-		}
-		
-		$all[self::START_PD_PROFILE] = 'personal_profile';		
-		$all[self::START_PD_SETTINGS] = 'personal_settings';			 
-		*/
-		
 		$all[self::START_REPOSITORY] = 'repository';		
 		
 		foreach($all as $idx => $lang)

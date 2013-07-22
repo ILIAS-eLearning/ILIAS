@@ -1160,9 +1160,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$si = new ilRadioGroupInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
 		$si->setRequired(true);
 		$si->setInfo($this->lng->txt("adm_user_starting_point_info"));
-		foreach(ilUserUtil::getPossibleStartingPoints() as $value => $caption)
+		$valid = array_keys(ilUserUtil::getPossibleStartingPoints());
+		foreach(ilUserUtil::getPossibleStartingPoints(true) as $value => $caption)
 		{
-			$si->addOption(new ilRadioOption($caption, $value));
+			$opt = new ilRadioOption($caption, $value);
+			$si->addOption($opt);
+			
+			if(!in_array($value, $valid))
+			{
+				$opt->setInfo($this->lng->txt("adm_user_starting_point_invalid_info"));
+			}			
 		}
 		$si->setValue(ilUserUtil::getStartingPoint());		
 		$this->form->addItem($si);
