@@ -3110,16 +3110,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 				$fields = array();
 				
-				// :TODO: password settings "block"
+				$fields['ps_password_settings'] = "&nbsp;"; 
+				$fields['~ps_password_change_on_first_login_enabled'] = array($security->isPasswordChangeOnFirstLoginEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);					
 				$fields['~ps_password_chars_and_numbers_enabled'] = array($security->isPasswordCharsAndNumbersEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
 				$fields['~ps_password_special_chars_enabled'] = array($security->isPasswordSpecialCharsEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
 				$fields['~ps_password_min_length'] = (int)$security->getPasswordMinLength();
 				$fields['~ps_password_max_length'] = (int)$security->getPasswordMaxLength();
-				$fields['~ps_password_max_age'] = (int)$security->getPasswordMaxAge();									
+				$fields['~ps_password_max_age'] = (int)$security->getPasswordMaxAge();		
 				
-				$fields['ps_login_max_attempts'] = (int)$security->getLoginMaxAttempts();	
-				$fields['ps_password_change_on_first_login_enabled'] = array($security->isPasswordChangeOnFirstLoginEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);	
-				$fields['ps_prevent_simultaneous_logins'] = array($security->isPreventionOfSimultaneousLoginsEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);	
+				$fields['ps_security_protection'] = "&nbsp;";
+				$fields['~ps_login_max_attempts'] = (int)$security->getLoginMaxAttempts();					
+				$fields['~ps_prevent_simultaneous_logins'] = array($security->isPreventionOfSimultaneousLoginsEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);	
 				
 				return array(array("generalSettings", $fields));	
 		}		
