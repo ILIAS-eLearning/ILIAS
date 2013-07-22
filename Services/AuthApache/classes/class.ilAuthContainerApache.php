@@ -216,8 +216,7 @@ class ilAuthContainerApache extends Auth_Container
 					$user->create();
 					$user->setAuthMode('apache');
 					// set a timestamp for last_password_change
-					// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
-					// in ilSecuritySettings
+					// this ts is needed by ilSecuritySettings
 					$user->setLastPasswordChangeTS( time() );
 					$user->setTimeLimitUnlimited(1);
 	

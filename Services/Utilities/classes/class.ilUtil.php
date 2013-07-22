@@ -1207,33 +1207,6 @@ class ilUtil
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
 
-		if( $security->getAccountSecurityMode() != ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
-		{
-			/// standard ilias account security mode ///
-			
-			$customError = null;
-
-			switch( true )
-			{
-				// no empty password
-				case empty($a_passwd):
-				
-				// min password length is 6
-				case strlen($a_passwd) < 6:
-					
-				// valid chars for password
-				case !preg_match("/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~]+$/", $a_passwd):
-					
-					return false;
-					
-				default:
-					
-					return true;
-			}
-		}
-
-		/// customized account security mode ///
-
 		// check if password is empty
 		if( empty($a_passwd) )
 		{
@@ -1296,7 +1269,7 @@ class ilUtil
 		}
 		
 		// ensure password matches the positive list of chars/special-chars
-		if( !preg_match("/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+$/", $a_passwd) )
+		if( !preg_match( self::getPasswordValidChars() , $a_passwd) )
 		{
 			$errors[] = $lng->txt('password_contains_invalid_chars');
 			$isPassword = false;
@@ -1315,6 +1288,24 @@ class ilUtil
 
 		return $isPassword;
 	}
+	
+	/**
+	 * All valid chars for password
+	 * 
+	 * @param bool $a_as_regex
+	 * @return string
+	 */
+	public static function getPasswordValidChars($a_as_regex = true)
+	{
+		if( $a_as_regex )
+		{
+			return '/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+$/';
+		}
+		else
+		{
+			return 'A-Z a-z 0-9 _.+?#-*@!$%~/:;';
+		}
+	}
 
 	/**
 	 *	infotext for ilPasswordInputGUI setInfo()
@@ -1322,7 +1313,6 @@ class ilUtil
 	 * @global <type> $lng
 	 * @return <string>  info about allowed chars for password
 	 * @static
-	 * 
 	 */
 	public static function getPasswordRequirementsInfo()
 	{
@@ -1331,16 +1321,33 @@ class ilUtil
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
 		
-		if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+		$infos = array(sprintf($lng->txt('password_allow_chars'), self::getPasswordValidChars(false)));
+				
+		// check if password to short
+		if( $security->getPasswordMinLength() > 0 )
 		{
-			$validPasswordChars = 'A-Z a-z 0-9 _.+?#-*@!$%~/:;';
+			$infos[] = sprintf( $lng->txt('password_to_short'), $security->getPasswordMinLength() );
 		}
-		else
-		{			
-			$validPasswordChars = 'A-Z a-z 0-9 _.+?#-*@!$%~';
+		
+		// check if password not to long
+		if( $security->getPasswordMaxLength() > 0 )
+		{
+			$infos[] = sprintf( $lng->txt('password_to_long'), $security->getPasswordMaxLength() );
 		}
 
-		return sprintf($lng->txt('password_allow_chars'), $validPasswordChars);
+		// if password must contains Chars and Numbers
+		if( $security->isPasswordCharsAndNumbersEnabled() )
+		{
+			$infos[] = $lng->txt('password_must_chars_and_numbers');
+		}
+
+		// if password must contains Special-Chars
+		if( $security->isPasswordSpecialCharsEnabled() )
+		{
+			$infos[] = $lng->txt('password_must_special_chars');			
+		}
+		
+		return implode('<br />', $infos);
 	}
 
 	/*

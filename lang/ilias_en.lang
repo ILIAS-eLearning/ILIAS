@@ -8393,7 +8393,7 @@ ps#:#ps_not_accepted#:#Not Accepted
 ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).
 ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login
 ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.
-ps#:#ps_password_chars_and_numbers_enabled#:#Characters and Numbers
+ps#:#ps_password_chars_and_numbers_enabled#:#Force Characters and Numbers
 ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set this to 0 for disabling this option.
 ps#:#ps_password_max_age#:#Maximum Password Age
 ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.
@@ -8401,7 +8401,7 @@ ps#:#ps_password_max_length#:#Maximum Password Size
 ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.
 ps#:#ps_password_min_length#:#Minimum Password Size
 ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.
-ps#:#ps_password_special_chars_enabled#:#Special Characters
+ps#:#ps_password_special_chars_enabled#:#Force Special Characters
 ps#:#ps_perform_export#:#Start CSV-Export
 ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.
 ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins
@@ -13547,3 +13547,4 @@ exc#:#exc_peer_review_ass_setting_info#:#If enabled, users can rate their peers 
 book#:#book_copy#:#Copy Booking Pool
 book#:#obj_book_duplicate#:#Copy Booking Pool
 administration#:#adm_user_starting_point_invalid_info#:#This feature is currently not active.
+ps#:#ps_password_settings#:#Password Settings

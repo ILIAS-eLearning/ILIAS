@@ -619,8 +619,7 @@ class ilAccountRegistrationGUI
 		$this->userObj->updateOwner();
 
 		// set a timestamp for last_password_change
-		// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
-		// in ilSecuritySettings
+		// this ts is needed by ilSecuritySettings
 		$this->userObj->setLastPasswordChangeTS( time() );
 
 		//insert user data in table user_data
