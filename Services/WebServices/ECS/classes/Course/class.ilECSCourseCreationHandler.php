@@ -77,7 +77,7 @@ class ilECSCourseCreationHandler
 		if($this->getMapping()->isAllInOneCategoryEnabled())
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Handling course all in one category setting');
-			return $this->doSync($a_content_id, $course,ilObject::_lookupDescription($this->getMapping()->getAllInOneCategory()));
+			return $this->doSync($a_content_id, $course,ilObject::_lookupObjId($this->getMapping()->getAllInOneCategory()));
 		}
 
 		$parent_obj_id = $this->syncParentContainer($a_content_id,$course);
@@ -87,7 +87,7 @@ class ilECSCourseCreationHandler
 			return $this->doSync($a_content_id,$course,$parent_obj_id);
 		}
 		$GLOBALS['ilLog']->write(__METHOD__.': Using course default category');
-		return $this->doSync($a_content_id,$course,$this->getMapping()->getDefaultCourseCategory());
+		return $this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
 	}
 	
 	/**
