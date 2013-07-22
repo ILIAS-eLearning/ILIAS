@@ -252,6 +252,7 @@ class ilAttendanceList
 		{
 			include_once "Services/User/classes/class.ilUserFormSettings.php";
 			$settings = new ilUserFormSettings($this->id);
+			$settings->deleteValue('desc'); // #11340
 			$settings->exportToForm($form);
 		}
 		
@@ -302,6 +303,7 @@ class ilAttendanceList
 				
 				include_once "Services/User/classes/class.ilUserFormSettings.php";
 				$settings = new ilUserFormSettings($this->id);
+				$settings->deleteValue('desc'); // #11340
 				$settings->importFromForm($form);
 				$settings->store();
 			}
