@@ -2375,8 +2375,7 @@ class ilObjUser extends ilObject
 
     	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
     	$security = ilSecuritySettings::_getInstance();
-    	if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED &&
-    		$this->getLastPasswordChangeTS() > 0 )
+    	if( $this->getLastPasswordChangeTS() > 0 )
     	{
     		$max_pass_age = $security->getPasswordMaxAge();
     		if( $max_pass_age > 0 )

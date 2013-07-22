@@ -45,11 +45,6 @@ class ilSecuritySettings
 	const SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3				= 9;
 	const SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH	= 10;
 
-
-    const ACCOUNT_SECURITY_MODE_DEFAULT = 1;
-    const ACCOUNT_SECURITY_MODE_CUSTOMIZED = 2;
-
-
     private static $instance = null;
 	private $db;
 	private $settings;
@@ -59,7 +54,6 @@ class ilSecuritySettings
 	private $https_header_value;
 	private $https_enable;
 
-	const DEFAULT_ACCOUNT_SECURITY_MODE					= self::ACCOUNT_SECURITY_MODE_DEFAULT;
 	const DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED	= true;
 	const DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED		= false;
 	const DEFAULT_PASSWORD_MIN_LENGTH					= 8;
@@ -70,7 +64,6 @@ class ilSecuritySettings
 	const DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED = false;
 	const DEFAULT_PREVENT_SIMULTANEOUS_LOGINS = false;
 
-	private $account_security_mode				= self::DEFAULT_ACCOUNT_SECURITY_MODE;
 	private $password_chars_and_numbers_enabled	= self::DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED;
 	private $password_special_chars_enabled		= self::DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED;
 	private $password_min_length				= self::DEFAULT_PASSWORD_MIN_LENGTH;
@@ -121,32 +114,6 @@ class ilSecuritySettings
 	{
 		return $this->ref_id;
 	}
-
-
-
-
-
-	/**
-	 * set the account security mode
-	 *
-	 * @param integer $a_mode
-	 *
-	 */
-	 public function setAccountSecurityMode($a_mode)
-	 {
-	 	$this->account_security_mode = $a_mode;
-	 }
-
-	/**
-	 * get the account security mode
-	 *
-	 * @return integer	account security mode
-	 *
-	 */
-	 public function getAccountSecurityMode()
-	 {
-	 	return $this->account_security_mode;
-	 }
 
 	/**
 	 * set if the passwords have to contain
@@ -430,7 +397,6 @@ class ilSecuritySettings
 	 	$this->settings->set('ps_auto_https_headervalue',(string) $this->getAutomaticHTTPSHeaderValue());
 	 	$this->settings->set('https',(string) $this->isHTTPSEnabled());
 
-		$this->settings->set('ps_account_security_mode',(int) $this->getAccountSecurityMode());
 		$this->settings->set('ps_password_chars_and_numbers_enabled',(bool) $this->isPasswordCharsAndNumbersEnabled());
 		$this->settings->set('ps_password_special_chars_enabled',(bool) $this->isPasswordSpecialCharsEnabled());
 		$this->settings->set('ps_password_min_length',(int) $this->getPasswordMinLength());
@@ -467,7 +433,6 @@ class ilSecuritySettings
 		$this->https_header_value = (string) $this->settings->get('ps_auto_https_headervalue',"1");
 		$this->https_enable = (boolean) $this->settings->get('https', false);
 
-		$this->account_security_mode = (int) $this->settings->get('ps_account_security_mode', self::DEFAULT_ACCOUNT_SECURITY_MODE);
 		$this->password_chars_and_numbers_enabled = (bool) $this->settings->get('ps_password_chars_and_numbers_enabled', self::DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED);
 		$this->password_special_chars_enabled = (bool) $this->settings->get('ps_password_special_chars_enabled', self::DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED);
 		$this->password_min_length = (int) $this->settings->get('ps_password_min_length', self::DEFAULT_PASSWORD_MIN_LENGTH);
@@ -536,103 +501,100 @@ class ilSecuritySettings
 			}
 		}
 
-		if( $this->getAccountSecurityMode() == self::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+		if( $this->getPasswordMinLength() < 0 )
 		{
-			if( $this->getPasswordMinLength() < 0 )
+			$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH;
+			if(!$a_form)
 			{
-				$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH;
-				if(!$a_form)
-				{
-					return $code;
-				}
-				else
-				{		
-					$a_form->getItemByPostVar('password_min_length')
-							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
-				}
+				return $code;
 			}
-
-			if( $this->getPasswordMaxLength() < 0 )
-			{
-				$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_LENGTH;
-				if(!$a_form)
-				{
-					return $code;
-				}
-				else
-				{		
-					$a_form->getItemByPostVar('password_max_length')
-							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
-				}
-			}
-
-			$password_min_length = 1;
-			if( $this->isPasswordCharsAndNumbersEnabled() )
-			{
-				$password_min_length++;
-				$password_min_length_error_code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN2;
-
-				if( $this->isPasswordSpecialCharsEnabled() )
-				{
-					$password_min_length++;
-					$password_min_length_error_code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3;
-				}
-			}
-			if( $this->getPasswordMinLength() > 0 && $this->getPasswordMinLength() < $password_min_length )
-			{				
-				$code = $password_min_length_error_code;
-				if(!$a_form)
-				{
-					return $code;
-				}
-				else
-				{	
-					$a_form->getItemByPostVar('password_min_length')
-							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
-				}
-			}
-			if( $this->getPasswordMaxLength() > 0 && $this->getPasswordMaxLength() < $this->getPasswordMinLength() )
-			{
-				$code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH;
-				if(!$a_form)
-				{
-					return $code;
-				}
-				else
-				{	
-					$a_form->getItemByPostVar('password_max_length')
-							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
-				}
-			}
-
-			if( $this->getPasswordMaxAge() < 0 )
-			{
-				$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE;
-				if(!$a_form)
-				{
-					return $code;
-				}
-				else
-				{	
-					$a_form->getItemByPostVar('password_max_age')
-							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
-				}
-			}
-
-			if( $this->getLoginMaxAttempts() < 0 )
-			{
-				$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS;
-				if(!$a_form)
-				{
-					return $code;
-				}
-				else
-				{	
-					$a_form->getItemByPostVar('login_max_attempts')
-							->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
-				}
+			else
+			{		
+				$a_form->getItemByPostVar('password_min_length')
+						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
 			}
 		}
+
+		if( $this->getPasswordMaxLength() < 0 )
+		{
+			$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_LENGTH;
+			if(!$a_form)
+			{
+				return $code;
+			}
+			else
+			{		
+				$a_form->getItemByPostVar('password_max_length')
+						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+			}
+		}
+
+		$password_min_length = 1;
+		if( $this->isPasswordCharsAndNumbersEnabled() )
+		{
+			$password_min_length++;
+			$password_min_length_error_code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN2;
+
+			if( $this->isPasswordSpecialCharsEnabled() )
+			{
+				$password_min_length++;
+				$password_min_length_error_code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3;
+			}
+		}
+		if( $this->getPasswordMinLength() > 0 && $this->getPasswordMinLength() < $password_min_length )
+		{				
+			$code = $password_min_length_error_code;
+			if(!$a_form)
+			{
+				return $code;
+			}
+			else
+			{	
+				$a_form->getItemByPostVar('password_min_length')
+						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+			}
+		}
+		if( $this->getPasswordMaxLength() > 0 && $this->getPasswordMaxLength() < $this->getPasswordMinLength() )
+		{
+			$code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH;
+			if(!$a_form)
+			{
+				return $code;
+			}
+			else
+			{	
+				$a_form->getItemByPostVar('password_max_length')
+						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+			}
+		}
+
+		if( $this->getPasswordMaxAge() < 0 )
+		{
+			$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE;
+			if(!$a_form)
+			{
+				return $code;
+			}
+			else
+			{	
+				$a_form->getItemByPostVar('password_max_age')
+						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+			}
+		}
+
+		if( $this->getLoginMaxAttempts() < 0 )
+		{
+			$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS;
+			if(!$a_form)
+			{
+				return $code;
+			}
+			else
+			{	
+				$a_form->getItemByPostVar('login_max_attempts')
+						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+			}
+		}		
 
 		/*
 		 * todo: have to check for local auth if first login password change is enabled??

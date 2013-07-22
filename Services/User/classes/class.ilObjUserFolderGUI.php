@@ -1734,8 +1734,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'session_max_idle_after_first_request' => $ilSetting->get('session_max_idle_after_first_request', ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST),
 
 				'passwd_auto_generate' => (bool)$ilSetting->get("passwd_auto_generate"),			
-				'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0, 									
-				'account_security_mode' => $security->getAccountSecurityMode(),
+				'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0, 													
 				'password_chars_and_numbers_enabled' => $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0,
 				'password_special_chars_enabled' => $security->isPasswordSpecialCharsEnabled() ? 1 : 0 ,
 				'password_min_length' => $security->getPasswordMinLength(),
@@ -1775,8 +1774,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 			$security = ilSecuritySettings::_getInstance();
 
-			// account security settings
-			$security->setAccountSecurityMode((int) $_POST["account_security_mode"]);
+			// account security settings			
 			$security->setPasswordCharsAndNumbersEnabled((bool) $_POST["password_chars_and_numbers_enabled"]);
 			$security->setPasswordSpecialCharsEnabled((bool) $_POST["password_special_chars_enabled"]);
 			$security->setPasswordMinLength((int) $_POST["password_min_length"]);
@@ -2016,7 +2014,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('ps');		
 		
 		$pass = new ilFormSectionHeaderGUI();
-		$pass->setTitle($this->lng->txt('ps_security_protection'));
+		$pass->setTitle($this->lng->txt('ps_password_settings'));
 		$this->form->addItem($pass);
 		 
 		// password generation
@@ -2031,48 +2029,42 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		
-		$radio_group = new ilRadioGroupInputGUI($this->lng->txt('ps_account_security_mode'), 'account_security_mode' );
-		
-			$radio_opt = new ilRadioOption($this->lng->txt('ps_account_security_mode_default'),ilSecuritySettings::ACCOUNT_SECURITY_MODE_DEFAULT);
-			$radio_group->addOption($radio_opt);
+		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_chars_and_numbers_enabled'),'password_chars_and_numbers_enabled');			
+		//$check->setOptionTitle($this->lng->txt('ps_password_chars_and_numbers_enabled'));
+		$check->setInfo($this->lng->txt('ps_password_chars_and_numbers_enabled_info'));
+		$this->form->addItem($check);
 
-			$radio_opt = new ilRadioOption($this->lng->txt('ps_account_security_mode_customized'),ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED);
+		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_special_chars_enabled'),'password_special_chars_enabled');
+		//$check->setOptionTitle($this->lng->txt('ps_password_special_chars_enabled'));
+		$check->setInfo($this->lng->txt('ps_password_special_chars_enabled_info'));
+		$this->form->addItem($check);
 
-				$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_chars_and_numbers_enabled'),'password_chars_and_numbers_enabled');			
-				//$check->setOptionTitle($this->lng->txt('ps_password_chars_and_numbers_enabled'));
-				$check->setInfo($this->lng->txt('ps_password_chars_and_numbers_enabled_info'));
-				$radio_opt->addSubItem($check);
+		$text = new ilNumberInputGUI($this->lng->txt('ps_password_min_length'),'password_min_length');
+		$text->setInfo($this->lng->txt('ps_password_min_length_info'));
+		$text->setSize(1);
+		$text->setMaxLength(2);
+		$this->form->addItem($text);
 
-				$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_special_chars_enabled'),'password_special_chars_enabled');
-				//$check->setOptionTitle($this->lng->txt('ps_password_special_chars_enabled'));
-				$check->setInfo($this->lng->txt('ps_password_special_chars_enabled_info'));
-				$radio_opt->addSubItem($check);
+		$text = new ilNumberInputGUI($this->lng->txt('ps_password_max_length'),'password_max_length');
+		$text->setInfo($this->lng->txt('ps_password_max_length_info'));
+		$text->setSize(2);
+		$text->setMaxLength(3);
+		$this->form->addItem($text);
 
-				$text = new ilNumberInputGUI($this->lng->txt('ps_password_min_length'),'password_min_length');
-				$text->setInfo($this->lng->txt('ps_password_min_length_info'));
-				$text->setSize(1);
-				$text->setMaxLength(2);
-				$radio_opt->addSubItem($text);
-
-				$text = new ilNumberInputGUI($this->lng->txt('ps_password_max_length'),'password_max_length');
-				$text->setInfo($this->lng->txt('ps_password_max_length_info'));
-				$text->setSize(2);
-				$text->setMaxLength(3);
-				$radio_opt->addSubItem($text);
-
-				$text = new ilNumberInputGUI($this->lng->txt('ps_password_max_age'),'password_max_age');
-				$text->setInfo($this->lng->txt('ps_password_max_age_info'));
-				$text->setSize(2);
-				$text->setMaxLength(3);
-				$radio_opt->addSubItem($text);
-				
-		$radio_group->addOption($radio_opt);
-		$this->form->addItem($radio_group);
+		$text = new ilNumberInputGUI($this->lng->txt('ps_password_max_age'),'password_max_age');
+		$text->setInfo($this->lng->txt('ps_password_max_age_info'));
+		$text->setSize(2);
+		$text->setMaxLength(3);
+		$this->form->addItem($text);
 							
 		// password assistance
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_password_assistance"), "password_assistance");		
 		$cb->setInfo($this->lng->txt("password_assistance_info"));
 		$this->form->addItem($cb);
+				
+		$pass = new ilFormSectionHeaderGUI();
+		$pass->setTitle($this->lng->txt('ps_security_protection'));
+		$this->form->addItem($pass);
 		
 		$text = new ilNumberInputGUI($this->lng->txt('ps_login_max_attempts'),'login_max_attempts');
 		$text->setInfo($this->lng->txt('ps_login_max_attempts_info'));
@@ -3125,18 +3117,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$security = ilSecuritySettings::_getInstance();
 				
 				$fields = array();
-				$fields['ps_account_security_mode'] = ((int)$security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_DEFAULT) ? 
-					$this->lng->txt("ps_account_security_mode_default") :
-					$this->lng->txt("ps_account_security_mode_customized");
 				
-				if((int)$security->getAccountSecurityMode() != ilSecuritySettings::ACCOUNT_SECURITY_MODE_DEFAULT)
-				{
-					$fields['~ps_password_chars_and_numbers_enabled'] = array($security->isPasswordCharsAndNumbersEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-					$fields['~ps_password_special_chars_enabled'] = array($security->isPasswordSpecialCharsEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-					$fields['~ps_password_min_length'] = (int)$security->getPasswordMinLength();
-					$fields['~ps_password_max_length'] = (int)$security->getPasswordMaxLength();
-					$fields['~ps_password_max_age'] = (int)$security->getPasswordMaxAge();					
-				}
+				// :TODO: password settings "block"
+				$fields['~ps_password_chars_and_numbers_enabled'] = array($security->isPasswordCharsAndNumbersEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
+				$fields['~ps_password_special_chars_enabled'] = array($security->isPasswordSpecialCharsEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
+				$fields['~ps_password_min_length'] = (int)$security->getPasswordMinLength();
+				$fields['~ps_password_max_length'] = (int)$security->getPasswordMaxLength();
+				$fields['~ps_password_max_age'] = (int)$security->getPasswordMaxAge();									
 				
 				$fields['ps_login_max_attempts'] = (int)$security->getLoginMaxAttempts();	
 				$fields['ps_password_change_on_first_login_enabled'] = array($security->isPasswordChangeOnFirstLoginEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);	
