@@ -1805,9 +1805,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$ilSetting->set('create_history_loginname', (int)$this->form->getInput('create_history_loginname'));
 				$ilSetting->set('reuse_of_loginnames', (int)$this->form->getInput('reuse_of_loginnames'));
 				$ilSetting->set('loginname_change_blocking_time', (int)$save_blocking_time_in_seconds);
-				$ilSetting->set('user_adm_alpha_nav', (int)$this->form->getInput('user_adm_alpha_nav'));
-				// $ilSetting->set('user_ext_profiles', (int)$this->form->getInput('user_ext_profiles'));
-				$ilSetting->set('user_portfolios', (int)$this->form->getInput('user_portfolios'));
+				$ilSetting->set('user_adm_alpha_nav', (int)$this->form->getInput('user_adm_alpha_nav'));			
 				$ilSetting->set('user_reactivate_code', (int)$this->form->getInput('user_reactivate_code'));
 				
 				$ilSetting->set('user_delete_own_account', (int)$this->form->getInput('user_own_account'));
@@ -1899,12 +1897,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$alph->setValue(1);
 		$this->form->addItem($alph);
 
-		/* extended user profiles
-		$cb = new ilCheckboxInputGUI($this->lng->txt("user_ext_profiles"), "user_ext_profiles");
-		$cb->setInfo($this->lng->txt('user_ext_profiles_desc'));
-		$this->form->addItem($cb);		 
-		*/
-		
 		// account codes
 		$code = new ilCheckboxInputGUI($this->lng->txt("user_account_code_setting"), "user_reactivate_code");
 		$code->setInfo($this->lng->txt('user_account_code_setting_info'));
