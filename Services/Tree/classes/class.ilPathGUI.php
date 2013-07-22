@@ -37,6 +37,7 @@ class ilPathGUI
 	
 	private $textOnly = true;
 	private $useImages = false;
+	private $hide_leaf = true;
 	
 	protected $lng = null;
 	protected $tree = null;
@@ -86,6 +87,19 @@ class ilPathGUI
 		return $this->textOnly;
 	}
 	
+	/**
+	 * Hide leaf node in path
+	 * @param type $a_status
+	 */
+	public function enableHideLeaf($a_status)
+	{
+		$this->hide_leaf = $a_status;
+	}
+	
+	public function hideLeaf()
+	{
+		return $this->hide_leaf;
+	}
 	/**
 	 * set use images 
 	 * @param	bool
@@ -190,7 +204,10 @@ class ilPathGUI
 	protected function getPathIds()
 	{
 		$path = $this->tree->getPathId($this->endnode,$this->startnode);
-		unset($path[count($path) - 1]);
+		if($this->hideLeaf())
+		{
+			unset($path[count($path) - 1]);
+		}
 		return $path ? $path : array();
 	}
 }

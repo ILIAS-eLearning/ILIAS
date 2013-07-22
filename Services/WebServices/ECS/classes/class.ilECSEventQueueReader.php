@@ -146,10 +146,17 @@ class ilECSEventQueueReader
 			$event_queue->deleteAllEContentEvents($types);
 			
 			$list = self::getAllResourceIds($server, $types);						
-			$imported = ilECSImport::_getAllImportedLinks($server->getServerId());
+			$imported = ilECSImport::getAllImportedRemoteObjects($server->getServerId());
 			foreach($list as $resource_type => $link_ids)
 			{
-				foreach($links_ids as $link_id)
+				if(!in_array($resource_type, ilECSUtils::getPossibleRemoteTypes()))
+				{
+					$GLOBALS['ilLog']->write(__METHOD__.': Ignoring resource type '. $resource_type);
+					continue;
+				}
+				
+				
+				foreach((array) $link_ids as $link_id)
 				{
 					if(!isset($imported[$link_id]))
 					{

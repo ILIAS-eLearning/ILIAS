@@ -63,7 +63,12 @@ class ilECSMappingUtils
 				'organisation',
 				'term',
 				'title',
-				'lecturer') as $field)
+				'lecturer',
+				'courseType',
+				'degreeProgramme',
+				'module',
+				'venue'
+				) as $field)
 		{
 			$field_info[$counter]['name'] = $field;
 			$field_info[$counter]['translation'] = $lng->txt('ecs_cmap_att_'.$field);
@@ -94,18 +99,48 @@ class ilECSMappingUtils
 		switch($a_field)
 		{
 			case 'organisation':
-				return (string) $course->basicData->organisation;
+				return (string) $course->organisation;
 				
 			case 'term':
-				return (string) $course->basicData->term;
+				return (string) $course->term;
 				
 			case 'title':
-				return (string) $course->basicData->title;
+				return (string) $course->title;
 				
 			case 'lecturer':
-				foreach((array) $course->lecturers as $lecturer)
+				foreach((array) $course->groups as $group)
 				{
-					return (string) ($lecturer->lastName.', '. $lecturer->firstName);
+					foreach((array) $group->lecturers as $lecturer)
+					{
+						return (string) ($lecturer->lastName.', '. $lecturer->firstName);
+					}
+				}
+				return '';
+				
+			case 'courseType':
+				return (string) $course->lectureType;
+				
+			case 'degreeProgramme':
+				foreach((array) $course->degreeProgrammes as $prog)
+				{
+					return (string) $prog->title;
+				}
+				return '';
+				
+			case 'module':
+				foreach((array) $course->modules as $mod)
+				{
+					return (string) $mod->title;
+				}
+				return '';
+				
+			case 'venue':
+				foreach((array) $course->groups as $group)
+				{
+					foreach((array) $group->datesAndVenues as $venue)
+					{
+						return (string) $venue->venue;
+					}
 				}
 				return '';
 		}

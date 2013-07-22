@@ -201,7 +201,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		$put_in_course = true;
 		
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
-		switch((int) $course->basicData->parallelGroupScenario)
+		switch((int) $course->groupScenario)
 		{
 			case ilECSMappingUtils::PARALLEL_UNDEFINED:
 				$GLOBALS['ilLog']->write(__METHOD__.': No parallel group scenario defined.');
@@ -225,7 +225,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			
 			default:
 				$GLOBALS['ilLog']->write(__METHOD__.': Parallel group scenario undefined.');
-				$put_in_course = false;
+				$put_in_course = true;
 				break;
 		}
 		
