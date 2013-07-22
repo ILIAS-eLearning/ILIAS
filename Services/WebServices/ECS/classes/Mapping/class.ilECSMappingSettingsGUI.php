@@ -474,6 +474,7 @@ class ilECSMappingSettingsGUI
 			include_once './Services/Tree/classes/class.ilPathGUI.php';
 			$path = new ilPathGUI();
 			$path->enableTextOnly(false);
+			$path->enableHideLeaf(false);
 			$tpl->setVariable('COMPLETE_PATH',$path->getPath(ROOT_FOLDER_ID, $default));
 		}
 
@@ -501,6 +502,7 @@ class ilECSMappingSettingsGUI
 			include_once './Services/Tree/classes/class.ilPathGUI.php';
 			$path = new ilPathGUI();
 			$path->enableTextOnly(false);
+			$path->enableHideLeaf(false);
 			$tpl->setVariable('COMPLETE_PATH',$path->getPath(ROOT_FOLDER_ID, $default));
 		}
 		
