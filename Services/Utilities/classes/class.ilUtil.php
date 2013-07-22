@@ -1258,10 +1258,8 @@ class ilUtil
 		// if password must contains Special-Chars
 		if( $security->isPasswordSpecialCharsEnabled() )
 		{
-			$specialCharsReg = '/[_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+/';
-		
 			// check password for existing special-chars
-			if( !preg_match($specialCharsReg, $a_passwd) )
+			if( !preg_match( self::getPasswordValidChars(true, true) , $a_passwd) )
 			{
 				$errors[] = $lng->txt('password_must_special_chars');
 				$isPassword = false;
@@ -1293,13 +1291,21 @@ class ilUtil
 	 * All valid chars for password
 	 * 
 	 * @param bool $a_as_regex
+	 * @param bool $a_only_special_chars
 	 * @return string
 	 */
-	public static function getPasswordValidChars($a_as_regex = true)
+	public static function getPasswordValidChars($a_as_regex = true, $a_only_special_chars = false)
 	{
 		if( $a_as_regex )
 		{
-			return '/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+$/';
+			if( $a_only_special_chars )
+			{
+				return '/[_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+/';
+			}
+			else
+			{
+				return '/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+$/';
+			}
 		}
 		else
 		{

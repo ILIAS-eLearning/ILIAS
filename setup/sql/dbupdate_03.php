@@ -16648,3 +16648,20 @@ if (!$ilDB->tableColumnExists("content_object", "rating"))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3973>
+<?php
+
+// migrate security default mode to custom settings
+$setting = new ilSetting();
+if($setting->get('ps_account_security_mode', 1) == 1)
+{
+	$setting->set('ps_account_security_mode', 2);
+	$setting->set('ps_password_chars_and_numbers_enabled', false);
+	$setting->set('ps_password_special_chars_enabled', false);
+	$setting->set('ps_password_min_length', 6);
+	$setting->set('ps_password_max_length', 0);
+	$setting->set('ps_password_max_age', 0);
+	$setting->set('ps_login_max_attempts', 0);	
+}
+
+?>
