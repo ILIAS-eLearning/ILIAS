@@ -269,10 +269,16 @@ class ilPublicUserProfileGUI
 
 		if(!$this->offline && $this->getUserId() != ANONYMOUS_USER_ID)
 		{
+			$ref_url = str_replace("&amp;", "&", $this->getBackUrl());
+			if(!$ref_url)
+			{
+				$ref_url = basename($_SERVER['REQUEST_URI']);
+			}
+			
 			$tpl->setCurrentBlock("mail");
 			$tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
 			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			$tpl->setVariable('HREF_MAIL', ilMailFormCall::getLinkTarget(basename($_SERVER['REQUEST_URI']), '', array(), array('type' => 'new', 'rcp_to' => urlencode($user->getLogin()))));
+			$tpl->setVariable('HREF_MAIL', ilMailFormCall::getLinkTarget($ref_url, '', array(), array('type' => 'new', 'rcp_to' => urlencode($user->getLogin()))));
 			$tpl->parseCurrentBlock();			
 		}
 		
