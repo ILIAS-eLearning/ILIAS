@@ -16665,3 +16665,7 @@ if($setting->get('ps_account_security_mode', 1) == 1)
 }
 
 ?>
+<#3974>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
