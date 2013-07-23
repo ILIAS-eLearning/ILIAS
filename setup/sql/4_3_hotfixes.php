@@ -340,3 +340,7 @@ if(!$ilDB->tableColumnExists('tst_tests','ending_time'))
 		$setting->set('ilfrmnoti1', 1);
 	}
 ?>
+<#16>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

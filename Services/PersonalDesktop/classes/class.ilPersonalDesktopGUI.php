@@ -18,7 +18,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjPortfolioGUI, ilPersonalSkillsGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjPortfolioGUI, ilPersonalSkillsGUI, ilObjChatroomGUI
 *
 */
 class ilPersonalDesktopGUI
