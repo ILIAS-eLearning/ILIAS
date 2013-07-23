@@ -380,8 +380,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	{		
 		$this->tabs_gui->activateTab('modules');
 
-		include_once("./Services/Component/classes/class.ilComponentsTableGUI.php");
-		$comp_table = new ilComponentsTableGUI($this, "listModules", IL_COMP_MODULE);
+		include_once("./Services/Repository/classes/class.ilModulesTableGUI.php");
+		$comp_table = new ilModulesTableGUI($this, "listModules");
 				
 		$this->tpl->setContent($comp_table->getHTML());
 	}
