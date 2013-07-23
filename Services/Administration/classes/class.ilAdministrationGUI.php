@@ -429,7 +429,7 @@ class ilAdministrationGUI
 		}
 		else
 		{
-			$ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugin");
+			$ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugins");
 		}
 	}
 

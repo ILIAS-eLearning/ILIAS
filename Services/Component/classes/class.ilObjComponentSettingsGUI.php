@@ -144,7 +144,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$this->tabs_gui->activateTab('slots');
 
 		include_once("./Services/Component/classes/class.ilComponentsTableGUI.php");
-		$comp_table = new ilComponentsTableGUI($this, "listSlots", IL_COMP_SLOTS);
+		$comp_table = new ilComponentsTableGUI($this, "listSlots");
 
 		$this->tpl->setContent($comp_table->getHTML());
 	}
