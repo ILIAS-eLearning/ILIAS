@@ -35,6 +35,8 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 {
 	protected $options;
 	protected $value;
+	protected $select_all; // [bool]
+	protected $selected_first; // [bool]
 
 	/**
 	 * Width for this field
@@ -158,7 +160,19 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 	{
 		$this->setValue($a_values[$this->getPostVar()]);
 	}
+	
+	
+	function enableSelectAll($a_value)
+	{
+		$this->select_all = (bool)$a_value;
+	}
+	
+	function enableSelectedFirst($a_value)
+	{
+		$this->selected_first = (bool)$a_value;
+	}
 
+	
 	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
@@ -194,12 +208,50 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 	*/
 	function render()
 	{
+		global $lng;
+		
 		$tpl = new ilTemplate("tpl.prop_multi_select.html", true, true, "Services/Form");
 		$values = $this->getValue();
 
 		$options = $this->getOptions();
 		if($options)
 		{
+			if($this->select_all)
+			{
+				// enable select all toggle
+				$tpl->setCurrentBlock("item");			
+				$tpl->setVariable("VAL", "");
+				$tpl->setVariable("ID_VAL", ilUtil::prepareFormOutput("all__toggle"));
+				$tpl->setVariable("IID", $this->getFieldId());
+				$tpl->setVariable("TXT_OPTION" ,"<em>".$lng->txt("select_all")."</em>");
+				$tpl->setVariable("POST_VAR", $this->getPostVar());
+				$tpl->parseCurrentBlock();			
+				
+				$tpl->setVariable("TOGGLE_FIELD_ID", $this->getFieldId());
+				$tpl->setVariable("TOGGLE_ALL_ID", $this->getFieldId()."_all__toggle");
+				$tpl->setVariable("TOGGLE_ALL_CBOX_ID", $this->getFieldId()."_");
+			}
+			
+			if($this->selected_first)
+			{
+				// move selected values to top
+				$tmp_checked = $tmp_unchecked = array();
+				foreach($options as $option_value => $option_text)
+				{
+					if (in_array($option_value, $values))
+					{
+						$tmp_checked[$option_value] = $option_text;
+					}
+					else
+					{
+						$tmp_unchecked[$option_value] = $option_text;
+					}
+				}
+				$options = $tmp_checked + $tmp_unchecked;
+				unset($tmp_checked);
+				unset($tmp_unchecked);
+			}
+			
 			foreach($options as $option_value => $option_text)
 			{
 				$tpl->setCurrentBlock("item");
