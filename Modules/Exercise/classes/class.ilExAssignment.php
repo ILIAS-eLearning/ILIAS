@@ -2283,8 +2283,12 @@ class ilExAssignment
 					
 					$files = array_shift($files);
 					if(trim($files["atext"]))
-					{																	
-						$ilCtrl->setParameter($a_parent_obj, "grd", (($a_parent_cmd == "members") ? 1 : 2));
+					{					
+						// #11397
+						if($a_parent_cmd)
+						{
+							$ilCtrl->setParameter($a_parent_obj, "grd", (($a_parent_cmd == "members") ? 1 : 2));
+						}
 						$ilCtrl->setParameter($a_parent_obj, "member_id", $a_user_id);		
 						$result["files"]["download_url"] =
 							$ilCtrl->getLinkTarget($a_parent_obj, "showAssignmentText");												
