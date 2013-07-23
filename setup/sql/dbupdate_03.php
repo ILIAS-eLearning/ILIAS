@@ -16669,3 +16669,14 @@ if($setting->get('ps_account_security_mode', 1) == 1)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3975>
+<?php
+if (!$ilDB->tableColumnExists("booking_user", "notification_sent"))
+{
+	$ilDB->addTableColumn("booking_user", "notification_sent", array(
+		'type' => 'integer', 
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0));
+}
+?>
