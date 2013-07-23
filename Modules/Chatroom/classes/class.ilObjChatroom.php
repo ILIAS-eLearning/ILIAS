@@ -125,22 +125,6 @@ class ilObjChatroom extends ilObject
 		
 		return $newObj;
 	}
-
-	/**
-	 * get ID of assigned style sheet object
-	 */
-	function getStyleSheetId()
-	{
-		return $this->style_id;
-	}
-
-	/**
-	 * set ID of assigned style sheet object
-	 */
-	function setStyleSheetId($a_style_id)
-	{
-		$this->style_id = $a_style_id;
-	}
 }
 
 ?>
