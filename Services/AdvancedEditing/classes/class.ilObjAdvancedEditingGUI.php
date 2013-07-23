@@ -64,7 +64,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		return true;
 	}
 
-
 	/**
 	* save object
 	* @access	public
@@ -86,13 +85,100 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		//exit();
 	}
 
+	function getAdminTabs(&$tabs_gui)
+	{
+		$this->getTabs($tabs_gui);
+	}		
+	
+	/**
+	* Add rte subtabs
+	*/
+	function addSubtabs(&$tabs_gui)
+	{
+		global $ilCtrl;
 
+		if ($ilCtrl->getNextClass() != "ilpermissiongui" &&
+			!in_array($ilCtrl->getCmd(), array("showPageEditorSettings",
+				"showGeneralPageEditorSettings", "", "view")))
+		{
+			$tabs_gui->addSubTabTarget("adve_general_settings",
+											 $this->ctrl->getLinkTarget($this, "settings"),
+											 array("settings", "saveSettings"),
+											 "", "");
+			$tabs_gui->addSubTabTarget("adve_assessment_settings",
+											 $this->ctrl->getLinkTarget($this, "assessment"),
+											 array("assessment", "saveAssessmentSettings"),
+											 "", "");
+			$tabs_gui->addSubTabTarget("adve_survey_settings",
+											 $this->ctrl->getLinkTarget($this, "survey"),
+											 array("survey", "saveSurveySettings"),
+											 "", "");
+			$tabs_gui->addSubTabTarget("adve_frm_post_settings",
+											 $this->ctrl->getLinkTarget($this, "frmPost"),
+											 array("frmPost", "saveFrmPostSettings"),
+											 "", "");
+		}
+	}
+	
+	/**
+	* Show page editor settings subtabs
+	*/
+	function addPageEditorSettingsSubtabs()
+	{
+		global $ilCtrl, $ilTabs;
+
+		$ilTabs->addSubTabTarget("adve_pe_general",
+			 $ilCtrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
+			 array("showGeneralPageEditorSettings", "", "view")); 
+		
+		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
+		$grps = ilPageEditorSettings::getGroups();
+		
+		foreach ($grps as $g => $types)
+		{
+			$ilCtrl->setParameter($this, "grp", $g);
+			$ilTabs->addSubTabTarget("adve_grp_".$g,
+				 $ilCtrl->getLinkTarget($this, "showPageEditorSettings"),
+				 array("showPageEditorSettings")); 
+		}
+		$ilCtrl->setParameter($this, "grp", $_GET["grp"]);
+	}
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("adve_page_editor_settings",
+				$this->ctrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
+					array("showPageEditorSettings", "","view"));
+
+			$tabs_gui->addTarget("adve_rte_settings",
+				$this->ctrl->getLinkTarget($this, "settings"),
+					array("settings","assessment", "survey", "frmPost"), "", "");
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
+		$this->addSubtabs($tabs_gui);
+	}
+	
+	
 	/**
 	 * Display assessment folder settings form
 	 */
 	function settingsObject()
 	{
-		global $ilAccess, $tpl, $ilCtrl, $lng;
+		global $tpl, $ilCtrl, $lng;
 		
 		$editor = $this->object->_getRichTextEditor();
 		
@@ -109,130 +195,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$this->form->addCommandButton("saveSettings", $lng->txt("save"));
 		
 		$tpl->setContent($this->form->getHTML());
-	}
+	}	
 	
-	/**
-	* Display settings for test and assessment.
-	*/
-	function assessmentObject()
-	{
-		global $ilAccess;
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_assessment.html",
-			"Services/AdvancedEditing");
-		
-		$alltags =& $this->object->getHTMLTags();
-		$usedtags =& $this->object->_getUsedHTMLTags("assessment");
-		foreach ($alltags as $tag)
-		{
-			$this->tpl->setCurrentBlock("html_tag_row");
-			$this->tpl->setVariable("HTML_TAG", $tag);
-			if (is_array($usedtags))
-			{
-				if (in_array($tag, $usedtags))
-				{
-					$this->tpl->setVariable("HTML_TAG_SELECTED", " selected=\"selected\"");
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->tpl->setCurrentBlock("save");
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_ASSESSMENT_SETTINGS", $this->lng->txt("advanced_editing_assessment_settings"));
-		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("advanced_editing_allow_html_tags"));
-
-		$this->tpl->parseCurrentBlock();
-	}
-	
-	
-	/**
-	* Display settings for surveys.
-	*/
-	function surveyObject()
-	{
-		global $ilAccess;
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_survey.html",
-			"Services/AdvancedEditing");
-		
-		$alltags =& $this->object->getHTMLTags();
-		$usedtags =& $this->object->_getUsedHTMLTags("survey");
-		foreach ($alltags as $tag)
-		{
-			$this->tpl->setCurrentBlock("html_tag_row");
-			$this->tpl->setVariable("HTML_TAG", $tag);
-			if (is_array($usedtags))
-			{
-				if (in_array($tag, $usedtags))
-				{
-					$this->tpl->setVariable("HTML_TAG_SELECTED", " selected=\"selected\"");
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->tpl->setCurrentBlock("save");
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_SURVEY_SETTINGS", $this->lng->txt("advanced_editing_survey_settings"));
-		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("advanced_editing_allow_html_tags"));
-
-		$this->tpl->parseCurrentBlock();
-	}
-	
-	/**
-	* Display settings for learning module page JS editor (Currently HTMLArea)
-	*/
-/*
-	function learningModuleObject()
-	{
-		global $ilSetting;
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_learning_module.html",
-			"Services/AdvancedEditing");
-				
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_LM_SETTINGS", $this->lng->txt("advanced_editing_lm_settings"));
-		$this->tpl->setVariable("TXT_LM_JS_EDITING", $this->lng->txt("advanced_editing_lm_js_editing"));
-		$this->tpl->setVariable("TXT_LM_JS_EDITING_DESC", $this->lng->txt("advanced_editing_lm_js_editing_desc"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
-		if ($ilSetting->get("enable_js_edit", 1))
-		{
-			$this->tpl->setVariable("JS_EDIT", "checked=\"checked\"");
-		}
-
-		$this->tpl->parseCurrentBlock();
-	}
-*/
-	/**
-	* Save settings for learning module JS editing.
-	*/
-/*
-	function saveLearningModuleSettingsObject()
-	{
-		global $ilSetting;
-
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-		$ilSetting->set("enable_js_edit", (int) $_POST["js_edit"]);
-		$this->ctrl->redirect($this, 'learningmodule');
-	}
-*/
 	/**
 	* Save Assessment settings
 	*/
@@ -251,26 +215,108 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$this->ctrl->redirect($this,'settings');
 	}
 	
+	
+	/**
+	* Display settings for test and assessment.
+	*/
+	function assessmentObject()
+	{		
+		$form = $this->initTagsForm("assessment", "saveAssessmentSettings",
+			"advanced_editing_assessment_settings");
+		
+		$this->tpl->setContent($form->getHTML());
+	}	
+	
 	function saveAssessmentSettingsObject()
 	{
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-
-		$this->object->_setUsedHTMLTags($_POST["html_tags"], "assessment");
-		$this->ctrl->redirect($this,'assessment');
+		$this->saveTags("assessment", "assessment");			
+	}
+	
+	
+	/**
+	* Display settings for surveys.
+	*/
+	function surveyObject()
+	{
+		$form = $this->initTagsForm("survey", "saveSurveySettings",
+			"advanced_editing_survey_settings");
+		
+		$this->tpl->setContent($form->getHTML());		
 	}
 	
 	function saveSurveySettingsObject()
 	{
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-
-		$this->object->_setUsedHTMLTags($_POST["html_tags"], "survey");
-		$this->ctrl->redirect($this,'survey');
+		$this->saveTags("survey", "survey");		
 	}
 	
-	function getAdminTabs(&$tabs_gui)
-	{
-		$this->getTabs($tabs_gui);
+	
+	/**
+	* Display settings for forums.
+	*/
+	public function frmPostObject()
+	{							
+		$form = $this->initTagsForm("frm_post", "saveFrmPostSettings",
+			"advanced_editing_frm_post_settings");
+		
+		$this->tpl->setContent($form->getHTML());
 	}
+		
+	public function saveFrmPostSettingsObject()
+	{
+		$this->saveTags("frm_post", "frmPost");
+	}
+			
+	
+	protected function initTagsForm($a_id, $a_cmd, $a_title)
+	{
+		global $ilAccess;
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
+		$form->setTitle($this->lng->txt($a_title));
+		
+		$alltags = $this->object->getHTMLTags();
+		$alltags = array_combine($alltags, $alltags);
+		
+		include_once "Services/Form/classes/class.ilMultiSelectInputGUI.php";
+		$tags = new ilMultiSelectInputGUI($this->lng->txt("advanced_editing_allow_html_tags"), "html_tags");	
+		$tags->setHeight(400);
+		$tags->enableSelectAll(true);
+		$tags->enableSelectedFirst(true);
+		$tags->setOptions($alltags);
+		$tags->setValue($this->object->_getUsedHTMLTags($a_id));		
+		$form->addItem($tags);
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton($a_cmd, $this->lng->txt("save"));
+		}
+		
+		return $form;
+	}
+	
+	protected function saveTags($a_id, $a_cmd)
+	{					
+		try
+		{
+			// get rid of select all
+			if(is_array($_POST['html_tags']) && $_POST['html_tags'][0] == "")
+			{
+				unset($_POST['html_tags'][0]);				
+			}
+			
+			$this->object->_setUsedHTMLTags((array)$_POST['html_tags'], $a_id);
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+		}
+		catch(ilAdvancedEditingRequiredTagsException $e)
+		{
+			ilUtil::sendInfo($e->getMessage(), true);	
+		}
+		
+		$this->ctrl->redirect($this, $a_cmd);
+	}
+	
 	
 	/**
 	* Show page editor settings
@@ -404,6 +450,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$ilCtrl->redirect($this, "showPageEditorSettings");
 	}
 	
+	
 	/**
 	 * Show general page editor settings
 	 */
@@ -459,141 +506,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		}
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "showGeneralPageEditorSettings");
-	}
-	
-	/**
-	* Add rte subtabs
-	*/
-	function addSubtabs(&$tabs_gui)
-	{
-		global $ilCtrl;
-
-		if ($ilCtrl->getNextClass() != "ilpermissiongui" &&
-			!in_array($ilCtrl->getCmd(), array("showPageEditorSettings",
-				"showGeneralPageEditorSettings", "", "view")))
-		{
-			$tabs_gui->addSubTabTarget("adve_general_settings",
-											 $this->ctrl->getLinkTarget($this, "settings"),
-											 array("settings", "saveSettings"),
-											 "", "");
-			$tabs_gui->addSubTabTarget("adve_assessment_settings",
-											 $this->ctrl->getLinkTarget($this, "assessment"),
-											 array("assessment", "saveAssessmentSettings"),
-											 "", "");
-			$tabs_gui->addSubTabTarget("adve_survey_settings",
-											 $this->ctrl->getLinkTarget($this, "survey"),
-											 array("survey", "saveSurveySettings"),
-											 "", "");
-			/*$tabs_gui->addSubTabTarget("adve_lm_settings",
-											 $this->ctrl->getLinkTarget($this, "learningModule"),
-											 array("learningModule", "saveLearningModuleSettings"),
-											 "", "");*/
-			$tabs_gui->addSubTabTarget("adve_frm_post_settings",
-											 $this->ctrl->getLinkTarget($this, "frmPost"),
-											 array("frmPost", "saveFrmPostSettings"),
-											 "", "");
-		}
-	}
-	
-	public function saveFrmPostSettingsObject()
-	{
-		ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-		
-		try
-		{
-			$this->object->_setUsedHTMLTags((array)$_POST['html_tags'], 'frm_post');	
-		}
-		catch(ilAdvancedEditingRequiredTagsException $e)
-		{
-			ilUtil::sendInfo($e->getMessage(), true);	
-		}
-		
-		$this->ctrl->redirect($this,'frmPost');
-	}
-	
-	public function frmPostObject()
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_frm_post.html",
-			"Services/AdvancedEditing");
-		
-		$alltags =& $this->object->getHTMLTags();
-		$usedtags =& $this->object->_getUsedHTMLTags("frm_post");
-		foreach ($alltags as $tag)
-		{
-			$this->tpl->setCurrentBlock("html_tag_row");
-			$this->tpl->setVariable("HTML_TAG", $tag);
-			if (is_array($usedtags))
-			{
-				if (in_array($tag, $usedtags))
-				{
-					$this->tpl->setVariable("HTML_TAG_SELECTED", " selected=\"selected\"");
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_FRM_POST_SETTINGS", $this->lng->txt("advanced_editing_frm_post_settings"));
-		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("advanced_editing_allow_html_tags"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
-		$this->tpl->parseCurrentBlock();
-	}
-	
-	
-	/**
-	* Show page editor settings subtabs
-	*/
-	function addPageEditorSettingsSubtabs()
-	{
-		global $ilCtrl, $ilTabs;
-
-		$ilTabs->addSubTabTarget("adve_pe_general",
-			 $ilCtrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
-			 array("showGeneralPageEditorSettings", "", "view")); 
-		
-		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
-		$grps = ilPageEditorSettings::getGroups();
-		
-		foreach ($grps as $g => $types)
-		{
-			$ilCtrl->setParameter($this, "grp", $g);
-			$ilTabs->addSubTabTarget("adve_grp_".$g,
-				 $ilCtrl->getLinkTarget($this, "showPageEditorSettings"),
-				 array("showPageEditorSettings")); 
-		}
-		$ilCtrl->setParameter($this, "grp", $_GET["grp"]);
-	}
-
-	
-	/**
-	* get tabs
-	* @access	public
-	* @param	object	tabs gui object
-	*/
-	function getTabs(&$tabs_gui)
-	{
-		global $rbacsystem;
-
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("adve_page_editor_settings",
-				$this->ctrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
-					array("showPageEditorSettings", "","view"));
-
-			$tabs_gui->addTarget("adve_rte_settings",
-				$this->ctrl->getLinkTarget($this, "settings"),
-					array("settings","assessment", "survey", "learningModule",
-					"frmPost"), "", "");
-		}
-
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-		}
-		$this->addSubtabs($tabs_gui);
 	}
 } // END class.ilObjAdvancedEditingGUI
 ?>
