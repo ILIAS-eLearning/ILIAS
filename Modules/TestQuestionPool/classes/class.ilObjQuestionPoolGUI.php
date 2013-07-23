@@ -138,6 +138,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		switch($next_class)
 		{
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			case 'ilmdeditorgui':
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
