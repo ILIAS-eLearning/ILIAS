@@ -3380,7 +3380,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$form->addItem($text);		
 			
 			$form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
-			$form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));			
+			$form->addCommandButton("updateAssignmentTextAndReturn", $this->lng->txt("save_return"));		
+			$form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));							
 		}
 		else
 		{
@@ -3410,6 +3411,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$ilTabs->activateTab("content");
 		$this->addContentSubTabs("content");
 		
+		if($this->ass->getDeadline())
+		{
+			ilUtil::sendInfo($this->lng->txt("exc_edit_until").": ".
+				ilDatePresentation::formatDate(new ilDateTime($this->ass->getDeadline(),IL_CAL_UNIX)));
+		}
+		
 		if(!$a_form)
 		{
 			$a_form = $this->initAssignmentTextForm($this->ass);		
@@ -3429,13 +3436,25 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setContent($a_form->getHTML());
 	}
 	
-	function updateAssignmentTextObject()
+	function updateAssignmentTextAndReturnObject()
+	{
+		$this->updateAssignmentTextObject(true);		
+	}
+	
+	function updateAssignmentTextObject($a_return = false)
 	{
 		global $ilCtrl, $ilUser;
 		
+		$times_up = ($this->ass->getDeadline() && $this->ass->getDeadline() - time() < 0);
+		
 		if(!$this->ass || 
-			$this->ass->getType() != ilExAssignment::TYPE_TEXT)
+			$this->ass->getType() != ilExAssignment::TYPE_TEXT ||
+			$times_up)
 		{
+			if($times_up)
+			{
+				ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
+			}
 			$ilCtrl->redirect($this, "showOverview");
 		}
 		
@@ -3448,7 +3467,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->object->updateTextSubmission($this->ass->getExerciseId(), $this->ass->getId(), $ilUser->getId(), $text);			
 						
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-			$ilCtrl->redirect($this, "showOverview");
+			if($a_return)
+			{
+				$ilCtrl->redirect($this, "showOverview");
+			}
+			else
+			{
+				$ilCtrl->redirect($this, "editAssignmentText");
+			}
 		}
 		
 		$form->setValuesByPost();
