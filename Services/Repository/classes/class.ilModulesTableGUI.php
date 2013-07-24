@@ -123,11 +123,19 @@ class ilModulesTableGUI extends ilTable2GUI
 		// parse positions
 		$data = array();
 		foreach($obj_types as $obj_type => $item)
-		{	
-			$org_pos = ($ilSetting->get("obj_add_new_pos_".$obj_type) > 0)
-				? (int)$ilSetting->get("obj_add_new_pos_".$obj_type)
-				: (int)("9999".str_pad($item["default_pos"], 4, "0", STR_PAD_LEFT));
-
+		{							
+			$org_pos = $ilSetting->get("obj_add_new_pos_".$obj_type);								
+			if($org_pos < 1)
+			{
+				// no setting yet, use default
+				$org_pos = $item["default_pos"];
+			}
+			if(strlen($org_pos) < 8)
+			{
+				// "old" setting without group part, add "unassigned" group
+				$org_pos = "9999".str_pad($org_pos, 4, "0", STR_PAD_LEFT);
+			}			
+			
 			$pos_grp_id = $ilSetting->get("obj_add_new_pos_grp_".$obj_type, 0);
 
 			$pos_grp_pos = isset($pos_group_map[$pos_grp_id])
@@ -150,7 +158,7 @@ class ilModulesTableGUI extends ilTable2GUI
 				"creation" => !(bool)$ilSetting->get("obj_dis_creation_".$obj_type, false),
 				"group_id" => $item["grp"],
 				"group" => $group,
-				"sort_key" => $org_pos										
+				"sort_key" => (int)$org_pos										
 			);					
 								
 		}
