@@ -376,17 +376,32 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$this->customIcons($form);	
 	}
 	
-	public function listModules()
-	{		
+	protected function setModuleSubTabs($a_active)
+	{
 		$this->tabs_gui->activateTab('modules');
-
+		
+		$this->tabs_gui->addSubTab("list_mods",
+			$this->lng->txt("list"),
+			$this->ctrl->getLinkTarget($this, "listModules"));
+		
+		$this->tabs_gui->addSubTab("new_item_groups",
+			$this->lng->txt("rep_new_item_groups"),
+			$this->ctrl->getLinkTarget($this, "listNewItemGroups"));
+		
+		$this->tabs_gui->activateSubTab($a_active);
+	}		
+	
+	protected function listModules()
+	{		
+		$this->setModuleSubTabs("list_mods");
+				
 		include_once("./Services/Repository/classes/class.ilModulesTableGUI.php");
 		$comp_table = new ilModulesTableGUI($this, "listModules");
 				
 		$this->tpl->setContent($comp_table->getHTML());
 	}
 	
-	public function saveModules()
+	protected function saveModules()
 	{
 		global $ilSetting, $ilCtrl, $lng;
 
@@ -424,6 +439,171 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			ilUtil::sendInfo($lng->txt("cmps_duplicate_positions")." ".implode($double, ", "), true);
 		}		
 		$ilCtrl->redirect($this, "listModules");		
+	}
+	
+	protected function listNewItemGroups()
+	{
+		global $ilToolbar;
+		
+		$this->setModuleSubTabs("new_item_groups");
+		
+		$ilToolbar->addButton($this->lng->txt("rep_new_item_group_add"), 
+			$this->ctrl->getLinkTarget($this, "addNewItemGroup"));
+		
+		include_once("./Services/Repository/classes/class.ilNewItemGroupTableGUI.php");
+		$grp_table = new ilNewItemGroupTableGUI($this, "listNewItemGroups");
+				
+		$this->tpl->setContent($grp_table->getHTML());
+	}
+	
+	protected function initNewItemGroupForm($a_grp_id = false)
+	{
+		$this->setModuleSubTabs("new_item_groups");
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		
+		$this->lng->loadLanguageModule("meta");
+		$def_lng = $this->lng->getDefaultLanguage();
+	
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title_".$def_lng);
+		$title->setInfo($this->lng->txt("meta_l_".$def_lng).
+			" (".$this->lng->txt("default_language").")");
+		$title->setRequired(true);
+		$form->addItem($title);
+		
+		foreach($this->lng->getInstalledLanguages() as $lang_id)
+		{
+			if($lang_id != $def_lng)
+			{
+				$title = new ilTextInputGUI($this->lng->txt("translation"), "title_".$lang_id);
+				$title->setInfo($this->lng->txt("meta_l_".$lang_id));
+				$form->addItem($title);		
+			}
+		}
+										
+		if(!$a_grp_id)
+		{
+			$form->setTitle($this->lng->txt("rep_new_item_group_add"));
+			$form->setFormAction($this->ctrl->getFormAction($this, "saveNewItemGroup"));
+			
+			$form->addCommandButton("saveNewItemGroup", $this->lng->txt("save"));			
+		}
+		else
+		{
+			$form->setTitle($this->lng->txt("rep_new_item_group_edit"));
+			$form->setFormAction($this->ctrl->getFormAction($this, "updateNewItemGroup"));
+			
+			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+			$grp = ilObjRepositorySettings::getNewItemGroups();
+			$grp = $grp[$a_grp_id];
+			
+			foreach($grp["titles"] as $id => $value)
+			{
+				$field = $form->getItemByPostVar("title_".$id);
+				if($field)
+				{
+					$field->setValue($value);
+				}
+			}
+			
+			$form->addCommandButton("updateNewItemGroup", $this->lng->txt("save"));			
+		}
+		$form->addCommandButton("listNewItemGroups", $this->lng->txt("cancel"));			
+		
+		return $form;
+	}
+	
+	protected function addNewItemGroup(ilPropertyFormGUI $a_form = null)
+	{
+		if(!$a_form)
+		{
+			$a_form = $this->initNewItemGroupForm();
+		}
+		
+		$this->tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function saveNewItemGroup()
+	{
+		$form = $this->initNewItemGroupForm();
+		if($form->checkInput())
+		{
+			$titles = array();
+			foreach($this->lng->getInstalledLanguages() as $lang_id)
+			{
+				$titles[$lang_id] = $form->getInput("title_".$lang_id);
+			}
+			
+			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+			if(ilObjRepositorySettings::addNewItemGroup($titles))
+			{
+				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+				$this->ctrl->redirect($this, "listNewItemGroups");
+			}
+		}
+		
+		$form->setValuesByPost();
+		$this->addNewItemGroup($form);
+	}
+	
+	protected function editNewItemGroup(ilPropertyFormGUI $a_form = null)
+	{		
+		$grp_id = (int)$_GET["grp_id"];
+		if(!$grp_id)
+		{
+			$this->ctrl->redirect($this, "listNewItemGroups");
+		}
+		
+		if(!$a_form)
+		{
+			$this->ctrl->setParameter($this, "grp_id", $grp_id);
+			$a_form = $this->initNewItemGroupForm($grp_id);
+		}
+		
+		$this->tpl->setContent($a_form->getHTML());	
+	}
+	
+	protected function updateNewItemGroup()
+	{
+		$grp_id = (int)$_GET["grp_id"];
+		if(!$grp_id)
+		{
+			$this->ctrl->redirect($this, "listNewItemGroups");
+		}
+		
+		$this->ctrl->setParameter($this, "grp_id", $grp_id);
+		
+		$form = $this->initNewItemGroupForm($grp_id);
+		if($form->checkInput())
+		{
+			$titles = array();
+			foreach($this->lng->getInstalledLanguages() as $lang_id)
+			{
+				$titles[$lang_id] = $form->getInput("title_".$lang_id);
+			}
+			
+			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+			if(ilObjRepositorySettings::updateNewItemGroup($grp_id, $titles))
+			{
+				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+				$this->ctrl->redirect($this, "listNewItemGroups");
+			}			
+		}
+		
+		$form->setValuesByPost();
+		$this->addNewItemGroup($form);
+	}
+	
+	protected function saveNewItemGroupOrder()
+	{
+		if(is_array($_POST["grp_order"]))	
+		{
+			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+			ilObjRepositorySettings::updateNewItemGroupOrder($_POST["grp_order"]);
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		}
+		$this->ctrl->redirect($this, "listNewItemGroups");
 	}
 	
 	public function addToExternalSettingsForm($a_form_id)
