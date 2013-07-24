@@ -148,7 +148,8 @@ class ilCronCheck
 					'method'		=> 'check',
 					'location'		=> 'cron',
 					'condition'		=> ($ilias->getSetting('systemcheck_cron') == 1)
-				)				
+				)	
+		);
 	}	
 }
 ?>
