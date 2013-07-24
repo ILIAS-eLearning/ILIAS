@@ -404,32 +404,46 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	protected function saveModules()
 	{
 		global $ilSetting, $ilCtrl, $lng;
+		
+		if(!is_array($_POST["obj_grp"]) || 
+			!is_array($_POST["obj_pos"]))
+		{
+			$ilCtrl->redirect($this, "listModules");	
+		}
+		
+		$grp_pos_map = array(0 => 9999);
+		include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+		foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
+		{
+			$grp_pos_map[$item["id"]] = $item["pos"];
+		}
+		
+		$type_pos_map = array();
+		foreach($_POST["obj_pos"] as $obj_type => $pos)
+		{
+			$grp_id = (int)$_POST["obj_grp"][$obj_type];						
+			$type_pos_map[$grp_id][$obj_type] = $pos;	
+			
+			// enable creation?
+			$ilSetting->set("obj_dis_creation_".$obj_type, !(int)$_POST["obj_enbl_creation"][$obj_type]);
+		}
+		
+		foreach($type_pos_map as $grp_id => $obj_types)
+		{
+			$grp_pos = str_pad($grp_pos_map[$grp_id], 4, "0", STR_PAD_LEFT);
+		
+			asort($obj_types);
+			$pos = 0;
+			foreach(array_keys($obj_types) as $obj_type)
+			{
+				$pos += 10;						
+				$type_pos = $grp_pos.str_pad($pos, 4, "0", STR_PAD_LEFT);				
+				$ilSetting->set("obj_add_new_pos_".$obj_type, $type_pos);												
+				$ilSetting->set("obj_add_new_pos_grp_".$obj_type, $grp_id);
+			}						
+		}
 
-		// disable creation
-		if (is_array($_POST["obj_pos"]))
-		{
-			foreach($_POST["obj_pos"] as $k => $v)
-			{
-				$ilSetting->set("obj_dis_creation_".$k, !(int)$_POST["obj_enbl_creation"][$k]);
-			}
-		}
-		
-		// add new position
-		$double = $ex_pos = array();
-		if (is_array($_POST["obj_pos"]))
-		{
-			reset($_POST["obj_pos"]);
-			foreach($_POST["obj_pos"] as $k => $v)
-			{
-				if (in_array($v, $ex_pos))
-				{
-					$double[$v] = $v;
-				}
-				$ex_pos[] = $v;
-				$ilSetting->set("obj_add_new_pos_".$k, $v);
-			}
-		}
-		
+		/*
 		if (count($double) == 0)
 		{
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -437,7 +451,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		else
 		{			
 			ilUtil::sendInfo($lng->txt("cmps_duplicate_positions")." ".implode($double, ", "), true);
-		}		
+		}		 
+		*/		
+		
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "listModules");		
 	}
 	
@@ -597,12 +614,86 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function saveNewItemGroupOrder()
 	{
+		global $ilSetting;
+		
 		if(is_array($_POST["grp_order"]))	
 		{
 			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 			ilObjRepositorySettings::updateNewItemGroupOrder($_POST["grp_order"]);
+									
+			$grp_pos_map = array();
+			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+			foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
+			{
+				$grp_pos_map[$item["id"]] = str_pad($item["pos"], 4, "0", STR_PAD_LEFT);
+			}
+		
+			// update order of assigned objects
+			foreach(ilObjRepositorySettings::getNewItemGroupSubItems() as $grp_id => $subitems)
+			{
+				// unassigned objects will always be last
+				if($grp_id)
+				{
+					foreach($subitems as $obj_type)
+					{
+						$old_pos = $ilSetting->get("obj_add_new_pos_".$obj_type);
+						if(strlen($old_pos) == 8)
+						{
+							$new_pos = $grp_pos_map[$grp_id].substr($old_pos, 4);
+							$ilSetting->set("obj_add_new_pos_".$obj_type, $new_pos);
+						}
+					}
+				}
+			}
+			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		}
+		$this->ctrl->redirect($this, "listNewItemGroups");
+	}
+	
+	protected function confirmDeleteNewItemGroup()
+	{
+		if(!is_array($_POST["grp_id"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"));
+			return $this->listNewItemGroups();
+		}
+		
+		$this->setModuleSubTabs("new_item_groups");
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($this->lng->txt("rep_new_item_group_delete_sure"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "listNewItemGroups");
+		$cgui->setConfirm($this->lng->txt("confirm"), "deleteNewItemGroup");
+		
+		include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+		$groups = ilObjRepositorySettings::getNewItemGroups();
+
+		foreach ($_POST["grp_id"] as $grp_id)
+		{			
+			$cgui->addItem("grp_id[]", $grp_id, $groups[$grp_id]["title"]);			
+		}
+		
+		$this->tpl->setContent($cgui->getHTML());		
+	}
+	
+	protected function deleteNewItemGroup()
+	{
+		if(!is_array($_POST["grp_id"]))
+		{
+			return $this->listNewItemGroups();
+		}
+		
+		include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+		foreach($_POST["grp_id"] as $grp_id)
+		{
+			ilObjRepositorySettings::deleteNewItemGroup($grp_id);
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "listNewItemGroups");
 	}
 	

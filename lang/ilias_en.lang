@@ -13554,3 +13554,4 @@ rep#:#rep_new_item_group_add#:#Add New Group
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
 rep#:#rep_new_item_group_edit#:#Edit Group
+rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?
