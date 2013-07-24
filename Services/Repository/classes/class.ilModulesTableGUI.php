@@ -56,7 +56,7 @@ class ilModulesTableGUI extends ilTable2GUI
 		
 		// unassigned objects should be last
 		$this->pos_group_options = array(0 => $lng->txt("rep_new_item_group_unassigned"));
-		$pos_group_map[0] = 9999;
+		$pos_group_map[0] = "9999";
 		
 		include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 		foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
@@ -125,7 +125,7 @@ class ilModulesTableGUI extends ilTable2GUI
 		foreach($obj_types as $obj_type => $item)
 		{							
 			$org_pos = $ilSetting->get("obj_add_new_pos_".$obj_type);								
-			if($org_pos < 1)
+			if(!(int)$org_pos)
 			{
 				// no setting yet, use default
 				$org_pos = $item["default_pos"];
@@ -133,14 +133,10 @@ class ilModulesTableGUI extends ilTable2GUI
 			if(strlen($org_pos) < 8)
 			{
 				// "old" setting without group part, add "unassigned" group
-				$org_pos = "9999".str_pad($org_pos, 4, "0", STR_PAD_LEFT);
+				$org_pos = $pos_group_map[0].str_pad($org_pos, 4, "0", STR_PAD_LEFT);
 			}			
 			
 			$pos_grp_id = $ilSetting->get("obj_add_new_pos_grp_".$obj_type, 0);
-
-			$pos_grp_pos = isset($pos_group_map[$pos_grp_id])
-				? $pos_group_map[$pos_grp_id]
-				: 9999;
 
 			$group = null;
 			if ($item["grp"] != "")
