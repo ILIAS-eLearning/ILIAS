@@ -11897,4 +11897,11 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->show_exam_id;
 	}
+	
+	public function recalculateScores()
+	{
+		require_once 'class.ilTestScoring.php';
+		$scoring = new ilTestScoring($this);
+		$scoring->recalculateSolutions();
+	}
 }

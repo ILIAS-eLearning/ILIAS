@@ -900,6 +900,68 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->uploadTstObject();
 	}
 
+	function confirmScoringObject($confirmCmd = 'saveScoring', $cancelCmd = 'scoring')
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties_save_confirmation.html", "Modules/Test");
+		$information = $this->lng->txt('tst_tigger_result_refreshing');
+
+		foreach ($_POST as $key => $value)
+		{
+			if (strcmp($key, "cmd") == 0)
+			{
+				continue;
+			}
+
+			$this->populateHiddenField( $value, $key );
+		}
+		$this->tpl->setCurrentBlock("hidden_variable");
+		$this->tpl->setVariable("HIDDEN_KEY", "tst_properties_confirmation");
+		$this->tpl->setVariable("HIDDEN_VALUE", "1");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_CONFIRMATION", $this->lng->txt("confirmation"));
+		$this->tpl->setVariable("TXT_INFORMATION", $information);
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("CMD_CONFIRM", $confirmCmd);
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("CMD_CANCEL", $cancelCmd);
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	 * @param        $value
+	 * @param        $key
+	 * @param string $path
+	 */
+	public function populateHiddenField($value, $key, $path = '')
+	{
+		if (is_array( $value ))
+		{
+			foreach ($value as $k => $v)
+			{
+				if (is_array($v))
+				{
+					$this->populateHiddenField($v, $key, $path .'['.$k.']');
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock( "hidden_variable" );
+					$this->tpl->setVariable( "HIDDEN_KEY", $key . $path . "[" . $k . "]" );
+					$this->tpl->setVariable( "HIDDEN_VALUE", $v );
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock( "hidden_variable" );
+			$this->tpl->setVariable( "HIDDEN_KEY", $key );
+			$this->tpl->setVariable( "HIDDEN_VALUE", $value );
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
 	/**
 	* Displays a save confirmation dialog for test properties
 	*
@@ -974,32 +1036,30 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$hasErrors)
 		{
 			$total = $this->object->evalTotalPersons();
-			// Check the values the user entered in the form
-			if (!$total)
+
+			$this->object->setCountSystem($_POST["count_system"]);
+			$this->object->setMCScoring($_POST["mc_scoring"]);
+			$this->object->setScoreCutting($_POST["score_cutting"]);
+			$this->object->setPassScoring($_POST["pass_scoring"]);
+			
+			if( isset($_POST['obligations_enabled']) && $_POST['obligations_enabled'] )
 			{
-				$this->object->setCountSystem($_POST["count_system"]);
-				$this->object->setMCScoring($_POST["mc_scoring"]);
-				$this->object->setScoreCutting($_POST["score_cutting"]);
-				$this->object->setPassScoring($_POST["pass_scoring"]);
-				
-				if( isset($_POST['obligations_enabled']) && $_POST['obligations_enabled'] )
-				{
-					$this->object->setObligationsEnabled(true);
-				}
-				else
-				{
-					$this->object->setObligationsEnabled(false);
-				}
-				
-				if( isset($_POST['offer_hints']) && $_POST['offer_hints'] )
-				{
-					$this->object->setOfferingQuestionHintsEnabled(true);
-				}
-				else
-				{
-					$this->object->setOfferingQuestionHintsEnabled(false);
-				}
+				$this->object->setObligationsEnabled(true);
 			}
+			else
+			{
+				$this->object->setObligationsEnabled(false);
+			}
+			
+			if( isset($_POST['offer_hints']) && $_POST['offer_hints'] )
+			{
+				$this->object->setOfferingQuestionHintsEnabled(true);
+			}
+			else
+			{
+				$this->object->setOfferingQuestionHintsEnabled(false);
+			}
+
 
                         /*
 			$this->object->setAnswerFeedback((is_array($_POST['instant_feedback']) && in_array('instant_feedback_answer', $_POST['instant_feedback'])) ? 1 : 0);
@@ -1007,11 +1067,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setInstantFeedbackSolution((is_array($_POST['instant_feedback']) && in_array('instant_feedback_solution', $_POST['instant_feedback'])) ? 1 : 0);
                         */
 
-                        /**
+            /**
                          * I introduced a single setter for instant_feedback options
                          * @author jposselt at databay . de
                          */
-                        $this->object->setScoringFeedbackOptionsByArray($_POST['instant_feedback']);
+            $this->object->setScoringFeedbackOptionsByArray($_POST['instant_feedback']);
 
 
 			$this->object->setScoreReporting($_POST["results_access"]);
@@ -1040,6 +1100,12 @@ class ilObjTestGUI extends ilObjectGUI
 
 			$this->object->saveToDb(true);
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
+
+			if ($total != 0)
+			{
+				$this->object->recalculateScores();
+			}
+			
 			$this->ctrl->redirect($this, "scoring");
 		}
 	}
@@ -1078,6 +1144,22 @@ class ilObjTestGUI extends ilObjectGUI
 		$total = $this->object->evalTotalPersons();
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 
+		// Determine settings availability
+		$setting_available = true; // In general, the scoring settings are available.
+
+		if ($total != 0)
+		{
+			$setting_available = false; // Unless there are results from users.
+		}
+		if ($this->object->getScoreReporting() == 4)
+		{
+			$setting_available = true; // But if the results are not public since they will never be
+		}
+		if ($this->object->getScoreReporting() == 3 && $this->object->getReportingDate() > time())
+		{
+			$setting_available = true;// or the presentation date is not reached, then we can still edit them.
+		}
+		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -1086,7 +1168,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// scoring properties
 		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("scoring"));
+		$header->setTitle($this->lng->txt("test_scoring"));
 		$form->addItem($header);
 		
 		// scoring system
@@ -1095,10 +1177,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$count_system->addOption(new ilRadioOption($this->lng->txt("tst_count_correct_solutions"), 1, ''));
 		$count_system->setValue($this->object->getCountSystem());
 		$count_system->setInfo($this->lng->txt("tst_count_system_description"));
-		if ($total)
-		{
-			$count_system->setDisabled(true);
-		}
+		$count_system->setDisabled(!$setting_available);
 		$form->addItem($count_system);
 
 		// mc questions
@@ -1107,10 +1186,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$mc_scoring->addOption(new ilRadioOption($this->lng->txt("tst_score_mcmr_use_scoring_system"), 1, ''));
 		$mc_scoring->setValue($this->object->getMCScoring());
 		$mc_scoring->setInfo($this->lng->txt("tst_score_mcmr_questions_description"));
-		if ($total)
-		{
-			$mc_scoring->setDisabled(true);
-		}
+		$mc_scoring->setDisabled(!$setting_available);
 		$form->addItem($mc_scoring);
 		
 		// score cutting
@@ -1119,10 +1195,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$score_cutting->addOption(new ilRadioOption($this->lng->txt("tst_score_cut_test"), 1, ''));
 		$score_cutting->setValue($this->object->getScoreCutting());
 		$score_cutting->setInfo($this->lng->txt("tst_score_cutting_description"));
-		if ($total)
-		{
-			$score_cutting->setDisabled(true);
-		}
+		$score_cutting->setDisabled(!$setting_available);
 		$form->addItem($score_cutting);
 		
 		// pass scoring
@@ -1131,11 +1204,13 @@ class ilObjTestGUI extends ilObjectGUI
 		$pass_scoring->addOption(new ilRadioOption($this->lng->txt("tst_pass_best_pass"), 1, ''));
 		$pass_scoring->setValue($this->object->getPassScoring());
 		$pass_scoring->setInfo($this->lng->txt("tst_pass_scoring_description"));
-		if ($total)
-		{
-			$pass_scoring->setDisabled(true);
-		}
+		$pass_scoring->setDisabled(!$setting_available);
 		$form->addItem($pass_scoring);
+
+		// test presentation
+		$header_tp = new ilFormSectionHeaderGUI();
+		$header_tp->setTitle($this->lng->txt("test_presentation"));
+		$form->addItem($header_tp);
 		
 		// enable obligations
 		$checkBoxEnableObligations = new ilCheckboxInputGUI($this->lng->txt("tst_setting_enable_obligations_label"), "obligations_enabled");
@@ -1173,6 +1248,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$instant_feedback->setInfo($this->lng->txt("tst_instant_feedback_description"));
 		$form->addItem($instant_feedback);
 
+		// scoring properties
+		$header_tr = new ilFormSectionHeaderGUI();
+		$header_tr->setTitle($this->lng->txt("test_results"));
+		$form->addItem($header_tr);
+		
 		// access to test results
 		$results_access = new ilRadioGroupInputGUI($this->lng->txt("tst_results_access"), "results_access");
 		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_always"), 2, ''));
@@ -1232,6 +1312,11 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$form->addItem($results_presentation);
 
+		// misc properties
+		$header_misc = new ilFormSectionHeaderGUI();
+		$header_misc->setTitle($this->lng->txt("misc"));
+		$form->addItem($header_misc);
+		
 		// deletion of test results
 		$passDeletion = new ilRadioGroupInputGUI($this->lng->txt("tst_pass_deletion"), "pass_deletion_allowed");
 		$passDeletion->addOption(new ilRadioOption($this->lng->txt("tst_pass_deletion_not_allowed"), 0, ''));
@@ -1247,7 +1332,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$export_settings->setValue($values);
 		$form->addItem($export_settings);
 		
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveScoring", $this->lng->txt("save"));
+		
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && $total == 0) $form->addCommandButton("saveScoring", $this->lng->txt("save"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && $total != 0) $form->addCommandButton("confirmScoring", $this->lng->txt("save"));
 
 		// remove items when using template
 		if($template_settings)
@@ -1269,6 +1356,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$form->setValuesByPost();
 			if ($errors) $checkonly = false;
 		}
+		
 		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 		return $errors;
 	}
