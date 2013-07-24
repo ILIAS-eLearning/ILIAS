@@ -135,12 +135,13 @@ class ilObjRepositorySettings extends ilObject
 		}	
 	}
 	
-	public static function getNewItemGroupSubItems()
+	protected static function getAllObjTypes()
 	{
-		global $ilSetting, $objDefinition;
+		global $ilPluginAdmin, $objDefinition;
 		
 		$res = array();
 		
+		// parse modules
 		include_once("./Services/Component/classes/class.ilModule.php");
 		foreach(ilModule::getAvailableCoreModules() as $mod)
 		{					
@@ -164,11 +165,37 @@ class ilObjRepositorySettings extends ilObject
 			if($has_repo)
 			{		
 				foreach($rep_types as $rt)
-				{									
-					$pos_grp = $ilSetting->get("obj_add_new_pos_grp_".$rt["id"], 0);
-					$res[$pos_grp][] = $rt["id"];
+				{														
+					$res[] = $rt["id"];
 				}				
 			}
+		}
+		
+		// parse plugins
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
+		foreach ($pl_names as $pl_name)
+		{								
+			$pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
+			if($pl_id)
+			{
+				$res[] = $pl_id;
+			}
+		}
+		
+		return $res;
+	}
+	
+	public static function getNewItemGroupSubItems()
+	{
+		global $ilSetting;
+		
+		$res = array();
+		
+		foreach(self::getAllObjTypes() as $type)
+		{			
+			$pos_grp = $ilSetting->get("obj_add_new_pos_grp_".$type, 0);
+			$res[$pos_grp][] = $type;						
 		}
 		
 		return $res;
