@@ -64,9 +64,24 @@ class ilObjRepositorySettings extends ilObject
 	
 	public static function deleteNewItemGroup($a_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
 		
-		// :TODO: remove object assignments
+		// move subitems to unassigned
+		$sub_items = self::getNewItemGroupSubItems();
+		$sub_items = $sub_items[$a_id];
+		if($sub_items)
+		{
+			foreach($sub_items as $obj_type)
+			{
+				$old_pos = $ilSetting->get("obj_add_new_pos_".$obj_type);
+				if(strlen($old_pos) == 8)
+				{
+					$new_pos = "9999".substr($old_pos, 4);
+					$ilSetting->set("obj_add_new_pos_".$obj_type, $new_pos);
+					$ilSetting->set("obj_add_new_pos_grp_".$obj_type, 0);
+				}
+			}
+		}
 		
 		$ilDB->manipulate("DELETE FROM il_new_item_grp".
 			" WHERE id = ".$ilDB->quote($a_id, "integer"));				
@@ -110,7 +125,7 @@ class ilObjRepositorySettings extends ilObject
 		
 		asort($a_order);
 		$pos = 0;
-		foreach($a_order as $id => $pos)
+		foreach(array_keys($a_order) as $id)
 		{
 			$pos += 10;
 			

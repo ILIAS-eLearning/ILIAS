@@ -24,13 +24,15 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 		
 		$this->setTitle($lng->txt("rep_new_item_groups"));
 
+		$this->addColumn("", "", 1);
 		$this->addColumn($lng->txt("cmps_add_new_rank"), "");
 		$this->addColumn($lng->txt("title"), "");	
 		$this->addColumn($lng->txt("rep_new_item_group_nr_subitems"), "");	
 		$this->addColumn($lng->txt("action"), "");	
 
-		// save options command
-		$this->addCommandButton("saveNewItemGroupOrder", $lng->txt("cmps_save_options"));		
+		$this->addCommandButton("saveNewItemGroupOrder", $lng->txt("cmps_save_options"));	
+		$this->addMultiCommand("confirmDeleteNewItemGroup", $lng->txt("delete"));
+		
 	
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -75,7 +77,10 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 
 	protected function fillRow($a_set)
 	{											
-		global $lng, $ilCtrl;;
+		global $lng, $ilCtrl;
+		
+		$this->tpl->setVariable("VAR_MULTI", "grp_id[]");
+		$this->tpl->setVariable("VAL_MULTI", $a_set["id"]);
 		
 		$this->tpl->setVariable("VAR_POS", "grp_order[".$a_set["id"]."]");
 		$this->tpl->setVariable("VAL_POS", $a_set["pos"]);

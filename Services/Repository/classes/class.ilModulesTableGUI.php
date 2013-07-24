@@ -7,7 +7,7 @@ include_once("Services/Component/classes/class.ilComponent.php");
 /**
  * TableGUI class for module listing
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
  * @ingroup ServicesRepository
@@ -15,6 +15,7 @@ include_once("Services/Component/classes/class.ilComponent.php");
 class ilModulesTableGUI extends ilTable2GUI
 {	
 	protected $pos_group_options; // [array]
+	protected $old_grp_id; // [int]
 	
 	function __construct($a_parent_obj, $a_parent_cmd = "")
 	{
@@ -42,6 +43,8 @@ class ilModulesTableGUI extends ilTable2GUI
 		$this->setExternalSorting(true);		
 				
 		$this->getComponents();		
+		
+		$this->old_grp_id = 0;
 	}
 	
 	/**
@@ -89,9 +92,9 @@ class ilModulesTableGUI extends ilTable2GUI
 			{		
 				foreach($rep_types as $rt)
 				{
-					$pos = ($ilSetting->get("obj_add_new_pos_".$rt["id"]) > 0)
-						? $ilSetting->get("obj_add_new_pos_".$rt["id"])
-						: $rt["default_pos"];
+					$org_pos = ($ilSetting->get("obj_add_new_pos_".$rt["id"]) > 0)
+						? (int)$ilSetting->get("obj_add_new_pos_".$rt["id"])
+						: (int)("9999".str_pad($rt["default_pos"], 4, "0", STR_PAD_LEFT));
 					
 					$pos_grp_id = $ilSetting->get("obj_add_new_pos_grp_".$rt["id"], 0);
 					
@@ -110,13 +113,12 @@ class ilModulesTableGUI extends ilTable2GUI
 						"id" => $rt["id"],
 						"object" => $rt["class_name"],
 						"subdir" => $mod["subdir"],
-						"pos" => $pos,
+						"pos" => (int)substr($org_pos, 4),
 						"pos_group" => $pos_grp_id,
 						"creation" => !(bool)$ilSetting->get("obj_dis_creation_".$rt["id"], false),
 						"group_id" => $rt["grp"],
 						"group" => $group,
-						"sort_key" => str_pad($pos_grp_pos, 4, "0", STR_PAD_LEFT).
-						   str_pad($pos, 4, "0", STR_PAD_LEFT)												
+						"sort_key" => $org_pos										
 					);					
 				}
 			}				
@@ -132,7 +134,24 @@ class ilModulesTableGUI extends ilTable2GUI
 	* be overwritten by derived class.
 	*/
 	protected function fillRow($a_set)
-	{									
+	{			
+		if($a_set["pos_group"] != $this->old_grp_id)
+		{
+			$this->tpl->setCurrentBlock("pos_grp_bl");		
+			$this->tpl->setVariable("TXT_POS_GRP", $this->pos_group_options[$a_set["pos_group"]]);			
+			$this->tpl->parseCurrentBlock();
+						
+			$this->tpl->setCurrentBlock("tbl_content");
+			$this->tpl->parseCurrentBlock();
+			
+			$this->css_row = ($this->css_row != "tblrow1")
+					? "tblrow1"
+					: "tblrow2";		
+			$this->tpl->setVariable("CSS_ROW", $this->css_row);
+						
+			$this->old_grp_id = $a_set["pos_group"];
+		}		
+		
 		// group
 		if ($a_set["group_id"] != "")
 		{
