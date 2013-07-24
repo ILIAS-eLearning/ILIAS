@@ -13548,3 +13548,9 @@ book#:#book_copy#:#Copy Booking Pool
 book#:#obj_book_duplicate#:#Copy Booking Pool
 administration#:#adm_user_starting_point_invalid_info#:#This feature is currently not active.
 ps#:#ps_password_settings#:#Password Settings
+rep#:#rep_new_item_group_unassigned#:#Not Assigned
+rep#:#rep_new_item_groups#:#New Item Groups
+rep#:#rep_new_item_group_add#:#Add New Group
+rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects
+rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
+rep#:#rep_new_item_group_edit#:#Edit Group

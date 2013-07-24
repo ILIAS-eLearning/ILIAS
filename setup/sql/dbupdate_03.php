@@ -16680,3 +16680,32 @@ if (!$ilDB->tableColumnExists("booking_user", "notification_sent"))
 		'default' => 0));
 }
 ?>
+<#3976>
+<?php
+if (!$ilDB->tableExists('il_new_item_grp'))
+{
+	$fields = array (
+		'id' => array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'titles' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false
+		),		
+		'pos' => array(
+			'type' => 'integer', 
+			'length' => 2,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable('il_new_item_grp', $fields);
+	$ilDB->addPrimaryKey('il_new_item_grp', array('id'));
+	$ilDB->createSequence('il_new_item_grp');
+}
+	
+?>
