@@ -473,7 +473,32 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		*/
 		
 		if (count($d) > 0)
-		{
+		{			
+			if(DEVMODE)
+			{
+				// grouping of object types
+				
+				$this->lng->loadLanguageModule("rep");				
+				$grp_map = $pos_group_map = array();
+				
+				include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+				foreach(ilObjRepositorySettings::getNewItemGroupSubItems() as $grp_id => $subitems)
+				{
+					foreach($subitems as $subitem)
+					{
+						$grp_map[$subitem] = $grp_id;
+					}
+				}
+				
+				$pos_group_map[0] = $this->lng->txt("rep_new_item_group_unassigned");		
+				foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
+				{
+					$pos_group_map[$item["id"]] = $item["title"];
+				}				
+				
+				$current_grp = null;
+			}
+								
 			foreach ($d as $row)
 			{
 			    $count = 0;
@@ -484,6 +509,23 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
 						{
+							// if only assigned - do not add groups
+							if(DEVMODE && sizeof($pos_group_map) > 1)
+							{
+								$obj_grp_id = (int)$grp_map[$row["name"]];
+								if($obj_grp_id !== $current_grp)
+								{
+									$title = $pos_group_map[$obj_grp_id];
+									
+									$subobj[] = array("value" => "",
+										"title" => $title,
+										"img" => "",
+										"alt" => $title);		
+
+									$current_grp = $obj_grp_id;
+								}
+							}
+							
 							$title = $this->lng->txt("obj_".$row["name"]);
 							if ($row["plugin"])
 							{

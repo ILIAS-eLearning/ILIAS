@@ -2305,8 +2305,12 @@ class ilTemplate extends ilTemplateX
 			
 			foreach ($this->creation_selector["options"] as $item)
 			{
-				$link = $this->page_form_action."&new_type=".$item["value"];
-				$link = str_replace("cmd=post", "cmd=".$this->creation_selector["command"], $link);
+				$link = "#";
+				if($item["value"])
+				{
+					$link = $this->page_form_action."&new_type=".$item["value"];
+					$link = str_replace("cmd=post", "cmd=".$this->creation_selector["command"], $link);
+				}
 				
 				$ttip = ilHelp::getObjCreationTooltipText($item["value"]);
 				$selection->addItem($item["title"], $item["value"], $link,
