@@ -2071,8 +2071,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
 		$desc_input->setRows(5);
 		$this->form->addItem($desc_input);
+								
+		// files
+		if ($a_mode == "create")
+		{
+			$files = new ilFileWizardInputGUI($this->lng->txt('objs_file'),'files');
+			$files->setFilenames(array(0 => ''));
+			$this->form->addItem($files);
+		}
 				
-		
 		// peer review
 		$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");		
 		$peer->setInfo($this->lng->txt("exc_peer_review_ass_setting_info"));
@@ -2103,15 +2110,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$fb_cron = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file_cron"), "fb_cron");
 		$fb_cron->setInfo($lng->txt("exc_global_feedback_file_cron_info"));
 		$fb->addSubItem($fb_cron);
-		
-		
-		// files
-		if ($a_mode == "create")
-		{
-			$files = new ilFileWizardInputGUI($this->lng->txt('objs_file'),'files');
-			$files->setFilenames(array(0 => ''));
-			$this->form->addItem($files);
-		}
 		
 		// save and cancel commands
 		if ($a_mode == "create")
