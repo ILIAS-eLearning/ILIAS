@@ -52,7 +52,7 @@ class ilModulesTableGUI extends ilTable2GUI
 	*/
 	function getComponents()
 	{
-		global $objDefinition, $ilSetting, $lng;
+		global $objDefinition, $ilSetting, $lng, $ilPluginAdmin;
 		
 		// unassigned objects should be last
 		$this->pos_group_options = array(0 => $lng->txt("rep_new_item_group_unassigned"));
@@ -65,9 +65,10 @@ class ilModulesTableGUI extends ilTable2GUI
 			$pos_group_map[$item["id"]] = $item["pos"];
 		}				
 				
-		include_once("./Services/Component/classes/class.ilModule.php");
-
-		$data = array();
+		$obj_types = array();
+		
+		// parse modules
+		include_once("./Services/Component/classes/class.ilModule.php");		
 		foreach(ilModule::getAvailableCoreModules() as $mod)
 		{			
 			$has_repo = false;
@@ -91,39 +92,69 @@ class ilModulesTableGUI extends ilTable2GUI
 			if($has_repo)
 			{		
 				foreach($rep_types as $rt)
-				{
-					$org_pos = ($ilSetting->get("obj_add_new_pos_".$rt["id"]) > 0)
-						? (int)$ilSetting->get("obj_add_new_pos_".$rt["id"])
-						: (int)("9999".str_pad($rt["default_pos"], 4, "0", STR_PAD_LEFT));
-					
-					$pos_grp_id = $ilSetting->get("obj_add_new_pos_grp_".$rt["id"], 0);
-					
-					$pos_grp_pos = isset($pos_group_map[$pos_grp_id])
-						? $pos_group_map[$pos_grp_id]
-						: 9999;
-
-					$group = null;
-					if ($rt["grp"] != "")
-					{
-						$group = $objDefinition->getGroup($rt["grp"]);
-						$group = $group["name"];
-					}
-
-					$data[] = array(
-						"id" => $rt["id"],
+				{					
+					$obj_types[$rt["id"]] = array(
 						"object" => $rt["class_name"],
 						"subdir" => $mod["subdir"],
-						"pos" => (int)substr($org_pos, 4),
-						"pos_group" => $pos_grp_id,
-						"creation" => !(bool)$ilSetting->get("obj_dis_creation_".$rt["id"], false),
-						"group_id" => $rt["grp"],
-						"group" => $group,
-						"sort_key" => $org_pos										
-					);					
+						"grp" => $rt["grp"],
+						"default_pos" => $rt["default_pos"]
+					);
 				}
-			}				
+			}
 		}
-				
+		
+		// parse plugins
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
+		foreach ($pl_names as $pl_name)
+		{								
+			$pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
+			if($pl_id)
+			{
+				$obj_types[$pl_id] = array(
+					"object" => $pl_name,
+					"subdir" => $lng->txt("cmps_plugin"),
+					"grp" => "",
+					"default_pos" => 2000 // :TODO:
+				);		
+			}
+		}				
+		
+		// parse positions
+		$data = array();
+		foreach($obj_types as $obj_type => $item)
+		{	
+			$org_pos = ($ilSetting->get("obj_add_new_pos_".$obj_type) > 0)
+				? (int)$ilSetting->get("obj_add_new_pos_".$obj_type)
+				: (int)("9999".str_pad($item["default_pos"], 4, "0", STR_PAD_LEFT));
+
+			$pos_grp_id = $ilSetting->get("obj_add_new_pos_grp_".$obj_type, 0);
+
+			$pos_grp_pos = isset($pos_group_map[$pos_grp_id])
+				? $pos_group_map[$pos_grp_id]
+				: 9999;
+
+			$group = null;
+			if ($item["grp"] != "")
+			{
+				$group = $objDefinition->getGroup($item["grp"]);
+				$group = $group["name"];
+			}
+
+			$data[] = array(
+				"id" => $obj_type,
+				"object" => $item["object"],
+				"subdir" => $item["subdir"],
+				"pos" => (int)substr($org_pos, 4),
+				"pos_group" => $pos_grp_id,
+				"creation" => !(bool)$ilSetting->get("obj_dis_creation_".$obj_type, false),
+				"group_id" => $item["grp"],
+				"group" => $group,
+				"sort_key" => $org_pos										
+			);					
+								
+		}
+		
 		$data = ilUtil::sortArray($data, "sort_key", "asc", true);
 		
 		$this->setData($data);
@@ -165,7 +196,7 @@ class ilModulesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_REP_OBJECT", $a_set["object"]);
 		$this->tpl->setVariable("TXT_REP_OBJECT_ID", $a_set["id"]);
 		$this->tpl->setVariable("IMG_REP_OBJECT",
-			ilUtil::getImagePath("icon_".$a_set["id"].".png"));
+			ilObject::_getIcon("", "tiny", $a_set["id"]));
 
 		// grouping
 		$sel = ilUtil::formSelect($a_set["pos_group"], 
