@@ -444,7 +444,7 @@
                 // more than one item?
                 if (itemCount > 1)
                 {
-                    $tooltip.qtip("api").set("content.title.text", self.texts.preview + " " + (index + 1) + " / " + itemCount);
+                    $tooltip.qtip("api").set("content.title", self.texts.preview + " " + (index + 1) + " / " + itemCount);
                     if (index < 1)
                         $prev.addClass("ilPreviewDisabled");
                     else
@@ -457,7 +457,7 @@
                 }
                 else
                 {
-                    $tooltip.qtip("api").set("content.title.text", self.texts.preview);
+                    $tooltip.qtip("api").set("content.title", self.texts.preview);
                 }
 
                 currentIdx = index;
@@ -615,11 +615,8 @@
                 id: "preview",
                 content: {
                     text: " ",
-                    title:
-                    {
-                        text: self.texts.preview,
-                        button: self.texts.close
-                    }
+                    title: self.texts.preview,
+                    button: self.texts.close
                 },
                 position: {
                     my: "left center",
@@ -642,7 +639,7 @@
                     }
                 },
                 events: {
-                    hide: function (e)
+                    hide: function (e, api)
                     {
                         if (e.originalEvent)
                         {
