@@ -139,9 +139,9 @@ class ilTestSubmissionReviewGUI
 			global $ilSetting;
 			$inst_id = $ilSetting->get('inst_id', null);
 			$path =  ilUtil::getWebspaceDir() . '/assessment/'. $this->testOutputGUI->object->getId() . '/exam_pdf';
-			if (!file_exists($path) && !is_dir($path))
+			if (!is_dir($path))
 			{
-				mkdir($path);
+				ilUtil::makeDirParents($path);
 			}
 			$filename = $path . '/exam_N' . $inst_id . '-' . $this->testOutputGUI->object->getId() . '-' . $active . '-' . $pass . '.pdf';
 			require_once 'class.ilTestPDFGenerator.php';

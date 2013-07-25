@@ -1637,7 +1637,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$archiver = new ilTestArchiver($this->object->getId());
 		
 		$path =  ilUtil::getWebspaceDir() . '/assessment/'. $this->object->getId() . '/exam_pdf';
-		if (!is_dir($path)) mkdir($path, 0777, true);
+		if (!is_dir($path))
+		{
+			ilUtil::makeDirParents($path);
+		}
 		$filename = $path . '/exam_N' . $inst_id . '-' . $this->object->getId() 
 					. '-' . $active . '-' . $pass . '.pdf';
 
