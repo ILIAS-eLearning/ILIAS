@@ -276,12 +276,38 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 
 	/**
 	 * Overwrites $_GET['ref_id'] with given $ref_id.
-	 * @param integer  $ref_id
+	 * @param string $params
 	 */
-	public static function _goto($ref_id)
+	public static function _goto($params)
 	{
-		include_once 'Services/Object/classes/class.ilObjectGUI.php';
-		ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilError  ilErrorHandling
+		 * @var $lng      ilLanguage
+		 */
+		global $ilAccess, $ilErr, $lng;
+
+		$parts  = explode('_', $params);
+		$ref_id = $parts[0];
+		$sub    = $parts[1];
+
+		if($ilAccess->checkAccess('read', '', $ref_id))
+		{
+			if($sub)
+			{
+				$_REQUEST['sub'] = $_GET['sub'] = (int)$sub;
+			}
+			include_once 'Services/Object/classes/class.ilObjectGUI.php';
+			ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
+		}
+		else if($ilAccess->checkAccess('read', '', ROOT_FOLDER_ID))
+		{
+			ilUtil::sendInfo(sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), true);
+			include_once 'Services/Object/classes/class.ilObjectGUI.php';
+			ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID, '');
+		}
+
+		$ilErr->raiseError(sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), $ilErr->FATAL);
 	}
 
 	/**

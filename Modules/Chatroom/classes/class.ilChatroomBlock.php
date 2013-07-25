@@ -34,7 +34,7 @@ class ilChatroomBlock
 			if($ilAccess->checkAccess('read', '', $object['ref_id']))
 			{
 				$room = ilChatroom::byObjectId($object['obj_id']);
-				if(!$room->isUserBanned($ilUser->getId()))
+				if($room && !$room->isUserBanned($ilUser->getId()))
 				{
 					$readable_rooms[$object['obj_id']] = array(
 						'ref_id'  => $object['ref_id'],
