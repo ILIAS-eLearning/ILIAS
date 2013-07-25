@@ -219,6 +219,23 @@ class ilAccountRegistrationGUI
 				$role->setInfo($lng->txt("registration_code_role_info"));
 			}
 		}
+		
+		// #11407
+		$domains = array();
+		foreach($this->registration_settings->getAllowedDomains() as $item)
+		{
+			if(trim($item))
+			{
+				$domains[] = $item;
+			}
+		}			
+		if(sizeof($domains))
+		{											
+			$mail_obj = $this->form->getItemByPostVar('usr_email');
+			$mail_obj->setInfo(sprintf($lng->txt("reg_email_domains"),
+				implode(", ", $domains))."<br />".
+				($this->code_enabled ? $lng->txt("reg_email_domains_code") : ""));
+		}
 
 		if(ilTermsOfServiceHelper::isEnabled())
 		{
