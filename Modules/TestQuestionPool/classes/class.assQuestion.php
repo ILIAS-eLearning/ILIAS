@@ -3176,14 +3176,18 @@ abstract class assQuestion
 				array($active_id, $question_id, $pass)
 			);
 			$manual = ($manualscoring) ? 1 : 0;
-			if ($result->numRows())
+			$rowsnum = $result->numRows();
+			if($rowsnum)
 			{
 				$row = $ilDB->fetchAssoc($result);
 				$old_points = $row["points"];
-				$affectedRows = $ilDB->manipulateF("UPDATE tst_test_result SET points = %s, manual = %s, tstamp = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-					array('float', 'integer', 'integer', 'integer', 'integer', 'integer'),
-					array($points, $manual, time(), $active_id, $question_id, $pass)
-				);
+				if($old_points != $points)
+				{
+					$affectedRows = $ilDB->manipulateF("UPDATE tst_test_result SET points = %s, manual = %s, tstamp = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+						array('float', 'integer', 'integer', 'integer', 'integer', 'integer'),
+						array($points, $manual, time(), $active_id, $question_id, $pass)
+					);
+				}
 			}
 			else
 			{
@@ -3193,24 +3197,28 @@ abstract class assQuestion
 					array($next_id, $active_id, $question_id, $points, $pass, $manual, time())
 				);
 			}
-			assQuestion::_updateTestPassResults($active_id, $pass, $obligationsEnabled);
-			// finally update objective result
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
-			ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id),$question_id,$points);
 
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			if($old_points != $points || !$rowsnum)
 			{
-				global $lng, $ilUser;
-				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-				$username = ilObjTestAccess::_getParticipantData($active_id);
-				assQuestion::_logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points", ilObjAssessmentFolder::_getLogLanguage()), $username, $old_points, $points, $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
+				assQuestion::_updateTestPassResults($active_id, $pass, $obligationsEnabled);
+				// finally update objective result
+				include_once "./Modules/Test/classes/class.ilObjTest.php";
+				include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
+				ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id),$question_id,$points);
+	
+				include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+				{
+					global $lng, $ilUser;
+					include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+					$username = ilObjTestAccess::_getParticipantData($active_id);
+					assQuestion::_logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points", ilObjAssessmentFolder::_getLogLanguage()), $username, $old_points, $points, $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
+				}
 			}
-			
+
 			return TRUE;
 		}
-			else
+		else
 		{
 			return FALSE;
 		}
