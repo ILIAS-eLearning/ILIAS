@@ -82,7 +82,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-
+		
         switch ($next_class)
 		{
             case 'ilobjquestionpoolgui':
@@ -116,7 +116,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI
                 $page_editor->setLocator($this->locator);
                 $page_editor->setHeader($this->getHeader());
                 $page_editor->setPageBackTitle($this->page_back_title);
-                $page_editor->setEnableInternalLinks($this->getEnabledInternalLinks());
+                //$page_editor->setEnableInternalLinks($this->getEnabledInternalLinks());
                 $page_editor->setEnableKeywords($this->getEnableKeywords());
                 $page_editor->setIntLinkHelpDefault($this->int_link_def_type, $this->int_link_def_id);
                 $page_editor->setIntLinkReturn($this->int_link_return);
