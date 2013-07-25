@@ -151,7 +151,7 @@ il.Help = {
 	switchTooltips: function (e) {
 		var t = il.Help;
 		if (t.tt_activated) {
-			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .nontabbed, .il_adv_sel, .ilGroupedListLE').qtip('disable');
+			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .nontabbed, .il_adv_sel, .ilGroupedListLE').qtip('disable', true);
 			$('#help_tt_switch_on').css('display', 'none');
 			$('#help_tt_switch_off').css('display', 'inline');
 			t.tt_activated = false;
