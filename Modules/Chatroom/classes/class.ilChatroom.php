@@ -915,7 +915,7 @@ class ilChatroom
 	 */
 	public function getChatURL($gui, $scope_id = 0)
 	{
-		include_once 'classes/class.ilLink.php';
+		include_once 'Services/Link/classes/class.ilLink.php';
 
 		$url = '';
 
