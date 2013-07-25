@@ -13554,3 +13554,4 @@ rep#:#rep_new_item_group_nr_subitems#:#Anzahl zugeordnete Objekte
 rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte: %s
 rep#:#rep_new_item_group_edit#:#Gruppe bearbeiten
 rep#:#rep_new_item_group_delete_sure#:#Wollen Sie wirklich die folgenden Gruppen löschen?
+registration#:#reg_email_domains_code#:#Bei Verwendung eines Codes sind beliebige E-Mail-Adressen möglich.
