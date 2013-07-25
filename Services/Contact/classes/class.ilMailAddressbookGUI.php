@@ -748,17 +748,16 @@ class ilMailAddressbookGUI
 
 		$ref_id = $room->getRefIdByRoomId($room_id);
 
-		if($scope > 0)
+		$url = '';
+		include_once 'classes/class.ilLink.php';
+		if($scope)
 		{
-			$url = 'ilias.php?baseClass=ilRepositoryGUI&ref_id=' . $ref_id .
-				'&cmd=view&rep_frame=1&sub=' . $scope;
+			$url = ilLink::_getStaticLink($ref_id, 'chta', true, '_'.$scope);
 		}
 		else
 		{
-			$url = 'ilias.php?baseClass=ilRepositoryGUI&ref_id=' . $ref_id . '&cmd=view&rep_frame=1';
+			$url = ilLink::_getStaticLink($ref_id, 'chta');
 		}
-
-		$url = ilUtil::_getHttpPath() . '/' . $url;
 		$link = '<p><a target="chatframe" href="' . $url . '" title="' . $lng->txt('goto_invitation_chat') . '">' .$lng->txt('goto_invitation_chat') . '</a></p>';
 
 		$userlist = array();
