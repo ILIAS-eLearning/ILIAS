@@ -919,39 +919,23 @@ class ilChatroom
 	 */
 	public function getChatURL($gui, $scope_id = 0)
 	{
-	    global $ilCtrl;
+		include_once 'classes/class.ilLink.php';
 
-		if (!is_string($gui))
+		$url = '';
+
+		if(is_object($gui))
 		{
-			$ilCtrl->setParameterByClass("ilrepositorygui", 'ref_id', $gui->getRefId());
-			$gui = "ilrepositorygui";
-		}
-		
-		if (  is_string($gui ))
-		{
-			if ($scope_id)
+			if($scope_id)
 			{
-				$ilCtrl->setParameterByClass($gui, 'sub', $scope_id);
+				$url = ilLink::_getStaticLink($gui->object->getRefId(), $gui->object->getType(), true, '_'.$scope_id);
 			}
-			
-			$link = ilUtil::_getHttpPath() . '/'. $ilCtrl->getLinkTargetByClass($gui, 'view', '', false, false);
-			
-			$ilCtrl->clearParametersByClass($gui);
-		}
-		else
-		{
-			/*if ($scope_id)
+			else
 			{
-			$ilCtrl->setParameter($gui, 'sub', $scope_id);
+				$url = ilLink::_getStaticLink($gui->object->getRefId(), $gui->object->getType());
 			}
-			
-			$link = ilUtil::_getHttpPath() . '/'. $ilCtrl->getLinkTarget($gui, 'view', '', false, false);
-			
-			$ilCtrl->clearParameters($gui);
-			*/
 		}
-		
-		return $link;
+
+		return $url;
 	}
 
 	/**
