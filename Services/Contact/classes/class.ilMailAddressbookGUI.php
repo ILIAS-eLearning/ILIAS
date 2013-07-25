@@ -801,7 +801,7 @@ class ilMailAddressbookGUI
 		$ref_id = $room->getRefIdByRoomId($room_id);
 
 		$url = '';
-		include_once 'classes/class.ilLink.php';
+		include_once 'Services/Link/classes/class.ilLink.php';
 		if($scope)
 		{
 			$url = ilLink::_getStaticLink($ref_id, 'chta', true, '_'.$scope);
