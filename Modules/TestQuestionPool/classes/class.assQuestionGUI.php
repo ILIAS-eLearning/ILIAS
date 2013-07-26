@@ -289,7 +289,7 @@ abstract class assQuestionGUI
 		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		//$page =& new ilPageObject("qpl", $this->object->getId());
 		$page_gui =& new ilPageObjectGUI("qpl", $this->object->getId());
-		$page_gui->setTemplateTargetVar($a_temp_var);
+		//$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setEnabledInternalLinks(false);
 		$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
@@ -571,13 +571,13 @@ abstract class assQuestionGUI
 					if($_REQUEST['prev_qid'])
 					{
 						// @todo: bheyser/mbecker wtf? ..... thx@jposselt ....
+						// mbecker: Possible fix: Just instantiate the obj?
+						include_once("./Modules/Test/classes/class.ilObjTest.php");
+						$test =& new ilObjTest($_GET["ref_id"], true);
 						$test->moveQuestionAfter($_REQUEST['prev_qid'], $this->object->getId());
 					}
-					if( /*$___test_express_mode || */
-					$_REQUEST['express_mode']
-					)
+					if( /*$___test_express_mode || */ $_REQUEST['express_mode'] )
 					{
-
 						include_once("./Modules/Test/classes/class.ilObjTest.php");
 						$test =& new ilObjTest($_GET["ref_id"], true);
 						$test->insertQuestion($this->object->getId());
