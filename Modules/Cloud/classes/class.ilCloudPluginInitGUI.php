@@ -244,10 +244,23 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
                 $this->tpl_file_tree->setVariable("ASYNC_DELETE_ITEM", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilcloudplugindeletegui", "asyncDeleteItem", true)));
                 $this->tpl_file_tree->setVariable("ROOT_ID", json_encode($file_tree->getRootNode()->getId()));
                 $this->tpl_file_tree->setVariable("ROOT_PATH", json_encode($file_tree->getRootNode()->getPath()));
+                if(isset($_POST["path"]))
+                {
+                    $this->tpl_file_tree->setVariable("CURRENT_PATH", json_encode($_POST["path"]));
+                    $file_tree->updateFileTree($_POST["path"]);
+                    $node = $file_tree->getNodeFromPath($_POST["path"]);
+                    $this->tpl_file_tree->setVariable("CURRENT_ID", json_encode($node->getId()));
+                }
+                else
+                {
+                    $this->tpl_file_tree->setVariable("CURRENT_PATH", json_encode($file_tree->getRootNode()->getPath()));
+                    $this->tpl_file_tree->setVariable("CURRENT_ID", json_encode($file_tree->getRootNode()->getID()));
+                }
                 $txt_max_file_size = $lng->txt("file_notice") . " " . ilCloudConnector::getPluginClass($this->getGUIClass()->object->getServiceName(), $this->getGUIClass()->object->getId())->getMaxFileSize() . " MB";
                 $this->tpl_file_tree->setVariable("MAX_FILE_SIZE", json_encode($txt_max_file_size));
                 $this->beforeSetContent();
                 $tpl->setContent($this->tpl_file_tree->get());
+                $tpl->setPermanentLink("cld", $this->getGuiClass()->object->getRefId(),"_path__endPath");
             }
 
 

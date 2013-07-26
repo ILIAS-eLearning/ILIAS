@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("class.ilCloudPluginConfig.php");
+include_once("class.ilObjCloud.php");
 
 /**
  * Class ilCloudPlugin
@@ -68,6 +69,10 @@ class ilCloudPlugin
             $this->create();
         }
 
+        if(!$cloud_modul_object)
+        {
+            $cloud_modul_object = new ilObjCloud($obj_id, false);
+        }
         $this->setCloudModulObject($cloud_modul_object);
     }
 
