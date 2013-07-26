@@ -41,7 +41,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 			// command dropdown
 			if(!array_key_exists("move_questions", $_SESSION))
 			{
-				$this->addMultiCommand("defineQuestionblock", $lng->txt("define_questionblock"));
+				$this->addMultiCommand("createQuestionblock", $lng->txt("define_questionblock"));
 				$this->addMultiCommand("unfoldQuestionblock", $lng->txt("unfold"));
 				$this->addMultiCommand("removeQuestions", $lng->txt("remove_question"));
 				$this->addMultiCommand("moveQuestions", $lng->txt("move"));
@@ -122,8 +122,9 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 							$table_data[$id]["position"] = $position;
 						}
 						
-						$table_data[$id]["url"] = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd).
-							"&editblock=".$data["questionblock_id"];
+						$ilCtrl->setParameter($this->parent_obj, "bl_id", $data["questionblock_id"]);
+						$table_data[$id]["url"] = $ilCtrl->getLinkTarget($this->parent_obj, "editQuestionblock");
+						$ilCtrl->setParameter($this->parent_obj, "bl_id", "");
 					}
 
 					$block_position = 0;
@@ -150,7 +151,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 						$table_data[$id]["question_type"] = $trans;
 					}
 				}
-
+				
 				// pool title
 				if($data["original_id"])
 				{
@@ -170,9 +171,13 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 					if ($data["obj_fi"] > 0)
 					{
 						// edit url
-						$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
-						$table_data[$id]["url"] = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd) .
-							"&eqid=".$id."&eqpl=".$qpl_ref_id;
+						$q_gui = $data["type_tag"]."GUI";
+						$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));						
+						$ilCtrl->setParameterByClass($q_gui, "ref_id", $qpl_ref_id);
+						$ilCtrl->setParameterByClass($q_gui, "q_id", $id);
+						$table_data[$id]["url"] = $ilCtrl->getLinkTargetByClass($q_gui, "editQuestion") .
+						$ilCtrl->setParameterByClass($q_gui, "q_id", "");
+						$ilCtrl->setParameterByClass($q_gui, "ref_id", "");
 					}
 
 					// order
@@ -316,6 +321,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock("actions");
 			
+			$ilCtrl->setParameter($this->parent_obj, "q_id", $a_set["id"]);
+			
 			include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 			$list = new ilAdvancedSelectionListGUI();
 			$list->setId($a_set["id"]);
@@ -327,22 +334,21 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 			
 			if($a_set["heading"])
 			{
-				$edit = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd) .
-							"&editheading=" . $a_set["id"];
-				$list->addItem($lng->txt("survey_edit_heading"), "", $edit);
+				$list->addItem($lng->txt("survey_edit_heading"), "", 
+					$ilCtrl->getLinkTarget($this->parent_obj, "editheading"));
 				
-				$rmv = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd) .
-							"&removeheading=" . $a_set["id"];
-				$list->addItem($lng->txt("survey_delete_heading"), "", $rmv);
+				$list->addItem($lng->txt("survey_delete_heading"), "", 
+					$ilCtrl->getLinkTarget($this->parent_obj, "removeheading"));
 			}
 			else if($a_set["type"] == "question")
 			{
-				$add = $ilCtrl->getLinkTarget($this->parent_obj, "addHeading") .
-							"&insertbefore=" . $a_set["id"];
-				$list->addItem($lng->txt("add_heading"), "", $add);
+				$list->addItem($lng->txt("add_heading"), "", 
+					$ilCtrl->getLinkTarget($this->parent_obj, "addHeading"));
 			}
 		
 			$this->tpl->setVariable("ACTION", $list->getHTML());
+			
+			$ilCtrl->setParameter($this->parent_obj, "q_id", "");				
 			
 			$this->tpl->parseCurrentBlock();
 			

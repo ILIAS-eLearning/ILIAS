@@ -772,70 +772,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	
 	function setQuestionTabs()
 	{
-		global $rbacsystem,$ilTabs;
-		$this->ctrl->setParameter($this, "sel_question_types", $this->getQuestionType());
-		$this->ctrl->setParameter($this, "q_id", $_GET["q_id"]);
-
-		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0))
-		{
-			$ref_id = $_GET["calling_survey"];
-			if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
-			$addurl = "";
-			if (strlen($_GET["new_for_survey"]))
-			{
-				$addurl = "&new_id=" . $_GET["q_id"];
-			}
-			if ($_REQUEST["pgov"])
-			{
-				$addurl .= "&pgov=".$_REQUEST["pgov"];
-				$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
-			}
-			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions" . $addurl);
-		}
-		else
-		{
-			$this->ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "q_id_table_nav", $_SESSION['q_id_table_nav']);
-			$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
-		}
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("preview",
-				$this->ctrl->getLinkTarget($this, "preview"), 
-					"preview",
-					"",
-					""
-			);
-		}
-		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
-			$ilTabs->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "editQuestion"), 
-					array("editQuestion", "save", "cancel", "wizardanswers", "addSelectedPhrase",
-						"insertStandardNumbers", "savePhraseanswers", "confirmSavePhrase"),
-					"",
-					""
-			);
-		}
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("material",
-				$this->ctrl->getLinkTarget($this, "material"), 
-					array("material", "cancelExplorer", "linkChilds", "addGIT", "addST",
-						"addPG", "addMaterial", "removeMaterial"),
-				"",
-				""
-			);
-		}
-
-		if ($this->object->getId() > 0) 
-		{
-			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
-		} 
-		else 
-		{
-			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
-		}
-
-		$this->tpl->setVariable("HEADER", $title);
+		$this->setQuestionTabsForClass("surveysinglechoicequestiongui");
 	}
 
 /**

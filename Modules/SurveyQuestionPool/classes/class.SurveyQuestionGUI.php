@@ -35,14 +35,14 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 */
 class SurveyQuestionGUI 
 {
-/**
-* Question object
-*
-* A reference to the metric question object
-*
-* @var object
-*/
-  var $object;
+	/**
+	* Question object
+	*
+	* A reference to the metric question object
+	*
+	* @var object
+	*/
+	var $object;
 	var $tpl;
 	var $lng;
 	private $errormessages;
@@ -52,17 +52,20 @@ class SurveyQuestionGUI
 	*/
 	var $cumulated;
 	
-/**
-* SurveyQuestion constructor
-*
-* The constructor takes possible arguments an creates an instance of the SurveyQuestion object.
-*
-* @param string $title A title string to describe the question
-* @param string $description A description string to describe the question
-* @param string $author A string containing the name of the questions author
-* @param integer $owner A numerical ID to identify the owner/creator
-* @access public
-*/
+	protected $parent_url;
+	protected $parent_ref_id;
+	
+	/**
+	* SurveyQuestion constructor
+	*
+	* The constructor takes possible arguments an creates an instance of the SurveyQuestion object.
+	*
+	* @param string $title A title string to describe the question
+	* @param string $description A description string to describe the question
+	* @param string $author A string containing the name of the questions author
+	* @param integer $owner A numerical ID to identify the owner/creator
+	* @access public
+	*/
 	function SurveyQuestionGUI()
 	{
 		global $lng, $tpl, $ilCtrl;
@@ -193,30 +196,14 @@ class SurveyQuestionGUI
 		if($a_return)
 		{
 			// to calling survey
-			if($_GET["calling_survey"] || $_GET["new_for_survey"])
-			{			
+			if($this->parent_url)
+			{							
 				$addurl = "";
-				if ($_REQUEST["pgov"])
+				if (strlen($_GET["new_for_survey"]))
 				{
-					$addurl .= "&pgov=".$_REQUEST["pgov"];
-					$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
-				}
-
-				// edit
-				if($_GET["calling_survey"])
-				{
-					$_GET["ref_id"] = $_GET["calling_survey"];
-				}
-				// create
-				else if($_GET["new_for_survey"])
-				{
-					$_GET["ref_id"] = $_GET["new_for_survey"];
-					$addurl .= "&new_id=".$this->object->getId();
-				}
-
-				// we cannot use ilctrl here as pool has no "knowledge" of calling survey
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["ref_id"] . "&cmd=questions".$addurl);
+					$addurl = "&new_id=" . $_GET["q_id"];
+				}	
+				ilUtil::redirect(str_replace("&amp;", "&", $this->parent_url) . $addurl);
 			}
 			// to pool
 			else
@@ -228,7 +215,6 @@ class SurveyQuestionGUI
 		// stay in form
 		else
 		{
-
 			$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
 			$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
 			$this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
@@ -312,29 +298,21 @@ class SurveyQuestionGUI
 	
 	function cancel()
 	{
-		if ($_GET["calling_survey"])
+		if ($this->parent_url)
 		{
-			$_GET["ref_id"] = $_GET["calling_survey"];
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=".$_GET["calling_survey"]);
-		}
-		elseif ($_GET["new_for_survey"])
-		{
-			$_GET["ref_id"] = $_GET["new_for_survey"];
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=".$_GET["new_for_survey"]);
-		}
+			ilUtil::redirect($this->parent_url);
+		}		
 		else
 		{
 			$this->ctrl->redirectByClass("ilobjsurveyquestionpoolgui", "questions");
 		}
 	}
 
-/**
-* Cancels the form adding a phrase
-*
-* @access public
-*/
+	/**
+	* Cancels the form adding a phrase
+	*
+	* @access public
+	*/
 	function cancelDeleteCategory() 
 	{
 		$this->ctrl->redirect($this, "editQuestion");
@@ -662,24 +640,18 @@ class SurveyQuestionGUI
 	function setQuestionTabsForClass($guiclass)
 	{
 		global $rbacsystem,$ilTabs;
+		
 		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
 		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
-
-		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0))
+		
+		if ($this->parent_url)
 		{
-			$ref_id = $_GET["calling_survey"];
-			if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
 			$addurl = "";
 			if (strlen($_GET["new_for_survey"]))
 			{
 				$addurl = "&new_id=" . $_GET["q_id"];
-			}
-			if ($_REQUEST["pgov"])
-			{
-				$addurl .= "&pgov=".$_REQUEST["pgov"];
-				$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
-			}
-			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions" . $addurl);
+			}		
+			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), $this->parent_url . $addurl);
 		}
 		else
 		{
@@ -695,8 +667,19 @@ class SurveyQuestionGUI
 		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
 			$ilTabs->addTarget("edit_properties",
 									 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
-									 array("editQuestion", "save", "cancel", "originalSyncForm"),
+									 array("editQuestion", "save", "cancel", "originalSyncForm",
+										"wizardanswers", "addSelectedPhrase", "insertStandardNumbers", 
+										"savePhraseanswers", "confirmSavePhrase"),
 									 "$guiclass");
+			
+			if(stristr($guiclass, "matrix"))
+			{
+				$ilTabs->addTarget("layout",
+					$this->ctrl->getLinkTarget($this, "layout"), 
+					array("layout", "saveLayout"),
+					"",
+					"");
+			}			
 		}
 		if ($_GET["q_id"])
 		{
@@ -719,23 +702,23 @@ class SurveyQuestionGUI
 		$this->tpl->setVariable("HEADER", $title);
 	}
 
-/**
-* Returns the question type string
-*
-* @result string The question type string
-* @access public
-*/
+	/**
+	* Returns the question type string
+	*
+	* @result string The question type string
+	* @access public
+	*/
 	function getQuestionType()
 	{
 		return $this->object->getQuestionType();
 	}
 
-/**
-* Creates a the cumulated results row for the question
-*
-* @return string HTML text with the cumulated results
-* @access private
-*/
+	/**
+	* Creates a the cumulated results row for the question
+	*
+	* @return string HTML text with the cumulated results
+	* @access private
+	*/
 	function getCumulatedResultRow($counter, $css_class, $survey_id)
 	{
 		// overwrite in parent classes
@@ -903,6 +886,12 @@ class SurveyQuestionGUI
 		
 		ilUtil::sendSuccess($lng->txt("survey_sync_success"), true);
 		$this->redirectAfterSaving($_REQUEST["rtrn"]);
+	}
+	
+	public function setBackUrl($a_url, $a_parent_ref_id)
+	{
+		$this->parent_url = $a_url;
+		$this->parent_ref_id = $a_parent_ref_id;				
 	}
 }
 

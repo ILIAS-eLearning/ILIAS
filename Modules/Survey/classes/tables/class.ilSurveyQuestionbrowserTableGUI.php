@@ -45,7 +45,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_object, $a_write_access = false)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -89,6 +89,32 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		$this->setResetCommand('resetfilterQuestionBrowser');
 
 		$this->initFilter();
+		$this->initData($a_object);
+	}
+	
+	function initData($a_object)
+	{	
+		$arrFilter = array();
+		foreach ($this->getFilterItems() as $item)
+		{
+			if ($item->getValue() !== false)
+			{
+				$arrFilter[$item->getPostVar()] = $item->getValue();
+			}
+		}
+		$data = $a_object->getQuestionsTable($arrFilter);
+		
+		// translate pools for proper sorting
+		if(sizeof($data))
+		{
+			$pools = $this->getQuestionPools();
+			foreach($data as $idx => $row)
+			{
+				$data[$idx]["spl"] = $pools[$row["obj_fi"]];
+			}
+		}
+		
+		$this->setData($data);
 	}
 	
 	function getQuestionPools()
