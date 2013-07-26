@@ -2370,7 +2370,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				if(!$a_sub_tab) $a_sub_tab = 'payMethods';
 				$this->tabs_gui->addSubTabTarget('settings',
 					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'payMethods'),
-					'','', '',$a_sub_tab == 'paymethods' ? true : false);
+					'','', '',$a_sub_tab == 'payMethods' ? true : false);
 
 				$this->tabs_gui->addSubTabTarget('pays_bmf',
 					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'bmfSettings'),
@@ -3068,7 +3068,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html','Services/Payment');
 		
-		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilErr->MESSAGE);
@@ -3081,7 +3080,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			// set confirm/cancel commands
 			$oConfirmationGUI->setFormAction($ilCtrl->getFormAction($this, "deleteAddressesForPaymethods"));
 			$oConfirmationGUI->setHeaderText($this->lng->txt("info_delete_sure"));
-			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "paymethods");
+			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "payMethods");
 			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "deleteAddressesForPaymethods");
 		
 			foreach($askForDeletingAddresses as $pm_id)
@@ -3097,7 +3096,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$obj_paymethods = new ilPayMethods();
 		$paymethods = $obj_paymethods->readAll();
 
-		$result = array();		
+		$result = array();
 		$counter = 0;
 		foreach($paymethods as $paymethod)
 		{
@@ -3110,8 +3109,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				$counter++;
 			}
 		}
-
-		$counter = 0;
 
 		$this->ctrl->setParameter($this, 'cmd', 'savePayMethods');
 		$tbl = new ilShopTableGUI($this);
@@ -3130,7 +3127,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 
-		return true;		
+		return true;
 	}
 
 	public function savePayMethodsObject()
@@ -3139,71 +3136,91 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		global $rbacsystem;
 		
-		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilErr->MESSAGE);
 		}
 
-		$count_pm = ilPayMethods::countPM();
-
+		$obj_paymethods = new ilPayMethods();
+		$paymethods = $obj_paymethods->readAll();
+		
 		$askForDeletingAddresses = array();
 
-		$pm_enabled = array();
-		if(is_array($_POST['pm_enabled']) )
-		{
-			$pm_enabled  = $_POST['pm_enabled'];
-		}
-		else if($_POST['pm_enabled'] == NULL)
+		$pm_enabled  = (array)$_POST['pm_enabled'];
+		$pm_addr     = (array)$_POST['save_usr_adr'];
+
+		if(!$pm_enabled)
 		{
 			ilUtil::sendInfo($this->lng->txt('shop_disabled_no_paymethods'));
 			$this->genSetData->set('shop_enabled', 0, 'common');
 			$_SESSION['disable_shop'] = false;
 		}
 		
-		for($i = 1; $i <= $count_pm; $i++)
+		$info_msg    = array();
+		foreach($paymethods as $paymethod)
 		{
-			if(!array_key_exists($i, $pm_enabled) && ilPayMethods::_PmEnabled($i) == 1)
+			if(
+				(!isset($pm_enabled[$paymethod['pm_id']]) || !$pm_enabled[$paymethod['pm_id']]) &&
+				$paymethod['pm_enabled']
+			)
 			{
-				if(ilPaymentObject::_getCountObjectsByPayMethod($i))
+				if(ilPaymentObject::_getCountObjectsByPayMethod($paymethod['pm_id']))
 				{
-					ilUtil::sendInfo($this->lng->txt('pays_objects_bill_exist'));
-					$this->payMethodsObject();
-	
-					return false;
+					$info_msg[] = $this->lng->txt('pays_objects_'.$paymethod['pm_title'].'_exist');
 				}
-				else ilPayMethods::_PMdisable($i);
 			}
-			else 
-			if(!array_key_exists($i, $pm_enabled) && ilPayMethods::_PmEnabled($i) == 0)
+		}
+		if($info_msg)
+		{
+			ilUtil::sendInfo(implode('<br />', $info_msg));
+			$this->payMethodsObject();
+			return;
+		}
+
+		$num_changed = 0;
+		foreach($paymethods as $paymethod)
+		{
+			if(
+				(!isset($pm_enabled[$paymethod['pm_id']]) || !$pm_enabled[$paymethod['pm_id']]) &&
+				$paymethod['pm_enabled']
+			)
 			{
-				continue;
+				ilPayMethods::_PMdisable($paymethod['pm_id']);
+				++$num_changed;
 			}
-			else
+			else if(isset($pm_enabled[$paymethod['pm_id']]) && $pm_enabled[$paymethod['pm_id']] && !$paymethod['pm_enabled'])
 			{
-				ilPayMethods::_PMenable($i);
+				ilPayMethods::_PMenable($paymethod['pm_id']);
+				++$num_changed;
 			}
 
-			if(!array_key_exists($i,(array)$_POST['save_usr_adr']) && ilPayMethods::_EnabledSaveUserAddress($i) == 1)
+			if(
+				(!isset($pm_addr[$paymethod['pm_id']]) || !$pm_addr[$paymethod['pm_id']]) &&
+				$paymethod['save_usr_adr'])
 			{
-				$askForDeletingAddresses[] = $i;
+				$askForDeletingAddresses[] = $paymethod['pm_id'];
 			}
-			else 
-			if(!array_key_exists($i,(array)$_POST['save_usr_adr']) && ilPayMethods::_EnabledSaveUserAddress($i) == 0)
+			else if(
+				(!isset($pm_addr[$paymethod['pm_id']]) || !$pm_addr[$paymethod['pm_id']]) &&
+				!$paymethod['save_usr_adr']
+			)
 			{
 				continue;
 			}
 			else
 			{ 
-				ilPayMethods::_enableSaveUserAddress($i);	
+				ilPayMethods::_enableSaveUserAddress($paymethod['pm_id']);
+				++$num_changed;
 			}
 		}
-		$tmp = $this->payMethodsObject($askForDeletingAddresses);
-		if(!$askForDeletingAddresses)
+		if($num_changed && !$askForDeletingAddresses)
+		{
 			ilUtil::sendSuccess($this->lng->txt('pays_updated_pay_method'));
+		}
+		$this->payMethodsObject($askForDeletingAddresses);
 
 		return true;
-	}	
+	}
 
 	public function cancelDeleteVendorsObject()
 	{
