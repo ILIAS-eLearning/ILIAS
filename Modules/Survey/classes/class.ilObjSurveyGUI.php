@@ -4049,9 +4049,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// handle code				
 			
 			// validate incoming
+			$code_input = false;
 			$anonymous_code = $_POST["anonymous_id"];	
 			if ($anonymous_code)
 			{
+				$code_input = true;
 				if(!$this->object->isUnusedCode($anonymous_code, $ilUser->getId()))
 				{
 					$anonymous_code = null;
@@ -4064,6 +4066,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			else 
 			{
 				$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];											
+				if($anonymous_code)
+				{
+					$code_input = true;
+				}
 			}						
 							
 			// try to find code for current (registered) user from existing run
@@ -4076,13 +4082,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$participant_status = $this->object->getUserSurveyExecutionStatus($anonymous_code);
 			if($participant_status)
 			{				
-				$anonymous_code = $participant_status["code"];
-				
+				$anonymous_code = $participant_status["code"];				
 				$participant_status = $participant_status["runs"];
 			}
 			
 			// (final) check for proper anonymous code
 			if(!$this->object->isAccessibleWithoutCode() && 
+				$code_input && // #11346
 				(!$anonymous_code || !$this->object->isAnonymousKey($anonymous_code)))
 			{				
 				 $anonymous_code = null;
