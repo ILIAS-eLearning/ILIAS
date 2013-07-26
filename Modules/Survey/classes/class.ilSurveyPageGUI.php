@@ -16,7 +16,7 @@ class ilSurveyPageGUI
 	protected $ref_id; // [int]
 	protected $lng; // [object]
 	protected $object; // [ilObjSurvey]
-	protected $survey_gui; // [ilObjSurveyGUI]
+	protected $editor_gui; // [ilSurveyEditorGUI]
 	protected $current_page; // [int]
 	protected $has_previous_page; // [bool]
 	protected $has_next_page; // [bool]
@@ -26,13 +26,14 @@ class ilSurveyPageGUI
 	/**
 	* Constructor
 	*
-	* @param ilObjSurveyGUI $a_survey_gui
+	* @param ilObjSurvey $a_survey
+	* @param ilSurveyEditorGUI $a_survey_editor_gui
 	*/
-	function __construct(ilObjSurveyGUI $a_survey_gui)
+	function __construct(ilObjSurvey $a_survey, ilSurveyEditorGUI $a_survey_editor_gui)
 	{
-		$this->survey_gui = $a_survey_gui;
-		$this->ref_id = $this->survey_gui->ref_id;
-		$this->object = $this->survey_gui->object;
+		$this->editor_gui = $a_survey_editor_gui;
+		$this->ref_id = $a_survey->getRefId();
+		$this->object = $a_survey;
 	}
 
 	/**
@@ -66,7 +67,7 @@ class ilSurveyPageGUI
 						$subcmd = $_REQUEST["il_hform_subcmd"];
 
 						// make sure that it is set for current and next requests
-						$ilCtrl->setParameter($this->survey_gui, "pgov", $this->current_page);
+						$ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
 						$_REQUEST["pgov"] = $this->current_page;
 
 						$id = explode("_", $_REQUEST["il_hform_node"]);
@@ -384,23 +385,33 @@ class ilSurveyPageGUI
 		{
 			$_GET["sel_question_types"] = $type_trans;
 			$_REQUEST["pgov_pos"] = $id;
-			$ilCtrl->setParameter($this->survey_gui, "pgov_pos", $id);
+			$ilCtrl->setParameter($this->editor_gui, "pgov_pos", $id);
 			if(!$_POST["usage"])
 			{
-				$this->survey_gui->createQuestionObject();
+				$this->editor_gui->createQuestionObject();
 			}
 			else
 			{
-				$this->survey_gui->executeCreateQuestionObject();
+				$this->editor_gui->executeCreateQuestionObject();
 			}
 			return true;
 		}
 		else
 		{
-			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=".
-				$this->ref_id."&cmd=createQuestionForSurvey&new_for_survey=".
-				$this->ref_id."&sel_question_types=".$type_trans."&pgov=".$this->current_page.
-				"&pgov_pos=".$id);
+			// create question and redirect to question form
+		
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
+			$q_gui = SurveyQuestionGUI::_getQuestionGUI($type_trans);
+			$q_gui->object->createNewQuestion();		
+			$q_gui_class = get_class($q_gui);	
+
+			$this->ctrl->setParameterByClass($q_gui_class, "pgov", $this->current_page);
+			$this->ctrl->setParameterByClass($q_gui_class, "pgov_pos",$id);						
+			$this->ctrl->setParameterByClass($q_gui_class, "ref_id", $this->ref_id);
+			$this->ctrl->setParameterByClass($q_gui_class, "new_for_survey", $this->ref_id);
+			$this->ctrl->setParameterByClass($q_gui_class, "q_id", $q_gui->object->getId());
+			$this->ctrl->setParameterByClass($q_gui_class, "sel_question_types", $q_gui->getQuestionType());		
+			$this->ctrl->redirectByClass($q_gui_class, "editQuestion");					
 		}
 	}
 	
@@ -672,10 +683,8 @@ class ilSurveyPageGUI
 	protected function deleteBlock()
 	{
 		global $lng, $ilCtrl;
-				
-		$this->survey_gui->questionsSubtabs('questions_per_page');
-
-		$ilCtrl->setParameter($this->survey_gui, "pgov", $this->current_page);
+		
+		$ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
 		ilUtil::sendQuestion($lng->txt("remove_questions"));
 		
 		$page = $this->object->getSurveyPages();
@@ -691,11 +700,11 @@ class ilSurveyPageGUI
 		$block_id = $page["questionblock_id"];
 		if($block_id)
 		{
-			$this->survey_gui->removeQuestionsForm(array($block_id), array(), array());
+			$this->editor_gui->removeQuestionsForm(array($block_id), array(), array());
 		}
 		else
 		{
-			$this->survey_gui->removeQuestionsForm(array(), array($page["question_id"]), array());
+			$this->editor_gui->removeQuestionsForm(array(), array($page["question_id"]), array());
 		}
 	}
 
@@ -710,7 +719,7 @@ class ilSurveyPageGUI
 		{
 			$a_id = array($a_id);
 		}
-		$this->survey_gui->removeQuestionsForm(array(), $a_id, array());
+		$this->editor_gui->removeQuestionsForm(array(), $a_id, array());
 		return true;
 	}
 
@@ -792,7 +801,7 @@ class ilSurveyPageGUI
 	 */
 	protected function editBlock($a_id)
 	{
-		$this->survey_gui->defineQuestionblock($a_id);
+		$this->callEditor("editQuestionblockObject", "bl_id", $a_id);		
 		return true;
 	}
 	
@@ -803,7 +812,7 @@ class ilSurveyPageGUI
 	 */
 	protected function addHeading($a_id)
 	{
-		$this->survey_gui->addHeadingObject(false, $a_id);
+		$this->callEditor("addHeadingObject", "q_id", $a_id);		
 		return true;
 	}
 
@@ -814,7 +823,7 @@ class ilSurveyPageGUI
 	 */
 	protected function editHeading($a_id)
 	{
-		$this->survey_gui->addHeadingObject(false, $a_id);
+		$this->callEditor("editHeadingObject", "q_id", $a_id);		
 		return true;
 	}
 
@@ -825,9 +834,18 @@ class ilSurveyPageGUI
 	 */
 	protected function deleteHeading($a_id)
 	{
-		$_GET["removeheading"] = $a_id;
-		$this->survey_gui->confirmRemoveHeadingForm();
+		$this->callEditor("removeHeadingObject", "q_id", $a_id);
 		return true;
+	}
+	
+	protected function callEditor($a_cmd, $a_param, $a_value)
+	{
+		global $ilTabs;
+		
+		$ilTabs->clearSubTabs();
+		$_REQUEST[$a_param] = $a_value;
+		
+		call_user_func(array($this->editor_gui, $a_cmd));
 	}
 
 	/**
@@ -1005,12 +1023,19 @@ class ilSurveyPageGUI
 	 */
 	protected function editQuestion($a_id)
 	{
-		$data = $this->object->getQuestions(array($a_id));
-		$pool_id = current(ilObject::_getAllReferences($data[0]["obj_fi"]));
+		global $ilCtrl;
 		
-		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=".
-				$pool_id."&cmd=editQuestionForSurvey&calling_survey=".
-				$this->ref_id."&q_id=".$a_id."&pgov=".$this->current_page);
+		$data = $this->object->getSurveyQuestions();
+		$data = $data[$a_id];
+		
+		$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));			
+		$q_gui = $data["type_tag"]."GUI";
+		
+		$ilCtrl->setParameterByClass($q_gui, "pgov", $this->current_page);
+		$ilCtrl->setParameterByClass($q_gui, "ref_id", $qpl_ref_id);
+		$ilCtrl->setParameterByClass($q_gui, "q_id", $a_id);
+		
+		$ilCtrl->redirectByClass($q_gui, "editQuestion");
 	}
 
 	/**
@@ -1019,8 +1044,6 @@ class ilSurveyPageGUI
 	protected function addQuestionToolbarForm()
 	{
 		global $lng, $ilCtrl, $tpl;
-
-		$this->survey_gui->questionsSubtabs('questions_per_page');
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -1072,7 +1095,7 @@ class ilSurveyPageGUI
 
 		if($this->object->isPoolActive())
 		{
-			$this->survey_gui->createQuestionObject($form);
+			$this->editor_gui->createQuestionObject($form);
 		}
 
 		$form->addCommandButton("addQuestionToolbar", $lng->txt("submit"));
@@ -1097,7 +1120,7 @@ class ilSurveyPageGUI
 		}
 
 		// make sure that it is set for current and next requests
-		$ilCtrl->setParameter($this->survey_gui, "pgov", $this->current_page);
+		$ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
 
 		if(!$this->addQuestion($_POST["qtype"], $pool_active, $_POST["pgov"], "toolbar"))
 		{
@@ -1111,8 +1134,6 @@ class ilSurveyPageGUI
 	protected function movePageForm()
 	{
 		global $lng, $ilCtrl, $tpl;
-
-		$this->survey_gui->questionsSubtabs('questions_per_page');
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -1220,15 +1241,15 @@ class ilSurveyPageGUI
 					$last_on_page = $last_on_page["question_id"];
 				}
 
-				$ilCtrl->setParameter($this->survey_gui, "pgov", $this->current_page);
-				$ilCtrl->setParameter($this->survey_gui, "pgov_pos", $last_on_page."c");
+				$ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
+				$ilCtrl->setParameter($this->editor_gui, "pgov_pos", $last_on_page."c");
 
 				$cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
 				$ilToolbar->addButton($lng->txt("browse_for_questions"),
-					$ilCtrl->getLinkTarget($this->survey_gui, $cmd));		
+					$ilCtrl->getLinkTarget($this->editor_gui, $cmd));		
 				
-				$ilCtrl->setParameter($this->survey_gui, "pgov", "");
-				$ilCtrl->setParameter($this->survey_gui, "pgov_pos", "");
+				$ilCtrl->setParameter($this->editor_gui, "pgov", "");
+				$ilCtrl->setParameter($this->editor_gui, "pgov_pos", "");
 			}
 			
 			if($a_pages)
@@ -1311,8 +1332,6 @@ class ilSurveyPageGUI
 	{
 		global $ilCtrl, $lng, $tpl, $rbacsystem;
 
-		$this->survey_gui->questionsSubtabs('questions_per_page');
-
 		$pages = $this->object->getSurveyPages();
 		$this->has_next_page = ($this->current_page < sizeof($pages));
 		$this->has_previous_page = ($this->current_page > 1);
@@ -1320,7 +1339,7 @@ class ilSurveyPageGUI
 		
 		if($this->has_datasets)
 		{
-			$link = $ilCtrl->getLinkTarget($this->survey_gui, "maintenance");
+			$link = $ilCtrl->getLinkTarget($this->editor_gui, "maintenance");
 			$link = "<a href=\"".$link."\">".$lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
 			ilUtil::sendInfo($lng->txt("survey_has_datasets_warning_page_view")." ".$link);
 		}
@@ -1819,11 +1838,11 @@ class ilSurveyPageGUI
 			$pos = $pos."b";
 		}		
 		
-		$ilCtrl->setParameter($this->survey_gui, "pgov", $this->current_page);
-		$ilCtrl->setParameter($this->survey_gui, "pgov_pos", $pos);
+		$ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
+		$ilCtrl->setParameter($this->editor_gui, "pgov_pos", $pos);
 		
 		$cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
-		$ilCtrl->redirect($this->survey_gui, $cmd);
+		$ilCtrl->redirect($this->editor_gui, $cmd);
 	}
 }
 

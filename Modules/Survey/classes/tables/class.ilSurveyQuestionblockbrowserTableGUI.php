@@ -44,7 +44,7 @@ class ilSurveyQuestionblockbrowserTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_object, $a_write_access = false)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -80,6 +80,22 @@ class ilSurveyQuestionblockbrowserTableGUI extends ilTable2GUI
 		$this->setResetCommand('resetfilterQuestionblockBrowser');
 		
 		$this->initFilter();
+		$this->initData($a_object);
+	}
+	
+	function initData($a_object)
+	{
+		$arrFilter = array();
+		foreach ($this->getFilterItems() as $item)
+		{
+			if ($item->getValue() !== false)
+			{
+				$arrFilter[$item->getPostVar()] = $item->getValue();
+			}
+		}
+		$data = $a_object->getQuestionblocksTable($arrFilter);
+		
+		$this->setData($data);
 	}
 
 	/**

@@ -1450,78 +1450,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	
 	function setQuestionTabs()
 	{
-		global $rbacsystem,$ilTabs;
-		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
-		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
-
-		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0))
-		{
-			$ref_id = $_GET["calling_survey"];
-			if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
-			$addurl = "";
-			if (strlen($_GET["new_for_survey"]))
-			{
-				$addurl = "&new_id=" . $_GET["q_id"];
-			}
-			if ($_REQUEST["pgov"])
-			{
-				$addurl .= "&pgov=".$_REQUEST["pgov"];
-				$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
-			}
-			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions" . $addurl);
-		}
-		else
-		{
-			$this->ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "q_id_table_nav", $_SESSION['q_id_table_nav']);
-			$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
-		}
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("preview",
-				$this->ctrl->getLinkTarget($this, "preview"), 
-				array("preview"),
-				"",
-				"");
-				
-			$ilTabs->addTarget("layout",
-				$this->ctrl->getLinkTarget($this, "layout"), 
-				array("layout", "saveLayout"),
-				"",
-				"");
-		}
-		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) 
-		{
-			$ilTabs->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "editQuestion"), 
-				array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
-					"addPG", "editQuestion", "addMaterial", "removeMaterial", 
-					"save", "cancel", "savePhrasecolumns", "confirmSavePhrase",
-					"downcolumns", "upcolumns", "addcolumns", "removecolumns",
-					"downrows", "uprows", "addrows", "removerows", "wizardcolumns",
-					"addSelectedPhrase", "insertStandardNumbers"),
-				"",
-				"");
-		}
-
-		if ($this->object->getId() > 0) 
-		{
-			$ilTabs->addTarget("material",
-									 $this->ctrl->getLinkTarget($this, "material"), 
-									array("material", "cancelExplorer", "linkChilds", "addGIT", "addST",
-											 "addPG", "addMaterial", "removeMaterial"),
-									 "$guiclass");
-		}
-		
-		if ($this->object->getId() > 0) 
-		{
-			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
-		} 
-		else 
-		{
-			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
-		}
-
-		$this->tpl->setVariable("HEADER", $title);
+		$this->setQuestionTabsForClass("surveymatrixquestiongui");
 	}
 
 }
