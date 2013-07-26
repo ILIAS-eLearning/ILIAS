@@ -13555,3 +13555,7 @@ rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte
 rep#:#rep_new_item_group_edit#:#Gruppe bearbeiten
 rep#:#rep_new_item_group_delete_sure#:#Wollen Sie wirklich die folgenden Gruppen löschen?
 registration#:#reg_email_domains_code#:#Bei Verwendung eines Codes sind beliebige E-Mail-Adressen möglich.
+payment#:#placeholders#:#Platzhalter
+payment#:#current_timestamp#:#Aktueller Unix-Zeitstempel
+payment#:#user_id#:#Benutzer-ID
+payment#:#incremental_number#:#Eine sich inkrementierende Ziffer

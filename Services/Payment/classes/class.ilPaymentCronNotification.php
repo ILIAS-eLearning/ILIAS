@@ -85,27 +85,6 @@ class ilPaymentCronNotification extends ilCronJob
 		$num_days->setValue($ilSetting->get('payment_notification_days'));
 		$num_days->setInfo($lng->txt('payment_notification_days_desc'));
 		$a_form->addItem($num_days);
-
-		// reset payment incremental invoice number
-		$inv_options = array(
-			"1" => $lng->txt("yearly"),
-			"2" => $lng->txt("monthly")
-			);
-		include_once './Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php';
-		if(ilUserDefinedInvoiceNumber::_isUDInvoiceNumberActive())
-		{
-			$inv_reset = new ilSelectInputGUI($lng->txt("invoice_number_reset_period"), "invoice_number_reset_period");
-			$inv_reset->setOptions($inv_options);
-			$inv_reset->setInfo($lng->txt("invoice_number_reset_period_desc"));
-			$inv_reset->setValue(ilUserDefinedInvoiceNumber::_getResetPeriod());
-			$a_form->addItem($inv_reset);
-		}
-		else
-		{
-			$inv_info = new ilNonEditableValueGUI($lng->txt('invoice_number_reset_period'), 'invoice_number_reset_period');
-			$inv_info->setInfo($lng->txt('payment_userdefined_invoice_number_not_activated'));
-			$a_form->addItem($inv_info);
-		}
 	}
 	
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
@@ -132,5 +111,3 @@ class ilPaymentCronNotification extends ilCronJob
 		$ilSetting->set('payment_notification', (bool)$a_currently_active);
 	}
 }
-
-?>

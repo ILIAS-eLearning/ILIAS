@@ -13556,3 +13556,7 @@ rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
 rep#:#rep_new_item_group_edit#:#Edit Group
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.
+payment#:#placeholders#:#Placeholders
+payment#:#current_timestamp#:#Current Unix Timestamp
+payment#:#user_id#:#User ID
+payment#:#incremental_number#:#Incrementing Number
