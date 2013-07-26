@@ -335,7 +335,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// properties
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{			
-			$tabs_gui->addTarget("settings",
+			$tabs_gui->addTab("settings",
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this,'properties'));
 		}
