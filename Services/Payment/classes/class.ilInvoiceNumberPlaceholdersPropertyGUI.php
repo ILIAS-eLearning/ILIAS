@@ -29,7 +29,7 @@ class ilInvoiceNumberPlaceholdersPropertyGUI extends ilFormPropertyGUI
 		$subtpl->setVariable('TXT_PLACEHOLDERS_ADVICE', $lng->txt('inv_number_placeholder_advice'));
 
 		$subtpl->setVariable('TXT_CURRENT_TIMESTAMP', $lng->txt('current_timestamp'));
-		$subtpl->setVariable('TXT_INSTALLATION_ID', $lng->txt('installation_id'));
+		$subtpl->setVariable('TXT_INSTALLATION_ID', $lng->txt('inst_id'));
 		$subtpl->setVariable('TXT_USER_ID', $lng->txt('user_id'));
 		$subtpl->setVariable('TXT_DAY', $lng->txt('day'));
 		$subtpl->setVariable('TXT_MONTH', $lng->txt('month'));
