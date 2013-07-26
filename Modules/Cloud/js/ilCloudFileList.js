@@ -5,7 +5,7 @@
  *
  * **/
 
-function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_delete_item, root_id, root_path, max_file_size_txt) {
+function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_delete_item, root_id, root_path, current_id, current_path, max_file_size_txt) {
 
     var DEBUG = true;
 
@@ -16,11 +16,17 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 
     var parent_id = root_id;
     var root_id = root_id;
-    var current_id = root_id;
+    var current_id = current_id;
     var root_path = root_path;
-    var current_path = root_path;
+    var current_path = current_path;
     var max_file_size_txt = max_file_size_txt;
 
+    //To prevent double clicks
+    var clicked_create_folder = false;
+    var clicked_upload_item = false;
+    var clicked_delete_item = false;
+
+    //store variable to keep access to "this"
     var self = this;
     var uploading = false;
 
@@ -28,16 +34,6 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
         if (DEBUG === true) {
             console.log("cld: "+message);
         }
-    }
-
-    this.getCurrentId = function ()
-    {
-        return current_id;
-    }
-
-    this.getCurrentPath = function ()
-    {
-        return current_path;
     }
 
     this.setRootPath = function (path) {
@@ -89,6 +85,13 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
             this.hideMessage();
         }
 
+        //Update PermaLink
+        perm_link = $("#current_perma_link").val();
+        perm_link = perm_link.replace(/path_.*_endPath/,"path_"+ current_path+"_endPath");
+        console.log(current_path);
+        console.log(perm_link);
+        $("#current_perma_link").val(perm_link);
+
         //Check if block already exists as hidden html block (if it was drawn previously) if so, just show it again.
         if ($("#xcld_block_" + current_id).length > 0) {
             this.showDebugMessage("showCurrent: Block already exists, not going Ajax. id=" + current_id);
@@ -134,40 +137,45 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
         }
     }
 
-    //Ajax request to create a new Folder
     this.deleteItem = function (id) {
+        if(!this.clicked_delete_item)
+        {
+            this.clicked_delete_item = true;
 
-        this.hideMessage();
-        $.ajax({
-            type: "POST",
-            url: url_delete_item.replace(/&amp;/g, '&'),
-            data: {'id': id}
-        }).done(function (return_data) {
-                if (return_data.success) {
-                    self.showDebugMessage("deleteItem: Form successfully created per ajax. id=" + current_id+ " path= " + current_path);
-                    self.hideBlock(current_id);
-                    self.hideItemCreationList();
-                    $("#xcld_blocks").append(return_data.content);
-                    $("input[name='cmd[deleteItem]']").click(function () {
-                        self.showProgressAnimation();
-                    });
-                }
-
-                else {
-                    if (return_data.message) {
-                        self.showDebugMessage("deleteItem: Form not successfully created per ajax. message=" + return_data.message);
-                        self.showMessage(return_data.message);
+            this.hideMessage();
+            $.ajax({
+                type: "POST",
+                url: url_delete_item.replace(/&amp;/g, '&'),
+                data: {'id': id}
+            }).done(function (return_data) {
+                    self.clicked_delete_item = false;
+                    if (return_data.success) {
+                        self.showDebugMessage("deleteItem: Form successfully created per ajax. id=" + current_id + " path= " + current_path);
+                        self.hideBlock(current_id);
+                        self.hideItemCreationList();
+                        $("#xcld_blocks").append(return_data.content);
+                        $("input[name='cmd[deleteItem]']").click(function () {
+                            self.showProgressAnimation();
+                        });
                     }
+
                     else {
-                        self.showDebugMessage("deleteItem: Form not successfully created per ajax. data=" + return_data);
-                        self.showMessage(return_data);
+                        if (return_data.message) {
+                            self.showDebugMessage("deleteItem: Form not successfully created per ajax. message=" + return_data.message);
+                            self.showMessage(return_data.message);
+                        }
+                        else {
+                            self.showDebugMessage("deleteItem: Form not successfully created per ajax. data=" + return_data);
+                            self.showMessage(return_data);
+                        }
                     }
-                }
-            });
+                });
+        }
     }
 
 
     this.afterDeleteItem = function (data) {
+        this.clicked_delete_item = false;
         if (data.success || data.status == "cancel") {
             var callback = function (self, data) {
                 $("#cld_delete_item").remove();
@@ -210,39 +218,43 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 
     //Ajax request to create a new Folder
     this.createFolder = function () {
-        //store variable to keep access to "this"
-        var self = this;
-        this.hideMessage();
 
-        $.ajax({
-            type: "POST",
-            url: url_create_folder.replace(/&amp;/g, '&'),
-            data: { 'id': current_id}
-        }).done(function (return_data) {
-                if (return_data.success) {
-                    self.showDebugMessage("createFolder: Form successfully created per ajax. id=" + current_id + " path= " + current_path);
-                    self.hideBlock(current_id);
-                    self.hideItemCreationList();
-                    $("#xcld_blocks").append(return_data.content);
-                    $("input[name='cmd[createFolder]']").click(function () {
-                        self.showProgressAnimation();
-                    });
-                }
-                else {
-                    if (return_data.message) {
-                        self.showDebugMessage("createFolder: Form not successfully created per ajax. message=" + return_data.message);
-                        self.showMessage(return_data.message);
+        if(!this.clicked_create_folder)
+        {
+            this.clicked_create_folder = true;
+            this.hideMessage();
+
+            $.ajax({
+                type: "POST",
+                url: url_create_folder.replace(/&amp;/g, '&'),
+                data: { 'id': current_id}
+            }).done(function (return_data) {
+                    if (return_data.success) {
+                        self.clicked_create_folder = true;
+                        self.showDebugMessage("createFolder: Form successfully created per ajax. id=" + current_id + " path= " + current_path);
+                        self.hideBlock(current_id);
+                        self.hideItemCreationList();
+                        $("#xcld_blocks").append(return_data.content);
+                        $("input[name='cmd[createFolder]']").click(function () {
+                            self.showProgressAnimation();
+                        });
                     }
                     else {
-                        self.showDebugMessage("createFolder: Form not successfully created per ajax. data=" + return_data);
-                        self.showMessage(return_data);
+                        if (return_data.message) {
+                            self.showDebugMessage("createFolder: Form not successfully created per ajax. message=" + return_data.message);
+                            self.showMessage(return_data.message);
+                        }
+                        else {
+                            self.showDebugMessage("createFolder: Form not successfully created per ajax. data=" + return_data);
+                            self.showMessage(return_data);
+                        }
                     }
-                }
-            });
+                });
+        }
     }
 
     this.afterCreateFolder = function (data) {
-
+        self.clicked_create_folder = false;
         if (data.success || data.status == "cancel") {
             var callback = function (self, data) {
                 $("#form_cld_create_folder").remove();
@@ -281,27 +293,31 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 
     //Ajax request to create a new Folder
     this.uploadFile = function () {
-        uploading = true;
-        this.hideMessage();
-
-        self.showProgressAnimation();
-        $.ajax({
-            type: "POST",
-            url: url_upload_file.replace(/&amp;/g, '&'),
-            data: { 'folder_id': current_id}
-        }).done(function (return_data) {
-                self.hideProgressAnimation();
-                self.removeBlock(current_id);
-                self.hideItemCreationList();
-                $("#xcld_blocks").append(return_data);
-                $(".ilFileUploadToggleOptions").click(function () {
-                    $(".ilFileUploadEntryDescription").remove();
+        if(!this.clicked_upload_item)
+        {
+            this.clicked_upload_item = true;
+            this.uploading = true;
+            this.hideMessage();
+            this.showProgressAnimation();
+            $.ajax({
+                type: "POST",
+                url: url_upload_file.replace(/&amp;/g, '&'),
+                data: { 'folder_id': current_id}
+            }).done(function (return_data) {
+                    self.hideProgressAnimation();
+                    self.removeBlock(current_id);
+                    self.hideItemCreationList();
+                    $("#xcld_blocks").append(return_data);
+                    $(".ilFileUploadToggleOptions").click(function () {
+                        $(".ilFileUploadEntryDescription").remove();
+                    });
+                    $(".ilFileUploadContainer").children(".ilFormInfo").html(max_file_size_txt);
                 });
-                $(".ilFileUploadContainer").children(".ilFormInfo").html(max_file_size_txt);
-            });
+        }
     }
 
     this.afterUpload = function (message) {
+        self.clicked_upload_item = false;
         console.log(message);
         this.showCurrent(false, function (self) {
             $("#form_upload").remove();
@@ -339,9 +355,10 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
         }
         else if (uploading == false) {
             self.hideBlock(current_id);
-            event.parameters.current_id ? current_id = event.parameters.current_id : current_id = root_id;
+            event.parameters.current_id ? current_id = event.parameters.current_id : current_id = current_id;
+            event.parameters.current_path ? current_path = decodeURIComponent((event.parameters.current_path + '').replace(/\+/g, '%20')) : current_path = current_path;
+
             event.parameters.parent_id ? parent_id = event.parameters.parent_id : parent_id = root_id;
-            event.parameters.current_path ? current_path = decodeURIComponent((event.parameters.current_path + '').replace(/\+/g, '%20')) : current_path = root_path;
             self.hideBlock(parent_id);
             self.showCurrent(event.parameters.show_message);
         }

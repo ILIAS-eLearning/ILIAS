@@ -171,7 +171,7 @@ class ilObjCloudGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($file_tree_gui);
                 break;
             case "ilcloudpluginheaderactiongui":
-                $header_action_gui = ilCloudConnector::getHeaderActionGUI($this->plugin_service);
+                $header_action_gui = ilCloudConnector::getHeaderActionGUIClass($this->plugin_service);
                 $this->ctrl->forwardCommand($header_action_gui);
                 break;
             case "ilcloudplugininitgui":
@@ -201,8 +201,9 @@ class ilObjCloudGUI extends ilObject2GUI
      */
     public function _goto($a_target)
     {
-        $id                = explode("_", $a_target);
-        $_GET["ref_id"]    = $id[0];
+        $content                = explode("_", $a_target);
+        $_GET["ref_id"]    = $content[0];
+        $_POST["path"]     = $content[2];
         $_GET["baseClass"] = "ilrepositorygUI";
         $_GET["cmdClass"]  = "ilobjcloudgui";
         $_GET["cmd"]       = "render";
@@ -295,6 +296,12 @@ class ilObjCloudGUI extends ilObject2GUI
             $hook_object = ilCloudConnector::getPluginHookClass($option->getValue());
             $option->setTitle($hook_object->txt($service));
             $option->setInfo($hook_object->txt("create_info"));
+            $this->plugin_service = ilCloudConnector::getServiceClass($service, 0, false);
+            $init_gui = ilCloudConnector::getCreationGUIClass($this->plugin_service);
+            if($init_gui)
+            {
+                $init_gui->initPluginCreationFormSection($option);
+            }
             $services_group->addOption($option);
         }
 
@@ -323,37 +330,58 @@ class ilObjCloudGUI extends ilObject2GUI
                 $a_new_object->setRootFolder("/");
                 $a_new_object->setOnline(false);
                 $a_new_object->setAuthComplete(false);
+                $this->plugin_service = new ilCloudPluginService($a_new_object->getServiceName(), $a_new_object->getId());
+                $init_gui             = ilCloudConnector::getCreationGUIClass($this->plugin_service);
+                if ($init_gui)
+                {
+                    $init_gui->afterSavePluginCreation($a_new_object, $form);
+                }
                 $a_new_object->update();
                 $this->serviceAuth($a_new_object);
             }
 
         } catch (Exception $e)
         {
-            ilUtil::sendFailure($e->getMessage());
+            ilUtil::sendFailure($e->getMessage(),true);
+            ilObjectGUI::redirectToRefId($this->parent_id);
         }
     }
 
     protected function serviceAuth($object)
     {
         global $ilCtrl;
-        $service = ilCloudConnector::getServiceClass($object->getServiceName(), $object->getId());
-        $service->authService($ilCtrl->getLinkTarget($this, "afterServiceAuth") . "&authMode=true");
+        try{
+            $service = ilCloudConnector::getServiceClass($object->getServiceName(), $object->getId());
+            $service->authService($ilCtrl->getLinkTarget($this, "afterServiceAuth") . "&authMode=true");
+        } catch (Exception $e)
+        {
+            ilUtil::sendFailure($e->getMessage(), true);
+            ilObjectGUI::redirectToRefId($this->parent_id);
+        }
+
     }
 
     protected function afterServiceAuth()
     {
         global $ilCtrl,$lng;
 
-        if($this->plugin_service->afterAuthService())
+        try
         {
-            $this->object->setRootId("root",true);
-            $this->object->setAuthComplete(true);
-            $this->object->update();
-            $ilCtrl->redirectByClass("ilCloudPluginSettingsGUI", "editSettings");
-        }
-        else
+            if($this->plugin_service->afterAuthService())
+            {
+                $this->object->setRootId("root",true);
+                $this->object->setAuthComplete(true);
+                $this->object->update();
+                $ilCtrl->redirectByClass("ilCloudPluginSettingsGUI", "editSettings");
+            }
+            else
+            {
+                ilUtil::sendFailure($lng->txt("cld_auth_failed"),true);
+                ilObjectGUI::redirectToRefId($this->parent_id);
+            }
+        } catch (Exception $e)
         {
-            ilUtil::sendFailure($lng->txt("cld_auth_failed"),true);
+            ilUtil::sendFailure($e->getMessage(), true);
             ilObjectGUI::redirectToRefId($this->parent_id);
         }
     }
@@ -364,7 +392,7 @@ class ilObjCloudGUI extends ilObject2GUI
     protected function addHeaderAction()
     {
         $lg = $this->initHeaderAction();
-        $header_action_class = ilCloudConnector::getHeaderActionGUI($this->plugin_service);
+        $header_action_class = ilCloudConnector::getHeaderActionGUIClass($this->plugin_service);
         $header_action_class->addCustomHeaderAction($lg);
         $this->insertHeaderAction($lg);
 
@@ -388,18 +416,19 @@ class ilObjCloudGUI extends ilObject2GUI
     {
         global $tpl;
 
-        $response           = new stdClass();
-        $response->message   = null;
-        $response->locator  = null;
-        $response->content  = null;
-        $response->success  = null;
+        $response               = new stdClass();
+        $response->message      = null;
+        $response->locator      = null;
+        $response->content      = null;
+        $response->success      = null;
 
         try{
             $file_tree = ilCloudFileTree::getFileTreeFromSession();
             $file_tree->updateFileTree($_POST["path"]);
+            $node = $file_tree->getNodeFromPath($_POST["path"]);
             $file_tree_gui = ilCloudConnector::getFileTreeGUIClass($this->plugin_service,$file_tree);
-            $response->content = $file_tree_gui->getFolderHtml($this, $_POST["id"], $this->checkPermissionBool("delete_files"), $this->checkPermissionBool("delete_folders"), $this->checkPermissionBool("download"), $this->checkPermissionBool("files_visible"), $this->checkPermissionBool("folders_visible"));
-            $response->locator = $file_tree_gui->getLocatorHtml($file_tree->getNodeFromId($_POST["id"]));
+            $response->content = $file_tree_gui->getFolderHtml($this, $node->getId(), $this->checkPermissionBool("delete_files"), $this->checkPermissionBool("delete_folders"), $this->checkPermissionBool("download"), $this->checkPermissionBool("files_visible"), $this->checkPermissionBool("folders_visible"));
+            $response->locator = $file_tree_gui->getLocatorHtml($file_tree->getNodeFromId($node->getId()));
             $response->success = true;
         }
         catch(Exception $e)

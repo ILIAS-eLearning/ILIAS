@@ -178,8 +178,8 @@ class ilCloudConnector
     /**
      * @param $service_name
      * @param $obj_id
-     * @param ilCloudPluginFileTreeGUI
-     * @return mixed
+     * @param ilCloudPluginFileTree
+     * @return ilCloudPluginFileTreeGUI
      */
     public static function getFileTreeGUIClass(ilCloudPluginService $plugin_service_class, ilCloudFileTree $file_tree)
     {
@@ -223,9 +223,19 @@ class ilCloudConnector
      * @param ilCloudPluginService $plugin_service_class
      * @return ilCloudPluginHeaderActionGUI
      */
-    public static function getHeaderActionGUI(ilCloudPluginService $plugin_service_class)
+    public static function getHeaderActionGUIClass(ilCloudPluginService $plugin_service_class)
     {
         $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(), "HeaderActionGUI");
+        return new $class_name($plugin_service_class);
+    }
+
+    /**
+     * @param ilCloudPluginService $plugin_service_class
+     * @return ilCloudPluginCreationGUI
+     */
+    public static function getCreationGUIClass(ilCloudPluginService $plugin_service_class)
+    {
+        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(), "CreationGUI");
         return new $class_name($plugin_service_class);
     }
 }

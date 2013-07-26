@@ -15,7 +15,9 @@ class ilCloudPluginConfigException extends ilCloudException
 {
     const TABLE_DOES_NOT_EXIST                  = 100001;
     const ENTRY_DOES_NOT_EXIST                  = 100002;
-    const NO_VALID_GET_OR_SET_FUNCTION          = 100002;
+    const NO_VALID_GET_OR_SET_FUNCTION          = 100003;
+    const PLUGIN_NOT_PROPERLY_CONFIGURED        = 100004;
+
 
     protected function assignMessageToCode()
     {
@@ -30,6 +32,9 @@ class ilCloudPluginConfigException extends ilCloudException
                 break;
             case self::NO_VALID_GET_OR_SET_FUNCTION:
                 $this->message = $lng->txt("cld_config_no_valid_get_or_set_function") . " " . $this->add_info;
+                break;
+            case self::PLUGIN_NOT_PROPERLY_CONFIGURED:
+                $this->message = $lng->txt("cld_plugin_not_properly_configured") . " " . $this->add_info;
                 break;
             default:
                 $this->message = $lng->txt("cld_config_unknown_exception") . " " . $this->add_info;
