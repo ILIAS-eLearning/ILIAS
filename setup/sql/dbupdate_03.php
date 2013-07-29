@@ -16799,3 +16799,7 @@ if( !$ilDB->tableColumnExists('tst_active', 'taxfilter') )
 }
 
 ?>
+<#3981>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
