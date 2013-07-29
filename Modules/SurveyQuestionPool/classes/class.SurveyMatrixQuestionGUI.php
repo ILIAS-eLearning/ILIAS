@@ -36,34 +36,15 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 */
 class SurveyMatrixQuestionGUI extends SurveyQuestionGUI 
 {
-	var $show_layout_row;
+	protected $show_layout_row;
 	
-/**
-* SurveyMatrixQuestionGUI constructor
-*
-* The constructor takes possible arguments an creates an instance of the SurveyMatrixQuestionGUI object.
-*
-* @param integer $id The database id of a matrix question object
-* @access public
-*/
-  function SurveyMatrixQuestionGUI(
-		$id = -1
-  )
-
-  {
-		$this->SurveyQuestionGUI();
+	protected function initObject()
+	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMatrixQuestion.php";
 		$this->object = new SurveyMatrixQuestion();
-		$this->show_layout_row = FALSE;
-		if ($id >= 0)
-		{
-			$this->object->loadFromDb($id);
-		}
 	}
 
-	/**
-	* execute command
-	*/
+	/*
 	function &executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
@@ -78,115 +59,23 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		return $ret;
 	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
 	*/
-	function writePostData($always = false)
+	
+	
+	// 
+	// EDITOR
+	//
+	
+	public function setQuestionTabs()
 	{
-		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
-		if (!$hasErrors)
-		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->label = $_POST['label'];
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setDescription($_POST["description"]);
-			$questiontext = $_POST["question"];
-			$this->object->setQuestiontext($questiontext);
-			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
-			$this->object->setSubtype($_POST["type"]);
-			$this->object->setRowSeparators(($_POST["row_separators"]) ? 1 : 0);
-			$this->object->setColumnSeparators(($_POST["column_separators"]) ? 1 : 0);
-			$this->object->setNeutralColumnSeparator(($_POST["neutral_column_separator"]) ? 1 : 0);
-			// Set bipolar adjectives
-			$this->object->setBipolarAdjective(0, $_POST["bipolar1"]);
-			$this->object->setBipolarAdjective(1, $_POST["bipolar2"]);
-			// set columns
-			$this->object->flushColumns();
-			foreach ($_POST['columns']['answer'] as $key => $value)
-			{
-				if (strlen($value)) $this->object->getColumns()->addCategory($value, $_POST['columns']['other'][$key], 0, null, $_POST['columns']['scale'][$key]);
-			}
-			if (strlen($_POST["columns"]["neutral"]))
-			{
-				$this->object->getColumns()->addCategory($_POST['columns']['neutral'], 0, 1, null, $_POST['columns_neutral_scale']);
-			}
-			// set rows
-			$this->object->flushRows();
-			foreach ($_POST['rows']['answer'] as $key => $value)
-			{
-				if (strlen($value)) $this->object->getRows()->addCategory($value, $_POST['rows']['other'][$key], 0, $_POST['rows']['label'][$key]);
-			}
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
+		$this->setQuestionTabsForClass("surveymatrixquestiongui");
 	}
 
-	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
-	public function editQuestion($checkonly = FALSE)
-	{		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt($this->getQuestionType()));
-		$form->setMultipart(FALSE);
-		$form->setTableWidth("100%");
-		$form->setId("multiplechoice");
-
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-
-		// label
-		$label = new ilTextInputGUI($this->lng->txt("label"), "label");
-		$label->setValue($this->object->label);
-		$label->setInfo($this->lng->txt("label_info"));
-		$label->setRequired(false);
-		$form->addItem($label);
-	
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "description");
-		$description->setValue($this->object->getDescription());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-		
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestiontext()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "spl", "survey");
-		$form->addItem($question);
-		
+	protected function addFieldsToEditForm(ilPropertyFormGUI $a_form)
+	{	
 		// subtype
 		$subtype = new ilRadioGroupInputGUI($this->lng->txt("subtype"), "type");
-		$subtype->setRequired(false);
-		$subtype->setValue($this->object->getSubtype());
+		$subtype->setRequired(false);	
 		$subtypes = array(
 			"0" => "matrix_subtype_sr",
 			"1" => "matrix_subtype_mr",
@@ -200,46 +89,38 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$subtype->addOption(new ilRadioOption($this->lng->txt($st), $idx));
 		}
-		$form->addItem($subtype);
+		$a_form->addItem($subtype);
 
-		// obligatory
-		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
-		$shuffle->setValue(1);
-		$shuffle->setChecked($this->object->getObligatory());
-		$shuffle->setRequired(FALSE);
-		$form->addItem($shuffle);
-
+		
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("matrix_appearance"));
-		$form->addItem($header);
+		$a_form->addItem($header);
 		
 		// column separators
 		$column_separators = new ilCheckboxInputGUI($this->lng->txt("matrix_column_separators"), "column_separators");
 		$column_separators->setValue(1);
-		$column_separators->setInfo($this->lng->txt("matrix_column_separators_description"));
-		$column_separators->setChecked($this->object->getColumnSeparators());
+		$column_separators->setInfo($this->lng->txt("matrix_column_separators_description"));	
 		$column_separators->setRequired(false);
-		$form->addItem($column_separators);
+		$a_form->addItem($column_separators);
 
 		// row separators
 		$row_separators = new ilCheckboxInputGUI($this->lng->txt("matrix_row_separators"), "row_separators");
 		$row_separators->setValue(1);
-		$row_separators->setInfo($this->lng->txt("matrix_row_separators_description"));
-		$row_separators->setChecked($this->object->getRowSeparators());
+		$row_separators->setInfo($this->lng->txt("matrix_row_separators_description"));		
 		$row_separators->setRequired(false);
-		$form->addItem($row_separators);
+		$a_form->addItem($row_separators);
 
 		// neutral column separators
 		$neutral_column_separator = new ilCheckboxInputGUI($this->lng->txt("matrix_neutral_column_separator"), "neutral_column_separator");
 		$neutral_column_separator->setValue(1);
-		$neutral_column_separator->setInfo($this->lng->txt("matrix_neutral_column_separator_description"));
-		$neutral_column_separator->setChecked($this->object->getNeutralColumnSeparator());
+		$neutral_column_separator->setInfo($this->lng->txt("matrix_neutral_column_separator_description"));	
 		$neutral_column_separator->setRequired(false);
-		$form->addItem($neutral_column_separator);
+		$a_form->addItem($neutral_column_separator);
 
+		
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("matrix_columns"));
-		$form->addItem($header);
+		$a_form->addItem($header);
 		
 		// Answers
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php";
@@ -251,39 +132,34 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$columns->setDisabledScale(false);
 		$columns->setNeutralCategoryTitle($this->lng->txt('matrix_neutral_answer'));
 		$columns->setCategoryText($this->lng->txt('matrix_standard_answers'));
-		$columns->setShowSavePhrase(true);
-		if (!$this->object->getColumnCount())
-		{
-			$this->object->columns->addCategory("");
-		}
-		$columns->setValues($this->object->getColumns());
-		$form->addItem($columns);
+		$columns->setShowSavePhrase(true);		
+		$a_form->addItem($columns);
+		
 		
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("matrix_column_settings"));
-		$form->addItem($header);
+		$a_form->addItem($header);
 		
 		// bipolar adjectives
 		$bipolar = new ilCustomInputGUI($this->lng->txt("matrix_bipolar_adjectives"));
 		$bipolar->setInfo($this->lng->txt("matrix_bipolar_adjectives_description"));
 		
 		// left pole
-		$bipolar1 = new ilTextInputGUI($this->lng->txt("matrix_left_pole"), "bipolar1");
-		$bipolar1->setValue($this->object->getBipolarAdjective(0));
+		$bipolar1 = new ilTextInputGUI($this->lng->txt("matrix_left_pole"), "bipolar1");		
 		$bipolar1->setRequired(false);
 		$bipolar->addSubItem($bipolar1);
 		
 		// right pole
-		$bipolar2 = new ilTextInputGUI($this->lng->txt("matrix_right_pole"), "bipolar2");
-		$bipolar2->setValue($this->object->getBipolarAdjective(1));
+		$bipolar2 = new ilTextInputGUI($this->lng->txt("matrix_right_pole"), "bipolar2");		
 		$bipolar2->setRequired(false);
 		$bipolar->addSubItem($bipolar2);
 
-		$form->addItem($bipolar);
+		$a_form->addItem($bipolar);
+		
 
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("matrix_rows"));
-		$form->addItem($header);
+		$a_form->addItem($header);
 
 		// matrix rows
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilMatrixRowWizardInputGUI.php";
@@ -291,118 +167,375 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$rows->setRequired(false);
 		$rows->setAllowMove(true);
 		$rows->setLabelText($this->lng->txt('label'));
-		$rows->setUseOtherAnswer(true);
+		$rows->setUseOtherAnswer(true);	
+		$a_form->addItem($rows);
+		
+		
+		// values
+		$subtype->setValue($this->object->getSubtype());		
+		$column_separators->setChecked($this->object->getColumnSeparators());
+		$row_separators->setChecked($this->object->getRowSeparators());
+		$neutral_column_separator->setChecked($this->object->getNeutralColumnSeparator());
+		
+		if (!$this->object->getColumnCount())
+		{
+			$this->object->columns->addCategory("");
+		}
+		$columns->setValues($this->object->getColumns());
+		
+		$bipolar1->setValue($this->object->getBipolarAdjective(0));
+		$bipolar2->setValue($this->object->getBipolarAdjective(1));
+		
 		if ($this->object->getRowCount() == 0)
 		{
 			$this->object->getRows()->addCategory("");
 		}
 		$rows->setValues($this->object->getRows());
-		$form->addItem($rows);
-
-		$this->addCommandButtons($form);
+	}
+	
+	protected function importEditFormValues(ilPropertyFormGUI $a_form)
+	{
+		$this->object->setSubtype($a_form->getInput("type"));
+		$this->object->setRowSeparators($a_form->getInput("row_separators") ? 1 : 0);
+		$this->object->setColumnSeparators($a_form->getInput("column_separators") ? 1 : 0);
+		$this->object->setNeutralColumnSeparator($a_form->getInput("neutral_column_separator") ? 1 : 0);
 		
-		$errors = false;
-
-		if ($this->isSaveCommand(array("wizardcolumns", "savePhrasecolumns")))
+		// Set bipolar adjectives
+		$this->object->setBipolarAdjective(0, $a_form->getInput("bipolar1"));
+		$this->object->setBipolarAdjective(1, $a_form->getInput("bipolar2"));
+		
+		// set columns
+		$this->object->flushColumns();
+		
+		foreach ($_POST['columns']['answer'] as $key => $value)
 		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-			if ($errors) $checkonly = false;
+			if (strlen($value)) $this->object->getColumns()->addCategory($value, $_POST['columns']['other'][$key], 0, null, $_POST['columns']['scale'][$key]);
+		}
+		if (strlen($_POST["columns"]["neutral"]))
+		{
+			$this->object->getColumns()->addCategory($_POST['columns']['neutral'], 0, 1, null, $_POST['columns_neutral_scale']);
+		}
+		
+		// set rows
+		$this->object->flushRows();
+		foreach ($_POST['rows']['answer'] as $key => $value)
+		{
+			if (strlen($value)) $this->object->getRows()->addCategory($value, $_POST['rows']['other'][$key], 0, $_POST['rows']['label'][$key]);
+		}
+	}
+	
+	/**
+	* Creates a HTML representation of the question
+	*
+	* @access private
+	*/
+	function getPrintView($question_title = 1, $show_questiontext = 1)
+	{
+		$layout = $this->object->getLayout();
+		$neutralstyle = "3px solid #808080";
+		$bordercolor = "#808080";
+		$template = new ilTemplate("tpl.il_svy_qpl_matrix_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+
+		if ($this->show_layout_row)
+		{
+			$layout_row = $this->getLayoutRow();
+			$template->setCurrentBlock("matrix_row");
+			$template->setVariable("ROW", $layout_row);
+			$template->parseCurrentBlock();
+		}
+		
+		$tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+		{
+			$tplheaders->setCurrentBlock("bipolar_start");
+			$style = array();
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%"));
+			if (count($style) > 0)
+			{
+				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+			}
+			$tplheaders->parseCurrentBlock();
+		}
+		// column headers
+		for ($i = 0; $i < $this->object->getColumnCount(); $i++)
+		{
+			$cat = $this->object->getColumn($i);
+			if ($cat->neutral)
+			{
+				$tplheaders->setCurrentBlock("neutral_column_header");
+				$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($cat->title));
+				$tplheaders->setVariable("CLASS", "rsep");
+				$style = array();
+				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_neutral"], "%"));
+				if ($this->object->getNeutralColumnSeparator())
+				{
+					array_push($style, "border-left: $neutralstyle!important;");
+				}
+				if (count($style) > 0)
+				{
+					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+				}
+				$tplheaders->parseCurrentBlock();
+			}
+			else
+			{
+				$style = array();
+				if ($this->object->getColumnSeparators() == 1)
+				{
+					if (($i < $this->object->getColumnCount() - 1))
+					{
+						array_push($style, "border-right: 1px solid $bordercolor!important");
+					}
+				}
+				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $this->object->getColumnCount(), "%"));
+				$tplheaders->setCurrentBlock("column_header");
+				$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($cat->title));
+				$tplheaders->setVariable("CLASS", "center");
+				if (count($style) > 0)
+				{
+					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+				}
+				$tplheaders->parseCurrentBlock();
+			}
 		}
 
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return $errors;
+		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+		{
+			$tplheaders->setCurrentBlock("bipolar_end");
+			$style = array();
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%"));
+			if (count($style) > 0)
+			{
+				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+			}
+			$tplheaders->parseCurrentBlock();
+		}
+
+		$style = array();
+		array_push($style, sprintf("width: %.2f%s!important", $layout["percent_row"], "%"));
+		if (count($style) > 0)
+		{
+			$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+		}
+		
+		$template->setCurrentBlock("matrix_row");
+		$template->setVariable("ROW", $tplheaders->get());
+		$template->parseCurrentBlock();
+
+		$rowclass = array("tblrow1", "tblrow2");
+		
+		for ($i = 0; $i < $this->object->getRowCount(); $i++)
+		{
+			$rowobj = $this->object->getRow($i);
+			$tplrow = new ilTemplate("tpl.il_svy_qpl_matrix_printview_row.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+			for ($j = 0; $j < $this->object->getColumnCount(); $j++)
+			{
+				$cat = $this->object->getColumn($j);
+				if (($i == 0) && ($j == 0))
+				{
+					if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+					{
+						$tplrow->setCurrentBlock("bipolar_start");
+						$tplrow->setVariable("TEXT_BIPOLAR_START", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(0)));
+						$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
+						$tplrow->parseCurrentBlock();
+					}
+				}
+				if (($i == 0) && ($j == $this->object->getColumnCount()-1))
+				{
+					if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+					{
+						$tplrow->setCurrentBlock("bipolar_end");
+						$tplrow->setVariable("TEXT_BIPOLAR_END", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)));
+						$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
+						$tplrow->parseCurrentBlock();
+					}
+				}
+				switch ($this->object->getSubtype())
+				{
+					case 0:
+						if ($cat->neutral)
+						{
+							$tplrow->setCurrentBlock("neutral_radiobutton");
+							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+							$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+							$tplrow->parseCurrentBlock();
+						}
+						else
+						{
+							$tplrow->setCurrentBlock("radiobutton");
+							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+							$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+							$tplrow->parseCurrentBlock();
+						}
+						break;
+					case 1:
+						if ($cat->neutral)
+						{
+							$tplrow->setCurrentBlock("neutral_checkbox");
+							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
+							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
+							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
+							$tplrow->parseCurrentBlock();
+						}
+						else
+						{
+							$tplrow->setCurrentBlock("checkbox");
+							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
+							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
+							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
+							$tplrow->parseCurrentBlock();
+						}
+						break;
+				}
+				if ($cat->neutral)
+				{
+					$tplrow->setCurrentBlock("neutral_answer");
+					$style = array();
+					if ($this->object->getNeutralColumnSeparator())
+					{
+						array_push($style, "border-left: $neutralstyle!important");
+					}
+					if ($this->object->getColumnSeparators() == 1)
+					{
+						if ($j < $this->object->getColumnCount() - 1)
+						{
+							array_push($style, "border-right: 1px solid $bordercolor!important");
+						}
+					}
+
+					if ($this->object->getRowSeparators() == 1)
+					{
+						if ($i < $this->object->getRowCount() - 1)
+						{
+							array_push($style, "border-bottom: 1px solid $bordercolor!important");
+						}
+					}
+					if (count($style))
+					{
+						$tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+					}
+					$tplrow->parseCurrentBlock();
+				}
+				else
+				{
+					$tplrow->setCurrentBlock("answer");
+					$style = array();
+
+					if ($this->object->getColumnSeparators() == 1)
+					{
+						if ($j < $this->object->getColumnCount() - 1)
+						{
+							array_push($style, "border-right: 1px solid $bordercolor!important");
+						}
+					}
+
+					if ($this->object->getRowSeparators() == 1)
+					{
+						if ($i < $this->object->getRowCount() - 1)
+						{
+							array_push($style, "border-bottom: 1px solid $bordercolor!important");
+						}
+					}
+					if (count($style))
+					{
+						$tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+					}
+					$tplrow->parseCurrentBlock();
+				}
+			}
+
+			if ($rowobj->other)
+			{
+				$tplrow->setCurrentBlock("text_other");
+				$tplrow->setVariable("TEXT_OTHER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+				$tplrow->parseCurrentBlock();
+			}
+
+			$tplrow->setVariable("TEXT_ROW", ilUtil::prepareFormOutput($rowobj->title));
+			$tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
+			if ($this->object->getRowSeparators() == 1)
+			{
+				if ($i < $this->object->getRowCount() - 1)
+				{
+					$tplrow->setVariable("STYLE", " style=\"border-bottom: 1px solid $bordercolor!important\"");
+				}
+			}
+			$template->setCurrentBlock("matrix_row");
+			$template->setVariable("ROW", $tplrow->get());
+			$template->parseCurrentBlock();
+		}
+		
+		if ($question_title)
+		{
+			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		}
+		$template->setCurrentBlock();
+		if ($show_questiontext)
+		{
+			$this->outQuestionText($template);
+		}
+		$template->parseCurrentBlock();
+		return $template->get();
 	}
 
+	
+	//
+	// PHRASES (see SurveySingleChoiceQuestionGUI)
+	//
+	
 	/**
-	* Add a new row
+	* Creates an output for the addition of phrases
 	*/
-	public function addrows()
+	 function wizardcolumns($save_post_data = true) 
 	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['addrows']);
-		$this->object->addRowAtPosition("", false, $position+1);
-		$this->editQuestion();
-	}
+		if ($save_post_data) 
+		{			
+			$result = $this->saveForm();
+		}		
+		if ($result || !$save_post_data)
+		{
+			if ($save_post_data) 
+			{
+				$this->object->saveToDb();
+			}
+			
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", "Modules/SurveyQuestionPool");
 
-	/**
-	* Remove a row
-	*/
-	public function removerows()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['removerows']);
-		$this->object->removeRow($position);
-		$this->editQuestion();
-	}
+			// set the id to return to the selected question
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id");
+			$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
+			$this->tpl->parseCurrentBlock();
 
-	/**
-	* Move a row up
-	*/
-	public function uprows()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['uprows']);
-		$this->object->moveRowUp($position);
-		$this->editQuestion();
-	}
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
+			$phrases =& ilSurveyPhrases::_getAvailablePhrases();
+			$colors = array("tblrow1", "tblrow2");
+			$counter = 0;
+			foreach ($phrases as $phrase_id => $phrase_array)
+			{
+				$this->tpl->setCurrentBlock("phraserow");
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
+				$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
+				$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
+				$categories =& ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
+				$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
+				$this->tpl->parseCurrentBlock();
+			}
 
-	/**
-	* Move a row down
-	*/
-	public function downrows()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['downrows']);
-		$this->object->moveRowDown($position);
-		$this->editQuestion();
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("TEXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TEXT_PHRASE", $this->lng->txt("phrase"));
+			$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("categories"));
+			$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
+			$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
-
-	/**
-	* Add a new column
-	*/
-	public function addcolumns()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['addcolumns']);
-		$this->object->getColumns()->addCategoryAtPosition("", $position+1);
-		$this->editQuestion();
-	}
-
-	/**
-	* Remove a column
-	*/
-	public function removecolumns()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['removecolumns']);
-		$this->object->getColumns()->removeCategory($position);
-		$this->editQuestion();
-	}
-
-	/**
-	* Move a column up
-	*/
-	public function upcolumns()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['upcolumns']);
-		$this->object->getColumns()->moveCategoryUp($position);
-		$this->editQuestion();
-	}
-
-	/**
-	* Move a column down
-	*/
-	public function downcolumns()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['downcolumns']);
-		$this->object->getColumns()->moveCategoryDown($position);
-		$this->editQuestion();
-	}
-
+	
 	/**
 	* Creates an output to save the current answers as a phrase
 	*
@@ -410,10 +543,16 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	*/
 	function savePhrasecolumns($haserror = false) 
 	{
-		if (!$haserror) $result = $this->writePostData();
-		if ($result == 0 || $haserror)
+		if (!$haserror) 
 		{
-			if (!$haserror) $this->object->saveToDb();
+			$result = $this->saveForm();
+		}
+		if ($result || $haserror)
+		{
+			if (!$haserror) 
+			{
+				$this->object->saveToDb();
+			}
 
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", "Modules/SurveyQuestionPool");
 			$this->tpl->setCurrentBlock("adm_content");
@@ -486,52 +625,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
 		$this->ctrl->redirect($this, "editQuestion");
 	}
-
-	/**
-	* Creates an output for the addition of phrases
-	*
-	* @access public
-	*/
-  function wizardcolumns($save_post_data = true) 
-	{
-		if ($save_post_data) $result = $this->writePostData();
-		if ($result == 0)
-		{
-			if ($save_post_data) $this->object->saveToDb();
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", "Modules/SurveyQuestionPool");
-
-			// set the id to return to the selected question
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id");
-			$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
-			$this->tpl->parseCurrentBlock();
-
-			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
-			$phrases =& ilSurveyPhrases::_getAvailablePhrases();
-			$colors = array("tblrow1", "tblrow2");
-			$counter = 0;
-			foreach ($phrases as $phrase_id => $phrase_array)
-			{
-				$this->tpl->setCurrentBlock("phraserow");
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
-				$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
-				$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
-				$categories =& ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
-				$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("TEXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TEXT_PHRASE", $this->lng->txt("phrase"));
-			$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("categories"));
-			$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
-			$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-
+	
 	/**
 	* Cancels the form adding a phrase
 	*
@@ -577,28 +671,28 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	*
 	* @access public
 	*/
-	  function addStandardNumbers() 
-		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", "Modules/SurveyQuestionPool");
+	function addStandardNumbers() 
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", "Modules/SurveyQuestionPool");
 
-			// set the id to return to the selected question
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id");
-			$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
-			$this->tpl->parseCurrentBlock();
+		// set the id to return to the selected question
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "id");
+		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
+		$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("ADD_STANDARD_NUMBERS", $this->lng->txt("add_standard_numbers"));
-			$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
-			$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
-			$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
-			$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
-			$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
-			$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
-			$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("ADD_STANDARD_NUMBERS", $this->lng->txt("add_standard_numbers"));
+		$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
+		$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
+		$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
+		$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
+		$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
 
 	/**
 	* Cancels the form adding standard numbers
@@ -635,14 +729,19 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			ilUtil::sendSuccess($this->lng->txt('phrase_added'), true);
 			$this->ctrl->redirect($this, "editQuestion");
 		}
-	}
-
-/**
-* Creates the question output form for the learner
-*
-* @access public
-*/
-	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "")
+	}	
+	
+	
+	//
+	// EXECUTION
+	// 
+	
+	/**
+	* Creates the question output form for the learner
+	*
+	* @access public
+	*/
+	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$layout = $this->object->getLayout();
 		$neutralstyle = "3px solid #808080";
@@ -935,262 +1034,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		return $template->get();
 	}
 
-	/**
-	* Creates a HTML representation of the question
-	*
-	* @access private
-	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1)
-	{
-		$layout = $this->object->getLayout();
-		$neutralstyle = "3px solid #808080";
-		$bordercolor = "#808080";
-		$template = new ilTemplate("tpl.il_svy_qpl_matrix_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-
-		if ($this->show_layout_row)
-		{
-			$layout_row = $this->getLayoutRow();
-			$template->setCurrentBlock("matrix_row");
-			$template->setVariable("ROW", $layout_row);
-			$template->parseCurrentBlock();
-		}
-		
-		$tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
-		{
-			$tplheaders->setCurrentBlock("bipolar_start");
-			$style = array();
-			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%"));
-			if (count($style) > 0)
-			{
-				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-			}
-			$tplheaders->parseCurrentBlock();
-		}
-		// column headers
-		for ($i = 0; $i < $this->object->getColumnCount(); $i++)
-		{
-			$cat = $this->object->getColumn($i);
-			if ($cat->neutral)
-			{
-				$tplheaders->setCurrentBlock("neutral_column_header");
-				$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($cat->title));
-				$tplheaders->setVariable("CLASS", "rsep");
-				$style = array();
-				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_neutral"], "%"));
-				if ($this->object->getNeutralColumnSeparator())
-				{
-					array_push($style, "border-left: $neutralstyle!important;");
-				}
-				if (count($style) > 0)
-				{
-					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-				}
-				$tplheaders->parseCurrentBlock();
-			}
-			else
-			{
-				$style = array();
-				if ($this->object->getColumnSeparators() == 1)
-				{
-					if (($i < $this->object->getColumnCount() - 1))
-					{
-						array_push($style, "border-right: 1px solid $bordercolor!important");
-					}
-				}
-				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $this->object->getColumnCount(), "%"));
-				$tplheaders->setCurrentBlock("column_header");
-				$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($cat->title));
-				$tplheaders->setVariable("CLASS", "center");
-				if (count($style) > 0)
-				{
-					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-				}
-				$tplheaders->parseCurrentBlock();
-			}
-		}
-
-		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
-		{
-			$tplheaders->setCurrentBlock("bipolar_end");
-			$style = array();
-			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%"));
-			if (count($style) > 0)
-			{
-				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-			}
-			$tplheaders->parseCurrentBlock();
-		}
-
-		$style = array();
-		array_push($style, sprintf("width: %.2f%s!important", $layout["percent_row"], "%"));
-		if (count($style) > 0)
-		{
-			$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-		}
-		
-		$template->setCurrentBlock("matrix_row");
-		$template->setVariable("ROW", $tplheaders->get());
-		$template->parseCurrentBlock();
-
-		$rowclass = array("tblrow1", "tblrow2");
-		
-		for ($i = 0; $i < $this->object->getRowCount(); $i++)
-		{
-			$rowobj = $this->object->getRow($i);
-			$tplrow = new ilTemplate("tpl.il_svy_qpl_matrix_printview_row.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-			for ($j = 0; $j < $this->object->getColumnCount(); $j++)
-			{
-				$cat = $this->object->getColumn($j);
-				if (($i == 0) && ($j == 0))
-				{
-					if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
-					{
-						$tplrow->setCurrentBlock("bipolar_start");
-						$tplrow->setVariable("TEXT_BIPOLAR_START", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(0)));
-						$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
-						$tplrow->parseCurrentBlock();
-					}
-				}
-				if (($i == 0) && ($j == $this->object->getColumnCount()-1))
-				{
-					if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
-					{
-						$tplrow->setCurrentBlock("bipolar_end");
-						$tplrow->setVariable("TEXT_BIPOLAR_END", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)));
-						$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
-						$tplrow->parseCurrentBlock();
-					}
-				}
-				switch ($this->object->getSubtype())
-				{
-					case 0:
-						if ($cat->neutral)
-						{
-							$tplrow->setCurrentBlock("neutral_radiobutton");
-							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-							$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-							$tplrow->parseCurrentBlock();
-						}
-						else
-						{
-							$tplrow->setCurrentBlock("radiobutton");
-							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-							$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-							$tplrow->parseCurrentBlock();
-						}
-						break;
-					case 1:
-						if ($cat->neutral)
-						{
-							$tplrow->setCurrentBlock("neutral_checkbox");
-							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
-							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
-							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
-							$tplrow->parseCurrentBlock();
-						}
-						else
-						{
-							$tplrow->setCurrentBlock("checkbox");
-							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
-							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
-							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
-							$tplrow->parseCurrentBlock();
-						}
-						break;
-				}
-				if ($cat->neutral)
-				{
-					$tplrow->setCurrentBlock("neutral_answer");
-					$style = array();
-					if ($this->object->getNeutralColumnSeparator())
-					{
-						array_push($style, "border-left: $neutralstyle!important");
-					}
-					if ($this->object->getColumnSeparators() == 1)
-					{
-						if ($j < $this->object->getColumnCount() - 1)
-						{
-							array_push($style, "border-right: 1px solid $bordercolor!important");
-						}
-					}
-
-					if ($this->object->getRowSeparators() == 1)
-					{
-						if ($i < $this->object->getRowCount() - 1)
-						{
-							array_push($style, "border-bottom: 1px solid $bordercolor!important");
-						}
-					}
-					if (count($style))
-					{
-						$tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-					}
-					$tplrow->parseCurrentBlock();
-				}
-				else
-				{
-					$tplrow->setCurrentBlock("answer");
-					$style = array();
-
-					if ($this->object->getColumnSeparators() == 1)
-					{
-						if ($j < $this->object->getColumnCount() - 1)
-						{
-							array_push($style, "border-right: 1px solid $bordercolor!important");
-						}
-					}
-
-					if ($this->object->getRowSeparators() == 1)
-					{
-						if ($i < $this->object->getRowCount() - 1)
-						{
-							array_push($style, "border-bottom: 1px solid $bordercolor!important");
-						}
-					}
-					if (count($style))
-					{
-						$tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-					}
-					$tplrow->parseCurrentBlock();
-				}
-			}
-
-			if ($rowobj->other)
-			{
-				$tplrow->setCurrentBlock("text_other");
-				$tplrow->setVariable("TEXT_OTHER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-				$tplrow->parseCurrentBlock();
-			}
-
-			$tplrow->setVariable("TEXT_ROW", ilUtil::prepareFormOutput($rowobj->title));
-			$tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
-			if ($this->object->getRowSeparators() == 1)
-			{
-				if ($i < $this->object->getRowCount() - 1)
-				{
-					$tplrow->setVariable("STYLE", " style=\"border-bottom: 1px solid $bordercolor!important\"");
-				}
-			}
-			$template->setCurrentBlock("matrix_row");
-			$template->setVariable("ROW", $tplrow->get());
-			$template->parseCurrentBlock();
-		}
-		
-		if ($question_title)
-		{
-			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		}
-		$template->setCurrentBlock();
-		if ($show_questiontext)
-		{
-			$this->outQuestionText($template);
-		}
-		$template->parseCurrentBlock();
-		return $template->get();
-	}
+	
 
 /**
 * Creates a layout view of the question
@@ -1445,12 +1289,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 
 		return $output;
-	}
-	
-	function setQuestionTabs()
-	{
-		$this->setQuestionTabsForClass("surveymatrixquestiongui");
-	}
-
+	}		
 }
+
 ?>

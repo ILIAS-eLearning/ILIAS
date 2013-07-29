@@ -35,169 +35,98 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 * @ingroup ModulesSurveyQuestionPool
 */
 class SurveyTextQuestionGUI extends SurveyQuestionGUI 
-{
-
-/**
-* SurveyTextQuestionGUI constructor
-*
-* The constructor takes possible arguments an creates an instance of the SurveyTextQuestionGUI object.
-*
-* @param integer $id The database id of a text question object
-* @access public
-*/
-  function SurveyTextQuestionGUI(
-		$id = -1
-  )
-
-  {
-		$this->SurveyQuestionGUI();
+{	
+	protected function initObject()
+	{	
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyTextQuestion.php";
-		$this->object = new SurveyTextQuestion();
-		if ($id >= 0)
-		{
-			$this->object->loadFromDb($id);
-		}
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
-	{
-		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
-		if (!$hasErrors)
-		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->label = $_POST['label'];
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setDescription($_POST["description"]);
-			$questiontext = $_POST["question"];
-			$this->object->setQuestiontext($questiontext);
-			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
-
-			$this->object->setMaxChars((strlen($_POST["maxchars"])) ? $_POST["maxchars"] : null);
-			$this->object->setTextWidth($_POST["textwidth"]);
-			$this->object->setTextHeight($_POST["textheight"]);
-
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
+		$this->object = new SurveyTextQuestion();		
 	}
 	
-/**
-* Creates an output of the edit form for the question
-*/
-	public function editQuestion() 
+	
+	// 
+	// EDITOR
+	//
+	
+	public function setQuestionTabs()
 	{
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt($this->getQuestionType()));
-		$form->setMultipart(FALSE);
-		$form->setTableWidth("100%");
-		$form->setId("essay");
+		$this->setQuestionTabsForClass("surveytextquestiongui");
+	}
 
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-		
-		// label
-		$label = new ilTextInputGUI($this->lng->txt("label"), "label");
-		$label->setValue($this->object->label);
-		$label->setInfo($this->lng->txt("label_info"));
-		$label->setRequired(false);
-		$form->addItem($label);
-
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "description");
-		$description->setValue($this->object->getDescription());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-		
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestiontext()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "spl", "survey");
-		$form->addItem($question);
-		
+	protected function addFieldsToEditForm(ilPropertyFormGUI $a_form)
+	{	
 		// maximum number of characters
 		$maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
 		$maxchars->setRequired(false);
-		$maxchars->setSize(5);
-		if ($this->object->getMaxChars() > 0)
-		{
-			$maxchars->setValue($this->object->getMaxChars());
-		}
+		$maxchars->setSize(5);		
 		$maxchars->setDecimals(0);
-		$form->addItem($maxchars);
+		$a_form->addItem($maxchars);
 		
 		// textwidth
 		$textwidth = new ilNumberInputGUI($this->lng->txt("width"), "textwidth");
 		$textwidth->setRequired(true);
-		$textwidth->setSize(3);
-		$textwidth->setValue($this->object->getTextWidth());
+		$textwidth->setSize(3);		
 		$textwidth->setDecimals(0);
 		$textwidth->setMinValue(10);
-		$form->addItem($textwidth);
+		$a_form->addItem($textwidth);
 		
 		// textheight
 		$textheight = new ilNumberInputGUI($this->lng->txt("height"), "textheight");
 		$textheight->setRequired(true);
 		$textheight->setSize(3);
-		$textheight->setValue($this->object->getTextHeight());
+		
 		$textheight->setDecimals(0);
 		$textheight->setMinValue(1);
-		$form->addItem($textheight);
+		$a_form->addItem($textheight);		
 		
-		// obligatory
-		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
-		$shuffle->setValue(1);
-		$shuffle->setChecked($this->object->getObligatory());
-		$shuffle->setRequired(FALSE);
-		$form->addItem($shuffle);
-
-		$this->addCommandButtons($form);
-		
-		$errors = false;
-	
-		if ($this->isSaveCommand())
+		// values
+		if ($this->object->getMaxChars() > 0)
 		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-			if ($errors) $checkonly = false;
+			$maxchars->setValue($this->object->getMaxChars());
 		}
-
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return $errors;
+		$textwidth->setValue($this->object->getTextWidth());
+		$textheight->setValue($this->object->getTextHeight());
 	}
+	
+	protected function importEditFormValues(ilPropertyFormGUI $a_form)
+	{
+		$max = $a_form->getInput("maxchars");		
+		$this->object->setMaxChars(strlen($max) ? $max : null);
+		$this->object->setTextWidth($a_form->getInput("textwidth"));
+		$this->object->setTextHeight($a_form->getInput("textheight"));
+	}	
+	
+	public function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
+	{
+		$template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		if ($show_questiontext)
+		{
+			$this->outQuestionText($template);
+		}
+		if ($question_title)
+		{
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		}
+		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+		$template->setVariable("TEXTBOX_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("textbox.png")));
+		$template->setVariable("TEXTBOX", $this->lng->txt("textbox"));
+		$template->setVariable("TEXTBOX_WIDTH", $this->object->getTextWidth()*16);
+		$template->setVariable("TEXTBOX_HEIGHT", $this->object->getTextHeight()*16);
+		$template->setVariable("QUESTION_ID", $this->object->getId());
+		if ($this->object->getMaxChars())
+		{
+			$template->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));
+		}
+		return $template->get();
+	}
+	
+	
+	// 
+	// EXECUTION
+	// 
 
-/**
-* Creates the question output form for the learner
-*/
+	/**
+	* Creates the question output form for the learner
+	*/
 	public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_out_text.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
@@ -258,46 +187,19 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		return $template->get();
 	}
 
+
+	// 
+	// EVALUATION
+	// 
+	
 	/**
-	* Creates a HTML representation of the question
+	* Creates the detailed output of the cumulated results for the question
+	*
+	* @param integer $survey_id The database ID of the survey
+	* @param integer $counter The counter of the question position in the survey
+	* @return string HTML text with the cumulated results
+	* @access private
 	*/
-	public function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
-	{
-		$template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if ($show_questiontext)
-		{
-			$this->outQuestionText($template);
-		}
-		if ($question_title)
-		{
-			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
-		}
-		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-		$template->setVariable("TEXTBOX_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("textbox.png")));
-		$template->setVariable("TEXTBOX", $this->lng->txt("textbox"));
-		$template->setVariable("TEXTBOX_WIDTH", $this->object->getTextWidth()*16);
-		$template->setVariable("TEXTBOX_HEIGHT", $this->object->getTextHeight()*16);
-		$template->setVariable("QUESTION_ID", $this->object->getId());
-		if ($this->object->getMaxChars())
-		{
-			$template->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));
-		}
-		return $template->get();
-	}
-
-	function setQuestionTabs()
-	{
-		$this->setQuestionTabsForClass("surveytextquestiongui");
-	}
-
-/**
-* Creates the detailed output of the cumulated results for the question
-*
-* @param integer $survey_id The database ID of the survey
-* @param integer $counter The counter of the question position in the survey
-* @return string HTML text with the cumulated results
-* @access private
-*/
 	function getCumulatedResultsDetails($survey_id, $counter, $finished_ids)
 	{
 		if (count($this->cumulated) == 0)
@@ -354,4 +256,5 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		return $template->get();
 	}
 }
+
 ?>

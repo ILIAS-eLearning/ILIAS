@@ -36,138 +36,31 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 */
 class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI 
 {
-
-/**
-* SurveySingleChoiceQuestionGUI constructor
-*
-* The constructor takes possible arguments an creates an instance of the SurveySingleChoiceQuestionGUI object.
-*
-* @param integer $id The database id of a single choice question object
-* @access public
-*/
-  function SurveySingleChoiceQuestionGUI(
-		$id = -1
-  )
-
-  {
-		$this->SurveyQuestionGUI();
+	protected function initObject()
+	{	
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveySingleChoiceQuestion.php";
-		$this->object = new SurveySingleChoiceQuestion();
-		if ($id >= 0)
-		{
-			$this->object->loadFromDb($id);
-		}
+		$this->object = new SurveySingleChoiceQuestion();		
 	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	
+	
+	//	 
+	// EDITOR
+	//	
+	
+	public function setQuestionTabs()
 	{
-		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
-		if (!$hasErrors)
-		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setDescription($_POST["description"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestiontext($questiontext);
-			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
-			$this->object->setOrientation($_POST["orientation"]);
-			$this->object->label = $_POST['label'];
-
-	    $this->object->categories->flushCategories();
-
-			foreach ($_POST['answers']['answer'] as $key => $value) 
-			{
-				if (strlen($value)) $this->object->getCategories()->addCategory($value, $_POST['answers']['other'][$key], 0, null, $_POST['answers']['scale'][$key]);
-			}
-			if (strlen($_POST['answers']['neutral']))
-			{
-				$this->object->getCategories()->addCategory($_POST['answers']['neutral'], 0, 1, null, $_POST['answers_neutral_scale']);
-			}
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
+		$this->setQuestionTabsForClass("surveysinglechoicequestiongui");
 	}
-
-	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
-	public function editQuestion($checkonly = FALSE)
-	{		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt($this->getQuestionType()));
-		$form->setMultipart(FALSE);
-		$form->setTableWidth("100%");
-		$form->setId("singlechoice");
-
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-		
-		// label
-		$label = new ilTextInputGUI($this->lng->txt("label"), "label");
-		$label->setValue($this->object->label);
-		$label->setInfo($this->lng->txt("label_info"));
-		$label->setRequired(false);
-		$form->addItem($label);
-
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "description");
-		$description->setValue($this->object->getDescription());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestiontext()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "spl", "survey");
-		$form->addItem($question);
-		
-		// obligatory
-		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
-		$shuffle->setValue(1);
-		$shuffle->setChecked($this->object->getObligatory());
-		$shuffle->setRequired(FALSE);
-		$form->addItem($shuffle);
-
+	
+	protected function addFieldsToEditForm(ilPropertyFormGUI $a_form)
+	{	
 		// orientation
 		$orientation = new ilRadioGroupInputGUI($this->lng->txt("orientation"), "orientation");
-		$orientation->setRequired(false);
-		$orientation->setValue($this->object->getOrientation());
+		$orientation->setRequired(false);		
 		$orientation->addOption(new ilRadioOption($this->lng->txt('vertical'), 0));
 		$orientation->addOption(new ilRadioOption($this->lng->txt('horizontal'), 1));
 		$orientation->addOption(new ilRadioOption($this->lng->txt('combobox'), 2));
-		$form->addItem($orientation);
+		$a_form->addItem($orientation);
 
 		// Answers
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php";
@@ -178,86 +71,159 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		$answers->setShowSavePhrase(true);
 		$answers->setUseOtherAnswer(true);
 		$answers->setShowNeutralCategory(true);
-		$answers->setNeutralCategoryTitle($this->lng->txt('svy_neutral_answer'));
+		$answers->setNeutralCategoryTitle($this->lng->txt('svy_neutral_answer'));		
+		$answers->setDisabledScale(false);
+		$a_form->addItem($answers);
+		
+		// values
+		$orientation->setValue($this->object->getOrientation());
 		if (!$this->object->getCategories()->getCategoryCount())
 		{
 			$this->object->getCategories()->addCategory("");
 		}
 		$answers->setValues($this->object->getCategories());
-		$answers->setDisabledScale(false);
-		$form->addItem($answers);
+	}
+	
+	protected function importEditFormValues(ilPropertyFormGUI $a_form)
+	{
+		$this->object->setOrientation($a_form->getInput("orientation"));
 		
-		$this->addCommandButtons($form);
-		
-		$errors = false;
+		$this->object->categories->flushCategories();
 
-		if ($this->isSaveCommand(array("wizardanswers", "savePhraseanswers")))
+		foreach ($_POST['answers']['answer'] as $key => $value) 
 		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-			if ($errors) $checkonly = false;
+			if (strlen($value)) $this->object->getCategories()->addCategory($value, $_POST['answers']['other'][$key], 0, null, $_POST['answers']['scale'][$key]);
 		}
-
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return $errors;
+		if (strlen($_POST['answers']['neutral']))
+		{
+			$this->object->getCategories()->addCategory($_POST['answers']['neutral'], 0, 1, null, $_POST['answers_neutral_scale']);
+		}
 	}
-
+	
 	/**
-	* Add a new answer
+	* Creates a HTML representation of the question
+	*
+	* @access private
 	*/
-	public function addanswers()
+	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
 	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['addanswers']);
-		$this->object->getCategories()->addCategoryAtPosition("", $position+1);
-		$this->editQuestion();
+		$template = new ilTemplate("tpl.il_svy_qpl_sc_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		switch ($this->object->orientation)
+		{
+			case 0:
+				// vertical orientation
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
+					$cat = $this->object->categories->getCategory($i);
+					if ($cat->other)
+					{
+						$template->setCurrentBlock("other_row");
+						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
+						$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+						$template->parseCurrentBlock();
+					}
+					else
+					{
+						$template->setCurrentBlock("row");
+						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
+						$template->parseCurrentBlock();
+					}
+				}
+				break;
+			case 1:
+				// horizontal orientation
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
+					$template->setCurrentBlock("radio_col");
+					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+					$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+					$template->parseCurrentBlock();
+				}
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
+					$cat = $this->object->categories->getCategory($i);
+					if ($cat->other)
+					{
+						$template->setCurrentBlock("other_text_col");
+						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
+						$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+						$template->parseCurrentBlock();
+					}
+					else
+					{
+						$template->setCurrentBlock("text_col");
+						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
+						$template->parseCurrentBlock();
+					}
+				}
+				break;
+			case 2:
+				// combobox output
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
+					$cat = $this->object->categories->getCategory($i);
+					$template->setCurrentBlock("comborow");
+					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
+					$template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
+					if (is_array($working_data))
+					{
+						if (strcmp($working_data[0]["value"], "") != 0)
+						{
+							if ($working_data[0]["value"] == $i)
+							{
+								$template->setVariable("SELECTED_SC", " selected=\"selected\"");
+							}
+						}
+					}
+					$template->parseCurrentBlock();
+				}
+				$template->setCurrentBlock("combooutput");
+				$template->setVariable("QUESTION_ID", $this->object->getId());
+				$template->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
+				$template->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
+				$template->parseCurrentBlock();
+				break;
+		}
+		if ($question_title)
+		{
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		}
+		if ($show_questiontext)
+		{
+			$this->outQuestionText($template);
+		}
+		$template->parseCurrentBlock();
+		return $template->get();
 	}
 
-	/**
-	* Remove an answer
-	*/
-	public function removeanswers()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['removeanswers']);
-		$this->object->getCategories()->removeCategory($position);
-		$this->editQuestion();
-	}
-
-	/**
-	* Move an answer up
-	*/
-	public function upanswers()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['upanswers']);
-		$this->object->getCategories()->moveCategoryUp($position);
-		$this->editQuestion();
-	}
-
-	/**
-	* Move an answer down
-	*/
-	public function downanswers()
-	{
-		$this->writePostData(true);
-		$position = key($_POST['cmd']['downanswers']);
-		$this->object->getCategories()->moveCategoryDown($position);
-		$this->editQuestion();
-	}
-
+	
+	//
+	// PHRASES (see SurveyMatrixQuestionGUI)
+	//
+		
 	/**
 	* Creates an output for the addition of phrases
-	*
-	* @access public
 	*/
-  function wizardanswers($save_post_data = true) 
-	{
-		if ($save_post_data) $result = $this->writePostData();
-		if ($result == 0 || !$save_post_data)
+	protected function wizardanswers($save_post_data = true) 
+	{		
+		if ($save_post_data) 
+		{			
+			$result = $this->saveForm();
+		}		
+		if ($result || !$save_post_data)
 		{
-			if ($save_post_data) $this->object->saveToDb();
+			if ($save_post_data) 
+			{
+				$this->object->saveToDb();
+			}
+			
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", "Modules/SurveyQuestionPool");
 
 			// set the id to return to the selected question
@@ -337,28 +303,28 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	*
 	* @access public
 	*/
-	  function addStandardNumbers() 
-		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", "Modules/SurveyQuestionPool");
+	function addStandardNumbers() 
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", "Modules/SurveyQuestionPool");
 
-			// set the id to return to the selected question
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id");
-			$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
-			$this->tpl->parseCurrentBlock();
+		// set the id to return to the selected question
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "id");
+		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
+		$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("ADD_STANDARD_NUMBERS", $this->lng->txt("add_standard_numbers"));
-			$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
-			$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
-			$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
-			$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
-			$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
-			$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
-			$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("ADD_STANDARD_NUMBERS", $this->lng->txt("add_standard_numbers"));
+		$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
+		$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
+		$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
+		$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
+		$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
 
 	/**
 	* Cancels the form adding standard numbers
@@ -404,10 +370,16 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	*/
 	function savePhraseanswers($haserror = false) 
 	{
-		if (!$haserror) $result = $this->writePostData();
-		if ($result == 0 || $haserror)
+		if (!$haserror) 
 		{
-			if (!$haserror) $this->object->saveToDb();
+			$result = $this->saveForm();
+		}
+		if ($result || $haserror)
+		{
+			if (!$haserror) 
+			{
+				$this->object->saveToDb();
+			}
 
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", "Modules/SurveyQuestionPool");
 			$this->tpl->setCurrentBlock("adm_content");
@@ -480,13 +452,17 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
 		$this->ctrl->redirect($this, "editQuestion");
 	}
+		
+	
+	//
+	// EXECUTION
+	//
 
-
-/**
-* Creates the question output form for the learner
-*
-* @access public
-*/
+	/**
+	* Creates the question output form for the learner
+	*
+	* @access public
+	*/
 	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_out_sc.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
@@ -666,122 +642,19 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		return $template->get();
 	}
 
+	
+	//
+	// EVALUTION
+	// 
+	
 	/**
-	* Creates a HTML representation of the question
+	* Creates the detailed output of the cumulated results for the question
 	*
+	* @param integer $survey_id The database ID of the survey
+	* @param integer $counter The counter of the question position in the survey
+	* @return string HTML text with the cumulated results
 	* @access private
 	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
-	{
-		$template = new ilTemplate("tpl.il_svy_qpl_sc_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		switch ($this->object->orientation)
-		{
-			case 0:
-				// vertical orientation
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-				{
-					$cat = $this->object->categories->getCategory($i);
-					if ($cat->other)
-					{
-						$template->setCurrentBlock("other_row");
-						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
-						$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-						$template->parseCurrentBlock();
-					}
-					else
-					{
-						$template->setCurrentBlock("row");
-						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
-						$template->parseCurrentBlock();
-					}
-				}
-				break;
-			case 1:
-				// horizontal orientation
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-				{
-					$template->setCurrentBlock("radio_col");
-					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-					$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-					$template->parseCurrentBlock();
-				}
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-				{
-					$cat = $this->object->categories->getCategory($i);
-					if ($cat->other)
-					{
-						$template->setCurrentBlock("other_text_col");
-						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
-						$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-						$template->parseCurrentBlock();
-					}
-					else
-					{
-						$template->setCurrentBlock("text_col");
-						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
-						$template->parseCurrentBlock();
-					}
-				}
-				break;
-			case 2:
-				// combobox output
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-				{
-					$cat = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("comborow");
-					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
-					$template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
-					if (is_array($working_data))
-					{
-						if (strcmp($working_data[0]["value"], "") != 0)
-						{
-							if ($working_data[0]["value"] == $i)
-							{
-								$template->setVariable("SELECTED_SC", " selected=\"selected\"");
-							}
-						}
-					}
-					$template->parseCurrentBlock();
-				}
-				$template->setCurrentBlock("combooutput");
-				$template->setVariable("QUESTION_ID", $this->object->getId());
-				$template->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
-				$template->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
-				$template->parseCurrentBlock();
-				break;
-		}
-		if ($question_title)
-		{
-			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
-		}
-		if ($show_questiontext)
-		{
-			$this->outQuestionText($template);
-		}
-		$template->parseCurrentBlock();
-		return $template->get();
-	}
-	
-	function setQuestionTabs()
-	{
-		$this->setQuestionTabsForClass("surveysinglechoicequestiongui");
-	}
-
-/**
-* Creates the detailed output of the cumulated results for the question
-*
-* @param integer $survey_id The database ID of the survey
-* @param integer $counter The counter of the question position in the survey
-* @return string HTML text with the cumulated results
-* @access private
-*/
 	function getCumulatedResultsDetails($survey_id, $counter, $finished_ids)
 	{
 		if (count($this->cumulated) == 0)

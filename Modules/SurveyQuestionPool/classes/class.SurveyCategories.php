@@ -20,6 +20,7 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+include_once "Modules/SurveyQuestionPool/classes/class.ilSurveyCategory.php";
 
 /**
 * Class SurveyCategories
