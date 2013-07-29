@@ -1041,7 +1041,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if (!$this->object->canViewResults()) 
 		{
-			$this->outIntroductionPage();
+			$this->outIntroductionPageCmd();
 		}
 		else
 		{
