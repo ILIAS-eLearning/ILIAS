@@ -16709,3 +16709,93 @@ if (!$ilDB->tableExists('il_new_item_grp'))
 }
 	
 ?>
+<#3977>
+<?php
+
+if( !$ilDB->tableColumnExists('tst_tests', 'question_set_type') )
+{
+	$ilDB->addTableColumn('tst_tests', 'question_set_type', array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => true,
+			'default' => 'FIXED_QUEST_SET'
+	));
+}
+
+if( $ilDB->tableColumnExists('tst_tests', 'random_test') )
+{
+	$ilDB->queryF(
+			"UPDATE tst_tests SET question_set_type = %s WHERE random_test = %s",
+			array('text', 'integer'), array('FIXED_QUEST_SET', 0)
+	);
+	
+	$ilDB->queryF(
+			"UPDATE tst_tests SET question_set_type = %s WHERE random_test = %s",
+			array('text', 'integer'), array('RANDOM_QUEST_SET', 1)
+	);
+	
+	$ilDB->dropTableColumn('tst_tests', 'random_test');
+}
+
+?>
+<#3978>
+<?php
+
+if( !$ilDB->tableExists('tst_dyn_quest_set_cfg') )
+{
+	$ilDB->createTable('tst_dyn_quest_set_cfg', array(
+		'test_fi' => array('type' => 'integer', 'length'  => 4, 'notnull' => true, 'default' => 0),
+		'source_qpl_fi' => array('type' => 'integer', 'length'  => 4, 'notnull' => true, 'default' => 0),
+		'tax_filter_enabled' => array('type' => 'integer', 'length'  => 1, 'notnull' => true, 'default' => 0)
+	));
+}
+
+?>
+<#3979>
+<?php
+
+if( !$ilDB->tableColumnExists('qpl_questionpool', 'show_taxonomies') )
+{
+	$ilDB->addTableColumn('qpl_questionpool', 'show_taxonomies', array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+	));
+}
+
+if( !$ilDB->tableColumnExists('qpl_questionpool', 'nav_taxonomy') )
+{
+	$ilDB->addTableColumn('qpl_questionpool', 'nav_taxonomy', array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => null
+	));
+}
+
+?>
+<#3980>
+<?php
+
+if( !$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'order_tax') )
+{
+	$ilDB->addTableColumn('tst_dyn_quest_set_cfg', 'order_tax', array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => null
+	));
+}
+
+if( !$ilDB->tableColumnExists('tst_active', 'taxfilter') )
+{
+	$ilDB->addTableColumn('tst_active', 'taxfilter', array(
+			'type' => 'text',
+			'length' => 1024,
+			'notnull' => false,
+			'default' => null
+	));
+}
+
+?>
