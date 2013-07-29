@@ -115,6 +115,122 @@ abstract class SurveyQuestionGUI
 		return $q_type;
 	}
 	
+	/**
+	* Returns the question type string
+	*
+	* @result string The question type string
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return $this->object->getQuestionType();
+	}	
+		
+	protected function outQuestionText($template)
+	{
+		$questiontext = $this->object->getQuestiontext();
+		if (preg_match("/^<.[\\>]?>(.*?)<\\/.[\\>]*?>$/", $questiontext, $matches))
+		{
+			$questiontext = $matches[1];
+		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		if ($this->object->getObligatory($survey_id))
+		{
+			$template->setVariable("OBLIGATORY_TEXT", ' *');
+		}
+	}
+	
+	public function setBackUrl($a_url, $a_parent_ref_id)
+	{
+		$this->parent_url = $a_url;
+		$this->parent_ref_id = $a_parent_ref_id;				
+	}
+	
+	function setQuestionTabsForClass($guiclass)
+	{
+		global $rbacsystem,$ilTabs;
+		
+		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
+		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
+		
+		if ($this->parent_url)
+		{
+			$addurl = "";
+			if (strlen($_GET["new_for_survey"]))
+			{
+				$addurl = "&new_id=" . $_GET["q_id"];
+			}		
+			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), $this->parent_url . $addurl);
+		}
+		else
+		{
+			$this->ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "q_id_table_nav", $_SESSION['q_id_table_nav']);
+			$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
+		}
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("preview",
+									 $this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
+									 "$guiclass");
+		}
+		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
+			$ilTabs->addTarget("edit_properties",
+									 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
+									 array("editQuestion", "save", "cancel", "originalSyncForm",
+										"wizardanswers", "addSelectedPhrase", "insertStandardNumbers", 
+										"savePhraseanswers", "confirmSavePhrase"),
+									 "$guiclass");
+			
+			if(stristr($guiclass, "matrix"))
+			{
+				$ilTabs->addTarget("layout",
+					$this->ctrl->getLinkTarget($this, "layout"), 
+					array("layout", "saveLayout"),
+					"",
+					"");
+			}			
+		}
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("material",
+									 $this->ctrl->getLinkTargetByClass("$guiclass", "material"), 
+									array("material", "cancelExplorer", "linkChilds", "addGIT", "addST",
+											 "addPG", "addMaterial", "removeMaterial"),
+									 "$guiclass");
+		}
+
+		if ($this->object->getId() > 0) 
+		{
+			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
+		} 
+		else 
+		{
+			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
+		}
+
+		$this->tpl->setVariable("HEADER", $title);
+	}
+
+	/**
+	* Creates a preview of the question
+	*
+	* @access private
+	*/
+	function preview()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
+		$question_output = $this->getWorkingForm();
+		
+		if ($this->object->getObligatory())
+		{
+			$this->tpl->setCurrentBlock("required");
+			$this->tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
+	}
+	
 	
 	//
 	// EDITOR
@@ -436,26 +552,84 @@ abstract class SurveyQuestionGUI
 				
 	abstract public function getPrintView($question_title = 1, $show_questiontext = 1);
 	
-	// execution
+	
+	// 
+	// EXECUTION
+	// 
+	
 	abstract public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null);
-		
-	// evaluation
+	
+	
+	//
+	// EVALUATION
+	//
+	
 	abstract public function getCumulatedResultsDetails($survey_id, $counter, $finished_ids);
 	
-	
-	
-	
-	
-
-	/**
-	* Cancels the form adding a phrase
-	*
-	* @access public
-	*/
-	function cancelDeleteCategory() 
+	protected function renderChart($a_id, $a_variables)
 	{
-		$this->ctrl->redirect($this, "editQuestion");
+		include_once "Services/Chart/classes/class.ilChart.php";
+		$chart = new ilChart($a_id, 700, 400);
+
+		$legend = new ilChartLegend();
+		$chart->setLegend($legend);	
+		$chart->setYAxisToInteger(true);
+		
+		$data = new ilChartData("bars");
+		$data->setLabel($this->lng->txt("users_answered"));
+		$data->setBarOptions(0.5, "center");
+		
+		$max = 5;
+		
+		if(sizeof($a_variables) <= $max)
+		{
+			if($a_variables)
+			{
+				$labels = array();
+				foreach($a_variables as $idx => $points)
+				{			
+					$data->addPoint($idx, $points["selected"]);		
+					$labels[$idx] = ($idx+1).". ".ilUtil::prepareFormOutput($points["title"]);
+				}
+				$chart->addData($data);
+
+				$chart->setTicks($labels, false, true);
+			}
+
+			return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";		
+		}
+		else
+		{
+			$chart_legend = array();			
+			$labels = array();
+			foreach($a_variables as $idx => $points)
+			{			
+				$data->addPoint($idx, $points["selected"]);		
+				$labels[$idx] = ($idx+1).".";				
+				$chart_legend[($idx+1)] = ilUtil::prepareFormOutput($points["title"]);
+			}
+			$chart->addData($data);
+						
+			$chart->setTicks($labels, false, true);
+			
+			$legend = "<table>";
+			foreach($chart_legend as $number => $caption)
+			{
+				$legend .= "<tr valign=\"top\"><td>".$number.".</td><td>".$caption."</td></tr>";
+			}
+			$legend .= "</table>";
+
+			return "<div style=\"margin:10px\"><table><tr valign=\"bottom\"><td>".
+				$chart->getHTML()."</td><td class=\"small\" style=\"padding-left:15px\">".
+				$legend."</td></tr></table></div>";					
+		}				
 	}
+	
+	
+	
+	// 
+	// MATERIAL
+	// 
 	
 	/**
 	* Creates the HTML output of the question material(s)
@@ -483,8 +657,7 @@ abstract class SurveyQuestionGUI
 			return $template->get();
 		}
 		return "";
-	}
-	
+	}	
 
 	/**
 	* Material tab of the survey questions
@@ -764,208 +937,6 @@ abstract class SurveyQuestionGUI
 				$this->ctrl->redirect($this, "material");
 				break;
 		}
-	}
-	
-	function setQuestionTabsForClass($guiclass)
-	{
-		global $rbacsystem,$ilTabs;
-		
-		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
-		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
-		
-		if ($this->parent_url)
-		{
-			$addurl = "";
-			if (strlen($_GET["new_for_survey"]))
-			{
-				$addurl = "&new_id=" . $_GET["q_id"];
-			}		
-			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), $this->parent_url . $addurl);
-		}
-		else
-		{
-			$this->ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "q_id_table_nav", $_SESSION['q_id_table_nav']);
-			$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
-		}
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("preview",
-									 $this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
-									 "$guiclass");
-		}
-		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
-			$ilTabs->addTarget("edit_properties",
-									 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
-									 array("editQuestion", "save", "cancel", "originalSyncForm",
-										"wizardanswers", "addSelectedPhrase", "insertStandardNumbers", 
-										"savePhraseanswers", "confirmSavePhrase"),
-									 "$guiclass");
-			
-			if(stristr($guiclass, "matrix"))
-			{
-				$ilTabs->addTarget("layout",
-					$this->ctrl->getLinkTarget($this, "layout"), 
-					array("layout", "saveLayout"),
-					"",
-					"");
-			}			
-		}
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("material",
-									 $this->ctrl->getLinkTargetByClass("$guiclass", "material"), 
-									array("material", "cancelExplorer", "linkChilds", "addGIT", "addST",
-											 "addPG", "addMaterial", "removeMaterial"),
-									 "$guiclass");
-		}
-
-		if ($this->object->getId() > 0) 
-		{
-			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
-		} 
-		else 
-		{
-			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
-		}
-
-		$this->tpl->setVariable("HEADER", $title);
-	}
-
-	/**
-	* Returns the question type string
-	*
-	* @result string The question type string
-	* @access public
-	*/
-	function getQuestionType()
-	{
-		return $this->object->getQuestionType();
-	}
-
-	/**
-	* Creates a the cumulated results row for the question
-	*
-	* @return string HTML text with the cumulated results
-	* @access private
-	*/
-	function getCumulatedResultRow($counter, $css_class, $survey_id)
-	{
-		// overwrite in parent classes
-		return "";
-	}
-	
-	/*
-	function editQuestion()
-	{
-		$this->outErrorMessages();
-	}
-	*/
-	
-	protected function outQuestionText($template)
-	{
-		$questiontext = $this->object->getQuestiontext();
-		if (preg_match("/^<.[\\>]?>(.*?)<\\/.[\\>]*?>$/", $questiontext, $matches))
-		{
-			$questiontext = $matches[1];
-		}
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		if ($this->object->getObligatory($survey_id))
-		{
-			$template->setVariable("OBLIGATORY_TEXT", ' *');
-		}
-	}
-
-	function isSaveCommand(array $a_cmds = array())
-	{
-		$a_cmds[] = "save";
-		$a_cmds[] = "saveReturn";
-	    return in_array($this->ctrl->getCmd(), $a_cmds);
-	}
-	
-	/**
-	* Creates a preview of the question
-	*
-	* @access private
-	*/
-	function preview()
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
-		$question_output = $this->getWorkingForm();
-		
-		if ($this->object->getObligatory())
-		{
-			$this->tpl->setCurrentBlock("required");
-			$this->tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
-	}
-	
-	protected function renderChart($a_id, $a_variables)
-	{
-		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart($a_id, 700, 400);
-
-		$legend = new ilChartLegend();
-		$chart->setLegend($legend);	
-		$chart->setYAxisToInteger(true);
-		
-		$data = new ilChartData("bars");
-		$data->setLabel($this->lng->txt("users_answered"));
-		$data->setBarOptions(0.5, "center");
-		
-		$max = 5;
-		
-		if(sizeof($a_variables) <= $max)
-		{
-			if($a_variables)
-			{
-				$labels = array();
-				foreach($a_variables as $idx => $points)
-				{			
-					$data->addPoint($idx, $points["selected"]);		
-					$labels[$idx] = ($idx+1).". ".ilUtil::prepareFormOutput($points["title"]);
-				}
-				$chart->addData($data);
-
-				$chart->setTicks($labels, false, true);
-			}
-
-			return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";		
-		}
-		else
-		{
-			$chart_legend = array();			
-			$labels = array();
-			foreach($a_variables as $idx => $points)
-			{			
-				$data->addPoint($idx, $points["selected"]);		
-				$labels[$idx] = ($idx+1).".";				
-				$chart_legend[($idx+1)] = ilUtil::prepareFormOutput($points["title"]);
-			}
-			$chart->addData($data);
-						
-			$chart->setTicks($labels, false, true);
-			
-			$legend = "<table>";
-			foreach($chart_legend as $number => $caption)
-			{
-				$legend .= "<tr valign=\"top\"><td>".$number.".</td><td>".$caption."</td></tr>";
-			}
-			$legend .= "</table>";
-
-			return "<div style=\"margin:10px\"><table><tr valign=\"bottom\"><td>".
-				$chart->getHTML()."</td><td class=\"small\" style=\"padding-left:15px\">".
-				$legend."</td></tr></table></div>";					
-		}				
-	}
-	
-	
-	public function setBackUrl($a_url, $a_parent_ref_id)
-	{
-		$this->parent_url = $a_url;
-		$this->parent_ref_id = $a_parent_ref_id;				
 	}
 }
 
