@@ -211,26 +211,6 @@ abstract class SurveyQuestionGUI
 		$this->tpl->setVariable("HEADER", $title);
 	}
 
-	/**
-	* Creates a preview of the question
-	*
-	* @access private
-	*/
-	function preview()
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
-		$question_output = $this->getWorkingForm();
-		
-		if ($this->object->getObligatory())
-		{
-			$this->tpl->setCurrentBlock("required");
-			$this->tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
-	}
-	
 	
 	//
 	// EDITOR
@@ -551,6 +531,26 @@ abstract class SurveyQuestionGUI
 	abstract protected function importEditFormValues(ilPropertyFormGUI $a_form);
 				
 	abstract public function getPrintView($question_title = 1, $show_questiontext = 1);
+		
+	/**
+	* Creates a preview of the question
+	*
+	* @access private
+	*/
+	function preview()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
+		$question_output = $this->getWorkingForm();
+		
+		if ($this->object->getObligatory())
+		{
+			$this->tpl->setCurrentBlock("required");
+			$this->tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
+	}		
 	
 	
 	// 
@@ -559,6 +559,34 @@ abstract class SurveyQuestionGUI
 	
 	abstract public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null);
 	
+	/**
+	* Creates the HTML output of the question material(s)
+	*/
+	protected function getMaterialOutput()
+	{
+		if (count($this->object->getMaterial()))
+		{
+			$template = new ilTemplate("tpl.il_svy_qpl_material.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+			foreach ($this->object->getMaterial() as $material)
+			{
+				$template->setCurrentBlock('material');
+				switch ($material->type)
+				{
+					case 0:
+						$href = SurveyQuestion::_getInternalLinkHref($material->internal_link);
+						$template->setVariable('MATERIAL_TYPE', 'internallink');
+						$template->setVariable('MATERIAL_HREF', $href);
+						break;
+				}
+				$template->setVariable('MATERIAL_TITLE', (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material'));
+				$template->setVariable('TEXT_AVAILABLE_MATERIALS', $this->lng->txt('material'));
+				$template->parseCurrentBlock();
+			}
+			return $template->get();
+		}
+		return "";
+	}	
+
 	
 	//
 	// EVALUATION
@@ -631,34 +659,6 @@ abstract class SurveyQuestionGUI
 	// MATERIAL
 	// 
 	
-	/**
-	* Creates the HTML output of the question material(s)
-	*/
-	protected function getMaterialOutput()
-	{
-		if (count($this->object->getMaterial()))
-		{
-			$template = new ilTemplate("tpl.il_svy_qpl_material.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-			foreach ($this->object->getMaterial() as $material)
-			{
-				$template->setCurrentBlock('material');
-				switch ($material->type)
-				{
-					case 0:
-						$href = SurveyQuestion::_getInternalLinkHref($material->internal_link);
-						$template->setVariable('MATERIAL_TYPE', 'internallink');
-						$template->setVariable('MATERIAL_HREF', $href);
-						break;
-				}
-				$template->setVariable('MATERIAL_TITLE', (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material'));
-				$template->setVariable('TEXT_AVAILABLE_MATERIALS', $this->lng->txt('material'));
-				$template->parseCurrentBlock();
-			}
-			return $template->get();
-		}
-		return "";
-	}	
-
 	/**
 	* Material tab of the survey questions
 	*/
