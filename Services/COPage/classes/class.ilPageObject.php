@@ -65,7 +65,6 @@ class ilPageObject
 	var $offline_handler;
 	var $dom_builded;
 	var $history_saved;
-	var $layout_mode;
 	
 	/**
 	* Constructor
@@ -90,7 +89,6 @@ class ilPageObject
 		$this->halt_on_error = $a_halt;
 		$this->page_not_found = false;
 		$this->old_nr = $a_old_nr;
-		$this->layout_mode = false;
 		$this->encoding = "UTF-8";		
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
@@ -189,26 +187,6 @@ class ilPageObject
 		return $this->lastchange;
 	}
 	
-	/**
-	* Set Layout Mode
-	*
-	* @param boolean	$a_layout_mode	SetLayoutMode for editor
-	*/
-	function setLayoutMode($a_layout_mode)
-	{
-		$this->layout_mode = $a_layout_mode;
-	}
-
-	/**
-	* Get Layout Mode enabled/disabled
-	*
-	* @return boolean	Get Layout Mode Setting
-	*/
-	function getLayoutMode()
-	{
-		return $this->layout_mode;
-	}
-
 	/**
 	 * Set last change user
 	 *
@@ -877,7 +855,6 @@ class ilPageObject
 		$xml = $this->getXmlContent();
 		$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?>'.$xml,
 			DOMXML_LOAD_PARSING, $error);
-
 		if(empty($error))
 		{
 			$this->handleCopiedContent($temp_dom, true, $a_clone_mobs);
@@ -900,9 +877,11 @@ class ilPageObject
 	 * @param
 	 * @return
 	 */
-	function handleCopiedContent($a_dom, $a_self_ass = true,
-		$a_clone_mobs = false)
+	function handleCopiedContent($a_dom, $a_self_ass = true, $a_clone_mobs = false)
 	{
+		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+		$defs = ilCOPagePCDef::getPCDefinitions();
+
 		// handle question elements
 		if ($a_self_ass)
 		{
@@ -921,6 +900,20 @@ class ilPageObject
 		{
 			$this->newMobCopies($a_dom);
 		}
+
+// @todo 1: move all functions from above to the new domdoc
+		if ($a_dom instanceof php4DOMDocument)
+		{
+			$a_dom = $dom->myDOMDocument;
+		}
+		foreach ($defs as $def)
+		{
+			ilCOPagePCDef::requirePCClassByName($def["name"]);
+			$cl = $def["pc_class"];
+// @todo 1: continue
+//			call_user_func($def["pc_class"].'::handleCopiedContent', $a_dom, $a_self_ass, $a_clone_mobs);
+		}
+		
 	}
 	
 	/**
@@ -1142,9 +1135,8 @@ class ilPageObject
 	}
 
 	/**
-	* get language variables as XML
-	*/
-	// @todo 1: generalize, remove concrete dependencies
+	 * Get language variables as XML
+	 */
 	function getLanguageVariablesXML()
 	{
 		global $lng;
@@ -2342,9 +2334,9 @@ class ilPageObject
 			$last_nr = $ilDB->fetchAssoc($last_nr_set);
 			if ($old_rec = $ilDB->fetchAssoc($old_set))
 			{
-				// only save, if something has changed and not in layout mode
+				// only save, if something has changed
 				if (($content != $old_rec["content"]) && !$a_no_history &&
-					!$this->history_saved && !$this->layout_mode &&
+					!$this->history_saved &&
 					$lm_set->get("page_history", 1))
 				{
 					if ($old_rec["content"] != "<PageObject></PageObject>")
@@ -3667,15 +3659,6 @@ class ilPageObject
 				break;
 		}
 		
-		//check for PlaceHolder to remove in EditMode-keep in Layout Mode
-		if (!$this->getLayoutMode()) {
-			$sub_nodes = $curr_node->child_nodes() ;
-			foreach ( $sub_nodes as $sub_node ) {
-				if ($sub_node->node_name() == "PlaceHolder") {
-					$curr_node->unlink_node();
-				}
-			}
-		}	
 	}
 
 	/**

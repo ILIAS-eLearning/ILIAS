@@ -350,6 +350,16 @@ abstract class ilPageContent
 	{
 		return array();
 	}
-	
+
+	/**
+	 * Handle copied content. This function must, e.g. create copies of
+	 * objects referenced within the content (e.g. question objects)
+	 *
+	 * @param DOMDocument $a_domdoc dom document
+	 */
+	static function handleCopiedContent(DOMDocument $a_domdoc, $a_self_ass = true, $a_clone_mobs = false)
+	{
+	}
+			
 }
 ?>

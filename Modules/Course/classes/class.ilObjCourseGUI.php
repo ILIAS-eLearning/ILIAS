@@ -15,7 +15,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilContainerPageGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
@@ -4411,7 +4411,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 			
 			// container page editing
-			case "ilpageobjectgui":
+			case "ilcontainerpagegui":
 				$ret = $this->forwardToPageObject();
 				if ($ret != "")
 				{

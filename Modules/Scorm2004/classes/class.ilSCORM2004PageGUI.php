@@ -33,41 +33,52 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		global $tpl, $ilCtrl;
 
 		$this->glo_id = $a_glo_id;
+		$this->slm_id = $a_slm_id;
 		
 		parent::__construct($a_parent_type, $a_id, $a_old_nr);
 		
 
-		$this->setEnabledMaps(false);
-		$this->setEnablePCType("QuestionOverview", true);
+//		$this->setEnabledMaps(false);
+//		$this->setEnablePCType("QuestionOverview", true);
 		
-		$this->setPreventHTMLUnmasking(false);
-		// $this->setEnabledInternalLinks(false);
-		//if ($this->glo_id > 0)
-		//{
-			$this->setEnabledInternalLinks(true);
-		//}
-		$this->setEnabledSelfAssessment(true);
-		$this->setEnabledPCTabs(true);
+//		$this->setPreventHTMLUnmasking(false);
+//		$this->setEnabledInternalLinks(true);
+//		$this->setEnabledSelfAssessment(true);
+//		$this->setEnabledPCTabs(true);
 		
-		$this->getPageConfig()->addIntLinkFilter(array("StructureObject",
-			"StructureObject_New", "PageObject", "PageObject_FAQ", "PageObject_New",
-			"GlossaryItem_New",
-			"Media", "Media_FAQ", "Media_Media", "Media_New",
-			"RepositoryItem"));
+//		$this->getPageConfig()->addIntLinkFilter(array("StructureObject",
+//			"StructureObject_New", "PageObject", "PageObject_FAQ", "PageObject_New",
+//			"GlossaryItem_New",
+//			"Media", "Media_FAQ", "Media_Media", "Media_New",
+//			"RepositoryItem"));
 		if ($a_glo_id <= 0)
 		{
-			$this->getPageConfig()->addIntLinkFilter(array("GlossaryItem"));
+//			$this->getPageConfig()->addIntLinkFilter(array("GlossaryItem"));
 		}
-		$this->setIntLinkHelpDefault("File", 0);
+//		$this->setIntLinkHelpDefault("File", 0);
+		
 		$this->setIntLinkReturn(
 			$ilCtrl->getLinkTargetByClass("ilobjscorm2004learningmodulegui", "showTree",
 			"", false, false));
-		$this->slm_id = $a_slm_id;
 		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
-		$this->getPageConfig()->setLocalizationLanguage(
-			ilObjSAHSLearningModule::getAffectiveLocalization($a_slm_id));
+//		$this->getPageConfig()->setLocalizationLanguage(
+//			ilObjSAHSLearningModule::getAffectiveLocalization($a_slm_id));
 		$this->enableNotes(true, $this->slm_id);
 	}
+	
+	/**
+	 * Init page config
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPageConfig()
+	{
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageConfig.php");
+		$cfg = new ilSCORM2004PageConfig($this->slm_id);
+		$this->setPageConfig($cfg);
+	}	
+
 	
 	function initPageObject($a_parent_type, $a_id, $a_old_nr)
 	{
@@ -114,6 +125,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 				break;
 
 			case "ilpageobjectgui":
+die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 				$page_gui = new ilPageObjectGUI("sahs",
 					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
 				$page_gui->setEnabledPCTabs(true);

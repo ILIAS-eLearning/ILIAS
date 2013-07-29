@@ -10,7 +10,7 @@ include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSetti
  * @author Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesAuthentication
  * @ilCtrl_isCalledBy ilAuthLoginPageEditorGUI: ilObjAuthSettingsGUI
- * @ilCtrl_Calls ilAuthLoginPageEditorGUI: ilPageObjectGUI
+ * @ilCtrl_Calls ilAuthLoginPageEditorGUI: ilLoginPageGUI
  */
 class ilAuthLoginPageEditorGUI
 {
@@ -66,7 +66,7 @@ class ilAuthLoginPageEditorGUI
 	{
 		switch($this->ctrl->getNextClass($this))
 		{
-			case 'ilpageobjectgui':
+			case 'illoginpagegui':
 				$GLOBALS['ilTabs']->clearTargets();
 				$GLOBALS['ilTabs']->setBackTarget(
 					$this->lng->txt('back'),
@@ -105,16 +105,16 @@ class ilAuthLoginPageEditorGUI
 		$key = (int) $_REQUEST['key'];
 		$this->ctrl->saveParameter($this,'key',$key);
 
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		include_once("./Services/Authentication/classes/class.ilLoginPage.php");
+		include_once("./Services/Authentication/classes/class.ilLoginPageGUI.php");
 		include_once './Services/Style/classes/class.ilObjStyleSheet.php';
 
 		$lng->loadLanguageModule("content");
 
-		if (!ilPageObject::_exists('auth',$key))
+		if (!ilLoginPage::_exists('auth',$key))
 		{
 			// doesn't exist -> create new one
-			$new_page_object = new ilPageObject('auth');
+			$new_page_object = new ilLoginPage();
 			$new_page_object->setParentId($key);
 			$new_page_object->setId($key);
 			$new_page_object->createFromXML();
@@ -127,8 +127,8 @@ class ilAuthLoginPageEditorGUI
 		$tpl->parseCurrentBlock();
 
 
-		$this->ctrl->setReturnByClass('ilpageobjectgui', "edit");
-		$page_gui = new ilPageObjectGUI('auth',$key);
+		$this->ctrl->setReturnByClass('illoginpagegui', "edit");
+		$page_gui = new ilLoginPageGUI($key);
 
 		$page_gui->setIntLinkHelpDefault("RepositoryItem",$key);
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
@@ -142,12 +142,6 @@ class ilAuthLoginPageEditorGUI
 		$page_gui->setTemplateOutput(false);
 		//$page_gui->setLocator($contObjLocator);
 		$page_gui->setHeader("");
-		$page_gui->setEnabledRepositoryObjects(true);
-		$page_gui->setEnabledLoginPage(true);
-		$page_gui->setEnabledFileLists(false);
-		$page_gui->setEnabledMaps(true);
-		$page_gui->setEnabledPCTabs(true);
-		$page_gui->setEnabledInternalLinks(true);
 
 		// style tab
 		//$page_gui->setTabHook($this, "addPageTabs");

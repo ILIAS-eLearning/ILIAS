@@ -4,7 +4,7 @@
 
 
 require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-require_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
+require_once ("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 /**
 * GUI class for glossary term definition editor
@@ -12,7 +12,7 @@ require_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilTermDefinitionEditorGUI: ilPageObjectGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilTermDefinitionEditorGUI: ilGlossaryDefPageGUI, ilMDEditorGUI
 *
 * @ingroup ModulesGlossary
 */
@@ -75,7 +75,7 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->setTitle($this->term->getTerm()." - ".
 			$this->lng->txt("cont_definition")." ".
 			$this->definition->getNr());
-		if ($this->ctrl->getNextClass() == "ilpageobjectgui")
+		if ($this->ctrl->getNextClass() == "ilglossarydefpagegui")
 		{
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_def_b.png"));
 		}
@@ -83,11 +83,11 @@ class ilTermDefinitionEditorGUI
 		switch ($next_class)
 		{
 
-			case "ilpageobjectgui":
+			case "ilglossarydefpagegui":
 				
 				// output number of usages
 				if ($ilCtrl->getCmd() == "edit" &&
-					$ilCtrl->getCmdClass() == "ilpageobjectgui")
+					$ilCtrl->getCmdClass() == "ilglossarydefpagegui")
 				{
 					$nr = ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]);
 					if ($nr > 0)
@@ -101,15 +101,15 @@ class ilTermDefinitionEditorGUI
 				}
 			
 				// not so nice, to do: revise locator handling
-				if ($this->ctrl->getNextClass() == "ilpageobjectgui"
+				if ($this->ctrl->getNextClass() == "ilglossarydefpagegui"
 					|| $this->ctrl->getCmdClass() == "ileditclipboardgui")
 				{
 					$gloss_loc->display();
 				}
 				$this->setTabs();
-				$this->ctrl->setReturnByClass("ilPageObjectGUI", "edit");
+				$this->ctrl->setReturnByClass("ilGlossaryDefPageGUI", "edit");
 				$this->ctrl->setReturn($this, "listDefinitions");
-				$page_gui =& new ilPageObjectGUI("gdf", $this->definition->getId());
+				$page_gui = new ilGlossaryDefPageGUI($this->definition->getId());
 				$page = $page_gui->getPageObject();
 				$this->definition->assignPageObject($page);
 				$page->addUpdateListener($this, "saveShortText");
@@ -134,11 +134,11 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
-				$page_gui->setEnableKeywords(true);
+//				$page_gui->setEnableKeywords(true);
 				$page_gui->setStyleId($this->glossary->getStyleSheetId());
 				$page_gui->setLocator($gloss_loc);
-				$page_gui->setEnabledInternalLinks(true);
-				$page_gui->setIntLinkHelpDefault("GlossaryItem", $_GET["ref_id"]);
+//				$page_gui->setEnabledInternalLinks(true);
+//				$page_gui->setIntLinkHelpDefault("GlossaryItem", $_GET["ref_id"]);
 				$page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass("ilobjglossarygui", "quickList",
 					"", false, false));
 				$page_gui->setPageBackTitle($this->lng->txt("cont_definition"));

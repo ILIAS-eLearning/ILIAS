@@ -46,6 +46,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$tpl->parseCurrentBlock();
 		
 		// #11190
+/*
 		$prfa_set = new ilSetting("prfa");
 		$this->setPreventHTMLUnmasking(!(bool)$prfa_set->get("mask", false));
 		
@@ -58,20 +59,34 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			$this->setEnabledVerification(true);
 		}
-		
+*/		
 		/* embedding blog postings currently disabled 
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$this->setEnabledBlog(true);
 		}		
 		*/
-		
+/*		
 		$skmg_set = new ilSetting("skmg");
 		if($skmg_set->get("enable_skmg"))
 		{
 			$this->setEnabledSkills(true);
 		}
+*/
 	}
+
+	/**
+	 * Init page config
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPageConfig()
+	{
+		include_once("./Services/Portfolio/classes/class.ilPortfolioPageConfig.php");
+		$cfg = new ilPortfolioPageConfig();
+		$this->setPageConfig($cfg);
+	}	
 
 	/**
 	 * Init page object

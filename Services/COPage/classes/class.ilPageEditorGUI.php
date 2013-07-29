@@ -893,7 +893,7 @@ return true;
 		$stpl->setVariable("VAL_TITLE", ilMediaPoolPage::lookupTitle($_POST["ci_id"]));
 		$stpl->setVariable("TXT_BACK", $lng->txt("back"));
 		$stpl->setVariable("HREF_BACK",
-			$ilCtrl->getLinkTargetByClass("ilpageobjectgui", "edit"));
+			$ilCtrl->getLinkTarget($this->page_gui, "edit"));
 		$tpl->setContent($stpl->get());
 	}
 	

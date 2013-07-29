@@ -122,10 +122,11 @@ class ilPortfolioHTMLExport
 		
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
 		$has_index = false;
 		foreach ($pages as $page)
 		{						
-			if (ilPageObject::_exists("prtf", $page["id"]))
+			if (ilPortfolioPage::_exists("prtf", $page["id"]))
 			{
 				$this->active_tab = "user_page_".$page["id"];
 				

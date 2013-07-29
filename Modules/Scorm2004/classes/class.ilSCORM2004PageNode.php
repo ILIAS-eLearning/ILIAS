@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-require_once("./Services/COPage/classes/class.ilPageObject.php");
+require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
 
 // unclear whether we need this somehow...
 //define ("IL_CHAPTER_TITLE", "st_title");
@@ -15,12 +15,9 @@ require_once("./Services/COPage/classes/class.ilPageObject.php");
  * Handles Pages for SCORM 2004 Editing
  *
  * Note: This class has a member variable that contains an instance
- * of class ilPageObject (Services/COPage) and provides the method
- * getPageObject() to access this instance. ilPageObject handles page objects
- * and their content. Page objects can be assigned to different container like
- * ILIAS learning modules, glossaries definitions. This class, ilSCORM2004PageNode,
- * provides additional methods for the handling of page objects in
- * the SCORM 2004 Editor.
+ * of class ilSCORM2004Page and provides the method
+ * getPageObject() to access this instance. ilSCORM2004Page handles page objects
+ * and their content.
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -69,8 +66,7 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 	{
 		parent::read();
 
-		$this->page_object = new ilPageObject($this->slm_object->getType(),
-			$this->id, 0, false);
+		$this->page_object = new ilSCORM2004Page($this->id, 0);
 	}
 
 	/**
@@ -172,130 +168,6 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 		 */
 	}
 
-	/**
-	 * split page at hierarchical id
-	 *
-	 * the main reason for this method being static is that a lm page
-	 * object is not available within ilPageContentGUI where this method
-	 * is called
-	 */
-	function _splitPage($a_page_id, $a_pg_parent_type, $a_hier_id)
-	{
-		// @todo: This has to be checked, maybe abandoned or generalized?
-		/*
-		// get content object (learning module / digilib book)
-		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
-		$type = ilObject::_lookupType($lm_id, false);
-		switch ($type)
-		{
-		case "lm":
-		include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-		$cont_obj = new ilObjLearningModule($lm_id, false);
-		break;
-
-		case "dbk":
-		include_once ("./Modules/LearningModule/classes/class.ilObjDlBook.php");
-		$cont_obj = new ilObjDlBook($lm_id, false);
-		break;
-		}
-
-		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
-
-		// create new page
-		$lm_page =& new ilLMPageObject($cont_obj);
-		$lm_page->setTitle($source_lm_page->getTitle());
-		$lm_page->setLMId($source_lm_page->getLMId());
-		$lm_page->setType($source_lm_page->getType());
-		$lm_page->setDescription($source_lm_page->getDescription());
-		$lm_page->create(true);
-
-		// copy meta data
-		include_once("Services/MetaData/classes/class.ilMD.php");
-		$md = new ilMD($source_lm_page->getLMId(), $a_page_id, $source_lm_page->getType());
-		$new_md =& $md->cloneMD($source_lm_page->getLMId(), $lm_page->getId(), $source_lm_page->getType());
-
-		// copy complete content of source page to new page
-		$source_page =& $source_lm_page->getPageObject();
-		$page =& $lm_page->getPageObject();
-		$page->setXMLContent($source_page->getXMLContent());
-		$page->buildDom();
-
-		// insert new page in tree (after original page)
-		$tree = new ilTree($cont_obj->getId());
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
-		if ($tree->isInTree($source_lm_page->getId()))
-		{
-		$parent_node = $tree->getParentNodeData($source_lm_page->getId());
-		$tree->insertNode($lm_page->getId(), $parent_node["child"], $source_lm_page->getId());
-		}
-
-		// remove all nodes < hierarchical id from new page (incl. update)
-		$page->addHierIds();
-		$page->deleteContentBeforeHierId($a_hier_id);
-
-		// remove all nodes >= hierarchical id from source page
-		$source_page->buildDom();
-		$source_page->addHierIds();
-		$source_page->deleteContentFromHierId($a_hier_id);
-
-		return $lm_page;
-		*/
-	}
-
-	/**
-	 * split page to next page at hierarchical id
-	 *
-	 * the main reason for this method being static is that a lm page
-	 * object is not available within ilPageContentGUI where this method
-	 * is called
-	 */
-	// @todo: This has to be checked, maybe abandoned or generalized?
-	/*
-	function _splitPageNext($a_page_id, $a_pg_parent_type, $a_hier_id)
-	{
-	// get content object (learning module / digilib book)
-	$lm_id = ilLMObject::_lookupContObjID($a_page_id);
-	$type = ilObject::_lookupType($lm_id, false);
-	switch ($type)
-	{
-	case "lm":
-	include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-	$cont_obj = new ilObjLearningModule($lm_id, false);
-	break;
-
-	case "dbk":
-	include_once ("./Modules/LearningModule/classes/class.ilObjDlBook.php");
-	$cont_obj = new ilObjDlBook($lm_id, false);
-	break;
-	}
-	$tree = new ilTree($cont_obj->getId());
-	$tree->setTableNames('lm_tree','lm_data');
-	$tree->setTreeTablePK("lm_id");
-
-	$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
-	$source_page =& $source_lm_page->getPageObject();
-
-	// get next page
-	$succ = $tree->fetchSuccessorNode($a_page_id, "pg");
-	if ($succ["child"] > 0)
-	{
-	$target_lm_page =& new ilLMPageObject($cont_obj, $succ["child"]);
-	$target_page =& $target_lm_page->getPageObject();
-	$target_page->buildDom();
-	$target_page->addHierIds();
-
-	// move nodes to target page
-	$source_page->buildDom();
-	$source_page->addHierIds();
-	ilPageObject::_moveContentAfterHierId($source_page, $target_page, $a_hier_id);
-	//$source_page->deleteContentFromHierId($a_hier_id);
-
-	return $succ["child"];
-	}
-
-	}
-	*/
 
 	/**
 	 * Assign page object
@@ -365,91 +237,6 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 	}
 
 	/**
-	 * static
-	 */
-	// @todo: not sure whether we need this...
-	/*
-	 function getPageList($lm_id)
-	 {
-		return ilLMObject::getObjectList($lm_id, "pg");
-		}
-		*/
-
-	/**
-	 * presentation title doesn't have to be page title, it may be
-	 * chapter title + page title or chapter title only, depending on settings
-	 *
-	 * @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
-	 */
-	// @todo: not sure whether we need this...
-	/*
-	 function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE,
-		$a_include_numbers = false)
-		{
-		global $ilDB;
-
-		// select
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_pg_id);
-		$pg_set = $ilDB->query($query);
-		$pg_rec = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		if($a_mode == IL_NO_HEADER)
-		{
-		return "";
-		}
-
-		$tree = new ilTree($pg_rec["lm_id"]);
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
-
-		if($a_mode == IL_PAGE_TITLE)
-		{
-		$nr = "";
-		return $nr.$pg_rec["title"];
-		}
-
-		if ($tree->isInTree($pg_rec["obj_id"]))
-		{
-		$pred_node = $tree->fetchPredecessorNode($pg_rec["obj_id"], "st");
-		$childs = $tree->getChildsByType($pred_node["obj_id"], "pg");
-		$cnt_str = "";
-		if(count($childs) > 1)
-		{
-		$cnt = 0;
-		foreach($childs as $child)
-		{
-		if ($child["type"] != "pg" || ilLMPageObject::_lookupActive($child["obj_id"]))
-		{
-		$cnt++;
-		}
-		if($child["obj_id"] == $pg_rec["obj_id"])
-		{
-		$cur_cnt = $cnt;
-		}
-		}
-		if ($cnt > 1)
-		{
-		$cnt_str = " (".$cur_cnt."/".$cnt.")";
-		}
-		}
-		require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-		//$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
-		//return $struct_obj->getTitle();
-		return ilStructureObject::_getPresentationTitle($pred_node["obj_id"],
-		$a_include_numbers).$cnt_str;
-		//return $pred_node["title"].$cnt_str;
-		}
-		else
-		{
-		return $pg_rec["title"];
-		}
-		}
-		*/
-
-	
-
-
-	/**
 	 * get ids of all media objects within the page
 	 *
 	 * note: this method must be called afer exportXMLPageContent
@@ -468,37 +255,6 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 	{
 		return $this->files_contained;
 	}
-
-	/**
-	 * export page object to fo
-	 *
-	 * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-	 *										xml data
-	 */
-	/* todo: this needs to be adopted
-	 function exportFO(&$a_xml_writer)
-	 {
-		global $ilBench;
-
-		//$attrs = array();
-		//$a_xml_writer->xmlStartTag("PageObject", $attrs);
-		$title = ilLMPageObject::_getPresentationTitle($this->getId());
-		if ($title != "")
-		{
-		$attrs = array();
-		$attrs["font-family"] = "Times";
-		$attrs["font-size"] = "14pt";
-		$a_xml_writer->xmlElement("fo:block", $attrs, $title);
-		}
-
-		// PageContent
-		$this->page_object->buildDom();
-		$fo = $this->page_object->getFO();
-		$a_xml_writer->appendXML($fo);
-
-		//$a_xml_writer->xmlEndTag("PageObject");
-		}
-		*/
 
 }
 ?>

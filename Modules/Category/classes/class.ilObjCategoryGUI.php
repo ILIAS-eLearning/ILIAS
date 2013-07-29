@@ -11,7 +11,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
 * 
@@ -110,7 +110,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				break;
 
 			// container page editing
-			case "ilpageobjectgui":
+			case "ilcontainerpagegui":
 				$this->prepareOutput(false);
 				$ret = $this->forwardToPageObject();
 				if ($ret != "")

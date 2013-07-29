@@ -57,7 +57,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		switch($next_class)
 		{
 			// page editing
-			case "ilpageobjectgui":
+			case "ilcontainerpagegui":
 				if ($_GET["redirectSource"] != "ilinternallinkgui")
 				{
 					$ret = $this->forwardToPageObject();
@@ -202,8 +202,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// page object
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		include_once("./Services/Container/classes/class.ilContainerPage.php");
+		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
 
 		$lng->loadLanguageModule("content");
 		
@@ -216,34 +216,23 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
-		if (!ilPageObject::_exists($this->object->getType(),
+		if (!ilContainerPage::_exists($this->object->getType(),
 			$this->object->getId()))
 		{
 			// doesn't exist -> create new one
-			$new_page_object = new ilPageObject($this->object->getType());
+			$new_page_object = new ilContainerPage($this->object->getType());
 			$new_page_object->setParentId($this->object->getId());
 			$new_page_object->setId($this->object->getId());
 			$new_page_object->createFromXML();
 		}
 		
 		// get page object
-//		$page_object = new ilPageObject($this->object->getType(),
-//			$this->object->getId(), 0, true);
-		$this->ctrl->setReturnByClass("ilpageobjectgui", "edit");
-		//$page_object =& $this->obj->getPageObject();
-//		$page_object->buildDom();
-		//$page_object->addUpdateListener($this, "updateHistory");
-//		$int_links = $page_object->getInternalLinks();
-		//$link_xml = $this->getLinkXML($int_links);
-		$page_gui =& new ilPageObjectGUI($this->object->getType(),
+		$this->ctrl->setReturnByClass("ilcontainerpagegui", "edit");
+		$page_gui =& new ilContainerPageGUI($this->object->getType(),
 			$this->object->getId());
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
-//echo "--".$this->object->getStyleSheetId()."-";
-		// $view_frame = ilFrameTargetInfo::_getFrame("MainContent");
-		//$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId(),
-		//	$view_frame);
 
 		$page_gui->setIntLinkHelpDefault("RepositoryItem", $_GET["ref_id"]);
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
@@ -335,8 +324,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			return "";
 		}
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		include_once("./Services/Container/classes/class.ilContainerPage.php");
+		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -347,13 +336,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->parseCurrentBlock();
 
 		// get page object
-		$page_gui =& new ilPageObjectGUI($this->object->getType(),
+		$page_gui = new ilContainerPageGUI($this->object->getType(),
 			$this->object->getId());
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
-		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
+//		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 		$page_gui->setFileDownloadLink("");
 		//$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
@@ -362,10 +351,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setTemplateOutput(false);
 		//$page_gui->setLocator($contObjLocator);
 		$page_gui->setHeader("");
-		$page_gui->setEnabledRepositoryObjects(true);
+/*		$page_gui->setEnabledRepositoryObjects(true);
 		$page_gui->setEnabledFileLists(false);
 		$page_gui->setEnabledPCTabs(true);
-		$page_gui->setEnabledMaps(true);
+		$page_gui->setEnabledMaps(true);*/
 		$ret = $page_gui->showPage();
 
 		//$ret =& $page_gui->executeCommand();
@@ -889,7 +878,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		else
 		{
-			$this->ctrl->redirectByClass(array("ilpageobjectgui"), "edit");
+			$this->ctrl->redirectByClass(array("ilcontainerpagegui"), "edit");
 			exit;
 		}
 				
@@ -1189,8 +1178,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$output_html);
 				}
 
-				//if (ilPageObject::_exists($this->object->getType(),
-				//	$this->object->getId()))
 				if ($xpage_id > 0)
 				{				
 					$page_block = new ilTemplate("tpl.container_page_block.html", false, false,
@@ -1432,7 +1419,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $lng;
 		
 		if (!$this->isActiveAdministrationPanel()
-			|| strtolower($this->ctrl->getCmdClass()) != "ilpageobjectgui")
+			|| strtolower($this->ctrl->getCmdClass()) != "ilcontainerpagegui")
 		{
 			return;
 		}
@@ -1446,8 +1433,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->ctrl->getLinkTarget($this, "frameset"),
 			ilFrameTargetInfo::_getFrame("MainContent"));
 
-		$this->tabs_gui->addTarget("edit", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view")
-			, array("", "view"), "ilpageobjectgui");
+		$this->tabs_gui->addTarget("edit", $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "view")
+			, array("", "view"), "ilcontainerpagegui");
 
 		//$this->tpl->setTabs($tabs_gui->getHTML());
 	}
@@ -3418,8 +3405,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->object->getRefId(), "_top");
 		}
 
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-		$page_gui =& new ilPageObjectGUI($this->object->getType(),
+		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
+		$page_gui =& new ilContainerPageGUI($this->object->getType(),
 			$this->object->getId());
 		$style_id = $this->object->getStyleSheetId();
 		if (ilObject::_lookupType($style_id) == "sty")

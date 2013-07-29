@@ -387,12 +387,12 @@ class ilContainer extends ilObject
 		$sorting->update();
 		
 		// copy content page
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		if (ilPageObject::_exists($this->getType(),
+		include_once("./Services/Container/classes/class.ilContainerPage.php");
+		if (ilContainerPage::_exists($this->getType(),
 			$this->getId()))
 		{
-			$orig_page = new ilPageObject($this->getType(), $this->getId());
-			$new_page_object = new ilPageObject($this->getType());
+			$orig_page = new ilContainerPage($this->getType(), $this->getId());
+			$new_page_object = new ilContainerPage($this->getType());
 			$new_page_object->setParentId($new_obj->getId());
 			$new_page_object->setId($new_obj->getId());
 			$new_page_object->createFromXML();

@@ -27,9 +27,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 		// needed for notifications
 		$this->setWikiRefId($a_wiki_ref_id);
-
-		$this->setPageToc(ilObjWiki::_lookupPageToc(
-			ilObject::_lookupObjId($a_wiki_ref_id)));
 		
 		parent::__construct("wpg", $a_id, $a_old_nr);
 		
@@ -41,22 +38,36 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
 		
-		$this->setEnabledMaps(true);
-		$this->setPreventHTMLUnmasking(true);
-		$this->setEnabledInternalLinks(true);
-		$this->setEnableAnchors(true);
-		$this->setEnabledWikiLinks(true);
-		$this->setEnabledPCTabs(true);
+//		$this->setEnabledMaps(true);
+//		$this->setPreventHTMLUnmasking(true);
+//		$this->setEnabledInternalLinks(true);
+//		$this->setEnableAnchors(true);
+//		$this->setEnabledWikiLinks(true);
+//		$this->setEnabledPCTabs(true);
 
-		$cfg = new ilPageConfig();
-		$cfg->setIntLinkFilterWhiteList(true);
-		$cfg->addIntLinkFilter("RepositoryItem");
-		$this->setPageConfig($cfg);
-		$this->setIntLinkHelpDefault("RepositoryItem", 0);
+//		$cfg->setIntLinkFilterWhiteList(true);
+//		$cfg->addIntLinkFilter("RepositoryItem");
+//		$this->setIntLinkHelpDefault("RepositoryItem", 0);
 
 	}
 	
-		/**
+	/**
+	 * Init page config
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPageConfig()
+	{
+		include_once("./Modules/Wiki/classes/class.ilWikiPageConfig.php");
+		$cfg = new ilWikiPageConfig();
+		$cfg->setEnablePageToc(ilObjWiki::_lookupPageToc(
+			ilObject::_lookupObjId($this->getWikiRefId())));
+		$this->setPageConfig($cfg);
+	}	
+
+	
+	/**
 	 * Set screen id component
 	 *
 	 * @param
@@ -115,9 +126,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				break;
 
 			case "ilpageobjectgui":
+	die("wikipage gui forwarding to ilpageobject");
 				$page_gui = new ilPageObjectGUI("wpg",
 					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
 				$page_gui->setPresentationTitle($this->getWikiPage()->getTitle());
+				$page_gui->setPageConfig($this->getPageConfig());
 				return $ilCtrl->forwardCommand($page_gui);
 				
 			case "ilcommonactiondispatchergui":

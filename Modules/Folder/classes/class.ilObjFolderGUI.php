@@ -31,7 +31,7 @@
 *
 * @ilCtrl_Calls ilObjFolderGUI: ilPermissionGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilPageObjectGUI, ilColumnGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
 *
@@ -127,7 +127,7 @@ class ilObjFolderGUI extends ilContainerGUI
 				break;
 
 			// container page editing
-			case "ilpageobjectgui":
+			case "ilcontainerpagegui":
 				$this->prepareOutput(false);
 				$this->checkPermission("write");
 				$ret = $this->forwardToPageObject();

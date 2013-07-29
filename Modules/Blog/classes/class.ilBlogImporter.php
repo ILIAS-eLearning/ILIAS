@@ -50,7 +50,7 @@ class ilBlogImporter extends ilXmlImporter
 		{
 			$blp_id = substr($blp_id, 4);
 			$blog_id = ilBlogPosting::lookupBlogId($blp_id);
-			ilPageObject::_writeParentId("blp", $blp_id, $blog_id);
+			ilBlogPosting::_writeParentId("blp", $blp_id, $blog_id);
 		}
 	}
 }

@@ -66,14 +66,27 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		$tpl->parseCurrentBlock();
 
         // config
-		$this->setPreventHTMLUnmasking(true);
+/*		$this->setPreventHTMLUnmasking(true);
 		$this->setEnabledPCTabs(true);
 		$this->setEnabledMaps(false);
 		$this->setEnabledInternalLinks(false);
 		$this->setEnabledWikiLinks(false);						
-		$this->setEnabledActivation(false);
+		$this->setEnabledActivation(false);*/
 	}
 	
+	/**
+	 * Init page config
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPageConfig()
+	{
+		include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionConfig.php");
+		$cfg = new ilDataCollectionRecordViewViewdefinitionConfig();
+		$this->setPageConfig($cfg);
+	}	
+
 	/**
 	 * Init internal data object
 	 *

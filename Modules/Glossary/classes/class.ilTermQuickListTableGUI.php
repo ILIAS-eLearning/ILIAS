@@ -55,16 +55,16 @@ class ilTermQuickListTableGUI extends ilTable2GUI
 
 			$this->tpl->setCurrentBlock("definition");
 			$this->tpl->setVariable("SEP", $sep);
-			$ilCtrl->setParameterByClass("ilpageobjectgui", "def", $def["id"]);
+			$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $def["id"]);
 			$this->tpl->setVariable("LINK_EDIT_DEF",
 				$ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
 				"iltermdefinitioneditorgui",
-				"ilpageobjectgui"), "edit"));
+				"ilglossarydefpagegui"), "edit"));
 			$this->tpl->setVariable("TEXT_DEF", $this->lng->txt("glo_definition_abbr").($j+1));
 			$this->tpl->parseCurrentBlock();
 			$sep = ", ";
 		}
-		$ilCtrl->setParameterByClass("ilpageobjectgui", "def", $_GET["def"]);
+		$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $_GET["def"]);
 
 		if ($term["id"] == $_GET["term_id"])
 		{

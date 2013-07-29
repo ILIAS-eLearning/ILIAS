@@ -60,19 +60,21 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
-		$tpl->parseCurrentBlock();
-		
-		// #11190
-		$blga_set = new ilSetting("blga");
-		$this->setPreventHTMLUnmasking(!(bool)$blga_set->get("mask", false));
-		
-		$this->setEnabledMaps(true);	
-		$this->setEnabledInternalLinks(false);
-		$this->setEnabledWikiLinks(false);
-		$this->setEnabledPCTabs(true);
-		
-		$this->setEnabledActivation(true);
+		$tpl->parseCurrentBlock();		
 	}
+
+	/**
+	 * Init page config
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPageConfig()
+	{
+		include_once("./Modules/Blog/classes/class.ilBlogPostingConfig.php");
+		$cfg = new ilBlogPostingConfig();
+		$this->setPageConfig($cfg);
+	}	
 
 	/**
 	 * Init internal data object

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPageObject.php");
+require_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 
 /**
 * Class ilGlossaryDefinition
@@ -61,7 +61,7 @@ class ilGlossaryDefinition
 		$this->setNr($def_rec["nr"]);
 		$this->setShortTextDirty($def_rec["short_text_dirty"]);
 
-		$this->page_object =& new ilPageObject("gdf", $this->id);
+		$this->page_object = new ilGlossaryDefPage($this->id);
 	}
 
 	function setId($a_id)
@@ -228,7 +228,7 @@ class ilGlossaryDefinition
 			$this->createMetaData();
 		}
 
-		$this->page_object =& new ilPageObject("gdf");
+		$this->page_object = new ilGlossaryDefPage();
 		$this->page_object->setId($this->getId());
 		$this->page_object->setParentId($term->getGlossaryId());
 		$this->page_object->create();
