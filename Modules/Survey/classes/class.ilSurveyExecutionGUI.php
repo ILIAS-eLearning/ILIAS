@@ -21,8 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
-
 /**
 * Survey execution graphical output
 *

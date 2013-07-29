@@ -22,7 +22,6 @@
 */
 
 include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * The SurveyMatrixQuestion class defines and encapsulates basic methods and attributes

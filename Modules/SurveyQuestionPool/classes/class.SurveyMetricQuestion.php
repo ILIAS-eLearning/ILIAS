@@ -22,11 +22,6 @@
 */
 
 include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
-
-define("SUBTYPE_NON_RATIO", 3);
-define("SUBTYPE_RATIO_NON_ABSOLUTE", 4);
-define("SUBTYPE_RATIO_ABSOLUTE", 5);
 
 /**
 * Metric survey question
@@ -41,6 +36,10 @@ define("SUBTYPE_RATIO_ABSOLUTE", 5);
 */
 class SurveyMetricQuestion extends SurveyQuestion 
 {
+	const SUBTYPE_NON_RATIO = 3;
+	const SUBTYPE_RATIO_NON_ABSOLUTE = 4;
+	const SUBTYPE_RATIO_ABSOLUTE = 5;
+	
 /**
 * Question subtype
 *
@@ -81,7 +80,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 		$author = "",
 		$questiontext = "",
 		$owner = -1,
-		$subtype = SUBTYPE_NON_RATIO
+		$subtype = self::SUBTYPE_NON_RATIO
 	)
 	{
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
@@ -97,7 +96,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 * @access public
 * @see $subtype
 */
-  function setSubtype($subtype = SUBTYPE_NON_RATIO) 
+  function setSubtype($subtype = self::SUBTYPE_NON_RATIO) 
 	{
     $this->subtype = $subtype;
   }
@@ -550,7 +549,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 			return $this->lng->txt("metric_question_not_a_value");
 		}
 
-		if (($this->getSubType() == SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)))
+		if (($this->getSubType() == self::SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)))
 		{
 			return $this->lng->txt("metric_question_floating_point");
 		}
@@ -746,13 +745,13 @@ class SurveyMetricQuestion extends SurveyQuestion
 		$worksheet->write($rowcounter, 0, $this->lng->txt("subtype"), $format_bold);
 		switch ($this->getSubtype())
 		{
-			case SUBTYPE_NON_RATIO:
+			case self::SUBTYPE_NON_RATIO:
 				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("non_ratio")), $format_bold);
 				break;
-			case SUBTYPE_RATIO_NON_ABSOLUTE:
+			case self::SUBTYPE_RATIO_NON_ABSOLUTE:
 				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("ratio_non_absolute")), $format_bold);
 				break;
-			case SUBTYPE_RATIO_ABSOLUTE:
+			case self::SUBTYPE_RATIO_ABSOLUTE:
 				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("ratio_absolute")), $format_bold);
 				break;
 		}

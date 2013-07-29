@@ -35,7 +35,6 @@
 
 
 include_once "Services/Object/classes/class.ilObjectListGUI.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 {

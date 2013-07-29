@@ -1,25 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once "./Services/Object/classes/class.ilObject.php";
 
 /**
 * Class ilObjSurvey
@@ -30,101 +12,118 @@
 * @extends ilObject
 * @defgroup ModulesSurvey Modules/Survey
 */
-
-include_once "./Services/Object/classes/class.ilObject.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
-
 class ilObjSurvey extends ilObject
 {
-/**
-* A unique positive numerical ID which identifies the survey.
-* This is the primary key from a database table.
-*
-* @var integer
-*/
-  var $survey_id;
+	const STATUS_OFFLINE = 0;
+	const STATUS_ONLINE = 1;	
+	
+	const EVALUATION_ACCESS_OFF = 0;
+	const EVALUATION_ACCESS_ALL = 1;
+	const EVALUATION_ACCESS_PARTICIPANTS = 2;
+	
+	const INVITATION_OFF = 0;
+	const INVITATION_ON = 1;
+	
+	const MODE_UNLIMITED = 0;
+	const MODE_PREDEFINED_USERS = 1;
+	
+	const ANONYMIZE_OFF = 0;
+	const ANONYMIZE_ON = 1;
+	const ANONYMIZE_FREEACCESS = 2;
+	const ANONYMIZE_CODE_ALL = 3;
+	
+	const QUESTIONTITLES_HIDDEN = 0;
+	const QUESTIONTITLES_VISIBLE = 1;	
+	
+	/**
+	* A unique positive numerical ID which identifies the survey.
+	* This is the primary key from a database table.
+	*
+	* @var integer
+	*/
+	var $survey_id;
 
-/**
-* A text representation of the authors name. The name of the author must
-* not necessary be the name of the owner.
-*
-* @var string
-*/
-  var $author;
+	/**
+	* A text representation of the authors name. The name of the author must
+	* not necessary be the name of the owner.
+	*
+	* @var string
+	*/
+	var $author;
 
-/**
-* A text representation of the surveys introduction.
-*
-* @var string
-*/
-  var $introduction;
+	/**
+	* A text representation of the surveys introduction.
+	*
+	* @var string
+	*/
+	var $introduction;
 
-/**
-* A text representation of the surveys outro.
-*
-* @var string
-*/
-  var $outro;
+	/**
+	* A text representation of the surveys outro.
+	*
+	* @var string
+	*/
+	var $outro;
 
-/**
-* Survey status (online/offline)
-*
-* @var integer
-*/
-  var $status;
+	/**
+	* Survey status (online/offline)
+	*
+	* @var integer
+	*/
+	var $status;
 
-/**
-* Indicates the evaluation access for learners
-*
-* @var string
-*/
-  var $evaluation_access;
+	/**
+	* Indicates the evaluation access for learners
+	*
+	* @var string
+	*/
+	var $evaluation_access;
 
-/**
-* The start date of the survey
-*
-* @var string
-*/
-  var $start_date;
+	/**
+	* The start date of the survey
+	*
+	* @var string
+	*/
+	var $start_date;
 
-/**
-* The end date of the survey
-*
-* @var string
-*/
-  var $end_date;
+	/**
+	* The end date of the survey
+	*
+	* @var string
+	*/
+	var $end_date;
 
-/**
-* The questions contained in this survey
-*
-* @var array
-*/
+	/**
+	* The questions contained in this survey
+	*
+	* @var array
+	*/
 	var $questions;
 
-/**
-* Defines if the survey will be places on users personal desktops
-*
-* @var integer
-*/
+	/**
+	* Defines if the survey will be places on users personal desktops
+	*
+	* @var integer
+	*/
 	var $invitation;
 
-/**
-* Defines the type of user invitation
-*
-* @var integer
-*/
+	/**
+	* Defines the type of user invitation
+	*
+	* @var integer
+	*/
 	var $invitation_mode;
 	
-/**
-* Indicates the anonymization of the survey
-* @var integer
-*/
+	/**
+	* Indicates the anonymization of the survey
+	* @var integer
+	*/
 	var $anonymize;
 
-/**
-* Indicates if the question titles are shown during a query
-* @var integer
-*/
+	/**
+	* Indicates if the question titles are shown during a query
+	* @var integer
+	*/
 	var $display_question_titles;
 
 	/**
@@ -187,13 +186,13 @@ class ilObjSurvey extends ilObject
 		$this->introduction = "";
 		$this->outro = $this->lng->txt("survey_finished");
 		$this->author = $ilUser->fullname;
-		$this->status = STATUS_OFFLINE;
-		$this->evaluation_access = EVALUATION_ACCESS_OFF;
+		$this->status = self::STATUS_OFFLINE;
+		$this->evaluation_access = self::EVALUATION_ACCESS_OFF;
 		$this->questions = array();
-		$this->invitation = INVITATION_OFF;
-		$this->invitation_mode = MODE_PREDEFINED_USERS;
-		$this->anonymize = ANONYMIZE_OFF;
-		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
+		$this->invitation = self::INVITATION_OFF;
+		$this->invitation_mode = self::MODE_PREDEFINED_USERS;
+		$this->anonymize = self::ANONYMIZE_OFF;
+		$this->display_question_titles = self::QUESTIONTITLES_VISIBLE;
 		$this->surveyCodeSecurity = TRUE;
 		$this->template_id = NULL;
 		$this->pool_usage = true;
@@ -1017,14 +1016,14 @@ class ilObjSurvey extends ilObject
 	{
 		switch ($a_anonymize)
 		{
-			case ANONYMIZE_OFF:
-			case ANONYMIZE_ON:
-			case ANONYMIZE_FREEACCESS:
-			case ANONYMIZE_CODE_ALL:
+			case self::ANONYMIZE_OFF:
+			case self::ANONYMIZE_ON:
+			case self::ANONYMIZE_FREEACCESS:
+			case self::ANONYMIZE_CODE_ALL:
 				$this->anonymize = $a_anonymize;
 				break;
 			default:
-				$this->anonymize = ANONYMIZE_OFF;
+				$this->anonymize = self::ANONYMIZE_OFF;
 				break;
 		}
 	}
@@ -1041,7 +1040,7 @@ class ilObjSurvey extends ilObject
 	
 	function isAccessibleWithCodeForAll()
 	{
-		if ($this->getAnonymize() == ANONYMIZE_CODE_ALL)
+		if ($this->getAnonymize() == self::ANONYMIZE_CODE_ALL)
 		{
 			return true;
 		}
@@ -1058,7 +1057,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function isAccessibleWithoutCode()
 	{
-		if ($this->getAnonymize() == ANONYMIZE_FREEACCESS || !$this->getAnonymize())
+		if ($this->getAnonymize() == self::ANONYMIZE_FREEACCESS || !$this->getAnonymize())
 		{
 			return true;
 		}
@@ -1302,13 +1301,13 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		global $ilAccess;
     $this->invitation = $invitation;
-		if ($invitation == INVITATION_OFF)
+		if ($invitation == self::INVITATION_OFF)
 		{
 			$this->disinviteAllUsers();
 		}
-		else if ($invitation == INVITATION_ON)
+		else if ($invitation == self::INVITATION_ON)
 		{
-			if ($this->getInvitationMode() == MODE_UNLIMITED)
+			if ($this->getInvitationMode() == self::MODE_UNLIMITED)
 			{
 				$result = $ilDB->query("SELECT usr_id FROM usr_data");
 				while ($row = $ilDB->fetchAssoc($result))
@@ -1379,7 +1378,7 @@ class ilObjSurvey extends ilObject
 */
 	function getInvitation() 
 	{
-		return ($this->invitation) ? $this->invitation : INVITATION_OFF;
+		return ($this->invitation) ? $this->invitation : self::INVITATION_OFF;
 	}
 
 /**
@@ -1394,13 +1393,13 @@ class ilObjSurvey extends ilObject
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$surveySetting = new ilSetting("survey");
 		$unlimited_invitation = $surveySetting->get("unlimited_invitation");
-		if (!$unlimited_invitation && $this->invitation_mode == MODE_UNLIMITED)
+		if (!$unlimited_invitation && $this->invitation_mode == self::MODE_UNLIMITED)
 		{
-			return MODE_PREDEFINED_USERS;
+			return self::MODE_PREDEFINED_USERS;
 		}
 		else
 		{
-			return ($this->invitation_mode) ? $this->invitation_mode : MODE_UNLIMITED;
+			return ($this->invitation_mode) ? $this->invitation_mode : self::MODE_UNLIMITED;
 		}
 	}
 
@@ -1413,7 +1412,7 @@ class ilObjSurvey extends ilObject
 */
 	function getStatus() 
 	{
-		return ($this->status) ? $this->status : STATUS_OFFLINE;
+		return ($this->status) ? $this->status : self::STATUS_OFFLINE;
 	}
 
 /**
@@ -1425,7 +1424,7 @@ class ilObjSurvey extends ilObject
 */
 	function isOnline() 
 	{
-		return ($this->status == STATUS_ONLINE) ? true : false;
+		return ($this->status == self::STATUS_ONLINE) ? true : false;
 	}
 
 /**
@@ -1437,7 +1436,7 @@ class ilObjSurvey extends ilObject
 */
 	function isOffline() 
 	{
-		return ($this->status == STATUS_OFFLINE) ? true : false;
+		return ($this->status == self::STATUS_OFFLINE) ? true : false;
 	}
 
 /**
@@ -1448,12 +1447,12 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $status
 */
-	function setStatus($status = STATUS_OFFLINE) 
+	function setStatus($status = self::STATUS_OFFLINE) 
 	{
 		$result = "";
-		if (($status == STATUS_ONLINE) && (count($this->questions) == 0))
+		if (($status == self::STATUS_ONLINE) && (count($this->questions) == 0))
 		{
-			$this->status = STATUS_OFFLINE;
+			$this->status = self::STATUS_OFFLINE;
 			$result = $this->lng->txt("cannot_switch_to_online_no_questions");
 		}
 		else
@@ -1516,7 +1515,7 @@ class ilObjSurvey extends ilObject
 		}
 		
 		// check online status
-		if ($this->getStatus() == STATUS_OFFLINE)
+		if ($this->getStatus() == self::STATUS_OFFLINE)
 		{
 			array_push($messages, $this->lng->txt("survey_is_offline"));
 			$result = FALSE;
@@ -1645,7 +1644,7 @@ class ilObjSurvey extends ilObject
 */
 	function getEvaluationAccess() 
 	{
-		return ($this->evaluation_access) ? $this->evaluation_access : EVALUATION_ACCESS_OFF;
+		return ($this->evaluation_access) ? $this->evaluation_access : self::EVALUATION_ACCESS_OFF;
 	}
 
 /**
@@ -1655,9 +1654,9 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $evaluation_access
 */
-	function setEvaluationAccess($evaluation_access = EVALUATION_ACCESS_OFF) 
+	function setEvaluationAccess($evaluation_access = self::EVALUATION_ACCESS_OFF) 
 	{
-		$this->evaluation_access = ($evaluation_access) ? $evaluation_access : EVALUATION_ACCESS_OFF;
+		$this->evaluation_access = ($evaluation_access) ? $evaluation_access : self::EVALUATION_ACCESS_OFF;
 	}
 	
 	function setActivationVisibility($a_value)
@@ -2868,7 +2867,7 @@ class ilObjSurvey extends ilObject
 				array($next_id, $this->getSurveyId(), $user_id, time())
 			);
 		}
-		if ($this->getInvitation() == INVITATION_ON)
+		if ($this->getInvitation() == self::INVITATION_ON)
 		{
 			include_once './Services/User/classes/class.ilObjUser.php';
 			ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
@@ -2893,7 +2892,7 @@ class ilObjSurvey extends ilObject
 				if ($ilAccess->checkAccessOfUser($user_id, "read", "", $this->getRefId(), "svy", $this->getId()))
 				{
 					$this->inviteUser($user_id);
-					if ($this->getInvitation() == INVITATION_ON)
+					if ($this->getInvitation() == self::INVITATION_ON)
 					{
 						include_once './Services/User/classes/class.ilObjUser.php';
 						ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
@@ -2920,7 +2919,7 @@ class ilObjSurvey extends ilObject
 				if ($ilAccess->checkAccessOfUser($user_id, "read", "", $this->getRefId(), "svy", $this->getId()))
 				{
 					$this->inviteUser($user_id);
-					if ($this->getInvitation() == INVITATION_ON)
+					if ($this->getInvitation() == self::INVITATION_ON)
 					{
 						include_once './Services/User/classes/class.ilObjUser.php';
 						ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
@@ -5126,7 +5125,7 @@ class ilObjSurvey extends ilObject
 	 **/
 	function canExportSurveyCode()
 	{
-		if ($this->getAnonymize() != ANONYMIZE_OFF)
+		if ($this->getAnonymize() != self::ANONYMIZE_OFF)
 		{
 			if ($this->surveyCodeSecurity == FALSE)
 			{
@@ -5506,9 +5505,9 @@ class ilObjSurvey extends ilObject
 
 			if($template_settings["anonymization_options"]["value"])
 			{
-				$anon_map = array('personalized' => ANONYMIZE_OFF,
-					'anonymize_with_code' => ANONYMIZE_ON,
-					'anonymize_without_code' => ANONYMIZE_FREEACCESS);
+				$anon_map = array('personalized' => self::ANONYMIZE_OFF,
+					'anonymize_with_code' => self::ANONYMIZE_ON,
+					'anonymize_without_code' => self::ANONYMIZE_FREEACCESS);
 				$this->setAnonymize($anon_map[$template_settings["anonymization_options"]["value"]]);
 			}
 

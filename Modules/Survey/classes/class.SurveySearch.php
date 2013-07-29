@@ -21,8 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
-
 /**
 * Class for search actions in ILIAS survey tool
 *
@@ -35,98 +33,100 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 */
 class SurveySearch 
 {
-/**
-* Search terms
-*
-* An array containing all search terms
-*
-* @var array
-*/
-  var $search_terms;
+	const CONCAT_AND = 0;
+	const CONCAT_OR = 1;
+	
+	/**
+	* Search terms
+	*
+	* An array containing all search terms
+	*
+	* @var array
+	*/	
+	var $search_terms;
 
-/**
-* Concatenation
-*
-* The concatenation type of the search terms
-*
-* @var integer
-*/
-  var $concatenation;
+	/**
+	* Concatenation
+	*
+	* The concatenation type of the search terms
+	*
+	* @var integer
+	*/
+	var $concatenation;
 
-/**
-* Search field
-*
-* A database field to restrict the search results
-*
-* @var string
-*/
-  var $search_field;
+	/**
+	* Search field
+	*
+	* A database field to restrict the search results
+	*
+	* @var string
+	*/
+	var $search_field;
 
-/**
-* Search type
-*
-* A question type to restrict the search results
-*
-* @var string
-*/
-  var $search_type;
+	/**
+	* Search type
+	*
+	* A question type to restrict the search results
+	*
+	* @var string
+	*/
+	var $search_type;
 
-/**
-* Search results
-*
-* An array containing the results of a search
-*
-* @var array
-*/
-  var $search_results;
+	/**
+	* Search results
+	*
+	* An array containing the results of a search
+	*
+	* @var array
+	*/
+	var $search_results;
 
-/**
-* The reference to the ILIAS database class
-*
-* The reference to the ILIAS database class
-*
-* @var object
-*/
-  var $ilDB;
+	/**
+	* The reference to the ILIAS database class
+	*
+	* The reference to the ILIAS database class
+	*
+	* @var object
+	*/
+	var $ilDB;
 
 
-/**
-* SurveySearch constructor
-*
-* The constructor takes possible arguments an creates an instance of the SurveySearch object.
-*
-* @param string $title A title string to describe the question
-* @param string $description A description string to describe the question
-* @param string $author A string containing the name of the questions author
-* @param integer $owner A numerical ID to identify the owner/creator
-* @access public
-*/
-  function SurveySearch(
-    $search_text = "",
-    $concatenation = CONCAT_AND,
-    $search_field = "all",
-		$search_type = "all"
-  )
-
-  {
+	/**
+	* SurveySearch constructor
+	*
+	* The constructor takes possible arguments an creates an instance of the SurveySearch object.
+	*
+	* @param string $title A title string to describe the question
+	* @param string $description A description string to describe the question
+	* @param string $author A string containing the name of the questions author
+	* @param integer $owner A numerical ID to identify the owner/creator
+	* @access public
+	*/
+	function SurveySearch(
+	  $search_text = "",
+	  $concatenation = self::CONCAT_AND,
+	  $search_field = "all",
+		  $search_type = "all"
+	)
+	{
 		global $ilDB;
 
 		$this->ilDB =& $ilDB;
 
-    $this->search_terms = split(" +", $search_text);
-    $this->concatenation = $concatenation;
-		$this->search_field = $search_field;
-    $this->search_type = $search_type;
-		$this->search_results = array();
+		$this->search_terms = split(" +", $search_text);
+		$this->concatenation = $concatenation;
+			$this->search_field = $search_field;
+		$this->search_type = $search_type;
+			$this->search_results = array();
 	}
 	
-/**
-* Executes a search
-*
-* Executes a search
-*
-* @access public
-*/
+	/**
+	* Executes a search
+	*
+	* Executes a search
+	*
+	* @access public
+	*/
 	function search()
 	{
 		global $ilDB;
@@ -160,7 +160,7 @@ class SurveySearch
 			array_push($cumulated_fields, "(" . join($params, " OR ") . ")");
 		}
 		$str_where = "";
-		if ($this->concatenation == CONCAT_AND)
+		if ($this->concatenation == self::CONCAT_AND)
 		{
 			$str_where = "(" . join($cumulated_fields, " AND ") . ")";
 		}
@@ -195,4 +195,5 @@ class SurveySearch
 		$this->search_results =& $result_array;
 	}
 }
+
 ?>

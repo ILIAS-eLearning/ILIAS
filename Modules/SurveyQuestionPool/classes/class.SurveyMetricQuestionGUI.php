@@ -22,7 +22,6 @@
 */
 
 include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Metric survey question GUI representation
@@ -153,12 +152,12 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$form->addItem($subtype);
 				
 		// #10652
-		$opt = new ilRadioOption($this->lng->txt('non_ratio'), 3, $this->lng->txt("metric_subtype_description_interval"));
+		$opt = new ilRadioOption($this->lng->txt('non_ratio'), SurveyMetricQuestion::SUBTYPE_NON_RATIO, $this->lng->txt("metric_subtype_description_interval"));
 		$subtype->addOption($opt);
 		
 		// minimum value
 		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum3");
-		if($this->object->getSubtype() == 3)
+		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_NON_RATIO)
 		{
 			$minimum->setValue($this->object->getMinimum());
 		}
@@ -168,7 +167,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		
 		// maximum value
 		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum3");	
-		if($this->object->getSubtype() == 3)
+		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_NON_RATIO)
 		{
 			$maximum->setValue($this->object->getMaximum());
 		}
@@ -176,12 +175,12 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$maximum->setSize(6);
 		$opt->addSubItem($maximum);
 		
-		$opt = new ilRadioOption($this->lng->txt('ratio_non_absolute'), 4, $this->lng->txt("metric_subtype_description_rationonabsolute"));
+		$opt = new ilRadioOption($this->lng->txt('ratio_non_absolute'), SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE, $this->lng->txt("metric_subtype_description_rationonabsolute"));
 		$subtype->addOption($opt);
 		
 		// minimum value
 		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum4");
-		if($this->object->getSubtype() == 4)
+		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE)
 		{
 			$minimum->setValue($this->object->getMinimum());
 		}
@@ -192,7 +191,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		
 		// maximum value
 		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum4");
-		if($this->object->getSubtype() == 4)
+		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE)
 		{
 			$maximum->setValue($this->object->getMaximum());
 		}
@@ -200,12 +199,12 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$maximum->setSize(6);
 		$opt->addSubItem($maximum);
 		
-		$opt = new ilRadioOption($this->lng->txt('ratio_absolute'), 5, $this->lng->txt("metric_subtype_description_ratioabsolute"));
+		$opt = new ilRadioOption($this->lng->txt('ratio_absolute'), SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE, $this->lng->txt("metric_subtype_description_ratioabsolute"));
 		$subtype->addOption($opt);	
 		
 		// minimum value
 		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum5");
-		if($this->object->getSubtype() == 5)
+		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE)
 		{
 			$minimum->setValue($this->object->getMinimum());
 		}
@@ -218,7 +217,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		// maximum value
 		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum5");
 		$maximum->setDecimals(0);
-		if($this->object->getSubtype() == 5)
+		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE)
 		{
 			$maximum->setValue($this->object->getMaximum());
 		}
@@ -392,13 +391,13 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("subtype"));
 		switch ($this->object->getSubType())
 		{
-			case SUBTYPE_NON_RATIO:
+			case SurveyMetricQuestion::SUBTYPE_NON_RATIO:
 				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("non_ratio"));
 				break;
-			case SUBTYPE_RATIO_NON_ABSOLUTE:
+			case SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE:
 				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_non_absolute"));
 				break;
-			case SUBTYPE_RATIO_ABSOLUTE:
+			case SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE:
 				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_absolute"));
 				break;
 		}

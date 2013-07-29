@@ -22,7 +22,6 @@
 */
 
 include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Text survey question GUI representation
