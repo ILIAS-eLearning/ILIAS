@@ -21,10 +21,12 @@ class ilMediaPlayerGUI
 	protected $current_nr;
 	protected $title;
 	protected $description;
+	protected $event_callback_url = "";
 
-	function __construct($a_id = "")
+	function __construct($a_id = "", $a_event_callback_url = "")
 	{
 		$this->id = $a_id;
+		$this->event_callback_url = $a_event_callback_url;
 		$this->current_nr = self::$nr;
 		self::$nr++;
 	}
@@ -312,7 +314,8 @@ class ilMediaPlayerGUI
 				$mp_tpl->setVariable("CLASS", "ilNoDisplay");
 			}
 			
-			$mp_tpl->setVariable("PLAYER_NR", $this->current_nr);
+			$mp_tpl->setVariable("PLAYER_NR", $this->id."_".$this->current_nr);
+			$mp_tpl->setVariable("EVENT_URL", $this->event_callback_url);
 			$height = $this->getDisplayHeight();
 			$width = $this->getDisplayWidth();
 			if (is_int(strpos($mimeType,"audio/mpeg")))
@@ -360,7 +363,8 @@ class ilMediaPlayerGUI
 				$mp_tpl->setVariable("ASTYLE", "margin-top:-30px");
 			}
 			$mp_tpl->setVariable("AFILE", $this->getFile());
-			$mp_tpl->setVariable("APLAYER_NR", $this->current_nr);
+			$mp_tpl->setVariable("APLAYER_NR", $this->id."_".$this->current_nr);
+			$mp_tpl->setVariable("AEVENT_URL", $this->event_callback_url);
 			$mp_tpl->setVariable("AHEIGHT", "30");
 			$mp_tpl->setVariable("AWIDTH", "320");
 			$mp_tpl->parseCurrentBlock();
@@ -385,7 +389,7 @@ class ilMediaPlayerGUI
 
 			$mp_tpl->setCurrentBlock("image");
 			$mp_tpl->setVariable("IFILE", $this->getFile());
-			$mp_tpl->setVariable("IPLAYER_NR", $this->current_nr);
+			$mp_tpl->setVariable("IPLAYER_NR", $this->id."_".$this->current_nr);
 			$mp_tpl->setVariable("ITITLE", $this->getTitle());
 			$mp_tpl->setVariable("IDESCRIPTION", $this->getDescription());
 			

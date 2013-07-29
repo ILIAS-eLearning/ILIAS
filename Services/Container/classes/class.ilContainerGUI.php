@@ -417,7 +417,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->tpl->setDescription($this->object->getLongDescription());
 	
 			// set tile icon
-			$icon = ilUtil::getImagePath("icon_".$this->object->getType()."_b.png");
+			$icon = ilObject::_getIcon($this->object->getId(), "big", $this->object->getType());
 			if ($ilias->getSetting("custom_icons") &&
 				in_array($this->object->getType(), array("cat","grp","crs", "root")))
 			{

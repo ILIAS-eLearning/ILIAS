@@ -670,6 +670,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$glo->setChecked($this->object->isActivePreventGlossaryAppendix());
 			$print->addSubItem($glo);
 	
+			// hide header and footer in print view
+			$hhfp = new ilCheckboxInputGUI($this->lng->txt("cont_hide_head_foot_print"), "hide_head_foot_print");
+			$hhfp->setChecked($this->object->getHideHeaderFooterPrint());
+			$print->addSubItem($hhfp);
+	
 		// downloads
 		$no_download_file_available =
 			" ".$lng->txt("cont_no_download_file_available").
@@ -744,6 +749,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->object->setActiveTOC((int) $_POST["cobj_act_toc"]);
 		$this->object->setActivePrintView((int) $_POST["cobj_act_print"]);
 		$this->object->setActivePreventGlossaryAppendix((int) $_POST["cobj_act_print_prev_glo"]);
+		$this->object->setHideHeaderFooterPrint((int) $_POST["hide_head_foot_print"]);
 		$this->object->setActiveDownloads((int) $_POST["cobj_act_downloads"]);
 		$this->object->setActiveDownloadsPublic((int) $_POST["cobj_act_downloads_public"]);
 		$this->object->updateProperties();
@@ -2677,7 +2683,8 @@ $tabs_gui = $ilTabs;
 		global $ilTabs, $ilSetting;
 
 		if (in_array($a_active,
-			array("cont_general_properties", "cont_style", "cont_lm_menu", "public_section")))
+			array("cont_general_properties", "cont_style", "cont_lm_menu", "public_section",
+				"cont_glossaries")))
 		{
 			// general properties
 			$ilTabs->addSubTabTarget("cont_general_properties",
@@ -2693,7 +2700,12 @@ $tabs_gui = $ilTabs;
 			$ilTabs->addSubTabTarget("cont_lm_menu",
 				$this->ctrl->getLinkTarget($this, 'editMenuProperties'),
 				"", "");
-				
+
+			// glossaries
+			$ilTabs->addSubTabTarget("cont_glossaries",
+				$this->ctrl->getLinkTarget($this, 'editGlossaries'),
+				"", "");
+
 			if ($ilSetting->get("pub_section"))
 			{
 				if ($this->object->getType() != "dbk")
@@ -3892,5 +3904,136 @@ $tabs_gui = $ilTabs;
 			$ilCtrl->redirect($this, "pages");
 		}
 	}
+	
+	//
+	// Auto glossaries
+	//
+	
+	/**
+	 * Edit automatically linked glossaries
+	 *
+	 * @param
+	 * @return
+	 */
+	function editGlossaries()
+	{
+		global $tpl, $ilToolbar, $lng, $ilCtrl, $ilTabs;
+		
+		$this->setTabs();
+		$ilTabs->setTabActive("settings");
+		$this->setSubTabs("cont_glossaries");
+		
+		$ilToolbar->addButton($lng->txt("add"),
+			$ilCtrl->getLinkTarget($this, "showLMGlossarySelector"));
+		
+		include_once("./Modules/LearningModule/classes/class.ilLMGlossaryTableGUI.php");
+		$tab = new ilLMGlossaryTableGUI($this->object, $this, "editGlossaries");
+		
+		$tpl->setContent($tab->getHTML());
+	}
+	
+	/**
+	 * Select LM Glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	function showLMGlossarySelector()
+	{
+		global $tpl, $lng, $ilCtrl, $tree, $ilUser, $ilTabs;
+		
+		$this->setTabs();
+		$ilTabs->setTabActive("settings");
+		$this->setSubTabs("cont_glossaries");
+
+		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
+		
+		$exp = new ilSearchRootSelector($ilCtrl->getLinkTarget($this,'showLMGlossarySelector'));
+		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($ilCtrl->getLinkTarget($this,'showLMGlossarySelector'));
+		$exp->setTargetClass(get_class($this));
+		$exp->setCmd('confirmGlossarySelection');
+		$exp->setClickableTypes(array("glo"));
+		$exp->addFilter("glo");
+
+		// build html-output
+		$exp->setOutput(0);
+		$tpl->setContent($exp->getOutput());
+
+	}
+	
+	/**
+	 * Confirm glossary selection
+	 */
+	function confirmGlossarySelection()
+	{
+		global $ilCtrl, $tpl, $lng;
+			
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$ilCtrl->setParameter($this, "glo_ref_id", $_GET["root_id"]);
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setHeaderText($lng->txt("cont_link_glo_in_lm"));
+		$cgui->setCancel($lng->txt("no"), "selectLMGlossary");
+		$cgui->setConfirm($lng->txt("yes"), "selectLMGlossaryLink");
+		$tpl->setContent($cgui->getHTML());
+	}
+	
+	/**
+	 * Select a glossary and link all its terms 
+	 *
+	 * @param
+	 * @return
+	 */
+	function selectLMGlossaryLink()
+	{
+		$glo_ref_id = (int) $_GET["glo_ref_id"];
+		$glo_id = ilObject::_lookupObjId($glo_ref_id);
+		$this->object->autoLinkGlossaryTerms($glo_id);
+		$this->selectLMGlossary();
+	}
+	
+	
+	/**
+	 * Select lm glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	function selectLMGlossary()
+	{
+		global $ilCtrl, $lng;
+		
+		$glos = $this->object->getAutoGlossaries();
+		$glo_ref_id = (int) $_GET["glo_ref_id"];
+		$glo_id = ilObject::_lookupObjId($glo_ref_id);
+		if (!in_array($glo_id, $glos))
+		{
+			$glos[] = $glo_id;
+		}
+		$this->object->setAutoGlossaries($glos);
+		$this->object->update();
+		
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "editGlossaries");
+	}
+	
+	/**
+	 * Remove lm glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	function removeLMGlossary()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->object->removeAutoGlossary((int) $_GET["glo_id"]);
+		$this->object->update();
+		
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "editGlossaries");
+	}
+	
 }
 ?>

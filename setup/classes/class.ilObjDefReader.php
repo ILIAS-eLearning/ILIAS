@@ -62,6 +62,8 @@ class ilObjDefReader extends ilSaxParser
 		
 		$ilDB->manipulate("DELETE FROM il_event_handling");
 		
+		$ilDB->manipulate("DELETE FROM il_object_sub_type");
+		
 		foreach ($this->readers as $k => $reader)
 		{
 			$this->readers[$k]["reader"]->clearTables();
@@ -127,10 +129,10 @@ class ilObjDefReader extends ilSaxParser
 					$this->current_object = $a_attribs["id"];
 					$ilDB->manipulateF("INSERT INTO il_object_def (id, class_name, component,location,".
 						"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,".
-						"default_pres_pos,sideblock,grp,system,export,repository,workspace,administration) VALUES ".
-						"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+						"default_pres_pos,sideblock,grp,system,export,repository,workspace,administration,amet) VALUES ".
+						"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
 						array("text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
-							"integer","integer","integer","integer", "text", "integer", "integer", "integer", "integer",'integer'),
+							"integer","integer","integer","integer", "text", "integer", "integer", "integer", "integer",'integer','integer'),
 						array(
 							$a_attribs["id"],
 							$a_attribs["class_name"],
@@ -151,7 +153,8 @@ class ilObjDefReader extends ilSaxParser
 							(int) $a_attribs["export"],
 							(int) $a_attribs["repository"],
 							(int) $a_attribs["workspace"],
-							(int) $a_attribs['administration']
+							(int) $a_attribs['administration'],
+							(int) $a_attribs['amet']
 						));
 					break;
 				
@@ -172,7 +175,7 @@ class ilObjDefReader extends ilSaxParser
 						array("text", "text", "integer"),
 						array($a_attribs["id"], $a_attribs["name"], $a_attribs["default_pres_pos"]));
 					break;
-					
+	
 				case "pluginslot":
 					$this->current_object = $a_attribs["id"];
 					$q = "INSERT INTO il_pluginslot (component, id, name) VALUES (".
@@ -204,6 +207,15 @@ class ilObjDefReader extends ilSaxParser
 					include_once "Services/Cron/classes/class.ilCronManager.php";
 					ilCronManager::updateFromXML($component, $a_attribs["id"], $a_attribs["class"], $a_attribs["path"]);		
 					$this->has_cron[$component][] = $a_attribs["id"];
+					break;
+	
+				case "sub_type":
+					$ilDB->manipulate("INSERT INTO il_object_sub_type ".
+						"(obj_type, sub_type, amet) VALUES (".
+						$ilDB->quote($this->current_object, "text").",".
+						$ilDB->quote($a_attribs["id"], "text").",".
+						$ilDB->quote($a_attribs["amet"], "integer").
+						")");
 					break;
 			}
 		}

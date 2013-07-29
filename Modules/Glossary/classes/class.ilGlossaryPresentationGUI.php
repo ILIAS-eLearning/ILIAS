@@ -244,11 +244,11 @@ class ilGlossaryPresentationGUI
 		
 		// load template for table
 //		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-		
+
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 
 		$table = $this->getPresentationTable();
-	
+
 		if (!$this->offlineMode())
 		{
 //			$tpl->setContent($table->getHTML());

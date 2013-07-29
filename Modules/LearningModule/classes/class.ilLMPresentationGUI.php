@@ -3435,7 +3435,7 @@ class ilLMPresentationGUI
 		$media_links = array();
 
 		// get header and footer
-		if ($this->lm->getFooterPage() > 0)
+		if ($this->lm->getFooterPage() > 0 && !$this->lm->getHideHeaderFooterPrint())
 		{
 			if (ilLMObject::_exists($this->lm->getFooterPage()))
 			{
@@ -3456,7 +3456,7 @@ class ilLMPresentationGUI
 				$footer_page_content = $page_object_gui->showPage();
 			}
 		}
-		if ($this->lm->getHeaderPage() > 0)
+		if ($this->lm->getHeaderPage() > 0 && !$this->lm->getHideHeaderFooterPrint())
 		{
 			if (ilLMObject::_exists($this->lm->getHeaderPage()))
 			{

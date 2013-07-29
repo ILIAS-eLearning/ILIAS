@@ -158,6 +158,14 @@ class ilGlossaryTermGUI
 			$tax_node_assign->setCurrentValues("glo", "term", $this->term->getId());
 			$form->addItem($tax_node_assign);
 		}
+
+		// advanced metadata
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'glo',$this->glossary->getId(),'term',
+			$this->term->getId());
+		$record_gui->setPropertyForm($form);
+		$record_gui->setSelectedOnly(true);
+		$record_gui->parse();
 		
 		$form->addCommandButton("updateTerm", $this->lng->txt("save"));
 		
@@ -185,6 +193,13 @@ class ilGlossaryTermGUI
 			$tax_node_assign->saveInput("glo", "term", $this->term->getId());
 		}
 		
+		// advanced metadata
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
+			'glo',$this->glossary->getId(),'term', $this->term->getId());
+		$record_gui->loadFromPost();
+		$record_gui->saveValues();
+
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this, "editTerm");
 	}

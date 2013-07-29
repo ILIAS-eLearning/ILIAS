@@ -77,7 +77,46 @@ class ilNewsItem extends ilNewsItemGen
 		return $this->content_text_is_lang_var;
 	}
 
+	/**
+	 * Set mob play counter
+	 *
+	 * @param int $a_val counter	
+	 */
+	function setMobPlayCounter($a_val)
+	{
+		$this->mob_cnt_play = $a_val;
+	}
+	
+	/**
+	 * Get mob play counter
+	 *
+	 * @return int counter
+	 */
+	function getMobPlayCounter()
+	{
+		return $this->mob_cnt_play;
+	}
 
+	/**
+	 * Set mob download counter
+	 *
+	 * @param int $a_val counter	
+	 */
+	function setMobDownloadCounter($a_val)
+	{
+		$this->mob_cnt_download = $a_val;
+	}
+	
+	/**
+	 * Get mob download counter
+	 *
+	 * @return int counter
+	 */
+	function getMobDownloadCounter()
+	{
+		return $this->mob_cnt_download;
+	}
+	
 	/**
 	 * Read item from database.
 	 */
@@ -107,6 +146,8 @@ class ilNewsItem extends ilNewsItemGen
 		$this->setContentTextIsLangVar((int) $rec["content_text_is_lang_var"]);
 		$this->setMobId($rec["mob_id"]);
 		$this->setPlaytime($rec["playtime"]);
+		$this->setMobPlayCounter($rec["mob_cnt_play"]);
+		$this->setMobDownloadCounter($rec["mob_cnt_download"]);
 
 	}
 
@@ -210,6 +251,8 @@ class ilNewsItem extends ilNewsItemGen
 			"content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
 			"content_text_is_lang_var" => array("integer", (int) $this->getContentTextIsLangVar()),
 			"mob_id" => array("integer", $this->getMobId()),
+			"mob_cnt_play" => array("integer", $this->getMobPlayCounter()),
+			"mob_cnt_download" => array("integer", $this->getMobDownloadCounter()),
             "playtime" => array("text", $this->getPlaytime())
 		);
 
@@ -1410,5 +1453,91 @@ class ilNewsItem extends ilNewsItemGen
 
 		return ilNewsItem::$privFeedId;
 	}
+	
+	/**
+	 * Deliver mob file
+	 *
+	 * @param
+	 * @return
+	 */
+	function deliverMobFile($a_purpose = "Standard", $a_increase_download_cnt = false)
+	{
+		$mob = $this->getMobId();
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$mob = new ilObjMediaObject($mob);
+		$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
+		
+		// check purpose
+		if (!$mob->hasPurposeItem($a_purpose))
+		{
+			return false;
+		}
+		
+		$m_item = $mob->getMediaItem($a_purpose);
+		if ($m_item->getLocationType() != "Reference")
+		{
+		    $file = $mob_dir."/".$m_item->getLocation();
+		    if (file_exists($file) && is_file($file))
+		    {
+		    	if ($a_increase_download_cnt)
+		    	{
+		    		$this->increaseDownloadCounter();
+		    	}
+		        ilUtil::deliverFile($file, $m_item->getLocation());
+		    }
+		    else
+		    {
+		        ilUtil::sendFailure("File not found!",true);
+		        return false;
+		    }
+		}
+		else 
+		{
+			if ($a_increase_download_cnt)
+			{
+				$this->increaseDownloadCounter();
+			}
+		    ilUtil::redirect($m_item->getLocation());
+		}
+	}
+	
+	/**
+	 * Increase download counter
+	 *
+	 * @param
+	 * @return
+	 */
+	function increaseDownloadCounter()
+	{
+		global $ilDB;
+
+		$cnt = $this->getMobDownloadCounter();
+		$cnt++;
+		$this->setMobDownloadCounter($cnt);
+		$ilDB->manipulate("UPDATE il_news_item SET ".
+			" mob_cnt_download = ".$ilDB->quote($cnt, "integer").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
+			);
+	}
+	
+	/**
+	 * Increase play counter
+	 *
+	 * @param
+	 * @return
+	 */
+	function increasePlayCounter()
+	{
+		global $ilDB;
+
+		$cnt = $this->getMobPlayCounter();
+		$cnt++;
+		$this->setMobPlayCounter($cnt);
+		$ilDB->manipulate("UPDATE il_news_item SET ".
+			" mob_cnt_play = ".$ilDB->quote($cnt, "integer").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
+			);		
+	}
+	
 }
 ?>

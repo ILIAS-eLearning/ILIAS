@@ -27,6 +27,7 @@ class ilObjContentObject extends ilObject
 	var $pg_header;
 	var $online;
 	protected $rating;
+	var $auto_glossaries = array();
 	
 	private $import_dir = '';
 
@@ -63,6 +64,7 @@ class ilObjContentObject extends ilObject
 		}
 
 		$this->createProperties();
+		$this->updateAutoGlossaries();
 	}
 
 	/**
@@ -107,6 +109,8 @@ class ilObjContentObject extends ilObject
 	*/
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 #		echo "Content<br>\n";
 
@@ -115,6 +119,18 @@ class ilObjContentObject extends ilObject
 		$this->lm_tree->setTreeTablePK("lm_id");
 
 		$this->readProperties();
+		
+		// read auto glossaries
+		$set = $ilDB->query("SELECT * FROM lm_glossaries ".
+			" WHERE lm_id = ".$ilDB->quote($this->getId(), "integer")
+			);
+		$glos = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$glos[] = $rec["glo_id"];
+		}
+		$this->setAutoGlossaries($glos);
+		
 		//parent::read();
 	}
 
@@ -200,8 +216,33 @@ class ilObjContentObject extends ilObject
 		$this->updateMetaData();
 		parent::update();
 		$this->updateProperties();
+		$this->updateAutoGlossaries();
 	}
 
+	/**
+	 * Update auto glossaries
+	 *
+	 * @param
+	 * @return
+	 */
+	function updateAutoGlossaries()
+	{
+		global $ilDB;
+		
+		// update auto glossaries
+		$ilDB->manipulate("DELETE FROM lm_glossaries WHERE ".
+			" lm_id = ".$ilDB->quote($this->getId(), "integer")
+			);
+		foreach ($this->getAutoGlossaries() as $glo_id)
+		{
+			$ilDB->manipulate("INSERT INTO lm_glossaries ".
+				"(lm_id, glo_id) VALUES (".
+				$ilDB->quote($this->getId(), "integer").",".
+				$ilDB->quote($glo_id, "integer").
+				")");
+		}		
+	}
+	
 
 	/**
 	* if implemented, this function should be called from an Out/GUI-Object
@@ -241,7 +282,59 @@ class ilObjContentObject extends ilObject
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->addTree($this->getId(), 1);
 	}
+	
+	/**
+	 * Set auto glossaries
+	 *
+	 * @param array $a_val int	
+	 */
+	function setAutoGlossaries($a_val)
+	{
+		$this->auto_glossaries = array();
+		if (is_array($a_val))
+		{
+			foreach ($a_val as $v)
+			{
+				$v = (int) $v;
+				if ($v > 0 && ilObject::_lookupType($v) == "glo" &&
+					!in_array($v, $this->auto_glossaries))
+				{
+					$this->auto_glossaries[] = $v;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Get auto glossaries
+	 *
+	 * @return array int
+	 */
+	function getAutoGlossaries()
+	{
+		return $this->auto_glossaries;
+	}
 
+	/**
+	 * Remove auto glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	function removeAutoGlossary($a_glo_id)
+	{
+		$glo_ids = array();
+		foreach($this->getAutoGlossaries() as $g)
+		{
+			if ($g != $a_glo_id)
+			{
+				$glo_ids[] = $g;
+			}
+		}
+		$this->setAutoGlossaries($glo_ids);
+	}
+	
+	
 	/**
 	 * Add first chapter and page
 	 */
@@ -475,6 +568,12 @@ class ilObjContentObject extends ilObject
 			$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
 
+		// remove auto glossary entries
+		$ilDB->manipulate("DELETE FROM lm_glossaries WHERE ".
+			" lm_id = ".$ilDB->quote($this->getId(), "integer")
+			);
+
+		
 		return true;
 	}
 
@@ -768,6 +867,26 @@ class ilObjContentObject extends ilObject
 	{
 		return $this->prevent_glossary_appendix_active;
 	}
+	
+	/**
+	 * Set hide header footer in print mode
+	 *
+	 * @param bool $a_val hide header and footer?	
+	 */
+	function setHideHeaderFooterPrint($a_val)
+	{
+		$this->hide_header_footer_print = $a_val;
+	}
+	
+	/**
+	 * Get hide header footer in print mode
+	 *
+	 * @return bool hide header and footer?
+	 */
+	function getHideHeaderFooterPrint()
+	{
+		return $this->hide_header_footer_print;
+	}
 
 	function setActiveDownloads($a_down)
 	{
@@ -864,6 +983,7 @@ class ilObjContentObject extends ilObject
 		$this->setActiveNumbering(ilUtil::yn2tf($lm_rec["numbering"]));
 		$this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
 		$this->setActivePreventGlossaryAppendix(ilUtil::yn2tf($lm_rec["no_glo_appendix"]));
+		$this->setHideHeaderFooterPrint($lm_rec["hide_head_foot_print"]);
 		$this->setActiveDownloads(ilUtil::yn2tf($lm_rec["downloads_active"]));
 		$this->setActiveDownloadsPublic(ilUtil::yn2tf($lm_rec["downloads_public_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
@@ -903,6 +1023,7 @@ class ilObjContentObject extends ilObject
 			" numbering = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveNumbering()), "text").",".
 			" print_view_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePrintView()), "text").",".
 			" no_glo_appendix = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePreventGlossaryAppendix()), "text").",".
+			" hide_head_foot_print = ".$ilDB->quote($this->getHideHeaderFooterPrint(), "integer").",".
 			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text").",".
 			" downloads_public_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloadsPublic()), "text").",".
 			" clean_frames = ".$ilDB->quote(ilUtil::tf2yn($this->cleanFrames()), "text").",".
@@ -2997,7 +3118,77 @@ class ilObjContentObject extends ilObject
 		$a_target_obj->checkTree();
 
 	}
+
+
+	/**
+	 * Lookup auto glossaries
+	 *
+	 * @param
+	 * @return
+	 */
+	function lookupAutoGlossaries($a_lm_id)
+	{
+		global $ilDB;
+		
+		// read auto glossaries
+		$set = $ilDB->query("SELECT * FROM lm_glossaries ".
+			" WHERE lm_id = ".$ilDB->quote($a_lm_id, "integer")
+			);
+		$glos = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$glos[] = $rec["glo_id"];
+		}
+		return $glos;
+	}
 	
+	/**
+	 * Auto link glossary terms
+	 *
+	 * @param
+	 * @return
+	 */
+	function autoLinkGlossaryTerms($a_glo_id)
+	{
+		// get terms
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+		$terms = ilGlossaryTerm::getTermList($a_glo_id);
+
+		// each get page: get content
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		$pages = ilPageObject::getAllPages($this->getType(), $this->getId());
+		
+		// determine terms that occur in the page
+		$found_pages = array();
+		foreach ($pages as $p)
+		{
+			$pg = new ilPageObject($this->getType(), $p["id"]);
+			$c = $pg->getXMLContent();
+			foreach ($terms as $t)
+			{
+				if (is_int(stripos($c, $t["term"])))
+				{
+					$found_pages[$p["id"]]["terms"][] = $t;
+					if (!is_object($found_pages[$p["id"]]["page"]))
+					{
+						$found_pages[$p["id"]]["page"] = $pg;
+					}
+				}
+			}
+			reset($terms);
+		}
+		
+		// ilPCParagraph autoLinkGlossariesPage with page and terms
+		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
+		foreach ($found_pages as $id => $fp)
+		{
+			ilPCParagraph::autoLinkGlossariesPage($fp["page"], $fp["terms"]);
+		}
+		
+		
+	}
+	
+
 	////
 	//// Online help
 	////
@@ -3025,5 +3216,7 @@ class ilObjContentObject extends ilObject
 	{
 		return $this->rating;
 	}
+	
+	
 }
 ?>

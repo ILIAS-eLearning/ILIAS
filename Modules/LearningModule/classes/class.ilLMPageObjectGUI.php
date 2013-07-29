@@ -3,7 +3,7 @@
 
 require_once("./Modules/LearningModule/classes/class.ilLMObjectGUI.php");
 require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+require_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
 require_once ("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 
 /**
@@ -14,7 +14,7 @@ require_once ("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMPageObjectGUI: ilPageObjectGUI
+* @ilCtrl_Calls ilLMPageObjectGUI: ilLMPageGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -61,7 +61,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 		switch($next_class)
 		{
-			case "ilpageobjectgui":
+			case "illmpagegui":
 
 				// Determine whether the view of a learning resource should
 				// be shown in the frameset of ilias, or in a separate window.
@@ -70,7 +70,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$lm_set = new ilSetting("lm");
 
 				$this->ctrl->setReturn($this, "edit");
-				$page_gui = new ilPageObjectGUI($this->obj->content_object->getType(),
+				$page_gui = new ilLMPageGUI($this->obj->content_object->getType(),
 					$this->obj->getId());
 				$page_gui->setEditPreview(true);
 				$page_gui->activateMetaDataEditor($this->content_object->getID(),
@@ -175,7 +175,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	function edit()
 	{
 //echo "<br>umschuss";
-		$this->ctrl->setCmdClass("ilpageobjectgui");
+		$this->ctrl->setCmdClass("ilLMPageGUI");
 		$this->ctrl->setCmd("edit");
 		$this->executeCommand();
 		//$this->setTabs();
@@ -186,7 +186,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function preview()
 	{
-		$this->ctrl->setCmdClass("ilpageobjectgui");
+		$this->ctrl->setCmdClass("ilLMPageGUI");
 		$this->ctrl->setCmd("preview");
 		$this->executeCommand();
 //		$this->setTabs();
@@ -434,7 +434,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	{
 		global $tpl, $ilCtrl, $ilTabs;
 		
-		$page_gui =& new ilPageObjectGUI($this->obj->content_object->getType(),
+		$page_gui =& new ilLMPageGUI($this->obj->content_object->getType(),
 			$this->obj->getId());
 		$page_gui->setEditPreview(true);
 		$page_gui->activateMetaDataEditor($this->content_object->getID(),

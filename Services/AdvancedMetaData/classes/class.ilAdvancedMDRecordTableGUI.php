@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** 
 * 
@@ -52,11 +33,12 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 	$this->ctrl = $ilCtrl;
 	 	
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
-	 	$this->addColumn('','f',1);
-	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
-	 	$this->addColumn($this->lng->txt('md_fields'),'fields',"35%");
-	 	$this->addColumn($this->lng->txt('md_adv_active'),'active',"5%");
-	 	$this->addColumn($this->lng->txt('md_obj_types'),'obj_types',"30%");
+	 	$this->addColumn('','',1);
+	 	$this->addColumn($this->lng->txt('title'),'title');
+	 	$this->addColumn($this->lng->txt('md_fields'),'fields');
+	 	$this->addColumn($this->lng->txt('md_adv_active'),'active');
+	 	$this->addColumn($this->lng->txt('md_obj_types'),'obj_types');
+	 	$this->addColumn($this->lng->txt('actions'));
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_records_row.html","Services/AdvancedMetaData");
@@ -73,15 +55,19 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		foreach(ilAdvancedMDRecord::_getAssignableObjectTypes() as $obj_type)
+		foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $obj_type)
 		{
 			$this->tpl->setCurrentBlock('ass_obj_types');
-			$this->tpl->setVariable('VAL_OBJ_TYPE',$this->lng->txt('objs_'.$obj_type));
+			$this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);
 			$this->tpl->setVariable('ASS_ID',$a_set['id']);
-			$this->tpl->setVariable('ASS_NAME',$obj_type);
-			if(in_array($obj_type,$a_set['obj_types']))
+			$this->tpl->setVariable('ASS_NAME',$obj_type["obj_type"].":".$obj_type["sub_type"]);
+			foreach ($a_set['obj_types'] as $t)
 			{
-				$this->tpl->setVariable('ASS_CHECKED','checked="checked"');
+				if ($obj_type["obj_type"] == $t["obj_type"] && 
+					$obj_type["sub_type"] == $t["sub_type"])
+				{
+					$this->tpl->setVariable('ASS_CHECKED','checked="checked"');
+				}
 			}
 			$this->tpl->parseCurrentBlock();
 		}

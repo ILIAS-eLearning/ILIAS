@@ -34,6 +34,8 @@ class ilObjectDefinition extends ilSaxParser
 	* @access private
 	*/
 	var $obj_data;
+	
+	var $sub_types = array();
 
 	const MODE_REPOSITORY = 1;
 	const MODE_WORKSPACE = 2;
@@ -108,7 +110,8 @@ class ilObjectDefinition extends ilSaxParser
 				'export' => $rec['export'],
 				'repository' => $rec['repository'],
 				'workspace'	=> $rec['workspace'],
-				'administration' => $rec['administration']
+				'administration' => $rec['administration'],
+				'amet' => $rec['amet']
 			);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
@@ -183,6 +186,13 @@ class ilObjectDefinition extends ilSaxParser
 		}
 //var_dump($this->obj_data["root"]["subobjects"]);
 //var_dump($this->obj_data2["root"]);
+
+		$set = $ilDB->query("SELECT * FROM il_object_sub_type ");
+		$this->sub_types = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$this->sub_types[$rec["obj_type"]][] = $rec;
+		}
 
 	}
 	
@@ -944,5 +954,37 @@ class ilObjectDefinition extends ilSaxParser
 		}
 		return false;
 	}
+	
+	/**
+	 * Get advanced meta data objects
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAdvancedMetaDataTypes()
+	{
+		$amet = array();
+		foreach ($this->obj_data as $k => $v)
+		{
+			if ($v["amet"])
+			{
+				$amet[] = array("obj_type" => $k, "sub_type" => "");
+			}
+		}
+
+		foreach ($this->sub_types as $type => $sub_types)
+		{
+			foreach ($sub_types as $t)
+			{
+				if ($t["amet"])
+				{
+					$amet[] = array("obj_type" => $type, "sub_type" => $t["sub_type"]);
+				}
+			}
+		}
+
+		return $amet;
+	}
+	
 }
 ?>

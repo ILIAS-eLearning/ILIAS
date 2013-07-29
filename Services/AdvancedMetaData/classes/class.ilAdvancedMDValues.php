@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** 
 * 
@@ -192,5 +173,103 @@ class ilAdvancedMDValues
 	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 	}
+
+	/**
+	 * Get all values of an object per subtype
+	 * Uses internal cache.
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int obj_id
+	 */
+	public static function _getValuesByObjIdAndSubtype($a_obj_id, $a_subtype)
+	{
+		global $ilDB;
+
+		$result = array();
+		$set = $ilDB->query($q = "SELECT field_id, value, sub_type, sub_id FROM adv_md_values ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND sub_type = ".$ilDB->quote($a_subtype,'text')
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$result[] = $rec;
+		}
+
+		return $result;
+	}
+	
+	/**
+	 * Query data for given object records
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function queryForRecords($a_obj_id, $a_subtype, $a_records, $a_obj_id_key, $a_obj_subid_key, $a_amet_filter = "")
+	{
+		$result = $val = array();
+		if (!is_array($a_obj_id))
+		{
+			$a_obj_id = array($a_obj_id);
+		}
+		
+		// read amet data
+		foreach ($a_obj_id as $obj_id)
+		{
+			$values = self::_getValuesByObjIdAndSubtype($obj_id, $a_subtype);
+			foreach ($values as $v)
+			{
+				$val[$obj_id][$v["sub_id"]][$v["field_id"]] = $v;
+			}
+		}
+//var_dump($a_amet_filter);
+		// add amet data to records
+		foreach ($a_records as $rec)
+		{
+			// check filter
+			$skip = false;
+			if (is_array($a_amet_filter))
+			{
+				foreach ($a_amet_filter as $fk => $fv)
+				{
+					if (!$skip && $fv != "" && substr($fk, 0, 3) == "md_")
+					{
+						$fka = explode("_", $fk);
+						
+						if (!isset($val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]][$fka[1]]["value"]))
+						{
+							$skip = true;
+						}
+						else
+						{
+							$md_val = $val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]][$fka[1]]["value"];
+							if (trim($md_val) != trim($fv))
+							{
+								$skip = true;
+							}
+						}
+					}
+				}
+			}
+			if ($skip)
+			{
+				continue;
+			}
+			
+			
+			if (is_array($val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]]))
+			{
+				foreach ($val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]] as $k => $v)
+				{
+					$rec["md_".$k] = $v["value"];
+				}
+			}
+			$results[] = $rec;
+		}
+
+		return $results;
+	}
+
 }
 ?>

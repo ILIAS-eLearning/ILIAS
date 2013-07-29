@@ -566,11 +566,78 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("\[\/imp\]","</Important>",$a_text);
 		$a_text = eregi_replace("\[kw\]","<Keyw>",$a_text);
 		$a_text = eregi_replace("\[\/kw\]","</Keyw>",$a_text);
+		
+		$a_text = self::intLinks2xml($a_text);
 
+		// external link
+		$ws= "[ \t\r\f\v\n]*";
+		// remove empty external links
+		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]\[\/xln\]", $a_text, $found))
+		{
+			$a_text = str_replace($found[0], "",$a_text);
+		}
+		while (eregi("\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]\[\/xln\]", $a_text, $found))
+		{
+			$a_text = str_replace($found[0], "",$a_text);
+		}
+		// external links
+		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]", $a_text, $found))
+		{
+			$attribs = ilUtil::attribsToArray($found[2]);
+			if (isset($attribs["url"]))
+			{
+				$a2 = ilUtil::attribsToArray($found[4]);
+				$tstr = "";
+				if (in_array($a2["target"], array("FAQ", "Glossary", "Media")))
+				{
+					$tstr = ' TargetFrame="'.$a2["target"].'"';
+				}
+				$a_text = str_replace("[".$found[1]."]", "<ExtLink Href=\"".$attribs["url"]."\"$tstr>", $a_text);
+			}
+			else
+			{
+				$a_text = str_replace("[".$found[1]."]", "[error: xln".$found[1]."]",$a_text);
+			}
+		}
+		
+		// ie/tinymce fix for links without "", see bug #8391
+		while (eregi("\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]", $a_text, $found))
+		{
+			if ($found[3] != "")
+			{
+				$a_text = str_replace("[".$found[1]."]", "<ExtLink Href=\"".$found[3]."\">", $a_text);
+			}
+			else
+			{
+				$a_text = str_replace("[".$found[1]."]", "[error: xln".$found[1]."]",$a_text);
+			}
+		}
+		$a_text = eregi_replace("\[\/xln\]","</ExtLink>",$a_text);
+		
+		// anchor
+		$ws= "[ \t\r\f\v\n]*";
+		while (eregi("\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]", $a_text, $found))
+		{
+			$attribs = ilUtil::attribsToArray($found[2]);
+			$a_text = str_replace("[".$found[1]."]", "<Anchor Name=\"".$attribs["name"]."\">", $a_text);
+		}
+		$a_text = eregi_replace("\[\/anc\]","</Anchor>",$a_text);
+//echo htmlentities($a_text); exit;
+		return $a_text;
+	}
+	
+	/**
+	 * internal links to xml
+	 *
+	 * @param
+	 * @return
+	 */
+	static function intLinks2xml($a_text)
+	{
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-		$ltypes = "page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|mep|wiki|sahs|mcst|obj|dfile"; 
+		$ltypes = "page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|mep|wiki|sahs|mcst|obj|dfile|sess"; 
 		// empty internal links
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
 			"((".$ltypes.")$ws=$ws([\"0-9])*)$ws".
@@ -659,7 +726,7 @@ echo htmlentities($a_text);*/
 					 || isset($attribs["svy"]) || isset($attribs["obj"]) || isset($attribs['webr'])
 					 || isset($attribs["htlm"]) || isset($attribs["chat"]) || isset($attribs["grp"])
 					 || isset($attribs["fold"]) || isset($attribs["sahs"]) || isset($attribs["mcst"])
-					 || isset($attribs["mep"]) || isset($attribs["wiki"])
+					 || isset($attribs["mep"]) || isset($attribs["wiki"]) || isset($attribs["sess"])
 					 || isset($attribs["cat"]) || isset($attribs["crs"]) || isset($attribs["file"]))
 			{
 				$obj_id = (isset($attribs["lm"])) ? $attribs["lm"] : $obj_id;
@@ -681,6 +748,7 @@ echo htmlentities($a_text);*/
 				$obj_id = (isset($attribs["sahs"])) ? $attribs["sahs"] : $obj_id;
 				$obj_id = (isset($attribs["mcst"])) ? $attribs["mcst"] : $obj_id;
 				$obj_id = (isset($attribs["mep"])) ? $attribs["mep"] : $obj_id;
+				$obj_id = (isset($attribs["sess"])) ? $attribs["sess"] : $obj_id;
 				$obj_id = (isset($attribs["wiki"])) ? $attribs["wiki"] : $obj_id;
 				//$obj_id = (isset($attribs["obj"])) ? $attribs["obj"] : $obj_id;
 
@@ -708,63 +776,9 @@ echo htmlentities($a_text);*/
 				"<IntLink Target=\"il_".$inst_str."_mob_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
 		}
 		$a_text = eregi_replace("\[\/iln\]","</IntLink>",$a_text);
-
-		// external link
-		$ws= "[ \t\r\f\v\n]*";
-		// remove empty external links
-		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]\[\/xln\]", $a_text, $found))
-		{
-			$a_text = str_replace($found[0], "",$a_text);
-		}
-		while (eregi("\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]\[\/xln\]", $a_text, $found))
-		{
-			$a_text = str_replace($found[0], "",$a_text);
-		}
-		// external links
-		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]", $a_text, $found))
-		{
-			$attribs = ilUtil::attribsToArray($found[2]);
-			if (isset($attribs["url"]))
-			{
-				$a2 = ilUtil::attribsToArray($found[4]);
-				$tstr = "";
-				if (in_array($a2["target"], array("FAQ", "Glossary", "Media")))
-				{
-					$tstr = ' TargetFrame="'.$a2["target"].'"';
-				}
-				$a_text = str_replace("[".$found[1]."]", "<ExtLink Href=\"".$attribs["url"]."\"$tstr>", $a_text);
-			}
-			else
-			{
-				$a_text = str_replace("[".$found[1]."]", "[error: xln".$found[1]."]",$a_text);
-			}
-		}
-		
-		// ie/tinymce fix for links without "", see bug #8391
-		while (eregi("\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]", $a_text, $found))
-		{
-			if ($found[3] != "")
-			{
-				$a_text = str_replace("[".$found[1]."]", "<ExtLink Href=\"".$found[3]."\">", $a_text);
-			}
-			else
-			{
-				$a_text = str_replace("[".$found[1]."]", "[error: xln".$found[1]."]",$a_text);
-			}
-		}
-		$a_text = eregi_replace("\[\/xln\]","</ExtLink>",$a_text);
-		
-		// anchor
-		$ws= "[ \t\r\f\v\n]*";
-		while (eregi("\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]", $a_text, $found))
-		{
-			$attribs = ilUtil::attribsToArray($found[2]);
-			$a_text = str_replace("[".$found[1]."]", "<Anchor Name=\"".$attribs["name"]."\">", $a_text);
-		}
-		$a_text = eregi_replace("\[\/anc\]","</Anchor>",$a_text);
-//echo htmlentities($a_text); exit;
 		return $a_text;
 	}
+	
 	
 	/**
 	* Converts xml from DB to output in edit textarea.
@@ -1416,7 +1430,8 @@ if (!$a_wysiwyg)
 			echo $updated; exit;
 			return false;
 		}
-		$updated = $a_pg_obj->update();
+		$updated = $par->updatePage($a_pg_obj);
+		//$updated = $a_pg_obj->update();
 		return $updated;
 	}
 
@@ -1588,6 +1603,212 @@ if (!$a_wysiwyg)
 		$text = str_replace("</SimpleListItem><br />", "</SimpleListItem>", $text);
 
 		return $text;
+	}
+	
+	/**
+	 * Update page object
+	 * (it would be better to have this centralized and to change the constructors
+	 * and pass the page object instead the dom object)
+	 * @param
+	 * @return
+	 */
+	function updatePage($a_page)
+	{
+		$a_page->beforePageContentUpdate($this);
+		return $a_page->update();
+	}
+	
+	/**
+	 * Auto link glossaries
+	 *
+	 * @param
+	 * @return
+	 */
+	function autoLinkGlossaries($a_glos)
+	{
+		if (is_array($a_glos) && count($a_glos) > 0)
+		{
+			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+			
+			// check which terms occur in the text (we may
+			// get some false positives due to the strip_tags, but
+			// we do not want to find strong or list or other stuff
+			// within the tags
+			$text = strip_tags($this->getText());
+			$found_terms = array();
+			foreach ($a_glos as $glo)
+			{
+				if (ilObject::_lookupType($glo) == "glo")
+				{
+					$terms = ilGlossaryTerm::getTermList($glo);
+					foreach ($terms as $t)
+					{
+						if (is_int(stripos($text, $t["term"])))
+						{
+							$found_terms[$t["id"]] = $t;
+						}
+					}
+				}
+			}
+			
+			// did we find anything? -> modify content
+			if (count($found_terms) > 0)
+			{
+				self::linkTermsInDom($this->dom, $found_terms, $this->par_node);
+			}
+		}
+	}
+	
+	/**
+	 * Link terms in a dom page object in bb style
+	 *
+	 * @param
+	 * @return
+	 */
+	protected static function linkTermsInDom($a_dom, $a_terms, $a_par_node = null)
+	{
+		// sort terms by their length (shortes first)
+		// to prevent that nested tags are builded
+		foreach ($a_terms as $k => $t)
+		{
+			$a_terms[$k]["termlength"] = strlen($t["term"]);
+		}
+		$a_terms = ilUtil::sortArray($a_terms, "termlength", "asc", true);
+
+		
+		if ($a_dom instanceof php4DOMDocument)
+		{
+			$a_dom = $a_dom->myDOMDocument;
+		}
+		if ($a_par_node instanceof php4DOMElement)
+		{
+			$a_par_node = $a_par_node->myDOMNode;
+		}
+		
+		$xpath = new DOMXPath($a_dom);
+		
+		if ($a_par_node == null)
+		{
+			$parnodes = $xpath->query('//Paragraph');
+		}
+		else
+		{
+			$parnodes = $xpath->query('//Paragraph', $a_par_node);
+		}
+
+		foreach ($parnodes as $parnode)
+		{
+			$textnodes = $xpath->query('//text()', $parnode);
+			foreach ($textnodes as $node)
+			{
+				$p = $node->getNodePath();
+				
+				// we do not change text nodes inside of links
+				if (!is_int(strpos($p, "/IntLink")) &&
+					!is_int(strpos($p, "/ExtLink")))
+				{
+					$node_val = $node->nodeValue;
+					
+					// all terms
+					foreach ($a_terms as $t)
+					{
+						$pos = stripos($node_val, $t["term"]);
+						
+						// if term found 
+						while (is_int($pos))
+						{
+							// check if the string is not included in another word
+							// note that []
+							$valid_limiters = array("", " ", ".", ",", ":", ";", "!", "?", "\"", "'", "(", ")");
+							$b = substr($node_val, $pos - 1, 1);
+							$a = substr($node_val, $pos + strlen($t["term"]), 1);
+							if (in_array($b, $valid_limiters) && in_array($a, $valid_limiters))
+							{
+								$mid = '[iln term="'.$t["id"].'"]'.
+									substr($node_val, $pos, strlen($t["term"])).
+									"[/iln]";
+	
+								$node_val = substr($node_val, 0, $pos).
+									$mid.
+									substr($node_val, $pos + strlen($t["term"]))
+									;
+									
+								$pos+= strlen($mid);
+							}
+							else
+							{
+								$pos+= strlen($t["term"]) + 1;
+							}
+							$pos = stripos($node_val, $t["term"], $pos);
+						}
+						
+						// insert [iln] tags
+					}
+					
+					$node->nodeValue = $node_val;
+				}
+				
+	//			var_dump($p);
+	//			var_dump($node->nodeValue);
+			}
+			
+			
+			// dump paragraph node
+			$text = $a_dom->saveXML($parnode);
+			$text = substr($text, 0, strlen($text) - strlen("</Paragraph>"));
+			$text = substr($text, strpos($text, ">") + 1);
+				
+			// replace [iln] by tags with xml representation
+			$text = self::intLinks2xml($text);
+				
+			// "set text"
+			$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text.'</Paragraph>',
+				DOMXML_LOAD_PARSING, $error);
+			$temp_dom = $temp_dom->myDOMDocument;
+
+			if(empty($error))
+			{
+				// delete children of paragraph node
+				$children = $parnode->childNodes;
+				while ($parnode->hasChildNodes())
+				{
+					$parnode->removeChild($parnode->firstChild);
+				}
+
+				// copy new content children in paragraph node
+				$xpath_temp = new DOMXPath($temp_dom);
+				$temp_pars = $xpath_temp->query("//Paragraph");
+				
+				foreach ($temp_pars as $new_par_node) 
+				{
+					$new_childs = $new_par_node->childNodes;
+					
+					foreach($new_childs as $new_child)
+					{
+						//$cloned_child = $new_child->cloneNode(true);
+						$cloned_child = $a_dom->importNode($new_child, true);
+						$parnode->appendChild($cloned_child);
+					}
+				}
+			}
+		}
+	}
+
+	
+	/**
+	 * Auto link glossary of whole page
+	 *
+	 * @param
+	 * @return
+	 */
+	static function autoLinkGlossariesPage($a_page, $a_terms)
+	{
+		$a_page->buildDom();
+		$a_dom = $a_page->getDom();
+		
+		self::linkTermsInDom($a_dom, $a_terms);
+				
+		$a_page->update();
 	}
 }
 ?>

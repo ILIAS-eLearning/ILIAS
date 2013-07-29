@@ -37,7 +37,15 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->addColumn($lng->txt("cont_term"));
+			$this->addColumn($lng->txt("cont_term"), "term");
+			
+			// advanced metadata
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_TABLE_HEAD,'glo',$this->glossary->getId(),'term');
+			$record_gui->setSelectedOnly(true);
+			$record_gui->setTableGUI($this);
+			$record_gui->parse();
+			
 			$this->addColumn($lng->txt("cont_definitions"));
 			if ($this->glossary->isVirtual())
 			{
@@ -66,10 +74,9 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		}
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");
-
 		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],
-				$this->filter["definition"], $this->tax_node));
-		
+				$this->filter["definition"], $this->tax_node, false, true, $this->filter));
+//		$this->setData(array());	
 	}
 	
 	/**
@@ -102,15 +109,13 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			$this->filter["definition"] = $ti->getValue();
 		}
 		
-		// temporary tax test
-/*		if ($this->tax_id > 0)
-		{
-			include_once("./Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
-			$tax = new ilTaxSelectInputGUI($this->tax_id, "tax_node", true);
-			$this->addFilterItem($tax);
-			$tax->readFromSession();
-			$this->filter["tax_node"] = $tax->getValue();
-		}*/
+		// advanced metadata
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER,'glo',$this->glossary->getId(),'term');
+		$record_gui->setSelectedOnly(true);
+		$record_gui->setTableGUI($this);
+		$record_gui->parse();
+
 	}
 	
 	/**
@@ -218,6 +223,14 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		
 		$ilCtrl->clearParameters($this->parent_obj);
 
+		// advanced metadata
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_TABLE_CELLS,'glo',$this->glossary->getId(),'term',
+			$term["id"]);
+		$record_gui->setSelectedOnly(true);
+		$record_gui->setRowData($term);
+		$html = $record_gui->parse();
+		$this->tpl->setVariable("AMET_CELLS", $html);
 	}
 
 }

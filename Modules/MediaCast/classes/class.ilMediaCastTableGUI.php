@@ -62,12 +62,17 @@ class ilMediaCastTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl, $ilAccess;
-		
+
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
+		if ($this->presentation_mode)
+		{
+			$ilCtrl->setParameterByClass("ilobjmediacastgui", "presentation", "1");
+		}
+		
 		// access
 		if ($enable_internal_rss && !$this->presentation_mode)
 		{
@@ -152,7 +157,12 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				}
 				
 				include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
-				$mpl = new ilMediaPlayerGUI();
+				
+				// the news id will be used as player id, see also ilObjMediaCastGUI
+				$event_url =  ($this->presentation_mode)
+					? $ilCtrl->getLinkTarget($this->parent_obj, "handlePlayerEvent", "", true, false)
+					: "";
+				$mpl = new ilMediaPlayerGUI($a_set["id"], $event_url);
 				if (is_object($med))
 				{
 					if (strcasecmp("Reference", $med->getLocationType()) == 0)
@@ -212,7 +222,24 @@ class ilMediaCastTableGUI extends ilTable2GUI
 //				$this->tpl->touchBlock("contrl_col");
 			}
 			
-
+			// download and play counter
+			if (!$this->presentation_mode)
+			{
+				if ($a_set["mob_cnt_download"] > 0)
+				{
+					$this->tpl->setCurrentBlock("prop");
+					$this->tpl->setVariable("TXT_PROP", $lng->txt("mcst_download_cnt"));
+					$this->tpl->setVariable("VAL_PROP", $a_set["mob_cnt_download"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($a_set["mob_cnt_play"] > 0)
+				{
+					$this->tpl->setCurrentBlock("prop");
+					$this->tpl->setVariable("TXT_PROP", $lng->txt("mcst_play_cnt"));
+					$this->tpl->setVariable("VAL_PROP", $a_set["mob_cnt_play"]);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
 		}
 		
 	}	
