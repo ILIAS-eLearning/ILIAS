@@ -64,7 +64,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		
 		// #11190
 		$blga_set = new ilSetting("blga");
-		$this->setPreventHTMLUnmasking((bool)$blga_set->get("mask", false));
+		$this->setPreventHTMLUnmasking(!(bool)$blga_set->get("mask", false));
 		
 		$this->setEnabledMaps(true);	
 		$this->setEnabledInternalLinks(false);
