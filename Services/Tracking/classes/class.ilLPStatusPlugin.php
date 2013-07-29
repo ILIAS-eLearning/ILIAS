@@ -135,7 +135,9 @@ class ilLPStatusPlugin extends ilLPStatus
 				// re-use existing data for inactive plugin
 				return self::getLPDataForUser($a_obj_id, $a_user_id);
 			}
-		}		
+		}	
+		// #11368
+		return LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 	
 	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
@@ -153,6 +155,8 @@ class ilLPStatusPlugin extends ilLPStatus
 			// re-use existing data for inactive plugin
 			return self::getPercentageForUser($a_obj_id, $a_user_id);
 		}		
+		// #11368
+		return 0;
 	}
 	
 	/**
