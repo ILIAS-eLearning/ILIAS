@@ -31,75 +31,43 @@
 * @version	$Id$
 * @ingroup ModulesSurveyQuestionPool
 */
-class SurveyQuestionGUI 
-{
-	/**
-	* Question object
-	*
-	* A reference to the metric question object
-	*
-	* @var object
-	*/
-	var $object;
-	var $tpl;
-	var $lng;
-	private $errormessages;
-
-	/**
-	* An array containing the cumulated results of the question for a given survey
-	*/
-	var $cumulated;
-	
+abstract class SurveyQuestionGUI 
+{		
+	protected $tpl;
+	protected $lng;
+	protected $ctrl;
+	protected $cumulated; // [array]	
 	protected $parent_url;
 	protected $parent_ref_id;
 	
-	/**
-	* SurveyQuestion constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the SurveyQuestion object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $description A description string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A numerical ID to identify the owner/creator
-	* @access public
-	*/
-	function SurveyQuestionGUI()
+	public $object;
+		
+	public function __construct($a_id = -1)
 	{
 		global $lng, $tpl, $ilCtrl;
 
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, "q_id");
-		$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
-		$this->cumulated = array();
-		$this->errormessages = array();
-	}
-
-	function addErrorMessage($errormessage)
-	{
-		if (strlen($errormessage)) array_push($this->errormessages, $errormessage);
-	}
-	
-	function outErrorMessages()
-	{
-		if (count($this->errormessages))
+		$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);		
+		$this->cumulated = array();	
+		
+		$this->initObject();
+		
+		if($a_id > 0)
 		{
-			$out = implode("<br />", $this->errormessages);
-			ilUtil::sendInfo($out);
+			$this->object->loadFromDb($a_id);
 		}
 	}
-
-	/**
-	* execute command
-	*/
-	function &executeCommand()
+	
+	abstract protected function initObject();
+	abstract public function setQuestionTabs();
+	
+	public function &executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
-		$next_class = $this->ctrl->getNextClass($this);
-
-		$cmd = $this->getCommand($cmd);
+		$next_class = $this->ctrl->getNextClass($this);	
 		switch($next_class)
 		{
 			default:
@@ -107,11 +75,6 @@ class SurveyQuestionGUI
 				break;
 		}
 		return $ret;
-	}
-
-	function getCommand($cmd)
-	{
-		return $cmd;
 	}
 
 	/**
@@ -152,20 +115,251 @@ class SurveyQuestionGUI
 		return $q_type;
 	}
 	
-	function originalSyncForm()
+	
+	//
+	// EDITOR
+	//
+	
+	protected function initEditForm()
 	{
-		$this->ctrl->saveParameter($this, "rtrn");
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
+		$form->setTitle($this->lng->txt($this->getQuestionType()));
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		// $form->setId("essay");
 
-		ilUtil::sendQuestion($this->lng->txt("confirm_sync_questions"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_sync_original.html", "Modules/SurveyQuestionPool");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
-		$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("no"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");		
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		
+		// label
+		$label = new ilTextInputGUI($this->lng->txt("label"), "label");		
+		$label->setInfo($this->lng->txt("label_info"));
+		$label->setRequired(false);
+		$form->addItem($label);
+
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");		
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "description");		
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");		
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->addButton("pastelatex");
+		$question->setRTESupport($this->object->getId(), "spl", "survey");
+		$form->addItem($question);
+		
+		// obligatory
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
+		$shuffle->setValue(1);		
+		$shuffle->setRequired(FALSE);
+		$form->addItem($shuffle);
+		
+		$this->addFieldsToEditForm($form);
+		
+		$this->addCommandButtons($form);
+				
+		// values
+		$title->setValue($this->object->getTitle());
+		$label->setValue($this->object->label);
+		$author->setValue($this->object->getAuthor());
+		$description->setValue($this->object->getDescription());
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestiontext()));
+		$shuffle->setChecked($this->object->getObligatory());
+		
+		return $form;
 	}
 	
-	function sync()
+	protected function addCommandButtons($a_form)
+	{
+		$a_form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
+		$a_form->addCommandButton("save", $this->lng->txt("save"));
+		
+		// pool question?
+		if(ilObject::_lookupType($this->object->getObjId()) == "spl")
+		{
+			if($this->object->hasCopies())
+			{				
+				$a_form->addCommandButton("saveSync", $this->lng->txt("svy_save_sync"));
+			}
+		}		
+	}
+			
+	protected function editQuestion(ilPropertyFormGUI $a_form = null)
+	{
+		if(!$a_form)
+		{
+			$a_form = $this->initEditForm();
+		}		
+		$this->tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function saveSync()
+	{
+		$this->save($_REQUEST["rtrn"], true);
+	}
+
+	protected function saveReturn()
+	{
+		$this->save(true);
+	}
+	
+	protected function saveForm()
+	{		
+		$form = $this->initEditForm();	
+		if($form->checkInput()) 
+		{		
+			if ($this->validateEditForm($form))
+			{
+				$this->object->setTitle($form->getInput("title"));
+				$this->object->label = ($form->getInput("label"));
+				$this->object->setAuthor($form->getInput("author"));
+				$this->object->setDescription($form->getInput("description"));
+				$this->object->setQuestiontext($form->getInput("question"));
+				$this->object->setObligatory($form->getInput("obligatory"));
+				
+				$this->importEditFormValues($form);
+				
+				// will save both core and extended data
+				$this->object->saveToDb();
+				
+				return true;
+			}
+		}
+				
+		$form->setValuesByPost();
+		$this->editQuestion($form);
+		return false;
+	}
+	
+	protected function save($a_return = false, $a_sync = false)
+	{
+		global $ilUser;
+					
+		if($this->saveForm())
+		{	
+			$ilUser->setPref("svy_lastquestiontype", $this->object->getQuestionType());
+			$ilUser->writePref("svy_lastquestiontype", $this->object->getQuestionType());				
+
+			$originalexists = $this->object->_questionExists($this->object->original_id);
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+
+			// pool question?
+			if($a_sync)
+			{				
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+				$this->ctrl->redirect($this, 'copySyncForm');
+			}			
+			else
+			{
+				// form: update original pool question, too?
+				if ($_GET["calling_survey"] && $originalexists &&
+					SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+				{
+					if($a_return)
+					{
+						$this->ctrl->setParameter($this, 'rtrn', 1);
+					}
+					$this->ctrl->redirect($this, 'originalSyncForm');
+				}
+			}
+
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->redirectAfterSaving($a_return);			
+		}		
+	}
+		
+	protected function copySyncForm()
+	{
+		include_once "Modules/SurveyQuestionPool/classes/class.ilSurveySyncTableGUI.php";
+		$tbl = new ilSurveySyncTableGUI($this, "copySyncForm", $this->object);
+		
+		$this->tpl->setContent($tbl->getHTML());		
+	}
+	
+	protected function syncCopies()
+	{
+		global $lng, $ilAccess;
+		
+		if(!sizeof($_POST["qid"]))
+		{
+			ilUtil::sendFailure($lng->txt("select_one"));
+			return $this->copySyncForm();
+		}
+		
+		foreach($this->object->getCopyIds(true) as $survey_id => $questions)
+		{
+			// check permissions for "parent" survey
+			$can_write = false;
+			$ref_ids = ilObject::_getAllReferences($survey_id);
+			foreach($ref_ids as $ref_id)
+			{
+				if($ilAccess->checkAccess("edit", "", $ref_id))
+				{
+					$can_write = true;
+					break;
+				}
+			}
+			
+			if($can_write)
+			{
+				foreach($questions as $qid)
+				{
+					if(in_array($qid, $_POST["qid"]))
+					{
+						$id = $this->object->getId();
+						
+						$this->object->setId($qid);
+						$this->object->setOriginalId($id);
+						$this->object->saveToDb();
+						
+						$this->object->setId($id);
+						$this->object->setOriginalId(null);
+						
+						// see: SurveyQuestion::syncWithOriginal()
+						// what about material?												
+					}
+				}												
+			}						
+		}
+		
+		ilUtil::sendSuccess($lng->txt("survey_sync_success"), true);
+		$this->redirectAfterSaving($_REQUEST["rtrn"]);
+	}
+	
+	protected function originalSyncForm()
+	{
+		$this->ctrl->saveParameter($this, "rtrn");
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($this->lng->txt("confirm_sync_questions"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "confirmRemoveQuestions"));
+		$cgui->setCancel($this->lng->txt("no"), "cancelSync");
+		$cgui->setConfirm($this->lng->txt("yes"), "sync");
+
+		$this->tpl->setContent($cgui->getHTML());
+	}
+	
+	protected function sync()
 	{
 		$original_id = $this->object->original_id;
 		if ($original_id)
@@ -177,18 +371,18 @@ class SurveyQuestionGUI
 		$this->redirectAfterSaving($_REQUEST["rtrn"]);
 	}
 
-	function cancelSync()
+	protected function cancelSync()
 	{
 		ilUtil::sendInfo($this->lng->txt("question_changed_in_survey_only"), true);
 		$this->redirectAfterSaving($_REQUEST["rtrn"]);
-	}
-
+	}	
+			
 	/**
 	 * Redirect to calling survey or to edit form
 	 *
 	 * @param bool $a_return
 	 */
-	function redirectAfterSaving($a_return = false)
+	protected function redirectAfterSaving($a_return = false)
 	{
 		// return?
 		if($a_return)
@@ -218,83 +412,9 @@ class SurveyQuestionGUI
 			$this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
 			$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 		}
-	}
+	}	
 	
-	protected function addCommandButtons($a_form)
-	{
-		$a_form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
-		$a_form->addCommandButton("save", $this->lng->txt("save"));
-		
-		// pool question?
-		if(ilObject::_lookupType($this->object->getObjId()) == "spl")
-		{
-			if($this->object->hasCopies())
-			{				
-				$a_form->addCommandButton("saveSync", $this->lng->txt("svy_save_sync"));
-			}
-		}		
-	}
-
-	/**
-	 * save question and return to calling survey
-	 */
-	function saveSync()
-	{
-		$this->save($_REQUEST["rtrn"], true);
-	}
-	
-	/**
-	 * save question and return to calling survey
-	 */
-	function saveReturn()
-	{
-		$this->save(true);
-	}
-
-	/**
-	* save question
-	*/
-	function save($a_return = false, $a_sync = false)
-	{
-		global $ilUser;
-
-		$old_id = $_GET["q_id"];
-		$result = $this->writePostData();
-		if ($result == 0)
-		{
-			$ilUser->setPref("svy_lastquestiontype", $this->object->getQuestionType());
-			$ilUser->writePref("svy_lastquestiontype", $this->object->getQuestionType());
-			$this->object->saveToDb();
-			$originalexists = $this->object->_questionExists($this->object->original_id);
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			
-			// pool question?
-			if($a_sync)
-			{				
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-				$this->ctrl->redirect($this, 'copySyncForm');
-			}			
-			else
-			{
-				// form: update original pool question, too?
-				if ($_GET["calling_survey"] && $originalexists &&
-					SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
-				{
-					if($a_return)
-					{
-						$this->ctrl->setParameter($this, 'rtrn', 1);
-					}
-					$this->ctrl->redirect($this, 'originalSyncForm');
-				}
-			}
-			
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-			$this->redirectAfterSaving($a_return);
-		}
-	}
-	
-	function cancel()
+	protected function cancel()
 	{
 		if ($this->parent_url)
 		{
@@ -305,6 +425,27 @@ class SurveyQuestionGUI
 			$this->ctrl->redirectByClass("ilobjsurveyquestionpoolgui", "questions");
 		}
 	}
+		
+	protected function validateEditForm(ilPropertyFormGUI $a_form)
+	{
+		return true;
+	}
+		
+	abstract protected function addFieldsToEditForm(ilPropertyFormGUI $a_form);
+	abstract protected function importEditFormValues(ilPropertyFormGUI $a_form);
+				
+	abstract public function getPrintView($question_title = 1, $show_questiontext = 1);
+	
+	// execution
+	abstract public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null);
+		
+	// evaluation
+	abstract public function getCumulatedResultsDetails($survey_id, $counter, $finished_ids);
+	
+	
+	
+	
+	
 
 	/**
 	* Cancels the form adding a phrase
@@ -624,16 +765,6 @@ class SurveyQuestionGUI
 				break;
 		}
 	}
-
-	/**
-	* Creates a HTML representation of the question
-	*
-	* @access private
-	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1)
-	{
-		return "";
-	}
 	
 	function setQuestionTabsForClass($guiclass)
 	{
@@ -723,10 +854,12 @@ class SurveyQuestionGUI
 		return "";
 	}
 	
+	/*
 	function editQuestion()
 	{
 		$this->outErrorMessages();
 	}
+	*/
 	
 	protected function outQuestionText($template)
 	{
@@ -828,63 +961,6 @@ class SurveyQuestionGUI
 		}				
 	}
 	
-	protected function copySyncForm()
-	{
-		include_once "Modules/SurveyQuestionPool/classes/class.ilSurveySyncTableGUI.php";
-		$tbl = new ilSurveySyncTableGUI($this, "copySyncForm", $this->object);
-		
-		$this->tpl->setContent($tbl->getHTML());		
-	}
-	
-	protected function syncCopies()
-	{
-		global $lng, $ilAccess;
-		
-		if(!sizeof($_POST["qid"]))
-		{
-			ilUtil::sendFailure($lng->txt("select_one"));
-			return $this->copySyncForm();
-		}
-		
-		foreach($this->object->getCopyIds(true) as $survey_id => $questions)
-		{
-			// check permissions for "parent" survey
-			$can_write = false;
-			$ref_ids = ilObject::_getAllReferences($survey_id);
-			foreach($ref_ids as $ref_id)
-			{
-				if($ilAccess->checkAccess("edit", "", $ref_id))
-				{
-					$can_write = true;
-					break;
-				}
-			}
-			
-			if($can_write)
-			{
-				foreach($questions as $qid)
-				{
-					if(in_array($qid, $_POST["qid"]))
-					{
-						$id = $this->object->getId();
-						
-						$this->object->setId($qid);
-						$this->object->setOriginalId($id);
-						$this->object->saveToDb();
-						
-						$this->object->setId($id);
-						$this->object->setOriginalId(null);
-						
-						// see: SurveyQuestion::syncWithOriginal()
-						// what about material?												
-					}
-				}												
-			}						
-		}
-		
-		ilUtil::sendSuccess($lng->txt("survey_sync_success"), true);
-		$this->redirectAfterSaving($_REQUEST["rtrn"]);
-	}
 	
 	public function setBackUrl($a_url, $a_parent_ref_id)
 	{

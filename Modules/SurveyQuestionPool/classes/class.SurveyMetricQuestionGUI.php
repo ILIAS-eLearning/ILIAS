@@ -36,219 +36,111 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 */
 class SurveyMetricQuestionGUI extends SurveyQuestionGUI 
 {
-/**
-* SurveyMetricQuestionGUI constructor
-*
-* The constructor takes possible arguments an creates an instance of the SurveyMetricQuestionGUI object.
-*
-* @param integer $id The database id of a metric question object
-* @access public
-*/
-  function SurveyMetricQuestionGUI(
-		$id = -1
-  )
-
-  {
-		$this->SurveyQuestionGUI();
+  	protected function initObject()
+	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestion.php";
-		$this->object = new SurveyMetricQuestion();
-		if ($id >= 0)
-		{
-			$this->object->loadFromDb($id);
-		}
+		$this->object = new SurveyMetricQuestion();		
 	}
 
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	
+	// 
+	// EDITOR
+	//
+	
+	public function setQuestionTabs()
 	{
-		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
-		if (!$hasErrors)
-		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setDescription($_POST["description"]);
-			$questiontext = $_POST["question"];
-			$this->object->setQuestiontext($questiontext);
-			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
-			$this->object->setOrientation($_POST["orientation"]);
-			$this->object->label = $_POST['label'];
-
-			$this->object->setSubtype($_POST["type"]);
-			$this->object->setMinimum($_POST["minimum".(int)$_POST["type"]]);
-			$this->object->setMaximum($_POST["maximum".(int)$_POST["type"]]);
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
+		$this->setQuestionTabsForClass("surveymetricquestiongui");
 	}
 	
-	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
-	public function editQuestion($checkonly = FALSE)
+	protected function addFieldsToEditForm(ilPropertyFormGUI $a_form)
 	{		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt($this->getQuestionType()));
-		$form->setMultipart(FALSE);
-		$form->setTableWidth("100%");
-		$form->setId("multiplechoice");
-
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-
-		// label
-		$label = new ilTextInputGUI($this->lng->txt("label"), "label");
-		$label->setValue($this->object->label);
-		$label->setInfo($this->lng->txt("label_info"));
-		$label->setRequired(false);
-		$form->addItem($label);
-		
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "description");
-		$description->setValue($this->object->getDescription());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-		
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestiontext()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "spl", "survey");
-		$form->addItem($question);
-		
-		
 		// subtype
 		$subtype = new ilRadioGroupInputGUI($this->lng->txt("subtype"), "type");
-		$subtype->setRequired(true);
-		$subtype->setValue($this->object->getSubtype());
-			$form->addItem($subtype);
+		$subtype->setRequired(true);		
+		$a_form->addItem($subtype);
 				
 		// #10652
 		$opt = new ilRadioOption($this->lng->txt('non_ratio'), SurveyMetricQuestion::SUBTYPE_NON_RATIO, $this->lng->txt("metric_subtype_description_interval"));
 		$subtype->addOption($opt);
 		
 		// minimum value
-		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum3");
-		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_NON_RATIO)
-		{
-			$minimum->setValue($this->object->getMinimum());
-		}
-		$minimum->setRequired(false);
-		$minimum->setSize(6);		
-		$opt->addSubItem($minimum);
+		$minimum1 = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum3");		
+		$minimum1->setRequired(false);
+		$minimum1->setSize(6);		
+		$opt->addSubItem($minimum1);
 		
 		// maximum value
-		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum3");	
-		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_NON_RATIO)
-		{
-			$maximum->setValue($this->object->getMaximum());
-		}
-		$maximum->setRequired(false);
-		$maximum->setSize(6);
-		$opt->addSubItem($maximum);
+		$maximum1 = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum3");			
+		$maximum1->setRequired(false);
+		$maximum1->setSize(6);
+		$opt->addSubItem($maximum1);
 		
 		$opt = new ilRadioOption($this->lng->txt('ratio_non_absolute'), SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE, $this->lng->txt("metric_subtype_description_rationonabsolute"));
 		$subtype->addOption($opt);
 		
 		// minimum value
-		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum4");
-		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE)
-		{
-			$minimum->setValue($this->object->getMinimum());
-		}
-		$minimum->setRequired(false);
-		$minimum->setSize(6);	
-		$minimum->setMinValue(0);		
-		$opt->addSubItem($minimum);
+		$minimum2 = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum4");		
+		$minimum2->setRequired(false);
+		$minimum2->setSize(6);	
+		$minimum2->setMinValue(0);		
+		$opt->addSubItem($minimum2);
 		
 		// maximum value
-		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum4");
-		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE)
-		{
-			$maximum->setValue($this->object->getMaximum());
-		}
-		$maximum->setRequired(false);
-		$maximum->setSize(6);
-		$opt->addSubItem($maximum);
+		$maximum2 = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum4");		
+		$maximum2->setRequired(false);
+		$maximum2->setSize(6);
+		$opt->addSubItem($maximum2);
 		
 		$opt = new ilRadioOption($this->lng->txt('ratio_absolute'), SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE, $this->lng->txt("metric_subtype_description_ratioabsolute"));
 		$subtype->addOption($opt);	
 		
 		// minimum value
-		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum5");
-		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE)
-		{
-			$minimum->setValue($this->object->getMinimum());
-		}
-		$minimum->setRequired(false);
-		$minimum->setSize(6);		
-		$minimum->setMinValue(0);		
-		$minimum->setDecimals(0);		
-		$opt->addSubItem($minimum);
+		$minimum3 = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum5");		
+		$minimum3->setRequired(false);
+		$minimum3->setSize(6);		
+		$minimum3->setMinValue(0);		
+		$minimum3->setDecimals(0);		
+		$opt->addSubItem($minimum3);
 		
 		// maximum value
-		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum5");
-		$maximum->setDecimals(0);
-		if($this->object->getSubtype() == SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE)
-		{
-			$maximum->setValue($this->object->getMaximum());
-		}
-		$maximum->setRequired(false);
-		$maximum->setSize(6);
-		$opt->addSubItem($maximum);
+		$maximum3 = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum5");
+		$maximum3->setDecimals(0);		
+		$maximum3->setRequired(false);
+		$maximum3->setSize(6);
+		$opt->addSubItem($maximum3);		
 		
 		
-		// obligatory
-		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
-		$shuffle->setValue(1);
-		$shuffle->setChecked($this->object->getObligatory());
-		$shuffle->setRequired(FALSE);
-		$form->addItem($shuffle);
-
-		$this->addCommandButtons($form);
-	
-		$errors = false;
-
-		if ($this->isSaveCommand())
+		// values
+		$subtype->setValue($this->object->getSubtype());
+		
+		switch($this->object->getSubtype())
 		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-			if ($errors) $checkonly = false;
-		}
-
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return $errors;
+			case SurveyMetricQuestion::SUBTYPE_NON_RATIO:
+				$minimum1->setValue($this->object->getMinimum());
+				$maximum1->setValue($this->object->getMaximum());
+				break;
+			
+			case SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE:
+				$minimum2->setValue($this->object->getMinimum());
+				$maximum2->setValue($this->object->getMaximum());
+				break;
+			
+			case SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE:
+				$minimum3->setValue($this->object->getMinimum());
+				$maximum3->setValue($this->object->getMaximum());
+				break;
+		}		
 	}
-
+	
+	protected function importEditFormValues(ilPropertyFormGUI $a_form)
+	{
+		$type = (int)$a_form->getInput("type");
+		$this->object->setOrientation($a_form->getInput("orientation"));
+		$this->object->setSubtype($type);
+		$this->object->setMinimum($a_form->getInput("minimum".$type));
+		$this->object->setMaximum($a_form->getInput("maximum".$type));
+	}	
+	
 	/**
 	* Creates a HTML representation of the question
 	*
@@ -282,13 +174,18 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		return $template->get();
 	}
 	
-/**
-* Creates the question output form for the learner
-*
-* Creates the question output form for the learner
-*
-* @access public
-*/
+	
+	//
+	// EXECUTION
+	//
+
+	/**
+	* Creates the question output form for the learner
+	*
+	* Creates the question output form for the learner
+	*
+	* @access public
+	*/
 	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_out_metric.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
@@ -337,19 +234,19 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		return $template->get();
 	}
 
-	function setQuestionTabs()
-	{
-		$this->setQuestionTabsForClass("surveymetricquestiongui");
-	}
+	
+	// 
+	// EVALUATION
+	//
 
-/**
-* Creates the detailed output of the cumulated results for the question
-*
-* @param integer $survey_id The database ID of the survey
-* @param integer $counter The counter of the question position in the survey
-* @return string HTML text with the cumulated results
-* @access private
-*/
+	/**
+	* Creates the detailed output of the cumulated results for the question
+	*
+	* @param integer $survey_id The database ID of the survey
+	* @param integer $counter The counter of the question position in the survey
+	* @return string HTML text with the cumulated results
+	* @access private
+	*/
 	function getCumulatedResultsDetails($survey_id, $counter, $finished_ids)
 	{
 		if (count($this->cumulated) == 0)
@@ -477,4 +374,5 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";				
 	}
 }
+
 ?>
