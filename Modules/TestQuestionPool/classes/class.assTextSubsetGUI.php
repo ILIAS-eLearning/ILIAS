@@ -98,6 +98,9 @@ class assTextSubsetGUI extends assQuestionGUI
 				$answertext = $answer;
 				$this->object->addAnswer($answertext, $_POST['answers']['points'][$index], $index);
 			}
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -173,6 +176,8 @@ class assTextSubsetGUI extends assQuestionGUI
 		$choices->setValues($this->object->getAnswers());
 		$form->addItem($choices);
 
+		$this->populateTaxonomyFormSection($form);
+		
 		$this->addQuestionFormCommandButtons($form);
 	
 		$errors = false;

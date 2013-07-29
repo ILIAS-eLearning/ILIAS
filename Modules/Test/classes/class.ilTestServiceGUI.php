@@ -63,6 +63,13 @@ class ilTestServiceGUI
 	var $ref_id;
 	
 	/**
+	 * factory for test session
+	 *
+	 * @var ilTestSessionFactory 
+	 */
+	protected $testSessionFactory = null;
+	
+	/**
 	 * The constructor takes the test object reference as parameter 
 	 *
 	 * @param object $a_object Associated ilObjTest class
@@ -81,6 +88,9 @@ class ilTestServiceGUI
 		$this->ref_id = $a_object->ref_id;
 
 		$this->service = new ilTestService($a_object);
+		
+		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+		$this->testSessionFactory = new ilTestSessionFactory($this->object);
 	}
 	
 	/**
@@ -739,12 +749,13 @@ class ilTestServiceGUI
 	/**
 	 * Returns the user data for a test results output
 	 *
+	 * @param ilTestSession|ilTestSessionDynamicQuestionSet
 	 * @param integer $user_id The user ID of the user
 	 * @param boolean $overwrite_anonymity TRUE if the anonymity status should be overwritten, FALSE otherwise
 	 * @return string HTML code of the user data for the test results
 	 * @access public
 	 */
-	function getResultsUserdata($active_id, $overwrite_anonymity = FALSE)
+	function getResultsUserdata($testSession, $active_id, $overwrite_anonymity = FALSE)
 	{
 		$template = new ilTemplate("tpl.il_as_tst_results_userdata.html", TRUE, TRUE, "Modules/Test");
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -758,10 +769,10 @@ class ilTestServiceGUI
 			$user = new ilObjUser();
 			$user->setLastname($this->lng->txt("deleted_user"));
 		}
-		$t = $this->object->getTestSession($active_id)->getSubmittedTimestamp();
+		$t = $testSession->getSubmittedTimestamp();
 		if (!$t)
 		{
-			$t = $this->object->_getLastAccess($this->object->getTestSession()->getActiveId());
+			$t = $this->object->_getLastAccess($testSession->getActiveId());
 		}
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 
@@ -899,7 +910,7 @@ class ilTestServiceGUI
 
 			$user_id = $this->object->_getUserIdFromActiveId($active_id);
 			$showAllAnswers = TRUE;
-			if ($this->object->isExecutable($user_id))
+			if ($this->object->isExecutable($this->testSession, $user_id))
 			{
 				$showAllAnswers = FALSE;
 			}

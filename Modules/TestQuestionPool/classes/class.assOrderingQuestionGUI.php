@@ -292,6 +292,9 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				}
 			}
 			$this->object->setPoints($_POST["points"]);
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -454,6 +457,8 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				$form->addCommandButton("orderNestedTerms", $this->lng->txt("order_nested_terms"));
 			}
 		}
+		
+		$this->populateTaxonomyFormSection($form);
 
 		$this->addQuestionFormCommandButtons($form);
 

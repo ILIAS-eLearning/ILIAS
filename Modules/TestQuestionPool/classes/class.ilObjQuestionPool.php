@@ -21,7 +21,21 @@ class ilObjQuestionPool extends ilObject
 	* @var string
 	*/
 	var $online;
-	
+
+	/**
+	 * the fact wether taxonomies are shown or not
+	 *
+	 * @var boolean
+	 */
+	private $showTaxonomies = null;
+
+	/**
+	 * the id of taxonomy used for navigation in questin list
+	 *
+	 * @var integer
+	 */
+	private $navTaxonomyId = null;
+
 	/**
 	 * Import for container (courses containing tests) import 
 	 * @var string
@@ -271,7 +285,9 @@ class ilObjQuestionPool extends ilObject
 		if ($result->numRows() == 1)
 		{
 			$row = $ilDB->fetchAssoc($result);
-			$this->setOnline($row["isonline"]);
+			$this->setOnline($row['isonline']);
+			$this->setShowTaxonomies($row['show_taxonomies']);
+			$this->setNavTaxonomyId($row['nav_taxonomy']);
 		}
 	}
 	
@@ -288,20 +304,33 @@ class ilObjQuestionPool extends ilObject
 			array('integer'),
 			array($this->getId())
 		);
+		
 		if ($result->numRows() == 1)
 		{
-			$result = $ilDB->manipulateF("UPDATE qpl_questionpool SET isonline = %s, tstamp = %s WHERE obj_fi = %s",
-				array('text','integer','integer'),
-				array($this->getOnline(), time(), $this->getId())
+			$result = $ilDB->update('qpl_questionpool',
+				array(
+					'isonline'			=> array('text', $this->getOnline()),
+					'show_taxonomies'	=> array('integer', (int)$this->getShowTaxonomies()),
+					'nav_taxonomy'		=> array('integer', (int)$this->getNavTaxonomyId()),
+					'tstamp'			=> array('integer', time())
+				),
+				array(
+					'obj_fi'			=> array('integer', $this->getId())
+				)
 			);
 		}
 		else
 		{
 			$next_id = $ilDB->nextId('qpl_questionpool');
-			$result = $ilDB->manipulateF("INSERT INTO qpl_questionpool (id_questionpool, isonline, tstamp, obj_fi) VALUES (%s, %s, %s, %s)",
-				array('integer','text','integer','integer'),
-				array($next_id, $this->getOnline(), time(), $this->getId())
-			);
+			
+			$result = $ilDB->insert('qpl_questionpool', array(
+				'id_questionpool'	=> array('integer', $next_id),
+				'isonline'			=> array('text', $this->getOnline()),
+				'show_taxonomies'	=> array('integer', (int)$this->getShowTaxonomies()),
+				'nav_taxonomy'		=> array('integer', (int)$this->getNavTaxonomyId()),
+				'tstamp'			=> array('integer', time()),
+				'obj_fi'			=> array('integer', $this->getId())
+			));
 		}
 	}
 	
@@ -463,11 +492,11 @@ class ilObjQuestionPool extends ilObject
 	*
 	* @access public
 	*/
-	function getQuestionBrowserData($arrFilter)
+	function getQuestionBrowserData($arrFilter, $taxIds = array())
 	{
 		global $ilUser;
-		global $ilDB;
-		
+		global $ilDB;	
+				
 		$where = "";
 		if (is_array($arrFilter))
 		{
@@ -487,7 +516,41 @@ class ilObjQuestionPool extends ilObject
 			{
 				$where .= " AND qpl_qst_type.type_tag = " . $ilDB->quote($arrFilter['type'], 'text');
 			}
+		
+			foreach( $taxIds as $taxId )
+			{
+				if( !isset($arrFilter['tax_'.$taxId]) || !is_array($arrFilter['tax_'.$taxId]) )
+				{
+					continue;
+				}
+				
+				$questionIds = array();
+				
+				if( count($arrFilter['tax_'.$taxId]) )
+				{
+					foreach($arrFilter['tax_'.$taxId] as $node)
+					{
+						$items = ilObjTaxonomy::getSubTreeItems($taxId, $node);
+						foreach($items as $item)
+						{
+							$questionIds[$node['item_id']] = $node['item_id'];
+						}
+					}
+				}
+				else
+				{
+					$tax = new ilObjTaxonomy($taxId);
+					$items = ilObjTaxonomy::getSubTreeItems($taxId, $tax->getTree()->getRootId());
+					foreach($items as $item)
+					{
+						$questionIds[$node['item_id']] = $node['item_id'];
+					}
+				}
+				
+				$where .= " AND ".$ilDB->in('question_id', $questionIds, false, 'integer');
+			}
 		}
+			
 		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE qpl_questions.original_id IS NULL AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s" . $where,
 			array('integer'),
 			array($this->getId())
@@ -990,6 +1053,31 @@ class ilObjQuestionPool extends ilObject
 		return $this->online;
 	}
 	
+	public function setShowTaxonomies($showTaxonomies)
+	{
+		$this->showTaxonomies = $showTaxonomies;
+	}
+	
+	public function getShowTaxonomies()
+	{
+		return $this->showTaxonomies;
+	}
+	
+	public function setNavTaxonomyId($navTaxonomyId)
+	{
+		$this->navTaxonomyId = $navTaxonomyId;
+	}
+	
+	public function getNavTaxonomyId()
+	{
+		return $this->navTaxonomyId;
+	}
+	
+	public function isNavTaxonomyActive()
+	{
+		return $this->getShowTaxonomies() && (int)$this->getNavTaxonomyId();
+	}
+	
 	function _lookupOnline($a_obj_id, $is_reference = FALSE)
 	{
 		global $ilDB;
@@ -1462,7 +1550,7 @@ class ilObjQuestionPool extends ilObject
             }
         }
 
-	public function &getQuestionTypeTranslations()
+	public static function getQuestionTypeTranslations()
 	{
 		global $ilDB;
 		global $lng;
@@ -1606,5 +1694,17 @@ class ilObjQuestionPool extends ilObject
 			$this->deleteQuestion($data["question_id"]);
 		}
 	}
+
+	/**
+	 * get ids of all taxonomies corresponding to current pool
+	 *
+	 * @return array
+	 */
+	public function getTaxonomyIds()
+	{
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		return ilObjTaxonomy::getUsageOfObject( $this->getId() );
+	}
+	
 } // END class.ilObjQuestionPool
 ?>

@@ -93,6 +93,9 @@ class assNumericGUI extends assQuestionGUI
 			$this->object->setLowerLimit($_POST['lowerlimit']);
 			$this->object->setUpperLimit($_POST['upperlimit']);
 			$this->object->setPoints($_POST['points']);
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -158,6 +161,8 @@ class assNumericGUI extends assQuestionGUI
 		$upper_limit->setRequired(true);
 		$upper_limit->setValue($this->object->getUpperLimit());
 		$form->addItem($upper_limit);
+		
+		$this->populateTaxonomyFormSection($form);
 
 		$this->addQuestionFormCommandButtons($form);
 

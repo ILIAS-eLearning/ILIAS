@@ -294,6 +294,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI
 				$ilCtrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
 
 				$link = $ilCtrl->getLinkTargetByClass('ilobjtestgui', 'executeCreateQuestion', false, false, false);
+				
 				ilUtil::redirect($link);
 				
 				break;
@@ -447,40 +448,23 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI
 
     private function redirectToQuestionEditPage($questionType, $qid, $prev_qid)
 	{
-        include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
-
-        $ref_id = $_GET['ref_id'];
-        $sel_question_types = $questionType;
-        $cmd = 'editQuestion';
-        $cmdClass = strtolower($questionType);
-        $cmdNode = $_GET['cmdNode'];
-        $baseClass = 'ilObjTestGUI';
-
-        $node = ilTestExpressPage::getNodeId(strtolower($questionType) . 'gui');
-
-        $cmdNodes = explode(':', $_GET['cmdNode']);
-        $firstNode = $cmdNodes[0];
-
-        $linkParams = array(
-            'ref_id' => $_GET['ref_id'],
-            'sel_question_types' => $questionType,
-            'cmd' => 'editQuestion',
-            'cmdClass' => strtolower($questionType) . 'gui',
-            'cmdNode' => $firstNode . ':' . $node,
-            'baseClass' => 'ilObjTestGUI',
-            'test_ref_id' => $_GET['ref_id'],
-            'calling_test' => $_GET['ref_id'],
-            //'express_mode' => 'true',
-            'q_id' => $qid,
-            'prev_qid' => $prev_qid
-        );
-
+		$cmdClass = $questionType.'GUI';
+		
+		$this->ctrl->setParameterByClass($cmdClass, 'ref_id', $_GET['ref_id']);
+		$this->ctrl->setParameterByClass($cmdClass, 'sel_question_types', $questionType);
+		$this->ctrl->setParameterByClass($cmdClass, 'test_ref_id', $_GET['ref_id']);
+		$this->ctrl->setParameterByClass($cmdClass, 'calling_test', $_GET['ref_id']);
+		$this->ctrl->setParameterByClass($cmdClass, 'q_id', $qid);
+		$this->ctrl->setParameterByClass($cmdClass, 'prev_qid', $prev_qid);
+		
 		if ($_REQUEST['test_express_mode'])
 	    {
-			$linkParams['test_express_mode'] = 1;
+			$this->ctrl->setParameterByClass($cmdClass, 'test_express_mode', 1);
 		}
 		
-        ilUtil::redirect('ilias.php?' . http_build_query($linkParams, 'null', '&'));
+		$this->ctrl->redirectByClass(
+			array('ilRepositoryGUI', 'ilObjTestGUI', $questionType."GUI"), 'editQuestion'
+		);
     }
 
     private function redirectToQuestionPoolSelectionPage($questionType, $qid, $prev_qid)

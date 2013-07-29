@@ -9,6 +9,8 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @version $Id$
 *
 * @ingroup ModulesTestQuestionPool
+ * 
+ * @ilCtrl_Calls ilQuestionBrowserTableGUI: ilFormPropertyDispatchGUI
 */
 
 class ilQuestionBrowserTableGUI extends ilTable2GUI
@@ -18,6 +20,8 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	protected $totalPoints = 0;
 	protected $confirmdelete;
 	
+	protected $taxIds = array();
+	
 	/**
 	 * Constructor
 	 *
@@ -25,7 +29,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array())
 	{
 		$this->setId("qpl");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -37,6 +41,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	
 		$this->confirmdelete = $confirmdelete;
 		$this->setWriteAccess($a_write_access);
+		$this->taxIds = $taxIds;
 
 		$qplSetting = new ilSetting("qpl");
 			
@@ -94,7 +99,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				}
 			}
 		}
-
 
 		$this->setRowTemplate("tpl.il_as_qpl_questionbrowser_row.html", "Modules/TestQuestionPool");
 
@@ -212,6 +216,26 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$si->readFromSession();
 		$this->filter["type"] = $si->getValue();
 		
+		if( $this->parent_obj->object->getShowTaxonomies() )
+		{
+			require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
+
+			foreach($this->taxIds as $taxId)
+			{
+				if( $taxId == $this->parent_obj->object->getNavTaxonomyId() )
+				{
+					continue;
+				}
+				
+				$postvar = "tax_$taxId";
+
+				$inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
+				$this->addFilterItem($inp);
+				$inp->readFromSession();
+				$this->filter[$postvar] = $inp->getValue();
+			}
+		}
+
 	}
 	
 	function fillHeader()

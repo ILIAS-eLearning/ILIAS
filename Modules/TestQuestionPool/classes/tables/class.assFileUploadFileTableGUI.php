@@ -60,7 +60,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 		$this->setPrefix('file');
 		$this->setSelectAllCheckbox('file');
 		
-		$this->addCommandButton('gotoquestion', $this->lng->txt('delete'));
+		$this->addCommandButton($a_parent_cmd, $this->lng->txt('delete'));
 		$this->setRowTemplate("tpl.il_as_qpl_fileupload_file_row.html", "Modules/TestQuestionPool");
 		
 		$this->disable('sort');

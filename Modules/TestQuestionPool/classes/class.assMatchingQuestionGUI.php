@@ -139,6 +139,9 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$this->object->addMatchingPair($this->object->getTermWithIdentifier($term_id), $this->object->getDefinitionWithIdentifier($definition_id), $points);
 				}
 			}
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -340,6 +343,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		$pairs->setPairs($this->object->getMatchingPairs());
 		$form->addItem($pairs);
+		
+		$this->populateTaxonomyFormSection($form);
 
 		$this->addQuestionFormCommandButtons($form);
 

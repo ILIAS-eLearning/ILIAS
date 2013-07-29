@@ -1509,7 +1509,7 @@ class ilCtrl
 	{
 		// note: $a_class may be an array!
 		//$a_class = strtolower($a_class);
-
+ 
 		$params = $this->getParameterArrayByClass($a_class, $a_cmd);
 
 		foreach ($params as $par => $value)

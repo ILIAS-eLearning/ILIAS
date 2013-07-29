@@ -44,9 +44,11 @@ include_once "./Modules/Test/classes/class.ilObjTest.php";
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextSubsetGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI, ilQuestionBrowserTableGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilToolbarGUI, ilPropertyFormGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI, ilObjTaxonomyGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionBrowserTableGUI
  *
  * @extends ilObjectGUI
  * @ingroup ModulesTestQuestionPool
@@ -68,7 +70,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$lng->loadLanguageModule("assessment");
 		$this->type = "qpl";
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
+		
+		$this->ctrl->saveParameter($this, array(
+			"ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id", 'tax_node'
+		));
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 	}
@@ -87,7 +92,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl, $ilErr, $ilTabs, $lng;
+		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl, $ilErr, $ilTabs, $lng, $ilDB, $ilPluginAdmin;
 		
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -265,7 +270,28 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$ilCtrl->forwardCommand($gui);
 				
 				break;
+				
+			case 'ilobjquestionpoolsettingsgeneralgui':
+				require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolSettingsGeneralGUI.php';
+				$gui = new ilObjQuestionPoolSettingsGeneralGUI($ilCtrl, $ilAccess, $lng, $tpl, $ilTabs, $this);
+				$this->ctrl->forwardCommand($gui);
+				break;
 
+			case "ilobjtaxonomygui":
+
+				require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolTaxonomyEditingCommandForwarder.php';
+				$forwarder = new ilObjQuestionPoolTaxonomyEditingCommandForwarder(
+						$this->object, $ilDB, $ilPluginAdmin, $ilCtrl, $ilTabs, $lng
+				);
+				
+				$forwarder->forward();
+				
+				break;
+			
+			case 'ilquestionbrowsertablegui':
+				$this->ctrl->forwardCommand($this->buildQuestionBrowserTableGUI());
+				break;
+			
 			case "ilobjquestionpoolgui":
 			case "":
 				
@@ -283,6 +309,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
+				if($this->object->getType() == 'qpl')
+				{
+					$q_gui->setTaxonomyIds($this->object->getTaxonomyIds());
+				}
 				$q_gui->setQuestionTabs();
 				$ret = $this->ctrl->forwardCommand($q_gui);
 				break;
@@ -293,49 +323,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->show();
 		}
-	}
-
-	/**
-	* Questionpool properties
-	*/
-	function propertiesObject()
-	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0)) ? true : false;
-
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this, 'properties'));
-		$form->setTitle($this->lng->txt("properties"));
-		$form->setMultipart(false);
-//		$form->setTableWidth("100%");
-		$form->setId("properties");
-
-		// online
-		$online = new ilCheckboxInputGUI($this->lng->txt("qpl_online_property"), "online");
-		$online->setInfo($this->lng->txt("qpl_online_property_description"));
-		$online->setChecked($this->object->getOnline());
-		$form->addItem($online);
-
-		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
-
-		if ($save)
-		{
-			$form->checkInput();
-		}
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-	}
-
-	/**
-	* Save questionpool properties
-	*/
-	function savePropertiesObject()
-	{
-		$qpl_online = $_POST["online"];
-		if (strlen($qpl_online) == 0) $qpl_online = "0";
-		$this->object->setOnline($qpl_online);
-		$this->object->saveToDb();
-		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-		$this->ctrl->redirect($this, "properties");
 	}
 	
 	/**
@@ -897,8 +884,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 	function filterQuestionBrowserObject()
 	{
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		$taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
+
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions');
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds);
 		$table_gui->resetOffset();
 		$table_gui->writeFilterToSession();
 		$this->questionsObject();
@@ -906,8 +896,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 	function resetQuestionBrowserObject()
 	{
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		$taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
+
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions');
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds);
 		$table_gui->resetOffset();
 		$table_gui->resetFilter();
 		$this->questionsObject();
@@ -916,9 +909,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* list questions of question pool
 	*/
-	function questionsObject($arrFilter = null)
+	function questionsObject()
 	{
-		global $rbacsystem, $ilUser;
+		global $rbacsystem, $ilUser, $ilCtrl, $ilDB, $lng, $ilPluginAdmin;
 
 		if(get_class($this->object) == "ilObjTest")
 		{
@@ -942,22 +935,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->object->purgeQuestions();
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
-
-		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
-		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
-
-		$arrFilter = array();
-		foreach ($table_gui->getFilterItems() as $item)
-		{
-			if ($item->getValue() !== false)
-			{
-				$arrFilter[$item->getPostVar()] = $item->getValue();
-			}
-		}
 		
-		$data = $this->object->getQuestionBrowserData($arrFilter);
-		$table_gui->setData($data);
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		$taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
+
+		$table_gui = $this->buildQuestionBrowserTableGUI($taxIds);
 
 		if( $rbacsystem->checkAccess('write', $_GET['ref_id']) )
 		{
@@ -968,12 +950,40 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					$this->ctrl->getLinkTarget($this, 'createQuestionForm')
 			);
 			
-			$this->tpl->setContent( $this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table_gui) );
+			$this->tpl->setContent(
+					$this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table_gui)
+			);
 		}
 		else
 		{
 			$this->tpl->setContent( $this->ctrl->getHTML($table_gui) );
 		}
+		
+        if( $this->object->getShowTaxonomies() )
+        {
+            $this->lng->loadLanguageModule('tax');
+			
+            require_once 'Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php';
+
+            foreach($taxIds as $taxId)
+            {
+				if( $taxId != $this->object->getNavTaxonomyId() )
+				{
+					continue;
+				}
+				
+				$taxExp = new ilTaxonomyExplorerGUI(
+						$this, 'showNavTaxonomy', $taxId, 'ilobjquestionpoolgui', 'questions'
+				);
+				
+				if( !$taxExp->handleCommand() )
+				{
+					$this->tpl->setLeftContent($taxExp->getHTML()."&nbsp;");
+				}
+				
+				break;
+            }
+        }
 	}
 	
 	private function createQuestionFormObject()
@@ -1301,7 +1311,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilHelp;
 
-		
+		$currentUserHasWriteAccess = $ilAccess->checkAccess("write", "", $this->object->getRefId());
+
 		$ilHelp->setScreenIdComponent("qpl");
 		
 		$next_class = strtolower($this->ctrl->getNextClass());
@@ -1312,6 +1323,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ilmdeditorgui":
 			case "ilexportgui":
 				break;
+			
+			case 'ilobjtaxonomygui':
+			case 'ilobjquestionpoolsettingsgeneralgui':
+				
+				if( $currentUserHasWriteAccess )
+				{
+					$this->addSettingsSubTabs($tabs_gui);
+				}
+				
+				break;
+			
 			default:
 				return;
 				break;
@@ -1370,10 +1392,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
 		{
 			// properties
-			$tabs_gui->addTarget("settings",
-				 $this->ctrl->getLinkTarget($this,'properties'),
-				 "properties", "",
-				 "");
+			$tabs_gui->addTarget(
+					'settings', $this->ctrl->getLinkTargetByClass('ilObjQuestionPoolSettingsGeneralGUI'),
+					array(), array('ilObjQuestionPoolSettingsGeneralGUI', 'ilObjTaxonomyGUI')
+			);
 		}
 
 		// print view
@@ -1395,7 +1417,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 //				 "", "");
 		}
 
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if( $currentUserHasWriteAccess )
 		{
 			$tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTargetByClass("ilexportgui", ""),
@@ -1407,6 +1429,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
+	}
+	
+	private function addSettingsSubTabs(ilTabsGUI $tabs)
+	{
+		$tabs->addSubTabTarget(
+				'qpl_settings_subtab_general',
+				$this->ctrl->getLinkTargetByClass('ilObjQuestionPoolSettingsGeneralGUI'),
+				'', 'ilObjQuestionPoolSettingsGeneralGUI'
+		);
+		
+		$tabs->addSubTabTarget(
+				'qpl_settings_subtab_taxonomies',
+				$this->ctrl->getLinkTargetByClass('ilObjTaxonomyGUI', 'editAOTaxonomySettings'),
+				'', 'ilObjTaxonomyGUI'
+		);
 	}
 	
 	/**
@@ -1471,6 +1508,60 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
+	
+	/**
+	 * @param array $taxIds
+	 * @global ilRbacSystem  $rbacsystem
+	 * @global ilDB $ilDB
+	 * @global ilLanguage $lng
+	 * @global ilPluginAdmin $ilPluginAdmin
+	 * @return ilQuestionBrowserTableGUI
+	 */
+	private function buildQuestionBrowserTableGUI($taxIds)
+	{
+		global $rbacsystem, $ilDB, $lng, $ilPluginAdmin;
+
+		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)), false, $taxIds);
+		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+		$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin, $this->object->getId());
+		
+		foreach ($table_gui->getFilterItems() as $item)
+		{
+			if( substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_' )
+			{
+				$v = $item->getValue();
+				
+				if( is_array($v) && count($v) && !(int)$v[0] )
+				{
+					continue;
+				}
+				
+				$taxId = substr($item->getPostVar(), strlen('tax_'));
+				$questionList->addTaxonomyFilter($taxId, $item->getValue());
+			}
+			elseif( $item->getValue() !== false )
+			{
+				$questionList->addFieldFilter($item->getPostVar(), $item->getValue());
+			}
+		}
+		
+		if( $this->object->isNavTaxonomyActive() && (int)$_GET['tax_node'] )
+		{
+			$questionList->addTaxonomyFilter( $this->object->getNavTaxonomyId(), array((int)$_GET['tax_node']) );
+		}
+
+		$questionList->load();
+		$data = $questionList->getQuestionDataArray();
+		
+		$table_gui->setData($data);
+		
+		return $table_gui;
+	}
+	
+	
 
 } // END class.ilObjQuestionPoolGUI
 ?>

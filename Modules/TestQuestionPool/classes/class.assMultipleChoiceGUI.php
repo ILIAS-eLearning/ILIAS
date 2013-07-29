@@ -139,6 +139,9 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					$this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $_POST['choice']['points_unchecked'][$index], $index);
 				}
 			}
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -232,7 +235,9 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0, 0);
 		$choices->setValues($this->object->getAnswers());
 		$form->addItem($choices);
-
+		
+		$this->populateTaxonomyFormSection($form);
+		
 		$this->addQuestionFormCommandButtons($form);
 	
 		$errors = false;

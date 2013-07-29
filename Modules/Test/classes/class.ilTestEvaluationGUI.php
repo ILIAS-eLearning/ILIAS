@@ -795,10 +795,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->ctrl->saveParameter($this, "active_id");
 		$active_id = $_GET["active_id"];
 		$pass = $_GET["pass"];
+		
+		$testSession = $this->testSessionFactory->getSession($active_id);
+		
 		$result_array =& $this->object->getTestResult($active_id, $pass);
 
 		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outParticipantsPassDetails");		
-		$user_data = $this->getResultsUserdata($active_id, FALSE);
+		$user_data = $this->getResultsUserdata($testSession, $active_id, FALSE);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
 		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", TRUE, TRUE, "Modules/Test");
@@ -885,6 +888,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
 		$active_id = $_GET["active_id"];
+		
+		$testSession = $this->testSessionFactory->getSession($active_id);
+		
 		if ($this->object->getNrOfTries() == 1)
 		{
 			$this->ctrl->setParameter($this, "active_id", $active_id);
@@ -912,7 +918,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$statement = $this->getFinalStatement($active_id);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		$user_data = $this->getResultsUserdata($active_id);
+		$user_data = $this->getResultsUserdata($testSession, $active_id);
 		$template->setVariable("USER_DATA", $user_data);
 		$template->setVariable("TEXT_OVERVIEW", $this->lng->txt("tst_results_overview"));
 		$template->setVariable("USER_MARK", $statement["mark"]);
@@ -1020,8 +1026,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	function outUserResultsOverview()
 	{
 		global $ilUser, $ilias, $ilLog;
+		
+		$testSession = $this->testSessionFactory->getSession();
 
-		if (!$this->object->canShowTestResults($ilUser->getId())) $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		if (!$this->object->canShowTestResults($testSession, $ilUser->getId())) $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		include_once("./Services/UICore/classes/class.ilTemplate.php");
 		$templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
 		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");
@@ -1029,7 +1037,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$pass = null;
 		$user_id = $ilUser->getId();
 		$uname = $this->object->userLookupFullName($user_id, TRUE);
-		$active_id = $this->object->getTestSession()->getActiveId();
+		$active_id = $testSession->getActiveId();
 		$hide_details = !$this->object->getShowPassDetails();
 		if ($hide_details)
 		{
@@ -1066,11 +1074,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$templatehead->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
 			$templatehead->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
 			$templatehead->parseCurrentBlock();
-		
-			include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-			if(ilRPCServerSettings::getInstance()->isEnabled())
-			{		
-			if ($this->object->canShowCertificate($user_id, $active_id))
+
+		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+		if(ilRPCServerSettings::getInstance()->isEnabled())
+		{		
+			if ($this->object->canShowCertificate($testSession, $user_id, $active_id))
 			{
 				$templatehead->setVariable("CERTIFICATE_URL", $this->ctrl->getLinkTarget($this, "outCertificate"));
 				$templatehead->setVariable("CERTIFICATE_TEXT", $this->lng->txt("certificate"));
@@ -1082,7 +1090,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$templatehead->setVariable("PRINT_URL", "javascript:window.print();");
 
 		$statement = $this->getFinalStatement($active_id);
-		$user_data = $this->getResultsUserdata($active_id, TRUE);
+		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
 
 		// output of the details of a selected pass
 		$this->ctrl->saveParameter($this, "pass");

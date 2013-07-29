@@ -121,6 +121,9 @@ class assJavaAppletGUI extends assQuestionGUI
 					}
 				}
 			}
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -241,6 +244,8 @@ class assJavaAppletGUI extends assQuestionGUI
 		$kvp->setValueName($this->lng->txt('value'));
 		$kvp->setValues($values);
 		$form->addItem($kvp);
+		
+		$this->populateTaxonomyFormSection($form);
 		
 		$this->addQuestionFormCommandButtons($form);
 

@@ -113,6 +113,8 @@ class assTextQuestionGUI extends assQuestionGUI
 					break;
 			}
 			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -232,7 +234,10 @@ class assTextQuestionGUI extends assQuestionGUI
 			$form->addItem($scoringMode);
 		}
 		
+		$this->populateTaxonomyFormSection($form);
+		
 		$this->addQuestionFormCommandButtons($form);
+		
 		$errors = false;
 	
 		if ($save)

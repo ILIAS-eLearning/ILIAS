@@ -77,7 +77,7 @@ class ilTestSession
 	*
 	* @access public
 	*/
-	function ilTestSession($active_id = "")
+	function ilTestSession()
 	{
 		$this->active_id = 0;
 		$this->user_id = 0;
@@ -89,10 +89,6 @@ class ilTestSession
 		$this->pass = 0;
 		$this->ref_id = 0;
 		$this->tstamp = 0;
-		if ($active_id > 0)
-		{
-			$this->loadFromDb($active_id);
-		}
 	}
 
 	/**
@@ -115,7 +111,7 @@ class ilTestSession
 		return $this->ref_id;
 	}
 	
-	private function activeIDExists($user_id, $test_id)
+	protected function activeIDExists($user_id, $test_id)
 	{
 		global $ilDB;
 
@@ -128,7 +124,6 @@ class ilTestSession
 			if ($result->numRows())
 			{
 				$row = $ilDB->fetchAssoc($result);
-				$this->active_id = $row["active_id"];
 				$this->active_id = $row["active_id"];
 				$this->user_id = $row["user_fi"];
 				$this->anonymous_id = $row["anonymous_id"];
@@ -215,15 +210,16 @@ class ilTestSession
 		$submitted = ($this->isSubmitted()) ? 1 : 0;
 		if ($this->active_id > 0)
 		{
-			$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET lastindex = %s, tries = %s, submitted = %s, submittimestamp = %s, tstamp = %s WHERE active_id = %s",
-				array('integer', 'integer', 'integer', 'timestamp', 'integer', 'integer'),
+			$affectedRows = $ilDB->update('tst_active', 
 				array(
-					$this->getLastSequence(),
-					$this->getPass(),
-					$submitted,
-					(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
-					time()-10,
-					$this->getActiveId()
+					'lastindex' => array('integer', $this->getLastSequence()),
+					'tries' => array('integer', $this->getPass()),
+					'submitted' => array('integer', $submitted),
+					'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
+					'tstamp' => array('integer', time()-10)
+				),
+				array(
+					'active_id' => array('integer', $this->getActiveId())
 				)
 			);
 
@@ -238,19 +234,19 @@ class ilTestSession
 			if (!$this->activeIDExists($this->getUserId(), $this->getTestId()))
 			{
 				$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
+
 				$next_id = $ilDB->nextId('tst_active');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-					array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer'),
+				$affectedRows = $ilDB->insert('tst_active',
 					array(
-						$next_id,
-						$this->getUserId(),
-						$anonymous_id,
-						$this->getTestId(),
-						$this->getLastSequence(),
-						$this->getPass(),
-						$submitted,
-						(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
-						time()-10
+						'active_id' => array('integer', $next_id),
+						'user_fi' => array('integer', $this->getUserId()),
+						'anonymous_id' => array('text', $anonymous_id),
+						'test_fi' => array('integer', $this->getTestId()),
+						'lastindex' => array('integer', $this->getLastSequence()),
+						'tries' => array('integer', $this->getPass()),
+						'submitted' => array('integer', $submitted),
+						'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
+						'tstamp' => array('integer', time()-10)
 					)
 				);
 				$this->active_id = $next_id;
@@ -323,9 +319,8 @@ class ilTestSession
 	* Loads the session data for a given active id
 	*
 	* @param integer $active_id The database id of the test session
-	* @access private
 	*/
-	private function loadFromDb($active_id)
+	public function loadFromDb($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT * FROM tst_active WHERE active_id = %s", 

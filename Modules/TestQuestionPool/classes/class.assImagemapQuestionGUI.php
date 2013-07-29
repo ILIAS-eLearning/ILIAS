@@ -142,6 +142,9 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 			}
 			$this->object->setIsMultipleChoice($_POST['is_multiple_choice'] == assImagemapQuestion::MODE_MULTIPLE_CHOICE);
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -202,6 +205,8 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$imagemapfile = new ilFileInputGUI($this->lng->txt('add_imagemap'), 'imagemapfile');
 		$imagemapfile->setRequired(false);
 		$form->addItem($imagemapfile);
+		
+		$this->populateTaxonomyFormSection($form);
 
 		$this->addQuestionFormCommandButtons($form);
 	
@@ -425,8 +430,8 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 
-		$this->ctrl->setParameterByClass("ilTestOutputGUI", "formtimestamp", time());
-		$formaction = $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "selectImagemapRegion");
+		#$this->ctrl->setParameterByClass($this->getTargetGuiClass(), "formtimestamp", time());
+		#$formaction = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), "selectImagemapRegion");
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
 		{
@@ -691,8 +696,8 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$this->ctrl->setParameterByClass("ilTestOutputGUI", "formtimestamp", time());
-		$formaction = $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "selectImagemapRegion");
+		$this->ctrl->setParameterByClass($this->getTargetGuiClass(), "formtimestamp", time());
+		$hrefArea = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), "handleQuestionAction");
 		foreach ($this->object->answers as $answer_id => $answer)
 		{
 			$template->setCurrentBlock("imagemap_area");
@@ -701,7 +706,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			{
 				$parameter = "&amp;remImage=$answer_id";
 			}
-			$template->setVariable("HREF_AREA", $formaction . $parameter);
+			$template->setVariable("HREF_AREA", $hrefArea . $parameter);
 			$template->setVariable("SHAPE", $answer->getArea());
 			$template->setVariable("COORDS", $answer->getCoords());
 			$template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
