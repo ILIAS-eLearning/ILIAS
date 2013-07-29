@@ -1029,9 +1029,10 @@ class ilInternalLinkGUI
 		$exp->addFilter("mcst");
 		$exp->addFilter("wiki");
 		$exp->addFilter("mep");
+		$exp->addFilter("sess");
 
 		$sel_types = array('lm','dbk','htlm','glo','frm','exc','tst','svy','webr','chat',
-			'cat','crs','grp','file','fold','sahs','mcst','wiki','mep');
+			'cat','crs','grp','file','fold','sahs','mcst','wiki','mep','sess');
 		$exp->setSelectableTypes($sel_types);
 
 

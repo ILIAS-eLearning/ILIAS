@@ -351,10 +351,10 @@ class ilGlossaryTerm
 	 * @return	array			array of terms 
 	 */
 	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "", $a_def = "",
-		$a_tax_node = 0)
+		$a_tax_node = 0, $a_add_amet_fields = false, $a_amet_filter = "")
 	{
 		global $ilDB;
-		
+
 		$terms = array();
 		
 		// get all term ids under taxonomy node (if given)
@@ -413,6 +413,13 @@ class ilGlossaryTerm
 		{
 			$terms[] = array("term" => $term_rec["term"],
 				"language" => $term_rec["language"], "id" => $term_rec["id"], "glo_id" => $term_rec["glo_id"]);
+		}
+		
+		// add advanced metadata
+		if ($a_add_amet_fields || is_array($a_amet_filter))
+		{
+			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
+			$terms = ilAdvancedMDValues::queryForRecords($a_glo_id, "term", $terms, "glo_id", "id", $a_amet_filter);
 		}
 		return $terms;
 	}

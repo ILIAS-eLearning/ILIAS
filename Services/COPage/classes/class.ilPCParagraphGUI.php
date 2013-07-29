@@ -641,7 +641,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			return;
 		}
 
-		$this->updated = $this->pg_obj->update();
+		$this->updated = $this->content_obj->updatePage($this->pg_obj);
 //echo "<br>PARupdate_after:".htmlentities($this->pg_obj->dom->dump_mem(0, "UTF-8")).":";
 
 		$ilBench->stop("Editor","Paragraph_update");
@@ -684,7 +684,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->insert();
 			return;
 		}
-		$this->updated = $this->pg_obj->update();
+		$this->updated = $this->content_obj->updatePage($this->pg_obj);
 
 		if ($this->updated === true)
 		{

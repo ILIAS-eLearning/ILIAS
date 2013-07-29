@@ -555,7 +555,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->setSettingsSubTabs("general_settings");
 		
 		$this->initSettingsForm();
-		$this->getSettingsValues();
 		
 		// Edit ecs export settings
 		include_once 'Modules/Glossary/classes/class.ilECSGlossarySettings.php';
@@ -578,9 +577,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->form = new ilPropertyFormGUI();
 		
 		// online
-		$cb = new ilCheckboxInputGUI($lng->txt("cont_online"), "cobj_online");
-		$cb->setValue("y");
-		$this->form->addItem($cb);
+		$online = new ilCheckboxInputGUI($lng->txt("cont_online"), "cobj_online");
+		$online->setValue("y");
+		$this->form->addItem($online);
 		
 		// glossary mode
 		$options = array(
@@ -588,45 +587,65 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			"level"=>$this->lng->txt("glo_mode_level"),
 			"subtree"=>$this->lng->txt("glo_mode_subtree")
 			);
-		$si = new ilSelectInputGUI($lng->txt("glo_mode"), "glo_mode");
-		$si->setOptions($options);
-		$si->setInfo($lng->txt("glo_mode_desc"));
-		$this->form->addItem($si);
+		$glo_mode = new ilSelectInputGUI($lng->txt("glo_mode"), "glo_mode");
+		$glo_mode->setOptions($options);
+		$glo_mode->setInfo($lng->txt("glo_mode_desc"));
+		$this->form->addItem($glo_mode);
 
 		// presentation mode
-		$radg = new ilRadioGroupInputGUI($lng->txt("glo_presentation_mode"), "pres_mode");
-		$radg->setValue("table");
+		$pres_mode = new ilRadioGroupInputGUI($lng->txt("glo_presentation_mode"), "pres_mode");
+		$pres_mode->setValue("table");
 		$op1 = new ilRadioOption($lng->txt("glo_table_form"), "table", $lng->txt("glo_table_form_info"));
 
 			// short text length
-			$ni = new ilNumberInputGUI($lng->txt("glo_text_snippet_length"), "snippet_length");
-			$ni->setMaxValue(3000);
-			$ni->setMinValue(100);
-			$ni->setMaxLength(4);
-			$ni->setSize(4);
-			$ni->setInfo($lng->txt("glo_text_snippet_length_info"));
-			$ni->setValue(200);
-			$op1->addSubItem($ni);
+			$snl = new ilNumberInputGUI($lng->txt("glo_text_snippet_length"), "snippet_length");
+			$snl->setMaxValue(3000);
+			$snl->setMinValue(100);
+			$snl->setMaxLength(4);
+			$snl->setSize(4);
+			$snl->setInfo($lng->txt("glo_text_snippet_length_info"));
+			$snl->setValue(200);
+			$op1->addSubItem($snl);
 
-		$radg->addOption($op1);
+		$pres_mode->addOption($op1);
 		$op2 = new ilRadioOption($lng->txt("glo_full_definitions"), "full_def", $lng->txt("glo_full_definitions_info"));
-		$radg->addOption($op2);
-		$this->form->addItem($radg);
+		$pres_mode->addOption($op2);
+		$this->form->addItem($pres_mode);
 
 		// show taxonomy
 		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 		if (count($tax_ids) > 0)
 		{ 
-			$cb = new ilCheckboxInputGUI($this->lng->txt("glo_show_taxonomy"), "show_tax");
-			$this->form->addItem($cb);
+			$show_tax = new ilCheckboxInputGUI($this->lng->txt("glo_show_taxonomy"), "show_tax");
+			$this->form->addItem($show_tax);
 		}
 		
 		// downloads
-		$cb = new ilCheckboxInputGUI($lng->txt("cont_downloads"), "glo_act_downloads");
-		$cb->setValue("y");
-		$cb->setInfo($lng->txt("cont_downloads_desc"));
-		$this->form->addItem($cb);
+		$down = new ilCheckboxInputGUI($lng->txt("cont_downloads"), "glo_act_downloads");
+		$down->setValue("y");
+		$down->setInfo($lng->txt("cont_downloads_desc"));
+		$this->form->addItem($down);
+		
+		if ($a_mode == "edit")
+		{
+			$online->setChecked($this->object->getOnline());
+			$glo_mode->setValue($this->object->getVirtualMode());
+			$pres_mode->setValue($this->object->getPresentationMode());
+			$snl->setValue($this->object->getSnippetLength());
+			if (count($tax_ids) > 0)
+			{
+				$show_tax->setChecked($this->object->getShowTaxonomy());
+			}
+			
+			$down->setChecked($this->object->isActiveDownloads());
+		}		
+		
+		// advanced metadata
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'glo',$this->object->getId(), "term");
+		$record_gui->setPropertyForm($this->form);
+		$record_gui->parseRecordSelection($this->lng->txt("glo_add_term_properties"));		
 	
 		// save and cancel commands
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
@@ -635,23 +654,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}	
 
-	/**
-	 * Get current values for settings from 
-	 */
-	public function getSettingsValues()
-	{
-		$values = array();
-	
-		$values["cobj_online"] = $this->object->getOnline();
-		$values["glo_mode"] = $this->object->getVirtualMode();
-//		$values["glo_act_menu"] = $this->object->isActiveGlossaryMenu();
-		$values["glo_act_downloads"] = $this->object->isActiveDownloads();
-		$values["pres_mode"] = $this->object->getPresentationMode();
-		$values["snippet_length"] = $this->object->getSnippetLength();
-		$values["show_tax"] = $this->object->getShowTaxonomy();
-	
-		$this->form->setValuesByArray($values);
-	}
 
 	/**
 	* save properties
@@ -675,6 +677,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			// set definition short texts dirty
 			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			ilGlossaryDefinition::setShortTextsDirty($this->object->getId());
+
+			// update metadata record selection
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'glo',$this->object->getId(), "term");
+			$record_gui->saveSelection();
 			
 			// Update ecs export settings
 			include_once 'Modules/Glossary/classes/class.ilECSGlossarySettings.php';	
@@ -684,6 +691,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 				$this->ctrl->redirect($this, "properties");
 			}
+			
 		}
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHTML());

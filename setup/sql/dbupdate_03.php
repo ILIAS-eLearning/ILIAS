@@ -16803,3 +16803,292 @@ if( !$ilDB->tableColumnExists('tst_active', 'taxfilter') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3982>
+<?php
+
+if(!$ilDB->tableExists("lm_glossaries"))
+{
+	$fields = array(
+		"lm_id" => 	array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		"glo_id" => 	array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		));
+	
+	$ilDB->createTable(
+		'lm_glossaries',
+		$fields);
+
+	$ilDB->addPrimaryKey("lm_glossaries", array("lm_id", "glo_id"));	
+}
+
+?>
+<#3983>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3984>
+<?php
+
+if(!$ilDB->tableColumnExists("content_object", "hide_head_foot_print"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		);
+	$ilDB->addTableColumn("content_object", "hide_head_foot_print", $def);
+}
+?>
+<#3985>
+<?php
+
+if(!$ilDB->tableColumnExists("il_news_item", "mob_cnt_download"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		);
+	$ilDB->addTableColumn("il_news_item", "mob_cnt_download", $def);
+}
+?>
+<#3986>
+<?php
+
+if(!$ilDB->tableColumnExists("il_news_item", "mob_cnt_play"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		);
+	$ilDB->addTableColumn("il_news_item", "mob_cnt_play", $def);
+}
+?>
+<#3987>
+<?php
+
+if(!$ilDB->tableColumnExists("il_object_def", "amet"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		);
+	$ilDB->addTableColumn("il_object_def", "amet", $def);
+}
+?>
+<#3988>
+<?php
+
+if(!$ilDB->tableExists("il_object_subitem"))
+{
+	$fields = array(
+		"object" => 	array(
+			'type'    => 'text',
+			'length'  => 10,
+			'notnull' => true
+		),
+		"subitem" => 	array(
+			'type'    => 'text',
+			'length'  => 10,
+			'notnull' => true
+		),
+		"amet" => 	array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+		);
+	
+	$ilDB->createTable(
+		'il_object_subitem',
+		$fields);
+
+	$ilDB->addPrimaryKey("il_object_subitem", array("object", "subitem"));	
+}
+
+?>
+<#3989>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3990>
+<?php
+	$ilDB->dropTable("il_object_subitem");
+?>
+<#3991>
+<?php
+
+if(!$ilDB->tableExists("il_object_sub_type"))
+{
+	$fields = array(
+		"obj_type" => 	array(
+			'type'    => 'text',
+			'length'  => 10,
+			'notnull' => true
+		),
+		"sub_type" => 	array(
+			'type'    => 'text',
+			'length'  => 10,
+			'notnull' => true
+		),
+		"amet" => 	array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+		);
+	
+	$ilDB->createTable(
+		'il_object_sub_type',
+		$fields);
+
+	$ilDB->addPrimaryKey("il_object_sub_type", array("obj_type", "sub_type"));	
+}
+
+?>
+<#3992>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3993>
+<?php
+
+if(!$ilDB->tableColumnExists("adv_md_record_objs", "sub_type"))
+{
+	$def = array(
+			'type'    => 'text',
+			'length'  => 10,
+			'notnull' => false
+		);
+	$ilDB->addTableColumn("adv_md_record_objs", "sub_type", $def);
+}
+?>
+<#3994>
+<?php
+
+if(!$ilDB->tableColumnExists("adv_md_values", "sub_type"))
+{
+	$def = array(
+			'type'    => 'text',
+			'length'  => 10,
+			'notnull' => true,
+			'default' => "-"
+		);
+	$ilDB->addTableColumn("adv_md_values", "sub_type", $def);
+}
+?>
+<#3995>
+<?php
+
+if(!$ilDB->tableColumnExists("adv_md_values", "sub_id"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		);
+	$ilDB->addTableColumn("adv_md_values", "sub_id", $def);
+}
+?>
+<#3996>
+<?php
+
+$ilDB->dropPrimaryKey("adv_md_values");
+$ilDB->addPrimaryKey("adv_md_values", array("obj_id", "field_id", "sub_type", "sub_id"));
+
+?>
+<#3997>
+<?php
+$ilDB->dropTableColumn("adv_md_record_objs", "sub_type");
+if(!$ilDB->tableColumnExists("adv_md_record_objs", "sub_type"))
+{
+	$def = array(
+			'type'    => 'text',
+			'length'  => 10,
+			'notnull' => true,
+			'default' => "-"
+		);
+	$ilDB->addTableColumn("adv_md_record_objs", "sub_type", $def);
+}
+?>
+<#3998>
+<?php
+	$ilDB->dropPrimaryKey("adv_md_record_objs");
+	$ilDB->addPrimaryKey("adv_md_record_objs", array("record_id", "obj_type", "sub_type"));
+?>
+<#3999>
+<?php
+
+if(!$ilDB->tableExists("adv_md_obj_rec_select"))
+{
+	$fields = array(
+		"obj_id" => 	array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true
+		),
+		"rec_id" => 	array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true
+		)
+		);
+	
+	$ilDB->createTable(
+		'adv_md_obj_rec_select',
+		$fields);
+
+	$ilDB->addPrimaryKey("adv_md_obj_rec_select", array("obj_id", "rec_id"));	
+}
+
+?>
+<#4000>
+<?php
+$ilDB->dropPrimaryKey("adv_md_obj_rec_select");
+$ilDB->dropTable("adv_md_obj_rec_select");
+if(!$ilDB->tableExists("adv_md_obj_rec_select"))
+{
+	$fields = array(
+		"obj_id" => 	array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true
+		),
+		"sub_type" => 	array(
+			'type'    => 'text',
+			'length'  => 10,
+			'notnull' => true,
+			'default' => "-"
+		),
+		"rec_id" => 	array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true
+		)
+		);
+	
+	$ilDB->createTable(
+		'adv_md_obj_rec_select',
+		$fields);
+
+	$ilDB->addPrimaryKey("adv_md_obj_rec_select", array("obj_id", "sub_type", "rec_id"));	
+}
+
+?>

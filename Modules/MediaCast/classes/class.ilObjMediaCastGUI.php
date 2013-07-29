@@ -910,35 +910,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Delete news items.
-	*/
-	function downloadItemObject()
+	 * Download news media item
+	 */
+	function downloadItemObject($a_increase_download_cnt)
 	{
 		global $ilCtrl;
 		$this->checkPermission("read");		
 		
-		$mc_item = new ilNewsItem($_GET["item_id"]);
-		$mob = $mc_item->getMobId();
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$mob = new ilObjMediaObject($mob);
-		$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
-		$purpose = $_GET["purpose"];
-		$m_item = $mob->getMediaItem($purpose);
-		if ($m_item->getLocationType() != "Reference")
+		$news_item = new ilNewsItem($_GET["item_id"]);
+		if (!$news_item->deliverMobFile($_GET["purpose"], (int) $_GET["presentation"]))
 		{
-		    $file = $mob_dir."/".$m_item->getLocation();
-		    if (file_exists($file) && is_file($file))
-		    {
-		        ilUtil::deliverFile($file, $m_item->getLocation());
-		    }
-		    else {
-		        ilUtil::sendFailure("File not found!",true);
-		        $ilCtrl->redirect($this, "listItems");
-		    }
-		}
-		else 
-		{
-		    ilUtil::redirect($m_item->getLocation());
+			$ilCtrl->redirect($this, "listItems");
 		}
 		exit;
 	}
@@ -1466,7 +1448,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	
 	function showGallery()
 	{
-		global $tpl, $ilTabs;
+		global $tpl, $ilTabs, $ilCtrl;
 		
 		$tpl->addJavascript("./Modules/MediaCast/js/MediaCast.js");
 		
@@ -1502,7 +1484,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			if (is_object($med))
 			{
 				include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
-				$mpl = new ilMediaPlayerGUI();
+				
+				// the news id will be used as player id, see also ilMediaCastTableGUI
+				$mpl = new ilMediaPlayerGUI($item["id"],
+					$ilCtrl->getLinkTarget($this, "handlePlayerEvent", "", true, false));
 				
 				if (strcasecmp("Reference", $med->getLocationType()) == 0)
 				{
@@ -1663,5 +1648,25 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$ilCtrl->redirect($this, "editCastItem");
 	}
 
+	/**
+	 * Handle player event
+	 *
+	 * @param
+	 * @return
+	 */
+	function handlePlayerEventObject()
+	{
+		if ($_GET["event"] == "play")
+		{
+			$player = explode("_", $_GET["player"]);
+			$news_id = (int) $player[1];
+			include_once("./Services/News/classes/class.ilNewsItem.php");
+			$item = new ilNewsItem($news_id);
+			$item->increasePlayCounter();
+		}
+		exit;
+	}
+	
+	
 }
 ?>

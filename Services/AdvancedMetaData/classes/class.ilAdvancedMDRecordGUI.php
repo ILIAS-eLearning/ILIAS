@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** 
 * 
@@ -35,11 +16,16 @@ class ilAdvancedMDRecordGUI
 	const MODE_EDITOR = 1;
 	const MODE_SEARCH = 2;
 	const MODE_INFO = 3;
+	const MODE_REC_SELECTION = 4;		// record selection (per object)
+	const MODE_FILTER = 5;				// filter (as used e.g. in tables)
+	const MODE_TABLE_HEAD = 6;				// table header (columns)
+	const MODE_TABLE_CELLS = 7;			// table cells
 	
 	protected $lng;
 	
 	private $mode;
 	private $obj_type;
+	private $sub_type;
 	private $obj_id;
 	
 	private $form;
@@ -54,7 +40,7 @@ class ilAdvancedMDRecordGUI
 	 * @param int obj_type
 	 * 
 	 */
-	public function __construct($a_mode,$a_obj_type = '',$a_obj_id = '')
+	public function __construct($a_mode,$a_obj_type = '',$a_obj_id = '', $a_sub_type = '', $a_sub_id = '')
 	{
 		global $lng;
 	 	
@@ -62,6 +48,8 @@ class ilAdvancedMDRecordGUI
 	 	$this->mode = $a_mode;
 	 	$this->obj_type = $a_obj_type;
 	 	$this->obj_id = $a_obj_id;
+	 	$this->sub_type = $a_sub_type;
+	 	$this->sub_id = $a_sub_id;
 	}
 	
 	/**
@@ -101,6 +89,26 @@ class ilAdvancedMDRecordGUI
 	}
 	
 	/**
+	 * Set selected only flag
+	 *
+	 * @param boolean $a_val retrieve only records, that are selected by the object	
+	 */
+	function setSelectedOnly($a_val)
+	{
+		$this->selected_only = $a_val;
+	}
+	
+	/**
+	 * Get selected only flag
+	 *
+	 * @return boolean retrieve only records, that are selected by the object
+	 */
+	function getSelectedOnly()
+	{
+		return $this->selected_only;
+	}
+	
+	/**
 	 * Get HTML
 	 *
 	 * @access public
@@ -119,6 +127,18 @@ class ilAdvancedMDRecordGUI
 	 		
 	 		case self::MODE_INFO:
 	 			return $this->parseInfoPage();
+	 			
+	 		case self::MODE_REC_SELECTION:
+	 			return $this->parseRecordSelection();
+	 			
+	 		case self::MODE_FILTER:
+	 			return $this->parseFilter();
+	 			
+	 		case self::MODE_TABLE_HEAD:
+	 			return $this->parseTableHead();
+
+	 		case self::MODE_TABLE_CELLS:
+	 			return $this->parseTableCells();
 	 			
 	 		default:
 	 			die('Not implemented yet');
@@ -187,7 +207,7 @@ class ilAdvancedMDRecordGUI
 					$value = ilUtil::stripSlashes($value);
 					break;
 			}
-			$val = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
+			$val = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id,$this->sub_type,$this->sub_id);
 			$val->setValue($value);
 			$this->values[] = $val;
 			unset($value);
@@ -262,7 +282,16 @@ class ilAdvancedMDRecordGUI
 	 	global $ilUser;
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-	 	foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type) as $record_obj)
+		if ($this->getSelectedOnly())
+		{
+			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
+		}
+		else
+		{
+			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
+		}
+
+	 	foreach($recs as $record_obj)
 	 	{
 	 		$section = new ilFormSectionHeaderGUI();
 	 		$section->setTitle($record_obj->getTitle());
@@ -278,7 +307,7 @@ class ilAdvancedMDRecordGUI
 	 			}
 	 			
 	 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
-				$value = ilAdvancedMDValue::_getInstance($this->obj_id,$def->getFieldId());
+				$value = ilAdvancedMDValue::_getInstance($this->obj_id,$def->getFieldId(),$this->sub_type,$this->sub_id);
 	 			
 	 			switch($def->getFieldType())
 	 			{
@@ -453,7 +482,7 @@ class ilAdvancedMDRecordGUI
 	private function parseInfoPage()
 	{
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-	 	foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type) as $record_obj)
+	 	foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type) as $record_obj)
 	 	{
 	 		$this->info->addSection($record_obj->getTitle());
 	 		
@@ -660,6 +689,241 @@ class ilAdvancedMDRecordGUI
 		$hours = (int) ($diff / (60 * 60));
 		$min = (int) (($diff % 3600) / 60);
 		return array($hours,$min); 
+	}
+
+	/**
+	 * Parse property form in editor mode
+	 *
+	 * @access private
+	 * 
+	 */
+	public function parseRecordSelection($a_sec_head = "")
+	{
+	 	global $ilUser;
+	 	
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+	 	$first = true;
+	 	foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type) as $record_obj)
+	 	{
+	 		$selected = ilAdvancedMDRecord::getObjRecSelection($this->obj_id, $this->sub_type);
+	 		if ($first)
+	 		{
+	 			$first = false;
+		 		$section = new ilFormSectionHeaderGUI();
+		 		$sec_tit = ($a_sec_head == "")
+		 			? $this->lng->txt("meta_adv_records")
+		 			: $a_sec_head;
+				$section->setTitle($sec_tit);
+				$this->form->addItem($section);
+	 		}
+	 		
+	 		// checkbox for each active record
+	 		$cb = new ilCheckboxInputGUI($record_obj->getTitle(), "amet_use_rec[]");
+	 		$cb->setInfo($record_obj->getDescription());
+	 		$cb->setValue($record_obj->getRecordId());
+	 		if (in_array($record_obj->getRecordId(), $selected))
+	 		{
+	 			$cb->setChecked(true);
+	 		}
+	 		$this->form->addItem($cb);
+	 	}
+	}
+	
+	/**
+	 * Save selection per object
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveSelection()
+	{
+		$sel = ilUtil::stripSlashesArray($_POST["amet_use_rec"]);
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+	 	ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $sel);
+	}
+
+	/**
+	 * Set table
+	 *
+	 * @param object $a_val table gui class	
+	 */
+	function setTableGUI($a_val)
+	{
+		$this->table_gui = $a_val;
+	}
+	
+	/**
+	 * Get table
+	 *
+	 * @return object table gui class
+	 */
+	function getTableGUI()
+	{
+		return $this->table_gui;
+	}
+	
+	/**
+	 * Set row data
+	 *
+	 * @param array $a_val assoc array of row data (containing md record data)	
+	 */
+	function setRowData($a_val)
+	{
+		$this->row_data = $a_val;
+	}
+	
+	/**
+	 * Get row data
+	 *
+	 * @return array assoc array of row data (containing md record data)
+	 */
+	function getRowData()
+	{
+		return $this->row_data;
+	}
+	
+	/**
+	 * Parse property for filter (table)
+	 *
+	 * @access private
+	 * 
+	 */
+	private function parseFilter()
+	{
+	 	global $ilUser;
+	 	
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		if ($this->getSelectedOnly())
+		{
+			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
+		}
+		else
+		{
+			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
+		}
+	 	foreach($recs as $record_obj)
+	 	{
+	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
+	 		{
+	 			if($this->handleECSDefinitions($def))
+	 			{
+	 				continue;
+	 			}
+	 			
+	 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
+	 			
+	 			switch($def->getFieldType())
+	 			{
+	 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
+	 					$text = new ilTextInputGUI($def->getTitle(),'md_'.$def->getFieldId());
+	 					$text->setSize(20);
+	 					$text->setMaxLength(512);
+	 					$text->setSubmitFormOnEnter(true);
+	 					$this->table_gui->addFilterItem($text);
+	 					$text->readFromSession();
+	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $text->getValue();
+	 					break;
+	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+	 					$select = new ilSelectInputGUI($def->getTitle(),'md_'.$def->getFieldId());
+	 					$select->setOptions($def->getFieldValuesForSelect());
+	 					$this->table_gui->addFilterItem($select);
+	 					$select->readFromSession();
+	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $select->getValue();
+	 					break;
+	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
+	 					
+	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md_'.$def->getFieldId());
+	 					$time->setShowTime(false);
+	 					$time->enableDateActivation($this->lng->txt('enabled'),
+							'md_activated['.$def->getFieldId().']', false);
+	 					$this->table_gui->addFilterItem($time);
+	 					$time->readFromSession();
+	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getValue();
+	 					break;
+	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+
+	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md_'.$def->getFieldId());
+	 					$time->setShowTime(true);
+	 					$time->enableDateActivation($this->lng->txt('enabled'),
+							'md_activated['.$def->getFieldId().']', false);
+	 					$this->table_gui->addFilterItem($time);
+	 					$time->readFromSession();
+	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getValue();
+	 					break;
+	 			}
+	 		}
+	 	}
+	}
+	
+	/**
+	 * Parse property for table head
+	 */
+	private function parseTableHead()
+	{
+	 	global $ilUser;
+	 	
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		if ($this->getSelectedOnly())
+		{
+			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
+		}
+		else
+		{
+			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
+		}
+	 	foreach($recs as $record_obj)
+	 	{
+	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
+	 		{
+	 			if($this->handleECSDefinitions($def))
+	 			{
+	 				continue;
+	 			}
+	 			
+	 			$this->table_gui->addColumn($def->getTitle(),'md_'.$def->getFieldId());
+	 		}
+	 	}
+	}
+
+	/**
+	 * Parse table cells
+	 */
+	private function parseTableCells()
+	{
+	 	global $ilUser;
+	 	
+	 	$data = $this->getRowData();
+	 	
+	 	$html = "";
+	 	
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		if ($this->getSelectedOnly())
+		{
+			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
+		}
+		else
+		{
+			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
+		}
+	 	foreach($recs as $record_obj)
+	 	{
+	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
+	 		{
+	 			if($this->handleECSDefinitions($def))
+	 			{
+	 				continue;
+	 			}
+	 			
+	 			$html.= "<td class='std'>".$data['md_'.$def->getFieldId()]."</td>";
+	 		}
+	 	}
+	 	return $html;
 	}
 	
 }

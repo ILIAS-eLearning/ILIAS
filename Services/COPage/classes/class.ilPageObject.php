@@ -4970,5 +4970,22 @@ class ilPageObject
 		return array();
 	}
 // @todo end
+	
+	/**
+	 * Before page content update
+	 *
+	 * Note: This one is "work in progress", currently only text paragraphs call this hook
+	 * It is called before the page content object invokes the update procedure of
+	 * ilPageObject
+	 *
+	 * @param
+	 * @return
+	 */
+	function beforePageContentUpdate($a_page_content)
+	{
+		
+	}
+	
+
 }
 ?>

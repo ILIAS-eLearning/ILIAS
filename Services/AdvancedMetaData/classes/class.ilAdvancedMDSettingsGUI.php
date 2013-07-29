@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** 
 * 
@@ -91,6 +72,11 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function showRecords()
 	{
+		global $ilToolbar;
+		
+		$ilToolbar->addButton($this->lng->txt('add'),
+			$this->ctrl->getLinkTarget($this, "createRecord"));
+		
 		$this->record_objs = $this->getRecordObjects();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_records.html','Services/AdvancedMetaData');
 
@@ -99,7 +85,7 @@ class ilAdvancedMDSettingsGUI
 		$table_gui->setTitle($this->lng->txt("md_record_list_table"));
 		$table_gui->parseRecords($this->record_objs);
 		$table_gui->addCommandButton("updateRecords", $this->lng->txt("save"));
-		$table_gui->addCommandButton('createRecord',$this->lng->txt('add'));
+		//$table_gui->addCommandButton('createRecord',$this->lng->txt('add'));
 		$table_gui->addMultiCommand("exportRecords",$this->lng->txt('export'));
 		$table_gui->addMultiCommand("confirmDeleteRecords", $this->lng->txt("delete"));
 		$table_gui->setSelectAllCheckbox("record_id");
@@ -157,16 +143,6 @@ class ilAdvancedMDSettingsGUI
 		}
 		
 	 	
-	 	/*
-	 	foreach(ilAdvancedMDRecord::_getAllRecordsByObjectType() as $obj_type => $visible_record)
-	 	{
-	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
-	 		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
-	 		$sub->setSubstitutionString(($_POST['substitution_'.$obj_type]));
-	 		$sub->enableDescription($_POST['enabled_desc_'.$obj_type]);
-	 		$sub->update();
-	 	}
-	 	*/
 	 	ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 	 	$this->showRecords();
 	 	return true;
@@ -381,10 +357,20 @@ class ilAdvancedMDSettingsGUI
 	{
 		foreach($this->getRecordObjects() as $record_obj)
 		{
-			$new_types = isset($_POST['obj_types'][$record_obj->getRecordId()]) ?
-				$_POST['obj_types'][$record_obj->getRecordId()] :
-				array();
-			$record_obj->setAssignedObjectTypes($new_types);
+			$obj_types = array();
+			if (is_array($_POST['obj_types'][$record_obj->getRecordId()]))
+			{
+				foreach ($_POST['obj_types'][$record_obj->getRecordId()] as $t)
+				{
+					$t = explode(":", $t);
+					$obj_types[] = array(
+						"obj_type" => ilUtil::stripSlashes($t[0]),
+						"sub_type" => ilUtil::stripSlashes($t[1])
+						);
+				}
+			}
+
+			$record_obj->setAssignedObjectTypes($obj_types);
 			$record_obj->setActive(isset($_POST['active'][$record_obj->getRecordId()]));
 			$record_obj->update();
 		}
@@ -921,11 +907,13 @@ class ilAdvancedMDSettingsGUI
 		$section->setTitle($this->lng->txt('md_obj_types'));
 		$this->form->addItem($section);
 		
-		foreach(ilAdvancedMDRecord::_getAssignableObjectTypes() as $type)
+		foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $type)
 		{
-			$check = new ilCheckboxInputGUI($this->lng->txt('objs_'.$type),'obj_types[]');
-			$check->setChecked(in_array($type,$this->record->getAssignedObjectTypes()) ? true : false);
-			$check->setValue($type);
+			$t = $type["obj_type"].":".$type["sub_type"];
+			$this->lng->loadLanguageModule($type["obj_type"]);
+			$check = new ilCheckboxInputGUI($type["text"],'obj_types[]');
+			$check->setChecked($this->record->isAssignedObjectType($type["obj_type"], $type["sub_type"]));
+			$check->setValue($t);
 			$this->form->addItem($check);
 		}
 		
@@ -1079,7 +1067,19 @@ class ilAdvancedMDSettingsGUI
 		$this->record->setActive(ilUtil::stripSlashes($_POST['active']));
 		$this->record->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->record->setDescription(ilUtil::stripSlashes($_POST['desc']));
-		$this->record->setAssignedObjectTypes(isset($_POST['obj_types']) ? $_POST['obj_types'] : array());
+		$obj_types = array();
+		if (is_array($_POST['obj_types']))
+		{
+			foreach ($_POST['obj_types'] as $t)
+			{
+				$t = explode(":", $t);
+				$obj_types[] = array(
+					"obj_type" => ilUtil::stripSlashes($t[0]),
+					"sub_type" => ilUtil::stripSlashes($t[1])
+					);
+			}
+		}
+		$this->record->setAssignedObjectTypes($obj_types);
 	}
 	
 	/**

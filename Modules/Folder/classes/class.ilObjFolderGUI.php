@@ -495,6 +495,120 @@ class ilObjFolderGUI extends ilContainerGUI
 		return false;
 	}
 	
+	/**
+	 * Edit
+	 *
+	 * @param
+	 * @return
+	 */
+	function editObject()
+	{
+		$this->setSubTabs("settings");
+		parent::editObject();
+	}
+	
+	
+	/**
+	 * Set sub tabs
+	 */
+	function setSubTabs($a_tab)
+	{
+		global $ilTabs, $lng;
+		
+		$ilTabs->addSubTab("settings",
+			$lng->txt("fold_settings"),
+			$this->ctrl->getLinkTarget($this,'edit'));
+		
+		// custom icon
+		if ($this->ilias->getSetting("custom_icons"))
+		{
+			$ilTabs->addSubTab("icons",
+				$lng->txt("icon_settings"),
+				$this->ctrl->getLinkTarget($this,'editIcons'));
+		}
+		
+		$ilTabs->activateSubTab($a_tab);
+		$ilTabs->activateTab("settings");
+	}
+
+	
+	////
+	//// Icons
+	////
+	
+	/**
+	 * Edit folder icons
+	 */
+	function editIconsObject($a_form = null)
+	{
+		global $tpl;
+
+		$this->checkPermission('write');
+	
+		$this->tabs_gui->setTabActive('settings');
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initIconsForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+
+	function initIconsForm()
+	{
+		$this->setSubTabs("icons");
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));	
+		
+		$this->showCustomIconsEditing(1, $form);
+		
+		// $form->setTitle($this->lng->txt('edit_grouping'));
+		$form->addCommandButton('updateIcons', $this->lng->txt('save'));					
+		
+		return $form;
+	}
+	
+	/**
+	* update container icons
+	*/
+	function updateIconsObject()
+	{
+		$this->checkPermission('write');
+		
+		$form = $this->initIconsForm();
+		if($form->checkInput())
+		{
+			//save custom icons
+			if ($this->ilias->getSetting("custom_icons"))
+			{
+				if($_POST["cont_big_icon_delete"])
+				{
+					$this->object->removeBigIcon();
+				}
+				if($_POST["cont_small_icon_delete"])
+				{
+					$this->object->removeSmallIcon();
+				}
+				if($_POST["cont_tiny_icon_delete"])
+				{
+					$this->object->removeTinyIcon();
+				}				
+				$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
+					$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+			$this->ctrl->redirect($this,"editIcons");
+		}
+
+		$form->setValuesByPost();
+		$this->editIconsObject($form);	
+	}
+
+	
 
 } // END class.ilObjFolderGUI
 ?>

@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** 
 * 
@@ -49,13 +30,15 @@ class ilAdvancedMDValue
 	 * @param int obj_id
 	 * 
 	 */
-	public function __construct($a_field_id,$a_obj_id = 0)
+	public function __construct($a_field_id,$a_obj_id = 0, $a_sub_type = "", $a_sub_id = 0)
 	{
 	 	global $ilDB;
 	 	
 	 	$this->db = $ilDB;
 	 	
 	 	$this->obj_id = $a_obj_id;
+	 	$this->setSubType($a_sub_type);
+	 	$this->setSubId($a_sub_id);
 	 	$this->field_id = $a_field_id;
 	 	
 	 	$this->read();
@@ -69,13 +52,17 @@ class ilAdvancedMDValue
 	 *
 	 * @param
 	 */
-	public static function _getInstance($a_obj_id,$a_field_id)
+	public static function _getInstance($a_obj_id,$a_field_id, $a_sub_type = "", $a_sub_id = 0)
 	{
-		if(isset(self::$instances[$a_obj_id][$a_field_id]))
+		if ($a_sub_type == "")
 		{
-			return self::$instances[$a_obj_id][$a_field_id];
+			$a_sub_type = "-";
 		}
-		return self::$instances[$a_obj_id][$a_field_id] = new ilAdvancedMDValue($a_field_id,$a_obj_id);
+		if(isset(self::$instances[$a_obj_id][$a_field_id][$a_sub_type][$a_sub_id]))
+		{
+			return self::$instances[$a_obj_id][$a_field_id][$a_sub_type][$a_sub_id];
+		}
+		return self::$instances[$a_obj_id][$a_field_id][$a_sub_type][$a_sub_id] = new ilAdvancedMDValue($a_field_id,$a_obj_id, $a_sub_type, $a_sub_id);
 	}
 	
 	/**
@@ -99,6 +86,50 @@ class ilAdvancedMDValue
 	public function setObjId($a_obj_id)
 	{
 	 	$this->obj_id = $a_obj_id;
+	}
+	
+	/**
+	 * Set sub type
+	 *
+	 * @param string $a_val sub type	
+	 */
+	function setSubType($a_val)
+	{
+		if ($a_val == "")
+		{
+			$a_val = "-";
+		}
+		$this->sub_type = $a_val;
+	}
+	
+	/**
+	 * Get sub type
+	 *
+	 * @return string sub type
+	 */
+	function getSubType()
+	{
+		return $this->sub_type;
+	}
+	
+	/**
+	 * Set sub id
+	 *
+	 * @param integer $a_val sub object id	
+	 */
+	function setSubId($a_val)
+	{
+		$this->sub_id = (int) $a_val;
+	}
+	
+	/**
+	 * Get sub id
+	 *
+	 * @return integer sub object id
+	 */
+	function getSubId()
+	{
+		return $this->sub_id;
 	}
 	
 	/**
@@ -177,6 +208,8 @@ class ilAdvancedMDValue
 	 	
 	 	$query = "DELETE FROM adv_md_values ".
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ".
+	 		"AND sub_type = ".$this->db->quote($this->getSubType() ,'text')." ".
+	 		"AND sub_id = ".$this->db->quote($this->getSubType() ,'integer')." ".
 	 		"AND field_id = ".$this->db->quote($this->field_id ,'integer');
 		$res = $ilDB->manipulate($query);
 	}
@@ -193,10 +226,12 @@ class ilAdvancedMDValue
 	 	
 	 	$this->delete();
 	 	
-	 	$query = "INSERT INTO adv_md_values (obj_id,field_id,value,disabled) ".
+	 	$query = "INSERT INTO adv_md_values (obj_id,field_id,sub_type, sub_id, value,disabled) ".
 	 		"VALUES( ".
 	 		$this->db->quote($this->obj_id ,'integer').", ".
 	 		$this->db->quote($this->field_id ,'integer').", ".
+	 		$this->db->quote($this->getSubType() ,'text').", ".
+	 		$this->db->quote($this->getSubid() ,'integer').", ".
 	 		$this->db->quote($this->getValue() ,'text').", ".
 	 		$ilDB->quote($this->isDisabled(),'integer')." ".
 	 		")";
@@ -219,6 +254,8 @@ class ilAdvancedMDValue
 	 	
 	 	$query = "SELECT * FROM adv_md_values ".
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ".
+	 		"AND sub_type = ".$this->db->quote($this->getSubType() ,'text')." ".
+	 		"AND sub_id = ".$this->db->quote($this->getSubId() ,'integer')." ".
 	 		"AND field_id = ".$this->db->quote($this->field_id ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

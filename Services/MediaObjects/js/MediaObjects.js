@@ -3,11 +3,16 @@ il.MediaObjects = {
 	current_player: null,
 	current_player_id: null,
 	current_wrapper: '',
+	player_config: {}, 
 
 	init: function() {
 		$(".ilPlayerPreviewOverlayOuter").click(function (e) {
 				il.MediaObjects.processMediaPreviewClick(this, e);
 		});
+	},
+	
+	setPlayerConfig: function (id, config) {
+		il.MediaObjects.player_config[id] = config;
 	},
 
 	// click on a media preview picture
@@ -30,7 +35,15 @@ il.MediaObjects = {
 			video_el.removeClass('ilNoDisplay');
 			video_el_wrap.removeClass('ilNoDisplay');
 			video_el.attr('autoplay', 'true');
-			player = new MediaElementPlayer('#' + video_el.attr('id'), {});
+			player = new MediaElementPlayer('#' + video_el.attr('id'), {
+				success: function (mediaElement, domObject) {
+					// add event listener
+					mediaElement.addEventListener('play', function(e) {
+						il.MediaObjects.playerStarted(video_el.attr('id'));
+					}, false);		
+				}
+
+				});
 			// this fails in safari if a flv file has been called before
 			//player.play();
 			il.MediaObjects.current_player_id = video_el.attr('id');
@@ -92,6 +105,19 @@ il.MediaObjects = {
 				// TypeError: 'undefined' is not a function (evaluating 'this.pluginApi.pauseMedia()'), see also:
 				// http://stackoverflow.com/questions/10487575/show-hiding-video-container-produces-pluginapi-errors-mediaelement-js
 				il.MediaObjects.current_player.pause();
+			}
+		}
+	},
+	
+	playerStarted: function (id) {
+		var url;
+		if (typeof il.MediaObjects.player_config[id] != "undefined" &&
+			typeof il.MediaObjects.player_config[id]['play_event_sent'] == "undefined") {
+			url = il.MediaObjects.player_config[id].event_url;
+			if (url != "") {
+				url = url + "&event=play&player=" + id;
+				il.MediaObjects.player_config[id]['play_event_sent'] = true;
+				il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
 			}
 		}
 	}

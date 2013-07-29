@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** 
 * @defgroup ServicesAdvancedMetaData Services/AdvancedMetaData
@@ -160,8 +141,34 @@ class ilAdvancedMDRecord
 	 * @access public
  	 * @static 
 	 */
-	public static function _getAssignableObjectTypes()
+	public static function _getAssignableObjectTypes($a_include_text = false)
 	{
+		global $objDefinition, $lng;
+		
+		$types = array();
+		$amet_types = $objDefinition->getAdvancedMetaDataTypes();
+
+		foreach ($amet_types as $at)
+		{
+			if ($a_include_text)
+			{
+				$text = $lng->txt("obj_".$at["obj_type"]);
+				if ($at["sub_type"] != "")
+				{
+					$lng->loadLanguageModule($at["obj_type"]);
+					$text.= ": ".$lng->txt($at["obj_type"]."_".$at["sub_type"]);
+				}
+				else
+				{
+					$at["sub_type"] = "-";
+				}
+				$at["text"] = $text;
+			}
+			
+			$types[] = $at;
+		}
+
+		return $types;
 	 	return array('cat','crs','rcrs');
 	}
 	
@@ -211,7 +218,7 @@ class ilAdvancedMDRecord
 	
 	/**
 	 * Get records by obj_type
-	 *
+	 * Note: this returns only records with no sub types!
 	 * @access public
 	 * @static
 	 * @param
@@ -223,7 +230,7 @@ class ilAdvancedMDRecord
 		
 		$records = array();
 		
-		$query = "SELECT * FROM adv_md_record_objs ";
+		$query = "SELECT * FROM adv_md_record_objs WHERE sub_type=".$ilDB->quote("-", "text");
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -240,26 +247,68 @@ class ilAdvancedMDRecord
 	 *
 	 * @param string obj_type
 	 */
-	public static function _getActivatedRecordsByObjectType($a_obj_type)
+	public static function _getActivatedRecordsByObjectType($a_obj_type, $a_sub_type = "")
 	{
 		global $ilDB;		
 
 		$records = array();
 		
+		if ($a_sub_type == "")
+		{
+			$a_sub_type = "-";
+		}
+		
 		$query = "SELECT amro.record_id record_id FROM adv_md_record_objs amro ".
 			"JOIN adv_md_record amr ON amr.record_id = amro.record_id ".
 			"WHERE active = 1 ".
-			"AND obj_type = ".$ilDB->quote($a_obj_type ,'text')." ";
-		
+			"AND obj_type = ".$ilDB->quote($a_obj_type ,'text')." ".
+			"AND sub_type = ".$ilDB->quote($a_sub_type ,'text');
+
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$records[] = self::_getInstanceByRecordId($row->record_id);
 		}
+
 		return $records;
 	}
 	
+	/**
+	 * Get selected records by object
+	 *
+	 * @param string $a_obj_type object type
+	 * @param string $a_obj_id object id
+	 * @param string $a_sub_type sub type
+	 */
+	public static function _getSelectedRecordsByObject($a_obj_type, $a_obj_id, $a_sub_type = "")
+	{
+		global $ilDB;		
 
+		$records = array();
+		
+		if ($a_sub_type == "")
+		{
+			$a_sub_type = "-";
+		}
+		
+		$query = "SELECT amro.record_id record_id FROM adv_md_record_objs amro ".
+			"JOIN adv_md_record amr ON (amr.record_id = amro.record_id) ".
+			"JOIN adv_md_obj_rec_select os ON (amr.record_id = os.rec_id AND amro.sub_type = os.sub_type) ".
+			"WHERE active = 1 ".
+			"AND amro.obj_type = ".$ilDB->quote($a_obj_type ,'text')." ".
+			"AND amro.sub_type = ".$ilDB->quote($a_sub_type ,'text')." ".
+			"AND os.obj_id = ".$ilDB->quote($a_obj_id ,'integer')
+			;
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$records[] = self::_getInstanceByRecordId($row->record_id);
+		}
+
+		return $records;
+	}
+	
 	
 	/**
 	 * Delete record and all related data
@@ -333,11 +382,12 @@ class ilAdvancedMDRecord
 	 	foreach($this->getAssignedObjectTypes() as $type)
 	 	{
 	 		global $ilDB;
-	 	
-	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type) ".
+
+	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type,sub_type) ".
 	 			"VALUES( ".
 	 			$this->db->quote($this->getRecordId() ,'integer').", ".
-	 			$this->db->quote($type ,'text')." ".
+	 			$this->db->quote($type["obj_type"] ,'text').", ".
+	 			$this->db->quote($type["sub_type"] ,'text')." ".
 	 			")";
 			$res = $ilDB->manipulate($query);
 	 	}
@@ -368,10 +418,11 @@ class ilAdvancedMDRecord
 	 	// Insert assignments
 	 	foreach($this->getAssignedObjectTypes() as $type)
 	 	{
-	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type) ".
+	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type, sub_type) ".
 	 			"VALUES ( ".
 	 			$this->db->quote($this->getRecordId() ,'integer').", ".
-	 			$this->db->quote($type ,'text')." ".
+	 			$this->db->quote($type["obj_type"] ,'text').", ".
+	 			$this->db->quote($type["sub_type"] ,'text')." ".
 	 			")";
 			$res = $ilDB->manipulate($query);
 	 	}
@@ -535,6 +586,26 @@ class ilAdvancedMDRecord
 	}
 	
 	/**
+	 * Is assigned object type?
+	 *
+	 * @param
+	 * @return
+	 */
+	function isAssignedObjectType($a_obj_type, $a_sub_type)
+	{
+		foreach ($this->getAssignedObjectTypes() as $t)
+		{
+			if ($t["obj_type"] == $a_obj_type &&
+				$t["sub_type"] == $a_sub_type)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	/**
 	 * To Xml.
 	 * This method writes only the subset Record (including all fields)
 	 * Use class.ilAdvancedMDRecordXMLWriter to generate a complete xml presentation.
@@ -552,7 +623,14 @@ class ilAdvancedMDRecord
 	 	
 	 	foreach($this->getAssignedObjectTypes() as $obj_type)
 	 	{
-	 		$writer->xmlElement('ObjectType',null,$obj_type);
+	 		if ($obj_type["sub_type"] == "")
+	 		{
+	 			$writer->xmlElement('ObjectType',null,$obj_type["obj_type"]);
+	 		}
+	 		else
+	 		{
+	 			$writer->xmlElement('ObjectType',null,$obj_type["obj_type"].":".$obj_type["sub_type"]);
+	 		}
 	 	}
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
@@ -589,7 +667,8 @@ class ilAdvancedMDRecord
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->obj_types[] = $row->obj_type;
+	 		$this->obj_types[] = array("obj_type" => $row->obj_type,
+	 			"sub_type" => $row->sub_type);
 	 	}
 	}
 	
@@ -614,5 +693,69 @@ class ilAdvancedMDRecord
 	{
 	 	unset(self::$instances[$this->getRecordId()]);
 	}
+	
+	/**
+	 * Save repository object record selection
+	 *
+	 * @param integer $a_obj_id object id if repository object
+	 * @param array $a_records array of record ids that are selected (in use) by the object
+	 */
+	static function saveObjRecSelection($a_obj_id, $a_sub_type = "", $a_records)
+	{
+		global $ilDB;
+		
+		if ($a_sub_type == "")
+		{
+			$a_sub_type = "-";
+		}
+
+		$ilDB->manipulate("DELETE FROM adv_md_obj_rec_select WHERE ".
+			" obj_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND sub_type = ".$ilDB->quote($a_sub_type, "text"));
+		
+		if (is_array($a_records))
+		{
+			foreach ($a_records as $r)
+			{
+				if ($r > 0)
+				{
+					$ilDB->manipulate("INSERT INTO adv_md_obj_rec_select ".
+						"(obj_id, rec_id, sub_type) VALUES (".
+						$ilDB->quote($a_obj_id, "integer").",".
+						$ilDB->quote($r, "integer").",".
+						$ilDB->quote($a_sub_type, "text").
+						")");
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Get repository object record selection
+	 *
+	 * @param integer $a_obj_id object id if repository object
+	 * @param array $a_records array of record ids that are selected (in use) by the object
+	 */
+	static function getObjRecSelection($a_obj_id, $a_sub_type = "")
+	{
+		global $ilDB;
+		
+		if ($a_sub_type == "")
+		{
+			$a_sub_type = "-";
+		}
+		
+		$recs = array();
+		$set = $ilDB->query($r = "SELECT * FROM adv_md_obj_rec_select ".
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND sub_type = ".$ilDB->quote($a_sub_type, "text")
+			);
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$recs[] = $rec["rec_id"];
+		}
+		return $recs;
+	}
+
 }
 ?>
