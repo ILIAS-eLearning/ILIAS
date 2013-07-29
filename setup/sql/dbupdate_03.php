@@ -16724,14 +16724,14 @@ if( !$ilDB->tableColumnExists('tst_tests', 'question_set_type') )
 
 if( $ilDB->tableColumnExists('tst_tests', 'random_test') )
 {
-	$ilDB->queryF(
+	$ilDB->manipulateF(
 			"UPDATE tst_tests SET question_set_type = %s WHERE random_test = %s",
-			array('text', 'integer'), array('FIXED_QUEST_SET', 0)
+			array('text', 'text'), array('FIXED_QUEST_SET', '0')
 	);
 	
-	$ilDB->queryF(
+	$ilDB->manipulateF(
 			"UPDATE tst_tests SET question_set_type = %s WHERE random_test = %s",
-			array('text', 'integer'), array('RANDOM_QUEST_SET', 1)
+			array('text', 'text'), array('RANDOM_QUEST_SET', '1')
 	);
 	
 	$ilDB->dropTableColumn('tst_tests', 'random_test');
