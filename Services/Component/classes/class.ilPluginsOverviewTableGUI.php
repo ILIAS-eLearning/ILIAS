@@ -47,9 +47,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	* Get pages for list.
 	*/
 	function getComponents()
-	{
-		global $ilCtrl;
-		
+	{		
 		$plugins = array();
 		
 		include_once("./Services/Component/classes/class.ilModule.php");
@@ -63,14 +61,8 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 				include_once("./Services/Component/classes/class.ilPluginSlot.php");
 				$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
-				{
-					$plugins[] = array("slot_name" => $slot->getSlotName(),
-						"component_type" => IL_COMP_MODULE,
-						"component_name" => $m["subdir"],
-						"slot_id" => $ps["id"],						
-						"plugin_id" => $p["id"],						
-						"plugin_name" => $p["name"],
-						"active" => $p["is_active"]);
+				{															
+					$plugins[] = $this->gatherPluginData(IL_COMP_MODULE, $slot, $m["subdir"], $p);
 				}				
 			}
 		}
@@ -85,29 +77,45 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 				$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
 				{
-					$conf = false;
-					if(ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) &&
-						$ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"])))
-					{
-						$conf = true;
-					}
-					
-					$plugins[] =  array("slot_name" => $slot->getSlotName(),
-						"component_type" => IL_COMP_SERVICE,
-						"component_name" => $s["subdir"],
-						"slot_id" => $ps["id"],
-						"plugin_id" => $p["id"],			
-						"plugin_name" => $p["name"],
-						"plugin_active" => $p["is_active"],
-						"activation_possible" => $p["activation_possible"],
-						"needs_update" => $p["needs_update"],
-						"has_conf" => $conf,
-						"has_lang" => (bool)sizeof(ilPlugin::getAvailableLangFiles(
-							$slot->getPluginsDirectory()."/".$p["name"]."/lang")));
+					$plugins[] = $this->gatherPluginData(IL_COMP_SERVICE, $slot, $s["subdir"], $p);
 				}				
 			}
 		}
 		$this->setData($plugins);
+	}
+	
+	/**
+	 * Process plugin data for table row
+	 * 
+	 * @param strng $a_type
+	 * @param ilPluginSlot $a_slot
+	 * @param string $a_slot_subdir
+	 * @param array $a_plugin
+	 * @return array
+	 */
+	protected function gatherPluginData($a_type, ilPluginSlot $a_slot, $a_slot_subdir, array $a_plugin)
+	{
+		global $ilCtrl;
+		
+		$conf = false;
+		if(ilPlugin::hasConfigureClass($a_slot->getPluginsDirectory(), $a_plugin["name"]) &&
+			$ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($a_plugin["name"])))
+		{
+			$conf = true;
+		}
+		
+		return array("slot_name" => $a_slot->getSlotName(),
+			"component_type" => $a_type,
+			"component_name" => $a_slot_subdir,
+			"slot_id" => $a_slot->getSlotId(),
+			"plugin_id" => $a_plugin["id"],			
+			"plugin_name" => $a_plugin["name"],
+			"plugin_active" => $a_plugin["is_active"],
+			"activation_possible" => $a_plugin["activation_possible"],
+			"needs_update" => $a_plugin["needs_update"],
+			"has_conf" => $conf,
+			"has_lang" => (bool)sizeof(ilPlugin::getAvailableLangFiles(
+				$a_slot->getPluginsDirectory()."/".$a_plugin["name"]."/lang")));
 	}
 	
 	/**
