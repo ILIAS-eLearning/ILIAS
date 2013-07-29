@@ -91,7 +91,7 @@ class ilWikiHTMLExport
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		foreach ($pages as $page)
 		{
-			if (ilPageObject::_exists("wpg", $page["id"]))
+			if (ilWikiPage::_exists("wpg", $page["id"]))
 			{
 				$this->exportPageHTML($page["id"]);
 				$this->co_page_html_export->collectPageElements("wpg:pg", $page["id"]);

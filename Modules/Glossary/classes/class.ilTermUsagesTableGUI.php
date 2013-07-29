@@ -81,16 +81,15 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 		switch($usage["type"])
 		{
 			case "pg":
-
-				require_once("./Services/COPage/classes/class.ilPageObject.php");
-				$page_obj = new ilPageObject($cont_type, $usage["id"]);
-
 				$item = array();
 
 				//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
 				switch ($cont_type)
 				{
 					case "sahs":
+						require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
+						$page_obj = new ilSCORM2004Page($usage["id"]);
+
 						require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 						require_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
 						$lm_obj = new ilObjSAHSLearningModule($page_obj->getParentId(), false);
@@ -106,6 +105,9 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 						break;
 					
 					case "lm":
+						require_once("./Services/COPage/classes/class.ilPageObject.php");
+						$page_obj = new ilPageObject($cont_type, $usage["id"]);
+
 						require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 						require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 						require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
@@ -121,24 +123,9 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 						}
 						break;
 						
-					case "dbk":
-						require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-						require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-						require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
-						$lm_obj =& new ilObjDlBook($page_obj->getParentId(), false);
-						$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
-						$item["obj_title"] = $lm_obj->getTitle();
-						$item["sub_txt"] = $this->lng->txt("pg");
-						$item["sub_title"] = ilLMObject::_lookupTitle($page_obj->getId());
-						$ref_id = $this->getFirstWritableRefId($lm_obj->getId());
-						if ($ref_id > 0)
-						{
-							$item["obj_link"] = ilLink::_getStaticLink($ref_id, "lm");
-						}
-						break;
-
 					case "wpg":
 						require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+						$page_obj = new ilWikiPage($usage["id"]);
 						$item["obj_type_txt"] = $this->lng->txt("obj_wiki");
 						$item["obj_title"] = ilObject::_lookupTitle($page_obj->getParentId());
 						$item["sub_txt"] = $this->lng->txt("pg");
@@ -151,6 +138,8 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 						break;
 
 					case "gdf":
+						require_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
+						$page_obj = new ilGlossaryDefPage($usage["id"]);
 						require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 						require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 						$term_id = ilGlossaryDefinition::_lookupTermId($page_obj->getId());
@@ -172,8 +161,8 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 					case "grp":
 					case "cat":
 						$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
-						$item["obj_title"] = ilObject::_lookupTitle($page_obj->getId());
-						$ref_id = $this->getFirstWritableRefId($page_obj->getId());
+						$item["obj_title"] = ilObject::_lookupTitle($usage["id"]);
+						$ref_id = $this->getFirstWritableRefId($usage["id"]);
 						if ($ref_id > 0)
 						{
 							$item["obj_link"] = ilLink::_getStaticLink($ref_id, $cont_type);

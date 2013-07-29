@@ -11,15 +11,23 @@
  */
 class ilPageConfig
 {
-	var $int_link_filter = array();
-	var $prevent_rte_usage = false;
-	var $use_attached_content = false;
-	var $pc_defs = array();
-	var $pc_enabled = array();
-	var $enabledinternallinks = false;
-	var $enable_keywords = false;
-	var $enable_anchors = false;
-	var $enablewikilinks = false;
+	protected $int_link_filter = array();
+	protected $prevent_rte_usage = false;
+	protected $use_attached_content = false;
+	protected $pc_defs = array();
+	protected $pc_enabled = array();
+	protected $enabledinternallinks = false;
+	protected $enable_keywords = false;
+	protected $enable_anchors = false;
+	protected $enablewikilinks = false;
+	protected $page_toc = false;
+	protected $activation = false;
+	protected $scheduled_activation = false;
+	protected $preventhtmlunmasking = false;
+	protected $enabledselfassessment = false;
+	protected $enabledselfassessment_scorm = false;
+	protected $int_link_def_type = "";
+	protected $int_link_def_id = 0;
 	
 	/**
 	 * Constructor
@@ -138,7 +146,6 @@ class ilPageConfig
 		return $this->enablewikilinks;
 	}
 
-
 	/**
 	 * Add internal links filter
 	 *
@@ -248,6 +255,159 @@ class ilPageConfig
 	function getUseAttachedContent()
 	{
 		return $this->use_attached_content;
+	}
+	
+	/**
+	 * Set internal link default type
+	 *
+	 * @param string $a_val type	
+	 */
+	function setIntLinkHelpDefaultType($a_val)
+	{
+		$this->int_link_def_type = $a_val;
+	}
+	
+	/**
+	 * Get internal link default type
+	 *
+	 * @return string type
+	 */
+	function getIntLinkHelpDefaultType()
+	{
+		return $this->int_link_def_type;
+	}
+	
+	/**
+	 * Set internal link default id
+	 *
+	 * @param int $a_val default object if	
+	 */
+	function setIntLinkHelpDefaultId($a_val)
+	{
+		$this->int_link_def_id = $a_val;
+	}
+	
+	/**
+	 * Get internal link default id
+	 *
+	 * @return int default object if
+	 */
+	function getIntLinkHelpDefaultId()
+	{
+		return $this->int_link_def_id;
+	}
+	
+	/**
+	 * Set enabled actication
+	 *
+	 * @param bool $a_val page activation enabled?	
+	 */
+	function setEnableActivation($a_val)
+	{
+		$this->activation = $a_val;
+	}
+	
+	/**
+	 * Get enabled actication
+	 *
+	 * @return bool page activation enabled?
+	 */
+	function getEnableActivation()
+	{
+		return $this->activation;
+	}
+	
+	/**
+	 * Set enable scheduled page activation
+	 *
+	 * @param bool $a_val scheduled activated enabled?	
+	 */
+	function setEnableScheduledActivation($a_val)
+	{
+		$this->scheduled_activation = $a_val;
+	}
+	
+	/**
+	 * Get enable scheduled page activation
+	 *
+	 * @return bool scheduled activated enabled?
+	 */
+	function getEnableScheduledActivation()
+	{
+		return $this->scheduled_activation;
+	}
+	
+	/**
+	 * Set enable page toc
+	 *
+	 * @param bool $a_val enable page toc?	
+	 */
+	function setEnablePageToc($a_val)
+	{
+		$this->page_toc = $a_val;
+	}
+	
+	/**
+	 * Get enable page toc
+	 *
+	 * @return bool enable page toc?
+	 */
+	function getEnablePageToc()
+	{
+		return $this->page_toc;
+	}
+	
+	/**
+	 * Set Prevent HTML Unmasking (true/false).
+	 *
+	 * @param	boolean	$a_preventhtmlunmasking	Prevent HTML Unmasking (true/false)
+	 */
+	function setPreventHTMLUnmasking($a_preventhtmlunmasking)
+	{
+		$this->preventhtmlunmasking = $a_preventhtmlunmasking;
+	}
+
+	/**
+	* Get Prevent HTML Unmasking (true/false).
+	*
+	* @return	boolean	Prevent HTML Unmasking (true/false)
+	*/
+	function getPreventHTMLUnmasking()
+	{
+		return $this->preventhtmlunmasking;
+	}
+
+	/**
+	 * Set Enable Self Assessment Questions.
+	 *
+	 * @param	boolean	$a_enabledselfassessment	Enable Self Assessment Questions
+	 */
+	function setEnableSelfAssessment($a_enabledselfassessment, $a_scorm = true)
+	{
+		$this->setEnablePCType("Question", (bool) $a_enabledselfassessment);
+		$this->enabledselfassessment = $a_enabledselfassessment;
+		$this->enabledselfassessment_scorm = $a_scorm;
+	}
+
+
+	/**
+	 * Get Enable Self Assessment Questions.
+	 *
+	 * @return	boolean	Enable Self Assessment Questions
+	 */
+	function getEnableSelfAssessment()
+	{
+		return $this->enabledselfassessment;
+	}
+
+	/**
+	 * Is self assessment used in SCORM mode?
+	 *
+	 * @return	boolean	Enable Self Assessment Questions
+	 */
+	function getEnableSelfAssessmentScorm()
+	{
+		return $this->enabledselfassessment_scorm;
 	}
 }
 ?>

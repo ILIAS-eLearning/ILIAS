@@ -136,12 +136,12 @@ class ilTermListTableGUI extends ilTable2GUI
 	
 				// edit
 				$this->tpl->setCurrentBlock("edit");
-				$ilCtrl->setParameterByClass("ilpageobjectgui", "term_id", $term["id"]);
-				$ilCtrl->setParameterByClass("ilpageobjectgui", "def", $def["id"]);
+				$ilCtrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
+				$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $def["id"]);
 				$this->tpl->setVariable("LINK_EDIT",
 					$ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
 					"iltermdefinitioneditorgui",
-					"ilpageobjectgui"), "edit"));
+					"ilglossarydefpagegui"), "edit"));
 				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -156,7 +156,7 @@ class ilTermListTableGUI extends ilTable2GUI
 			$ltexe = strrpos($short_str, "[/tex]");
 			if ($ltexs > $ltexe)
 			{
-				$page =& new ilPageObject("gdf", $def["id"]);
+				$page = new ilGlossaryDefPage($def["id"]);
 				$page->buildDom();
 				$short_str = $page->getFirstParagraphText();
 				$short_str = strip_tags($short_str, "<br>");

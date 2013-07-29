@@ -805,12 +805,12 @@ return;
 					// edit
 					$this->tpl->setCurrentBlock("definition");
 					$this->tpl->setVariable("SEP", $sep);
-					$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term["id"]);
-					$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def["id"]);
+					$this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
+					$this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", $def["id"]);
 					$this->tpl->setVariable("LINK_EDIT_DEF",
 						$this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
 						"iltermdefinitioneditorgui",
-						"ilpageobjectgui"), "edit"));
+						"ilglossarydefpagegui"), "edit"));
 					$this->tpl->setVariable("TEXT_DEF", $this->lng->txt("glo_definition_abbr").($j+1));
 					$this->tpl->parseCurrentBlock();
 					$sep = ", ";
@@ -941,10 +941,10 @@ return;
 		$def->setTitle(ilUtil::stripSlashes($_POST["new_term"]));
 		$def->create();
 
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term->getId());
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def->getId());
+		$this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term->getId());
+		$this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", $def->getId());
 		$this->ctrl->redirectByClass(array("ilglossarytermgui",
-			"iltermdefinitioneditorgui", "ilpageobjectgui"), "edit");
+			"iltermdefinitioneditorgui", "ilglossarydefpagegui"), "edit");
 	}
 
 	/**
@@ -1015,9 +1015,8 @@ return;
 			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
-		//$page =& new ilPageObject("gdf", $definition->getId());
-		$page_gui =& new ilPageObjectGUI("gdf", $definition->getId());
+		$definition = new ilGlossaryDefinition($_GET["def"]);
+		$page_gui = new ilGlossaryDefPageGUI($definition->getId());
 		$page_gui->setTemplateOutput(false);
 		$page_gui->setStyleId($this->object->getStyleSheetId());
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
@@ -1332,10 +1331,10 @@ return;
 		$def->setTitle(ilUtil::stripSlashes($term->getTerm()));
 		$def->create();
 
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term->getId());
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def->getId());
+		$this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term->getId());
+		$this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", $def->getId());
 		$this->ctrl->redirectByClass(array("ilglossarytermgui",
-			"iltermdefinitioneditorgui", "ilpageobjectgui"), "edit");
+			"iltermdefinitioneditorgui", "ilglossarydefpagegui"), "edit");
 		
 	}
 

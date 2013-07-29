@@ -158,7 +158,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 				$ltexe = strrpos($short_str, "[/tex]");
 				if ($ltexs > $ltexe)
 				{
-					$page =& new ilPageObject("gdf", $def["id"]);
+					$page = new ilGlossaryDefPage($def["id"]);
 					$page->buildDom();
 					$short_str = $page->getFirstParagraphText();
 					$short_str = strip_tags($short_str, "<br>");

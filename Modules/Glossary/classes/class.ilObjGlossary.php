@@ -815,8 +815,7 @@ class ilObjGlossary extends ilObject
 
 			foreach($defs as $def)
 			{
-				$this->page_object =& new ilPageObject("gdf",
-					$def["id"], $this->halt_on_error);
+				$this->page_object = new ilGlossaryDefPage($def["id"]);
 				$this->page_object->buildDom();
 				$this->page_object->insertInstIntoIDs(IL_INST_ID);
 				$mob_ids = $this->page_object->collectMediaObjects(false);

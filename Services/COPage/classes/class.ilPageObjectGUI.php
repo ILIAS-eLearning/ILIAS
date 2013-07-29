@@ -57,7 +57,6 @@ class ilPageObjectGUI
 	var $link_xml_set = false;
 	var $enableediting = true;
 	var $rawpagecontent = false;
-	var $layoutmode = false;
 	var $enabledcontentincludes = false;
 	var $compare_mode = false;
 	var $page_config = null;
@@ -91,13 +90,9 @@ class ilPageObjectGUI
 		$this->lng =& $lng;
 		$this->setOutputMode(IL_PAGE_PRESENTATION);
 		
-		include_once("./Services/COPage/classes/class.ilPageConfig.php");
-		$this->setPageConfig(new ilPageConfig());
+		$this->initPageConfig();
 		
-		// defaults
-		$this->setEnabledSelfAssessment(false);
-		$this->setEnabledPageFocus(true);
-		$this->setLayoutMode(false);		
+		$this->setEnabledPageFocus(true);		
 
 		if ($a_id > 0)
 		{
@@ -115,11 +110,22 @@ class ilPageObjectGUI
 		$this->change_comments = false;
 		$this->page_back_title = $this->lng->txt("page");
 		$lng->loadLanguageModule("content");
-		$this->setPreventHTMLUnmasking(false);
-		$this->setEnabledWikiLinks(false);
 		
 		$this->setTemplateOutput(false);
 	}
+	
+	/**
+	 * Init page config
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPageConfig()
+	{
+		include_once("./Services/COPage/classes/class.ilPageConfig.php");
+		$cfg = new ilPageConfig();
+		$this->setPageConfig($cfg);
+	}	
 	
 	/**
 	 * Set enable pc type
@@ -428,8 +434,8 @@ class ilPageObjectGUI
 
 	function setIntLinkHelpDefault($a_type, $a_id)
 	{
-		$this->int_link_def_type = $a_type;
-		$this->int_link_def_id = $a_id;
+		$this->getPageConfig()->setIntLinkHelpDefaultType($a_type);
+		$this->getPageConfig()->setIntLinkHelpDefaultId($a_id);
 	}
 
 	function setIntLinkReturn($a_return)
@@ -529,32 +535,32 @@ class ilPageObjectGUI
 
 	function setEnabledActivation($a_act)
 	{
-		$this->activation = $a_act;
+		$this->getPageConfig()->setEnableActivation($a_act);
 	}
 
 	function getEnabledActivation()
 	{
-		return $this->activation;
+		return $this->getPageConfig()->getEnableActivation();
 	}
 
 	function setEnabledScheduledActivation($a_act)
 	{
-		$this->scheduled_activation = $a_act;
+		$this->getPageConfig()->setEnableScheduledActivation($a_act);
 	}
 
 	function getEnabledScheduledActivation()
 	{
-		return $this->scheduled_activation;
+		return $this->getPageConfig()->getEnableScheduledActivation();
 	}
 
 	/**
 	 * Set page toc
 	 *
 	 * @param	boolean	$a_val	page toc
-	 */
+	 */ 
 	public function setPageToc($a_val)
 	{
-		$this->page_toc = $a_val;
+		$this->getPageConfig()->setEnablePageToc($a_val);
 	}
 
 	/**
@@ -564,7 +570,7 @@ class ilPageObjectGUI
 	 */
 	public function getPageToc()
 	{
-		return $this->page_toc;
+		return $this->getPageConfig()->getEnablePageToc();
 	}
 
 	/**
@@ -645,7 +651,7 @@ class ilPageObjectGUI
 	*/
 	function setPreventHTMLUnmasking($a_preventhtmlunmasking)
 	{
-		$this->preventhtmlunmasking = $a_preventhtmlunmasking;
+		$this->getPageConfig()->setPreventHTMLUnmasking($a_preventhtmlunmasking);
 	}
 
 	/**
@@ -655,7 +661,7 @@ class ilPageObjectGUI
 	*/
 	function getPreventHTMLUnmasking()
 	{
-		return $this->preventhtmlunmasking;
+		return $this->getPageConfig()->getPreventHTMLUnmasking();
 	}
 
 	/**
@@ -965,26 +971,6 @@ class ilPageObjectGUI
 	}
 
 	/**
-	* Set Layout Mode
-	*
-	* @param	boolean	$a_layout_mode	SetLayoutMode for editor
-	*/
-	function setLayoutMode($a_layout_mode)
-	{
-		$this->layout_mode = $a_layout_mode;
-	}
-
-	/**
-	* Get Layout Mode enabled/disabled
-	*
-	* @return	boolean	Get Layout Mode Setting
-	*/
-	function getLayoutMode()
-	{
-		return $this->layout_mode;
-	}
-
-	/**
 	* Set Style Id.
 	*
 	* @param	int	$a_styleid	Style Id
@@ -1011,11 +997,8 @@ class ilPageObjectGUI
 	*/
 	function setEnabledSelfAssessment($a_enabledselfassessment, $a_scorm = true)
 	{
-		$this->setEnablePCType("Question", (bool) $a_enabledselfassessment);
-		$this->enabledselfassessment = $a_enabledselfassessment;
-		$this->enabledselfassessment_scorm = $a_scorm;
+		$this->getPageConfig()->setEnableSelfAssessment($a_enabledselfassessment, $a_scorm);
 	}
-
 
 	/**
 	* Get Enable Self Assessment Questions.
@@ -1024,7 +1007,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledSelfAssessment()
 	{
-		return $this->enabledselfassessment;
+		return $this->getPageConfig()->getEnableSelfAssessment();
 	}
 
 	/**
@@ -1034,7 +1017,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledSelfAssessmentScorm()
 	{
-		return $this->enabledselfassessment_scorm;
+		return $this->getPageConfig()->getEnableSelfAssessmentScorm();
 	}
 
 	/**
@@ -1244,12 +1227,13 @@ class ilPageObjectGUI
 					ilUtil::sendFailure($lng->txt("permission_denied"), true);
 					$ilCtrl->redirect($this, "preview");
 				}
-				$page_editor =& new ilPageEditorGUI($this->getPageObject(), $this);
+				$page_editor = new ilPageEditorGUI($this->getPageObject(), $this);
 				$page_editor->setLocator($this->locator);
 				$page_editor->setHeader($this->getHeader());
 				$page_editor->setPageBackTitle($this->page_back_title);
-				$page_editor->setIntLinkHelpDefault($this->int_link_def_type,
-					$this->int_link_def_id);
+				$page_editor->setIntLinkHelpDefault(
+					$this->getPageConfig()->getIntLinkHelpDefaultType(),
+					$this->getPageConfig()->getIntLinkHelpDefaultId());
 				$page_editor->setIntLinkReturn($this->int_link_return);
 				//$page_editor->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_editor);
@@ -1326,10 +1310,8 @@ class ilPageObjectGUI
 	*/
 	function showPage()
 	{
-		global $tree, $ilUser, $ilias, $lng, $ilCtrl, $ilBench, $ilSetting, $ilTabs;
+		global $tree, $ilUser, $ilias, $lng, $ilCtrl, $ilSetting, $ilTabs;
 
-		$ilBench->start("ContentPresentation", "ilPageObjectGUI_showPage");
-		
 		$this->initSelfAssessmentRendering();
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
@@ -1871,7 +1853,7 @@ class ilPageObjectGUI
 		
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
-						 'layout_mode' => $this->getLayoutMode() ? "y" : "n",
+						 'enable_placeholder' => $this->getPageConfig()->getEnablePCType("PlaceHolder") ? "y" : "n",
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
 						 'img_add' => $add_path,
@@ -1945,16 +1927,8 @@ class ilPageObjectGUI
 		}
 		else
 		{
-			if ($this->getLayoutMode() == true)
-			{
-//				$xsl = file_get_contents("./Services/COPage/xsl/page_layout.xsl");
-				$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-			}
-			else
-			{
-				$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");	
-			}
-//echo htmlentities($content);
+			$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
+
 			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 			$xh = xslt_create();
 			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
@@ -2040,8 +2014,6 @@ class ilPageObjectGUI
 		
 		$output = $this->insertMaps($output);
 		$output = $this->obj->insertSourceCodeParagraphs($output, $this->getOutputMode());
-
-		$ilBench->stop("ContentPresentation", "ilPageObjectGUI_showPage");
 
 		$output = $this->selfAssessmentRendering($output);
 
@@ -3319,7 +3291,7 @@ class ilPageObjectGUI
 		//$tabs_gui->addTarget("properties", $this->ctrl->getLinkTarget($this, "properties")
 		//	, "properties", get_class($this));
 
-		if ($this->use_meta_data && !$this->layout_mode)
+		if ($this->use_meta_data)
 		{
 			$ilTabs->addTarget("meta_data",
 				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
@@ -3328,8 +3300,7 @@ class ilPageObjectGUI
 
 		$lm_set = new ilSetting("lm");
 		
-		if ($this->getEnableEditing() && !$this->layout_mode &&
-			$lm_set->get("page_history", 1))
+		if ($this->getEnableEditing() && $lm_set->get("page_history", 1))
 		{
 			$ilTabs->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
 				, "history", get_class($this));

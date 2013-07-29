@@ -9,7 +9,7 @@
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.13 2006/03/10 09:22:58 akill Exp $
 *
-* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, 
+* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, 
 * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI
 * 
@@ -119,7 +119,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				break;
 
 				// container page editing
-			case "ilpageobjectgui":
+			case "ilcontainerpagegui":
 				$this->prepareOutput(false);
 				$ret = $this->forwardToPageObject();
 				if ($ret != "")

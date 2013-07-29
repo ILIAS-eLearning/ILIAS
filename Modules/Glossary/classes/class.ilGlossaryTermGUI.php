@@ -10,7 +10,7 @@ require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilPageObjectGUI
+* @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilGlossaryDefPageGUI
 *
 * @ingroup ModulesGlossary
 */
@@ -247,7 +247,7 @@ class ilGlossaryTermGUI
 		}
 		
 		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		require_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
@@ -256,7 +256,7 @@ class ilGlossaryTermGUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-			$page_gui = new ilPageObjectGUI("gdf", $def["id"]);
+			$page_gui = new ilGlossaryDefPageGUI($def["id"]);
 			$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 			if (!$a_offline)
 			{
@@ -305,7 +305,7 @@ class ilGlossaryTermGUI
 	function getInternalLinks()
 	{
 		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		require_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
@@ -313,7 +313,7 @@ class ilGlossaryTermGUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-			$page = new ilPageObject("gdf", $def["id"]);
+			$page = new ilGlossaryDefPage("gdf", $def["id"]);
 			$page->buildDom();
 			$page_links = $page->getInternalLinks();
 			foreach($page_links as $key => $page_link)
@@ -336,7 +336,7 @@ class ilGlossaryTermGUI
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("definitions");
-		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		require_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -375,7 +375,7 @@ class ilGlossaryTermGUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-			$page_gui = new ilPageObjectGUI("gdf", $def["id"]);
+			$page_gui = new ilGlossaryDefPageGUI($def["id"]);
 			$page_gui->setStyleId($this->glossary->getStyleSheetId());
 			$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 			$page_gui->setTemplateOutput(false);
@@ -413,7 +413,7 @@ class ilGlossaryTermGUI
 			$this->ctrl->setParameter($this, "def", $def["id"]);
 			$this->ctrl->setParameterByClass("ilTermDefinitionEditorGUI", "def", $def["id"]);
 			$this->tpl->setVariable("LINK_EDIT",
-				$this->ctrl->getLinkTargetByClass(array("ilTermDefinitionEditorGUI", "ilPageObjectGUI"), "edit"));
+				$this->ctrl->getLinkTargetByClass(array("ilTermDefinitionEditorGUI", "ilGlossaryDefPageGUI"), "edit"));
 			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("LINK_DELETE",
 				$this->ctrl->getLinkTarget($this, "confirmDefinitionDeletion"));
@@ -464,8 +464,7 @@ class ilGlossaryTermGUI
 		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
 		$definition =& new ilGlossaryDefinition($_GET["def"]);
-		//$page =& new ilPageObject("gdf", $definition->getId());
-		$page_gui =& new ilPageObjectGUI("gdf", $definition->getId());
+		$page_gui = new ilGlossaryDefPageGUI($definition->getId());
 		$page_gui->setTemplateOutput(false);
 		$page_gui->setStyleId($this->glossary->getStyleSheetId());
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);

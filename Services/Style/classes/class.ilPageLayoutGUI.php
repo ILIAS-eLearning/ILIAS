@@ -49,21 +49,24 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getPlaceHolderStylePath());	
 		$tpl->parseCurrentBlock();
 		
-		$this->setEnabledMaps(false);
-		$this->setPreventHTMLUnmasking(false);
-		$this->setEnabledInternalLinks(false);
-		$this->setEnabledSelfAssessment(false);
 		$this->setStyleId($this->layout_object->getStyleId());
-		
-		//set For GUI and associated object
-		$this->setLayoutMode(true);
-		$this->obj->setLayoutMode(true);
 		
 		$this->slm_id = $a_slm_id;
 		
 	}
 	
-	
+	/**
+	 * Init page config
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPageConfig()
+	{
+		include_once("./Services/Style/classes/class.ilPageLayoutConfig.php");
+		$cfg = new ilPageLayoutConfig();
+		$this->setPageConfig($cfg);
+	}
 	
 
 	/**
@@ -83,6 +86,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 				break;
 
 			case "ilpageobjectgui":
+die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 				// "stys" was "sahs" before
 				$page_gui = new ilPageObjectGUI("stys",
 					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);

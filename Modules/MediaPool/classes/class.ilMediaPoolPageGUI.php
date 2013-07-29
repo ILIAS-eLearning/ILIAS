@@ -12,7 +12,7 @@ include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilMediaPoolPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
-* @ilCtrl_Calls ilMediaPoolPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilMediaPoolPageGUI: ilPublicUserProfileGUI
 *
 * @ingroup ModulesMediaPool
 */
@@ -39,13 +39,21 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
 		
-		$this->setEnabledMaps(false);
-		$this->setPreventHTMLUnmasking(false);
-		$this->setEnabledInternalLinks(false);
-		$this->setEnabledWikiLinks(false);
-
 	}
 	
+	/**
+	 * Init page config
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPageConfig()
+	{
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageConfig.php");
+		$cfg = new ilMediaPoolPageConfig();
+		$this->setPageConfig($cfg);
+	}	
+
 	function initPageObject($a_parent_type, $a_id, $a_old_nr)
 	{
 		$page = new ilMediaPoolPage($a_id, $a_old_nr);
@@ -64,11 +72,6 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 
 		switch($next_class)
 		{				
-			case "ilpageobjectgui":
-				$page_gui = new ilPageObjectGUI("wpg",
-					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
-				return $ilCtrl->forwardCommand($page_gui);
-				
 			default:
 				return parent::executeCommand();
 		}

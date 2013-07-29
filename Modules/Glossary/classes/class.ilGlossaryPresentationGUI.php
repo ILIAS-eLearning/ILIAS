@@ -342,7 +342,7 @@ class ilGlossaryPresentationGUI
 		{
 			$tpl = $this->tpl;
 
-			require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+			require_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 			$tpl->getStandardTemplate();
 //			$this->setTabs();
 
@@ -429,7 +429,7 @@ class ilGlossaryPresentationGUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-			$page_gui =& new ilPageObjectGUI("gdf", $def["id"]);
+			$page_gui = new ilGlossaryDefPageGUI($def["id"]);
 			$page_gui->setStyleId($this->glossary->getStyleSheetId());
 			$page = $page_gui->getPageObject();
 
@@ -1337,8 +1337,8 @@ class ilGlossaryPresentationGUI
 	}
 	
 	function download_paragraph () {
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		$pg_obj =& new ilPageObject("gdf", $_GET["pg_id"]);
+		include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
+		$pg_obj = new ilGlossaryDefPage($_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 	}
 

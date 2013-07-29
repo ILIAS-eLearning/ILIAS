@@ -836,12 +836,12 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$pg_object->setModules($form_gui->getInput('module'));		
 		$pg_object->update();
 		
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Services/Style/classes/class.ilPageLayoutPage.php");
 		
 		//create Page
 		if(!is_object($pg_content))
 		{
-			$this->pg_content =& new ilPageObject($this->type);
+			$this->pg_content = new ilPageLayoutPage();
 		}
 		
 		$this->pg_content->setId($pg_object->getId());

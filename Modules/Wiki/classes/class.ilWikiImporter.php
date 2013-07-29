@@ -47,11 +47,10 @@ class ilWikiImporter extends ilXmlImporter
 		$wpg_map = $a_mapping->getMappingsOfEntity("Modules/Wiki", "wpg");
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		foreach ($wpg_map as $wpg_id)
 		{
 			$wiki_id = ilWikiPage::lookupWikiId($wpg_id);
-			ilPageObject::_writeParentId("wpg", $wpg_id, $wiki_id);
+			ilWikiPage::_writeParentId("wpg", $wpg_id, $wiki_id);
 		}
 	}
 

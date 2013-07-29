@@ -47,14 +47,27 @@ class ilImprintGUI extends ilPageObjectGUI
 		$tpl->parseCurrentBlock();
 		
 		// config
-		$this->setPreventHTMLUnmasking(true);
+/*		$this->setPreventHTMLUnmasking(true);
 		$this->setEnabledPCTabs(true);
 		$this->setEnabledMaps(false);
 		$this->setEnabledInternalLinks(false);
 		$this->setEnabledWikiLinks(false);						
-		$this->setEnabledActivation(true);
+		$this->setEnabledActivation(true);*/
 	}
 	
+	/**
+	 * Init page config
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPageConfig()
+	{
+		include_once("./Services/Imprint/classes/class.ilImprintPageConfig.php");
+		$cfg = new ilImprintPageConfig();
+		$this->setPageConfig($cfg);
+	}	
+
 	/**
 	 * Init internal data object
 	 *

@@ -1683,7 +1683,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$pages = ilBlogPosting::getAllPostings($this->object->getId(), 0);		
 		foreach ($pages as $page)
 		{
-			if (ilPageObject::_exists("blp", $page["id"]))
+			if (ilBlogPosting::_exists("blp", $page["id"]))
 			{				
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$blp_gui = new ilBlogPostingGUI(0, null, $page["id"]);

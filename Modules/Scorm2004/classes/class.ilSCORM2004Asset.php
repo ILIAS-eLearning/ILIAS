@@ -307,8 +307,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			// init and question lang vars
 			$lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->slm_id);
 			$sco_tpl->setCurrentBlock("init");
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
 			$sco_tpl->setVariable("TXT_INIT_CODE",
-				ilPageObjectGUI::getJSTextInitCode($lk));
+				ilSCORM2004PageGUI::getJSTextInitCode($lk));
 			$sco_tpl->parseCurrentBlock();
 			
 			// (additional) style sheets needed
@@ -394,7 +395,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			$int_links = $page_obj->getPageObject()->getInternalLinks(true);
 			include_once("./Services/COPage/classes/class.ilInternalLink.php");
 			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-			include_once("./Services/COPage/classes/class.ilPageObject.php");
 			if (is_array($int_links))
 			{
 				foreach ($int_links as $k => $e)
@@ -407,7 +407,8 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 						$dids = ilGlossaryDefinition::getDefinitionList($tid);
 						foreach ($dids as $did)
 						{
-							$def_pg = new ilPageObject("gdf", $did["id"]);
+							include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
+							$def_pg = new ilGlossaryDefPage($did["id"]);
 							$def_pg->buildDom();
 							$mob_ids = $def_pg->collectMediaObjects(false);
 							foreach($mob_ids as $mob_id)

@@ -96,7 +96,7 @@ class ilGlossaryLocatorGUI
 			$title = $this->term->getTerm()." (".$this->lng->txt("cont_definition")." ".$this->definition->getNr().")";
 			if ($this->mode == "edit")
 			{
-				$link = $ilCtrl->getLinkTargetByClass("ilpageobjectgui", "edit");
+				$link = $ilCtrl->getLinkTargetByClass("ilglossarydefpagegui", "edit");
 			}
 			else
 			{
