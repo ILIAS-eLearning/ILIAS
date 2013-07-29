@@ -47,7 +47,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		// #11190
 		$prfa_set = new ilSetting("prfa");
-		$this->setPreventHTMLUnmasking((bool)$prfa_set->get("mask", false));
+		$this->setPreventHTMLUnmasking(!(bool)$prfa_set->get("mask", false));
 		
 		// $this->setEnabledMaps(true);
 		$this->setEnabledInternalLinks(false);
