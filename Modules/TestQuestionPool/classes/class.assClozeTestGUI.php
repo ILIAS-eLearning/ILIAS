@@ -1,40 +1,24 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
 
 /**
-* Cloze test question GUI representation
-*
-* The assClozeTestGUI class encapsulates the GUI representation
-* for cloze test questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
-class assClozeTestGUI extends assQuestionGUI
+ * Cloze test question GUI representation
+ *
+ * The assClozeTestGUI class encapsulates the GUI representation
+ * for cloze test questions.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
+ * @version		$Id$
+ * 
+ * @ingroup 	ModulesTestQuestionPool
+ */
+class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 {
 	/**
 	* A temporary variable to store gap indexes of ilCtrl commands in the getCommand method
@@ -46,7 +30,7 @@ class assClozeTestGUI extends assQuestionGUI
 	*
 	* @param integer $id The database id of a image map question object
 	*/
-	function __construct($id = -1)
+	public function __construct($id = -1)
 	{
 		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assClozeTest.php";
@@ -148,6 +132,7 @@ class assClozeTestGUI extends assQuestionGUI
 		}
 	}
 
+	
 	/**
 	* Creates an output of the edit form for the question
 	*
@@ -158,11 +143,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$save = $this->isSaveCommand();
 		$this->getQuestionTemplate();
 
-#		if ($_REQUEST['prev_qid']) {
-#		    $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
-#		}
-
-                include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
@@ -172,171 +153,259 @@ class assClozeTestGUI extends assQuestionGUI
 
 		// title, author, description, question, working time (assessment mode)
 		$this->addBasicQuestionFormProperties($form);
+
+		// Modify "instructive" question textbox... get rid of this crap asap.
 		$q_item = $form->getItemByPostVar("question");
 		$q_item->setInfo($this->lng->txt("close_text_hint"));
 		$q_item->setTitle($this->lng->txt("cloze_text"));
-	
-		// text rating
-		if (!$this->object->getSelfAssessmentEditingMode())
-		{
-			$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "textgap_rating");
-			$text_options = array(
-				"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
-				"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
-				"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
-				"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
-				"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
-				"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
-				"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
-			);
-			$textrating->setOptions($text_options);
-			$textrating->setValue($this->object->getTextgapRating());
-			$form->addItem($textrating);
-	
-			// text field length
-			$fixedTextLength = new ilNumberInputGUI($this->lng->txt("cloze_fixed_textlength"), "fixedTextLength");
-			$fixedTextLength->setValue(ilUtil::prepareFormOutput($this->object->getFixedTextLength()));
-			$fixedTextLength->setMinValue(0);
-			$fixedTextLength->setSize(3);
-			$fixedTextLength->setMaxLength(6);
-			$fixedTextLength->setInfo($this->lng->txt('cloze_fixed_textlength_description'));
-			$fixedTextLength->setRequired(false);
-			$form->addItem($fixedTextLength);
-	
-			// identical scoring
-			$identical_scoring = new ilCheckboxInputGUI($this->lng->txt("identical_scoring"), "identical_scoring");
-			$identical_scoring->setValue(1);
-			$identical_scoring->setChecked($this->object->getIdenticalScoring());
-			$identical_scoring->setInfo($this->lng->txt('identical_scoring_desc'));
-			$identical_scoring->setRequired(FALSE);
-			$form->addItem($identical_scoring);
-		}
 
-		for ($i = 0; $i < $this->object->getGapCount(); $i++)
-		{
-			$gap = $this->object->getGap($i);
-			$header = new ilFormSectionHeaderGUI();
-			$header->setTitle($this->lng->txt("gap") . " " . ($i+1));
-			$form->addItem($header);
-
-			$gapcounter = new ilHiddenInputGUI("gap[$i]");
-			$gapcounter->setValue($i);
-			$form->addItem($gapcounter);
-			
-			$gaptype = new ilSelectInputGUI($this->lng->txt('type'), "clozetype_$i");
-			$options = array(
-				0 => $this->lng->txt("text_gap"),
-				1 => $this->lng->txt("select_gap"),
-				2 => $this->lng->txt("numeric_gap")
-			);
-			$gaptype->setOptions($options);
-			$gaptype->setValue($gap->getType());
-			$form->addItem($gaptype);
-			
-			if ($gap->getType() == CLOZE_TEXT)
-			{
-				// Choices
-				include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
-				include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
-				$values = new ilAnswerWizardInputGUI($this->lng->txt("values"), "gap_" . $i . "");
-				$values->setRequired(true);
-				$values->setQuestionObject($this->object);
-				$values->setSingleline(true);
-				$values->setAllowMove(false);
-				if (count($gap->getItemsRaw()) == 0) $gap->addItem(new assAnswerCloze("", 0, 0));
-				$values->setValues($gap->getItemsRaw());
-				$form->addItem($values);
-			}
-			else if ($gap->getType() == CLOZE_SELECT)
-			{
-				include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
-				include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
-				$values = new ilAnswerWizardInputGUI($this->lng->txt("values"), "gap_" . $i . "");
-				$values->setRequired(true);
-				$values->setQuestionObject($this->object);
-				$values->setSingleline(true);
-				$values->setAllowMove(false);
-				if (count($gap->getItemsRaw()) == 0) $gap->addItem(new assAnswerCloze("", 0, 0));
-				$values->setValues($gap->getItemsRaw());
-				$form->addItem($values);
-
-				// shuffle
-				$shuffle = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle_" . $i . "");
-				$shuffle->setValue(1);
-				$shuffle->setChecked($gap->getShuffle());
-				$shuffle->setRequired(FALSE);
-				$form->addItem($shuffle);
-			}
-			else if ($gap->getType() == CLOZE_NUMERIC)
-			{
-				if (count($gap->getItemsRaw()) == 0) $gap->addItem(new assAnswerCloze("", 0, 0));
-				foreach ($gap->getItemsRaw() as $item)
-				{
-					// #8944: the js-based ouput in self-assessment cannot support formulas
-					if(!$this->object->getSelfAssessmentEditingMode())
-					{
-						$value = new ilFormulaInputGUI($this->lng->txt('value'), "gap_" . $i . "_numeric");
-						$value->setInlineStyle('text-align: right;');
-						
-						$lowerbound = new ilFormulaInputGUI($this->lng->txt('range_lower_limit'), "gap_" . $i . "_numeric_lower");
-						$lowerbound->setInlineStyle('text-align: right;');
-						
-						$upperbound = new ilFormulaInputGUI($this->lng->txt('range_upper_limit'), "gap_" . $i . "_numeric_upper");
-						$upperbound->setInlineStyle('text-align: right;');
-					}
-					else
-					{
-						$value = new ilNumberInputGUI($this->lng->txt('value'), "gap_" . $i . "_numeric");
-						$value->allowDecimals(true);
-						
-						$lowerbound = new ilNumberInputGUI($this->lng->txt('range_lower_limit'), "gap_" . $i . "_numeric_lower");
-						$lowerbound->allowDecimals(true);
-						
-						$upperbound = new ilNumberInputGUI($this->lng->txt('range_upper_limit'), "gap_" . $i . "_numeric_upper");						
-						$upperbound->allowDecimals(true);
-					}
-					
-					$value->setSize(10);
-					$value->setValue(ilUtil::prepareFormOutput($item->getAnswertext()));
-					$value->setRequired(true);						
-					$form->addItem($value);
-					
-					$lowerbound->setSize(10);
-					$lowerbound->setRequired(true);
-					$lowerbound->setValue(ilUtil::prepareFormOutput($item->getLowerBound()));					
-					$form->addItem($lowerbound);
-					
-					$upperbound->setSize(10);
-					$upperbound->setRequired(true);
-					$upperbound->setValue(ilUtil::prepareFormOutput($item->getUpperBound()));					
-					$form->addItem($upperbound);
-
-					$points = new ilNumberInputGUI($this->lng->txt('points'), "gap_" . $i . "_numeric_points");
-					$points->setSize(3);
-					$points->setRequired(true);
-					$points->setValue(ilUtil::prepareFormOutput($item->getPoints()));
-					$form->addItem($points);
-				}
-			}
-		}
-		
+		$this->populateQuestionSpecificFormPart( $form );
+		$this->populateAnswerSpecificFormPart( $form );
 		$this->populateTaxonomyFormSection($form);
-		
+
 		$form->addCommandButton('createGaps', $this->lng->txt('create_gaps'));
 		$this->addQuestionFormCommandButtons($form);
-	
+
 		$errors = false;
 	
 		if ($save)
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+			$form->setValuesByPost(); 	// again, because checkInput now performs the whole stripSlashes handling and we 
+										// need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
+	}
+
+	public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
+	{
+		// text rating
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			$textrating   = new ilSelectInputGUI($this->lng->txt( "text_rating" ), "textgap_rating");
+			$text_options = array(
+				"ci" => $this->lng->txt( "cloze_textgap_case_insensitive" ),
+				"cs" => $this->lng->txt( "cloze_textgap_case_sensitive" ),
+				"l1" => sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "1" ),
+				"l2" => sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "2" ),
+				"l3" => sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "3" ),
+				"l4" => sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "4" ),
+				"l5" => sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "5" )
+			);
+			$textrating->setOptions( $text_options );
+			$textrating->setValue( $this->object->getTextgapRating() );
+			$form->addItem( $textrating );
+
+			// text field length
+			$fixedTextLength = new ilNumberInputGUI($this->lng->txt( "cloze_fixed_textlength" ), "fixedTextLength");
+			$fixedTextLength->setValue( ilUtil::prepareFormOutput( $this->object->getFixedTextLength() ) );
+			$fixedTextLength->setMinValue( 0 );
+			$fixedTextLength->setSize( 3 );
+			$fixedTextLength->setMaxLength( 6 );
+			$fixedTextLength->setInfo( $this->lng->txt( 'cloze_fixed_textlength_description' ) );
+			$fixedTextLength->setRequired( false );
+			$form->addItem( $fixedTextLength );
+
+			// identical scoring
+			$identical_scoring = new ilCheckboxInputGUI($this->lng->txt( "identical_scoring" ), "identical_scoring");
+			$identical_scoring->setValue( 1 );
+			$identical_scoring->setChecked( $this->object->getIdenticalScoring() );
+			$identical_scoring->setInfo( $this->lng->txt( 'identical_scoring_desc' ) );
+			$identical_scoring->setRequired( FALSE );
+			$form->addItem( $identical_scoring );
+		}
+		return $form;
+	}
+
+	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
+	{
+		for ($gapCounter = 0; $gapCounter < $this->object->getGapCount(); $gapCounter++)
+		{
+			$this->populateGapFormPart( $form, $gapCounter );
+		}
+		return $form;
+	}
+
+	/**
+	 * Populates a gap form-part.
+	 * 
+	 * This includes: A section header with the according gap-ordinal, the type select-box.
+	 * Furthermore, this method calls the gap-type-specific methods for their contents.
+	 *
+	 * @param $form	 		ilPropertyFormGUI	Reference to the form, that receives the point.
+	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function populateGapFormPart($form, $gapCounter)
+	{
+		$gap    = $this->object->getGap( $gapCounter );
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle( $this->lng->txt( "gap" ) . " " . ($gapCounter + 1) );
+		$form->addItem( $header );
+
+		$gapcounter = new ilHiddenInputGUI("gap[$gapCounter]");
+		$gapcounter->setValue( $gapCounter );
+		$form->addItem( $gapcounter );
+
+		$gaptype = new ilSelectInputGUI($this->lng->txt( 'type' ), "clozetype_$gapCounter");
+		$options = array(
+			0 => $this->lng->txt( "text_gap" ),
+			1 => $this->lng->txt( "select_gap" ),
+			2 => $this->lng->txt( "numeric_gap" )
+		);
+		$gaptype->setOptions( $options );
+		$gaptype->setValue( $gap->getType() );
+		$form->addItem( $gaptype );
+
+		if ($gap->getType() == CLOZE_TEXT)
+		{
+			if (count( $gap->getItemsRaw() ) == 0)
+				$gap->addItem( new assAnswerCloze("", 0, 0) );
+			$this->populateTextGapFormPart( $form, $gap, $gapCounter );
+		}
+		else if ($gap->getType() == CLOZE_SELECT)
+		{
+			if (count( $gap->getItemsRaw() ) == 0)
+				$gap->addItem( new assAnswerCloze("", 0, 0) );
+			$this->populateSelectGapFormPart( $form, $gap, $gapCounter );
+		}
+		else if ($gap->getType() == CLOZE_NUMERIC)
+		{
+			if (count( $gap->getItemsRaw() ) == 0)
+				$gap->addItem( new assAnswerCloze("", 0, 0) );
+			foreach ($gap->getItemsRaw() as $item)
+			{
+				$this->populateNumericGapFormPart( $form, $item, $gapCounter );
+			}
+		}
+		return $form;
+	}
+
+	/**
+	 * Populates the form-part for a select gap.
+	 * 
+	 * This includes: The AnswerWizardGUI for the individual select items and points as well as 
+	 * the the checkbox for the shuffle option.
+	 *
+	 * @param $form			ilPropertyFormGUI	Reference to the form, that receives the point.
+	 * @param $gap			mixed				Raw text gap item.
+	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function populateSelectGapFormPart($form, $gap, $gapCounter)
+	{
+		include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
+		$values = new ilAnswerWizardInputGUI($this->lng->txt( "values" ), "gap_" . $gapCounter . "");
+		$values->setRequired( true );
+		$values->setQuestionObject( $this->object );
+		$values->setSingleline( true );
+		$values->setAllowMove( false );
+
+		$values->setValues( $gap->getItemsRaw() );
+		$form->addItem( $values );
+
+		// shuffle
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt( "shuffle_answers" ), "shuffle_" . $gapCounter . "");
+		$shuffle->setValue( 1 );
+		$shuffle->setChecked( $gap->getShuffle() );
+		$shuffle->setRequired( FALSE );
+		$form->addItem( $shuffle );
+		return $form;
+	}
+
+	/**
+	 * Populates the form-part for a text gap.
+	 * 
+	 * This includes: The AnswerWizardGUI for the individual text answers and points.
+	 * 
+	 * @param $form			ilPropertyFormGUI	Reference to the form, that receives the point.
+	 * @param $gap			mixed				Raw text gap item.
+	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function populateTextGapFormPart($form, $gap, $gapCounter)
+	{
+		// Choices
+		include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
+		$values = new ilAnswerWizardInputGUI($this->lng->txt( "values" ), "gap_" . $gapCounter . "");
+		$values->setRequired( true );
+		$values->setQuestionObject( $this->object );
+		$values->setSingleline( true );
+		$values->setAllowMove( false );
+		$values->setValues( $gap->getItemsRaw() );
+		$form->addItem( $values );
+		return $form;
+	}
+
+	/**
+	 * Populates the form-part for a numeric gap.
+	 * 
+	 * This includes: The type selector, value, lower bound, upper bound and points.
+	 * 
+	 * @param $form			ilPropertyFormGUI	Reference to the form, that receives the point.
+	 * @param $gap			mixed				Raw numeric gap item.
+	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps.
+	 * 
+	 * @return ilPropertyFormGUI
+	 */
+	protected function populateNumericGapFormPart($form, $gap, $gapCounter)
+	{
+		// #8944: the js-based ouput in self-assessment cannot support formulas
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			$value = new ilFormulaInputGUI($this->lng->txt( 'value' ), "gap_" . $gapCounter . "_numeric");
+			$value->setInlineStyle( 'text-align: right;' );
+
+			$lowerbound = new ilFormulaInputGUI($this->lng->txt( 'range_lower_limit'), "gap_" . $gapCounter . "_numeric_lower");
+			$lowerbound->setInlineStyle( 'text-align: right;' );
+
+			$upperbound = new ilFormulaInputGUI($this->lng->txt( 'range_upper_limit'), "gap_" . $gapCounter . "_numeric_upper");
+			$upperbound->setInlineStyle( 'text-align: right;' );
+		} 
+		else
+		{
+			$value = new ilNumberInputGUI($this->lng->txt( 'value' ), "gap_" . $gapCounter . "_numeric");
+			$value->allowDecimals( true );
+
+			$lowerbound = new ilNumberInputGUI($this->lng->txt( 'range_lower_limit'), "gap_" . $gapCounter . "_numeric_lower");
+			$lowerbound->allowDecimals( true );
+
+			$upperbound = new ilNumberInputGUI($this->lng->txt( 'range_upper_limit'), "gap_" . $gapCounter . "_numeric_upper");
+			$upperbound->allowDecimals( true );
+		}
+		
+		$value->setSize( 10 );
+		$value->setValue( ilUtil::prepareFormOutput( $gap->getAnswertext() ) );
+		$value->setRequired( true );
+		$form->addItem( $value );
+		
+
+		$lowerbound->setSize( 10 );
+		$lowerbound->setRequired( true );
+		$lowerbound->setValue( ilUtil::prepareFormOutput( $gap->getLowerBound() ) );
+		$form->addItem( $lowerbound );
+		
+
+		$upperbound->setSize( 10 );
+		$upperbound->setRequired( true );
+		$upperbound->setValue( ilUtil::prepareFormOutput( $gap->getUpperBound() ) );
+		$form->addItem( $upperbound );
+
+		$points = new ilNumberInputGUI($this->lng->txt( 'points' ), "gap_" . $gapCounter . "_numeric_points");
+		$points->setSize( 3 );
+		$points->setRequired( true );
+		$points->setValue( ilUtil::prepareFormOutput( $gap->getPoints() ) );
+		$form->addItem( $points );
+		return $form;
 	}
 
 	/**
@@ -902,4 +971,3 @@ class assClozeTestGUI extends assQuestionGUI
 		return $this->object->prepareTextareaOutput($feedback, TRUE);
 	}
 }
-?>
