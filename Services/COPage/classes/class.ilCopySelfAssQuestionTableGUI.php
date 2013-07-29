@@ -30,9 +30,6 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 		$this->pool_ref_id = $a_pool_ref_id;
 		$this->pool_obj_id = ilObject::_lookupObjId($a_pool_ref_id);
 		
-		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
-		$this->pool = new ilObjQuestionPool($a_pool_ref_id);
-		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setTitle(ilObject::_lookupTitle($this->pool_obj_id));
@@ -70,9 +67,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 	 */
 	function getQuestions()
 	{
-		global $ilAccess;
-		
-		$filter = array();
+		global $ilAccess, $ilDB, $lng, $ilPluginAdmin;
 		
 		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
 		$all_types = ilObjQuestionPool::_getSelfAssessmentQuestionTypes();
@@ -85,7 +80,12 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 		$questions = array();
 		if ($ilAccess->checkAccess("read", "", $this->pool_ref_id))
 		{
-			$data = $this->pool->getQuestionBrowserData($filter);
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+			$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin, $this->pool_obj_id);
+			$questionList->load();
+			
+			$data = $questionList->getQuestionDataArray();
+
 			$questions = array();
 			foreach ($data as $d)
 			{

@@ -82,12 +82,10 @@ class ilTestSequence
 		$this->pass = $pass;
 		$this->isRandomTest = $randomtest;
 		$this->sequencedata = array(
-				"sequence" => array(),
-				"postponed" => array(),
-				"hidden" => array()
-			);
-		$this->loadFromDb();
-		$this->loadQuestions();
+			"sequence" => array(),
+			"postponed" => array(),
+			"hidden" => array()
+		);
 	}
 	
 	function getActiveId()
@@ -111,10 +109,8 @@ class ilTestSequence
 	
 	/**
 	* Loads the question mapping
-	*
-	* @access private
 	*/
-	private function loadQuestions()
+	public function loadQuestions()
 	{
 		global $ilDB;
 
@@ -155,9 +151,8 @@ class ilTestSequence
 	* Loads the sequence data for a given active id
 	*
 	* @return string The filesystem path of the certificate
-	* @access private
 	*/
-	private function loadFromDb()
+	public function loadFromDb()
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT * FROM tst_sequence WHERE active_fi = %s AND pass = %s", 
@@ -569,6 +564,55 @@ class ilTestSequence
 	function clearHiddenQuestions()
 	{
 		$this->sequencedata["hidden"] = array();
+	}
+	
+	private function hideCorrectAnsweredQuestions(ilObjTest $testOBJ, $activeId, $pass)
+	{
+		if( $activeId > 0 )
+		{
+			$result = $testOBJ->getTestResult($activeId, $pass, TRUE);
+			
+			foreach( $result as $sequence => $question )
+			{
+				if( is_numeric($sequence) )
+				{
+					if( $question['reached'] == $question['max'] )
+					{
+						$this->hideQuestion($question['qid']);
+					}
+				}
+			}
+			
+			$this->saveToDb();
+		}
+	}
+	
+	public function handleQuestionVisibility(ilObjTest $testOBJ, $crsShowResultParam)
+	{
+		if( $crsShowResultParam )
+		{
+			$this->hideCorrectAnsweredQuestions($testOBJ, $this->active_id, $this->pass);
+		}
+		elseif( $this->hasHiddenQuestions() )
+		{
+			$this->clearHiddenQuestions();
+			$this->saveToDb();
+		}
+	}
+	
+	public function hasStarted(ilTestSession $testSession)
+	{
+		if( $testSession->getLastSequence() < 1 )
+		{
+			return false;
+		}
+		
+		if( $testSession->getLastSequence() == $this->getFirstSequence() )
+		{
+			return false;
+		}
+				
+		return true;
 	}
 }
 

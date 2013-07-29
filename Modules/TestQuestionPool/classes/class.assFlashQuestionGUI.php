@@ -136,6 +136,9 @@ class assFlashQuestionGUI extends assQuestionGUI
 			$this->object->setWidth($_POST["flash"]["width"]);
 			$this->object->setHeight($_POST["flash"]["height"]);
 			$this->object->setPoints($_POST["points"]);
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -190,6 +193,8 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$points->setSize(3);
 		$points->setMinValue(0.0);
 		$form->addItem($points);
+		
+		$this->populateTaxonomyFormSection($form);
 
 		$this->addQuestionFormCommandButtons($form);
 		

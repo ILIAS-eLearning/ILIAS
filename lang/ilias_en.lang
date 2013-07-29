@@ -273,8 +273,6 @@ assessment#:#cannot_export_test#:#You do not possess sufficient permissions to e
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
-assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?
-assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?
 assessment#:#change_solution#:#Change Suggested Solution
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.
 assessment#:#changelog_heading#:#Changelog
@@ -610,6 +608,8 @@ assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#print_answers#:#Print Answers
+assessment#:#qpl_qst_edit_form_taxonomy_section#:#Taxonomies
+assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomy "%s"
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
 assessment#:#qpl_assessment_of_questions#:#Assessment of Questions
@@ -640,8 +640,13 @@ assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI fi
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.
 assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving
 assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving
-assessment#:#qpl_online_property_description#:#Only online question pools could be used in tests.
-assessment#:#qpl_online_property#:#Online
+assessment#:#qpl_settings_subtab_general#:#General Settings
+assessment#:#qpl_settings_subtab_taxonomies#:#Taxonomies
+assessment#:#qpl_form_general_settings#:#General Settings
+assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.
+assessment#:#qpl_settings_general_form_property_online#:#Online
+assessment#:#qpl_settings_general_form_property_show_taxonomies_description#:#When enabled, possibly created taxonomies are shown for filtering.
+assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
 assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
@@ -931,9 +936,7 @@ assessment#:#tst_random_questionpools#:#Source Question Pools
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
 assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.
-assessment#:#tst_random_selection#:#Random Selection of Questions
-assessment#:#tst_random_test_description#:#If checked, the questions of the test will be chosen randomly from question pools. ILIAS generates a new random selection for every test pass.
-assessment#:#tst_random_test#:#Random Test
+assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
@@ -1129,6 +1132,25 @@ assessment#:#tst_highscore_top_table_description#:#Controls, if the table 'top r
 assessment#:#tst_highscore_top_num#:#Number of ranks
 assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should be included in the top ranking table.
 assessment#:#tst_highscore_top_num_unit#:#entries
+assessment#:#tst_question_set_type#:#Test Mode
+assessment#:#tst_question_set_type_fixed#:#Testing with Fixed Set of Questions
+assessment#:#tst_question_set_type_fixed_desc#:#With this mode a fixed set of questions is to be selected and is used for all particapants. Depending on the detailed test configuration the participants can take one or more test passes.
+assessment#:#tst_question_set_type_random#:#Testing with Random Set of Questions
+assessment#:#tst_question_set_type_random_desc#:#With this mode one or more question pools are to be selected from which an individual random set of questions is selected for each participant. Depending on the detailed test configuration the participants can take one or more test passes.
+assessment#:#tst_question_set_type_dynamic#:#Continues Testing
+assessment#:#tst_question_set_type_dynamic_desc#:#With this mode exactly one question pool is to be selected. The test is taken in a never ending pass by the participants and the questions are selected individually and on demand for each participant.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_existing_questions_or_pools#:#You are about to change test mode from <b>%s</b> to <b>%s</b>, although a test mode relating questions/questionpool configuration allready exists.<br />This allready existing configuration will be lost.
+assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
+assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.
+assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
+assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool
+assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
+assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Question Selection
+assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection
+assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Question Selection
+assessment#:#tst_tracked_question_list#:#Previously Answered Questions
+assessment#:#tst_filtered_question_list#:#Test Question Selection
+assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection
 assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
@@ -10833,7 +10855,6 @@ assessment#:#tst_setting_enable_obligations_label#:#Obligatory Questions
 assessment#:#tst_setting_enable_obligations_info#:#If checked, questions of the test can be marked as obligatory (*). All obligatory questions need to be filled out to pass this test. You can set obligatory questions in the "list view". We recommend to also activate "Show List of Questions" when obligatory questions are defined.
 assessment#:#tst_test_contains_obligatory_questions#:#To pass this test you have to answer at least all obligatory questions (*) correctly.
 assessment#:#copy_and_link_to_questionpool#:#Add to question pool
-common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>
 assessment#:#tst_result#:#Test Result
 common#:#first#:#First
 rating#:#rat_one_rating#:#One Rating
@@ -11279,7 +11300,8 @@ forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlig
 dateplaner#:#cal_cache_settings#:#Cache
 dateplaner#:#cal_milestone_settings#:#Milestones
 assessment#:#test_edit_settings#:#Edit Settings
-assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been set to offline, because toggling the setting for random question selection causes the allready existing questions to be removed.
+assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
+assessment#:#tst_cannot_set_online_due_to_switched_question_set_type_setting#:#The test cannot be set to online, because the test mode setting has been changed. You have to set a test mode relating question config before the test can be set to online.
 ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Mapping for Courses

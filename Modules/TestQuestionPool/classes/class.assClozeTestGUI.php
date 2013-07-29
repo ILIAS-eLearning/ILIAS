@@ -137,6 +137,9 @@ class assClozeTestGUI extends assQuestionGUI
 				}
 				if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) $this->object->updateClozeTextFromGaps();
 			}
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -316,6 +319,8 @@ class assClozeTestGUI extends assQuestionGUI
 				}
 			}
 		}
+		
+		$this->populateTaxonomyFormSection($form);
 		
 		$form->addCommandButton('createGaps', $this->lng->txt('create_gaps'));
 		$this->addQuestionFormCommandButtons($form);

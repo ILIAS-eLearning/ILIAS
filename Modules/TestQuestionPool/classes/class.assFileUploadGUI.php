@@ -88,6 +88,9 @@ class assFileUploadGUI extends assQuestionGUI
 			$this->object->setMaxSize($_POST["maxsize"]);
 			$this->object->setAllowedExtensions($_POST["allowedextensions"]);
 			$this->object->setCompletionBySubmission($_POST['completion_by_submission'] == 1 ? true : false);
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -167,6 +170,8 @@ class assFileUploadGUI extends assQuestionGUI
 		$subcompl->setValue(1);
 		$subcompl->setChecked($this->object->isCompletionBySubmissionEnabled());
 		$form->addItem($subcompl);
+		
+		$this->populateTaxonomyFormSection($form);
 
 		$this->addQuestionFormCommandButtons($form);
 		
@@ -349,7 +354,7 @@ class assFileUploadGUI extends assQuestionGUI
 			if (count($files))
 			{
 				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
-				$table_gui = new assFileUploadFileTableGUI("iltestoutputgui", 'gotoquestion');
+				$table_gui = new assFileUploadFileTableGUI(null , 'handleQuestionAction');
 				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.png', $this->lng->txt('already_delivered_files'));
 				$table_gui->setData($files);
 				$template->setCurrentBlock("files");
@@ -365,6 +370,7 @@ class assFileUploadGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
+		$template->setVariable("CMD_UPLOAD", 'handleQuestionAction');
 		$template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
 		$template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
 		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . ": " . $this->object->getMaxFilesizeAsString()));

@@ -1929,7 +1929,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		
 		$filter = $this->getFilterItems();
 		$opt_filter = $this->getFilterItems(true);
-
+		
 		foreach ($filter as $item)
 		{
 			if ($item->checkInput())

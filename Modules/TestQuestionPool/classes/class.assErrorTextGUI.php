@@ -107,6 +107,9 @@ class assErrorTextGUI extends assQuestionGUI
 					$this->object->addErrorData($val, $_POST['errordata']['value'][$idx], $_POST['errordata']['points'][$idx]);
 				}
 			}
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -179,6 +182,8 @@ class assErrorTextGUI extends assQuestionGUI
 			$points_wrong->setRequired(true);
 			$form->addItem($points_wrong);
 		}
+		
+		$this->populateTaxonomyFormSection($form);
 
 		$form->addCommandButton("analyze", $this->lng->txt('analyze_errortext'));
 		$this->addQuestionFormCommandButtons($form);

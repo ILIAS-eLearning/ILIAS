@@ -378,8 +378,6 @@ assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um 
 assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen und/oder Noten hinzugefügt wurden!
-assessment#:#change_properties_from_random_to_standard#:#Sie wollen Ihre Testeinstellungen von einem Zufallstest zu einem Test mit festen Fragen ändern. Die Fragenpools, die Sie bereits zu diesem Zufallstest hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
-assessment#:#change_properties_from_standard_to_random#:#Sie wollen Ihre Testeinstellungen von einem Test mit festen Fragen zu einem Zufallstest ändern. Die Fragen, die Sie bereits zu diesem Test hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_solution#:#Musterlösung wechseln
 assessment#:#changelog_description#:#Die folgende Tabelle beinhaltet alle Änderungen von Autoren an diesem Test
 assessment#:#changelog_heading#:#Änderungen
@@ -724,6 +722,8 @@ assessment#:#postponed#:#zurückgestellt
 assessment#:#preview#:#Vorschau
 assessment#:#previous_question_rows#:#<< Fragen %d - %d von %d
 assessment#:#print_answers#:#Antworten drucken
+assessment#:#qpl_qst_edit_form_taxonomy_section#:#Taxonomies
+assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomie "%s"
 assessment#:#qpl_answertext_fields_not_filled#:#Die Frage kann nur gespeichert werden, wenn Sie alle Antwortfelder ausfüllen!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
@@ -754,8 +754,13 @@ assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-D
 assessment#:#qpl_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie importieren wollen.
 assessment#:#qpl_move_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden zum Verschieben markiert
 assessment#:#qpl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus
-assessment#:#qpl_online_property#:#Online
-assessment#:#qpl_online_property_description#:#Ein Fragenpool muss online sein, um in Tests verwendet werden zu können.
+assessment#:#qpl_settings_subtab_general#:#Allgemeine Einstellungen
+assessment#:#qpl_settings_subtab_taxonomies#:#Taxonomien
+assessment#:#qpl_form_general_settings#:#Allgemeine Einstellungen
+assessment#:#qpl_settings_general_form_property_online#:#Online
+assessment#:#qpl_settings_general_form_property_online_description#:#Ein Fragenpool muss online sein, um in Tests verwendet werden zu können.
+assessment#:#qpl_settings_general_form_property_show_taxonomies_description#:#Erstellte Taxonomien werden für Filterzwecke gezeigt.
+assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Zeige Taxonomies
 assessment#:#qpl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie wenigstens eine Frage in die Zwischenablage.
 assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingefügt
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
@@ -1092,11 +1097,9 @@ assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
 assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.
 assessment#:#tst_random_questionpools#:#Fragenpools
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
-assessment#:#tst_random_selection#:#Zufällige Auswahl von Fragen
 assessment#:#tst_random_selection_question_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen in einem Fragenpool. Der Wert wurde korrigiert.
 assessment#:#tst_random_selection_question_total_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen aller ausgewählten Fragenpools. Der Wert wurde korrigiert.
-assessment#:#tst_random_test#:#Zufallstest
-assessment#:#tst_random_test_description#:#Wählen Sie dieses Kontrollkästchen aus, um die Fragen des Tests für jeden Teilnehmer mit einem Zufallsgenerator zusammenstellen zu lassen. Bei der Auswahl der Fragen müssen Sie lediglich einen oder mehrere Fragenpools angeben. ILIAS erzeugt für jeden Testdurchlauf eine neue zufällige Auswahl.
+assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>Der aktuell Test Modus beinhaltet Fragen in seiner Konfiguration, die keinem Fragenpool zugeordnet sind. Wenn sie den Modus wechseln wechseln, gehen diese Fragen nicht wiederherstellbar verloren.</b>
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_mark#:#Markierung entfernen
 assessment#:#tst_remove_question#:#Sind Sie sicher, dass Sie die folgende Frage aus Ihrem Test entfernen wollen?
@@ -1160,7 +1163,8 @@ assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten we
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
 assessment#:#tst_sequence_properties#:#Einstellungen Reihenfolge
 assessment#:#tst_session_settings#:#Einstellungen Arbeitssitzung
-assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Der Test wurde auf Offline gesetzt, da alle bereits im Test enthaltenen Fragen entfernt wurden, weil die Einstellung für die zufällige Auswahl von Fragen verändert wurde.
+assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde auf Offline gesetzt, da der Test Modus gewechselt wurde. Sie müssen eine neue Test Modus bezogene Fragen Konfiguration erstellen bevor Sie den Test wieder online setzen können.
+assessment#:#tst_cannot_set_online_due_to_switched_question_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Test Modus gewechselt wurde. Sie müssen eine Test Modus bezogene Fragen Konfiguration erstellen bevor Sie den Test online setzen können.
 assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" Option anzeigen
@@ -1303,6 +1307,25 @@ assessment#:#tst_highscore_top_table_description#:#Bestimmt, ob eine Tabelle mit
 assessment#:#tst_highscore_top_num#:#Anzahl der angezeigten Top-Platzierungen
 assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Tabelle "Top-Platzierungen" angezeigt werden.
 assessment#:#tst_highscore_top_num_unit#:#Platzierungen
+assessment#:#tst_question_set_type#:#Test Modus
+assessment#:#tst_question_set_type_fixed#:#Test mit fest definierter Fragenauswahl
+assessment#:#tst_question_set_type_fixed_desc#:#In diesem Modus kann eine feste Auswahl von Fragen definiert werden, welche für alle Teilnehmer gilt. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
+assessment#:#tst_question_set_type_random#:#Test mit zufälliger Fragenauswahl
+assessment#:#tst_question_set_type_random_desc#:#In diesem Modus werden ein oder mehrere Fragenpool(s) ausgewählt, aus welchem für jeden Teilnehmer eine eigene zufällige Fragenauswahl verwendet wird. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
+assessment#:#tst_question_set_type_dynamic#:#Fortlaufender Test über Fragenpool
+assessment#:#tst_question_set_type_dynamic_desc#:#In diesem Modus wird genau ein Fragenpool ausgewählt. Die Testdurchführung erfolgt in einem niemals endenden Durchlauf, in welchem die Fragenauswahl für jeden Teilnehmer individuell und zur Laufzeit erfolgt.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_existing_questions_or_pools#:#Sie sind im Begriff den Test Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test Modus abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen.
+assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenselektion wurde geändert.
+assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenselektion kann nicht geändert werden, da bereits Teilnehmer Ergebisse vorliegen.
+assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenselektion
+assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Quell-Fragenpool
+assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomie Filter
+assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragen Auswahl starten
+assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragen Auswahl fortsetzen
+assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktueller Fragen Auswahl
+assessment#:#tst_tracked_question_list#:#Vorherige beantwortete Fragen
+assessment#:#tst_filtered_question_list#:#Auswahl der Test Fragen
+assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
 assessment#:#feedback_setting#:#Modus des antwortspezifischen Feedback.
 assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Feedback bei ausgewählten Antworten des Prüflings.
@@ -4917,7 +4940,6 @@ rbac#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_edit_questions#:#Fragen bearbeiten
 common#:#tst_new#:#Neuen Test anlegen
 common#:#tst_no_content#:#Es sind keine Tests vorhanden.
-common#:#tst_random_test_description_warning#:#<br /><b>Dieser Test beinhaltet Fragen, die zu keinem Fragenpool gehören. Wenn Sei zum Modus "Zufallstest" wechseln, gehen diese Fragen verloren.</b>
 rbac#:#tst_read#:#Test durchführen
 common#:#tst_run#:#Ausführen
 common#:#tst_statistical_evaluation#:#Statistik

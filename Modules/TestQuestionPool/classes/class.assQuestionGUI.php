@@ -61,6 +61,10 @@ abstract class assQuestionGUI
 	 */
 	var $question_count;
 	
+	private $taxonomyIds = array();
+	
+	private $targetGuiClass = null;
+	
 	/**
 	* assQuestionGUI constructor
 	*/
@@ -116,6 +120,31 @@ abstract class assQuestionGUI
 	function getType()
 	{
 		return $this->getQuestionType();
+	}
+	
+	public function setTaxonomyIds($taxonomyIds)
+	{
+		$this->taxonomyIds = $taxonomyIds;
+	}
+	
+	public function getTaxonomyIds()
+	{
+		return $this->taxonomyIds;
+	}
+	
+	public function setTargetGui(ilTestPlayerAbstractGUI $linkTargetGui)
+	{
+		$this->setTargetGuiClass( get_class($linkTargetGui) );
+	}
+	
+	public function setTargetGuiClass($targetGuiClass)
+	{
+		$this->targetGuiClass = $targetGuiClass;
+	}
+	
+	public function getTargetGuiClass()
+	{
+		return $this->targetGuiClass;
 	}
 
 	/**
@@ -942,6 +971,45 @@ abstract class assQuestionGUI
 			$ni->setMaxLength(5);
 			$ni->setRequired(true);
 			$form->addItem($ni);
+		}
+	}
+	
+	protected function saveTaxonomyAssignments()
+	{
+		if( count($this->getTaxonomyIds()) )
+		{
+			require_once 'Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';
+			
+			foreach($this->getTaxonomyIds() as $taxonomyId)
+			{
+				$postvar = "tax_node_assign_$taxonomyId";
+				
+				$tax_node_assign = new ilTaxAssignInputGUI($taxonomyId, true, '', $postvar);
+				$tax_node_assign->saveInput("qpl", "quest", $this->object->getId());
+			}
+		}
+	}
+	
+	protected function populateTaxonomyFormSection(ilPropertyFormGUI $form)
+	{
+		if( count($this->getTaxonomyIds()) )
+		{
+			$sectHeader = new ilFormSectionHeaderGUI();
+			$sectHeader->setTitle($this->lng->txt('qpl_qst_edit_form_taxonomy_section'));
+			$form->addItem($sectHeader);
+			
+			require_once 'Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';
+			
+			foreach($this->getTaxonomyIds() as $taxonomyId)
+			{
+				$taxonomy = new ilObjTaxonomy($taxonomyId);
+				$label = sprintf($this->lng->txt('qpl_qst_edit_form_taxonomy'), $taxonomy->getTitle());
+				$postvar = "tax_node_assign_$taxonomyId";
+
+				$taxNodeAssign = new ilTaxAssignInputGUI($taxonomy->getId(), true, $label, $postvar);
+				$taxNodeAssign->setCurrentValues('qpl', 'quest', $this->object->getId());
+				$form->addItem($taxNodeAssign);
+			}
 		}
 	}
 

@@ -565,12 +565,11 @@ class assFileUpload extends assQuestion
 		}
 
 		$entered_values = false;
-		if (strcmp($_POST['cmd']['gotoquestion'], $this->lng->txt('delete')) == 0)
+		if (strcmp($_POST['cmd']['handleQuestionAction'], $this->lng->txt('delete')) == 0)
 		{
-			$deletefiles = $_POST['file'];
-			if (is_array($deletefiles) && count($deletefiles) > 0)
+			if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
 			{
-				$this->deleteUploadedFiles($deletefiles, $test_id, $active_id);
+				$this->deleteUploadedFiles($_POST['deletefiles'], $test_id, $active_id);
 			}
 			else
 			{

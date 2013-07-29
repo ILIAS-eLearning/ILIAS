@@ -92,6 +92,9 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 			);
 			$this->object->setTextSize($_POST["textsize"]);
 			$this->object->setOrderText($_POST["ordertext"]);
+			
+			$this->saveTaxonomyAssignments();
+			
 			return 0;
 		}
 		else
@@ -154,6 +157,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		$points->setMinValue(0.0);
 		$points->setMinvalueShouldBeGreater(true);
 		$form->addItem($points);
+		
+		$this->populateTaxonomyFormSection($form);
 
 		$this->addQuestionFormCommandButtons($form);
 		
