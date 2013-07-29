@@ -44,23 +44,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->object = new SurveyMatrixQuestion();
 	}
 
-	/*
-	function &executeCommand()
-	{
-		$cmd = $this->ctrl->getCmd();
-		$next_class = $this->ctrl->getNextClass($this);
-
-		$cmd = $this->getCommand($cmd);
-		switch($next_class)
-		{
-			default:
-				$ret =& $this->$cmd();
-				break;
-		}
-		return $ret;
-	}
-	*/
-	
 	
 	// 
 	// EDITOR
@@ -733,6 +716,96 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	
 	
 	//
+	// LAYOUT
+	//
+
+	/**
+	* Creates a layout view of the question
+	*
+	* @access public
+	*/
+	function layout()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_layout.html", "Modules/SurveyQuestionPool");
+		$this->show_layout_row = TRUE;
+		$question_output = $this->getWorkingForm();
+		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "saveLayout"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+	}
+	
+	/**
+	 * Saves the layout for the matrix question
+	 *
+	 * @return void
+	 **/
+	function saveLayout()
+	{
+		$percent_values = array(
+			"percent_row" => (int)$_POST["percent_row"],
+			"percent_columns" => (int)$_POST["percent_columns"],
+			"percent_bipolar_adjective1" => (int)$_POST['percent_bipolar_adjective1'],
+			"percent_bipolar_adjective2" => (int)$_POST['percent_bipolar_adjective2'],
+			"percent_neutral" => (int)$_POST["percent_neutral"]
+		);
+		$this->object->setLayout($percent_values);
+		
+		// #9364
+		if(array_sum($percent_values) == 100)
+		{		
+			$this->object->saveLayout($percent_values["percent_row"], 
+				$percent_values['percent_columns'], 
+				$percent_values['percent_bipolar_adjective1'], 
+				$percent_values['percent_bipolar_adjective2'], 
+				$percent_values["percent_neutral"]);						
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"));
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("svy_matrix_layout_percentages_sum_invalid"));
+		}
+		$this->layout();
+	}
+
+	/**
+	* Creates a row to define the matrix question layout with percentage values
+	*
+	* @access public
+	*/
+	function getLayoutRow()
+	{
+		$percent_values = $this->object->getLayout();
+		$template = new ilTemplate("tpl.il_svy_out_matrix_layout.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		if (strlen($this->object->getBipolarAdjective(0)) && strlen($this->object->getBipolarAdjective(1)))
+		{
+			$template->setCurrentBlock("bipolar_start");
+			$template->setVariable("VALUE_PERCENT_BIPOLAR_ADJECTIVE1", " value=\"" . $percent_values["percent_bipolar_adjective1"] . "\"");
+			$template->setVariable("STYLE", " style=\"width:" . $percent_values["percent_bipolar_adjective1"] . "%\"");
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("bipolar_end");
+			$template->setVariable("VALUE_PERCENT_BIPOLAR_ADJECTIVE2", " value=\"" . $percent_values["percent_bipolar_adjective2"] . "\"");
+			$template->setVariable("STYLE", " style=\"width:" . $percent_values["percent_bipolar_adjective2"] . "%\"");
+			$template->parseCurrentBlock();
+		}
+		$counter = $this->object->getColumnCount();
+		if (strlen($this->object->hasNeutralColumn()))
+		{
+			$template->setCurrentBlock("neutral_start");
+			$template->setVariable("VALUE_PERCENT_NEUTRAL", " value=\"" . $percent_values["percent_neutral"] . "\"");
+			$template->setVariable("STYLE_NEUTRAL", " style=\"width:" . $percent_values["percent_neutral"] . "%\"");
+			$template->parseCurrentBlock();
+			$counter--;
+		}
+		$template->setVariable("VALUE_PERCENT_ROW", " value=\"" . $percent_values["percent_row"] . "\"");
+		$template->setVariable("STYLE_ROW", " style=\"width:" . $percent_values["percent_row"] . "%\"");		
+		$template->setVariable("COLSPAN_COLUMNS", $counter);
+		$template->setVariable("VALUE_PERCENT_COLUMNS", " value=\"" . $percent_values["percent_columns"] . "\"");
+		$template->setVariable("STYLE_COLUMNS", " style=\"width:" . $percent_values["percent_columns"] . "%\"");
+		return $template->get();
+	}
+	
+	
+	//
 	// EXECUTION
 	// 
 	
@@ -1035,91 +1108,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	}
 
 	
-
-/**
-* Creates a layout view of the question
-*
-* @access public
-*/
-	function layout()
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_layout.html", "Modules/SurveyQuestionPool");
-		$this->show_layout_row = TRUE;
-		$question_output = $this->getWorkingForm();
-		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "saveLayout"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-	}
-	
-/**
- * Saves the layout for the matrix question
- *
- * @return void
- **/
-	function saveLayout()
-	{
-		$percent_values = array(
-			"percent_row" => (int)$_POST["percent_row"],
-			"percent_columns" => (int)$_POST["percent_columns"],
-			"percent_bipolar_adjective1" => (int)$_POST['percent_bipolar_adjective1'],
-			"percent_bipolar_adjective2" => (int)$_POST['percent_bipolar_adjective2'],
-			"percent_neutral" => (int)$_POST["percent_neutral"]
-		);
-		$this->object->setLayout($percent_values);
-		
-		// #9364
-		if(array_sum($percent_values) == 100)
-		{		
-			$this->object->saveLayout($percent_values["percent_row"], 
-				$percent_values['percent_columns'], 
-				$percent_values['percent_bipolar_adjective1'], 
-				$percent_values['percent_bipolar_adjective2'], 
-				$percent_values["percent_neutral"]);						
-			ilUtil::sendSuccess($this->lng->txt("settings_saved"));
-		}
-		else
-		{
-			ilUtil::sendFailure($this->lng->txt("svy_matrix_layout_percentages_sum_invalid"));
-		}
-		$this->layout();
-	}
-
-/**
-* Creates a row to define the matrix question layout with percentage values
-*
-* @access public
-*/
-	function getLayoutRow()
-	{
-		$percent_values = $this->object->getLayout();
-		$template = new ilTemplate("tpl.il_svy_out_matrix_layout.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if (strlen($this->object->getBipolarAdjective(0)) && strlen($this->object->getBipolarAdjective(1)))
-		{
-			$template->setCurrentBlock("bipolar_start");
-			$template->setVariable("VALUE_PERCENT_BIPOLAR_ADJECTIVE1", " value=\"" . $percent_values["percent_bipolar_adjective1"] . "\"");
-			$template->setVariable("STYLE", " style=\"width:" . $percent_values["percent_bipolar_adjective1"] . "%\"");
-			$template->parseCurrentBlock();
-			$template->setCurrentBlock("bipolar_end");
-			$template->setVariable("VALUE_PERCENT_BIPOLAR_ADJECTIVE2", " value=\"" . $percent_values["percent_bipolar_adjective2"] . "\"");
-			$template->setVariable("STYLE", " style=\"width:" . $percent_values["percent_bipolar_adjective2"] . "%\"");
-			$template->parseCurrentBlock();
-		}
-		$counter = $this->object->getColumnCount();
-		if (strlen($this->object->hasNeutralColumn()))
-		{
-			$template->setCurrentBlock("neutral_start");
-			$template->setVariable("VALUE_PERCENT_NEUTRAL", " value=\"" . $percent_values["percent_neutral"] . "\"");
-			$template->setVariable("STYLE_NEUTRAL", " style=\"width:" . $percent_values["percent_neutral"] . "%\"");
-			$template->parseCurrentBlock();
-			$counter--;
-		}
-		$template->setVariable("VALUE_PERCENT_ROW", " value=\"" . $percent_values["percent_row"] . "\"");
-		$template->setVariable("STYLE_ROW", " style=\"width:" . $percent_values["percent_row"] . "%\"");		
-		$template->setVariable("COLSPAN_COLUMNS", $counter);
-		$template->setVariable("VALUE_PERCENT_COLUMNS", " value=\"" . $percent_values["percent_columns"] . "\"");
-		$template->setVariable("STYLE_COLUMNS", " style=\"width:" . $percent_values["percent_columns"] . "%\"");
-		return $template->get();
-	}
+	//
+	// EVALUATION
+	//
 
 	/**
 	* Creates the detailed output of the cumulated results for the question
