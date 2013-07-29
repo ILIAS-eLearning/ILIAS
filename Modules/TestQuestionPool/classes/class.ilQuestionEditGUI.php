@@ -1,6 +1,6 @@
 <?php
 /**
-* Class ilObjQuestionPoolGUI
+* Class ilQuestionEditGUI
 *
 * @author		Alex Killing <alex.killing@gmx.de>
 * @version  $Id$
