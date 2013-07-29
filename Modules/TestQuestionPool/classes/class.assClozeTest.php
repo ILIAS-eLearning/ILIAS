@@ -1,22 +1,22 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
 
 /**
  * Class for cloze tests
- *
- * @extends assQuestion
  * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
  * @author		Björn Heyser <bheyser@databay.de>
- * @version	$Id$
+ * @author		Maximilian Becker <mbecker@databay.de>
  * 
- * @ingroup ModulesTestQuestionPool
+ * @version		$Id$
+ * 
+ * @ingroup 	ModulesTestQuestionPool
  */
-class assClozeTest extends assQuestion
+class assClozeTest extends assQuestion implements ObjScoringAdjustable
 {
 	/**
 	* The gaps of the cloze question
@@ -240,62 +240,118 @@ class assClozeTest extends assQuestion
 		parent::loadFromDb($question_id);
 	}
 
+	#region Save question to db
+	
 	/**
-	* Saves a assClozeTest object to a database
-	*
-	* @param integer $original_id ID of the original question
-	* @access public
-	*/
-	function saveToDb($original_id = "")
+	 * Saves a assClozeTest object to a database
+	 *
+	 * @param int|string $original_id ID of the original question
+	 *
+	 * @return mixed|void
+	 * 
+	 * @access public
+	 */
+	public function saveToDb($original_id = "")
+	{
+		$this->saveQuestionDataToDb($original_id);
+		$this->saveAdditionalQuestionDataToDb();
+		$this->saveAnswerSpecificDataToDb();
+
+		parent::saveToDb($original_id);
+	}
+
+	/**
+	 * Save all gaps to the database.
+	 */
+	public function saveAnswerSpecificDataToDb()
+	{
+		global $ilDB;
+		
+		$ilDB->manipulateF( "DELETE FROM qpl_a_cloze WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+
+		foreach ($this->gaps as $key => $gap)
+		{
+			$this->saveClozeGapItemsToDb( $gap, $key );
+		}
+	}
+
+	/**
+	 * Saves the data for the additional data table.
+	 *
+	 * This method uses the ugly DELETE-INSERT. Here, this does no harm.
+	 */
+	public function saveAdditionalQuestionDataToDb()
 	{
 		global $ilDB;
 
-		$this->saveQuestionDataToDb($original_id);
-
-		include_once "./Services/Math/classes/class.EvalMath.php";
-		$eval = new EvalMath();
-		$eval->suppress_errors = TRUE;
-
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
 		);
 
-
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (%s, %s, %s, %s)",
-			array(
-				"integer", 
-				"text",
-				"text",
-				"integer"
-			),
-			array(
-				$this->getId(),
-				$this->getTextgapRating(),
-				$this->getIdenticalScoring(),
-				$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL
-			)
-		);
-
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_cloze WHERE question_fi = %s",
-			array("integer"),
-			array($this->getId())
-		);
-		
-		foreach ($this->gaps as $key => $gap)
-		{
-			foreach ($gap->getItems() as $item)
-			{
-				$query = "";
-				switch ($gap->getType())
-				{
-					case CLOZE_TEXT:
-						$next_id = $ilDB->nextId('qpl_a_cloze');
-						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName()
+								. " (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (%s, %s, %s, %s)",
 							array(
 								"integer",
-								"integer", 
+								"text",
+								"text",
+								"integer"
+							),
+							array(
+								$this->getId(),
+								$this->getTextgapRating(),
+								$this->getIdenticalScoring(),
+								$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL
+							)
+		);
+	}
+
+	/**
+	 * Save all items belonging to one cloze gap to the db.
+	 * 
+	 * @param $gap
+	 * @param $key
+	 */
+	protected function saveClozeGapItemsToDb($gap, $key)
+	{
+		global $ilDB;
+		foreach ($gap->getItems() as $item)
+		{
+			$query   = "";
+			$next_id = $ilDB->nextId( 'qpl_a_cloze' );
+			switch ($gap->getType())
+			{
+				case CLOZE_TEXT:
+					$this->saveClozeTextGapRecordToDb( $ilDB, $next_id, $key, $item, $gap );
+					break;
+				case CLOZE_SELECT:
+					$this->saveClozeSelectGapRecordToDb( $ilDB, $next_id, $key, $item, $gap );
+					break;
+				case CLOZE_NUMERIC:
+					$this->saveClozeNumericGapRecordToDb( $ilDB, $next_id, $key, $item, $gap );
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Saves a gap-item record.
+	 *
+	 * @param $next_id			int	Next Id for the record.
+	 * @param $key				int Gap Id
+	 * @param $item				gap Gap item data object.
+	 * @param $gap				gap Gap data object.
+	 */
+	protected function saveClozeTextGapRecordToDb($next_id, $key, $item, $gap)
+	{
+		global $ilDB;
+		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+							array(
+								"integer",
+								"integer",
 								"integer",
 								"text",
 								"float",
@@ -306,19 +362,29 @@ class assClozeTest extends assQuestion
 								$next_id,
 								$this->getId(),
 								$key,
-								strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
+								strlen( $item->getAnswertext() ) ? $item->getAnswertext() : "",
 								$item->getPoints(),
 								$item->getOrder(),
 								$gap->getType()
 							)
-						);
-						break;
-					case CLOZE_SELECT:
-						$next_id = $ilDB->nextId('qpl_a_cloze');
-						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+		);
+	}
+
+	/**
+	 * Saves a gap-item record.
+	 *
+	 * @param $next_id			int	Next Id for the record.
+	 * @param $key				int Gap Id
+	 * @param $item				gap Gap item data object.
+	 * @param $gap				gap Gap data object.
+	 */
+	protected function saveClozeSelectGapRecordToDb($next_id, $key, $item, $gap)
+	{
+		global $ilDB;
+		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer",
-								"integer", 
+								"integer",
 								"integer",
 								"text",
 								"float",
@@ -330,20 +396,34 @@ class assClozeTest extends assQuestion
 								$next_id,
 								$this->getId(),
 								$key,
-								strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
+								strlen( $item->getAnswertext() ) ? $item->getAnswertext() : "",
 								$item->getPoints(),
 								$item->getOrder(),
 								$gap->getType(),
 								($gap->getShuffle()) ? "1" : "0"
 							)
-						);
-						break;
-					case CLOZE_NUMERIC:
-						$next_id = $ilDB->nextId('qpl_a_cloze');
-						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+		);
+	}
+
+	/**
+	 * Saves a gap-item record.
+	 * 
+	 * @param $next_id			int	Next Id for the record.
+	 * @param $key				int Gap Id
+	 * @param $item				gap Gap item data object.
+	 * @param $gap				gap Gap data object.
+	 */
+	protected function saveClozeNumericGapRecordToDb($next_id, $key, $item, $gap)
+	{
+		global $ilDB;
+		
+		include_once "./Services/Math/classes/class.EvalMath.php";
+		$eval = new EvalMath();
+		$eval->suppress_errors = TRUE;
+		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer",
-								"integer", 
+								"integer",
 								"integer",
 								"text",
 								"float",
@@ -356,20 +436,21 @@ class assClozeTest extends assQuestion
 								$next_id,
 								$this->getId(),
 								$key,
-								strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
+								strlen( $item->getAnswertext() ) ? $item->getAnswertext() : "",
 								$item->getPoints(),
 								$item->getOrder(),
 								$gap->getType(),
-								($eval->e($item->getLowerBound() !== FALSE) && strlen($item->getLowerBound()) > 0) ? $item->getLowerBound() : $item->getAnswertext(),
-								($eval->e($item->getUpperBound() !== FALSE)  && strlen($item->getUpperBound()) > 0) ? $item->getUpperBound() : $item->getAnswertext()
+								($eval->e( $item->getLowerBound() !== FALSE ) && strlen( $item->getLowerBound()
+								) > 0) ? $item->getLowerBound() : $item->getAnswertext(),
+								($eval->e( $item->getUpperBound() !== FALSE ) && strlen( $item->getUpperBound()
+								) > 0) ? $item->getUpperBound() : $item->getAnswertext()
 							)
-						);
-						break;
-				}
-			}
-		}
-		parent::saveToDb($original_id);
+		);
 	}
+
+
+
+	#endregion Save question to db
 
 	/**
 	* Returns the array of gaps
