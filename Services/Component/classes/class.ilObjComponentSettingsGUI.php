@@ -258,7 +258,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$plugin = null;
 		foreach($slot->getPluginsInformation() as $item)
 		{
-			if($item["plugin_id"] == $_GET["plugin_id"])
+			if($item["id"] == $_GET["plugin_id"])
 			{
 				$plugin = $item;
 				break;
