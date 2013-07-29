@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php"; // :TODO:
 
 /**
 * Class ilObjSurveyGUI
@@ -287,8 +286,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$a_new_object->set360Mode((bool)$this->getDidacticTemplateVar("svy360"));
 		if($a_new_object->get360Mode())
 		{
-			$a_new_object->setAnonymize(ANONYMIZE_CODE_ALL);
-			$a_new_object->setEvaluationAccess(EVALUATION_ACCESS_PARTICIPANTS);
+			$a_new_object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+			$a_new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
 		}
 		$a_new_object->saveToDB();
 
@@ -659,14 +658,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 					if (!$hasDatasets)
 					{
-						$anon_map = array('personalized' => ANONYMIZE_OFF,
-							'anonymize_with_code' => ANONYMIZE_ON,
-							'anonymize_without_code' => ANONYMIZE_FREEACCESS);
+						$anon_map = array('personalized' => ilObjSurvey::ANONYMIZE_OFF,
+							'anonymize_with_code' => ilObjSurvey::ANONYMIZE_ON,
+							'anonymize_without_code' => ilObjSurvey::ANONYMIZE_FREEACCESS);
 						if(array_key_exists($_POST["anonymization_options"], $anon_map))
 						{
 							$this->object->setAnonymize($anon_map[$_POST["anonymization_options"]]);
-							if (strcmp($_POST['anonymization_options'], 'anonymize_with_code') == 0) $anonymize = ANONYMIZE_ON;
-							if (strcmp($_POST['anonymization_options'], 'anonymize_with_code_all') == 0) $anonymize = ANONYMIZE_CODE_ALL;
+							if (strcmp($_POST['anonymization_options'], 'anonymize_with_code') == 0) $anonymize = ilObjSurvey::ANONYMIZE_ON;
+							if (strcmp($_POST['anonymization_options'], 'anonymize_with_code_all') == 0) $anonymize = ilObjSurvey::ANONYMIZE_CODE_ALL;
 						}
 					}
 				}
@@ -939,9 +938,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
 			$evaluation_access->setInfo($this->lng->txt('evaluation_access_description'));
-			$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_off"), EVALUATION_ACCESS_OFF, ''));
-			$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_all"), EVALUATION_ACCESS_ALL, ''));
-			$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), EVALUATION_ACCESS_PARTICIPANTS, ''));
+			$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_off"), ilObjSurvey::EVALUATION_ACCESS_OFF, ''));
+			$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_all"), ilObjSurvey::EVALUATION_ACCESS_ALL, ''));
+			$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS, ''));
 			$evaluation_access->setValue($this->object->getEvaluationAccess());
 			$form->addItem($evaluation_access);
 		}
@@ -1757,10 +1756,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		switch ($this->object->getAnonymize())
 		{
-			case ANONYMIZE_OFF:
+			case ilObjSurvey::ANONYMIZE_OFF:
 				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_personalized"));
 				break;
-			case ANONYMIZE_ON:
+			case ilObjSurvey::ANONYMIZE_ON:
 				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 				{
 					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("info_anonymize_with_code"));
@@ -1770,7 +1769,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("info_anonymize_registered_user"));
 				}
 				break;
-			case ANONYMIZE_FREEACCESS:
+			case ilObjSurvey::ANONYMIZE_FREEACCESS:
 				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("info_anonymize_without_code"));
 				break;
 		}

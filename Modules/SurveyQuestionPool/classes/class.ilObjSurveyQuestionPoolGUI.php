@@ -22,7 +22,6 @@
 */
 
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Class ilObjSurveyQuestionPoolGUI
@@ -55,7 +54,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->type = "spl";
 		$lng->loadLanguageModule("survey");
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id", "calling_survey", "new_for_survey", "pgov", "pgov_pos"));
+		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 	}
@@ -66,26 +65,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	public function executeCommand()
 	{
 		global $ilAccess, $ilNavigationHistory, $ilErr;
-				
-		if($this->ctrl->getCmd("questions") != "questions")
-		{
-			// #11186
-			$rbac_ref_id = $_REQUEST["calling_survey"];
-			if(!$rbac_ref_id)
-			{
-				$rbac_ref_id = $_REQUEST["new_for_survey"];
-			}
-			if(!$rbac_ref_id)
-			{
-				$rbac_ref_id = $_REQUEST["ref_id"];
-			}	
-		}
-		else
-		{
-			$rbac_ref_id = $_REQUEST["ref_id"];
-		}
-		if (!$ilAccess->checkAccess("read", "", $rbac_ref_id) && 
-			!$ilAccess->checkAccess("visible", "", $rbac_ref_id))
+						
+		if (!$ilAccess->checkAccess("read", "",  $_REQUEST["ref_id"]) && 
+			!$ilAccess->checkAccess("visible", "",  $_REQUEST["ref_id"]))
 		{
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
@@ -437,27 +419,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		global $ilUser;
 		global $ilToolbar;
 
-		if(get_class($this->object) == "ilObjSurvey")
-		{
-			if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0))
-			{
-				$ref_id = $_GET["calling_survey"];
-				if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
-				$addurl = "";
-				if (strlen($_GET["new_for_survey"]))
-				{
-					$addurl = "&new_id=" . $_GET["q_id"];
-				}
-				if ($_REQUEST["pgov"])
-				{
-					$addurl .= "&pgov=".$_REQUEST["pgov"];
-					$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
-				}
-
-				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$ref_id."&cmd=questions".$addurl);
-			}
-		}
-
 		$this->object->purgeQuestions();
 
 		$_SESSION['q_id_table_nav'] = $_GET['q_id_table_nav'];
@@ -727,35 +688,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* edit question
-	*/
-	public function &editQuestionForSurveyObject()
-	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-		$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
-		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
-		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $_GET["q_id"]);
-		$this->ctrl->setParameterByClass(get_class($q_gui), "pgov", $_GET["pgov"]);
-		$this->ctrl->setParameterByClass(get_class($q_gui), "pgov_pos", $_GET["pgov_pos"]);
-		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
-	}
-
-	/**
-	* create question from survey
-	*/
-	public function &createQuestionForSurveyObject()
-	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-		$q_gui =& SurveyQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
-		$q_gui->object->createNewQuestion();
-		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $q_gui->object->getId());
-		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
-		$this->ctrl->setParameterByClass(get_class($q_gui), "pgov", $_GET["pgov"]);
-		$this->ctrl->setParameterByClass(get_class($q_gui), "pgov_pos", $_GET["pgov_pos"]);
-		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
-	}
-
-	/**
 	* create preview of object
 	*/
 	public function &previewObject()
@@ -846,7 +778,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				return;
 				break;
 		}
-		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0)) return;
+		
 		// questions
 		$force_active = (($this->ctrl->getCmdClass() == "" &&
 			$this->ctrl->getCmd() != "properties") ||

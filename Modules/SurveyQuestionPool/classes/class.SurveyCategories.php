@@ -21,9 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
-include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyCategory.php";
-
 /**
 * Class SurveyCategories
 * 

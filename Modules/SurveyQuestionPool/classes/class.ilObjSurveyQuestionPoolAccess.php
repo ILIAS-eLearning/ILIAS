@@ -22,7 +22,6 @@
 */
 
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Class ilObjSurveyQuestionPoolAccess

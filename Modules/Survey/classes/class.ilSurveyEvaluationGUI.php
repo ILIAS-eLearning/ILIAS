@@ -1,9 +1,5 @@
 <?php
-
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Survey evaluation graphical output
@@ -17,7 +13,10 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 * @ingroup ModulesSurvey
 */
 class ilSurveyEvaluationGUI
-{
+{	
+	const TYPE_XLS = "excel";
+	const TYPE_SPSS = "csv";
+	
 	var $object;
 	var $lng;
 	var $tpl;
@@ -320,7 +319,7 @@ class ilSurveyEvaluationGUI
 		
 		switch ($_POST["export_format"])
 		{
-			case TYPE_XLS:
+			case self::TYPE_XLS:
 				include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 				$excelfile = ilUtil::ilTempnam();
 				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
@@ -376,7 +375,8 @@ class ilSurveyEvaluationGUI
 				$column++;
 				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("arithmetic_mean"), $_POST["export_format"]), $format_bold);
 				break;
-			case (TYPE_SPSS):
+			
+			case self::TYPE_SPSS:
 				$csvfile = array();
 				$csvrow = array();
 				switch ($_POST['export_label'])
@@ -432,10 +432,11 @@ class ilSurveyEvaluationGUI
 			$eval = $this->object->getCumulatedResults($question, $finished_ids);
 			switch ($_POST["export_format"])
 			{
-				case TYPE_XLS:
+				case self::TYPE_XLS:
 					$counter = $question->setExportCumulatedXLS($mainworksheet, $format_title, $format_bold, $eval, $counter, $_POST['export_label']);
 					break;
-				case (TYPE_SPSS):
+				
+				case self::TYPE_SPSS:
 					$csvrows =& $question->setExportCumulatedCVS($eval, $_POST['export_label']);
 					foreach ($csvrows as $csvrow)
 					{
@@ -447,7 +448,7 @@ class ilSurveyEvaluationGUI
 			{
 				switch ($_POST["export_format"])
 				{
-					case TYPE_XLS:
+					case self::TYPE_XLS:
 						$question->setExportDetailsXLS($workbook, $format_title, $format_bold, $eval, $_POST['export_label']);
 						break;
 				}
@@ -469,13 +470,14 @@ class ilSurveyEvaluationGUI
 		
 		switch ($_POST["export_format"])
 		{
-			case TYPE_XLS:
+			case self::TYPE_XLS:
 				// Let's send the file
 				$workbook->close();
 				ilUtil::deliverFile($excelfile, "$surveyname.xls", "application/vnd.ms-excel");
 				exit();
 				break;
-			case TYPE_SPSS:
+			
+			case self::TYPE_SPSS:
 				$csv = "";
 				$separator = ";";
 				foreach ($csvfile as $csvrow)
@@ -539,12 +541,12 @@ class ilSurveyEvaluationGUI
 				
 			switch ($this->object->getEvaluationAccess())
 			{
-				case EVALUATION_ACCESS_OFF:
+				case ilObjSurvey::EVALUATION_ACCESS_OFF:
 					ilUtil::sendFailure($this->lng->txt("permission_denied"));
 					return;
 
-				case EVALUATION_ACCESS_ALL:				
-				case EVALUATION_ACCESS_PARTICIPANTS:
+				case ilObjSurvey::EVALUATION_ACCESS_ALL:				
+				case ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS:
 					if(!$this->checkAnonymizedEvaluationAccess())
 					{
 						ilUtil::sendFailure($this->lng->txt("permission_denied"));
@@ -571,8 +573,8 @@ class ilSurveyEvaluationGUI
 		{
 			$format = new ilSelectInputGUI("", "export_format");
 			$format->setOptions(array(
-				"excel" => $this->lng->txt('exp_type_excel'),
-				"csv" => $this->lng->txt('exp_type_csv')
+				self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
+				self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
 				));
 			$ilToolbar->addInputItem($format);
 
@@ -741,7 +743,7 @@ class ilSurveyEvaluationGUI
 			array_push($csvrow2, "");
 		}
 		/* #8211
-		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+		if ($this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_OFF)
 		{
 			array_push($csvrow, $this->lng->txt("gender"));
 		}		 
@@ -799,7 +801,7 @@ class ilSurveyEvaluationGUI
 				array_push($csvrow, $user_id);
 			}
 			/* #8211
-			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+			if ($this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_OFF)
 			{
 				array_push($csvrow, $resultset["gender"]);
 			}			
@@ -820,7 +822,7 @@ class ilSurveyEvaluationGUI
 		
 		switch ($export_format)
 		{
-			case TYPE_XLS:
+			case self::TYPE_XLS:
 				include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 				$excelfile = ilUtil::ilTempnam();
 				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
@@ -916,7 +918,8 @@ class ilSurveyEvaluationGUI
 				ilUtil::deliverFile($excelfile, "$surveyname.xls", "application/vnd.ms-excel");
 				exit();
 				break;
-			case TYPE_SPSS:
+				
+			case ilObjSurvey::TYPE_SPSS:
 				$csv = "";
 				$separator = ";";
 				foreach ($csvfile as $csvrow)
@@ -982,8 +985,8 @@ class ilSurveyEvaluationGUI
 		{
 			$format = new ilSelectInputGUI("", "export_format");
 			$format->setOptions(array(
-				"excel" => $this->lng->txt('exp_type_excel'),
-				"csv" => $this->lng->txt('exp_type_csv')
+				self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
+				self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
 				));
 			$ilToolbar->addInputItem($format);
 

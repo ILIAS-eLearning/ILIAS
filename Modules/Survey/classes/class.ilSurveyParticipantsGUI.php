@@ -233,7 +233,7 @@ class ilSurveyParticipantsGUI
 			return;
 		}
 
-		if ($this->object->getStatus() == STATUS_OFFLINE)
+		if ($this->object->getStatus() == ilObjSurvey::STATUS_OFFLINE)
 		{
 			ilUtil::sendInfo($this->lng->txt("survey_offline_message"));
 			return;

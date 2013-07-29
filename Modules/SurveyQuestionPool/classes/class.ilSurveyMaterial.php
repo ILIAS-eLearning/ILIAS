@@ -21,10 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-define("MATERIAL_TYPE_INTERNALLINK", 0);
-define("MATERIAL_TYPE_URL", 1);
-define("MATERIAL_TYPE_FILE", 2);
-
 /**
 * Survey material class
 *
@@ -34,6 +30,10 @@ define("MATERIAL_TYPE_FILE", 2);
 */
 class ilSurveyMaterial 
 {
+	const MATERIAL_TYPE_INTERNALLINK = 0;
+	const MATERIAL_TYPE_URL = 1;
+	const MATERIAL_TYPE_FILE = 2;
+	
 	protected $data;
 
 	/**
@@ -42,7 +42,7 @@ class ilSurveyMaterial
 	function __construct() 
 	{
 		$this->data = array(
-			'type' => MATERIAL_TYPE_INTERNALLINK,
+			'type' => self::MATERIAL_TYPE_INTERNALLINK,
 			'internal_link' => '',
 			'title' => '',
 			'url' => '',
