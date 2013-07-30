@@ -13571,7 +13571,7 @@ administration#:#adm_user_starting_point_invalid_info#:#Dieses Feature ist aktue
 ps#:#ps_password_settings#:#Passworteinstellungen
 rep#:#rep_new_item_group_unassigned#:#Nicht zugeordnet
 rep#:#rep_new_item_groups#:#Gruppen für hinzuzufügende Objekte
-rep#:#rep_new_item_group_add#:#Neue Gruppe hinzufügen
+rep#:#rep_new_item_group_add#:#Gruppe hinzufügen
 rep#:#rep_new_item_group_nr_subitems#:#Anzahl zugeordnete Objekte
 rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte: %s
 rep#:#rep_new_item_group_edit#:#Gruppe bearbeiten
