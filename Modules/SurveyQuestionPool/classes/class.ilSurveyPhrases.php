@@ -68,7 +68,8 @@ class ilSurveyPhrases
 				{
 					$phrases[$row->phrase_id] = array(
 						"title" => $lng->txt($row->title),
-						"owner" => $row->owner_fi
+						"owner" => $row->owner_fi,
+						"org_title" => $row->title
 					);
 				}
 			}
