@@ -1,23 +1,23 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
 
 /**
  * Class for error text questions
  *
- * @extends		assQuestion
- *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
  * @author		Grégory Saive <gsaive@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
  * @version		$Id$
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assErrorText extends assQuestion
+class assErrorText extends assQuestion implements ObjScoringAdjustable
 {
 	protected $errortext;
 	protected $textsize;
@@ -37,15 +37,15 @@ class assErrorText extends assQuestion
 	* @see assQuestion:__construct()
 	*/
 	function __construct(
-		$title = "",
-		$comment = "",
-		$author = "",
-		$owner = -1,
-		$question = ""
+				$title = '',
+				$comment = '',
+				$author = '',
+				$owner = -1,
+				$question = ''
 	)
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
-		$this->errortext = "";
+		$this->errortext = '';
 		$this->textsize = 100.0;
 		$this->errordata = array();
 	}
@@ -57,7 +57,10 @@ class assErrorText extends assQuestion
 	*/
 	public function isComplete()
 	{
-		if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0))
+		if (strlen($this->title) 
+			&& ($this->author) 
+			&& ($this->question) 
+			&& ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -76,46 +79,60 @@ class assErrorText extends assQuestion
 		global $ilDB;
 
 		$this->saveQuestionDataToDb($original_id);
+		$this->saveAdditionalQuestionDataToDb();
+		$this->saveAnswerSpecificDataToDb();
+		parent::saveToDb();
+	}
 
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-			array("integer"),
-			array($this->getId())
-		);
-
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, textsize, points_wrong) VALUES (%s, %s, %s, %s)",
-			array("integer", "text", "float", "float"),
-			array(
-				$this->getId(),
-				$this->getErrorText(),
-				$this->getTextSize(),
-				$this->getPointsWrong()
-			)
-		);
-
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_errortext WHERE question_fi = %s",
-			array('integer'),
-			array($this->getId())
+	public function saveAnswerSpecificDataToDb()
+	{
+		global $ilDB;
+		$ilDB->manipulateF( "DELETE FROM qpl_a_errortext WHERE question_fi = %s",
+							array( 'integer' ),
+							array( $this->getId() )
 		);
 
 		$sequence = 0;
 		foreach ($this->errordata as $object)
 		{
-			$next_id = $ilDB->nextId('qpl_a_errortext');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_errortext (answer_id, question_fi, text_wrong, text_correct, points, sequence) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer','integer','text','text','float', 'integer'),
-				array(
-					$next_id,
-					$this->getId(),
-					$object->text_wrong,
-					$object->text_correct,
-					$object->points,
-					$sequence++
-				)
+			$next_id = $ilDB->nextId( 'qpl_a_errortext' );
+			$ilDB->manipulateF( "INSERT INTO qpl_a_errortext (answer_id, question_fi, text_wrong, text_correct, points, sequence) VALUES (%s, %s, %s, %s, %s, %s)",
+								array( 'integer', 'integer', 'text', 'text', 'float', 'integer' ),
+								array(
+									$next_id,
+									$this->getId(),
+									$object->text_wrong,
+									$object->text_correct,
+									$object->points,
+									$sequence++
+								)
 			);
 		}
+	}
 
-		parent::saveToDb();
+	/**
+	 * Saves the data for the additional data table.
+	 *
+	 * This method uses the ugly DELETE-INSERT. Here, this does no harm.
+	 */
+	public function saveAdditionalQuestionDataToDb()
+	{
+		global $ilDB;
+		// save additional data
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+		
+		$ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, textsize, points_wrong) VALUES (%s, %s, %s, %s)",
+						   array("integer", "text", "float", "float"),
+						   array(
+							   $this->getId(),
+							   $this->getErrorText(),
+							   $this->getTextSize(),
+							   $this->getPointsWrong()
+						   )
+		);
 	}
 
 	/**
@@ -321,9 +338,9 @@ class assErrorText extends assQuestion
 		return $points;
 	}
 
-	/*
-	* Change the selection during a test when a user selects/deselects a word without using javascript
-	*/
+	/**
+	 * Change the selection during a test when a user selects/deselects a word without using javascript
+	 */
 	public function toggleSelection($position, $active_id, $pass = null)
 	{
 		global $ilDB;

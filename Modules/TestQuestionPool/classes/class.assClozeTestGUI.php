@@ -52,11 +52,13 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 	}
 
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 * @access private
+	 */
 	function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
@@ -132,7 +134,6 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 		}
 	}
 
-	
 	/**
 	* Creates an output of the edit form for the question
 	*
@@ -441,16 +442,21 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 	/**
 	* Creates an output of the question for a test
 	*
-	* Creates an output of the question for a test
-	*
 	* @param string $formaction The form action for the test output
 	* @param integer $active_id The active id of the current user from the tst_active database table
 	* @param integer $pass The test pass of the current user
 	* @param boolean $is_postponed The information if the question is a postponed question or not
 	* @param boolean $use_post_solutions Fills the question output with answers from the previous post if TRUE, otherwise with the user results from the database
+	* 
 	* @access public
 	*/
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function outQuestionForTest(
+				$formaction, 
+				$active_id, 
+				$pass = NULL, 
+				$is_postponed = FALSE, 
+				$use_post_solutions = FALSE
+	)
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
@@ -458,13 +464,13 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 	}
 
 	/**
-	* Creates a preview output of the question
-	*
-	* Creates a preview output of the question
-	*
-	* @return string HTML code which contains the preview output of the question
-	* @access public
-	*/
+	 * Creates a preview output of the question
+	 *
+	 * @param bool $show_question_only
+	 *
+	 * @return string HTML code which contains the preview output of the question
+	 * @access public
+	 */
 	function getPreview($show_question_only = FALSE)
 	{
 		// generate the question output
@@ -513,28 +519,30 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 	}
 
 	/**
-	* Get the question solution output
-	*
-	* @param integer $active_id The active user id
-	* @param integer $pass The test pass
-	* @param boolean $graphicalOutput Show visual feedback for right/wrong answers
-	* @param boolean $result_output Show the reached points for parts of the question
-	* @param boolean $show_question_only Show the question without the ILIAS content around
-	* @param boolean $show_feedback Show the question feedback
-	* @param boolean $show_correct_solution Show the correct solution instead of the user solution
-	* @param boolean $show_manual_scoring Show specific information for the manual scoring output
-	* @return The solution output of the question as HTML code
-	*/
+	 * Get the question solution output
+	 *
+	 * @param integer $active_id             The active user id
+	 * @param integer $pass                  The test pass
+	 * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
+	 * @param boolean $result_output         Show the reached points for parts of the question
+	 * @param boolean $show_question_only    Show the question without the ILIAS content around
+	 * @param boolean $show_feedback         Show the question feedback
+	 * @param boolean $show_correct_solution Show the correct solution instead of the user solution
+	 * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
+	 * @param bool    $show_question_text
+	 *
+	 * @return string The solution output of the question as HTML code
+	 */
 	function getSolutionOutput(
-		$active_id,
-		$pass = NULL,
-		$graphicalOutput = FALSE,
-		$result_output = FALSE,
-		$show_question_only = TRUE,
-		$show_feedback = FALSE,
-		$show_correct_solution = FALSE,
-		$show_manual_scoring = FALSE,
-		$show_question_text = TRUE
+				$active_id,
+				$pass = NULL,
+				$graphicalOutput = FALSE,
+				$result_output = FALSE,
+				$show_question_only = TRUE,
+				$show_feedback = FALSE,
+				$show_correct_solution = FALSE,
+				$show_manual_scoring = FALSE,
+				$show_question_text = TRUE
 	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
@@ -747,7 +755,13 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 		return $this->object->prepareTextareaOutput($output, TRUE);		
 	}
 	
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	function getTestOutput(
+				$active_id, 
+				$pass = NULL, 
+				$is_postponed = FALSE, 
+				$use_post_solutions = FALSE, 
+				$show_feedback = FALSE
+	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
@@ -838,7 +852,7 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 	 * 
 	 * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
 	 */
-	function setQuestionTabs()
+	public function setQuestionTabs()
 	{
 		global $rbacsystem, $ilTabs;
 		

@@ -1,50 +1,36 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
+
+require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
-* The assErrorTextGUI class encapsulates the GUI representation
-* for error text questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-* @ilctrl_iscalledby assErrorTextGUI: ilObjQuestionPoolGUI
-* */
-class assErrorTextGUI extends assQuestionGUI
+ * The assErrorTextGUI class encapsulates the GUI representation for error text questions.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
+ * @version		$Id$
+ * 
+ * @ingroup 	ModulesTestQuestionPool
+ * 
+ * @ilctrl_iscalledby assErrorTextGUI: ilObjQuestionPoolGUI
+ * 
+ */
+class assErrorTextGUI extends assQuestionGUI implements GuiScoringAdjustable
 {
 	/**
-	* assErrorTextGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assOrderingHorizontalGUI object.
-	*
-	* @param integer $id The database id of a single choice question object
-	* @access public
-	*/
-	function __construct($id = -1)
+	 * assErrorTextGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assOrderingHorizontalGUI object.
+	 *
+	 * @param integer $id The database id of a single choice question object
+	 * @access public
+	 */
+	public function __construct($id = -1)
 	{
 		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assErrorText.php";
@@ -56,17 +42,14 @@ class assErrorTextGUI extends assQuestionGUI
 		}
 	}
 
-	function getCommand($cmd)
-	{
-		return $cmd;
-	}
-
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 * @access private
+	 */
 	function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
@@ -107,9 +90,9 @@ class assErrorTextGUI extends assQuestionGUI
 					$this->object->addErrorData($val, $_POST['errordata']['value'][$idx], $_POST['errordata']['points'][$idx]);
 				}
 			}
-			
+
 			$this->saveTaxonomyAssignments();
-			
+
 			return 0;
 		}
 		else
@@ -119,10 +102,12 @@ class assErrorTextGUI extends assQuestionGUI
 	}
 
 	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
+	 * Creates an output of the edit form for the question
+	 * 
+	 * @param bool $checkonly
+	 *
+	 * @return bool
+	 */
 	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
@@ -136,53 +121,15 @@ class assErrorTextGUI extends assQuestionGUI
 		$form->setTableWidth("100%");
 		$form->setId("orderinghorizontal");
 
-		$this->addBasicQuestionFormProperties($form);
+		$this->addBasicQuestionFormProperties( $form );
 
-		// errortext
-		$errortext = new ilTextAreaInputGUI($this->lng->txt("errortext"), "errortext");
-		$errortext->setValue(ilUtil::prepareFormOutput($this->object->getErrorText()));
-		$errortext->setRequired(TRUE);
-		$errortext->setInfo($this->lng->txt("errortext_info"));
-		$errortext->setRows(10);
-		$errortext->setCols(80);
-		$form->addItem($errortext);
-
-		if (!$this->object->getSelfAssessmentEditingMode())
-		{
-			// textsize
-			$textsize = new ilNumberInputGUI($this->lng->txt("textsize"), "textsize");
-			$textsize->setValue(strlen($this->object->getTextSize()) ? $this->object->getTextSize() : 100.0);
-			$textsize->setInfo($this->lng->txt("textsize_errortext_info"));
-			$textsize->setSize(6);
-			$textsize->setSuffix("%");
-			$textsize->setMinValue(10);
-			$textsize->setRequired(true);
-			$form->addItem($textsize);
-		}
+		$this->populateQuestionSpecificFormPart( $form );
 
 		if (count($this->object->getErrorData()) || $checkonly)
 		{
-			$header = new ilFormSectionHeaderGUI();
-			$header->setTitle($this->lng->txt("errors_section"));
-			$form->addItem($header);
-
-			include_once "./Modules/TestQuestionPool/classes/class.ilErrorTextWizardInputGUI.php";
-			$errordata = new ilErrorTextWizardInputGUI($this->lng->txt("errors"), "errordata");
-			$values = array();
-			$errordata->setKeyName($this->lng->txt('text_wrong'));
-			$errordata->setValueName($this->lng->txt('text_correct'));
-			$errordata->setValues($this->object->getErrorData());
-			$form->addItem($errordata);
-
-			// points for wrong selection
-			$points_wrong = new ilNumberInputGUI($this->lng->txt("points_wrong"), "points_wrong");
-			$points_wrong->setValue($this->object->getPointsWrong());
-			$points_wrong->setInfo($this->lng->txt("points_wrong_info"));
-			$points_wrong->setSize(6);
-			$points_wrong->setRequired(true);
-			$form->addItem($points_wrong);
+			$this->populateAnswerSpecificFormPart( $form );
 		}
-		
+
 		$this->populateTaxonomyFormSection($form);
 
 		$form->addCommandButton("analyze", $this->lng->txt('analyze_errortext'));
@@ -203,6 +150,62 @@ class assErrorTextGUI extends assQuestionGUI
 	}
 
 	/**
+	 * @param ilPropertyFormGUI $form
+	 * @return \ilPropertyFormGUI|void
+	 */
+	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
+	{
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle( $this->lng->txt( "errors_section" ) );
+		$form->addItem( $header );
+
+		include_once "./Modules/TestQuestionPool/classes/class.ilErrorTextWizardInputGUI.php";
+		$errordata = new ilErrorTextWizardInputGUI($this->lng->txt( "errors" ), "errordata");
+		$errordata->setKeyName( $this->lng->txt( 'text_wrong' ) );
+		$errordata->setValueName( $this->lng->txt( 'text_correct' ) );
+		$errordata->setValues( $this->object->getErrorData() );
+		$form->addItem( $errordata );
+
+		// points for wrong selection
+		$points_wrong = new ilNumberInputGUI($this->lng->txt( "points_wrong" ), "points_wrong");
+		$points_wrong->setValue( $this->object->getPointsWrong() );
+		$points_wrong->setInfo( $this->lng->txt( "points_wrong_info" ) );
+		$points_wrong->setSize( 6 );
+		$points_wrong->setRequired( true );
+		$form->addItem( $points_wrong );
+		return $form;
+	}
+
+	/**
+	 * @param $form ilPropertyFormGUI
+	 * @return \ilPropertyFormGUI|void
+	 */
+	public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
+	{
+		// errortext
+		$errortext = new ilTextAreaInputGUI($this->lng->txt( "errortext" ), "errortext");
+		$errortext->setValue( ilUtil::prepareFormOutput( $this->object->getErrorText() ) );
+		$errortext->setRequired( TRUE );
+		$errortext->setInfo( $this->lng->txt( "errortext_info" ) );
+		$errortext->setRows( 10 );
+		$errortext->setCols( 80 );
+		$form->addItem( $errortext );
+
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			// textsize
+			$textsize = new ilNumberInputGUI($this->lng->txt( "textsize" ), "textsize");
+			$textsize->setValue( strlen( $this->object->getTextSize() ) ? $this->object->getTextSize() : 100.0 );
+			$textsize->setInfo( $this->lng->txt( "textsize_errortext_info" ) );
+			$textsize->setSize( 6 );
+			$textsize->setSuffix( "%" );
+			$textsize->setMinValue( 10 );
+			$textsize->setRequired( true );
+			$form->addItem( $textsize );
+		}
+	}
+
+	/**
 	* Parse the error text
 	*/
 	public function analyze()
@@ -212,7 +215,14 @@ class assErrorTextGUI extends assQuestionGUI
 		$this->editQuestion();
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	function outQuestionForTest(
+				$formaction, 
+				$active_id, 
+				$pass = NULL, 
+				$is_postponed = FALSE, 
+				$use_post_solutions = FALSE, 
+				$show_feedback = FALSE
+	)
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback);
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
@@ -238,10 +248,15 @@ class assErrorTextGUI extends assQuestionGUI
 	 * @return	string	HTML solution output
 	 **/
 	function getSolutionOutput(
-				$active_id, $pass	= NULL,	$graphicalOutput		= FALSE,
-				$result_output		= FALSE,$show_question_only		= TRUE,
-				$show_feedback		= FALSE,$show_correct_solution  = FALSE,
-				$show_manual_scoring= FALSE,$show_question_text		= TRUE )
+				$active_id, $pass		= NULL,	
+				$graphicalOutput		= FALSE,
+				$result_output			= FALSE,
+				$show_question_only		= TRUE,
+				$show_feedback			= FALSE,
+				$show_correct_solution	= FALSE,
+				$show_manual_scoring	= FALSE,
+				$show_question_text		= TRUE 
+	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -325,7 +340,13 @@ class assErrorTextGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	function getTestOutput(
+				$active_id, 
+				$pass = NULL, 
+				$is_postponed = FALSE, 
+				$use_post_solutions = FALSE, 
+				$show_feedback = FALSE
+	)
 	{
 		// generate the question output
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
@@ -533,4 +554,3 @@ class assErrorTextGUI extends assQuestionGUI
 	}
 
 }
-?>
