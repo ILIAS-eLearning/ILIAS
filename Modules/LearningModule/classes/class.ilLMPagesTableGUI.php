@@ -76,13 +76,13 @@ class ilLMPagesTableGUI extends ilTable2GUI
 		// icon...
 		
 		// check activation
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		$active = ilPageObject::_lookupActive($a_set["obj_id"], $this->lm->getType(),
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+		$active = ilLMPage::_lookupActive($a_set["obj_id"], $this->lm->getType(),
 			$this->lm_set->get("time_scheduled_page_activation"));
 			
 		// is page scheduled?
 		$img_sc = ($this->lm_set->get("time_scheduled_page_activation") &&
-			ilPageObject::_isScheduledActivation($a_set["obj_id"], $this->lm->getType()))
+			ilLMPage::_isScheduledActivation($a_set["obj_id"], $this->lm->getType()))
 			? "_sc"
 			: "";
 
@@ -93,7 +93,7 @@ class ilLMPagesTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			if (ilPageObject::_lookupContainsDeactivatedElements($a_set["obj_id"],
+			if (ilLMPage::_lookupContainsDeactivatedElements($a_set["obj_id"],
 				$this->lm->getType()))
 			{
 				$img = "icon_pg_del".$img_sc.".png";

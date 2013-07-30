@@ -359,16 +359,10 @@ class ilInternalLinkGUI
 		{
 			// page link
 			case "PageObject":
-				if ($type == "lm")
-				{
-					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-					$cont_obj = new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
-				}
-				else if ($type == "dbk")
-				{
-					require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
-					$cont_obj = new ilObjDlBook($_SESSION["il_link_cont_obj"], true);
-				}
+				require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+				
+				$cont_obj = new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
 
 				// get all chapters
 				$ctree = $cont_obj->getLMTree();
@@ -399,7 +393,7 @@ class ilInternalLinkGUI
 					{
 						$this->renderLink($tpl, $node["title"], $node["obj_id"],
 							"PageObject", "pg", "page",
-							ilPageObject::_readAnchors($type, $node["obj_id"]));	
+							ilLMPage::_readAnchors($type, $node["obj_id"]));	
 					}
 				}
 
@@ -424,7 +418,7 @@ class ilInternalLinkGUI
 					{
 						$this->renderLink($tpl, $node["title"], $node["obj_id"],
 							"PageObject", "pg", "page",
-							ilPageObject::_readAnchors($type, $node["obj_id"]));	
+							ilLMPage::_readAnchors($type, $node["obj_id"]));	
 					}
 				}
 

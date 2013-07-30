@@ -14,7 +14,7 @@ require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
-* @ilCtrl_Calls ilLMPresentationGUI: ilPageObjectGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI
 *
 * @ingroup ModulesIliasLearningModule
@@ -86,23 +86,6 @@ class ilLMPresentationGUI
 		$this->lm_tree = new ilTree($this->lm->getId());
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->setTreeTablePK("lm_id");
-
-		// do digilib book initialisation stuff
-		if ($type == "dbk")
-		{
-			$this->abstract = true;
-			$this->setSessionVars();
-			if((count($_POST["tr_id"]) > 1) or
-			   (!$_POST["target"] and ($_POST["action"] == "show" or $_POST["action"] == "show_citation")))
-			{
-				$this->abstract = true;
-			}
-			else if($_GET["obj_id"] or ($_POST["action"] == "show") or ($_POST["action"] == "show_citation"))
-			{
-				$this->abstract = false;
-			}
-		}
-
 	}
 
 
@@ -180,16 +163,16 @@ class ilLMPresentationGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			case "ilpageobjectgui":
-				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-				if ($_GET["pg_type"] != "glo")
-				{
-					$page_gui = new ilPageObjectGUI($this->lm->getType(), $_GET["obj_id"]);
-				}
-				else
-				{
-					$page_gui = new ilPageObjectGUI("gdf", $_GET["pg_id"]);
-				}
+			case "illmpagegui":
+				include_once("./Modules/LearningModules/classes/class.ilLMPageGUI.php");
+				$page_gui = new ilLMPageGUI($_GET["obj_id"]);
+				$this->basicPageGuiInit($page_gui);
+				$ret = $ilCtrl->forwardCommand($page_gui);
+				break;
+				
+			case "ilglossarydefpagegui":
+				include_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
+				$page_gui = new ilGlossaryDefPageGUI($_GET["obj_id"]);
 				$this->basicPageGuiInit($page_gui);
 				$ret = $ilCtrl->forwardCommand($page_gui);
 				break;
@@ -1518,7 +1501,7 @@ class ilLMPresentationGUI
 	{
 		global $ilUser;
 
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		
 		$this->chapter_has_no_active_page = false;
 		$this->deactivated_page = false;
@@ -1531,7 +1514,7 @@ class ilLMPresentationGUI
 		else
 		{
 			$obj_id = $_GET["obj_id"];
-			$active = ilPageObject::_lookupActive($obj_id,
+			$active = ilLMPage::_lookupActive($obj_id,
 				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 
 			if (!$active &&
@@ -1549,7 +1532,7 @@ class ilLMPresentationGUI
 
 		$curr_node = $this->lm_tree->getNodeData($obj_id);
 		
-		$active = ilPageObject::_lookupActive($obj_id,
+		$active = ilLMPage::_lookupActive($obj_id,
 			$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 
 		if ($curr_node["type"] == "pg" &&
@@ -1566,7 +1549,7 @@ class ilLMPresentationGUI
 			{
 				$succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
 				$page_id = $succ_node["obj_id"];
-				$active = ilPageObject::_lookupActive($page_id,
+				$active = ilLMPage::_lookupActive($page_id,
 					$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 			}
 
@@ -1625,63 +1608,6 @@ class ilLMPresentationGUI
 		return $subtree[$pos]["child"];
 	}
 
-	function ilTranslation(&$a_page_node)
-	{
-		global $ilUser;
-
-		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-		require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-
-		$page_id = $this->mapCurrentPageId($this->getCurrentPageId());
-
-		if(!$page_id)
-		{
-			$this->tpl->setVariable("TRANSLATION_CONTENT","NO TRNSLATION FOUND");
-			return false;
-		}
-
-		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
-		$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
-
-		// Update personal desktop items
-		$this->ilias->account->setDesktopItemParameters($_SESSION["tr_id"], $this->lm->getType(),$page_id);
-
-		// Update course items
-		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
-
-		ilCourseLMHistory::_updateLastAccess($ilUser->getId(),$this->lm->getRefId(),$page_id);
-
-		// read link targets
-		$targets = $this->getLayoutLinkTargets();
-
-		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
-		$lm_pg_obj->setLMId($_SESSION["tr_id"]);
-		//$pg_obj->setParentId($this->lm->getId());
-		#$page_object_gui->setLayoutLinkTargets($targets);
-
-		// USED FOR DBK PAGE TURNS
-		$page_object_gui->setBibId($_SESSION["bib_id"]);
-
-		// determine target frames for internal links
-		//$pg_frame = $_GET["frame"];
-		$page_object_gui->setLinkFrame($_GET["frame"]);
-		$page_object_gui->setOutputMode("presentation");
-		$page_object_gui->setOutputSubmode("translation");
-
-		$page_object_gui->setPresentationTitle(
-			ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
-			$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-			$this->lm_set->get("time_scheduled_page_activation")));
-#		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
-		$page_object_gui->setLinkParams("ref_id=".$_SESSION["tr_id"]);
-		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
-		$page_object_gui->setTemplateOutputVar("TRANSLATION_CONTENT");
-
-
-		return $page_object_gui->presentation();
-
-	}
-
 	function ilCitation()
 	{
 		$page_id = $this->getCurrentPageId();
@@ -1689,9 +1615,9 @@ class ilLMPresentationGUI
 		$this->ilLocator();
 		$this->tpl->setVariable("MENU",$this->lm_gui->setilCitationMenu());
 
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 
-		$this->pg_obj =& new ilPageObject($this->lm->getType(),$page_id);
+		$this->pg_obj = new ilLMPage($page_id);
 		$xml = $this->pg_obj->getXMLContent();
 		$this->lm_gui->showCitation($xml);
 		$this->tpl->show();
@@ -1744,7 +1670,7 @@ class ilLMPresentationGUI
 			return $this->showPreconditionsOfPage($this->getCurrentPageId());
 		}
 
-		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		require_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
 		require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		
 		// page id is e.g. > 0 when footer or header page is processed
@@ -1817,7 +1743,7 @@ class ilLMPresentationGUI
 			$mtpl = new ilTemplate("tpl.no_content_message.html", true, true,
 				"Modules/LearningModule");
 			$m = $this->lng->txt("cont_page_currently_deactivated");
-			$act_data = ilPageObject::_lookupActivationData((int) $_GET["obj_id"], $this->lm->getType());
+			$act_data = ilLMPage::_lookupActivationData((int) $_GET["obj_id"], $this->lm->getType());
 			if ($act_data["show_activation_info"] &&
 				(ilUtil::now() < $act_data["activation_start"]))
 			{
@@ -1843,13 +1769,13 @@ class ilLMPresentationGUI
 			return $cont;
 		}
 		
-		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
+		$page_object = new ilLMPage($page_id);
 		$page_object->buildDom();
 		$page_object->registerOfflineHandler($this);
 		
 		$int_links = $page_object->getInternalLinks();
 		
-		$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
+		$page_object_gui = new ilLMPageGUI($page_id);
 		$this->basicPageGuiInit($page_object_gui);
 
 		$page_object_gui->setTemplateOutput(false);
@@ -1969,7 +1895,6 @@ class ilLMPresentationGUI
 	 */
 	function basicPageGuiInit($a_page_gui)
 	{
-		$a_page_gui->setEnabledSelfAssessment(true, false);
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$a_page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->lm->getStyleSheetId(), "lm"));
@@ -1985,7 +1910,6 @@ class ilLMPresentationGUI
 		}
 		$a_page_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
 		$a_page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
-		
 	}
 
 	/**
@@ -2369,8 +2293,8 @@ class ilLMPresentationGUI
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
 		{
-			require_once("./Services/COPage/classes/class.ilPageObject.php");
-			$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
+			require_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+			$pg_obj =& new ilLMPage($_GET["pg_id"]);
 			$pg_obj->buildDom();
 
 			$xml = "<dummy>";
@@ -2458,7 +2382,7 @@ class ilLMPresentationGUI
 		global $ilBench,$ilUser;
 
 		$ilBench->start("ContentPresentation", "ilLMNavigation");
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		
 		include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 		
@@ -2552,7 +2476,7 @@ class ilLMPresentationGUI
 			$succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
 			$c_id = $succ_node["obj_id"];
 	
-			$active = ilPageObject::_lookupActive($c_id,
+			$active = ilLMPage::_lookupActive($c_id,
 				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 
 			if ($succ_node["obj_id"] > 0 &&
@@ -2565,7 +2489,7 @@ class ilLMPresentationGUI
 			else if ($succ_node["obj_id"] > 0 && !$active)
 			{
 				// look, whether activation data should be shown
-				$act_data = ilPageObject::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
+				$act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
 				if ($act_data["show_activation_info"] &&
 					(ilUtil::now() < $act_data["activation_start"]))
 				{
@@ -2602,7 +2526,7 @@ class ilLMPresentationGUI
 		{
 			$pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
 			$c_id = $pre_node["obj_id"];
-			$active = ilPageObject::_lookupActive($c_id,
+			$active = ilLMPage::_lookupActive($c_id,
 				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 			if ($pre_node["obj_id"] > 0 &&
 				($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
@@ -2614,7 +2538,7 @@ class ilLMPresentationGUI
 			else if ($pre_node["obj_id"] > 0 && !$active)
 			{
 				// look, whether activation data should be shown
-				$act_data = ilPageObject::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
+				$act_data = ilLMPage::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
 				if ($act_data["show_activation_info"] &&
 					(ilUtil::now() < $act_data["activation_start"]))
 				{
@@ -3136,7 +3060,7 @@ class ilLMPresentationGUI
 	{
 		global $ilUser, $lng;
 		
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		if (!$this->lm->isActivePrintView())
 		{
 			return;
@@ -3200,7 +3124,7 @@ class ilLMPresentationGUI
 		{
 
 			// check page activation
-			$active = ilPageObject::_lookupActive($node["obj_id"], $this->lm->getType(),
+			$active = ilLMPage::_lookupActive($node["obj_id"], $this->lm->getType(),
 				$this->lm_set->get("time_scheduled_page_activation"));
 
 			if ($node["type"] == "pg" &&
@@ -3352,7 +3276,7 @@ class ilLMPresentationGUI
 	{
 		global $ilBench,$ilUser,$lng,$ilCtrl;
 
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		
 		if (!$this->lm->isActivePrintView())
 		{
@@ -3423,7 +3347,7 @@ class ilLMPresentationGUI
 
 		$nodes = $this->lm_tree->getSubtree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
 
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 
@@ -3439,8 +3363,7 @@ class ilLMPresentationGUI
 		{
 			if (ilLMObject::_exists($this->lm->getFooterPage()))
 			{
-				//$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getFooterPage());
-				$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $this->lm->getFooterPage());
+				$page_object_gui = new ilLMPageGUI($this->lm->getFooterPage());
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->lm->getStyleSheetId(), "lm"));
@@ -3460,8 +3383,7 @@ class ilLMPresentationGUI
 		{
 			if (ilLMObject::_exists($this->lm->getHeaderPage()))
 			{
-				//$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getHeaderPage());
-				$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $this->lm->getHeaderPage());
+				$page_object_gui = new ilLMPageGUI($this->lm->getHeaderPage());
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->lm->getStyleSheetId(), "lm"));
@@ -3501,7 +3423,7 @@ class ilLMPresentationGUI
 		foreach ($nodes as $node_key => $node)
 		{
 			// check page activation
-			$active = ilPageObject::_lookupActive($node["obj_id"], $this->lm->getType(),
+			$active = ilLMPage::_lookupActive($node["obj_id"], $this->lm->getType(),
 				$this->lm_set->get("time_scheduled_page_activation"));
 			if ($node["type"] == "pg" && !$active)
 			{
@@ -3584,8 +3506,8 @@ class ilLMPresentationGUI
 					
 					// get page
 					$page_id = $node["obj_id"];
-					$page_object =& new ilPageObject($this->lm->getType(), $page_id);
-					$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
+					$page_object = new ilLMPage($page_id);
+					$page_object_gui = new ilLMPageGUI($page_id);
 					include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 					$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 						$this->lm->getStyleSheetId(), "lm"));
@@ -3739,8 +3661,8 @@ class ilLMPresentationGUI
 							$this->lng->txt("cont_definition")." ".($def_cnt++));
 						$this->tpl->parseCurrentBlock();
 					}
-					$page =& new ilPageObject("gdf", $def["id"]);
-					$page_gui =& new ilPageObjectGUI("gdf", $def["id"]);
+					include_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
+					$page_gui = new ilGlossaryDefPageGUI($def["id"]);
 					$page_gui->setTemplateOutput(false);
 					$page_gui->setOutputMode("print");
 
@@ -4002,8 +3924,8 @@ class ilLMPresentationGUI
 	*/
 	function download_paragraph ()
 	{
-		require_once("./Services/COPage/classes/class.ilPageObject.php");
-		$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
+		require_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+		$pg_obj = new ilLMPage($_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 	}
 	

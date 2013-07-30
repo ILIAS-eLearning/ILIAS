@@ -102,14 +102,14 @@ class ilLMTOCExplorer extends ilLMExplorer
 
 		if ($a_type == "pg")
 		{
-			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 			$lm_set = new ilSetting("lm");
-			$active = ilPageObject::_lookupActive($a_id, $this->lm_obj->getType(),
+			$active = ilLMPage::_lookupActive($a_id, $this->lm_obj->getType(),
 				$lm_set->get("time_scheduled_page_activation"));
 			
 			// is page scheduled?
 			$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
-				ilPageObject::_isScheduledActivation($a_id, $this->lm_obj->getType()))
+				ilLMPage::_isScheduledActivation($a_id, $this->lm_obj->getType()))
 				? "_sc"
 				: "";
 				
@@ -121,8 +121,7 @@ class ilLMTOCExplorer extends ilLMExplorer
 			}
 			else
 			{
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
-				$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_id,
+				$contains_dis = ilLMPage::_lookupContainsDeactivatedElements($a_id,
 					$this->lm_obj->getType());
 				if ($contains_dis)
 				{
@@ -159,8 +158,8 @@ class ilLMTOCExplorer extends ilLMExplorer
 				{
 					$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
 					$a_node_id = $a_node["child"];
-					include_once("./Services/COPage/classes/class.ilPageObject.php");
-					$active = ilPageObject::_lookupActive($a_node_id, $this->lm_obj->getType(),
+					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+					$active = ilLMPage::_lookupActive($a_node_id, $this->lm_obj->getType(),
 						$this->lm_set->get("time_scheduled_page_activation"));
 
 					if ($a_node_id > 0 && !$active)
@@ -226,8 +225,8 @@ class ilLMTOCExplorer extends ilLMExplorer
 				{
 					$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
 					$a_node_id = $a_node["child"];
-					include_once("./Services/COPage/classes/class.ilPageObject.php");
-					$active = ilPageObject::_lookupActive($a_node_id, $this->lm_obj->getType(),
+					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+					$active = ilLMPage::_lookupActive($a_node_id, $this->lm_obj->getType(),
 						$this->lm_set->get("time_scheduled_page_activation"));
 
 					if ($a_node_id > 0 && !$active)
@@ -272,13 +271,13 @@ class ilLMTOCExplorer extends ilLMExplorer
 
 	function isVisible($a_id, $a_type)
 	{
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		$active = ilPageObject::_lookupActive($a_id, $this->lm_obj->getType(),
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+		$active = ilLMPage::_lookupActive($a_id, $this->lm_obj->getType(),
 			$this->lm_set->get("time_scheduled_page_activation"));
 
 		if(!$active && $a_type == "pg")
 		{
-			$act_data = ilPageObject::_lookupActivationData((int) $a_id, $this->lm_obj->getType());
+			$act_data = ilLMPage::_lookupActivationData((int) $a_id, $this->lm_obj->getType());
 			if ($act_data["show_activation_info"] &&
 				(ilUtil::now() < $act_data["activation_start"]))
 			{
