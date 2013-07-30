@@ -95,9 +95,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 * @param	int		id
 	 * @param	int		old nr
 	 */
-	function initPageObject($a_parent_type, $a_id, $a_old_nr)
+	function initPageObject()
 	{
-		$page = new ilPortfolioPage($this->portfolio_id, $a_id, $a_old_nr);
+		$page = new ilPortfolioPage($this->portfolio_id, $this->getId(), $this->getOldNr());
 		$this->setPageObject($page);
 	}
 

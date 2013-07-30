@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 define ("IL_PAGE_PRESENTATION", "presentation");
 define ("IL_PAGE_EDIT", "edit");
@@ -12,25 +12,23 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 
-
 /**
-* Class ilPageObjectGUI
-*
-* User Interface for Page Objects Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @version $Id$
-*
-* @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
-* @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
-* @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPageObjectGUI
+ *
+ * User Interface for Page Objects Editing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @version $Id$
+ *
+ * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
+ * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
+ * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ *
+ * @ingroup ServicesCOPage
+ */
 class ilPageObjectGUI
 {
-	var $ilias;
 	var $tpl;
 	var $lng;
 	var $ctrl;
@@ -63,6 +61,7 @@ class ilPageObjectGUI
 	var $tabs_enabled = true;
 	private $abstract_only = false;
 	private $enabledloginpage = false;
+	protected $parent_type = "";
 	
 	//var $pl_start = "&#123;&#123;&#123;&#123;&#123;";
 	//var $pl_end = "&#125;&#125;&#125;&#125;&#125;";
@@ -76,27 +75,28 @@ class ilPageObjectGUI
 	function ilPageObjectGUI($a_parent_type, $a_id = 0, $a_old_nr = 0,
 		$a_prevent_get_id = false)
 	{
-		global $ilias, $tpl, $lng, $ilCtrl,$ilTabs;
-		$this->ctrl =& $ilCtrl;
-
+		global $tpl, $lng, $ilCtrl,$ilTabs;
+		
+		$this->setParentType($a_parent_type);
+		$this->setId($a_id);		
 		if ($a_old_nr == 0 && !$a_prevent_get_id && $_GET["old_nr"] > 0)
 		{
 			$a_old_nr = $_GET["old_nr"];
 		}
+		$this->setOldNr($a_old_nr);
 		
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
+		
 		$this->setOutputMode(IL_PAGE_PRESENTATION);
-		
 		$this->initPageConfig();
 		
 		$this->setEnabledPageFocus(true);		
 
 		if ($a_id > 0)
 		{
-			$this->initPageObject($a_parent_type, $a_id, $a_old_nr);
+			$this->initPageObject();
 		}
 
 		$this->output2template = true;
@@ -125,7 +125,67 @@ class ilPageObjectGUI
 		include_once("./Services/COPage/classes/class.ilPageConfig.php");
 		$cfg = new ilPageConfig();
 		$this->setPageConfig($cfg);
-	}	
+	}
+	
+	/**
+	 * Set parent type
+	 *
+	 * @param string $a_val parent type	
+	 */
+	function setParentType($a_val)
+	{
+		$this->parent_type = $a_val;
+	}
+	
+	/**
+	 * Get parent type
+	 *
+	 * @return string parent type
+	 */
+	function getParentType()
+	{
+		return $this->parent_type;
+	}
+	
+	/**
+	 * Set ID
+	 *
+	 * @param integer $a_val id	
+	 */
+	function setId($a_val)
+	{
+		$this->id = $a_val;
+	}
+	
+	/**
+	 * Get ID
+	 *
+	 * @return integer id
+	 */
+	function getId()
+	{
+		return $this->id;
+	}
+	
+	/**
+	 * Set old nr (historic page)
+	 *
+	 * @param int $a_val old nr	
+	 */
+	function setOldNr($a_val)
+	{
+		$this->old_nr = $a_val;
+	}
+	
+	/**
+	 * Get old nr (historic page)
+	 *
+	 * @return int old nr
+	 */
+	function getOldNr()
+	{
+		return $this->old_nr;
+	}
 	
 	/**
 	 * Set enable pc type
@@ -167,9 +227,18 @@ class ilPageObjectGUI
 		return $this->page_config;
 	}
 	
-	function initPageObject($a_parent_type, $a_id, $a_old_nr)
+	/**
+	 * @todo 1: revise this? most probably we always instantiate a
+	 * page object, even if no ID is given.
+	 * page object class should then throw exceptions in functions that
+	 * need an id.
+	 * the page config could then move to the application class completely,
+	 * since pagegui would always have a page object (and with it the config)
+	 * ...and make it abstract :-)
+	 */
+	function initPageObject()
 	{
-		$page = new ilPageObject($a_parent_type, $a_id, $a_old_nr);
+		$page = new ilPageObject($this->getParentType(), $this->getId(), $this->getOldNr());
 		$this->setPageObject($page);
 	}
 
@@ -1310,7 +1379,7 @@ class ilPageObjectGUI
 	*/
 	function showPage()
 	{
-		global $tree, $ilUser, $ilias, $lng, $ilCtrl, $ilSetting, $ilTabs;
+		global $tree, $ilUser, $lng, $ilCtrl, $ilSetting, $ilTabs;
 
 		$this->initSelfAssessmentRendering();
 		
@@ -1819,8 +1888,6 @@ class ilPageObjectGUI
 
 		$img_path = ilUtil::getImagePath("", false, $this->getOutputMode(), $this->getOutputMode() == "offline");
 
-        //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-        //echo "-".$this->sourcecode_download_script.":";
 		
 		if ($this->getEnabledPCTabs())
 		{
@@ -3115,7 +3182,6 @@ class ilPageObjectGUI
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];
 		$wb_path = ilUtil::getWebspaceDir("output")."/";
-//		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$mode = "fullscreen";
 		$params = array ('mode' => $mode, 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);

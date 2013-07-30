@@ -70,20 +70,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$lm_set = new ilSetting("lm");
 
 				$this->ctrl->setReturn($this, "edit");
-				$page_gui = new ilLMPageGUI($this->obj->content_object->getType(),
-					$this->obj->getId());
+				$page_gui = new ilLMPageGUI($this->obj->getId());
 				$page_gui->setEditPreview(true);
 				$page_gui->activateMetaDataEditor($this->content_object->getID(),
 					$this->obj->getId(), $this->obj->getType(),
 					$this->obj, "MDUpdateListener");
-				$page_gui->setEnabledPCTabs(true);
-
-				include_once("./Services/COPage/classes/class.ilPageConfig.php");
-				$pconfig = new ilPageConfig();
-				$pconfig->setPreventRteUsage(true);
-				$pconfig->setUseAttachedContent(true);
-				$page_gui->setPageConfig($pconfig);
-
 				if ($ilSetting->get("block_activated_news"))
 				{
 					$page_gui->setEnabledNews(true, $this->obj->content_object->getId(),
@@ -106,7 +97,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->content_object->getStyleSheetId(), "lm"));
-				$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->getPageObject()->buildDom();
 				$int_links = $page_gui->getPageObject()->getInternalLinks();
@@ -123,16 +113,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					$this->content_object->getPageHeader(), $this->content_object->isActiveNumbering()));
 				$page_gui->setLocator($contObjLocator);
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
-				$page_gui->setEnabledActivation(true);
-				$page_gui->setEnabledSelfAssessment(true, false);
-				$page_gui->setEnabledInternalLinks(true);
-				$page_gui->setEnableKeywords(true);
-				$page_gui->setEnabledInternalLinks(true);
-				$page_gui->setEnableAnchors(true);
-				if ($lm_set->get("time_scheduled_page_activation"))
-				{
-					$page_gui->setEnabledScheduledActivation(true);
-				}
 				$page_gui->setActivationListener($this, "activatePage");
 				
 				$mset = new ilSetting("mobs");
@@ -140,8 +120,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				{
 					$page_gui->enableContentIncludes(true);
 				}
-				
-				//$page_gui->setActivated($this->obj->getActive());
 				
 				$up_gui = ($this->content_object->getType() == "dbk")
 					? "ilobjdlbookgui"
@@ -157,8 +135,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					$page_gui->setTabHook($this, "addPageTabs");
 				}
 				$ret = $this->ctrl->forwardCommand($page_gui);
-				
-				//$ret =& $page_gui->executeCommand();
 				$tpl->setContent($ret);
 				break;
 
@@ -434,8 +410,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	{
 		global $tpl, $ilCtrl, $ilTabs;
 		
-		$page_gui =& new ilLMPageGUI($this->obj->content_object->getType(),
-			$this->obj->getId());
+		$page_gui = new ilLMPageGUI($this->obj->getId());
 		$page_gui->setEditPreview(true);
 		$page_gui->activateMetaDataEditor($this->content_object->getID(),
 			$this->obj->getId(), $this->obj->getType(),
