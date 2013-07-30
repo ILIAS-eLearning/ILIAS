@@ -294,20 +294,20 @@ class ilObjectAddNewItemGUI
 		
 		include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
 		$ov = new ilOverlayGUI($ov_id);
-		$ov->setAnchor($ov_trigger_id);
-		$ov->setTrigger($ov_trigger_id, "click", $ov_trigger_id);
+//		$ov->setAnchor($ov_trigger_id, "tl", "tr");
+//		$ov->setTrigger($ov_trigger_id, "click", $ov_trigger_id);
 		$ov->add();
 
 		// trigger
-		$ov->addTrigger($ov_trigger_id, "click", $ov_trigger_id);
+		$ov->addTrigger($ov_trigger_id, "click", $ov_trigger_id, false, "tl", "tr");
 
 		// toolbar
 		$ilToolbar->addButton($lng->txt("cntr_add_new_item"), "#", "", "", 
-			"", $ov_trigger_id);
+			"", $ov_trigger_id, 'submit emphsubmit');
 			
 		// css?
 		$tpl->setVariable("SELECT_OBJTYPE_REPOS",
-			'<div id="'.$ov_id.'" style="display:none; text-align:left; background-color:white; border: 1px solid #bbb;">'.
+			'<div id="'.$ov_id.'" style="display:none;" class="ilOverlay">'.
 			$this->getHTML().'</div>');	
 	}
 }

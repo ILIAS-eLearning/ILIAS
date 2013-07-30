@@ -1520,18 +1520,38 @@ input.submit, a.submit, a.submit:hover {
 	background-size: auto 100%;
 	color: #359;
 	border: 1px solid #D0D0D0;
-	padding: 1px 5px;
+	padding: 2px 5px;
 	margin: 0;
 	text-decoration: none;
 	cursor: pointer;
 	display: inline-block;
+	border-radius: 3px;	
 }
 
 input.submit:hover, a.submit:hover {
 	border-color: #B0B0B0;
-	color: #404040;
+	color: #101010;
 	box-shadow: 0px 0px 1px #A0A0A0;
 }
+
+input.emphsubmit, a.emphsubmit, a.emphsubmit:hover {
+	background-color: #5dbf61;
+	background-image: -moz-linear-gradient(center top , #5dbf61, #4fa152);
+	background-image: -webkit-linear-gradient(center top , #5dbf61, #4fa152);
+	background-image: -ms-linear-gradient(center top , #5dbf61, #4fa152);
+	background-repeat: repeat-x;
+	border-color: #0044CC #0044CC #003AAD;
+	color: #FFFFFF;
+	font-weight: 600;
+	border-color: #4ea051 #4ea051 #7fcc81;
+}
+
+input.emphsubmit:hover, a.emphsubmit:hover {
+	border-color: #707070;
+	color: #FFFFFF;
+	box-shadow: 0px 0px 1px #909090;
+}
+
 
 div.il_ButtonGroup.bigButton > input.submit {
 	 padding: 10px;
@@ -3847,7 +3867,7 @@ span.bibl_text_inline_Emph {
 	background-position: 0 -100px;
 }
 
-/* Services/UIComponent/Lightbox */´
+/* Services/UIComponent/Lightbox */ï¿½
 .ilLightbox {
 	position: absolute;
 	top: 0;
