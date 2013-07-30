@@ -18,6 +18,13 @@ class ilObjectAddNewItemGUI
 	protected $url_creation_callback; // [int]
 	protected $url_creation; // [string]
 			
+	/**
+	 * Constructor
+	 * 
+	 * @param int $a_parent_ref_id
+	 * @param bool $a_personal_workspace
+	 * @return ilObjectAddNewItemGUI
+	 */
 	public function __construct($a_parent_ref_id, $a_personal_workspace = false)
 	{
 		global $lng;
@@ -29,21 +36,43 @@ class ilObjectAddNewItemGUI
 		$lng->loadLanguageModule("cntr");				
 	}
 	
+	/**
+	 * Set object types which may not be created
+	 * 
+	 * @param array $a_types
+	 */
 	public function setDisabledObjectTypes(array $a_types)
 	{
 		$this->disabled_object_types = $a_types;
 	}
 	
+	/**
+	 * Set after creation callback
+	 * 
+	 * @param int $a_ref_id
+	 */
 	public function setAfterCreationCallback($a_ref_id)
 	{
 		$this->url_creation_callback = $a_ref_id;
 	}
 	
+	/**
+	 * Set (custom) url for object creation
+	 * 
+	 * @param string $a_url
+	 */
 	public function setCreationUrl($a_url)
 	{
 		$this->url_creation = $a_url;
 	}
 	
+	/**
+	 * Parse creatable sub objects for personal workspace
+	 * 
+	 * Grouping is not supported here, order is alphabetical (!)
+	 *
+	 * @return bool
+	 */
 	protected function parsePersonalWorkspace()
 	{
 		global $objDefinition, $lng, $ilSetting;
@@ -78,6 +107,11 @@ class ilObjectAddNewItemGUI
 		return (bool)sizeof($this->sub_objects);
 	}
 	
+	/**
+	 * Parse creatable sub objects for repository incl. grouping
+	 * 
+	 * @return bool
+	 */
 	protected function parseRepository()
 	{
 		global $objDefinition, $lng, $ilAccess;
@@ -93,41 +127,37 @@ class ilObjectAddNewItemGUI
 		$parent_type = ilObject::_lookupType($this->parent_ref_id, true);
 		$subtypes = $objDefinition->getCreatableSubObjects($parent_type);		
 		if (count($subtypes) > 0)
-		{			
-			if(DEVMODE)
+		{						
+			// grouping of object types
+
+			$grp_map = $pos_group_map = array();
+
+			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+			foreach(ilObjRepositorySettings::getNewItemGroupSubItems() as $grp_id => $subitems)
 			{
-				// grouping of object types
-						
-				$grp_map = $pos_group_map = array();
-
-				include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
-				foreach(ilObjRepositorySettings::getNewItemGroupSubItems() as $grp_id => $subitems)
+				foreach($subitems as $subitem)
 				{
-					foreach($subitems as $subitem)
-					{
-						$grp_map[$subitem] = $grp_id;
-					}
+					$grp_map[$subitem] = $grp_id;
 				}
-
-				$group_separators = array();
-				$pos_group_map[0] = $lng->txt("rep_new_item_group_unassigned");		
-				$old_grp_id = 0;
-				foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
-				{
-					if($item["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP)
-					{
-						$pos_group_map[$item["id"]] = $item["title"];
-					}
-					else if($old_grp_id)
-					{
-						$group_separators[] = $old_grp_id;
-					}
-					$old_grp_id = $item["id"];
-				}				
-				
-				$current_grp = null;
 			}
-			
+
+			$group_separators = array();
+			$pos_group_map[0] = $lng->txt("rep_new_item_group_other");		
+			$old_grp_id = 0;
+			foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
+			{
+				if($item["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP)
+				{
+					$pos_group_map[$item["id"]] = $item["title"];
+				}
+				else if($old_grp_id)
+				{
+					$group_separators[] = $old_grp_id;
+				}
+				$old_grp_id = $item["id"];
+			}				
+
+			$current_grp = null;
 			foreach ($subtypes as $type => $subitem)
 			{								
 				if (!in_array($type, $this->disabled_object_types))
@@ -136,7 +166,7 @@ class ilObjectAddNewItemGUI
 					if ($ilAccess->checkAccess("create_".$type, "", $this->parent_ref_id, $parent_type))
 					{
 						// if only assigned - do not add groups
-						if(DEVMODE && sizeof($pos_group_map) > 1)
+						if(sizeof($pos_group_map) > 1)
 						{
 							$obj_grp_id = (int)$grp_map[$type];
 							if($obj_grp_id !== $current_grp)
@@ -173,6 +203,11 @@ class ilObjectAddNewItemGUI
 		return (bool)sizeof($this->sub_objects);
 	}
 	
+	/**
+	 * Get rendered html of sub object list
+	 * 
+	 * @return string
+	 */
 	protected function getHTML()
 	{
 		global $ilCtrl;
@@ -235,6 +270,9 @@ class ilObjectAddNewItemGUI
 		return $gl->getHTML();
 	}
 	
+	/**
+	 * Add new item selection to current page incl. toolbar (trigger) and overlay
+	 */
 	public function render()
 	{
 		global $ilToolbar, $tpl, $lng;
@@ -267,6 +305,7 @@ class ilObjectAddNewItemGUI
 		$ilToolbar->addButton($lng->txt("cntr_add_new_item"), "#", "", "", 
 			"", $ov_trigger_id);
 			
+		// css?
 		$tpl->setVariable("SELECT_OBJTYPE_REPOS",
 			'<div id="'.$ov_id.'" style="display:none; text-align:left; background-color:white; border: 1px solid #bbb;">'.
 			$this->getHTML().'</div>');	

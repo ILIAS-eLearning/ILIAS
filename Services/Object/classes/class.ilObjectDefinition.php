@@ -105,7 +105,7 @@ class ilObjectDefinition extends ilSaxParser
 				"rbac" => $rec["rbac"],
 				"group" => $rec["grp"],
 				"system" => $rec["system"],
-				"default_pos" => $rec["default_pos"],
+				"default_pos" => "9999".str_pad($rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
 				"sideblock" => $rec["sideblock"],
 				'export' => $rec['export'],
 				'repository' => $rec['repository'],
@@ -169,7 +169,7 @@ class ilObjectDefinition extends ilSaxParser
 					"rbac" => "1",
 					"group" => null,
 					"system" => "0",
-					"default_pos" => "2000",
+					"default_pos" => "99992000", // "unassigned" group
 					'repository' => '1',
 					'workspace'	=> '0',
 					'administration' => '0',
@@ -893,7 +893,7 @@ class ilObjectDefinition extends ilSaxParser
 			if (!isset($grouped_obj[$pl_id]))
 			{
 				$grouped_obj[$pl_id] = array(
-					"pos" => 2000,
+					"pos" => "99992000", // "unassigned" group
 					"objs" => array(0 => $pl_id)
 					);
 			}
