@@ -125,58 +125,32 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	public function listMaterials()
 	{
-		global $tree, $objDefinition, $ilTabs, $tpl, $ilAccess;
+		global $tree, $ilTabs, $tpl;
 		
 		$this->checkPermission("write");
 		
 		$ilTabs->activateTab("materials");
-
-		// add new item
-		$parent_node = $tree->getNodeData($tree->getParentId($this->object->getRefId()));
-		$subtypes = $objDefinition->getCreatableSubObjects($parent_node['type'], ilObjectDefinition::MODE_REPOSITORY);
-		if($subtypes)
+				
+		$parent_ref_id = $tree->getParentId($this->object->getRefId());
+		
+		include_once "Services/Container/classes/class.ilContainer.php";
+		$subobj = ilContainer::parseCreatableSubObjects($parent_ref_id, array("itgr", "sess"));
+		if(sizeof($subobj))
 		{
-			$subobj = array();
-			foreach($subtypes as $type => $sub_item)
-			{				
-				if (!in_array($type, array("itgr", "sess")))
-				{
-					// #9950
-					if ($ilAccess->checkAccess("create_".$type, "", $parent_node["child"], $parent_node["type"]))
-					{
-						// #10787
-						$title = $this->lng->txt('obj_'.$type);
-						if ($sub_item["plugin"])
-						{
-							include_once("./Services/Component/classes/class.ilPlugin.php");
-							$title = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
-						}
-						
-						$subobj[] = array('value' => $type,
-										  'title' => $title,
-										  'img' => ilObject::_getIcon('', 'tiny', $type),
-										  'alt' => $title);
-					}
-				}
-			}			
-			
-			if(sizeof($subobj))
-			{
-				// add new object to parent container instead		
-				$this->ctrl->setParameter($this, 'ref_id', $parent_node["child"]);
-				// $this->ctrl->setParameter($this, 'crtptrefid', $parent_node["child"]);
-				// force after creation callback
-				$this->ctrl->setParameter($this, 'crtcb', $this->object->getRefId());
+			// add new object to parent container instead		
+			$this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
+			// $this->ctrl->setParameter($this, 'crtptrefid', $parent_node["child"]);
+			// force after creation callback
+			$this->ctrl->setParameter($this, 'crtcb', $this->object->getRefId());
 
-				$this->lng->loadLanguageModule('cntr');
-				$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
-					$subobj, 'create', $this->lng->txt('add'));
+			$this->lng->loadLanguageModule('cntr');
+			$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
+				$subobj, 'create', $this->lng->txt('add'));
 
-				$this->ctrl->setParameter($this, 'ref_id', $this->object->getRefId());
-				// $this->ctrl->setParameter($this, 'crtptrefid', '');
-				$this->ctrl->setParameter($this, 'crtcb', '');		
-			}
-		}
+			$this->ctrl->setParameter($this, 'ref_id', $this->object->getRefId());
+			// $this->ctrl->setParameter($this, 'crtptrefid', '');
+			$this->ctrl->setParameter($this, 'crtcb', '');		
+		}		
 
 		include_once("./Modules/ItemGroup/classes/class.ilItemGroupItemsTableGUI.php");
 		$tab = new ilItemGroupItemsTableGUI($this, "listMaterials");

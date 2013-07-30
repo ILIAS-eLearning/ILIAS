@@ -436,107 +436,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 	}
 
-
 	/**
 	* show possible sub objects selection list
 	*/
 	function showPossibleSubObjects()
 	{
-		global $ilAccess,$ilCtrl,$lng;
-
-		$found = false;
-		$cmd = ($this->cmd != "")
-			? $this->cmd
-			: $this->ctrl->getCmd();
-		
-		$type = $this->object->getType();
-
-		$d = $this->objDefinition->getCreatableSubObjects($type);
-		include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
-
-		/* is done in ilObjectDefinition::readDefinitionData()
-		if ($type != "icrs")
-		{
-			$d = ilRepositoryObjectPluginSlot::addCreatableSubObjects($d);
-		}		 
-		*/
-		
-		if (count($d) > 0)
-		{			
-			if(DEVMODE)
-			{
-				// grouping of object types
-				
-				$this->lng->loadLanguageModule("rep");				
-				$grp_map = $pos_group_map = array();
-				
-				include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
-				foreach(ilObjRepositorySettings::getNewItemGroupSubItems() as $grp_id => $subitems)
-				{
-					foreach($subitems as $subitem)
-					{
-						$grp_map[$subitem] = $grp_id;
-					}
-				}
-				
-				$pos_group_map[0] = $this->lng->txt("rep_new_item_group_unassigned");		
-				foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
-				{
-					$pos_group_map[$item["id"]] = $item["title"];
-				}				
-				
-				$current_grp = null;
-			}
-								
-			foreach ($d as $row)
-			{
-			    $count = 0;
-
-				if ($row["max"] == "" || $count < $row["max"])
-				{
-					if (!in_array($row["name"], array("rolf")))
-					{
-						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
-						{
-							// if only assigned - do not add groups
-							if(DEVMODE && sizeof($pos_group_map) > 1)
-							{
-								$obj_grp_id = (int)$grp_map[$row["name"]];
-								if($obj_grp_id !== $current_grp)
-								{
-									$title = $pos_group_map[$obj_grp_id];
-									
-									$subobj[] = array("value" => "",
-										"title" => $title,
-										"img" => "",
-										"alt" => $title);		
-
-									$current_grp = $obj_grp_id;
-								}
-							}
-							
-							$title = $this->lng->txt("obj_".$row["name"]);
-							if ($row["plugin"])
-							{
-								include_once("./Services/Component/classes/class.ilPlugin.php");
-								$title = ilPlugin::lookupTxt("rep_robj", $row["name"], "obj_".$row["name"]);
-							}							
-							$subobj[] = array("value" => $row["name"],
-								"title" => $title,
-								"img" => ilObject::_getIcon("", "tiny", $row["name"]),
-								"alt" => $title);							
-						}
-					}
-				}
-			}
-		}
-
+		$ref_id = $this->object->getRefId();
+		$subobj = ilContainer::parseCreatableSubObjects($ref_id);
 		if (is_array($subobj))
 		{
-			$formaction = "ilias.php?baseClass=ilRepositoryGUI&ref_id=".$this->object->getRefId()."&cmd=post";
-			$formaction = $ilCtrl->appendRequestTokenParameterString($formaction);
+			$formaction = "ilias.php?baseClass=ilRepositoryGUI&ref_id=".$ref_id."&cmd=post";
+			$formaction = $this->ctrl->appendRequestTokenParameterString($formaction);
 			$formaction = $this->ctrl->getFormAction($this);
-			//$opts = ilUtil::formSelect("", "new_type", $subobj);
+
 			$this->tpl->setCreationSelector($formaction,
 				$subobj, "create", $this->lng->txt("add"));
 		}

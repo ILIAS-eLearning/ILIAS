@@ -816,61 +816,31 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function materialsObject()
 	{
-		global $tree, $objDefinition, $ilAccess;
+		global $tree, $objDefinition;
 
 		$this->tabs_gui->setTabActive('crs_materials');
 		
 		// #11337 - support ANY parent container (crs, grp, fld)
 		$parent_ref_id = $tree->getParentId($this->object->getRefId());
-		$parent_type = ilObject::_lookupType($parent_ref_id, true);
 		
-		// add new item
-		$subtypes = $objDefinition->getCreatableSubObjects($parent_type, ilObjectDefinition::MODE_REPOSITORY);
-		if($subtypes)
+		include_once "Services/Container/classes/class.ilContainer.php";
+		$subobj = ilContainer::parseCreatableSubObjects($parent_ref_id, array("itgr", "sess"));		
+		if(sizeof($subobj))
 		{
-			$subobj = array();
-			foreach($subtypes as $type => $sub_item)
-			{
-				if (!in_array($type, array("itgr", "sess")))
-				{					
-					// #9950
-					if ($ilAccess->checkAccess("create_".$type, "", $parent_ref_id, $parent_type))
-					{
-						// #10787
-						$title = $this->lng->txt('obj_'.$type);
-						if ($sub_item["plugin"])
-						{
-							include_once("./Services/Component/classes/class.ilPlugin.php");
-							$title = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
-						}
-						
-						$subobj[] = array('value' => $type,
-										  'title' => $title,
-										  'img' => ilObject::_getIcon('', 'tiny', $type),
-										  'alt' => $title);						
-					}
-				}
-			}			
-			
-			if(sizeof($subobj))
-			{
-				// add new object to parent container instead		
-				$this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
-				// $this->ctrl->setParameter($this, 'crtptrefid', $parent_ref_id);				
-				// force after creation callback
-				$this->ctrl->setParameter($this, 'crtcb', $this->ref_id);
-				
-				$this->lng->loadLanguageModule('cntr');
-				$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
-					$subobj, 'create', $this->lng->txt('add'));
+			// add new object to parent container instead		
+			$this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
+			// $this->ctrl->setParameter($this, 'crtptrefid', $parent_ref_id);				
+			// force after creation callback
+			$this->ctrl->setParameter($this, 'crtcb', $this->ref_id);
 
-				$this->ctrl->setParameter($this, 'ref_id', $this->ref_id);
-				// $this->ctrl->setParameter($this, 'crtptrefid', '');
-				$this->ctrl->setParameter($this, 'crtcb', '');				
-			}
-		}
-		
-		
+			$this->lng->loadLanguageModule('cntr');
+			$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
+				$subobj, 'create', $this->lng->txt('add'));
+
+			$this->ctrl->setParameter($this, 'ref_id', $this->ref_id);
+			// $this->ctrl->setParameter($this, 'crtptrefid', '');
+			$this->ctrl->setParameter($this, 'crtcb', '');				
+		}				
 
 		include_once 'Modules/Session/classes/class.ilEventItems.php';
 		$this->event_items = new ilEventItems($this->object->getId());
