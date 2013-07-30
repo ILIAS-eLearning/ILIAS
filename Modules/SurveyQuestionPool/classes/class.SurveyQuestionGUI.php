@@ -938,6 +938,199 @@ abstract class SurveyQuestionGUI
 				break;
 		}
 	}
+	
+		
+	//
+	// PHRASES (see SurveyMatrixQuestionGUI)
+	//
+	
+	protected function initPhrasesForm()
+	{
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "addSelectedPhrase"));
+		$form->setTitle($this->lng->txt("add_phrase"));
+		// $form->setDescription($this->lng->txt("add_phrase_introduction"));
+		
+		$group = new ilRadioGroupInputGUI($this->lng->txt("phrase"), "phrases");
+		$group->setRequired(true);
+		$form->addItem($group);
+		
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
+		foreach (ilSurveyPhrases::_getAvailablePhrases() as $phrase_id => $phrase_array)
+		{
+			$categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
+				
+			$opt = new ilRadioOption($phrase_array["title"], $phrase_id);
+			$opt->setInfo(join($categories, ","));
+			$group->addOption($opt);		
+			
+			if($phrase_array["org_title"] == "dp_standard_numbers")
+			{			
+				$min = new ilNumberInputGUI($this->lng->txt("lower_limit"), "lower_limit");
+				$min->setRequired(true);
+				$min->setSize(5);
+				$opt->addSubItem($min);
+
+				$max = new ilNumberInputGUI($this->lng->txt("upper_limit"), "upper_limit");
+				$max->setRequired(true);
+				$max->setSize(5);
+				$opt->addSubItem($max);					 
+			}
+		}
+		
+		$form->addCommandButton("addSelectedPhrase", $this->lng->txt("add_phrase"));
+		$form->addCommandButton("editQuestion", $this->lng->txt("cancel"));
+		
+		return $form;
+	}
+		
+	/**
+	* Creates an output for the addition of phrases
+	*/
+	protected function addPhrase(ilPropertyFormGUI $a_form = null) 
+	{		
+		if(!$a_form)		
+		{			
+			$result = $this->saveForm();
+			if($result)
+			{
+				$this->object->saveToDb();
+			}	
+			
+			$a_form = $this->initPhrasesForm();
+		}		
+					
+		$this->tpl->setContent($a_form->getHTML());				
+	}
+
+	protected function addSelectedPhrase() 
+	{
+		$form = $this->initPhrasesForm();
+		if($form->checkInput())
+		{		
+			$phrase_id = $form->getInput("phrases");
+			
+			$valid = true;
+			if (strcmp($this->object->getPhrase($phrase_id), "dp_standard_numbers") != 0)
+			{
+				$this->object->addPhrase($phrase_id);				
+			}
+			else
+			{
+				$min = $form->getInput("lower_limit");
+				$max = $form->getInput("upper_limit");
+
+				if($max <= $min)
+				{
+					$max_field = $form->getItemByPostVar("upper_limit");
+					$max_field->setAlert($this->lng->txt("upper_limit_must_be_greater"));
+					$valid = false;
+				}
+				else
+				{
+					$this->object->addStandardNumbers($min, $max);					
+				}
+			}
+			
+			if($valid)
+			{
+				$this->object->saveToDb();
+				
+				ilUtil::sendSuccess($this->lng->txt('phrase_added'), true);
+				$this->ctrl->redirect($this, 'editQuestion');
+			}
+		}
+		
+		$form->setValuesByPost();
+		$this->addPhrase($form);
+	}
+	
+	protected function initSavePhraseForm()
+	{
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "confirmSavePhrase"));
+		$form->setTitle($this->lng->txt("save_phrase"));
+		
+		$title = new ilTextInputGUI($this->lng->txt("enter_phrase_title"), "phrase_title");
+		$title->setInfo($this->lng->txt("save_phrase_introduction"));
+		$title->setRequired(true);
+		$form->addItem($title);
+				
+		$form->addCommandButton("confirmSavePhrase", $this->lng->txt("confirm"));
+		$form->addCommandButton("editQuestion", $this->lng->txt("cancel"));
+		
+		return $form;		
+	}
+	
+	/**
+	* Creates an output to save the current answers as a phrase
+	*
+	* @access public
+	*/
+	function savePhraseanswers(ilPropertyFormGUI $a_form = null) 
+	{
+		if (!$a_form) 
+		{
+			$result = $this->saveForm();
+			if ($result) 
+			{
+				$this->object->saveToDb();
+			}
+			
+			$a_form = $this->initSavePhraseForm();
+		}
+		
+		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveySavePhraseTableGUI.php";
+		$table_gui = new ilSurveySavePhraseTableGUI($this, 'editQuestion');
+
+		$data = array();
+		for ($i = 0; $i < $this->object->getCategories()->getCategoryCount(); $i++) 
+		{
+			$cat = $this->object->getCategories()->getCategory($i);
+			
+			$data[] = array(
+				"answer" => $cat->title,
+				"other" => $cat->other,
+				"scale" => $cat->scale,
+				"neutral" => $cat->neutral
+			);				
+		}		
+		$table_gui->setData($data);
+		
+		$this->tpl->setContent($a_form->getHTML().$table_gui->getHTML());	
+	}
+
+	/**
+	* Save a new phrase to the database
+	*
+	* @access public
+	*/
+	function confirmSavePhrase() 
+	{
+		$form = $this->initSavePhraseForm();
+		if($form->checkInput())
+		{		
+			$title = $form->getInput("phrase_title");
+			
+			if ($this->object->phraseExists($title))
+			{
+				$field = $form->getItemByPostVar("phrase_title");
+				$field->setAlert($this->lng->txt("qpl_savephrase_exists"));			
+			}
+			else
+			{
+				$this->object->savePhrase($title);
+				
+				ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
+				$this->ctrl->redirect($this, "editQuestion");
+			}
+		}
+		
+		$form->setValuesByPost();
+		$this->savePhraseanswers($form);
+	}
 }
 
 ?>
