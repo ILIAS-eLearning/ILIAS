@@ -133,25 +133,12 @@ class ilObjItemGroupGUI extends ilObject2GUI
 				
 		$parent_ref_id = $tree->getParentId($this->object->getRefId());
 		
-		include_once "Services/Container/classes/class.ilContainer.php";
-		$subobj = ilContainer::parseCreatableSubObjects($parent_ref_id, array("itgr", "sess"));
-		if(sizeof($subobj))
-		{
-			// add new object to parent container instead		
-			$this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
-			// $this->ctrl->setParameter($this, 'crtptrefid', $parent_node["child"]);
-			// force after creation callback
-			$this->ctrl->setParameter($this, 'crtcb', $this->object->getRefId());
-
-			$this->lng->loadLanguageModule('cntr');
-			$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
-				$subobj, 'create', $this->lng->txt('add'));
-
-			$this->ctrl->setParameter($this, 'ref_id', $this->object->getRefId());
-			// $this->ctrl->setParameter($this, 'crtptrefid', '');
-			$this->ctrl->setParameter($this, 'crtcb', '');		
-		}		
-
+		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
+		$gui = new ilObjectAddNewItemGUI($parent_ref_id);
+		$gui->setDisabledObjectTypes(array("itgr", "sess"));
+		$gui->setAfterCreationCallback($this->object->getRefId());
+		$gui->render();		
+		
 		include_once("./Modules/ItemGroup/classes/class.ilItemGroupItemsTableGUI.php");
 		$tab = new ilItemGroupItemsTableGUI($this, "listMaterials");
 		$tpl->setContent($tab->getHTML());

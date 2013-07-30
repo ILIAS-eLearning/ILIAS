@@ -435,25 +435,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->tpl->setAlertProperties($lgui->getAlertProperties());			
 		}
 	}
-
+		
 	/**
 	* show possible sub objects selection list
 	*/
 	function showPossibleSubObjects()
-	{
-		$ref_id = $this->object->getRefId();
-		$subobj = ilContainer::parseCreatableSubObjects($ref_id);
-		if (is_array($subobj))
-		{
-			$formaction = "ilias.php?baseClass=ilRepositoryGUI&ref_id=".$ref_id."&cmd=post";
-			$formaction = $this->ctrl->appendRequestTokenParameterString($formaction);
-			$formaction = $this->ctrl->getFormAction($this);
-
-			$this->tpl->setCreationSelector($formaction,
-				$subobj, "create", $this->lng->txt("add"));
-		}
+	{							
+		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
+		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());		
+		$gui->render();
 	}
-
+	
 	/**
 	 * Get content gui object
 	 *

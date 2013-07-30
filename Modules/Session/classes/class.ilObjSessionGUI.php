@@ -823,24 +823,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// #11337 - support ANY parent container (crs, grp, fld)
 		$parent_ref_id = $tree->getParentId($this->object->getRefId());
 		
-		include_once "Services/Container/classes/class.ilContainer.php";
-		$subobj = ilContainer::parseCreatableSubObjects($parent_ref_id, array("itgr", "sess"));		
-		if(sizeof($subobj))
-		{
-			// add new object to parent container instead		
-			$this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
-			// $this->ctrl->setParameter($this, 'crtptrefid', $parent_ref_id);				
-			// force after creation callback
-			$this->ctrl->setParameter($this, 'crtcb', $this->ref_id);
-
-			$this->lng->loadLanguageModule('cntr');
-			$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
-				$subobj, 'create', $this->lng->txt('add'));
-
-			$this->ctrl->setParameter($this, 'ref_id', $this->ref_id);
-			// $this->ctrl->setParameter($this, 'crtptrefid', '');
-			$this->ctrl->setParameter($this, 'crtcb', '');				
-		}				
+		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
+		$gui = new ilObjectAddNewItemGUI($parent_ref_id);
+		$gui->setDisabledObjectTypes(array("itgr", "sess"));
+		$gui->setAfterCreationCallback($this->ref_id);
+		$gui->render();		
 
 		include_once 'Modules/Session/classes/class.ilEventItems.php';
 		$this->event_items = new ilEventItems($this->object->getId());
