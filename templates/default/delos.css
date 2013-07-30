@@ -1515,7 +1515,8 @@ div.il_ButtonGroup.bigButton {
 input.submit, a.submit, a.submit:hover {
 	font-size: 80%;
 	font-weight: normal;
-	line-height: 17px; /* Safari */
+	line-height: 16px;
+	vertical-align: baseline;
 	background: url(images/ButtonsBack.png) repeat-x top;
 	background-size: auto 100%;
 	color: #359;
@@ -1525,7 +1526,7 @@ input.submit, a.submit, a.submit:hover {
 	text-decoration: none;
 	cursor: pointer;
 	display: inline-block;
-	border-radius: 3px;	
+	border-radius: 2px;	
 }
 
 input.submit:hover, a.submit:hover {
