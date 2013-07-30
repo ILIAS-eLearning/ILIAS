@@ -150,8 +150,8 @@ abstract class SurveyQuestionGUI
 	{
 		global $rbacsystem,$ilTabs;
 		
-		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
-		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
+		$this->ctrl->setParameterByClass($guiclass, "sel_question_types", $this->getQuestionType());
+		$this->ctrl->setParameterByClass($guiclass, "q_id", $_GET["q_id"]);
 		
 		if ($this->parent_url)
 		{
@@ -1065,53 +1065,50 @@ abstract class SurveyQuestionGUI
 		$this->addPhrase($form);
 	}
 	
-	protected function initSavePhraseForm()
-	{
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this, "confirmSavePhrase"));
-		$form->setTitle($this->lng->txt("save_phrase"));
-		
-		$title = new ilTextInputGUI($this->lng->txt("enter_phrase_title"), "phrase_title");
-		$title->setInfo($this->lng->txt("save_phrase_introduction"));
-		$title->setRequired(true);
-		$form->addItem($title);
-				
-		$form->addCommandButton("confirmSavePhrase", $this->lng->txt("confirm"));
-		$form->addCommandButton("editQuestion", $this->lng->txt("cancel"));
-		
-		return $form;		
-	}
-	
 	/**
 	* Creates an output to save the current answers as a phrase
 	*
 	* @access public
 	*/
-	function savePhraseanswers(ilPropertyFormGUI $a_form = null) 
+	function savePhrase($a_reload = false) 
 	{
-		global $ilTabs;
+		global $ilTabs, $ilToolbar;
 		
 		$ilTabs->activateTab("edit_properties");
 		
-		if (!$a_form) 
+		if (!$a_reload) 
 		{
 			$result = $this->saveForm();
 			if ($result) 
 			{
 				$this->object->saveToDb();
-			}
-			
-			$a_form = $this->initSavePhraseForm();
+			}						
 		}
+		
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$txt = new ilTextInputGUI($this->lng->txt("enter_phrase_title"), "phrase_title");
+		$ilToolbar->addInputItem($txt, true);		
+		$ilToolbar->addFormButton($this->lng->txt("confirm"), "confirmSavePhrase");
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 		
 		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveySavePhraseTableGUI.php";
 		$table_gui = new ilSurveySavePhraseTableGUI($this, 'editQuestion');
+		$table_gui->setDescription($this->lng->txt("save_phrase_introduction"));
+		
+		// matrix?
+		if(method_exists($this->object, "getCategories"))
+		{
+			$categories = $this->object->getCategories();
+		}
+		else
+		{
+			$categories = $this->object->getColumns();
+		}
 
 		$data = array();
-		for ($i = 0; $i < $this->object->getCategories()->getCategoryCount(); $i++) 
+		for ($i = 0; $i < $categories->getCategoryCount(); $i++) 
 		{
-			$cat = $this->object->getCategories()->getCategory($i);
+			$cat = $categories->getCategory($i);
 			
 			$data[] = array(
 				"answer" => $cat->title,
@@ -1121,8 +1118,9 @@ abstract class SurveyQuestionGUI
 			);				
 		}		
 		$table_gui->setData($data);
+		$_SESSION['save_phrase_data'] = $data; // :TODO: see savePhrase()
 		
-		$this->tpl->setContent($a_form->getHTML().$table_gui->getHTML());	
+		$this->tpl->setContent($table_gui->getHTML());	
 	}
 
 	/**
@@ -1132,27 +1130,29 @@ abstract class SurveyQuestionGUI
 	*/
 	function confirmSavePhrase() 
 	{
-		$form = $this->initSavePhraseForm();
-		if($form->checkInput())
-		{		
-			$title = $form->getInput("phrase_title");
-			
-			if ($this->object->phraseExists($title))
-			{
-				$field = $form->getItemByPostVar("phrase_title");
-				$field->setAlert($this->lng->txt("qpl_savephrase_exists"));			
-			}
-			else
-			{
-				$this->object->savePhrase($title);
-				
-				ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
-				$this->ctrl->redirect($this, "editQuestion");
-			}
+		$title = $_POST["phrase_title"];
+		
+		$valid = true;
+		if (!trim($title))
+		{
+			ilUtil::sendFailure($this->lng->txt("qpl_savephrase_empty"));			
+			$valid = false;
+		}					
+		else if ($this->object->phraseExists($title))
+		{			
+			ilUtil::sendFailure($this->lng->txt("qpl_savephrase_exists"));		
+			$valid = false;
 		}
 		
-		$form->setValuesByPost();
-		$this->savePhraseanswers($form);
+		if($valid)
+		{
+			$this->object->savePhrase($title);
+
+			ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
+			$this->ctrl->redirect($this, "editQuestion");			
+		}
+		
+		$this->savePhrase(true);
 	}
 }
 
