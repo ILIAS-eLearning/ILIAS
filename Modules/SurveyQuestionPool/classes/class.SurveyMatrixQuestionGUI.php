@@ -476,6 +476,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	*/
 	function layout()
 	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("layout");
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_layout.html", "Modules/SurveyQuestionPool");
 		$this->show_layout_row = TRUE;
 		$question_output = $this->getWorkingForm();

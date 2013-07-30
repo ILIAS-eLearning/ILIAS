@@ -169,34 +169,29 @@ abstract class SurveyQuestionGUI
 		}
 		if ($_GET["q_id"])
 		{
-			$ilTabs->addTarget("preview",
-									 $this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
-									 "$guiclass");
+			$ilTabs->addTab("preview",
+				$this->lng->txt("preview"),
+				$this->ctrl->getLinkTargetByClass($guiclass, "preview"));
 		}
-		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
-			$ilTabs->addTarget("edit_properties",
-									 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
-									 array("editQuestion", "save", "cancel", "originalSyncForm",
-										"wizardanswers", "addSelectedPhrase", "insertStandardNumbers", 
-										"savePhraseanswers", "confirmSavePhrase"),
-									 "$guiclass");
+		
+		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) 
+		{
+			$ilTabs->addTab("edit_properties",
+				$this->lng->txt("properties"),
+				$this->ctrl->getLinkTargetByClass($guiclass, "editQuestion"));
 			
 			if(stristr($guiclass, "matrix"))
 			{
-				$ilTabs->addTarget("layout",
-					$this->ctrl->getLinkTarget($this, "layout"), 
-					array("layout", "saveLayout"),
-					"",
-					"");
+				$ilTabs->addTab("layout",
+					$this->lng->txt("layout"),
+					$this->ctrl->getLinkTargetByClass($guiclass, "layout"));
 			}			
 		}
 		if ($_GET["q_id"])
 		{
-			$ilTabs->addTarget("material",
-									 $this->ctrl->getLinkTargetByClass("$guiclass", "material"), 
-									array("material", "cancelExplorer", "linkChilds", "addGIT", "addST",
-											 "addPG", "addMaterial", "removeMaterial"),
-									 "$guiclass");
+			$ilTabs->addTab("material",
+				$this->lng->txt("material"),
+				$this->ctrl->getLinkTargetByClass($guiclass, "material"));
 		}
 
 		if ($this->object->getId() > 0) 
@@ -299,6 +294,10 @@ abstract class SurveyQuestionGUI
 			
 	protected function editQuestion(ilPropertyFormGUI $a_form = null)
 	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("edit_properties");
+		
 		if(!$a_form)
 		{
 			$a_form = $this->initEditForm();
@@ -384,6 +383,10 @@ abstract class SurveyQuestionGUI
 		
 	protected function copySyncForm()
 	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("edit_properties");
+		
 		include_once "Modules/SurveyQuestionPool/classes/class.ilSurveySyncTableGUI.php";
 		$tbl = new ilSurveySyncTableGUI($this, "copySyncForm", $this->object);
 		
@@ -442,6 +445,10 @@ abstract class SurveyQuestionGUI
 	
 	protected function originalSyncForm()
 	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("edit_properties");
+		
 		$this->ctrl->saveParameter($this, "rtrn");
 		
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
@@ -539,6 +546,10 @@ abstract class SurveyQuestionGUI
 	*/
 	function preview()
 	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("preview");
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
 		$question_output = $this->getWorkingForm();
 		
@@ -664,7 +675,9 @@ abstract class SurveyQuestionGUI
 	*/
 	public function material($checkonly = FALSE)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilTabs;
+		
+		$ilTabs->activateTab("material");
 
 		$add_html = '';
 		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
@@ -745,7 +758,9 @@ abstract class SurveyQuestionGUI
 	*/
 	public function addMaterial()
 	{
-		global $tree;
+		global $tree, $ilTabs;
+		
+		$ilTabs->activateTab("material");
 		
 		if (strlen($_SESSION["link_new_type"]) || !$this->material(true))
 		{
@@ -990,6 +1005,10 @@ abstract class SurveyQuestionGUI
 	*/
 	protected function addPhrase(ilPropertyFormGUI $a_form = null) 
 	{		
+		global $ilTabs;
+		
+		$ilTabs->activateTab("edit_properties");
+		
 		if(!$a_form)		
 		{			
 			$result = $this->saveForm();
@@ -1071,6 +1090,10 @@ abstract class SurveyQuestionGUI
 	*/
 	function savePhraseanswers(ilPropertyFormGUI $a_form = null) 
 	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("edit_properties");
+		
 		if (!$a_form) 
 		{
 			$result = $this->saveForm();
