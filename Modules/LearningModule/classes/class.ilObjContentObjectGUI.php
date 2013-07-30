@@ -1368,14 +1368,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->tpl->setCurrentBlock("table_row");
 			
 			// check activation
-			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 			$lm_set = new ilSetting("lm");
-			$active = ilPageObject::_lookupActive($page["obj_id"], $this->object->getType(),
+			$active = ilLMPage::_lookupActive($page["obj_id"], $this->object->getType(),
 				$lm_set->get("time_scheduled_page_activation"));
 				
 			// is page scheduled?
 			$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
-				ilPageObject::_isScheduledActivation($page["obj_id"], $this->object->getType()))
+				ilLMPage::_isScheduledActivation($page["obj_id"], $this->object->getType()))
 				? "_sc"
 				: "";
 
@@ -1387,7 +1387,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			}
 			else
 			{
-				if (ilPageObject::_lookupContainsDeactivatedElements($page["obj_id"],
+				if (ilLMPage::_lookupContainsDeactivatedElements($page["obj_id"],
 					$this->object->getType()))
 				{
 					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_del".$img_sc.".png"));
@@ -1537,9 +1537,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			foreach($_POST["id"] as $id)
 			{
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
-				$act = ilPageObject::_lookupActive($id, $this->object->getType());
-				ilPageObject::_writeActive($id, $this->object->getType(), !$act);
+				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+				$act = ilLMPage::_lookupActive($id, $this->object->getType());
+				ilLMPage::_writeActive($id, $this->object->getType(), !$act);
 			}
 		}
 

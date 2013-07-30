@@ -1003,7 +1003,8 @@ class ilLMObject
 				// 1. Outgoing links from the copied page.
 				//
 				//$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
-				$tpg = new ilPageObject($a_parent_type, $copied_id);
+				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+				$tpg = new ilLMPage($copied_id);
 				$tpg->buildDom();
 				$il = $tpg->getInternalLinks();
 				$targets = array();
@@ -1062,9 +1063,6 @@ class ilLMObject
 					{
 						$all_fixes[$t.":".$copied_id] = $fix;
 					}
-//					$page = new ilPageObject(ilObject::_lookupType($copy_lm), $copied_id);
-//					$page->moveIntLinks($fix);
-//					$page->update();
 				}
 			}
 			
@@ -1150,9 +1148,6 @@ class ilLMObject
 					{
 						foreach ($fix as $page_id => $fix_array)
 						{
-//echo "<br>++".$page_id;
-//var_dump($fix_array);
-	
 							$t = ilObject::_lookupType($copy_lm);
 							if (is_array($all_fixes[$t.":".$page_id]))
 							{
@@ -1163,9 +1158,6 @@ class ilLMObject
 								$all_fixes[$t.":".$page_id] = $fix_array;
 							}
 	
-//							$page = new ilPageObject(ilObject::_lookupType($copy_lm), $page_id);
-//							$page->moveIntLinks($fix_array);
-//							$page->update();
 						}
 					}
 				}
@@ -1174,8 +1166,6 @@ class ilLMObject
 		
 		foreach ($all_fixes as $pg => $fixes)
 		{
-//echo "<br>**".$pg;
-//echo var_dump($fixes);
 			$pg = explode(":", $pg);
 			$page = new ilPageObject($pg[0], $pg[1]);
 			if ($page->moveIntLinks($fixes))

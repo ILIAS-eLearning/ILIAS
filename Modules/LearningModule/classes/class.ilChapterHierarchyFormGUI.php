@@ -191,14 +191,14 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 		
 		if ($a_item["type"] == "pg")
 		{
-			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 			$lm_set = new ilSetting("lm");
-			$active = ilPageObject::_lookupActive($a_item["node_id"], $this->lm_type,
+			$active = ilLMPage::_lookupActive($a_item["node_id"], $this->lm_type,
 				$lm_set->get("time_scheduled_page_activation"));
 				
 			// is page scheduled?
 			$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
-				ilPageObject::_isScheduledActivation($a_item["node_id"], $this->lm_type))
+				ilLMPage::_isScheduledActivation($a_item["node_id"], $this->lm_type))
 				? "_sc"
 				: "";
 				
@@ -210,8 +210,8 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 			}
 			else
 			{
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
-				$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_item["node_id"],
+				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+				$contains_dis = ilLMPage::_lookupContainsDeactivatedElements($a_item["node_id"],
 					$this->lm_type);
 				if ($contains_dis)
 				{
@@ -236,8 +236,8 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 		
 		if ($a_item["type"] == "pg")
 		{
-			include_once("./Services/COPage/classes/class.ilPageObject.php");
-			$active = ilPageObject::_lookupActive($a_item["node_id"], $this->lm_type);
+			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+			$active = ilLMPage::_lookupActive($a_item["node_id"], $this->lm_type);
 
 			if (!$active)
 			{
@@ -245,8 +245,8 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 			}
 			else
 			{
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
-				$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_item["node_id"],
+				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+				$contains_dis = ilLMPage::_lookupContainsDeactivatedElements($a_item["node_id"],
 					$this->lm_type);
 				if ($contains_dis)
 				{

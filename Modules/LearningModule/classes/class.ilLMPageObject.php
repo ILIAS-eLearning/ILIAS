@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-require_once("./Services/COPage/classes/class.ilPageObject.php");
+require_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 
 define ("IL_CHAPTER_TITLE", "st_title");
 define ("IL_PAGE_TITLE", "pg_title");
@@ -77,15 +77,9 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function read()
 	{
-		global $ilBench;
-
-		$ilBench->start("ContentPresentation", "ilLMPageObject_read");
 		parent::read();
 
-		$this->page_object =& new ilPageObject($this->content_object->getType(),
-			$this->id, 0, $this->halt_on_error);
-
-		$ilBench->stop("ContentPresentation", "ilLMPageObject_read");
+		$this->page_object = new ilLMPage($this->id, 0);
 	}
 
 	function create($a_upload = false)
@@ -93,7 +87,7 @@ class ilLMPageObject extends ilLMObject
 		parent::create($a_upload);
 		if(!is_object($this->page_object))
 		{
-			$this->page_object =& new ilPageObject($this->content_object->getType());
+			$this->page_object = new ilLMPage();
 		}
 		$this->page_object->setId($this->getId());
 		$this->page_object->setParentId($this->getLMId());
@@ -302,7 +296,7 @@ class ilLMPageObject extends ilLMObject
 			// move nodes to target page
 			$source_page->buildDom();
 			$source_page->addHierIds();
-			ilPageObject::_moveContentAfterHierId($source_page, $target_page, $a_hier_id);
+			ilLMPage::_moveContentAfterHierId($source_page, $target_page, $a_hier_id);
 			//$source_page->deleteContentFromHierId($a_hier_id);
 			
 			return $succ["child"];
@@ -391,7 +385,7 @@ class ilLMPageObject extends ilLMObject
 			$ids[] = $page["obj_id"];
 		}
 
-		$linked_pages = ilPageObject::getPagesWithLinks($a_par_type, $a_lm_id);
+		$linked_pages = ilLMPage::getPagesWithLinks($a_par_type, $a_lm_id);
 		$result = array();
 		foreach($pages as $page)
 		{
@@ -446,13 +440,13 @@ class ilLMPageObject extends ilLMObject
 				$cnt = 0;
 				foreach($childs as $child)
 				{
-					include_once("./Services/COPage/classes/class.ilPageObject.php");
-					$active = ilPageObject::_lookupActive($child["obj_id"],
+					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+					$active = ilLMPage::_lookupActive($child["obj_id"],
 						ilObject::_lookupType($pg_rec["lm_id"]), $a_time_scheduled_activation);
 
 					if (!$active)
 					{
-						$act_data = ilPageObject::_lookupActivationData((int) $child["obj_id"], ilObject::_lookupType($pg_rec["lm_id"]));
+						$act_data = ilLMPage::_lookupActivationData((int) $child["obj_id"], ilObject::_lookupType($pg_rec["lm_id"]));
 						if ($act_data["show_activation_info"] &&
 							(ilUtil::now() < $act_data["activation_start"]))
 						{
@@ -581,8 +575,7 @@ class ilLMPageObject extends ilLMObject
 	function exportXMLPageContent(&$a_xml_writer, $a_inst = 0)
 	{
 //echo "exportxmlpagecontent:$a_inst:<br>";
-		$cont_obj =& $this->getContentObject();
-		//$page_obj = new ilPageObject($cont_obj->getType(), $this->getId());
+		$cont_obj = $this->getContentObject();
 
 		$this->page_object->buildDom();
 		$this->page_object->insertInstIntoIDs($a_inst);
@@ -603,7 +596,7 @@ class ilLMPageObject extends ilLMObject
 	 */
 	function getQuestionIds()
 	{
-		return ilPageObject::_getQuestionIdsForPage($this->content_object->getType(),
+		return ilLMPage::_getQuestionIdsForPage($this->content_object->getType(),
 			$this->getId());
 	}
 

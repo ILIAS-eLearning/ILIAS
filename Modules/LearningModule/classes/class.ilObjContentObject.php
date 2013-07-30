@@ -1556,11 +1556,12 @@ class ilObjContentObject extends ilObject
 		global $ilBench;
 
 		include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
+		include_once "./Modules/LearningModule/classes/class.ilLMPage.php";
 
 		$pages = ilLMPageObject::getPageList($this->getId());
 		foreach ($pages as $page)
 		{
-			if (ilPageObject::_exists($this->getType(), $page["obj_id"]))
+			if (ilLMPage::_exists($this->getType(), $page["obj_id"]))
 			{
 				$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
 	
@@ -2375,7 +2376,7 @@ class ilObjContentObject extends ilObject
 		reset($pages);
 		foreach ($pages as $page)
 		{
-			if (ilPageObject::_exists($this->getType(), $page["obj_id"]))
+			if (ilLMPage::_exists($this->getType(), $page["obj_id"]))
 			{
 				$ilLocator->clearItems();
 				$ilBench->start("ExportHTML", "exportHTMLPage");
@@ -2823,16 +2824,16 @@ class ilObjContentObject extends ilObject
 	function validatePages()
 	{
 		include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
-		include_once "./Services/COPage/classes/class.ilPageObject.php";
+		include_once "./Modules/LearningModule/classes/class.ilLMPage.php";
 
 		$mess = "";
 		
 		$pages = ilLMPageObject::getPageList($this->getId());
 		foreach ($pages as $page)
 		{
-			if (ilPageObject::_exists($this->getType(), $page["obj_id"]))
+			if (ilLMPage::_exists($this->getType(), $page["obj_id"]))
 			{
-				$cpage = new ilPageObject($this->getType(), $page["obj_id"]);
+				$cpage = new ilLMPage($page["obj_id"]);
 				$cpage->buildDom();
 				$error = @$cpage->validateDom();
 				
@@ -3006,8 +3007,8 @@ class ilObjContentObject extends ilObject
 		if ($mess == "")
 		{
 			// handle internal links to this learning module
-			include_once("./Services/COPage/classes/class.ilPageObject.php");
-			ilPageObject::_handleImportRepositoryLinks($this->getImportId(),
+			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+			ilLMPage::_handleImportRepositoryLinks($this->getImportId(),
 				$this->getType(), $this->getRefId());
 		}
 
@@ -3155,14 +3156,14 @@ class ilObjContentObject extends ilObject
 		$terms = ilGlossaryTerm::getTermList($a_glo_id);
 
 		// each get page: get content
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		$pages = ilPageObject::getAllPages($this->getType(), $this->getId());
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+		$pages = ilLMPage::getAllPages($this->getType(), $this->getId());
 		
 		// determine terms that occur in the page
 		$found_pages = array();
 		foreach ($pages as $p)
 		{
-			$pg = new ilPageObject($this->getType(), $p["id"]);
+			$pg = new ilLMPage($p["id"]);
 			$c = $pg->getXMLContent();
 			foreach ($terms as $t)
 			{

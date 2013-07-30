@@ -17105,3 +17105,7 @@ if(!$ilDB->tableColumnExists("il_new_item_grp", "type"))
 	$ilDB->addTableColumn("il_new_item_grp", "type", $def);
 }
 ?>
+<#4002>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

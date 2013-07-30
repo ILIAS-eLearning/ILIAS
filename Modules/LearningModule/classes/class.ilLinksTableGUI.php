@@ -77,7 +77,8 @@ class ilLinksTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("HREF_PAGE",
 			$ilCtrl->getLinkTargetByClass("illmpageobjectgui", "edit"));
 		
-		$page_object = new ilPageObject($this->lm_type, $a_set["obj_id"]);
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+		$page_object = new ilLMPage($a_set["obj_id"]);
 		$page_object->buildDom();
 		$int_links = $page_object->getInternalLinks();
 		

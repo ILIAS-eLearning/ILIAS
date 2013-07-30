@@ -161,8 +161,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				}
 				
 				// check activation
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
-				$active = ilPageObject::_lookupActive($child["obj_id"],
+				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+				$active = ilLMPage::_lookupActive($child["obj_id"],
 					$this->content_object->getType());
 				if (!$active)
 				{
@@ -173,7 +173,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				}
 				else
 				{
-					if (ilPageObject::_lookupContainsDeactivatedElements($child["obj_id"],
+					if (ilLMPage::_lookupContainsDeactivatedElements($child["obj_id"],
 						$this->content_object->getType()))
 					{
 						$this->tpl->setCurrentBlock("deactivated");
@@ -822,7 +822,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $lng;
 		
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		if (is_array($_POST["id"]))
 		{
 			$act_items = array();
@@ -852,17 +852,17 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				{
 					if (ilLMObject::_lookupType($child["child"]) == "pg")
 					{
-						$act = ilPageObject::_lookupActive($child["child"],
+						$act = ilLMPage::_lookupActive($child["child"],
 							$this->content_object->getType());
-						ilPageObject::_writeActive($child["child"],
+						ilLMPage::_writeActive($child["child"],
 							$this->content_object->getType(), !$act);
 					}
 				}
 				if (ilLMObject::_lookupType($id) == "pg")
 				{
-					$act = ilPageObject::_lookupActive($id,
+					$act = ilLMPage::_lookupActive($id,
 						$this->content_object->getType());
-					ilPageObject::_writeActive($id,
+					ilLMPage::_writeActive($id,
 						$this->content_object->getType(), !$act);
 				}
 			}
