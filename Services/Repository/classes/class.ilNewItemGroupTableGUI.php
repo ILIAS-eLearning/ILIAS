@@ -66,6 +66,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 				"id" => $item["id"],
 				"pos" => $item["pos"],
 				"title" => $item["title"],
+				"type" => $item["type"],
 				"subitems" => sizeof($subitems[$item["id"]])
 			);
 		}
@@ -85,14 +86,18 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAR_POS", "grp_order[".$a_set["id"]."]");
 		$this->tpl->setVariable("VAL_POS", $a_set["pos"]);
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-		$this->tpl->setVariable("VAL_ITEMS", $a_set["subitems"]);
 		
-		$ilCtrl->setParameter($this->parent_obj, "grp_id", $a_set["id"]);
-		$url = $ilCtrl->getLinkTarget($this->parent_obj, "editNewItemGroup");
-		$ilCtrl->setParameter($this->parent_obj, "grp_id", "");
-		
-		$this->tpl->setVariable("URL_EDIT", $url);
-		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+		if($a_set["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP)
+		{			
+			$this->tpl->setVariable("VAL_ITEMS", $a_set["subitems"]);
+
+			$ilCtrl->setParameter($this->parent_obj, "grp_id", $a_set["id"]);
+			$url = $ilCtrl->getLinkTarget($this->parent_obj, "editNewItemGroup");
+			$ilCtrl->setParameter($this->parent_obj, "grp_id", "");
+
+			$this->tpl->setVariable("URL_EDIT", $url);
+			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+		}		
 	}
 }
 

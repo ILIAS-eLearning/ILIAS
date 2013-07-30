@@ -13582,3 +13582,5 @@ payment#:#placeholders#:#Placeholders
 payment#:#current_timestamp#:#Current Unix Timestamp
 payment#:#user_id#:#User ID
 payment#:#incremental_number#:#Incrementing Number
+rep#:#rep_new_item_group_add_separator#:#Add Column Separator
+rep#:#rep_new_item_group_separator#:#Column Separator

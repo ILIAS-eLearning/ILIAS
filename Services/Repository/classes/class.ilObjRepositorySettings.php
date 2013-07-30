@@ -13,6 +13,9 @@ include_once("./Services/Object/classes/class.ilObject.php");
  */
 class ilObjRepositorySettings extends ilObject
 {
+	const NEW_ITEM_GROUP_TYPE_GROUP = 1;
+	const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -31,6 +34,27 @@ class ilObjRepositorySettings extends ilObject
 		return false;
 	}
 	
+	public static function addNewItemGroupSeparator()
+	{
+		global $ilDB;
+		
+		// append
+		$pos = $ilDB->query("SELECT max(pos) mpos FROM il_new_item_grp");
+		$pos = $ilDB->fetchAssoc($pos);
+		$pos = (int)$pos["mpos"];
+		$pos += 10;		
+		
+		$seq = $ilDB->nextID("il_new_item_grp");
+		
+		$ilDB->manipulate("INSERT INTO il_new_item_grp".
+			" (id, pos, type) VALUES (".
+			$ilDB->quote($seq, "integer").
+			", ".$ilDB->quote($pos, "integer").
+			", ".$ilDB->quote(self::NEW_ITEM_GROUP_TYPE_SEPARATOR, "integer").
+			")");			
+		return true;
+	}
+	
 	public static function addNewItemGroup(array $a_titles)
 	{
 		global $ilDB;
@@ -44,10 +68,11 @@ class ilObjRepositorySettings extends ilObject
 		$seq = $ilDB->nextID("il_new_item_grp");
 		
 		$ilDB->manipulate("INSERT INTO il_new_item_grp".
-			" (id, titles, pos) VALUES (".
+			" (id, titles, pos, type) VALUES (".
 			$ilDB->quote($seq, "integer").
 			", ".$ilDB->quote(serialize($a_titles), "text").
 			", ".$ilDB->quote($pos, "integer").
+			", ".$ilDB->quote(self::NEW_ITEM_GROUP_TYPE_GROUP, "integer").
 			")");			
 		return true;
 	}
@@ -100,18 +125,25 @@ class ilObjRepositorySettings extends ilObject
 		$set = $ilDB->query("SELECT * FROM il_new_item_grp ORDER BY pos");
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$row["titles"] = unserialize($row["titles"]);
-			
-			$title = $row["titles"][$usr_lng];
-			if(!$title)
+			if($row["type"] == self::NEW_ITEM_GROUP_TYPE_GROUP)
 			{
-				$title = $row["titles"][$def_lng];
+				$row["titles"] = unserialize($row["titles"]);
+
+				$title = $row["titles"][$usr_lng];
+				if(!$title)
+				{
+					$title = $row["titles"][$def_lng];
+				}
+				if(!$title)
+				{
+					$title = array_shift($row["titles"]);
+				}
+				$row["title"] = $title;
 			}
-			if(!$title)
+			else
 			{
-				$title = array_shift($row["titles"]);
+				$row["title"] = $lng->txt("rep_new_item_group_separator");
 			}
-			$row["title"] = $title;
 			
 			$res[$row["id"]] = $row;			
 		}
