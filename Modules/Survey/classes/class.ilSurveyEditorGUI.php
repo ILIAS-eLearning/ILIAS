@@ -1273,11 +1273,8 @@ class ilSurveyEditorGUI
 			$printoutput = $printbody->get();
 			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
 			$fo = $this->object->processPrintoutput2FO($printoutput);
-			if($fo)
-			{
-				$this->object->deliverPDFfromFO($fo);
-			}
-			else
+			// #11436
+			if(!$fo || !$this->object->deliverPDFfromFO($fo))
 			{
 				ilUtil::sendFailure($this->lng->txt("msg_failed"), true);
 				$this->ctrl->redirect($this, "printView");
