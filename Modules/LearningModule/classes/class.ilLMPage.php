@@ -16,9 +16,9 @@ class ilLMPage extends ilPageObject
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_halt = true)
+	function __construct($a_id = 0, $a_old_nr = 0, $a_halt = true)
 	{
-		parent::__construct($a_parent_type, $a_id, $a_old_nr, $a_halt);
+		parent::__construct("lm", $a_id, $a_old_nr, $a_halt);
 	}
 	
 	/**

@@ -20,8 +20,8 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("content_page_history"));
 		
-		$this->addColumn("", "c", "1");
-		$this->addColumn("", "d", "1");
+		$this->addColumn("", "", "1");
+		$this->addColumn("", "", "1");
 		$this->addColumn($lng->txt("date"), "", "33%");
 		$this->addColumn($lng->txt("user"), "", "33%");
 		$this->addColumn($lng->txt("action"), "", "33%");

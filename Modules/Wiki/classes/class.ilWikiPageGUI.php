@@ -80,9 +80,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$ilHelp->setScreenIdComponent("copgwpg");
 	}
 
-	function initPageObject($a_parent_type, $a_id, $a_old_nr)
+	function initPageObject()
 	{
-		$page = new ilWikiPage($a_id, $a_old_nr);
+		$page = new ilWikiPage($this->getId(), $this->getOldNr());
 		$page->setWikiRefId($this->getWikiRefId());
 		$this->setPageObject($page);
 	}

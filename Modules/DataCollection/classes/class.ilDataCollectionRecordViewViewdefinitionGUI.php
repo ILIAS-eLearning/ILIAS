@@ -94,9 +94,9 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	 * @param int $a_id
 	 * @param int $a_old_nr
 	 */
-	public function initPageObject($a_parent_type, $a_id, $a_old_nr)
+	public function initPageObject()
 	{
-		$this->setPageObject(new ilDataCollectionRecordViewViewdefinition($a_id, $this->table_id));
+		$this->setPageObject(new ilDataCollectionRecordViewViewdefinition($this->getId(), $this->table_id));
 	}
 	
 	/**

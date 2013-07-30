@@ -271,6 +271,7 @@ class ilPageObject
 				return;
 			}
 		}
+
 		$this->xml = $this->page_record["content"];
 		$this->setParentId($this->page_record["parent_id"]);
 		$this->last_change_user = $this->page_record["last_change_user"];
