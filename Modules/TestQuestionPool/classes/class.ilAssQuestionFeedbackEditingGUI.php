@@ -177,15 +177,15 @@ class ilAssQuestionFeedbackEditingGUI
 			
 			if( $this->isSyncAfterSaveRequired() )
 			{
-				ilUtil::sendSuccess('saved successfully', true);
+				ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 				$this->ctrl->redirect($this, self::CMD_SHOW_SYNC);
 			}
 
-			ilUtil::sendSuccess('saved successfully', true);
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 			$this->ctrl->redirect($this, self::CMD_SHOW);
 		}
 		
-		ilUtil::sendFailure('check input');
+		ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 	}
 
