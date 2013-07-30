@@ -17092,3 +17092,16 @@ if(!$ilDB->tableExists("adv_md_obj_rec_select"))
 }
 
 ?>
+<#4001>
+<?php
+if(!$ilDB->tableColumnExists("il_new_item_grp", "type"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 1
+		);
+	$ilDB->addTableColumn("il_new_item_grp", "type", $def);
+}
+?>
