@@ -88,10 +88,10 @@ class ilObjectAddNewItemGUI
 		$subtypes = $objDefinition->getCreatableSubObjects("wfld", ilObjectDefinition::MODE_WORKSPACE);		
 		if (count($subtypes) > 0)
 		{					
-			foreach ($subtypes as $type => $subitem)
+			foreach (array_keys($subtypes) as $type)
 			{												
-				if ($mode == ilObjectDefinition::MODE_WORKSPACE &&
-					isset($settings_map[$type]) && $ilSetting->get("disable_wsp_".$settings_map[$type]))
+				if (isset($settings_map[$type]) && 
+					$ilSetting->get("disable_wsp_".$settings_map[$type]))
 				{
 					continue;
 				}
