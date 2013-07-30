@@ -14,7 +14,7 @@ class ilOverlayGUI
 	protected $anchor_el_id = "";
 	protected $anchor_ov_corner = "";
 	protected $anchor_anch_corner = "";
-	protected $auto_hide = true;
+	protected $auto_hide = false;
 	protected $close_el = null;
 	
 	/**
