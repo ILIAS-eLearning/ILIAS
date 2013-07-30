@@ -48,7 +48,6 @@ class ilTemplate extends ilTemplateX
 	protected $stop_floating = "";
 	protected $page_form_action = "";
 	protected $page_actions = array();
-	protected $creation_selector = false;
 	protected $permanent_link = false;
 	protected $content_style_sheet = "";
 	protected $frame_fixed_width = false;
@@ -2176,22 +2175,6 @@ class ilTemplate extends ilTemplateX
 		$this->setVariable("LIGHTBOX", $html);
 	}
 	
-	
-	/**
-	* Set selection and create button for adding new objects
-	*/
-	function setCreationSelector($a_form_action, $a_options,
-		$a_command, $a_txt)
-	{
-		$this->setPageFormAction($a_form_action);
-
-		$this->creation_selector =
-			array("form_action" => $a_form_action,
-				"options" => $a_options,
-				"command" => $a_command,
-				"txt" => $a_txt);
-	}
-	
 	/**
 	* Show admin view button
 	*/
@@ -2245,7 +2228,7 @@ class ilTemplate extends ilTemplateX
 	{
 		global $lng, $ilHelp;
 		
-		$adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
+		$adm_view_cmp = $adm_cmds = $adm_view = false;
 		
 		$toolb = new ilToolbarGUI();
 		
@@ -2287,45 +2270,8 @@ class ilTemplate extends ilTemplateX
 		}
 
 		// creation selector
-		if (is_array($this->creation_selector))
-		{
-			$this->setCurrentBlock("add_commands");
-			if ($adm_cmds)
-			{
-				$this->setVariable("ADD_COM_WIDTH", 'width="1"');
-			}
-			
-			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-			$selection = new ilAdvancedSelectionListGUI();			
-			$selection->setListTitle($lng->txt("cntr_add_new_item"));
-			$selection->setId("item_creation");
-			$selection->setHeaderIcon(ilUtil::getImagePath("cmd_add_s.png"));
-			$selection->setItemLinkClass("xsmall");
-			$selection->setUseImages(true);
-			
-			foreach ($this->creation_selector["options"] as $item)
-			{
-				$link = "#";
-				if($item["value"])
-				{
-					$link = $this->page_form_action."&new_type=".$item["value"];
-					$link = str_replace("cmd=post", "cmd=".$this->creation_selector["command"], $link);
-				}
-				
-				$ttip = ilHelp::getObjCreationTooltipText($item["value"]);
-				$selection->addItem($item["title"], $item["value"], $link,
-					$item["img"], $item["title"], "", "", false, "", $ttip,
-					"right center", "left center", false);
-			}
-			
-			$this->setVariable("SELECT_OBJTYPE_REPOS",
-				$selection->getHTML());
-				
-			$this->setVariable("CENTER_COL_CLASS", trim($this->right_content) != "" ? "one_side_col" : "");
-			
-			$this->parseCurrentBlock();
-			$creation_selector = true;
-		}
+		// see: ilObjectAddNewItemGUI
+		// placeholder "SELECT_OBJTYPE_REPOS" still needed!
 		
 		if ($adm_cmds and $this->admin_panel_bottom)
 		{

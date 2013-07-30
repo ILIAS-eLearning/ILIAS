@@ -173,42 +173,13 @@ class ilPersonalWorkspaceGUI
 	 * Render workspace toolbar (folder navigation, add subobject)
 	 */
 	protected function renderToolbar()
-	{
-		global $lng, $ilCtrl, $objDefinition, $tpl, $ilSetting;
+	{		
+		global $ilCtrl;
 		
-		$settings_map = array("blog" => "blogs",
-			"file" => "files",
-			"tstv" => "certificates",
-			"excv" => "certificates",
-			"webr" => "links");
-
-		$root = $this->tree->getNodeData($this->node_id);
-		$subtypes = $objDefinition->getCreatableSubObjects($root["type"], ilObjectDefinition::MODE_WORKSPACE);
-		if($subtypes)
-		{
-			// :TODO: permission checks?
-			$subobj = array();
-			foreach(array_keys($subtypes) as $type)
-			{
-				if(isset($settings_map[$type]) && $ilSetting->get("disable_wsp_".$settings_map[$type]))
-				{
-					continue;
-				}
-				
-				$class = $objDefinition->getClassName($type);
-				
-				$subobj[] = array("value" => $type,
-								  "title" => $lng->txt("wsp_type_".$type),
-								  "img" => ilObject::_getIcon("", "tiny", $type),
-								  "alt" => $lng->txt("wsp_type_".$type));
-			}
-			
-			$subobj = ilUtil::sortArray($subobj, "title", 1);
-			
-			$lng->loadLanguageModule("cntr");
-			$tpl->setCreationSelector($ilCtrl->getFormAction($this),
-				$subobj, "create", $lng->txt("add"));
-		}
+		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
+		$gui = new ilObjectAddNewItemGUI($this->node_id, true);
+		$gui->setCreationUrl($ilCtrl->getLinkTarget($this, "create"));
+		$gui->render();
 	}
 
 	/**
