@@ -726,15 +726,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// overlay
 			$overlay->setAnchor($ol_id."_tr");
 			$overlay->setTrigger($ol_id."_tr", "click", $ol_id."_tr");
-			$overlay->setAutoHide(false);
-			// $overlay->setCloseElementId($cl_id);
 			$overlay->add();
 
-			// trigger
-			$overlay->addTrigger($ol_id."_tr", "click", $ol_id."_tr");
-
 			$info .= "<div id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></div>".
-				"<div id=\"".$ol_id."\" style=\"display:none; background-color:white; border: 1px solid #bbb; padding: 10px;\">".$tooltip."</div>";
+				"<div id=\"".$ol_id."\" style=\"display:none; padding:10px;\" class=\"ilOverlay\">".$tooltip."</div>";
 		}
 		
 		return "<div>".$info."</div>";
