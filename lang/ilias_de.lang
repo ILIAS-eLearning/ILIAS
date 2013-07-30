@@ -13581,3 +13581,4 @@ payment#:#placeholders#:#Platzhalter
 payment#:#current_timestamp#:#Aktueller Unix-Zeitstempel
 payment#:#user_id#:#Benutzer-ID
 payment#:#incremental_number#:#Eine sich inkrementierende Ziffer
+rep#:#rep_new_item_group_separator#:#Spalten-Trenner 
