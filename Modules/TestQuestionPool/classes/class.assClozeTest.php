@@ -325,13 +325,13 @@ class assClozeTest extends assQuestion implements ObjScoringAdjustable
 			switch ($gap->getType())
 			{
 				case CLOZE_TEXT:
-					$this->saveClozeTextGapRecordToDb( $ilDB, $next_id, $key, $item, $gap );
+					$this->saveClozeTextGapRecordToDb($next_id, $key, $item, $gap );
 					break;
 				case CLOZE_SELECT:
-					$this->saveClozeSelectGapRecordToDb( $ilDB, $next_id, $key, $item, $gap );
+					$this->saveClozeSelectGapRecordToDb($next_id, $key, $item, $gap );
 					break;
 				case CLOZE_NUMERIC:
-					$this->saveClozeNumericGapRecordToDb( $ilDB, $next_id, $key, $item, $gap );
+					$this->saveClozeNumericGapRecordToDb($next_id, $key, $item, $gap );
 					break;
 			}
 		}
