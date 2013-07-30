@@ -1221,8 +1221,19 @@ class ilTrQuery
 
 				// as there can be deactivated items in the collection
 				// we should allow them here too
+				
 				$cmode = ilLPObjSettings::_lookupMode($child["obj_id"]);
-				if(/* $cmode != LP_MODE_DEACTIVATED && */ $cmode != LP_MODE_UNDEFINED)
+				if($cmode == LP_MODE_PLUGIN)
+				{
+					// #11368
+					include_once "Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php";	
+					if(ilRepositoryObjectPluginSlot::isTypePluginWithLP($child["type"], false))
+					{
+						$a_object_ids[] = $child["obj_id"];
+						$a_ref_ids[$child["obj_id"]] = $child["ref_id"];
+					}	
+				}
+				else if(/* $cmode != LP_MODE_DEACTIVATED && */ $cmode != LP_MODE_UNDEFINED)
 				{
 					$a_object_ids[] = $child["obj_id"];
 					$a_ref_ids[$child["obj_id"]] = $child["ref_id"];
