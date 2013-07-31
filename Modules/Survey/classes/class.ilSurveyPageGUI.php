@@ -1339,7 +1339,7 @@ class ilSurveyPageGUI
 		
 		if($this->has_datasets)
 		{
-			$link = $ilCtrl->getLinkTarget($this->editor_gui, "maintenance");
+			$link = $ilCtrl->getLinkTargetByClass(array("ilobjsurveygui", "ilsurveyparticipantsgui"), "maintenance");
 			$link = "<a href=\"".$link."\">".$lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
 			ilUtil::sendInfo($lng->txt("survey_has_datasets_warning_page_view")." ".$link);
 		}
