@@ -59,5 +59,61 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
 		$this->ctrl->setParameter($pageObjectGUI, 'feedback_type', $_GET['feedback_type']);
 		
 		$this->ctrl->forwardCommand($pageObjectGUI);
-	}	
+	}
+	
+	/**
+	 * ensures an existing page object with giben type/id
+	 * 
+	 * @access protected
+	 */
+	function ensurePageObjectExists($pageObjectType, $pageObjectId)
+	{
+		include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
+		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK)
+		{
+			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
+			if( !ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId) )
+			{
+				$pageObject = new ilAssGenFeedbackPage();
+				$pageObject->setParentId($this->questionOBJ->getId());
+				$pageObject->setId($pageObjectId);
+				$pageObject->createFromXML();
+			}
+		}
+		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK)
+		{
+			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPage.php");
+			if( !ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId) )
+			{
+				$pageObject = new ilAssSpecFeedbackPage();
+				$pageObject->setParentId($this->questionOBJ->getId());
+				$pageObject->setId($pageObjectId);
+				$pageObject->createFromXML();
+			}
+		}
+	}
+	
+	/**
+	 * instantiates, initialises and returns a page object gui class
+	 * 
+	 * @access protected
+	 * @return ilAssGenFeedbackPageGUI|ilAssSpecFeedbackPageGUI
+	 */
+	function getPageObjectGUI($pageObjectType, $pageObjectId)
+	{
+		include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
+		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK)
+		{
+			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php");
+			$pageObjectGUI = new ilAssGenFeedbackPageGUI($pageObjectId);
+			return $pageObjectGUI;
+		}
+		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK)
+		{
+			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
+			$pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
+			return $pageObjectGUI;
+		}
+	}
+
 }

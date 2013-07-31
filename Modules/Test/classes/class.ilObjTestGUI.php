@@ -35,7 +35,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestToplistGUI, ilTestScoringByQuestionsGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjTestSettingsGeneralGUI
- * @ilCtrl_Calls ilObjTestGUI: ilObjTestDynamicQuestionSetConfigGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilObjTestDynamicQuestionSetConfigGUI, ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  *
  * @extends ilObjectGUI
  * @ingroup ModulesTest
@@ -460,6 +460,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 				$this->tpl->setContent($ret);
 
+				break;
+				
+			case 'ilassspecfeedbackpagegui':
+				include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
+				$pg_gui = new ilAssSpecFeedbackPageGUI((int) $_GET["feedback_id"]);
+				$this->ctrl->forwardCommand($pg_gui);
+				break;
+				
+			case 'ilassgenfeedbackpagegui':
+				include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php");
+				$pg_gui = new ilAssGenFeedbackPageGUI((int) $_GET["feedback_id"]);
+				$this->ctrl->forwardCommand($pg_gui);
 				break;
 
 			case "ilcommonactiondispatchergui":
