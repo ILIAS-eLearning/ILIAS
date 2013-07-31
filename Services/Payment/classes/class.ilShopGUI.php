@@ -236,6 +236,26 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function setFilter()
 	{
+		if(!$_POST['show_filter'] && $_POST['updateView'] == '1')
+		{
+			$this->resetFilter();
+			return;
+		}
+		else if($_POST['updateView'] == 1)
+		{
+			$_SESSION['content_filter']['updateView']      = $_POST['updateView'];
+			$_SESSION['content_filter']['show_filter']     = $_POST['show_filter'];
+			$_SESSION['content_filter']['sel_filter_type'] = $_POST['sel_filter_type'];
+			$_SESSION['content_filter']['filter_text']     = $_POST['filter_text'];
+			$_SESSION['content_filter']['filter_topic_id'] = $_POST['filter_topic_id'];
+
+			$_SESSION['content_filter']['order_field']     = $_POST['order_field'];
+			$_SESSION['content_filter']['order_direction'] = $_POST['order_direction'];
+
+			$_SESSION['content_filter']['topics_sorting_type']      = $_POST['topics_sorting_type'];
+			$_SESSION['content_filter']['topics_sorting_direction'] = $_POST['topics_sorting_direction'];
+		}
+
 		$this->setString($_POST['filter_text']);
 		$this->setType($_POST['sel_filter_type']);
 		$this->setTopicId($_POST['filter_topic_id']);
@@ -246,8 +266,7 @@ class ilShopGUI extends ilShopBaseGUI
 		$this->setSortDirection('asc');
 
 		$this->performSearch();
-
-		return true;
+		return;
 	}
 
 	public function showShopExplorer()
@@ -429,7 +448,6 @@ class ilShopGUI extends ilShopBaseGUI
 		{
 			#ilUtil::sendInfo($this->lng->txt('payment_shop_not_objects_found'));
 			$this->tpl->setVariable('ERROR', $this->lng->txt('payment_shop_not_objects_found'));
-
 		}
 
 		$this->showShopContent($res);
@@ -441,8 +459,7 @@ class ilShopGUI extends ilShopBaseGUI
 
 		$this->tpl->setVariable('RESULTS', $search_result_presentation->showResults());
 		$this->addPager($res, 'shop_content_maxpage');
-
-		return true;
+		return;
 	}
 
 	public function resetFilter()
@@ -455,7 +472,6 @@ class ilShopGUI extends ilShopBaseGUI
 		unset($_POST['order_direction']);
 		unset($_POST['topics_sorting_type']);
 		unset($_POST['topics_sorting_direction']);
-
 		unset($_POST['updateView']);
 		unset($_POST['show_filter']);
 
@@ -465,8 +481,7 @@ class ilShopGUI extends ilShopBaseGUI
 		$this->setTopicId(0);
 
 		$this->performSearch();
-
-		return true;
+		return;
 	}
 
 	//showSpecialContent
@@ -677,29 +692,8 @@ class ilShopGUI extends ilShopBaseGUI
 	{
 		global $ilUser;
 
-		if(!$_POST['show_filter'] && $_POST['updateView'] == '1')
-		{
-			$this->resetFilter();
-		}
-		else
-			if($_POST['updateView'] == 1)
-			{
-				$_SESSION['content_filter']['updateView']      = $_POST['updateView'];
-				$_SESSION['content_filter']['show_filter']     = $_POST['show_filter'];
-				$_SESSION['content_filter']['sel_filter_type'] = $_POST['sel_filter_type'];
-				$_SESSION['content_filter']['filter_text']     = $_POST['filter_text'];
-				$_SESSION['content_filter']['filter_topic_id'] = $_POST['filter_topic_id'];
-
-				$_SESSION['content_filter']['order_field']     = $_POST['order_field'];
-				$_SESSION['content_filter']['order_direction'] = $_POST['order_direction'];
-
-				$_SESSION['content_filter']['topics_sorting_type']      = $_POST['topics_sorting_type'];
-				$_SESSION['content_filter']['topics_sorting_direction'] = $_POST['topics_sorting_direction'];
-			}
-
-
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		// FILTER FORM
+
 		$filter_form = new ilPropertyFormGUI();
 		$filter_form->setFormAction($this->ctrl->getFormAction($this));
 		$filter_form->setTitle($this->lng->txt('pay_filter'));
