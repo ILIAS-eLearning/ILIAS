@@ -8,7 +8,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 *
 * @author Michael Jansen <mjansen@databay.de>
 * @version $Id: $
-* @ilCtrl_Calls ilShopPurchaseGUI: ilPageObjectGUI
+* @ilCtrl_Calls ilShopPurchaseGUI: ilShopPageGUI
 *
 * @ingroup ServicesPayment
 */
@@ -60,11 +60,11 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		switch($this->ctrl->getCmdClass())
 		{
-			case 'ilpageobjectgui':
+			case 'ilshoppagegui':
 				$this->__initPaymentObject();
 				include_once 'Services/Style/classes/class.ilObjStyleSheet.php';
-				include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';		
-				$page_gui = new ilPageObjectGUI('shop', $this->pobject->getPobjectId());		
+				include_once 'Services/Payment/classes/class.ilShopPageGUI.php';		
+				$page_gui = new ilShopPageGUI($this->pobject->getPobjectId());		
 				$this->ctrl->forwardCommand($page_gui);				
 				return true;
 				break;
@@ -524,30 +524,18 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	private function __getAbstractHTML($a_payment_object_id)
 	{		
 		// page object
-		include_once 'Services/COPage/classes/class.ilPageObject.php';
-		include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+		include_once 'Services/Payment/classes/class.ilShopPage.php';
+		include_once 'Services/Payment/classes/class.ilShopPageGUI.php';
 
 		// if page does not exist, return nothing
-		if(!ilPageObject::_exists('shop', $a_payment_object_id))
+		if(!ilShopPage::_exists('shop', $a_payment_object_id))
 		{
 			return '';
 		}
 		
 		include_once 'Services/Style/classes/class.ilObjStyleSheet.php';
 		// get page object
-		$page_gui = new ilPageObjectGUI('shop', $a_payment_object_id);
-		$page_gui->setIntLinkHelpDefault('StructureObject', $a_payment_object_id);
-		$page_gui->setLinkXML('');
-		$page_gui->setFileDownloadLink($this->ctrl->getLinkTargetByClass('ilPageObjectGUI', 'downloadFile'));
-		$page_gui->setFullscreenLink($this->ctrl->getLinkTargetByClass('ilPageObjectGUI', 'displayMediaFullscreen'));
-		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass('ilPageObjectGUI', 'download_paragraph'));
-		$page_gui->setPresentationTitle('');
-		$page_gui->setTemplateOutput(false);
-		$page_gui->setHeader('');
-		$page_gui->setEnabledRepositoryObjects(false);
-		$page_gui->setEnabledFileLists(false);
-		$page_gui->setEnabledPCTabs(true);
-		$page_gui->setEnabledMaps(true);
+		$page_gui = new ilShopPageGUI($a_payment_object_id);
 
 		return $page_gui->showPage();
 	}

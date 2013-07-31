@@ -5,13 +5,13 @@
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
 
 /**
- * Container page configuration 
+ * Shop page configuration 
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ServicesContainer
+ * @ingroup ServicesPayment
  */
-class ilContainerPageConfig extends ilPageConfig
+class ilShopPageConfig extends ilPageConfig
 {
 	/**
 	 * Constructor
@@ -21,16 +21,14 @@ class ilContainerPageConfig extends ilPageConfig
 	 */
 	function __construct()
 	{
-		global $ilSetting;
-		
 		parent::__construct();
-		
-		$this->setIntLinkHelpDefaultType("RepositoryItem");
-		$this->setIntLinkHelpDefaultId($_GET["ref_id"]);
-		
-		$this->setEnablePCType("FileList", false);
 		$this->setEnablePCType("Map", true);
-		$this->setEnablePCType("Resources", true);
+		
+//		$page_gui->setEnabledRepositoryObjects(false);
+//		$page_gui->setEnabledFileLists(true);
+//		$page_gui->setEnabledMaps(true);
+//		$page_gui->setEnabledPCTabs(true);
+
 	}
 	
 }

@@ -12,7 +12,7 @@ include_once './Services/Payment/classes/class.ilShopTableGUI.php';
  * Class ilPaymentObjectGUI
  * @author       Stefan Meyer
  * @version      $Id: class.ilPaymentObjectGUI.php 21617 2009-09-10 13:49:10Z jgoedvad $
- * @ilCtrl_Calls ilPaymentObjectGUI: ilPageObjectGUI
+ * @ilCtrl_Calls ilPaymentObjectGUI: ilShopPageGUI
  * @package      core
  * 
  * 
@@ -57,7 +57,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$cmd = $this->ctrl->getCmd();
 		switch($this->ctrl->getNextClass($this))
 		{
-			case 'ilpageobjectgui':
+			case 'ilshoppagegui':
 				$this->prepareOutput();
 				$ret = $this->forwardToPageObject();
 				if($ret != '')
@@ -99,38 +99,25 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'editDetails'), '_top');
 
 		// page objec
-		include_once 'Services/COPage/classes/class.ilPageObject.php';
-		include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+		include_once 'Services/Payment/classes/class.ilShopPage.php';
+		include_once 'Services/Payment/classes/class.ilShopPageGUI.php';
 		include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
 
 		$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
 
-		if(!ilPageObject::_exists('shop', $this->pobject->getPobjectId()))
+		if(!ilShopPage::_exists('shop', $this->pobject->getPobjectId()))
 		{
 			// doesn't exist -> create new one
-			$new_page_object = new ilPageObject('shop');
+			$new_page_object = new ilShopPage();
 			$new_page_object->setParentId(0);
 			$new_page_object->setId($this->pobject->getPobjectId());
 			$new_page_object->createFromXML();
 		}
 
-		$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
+		$this->ctrl->setReturnByClass('ilshoppagegui', 'edit');
 
-		$page_gui = new ilPageObjectGUI('shop', $this->pobject->getPobjectId());
+		$page_gui = new ilShopPageGUI($this->pobject->getPobjectId());
 		$this->ctrl->setParameter($page_gui, 'pobject_id', (int)$_GET['pobject_id']);
-		$page_gui->setIntLinkHelpDefault('StructureObject', $this->pobject->getPobjectId());
-		$page_gui->setTemplateTargetVar('ADM_CONTENT');
-		$page_gui->setLinkXML('');
-		$page_gui->setFileDownloadLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
-		$page_gui->setFullscreenLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
-		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
-		$page_gui->setPresentationTitle('');
-		$page_gui->setTemplateOutput(false);
-		$page_gui->setHeader('');
-		$page_gui->setEnabledRepositoryObjects(false);
-		$page_gui->setEnabledFileLists(true);
-		$page_gui->setEnabledMaps(true);
-		$page_gui->setEnabledPCTabs(true);
 
 		return $this->ctrl->forwardCommand($page_gui);
 	}
@@ -372,7 +359,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
-		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilshoppagegui'), 'edit'));
 
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$oForm = new ilPropertyFormGUI();
@@ -686,7 +673,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
-		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilshoppagegui'), 'edit'));
 
 		// Fill table cells
 		/** @var $tpl ilTemplate */

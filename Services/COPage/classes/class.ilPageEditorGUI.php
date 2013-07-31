@@ -105,12 +105,6 @@ class ilPageEditorGUI
 		$this->ctrl->returnToParent($this);
 	}
 
-	function setIntLinkHelpDefault($a_type, $a_id)
-	{
-		$this->int_link_def_type = $a_type;
-		$this->int_link_def_id = $a_id;
-	}
-	
 	function setIntLinkReturn($a_return)
 	{
 		$this->int_link_return = $a_return;
@@ -316,7 +310,8 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 		{
 			case "ilinternallinkgui":
 				$link_gui = new ilInternalLinkGUI(
-					$this->int_link_def_type, $this->int_link_def_id);
+					$this->page_gui->getPageConfig()->getIntLinkDefaultType(),
+					$this->page_gui->getPageConfig()->getIntLinkDefaultId());
 				$link_gui->setMode("normal");
 				$link_gui->setFilterWhiteList(
 					$this->page_gui->getPageConfig()->getIntLinkFilterWhiteList());
