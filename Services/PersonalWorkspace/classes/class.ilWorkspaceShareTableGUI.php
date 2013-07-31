@@ -57,7 +57,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		}
 		
 		$this->addColumn($this->lng->txt("wsp_shared_date"), "acl_date");
-		$this->addColumn($this->lng->txt("title"), "title");
+		$this->addColumn($this->lng->txt("wsp_shared_title"), "title");
 		$this->addColumn($this->lng->txt("wsp_shared_type"));
 		
 		if(!$this->portfolio_mode)
@@ -65,8 +65,8 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("action"));
 		}
 	
-		$this->setDefaultOrderField("content");
-		$this->setDefaultOrderDirection("asc");
+		$this->setDefaultOrderField("acl_date");
+		$this->setDefaultOrderDirection("desc");
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.shared_row.html", "Services/PersonalWorkspace");
@@ -111,7 +111,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$item = $this->addFilterItemByMetaType("user", self::FILTER_TEXT, false, $lng->txt("wsp_shared_user_filter"));
 		$this->filter["user"] = $item->getValue();
 		
-		$item = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("title"));
+		$item = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("wsp_shared_title"));
 		$this->filter["title"] = $item->getValue();
 		
 		$item = $this->addFilterItemByMetaType("acl_date", self::FILTER_DATE, false, $lng->txt("wsp_shared_date_filter"));
@@ -120,7 +120,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		if(!$this->portfolio_mode)
 		{
 			// see ilPersonalWorkspaceGUI::renderToolbar
-			$options = array();			
+			$options = array(""=>$lng->txt("search_any"));
 			$settings_map = array("blog" => "blogs",
 				"file" => "files");
 			// see ilObjWorkspaceFolderTableGUI	
@@ -131,16 +131,20 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 					continue;
 				}							
 				$options[$type] = $lng->txt("wsp_type_".$type);
-			}								
-			if(sizeof($options))
-			{
-				asort($options);
-				$item = $this->addFilterItemByMetaType("obj_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_object_type"));
-				$item->setOptions(array(""=>$lng->txt("search_any"))+$options);
-				$this->filter["obj_type"] = $item->getValue();
-			}
+			}											
 		}
-				
+		else
+		{
+			$options = array("prtf"=>$lng->txt("obj_prtf"));			
+		}
+		if(sizeof($options))
+		{
+			asort($options);
+			$item = $this->addFilterItemByMetaType("obj_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_object_type"));
+			$item->setOptions($options);
+			$this->filter["obj_type"] = $item->getValue();
+		}		
+		
 		// see ilWorkspaceAccessGUI::share
 		$options = array();
 		$options["user"] = $lng->txt("wsp_set_permission_single_user");
@@ -175,7 +179,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		
 		if(sizeof($options))
 		{
-			asort($options);
+			// asort($options);
 			$item = $this->addFilterItemByMetaType("acl_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_type"));
 			$item->setOptions(array(""=>$lng->txt("search_any"))+$options);
 			$this->filter["acl_type"] = $item->getValue();

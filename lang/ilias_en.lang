@@ -13473,7 +13473,7 @@ wsp#:#wsp_shared_type#:#Shared with
 wsp#:#wsp_shared_object_type#:#Type of Resource
 wsp#:#wsp_shared_user_filter#:#Login/Name
 wsp#:#wsp_shared_date_filter#:#Shared after
-wsp#:#wsp_shared_mandatory_filter_info#:#Please set filter attribues to reduce the result size.
+wsp#:#wsp_shared_mandatory_filter_info#:#Please set at least one filter attribute. Text filters have to be at least 4 characters long.
 wsp#:#wsp_shared_member_filter#:#Members of Course / Group
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
 common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
@@ -13585,3 +13585,4 @@ payment#:#incremental_number#:#Incrementing Number
 rep#:#rep_new_item_group_add_separator#:#Add Column Separator
 rep#:#rep_new_item_group_separator#:#Column Separator
 rep#:#rep_new_item_group_other#:#Other
+wsp#:#wsp_shared_title#:#Title of Resource

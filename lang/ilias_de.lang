@@ -13470,10 +13470,10 @@ rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rbac_create_cld#:#Neues Cloud Objekt anlegen
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
-wsp#:#wsp_shared_object_type#:#Ressourcentyp
+wsp#:#wsp_shared_object_type#:#Type der Ressource
 wsp#:#wsp_shared_user_filter#:#Benutzername/Name
 wsp#:#wsp_shared_date_filter#:#Freigabe ab dem
-wsp#:#wsp_shared_mandatory_filter_info#:#Bitte setzen Sie Filter-Attribute, um das Ergebnis einzuschränken.
+wsp#:#wsp_shared_mandatory_filter_info#:#Bitte setzen Sie mindestens ein Filter-Attribut. Text-Filter müssen mindestens 4 Buchstaben lang sein.
 wsp#:#wsp_shared_member_filter#:#Kurs-/Gruppenmitglieder
 common#:#scorm_without_session#:#SCORM 2004 Speicherung ohne Session aktivieren
 common#:#scorm_without_session_info#:#Dies sichert die Speicherung von SCORM-Lernstandsdaten auch bei abgelaufener ILIAS-Session
@@ -13583,3 +13583,4 @@ payment#:#user_id#:#Benutzer-ID
 payment#:#incremental_number#:#Eine sich inkrementierende Ziffer
 rep#:#rep_new_item_group_separator#:#Spalten-Trenner 
 rep#:#rep_new_item_group_other#:#Weitere
+wsp#:#wsp_shared_title#:#Titel der Ressource
