@@ -370,7 +370,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 		else
 		{
-			$this->outAllQuestionsAnsweredCorrectPage();
+			$this->outCurrentlyFinishedPage();
 		}
 		
 		$this->testSequence->saveToDb();
@@ -632,9 +632,47 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 	}
 
-	private function outAllQuestionsAnsweredCorrectPage()
+	private function outCurrentlyFinishedPage()
 	{
+		$this->prepareTestPageOutput();
 		
+		$this->populatePreviousButtons( $this->testSession->getCurrentQuestionId() );
+			
+		if ($this->object->getKioskMode())
+		{
+			$this->populateKioskHead();
+		}
+
+		if ($this->object->getEnableProcessingTime())
+		{
+			$this->outProcessingTime($this->testSession->getActiveId());
+		}
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_TIMESTAMP", time());
+		
+		$this->tpl->setVariable("PAGETITLE", "- " . $this->object->getTitle());
+		
+		if ($this->object->getShowExamid() && !$this->object->getKioskMode())
+		{
+			$this->tpl->setCurrentBlock('exam_id');
+			$this->tpl->setVariable('EXAM_ID', 
+								$this->object->getExamId(
+									$this->object->getTestSession()->getActiveId(), 
+									$this->object->getTestSession()->getPass() ));
+			$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if ($this->object->getShowCancel()) 
+		{
+			$this->populateCancelButtonBlock();
+		}
+		
+		if( $this->dynamicQuestionSetConfig->isTaxonomyFilterEnabled() )
+		{
+			$this->populateQuestionSelectionButtons();
+		}
 	}
 	
 	protected function isFirstPageInSequence($sequence)
@@ -670,7 +708,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * saves the user input of a question
 	 */
-	protected function saveQuestionSolution($force = FALSE)
+	public function saveQuestionSolution($force = FALSE)
 	{
 		// what is this formtimestamp ??
 		if (!$force)
@@ -691,7 +729,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$qId = $this->testSession->getCurrentQuestionId();
 		
-		if($qId != $_GET["sequence"])
+		if( !$qId || $qId != $_GET["sequence"])
 		{
 			return false;
 		}

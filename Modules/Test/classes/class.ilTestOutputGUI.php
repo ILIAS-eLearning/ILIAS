@@ -592,7 +592,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * saves the user input of a question
 	 */
-	protected function saveQuestionSolution($force = FALSE)
+	public function saveQuestionSolution($force = FALSE)
 	{
 		$this->updateWorkingTime();
 		$this->saveResult = FALSE;
