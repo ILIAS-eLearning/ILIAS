@@ -137,7 +137,6 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setStyleId($this->glossary->getStyleSheetId());
 				$page_gui->setLocator($gloss_loc);
 //				$page_gui->setEnabledInternalLinks(true);
-//				$page_gui->setIntLinkHelpDefault("GlossaryItem", $_GET["ref_id"]);
 				$page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass("ilobjglossarygui", "quickList",
 					"", false, false));
 				$page_gui->setPageBackTitle($this->lng->txt("cont_definition"));
