@@ -11025,7 +11025,7 @@ content#:#cont_correct_answer_also#:#Also correct is:
 common#:#file_upload_pending#:#Pending file
 wsp#:#wsp_permission_add_users#:#Add Users
 wsp#:#wsp_set_permission_registered#:#All Registered Users
-wsp#:#wsp_set_permission_all#:#Publish
+wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_remove_permission#:#Remove Permission
 wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
 wsp#:#wsp_permission_all_info#:#This object has been published.
@@ -11117,10 +11117,10 @@ payment#:#credit#:#Credit
 payment#:#period_of_service_provision#:#Period of service provision
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_shared_with#:#Shared With
-wsp#:#wsp_set_permission_single_user#:#Single User
-wsp#:#wsp_set_permission_group#:#Group
-wsp#:#wsp_set_permission_course#:#Course
-wsp#:#wsp_set_permission_all_password#:#Publish (Password required)
+wsp#:#wsp_set_permission_single_user#:#A Single User
+wsp#:#wsp_set_permission_group#:#Members of Group
+wsp#:#wsp_set_permission_course#:#Members of Course
+wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password
 wsp#:#wsp_permission_removed#:#The item has been removed.
 wsp#:#wsp_share_with_members#:#Share with members
 wsp#:#wsp_share_success#:#A new entry has been added.
@@ -13469,12 +13469,12 @@ rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
 rbac#:#rbac_create_cld#:#Create new Cloud Object
 wsp#:#wsp_shared_date#:#Date of Share
-wsp#:#wsp_shared_type#:#Type of Share
+wsp#:#wsp_shared_type#:#Shared with
 wsp#:#wsp_shared_object_type#:#Type of Resource
 wsp#:#wsp_shared_user_filter#:#Login/Name
 wsp#:#wsp_shared_date_filter#:#Shared after
 wsp#:#wsp_shared_mandatory_filter_info#:#Please set filter attribues to reduce the result size.
-wsp#:#wsp_shared_member_filter#:#Members of Courses/Groups
+wsp#:#wsp_shared_member_filter#:#Members of Course / Group
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
 common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
 common#:#scorm_without_session_info#:#This ensures the storage of SCORM learning data even if ILIAS session expired
