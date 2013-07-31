@@ -452,7 +452,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		try 
 		{
 			include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-			$ecs_id = ilECSImport::lookupECSId(
+			$ecs_id = ilECSImport::lookupEContentIdByContentId(
 					$this->getServer()->getServerId(),
 					$this->getMid(),
 					$course_member->courseID
@@ -466,7 +466,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		{
 			throw $e;
 		}
-		
 	}
 	
 }

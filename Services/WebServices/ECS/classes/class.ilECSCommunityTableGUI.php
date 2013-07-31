@@ -150,10 +150,12 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 
 			case ilECSParticipantSetting::IMPORT_CRS:
 				// Possible action => Edit course allocation
+				$ilCtrl->setParameter($this->getParentObject(),'server_id',$this->getServer()->getServerId());
+				$ilCtrl->setParameter($this->getParentObject(),'mid',$a_set['mid']);
 				$list->addItem(
 					$this->lng->txt('ecs_crs_alloc_set'),
 					'',
-					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','dStart')
+					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','cStart')
 				);
 				$this->tpl->setVariable('ACTIONS',$list->getHTML());
 				break;

@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** 
 * Storage of ECS imported objects.
@@ -38,6 +18,7 @@ class ilECSImport
 	protected $server_id = 0;
 	protected $obj_id = 0;
 	protected $econtent_id = 0;
+	protected $content_id = '';
 	protected $sub_id = 0;
 	protected $mid = 0;
 	protected $imported = false; 
@@ -47,8 +28,8 @@ class ilECSImport
 	 * Constructor 
 	 *
 	 * @access public
-	 * @param
-	 * 
+	 * @param int $a_server_id
+	 * @param int $a_obj_id
 	 */
 	public function __construct($a_server_id,$a_obj_id)
 	{
@@ -60,7 +41,16 @@ class ilECSImport
 	 	$this->read();
 	}
 	
-	public static function lookupECSId($a_server_id, $a_mid, $a_econtent_id)
+	/**
+	 * Lookup content id 
+	 * The content is the - not necessarily unique - id provided by the econten type.
+	 * The econtent id is the unique id from ecs
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @param type $a_econtent_id
+	 * @return string content id
+	 */
+	public static function lookupContentId($a_server_id, $a_mid, $a_econtent_id)
 	{
 		global $ilDB;
 		
@@ -71,7 +61,65 @@ class ilECSImport
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->ecs_id;
+			return $row->content_id;
+		}
+		return '';
+	}
+	
+	/**
+	 * Lookup obj_id by content id 
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @param type $a_content_id
+	 * @param type $a_sub_id
+	 */
+	public static function lookupObjIdByContentId($a_server_id, $a_mid, $a_content_id, $a_sub_id = '')
+	{
+		global $ilDB;
+		
+		$query = "SELECT obj_id FROM ecs_import ".
+			"WHERE content_id = ".$ilDB->quote($a_content_id,'integer')." ".
+			"AND mid = ".$ilDB->quote($a_mid,'integer')." ".
+			'AND server_id = '.$ilDB->quote($a_server_id,'integer').' ';
+		
+		if($a_sub_id)
+		{
+			$query .= 'AND sub_id = '.$ilDB->quote($a_sub_id,'text');
+		}
+		else
+		{
+			$query .= 'AND sub_id IS NULL';
+		}
+		$res = $ilDB->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->obj_id;
+		}	
+		return 0;
+		
+	}
+	
+	/**
+	 * Lookup econtent id 
+	 * The econtent id is the unique id from ecs
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @param type $a_econtent_id
+	 * @return int content id
+	 */
+	public static function lookupEContentIdByContentId($a_server_id,$a_mid,$a_content_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT * from ecs_import '.
+				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
+				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+				'AND content_id = '.$ilDB->quote($a_content_id,'text');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->econtent_id;
 		}
 		return 0;
 	}
@@ -107,7 +155,7 @@ class ilECSImport
 	 *
 	 * @access public
 	 * @param int mid
-	 * @return array obj ids
+	 * @return array int
 	 * @static
 	 */
 	public static function _lookupObjIdsByMID($a_server_id,$a_mid)
@@ -116,7 +164,7 @@ class ilECSImport
 		
 		$query = "SELECT * FROM ecs_import ".
 			"WHERE mid = ".$ilDB->quote($a_mid,'integer')." ".
-			'AND server_id = '.$ilDB->quote($this->getServerId(),'integer');
+			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -168,7 +216,7 @@ class ilECSImport
 
 
 	/**
-	 * lookup obj_id
+	 * Lookup obj_id
 	 *
 	 * @access public
 	 * 
@@ -206,7 +254,7 @@ class ilECSImport
 		
 		if($a_sub_id)
 		{
-			$query .= 'AND sub_id = '.$ilDB->quote($a_sub_id,'integer');
+			$query .= 'AND sub_id = '.$ilDB->quote($a_sub_id,'text');
 		}
 		else
 		{
@@ -301,16 +349,16 @@ class ilECSImport
 	 * @global  $ilDB
 	 * @param type $a_server_id
 	 * @param type $a_mid
-	 * @param type $a_cms_ids
+	 * @param type $a_econtent_ids
 	 */
-	public static function deleteRessources($a_server_id, $a_mid, $a_cms_ids)
+	public static function deleteRessources($a_server_id, $a_mid, $a_econtent_ids)
 	{
 		global $ilDB;
 		
 		$query = 'DELETE FROM ecs_import '.
 				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
 				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
-				'AND '.$ilDB->in('econtent_id',(array) $a_cms_ids,false,'integer');
+				'AND '.$ilDB->in('econtent_id',(array) $a_econtent_ids,false,'integer');
 		$ilDB->manipulate($query);
 		return true;
 	}
@@ -361,6 +409,24 @@ class ilECSImport
 	public function getSubId()
 	{
 		return $this->sub_id ? $this->sub_id : NULL;
+	}
+	
+	/**
+	 * Set content id. 
+	 * @param type $a_content_id
+	 */
+	public function setContentId($a_content_id)
+	{
+		$this->content_id = $a_content_id;
+	}
+	
+	/**
+	 * get content id
+	 * @return type
+	 */
+	public function getContentId()
+	{
+		return $this->content_id;
 	}
 	
 	/**
@@ -423,14 +489,14 @@ class ilECSImport
 			'AND server_id = '.$ilDB->quote($this->getServerId(),'integer');
 		$res = $ilDB->manipulate($query);
 		
-		$query = "INSERT INTO ecs_import (obj_id,mid,econtent_id,sub_id,server_id,ecs_id) ".
+		$query = "INSERT INTO ecs_import (obj_id,mid,econtent_id,sub_id,server_id,content_id) ".
 			"VALUES ( ".
 			$this->db->quote($this->obj_id,'integer').", ".
 			$this->db->quote($this->mid,'integer').", ".
 			$this->db->quote($this->econtent_id,'integer').", ".
 			$this->db->quote($this->getSubId(),'text'). ', '.
 			$this->db->quote($this->getServerId(),'integer').', '.
-			$this->db->quote($this->getECSId(),'integer').' '.
+			$this->db->quote($this->getContentId(),'text').' '.
 			")";
 		
 		$res = $ilDB->manipulate($query);
@@ -455,7 +521,7 @@ class ilECSImport
 	 		$this->econtent_id = $row->econtent_id;
 			$this->mid = $row->mid;
 			$this->sub_id = $row->sub_id;
-			$this->ecs_id = $row->ecs_id;
+			$this->content_id = $row->content_id;
 	 	}
 	}
 	
@@ -469,10 +535,6 @@ class ilECSImport
 		return true;
 	}
 	
-	public function getECSId()
-	{
-		return $this->ecs_id;
-	}
 	
 	public function setECSId($a_id)
 	{

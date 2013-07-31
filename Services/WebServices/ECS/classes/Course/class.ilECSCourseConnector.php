@@ -39,7 +39,14 @@ class ilECSCourseConnector extends ilECSConnector
 		try {
 			$this->prepareConnection();
 			$this->setHeader(array());
-			$this->addHeader('Accept', 'text/uri-list');
+			if($a_details)
+			{
+				$this->addHeader('Accept', 'application/json');
+			}
+			else
+			{
+				$this->addHeader('Accept', 'text/uri-list');
+			}
 			$this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
 			$res = $this->call();
 			
@@ -53,6 +60,16 @@ class ilECSCourseConnector extends ilECSConnector
 				$ecs_result = new ilECSResult($res);
 				
 			}
+			
+			// Return ECSEContentDetails for details switch
+			if($a_details)
+			{
+				include_once './Services/WebServices/ECS/classes/class.ilECSEContentDetails.php';
+				$details = new ilECSEContentDetails();
+				$details->loadFromJson($ecs_result->getResult());
+				return $details;
+			}
+			// Return json result
 			return $ecs_result->getResult();
 		}
 		catch(ilCurlConnectionException $e)	

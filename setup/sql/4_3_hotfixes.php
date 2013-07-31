@@ -344,3 +344,18 @@ if(!$ilDB->tableColumnExists('tst_tests','ending_time'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#17>
+<?php
+
+	if(!$ilDB->tableColumnExists('ecs_import', 'content_id'))
+	{
+		$ilDB->addTableColumn('ecs_import', 'content_id',
+				array(
+					"type" => "text",
+					"notnull" => false,
+					"length" => 255,
+					'default' => ''
+				)
+		);
+	}
+?>

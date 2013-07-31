@@ -31,6 +31,9 @@
 */
 class ilECSParticipantSetting
 {
+	protected static $instances = array();
+
+
 	// :TODO: what types are needed?
 	const IMPORT_UNCHANGED = 0;
 	const IMPORT_RCRS = 1;
@@ -62,6 +65,22 @@ class ilECSParticipantSetting
 		$this->read();
 	}
 	
+	/**
+	 * Get instance by server id and mid
+	 * @param type $a_server_id
+	 * @param type $mid
+	 * @return ilECSParticipantSetting
+	 */
+	public static function getInstance($a_server_id,$mid)
+	{
+		if(self::$instances[$a_server_id.'_'.$mid])
+		{
+			return self::$instances[$a_server_id.'_'.$mid];
+		}
+		return self::$instances[$a_server_id.'_'.$mid] = new self($a_server_id,$mid);
+	}
+
+
 	/**
 	 * Get server id
 	 * @return int
