@@ -562,8 +562,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->populateNextButtonsLeadingToQuestion();
 		}
 		
-		$this->populateQuestionSelectionButtons();
-
+		if( $this->dynamicQuestionSetConfig->isTaxonomyFilterEnabled() )
+		{
+			$this->populateQuestionSelectionButtons();
+		}
+		
 		if ($this->object->getShowMarker())
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
