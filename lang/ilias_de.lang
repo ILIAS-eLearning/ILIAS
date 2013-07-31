@@ -12102,12 +12102,12 @@ wsp#:#wsp_personal_workspace#:#Mein Arbeitsraum
 wsp#:#wsp_personal_workspace_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
 wsp#:#wsp_remove_permission#:#Freigabe entfernen
 wsp#:#wsp_root_folder#:#Mein Arbeitsraum
-wsp#:#wsp_set_permission_all#:#Veröffentlichen
-wsp#:#wsp_set_permission_all_password#:#Veröffentlichen (Passwort-geschützt)
-wsp#:#wsp_set_permission_course#:#Kurs
-wsp#:#wsp_set_permission_group#:#Gruppe
+wsp#:#wsp_set_permission_all#:#Internet/WWW
+wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort
+wsp#:#wsp_set_permission_course#:#Kursmitglieder
+wsp#:#wsp_set_permission_group#:#Gruppenmitglieder
 wsp#:#wsp_set_permission_registered#:#Alle registrierten Benutzer
-wsp#:#wsp_set_permission_single_user#:#Benutzer
+wsp#:#wsp_set_permission_single_user#:#Ausgewählte Benutzer
 wsp#:#wsp_share_search_users#:#Benutzer suchen
 wsp#:#wsp_share_select_user#:#Bitte wählen Sie einen Benutzer.
 wsp#:#wsp_share_success#:#Ein neuer Eintrag wurde hinzugefügt.
@@ -13469,10 +13469,10 @@ rbac#:#cld_download#:#Benutzer können Dateien vom Cloud Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rbac_create_cld#:#Neues Cloud Objekt anlegen
 wsp#:#wsp_shared_date#:#Freigabedatum
-wsp#:#wsp_shared_type#:#Freigabetyp
+wsp#:#wsp_shared_type#:#Freigegeben für
 wsp#:#wsp_shared_object_type#:#Ressourcentyp
 wsp#:#wsp_shared_user_filter#:#Benutzername/Name
-wsp#:#wsp_shared_date_filter#:#Freigabe nach
+wsp#:#wsp_shared_date_filter#:#Freigabe ab dem
 wsp#:#wsp_shared_mandatory_filter_info#:#Bitte setzen Sie Filter-Attribute, um das Ergebnis einzuschränken.
 wsp#:#wsp_shared_member_filter#:#Kurs-/Gruppenmitglieder
 common#:#scorm_without_session#:#SCORM 2004 Speicherung ohne Session aktivieren
