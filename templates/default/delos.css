@@ -1537,10 +1537,11 @@ input.submit:hover, a.submit:hover {
 
 input.emphsubmit, a.emphsubmit, a.emphsubmit:hover {
 	background-color: #5dbf61;
+	background-image: none;	/* IE10 will not work otherwise */
 	background-image: -moz-linear-gradient(center top , #5dbf61, #4fa152);
 	background-image: -webkit-linear-gradient(center top , #5dbf61, #4fa152);
-	background-image: -ms-linear-gradient(center top , #5dbf61, #4fa152);
-	background-repeat: repeat-x;
+	background-image: -ms-linear-gradient(center top , #5dbf61, #4fa152); 
+	background-repeat: repeat-x; 		
 	border-color: #0044CC #0044CC #003AAD;
 	color: #FFFFFF;
 	font-weight: 600;
