@@ -13442,32 +13442,32 @@ cld#:#cld_upload_files#:#Heraufladen
 assessment#:#tst_show_solution_compare#:#Antwort und Lösung in der Antwortliste gegenüberstellen
 assessment#:#tst_header_participant#:#Ergebnis:
 assessment#:#tst_header_solution#:#Korrekte Lösung:
-common#:#obj_cld#:#Cloud Objekt
-common#:#objs_cld#:#Cloud Objekte
+common#:#obj_cld#:#Cloud-Objekt
+common#:#objs_cld#:#Cloud-Objekte
 rbac#:#delete_files#:#Dateien Löschen
-rbac#:#cld_delete_files#:#Benutzer können Dateien im Cloud Objekt löschen
+rbac#:#cld_delete_files#:#Benutzer können Dateien im Cloud-Objekt löschen
 rbac#:#delete_folders#:#Ordner Löschen
-rbac#:#cld_delete_folders#:#Benutzer können Ordner im Cloud Objekt löschen
+rbac#:#cld_delete_folders#:#Benutzer können Ordner im Cloud-Objekt löschen
 rbac#:#files_visible#:#Dateien sichtbar
-rbac#:#cld_files_visible#:#Dateien im Cloud Objekt sind für die Benutzer sichtbar
+rbac#:#cld_files_visible#:#Dateien im Cloud-Objekt sind für die Benutzer sichtbar
 rbac#:#folders_visible#:#Ordner sichtbar
-rbac#:#cld_folders_visible#:#Ordner im Cloud Objekt sind für die Benutzer sichtbar
+rbac#:#cld_folders_visible#:#Ordner im Cloud-Objekt sind für die Benutzer sichtbar
 rbac#:#folders_create#:#Ordner erstellen
-rbac#:#cld_folders_create#:#Ordner können im Cloud Objekt erstellt werden
-rbac#:#cld_visible#:#Cloud Objekt sichtbar
-rbac#:#cld_read#:#Benutzer können Cloud Objekt öffnen
-rbac#:#cld_write#:#Benutzer können Cloud Objekt Einstellungen bearbeiten
-rbac#:#cld_delete#:#Benutzer können können Cloud Objekte löschen
+rbac#:#cld_folders_create#:#Ordner können im Cloud-Objekt erstellt werden
+rbac#:#cld_visible#:#Cloud-Objekt sichtbar
+rbac#:#cld_read#:#Benutzer können Cloud-Objekt öffnen
+rbac#:#cld_write#:#Benutzer können Cloud-Objekt Einstellungen bearbeiten
+rbac#:#cld_delete#:#Benutzer können können Cloud-Objekte löschen
 rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
-rbac#:#cat_create_cld#:#Cloud Objekt erstellen
-rbac#:#crs_create_cld#:#Cloud Objekt erstellen
-rbac#:#fold_create_cld#:#Cloud Objekt erstellen
-rbac#:#grp_create_cld#:#Cloud Objekt erstellen
-rbac#:#root_create_cld#:#Cloud Objekt erstellen
-rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud Objekt laden
-rbac#:#cld_download#:#Benutzer können Dateien vom Cloud Objekt herunterladen
+rbac#:#cat_create_cld#:#Cloud-Objekt erstellen
+rbac#:#crs_create_cld#:#Cloud-Objekt erstellen
+rbac#:#fold_create_cld#:#Cloud-Objekt erstellen
+rbac#:#grp_create_cld#:#Cloud-Objekt erstellen
+rbac#:#root_create_cld#:#Cloud-Objekt erstellen
+rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
+rbac#:#cld_download#:#Benutzer können Dateien vom Cloud-Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rbac_create_cld#:#Neues Cloud Objekt anlegen
+rbac#:#rbac_create_cld#:#Neues Cloud-Objekt anlegen
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
 wsp#:#wsp_shared_object_type#:#Type der Ressource
@@ -13540,7 +13540,7 @@ blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie di
 survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat die Umfrage beendet.
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
-content#:#cont_offline_mode_allow_info#:#Im Offline-Modus können Lernmodule nur mit dem SCORM-Offline-Player bearbeitet werden. Die Lernstandsdaten werden von den Lernenden übertragen durch Klick auf 'Offline-Modus beenden' in ILIAS.
+content#:#cont_offline_mode_allow_info#:#Im Offline-Modus können Lernmodule nur mit dem SCORM-Offline-Player genutzt werden. Die Lernstandsdaten werden zurück in ILIAS übertragen, wenn der Benutzer den Offline-Modus per Mausklick beendet.
 wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt, so wird eine neue (leere) Seite erstellt.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Magazin 
@@ -13558,7 +13558,7 @@ common#:#obj_grps#:#Gruppe
 common#:#obj_grps_desc#:#Allgemeine Einstellungen für Gruppen
 administration#:#adm_external_setting_prefix#:#Externe Einstellungen
 administration#:#adm_external_setting_edit#:#Einstellungen bearbeiten
-ldap#:#ldap_user_sync_cron#:#LDAP Benutzersynchronisierung
+ldap#:#ldap_user_sync_cron#:#LDAP-Benutzersynchronisierung
 rating#:#rating_new_objects_auto#:#Bewertung für neue Objekte
 rating#:#rating_new_objects_auto_info#:#Wenn aktiviert, können neuen Dateien, Lernmodule und Wikis bewertet werden.
 rating#:#rating_activate_rating#:#Bewertung aktivieren
