@@ -41,7 +41,7 @@ class ilECSEContentDetails
 
 	private $receiver_info = array();
 
-	protected function __construct()
+	public function __construct()
 	{
 		
 	}
