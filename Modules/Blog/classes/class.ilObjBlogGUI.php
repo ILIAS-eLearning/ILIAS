@@ -664,7 +664,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$submit_link = $ilCtrl->getLinkTarget($this, "finalize");
 			$ilCtrl->setParameter($this, "ass", "");
 			$ilCtrl->setParameter($this, "exc", "");	
-			$info .= " <a class=\"submit\" href=\"".$submit_link."\">".$lng->txt("blog_finalize_blog")."</a>";
+			$info .= " <a class=\"submit emphsubmit\" href=\"".$submit_link."\">".$lng->txt("blog_finalize_blog")."</a>";
 		}
 		
 		// submitted files
@@ -682,7 +682,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			
 			$info .= "<br />".sprintf($lng->txt("blog_exercise_submitted_info"), 
 				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				"<a href=\"".$dl_link."\">".$lng->txt("download")."</a>");
+				"<a href=\"".$dl_link."\" class=\"submit\">".$lng->txt("download")."</a>");
 			
 			ilDatePresentation::setUseRelativeDates($rel);
 		}		

@@ -79,11 +79,6 @@ class ilPersonalWorkspaceGUI
 		//  if we do this here the object can still change the breadcrumb
 		$this->renderLocator();		
 		
-		if(($cmd == "" || $cmd == "render" || $cmd == "view") && !$_REQUEST["new_type"])
-		{			
-			$this->renderToolbar();
-		}
-		
 		// current node
 		$class_path = $ilCtrl->lookupClassPath($next_class);
 		include_once($class_path);
@@ -169,19 +164,6 @@ class ilPersonalWorkspaceGUI
 		}
 	}
 	
-	/**
-	 * Render workspace toolbar (folder navigation, add subobject)
-	 */
-	protected function renderToolbar()
-	{		
-		global $ilCtrl;
-		
-		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
-		$gui = new ilObjectAddNewItemGUI($this->node_id, true);
-		$gui->setCreationUrl($ilCtrl->getLinkTarget($this, "create"));
-		$gui->render();
-	}
-
 	/**
 	 * Build locator for current node
 	 */
