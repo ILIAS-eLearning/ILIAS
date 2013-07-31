@@ -1099,7 +1099,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		global $rbacsystem, $ilUser;
 
-		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_output.html", "Modules/Test");	
+		$this->prepareTestPageOutput();
+		
 		if (!$rbacsystem->checkAccess("read", $this->object->getRefId())) 
 		{
 			// only with read access it is possible to run the test
@@ -1120,14 +1121,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			
 		if ($this->object->getKioskMode())
 		{
-			ilUtil::sendInfo();
-			$head = $this->getKioskHead();
-			if (strlen($head))
-			{
-				$this->tpl->setCurrentBlock("kiosk_options");
-				$this->tpl->setVariable("KIOSK_HEAD", $head);
-				$this->tpl->parseCurrentBlock();
-			}
+			$this->populateKioskHead();
 		}
 
 		if ($this->object->getEnableProcessingTime())
@@ -1719,7 +1713,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 *
 	 * @access private
 	 */
-	private function confirmHintRequest()
+	private function confirmHintRequestCmd()
 	{
 		$this->saveQuestionSolution();
 		
@@ -1849,6 +1843,27 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$this->tpl->setVariable("KIOSK_HEAD", $head);
 				$this->tpl->parseCurrentBlock();
 			}
+		}
+	}
+	
+	protected function prepareTestPageOutput()
+	{
+		$this->tpl->addBlockFile(
+			$this->getContentBlockName(), 'adm_content', 'tpl.il_as_tst_output.html', 'Modules/Test'
+		);
+	}
+	
+	protected function populateKioskHead()
+	{
+		ilUtil::sendInfo();
+		
+		$head = $this->getKioskHead();
+		
+		if (strlen($head))
+		{
+			$this->tpl->setCurrentBlock("kiosk_options");
+			$this->tpl->setVariable("KIOSK_HEAD", $head);
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 }
