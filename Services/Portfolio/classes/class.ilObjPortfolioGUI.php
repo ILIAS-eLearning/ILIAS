@@ -812,7 +812,7 @@ class ilObjPortfolioGUI
 			$submit_link = $ilCtrl->getLinkTarget($this, "finalize");
 			$ilCtrl->setParameter($this, "ass", "");
 			$ilCtrl->setParameter($this, "exc", "");	
-			$info .= " <a class=\"submit\" href=\"".$submit_link."\">".$lng->txt("prtf_finalize_portfolio")."</a>";
+			$info .= " <a class=\"submit emphsubmit\" href=\"".$submit_link."\">".$lng->txt("prtf_finalize_portfolio")."</a>";
 		}
 		
 		// submitted files
@@ -830,7 +830,7 @@ class ilObjPortfolioGUI
 			
 			$info .= "<br />".sprintf($lng->txt("prtf_exercise_submitted_info"), 
 				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				"<a href=\"".$dl_link."\">".$lng->txt("download")."</a>");
+				"<a href=\"".$dl_link."\" class=\"submit\">".$lng->txt("download")."</a>");
 			
 			ilDatePresentation::setUseRelativeDates($rel);
 		}		

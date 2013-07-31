@@ -119,14 +119,20 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	}
 
 	/**
-	* Render root folder
+	* Render folder
 	*/
 	function render()
 	{
-		global $tpl, $ilUser, $ilTabs;
+		global $tpl, $ilUser, $ilTabs, $ilCtrl;
 		
 		unset($_SESSION['clipboard']['wsp2repo']);
-				
+		
+		// add new item
+		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
+		$gui = new ilObjectAddNewItemGUI($this->node_id, true);
+		$gui->setCreationUrl($ilCtrl->getLinkTarget($this, "create"));
+		$gui->render();
+	
 		include_once "Services/Object/classes/class.ilObjectListGUI.php";
 		ilObjectListGUI::prepareJsLinks("",
 			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 

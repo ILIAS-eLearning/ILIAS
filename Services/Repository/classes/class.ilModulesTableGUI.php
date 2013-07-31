@@ -115,7 +115,7 @@ class ilModulesTableGUI extends ilTable2GUI
 					"object" => $pl_name,
 					"subdir" => $lng->txt("cmps_plugin"),
 					"grp" => "",
-					"default_pos" => 2000 // :TODO:
+					"default_pos" => 2000 
 				);		
 			}
 		}				
