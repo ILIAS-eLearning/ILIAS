@@ -55,7 +55,6 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		{
 //			$this->getPageConfig()->addIntLinkFilter(array("GlossaryItem"));
 		}
-//		$this->setIntLinkHelpDefault("File", 0);
 		
 		$this->setIntLinkReturn(
 			$ilCtrl->getLinkTargetByClass("ilobjscorm2004learningmodulegui", "showTree",
