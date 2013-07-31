@@ -443,7 +443,9 @@ class ilWorkspaceAccessHandler
 		
 		if($a_filter["acl_date"])
 		{
-			$sql .= " AND acl.tstamp > ".$ilDB->quote($a_filter["acl_date"]->get(IL_CAL_UNIX), "integer");
+			$dt = $a_filter["acl_date"]->get(IL_CAL_DATE);
+			$dt = new ilDateTime($dt." 23:59:59", IL_CAL_DATETIME);
+			$sql .= " AND acl.tstamp > ".$ilDB->quote($dt->get(IL_CAL_UNIX), "integer");
 		}
 		
 		if($a_filter["crsgrp"])
