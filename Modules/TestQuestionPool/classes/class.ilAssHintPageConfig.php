@@ -5,13 +5,13 @@
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
 
 /**
- * Shop page configuration 
+ * Assessment hint page configuration 
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ServicesPayment
+ * @ingroup ModulesTestQuestionPool
  */
-class ilShopPageConfig extends ilPageConfig
+class ilAssHintPageConfig extends ilPageConfig
 {
 	/**
 	 * Constructor
@@ -22,7 +22,6 @@ class ilShopPageConfig extends ilPageConfig
 	function __construct()
 	{
 		parent::__construct();
-		$this->setEnablePCType("Map", true);
 	}
 	
 }

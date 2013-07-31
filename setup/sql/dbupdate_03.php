@@ -17154,4 +17154,8 @@ if(!$ilDB->tableColumnExists("il_new_item_grp", "type"))
 		);
 	}
 ?>
+<#4006>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 

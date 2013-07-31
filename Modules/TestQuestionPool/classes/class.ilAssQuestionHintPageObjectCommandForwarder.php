@@ -168,4 +168,36 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 			default: throw new ilTestQuestionPoolException('invalid presentation mode given: '.$presentationMode);
 		}
 	}
+	
+	/**
+	 * instantiates, initialises and returns a ilPageObjectGUI
+	 * 
+	 * @access protected
+	 * @return \ilPageObjectGUI
+	 */
+	protected function getPageObjectGUI($pageObjectType, $pageObjectId)
+	{
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php");
+		$pageObjectGUI = new ilAssHintPageGUI($pageObjectId);
+		
+		return $pageObjectGUI;
+	}
+	
+	/**
+	 * ensures an existing page object with giben type/id
+	 * 
+	 * @access protected
+	 */
+	protected function ensurePageObjectExists($pageObjectType, $pageObjectId)
+	{
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPage.php");
+		if( !ilAssHintPage::_exists($pageObjectType, $pageObjectId) )
+		{
+			$pageObject = new ilAssHintPage();
+			$pageObject->setParentId($this->questionOBJ->getId());
+			$pageObject->setId($pageObjectId);
+			$pageObject->createFromXML();
+		}
+	}
+
 }

@@ -3784,14 +3784,14 @@ abstract class assQuestion
 		
 		if( $this->isAdditionalContentEditingModePageObject() )
 		{
-			require_once 'Services/COPage/classes/class.ilPageObject.php';
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssHintPage.php';
 			
 			foreach($hintIds as $originalHintId => $duplicateHintId)
 			{
-				$originalPageObject = new ilPageObject(ilAssQuestionHint::PAGE_OBJECT_TYPE, $originalHintId);
+				$originalPageObject = new ilAssHintPage($originalHintId);
 				$originalXML = $originalPageObject->getXMLContent();
 				
-				$duplicatePageObject = new ilPageObject(ilAssQuestionHint::PAGE_OBJECT_TYPE);
+				$duplicatePageObject = new ilAssHintPage();
 				$duplicatePageObject->setId($duplicateHintId);
 				$duplicatePageObject->setParentId($this->getId());
 				$duplicatePageObject->setXMLContent($originalXML);
