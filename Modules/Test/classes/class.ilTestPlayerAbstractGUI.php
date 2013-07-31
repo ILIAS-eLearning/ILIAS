@@ -89,7 +89,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/**
 	 * saves the user input of a question
 	 */
-	abstract protected function saveQuestionSolution($force = FALSE);
+	abstract public function saveQuestionSolution($force = FALSE);
 
 	abstract protected function canSaveResult();
 	
@@ -1697,10 +1697,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	/**
 	 * Go to requested hint list
-	 *
-	 * @access private
 	 */
-	private function showRequestedHintList()
+	protected function showRequestedHintListCmd()
 	{
 		$this->saveQuestionSolution();
 		
@@ -1710,10 +1708,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	/**
 	 * Go to hint request confirmation
-	 *
-	 * @access private
 	 */
-	private function confirmHintRequestCmd()
+	protected function confirmHintRequestCmd()
 	{
 		$this->saveQuestionSolution();
 		
