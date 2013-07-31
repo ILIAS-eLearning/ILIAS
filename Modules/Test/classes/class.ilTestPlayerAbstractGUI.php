@@ -728,14 +728,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 	
 	
-/**
-* Go to the question with the active sequence
-*
-* Go to the question with the active sequence
-*
-* @access public
-*/
-	function gotoQuestionCmd()
+	/**
+	 * Go to the question with the active sequence
+	 */
+	protected function gotoQuestionCmd()
 	{
 		if (is_array($_POST) && count($_POST) > 0) $this->saveQuestionSolution();
 		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
