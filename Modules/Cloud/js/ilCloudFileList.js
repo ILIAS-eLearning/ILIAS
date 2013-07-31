@@ -88,8 +88,6 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
         //Update PermaLink
         perm_link = $("#current_perma_link").val();
         perm_link = perm_link.replace(/path_.*_endPath/,"path_"+ current_path+"_endPath");
-        console.log(current_path);
-        console.log(perm_link);
         $("#current_perma_link").val(perm_link);
 
         //Check if block already exists as hidden html block (if it was drawn previously) if so, just show it again.
@@ -296,7 +294,7 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
         if(!this.clicked_upload_item)
         {
             this.clicked_upload_item = true;
-            this.uploading = true;
+            uploading = true;
             this.hideMessage();
             this.showProgressAnimation();
             $.ajax({
@@ -318,7 +316,7 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 
     this.afterUpload = function (message) {
         self.clicked_upload_item = false;
-        console.log(message);
+        self.showDebugMessage(console.log("afterUpload: "+ message));
         this.showCurrent(false, function (self) {
             $("#form_upload").remove();
             self.showItemCreationList();
@@ -349,7 +347,6 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
     });
 
     $.address.change(function (event) {
-
         if (event.pathNames[0] == "delete_item") {
             self.deleteItem(event.parameters.id);
         }
