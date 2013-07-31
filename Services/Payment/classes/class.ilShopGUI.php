@@ -101,7 +101,6 @@ class ilShopGUI extends ilShopBaseGUI
 						}
 						else
 						{
-
 							if(ilPaymentSettings::useShopSpecials() == true)
 							{
 								$cmd = 'showSpecialContent';
@@ -126,7 +125,7 @@ class ilShopGUI extends ilShopBaseGUI
 				if($this->cmd != 'firstpage' && (isset($_GET['ref_id']) || $this->cmd == 'showTree')) #&& $_GET['ref_id'] != ROOT_FOLDER_ID )				
 				{
 					$obj_type  = ilObject::_lookupType(ilObject::_lookupObjId($this->cur_ref_id));
-					$container = array("root", "cat", 'catr', "grp", "icrs", "crs", 'crsr', 'rcrs');
+					$container = array("root", "cat", 'catr', "grp", "crs", 'crsr', 'rcrs');
 
 					if(in_array($obj_type, $container))
 					{
@@ -140,7 +139,6 @@ class ilShopGUI extends ilShopBaseGUI
 
 				$this->prepareOutput();
 				$this->$cmd();
-
 				break;
 		}
 
@@ -566,13 +564,12 @@ class ilShopGUI extends ilShopBaseGUI
 		}
 	}
 
-	//showContainerContent
 	/*
 	 * show buyable "sub"-objects of containers  (cat, catr, crs, grp, ...)
 	 */
 	public function showContainerContent()
 	{
-		global $ilUser, $rbacreview, $ilToolbar;
+		global $ilUser, $rbacreview, $ilToolbar, $tpl;
 
 		if($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
@@ -580,6 +577,9 @@ class ilShopGUI extends ilShopBaseGUI
 		}
 
 		include_once './Services/Payment/classes/class.ilPaymentObject.php';
+
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_content.html', 'Services/Payment');
+		$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
 
 		$is_buyable = ilPaymentObject::_isBuyable($this->cur_ref_id);
 
@@ -630,9 +630,6 @@ class ilShopGUI extends ilShopBaseGUI
 			}
 		}
 
-		$shop_content_tpl = new ilTemplate('tpl.shop_content.html', true, true,'Services/Payment');
-		$shop_content_tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
-
 		include_once 'Services/Payment/classes/class.ilShopResultPresentationGUI.php';
 		$search_result_presentation = new ilShopResultPresentationGUI($presentation_results);
 		$search_result_presentation->setSortField(strtolower(trim($this->getSortField())));
@@ -640,7 +637,7 @@ class ilShopGUI extends ilShopBaseGUI
 
 		$html = $search_result_presentation->showSpecials();
 
-		$shop_content_tpl->setVariable('RESULTS', $html);
+		$this->tpl->setVariable('RESULTS', $html);
 
 		$show_general_filter = $this->oGeneralSettings->get('show_general_filter');
 		$show_topics_filter  = $this->oGeneralSettings->get('show_topics_filter');
@@ -649,7 +646,7 @@ class ilShopGUI extends ilShopBaseGUI
 		if($show_general_filter)
 		{
 			$g_filter_html = $this->showGeneralFilter(count($search_result_presentation));
-			$shop_content_tpl->setVariable('FORM', $g_filter_html);
+			$this->tpl->setVariable('FORM', $g_filter_html);
 		}
 		if($show_topics_filter)
 		{
@@ -659,8 +656,6 @@ class ilShopGUI extends ilShopBaseGUI
 		{
 			$this->showShopExplorer();
 		}
-		global $tpl;
-		$tpl->setContent($shop_content_tpl->parse());
 	}
 
 	public function showGeneralFilter($a_count_result = 0)
