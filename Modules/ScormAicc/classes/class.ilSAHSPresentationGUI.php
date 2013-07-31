@@ -683,13 +683,14 @@ class ilSAHSPresentationGUI
 			{
 				$info->addButton($this->lng->txt("view"),
 					"javascript:void(0); onclick=startSAHS('".$this->ctrl->getLinkTarget($this, "")."','ilContObj".$this->slm_gui->object->getId()."',".$om.",".$width.",".$height.");",
-					'');
+					'', 'top', true);
 			}
 			else
 			{
 				$info->addButton($this->lng->txt("view"),
 					$this->ctrl->getLinkTarget($this, ""),
-					' target="ilContObj'.$this->slm_gui->object->getId().'" ');
+					' target="ilContObj'.$this->slm_gui->object->getId().'" ',
+					'top', true);
 			}
 		}
 		

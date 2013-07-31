@@ -1471,7 +1471,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilTabs, $ilUser;
+		global $ilAccess, $ilTabs, $ilUser, $ilToolbar;
 		
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
@@ -1480,13 +1480,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		$ilTabs->activateTab("info_short");
 		
+		include_once "./Modules/Survey/classes/class.ilSurveyExecutionGUI.php";
+		$output_gui =& new ilSurveyExecutionGUI($this->object);		
+		
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
-		include_once "./Modules/Survey/classes/class.ilSurveyExecutionGUI.php";
-		$output_gui =& new ilSurveyExecutionGUI($this->object);
-		$info->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 		$info->enablePrivateNotes();
-		
+				
 		// "active" survey?
 		$canStart = $this->object->canStartSurvey();
 		
@@ -1563,7 +1563,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$info->setFormAction($this->ctrl->getFormAction($this, "infoScreen"));
 				$info->addSection($this->lng->txt("anonymization"));
 				$info->addProperty("", $this->lng->txt("anonymize_anonymous_introduction"));
-				$info->addPropertyTextinput($this->lng->txt("enter_anonymous_id"), "anonymous_id", "", 8, "infoScreen", $this->lng->txt("submit"));
+				$info->addPropertyTextinput($this->lng->txt("enter_anonymous_id"), "anonymous_id", "", 8, "infoScreen", $this->lng->txt("submit"), true);
 			}						
 			else
 			{										
@@ -1587,13 +1587,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					elseif ($survey_started === FALSE)
 					{
 						$big_button = array("start", $this->lng->txt("start_survey"));
-					}										
-					if($big_button)
-					{
-						$big_button = '<div class="il_ButtonGroup bigButton">'.
-							'<input type="submit" class="submit" name="cmd['.$big_button[0].']" value="'.
-							$big_button[1].'" /></div>';
-					}		
+					}																
 				}
 				// 360°
 				else
@@ -1732,18 +1726,30 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$info->addProperty("&nbsp;", $link);								
 			}				
 		}
+		
+		if($big_button)
+		{			
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
+			$ilToolbar->addFormButton($big_button[1], $big_button[0], "", true);
+			$ilToolbar->setCloseFormTag(false);
+			$info->setOpenFormTag(false);
+		}
+		else
+		{
+			$info->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
+		}
 
 		if (strlen($this->object->getIntroduction()))
 		{
 			$introduction = $this->object->getIntroduction();
 			$info->addSection($this->lng->txt("introduction"));
 			$info->addProperty("", $this->object->prepareTextareaOutput($introduction).
-					$big_button."<br />".$info->getHiddenToggleButton());
+				"<br />".$info->getHiddenToggleButton());
 		}
 		else
 		{
 			$info->addSection("");
-			$info->addProperty("", $big_button.$info->getHiddenToggleButton());
+			$info->addProperty("", $info->getHiddenToggleButton());
 		}
 
 		$info->hideFurtherSections(false);

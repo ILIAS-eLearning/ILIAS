@@ -760,9 +760,9 @@ class ilObjFileGUI extends ilObject2GUI
 			
 			// get permanent download link for repository
 			if ($this->id_type == self::REPOSITORY_NODE_ID)
-				$info->addButton($this->lng->txt("file_download"), ilObjFileAccess::_getPermanentDownloadLink($this->node_id));
+				$info->addButton($this->lng->txt("file_download"), ilObjFileAccess::_getPermanentDownloadLink($this->node_id), "", "top", true);
 			else
-				$info->addButton($this->lng->txt("file_download"), $this->ctrl->getLinkTarget($this, "sendfile"));
+				$info->addButton($this->lng->txt("file_download"), $this->ctrl->getLinkTarget($this, "sendfile"), "", "top", true);
 			}
 		
 		$info->enablePrivateNotes();
