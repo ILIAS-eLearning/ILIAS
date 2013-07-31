@@ -82,7 +82,7 @@ class ilAssMultipleChoiceFeedback extends ilAssMultiOptionQuestionFeedback
 				if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
 				{
 					$value = $this->getPageObjectNonEditableValueHTML(
-							$this->getSpecificFeedbackPageObjectType(), $this->getPageObjectIdByAnswerIndex($index)
+							$this->getSpecificAnswerFeedbackPageObjectType(), $this->getPageObjectIdByAnswerIndex($index)
 					);
 				}
 				else
