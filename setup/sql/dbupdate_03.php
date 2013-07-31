@@ -17139,3 +17139,19 @@ if(!$ilDB->tableColumnExists("il_new_item_grp", "type"))
 	$ilDB->dropTableColumn('tst_active', 'tmplastindex');
 	
 ?>
+<#4005>
+<?php
+
+	if(!$ilDB->tableColumnExists('ecs_import', 'content_id'))
+	{
+		$ilDB->addTableColumn('ecs_import', 'content_id',
+				array(
+					"type" => "text",
+					"notnull" => false,
+					"length" => 255,
+					'default' => ''
+				)
+		);
+	}
+?>
+

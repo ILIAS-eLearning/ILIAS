@@ -1227,16 +1227,23 @@ class ilECSMappingSettingsGUI
 	{
 		global $ilTabs;
 
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
+		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget(
 			$this->lng->txt('ecs_back_settings'),
 			$this->ctrl->getParentReturn($this)
 		);
-		$ilTabs->addTab(
-			'ecs_dir_allocation',
-			$this->lng->txt('ecs_dir_alloc'),
-			$this->ctrl->getLinkTarget($this,'dSettings')
-		);
+		// Directories are only visible for import type campus managment.
+		if(ilECSParticipantSettings::loookupCmsMid($this->getServer()->getServerId()) == $this->getMid())
+		{
+			$ilTabs->addTab(
+				'ecs_dir_allocation',
+				$this->lng->txt('ecs_dir_alloc'),
+				$this->ctrl->getLinkTarget($this,'dSettings')
+			);
+		}
+		
 		$ilTabs->addTab(
 			'ecs_crs_allocation',
 			$this->lng->txt('ecs_crs_alloc'),

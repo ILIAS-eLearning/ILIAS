@@ -2,6 +2,7 @@
 
 include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
 include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -14,6 +15,8 @@ class ilECSCourseCreationHandler
 {
 	private $server = null;
 	private $mapping = null;
+	private $course_url = null;
+	private $object_created = false;
 	
 	private $mid;
 	
@@ -22,12 +25,14 @@ class ilECSCourseCreationHandler
 	 * @maybe 
 	 * Constructor
 	 */
-	public function __construct(ilECSSetting $server)
+	public function __construct(ilECSSetting $server,$a_mid)
 	{
 		$this->server = $server;
+		$this->mid = $a_mid;
 		$this->mapping = ilECSNodeMappingSettings::getInstance();
-		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
-		$this->mid = ilECSParticipantSettings::loookupCmsMid($this->getServer()->getServerId());
+		
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseUrl.php';
+		$this->course_url = new ilECSCourseUrl();
 	}
 	
 	
@@ -50,6 +55,33 @@ class ilECSCourseCreationHandler
 	}
 	
 	/**
+	 * Get course url
+	 * @return ilECSCourseUrl Description
+	 */
+	public function getCourseUrl()
+	{
+		return $this->course_url;
+	}
+	
+	/**
+	 * Check if an object (course / group) has been created.
+	 * @return bool
+	 */
+	public function isObjectCreated()
+	{
+		return $this->object_created;
+	}
+	
+	/**
+	 * Set object created status
+	 * @param bool $a_status
+	 */
+	public function setObjectCreated($a_status)
+	{
+		$this->object_created = $a_status;
+	}
+	
+	/**
 	 * Get mid of course event
 	 * @return type
 	 */
@@ -66,6 +98,12 @@ class ilECSCourseCreationHandler
 	public function handle($a_content_id,$course)
 	{
 		$GLOBALS['ilLog']->write(__METHOD__.': --------- content id '.$a_content_id);
+		
+		// prepare course url
+		// if any object (course group) will be created, a list of all course urls
+		// will be sent to ecs.
+		$this->setObjectCreated(false);
+		$this->getCourseUrl()->setECSId($a_content_id);
 		
 		
 		if($this->getMapping()->isAttributeMappingEnabled())
@@ -98,8 +136,7 @@ class ilECSCourseCreationHandler
 	protected function doAttributeMapping($a_content_id, $course)
 	{
 		// Check if course is already created
-		// @todo ecs_string
-		$course_id = (int) $course->lectureID;
+		$course_id = $course->lectureID;
 		$obj_id = $this->getImportId($course_id);
 		
 		if($obj_id)
@@ -141,7 +178,7 @@ class ilECSCourseCreationHandler
 		// map according mapping rules
 		$parent_ref = ilECSCourseMappingRule::doMappings($course,$this->getServer()->getServerId(),$this->getMid(),$ref_id);
 		$this->doSync($a_content_id, $course, ilObject::_lookupObjId($parent_ref));
-		return false;
+		return true;
 	}
 	
 	/**
@@ -270,7 +307,10 @@ class ilECSCourseCreationHandler
 	 */
 	protected function doSync($a_content_id, $course, $a_parent_obj_id)
 	{
-		$course_id = (int) $course->lectureID;
+		// Check if course is already created
+		$course_id = $course->lectureID;
+		$this->getCourseUrl()->setCmsLectureId($course_id);
+		
 		$obj_id = $this->getImportId($course_id);
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': Handling course '. print_r($course,true));
@@ -290,7 +330,7 @@ class ilECSCourseCreationHandler
 				
 				case ilECSMappingUtils::PARALLEL_ALL_COURSES:
 					$GLOBALS['ilLog']->write(__METHOD__.': Performing update for parallel courses.');
-					$this->updateParallelCourses($course, $a_parent_obj_id);
+					$this->updateParallelCourses($a_content_id,$course, $a_parent_obj_id);
 					break;
 				
 				case ilECSMappingUtils::PARALLEL_ONE_COURSE:
@@ -301,7 +341,7 @@ class ilECSCourseCreationHandler
 			}
 			
 			// do update
-			return $this->updateCourseData($course,$obj_id);
+			$this->updateCourseData($course,$obj_id);
 		}
 		else
 		{
@@ -315,7 +355,7 @@ class ilECSCourseCreationHandler
 					$this->setImported($course_id, $crs, $a_content_id);
 
 					// Create parallel groups under crs
-					$this->createParallelGroups($course,$crs->getRefId());
+					$this->createParallelGroups($a_content_id,$course,$crs->getRefId());
 					break;
 				
 					
@@ -334,7 +374,7 @@ class ilECSCourseCreationHandler
 					$crs = $this->createCourseData($course);
 					$this->createCourseReference($crs, $a_parent_obj_id);
 					$this->setImported($course_id, $crs, $a_content_id);
-					$this->createParallelCourses($course, $ref);
+					$this->createParallelCourses($a_content_id,$course, $ref);
 					break;
 					
 				default:
@@ -347,20 +387,23 @@ class ilECSCourseCreationHandler
 				
 					
 			}
-			return true;
 		}
+		// finally update course urls
+		$this->handleCourseUrlUpdate();
+		return true;
 	}
 	
 	/**
 	 * Create parallel courses
+	 * @param int econtent id
 	 * @param type $course
 	 * @param type $parent_ref
 	 */
-	protected function createParallelCourses($course, $parent_ref)
+	protected function createParallelCourses($a_content_id,$course, $parent_ref)
 	{
 		foreach((array) $course->groups as $group)
 		{
-			$this->createParallelCourse($course, $group, $parent_ref);
+			$this->createParallelCourse($a_content_id,$course, $group, $parent_ref);
 		}
 		return true;
 	}
@@ -371,7 +414,7 @@ class ilECSCourseCreationHandler
 	 * @param type $group
 	 * @param type $parent_ref
 	 */
-	protected function createParallelCourse($course, $group, $parent_ref)
+	protected function createParallelCourse($a_content_id, $course, $group, $parent_ref)
 	{
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		$course_obj = new ilObjCourse();
@@ -382,7 +425,8 @@ class ilECSCourseCreationHandler
 		$course_obj->create();
 		
 		$this->createCourseReference($course_obj, ilObject::_lookupObjId($parent_ref));
-		$this->setImported($course->lectureID, $course_obj,0, $group->id);
+		$this->setImported($course->lectureID, $course_obj,$a_content_id, $group->id);
+		$this->setObjectCreated(true);
 		return true;
 	}
 	
@@ -391,31 +435,32 @@ class ilECSCourseCreationHandler
 	 * @param type $course
 	 * @param type $parent_obj
 	 */
-	protected function updateParallelCourses($course,$parent_obj)
+	protected function updateParallelCourses($a_content_id, $course,$parent_obj)
 	{
 		$parent_refs = ilObject::_getAllReferences($parent_obj);
 		$parent_ref = end($parent_refs);
 		
 		foreach((array) $course->groups as $group)
 		{
+			$title = strlen($group->title) ? $group->title : $course->title;
 			$obj_id = $this->getImportId($course->lectureID, $group->id);
 			$GLOBALS['ilLog']->write(__METHOD__.': Imported obj id is ' .$obj_id);
 			if(!$obj_id)
 			{
-				$this->createParallelCourse($course, $group, $parent_ref);
+				$this->createParallelCourse($a_content_id, $course, $group, $parent_ref);
 			}
 			else
 			{
 				$course_obj = ilObjectFactory::getInstanceByObjId($obj_id,false);
 				if($course_obj instanceof ilObjCourse)
 				{
-					$title = strlen($group->title) ? $group->title : $course->title;
 					$GLOBALS['ilLog']->write(__METHOD__.': New title is '. $title);
 					$course_obj->setTitle($title);
 					$course_obj->setSubscriptionMaxMembers($group->maxParticipants);
 					$course_obj->update();
 				}
 			}
+			$this->addUrlEntry($this->getImportId($course->lectureID, $group->ID));
 		}
 		return true;
 	}
@@ -427,11 +472,11 @@ class ilECSCourseCreationHandler
 	 * @param type $course
 	 * @param ilObjCourse
 	 */
-	protected function createParallelGroups($course, $parent_ref)
+	protected function createParallelGroups($a_content_id, $course, $parent_ref)
 	{
 		foreach((array) $course->groups as $group)
 		{
-			$this->createParallelGroup($course, $group, $parent_ref);
+			$this->createParallelGroup($a_content_id,$course, $group, $parent_ref);
 		}
 		return true;
 	}
@@ -441,7 +486,7 @@ class ilECSCourseCreationHandler
 	 * @param type $course
 	 * @param type $group
 	 */
-	protected function createParallelGroup($course, $group, $parent_ref)
+	protected function createParallelGroup($a_content_id,$course, $group, $parent_ref)
 	{
 		include_once './Modules/Group/classes/class.ilObjGroup.php';
 		$group_obj = new ilObjGroup();
@@ -453,7 +498,8 @@ class ilECSCourseCreationHandler
 		$group_obj->putInTree($parent_ref);
 		$group_obj->setPermissions($parent_ref);
 		$group_obj->initGroupStatus(GRP_TYPE_CLOSED);
-		$this->setImported($course->lectureID, $group_obj, 0, $group->id);
+		$this->setImported($course->lectureID, $group_obj, $a_content_id, $group->id);
+		$this->setObjectCreated(true);
 	}
 
 
@@ -462,7 +508,7 @@ class ilECSCourseCreationHandler
 	 * @param type $course
 	 * @param type $parent_obj
 	 */
-	protected function updateParallelGroups($course,$parent_obj)
+	protected function updateParallelGroups($a_content_id, $course,$parent_obj)
 	{
 		$parent_refs = ilObject::_getAllReferences($parent_obj);
 		$parent_ref = end($parent_refs);
@@ -473,7 +519,7 @@ class ilECSCourseCreationHandler
 			$GLOBALS['ilLog']->write(__METHOD__.': Imported obj id is ' .$obj_id);
 			if(!$obj_id)
 			{
-				$this->createParallelGroup($course, $group, $parent_ref);
+				$this->createParallelGroup($a_content_id,$course, $group, $parent_ref);
 			}
 			else
 			{
@@ -487,22 +533,24 @@ class ilECSCourseCreationHandler
 					$group_obj->update();
 				}
 			}
+			$this->addUrlEntry($this->getImportId($course->lectureID, $group->id));
 		}
 	}
 	
 	/**
 	 * Get import id of remote course
 	 * Return 0 if object isn't imported.
+	 * Searches for the (hopefully) unique content id of an imported object
 	 * @param type $a_content_id
 	 * @return type
 	 */
 	protected function getImportId($a_content_id,$a_sub_id = NULL)
 	{
 		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-		return ilECSImport::_isImported(
+		return ilECSImport::lookupObjIdByContentId(
 				$this->getServer()->getServerId(),
-				$a_content_id,
 				$this->getMid(),
+				$a_content_id,
 				$a_sub_id
 		);
 	}
@@ -520,7 +568,7 @@ class ilECSCourseCreationHandler
 		if(!$crs_obj instanceof ilObject)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Cannot instantiate course instance');
-			return false;
+			return true;
 		}
 			
 		// Update title
@@ -562,6 +610,8 @@ class ilECSCourseCreationHandler
 		$crs->putInTree($ref_id);
 		$crs->setPermissions($ref_id);
 		
+		$this->setObjectCreated(true);
+		$this->addUrlEntry($crs->getId());
 		return $crs;
 	}
 	
@@ -581,12 +631,51 @@ class ilECSCourseCreationHandler
 		$GLOBALS['ilLog']->write(__METHOD__.': Imported with ecs id '.$a_ecs_id);
 		
 		$import->setSubId($a_sub_id);
-		$import->setECSId($a_ecs_id);
 		$import->setMID($this->getMid());
-		$import->setEContentId($a_content_id);
+		$import->setEContentId($a_ecs_id);
+		$import->setContentId($a_content_id);
 		$import->setImported(true);
 		$import->save();
 		return true;
+	}
+	
+	/**
+	 * Add an url entry
+	 * @param type $a_obj_id
+	 */
+	protected function addUrlEntry($a_obj_id)
+	{
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		$ref_id = end($refs);
+		
+		if(!$ref_id)
+		{
+			return false;
+		}
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseLmsUrl.php';
+		$lms_url = new ilECSCourseLmsUrl();
+		$lms_url->setTitle(ilObject::_lookupTitle($a_obj_id));
+		
+		include_once './Services/Link/classes/class.ilLink.php';
+		$lms_url->setUrl(ilLink::_getLink($ref_id));
+		$this->getCourseUrl()->addLmsCourseUrls($lms_url);
+	}
+	
+	/**
+	 * Update course url
+	 */
+	protected function handleCourseUrlUpdate()
+	{
+		$GLOBALS['ilLog']->write(__METHOD__.': Starting course url update');
+		if($this->isObjectCreated())
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Sending new course group url');
+			$this->getCourseUrl()->send($this->getServer(), $this->getMid());
+		}
+		else
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': No courses groups created. Aborting');
+		}
 	}
 }
 ?>

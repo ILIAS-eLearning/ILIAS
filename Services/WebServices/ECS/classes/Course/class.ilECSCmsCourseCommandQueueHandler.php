@@ -34,15 +34,49 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 	}
 	
 	/**
+	 * Get mid
+	 * @return type
+	 */
+	public function getMid()
+	{
+		return $this->mid;
+	}
+	
+	/**
 	 * Check if course allocation is activated for one recipient of the 
 	 * @param ilECSSetting $server
 	 * @param type $a_content_id
 	 */
 	public function checkAllocationActivation(ilECSSetting $server, $a_content_id)
 	{
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		$gl_settings = ilECSNodeMappingSettings::getInstance();
-		return $gl_settings->isCourseAllocationEnabled();
+		try 
+		{
+			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
+			$crs_reader = new ilECSCourseConnector($server);
+			$details = $crs_reader->getCourse($a_content_id,true);
+			$this->mid = $details->getMySender();
+			
+			// Check if import is enabled
+			$part = ilECSParticipantSetting::getInstance($this->getServer()->getServerId(), $this->getMid());
+			if(!$part->isImportEnabled())
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Import disabled for mid '.$this->getMid());
+				return false;
+			}
+			// Check course allocation setting
+			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+			$gl_settings = ilECSNodeMappingSettings::getInstance();
+			return $gl_settings->isCourseAllocationEnabled();
+		}
+		catch(ilECSConnectorException $e) 
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Reading course details failed with message '. $e->getMessage());
+			return false;
+		}
+		
+		
+		
+		
 	}
 
 
@@ -141,13 +175,13 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 	 * Read course from ecs
 	 * @return boolean
 	 */
-	private function readCourse(ilECSSetting $server, $a_content_id)
+	private function readCourse(ilECSSetting $server, $a_content_id, $a_details = false)
 	{
 		try 
 		{
 			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
 			$crs_reader = new ilECSCourseConnector($server);
-			return $crs_reader->getCourse($a_content_id);
+			return $crs_reader->getCourse($a_content_id,$a_details);
 		}
 		catch(ilECSConnectorException $e) 
 		{
