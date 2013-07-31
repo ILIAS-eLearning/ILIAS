@@ -426,14 +426,14 @@ class ilPortfolioAccessHandler
 		$set = $ilDB->query($sql);
 		while ($row = $ilDB->fetchAssoc($set))
 		{						
-			if(!isset($res[$row["wsp_id"]]))
+			if(!isset($res[$row["obj_id"]]))
 			{
 				$row["acl_type"] = array($row["acl_type"]);
-				$res[$row["wsp_id"]] = $row;
+				$res[$row["obj_id"]] = $row;
 			}
 			else
 			{
-				$res[$row["wsp_id"]]["acl_type"][] = $row["acl_type"];
+				$res[$row["obj_id"]]["acl_type"][] = $row["acl_type"];
 			}
 		}
 	
