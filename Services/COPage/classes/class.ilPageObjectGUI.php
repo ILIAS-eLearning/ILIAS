@@ -461,52 +461,6 @@ class ilPageObjectGUI
 		return $this->fullscreen_link;
 	}
 
-	/**
-	 * Set enable keywords handling
-	 *
-	 * @param	boolean	keywords handling
-	 */
-	function setEnableKeywords($a_val)
-	{
-		$this->getPageConfig()->setEnableKeywords($a_val);
-	}
-	
-	/**
-	 * Get enable keywords handling
-	 *
-	 * @return	boolean	keywords handling
-	 */
-	function getEnableKeywords()
-	{
-		return $this->getPageConfig()->getEnableKeywords();
-	}
-
-	/**
-	 * Set enable anchors
-	 *
-	 * @param	boolean	anchors
-	 */
-	function setEnableAnchors($a_val)
-	{
-		$this->getPageConfig()->setEnableAnchors($a_val);
-	}
-	
-	/**
-	 * Get enable anchors
-	 *
-	 * @return	boolean	anchors
-	 */
-	function getEnableAnchors()
-	{
-		return $this->getPageConfig()->getEnableAnchors();
-	}
-
-	function setIntLinkHelpDefault($a_type, $a_id)
-	{
-		$this->getPageConfig()->setIntLinkHelpDefaultType($a_type);
-		$this->getPageConfig()->setIntLinkHelpDefaultId($a_id);
-	}
-
 	function setIntLinkReturn($a_return)
 	{
 		$this->int_link_return = $a_return;
@@ -1300,9 +1254,6 @@ class ilPageObjectGUI
 				$page_editor->setLocator($this->locator);
 				$page_editor->setHeader($this->getHeader());
 				$page_editor->setPageBackTitle($this->page_back_title);
-				$page_editor->setIntLinkHelpDefault(
-					$this->getPageConfig()->getIntLinkHelpDefaultType(),
-					$this->getPageConfig()->getIntLinkHelpDefaultId());
 				$page_editor->setIntLinkReturn($this->int_link_return);
 				//$page_editor->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_editor);
@@ -1489,8 +1440,9 @@ class ilPageObjectGUI
 						$this->getPageObject()->getParentType(),
 						$this->getEnabledInternalLinks(),
 						$this->getPageObject()->getParentType() == "wpg",
-						$this->getEnableKeywords(), $this->getStyleId(), true, true,
-						$this->getEnableAnchors()
+						$this->getPageConfig()->getEnableKeywords(),
+						$this->getStyleId(), true, true,
+						$this->getPageConfig()->getEnableAnchors()
 						));
 					
 					// add int link parts

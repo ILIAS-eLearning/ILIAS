@@ -9,7 +9,7 @@
 * @author Jens Conze <jc@databay.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilPageObjectGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilShopPageGUI, ilRepositorySearchGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -249,7 +249,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
-			case 'ilpageobjectgui':
+			case 'ilshoppagegui':
 				if($cmd == 'TermsConditions')
 				{	
 					$ret = $this->forwardToDocumentsPageObject(self::CONDITIONS_EDITOR_PAGE_ID);
@@ -393,22 +393,22 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$ilTabs->clearSubTabs();
 			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 	
-			include_once 'Services/COPage/classes/class.ilPageObject.php';
-			include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+			include_once 'Services/Payment/classes/class.ilShopPage.php';
+			include_once 'Services/Payment/classes/class.ilShopPageGUI.php';
 			include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
 			
 			$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
 	
-			if(!ilPageObject::_exists('shop', (int)$this->pobject->getPobjectId()))
+			if(!ilShopPage::_exists('shop', (int)$this->pobject->getPobjectId()))
 			{
 				// doesn't exist -> create new one
-				$new_page_object = new ilPageObject('shop');
+				$new_page_object = new ilShopPage();
 				$new_page_object->setParentId(0);
 				$new_page_object->setId($this->pobject->getPobjectId());
 				$new_page_object->createFromXML();
 			}
 					
-			$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
+			$this->ctrl->setReturnByClass('ilshoppagegui', 'edit');
 	
 			if(!(int)$_GET['pobject_id'])
 			{
@@ -418,21 +418,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
 			$this->__initPaymentObject((int)$_GET['pobject_id']);
 	
-			$page_gui = new ilPageObjectGUI('shop', (int)$this->pobject->getPobjectId());
+			$page_gui = new ilShopPageGUI((int)$this->pobject->getPobjectId());
 			$this->ctrl->setParameter($page_gui, 'pobject_id', (int)$_GET['pobject_id']);
-			$page_gui->setIntLinkHelpDefault('StructureObject', $this->pobject->getPobjectId());
-			$page_gui->setTemplateTargetVar('ADM_CONTENT');
-			$page_gui->setLinkXML('');
-			$page_gui->setFileDownloadLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
-			$page_gui->setFullscreenLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
-			$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
-			$page_gui->setPresentationTitle('');
-			$page_gui->setTemplateOutput(false);
-			$page_gui->setHeader('');
-			$page_gui->setEnabledRepositoryObjects(false);
-			$page_gui->setEnabledFileLists(true);
-			$page_gui->setEnabledMaps(true);
-			$page_gui->setEnabledPCTabs(true);
 		}
 		else 
 		{
@@ -446,39 +433,26 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$ilTabs->setBackTarget($lng->txt('back'), $this->ctrl->getLinkTarget($this), '_top');
 
 			// page object
-			include_once 'Services/COPage/classes/class.ilPageObject.php';
-			include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+			include_once 'Services/Payment/classes/class.ilShopPage.php';
+			include_once 'Services/Payment/classes/class.ilShopPageGUI.php';
 
 			$lng->loadLanguageModule('content');
 
 			include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
 			$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
 
-			if(!ilPageObject::_exists('shop', self::CONDITIONS_EDITOR_PAGE_ID))
+			if(!ilShopPage::_exists('shop', self::CONDITIONS_EDITOR_PAGE_ID))
 			{
 				// doesn't exist -> create new one
-				$new_page_object = new ilPageObject('shop');
+				$new_page_object = new ilShopPage();
 				$new_page_object->setParentId(0);
 				$new_page_object->setId(self::CONDITIONS_EDITOR_PAGE_ID);
 				$new_page_object->createFromXML();
 			}
 
-			$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
+			$this->ctrl->setReturnByClass('ilshoppagegui', 'edit');
 
-			$page_gui = new ilPageObjectGUI('shop', self::CONDITIONS_EDITOR_PAGE_ID);
-			$page_gui->setIntLinkHelpDefault('StructureObject', self::CONDITIONS_EDITOR_PAGE_ID);
-			$page_gui->setTemplateTargetVar('ADM_CONTENT');
-			$page_gui->setLinkXML('');
-			$page_gui->setFileDownloadLink($ilCtrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
-			$page_gui->setFullscreenLink($ilCtrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
-			$page_gui->setSourcecodeDownloadScript($ilCtrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
-			$page_gui->setPresentationTitle('');
-			$page_gui->setTemplateOutput(false);
-			$page_gui->setHeader('');
-			$page_gui->setEnabledRepositoryObjects(false);
-			$page_gui->setEnabledFileLists(true);
-			$page_gui->setEnabledMaps(true);
-			$page_gui->setEnabledPCTabs(true);
+			$page_gui = new ilShopPageGUI(self::CONDITIONS_EDITOR_PAGE_ID);
 		}
 		
 		return $this->ctrl->forwardCommand($page_gui);
@@ -697,7 +671,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'objects'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
-		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilshoppagegui'), 'edit'));
 
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
 
@@ -880,7 +854,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
-		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilshoppagegui'), 'edit'));
 	
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(), false);
 		if(is_object($tmp_obj))
@@ -1237,7 +1211,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
-		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilshoppagegui'), 'edit'));
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
 		
@@ -4632,7 +4606,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		global $ilToolbar;
 
-		$ilToolbar->addButton($this->lng->txt('edit_page'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$ilToolbar->addButton($this->lng->txt('edit_page'), $this->ctrl->getLinkTargetByClass(array('ilshoppagegui'), 'edit'));
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
 		$this->tpl->setVariable('FORM', $this->getDocumentsPageHTML(self::CONDITIONS_EDITOR_PAGE_ID));
@@ -4700,11 +4674,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		// page object
 
-		include_once 'Services/COPage/classes/class.ilPageObject.php';
-		include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+		include_once 'Services/Payment/classes/class.ilShopPage.php';
+		include_once 'Services/Payment/classes/class.ilShopPageGUI.php';
 
 		// if page does not exist, return nothing
-		if(!ilPageObject::_exists('shop', $a_editor_page_id))
+		if(!ilShopPage::_exists('shop', $a_editor_page_id))
 		{
 			return '';
 		}
@@ -4713,20 +4687,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
 
 		// get page object
-		$page_gui = new ilPageObjectGUI('shop', $a_editor_page_id);
-		$page_gui->setIntLinkHelpDefault('StructureObject',$a_editor_page_id);
-		$page_gui->setLinkXML('');
-		$page_gui->setFileDownloadLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
-		$page_gui->setFullscreenLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
-		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
-		$page_gui->setPresentationTitle('');
-		$page_gui->setTemplateOutput(false);
-		$page_gui->setHeader('');
-		$page_gui->setEnabledRepositoryObjects(false);
-		$page_gui->setEnabledFileLists(true);
-		$page_gui->setEnabledPCTabs(true);
-		$page_gui->setEnabledMaps(true);
-		$page_gui->setEnableEditing(true);
+		$page_gui = new ilShopPageGUI($a_editor_page_id);
 
 		return $page_gui->showPage();
 	}
@@ -4738,37 +4699,24 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this,'documents'), '_self');
 
-		include_once 'Services/COPage/classes/class.ilPageObject.php';
-		include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+		include_once 'Services/Payment/classes/class.ilShopPage.php';
+		include_once 'Services/Payment/classes/class.ilShopPageGUI.php';
 		include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
 
 		$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
 
-		if(!ilPageObject::_exists('shop', $a_editor_page_id))
+		if(!ilShopPage::_exists('shop', $a_editor_page_id))
 		{
 			// doesn't exist -> create new one
-			$new_page_object = new ilPageObject('shop');
+			$new_page_object = new ilShopPage();
 			$new_page_object->setParentId(0);
 			$new_page_object->setId($a_editor_page_id);
 			$new_page_object->createFromXML();
 		}
 
-		$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
+		$this->ctrl->setReturnByClass('ilshoppagegui', 'edit');
 
-		$page_gui = new ilPageObjectGUI('shop',self::CONDITIONS_EDITOR_PAGE_ID);
-		$page_gui->setIntLinkHelpDefault('StructureObject', self::CONDITIONS_EDITOR_PAGE_ID);
-		$page_gui->setTemplateTargetVar('ADM_CONTENT');
-		$page_gui->setLinkXML('');
-		$page_gui->setFileDownloadLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
-		$page_gui->setFullscreenLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
-		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
-		$page_gui->setPresentationTitle('');
-		$page_gui->setTemplateOutput(false);
-		$page_gui->setHeader('');
-		$page_gui->setEnabledRepositoryObjects(false);
-		$page_gui->setEnabledFileLists(true);
-		$page_gui->setEnabledMaps(true);
-		$page_gui->setEnabledPCTabs(true);
+		$page_gui = new ilShopPageGUI(self::CONDITIONS_EDITOR_PAGE_ID);
 
 		return $this->ctrl->forwardCommand($page_gui);
 	}

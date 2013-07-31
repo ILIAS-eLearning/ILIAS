@@ -198,16 +198,6 @@ class ilPageContentGUI
 	}
 	// scorm2004-end
 
-	/*
-	function setReturnLocation($a_location)
-	{
-		$this->return_location = $a_location;
-	}
-
-	function getReturnLocation()
-	{
-		return $this->return_location;
-	}*/
 
 	/**
 	* get hierarchical id in dom object

@@ -130,7 +130,6 @@ class ilAuthLoginPageEditorGUI
 		$this->ctrl->setReturnByClass('illoginpagegui', "edit");
 		$page_gui = new ilLoginPageGUI($key);
 
-		$page_gui->setIntLinkHelpDefault("RepositoryItem",$key);
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setLinkXML($link_xml);
 		//$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());

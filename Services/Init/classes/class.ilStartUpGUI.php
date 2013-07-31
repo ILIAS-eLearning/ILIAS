@@ -742,7 +742,6 @@ class ilStartUpGUI
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(0, 'auth');
 
-		$page_gui->setIntLinkHelpDefault("RepositoryItem", $active_lang);
 		//$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
 		//$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo

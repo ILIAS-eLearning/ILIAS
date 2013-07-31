@@ -234,7 +234,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
-		$page_gui->setIntLinkHelpDefault("RepositoryItem", $_GET["ref_id"]);
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setLinkXML($link_xml);
 		//$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
@@ -342,7 +341,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
-//		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 		$page_gui->setFileDownloadLink("");
 		//$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
