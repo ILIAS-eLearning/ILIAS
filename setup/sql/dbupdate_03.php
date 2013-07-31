@@ -17113,3 +17113,29 @@ if(!$ilDB->tableColumnExists("il_new_item_grp", "type"))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4004>
+<?php
+
+	$ilDB->addTableColumn('tst_active', 'tmplastindex', array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+	));
+	
+	$ilDB->manipulate('UPDATE tst_active SET tmplastindex = lastindex');
+	
+	$ilDB->dropTableColumn('tst_active', 'lastindex');
+	
+	$ilDB->addTableColumn('tst_active', 'lastindex', array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+	));
+	
+	$ilDB->manipulate('UPDATE tst_active SET lastindex = tmplastindex');
+	
+	$ilDB->dropTableColumn('tst_active', 'tmplastindex');
+	
+?>
