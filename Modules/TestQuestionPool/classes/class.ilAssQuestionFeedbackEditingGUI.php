@@ -10,7 +10,7 @@
  * 
  * @package		Modules/TestQuestionPool
  * 
- * @ilCtrl_Calls ilAssQuestionFeedbackEditingGUI: ilPageObjectGUI
+ * @ilCtrl_Calls ilAssQuestionFeedbackEditingGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilAssQuestionFeedbackEditingGUI: ilPropertyFormGUI
  */
 class ilAssQuestionFeedbackEditingGUI
@@ -123,8 +123,8 @@ class ilAssQuestionFeedbackEditingGUI
 
 		switch($nextClass)
 		{
-			case 'ilpageobjectgui':
-				
+			case 'ilassspecfeedbackpagegui':
+			case 'ilassgenfeedbackpagegui':
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackPageObjectCommandForwarder.php';
 				$forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
 				$forwarder->forward();

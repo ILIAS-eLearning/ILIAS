@@ -620,6 +620,29 @@ abstract class ilAssQuestionFeedback
 	}
 	
 	/**
+	 * Get class name by type
+	 *
+	 * @param
+	 * @return
+	 */
+	function getClassNameByType($a_type, $a_gui = false)
+	{
+		$gui = ($a_gui)
+			? "GUI"
+			: "";
+		include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
+		if ($a_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK)
+		{
+			return "ilAssGenFeedbackPage".$gui;
+		}
+		if ($a_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK)
+		{
+			return "ilAssSpecFeedbackPage".$gui;
+		}
+	}
+	
+	
+	/**
 	 * returns a link to page object editor for page object
 	 * with given type and id
 	 * 
@@ -631,10 +654,11 @@ abstract class ilAssQuestionFeedback
 	 */
 	final private function getPageObjectEditingLink($pageObjectType, $pageObjectId)
 	{
-		$this->ctrl->setParameterByClass('ilPageObjectGUI', 'feedback_type', $pageObjectType);
-		$this->ctrl->setParameterByClass('ilPageObjectGUI', 'feedback_id', $pageObjectId);
+		$cl = $this->getClassNameByType($pageObjectType, true);
+		$this->ctrl->setParameterByClass($cl, 'feedback_type', $pageObjectType);
+		$this->ctrl->setParameterByClass($cl, 'feedback_id', $pageObjectId);
 		
-		$linkHREF = $this->ctrl->getLinkTargetByClass('ilPageObjectGUI', 'edit');
+		$linkHREF = $this->ctrl->getLinkTargetByClass($cl, 'edit');
 		$linkTEXT = $this->lng->txt('tst_question_feedback_edit_page');
 		
 		return "<a href='$linkHREF'>$linkTEXT</a>";
@@ -651,11 +675,12 @@ abstract class ilAssQuestionFeedback
 	 */
 	final protected function getPageObjectContent($pageObjectType, $pageObjectId)
 	{
-		require_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+		$cl = $this->getClassNameByType($pageObjectType, true);
+		require_once 'Modules/TestQuestionPool/classes/feedback/class.'.$cl.'.php';
 
 		$this->ensurePageObjectExists($pageObjectType, $pageObjectId);
 		
-		$pageObjectGUI = new ilPageObjectGUI($pageObjectType, $pageObjectId);
+		$pageObjectGUI = new $cl($pageObjectId);
 		$pageObjectGUI->setOutputMode("presentation");
 		return $pageObjectGUI->presentation();
 	}
@@ -671,11 +696,12 @@ abstract class ilAssQuestionFeedback
 	 */
 	final protected function getPageObjectXML($pageObjectType, $pageObjectId)
 	{
-		require_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+		$cl = $this->getClassNameByType($pageObjectType);
+		require_once 'Modules/TestQuestionPool/classes/feedback/class.'.$cl.'.php';
 
 		$this->ensurePageObjectExists($pageObjectType, $pageObjectId);
 		
-		$pageObject = new ilPageObject($pageObjectType, $pageObjectId);
+		$pageObject = new $cl($pageObjectId);
 		return $pageObject->getXMLContent();
 	}
 	
@@ -689,14 +715,27 @@ abstract class ilAssQuestionFeedback
 	 */
 	final private function ensurePageObjectExists($pageObjectType, $pageObjectId)
 	{
-		require_once 'Services/COPage/classes/class.ilPageObject.php';
-		
-		if( !ilPageObject::_exists($pageObjectType, $pageObjectId) )
+		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK)
 		{
-			$pageObject = new ilPageObject($pageObjectType);
-			$pageObject->setParentId($this->questionOBJ->getId());
-			$pageObject->setId($pageObjectId);
-			$pageObject->createFromXML();
+			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
+			if( !ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId) )
+			{
+				$pageObject = new ilAssGenFeedbackPage();
+				$pageObject->setParentId($this->questionOBJ->getId());
+				$pageObject->setId($pageObjectId);
+				$pageObject->createFromXML();
+			}
+		}
+		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK)
+		{
+			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPage.php");
+			if( !ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId) )
+			{
+				$pageObject = new ilAssSpecFeedbackPage();
+				$pageObject->setParentId($this->questionOBJ->getId());
+				$pageObject->setId($pageObjectId);
+				$pageObject->createFromXML();
+			}
 		}
 	}
 	
@@ -712,7 +751,10 @@ abstract class ilAssQuestionFeedback
 	 */
 	final protected function createPageObject($pageObjectType, $pageObjectId, $pageObjectContent)
 	{
-		$pageObject = new ilPageObject($pageObjectType);
+		$cl = $this->getClassNameByType($pageObjectType);
+		require_once 'Modules/TestQuestionPool/classes/feedback/class.'.$cl.'.php';
+		
+		$pageObject = new $cl();
 		$pageObject->setParentId($this->questionOBJ->getId());
 		$pageObject->setId($pageObjectId);
 		$pageObject->setXMLContent($pageObjectContent);
@@ -732,7 +774,10 @@ abstract class ilAssQuestionFeedback
 	 */
 	final protected function duplicatePageObject($pageObjectType, $originalPageObjectId, $duplicatePageObjectId, $duplicatePageObjectParentId)
 	{
-		$pageObject = new ilPageObject($pageObjectType, $originalPageObjectId);
+		$cl = $this->getClassNameByType($pageObjectType);
+		require_once 'Modules/TestQuestionPool/classes/feedback/class.'.$cl.'.php';
+
+		$pageObject = new $cl($originalPageObjectId);
 		$pageObject->setParentId($duplicatePageObjectParentId);
 		$pageObject->setId($duplicatePageObjectId);
 		$pageObject->createFromXML();
@@ -748,12 +793,23 @@ abstract class ilAssQuestionFeedback
 	 */
 	final private function ensurePageObjectDeleted($pageObjectType, $pageObjectId)
 	{
-		require_once 'Services/COPage/classes/class.ilPageObject.php';
-		
-		if( ilPageObject::_exists($pageObjectType, $pageObjectId) )
+		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK)
 		{
-			$pageObject = new ilPageObject($pageObjectType, $pageObjectId);
-			$pageObject->delete();
+			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
+			if( ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId) )
+			{
+				$pageObject = new ilAssGenFeedbackPage($pageObjectId);
+				$pageObject->delete();
+			}
+		}
+		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK)
+		{
+			include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPage.php");
+			if( ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId) )
+			{
+				$pageObject = new ilAssSpecFeedbackPage($pageObjectId);
+				$pageObject->delete();
+			}
 		}
 	}
 	

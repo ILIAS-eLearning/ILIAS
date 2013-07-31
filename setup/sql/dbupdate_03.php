@@ -17158,4 +17158,8 @@ if(!$ilDB->tableColumnExists("il_new_item_grp", "type"))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4007>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 

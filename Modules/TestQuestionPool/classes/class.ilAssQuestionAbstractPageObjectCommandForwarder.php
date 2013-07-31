@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
 
 /**
  * abstract parent class for page object forwarders
@@ -79,16 +78,7 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
 	 * 
 	 * @access protected
 	 */
-	protected function ensurePageObjectExists($pageObjectType, $pageObjectId)
-	{
-		if( !ilPageObject::_exists($pageObjectType, $pageObjectId) )
-		{
-			$pageObject = new ilPageObject($pageObjectType);
-			$pageObject->setParentId($this->questionOBJ->getId());
-			$pageObject->setId($pageObjectId);
-			$pageObject->createFromXML();
-		}
-	}
+	abstract function ensurePageObjectExists($pageObjectType, $pageObjectId);
 	
 	/**
 	 * instantiates, initialises and returns a ilPageObjectGUI
@@ -96,25 +86,5 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
 	 * @access protected
 	 * @return \ilPageObjectGUI
 	 */
-	protected function getPageObjectGUI($pageObjectType, $pageObjectId)
-	{
-		$pageObjectGUI = new ilPageObjectGUI($pageObjectType, $pageObjectId);
-
-		$pageObjectGUI->setTemplateTargetVar('ADM_CONTENT');
-		$pageObjectGUI->setTemplateOutput(true);
-		
-//		$pageObjectGUI->setIntLinkHelpDefault('StructureObject', $pageObject->getId());
-//		$pageObjectGUI->setLinkXML('');
-//		$pageObjectGUI->setFileDownloadLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
-//		$pageObjectGUI->setFullscreenLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
-//		$pageObjectGUI->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
-//		$pageObjectGUI->setPresentationTitle('');
-//		$pageObjectGUI->setHeader('');
-//		$pageObjectGUI->setEnabledRepositoryObjects(false);
-//		$pageObjectGUI->setEnabledFileLists(true);
-//		$pageObjectGUI->setEnabledMaps(true);
-//		$pageObjectGUI->setEnabledPCTabs(true);
-		
-		return $pageObjectGUI;
-	}
+	abstract function getPageObjectGUI($pageObjectType, $pageObjectId);
 }
