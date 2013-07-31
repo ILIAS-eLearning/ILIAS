@@ -25,6 +25,8 @@ class ilInfoScreenGUI
 	var $top_formbuttons = array();
 	var $hiddenelements = array();
 	var $table_class = "il_InfoScreen";
+	var $open_form_tag = true;
+	var $close_form_tag = true;
 	
 	/**
 	* a form action parameter. if set a form is generated
@@ -244,7 +246,7 @@ class ilInfoScreenGUI
 	/**
 	* add a property to current section
 	*/
-	function addPropertyTextinput($a_name, $a_input_name, $a_input_value = "", $a_input_size = "", $direct_button_command = "", $direct_button_label = "")
+	function addPropertyTextinput($a_name, $a_input_name, $a_input_value = "", $a_input_size = "", $direct_button_command = "", $direct_button_label = "", $direct_button_primary = false)
 	{
 		$input = "<input type=\"text\" name=\"$a_input_name\" id=\"$a_input_name\"";
 		if (strlen($a_input_value))
@@ -258,7 +260,12 @@ class ilInfoScreenGUI
 		$input .= " />";
 		if (strlen($direct_button_command) && strlen($direct_button_label))
 		{
-			$input .= " <input type=\"submit\" class=\"submit\" name=\"cmd[$direct_button_command]\" value=\"$direct_button_label\" />";
+			$css = "";
+			if($direct_button_primary)
+			{
+				$css = " emphsubmit";
+			}
+			$input .= " <input type=\"submit\" class=\"submit".$css."\" name=\"cmd[$direct_button_command]\" value=\"$direct_button_label\" />";
 		}
 		$this->section[$this->sec_nr]["properties"][] =
 			array("name" => "<label for=\"$a_input_name\">$a_name</label>", "value" => $input);
@@ -267,12 +274,12 @@ class ilInfoScreenGUI
 	/**
 	* add a property to current section
 	*/
-	function addButton($a_title, $a_link, $a_frame = "", $a_position = "top")
+	function addButton($a_title, $a_link, $a_frame = "", $a_position = "top", $a_primary = false)
 	{
 		if ($a_position == "top")
 		{
 			$this->top_buttons[] =
-				array("title" => $a_title,"link" => $a_link,"target" => $a_frame);
+				array("title" => $a_title,"link" => $a_link,"target" => $a_frame,"primary" => $a_primary);
 		}
 	}
 
@@ -716,6 +723,16 @@ class ilInfoScreenGUI
 		$column_gui->setRepositoryMode(true);
 		$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 	}
+	
+	function setOpenFormTag($a_val)
+	{
+		$this->open_form_tag = $a_val;
+	}
+
+	function setCloseFormTag($a_val)
+	{
+		$this->close_form_tag = $a_val;
+	}
 
 	/**
 	* get html
@@ -752,6 +769,10 @@ class ilInfoScreenGUI
 				$tpl->setVariable("BTN_LINK", $button["link"]);
 				$tpl->setVariable("BTN_TARGET", $button["target"]);
 				$tpl->setVariable("BTN_TXT", $button["title"]);
+				if($button["primary"])
+				{
+					$tpl->setVariable("BTN_CLASS", " emphsubmit");
+				}
 				$tpl->parseCurrentBlock();
 			}
 		}
@@ -774,10 +795,17 @@ class ilInfoScreenGUI
 		// add form action
 		if (strlen($this->form_action) > 0)
 		{
-			$tpl->setCurrentBlock("formtop");
-			$tpl->setVariable("FORMACTION", $this->form_action);
-			$tpl->parseCurrentBlock();
-			$tpl->touchBlock("formbottom");
+			if($this->open_form_tag)
+			{
+				$tpl->setCurrentBlock("formtop");
+				$tpl->setVariable("FORMACTION", $this->form_action);
+				$tpl->parseCurrentBlock();
+			}
+			
+			if($this->close_form_tag)
+			{
+				$tpl->touchBlock("formbottom");
+			}
 		}
 
 		if (count($this->hiddenelements))

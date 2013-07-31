@@ -116,10 +116,10 @@ class ilToolbarGUI
 	* @param	string		link href / submit command
 	* @param	string		access key
 	*/
-	function addFormButton($a_txt, $a_cmd, $a_acc_key = "")
+	function addFormButton($a_txt, $a_cmd, $a_acc_key = "", $a_primary = false)
 	{
 		$this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
-			"acc_key" => $a_acc_key);
+			"acc_key" => $a_acc_key, "primary" => $a_primary);
 	}
 	
 	/**
@@ -272,6 +272,10 @@ class ilToolbarGUI
 						$tpl->setCurrentBlock("form_button");
 						$tpl->setVariable("SUB_TXT", $item["txt"]);
 						$tpl->setVariable("SUB_CMD", $item["cmd"]);
+						if($item["primary"])
+						{
+							$tpl->setVariable("SUB_CLASS", " emphsubmit");
+						}
 						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("item");
 						break;

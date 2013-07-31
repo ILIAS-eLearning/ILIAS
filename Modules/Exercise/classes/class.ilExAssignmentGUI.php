@@ -250,7 +250,7 @@ class ilExAssignmentGUI
 	
 						if (!$times_up)
 						{
-							$files_str.= ' <a class="submit" href="'.
+							$files_str.= ' <a class="submit emphsubmit" href="'.
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
 								(count($titles) == 0
 									? $lng->txt("exc_hand_in")
@@ -380,7 +380,7 @@ class ilExAssignmentGUI
 						if(!$times_up)
 						{
 							$files_str = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "editAssignmentText");
-							$files_str = "<a href=\"".$files_str."\" class=\"submit\">".
+							$files_str = "<a href=\"".$files_str."\" class=\"submit emphsubmit\">".
 								$lng->txt("exc_text_assignment_edit")."</a>";
 						}
 						else

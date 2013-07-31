@@ -321,7 +321,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					ilUtil::sendInfo($this->lng->txt('sess_join_info'));
 				}
-				$ilToolbar->addFormButton($this->lng->txt('join_session'),'join');
+				$ilToolbar->addFormButton($this->lng->txt('join_session'),'join', '', true);
 			}
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 		}

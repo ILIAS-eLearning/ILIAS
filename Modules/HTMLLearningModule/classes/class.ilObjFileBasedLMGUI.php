@@ -682,7 +682,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		{
 			$info->addButton($this->lng->txt("view"),
 				"ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->object->getRefID(),
-				' target="ilContObj'.$this->object->getId().'" ');
+				' target="ilContObj'.$this->object->getId().'" ',
+				'top', true);
 		}
 		
 		// show standard meta data section
