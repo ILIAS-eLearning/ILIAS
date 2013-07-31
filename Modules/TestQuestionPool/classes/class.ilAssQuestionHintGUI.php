@@ -13,7 +13,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintAbstractGU
  * 
  * @package		Modules/TestQuestionPool
  *
- * @ilCtrl_Calls ilAssQuestionHintGUI: ilPageObjectGUI
+ * @ilCtrl_Calls ilAssQuestionHintGUI: ilAssHintPageGUI
  */
 class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 {
@@ -40,7 +40,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
 		switch($nextClass)
 		{
-			case 'ilpageobjectgui':
+			case 'ilasshintpagegui':
 				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
 				$forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
@@ -136,8 +136,8 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
 			if( $hintJustCreated && $this->questionOBJ->isAdditionalContentEditingModePageObject() )
 			{
-				$ilCtrl->setParameterByClass('ilPageObjectGUI', 'hint_id', $questionHint->getId());
-				$ilCtrl->redirectByClass('ilPageObjectGUI', 'edit');
+				$ilCtrl->setParameterByClass('ilasshintpagegui', 'hint_id', $questionHint->getId());
+				$ilCtrl->redirectByClass('ilasshintpagegui', 'edit');
 			}
 			else
 			{

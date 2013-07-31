@@ -89,11 +89,11 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 		
 		if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
 		{
-			require_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php';
 			
 			foreach( $tableData as $key => $data )
 			{
-				$pageObjectGUI = new ilPageObjectGUI(ilAssQuestionHint::PAGE_OBJECT_TYPE, $data['hint_id']);
+				$pageObjectGUI = new ilAssHintPageGUI($data['hint_id']);
 				$pageObjectGUI->setOutputMode("presentation");
 				$tableData[$key]['hint_text'] = $pageObjectGUI->presentation();
 			}
@@ -279,7 +279,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 				$editPointsHref = ilUtil::appendUrlParameterString($editPointsHref, "hint_id={$rowData['hint_id']}", true);
 				$list->addItem($lng->txt('tst_question_hints_table_link_edit_hint_points'), '', $editPointsHref);
 				
-				$editPageHref = $ilCtrl->getLinkTargetByClass('ilPageObjectGUI', 'edit');
+				$editPageHref = $ilCtrl->getLinkTargetByClass('ilasshintpagegui', 'edit');
 				$editPageHref = ilUtil::appendUrlParameterString($editPageHref, "hint_id={$rowData['hint_id']}", true);
 				$list->addItem($lng->txt('tst_question_hints_table_link_edit_hint_page'), '', $editPageHref);
 			}

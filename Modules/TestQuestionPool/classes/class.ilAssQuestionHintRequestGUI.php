@@ -14,7 +14,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.p
  * @package		Modules/TestQuestionPool
  * 
  * @ilCtrl_Calls ilAssQuestionHintRequestGUI: ilAssQuestionHintsTableGUI
- * @ilCtrl_Calls ilAssQuestionHintRequestGUI: ilConfirmationGUI, ilPropertyFormGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilAssQuestionHintRequestGUI: ilConfirmationGUI, ilPropertyFormGUI, ilAssHintPageGUI
  */
 class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 {
@@ -68,7 +68,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
 		switch($nextClass)
 		{
-			case 'ilpageobjectgui':
+			case 'ilasshintpagegui':
 				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
 				$forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
@@ -310,8 +310,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		
 		if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
 		{
-			$ilCtrl->setParameterByClass('ilPageObjectGUI', 'hint_id', $hintId);
-			$linkTarget = $ilCtrl->getLinkTargetByClass('ilPageObjectGUI', '', '', false, $xmlStyle);
+			$ilCtrl->setParameterByClass('ilasshintpagegui', 'hint_id', $hintId);
+			$linkTarget = $ilCtrl->getLinkTargetByClass('ilAssHintPageGUI', '', '', false, $xmlStyle);
 		}
 		else
 		{

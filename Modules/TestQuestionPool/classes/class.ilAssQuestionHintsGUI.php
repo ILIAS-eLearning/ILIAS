@@ -17,7 +17,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsOrderingC
  * @package		Modules/TestQuestionPool
  * 
  * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssQuestionHintsTableGUI
- * @ilCtrl_Calls ilAssQuestionHintsGUI: ilPageObjectGUI
+ * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssHintPageGUI
  * @ilCtrl_Calls ilAssQuestionHintsGUI: ilToolbarGUI, ilConfirmationGUI
  */
 class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
@@ -78,7 +78,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 				$ilCtrl->forwardCommand($gui);
 				break;
 				
-			case 'ilpageobjectgui':
+			case 'ilasshintpagegui':
 				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
 				$forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
