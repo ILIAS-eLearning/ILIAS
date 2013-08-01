@@ -139,7 +139,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$list = new ilAdvancedSelectionListGUI();
 		$list->setItemLinkClass('small');
 		$list->setSelectionHeaderClass('small');
-		$list->setId('actl_'.$set['server_id'].'_'.$a_set['mid']);
+		$list->setId('actl_'.$a_set['server_id'].'_'.$a_set['mid']);
 		$list->setListTitle($this->lng->txt('actions'));
 
 		switch($part->getImportType())
