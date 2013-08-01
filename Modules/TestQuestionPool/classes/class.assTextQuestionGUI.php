@@ -320,7 +320,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
-			$solution = $this->getUserAnswer( $active_id, $pass );
+			$solution = htmlentities($this->getUserAnswer($active_id, $pass));
 		}
 		else
 		{
@@ -333,6 +333,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($solution, TRUE));
+		vd($solution);
 		$questiontext = $this->object->getQuestion();
 		
 		if (!$show_correct_solution)
