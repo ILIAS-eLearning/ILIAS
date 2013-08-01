@@ -5199,19 +5199,6 @@ class ilObjTestGUI extends ilObjectGUI
             }
         }
 
-        private function formsectionHasVisibleFields($templateData, $fields) {
-            foreach($fields as $fld) {
-                if (isset($templateData[$fld])) {
-                    if(!$templateData[$fld]['hide'])
-                        return true;
-                }
-                else {
-                    return true;
-                }
-            }
-            return false;
-        }
-
 	/**
 	 * Enable all settings - Confirmation
 	 */

@@ -1289,4 +1289,17 @@ class ilObjTestSettingsGeneralGUI
 		);
 		return $this->formsectionHasVisibleFields($templateData, $fields);
 	}
+
+	private function formsectionHasVisibleFields($templateData, $fields)
+	{
+		foreach($fields as $fld)
+		{
+			if( !isset($templateData[$fld]) || !$templateData[$fld]['hide'] )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
