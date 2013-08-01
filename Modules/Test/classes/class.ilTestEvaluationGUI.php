@@ -1215,7 +1215,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$result_array =& $this->object->getTestResult($active_id, $pass);
 			$user_id =& $this->object->_getUserIdFromActiveId($active_id);
 			$showAllAnswers = TRUE;
-			if ($this->object->isExecutable($user_id))
+			if ($this->object->isExecutable($testSession, $user_id))
 			{
 				$showAllAnswers = FALSE;
 			}
