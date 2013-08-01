@@ -18,9 +18,11 @@ class ilObjTestSettingsGeneralGUI
 	/**
 	 * command constants
 	 */
-	const CMD_SHOW_FORM				= 'showForm';
-	const CMD_SAVE_FORM				= 'saveForm';
-	const CMD_CONFIRMED_SAVE_FORM	= 'confirmedSaveForm';
+	const CMD_SHOW_FORM					= 'showForm';
+	const CMD_SAVE_FORM					= 'saveForm';
+	const CMD_CONFIRMED_SAVE_FORM		= 'confirmedSaveForm';
+	const CMD_SHOW_RESET_TPL_CONFIRM	= 'showResetTemplateConfirmation';
+	const CMD_CONFIRMED_RESET_TPL		= 'confirmedResetTemplate';
 	
 	/**
 	 * global $ilCtrl object
@@ -1175,6 +1177,34 @@ class ilObjTestSettingsGeneralGUI
 		
 		return $form;
 	}
+
+	/**
+	 * Enable all settings - Confirmation
+	 */
+	private function showResetTemplateConfirmationCmd()
+	{
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirmationGUI = new ilConfirmationGUI();
+		
+		$confirmationGUI->setFormAction($this->ctrl->getFormAction($this));
+		$confirmationGUI->setHeaderText($this->lng->txt("test_confirm_template_reset"));
+		$confirmationGUI->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_FORM);
+		$confirmationGUI->setConfirm($this->lng->txt('confirm'), self::CMD_CONFIRMED_RESET_TPL);
+		
+		$this->tpl->setContent( $this->ctrl->getHTML($confirmationGUI) );
+	}
+
+	/**
+	 * Enable all settings - remove template
+	 */
+	private function confirmedResetTemplateCmd()
+	{
+		$this->object->setTemplate(null);
+		$this->object->saveToDB();
+
+		ilUtil::sendSuccess($this->lng->txt("test_template_reset"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
 	
 	private function getQuestionSetTypeTranslation($questionSetType)
 	{
@@ -1216,7 +1246,7 @@ class ilObjTestSettingsGeneralGUI
 		{
 			global $tpl;
 
-			$link = $this->ctrl->getLinkTarget($this, "confirmResetTemplate");
+			$link = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_RESET_TPL_CONFIRM);
 			$link = "<a href=\"".$link."\">".$this->lng->txt("test_using_template_link")."</a>";
 			
 			$msgHTML = $tpl->getMessageHTML(

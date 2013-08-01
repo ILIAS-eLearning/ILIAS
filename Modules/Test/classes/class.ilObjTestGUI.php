@@ -5199,32 +5199,6 @@ class ilObjTestGUI extends ilObjectGUI
             }
         }
 
-	/**
-	 * Enable all settings - Confirmation
-	 */
-	function confirmResetTemplateObject()
-	{
-		ilUtil::sendQuestion($this->lng->txt("test_confirm_template_reset"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_tst_tst_confirm_resettemplate.html", "Modules/Test");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BTN_CONFIRM_REMOVE", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL_REMOVE", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "resetTemplateObject"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
-	 * Enable all settings - remove template
-	 */
-	function resetTemplateObject()
-	{
-		$this->object->setTemplate(null);
-		$this->object->saveToDB();
-
-		ilUtil::sendSuccess($this->lng->txt("test_template_reset"), true);
-		$this->ctrl->redirect($this, "properties");
-	}
-
 	public function saveOrderAndObligationsObject()
 	{
 	    global $ilAccess;
