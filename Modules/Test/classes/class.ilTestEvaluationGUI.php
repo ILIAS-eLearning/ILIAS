@@ -1125,10 +1125,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$template->setVariable("SIGNATURE", $signature);
 			if ($this->object->getShowExamid())
 			{
-				$template->setVariable('EXAM_ID',
-										$this->object->getExamId(
-											$this->object->getTestSession()->getActiveId(),
-											$this->object->getTestSession()->getPass() ));
+				$template->setVariable('EXAM_ID', $this->object->getExamId(
+							$testSession->getActiveId(), $testSession->getPass()
+				));
+				
 				$template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
 			}
 		}
@@ -1390,7 +1390,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 
-		$active_id = $this->object->getTestSession()->getActiveId();
+		$testSession = $this->testSessionFactory->getSession();
+		$active_id = $testSession->getActiveId();
 		$counted_pass = ilObjTest::_getResultPass($active_id);
 		include_once "./Services/Certificate/classes/class.ilCertificate.php";
 		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
