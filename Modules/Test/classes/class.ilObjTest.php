@@ -4447,6 +4447,8 @@ function getAnswerFeedbackPoints()
 		include_once "./Modules/Test/classes/class.ilTestSequence.php";
 		
 		$testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
+		$testSequence->loadFromDb();
+		$testSequence->loadQuestions();
 		
 		$sequence = array();
 		
