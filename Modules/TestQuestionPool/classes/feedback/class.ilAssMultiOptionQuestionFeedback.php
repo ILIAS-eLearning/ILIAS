@@ -220,7 +220,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 		{
 			foreach( $this->getSpecificAnswerFeedbackIdByAnswerIndexMap($questionId) as $answerIndex => $pageObjectId )
 			{
-				$this->ensureDeletedPageObject($this->getSpecificAnswerFeedbackPageObjectType(), $pageObjectId);
+				$this->ensurePageObjectDeleted($this->getSpecificAnswerFeedbackPageObjectType(), $pageObjectId);
 			}
 		}
 		
