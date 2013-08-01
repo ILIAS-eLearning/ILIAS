@@ -366,7 +366,7 @@ class ilECSCategoryMappingRule
 		switch($this->getMappingType())
 		{
 			case self::TYPE_FIXED:
-			
+
 				if($this->getFieldName() == 'part_id')
 				{
 					return $lng->txt('ecs_field_'.$this->getFieldName()).': '.$this->participantsToString();
@@ -403,7 +403,9 @@ class ilECSCategoryMappingRule
 				$part_string .= ', ';				
 			}
 			$part_string .= '"';
-			if($name = ilECSUtils::lookupParticipantName($part_id))
+			
+			$part_id_arr = explode('_', $part_id);
+			if($name = ilECSUtils::lookupParticipantName($part_id_arr[1],$part_id_arr[0]))
 			{
 				$part_string .= $name;
 			}
