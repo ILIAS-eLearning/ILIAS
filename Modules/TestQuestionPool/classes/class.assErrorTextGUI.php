@@ -611,6 +611,9 @@ class assErrorTextGUI extends assQuestionGUI
 		{
 			$elements = array_merge( $elements, preg_split("/\s+/", $line));
 		}
+		
+		$matchedIndexes = array();
+		
 		$i = 0;
 		foreach ($selection as $index => $answer)
 		{
@@ -624,10 +627,19 @@ class assErrorTextGUI extends assQuestionGUI
 			$feedback .= $caption .'</td><td>';
 			foreach ($this->object->getErrorData() as $idx => $ans)
 			{
+				if( isset($matchedIndexes[$idx]) )
+				{
+					continue;
+				}
+				
 				$cand = '#'.$ans->text_wrong;
 				if ($elements[$answer] == $cand)
 				{
 					$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
+					
+					$matchedIndexes[$idx] = $idx;
+					
+					break;
 				}
 			}
 			#$feedback .= $this->object->getFeedbackSingleAnswer($answer) . '</td> </tr>';
