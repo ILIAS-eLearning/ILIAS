@@ -47,6 +47,7 @@ class ilECSEventQueueReader
 	const TYPE_REMOTE_LEARNING_MODULE = 'rlm';
 	const TYPE_REMOTE_WIKI = 'rwik';
 	const TYPE_REMOTE_TEST = 'rtst';
+	const TYPE_COURSE_URLS = 'course_urls';
 	
 	protected $log;
 	protected $db;
@@ -445,7 +446,11 @@ class ilECSEventQueueReader
 			
 			case 'tests':
 				$type = self::TYPE_REMOTE_TEST;
-				break;	
+				break;
+			
+			case 'course_urls':
+				$type = self::TYPE_COURSE_URLS;
+				break;
 		}
 
 		$query = "SELECT * FROM ecs_events ".
