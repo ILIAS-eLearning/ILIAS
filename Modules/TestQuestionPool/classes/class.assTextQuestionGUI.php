@@ -318,20 +318,22 @@ class assTextQuestionGUI extends assQuestionGUI
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		
+		$user_solution = $this->getUserAnswer( $active_id, $pass );
+		
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
-			$solution = htmlentities($this->getUserAnswer($active_id, $pass));
+			$solution = $user_solution;
 		}
 		else
 		{
 			$solution = $this->getBestAnswer();
 		}
-		$user_solution = $this->getUserAnswer( $active_id, $pass );
 		
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		$solution = htmlentities($solution, ENT_COMPAT | ENT_HTML401, 'UTF-8');
 		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($solution, TRUE));
 		
 		$questiontext = $this->object->getQuestion();
@@ -345,7 +347,7 @@ class assTextQuestionGUI extends assQuestionGUI
 				$max_no_of_chars = ucfirst($this->lng->txt('unlimited'));
 			}
 			
-			$act_no_of_chars = strlen(strip_tags($user_solution));
+			$act_no_of_chars = strlen($user_solution);
 			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' . 
 				$this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
 		}
