@@ -193,6 +193,8 @@ class ilECSTaskScheduler
 			$this->log->write(print_r($event, true));
 			
 			// determine event handler
+			
+			$event_ignored = false;
 			switch($event['type'])
 			{
 				case ilECSEventQueueReader::TYPE_REMOTE_COURSE:
@@ -222,10 +224,20 @@ class ilECSTaskScheduler
 					include_once './Services/WebServices/ECS/classes/Course/class.ilECSCmsCourseMemberCommandQueueHandler.php';
 					$handler = new ilECSCmsCourseMemberCommandQueueHandler($this->getServer());
 					break;
+				
+				case ilECSEventQueueReader::TYPE_COURSE_URLS:
+					$event_ignored = true;
+					
 
 				default:
 					$this->log->write(__METHOD__.': Unknown event type in queue '.$event['type']);
+					$event_ignored = true;
 					break;
+			}
+			
+			if($event_ignored)
+			{
+				continue;
 			}
 			
 			$res = false;
