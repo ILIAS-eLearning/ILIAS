@@ -656,10 +656,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		if ($this->object->getShowExamid() && !$this->object->getKioskMode())
 		{
 			$this->tpl->setCurrentBlock('exam_id');
-			$this->tpl->setVariable('EXAM_ID', 
-								$this->object->getExamId(
-									$this->object->getTestSession()->getActiveId(), 
-									$this->object->getTestSession()->getPass() ));
+			$this->tpl->setVariable('EXAM_ID', $this->object->getExamId(
+					$this->testSession->getActiveId(), $this->testSession->getPass()
+			));
 			$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
 			$this->tpl->parseCurrentBlock();
 		}
