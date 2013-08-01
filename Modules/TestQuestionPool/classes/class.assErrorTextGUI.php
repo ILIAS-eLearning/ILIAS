@@ -515,6 +515,9 @@ class assErrorTextGUI extends assQuestionGUI implements GuiScoringAdjustable
 		{
 			$elements = array_merge( $elements, preg_split("/\s+/", $line));
 		}
+		
+		$matchedIndexes = array();
+		
 		$i = 0;
 		foreach ($selection as $index => $answer)
 		{
@@ -535,6 +538,11 @@ class assErrorTextGUI extends assQuestionGUI implements GuiScoringAdjustable
 			
 			foreach ($this->object->getErrorData() as $idx => $ans)
 			{
+				if( isset($matchedIndexes[$idx]) )
+				{
+					continue;
+				}
+				
 				if ( preg_match('/'.preg_quote($ans->text_wrong, '/').'/', $element) )
 				{
 					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
@@ -542,6 +550,10 @@ class assErrorTextGUI extends assQuestionGUI implements GuiScoringAdjustable
 					);
 					
 					$feedback .= '<td>'. $fb . '</td>';
+					
+					$matchedIndexes[$idx] = $idx;
+					
+					break;
 				}
 			}
 			
