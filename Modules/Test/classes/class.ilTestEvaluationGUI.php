@@ -1192,7 +1192,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if (strlen($_GET["pass"])) $pass = $_GET["pass"];
 		}
 		$user_id = $ilUser->getId();
-		$active_id = $this->object->getTestSession()->getActiveId();
+		
+		$testSession = $this->testSessionFactory->getSession();
+		$active_id = $testSession->getActiveId();
+		
 		$overview = "";
 		if ($this->object->getNrOfTries() == 1)
 		{
@@ -1225,7 +1228,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
 		$template->setVariable("PRINT_URL", "javascript:window.print();");
 
-		$user_data = $this->getResultsUserdata($active_id, TRUE);
+		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
 		$template->setVariable("USER_DATA", $user_data);
 		$template->setVariable("TEXT_LIST_OF_ANSWERS", $this->lng->txt("tst_list_of_answers"));
 		if (strlen($signature))
