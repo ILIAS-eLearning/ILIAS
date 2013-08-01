@@ -7319,7 +7319,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setPassword($this->getPassword());
 		$newObj->setProcessingTime($this->getProcessingTime());
 		$newObj->setRandomQuestionCount($this->getRandomQuestionCount());
-		$newObj->setRandomTest($this->isRandomTest());
+		$newObj->setQuestionSetType($this->getQuestionSetType());
 		$newObj->setReportingDate($this->getReportingDate());
 		$newObj->setResetProcessingTime($this->getResetProcessingTime());
 		$newObj->setResultsPresentation($this->getResultsPresentation());
