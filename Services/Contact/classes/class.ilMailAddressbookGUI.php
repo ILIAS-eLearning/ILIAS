@@ -438,7 +438,7 @@ class ilMailAddressbookGUI
 
 	    if (strlen(trim($_SESSION["addr_search"])) > 0)
 	    {
-		$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["addr_search"]), true));
+			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["addr_search"]), true));
 	    }
 
 	    $tbl = new ilAddressbookTableGUI($this);
@@ -526,12 +526,12 @@ class ilMailAddressbookGUI
 		    if ($chat_active)
 			$current_selection_list->addItem($this->lng->txt("invite_to_chat"), '', $this->ctrl->getLinkTarget($this, "inviteToChat"));
 
-		    $this->ctrl->clearParameters($this);
+			$this->ctrl->clearParameters($this);
 
-				if($ilSetting->get('cron_upd_adrbook', 0))
-				{
-					$result[$counter]['auto_update'] = $entry['auto_update'] ? $lng->txt('yes') : $lng->txt('no');
-				}
+			if($ilSetting->get('cron_upd_adrbook', 0))
+			{
+				$result[$counter]['auto_update'] = $entry['auto_update'] ? $lng->txt('yes') : $lng->txt('no');
+			}
 
 		    $result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
 		    ++$counter;
