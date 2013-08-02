@@ -757,6 +757,7 @@ class ilTestServiceGUI
 	 */
 	function getResultsUserdata($testSession, $active_id, $overwrite_anonymity = FALSE)
 	{
+		if(!is_object($testSession)) throw new TestException();
 		$template = new ilTemplate("tpl.il_as_tst_results_userdata.html", TRUE, TRUE, "Modules/Test");
 		include_once './Services/User/classes/class.ilObjUser.php';
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
@@ -879,9 +880,16 @@ class ilTestServiceGUI
 	/**
 	 * Output of the pass overview for a test called by a test participant
 	 *
+	 * @param ilTestSession|ilTestSessionDynamicQuestionSet $testSession
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @param boolean $show_pass_details
+	 * @param boolean $show_answers
+	 * @param boolean $show_question_only
+	 * @param boolean $show_reached_points
 	 * @access public
 	 */
-	function getResultsOfUserOutput($active_id, $pass, $show_pass_details = TRUE, $show_answers = TRUE, $show_question_only = FALSE, $show_reached_points = FALSE)
+	function getResultsOfUserOutput($testSession, $active_id, $pass, $show_pass_details = TRUE, $show_answers = TRUE, $show_question_only = FALSE, $show_reached_points = FALSE)
 	{
 		global $ilias, $tpl;
 
@@ -897,7 +905,8 @@ class ilTestServiceGUI
 		}
 
 		$statement = $this->getFinalStatement($active_id);
-		$user_data = $this->getResultsUserdata($active_id, TRUE);
+		
+		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
 
 		if (!is_null($pass))
 		{
@@ -910,7 +919,7 @@ class ilTestServiceGUI
 
 			$user_id = $this->object->_getUserIdFromActiveId($active_id);
 			$showAllAnswers = TRUE;
-			if ($this->object->isExecutable($this->testSession, $user_id))
+			if ($this->object->isExecutable($testSession, $user_id))
 			{
 				$showAllAnswers = FALSE;
 			}
