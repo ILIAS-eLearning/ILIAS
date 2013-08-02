@@ -36,12 +36,24 @@
 .rcol {
 	width: 50%;
 	float: right;
-	text-align. right;
 }
 
 .lcol {
 	width: 50%;
 	float: left;
+}
+
+.participant.solution {
+	padding: 5px;
+	width: 50%;
+	overflow-x: auto;
+}
+.rcol.solution {
+	width: 45%;
+	overflow-x: auto;
+	padding: 5px;
+	background: #E2FFC7; /* Fallback IE 6-8 */
+	background: rgba(226, 255, 199, .4);
 }
 
 #kioskOptions {
