@@ -14,6 +14,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilGroupParticipantsTableGUI extends ilTable2GUI
 {
     protected $type = 'admin';
+	protected $role = 0;
     protected $show_learning_progress = false;
     
     protected static $export_allowed = false;
@@ -29,7 +30,12 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
      * @param
      * @return
      */
-    public function __construct($a_parent_obj,$a_type = 'admin',$show_content = true,$show_learning_progress = false)
+    public function __construct(
+			$a_parent_obj,$a_type = 'admin',
+			$show_content = true,
+			$show_learning_progress = false,
+			$a_role_id = 0
+	)
     {
         global $lng,$ilCtrl;
         
@@ -41,11 +47,12 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         
         $this->type = $a_type; 
+		$this->role = $a_role_id;
         
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $this->privacy = ilPrivacySettings::_getInstance();
         
-        $this->setId('grp_'.$a_type.'_'.$a_parent_obj->object->getId());
+        $this->setId('grp_'.$a_type.'_'.$this->getRole().'_'.$a_parent_obj->object->getId());
         parent::__construct($a_parent_obj,'members');
 		
 		$this->initAcceptedAgreements();
@@ -77,11 +84,16 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt('grp_notification'),'notification');
             $this->addCommandButton('updateStatus',$this->lng->txt('save'));
         }
-        else
+        elseif($this->type == 'member')
         {
             $this->setPrefix('member');
             $this->setSelectAllCheckbox('members');
         }
+		else
+		{
+            $this->setPrefix('role');
+            $this->setSelectAllCheckbox('roles');
+		}
         $this->addColumn($this->lng->txt(''),'optional');
         $this->setDefaultOrderField('lastname');
         
@@ -105,6 +117,15 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
             $this->disable('select_all');
         }       
     }
+	
+	/**
+	 * Get role
+	 * @return type
+	 */
+	public function getRole()
+	{
+		return $this->role;
+	}
     
     /**
      * Get selectable columns
@@ -241,10 +262,14 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
             $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
         }
-        else
+        elseif($this->type == 'member')
         {
             $this->tpl->setVariable('VAL_POSTNAME','members');
         }
+		else
+		{
+            $this->tpl->setVariable('VAL_POSTNAME','roles');
+		}
         
         $this->ctrl->setParameter($this->parent_obj,'member_id',$a_set['usr_id']);
         $this->tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this->parent_obj,'editMember'));
@@ -262,7 +287,7 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
     public function parse($a_user_data)
     {
         include_once './Services/User/classes/class.ilUserQuery.php';
-        
+		
         $additional_fields = $this->getSelectedColumns();
         unset($additional_fields["firstname"]);
         unset($additional_fields["lastname"]);
@@ -278,8 +303,11 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
                 $part = ilGroupParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getAdmins();
                 break;              
             case 'member':
-                $part = ilGroupParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getMembers();
+				$part = $GLOBALS['rbacreview']->assignedUsers($this->getRole());
                 break;
+			case 'role':
+				$part = $GLOBALS['rbacreview']->assignedUsers($this->getRole());
+				break;
         }
 		
 		$udf_ids = $usr_data_fields = $odf_ids = array();

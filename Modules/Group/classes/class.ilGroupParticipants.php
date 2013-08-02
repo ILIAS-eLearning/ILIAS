@@ -68,6 +68,35 @@ class ilGroupParticipants extends ilParticipants
 	}
 	
 	/**
+	 * Get member roles (not auto generated)
+	 * @param int $a_ref_id
+	 */
+	public static function getMemberRoles($a_ref_id)
+	{
+		global $rbacreview;
+
+		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
+		$lrol = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
+
+		$roles = array();
+		foreach($lrol as $role)
+		{
+			$title = ilObject::_lookupTitle($role);
+			switch(substr($title,0,8))
+			{
+				case 'il_grp_a':
+				case 'il_grp_m':
+					continue;
+
+				default:
+					$roles[$role] = $role;
+			}
+		}
+		return $roles;
+	}
+		
+	
+	/**
 	 * Static function to check if a user is a participant of the container object
 	 *
 	 * @access public
