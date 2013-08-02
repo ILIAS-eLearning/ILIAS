@@ -110,7 +110,7 @@ class ilAdministrationGUI
 		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
 		if(!ilMainMenuGUI::_checkAdministrationPermission())
 		{
-			$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);
+			$ilias->raiseError($this->lng->txt('permission_denied'),$ilias->error_obj->WARNING);
 		}
 		
 		// check creation mode
