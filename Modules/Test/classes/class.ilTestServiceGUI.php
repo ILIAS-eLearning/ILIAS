@@ -1019,7 +1019,7 @@ class ilTestServiceGUI
 			$resultpass = $this->object->_getResultPass($active_id);
 			for ($i = 0; $i < count($passes); $i++)
 			{
-				if (($resultpass != null) && ($resultpass == $passes[$i]["pass"]))
+				if (($resultpass !== null) && ($resultpass == $passes[$i]["pass"]))
 				{
 					$question_gui =& $this->object->createQuestionGUI("", $passes[$i]["qid"]);
 					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass+1);
