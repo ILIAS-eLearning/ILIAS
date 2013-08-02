@@ -3607,18 +3607,18 @@ common#:#pages#:#Pages
 common#:#parameter#:#Parameter
 common#:#parse#:#Parse
 common#:#passed#:#Passed
-common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a generated list.
+common#:#passwd_generation_info#:#If enabled, a user can select a password only from a list of automatically generated passwords.
 common#:#passwd_generation#:#Password Generation
 common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_list#:#List of Passwords
 common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#passwd#:#Password
-common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.
-common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.
-common#:#password_change_on_first_login_demand#:#Your initial password have to be changed before you can start using ILIAS services.
-common#:#password_empty#:#The password must not be empty.
-common#:#password_expired#:#Your password is expired and has to be changed, because the last change was %s days ago.
+common#:#password_assistance_disabled#:#Password assistance is only available when user authentication is done via local ILIAS database.
+common#:#password_assistance_info#:#If password assistance is enabled, a link "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to define a new password for their user account without needing assistance from a system administrator.
+common#:#password_change_on_first_login_demand#:#You have to change your initial password before you can start using ILIAS services.
+common#:#password_empty#:#The password field must not be empty.
+common#:#password_expired#:#Your password is expired and has to be changed as the last change was %s day(s) ago.
 common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.
 common#:#password_must_special_chars#:#The password must contain special characters.
 common#:#password_to_long#:#The password must have at most a size of %s characters.
