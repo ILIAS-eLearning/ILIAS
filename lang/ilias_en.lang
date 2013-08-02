@@ -3175,7 +3175,7 @@ common#:#msg_min_one_role#:#Each user must have at least one global role!
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
-common#:#msg_no_file#:#You didn't choose a file
+common#:#msg_no_file#:#You didn't choose a file or the selected file was too big.
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
 common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment
