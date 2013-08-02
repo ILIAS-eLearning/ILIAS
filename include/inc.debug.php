@@ -128,7 +128,7 @@ function cf($backjumps = 1)
 	list($fileC, $funcC) = getPhpSourceCodePositionInfo( ($backjumps - 1) + 1 );
 	list($fileF, $funcF) = getPhpSourceCodePositionInfo( ($backjumps) + 1 );
 
-	echo "<pre style=\"text-align:left;\">$fileC - $funcC\nIS CALLED FROM: $fileF - $funcF";
+	echo "<pre style=\"text-align:left;\">$fileC - $funcC\nIS CALLED FROM: $fileF - $funcF</pre>";
 
 	// BH: php 5.3 seems to not flushing the output consequently so following redirects are still performed
 	// and the output of vd() would be lost in nirvana if we not flush the output manualy
