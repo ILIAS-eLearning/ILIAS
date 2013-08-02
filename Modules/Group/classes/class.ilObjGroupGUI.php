@@ -1191,11 +1191,11 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->tpl->setVariable('ADMINS',$table_gui->getHTML());	
 		}
 		
-		if(count($part->getMembers()))
+		if($GLOBALS['rbacreview']->getNumberOfAssignedUsers(array($this->object->getDefaultMemberRole())))
 		{
 			if($ilUser->getPref('grp_member_hide'))
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'member',false,$this->show_tracking);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'member',false,$this->show_tracking,$this->object->getDEfaultMemberRole());
 				$this->ctrl->setParameter($this,'member_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -1205,7 +1205,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'member',true,$this->show_tracking);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'member',true,$this->show_tracking,$this->object->getDefaultMemberRole());
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -1215,11 +1215,42 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 				
 			$table_gui->setTitle($this->lng->txt('grp_members'),'icon_usr.png',$this->lng->txt('grp_members'));
-			$table_gui->parse($this->readMemberData($part->getMembers()));
+			$table_gui->parse($this->readMemberData($GLOBALS['rbacreview']->assignedUsers($this->object->getDefaultMemberRole())));
+			$this->tpl->setCurrentBlock('member_block');
 			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());	
-			
+			$this->tpl->parseCurrentBlock();
 		}
 		
+		foreach(ilGroupParticipants::getMemberRoles($this->object->getRefId()) as $role_id)
+		{
+			if($ilUser->getPref('grp_role_hide'.$role_id))
+			{
+				$table_gui = new ilGroupParticipantsTableGUI($this,'role',false,$this->show_tracking,$role_id);
+				$this->ctrl->setParameter($this,'role_hide_'.$role_id,0);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('show'),
+					'',
+					ilUtil::getImagePath('edit_add.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$table_gui = new ilGroupParticipantsTableGUI($this,'role',true,$this->show_tracking,$role_id);
+				$this->ctrl->setParameter($this,'role_hide_'.$role_id,1);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('hide'),
+					'',
+					ilUtil::getImagePath('edit_remove.png'));
+				$this->ctrl->clearParameters($this);
+			}
+				
+			$table_gui->setTitle(ilObject::_lookupTitle($role_id),'icon_usr.gif',ilObject::_lookupTitle($role_id));
+			$table_gui->parse($this->readMemberData($GLOBALS['rbacreview']->assignedUsers($role_id)));
+			$this->tpl->setCurrentBlock('member_block');
+			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());	
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable('TXT_SELECTED_USER',$this->lng->txt('grp_selected_users'));
 		$this->tpl->setVariable('BTN_FOOTER_EDIT',$this->lng->txt('edit'));
 		$this->tpl->setVariable('BTN_FOOTER_VAL',$this->lng->txt('remove'));
@@ -1410,7 +1441,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');
 		
-		$participants_to_delete = (array) array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members']));
+		$participants_to_delete = (array) array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
 		
 		if(!count($participants_to_delete))
 		{
@@ -1437,7 +1468,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$confirm->setConfirm($this->lng->txt('confirm'),'deleteMembers');
 		$confirm->setCancel($this->lng->txt('cancel'),'members');
 		
-		foreach($this->readMemberData(array_merge((array) $_POST['admins'],(array) $_POST['members'])) as $participants)
+		foreach($this->readMemberData(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles'])) as $participants)
 		{
 			$confirm->addItem('participants[]',
 				$participants['usr_id'],
@@ -1503,6 +1534,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$_POST['participants'] = array_unique(array_merge((array) $_POST['admins'],
 				(array) $_POST['members'],
+				(array) $_POST['roles'],
 				(array) $_POST['waiting'],
 				(array) $_POST['subscribers']));
 		}
@@ -1575,7 +1607,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		$this->checkPermission('write');
 		
-		$participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members']));
+		$participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
 		
 		if(!count($participants))
 		{
