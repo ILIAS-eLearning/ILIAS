@@ -54,14 +54,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if($this->ctrl->getTargetScript() == 'role.php')
-		{
-			$this->__prepareOutput();
-		}
-		else
-		{
-			$this->prepareOutput();
-		}
+		$this->prepareOutput();
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -408,8 +401,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 /*			generate output			*/
 /************************************/
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html",
 			"Services/AccessControl");
 
@@ -633,18 +624,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	function addAdminLocatorItems()
 	{
 		global $ilLocator;
-
-		if ($_GET["admin_mode"] == "settings")	// system settings
-		{		
-			$ilLocator->addItem($this->lng->txt("administration"),
-				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
-				ilFrameTargetInfo::_getFrame("MainContent"));
+		
+		$ilLocator->addItem($this->lng->txt("administration"),
+			$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
+			ilFrameTargetInfo::_getFrame("MainContent"));
 				
-			$ilLocator->addItem(ilObject::_lookupTitle(
-				ilObject::_lookupObjId($_GET["ref_id"])),
-				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
-
-		}
+		$ilLocator->addItem(ilObject::_lookupTitle(
+			ilObject::_lookupObjId($_GET["ref_id"])),
+			$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
 	}
 	
 } // END class.ilObjRoleTemplateGUI
