@@ -13414,7 +13414,7 @@ cld#:#cld_folder_created1#:#Ordner
 cld#:#cld_folder_created2#:#erstellt
 cld#:#cld_folder_creation_failed#:#Ordnererstellung ist fehlgeschlagen
 cld#:#cld_folder_name#:#Ordnername
-cld#:#cld_folder_not_existing_on_service#:#Ornder existiert in der Cloud nicht
+cld#:#cld_folder_not_existing_on_service#:#Ordner existiert icht in der Cloud
 cld#:#cld_id_already_exists_in_file_tree_in_session#:#Die Id existiert bereits in der Session:
 cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Die Id existiert nicht in der Session
 cld#:#cld_info_add_file_to_current_directory#:#Datei zum Verzeichnis hinzufügen
