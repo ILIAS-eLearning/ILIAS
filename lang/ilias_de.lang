@@ -281,9 +281,9 @@ adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 assessment#:#autosave#:#Automatisches Speichern
 assessment#:#autosave_info#:#Wenn ausgewählt, werden Antworten im Hintergrund gespeichert um Datenverlusten vorzubeugen. (Bei ausgewählten Fragetypen.)
 assessment#:#autosave_ival#:#Intervall
-assessment#:#autosave_ival_info#:#Intervall in dem Antworten im Hintergrund gespeichert werden. (Microsekunden)
+assessment#:#autosave_ival_info#:#Intervall, in dem Antworten im Hintergrund gespeichert werden (in Mikrosekunden)
 assessment#:#for#:#für
-assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe gewährt:
+assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
@@ -6555,10 +6555,10 @@ crs#:#crs_presentation_type#:#Ansicht
 crs#:#crs_print_list#:#Liste erstellen
 crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg#:#Kursbeitritt
-crs#:#crs_reg_code#:#Beitritt mit Zugangsschlüssel
-crs#:#crs_reg_code_enabled_info#:#Diese Option ermöglicht, zusätzlich zum ausgewählten Beitrittsverfahren, einen automatischen Beitritt durch Aufruf eines Registrierungslinks.
-crs#:#crs_reg_code_link#:#Registrierungslink
-crs#:#crs_reg_code_value#:#Zugangsschlüssel
+crs#:#crs_reg_code#:#Beitritt per Link
+crs#:#crs_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
+crs#:#crs_reg_code_link#:#Link für direkten Beitritt
+crs#:#crs_reg_code_value#:#Link
 crs#:#crs_reg_deactivated#:#Anmeldung ausgeschaltet
 crs#:#crs_reg_lim_info#:#Diese Einstellung erlaubt den Kursbeitritt nur während eines definierten Zeitraumes. Wählen Sie außerdem noch ein Beitrittsverfahren aus.
 crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl an Benutzern fest, die selbst beitreten können. Wird die Zahl überschritten, ist keine Selbstanmeldung möglich. ('0' bedeutet unbegrenzt)
@@ -7832,15 +7832,15 @@ grp#:#grp_pass_request#:#Beitritt mit Gruppenpasswort
 grp#:#grp_presentation_type#:#Ansicht
 grp#:#grp_public#:#Öffentliche Gruppe
 grp#:#grp_public_info#:#Die Gruppe ist für Nicht-Mitglieder sichtbar, es gelten jedoch besondere Regelungen, um die Mitgliedschaft zu erlangen.
-grp#:#grp_reg_code#:#Anmeldung mit Zugangsschlüssel
-grp#:#grp_reg_code_enabled_info#:#Wählen Sie diese Option, um zusätzlich zu dem ausgewählten Beitrittsverfahren, eine automatische Anmeldung durch Aufruf eines Registrierungslinks zu ermöglichen.
-grp#:#grp_reg_code_link#:#Registrierungslink
-grp#:#grp_reg_code_value#:#Zugangsschlüssel
+grp#:#grp_reg_code#:#Beitritt per Link
+grp#:#grp_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
+grp#:#grp_reg_code_link#:#Link für direkten Beitritt
+grp#:#grp_reg_code_value#:#Link
 grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
 grp#:#grp_reg_direct#:#Direkter Beitritt
 grp#:#grp_reg_direct_info#:#Direkter Beitritt
 grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
-grp#:#grp_reg_disabled#:#Zur Zeit ist keine Aufnahme möglich.
+grp#:#grp_reg_disabled#:#Zur Zeit ist kein Beitritt möglich.
 grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Teilnehmer in die Gruppe aufnehmen.
 grp#:#grp_reg_end#:#Ende:
 grp#:#grp_reg_limit_num#:#Begrenzung der Teilnehmeranzahl
@@ -7849,11 +7849,11 @@ grp#:#grp_reg_limit_time#:#Zeitlich begrenzte Anmeldung
 grp#:#grp_reg_limited#:#Anmeldungszeitraum
 grp#:#grp_reg_max_members_info#:#Legen Sie hier die maximale Anzahl an Benutzern fest, die selbst beitreten können. Wird die Zahl überschritten, ist keine Selbstanmeldung möglich. ('0' bedeutet unbegrenzt)
 grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
-grp#:#grp_reg_password_info#:#Interessierte Benutzer müssen das Passwort kennen, um der Gruppe beitreten zu können.
-grp#:#grp_reg_period#:#Registrierungszeitraum
+grp#:#grp_reg_password_info#:#Benutzer müssen das Passwort kennen, um der Gruppe beitreten zu können.
+grp#:#grp_reg_period#:#Anmeldezeitraum
 grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sobald ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt.
-grp#:#grp_reg_request#:#Antrag mit Bestätigung
-grp#:#grp_reg_request_info#:#Interessierte Benutzer können eine Anfrage zur Aufnahme an die Gruppenadministratoren übermitteln.
+grp#:#grp_reg_request#:#Beitritt beantragen
+grp#:#grp_reg_request_info#:#Benutzer können eine Anfrage zur Aufnahme an die Gruppenadministratoren stellen.
 grp#:#grp_reg_start#:#Start:
 grp#:#grp_reg_subject#:#Nachricht
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
@@ -9677,7 +9677,7 @@ ps#:#ps_auto_https_header_name#:#Headername
 ps#:#ps_auto_https_header_value#:#Headerwert
 ps#:#ps_btn_add_value#:#Neuer Wert
 ps#:#ps_cdf_add_field#:#Neues Datenfeld anlegen
-ps#:#ps_cdf_added_field#:#Eine neue Auswahlliste wurde angelegt.
+ps#:#ps_cdf_added_field#:#Eine neues Datenfeld wurde angelegt.
 ps#:#ps_cdf_data_fields#:#Verfügbare Datenfelder
 ps#:#ps_cdf_delete_sure#:#Sind Sie sicher, dass Sie dieses Datenfeld löschen möchten ?
 ps#:#ps_cdf_deleted#:#Die Datenfelder wurden gelöscht.

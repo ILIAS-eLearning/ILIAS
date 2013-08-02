@@ -6708,7 +6708,7 @@ grp#:#grp_reg_limited#:#Self-Registration
 grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.
 grp#:#grp_reg_passwd_info_screen#:#If a group administrator has given you the group password, you can join this group.
 grp#:#grp_reg_password_info#:#Users need to type in the correct password for joining the group.
-grp#:#grp_reg_period#:#Registration Period
+grp#:#grp_reg_period#:#Self-Registration Period
 grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You will get a message from a group administrator when your request has been admitted or declined.
 grp#:#grp_reg_request_info#:#Interested users can send a request/message to group administrator.
 grp#:#grp_reg_request#:#Request Membership
@@ -10225,14 +10225,14 @@ dateplaner#:#cal_cancel_booking_info#:#Please confirm the cancellation of this b
 dateplaner#:#cal_cancel_booking#:#Cancel Booking
 dateplaner#:#cal_booking_confirmed#:#The appointment has been booked successfully.
 dateplaner#:#cal_cancel_booking_confirmed#:#The booking has been cancelled successfully.
-crs#:#crs_reg_code#:#Registration Code
-crs#:#crs_reg_code_link#:#Registration Link
-crs#:#crs_reg_code_value#:#Code
-crs#:#crs_reg_code_enabled_info#:#Besides the choosen registration procedure this option allows users to register directly by using the following registration link.
-grp#:#grp_reg_code#:#Registration Code
-grp#:#grp_reg_code_link#:#Registration Link
-grp#:#grp_reg_code_value#:#Code
-grp#:#grp_reg_code_enabled_info#:#Besides the choosen registration procedure this option allows users to register directly by using the following registration link.
+crs#:#crs_reg_code#:#Admission per Link
+crs#:#crs_reg_code_link#:#Link for Direct Admission
+crs#:#crs_reg_code_value#:#Link
+crs#:#crs_reg_code_enabled_info#:#Besides the chosen registration procedure this option allows users to enter directly by using the following link.
+grp#:#grp_reg_code#:#Admission per Link
+grp#:#grp_reg_code_link#:#Link for Direct Admission
+grp#:#grp_reg_code_value#:#Link
+grp#:#grp_reg_code_enabled_info#:#Besides the chosen registration procedure this option allows users to enter directly by using the following link.
 forum#:#add_re_to_subject#:#Add 'Re: ' to subject on reply
 forum#:#add_re_to_subject_info#:#If activated, 'Re: ' is added to the subject on reply.
 forum#:#enter_new_subject#:#Please enter a new subject
