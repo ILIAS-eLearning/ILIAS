@@ -112,10 +112,10 @@ class ilObjTestGUI extends ilObjectGUI
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 		}
 
-		$cmd = $this->ctrl->getCmd("properties");
+		$cmd = $this->ctrl->getCmd("infoScreen");
 
 		$cmdsDisabledDueToOfflineStatus = array(
-			'resume', 'start', 'outUserResultsOverview', 'outUserListOfAnswerPasses'
+			'resumePlayer', 'resumePlayer', 'outUserResultsOverview', 'outUserListOfAnswerPasses'
 		);
 
 		if(!$this->getCreationMode() && !$this->object->isOnline() && in_array($cmd, $cmdsDisabledDueToOfflineStatus))
@@ -124,7 +124,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
-		$this->ctrl->setReturn($this, "properties");
+		$this->ctrl->setReturn($this, "infoScreen");
 
 		if(method_exists($this->object, "getTestStyleLocation")) $this->tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
 
@@ -4532,7 +4532,6 @@ class ilObjTestGUI extends ilObjectGUI
 				}				
 				break;
 			case "scoring":
-			case "properties":
 			case "marks":
 			case "saveMarks":
 			case "cancelMarks":
@@ -4552,7 +4551,6 @@ class ilObjTestGUI extends ilObjectGUI
 			case "applyDefaults":
 			case "inviteParticipants":
 			case "searchParticipants":
-			case "":
 				if( $curUserHasWriteAccess && in_array($this->ctrl->getCmdClass(), array('ilobjtestgui', 'ilcertificategui')) )
 				{
 					$this->getSettingsSubTabs($hidden_tabs);
