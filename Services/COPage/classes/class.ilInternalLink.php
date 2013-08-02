@@ -176,7 +176,27 @@ class ilInternalLink
 				break;
 				
 			case "RepositoryItem":
-				$id = ilObject::_getIdForImportId($a_target);
+				
+				$tarr = explode("_", $a_target);
+				$import_id = $a_target;
+				
+				// if a ref id part is given, strip this
+				// since this will not be part of an import id
+				if ($tarr[4] != "")
+				{
+					$import_id = $tarr[0]."_".$tarr[1]."_".$tarr[2]."_".$tarr[3]; 
+				}
+				if (ilInternalLink::_extractInstOfTarget($a_target) == IL_INST_ID
+					&& IL_INST_ID > 0)
+				{
+					// does it have a ref id part?
+					if ($tarr[4] != "")
+					{
+						return "il__obj_".$tarr[4];
+					}
+				}
+				
+				$id = ilObject::_getIdForImportId($import_id);
 //echo "-$a_target-$id-";
 				// get ref id for object id
 				// (see ilPageObject::insertInstIntoIDs for the export procedure)

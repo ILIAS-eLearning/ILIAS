@@ -3834,14 +3834,26 @@ class ilPageObject
 				$id = substr($target, 4, strlen($target) - 4);
 				
 				// convert repository links obj_<ref_id> to <type>_<obj_id>
+				// this leads to bug 6685.
 				if ($a_res_ref_to_obj_id && $type == "RepositoryItem")
 				{
 					$id_arr = explode("_", $id);
+					
+					// changed due to bug 6685
+					$ref_id = $id_arr[1];
 					$obj_id = ilObject::_lookupObjId($id_arr[1]);
+					
 					$otype = ilObject::_lookupType($obj_id);
 					if ($obj_id > 0)
 					{
-						$id = $otype."_".$obj_id;
+						// changed due to bug 6685
+						// the ref_id should be used, if the content is
+						// imported on the same installation
+						// the obj_id should be used, if a different
+						// installation imports, but has an import_id for
+						// the object id.
+						$id = $otype."_".$obj_id."_".$ref_id;
+						//$id = $otype."_".$ref_id;
 					}
 				}
 				$new_target = "il_".$a_inst."_".$id;
