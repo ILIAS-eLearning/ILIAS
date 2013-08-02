@@ -452,7 +452,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 	{
 		global $rbacsystem, $ilTabs;
 		
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+		$this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$q_type = $this->object->getQuestionType();
 
@@ -469,16 +469,16 @@ class assFlashQuestionGUI extends assQuestionGUI
 			{
 				// edit page
 				$ilTabs->addTarget("edit_page",
-					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "edit"),
+					$this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
 					array("edit", "insert", "exec_pg"),
 					"", "", $force_active);
 			}
 	
 			// edit page
 			$ilTabs->addTarget("preview",
-				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"),
+				$this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "preview"),
 				array("preview"),
-				"ilPageObjectGUI", "", $force_active);
+				"ilAssQuestionPageGUI", "", $force_active);
 		}
 
 		$force_active = false;

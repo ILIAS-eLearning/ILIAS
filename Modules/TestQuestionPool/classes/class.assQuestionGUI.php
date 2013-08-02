@@ -29,7 +29,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 * The assQuestionGUI class encapsulates basic GUI functions
 * for assessment questions.
 *
-* @ilCtrl_Calls assQuestionGUI: ilPageObjectGUI
+* @ilCtrl_Calls assQuestionGUI: ilAssQuestionPageGUI
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @author		Björn Heyser <bheyser@databay.de>
@@ -82,7 +82,7 @@ abstract class assQuestionGUI
 		$this->ctrl->saveParameter($this, "q_id");
 		$this->ctrl->saveParameter($this, "prev_qid");
 		$this->ctrl->saveParameter($this, "calling_test");
-		$this->ctrl->saveParameterByClass('ilPageObjectGUI', 'test_express_mode');
+		$this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'test_express_mode');
 		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'test_express_mode');
 
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -317,21 +317,10 @@ abstract class assQuestionGUI
 	*/
 	function getILIASPage($html = "")
 	{
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-		//$page =& new ilPageObject("qpl", $this->object->getId());
-		$page_gui =& new ilPageObjectGUI("qpl", $this->object->getId());
-		//$page_gui->setTemplateTargetVar($a_temp_var);
-		$page_gui->setEnabledInternalLinks(false);
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
+		$page_gui = new ilAssQuestionPageGUI($this->object->getId());
 		$page_gui->setQuestionHTML(array($this->object->getId() => $html));
-		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
-			"&amp;ref_id=".$_GET["ref_id"]);
-		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".
-			"&amp;ref_id=".$_GET["ref_id"]);
-		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
-		$page_gui->setEnabledPageFocus(false);
 		$page_gui->setOutputMode("presentation");
-		$page_gui->setPresentationTitle("");
 		$presentation = $page_gui->presentation();
 		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
 		$presentation = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
@@ -349,22 +338,14 @@ abstract class assQuestionGUI
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
 
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
 		$this->lng->loadLanguageModule("content");
-		//$page =& new ilPageObject("qpl", $this->object->getId());
-		$page_gui =& new ilPageObjectGUI("qpl", $this->object->getId());
+		$page_gui = new ilAssQuestionPageGUI($this->object->getId());
 		$page_gui->setTemplateTargetVar($a_temp_var);
-		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
-			"&amp;ref_id=".$_GET["ref_id"]);
-		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".
-			"&amp;ref_id=".$_GET["ref_id"]);
-		$page_gui->setEnabledPageFocus(false);
 		if (strlen($html))
 		{
 			$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		}
-		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
 
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -427,8 +408,8 @@ abstract class assQuestionGUI
 		{
 			if ($_GET["q_id"] > 0)
 			{
-				$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
-				$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
+				$this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
+				$this->ctrl->redirectByClass("ilAssQuestionPageGUI", "edit");
 			}
 			else
 			{
@@ -530,8 +511,8 @@ abstract class assQuestionGUI
 				{
 					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), false);
 				}
-				$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
-				$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
+				$this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->object->getId());
+				$this->ctrl->redirectByClass("ilAssQuestionPageGUI", "edit");
 			}
 		}
 	}

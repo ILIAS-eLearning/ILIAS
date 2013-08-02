@@ -1,6 +1,6 @@
 <?php
 
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
 include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 
 /**
@@ -11,7 +11,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assSingleChoiceGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assTextQuestionGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
+ * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilRatingGUI, ilPublicUserProfileGUI, ilAssQuestionPageGUI, ilNoteGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilObjQuestionPoolGUI
  * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
@@ -20,7 +20,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assSingleChoiceGUI
  * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assTextQuestionGUI
  */
-class ilTestExpressPageObjectGUI extends ilPageObjectGUI
+class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 {
     public function nextQuestion()
 	{

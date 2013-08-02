@@ -81,10 +81,10 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
 	abstract function ensurePageObjectExists($pageObjectType, $pageObjectId);
 	
 	/**
-	 * instantiates, initialises and returns a ilPageObjectGUI
+	 * instantiates, initialises and returns a page object gui object
 	 * 
 	 * @access protected
-	 * @return \ilPageObjectGUI
+	 * @return page object gui object
 	 */
 	abstract function getPageObjectGUI($pageObjectType, $pageObjectId);
 }

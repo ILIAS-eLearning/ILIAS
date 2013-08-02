@@ -29,7 +29,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
  * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI
  * @ilCtrl_Calls ilObjTestGUI: assTextQuestionGUI, assFlashQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilAssQuestionPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
@@ -342,7 +342,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if(!$qid || in_array($cmd, array('insertQuestions', 'browseForQuestions')))
 				{
 					include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
-					$pageObject              = new ilTestExpressPageObjectGUI ("qpl", 0);
+					$pageObject              = new ilTestExpressPageObjectGUI (0);
 					$pageObject->test_object = $this->object;
 					$ret                     =& $this->ctrl->forwardCommand($pageObject);
 					break;
@@ -371,11 +371,10 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->setReturnByClass("ilTestExpressPageObjectGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
 
-				//$page =& new ilPageObject("qpl", $_GET["q_id"]);
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
 				include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
 
-				$page_gui              =& new ilTestExpressPageObjectGUI ("qpl", $qid);
+				$page_gui = new ilTestExpressPageObjectGUI($qid);
 				$page_gui->test_object = $this->object;
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
@@ -404,8 +403,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setContent($ret);
 				break;
 
-			case 'ilpageobjectgui':
-				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+			case 'ilassquestionpagegui':
+				include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
 				//echo $_REQUEST['prev_qid'];
 				if($_REQUEST['prev_qid'])
 				{
@@ -434,33 +433,23 @@ class ilObjTestGUI extends ilObjectGUI
 				$q_gui->object->setObjId($this->object->getId());
 				$question =& $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
-				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 				$this->lng->loadLanguageModule("content");
-				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
+				$this->ctrl->setReturnByClass("ilAssQuestionPageGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
-				//$page =& new ilPageObject("qpl", $_GET["q_id"]);
-				$page_gui =& new ilPageObjectGUI("qpl", $_GET["q_id"]);
+				$page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
 				$page_gui->setEditPreview(true);
-				$page_gui->setEnabledTabs(false);
-				$page_gui->setEnabledInternalLinks(false);
 				if(strlen($this->ctrl->getCmd()) == 0)
 				{
 					$this->ctrl->setCmdClass(get_class($page_gui));
 					$this->ctrl->setCmd("preview");
 				}
-				//$page_gui->setQuestionXML($question->toXML(false, false, true));
 				$page_gui->setQuestionHTML(array($q_gui->object->getId() => $q_gui->getPreview(TRUE)));
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode($this->object->evalTotalPersons() == 0 ? "edit" : 'preview');
 				$page_gui->setHeader($question->getTitle());
-				$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
-				$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
-				$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
 				$page_gui->setPresentationTitle($question->getTitle() . ' ['. $this->lng->txt('question_id_short') . ': ' . $question->getId()  . ']');
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 				$this->tpl->setContent($ret);
-
 				break;
 				
 			case 'ilassspecfeedbackpagegui':
@@ -562,7 +551,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					global $___prev_question_id;
 					$___prev_question_id = $_REQUEST['prev_qid'];
-					$this->ctrl->setParameterByClass('ilpageobjectgui', 'prev_qid', $_REQUEST['prev_qid']);
+					$this->ctrl->setParameterByClass('ilassquestionpagegui', 'prev_qid', $_REQUEST['prev_qid']);
 					$this->ctrl->setParameterByClass($_GET['sel_question_types'] . 'gui', 'prev_qid', $_REQUEST['prev_qid']);
 				}
 				$this->create_question_mode = true;
@@ -1456,9 +1445,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function fullscreenObject()
 	{
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-		//$page =& new ilPageObject("qpl", $_GET["pg_id"]);
-		$page_gui =& new ilPageObjectGUI("qpl", $_GET["pg_id"]);
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
+		$page_gui = new ilAssQuestionPageGUI($_GET["pg_id"]);
 		$page_gui->showMediaFullscreen();
 		
 	}
@@ -1468,8 +1456,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function download_paragraphObject()
 	{
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		$pg_obj =& new ilPageObject("qpl", $_GET["pg_id"]);
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
+		$pg_obj = new ilAssQuestionPage($_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 		exit;
 	}
@@ -4452,7 +4440,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (preg_match('/^ass(.*?)gui$/i', $this->ctrl->getNextClass($this))) {
 			return;
 		}
-		else if ($this->ctrl->getNextClass($this) == 'ilpageobjectgui') {
+		else if ($this->ctrl->getNextClass($this) == 'ilassquestionpagegui') {
 			return;
 		}
 		

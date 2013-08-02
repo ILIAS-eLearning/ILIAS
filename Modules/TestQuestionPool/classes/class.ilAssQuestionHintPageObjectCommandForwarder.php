@@ -91,7 +91,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 	 * forwards the command to page object gui for author presentation
 	 * 
 	 * @access private
-	 * @return ilPageObjectGUI
+	 * @return page object gui object
 	 */
 	private function buildRequestPresentationPageObjectGUI()
 	{
@@ -117,7 +117,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 	 * forwards the command to page object gui for author presentation
 	 * 
 	 * @access private
-	 * @return ilPageObjectGUI
+	 * @return page object gui object
 	 */
 	private function buildAuthorPresentationPageObjectGUI()
 	{
@@ -170,10 +170,10 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 	}
 	
 	/**
-	 * instantiates, initialises and returns a ilPageObjectGUI
+	 * instantiates, initialises and returns a page object gui object
 	 * 
 	 * @access protected
-	 * @return \ilPageObjectGUI
+	 * @return page object gui object
 	 */
 	protected function getPageObjectGUI($pageObjectType, $pageObjectId)
 	{
