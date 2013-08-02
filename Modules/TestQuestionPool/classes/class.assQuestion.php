@@ -2960,7 +2960,7 @@ abstract class assQuestion
 		$count_system = ilObjTest::_getCountSystem($active_id);
 		if ($count_system == 1)
 		{
-			if ($points != $this->getMaximumPoints())
+			if (abs($this->getMaximumPoints() - $points) > 0.0000000001)
 			{
 				$points = 0;
 			}
