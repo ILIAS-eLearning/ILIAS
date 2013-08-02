@@ -16,6 +16,10 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjRoleTemplateGUI extends ilObjectGUI
 {
+
+	const FORM_MODE_EDIT = 1;
+	const FORM_MODE_CREATE = 2;
+	
 	/**
 	* ILIAS3 object type abbreviation
 	* @var		string
@@ -46,7 +50,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, "obj_id");
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 
@@ -77,6 +81,63 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		return true;
 	}
+	
+	/**
+	 * Init create form
+	 * @param bool creation mode
+	 * @return ilPropertyFormGUI $form
+	 */
+	protected function initFormRoleTemplate($a_mode = self::FORM_MODE_CREATE)
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+
+		if($this->creation_mode)
+		{
+			$this->ctrl->setParameter($this, "new_type", 'rolt');
+		}
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		if($a_mode == self::FORM_MODE_CREATE)
+		{
+			$form->setTitle($this->lng->txt('rolt_new'));
+			$form->addCommandButton('save', $this->lng->txt('rolt_new'));
+		}
+		else
+		{
+			$form->setTitle($this->lng->txt('rolt_edit'));
+			$form->addCommandButton('update', $this->lng->txt('save'));
+			
+		}
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		if($this->object->isInternalTemplate())
+		{
+			$title->setDisabled(true);
+		}
+		$title->setValue($this->object->getTitle());
+		$title->setSize(40);
+		$title->setMaxLength(70);
+		$title->setRequired(true);
+		$form->addItem($title);
+		
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
+		$desc->setValue($this->object->getDescription());
+		$desc->setCols(40);
+		$desc->setRows(3);
+		$form->addItem($desc);
+		
+		$pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'),'protected');
+		$pro->setChecked($GLOBALS['rbacreview']->isProtected(
+				$this->rolf_ref_id,
+				$this->object->getId()
+		));
+		$pro->setValue(1);
+		$form->addItem($pro);
+
+		return $form;
+	}
 
 	
 	/**
@@ -84,7 +145,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function createObject()
+	function createObject(ilPropertyFormGUI $form = null)
 	{
 		global $rbacsystem;
 
@@ -92,44 +153,67 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		else
+		if(!$form)
 		{
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-
-			$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.role_edit.html','Services/AccessControl');
-			
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-
-				if ($this->prepare_output)
-				{
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			
-			$this->tpl->setCurrentBlock("protect_permissions");
-			$protect_permissions = $_SESSION["error_post_vars"]["Fobject"]["protect_permissions"] ? "checked=\"checked\"" : "";
-			$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt("role_protect_permissions"));
-			$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
-			$this->tpl->parseCurrentBlock();
-
-			$this->ctrl->setParameter($this, "new_type", $this->type);
-			$this->tpl->setVariable("FORMACTION",
-				$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+			$form = $this->initFormRoleTemplate(self::FORM_MODE_CREATE);
 		}
+		$this->tpl->setContent($form->getHTML());
+		return true;
 	}
+	
+	/**
+	 * Create new object
+	 */
+	public function editObject(ilPropertyFormGUI $form = null)
+	{
+		global $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		if(!$form)
+		{
+			$form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);	
+		}
+		$GLOBALS['tpl']->setContent($form->getHTML());
+	}
+
+	/**
+	* update role template object
+	*
+	* @access	public
+	*/
+	public function updateObject()
+	{
+		global $rbacsystem, $rbacadmin, $rbacreview;
+
+		// check write access
+		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_rolt"),$this->ilias->error_obj->WARNING);
+		}
+		
+		$form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
+		if($form->checkInput())
+		{
+			$this->object->setTitle($form->getInput('title'));
+			$this->object->setDescription($form->getInput('desc'));
+			$rbacadmin->setProtected(
+					$this->rolf_ref_id,
+					$this->object->getId(),
+					$form->getInput('protected') ? 'y' : 'n'
+			);
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+			$this->ctrl->returnToParent($this);
+		}
+		
+		$form->setValuesByPost();
+		$this->editObject($form);
+	}
+	
 
 
 	/**
@@ -137,40 +221,33 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function saveObject()
+	public function saveObject()
 	{
 		global $rbacsystem,$rbacadmin, $rbacreview;
 
-		// CHECK ACCESS 'write' to role folder
-		// TODO: check for create role permission should be better
 		if (!$rbacsystem->checkAccess("create_rolt",$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolt"),$this->ilias->error_obj->WARNING);
 		}
-
-		// check required fields
-		if (empty($_POST["Fobject"]["title"]))
+		$form = $this->initFormRoleTemplate();
+		if($form->checkInput())
 		{
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+			include_once("./Services/AccessControl/classes/class.ilObjRoleTemplate.php");
+			$roltObj = new ilObjRoleTemplate();
+			$roltObj->setTitle($form->getInput('title'));
+			$roltObj->setDescription($form->getInput('desc'));
+			$roltObj->create();
+			$rbacadmin->assignRoleToFolder($roltObj->getId(), $this->rolf_ref_id,'n');
+			$rbacadmin->setProtected(
+					$this->rolf_ref_id,
+					$roltObj->getId(),
+					$form->getInput('protected') ? 'y' : 'n'
+			);
+			ilUtil::sendSuccess($this->lng->txt("rolt_added"),true);
+			$this->ctrl->returnToParent($this);
 		}
-
-		// check if role title has il_ prefix
-		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// create new rolt object
-		include_once("./Services/AccessControl/classes/class.ilObjRoleTemplate.php");
-		$roltObj = new ilObjRoleTemplate();
-		$roltObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$roltObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$roltObj->create();
-		$rbacadmin->assignRoleToFolder($roltObj->getId(), $this->rolf_ref_id,'n');
-		$rbacadmin->setProtected($this->rolf_ref_id,$roltObj->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
-		
-		ilUtil::sendSuccess($this->lng->txt("rolt_added"),true);
-		$this->ctrl->returnToParent($this);
+		$form->setValuesByPost();
+		$this->createObject($form);
 	}
 
 	/**
@@ -513,69 +590,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	}
 
 	/**
-	* edit object
-	*
-	* @access	public
-	*/
-	function editObject()
-	{
-		global $rbacsystem, $rbacreview;
-
-		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.role_edit.html','Services/AccessControl');
-
-		if ($_SESSION["error_post_vars"])
-		{
-			// fill in saved values in case of error
-			if (substr($this->object->getTitle(),0,3) != "il_")
-			{
-				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]),true);
-			}
-		
-			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
-			$protect_permissions = ($_SESSION["error_post_vars"]["Fobject"]["protect_permissions"]) ? "checked=\"checked\"" : "";
-		}
-		else
-		{
-			if (substr($this->object->getTitle(),0,3) != "il_")
-			{
-				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
-			}
-
-			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($this->object->getDescription()));
-			$protect_permissions = $rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()) ? "checked=\"checked\"" : "";
-		}
-
-		$obj_str = "&obj_id=".$this->obj_id;
-
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
-		
-		$this->tpl->setCurrentBlock("protect_permissions");
-		$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt('role_protect_permissions'));
-		$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
-		$this->tpl->parseCurrentBlock();
-		
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "update");
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		
-		if (substr($this->object->getTitle(),0,3) == "il_")
-		{
-			$this->tpl->setVariable("SHOW_TITLE",$this->object->getTitle());
-		}
-	}
-	
-	/**
 	* admin and normal tabs are equal for roles
 	*/
 	function getAdminTabs(&$tabs_gui)
@@ -589,7 +603,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
-			$tabs_gui->addTarget("edit_properties",
+			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array("edit","update"), get_class($this));
 				
@@ -611,47 +625,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 
 
-	/**
-	* update role template object
-	*
-	* @access	public
-	*/
-	function updateObject()
-	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
-
-		// check write access
-		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_rolt"),$this->ilias->error_obj->WARNING);
-		}
-		
-		if (substr($this->object->getTitle(),0,3) != "il_")
-		{
-			// check required fields
-			if (empty($_POST["Fobject"]["title"]))
-			{
-				$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-			}
-			
-			// check if role title has il_ prefix
-			if (substr($_POST["Fobject"]["title"],0,3) == "il_")
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
-			}
-	
-			// update
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		}
-
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
-		$this->object->update();
-		
-		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
-
-		$this->ctrl->returnToParent($this);
-	}
 	
 	/**
 	* should be overwritten to add object specific items
@@ -671,22 +644,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				ilObject::_lookupObjId($_GET["ref_id"])),
 				$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
 
-			$ilLocator->addItem($this->object->getTitle(),
-				$this->ctrl->getLinkTarget($this, "perm"));
 		}
-		else							// repository administration
-		{
-			//?
-		}
-
 	}
 	
-	function showUpperIcon()
-	{
-		global $tree, $tpl, $objDefinition;
-		
-	}
-
-
 } // END class.ilObjRoleTemplateGUI
 ?>

@@ -969,6 +969,14 @@ class ilRbacAdmin
 		return true;
 	}
 	
+	/**
+	 * Set protected
+	 * @global  $ilDB
+	 * @param type $a_ref_id
+	 * @param type $a_role_id
+	 * @param type $a_value y or n
+	 * @return boolean
+	 */
 	function setProtected($a_ref_id,$a_role_id,$a_value)
 	{
 		global $ilDB;
