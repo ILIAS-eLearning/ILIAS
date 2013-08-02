@@ -351,7 +351,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
 	                
 		$this->form->setTitle($lng->txt("import_sahs"));
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->setFormAction($ilCtrl->getFormAction($this, "upload"));
 		$this->form->setTarget(ilFrameTargetInfo::_getFrame("MainContent"));
 	}
 	
