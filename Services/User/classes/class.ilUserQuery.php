@@ -235,6 +235,11 @@ class ilUserQuery
 		$sql_fields = array();
 		foreach($this->default_fields as $idx => $field)
 		{
+			if(!$field)
+			{
+				continue;
+			}
+			
 			if(!stristr($field, "."))
 			{
 				$sql_fields[] = "usr_data.".$field;
