@@ -110,18 +110,17 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this,'create')
 		);
 		
-		$ilToolbar->addButton(
-				$this->lng->txt('rbac_import_role'),
-				$this->ctrl->getLinkTargetByClass('ilPermissionGUI','displayImportRoleForm')
-		);
-		
-		
 		$this->ctrl->setParameter($this,'new_type','rolt');
 		$ilToolbar->addButton(
 			$this->lng->txt('rolf_create_rolt'),
 			$this->ctrl->getLinkTarget($this,'create')
 		);
 		$this->ctrl->clearParameters($this);
+
+		$ilToolbar->addButton(
+				$this->lng->txt('rbac_import_role'),
+				$this->ctrl->getLinkTargetByClass('ilPermissionGUI','displayImportRoleForm')
+		);
 
 		include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
 		$table = new ilRoleTableGUI($this,'view');
