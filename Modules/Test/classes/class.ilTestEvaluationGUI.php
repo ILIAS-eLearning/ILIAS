@@ -1041,7 +1041,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$hide_details = !$this->object->getShowPassDetails();
 		if ($hide_details)
 		{
-			$executable = $this->object->isExecutable($ilUser->getId());
+			$executable = $this->object->isExecutable($testSession, $ilUser->getId());
 			if (!$executable["executable"]) $hide_details = FALSE;
 		}
 		$begin = microtime(true);
