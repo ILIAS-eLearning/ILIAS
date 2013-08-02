@@ -3442,10 +3442,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			if ($active_id > 0)
 			{
-				$results = $serviceGUI->getResultsOfUserOutput(
-					$this->testSessionFactory->getSession($active_id), $active_id, $this->object->_getResultPass($active_id),
-					$show_pass_details, $show_answers, FALSE, $show_reached_points
-				);
+				$results = $serviceGUI->getResultsOfUserOutput($active_id, $this->object->_getResultPass($active_id), $show_pass_details, $show_answers, FALSE, $show_reached_points);
 			}
 			if ($count < count($_SESSION["show_user_results"]))
 			{
