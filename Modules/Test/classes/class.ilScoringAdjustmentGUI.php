@@ -241,7 +241,6 @@ class ilScoringAdjustmentGUI
 		require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 		/** @var $question assQuestionGUI|GuiScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
-		$question2 = assQuestion::instantiateQuestionGUI( $question_id );
 		
 		$question->writeQuestionSpecificPostData(true);
 		$question->writeAnswerSpecificPostData(true);
@@ -252,6 +251,10 @@ class ilScoringAdjustmentGUI
 		$question->object->setPoints($question->object->getMaximumPoints());
 		$question->object->saveQuestionDataToDb();
 
+		require_once './Modules/Test/classes/class.ilTestScoring.php';
+		$scoring = new ilTestScoring($this->object);
+		$scoring->recalculateSolutions();
+		
 		ilUtil::sendSuccess($this->lng->txt('saved_adjustment'));
 		$this->questionsObject();
 		
