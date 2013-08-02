@@ -1631,8 +1631,8 @@ abstract class assQuestion
 	*/
 	protected function deletePageOfQuestion($question_id)
 	{
-		include_once "./Services/COPage/classes/class.ilPageObject.php";
-		$page = new ilPageObject("qpl", $question_id);
+		include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
+		$page = new ilAssQuestionPage($question_id);
 		$page->delete();
 		return true;
 	}
@@ -1939,8 +1939,8 @@ abstract class assQuestion
 	{
 		$qpl_id = $this->getObjId();
 
-		include_once "./Services/COPage/classes/class.ilPageObject.php";
-		$this->page = new ilPageObject("qpl", 0);
+		include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
+		$this->page = new ilAssQuestionPage(0);
 		$this->page->setId($this->getId());
 		$this->page->setParentId($qpl_id);
 		$this->page->setXMLContent("<PageObject><PageContent>".
@@ -1953,8 +1953,8 @@ abstract class assQuestion
 	{
 		if ($a_q_id > 0)
 		{
-			include_once "./Services/COPage/classes/class.ilPageObject.php";
-			$page = new ilPageObject("qpl", $a_q_id);
+			include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
+			$page = new ilAssQuestionPage($a_q_id);
 
 			$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id, $page->getXMLContent());
 			$this->page->setXMLContent($xml);
@@ -1965,8 +1965,8 @@ abstract class assQuestion
 
 	function getPageOfQuestion()
 	{
-		include_once "./Services/COPage/classes/class.ilPageObject.php";
-		$page = new ilPageObject("qpl", $this->id);
+		include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
+		$page = new ilAssQuestionPage($this->id);
 		return $page->getXMLContent();
 	}
 

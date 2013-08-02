@@ -6902,7 +6902,8 @@ function getAnswerFeedbackPoints()
 
 			// export xml to writer object
 			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
-			$page_object = new ilPageObject("qpl", $question_id);
+			include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
+			$page_object = new ilAssQuestionPage($question_id);
 			$page_object->buildDom();
 			$page_object->insertInstIntoIDs($a_inst);
 			$mob_ids = $page_object->collectMediaObjects(false);

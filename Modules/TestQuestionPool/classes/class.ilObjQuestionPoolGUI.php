@@ -37,7 +37,7 @@ include_once "./Modules/Test/classes/class.ilObjTest.php";
  * 
  * @version		$Id$
  *
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI
@@ -130,7 +130,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				: $_GET["sel_question_types"];
 		}
 		if ($cmd != "createQuestion" && $cmd != "createQuestionForTest"
-			&& $next_class != "ilpageobjectgui")
+			&& $next_class != "ilassquestionpagegui")
 		{
 			if (($_GET["test_ref_id"] != "") or ($_GET["calling_test"]))
 			{
@@ -161,7 +161,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 				$this->ctrl->forwardCommand($md_gui);
 				break;
-			case "ilpageobjectgui":
+			case "ilassquestionpagegui":
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -180,16 +180,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui->object->setObjId($this->object->getId());
 				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
-				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+				include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
 				$this->lng->loadLanguageModule("content");
-				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
+				$this->ctrl->setReturnByClass("ilAssQuestionPageGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
-				//$page =& new ilPageObject("qpl", $_GET["q_id"]);
-				$page_gui = new ilPageObjectGUI("qpl", $_GET["q_id"]);
+				$page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
 				$page_gui->setEditPreview(true);
-				$page_gui->setEnabledTabs(false);
-				$page_gui->setEnabledInternalLinks(false);
+				//$page_gui->setEnabledTabs(false);
+				//$page_gui->setEnabledInternalLinks(false);
 				if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) // workaround for page edit imagemaps, keep in mind
 				{
 					$this->ctrl->setCmdClass(get_class($page_gui));
@@ -200,9 +198,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
 				$page_gui->setHeader($question->getTitle());
-				$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
-				$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
-				$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
 				$page_gui->setPresentationTitle($question->getTitle());
 				$ret = $this->ctrl->forwardCommand($page_gui);
 				$tpl->setContent($ret);
@@ -342,12 +337,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function fullscreenObject()
 	{
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-		//$page =& new ilPageObject("qpl", $_GET["pg_id"]);
-		$page_gui =& new ilPageObjectGUI("qpl", $_GET["pg_id"]);
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
+		$page_gui = new ilAssQuestionPageGUI($_GET["pg_id"]);
 		$page_gui->showMediaFullscreen();
-		
 	}
 
 
@@ -374,8 +366,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function download_paragraphObject()
 	{
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		$pg_obj =& new ilPageObject("qpl", $_GET["pg_id"]);
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
+		$pg_obj = new ilAssQuestionPage($_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 		exit;
 	}

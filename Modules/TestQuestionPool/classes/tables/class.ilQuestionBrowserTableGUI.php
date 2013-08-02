@@ -263,7 +263,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$class = strtolower(assQuestionGUI::_getGUIClassNameForId($data["question_id"]));
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
+		$this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $data["question_id"]);
 		$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
 		$points = 0;
 
@@ -277,7 +277,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock("edit_link");
 				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "edit"));
+				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"));
 				$this->tpl->parseCurrentBlock();
 			}
 			if ($data["complete"] == 0)
@@ -332,7 +332,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			}
 			$this->tpl->setCurrentBlock('preview');
 			$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
-			$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "preview"));
+			$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "preview"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
