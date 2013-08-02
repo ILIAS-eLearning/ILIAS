@@ -395,7 +395,7 @@ class ilUserQuery
 			default:
 				if (!in_array($this->order_field, $this->default_fields))
 				{
-					$a_order_field = "login";
+					$this->order_field = "login";
 				}
 				if ($this->order_dir != "asc" && $this->order_dir != "desc")
 				{
