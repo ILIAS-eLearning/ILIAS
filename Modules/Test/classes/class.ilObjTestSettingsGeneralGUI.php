@@ -319,9 +319,9 @@ class ilObjTestSettingsGeneralGUI
 		$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
 		
 		// Examview
-		$this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview'));
-		$this->testOBJ->setShowExamviewHtml($form->getItemByPostVar('show_examview_html'));
-		$this->testOBJ->setShowExamviewPdf($form->getItemByPostVar('show_examview_pdf'));
+		$this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview')->getChecked());
+		$this->testOBJ->setShowExamviewHtml($form->getItemByPostVar('show_examview_html')->getChecked());
+		$this->testOBJ->setShowExamviewPdf($form->getItemByPostVar('show_examview_pdf')->getChecked());
 
 		// online status
 		$this->testOBJ->setOnline($form->getItemByPostVar('online')->getChecked());
@@ -749,10 +749,9 @@ class ilObjTestSettingsGeneralGUI
 		$form->addItem($finalstatement);
 
 		// examview
-		$enable_examview = new ilCheckboxInputGUI('', 'enable_examview');
+		$enable_examview = new ilCheckboxInputGUI($this->lng->txt("enable_examview"), 'enable_examview');
 		$enable_examview->setValue(1);
 		$enable_examview->setChecked($this->testOBJ->getEnableExamview());
-		$enable_examview->setOptionTitle($this->lng->txt("enable_examview"));
 		$enable_examview->setInfo($this->lng->txt("enable_examview_desc"));
 			$show_examview_html = new ilCheckboxInputGUI('', 'show_examview_html');
 			$show_examview_html->setValue(1);
