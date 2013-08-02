@@ -13339,9 +13339,9 @@ pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe
 survey#:#survey_mode#:#Mode
-survey#:#survey_default_mode#:#Classic Survey
-survey#:#survey_default_mode_info#:#Use for evaluation
-survey#:#survey_360_mode_info#:#Use for user peer review
+survey#:#survey_default_mode#:#Survey
+survey#:#survey_default_mode_info#:#Use for evaluation purposes
+survey#:#survey_360_mode_info#:#Use for peer-reviewing of persons
 exp#:#exp_file_created#:#The export file has been created.
 blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
