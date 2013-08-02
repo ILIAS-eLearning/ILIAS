@@ -1,7 +1,24 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilTestScoring
+ *
+ * This class holds a mechanism to get the scoring for 
+ * - a test,
+ * - a user in a test,
+ * - a pass in a users passes in a test, or
+ * - a question in a pass in a users passes in a test.
+ * 
+ * Warning:
+ * Please use carefully, this is one of the classes that may cause funny spikes on your servers load graph on large
+ * datasets in the test.
+ * 
+ * @author		Maximilian Becker <mbecker@databay.de>
+ *
+ * @version		$Id$
+ *
+ * @ingroup 	ModulesTest
  */
 class ilTestScoring 
 {
