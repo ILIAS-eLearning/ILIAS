@@ -55,49 +55,46 @@ class assErrorTextGUI extends assQuestionGUI implements GuiScoringAdjustable
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			if ($this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setNrOfTries($_POST['nr_of_tries']);
-			}
-
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			// adding estimated working time
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-			$this->object->setErrorText($_POST["errortext"]);
-			$points_wrong = str_replace(",", ".", $_POST["points_wrong"]);
-			if (strlen($points_wrong) == 0) $points_wrong = -1.0;
-			$this->object->setPointsWrong($points_wrong);
-
-			if (!$this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setTextSize($_POST["textsize"]);
-			}
-
-			$this->object->flushErrorData();
-			if (is_array($_POST['errordata']['key']))
-			{
-				foreach ($_POST['errordata']['key'] as $idx => $val)
-				{
-					$this->object->addErrorData($val, $_POST['errordata']['value'][$idx], $_POST['errordata']['points'][$idx]);
-				}
-			}
-
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			$this->writeAnswerSpecificPostData();
 			$this->saveTaxonomyAssignments();
-
 			return 0;
 		}
 		else
 		{
 			return 1;
+		}
+	}
+
+	public function writeAnswerSpecificPostData($always = false)
+	{
+		if (is_array( $_POST['errordata']['key'] ))
+		{
+			$this->object->flushErrorData();
+			foreach ($_POST['errordata']['key'] as $idx => $val)
+			{
+				$this->object->addErrorData( $val,
+											 $_POST['errordata']['value'][$idx],
+											 $_POST['errordata']['points'][$idx]
+				);
+			}
+		}
+	}
+
+	public function writeQuestionSpecificPostData($always = false)
+	{
+		$questiontext = $_POST["question"];
+		$this->object->setQuestion( $questiontext );
+		$this->object->setErrorText( $_POST["errortext"] );
+		$points_wrong = str_replace( ",", ".", $_POST["points_wrong"] );
+		if (strlen( $points_wrong ) == 0)
+			$points_wrong = -1.0;
+		$this->object->setPointsWrong( $points_wrong );
+
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			$this->object->setTextSize( $_POST["textsize"] );
 		}
 	}
 

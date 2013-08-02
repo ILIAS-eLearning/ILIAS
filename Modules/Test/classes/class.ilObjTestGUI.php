@@ -36,6 +36,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestToplistGUI, ilTestScoringByQuestionsGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjTestSettingsGeneralGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjTestDynamicQuestionSetConfigGUI, ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilScoringAdjustmentGUI
  *
  * @extends ilObjectGUI
  * @ingroup ModulesTest
@@ -521,16 +522,19 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case 'iltesttoplistgui':
-
 				$this->prepareOutput();
-
-				require_once 'Modules/Test/classes/class.ilTestToplistGUI.php';
+				require_once './Modules/Test/classes/class.ilTestToplistGUI.php';
 				$gui = new ilTestToplistGUI($this);
-
 				$this->ctrl->forwardCommand($gui);
-
 				break;
 
+			case 'ilscoringadjustmentgui':
+				$this->prepareOutput();
+				require_once './Modules/Test/classes/class.ilScoringAdjustmentGUI.php';
+				$gui = new ilScoringAdjustmentGUI($this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+			
 			case '':
 			case 'ilobjtestgui':
 				$this->prepareOutput();
@@ -4700,6 +4704,20 @@ class ilObjTestGUI extends ilObjectGUI
 							), ''
 					);
 				}
+			}
+
+			// Scoring Adjustment
+			if ($ilAccess->checkAccess("write", "", $this->ref_id)  && !in_array('scoringadjust', $hidden_tabs))
+			{
+				// scoring tab
+				$tabs_gui->addTarget(
+					"scoringadjust", $this->ctrl->getLinkTargetByClass('ilScoringAdjustmentGUI', 'showquestionlist'),
+					array(
+						'showquestionlist', 
+						'applyManScoringParticipantsFilter', 
+						'saveManScoringByQuestion'
+					), ''
+				);
 			}
 
 			if ((($ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) || ($ilAccess->checkAccess("write", "", $this->ref_id)))  && !in_array('statistics', $hidden_tabs))

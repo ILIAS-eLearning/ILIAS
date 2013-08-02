@@ -1344,6 +1344,12 @@ assessment#:#show_examview_html#:#Klausuransicht innerhalb der ILIAS-Seite.
 assessment#:#show_examview_html_desc#:#Zeigt die Klausuransicht innerhalb von ILIAS.
 assessment#:#show_examview_pdf#:#Klausuransicht als PDF.
 assessment#:#show_examview_pdf_desc#:#Zeigt die Klausuransicht als automatischen PDF-Download. (Download-Button als Fallback vorhanden.)
+assessment#:#scoringadjust#:#Nachkorrektur
+assessment#:#tst_trigger_result_refreshing#:#Eine Ergebnisneuberechnung wird erfolgen. Dies kann eine Weile dauern.
+assessment#:#test_scoring#:#Bewertungsoptionen
+assessment#:#test_presentation#:#Ausgabeoptionen
+assessment#:#test_results#:#Ergebnisausgabeoptionen
+assessment#:#misc#:#Verschiedene Option
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code

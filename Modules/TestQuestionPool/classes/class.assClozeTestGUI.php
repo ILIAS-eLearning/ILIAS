@@ -64,74 +64,86 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
+			$this->writeQuestionGenericPostData();
+			$this->object->setClozeText($_POST["question"]);
+			$this->writeQuestionSpecificPostData();
 			$this->object->flushGaps();
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			$this->object->setTextgapRating($_POST["textgap_rating"]);
-			$this->object->setIdenticalScoring($_POST["identical_scoring"]);
-			if ($this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setNrOfTries($_POST['nr_of_tries']);
-			}
-			$this->object->setFixedTextLength($_POST["fixedTextLength"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$cloze_text = $_POST["question"];
-			$this->object->setClozeText($cloze_text);
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-
-			if (is_array($_POST['gap']))
-			{
-				if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) $this->object->clearGapAnswers();
-				foreach ($_POST['gap'] as $idx => $hidden)
-				{
-					$clozetype = $_POST['clozetype_' . $idx];
-					$this->object->setGapType($idx, $clozetype);
-					if (array_key_exists('shuffle_' . $idx, $_POST))
-					{
-						$this->object->setGapShuffle($idx, $_POST['shuffle_' . $idx]);
-					}
-
-					if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) 
-					{
-						if (is_array($_POST['gap_' . $idx]['answer']))
-						{
-							foreach ($_POST['gap_' . $idx]['answer'] as $order => $value)
-							{
-								$this->object->addGapAnswer($idx, $order, $value);
-							}
-						}
-					}
-					if (array_key_exists('gap_' . $idx . '_numeric', $_POST))
-					{
-						if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) $this->object->addGapAnswer($idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric']));
-						$this->object->setGapAnswerLowerBound($idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_lower']));
-						$this->object->setGapAnswerUpperBound($idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_upper']));
-						$this->object->setGapAnswerPoints($idx, 0, $_POST['gap_' . $idx . '_numeric_points']);
-					}
-					if (is_array($_POST['gap_' . $idx]['points']))
-					{
-						foreach ($_POST['gap_' . $idx]['points'] as $order => $value)
-						{
-							$this->object->setGapAnswerPoints($idx, $order, $value);
-						}
-					}
-				}
-				if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) $this->object->updateClozeTextFromGaps();
-			}
-			
+			$this->writeAnswerSpecificPostData();			
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
 		}
 		else
 		{
 			return 1;
 		}
+	}
+
+	public function writeAnswerSpecificPostData($always = false)
+	{
+		if (is_array( $_POST['gap'] ))
+		{
+			if (strcmp( $this->ctrl->getCmd(), 'createGaps' ) != 0)
+				$this->object->clearGapAnswers();
+			foreach ($_POST['gap'] as $idx => $hidden)
+			{
+				$clozetype = $_POST['clozetype_' . $idx];
+				$this->object->setGapType( $idx, $clozetype );
+				if (array_key_exists( 'shuffle_' . $idx, $_POST ))
+				{
+					$this->object->setGapShuffle( $idx, $_POST['shuffle_' . $idx] );
+				}
+
+				if (strcmp( $this->ctrl->getCmd(), 'createGaps' ) != 0)
+				{
+					if (is_array( $_POST['gap_' . $idx]['answer'] ))
+					{
+						foreach ($_POST['gap_' . $idx]['answer'] as $order => $value)
+						{
+							$this->object->addGapAnswer( $idx, $order, $value );
+						}
+					}
+				}
+				if (array_key_exists( 'gap_' . $idx . '_numeric', $_POST ))
+				{
+					if (strcmp( $this->ctrl->getCmd(), 'createGaps' ) != 0)
+						$this->object->addGapAnswer( $idx,
+													 0,
+													 str_replace( ",", ".", $_POST['gap_' . $idx . '_numeric'] )
+						);
+					$this->object->setGapAnswerLowerBound( $idx,
+														   0,
+														   str_replace( ",",
+																		".",
+																		$_POST['gap_' . $idx . '_numeric_lower']
+														   )
+					);
+					$this->object->setGapAnswerUpperBound( $idx,
+														   0,
+														   str_replace( ",",
+																		".",
+																		$_POST['gap_' . $idx . '_numeric_upper']
+														   )
+					);
+					$this->object->setGapAnswerPoints( $idx, 0, $_POST['gap_' . $idx . '_numeric_points'] );
+				}
+				if (is_array( $_POST['gap_' . $idx]['points'] ))
+				{
+					foreach ($_POST['gap_' . $idx]['points'] as $order => $value)
+					{
+						$this->object->setGapAnswerPoints( $idx, $order, $value );
+					}
+				}
+			}
+			if (strcmp( $this->ctrl->getCmd(), 'createGaps' ) != 0)
+				$this->object->updateClozeTextFromGaps();
+		}
+	}
+
+	public function writeQuestionSpecificPostData($always = false)
+	{
+		$this->object->setTextgapRating( $_POST["textgap_rating"] );
+		$this->object->setIdenticalScoring( $_POST["identical_scoring"] );
+		$this->object->setFixedTextLength( $_POST["fixedTextLength"] );
 	}
 
 	/**
