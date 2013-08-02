@@ -3464,31 +3464,54 @@ abstract class assQuestion
 		return "";
 	}
 
-/**
-* Creates an instance of a question gui with a given question id
-*
-* @param integer $question_id The question id
-* @return object The question gui instance
-* @access public
-*/
-	function &_instanciateQuestionGUI($question_id) 
+	/**
+	 * Creates an instance of a question gui with a given question id
+	 *
+	 * @param integer $question_id The question id
+	 * @return object The question gui instance
+	 * @static
+	 * @deprecated Use instantiateQuestionGUI (without legacy underscore & typos) instead.
+	 * @access public
+	 */
+	public static function &_instanciateQuestionGUI($question_id) 
+	{
+		return self::instantiateQuestionGUI($question_id);
+	}
+
+	/**
+	 * Creates an instance of a question gui with a given question id
+	 *
+	 * @param 	integer	$a_question_id
+	 *
+	 * @return 	object 	The question gui instance
+	 *
+	 * @static
+	 */
+	public static function instantiateQuestionGUI($a_question_id)
 	{
 		global $ilCtrl, $ilDB, $lng;
-		
-		if (strcmp($question_id, "") != 0)
+
+		if (strcmp($a_question_id, "") != 0)
 		{
-			$question_type = assQuestion::_getQuestionType($question_id);
+			$question_type = assQuestion::_getQuestionType($a_question_id);
 			$question_type_gui = $question_type . "GUI";
 			assQuestion::_includeClass($question_type, 1);
 			$question_gui = new $question_type_gui();
-			$question_gui->object->loadFromDb($question_id);
-			
+			$question_gui->object->loadFromDb($a_question_id);
+
 			$feedbackObjectClassname = str_replace('ass', 'ilAss', $question_type).'Feedback';
 			require_once "Modules/TestQuestionPool/classes/feedback/class.$feedbackObjectClassname.php";
 			$question_gui->object->feedbackOBJ = new $feedbackObjectClassname($question_gui->object, $ilCtrl, $ilDB, $lng);
+
 			
-			return $question_gui;
+		} 
+		else 
+		{
+			global $ilLog;
+			$ilLog->write('Instantiate question called without question id. (instantiateQuestionGUI@assQuestion)', $ilLog->WARNING);
+			return null;
 		}
+		return $question_gui;
 	}
 	
 	/**

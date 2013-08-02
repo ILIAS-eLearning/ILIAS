@@ -38,6 +38,9 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 */
 abstract class assQuestionGUI
 {
+	const FORM_MODE_EDIT 	= 'edit';
+	const FORM_MODE_ADJUST	= 'adjust';
+	
 	/**
 	* Question object
 	*
@@ -1732,4 +1735,23 @@ abstract class assQuestionGUI
 	{
 		return $this->object->isAutosaveable();
 	}
+
+	protected function writeQuestionGenericPostData()
+	{
+		$this->object->setTitle( $_POST["title"] );
+		$this->object->setAuthor( $_POST["author"] );
+		$this->object->setComment( $_POST["comment"] );
+		if ($this->object->getSelfAssessmentEditingMode())
+		{
+			$this->object->setNrOfTries( $_POST['nr_of_tries'] );
+		}
+		$this->object->setQuestion( $_POST['question'] ); // ?
+		$this->object->setEstimatedWorkingTime(
+			$_POST["Estimated"]["hh"],
+			$_POST["Estimated"]["mm"],
+			$_POST["Estimated"]["ss"]
+		);
+	}
+
+
 }

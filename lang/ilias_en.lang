@@ -1166,6 +1166,12 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_examview_html_desc#:#Shows the tests questions and answers in ILIAS in a step prior to submission.
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
 assessment#:#show_examview_pdf_desc#:#Shows the tests questions and answers in a PDF file in a step prior to submission. (Download button available as well.)
+assessment#:#scoringadjust#:#Corrections
+assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.
+assessment#:#test_scoring#:#Scoring Options
+assessment#:#test_presentation#:#Presentation Options
+assessment#:#test_results#:#Results Options
+assessment#:#misc#:#Misc Options
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
