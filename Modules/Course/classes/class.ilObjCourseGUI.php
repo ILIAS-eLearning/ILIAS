@@ -2166,9 +2166,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->parseCurrentBlock();
 			
 		}
-
 		foreach(ilCourseParticipants::getMemberRoles($this->object->getRefId()) as $role_id)
 		{
+			// Do not show table if no user is assigned
+			if(!($GLOBALS['rbacreview']->getNumberOfAssignedUsers(array($role_id))))
+			{
+				continue;
+			}
 			if($ilUser->getPref('crs_role_hide_'.$role_id))
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(

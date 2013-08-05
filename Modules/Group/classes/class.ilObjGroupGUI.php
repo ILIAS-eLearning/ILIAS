@@ -1223,6 +1223,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		foreach(ilGroupParticipants::getMemberRoles($this->object->getRefId()) as $role_id)
 		{
+			// Do not show table if no user is assigned
+			if(!($GLOBALS['rbacreview']->getNumberOfAssignedUsers(array($role_id))))
+			{
+				continue;
+			}
 			if($ilUser->getPref('grp_role_hide'.$role_id))
 			{
 				$table_gui = new ilGroupParticipantsTableGUI($this,'role',false,$this->show_tracking,$role_id);
