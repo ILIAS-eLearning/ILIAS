@@ -1,40 +1,25 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
+include_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* The assFlashQuestionGUI class encapsulates the GUI representation
-* for Mathematik Online based questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-* @ilctrl_iscalledby assFlashQuestionGUI: ilObjQuestionPoolGUI
-* */
-class assFlashQuestionGUI extends assQuestionGUI
+ * The assFlashQuestionGUI class encapsulates the GUI representation
+ * for flash questions.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
+ * @version	$Id$
+ * 
+ * @ingroup ModulesTestQuestionPool
+ * 
+ * @ilctrl_iscalledby assFlashQuestionGUI: ilObjQuestionPoolGUI
+ */
+class assFlashQuestionGUI extends assQuestionGUI implements GuiScoringAdjustable
 {
 	private $newUnitId;
 	
@@ -82,69 +67,68 @@ class assFlashQuestionGUI extends assQuestionGUI
 	}
 
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			global $ilLog;
-			$this->setErrorMessage("");
-			if ($_POST['flash']['delete'] == 1)
-			{
-				$this->object->deleteApplet();
-			}
-			else
-			{
-				$this->object->setApplet($_POST['flash']['filename']);
-			}
-			if ($_FILES["flash"]["tmp_name"])
-			{
-				$this->object->deleteApplet();
-				$filename = $this->object->moveUploadedFile($_FILES["flash"]["tmp_name"], $_FILES["flash"]["name"]);
-				$this->object->setApplet($filename);
-			}
-			$this->object->clearParameters();
-			if (is_array($_POST["flash"]["flash_param_name"]))
-			{
-				foreach ($_POST['flash']['flash_param_name'] as $idx => $val)
-				{
-					$this->object->addParameter($val, $_POST['flash']['flash_param_value'][$idx]);
-				}
-			}
-			if (is_array($_POST['flash']['flash_param_delete']))
-			{
-				foreach ($_POST['flash']['flash_param_delete'] as $key => $value)
-				{
-					$this->object->removeParameter($_POST['flash']['flash_param_name'][$key]);
-				}
-			}
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-			$this->object->setWidth($_POST["flash"]["width"]);
-			$this->object->setHeight($_POST["flash"]["height"]);
-			$this->object->setPoints($_POST["points"]);
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			//$this->writeAnswerSpecificPostData(); Nothing to do here, this line FYI
+
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
+		}
+		return 1;
+	}
+
+	public function writeQuestionSpecificPostData($always = true)
+	{
+		$this->setErrorMessage( "" );
+		if ($_POST['flash']['delete'] == 1)
+		{
+			$this->object->deleteApplet();
 		}
 		else
 		{
-			return 1;
+			$this->object->setApplet( $_POST['flash']['filename'] );
 		}
+		if ($_FILES["flash"]["tmp_name"])
+		{
+			$this->object->deleteApplet();
+			$filename = $this->object->moveUploadedFile( $_FILES["flash"]["tmp_name"], $_FILES["flash"]["name"] );
+			$this->object->setApplet( $filename );
+		}
+		$this->object->clearParameters();
+		if (is_array( $_POST["flash"]["flash_param_name"] ))
+		{
+			foreach ($_POST['flash']['flash_param_name'] as $idx => $val)
+			{
+				$this->object->addParameter( $val, $_POST['flash']['flash_param_value'][$idx] );
+			}
+		}
+		if (is_array( $_POST['flash']['flash_param_delete'] ))
+		{
+			foreach ($_POST['flash']['flash_param_delete'] as $key => $value)
+			{
+				$this->object->removeParameter( $_POST['flash']['flash_param_name'][$key] );
+			}
+		}
+
+		$this->object->setWidth( $_POST["flash"]["width"] );
+		$this->object->setHeight( $_POST["flash"]["height"] );
+		$this->object->setPoints( $_POST["points"] );
+	}
+
+	public function writeAnswerSpecificPostData($always = true)
+	{
+		return; // Nothing to do here.
 	}
 
 	/**
@@ -167,33 +151,9 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$form->setId("flash");
 
 		$this->addBasicQuestionFormProperties($form);
+		$this->populateQuestionSpecificFormPart( $form );
+		//$this->populateAnswerSpecificFormPart( $form ); Nothing to do here, this line FYI
 
-		// flash file
-		$flash = new ilFlashFileInputGUI($this->lng->txt("flashfile"), "flash");
-		$flash->setRequired(TRUE);
-		if (strlen($this->object->getApplet()))
-		{
-			$flash->setApplet($this->object->getApplet());
-			$flash->setAppletPathWeb($this->object->getFlashPathWeb());
-		}
-		$flash->setWidth($this->object->getWidth());
-		$flash->setHeight($this->object->getHeight());
-		$flash->setParameters($this->object->getParameters());
-		$form->addItem($flash);
-		if ($this->object->getId())
-		{
-			$hidden = new ilHiddenInputGUI("", "ID");
-			$hidden->setValue($this->object->getId());
-			$form->addItem($hidden);
-		}
-		// points
-		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
-		$points->setValue($this->object->getPoints());
-		$points->setRequired(TRUE);
-		$points->setSize(3);
-		$points->setMinValue(0.0);
-		$form->addItem($points);
-		
 		$this->populateTaxonomyFormSection($form);
 
 		$this->addQuestionFormCommandButtons($form);
@@ -210,6 +170,42 @@ class assFlashQuestionGUI extends assQuestionGUI
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
+	}
+
+	public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
+	{
+		// flash file
+		$flash = new ilFlashFileInputGUI($this->lng->txt( "flashfile" ), "flash");
+		$flash->setRequired( TRUE );
+		if (strlen( $this->object->getApplet() ))
+		{
+			$flash->setApplet( $this->object->getApplet() );
+			$flash->setAppletPathWeb( $this->object->getFlashPathWeb() );
+		}
+		$flash->setWidth( $this->object->getWidth() );
+		$flash->setHeight( $this->object->getHeight() );
+		$flash->setParameters( $this->object->getParameters() );
+		$form->addItem( $flash );
+		if ($this->object->getId())
+		{
+			$hidden = new ilHiddenInputGUI("", "ID");
+			$hidden->setValue( $this->object->getId() );
+			$form->addItem( $hidden );
+		}
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		$points->setValue( $this->object->getPoints() );
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0.0 );
+		$form->addItem( $points );
+
+		return $form;
+	}
+
+	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
+	{
+		return $form; // Nothing to do here.
 	}
 	
 	function flashAddParam()
