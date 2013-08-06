@@ -12988,7 +12988,7 @@ content#:#glo_term_must_belong_to_glo#:#The action can only be performed on term
 common#:#edited_on#:#Edited on
 common#:#obj_tos_desc#:#Terms of Service Settings
 common#:#obj_tos#:#Terms of Service
-tos#:#tos_last_reset_date#:#The terms of service have been reset an %s.
+tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.
 tos#:#tos_agreement_by_lng#:#Terms of Service
 tos#:#tos_agreement#:#Terms of Service
 tos#:#tos_agreement_exists#:#Existent
