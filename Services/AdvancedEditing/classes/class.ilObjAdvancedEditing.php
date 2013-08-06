@@ -192,14 +192,14 @@ class ilObjAdvancedEditing extends ilObject
 		$usedtags = array();
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$setting = new ilSetting("advanced_editing");
-		$tags = $setting->get("advanced_editing_used_html_tags_" . $a_module);
+		$tags = $setting->get("advanced_editing_used_html_tags_" . $a_module);		
 		if (strlen($tags))
 		{
 			$usedtags = unserialize($tags);
 		}
 		else
-		{
-			if($a_module == 'frm_post')
+		{					
+			if($a_module == 'frm_post' || $a_module == 'exc_ass')
 			{
 				$usedtags = array(
 				"a",
@@ -252,7 +252,7 @@ class ilObjAdvancedEditing extends ilObject
 				"u",
 				"ul"			
 				);
-			}
+			}			
 		}
 		
 		// frm_posts need blockquote and div urgently
