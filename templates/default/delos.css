@@ -4010,6 +4010,11 @@ table.il_user_quota_disk_usage_overview {
 	background-color: white;
 }
 
+/* jQuery ui autocomplete menu */
+.ui-state-focus  {
+	background-color: #FF9;
+}
+
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
