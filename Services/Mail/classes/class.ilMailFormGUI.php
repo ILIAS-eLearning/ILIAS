@@ -702,7 +702,7 @@ class ilMailFormGUI
 		$inp->setRequired(true);
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_to"]);
-		$inp->setDataSource($dsDataLink);
+		$inp->setDataSource($dsDataLink, ",");
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
@@ -710,7 +710,7 @@ class ilMailFormGUI
 		$inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_cc"]);
-		$inp->setDataSource($dsDataLink);
+		$inp->setDataSource($dsDataLink, ",");
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
@@ -718,7 +718,7 @@ class ilMailFormGUI
 		$inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_bcc"]);
-		$inp->setDataSource($dsDataLink);
+		$inp->setDataSource($dsDataLink, ",");
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
