@@ -121,10 +121,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				return $ilCtrl->forwardCommand($blog_gui);
 				
 			case "ilpageobjectgui":
-				$page_gui = new ilPageObjectGUI("prtf",
-					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
-				$page_gui->setPresentationTitle($this->getPageObject()->getTitle());
-				return $ilCtrl->forwardCommand($page_gui);
+				die("Deprecated. ilPortfolioPage gui forwarding to ilpageobject");
+				return;
 				
 			default:				
 				$this->setPresentationTitle($this->getPageObject()->getTitle());

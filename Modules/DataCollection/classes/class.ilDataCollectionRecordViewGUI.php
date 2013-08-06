@@ -93,10 +93,6 @@ class ilDataCollectionRecordViewGUI
 		if(!$view_id){
 			$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 		}
-
-		// please do not use ilPageObjectGUI directly here, use derived class
-		// ilDataCollectionRecordViewViewdefinitionGUI
-		//$pageObj = new ilPageObjectGUI("dclf", $view_id);
 		
 		// see ilObjDataCollectionGUI->executeCommand about instantiation
 		include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionGUI.php");

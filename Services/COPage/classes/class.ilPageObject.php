@@ -2138,7 +2138,8 @@ class ilPageObject
 			if ($source["type"] == "lm:pg")
 			{
 //echo "B";
-				$page_obj = new ilPageObject("lm", $source["id"], false);
+				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+				$page_obj = new ilLMPage($source["id"], false);
 				if  (!$page_obj->page_not_found)
 				{
 //echo "C";

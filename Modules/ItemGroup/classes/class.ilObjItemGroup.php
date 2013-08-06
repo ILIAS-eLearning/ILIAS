@@ -194,7 +194,7 @@ class ilObjItemGroup extends ilObject2
 	 	$new_container_obj_id = ilObject::_lookupObjId($new_container_ref_id);
 	 	
 	 	include_once("./Services/Container/classes/class.ilContainerPage.php");
-		$new_page = new ilContainerPage($a_source_container->getType(), $new_container_obj_id);
+		$new_page = new ilContainerPage($new_container_obj_id);
 		$new_page->buildDom();
 		include_once("./Services/COPage/classes/class.ilPCResources.php");
 		ilPCResources::modifyItemGroupRefIdsByMapping($new_page, $mappings);

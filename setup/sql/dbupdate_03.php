@@ -17170,3 +17170,60 @@ if(!$ilDB->tableColumnExists("il_new_item_grp", "type"))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4010>
+<?php
+$ilDB->manipulate("UPDATE page_object".
+	" SET parent_type = ".$ilDB->quote("cont", "text").
+	" WHERE ".$ilDB->in("parent_type", array("cat","crs","fold","grp","root"), "", "text"));
+
+?>
+<#4011>
+<?php
+$ilDB->manipulate("UPDATE int_link".
+	" SET source_type = ".$ilDB->quote("cont:pg", "text").
+	" WHERE ".$ilDB->in("source_type", array("cat:pg","crs:pg","fold:pg","grp:pg","root:pg"), "", "text"));
+
+?>
+<#4012>
+<?php
+$ilDB->manipulate("UPDATE page_style_usage".
+	" SET page_type = ".$ilDB->quote("cont", "text").
+	" WHERE ".$ilDB->in("page_type", array("cat","crs","fold","grp","root"), "", "text"));
+
+?>
+<#4013>
+<?php
+$ilDB->manipulate("UPDATE page_pc_usage".
+	" SET usage_type = ".$ilDB->quote("cont:pg", "text").
+	" WHERE ".$ilDB->in("usage_type", array("cat:pg","crs:pg","fold:pg","grp:pg","root:pg"), "", "text"));
+
+?>
+<#4014>
+<?php
+$ilDB->manipulate("UPDATE page_anchor".
+	" SET page_parent_type = ".$ilDB->quote("cont", "text").
+	" WHERE ".$ilDB->in("page_parent_type", array("cat","crs","fold","grp","root"), "", "text"));
+
+?>
+<#4015>
+<?php
+$ilDB->manipulate("UPDATE page_question".
+	" SET page_parent_type = ".$ilDB->quote("cont", "text").
+	" WHERE ".$ilDB->in("page_parent_type", array("cat","crs","fold","grp","root"), "", "text"));
+
+?>
+<#4016>
+<?php
+$ilDB->manipulate("UPDATE mob_usage".
+	" SET usage_type = ".$ilDB->quote("cont:pg", "text").
+	" WHERE ".$ilDB->in("usage_type", array("cat:pg","crs:pg","fold:pg","grp:pg","root:pg"), "", "text"));
+
+?>
+<#4017>
+<?php
+$ilDB->manipulate("UPDATE file_usage".
+	" SET usage_type = ".$ilDB->quote("cont:pg", "text").
+	" WHERE ".$ilDB->in("usage_type", array("cat:pg","crs:pg","fold:pg","grp:pg","root:pg"), "", "text"));
+
+?>
+

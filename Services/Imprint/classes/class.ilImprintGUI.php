@@ -99,11 +99,8 @@ class ilImprintGUI extends ilPageObjectGUI
 		switch($next_class)
 		{			
 			case "ilpageobjectgui":
-				$page_gui = new ilPageObjectGUI("impr",
-					$this->getPageObject()->getId(),
-					$this->getPageObject()->old_nr);
-				$this->setPresentationTitle($title);
-				return $ilCtrl->forwardCommand($page_gui);
+				die("Deprecated. ilImprintGUI gui forwarding to ilpageobject");
+				return;
 				
 			default:			
 				$this->setPresentationTitle($title);					

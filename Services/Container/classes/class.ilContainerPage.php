@@ -18,9 +18,9 @@ class ilContainerPage extends ilPageObject
 	* @access	public
 	* @param	wiki page id
 	*/
-	function __construct($a_type, $a_id = 0, $a_old_nr = 0)
+	function __construct($a_id = 0, $a_old_nr = 0)
 	{
-		parent::__construct($a_type, $a_id, $a_old_nr);
+		parent::__construct("cont", $a_id, $a_old_nr);
 	}
 
 }

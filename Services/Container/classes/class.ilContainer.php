@@ -388,11 +388,11 @@ class ilContainer extends ilObject
 		
 		// copy content page
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
-		if (ilContainerPage::_exists($this->getType(),
+		if (ilContainerPage::_exists("cont",
 			$this->getId()))
 		{
-			$orig_page = new ilContainerPage($this->getType(), $this->getId());
-			$new_page_object = new ilContainerPage($this->getType());
+			$orig_page = new ilContainerPage($this->getId());
+			$new_page_object = new ilContainerPage();
 			$new_page_object->setParentId($new_obj->getId());
 			$new_page_object->setId($new_obj->getId());
 			$new_page_object->createFromXML();

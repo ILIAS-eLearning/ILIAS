@@ -124,12 +124,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				break;
 
 			case "ilpageobjectgui":
-	die("wikipage gui forwarding to ilpageobject");
-				$page_gui = new ilPageObjectGUI("wpg",
-					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
-				$page_gui->setPresentationTitle($this->getWikiPage()->getTitle());
-				$page_gui->setPageConfig($this->getPageConfig());
-				return $ilCtrl->forwardCommand($page_gui);
+	die("Deprecated. Wikipage gui forwarding to ilpageobject");
+				return;
 				
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");

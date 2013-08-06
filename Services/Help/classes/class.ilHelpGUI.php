@@ -285,15 +285,13 @@ class ilHelpGUI
 
 		// get page object
 		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-		$page_gui =& new ilPageObjectGUI("lm", $page_id);
+		include_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
+		$page_gui = new ilLMPageGUI($page_id);
 		$page_gui->setPresentationTitle("");
 		$page_gui->setTemplateOutput(false);
 		$page_gui->setHeader("");
 		$page_gui->setEnabledFileLists(false);
 		$page_gui->setEnabledPCTabs(false);
-		$page_gui->setFileDownloadLink(".");
-		$page_gui->setFullscreenLink(".");
-		$page_gui->setSourcecodeDownloadScript(".");
 		$page_gui->setRawPageContent(true);
 		$page_gui->setEnabledMaps(false);
 		$ret = $page_gui->showPage();
