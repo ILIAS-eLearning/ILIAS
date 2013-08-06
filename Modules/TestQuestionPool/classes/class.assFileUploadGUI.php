@@ -1,50 +1,35 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
 
 /**
-* The assFileUploadGUI class encapsulates the GUI representation
-* for file upload questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-* @ilctrl_iscalledby assFileUploadGUI: ilObjQuestionPoolGUI
-* */
-class assFileUploadGUI extends assQuestionGUI
+ * The assFileUploadGUI class encapsulates the GUI representation for file upload questions.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
+ * @version	$Id$
+ *
+ * @ingroup ModulesTestQuestionPool
+ *
+ * @ilctrl_iscalledby assFileUploadGUI: ilObjQuestionPoolGUI
+ * 
+ */
+class assFileUploadGUI extends assQuestionGUI implements GuiScoringAdjustable
 {
 	/**
-	* assFileUploadGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assFileUploadGUI object.
-	*
-	* @param integer $id The database id of a single choice question object
-	* @access public
-	*/
-	function __construct($id = -1)
+	 * assFileUploadGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assFileUploadGUI object.
+	 *
+	 * @param integer $id The database id of a single choice question object
+	 * 
+	 */
+	public function __construct($id = -1)
 	{
 		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assFileUpload.php";
@@ -56,54 +41,45 @@ class assFileUploadGUI extends assQuestionGUI
 		}
 	}
 
-	function getCommand($cmd)
-	{
-		return $cmd;
-	}
-
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			$this->object->setPoints($_POST["points"]);
-			// adding estimated working time
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-			$this->object->setMaxSize($_POST["maxsize"]);
-			$this->object->setAllowedExtensions($_POST["allowedextensions"]);
-			$this->object->setCompletionBySubmission($_POST['completion_by_submission'] == 1 ? true : false);
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			// $this->writeAnswerSpecificPostData(); Nothing to do here, this line FYI.
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
 		}
-		else
-		{
-			return 1;
-		}
+		return 1;
+	}
+
+	public function writeQuestionSpecificPostData($always = false)
+	{
+		$this->object->setPoints( $_POST["points"] );
+		$this->object->setMaxSize( $_POST["maxsize"] );
+		$this->object->setAllowedExtensions( $_POST["allowedextensions"] );
+		$this->object->setCompletionBySubmission( $_POST['completion_by_submission'] == 1 ? true : false );
+	}
+
+	public function writeAnswerSpecificPostData($always = false)
+	{
+		return; // Nothing to do here.
 	}
 
 	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
+	 * Creates an output of the edit form for the question
+	 *
+	 * @access public
+	 */
 	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
@@ -118,61 +94,10 @@ class assFileUploadGUI extends assQuestionGUI
 		$form->setId("assfileupload");
 
 		$this->addBasicQuestionFormProperties($form);
+		$this->populateQuestionSpecificFormPart( $form );
+		// $this->populateAnswerSpecificFormPart( $form ); Nothing to do here, this line FYI.
 
-		// maxsize
-		$maxsize = new ilNumberInputGUI($this->lng->txt("maxsize"), "maxsize");
-		$maxsize->setValue($this->object->getMaxSize());
-		$maxsize->setInfo($this->lng->txt("maxsize_info"));
-		$maxsize->setSize(10);
-		$maxsize->setMinValue(0);
-		
-			//mbecker: Quick fix for mantis bug 8595: Change size file
-			$umf = get_cfg_var("upload_max_filesize");
-			// get the value for the maximal post data from the php.ini (if available)
-			$pms = get_cfg_var("post_max_size");
-
-			//convert from short-string representation to "real" bytes
-			$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
-
-			$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-			$pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-
-			if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
-			if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
-
-			// use the smaller one as limit
-			$max_filesize = min($umf, $pms);
-
-			if (!$max_filesize) $max_filesize=max($umf, $pms);
-		
-		$maxsize->setMaxValue($max_filesize);
-			// end quick fix
-		
-		$maxsize->setRequired(FALSE);
-		$form->addItem($maxsize);
-		// allowedextensions
-		$allowedextensions = new ilTextInputGUI($this->lng->txt("allowedextensions"), "allowedextensions");
-		$allowedextensions->setInfo($this->lng->txt("allowedextensions_info"));
-		$allowedextensions->setValue($this->object->getAllowedExtensions());
-		$allowedextensions->setRequired(FALSE);
-		$form->addItem($allowedextensions);
-		// points
-		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
-		$points->setValue(is_numeric($this->object->getPoints()) && $this->object->getPoints() >= 0 ? $this->object->getPoints() : '');
-		$points->setRequired(TRUE);
-		$points->setSize(3);
-		$points->setMinValue(0.0);
-		$points->setMinvalueShouldBeGreater(false);
-		$form->addItem($points);
-		
-		$subcompl = new ilCheckboxInputGUI($this->lng->txt('ass_completion_by_submission'), 'completion_by_submission');
-		$subcompl->setInfo($this->lng->txt('ass_completion_by_submission_info'));
-		$subcompl->setValue(1);
-		$subcompl->setChecked($this->object->isCompletionBySubmissionEnabled());
-		$form->addItem($subcompl);
-		
 		$this->populateTaxonomyFormSection($form);
-
 		$this->addQuestionFormCommandButtons($form);
 		
 		$errors = false;
@@ -181,14 +106,103 @@ class assFileUploadGUI extends assQuestionGUI
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and 
+									  // we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
 	}
+
+	public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
+	{
+		// maxsize
+		$maxsize = new ilNumberInputGUI($this->lng->txt( "maxsize" ), "maxsize");
+		$maxsize->setValue( $this->object->getMaxSize() );
+		$maxsize->setInfo( $this->lng->txt( "maxsize_info" ) );
+		$maxsize->setSize( 10 );
+		$maxsize->setMinValue( 0 );
+		$maxsize->setMaxValue( $this->determineMaxFilesize() );
+		$maxsize->setRequired( FALSE );
+		$form->addItem( $maxsize );
+
+		// allowedextensions
+		$allowedextensions = new ilTextInputGUI($this->lng->txt( "allowedextensions" ), "allowedextensions");
+		$allowedextensions->setInfo( $this->lng->txt( "allowedextensions_info" ) );
+		$allowedextensions->setValue( $this->object->getAllowedExtensions() );
+		$allowedextensions->setRequired( FALSE );
+		$form->addItem( $allowedextensions );
+
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		$points->setValue( is_numeric( $this->object->getPoints() ) && $this->object->getPoints(
+						   ) >= 0 ? $this->object->getPoints() : ''
+		);
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0.0 );
+		$points->setMinvalueShouldBeGreater( false );
+		$form->addItem( $points );
+
+		$subcompl = new ilCheckboxInputGUI($this->lng->txt( 'ass_completion_by_submission'
+										   ), 'completion_by_submission');
+		$subcompl->setInfo( $this->lng->txt( 'ass_completion_by_submission_info' ) );
+		$subcompl->setValue( 1 );
+		$subcompl->setChecked( $this->object->isCompletionBySubmissionEnabled() );
+		$form->addItem( $subcompl );
+		return $form;
+	}
+
+	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
+	{
+		return $form;
+	}
 	
+	/**
+	 * @return mixed
+	 */
+	public function determineMaxFilesize()
+	{
+		//mbecker: Quick fix for mantis bug 8595: Change size file
+		$upload_max_filesize = get_cfg_var( "upload_max_filesize" );
+		// get the value for the maximal post data from the php.ini (if available)
+		$post_max_size = get_cfg_var( "post_max_size" );
+
+		//convert from short-string representation to "real" bytes
+		$multiplier_a = array( "K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024 );
+		$umf_parts    = preg_split( "/(\d+)([K|G|M])/",
+									$upload_max_filesize,
+									-1,
+									PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+		);
+		$pms_parts    = preg_split( "/(\d+)([K|G|M])/",
+									$post_max_size,
+									-1,
+									PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+		);
+
+		if (count( $umf_parts ) == 2)
+		{
+			$upload_max_filesize = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
+		}
+
+		if (count( $pms_parts ) == 2)
+		{
+			$post_max_size = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
+		}
+
+		// use the smaller one as limit
+		$max_filesize = min( $upload_max_filesize, $post_max_size );
+
+		if (!$max_filesize)
+		{
+			$max_filesize = max( $upload_max_filesize, $post_max_size );
+			return $max_filesize;
+		}
+		return $max_filesize;
+	}
+
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
