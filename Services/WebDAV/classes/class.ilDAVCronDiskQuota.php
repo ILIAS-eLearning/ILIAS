@@ -143,8 +143,8 @@ class ilDAVCronDiskQuota extends ilCronJob
 						)
 				);				
 				$a_fields["repository_disk_quota"] = array($a_is_active ? 
-					$lng->txt("active") :
-					$lng->txt("inactive"),
+					$lng->txt("enabled") :
+					$lng->txt("disabled"),
 					null, $subitems);				
 				break;
 		}

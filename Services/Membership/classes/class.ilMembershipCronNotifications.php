@@ -224,8 +224,8 @@ class ilMembershipCronNotifications extends ilCronJob
 			case ilAdministrationSettingsFormHandler::FORM_COURSE:				
 			case ilAdministrationSettingsFormHandler::FORM_GROUP:								
 				$a_fields["enable_course_group_notifications"] = $a_is_active ? 
-					$lng->txt("active") :
-					$lng->txt("inactive");
+					$lng->txt("enabled") :
+					$lng->txt("disabled");
 				break;
 		}
 	}
