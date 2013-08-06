@@ -29,7 +29,7 @@ class ilECSCourseCreationHandler
 	{
 		$this->server = $server;
 		$this->mid = $a_mid;
-		$this->mapping = ilECSNodeMappingSettings::getInstance();
+		$this->mapping = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid());
 		
 		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseUrl.php';
 		$this->course_url = new ilECSCourseUrl();

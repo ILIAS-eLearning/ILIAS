@@ -34,7 +34,7 @@ class ilECSCmsTreeSynchronizer
 		$this->tree_id = $tree_id;
 		
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		$this->global_settings = ilECSNodeMappingSettings::getInstance();
+		$this->global_settings = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->mid);
 	}
 	
 	/**

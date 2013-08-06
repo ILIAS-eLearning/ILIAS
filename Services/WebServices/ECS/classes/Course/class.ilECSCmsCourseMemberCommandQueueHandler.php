@@ -2,7 +2,9 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
 include_once './Services/WebServices/ECS/interfaces/interface.ilECSCommandQueueHandler.php';
+include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
 
 /**
  * Description of class
@@ -22,7 +24,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 	public function __construct(ilECSSetting $server)
 	{
 		$this->server = $server;
-		$this->init();
 	}
 	
 	/**
@@ -60,9 +61,33 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 	 */
 	public function checkAllocationActivation(ilECSSetting $server, $a_content_id)
 	{
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		$gl_settings = ilECSNodeMappingSettings::getInstance();
-		return $gl_settings->isCourseAllocationEnabled();
+		try 
+		{
+			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMemberConnector.php';
+			$crsm_reader = new ilECSCourseMemberConnector($server);
+			$details = $crsm_reader->getCourseMember($a_content_id,true);
+			$this->mid = $details->getMySender();
+			
+			// Check if import is enabled
+			$part = ilECSParticipantSetting::getInstance($this->getServer()->getServerId(), $this->getMid());
+			if(!$part->isImportEnabled())
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Import disabled for mid '.$this->getMid());
+				return false;
+			}
+			// Check course allocation setting
+			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+			$this->mapping = ilECSNodeMappingSettings::getInstanceByServerMid(
+					$this->getServer()->getServerId(),
+					$this->getMid()
+				);
+			return $this->getMappingSettings()->isCourseAllocationEnabled();
+		}
+		catch(ilECSConnectorException $e) 
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Reading course member details failed with message '. $e->getMessage());
+			return false;
+		}
 	}
 
 
@@ -133,18 +158,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		return true;
 	}
 	
-	/**
-	 * init handler
-	 */
-	private function init()
-	{
-		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
-		$this->mid = ilECSParticipantSettings::loookupCmsMid($this->getServer()->getServerId());
-		
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		$this->mapping = ilECSNodeMappingSettings::getInstance();
-		
-	}
 	
 	/**
 	 * Perform update

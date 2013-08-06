@@ -21,7 +21,6 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 	public function __construct(ilECSSetting $server)
 	{
 		$this->server = $server;
-		$this->init();
 	}
 	
 	/**
@@ -65,18 +64,17 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 			}
 			// Check course allocation setting
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-			$gl_settings = ilECSNodeMappingSettings::getInstance();
+			$gl_settings = ilECSNodeMappingSettings::getInstanceByServerMid(
+					$this->getServer()->getServerId(),
+					$this->getMid()
+				);
 			return $gl_settings->isCourseAllocationEnabled();
 		}
 		catch(ilECSConnectorException $e) 
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Reading course details failed with message '. $e->getMessage());
 			return false;
-		}
-		
-		
-		
-		
+		}		
 	}
 
 
@@ -147,14 +145,6 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 		return true;
 	}
 	
-	/**
-	 * init handler
-	 */
-	private function init()
-	{
-		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
-		$this->mid = ilECSParticipantSettings::loookupCmsMid($this->getServer()->getServerId());
-	}
 	
 	/**
 	 * Perform update

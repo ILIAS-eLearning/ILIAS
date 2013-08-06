@@ -6,15 +6,18 @@
  */
 class ilECSNodeMappingSettings
 {
-	private static $instance = null;
+	private static $instances = array();
 
 	private $storage = null;
 
 	
+	private $server_id = 0;
 	/**
-	 * Directory allocation
-	 * @var type 
+	 * MID of sender
+	 * @var int
 	 */
+	private $mid = 0;
+	
 	private $directory_active = false;
 	private $create_empty_containers = false;
 	
@@ -31,8 +34,11 @@ class ilECSNodeMappingSettings
 	/**
 	 * Singeleton constructor
 	 */
-	protected function  __construct()
+	protected function  __construct($a_server_id, $a_mid)
 	{
+		$this->server_id = $a_server_id;
+		$this->mid = $a_mid;
+		
 		$this->initStorage();
 		$this->read();
 	}
@@ -43,11 +49,47 @@ class ilECSNodeMappingSettings
 	 */
 	public static function getInstance()
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': Deprecated call...');
+		$GLOBALS['ilLog']->logStack();
+		
 		if(self::$instance)
 		{
 			return self::$instance;
 		}
 		return self::$instance = new ilECSNodeMappingSettings();
+	}
+	
+	/**
+	 * Get instance 
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @return ilECSNodeMappingSettings
+	 */
+	public static function getInstanceByServerMid($a_server_id, $a_mid)
+	{
+		if(self::$instances[$a_server_id.'_'.$a_mid])
+		{
+			return self::$instances[$a_server_id.'_'.$a_mid];
+		}
+		return self::$instances[$a_server_id.'_'.$a_mid] = new self($a_server_id,$a_mid);
+	}
+	
+	/**
+	 * Get server id of setting
+	 * @return type
+	 */
+	public function getServerId()
+	{
+		return $this->server_id;
+	}
+	
+	/**
+	 * Get mid of sender
+	 * @return type
+	 */
+	public function getMid()
+	{
+		return $this->mid;
 	}
 
 	/**
@@ -178,7 +220,7 @@ class ilECSNodeMappingSettings
 	{
 		global $ilSetting;
 
-		$this->storage = new ilSetting('ecs_node_mapping');
+		$this->storage = new ilSetting('ecs_node_mapping_'.$this->getServerId().'_'.$this->getMid());
 	}
 
 	/**
