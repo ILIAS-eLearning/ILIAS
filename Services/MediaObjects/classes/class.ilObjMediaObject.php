@@ -1211,6 +1211,17 @@ class ilObjMediaObject extends ilObject
 					}
 				}
 				
+				// Exercise assignment
+				if ($cont_type == "exca")
+				{
+					$returned_pk = $a_usage['id'];
+					
+					// we are just checking against exercise object
+					
+					include_once 'Modules/Exercise/classes/class.ilObjExercise.php';
+					$obj_id = ilObjExercise::lookupExerciseIdForReturnedId($returned_pk);				
+				}
+				
 				// Forum
 				if ($cont_type == "frm")
 				{
@@ -1223,7 +1234,7 @@ class ilObjMediaObject extends ilObject
 					$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
 				}
 				
-				if ($cont_type == 'frm~')
+				if ($cont_type == 'frm~' || $cont_type == 'exca~')
 				{
 					$obj_id = $a_usage['id'];
 				}

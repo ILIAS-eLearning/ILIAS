@@ -445,6 +445,7 @@ class ilWebAccessChecker
                 break;
 				
 			case 'frm~:html':
+			case 'exca~:html':
 				// $oid = userid
 				foreach ($this->check_users as $user_id)
 				{

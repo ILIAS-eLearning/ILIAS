@@ -3363,7 +3363,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	protected function initAssignmentTextForm(ilExAssignment $a_ass, $a_read_only = false, $a_cancel_cmd = "showOverview")
 	{		
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();		
@@ -3372,10 +3372,31 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if(!$a_read_only)
 		{
 			$text = new ilTextAreaInputGUI($this->lng->txt("exc_files_returned_text"), "atxt");
-			$text->setRequired((bool)$a_ass->getMandatory());
-			$text->setUseRte(true);
+			$text->setRequired((bool)$a_ass->getMandatory());				
 			$text->setRows(40);
-			$form->addItem($text);		
+			$form->addItem($text);
+			
+			// custom rte tags
+			$text->setUseRte(true);		
+			$text->setRTESupport($ilUser->getId(), "exca~", "exc_ass"); 
+			
+			// see ilObjForumGUI
+			$text->disableButtons(array(
+				'charmap',
+				'undo',
+				'redo',
+				'justifyleft',
+				'justifycenter',
+				'justifyright',
+				'justifyfull',
+				'anchor',
+				'fullscreen',
+				'cut',
+				'copy',
+				'paste',
+				'pastetext',
+				'formatselect'
+			));
 			
 			$form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
 			$form->addCommandButton("updateAssignmentTextAndReturn", $this->lng->txt("save_return"));		
@@ -3426,7 +3447,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				if(trim($files["atext"]))
 				{
 				   $text = $a_form->getItemByPostVar("atxt");
-				   $text->setValue($files["atext"]);
+				   // mob id to mob src
+				   $text->setValue(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1));
 				}
 			}
 		}
@@ -3458,12 +3480,40 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->checkPermission("read");		
 		
-		$form = $this->initAssignmentTextForm($this->ass);
+		$form = $this->initAssignmentTextForm($this->ass);	
+		
+		// we are not using a purifier, so we have to set the valid RTE tags
+		// :TODO: 
+		include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
+		$rte = $form->getItemByPostVar("atxt");
+		$rte->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("exc_ass"));
+		
 		if($form->checkInput())
-		{
-			$text = trim($form->getInput("atxt"));			
-			$this->object->updateTextSubmission($this->ass->getExerciseId(), $this->ass->getId(), $ilUser->getId(), $text);			
-						
+		{			
+			$text = trim($form->getInput("atxt"));	
+									
+			$returned_id = $this->object->updateTextSubmission(
+				$this->ass->getExerciseId(), 
+				$this->ass->getId(), 
+				$ilUser->getId(), 
+				// mob src to mob id
+				ilRTE::_replaceMediaObjectImageSrc($text, 0));	
+			
+			// mob usage
+			if($returned_id)
+			{
+				include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";
+				$mobs = ilRTE::_getMediaObjects($text, 0);
+				foreach($mobs as $mob)
+				{
+					if(ilObjMediaObject::_exists($mob))
+					{
+						ilObjMediaObject::_removeUsage($mob, 'exca~:html', $ilUser->getId());
+						ilObjMediaObject::_saveUsage($mob, 'exca:html', $returned_id);
+					}
+				}
+			}
+			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 			if($a_return)
 			{
