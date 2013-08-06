@@ -4,7 +4,7 @@
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
 
-require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * The assErrorTextGUI class encapsulates the GUI representation for error text questions.
@@ -61,10 +61,7 @@ class assErrorTextGUI extends assQuestionGUI implements GuiScoringAdjustable
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
-		else
-		{
-			return 1;
-		}
+		return 1;
 	}
 
 	public function writeAnswerSpecificPostData($always = false)
