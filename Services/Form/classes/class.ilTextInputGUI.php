@@ -23,6 +23,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $style_css;
 	protected $css_class;
 	protected $ajax_datasource;
+	protected $ajax_datasource_delimiter;
 	protected $submit_form_on_enter = false;
 
 	/**
@@ -332,9 +333,10 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	 * set datasource link for js autocomplete
 	 * @param	String	link to data generation script
 	 */
-	function setDataSource($href)
+	function setDataSource($href, $a_delimiter = null)
 	{
 		$this->ajax_datasource = $href;
+		$this->ajax_datasource_delimiter = $a_delimiter;
 	}
 	
 	public function setMultiValues(array $a_values)
@@ -454,10 +456,22 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 				// use id for autocomplete selector
 				$sel_auto = "#".$this->getFieldId();
 			}
-			$tpl->setCurrentBlock("prop_text_autocomplete");
-			$tpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
-			$tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
-			$tpl->parseCurrentBlock();
+			
+			if(!$this->ajax_datasource_delimiter)
+			{
+				$tpl->setCurrentBlock("autocomplete_bl");
+				$tpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
+				$tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
+				$tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$tpl->setCurrentBlock("autocomplete_bl");
+				$tpl->setVariable('AUTOCOMPLETE_DELIMITER', $this->ajax_datasource_delimiter);
+				$tpl->setVariable('SEL_AUTOCOMPLETE_DELIMITER', $sel_auto);
+				$tpl->setVariable('URL_AUTOCOMPLETE_DELIMITER', $this->getDataSource());
+				$tpl->parseCurrentBlock();
+			}
 		}
 		
 		if ($a_mode == "toolbar")
