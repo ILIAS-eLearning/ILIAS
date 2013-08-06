@@ -1562,6 +1562,7 @@ input.emphsubmit, a.emphsubmit, a.emphsubmit:hover {
 	border-color: #4ea051 #4ea051 #7fcc81;
 	min-width: 100px;
 	display: inline-block;
+	text-align: center;
 }
 
 input.emphsubmit:hover, a.emphsubmit:hover {
