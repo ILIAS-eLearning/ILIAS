@@ -125,11 +125,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 
 			case "ilpageobjectgui":
 die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
-				$page_gui = new ilPageObjectGUI("sahs",
-					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
-				$page_gui->setEnabledPCTabs(true);
-				$html = $ilCtrl->forwardCommand($page_gui);
-				return $html;
+				return;
 				
 			default:
 				$html = parent::executeCommand();

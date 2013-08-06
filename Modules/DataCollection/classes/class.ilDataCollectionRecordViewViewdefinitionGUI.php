@@ -119,14 +119,8 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		switch($next_class)
 		{			
 			case "ilpageobjectgui":
-				$page_gui = new ilPageObjectGUI("dclf",
-					$this->getPageObject()->getId(),
-					$this->getPageObject()->old_nr);
-				if($viewdef)
-				{
-					$this->setPresentationTitle($title);
-				}
-				return $ilCtrl->forwardCommand($page_gui);
+				die("Deprecated. ilDataCollectionRecordViewViewdefinitionGUI gui forwarding to ilpageobject");
+				return;
 				
 			default:
 				if($viewdef)
@@ -194,7 +188,8 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		if($this->table_id && ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id)){
 			global $ilDB;
 			$id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id);
-			$pageObject = new ilPageObject("dclf", $id);
+			include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php");
+			$pageObject = new ilDataCollectionRecordViewViewdefinition($id);
 			$pageObject->delete();
 
 			$query = "DELETE FROM il_dcl_view WHERE table_id = ".$this->table_id." AND type = ".$ilDB->quote(0, "integer")." AND formtype = ".$ilDB->quote(0, "integer");

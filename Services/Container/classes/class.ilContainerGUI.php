@@ -216,11 +216,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
-		if (!ilContainerPage::_exists($this->object->getType(),
+		if (!ilContainerPage::_exists("cont",
 			$this->object->getId()))
 		{
 			// doesn't exist -> create new one
-			$new_page_object = new ilContainerPage($this->object->getType());
+			$new_page_object = new ilContainerPage();
 			$new_page_object->setParentId($this->object->getId());
 			$new_page_object->setId($this->object->getId());
 			$new_page_object->createFromXML();
@@ -228,8 +228,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		// get page object
 		$this->ctrl->setReturnByClass("ilcontainerpagegui", "edit");
-		$page_gui =& new ilContainerPageGUI($this->object->getType(),
-			$this->object->getId());
+		$page_gui = new ilContainerPageGUI($this->object->getId());
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
@@ -318,7 +317,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		// if page does not exist, return nothing
 		include_once("./Services/COPage/classes/class.ilPageUtil.php");
-		if (!ilPageUtil::_existsAndNotEmpty($this->object->getType(),
+		if (!ilPageUtil::_existsAndNotEmpty("cont",
 			$this->object->getId()))
 		{
 			return "";
@@ -335,8 +334,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->parseCurrentBlock();
 
 		// get page object
-		$page_gui = new ilContainerPageGUI($this->object->getType(),
-			$this->object->getId());
+		$page_gui = new ilContainerPageGUI($this->object->getId());
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
@@ -3308,8 +3306,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
-		$page_gui =& new ilContainerPageGUI($this->object->getType(),
-			$this->object->getId());
+		$page_gui = new ilContainerPageGUI($this->object->getId());
 		$style_id = $this->object->getStyleSheetId();
 		if (ilObject::_lookupType($style_id) == "sty")
 		{

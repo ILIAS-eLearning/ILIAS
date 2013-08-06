@@ -123,14 +123,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			*/
 				
 			case "ilpageobjectgui":
-				$page_gui = new ilPageObjectGUI("blp",
-					$this->getPageObject()->getId(),
-					$this->getPageObject()->old_nr);
-				if($posting)
-				{
-					$this->setPresentationTitle($posting->getTitle());
-				}
-				return $ilCtrl->forwardCommand($page_gui);
+		die("Deprecated. Blog Posting gui forwarding to ilpageobject");
+				return;
 				
 			default:
 				if($posting)

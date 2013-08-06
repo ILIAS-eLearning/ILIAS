@@ -105,8 +105,8 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 						break;
 					
 					case "lm":
-						require_once("./Services/COPage/classes/class.ilPageObject.php");
-						$page_obj = new ilPageObject($cont_type, $usage["id"]);
+						require_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+						$page_obj = new ilLMPage($usage["id"]);
 
 						require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 						require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");

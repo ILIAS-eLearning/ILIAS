@@ -217,11 +217,22 @@ class ilContObjParser extends ilMDSaxParser
 			switch($page_arr[0])
 			{
 				case "lm":
-					$page_obj =& new ilPageObject($this->content_object->getType(), $page_arr[1]);
+					switch ($this->content_object->getType())
+					{
+						case "lm":
+							include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+							$page_obj = new ilLMPage($page_arr[1]);
+							break;
+							
+						default:
+							die("Unknown content type ".$this->content_object->getType());
+					}
+					
 					break;
 
 				case "gdf":
-					$page_obj =& new ilPageObject("gdf", $page_arr[1]);
+					include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
+					$page_obj = new ilGlossaryDefPage($page_arr[1]);
 					break;
 			}
 			$page_obj->buildDom();
@@ -504,15 +515,17 @@ class ilContObjParser extends ilMDSaxParser
 				$this->cur_qid = "";
 				if (($this->coType != "tst") and ($this->coType != "qpl"))
 				{
-					$this->lm_page_object =& new ilLMPageObject($this->content_object);
-					$this->page_object =& new ilPageObject($this->content_object->getType());
+					$this->lm_page_object = new ilLMPageObject($this->content_object);
+					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+					$this->page_object = new ilLMPage();
 					$this->lm_page_object->setLMId($this->content_object->getId());
 					$this->lm_page_object->assignPageObject($this->page_object);
-					$this->current_object =& $this->lm_page_object;					
+					$this->current_object = $this->lm_page_object;					
 				}
 				else
 				{
-					$this->page_object =& new ilPageObject("qpl");
+					include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
+					$this->page_object = new ilAssQuestionPage();
 				}
 				break;
 
@@ -606,7 +619,8 @@ class ilContObjParser extends ilMDSaxParser
 			case "Definition":
 				$this->in_glossary_definition = true;
 				$this->glossary_definition =& new ilGlossaryDefinition();
-				$this->page_object =& new ilPageObject("gdf");
+				include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
+				$this->page_object = new ilGlossaryDefPage();
 				$this->page_object->setParentId($this->glossary_term->getGlossaryId());
 				$this->glossary_definition->setTermId($this->glossary_term->getId());
 				$this->glossary_definition->assignPageObject($this->page_object);
@@ -1068,7 +1082,8 @@ class ilContObjParser extends ilMDSaxParser
 						if ($ids["pool"] > 0)
 						{
 							// question pool question
-							$page = new ilPageObject("qpl", $ids["pool"]);
+							include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
+							$page = new ilAssQuestionPage($ids["pool"]);
 							$xmlcontent = str_replace($this->cur_qid,
 								"il__qst_".$ids["pool"], $xml);
 							$page->setXMLContent($xmlcontent);
@@ -1079,7 +1094,8 @@ class ilContObjParser extends ilMDSaxParser
 						if ($ids["test"] > 0)
 						{
 							// test question
-							$page = new ilPageObject("qpl", $ids["test"]);
+							include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
+							$page = new ilAssQuestionPage($ids["test"]);
 							$xmlcontent = str_replace($this->cur_qid, 
 								"il__qst_".$ids["test"], $xml);
 							$page->setXMLContent($xmlcontent);

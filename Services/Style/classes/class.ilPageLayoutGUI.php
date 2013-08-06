@@ -87,12 +87,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 
 			case "ilpageobjectgui":
 die("ilPageLayoutGUI forward to ilpageobjectgui error.");
-				// "stys" was "sahs" before
-				$page_gui = new ilPageObjectGUI("stys",
-					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
-				$page_gui->setStyleId($this->getStyleId());
-				$html = $ilCtrl->forwardCommand($page_gui);
-				return $html;
+				return;
 				
 			default:
 				$html = parent::executeCommand();
