@@ -1,22 +1,22 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
 
 /**
- * Class for Mathematik Online based questions
- *
- * @extends assQuestion
+ * Class for Flash based questions
  * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
  * @version		$Id$
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assFlashQuestion extends assQuestion
+class assFlashQuestion extends assQuestion implements ObjScoringAdjustable
 {
 	private $width;
 	private $height;
@@ -59,14 +59,16 @@ class assFlashQuestion extends assQuestion
 	*/
 	function isComplete()
 	{
-		if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0) and (strlen($this->getApplet())))
+		if (strlen($this->title) 
+			&& ($this->author) 
+			&& ($this->question) 
+			&& ($this->getMaximumPoints() > 0) 
+			&& (strlen($this->getApplet()))
+		)
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
@@ -76,36 +78,45 @@ class assFlashQuestion extends assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilDB, $ilLog;
-
 		$this->saveQuestionDataToDb($original_id);
-
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, width, height, applet, params) VALUES (%s, %s, %s, %s, %s)", 
-			array("integer", "integer", "integer", "text", "text"),
-			array(
-				$this->getId(),
-				(strlen($this->getWidth())) ? $this->getWidth() : 550,
-				(strlen($this->getHeight())) ? $this->getHeight() : 400,
-				$this->getApplet(),
-				serialize($this->getParameters())
-			)
-		);
-		if ($_SESSION["flash_upload_filename"])
-		{
-			$path = $this->getFlashPath();
-			ilUtil::makeDirParents($path);
-			@rename($_SESSION["flash_upload_filename"], $path . $this->getApplet());
-			unset($_SESSION["flash_upload_filename"]);
-		}
+		$this->saveAdditionalQuestionDataToDb();
+		//$this->saveAnswerSpecificDataToDb(); // Nothing to do here, this line FYI
 
 		parent::saveToDb();
 	}
 
+	public function saveAdditionalQuestionDataToDb()
+	{
+		global $ilDB;
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
+																			   ) . " (question_fi, width, height, applet, params) VALUES (%s, %s, %s, %s, %s)",
+							array( "integer", "integer", "integer", "text", "text" ),
+							array(
+								$this->getId(),
+								(strlen( $this->getWidth() )) ? $this->getWidth() : 550,
+								(strlen( $this->getHeight() )) ? $this->getHeight() : 400,
+								$this->getApplet(),
+								serialize( $this->getParameters() )
+							)
+		);
+		if ($_SESSION["flash_upload_filename"])
+		{
+			$path = $this->getFlashPath();
+			ilUtil::makeDirParents( $path );
+			@rename( $_SESSION["flash_upload_filename"], $path . $this->getApplet() );
+			unset($_SESSION["flash_upload_filename"]);
+		}
+	}
+
+	public function saveAnswerSpecificDataToDb()
+	{
+		return; // Nothing to do here.
+	}
+	
 	/**
 	* Loads a assFlashQuestion object from a database
 	*
