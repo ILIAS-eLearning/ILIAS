@@ -1897,6 +1897,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		 * @var $ilToolbar ilToolbarGUI
 		 */
 		global $tpl, $lng, $ilUser, $ilAccess, $rbacreview, $ilNavigationHistory, $ilCtrl, $frm, $ilToolbar, $ilLocator;
+		
+		if(!$this->objCurrentTopic->getId())
+		{
+			$ilCtrl->redirect($this, 'showThreads');
+		}
 
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 		if(!isset($_SESSION['viewmode']))

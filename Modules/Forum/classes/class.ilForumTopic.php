@@ -238,7 +238,7 @@ class ilForumTopic
 				
 				return true;
 			}
-		
+			$this->id = 0;
 			return false;
 		}
 		
