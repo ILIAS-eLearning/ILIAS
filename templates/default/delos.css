@@ -872,6 +872,20 @@ div.ilFormCheckboxOption, div.ilFormRadioOption {
 	margin: 0 0 5px 28px;
 }
 
+div.ilFormExternalSetting {
+	margin-bottom: 10px;
+}
+
+div.ilFormExternalSetting ul {
+	margin: 2px 0;
+	padding-left: 25px
+}
+
+div.ilFormExternalSetting span {
+	color: #C08030;
+	/* font-style: italic; */
+}
+
 /* InfoScreen */
 table.il_InfoScreen {
 	color: #222;
@@ -1546,6 +1560,8 @@ input.emphsubmit, a.emphsubmit, a.emphsubmit:hover {
 	color: #FFFFFF;
 	font-weight: 600;
 	border-color: #4ea051 #4ea051 #7fcc81;
+	min-width: 100px;
+	display: inline-block;
 }
 
 input.emphsubmit:hover, a.emphsubmit:hover {
@@ -3991,10 +4007,6 @@ body.ilBodyPrint {
 
 table.il_user_quota_disk_usage_overview {
 	background-color: white;
-}
-
-div.ilAdminExternalSetting {
-
 }
 
 /* basic responsiveness (beta)
