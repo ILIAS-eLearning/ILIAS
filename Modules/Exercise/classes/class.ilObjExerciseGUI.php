@@ -3606,7 +3606,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			if(trim($files["atext"]))
 			{
 			   $text = $a_form->getItemByPostVar("atxt");
-			   $text->setValue($files["atext"]);
+			   // mob id to mob src
+			   $text->setValue(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1));
 			}
 		}		
 	
