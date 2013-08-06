@@ -105,7 +105,8 @@ class ilDataCollectionRecordListGUI
         if($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) && $this->table_obj->hasCustomFields()){
             $ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","record_id", null);
             $ilToolbar->addButton($lng->txt("dcl_import_records .xls"), $ilCtrl->getFormActionByClass("ildatacollectionrecordlistgui", "showImportExcel"));
-            $ilToolbar->addButton($lng->txt("dcl_add_new_record"), $ilCtrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"));
+            $ilToolbar->addButton($lng->txt("dcl_add_new_record"), $ilCtrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"),
+				"", "", "", "", "submit emphsubmit"); // #11502
         }
 
         // requested not to implement this way...
