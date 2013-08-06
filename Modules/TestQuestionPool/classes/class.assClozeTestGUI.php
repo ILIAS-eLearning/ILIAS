@@ -67,7 +67,7 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 			$this->writeQuestionGenericPostData();
 			$this->object->setClozeText($_POST["question"]);
 			$this->writeQuestionSpecificPostData();
-			$this->object->flushGaps();
+			//$this->object->flushGaps();
 			$this->writeAnswerSpecificPostData();			
 			$this->saveTaxonomyAssignments();
 			return 0;
