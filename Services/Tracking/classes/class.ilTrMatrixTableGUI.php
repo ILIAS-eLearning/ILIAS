@@ -241,10 +241,29 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					}
 				}
 			}
+			
+			// percentage export
+			if($data["set"])
+			{
+				$this->perc_map = array();
+				foreach($data["set"] as $item)
+				{
+					if(is_array($item["objects"]))
+					{
+						foreach($item["objects"] as $obj_id => $obj_data)
+						{								
+							if((int)$obj_data["percentage"] > 0)
+							{
+								$this->perc_map[$obj_id] = true;
+							}
+						}
+					}
+				}
+			}
 
 			$this->setMaxCount($data["cnt"]);
 			$this->setData($data["set"]);
-//var_dump($this->sco_ids);
+
 			return $collection["object_ids"];
 		}
 		return false;
@@ -352,6 +371,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				$obj_id = substr($c, 4);
 				$type = $ilObjDataCache->lookupType($obj_id);
 				$worksheet->write($a_row, $cnt, "(".$this->lng->txt($type).") ".$labels[$c]["txt"]);
+									
+				if(is_array($this->perc_map) && $this->perc_map[$obj_id])
+				{
+					$cnt++;
+					$worksheet->write($a_row, $cnt, $this->lng->txt("trac_percentage")." (%)");
+				}
 			}
 			else
 			{
@@ -374,20 +399,33 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				case "spent_seconds":
 				case "status_changed":
 					$val = $this->parseValue($c, $a_set[$c], "user");
+					$worksheet->write($a_row, $cnt, $val);
 					break;
 					
 				case (substr($c, 0, 4) == "obj_"):
 					$obj_id = substr($c, 4);
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					$worksheet->write($a_row, $cnt, $val);
+					
+					if(is_array($this->perc_map) && $this->perc_map[$obj_id])
+					{
+						$cnt++;
+						$perc = (int)$a_set["objects"][$obj_id]["percentage"];
+						if(!$perc)
+						{
+							$perc = null;
+						}					
+						$worksheet->write($a_row, $cnt, $perc);
+					}
 					break;
 				
 				case (substr($c, 0, 6) == "objtv_"):
 				case (substr($c, 0, 7) == "objsco_"):
 					$obj_id = $c;
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					$worksheet->write($a_row, $cnt, $val);
 					break;										
-			}
-			$worksheet->write($a_row, $cnt, $val);
+			}			
 			$cnt++;
 		}
 	}
@@ -406,6 +444,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				$obj_id = substr($c, 4);
 				$type = $ilObjDataCache->lookupType($obj_id);
 				$a_csv->addColumn("(".$this->lng->txt($type).") ".$labels[$c]["txt"]);
+				
+				if(is_array($this->perc_map) && $this->perc_map[$obj_id])
+				{
+					$a_csv->addColumn($this->lng->txt("trac_percentage")." (%)");
+				}
 			}
 			else
 			{
@@ -428,20 +471,32 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				case "spent_seconds":
 				case "status_changed":
 					$val = $this->parseValue($c, $a_set[$c], "user");
+					$a_csv->addColumn($val);
 					break;
 					
 				case (substr($c, 0, 4) == "obj_"):
 					$obj_id = substr($c, 4);
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					$a_csv->addColumn($val);
+					
+					if(is_array($this->perc_map) && $this->perc_map[$obj_id])
+					{
+						$perc = (int)$a_set["objects"][$obj_id]["percentage"];
+						if(!$perc)
+						{
+							$perc = null;
+						}					
+						$a_csv->addColumn($perc);
+					}
 					break;
 				
 				case (substr($c, 0, 6) == "objtv_"):
 				case (substr($c, 0, 7) == "objsco_"):
 					$obj_id = $c;
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					$a_csv->addColumn($val);
 					break;										
-			}
-			$a_csv->addColumn($val);
+			}			
 		}
 
 		$a_csv->addRow();
