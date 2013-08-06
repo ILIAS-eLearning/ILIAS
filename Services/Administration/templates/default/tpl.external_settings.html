@@ -1,15 +1,16 @@
-<div>
-	<table>		
-		<!-- BEGIN row_bl -->
-		<tr>
-			<td class="std"{SPACER}>{KEY}</td>
-			<td class="std">{VALUE}</td>
-		</tr>
-		<!-- END row_bl -->	
-		<!-- BEGIN edit_bl -->
-		<tr>
-			<td class="std small" colspan="2"><a href="{URL_EDIT}">&raquo; {TXT_EDIT}</a></td>
-		</tr>
-		<!-- END edit_bl -->
-	</table>
+<div>	
+	<!-- BEGIN row_bl -->
+	<div class="ilAdminExternalSetting">{KEY}<!-- BEGIN value_bl -->: <em>{VALUE}</em><!-- END value_bl -->
+		<!-- BEGIN subitems_bl -->
+		<ul>
+			<!-- BEGIN subitem_bl -->
+			<li>{SUBKEY}: {SUBVALUE}</li>
+			<!-- END subitem_bl -->		
+		</ul>
+		<!-- END subitems_bl -->
+	</div>	
+	<!-- END row_bl -->	
+	<!-- BEGIN edit_bl -->
+	<div><a href="{URL_EDIT}">&raquo; {TXT_EDIT}</a></div>
+	<!-- END edit_bl -->
 </div>

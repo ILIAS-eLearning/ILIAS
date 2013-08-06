@@ -2184,16 +2184,18 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				
 				include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 				$security = ilSecuritySettings::_getInstance();
-				
-				$fields = array('ps_auto_https' => 
-					array($security->isAutomaticHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
-				);
-				
+								
+				$subitems = null;
 				if($security->isAutomaticHTTPSEnabled())
 				{
-					$fields['~ps_auto_https_header_name'] = $security->getAutomaticHTTPSHeaderName();
-					$fields['~ps_auto_https_header_value'] =	$security->getAutomaticHTTPSHeaderValue();	
-				}
+					$subitems = array(
+						'ps_auto_https_header_name' => $security->getAutomaticHTTPSHeaderName(),
+						'ps_auto_https_header_value' =>	$security->getAutomaticHTTPSHeaderValue()
+					);
+				}				
+				$fields = array('ps_auto_https' => 
+					array($security->isAutomaticHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL, $subitems)
+				);
 				
 				$fields['activate_https'] = 
 					array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);

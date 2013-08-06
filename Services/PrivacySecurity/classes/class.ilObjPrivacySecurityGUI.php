@@ -396,26 +396,28 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 				
 				$privacy = ilPrivacySettings::_getInstance();
 				
-				$fields = array(
-					'ps_profile_export' => "&nbsp;",
-					'~ps_export_course' => array($privacy->enabledCourseExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-					'~ps_export_confirm' => array($privacy->courseConfirmationRequired(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-					'~ps_show_crs_access' => array($privacy->enabledCourseAccessTimes(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				$subitems = array(
+					'ps_export_course' => array($privacy->enabledCourseExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'ps_export_confirm' => array($privacy->courseConfirmationRequired(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'ps_show_crs_access' => array($privacy->enabledCourseAccessTimes(), ilAdministrationSettingsFormHandler::VALUE_BOOL)					
 				);
-										
+				$fields = array(
+					'ps_profile_export' => array(null, null, $subitems)				
+				);										
 				return array(array("showPrivacy", $fields));	
 				
 			case ilAdministrationSettingsFormHandler::FORM_GROUP:
 								
 				$privacy = ilPrivacySettings::_getInstance();
 				
-				$fields = array(
-					'ps_profile_export' => "&nbsp;",
-					'~ps_export_groups' => array($privacy->enabledGroupExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-					'~ps_export_confirm_group' => array($privacy->groupConfirmationRequired(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-					'~ps_show_grp_access' => array($privacy->enabledGroupAccessTimes(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				$subitems = array(
+					'ps_export_groups' => array($privacy->enabledGroupExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'ps_export_confirm_group' => array($privacy->groupConfirmationRequired(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'ps_show_grp_access' => array($privacy->enabledGroupAccessTimes(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
 				);
-										
+				$fields = array(
+					'ps_profile_export' => array(null, null, $subitems)									
+				);										
 				return array(array("showPrivacy", $fields));	
 		}
 	}

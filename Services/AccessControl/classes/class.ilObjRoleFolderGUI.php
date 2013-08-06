@@ -711,12 +711,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');	
 				$privacy = ilPrivacySettings::_getInstance();
 				
-				$fields = array('rbac_log' => array($privacy->enabledRbacLog(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
-				
+				$subitems = null;
 				if((bool)$privacy->enabledRbacLog())
 				{
-					$fields['~rbac_log_age'] = $privacy->getRbacLogAge();
-				}
+					$subitems = array('rbac_log_age' => $privacy->getRbacLogAge());
+				}				
+				$fields = array('rbac_log' => array($privacy->enabledRbacLog(), ilAdministrationSettingsFormHandler::VALUE_BOOL, $subitems));
 				
 				return array(array("editSettings", $fields));			
 		}

@@ -3993,6 +3993,10 @@ table.il_user_quota_disk_usage_overview {
 	background-color: white;
 }
 
+div.ilAdminExternalSetting {
+
+}
+
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
