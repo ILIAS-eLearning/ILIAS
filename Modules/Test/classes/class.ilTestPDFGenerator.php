@@ -20,6 +20,11 @@ class ilTestPDFGenerator
 	{
 		$pdf_output = self::preprocessHTML($pdf_output);
 		
+		if (substr($filename, strlen($filename) - 4, 4) != '.pdf')
+		{
+			$filename .= '.pdf';
+		}
+		
 		require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
 		
 		$job = new ilPDFGenerationJob();
@@ -38,10 +43,27 @@ class ilTestPDFGenerator
 	
 	public static function preprocessHTML($html)
 	{
-		global $tpl;
-		
-		$pdf_css_path = $tpl->getTemplatePath('test_pdf.css', true);
-
+		$pdf_css_path = self::getTemplatePath('test_pdf.css');
 		return '<style>' . file_get_contents($pdf_css_path)	. '</style>' . $html;
 	}
+
+	protected static function getTemplatePath($a_filename)
+	{
+			$module_path = "Modules/Test/";
+
+			// use ilStyleDefinition instead of account to get the current skin
+			include_once "Services/Style/classes/class.ilStyleDefinition.php";
+			if (ilStyleDefinition::getCurrentSkin() != "default")
+			{
+				$fname = "./Customizing/global/skin/".
+					ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_filename);
+			}
+
+			if($fname == "" || !file_exists($fname))
+			{
+				$fname = "./".$module_path."templates/default/".basename($a_filename);
+			}
+		return $fname;
+	}
+
 }
