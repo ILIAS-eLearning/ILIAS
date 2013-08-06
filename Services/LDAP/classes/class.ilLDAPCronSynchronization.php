@@ -159,8 +159,8 @@ class ilLDAPCronSynchronization extends ilCronJob
 		{			
 			case ilAdministrationSettingsFormHandler::FORM_LDAP:										
 				$a_fields["ldap_user_sync_cron"] = $a_is_active ? 
-					$lng->txt("active") :
-					$lng->txt("inactive");
+					$lng->txt("enabled") :
+					$lng->txt("disabled");
 				break;
 		}
 	}
