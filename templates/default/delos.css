@@ -776,7 +776,8 @@ form.il_Form, form.ilForm {
 	border: none;
 }
 
-input.ilHFormHighlighted {
+/* jQuery ui autocomplete menu */
+input.ilHFormHighlighted, .ui-state-focus {
 	background-color: #FF9;
 }
 
@@ -4008,11 +4009,6 @@ body.ilBodyPrint {
 
 table.il_user_quota_disk_usage_overview {
 	background-color: white;
-}
-
-/* jQuery ui autocomplete menu */
-.ui-state-focus  {
-	background-color: #FF9;
 }
 
 /* basic responsiveness (beta)
