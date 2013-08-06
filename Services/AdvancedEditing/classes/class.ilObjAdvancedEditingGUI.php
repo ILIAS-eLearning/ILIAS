@@ -117,6 +117,10 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 											 $this->ctrl->getLinkTarget($this, "frmPost"),
 											 array("frmPost", "saveFrmPostSettings"),
 											 "", "");
+			$tabs_gui->addSubTabTarget("adve_excass_settings",
+											 $this->ctrl->getLinkTarget($this, "excass"),
+											 array("excass", "saveExcAssSettings"),
+											 "", "");
 		}
 	}
 	
@@ -264,6 +268,23 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	public function saveFrmPostSettingsObject()
 	{
 		$this->saveTags("frm_post", "frmPost");
+	}
+	
+	
+	/**
+	* Display settings for exercise assignments.
+	*/
+	public function excAssObject()
+	{							
+		$form = $this->initTagsForm("exc_ass", "saveExcAssSettings",
+			"advanced_editing_excass_settings");
+		
+		$this->tpl->setContent($form->getHTML());
+	}
+		
+	public function saveExcAssSettingsObject()
+	{
+		$this->saveTags("exc_ass", "excAss");
 	}
 			
 	
