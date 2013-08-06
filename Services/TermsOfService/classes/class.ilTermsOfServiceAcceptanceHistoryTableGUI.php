@@ -174,7 +174,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		$duration = new ilDateDurationInputGUI($this->lng->txt('tos_period'), 'period');
 		$duration->setStartText($this->lng->txt('tos_period_from'));
 		$duration->setEndText($this->lng->txt('tos_period_until'));
-		$duration->setStart(new ilDateTime(time(), IL_CAL_UNIX));
+		$duration->setStart(new ilDateTime(strtotime('-1 year', time()), IL_CAL_UNIX));
 		$duration->setEnd(new ilDateTime(time(), IL_CAL_UNIX));
 		$duration->setMinuteStepSize(5);
 		$duration->setShowTime(true);
