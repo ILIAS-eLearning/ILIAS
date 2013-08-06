@@ -1099,6 +1099,8 @@ class ilObjExercise extends ilObject
 		// no submission yet
 		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 0);
 		ilExerciseMembers::_writeReturned($this->getId(), $user_id, 0);
+		
+		return $next_id;
 	}
 	
 	/**
@@ -1108,6 +1110,7 @@ class ilObjExercise extends ilObject
 	 * @param int $a_ass_id
 	 * @param int $a_user_id
 	 * @param string $a_text
+	 * @return int
 	 */
 	function updateTextSubmission($a_exc_id, $a_ass_id, $a_user_id, $a_text)
 	{
@@ -1124,14 +1127,15 @@ class ilObjExercise extends ilObject
 				$id = $files["returned_id"];
 				if($id)
 				{
-					return $this->deleteDeliveredFiles($a_exc_id, $a_ass_id, array($id), $a_user_id);
+					$this->deleteDeliveredFiles($a_exc_id, $a_ass_id, array($id), $a_user_id);
+					return;
 				}
 			}
 		}
 				
 		if(!$files)
 		{			
-			$this->addResourceObject("TEXT", $a_ass_id, $a_user_id, $a_text);
+			return $this->addResourceObject("TEXT", $a_ass_id, $a_user_id, $a_text);
 		}
 		else
 		{
@@ -1143,8 +1147,20 @@ class ilObjExercise extends ilObject
 					" SET atext = ".$ilDB->quote($a_text, "text").
 					", ts = ".$ilDB->quote(ilUtil::now(), "timestamp").
 					" WHERE returned_id = ".$ilDB->quote($id, "integer"));
+				return $id;
 			}
 		}
+	}
+	
+	public static function lookupExerciseIdForReturnedId($a_returned_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT obj_id".
+			" FROM exc_returned".
+			" WHERE returned_id = ".$ilDB->quote($a_returned_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		return (int)$row["obj_id"];		
 	}
 	
 	/**
