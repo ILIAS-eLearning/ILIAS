@@ -1,48 +1,43 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
 
 /**
  * Class for file upload questions
- *
- * @extends assQuestion
  * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
  * @author		Björn Heyser <bheyser@databay.de> 
+ * @author		Maximilian Becker <mbecker@databay.de> 
+ * 
  * @version		$Id$
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assFileUpload extends assQuestion
+class assFileUpload extends assQuestion implements ObjScoringAdjustable
 {
 	protected $maxsize;
+	
 	protected $allowedextensions;
 	
-	/**
-	 *
-	 * Indicates whether completion by submission is enabled or not
-	 *
-	 * @var boolean
-	 * @access protected
-	 *
-	 */
+	/** @var boolean Indicates whether completion by submission is enabled or not */
 	protected $completion_by_submission = false;
 	
 	/**
-	* assFileUpload constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assFileUpload object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $comment A comment string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A numerical ID to identify the owner/creator
-	* @param string $question The question string of the single choice question
-	* @see assQuestion:__construct()
-	*/
+	 * assFileUpload constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assFileUpload object.
+	 *
+	 * @param string 	$title 		A title string to describe the question
+	 * @param string 	$comment 	A comment string to describe the question
+	 * @param string 	$author 	A string containing the name of the questions author
+	 * @param integer 	$owner 		A numerical ID to identify the owner/creator
+	 * @param string 	$question 	The question string of the single choice question
+	 * 
+	 * @see assQuestion:__construct()
+	 */
 	function __construct(
 		$title = "",
 		$comment = "",
@@ -55,56 +50,65 @@ class assFileUpload extends assQuestion
 	}
 	
 	/**
-	* Returns true, if a single choice question is complete for use
-	*
-	* @return boolean True, if the single choice question is complete for use, otherwise false
-	*/
+	 * Returns true, if the question is complete for use
+	 * 
+	 * @return boolean True, if the question is complete for use, otherwise false
+	 */
 	public function isComplete()
 	{
-		if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() >= 0) and is_numeric($this->getMaximumPoints()))
+		if (
+			strlen($this->title) 
+			&& ($this->author) 
+			&& ($this->question) 
+			&& ($this->getMaximumPoints() >= 0) 
+			&& is_numeric($this->getMaximumPoints()))
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
-	* Saves a assFileUpload object to a database
-	*
-	*/
+	 * Saves a assFileUpload object to a database
+	 */
 	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
-
 		$this->saveQuestionDataToDb($original_id);
-
-		// save additional data
-	
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxsize, allowedextensions, compl_by_submission) VALUES (%s, %s, %s, %s)", 
-			array("integer", "float", "text", "integer"),
-			array(
-				$this->getId(),
-				(strlen($this->getMaxSize())) ? $this->getMaxSize() : NULL,
-				(strlen($this->getAllowedExtensions())) ? $this->getAllowedExtensions() : NULL,
-				(int)$this->isCompletionBySubmissionEnabled()
-			)
-		);
+		$this->saveAdditionalQuestionDataToDb();
+		//$this->saveAnswerSpecificDataToDb(); Nothing to do here, this line FYI.
+		
 		parent::saveToDb();
 	}
 
+	public function saveAdditionalQuestionDataToDb()
+	{
+		global $ilDB;
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
+																							 ) . " (question_fi, maxsize, allowedextensions, compl_by_submission) VALUES (%s, %s, %s, %s)",
+							array( "integer", "float", "text", "integer" ),
+							array(
+								$this->getId(),
+								(strlen( $this->getMaxSize() )) ? $this->getMaxSize() : NULL,
+								(strlen( $this->getAllowedExtensions() )) ? $this->getAllowedExtensions() : NULL,
+								(int)$this->isCompletionBySubmissionEnabled()
+							)
+		);
+	}
+	
+	public function saveAnswerSpecificDataToDb()
+	{
+		return; // Nothing to do with this question type.
+	}
+
 	/**
-	* Loads a assFileUpload object from a database
-	*
-	* @param object $db A pear DB object
-	* @param integer $question_id A unique key which defines the question in the database
-	*/
+	 * Loads a assFileUpload object from a database
+	 *
+	 * @param integer $question_id A unique key which defines the question in the database
+	 */
 	public function loadFromDb($question_id)
 	{
 		global $ilDB;
