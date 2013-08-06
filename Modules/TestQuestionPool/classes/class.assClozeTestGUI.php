@@ -72,10 +72,7 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
-		else
-		{
-			return 1;
-		}
+		return 1;
 	}
 
 	public function writeAnswerSpecificPostData($always = false)
