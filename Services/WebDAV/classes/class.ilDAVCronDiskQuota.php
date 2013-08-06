@@ -132,19 +132,20 @@ class ilDAVCronDiskQuota extends ilCronJob
 			
 				require_once('Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php');
 				
-				$a_fields["repository_disk_quota"] = $a_is_active ? 
+				$subitems = array(
+					"enable_disk_quota_reminder_mail" => array(
+						ilDiskQuotaActivationChecker::_isReminderMailActive(), 
+						ilAdministrationSettingsFormHandler::VALUE_BOOL
+						),				
+					"enable_disk_quota_summary_mail" => array(
+						ilDiskQuotaActivationChecker::_isSummaryMailActive(), 
+						ilAdministrationSettingsFormHandler::VALUE_BOOL
+						)
+				);				
+				$a_fields["repository_disk_quota"] = array($a_is_active ? 
 					$lng->txt("active") :
-					$lng->txt("inactive");
-				
-				$a_fields["~enable_disk_quota_reminder_mail"] = array(
-					ilDiskQuotaActivationChecker::_isReminderMailActive(), 
-					ilAdministrationSettingsFormHandler::VALUE_BOOL
-				);
-				
-				$a_fields["~enable_disk_quota_summary_mail"] = array(
-					ilDiskQuotaActivationChecker::_isSummaryMailActive(), 
-					ilAdministrationSettingsFormHandler::VALUE_BOOL
-				);			
+					$lng->txt("inactive"),
+					null, $subitems);				
 				break;
 		}
 	}	

@@ -141,6 +141,32 @@ class ilAdministrationSettingsFormHandler
 		}
 	}	
 	
+	protected static function parseFieldValue($a_field_type, &$a_field_value)
+	{
+		global $lng;
+		
+		switch($a_field_type)
+		{
+			case self::VALUE_BOOL:
+				$a_field_value = (bool)$a_field_value ?
+					$lng->txt("enabled") :
+					$lng->txt("disabled");
+				return $a_field_value;		
+		}	
+
+		if(!is_numeric($a_field_value) && 
+			$a_field_value !== null && !trim($a_field_value))
+		{
+			$a_field_value = "-";
+		}
+
+		if(is_numeric($a_field_value) || $a_field_value !== "")
+		{
+			return true;
+		}		
+		return false;
+	}
+	
 	protected static function parseFieldDefinition($a_type, ilPropertyFormGUI $a_form, ilObjectGUI $a_gui, $a_data)
 	{
 		global $lng, $rbacsystem, $ilCtrl;
@@ -149,7 +175,7 @@ class ilAdministrationSettingsFormHandler
 		{
 			return;
 		}
-		
+			
 		foreach($a_data as $area_caption => $fields)
 		{	
 			if(is_numeric($area_caption) || !trim($area_caption))
@@ -165,38 +191,46 @@ class ilAdministrationSettingsFormHandler
 				{
 					$ftpl = new ilTemplate("tpl.external_settings.html", true, true, "Services/Administration");
 
-					$ftpl->setCurrentBlock("row_bl");	
+						
+					$stack = array();
 					foreach($fields as $field_caption_id => $field_value)
 					{
-						$field_type = null;
+						$field_type = $subitems = null;
 						if(is_array($field_value))
 						{
 							$field_type = $field_value[1];
-							$field_value = $field_value[0];
+							$subitems = $field_value[2];
+							$field_value = $field_value[0];							
 						}
-						switch($field_type)
+									
+						if(self::parseFieldValue($field_type, $field_value))
 						{
-							case self::VALUE_BOOL:
-								$field_value = (bool)$field_value ?
-									$lng->txt("yes") :
-									$lng->txt("no");
-								break;
-						}				
-
-						if(substr($field_caption_id, 0, 1) == "~")
+							$ftpl->setCurrentBlock("value_bl");
+							$ftpl->setVariable("VALUE", $field_value);
+							$ftpl->parseCurrentBlock();
+						}
+																															
+						if(is_array($subitems))						
 						{
-							$depth = explode("~", $field_caption_id);
-							$field_caption_id = array_pop($depth);
-							$ftpl->setVariable("SPACER", ' style="padding-left:'.(sizeof($depth)*20).'px"');										
+							$ftpl->setCurrentBlock("subitem_bl");						
+							foreach($subitems as $sub_caption_id => $sub_value)
+							{		
+								$sub_type = null;
+								if(is_array($sub_value))
+								{
+									$sub_type = $sub_value[1];
+									$sub_value = $sub_value[0];							
+								}
+								self::parseFieldValue($sub_type, $sub_value);
+								
+								$ftpl->setVariable("SUBKEY", $lng->txt($sub_caption_id));										
+								$ftpl->setVariable("SUBVALUE", $sub_value);		
+								$ftpl->parseCurrentBlock();
+							}
 						}								
-
-						if(!is_numeric($field_value) && !trim($field_value))
-						{
-							$field_value = "-";
-						}
-
+						
+						$ftpl->setCurrentBlock("row_bl");
 						$ftpl->setVariable("KEY", $lng->txt($field_caption_id));
-						$ftpl->setVariable("VALUE", $field_value);
 						$ftpl->parseCurrentBlock();
 					}
 
@@ -214,8 +248,7 @@ class ilAdministrationSettingsFormHandler
 						$ftpl->parseCurrentBlock();
 					}			
 
-					$ext = new ilCustomInputGUI($lng->txt($area_caption).
-						"<div class=\"small\"><em>".$lng->txt("adm_external_setting_prefix")."</em></div>");
+					$ext = new ilCustomInputGUI($lng->txt($area_caption));
 					$ext->setHtml($ftpl->get());
 					$a_form->addItem($ext);
 				}						
