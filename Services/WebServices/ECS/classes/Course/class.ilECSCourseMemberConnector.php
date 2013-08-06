@@ -55,7 +55,14 @@ class ilECSCourseMemberConnector extends ilECSConnector
 				
 			}
 			
-			//$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($ecs_result->getResult(),true));
+			// Return ECSEContentDetails for details switch
+			if($a_details)
+			{
+				include_once './Services/WebServices/ECS/classes/class.ilECSEContentDetails.php';
+				$details = new ilECSEContentDetails();
+				$details->loadFromJson($ecs_result->getResult());
+				return $details;
+			}
 			
 			return $ecs_result->getResult();
 		}

@@ -121,7 +121,7 @@ class ilECSMappingSettingsGUI
 	protected function cStart()
 	{
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		if(ilECSNodeMappingSettings::getInstance()->isCourseAllocationEnabled())
+		if(ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->isCourseAllocationEnabled())
 		{
 			return $this->cInitOverview();
 		}
@@ -135,7 +135,7 @@ class ilECSMappingSettingsGUI
 	protected function dStart()
 	{
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		if(ilECSNodeMappingSettings::getInstance()->isDirectoryMappingEnabled())
+		if(ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->isDirectoryMappingEnabled())
 		{
 			return $this->dTrees();
 		}
@@ -424,7 +424,7 @@ class ilECSMappingSettingsGUI
 	 * @global ilTabsGUI $ilTabs
 	 * @return bool
 	 */
-	protected function cSettings()
+	protected function cSettings(ilPropertyFormGUI $form = NULL)
 	{
 		global $ilTabs;
 		
@@ -432,7 +432,10 @@ class ilECSMappingSettingsGUI
 		$ilTabs->activateTab('ecs_crs_allocation');
 		$ilTabs->activateSubTab('cSettings');
 
-		$form = $this->initFormCSettings();
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initFormCSettings();
+		}
 
 		$GLOBALS['tpl']->setContent($form->getHTML());
 
@@ -453,7 +456,7 @@ class ilECSMappingSettingsGUI
 
 		// individual course allocation
 		$check = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_enable'), 'enabled');
-		$check->setChecked(ilECSNodeMappingSettings::getInstance()->isCourseAllocationEnabled());
+		$check->setChecked(ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->isCourseAllocationEnabled());
 		$form->addItem($check);
 		
 		
@@ -466,7 +469,7 @@ class ilECSMappingSettingsGUI
 		$tpl->setVariable('MAXLENGTH',11);
 		$tpl->setVariable('POST_VAR','default_cat');
 		
-		$default = ilECSNodeMappingSettings::getInstance()->getDefaultCourseCategory();
+		$default = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->getDefaultCourseCategory();
 		$tpl->setVariable('PROPERTY_VALUE',$default);
 
 		if($default)
@@ -484,7 +487,7 @@ class ilECSMappingSettingsGUI
 
 		// all in one category
 		$allinone = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_all_in_one'),'allinone');
-		$allinone->setChecked(ilECSNodeMappingSettings::getInstance()->isAllInOneCategoryEnabled());
+		$allinone->setChecked(ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->isAllInOneCategoryEnabled());
 		$allinone->setInfo($this->lng->txt('ecs_cmap_all_in_one_info'));
 		
 		$allinone_cat = new ilCustomInputGUI($this->lng->txt('ecs_cmap_all_in_one_cat'),'allinone_cat');
@@ -495,7 +498,7 @@ class ilECSMappingSettingsGUI
 		$tpl->setVariable('MAXLENGTH',11);
 		$tpl->setVariable('POST_VAR','allinone_cat');
 		
-		$cat = ilECSNodeMappingSettings::getInstance()->getAllInOneCategory();
+		$cat = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->getAllInOneCategory();
 		$tpl->setVariable('PROPERTY_VALUE',$cat);
 		if($cat)
 		{
@@ -512,7 +515,7 @@ class ilECSMappingSettingsGUI
 		
 		// multiple attributes
 		$multiple = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_multiple_atts'),'multiple');
-		$multiple->setChecked(ilECSNodeMappingSettings::getInstance()->isAttributeMappingEnabled());
+		$multiple->setChecked(ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->isAttributeMappingEnabled());
 
 		// attribute selection
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
@@ -535,7 +538,7 @@ class ilECSMappingSettingsGUI
 		$rm->setTitle($this->lng->txt('ecs_role_mappings'));
 		$form->addItem($rm);
 		
-		$mapping_defs = ilECSNodeMappingSettings::getInstance()->getRoleMappings();
+		$mapping_defs = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->getRoleMappings();
 		
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
 		foreach(ilECSMappingUtils::getRoleMappingInfo() as $name => $info)
@@ -588,7 +591,7 @@ class ilECSMappingSettingsGUI
 		if($form->checkInput())
 		{
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-			$settings = ilECSNodeMappingSettings::getInstance();
+			$settings = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid());
 			$settings->enableCourseAllocation($form->getInput('enabled'));
 			$settings->setDefaultCourseCategory($form->getInput('default_cat'));
 			$settings->enableAllInOne($form->getInput('allinone'));
@@ -630,7 +633,6 @@ class ilECSMappingSettingsGUI
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 			$GLOBALS['ilCtrl']->redirect($this,'cSettings');
 		}
-		
 		ilUtil::sendFailure($this->lng->txt('err_check_input'));
 		$form->setValuesByPost();
 		$this->cSettings($form);
@@ -677,9 +679,10 @@ class ilECSMappingSettingsGUI
 		if($form->checkInput())
 		{
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-			ilECSNodeMappingSettings::getInstance()->enableDirectoryMapping((bool) $form->getInput('active'));
-			ilECSNodeMappingSettings::getInstance()->enableEmptyContainerCreation(!$form->getInput('empty'));
-			ilECSNodeMappingSettings::getInstance()->update();
+			$settings = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid());
+			$settings->enableDirectoryMapping((bool) $form->getInput('active'));
+			$settings->enableEmptyContainerCreation(!$form->getInput('empty'));
+			$settings->update();
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		}
 		else
@@ -703,11 +706,11 @@ class ilECSMappingSettingsGUI
 		$form->setTitle($this->lng->txt('general_settings'));
 
 		$active = new ilCheckboxInputGUI($this->lng->txt('ecs_node_mapping_activate'), 'active');
-		$active->setChecked(ilECSNodeMappingSettings::getInstance()->isDirectoryMappingEnabled());
+		$active->setChecked(ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->isDirectoryMappingEnabled());
 		$form->addItem($active);
 
 		$create_empty = new ilCheckboxInputGUI($this->lng->txt('ecs_node_mapping_create_empty'), 'empty');
-		$create_empty->setChecked(!ilECSNodeMappingSettings::getInstance()->isEmptyContainerCreationEnabled());
+		$create_empty->setChecked(!ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->isEmptyContainerCreationEnabled());
 		$create_empty->setInfo($this->lng->txt('ecs_node_mapping_create_empty_info'));
 		$form->addItem($create_empty);
 
@@ -1285,7 +1288,7 @@ class ilECSMappingSettingsGUI
 			$atts = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid());
 
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-			if(ilECSNodeMappingSettings::getInstance()->isCourseAllocationEnabled())
+			if(ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->isCourseAllocationEnabled())
 			{
 				$ilTabs->addSubTab(
 					'cInitTree',
