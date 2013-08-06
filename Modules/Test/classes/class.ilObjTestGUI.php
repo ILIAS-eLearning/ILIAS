@@ -3874,8 +3874,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function infoScreen($session_lock = "")
 	{
-		global $ilAccess;
-		global $ilUser;
+		global $ilAccess, $ilUser, $ilToolbar;
 
 		$testSession = $this->testSessionFactory->getSession();
 		$testSequence = $this->testSequenceFactory->getSequence($testSession);
@@ -3948,13 +3947,13 @@ class ilObjTestGUI extends ilObjectGUI
 							$resumeTestLabel = $this->object->getStartTestLabel($testSession->getActiveId());
 						}
 						
-						$big_button[] = array('resumePlayer', $resumeTestLabel);
+						$big_button[] = array('resumePlayer', $resumeTestLabel, true);
 					}
 					else
 					{
 						// start new test
 
-						$big_button[] = array("startPlayer", $this->object->getStartTestLabel($testSession->getActiveId()));
+						$big_button[] = array("startPlayer", $this->object->getStartTestLabel($testSession->getActiveId()), true);
 					}
 				}
 				else
@@ -3967,11 +3966,11 @@ class ilObjTestGUI extends ilObjectGUI
 					if ($this->object->canShowTestResults($testSession, $ilUser->getId())) 
 					{
 						//$info->addFormButton("outUserResultsOverview", $this->lng->txt("tst_show_results"));
-						$big_button[] = array("outUserResultsOverview", $this->lng->txt("tst_show_results"));
+						$big_button[] = array("outUserResultsOverview", $this->lng->txt("tst_show_results"), false);
 						if ($this->object->getHighscoreEnabled())
 						{
 							// Can also compare results then
-							$big_button[] = array("outResultsToplist", $this->lng->txt("tst_show_toplist"));
+							$big_button[] = array("outResultsToplist", $this->lng->txt("tst_show_toplist"), false);
 						}
 					}
 				}
@@ -3981,7 +3980,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
 					//$info->addFormButton("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
-					$big_button[] = array("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
+					$big_button[] = array("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"), false);
 				}
 			}
 		}
@@ -4012,29 +4011,26 @@ class ilObjTestGUI extends ilObjectGUI
 		 * */
 		if($big_button)
 		{
-		    $out = '<div class="il_ButtonGroup bigButton">';
-		    foreach($big_button as $button) {
-			$out .= '<input type="submit" class="submit" name="cmd['.$button[0].']" value="'.
-				$button[1].'" />&nbsp;&nbsp;';
-		    }
-		    $out .= '</div>';
-		    $big_button = $out;
+			$ilToolbar->setFormAction($this->ctrl->getFormActionByClass('ilTestOutputGUI', "infoScreen"));
+			foreach($big_button as $button)
+			{
+				$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
+			}
+			$ilToolbar->setCloseFormTag(false);
+			$info->setOpenFormTag(false);
 		}
 		
 		if (strlen($this->object->getIntroduction()))
 		{
-			$introduction = $this->object->getIntroduction();
 			$info->addSection($this->lng->txt("tst_introduction"));
 			$info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction()).
-					$big_button."<br />".$info->getHiddenToggleButton());
+					$info->getHiddenToggleButton());
 		}
 		else
 		{
 			$info->addSection("");
-			$info->addProperty("", $big_button.$info->getHiddenToggleButton());
+			$info->addProperty("", $info->getHiddenToggleButton());
 		}
-
-		
 
 		$info->addSection($this->lng->txt("tst_general_properties"));
 		if ($this->object->getShowInfo())
