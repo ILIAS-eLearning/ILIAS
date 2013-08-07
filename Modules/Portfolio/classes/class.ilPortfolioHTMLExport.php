@@ -7,7 +7,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  * 
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilPortfolioHTMLExport
 {

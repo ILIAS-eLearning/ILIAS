@@ -7,7 +7,7 @@
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id:$
 *
-* @package ServicesPortfolio
+* @package ModulesPortfolio
 */
 
 require_once "./Services/Object/classes/class.ilObject.php";

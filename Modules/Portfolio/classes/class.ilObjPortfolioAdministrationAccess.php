@@ -9,7 +9,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id:$
 *
-* @ingroup ServicesPortfolio
+* @ingroup ModulesPortfolio
 */
 class ilObjPortfolioAdministrationAccess extends ilObjectAccess
 {

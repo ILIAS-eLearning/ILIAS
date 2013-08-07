@@ -9,7 +9,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilPortfolioTableGUI extends ilTable2GUI
 {

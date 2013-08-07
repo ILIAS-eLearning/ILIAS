@@ -10,7 +10,7 @@ include_once("./Modules/Portfolio/classes/class.ilObjPortfolio.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilPortfolioPage extends ilPageObject
 {

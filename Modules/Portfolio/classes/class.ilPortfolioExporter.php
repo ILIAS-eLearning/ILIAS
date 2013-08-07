@@ -10,7 +10,7 @@ include_once './Services/Export/classes/class.ilXmlExporter.php';
  *
  * @version $Id$
  *
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilPortfolioExporter extends ilXmlExporter
 {	

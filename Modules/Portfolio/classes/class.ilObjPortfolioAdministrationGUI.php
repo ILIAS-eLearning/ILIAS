@@ -11,7 +11,7 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 * @ilCtrl_Calls ilObjPortfolioAdministrationGUI: ilPermissionGUI
 * @ilCtrl_IsCalledBy ilObjPortfolioAdministrationGUI: ilAdministrationGUI
 *
-* @ingroup ServicesPortfolio
+* @ingroup ModulesPortfolio
 */
 class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 {

@@ -10,7 +10,7 @@ include_once("./Modules/Blog/classes/class.ilObjBlog.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilPortfolioPageTableGUI extends ilTable2GUI
 {

@@ -27,7 +27,7 @@ include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 * 
-* @ingroup ServicesPortfolio
+* @ingroup ModulesPortfolio
 */
 class ilFSStoragePortfolio extends ilFileSystemStorage
 {

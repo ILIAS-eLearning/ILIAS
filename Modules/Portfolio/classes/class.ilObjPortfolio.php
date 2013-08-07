@@ -9,7 +9,7 @@ require_once "Services/Object/classes/class.ilObject2.php";
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilObjPortfolio extends ilObject2
 {

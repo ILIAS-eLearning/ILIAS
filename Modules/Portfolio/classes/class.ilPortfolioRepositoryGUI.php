@@ -11,7 +11,7 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolio.php');
  *
  * @ilCtrl_Calls ilPortfolioRepositoryGUI: ilObjPortfolioGUI
  *
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilPortfolioRepositoryGUI 
 {	

@@ -9,7 +9,7 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilPortfolioPageConfig extends ilPageConfig
 {

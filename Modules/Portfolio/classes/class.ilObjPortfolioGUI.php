@@ -14,7 +14,7 @@ include_once('./Modules/Portfolio/classes/class.ilPortfolioPage.php');
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
  *
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilObjPortfolioGUI extends ilObject2GUI
 {
@@ -383,8 +383,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		{
 			return parent::initEditForm();
 		}
-		
-			
+					
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));	
@@ -460,6 +459,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 	
 	protected function getEditFormCustomValues(array &$a_values)
 	{
+		$a_values["online"] = $this->object->isOnline();
 		$a_values["comments"] = $this->object->hasPublicComments();
 		$a_values["ppic"] = $this->object->hasProfilePicture();
 		$a_values["bg_color"] = $this->object->getBackgroundColor();

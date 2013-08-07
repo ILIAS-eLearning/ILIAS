@@ -17264,3 +17264,28 @@ if (!$ilDB->tableExists('copg_pobj_def'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4021>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4022>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$prtt_type_id = ilDBUpdateNewObjectType::addNewType('prtt', 'Portfolio Template Object');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+	ilDBUpdateNewObjectType::RBAC_OP_COPY	
+);
+ilDBUpdateNewObjectType::addRBACOperations($prtt_type_id, $rbac_ops);
+
+$parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
+ilDBUpdateNewObjectType::addRBACCreate('create_prtt', 'Create Portfolio Template', $parent_types);
+
+?>
