@@ -1,33 +1,13 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php";
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-include_once "./Modules/Test/classes/class.ilObjTest.php";
+require_once './Services/Object/classes/class.ilObjectGUI.php';
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+require_once './Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/Test/classes/class.ilObjAssessmentFolder.php';
+require_once './Modules/Test/classes/class.ilObjTest.php';
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -37,21 +17,17 @@ include_once "./Modules/Test/classes/class.ilObjTest.php";
  * 
  * @version		$Id$
  *
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextSubsetGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilToolbarGUI, ilPropertyFormGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI, ilObjTaxonomyGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionBrowserTableGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI
  *
- * @extends ilObjectGUI
  * @ingroup ModulesTestQuestionPool
+ * 
  */
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {
@@ -164,15 +140,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ilassquestionpagegui":
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setCurrentBlock("ContentStyle");
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
 				$this->tpl->parseCurrentBlock();
 		
 				// syntax style
 				$this->tpl->setCurrentBlock("SyntaxStyle");
-				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-					ilObjStyleSheet::getSyntaxStylePath());
+				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
 				$this->tpl->parseCurrentBlock();
+				
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->setQuestionTabs();
@@ -186,7 +161,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "questions");
 				$page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
 				$page_gui->setEditPreview(true);
-				//$page_gui->setEnabledTabs(false);
+				$page_gui->setEnabledTabs(false);
 				//$page_gui->setEnabledInternalLinks(false);
 				if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) // workaround for page edit imagemaps, keep in mind
 				{
