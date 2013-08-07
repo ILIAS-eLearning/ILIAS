@@ -123,6 +123,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 				include_once "Services/Form/classes/class.ilFileInputGUI.php";
 				ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);						
 
+				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "view"));
 				
@@ -388,6 +389,22 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));	
 		
+		// title
+		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$ti->setValue($this->object->getTitle());
+		$form->addItem($ti);
+
+		/* description
+		$ta = new ilTextAreaInputGUI($lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$ta->setValue($this->object->getDescription());
+		$form->addItem($ta);		
+		*/
+		
 		// online
 		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
 		$online->setChecked($this->object->isOnline());
@@ -498,11 +515,6 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		{
 			return;
 		}
-		
-		$ilCtrl->setParameter($this, "prt_id", "");
-		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "toRepository"));
-		$ilCtrl->setParameter($this, "prt_id", $this->object->getId());
 		
 		$ilTabs->activateTab("pages");
 

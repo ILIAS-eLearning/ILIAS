@@ -279,9 +279,11 @@ class ilCOPageHTMLExport
 			{
 				$skill_id = $pc["id"];
 				
+				// :TODO: at least check against $a_type
+				
 				// get user id from portfolio page
 				include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
-				$page = new ilPortfolioPage(0, $a_id);
+				$page = new ilPortfolioPage($a_id);
 				$user_id = $page->create_user;
 							
 				// we only need 1 instance each

@@ -48,8 +48,9 @@ class ilPortfolioRepositoryGUI
 				if($cmd != "preview")
 				{
 					$this->setLocator();
-					$ilTabs->setBackTarget($lng->txt("back"),
-						$ilCtrl->getLinkTarget($this, "show"));					
+										
+					$ilTabs->setBack2Target($lng->txt("prtf_tab_portfolios"),
+						$ilCtrl->getLinkTarget($this, "show"));														
 				}				
 				include_once('./Services/Portfolio/classes/class.ilObjPortfolioGUI.php');
 				$gui = new ilObjPortfolioGUI($_REQUEST["prt_id"]);
