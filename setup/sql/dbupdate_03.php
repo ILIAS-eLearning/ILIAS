@@ -17226,4 +17226,7 @@ $ilDB->manipulate("UPDATE file_usage".
 	" WHERE ".$ilDB->in("usage_type", array("cat:pg","crs:pg","fold:pg","grp:pg","root:pg"), "", "text"));
 
 ?>
-
+<#4018>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -92,28 +92,36 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_DEFAULT",
 			($a_set["is_default"]) ? $lng->txt("yes") : "");
 		$this->tpl->parseCurrentBlock();
+		
+		$prtf_path = array(get_class($this->parent_obj), "ilobjportfoliogui");
 
-		$ilCtrl->setParameter($this->parent_obj, "prt_id", $a_set["id"]);
+		$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $a_set["id"]);
 		$this->tpl->setCurrentBlock("action");
 
 		$this->tpl->setVariable("URL_ACTION",
-			$ilCtrl->getLinkTarget($this->parent_obj, "preview"));
+			$ilCtrl->getLinkTargetByClass($prtf_path, "preview"));
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("user_profile_preview"));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("URL_ACTION",
-			$ilCtrl->getLinkTarget($this->parent_obj, "pages"));
+			$ilCtrl->getLinkTargetByClass($prtf_path, "pages"));
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_edit_portfolio"));
 		$this->tpl->parseCurrentBlock();
+		
+		$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");		
 
 		if($a_set["is_online"])
 		{
 			if(!$a_set["is_default"])
 			{
+				$ilCtrl->setParameter($this->parent_obj, "prt_id", $a_set["id"]);	
+				
 				$this->tpl->setVariable("URL_ACTION",
 					$ilCtrl->getLinkTarget($this->parent_obj, "setDefaultConfirmation"));
 				$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_set_as_default"));
 				$this->tpl->parseCurrentBlock();
+				
+				$ilCtrl->setParameter($this->parent_obj, "prt_id", "");	
 			}
 			else
 			{
@@ -122,9 +130,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_unset_as_default"));
 				$this->tpl->parseCurrentBlock();
 			}
-		}
-
-		$ilCtrl->setParameter($this->parent_obj, "prt_id", "");		
+		}	
 	}
 	
 }?>

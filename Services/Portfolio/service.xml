@@ -3,6 +3,7 @@
 	id="prtf">
 	<baseclasses>
 		<baseclass name="ilObjPortfolioGUI" dir="classes" />
+		<baseclass name="ilPortfolioRepositoryGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="prtf" class_name="Portfolio" dir="classes"

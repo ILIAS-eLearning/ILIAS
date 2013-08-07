@@ -18,7 +18,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjPortfolioGUI, ilPersonalSkillsGUI, ilObjChatroomGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioRepositoryGUI, ilPersonalSkillsGUI, ilObjChatroomGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -234,11 +234,11 @@ class ilPersonalDesktopGUI
 				$this->tpl->show();
 				break;
 			
-			case 'ilobjportfoliogui':
+			case 'ilportfoliorepositorygui':
 				$this->getStandardTemplates();
 				$this->setTabs();
-				include_once 'Services/Portfolio/classes/class.ilObjPortfolioGUI.php';
-				$pfgui = new ilObjPortfolioGUI();
+				include_once 'Services/Portfolio/classes/class.ilPortfolioRepositoryGUI.php';
+				$pfgui = new ilPortfolioRepositoryGUI();
 				$ret = $this->ctrl->forwardCommand($pfgui);				
 				$this->tpl->show();
 				break;
@@ -644,19 +644,19 @@ class ilPersonalDesktopGUI
 		$cmd = "";
 		if($_REQUEST["dsh"])
 		{
-			$this->ctrl->setParameterByClass("ilobjportfoliogui", "user", $_REQUEST["dsh"]);
+			$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "user", $_REQUEST["dsh"]);
 			$cmd = "showOther";
 		}
 		
 		// used for goto links
 		if($_GET["prt_id"])
 		{
-			$this->ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $_GET["prt_id"]);
-			$this->ctrl->redirectByClass("ilobjportfoliogui", "preview");
+			$this->ctrl->setParameterByClass(array("ilportfoliorepositorygui", "ilobjportfoliogui"), "prt_id", $_GET["prt_id"]);
+			$this->ctrl->redirectByClass(array("ilportfoliorepositorygui", "ilobjportfoliogui"), "preview");
 		}
 		else
 		{
-			$this->ctrl->redirectByClass("ilobjportfoliogui", $cmd);
+			$this->ctrl->redirectByClass("ilportfoliorepositorygui", $cmd);
 		}
 	}
 	
