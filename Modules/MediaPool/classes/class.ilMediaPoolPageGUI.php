@@ -54,12 +54,6 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 		$this->setPageConfig($cfg);
 	}	
 
-	function initPageObject()
-	{
-		$page = new ilMediaPoolPage($this->getId(), $this->getOldNr());
-		$this->setPageObject($page);
-	}
-
 	/**
 	* execute command
 	*/

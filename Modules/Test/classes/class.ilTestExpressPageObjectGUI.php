@@ -116,8 +116,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                 $page_editor->setLocator($this->locator);
                 $page_editor->setHeader($this->getHeader());
                 $page_editor->setPageBackTitle($this->page_back_title);
-                //$page_editor->setEnableInternalLinks($this->getEnabledInternalLinks());
-                $page_editor->setIntLinkHelpDefault($this->int_link_def_type, $this->int_link_def_id);
                 $page_editor->setIntLinkReturn($this->int_link_return);
 
                 $this->ctrl->saveParameterByClass('ilpageeditorgui', 'q_mode');

@@ -41,13 +41,5 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 		$this->setPageConfig($cfg);
 	}
 
-	/**
-	 * Init page object
-	 */
-	function initPageObject()
-	{
-		$page = new ilAssQuestionPage($this->getId(), $this->getOldNr());
-		$this->setPageObject($page);
-	}
 } 
 

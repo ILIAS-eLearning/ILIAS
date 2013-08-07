@@ -38,17 +38,6 @@ class ilLMPageGUI extends ilPageObjectGUI
 		$this->setPageConfig($cfg);
 	}	
 	
-	/**
-	 * Init page object
-	 *
-	 * @param
-	 */
-	function initPageObject()
-	{
-		$page = new ilLMPage($this->getId(), $this->getOldNr());
-		$this->setPageObject($page);
-	}
-	
 }
 
 ?>
