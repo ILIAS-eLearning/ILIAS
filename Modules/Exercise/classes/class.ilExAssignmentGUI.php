@@ -330,7 +330,7 @@ class ilExAssignmentGUI
 							$delivered_files = array_pop($delivered_files);
 							$portfolio_id = (int)$delivered_files["filetitle"];
 							
-							include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+							include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
 							$portfolio = new ilObjPortfolio($portfolio_id, false);											
 							

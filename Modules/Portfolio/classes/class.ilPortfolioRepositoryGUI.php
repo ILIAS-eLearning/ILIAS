@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Portfolio/classes/class.ilObjPortfolio.php');		
+include_once('./Modules/Portfolio/classes/class.ilObjPortfolio.php');		
 
 /**
  * Portfolio repository gui class
@@ -25,7 +25,7 @@ class ilPortfolioRepositoryGUI
 		$lng->loadLanguageModule("prtf");
 		$lng->loadLanguageModule("user");
 
-		include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
+		include_once('./Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php');
 		$this->access_handler = new ilPortfolioAccessHandler();	
 				
 		$this->user_id = $ilUser->getId();		
@@ -52,7 +52,7 @@ class ilPortfolioRepositoryGUI
 					$ilTabs->setBack2Target($lng->txt("prtf_tab_portfolios"),
 						$ilCtrl->getLinkTarget($this, "show"));														
 				}				
-				include_once('./Services/Portfolio/classes/class.ilObjPortfolioGUI.php');
+				include_once('./Modules/Portfolio/classes/class.ilObjPortfolioGUI.php');
 				$gui = new ilObjPortfolioGUI($_REQUEST["prt_id"]);
 				$ilCtrl->forwardCommand($gui);
 				break;
@@ -114,7 +114,7 @@ class ilPortfolioRepositoryGUI
 		$ilToolbar->addButton($lng->txt("prtf_add_portfolio"),
 			$ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));
 	
-		include_once "Services/Portfolio/classes/class.ilPortfolioTableGUI.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTableGUI.php";
 		$table = new ilPortfolioTableGUI($this, "show", $this->user_id);
 		
 		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";

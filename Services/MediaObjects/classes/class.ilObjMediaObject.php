@@ -1303,7 +1303,7 @@ class ilObjMediaObject extends ilObject
 				
 				if($cont_type == 'prtf')
 				{
-					include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";					
+					include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";					
 					$obj_id = ilPortfolioPage::findPortfolioForPage($id);
 				}
 				

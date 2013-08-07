@@ -101,7 +101,7 @@ class ilPortfolioHTMLExport
 	{
 		global $tpl, $ilBench, $ilLocator;
 
-		require_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
+		require_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
 		$pages = ilPortfolioPage::getAllPages($this->object->getId());
 			
 		$this->tabs = array();
@@ -122,7 +122,7 @@ class ilPortfolioHTMLExport
 		
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
+		include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
 		$has_index = false;
 		foreach ($pages as $page)
 		{						
@@ -178,7 +178,7 @@ class ilPortfolioHTMLExport
 			$ilTabs->activateTab($this->active_tab);
 		}
 		
-		include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
 		ilObjPortfolioGUI::renderFullscreenHeader($this->object, $this->tpl, $this->object->getOwner(), true);
 		$this->tpl->setFrameFixedWidth(true);
 		
@@ -196,7 +196,7 @@ class ilPortfolioHTMLExport
 		
 		// export template: page content
 		$ep_tpl = new ilTemplate("tpl.export_page.html", true, true,
-			"Services/Portfolio");
+			"Modules/Portfolio");
 		$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
 		
 		$this->buildExportTemplate();	
@@ -235,7 +235,7 @@ class ilPortfolioHTMLExport
 		global $lng;
 		
 		// page
-		include_once "Services/Portfolio/classes/class.ilPortfolioPageGUI.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioPageGUI.php";
 		$pgui = new ilPortfolioPageGUI($this->object->getId(), $a_post_id);
 		$pgui->setOutputMode("offline");		
 		$page_content = $pgui->showPage();

@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
+include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
 
 /**
  * Portfolio page gui class
@@ -83,7 +83,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function initPageConfig()
 	{
-		include_once("./Services/Portfolio/classes/class.ilPortfolioPageConfig.php");
+		include_once("./Modules/Portfolio/classes/class.ilPortfolioPageConfig.php");
 		$cfg = new ilPortfolioPageConfig();
 		$this->setPageConfig($cfg);
 	}	

@@ -35,7 +35,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.portfolio_row.html", "Services/Portfolio");
+		$this->setRowTemplate("tpl.portfolio_row.html", "Modules/Portfolio");
 
 		$this->addMultiCommand("confirmPortfolioDeletion", $lng->txt("delete"));
 		$this->addCommandButton("saveTitles", $lng->txt("prtf_save_status_and_titles"));		
@@ -51,10 +51,10 @@ class ilPortfolioTableGUI extends ilTable2GUI
 	{
 		global $ilUser;
 		
-		include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 		$access_handler = new ilPortfolioAccessHandler();
 		
-		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$data = ilObjPortfolio::getPortfoliosOfUser($this->user_id);
 		
 		$this->shared_objects = $access_handler->getObjectsIShare();		

@@ -2960,11 +2960,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$prtf_id = $a_portfolio_id;			
 
-			include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 			$prtf = new ilObjPortfolio($prtf_id, false);	
 			if($prtf->getTitle())
 			{
-				include_once "Services/Portfolio/classes/class.ilPortfolioHTMLExport.php";
+				include_once "Modules/Portfolio/classes/class.ilPortfolioHTMLExport.php";
 				$export = new ilPortfolioHTMLExport(null, $prtf);
 				$file = $export->buildExportFile();
 				$size = filesize($file);
@@ -3007,7 +3007,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$tpl = new ilTemplate("tpl.exc_select_resource.html", true, true, "Modules/Exercise");
 		
-		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$portfolios = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
 		if($portfolios)
 		{
@@ -3038,7 +3038,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->checkPermission("read");
 		
-		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$portfolio = new ilObjPortfolio();
 		$portfolio->setTitle($this->object->getTitle()." - ".$this->ass->getTitle());
 		$portfolio->create();
