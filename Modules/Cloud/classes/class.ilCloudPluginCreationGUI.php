@@ -35,7 +35,7 @@ class ilCloudPluginCreationGUI extends ilCloudPluginGUI
      * @param ilPropertyFormGUI $form
      * @param ilObjCloud $obj
      */
-    function afterSavePluginCreation(ilPropertyFormGUI $form)
+    function afterSavePluginCreation(ilObjCloud &$obj, ilPropertyFormGUI $form)
     {
     }
 }
