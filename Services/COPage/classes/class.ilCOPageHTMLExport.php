@@ -284,7 +284,7 @@ class ilCOPageHTMLExport
 				switch($a_type)
 				{
 					case "prtf:pg":
-						include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
+						include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
 						$page = new ilPortfolioPage($a_id);
 						$user_id = $page->create_user;
 						break;

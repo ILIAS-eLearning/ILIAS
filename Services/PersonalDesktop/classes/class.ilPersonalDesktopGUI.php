@@ -237,7 +237,7 @@ class ilPersonalDesktopGUI
 			case 'ilportfoliorepositorygui':
 				$this->getStandardTemplates();
 				$this->setTabs();
-				include_once 'Services/Portfolio/classes/class.ilPortfolioRepositoryGUI.php';
+				include_once 'Modules/Portfolio/classes/class.ilPortfolioRepositoryGUI.php';
 				$pfgui = new ilPortfolioRepositoryGUI();
 				$ret = $this->ctrl->forwardCommand($pfgui);				
 				$this->tpl->show();

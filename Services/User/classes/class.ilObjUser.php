@@ -1365,7 +1365,7 @@ class ilObjUser extends ilObject
 		ilNotification::removeForUser($this->getId());
 		
 		// remove portfolios
-		include_once "./Services/Portfolio/classes/class.ilObjPortfolio.php";
+		include_once "./Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		ilObjPortfolio::deleteUserPortfolios($this->getId());
 		
 		// remove workspace

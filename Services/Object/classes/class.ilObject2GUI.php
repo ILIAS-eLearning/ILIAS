@@ -117,7 +117,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 			
 			case self::PORTFOLIO_OBJECT_ID:
 				$this->object_id = $a_id;
-				include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
+				include_once('./Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php');
 				$this->access_handler = new ilPortfolioAccessHandler();
 				$params[] = "prt_id";
 				break;

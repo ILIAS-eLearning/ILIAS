@@ -74,7 +74,7 @@ class ilSharedResourceGUI
 				break;		
 			
 			case "ilobjportfoliogui":
-				include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
+				include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
 				$pgui = new ilObjPortfolioGUI($this->portfolio_id, ilObject2GUI::PORTFOLIO_OBJECT_ID);
 				$ilCtrl->forwardCommand($pgui);
 				break;	
@@ -132,7 +132,7 @@ class ilSharedResourceGUI
 			}
 			else
 			{
-				include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+				include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 				$access_handler = new ilPortfolioAccessHandler();
 			}			
 			if($access_handler->checkAccess("read", "", $a_node_id))
@@ -151,7 +151,7 @@ class ilSharedResourceGUI
 		}
 		else
 		{
-			include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+			include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 			$shared = ilPortfolioAccessHandler::getPermissions($a_node_id);
 			
 		}
@@ -298,7 +298,7 @@ class ilSharedResourceGUI
 			}		
 			else
 			{
-				include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+				include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 				$prtf = new ilObjPortfolio($this->portfolio_id, false);
 				$owner = $prtf->getOwner();				
 				ilUtil::redirect("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio&dsh=".$owner);
@@ -323,7 +323,7 @@ class ilSharedResourceGUI
 			}
 			else
 			{
-				include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+				include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 				$password = ilPortfolioAccessHandler::getSharedNodePassword($this->portfolio_id);
 			}
 			if($input == $password)

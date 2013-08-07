@@ -2,8 +2,8 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/Object/classes/class.ilObject2GUI.php');
-include_once('./Services/Portfolio/classes/class.ilObjPortfolio.php');
-
+include_once('./Modules/Portfolio/classes/class.ilObjPortfolio.php');
+include_once('./Modules/Portfolio/classes/class.ilPortfolioPage.php');
 
 /**
  * Portfolio view gui class
@@ -67,7 +67,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		
 		if($a_page_id)
 		{
-			include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";			
+			include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";			
 			$page = new ilPortfolioPage($a_page_id);
 			$page->setPortfolioId($this->object->getId());
 			$title = $page->getTitle();
@@ -142,7 +142,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 					$ilCtrl->setParameter($this, "user_page", $_REQUEST["user_page"]);
 				}
 				
-				include_once("Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
+				include_once("Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
 				$page_gui = new ilPortfolioPageGUI($this->object->getId(),
 					$page_id, 0, $this->object->hasPublicComments());
 				$page_gui->setAdditional($this->getAdditional());
@@ -339,7 +339,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		}
 		
 		// create 1st page / blog
-		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+		include_once("Modules/Portfolio/classes/class.ilPortfolioPage.php");
 		$page = new ilPortfolioPage();
 		$page->setPortfolioId($a_new_object->getId());
 		if($_POST["ptype"] == "page")
@@ -532,7 +532,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		$ilToolbar->addButton($lng->txt("export"),
 			$ilCtrl->getLinkTarget($this, "export"));				
 				
-		include_once "Services/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
 		$table = new ilPortfolioPageTableGUI($this, "view", $this->object);
 		
 		// exercise portfolio?			
@@ -814,7 +814,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		$form = $this->initPageForm("create");
 		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
-			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+			include_once("Modules/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = new ilPortfolioPage();
 			$page->setPortfolioId($this->object->getId());
 			$page->setType(ilPortfolioPage::TYPE_PAGE);		
@@ -932,7 +932,6 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		$form = $this->initBlogForm("create");
 		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
-			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = new ilPortfolioPage();
 			$page->setPortfolioId($this->object->getId());
 			$page->setType(ilPortfolioPage::TYPE_BLOG);		
@@ -962,8 +961,6 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		{
 			return;
 		}
-
-		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 
 		if (is_array($_POST["order"]))
 		{
@@ -1006,7 +1003,6 @@ class ilObjPortfolioGUI extends ilObject2GUI
 			$cgui->setCancel($lng->txt("cancel"), "view");
 			$cgui->setConfirm($lng->txt("delete"), "deletePortfolioPages");
 
-			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			foreach ($_POST["prtf_pages"] as $id)
 			{
 				$page = new ilPortfolioPage($id);
@@ -1035,7 +1031,6 @@ class ilObjPortfolioGUI extends ilObject2GUI
 			return;
 		}
 
-		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 		if (is_array($_POST["prtf_pages"]))
 		{
 			foreach ($_POST["prtf_pages"] as $id)
@@ -1084,7 +1079,6 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		
 		$ilTabs->clearTargets();
 			
-		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
 		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
 		$current_page = $_GET["user_page"];
 
@@ -1127,7 +1121,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		if(!$a_content)
 		{
 			// get current page content
-			include_once("./Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
+			include_once("./Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
 			$page_gui = new ilPortfolioPageGUI($portfolio_id, $current_page, 0, 
 				$this->object->hasPublicComments());
 			$page_gui->setEmbedded(true);
@@ -1244,7 +1238,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 			
 	function export()
 	{
-		include_once "Services/Portfolio/classes/class.ilPortfolioHTMLExport.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioHTMLExport.php";
 		$export = new ilPortfolioHTMLExport($this, $this->object);
 		$zip = $export->buildExportFile();
 		
@@ -1325,7 +1319,6 @@ class ilObjPortfolioGUI extends ilObject2GUI
 			}
 			
 			// copy page(s)
-			include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
 			foreach($_POST["prtf_pages"] as $page_id)
 			{				
 				$source = new ilPortfolioPage($page_id);

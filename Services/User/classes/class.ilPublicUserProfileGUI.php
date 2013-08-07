@@ -181,7 +181,7 @@ class ilPublicUserProfileGUI
 					$plink = new ilPermanentLinkGUI("usr", $this->getUserId());
 					$plink = $plink->getHTML();		
 					
-					include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
+					include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
 					$gui = new ilObjPortfolioGUI();					
 					$gui->initPortfolioObject($portfolio_id);		
 					$gui->setAdditional($this->getAdditional());
@@ -705,11 +705,11 @@ class ilPublicUserProfileGUI
 	 */
 	protected function getProfilePortfolio()
 	{
-		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";				
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";				
 		$portfolio_id = ilObjPortfolio::getDefaultPortfolio($this->getUserId());
 		if($portfolio_id)
 		{
-			include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
+			include_once('./Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php');
 			$access_handler = new ilPortfolioAccessHandler();
 			if($access_handler->checkAccess("read", "", $portfolio_id))
 			{

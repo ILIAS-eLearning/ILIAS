@@ -1024,7 +1024,7 @@ class ilPersonalProfileGUI
 		
 		if ($ilSetting->get('user_portfolios'))
 		{
-			include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 			return ilObjPortfolio::getDefaultPortfolio($ilUser->getId());
 		}
 	}

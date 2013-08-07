@@ -687,7 +687,7 @@ class ilWebAccessChecker
 	*/
 	private function checkAccessPortfolioPage($obj_id, $page_id)
 	{		
-		include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 		$access_handler = new ilPortfolioAccessHandler();		
 		foreach ($this->check_users as $user_id)
 		{				

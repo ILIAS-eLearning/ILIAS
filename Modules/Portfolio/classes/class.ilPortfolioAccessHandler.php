@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";

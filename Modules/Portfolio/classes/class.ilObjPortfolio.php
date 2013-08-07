@@ -227,7 +227,7 @@ class ilObjPortfolio extends ilObject2
 		global $ilDB;
 		
 		// delete pages
-		include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
 		$pages = ilPortfolioPage::getAllPages($this->id);
 		foreach($pages as $page)
 		{
@@ -349,7 +349,7 @@ class ilObjPortfolio extends ilObject2
 	{
 		if($this->id)
 		{
-			include_once "Services/Portfolio/classes/class.ilFSStoragePortfolio.php";
+			include_once "Modules/Portfolio/classes/class.ilFSStoragePortfolio.php";
 			$storage = new ilFSStoragePortfolio($this->id);
 			$storage->delete();
 			
@@ -368,7 +368,7 @@ class ilObjPortfolio extends ilObject2
 	 */
 	public static function initStorage($a_id, $a_subdir = null)
 	{		
-		include_once "Services/Portfolio/classes/class.ilFSStoragePortfolio.php";
+		include_once "Modules/Portfolio/classes/class.ilFSStoragePortfolio.php";
 		$storage = new ilFSStoragePortfolio($a_id);
 		$storage->create();
 		
@@ -445,7 +445,7 @@ class ilObjPortfolio extends ilObject2
 		$all = self::getPortfoliosOfUser($a_user_id);
 		if($all)
 		{
-			include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+			include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 			$access_handler = new ilPortfolioAccessHandler();			
 			
 			foreach($all as $item)

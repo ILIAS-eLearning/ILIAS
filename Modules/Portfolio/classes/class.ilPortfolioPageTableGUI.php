@@ -35,7 +35,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.portfolio_page_row.html", "Services/Portfolio");
+		$this->setRowTemplate("tpl.portfolio_page_row.html", "Modules/Portfolio");
 
 		$this->addMultiCommand("confirmPortfolioPageDeletion", $lng->txt("delete"));
 		$this->addMultiCommand("copyPageForm", $lng->txt("prtf_copy_page"));		
@@ -52,7 +52,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 	{
 		global $ilUser;
 		
-		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
+		include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
 		$data = ilPortfolioPage::getAllPages($this->portfolio->getId());
 		$this->setData($data);
 		
