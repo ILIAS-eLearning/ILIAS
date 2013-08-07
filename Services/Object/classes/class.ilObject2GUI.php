@@ -40,6 +40,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	const WORKSPACE_NODE_ID = 2;
 	const REPOSITORY_OBJECT_ID = 3;
 	const WORKSPACE_OBJECT_ID = 4;
+	const PORTFOLIO_OBJECT_ID = 5;
 	
 	/**
 	 * Constructor
@@ -112,6 +113,13 @@ abstract class ilObject2GUI extends ilObjectGUI
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 				$this->access_handler = new ilWorkspaceAccessHandler($this->tree);
 				$params[] = "obj_id"; // ???
+				break;
+			
+			case self::PORTFOLIO_OBJECT_ID:
+				$this->object_id = $a_id;
+				include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
+				$this->access_handler = new ilPortfolioAccessHandler();
+				$params[] = "prt_id";
 				break;
 
 			case self::OBJECT_ID:
@@ -209,6 +217,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				case self::OBJECT_ID:
 				case self::REPOSITORY_OBJECT_ID:
 				case self::WORKSPACE_OBJECT_ID:
+				case self::PORTFOLIO_OBJECT_ID:
 					$this->object = ilObjectFactory::getInstanceByObjId($this->object_id);
 					break;
 
@@ -300,6 +309,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				return $this->deleteConfirmation();
 
 			case self::OBJECT_ID:
+			case self::PORTFOLIO_OBJECT_ID:
 				// :TODO: should this ever occur? 
 				break;
 		}
@@ -377,6 +387,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				return $this->deleteConfirmedObjects();
 
 			case self::OBJECT_ID:
+			case self::PORTFOLIO_OBJECT_ID:
 				// :TODO: should this ever occur?
 				break;
 		}
@@ -482,6 +493,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				return $this->render();
 
 			case self::OBJECT_ID:
+			case self::PORTFOLIO_OBJECT_ID:
 				// :TODO: should this ever occur?  do nothing or edit() ?!
 				break;
 		}
@@ -658,6 +670,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				break;
 
 			case self::OBJECT_ID:
+			case self::PORTFOLIO_OBJECT_ID:
 				// do nothing
 				break;
 		}

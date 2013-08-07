@@ -1,8 +1,9 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Portfolio/classes/class.ilObjPortfolio.php");
-include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
+include_once('./Services/Object/classes/class.ilObject2GUI.php');
+include_once('./Services/Portfolio/classes/class.ilObjPortfolio.php');
+
 
 /**
  * Portfolio view gui class
@@ -15,74 +16,86 @@ include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
  *
  * @ingroup ServicesPortfolio
  */
-class ilObjPortfolioGUI 
+class ilObjPortfolioGUI extends ilObject2GUI
 {
 	protected $user_id; // [int]
-	protected $portfolio; // [ilObjPortfolio]
-	protected $access_handler; // [ilPortfolioAccessHandler]
 	protected $additional = array();
 	protected $perma_link; // [string]
 	
-	/**
-	 * Constructor
-	 */
-	public function __construct()
+	public function __construct($a_id = 0, $a_id_type = self::PORTFOLIO_OBJECT_ID, $a_parent_node_id = 0)
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $lng, $ilUser;
+		
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
 		$lng->loadLanguageModule("prtf");
-
-		$this->user_id = $ilUser->getId();
-		$this->access_handler = new ilPortfolioAccessHandler();
-
-		$portfolio_id = $_REQUEST["prt_id"];
-		$ilCtrl->setParameter($this, "prt_id", $portfolio_id);
-		
-		if($portfolio_id)
-		{
-			$this->initPortfolioObject($portfolio_id);
-		}
-	}
-
-	protected function checkAccess($a_permission, $a_portfolio_id = null)
-	{
-		if(!$a_portfolio_id && $this->portfolio)
-		{
-			$a_portfolio_id = $this->portfolio->getId();
-		}
-		if($a_portfolio_id)
-		{
-			return $this->access_handler->checkAccess($a_permission, "", $a_portfolio_id);
-		}
+		$this->user_id = $ilUser->getId();		
 	}
 	
-	/**
-	 * Init portfolio object
-	 *
-	 * @param int $a_id
-	 */
-	function initPortfolioObject($a_id)
+	public function getType()
 	{
-		$portfolio = new ilObjPortfolio($a_id, false);
-		if($portfolio->getId() && $this->checkAccess("read", $a_id))
-		{
-			$this->portfolio = $portfolio;
-		}
+		return "prtf";
 	}
+	
+	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
+	{
+		if($this->id_type == self::PORTFOLIO_OBJECT_ID)
+		{			
+			if($a_perm == "create")
+			{
+				return true;
+			}
+			if(!$a_node_id)
+			{
+				$a_node_id = $this->obj_id;
+			}
+			return $this->access_handler->checkAccess($a_perm, "", $a_node_id);			
+		}
+		return parent::checkPermissionBool($a_perm, $a_cmd, $a_type, $a_node_id);
+	}
+	
+	protected function addLocator($a_page_id = null)
+	{
+		global $ilLocator, $ilCtrl, $tpl;
+		
+		if($this->object)
+		{
+			$ilCtrl->setParameter($this, "prt_id", $this->object->getId());	
+			$ilLocator->addItem($this->object->getTitle(),
+				$ilCtrl->getLinkTarget($this, "view"));
+		}
+		
+		if($a_page_id)
+		{
+			include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";			
+			$page = new ilPortfolioPage($a_page_id);
+			$page->setPortfolioId($this->object->getId());
+			$title = $page->getTitle();
+			if($page->getType() == ilPortfolioPage::TYPE_BLOG)
+			{
+				$title = ilObject::_lookupTitle($title);
+			}
+			$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", $a_page_id);	
+			$ilLocator->addItem($title,
+				$ilCtrl->getLinkTargetByClass("ilportfoliopagegui", "edit"));			
+		}
+		
+		$tpl->setLocator();		
+	}	
 
 	function executeCommand()
 	{
 		global $ilCtrl, $ilTabs, $lng, $tpl;
 
 		$next_class = $ilCtrl->getNextClass($this);
-		$cmd = $ilCtrl->getCmd("pages");
+		$cmd = $ilCtrl->getCmd("view");
 		
 		$lng->loadLanguageModule("user");
 		
 		$title = $lng->txt("portfolio");
-		if($this->portfolio)
+		if($this->object)
 		{
-			$title .= ": ".$this->portfolio->getTitle();	
+			$title .= ": ".$this->object->getTitle();	
 		}
 		$tpl->setTitle($title);
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf_b.png"), 
@@ -91,17 +104,17 @@ class ilObjPortfolioGUI
 		switch($next_class)
 		{
 			case "ilworkspaceaccessgui";	
-				if($this->checkAccess("write"))
+				if($this->checkPermissionBool("write"))
 				{
-					$this->setPagesTabs();
+					$this->setTabs();
 					$ilTabs->activateTab("share");
 					
 					include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
-					$plink = new ilPermanentLinkGUI("prtf", $this->portfolio->getId());
+					$plink = new ilPermanentLinkGUI("prtf", $this->object->getId());
 					$plink = $plink->getHTML();
 
 					include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
-					$wspacc = new ilWorkspaceAccessGUI($this->portfolio->getId(), $this->access_handler, true, $plink);
+					$wspacc = new ilWorkspaceAccessGUI($this->object->getId(), $this->access_handler, true, $plink);
 					$ilCtrl->forwardCommand($wspacc);
 				}
 				break;
@@ -111,12 +124,12 @@ class ilObjPortfolioGUI
 				ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);						
 
 				$ilTabs->setBackTarget($lng->txt("back"),
-					$ilCtrl->getLinkTarget($this, "pages"));
+					$ilCtrl->getLinkTarget($this, "view"));
 				
 				// edit
-				if(isset($_REQUEST["ppage"]) && $this->checkAccess("write"))
+				if(isset($_REQUEST["ppage"]) && $this->checkPermissionBool("write"))
 				{
-					$this->setLocator($_REQUEST["ppage"]);
+					$this->addLocator($_REQUEST["ppage"]);
 					
 					$page_id = $_REQUEST["ppage"];
 					$ilCtrl->setParameter($this, "ppage", $_REQUEST["ppage"]);
@@ -129,8 +142,8 @@ class ilObjPortfolioGUI
 				}
 				
 				include_once("Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
-				$page_gui = new ilPortfolioPageGUI($this->portfolio->getId(),
-					$page_id, 0, $this->portfolio->hasPublicComments());
+				$page_gui = new ilPortfolioPageGUI($this->object->getId(),
+					$page_id, 0, $this->object->hasPublicComments());
 				$page_gui->setAdditional($this->getAdditional());
 				
 				$ret = $ilCtrl->forwardCommand($page_gui);
@@ -156,9 +169,10 @@ class ilObjPortfolioGUI
 				break;
 			
 			default:		
-				if($cmd != "preview")
+				if($cmd != "preview" && $this->id_type == self::PORTFOLIO_OBJECT_ID)
 				{
-					$this->setLocator();
+					$this->addLocator();
+					$this->setTabs();
 				}
 				$this->$cmd();
 				break;
@@ -166,143 +180,62 @@ class ilObjPortfolioGUI
 
 		return true;
 	}
-
-	/**
-	 * Show portfolio creation form
-	 */
-	protected function add()
+		
+	protected function setTabs()
 	{
-		global $tpl;
+		global $lng, $ilTabs, $ilCtrl, $ilHelp;		
+		
+		if($this->checkPermissionBool("write"))
+		{
+			$ilHelp->setScreenIdComponent("prtf");
+			
+			$ilTabs->addTab("pages",
+				$lng->txt("content"),
+				$ilCtrl->getLinkTarget($this, "view"));
+		
+			$ilTabs->addTab("settings",
+				$lng->txt("settings"),
+				$ilCtrl->getLinkTarget($this, "edit"));
 
-		$form = $this->initForm();
-
-		$tpl->setContent($form->getHTML());
+			if($this->id_type == self::PORTFOLIO_OBJECT_ID)
+			{
+				$lng->loadLanguageModule("wsp");
+				$ilTabs->addTab("share",
+					$lng->txt("wsp_permissions"),
+					$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
+			}
+		}
+		
+		$ilTabs->addNonTabbedLink("preview", 
+			$lng->txt("user_profile_preview"),
+			$ilCtrl->getLinkTarget($this, "preview"));	
 	}
 
-	/**
-	 * Create new portfolio instance
-	 */
-	protected function save()
+	
+	//
+	// CREATE/EDIT
+	// 
+	
+	protected function initCreationForms($a_new_type)
 	{
-		global $tpl, $lng, $ilCtrl;
-		
-		$form = $this->initForm();
-		if($form->checkInput())
+		if($this->id_type == self::PORTFOLIO_OBJECT_ID)
 		{
-			$portfolio = new ilObjPortfolio();
-			$portfolio->setTitle($form->getInput("title"));
-			// $portfolio->setDescription($form->getInput("desc"));
-			$portfolio->create();
-			
-			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
-			$page = new ilPortfolioPage();
-			$page->setPortfolioId($portfolio->getId());
-			if($form->getInput("ptype") == "page")
-			{				
-				$page->setType(ilPortfolioPage::TYPE_PAGE);
-				$page->setTitle($form->getInput("fpage"));		
-				
-				// use template as basis
-				$layout_id = $form->getInput("tmpl");
-				if($layout_id)
-				{
-					include_once("./Services/Style/classes/class.ilPageLayout.php");
-					$layout_obj = new ilPageLayout($layout_id);
-					$page->setXMLContent($layout_obj->getXMLContent());
-				}
-			}
-			else
-			{
-				$page->setType(ilPortfolioPage::TYPE_BLOG);
-				$page->setTitle($form->getInput("blog"));								
-			}
-			$page->create();
-
-			ilUtil::sendSuccess($lng->txt("prtf_portfolio_created"), true);
-			$ilCtrl->setParameter($this, "prt_id", $portfolio->getId());
-			$ilCtrl->redirect($this, "pages");
+			return array(self::CFORM_NEW => $this->initCreateForm($a_new_type));
 		}
-
-		$form->setValuesByPost();
-		$tpl->setContent($form->getHTML());
+		
+		return parent::initCreationForms($a_new_type);
 	}
 	
-	protected function toRepository()
+	protected function initCreateForm($a_new_type)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng, $ilSetting;
 		
-		$ilCtrl->redirectByClass("ilportfoliorepositorygui", "show");
-	}
-
-	/**
-	 * Show portfolio edit form
-	 */
-	protected function edit()
-	{
-		global $tpl, $ilTabs;
-		
-		$this->setPagesTabs();
-		$ilTabs->activateTab("edit");
-
-		$form = $this->initForm("edit");
-
-		$tpl->setContent($form->getHTML());
-	}
-
-	/**
-	 * Update portfolio properties
-	 */
-	protected function update()
-	{
-		global $tpl, $lng, $ilCtrl;
-
-		$form = $this->initForm("edit");
-		if($form->checkInput() && $this->checkAccess("write"))
+		if($this->id_type != self::PORTFOLIO_OBJECT_ID)
 		{
-			$this->portfolio->setTitle($form->getInput("title"));
-			$this->portfolio->setDescription($form->getInput("desc"));
-			$this->portfolio->setOnline($form->getInput("online"));
-			$this->portfolio->setPublicComments($form->getInput("comments"));
-			$this->portfolio->setProfilePicture($form->getInput("ppic"));
-			$this->portfolio->setBackgroundColor($form->getInput("bg_color"));
-			$this->portfolio->setFontcolor($form->getInput("font_color"));
-
-			$prfa_set = new ilSetting("prfa");
-
-			if($_FILES["banner"]["tmp_name"])
-			{
-				$this->portfolio->uploadImage($_FILES["banner"]);
-			}
-			else if($prfa_set->get('banner') and $form->getItemByPostVar("banner")->getDeletionFlag())
-			{
-				$this->portfolio->deleteImage();
-			}			
-			
-			$this->portfolio->update();			
-
-			// if portfolio is not online, it cannot be default
-			if(!$form->getInput("online"))
-			{
-				ilObjPortfolio::setUserDefault($this->user_id, 0);
-			}
-			
-			ilUtil::sendSuccess($lng->txt("prtf_portfolio_updated"), true);
-			$ilCtrl->redirect($this, "pages");
+			return parent::initCreateForm($a_new_type);
 		}
-
-		$form->setValuesByPost();
-		$tpl->setContent($form->getHTML());
-	}
-
-	/**
-	 * Init portfolio form
-	 *
-	 * @param string $a_mode
-	 * @return ilPropertyFormGUI
-	 */
-	protected function initForm($a_mode = "create")
-	{
-		global $lng, $ilCtrl, $ilSetting;
+		
+		$ilCtrl->setParameter($this, "new_type", $this->getType());
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -322,186 +255,255 @@ class ilObjPortfolioGUI
 		$form->addItem($ta);		
 		*/
 		
-		if($a_mode == "create")
-		{
-			$type = new ilRadioGroupInputGUI($lng->txt("prtf_first_page_title"), "ptype");
-			$type->setRequired(true);
-			$form->addItem($type);
-			
-			$type_page = new ilRadioOption($lng->txt("page"), "page");
-			$type->addOption($type_page);
-						
-			// 1st page
-			$tf = new ilTextInputGUI($lng->txt("title"), "fpage");
-			$tf->setMaxLength(128);
-			$tf->setSize(40);
-			$tf->setRequired(true);
-			$type_page->addSubItem($tf);	
-			
-			include_once "Services/Style/classes/class.ilPageLayout.php";
-			$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
-			if($templates)
-			{			
-				$options = array(0 => $lng->txt("none"));
-				foreach ($templates as $templ)
-				{
-					$templ->readObject();
-					$options[$templ->getId()] = $templ->getTitle();			
-				}
-				
-				$use_template = new ilSelectInputGUI($lng->txt("prtf_use_page_layout"), "tmpl");
-				$use_template->setRequired(true);
-				$use_template->setOptions($options);
-				$type_page->addSubItem($use_template);
-			}
-			
-			if(!$ilSetting->get('disable_wsp_blogs'))
+		$type = new ilRadioGroupInputGUI($lng->txt("prtf_first_page_title"), "ptype");
+		$type->setRequired(true);
+		$form->addItem($type);
+
+		$type_page = new ilRadioOption($lng->txt("page"), "page");
+		$type->addOption($type_page);
+
+		// 1st page
+		$tf = new ilTextInputGUI($lng->txt("title"), "fpage");
+		$tf->setMaxLength(128);
+		$tf->setSize(40);
+		$tf->setRequired(true);
+		$type_page->addSubItem($tf);	
+
+		include_once "Services/Style/classes/class.ilPageLayout.php";
+		$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
+		if($templates)
+		{			
+			$options = array(0 => $lng->txt("none"));
+			foreach ($templates as $templ)
 			{
-				$options = array();
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-				$tree = new ilWorkspaceTree($this->user_id);
-				$root = $tree->readRootId();
-				if($root)
-				{
-					$root = $tree->getNodeData($root);
-					foreach ($tree->getSubTree($root) as $node)
-					{
-						if ($node["type"] == "blog")
-						{
-							$options[$node["obj_id"]] = $node["title"];
-						}
-					}
-					asort($options);		
-				}
-				if(sizeof($options))
-				{			
-					$type_blog = new ilRadioOption($lng->txt("obj_blog"), "blog");
-					$type->addOption($type_blog);
-
-					$obj = new ilSelectInputGUI($lng->txt("obj_blog"), "blog");
-					$obj->setRequired(true);
-					$obj->setOptions($options);
-					$type_blog->addSubItem($obj);
-				}
-				else
-				{
-					ilUtil::sendInfo($lng->txt("prtf_no_blogs_info"));				
-					$type->setValue("page");
-				}
+				$templ->readObject();
+				$options[$templ->getId()] = $templ->getTitle();			
 			}
 
-			$form->setTitle($lng->txt("prtf_create_portfolio"));
-			$form->addCommandButton("save", $lng->txt("save"));
-			$form->addCommandButton("toRepository", $lng->txt("cancel"));
+			$use_template = new ilSelectInputGUI($lng->txt("prtf_use_page_layout"), "tmpl");
+			$use_template->setRequired(true);
+			$use_template->setOptions($options);
+			$type_page->addSubItem($use_template);
+		}
+
+		if(!$ilSetting->get('disable_wsp_blogs'))
+		{
+			$options = array();
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$tree = new ilWorkspaceTree($this->user_id);
+			$root = $tree->readRootId();
+			if($root)
+			{
+				$root = $tree->getNodeData($root);
+				foreach ($tree->getSubTree($root) as $node)
+				{
+					if ($node["type"] == "blog")
+					{
+						$options[$node["obj_id"]] = $node["title"];
+					}
+				}
+				asort($options);		
+			}
+			if(sizeof($options))
+			{			
+				$type_blog = new ilRadioOption($lng->txt("obj_blog"), "blog");
+				$type->addOption($type_blog);
+
+				$obj = new ilSelectInputGUI($lng->txt("obj_blog"), "blog");
+				$obj->setRequired(true);
+				$obj->setOptions($options);
+				$type_blog->addSubItem($obj);
+			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("prtf_no_blogs_info"));				
+				$type->setValue("page");
+			}
+		}
+
+		$form->setTitle($lng->txt("prtf_create_portfolio"));
+		$form->addCommandButton("save", $lng->txt("save"));
+		$form->addCommandButton("toRepository", $lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	protected function afterSave(ilObject $a_new_object)
+	{
+		global $ilCtrl, $lng;
+		
+		if($this->id_type != self::PORTFOLIO_OBJECT_ID)
+		{
+			return parent::afterSave($a_new_object);
+		}
+		
+		// create 1st page / blog
+		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+		$page = new ilPortfolioPage();
+		$page->setPortfolioId($a_new_object->getId());
+		if($_POST["ptype"] == "page")
+		{				
+			$page->setType(ilPortfolioPage::TYPE_PAGE);
+			$page->setTitle($_POST["fpage"]);		
+
+			// use template as basis
+			$layout_id = $_POST["tmpl"];
+			if($layout_id)
+			{
+				include_once("./Services/Style/classes/class.ilPageLayout.php");
+				$layout_obj = new ilPageLayout($layout_id);
+				$page->setXMLContent($layout_obj->getXMLContent());
+			}
 		}
 		else
 		{
-			// online
-			$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
-			$form->addItem($online);
-			
-			// comments
-			$comments = new ilCheckboxInputGUI($lng->txt("prtf_public_comments"), "comments");
-			$form->addItem($comments);
-			
-			// profile picture
-			$ppic = new ilCheckboxInputGUI($lng->txt("prtf_profile_picture"), "ppic");
-			$form->addItem($ppic);
-			
-			$prfa_set = new ilSetting("prfa");
-			if($prfa_set->get("banner"))
-			{			
-				include_once "Services/Form/classes/class.ilFileInputGUI.php";
-				ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);	
-				
-				$dimensions = " (".$prfa_set->get("banner_width")."x".
-					$prfa_set->get("banner_height").")";
-				
-				$img = new ilImageFileInputGUI($lng->txt("prtf_banner").$dimensions, "banner");
-				$form->addItem($img);
-					
-				// show existing file
-				$file = $this->portfolio->getImageFullPath(true);
-				if($file)
-				{
-					$img->setImage($file);
-				}		
-			}
-
-			$bg_color = new ilColorPickerInputGUI($lng->txt("prtf_background_color"), "bg_color");
-			$form->addItem($bg_color);
-
-			$font_color = new ilColorPickerInputGUI($lng->txt("prtf_font_color"), "font_color");
-			$form->addItem($font_color);		
-						
-			$ti->setValue($this->portfolio->getTitle());
-			// $ta->setValue($this->portfolio->getDescription());
-			$online->setChecked($this->portfolio->isOnline());
-			$comments->setChecked($this->portfolio->hasPublicComments());
-			$ppic->setChecked($this->portfolio->hasProfilePicture());
-			$bg_color->setValue($this->portfolio->getBackgroundColor());
-			$font_color->setValue($this->portfolio->getFontColor());
-		
-			$form->setTitle($lng->txt("prtf_edit_portfolio"));
-			$form->addCommandButton("update", $lng->txt("save"));
-			$form->addCommandButton("pages", $lng->txt("cancel"));
+			$page->setType(ilPortfolioPage::TYPE_BLOG);
+			$page->setTitle($_POST["blog"]);								
 		}
+		$page->create();
+
+		ilUtil::sendSuccess($lng->txt("prtf_portfolio_created"), true);
+		$ilCtrl->setParameter($this, "prt_id", $a_new_object->getId());
+		$ilCtrl->redirect($this, "view");
+	}
+	
+	protected function toRepository()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirectByClass("ilportfoliorepositorygui", "show");
+	}	
+	
+	protected function initEditForm()
+	{
+		global $lng, $ilCtrl;
+		
+		if($this->id_type != self::PORTFOLIO_OBJECT_ID)
+		{
+			return parent::initEditForm();
+		}
+		
+			
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));	
+		
+		// online
+		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
+		$online->setChecked($this->object->isOnline());
+		$form->addItem($online);
+		
+		$this->initEditCustomForm($form);
+
+		$form->setTitle($lng->txt("prtf_edit_portfolio"));
+		$form->addCommandButton("update", $lng->txt("save"));
+		$form->addCommandButton("view", $lng->txt("cancel"));		
 
 		return $form;		
+	}
+	
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+	{					
+		global $lng;
+		
+		// comments
+		$comments = new ilCheckboxInputGUI($lng->txt("prtf_public_comments"), "comments");
+		$a_form->addItem($comments);
+
+		// profile picture
+		$ppic = new ilCheckboxInputGUI($lng->txt("prtf_profile_picture"), "ppic");
+		$a_form->addItem($ppic);
+
+		$prfa_set = new ilSetting("prfa");
+		if($prfa_set->get("banner"))
+		{			
+			include_once "Services/Form/classes/class.ilFileInputGUI.php";
+			ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);	
+
+			$dimensions = " (".$prfa_set->get("banner_width")."x".
+				$prfa_set->get("banner_height").")";
+
+			$img = new ilImageFileInputGUI($lng->txt("prtf_banner").$dimensions, "banner");
+			$a_form->addItem($img);
+
+			// show existing file
+			$file = $this->object->getImageFullPath(true);
+			if($file)
+			{
+				$img->setImage($file);
+			}		
+		}
+
+		$bg_color = new ilColorPickerInputGUI($lng->txt("prtf_background_color"), "bg_color");
+		$a_form->addItem($bg_color);
+
+		$font_color = new ilColorPickerInputGUI($lng->txt("prtf_font_color"), "font_color");
+		$a_form->addItem($font_color);								
+	}
+	
+	protected function getEditFormCustomValues(array &$a_values)
+	{
+		$a_values["comments"] = $this->object->hasPublicComments();
+		$a_values["ppic"] = $this->object->hasProfilePicture();
+		$a_values["bg_color"] = $this->object->getBackgroundColor();
+		$a_values["font_color"] = $this->object->getFontColor();
+	}
+	
+	/**
+	 * Update portfolio properties
+	 */
+	public function updateCustom(ilPropertyFormGUI $a_form)
+	{		
+		if($this->id_type == self::PORTFOLIO_OBJECT_ID)
+		{
+			$this->object->setOnline($a_form->getInput("online"));
+			
+			// if portfolio is not online, it cannot be default
+			if(!$a_form->getInput("online"))
+			{
+				ilObjPortfolio::setUserDefault($this->user_id, 0);
+			}
+		}
+		
+		$this->object->setPublicComments($a_form->getInput("comments"));
+		$this->object->setProfilePicture($a_form->getInput("ppic"));
+		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
+		$this->object->setFontcolor($a_form->getInput("font_color"));
+
+		$prfa_set = new ilSetting("prfa");
+
+		if($_FILES["banner"]["tmp_name"])
+		{
+			$this->object->uploadImage($_FILES["banner"]);
+		}
+		else if($prfa_set->get('banner') and $a_form->getItemByPostVar("banner")->getDeletionFlag())
+		{
+			$this->object->deleteImage();
+		}			
 	}
 	
 	
 	//
 	// PAGES
 	//
-
-	protected function setPagesTabs()
-	{
-		global $lng, $ilTabs, $ilCtrl, $ilHelp;				
-		
-		if($this->checkAccess("write"))
-		{
-			$ilHelp->setScreenIdComponent("prtf");
-			
-			$ilTabs->addTab("pages",
-			$lng->txt("content"),
-			$ilCtrl->getLinkTarget($this, "pages"));
-		
-			$ilTabs->addTab("edit",
-				$lng->txt("settings"),
-				$ilCtrl->getLinkTarget($this, "edit"));
-
-			$lng->loadLanguageModule("wsp");
-			$ilTabs->addTab("share",
-				$lng->txt("wsp_permissions"),
-				$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
-		}
-		
-		$ilTabs->addNonTabbedLink("preview", 
-			$lng->txt("user_profile_preview"),
-			$ilCtrl->getLinkTarget($this, "preview"));	
-	}
 	
 	/**
 	 * Show list of portfolio pages
 	 */
-	protected function pages()
+	public function view()
 	{
 		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilSetting, $tree;
 		
-		if(!$this->checkAccess("write"))
+		if(!$this->checkPermissionBool("write"))
 		{
 			return;
 		}
 		
-		$ilTabs->clearTargets();
-		
 		$ilCtrl->setParameter($this, "prt_id", "");
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "toRepository"));
-		$ilCtrl->setParameter($this, "prt_id", $this->portfolio->getId());
+		$ilCtrl->setParameter($this, "prt_id", $this->object->getId());
 		
-		$this->setPagesTabs();
 		$ilTabs->activateTab("pages");
 
 		$ilToolbar->addButton($lng->txt("prtf_add_page"),
@@ -519,11 +521,11 @@ class ilObjPortfolioGUI
 			$ilCtrl->getLinkTarget($this, "export"));				
 				
 		include_once "Services/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
-		$table = new ilPortfolioPageTableGUI($this, "pages", $this->portfolio);
+		$table = new ilPortfolioPageTableGUI($this, "view", $this->object);
 		
 		// exercise portfolio?			
 		include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
-		$exercises = ilObjExercise::findUserFiles($this->user_id, $this->portfolio->getId());
+		$exercises = ilObjExercise::findUserFiles($this->user_id, $this->object->getId());
 		if($exercises)
 		{
 			$info = array();
@@ -724,7 +726,7 @@ class ilObjPortfolioGUI
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "pages"));
+			$ilCtrl->getLinkTarget($this, "view"));
 
 		$form = $this->initPageForm("create");
 		$tpl->setContent($form->getHTML());
@@ -774,16 +776,16 @@ class ilObjPortfolioGUI
 			}
 			
 			$form->setTitle($lng->txt("prtf_add_page").": ".
-				$this->portfolio->getTitle());
+				$this->object->getTitle());
 			$form->addCommandButton("savePage", $lng->txt("save"));
-			$form->addCommandButton("pages", $lng->txt("cancel"));			
+			$form->addCommandButton("view", $lng->txt("cancel"));			
 		}
 		else
 		{
 			/* edit is done directly in table gui
 			$form->setTitle($lng->txt("prtf_edit_page"));
 			$form->addCommandButton("updatePage", $lng->txt("save"));
-			$form->addCommandButton("pages", $lng->txt("cancel"));
+			$form->addCommandButton("view", $lng->txt("cancel"));
 			*/			
 		}
 		
@@ -798,11 +800,11 @@ class ilObjPortfolioGUI
 		global $tpl, $lng, $ilCtrl, $ilTabs;
 
 		$form = $this->initPageForm("create");
-		if ($form->checkInput() && $this->checkAccess("write"))
+		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = new ilPortfolioPage();
-			$page->setPortfolioId($this->portfolio->getId());
+			$page->setPortfolioId($this->object->getId());
 			$page->setType(ilPortfolioPage::TYPE_PAGE);		
 			$page->setTitle($form->getInput("title"));		
 			
@@ -818,12 +820,12 @@ class ilObjPortfolioGUI
 			$page->create();
 
 			ilUtil::sendSuccess($lng->txt("prtf_page_created"), true);
-			$ilCtrl->redirect($this, "pages");
+			$ilCtrl->redirect($this, "view");
 		}
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "pages"));
+			$ilCtrl->getLinkTarget($this, "view"));
 
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
@@ -838,7 +840,7 @@ class ilObjPortfolioGUI
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "pages"));
+			$ilCtrl->getLinkTarget($this, "view"));
 
 		$form = $this->initBlogForm("create");
 		$tpl->setContent($form->getHTML());
@@ -879,7 +881,7 @@ class ilObjPortfolioGUI
 		if(!sizeof($options))
 		{
 			ilUtil::sendInfo($lng->txt("prtf_no_blogs_info"), true);
-			$ilCtrl->redirect($this, "pages");
+			$ilCtrl->redirect($this, "view");
 		}
 		
 		$obj = new ilSelectInputGUI($lng->txt("obj_blog"), "blog");
@@ -891,9 +893,9 @@ class ilObjPortfolioGUI
 		if ($a_mode == "create")
 		{
 			$form->setTitle($lng->txt("prtf_add_blog").": ".
-				$this->portfolio->getTitle());
+				$this->object->getTitle());
 			$form->addCommandButton("saveBlog", $lng->txt("save"));
-			$form->addCommandButton("pages", $lng->txt("cancel"));
+			$form->addCommandButton("view", $lng->txt("cancel"));
 			
 		}
 		else
@@ -901,7 +903,7 @@ class ilObjPortfolioGUI
 			/* edit is done directly in table gui
 			$form->setTitle($lng->txt("prtf_edit_page"));
 			$form->addCommandButton("updatePage", $lng->txt("save"));
-			$form->addCommandButton("pages", $lng->txt("cancel"));
+			$form->addCommandButton("view", $lng->txt("cancel"));
 			*/			
 		}
 		
@@ -916,22 +918,22 @@ class ilObjPortfolioGUI
 		global $tpl, $lng, $ilCtrl, $ilTabs;
 
 		$form = $this->initBlogForm("create");
-		if ($form->checkInput() && $this->checkAccess("write"))
+		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = new ilPortfolioPage();
-			$page->setPortfolioId($this->portfolio->getId());
+			$page->setPortfolioId($this->object->getId());
 			$page->setType(ilPortfolioPage::TYPE_BLOG);		
 			$page->setTitle($form->getInput("blog"));									
 			$page->create();
 
 			ilUtil::sendSuccess($lng->txt("prtf_page_created"), true);
-			$ilCtrl->redirect($this, "pages");
+			$ilCtrl->redirect($this, "view");
 		}
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "pages"));
+			$ilCtrl->getLinkTarget($this, "view"));
 
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
@@ -944,7 +946,7 @@ class ilObjPortfolioGUI
 	{
 		global $ilCtrl, $lng;
 		
-		if(!$this->checkAccess("write"))
+		if(!$this->checkPermissionBool("write"))
 		{
 			return;
 		}
@@ -956,7 +958,7 @@ class ilObjPortfolioGUI
 			foreach ($_POST["order"] as $k => $v)
 			{
 				$page = new ilPortfolioPage(ilUtil::stripSlashes($k));
-				$page->setPortfolioId($this->portfolio->getId());
+				$page->setPortfolioId($this->object->getId());
 				if($_POST["title"][$k])
 				{
 					$page->setTitle(ilUtil::stripSlashes($_POST["title"][$k]));
@@ -964,11 +966,11 @@ class ilObjPortfolioGUI
 				$page->setOrderNr(ilUtil::stripSlashes($v));
 				$page->update();
 			}
-			ilPortfolioPage::fixOrdering($this->portfolio->getId());
+			ilPortfolioPage::fixOrdering($this->object->getId());
 		}
 		
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-		$ilCtrl->redirect($this, "pages");
+		$ilCtrl->redirect($this, "view");
 	}
 
 	/**
@@ -981,7 +983,7 @@ class ilObjPortfolioGUI
 		if (!is_array($_POST["prtf_pages"]) || count($_POST["prtf_pages"]) == 0)
 		{
 			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
-			$ilCtrl->redirect($this, "pages");
+			$ilCtrl->redirect($this, "view");
 		}
 		else
 		{
@@ -989,14 +991,14 @@ class ilObjPortfolioGUI
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
 			$cgui->setHeaderText($lng->txt("prtf_sure_delete_portfolio_pages"));
-			$cgui->setCancel($lng->txt("cancel"), "pages");
+			$cgui->setCancel($lng->txt("cancel"), "view");
 			$cgui->setConfirm($lng->txt("delete"), "deletePortfolioPages");
 
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			foreach ($_POST["prtf_pages"] as $id)
 			{
 				$page = new ilPortfolioPage($id);
-				$page->setPortfolioId($this->portfolio->getId());
+				$page->setPortfolioId($this->object->getId());
 				$title = $page->getTitle();
 				if($page->getType() == ilPortfolioPage::TYPE_BLOG)
 				{
@@ -1016,7 +1018,7 @@ class ilObjPortfolioGUI
 	{
 		global $lng, $ilCtrl;
 				
-		if(!$this->checkAccess("write"))
+		if(!$this->checkPermissionBool("write"))
 		{
 			return;
 		}
@@ -1027,12 +1029,12 @@ class ilObjPortfolioGUI
 			foreach ($_POST["prtf_pages"] as $id)
 			{
 				$page = new ilPortfolioPage($id);
-				$page->setPortfolioId($this->portfolio->getId());
+				$page->setPortfolioId($this->object->getId());
 				$page->delete();
 			}
 		}
 		ilUtil::sendSuccess($lng->txt("prtf_portfolio_page_deleted"), true);
-		$ilCtrl->redirect($this, "pages");
+		$ilCtrl->redirect($this, "view");
 	}
 	
 	/**
@@ -1051,22 +1053,22 @@ class ilObjPortfolioGUI
 		else if($_GET["baseClass"] != "ilPublicUserProfileGUI" && 
 			$this->user_id && $this->user_id != ANONYMOUS_USER_ID)
 		{
-			if(!$this->checkAccess("write"))
+			if(!$this->checkPermissionBool("write"))
 			{
-				$ilCtrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->portfolio->getOwner());
+				$ilCtrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->object->getOwner());
 				$back = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), "showOther");
 				$ilCtrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", "");
 			}
 			// owner
 			else
 			{
-				$back = $ilCtrl->getLinkTarget($this, "pages");
+				$back = $ilCtrl->getLinkTarget($this, "view");
 			}
 		}
 		$tpl->setTopBar($back);
 		
-		$portfolio_id = $this->portfolio->getId();
-		$user_id = $this->portfolio->getOwner();
+		$portfolio_id = $this->object->getId();
+		$user_id = $this->object->getOwner();
 		
 		$ilTabs->clearTargets();
 			
@@ -1115,7 +1117,7 @@ class ilObjPortfolioGUI
 			// get current page content
 			include_once("./Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
 			$page_gui = new ilPortfolioPageGUI($portfolio_id, $current_page, 0, 
-				$this->portfolio->hasPublicComments());
+				$this->object->hasPublicComments());
 			$page_gui->setEmbedded(true);
 			$page_gui->setAdditional($this->getAdditional());
 
@@ -1126,14 +1128,14 @@ class ilObjPortfolioGUI
 			$content = $a_content;
 		}
 		
-		if($a_return && $this->checkAccess("write"))
+		if($a_return && $this->checkPermissionBool("write"))
 		{
 			return $content;
 		}
 		
 		// blog posting comments are handled within the blog
 		$notes = "";
-		if($a_show_notes && $this->portfolio->hasPublicComments() && !$current_blog)
+		if($a_show_notes && $this->object->hasPublicComments() && !$current_blog)
 		{			
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");			
 			$note_gui = new ilNoteGUI($portfolio_id, $current_page, "pfpg");
@@ -1156,7 +1158,7 @@ class ilObjPortfolioGUI
 		if($this->perma_link === null)
 		{
 			include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
-			$plink = new ilPermanentLinkGUI("prtf", $this->portfolio->getId());
+			$plink = new ilPermanentLinkGUI("prtf", $this->object->getId());
 			$plink = $plink->getHTML();		
 		}
 		else
@@ -1164,7 +1166,7 @@ class ilObjPortfolioGUI
 			$plink = $this->perma_link;
 		}
 		
-		self::renderFullscreenHeader($this->portfolio, $tpl, $user_id);
+		self::renderFullscreenHeader($this->object, $tpl, $user_id);
 		
 		// wiki/forum will set locator items
 		$tpl->setVariable("LOCATOR", "");
@@ -1231,10 +1233,10 @@ class ilObjPortfolioGUI
 	function export()
 	{
 		include_once "Services/Portfolio/classes/class.ilPortfolioHTMLExport.php";
-		$export = new ilPortfolioHTMLExport($this, $this->portfolio);
+		$export = new ilPortfolioHTMLExport($this, $this->object);
 		$zip = $export->buildExportFile();
 		
-	    ilUtil::deliverFile($zip, $this->portfolio->getTitle().".zip", '', false, true);
+	    ilUtil::deliverFile($zip, $this->object->getTitle().".zip", '', false, true);
 	}
 	
 	/**
@@ -1252,39 +1254,10 @@ class ilObjPortfolioGUI
 		
 		include_once "Modules/Exercise/classes/class.ilObjExerciseGUI.php";
 		$exc_gui = new ilObjExerciseGUI(null, $exc_ref_id, true);
-		$exc_gui->submitPortfolio($this->portfolio->getId());
+		$exc_gui->submitPortfolio($this->object->getId());
 		
 		ilUtil::sendSuccess($lng->txt("prtf_finalized"), true);
-		$ilCtrl->redirect($this, "pages");
-	}
-	
-	protected function setLocator($a_page_id = null)
-	{
-		global $ilLocator, $ilCtrl, $tpl;
-		
-		if($this->portfolio)
-		{
-			$ilCtrl->setParameter($this, "prt_id", $this->portfolio->getId());	
-			$ilLocator->addItem($this->portfolio->getTitle(),
-				$ilCtrl->getLinkTarget($this, "pages"));
-		}
-		
-		if($a_page_id)
-		{
-			include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";			
-			$page = new ilPortfolioPage($a_page_id);
-			$page->setPortfolioId($this->portfolio->getId());
-			$title = $page->getTitle();
-			if($page->getType() == ilPortfolioPage::TYPE_BLOG)
-			{
-				$title = ilObject::_lookupTitle($title);
-			}
-			$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", $a_page_id);	
-			$ilLocator->addItem($title,
-				$ilCtrl->getLinkTargetByClass("ilportfoliopagegui", "edit"));			
-		}
-		
-		$tpl->setLocator();		
+		$ilCtrl->redirect($this, "view");
 	}
 	
 	/**
@@ -1297,7 +1270,7 @@ class ilObjPortfolioGUI
 		if (!is_array($_POST["prtf_pages"]) || count($_POST["prtf_pages"]) == 0)
 		{
 			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
-			$ilCtrl->redirect($this, "pages");
+			$ilCtrl->redirect($this, "view");
 		}
 		else
 		{			
@@ -1354,7 +1327,7 @@ class ilObjPortfolioGUI
 			}
 				
 			ilUtil::sendSuccess($lng->txt("prtf_pages_copied"), true);
-			$ilCtrl->redirect($this, "pages");
+			$ilCtrl->redirect($this, "view");
 		}
 		
 		$form->setValuesByPost();
@@ -1383,7 +1356,7 @@ class ilObjPortfolioGUI
 			$options = array();
 			foreach($all as $item)
 			{
-				if($item["id"] != $this->portfolio->getId())
+				if($item["id"] != $this->object->getId())
 				{
 					$options[$item["id"]] = $item["title"]; 
 				}
@@ -1405,7 +1378,7 @@ class ilObjPortfolioGUI
 		$new->addSubItem($tf);		
 
 		$form->addCommandButton("copyPage", $lng->txt("save"));
-		$form->addCommandButton("pages", $lng->txt("cancel"));
+		$form->addCommandButton("view", $lng->txt("cancel"));
 		
 		return $form;
 	}

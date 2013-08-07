@@ -75,7 +75,7 @@ class ilSharedResourceGUI
 			
 			case "ilobjportfoliogui":
 				include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
-				$pgui = new ilObjPortfolioGUI();
+				$pgui = new ilObjPortfolioGUI($this->portfolio_id, ilObject2GUI::PORTFOLIO_OBJECT_ID);
 				$ilCtrl->forwardCommand($pgui);
 				break;	
 			
