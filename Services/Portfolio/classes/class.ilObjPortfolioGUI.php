@@ -1048,9 +1048,9 @@ class ilObjPortfolioGUI
 		{
 			if(!$this->checkAccess("write"))
 			{
-				$ilCtrl->setParameter($this, "user", $this->portfolio->getOwner());
-				$back = $ilCtrl->getLinkTarget($this, "showOther");
-				$ilCtrl->setParameter($this, "user", "");
+				$ilCtrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->portfolio->getOwner());
+				$back = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), "showOther");
+				$ilCtrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", "");
 			}
 			// owner
 			else

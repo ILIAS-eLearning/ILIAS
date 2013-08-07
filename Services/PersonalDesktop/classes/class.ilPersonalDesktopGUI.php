@@ -634,17 +634,14 @@ class ilPersonalDesktopGUI
 	{
 		$this->ctrl->redirectByClass("ilpersonalprofilegui");
 	}
-	
-	/**
-	 * workaround for menu in calendar only
-	 */
+
 	function jumpToPortfolio()
 	{
 		// incoming back link from shared resource
 		$cmd = "";
 		if($_REQUEST["dsh"])
 		{
-			$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "user", $_REQUEST["dsh"]);
+			$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $_REQUEST["dsh"]);
 			$cmd = "showOther";
 		}
 		
@@ -739,7 +736,7 @@ class ilPersonalDesktopGUI
 		$cmd = "";
 		if($_REQUEST["dsh"])
 		{
-			$this->ctrl->setParameterByClass("ilpersonalworkspacegui", "user", $_REQUEST["dsh"]);
+			$this->ctrl->setParameterByClass("ilpersonalworkspacegui", "shr_id", $_REQUEST["dsh"]);
 			$cmd = "share";
 		}
 		

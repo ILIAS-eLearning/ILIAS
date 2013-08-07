@@ -56,7 +56,7 @@ class ilPortfolioRepositoryGUI
 				$ilCtrl->forwardCommand($gui);
 				break;
 			
-			default:		
+			default:						
 				$this->setLocator();
 				$this->setTabs();				
 				$this->$cmd();
