@@ -17230,3 +17230,37 @@ $ilDB->manipulate("UPDATE file_usage".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4019>
+<?php
+if (!$ilDB->tableExists('copg_pobj_def'))
+{
+	$fields = array (
+		'parent_type' => array(
+			'type' => 'text', 
+			'length' => 20,
+			'notnull' => true
+		),
+		'class_name' => array(
+			'type' => 'text',
+			'length' => 80,
+			'notnull' => true
+		),
+		'directory' => array(
+			'type' => 'text', 
+			'length' => 40,
+			'notnull' => false
+		),
+		"component" => array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 40)
+	);
+	$ilDB->createTable('copg_pobj_def', $fields);
+	$ilDB->addPrimaryKey('copg_pobj_def', array('parent_type'));
+}
+	
+?>
+<#4020>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

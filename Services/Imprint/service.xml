@@ -5,4 +5,7 @@
 	</baseclasses>
 	<objects>
 	</objects>
+	<copage>
+		<pageobject parent_type="impr" class_name="ilImprint" directory="classes"/>
+	</copage>
 </service>

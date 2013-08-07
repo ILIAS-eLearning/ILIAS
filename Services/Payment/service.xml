@@ -14,4 +14,7 @@
 	<crons>		
 		<cron id="pay_notification" class="ilPaymentCronNotification" />
 	</crons>
+	<copage>
+		<pageobject parent_type="shop" class_name="ilShopPage" directory="classes"/>
+	</copage>
 </service>

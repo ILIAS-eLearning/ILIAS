@@ -14,14 +14,13 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 class ilLoginPage extends ilPageObject
 {
 	/**
-	* Constructor
-	* @access	public
-	* @param	page id
-	*/
-	function __construct($a_id = 0, $a_old_nr = 0)
+	 * Get parent type
+	 *
+	 * @return string parent type
+	 */
+	function getParentType()
 	{
-		parent::__construct("auth", $a_id, $a_old_nr);
+		return "auth";
 	}
-
 }
 ?>

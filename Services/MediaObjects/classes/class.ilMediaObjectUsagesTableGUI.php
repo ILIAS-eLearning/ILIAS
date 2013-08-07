@@ -99,9 +99,8 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 		switch($usage["type"])
 		{
 			case "pg":
-
-				require_once("./Services/COPage/classes/class.ilPageObject.php");
-				$page_obj = new ilPageObject($cont_type, $usage["id"]);
+				include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+				$page_obj = ilPageObjectFactory::getInstance($cont_type, $usage["id"]);
 
 				$item = array();
 
@@ -175,11 +174,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 						}
 						break;
 
-					case "fold":
-					case "root":
-					case "crs":
-					case "grp":
-					case "cat":
+					case "cont":
 						$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
 						$item["obj_title"] = ilObject::_lookupTitle($page_obj->getId());
 						$ref_id = $this->getFirstWritableRefId($page_obj->getId());

@@ -195,7 +195,8 @@ class ilObjPortfolioGUI
 			$portfolio->create();
 			
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
-			$page = new ilPortfolioPage($portfolio->getId());
+			$page = new ilPortfolioPage();
+			$page->setPortfolioId($portfolio->getId());
 			if($form->getInput("ptype") == "page")
 			{				
 				$page->setType(ilPortfolioPage::TYPE_PAGE);
@@ -800,7 +801,8 @@ class ilObjPortfolioGUI
 		if ($form->checkInput() && $this->checkAccess("write"))
 		{
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
-			$page = new ilPortfolioPage($this->portfolio->getId());
+			$page = new ilPortfolioPage();
+			$page->setPortfolioId($this->portfolio->getId());
 			$page->setType(ilPortfolioPage::TYPE_PAGE);		
 			$page->setTitle($form->getInput("title"));		
 			
@@ -917,7 +919,8 @@ class ilObjPortfolioGUI
 		if ($form->checkInput() && $this->checkAccess("write"))
 		{
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
-			$page = new ilPortfolioPage($this->portfolio->getId());
+			$page = new ilPortfolioPage();
+			$page->setPortfolioId($this->portfolio->getId());
 			$page->setType(ilPortfolioPage::TYPE_BLOG);		
 			$page->setTitle($form->getInput("blog"));									
 			$page->create();
@@ -952,8 +955,8 @@ class ilObjPortfolioGUI
 		{
 			foreach ($_POST["order"] as $k => $v)
 			{
-				$page = new ilPortfolioPage($this->portfolio->getId(),
-					ilUtil::stripSlashes($k));
+				$page = new ilPortfolioPage(ilUtil::stripSlashes($k));
+				$page->setPortfolioId($this->portfolio->getId());
 				if($_POST["title"][$k])
 				{
 					$page->setTitle(ilUtil::stripSlashes($_POST["title"][$k]));
@@ -992,7 +995,8 @@ class ilObjPortfolioGUI
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			foreach ($_POST["prtf_pages"] as $id)
 			{
-				$page = new ilPortfolioPage($this->portfolio->getId(), $id);
+				$page = new ilPortfolioPage($id);
+				$page->setPortfolioId($this->portfolio->getId());
 				$title = $page->getTitle();
 				if($page->getType() == ilPortfolioPage::TYPE_BLOG)
 				{
@@ -1022,7 +1026,8 @@ class ilObjPortfolioGUI
 		{
 			foreach ($_POST["prtf_pages"] as $id)
 			{
-				$page = new ilPortfolioPage($this->portfolio->getId(), $id);
+				$page = new ilPortfolioPage($id);
+				$page->setPortfolioId($this->portfolio->getId());
 				$page->delete();
 			}
 		}
@@ -1267,7 +1272,8 @@ class ilObjPortfolioGUI
 		if($a_page_id)
 		{
 			include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";			
-			$page = new ilPortfolioPage($this->portfolio->getId(), $a_page_id);
+			$page = new ilPortfolioPage($a_page_id);
+			$page->setPortfolioId($this->portfolio->getId());
 			$title = $page->getTitle();
 			if($page->getType() == ilPortfolioPage::TYPE_BLOG)
 			{
@@ -1337,9 +1343,10 @@ class ilObjPortfolioGUI
 			include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
 			foreach($_POST["prtf_pages"] as $page_id)
 			{				
-				$source = new ilPortfolioPage($portfolio_id, $page_id);
-			
-				$target = new ilPortfolioPage($portfolio_id);
+				$source = new ilPortfolioPage($page_id);
+				$source->setPortfolioId($portfolio_id);
+				$target = new ilPortfolioPage();
+				$target->setPortfolioId($portfolio_id);
 				$target->setXMLContent($source->copyXmlContent());
 				$target->setType($source->getType());
 				$target->setTitle($source->getTitle());

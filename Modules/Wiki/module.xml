@@ -19,4 +19,7 @@
 			<parent id="root">root</parent>
 		</object>
 	</objects>
+	<copage>
+		<pageobject parent_type="wpg" class_name="ilWikiPage" directory="classes"/>
+	</copage>
 </module>

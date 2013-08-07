@@ -15,4 +15,7 @@
 			<subobj id="rolf" max="1">rolf</subobj>
 		</object>
 	</objects>
+	<copage>
+		<pageobject parent_type="prtf" class_name="ilPortfolioPage" directory="classes"/>
+	</copage>
 </service>

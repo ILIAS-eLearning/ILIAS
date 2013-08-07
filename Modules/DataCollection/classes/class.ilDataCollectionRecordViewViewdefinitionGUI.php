@@ -42,12 +42,10 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		// we always need a page object - create on demand
 		if(!$a_definition_id)
 		{
-
-
-			$viewdef = new ilDataCollectionRecordViewViewdefinition(0, $this->table_id);
+			$viewdef = new ilDataCollectionRecordViewViewdefinition();
+			$viewdef->setTableId($this->table_id);
 			$viewdef->create();
 			$a_definition_id = $viewdef->getId();
-
 		}
 
         parent::__construct("dclf", $a_definition_id);
@@ -96,7 +94,9 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	 */
 	public function initPageObject()
 	{
-		$this->setPageObject(new ilDataCollectionRecordViewViewdefinition($this->getId(), $this->table_id));
+		$pg = new ilDataCollectionRecordViewViewdefinition($this->getId());
+		$pg->setTableId($this->table_id);
+		$this->setPageObject($pg);
 	}
 	
 	/**

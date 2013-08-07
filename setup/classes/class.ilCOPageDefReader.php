@@ -21,6 +21,7 @@ class ilCOPageDefReader
 		global $ilDB;
 		
 		$ilDB->manipulate("DELETE FROM copg_pc_def");
+		$ilDB->manipulate("DELETE FROM copg_pobj_def");
 	}
 
 	/**
@@ -47,6 +48,16 @@ class ilCOPageDefReader
 					$ilDB->quote($a_attribs["style_classes"], "integer").",".
 					$ilDB->quote($a_attribs["xsl"], "integer").",".
 					$ilDB->quote($a_attribs["def_enabled"], "integer").
+					")");
+				break;
+
+			case "pageobject":
+				$ilDB->manipulate("INSERT INTO copg_pobj_def ".
+					"(parent_type, class_name, component, directory) VALUES (".
+					$ilDB->quote($a_attribs["parent_type"], "text").",".
+					$ilDB->quote($a_attribs["class_name"], "text").",".
+					$ilDB->quote($a_comp, "text").",".
+					$ilDB->quote($a_attribs["directory"], "text").
 					")");
 				break;
 		}

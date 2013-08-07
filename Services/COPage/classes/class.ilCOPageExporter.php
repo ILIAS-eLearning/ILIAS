@@ -129,7 +129,8 @@ class ilCOPageExporter extends ilXmlExporter
 			
 			$id = explode(":", $a_id);
 	
-			$page_object = new ilPageObject($id[0], $id[1]);
+			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+			$page_object = ilPageObjectFactory::getInstance($id[0], $id[1]);
 			$page_object->buildDom();
 			$page_object->insertInstIntoIDs(IL_INST_ID);
 			$pxml = $page_object->getXMLFromDom(false, false, false, "", true);

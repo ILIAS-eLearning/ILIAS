@@ -16,4 +16,7 @@
 			<parent id="root">root</parent>		
 		</object>
 	</objects>
+	<copage>
+		<pageobject parent_type="dclf" class_name="ilDataCollectionRecordViewViewdefinition" directory="classes"/>
+	</copage>
 </module>

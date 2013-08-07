@@ -19,4 +19,10 @@
 	<pluginslots>
 		<pluginslot id="qst" name="Questions" />
 	</pluginslots>
+	<copage>
+		<pageobject parent_type="qht" class_name="ilAssHintPage" directory="classes"/>
+		<pageobject parent_type="qpl" class_name="ilAssQuestionPage" directory="classes"/>
+		<pageobject parent_type="qfbg" class_name="ilAssGenFeedbackPage" directory="classes/feedback"/>
+		<pageobject parent_type="qfbs" class_name="ilAssSpecFeedbackPage" directory="classes/feedback"/>
+	</copage>
 </module>

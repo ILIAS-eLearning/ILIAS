@@ -18,50 +18,18 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 {
 	protected $table_id; 	// [int]
-	protected $type; 		// [int]  0 = recordview 
-	protected $formtype; 	// [int]  0 = copage
+	protected $type = 0; 		// [int]  0 = recordview 
+	protected $formtype = 0; 	// [int]  0 = copage
 	
-	/*
-	 * __construct
-	 */
-	public function __construct($a_view_id = 0, $a_table_id = 0)
-	{
-		parent::__construct("dclf", $a_view_id, 0, true);
-				
-		if ($a_table_id != 0)
-		{
-			$this->setTableId($a_table_id);	
-		}
-		if($a_view_id != 0)
-		{
-			$this->setId($a_view_id);
-			$this->doRead();
-		}
-		
-		//Default-Values
-		$this->type = 0; 		// recordview
-		$this->formtype = 0; 	// copage
-	}
-
 	/**
-	 * Set Viewdefinition id
+	 * Get parent type
 	 *
-	 * @param int $a_id
+	 * @return string parent type
 	 */
-	public function setId($a_id)
+	function getParentType()
 	{
-		$this->id = $a_id;
-	}
-
-	/**
-	 * Get Viewdefinition id
-	 *
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+		return "dclf";
+	}	
 
 	/**
 	 * Set Table ID

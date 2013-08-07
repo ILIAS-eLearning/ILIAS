@@ -231,7 +231,8 @@ class ilObjPortfolio extends ilObject2
 		$pages = ilPortfolioPage::getAllPages($this->id);
 		foreach($pages as $page)
 		{
-			$page = new ilPortfolioPage($this->id, $page["id"]);
+			$page = new ilPortfolioPage($page["id"]);
+			$page->setPortfolioId($this->id);
 			$page->delete();
 		}
 		
