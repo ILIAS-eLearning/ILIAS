@@ -279,68 +279,78 @@ class ilCOPageHTMLExport
 			{
 				$skill_id = $pc["id"];
 				
-				// :TODO: at least check against $a_type
-				
-				// get user id from portfolio page
-				include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
-				$page = new ilPortfolioPage($a_id);
-				$user_id = $page->create_user;
-							
-				// we only need 1 instance each
-				if(!$skill_tree)
+				// trying to find user id
+				$user_id = null;
+				switch($a_type)
 				{
-					include_once "Services/Skill/classes/class.ilSkillTree.php";
-					$skill_tree = new ilSkillTree();
+					case "prtf:pg":
+						include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
+						$page = new ilPortfolioPage($a_id);
+						$user_id = $page->create_user;
+						break;
 					
-					include_once "Services/Skill/classes/class.ilPersonalSkill.php";
-			
-					include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-					$ws_tree = new ilWorkspaceTree($user_id);
-				}				
+					default:
+						// :TODO:
+						break;
+				}
 				
-				// walk skill tree
-				$b_skills = ilSkillTreeNode::getSkillTreeNodes($skill_id, true);
-				foreach ($b_skills as $bs)
-				{															
-					$skill = ilSkillTreeNodeFactory::getInstance($bs["id"]);
-					$level_data = $skill->getLevelData();			
-					foreach ($level_data as $k => $v)
+				if($user_id)
+				{
+					// we only need 1 instance each
+					if(!$skill_tree)
 					{
-						// get assigned materials from personal skill				
-						$mat = ilPersonalSkill::getAssignedMaterial($user_id, $bs["tref"], $v["id"]);
-						if(sizeof($mat))
-						{														
-							foreach($mat as $item)
-							{
-								$wsp_id = $item["wsp_id"];
-								$obj_id = $ws_tree->lookupObjectId($wsp_id);
-								
-								// all possible material types for now
-								switch(ilObject::_lookupType($obj_id))
+						include_once "Services/Skill/classes/class.ilSkillTree.php";
+						$skill_tree = new ilSkillTree();
+
+						include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+
+						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+						$ws_tree = new ilWorkspaceTree($user_id);
+					}				
+
+					// walk skill tree
+					$b_skills = ilSkillTreeNode::getSkillTreeNodes($skill_id, true);
+					foreach ($b_skills as $bs)
+					{															
+						$skill = ilSkillTreeNodeFactory::getInstance($bs["id"]);
+						$level_data = $skill->getLevelData();			
+						foreach ($level_data as $k => $v)
+						{
+							// get assigned materials from personal skill				
+							$mat = ilPersonalSkill::getAssignedMaterial($user_id, $bs["tref"], $v["id"]);
+							if(sizeof($mat))
+							{														
+								foreach($mat as $item)
 								{
-									case "file":
-										$this->files[$obj_id] = $obj_id;
-										break;
+									$wsp_id = $item["wsp_id"];
+									$obj_id = $ws_tree->lookupObjectId($wsp_id);
 
-									case "tstv":
-										include_once "Modules/Test/classes/class.ilObjTestVerification.php";
-										$obj = new ilObjTestVerification($obj_id, false);
-										$this->files_direct[$obj_id] = array($obj->getFilePath(),
-											$obj->getOfflineFilename());								
-										break;
+									// all possible material types for now
+									switch(ilObject::_lookupType($obj_id))
+									{
+										case "file":
+											$this->files[$obj_id] = $obj_id;
+											break;
 
-									case "excv":										
-										include_once "Modules/Exercise/classes/class.ilObjExerciseVerification.php";
-										$obj = new ilObjExerciseVerification($obj_id, false);
-										$this->files_direct[$obj_id] = array($obj->getFilePath(),
-											$obj->getOfflineFilename());	
-										break;														
+										case "tstv":
+											include_once "Modules/Test/classes/class.ilObjTestVerification.php";
+											$obj = new ilObjTestVerification($obj_id, false);
+											$this->files_direct[$obj_id] = array($obj->getFilePath(),
+												$obj->getOfflineFilename());								
+											break;
+
+										case "excv":										
+											include_once "Modules/Exercise/classes/class.ilObjExerciseVerification.php";
+											$obj = new ilObjExerciseVerification($obj_id, false);
+											$this->files_direct[$obj_id] = array($obj->getFilePath(),
+												$obj->getOfflineFilename());	
+											break;														
+									}
 								}
 							}
 						}
 					}
-				}
-						
+				}	
 			}
 		}
 
