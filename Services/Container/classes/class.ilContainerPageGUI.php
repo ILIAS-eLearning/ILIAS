@@ -28,18 +28,5 @@ class ilContainerPageGUI extends ilPageObjectGUI
 		parent::__construct("cont", $a_id, $a_old_nr);	
 	}
 	
-	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Services/Container/classes/class.ilContainerPageConfig.php");
-		$cfg = new ilContainerPageConfig();
-		$this->setPageConfig($cfg);
-	}	
-
 } 
 ?>

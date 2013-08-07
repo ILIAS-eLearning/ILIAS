@@ -30,15 +30,5 @@ class ilAssSpecFeedbackPageGUI extends ilPageObjectGUI
 		$this->setTemplateOutput(true);
 	}
 	
-	/**
-	 * Init page config
-	 */
-	function initPageConfig()
-	{
-		include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageConfig.php");
-		$cfg = new ilAssSpecFeedbackPageConfig();
-		$this->setPageConfig($cfg);
-	}	
-
 } 
 ?>

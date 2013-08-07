@@ -14,15 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilLoginPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
-		parent::__construct();
-
 		$this->setEnablePCType("LoginPageElement", true);
 		$this->setEnablePCType("FileList", false);
 		$this->setEnablePCType("Map", false);

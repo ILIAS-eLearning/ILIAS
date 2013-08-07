@@ -14,14 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilWikiPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
-		parent::__construct();
 		$this->setEnablePCType("Map", true);
 		$this->setEnablePCType("Tabs", true);
 		$this->setPreventHTMLUnmasking(true);
@@ -33,6 +29,20 @@ class ilWikiPageConfig extends ilPageConfig
 		$this->setIntLinkHelpDefaultType("RepositoryItem");
 	}
 	
+	/**
+	 * Object specific configuration 
+	 *
+	 * @param int $a_obj_id object id
+	 */
+	function configureByObjectId($a_obj_id)
+	{
+		if ($a_obj_id > 0)
+		{
+			include_once("./Modules/Wiki/classes/class.ilObjWiki.php");
+			$this->setEnablePageToc(ilObjWiki::_lookupPageToc($a_obj_id));
+		}
+	}
+
 }
 
 ?>

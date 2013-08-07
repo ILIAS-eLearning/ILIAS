@@ -73,19 +73,6 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	}
 	
 	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionConfig.php");
-		$cfg = new ilDataCollectionRecordViewViewdefinitionConfig();
-		$this->setPageConfig($cfg);
-	}	
-
-	/**
 	 * Init internal data object
 	 *
 	 * @param string $a_parent_type

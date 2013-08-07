@@ -28,18 +28,5 @@ class ilLoginPageGUI extends ilPageObjectGUI
 		parent::__construct("auth", $a_id, $a_old_nr);	
 	}
 	
-	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Services/Authentication/classes/class.ilLoginPageConfig.php");
-		$cfg = new ilLoginPageConfig();
-		$this->setPageConfig($cfg);
-	}	
-
 } 
 ?>

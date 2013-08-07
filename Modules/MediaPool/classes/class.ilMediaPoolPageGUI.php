@@ -42,19 +42,6 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 	}
 	
 	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageConfig.php");
-		$cfg = new ilMediaPoolPageConfig();
-		$this->setPageConfig($cfg);
-	}	
-
-	/**
 	* execute command
 	*/
 	function &executeCommand()

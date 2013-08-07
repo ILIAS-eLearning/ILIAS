@@ -31,15 +31,5 @@ class ilAssHintPageGUI extends ilPageObjectGUI
 		$this->setTemplateOutput(true);
 	}
 	
-	/**
-	 * Init page config
-	 */
-	function initPageConfig()
-	{
-		include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPageConfig.php");
-		$cfg = new ilAssHintPageConfig();
-		$this->setPageConfig($cfg);
-	}	
-
 } 
 ?>

@@ -28,6 +28,18 @@ class ilSCORM2004Page extends ilPageObject
 	}	
 
 	/**
+	 * After constructor
+	 *
+	 * @param
+	 * @return
+	 */
+	function afterConstructor()
+	{
+		$this->getPageConfig()->configureByObjectId($this->getParentId());
+	}
+	
+	
+	/**
 	* Set Scorm LM ID.
 	*
 	* @param	int	$a_scormlmid	Scorm LM ID

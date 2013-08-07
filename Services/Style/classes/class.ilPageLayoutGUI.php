@@ -54,20 +54,6 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 		$this->slm_id = $a_slm_id;
 		
 	}
-	
-	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Services/Style/classes/class.ilPageLayoutConfig.php");
-		$cfg = new ilPageLayoutConfig();
-		$this->setPageConfig($cfg);
-	}
-	
 
 	/**
 	* execute command

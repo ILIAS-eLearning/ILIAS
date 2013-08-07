@@ -14,14 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilGlossaryDefPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
-		parent::__construct();
 		$this->setEnableKeywords(true);
 		$this->setEnableInternalLinks(true);
 		$this->setIntLinkHelpDefaultType("GlossaryItem");

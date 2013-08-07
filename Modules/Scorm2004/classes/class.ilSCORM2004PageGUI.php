@@ -65,20 +65,6 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		$this->enableNotes(true, $this->slm_id);
 	}
 	
-	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageConfig.php");
-		$cfg = new ilSCORM2004PageConfig($this->slm_id);
-		$this->setPageConfig($cfg);
-	}	
-
-	
 	function initPageObject()
 	{
 		$page = new ilSCORM2004Page($this->getId(), $this->getOldNr());

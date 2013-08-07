@@ -14,14 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilImprintPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
-		parent::__construct();
 		$this->setPreventHTMLUnmasking(true);
 		$this->setEnableInternalLinks(false);
 		$this->setEnableWikiLinks(false);						

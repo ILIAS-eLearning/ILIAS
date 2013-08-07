@@ -31,15 +31,5 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 		$this->setEnabledPageFocus(false);
 	}
 	
-	/**
-	 * Init page config
-	 */
-	function initPageConfig()
-	{
-		include_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPageConfig.php');
-		$cfg = new ilAssQuestionPageConfig();
-		$this->setPageConfig($cfg);
-	}
-
 } 
 

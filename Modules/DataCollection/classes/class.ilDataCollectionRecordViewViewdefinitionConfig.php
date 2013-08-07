@@ -14,14 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilDataCollectionRecordViewViewdefinitionConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
-		parent::__construct();
         // config
 		$this->setPreventHTMLUnmasking(true);
 		$this->setEnableInternalLinks(false);

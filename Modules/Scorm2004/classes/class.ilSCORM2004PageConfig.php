@@ -14,14 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilSCORM2004PageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct($a_obj_id = 0)
+	function init()
 	{
-		parent::__construct();
 		$this->setEnablePCType("Map", false);
 		$this->setEnablePCType("QuestionOverview", true);
 		$this->setPreventHTMLUnmasking(false);
@@ -31,6 +27,15 @@ class ilSCORM2004PageConfig extends ilPageConfig
 		$this->setIntLinkFilterWhiteList(true);
 		$this->addIntLinkFilter(array("File"));
 		$this->setIntLinkHelpDefaultType("File");
+	}
+	
+	/**
+	 * Object specific configuration 
+	 *
+	 * @param int $a_obj_id object id
+	 */
+	function configureByObjectId($a_obj_id)
+	{
 		if ($a_obj_id > 0)
 		{
 			include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
@@ -43,7 +48,7 @@ class ilSCORM2004PageConfig extends ilPageConfig
 			}
 		}
 	}
-	
+
 }
 
 ?>

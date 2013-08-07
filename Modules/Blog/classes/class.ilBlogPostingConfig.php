@@ -14,14 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilBlogPostingConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
-		parent::__construct();
 		$this->setEnablePCType("Map", true);
 		$this->setEnableInternalLinks(false);
 		$this->setPreventHTMLUnmasking(false);

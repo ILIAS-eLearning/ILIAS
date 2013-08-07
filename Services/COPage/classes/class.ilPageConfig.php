@@ -9,7 +9,7 @@
  * @version $Id$
  * @ingroup ServicesCOPage
  */
-class ilPageConfig
+abstract class ilPageConfig
 {
 	protected $int_link_filter = array();
 	protected $prevent_rte_usage = false;
@@ -35,7 +35,7 @@ class ilPageConfig
 	 * @param
 	 * @return
 	 */
-	function __construct()
+	final public function __construct()
 	{
 		// load pc_defs
 		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
@@ -44,7 +44,20 @@ class ilPageConfig
 		{
 			$this->setEnablePCType($def["name"], (bool) $def["def_enabled"]);
 		}
+		
+		$this->init();
 	}
+	
+	/**
+	 * Init
+	 *
+	 * @param
+	 * @return
+	 */
+	function init()
+	{
+	}
+	
 	
 	/**
 	 * Set enable pc type

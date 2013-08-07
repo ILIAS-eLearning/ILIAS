@@ -28,14 +28,5 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
 		parent::__construct("gdf", $a_id, $a_old_nr);	
 	}
 	
-	/**
-	 * Init page config
-	 */
-	function initPageConfig()
-	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryDefPageConfig.php");
-		$cfg = new ilGlossaryDefPageConfig();
-		$this->setPageConfig($cfg);
-	}	
 } 
 ?>

@@ -37,33 +37,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
-		
-//		$this->setEnabledMaps(true);
-//		$this->setPreventHTMLUnmasking(true);
-//		$this->setEnabledInternalLinks(true);
-//		$this->setEnabledWikiLinks(true);
-//		$this->setEnabledPCTabs(true);
-
-//		$cfg->setIntLinkFilterWhiteList(true);
-//		$cfg->addIntLinkFilter("RepositoryItem");
-
 	}
-	
-	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Modules/Wiki/classes/class.ilWikiPageConfig.php");
-		$cfg = new ilWikiPageConfig();
-		$cfg->setEnablePageToc(ilObjWiki::_lookupPageToc(
-			ilObject::_lookupObjId($this->getWikiRefId())));
-		$this->setPageConfig($cfg);
-	}	
-
 	
 	/**
 	 * Set screen id component

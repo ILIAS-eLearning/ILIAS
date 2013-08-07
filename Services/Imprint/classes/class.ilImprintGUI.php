@@ -56,19 +56,6 @@ class ilImprintGUI extends ilPageObjectGUI
 	}
 	
 	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Services/Imprint/classes/class.ilImprintPageConfig.php");
-		$cfg = new ilImprintPageConfig();
-		$this->setPageConfig($cfg);
-	}	
-
-	/**
 	* execute command
 	*/
 	function executeCommand()

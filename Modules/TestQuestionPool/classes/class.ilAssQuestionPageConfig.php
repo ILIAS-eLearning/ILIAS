@@ -15,13 +15,10 @@ include_once('./Services/COPage/classes/class.ilPageConfig.php');
 class ilAssQuestionPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @return \ilAssQuestionPageConfig
+	 * Init
 	 */
-	public function __construct()
+	function init()
 	{
-		parent::__construct();
 		$this->setEnablePCType('Tabs', false);
 		$this->setEnableInternalLinks(false);
 	}

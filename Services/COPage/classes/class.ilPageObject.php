@@ -33,18 +33,16 @@ define ("IL_NO_HEADER", "none");
 */ 
  
 /**
-* Class ilPageObject
-*
-* Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
-// @todo: make it abstract? (currently around 78 occurences of new ilPageObject
-// mostly in Learning Modules, Glossaries, Payment)
+ * Class ilPageObject
+ *
+ * Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @version $Id$
+ *
+ * @ingroup ServicesCOPage
+ */
 abstract class ilPageObject
 {
 	static $exists = array();
@@ -93,16 +91,68 @@ abstract class ilPageObject
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
 				"Section", "Tab", "ContentPopup");
-		
 		$this->setActive(true);
 		
 		if($a_id != 0)
 		{
 			$this->read();
 		}
+		
+		$this->initPageConfig();
+		
+		$this->afterConstructor();
 	}
 	
+	/**
+	 * After constructor
+	 *
+	 * @param
+	 * @return
+	 */
+	function afterConstructor()
+	{
+		
+	}
+	
+	
+	/**
+	 * Get parent type
+	 *
+	 * @return string parent type (page type)
+	 */
 	abstract function getParentType();
+	
+	/**
+	 * Init page config
+	 *
+	 * @return
+	 */
+	final function initPageConfig()
+	{
+		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+		$cfg = ilPageObjectFactory::getConfigInstance($this->getParentType());
+		$this->setPageConfig($cfg);
+	}
+	
+	/**
+	 * Set page config object
+	 *
+	 * @param object $a_val page config object	
+	 */
+	function setPageConfig($a_val)
+	{
+		$this->page_config = $a_val;
+	}
+	
+	/**
+	 * Get page config object
+	 *
+	 * @return object page config object
+	 */
+	function getPageConfig()
+	{
+		return $this->page_config;
+	}
 
 	/**
 	* Set Render MD5.
@@ -359,7 +409,7 @@ abstract class ilPageObject
 		unset($this->dom);
 	}
 
-	function &getDom()
+	function getDom()
 	{
 		return $this->dom;
 	}
