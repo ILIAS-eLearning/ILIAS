@@ -77,6 +77,12 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 			
 		$this->initFilter();
 		
+		// reset will remove all filters
+		if(!$this->filter["obj_type"])
+		{
+			$this->filter["obj_type"] = "prtf";
+		}
+		
 		if($a_load_data)
 		{
 			if(($this->filter["user"] && strlen($this->filter["user"]) > 3) ||
@@ -110,6 +116,14 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		
 		$item = $this->addFilterItemByMetaType("user", self::FILTER_TEXT, false, $lng->txt("wsp_shared_user_filter"));
 		$this->filter["user"] = $item->getValue();
+				
+		// incoming back link (shared)
+		if((int)$_REQUEST["shr_id"] && !$this->filter["user"])
+		{
+			$this->filter["user"] = ilObjUser::_lookupName((int)$_REQUEST["shr_id"]);
+			$this->filter["user"] = $this->filter["user"]["login"];
+			$item->setValue($this->filter["user"]);
+		}				
 		
 		$item = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("wsp_shared_title"));
 		$this->filter["title"] = $item->getValue();
