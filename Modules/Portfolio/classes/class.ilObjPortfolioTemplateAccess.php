@@ -29,8 +29,20 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
 	*/
 	function _checkGoto($a_target)
 	{		
-		// :TODO:
-		return false;		
+		global $ilAccess;
+		
+		$t_arr = explode("_", $a_target);		
+		
+		if ($t_arr[0] != "prtt" || ((int) $t_arr[1]) <= 0)
+		{
+			return false;
+		}
+		
+		if ($ilAccess->checkAccess("visible", "", $t_arr[1]))
+		{
+			return true;
+		}
+		return false;	
 	}
 }
 

@@ -286,6 +286,7 @@ class ilObjPortfolio extends ilObject2
 			" FROM usr_portfolio up".
 			" JOIN object_data od ON (up.id = od.obj_id)".
 			" WHERE od.owner = ".$ilDB->quote($a_user_id, "integer").
+			" AND od.type = ".$ilDB->quote("prtf", "text").
 			" ORDER BY od.title");
 		$res = array();
 		while ($rec = $ilDB->fetchAssoc($set))
