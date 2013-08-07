@@ -14,14 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilAssSpecFeedbackPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
-		parent::__construct();
 	}
 	
 }

@@ -76,19 +76,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	}
 
 	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Modules/Portfolio/classes/class.ilPortfolioPageConfig.php");
-		$cfg = new ilPortfolioPageConfig();
-		$this->setPageConfig($cfg);
-	}	
-
-	/**
 	 * Init page object
 	 *
 	 * @param	string	parent type

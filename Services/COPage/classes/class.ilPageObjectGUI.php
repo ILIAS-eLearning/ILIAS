@@ -72,7 +72,7 @@ class ilPageObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObjectGUI($a_parent_type, $a_id = 0, $a_old_nr = 0,
+	function ilPageObjectGUI($a_parent_type, $a_id, $a_old_nr = 0,
 		$a_prevent_get_id = false)
 	{
 		global $tpl, $lng, $ilCtrl,$ilTabs;
@@ -90,14 +90,9 @@ class ilPageObjectGUI
 		$this->lng = $lng;
 		
 		$this->setOutputMode(IL_PAGE_PRESENTATION);
-		$this->initPageConfig();
-		
-		$this->setEnabledPageFocus(true);		
-
-		if ($a_id > 0)
-		{
-			$this->initPageObject();
-		}
+		$this->setEnabledPageFocus(true);
+		$this->initPageObject();
+		$this->setPageConfig($this->getPageObject()->getPageConfig());
 
 		$this->output2template = true;
 		$this->question_xml = "";
@@ -115,33 +110,13 @@ class ilPageObjectGUI
 	}
 
 	/**
-	 * @todo 1: revise this? most probably we always instantiate a
-	 * page object, even if no ID is given.
-	 * page object class should then throw exceptions in functions that
-	 * need an id.
-	 * the page config could then move to the application class completely,
-	 * since pagegui would always have a page object (and with it the config)
-	 * ...and make it abstract :-)
+	 * Init page object
 	 */
 	function initPageObject()
 	{
 		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
 		$page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $this->getOldNr());
 		$this->setPageObject($page);
-	}
-
-	
-	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Services/COPage/classes/class.ilPageConfig.php");
-		$cfg = new ilPageConfig();
-		$this->setPageConfig($cfg);
 	}
 	
 	/**

@@ -14,15 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilLMPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
-		parent::__construct();
-		
 		$lm_set = new ilSetting("lm");
 		
 		$this->setPreventHTMLUnmasking(false);

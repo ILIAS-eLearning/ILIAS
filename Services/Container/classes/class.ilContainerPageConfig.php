@@ -14,20 +14,13 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilContainerPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
 		global $ilSetting;
 		
-		parent::__construct();
-		
 		$this->setIntLinkHelpDefaultType("RepositoryItem");
-		$this->setIntLinkHelpDefaultId($_GET["ref_id"]);
-		
 		$this->setEnablePCType("FileList", false);
 		$this->setEnablePCType("Map", true);
 		$this->setEnablePCType("Resources", true);

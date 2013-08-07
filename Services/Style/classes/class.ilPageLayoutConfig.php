@@ -14,16 +14,11 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilPageLayoutConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
 		global $ilSetting;
-		
-		parent::__construct();
 		
 		$this->setPreventHTMLUnmasking(false);
 		$this->setEnableInternalLinks(false);

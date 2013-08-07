@@ -26,6 +26,17 @@ class ilWikiPage extends ilPageObject
 	}	
 
 	/**
+	 * After constructor
+	 *
+	 * @param
+	 * @return
+	 */
+	function afterConstructor()
+	{
+		$this->getPageConfig()->configureByObjectId($this->getParentId());
+	}
+
+	/**
 	* Set Title.
 	*
 	* @param	string	$a_title	Title

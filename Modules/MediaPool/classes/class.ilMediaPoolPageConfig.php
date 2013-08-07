@@ -14,15 +14,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilMediaPoolPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
-		parent::__construct();
-//		$this->setEnableMaps(false);
 		$this->setEnableInternalLinks(false);
 		$this->setPreventHTMLUnmasking(false);
 	}

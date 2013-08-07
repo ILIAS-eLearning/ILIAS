@@ -25,19 +25,6 @@ class ilLMPageGUI extends ilPageObjectGUI
 		parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id);
 	}
 
-	/**
-	 * Init page config
-	 *
-	 * @param
-	 * @return
-	 */
-	function initPageConfig()
-	{
-		include_once("./Modules/LearningModule/classes/class.ilLMPageConfig.php");
-		$cfg = new ilLMPageConfig();
-		$this->setPageConfig($cfg);
-	}	
-	
 }
 
 ?>

@@ -28,15 +28,5 @@ class ilShopPageGUI extends ilPageObjectGUI
 		parent::__construct("shop", $a_id, $a_old_nr);
 		$this->setTemplateOutput(false);
 	}
-	
-	/**
-	 * Init page config
-	 */
-	function initPageConfig()
-	{
-		include_once("./Services/Payment/classes/class.ilShopPageConfig.php");
-		$cfg = new ilShopPageConfig();
-		$this->setPageConfig($cfg);
-	}
 } 
 ?>

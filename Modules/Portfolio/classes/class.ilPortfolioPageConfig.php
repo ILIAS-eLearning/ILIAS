@@ -14,16 +14,11 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilPortfolioPageConfig extends ilPageConfig
 {
 	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * Init
 	 */
-	function __construct()
+	function init()
 	{
 		global $ilSetting;
-		
-		parent::__construct();
 		
 		$prfa_set = new ilSetting("prfa");
 		$this->setPreventHTMLUnmasking((bool)!$prfa_set->get("mask", false));

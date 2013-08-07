@@ -12,10 +12,12 @@
 class ilPageObjectFactory
 {
 	/**
-	 * Get instance
+	 * Get page object instance
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_parent_type parent type
+	 * @param int $a_id page id
+	 * @param int $a_old_nr history number of page
+	 * @return object
 	 */
 	function getInstance($a_parent_type, $a_id = 0, $a_old_nr = 0)
 	{
@@ -27,6 +29,24 @@ class ilPageObjectFactory
 		$obj = new $class($a_id , $a_old_nr);
 		
 		return $obj;
+	}
+	
+	/**
+	 * Get page config instance
+	 *
+	 * @param string $a_parent_type parent type
+	 * @return object
+	 */
+	function getConfigInstance($a_parent_type)
+	{
+		include_once("./Services/COPage/classes/class.ilCOPageObjDef.php");
+		$def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
+		$class = $def["class_name"]."Config";
+		$path = "./".$def["component"]."/".$def["directory"]."/class.".$class.".php";
+		include_once($path);
+		$cfg = new $class();
+		
+		return $cfg;
 	}
 	
 }

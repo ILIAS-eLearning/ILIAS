@@ -310,8 +310,8 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 		{
 			case "ilinternallinkgui":
 				$link_gui = new ilInternalLinkGUI(
-					$this->page_gui->getPageConfig()->getIntLinkDefaultType(),
-					$this->page_gui->getPageConfig()->getIntLinkDefaultId());
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultType(),
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultId());
 				$link_gui->setMode("normal");
 				$link_gui->setFilterWhiteList(
 					$this->page_gui->getPageConfig()->getIntLinkFilterWhiteList());
