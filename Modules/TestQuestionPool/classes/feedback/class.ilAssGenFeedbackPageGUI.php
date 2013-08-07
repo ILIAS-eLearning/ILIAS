@@ -40,14 +40,5 @@ class ilAssGenFeedbackPageGUI extends ilPageObjectGUI
 		$this->setPageConfig($cfg);
 	}	
 
-	/**
-	 * Init page object
-	 */
-	function initPageObject()
-	{
-		$page = new ilAssGenFeedbackPage($this->getId(), $this->getOldNr());
-		$this->setPageObject($page);
-	}
-
 } 
 ?>

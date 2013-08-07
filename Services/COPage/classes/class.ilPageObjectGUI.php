@@ -113,6 +113,23 @@ class ilPageObjectGUI
 		
 		$this->setTemplateOutput(false);
 	}
+
+	/**
+	 * @todo 1: revise this? most probably we always instantiate a
+	 * page object, even if no ID is given.
+	 * page object class should then throw exceptions in functions that
+	 * need an id.
+	 * the page config could then move to the application class completely,
+	 * since pagegui would always have a page object (and with it the config)
+	 * ...and make it abstract :-)
+	 */
+	function initPageObject()
+	{
+		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+		$page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $this->getOldNr());
+		$this->setPageObject($page);
+	}
+
 	
 	/**
 	 * Init page config
@@ -227,22 +244,6 @@ class ilPageObjectGUI
 		return $this->page_config;
 	}
 	
-	/**
-	 * @todo 1: revise this? most probably we always instantiate a
-	 * page object, even if no ID is given.
-	 * page object class should then throw exceptions in functions that
-	 * need an id.
-	 * the page config could then move to the application class completely,
-	 * since pagegui would always have a page object (and with it the config)
-	 * ...and make it abstract :-)
-	 */
-	function initPageObject()
-	{
-		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-		$page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $this->getOldNr());
-		$this->setPageObject($page);
-	}
-
 	/**
 	* Set Bib Id
 	*/

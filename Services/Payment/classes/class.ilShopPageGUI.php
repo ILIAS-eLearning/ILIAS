@@ -37,16 +37,6 @@ class ilShopPageGUI extends ilPageObjectGUI
 		include_once("./Services/Payment/classes/class.ilShopPageConfig.php");
 		$cfg = new ilShopPageConfig();
 		$this->setPageConfig($cfg);
-	}	
-
-	/**
-	 * Init page object
-	 */
-	function initPageObject()
-	{
-		$page = new ilShopPage($this->getId(), $this->getOldNr());
-		$this->setPageObject($page);
 	}
-
 } 
 ?>

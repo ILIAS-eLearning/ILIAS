@@ -37,15 +37,5 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
 		$cfg = new ilGlossaryDefPageConfig();
 		$this->setPageConfig($cfg);
 	}	
-
-	/**
-	 * Init page object
-	 */
-	function initPageObject()
-	{
-		$page = new ilGlossaryDefPage($this->getId(), $this->getOldNr());
-		$this->setPageObject($page);
-	}
-
 } 
 ?>

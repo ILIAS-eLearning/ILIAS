@@ -78,7 +78,7 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
 	 * 
 	 * @access protected
 	 */
-	abstract function ensurePageObjectExists($pageObjectType, $pageObjectId);
+	abstract protected function ensurePageObjectExists($pageObjectType, $pageObjectId);
 	
 	/**
 	 * instantiates, initialises and returns a page object gui object
@@ -86,5 +86,5 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
 	 * @access protected
 	 * @return page object gui object
 	 */
-	abstract function getPageObjectGUI($pageObjectType, $pageObjectId);
+	abstract protected function getPageObjectGUI($pageObjectType, $pageObjectId);
 }

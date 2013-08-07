@@ -41,14 +41,5 @@ class ilAssHintPageGUI extends ilPageObjectGUI
 		$this->setPageConfig($cfg);
 	}	
 
-	/**
-	 * Init page object
-	 */
-	function initPageObject()
-	{
-		$page = new ilAssHintPage($this->getId(), $this->getOldNr());
-		$this->setPageObject($page);
-	}
-
 } 
 ?>

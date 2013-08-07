@@ -69,18 +69,6 @@ class ilImprintGUI extends ilPageObjectGUI
 	}	
 
 	/**
-	 * Init internal data object
-	 *
-	 * @param string $a_parent_type
-	 * @param int $a_id
-	 * @param int $a_old_nr
-	 */
-	function initPageObject()
-	{
-		$this->setPageObject(new ilImprint("impr", 1));
-	}
-	
-	/**
 	* execute command
 	*/
 	function executeCommand()
