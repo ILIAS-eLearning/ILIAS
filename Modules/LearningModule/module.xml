@@ -39,4 +39,7 @@
 	<crons>
 		<cron id="lm_link_check" class="ilLearningModuleCronLinkCheck" />
 	</crons>
+	<copage>
+		<pageobject parent_type="lm" class_name="ilLMPage" directory="classes"/>
+	</copage>
 </module>

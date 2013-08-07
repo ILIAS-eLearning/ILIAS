@@ -23,4 +23,7 @@
 			<subobj id="rolf" max="1">rolf</subobj>
 		</object>
 	</objects>
+	<copage>
+		<pageobject parent_type="blp" class_name="ilBlogPosting" directory="classes"/>
+	</copage>
 </module>

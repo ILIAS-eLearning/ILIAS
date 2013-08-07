@@ -1,0 +1,7 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="sc13">
+	<copage>
+		<pageobject parent_type="sahs" class_name="ilSCORM2004Page" directory="classes"/>
+	</copage>
+</module>

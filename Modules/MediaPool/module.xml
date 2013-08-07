@@ -19,4 +19,7 @@
 	<events>		
 		<event type="listen" id="Services/Object" />
 	</events>
+	<copage>
+		<pageobject parent_type="mep" class_name="ilMediaPoolPage" directory="classes"/>
+	</copage>
 </module>

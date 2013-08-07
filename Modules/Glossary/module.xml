@@ -21,4 +21,7 @@
 			<sub_type id="term" amet="1" />
 		</object>
 	</objects>
+	<copage>
+		<pageobject parent_type="gdf" class_name="ilGlossaryDefPage" directory="classes"/>
+	</copage>
 </module>

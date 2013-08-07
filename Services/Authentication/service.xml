@@ -15,4 +15,7 @@
 		<event type="raise" id="expiredSessionDetected" />
 		<event type="raise" id="reachedSessionPoolLimit" />
 	</events>
+	<copage>
+		<pageobject parent_type="auth" class_name="ilLoginPage" directory="classes"/>
+	</copage>
 </service>

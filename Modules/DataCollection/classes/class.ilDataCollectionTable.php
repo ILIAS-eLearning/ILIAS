@@ -890,8 +890,10 @@ class ilDataCollectionTable
 		}
 
         if($old_view_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($original_id)){
-            $old_view = new ilDataCollectionRecordViewViewdefinition($old_view_id, $original_id);
-            $viewdef = new ilDataCollectionRecordViewViewdefinition(0, $this->id);
+            $old_view = new ilDataCollectionRecordViewViewdefinition($old_view_id);
+            $old_view->setTableId($original_id);
+            $viewdef = new ilDataCollectionRecordViewViewdefinition();
+            $viewdef->setTableId($this->id);
             $viewdef->setXMLContent($old_view->getXMLContent(false));
             $viewdef->create();
         }

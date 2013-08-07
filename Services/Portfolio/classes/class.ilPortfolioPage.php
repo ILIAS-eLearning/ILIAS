@@ -15,7 +15,7 @@ include_once("./Services/Portfolio/classes/class.ilObjPortfolio.php");
 class ilPortfolioPage extends ilPageObject
 {
 	protected $portfolio_id;
-	protected $type;
+	protected $type = 2;
 	protected $title;
 	protected $order_nr;
 	
@@ -23,18 +23,33 @@ class ilPortfolioPage extends ilPageObject
 	const TYPE_BLOG = 2;
 	
 	/**
-	 * Constructor
+	 * Get parent type
 	 *
-	 * @param int $a_portfolio_id
-	 * @param int $a_id
-	 * @param int $a_old_nr
+	 * @return string parent type
 	 */
-	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0)
+	function getParentType()
 	{
-		$this->portfolio_id = (int)$a_portfolio_id;
-		$this->type = self::TYPE_PAGE;
-		
-		parent::__construct("prtf", $a_id, $a_old_nr);
+		return "prtf";
+	}
+	
+	/**
+	 * Set portfolio id
+	 *
+	 * @param int $a_val portfolio id	
+	 */
+	function setPortfolioId($a_val)
+	{
+		$this->portfolio_id = $a_val;
+	}
+	
+	/**
+	 * Get portfolio id
+	 *
+	 * @return int portfolio id
+	 */
+	function getPortfolioId()
+	{
+		return $this->portfolio_id;
 	}
 	
 	/**

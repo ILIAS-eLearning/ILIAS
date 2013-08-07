@@ -1167,7 +1167,8 @@ class ilLMObject
 		foreach ($all_fixes as $pg => $fixes)
 		{
 			$pg = explode(":", $pg);
-			$page = new ilPageObject($pg[0], $pg[1]);
+			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+			$page = ilPageObjectFactory::getInstance($pg[0], $pg[1]);
 			if ($page->moveIntLinks($fixes))
 			{
 				$page->update(true, true, true);

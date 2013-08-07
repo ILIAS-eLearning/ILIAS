@@ -15,15 +15,12 @@ require_once('./Services/COPage/classes/class.ilPageObject.php');
 class ilAssQuestionPage extends ilPageObject
 {
 	/**
-	 * Constructor
+	 * Get parent type
 	 *
-	 * @param int $a_id
-	 * @param int $a_old_nr
-	 *
-	 * @return \ilAssQuestionPage
+	 * @return string parent type
 	 */
-	public function __construct($a_id = 0, $a_old_nr = 0)
+	function getParentType()
 	{
-		parent::__construct('qpl', $a_id, $a_old_nr);
-	}
+		return "qpl";
+	}	
 }

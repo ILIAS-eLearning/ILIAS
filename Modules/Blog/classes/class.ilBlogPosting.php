@@ -21,17 +21,15 @@ class ilBlogPosting extends ilPageObject
 	protected $approved; // [bool]
 
 	/**
-	 * Constructor
+	 * Get parent type
 	 *
-	 * @param int $a_id blog posting id
-	 * @param int $a_old_nr versioning
-	 * @param bool $a_halt halt on errors
-	 * @return ilBlogPosting
+	 * @return string parent type
 	 */
-	function __construct($a_id = 0, $a_old_nr = 0, $a_halt = true)
+	function getParentType()
 	{
-		parent::__construct("blp", $a_id, $a_old_nr, $a_halt);
-	}
+		return "blp";
+	}	
+
 
 	/**
 	 * Set title

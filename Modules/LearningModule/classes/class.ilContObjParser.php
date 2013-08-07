@@ -283,7 +283,8 @@ class ilContObjParser extends ilMDSaxParser
 				// content object pages
 				if ($type_arr[1] == "pg")
 				{
-					$page_object = new ilPageObject($type_arr[0], $source["id"]);
+					include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+					$page_object = ilPageObjectFactory::getInstance($type_arr[0], $source["id"]);
 					$page_object->buildDom();
 					$page_object->resolveIntLinks();
 					$page_object->update();

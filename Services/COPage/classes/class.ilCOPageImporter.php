@@ -48,8 +48,8 @@ class ilCOPageImporter extends ilXmlImporter
 				$id = explode(":", $pg_id);
 				if (count($id) == 2)
 				{
-					include_once("./Services/COPage/classes/class.ilPageObject.php");
-					$new_page = new ilPageObject($id[0]);
+					include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+					$new_page = ilPageObjectFactory::getInstance($id[0]);
 					$new_page->setId($id[1]);
 					$new_page->setXMLContent($a_xml);
 					//$new_page->saveMobUsage($a_xml); (will be done in final processing)
@@ -79,7 +79,8 @@ class ilCOPageImporter extends ilXmlImporter
 					include_once("./Services/COPage/classes/class.ilPageObject.php");
 					if (ilPageObject::_exists($id[0], $id[1]))
 					{
-						$new_page = new ilPageObject($id[0], $id[1]);
+						include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+						$new_page = ilPageObjectFactory::getInstance($id[0], $id[1]);
 						$new_page->buildDom();
 						$med = $new_page->resolveMediaAliases($media_objects);
 						$fil = $new_page->resolveFileItems($file_objects);

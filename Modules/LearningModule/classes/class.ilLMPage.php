@@ -14,13 +14,15 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 class ilLMPage extends ilPageObject
 {
 	/**
-	 * Constructor
+	 * Get parent type
+	 *
+	 * @return string parent type
 	 */
-	function __construct($a_id = 0, $a_old_nr = 0, $a_halt = true)
+	function getParentType()
 	{
-		parent::__construct("lm", $a_id, $a_old_nr, $a_halt);
+		return "lm";
 	}
-	
+
 	/**
 	 * Before page content update
 	 *

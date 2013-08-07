@@ -238,7 +238,8 @@ class ilPageObjectGUI
 	 */
 	function initPageObject()
 	{
-		$page = new ilPageObject($this->getParentType(), $this->getId(), $this->getOldNr());
+		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+		$page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $this->getOldNr());
 		$this->setPageObject($page);
 	}
 
@@ -3105,8 +3106,8 @@ class ilPageObjectGUI
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
 		{
-			require_once("./Services/COPage/classes/class.ilPageObject.php");
-			$pg_obj =& new ilPageObject($this->obj->getParentType(), $_GET["pg_id"]);
+			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+			$pg_obj = ilPageObjectFactory::getInstance($this->obj->getParentType(), $_GET["pg_id"]);
 			$pg_obj->buildDom();
 
 			$xml = "<dummy>";

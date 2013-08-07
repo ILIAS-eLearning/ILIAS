@@ -45,7 +45,7 @@ define ("IL_NO_HEADER", "none");
 */
 // @todo: make it abstract? (currently around 78 occurences of new ilPageObject
 // mostly in Learning Modules, Glossaries, Payment)
-class ilPageObject
+abstract class ilPageObject
 {
 	static $exists = array();
 	
@@ -70,14 +70,15 @@ class ilPageObject
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObject($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_halt = true)
+	final public function ilPageObject($a_id = 0, $a_old_nr = 0)
 	{
 		global $ilias;
 
+		// @todo: move this elsewhere
 		require_once("./Services/COPage/syntax_highlight/php/Beautifier/Init.php");
 		require_once("./Services/COPage/syntax_highlight/php/Output/Output_css.php");
 
-		$this->parent_type = $a_parent_type;
+		$this->parent_type = $this->getParentType();
 		$this->id = $a_id;
 		$this->ilias =& $ilias;
 
@@ -86,7 +87,6 @@ class ilPageObject
 		$this->update_listeners = array();
 		$this->update_listener_cnt = 0;
 		$this->dom_builded = false;
-		$this->halt_on_error = $a_halt;
 		$this->page_not_found = false;
 		$this->old_nr = $a_old_nr;
 		$this->encoding = "UTF-8";		
@@ -101,11 +101,8 @@ class ilPageObject
 			$this->read();
 		}
 	}
-
-	function haltOnError($a_halt)
-	{
-		$this->halt_on_error = $a_halt;
-	}
+	
+	abstract function getParentType();
 
 	/**
 	* Set Render MD5.
@@ -257,19 +254,9 @@ class ilPageObject
 		}
 		if (!$this->page_record)
 		{
-			if ($this->halt_on_error)
-			{
-				include_once("./Services/COPage/exceptions/class.ilCOPageNotFoundException.php");
-				throw new ilCOPageNotFoundException("Error: Page ".$this->id." is not in database".
-					" (parent type ".$this->getParentType().").");
-				//ilUtil::printBacktrace();
-				return;
-			}
-			else
-			{
-				$this->page_not_found = true;
-				return;
-			}
+			include_once("./Services/COPage/exceptions/class.ilCOPageNotFoundException.php");
+			throw new ilCOPageNotFoundException("Error: Page ".$this->id." is not in database".
+				" (parent type ".$this->getParentType().").");
 		}
 
 		$this->xml = $this->page_record["content"];
@@ -398,16 +385,6 @@ class ilPageObject
 	function getParentId()
 	{
 		return $this->parent_id;
-	}
-
-	function setParentType($a_type)
-	{
-		$this->parent_type = $a_type;
-	}
-
-	function getParentType()
-	{
-		return $this->parent_type;
 	}
 
 	function addUpdateListener(&$a_object, $a_method, $a_parameters = "")
@@ -4515,9 +4492,10 @@ class ilPageObject
 		global $ilDB;
 		
 		// get page objects
-		$l_page = new ilPageObject($this->getParentType(), $this->getId(), $a_left);
-		$r_page = new ilPageObject($this->getParentType(), $this->getId(), $a_right);
-		
+		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+		$l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left);
+		$r_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_right);
+
 		$l_hashes = $l_page->getPageContentsHashes();
 		$r_hashes = $r_page->getPageContentsHashes();
 		

@@ -14,18 +14,18 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 class ilSCORM2004Page extends ilPageObject
 {
 	protected $glossary_id = 0;
+	protected $mobs_contained = array();
+	protected $files_contained = array();
 	
 	/**
-	* Constructor
-	* @access	public
-	* @param	scorm 2004 page id
-	*/
-	function __construct($a_id = 0, $a_old_nr = 0)
+	 * Get parent type
+	 *
+	 * @return string parent type
+	 */
+	function getParentType()
 	{
-		parent::__construct("sahs", $a_id, $a_old_nr);
-		$this->mobs_contained = array();
-		$this->files_contained = array();
-	}
+		return "sahs";
+	}	
 
 	/**
 	* Set Scorm LM ID.

@@ -14,14 +14,14 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 class ilContainerPage extends ilPageObject
 {
 	/**
-	* Constructor
-	* @access	public
-	* @param	wiki page id
-	*/
-	function __construct($a_id = 0, $a_old_nr = 0)
+	 * Get parent type
+	 *
+	 * @return string parent type
+	 */
+	function getParentType()
 	{
-		parent::__construct("cont", $a_id, $a_old_nr);
-	}
+		return "cont";
+	}	
 
 }
 ?>
