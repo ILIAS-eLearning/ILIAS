@@ -13,7 +13,7 @@ include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI, ilObjBlogGUI, ilBlogPostingGUI
  *
- * @ingroup ServicesPortfolio
+ * @ingroup ModulesPortfolio
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
 {
