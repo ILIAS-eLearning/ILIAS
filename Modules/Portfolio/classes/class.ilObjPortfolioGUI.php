@@ -184,7 +184,11 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		
 	protected function setTabs()
 	{
-		global $lng, $ilTabs, $ilCtrl, $ilHelp;		
+		global $lng, $ilTabs, $ilCtrl, $ilHelp;	
+		
+		$ilTabs->addNonTabbedLink("preview", 
+			$lng->txt("user_profile_preview"),
+			$ilCtrl->getLinkTarget($this, "preview"));	
 		
 		if($this->checkPermissionBool("write"))
 		{
@@ -207,9 +211,11 @@ class ilObjPortfolioGUI extends ilObject2GUI
 			}
 		}
 		
-		$ilTabs->addNonTabbedLink("preview", 
-			$lng->txt("user_profile_preview"),
-			$ilCtrl->getLinkTarget($this, "preview"));	
+		if($this->id_type != self::PORTFOLIO_OBJECT_ID)
+		{
+			// will add permissions if needed
+			parent::setTabs();
+		}	
 	}
 
 	
@@ -404,7 +410,7 @@ class ilObjPortfolioGUI extends ilObject2GUI
 		$form->addItem($ta);		
 		*/
 		
-		// online
+		// :TODO: online 
 		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
 		$online->setChecked($this->object->isOnline());
 		$form->addItem($online);
