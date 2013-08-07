@@ -212,7 +212,12 @@ class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
 
 			// text field length
 			$fixedTextLength = new ilNumberInputGUI($this->lng->txt( "cloze_fixed_textlength" ), "fixedTextLength");
-			$fixedTextLength->setValue( ilUtil::prepareFormOutput( $this->object->getFixedTextLength() ) );
+			$ftl = $this->object->getFixedTextLength();
+			if ($ftl == null)
+			{
+				$ftl = 0;
+			}
+			$fixedTextLength->setValue( ilUtil::prepareFormOutput( $ftl ) );
 			$fixedTextLength->setMinValue( 0 );
 			$fixedTextLength->setSize( 3 );
 			$fixedTextLength->setMaxLength( 6 );
