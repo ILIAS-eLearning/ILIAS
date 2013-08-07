@@ -48,11 +48,11 @@ class ilPortfolioRepositoryGUI
 				if($cmd != "preview")
 				{
 					$this->setLocator();
-				}
-				$ilTabs->setBackTarget($lng->txt("back"),
-					$ilCtrl->getLinkTarget($this, "show"));
+					$ilTabs->setBackTarget($lng->txt("back"),
+						$ilCtrl->getLinkTarget($this, "show"));					
+				}				
 				include_once('./Services/Portfolio/classes/class.ilObjPortfolioGUI.php');
-				$gui = new ilObjPortfolioGUI();
+				$gui = new ilObjPortfolioGUI($_REQUEST["prt_id"]);
 				$ilCtrl->forwardCommand($gui);
 				break;
 			
@@ -111,7 +111,7 @@ class ilPortfolioRepositoryGUI
 		global $tpl, $lng, $ilToolbar, $ilCtrl;
 				
 		$ilToolbar->addButton($lng->txt("prtf_add_portfolio"),
-			$ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "add"));
+			$ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));
 	
 		include_once "Services/Portfolio/classes/class.ilPortfolioTableGUI.php";
 		$table = new ilPortfolioTableGUI($this, "show", $this->user_id);
