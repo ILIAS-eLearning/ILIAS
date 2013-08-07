@@ -132,6 +132,18 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioGUI
 	{
 		return "prtt";
 	}	
+	
+	public function _goto($a_target)
+	{
+		$id = explode("_", $a_target);
+		
+		$_GET["baseClass"] = "ilRepositoryGUI";	
+		$_GET["ref_id"] = $id[0];		
+		$_GET["cmd"] = "view";
+	
+		include("ilias.php");
+		exit;
+	}
 }
 
 ?>
