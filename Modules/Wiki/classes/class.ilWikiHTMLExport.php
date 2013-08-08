@@ -123,7 +123,6 @@ class ilWikiHTMLExport
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 		$wpg_gui = new ilWikiPageGUI($a_page_id);
 		$wpg_gui->setOutputMode("offline");
-		$wpg_gui->setPageToc($this->wiki->getPageToc());
 		$page_content = $wpg_gui->showPage();
 
 		// export template: page content

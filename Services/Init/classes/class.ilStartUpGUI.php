@@ -734,26 +734,12 @@ class ilStartUpGUI
 		// get page object
 		$page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
-		/*
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-			$this->object->getStyleSheetId(), $this->object->getType()));
-		 */
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(0, 'auth');
 
-		//$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
-		//$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
-		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
-//		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
 		$page_gui->setPresentationTitle("");
 		$page_gui->setTemplateOutput(false);
 		$page_gui->setHeader("");
-		$page_gui->setEnabledRepositoryObjects(true);
-		$page_gui->setEnabledLoginPage(true);
-		$page_gui->setEnabledFileLists(false);
-		$page_gui->setEnabledPCTabs(false);
-		$page_gui->setEnabledMaps(true);
 		$ret = $page_gui->showPage();
 
 		return $ret;

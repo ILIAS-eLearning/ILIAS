@@ -361,10 +361,10 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 			case "ilpcquestiongui":
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
 				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$pc_question_gui->setSelfAssessmentMode($this->page_gui->getEnabledSelfAssessment());
+				$pc_question_gui->setSelfAssessmentMode($this->page_gui->getPageConfig()->getEnableSelfAssessment());
 				$pc_question_gui->setPageConfig($this->page_gui->getPageConfig());
 
-				if ($this->page_gui->getEnabledSelfAssessment())
+				if ($this->page_gui->getPageConfig()->getEnableSelfAssessment())
 				{
 					$this->tabs_gui->clearTargets();
 					$ilHelp->setScreenIdComponent("copg_pcqst");
@@ -558,7 +558,7 @@ return true;
 		if (is_array($_POST["target"]))
 		{
 			$updated = $this->page->deleteContents($_POST["target"], true,
-				$this->page_gui->getEnabledSelfAssessment());
+				$this->page_gui->getPageConfig()->getEnableSelfAssessment());
 			if($updated !== true)
 			{
 				$_SESSION["il_pg_error"] = $updated;
@@ -623,7 +623,7 @@ return true;
 	function paste($a_hier_id)
 	{
 		global $ilCtrl;
-		$this->page->pasteContents($a_hier_id, $this->page_gui->getEnabledSelfAssessment());
+		$this->page->pasteContents($a_hier_id, $this->page_gui->getPageConfig()->getEnableSelfAssessment());
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 		ilEditClipboard::setAction("");
 		$this->ctrl->returnToParent($this);
@@ -641,7 +641,7 @@ return true;
 		if (is_array($_POST["target"]))
 		{
 			$updated = $this->page->switchEnableMultiple($_POST["target"], true,
-				$this->page_gui->getEnabledSelfAssessment());
+				$this->page_gui->getPageConfig()->getEnableSelfAssessment());
 			if($updated !== true)
 			{
 				$_SESSION["il_pg_error"] = $updated;

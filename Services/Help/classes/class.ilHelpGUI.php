@@ -287,13 +287,14 @@ class ilHelpGUI
 		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 		include_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
 		$page_gui = new ilLMPageGUI($page_id);
+		$cfg = $page_gui->getPageConfig();
 		$page_gui->setPresentationTitle("");
 		$page_gui->setTemplateOutput(false);
 		$page_gui->setHeader("");
-		$page_gui->setEnabledFileLists(false);
-		$page_gui->setEnabledPCTabs(false);
 		$page_gui->setRawPageContent(true);
-		$page_gui->setEnabledMaps(false);
+		$cfg->setEnablePCType("Map", false);
+		$cfg->setEnablePCType("Tabs", false);
+		$cfg->setEnablePCType("FileList", false);
 		$ret = $page_gui->showPage();
 
 		$h_tpl->setVariable("CONTENT", $ret);

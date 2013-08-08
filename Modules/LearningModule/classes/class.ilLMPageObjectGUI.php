@@ -115,12 +115,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
 				$page_gui->setActivationListener($this, "activatePage");
 				
-				$mset = new ilSetting("mobs");
-				if ($mset->get("mep_activate_pages"))
-				{
-					$page_gui->enableContentIncludes(true);
-				}
-				
 				$up_gui = ($this->content_object->getType() == "dbk")
 					? "ilobjdlbookgui"
 					: "ilobjlearningmodulegui";
@@ -417,12 +411,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			$this->obj, "MDUpdateListener");
 		$page_gui->setActivationListener($this, "activatePage");
 		$page_gui->setTabHook($this, "addPageTabs");
-		$page_gui->setEnabledActivation(true);
 		$lm_set = new ilSetting("lm");
-		if ($lm_set->get("time_scheduled_page_activation"))
-		{
-			$page_gui->setEnabledScheduledActivation(true);
-		}
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
 		$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 		$ilCtrl->getHTML($page_gui);
