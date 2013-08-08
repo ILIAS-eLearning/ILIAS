@@ -2375,9 +2375,7 @@ class ilTemplate extends ilTemplateX
 	 */
 	function setFullscreenHeader($a_title, $a_description = null, $a_icon = null, $a_img = null, $a_bg_color = null, $a_font_color = null, $a_width = 880, $a_height = 100, $a_export = false)
 	{
-		$this->setTitle(null);
-		$this->setTitleIcon(null);
-		$this->setDescription(null);
+		$this->resetHeaderBlock(false);
 		
 		$this->setVariable("FULLSCREEN_TITLE", $a_title);
 		
@@ -2490,14 +2488,19 @@ if ($a == "HEADER") mk();
 	/**
 	 * Reset all header properties: title, icon, description, alerts, action menu
 	 */
-	function resetHeaderBlock()
+	function resetHeaderBlock($a_reset_header_action = true)
 	{
 		$this->setTitle(null);
 		$this->setTitleIcon(null);
 		$this->setDescription(null);
-		$this->setAlertProperties(array());
-		$this->setHeaderActionMenu(null);
+		$this->setAlertProperties(array());		
 		$this->enableDragDropFileUpload(null);
+		
+		// see setFullscreenHeader()
+		if($a_reset_header_action)
+		{
+			$this->setHeaderActionMenu(null);
+		}
 	}	
 	
 	/**

@@ -5872,7 +5872,7 @@ content#:#cont_print_view#:#Druckansicht
 content#:#cont_print_view_pre_glo#:#Keine Anzeige des Glossaranhanges in der Druckansicht
 content#:#cont_profile_mode#:#Modus
 content#:#cont_profile_mode_inherit#:#Automatisch
-content#:#cont_profile_mode_inherit_info#:#Verwendet die Daten ihres Profils
+content#:#cont_profile_mode_inherit_info#:#Verwendet die Daten Ihres Profils
 content#:#cont_profile_mode_manual#:#Manuell
 content#:#cont_profile_mode_manual_info#:#Verwendet die folgenden Daten:
 content#:#cont_public_access#:#Öffentlicher Zugriff
@@ -13609,3 +13609,5 @@ prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portf
 prtt#:#prtt_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage unbegrenzt freizuschalten.
 prtt#:#prtt_availability_until_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage nur während eines definierten Zeitraums freizuschalten.
 prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliovorlage auch ausserhalb der Zugriffszeiten sichtbar.
+content#:#cont_profile_mode_template_inherit_info#:#Verwendet die Daten des Profils
+prtf#:#prtf_template_editor_placeholder_info#:#Dieser Platzhalter wird im Portfolio ersetzt.

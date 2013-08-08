@@ -15,7 +15,7 @@ include_once("./Modules/Portfolio/classes/class.ilObjPortfolio.php");
 class ilPortfolioPage extends ilPageObject
 {
 	protected $portfolio_id;
-	protected $type = 2;
+	protected $type = 1;
 	protected $title;
 	protected $order_nr;
 	
