@@ -63,13 +63,6 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
 
-        // config
-/*		$this->setPreventHTMLUnmasking(true);
-		$this->setEnabledPCTabs(true);
-		$this->setEnabledMaps(false);
-		$this->setEnabledInternalLinks(false);
-		$this->setEnabledWikiLinks(false);						
-		$this->setEnabledActivation(false);*/
 	}
 	
 	/**

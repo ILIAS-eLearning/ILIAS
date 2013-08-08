@@ -2347,7 +2347,7 @@ abstract class ilPageObject
 		if(empty($errors))
 		{
 			// @todo 1: is this page type or pc content type
-			// related -> plugins should be able to hook in!? 
+			// related -> plugins should be able to hook in!?
 			$this->performAutomaticModifications();
 			
 			$content = $this->getXMLFromDom();

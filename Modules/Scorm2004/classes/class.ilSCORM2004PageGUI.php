@@ -37,31 +37,10 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		
 		parent::__construct($a_parent_type, $a_id, $a_old_nr);
 		
-
-//		$this->setEnabledMaps(false);
-//		$this->setEnablePCType("QuestionOverview", true);
-		
-//		$this->setPreventHTMLUnmasking(false);
-//		$this->setEnabledInternalLinks(true);
-//		$this->setEnabledSelfAssessment(true);
-//		$this->setEnabledPCTabs(true);
-		
-//		$this->getPageConfig()->addIntLinkFilter(array("StructureObject",
-//			"StructureObject_New", "PageObject", "PageObject_FAQ", "PageObject_New",
-//			"GlossaryItem_New",
-//			"Media", "Media_FAQ", "Media_Media", "Media_New",
-//			"RepositoryItem"));
-		if ($a_glo_id <= 0)
-		{
-//			$this->getPageConfig()->addIntLinkFilter(array("GlossaryItem"));
-		}
-		
 		$this->setIntLinkReturn(
 			$ilCtrl->getLinkTargetByClass("ilobjscorm2004learningmodulegui", "showTree",
 			"", false, false));
 		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
-//		$this->getPageConfig()->setLocalizationLanguage(
-//			ilObjSAHSLearningModule::getAffectiveLocalization($a_slm_id));
 		$this->enableNotes(true, $this->slm_id);
 	}
 	

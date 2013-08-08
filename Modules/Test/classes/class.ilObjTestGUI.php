@@ -378,7 +378,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$page_gui->test_object = $this->object;
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
-				$page_gui->setEnabledInternalLinks(false);
 				if(strlen($this->ctrl->getCmd()) == 0)
 				{
 					$this->ctrl->setCmdClass(get_class($page_gui));
@@ -427,7 +426,7 @@ class ilObjTestGUI extends ilObjectGUI
 					ilObjStyleSheet::getSyntaxStylePath());
 				$this->tpl->parseCurrentBlock();
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-				$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->setQuestionTabs();
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());

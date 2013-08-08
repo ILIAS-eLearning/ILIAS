@@ -1830,7 +1830,7 @@ class ilLMPresentationGUI
 		else
 		{
 			$page_object_gui->setEnabledPageFocus(false);
-			$page_object_gui->setEnabledSelfAssessment(false);
+			$page_object_gui->getPageConfig()->setEnableSelfAssessment(false);
 		}
 
 		// ADDED FOR CITATION
@@ -3563,7 +3563,6 @@ class ilLMPresentationGUI
 					$page_object_gui->setFileDownloadLink("#");
 					$page_object_gui->setFullscreenLink("#");
 					$page_object_gui->setSourceCodeDownloadScript("#");
-					$page_object_gui->setEnabledSelfAssessment(true);
 					$page_content = $page_object_gui->showPage();
 					if ($this->lm->getPageHeader() != IL_PAGE_TITLE)
 					{

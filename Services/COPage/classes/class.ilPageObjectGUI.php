@@ -51,7 +51,6 @@ class ilPageObjectGUI
 	var $activated = true;
 	var $editpreview = false;
 	var $use_meta_data = false;
-	var $enabledpctabs = false;
 	var $link_xml_set = false;
 	var $enableediting = true;
 	var $rawpagecontent = false;
@@ -60,7 +59,6 @@ class ilPageObjectGUI
 	var $page_config = null;
 	var $tabs_enabled = true;
 	private $abstract_only = false;
-	private $enabledloginpage = false;
 	protected $parent_type = "";
 	
 	//var $pl_start = "&#123;&#123;&#123;&#123;&#123;";
@@ -384,7 +382,7 @@ class ilPageObjectGUI
 		return $this->output_submode;
 	}
 
-
+	// @todo 1: can we get rid of this?
 	function setSourcecodeDownloadScript ($script_name) {
 		$this->sourcecode_download_script = $script_name;
 	}
@@ -418,6 +416,7 @@ class ilPageObjectGUI
 		$this->page_back_title = $a_title;
 	}
 
+	// @todo 1: can we get rid of this?
 	function setFileDownloadLink($a_download_link)
 	{
 		$this->file_download_link = $a_download_link;
@@ -428,6 +427,7 @@ class ilPageObjectGUI
 		return $this->file_download_link;
 	}
 
+	// @todo 1: can we get rid of this?
 	function setFullscreenLink($a_fullscreen_link)
 	{
 		$this->fullscreen_link = $a_fullscreen_link;
@@ -462,22 +462,6 @@ class ilPageObjectGUI
 	function isEnabledNotes()
 	{
 		return $this->notes_enabled;
-	}
-
-	/**
-	 * Enable content includes
-	 */
-	function enableContentIncludes($a_enable)
-	{
-		$this->setEnablePCType("ContentInclude", (bool) $a_enable);
-	}
-	
-	/**
-	 * Are content includes enabled?
-	 */
-	function isEnabledContentIncludes()
-	{
-		return $this->getEnablePCType("ContentInclude");
 	}
 
 	/**
@@ -533,46 +517,6 @@ class ilPageObjectGUI
 		$this->act_meth = $a_meth;
 	}
 
-	function setEnabledActivation($a_act)
-	{
-		$this->getPageConfig()->setEnableActivation($a_act);
-	}
-
-	function getEnabledActivation()
-	{
-		return $this->getPageConfig()->getEnableActivation();
-	}
-
-	function setEnabledScheduledActivation($a_act)
-	{
-		$this->getPageConfig()->setEnableScheduledActivation($a_act);
-	}
-
-	function getEnabledScheduledActivation()
-	{
-		return $this->getPageConfig()->getEnableScheduledActivation();
-	}
-
-	/**
-	 * Set page toc
-	 *
-	 * @param	boolean	$a_val	page toc
-	 */ 
-	public function setPageToc($a_val)
-	{
-		$this->getPageConfig()->setEnablePageToc($a_val);
-	}
-
-	/**
-	 * Get page toc
-	 *
-	 * @return	boolean	page toc
-	 */
-	public function getPageToc()
-	{
-		return $this->getPageConfig()->getEnablePageToc();
-	}
-
 	/**
 	 * Set enabled news
 	 *
@@ -602,28 +546,7 @@ class ilPageObjectGUI
 	{
 		$this->tab_hook = array("obj" => $a_object, "func" => $a_function);
 	}
-	
-	
-	/**
-	* Set Enable internal links.
-	*
-	* @param	boolean	$a_enabledinternallinks	Enable internal links
-	*/
-	function setEnabledInternalLinks($a_enabledinternallinks)
-	{
-		$this->getPageConfig()->setEnableInternalLinks($a_enabledinternallinks);
-	}
-
-	/**
-	* Get Enable internal links.
-	*
-	* @return	boolean	Enable internal links
-	*/
-	function getEnabledInternalLinks()
-	{
-		return $this->getPageConfig()->getEnableInternalLinks();
-	}
-	
+		
 	/**
 	* Set Display first Edit tab, then Preview tab, instead of Page and Edit.
 	*
@@ -642,26 +565,6 @@ class ilPageObjectGUI
 	function getEditPreview()
 	{
 		return $this->editpreview;
-	}
-
-	/**
-	* Set Prevent HTML Unmasking (true/false).
-	*
-	* @param	boolean	$a_preventhtmlunmasking	Prevent HTML Unmasking (true/false)
-	*/
-	function setPreventHTMLUnmasking($a_preventhtmlunmasking)
-	{
-		$this->getPageConfig()->setPreventHTMLUnmasking($a_preventhtmlunmasking);
-	}
-
-	/**
-	* Get Prevent HTML Unmasking (true/false).
-	*
-	* @return	boolean	Prevent HTML Unmasking (true/false)
-	*/
-	function getPreventHTMLUnmasking()
-	{
-		return $this->getPageConfig()->getPreventHTMLUnmasking();
 	}
 
 	/**
@@ -685,104 +588,6 @@ class ilPageObjectGUI
 	}
 
 	/**
-	* Set Enable Repository Objects Content Component.
-	*
-	* @param	boolean	$a_enabledrepositoryobjects	Enable Repository Objects Content Component
-	*/
-	function setEnabledRepositoryObjects($a_enabledrepositoryobjects)
-	{
-		$this->setEnablePCType("Resources", $a_enabledrepositoryobjects);
-	}
-
-	/**
-	* Get Enable Repository Objects Content Component.
-	*
-	* @return	boolean	Enable Repository Objects Content Component
-	*/
-	function getEnabledRepositoryObjects()
-	{
-		return $this->getEnablePCType("Resources");
-	}
-
-	/**
-	 * Set enable login page
-	 * @param bool $a_enablegloginpage
-	 */
-	public function setEnabledLoginPage($a_enablegloginpage)
-	{
-		$this->setEnablePCType("LoginPageElement", (bool) $a_enablegloginpage);
-	}
-
-	/**
-	 * Get enable login page
-	 * @return bool $enabledloginpage
-	 */
-	public function getEnabledLoginPage()
-	{
-		return $this->getEnablePCType("LoginPageElement");
-	}
-
-	/**
-	* Set Enable Maps Content Component.
-	*
-	* @param	boolean	$a_enabledmaps	Enable Maps Content Component
-	*/
-	function setEnabledMaps($a_enabledmaps)
-	{
-		$this->setEnablePCType("Map", (bool) $a_enabledmaps);
-	}
-
-	/**
-	* Get Enable Maps Content Component.
-	*
-	* @return	boolean	Enable Maps Content Component
-	*/
-	function getEnabledMaps()
-	{
-		return $this->getEnablePCType("Map");
-	}
-
-	/**
-	* Set Enable Tabs Content Component.
-	*
-	* @param	boolean	$a_enabledpctabs	Enable Tabs Content Component
-	*/
-	function setEnabledPCTabs($a_enabledpctabs)
-	{
-		$this->setEnablePCType("Tabs", (bool) $a_enabledpctabs);
-	}
-
-	/**
-	* Get Enable Tabs Content Component.
-	*
-	* @return	boolean	Enable Tabs Content Component
-	*/
-	function getEnabledPCTabs()
-	{
-		return $this->getEnablePCType("Tabs");
-	}
-
-	/**
-	* Set Enable File Lists Content Componente (Default is true).
-	*
-	* @param	boolean	$a_enabledfilelists	Enable File Lists Content Componente (Default is true)
-	*/
-	function setEnabledFileLists($a_enabledfilelists)
-	{
-		$this->setEnablePCType("FileList", (bool) $a_enabledfilelists);
-	}
-
-	/**
-	* Get Enable File Lists Content Componente (Default is true).
-	*
-	* @return	boolean	Enable File Lists Content Componente (Default is true)
-	*/
-	function getEnabledFileLists()
-	{
-		return $this->getEnablePCType("FileList");
-	}
-
-	/**
 	* Set Enable page focus.
 	*
 	* @param	boolean	$a_enabledpagefocus	Enable page focus
@@ -800,82 +605,6 @@ class ilPageObjectGUI
 	function getEnabledPageFocus()
 	{
 		return $this->enabledpagefocus;
-	}
-
-	/**
-	* Get Enable Profile Content Component
-	*
-	* @return	boolean	Enable Profile Content Component
-	*/
-	function getEnabledProfile()
-	{
-		return $this->getEnablePCType("Profile");
-	}
-
-	/**
-	 * Set Enable Profile Content Component
-	 * @param bool $a_enableprofile
-	 */
-	public function setEnabledProfile($a_enableprofile)
-	{
-		$this->setEnablePCType("Profile", (bool)$a_enableprofile);
-	}
-	
-	/**
-	* Get Enable Verification Content Component
-	*
-	* @return	boolean	Enable Profile Content Component
-	*/
-	function getEnabledVerification()
-	{
-		return $this->getEnablePCType("Verification");
-	}
-
-	/**
-	 * Set Enable Verification Content Component
-	 * @param bool $a_enableverification
-	 */
-	public function setEnabledVerification($a_enableverification)
-	{
-		$this->setEnablePCType("Verification", (bool)$a_enableverification);
-	}
-	
-	/**
-	* Get Enable Blog Content Component
-	*
-	* @return	boolean	Enable Blog Content Component
-	*/
-	function getEnabledBlog()
-	{
-		return $this->getEnablePCType("Blog");
-	}
-
-	/**
-	 * Set Enable Blog Content Component
-	 * @param bool $a_enableblog
-	 */
-	public function setEnabledBlog($a_enableblog)
-	{
-		$this->setEnablePCType("Blog", (bool)$a_enableblog);
-	}
-	
-	/**
-	* Get Enable Skills Content Component
-	*
-	* @return	boolean	Enable Skills Content Component
-	*/
-	function getEnabledSkills()
-	{
-		return $this->getEnablePCType("Skills");
-	}
-
-	/**
-	 * Set Enable Skills Content Component
-	 * @param bool $a_enableskills
-	 */
-	public function setEnabledSkills($a_enableskills)
-	{
-		$this->setEnablePCType("Skills", (bool)$a_enableskills);
 	}
 
 	/**
@@ -908,26 +637,6 @@ class ilPageObjectGUI
 	function getPrependingHtml()
 	{
 		return $this->prependinghtml;
-	}
-
-	/**
-	* Set Enable Wiki Links.
-	*
-	* @param	boolean	$a_enablewikilinks	Enable Wiki Links
-	*/
-	function setEnabledWikiLinks($a_enablewikilinks)
-	{
-		$this->getPageConfig()->setEnableWikiLinks($a_enablewikilinks);
-	}
-
-	/**
-	* Get Enable Wiki Links.
-	*
-	* @return	boolean	Enable Wiki Links
-	*/
-	function getEnabledWikiLinks()
-	{
-		$this->getPageConfig()->getEnableWikiLinks();
 	}
 
 	/**
@@ -988,36 +697,6 @@ class ilPageObjectGUI
 	function getStyleId()
 	{
 		return $this->styleid;
-	}
-
-	/**
-	* Set Enable Self Assessment Questions.
-	*
-	* @param	boolean	$a_enabledselfassessment	Enable Self Assessment Questions
-	*/
-	function setEnabledSelfAssessment($a_enabledselfassessment, $a_scorm = true)
-	{
-		$this->getPageConfig()->setEnableSelfAssessment($a_enabledselfassessment, $a_scorm);
-	}
-
-	/**
-	* Get Enable Self Assessment Questions.
-	*
-	* @return	boolean	Enable Self Assessment Questions
-	*/
-	function getEnabledSelfAssessment()
-	{
-		return $this->getPageConfig()->getEnableSelfAssessment();
-	}
-
-	/**
-	* Is self assessment used in SCORM mode?
-	*
-	* @return	boolean	Enable Self Assessment Questions
-	*/
-	function getEnabledSelfAssessmentScorm()
-	{
-		return $this->getPageConfig()->getEnableSelfAssessmentScorm();
 	}
 
 	/**
@@ -1412,14 +1091,15 @@ class ilPageObjectGUI
 					$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
 					$tpl->touchBlock("init_dragging");
 
+					$cfg = $this->getPageConfig();
 					$tpl->setVariable("IL_TINY_MENU",
 						self::getTinyMenu(
 						$this->getPageObject()->getParentType(),
-						$this->getEnabledInternalLinks(),
-						$this->getPageObject()->getParentType() == "wpg",
-						$this->getPageConfig()->getEnableKeywords(),
+						$cfg->getEnableInternalLinks(),
+						$cfg->getEnableWikiLinks(),
+						$cfg->getEnableKeywords(),
 						$this->getStyleId(), true, true,
-						$this->getPageConfig()->getEnableAnchors()
+						$cfg->getEnableAnchors()
 						));
 					
 					// add int link parts
@@ -1612,7 +1292,7 @@ class ilPageObjectGUI
 				// scheduled activation?
 				if (!$this->getPageObject()->getActive() &&
 					$this->getPageObject()->getActivationStart() != "" &&
-					$this->getEnabledScheduledActivation())
+					$this->getPageConfig()->getEnableScheduledActivation())
 				{
 					$tpl->setCurrentBlock("activation_txt");
 					$tpl->setVariable("TXT_SCHEDULED_ACTIVATION", $lng->txt("cont_scheduled_activation"));
@@ -1818,7 +1498,7 @@ class ilPageObjectGUI
 		$img_path = ilUtil::getImagePath("", false, $this->getOutputMode(), $this->getOutputMode() == "offline");
 
 		
-		if ($this->getEnabledPCTabs())
+		if ($this->getPageConfig()->getEnablePCType("Tabs"))
 		{
 			//include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 			//ilYuiUtil::initTabView();
@@ -1846,10 +1526,12 @@ class ilPageObjectGUI
 		$flv_video_player = ($this->getOutputMode() != "offline")
 			? ilPlayerUtil::getFlashVideoPlayerFilename(true)
 			: ilPlayerUtil::getFlashVideoPlayerFilename(true);
+			
+		$cfg = $this->getPageConfig();
 		
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
-						 'enable_placeholder' => $this->getPageConfig()->getEnablePCType("PlaceHolder") ? "y" : "n",
+						 'enable_placeholder' => $cfg->getEnablePCType("PlaceHolder") ? "y" : "n",
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
 						 'img_add' => $add_path,
@@ -1874,24 +1556,24 @@ class ilPageObjectGUI
 						 'citate_from' => $this->lng->txt('citate_from'),
 						 'citate_to' => $this->lng->txt('citate_to'),
 						 'citate' => $this->lng->txt('citate'),
-						 'enable_rep_objects' => $this->getEnabledRepositoryObjects() ? "y" : "n",
-						 'enable_login_page' => $this->getEnabledLoginPage() ? "y" : "n",
-						 'enable_map' => $this->getEnabledMaps() ? "y" : "n",
-						 'enable_tabs' => $this->getEnabledPCTabs() ? "y" : "n",
-						 'enable_sa_qst' => $this->getEnabledSelfAssessment() ? "y" : "n",
-						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
-						 'enable_content_includes' => $this->isEnabledContentIncludes() ? "y" : "n",
+						 'enable_rep_objects' => $cfg->getEnablePCType("Resources") ? "y" : "n",
+						 'enable_login_page' => $cfg->getEnablePCType("LoginPageElement") ? "y" : "n",
+						 'enable_map' => $cfg->getEnablePCType("Map") ? "y" : "n",
+						 'enable_tabs' => $cfg->getEnablePCType("Tabs") ? "y" : "n",
+						 'enable_sa_qst' => $cfg->getEnableSelfAssessment() ? "y" : "n",
+						 'enable_file_list' => $cfg->getEnablePCType("FileList") ? "y" : "n",
+						 'enable_content_includes' => $cfg->getEnablePCType("ContentInclude") ? "y" : "n",
 						 'paste' => $paste ? "y" : "n",
 						 'media_mode' => $media_mode,
 						 'javascript' => $sel_js_mode,
 						 'paragraph_plugins' => $paragraph_plugin_string,
 						 'disable_auto_margins' => $disable_auto_margins,
-						 'page_toc' => $this->getPageToc() ? "y" : "n",
-						 'enable_profile' =>  $this->getEnabledProfile() ? "y" : "n",
-						 'enable_verification' =>  $this->getEnabledVerification() ? "y" : "n",
-						 'enable_blog' =>  $this->getEnabledBlog() ? "y" : "n",
-						 'enable_skills' =>  $this->getEnabledSkills() ? "y" : "n",
-						 'enable_qover' =>  $this->getEnablePCType("QuestionOverview") ? "y" : "n",
+						 'page_toc' => $cfg->getEnablePageToc() ? "y" : "n",
+						 'enable_profile' =>  $cfg->getEnablePCType("Profile") ? "y" : "n",
+						 'enable_verification' =>  $cfg->getEnablePCType("Verification") ? "y" : "n",
+						 'enable_blog' =>  $cfg->getEnablePCType("Blog") ? "y" : "n",
+						 'enable_skills' =>  $cfg->getEnablePCType("Skills") ? "y" : "n",
+						 'enable_qover' =>  $cfg->getEnablePCType("QuestionOverview") ? "y" : "n",
 						 'flv_video_player' => $flv_video_player
 						);
 		if($this->link_frame != "")		// todo other link types
@@ -1949,23 +1631,14 @@ class ilPageObjectGUI
 		// unmask user html
 		if (($this->getOutputMode() != "edit" ||
 			$ilUser->getPref("ilPageEditor_HTMLMode") != "disable")
-			&& !$this->getPreventHTMLUnmasking())
+			&& !$this->getPageConfig()->getPreventHTMLUnmasking())
 		{
 			$output = str_replace("&lt;","<",$output);
 			$output = str_replace("&gt;",">",$output);
 		}
 		$output = str_replace("&amp;", "&", $output);
 		
-		// replace latex code: todo: finish
-//		if ($this->getOutputMode() != "offline")
-//		{
-			$output = ilUtil::insertLatexImages($output);
-/*		}
-		else
-		{
-			$output = ilUtil::buildLatexImages($output,
-				$this->getOfflineDirectory());
-		}*/
+		$output = ilUtil::insertLatexImages($output);
 
 		// insert page snippets
 		$output = $this->insertContentIncludes($output);
@@ -1974,7 +1647,7 @@ class ilPageObjectGUI
 		$output = $this->insertResources($output);
 
 		// insert page toc
-		if ($this->getPageToc())
+		if ($this->getPageConfig()->getEnablePageToc())
 		{
 			$output = $this->insertPageToc($output);
 		}
@@ -2003,7 +1676,8 @@ class ilPageObjectGUI
 //echo htmlentities($output);
 		$output = $this->postOutputProcessing($output);
 //echo htmlentities($output);
-		if($this->getOutputMode() == "edit" && !$this->getPageObject()->getActive($this->getEnabledScheduledActivation()))
+		if($this->getOutputMode() == "edit" &&
+			!$this->getPageObject()->getActive($this->getPageConfig()->getEnableScheduledActivation()))
 		{
 			$output = '<div class="il_editarea_disabled">'.$output.'</div>';
 		}
@@ -2098,7 +1772,7 @@ class ilPageObjectGUI
 		$list->setListTitle($lng->txt("actions"));
 		$list->setId("copage_act");
 		$entries = false;
-		if ($this->getEnabledActivation())
+		if ($this->getPageConfig()->getEnableActivation())
 		{
 			$entries = true;
 			$captions = $this->getActivationCaptions();			
@@ -2150,7 +1824,7 @@ class ilPageObjectGUI
 		$ilCtrl->setParameter($this, "media_mode", "");
 
 		// html mode
-		if (!$this->getPreventHTMLUnmasking())
+		if (!$this->getPageConfig()->getPreventHTMLUnmasking())
 		{
 			if ($sel_html_mode == "enable")
 			{
@@ -3314,7 +2988,7 @@ class ilPageObjectGUI
 				, "view", "ilEditClipboardGUI");
 		}
 
-		if ($this->getEnabledScheduledActivation())
+		if ($this->getPageConfig()->getEnableScheduledActivation())
 		{
 			$ilTabs->addTarget("cont_activation", $this->ctrl->getLinkTarget($this, "editActivation"),
 				"editActivation", get_class($this));
@@ -3354,9 +3028,10 @@ class ilPageObjectGUI
 		// left page
 		$lpage = $compare["l_page"];
 		$lpage_gui = new ilPageObjectGUI("wpg");
+		$cfg = $lpage_gui->getPageConfig();
+		$cfg->setPreventHTMLUnmasking(true);
 		$lpage_gui->setOutputMode(IL_PAGE_PREVIEW);
 		$lpage_gui->setPageObject($lpage);
-		$lpage_gui->setPreventHTMLUnmasking(true);
 		$lpage_gui->setPresentationTitle($this->getPresentationTitle());
 		$lpage_gui->setCompareMode(true);
 		$lhtml = $lpage_gui->showPage();
@@ -3367,9 +3042,10 @@ class ilPageObjectGUI
 		// right page
 		$rpage = $compare["r_page"];
 		$rpage_gui = new ilPageObjectGUI("wpg");
+		$cfg = $rpage_gui->getPageConfig();
+		$cfg->setPreventHTMLUnmasking(true);
 		$rpage_gui->setOutputMode(IL_PAGE_PREVIEW);
 		$rpage_gui->setPageObject($rpage);
-		$rpage_gui->setPreventHTMLUnmasking(true);
 		$rpage_gui->setPresentationTitle($this->getPresentationTitle());
 		$rpage_gui->setCompareMode(true);
 		$rhtml = $rpage_gui->showPage();
@@ -3612,7 +3288,7 @@ class ilPageObjectGUI
 	{
 		global $tpl, $ilCtrl, $lng;
 
-		if ($this->getEnabledSelfAssessment())
+		if ($this->getPageConfig()->getEnableSelfAssessment())
 		{
 			$qhtml = $this->getQuestionJsOfPage(($this->getOutputMode()=="edit" || $a_force_no_form)
 				? true
@@ -3628,7 +3304,7 @@ class ilPageObjectGUI
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
 			$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");
-			if (!$this->getEnabledSelfAssessmentScorm() && $this->getOutputMode() != IL_PAGE_PREVIEW
+			if (!$this->getPageConfig()->getEnableSelfAssessmentScorm() && $this->getOutputMode() != IL_PAGE_PREVIEW
 				&& $this->getOutputMode() != "offline")
 			{
 				$tpl->addJavaScript("./Services/COPage/js/ilCOPageQuestionHandler.js");
@@ -3718,7 +3394,7 @@ class ilPageObjectGUI
 	 */
 	function selfAssessmentRendering($a_output)
 	{
-		if ($this->getEnabledSelfAssessment())
+		if ($this->getPageConfig()->getEnableSelfAssessment())
 		{
 			require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 			$a_output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$a_output;

@@ -22,8 +22,7 @@ class ilPortfolioPageConfig extends ilPageConfig
 		
 		$prfa_set = new ilSetting("prfa");
 		$this->setPreventHTMLUnmasking((bool)!$prfa_set->get("mask", false));
-		
-		// $this->setEnabledMaps(true);		
+				
 		$this->setEnableInternalLinks(false);
 		$this->setEnablePCType("Profile", true);
 		
