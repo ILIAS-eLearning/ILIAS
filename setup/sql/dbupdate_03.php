@@ -17289,3 +17289,7 @@ $parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
 ilDBUpdateNewObjectType::addRBACCreate('create_prtt', 'Create Portfolio Template', $parent_types);
 
 ?>
+<#4023>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

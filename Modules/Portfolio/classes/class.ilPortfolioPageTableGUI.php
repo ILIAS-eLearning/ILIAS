@@ -14,18 +14,22 @@ include_once("./Modules/Blog/classes/class.ilObjBlog.php");
  */
 class ilPortfolioPageTableGUI extends ilTable2GUI
 {
-	protected $portfolio;
+	protected $portfolio; // [ilObjPortfolio]
+	protected $is_template; // [bool]
+	protected $page_gui; // [string]
 	
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, ilObjPortfolio $a_portfolio)
+	function __construct(ilObjPortfolioBaseGUI $a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
-
-		$this->portfolio = $a_portfolio;
+		global $ilCtrl, $lng;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+
+		$this->portfolio = $a_parent_obj->object;		
+		$this->page_gui = $this->parent_obj->getPageGUIClassName();
+		$this->is_template = ($this->portfolio->getType() == "prtt");		
 
 		$this->setTitle($lng->txt("pages"));
 
@@ -44,8 +48,8 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 			$lng->txt("user_save_ordering_and_titles"));
 
 		$this->getItems();
-		
-		$lng->loadLanguageModule("blog");
+				
+		$lng->loadLanguageModule("blog");			
 	}
 
 	function getItems()
@@ -92,10 +96,10 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 				
 				$this->tpl->setCurrentBlock("action");
 				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit_page"));
-				$ilCtrl->setParameterByClass("ilportfoliopagegui",
+				$ilCtrl->setParameterByClass($this->page_gui,
 					"ppage", $a_set["id"]);
 				$this->tpl->setVariable("CMD_EDIT",
-					$ilCtrl->getLinkTargetByClass("ilportfoliopagegui", "edit"));	
+					$ilCtrl->getLinkTargetByClass($this->page_gui, "edit"));	
 				$this->tpl->parseCurrentBlock();
 				break;
 			
@@ -110,9 +114,9 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 					$node_id = $this->blogs[$obj_id];
 					$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $obj_id);
 					
-					$ilCtrl->setParameterByClass("ilportfoliopagegui",
+					$ilCtrl->setParameterByClass($this->page_gui,
 						"ppage", $a_set["id"]);
-					$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "edit");
+					$link = $ilCtrl->getLinkTargetByClass(array($this->page_gui, "ilobjbloggui"), "edit");
 
 					$this->tpl->setCurrentBlock("action");
 					$this->tpl->setVariable("TXT_EDIT", $lng->txt("blog_edit"));

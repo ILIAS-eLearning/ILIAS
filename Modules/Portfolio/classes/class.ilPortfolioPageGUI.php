@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
 
 /**
  * Portfolio page gui class
@@ -25,12 +24,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0, $a_enable_comments = true)
 	{
-		global $tpl, $ilSetting;
+		global $tpl;
 
 		$this->portfolio_id = (int)$a_portfolio_id;
 		$this->enable_comments = (bool)$a_enable_comments;
 		
-		parent::__construct("prtf", $a_id, $a_old_nr);
+		parent::__construct($this->getParentType(), $a_id, $a_old_nr);
 		
 		// content style
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -74,6 +73,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		}
 */
 	}
+	
+	function getParentType()
+	{
+		return "prtf";
+	}
 
 	/**
 	 * Init page object
@@ -84,6 +88,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function initPageObject()
 	{
+		include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
 		$page = new ilPortfolioPage($this->getId(), $this->getOldNr());
 		$page->setPortfolioId($this->portfolio_id);
 		$this->setPageObject($page);
@@ -94,7 +99,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function &executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $ilUser;
+		global $ilCtrl;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -125,7 +130,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function showPage()
 	{
-		global $tpl, $ilCtrl, $ilUser;
+		global $ilUser;
 		
 		if(!$this->getPageObject())
 		{
@@ -152,9 +157,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 * @return
 	 */
 	function getTabs($a_activate = "")
-	{
-		global $ilTabs, $ilCtrl;
-		
+	{		
 		if(!$this->embedded)
 		{
 			parent::getTabs($a_activate);

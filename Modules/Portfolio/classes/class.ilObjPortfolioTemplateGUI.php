@@ -9,7 +9,7 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioPageGUI, ilPageObjectGUI, ilNoteGUI
+ * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilRepositorySearchGUI
  *
@@ -41,7 +41,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 
 		switch($next_class)
 		{			
-			case 'ilportfoliopagegui':		
+			case 'ilportfoliotemplatepagegui':		
 				$this->prepareOutput();
 				$this->handlePageCall($cmd);
 				break;
@@ -98,6 +98,37 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		// will add permissions if needed
 		ilObject2GUI::setTabs();			
 	}
+	
+	//
+	// PAGES
+	// 
+	
+	protected function getPageInstance($a_page_id)
+	{		
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";			
+		$page = new ilPortfolioTemplatePage($a_page_id);
+		$page->setPortfolioId($this->object->getId());
+		return $page;
+	}
+	
+	protected function getPageGUIInstance($a_page_id)
+	{
+		include_once("Modules/Portfolio/classes/class.ilPortfolioTemplatePageGUI.php");
+		$page_gui = new ilPortfolioTemplatePageGUI(
+			$this->object->getId(),
+			$a_page_id, 
+			0, 
+			$this->object->hasPublicComments()
+		);
+		$page_gui->setAdditional($this->getAdditional());
+		return $page_gui;
+	}
+	
+	public function getPageGUIClassName()
+	{
+		return "ilportfoliotemplatepagegui";
+	}
+	
 	
 	public function _goto($a_target)
 	{

@@ -28,5 +28,6 @@
 	</objects>
 	<copage>
 		<pageobject parent_type="prtf" class_name="ilPortfolioPage" directory="classes"/>
+		<pageobject parent_type="prtt" class_name="ilPortfolioTemplatePage" directory="classes"/>
 	</copage>
 </module>
