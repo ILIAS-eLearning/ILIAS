@@ -441,7 +441,7 @@ class ilObjTestSettingsGeneralGUI
 		$this->testOBJ->setAllowedUsersTimeGap($form->getItemByPostVar('allowedUsersTimeGap')->getValue());
 
 		$this->testOBJ->setAutosave($form->getItemByPostVar('autosave')->getChecked());
-		$this->testOBJ->setAutosaveIval($form->getItemByPostVar('autosave_ival')->getValue());
+		$this->testOBJ->setAutosaveIval($form->getItemByPostVar('autosave_ival')->getValue() * 1000);
 
 		$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());
 
@@ -923,7 +923,7 @@ class ilObjTestSettingsGeneralGUI
 		
 		$autosave_interval = new ilTextInputGUI($this->lng->txt('autosave_ival'), 'autosave_ival');
 		$autosave_interval->setSize(10);
-		$autosave_interval->setValue($this->testOBJ->getAutosaveIval());
+		$autosave_interval->setValue($this->testOBJ->getAutosaveIval()/1000);
 		$autosave_interval->setInfo($this->lng->txt('autosave_ival_info'));
 		$autosave_output->addSubItem($autosave_interval);
 		$form->addItem($autosave_output);
