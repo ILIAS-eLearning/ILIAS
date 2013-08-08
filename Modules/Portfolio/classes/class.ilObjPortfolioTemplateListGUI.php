@@ -33,6 +33,25 @@ class ilObjPortfolioTemplateListGUI extends ilObjectListGUI
 		include_once('./Modules/Portfolio/classes/class.ilObjPortfolioTemplateAccess.php');
 		$this->commands = ilObjPortfolioTemplateAccess::_getCommands();
 	}
+	
+	public function getProperties()
+	{
+		global $lng;
+
+		$props = array();
+
+		include_once("./Modules/Portfolio/classes/class.ilObjPortfolioTemplateAccess.php");
+		if(!ilObjPortfolioTemplateAccess::_lookupOnline($this->obj_id))
+		{
+			$props[] = array(
+				"alert" => true, 
+				"property" => $lng->txt("status"),
+				"value" => $lng->txt("offline")
+			);
+		}
+
+		return $props;
+	}
 }
 
 ?>

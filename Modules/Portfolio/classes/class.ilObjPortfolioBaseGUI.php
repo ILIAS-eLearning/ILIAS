@@ -33,35 +33,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$this->lng->loadLanguageModule("user");		
 	}
 	
-	protected function setTabs()
-	{
-		global $ilTabs, $ilHelp;	
-		
-		$ilTabs->addNonTabbedLink("preview", 
-			$this->lng->txt("user_profile_preview"),
-			$this->ctrl->getLinkTarget($this, "preview"));	
-		
-		if($this->checkPermissionBool("write"))
-		{
-			$ilHelp->setScreenIdComponent("prtf");
-			
-			$ilTabs->addTab("pages",
-				$this->lng->txt("content"),
-				$this->ctrl->getLinkTarget($this, "view"));
-		
-			$ilTabs->addTab("settings",
-				$this->lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, "edit"));
-		}		
-		
-		$this->addTabs();
-	}
-	
-	protected function addTabs()
-	{
-		
-	}
-	
 	protected function addLocatorItems()
 	{
 		global $ilLocator;
@@ -110,11 +81,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	}
 	
 	protected function handlePageCall($a_cmd)
-	{
-		global $ilTabs;
-		
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("back"),
+	{		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "view"));
 		
 		if(!$this->page_id)
@@ -256,14 +225,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	public function view()
 	{
-		global $ilToolbar, $ilTabs, $ilSetting, $tree;
+		global $ilToolbar, $ilSetting, $tree;
 		
 		if(!$this->checkPermissionBool("write"))
 		{
 			return;
 		}
 		
-		$ilTabs->activateTab("pages");
+		$this->tabs_gui->activateTab("pages");
 
 		$ilToolbar->addButton($this->lng->txt("prtf_add_page"),
 			$this->ctrl->getLinkTarget($this, "addPage"));
@@ -322,11 +291,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 * Show portfolio page creation form
 	 */
 	protected function addPage()
-	{
-		global $ilTabs;
-
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("back"),
+	{		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "view"));
 
 		$form = $this->initPageForm("create");
@@ -395,9 +362,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 * Create new portfolio page
 	 */
 	public function savePage()
-	{
-		global $ilTabs;
-
+	{	
 		$form = $this->initPageForm("create");
 		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
@@ -421,8 +386,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$this->ctrl->redirect($this, "view");
 		}
 
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("back"),
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "view"));
 
 		$form->setValuesByPost();
@@ -433,11 +398,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 * Show portfolio blog page creation form
 	 */
 	protected function addBlog()
-	{
-		global $ilTabs;
-
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("back"),
+	{		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "view"));
 
 		$form = $this->initBlogForm();
@@ -537,9 +500,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 * Show user page
 	 */
 	function preview($a_return = false, $a_content = false, $a_show_notes = true)
-	{
-		global $ilTabs;
-		
+	{		
 		// public profile
 		if($_REQUEST["back_url"])
 		{
@@ -566,7 +527,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$portfolio_id = $this->object->getId();
 		$user_id = $this->object->getOwner();
 		
-		$ilTabs->clearTargets();
+		$this->tabs_gui->clearTargets();
 			
 		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
 		$current_page = $_GET["user_page"];
@@ -597,12 +558,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				}
 				
 				$this->ctrl->setParameter($this, "user_page", $p["id"]);
-				$ilTabs->addTab("user_page_".$p["id"],
+				$this->tabs_gui->addTab("user_page_".$p["id"],
 					$p["title"],
 					$this->ctrl->getLinkTarget($this, "preview"));				
 			}
 			
-			$ilTabs->activateTab("user_page_".$current_page);			
+			$this->tabs_gui->activateTab("user_page_".$current_page);			
 		}
 		
 		$this->ctrl->setParameter($this, "user_page", $current_page);

@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 require_once "Services/Object/classes/class.ilObject2.php";
 
 /**
@@ -41,6 +42,22 @@ abstract class ilObjPortfolioBase extends ilObject2
 	function isOnline()
 	{
 		return $this->online;
+	}
+	
+	/**
+	 * Is online?
+	 * 
+	 * @return bool
+	 */
+	public static function lookupOnline($a_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT is_online".
+			" FROM usr_portfolio".
+			" WHERE id = ".$ilDB->quote($a_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		return  (bool)$row["is_online"];
 	}
 	
 	/**
