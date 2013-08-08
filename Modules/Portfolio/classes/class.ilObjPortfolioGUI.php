@@ -73,7 +73,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				}
 				break;
 			
-			case 'ilportfoliopagegui':										
+			case 'ilportfoliopagegui':									
+				$this->determinePageCall(); // has to be done before locator!
+				$this->addLocator();
+				
 				include_once "Services/Form/classes/class.ilFileInputGUI.php";
 				ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);						
 
@@ -105,6 +108,15 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$ilTabs->addTab("share",
 			$this->lng->txt("wsp_permissions"),
 			$this->ctrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
+	}
+	
+	protected function addLocator()
+	{		
+		$this->ctrl->setParameter($this, "prt_id", $this->object->getId());	
+		
+		parent::addLocatorItems();
+		
+		$this->tpl->setLocator();
 	}
 			
 	
@@ -218,8 +230,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	{		
 		// create 1st page / blog
 		include_once("Modules/Portfolio/classes/class.ilPortfolioPage.php");
-		$page = new ilPortfolioPage();
-		$page->setPortfolioId($a_new_object->getId());
+		$page = $this->getPageInstance();
 		if($_POST["ptype"] == "page")
 		{				
 			$page->setType(ilPortfolioPage::TYPE_PAGE);
@@ -315,7 +326,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	// PAGES
 	//	
 	
-	protected function getPageInstance($a_page_id)
+	/**
+	 * Get portfolio template page instance
+	 * 
+	 * @param int $a_page_id
+	 * @return ilPortfolioPage
+	 */
+	protected function getPageInstance($a_page_id = null)
 	{		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";			
 		$page = new ilPortfolioPage($a_page_id);
@@ -323,6 +340,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		return $page;
 	}
 	
+	/**
+	 * Get portfolio template page gui instance
+	 * 
+	 * @param int $a_page_id
+	 * @return ilPortfolioPageGUI
+	 */
 	protected function getPageGUIInstance($a_page_id)
 	{
 		include_once("Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
@@ -339,6 +362,87 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	public function getPageGUIClassName()
 	{
 		return "ilportfoliopagegui";
+	}
+	
+	
+	//
+	// BLOG
+	// 
+	
+	/**
+	 * Init blog page form
+	 *
+	 * @param string $a_mode
+	 * @return ilPropertyFormGUI
+	 */
+	public function initBlogForm()
+	{		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		$options = array();
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($this->user_id);
+		$root = $tree->readRootId();
+		if($root)
+		{
+			$root = $tree->getNodeData($root);
+			foreach ($tree->getSubTree($root) as $node)
+			{
+				if ($node["type"] == "blog")
+				{
+					$options[$node["obj_id"]] = $node["title"];
+				}
+			}
+			asort($options);	
+		}
+		
+		// no blogs to add?
+		if(!sizeof($options))
+		{
+			ilUtil::sendInfo($this->lng->txt("prtf_no_blogs_info"), true);
+			$this->ctrl->redirect($this, "view");
+		}
+		
+		$obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), "blog");
+		$obj->setRequired(true);
+		$obj->setOptions($options);
+		$form->addItem($obj);
+
+		$form->setTitle($this->lng->txt("prtf_add_blog").": ".
+			$this->object->getTitle());
+		$form->addCommandButton("saveBlog", $this->lng->txt("save"));
+		$form->addCommandButton("view", $this->lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	/**
+	 * Create new portfolio blog page
+	 */
+	public function saveBlog()
+	{
+		global $ilTabs;
+
+		$form = $this->initBlogForm();
+		if ($form->checkInput() && $this->checkPermissionBool("write"))
+		{
+			$page = $this->getPageInstance();
+			$page->setType(ilPortfolioPage::TYPE_BLOG);		
+			$page->setTitle($form->getInput("blog"));									
+			$page->create();
+
+			ilUtil::sendSuccess($this->lng->txt("prtf_page_created"), true);
+			$this->ctrl->redirect($this, "view");
+		}
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt("back"),
+			$this->ctrl->getLinkTarget($this, "view"));
+
+		$form->setValuesByPost();
+		$this->tpl->setContent($form->getHtml());
 	}
 	
 	

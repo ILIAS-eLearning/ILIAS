@@ -13,6 +13,8 @@ include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
  */
 class ilPortfolioTemplatePage extends ilPortfolioPage
 {
+	const TYPE_BLOG_TEMPLATE = 3;
+	
 	/**
 	 * Get parent type
 	 *
