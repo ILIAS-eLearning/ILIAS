@@ -47,9 +47,24 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 	}
 	
 	protected function renderBlogTemplate()
-	{
-		 return "BLOG TEMPLATE :TODO:";
+	{		
+		return $this->addPlaceholderInfo($this->lng->txt("obj_blog"));	
 	}
+	
+	protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
+	{	
+		return $this->addPlaceholderInfo(parent::renderProfile($a_user_id, $a_type, $a_fields));	
+	}
+	
+	protected function addPlaceholderInfo($a_html)
+	{
+		return '<fieldset style="border: 1px dashed red; padding: 3px; margin: 5px;">'.
+					'<legend style="color: red; font-style: italic;" class="small">'.
+						$this->lng->txt("prtf_template_editor_placeholder_info").
+					'</legend>'.
+					trim($a_html).
+				'</fieldset>';			
+	}	
 }
 
 ?>

@@ -13611,3 +13611,5 @@ prtt#:#prtt_activation_online_info#:#Activate this setting to make the portfolio
 prtt#:#prtt_availability_limitless_info#:#Choose this mode for making the portfolio template available limitless.
 prtt#:#prtt_availability_until_info#:#Choose this mode for making the portfolio template available for a fixed period of time.
 prtt#:#prtt_activation_limited_visibility_info#:#If chosen, the portfolio template is visible even outside of the given availability.
+content#:#cont_profile_mode_template_inherit_info#:#Use the profile settings
+prtf#:#prtf_template_editor_placeholder_info#:#This placeholder will be replaced in the portfolio.

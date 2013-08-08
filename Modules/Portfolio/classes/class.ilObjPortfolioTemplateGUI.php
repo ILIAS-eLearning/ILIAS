@@ -32,7 +32,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		if(!$this->getCreationMode() &&
 			$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
 		{
-			$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");				
+			$link = $this->ctrl->getLinkTarget($this, "view");				
 			$ilNavigationHistory->addItem($this->node_id, $link, "prtt");
 		}
 		

@@ -112,10 +112,22 @@ class ilPCProfileGUI extends ilPageContentGUI
 	protected function initForm($a_insert = false)
 	{
 		global $ilCtrl, $ilToolbar;
-		
-		$ilToolbar->addButton($this->lng->txt("cont_edit_personal_data"), 
-			$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumptoprofile"),
-			"profile");
+				
+		// :TODO: do we need a generic approach?
+		$is_template = ($this->getPage()->getParentType() == "prtt");
+				
+		if(!$is_template)
+		{
+			$ilToolbar->addButton($this->lng->txt("cont_edit_personal_data"), 
+				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumptoprofile"),
+				"profile");		
+			
+			$lng_suffix = "";
+		}
+		else
+		{
+			$lng_suffix = "_template";
+		}
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -133,7 +145,7 @@ class ilPCProfileGUI extends ilPageContentGUI
 		$form->addItem($mode);
 
 		$mode_inherit = new ilRadioOption($this->lng->txt("cont_profile_mode_inherit"), "inherit");
-		$mode_inherit->setInfo($this->lng->txt("cont_profile_mode_inherit_info"));
+		$mode_inherit->setInfo($this->lng->txt("cont_profile_mode".$lng_suffix."_inherit_info"));
 		$mode->addOption($mode_inherit);
 
 		$mode_manual = new ilRadioOption($this->lng->txt("cont_profile_mode_manual"), "manual");
@@ -169,10 +181,10 @@ class ilPCProfileGUI extends ilPageContentGUI
 				$prefs["public_im_".$im] = "n";
 			}
 		}
-
+			
 		include_once "Services/User/classes/class.ilPersonalProfileGUI.php";
 		$profile = new ilPersonalProfileGUI();
-		$profile->showPublicProfileFields($form, $prefs, $mode_manual);
+		$profile->showPublicProfileFields($form, $prefs, $mode_manual, $is_template);
 
 		if ($a_insert)
 		{

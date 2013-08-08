@@ -1099,8 +1099,9 @@ class ilPersonalProfileGUI
 	 * @param ilPropertyformGUI $form
 	 * @param array $prefs
 	 * @param object $parent
+	 * @param bool $a_anonymized
 	 */
-	public function showPublicProfileFields(ilPropertyformGUI $form, array $prefs, $parent = null)
+	public function showPublicProfileFields(ilPropertyformGUI $form, array $prefs, $parent = null, $anonymized = false)
 	{
 		global $ilUser;
 		
@@ -1160,6 +1161,11 @@ class ilPersonalProfileGUI
 		
 		foreach($val_array as $key => $value)
 		{
+			if($anonymized)
+			{
+				$value = null;
+			}
+			
 			if ($this->userSettingVisible($key))
 			{
 				// public setting
@@ -1215,7 +1221,11 @@ class ilPersonalProfileGUI
 		}
 
 		// additional defined user data fields
-		$user_defined_data = $ilUser->getUserDefinedData();
+		$user_defined_data = array();
+		if(!$anonymized)
+		{
+			$user_defined_data = $ilUser->getUserDefinedData();
+		}		
 		foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
 		{
 			// public setting
