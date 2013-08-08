@@ -1712,7 +1712,7 @@ class ilUserImportParser extends ilSaxParser
 
 			case "User":
 				$this->userObj->setFullname();
-				if ($this->user_id != -1 && $this->action == "Update")
+				if ($this->user_id != -1 && ($this->action == "Update" || $this->action == "Delete"))
 				    $user_exists = !is_null(ilObjUser::_lookupLogin($this->user_id));
 			    else
 			        $user_exists = ilObjUser::getUserIdByLogin($this->userObj->getLogin()) != 0;
