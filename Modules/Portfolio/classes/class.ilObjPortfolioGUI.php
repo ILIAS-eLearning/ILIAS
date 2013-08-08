@@ -315,6 +315,37 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	// PAGES
 	//	
 	
+	protected function getPageInstance($a_page_id)
+	{		
+		include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";			
+		$page = new ilPortfolioPage($a_page_id);
+		$page->setPortfolioId($this->object->getId());
+		return $page;
+	}
+	
+	protected function getPageGUIInstance($a_page_id)
+	{
+		include_once("Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
+		$page_gui = new ilPortfolioPageGUI(
+			$this->object->getId(),
+			$a_page_id, 
+			0, 
+			$this->object->hasPublicComments()
+		);
+		$page_gui->setAdditional($this->getAdditional());
+		return $page_gui;
+	}
+	
+	public function getPageGUIClassName()
+	{
+		return "ilportfoliopagegui";
+	}
+	
+	
+	//
+	// EXERCISE ASSIGNMENT
+	// 
+	
 	function getExerciseInfo($a_assignment_id, $a_add_submit = false)
 	{				
 		include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
@@ -489,6 +520,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		ilUtil::sendSuccess($this->lng->txt("prtf_finalized"), true);
 		$this->ctrl->redirect($this, "view");
 	}
+	
 	
 	function _goto($a_target)
 	{

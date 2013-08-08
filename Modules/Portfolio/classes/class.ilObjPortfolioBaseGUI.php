@@ -73,17 +73,15 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		if($a_page_id)
 		{
-			include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";			
-			$page = new ilPortfolioPage($a_page_id);
-			$page->setPortfolioId($this->object->getId());
+			$page = $this->getPageInstance($a_page_id);
 			$title = $page->getTitle();
 			if($page->getType() == ilPortfolioPage::TYPE_BLOG)
 			{
 				$title = ilObject::_lookupTitle($title);
 			}
-			$this->ctrl->setParameterByClass("ilportfoliopagegui", "ppage", $a_page_id);	
+			$this->ctrl->setParameterByClass($this->getPageGUIClassName(), "ppage", $a_page_id);	
 			$ilLocator->addItem($title,
-				$this->ctrl->getLinkTargetByClass("ilportfoliopagegui", "edit"));			
+				$this->ctrl->getLinkTargetByClass($this->getPageGUIClassName(), "edit"));			
 		}
 		
 		$this->tpl->setLocator();		
@@ -112,11 +110,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$this->ctrl->setParameter($this, "user_page", $_REQUEST["user_page"]);
 		}
 
-		include_once("Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
-		$page_gui = new ilPortfolioPageGUI($this->object->getId(),
-			$page_id, 0, $this->object->hasPublicComments());
-		$page_gui->setAdditional($this->getAdditional());
-
+		$page_gui = $this->getPageGUIInstance($page_id);
 		$ret = $this->ctrl->forwardCommand($page_gui);
 
 		if ($ret != "" && $ret !== true)
@@ -136,7 +130,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	}
 	
 	/**
-	* Set Additonal Information.
+	* Set Additonal Information (used in public profile?)
 	*
 	* @param	array	$a_additional	Additonal Information
 	*/
@@ -155,6 +149,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		return $this->additional;
 	}				
 		
+	/**
+	 * Set custom perma link (used in public profile?)
+	 * 
+	 * @param string $a_link
+	 */
 	public function setPermaLink($a_link)
 	{
 		$this->perma_link = $a_link;
@@ -234,6 +233,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	// PAGES
 	//
 	
+	abstract protected function getPageInstance($a_page_id);
+	
+	abstract protected function getPageGUIInstance($a_page_id);
+	
+	abstract public function getPageGUIClassName();
+		
 	/**
 	 * Show list of portfolio pages
 	 */
@@ -263,7 +268,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$this->ctrl->getLinkTarget($this, "export"));				
 				
 		include_once "Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
-		$table = new ilPortfolioPageTableGUI($this, "view", $this->object);
+		$table = new ilPortfolioPageTableGUI($this, "view");
 		
 		// exercise portfolio?			
 		include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
@@ -683,11 +688,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		if(!$a_content)
 		{
 			// get current page content
-			include_once("./Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
-			$page_gui = new ilPortfolioPageGUI($portfolio_id, $current_page, 0, 
-				$this->object->hasPublicComments());
+			$page_gui = $this->getPageGUIInstance($current_page);
 			$page_gui->setEmbedded(true);
-			$page_gui->setAdditional($this->getAdditional());
 
 			$content = $this->ctrl->getHTML($page_gui);
 		}

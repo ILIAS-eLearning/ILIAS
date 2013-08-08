@@ -378,7 +378,8 @@ class ilPortfolioAccessHandler
 			" FROM object_data obj".
 			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
 			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
-			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer");
+			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND obj.type = ".$ilDB->quote("prtf", "text");
 		
 		if($a_filter["title"] && strlen($a_filter["title"]) >= 3)
 		{
