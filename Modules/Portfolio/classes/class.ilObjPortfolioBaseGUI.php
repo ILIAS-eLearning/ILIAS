@@ -18,6 +18,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	protected $user_id; // [int]
 	protected $additional = array();
 	protected $perma_link; // [string]		
+	protected $page_id; // [int]
+	protected $page_mode; // [string] preview|edit
 	
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
@@ -60,32 +62,52 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 	}
 	
-	protected function addLocator($a_page_id = null)
+	protected function addLocatorItems()
 	{
 		global $ilLocator;
 		
 		if($this->object)
-		{
-			$this->ctrl->setParameter($this, "prt_id", $this->object->getId());	
+		{									
 			$ilLocator->addItem($this->object->getTitle(),
 				$this->ctrl->getLinkTarget($this, "view"));
-		}
-		
-		if($a_page_id)
-		{
-			$page = $this->getPageInstance($a_page_id);
+		}		
+				
+		if($this->page_id)
+		{								
+			$page = $this->getPageInstance($this->page_id);
 			$title = $page->getTitle();
 			if($page->getType() == ilPortfolioPage::TYPE_BLOG)
 			{
 				$title = ilObject::_lookupTitle($title);
 			}
-			$this->ctrl->setParameterByClass($this->getPageGUIClassName(), "ppage", $a_page_id);	
+			$this->ctrl->setParameterByClass($this->getPageGUIClassName(), "ppage", $this->page_id);	
 			$ilLocator->addItem($title,
-				$this->ctrl->getLinkTargetByClass($this->getPageGUIClassName(), "edit"));			
+				$this->ctrl->getLinkTargetByClass($this->getPageGUIClassName(), "edit"));		
 		}
-		
-		$this->tpl->setLocator();		
 	}	
+	
+	protected function determinePageCall()
+	{
+		// edit
+		if(isset($_REQUEST["ppage"]))
+		{			
+			if(!$this->checkPermissionBool("write"))
+			{
+				$this->ctrl->redirect($this, "view");
+			}
+			
+			$this->page_id = $_REQUEST["ppage"];
+			$this->page_mode = "edit";
+			$this->ctrl->setParameter($this, "ppage", $this->page_id);								
+		}
+		// preview
+		else
+		{
+			$this->page_id = $_REQUEST["user_page"];
+			$this->page_mode = "preview";
+			$this->ctrl->setParameter($this, "user_page", $this->page_id);			
+		}				
+	}
 	
 	protected function handlePageCall($a_cmd)
 	{
@@ -94,29 +116,19 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "view"));
-
-		// edit
-		if(isset($_REQUEST["ppage"]) && $this->checkPermissionBool("write"))
+		
+		if(!$this->page_id)
 		{
-			$this->addLocator($_REQUEST["ppage"]);
-
-			$page_id = $_REQUEST["ppage"];
-			$this->ctrl->setParameter($this, "ppage", $_REQUEST["ppage"]);
-		}
-		// preview
-		else
-		{
-			$page_id = $_REQUEST["user_page"];
-			$this->ctrl->setParameter($this, "user_page", $_REQUEST["user_page"]);
+			$this->ctrl->redirect($this, "view");
 		}
 
-		$page_gui = $this->getPageGUIInstance($page_id);
+		$page_gui = $this->getPageGUIInstance($this->page_id);
 		$ret = $this->ctrl->forwardCommand($page_gui);
 
 		if ($ret != "" && $ret !== true)
 		{						
 			// preview (fullscreen)
-			if(isset($_REQUEST["user_page"]))
+			if($this->page_mode == "preview")
 			{						
 				// suppress (portfolio) notes for blog postings 
 				$this->preview(false, $ret, ($a_cmd != "previewEmbedded"));
@@ -233,7 +245,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	// PAGES
 	//
 	
-	abstract protected function getPageInstance($a_page_id);
+	abstract protected function getPageInstance($a_page_id = null);
 	
 	abstract protected function getPageGUIInstance($a_page_id);
 	
@@ -390,8 +402,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
 			include_once("Modules/Portfolio/classes/class.ilPortfolioPage.php");
-			$page = new ilPortfolioPage();
-			$page->setPortfolioId($this->object->getId());
+			$page = $this->getPageInstance();
 			$page->setType(ilPortfolioPage::TYPE_PAGE);		
 			$page->setTitle($form->getInput("title"));		
 			
@@ -429,100 +440,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$ilTabs->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "view"));
 
-		$form = $this->initBlogForm("create");
+		$form = $this->initBlogForm();
 		$this->tpl->setContent($form->getHTML());
 	}
 	
-	/**
-	 * Init portfolio page form
-	 *
-	 * @param string $a_mode
-	 * @return ilPropertyFormGUI
-	 */
-	public function initBlogForm($a_mode = "create")
-	{		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-
-		$options = array();
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		$tree = new ilWorkspaceTree($this->user_id);
-		$root = $tree->readRootId();
-		if($root)
-		{
-			$root = $tree->getNodeData($root);
-			foreach ($tree->getSubTree($root) as $node)
-			{
-				if ($node["type"] == "blog")
-				{
-					$options[$node["obj_id"]] = $node["title"];
-				}
-			}
-			asort($options);	
-		}
-		
-		// no blogs to add?
-		if(!sizeof($options))
-		{
-			ilUtil::sendInfo($this->lng->txt("prtf_no_blogs_info"), true);
-			$this->ctrl->redirect($this, "view");
-		}
-		
-		$obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), "blog");
-		$obj->setRequired(true);
-		$obj->setOptions($options);
-		$form->addItem($obj);
-
-		// save and cancel commands
-		if ($a_mode == "create")
-		{
-			$form->setTitle($this->lng->txt("prtf_add_blog").": ".
-				$this->object->getTitle());
-			$form->addCommandButton("saveBlog", $this->lng->txt("save"));
-			$form->addCommandButton("view", $this->lng->txt("cancel"));
-			
-		}
-		else
-		{
-			/* edit is done directly in table gui
-			$form->setTitle($this->lng->txt("prtf_edit_page"));
-			$form->addCommandButton("updatePage", $this->lng->txt("save"));
-			$form->addCommandButton("view", $this->lng->txt("cancel"));
-			*/			
-		}
-		
-		return $form;
-	}
+	abstract protected function initBlogForm();
 	
-	/**
-	 * Create new portfolio blog page
-	 */
-	public function saveBlog()
-	{
-		global $ilTabs;
-
-		$form = $this->initBlogForm("create");
-		if ($form->checkInput() && $this->checkPermissionBool("write"))
-		{
-			$page = new ilPortfolioPage();
-			$page->setPortfolioId($this->object->getId());
-			$page->setType(ilPortfolioPage::TYPE_BLOG);		
-			$page->setTitle($form->getInput("blog"));									
-			$page->create();
-
-			ilUtil::sendSuccess($this->lng->txt("prtf_page_created"), true);
-			$this->ctrl->redirect($this, "view");
-		}
-
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("back"),
-			$this->ctrl->getLinkTarget($this, "view"));
-
-		$form->setValuesByPost();
-		$this->tpl->setContent($form->getHtml());
-	}
-
+	abstract protected function saveBlog();	
+	
 	/**
 	 * Save ordering of portfolio pages
 	 */
@@ -536,9 +461,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		if (is_array($_POST["order"]))
 		{
 			foreach ($_POST["order"] as $k => $v)
-			{
-				$page = new ilPortfolioPage(ilUtil::stripSlashes($k));
-				$page->setPortfolioId($this->object->getId());
+			{				
+				$page = $this->getPageInstance(ilUtil::stripSlashes($k));				
 				if($_POST["title"][$k])
 				{
 					$page->setTitle(ilUtil::stripSlashes($_POST["title"][$k]));
@@ -574,8 +498,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
 			foreach ($_POST["prtf_pages"] as $id)
 			{
-				$page = new ilPortfolioPage($id);
-				$page->setPortfolioId($this->object->getId());
+				$page = $this->getPageInstance($id);
 				$title = $page->getTitle();
 				if($page->getType() == ilPortfolioPage::TYPE_BLOG)
 				{
@@ -602,8 +525,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		{
 			foreach ($_POST["prtf_pages"] as $id)
 			{
-				$page = new ilPortfolioPage($id);
-				$page->setPortfolioId($this->object->getId());
+				$page = $this->getPageInstance($id);
 				$page->delete();
 			}
 		}
@@ -861,10 +783,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			// copy page(s)
 			foreach($_POST["prtf_pages"] as $page_id)
 			{				
-				$source = new ilPortfolioPage($page_id);
-				$source->setPortfolioId($portfolio_id);
-				$target = new ilPortfolioPage();
-				$target->setPortfolioId($portfolio_id);
+				$source = $this->getPageInstance($page_id);
+				$target = $this->getPageInstance();
 				$target->setXMLContent($source->copyXmlContent());
 				$target->setType($source->getType());
 				$target->setTitle($source->getTitle());

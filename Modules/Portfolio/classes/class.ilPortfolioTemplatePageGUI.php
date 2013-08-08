@@ -9,8 +9,8 @@ include_once("./Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilPageObjectGUI, ilPublicUserProfileGUI, ilObjBlogGUI, ilBlogPostingGUI
+ * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilPageEditorGUI, ilEditClipboardGUI
+ * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilPageObjectGUI, ilMediaPoolTargetSelector
  *
  * @ingroup ModulesPortfolio
  */
@@ -27,6 +27,28 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 		$page = new ilPortfolioTemplatePage($this->getId(), $this->getOldNr());
 		$page->setPortfolioId($this->portfolio_id);
 		$this->setPageObject($page);
+	}
+	
+	function showPage()
+	{		
+		if(!$this->getPageObject())
+		{
+			return;
+		}
+		
+		switch($this->getPageObject()->getType())
+		{
+			case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
+				return $this->renderBlogTemplate();
+				
+			default:
+				return parent::showPage();
+		}		
+	}
+	
+	protected function renderBlogTemplate()
+	{
+		 return "BLOG TEMPLATE :TODO:";
 	}
 }
 

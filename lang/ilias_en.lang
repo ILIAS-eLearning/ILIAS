@@ -13594,3 +13594,16 @@ rep#:#rep_new_item_group_other#:#Other
 wsp#:#wsp_shared_title#:#Title of Resource
 adve#:#adve_excass_settings#:#Exercise Assignments
 adve#:#advanced_editing_excass_settings#:#Exercise Assignments Settings
+common#:#obj_prtt#:#Portfolio Template
+common#:#objs_prtt#:#Portfolio Templates
+common#:#obj_prtt_duplicate#:#Copy Portfolio Template
+prtt#:#prtt_new#:#New Portfolio Template
+prtt#:#prtt_add#:#Create Portfolio Template
+prtt#:#prtt_copy#:#Copy Portfolio Template
+prtt#:#prtt_edit#:#Edit Portfolio Template
+rbac#:#prtt_visible#:#Booking pool is visible
+rbac#:#prtt_read#:#User has read access to portfolio template
+rbac#:#prtt_copy#:#User can copy portfolio template
+rbac#:#prtt_write#:#User can edit settings and content of portfolio template
+rbac#:#prtt_delete#:#User can move or delete portfolio template
+rbac#:#prtt_edit_permission#:#User can change permission settings for portfolio template

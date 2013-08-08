@@ -220,8 +220,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		$pages = ilPortfolioPage::getAllPages($this->id);
 		foreach($pages as $page)
 		{
-			$page = new ilPortfolioPage($page["id"]);
-			$page->setPortfolioId($this->id);
+			$page = $this->getPageInstance($page["id"]);
 			$page->delete();
 		}
 		

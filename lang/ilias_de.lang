@@ -13592,3 +13592,16 @@ rep#:#rep_new_item_group_other#:#Weitere
 wsp#:#wsp_shared_title#:#Titel der Ressource
 adve#:#adve_excass_settings#:#Übungseinheiten
 adve#:#advanced_editing_excass_settings#:#Einstellungen Übungseinheiten
+common#:#obj_prtt#:#Portfoliovorlage
+common#:#objs_prtt#:#Portfoliovorlagen
+common#:#obj_prtt_duplicate#:#Portfoliovorlage kopieren
+prtt#:#prtt_new#:#Neue Portfoliovorlage anlegen
+prtt#:#prtt_add#:#Portfoliovorlage anlegen
+prtt#:#prtt_copy#:#Portfoliovorlage kopieren
+prtt#:#prtt_edit#:#Portfoliovorlage bearbeiten
+rbac#:#prtt_visible#:#Portfoliovorlage ist sichtbar
+rbac#:#prtt_read#:#Portfoliovorlage lesen
+rbac#:#prtt_copy#:#Portfoliovorlage kopieren
+rbac#:#prtt_write#:#Portfoliovorlagen anlegen und Einstellungen der Portfoliovorlage bearbeiten
+rbac#:#prtt_delete#:#Portfoliovorlage löschen oder verschieben
+rbac#:#prtt_edit_permission#:#Rechteeinstellungen für Portfoliovorlage ändern

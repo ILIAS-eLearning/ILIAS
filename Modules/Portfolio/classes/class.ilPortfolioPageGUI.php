@@ -10,7 +10,7 @@ include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
  * @version $Id$
  *
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI, ilObjBlogGUI, ilBlogPostingGUI
+ * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilObjBlogGUI, ilBlogPostingGUI
  *
  * @ingroup ModulesPortfolio
  */
@@ -43,35 +43,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
-		
-		// #11190
-/*
-		$prfa_set = new ilSetting("prfa");
-		$this->setPreventHTMLUnmasking(!(bool)$prfa_set->get("mask", false));
-		
-		// $this->setEnabledMaps(true);		
-		$this->setEnabledInternalLinks(false);
-		$this->setEnabledPCTabs(true);
-		$this->setEnabledProfile(true);
-		
-		if(!$ilSetting->get('disable_wsp_certificates'))
-		{
-			$this->setEnabledVerification(true);
-		}
-*/		
-		/* embedding blog postings currently disabled 
-		if(!$ilSetting->get('disable_wsp_blogs'))
-		{
-			$this->setEnabledBlog(true);
-		}		
-		*/
-/*		
-		$skmg_set = new ilSetting("skmg");
-		if($skmg_set->get("enable_skmg"))
-		{
-			$this->setEnabledSkills(true);
-		}
-*/
 	}
 	
 	function getParentType()
@@ -137,17 +108,18 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			return;
 		}
 		
-		// render blog directly
-		if($this->getPageObject()->getType() == ilPortfolioPage::TYPE_BLOG)
+		switch($this->getPageObject()->getType())
 		{
-			return $this->renderBlog($ilUser->getId(), (int)$this->getPageObject()->getTitle());
-		}
-		
-		$this->setTemplateOutput(false);
-		// $this->setPresentationTitle($this->getPageObject()->getTitle());
-		$output = parent::showPage();
-		
-		return $output;
+			case ilPortfolioPage::TYPE_BLOG;
+				return $this->renderBlog($ilUser->getId(), (int)$this->getPageObject()->getTitle());
+				
+			default:
+				$this->setTemplateOutput(false);
+				// $this->setPresentationTitle($this->getPageObject()->getTitle());
+				$output = parent::showPage();
+
+				return $output;
+		}		
 	}
 
 	/**

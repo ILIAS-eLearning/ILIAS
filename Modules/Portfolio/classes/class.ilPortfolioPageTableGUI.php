@@ -2,7 +2,8 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Modules/Blog/classes/class.ilObjBlog.php");
+include_once("./Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php");
+include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");		
 
 /**
  * Portfolio page table
@@ -29,8 +30,8 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
 		$this->portfolio = $a_parent_obj->object;		
 		$this->page_gui = $this->parent_obj->getPageGUIClassName();
-		$this->is_template = ($this->portfolio->getType() == "prtt");		
-
+		$this->is_template = ($this->portfolio->getType() == "prtt");	
+		
 		$this->setTitle($lng->txt("pages"));
 
 		$this->addColumn($this->lng->txt(""), "", "1");
@@ -55,28 +56,31 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 	function getItems()
 	{
 		global $ilUser;
-		
-		include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
+			
 		$data = ilPortfolioPage::getAllPages($this->portfolio->getId());
 		$this->setData($data);
-		
-		$this->blogs = array();
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		$tree = new ilWorkspaceTree($ilUser->getId());
-		$root = $tree->readRootId();
-		if($root)
-		{
-			$root = $tree->getNodeData($root);
-			foreach ($tree->getSubTree($root) as $node)
+				
+		if(!$this->is_template)
+		{			
+			$this->blogs = array();
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$tree = new ilWorkspaceTree($ilUser->getId());
+			$root = $tree->readRootId();
+			if($root)
 			{
-				if ($node["type"] == "blog")
+				$root = $tree->getNodeData($root);
+				foreach ($tree->getSubTree($root) as $node)
 				{
-					$this->blogs[$node["obj_id"]] = $node["wsp_id"];
-				}
-			}		
+					if ($node["type"] == "blog")
+					{
+						$this->blogs[$node["obj_id"]] = $node["wsp_id"];
+					}
+				}		
+			}
+
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
+			include_once("./Modules/Blog/classes/class.ilObjBlog.php");
 		}
-		
-	    include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
 	}
 
 	/**
@@ -104,23 +108,40 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 				break;
 			
 			case ilPortfolioPage::TYPE_BLOG:
-				$this->tpl->setCurrentBlock("title_static");
-				$this->tpl->setVariable("VAL_TITLE", $lng->txt("obj_blog").": ".ilObjBlog::_lookupTitle($a_set["title"]));
-				$this->tpl->parseCurrentBlock();
-												
-				$obj_id = (int)$a_set["title"];
-				if(isset($this->blogs[$obj_id]))
+				if(!$this->is_template)
 				{
-					$node_id = $this->blogs[$obj_id];
-					$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $obj_id);
-					
-					$ilCtrl->setParameterByClass($this->page_gui,
-						"ppage", $a_set["id"]);
-					$link = $ilCtrl->getLinkTargetByClass(array($this->page_gui, "ilobjbloggui"), "edit");
+					$this->tpl->setCurrentBlock("title_static");
+					$this->tpl->setVariable("VAL_TITLE_STATIC", $lng->txt("obj_blog").": ".ilObjBlog::_lookupTitle($a_set["title"]));
+					$this->tpl->parseCurrentBlock();
 
-					$this->tpl->setCurrentBlock("action");
-					$this->tpl->setVariable("TXT_EDIT", $lng->txt("blog_edit"));
-					$this->tpl->setVariable("CMD_EDIT", $link);	
+					$obj_id = (int)$a_set["title"];
+					if(isset($this->blogs[$obj_id]))
+					{
+						$node_id = $this->blogs[$obj_id];
+						$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $obj_id);
+
+						$ilCtrl->setParameterByClass($this->page_gui,
+							"ppage", $a_set["id"]);
+						$link = $ilCtrl->getLinkTargetByClass(array($this->page_gui, "ilobjbloggui"), "edit");
+
+						$this->tpl->setCurrentBlock("action");
+						$this->tpl->setVariable("TXT_EDIT", $lng->txt("blog_edit"));
+						$this->tpl->setVariable("CMD_EDIT", $link);	
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				break;
+				
+			case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
+				if($this->is_template)
+				{
+					$this->tpl->setCurrentBlock("title_field");
+					$this->tpl->setVariable("ID", $a_set["id"]);
+					$this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+					$this->tpl->parseCurrentBlock();
+					
+					$this->tpl->setCurrentBlock("title_static");
+					$this->tpl->setVariable("VAL_TITLE_STATIC", $lng->txt("obj_blog"));
 					$this->tpl->parseCurrentBlock();
 				}
 				break;
