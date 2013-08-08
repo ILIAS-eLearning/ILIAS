@@ -11,8 +11,8 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 *
 */
 class ilObjPortfolioTemplateAccess extends ilObjectAccess
-{	
-	function _getCommands()
+{		
+	public function _getCommands()
 	{
 		$commands = array
 		(
@@ -22,12 +22,68 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
 		);
 		
 		return $commands;
+	}	
+	
+	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	{
+		  global $ilUser, $lng, $rbacsystem, $ilAccess;
+
+		  if ($a_user_id == "")
+		  {
+			   $a_user_id = $ilUser->getId();
+		  }
+
+		  switch ($a_cmd)
+		  {
+			   case "view":
+					if(!self::_lookupOnline($a_obj_id)
+						 && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+					{
+						 $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+						 return false;
+					}
+					break;
+					
+			   // for permission query feature
+			   case "infoScreen":
+					if(!self::_lookupOnline($a_obj_id))
+					{
+						 $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					}
+					else
+					{
+						 $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+					}
+					break;
+
+		  }
+		  
+		  switch($a_permission)
+		  {
+			   case "read":
+			   case "visible":
+					if (!self::_lookupOnline($a_obj_id) &&
+						 (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)))
+					{
+						 $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+						 return false;
+					}
+					break;
+		  }
+
+		  return true;
+	 }
+	
+	public function _lookupOnline($a_id)
+	{
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		return ilObjPortfolioTemplate::lookupOnline($a_id);
 	}
 	
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	public function _checkGoto($a_target)
 	{		
 		global $ilAccess;
 		

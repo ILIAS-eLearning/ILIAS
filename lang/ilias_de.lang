@@ -13605,3 +13605,7 @@ rbac#:#prtt_copy#:#Portfoliovorlage kopieren
 rbac#:#prtt_write#:#Portfoliovorlagen anlegen und Einstellungen der Portfoliovorlage bearbeiten
 rbac#:#prtt_delete#:#Portfoliovorlage löschen oder verschieben
 rbac#:#prtt_edit_permission#:#Rechteeinstellungen für Portfoliovorlage ändern
+prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zumachen.
+prtt#:#prtt_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage unbegrenzt freizuschalten.
+prtt#:#prtt_availability_until_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage nur während eines definierten Zeitraums freizuschalten.
+prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliovorlage auch ausserhalb der Zugriffszeiten sichtbar.

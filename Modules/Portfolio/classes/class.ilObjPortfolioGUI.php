@@ -40,9 +40,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	function executeCommand()
-	{
-		global $ilTabs;
-				
+	{				
 		$title = $this->lng->txt("portfolio");
 		if($this->object)
 		{
@@ -61,7 +59,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				if($this->checkPermissionBool("write"))
 				{
 					$this->setTabs();
-					$ilTabs->activateTab("share");
+					$this->tabs_gui->activateTab("share");
 					
 					include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
 					$plink = new ilPermanentLinkGUI("prtf", $this->object->getId());
@@ -100,14 +98,31 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		return true;
 	}
 	
-	protected function addTabs()
+	protected function setTabs()
 	{
-		global $ilTabs;
+		global $ilHelp;	
 		
-		$this->lng->loadLanguageModule("wsp");
-		$ilTabs->addTab("share",
-			$this->lng->txt("wsp_permissions"),
-			$this->ctrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
+		$ilHelp->setScreenIdComponent("prtf");
+			
+		if($this->checkPermissionBool("write"))
+		{
+			$this->tabs_gui->addTab("pages",
+				$this->lng->txt("content"),
+				$this->ctrl->getLinkTarget($this, "view"));				
+							
+			$this->tabs_gui->addTab("settings",
+				$this->lng->txt("settings"),
+				$this->ctrl->getLinkTarget($this, "edit"));
+		
+			$this->tabs_gui->addNonTabbedLink("preview", 
+				$this->lng->txt("user_profile_preview"),
+				$this->ctrl->getLinkTarget($this, "preview"));	
+						
+			$this->lng->loadLanguageModule("wsp");
+			$this->tabs_gui->addTab("share",
+				$this->lng->txt("wsp_permissions"),
+				$this->ctrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
+		}		
 	}
 	
 	protected function addLocator()
@@ -305,9 +320,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		parent::getEditFormCustomValues($a_values);
 	}	
 	
-	/**
-	 * Update portfolio properties
-	 */
 	public function updateCustom(ilPropertyFormGUI $a_form)
 	{				
 		$this->object->setOnline($a_form->getInput("online"));
@@ -422,9 +434,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 * Create new portfolio blog page
 	 */
 	public function saveBlog()
-	{
-		global $ilTabs;
-
+	{		
 		$form = $this->initBlogForm();
 		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
@@ -437,8 +447,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$this->ctrl->redirect($this, "view");
 		}
 
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("back"),
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "view"));
 
 		$form->setValuesByPost();
