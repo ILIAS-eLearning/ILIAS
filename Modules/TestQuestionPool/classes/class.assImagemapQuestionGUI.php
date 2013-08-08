@@ -1,56 +1,41 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/                    
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
+include_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* Image map question GUI representation
-*
-* The assImagemapQuestionGUI class encapsulates the GUI representation
-* for image map questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
-class assImagemapQuestionGUI extends assQuestionGUI
+ * Image map question GUI representation
+ *
+ * The assImagemapQuestionGUI class encapsulates the GUI representation
+ * for image map questions.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
+ * @version	$Id$
+ * 
+ * @ingroup ModulesTestQuestionPool
+ */
+class assImagemapQuestionGUI extends assQuestionGUI implements GuiScoringAdjustable
 {
 	private $linecolor;
 	
 	/**
-	* assImagemapQuestionGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assImagemapQuestionGUI object.
-	*
-	* @param integer $id The database id of a image map question object
-	* @access public
-	*/
-	function __construct($id = -1)
+	 * assImagemapQuestionGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assImagemapQuestionGUI object.
+	 *
+	 * @param integer $id The database id of a image map question object.
+	 * 
+	 * @return \assImagemapQuestionGUI
+	 */
+	public function __construct($id = -1)
 	{
 		parent::__construct();
-		include_once "./Modules/TestQuestionPool/classes/class.assImagemapQuestion.php";
+		include_once './Modules/TestQuestionPool/classes/class.assImagemapQuestion.php';
 		$this->object = new assImagemapQuestion();
 		if ($id >= 0)
 		{
@@ -58,7 +43,6 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		}
 		$assessmentSetting = new ilSetting("assessment");
 		$this->linecolor = (strlen($assessmentSetting->get("imap_line_color"))) ? "#" . $assessmentSetting->get("imap_line_color") : "#FF0000";
-		
 	}
 
 	function getCommand($cmd)
@@ -75,89 +59,77 @@ class assImagemapQuestionGUI extends assQuestionGUI
 	}
 
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			if ($this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setNrOfTries($_POST['nr_of_tries']);
-			}
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-
-			if ($_POST['image_delete'])
-			{
-				$this->object->deleteImage();
-			}
-			else
-			{
-				if (strlen($_FILES['image']['tmp_name']) == 0)
-				{
-					$this->object->setImageFilename($_POST["image_name"]);
-				}
-			}
-			if (strlen($_FILES['image']['tmp_name']))
-			{
-				if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1) $this->object->createNewQuestion();
-				$this->object->setImageFilename($_FILES['image']['name'], $_FILES['image']['tmp_name']);
-			}
-
-			if (!$_POST['image_delete'])
-			{
-				$this->object->flushAnswers();
-				if (is_array($_POST['image']['coords']['name']))
-				{
-					foreach ($_POST['image']['coords']['name'] as $idx => $name)
-					{
-						$this->object->addAnswer(
-							$name,
-							$_POST['image']['coords']['points'][$idx],
-							$idx,
-							$_POST['image']['coords']['coords'][$idx],
-							$_POST['image']['coords']['shape'][$idx],
-							$_POST['image']['coords']['points_unchecked'][$idx]
-						);
-					}
-				}
-				if (strlen($_FILES['imagemapfile']['tmp_name']))
-				{
-					if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1) $this->object->createNewQuestion();
-					$this->object->uploadImagemap($_FILES['imagemapfile']['tmp_name']);
-				}
-			}
-			$this->object->setIsMultipleChoice($_POST['is_multiple_choice'] == assImagemapQuestion::MODE_MULTIPLE_CHOICE);
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			$this->writeAnswerSpecificPostData();
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
+		}
+		return 1;
+	}
+
+	public function writeAnswerSpecificPostData($always = true)
+	{
+		if (!$_POST['image_delete'])
+		{
+			$this->object->flushAnswers();
+			if (is_array( $_POST['image']['coords']['name'] ))
+			{
+				foreach ($_POST['image']['coords']['name'] as $idx => $name)
+				{
+					$this->object->addAnswer(
+						$name,
+						$_POST['image']['coords']['points'][$idx],
+						$idx,
+						$_POST['image']['coords']['coords'][$idx],
+						$_POST['image']['coords']['shape'][$idx],
+						$_POST['image']['coords']['points_unchecked'][$idx]
+					);
+				}
+			}
+			if (strlen( $_FILES['imagemapfile']['tmp_name'] ))
+			{
+				if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1)
+					$this->object->createNewQuestion();
+				$this->object->uploadImagemap( $_FILES['imagemapfile']['tmp_name'] );
+			}
+		}
+	}
+
+	public function writeQuestionSpecificPostData($always = true)
+	{
+		if ($_POST['image_delete'])
+		{
+			$this->object->deleteImage();
 		}
 		else
 		{
-			return 1;
+			if (strlen( $_FILES['image']['tmp_name'] ) == 0)
+			{
+				$this->object->setImageFilename( $_POST["image_name"] );
+			}
 		}
+		if (strlen( $_FILES['image']['tmp_name'] ))
+		{
+			if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1)
+				$this->object->createNewQuestion();
+			$this->object->setImageFilename( $_FILES['image']['name'], $_FILES['image']['tmp_name'] );
+		}
+		
+		$this->object->setIsMultipleChoice($_POST['is_multiple_choice'] == assImagemapQuestion::MODE_MULTIPLE_CHOICE);
 	}
-	
-	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
+
 	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
@@ -171,59 +143,72 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$form->setTableWidth("100%");
 		$form->setId("assimagemap");
 
-		// title, author, description, question, working time (assessment mode)
-		$this->addBasicQuestionFormProperties($form);
-
-		// is MultipleChoice?
-		$radioGroup = new ilRadioGroupInputGUI($this->lng->txt('tst_imap_qst_mode'), 'is_multiple_choice');
-		$radioGroup->setValue($this->object->getIsMultipleChoice());
-		$modeSingleChoice = new ilRadioOption($this->lng->txt('tst_imap_qst_mode_sc'), assImagemapQuestion::MODE_SINGLE_CHOICE);
-		$modeMultipleChoice = new ilRadioOption($this->lng->txt('tst_imap_qst_mode_mc'), assImagemapQuestion::MODE_MULTIPLE_CHOICE);
-		$radioGroup->addOption($modeSingleChoice);
-		$radioGroup->addOption($modeMultipleChoice);
-		$form->addItem($radioGroup);
-	
-		// image
-		include_once "./Modules/TestQuestionPool/classes/class.ilImagemapFileInputGUI.php";
-		$image = new ilImagemapFileInputGUI($this->lng->txt('image'), 'image');
-		$image->setRequired(true);
-
-		if (strlen($this->object->getImageFilename()))
-		{
-			$image->setImage($this->object->getImagePathWeb() . $this->object->getImageFilename());
-			$image->setValue($this->object->getImageFilename());
-			$image->setAreas($this->object->getAnswers());
-			$assessmentSetting = new ilSetting("assessment");
-			$linecolor = (strlen($assessmentSetting->get("imap_line_color"))) ? "\"#" . $assessmentSetting->get("imap_line_color") . "\"" : "\"#FF0000\"";
-			$image->setLineColor($linecolor);
-			$image->setImagePath($this->object->getImagePath());
-			$image->setImagePathWeb($this->object->getImagePathWeb());
-		}
-		$form->addItem($image);
-
-		// imagemapfile
-		$imagemapfile = new ilFileInputGUI($this->lng->txt('add_imagemap'), 'imagemapfile');
-		$imagemapfile->setRequired(false);
-		$form->addItem($imagemapfile);
+		$this->addBasicQuestionFormProperties( $form );
+		$this->populateQuestionSpecificFormPart( $form );
+		// $this->populateAnswerSpecificFormPart( $form ); Nothing to do here, this line FYI. See notes in method.
 		
 		$this->populateTaxonomyFormSection($form);
-
 		$this->addQuestionFormCommandButtons($form);
-	
+
 		$errors = false;
-	
 		if ($save)
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
-			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling 
+									  // and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
 	}
-	
+
+	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		return $form; // Nothing to do here since selectable areas are handled in question-specific-form part
+					  // due to their immediate dependency to the image.
+	}
+
+	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		// is MultipleChoice?
+		$radioGroup = new ilRadioGroupInputGUI($this->lng->txt( 'tst_imap_qst_mode' ), 'is_multiple_choice');
+		$radioGroup->setValue( $this->object->getIsMultipleChoice() );
+		$modeSingleChoice = new ilRadioOption($this->lng->txt( 'tst_imap_qst_mode_sc'), 
+											  assImagemapQuestion::MODE_SINGLE_CHOICE);
+		$modeMultipleChoice = new ilRadioOption($this->lng->txt( 'tst_imap_qst_mode_mc'), 
+												assImagemapQuestion::MODE_MULTIPLE_CHOICE);
+		$radioGroup->addOption( $modeSingleChoice );
+		$radioGroup->addOption( $modeMultipleChoice );
+		$form->addItem( $radioGroup );
+
+		// image
+		include_once "./Modules/TestQuestionPool/classes/class.ilImagemapFileInputGUI.php";
+		$image = new ilImagemapFileInputGUI($this->lng->txt( 'image' ), 'image');
+		$image->setRequired( true );
+
+		if (strlen( $this->object->getImageFilename() ))
+		{
+			$image->setImage( $this->object->getImagePathWeb() . $this->object->getImageFilename() );
+			$image->setValue( $this->object->getImageFilename() );
+			$image->setAreas( $this->object->getAnswers() );
+			$assessmentSetting = new ilSetting("assessment");
+			$linecolor         = (strlen( $assessmentSetting->get( "imap_line_color" )
+			)) ? "\"#" . $assessmentSetting->get( "imap_line_color" ) . "\"" : "\"#FF0000\"";
+			$image->setLineColor( $linecolor );
+			$image->setImagePath( $this->object->getImagePath() );
+			$image->setImagePathWeb( $this->object->getImagePathWeb() );
+		}
+		$form->addItem( $image );
+
+		// imagemapfile
+		$imagemapfile = new ilFileInputGUI($this->lng->txt( 'add_imagemap' ), 'imagemapfile');
+		$imagemapfile->setRequired( false );
+		$form->addItem( $imagemapfile );
+		return $form;
+	}
+
 	function addRect()
 	{
 		$this->areaEditor('rect');

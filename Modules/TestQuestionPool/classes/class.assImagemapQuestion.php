@@ -1,77 +1,58 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
 
 /**
  * Class for image map questions
  *
  * assImagemapQuestion is a class for imagemap question.
- *
- * @extends assQuestion
  * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
  * @version		$Id$
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assImagemapQuestion extends assQuestion 
+class assImagemapQuestion extends assQuestion implements ObjScoringAdjustable
 {
 	const MODE_SINGLE_CHOICE   = 0;
 	const MODE_MULTIPLE_CHOICE = 1;
 
-/**
-* The possible answers of the imagemap question
-*
-* $answers is an array of the predefined answers of the imagemap question
-*
-* @var array
-*/
+	/** @var $answers array The possible answers of the imagemap question. */
 	var $answers;
 
-/**
-* The image file containing the name of image file
-*
-* The image file containing the name of image file
-*
-* @var string
-*/
+	/** @var $image_filename string The image file containing the name of image file. */
 	var $image_filename;
 
-/**
-* The variable containing contents of an imagemap file
-*
-* The variable containing contents of an imagemap file
-*
-* @var string
-*/
+	/** @var $imagemap_contents string The variable containing contents of an imagemap file. */
 	var $imagemap_contents;
+	
+	/** @var $coords array */
 	var $coords;
 
-	/**
-	 * Defines weather the Question is a Single or a Multiplechoice question
-	 *
-	 * @var bool
-	 */
+	/** @var $is_multiple_choice bool Defines weather the Question is a Single or a Multiplechoice question. */
 	protected $is_multiple_choice = false;
 
-/**
-* assImagemapQuestion constructor
-*
-* The constructor takes possible arguments an creates an instance of the assImagemapQuestion object.
-*
-* @param string $title A title string to describe the question
-* @param string $comment A comment string to describe the question
-* @param string $author A string containing the name of the questions author
-* @param integer $owner A numerical ID to identify the owner/creator
-* @param string $image_file The image file name of the imagemap question
-* @param string $question The question string of the imagemap question
-* @access public
-*/
-	function __construct(
+	/**
+	 * assImagemapQuestion constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assImagemapQuestion object.
+	 *
+	 * @param string  $title    		A title string to describe the question.
+	 * @param string  $comment  		A comment string to describe the question.
+	 * @param string  $author   		A string containing the name of the questions author.
+	 * @param integer $owner    		A numerical ID to identify the owner/creator.
+	 * @param string  $question 		The question string of the imagemap question.
+	 * @param string  $image_filename
+	 * 
+	 * @return \assImagemapQuestion
+	 */
+	public function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -114,64 +95,83 @@ class assImagemapQuestion extends assQuestion
 */
 	function isComplete()
 	{
-		if (strlen($this->title) and ($this->author) and ($this->question) and ($this->image_filename) and (count($this->answers)) and ($this->getMaximumPoints() > 0))
+		if (strlen($this->title) 
+			&& ($this->author) 
+			&& ($this->question) 
+			&& ($this->image_filename) 
+			&& (count($this->answers)) 
+			&& ($this->getMaximumPoints() > 0)
+		)
 		{
 			return true;
 		}
-			else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
-	* Saves a assImagemapQuestion object to a database
-	*
-	* Saves a assImagemapQuestion object to a database (experimental)
-	*
-	* @param object $db A pear DB object
-	* @access public
-	*/
-	function saveToDb($original_id = "")
+	 * Saves an assImagemapQuestion object to a database
+	 *
+	 * Saves an assImagemapQuestion object to a database
+	 *
+	 * @param string $original_id
+	 *
+	 * @return mixed|void
+	 */
+	public function saveToDb($original_id = "")
 	{
 		global $ilDB;
 
 		$this->saveQuestionDataToDb($original_id);
+		$this->saveAdditionalQuestionDataToDb();
+		$this->saveAnswerSpecificDataToDb();
 
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, image_file, is_multiple_choice) VALUES (%s, %s, %s)", 
-			array("integer", "text", 'integer'),
-			array(
-				$this->getId(),
-				$this->image_filename,
-				(int)$this->is_multiple_choice
-			)
-		);
+		parent::saveToDb($original_id);
+	}
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_imagemap WHERE question_fi = %s",
-			array("integer"),
-			array($this->getId())
+	public function saveAnswerSpecificDataToDb()
+	{
+		global $ilDB;
+		$ilDB->manipulateF( "DELETE FROM qpl_a_imagemap WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
 		);
 
 		// Anworten wegschreiben
 		foreach ($this->answers as $key => $value)
 		{
-			$answer_obj = $this->answers[$key];
-			$next_id = $ilDB->nextId('qpl_a_imagemap');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-				array("integer","integer","text","float","integer","text","text", "float"),
-				array($next_id, $this->id, $answer_obj->getAnswertext(), $answer_obj->getPoints(), $answer_obj->getOrder(), $answer_obj->getCoords(), $answer_obj->getArea(), $answer_obj->getPointsUnchecked())
+			$answer_obj   = $this->answers[$key];
+			$next_id      = $ilDB->nextId( 'qpl_a_imagemap' );
+			$affectedRows = $ilDB->manipulateF( "INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+												array( "integer", "integer", "text", "float", "integer", "text", "text", "float" ),
+												array( $next_id, $this->id, $answer_obj->getAnswertext(
+												), $answer_obj->getPoints(), $answer_obj->getOrder(
+												), $answer_obj->getCoords(), $answer_obj->getArea(
+												), $answer_obj->getPointsUnchecked() )
 			);
 		}
-
-		parent::saveToDb($original_id);
 	}
 
-/**
+	public function saveAdditionalQuestionDataToDb()
+	{
+		global $ilDB;
+		
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+		
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
+																		) . " (question_fi, image_file, is_multiple_choice) VALUES (%s, %s, %s)",
+							array( "integer", "text", 'integer' ),
+							array(
+								$this->getId(),
+								$this->image_filename,
+								(int)$this->is_multiple_choice
+							)
+		);
+	}
+
+	/**
 * Duplicates an assImagemapQuestion
 *
 * @access public
