@@ -79,8 +79,8 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
             $folder->setInfo($lng->txt("cld_only_owner_has_permission_to_change_root_path"));
         }
 
-        $folder->setMaxLength(30);
-        $folder->setSize(30);
+        $folder->setMaxLength(255);
+        $folder->setSize(50);
         $this->form->addItem($folder);
 
         $this->createPluginSection();
