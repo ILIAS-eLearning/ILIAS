@@ -1,24 +1,25 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjAnswerScoringAdjustable.php';
 
 /**
  * Class for matching questions
  *
  * assMatchingQuestion is a class for matching questions.
- *
- * @extends assQuestion
  * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
  * @version		$Id$
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assMatchingQuestion extends assQuestion
+class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	/**
 	* The possible matching pairs of the matching question
@@ -62,18 +63,20 @@ class assMatchingQuestion extends assQuestion
 	var $element_height;
 
 	/**
-	* assMatchingQuestion constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assMatchingQuestion object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $comment A comment string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A numerical ID to identify the owner/creator
-	* @param string $question The question string of the matching question
-	* @access public
-	*/
-	function __construct(
+	 * assMatchingQuestion constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assMatchingQuestion object.
+	 *
+	 * @param string  $title    A title string to describe the question
+	 * @param string  $comment  A comment string to describe the question
+	 * @param string  $author   A string containing the name of the questions author
+	 * @param integer $owner    A numerical ID to identify the owner/creator
+	 * @param string  $question The question string of the matching question
+	 * @param int     $matching_type
+	 *
+	 * @return \assMatchingQuestion
+	 */
+	public function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -93,67 +96,62 @@ class assMatchingQuestion extends assQuestion
 	* Returns true, if a matching question is complete for use
 	*
 	* @return boolean True, if the matching question is complete for use, otherwise false
-	* @access public
 	*/
-	function isComplete()
+	public function isComplete()
 	{
-		if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->matchingpairs)) and ($this->getMaximumPoints() > 0))
+		if (strlen($this->title) 
+			&& $this->author 
+			&& $this->question 
+			&& count($this->matchingpairs) 
+			&& $this->getMaximumPoints() > 0
+		)
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
-	* Saves a assMatchingQuestion object to a database
-	*
-	* @param object $db A pear DB object
-	*/
+	 * Saves a assMatchingQuestion object to a database
+	 *
+	 * @param string $original_id
+	 *
+	 */
 	public function saveToDb($original_id = "")
 	{
 		global $ilDB;
 
 		$this->saveQuestionDataToDb($original_id);
+		$this->saveAdditionalQuestionDataToDb();
+		$this->saveAnswerSpecificDataToDb( $ilDB );
 
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, matching_type, thumb_geometry, element_height) VALUES (%s, %s, %s, %s, %s)", 
-			array("integer", "text", "text","integer","integer"),
-			array(
-				$this->getId(),
-				$this->shuffle,
-				$this->matching_type,
-				$this->getThumbGeometry(),
-				($this->getElementHeight() >= 20) ? $this->getElementHeight() : NULL
-			)
-		);
 
+		parent::saveToDb($original_id);
+	}
+
+	public function saveAnswerSpecificDataToDb()
+	{
+		global $ilDB;
 		// delete old terms
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_mterm WHERE question_fi = %s",
-			array('integer'),
-			array($this->getId())
+		$ilDB->manipulateF( "DELETE FROM qpl_a_mterm WHERE question_fi = %s",
+							array( 'integer' ),
+							array( $this->getId() )
 		);
-		
+
 		// delete old definitions
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_mdef WHERE question_fi = %s",
-			array('integer'),
-			array($this->getId())
+		$ilDB->manipulateF( "DELETE FROM qpl_a_mdef WHERE question_fi = %s",
+							array( 'integer' ),
+							array( $this->getId() )
 		);
-	
+
 		$termids = array();
 		// write terms
 		foreach ($this->terms as $key => $term)
 		{
-			$next_id = $ilDB->nextId('qpl_a_mterm');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_mterm (term_id, question_fi, picture, term) VALUES (%s, %s, %s, %s)",
-				array('integer','integer','text', 'text'),
-				array($next_id, $this->getId(), $term->picture, $term->text)
+			$next_id = $ilDB->nextId( 'qpl_a_mterm' );
+			$ilDB->manipulateF( "INSERT INTO qpl_a_mterm (term_id, question_fi, picture, term) VALUES (%s, %s, %s, %s)",
+								array( 'integer', 'integer', 'text', 'text' ),
+								array( $next_id, $this->getId(), $term->picture, $term->text )
 			);
 			$termids[$term->identifier] = $next_id;
 		}
@@ -162,37 +160,57 @@ class assMatchingQuestion extends assQuestion
 		// write definitions
 		foreach ($this->definitions as $key => $definition)
 		{
-			$next_id = $ilDB->nextId('qpl_a_mdef');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_mdef (def_id, question_fi, picture, definition, morder) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','integer','text', 'text', 'integer'),
-				array($next_id, $this->getId(), $definition->picture, $definition->text, $definition->identifier)
+			$next_id = $ilDB->nextId( 'qpl_a_mdef' );
+			$ilDB->manipulateF( "INSERT INTO qpl_a_mdef (def_id, question_fi, picture, definition, morder) VALUES (%s, %s, %s, %s, %s)",
+								array( 'integer', 'integer', 'text', 'text', 'integer' ),
+								array( $next_id, $this->getId(
+								), $definition->picture, $definition->text, $definition->identifier )
 			);
 			$definitionids[$definition->identifier] = $next_id;
 		}
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_matching WHERE question_fi = %s",
-			array('integer'),
-			array($this->getId())
+		$ilDB->manipulateF( "DELETE FROM qpl_a_matching WHERE question_fi = %s",
+							array( 'integer' ),
+							array( $this->getId() )
 		);
 		$matchingpairs = $this->getMatchingPairs();
 		foreach ($matchingpairs as $key => $pair)
 		{
-			$next_id = $ilDB->nextId('qpl_a_matching');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_matching (answer_id, question_fi, points, term_fi, definition_fi) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','integer','float','integer','integer'),
-				array(
-					$next_id,
-					$this->getId(),
-					$pair->points,
-					$termids[$pair->term->identifier],
-					$definitionids[$pair->definition->identifier]
-				)
+			$next_id = $ilDB->nextId( 'qpl_a_matching' );
+			$ilDB->manipulateF( "INSERT INTO qpl_a_matching (answer_id, question_fi, points, term_fi, definition_fi) VALUES (%s, %s, %s, %s, %s)",
+								array( 'integer', 'integer', 'float', 'integer', 'integer' ),
+								array(
+									$next_id,
+									$this->getId(),
+									$pair->points,
+									$termids[$pair->term->identifier],
+									$definitionids[$pair->definition->identifier]
+								)
 			);
 		}
-		
+
 		$this->rebuildThumbnails();
-		
-		parent::saveToDb($original_id);
+	}
+
+	public function saveAdditionalQuestionDataToDb()
+	{
+		global $ilDB;
+		// save additional data
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
+																										) . " (question_fi, shuffle, matching_type, thumb_geometry, element_height) VALUES (%s, %s, %s, %s, %s)",
+							array( "integer", "text", "text", "integer", "integer" ),
+							array(
+								$this->getId(),
+								$this->shuffle,
+								$this->matching_type,
+								$this->getThumbGeometry(),
+								($this->getElementHeight() >= 20) ? $this->getElementHeight() : NULL
+							)
+		);
 	}
 
 	/**
@@ -517,26 +535,35 @@ class assMatchingQuestion extends assQuestion
 			array_push($this->matchingpairs, $pair);
 		}
 	}
+
 	/**
-	* Adds an matching pair for an matching choice question. The students have to fill in an order for the matching pair.
-	* The matching pair is an ASS_AnswerMatching object that will be created and assigned to the array $this->matchingpairs.
-	*
-	* @param object $term A matching term
-	* @param object $definition A matching definition
-	* @param double $points The points for selecting the matching pair (even negative points can be used)
-	* @see $matchingpairs
-	*/
+	 * Adds an matching pair for an matching choice question. The students have to fill in an order for the 
+	 * matching pair. The matching pair is an ASS_AnswerMatching object that will be created and assigned to the 
+	 * array $this->matchingpairs.
+	 *
+	 * @param assAnswerMatchingTerm|null		$term       A matching term
+	 * @param assAnswerMatchingDefinition|null	$definition A matching definition
+	 * @param float 							$points     The points for selecting the matching pair, incl. negative.
+	 *
+	 * @see $matchingpairs
+	 */
 	public function addMatchingPair($term = null, $definition = null, $points = 0.0)
 	{
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
-		if (is_null($term)) $term = new assAnswerMatchingTerm();
-		if (is_null($definition)) $definition = new assAnswerMatchingDefinition();
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php';
+		if (is_null($term)) 
+		{
+			$term = new assAnswerMatchingTerm();
+		}
+		if (is_null($definition)) 
+		{
+			$definition = new assAnswerMatchingDefinition();
+		}
 		$pair = new assAnswerMatchingPair($term, $definition, $points);
 		array_push($this->matchingpairs, $pair);
 	}
-	
+
 	/**
 	* Returns a term with a given identifier
 	*/
