@@ -1,32 +1,37 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
+include_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* Matching question GUI representation
-*
-* The assMatchingQuestionGUI class encapsulates the GUI representation
-* for matching questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
-class assMatchingQuestionGUI extends assQuestionGUI
+ * Matching question GUI representation
+ *
+ * The assMatchingQuestionGUI class encapsulates the GUI representation
+ * for matching questions.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
+ * @version	$Id$
+ * 
+ * @ingroup ModulesTestQuestionPool
+ */
+class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	/**
-	* assMatchingQuestionGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assMatchingQuestionGUI object.
-	*
-	* @param integer $id The database id of a image map question object
-	* @access public
-	*/
-	function __construct($id = -1)
+	 * assMatchingQuestionGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assMatchingQuestionGUI object.
+	 *
+	 * @param integer $id The database id of a image map question object
+	 * 
+	 * @return \assMatchingQuestionGUI
+	 */
+	public function __construct($id = -1)
 	{
 		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assMatchingQuestion.php";
@@ -38,158 +43,138 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 	}
 
-	function getCommand($cmd)
-	{
-		return $cmd;
-	}
-
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			if (!$this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setShuffle($_POST["shuffle"]);
-			}
-			else
-			{
-				$this->object->setShuffle(1);
-			}
-			$this->object->setThumbGeometry($_POST["thumb_geometry"]);
-			$this->object->setElementHeight($_POST["element_height"]);
-			if ($this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setNrOfTries($_POST['nr_of_tries']);
-			}
-			// adding estimated working time
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-
-			// Delete all existing answers and create new answers from the form data
-			$this->object->flushMatchingPairs();
-			$this->object->flushTerms();
-			$this->object->flushDefinitions();
-			$saved = false;
-
-			// add terms
-			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-			foreach ($_POST['terms']['answer'] as $index => $answer)
-			{
-				$filename = $_POST['terms']['imagename'][$index];
-				if (strlen($_FILES['terms']['name']['image'][$index]))
-				{
-					// upload the new file
-					$name = $_FILES['terms']['name']['image'][$index];
-					if ($this->object->setImageFile($_FILES['terms']['tmp_name']['image'][$index], $this->object->getEncryptedFilename($name)))
-					{
-						$filename = $this->object->getEncryptedFilename($name);
-					}
-					else
-					{
-						$filename = "";
-					}
-				}
-				$this->object->addTerm(new assAnswerMatchingTerm($answer, $filename, $_POST['terms']['identifier'][$index]));
-			}
-			// add definitions
-			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
-			foreach ($_POST['definitions']['answer'] as $index => $answer)
-			{
-				$filename = $_POST['definitions']['imagename'][$index];
-				if (strlen($_FILES['definitions']['name']['image'][$index]))
-				{
-					// upload the new file
-					$name = $_FILES['definitions']['name']['image'][$index];
-					if ($this->object->setImageFile($_FILES['definitions']['tmp_name']['image'][$index], $this->object->getEncryptedFilename($name)))
-					{
-						$filename = $this->object->getEncryptedFilename($name);
-					}
-					else
-					{
-						$filename = "";
-					}
-				}
-				$this->object->addDefinition(new assAnswerMatchingDefinition($answer, $filename, $_POST['definitions']['identifier'][$index]));
-			}
-
-			// add matching pairs
-			if (is_array($_POST['pairs']['points']))
-			{
-				include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
-				foreach ($_POST['pairs']['points'] as $index => $points)
-				{
-					$term_id = $_POST['pairs']['term'][$index];
-					$definition_id = $_POST['pairs']['definition'][$index];
-					$this->object->addMatchingPair($this->object->getTermWithIdentifier($term_id), $this->object->getDefinitionWithIdentifier($definition_id), $points);
-				}
-			}
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			$this->writeAnswerSpecificPostData();
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
+		}
+		return 1;
+	}
+
+	public function writeAnswerSpecificPostData($always = true)
+	{
+		// Delete all existing answers and create new answers from the form data
+		$this->object->flushMatchingPairs();
+		$this->object->flushTerms();
+		$this->object->flushDefinitions();
+
+		// add terms
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
+		foreach ($_POST['terms']['answer'] as $index => $answer)
+		{
+			$filename = $_POST['terms']['imagename'][$index];
+			if (strlen( $_FILES['terms']['name']['image'][$index] ))
+			{
+				// upload the new file
+				$name = $_FILES['terms']['name']['image'][$index];
+				if ($this->object->setImageFile( $_FILES['terms']['tmp_name']['image'][$index],
+												 $this->object->getEncryptedFilename( $name )
+				)
+				)
+				{
+					$filename = $this->object->getEncryptedFilename( $name );
+				}
+				else
+				{
+					$filename = "";
+				}
+			}
+			$this->object->addTerm( new assAnswerMatchingTerm($answer, $filename, $_POST['terms']['identifier'][$index])
+			);
+		}
+		// add definitions
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php';
+		foreach ($_POST['definitions']['answer'] as $index => $answer)
+		{
+			$filename = $_POST['definitions']['imagename'][$index];
+			if (strlen( $_FILES['definitions']['name']['image'][$index] ))
+			{
+				// upload the new file
+				$name = $_FILES['definitions']['name']['image'][$index];
+				if ($this->object->setImageFile( $_FILES['definitions']['tmp_name']['image'][$index],
+												 $this->object->getEncryptedFilename( $name )
+				)
+				)
+				{
+					$filename = $this->object->getEncryptedFilename( $name );
+				}
+				else
+				{
+					$filename = "";
+				}
+			}
+			$this->object->addDefinition( 
+				new assAnswerMatchingDefinition($answer, $filename, $_POST['definitions']['identifier'][$index])
+			);
+		}
+
+		// add matching pairs
+		if (is_array( $_POST['pairs']['points'] ))
+		{
+			require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
+			foreach ($_POST['pairs']['points'] as $index => $points)
+			{
+				$term_id = $_POST['pairs']['term'][$index];
+				$definition_id = $_POST['pairs']['definition'][$index];
+				$this->object->addMatchingPair( $this->object->getTermWithIdentifier( $term_id ),
+												$this->object->getDefinitionWithIdentifier( $definition_id ),
+												$points
+				);
+			}
+		}
+	}
+
+	public function writeQuestionSpecificPostData($always = true)
+	{
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			$this->object->setShuffle( $_POST["shuffle"] );
 		}
 		else
 		{
-			return 1;
+			$this->object->setShuffle( 1 );
 		}
+		$this->object->setThumbGeometry( $_POST["thumb_geometry"] );
+		$this->object->setElementHeight( $_POST["element_height"] );
 	}
-	
-	/**
-	* Upload an image
-	*/
+
 	public function uploadterms()
 	{
 		$this->writePostData(true);
-		$position = key($_POST['cmd']['uploadterms']);
 		$this->editQuestion();
 	}
 
-	/**
-	* Remove an image
-	*/
 	public function removeimageterms()
 	{
 		$this->writePostData(true);
 		$position = key($_POST['cmd']['removeimageterms']);
-		$filename = $_POST['terms']['imagename'][$position];
 		$this->object->removeTermImage($position);
 		$this->editQuestion();
 	}
 
-	/**
-	* Upload an image
-	*/
 	public function uploaddefinitions()
 	{
 		$this->writePostData(true);
-		$position = key($_POST['cmd']['uploaddefinitions']);
 		$this->editQuestion();
 	}
 
-	/**
-	* Remove an image
-	*/
 	public function removeimagedefinitions()
 	{
 		$this->writePostData(true);
 		$position = key($_POST['cmd']['removeimagedefinitions']);
-		$filename = $_POST['definitions']['imagename'][$position];
 		$this->object->removeDefinitionImage($position);
 		$this->editQuestion();
 	}
@@ -242,12 +227,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->editQuestion();
 	}
 
-	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
-	function editQuestion($checkonly = FALSE)
+	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
 		$this->getQuestionTemplate();
@@ -260,105 +240,25 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$form->setTableWidth("100%");
 		$form->setId("matching");
 
-		// Edit mode
-		$hidden = new ilHiddenInputGUI("matching_type");
-		$hidden->setValue($matchingtype);
-		$form->addItem($hidden);
-		
+
 		// title, author, description, question, working time (assessment mode)
 		$this->addBasicQuestionFormProperties($form);
-
-		if (!$this->object->getSelfAssessmentEditingMode())
-		{
-			// shuffle
-			$shuffle = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
-			$shuffle_options = array(
-				0 => $this->lng->txt("no"),
-				1 => $this->lng->txt("matching_shuffle_terms_definitions"),
-				2 => $this->lng->txt("matching_shuffle_terms"),
-				3 => $this->lng->txt("matching_shuffle_definitions")
-			);
-			$shuffle->setOptions($shuffle_options);
-			$shuffle->setValue($this->object->getShuffle());
-			$shuffle->setRequired(FALSE);
-			$form->addItem($shuffle);
-
-			$element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
-			$element_height->setValue($this->object->getElementHeight());
-			$element_height->setRequired(false);
-			$element_height->setMaxLength(6);
-			$element_height->setMinValue(20);
-			$element_height->setSize(6);
-			$element_height->setInfo($this->lng->txt("element_height_info"));
-			$form->addItem($element_height);
-
-			$geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
-			$geometry->setValue($this->object->getThumbGeometry());
-			$geometry->setRequired(true);
-			$geometry->setMaxLength(6);
-			$geometry->setMinValue(20);
-			$geometry->setSize(6);
-			$geometry->setInfo($this->lng->txt("thumb_geometry_info"));
-			$form->addItem($geometry);
-		}
-
-		// Definitions
-		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
-		$definitions = new ilMatchingWizardInputGUI($this->lng->txt("definitions"), "definitions");
-		if ($this->object->getSelfAssessmentEditingMode()) $definitions->setHideImages(true);
-		$definitions->setRequired(true);
-		$definitions->setQuestionObject($this->object);
-		$definitions->setTextName($this->lng->txt('definition_text'));
-		$definitions->setImageName($this->lng->txt('definition_image'));
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
-		if (!count($this->object->getDefinitions())) $this->object->addDefinition(new assAnswerMatchingDefinition());
-		$definitionvalues = $this->object->getDefinitions();
-		$definitions->setValues($definitionvalues);
-		$form->addItem($definitions);
-		
-		// Terms
-		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
-		$terms = new ilMatchingWizardInputGUI($this->lng->txt("terms"), "terms");
-		if ($this->object->getSelfAssessmentEditingMode()) $terms->setHideImages(true);
-		$terms->setRequired(true);
-		$terms->setQuestionObject($this->object);
-		$terms->setTextName($this->lng->txt('term_text'));
-		$terms->setImageName($this->lng->txt('term_image'));
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-		if (!count($this->object->getTerms())) $this->object->addTerm(new assAnswerMatchingTerm());
-		$termvalues = $this->object->getTerms();
-		$terms->setValues($termvalues);
-		$form->addItem($terms);
-		
-		// Matching Pairs
-		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingPairWizardInputGUI.php";
-		$pairs = new ilMatchingPairWizardInputGUI($this->lng->txt('matching_pairs'), 'pairs');
-		$pairs->setRequired(true);
-		$pairs->setTerms($this->object->getTerms());
-		$pairs->setDefinitions($this->object->getDefinitions());
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
-		if (count($this->object->getMatchingPairs()) == 0)
-		{
-			$this->object->addMatchingPair(new assAnswerMatchingPair($termvalues[0], $definitionvalues[0], 0));
-		}
-		$pairs->setPairs($this->object->getMatchingPairs());
-		$form->addItem($pairs);
-		
+		$this->populateQuestionSpecificFormPart( $form );
+		$this->populateAnswerSpecificFormPart( $form );
 		$this->populateTaxonomyFormSection($form);
-
 		$this->addQuestionFormCommandButtons($form);
 
 		$errors = false;
-	
 		if ($save)
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-			if ((!$errors) && (count($terms->getValues()) < (count($definitions->getValues())))
+			if ((!$errors) && (count($this->object->getTerms()) < (count($this->object->getDefinitions())))
 				&& !$this->object->getSelfAssessmentEditingMode())
 			{
 				$errors = true;
+				$terms = $form->getItemByPostVar('terms');
 				$terms->setAlert($this->lng->txt("msg_number_of_terms_too_low"));
 				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 			}
@@ -367,6 +267,103 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
+	}
+
+	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		// Definitions
+		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
+		$definitions = new ilMatchingWizardInputGUI($this->lng->txt( "definitions" ), "definitions");
+		if ($this->object->getSelfAssessmentEditingMode())
+		{
+			$definitions->setHideImages( true );
+		}
+		
+		$definitions->setRequired( true );
+		$definitions->setQuestionObject( $this->object );
+		$definitions->setTextName( $this->lng->txt( 'definition_text' ) );
+		$definitions->setImageName( $this->lng->txt( 'definition_image' ) );
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
+		if (!count( $this->object->getDefinitions() ))
+		{
+			$this->object->addDefinition( new assAnswerMatchingDefinition() );
+		}
+		$definitionvalues = $this->object->getDefinitions();
+		$definitions->setValues( $definitionvalues );
+		$form->addItem( $definitions );
+
+		// Terms
+		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
+		$terms = new ilMatchingWizardInputGUI($this->lng->txt( "terms" ), "terms");
+		if ($this->object->getSelfAssessmentEditingMode())
+			$terms->setHideImages( true );
+		$terms->setRequired( true );
+		$terms->setQuestionObject( $this->object );
+		$terms->setTextName( $this->lng->txt( 'term_text' ) );
+		$terms->setImageName( $this->lng->txt( 'term_image' ) );
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
+		if (!count( $this->object->getTerms() ))
+			$this->object->addTerm( new assAnswerMatchingTerm() );
+		$termvalues = $this->object->getTerms();
+		$terms->setValues( $termvalues );
+		$form->addItem( $terms );
+
+		// Matching Pairs
+		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingPairWizardInputGUI.php";
+		$pairs = new ilMatchingPairWizardInputGUI($this->lng->txt( 'matching_pairs' ), 'pairs');
+		$pairs->setRequired( true );
+		$pairs->setTerms( $this->object->getTerms() );
+		$pairs->setDefinitions( $this->object->getDefinitions() );
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
+		if (count( $this->object->getMatchingPairs() ) == 0)
+		{
+			$this->object->addMatchingPair( new assAnswerMatchingPair($termvalues[0], $definitionvalues[0], 0) );
+		}
+		$pairs->setPairs( $this->object->getMatchingPairs() );
+		$form->addItem( $pairs );
+		return $form;
+	}
+
+	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		// Edit mode
+		$hidden = new ilHiddenInputGUI("matching_type");
+		$hidden->setValue($matchingtype);
+		$form->addItem($hidden);
+
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			// shuffle
+			$shuffle         = new ilSelectInputGUI($this->lng->txt( "shuffle_answers" ), "shuffle");
+			$shuffle_options = array(
+				0 => $this->lng->txt( "no" ),
+				1 => $this->lng->txt( "matching_shuffle_terms_definitions" ),
+				2 => $this->lng->txt( "matching_shuffle_terms" ),
+				3 => $this->lng->txt( "matching_shuffle_definitions" )
+			);
+			$shuffle->setOptions( $shuffle_options );
+			$shuffle->setValue( $this->object->getShuffle() );
+			$shuffle->setRequired( FALSE );
+			$form->addItem( $shuffle );
+
+			$element_height = new ilNumberInputGUI($this->lng->txt( "element_height" ), "element_height");
+			$element_height->setValue( $this->object->getElementHeight() );
+			$element_height->setRequired( false );
+			$element_height->setMaxLength( 6 );
+			$element_height->setMinValue( 20 );
+			$element_height->setSize( 6 );
+			$element_height->setInfo( $this->lng->txt( "element_height_info" ) );
+			$form->addItem( $element_height );
+
+			$geometry = new ilNumberInputGUI($this->lng->txt( "thumb_geometry" ), "thumb_geometry");
+			$geometry->setValue( $this->object->getThumbGeometry() );
+			$geometry->setRequired( true );
+			$geometry->setMaxLength( 6 );
+			$geometry->setMinValue( 20 );
+			$geometry->setSize( 6 );
+			$geometry->setInfo( $this->lng->txt( "thumb_geometry_info" ) );
+			$form->addItem( $geometry );
+		}
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)

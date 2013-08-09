@@ -1,35 +1,18 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+require_once './Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php';
 
 /**
-* This class represents a single choice wizard property in a property form.
-*
-* @author Helmut Schottmüller <ilias@aurealis.de> 
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a single choice wizard property in a property form.
+ *
+ * @author Helmut Schottmüller <ilias@aurealis.de> 
+ * @author Maximilian Becker <mbecker@databay.de> 
+ * 
+ * @version $Id$
+ *
+ * @ingroup ModulesTestQuestionPool
+ */
 class ilMatchingWizardInputGUI extends ilTextInputGUI
 {
 	protected $text_name = '';
@@ -41,11 +24,13 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 	protected $hideImages = false;
 
 	/**
-	* Constructor
-	*
-	* @param	string	$a_title	Title
-	* @param	string	$a_postvar	Post Variable
-	*/
+	 * Constructor
+	 *
+	 * @param	string	$a_title	Title
+	 * @param	string	$a_postvar	Post Variable
+	 * 
+	 * @return \ilMatchingWizardInputGUI
+	 */
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		global $lng;
@@ -80,7 +65,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 	/**
 	* Set hide images.
 	*
-	* @param	array	$a_hide	Hide images
+	* @param	bool	$a_hide	Hide images
 	*/
 	function setHideImages($a_hide)
 	{
@@ -188,7 +173,10 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 	{
 		global $lng;
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		if (is_array($_POST[$this->getPostVar()]))
+		{
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		}
 		$foundvalues = $_POST[$this->getPostVar()];
 		if (is_array($foundvalues))
 		{
@@ -204,8 +192,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 					}
 				}
 			}
-
-			if (is_array($_FILES) && (!$this->hideImages))
+			if (!$this->hideImages)
 			{
 				if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 				{
@@ -260,14 +247,6 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 						}
 					}
 				}
-				else
-				{
-					if ($this->getRequired())
-					{
-						$this->setAlert($lng->txt("form_msg_file_no_upload"));
-						return false;
-					}
-				}
 
 				if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
 				{
@@ -276,36 +255,20 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 						$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
 						$filename_arr = pathinfo($filename);
 						$suffix = $filename_arr["extension"];
-						$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-						$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+
 						// check suffixes
 						if (strlen($tmpname) && is_array($this->getSuffixes()))
-						{
-							if (!in_array(strtolower($suffix), $this->getSuffixes()))
-							{
-								$this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
-								return false;
-							}
-						}
-					}
-				}
-
-				if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
-				{
-					foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname)
-					{
-						$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-						$filename_arr = pathinfo($filename);
-						$suffix = $filename_arr["extension"];
-						$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-						$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-						// virus handling
-						if (strlen($tmpname))
 						{
 							$vir = ilUtil::virusHandling($tmpname, $filename);
 							if ($vir[0] == false)
 							{
 								$this->setAlert($lng->txt("form_msg_file_virus_found")."<br />".$vir[1]);
+								return false;
+							}
+							
+							if (!in_array(strtolower($suffix), $this->getSuffixes()))
+							{
+								$this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
 								return false;
 							}
 						}
@@ -318,7 +281,6 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 			$this->setAlert($lng->txt("msg_input_is_required"));
 			return FALSE;
 		}
-		
 		return $this->checkSubItemsInput();
 	}
 

@@ -1,33 +1,13 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+
 /**
 * Basic GUI class for assessment questions
 *
-* The assQuestionGUI class encapsulates basic GUI functions
-* for assessment questions.
+* The assQuestionGUI class encapsulates basic GUI functions for assessment questions.
 *
 * @ilCtrl_Calls assQuestionGUI: ilAssQuestionPageGUI
 *
@@ -231,15 +211,15 @@ abstract class assQuestionGUI
 	}
 
 	/**
-	* Creates a question gui representation and returns the alias to the question gui
-	* note: please do not use $this inside this method to allow static calls
-	*
-	* @param string $question_type The question type as it is used in the language database
-	* @param integer $question_id The database ID of an existing question to load it into assQuestionGUI
-	* @return object The alias to the question object
-	* @access public
-	*/
-	function &_getQuestionGUI($question_type, $question_id = -1)
+	 * Creates a question gui representation and returns the alias to the question gui
+	 * note: please do not use $this inside this method to allow static calls
+	 *
+	 * @param string $question_type The question type as it is used in the language database
+	 * @param integer $question_id The database ID of an existing question to load it into assQuestionGUI
+	 * 
+	 * @return assQuestionGUI The alias to the question object
+	 */
+	public function &_getQuestionGUI($question_type, $question_id = -1)
 	{
 		global $ilCtrl, $ilDB, $lng;
 		
