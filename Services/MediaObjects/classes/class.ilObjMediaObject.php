@@ -1146,6 +1146,8 @@ class ilObjMediaObject extends ilObject
 
 	/**
 	* Get's the repository object ID of a parent object, if possible
+	* 
+	* see ilWebAccessChecker 
 	*/
 	function getParentObjectIdForUsage($a_usage, $a_include_all_access_obj_ids = false)
 	{
@@ -1165,153 +1167,154 @@ class ilObjMediaObject extends ilObject
 		
 		switch($type)
 		{
-			case "html":					// "old" category pages
-				if ($cont_type == "cat")
-				{
-					$obj_id = $id;
-				}
-				// Test InfoScreen Text
-				if ($cont_type == "tst" || $cont_type == "svy")
-				{
-					$obj_id = $id;
-					//var_dump($qinfo);
-				}
-				// Question Pool *Question* Text (Test)
-				if ($cont_type == "qpl")
-				{
-					include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-					$qinfo = assQuestion::_getQuestionInfo($id);
-					if ($qinfo["original_id"] > 0)
-					{
-						include_once("./Modules/Test/classes/class.ilObjTest.php");
-						$obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
-					}
-					else
-					{
-						$obj_id = $qinfo["obj_fi"];		// usage in pool
-					}
-				}
+			// RTE / tiny mce
+			case "html":		
 				
-				// Question Pool *Question* Text (Survey)
-				if ($cont_type == "spl")
-				{
-					include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
-					$quest = SurveyQuestion::_instanciateQuestion($id);
-					if($quest)
-					{
-						if ($quest->getOriginalId() > 0)
+				switch($cont_type)
+				{					
+					case "qpl":
+						// Question Pool *Question* Text (Test)
+						include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+						$qinfo = assQuestion::_getQuestionInfo($id);
+						if ($qinfo["original_id"] > 0)
 						{
-							$obj_id = $quest->getSurveyId();
+							include_once("./Modules/Test/classes/class.ilObjTest.php");
+							$obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
 						}
 						else
 						{
-							$obj_id = $quest->getObjId(); // usage in pool
+							$obj_id = $qinfo["obj_fi"];		// usage in pool
+						}												
+						break;
+						
+					case "spl":
+						// Question Pool *Question* Text (Survey)
+						include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
+						$quest = SurveyQuestion::_instanciateQuestion($id);
+						if($quest)
+						{
+							if ($quest->getOriginalId() > 0)
+							{
+								$obj_id = $quest->getSurveyId();
+							}
+							else
+							{
+								$obj_id = $quest->getObjId(); // usage in pool
+							}
+							unset($quest);
 						}
-						unset($quest);
-					}
-				}
-				
-				// Exercise assignment
-				if ($cont_type == "exca")
-				{
-					$returned_pk = $a_usage['id'];
+						break;
+						
+					case "exca":
+						// Exercise assignment
+						$returned_pk = $a_usage['id'];					
+						// we are just checking against exercise object
+						include_once 'Modules/Exercise/classes/class.ilObjExercise.php';
+						$obj_id = ilObjExercise::lookupExerciseIdForReturnedId($returned_pk);			
+						break;
 					
-					// we are just checking against exercise object
+					case "frm":		
+						// Forum
+						$post_pk = $a_usage['id'];
+						include_once 'Modules/Forum/classes/class.ilForumPost.php';
+						include_once 'Modules/Forum/classes/class.ilForum.php';
+						$oPost = new ilForumPost($post_pk);					
+						$frm_pk =  $oPost->getForumId();
+						$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
+						break;
 					
-					include_once 'Modules/Exercise/classes/class.ilObjExercise.php';
-					$obj_id = ilObjExercise::lookupExerciseIdForReturnedId($returned_pk);				
-				}
-				
-				// Forum
-				if ($cont_type == "frm")
-				{
-					$post_pk = $a_usage['id'];
-					include_once 'Modules/Forum/classes/class.ilForumPost.php';
-					include_once 'Modules/Forum/classes/class.ilForum.php';
-					$oPost = new ilForumPost($post_pk);					
-					$frm_pk =  $oPost->getForumId();
+					// temporary items (per user)
+					case "frm~":
+					case "exca~":
+						$obj_id = $a_usage['id'];
+						break;		
 					
-					$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
+					// "old" category pages
+					case "cat":						
+					// InfoScreen Text
+					case "tst":
+					case "svy":
+					// data collection
+					case "dcl":
+						$obj_id = $id;
+						break;					
 				}
-				
-				if ($cont_type == 'frm~' || $cont_type == 'exca~')
-				{
-					$obj_id = $a_usage['id'];
-				}
-
-                if ($cont_type == "dcl")
-                {
-                    $obj_id = $id;
-                }
-
 				break;
 				
+			// page editor
 			case "pg":
-
-				// Question Pool Question Pages
-				if ($cont_type == "qpl")
-				{
-					include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-					$qinfo = assQuestion::_getQuestionInfo($id);
-					if ($qinfo["original_id"] > 0)
-					{
-						include_once("./Modules/Test/classes/class.ilObjTest.php");
-						$obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
-					}
-					else
-					{
-						$obj_id = $qinfo["obj_fi"];		// usage in pool
-					}
-				}
 				
-				// learning modules
-				if ($cont_type == "lm" || $cont_type == "dbk")
+				switch($cont_type)
 				{
-					include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-					$obj_id = ilLMObject::_lookupContObjID($id);
-				}
+					case "qpl":
+						// Question Pool Question Pages
+						include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+						$qinfo = assQuestion::_getQuestionInfo($id);
+						if ($qinfo["original_id"] > 0)
+						{
+							include_once("./Modules/Test/classes/class.ilObjTest.php");
+							$obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
+						}
+						else
+						{
+							$obj_id = $qinfo["obj_fi"];		// usage in pool
+						}				
+						break;
+						
+					case "lm":
+					case "dbk":
+						// learning modules
+						include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+						$obj_id = ilLMObject::_lookupContObjID($id);
+						break;
 				
-				// glossary definition
-				if ($cont_type == "gdf")
-				{
-					include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-					include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-					$term_id = ilGlossaryDefinition::_lookupTermId($id);
-					$obj_id = ilGlossaryTerm::_lookGlossaryID($term_id);
-				}
-				
-				// wiki page
-				if ($cont_type == 'wpg')
-				{
-					include_once 'Modules/Wiki/classes/class.ilWikiPage.php';
-					$obj_id = ilWikiPage::lookupObjIdByPage($id);
-				}
-				
-				// sahs page
-				if ($cont_type == 'sahs')
-				{
-					// can this implementation be used for other content types, too?
-					include_once('./Services/COPage/classes/class.ilPageObject.php');
-					$obj_id = ilPageObject::lookupParentId($id, 'sahs');
-				}
-												
-				// repository pages
-				if (in_array($cont_type, array("crs", "grp", "cat", "fold", "root")))
-				{
-					$obj_id = $id;
-				}
-				
-				if($cont_type == 'prtf')
-				{
-					include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";					
-					$obj_id = ilPortfolioPage::findPortfolioForPage($id);
-				}
-				
-				if($cont_type == 'blp')
-				{
-					include_once('./Services/COPage/classes/class.ilPageObject.php');
-					$obj_id = ilPageObject::lookupParentId($id, 'blp');
-				}
+					case "gdf":
+						// glossary definition						
+						include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
+						include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+						$term_id = ilGlossaryDefinition::_lookupTermId($id);
+						$obj_id = ilGlossaryTerm::_lookGlossaryID($term_id);
+						break;
+					
+					case "wpg":
+						// wiki page
+						include_once 'Modules/Wiki/classes/class.ilWikiPage.php';
+						$obj_id = ilWikiPage::lookupObjIdByPage($id);
+						break;
+					
+					case "sahs":
+						// sahs page						
+						// can this implementation be used for other content types, too?
+						include_once('./Services/COPage/classes/class.ilPageObject.php');
+						$obj_id = ilPageObject::lookupParentId($id, 'sahs');
+						break;
+					
+					case "prtf":
+						// portfolio
+						include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";					
+						$obj_id = ilPortfolioPage::findPortfolioForPage($id);
+						break;
+					
+					case "prtt":
+						// portfolio template
+						include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";					
+						$obj_id = ilPortfolioTemplatePage::findPortfolioForPage($id);
+						break;
+					
+					case "blp":
+						// blog
+						include_once('./Services/COPage/classes/class.ilPageObject.php');
+						$obj_id = ilPageObject::lookupParentId($id, 'blp');
+						
+					case "crs":
+					case "grp":
+					case "cat":
+					case "fold":
+					case "root":
+						// repository pages
+						$obj_id = $id;
+						break;
+				}				
 				break;
 				
 			// Media Pool

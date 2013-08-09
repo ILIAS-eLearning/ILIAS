@@ -412,14 +412,21 @@ class ilWebAccessChecker
 		switch($usage['type'])
 		{
 			case 'lm:pg':
+				if ($this->checkAccessObject($oid, 'lm'))
+				{
+					return true;
+				}
+				/* as $usage['id'] (== page) is not processed anymore, we can use standard
 				if ($oid > 0)
 				{
 					if ($this->checkAccessLM($oid, 'lm', $usage['id']))
 					{
 						return true;
 					}
-				}
+				}				 
+				*/
 				break;
+			
 			case 'news':
 				// media objects in news (media casts)
 				include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
@@ -435,6 +442,7 @@ class ilWebAccessChecker
 				}
 				break;
 
+			/* see default
             case 'dcl:html':
                 include_once("./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php");
                 include_once("./Services/Object/classes/class.ilObject2.php");
@@ -443,6 +451,7 @@ class ilWebAccessChecker
                     if(ilObjDataCollectionAccess::_checkAccess("view", "read", $ref_id, $oid))
                         return true;
                 break;
+			*/
 				
 			case 'frm~:html':
 			case 'exca~:html':
@@ -521,7 +530,9 @@ class ilWebAccessChecker
 	private function checkAccessLM($obj_id, $obj_type, $page = 0)
 	{
 	    global $lng;
-
+		
+		// OBSOLETE (see above)
+	
 		//if (!$page)
 		//{
 			$ref_ids  = ilObject::_getAllReferences($obj_id);
