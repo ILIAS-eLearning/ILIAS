@@ -339,7 +339,7 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
 				$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pcmob_gui->setStyleId($this->page_gui->getStyleId());
-				$pcmob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
+				$pcmob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
 				$ret =& $this->ctrl->forwardCommand($pcmob_gui);
 				$ilHelp->setScreenIdComponent("copg_media");
 				break;
@@ -351,7 +351,7 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 					$ilCtrl->getParentReturn($this));
 				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
 				$mob_gui->getTabs($this->tabs_gui);
-				$mob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
+				$mob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
 				$this->tpl->setTitle($this->lng->txt("mob").": ".
 					ilObject::_lookupTitle($_GET["mob_id"]));
 				$ret =& $this->ctrl->forwardCommand($mob_gui);
