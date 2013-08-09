@@ -3,7 +3,8 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjAnswerScoringAdjustable.php';
 
 /**
  * Class for cloze tests
@@ -16,7 +17,7 @@ require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
  * 
  * @ingroup 	ModulesTestQuestionPool
  */
-class assClozeTest extends assQuestion implements ObjScoringAdjustable
+class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	/**
 	* The gaps of the cloze question
@@ -74,19 +75,20 @@ class assClozeTest extends assQuestion implements ObjScoringAdjustable
 	* @var integer
 	*/
 	var $fixedTextLength;
-	
+
 	/**
-	* assClozeTest constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assClozeTest object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $comment A comment string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A numerical ID to identify the owner/creator
-	* @param string $cloze_text The question string of the cloze test
-	* @access public
-	*/
+	 * assClozeTest constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assClozeTest object.
+	 *
+	 * @param string  $title   A title string to describe the question
+	 * @param string  $comment A comment string to describe the question
+	 * @param string  $author  A string containing the name of the questions author
+	 * @param integer $owner   A numerical ID to identify the owner/creator
+	 * @param string  $question
+	 * 
+	 * @return \assClozeTest
+	 */
 	function __construct(
 		$title = "",
 		$comment = "",
@@ -99,7 +101,7 @@ class assClozeTest extends assQuestion implements ObjScoringAdjustable
 		$this->start_tag = "[gap]";
 		$this->end_tag = "[/gap]";
 		$this->gaps = array();
-		$this->setClozeText($cloze_text);
+		$this->setClozeText($cloze_text); // @TODO: Should this be $question?? See setter for why this is not trivial.
 		$this->fixedTextLength = "";
 		$this->identical_scoring = 1;
 	}
@@ -108,43 +110,42 @@ class assClozeTest extends assQuestion implements ObjScoringAdjustable
 	* Returns TRUE, if a cloze test is complete for use
 	*
 	* @return boolean TRUE, if the cloze test is complete for use, otherwise FALSE
-	* @access public
 	*/
-	function isComplete()
+	public function isComplete()
 	{
-		if (strlen($this->getTitle()) and ($this->getAuthor()) and ($this->getClozeText()) and (count($this->getGaps())) and ($this->getMaximumPoints() > 0))
+		if (strlen($this->getTitle()) 
+			&& $this->getAuthor() 
+			&& $this->getClozeText() 
+			&& count($this->getGaps()) 
+			&& $this->getMaximumPoints() > 0)
 		{
-			return TRUE;
+			return true;
 		}
-		else
-		{
-			return FALSE;
-		}
+		return false;
 	}
 
 	/**
-	* Cleans cloze question text to remove attributes or tags from older ILIAS versions
-	*
-	* @param string $text The cloze question text
-	* @return string The cleaned cloze question text
-	* @access public
-	*/
-	function cleanQuestiontext($text)
+	 * Cleans cloze question text to remove attributes or tags from older ILIAS versions
+	 *
+	 * @param string $text The cloze question text
+	 * 
+	 * @return string The cleaned cloze question text
+	 */
+	public function cleanQuestiontext($text)
 	{
 		$text = preg_replace("/\[gap[^\]]*?\]/", "[gap]", $text);
 		$text = preg_replace("/\<gap([^>]*?)\>/", "[gap]", $text);
 		$text = str_replace("</gap>", "[/gap]", $text);
 		return $text;
 	}
-	
+
 	/**
-	* Loads a assClozeTest object from a database
-	*
-	* @param object $db A pear DB object
-	* @param integer $question_id A unique key which defines the cloze test in the database
-	* @access public
-	*/
-	function loadFromDb($question_id)
+	 * Loads a assClozeTest object from a database
+	 *
+	 * @param integer $question_id A unique key which defines the cloze test in the database
+	 *
+	 */
+	public function loadFromDb($question_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",

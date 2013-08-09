@@ -1,24 +1,24 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
 
 /**
  * Class for Java Applet Questions
  *
  * assJavaApplet is a class for Java Applet Questions.
- *
- * @extends assQuestion
  * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ * 
  * @version		$Id$
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assJavaApplet extends assQuestion
+class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustable
 {
 	/**
 	* Java applet file name
@@ -84,20 +84,19 @@ class assJavaApplet extends assQuestion
 	var $parameters;
 
 	/**
-	* assJavaApplet constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assJavaApplet object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $comment A comment string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A numerical ID to identify the owner/creator
-	* @param string $question The question string of the multiple choice question
-	* @param integer $response Indicates the response type of the multiple choice question
-	* @param integer $output_type The output order of the multiple choice answers
-	* @access public
-	* @see assQuestion:assQuestion()
-	*/
+	 * assJavaApplet constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assJavaApplet object.
+	 *
+	 * @param string  $title    			A title string to describe the question.
+	 * @param string  $comment  			A comment string to describe the question.
+	 * @param string  $author   			A string containing the name of the questions author.
+	 * @param integer $owner    			A numerical ID to identify the owner/creator.
+	 * @param string  $question 			The question string of the multiple choice question.
+	 * @param string  $javaapplet_filename	Applet filename.
+	 *
+	 * @return \assJavaApplet
+	 */
 	function __construct(
 		$title = "",
 		$comment = "",
@@ -113,14 +112,13 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Sets the applet parameters from a parameter string containing all parameters in a list
-	*
-	* Sets the applet parameters from a parameter string containing all parameters in a list
-	*
-	* @param string $params All applet parameters in a list
-	* @access public
-	*/
-	function splitParams($params = "")
+	 * Sets the applet parameters from a parameter string containing all parameters in a list
+	 *
+	 * Sets the applet parameters from a parameter string containing all parameters in a list
+	 *
+	 * @param string $params All applet parameters in a list
+	 */
+	public function splitParams($params = "")
 	{
 		$params_array = split("<separator>", $params);
 		foreach ($params_array as $pair)
@@ -158,14 +156,13 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Returns a string containing the applet parameters
-	*
-	* Returns a string containing the applet parameters. This is used for saving the applet data to database
-	*
-	* @return string All applet parameters
-	* @access public
-	*/
-	function buildParams()
+	 * Returns a string containing the applet parameters
+	 *
+	 * Returns a string containing the applet parameters. This is used for saving the applet data to database
+	 *
+	 * @return string All applet parameters
+	 */
+	public function buildParams()
 	{
 		$params_array = array();
 		if ($this->java_code)
@@ -193,18 +190,16 @@ class assJavaApplet extends assQuestion
 			array_push($params_array, "param_name_$key=" . $value["name"]);
 			array_push($params_array, "param_value_$key=" . $value["value"]);
 		}
+		
 		return join($params_array, "<separator>");
 	}
 
 	/**
-	* Returns a string containing the additional applet parameters
-	*
-	* Returns a string containing the additional applet parameters
-	*
-	* @return string All additional applet parameters
-	* @access public
-	*/
-	function buildParamsOnly()
+	 * Returns a string containing the additional applet parameters
+	 *
+	 * @return string All additional applet parameters
+	 */
+	public function buildParamsOnly()
 	{
 		$params_array = array();
 		if ($this->java_code)
@@ -222,70 +217,80 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Returns true, if a imagemap question is complete for use
-	*
-	* @return boolean True, if the imagemap question is complete for use, otherwise false
-	* @access public
-	*/
-	function isComplete()
+	 * Returns true, if a imagemap question is complete for use
+	 *
+	 * @return boolean True, if the imagemap question is complete for use, otherwise false
+	 */
+	public function isComplete()
 	{
-		if (strlen($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height) and ($this->getPoints() > 0))
+		if (strlen($this->title) 
+			&& $this->author
+			&& $this->question
+			&& $this->javaapplet_filename 
+			&& $this->java_width
+			&& $this->java_height
+			&& $this->getPoints() > 0
+		)
 		{
 			return true;
 		}
-		else if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getJavaArchive()) and ($this->getJavaCodebase()) and ($this->java_width) and ($this->java_height) and ($this->getPoints() > 0))
+		else if (strlen($this->title) 
+			&& $this->author
+			&& $this->question
+			&& $this->getJavaArchive() 
+			&& $this->getJavaCodebase() 
+			&& $this->java_width
+			&& $this->java_height
+			&& $this->getPoints() > 0
+		)
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 
 	/**
-	* Saves a assJavaApplet object to a database
-	*
-	* Saves a assJavaApplet object to a database (experimental)
-	*
-	* @param object $db A pear DB object
-	* @access public
-	*/
-	function saveToDb($original_id = "")
+	 * Saves a assJavaApplet object to a database
+	 *
+	 * @param string $original_id
+	 *
+	 * @return mixed|void
+	 */
+	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
-
 		$this->saveQuestionDataToDb($original_id);
-
-		$params = $this->buildParams();
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, image_file, params) VALUES (%s, %s, %s)", 
-			array("integer", "text", "text"),
-			array(
-				$this->getId(),
-				$this->javaapplet_filename,
-				$params
-			)
-		);
-
+		$this->saveAdditionalQuestionDataToDb();
 		parent::saveToDb($original_id);
 	}
 
+	public function saveAdditionalQuestionDataToDb()
+	{
+		global $ilDB;
+		$params = $this->buildParams();
+		// save additional data
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
+															) . " (question_fi, image_file, params) VALUES (%s, %s, %s)",
+							array( "integer", "text", "text" ),
+							array(
+								$this->getId(),
+								$this->javaapplet_filename,
+								$params
+							)
+		);
+	}
+
 	/**
-	* Loads a assJavaApplet object from a database
-	*
-	* Loads a assJavaApplet object from a database (experimental)
-	*
-	* @param object $db A pear DB object
-	* @param integer $question_id A unique key which defines the multiple choice test in the database
-	* @access public
-	*/
-	function loadFromDb($question_id)
+	 * Loads a assJavaApplet object from a database
+	 *
+	 * @param integer $question_id A unique key which defines the multiple choice test in the database
+	 * 
+	 */
+	public function loadFromDb($question_id)
 	{
 		global $ilDB;
 
@@ -551,14 +556,13 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Sets the java applet width parameter
-	*
-	* Sets the java applet width parameter
-	*
-	* @param integer java applet width parameter
-	* @access public
-	*/
-	function setJavaWidth($java_width = "")
+	 * Sets the java applet width parameter
+	 *
+	 * Sets the java applet width parameter
+	 *
+	 * @param string $java_width applet width parameter
+	 */
+	public function setJavaWidth($java_width = "")
 	{
 		$this->java_width = $java_width;
 	}
@@ -592,11 +596,12 @@ class assJavaApplet extends assQuestion
 	/**
 	 * Returns the points, a learner has reached answering the question.
 	 * The points are calculated from the given answers.
-	 * 
-	 * @access public
+	 *
 	 * @param integer $active_id
 	 * @param integer $pass
 	 * @param boolean $returndetails (deprecated !!)
+	 *
+	 * @throws ilTestException
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
 	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
@@ -627,15 +632,14 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Returns the evaluation data, a learner has entered to answer the question
-	*
-	* Returns the evaluation data, a learner has entered to answer the question
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @access public
-	*/
-	function getReachedInformation($active_id, $pass = NULL)
+	 * Returns the evaluation data, a learner has entered to answer the question
+	 *
+	 * @param      $active_id
+	 * @param null $pass
+	 *
+	 * @return array
+	 */
+	public function getReachedInformation($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		
@@ -808,7 +812,6 @@ class assJavaApplet extends assQuestion
 	/**
 	 * Reworks the allready saved working data if neccessary
 	 *
-	 * @access protected
 	 * @param integer $active_id
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
@@ -831,13 +834,14 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Sets the java applet file name
-	*
-	* @param string $javaapplet_file.
-	* @access public
-	* @see $javaapplet_filename
-	*/
-	function setJavaAppletFilename($javaapplet_filename, $javaapplet_tempfilename = "")
+	 * Sets the java applet file name
+	 *
+	 * @param        $javaapplet_filename
+	 * @param string $javaapplet_tempfilename
+	 *
+	 * @see      $javaapplet_filename
+	 */
+	public function setJavaAppletFilename($javaapplet_filename, $javaapplet_tempfilename = "")
 	{
 		if (!empty($javaapplet_filename))
 		{
@@ -873,9 +877,8 @@ class assJavaApplet extends assQuestion
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question
-	* @access public
 	*/
-	function getQuestionType()
+	public function getQuestionType()
 	{
 		return "assJavaApplet";
 	}
@@ -884,9 +887,8 @@ class assJavaApplet extends assQuestion
 	* Returns the name of the additional question data table in the database
 	*
 	* @return string The additional table name
-	* @access public
 	*/
-	function getAdditionalTableName()
+	public function getAdditionalTableName()
 	{
 		return "qpl_qst_javaapplet";
 	}
@@ -901,17 +903,17 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $worksheet Reference to the parent excel worksheet
-	* @param object $startrow Startrow of the output in the excel worksheet
-	* @param object $active_id Active id of the participant
-	* @param object $pass Test pass
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @access public
-	*/
+	 * Creates an Excel worksheet for the detailed cumulated results of this question
+	 *
+	 * @param object $worksheet    Reference to the parent excel worksheet
+	 * @param object $startrow     Startrow of the output in the excel worksheet
+	 * @param object $active_id    Active id of the participant
+	 * @param object $pass         Test pass
+	 * @param object $format_title Excel title format
+	 * @param object $format_bold  Excel bold format
+	 *
+	 * @return object
+	 */
 	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
 	{
 		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
@@ -928,7 +930,7 @@ class assJavaApplet extends assQuestion
 		}
 		return $startrow + $i + 1;
 	}
-	
+
 	public function isAutosaveable()
 	{
 		return FALSE;

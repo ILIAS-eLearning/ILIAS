@@ -3,7 +3,7 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
 
 /**
  * The assFileUploadGUI class encapsulates the GUI representation for file upload questions.
@@ -19,7 +19,7 @@ require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
  * @ilctrl_iscalledby assFileUploadGUI: ilObjQuestionPoolGUI
  * 
  */
-class assFileUploadGUI extends assQuestionGUI implements GuiScoringAdjustable
+class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
 	/**
 	 * assFileUploadGUI constructor
@@ -55,7 +55,6 @@ class assFileUploadGUI extends assQuestionGUI implements GuiScoringAdjustable
 		{
 			$this->writeQuestionGenericPostData();
 			$this->writeQuestionSpecificPostData();
-			// $this->writeAnswerSpecificPostData(); Nothing to do here, this line FYI.
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
@@ -68,11 +67,6 @@ class assFileUploadGUI extends assQuestionGUI implements GuiScoringAdjustable
 		$this->object->setMaxSize( $_POST["maxsize"] );
 		$this->object->setAllowedExtensions( $_POST["allowedextensions"] );
 		$this->object->setCompletionBySubmission( $_POST['completion_by_submission'] == 1 ? true : false );
-	}
-
-	public function writeAnswerSpecificPostData($always = false)
-	{
-		return; // Nothing to do here.
 	}
 
 	/**
@@ -95,7 +89,6 @@ class assFileUploadGUI extends assQuestionGUI implements GuiScoringAdjustable
 
 		$this->addBasicQuestionFormProperties($form);
 		$this->populateQuestionSpecificFormPart( $form );
-		// $this->populateAnswerSpecificFormPart( $form ); Nothing to do here, this line FYI.
 
 		$this->populateTaxonomyFormSection($form);
 		$this->addQuestionFormCommandButtons($form);
@@ -154,11 +147,6 @@ class assFileUploadGUI extends assQuestionGUI implements GuiScoringAdjustable
 		return $form;
 	}
 
-	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
-	{
-		return $form;
-	}
-	
 	/**
 	 * @return mixed
 	 */

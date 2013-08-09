@@ -2,7 +2,8 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
 
 /**
  * Cloze test question GUI representation
@@ -18,7 +19,7 @@ require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
  * 
  * @ingroup 	ModulesTestQuestionPool
  */
-class assClozeTestGUI extends assQuestionGUI implements GuiScoringAdjustable
+class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	/**
 	* A temporary variable to store gap indexes of ilCtrl commands in the getCommand method

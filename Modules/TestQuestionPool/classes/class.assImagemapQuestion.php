@@ -3,7 +3,8 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjAnswerScoringAdjustable.php';
 
 /**
  * Class for image map questions
@@ -18,7 +19,7 @@ require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assImagemapQuestion extends assQuestion implements ObjScoringAdjustable
+class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	const MODE_SINGLE_CHOICE   = 0;
 	const MODE_MULTIPLE_CHOICE = 1;
@@ -119,12 +120,9 @@ class assImagemapQuestion extends assQuestion implements ObjScoringAdjustable
 	 */
 	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
-
 		$this->saveQuestionDataToDb($original_id);
 		$this->saveAdditionalQuestionDataToDb();
 		$this->saveAnswerSpecificDataToDb();
-
 		parent::saveToDb($original_id);
 	}
 

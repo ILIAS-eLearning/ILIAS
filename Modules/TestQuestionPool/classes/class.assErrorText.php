@@ -3,7 +3,8 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjAnswerScoringAdjustable.php';
 
 /**
  * Class for error text questions
@@ -17,7 +18,7 @@ require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assErrorText extends assQuestion implements ObjScoringAdjustable
+class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	protected $errortext;
 	protected $textsize;
@@ -25,16 +26,15 @@ class assErrorText extends assQuestion implements ObjScoringAdjustable
 	protected $points_wrong;
 
 	/**
-	* assErorText constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assOrderingHorizontal object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $comment A comment string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A numerical ID to identify the owner/creator
-	* @param string $question The question string of the single choice question
-	* @see assQuestion:__construct()
+	 * assErorText constructor
+	 *
+	 * @param string 	$title 		A title string to describe the question.
+	 * @param string 	$comment 	A comment string to describe the question.
+	 * @param string 	$author 	A string containing the name of the questions author.
+	 * @param integer 	$owner 		A numerical ID to identify the owner/creator.
+	 * @param string 	$question 	The question string of the single choice question.
+	 * 
+	 * @return \assErrorText
 	*/
 	function __construct(
 				$title = '',
@@ -76,8 +76,6 @@ class assErrorText extends assQuestion implements ObjScoringAdjustable
 	*/
 	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
-
 		$this->saveQuestionDataToDb($original_id);
 		$this->saveAdditionalQuestionDataToDb();
 		$this->saveAnswerSpecificDataToDb();

@@ -3,7 +3,7 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
 
 /**
  * Class for file upload questions
@@ -16,7 +16,7 @@ require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assFileUpload extends assQuestion implements ObjScoringAdjustable
+class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable
 {
 	protected $maxsize;
 	
@@ -75,8 +75,6 @@ class assFileUpload extends assQuestion implements ObjScoringAdjustable
 	{
 		$this->saveQuestionDataToDb($original_id);
 		$this->saveAdditionalQuestionDataToDb();
-		//$this->saveAnswerSpecificDataToDb(); Nothing to do here, this line FYI.
-		
 		parent::saveToDb();
 	}
 
@@ -97,11 +95,6 @@ class assFileUpload extends assQuestion implements ObjScoringAdjustable
 								(int)$this->isCompletionBySubmissionEnabled()
 							)
 		);
-	}
-	
-	public function saveAnswerSpecificDataToDb()
-	{
-		return; // Nothing to do with this question type.
 	}
 
 	/**
