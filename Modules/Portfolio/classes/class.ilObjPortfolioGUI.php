@@ -16,6 +16,8 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {		
+	protected $ws_access; // [ilWorkspaceAccessHandler]
+	
 	public function __construct($a_id = 0)
 	{		
 		parent::__construct($a_id, self::PORTFOLIO_OBJECT_ID, 0);
@@ -284,10 +286,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		{
 			// trigger portfolio template "import" process
 			if($form->getInput("mode") == "mode_tmpl")
-			{
-				$this->ctrl->setParameter($this, "prtt", $form->getInput("prtt"));
-				$this->ctrl->setParameter($this, "pt", $form->getInput("title"));				
-				$this->ctrl->redirect($this, "createPortfolioFromTemplate");				
+			{					
+				$_REQUEST["pt"] = $form->getInput("title");
+				return $this->createPortfolioFromTemplate();				
 			}			
 		}
 		
@@ -706,13 +707,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$this->toRepository();
 		}
 		unset($templates);
-		
-		$this->ctrl->setParameter($this, "pt", $title);
+				
 		$this->ctrl->setParameter($this, "prtt", $prtt_id);		
 		
 		if(!$a_form)
 		{
-			$a_form = $this->initCreatePortfolioFromTemplateForm($prtt_id);
+			$a_form = $this->initCreatePortfolioFromTemplateForm($prtt_id, $title);
 		}
 		if($a_form)
 		{						
@@ -724,7 +724,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		}		
 	}
 	
-	protected function initCreatePortfolioFromTemplateForm($a_prtt_id)
+	protected function initCreatePortfolioFromTemplateForm($a_prtt_id, $a_title)
 	{					
 		global $ilSetting;
 	
@@ -735,6 +735,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$tmpl = new ilNonEditableValueGUI($this->lng->txt("obj_prtt"));
 		$tmpl->setValue(ilObject::_lookupTitle($a_prtt_id));
 		$form->addItem($tmpl);
+				
+		$title = new ilNonEditableValueGUI($this->lng->txt("title"), "pt");
+		$title->setValue($a_title);
+		$form->addItem($title);		
 		
 		// gather user blogs
 		if(!$ilSetting->get('disable_wsp_blogs'))
@@ -764,10 +768,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		{
 			switch($page["type"])
 			{
-				case ilPortfolioTemplatePage::TYPE_PAGE:
-					// :TODO: do something about profile data?
-					
-					// :TODO: skills
+				case ilPortfolioTemplatePage::TYPE_PAGE:					
+					// :TODO: skills						
 					break;
 				
 				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
@@ -838,11 +840,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		
 		$recipe = null;
 		if($a_process_form)
-		{
-			$this->ctrl->setParameter($this, "pt", $title);
+		{			
 			$this->ctrl->setParameter($this, "prtt", $prtt_id);		
 			
-			$form = $this->initCreatePortfolioFromTemplateForm($prtt_id);
+			$form = $this->initCreatePortfolioFromTemplateForm($prtt_id, $title);
 			if($form->checkInput())
 			{
 				include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
@@ -882,29 +883,126 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}			
 		}
 		
-		var_dump($recipe);
-		exit();
+		// :TODO: quota check		
 		
-		$template = new ilObjPortfolioTemplate($prtt_id, false);
+		$source = new ilObjPortfolioTemplate($prtt_id, false);
+		
+		// create portfolio		
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+		$target = new ilObjPortfolio();				
+		$target->setTitle($title);
+		$target->create();
+		$target_id = $target->getId();
 		
 		// copy template properties
-		
-		
-		// create portfolio
-		
-		
+		$target->setOnline(false);
+		$target->setPublicComments($source->hasPublicComments());
+		$target->setProfilePicture($source->hasProfilePicture());
+		$target->setFontColor($source->getFontColor());
+		$target->setBackgroundColor($source->getBackgroundColor());	
+		$target->setImage($source->getImage());
+		$target->update();
+								
+		// banner/images
+		$source_dir = $source->initStorage($source->getId());
+		$target_dir = $target->initStorage($target_id);
+		ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
+													
 		// copy pages
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		foreach(ilPortfolioTemplatePage::getAllPages($prtt_id) as $page)
+		{
+			$page_id = $page["id"];						
+				
+			$source_page = new ilPortfolioTemplatePage($page_id);	
+			$source_page->setPortfolioId($prtt_id);
+			
+			$page_type = $source_page->getType();
+			$page_title = $source_page->getTitle();
+			$page_recipe = $recipe[$page_id];		
+			
+			$target_page = new ilPortfolioPage($page);
+			$target_page->setPortfolioId($target_id);			
+			
+			$valid = false;
+			switch($page_type)
+			{
+				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:					
+					if(is_array($page_recipe))
+					{						
+						$page_type = ilPortfolioPage::TYPE_BLOG;
+						if($page_recipe[0] == "blog")
+						{
+							switch($page_recipe[1])
+							{
+								case "create":																		
+									$page_title = $this->createBlogInPersonalWorkspace($page_recipe[2]);
+									$valid = true;
+									break;
+								
+								case "reuse":
+									$page_title = $page_recipe[2];
+									$valid = true;
+									break;
+								
+								case "ignore":
+									// do nothing
+									break;								
+							}							
+						}												
+					}
+					break;	
+				
+				default:
+					$valid = true;
+					
+					// :TODO: parse content / blocks					 
+					// - skills
+					
+					// copy mobs !				
+					$target_page->setXMLContent($source_page->copyXmlContent(true));
+					break;
+			}
+			
+			if($valid)
+			{				
+				$target_page->setType($page_type);
+				$target_page->setTitle($page_title);
+				$target_page->create();		
+				$target_page->update();	// handle usages!
+			}
+		} 
 		
-		
-		// copy mobs
-		
-		
-		// handle blogs
-		
-		
-		
-		
+		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+		$this->ctrl->setParameter($this, "prt_id", $target_id);
+		$this->ctrl->redirect($this, "view");
 	}	
+	
+	protected function createBlogInPersonalWorkspace($a_title)
+	{
+		global $ilUser;
+		
+		include_once "Modules/Blog/classes/class.ilObjBlog.php";
+		$blog = new ilObjBlog();
+		$blog->setType("blog");
+		$blog->setTitle($a_title);
+		$blog->create();
+		
+		if(!$this->ws_access)
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";	
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			$tree = new ilWorkspaceTree($ilUser->getId());														
+			$this->ws_access = new ilWorkspaceAccessHandler($tree);																																						
+		}
+		
+		$tree = $this->ws_access->getTree();
+		$node_id = $tree->insertObject($tree->getRootId(), $blog->getId());	
+		$this->ws_access->setPermissions($tree->getRootId(), $node_id);
+		
+		return $blog->getId();
+	}
+	
 	
 	function _goto($a_target)
 	{

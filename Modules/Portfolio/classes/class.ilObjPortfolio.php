@@ -70,6 +70,19 @@ class ilObjPortfolio extends ilObjPortfolioBase
 		$a_fields["is_default"] = array("integer", $this->isDefault());		
 	}
 	
+	protected function deleteAllPages()
+	{
+		// delete pages
+		include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
+		$pages = ilPortfolioPage::getAllPages($this->id);
+		foreach($pages as $page)
+		{
+			$page_obj = new ilPortfolioPage($page["id"]);
+			$page_obj->setPortfolioId($this->id);
+			$page_obj->delete();
+		}
+	}
+	
 	
 	// 
 	// HELPER

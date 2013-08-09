@@ -232,20 +232,14 @@ abstract class ilObjPortfolioBase extends ilObject2
 	{
 		global $ilDB;
 		
-		// delete pages
-		include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
-		$pages = ilPortfolioPage::getAllPages($this->id);
-		foreach($pages as $page)
-		{
-			$page = $this->getPageInstance($page["id"]);
-			$page->delete();
-		}
-		
+		$this->deleteAllPages();
 		$this->deleteImage();
 
 		$ilDB->manipulate("DELETE FROM usr_portfolio".
 			" WHERE id = ".$ilDB->quote($this->id, "integer"));
 	}
+	
+	abstract protected function deleteAllPages();
 	
 	
 	//
