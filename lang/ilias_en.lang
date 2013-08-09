@@ -13613,3 +13613,9 @@ prtt#:#prtt_availability_until_info#:#Choose this mode for making the portfolio 
 prtt#:#prtt_activation_limited_visibility_info#:#If chosen, the portfolio template is visible even outside of the given availability.
 content#:#cont_profile_mode_template_inherit_info#:#Use the profile settings
 prtf#:#prtf_template_editor_placeholder_info#:#This placeholder will be replaced in the portfolio.
+prtf#:#prtf_creation_mode#:#New Portfolio
+prtf#:#prtf_creation_mode_template#:#Create from Template
+prtf#:#prtf_creation_mode_scratch#:#Create without Template
+prtf#:#prtf_template_import_blog_create#:#Create New Blog
+prtf#:#prtf_template_import_blog_reuse#:#Use Existing Blog
+prtf#:#prtf_template_import_blog_ignore#:#Remove Blog Page

@@ -128,6 +128,47 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 	{
 		return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : NULL;
 	}
+	
+	
+	//
+	// HELPER
+	//
+	
+	public static function getAvailablePortfolioTemplates()
+	{
+		global $ilUser, $ilAccess;
+		
+		$res = array();
+		
+		foreach(ilObject::_getObjectsByType("prtt") as $obj)
+		{
+			$readable = false;
+			
+			if($obj["owner"] == $ilUser->getId() && false)
+			{
+				$readable = true;
+			}
+			else
+			{
+				foreach(ilObject::_getAllReferences($obj["obj_id"]) as $ref_id)
+				{
+					if($ilAccess->checkAccess("read", "", $ref_id))
+					{
+						$readable = true;
+						break;
+					}											
+				}				
+			}
+			
+			if($readable)
+			{
+				$res[$obj["obj_id"]] = $obj["title"];
+			}			
+		}
+		
+		asort($res);		
+		return $res;
+	}
 }
 
 ?>
