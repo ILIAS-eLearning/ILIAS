@@ -824,7 +824,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function createPortfolioFromTemplateProcess($a_process_form = true)
 	{
-		global $ilSetting;
+		global $ilSetting, $ilUser;
 		
 		$title = trim($_REQUEST["pt"]);
 		$prtt_id = (int)$_REQUEST["prtt"];
@@ -921,7 +921,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$page_title = $source_page->getTitle();
 			$page_recipe = $recipe[$page_id];		
 			
-			$target_page = new ilPortfolioPage($page);
+			$target_page = new ilPortfolioPage();
 			$target_page->setPortfolioId($target_id);			
 			
 			$valid = false;
@@ -953,23 +953,37 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					}
 					break;	
 				
-				default:
+				default:													
+					$target_page->setXMLContent($source_page->copyXmlContent(true)); // copy mobs				
+					$target_page->buildDom(true);
+					
+					// parse content / blocks		
+					
+					$dom = $target_page->getDom();					
+					if($dom instanceof php4DOMDocument)
+					{
+						$dom = $dom->myDOMDocument;
+					}
+					
+					// update profile user id
+					$this->updateDomNodes($dom, "//PageContent/Profile", "User", $ilUser->getId());
+												
+					// :TODO: skills 
+					
 					$valid = true;
-					
-					// :TODO: parse content / blocks					 
-					// - skills
-					
-					// copy mobs !				
-					$target_page->setXMLContent($source_page->copyXmlContent(true));
 					break;
 			}
 			
 			if($valid)
-			{				
+			{							
 				$target_page->setType($page_type);
 				$target_page->setTitle($page_title);
 				$target_page->create();		
-				$target_page->update();	// handle usages!
+				
+				if($page_type !== ilPortfolioPage::TYPE_BLOG)
+				{
+					$target_page->update();	// handle mob usages!
+				}
 			}
 		} 
 		
@@ -977,6 +991,16 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->ctrl->setParameter($this, "prt_id", $target_id);
 		$this->ctrl->redirect($this, "view");
 	}	
+	
+	protected function updateDomNodes($a_dom, $a_xpath, $a_attr_id, $a_attr_value)
+	{
+		$xpath_temp = new DOMXPath($a_dom);
+		$nodes = $xpath_temp->query($a_xpath);
+		foreach ($nodes as $node) 
+		{						
+			$node->setAttribute($a_attr_id, $a_attr_value);						
+		}
+	}
 	
 	protected function createBlogInPersonalWorkspace($a_title)
 	{
