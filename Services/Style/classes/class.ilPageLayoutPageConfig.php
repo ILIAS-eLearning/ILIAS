@@ -11,7 +11,7 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  * @version $Id$
  * @ingroup ServicesStyle
  */
-class ilPageLayoutConfig extends ilPageConfig
+class ilPageLayoutPageConfig extends ilPageConfig
 {
 	/**
 	 * Init
