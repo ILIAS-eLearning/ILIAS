@@ -59,6 +59,19 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 		$this->updateActivation();
 	}
 	
+	protected function deleteAllPages()
+	{
+		// delete pages
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		$pages = ilPortfolioTemplatePage::getAllPages($this->id);
+		foreach($pages as $page)
+		{
+			$page_obj = new ilPortfolioTemplatePage($page["id"]);
+			$page_obj->setPortfolioId($this->id);
+			$page_obj->delete();
+		}
+	}
+	
 		
 	//
 	// ACTIVATION
