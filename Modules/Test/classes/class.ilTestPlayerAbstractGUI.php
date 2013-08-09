@@ -669,7 +669,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function autosave()
+	function autosaveCmd()
 	{
 		global $ilLog;
 		$result = "";
