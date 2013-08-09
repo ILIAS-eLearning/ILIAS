@@ -146,8 +146,9 @@ class ilScoringAdjustmentGUI
 		{
 			$question_object = assQuestion::instantiateQuestionGUI($question['question_id']);
 
-			if ($question_object instanceof GuiScoringAdjustable 
-				&& $question_object->object instanceof ObjScoringAdjustable)
+			if (
+				($question_object instanceof ilGuiQuestionScoringAdjustable || $question_object instanceof ilGuiAnswerScoringAdjustable) 
+				&& $question_object->object instanceof ilObjQuestionScoringAdjustable)
 			{
 				$filtered_data[] = $question;
 			}
@@ -204,7 +205,7 @@ class ilScoringAdjustmentGUI
 		$form->setTableWidth( "100%" );
 		$form->setId( "adjustment" );
 
-		/** @var $question assQuestionGUI|GuiScoringAdjustable */
+		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable|ilGuiAnswerScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
 		$form->setTitle( $question->outQuestionType() );
 
@@ -216,8 +217,15 @@ class ilScoringAdjustmentGUI
 		$hidden_qpl_id->setValue( $question_pool_id );
 		$form->addItem( $hidden_qpl_id );
 
-		$question->populateQuestionSpecificFormPart( $form );
-		$question->populateAnswerSpecificFormPart( $form );
+		if ($question instanceof ilGuiQuestionScoringAdjustable)
+		{
+			$question->populateQuestionSpecificFormPart( $form );
+		}
+		
+		if ($question instanceof ilGuiAnswerScoringAdjustable)
+		{
+			$question->populateAnswerSpecificFormPart( $form );
+		}
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
 		return $form;
@@ -239,14 +247,19 @@ class ilScoringAdjustmentGUI
 		}
 
 		require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-		/** @var $question assQuestionGUI|GuiScoringAdjustable */
+		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
 		
-		$question->writeQuestionSpecificPostData(true);
-		$question->writeAnswerSpecificPostData(true);
-		$question->object->saveAdditionalQuestionDataToDb();
-		$question->object->saveAnswerSpecificDataToDb();
-
+		if ($question instanceof ilObjQuestionScoringAdjustable)
+		{
+			$question->writeQuestionSpecificPostData(true);
+			$question->object->saveAdditionalQuestionDataToDb();
+		}
+		if ($question instanceof ilObjAnswerScoringAdjustable)
+		{
+			$question->writeAnswerSpecificPostData(true);
+			$question->object->saveAnswerSpecificDataToDb();
+		}
 
 		$question->object->setPoints($question->object->getMaximumPoints());
 		$question->object->saveQuestionDataToDb();

@@ -3,7 +3,7 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
 
 /**
  * Class for Flash based questions
@@ -16,7 +16,7 @@ require_once './Modules/TestQuestionPool/interfaces/ObjScoringAdjustable.php';
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assFlashQuestion extends assQuestion implements ObjScoringAdjustable
+class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjustable
 {
 	private $width;
 	private $height;
@@ -80,8 +80,6 @@ class assFlashQuestion extends assQuestion implements ObjScoringAdjustable
 	{
 		$this->saveQuestionDataToDb($original_id);
 		$this->saveAdditionalQuestionDataToDb();
-		//$this->saveAnswerSpecificDataToDb(); // Nothing to do here, this line FYI
-
 		parent::saveToDb();
 	}
 
@@ -112,11 +110,6 @@ class assFlashQuestion extends assQuestion implements ObjScoringAdjustable
 		}
 	}
 
-	public function saveAnswerSpecificDataToDb()
-	{
-		return; // Nothing to do here.
-	}
-	
 	/**
 	* Loads a assFlashQuestion object from a database
 	*

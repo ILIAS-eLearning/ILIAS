@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
 include_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -19,7 +19,7 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * 
  * @ilctrl_iscalledby assFlashQuestionGUI: ilObjQuestionPoolGUI
  */
-class assFlashQuestionGUI extends assQuestionGUI implements GuiScoringAdjustable
+class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
 	private $newUnitId;
 	
@@ -80,7 +80,6 @@ class assFlashQuestionGUI extends assQuestionGUI implements GuiScoringAdjustable
 		{
 			$this->writeQuestionGenericPostData();
 			$this->writeQuestionSpecificPostData();
-			//$this->writeAnswerSpecificPostData(); Nothing to do here, this line FYI
 
 			$this->saveTaxonomyAssignments();
 			return 0;
@@ -126,11 +125,6 @@ class assFlashQuestionGUI extends assQuestionGUI implements GuiScoringAdjustable
 		$this->object->setPoints( $_POST["points"] );
 	}
 
-	public function writeAnswerSpecificPostData($always = true)
-	{
-		return; // Nothing to do here.
-	}
-
 	/**
 	* Creates an output of the edit form for the question
 	*
@@ -152,7 +146,6 @@ class assFlashQuestionGUI extends assQuestionGUI implements GuiScoringAdjustable
 
 		$this->addBasicQuestionFormProperties($form);
 		$this->populateQuestionSpecificFormPart( $form );
-		//$this->populateAnswerSpecificFormPart( $form ); Nothing to do here, this line FYI
 
 		$this->populateTaxonomyFormSection($form);
 
@@ -203,11 +196,6 @@ class assFlashQuestionGUI extends assQuestionGUI implements GuiScoringAdjustable
 		return $form;
 	}
 
-	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
-	{
-		return $form; // Nothing to do here.
-	}
-	
 	function flashAddParam()
 	{
 		$this->writePostData();

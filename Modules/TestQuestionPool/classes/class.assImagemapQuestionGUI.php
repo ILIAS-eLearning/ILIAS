@@ -2,7 +2,8 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/GuiScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
 include_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -19,7 +20,7 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * 
  * @ingroup ModulesTestQuestionPool
  */
-class assImagemapQuestionGUI extends assQuestionGUI implements GuiScoringAdjustable
+class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	private $linecolor;
 	
@@ -167,7 +168,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements GuiScoringAdjusta
 	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
 	{
 		return $form; // Nothing to do here since selectable areas are handled in question-specific-form part
-					  // due to their immediate dependency to the image.
+					  // due to their immediate dependency to the image. I decide to not break up the interfaces
+					  // more just to support this very rare case. tl;dr: See the issue, ignore it.
 	}
 
 	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
