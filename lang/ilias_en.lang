@@ -13619,3 +13619,5 @@ prtf#:#prtf_creation_mode_scratch#:#Create without Template
 prtf#:#prtf_template_import_blog_create#:#Create New Blog
 prtf#:#prtf_template_import_blog_reuse#:#Use Existing Blog
 prtf#:#prtf_template_import_blog_ignore#:#Remove Blog Page
+prtf#:#prtf_create_template_from_portfolio#:#Portfolio
+prtf#:#prtf_create_template_from_portfolio_info#:#Select a portfolio to use its content and settings for the template.
