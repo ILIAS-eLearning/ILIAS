@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="copg">
-	<!-- <pluginslots>
+	<pluginslots>
 		<pluginslot id="pgcp" name="PageComponent" />
-	</pluginslots> -->
+	</pluginslots>
 	<copage>
 		<pagecontent pc_type="blog" name="Blog" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0"/>
 		<pagecontent pc_type="incl" name="ContentInclude" directory="classes" int_links="1" style_classes="1" xsl="0" def_enabled="0"/>

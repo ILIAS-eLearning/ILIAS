@@ -1,42 +1,25 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 require_once("./Services/COPage/classes/class.ilPCPlugged.php");
 require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 
 /**
-* Class ilPCPluggedGUI
-*
-* User Interface for plugged page component
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCPluggedGUI
+ *
+ * User Interface for plugged page component
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesCOPage
+ */
 class ilPCPluggedGUI extends ilPageContentGUI
 {
-
+	protected $current_plugin = null;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -45,15 +28,8 @@ class ilPCPluggedGUI extends ilPageContentGUI
 		$a_plugin_name = "", $a_pc_id = "")
 	{
 		global $ilCtrl;
-		
 		$this->setPluginName($a_plugin_name);
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
-		
-		if ($a_plugin_name != "")
-		{
-			$ilCtrl->setParameter($this, "plugin_name", rawurlencode($a_plugin_name));
-		}
-		$ilCtrl->saveParameter($this, "plugin_name");
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);		
 	}
 
 	/**
@@ -81,17 +57,35 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilPluginAdmin;
+		
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
+
+		// get all plugins and check, whether next class belongs to one
+		// of them, then forward
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE,
+			"COPage", "pgcp");
+		foreach ($pl_names as $pl_name)
+		{
+			if ($next_class == strtolower("il".$pl_name."plugingui"))
+			{
+				$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
+					"COPage", "pgcp", $pl_name);
+				$this->current_plugin = $plugin;
+				$this->setPluginName($pl_name);
+				$gui_obj = $plugin->getUIClassInstance();
+				$gui_obj->setPCGUI($this);
+				$ret = $this->ctrl->forwardCommand($gui_obj);
+			}
+		}
 
 		// get current command
 		$cmd = $this->ctrl->getCmd();
 
-		switch($next_class)
+		if ($next_class == "" || $next_class == "ilpcpluggedgui")
 		{
-			default:
-				$ret =& $this->$cmd();
-				break;
+			$ret = $this->$cmd();
 		}
 
 		return $ret;
@@ -106,8 +100,8 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	}
 
 	/**
-	* Edit section form.
-	*/
+	 * Edit section form.
+	 */
 	function edit($a_insert = false)
 	{
 		global $ilCtrl, $tpl, $lng, $ilPluginAdmin;
@@ -127,15 +121,17 @@ class ilPCPluggedGUI extends ilPageContentGUI
         {
 			$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage",
 				"pgcp", $plugin_name);
+			$gui_obj = $plugin_obj->getUIClassInstance();
+			$gui_obj->setPCGUI($this);
 			if ($a_insert)
 			{
-				$plugin_obj->setMode(ilPageComponentPlugin::CMD_INSERT);
+				$gui_obj->setMode(ilPageComponentPlugin::CMD_INSERT);
 			}
 			else
 			{
-				$plugin_obj->setMode(ilPageComponentPlugin::CMD_EDIT);
+				$gui_obj->setMode(ilPageComponentPlugin::CMD_EDIT);
 			}
-			$html = $ilCtrl->getHTML($plugin_obj);
+			$html = $ilCtrl->getHTML($gui_obj);
         }
 		
 		$tpl->setContent($html);
@@ -143,45 +139,42 @@ class ilPCPluggedGUI extends ilPageContentGUI
 
 
 	/**
-	* Create new plugged component
-	*/
-	function create()
+	 * Create new element
+	 */
+	function createElement(array $a_properties)
 	{
 		$this->content_obj = new ilPCPlugged($this->getPage());
-		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-		$properties = array(
-			"Table" => $_POST["table"]
-			);
-		$this->content_obj->setProperties($properties);
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id,
+			$this->current_plugin->getPluginName(), $this->current_plugin->getVersion());
+		$this->content_obj->setProperties($a_properties);
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			return true;
 		}
-		else
-		{
-			$this->insert();
-		}
+		return false;
 	}
 
 	/**
-	* Update Section.
-	*/
-	function update()
+	 * Update element
+	 */
+	function updateElement(array $a_properties)
 	{
-		$properties = array(
-			"Table" => $_POST["table"]);
-		$this->content_obj->setProperties($properties);
+		$this->content_obj->setProperties($a_properties);
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			return true;
 		}
-		else
-		{
-			$this->pg_obj->addHierIDs();
-			$this->edit();
-		}
+		return false;
+	}
+	
+	/**
+	 * Return to parent
+	 */
+	function returnToParent()
+	{
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 }
 ?>

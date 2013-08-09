@@ -3557,7 +3557,7 @@
 <!-- Plugged -->
 <xsl:template match="Plugged">
 	<div>
-		{{{{{Plugged;<xsl:value-of select="@PluginID"/>;<xsl:value-of select="@PluginVersion"/>}}}}}
+		{{{{{Plugged;<xsl:value-of select="@PluginName"/>;<xsl:value-of select="@PluginVersion"/><xsl:for-each select="./PluggedProperty">;<xsl:value-of select="@Name"/>;<xsl:value-of select="."/></xsl:for-each>}}}}}
 		<xsl:call-template name="EditReturnAnchors"/>
 		<xsl:if test="$mode = 'edit'">
 			<!-- <xsl:value-of select="../@HierId"/> -->

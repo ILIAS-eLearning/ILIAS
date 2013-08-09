@@ -280,6 +280,56 @@ class ilPCMap extends ilPageContent
 		return $a_text;
 	}
 
+	/**
+	 * Modify page content after xsl
+	 *
+	 * @param string $a_output
+	 * @return string
+	 */
+	function modifyPageContentPostXsl($a_html, $a_mode)
+	{
+		$c_pos = 0;
+		$start = strpos($a_html, "[[[[[Map;");
+		if (is_int($start))
+		{
+			$end = strpos($a_html, "]]]]]", $start);
+		}
+		$i = 1;
+		while ($end > 0)
+		{
+			$param = substr($a_html, $start + 9, $end - $start - 9);
+			
+			$param = explode(";", $param);
+			if (is_numeric($param[0]) && is_numeric($param[1]) && is_numeric($param[2]))
+			{
+				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
+				$map_gui = new ilGoogleMapGUI();
+				$map_gui->setMapId("map_".$i);
+				$map_gui->setLatitude($param[0]);
+				$map_gui->setLongitude($param[1]);
+				$map_gui->setZoom($param[2]);
+				$map_gui->setWidth($param[3]."px");
+				$map_gui->setHeight($param[4]."px");
+				$map_gui->setEnableTypeControl(true);
+				$map_gui->setEnableNavigationControl(true);
+				$map_gui->setEnableCentralMarker(true);
+				$h2 = substr($a_html, 0, $start).
+					$map_gui->getHtml().
+					substr($a_html, $end + 5);
+				$a_html = $h2;
+				$i++;
+			}
+			$start = strpos($a_html, "[[[[[Map;", $start + 5);
+			$end = 0;
+			if (is_int($start))
+			{
+				$end = strpos($a_html, "]]]]]", $start);
+			}
+		}
+				
+		return $a_html;
+	}
+
 }
 
 ?>

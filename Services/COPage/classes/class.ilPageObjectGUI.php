@@ -828,8 +828,8 @@ class ilPageObjectGUI
 					"COPage", "pgcp", $pl_name);
 				if ($plugin->isValidParentType($this->getPageObject()->getParentType()))
 				{
-					$xml = '<ComponentPlugin Name="'.$plugin->getPluginName().
-						'" InsertText="'.$plugin->getUIText(ilPageComponentPlugin::TXT_CMD_INSERT).'" />';
+					$xml.= '<ComponentPlugin Name="'.$plugin->getPluginName().
+						'" InsertText="'.$plugin->txt(ilPageComponentPlugin::TXT_CMD_INSERT).'" />';
 				}
 			}
 		}
@@ -837,7 +837,6 @@ class ilPageObjectGUI
 		{
 			$xml = "<ComponentPlugins>".$xml."</ComponentPlugins>";
 		}
-		
 		return $xml;
 	}
 	
@@ -1431,7 +1430,7 @@ class ilPageObjectGUI
 		else
 		{
 			$content = $this->obj->getXMLFromDom(false, true, true,
-				$link_xml.$this->getQuestionXML().$template_xml);
+				$link_xml.$this->getQuestionXML().$template_xml.$this->getComponentPluginsXML());
 		}
 
 		// check validation errors
@@ -1682,7 +1681,17 @@ class ilPageObjectGUI
 			$output = '<div class="il_editarea_disabled">'.$output.'</div>';
 		}
 		
-		$output = $this->insertMaps($output);
+		// post xsl page content modification by pc elements
+		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+		$defs = ilCOPagePCDef::getPCDefinitions();
+		foreach ($defs as $def)
+		{
+			ilCOPagePCDef::requirePCClassByName($def["name"]);
+			$pc_class = $def["pc_class"];
+			$pc_obj = new $pc_class($this->getPageObject());
+			$output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode());
+		}
+		
 		$output = $this->obj->insertSourceCodeParagraphs($output, $this->getOutputMode());
 
 		$output = $this->selfAssessmentRendering($output);
@@ -2303,53 +2312,6 @@ class ilPageObjectGUI
 	{
 		$pg_obj = $this->getPageObject();
 		$pg_obj->send_paragraph($_GET["par_id"], $_GET["downloadtitle"]);
-	}
-
-	/**
-	* Insert Maps
-	*/
-	function insertMaps($a_html)
-	{
-		$c_pos = 0;
-		$start = strpos($a_html, "[[[[[Map;");
-		if (is_int($start))
-		{
-			$end = strpos($a_html, "]]]]]", $start);
-		}
-		$i = 1;
-		while ($end > 0)
-		{
-			$param = substr($a_html, $start + 9, $end - $start - 9);
-			
-			$param = explode(";", $param);
-			if (is_numeric($param[0]) && is_numeric($param[1]) && is_numeric($param[2]))
-			{
-				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
-				$map_gui = new ilGoogleMapGUI();
-				$map_gui->setMapId("map_".$i);
-				$map_gui->setLatitude($param[0]);
-				$map_gui->setLongitude($param[1]);
-				$map_gui->setZoom($param[2]);
-				$map_gui->setWidth($param[3]."px");
-				$map_gui->setHeight($param[4]."px");
-				$map_gui->setEnableTypeControl(true);
-				$map_gui->setEnableNavigationControl(true);
-				$map_gui->setEnableCentralMarker(true);
-				$h2 = substr($a_html, 0, $start).
-					$map_gui->getHtml().
-					substr($a_html, $end + 5);
-				$a_html = $h2;
-				$i++;
-			}
-			$start = strpos($a_html, "[[[[[Map;", $start + 5);
-			$end = 0;
-			if (is_int($start))
-			{
-				$end = strpos($a_html, "]]]]]", $start);
-			}
-		}
-				
-		return $a_html;
 	}
 
 	/**

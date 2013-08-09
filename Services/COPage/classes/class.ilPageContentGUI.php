@@ -55,6 +55,26 @@ class ilPageContentGUI
 			$this->dom = $a_pg_obj->getDom();
 		}
 	}
+
+	/**
+	 * Set content object
+	 *
+	 * @param object $a_val content object	
+	 */
+	function setContentObject($a_val)
+	{
+		$this->content_obj = $a_val;
+	}
+	
+	/**
+	 * Get content object
+	 *
+	 * @return object content object
+	 */
+	function getContentObject()
+	{
+		return $this->content_obj;
+	}
 	
 	/**
 	 * Set page
