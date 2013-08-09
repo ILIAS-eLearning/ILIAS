@@ -120,9 +120,10 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 						$node_id = $this->blogs[$obj_id];
 						$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $obj_id);
 
+						// #11519
 						$ilCtrl->setParameterByClass($this->page_gui,
 							"ppage", $a_set["id"]);
-						$link = $ilCtrl->getLinkTargetByClass(array($this->page_gui, "ilobjbloggui"), "edit");
+						$link = $ilCtrl->getLinkTargetByClass(array($this->page_gui, "ilobjbloggui"), "render");
 
 						$this->tpl->setCurrentBlock("action");
 						$this->tpl->setVariable("TXT_EDIT", $lng->txt("blog_edit"));
