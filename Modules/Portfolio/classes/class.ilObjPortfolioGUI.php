@@ -957,6 +957,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					$target_page->setXMLContent($source_page->copyXmlContent(true)); // copy mobs				
 					$target_page->buildDom(true);
 					
+					
 					// parse content / blocks		
 					
 					$dom = $target_page->getDom();					
@@ -969,6 +970,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					$this->updateDomNodes($dom, "//PageContent/Profile", "User", $ilUser->getId());
 												
 					// :TODO: skills 
+					
 					
 					$valid = true;
 					break;

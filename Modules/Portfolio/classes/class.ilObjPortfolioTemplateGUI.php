@@ -191,6 +191,113 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		
 		return $forms;
 	}
+	
+	protected function initDidacticTemplate(ilPropertyFormGUI $a_form)
+	{
+		global $ilUser;
+		
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+		$all = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
+		if(sizeof($all))
+		{
+			$opts = array(""=>$this->lng->txt("please_select"));
+			foreach($all as $item)
+			{
+				$opts[$item["id"]] = $item["title"];
+			}			
+			$prtf = new ilSelectInputGUI($this->lng->txt("prtf_create_template_from_portfolio"), "prtf");
+			$prtf->setInfo($this->lng->txt("prtf_create_template_from_portfolio_info"));
+			$prtf->setOptions($opts);
+			$a_form->addItem($prtf);	
+		}
+		
+		// yeah, I know.
+		return $a_form;		
+	}
+	
+	protected function afterSave(ilObject $a_new_object)
+	{				
+		if($_POST["prtf"])
+		{				
+			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+			$source = new ilObjPortfolio($_POST["prtf"], false);
+
+			// copy portfolio properties
+			$a_new_object->setPublicComments($source->hasPublicComments());
+			$a_new_object->setProfilePicture($source->hasProfilePicture());
+			$a_new_object->setFontColor($source->getFontColor());
+			$a_new_object->setBackgroundColor($source->getBackgroundColor());	
+			$a_new_object->setImage($source->getImage());
+			$a_new_object->update();
+
+			// banner/images
+			$source_dir = $source->initStorage($source->getId());
+			$target_dir = $a_new_object->initStorage($a_new_object->getId());
+			ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
+								
+			// copy pages
+			$blog_count = 0;
+			include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+			foreach(ilPortfolioPage::getAllPages($source->getId()) as $page)
+			{
+				$page_id = $page["id"];						
+
+				$source_page = new ilPortfolioPage($page_id);	
+				$source_page->setPortfolioId($source->getId());
+
+				$page_type = $source_page->getType();
+				$page_title = $source_page->getTitle();
+				
+				$target_page = new ilPortfolioTemplatePage();
+				$target_page->setPortfolioId($a_new_object->getId());			
+
+				$valid = false;
+				switch($page_type)
+				{
+					case ilPortfolioTemplatePage::TYPE_BLOG:																
+						$page_type = ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE;
+						$page_title = $this->lng->txt("obj_blog")." ".(++$blog_count);
+						$valid = true;
+						break;	
+
+					default:													
+						$target_page->setXMLContent($source_page->copyXmlContent(true)); // copy mobs				
+						$target_page->buildDom(true);
+
+
+						// parse content / blocks		
+
+						$dom = $target_page->getDom();					
+						if($dom instanceof php4DOMDocument)
+						{
+							$dom = $dom->myDOMDocument;
+						}
+
+						// :TODO: skills 
+
+
+						$valid = true;
+						break;
+				}
+
+				if($valid)
+				{							
+					$target_page->setType($page_type);
+					$target_page->setTitle($page_title);
+					$target_page->create();		
+
+					if($page_type !== ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE)
+					{
+						$target_page->update();	// handle mob usages!
+					}
+				}		
+			}
+		}
+
+		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+		$this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
+		$this->ctrl->redirect($this, "view");
+	}
 		
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{			
