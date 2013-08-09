@@ -198,7 +198,8 @@ class ilPCPlugged extends ilPageContent
 			$plugin_name = $param[0];
 			$plugin_version = $param[1];
 			$properties = array();
-			for ($i == 2; $i < count($param); $i+=2)
+
+			for ($i = 2; $i < count($param); $i+=2)
 			{
 				$properties[$param[$i]] = $param[$i+1];
 			}
@@ -206,7 +207,7 @@ class ilPCPlugged extends ilPageContent
 			// get html from plugin
 			if ($a_mode == "edit")
 			{
-				$plugin_html = '<div class="il_Block ilBlockContent">'.$lng->txt("content_plugin_not_activated")." (".$plugin_name.")</div>";
+				$plugin_html = '<div class="ilBox">'.$lng->txt("content_plugin_not_activated")." (".$plugin_name.")</div>";
 			}
 	        if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name))
 	        {

@@ -161,6 +161,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	function updateElement(array $a_properties)
 	{
 		$this->content_obj->setProperties($a_properties);
+		$this->content_obj->setPluginVersion($this->current_plugin->getVersion());
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
