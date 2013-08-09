@@ -566,6 +566,12 @@ abstract class ilPlugin
 		}
 		else		// no record? create one
 		{
+			// silently create these records is not a good idea, since
+			// the function can be called with "wrong parameters"
+			// raise exceptions instead
+			include_once("./Services/Component/exceptions/class.ilPluginException.php");
+			throw (new ilPluginException("No plugin record found for '".$a_ctype."', '".$a_cname."', '".$a_slot_id."', '".$a_pname."'."));
+			
 			$q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)".
 				" VALUES (".$ilDB->quote($a_ctype, "text").",".
 				$ilDB->quote($a_cname, "text").",".

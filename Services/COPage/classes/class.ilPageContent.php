@@ -360,6 +360,17 @@ abstract class ilPageContent
 	static function handleCopiedContent(DOMDocument $a_domdoc, $a_self_ass = true, $a_clone_mobs = false)
 	{
 	}
-			
+	
+	/**
+	 * Modify page content after xsl
+	 *
+	 * @param string $a_output
+	 * @return string
+	 */
+	function modifyPageContentPostXsl($a_output, $a_mode)
+	{
+		return $a_output;
+	}
+	
 }
 ?>
