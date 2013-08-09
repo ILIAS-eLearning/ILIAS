@@ -138,7 +138,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	*/
 	function infoScreenForward()
 	{
-		global $ilTabs, $ilErr;
+		global $ilTabs, $ilErr, $ilToolbar;
 		
 		$ilTabs->activateTab("id_info");
 
@@ -146,7 +146,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
 		}
-
+		
+		$this->lng->loadLanguageModule("cntr");
+		$ilToolbar->addButton($this->lng->txt("prtf_create_portfolio_from_template"),
+			$this->ctrl->getLinkTarget($this, "createfromtemplate"),
+			"", "", "", "", "submit emphsubmit");
+				
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
@@ -440,6 +445,16 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	
+	//
+	// TRANSMOGRIFIER
+	//
+	
+	public function createFromTemplate()
+	{		
+		$this->ctrl->setParameterByClass("ilobjportfoliogui", "prtt_pre", $this->object->getId());
+		$this->ctrl->redirectByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create");		
+	}	
+		
 	public function _goto($a_target)
 	{
 		$id = explode("_", $a_target);

@@ -269,6 +269,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$tmpl->setRequired(true);
 			$tmpl->setOptions(array(""=>$this->lng->txt("please_select"))+$templates);
 			$opt_tmpl->addSubItem($tmpl);
+			
+			// incoming from repository
+			if((int)$_REQUEST["prtt_pre"])
+			{
+				$tmpl->setValue((int)$_REQUEST["prtt_pre"]);
+				$main->setValue("mode_tmpl");
+			}
 		}
 		
 		
