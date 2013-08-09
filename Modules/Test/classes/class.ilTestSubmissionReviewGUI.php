@@ -7,7 +7,7 @@
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  * 
- * @ilCtrl_calls 	  ilTestSubmissionReviewGUI: ilTestOutputGUI, ilTestEvaluationGUI
+ * @ilCtrl_calls 	  ilTestSubmissionReviewGUI: ilTestOutputGUI, ilTestEvaluationGUI, ilAssQuestionPageGUI
  * @ilCtrl_isCalledBy ilTestSubmissionReviewGUI: ilTestOutputGUI
  */
 class ilTestSubmissionReviewGUI 

@@ -17293,3 +17293,7 @@ ilDBUpdateNewObjectType::addRBACCreate('create_prtt', 'Create Portfolio Template
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4024>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
