@@ -1305,6 +1305,7 @@ class ilObjMediaObject extends ilObject
 						// blog
 						include_once('./Services/COPage/classes/class.ilPageObject.php');
 						$obj_id = ilPageObject::lookupParentId($id, 'blp');
+						break;
 						
 					case "crs":
 					case "grp":
