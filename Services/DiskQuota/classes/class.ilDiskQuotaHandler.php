@@ -226,7 +226,7 @@ class ilDiskQuotaHandler
 		return $res;
 	}	
 	
-	public static function isUploadPossible()
+	public static function isUploadPossible($a_additional_size = null)
 	{
 		global $ilUser;
 				
@@ -237,7 +237,11 @@ class ilDiskQuotaHandler
 		}
 		
 		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-		$usage = ilDiskQuotaHandler::getFilesizeByOwner($ilUser->getId());
+		$usage = ilDiskQuotaHandler::getFilesizeByOwner($ilUser->getId());				
+		if($a_additional_size)
+		{
+			$usage += $a_additional_size;
+		}
 						
 		include_once "Services/WebDAV/classes/class.ilDiskQuotaChecker.php";	
 		$quota = ilDiskQuotaChecker::_lookupPersonalWorkspaceDiskQuota($ilUser->getId());				

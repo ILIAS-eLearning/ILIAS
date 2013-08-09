@@ -355,6 +355,204 @@ abstract class ilObjPortfolioBase extends ilObject2
 		}
 		return false;
 	}
+	
+	
+	//
+	// TRANSMOGRIFIER
+	//
+
+	/**
+	 * Build template from portfolio and vice versa
+	 * 
+	 * @param ilObjPortfolioBase $a_source
+	 * @param ilObjPortfolioBase $a_target
+	 * @param array $a_recipe
+	 */
+	public static function clonePagesAndSettings(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target, array $a_recipe = null)
+	{
+		global $lng, $ilUser;
+		
+		$source_id = $a_source->getId();
+		$target_id = $a_target->getId();
+		
+		if($a_source instanceof ilObjPortfolioTemplate && 
+			$a_target instanceof ilObjPortfolio)
+		{
+			$direction = "t2p";
+		}
+		else if($a_source instanceof ilObjPortfolio && 
+			$a_target instanceof ilObjPortfolioTemplate)
+		{
+			$direction = "p2t";
+		}
+		else
+		{
+			return;
+		}
+		
+		// copy portfolio properties
+		$a_target->setPublicComments($a_source->hasPublicComments());
+		$a_target->setProfilePicture($a_source->hasProfilePicture());
+		$a_target->setFontColor($a_source->getFontColor());
+		$a_target->setBackgroundColor($a_source->getBackgroundColor());	
+		$a_target->setImage($a_source->getImage());
+		$a_target->update();
+
+		// banner/images
+		$source_dir = $a_source->initStorage($source_id);
+		$target_dir = $a_target->initStorage($target_id);
+		ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
+
+		// copy pages
+		$blog_count = 0;
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		foreach(ilPortfolioPage::getAllPages($source_id) as $page)
+		{
+			$page_id = $page["id"];	
+			
+			if($direction == "t2p")
+			{
+				$source_page = new ilPortfolioTemplatePage($page_id);	
+				$target_page = new ilPortfolioPage();
+			}
+			else
+			{
+				$source_page = new ilPortfolioPage($page_id);	
+				$target_page = new ilPortfolioTemplatePage();
+			}			
+			$source_page->setPortfolioId($source_id);
+			$target_page->setPortfolioId($target_id);		
+			
+			$page_type = $source_page->getType();
+			$page_title = $source_page->getTitle();
+
+			
+				
+
+			$page_recipe = null;
+			if(is_array($a_recipe))
+			{
+				$page_recipe = $a_recipe[$page_id];	
+			}
+
+			$valid = false;
+			switch($page_type)
+			{
+				// blog => blog template
+				case ilPortfolioTemplatePage::TYPE_BLOG:		
+					if($direction == "p2t")
+					{
+						$page_type = ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE;
+						$page_title = $lng->txt("obj_blog")." ".(++$blog_count);
+						$valid = true;
+					}
+					break;	
+				
+				// blog template => blog (needs recipe)
+				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:					
+					if($direction == "t2p" && is_array($page_recipe))
+					{						
+						$page_type = ilPortfolioPage::TYPE_BLOG;
+						if($page_recipe[0] == "blog")
+						{
+							switch($page_recipe[1])
+							{
+								case "create":																		
+									$page_title = self::createBlogInPersonalWorkspace($page_recipe[2]);
+									$valid = true;
+									break;
+								
+								case "reuse":
+									$page_title = $page_recipe[2];
+									$valid = true;
+									break;
+								
+								case "ignore":
+									// do nothing
+									break;								
+							}							
+						}												
+					}
+					break;	
+
+				// page editor
+				default:													
+					$target_page->setXMLContent($source_page->copyXmlContent(true)); // copy mobs				
+					$target_page->buildDom(true);
+
+
+					// parse content / blocks		
+
+					$dom = $target_page->getDom();					
+					if($dom instanceof php4DOMDocument)
+					{
+						$dom = $dom->myDOMDocument;
+					}
+					
+					if($direction == "t2p")
+					{
+						// update profile user id
+						self::updateDomNodes($dom, "//PageContent/Profile", "User", $ilUser->getId());
+					}
+					
+
+					// :TODO: skills 
+
+
+					$valid = true;
+					break;
+			}
+
+			if($valid)
+			{							
+				$target_page->setType($page_type);
+				$target_page->setTitle($page_title);
+				$target_page->create();		
+
+				if($page_type == ilPortfolioPage::TYPE_PAGE)
+				{
+					$target_page->update();	// handle mob usages!
+				}
+			}		
+		}
+	}
+		
+	protected static function updateDomNodes($a_dom, $a_xpath, $a_attr_id, $a_attr_value)
+	{
+		$xpath_temp = new DOMXPath($a_dom);
+		$nodes = $xpath_temp->query($a_xpath);
+		foreach ($nodes as $node) 
+		{						
+			$node->setAttribute($a_attr_id, $a_attr_value);						
+		}
+	}
+	
+	protected static function createBlogInPersonalWorkspace($a_title)
+	{
+		global $ilUser;
+		
+		static $ws_access = null;
+		
+		include_once "Modules/Blog/classes/class.ilObjBlog.php";
+		$blog = new ilObjBlog();
+		$blog->setType("blog");
+		$blog->setTitle($a_title);
+		$blog->create();
+		
+		if(!$ws_access)
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";	
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			$tree = new ilWorkspaceTree($ilUser->getId());														
+			$ws_access = new ilWorkspaceAccessHandler($tree);																																						
+		}
+		
+		$tree = $ws_access->getTree();
+		$node_id = $tree->insertObject($tree->getRootId(), $blog->getId());	
+		$ws_access->setPermissions($tree->getRootId(), $node_id);
+		
+		return $blog->getId();
+	}
 }
 
 ?>
