@@ -112,7 +112,7 @@ class ilPortfolioRepositoryGUI
 		global $tpl, $lng, $ilToolbar, $ilCtrl;
 				
 		$ilToolbar->addButton($lng->txt("prtf_add_portfolio"),
-			$ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));
+			$ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));		
 	
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTableGUI.php";
 		$table = new ilPortfolioTableGUI($this, "show", $this->user_id);

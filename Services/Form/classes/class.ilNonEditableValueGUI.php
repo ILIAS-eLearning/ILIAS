@@ -159,7 +159,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	*/
 	function setValueByArray($a_values)
 	{
-		if (isset($a_values[$this->getPostVar()]))
+		if ($this->getPostVar() && isset($a_values[$this->getPostVar()]))
 		{
 			$this->setValue($a_values[$this->getPostVar()]);
 		}

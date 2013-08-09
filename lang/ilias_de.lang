@@ -13611,3 +13611,9 @@ prtt#:#prtt_availability_until_info#:#Wählen Sie diese Einstellung, um die Port
 prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliovorlage auch ausserhalb der Zugriffszeiten sichtbar.
 content#:#cont_profile_mode_template_inherit_info#:#Verwendet die Daten des Profils
 prtf#:#prtf_template_editor_placeholder_info#:#Dieser Platzhalter wird im Portfolio ersetzt.
+prtf#:#prtf_creation_mode#:#Neues Portfolio
+prtf#:#prtf_creation_mode_template#:#Aus Vorlage erstellen
+prtf#:#prtf_creation_mode_scratch#:#Ohne Vorlage erstellen
+prtf#:#prtf_template_import_blog_create#:#Neuen Blog erstellen
+prtf#:#prtf_template_import_blog_reuse#:#Bestehenden Blog nutzen
+prtf#:#prtf_template_import_blog_ignore#:#Blog-Seite entfernen

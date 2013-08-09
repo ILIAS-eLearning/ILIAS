@@ -127,7 +127,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function addLocator()
 	{		
-		$this->ctrl->setParameter($this, "prt_id", $this->object->getId());	
+		if(!$this->creation_mode)
+		{
+			$this->ctrl->setParameter($this, "prt_id", $this->object->getId());	
+		}
 		
 		parent::addLocatorItems();
 		
@@ -153,7 +156,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));		
-
+				
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$ti->setMaxLength(128);
@@ -167,21 +170,32 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$ta->setRows(2);
 		$form->addItem($ta);		
 		*/
+						
+		$main = new ilRadioGroupInputGUI($this->lng->txt("prtf_creation_mode"), "mode");
+		$main->setValue("mode_scratch");
+		$form->addItem($main);
+		
+		$opt_scratch = new ilRadioOption($this->lng->txt("prtf_creation_mode_scratch"), "mode_scratch");
+		$main->addOption($opt_scratch);
+		
+		
+		// 1st page
 		
 		$type = new ilRadioGroupInputGUI($this->lng->txt("prtf_first_page_title"), "ptype");
 		$type->setRequired(true);
-		$form->addItem($type);
+		$opt_scratch->addSubItem($type);
 
 		$type_page = new ilRadioOption($this->lng->txt("page"), "page");
 		$type->addOption($type_page);
-
-		// 1st page
+		
+		// page type: page
 		$tf = new ilTextInputGUI($this->lng->txt("title"), "fpage");
 		$tf->setMaxLength(128);
 		$tf->setSize(40);
 		$tf->setRequired(true);
 		$type_page->addSubItem($tf);	
 
+		// page templates
 		include_once "Services/Style/classes/class.ilPageLayout.php";
 		$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
 		if($templates)
@@ -199,6 +213,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$type_page->addSubItem($use_template);
 		}
 
+		// page type: blog
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$options = array();
@@ -224,7 +239,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 				$obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), "blog");
 				$obj->setRequired(true);
-				$obj->setOptions($options);
+				$obj->setOptions(array(""=>$this->lng->txt("please_select"))+$options);
 				$type_blog->addSubItem($obj);
 			}
 			else
@@ -233,12 +248,50 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$type->setValue("page");
 			}
 		}
-
+				
+		
+		// portfolio templates
+		
+		$opt_tmpl = new ilRadioOption($this->lng->txt("prtf_creation_mode_template"), "mode_tmpl");
+		$main->addOption($opt_tmpl);
+				
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
+		if(!sizeof($templates))
+		{
+			$opt_tmpl->setDisabled(true);			
+		}
+		else
+		{			
+			$tmpl = new ilSelectInputGUI($this->lng->txt("obj_prtt"), "prtt");
+			$tmpl->setRequired(true);
+			$tmpl->setOptions(array(""=>$this->lng->txt("please_select"))+$templates);
+			$opt_tmpl->addSubItem($tmpl);
+		}
+		
+		
 		$form->setTitle($this->lng->txt("prtf_create_portfolio"));
 		$form->addCommandButton("save", $this->lng->txt("save"));
 		$form->addCommandButton("toRepository", $this->lng->txt("cancel"));
 		
 		return $form;
+	}
+	
+	public function save()
+	{		
+		$form = $this->initCreateForm("prtf");
+		if($form->checkInput())
+		{
+			// trigger portfolio template "import" process
+			if($form->getInput("mode") == "mode_tmpl")
+			{
+				$this->ctrl->setParameter($this, "prtt", $form->getInput("prtt"));
+				$this->ctrl->setParameter($this, "pt", $form->getInput("title"));				
+				$this->ctrl->redirect($this, "createPortfolioFromTemplate");				
+			}			
+		}
+		
+		return parent::save();
 	}
 	
 	protected function afterSave(ilObject $a_new_object)
@@ -635,6 +688,223 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->ctrl->redirect($this, "view");
 	}
 	
+	
+	//
+	// CREATE FROM TEMPLATE
+	// 
+	
+	protected function createPortfolioFromTemplate(ilPropertyFormGUI $a_form = null)
+	{
+		$title = trim($_REQUEST["pt"]);
+		$prtt_id = (int)$_REQUEST["prtt"];
+		
+		// valid template?		
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";		
+		$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
+		if(!sizeof($templates) || !in_array($prtt_id, $templates))
+		{
+			$this->toRepository();
+		}
+		unset($templates);
+		
+		$this->ctrl->setParameter($this, "pt", $title);
+		$this->ctrl->setParameter($this, "prtt", $prtt_id);		
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initCreatePortfolioFromTemplateForm($prtt_id);
+		}
+		if($a_form)
+		{						
+			$this->tpl->setContent($a_form->getHTML());						
+		}
+		else
+		{
+			$this->createPortfolioFromTemplateProcess(false);
+		}		
+	}
+	
+	protected function initCreatePortfolioFromTemplateForm($a_prtt_id)
+	{					
+		global $ilSetting;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));		
+		
+		$tmpl = new ilNonEditableValueGUI($this->lng->txt("obj_prtt"));
+		$tmpl->setValue(ilObject::_lookupTitle($a_prtt_id));
+		$form->addItem($tmpl);
+		
+		// gather user blogs
+		if(!$ilSetting->get('disable_wsp_blogs'))
+		{
+			$blog_options = array();
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$tree = new ilWorkspaceTree($this->user_id);
+			$root = $tree->readRootId();
+			if($root)
+			{
+				$root = $tree->getNodeData($root);
+				foreach ($tree->getSubTree($root) as $node)
+				{
+					if ($node["type"] == "blog")
+					{
+						$blog_options[$node["obj_id"]] = $node["title"];
+					}
+				}
+				asort($blog_options);		
+			}
+		}
+			
+		$has_form_content = false;
+			
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		foreach(ilPortfolioTemplatePage::getAllPages($a_prtt_id) as $page)
+		{
+			switch($page["type"])
+			{
+				case ilPortfolioTemplatePage::TYPE_PAGE:
+					// :TODO: do something about profile data?
+					
+					// :TODO: skills
+					break;
+				
+				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
+					if(!$ilSetting->get('disable_wsp_blogs'))
+					{
+						$has_form_content = true;
+						
+						$field_id = "blog_".$page["id"];
+											
+						$blog = new ilRadioGroupInputGUI($this->lng->txt("obj_blog").": ".
+							$page["title"], $field_id);
+						$blog->setRequired(true);
+						$blog->setValue("blog_create");
+						$form->addItem($blog);
+
+						$new_blog = new ilRadioOption($this->lng->txt("prtf_template_import_blog_create"), "blog_create");
+						$blog->addOption($new_blog);
+						
+						$title = new ilTextInputGUI($this->lng->txt("title"), $field_id."_create_title");
+						$title->setRequired(true);
+						$new_blog->addSubItem($title);
+						
+						if(sizeof($blog_options))
+						{			
+							$reuse_blog = new ilRadioOption($this->lng->txt("prtf_template_import_blog_reuse"), "blog_resuse");
+							$blog->addOption($reuse_blog);
+
+							$obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), $field_id."_reuse_blog");
+							$obj->setRequired(true);
+							$obj->setOptions(array(""=>$this->lng->txt("please_select"))+$blog_options);
+							$reuse_blog->addSubItem($obj);
+						}		
+												
+						$blog->addOption(new ilRadioOption($this->lng->txt("prtf_template_import_blog_ignore"), "blog_ignore"));
+					}					
+					break;								
+			}
+		}		
+		
+		// no dialog needed, go ahead
+		if(!$has_form_content)
+		{
+			return;
+		}
+		
+		$form->setTitle($this->lng->txt("prtf_creation_mode").": ".$this->lng->txt("prtf_creation_mode_template"));
+		$form->addCommandButton("createPortfolioFromTemplateProcess", $this->lng->txt("continue"));
+		$form->addCommandButton("toRepository", $this->lng->txt("cancel"));
+		
+		return $form;
+	}	
+	
+	protected function createPortfolioFromTemplateProcess($a_process_form = true)
+	{
+		global $ilSetting;
+		
+		$title = trim($_REQUEST["pt"]);
+		$prtt_id = (int)$_REQUEST["prtt"];
+		
+		// valid template?		
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";		
+		$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
+		if(!sizeof($templates) || !in_array($prtt_id, $templates))
+		{
+			$this->toRepository();
+		}
+		unset($templates);
+		
+		$recipe = null;
+		if($a_process_form)
+		{
+			$this->ctrl->setParameter($this, "pt", $title);
+			$this->ctrl->setParameter($this, "prtt", $prtt_id);		
+			
+			$form = $this->initCreatePortfolioFromTemplateForm($prtt_id);
+			if($form->checkInput())
+			{
+				include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+				foreach(ilPortfolioTemplatePage::getAllPages($prtt_id) as $page)
+				{
+					switch($page["type"])
+					{
+						case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
+							if(!$ilSetting->get('disable_wsp_blogs'))
+							{							
+								$field_id = "blog_".$page["id"];
+								switch($form->getInput($field_id))
+								{
+									case "blog_create":
+										$recipe[$page["id"]] = array("blog", "create", 
+											trim($form->getInput($field_id."_create_title")));
+										break;
+
+									case "blog_resuse":
+										$recipe[$page["id"]] = array("blog", "reuse", 
+											(int)$form->getInput($field_id."_reuse_blog"));
+										break;
+
+									case "blog_ignore":
+										$recipe[$page["id"]] = array("blog", "ignore");
+										break;
+								}
+							}			
+							break;
+					}
+				}
+			}
+			else
+			{
+				$form->setValuesByPost();
+				return $this->createPortfolioFromTemplate($form);				
+			}			
+		}
+		
+		var_dump($recipe);
+		exit();
+		
+		$template = new ilObjPortfolioTemplate($prtt_id, false);
+		
+		// copy template properties
+		
+		
+		// create portfolio
+		
+		
+		// copy pages
+		
+		
+		// copy mobs
+		
+		
+		// handle blogs
+		
+		
+		
+		
+	}	
 	
 	function _goto($a_target)
 	{
