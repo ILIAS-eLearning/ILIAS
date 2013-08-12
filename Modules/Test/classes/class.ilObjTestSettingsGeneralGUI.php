@@ -375,7 +375,8 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setExamidInKiosk( in_array('examid_in_kiosk', $_POST["kiosk_options"]) );
 		}
 		
-		if( !$form->getItemByPostVar('redirection_mode')->getValue() )
+		// redirect after test
+		if( !isset($_POST['redirection_enabled']) || $_POST['redirection_enabled'] == '')
 		{
 			$this->testOBJ->setRedirectionMode(REDIRECT_NONE);
 		}
@@ -1109,7 +1110,7 @@ class ilObjTestSettingsGeneralGUI
 
 		$redirection_mode = $this->testOBJ->getRedirectionMode();
 		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled' );
-		$rm_enabled->setChecked($redirection_mode ? true : false);
+		$rm_enabled->setChecked($redirection_mode == '0' ? false : true);
 			$radio_rm = new ilRadioGroupInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_mode');
 			$seb_opt_always = new ilRadioOption($this->lng->txt('tst_results_access_always'), REDIRECT_ALWAYS);
 			$radio_rm->addOption($seb_opt_always);
