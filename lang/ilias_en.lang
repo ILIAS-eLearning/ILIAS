@@ -1172,6 +1172,9 @@ assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_presentation#:#Presentation Options
 assessment#:#test_results#:#Results Options
 assessment#:#misc#:#Misc Options
+assessment#:#saved_adjustment#:#Changes saved.
+assessment#:#sign_submission#:#Digitally sign test submissions
+assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account

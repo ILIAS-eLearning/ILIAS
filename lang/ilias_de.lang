@@ -1349,7 +1349,10 @@ assessment#:#tst_trigger_result_refreshing#:#Eine Ergebnisneuberechnung wird erf
 assessment#:#test_scoring#:#Bewertungsoptionen
 assessment#:#test_presentation#:#Ausgabeoptionen
 assessment#:#test_results#:#Ergebnisausgabeoptionen
-assessment#:#misc#:#Verschiedene Option
+assessment#:#misc#:#Verschiedene Optionen
+assessment#:#saved_adjustment#:#Veränderung gespeichert.
+assessment#:#sign_submission#:#Digitale Signatur von Testabgaben
+assessment#:#sign_submission_info#:#Wenn diese Option aktiviert wurde und ein Signatur-Plugin installiert und aktiviert ist, werden Teilnehmer aufgefordert ihre Testabgabe zu signieren.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code
