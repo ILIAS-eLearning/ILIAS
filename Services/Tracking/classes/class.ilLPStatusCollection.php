@@ -101,60 +101,71 @@ class ilLPStatusCollection extends ilLPStatus
 		
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 
-		// New handling for optional assignments
-		$counter = 0;
-		$users = array();
-		foreach(ilLPCollectionCache::getGroupedItems($a_obj_id, true) as $grouping_id => $grouping)
+		// #11513
+		$grouped_items = ilLPCollectionCache::getGroupedItems($a_obj_id, true);		
+		if(sizeof($grouped_items))
 		{
-			$isGrouping = $grouping_id ? true : false;
-			$grouping_completed = array();
-			$grouping_completed_users_num =  array();
-			foreach((array) $grouping['items'] as $item)
+			// New handling for optional assignments
+			$counter = 0;
+			$users = array();
+			foreach(ilLPCollectionCache::getGroupedItems($a_obj_id, true) as $grouping_id => $grouping)
 			{
-				$item_id = $ilObjDataCache->lookupObjId($item);
-				$tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
-				if($isGrouping)
+				$isGrouping = $grouping_id ? true : false;
+				$grouping_completed = array();
+				$grouping_completed_users_num =  array();
+				foreach((array) $grouping['items'] as $item)
 				{
-					// Iterated through all grouped items and count the number of fullfiled items
-					foreach($tmp_users as $tmp_user_id)
+					$item_id = $ilObjDataCache->lookupObjId($item);
+					$tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
+					if($isGrouping)
 					{
-						++$grouping_completed_users_num[$tmp_user_id];
-					}
-				}
-				else
-				{
-					if(!$counter++)
-					{
-						$users = $tmp_users;
+						// Iterated through all grouped items and count the number of fullfiled items
+						foreach($tmp_users as $tmp_user_id)
+						{
+							++$grouping_completed_users_num[$tmp_user_id];
+						}
 					}
 					else
 					{
-						$users = array_intersect($users,$tmp_users);
+						if(!$counter++)
+						{
+							$users = $tmp_users;
+						}
+						else
+						{
+							$users = array_intersect($users,$tmp_users);
+						}
 					}
 				}
-			}
-			if($isGrouping)
-			{
-				// Iterate through all "grouping_completed_users_num"
-				// All users with completed items greater equal than "num_obligatory" are completed
-				foreach($grouping_completed_users_num as $tmp_user_id => $grouping_num_completed)
+				if($isGrouping)
 				{
-					if($grouping_num_completed >= $grouping['num_obligatory'])
+					// Iterate through all "grouping_completed_users_num"
+					// All users with completed items greater equal than "num_obligatory" are completed
+					foreach($grouping_completed_users_num as $tmp_user_id => $grouping_num_completed)
 					{
-						$grouping_completed[] = $tmp_user_id;
+						if($grouping_num_completed >= $grouping['num_obligatory'])
+						{
+							$grouping_completed[] = $tmp_user_id;
+						}
+					}
+
+					// build intersection of users
+					if(!$counter++)
+					{
+						$users = $grouping_completed;
+					}
+					else
+					{
+						$users = array_intersect($users,$grouping_completed);
 					}
 				}
-
-				// build intersection of users
-				if(!$counter++)
-				{
-					$users = $grouping_completed;
-				}
-				else
-				{
-					$users = array_intersect($users,$grouping_completed);
-				}
 			}
+		}
+		else
+		{
+			// for empty collections "in_progress" equals "completed"
+			include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+			$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
 		}
 		
 		$users = array_diff($users,ilLPStatusWrapper::_getFailed($a_obj_id));
