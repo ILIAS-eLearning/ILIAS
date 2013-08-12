@@ -650,7 +650,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				{
 					$points += $answer->getPoints();
 				}
-				else
+				elseif( $this->getIsMultipleChoice() )
 				{
 					$points += $answer->getPointsUnchecked();
 				}

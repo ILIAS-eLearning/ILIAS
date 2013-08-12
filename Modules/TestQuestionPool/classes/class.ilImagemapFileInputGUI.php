@@ -17,6 +17,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 	protected $image_path_web = "";
 	protected $line_color = "";
 	
+	protected $pointsUncheckedFieldEnabled = false;
+	
 	/**
 	* Constructor
 	*
@@ -28,6 +30,16 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 		global $lng;
 
 		parent::__construct($a_title, $a_postvar);
+	}
+	
+	public function setPointsUncheckedFieldEnabled($pointsUncheckedFieldEnabled)
+	{
+		$this->pointsUncheckedFieldEnabled = (bool)$pointsUncheckedFieldEnabled;
+	}
+	
+	public function getPointsUncheckedFieldEnabled()
+	{
+		return $this->pointsUncheckedFieldEnabled;
 	}
 	
 	public function setAreas($a_areas)
@@ -73,13 +85,22 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
 			foreach ($a_areas['name'] as $idx => $name)
 			{
+				if( $this->getPointsUncheckedFieldEnabled() && isset($a_areas['points_unchecked']) )
+				{
+					$pointsUnchecked = $a_areas['points_unchecked'][$idx];
+				}
+				else
+				{
+					$pointsUnchecked = 0.0;
+				}
+				
 				array_push($this->areas, new ASS_AnswerImagemap(
 					$name,
 					$a_areas['points'][$idx],
 					$idx,
 					$a_areas['coords'][$idx], $a_areas['shape'][$idx],
 					-1,
-					$a_areas['points_unchecked'][$idx]
+					$pointsUnchecked
 				));
 			}
 		}
@@ -273,7 +294,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 			$template->setVariable("TEXT_ADD_POLY", $lng->txt('add_poly'));
 			$template->parseCurrentBlock();
 		}
-		
+
 		if(is_array($this->getAreas()) && $this->getAreas())
 		{
 			$counter = 0;
@@ -285,10 +306,16 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 					$template->setVariable('VALUE_POINTS', $area->getPoints());
 					$template->parseCurrentBlock();
 				}
-				if (strlen($area->getPointsUnchecked()))
+				if( $this->getPointsUncheckedFieldEnabled() )
 				{
-					$template->setCurrentBlock('area_points_unchecked_value');
-					$template->setVariable('VALUE_POINTS_UNCHECKED', $area->getPointsUnchecked());
+					if (strlen($area->getPointsUnchecked()))
+					{
+						$template->setCurrentBlock('area_points_unchecked_value');
+						$template->setVariable('VALUE_POINTS_UNCHECKED', $area->getPointsUnchecked());
+						$template->parseCurrentBlock();
+					}
+					
+					$template->setCurrentBlock('area_points_unchecked_field');
 					$template->parseCurrentBlock();
 				}
 				if (strlen($area->getAnswertext()))
@@ -315,8 +342,18 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 			}
 			$template->setCurrentBlock("areas");
 			$template->setVariable("TEXT_NAME", $lng->txt("hint"));
-			$template->setVariable("TEXT_POINTS", $lng->txt("points_checked"));
-			$template->setVariable("TEXT_POINTS_UNCHECKED", $lng->txt("points_unchecked"));
+			if( $this->getPointsUncheckedFieldEnabled() )
+			{
+				$template->setVariable("TEXT_POINTS", $lng->txt("points_checked"));
+							
+				$template->setCurrentBlock('area_points_unchecked_head');
+				$template->setVariable("TEXT_POINTS_UNCHECKED", $lng->txt("points_unchecked"));
+				$template->parseCurrentBlock();
+			}
+			else
+			{
+				$template->setVariable("TEXT_POINTS", $lng->txt("points"));
+			}
 			$template->setVariable("TEXT_SHAPE", $lng->txt("shape"));
 			$template->setVariable("TEXT_COORDINATES", $lng->txt("coordinates"));
 			$template->setVariable("TEXT_COMMANDS", $lng->txt("actions"));

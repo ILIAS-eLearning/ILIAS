@@ -89,13 +89,22 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				foreach ($_POST['image']['coords']['name'] as $idx => $name)
 				{
+					if( $this->object->getIsMultipleChoice() && isset($_POST['image']['coords']['points_unchecked']) )
+					{
+						$pointsUnchecked = $_POST['image']['coords']['points_unchecked'][$idx];
+					}
+					else
+					{
+						$pointsUnchecked = 0.0;
+					}
+					
 					$this->object->addAnswer(
 						$name,
 						$_POST['image']['coords']['points'][$idx],
 						$idx,
 						$_POST['image']['coords']['coords'][$idx],
 						$_POST['image']['coords']['shape'][$idx],
-						$_POST['image']['coords']['points_unchecked'][$idx]
+						$pointsUnchecked
 					);
 				}
 			}
@@ -188,6 +197,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		// image
 		include_once "./Modules/TestQuestionPool/classes/class.ilImagemapFileInputGUI.php";
 		$image = new ilImagemapFileInputGUI($this->lng->txt( 'image' ), 'image');
+		$image->setPointsUncheckedFieldEnabled( $this->object->getIsMultipleChoice() );
 		$image->setRequired( true );
 
 		if (strlen( $this->object->getImageFilename() ))
