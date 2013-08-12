@@ -24,52 +24,31 @@ class ilObjTestSettingsGeneralGUI
 	const CMD_SHOW_RESET_TPL_CONFIRM	= 'showResetTemplateConfirmation';
 	const CMD_CONFIRMED_RESET_TPL		= 'confirmedResetTemplate';
 	
-	/**
-	 * global $ilCtrl object
-	 * 
-	 * @var ilCtrl
-	 */
+	/** @var $ctrl ilCtrl */
 	protected $ctrl = null;
 	
-	/**
-	 * global $ilAccess object
-	 * 
-	 * @var ilAccess
-	 */
+	/** @var $access ilAccess */
 	protected $access = null;
 	
-	/**
-	 * global $lng object
-	 * 
-	 * @var ilLanguage
-	 */
+	/** @var $lng ilLanguage */
 	protected $lng = null;
 	
-	/**
-	 * global $tpl object
-	 * 
-	 * @var ilTemplate
-	 */
+	/** @var $tpl ilTemplate */
 	protected $tpl = null;
 	
-	/**
-	 * global $ilDB object instance
-	 *
-	 * @var ilDB
-	 */
+	/** @var $db ilDB */
 	protected $db = null;
 	
-	/**
-	 * object instance for current test
-	 *
-	 * @var ilObjTest
-	 */
+	/** @var $testOBJ ilObjTest */
 	protected $testOBJ = null;
+
+	/** @var $testGUI ilObjTestGUI */
+	protected $testGUI = null;
 	
 	/**
 	 * object instance for currently active settings template
 	 *
-	 * @var ilSettingsTemplate 
+	 * @var $settingsTemplate ilSettingsTemplate 
 	 */
 	protected $settingsTemplate = null;
 	
@@ -82,21 +61,37 @@ class ilObjTestSettingsGeneralGUI
 	 * @var boolean
 	 */
 	private $participantDataExist = null;
-	
+
 	/**
-	 * Constructor
+	 * Constructor 
+	 * 
+	 * @param ilCtrl          $ctrl
+	 * @param ilAccessHandler $access
+	 * @param ilLanguage      $lng
+	 * @param ilTemplate      $tpl
+	 * @param ilDB            $db
+	 * @param ilObjTestGUI    $testGUI
+	 * 
+	 * @return \ilObjTestSettingsGeneralGUI
 	 */
-	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilLanguage $lng, ilTemplate $tpl, ilDB $db, ilObjTestGUI $testGUI)
+	public function __construct(
+		ilCtrl $ctrl, 
+		ilAccessHandler $access, 
+		ilLanguage $lng, 
+		ilTemplate $tpl, 
+		ilDB $db, 
+		ilObjTestGUI $testGUI
+	)
 	{
 		$this->ctrl = $ctrl;
 		$this->access = $access;
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->db = $db;
-		
+
 		$this->testGUI = $testGUI;
 		$this->testOBJ = $testGUI->object;
-		
+
 		$templateId = $this->testOBJ->getTemplate();
 
 		if( $templateId )
@@ -105,7 +100,7 @@ class ilObjTestSettingsGeneralGUI
 			$this->settingsTemplate = new ilSettingsTemplate($templateId, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
 		}
 	}
-	
+
 	/**
 	 * Command Execution
 	 */
@@ -159,9 +154,11 @@ class ilObjTestSettingsGeneralGUI
 		
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
+									// Sarcasm? No. Because checkInput checks the form graph against the POST without
+									// actually setting the values into the form. Sounds ridiculous? Indeed, and it is.
 
 		// return to form when any form validation errors exist
-		
+
 		if($errors)
 		{
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
@@ -395,7 +392,16 @@ class ilObjTestSettingsGeneralGUI
 		{
 			$this->testOBJ->setRedirectionUrl(null);
 		}
-		
+
+		if( !$form->getItemByPostVar('sign_submission')->getValue() )
+		{
+			$this->testOBJ->setSignSubmission( true );
+		}
+		else
+		{
+			$this->testOBJ->setSignSubmission( false );
+		}
+
 		$this->testOBJ->setEnableProcessingTime($form->getItemByPostVar('chb_processing_time')->getChecked());
 		if ($this->testOBJ->getEnableProcessingTime())
 		{
@@ -1120,8 +1126,15 @@ class ilObjTestSettingsGeneralGUI
 			$redirection_url->setValue((string)$this->testOBJ->getRedirectionUrl());
 			$redirection_url->setRequired(true);
 		$rm_enabled->addSubItem($redirection_url);
-		
+
 		$form->addItem($rm_enabled);
+
+		// Sign submission
+		$sign_submission = $this->testOBJ->getSignSubmission();
+		$sign_submission_enabled = new ilCheckboxInputGUI($this->lng->txt('sign_submission'), 'sign_submission');
+		$sign_submission_enabled->setChecked($sign_submission);
+		$sign_submission_enabled->setInfo($this->lng->txt('sign_submission_info'));
+		$form->addItem($sign_submission_enabled);
 
 		if( !$this->settingsTemplate || $this->formShowParticipantSection($this->settingsTemplate->getSettings()) )
 		{
@@ -1143,7 +1156,6 @@ class ilObjTestSettingsGeneralGUI
 		}
 		$form->addItem($fixedparticipants);
 
-		
 		// simultaneous users
 		$simul = new ilTextInputGUI($this->lng->txt("tst_allowed_users"), "allowedUsers");
 		$simul->setSize(3);
