@@ -17297,3 +17297,16 @@ ilDBUpdateNewObjectType::addRBACCreate('create_prtt', 'Create Portfolio Template
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4025>
+<?php
+	if(!$ilDB->tableColumnExists("tst_tests", "sign_submission"))
+	{
+		$def = array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		);
+		$ilDB->addTableColumn("tst_tests", "sign_submission", $def);
+	}
+?>

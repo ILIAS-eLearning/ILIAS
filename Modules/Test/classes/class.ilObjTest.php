@@ -497,15 +497,20 @@ class ilObjTest extends ilObject
 	/** @var bool $show_exam_id */
 	protected $show_exam_id;
 	
+	/** @var bool $sign_submission */
+	protected $sign_submission;
+	
 	#endregion
 	
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function ilObjTest($a_id = 0,$a_call_by_reference = true)
+	 * Constructor
+	 * 
+	 * @param	$a_id 					integer		Reference_id or object_id.
+	 * @param	$a_call_by_reference	boolean		Treat the id as reference_id (true) or object_id (false).
+	 * 
+	 * @return \ilObjTest
+	 */
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $ilUser, $lng;
 		$this->type = "tst";
@@ -599,6 +604,7 @@ class ilObjTest extends ilObject
 		$this->redirection_url = NULL;
 		$this->examid_in_kiosk = false;
 		$this->show_exam_id = false;
+		$this->sign_submission = false;
 		
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
@@ -1248,14 +1254,12 @@ class ilObjTest extends ilObject
 
 	/**
 	 * Saves a ilObjTest object to a database
-	 *
-	 * @global ilDB $ilDB
-	 * @param object $db A pear DB object
-	 * @access public
+	 * 
+	 * @param bool $properties_only
 	 */
-	function saveToDb($properties_only = FALSE)
+	public function saveToDb($properties_only = FALSE)
 	{
-		global $ilDB, $ilLog;
+		global $ilDB;
 		
 		// moved online_status to ilObjectActivation (see below)
 
@@ -1351,6 +1355,7 @@ class ilObjTest extends ilObject
 				'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
 				'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk()),
 				'show_exam_id' => array('integer', (int)$this->getShowExamid()),
+				'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 				'question_set_type' => array('text', $this->getQuestionSetType())
 			));
 				    
@@ -1458,6 +1463,7 @@ class ilObjTest extends ilObject
 						'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
 						'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk()),
 						'show_exam_id' => array('integer', (int)$this->getShowExamid()),
+						'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 						'question_set_type' => array('text', $this->getQuestionSetType())
 					),
 					array(
@@ -1503,7 +1509,7 @@ class ilObjTest extends ilObject
 					);
 					while ($row = $ilDB->fetchAssoc($aresult))
 					{
-						$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s WHERE active_id = %s",
+						$ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s WHERE active_id = %s",
 							array('integer', 'timestamp', 'integer'),
 							array(1, date('Y-m-d H:i:s'), $row["active_id"])
 						);
@@ -1516,7 +1522,7 @@ class ilObjTest extends ilObject
 					);
 					while ($row = $ilDB->fetchAssoc($aresult))
 					{
-						$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s WHERE active_id = %s",
+						$ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s WHERE active_id = %s",
 							array('integer', 'timestamp', 'integer'),
 							array(0, NULL, $row["active_id"])
 						);
@@ -1531,7 +1537,7 @@ class ilObjTest extends ilObject
 					);
 					while ($row = $ilDB->fetchAssoc($aresult))
 					{
-						$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s WHERE active_id = %s",
+						$ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s WHERE active_id = %s",
 							array('integer', 'timestamp', 'integer'),
 							array(0, NULL, $row["active_id"])
 						);
@@ -2185,13 +2191,9 @@ class ilObjTest extends ilObject
 	}
 
 	/**
-	* Loads a ilObjTest object from a database
-	*
-	* @param object $db A pear DB object
-	* @param integer $test_id A unique key which defines the test in the database
-	* @access public
-	*/
-	function loadFromDb()
+	 * Loads a ilObjTest object from a database
+	 */
+	public function loadFromDb()
 	{
 		global $ilDB;
 
@@ -2291,10 +2293,11 @@ class ilObjTest extends ilObject
 			$this->setEnableArchiving((bool)$data->enable_archiving);
 			$this->setExamidInKiosk( (bool)$data->examid_in_kiosk);
 			$this->setShowExamid( (bool)$data->show_exam_id);
+			$this->setSignSubmission( (bool)$data->sign_submission );
 			$this->setQuestionSetType($data->question_set_type);
 			$this->loadQuestions();
 		}
-		
+
 		// moved activation to ilObjectActivation
 		if($this->ref_id)
 		{
@@ -6371,6 +6374,9 @@ function getAnswerFeedbackPoints()
 				case 'enable_archiving':
 					$this->setEnableArchiving($metadata['entry']);
 					break;
+				case 'sign_submission':
+					$this->setSignSubmission($metadata['entry']);
+					break;
 			}
 			if (preg_match("/mark_step_\d+/", $metadata["label"]))
 			{
@@ -6413,12 +6419,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns a QTI xml representation of the test
-	*
-	* @return string The QTI xml representation of the test
-	* @access public
-	*/
-	function toXML()
+	 * Returns a QTI xml representation of the test
+	 *
+	 * @return string The QTI xml representation of the test
+	 */
+	public function toXML()
 	{
 		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
@@ -6710,12 +6715,18 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_examview_pdf");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getShowExamviewPdf());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		// enable_archiving
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "enable_archiving");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getEnableArchiving());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");		
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// sign_submission
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "sign_submission");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getSignSubmission());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// starting time
 		if ($this->getStartingTime())
@@ -7285,11 +7296,12 @@ function getAnswerFeedbackPoints()
 	*/
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB,$ilLog;
-		
+		global $ilLog;
+
 		$this->loadFromDb();
-		
+
 		// Copy settings
+		/** @var $newObj ilObjTest */
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($newObj);
 		$newObj->setAnonymity($this->getAnonymity());
@@ -7347,6 +7359,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setShowExamViewHtml($this->getShowExamviewHtml());
 		$newObj->setShowExamViewPdf($this->getShowExamviewPdf());
 		$newObj->setEnableArchiving($this->getEnableArchiving());
+		$newObj->setSignSubmission($this->getSignSubmission());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -10018,15 +10031,15 @@ function getAnswerFeedbackPoints()
 			array($next_id, $a_name, $ilUser->getId(), serialize($testsettings), serialize($this->mark_schema), time())
 		);
 	}
-	
+
 	/**
-	* Applies given test defaults to this test
-	*
-	* @param array $test_default The test defaults database id of the
-	* @return boolean TRUE if the application succeeds, FALSE otherwise
-	* @access public
-	*/
-	function applyDefaults($test_defaults)
+	 * Applies given test defaults to this test
+	 *
+	 * @param array $test_default The test defaults database id.
+	 *
+	 * @return boolean TRUE if the application succeeds, FALSE otherwise
+	 */
+	public function applyDefaults($test_defaults)
 	{
 		$testsettings = unserialize($test_defaults["defaults"]);
 		include_once "./Modules/Test/classes/class.assMarkSchema.php";
@@ -10106,6 +10119,7 @@ function getAnswerFeedbackPoints()
 		$this->setShowExamviewHtml($testsettings['show_examview_html']);
 		$this->setShowExamviewPdf($testsettings['show_examview_pdf']);
 		$this->setEnableArchiving($testsettings['enable_archiving']);
+		$this->setSignSubmission($testsettings['sign_submission']);
 		$this->saveToDb();
 
 		return true;
@@ -11920,6 +11934,22 @@ function getAnswerFeedbackPoints()
 	public function getShowExamid()
 	{
 		return $this->show_exam_id;
+	}
+
+	/**
+	 * @param boolean $sign_submission
+	 */
+	public function setSignSubmission($sign_submission)
+	{
+		$this->sign_submission = $sign_submission;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getSignSubmission()
+	{
+		return $this->sign_submission;
 	}
 	
 	/**

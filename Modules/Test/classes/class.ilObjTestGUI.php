@@ -1,11 +1,11 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/Test/exceptions/class.ilTestException.php';
-include_once './Services/Object/classes/class.ilObjectGUI.php';
-include_once './Modules/Test/classes/inc.AssessmentConstants.php';
-include_once './Modules/Test/classes/class.ilObjAssessmentFolderGUI.php';
-include_once './Modules/Test/classes/class.ilTestExpressPage.php';
+require_once './Modules/Test/exceptions/class.ilTestException.php';
+require_once './Services/Object/classes/class.ilObjectGUI.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/Test/classes/class.ilObjAssessmentFolderGUI.php';
+require_once './Modules/Test/classes/class.ilTestExpressPage.php';
 
 /**
  * Class ilObjTestGUI
@@ -120,7 +120,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if(IS_PAYMENT_ENABLED)
 			{
-				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+				require_once 'Services/Payment/classes/class.ilPaymentObject.php';
 				if(ilPaymentObject::_requiresPurchaseToAccess($this->object->getRefId(), $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL)))
 				{
 					$this->setLocator();
@@ -170,7 +170,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+				require_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
 
@@ -178,14 +178,14 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 				
 			case "iltestoutputgui":
-				include_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
+				require_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
 				if(!$this->object->getKioskMode()) $this->prepareOutput();
 				$output_gui =& new ilTestOutputGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
 			case "iltestplayerdynamicquestionsetgui":
-				include_once "./Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php";
+				require_once "./Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php";
 				if (!$this->object->getKioskMode()) $this->prepareOutput();
 				$output_gui =& new ilTestPlayerDynamicQuestionSetGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
@@ -202,7 +202,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "iltestservicegui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
+				require_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 				$serviceGUI =& new ilTestServiceGUI($this->object);
 				$this->ctrl->forwardCommand($serviceGUI);
 				break;
@@ -218,7 +218,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "illearningprogressgui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				require_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY, $this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
@@ -227,8 +227,8 @@ class ilObjTestGUI extends ilObjectGUI
 			case "ilcertificategui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
+				require_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
+				require_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
 				$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
 				$this->ctrl->forwardCommand($output_gui);
 				break;
@@ -236,7 +236,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "iltestscoringgui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				include_once "./Modules/Test/classes/class.ilTestScoringGUI.php";
+				require_once "./Modules/Test/classes/class.ilTestScoringGUI.php";
 				$output_gui = new ilTestScoringGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
@@ -268,7 +268,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				require_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('tst');
 				$this->ctrl->forwardCommand($cp);
@@ -277,7 +277,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case 'ilrepositorysearchgui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 				$rep_search =& new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
 					'addParticipantsObject',
@@ -319,13 +319,13 @@ class ilObjTestGUI extends ilObjectGUI
 
 				if(!$qid || in_array($cmd, array('insertQuestions', 'browseForQuestions')))
 				{
-					include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
+					require_once "./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php";
 					$pageObject              = new ilTestExpressPageObjectGUI (0);
 					$pageObject->test_object = $this->object;
 					$ret                     =& $this->ctrl->forwardCommand($pageObject);
 					break;
 				}
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				require_once "./Services/Style/classes/class.ilObjStyleSheet.php";
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));
@@ -336,7 +336,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 					ilObjStyleSheet::getSyntaxStylePath());
 				$this->tpl->parseCurrentBlock();
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+				require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 
 				$q_gui =& assQuestionGUI::_getQuestionGUI("", $qid);
 
@@ -349,8 +349,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->setReturnByClass("ilTestExpressPageObjectGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
 
-				include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
-				include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
+				require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
+				require_once "./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php";
 
 				$page_gui = new ilTestExpressPageObjectGUI($qid);
 				$page_gui->test_object = $this->object;
@@ -381,7 +381,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case 'ilassquestionpagegui':
-				include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
+				require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
 				//echo $_REQUEST['prev_qid'];
 				if($_REQUEST['prev_qid'])
 				{
@@ -403,7 +403,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 					ilObjStyleSheet::getSyntaxStylePath());
 				$this->tpl->parseCurrentBlock();
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+				require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->setQuestionTabs();
 				$q_gui->outAdditionalOutput();
@@ -430,19 +430,19 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 				
 			case 'ilassspecfeedbackpagegui':
-				include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
+				require_once "./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php";
 				$pg_gui = new ilAssSpecFeedbackPageGUI((int) $_GET["feedback_id"]);
 				$this->ctrl->forwardCommand($pg_gui);
 				break;
 				
 			case 'ilassgenfeedbackpagegui':
-				include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php");
+				require_once "./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php";
 				$pg_gui = new ilAssGenFeedbackPageGUI((int) $_GET["feedback_id"]);
 				$this->ctrl->forwardCommand($pg_gui);
 				break;
 
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				require_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -535,7 +535,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 
 				$this->ctrl->setReturn($this, "questions");
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+				require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui =& assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				if(!$_GET['sel_question_types'])

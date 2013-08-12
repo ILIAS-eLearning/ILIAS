@@ -7,48 +7,50 @@
  * Helper class to deal with the generation and maintenance of test archives.
  * 
  * @author Maximilian Becker <mbecker@databay.de>
+ * 
  * @version $Id$
  *
+ * @ingroup ModulesTest
  */
 class ilTestArchiver 
 {
 	#region Constants / Config
-	
-	const DIR_SEP									= '/';
-	
-	const HTML_SUBMISSION_FILENAME 					= 'test_submission.html';
-	const PDF_SUBMISSION_FILENAME 					= 'test_submission.pdf';
-	const PASS_MATERIALS_PATH_COMPONENT				= 'materials';
-	const QUESTION_PATH_COMPONENT_PREFIX			= 'q_';
-	
-	const TEST_BEST_SOLUTION_PATH_COMPONENT			= 'best_solution';
-	const HTML_BEST_SOLUTION_FILENAME				= 'best_solution.html';
-	const PDF_BEST_SOLUTION_FILENAME				= 'best_solution.pdf';
-	const TEST_MATERIALS_PATH_COMPONENT				= 'materials';
-	
-	const TEST_RESULT_FILENAME						= 'test_result_v';
-	const TEST_RESULT_POSTFIX						= '.pdf';
-	
-	const TEST_OVERVIEW_PDF_FILENAME				= 'results_overview_html_v';
-	const TEST_OVERVIEW_PDF_POSTFIX					= '.pdf';
 
-	const TEST_OVERVIEW_HTML_FILENAME				= 'results_overview_pdf_v';
-	const TEST_OVERVIEW_HTML_POSTFIX				= '.html';
+	const DIR_SEP								= '/';
 
-	const LOG_DTSGROUP_FORMAT						= 'D M j G:i:s T Y';
-	const LOG_ADDITION_STRING						= ' Adding ';
-	const LOG_CREATION_STRING						= ' Creating ';
-	const LOG_UPDATE_STRING							= ' Updating ';
-	const LOG_DELETION_STRING						= ' Deleting ';
-	
-	const TEST_LOG_FILENAME							= 'test.log';
-	const DATA_INDEX_FILENAME						= 'data_index.csv';
-	const ARCHIVE_LOG								= 'archive.log';
-	
-	const EXPORT_DIRECTORY							= 'archive_exports';
-	
+	const HTML_SUBMISSION_FILENAME 				= 'test_submission.html';
+	const PDF_SUBMISSION_FILENAME 				= 'test_submission.pdf';
+	const PASS_MATERIALS_PATH_COMPONENT			= 'materials';
+	const QUESTION_PATH_COMPONENT_PREFIX		= 'q_';
+
+	const TEST_BEST_SOLUTION_PATH_COMPONENT		= 'best_solution';
+	const HTML_BEST_SOLUTION_FILENAME			= 'best_solution.html';
+	const PDF_BEST_SOLUTION_FILENAME			= 'best_solution.pdf';
+	const TEST_MATERIALS_PATH_COMPONENT			= 'materials';
+
+	const TEST_RESULT_FILENAME					= 'test_result_v';
+	const TEST_RESULT_POSTFIX					= '.pdf';
+
+	const TEST_OVERVIEW_PDF_FILENAME			= 'results_overview_html_v';
+	const TEST_OVERVIEW_PDF_POSTFIX				= '.pdf';
+
+	const TEST_OVERVIEW_HTML_FILENAME			= 'results_overview_pdf_v';
+	const TEST_OVERVIEW_HTML_POSTFIX			= '.html';
+
+	const LOG_DTSGROUP_FORMAT					= 'D M j G:i:s T Y';
+	const LOG_ADDITION_STRING					= ' Adding ';
+	const LOG_CREATION_STRING					= ' Creating ';
+	const LOG_UPDATE_STRING						= ' Updating ';
+	const LOG_DELETION_STRING					= ' Deleting ';
+
+	const TEST_LOG_FILENAME						= 'test.log';
+	const DATA_INDEX_FILENAME					= 'data_index.csv';
+	const ARCHIVE_LOG							= 'archive.log';
+
+	const EXPORT_DIRECTORY						= 'archive_exports';
+
 	#endregion
-	
+
 	/*
 	 * Test-Archive Schema:
 	 * 
@@ -72,18 +74,18 @@ class ilTestArchiver
 	 * 			-> test_result_v<n>.pdf
 	 * 			-> /materials_v<n>/<question_fi>/<n>_<filename>	
 	 */
-	
+
 	#region Properties
-	
+
 	protected $external_directory_path;	/** @var $external_directory_path string External directory base path  */
 	protected $client_id;			 	/** @var $client_id string Client id of the current client */
 	protected $test_obj_id;				/** @var $test_obj_id integer Object-ID of the test, the archiver is instantiated for */
 	protected $archive_data_index;		/** @var $archive_data_index array[string[]] Archive data index as associative array */
 
 	protected $ilDB;					/** @var $ilDB ilDB */
-	
+
 	#endregion
-	
+
 	/**
 	 * Returns a new ilTestArchiver object
 	 * 
@@ -97,12 +99,12 @@ class ilTestArchiver
 		$this->client_id 				= $ilias->client_id;
 		$this->test_obj_id 				= $test_obj_id;
 		$this->ilDB						= $ilias->db;
-		
+
 		$this->archive_data_index 		= $this->readArchiveDataIndex();
 	}
 
 	#region API methods
-	
+
 	/**
 	 * Hands in a participants test submission ("a completed test") for archiving.
 	 * 
@@ -120,10 +122,6 @@ class ilTestArchiver
 		$this->ensureTestArchiveIsAvailable();
 		$this->ensurePassDataDirectoryIsAvailable( $active_fi, $pass );
 
-		$pass_data_directory = $this->getPassDataDirectory($active_fi, $pass);
-
-		$i = $this->countFilesInDirectory( $pass_data_directory ) / 2;
-
 		$pdf_new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP
 			. self::PDF_SUBMISSION_FILENAME;
 		copy( $pdf_path, $pdf_new_path );
@@ -135,7 +133,7 @@ class ilTestArchiver
 		$this->logArchivingProcess( date( self::LOG_DTSGROUP_FORMAT ) . self::LOG_ADDITION_STRING . $pdf_new_path );
 		$this->logArchivingProcess( date( self::LOG_DTSGROUP_FORMAT ) . self::LOG_ADDITION_STRING . $html_new_path );
 	}
-	
+
 	/**
 	 * Hands in a particpants question material, such as an upload or other binary content.
 	 * 
@@ -149,23 +147,22 @@ class ilTestArchiver
 	{
 		$this->ensureTestArchiveIsAvailable();
 		$this->ensurePassDataDirectoryIsAvailable( $active_fi, $pass );
-		//$this->ensurePassMaterialsDirectoryIsAvailable( $active_fi, $pass );
-		
+
 		$pass_question_directory = $this->getPassDataDirectory( $active_fi, $pass ) 
 									. self::DIR_SEP . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
 		if ( !is_dir( $pass_question_directory ) )
 		{
 			mkdir( $pass_question_directory , 0777, true );
 		}
-		
+
 		copy( $file_path, $pass_question_directory . self::DIR_SEP. $original_filename );
-		
+
 		$this->logArchivingProcess(
 			date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING 
 			. $pass_question_directory . self::DIR_SEP. $original_filename
 		);
 	}
-	
+
 	/**
 	 * Hands in a participants file, which is relevant for archiving but an unspecified type.
 	 * 
@@ -184,7 +181,7 @@ class ilTestArchiver
 		copy( $file_path, $new_path );
 		$this->logArchivingProcess( date( self::LOG_DTSGROUP_FORMAT ) . self::LOG_ADDITION_STRING . $new_path );
 	}
-	
+
 	/**
 	 * Hands in the best solution for a test.
 	 * 
@@ -213,7 +210,7 @@ class ilTestArchiver
 			date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING 
 				. $best_solution_path . self::DIR_SEP . self::PDF_BEST_SOLUTION_FILENAME);
 	}
-	
+
 	/**
 	 * Hands in a file related to a question in context of the best solution.
 	 * 
@@ -236,19 +233,18 @@ class ilTestArchiver
 		{
 			mkdir( $materials_path , 0777, true);
 		}
-		
+
 		$question_materials_path = $materials_path . self::DIR_SEP . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
 		if ( !is_dir( $question_materials_path ) )
 		{
 			mkdir( $question_materials_path , 0777, true);
 		}
-		
+
 		copy( $file_path, $question_materials_path . self::DIR_SEP . $orginial_filename );
-		
+
 		$this->logArchivingProcess( 
 			date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING 
 				. $question_materials_path . self::DIR_SEP . $orginial_filename);
-		
 	}
 
 	/**
@@ -270,7 +266,7 @@ class ilTestArchiver
 		copy( $pdf_path, $new_path );
 		$this->logArchivingProcess( date( self::LOG_DTSGROUP_FORMAT ) . self::LOG_ADDITION_STRING . $new_path );
 	}
-	
+
 	/**
 	 * Hands in a test results overview.
 	 * 
@@ -287,16 +283,16 @@ class ilTestArchiver
 		$html_path = $this->getTestArchive() . self::DIR_SEP . self::TEST_OVERVIEW_HTML_FILENAME 
 			. $this->countFilesInDirectory($this->getTestArchive(), self::TEST_OVERVIEW_HTML_FILENAME) . self::TEST_OVERVIEW_HTML_POSTFIX;
 		file_put_contents($html_path, $html_string);
-		
+
 		$this->logArchivingProcess( date( self::LOG_DTSGROUP_FORMAT ) . self::LOG_ADDITION_STRING . $new_pdf_path );
 		$this->logArchivingProcess( date( self::LOG_DTSGROUP_FORMAT ) . self::LOG_ADDITION_STRING . $html_path );
 	}
-	
+
 	#endregion
-	
+
 	#region TestArchive
 	// The TestArchive lives here: <external directory>/<client>/tst_data/archive/tst_<obj_id>/
-	
+
 	/**
 	 * Returns if the archive directory structure for the test the object is created for exists.
 	 * 
@@ -306,7 +302,7 @@ class ilTestArchiver
 	{
 		return is_dir($this->getTestArchive());
 	}
-	
+
 	/**
 	 * Creates the directory for the test archive.
 	 */
@@ -314,7 +310,7 @@ class ilTestArchiver
 	{
 		mkdir( $this->getTestArchive(), 0777, true );
 	}
-	
+
 	/**
 	 * Returns the (theoretical) path to the archive directory of the test, this object is created for.
 	 * 
@@ -326,7 +322,7 @@ class ilTestArchiver
 			. self::DIR_SEP . 'archive' . self::DIR_SEP . 'tst_'.$this->test_obj_id;
 		return $test_archive_directory;
 	}
-	
+
 	/**
 	 * Ensures the availability of the test archive directory.
 	 *
@@ -342,7 +338,7 @@ class ilTestArchiver
 		}
 		return;
 	}
-	
+
 	/**
 	 * Replaces the test-log with the current one.
 	 * 
@@ -352,7 +348,7 @@ class ilTestArchiver
 	{
 		$query = 'SELECT * FROM ass_log WHERE obj_fi = ' . $this->ilDB->quote($this->test_obj_id, 'integer');
 		$result = $this->ilDB->query($query);
-		
+
 		$outfile_lines = '';
 		/** @noinspection PhpAssignmentInConditionInspection */
 		while ($row = $this->ilDB->fetchAssoc($result))
@@ -370,23 +366,33 @@ class ilTestArchiver
 			$this->createZipExportDirectory();
 		}
 	}
-	
+
+	/**
+	 * Returns if the export directory for zips exists.
+	 * 
+	 * @return bool
+	 */
 	public function hasZipExportDirectory()
 	{
 		return is_dir($this->getZipExportDirectory());
 	}
-	
+
 	protected function createZipExportDirectory()
 	{
 		mkdir($this->getZipExportDirectory(), 0777, true);
 	}
-	
+
+	/**
+	 * Return the export directory, where zips are placed.
+	 * 
+	 * @return string
+	 */
 	public function getZipExportDirectory()
 	{
 		return $this->external_directory_path . self::DIR_SEP . $this->client_id . self::DIR_SEP . 'tst_data'
 			. self::DIR_SEP . self::EXPORT_DIRECTORY . self::DIR_SEP  . 'tst_' . $this->test_obj_id;
 	}
-	
+
 	/**
 	 * Generate the test archive for download.
 	 * 
@@ -405,13 +411,13 @@ class ilTestArchiver
 	}
 
 	#endregion
-	
+
 	#region PassDataDirectory
 	// The pass data directory contains all data relevant for a participants pass.
 	// In addition to the test-archive-directory, this directory lives here:
 	// .../<year>/<month>/<day>/<ActiveFi>_<Pass>[_<Lastname>][_<Firstname>][_<Matriculation>]/
 	// Lastname, Firstname and Matriculation are not mandatory in the directory name.
-	
+
 	/**
 	 * Checks if the directory for pass data is available.
 	 * 
@@ -424,8 +430,7 @@ class ilTestArchiver
 	{
 		return is_dir($this->getPassDataDirectory($active_fi, $pass));
 	}
-	// k
-	
+
 	/**
 	 * Creates pass data directory
 	 * 
@@ -439,7 +444,6 @@ class ilTestArchiver
 		mkdir($this->getPassDataDirectory($active_fi, $pass), 0777, true);
 		return;
 	}
-	// k
 
 	/**
 	 * Returns the pass data directory.
@@ -465,9 +469,7 @@ class ilTestArchiver
 			array_shift($data_index_entry);
 			return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
 		}
-		return '';
 	}
-	// k
 
 	/**
 	 * Ensures the availability of the participant data directory.
@@ -487,11 +489,10 @@ class ilTestArchiver
 		}
 		return;
 	}
-	// k
+
 	#endregion
 
 	#region PassMaterialsDirectory
-
 
 	/**
 	 * Returns if the pass materials directory exists for a given pass.
@@ -503,6 +504,7 @@ class ilTestArchiver
 	 */
 	protected function hasPassMaterialsDirectory($active_fi, $pass)
 	{
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if ( @is_dir( $this->getPassMaterialsDirectory($active_fi, $pass)) )
 		{
 			return true;
@@ -540,7 +542,6 @@ class ilTestArchiver
 	{
 		$pass_data_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
 		return $pass_data_directory . self::DIR_SEP . self::PASS_MATERIALS_PATH_COMPONENT;
-
 	}
 
 	/**
@@ -562,7 +563,6 @@ class ilTestArchiver
 
 	#endregion
 
-
 	/**
 	 * Reads the archive data index.
 	 * 
@@ -577,7 +577,8 @@ class ilTestArchiver
 		$data_index_file = $this->getTestArchive() . self::DIR_SEP . self::DATA_INDEX_FILENAME;
 
 		$contents = array();
-		
+
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if ( @file_exists( $data_index_file ) )
 		{
 			$lines = explode( "\n", file_get_contents( $data_index_file ) );
@@ -594,7 +595,6 @@ class ilTestArchiver
 		}	
 		return $contents;
 	}
-	// k
 
 	/**
 	 * Appends a line to the archive data index.
@@ -623,8 +623,7 @@ class ilTestArchiver
 		file_put_contents($this->getTestArchive() . self::DIR_SEP . self::DATA_INDEX_FILENAME, $output_contents);
 		return;
 	}
-	// k
-	
+
 	/**
 	 * Determines the pass data path.
 	 * 
@@ -649,8 +648,7 @@ class ilTestArchiver
 		);
 		return $line;
 	}
-	// k
-	
+
 	/** 
 	 * Logs to the archive log.
 	 * 
@@ -665,18 +663,20 @@ class ilTestArchiver
 		
 		return;
 	}
-	// k
-	
+
 	/**
+	 * Returns the count of files in a directory, eventually matching the given, optional, pattern.
+	 * 
 	 * @param      		  $directory
 	 * @param null|string $pattern
 	 *
-	 * @return mixed
+	 * @return integer
 	 */
 	protected function countFilesInDirectory($directory, $pattern = null)
 	{
-		$i = 0;
+		$filecount = 0;
 
+		/** @noinspection PhpAssignmentInConditionInspection */
 		if ($handle = opendir( $directory ))
 		{
 			while (($file = readdir( $handle )) !== false)
@@ -685,11 +685,11 @@ class ilTestArchiver
 				{
 					if ($pattern && strpos($file, $pattern) === 0 )
 					{
-						$i++;
+						$filecount++;
 					}
 				}
 			}
 		}
-		return $i;
+		return $filecount;
 	}
 }
