@@ -855,7 +855,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			else
 			{
 				// show confirmation page
-				return $this->confirmFinishTest();
+				return $this->confirmFinishTestCmd();
 			}
 		}
 
@@ -1548,7 +1548,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	function finishListOfAnswers()
 	{
-		$this->confirmFinishTest();
+		$this->confirmFinishTestCmd();
 	}
 	
 	/**
