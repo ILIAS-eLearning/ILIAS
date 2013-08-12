@@ -113,6 +113,8 @@ class ilLPObjSettings
 
 	function setMode($a_mode)
 	{
+		self::$mode_by_obj_id[$this->getObjId()] = $a_mode;
+		
 		$this->obj_mode = $a_mode;
 	}
 	function getMode()
