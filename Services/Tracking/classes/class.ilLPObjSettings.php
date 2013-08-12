@@ -115,6 +115,8 @@ class ilLPObjSettings
 
 	function setMode($a_mode)
 	{
+		self::$mode_by_obj_id[$this->getObjId()] = $a_mode;
+		
 		$this->obj_mode = $a_mode;
 	}
 	function getMode()
@@ -145,11 +147,16 @@ class ilLPObjSettings
 		$res = $ilDB->manipulate($query);
 		$this->__read();
 		
-		// refresh learning progress
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_refreshStatus($this->getObjId());
+		$this->doLPRefresh();		
 		
 		return true;
+	}
+	
+	protected function doLPRefresh()
+	{		
+		// refresh learning progress		
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");				
+		ilLPStatusWrapper::_refreshStatus($this->getObjId());
 	}
 
 	function insert()
@@ -168,9 +175,7 @@ class ilLPObjSettings
 		$res = $ilDB->manipulate($query);
 		$this->__read();
 	
-		// refresh learning progress
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_refreshStatus($this->getObjId());
+		$this->doLPRefresh();		
 
 		return true;
 	}
