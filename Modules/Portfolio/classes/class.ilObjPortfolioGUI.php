@@ -306,7 +306,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	{		
 		// create 1st page / blog
 		include_once("Modules/Portfolio/classes/class.ilPortfolioPage.php");
-		$page = $this->getPageInstance();
+		$page = $this->getPageInstance(null, $a_new_object->getId());
 		if($_POST["ptype"] == "page")
 		{				
 			$page->setType(ilPortfolioPage::TYPE_PAGE);
@@ -403,13 +403,19 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 * Get portfolio template page instance
 	 * 
 	 * @param int $a_page_id
+	 * @param int $a_portfolio_id
 	 * @return ilPortfolioPage
 	 */
-	protected function getPageInstance($a_page_id = null)
+	protected function getPageInstance($a_page_id = null, $a_portfolio_id = null)
 	{		
+		// #11531
+		if(!$a_portfolio_id && $this->object)
+		{
+			$a_portfolio_id = $this->object->getId();
+		}
 		include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";			
 		$page = new ilPortfolioPage($a_page_id);
-		$page->setPortfolioId($this->object->getId());
+		$page->setPortfolioId($a_portfolio_id);
 		return $page;
 	}
 	
