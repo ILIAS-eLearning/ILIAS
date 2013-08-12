@@ -442,56 +442,33 @@ class ilLPStatus
 	static function setInProgressIfNotAttempted($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
+		
+		// #11513
 
-		$set = $ilDB->query("SELECT usr_id FROM ut_lp_marks WHERE ".
+		$needs_update = false;
+
+		$set = $ilDB->query("SELECT usr_id, status FROM ut_lp_marks WHERE ".
 			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
 			" usr_id = ".$ilDB->quote($a_user_id, "integer")
-			);
-
-		$update_collections = false;
-		if ($rec  = $ilDB->fetchAssoc($set))
+			);			
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
-			$ret = $ilDB->manipulate("UPDATE ut_lp_marks SET ".
-				" status = ".$ilDB->quote(LP_STATUS_IN_PROGRESS_NUM, "integer").",".
-				" status_changed = ".$ilDB->now().",".
-				" status_dirty = ".$ilDB->quote(0, "integer").
-				" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
-				" AND obj_id = ".$ilDB->quote($a_obj_id, "integer").
-				" AND status = ".$ilDB->quote(LP_STATUS_NOT_ATTEMPTED_NUM, "integer")
-				);
-			if ($ret != 0)
+			// current status is not attempted, so we need to update
+			if($rec["status"] == LP_STATUS_NOT_ATTEMPTED_NUM)
 			{
-				$update_collections = true;
+				$needs_update = true;
 			}
 		}
 		else
 		{
-			$ilDB->manipulate("INSERT INTO ut_lp_marks ".
-				"(status, status_changed, usr_id, obj_id, status_dirty) VALUES (".
-				$ilDB->quote(LP_STATUS_IN_PROGRESS_NUM, "integer").",".
-				$ilDB->now().",".
-				$ilDB->quote($a_user_id, "integer").",".
-				$ilDB->quote($a_obj_id, "integer").",".
-				$ilDB->quote(0, "integer").
-				")");
-			$update_collections = true;
+			// no ut_lp_marks yet, we should update
+			$needs_update = true;
 		}
-
-		// update collections
-		if ($update_collections)
+			
+		if($needs_update)
 		{
-			$set = $ilDB->query("SELECT ut_lp_collections.obj_id obj_id FROM ".
-				"object_reference JOIN ut_lp_collections ON ".
-				"(object_reference.obj_id = ".$ilDB->quote($a_obj_id, "integer").
-				" AND object_reference.ref_id = ut_lp_collections.item_id)");
-			while ($rec = $ilDB->fetchAssoc($set))
-			{
-				if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold")))
-				{
-					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-					ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
-				}
-			}
+			require_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";
+			ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
 		}
 	}
 	
