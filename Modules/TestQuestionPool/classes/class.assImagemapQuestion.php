@@ -139,12 +139,12 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$answer_obj   = $this->answers[$key];
 			$next_id      = $ilDB->nextId( 'qpl_a_imagemap' );
-			$affectedRows = $ilDB->manipulateF( "INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-												array( "integer", "integer", "text", "float", "integer", "text", "text", "float" ),
-												array( $next_id, $this->id, $answer_obj->getAnswertext(
-												), $answer_obj->getPoints(), $answer_obj->getOrder(
-												), $answer_obj->getCoords(), $answer_obj->getArea(
-												), $answer_obj->getPointsUnchecked() )
+			$ilDB->manipulateF( "INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+									array( "integer", "integer", "text", "float", "integer", "text", "text", "float" ),
+									array( $next_id, $this->id, $answer_obj->getAnswertext(
+									), $answer_obj->getPoints(), $answer_obj->getOrder(
+									), $answer_obj->getCoords(), $answer_obj->getArea(
+									), $answer_obj->getPointsUnchecked() )
 			);
 		}
 	}

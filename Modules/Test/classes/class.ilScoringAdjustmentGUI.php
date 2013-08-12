@@ -29,7 +29,7 @@ class ilScoringAdjustmentGUI
 	protected $ilias;
 	
 	/** @var \ilObjTest $object */
-	public $object; // Public due to demeter violation in ilTestQuestionsTableGUI
+	public $object; // Public due to law of demeter violation in ilTestQuestionsTableGUI.
 	
 	/** @var \ilTree $tree */
 	protected $tree;
@@ -146,9 +146,7 @@ class ilScoringAdjustmentGUI
 		{
 			$question_object = assQuestion::instantiateQuestionGUI($question['question_id']);
 
-			if (
-				($question_object instanceof ilGuiQuestionScoringAdjustable || $question_object instanceof ilGuiAnswerScoringAdjustable) 
-				&& $question_object->object instanceof ilObjQuestionScoringAdjustable)
+			if ( $this->supportsAdjustment( $question_object ) )
 			{
 				$filtered_data[] = $question;
 			}
@@ -166,7 +164,22 @@ class ilScoringAdjustmentGUI
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
+	/**
+	 * Returns if the given question object support scoring adjustment.
+	 * 
+	 * @param $question_object assQuestionGUI
+	 *
+	 * @return bool True, if relevant interfaces are implemented to support scoring adjustment.
+	 */
+	protected function supportsAdjustment(\assQuestionGUI $question_object)
+	{
+		return ($question_object instanceof ilGuiQuestionScoringAdjustable
+			|| $question_object instanceof ilGuiAnswerScoringAdjustable)
+			&& ($question_object->object instanceof ilObjQuestionScoringAdjustable
+				|| $question_object->object instanceof ilObjAnswerScoringAdjustable);
+	}
+
 	protected function editQuestion()
 	{
 		$question_id = $_GET['q_id'];
