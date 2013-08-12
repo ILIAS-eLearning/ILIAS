@@ -1,6 +1,50 @@
 Skill Management
 ----------------
 
+Todo
+====
+- Nutzung von Skills von Benutzern/in Objekten im Skillmanagement sichtbar machen (6)
+- Löschen von Skills verhinden, wenn von Benutzern oder OBjekten in Benutzung (7)
+- Objekte sollen Nutzung "anmelden" (5)
+- Skill-Template muss in 360 nutzbar sein (2)
+- (tiefer) Skill Explorer inkl. Referenzen (1)
+  - Modules/Survey/classes/class.ilSurveySkillExplorer.php
+- historische Darstellung aller "has levels" (inkl. Datum + Objekttitel) (4)
+- Resources müssen Template/Basis Kombi zuordbar sein (3)
+- Resource Selection > neue Explorerklasse
+- User Guide anpassen.
+
+DB
+==
+
+skl_user_skill_level
+
+skl_user_has_level
+
+skl_personal_skill
+
+skl_assigned_material
+
+skl_self_eval
+
+skl_self_eval_level
+
+skl_profile
+
+skl_skill_resource
+
+skl_templ_ref
+
+skl_tree
+
+skl_tree_node
+
+
+
+
+Klassen
+=======
+
 ilSkillTree
 - Table skl_tree joins table skl_tree_node
 - getSkillTreePath($a_base_skill_id, $a_tref_id = 0)

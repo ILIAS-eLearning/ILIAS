@@ -242,6 +242,10 @@ class ilPluginSlot
 					$plugin = ilPlugin::lookupStoredData($this->getComponentType(),
 						$this->getComponentName(), $this->getSlotId(), $file);
 						
+					// create record in il_plugin table (if not existing)
+					ilPlugin::createPluginRecord($this->getComponentType(),
+						$this->getComponentName(), $this->getSlotId(), $file);
+					
 					$pdata = $ilPluginAdmin->getAllData($this->getComponentType(),
 						$this->getComponentName(), $this->getSlotId(), $file);
 
