@@ -101,7 +101,8 @@ class ilLPStatusCollection extends ilLPStatus
 		
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		
-		// #11513
+		$members = self::getMembers($a_obj_id);
+				
 		$grouped_items = ilLPCollectionCache::getGroupedItems($a_obj_id, true);		
 		if(sizeof($grouped_items))
 		{
@@ -163,9 +164,9 @@ class ilLPStatusCollection extends ilLPStatus
 		}
 		else
 		{
-			// for empty collections "in_progress" equals "completed"
-			include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-			$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
+			// #11513 - for empty collections: always "completed"		
+			// no "not_attempted" or "in_progress"
+			$users = $members;
 		}
 
 		$users = array_diff($users,ilLPStatusWrapper::_getFailed($a_obj_id));
@@ -173,7 +174,7 @@ class ilLPStatusCollection extends ilLPStatus
 		if($users)
 		{
 			// Exclude all non members
-			$users = array_intersect(self::getMembers($a_obj_id), (array)$users);
+			$users = array_intersect($members, (array)$users);
 		}
 
 		return (array) $users;
@@ -280,25 +281,32 @@ class ilLPStatusCollection extends ilLPStatus
 		$status['completed'] = true;
 		$status['failed'] = false;
 		$status['in_progress'] = false;
-		$status['not_attempted'] = true;
-
+		
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case "crs":
 			case "fold":
-			case "grp":
-				include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
-				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
-				{
-					$status['in_progress'] = true;
-				}
-
+			case "grp":				
 				include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-				foreach(ilLPCollectionCache::getGroupedItems($a_obj_id, true) as $grouping_id => $grouping)
-				{
-					$isGrouping = $grouping_id ? true : false;
-					$status = self::determineGroupingStatus($status,$grouping,$a_user_id,$isGrouping);
-				}
+				$grouped_items = ilLPCollectionCache::getGroupedItems($a_obj_id, true);
+				if(sizeof($grouped_items))
+				{	
+					// #11513 - empty collection will result in "completed"
+					// no "not_attempted", no "in_progress"
+					
+					include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
+					if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
+					{
+						$status['in_progress'] = true;
+					}				
+										
+					foreach(ilLPCollectionCache::getGroupedItems($a_obj_id, true) as $grouping_id => $grouping)
+					{
+						$isGrouping = $grouping_id ? true : false;
+						$status = self::determineGroupingStatus($status,$grouping,$a_user_id,$isGrouping);
+					}					
+				}	
+				
 				if($status['completed'])
 				{
 					return LP_STATUS_COMPLETED_NUM;
@@ -311,7 +319,7 @@ class ilLPStatusCollection extends ilLPStatus
 				{
 					return LP_STATUS_IN_PROGRESS_NUM;
 				}
-				return LP_STATUS_NOT_ATTEMPTED_NUM;
+				break;
 		}
 		return LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
