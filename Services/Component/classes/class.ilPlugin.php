@@ -547,12 +547,38 @@ abstract class ilPlugin
 	}
 
 	/**
+	 * Create plugin record, if not existing
+	 */
+	static final public function createPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	{
+		global $ilDB;
+
+		// check record existence record
+		$q = "SELECT * FROM il_plugin".
+			" WHERE component_type = ".$ilDB->quote($a_ctype, "text").
+			" AND component_name = ".$ilDB->quote($a_cname, "text").
+			" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
+			" AND name = ".$ilDB->quote($a_pname, "text");
+		$set = $ilDB->query($q);
+		if (!$rec = $ilDB->fetchAssoc($set))
+		{
+			$q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)".
+				" VALUES (".$ilDB->quote($a_ctype, "text").",".
+				$ilDB->quote($a_cname, "text").",".
+				$ilDB->quote($a_slot_id, "text").",".
+				$ilDB->quote($a_pname, "text").")";
+			$ilDB->manipulate($q);
+		}
+	}
+
+	
+	/**
 	* Get record from il_plugin table
 	*/
 	static final public function getPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
 		global $ilDB;
-		
+
 		// read/set basic data
 		$q = "SELECT * FROM il_plugin".
 			" WHERE component_type = ".$ilDB->quote($a_ctype, "text").

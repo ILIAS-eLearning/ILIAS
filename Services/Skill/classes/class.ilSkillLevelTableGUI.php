@@ -54,7 +54,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 			$this->addCommandButton("updateLevelOrder", $lng->txt("skmg_update_order"));
 		}
 		
-		include_once "classes/class.ilLink.php";
+		include_once("./Services/Link/classes/class.ilLink.php");
 	}
 
 	/**
