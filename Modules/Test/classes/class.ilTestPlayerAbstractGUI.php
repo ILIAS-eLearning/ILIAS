@@ -787,7 +787,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	function finishTestCmd($requires_confirmation = true)
 	{
 		global $ilUser;
-		global $ilias;
 		global $ilAuth;
 
 		unset($_SESSION["tst_next"]);
@@ -900,6 +899,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->archiveParticipantSubmission( $active_id, $actualpass );
 		}
 
+		if (false) // Defunct during development.
+		{
+			// Redirect to signature plugin if configured.
+			// Endgame-state to session schreiben
+			/** @var $ilCtrl ilCtrl */
+			global $ilCtrl;
+			$ilCtrl->redirectByClass('ilTestSignatureGUI');
+			// "mahma"
+			// wieder hierher kommen
+			// fertschmachn
+		}
+		
 		// Redirect after test
 		$redirection_mode = $this->object->getRedirectionMode();
 		$redirection_url  = $this->object->getRedirectionUrl();
