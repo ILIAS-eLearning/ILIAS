@@ -3729,7 +3729,7 @@ news#:#news_block_news_for_context#:#Nyheder
 news#:#news_loading_news#:#Henter nyheder
 news#:#news_no_js_click_here#:#Klik her hvis ingen nyheder vises.
 news#:#news_nr_of_items#:#Maksimalt antal nyheder pr. objekt
-news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
+news#:#news_nr_of_items_info#:#Antal nyhedselementer som gemmes for hvert objekt (f.eks. en fil eller læremodul) i databasen. Bemærk, at samleobjekter (f.eks. kategorier og kurser) kan indeholde flere, da de samler nyheder for de objekter i dem.
 news#:#news_related_to#:#Relateret til
 news#:#news_all_items#:#Alt
 news#:#news_edit_news_settings#:#Ret indstillinger
@@ -3761,7 +3761,7 @@ news#:#news_get_feed_info#:#Dette er en personlig nyhedsfeed URL. Feedet inklude
 news#:#news_feed_url#:#Feed URL
 news#:#news_settings#:#Nyhedsindstillinger
 news#:#news_notifications_public#:#Offentlige adviseringer
-news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.###25 02 2007 new variable
+news#:#news_notifications_public_info#:#Hvis dette er aktiveret kan offentlige og private nyheder tilgås via personlige RSS feeds udefra ILIAS. Autentificering gøres via kodeord.
 news#:#news_public_feed#:#Ekstra feed URL
 news#:#news_public_feed_info#:#Hvis denne mulighed er aktiveret leveres en separat feed url til objektet.
 news#:#news_news_item_visibility_info#:#Offentlige nyheder kan via RSS tilgås uden autentificering udenfor ILIAS. Udelad venligst enhver fortrolig eller privat information.
@@ -7830,7 +7830,7 @@ crs#:#crs_objective_step#:#Skridt
 crs#:#crs_objective_self_assessment#:#Initial Test###23 07 2008 new variable
 crs#:#crs_objective_final_test#:#Final Test###23 07 2008 new variable
 crs#:#crs_objective_saved_sorting#:#Rækkefølgen gemt
-crs#:#crs_no_title_given#:#Please insert a title for the objective.###23 07 2008 new variable
+crs#:#crs_no_title_given#:#Du skal indtaste en titel for målet
 common#:#chat_invite_public_room#:#Fælleschat
 crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.###23 07 2008 new variable
 crs#:#crs_no_objective_lms_found#:#This course does not contain any materials.###23 07 2008 new variable
@@ -9399,7 +9399,7 @@ dateplaner#:#cal_created_milestone_resp_q#:#Milepæl tilføjet. Vælg venligst d
 common#:#address#:#Adresse
 common#:#contact#:#Kontakt
 tagging#:#tagging_enable_all_users#:#Vis alle brugeres tags
-tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.###18 08 2009 new variable
+tagging#:#tagging_enable_all_users_info#:#Tilføjer en sektion "Alle brugere" til informationssider som lister alle tags alle brugere har tilknyttet resursen.
 tagging#:#tagging_forbidden_tags#:#Ulovlige tags
 tagging#:#tagging_tag#:#Tag
 tagging#:#tagging_search_users#:#Find brugere
@@ -9938,26 +9938,26 @@ style#:#sty_paste_characteristics#:#Paste Style Classes###16 07 2010 new variabl
 style#:#sty_style_classes_copied#:#Style classes have been copied.###16 07 2010 new variable
 news#:#news_attached_to#:#Attached to###16 07 2010 new variable
 news#:#news_add_news#:#Add News###16 07 2010 new variable
-news#:#news_rss_title_format#:#Title Format of RSS Entries###16 07 2010 new variable
-news#:#news_rss_title_format_obj_news#:#Object Title - News Headline###16 07 2010 new variable
-news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)###16 07 2010 new variable
-trac#:#trac_learners#:#Learners ###16 07 2010 new variable
+news#:#news_rss_title_format#:#Titelformat for RSS nyheder
+news#:#news_rss_title_format_obj_news#:#Objekttitel - Nyhedsoverskrift
+news#:#news_rss_title_format_news_obj#:#Nyhedsoverskrift (objekttitel)###16 07 2010 new variable
+trac#:#trac_learners#:#Studerende
 trac#:#trac_summary#:#Sammendrag
-trac#:#trac_learners_back#:#Back To Learners###16 07 2010 new variable
-trac#:#trac_user_objects#:#Learning Objects for User###16 07 2010 new variable
-content#:#cont_link_whole_picture#:#Link Whole Picture###16 07 2010 new variable
-content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)###16 07 2010 new variable
-common#:#settings_for_all_members#:#Global Setting for all Course/Group Members###16 07 2010 new variable
-common#:#settings_per_users#:#Settings per Course/Group Members###16 07 2010 new variable
+trac#:#trac_learners_back#:#Tilbage til studerende
+trac#:#trac_user_objects#:#Læreresurser for bruger
+content#:#cont_link_whole_picture#:#Link til hele billedet
+content#:#cont_edit_shape_whole_picture#:#Ret form (hele billedet)
+common#:#settings_for_all_members#:#Globale indstillinger for alle kursus/gruppe medlemmer
+common#:#settings_per_users#:#Indstillinger pr. kursus/gruppe medlem
 user#:#enable_local_user_administration#:#Enable Local User Administration###16 07 2010 new variable
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.###16 07 2010 new variable
 user#:#restrict_user_access#:#Restriced Access to User Accounts###16 07 2010 new variable
 user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". ###16 07 2010 new variable
 common#:#backto_lua#:#Back to Local User Administration###16 07 2010 new variable
 common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
-common#:#sort_inherit_prefix#:#Default###16 07 2010 new variable
+common#:#sort_inherit_prefix#:#Standard
 common#:#sorting_info_inherit#:#The sorting mode is adpated from a parent course.###16 07 2010 new variable
-content#:#cont_alignment#:#Alignment###16 07 2010 new variable
+content#:#cont_alignment#:#Justeringt
 content#:#cont_set_alignment#:#Set Alignment###16 07 2010 new variable
 rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.###16 07 2010 new variable
 administration#:#adm_db_benchmark#:#DB Benchmark###16 07 2010 new variable
@@ -11199,32 +11199,32 @@ ecs#:#ecs_cc_mapping_overview#:#Mapping Overview###18 07 2011 new variable
 ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees###18 07 2011 new variable
 registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.###18 07 2011 new variable
 registration#:#registration_no_valid_role#:#There is currently no valid role for new accounts. Please contact your administrator.###18 07 2011 new variable
-common#:#exc_next_deadline#:#Next Deadline###18 07 2011 new variable
+common#:#exc_next_deadline#:#Næste deadline
 rbac#:#rbac_global_rolt#:#Global Role Template###06 08 2011 new variable
-common#:#password_allow_chars#:#Allowed chars: %s###06 08 2011 new variable
-rbac#:#rbac_role_selection#:#Role Type###06 08 2011 new variable
-content#:#cont_paragraph_styles#:#Paragraph Styles###06 08 2011 new variable
-content#:#cont_cc_str#:#Strong###06 08 2011 new variable
+common#:#password_allow_chars#:#Tilladte karakterer: %s
+rbac#:#rbac_role_selection#:#Rolletype
+content#:#cont_paragraph_styles#:#Paragraf stil
+content#:#cont_cc_str#:#Stærk
 content#:#cont_cc_emp#:#Emphatic###06 08 2011 new variable
-content#:#cont_cc_imp#:#Important###06 08 2011 new variable
-content#:#cont_more_character_styles#:#...more character styles###06 08 2011 new variable
-content#:#cont_blist#:#Bullet List###06 08 2011 new variable
-content#:#cont_nlist#:#Numbered List###06 08 2011 new variable
+content#:#cont_cc_imp#:#Vigtigt
+content#:#cont_more_character_styles#:#...flere karakterstile
+content#:#cont_blist#:#Punkliste
+content#:#cont_nlist#:#Nummereret liste
 content#:#cont_list_outdent#:#Outdent List###06 08 2011 new variable
 content#:#cont_list_indent#:#Indent List###06 08 2011 new variable
-didactic#:#didactic_adm_tab#:#Didactic###06 08 2011 new variable
-didactic#:#didactic_import_btn#:#Import Didactic Template###06 08 2011 new variable
+didactic#:#didactic_adm_tab#:#Didaktik
+didactic#:#didactic_import_btn#:#Importer didaktisk skabelon
 didactic#:#didactic_applicable_for#:#Applicalble for###06 08 2011 new variable
-didactic#:#didactic_available_templates#:#Available Didactic Templates###06 08 2011 new variable
+didactic#:#didactic_available_templates#:#Oprettede didaktiske skabeloner
 didactic#:#didactic_copy_suc_message#:#Copied didactic template###06 08 2011 new variable
 didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the following didactic templates?###06 08 2011 new variable
 didactic#:#didactic_delete_msg#:#Deleted didactical templates.###06 08 2011 new variable
 content#:#cont_pword#:#Paste from Word###06 08 2011 new variable
 blog#:#blog_edit#:#Edit Blog###06 08 2011 new variable
 blog#:#blog_banner#:#Banner###06 08 2011 new variable
-blog#:#blog_background_color#:#Background Color###06 08 2011 new variable
+blog#:#blog_background_color#:#Baggrundsfarve
 blog#:#blog_font_color#:#Font Color###06 08 2011 new variable
-blog#:#blog_back_to_ilias#:#Back to ILIAS###06 08 2011 new variable
+blog#:#blog_back_to_ilias#:#Tilbage til ILIAS
 content#:#cont_new_question#:#Nyt spørgsmål
 content#:#cont_copy_question_from_pool#:#Kopier spørgsmål fra bibliotek
 didactic#:#didactic_activated_msg#:#Activated didactic templates###06 08 2011 new variable
@@ -11249,7 +11249,7 @@ blog#:#blog_finalized#:#The Blog has been submitted.###06 08 2011 new variable
 prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of the exercise "%s".###06 08 2011 new variable
 prtf#:#prtf_finalize_portfolio#:#Finalize and Submit Portfolio###06 08 2011 new variable
 prtf#:#prtf_finalized#:#The portfolio has been submitted.###06 08 2011 new variable
-administration#:#obj_blga#:#Blog###06 08 2011 new variable
+administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Global Blog Settings###06 08 2011 new variable
 administration#:#obj_prfa#:#Portfolio###06 08 2011 new variable
 administration#:#obj_prfa_desc#:#Global Portfolio Settings###06 08 2011 new variable
@@ -11260,15 +11260,15 @@ blog#:#blog_preview_banner#:#Brugerdefineret banner
 prtf#:#prtf_settings#:#Portfolio administration
 prtf#:#prtf_preview_banner_width#:#Banner bredde
 prtf#:#prtf_preview_banner_height#:#Banner højde
-prtf#:#prtf_preview_banner#:#Custom Banner###06 08 2011 new variable
+prtf#:#prtf_preview_banner#:#Brugerdefineret banner
 prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_background_color#:#Baggrundsfarve
-prtf#:#prtf_font_color#:#Font Color###06 08 2011 new variable
+prtf#:#prtf_font_color#:#Font farve
 notes#:#note_add_note#:#Lav note
 notes#:#note_add_comment#:#Tilføj kommentar
 notes#:#note_update_comment#:#Opdater kommentar
 notes#:#note_update_note#:#Opdater note
-common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
+common#:#added_to_desktop#:#Objektet blev tilføjet skrivebordet.
 common#:#removed_from_desktop#:#Objektet blev fjernet fra skrivebordet.
 notes#:#notes_comments#:#Kommentarer
 rbac#:#chtr_visible#:#Synlig
@@ -11359,25 +11359,25 @@ chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon 
 chatroom_adm#:#server_settings#:#Server settings###06 08 2011 new variable
 chatroom_adm#:#client_settings#:#Client settings###06 08 2011 new variable
 chatroom_adm#:#priv_hosts#:#Privileged hosts###06 08 2011 new variable
-chatroom_adm#:#https#:#HTTPS###06 08 2011 new variable
-chatroom_adm#:#chat_enabled#:#Enable chat###06 08 2011 new variable
-chatroom_adm#:#enable_osd#:#Enable On-Screen notifications###06 08 2011 new variable
+chatroom_adm#:#https#:#HTTPS
+chatroom_adm#:#chat_enabled#:#Aktiver chat
+chatroom_adm#:#enable_osd#:#Aktiver live adviseringer
 chatroom_adm#:#hash#:#Hash###06 08 2011 new variable
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)###06 08 2011 new variable
-chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?###06 08 2011 new variable
-chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.###06 08 2011 new variable
-chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialized###06 08 2011 new variable
+chatroom_adm#:#chatroom_confirm_delete_smiley#:#Er du sikker på du vil slette den valgte smiley?
+chatroom_adm#:#chat_smilies_dir_not_exists#:#Smily-mappe eksisterer ikke.
+chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialiseret.
 chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.###06 08 2011 new variable
-chatroom#:#auto_scroll#:#Scroll to bottom###06 08 2011 new variable
-chatroom#:#public_chat_created#:#The public chat room has been added to the repository###06 08 2011 new variable
+chatroom#:#auto_scroll#:#Rul til bunden
+chatroom#:#public_chat_created#:#Det offentlige chatrum er blevet tilføjet oversigten.
 chatroom#:#lost_connection#:#The connection to the chatserver was interrupted.###06 08 2011 new variable
-chatroom#:#banned#:#You have been banned from this chat###06 08 2011 new variable
+chatroom#:#banned#:#Du er blevet banlyst fra chatten. Farvel!
 chatroom#:#unban#:#Unban###06 08 2011 new variable
 chatroom_adm#:#keystore#:#Keystore###06 08 2011 new variable
 chatroom_adm#:#keypass#:#Keypass###06 08 2011 new variable
 chatroom_adm#:#storepass#:#Storepass###06 08 2011 new variable
-chatroom_adm#:#settings_has_been_saved#:#Settings has been saved###06 08 2011 new variable
-common#:#obj_chtr#:#Chatroom###06 08 2011 new variable
+chatroom_adm#:#settings_has_been_saved#:#Indstillingerne blev gemt.
+common#:#obj_chtr#:#Chatrum
 chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.###06 08 2011 new variable
 user#:#user_account_codes#:#Account Codes###06 08 2011 new variable
 user#:#user_account_codes_add#:#Add Codes###06 08 2011 new variable
@@ -11838,8 +11838,8 @@ certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points###04 10
 certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max###04 10 2011 new variable
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.###04 10 2011 new variable
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.###04 10 2011 new variable
-prtf#:#prtf_preview_banner_info#:#Default size is 880x100 pixels.###04 10 2011 new variable
-blog#:#blog_preview_banner_info#:#Default size is 880x100 pixels.###04 10 2011 new variable
+prtf#:#prtf_preview_banner_info#:#Standardstørrelse er 880x100 pixels.
+blog#:#blog_preview_banner_info#:#Standardstørrelse er 880x100 pixels.
 exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assigments" and "Edit" to create a first assignment.###10 11 2011 new variable
 wsp#:#wsp_invalid_password#:#The given password is invalid.###10 11 2011 new variable
 wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.###10 11 2011 new variable
