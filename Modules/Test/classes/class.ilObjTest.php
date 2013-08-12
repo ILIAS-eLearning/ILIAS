@@ -9996,7 +9996,8 @@ function getAnswerFeedbackPoints()
 			"ECTSOutput" => $this->getECTSOutput(),
 			"ECTSFX" => $this->getECTSFX(),
 			"ECTSGrades" => $this->getECTSGrades(),
-			"isRandomTest" => $this->isRandomTest(),
+			//"isRandomTest" => $this->isRandomTest(),
+			"questionSetType" => $this->getQuestionSetType(),
 			"RandomQuestionCount" => $this->getRandomQuestionCount(),
 			"CountSystem" => $this->getCountSystem(),
 			"MCScoring" => $this->getMCScoring(),
@@ -10063,6 +10064,21 @@ function getAnswerFeedbackPoints()
 		$this->setECTSOutput($testsettings["ECTSOutput"]);
 		$this->setECTSFX($testsettings["ECTSFX"]);
 		$this->setECTSGrades($testsettings["ECTSGrades"]);
+		if( isset($testsettings["isRandomTest"]) )
+		{
+			if( $testsettings["isRandomTest"] )
+			{
+				$this->setQuestionSetType(self::QUESTION_SET_TYPE_RANDOM);
+			}
+			else
+			{
+				$this->setQuestionSetType(self::QUESTION_SET_TYPE_FIXED);
+			}
+		}
+		elseif( isset($testsettings["questionSetType"]) )
+		{
+			$this->setQuestionSetType($testsettings["questionSetType"]);
+		}
 		$this->setRandomTest($testsettings["isRandomTest"]);
 		$this->setRandomQuestionCount($testsettings["RandomQuestionCount"]);
 		$this->setCountSystem($testsettings["CountSystem"]);
