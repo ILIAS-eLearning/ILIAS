@@ -3468,7 +3468,7 @@ abstract class assQuestion
 	 * Creates an instance of a question gui with a given question id
 	 *
 	 * @param integer $question_id The question id
-	 * @return object The question gui instance
+	 * @return \assQuestionGUI The question gui instance
 	 * @static
 	 * @deprecated Use instantiateQuestionGUI (without legacy underscore & typos) instead.
 	 * @access public
@@ -3483,9 +3483,7 @@ abstract class assQuestion
 	 *
 	 * @param 	integer	$a_question_id
 	 *
-	 * @return 	object 	The question gui instance
-	 *
-	 * @static
+	 * @return 	\assQuestionGUI	The question gui instance
 	 */
 	public static function instantiateQuestionGUI($a_question_id)
 	{
