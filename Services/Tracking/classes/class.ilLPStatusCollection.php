@@ -99,12 +99,14 @@ class ilLPStatusCollection extends ilLPStatus
 	{		
 		global $ilObjDataCache;
 		
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		
-		$members = self::getMembers($a_obj_id);
-				
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';		
 		$grouped_items = ilLPCollectionCache::getGroupedItems($a_obj_id, true);		
-		if(sizeof($grouped_items))
+		if(!sizeof($grouped_items))
+		{
+			// #11513 - empty collections cannot be completed	
+			return array();
+		}
+		else
 		{
 			// New handling for optional assignments
 			$counter = 0;
@@ -162,19 +164,13 @@ class ilLPStatusCollection extends ilLPStatus
 				}
 			}
 		}
-		else
-		{
-			// #11513 - for empty collections: always "completed"		
-			// no "not_attempted" or "in_progress"
-			$users = $members;
-		}
-
+	
 		$users = array_diff($users,ilLPStatusWrapper::_getFailed($a_obj_id));
 
 		if($users)
 		{
 			// Exclude all non members
-			$users = array_intersect($members, (array)$users);
+			$users = array_intersect(self::getMembers($a_obj_id), (array)$users);
 		}
 
 		return (array) $users;
@@ -286,27 +282,29 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			case "crs":
 			case "fold":
-			case "grp":				
+			case "grp":							
+				include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
+				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
+				{
+					$status['in_progress'] = true;
+				}										
+				
 				include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 				$grouped_items = ilLPCollectionCache::getGroupedItems($a_obj_id, true);
-				if(sizeof($grouped_items))
-				{	
-					// #11513 - empty collection will result in "completed"
-					// no "not_attempted", no "in_progress"
-					
-					include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
-					if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
-					{
-						$status['in_progress'] = true;
-					}				
-										
+				if(!sizeof($grouped_items))
+				{			
+					// #11513 - empty collections cannot be completed
+					$status['completed'] = false;
+				}
+				else
+				{
 					foreach(ilLPCollectionCache::getGroupedItems($a_obj_id, true) as $grouping_id => $grouping)
 					{
 						$isGrouping = $grouping_id ? true : false;
 						$status = self::determineGroupingStatus($status,$grouping,$a_user_id,$isGrouping);
 					}					
 				}	
-				
+			
 				if($status['completed'])
 				{
 					return LP_STATUS_COMPLETED_NUM;
