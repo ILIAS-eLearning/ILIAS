@@ -32,5 +32,6 @@
 	</objects>
 	<pluginslots>
 		<pluginslot id="texp" name="Export" />
+		<pluginslot id="tsig" name="Signature" />
 	</pluginslots>
 </module>
