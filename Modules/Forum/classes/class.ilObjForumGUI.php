@@ -1851,11 +1851,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		 */
 		global $tpl, $lng, $ilUser, $ilAccess, $rbacreview, $ilNavigationHistory, $ilCtrl, $frm, $ilToolbar, $ilLocator;
 		
-		if(!$this->objCurrentTopic->getId())
-		{
-			$ilCtrl->redirect($this, 'showThreads');
-		}
-
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 		if(!isset($_SESSION['viewmode']))
 		{
@@ -1892,6 +1887,39 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if(!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
+
+		// init objects
+		$oForumObjects = $this->getForumObjects();
+		/**
+		 * @var $forumObj ilObjForum
+		 */
+		$forumObj = $oForumObjects['forumObj'];
+		/**
+		 * @var $frm ilForum
+		 */
+		$frm = $oForumObjects['frm'];
+		/**
+		 * @var $file_obj ilFileDataForum
+		 */
+		$file_obj = $oForumObjects['file_obj'];
+
+		// download file
+		if($_GET['file'])
+		{
+			if(!$path = $file_obj->getFileDataByMD5Filename($_GET['file']))
+			{
+				ilUtil::sendFailure('error_reading_file');
+			}
+			else
+			{
+				ilUtil::deliverFile($path['path'], $path['clean_filename']);
+			}
+		}
+
+		if(!$this->objCurrentTopic->getId())
+		{
+			$ilCtrl->redirect($this, 'showThreads');
 		}
 		
 		// Set context for login
@@ -1934,21 +1962,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$ilNavigationHistory->addItem($this->object->getRefId(), $ilCtrl->getLinkTarget($this, 'showThreads'), 'frm');
 		}
 		
-		// init objects
-		$oForumObjects = $this->getForumObjects();
-		/**
-		 * @var $forumObj ilObjForum
-		 */
-		$forumObj = $oForumObjects['forumObj'];
-		/**
-		 * @var $frm ilForum
-		 */
-		$frm = $oForumObjects['frm'];
-		/**
-		 * @var $file_obj ilFileDataForum
-		 */
-		$file_obj = $oForumObjects['file_obj'];
-		
 		// save last access
 		$forumObj->updateLastAccess($ilUser->getId(), (int) $this->objCurrentTopic->getId());
 		
@@ -1959,19 +1972,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if(isset($_GET['anchor']))
 		{
 			$tpl->setVariable('JUMP2ANCHOR_ID', (int)$_GET['anchor']);	
-		}
-
-		// download file
-		if($_GET['file'])
-		{
-			if(!$path = $file_obj->getFileDataByMD5Filename($_GET['file']))
-			{
-				ilUtil::sendFailure('error_reading_file');
-			}
-			else
-			{
-				ilUtil::deliverFile($path['path'], $path['clean_filename']);
-			}
 		}
 
 		if ($_SESSION['viewmode'] == 'date'
