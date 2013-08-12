@@ -22,7 +22,7 @@
 		<tr class="tblheader">
 			<th class="std">{TEXT_NAME}</th>
 			<th class="std">{TEXT_POINTS}</th>
-			<th class="std">{TEXT_POINTS_UNCHECKED}</th>
+			<!-- BEGIN area_points_unchecked_head --><th class="std">{TEXT_POINTS_UNCHECKED}</th><!-- END area_points_unchecked_head -->
 			<th class="std">{TEXT_SHAPE}</th>
 			<th class="std">{TEXT_COORDINATES}</th>
 			<th class="std">{TEXT_COMMANDS}</th>
@@ -33,7 +33,7 @@
 		<tr class="{ROW_CLASS}">
 			<td class="std"><input type="text" name="{POST_VAR_R}[coords][name][]" size="15" <!-- BEGIN area_name_value -->value="{VALUE_NAME}"<!-- END area_name_value --> /></td>
 			<td class="std"><input type="text" style="text-align: right;" name="{POST_VAR_R}[coords][points][]" size="3" <!-- BEGIN area_points_value -->value="{VALUE_POINTS}"<!-- END area_points_value --> /></td>
-			<td class="std"><input type="text" style="text-align: right;" name="{POST_VAR_R}[coords][points_unchecked][]" size="3" <!-- BEGIN area_points_unchecked_value -->value="{VALUE_POINTS_UNCHECKED}"<!-- END area_points_unchecked_value --> /></td>
+			<!-- BEGIN area_points_unchecked_field --><td class="std"><input type="text" style="text-align: right;" name="{POST_VAR_R}[coords][points_unchecked][]" size="3" <!-- BEGIN area_points_unchecked_value -->value="{VALUE_POINTS_UNCHECKED}"<!-- END area_points_unchecked_value --> /></td><!-- END area_points_unchecked_field -->
 			<td class="std">
 				{TEXT_SHAPE}
 				<input type="hidden" name="{POST_VAR_R}[coords][shape][]" value="{VALUE_SHAPE}" />
