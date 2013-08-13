@@ -1123,12 +1123,11 @@ class ilObjTestSettingsGeneralGUI
 		$highscore_top_table->setInfo($this->lng->txt("tst_highscore_top_num_description"));
 		$highscore->addSubItem($highscore_top_num);
 		
-		if( !$this->settingsTemplate || $this->formShowKioskSection($this->settingsTemplate->getSettings()) )
+		if( !$this->settingsTemplate || $this->formShowTestExecutionSection($this->settingsTemplate->getSettings()) )
 		{
-			// kiosk mode properties
-			$kioskheader = new ilFormSectionHeaderGUI();
-			$kioskheader->setTitle($this->lng->txt("tst_test_execution"));
-			$form->addItem($kioskheader);
+			$testExecution = new ilFormSectionHeaderGUI();
+			$testExecution->setTitle($this->lng->txt("tst_test_execution"));
+			$form->addItem($testExecution);
 		}
 
 		// kiosk mode
@@ -1358,10 +1357,13 @@ class ilObjTestSettingsGeneralGUI
 		return $this->formsectionHasVisibleFields($templateData, $fields);
 	}
 
-	private function formShowKioskSection($templateData)
+	private function formShowTestExecutionSection($templateData)
 	{
+		return true; // remove this when 'eredirection_enabled' and 'sign_submission' become hideable
+		
 		$fields = array(
 			'kiosk',
+			'redirection_enabled', 'sign_submission' // not hideable up to now
 		);
 		return $this->formsectionHasVisibleFields($templateData, $fields);
 	}
