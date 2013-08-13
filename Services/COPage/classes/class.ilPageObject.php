@@ -3687,7 +3687,16 @@ abstract class ilPageObject
 //echo "PP";
 				break;
 		}
-		
+				
+		//check for PlaceHolder to remove in EditMode-keep in Layout Mode
+		if (!$this->getPageConfig()->getEnablePCType("PlaceHolder")) {
+			$sub_nodes = $curr_node->child_nodes() ;
+			foreach ( $sub_nodes as $sub_node ) {
+				if ($sub_node->node_name() == "PlaceHolder") {
+					$curr_node->unlink_node();
+				}
+			}
+		}	
 	}
 
 	/**
@@ -3774,7 +3783,7 @@ abstract class ilPageObject
 				}
 				//$a_cont_obj->setNode($new_node);
 				break;
-		}
+		}		
 	}
 
 	/**
