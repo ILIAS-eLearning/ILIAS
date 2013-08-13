@@ -145,13 +145,11 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 	public function addAdditionalFormElements(&$form, $form_fields)
 	{
 		global $lng;
-		$visibility = new ilRadioMatrixInputGUI($lng->txt("certificate_visibility"), "certificate_visibility");
-		$options = array(
-			0 => $lng->txt("certificate_visibility_always"),
-			1 => $lng->txt("certificate_visibility_passed_exercise"),
-			2 => $lng->txt("certificate_visibility_never")
-		);
-		$visibility->setOptions($options);
+		
+		$visibility = new ilRadioGroupInputGUI($lng->txt("certificate_visibility"), "certificate_visibility");
+		$visibility->addOption(new ilRadioOption($lng->txt("certificate_visibility_always"), 0));
+		$visibility->addOption(new ilRadioOption($lng->txt("certificate_visibility_passed_exercise"), 1));
+		$visibility->addOption(new ilRadioOption($lng->txt("certificate_visibility_never"), 2));
 		$visibility->setValue($form_fields["certificate_visibility"]);
 		if (count($_POST)) $visibility->checkInput();
 		$form->addItem($visibility);

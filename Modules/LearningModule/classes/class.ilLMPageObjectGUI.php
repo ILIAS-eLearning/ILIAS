@@ -433,15 +433,17 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$this->form = new ilPropertyFormGUI();
 	
 		// default layout
-		$layout = new ilRadioMatrixInputGUI($lng->txt("cont_layout"), "layout");
-		$option = array();
+		$layout = new ilRadioGroupInputGUI($lng->txt("cont_layout"), "layout");
+		
 		if (is_file($im = ilUtil::getImagePath("layout_".$this->content_object->getLayout().".png")))
 		{
 			$im_tag = ilUtil::img($im, $this->content_object->getLayout());
 		}
-		$option[""] =
-			"<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_lm_default_layout").
-			"</b>: ".$lng->txt("cont_layout_".$this->content_object->getLayout())."</td></tr></table>";
+		$layout->addOption(new ilRadioOption("<table><tr><td>".$im_tag."</td><td><b>".
+			$lng->txt("cont_lm_default_layout").
+			"</b>: ".$lng->txt("cont_layout_".$this->content_object->getLayout()).
+			"</td></tr></table>", ""));
+		
 		foreach(ilObjContentObject::getAvailableLayouts() as $l)
 		{
 			$im_tag = "";
@@ -449,9 +451,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			{
 				$im_tag = ilUtil::img($im, $l);
 			}
-			$option[$l] = "<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc")."</td></tr></table>";
+			$layout->addOption(new ilRadioOption("<table><tr><td>".$im_tag."</td><td><b>".
+				$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc").
+				"</td></tr></table>", $l));
 		}
-		$layout->setOptions($option);
+		
 		$layout->setValue($this->obj->getLayout());
 		$this->form->addItem($layout);
 

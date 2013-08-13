@@ -47,7 +47,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (!$this->getCreationMode() &&
 			$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
-			$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");				
+			$this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+			$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");	
 			$ilNavigationHistory->addItem($this->ref_id, $link, "svy");
 		}
 

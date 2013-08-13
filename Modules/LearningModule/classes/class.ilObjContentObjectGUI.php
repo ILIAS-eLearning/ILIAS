@@ -3783,17 +3783,17 @@ $tabs_gui = $ilTabs;
 		global $lng;
 		
 		// default layout
-		$layout = new ilRadioMatrixInputGUI($a_txt, $a_var);
-		$option = array();
+		$layout = new ilRadioGroupInputGUI($a_txt, $a_var);
 		if ($a_def_option != "")
 		{
 			if (is_file($im = ilUtil::getImagePath("layout_".$a_def_option.".png")))
 			{
 				$im_tag = ilUtil::img($im, $a_def_option);
 			}
-			$option[""] =
-				"<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_lm_default_layout").
-				"</b>: ".$lng->txt("cont_layout_".$a_def_option)."</td></tr></table>";
+			$layout->addOption(new ilRadioOption("<table><tr><td>".$im_tag."</td><td><b>".
+				$lng->txt("cont_lm_default_layout").
+				"</b>: ".$lng->txt("cont_layout_".$a_def_option).
+				"</td></tr></table>", ""));
 		}
 		foreach(ilObjContentObject::getAvailableLayouts() as $l)
 		{
@@ -3802,10 +3802,10 @@ $tabs_gui = $ilTabs;
 			{
 				$im_tag = ilUtil::img($im, $l);
 			}
-			$option[$l] = "<table><tr><td style='padding: 0px 5px 5px;'>".$im_tag."</td><td style='padding:5px;'><b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc")."</td></tr></table>";
-			//$option[$l] = " ".$im_tag." <b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc");
+			$layout->addOption(new ilRadioOption("<table><tr><td style='padding: 0px 5px 5px;'>".
+				$im_tag."</td><td style='padding:5px;'><b>".$lng->txt("cont_layout_".$l)."</b>: ".
+				$lng->txt("cont_layout_".$l."_desc")."</td></tr></table>", $l));
 		}
-		$layout->setOptions($option);
 		
 		return $layout;
 	}
