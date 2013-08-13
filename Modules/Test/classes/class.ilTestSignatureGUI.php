@@ -14,22 +14,22 @@ class ilTestSignatureGUI
 {
 	/** @var \ilLanguage */
 	protected $lng;
-	
+
 	/** @var $ilCtrl ilCtrl */
 	protected $ilCtrl;
-	
+
 	/** @var \ilTemplate  */
 	protected $tpl;
-	
+
 	/** @var \ilObjTestGUI */
 	protected $testGUI;
-	
+
 	/** @var \ilObjTest */
 	protected $test;
-	
+
 	/** @var \ilTestSignaturePlugin */
 	protected $plugin;
-	
+
 	public function __construct(ilTestOutputGUI $testOutputGUI)
 	{
 		global $lng, $ilCtrl, $tpl, $ilPluginAdmin;
@@ -44,6 +44,7 @@ class ilTestSignatureGUI
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig');
 		$pl = current($pl_names);
 		$this->plugin = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, 'Test', 'tsig', $pl);
+		$this->plugin->setGUIObject($this);
 	}
 
 	public function executeCommand()
@@ -69,25 +70,5 @@ class ilTestSignatureGUI
 		}
 
 		return $ret;
-	}
-
-	/**
-	 * @param string $cmd
-	 *
-	 * @return string
-	 */
-	protected function getLinkTargetForCmd($cmd)
-	{
-		return $this->ilCtrl->getLinkTarget($this, $cmd);
-	}
-
-	/**
-	 * @param string $default_cmd
-	 *
-	 * @return string
-	 */
-	protected function getFormAction($default_cmd)
-	{
-		return $this->ilCtrl->getFormAction($this, $default_cmd);
 	}
 }
