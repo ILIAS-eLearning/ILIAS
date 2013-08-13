@@ -745,9 +745,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     	$form_gui->setFormAction($ilCtrl->getFormAction($this));
     	$form_gui->setTitle($lng->txt("sty_create_pgl"));
    
-    	include_once("Services/Form/classes/class.ilRadioMatrixInputGUI.php");
-   
-   
     	$title_input = new ilTextInputGUI($lng->txt("title"),"pgl_title");
     	$title_input->setSize(50);
     	$title_input->setMaxLength(128);

@@ -17,21 +17,19 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 *
 * @ingroup ServicesCOPage
 */
-
-
 class ilPCPlaceHolderGUI extends ilPageContentGUI
-{
+{	
+	public $pg_obj;
+	public $content_obj;
+	public $hier_id;
+	public $pc_id;
+	protected $styleid;
+	
 	/**
 	* Constructor
 	* @access	public
 	*/
-	var $pg_obj;
-	var $content_obj;
-	var $hier_id;
-	var $pc_id;
-	var $styleid;
-	
-	function ilPCPlaceHolderGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		$this->pg_obj = $a_pg_obj;
 		$this->content_obj = $a_content_obj;
@@ -40,15 +38,12 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 		
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
-	
-	
+		
 	/**
 	* execute command
 	*/
-	function &executeCommand()
-	{
-		global $ilCtrl;
-		
+	public function executeCommand()
+	{		
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
 		// get current command
@@ -58,37 +53,35 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 		{
 			case 'ilpcmediaobjectgui':  //special handling
 				include_once("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
-				$media_gui = new ilPCMediaObjectGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
-				$ret = $ilCtrl->forwardCommand($media_gui);		
+				$media_gui = new ilPCMediaObjectGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
+				$ret = $this->ctrl->forwardCommand($media_gui);		
 				break;
 				
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
-		}
-		
+		}		
 		
 		return $ret;
-	}
-	
+	}	
 	
 	/**
 	* Handle Insert
-	*/
-	
-	function insert() {
-		$this->propertyGUI("create","Text","100px","insert");
-	}
-	
+	*/	
+	protected function insert() 
+	{
+		$this->propertyGUI("create", "Text", "100px", "insert");
+	}	
 	
 	/**
 	* create new table in dom and update page in db
 	*/
-	function create()
+	protected function create()
 	{
-		if ($_POST["plach_height"]=="" || !preg_match("/[0-9]+/",$_POST["plach_height"])) {
+		if ($_POST["plach_height"]=="" || 
+			!preg_match("/[0-9]+/",$_POST["plach_height"])) 
+		{
 			return $this->insert();
-			exit;
 		}
 		
 		$this->content_obj = new ilPCPlaceHolder($this->getPage());
@@ -108,13 +101,15 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	
 	/**
 	* Handle Editing
-	*/
-	
-	function edit() {
-		
-		if ($this->pg_obj->getLayoutMode() == true) {
+	*/	
+	public function edit()
+	{				
+		if ($this->pg_obj->getPageConfig()->getEnablePCType("PlaceHolder") == true) 
+		{
 			$this->edit_object();
-		} else {
+		} 
+		else 
+		{
 			$this->forward_edit();
 		}
 	}
@@ -124,7 +119,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	*
 	* @param	int	$a_styleid	Style Id
 	*/
-	function setStyleId($a_styleid)
+	public function setStyleId($a_styleid)
 	{
 		$this->styleid = $a_styleid;
 	}
@@ -134,44 +129,47 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	*
 	* @return	int	Style Id
 	*/
-	function getStyleId()
+	public function getStyleId()
 	{
 		return $this->styleid;
 	}
-	
 
 	/**
 	* Handle Editing Private Methods
-	*/
-	
-	private function edit_object() {
-		$this->propertyGUI("saveProperties",$this->content_obj->getContentClass(),$this->content_obj->getHeight(),"save");
+	*/	
+	protected function edit_object() 
+	{
+		$this->propertyGUI("saveProperties",
+			$this->content_obj->getContentClass(),
+			$this->content_obj->getHeight(),
+			"save");
 	}
-	
-	
-	private function forward_edit() {
-		global $ilCtrl;
 		
-		switch ($this->content_obj->getContentClass()) {
+	protected function forward_edit() 
+	{		
+		switch ($this->content_obj->getContentClass()) 
+		{
 			case 'Media':
 				include_once("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
-				$ilCtrl->setCmdClass("ilpcmediaobjectgui");
-				$ilCtrl->setCmd("insert");
-				$media_gui = new ilPCMediaObjectGUI($this->pg_obj,$null);
-				$ret = $ilCtrl->forwardCommand($media_gui);
-    
+				$this->ctrl->setCmdClass("ilpcmediaobjectgui");
+				$this->ctrl->setCmd("insert");
+				$media_gui = new ilPCMediaObjectGUI($this->pg_obj, null);
+				$this->ctrl->forwardCommand($media_gui);    
 				break;
+			
 			case 'Text':
 				$this->textCOSelectionGUI();
 				break;
+			
 			case 'Question':
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
-				$ilCtrl->setCmdClass("ilpcquestiongui");
-				$ilCtrl->setCmd("insert");
-				$question_gui = new ilPCQuestionGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
-				$question_gui -> setSelfAssessmentMode(true);
-				$ret = $ilCtrl->forwardCommand($question_gui);
+				$this->ctrl->setCmdClass("ilpcquestiongui");
+				$this->ctrl->setCmd("insert");
+				$question_gui = new ilPCQuestionGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
+				$question_gui->setSelfAssessmentMode(true);
+				$this->ctrl->forwardCommand($question_gui);
 				break;	
+			
 			default:
 				break;
 		}
@@ -181,12 +179,11 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	/**
 	* save placeholder properties in db and return to page edit screen
 	*/
-	function saveProperties()
-	{
-		
-		if ($_POST["plach_height"]=="" || !preg_match("/[0-9]+/",$_POST["plach_height"])) {
+	protected function saveProperties()
+	{		
+		if ($_POST["plach_height"]=="" || 
+			!preg_match("/[0-9]+/",$_POST["plach_height"])) {
 			return $this->edit_object();
-			exit;
 		}
 			
 		$this->content_obj->setContentClass($_POST['plach_type']);
@@ -207,32 +204,31 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	/**
 	* Object Property GUI
 	*/
-	private function propertyGUI($a_action,$a_type,$a_height,$a_mode) {
-		global $ilCtrl, $lng;
+	protected function propertyGUI($a_action,$a_type,$a_height,$a_mode) 
+	{
+		global $lng;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
-		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
 		$this->form_gui->setTitle($lng->txt("cont_ed_plachprop"));
 
-		include_once("Services/Form/classes/class.ilRadioMatrixInputGUI.php");
-		$ttype_input = new ilRadioMatrixInputGUI($lng->txt("type"), "plach_type");
-		$options =array("Text"=>$lng->txt("cont_ed_plachtext"),"Media"=>$lng->txt("cont_ed_plachmedia"),
-						"Question"=>$lng->txt("cont_ed_plachquestion"));
-		$ttype_input->setOptions($options);
-		$ttype_input->setValue($a_type);
+		$ttype_input = new ilRadioGroupInputGUI($lng->txt("type"), "plach_type");		
+		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_plachtext"), "Text"));
+		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_plachmedia"), "Media"));
+		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_plachquestion"), "Question"));			
 		$ttype_input->setRequired(true);
+		$this->form_gui->addItem($ttype_input);
+		
 		$theight_input = new ilTextInputGUI($lng->txt("height"),"plach_height");
 		$theight_input->setSize(4);
-		$theight_input->setMaxLength(3);
-		
-		$a_height = preg_replace("/px/","",$a_height);
-		$theight_input->setValue($a_height);
+		$theight_input->setMaxLength(3);				
 		$theight_input->setTitle($lng->txt("height")." (px)");
-		$theight_input->setRequired(true);
-				
-		$this->form_gui->addItem($ttype_input);
+		$theight_input->setRequired(true);					
 		$this->form_gui->addItem($theight_input);
+		
+		$theight_input->setValue(preg_replace("/px/","",$a_height));
+		$ttype_input->setValue($a_type);				
 		
 		$this->form_gui->addCommandButton($a_action, $lng->txt($a_mode));
 		$this->form_gui->addCommandButton("cancelCreate", $lng->txt("cancel"));
@@ -241,25 +237,24 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	
 	/**
 	* Text Item Selection
-	*/
-	
-	private function textCOSelectionGUI() {
-		
-		global $ilCtrl, $lng;
+	*/	
+	protected function textCOSelectionGUI() 
+	{		
+		global $lng;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
-		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
 		$this->form_gui->setTitle($lng->txt("cont_ed_select_pctext"));
 
 		// Select Question Type
-		
-		include_once("Services/Form/classes/class.ilRadioMatrixInputGUI.php");
-		$ttype_input = new ilRadioMatrixInputGUI($lng->txt("cont_ed_textitem"), "pctext_type");
-		$options = array($lng->txt("cont_ed_par"),$lng->txt("cont_ed_dtable"),
-						 $lng->txt("cont_ed_atable"),$lng->txt("cont_ed_list"),$lng->txt("cont_ed_flist"),
-						 $lng->txt("cont_tabs"));
-		$ttype_input->setOptions($options);
+		$ttype_input = new ilRadioGroupInputGUI($lng->txt("cont_ed_textitem"), "pctext_type");		
+		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_par"), 0));
+		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_dtable"), 1));
+		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_atable"), 2));
+		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_list"), 3));
+		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_flist"), 4));
+		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_tabs"), 5));
 		$this->form_gui->addItem($ttype_input);
 		
 		$this->form_gui->addCommandButton("insertPCText", $lng->txt("insert"));
@@ -269,76 +264,73 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	
 	/**
 	* Forwards Text Item Selection to GUI classes
-	*/
-	
-	function insertPCText() {
-		
-		global $ilCtrl, $ilSetting;
-		
-		switch ($_POST['pctext_type']) {
-			
-			case '0':  //Paragraph / Text
+	*/	
+	protected function insertPCText() 
+	{				
+		switch ($_POST['pctext_type']) 
+		{			
+			case 0:  //Paragraph / Text
 				
 				// js editing? -> redirect to js page editor
 				// if ($ilSetting->get("enable_js_edit", 1) && ilPageEditorGUI::_doJSEditing())
 				if (ilPageEditorGUI::_doJSEditing())
 				{
-					$ret_class = $ilCtrl->getReturnClass($this);
-					$ilCtrl->setParameterByClass($ret_class, "pl_hier_id", $this->hier_id);
-					$ilCtrl->setParameterByClass($ret_class, "pl_pc_id", $this->pc_id);
-					$ilCtrl->redirectByClass($ret_class,
+					$ret_class = $this->ctrl->getReturnClass($this);
+					$this->ctrl->setParameterByClass($ret_class, "pl_hier_id", $this->hier_id);
+					$this->ctrl->setParameterByClass($ret_class, "pl_pc_id", $this->pc_id);
+					$this->ctrl->redirectByClass($ret_class,
 						"insertJSAtPlaceholder");
 				}
 
 				include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-				$ilCtrl->setCmdClass("ilpcparagraphgui");
-				$ilCtrl->setCmd("insert");
-				$paragraph_gui = new ilPCParagraphGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
+				$this->ctrl->setCmdClass("ilpcparagraphgui");
+				$this->ctrl->setCmd("insert");
+				$paragraph_gui = new ilPCParagraphGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
 				$paragraph_gui->setStyleId($this->getStyleId());
 				$paragraph_gui->setPageConfig($this->getPageConfig());
-				$ret = $ilCtrl->forwardCommand($paragraph_gui);
+				$this->ctrl->forwardCommand($paragraph_gui);
 				break;
 				
-			case '1':  //DataTable
+			case 1:  //DataTable
 				include_once("./Services/COPage/classes/class.ilPCDataTableGUI.php");
-				$ilCtrl->setCmdClass("ilpcdatatablegui");
-				$ilCtrl->setCmd("insert");
-				$dtable_gui = new ilPCDataTableGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
-				$ret = $ilCtrl->forwardCommand($dtable_gui);
+				$this->ctrl->setCmdClass("ilpcdatatablegui");
+				$this->ctrl->setCmd("insert");
+				$dtable_gui = new ilPCDataTableGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
+				$this->ctrl->forwardCommand($dtable_gui);
 				break;
 				
-			case '2':  //Advanced Table
+			case 2:  //Advanced Table
 				include_once("./Services/COPage/classes/class.ilPCTableGUI.php");
-				$ilCtrl->setCmdClass("ilpctablegui");
-				$ilCtrl->setCmd("insert");
-				$atable_gui = new ilPCTableGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
-				$ret = $ilCtrl->forwardCommand($atable_gui);
+				$this->ctrl->setCmdClass("ilpctablegui");
+				$this->ctrl->setCmd("insert");
+				$atable_gui = new ilPCTableGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
+				$this->ctrl->forwardCommand($atable_gui);
 				break;
 				
-			case '3':  //Advanced List
+			case 3:  //Advanced List
 				include_once("./Services/COPage/classes/class.ilPCListGUI.php");
-				$ilCtrl->setCmdClass("ilpclistgui");
-				$ilCtrl->setCmd("insert");
-				$list_gui = new ilPCListGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
-				$ret = $ilCtrl->forwardCommand($list_gui);
+				$this->ctrl->setCmdClass("ilpclistgui");
+				$this->ctrl->setCmd("insert");
+				$list_gui = new ilPCListGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
+				$this->ctrl->forwardCommand($list_gui);
 				break;
 				
-			case '4':  //File List
+			case 4:  //File List
 				include_once ("./Services/COPage/classes/class.ilPCFileListGUI.php");
-				$ilCtrl->setCmdClass("ilpcfilelistgui");
-				$ilCtrl->setCmd("insert");
-				$file_list_gui = new ilPCFileListGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
+				$this->ctrl->setCmdClass("ilpcfilelistgui");
+				$this->ctrl->setCmd("insert");
+				$file_list_gui = new ilPCFileListGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
 				$file_list_gui->setStyleId($this->getStyleId());
-				$ret = $this->ctrl->forwardCommand($file_list_gui);
+				$this->ctrl->forwardCommand($file_list_gui);
 				break;
 				
-			case '5':  //Tabs
+			case 5:  //Tabs
 				include_once ("./Services/COPage/classes/class.ilPCTabsGUI.php");
-				$ilCtrl->setCmdClass("ilpctabsgui");
-				$ilCtrl->setCmd("insert");
-				$tabs_gui = new ilPCTabsGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
+				$this->ctrl->setCmdClass("ilpctabsgui");
+				$this->ctrl->setCmd("insert");
+				$tabs_gui = new ilPCTabsGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
 				$tabs_gui->setStyleId($this->getStyleId());
-				$ret = $this->ctrl->forwardCommand($tabs_gui);
+				$this->ctrl->forwardCommand($tabs_gui);
 				break;
 				
 			default:
@@ -349,9 +341,8 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	/**
 	 * Cancel
 	 */
-	function cancel()
+	public function cancel()
 	{ 
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
-
 }

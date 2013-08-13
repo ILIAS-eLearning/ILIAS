@@ -1302,8 +1302,11 @@ abstract class assQuestionGUI
 			$formchange->setTableWidth("100%");
 			$formchange->setId("suggestedsolution");
 
-			$solutiontype = new ilRadioMatrixInputGUI($this->lng->txt("suggestedSolutionType"), "solutiontype");
-			$solutiontype->setOptions($options);
+			$solutiontype = new ilRadioGroupInputGUI($this->lng->txt("suggestedSolutionType"), "solutiontype");
+			foreach($options as $opt_value => $opt_caption)
+			{
+				$solutiontype->addOption(new ilRadioOption($opt_caption, $opt_value));
+			}
 			if (count($solution_array))
 			{
 				$solutiontype->setValue($solution_array["type"]);
