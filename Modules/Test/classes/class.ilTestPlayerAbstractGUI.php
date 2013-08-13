@@ -899,13 +899,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->archiveParticipantSubmission( $active_id, $actualpass );
 		}
 
-		if (false) // Defunct during development.
+		global $ilPluginAdmin, $ilCtrl;
+		if ($this->object->getSignSubmission() 
+			&& is_array($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig')))
 		{
-			// Redirect to signature plugin if configured.
-			// Endgame-state to session schreiben
 			/** @var $ilCtrl ilCtrl */
-			global $ilCtrl;
-			$ilCtrl->redirectByClass('ilTestSignatureGUI');
+			$ilCtrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
 			// "mahma"
 			// wieder hierher kommen
 			// fertschmachn
