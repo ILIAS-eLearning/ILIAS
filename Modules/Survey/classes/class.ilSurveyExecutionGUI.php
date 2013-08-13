@@ -684,7 +684,7 @@ class ilSurveyExecutionGUI
 	{		
 		if (strlen($this->object->getOutro()) == 0)
 		{
-			$this->ctrl->redirectByClass("ilobjsurveygui", "backToRepository");
+			$this->backToRepository();
 		}
 		else
 		{
@@ -693,6 +693,17 @@ class ilSurveyExecutionGUI
 			$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "runShowFinishedPage"));
 		}
+	}
+	
+	function backToRepository()
+	{
+		global $tree;
+		
+		// #11534
+		$parent_ref_id = $tree->getParentId($this->object->getRefId());
+				
+		include_once "Services/Link/classes/class.ilLink.php";
+		ilUtil::redirect(ilLink::_getLink($parent_ref_id));	
 	}
 
 /**
@@ -706,7 +717,7 @@ class ilSurveyExecutionGUI
 	{
 		if(!$this->preview)
 		{
-			$this->ctrl->redirectByClass("ilobjsurveygui", "backToRepository");
+			$this->backToRepository();
 		}
 		else
 		{
