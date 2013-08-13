@@ -1535,7 +1535,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function backConfirmFinish()
+	function backConfirmFinishCmd()
 	{
 		global $ilUser;
 		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
