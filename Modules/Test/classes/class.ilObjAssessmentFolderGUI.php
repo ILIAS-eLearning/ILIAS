@@ -23,6 +23,8 @@
 
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
 
+require_once 'Modules/Test/classes/class.ilObjTest.php';
+
 /**
 * Class ilObjAssessmentFolderGUI
 *
@@ -655,11 +657,18 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                             '2' => $lng->txt("test_enable_view_both"),
                         )
 			);
+		
 		$config->addSetting(
-			"random_test",
-			ilSettingsTemplateConfig::BOOL,
-			$lng->txt("tst_random_selection"),
-			true
+			"question_set_type",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_question_set_type"),
+                        true,
+                        0,
+			array(
+                            ilObjTest::QUESTION_SET_TYPE_FIXED => $lng->txt("tst_question_set_type_fixed"),
+                            ilObjTest::QUESTION_SET_TYPE_RANDOM => $lng->txt("tst_question_set_type_random"),
+                            ilObjTest::QUESTION_SET_TYPE_DYNAMIC => $lng->txt("tst_question_set_type_dynamic"),
+                        )
 			);
 
 		$config->addSetting(
