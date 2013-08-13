@@ -182,49 +182,52 @@ class ilObjTestSettingsGeneralGUI
 		
 		$questionSetTypeRelatingDataCleanupRequired = false;
 		
-		$oldQuestionSetType = $this->testOBJ->getQuestionSetType();
-		$newQuestionSetType = $form->getItemByPostVar('question_set_type')->getValue();
-		
-		if( !$this->testOBJ->participantDataExist() && $newQuestionSetType != $oldQuestionSetType )
+		if( $form->getItemByPostVar('question_set_type') instanceof ilFormPropertyGUI )
 		{
-			$hasQuestionsWithoutQuestionpool = false;
+			$oldQuestionSetType = $this->testOBJ->getQuestionSetType();
+			$newQuestionSetType = $form->getItemByPostVar('question_set_type')->getValue();
 
-			switch( true )
+			if( !$this->testOBJ->participantDataExist() && $newQuestionSetType != $oldQuestionSetType )
 			{
-				// user tries to change from a random test with existing random question pools to another test mode
-				case $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_FIXED && $this->testOBJ->areFixedTestQuestionsConfigured():
+				$hasQuestionsWithoutQuestionpool = false;
 
-					$hasQuestionsWithoutQuestionpool = $this->testOBJ->hasQuestionsWithoutQuestionpool();
-					// NO BREAK !!
+				switch( true )
+				{
+					// user tries to change from a random test with existing random question pools to another test mode
+					case $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_FIXED && $this->testOBJ->areFixedTestQuestionsConfigured():
 
-				// user tries to change from a fixed question set test with existing questions to another test mode
-				case $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_RANDOM && $this->testOBJ->areRandomTestQuestionpoolsConfigured():
+						$hasQuestionsWithoutQuestionpool = $this->testOBJ->hasQuestionsWithoutQuestionpool();
+						// NO BREAK !!
 
-				// user tries to change from a dynamic question set test with existing dynamic question pool to another test mode
-				case $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_DYNAMIC && $this->testOBJ->isDynamicTestQuestionPoolConfigured():
+					// user tries to change from a fixed question set test with existing questions to another test mode
+					case $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_RANDOM && $this->testOBJ->areRandomTestQuestionpoolsConfigured():
 
-					if( !$isConfirmedSave )
+					// user tries to change from a dynamic question set test with existing dynamic question pool to another test mode
+					case $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_DYNAMIC && $this->testOBJ->isDynamicTestQuestionPoolConfigured():
+
+						if( !$isConfirmedSave )
+						{
+							return $this->showConfirmation($form, $oldQuestionSetType, $newQuestionSetType, $hasQuestionsWithoutQuestionpool);
+						}
+
+						$questionSetTypeRelatingDataCleanupRequired = true;
+				}
+
+				if( $form->getItemByPostVar('online')->getChecked() )
+				{
+					$form->getItemByPostVar('online')->setChecked(false);
+
+					if( $this->testOBJ->isOnline() )
 					{
-						return $this->showConfirmation($form, $oldQuestionSetType, $newQuestionSetType, $hasQuestionsWithoutQuestionpool);
+						$infoMsg = $this->lng->txt("tst_set_offline_due_to_switched_question_set_type_setting");
+					}
+					else
+					{
+						$infoMsg = $this->lng->txt("tst_cannot_set_online_due_to_switched_question_set_type_setting");
 					}
 
-					$questionSetTypeRelatingDataCleanupRequired = true;
-			}
-
-			if( $form->getItemByPostVar('online')->getChecked() )
-			{
-				$form->getItemByPostVar('online')->setChecked(false);
-
-				if( $this->testOBJ->isOnline() )
-				{
-					$infoMsg = $this->lng->txt("tst_set_offline_due_to_switched_question_set_type_setting");
+					ilUtil::sendInfo($infoMsg, true);
 				}
-				else
-				{
-					$infoMsg = $this->lng->txt("tst_cannot_set_online_due_to_switched_question_set_type_setting");
-				}
-
-				ilUtil::sendInfo($infoMsg, true);
 			}
 		}
 		
@@ -310,8 +313,11 @@ class ilObjTestSettingsGeneralGUI
 		$this->testOBJ->update();
 		
 		// pool usage setting
-		$this->testOBJ->setPoolUsage($form->getItemByPostVar('use_pool')->getChecked());
-
+		if( $form->getItemByPostVar('use_pool') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setPoolUsage($form->getItemByPostVar('use_pool')->getChecked());
+		}
+		
 		// Archiving
 		$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
 		
@@ -361,28 +367,44 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setListOfQuestionsEnd(0);
 			$this->testOBJ->setListOfQuestionsDescription(0);
 		}
-		$this->testOBJ->setMailNotification($form->getItemByPostVar('mailnotification')->getValue());
-		$this->testOBJ->setMailNotificationType($form->getItemByPostVar('mailnottype')->getChecked());
-		$this->testOBJ->setShowMarker($form->getItemByPostVar('chb_show_marker')->getChecked());
-		$this->testOBJ->setShowCancel($form->getItemByPostVar('chb_show_cancel')->getChecked());
 		
-		$this->testOBJ->setKioskMode($form->getItemByPostVar('kiosk')->getChecked());
-		$kioskOptions = $form->getItemByPostVar('kiosk_options')->getValue();
-		if( is_array($kioskOptions) )
+		if( $form->getItemByPostVar('mailnotification') instanceof ilFormPropertyGUI )
 		{
-			$this->testOBJ->setShowKioskModeTitle( in_array('kiosk_title', $kioskOptions) );
-			$this->testOBJ->setShowKioskModeParticipant( in_array('kiosk_participant', $kioskOptions) );
-			$this->testOBJ->setExamidInKiosk( in_array('examid_in_kiosk', $_POST["kiosk_options"]) );
+			$this->testOBJ->setMailNotification($form->getItemByPostVar('mailnotification')->getValue());
+		}
+		if( $form->getItemByPostVar('mailnottype') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setMailNotificationType($form->getItemByPostVar('mailnottype')->getChecked());
+		}
+		if( $form->getItemByPostVar('chb_show_marker') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setShowMarker($form->getItemByPostVar('chb_show_marker')->getChecked());
+		}
+		if( $form->getItemByPostVar('chb_show_cancel') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setShowCancel($form->getItemByPostVar('chb_show_cancel')->getChecked());
 		}
 		
-		// redirect after test
-		if( !isset($_POST['redirection_enabled']) || $_POST['redirection_enabled'] == '')
+		if($form->getItemByPostVar('kiosk') instanceof ilFormPropertyGUI)
 		{
-			$this->testOBJ->setRedirectionMode(REDIRECT_NONE);
+			$this->testOBJ->setKioskMode($form->getItemByPostVar('kiosk')->getChecked());
+			$kioskOptions = $form->getItemByPostVar('kiosk_options')->getValue();
+			if( is_array($kioskOptions) )
+			{
+				$this->testOBJ->setShowKioskModeTitle( in_array('kiosk_title', $kioskOptions) );
+				$this->testOBJ->setShowKioskModeParticipant( in_array('kiosk_participant', $kioskOptions) );
+				$this->testOBJ->setExamidInKiosk( in_array('examid_in_kiosk', $_POST["kiosk_options"]) );
+			}
+		}
+	
+		// redirect after test
+		if( $form->getItemByPostVar('redirection_enabled')->getChecked() )
+		{
+			$this->testOBJ->setRedirectionMode( $form->getItemByPostVar('redirection_mode')->getValue() );
 		}
 		else
 		{
-			$this->testOBJ->setRedirectionMode( $form->getItemByPostVar('redirection_mode')->getValue() );
+			$this->testOBJ->setRedirectionMode(REDIRECT_NONE);
 		}
 		
 		if( strlen($form->getItemByPostVar('redirection_url')->getValue()) )
@@ -440,12 +462,28 @@ class ilObjTestSettingsGeneralGUI
 		{
 			$this->testOBJ->setEndingTime('');
 		}
-
-		$this->testOBJ->setForceJS($form->getItemByPostVar('forcejs')->getChecked());
-		$this->testOBJ->setTitleOutput($form->getItemByPostVar('title_output')->getValue());
-		$this->testOBJ->setPassword($form->getItemByPostVar('password')->getValue());
-		$this->testOBJ->setAllowedUsers($form->getItemByPostVar('allowedUsers')->getValue());
-		$this->testOBJ->setAllowedUsersTimeGap($form->getItemByPostVar('allowedUsersTimeGap')->getValue());
+		
+		if($form->getItemByPostVar('forcejs') instanceof ilFormPropertyGUI)
+		{
+			$this->testOBJ->setForceJS($form->getItemByPostVar('forcejs')->getChecked());
+		}
+		
+		if( $form->getItemByPostVar('title_output') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setTitleOutput($form->getItemByPostVar('title_output')->getValue());
+		}
+		if( $form->getItemByPostVar('password') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setPassword($form->getItemByPostVar('password')->getValue());
+		}
+		if( $form->getItemByPostVar('allowedUsers') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setAllowedUsers($form->getItemByPostVar('allowedUsers')->getValue());
+		}
+		if( $form->getItemByPostVar('allowedUsersTimeGap') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setAllowedUsersTimeGap($form->getItemByPostVar('allowedUsersTimeGap')->getValue());
+		}
 
 		$this->testOBJ->setAutosave($form->getItemByPostVar('autosave')->getChecked());
 		$this->testOBJ->setAutosaveIval($form->getItemByPostVar('autosave_ival')->getValue() * 1000);
@@ -467,7 +505,10 @@ class ilObjTestSettingsGeneralGUI
 		if( !$this->testOBJ->participantDataExist() )
 		{
 			// question set type
-			$this->testOBJ->setQuestionSetType($form->getItemByPostVar('question_set_type')->getValue());
+			if( $form->getItemByPostVar('question_set_type') instanceof ilFormPropertyGUI )
+			{
+				$this->testOBJ->setQuestionSetType($form->getItemByPostVar('question_set_type')->getValue());
+			}
 			
 			// anonymity setting
 			$this->testOBJ->setAnonymity($form->getItemByPostVar('anonymity')->getValue());
@@ -476,7 +517,10 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setNrOfTries($form->getItemByPostVar('nr_of_tries')->getValue());
 			
 			// fixed participants setting
-			$this->testOBJ->setFixedParticipants($form->getItemByPostVar('fixedparticipants')->getChecked());
+			if( $form->getItemByPostVar('fixedparticipants') instanceof ilFormPropertyGUI )
+			{
+				$this->testOBJ->setFixedParticipants($form->getItemByPostVar('fixedparticipants')->getChecked());
+			}
 		}		
 
 		// store settings to db
