@@ -3,6 +3,8 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/WebServices/ECS/interfaces/interface.ilECSCommandQueueHandler.php';
+include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
+
 
 /**
  * Description of class
