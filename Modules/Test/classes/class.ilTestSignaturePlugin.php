@@ -4,13 +4,35 @@
 require_once 'Services/Component/classes/class.ilPlugin.php';
 
 /**
- * Abstract parent class for all event hook plugin classes.
+ * Abstract parent class for all signature plugin classes.
+ * 
  * @author  Maximilian Becker <mbecker@databay.de>
+ * 
  * @version $Id$
+ * 
  * @ingroup ModulesTest
  */
 abstract class ilTestSignaturePlugin extends ilPlugin
 {
+	/** @var \ilTestSignatureGUI */
+	protected $GUIObject;
+	
+	/**
+	 * @param \ilTestSignatureGUI $GUIObject
+	 */
+	public function setGUIObject($GUIObject)
+	{
+		$this->GUIObject = $GUIObject;
+	}
+
+	/**
+	 * @return \ilTestSignatureGUI
+	 */
+	public function getGUIObject()
+	{
+		return $this->GUIObject;
+	}
+	
 	/**
 	 * Get Component Type
 	 * @return        string        Component Type
@@ -52,6 +74,47 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	 */
 	final protected function slotInit()
 	{
+	}
+
+	/**
+	 * @param string $cmd
+	 *
+	 * @return string
+	 */
+	protected function getLinkTargetForCmd($cmd)
+	{
+		/** @var $ilCtrl ilCtrl */
+		/** @var $ilIliasIniFile ilIniFile */
+		global $ilCtrl, $ilIliasIniFile;
+		return $ilIliasIniFile->readVariable('server', 'http_path') . '/' . $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd);
+	}
+
+	/**
+	 * @param string $cmd
+	 * @param string $ressource
+	 *
+	 * @return string
+	 */
+	protected function getLinkTargetForRessource($cmd, $ressource)
+	{
+		/** @var $ilCtrl ilCtrl */
+		/** @var $ilIliasIniFile ilIniFile */
+		global $ilCtrl, $ilIliasIniFile;
+		$link = $ilIliasIniFile->readVariable('server', 'http_path') . '/' 
+			. $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd) . '&ressource=' . $ressource;
+		return $link;
+	}
+
+	/**
+	 * @param string $default_cmd
+	 *
+	 * @return string
+	 */
+	protected function getFormAction($default_cmd)
+	{
+		/** @var $ilCtrl ilCtrl */
+		global $ilCtrl;
+		return $ilCtrl->getFormAction($this, $default_cmd);
 	}
 
 	/**
