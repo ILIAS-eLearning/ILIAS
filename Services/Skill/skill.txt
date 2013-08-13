@@ -14,12 +14,47 @@ Todo
 - Resource Selection > neue Explorerklasse
 - User Guide anpassen.
 
+Types
+=====
+
+"skrt": Skill Root Node
+"skll": Skill
+"scat": Skill Category
+"sctr": Skill Category Template Reference
+"sktr": Skill Template Reference
+"sktp": Skill Template
+"sctp": Skill Category Template
+ 
+
+ID Concept
+==========
+
+Allgemeine Skill ID: <skill_id>:<tref_id>
+- <skill_id> vom Typ
+  - "skll" (dann <tref_id> gleich 0)
+  - "sktp" (dann <tref_id> ungleich 0)
+- <tref_id> entweder vom Typ "sktr" oder "sctr"
+
+
+Allgemeine Skill Tree ID: <skl_tree_id>:<skl_template_tree_id>
+<skl_tree_id> vom Typ
+  - "skrt" (dann <skl_template_tree_id> gleich 0)
+  - "scat" (dann <skl_template_tree_id> gleich 0)
+  - "skll" (dann <skl_template_tree_id> gleich 0)
+  - "sktr"
+  - "sctr"
+<skl_template_tree_id> entweder vom Typ "sktr" oder "sctr"
+  - "sktp" ( muss unter von sctr/sktr oben referenziertem Knoten vorkommen)
+  - "sctp" ( muss unter von sctr oben referenziertem Knoten vorkommen)
+
 DB
 ==
 
 skl_user_skill_level
 
+
 skl_user_has_level
+- primary: level_id (determiniert skill_id), user_id, trigger_obj_id, tref_id
 
 skl_personal_skill
 
