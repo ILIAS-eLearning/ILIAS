@@ -17329,3 +17329,7 @@ $ilCtrlStructureReader->getStructure();
 			array('question_set_type', 'RANDOM_QUEST_SET', 'random_test', '1')
 	);
 ?>
+<#4028>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -12,7 +12,7 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI, ilSurveyExecutionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilMDEditorGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilRepositorySearchGUI, ilSurveySkillDeterminationGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilSurveySkillDeterminationGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilCommonActionDispatcherGUI, ilSurveySkillGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEditorGUI, ilSurveyConstraintsGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI
@@ -97,59 +97,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				include_once("./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php");
 				$eval_gui = new ilSurveyEvaluationGUI($this->object);
 				$this->ctrl->forwardCommand($eval_gui);
-				break;
-
-			case 'ilrepositorysearchgui':
-				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
-				
-				if(!$_REQUEST["appr360"] && !$_REQUEST["rate360"])
-				{					
-					$rep_search->setCallback($this,
-						'inviteUserGroupObject',
-						array(
-							)
-						);
-
-					// Set tabs
-					$this->ctrl->setReturn($this, 'invite');
-					$this->ctrl->forwardCommand($rep_search);
-					$this->tabs_gui->setTabActive('invitation');
-				}
-				else if($_REQUEST["rate360"])
-				{				
-					$ilTabs->clearTargets();
-					$ilTabs->setBackTarget($this->lng->txt("btn_back"), 
-						$this->ctrl->getLinkTarget($this, "listAppraisees"));		
-					
-					$this->ctrl->setParameter($this, "rate360", 1);
-					$this->ctrl->saveParameter($this, "appr_id");
-					
-					$rep_search->setCallback($this,
-						'addRater',
-						array(
-							)
-						);
-
-					// Set tabs
-					$this->ctrl->setReturn($this, 'editRaters');
-					$this->ctrl->forwardCommand($rep_search);
-				}
-				else
-				{
-					$ilTabs->activateTab("survey_360_appraisees");
-					$this->ctrl->setParameter($this, "appr360", 1);
-					
-					$rep_search->setCallback($this,
-						'addAppraisee',
-						array(
-							)
-						);
-
-					// Set tabs
-					$this->ctrl->setReturn($this, 'listAppraisees');
-					$this->ctrl->forwardCommand($rep_search);				
-				}
 				break;
 
 			case "ilsurveyexecutiongui":
