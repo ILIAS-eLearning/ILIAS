@@ -376,7 +376,10 @@ class ilObjCloudGUI extends ilObject2GUI
             }
             else
             {
-                ilUtil::sendFailure($lng->txt("cld_auth_failed"),true);
+                include_once("./Services/Repository/classes/class.ilRepUtil.php");
+                ilRepUtil::deleteObjects($this->object->getRefId(), $this->object->getRefId());
+
+                ilUtil::sendFailure($lng->txt("cld_auth_failed_no_object_created"),true);
                 ilObjectGUI::redirectToRefId($this->parent_id);
             }
         } catch (Exception $e)

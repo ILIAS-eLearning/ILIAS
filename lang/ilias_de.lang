@@ -13628,3 +13628,4 @@ cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
 content#:#cont_verification_placeh#:#Klicken und bearbeiten, um ein Zertifikat einzufügen
 content#:#cont_verification_placehl#:#Zertifikat-Platzhalter
 content#:#cont_ed_plachverification#:#Platzhalter Zertifikat
+cld#:#cld_auth_failed_no_object_created#:#Authentifzierung fehlgeschlagen, es wurde kein Cloud Objekt angelegt.
