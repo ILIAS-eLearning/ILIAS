@@ -364,7 +364,7 @@ il.UICore = {
 			nb_reg, vp_reg;
 			
 		// fix fixed content
-		/*if (fc && sm) {
+		if (fc && sm) {
 			sm_reg = il.Util.getRegion(sm);
 			fc_reg = il.Util.getRegion(fc);
 			vp_reg = il.Util.getViewportRegion();
@@ -373,7 +373,7 @@ il.UICore = {
 			} else {
 				$(fc).offset({top: sm_reg.top});
 			}
-		}*/
+		}
 		
 		// fix left navigation area
 		if (el && sm) {
