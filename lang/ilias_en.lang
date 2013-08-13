@@ -13368,6 +13368,7 @@ assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode
 assessment#:#redirect_if_seb_enabled#:#Redirect only if Safe Exam Browser is used
 assessment#:#redirection_url#:#Redirection target
 assessment#:#seb_headerfield_info#:#Please enter the header field, which ILIAS is to utilize to detect the use of the SEB. The default is HTTP_USER_AGENT.
+assessment#:#exp_file_created#:#Export file created.
 tax#:#tax_added#:#Taxonomy has been created.
 tax#:#tax_max_one_tax#:#You can use maximum one taxonomy in this context.
 tax#:#tax_node_sorting#:#Sorting of Nodes
