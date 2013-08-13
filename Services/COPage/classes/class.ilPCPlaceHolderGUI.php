@@ -176,7 +176,11 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 				break;	
 			
 			case self::TYPE_VERIFICATION:
-				var_dump("hurz");
+				include_once("./Services/COPage/classes/class.ilPCVerificationGUI.php");
+				$this->ctrl->setCmdClass("ilpcverificationgui");
+				$this->ctrl->setCmd("insert");
+				$cert_gui = new ilPCVerificationGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
+				$this->ctrl->forwardCommand($cert_gui);
 				break;	
 			
 			default:
