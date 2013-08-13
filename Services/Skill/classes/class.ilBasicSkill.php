@@ -567,7 +567,7 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 		$set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level ".
 			" WHERE trigger_obj_type = ".$ilDB->quote($a_type, "text").
 			" AND skill_id = ".$ilDB->quote($this->getId(), "integer").
-			" AND tref_id = ".$ilDB->quote((int) $a_tref, "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
 			);
 
@@ -605,7 +605,7 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 		$set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level ".
 			" WHERE trigger_obj_id = ".$ilDB->quote($a_object_id, "integer").
 			" AND skill_id = ".$ilDB->quote($this->getId(), "integer").
-			" AND tref_id = ".$ilDB->quote((int) $a_tref, "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
 			);
 

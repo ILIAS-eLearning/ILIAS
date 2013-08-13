@@ -7,12 +7,14 @@ Todo
 - Löschen von Skills verhinden, wenn von Benutzern oder OBjekten in Benutzung (7)
 - Objekte sollen Nutzung "anmelden" (5)
 - Skill-Template muss in 360 nutzbar sein (2)
-- (tiefer) Skill Explorer inkl. Referenzen (1)
+- (tiefer) Skill Explorer inkl. Referenzen (1, done)
   - Modules/Survey/classes/class.ilSurveySkillExplorer.php
+  -> ilSkillSelectorGUI
 - historische Darstellung aller "has levels" (inkl. Datum + Objekttitel) (4)
 - Resources müssen Template/Basis Kombi zuordbar sein (3)
 - Resource Selection > neue Explorerklasse
 - User Guide anpassen.
+- Skill Referenzen Editing verbieten
 
 Types
 =====
@@ -42,7 +44,7 @@ Allgemeine Skill Tree ID: <skl_tree_id>:<skl_template_tree_id>
   - "scat" (dann <skl_template_tree_id> gleich 0)
   - "skll" (dann <skl_template_tree_id> gleich 0)
   - "sktr"
-  - "sctr"
+  - "sctr" (nicht implementiert !?)
 <skl_template_tree_id> entweder vom Typ "sktr" oder "sctr"
   - "sktp" ( muss unter von sctr/sktr oben referenziertem Knoten vorkommen)
   - "sctp" ( muss unter von sctr oben referenziertem Knoten vorkommen)
@@ -51,24 +53,36 @@ DB
 ==
 
 skl_user_skill_level
-
+- wie skl_user_has_level, kein primary key
 
 skl_user_has_level
-- primary: level_id (determiniert skill_id), user_id, trigger_obj_id, tref_id
+- pk: level_id (determiniert skill_id), user_id, trigger_obj_id, tref_id
 
 skl_personal_skill
+- pk: user_id, skill_node_id
+- skills sind nur im "Hauptbaum" "selectable"!
 
 skl_assigned_material
+- pk: user_id, top_skill_id, skill_id, tref_id, level_id, wsp_id
+- User assignment
 
 skl_self_eval
 
+
 skl_self_eval_level
+- pk: user_id, top_skill_id, skill_id, tref_id
 
 skl_profile
+- pk: id
+
+skl_profile_level
+- pk: profile_id, base_skill_id, tref_id
 
 skl_skill_resource
+- pk: base_skill_id, tref_id, rep_ref_id
 
 skl_templ_ref
+- pk: skl_node_id
 
 skl_tree
 
@@ -88,3 +102,14 @@ ilSkillTreeNode
 
 
 ilBasicSkill is ilSkillTreeNode
+
+
+Survey
+======
+
+svy_quest_skill
+- pk: q_id
+- fields: base_skill_id, tref_id
+
+svy_skill_threshold
+- pk: survey_id, base_skill_id, tref_id, level_id

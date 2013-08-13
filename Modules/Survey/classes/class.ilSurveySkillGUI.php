@@ -75,6 +75,16 @@ class ilSurveySkillGUI
 
 		$ilCtrl->saveParameter($this, "q_id");
 		
+
+		include_once("./Services/Skill/classes/class.ilSkillSelectorGUI.php");		
+		$sel = new ilSkillSelectorGUI($this, "assignSkillToQuestion", $this, "selectSkillForQuestion");
+		if (!$sel->handleCommand())
+		{
+			$tpl->setContent($sel->getHTML());
+		}
+
+return;
+		/*
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$skill_tree = new ilSkillTree();
 		
@@ -104,7 +114,7 @@ class ilSurveySkillGUI
 			echo $output; exit;
 		}
 
-		$tpl->setContent($output);
+		$tpl->setContent($output); */
 	}
 	
 	/**
@@ -116,8 +126,9 @@ class ilSurveySkillGUI
 		
 		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$skill_survey = new ilSurveySkill($this->survey);
+		$skill_id_parts = explode(":", $_GET["selected_skill"]);
 		$skill_survey->addQuestionSkillAssignment((int) $_GET["q_id"],
-			(int) $_GET["obj_id"], 0);
+			(int) $skill_id_parts[0], (int) $skill_id_parts[1]);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		
 		$ilCtrl->redirect($this, "listQuestionAssignment");

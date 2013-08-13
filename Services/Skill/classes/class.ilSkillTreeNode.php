@@ -736,7 +736,7 @@ class ilSkillTreeNode
 	 * @param
 	 * @return
 	 */
-	static function getSkillTreeNodes($a_node_id, $a_only_basic = false)
+	static function getSkillTreeNodes($a_node_id, $a_only_basic = false, $a_tref_id = 0)
 	{
 		$skills = array();
 		if ($a_node_id > 0)
@@ -755,6 +755,12 @@ class ilSkillTreeNode
 					$skills[] = array("id" => $a_node_id,
 						"type" => $cnode["type"], "parent" => $cnode["parent"],
 						"tref" => 0);
+				}
+				else if ($cnode["type"] == "sktp")
+				{
+					$skills[] = array("id" => $a_node_id,
+						"type" => $cnode["type"], "parent" => $cnode["parent"],
+						"tref" => $a_tref_id);	
 				}
 
 				// is node skill template reference?
@@ -792,14 +798,19 @@ class ilSkillTreeNode
 						if($child["child"] == $cnode["child"])
 						{
 							continue;
-						}
-						
+						}	
 						// find basic skills
 						if ($child["type"] == "skll" || !$a_only_basic)
 						{
 							$skills[] = array("id" => $child["child"],
 								"type" => $child["type"], "parent" => $child["parent"],
 								"tref" => 0);
+						}
+						else if ($child["type"] == "sktp")
+						{
+							$skills[] = array("id" => $child["child"],
+								"type" => $child["type"], "parent" => $child["parent"],
+								"tref" => $a_tref_id);							
 						}
 						
 						// handle template references

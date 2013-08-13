@@ -196,7 +196,7 @@ class ilPersonalSkillsGUI
 	 *
 	 * @return
 	 */
-	function getSkillHTML($a_top_skill_id, $a_user_id = 0, $a_edit = false)
+	function getSkillHTML($a_top_skill_id, $a_user_id = 0, $a_edit = false, $a_tref_id = 0)
 	{
 		global $ilUser, $lng, $ilCtrl, $ilSetting;
 		
@@ -230,7 +230,7 @@ class ilPersonalSkillsGUI
 		$act_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$act_list->setUseImages(false);
 		
-		$b_skills = ilSkillTreeNode::getSkillTreeNodes($a_top_skill_id, true);
+		$b_skills = ilSkillTreeNode::getSkillTreeNodes($a_top_skill_id, true, $a_tref_id);
 		foreach ($b_skills as $bs)
 		{
 			$path = $stree->getSkillTreePath($bs["id"], $bs["tref"]);
@@ -1012,12 +1012,15 @@ class ilPersonalSkillsGUI
 			$self_vals = $this->getGapAnalysisSelfEvalLevels();
 		}
 
+		// output spider stuff
 		if (count($skills) >= 3)
 		{
 			$max_cnt = 0;
 			$leg_labels = array();
 //var_dump($this->profile_levels);
 			//foreach ($this->profile_levels as $k => $l)
+			
+			// write target, actual and self counter to skill array 
 			foreach ($skills as $k => $l)
 			{
 				//$bs = new ilBasicSkill($l["base_skill_id"]);
@@ -1130,8 +1133,7 @@ class ilPersonalSkillsGUI
 					continue(2);
 				}
 			}
-			
-			$html.= $this->getSkillHTML($s["base_skill_id"], $user_id, false);
+			$html.= $this->getSkillHTML($s["base_skill_id"], $user_id, false, $s["tref_id"]);
 		}
 
 		// list skills
