@@ -312,11 +312,14 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
 
 		// page content
-		$wtpl->setVariable("PAGE", parent::preview());
+		$this->setOutputMode(IL_PAGE_PRESENTATION);
+		$this->setRenderPageContainer(true);
+		$wtpl->setVariable("PAGE", $this->showPage());
 
 		$tpl->setLoginTargetPar("wiki_".$_GET["ref_id"].$append);
 
 		// last edited info
+		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$wtpl->setVariable("LAST_EDITED_INFO",
 			$lng->txt("wiki_last_edited").": ".
 			ilDatePresentation::formatDate(
