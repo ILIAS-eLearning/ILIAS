@@ -394,7 +394,7 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setRedirectionUrl(null);
 		}
 
-		if( !$form->getItemByPostVar('sign_submission')->getValue() )
+		if( $form->getItemByPostVar('sign_submission')->getValue() )
 		{
 			$this->testOBJ->setSignSubmission( true );
 		}

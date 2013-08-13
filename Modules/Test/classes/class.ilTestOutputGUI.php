@@ -20,6 +20,7 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * @package		Modules/Test
  * 
  * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionHintRequestGUI, ilAssSpecFeedbackPageGUI, ilAssGenFeedbackPageGUI
+ * @ilCtrl_Calls ilTestOutputGUI: ilTestSignatureGUI
  */
 class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 {
@@ -89,7 +90,13 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$ret = $this->ctrl->forwardCommand($gui);
 				
 				break;
-				
+			
+			case 'iltestsignaturegui':
+				require_once './Modules/Test/classes/class.ilTestSignatureGUI.php';
+				$gui = new ilTestSignatureGUI($this);
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 				
 				$cmd .= 'Cmd';
