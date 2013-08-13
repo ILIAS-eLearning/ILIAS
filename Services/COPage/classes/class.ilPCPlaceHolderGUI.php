@@ -25,6 +25,11 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	public $pc_id;
 	protected $styleid;
 	
+	const TYPE_TEXT = "Text";
+	const TYPE_QUESTION = "Question";
+	const TYPE_MEDIA = "Media";
+	const TYPE_VERIFICATION = "Verification";
+	
 	/**
 	* Constructor
 	* @access	public
@@ -70,7 +75,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	*/	
 	protected function insert() 
 	{
-		$this->propertyGUI("create", "Text", "100px", "insert");
+		$this->propertyGUI("create", self::TYPE_TEXT, "100px", "insert");
 	}	
 	
 	/**
@@ -149,7 +154,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	{		
 		switch ($this->content_obj->getContentClass()) 
 		{
-			case 'Media':
+			case self::TYPE_MEDIA:
 				include_once("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
 				$this->ctrl->setCmdClass("ilpcmediaobjectgui");
 				$this->ctrl->setCmd("insert");
@@ -157,17 +162,21 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 				$this->ctrl->forwardCommand($media_gui);    
 				break;
 			
-			case 'Text':
+			case self::TYPE_TEXT:
 				$this->textCOSelectionGUI();
 				break;
 			
-			case 'Question':
+			case self::TYPE_QUESTION:
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
 				$this->ctrl->setCmdClass("ilpcquestiongui");
 				$this->ctrl->setCmd("insert");
 				$question_gui = new ilPCQuestionGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
 				$question_gui->setSelfAssessmentMode(true);
 				$this->ctrl->forwardCommand($question_gui);
+				break;	
+			
+			case self::TYPE_VERIFICATION:
+				var_dump("hurz");
 				break;	
 			
 			default:
@@ -213,10 +222,12 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
 		$this->form_gui->setTitle($lng->txt("cont_ed_plachprop"));
 
-		$ttype_input = new ilRadioGroupInputGUI($lng->txt("type"), "plach_type");		
-		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_plachtext"), "Text"));
-		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_plachmedia"), "Media"));
-		$ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_plachquestion"), "Question"));			
+		$ttype_input = new ilRadioGroupInputGUI($lng->txt("type"), "plach_type");	
+		$type_captions = $this->getTypeCaptions();
+		foreach($this->getAvailableTypes() as $type)
+		{
+			$ttype_input->addOption(new ilRadioOption($type_captions[$type], $type));
+		}		
 		$ttype_input->setRequired(true);
 		$this->form_gui->addItem($ttype_input);
 		
@@ -344,5 +355,30 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	public function cancel()
 	{ 
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+		
+	protected function getAvailableTypes()
+	{
+		// custom config?
+		$pg_config = $this->pg_obj->getPageConfig();		
+		if(method_exists($pg_config, "getAvailablePlaceholderTypes"))
+		{
+			return $pg_config->getAvailablePlaceholderTypes();
+		}
+		
+		// default
+		return array(self::TYPE_TEXT, self::TYPE_MEDIA, self::TYPE_QUESTION);		
+	}
+	
+	protected function getTypeCaptions()
+	{
+		global $lng;
+		
+		return array(
+				self::TYPE_TEXT => $lng->txt("cont_ed_plachtext"), 
+				self::TYPE_MEDIA => $lng->txt("cont_ed_plachmedia"), 
+				self::TYPE_QUESTION => $lng->txt("cont_ed_plachquestion"),
+				self::TYPE_VERIFICATION => $lng->txt("cont_ed_plachverification")
+			);
 	}
 }

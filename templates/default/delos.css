@@ -3304,7 +3304,7 @@ div.ilc_HeadlineThumb {
 	font-size: 11px;
 	font-weight: bold;
 	width: 100%;
-	border-bottom: 1ps solid gray;
+	border-bottom: 1px solid gray;
 	color: gray;
 	margin:2px 0 4px;
 }

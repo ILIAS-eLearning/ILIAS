@@ -3697,6 +3697,25 @@
 		</div>		
 	</xsl:if>
 	
+	<xsl:if test="@ContentClass='Verification'">
+		<div class="ilc_VerificationPlaceHolder">
+			<xsl:attribute name="style">
+				<xsl:if test = "@Height != ''">
+					height:<xsl:value-of select="@Height"/>;
+				</xsl:if>
+				<xsl:if test = "@Width != ''">
+					width:<xsl:value-of select="@Width"/>;
+				</xsl:if>
+			</xsl:attribute>
+			<xsl:if test = "$enable_placeholder != 'y'">
+				<xsl:value-of select="//LVs/LV[@name='verification_placeh']/@value"/>
+			</xsl:if>
+			<xsl:if test = "$enable_placeholder = 'y'">
+				<xsl:value-of select="//LVs/LV[@name='verification_placehl']/@value"/>
+			</xsl:if>
+		</div>
+	</xsl:if>
+	
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
 		<br />

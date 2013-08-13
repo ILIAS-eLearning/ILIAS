@@ -123,7 +123,8 @@ class ilPCPlaceHolder extends ilPageContent {
 	static function getLangVars()
 	{
 		return array("question_placeh","media_placeh","text_placeh",
-			"ed_insert_plach","question_placehl","media_placehl","text_placehl");
+			"ed_insert_plach","question_placehl","media_placehl","text_placehl",
+			"verification_placeh", "verification_placehl");
 	}
 
 	
