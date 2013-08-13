@@ -7,7 +7,7 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version  $Id: class.ilObjSurveyGUI.php 43670 2013-07-26 08:41:31Z jluetzen $
 *
-* @ilCtrl_Calls ilSurveyParticipantsGUI:
+* @ilCtrl_Calls ilSurveyParticipantsGUI: ilRepositorySearchGUI
 *
 * @ingroup ModulesSurvey
 */
@@ -28,11 +28,71 @@ class ilSurveyParticipantsGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs;
 		
 		$cmd = $ilCtrl->getCmd("maintenance");		
-		$cmd .= "Object";		
-		$this->$cmd();		
+		$next_class = $this->ctrl->getNextClass($this);
+		
+		switch($next_class)
+		{			
+			case 'ilrepositorysearchgui':
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search =& new ilRepositorySearchGUI();
+				
+				if(!$_REQUEST["appr360"] && !$_REQUEST["rate360"])
+				{					
+					$rep_search->setCallback($this,
+						'inviteUserGroupObject',
+						array(
+							)
+						);
+
+					// Set tabs
+					$this->ctrl->setReturn($this, 'invite');
+					$this->ctrl->forwardCommand($rep_search);
+					$this->tabs_gui->setTabActive('invitation');
+				}
+				else if($_REQUEST["rate360"])
+				{				
+					$ilTabs->clearTargets();
+					$ilTabs->setBackTarget($this->lng->txt("btn_back"), 
+						$this->ctrl->getLinkTarget($this, "listAppraisees"));		
+					
+					$this->ctrl->setParameter($this, "rate360", 1);
+					$this->ctrl->saveParameter($this, "appr_id");
+					
+					$rep_search->setCallback($this,
+						'addRater',
+						array(
+							)
+						);
+
+					// Set tabs
+					$this->ctrl->setReturn($this, 'editRaters');
+					$this->ctrl->forwardCommand($rep_search);
+				}
+				else
+				{
+					$ilTabs->activateTab("survey_360_appraisees");
+					$this->ctrl->setParameter($this, "appr360", 1);
+					
+					$rep_search->setCallback($this,
+						'addAppraisee',
+						array(
+							)
+						);
+
+					// Set tabs
+					$this->ctrl->setReturn($this, 'listAppraisees');
+					$this->ctrl->forwardCommand($rep_search);				
+				}
+				break;
+				
+			default:
+				$cmd .= "Object";		
+				$this->$cmd();	
+				break;
+		}					
 	}	
 	
 	/**
