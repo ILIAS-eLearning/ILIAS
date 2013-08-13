@@ -16,16 +16,26 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 	{
 		parent::init();
 				
-		$this->setEnablePCType("PlaceHolder", true);
+		$this->setEnablePCType("Verification", false);
+		$this->setEnablePCType("PlaceHolder", true);		
 	}
 	
 	public function getAvailablePlaceholderTypes()
 	{		
-		return array(
+		global $ilSetting;
+		
+		// no questions
+		$all = array(
 			ilPCPlaceHolderGUI::TYPE_TEXT, 
-			ilPCPlaceHolderGUI::TYPE_MEDIA, 
-			ilPCPlaceHolderGUI::TYPE_VERIFICATION
+			ilPCPlaceHolderGUI::TYPE_MEDIA			
 		);		
+		
+		if(!$ilSetting->get('disable_wsp_certificates'))
+		{
+			$all[] = ilPCPlaceHolderGUI::TYPE_VERIFICATION;
+		}
+		
+		return $all;
 	}
 }
 
