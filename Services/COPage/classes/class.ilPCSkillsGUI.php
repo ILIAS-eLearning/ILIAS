@@ -124,10 +124,21 @@ class ilPCSkillsGUI extends ilPageContentGUI
 		{
 			$form->setTitle($this->lng->txt("cont_update_skills"));
 		}
-
+		
 		$options = array();
 		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
-		$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
+		
+		// template mode: get skills from global skill tree 
+		if($this->getPageConfig()->getEnablePCType("PlaceHolder") && false)
+		{
+			// :TODO: use custom input gui here => skill explorer?
+			// needed for portfolio template
+		}
+		// editor mode: use personal skills
+		else
+		{
+			$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
+		}				
 		if($skills)
 		{
 			foreach($skills as $skill)

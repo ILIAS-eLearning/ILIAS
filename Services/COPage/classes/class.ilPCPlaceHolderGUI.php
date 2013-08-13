@@ -109,7 +109,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	*/	
 	public function edit()
 	{				
-		if ($this->pg_obj->getPageConfig()->getEnablePCType("PlaceHolder") == true) 
+		if($this->getPageConfig()->getEnablePCType("PlaceHolder"))
 		{
 			$this->edit_object();
 		} 
@@ -363,11 +363,10 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 		
 	protected function getAvailableTypes()
 	{
-		// custom config?
-		$pg_config = $this->pg_obj->getPageConfig();		
-		if(method_exists($pg_config, "getAvailablePlaceholderTypes"))
+		// custom config?	
+		if(method_exists($this->getPageConfig(), "getAvailablePlaceholderTypes"))
 		{
-			return $pg_config->getAvailablePlaceholderTypes();
+			return $this->getPageConfig()->getAvailablePlaceholderTypes();
 		}
 		
 		// default
