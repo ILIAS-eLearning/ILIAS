@@ -648,7 +648,7 @@ class ilPersonalDesktopGUI
 		// used for goto links
 		if($_GET["prt_id"])
 		{
-			$this->ctrl->setParameterByClass(array("ilportfoliorepositorygui", "ilobjportfoliogui"), "prt_id", $_GET["prt_id"]);
+			$this->ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $_GET["prt_id"]);
 			$this->ctrl->redirectByClass(array("ilportfoliorepositorygui", "ilobjportfoliogui"), "preview");
 		}
 		else
