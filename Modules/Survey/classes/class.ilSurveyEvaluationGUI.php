@@ -1061,31 +1061,6 @@ class ilSurveyEvaluationGUI
 							);
 					}
 				}
-
-				if (strlen($text) == 0) $text = $this->lng->txt("skipped");
-				$wt = $this->object->getWorkingtimeForParticipant($data['active_id']);
-				if ($first)
-				{
-					$tabledata[++$counter] = array(
-							'username' => $data["sortname"],
-							// 'gender' => $data["gender"],
-							'question' => $questioncounter++ . ". " . $question_data["title"],
-							'results' => $text,
-							'workingtime' => $wt
-						);
-					$first = false;
-				}
-				else
-				{
-					$tabledata[$counter]["subitems"][] = array(
-							'username' => " ",
-							// 'gender' => " ",
-							'question' => $questioncounter++ . ". " . $question_data["title"],
-							'results' => $text,
-							'workingtime' => null
-						);
-				}
-
 			}
 		}
 		
