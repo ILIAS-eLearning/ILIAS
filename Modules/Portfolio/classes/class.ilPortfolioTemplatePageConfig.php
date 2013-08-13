@@ -12,11 +12,20 @@ include_once("./Modules/Portfolio/classes/class.ilPortfolioPageConfig.php");
  */
 class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 {
-	function init()
+	public function init()
 	{
 		parent::init();
 				
 		$this->setEnablePCType("PlaceHolder", true);
+	}
+	
+	public function getAvailablePlaceholderTypes()
+	{		
+		return array(
+			ilPCPlaceHolderGUI::TYPE_TEXT, 
+			ilPCPlaceHolderGUI::TYPE_MEDIA, 
+			ilPCPlaceHolderGUI::TYPE_VERIFICATION
+		);		
 	}
 }
 

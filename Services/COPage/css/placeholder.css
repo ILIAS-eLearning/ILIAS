@@ -23,7 +23,8 @@ div.ilc_MediaPlaceHolder
 	background-image: url(../../../templates/default/images/media_placeholder.png);	
 }
 
-div.ilc_TextPlaceHolder
+div.ilc_TextPlaceHolder,
+div.ilc_VerificationPlaceHolder /* no custom image yet */
 {
 	padding: 10px 10px 10px 10px;
 	background-color: #F4F4FF;
