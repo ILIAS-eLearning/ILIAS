@@ -4933,15 +4933,18 @@ class ilObjTestGUI extends ilObjectGUI
 				
 				if($executable["executable"])
 				{
+					$player_factory = new ilTestPlayerFactory($this->object);
+					$player_instance = $player_factory->getPlayerGUI();
+
 					if ($testSession->getActiveId() > 0)
 					{
 						$ilToolbar->addSeparator();
-						$ilToolbar->addButton($lng->txt('tst_resume_test'), $ilCtrl->getLinkTargetByClass('iltestoutputgui', 'resume'));
+						$ilToolbar->addButton($lng->txt('tst_resume_test'), $ilCtrl->getLinkTarget($player_instance, 'resumePlayer'));
 					}
 					else
 					{
 						$ilToolbar->addSeparator();
-						$ilToolbar->addButton($lng->txt('tst_start_test'), $ilCtrl->getLinkTargetByClass('iltestoutputgui', 'startTest'));
+						$ilToolbar->addButton($lng->txt('tst_start_test'), $ilCtrl->getLinkTarget($player_instance, 'startTest'));
 					}
 				}
 			}
