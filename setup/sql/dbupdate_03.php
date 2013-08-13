@@ -17314,3 +17314,18 @@ ilDBUpdateNewObjectType::addRBACCreate('create_prtt', 'Create Portfolio Template
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4027>
+<?php
+	$ilDB->manipulateF(
+			"UPDATE adm_set_templ_value SET setting = %s, value = %s
+				WHERE setting = %s AND value = %s",
+			array('text', 'text', 'text', 'text'),
+			array('question_set_type', 'FIXED_QUEST_SET', 'random_test', '0')
+	);
+	$ilDB->manipulateF(
+			"UPDATE adm_set_templ_value SET setting = %s, value = %s
+				WHERE setting = %s AND value = %s",
+			array('text', 'text', 'text', 'text'),
+			array('question_set_type', 'RANDOM_QUEST_SET', 'random_test', '1')
+	);
+?>
