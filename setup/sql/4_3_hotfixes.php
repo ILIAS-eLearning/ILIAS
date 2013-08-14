@@ -359,3 +359,7 @@ if(!$ilDB->tableColumnExists('tst_tests','ending_time'))
 		);
 	}
 ?>
+<#18>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
