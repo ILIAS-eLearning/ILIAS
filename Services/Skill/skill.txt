@@ -15,6 +15,7 @@ Todo
 - Resource Selection > neue Explorerklasse
 - User Guide anpassen.
 - Skill Referenzen Editing verbieten
+- spider netz anzeigen
 
 Types
 =====
