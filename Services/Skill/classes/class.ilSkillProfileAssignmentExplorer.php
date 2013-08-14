@@ -13,7 +13,6 @@ include_once './Services/UIComponent/Explorer/classes/class.ilExplorer.php';
  *
  * @ingroup ServicesSkill
  */
-
 class ilSkillProfileAssignmentExplorer extends ilExplorer
 {
 	/**

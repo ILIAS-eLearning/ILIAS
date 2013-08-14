@@ -233,13 +233,13 @@ class ilPersonalSkill
 	}
 
 	/**
-	 * Save self evaluation
+	 * Get self evaluation
 	 *
 	 * @param int $a_user_id user id
 	 * @param int $a_top_skill the "selectable" top skill
 	 * @param int $a_tref_id template reference id
 	 * @param int $a_basic_skill the basic skill the level belongs to
-	 * @param int $a_level level id
+	 * @return int level id
 	 */
 	static function getSelfEvaluation($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
 	{
@@ -254,6 +254,30 @@ class ilPersonalSkill
 		$rec  = $ilDB->fetchAssoc($set);
 		
 		return (int) $rec["level_id"];
+	}
+
+		/**
+	 * Get self evaluation
+	 *
+	 * @param int $a_user_id user id
+	 * @param int $a_top_skill the "selectable" top skill
+	 * @param int $a_tref_id template reference id
+	 * @param int $a_basic_skill the basic skill the level belongs to
+	 * @return int level id
+	 */
+	static function getSelfEvaluationDate($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT last_update FROM skl_self_eval_level ".
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND top_skill_id = ".$ilDB->quote($a_top_skill, "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+			" AND skill_id = ".$ilDB->quote($a_basic_skill, "integer")
+			);
+		$rec  = $ilDB->fetchAssoc($set);
+		
+		return $rec["last_update"];
 	}
 
 }

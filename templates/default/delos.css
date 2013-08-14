@@ -4014,6 +4014,13 @@ table.il_user_quota_disk_usage_overview {
 	background-color: white;
 }
 
+
+/* Services/Chart */
+td.legendColorBox, td.legendLabel {
+	padding: 3px;
+}
+
+
 /* basic responsiveness (beta)
 
    The following section targets smartphones.

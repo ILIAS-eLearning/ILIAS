@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
+include_once("./Services/Link/classes/class.ilLink.php");
 
 /**
  * Skill level table
@@ -53,8 +54,6 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		{
 			$this->addCommandButton("updateLevelOrder", $lng->txt("skmg_update_order"));
 		}
-		
-		include_once("./Services/Link/classes/class.ilLink.php");
 	}
 
 	/**

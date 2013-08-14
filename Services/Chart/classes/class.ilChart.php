@@ -368,7 +368,10 @@ class ilChart
 			$chart->setVariable("LEG_LABELS", implode($lab_strings, ","));
 			$chart->setVariable("LEG_MAX", $this->getYAxisMax());
 			$chart->parseCurrentBlock();
-			$chart->touchBlock("spider_grid_options");
+			
+			$chart->setCurrentBlock("spider_grid_options");
+			$chart->setVariable("NR_TICKS", $this->getYAxisMax());
+			$chart->parseCurrentBlock();
 		}
 		
 		// global options
@@ -455,7 +458,9 @@ class ilChart
 			$chart->setVariable("AXIS", ",".implode(", ", $tmp));
 		}
 		
-		return $chart->get();
+		$ret = $chart->get();
+//echo htmlentities($ret);
+		return $ret;
 	}
 	
 	function setYAxisToInteger($a_status)
