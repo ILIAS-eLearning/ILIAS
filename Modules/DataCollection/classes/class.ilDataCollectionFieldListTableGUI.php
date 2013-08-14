@@ -115,7 +115,7 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->tpl->setVariable("NOT_LOCKED", "-");
+			$this->tpl->setVariable("NOT_LOCKED", "");
 		}
 
 		$this->order = $this->order + 10;
@@ -152,8 +152,8 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->tpl->setVariable('NO_REQUIRED', "-");
-			$this->tpl->setVariable('NO_UNIQUE', "-");
+			$this->tpl->setVariable('NO_REQUIRED', "");
+			$this->tpl->setVariable('NO_UNIQUE', "");
 		}
 
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "field_id", $a_set->getId());

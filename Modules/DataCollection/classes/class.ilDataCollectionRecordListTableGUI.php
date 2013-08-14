@@ -223,7 +223,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             if($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
                 $options['link']['display'] = true;
             }
-            $this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):"-");
+            $this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):"");
 			$this->tpl->parseCurrentBlock();
 			if($field->getLearningProgress()){
                 $this->tpl->setCurrentBlock("field");
