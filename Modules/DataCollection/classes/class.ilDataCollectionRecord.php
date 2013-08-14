@@ -89,8 +89,6 @@ class ilDataCollectionRecord
 		$this->setTableId($rec["table_id"]);
 		$this->setCreateDate($rec["create_date"]);
 		$this->setLastUpdate($rec["last_update"]);
-
-
 		$this->setOwner($rec["owner"]);
 		$this->setLastEditBy($rec["last_edit_by"]);
 	}
