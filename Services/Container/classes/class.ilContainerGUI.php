@@ -531,13 +531,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function showAdministrationPanel(&$tpl)
 	{
-		global $ilAccess, $ilSetting;
-		global $ilUser, $lng;
+		global $ilAccess, $lng;
 
 		$lng->loadLanguageModule('cntr');
 
 		if ($this->isActiveAdministrationPanel())
 		{			
+			// #11545
+			$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+			
 			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 			$toolbar = new ilToolbarGUI();
 			$this->ctrl->setParameter($this, "type", "");
