@@ -99,7 +99,7 @@ class ilDataCollectionRecordViewGUI
 		$pageObj = new ilDataCollectionRecordViewViewdefinitionGUI($this->record_obj->getTableId(), $view_id);
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
-		
+
 
 		$html = $pageObj->getHTML();
         $rctpl->addCss("./Services/COPage/css/content.css");
