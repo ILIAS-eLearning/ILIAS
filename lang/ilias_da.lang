@@ -12023,11 +12023,11 @@ ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System###28 08 2012 new varia
 ecs#:#ecs_title_updates#:#Transfer Title Updates###28 08 2012 new variable
 ecs#:#ecs_tree_updates#:#Transfer Tree Updates###28 08 2012 new variable
 ecs#:#ecs_position_updates#:#Transfer Position Updates###28 08 2012 new variable
-ecs#:#ecs_general_info#:#General Information###28 08 2012 new variable
-ecs#:#ecs_local_information#:#Further Information###28 08 2012 new variable
+ecs#:#ecs_general_info#:#Generel orientering
+ecs#:#ecs_local_information#:#Yderligere information
 ecs#:#ecs_delete_setting#:#Are you sure you want to delete the following ECS?###28 08 2012 new variable
 ecs#:#ecs_setting_deleted#:#ECS deleted###28 08 2012 new variable
-ecs#:#ecs_cat_mapping_by_type#:#By Type###28 08 2012 new variable
+ecs#:#ecs_cat_mapping_by_type#:#Efter type
 ecs#:#ecs_cat_mapping_by_type_info#:#Choose this mode to assign by object type.###28 08 2012 new variable
 ecs#:#ecs_err_invalid_by_type#:#Please select a type when assigning by type.###28 08 2012 new variable
 common#:#obj_rcat#:#ECS Category ###28 08 2012 new variable
@@ -12045,7 +12045,7 @@ trac#:#trac_maxed_out_counter#:#Rejected Users###28 08 2012 new variable
 trac#:#trac_sessions_opened#:#Admissions###28 08 2012 new variable
 trac#:#trac_sessions_closed#:#Leavings###28 08 2012 new variable
 trac#:#trac_maxed_out_time#:#Full Load [min]###28 08 2012 new variable
-trac#:#trac_closed_manual#:#Logout###28 08 2012 new variable
+trac#:#trac_closed_manual#:#Log ud
 trac#:#trac_closed_expire#:#Timeout###28 08 2012 new variable
 trac#:#trac_closed_idle#:#Idle Time###28 08 2012 new variable
 trac#:#trac_closed_idle_first#:#Idle Time (1st Request)###28 08 2012 new variable
@@ -12075,7 +12075,7 @@ trac#:#trac_periodic_system_load#:#Periodic ###28 08 2012 new variable
 trac#:#trac_begin_at#:#Start date###28 08 2012 new variable
 trac#:#trac_scale#:#Scale###28 08 2012 new variable
 trac#:#trac_measure#:#Figure###28 08 2012 new variable
-trac#:#trac_end_at#:#End Date###28 08 2012 new variable
+trac#:#trac_end_at#:#Slutdato
 tax#:#tax_taxonomy#:#Taxonomy###28 08 2012 new variable
 tax#:#obj_taxn#:#Node###28 08 2012 new variable
 tax#:#tax_node#:#Node###28 08 2012 new variable
@@ -12131,8 +12131,8 @@ user#:#user_delete_own_account_notification_email#:#Notification Email###28 08 2
 user#:#user_delete_own_account_info#:#Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible! ###28 08 2012 new variable
 user#:#user_delete_own_account_password_confirmation#:#Enter password for authorisation###28 08 2012 new variable
 user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last time to remove your user account from ILIAS!###28 08 2012 new variable
-user#:#user_delete_own_account_email_subject#:#User account deleted###28 08 2012 new variable
-user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s.###28 08 2012 new variable
+user#:#user_delete_own_account_email_subject#:#Brugerkonto slettet
+user#:#user_delete_own_account_email_body#:#Din brugerkonto "%s" er slettet fra %s.
 mcst#:#mcst_ordering#:#Sorteing
 mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)###28 08 2012 new variable
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)###28 08 2012 new variable
@@ -12156,47 +12156,47 @@ mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be use
 content#:#cont_current_term#:#Current Term###28 08 2012 new variable
 assessment#:#tst_setting_offer_hints_label#:#Question Specific Hints###28 08 2012 new variable
 assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.###28 08 2012 new variable
-assessment#:#tst_question_hints_tab#:#Hints###28 08 2012 new variable
-assessment#:#tst_question_hints_table_header#:#Hints for Question: %s###28 08 2012 new variable
-assessment#:#tst_question_hints_table_no_items#:#No Existing Hints###28 08 2012 new variable
-assessment#:#tst_question_hints_table_column_hint_order#:#Order###28 08 2012 new variable
-assessment#:#tst_question_hints_table_column_hint_text#:#Hint###28 08 2012 new variable
-assessment#:#tst_question_hints_table_column_hint_points#:#Points Deduction###28 08 2012 new variable
-assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint###28 08 2012 new variable
-assessment#:#tst_question_hints_table_link_delete_hint#:#Delete Hint###28 08 2012 new variable
-assessment#:#tst_questions_hints_table_cmd_save_order#:#Save Order###28 08 2012 new variable
-assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Delete Hint(s)###28 08 2012 new variable
+assessment#:#tst_question_hints_tab#:#Tips
+assessment#:#tst_question_hints_table_header#:#Tips til spørgsmål: %s
+assessment#:#tst_question_hints_table_no_items#:#Ingen hjælpetips
+assessment#:#tst_question_hints_table_column_hint_order#:#Rækkefølge
+assessment#:#tst_question_hints_table_column_hint_text#:#Tip
+assessment#:#tst_question_hints_table_column_hint_points#:#Point straf
+assessment#:#tst_question_hints_table_link_edit_hint#:#Ret tip
+assessment#:#tst_question_hints_table_link_delete_hint#:#Slet tip
+assessment#:#tst_questions_hints_table_cmd_save_order#:#Gem rækkefølge
+assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Slet tip(s)
 assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Cut Hint to Ordering Clipboard###28 08 2012 new variable
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Prepend Hint to the Selected One###28 08 2012 new variable
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Append Hint to the Selected One###28 08 2012 new variable
-assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Add Hint###28 08 2012 new variable
+assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Lav tip
 assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hint Ordering Clipboard###28 08 2012 new variable
 assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#No hint(s) selected for deletion.###28 08 2012 new variable
 assessment#:#tst_question_hints_delete_hints_confirm_header#:#Do you really want to delete the following hint(s)?###28 08 2012 new variable
-assessment#:#tst_question_hints_delete_hints_confirm_item#:#Hint %s: %s###28 08 2012 new variable
-assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Delete Hint(s)###28 08 2012 new variable
+assessment#:#tst_question_hints_delete_hints_confirm_item#:#Tip %s: %s
+assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Slet tip(s)(s)
 assessment#:#tst_question_hints_delete_success_msg#:#The selected hint(s) has been deleted successfully.###28 08 2012 new variable
 assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#No hint selected for cutting.###28 08 2012 new variable
 assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#More than one hint was selected for cutting.###28 08 2012 new variable
-assessment#:#tst_question_hints_form_header_edit#:#Hint %s for Question: %s###28 08 2012 new variable
-assessment#:#tst_question_hints_form_header_create#:#New Hint for Question: %s###28 08 2012 new variable
-assessment#:#tst_question_hints_form_label_hint_text#:#Hint###28 08 2012 new variable
-assessment#:#tst_question_hints_form_label_hint_points#:#Point Deduction###28 08 2012 new variable
-assessment#:#tst_question_hints_form_cmd_save#:#Save Hint###28 08 2012 new variable
-assessment#:#tst_question_hints_form_saved_msg#:#The hint has been saved successfully.###28 08 2012 new variable
-assessment#:#tst_question_hints_form_invalid_msg#:#The hint could not been saved. Please check your inputs.###28 08 2012 new variable
+assessment#:#tst_question_hints_form_header_edit#:#Tip %s for spørgsmål: %s
+assessment#:#tst_question_hints_form_header_create#:#Nyt tip for spørgsmål: %s
+assessment#:#tst_question_hints_form_label_hint_text#:#Tip
+assessment#:#tst_question_hints_form_label_hint_points#:#Pointstraf
+assessment#:#tst_question_hints_form_cmd_save#:#Gem tip
+assessment#:#tst_question_hints_form_saved_msg#:#Tip blev gemt.
+assessment#:#tst_question_hints_form_invalid_msg#:#Tip kunne ikke gemmes. Kontroller det indtastede.
 assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hint %s is stored in ordering clipboard.###28 08 2012 new variable
 assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipboard has been resetted.###28 08 2012 new variable
 assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.###28 08 2012 new variable
 assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.###28 08 2012 new variable
 assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.###28 08 2012 new variable
-assessment#:#button_request_question_hint#:#Request Hint###28 08 2012 new variable
-assessment#:#button_request_next_question_hint#:#Request Next Hint###28 08 2012 new variable
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
-assessment#:#tst_question_hints_confirm_request#:#Request Hint###28 08 2012 new variable
-assessment#:#tst_question_hints_cancel_request#:#Back to Question###28 08 2012 new variable
-assessment#:#tst_question_hints_request_confirmation#:#Do you really want to request hint %s? For this hint %s point(s) will be deducted.###28 08 2012 new variable
-assessment#:#tst_question_hints_back_to_question#:#Back to Question###28 08 2012 new variable
+assessment#:#button_request_question_hint#:#Få tip
+assessment#:#button_request_next_question_hint#:#Få næste tip
+assessment#:#button_show_requested_question_hints#:#Vis givne tips
+assessment#:#tst_question_hints_confirm_request#:#Få tip
+assessment#:#tst_question_hints_cancel_request#:#Tilbage til spørgsmål
+assessment#:#tst_question_hints_request_confirmation#:#Vil du have et til %s? Dette tip koster %s point(s) af scoren.
+assessment#:#tst_question_hints_back_to_question#:#Tilbage til spørgsmål
 assessment#:#tst_question_hints_index_column_label#:#Hint %s###28 08 2012 new variable
 assessment#:#tst_question_hints_table_column_hint_index#:#Index###28 08 2012 new variable
 assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints###28 08 2012 new variable
@@ -12211,36 +12211,36 @@ help#:#help_open_online_help#:#Åben onlinehjælp
 help#:#help_toggle_tooltips#:#Skift hjælpetips
 common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Kopier blog
-blog#:#blog_copy#:#Copy Blog###28 08 2012 new variable
-rbac#:#blog_visible#:#Blog is visible###28 08 2012 new variable
-rbac#:#blog_read#:#User can read blog content###28 08 2012 new variable
-rbac#:#blog_copy#:#User can copy blog###28 08 2012 new variable
-rbac#:#blog_write#:#User can edit blog settings###28 08 2012 new variable
-rbac#:#blog_delete#:#User can move or delete blog###28 08 2012 new variable
-rbac#:#blog_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#rbac_create_blog#:#Create Blog###28 08 2012 new variable
-user#:#user_delete_own_account#:#Delete Account###28 08 2012 new variable
+blog#:#blog_copy#:#Kopier blog
+rbac#:#blog_visible#:#Blog er synlig
+rbac#:#blog_read#:#Bruger kan læse blogindlæg
+rbac#:#blog_copy#:#Bruger kan kopiere blog
+rbac#:#blog_write#:#Bruger kan rette blogindstillinger
+rbac#:#blog_delete#:#Bruger kan flytte eller slette blog
+rbac#:#blog_edit_permission#:#Bruger kan ændre rettighedsindstillinger
+rbac#:#rbac_create_blog#:#Lav blog
+user#:#user_delete_own_account#:#Slet konto
 rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration###28 08 2012 new variable
-common#:#obj_dcl#:#Data Collection###28 08 2012 new variable
-common#:#objs_dcl#:#Data Collections###28 08 2012 new variable
-common#:#obj_dcl_dupliate#:#Copy Data Collection###28 08 2012 new variable
-dcl#:#dcl_new#:#Create New Data Collection###28 08 2012 new variable
-dcl#:#dcl_add#:#Create Data Collection###28 08 2012 new variable
-dcl#:#dcl_copy#:#Copy Data Collection###28 08 2012 new variable
-dcl#:#dcl_edit#:#Edit Data Collection###28 08 2012 new variable
-rbac#:#dcl_visible#:#Data Collection is visible###28 08 2012 new variable
-rbac#:#dcl_read#:#Read access to Data Collection###28 08 2012 new variable
-rbac#:#dcl_copy#:#User can copy data collection###28 08 2012 new variable
-rbac#:#dcl_write#:#User can edit settings and content of data collection###28 08 2012 new variable
-rbac#:#dcl_delete#:#User can move or delete data collection###28 08 2012 new variable
-rbac#:#dcl_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#dcl_add_entry#:#User can add/edit entries###28 08 2012 new variable
-rbac#:#rbac_create_dcl#:#Create Data Collection###28 08 2012 new variable
-survey#:#freetext_answers#:#Open Answers###28 08 2012 new variable
-forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.###28 08 2012 new variable
-payment#:#duration_month#:#Access duration in months###28 08 2012 new variable
-payment#:#duration_date#:#Access duration###28 08 2012 new variable
-payment#:#please_choose_category#:#Please choose a category###28 08 2012 new variable
+common#:#obj_dcl#:#Datasamling
+common#:#objs_dcl#:#Datasamlinger
+common#:#obj_dcl_dupliate#:#Kopier datasamling
+dcl#:#dcl_new#:#Lav ny datasamling
+dcl#:#dcl_add#:#Lav datasamling
+dcl#:#dcl_copy#:#Koper datasamling
+dcl#:#dcl_edit#:#Ret datasamling
+rbac#:#dcl_visible#:#Datasamling er synlig
+rbac#:#dcl_read#:#Læseadgang til datasamling
+rbac#:#dcl_copy#:#Bruger kan kopiere datasamling
+rbac#:#dcl_write#:#Bruger kan rette indstillinger og indhold i datasamling
+rbac#:#dcl_delete#:#Bruger kan flytte eller slette datasamling
+rbac#:#dcl_edit_permission#:#Bruger kan ændre rettigheder
+rbac#:#dcl_add_entry#:#Bruger kan tilføje/rette indold
+rbac#:#rbac_create_dcl#:#Lav datasamling
+survey#:#freetext_answers#:#Åbne besvarelser
+forum#:#frm_at_least_one_moderator#:#Der skal mindst være en moderator
+payment#:#duration_month#:#Adgangsperiode i måneder
+payment#:#duration_date#:#Adgangsperiode
+payment#:#please_choose_category#:#Vælg venligst en kategori
 forum#:#select_max_one_thread#:#Please select one thread only!###28 08 2012 new variable
 common#:#shib_matriculation#:#Attribute for Matriculation Number###28 08 2012 new variable
 common#:#soap_connect_timeout#:#Connection Timeout###28 08 2012 new variable
@@ -12270,15 +12270,15 @@ content#:#cont_show_activation_info_info#:#If the scheduled activation is not ye
 content#:#cont_page_activation_on#:#The content will be activated on %s.###28 08 2012 new variable
 trac#:#trac_lp_on_personal_desktop#:#Learning Progress on Personal Desktop###28 08 2012 new variable
 trac#:#trac_lp_learner_access#:#Accessible Personal Learning Progress###28 08 2012 new variable
-rating#:#rating_categories#:#Rating Categories###28 08 2012 new variable
-rating#:#rating_add_category#:#Add Category###28 08 2012 new variable
-rating#:#rating_category_create#:#Create Category###28 08 2012 new variable
-rating#:#rating_category_add#:#Add###28 08 2012 new variable
-rating#:#rating_category_created#:#Category created.###28 08 2012 new variable
+rating#:#rating_categories#:#Vurderingskategorier
+rating#:#rating_add_category#:#Tilføj kategori
+rating#:#rating_category_create#:#Lav kategori
+rating#:#rating_category_add#:#Tilføj
+rating#:#rating_category_created#:#Kategori oprettet.
 rating#:#rating_category_edit#:#Edit Category###28 08 2012 new variable
-rating#:#rating_category_update#:#Save###28 08 2012 new variable
-rating#:#rating_category_updated#:#Category saved.###28 08 2012 new variable
-rating#:#rating_update_positions#:#Save Order###28 08 2012 new variable
+rating#:#rating_category_update#:#Gem
+rating#:#rating_category_updated#:#Kategori gemt.
+rating#:#rating_update_positions#:#Gem rækkefølge
 rating#:#rating_category_delete_sure#:#Are you sure you want to delete the following rating categories?  All ratings for that category will be lost.###28 08 2012 new variable
 content#:#cont_hover#:#Hover###28 08 2012 new variable
 content#:#cont_always#:#Altid
@@ -12292,9 +12292,9 @@ rating#:#rating_category_deleted#:#Category deleted.###28 08 2012 new variable
 wiki#:#wiki_activate_sideblock_rating#:#Display Rating as Side Block###28 08 2012 new variable
 wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages###28 08 2012 new variable
 wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories###28 08 2012 new variable
-wiki#:#wiki_activate_page_rating#:#Activate Rating###28 08 2012 new variable
-wiki#:#wiki_deactivate_page_rating#:#Deactivate Rating###28 08 2012 new variable
-rating#:#rating_overlay_title_overall#:#Overall Rating###28 08 2012 new variable
+wiki#:#wiki_activate_page_rating#:#Slå vurdering til
+wiki#:#wiki_deactivate_page_rating#:#Slå vurdering fra
+rating#:#rating_overlay_title_overall#:#Samlet vurdering
 rating#:#rating_overlay_submit#:#Send score
 rep#:#rep_visibility_limitless#:#Ubegrænset
 rep#:#rep_visibility_until#:#Temporarily Available###28 08 2012 new variable
@@ -12309,7 +12309,7 @@ book#:#book_schedule_type_none#:#Ingen plan
 book#:#book_schedule_type_none_info#:#Denne type kan anvendes til seminarer og den slags.
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?###28 08 2012 new variable
 common#:#obj_mep_duplicate#:#Copy Media Pool###28 08 2012 new variable
-common#:#obj_mcst_duplicate#:#Copy Mediacast###28 08 2012 new variable
+common#:#obj_mcst_duplicate#:#Kopier mediecast
 common#:#obj_glo_duplicate#:#Copy Glossary###28 08 2012 new variable
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 08 2012 new variable
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.###28 08 2012 new variable
@@ -12362,24 +12362,24 @@ dcl#:#dcl_activate_approval#:#Activate Record Approval###28 08 2012 new variable
 dcl#:#dcl_activate_notification#:#Brug advisering
 dcl#:#dcl_table_id#:#Tabel ID
 dcl#:#dcl_add_new_record#:#Ny post
-dcl#:#dcl_list_fields#:#List Fields###28 08 2012 new variable
-dcl#:#dcl_record_view_viewdefinition#:#View Viewdefinition###28 08 2012 new variable
-dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition###28 08 2012 new variable
-dcl#:#dcl_record_list_viewdefinition#:#List Viewdefinition###28 08 2012 new variable
-dcl#:#dcl_add_new_field#:#Add New Field###28 08 2012 new variable
-dcl#:#dcl_add_new_table#:#Add New Table###28 08 2012 new variable
-dcl#:#dcl_field_datatype#:#Field Datatype###28 08 2012 new variable
-dcl#:#dcl_required#:#Required Field###28 08 2012 new variable
-dcl#:#dcl_edit_type_non#:#Not editable###28 08 2012 new variable
+dcl#:#dcl_list_fields#:#Feltliste
+dcl#:#dcl_record_view_viewdefinition#:#Vis designvisning
+dcl#:#dcl_record_edit_viewdefinition#:#Ret designvisning
+dcl#:#dcl_record_list_viewdefinition#:#List designvisning
+dcl#:#dcl_add_new_field#:#Tilføj nyt felt
+dcl#:#dcl_add_new_table#:#Tilføj ny tabel
+dcl#:#dcl_field_datatype#:#Felt datatype
+dcl#:#dcl_required#:#Krævet felt
+dcl#:#dcl_edit_type_non#:#Ikke redigerbart
 dcl#:#dcl_edit_type_non_info#:#Creating New Records needs edit settings permission###28 08 2012 new variable
-dcl#:#dcl_edit_type_unlim#:#Unlimited###28 08 2012 new variable
+dcl#:#dcl_edit_type_unlim#:#Ubegrænset
 dcl#:#dcl_edit_type_unlim_info#:#Users with add/edit permission can add/edit entries###28 08 2012 new variable
-dcl#:#dcl_edit_type_lim#:#Limited###28 08 2012 new variable
+dcl#:#dcl_edit_type_lim#:#Begrænset
 dcl#:#dcl_edit_type_lim_info#:#Acces for users with add/edit permission is limited to the following daterange###28 08 2012 new variable
 dcl#:#dcl_edit_start#:#Startdato
 dcl#:#dcl_edit_end#:#Slutdato
 dcl#:#dcl_export#:#Eksport
-dcl#:#dcl_table_list_fields#:#List Fields of current Table###28 08 2012 new variable
+dcl#:#dcl_table_list_fields#:#Felter i valgt tabel
 dcl#:#dcl_view_viewdefinition#:#Viewdefinition###28 08 2012 new variable
 dcl#:#dcl_new_table#:#Ny tabel
 dcl#:#dcl_table_create#:#Lav tabel
@@ -12631,26 +12631,26 @@ ecs#:#ecs_tst_export_disabled#:#Do not release this Test###28 08 2012 new variab
 ecs#:#ecs_tst_export_enabled#:#Release this Test###28 08 2012 new variable
 rtst#:#rtst_call#:#Call ECS Test ###28 08 2012 new variable
 rbac#:#contribute#:#Contribute###28 08 2012 new variable
-dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed###28 08 2012 new variable
-dcl#:#dcl_edit_notification#:#Email Notification on Change###28 08 2012 new variable
-dcl#:#dcl_edit_notification_info#:#You will be notified when any table is edited###28 08 2012 new variable
-dcl#:#dcl_change_notification_link#:#URL###28 08 2012 new variable
-dcl#:#dcl_change_notification_dcl_new_record#:#the following record was created###28 08 2012 new variable
-dcl#:#dcl_change_notification_dcl_update_record#:#the following record was updated###28 08 2012 new variable
+dcl#:#dcl_change_notification_subject#:#Datasamling "%s" blev ændret
+dcl#:#dcl_edit_notification#:#Email-advisering ved ændringer
+dcl#:#dcl_edit_notification_info#:#Du bliver adviseret når tabellen ændres
+dcl#:#dcl_change_notification_link#:#URL
+dcl#:#dcl_change_notification_dcl_new_record#:#følgende registrering blev oprettet
+dcl#:#dcl_change_notification_dcl_update_record#:#følgende registrering blev opdateret
 dcl#:#dcl_change_notification_dcl_delete_record#:#the following record page was deleted###28 08 2012 new variable
 dcl#:#dcl_table#:#Tabel
 dcl#:#dcl_changed_by#:#Ændret af
-dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection###28 08 2012 new variable
+dcl#:#dcl_notification_activate_dcl#:#Aktiver advisering for datasamling
 dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection###28 08 2012 new variable
-dcl#:#dcl_notification_activated#:#Notification Activated###28 08 2012 new variable
-dcl#:#dcl_notification_deactivated#:#Notification Deactivated###28 08 2012 new variable
+dcl#:#dcl_notification_activated#:#Advisering slået til
+dcl#:#dcl_notification_deactivated#:#Advisering slået fra
 dcl#:#dcl_locked#:#Låst
-dcl#:#dcl_table_settings#:#Table Settings###28 08 2012 new variable
+dcl#:#dcl_table_settings#:#Tabelindstillinger
 dcl#:#dcl_add_perm#:#Permission Add Entry###28 08 2012 new variable
 dcl#:#dcl_edit_perm#:#Permission Edit Entry###28 08 2012 new variable
 dcl#:#dcl_delete_perm#:#Permission Delete Entry###28 08 2012 new variable
 dcl#:#dcl_edit_by_owner#:#Edit / Delete only own entries###28 08 2012 new variable
-dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period###28 08 2012 new variable
+dcl#:#dcl_limited#:#Begrænset tilføj/ret/slet periode
 dcl#:#dcl_record_id#:#Record ID###28 08 2012 new variable
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#Slut
@@ -12735,7 +12735,7 @@ dcl#:#dcl_text_area#:#Tekstområde
 forum#:#frm_notification_activated#:#Advisering aktiveret
 forum#:#frm_notification_deactivated#:#Advisering deaktiveret
 dcl#:#dcl_delete_table#:#Slet tabel
-dcl#:#dcl_table_info#:#Users with the permission "edit settings" (see tab "Permission") always have permission to add/edit/delete entries. Users with permission "edit entry" (see tab "Permissions") only have permissions according to the settings specified in the form below.###04 09 2012 new variable
+dcl#:#dcl_table_info#:#Brugere med rettigheden "ret indstillinger" (se faneblad "rettigheder") har altid tilladelse til at oprette/ændre/slette poster. Brugere med rettigheden "ret indhold" har kun de rettigheder der vælges herunder.
 dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?###04 09 2012 new variable
 dcl#:#dcl_cant_delete_main_table#:#You can't completely remove this table as it is the default table of this Data Collection. It's content and structure got removed instead.###04 09 2012 new variable
 administration#:#feedback_recipient_info#:#This address is used in the footer link "%s".###04 09 2012 new variable
@@ -12942,7 +12942,7 @@ content#:#cont_custom_menu_entries#:#Brugerdefinerede menupunkter
 content#:#cont_anonymous_user_missing_perm#:#Anonyme brugere har ikke tilladelse til at tilgå læremodulet.
 dcl#:#dcl_export_enabled#:#Tillad eksport for alle brugere
 dcl#:#dcl_no_fields_yet#:#Der er endnu ikke lavet kolonner i tabellen, så du kan endnu ikke lave poster.
-dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###14 01 2013 new variable
+dcl#:#dcl_create_fields#:#Lav mindst et felt i fanebladet "Feltliste"
 rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
 content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
 common#:#edited_on#:#Redigeret
