@@ -17340,3 +17340,131 @@ $ilDB->manipulateF(
 	array('text'), array('default')
 );
 ?>
+<#4030>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$orgu_type_id = ilDBUpdateNewObjectType::addNewType('orgu', 'Organisational Unit');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+	ilDBUpdateNewObjectType::RBAC_OP_COPY
+);
+ilDBUpdateNewObjectType::addRBACOperations($orgu_type_id, $rbac_ops);
+
+$parent_types = array('root', 'orgu');
+ilDBUpdateNewObjectType::addRBACCreate('create_orgu', 'Create OrgUnit', $parent_types);
+
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#4031>
+<?php
+// create object data entry
+$id = $ilDB->nextId("object_data");
+$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+	"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+	array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+	array($id, "orgu", "__OrgUnitAdministration", "Organisationsal Units", -1, ilUtil::now(), ilUtil::now()));
+
+// create object reference entry
+$ref_id = $ilDB->nextId('object_reference');
+$res = $ilDB->manipulateF("INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($ref_id, $id));
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
+?>
+
+<#4032>
+<?php
+require_once("./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php");
+$orgu_type_id = ilDBUpdateNewObjectType::getObjectTypeId('orgu');
+if($orgu_type_id)
+{
+	$adm_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('cat_administrate_users');
+	$shw_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_users');
+	if($adm_ops_id && $shw_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($orgu_type_id, $adm_ops_id);
+		ilDBUpdateNewObjectType::addRBACOperation($orgu_type_id, $shw_ops_id);
+	}
+}
+?>
+<#4033>
+<?php
+require_once("./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php");
+$orgu_type_id = ilDBUpdateNewObjectType::getObjectTypeId('orgu');
+if($orgu_type_id)
+{
+	$view_lp = ilDBUpdateNewObjectType::addCustomRBACOperation('view_learning_progress', 'View learning progress from users in this orgu.', 'object', 270);
+	$view_lp_rec = ilDBUpdateNewObjectType::addCustomRBACOperation('view_learning_progress_rec', 'View learning progress from users in this orgu and subsequent orgus.', 'object', 280);
+	if($view_lp && $view_lp_rec)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($orgu_type_id, $view_lp);
+		ilDBUpdateNewObjectType::addRBACOperation($orgu_type_id, $view_lp_rec);
+	}
+}
+?>
+
+<#4034>
+<?php
+require_once("./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php");
+$orgu_type_id = ilDBUpdateNewObjectType::getObjectTypeId('orgu');
+if($orgu_type_id)
+{
+	$view_lp = ilDBUpdateNewObjectType::addCustomRBACOperation('view_learning_progress', 'View learning progress from users in this orgu.', 'object', 270);
+	$view_lp_rec = ilDBUpdateNewObjectType::addCustomRBACOperation('view_learning_progress_rec', 'View learning progress from users in this orgu and subsequent orgus.', 'object', 280);
+	if($view_lp && $view_lp_rec)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($orgu_type_id, $view_lp);
+		ilDBUpdateNewObjectType::addRBACOperation($orgu_type_id, $view_lp_rec);
+	}
+}
+?>
+<#4035>
+	<?php
+	//ORGU TEMPLATES
+	$orgu_employee_contributor_tpl_id = $ilDB->nextId('object_data');
+
+	$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description,".
+	" owner, create_date, last_update) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+	array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+	array($orgu_employee_contributor_tpl_id, "rolt", "il_orgu_superior",
+	"OrgUnit Superior Role Template", -1, ilUtil::now(), ilUtil::now()));
+
+	$query = 'SELECT ops_id FROM rbac_operations WHERE operation = '.
+	$ilDB->quote('view_learning_progress', 'text');
+	$rset = $ilDB->query($query);
+	$row = $ilDB->fetchAssoc($rset);
+	$view_lp = $row['ops_id'];
+	if($view_lp)
+	{
+	// See LP
+	$ilDB->manipulateF("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
+	" VALUES (%s, %s, %s, %s)",
+	array("integer", "text", "integer", "integer"),
+	array($orgu_employee_contributor_tpl_id, "orgu", $view_lp, 8));
+	//Show
+	$ilDB->manipulateF("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
+	" VALUES (%s, %s, %s, %s)",
+	array("integer", "text", "integer", "integer"),
+	array($orgu_employee_contributor_tpl_id, "orgu", 2, 8));
+	//Read
+	$ilDB->manipulateF("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
+	" VALUES (%s, %s, %s, %s)",
+	array("integer", "text", "integer", "integer"),
+	array($orgu_employee_contributor_tpl_id, "orgu", 3, 8));
+	//No idea
+	$ilDB->manipulateF("INSERT INTO rbac_fa (rol_id, parent, assign, protected)".
+	" VALUES (%s, %s, %s, %s)",
+	array("integer", "integer", "text", "text"),
+	array($orgu_employee_contributor_tpl_id, 8, "n", "n"));
+	}
+?>
