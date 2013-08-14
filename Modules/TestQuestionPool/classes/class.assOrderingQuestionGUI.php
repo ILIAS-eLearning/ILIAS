@@ -37,7 +37,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class assOrderingQuestionGUI extends assQuestionGUI
 {
-
+	private $uploadAlert = null;
+	
 	/**
 	* assOrderingQuestionGUI constructor
 	*
@@ -114,11 +115,42 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->object->moveAnswerDown($position);
 		$this->editQuestion();
 	}
+	
+	/**
+	 * @return \ilImageWizardInputGUI
+	 */
+	private function getAnswerImageFileUploadWizardFormProperty()
+	{
+		include_once "./Modules/TestQuestionPool/classes/class.ilImageWizardInputGUI.php";
+		$answers = new ilImageWizardInputGUI($this->lng->txt("answers"), "answers");
+		$answers->setRequired(TRUE);
+		$answers->setQuestionObject($this->object);
+		$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
+		$answers->setAllowMove(TRUE);
+		$answervalues = array();
+		foreach ($this->object->getAnswers() as $index => $answervalue)
+		{
+			$answervalues[$index] = $answervalue->getAnswertext();
+		}
+		$answers->setValues($answervalues);
+		return $answers;
+	}
 
 	public function uploadanswers()
 	{
+		$inp = $this->getAnswerImageFileUploadWizardFormProperty();
+		if( !$inp->checkInput() )
+		{
+			$this->uploadAlert = $inp->getAlert();
+		}
+		
 		$this->writePostData(true);
 		$this->editQuestion();
+	}
+	
+	private function isUploadAnswersCommand()
+	{
+		return $this->ctrl->getCmd() == 'uploadanswers';
 	}
 
 	/**
@@ -275,19 +307,12 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		// Answers
 		if ($orderingtype == OQ_PICTURES)
 		{
-			include_once "./Modules/TestQuestionPool/classes/class.ilImageWizardInputGUI.php";
-			$answers = new ilImageWizardInputGUI($this->lng->txt("answers"), "answers");
-			$answers->setRequired(TRUE);
-			$answers->setQuestionObject($this->object);
-			$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
-			$answers->setAllowMove(TRUE);
-			$answervalues = array();
-			foreach ($this->object->getAnswers() as $index => $answervalue)
+			$answerImageUpload = $this->getAnswerImageFileUploadWizardFormProperty();
+			if( $this->uploadAlert !== null )
 			{
-				$answervalues[$index] = $answervalue->getAnswertext();
+				$answerImageUpload->setAlert($this->uploadAlert);
 			}
-			$answers->setValues($answervalues);
-			$form->addItem($answers);
+			$form->addItem($answerImageUpload);
 		}
 		else
 		{
