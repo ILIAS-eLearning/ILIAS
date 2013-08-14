@@ -935,7 +935,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			}
 		}
 
-		$this->redirectBack();
+		$this->redirectBackCmd();
 	}
 
 	/**
@@ -1014,7 +1014,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return;
 	}
 	
-	public function redirectBack()
+	public function redirectBackCmd()
 	{
 		if (isset($_GET['reviewed']))
         {
