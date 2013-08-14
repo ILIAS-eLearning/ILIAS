@@ -190,7 +190,7 @@ class ilDataCollectionFieldEditGUI
 		{
 			$this->form->setTitle($lng->txt('dcl_edit_field'));
 			$hidden_prop = new ilHiddenInputGUI("field_id");
-			$this->form->addItem($hidden_prop);
+            $this->form->addItem($hidden_prop);
 
 			$this->form->setFormAction($ilCtrl->getFormAction($this),"update");
 			
@@ -211,7 +211,8 @@ class ilDataCollectionFieldEditGUI
 
 		$text_prop = new ilTextInputGUI($lng->txt("title"), "title");
 		$text_prop->setRequired(true);
-        $text_prop->setValidationRegexp("/^[a-zA-Z\d -.,äöüÄÖÜàéèÀÉÈç¢]*$/i");
+        $text_prop->setInfo(sprintf($lng->txt('fieldtitle_allow_chars'), ilDataCollectionField::_getTitleValidChars(false)));
+        $text_prop->setValidationRegexp(ilDataCollectionField::_getTitleValidChars(true));
 		$this->form->addItem($text_prop);
 
 
