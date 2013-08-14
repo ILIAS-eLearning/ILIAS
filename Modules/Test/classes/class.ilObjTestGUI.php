@@ -947,7 +947,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function confirmScoringObject($confirmCmd = 'saveScoring', $cancelCmd = 'scoring')
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties_save_confirmation.html", "Modules/Test");
-		$information = $this->lng->txt('tst_tigger_result_refreshing');
+		$information = $this->lng->txt('tst_trigger_result_refreshing');
 
 		foreach ($_POST as $key => $value)
 		{
