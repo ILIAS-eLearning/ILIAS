@@ -46,7 +46,7 @@ class ilDataCollectionRecord
 			$this->doRead();
 		}
 	}
-	
+
 	
 	/**
 	 * doUpdate

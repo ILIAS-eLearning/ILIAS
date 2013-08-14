@@ -125,7 +125,27 @@ class ilDataCollectionField
 		}	
 	}
 
-	/**
+
+    /**
+     * All valid chars for filed titles
+     *
+     * @param bool $a_as_regex
+     * @return string
+     */
+    public static function _getTitleValidChars($a_as_regex = true)
+    {
+        if( $a_as_regex )
+        {
+            return '/^[a-zA-Z\d \/\-.,äöüÄÖÜàéèÀÉÈç¢]*$/i';
+        }
+        else
+        {
+            return 'A-Z a-z 0-9 /-.,';
+        }
+    }
+
+
+    /**
 	 * Set field id
 	 *
 	 * @param int $a_id
