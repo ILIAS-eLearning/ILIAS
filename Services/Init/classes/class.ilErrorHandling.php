@@ -59,6 +59,8 @@ class ilErrorHandling extends PEAR
 		$this->MESSAGE	 = 3;
 
 		$this->error_obj = false;
+		
+		set_exception_handler(array($this, 'handleUncaughtException'));
 	}
 
 	function getLastError()
@@ -237,6 +239,21 @@ class ilErrorHandling extends PEAR
 			
 		}				
 		return true;
+	}
+	
+	/**
+	 * Called for each uncaught exception
+	 * @param Exception $e
+	 */
+	public function handleUncaughtException(Exception $e)
+	{
+		if(DEVMODE or 1)
+		{
+			$error = $e->getTraceAsString();
+			$error .= '<br />';
+		}
+		$error .= $e->getMessage();
+		$this->raiseError($error,$this->WARNING);
 	}
 
 } // END class.ilErrorHandling
