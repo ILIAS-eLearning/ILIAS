@@ -12437,7 +12437,7 @@ dcl#:#dcl_datetime#:#Datetime
 dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
-dcl#:#dcl_length#:#Length
+dcl#:#dcl_length#:#Length (for more than 200 characters, use the additional option Textarea)
 dcl#:#dcl_regex#:#Regular Expression (without delimiter)
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximum Length

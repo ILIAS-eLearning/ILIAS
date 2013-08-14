@@ -12280,7 +12280,7 @@ dcl#:#dcl_datetime#:#Datum
 dcl#:#dcl_file#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Pflichtfeld
-dcl#:#dcl_length#:#Länge
+dcl#:#dcl_length#:#Länge (bei mehr als 200 Zeichen nutzen Sie zusätzlich die Option Texteingabefeld)
 dcl#:#dcl_regex#:#Regulärer Ausdruck (ohne Trennsymbol/Delimiter)
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximale Länge
