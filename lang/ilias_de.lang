@@ -13368,7 +13368,7 @@ assessment#:#assessment_use_seb#:#Safe Exam Browser aktivieren
 assessment#:#seb_headerfield#:#Safe Exam Browser-Headerfield
 assessment#:#seb_detect_expr#:#Safe Exam Browser Ausdruck erkennen
 assessment#:#seb_detect_expr_info#:#Bitte geben Sie einen regulären Ausdruck ein, der auf das angegebene Header-Feld angewandt werden soll. (ohne Delimiter)
-assessment#:#tst_test_execution#:#Test Durchführung
+assessment#:#tst_test_execution#:#Testdurchführung
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung nach Abgabe der Klausur
 assessment#:#redirect_in_kiosk_mode#:#Weiterleitung nur im Kiosk-Modus
 assessment#:#redirect_if_seb_enabled#:#Weiterleitung nur wenn Safe Exam Browser verwendet wird
