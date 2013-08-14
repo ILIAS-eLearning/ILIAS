@@ -12999,3 +12999,4 @@ wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt
 blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###10 07 2013 new variable
 exp#:#exp_file_created#:#The export file has been created.###10 07 2013 new variable
 survey#:#survey_notification_tutor_link#:#Link zur Umfrage
+dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
