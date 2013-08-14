@@ -64,7 +64,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 * @global ilCtrl $iCtrl
 	 * @return type 
 	 */
-	public function outResultsToplist()
+	public function outResultsToplistCmd()
 	{
 		global $ilCtrl;
 		$ilCtrl->redirectByClass('ilTestToplistGUI', 'outResultsToplist');
