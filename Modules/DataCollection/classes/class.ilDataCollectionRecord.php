@@ -1,9 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordField.php');
-require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php');
+require_once './Modules/DataCollection/classes/class.ilDataCollectionRecordField.php';
+require_once './Modules/DataCollection/classes/class.ilDataCollectionDatatype.php';
 require_once './Services/Exceptions/classes/class.ilException.php';
+require_once './Services/User/classes/class.ilUserUtil.php';
 
 /**
 * Class ilDataCollectionRecord
