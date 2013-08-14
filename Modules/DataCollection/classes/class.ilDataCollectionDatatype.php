@@ -482,8 +482,23 @@ class ilDataCollectionDatatype
                 {
                     //only resize if it is bigger, not if it is smaller
                     if($new_height < $height && $new_width < $width)
-                    $location = ilObjMediaObject::_resizeImage($file, (int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH],
-                        (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT], true);
+
+                    //resize proportional
+                    if(!$new_height || !$new_width)
+                    {
+                        $format = ilObjMediaObject::getMimeType($file);
+
+                        $wh = ilObjMediaObject::_determineWidthHeight("", "", $format,
+                            "File", $file, "",
+                            true, false, $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH], (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]);
+                    }
+                    else
+                    {
+                        $wh['width'] =  (int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
+                        $wh['height'] = (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
+                    }
+
+                    $location = ilObjMediaObject::_resizeImage($file,$wh['width'],$wh['height'],false);
                 } else {
                     $location = $title;
                 }
