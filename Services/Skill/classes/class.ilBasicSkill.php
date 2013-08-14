@@ -586,6 +586,36 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 		}
 		return $max_level;
 	}
+
+	/**
+	 * Get all level entries
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAllLevelEntriesOfUser($a_tref_id, $a_user_id = 0)
+	{
+		global $ilDB, $ilUser;
+		
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		
+		$set = $ilDB->query($q = "SELECT * FROM skl_user_has_level ".
+			" WHERE skill_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+			" ORDER BY status_date DESC"
+			);
+
+		$levels = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$levels[] = $rec;
+		}
+		return $levels;
+	}
 	
 	/**
 	 * Get max levels per object

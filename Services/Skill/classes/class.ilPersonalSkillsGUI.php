@@ -260,8 +260,35 @@ class ilPersonalSkillsGUI
 			}
 			else
 			{
-				$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+				if ($this->getProfileId() > 0)
+				{
+					$this->renderProfileTargetRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+				}
 				$this->renderMaterialsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+				
+				// get date of self evaluation
+				$se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $a_top_skill_id, $bs["tref"], $bs["id"]);
+				$se_rendered = ($se_date == "")
+					? true
+					: false;
+					
+				// get all object triggered entries and render them
+				foreach ($skill->getAllLevelEntriesOfUser($bs["tref"] , $user->getId()) as $level_entry)
+				{
+					// render the self evaluation at the correct position within the list of object triggered entries
+					if ($se_date > $level_entry["status_date"] && !$se_rendered)
+					{
+						$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+						$se_rendered = true;
+					}
+					$this->renderObjectEvalRow($tpl, $level_data, $level_entry);
+				}
+				
+				// if not rendered yet, render self evaluation now
+				if (!$se_rendered)
+				{
+					$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+				}
 			}
 			
 			$too_low = true;
@@ -1172,9 +1199,10 @@ class ilPersonalSkillsGUI
 			$a_user_id = $ilUser->getId();
 		}
 		
+		$se_date = ilPersonalSkill::getSelfEvaluationDate($a_user_id, $a_top_skill_id, $a_tref_id, $a_base_skill);
+		
 		$se_level = ilPersonalSkill::getSelfEvaluation($a_user_id,
 			$a_top_skill_id, $a_tref_id, $a_base_skill);
-
 		// check, if current self eval level is in current level data
 		$valid_sel_level = false;
 		if ($se_level > 0)
@@ -1209,7 +1237,10 @@ class ilPersonalSkillsGUI
 		}
 		
 		$a_tpl->setCurrentBlock("value_row");
-		$a_tpl->setVariable("TXT_VAL_TITLE", $lng->txt("skmg_self_evaluation"));
+		ilDatePresentation::setUseRelativeDates(false);
+		$a_tpl->setVariable("TXT_VAL_TITLE", $lng->txt("skmg_self_evaluation").
+			", ".ilDatePresentation::formatDate(new ilDateTime($se_date, IL_CAL_DATETIME)));
+		ilDatePresentation::setUseRelativeDates(true);
 		$a_tpl->parseCurrentBlock();
 	}
 	
@@ -1431,6 +1462,57 @@ class ilPersonalSkillsGUI
 		$a_tpl->setVariable("TXT_VAL_TITLE", $lng->txt("skmg_self_evaluation"));
 		
 		$a_tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * Render object evaluation row (has_level table)
+	 *
+	 * @param
+	 * @return
+	 */
+	function renderObjectEvalRow($a_tpl, $a_levels, $a_level_entry)
+	{
+		$se_level = $a_level_entry["level_id"];
+		
+		// check, if current self eval level is in current level data
+		$valid_sel_level = false;
+		if ($se_level > 0)
+		{
+			foreach ($a_levels as $k => $v)
+			{
+				if ($v["id"] == $se_level)
+				{
+					$valid_sel_level = true;
+				}
+			}
+		}
+		reset($a_levels);
+		$found = false;
+		foreach ($a_levels as $k => $v)
+		{
+			$a_tpl->setCurrentBlock("val_level_td");
+			if ($valid_sel_level && !$found)
+			{
+				$a_tpl->setVariable("VAL_LEVEL", "x");
+				$a_tpl->setVariable("TD_CLASS", "ilSkillSelf");
+			}
+			else
+			{
+				$a_tpl->setVariable("VAL_LEVEL", " ");
+			}
+			$a_tpl->parseCurrentBlock();
+			if ($v["id"] == $se_level)
+			{
+				$found = true;
+			}
+		}
+		
+		$a_tpl->setCurrentBlock("value_row");
+		ilDatePresentation::setUseRelativeDates(false);
+		$a_tpl->setVariable("TXT_VAL_TITLE", $a_level_entry["trigger_title"].
+			", ".ilDatePresentation::formatDate(new ilDateTime($a_level_entry["status_date"], IL_CAL_DATETIME)));
+		ilDatePresentation::setUseRelativeDates(true);
+		$a_tpl->parseCurrentBlock();		
 	}
 
 	/**
