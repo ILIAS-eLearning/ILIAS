@@ -17333,3 +17333,10 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4029>
+<?php
+$ilDB->manipulateF(
+	"UPDATE qpl_questions SET add_cont_edit_mode = %s WHERE add_cont_edit_mode IS NULL",
+	array('text'), array('default')
+);
+?>
