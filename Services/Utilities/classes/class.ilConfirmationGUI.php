@@ -179,12 +179,6 @@ class ilConfirmationGUI
 			}
 			$tb->addFormButton($this->confirm_txt, $this->confirm_cmd);
 			$tb->addFormButton($this->cancel_txt, $this->cancel_cmd);
-			foreach ($this->hidden_item as $hidden_item)
-			{
-				$hiddenInput = new ilHiddenInputGUI($hidden_item["var"]);
-				$hiddenInput->setValue($hidden_item["value"]);
-				$tb->addInputItem($hiddenInput);
-			}
 			return $tb->getHTML();
 		}
 	}
