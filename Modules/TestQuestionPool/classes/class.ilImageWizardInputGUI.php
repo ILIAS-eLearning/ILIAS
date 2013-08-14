@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once 'Services/Form/classes/class.ilTextInputGUI.php';
+
 /**
 * This class represents a single choice wizard property in a property form.
 *
