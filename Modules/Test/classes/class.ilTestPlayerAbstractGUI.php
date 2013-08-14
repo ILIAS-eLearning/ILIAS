@@ -660,7 +660,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $sequence;
 	}
 	
-	function redirectAfterAutosave()
+	function redirectAfterAutosaveCmd()
 	{
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");	
 		$this->tpl->setVariable("TEXT_REDIRECT", $this->lng->txt("redirectAfterSave"));
