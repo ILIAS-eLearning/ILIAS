@@ -12619,7 +12619,7 @@ dcl#:#dcl_msg_table_edited#:#Tabelleneigenschaften wurden gespeichert.
 dcl#:#dcl_legend_placeholders#:#Platzhalter
 dcl#:#dcl_any#:#Alle
 dcl#:#dcl_rating#:#Rating
-dcl#:#dcl_editable_in_table_gui#:#Die Bewertung kann in der Tabellenansicht abgegeben werden.
+dcl#:#dcl_editable_in_table_gui#:#Bewertung: Nutzen Sie die Tabellensicht.
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
