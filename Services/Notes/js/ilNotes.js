@@ -14,6 +14,7 @@ ilNotes =
 		if (e && e.preventDefault)
 		{
 			e.preventDefault();
+			e.stopPropagation(); // #11546 - list properties not working
 		}
 		else if (window.event && window.event.returnValue)
 		{
@@ -36,6 +37,7 @@ ilNotes =
 		if (e && e.preventDefault)
 		{
 			e.preventDefault();
+			e.stopPropagation(); // #11546 - list properties not working
 		}
 		else if (window.event && window.event.returnValue)
 		{

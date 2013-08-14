@@ -1768,7 +1768,7 @@ class ilObjectListGUI
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes_comments"),
 					"value" => "<a href='#' onclick=\"return ".
-						ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js).";\">".
+						ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)."\">".
 						self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC]."</a>",
 					"newline" => $nl);
 				$nl = false;
@@ -1779,7 +1779,7 @@ class ilObjectListGUI
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes"),
 					"value" => "<a href='#' onclick=\"return ".
-						ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js).";\">".
+						ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js)."\">".
 						self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE]."</a>",
 					"newline" => $nl);
 				$nl = false;
@@ -1792,7 +1792,7 @@ class ilObjectListGUI
 					$props[] = array("alert" => false,
 						"property" => $lng->txt("tagging_tags"),
 						"value" => "<a href='#' onclick=\"return ".
-							ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js).";\">".
+							ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js)."\">".
 						self::$cnt_tags[$note_obj_id]."</a>",
 						"newline" => $nl);
 					$nl = false;
