@@ -57,7 +57,6 @@ class ilDataCollectionRecord
 		
 		$ilDB->update("il_dcl_record", array(
 			"table_id" => array("integer", $this->getTableId()),
-			"create_date" => array("date", $this->getCreateDate()),
 			"last_update" => array("date", $this->getLastUpdate()),
 			"owner" => array("text", $this->getOwner()),
 			"last_edit_by" => array("text", $this->getLastEditBy())
@@ -457,7 +456,11 @@ class ilDataCollectionRecord
 				return ilUserUtil::getNamePresentation($this->getOwner());
 			case 'last_edit_by':
                 return ilUserUtil::getNamePresentation($this->getLastEditBy());
-		}
+            case 'last_update':
+                return ilDatePresentation::formatDate(new ilDateTime($this->getLastUpdate(),IL_CAL_DATETIME));
+            case 'create_date':
+                return ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(),IL_CAL_DATETIME));
+        }
 		
 		return $this->$field_id;
 	}
