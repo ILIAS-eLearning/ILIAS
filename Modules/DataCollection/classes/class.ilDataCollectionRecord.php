@@ -1,9 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordField.php');
-require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php');
+require_once './Modules/DataCollection/classes/class.ilDataCollectionRecordField.php';
+require_once './Modules/DataCollection/classes/class.ilDataCollectionDatatype.php';
 require_once './Services/Exceptions/classes/class.ilException.php';
+require_once './Services/User/classes/class.ilUserUtil.php';
 
 /**
 * Class ilDataCollectionRecord
@@ -453,16 +454,9 @@ class ilDataCollectionRecord
 		switch($field_id)
 		{
 			case 'owner':
-				global $ilCtrl;
-				$owner = new ilObjUser($this->getOwner());
-				//$ilCtrl->setParameterByClass("ilObjUserGUI", "obj_id", $owner->getId());
-				//$link = $ilCtrl->getLinkTargetByClass("ilObjUserGUI", "view");
-				//return "<a class='dcl_usr_link' href='".$link."'>".$owner->getFullname()."</a>";
-				return $owner->getFullname();
-				
+				return ilUserUtil::getNamePresentation($this->getOwner());
 			case 'last_edit_by':
-				$last_edit_by = new ilObjUser($this->getLastEditBy());
-				return $last_edit_by->getFullname();
+                return ilUserUtil::getNamePresentation($this->getLastEditBy());
 		}
 		
 		return $this->$field_id;
