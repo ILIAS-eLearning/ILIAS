@@ -1321,6 +1321,13 @@ assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfi
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenselektion
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Quell-Fragenpool
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomie Filter
+assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen Ordnung
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordne Fragen nach Datum
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_date_description#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Ordne Fragen nach Taxonomie
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax_description#:#Die Reihenfolge der Fragen orientiert sich an den Zuweisungen der Fragen in einer Taxonomie.
+assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordnungs Taxonomie
+assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#Die Test Fragen werden entsprechend der Zuweisungen der Fragen in der gewählten Taxonomie angeordnet präsentiert.
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragen Auswahl starten
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragen Auswahl fortsetzen
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktueller Fragen Auswahl
