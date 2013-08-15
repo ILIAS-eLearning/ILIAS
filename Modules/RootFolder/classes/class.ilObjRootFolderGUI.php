@@ -162,7 +162,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
-			case "":
+			default:
 				
 				// fix bug http://www.ilias.de/mantis/view.php?id=10305
 				if ($cmd == "infoScreen")
@@ -187,16 +187,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$this->$cmd();
 
 				break;
-            default:
-                $this->prepareOutput();
-                $class_path = $this->ctrl->lookupClassPath($next_class);
-                include_once($class_path);
-                $class_name = $this->ctrl->getClassForClasspath($class_path);
-                $next = new $class_name();
-                $this->ctrl->forwardCommand($next);
-                break;
-
-        }
+		}
 		return true;
 	}
 	

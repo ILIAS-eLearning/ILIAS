@@ -1814,20 +1814,5 @@ class ilCtrl
 			")");
 	}
 
-    /**
-     *
-     * @param array $call_history eg: array("iladministrationgui", "ilobjuserfoldergui")
-     */
-    function setControllerContext(array $call_history){
-        $nr = "";
-        foreach($call_history as $class){
-            if($nr == "")
-                $nr = $this->getCidForClass (strtolower ($class));
-            else
-                $nr .= ":".$this->getCidForClass($class);
-        }
-        $this->current_node = $nr;
-    }
-
 }
 ?>
