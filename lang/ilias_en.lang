@@ -1145,6 +1145,7 @@ assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question s
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool
+assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Question Ordering
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Order Questions by Date
