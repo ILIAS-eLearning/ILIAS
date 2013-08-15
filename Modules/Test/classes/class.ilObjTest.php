@@ -8460,6 +8460,28 @@ function getAnswerFeedbackPoints()
 */
 	function getAnsweredQuestionCount($active_id, $pass = NULL)
 	{
+		if( $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC )
+		{
+			global $ilDB, $lng, $ilPluginAdmin;
+			
+			require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+			$testSessionFactory = new ilTestSessionFactory($this);
+			$testSession = $testSessionFactory->getSession($active_id);
+
+			require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+			$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this);
+			$testSequence = $testSequenceFactory->getSequence($testSession);
+
+			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($ilDB, $this);
+			$dynamicQuestionSetConfig->loadFromDb();
+			
+			$testSequence->loadFromDb($dynamicQuestionSetConfig);
+			$testSequence->loadQuestions($dynamicQuestionSetConfig, array());
+			
+			return $testSequence->getTrackedQuestionCount();
+		}
+		
 		if ($this->isRandomTest())
 		{
 			$this->loadQuestions($active_id, $pass);
