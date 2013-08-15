@@ -1,31 +1,28 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
-require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 
 /**
  * Output class for assessment test execution
  *
- * The ilTestOutputGUI class creates the output for the ilObjTestGUI
- * class when learners execute a test. This saves some heap space because 
- * the ilObjTestGUI class will be much smaller then
+ * The ilTestOutputGUI class creates the output for the ilObjTestGUI class when learners execute a test. This saves
+ * some heap space because the ilObjTestGUI class will be much smaller then
  *
- * @extends ilTestServiceGUI
- * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ *          
  * @version		$Id$
  * 
- * @package		Modules/Test
+ * @inGroup		ModulesTest
  * 
  */
 abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 {
 	var $ref_id;
-
 	var $saveResult;
 	var $sequence;
 	var $cmdCtrl;
@@ -36,16 +33,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	* ilTestOutputGUI constructor
 	*
 	* @param ilObjTest $a_object
-	* @access public
 	*/
-	function __construct($a_object)
+	public function __construct($a_object)
 	{
 		parent::ilTestServiceGUI($a_object);
 		$this->ref_id = $_GET["ref_id"];
-		
 	}
 
-	/*
+	/**
 	 * Save tags for tagging gui
 	 *
 	 * Needed this function here because the test info page 
@@ -59,32 +54,23 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$tagging_gui->saveInput();
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 	}
-	
-	/**
-	 * @global ilCtrl $iCtrl
-	 * @return type 
-	 */
+
 	public function outResultsToplistCmd()
 	{
 		global $ilCtrl;
 		$ilCtrl->redirectByClass('ilTestToplistGUI', 'outResultsToplist');
-		
-		#require_once 'Modules/Test/classes/class.ilTestToplistGUI.php';
-		#$gui = new ilTestToplistGUI($this);
-		#return $this->ctrl->forwardCommand($gui);		
 	}
-	
+
 	/**
 	 * updates working time and stores state saveresult to see if question has to be stored or not
 	 */
-	
 	function updateWorkingTime() 
 	{
 		if ($_SESSION["active_time_id"])
 		{
 			$this->object->updateWorkingTime($_SESSION["active_time_id"]);
-		}	
-	}	
+		}
+	}
 
 	/**
 	 * saves the user input of a question
@@ -92,28 +78,27 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	abstract public function saveQuestionSolution($force = FALSE);
 
 	abstract protected function canSaveResult();
-	
+
+	abstract protected function outWorkingForm($sequence = "", $test_id, $postpone_allowed, $directfeedback = false);
+
 	/**
 	* Creates the introduction page for a test
 	*
 	* Creates the introduction page for a test
-	*
-	* @access public
 	*/
-	function outIntroductionPageCmd()
+	public function outIntroductionPageCmd()
 	{
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 	}
-	
+
 	/**
 	* Checks wheather the maximum processing time is reached or not
 	*
 	* Checks wheather the maximum processing time is reached or not
 	*
-	* @return TRUE if the maximum processing time is reached, FALSE otherwise
-	* @access public
+	* @return bool TRUE if the maximum processing time is reached, FALSE otherwise
 	*/
-	function isMaxProcessingTimeReached() 
+	public function isMaxProcessingTimeReached() 
 	{
 		global $ilUser;
 		$active_id = $this->testSession->getActiveId();
@@ -127,8 +112,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			return $this->object->isMaxProcessingTimeReached($starting_time, $active_id);
 		}
 	}
-	
-	abstract protected function outWorkingForm($sequence = "", $test_id, $postpone_allowed, $directfeedback = false);
 
 	protected function determineInlineScoreDisplay()
 	{
@@ -438,11 +421,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 
 	/**
-* Displays a password protection page when a test password is set
-*
-* @access public
-*/
-	function showPasswordProtectionPage()
+	 * Displays a password protection page when a test password is set
+	 *
+	 */
+	public function showPasswordProtectionPage()
 	{
 		$template = new ilTemplate("tpl.il_as_tst_password_protection.html", TRUE, TRUE, "Modules/Test");
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "checkPassword"));
@@ -451,13 +433,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$template->setVariable("SUBMIT", $this->lng->txt("submit"));
 		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
 	}
-	
-/**
-* Check the password, a user entered for test access
-*
-* @access public
-*/
-	function checkPassword()
+
+	/**
+	 * Check the password, a user entered for test access
+	 */
+	public function checkPassword()
 	{
 		if (strcmp($this->object->getPassword(), $_POST["password"]) == 0)
 		{
@@ -479,15 +459,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 		}
 	}
-	
-/**
-* Sets a session variable with the test access code for an anonymous test user
-*
-* Sets a session variable with the test access code for an anonymous test user
-*
-* @access public
-*/
-	function setAnonymousId()
+
+	/**
+	 * Sets a session variable with the test access code for an anonymous test user
+	 *
+	 * Sets a session variable with the test access code for an anonymous test user
+	 */
+	public function setAnonymousId()
 	{
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
@@ -594,9 +572,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 
-/**
-* Handles some form parameters on starting and resuming a test
-*/
+	/**
+	 * Handles some form parameters on starting and resuming a test
+	 */
 	public function handleUserSettings()
 	{
 		global $ilUser;
@@ -625,19 +603,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				}
 			}
 		}
-/*		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
-		{
-			global $ilias;
-			$ilias->auth->setIdle(0, false);					
-		}*/
 	}
-		
-/**
-* Calculates the sequence to determine the next question
-*
-* @access public
-*/
-	function calculateSequence() 
+
+	/**
+	 * Calculates the sequence to determine the next question
+	 */
+	public function calculateSequence() 
 	{
 		$sequence = $_GET["sequence"];
 		if (!$sequence) $sequence = $this->testSequence->getFirstSequence();
@@ -659,7 +630,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		return $sequence;
 	}
-	
+
 	function redirectAfterAutosaveCmd()
 	{
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");	
@@ -668,10 +639,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $this->ctrl->getLinkTarget($this, "redirectBack") . "\">");
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
 	function autosaveCmd()
 	{
-		global $ilLog;
 		$result = "";
 		if (is_array($_POST) && count($_POST) > 0)
 		{
@@ -695,8 +665,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 	
 	/**
-	* Toggle side list
-	*/
+	 * Toggle side list
+	 */
 	public function togglesidelistCmd()
 	{
 		global $ilUser;
@@ -726,8 +696,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->setParameter($this, "activecommand", "resetmarked");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
-	
-	
+
 	/**
 	 * Go to the question with the active sequence
 	 */
@@ -740,15 +709,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if (strlen($_GET['qst_selection'])) $_SESSION['qst_selection'] = $_GET['qst_selection'];
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
-	
-/**
-* Go back to the last active question from the summary
-*
-* Go back to the last active question from the summary
-*
-* @access public
-*/
-	function backFromSummaryCmd()
+
+	/**
+	 * Go back to the last active question from the summary
+	 *
+	 * Go back to the last active question from the summary
+	 */
+	public function backFromSummaryCmd()
 	{
 		$this->ctrl->setParameter($this, "activecommand", "back");
 		$this->ctrl->redirect($this, "redirectQuestion");
@@ -786,8 +753,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	function finishTestCmd($requires_confirmation = true)
 	{
-		global $ilUser;
-		global $ilAuth;
+		global $ilUser, $ilAuth;
 
 		unset($_SESSION["tst_next"]);
 
@@ -807,7 +773,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		 * - Last pass allowed (Reassuring the will to finish the test.)
 		 *      If passes are limited, on the last pass, an additional confirmation is to be displayed.
 		 */
-
 
 		// Obligations fulfilled? redirectQuestion : one or the other summary -> no finish
 		if( $this->object->areObligationsEnabled() && !$allObligationsAnswered )
@@ -903,11 +868,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if ($this->object->getSignSubmission() 
 			&& is_array($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig')))
 		{
-			/** @var $ilCtrl ilCtrl */
-			$ilCtrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
-			// "mahma"
-			// wieder hierher kommen
-			// fertschmachn
+			$key = 'signed_'. $active_id .'_'. ($actualpass-1);
+			$val = ilSession::get($key);
+			if (is_null($val))
+			{
+				/** @var $ilCtrl ilCtrl */
+				$ilCtrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
+			}
 		}
 		
 		// Redirect after test

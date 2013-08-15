@@ -4,27 +4,34 @@
 require_once 'Services/Export/classes/class.ilExportGUI.php';
 
 /**
- * Signature Plugin Interface Class
+ * Signature Plugin Class
  * @author       Maximilian Becker <mbecker@databay.de>
+ *               
  * @version      $Id$
+ *               
  * @ingroup      ModulesTest
- * @ilCtrl_isCalledBy ilTestSignatureGUI: ilTestOutputGUI
+ *               
+ * @ilCtrl_isCalledBy 	ilTestSignatureGUI: ilTestOutputGUI
+ * @ilCtrl_calls 		ilTestSignatureGUI: ilTestOutputGUI, ilTestEvaluationGUI
  */
 class ilTestSignatureGUI 
 {
-	/** @var \ilLanguage */
+	/** @var $lng \ilLanguage */
 	protected $lng;
 
 	/** @var $ilCtrl ilCtrl */
 	protected $ilCtrl;
 
-	/** @var \ilTemplate  */
+	/** @var $tpl \ilTemplate  */
 	protected $tpl;
 
-	/** @var \ilObjTestGUI */
+	/** @var $testGUI \ilObjTestGUI */
 	protected $testGUI;
+	
+	/** @var $ilTestOutputGUI \ilTestOutputGUI */
+	protected $ilTestOutputGUI;
 
-	/** @var \ilObjTest */
+	/** @var $test \ilObjTest */
 	protected $test;
 
 	/** @var \ilTestSignaturePlugin */
@@ -53,6 +60,16 @@ class ilTestSignatureGUI
 
 		switch($next_class)
 		{
+			case 'iltestoutputgui':
+				$ret = $this->ilCtrl->forwardCommand($this->ilTestOutputGUI);
+				break;
+			
+			case 'iltestevaluationgui':
+				require_once './Modules/Test/classes/class.ilTestEvaluationGUI.php';
+				$evaluation_gui = new ilTestEvaluationGUI($this->getTest());
+				$this->ilCtrl->forwardCommand($evaluation_gui);
+				break;
+			
 			default:
 				$ret = $this->dispatchCommand();
 				break;
@@ -62,6 +79,13 @@ class ilTestSignatureGUI
 
 	protected function dispatchCommand()
 	{
+		/** @var $ilUser ilObjUser */
+		global $ilUser;
+		$active = $this->test->getActiveIdOfUser($ilUser->getId());
+		$pass = $this->test->_getMaxPass($active);
+		$key = 'signed_'. $active .'_'. $pass;
+		ilSession::set($key, null);
+
 		$cmd = $this->ilCtrl->getCmd();
 		switch ($cmd)
 		{
@@ -70,5 +94,53 @@ class ilTestSignatureGUI
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * @param \ilObjTest $test
+	 */
+	public function setTest($test)
+	{
+		$this->test = $test;
+	}
+
+	/**
+	 * @return \ilObjTest
+	 */
+	public function getTest()
+	{
+		return $this->test;
+	}
+
+	/**
+	 * @param \ilObjTestGUI $testGUI
+	 */
+	public function setTestGUI($testGUI)
+	{
+		$this->testGUI = $testGUI;
+	}
+
+	/**
+	 * @return \ilObjTestGUI
+	 */
+	public function getTestGUI()
+	{
+		return $this->testGUI;
+	}
+
+	/**
+	 * This is to be called by the plugin at the end of the signature process to redirect the user back to the test.
+	 */
+	public function redirectToTest($success)
+	{
+		/** @var $ilCtrl ilCtrl */
+		/** @var $ilUser ilObjUser */
+		global $ilCtrl, $ilUser;
+		$active = $this->test->getActiveIdOfUser($ilUser->getId());
+		$pass = $this->test->_getMaxPass($active);
+		$key = 'signed_'. $active .'_'. $pass;
+		ilSession::set($key, $success);
+		$ilCtrl->redirectByClass('ilTestOutputGUI','finishTest');
+		return;
 	}
 }
