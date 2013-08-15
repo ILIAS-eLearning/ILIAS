@@ -5,9 +5,14 @@ require_once 'Services/Export/classes/class.ilExportGUI.php';
 
 /**
  * Export User Interface Class
+ * 
  * @author       Michael Jansen <mjansen@databay.de>
+ * @author       Maximilian Becker <mbecker@databay.de>
+ *               
  * @version      $Id$
+ *               
  * @ingroup      ModulesTest
+ *               
  * @ilCtrl_Calls ilTestExportGUI:
  */
 class ilTestExportGUI extends ilExportGUI
@@ -15,11 +20,12 @@ class ilTestExportGUI extends ilExportGUI
 	public function __construct($a_parent_gui, $a_main_obj = null)
 	{
 		global $ilPluginAdmin;
-		
+
 		parent::__construct($a_parent_gui, $a_main_obj);
-		
+
 		$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
 		$this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
+		$this->addFormat('arc', $a_parent_gui->lng->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'texp');
 		foreach($pl_names as $pl)
 		{
@@ -36,7 +42,7 @@ class ilTestExportGUI extends ilExportGUI
 			);
 		}
 	}
-	
+
 	/**
 	 * Create test export file
 	 */
@@ -72,10 +78,26 @@ class ilTestExportGUI extends ilExportGUI
 		ilUtil::sendSuccess($lng->txt('exp_file_created'), true);
 		$ilCtrl->redirectByClass('iltestexportgui');
 	}
-	
-	/**
-	 *
-	 */
+
+	function createTestArchiveExport()
+	{
+		global $ilAccess, $ilCtrl;
+
+		if ($ilAccess->checkAccess("write", "", $this->obj->ref_id))
+		{
+			include_once("./Modules/Test/classes/class.ilTestArchiver.php");
+			$test_id = $this->obj->getId();
+			$archive_exp = new ilTestArchiver($test_id);
+			$archive_exp->updateTestArchive();
+			$archive_exp->compressTestArchive();
+		}
+		else
+		{
+			ilUtil::sendInfo("cannot_export_archive", TRUE);
+		}
+		$ilCtrl->redirectByClass('iltestexportgui');
+	}
+
 	public function listExportFiles()
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $lng;
@@ -101,6 +123,11 @@ class ilTestExportGUI extends ilExportGUI
 			$ilToolbar->addFormButton($lng->txt("exp_create_file") . " (" . $format["txt"] . ")", "create_" . $format["key"]);
 		}
 
+		require_once 'class.ilTestArchiver.php';
+		$archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
+		$archive_dir = $archiver->getZipExportDirectory();
+		$archive_files = scandir($archive_dir);
+
 		$export_dir   = $this->obj->getExportDirectory();
 		$export_files = $this->obj->getExportFiles($export_dir);
 		$data         = array();
@@ -117,6 +144,23 @@ class ilTestExportGUI extends ilExportGUI
 			}
 		}
 
+		if(count($archive_files) > 0)
+		{
+			foreach($archive_files as $exp_file)
+			{
+				if ($exp_file == '.' || $exp_file == '..')
+				{
+					continue;
+				}
+				$file_arr = explode("_", $exp_file);
+				array_push($data, array(
+									'file' => $exp_file,
+									'size' => filesize($archive_dir."/".$exp_file),
+									'timestamp' => $file_arr[4]
+								));
+			}
+		}
+
 		require_once 'Modules/Test/classes/tables/class.ilTestExportTableGUI.php';
 		$table = new ilTestExportTableGUI($this, 'listExportFiles', $this->obj);
 		$table->setSelectAllCheckbox("file");
@@ -124,17 +168,16 @@ class ilTestExportGUI extends ilExportGUI
 		{
 			$table->addCustomColumn($c["txt"], $c["obj"], $c["func"]);
 		}
+		
 		foreach($this->getCustomMultiCommands() as $c)
 		{
 			$table->addCustomMultiCommand($c["txt"], "multi_".$c["func"]);
 		}
+
 		$table->setData($data);
 		$tpl->setContent($table->getHTML());
 	}
 
-	/**
-	 *
-	 */
 	public function download()
 	{
 		/**
@@ -142,7 +185,7 @@ class ilTestExportGUI extends ilExportGUI
 		 * @var $ilCtrl ilCtrl
 		 */
 		global $lng, $ilCtrl;
-		
+
 		if(!isset($_POST['file']))
 		{
 			ilUtil::sendInfo($lng->txt('no_checkbox'), true);
@@ -155,8 +198,21 @@ class ilTestExportGUI extends ilExportGUI
 			$ilCtrl->redirect($this, 'listExportFiles');
 		}
 
+		require_once 'class.ilTestArchiver.php';
+		$archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
+		$archive_dir = $archiver->getZipExportDirectory();
+
 		$export_dir = $this->obj->getExportDirectory();
-		ilUtil::deliverFile($export_dir . '/' . $_POST['file'][0], $_POST['file'][0]);
+
+		if (file_exists($export_dir . '/' . $_POST['file'][0]))
+		{
+			ilUtil::deliverFile($export_dir . '/' . $_POST['file'][0], $_POST['file'][0]);
+		}
+
+		if (file_exists($archive_dir . '/' . $_POST['file'][0]))
+		{
+			ilUtil::deliverFile($archive_dir . '/' . $_POST['file'][0], $_POST['file'][0]);
+		}
 	}
 
 	/**
@@ -169,7 +225,7 @@ class ilTestExportGUI extends ilExportGUI
 		 * @var $ilCtrl ilCtrl
 		 */
 		global $lng, $ilCtrl;
-		
+
 		$export_dir = $this->obj->getExportDirectory();
 		foreach($_POST['file'] as $file)
 		{

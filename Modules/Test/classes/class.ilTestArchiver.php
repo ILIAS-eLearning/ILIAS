@@ -356,6 +356,24 @@ class ilTestArchiver
 			$outfile_lines .= "\r\n" . implode("\t", $row);
 		}
 		file_put_contents($this->getTestArchive() . self::DIR_SEP . self::TEST_LOG_FILENAME, $outfile_lines);
+
+		// Generate test pass overview
+		$test = new ilObjTest($this->test_obj_id, false);
+		$gui = new ilObjTestGUI();
+		$gui->object = $test;
+		$array_of_actives = array();
+		$participants = $test->getParticipants();
+
+		foreach($participants as $key => $value)
+		{
+			$array_of_actives[] = $key;
+		}
+		$output_template = $gui->createUserResults(true, false, true, $array_of_actives);
+
+		require_once 'class.ilTestPDFGenerator.php';
+		$filename = $this->getTestArchive() . self::DIR_SEP . 'participant_pass_overview.pdf';
+		ilTestPDFGenerator::generatePDF($output_template->get(), ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
+		
 		return;
 	}
 

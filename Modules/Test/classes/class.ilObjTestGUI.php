@@ -566,7 +566,56 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->show();
 		}
 	}
-	
+
+	/**
+	 * @param $show_pass_details
+	 * @param $show_answers
+	 * @param $show_reached_points
+	 * @param $show_user_results
+	 *
+	 * @return ilTemplate
+	 */
+	public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results)
+	{
+		$template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", TRUE, TRUE, "Modules/Test");
+		include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
+		$serviceGUI = new ilTestServiceGUI($this->object);
+		$count      = 0;
+		foreach ($show_user_results as $key => $active_id)
+		{
+			$count++;
+			$results = "";
+			if ($this->object->getFixedParticipants())
+			{
+				$active_id = $this->object->getActiveIdOfUser( $active_id );
+			}
+			if ($active_id > 0)
+			{
+				$results = $serviceGUI->getResultsOfUserOutput(
+					$this->testSessionFactory->getSession( $active_id ),
+					$active_id,
+					$this->object->_getResultPass( $active_id ),
+					$show_pass_details,
+					$show_answers,
+					FALSE,
+					$show_reached_points
+				);
+			}
+			if ($count < count( $show_user_results ))
+			{
+				$template->touchBlock( "break" );
+			}
+			$template->setCurrentBlock( "user_result" );
+			$template->setVariable( "USER_RESULT", $results );
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable( "BACK_TEXT", $this->lng->txt( "back" ) );
+		$template->setVariable( "BACK_URL", $this->ctrl->getLinkTargetByClass( "ilobjtestgui", "participants" ) );
+		$template->setVariable( "PRINT_TEXT", $this->lng->txt( "print" ) );
+		$template->setVariable( "PRINT_URL", "javascript:window.print();" );
+		return $template;
+	}
+
 	private function redirectTo_ilObjTestSettingsGeneralGUI_showForm_Object()
 	{
 		require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
@@ -3387,45 +3436,17 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function showUserResults($show_pass_details, $show_answers, $show_reached_points = FALSE)
 	{
-		$template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", TRUE, TRUE, "Modules/Test");
+		$show_user_results = $_SESSION["show_user_results"];
 		
-		if (count($_SESSION["show_user_results"]) == 0)
+		if (count($show_user_results) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("select_one_user"), TRUE);
 			$this->ctrl->redirect($this, "participants");
 		}
 
-		include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
-		$serviceGUI =& new ilTestServiceGUI($this->object);
-		$count = 0;
-		foreach ($_SESSION["show_user_results"] as $key => $active_id)
-		{
-			$count++;
-			$results = "";
-			if ($this->object->getFixedParticipants())
-			{
-				$active_id = $this->object->getActiveIdOfUser($active_id);
-			}
-			if ($active_id > 0)
-			{
-				$results = $serviceGUI->getResultsOfUserOutput(
-					$this->testSessionFactory->getSession($active_id), $active_id, $this->object->_getResultPass($active_id),
-					$show_pass_details, $show_answers, FALSE, $show_reached_points
-				);
-			}
-			if ($count < count($_SESSION["show_user_results"]))
-			{
-				$template->touchBlock("break");
-			}
-			$template->setCurrentBlock("user_result");
-			$template->setVariable("USER_RESULT", $results);
-			$template->parseCurrentBlock();
-		}
-		$template->setVariable("BACK_TEXT", $this->lng->txt("back"));
-		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
-		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$template->setVariable("PRINT_URL", "javascript:window.print();");
-		
+
+		$template = $this->createUserResults( $show_pass_details, $show_answers, $show_reached_points, $show_user_results);
+
 		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
