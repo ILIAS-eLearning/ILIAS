@@ -420,7 +420,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function showPossibleSubObjects()
 	{							
 		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
-		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());		
 		$gui->render();
 	}
 	
