@@ -17468,3 +17468,15 @@ if($orgu_type_id)
 	array($orgu_employee_contributor_tpl_id, 8, "n", "n"));
 	}
 ?>
+<#4036>
+<?php
+if( !$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'source_qpl_title') )
+{
+	$ilDB->addTableColumn('tst_dyn_quest_set_cfg', 'source_qpl_title', array(
+		'type' => 'text',
+		'length'  => 255,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
