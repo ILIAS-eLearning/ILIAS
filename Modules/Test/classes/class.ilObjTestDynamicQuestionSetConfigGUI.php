@@ -244,7 +244,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$form->setId("tst_form_dynamic_question_set_config");
 		$form->setTitle($this->lng->txt('tst_form_dynamic_question_set_config'));
 		$form->setTableWidth("100%");
-		
+
 		if( $this->testOBJ->participantDataExist() )
 		{
 			$pool = new ilNonEditableValueGUI($this->lng->txt('tst_input_dynamic_question_set_source_questionpool'), 'source_qpl_title');
