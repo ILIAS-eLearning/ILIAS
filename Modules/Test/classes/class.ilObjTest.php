@@ -4436,7 +4436,7 @@ function getAnswerFeedbackPoints()
 	* @return array An array containing the test results for the given user
 	* @access public
 	*/
-	function &getTestResult($testSequence, $active_id, $pass = NULL, $ordered_sequence = FALSE)
+	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE)
 	{
 		global $ilDB, $lng, $ilPluginAdmin;
 
@@ -4463,24 +4463,22 @@ function getAnswerFeedbackPoints()
 			
 			$testSequence->loadFromDb($dynamicQuestionSetConfig);
 			$testSequence->loadQuestions($dynamicQuestionSetConfig, array());
+			
+			$sequence = $testSequence->getUserSequenceQuestions();
 		}
 		else
 		{
 			$testSequence->loadFromDb();
 			$testSequence->loadQuestions();
-		}
-		
-		
-				
-		$sequence = array();
-		
-		if( $ordered_sequence )
-		{
-			$sequence = $testSequence->getOrderedSequenceQuestions();
-		}
-		else
-		{
-			$sequence = $testSequence->getUserSequenceQuestions();
+			
+			if( $ordered_sequence )
+			{
+				$sequence = $testSequence->getOrderedSequenceQuestions();
+			}
+			else
+			{
+				$sequence = $testSequence->getUserSequenceQuestions();
+			}
 		}
 		
 		$arrResults = array();
@@ -4511,7 +4509,7 @@ function getAnswerFeedbackPoints()
 		{
 			$arrResults[ $row['question_fi'] ] = $row;
 		}
-			
+
 		require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		
 		$IN_question_ids = $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer');

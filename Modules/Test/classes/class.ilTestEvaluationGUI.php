@@ -799,7 +799,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$testSession = $this->testSessionFactory->getSession($active_id);
 		
 		$result_array =& $this->object->getTestResult($active_id, $pass);
-
+		
 		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outParticipantsPassDetails");		
 		$user_data = $this->getResultsUserdata($testSession, $active_id, FALSE);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
