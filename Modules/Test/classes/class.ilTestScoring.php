@@ -79,6 +79,7 @@ class ilTestScoring
 				$this->recalculateQuestionScore( $question_gui, $active_id, $pass, $questiondata );
 			}
 		}
+		
 	}
 
 	/**

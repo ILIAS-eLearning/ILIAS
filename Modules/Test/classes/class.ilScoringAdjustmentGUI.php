@@ -123,24 +123,24 @@ class ilScoringAdjustmentGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", "Modules/Test");
 
 		$this->tpl->setCurrentBlock("adm_content");
-		
+
 		include_once "./Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php";
 		$checked_move = is_array($_SESSION['tst_qst_move_' . $this->object->getTestId()]) 
 			&& (count($_SESSION['tst_qst_move_' . $this->object->getTestId()]));
-		
+
 		$table_gui = new ilTestQuestionsTableGUI(
 			$this, 
 			'questions', 
 			(($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), 
 			$checked_move, 0);
-		
+
 		$data = $this->object->getTestQuestions();
 		// @TODO Ask object for random test.
 		if (!$data)
 		{
 			$this->object->getPotentialRandomTestQuestions();
 		}
-		
+
 		$filtered_data = array();
 		foreach($data as $question)
 		{
@@ -152,14 +152,14 @@ class ilScoringAdjustmentGUI
 			}
 		}
 		$table_gui->setData($filtered_data);
-		
+
 		$table_gui->clearActionButtons();
 		$table_gui->clearCommandButtons();
 		$table_gui->multi = array();
 		$table_gui->setRowTemplate('tpl.il_as_tst_adjust_questions_row.html', 'Modules/Test');
 		$table_gui->header_commands = array();
 		$table_gui->setSelectAllCheckbox(null);
-		
+
 		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
@@ -177,7 +177,7 @@ class ilScoringAdjustmentGUI
 		return ($question_object instanceof ilGuiQuestionScoringAdjustable
 			|| $question_object instanceof ilGuiAnswerScoringAdjustable)
 			&& ($question_object->object instanceof ilObjQuestionScoringAdjustable
-				|| $question_object->object instanceof ilObjAnswerScoringAdjustable);
+			|| $question_object->object instanceof ilObjAnswerScoringAdjustable);
 	}
 
 	protected function editQuestion()
@@ -249,9 +249,9 @@ class ilScoringAdjustmentGUI
 		$question_id = $_POST['q_id'];
 		$question_pool_id = $_POST['qpl_id'];
 		$form = $this->buildAdjustQuestionForm($question_id, $question_pool_id);
-		
+
 		$form->setValuesByPost($_POST);
-		
+
 		if (!$form->checkInput())
 		{
 			ilUtil::sendFailure($this->lng->txt('adjust_question_form_error'));
@@ -262,7 +262,7 @@ class ilScoringAdjustmentGUI
 		require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
-		
+
 		if ($question instanceof ilObjQuestionScoringAdjustable)
 		{
 			$question->writeQuestionSpecificPostData(true);
@@ -280,7 +280,7 @@ class ilScoringAdjustmentGUI
 		require_once './Modules/Test/classes/class.ilTestScoring.php';
 		$scoring = new ilTestScoring($this->object);
 		$scoring->recalculateSolutions();
-		
+
 		ilUtil::sendSuccess($this->lng->txt('saved_adjustment'));
 		$this->questionsObject();
 		

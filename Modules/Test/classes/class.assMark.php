@@ -1,37 +1,16 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. | 
-   +----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* A class defining marks for assessment test objects
-* 
-* A class defining marks for assessment test objects
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @ingroup ModulesTest
-*/
+ * A class defining marks for assessment test objects
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ *          
+ * @version	$Id$
+ * @ingroup ModulesTest
+ */
 class ASS_Mark {
 /**
 * The short name of the mark
@@ -195,12 +174,18 @@ class ASS_Mark {
 */
   function setMinimumLevel($minimum_level) 
   {
-	  $minimum_level = (float) $minimum_level;
+	$minimum_level = (float) $minimum_level;
+	/*
+	 * Due to a defect in import, non-numeric levels get casted
+	 * to zero using the above statement. Accordingly, no exception
+	 * is thrown. @todo Get this clean.
 	if (!is_numeric($minimum_level))
 	{
 		throw new Exception ('Markstep: minimum level must be numeric.');
 	}
-    else if (($minimum_level >= 0) && ($minimum_level <= 100))
+    else
+	*/
+	if (($minimum_level >= 0) && ($minimum_level <= 100))
 	{
       $this->minimum_level = $minimum_level;
 	}

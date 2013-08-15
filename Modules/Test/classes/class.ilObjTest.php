@@ -4954,13 +4954,12 @@ function getAnswerFeedbackPoints()
 		return $totalpoints_array;
 	}
 
-/**
-* Returns all persons who started the test
-*
-* @return arrary The active ids, names and logins of the persons who started the test
-* @access public
-*/
-	function &getParticipants()
+	/**
+	 * Returns all persons who started the test
+	 *
+	 * @return array The active ids, names and logins of the persons who started the test
+	*/
+	public function &getParticipants()
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_active.active_id, usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname ASC",
