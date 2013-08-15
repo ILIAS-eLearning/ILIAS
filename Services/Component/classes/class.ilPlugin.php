@@ -907,7 +907,7 @@ abstract class ilPlugin
 				$plugins[] = $rec["name"];
 			}
 		}
-		
+
 		return $plugins;
 	}
 	
