@@ -867,7 +867,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		/** @var $ilPluginAdmin ilPluginAdmin */
 		global $ilPluginAdmin, $ilCtrl;
 		if ($this->object->getSignSubmission() 
-			&& count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig')) == 0)
+			&& count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig')) != 0)
 		{
 			$key = 'signed_'. $active_id .'_'. ($actualpass-1);
 			$val = ilSession::get($key);
