@@ -3988,7 +3988,7 @@ class ilObjTestGUI extends ilObjectGUI
 		 * */
 		if($big_button)
 		{
-			$ilToolbar->setFormAction($this->ctrl->getFormActionByClass('ilTestOutputGUI', "infoScreen"));
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($testPlayerGUI));
 			foreach($big_button as $button)
 			{
 				$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
