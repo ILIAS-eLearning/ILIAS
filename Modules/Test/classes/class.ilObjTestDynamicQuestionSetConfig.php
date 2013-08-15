@@ -76,6 +76,26 @@ class ilObjTestDynamicQuestionSetConfig
 	{
 		$this->sourceQuestionPoolId = (int)$sourceQuestionPoolId;
 	}
+	
+	/**
+	 * getter for source question pool title
+	 * 
+	 * @return string
+	 */
+	public function getSourceQuestionPoolTitle()
+	{
+		return $this->sourceQuestionPoolTitle;
+	}
+
+	/**
+	 * getter for source question pool title
+	 * 
+	 * @param string $sourceQuestionPoolTitle
+	 */
+	public function setSourceQuestionPoolTitle($sourceQuestionPoolTitle)
+	{
+		$this->sourceQuestionPoolTitle = $sourceQuestionPoolTitle;
+	}
 
 	/**
 	 * isser for taxonomie filter enabled
@@ -130,6 +150,7 @@ class ilObjTestDynamicQuestionSetConfig
 			switch($field)
 			{
 				case 'source_qpl_fi':			$this->setSourceQuestionPoolId($value);		break;
+				case 'source_qpl_title':		$this->setSourceQuestionPoolTitle($value);	break;
 				case 'tax_filter_enabled':		$this->setTaxonomyFilterEnabled($value);	break;
 				case 'order_tax':				$this->setOrderingTaxonomyId($value);		break;
 			}
@@ -216,6 +237,7 @@ class ilObjTestDynamicQuestionSetConfig
 		$aff = $this->db->update('tst_dyn_quest_set_cfg',
 			array(
 				'source_qpl_fi' => array('integer', $this->getSourceQuestionPoolId()),
+				'source_qpl_title' => array('text', $this->getSourceQuestionPoolTitle()),
 				'tax_filter_enabled' => array('integer', $this->isTaxonomyFilterEnabled()),
 				'order_tax' => array('integer', $this->getOrderingTaxonomyId())
 			),
@@ -238,6 +260,7 @@ class ilObjTestDynamicQuestionSetConfig
 		$aff = $this->db->insert('tst_dyn_quest_set_cfg', array(
 				'test_fi' => array('integer', $this->testOBJ->getTestId()),
 				'source_qpl_fi' => array('integer', $this->getSourceQuestionPoolId()),
+				'source_qpl_title' => array('text', $this->getSourceQuestionPoolTitle()),
 				'tax_filter_enabled' => array('integer', $this->isTaxonomyFilterEnabled()),
 				'order_tax' => array('integer', $this->getOrderingTaxonomyId())
 		));
