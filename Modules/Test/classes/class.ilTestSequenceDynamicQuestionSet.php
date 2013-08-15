@@ -294,6 +294,11 @@ class ilTestSequenceDynamicQuestionSet
 		return $questionList;
 	}
 	
+	public function getTrackedQuestionCount()
+	{
+		return count($this->questionTracking);
+	}
+	
 	public function getCurrentPositionIndex($questionId)
 	{
 		$i = 0;
