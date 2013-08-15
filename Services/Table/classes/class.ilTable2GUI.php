@@ -555,9 +555,9 @@ class ilTable2GUI extends ilTableGUI
 			}
 			if(sizeof($invalid))
 			{
-				trigger_error("The following columns are defined as sortable but".
-					" cannot be found in the given data: ".implode(", ", $invalid).
-					". Sorting will not work properly.", E_USER_WARNING);
+//				trigger_error("The following columns are defined as sortable but".
+//					" cannot be found in the given data: ".implode(", ", $invalid).
+//					". Sorting will not work properly.", E_USER_WARNING);
 			}
 		}
 		

@@ -13630,3 +13630,40 @@ content#:#cont_verification_placehl#:#Zertifikat-Platzhalter
 content#:#cont_ed_plachverification#:#Platzhalter Zertifikat
 cld#:#cld_auth_failed_no_object_created#:#Authentifzierung fehlgeschlagen, es wurde kein Cloud Objekt angelegt.
 dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
+common#:#objs_orgu#:#Organisationseinheiten
+common#:#obj_orgu#:#Organisationseinheit
+orgu#:#view_learning_progress#:#Lernfortschritt Einsehen
+orgu#:#il_orgu_employee#:#Angestellter
+orgu#:#il_orgu_superior#:#Vorgesetzter
+orgu#:#orgu_staff#:#Mitarbeiter
+orgu#:#orgu_view_learning_progress_rec#:#Lernfortschritt Rekursiv Einsehen
+orgu#:#Staff#:#Staff
+orgu#:#orgu_edit#:#Bearbeiten
+orgu#:#employee#:#Angestellter
+orgu#:#Employee#:#Angestellter
+orgu#:#superior#:#Vorgesetzter
+orgu#:#Superior#:#Vorgesetzter
+orgu#:#Actions#:#Aktionen
+orgu#:#show_learning_progress#:#Zeige Lernfortschritt
+orgu#:#users_successfuly_added#:#Der Benutzer wurde erfolgreich eingetragen.
+orgu#:#change_to_superior#:#Zu Vorgesetzen wechseln
+orgu#:#change_to_employee#:#Zu Angestellte wechseln
+orgu#:#user_changed_successful#:#Der Benutzer wurde erfolgreich umgeschrieben.
+orgu#:#ou_id_type_not_valid#:#Der ou_id Typ ist nicht gültig. Gültig sind: "reference_id" oder "external_id".
+orgu#:#ou_parent_id_not_valid#:#Der ou_parent_id Typ ist nicht gültig. Gültig sind: "reference_id" oder "external_id".
+orgu#:#import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu erstellt: %s, Bearbeitet/Verschoben: %s, Gelöscht: %s.
+orgu#:#import_terminated_with_warnings#:#Der Import hat Warnungen erzeugt
+orgu#:#import_terminated_with_errors#:#Der Import hat Fehler erkannt, einige Organisationseinheiten konnten nicht erzeugt, respektive bearbeitet werden.
+orgu#:#import_failed#:#Der Import ist fehlgeschlagen. Stellen Sie sicher, dass die Datei im XML Format ist und eine valide Struktur aufweist.
+orgu#:#orgu_already_deleted#:#Das Objekt wurde bereits gelöscht.
+orgu#:#orgu_new#:#Neue Organisationseinheit
+orgu#:#orgu_add#:#Organisationseinheit hinzufügen
+orgu#:#orgu_import#:#Organisationseinheit importieren
+orgu#:#orgu_copy#:#Organisationseinheit kopieren
+orgu#:#obj_orgu_duplicate#:#Organisationseinheit duplizieren
+orgu#:#local_staff#:#Mitarbeiter %s
+orgu#:#rec_staff#:#Mitarbeiter %s und nachfolgend
+orgu#:#placeholder#:#...
+orgu#:#simple_import#:#Simple XML Import
+orgu#:#simple_xml#:#Simple XML Export
+orgu#:#import_xml_file#:#Import Datei
