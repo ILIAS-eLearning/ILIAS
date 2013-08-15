@@ -287,6 +287,11 @@ class ilObjTestDynamicQuestionSetConfig
 		$this->deleteFromDb();
 	}
 	
+	/**
+	 * @param ilLanguage $lng
+	 * @param ilTree $tree
+	 * @return string
+	 */
 	public function getSourceQuestionPoolSummaryString(ilLanguage $lng, ilTree $tree)
 	{
 		$sourceQuestionPoolSummaryString = sprintf(
@@ -299,6 +304,10 @@ class ilObjTestDynamicQuestionSetConfig
 		return $sourceQuestionPoolSummaryString;
 	}
 	
+	/**
+	 * @param ilTree $tree
+	 * @return string
+	 */
 	private function getSourceQuestionPoolPathString(ilTree $tree)
 	{
 		$nodePath = $tree->getNodePath(
@@ -330,6 +339,9 @@ class ilObjTestDynamicQuestionSetConfig
 		return $sourceQuestionPoolPathString;
 	}
 	
+	/**
+	 * @return integer
+	 */
 	private function getSourceQuestionPoolNumQuestions()
 	{
 		$query = "
