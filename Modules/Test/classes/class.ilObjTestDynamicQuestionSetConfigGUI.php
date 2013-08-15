@@ -192,7 +192,11 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$this->questionSetConfig->setSourceQuestionPoolId(
 				$form->getItemByPostVar('source_qpl_id')->getValue()
 		);
-		
+
+		$this->questionSetConfig->setSourceQuestionPoolTitle( ilObject::_lookupTitle(
+				$form->getItemByPostVar('source_qpl_id')->getValue()
+		));
+
 		switch( $form->getItemByPostVar('question_ordering')->getValue() )
 		{
 			case self::QUESTION_ORDERING_TYPE_UPDATE_DATE:
@@ -233,13 +237,23 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$form->setTitle($this->lng->txt('tst_form_dynamic_question_set_config'));
 		$form->setTableWidth("100%");
 		
-		$poolInput = new ilSelectInputGUI($this->lng->txt('tst_input_dynamic_question_set_source_questionpool'), 'source_qpl_id');
-		$poolInput->setOptions($this->buildQuestionPoolSelectInputOptionArray(
-				$this->testOBJ->getAvailableQuestionpools(true, false, false, true, true)
-		));
-		$poolInput->setValue( $this->questionSetConfig->getSourceQuestionPoolId() );
-		$poolInput->setRequired(true);
-		$form->addItem($poolInput);
+		if( $this->testOBJ->participantDataExist() )
+		{
+			$pool = new ilNonEditableValueGUI($this->lng->txt('tst_input_dynamic_question_set_source_questionpool'), 'source_qpl_title');
+			$pool->setValue( $this->questionSetConfig->getSourceQuestionPoolTitle() );
+			$pool->setDisabled(true);
+			$form->addItem($pool);
+		}
+		else
+		{
+			$poolInput = new ilSelectInputGUI($this->lng->txt('tst_input_dynamic_question_set_source_questionpool'), 'source_qpl_id');
+			$poolInput->setOptions($this->buildQuestionPoolSelectInputOptionArray(
+					$this->testOBJ->getAvailableQuestionpools(true, false, false, true, true)
+			));
+			$poolInput->setValue( $this->questionSetConfig->getSourceQuestionPoolId() );
+			$poolInput->setRequired(true);
+			$form->addItem($poolInput);
+		}
 		
 		$questionOderingInput = new ilRadioGroupInputGUI(
 				$this->lng->txt('tst_input_dynamic_question_set_question_ordering'), 'question_ordering'
@@ -277,8 +291,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 
 		if( $this->testOBJ->participantDataExist() )
 		{
-			$poolInput->setDisabled(true);
-			$taxOrderInput->setDisabled(true);
+			$questionOderingInput->setDisabled(true);
 			$taxFilterInput->setDisabled(true);
 		}
 		
