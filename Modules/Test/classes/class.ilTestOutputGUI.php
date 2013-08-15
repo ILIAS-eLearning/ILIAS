@@ -1,23 +1,21 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
+require_once './Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
 
 /**
  * Output class for assessment test execution
  *
- * The ilTestOutputGUI class creates the output for the ilObjTestGUI
- * class when learners execute a test. This saves some heap space because 
- * the ilObjTestGUI class will be much smaller then
- *
- * @extends ilTestPlayerAbstractGUI
+ * The ilTestOutputGUI class creates the output for the ilObjTestGUI class when learners execute a test. This saves
+ * some heap space because the ilObjTestGUI class will be much smaller then
  * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ *          
  * @version		$Id$
  * 
- * @package		Modules/Test
+ * @inGroup		ModulesTest
  * 
  * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionHintRequestGUI, ilAssSpecFeedbackPageGUI, ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilTestOutputGUI: ilTestSignatureGUI
@@ -105,13 +103,13 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 		return $ret;
 	}
-	
+
 	protected function startTestCmd()
 	{
 		$_GET['activecommand'] = 'start';
 		$this->redirectQuestionCmd();
 	}
-	
+
 	/**
 	 * Go to the next question
 	 */
@@ -121,7 +119,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameter($this, "activecommand", "next");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
-	
+
 	/**
 	 * Go to the previous question
 	 */
@@ -131,7 +129,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameter($this, "activecommand", "previous");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
-	
+
 	/**
 	 * Called when a user answered a question to perform a redirect after POST.
 	 * This is called for security reasons to prevent users sending a form twice.
@@ -355,7 +353,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 		}
 	}
-	
+
 	/**
 	 * Creates the learners output of a question
 	 */
@@ -580,12 +578,12 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		return $sequence == $this->testSequence->getFirstSequence();
 	}
-	
+
 	protected function isLastQuestionInSequence(assQuestionGUI $question_gui)
 	{
 		return $this->testSequence->getQuestionForSequence($this->testSequence->getLastSequence()) == $question_gui->object->getId();
 	}
-	
+
 	/**
 	 * Returns TRUE if the answers of the current user could be saved
 	 *
@@ -595,7 +593,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 {
 		 return !$this->object->endingTimeReached() && !$this->isMaxProcessingTimeReached() && !$this->isNrOfTriesReached();
 	 }
-	 
+	
 	/**
 	 * saves the user input of a question
 	 */
@@ -652,7 +650,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 		return $this->saveResult;
 	}
-	
+
 	protected function showInstantResponseCmd()
 	{
 		$this->saveQuestionSolution();
@@ -680,7 +678,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameter($this, "activecommand", "summary");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
-	
+
 	/**
 	 * Postpone a question to the end of the test
 	 *
@@ -692,7 +690,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameter($this, "activecommand", "postpone");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
-	
+
 	protected function handleQuestionActionCmd()
 	{
 		$this->updateWorkingTime();
