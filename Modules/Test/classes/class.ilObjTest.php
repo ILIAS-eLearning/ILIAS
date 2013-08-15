@@ -8359,6 +8359,8 @@ function getAnswerFeedbackPoints()
 /**
 * Retrieves the best pass of a given user for a given test
 *
+ * @global ilLog $ilLog
+ * @global ILIAS $ilias
 * @param integer $user_id The user id
 * @param integer $test_id The test id
 * @return integer The best pass of the user for the given test
@@ -8378,7 +8380,14 @@ function getAnswerFeedbackPoints()
 			$bestfactor = 0;
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$factor = $row["points"] / $row["maxpoints"];
+				if($row["maxpoints"] > 0)
+				{
+					$factor = $row["points"] / $row["maxpoints"];
+				}
+				else
+				{
+					$factor = 0;
+				}
 				
 				if($factor > $bestfactor)
 				{
