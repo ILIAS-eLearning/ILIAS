@@ -294,12 +294,30 @@ class ilObjTestDynamicQuestionSetConfig
 	 */
 	public function getSourceQuestionPoolSummaryString(ilLanguage $lng, ilTree $tree)
 	{
-		$sourceQuestionPoolSummaryString = sprintf(
-				$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
-				$this->getSourceQuestionPoolTitle(),
-				$this->getSourceQuestionPoolPathString($tree),
-				$this->getSourceQuestionPoolNumQuestions()
-		);
+		if( $tree->isDeleted(current(ilObject::_getAllReferences($this->getSourceQuestionPoolId()))) )
+		{
+			$sourceQuestionPoolSummaryString = sprintf(
+					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string_trashed'),
+					$this->getSourceQuestionPoolTitle(),
+					$this->getSourceQuestionPoolNumQuestions()
+			);
+		}
+		elseif( $tree->isInTree(current(ilObject::_getAllReferences($this->getSourceQuestionPoolId()))) )
+		{
+			$sourceQuestionPoolSummaryString = sprintf(
+					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
+					$this->getSourceQuestionPoolTitle(),
+					$this->getSourceQuestionPoolPathString($tree),
+					$this->getSourceQuestionPoolNumQuestions()
+			);
+		}
+		else
+		{
+			$sourceQuestionPoolSummaryString = sprintf(
+					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string_deleted'),
+					$this->getSourceQuestionPoolTitle()
+			);
+		}
 		
 		return $sourceQuestionPoolSummaryString;
 	}
