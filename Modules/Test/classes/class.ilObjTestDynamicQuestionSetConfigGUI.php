@@ -78,6 +78,9 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	 */
 	protected $questionSetConfig = null;
 	
+	const QUESTION_ORDERING_TYPE_UPDATE_DATE = 'ordering_by_date';
+	const QUESTION_ORDERING_TYPE_TAXONOMY = 'ordering_by_tax';
+	
 	/**
 	 * Constructor
 	 */
@@ -190,9 +193,18 @@ class ilObjTestDynamicQuestionSetConfigGUI
 				$form->getItemByPostVar('source_qpl_id')->getValue()
 		);
 		
-		$this->questionSetConfig->setOrderingTaxonomyId(
-				$form->getItemByPostVar('order_taxonomy')->getValue()
-		);
+		switch( $form->getItemByPostVar('question_ordering')->getValue() )
+		{
+			case self::QUESTION_ORDERING_TYPE_UPDATE_DATE:
+				$this->questionSetConfig->setOrderingTaxonomyId(null);
+				break;
+			
+			case self::QUESTION_ORDERING_TYPE_TAXONOMY:
+				$this->questionSetConfig->setOrderingTaxonomyId(
+					$form->getItemByPostVar('ordering_tax')->getValue()
+				);
+				break;
+		}
 		
 		$this->questionSetConfig->setTaxonomyFilterEnabled(
 				$form->getItemByPostVar('tax_filter_enabled')->getChecked()
@@ -229,13 +241,33 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$poolInput->setRequired(true);
 		$form->addItem($poolInput);
 		
-		$taxOrderInput = new ilSelectInputGUI($this->lng->txt('qpl_settings_general_form_property_order_taxonomy'), 'order_taxonomy');
-		$taxOrderInput->setInfo($this->lng->txt('qpl_settings_general_form_property_order_taxonomy_description'));
-		$taxOrderInput->setValue($this->questionSetConfig->getOrderingTaxonomyId());
-		$taxOrderInput->setOptions($this->buildTaxonomySelectInputOptionnArray(
-				$this->questionSetConfig->getSourceQuestionPoolId()
-		));
-		$form->addItem($taxOrderInput);
+		$questionOderingInput = new ilRadioGroupInputGUI(
+				$this->lng->txt('tst_input_dynamic_question_set_question_ordering'), 'question_ordering'
+		);
+		$questionOderingInput->setValue( $this->questionSetConfig->getOrderingTaxonomyId() ?
+			self::QUESTION_ORDERING_TYPE_TAXONOMY : self::QUESTION_ORDERING_TYPE_UPDATE_DATE
+		);
+		$optionOrderByDate = new ilRadioOption(
+				$this->lng->txt('tst_input_dynamic_question_set_question_ordering_by_date'),
+				self::QUESTION_ORDERING_TYPE_UPDATE_DATE,
+				$this->lng->txt('tst_input_dynamic_question_set_question_ordering_by_date_description')
+		);
+		$questionOderingInput->addOption($optionOrderByDate);
+		$optionOrderByTax = new ilRadioOption(
+				$this->lng->txt('tst_input_dynamic_question_set_question_ordering_by_tax'),
+				self::QUESTION_ORDERING_TYPE_TAXONOMY,
+				$this->lng->txt('tst_input_dynamic_question_set_question_ordering_by_tax_description')
+		);
+			$orderTaxInput = new ilSelectInputGUI($this->lng->txt('tst_input_dynamic_question_set_ordering_tax'), 'ordering_tax');
+			$orderTaxInput->setInfo($this->lng->txt('tst_input_dynamic_question_set_ordering_tax_description'));
+			$orderTaxInput->setValue($this->questionSetConfig->getOrderingTaxonomyId());
+			$orderTaxInput->setRequired(true);
+			$orderTaxInput->setOptions($this->buildTaxonomySelectInputOptionnArray(
+					$this->questionSetConfig->getSourceQuestionPoolId()
+			));
+		$optionOrderByTax->addSubItem($orderTaxInput);
+		$questionOderingInput->addOption($optionOrderByTax);
+		$form->addItem($questionOderingInput);
 		
 		$taxFilterInput = new ilCheckboxInputGUI($this->lng->txt('tst_input_dynamic_question_set_taxonomie_filter_enabled'), 'tax_filter_enabled');
 		$taxFilterInput->setValue(1);
@@ -274,7 +306,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	private function buildTaxonomySelectInputOptionnArray($questionPoolId)
 	{
 		$taxSelectOptions = array(
-			'0' => $this->lng->txt('qpl_settings_general_form_property_opt_notax_selected')
+			'' => $this->lng->txt('please_select')
 		);
 		
 		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';

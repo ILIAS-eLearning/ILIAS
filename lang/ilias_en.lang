@@ -1145,6 +1145,13 @@ assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Conti
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
+assessment#:#tst_input_dynamic_question_set_question_ordering#:#Question Ordering
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Order Questions by Date
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_date_description#:#The presentation order for the questions bases upon the question's last editing date.
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Order Questions by Taxonomy
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax_description#:#The presentation order for the questions bases upon the question's assignments in a taxonomy.
+assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordering Taxonomy
+assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#The test questions will be presented accordingly to their assignments in the selected taxonomy.
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Question Selection
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Question Selection
