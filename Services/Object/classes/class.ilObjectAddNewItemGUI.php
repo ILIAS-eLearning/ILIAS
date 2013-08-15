@@ -212,7 +212,7 @@ class ilObjectAddNewItemGUI
 	{
 		global $ilCtrl;
 				
-		if(!$this->personal_workspace)
+		if(!$this->personal_workspace && !isset($this->url_creation))
 		{
 			$base_url = "ilias.php?baseClass=ilRepositoryGUI&ref_id=".$this->parent_ref_id."&cmd=create";
 		}

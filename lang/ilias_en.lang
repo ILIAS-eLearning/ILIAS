@@ -13633,3 +13633,40 @@ content#:#cont_verification_placehl#:#Certificate Placeholder
 content#:#cont_ed_plachverification#:#Placeholder Certificate
 cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object has been created.
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
+common#:#objs_orgu#:#Organisational Unit
+common#:#obj_orgu#:#Organisational Unit
+orgu#:#view_learning_progress#:#View Learning Progress
+orgu#:#il_orgu_employee#:#Employee
+orgu#:#il_orgu_superior#:#Superior
+orgu#:#orgu_staff#:#Staff
+orgu#:#orgu_view_learning_progress_rec#:#View Learning Progress Recursivly
+orgu#:#Staff#:#Staff
+orgu#:#orgu_edit#:#Edit
+orgu#:#employee#:#Employee
+orgu#:#Employee#:#Employee
+orgu#:#superior#:#Superior
+orgu#:#Superior#:#Superior
+orgu#:#Actions#:#Actions
+orgu#:#show_learning_progress#:#Show Learning Progress
+orgu#:#users_successfuly_added#:#The user has been added successfully.
+orgu#:#change_to_superior#:#Change to superior
+orgu#:#change_to_employee#:#Change to employee
+orgu#:#user_changed_successful#:#The user has been changed successfully.
+orgu#:#ou_id_type_not_valid#:#The ou_id type is not valid. Valid are: "reference_id" or "external_id".
+orgu#:#ou_parent_id_not_valid#:#The ou_parent_id type is not valid. Valid are: "reference_id" or "external_id".
+orgu#:#import_successful#:#The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s.
+orgu#:#import_terminated_with_warnings#:#The import terminated with warnings
+orgu#:#import_terminated_with_errors#:#The import terminated with errors, some organisational couldn't be created, edited or deleted.
+orgu#:#import_failed#:#The import failed. Make sure your file is in the xml format and is has a valid structure.
+orgu#:#orgu_already_deleted#:#The object was already deleted.
+orgu#:#orgu_new#:#New Organisational Unit
+orgu#:#orgu_add#:#Add Organisational Unit
+orgu#:#orgu_import#:#Import Organisational Unit
+orgu#:#orgu_copy#:#Copy Organisational Unit
+orgu#:#obj_orgu_duplicate#:#Dublicate Organisational Unit
+orgu#:#local_staff#:#Employees %s
+orgu#:#rec_staff#:#Employees %s recursivly
+orgu#:#placeholder#:#...
+orgu#:#simple_import#:#Simple XML Import
+orgu#:#simple_xml#:#Simple XML Export
+orgu#:#import_xml_file#:#Import Datei
