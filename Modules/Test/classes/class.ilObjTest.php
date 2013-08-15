@@ -4436,9 +4436,9 @@ function getAnswerFeedbackPoints()
 	* @return array An array containing the test results for the given user
 	* @access public
 	*/
-	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE)
+	function &getTestResult($testSequence, $active_id, $pass = NULL, $ordered_sequence = FALSE)
 	{
-		global $ilDB;
+		global $ilDB, $lng, $ilPluginAdmin;
 
 		$results = $this->getResultsForActiveId($active_id);
 		
@@ -4447,12 +4447,31 @@ function getAnswerFeedbackPoints()
 			$pass = $results['pass'];
 		}
 		
-		include_once "./Modules/Test/classes/class.ilTestSequence.php";
+		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+		$testSessionFactory = new ilTestSessionFactory($this);
+		$testSession = $testSessionFactory->getSession($active_id);
 		
-		$testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
-		$testSequence->loadFromDb();
-		$testSequence->loadQuestions();
+		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this);
+		$testSequence = $testSequenceFactory->getSequence($testSession);
 		
+		if( $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC )
+		{
+			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($ilDB, $this);
+			$dynamicQuestionSetConfig->loadFromDb();
+			
+			$testSequence->loadFromDb($dynamicQuestionSetConfig);
+			$testSequence->loadQuestions($dynamicQuestionSetConfig, array());
+		}
+		else
+		{
+			$testSequence->loadFromDb();
+			$testSequence->loadQuestions();
+		}
+		
+		
+				
 		$sequence = array();
 		
 		if( $ordered_sequence )

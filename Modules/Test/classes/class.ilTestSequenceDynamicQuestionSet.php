@@ -393,5 +393,20 @@ class ilTestSequenceDynamicQuestionSet
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
+	
+	public function getUserSequenceQuestions()
+	{
+		//return array_keys( $this->getTrackedQuestionList() );
+		
+		$questionSequence = array();
+		
+		foreach( $this->questionSet->getActualQuestionSequence() as $level => $questions )
+		{
+			$questionSequence = array_merge($questionSequence, $questions);
+		}
+		
+		return $questions;
+	}
+	
 }
 
