@@ -581,9 +581,12 @@ class ilObjTestSettingsGeneralGUI
 
 				case 'checkboxgroup':
 					
-					foreach( $item->getValue() as $option )
+					if( is_array($item->getValue()) )
 					{
-						$confirmation->addHiddenItem("{$item->getPostVar()}[]", $option);
+						foreach( $item->getValue() as $option )
+						{
+							$confirmation->addHiddenItem("{$item->getPostVar()}[]", $option);
+						}
 					}
 					
 					break;
