@@ -1321,6 +1321,7 @@ assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für f
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenselektion kann nicht geändert werden, da bereits Teilnehmer Ergebisse vorliegen.
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenselektion
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Quell-Fragenpool
+assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomie Filter
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen Ordnung
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordne Fragen nach Datum

@@ -65,6 +65,13 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	protected $db = null;
 	
 	/**
+	 * global $tree object
+	 * 
+	 * @var ilTree
+	 */
+	protected $tree = null;
+	
+	/**
 	 * object instance for current test
 	 *
 	 * @var ilObjTest
@@ -84,7 +91,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	/**
 	 * Constructor
 	 */
-	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilTemplate $tpl, ilDB $db, ilObjTestGUI $testGUI)
+	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilTemplate $tpl, ilDB $db, ilTree $tree, ilObjTestGUI $testGUI)
 	{
 		$this->ctrl = $ctrl;
 		$this->access = $access;
@@ -92,6 +99,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->db = $db;
+		$this->tree = $tree;
 		
 		$this->testGUI = $testGUI;
 		$this->testOBJ = $testGUI->object;
@@ -240,7 +248,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		if( $this->testOBJ->participantDataExist() )
 		{
 			$pool = new ilNonEditableValueGUI($this->lng->txt('tst_input_dynamic_question_set_source_questionpool'), 'source_qpl_title');
-			$pool->setValue( $this->questionSetConfig->getSourceQuestionPoolTitle() );
+			$pool->setValue( $this->questionSetConfig->getSourceQuestionPoolSummaryString($this->lng, $this->tree) );
 			$pool->setDisabled(true);
 			$form->addItem($pool);
 		}

@@ -286,4 +286,63 @@ class ilObjTestDynamicQuestionSetConfig
 	{
 		$this->deleteFromDb();
 	}
+	
+	public function getSourceQuestionPoolSummaryString(ilLanguage $lng, ilTree $tree)
+	{
+		$sourceQuestionPoolSummaryString = sprintf(
+				$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
+				$this->getSourceQuestionPoolTitle(),
+				$this->getSourceQuestionPoolPathString($tree),
+				$this->getSourceQuestionPoolNumQuestions()
+		);
+		
+		return $sourceQuestionPoolSummaryString;
+	}
+	
+	private function getSourceQuestionPoolPathString(ilTree $tree)
+	{
+		$nodePath = $tree->getNodePath(
+				current(ilObject::_getAllReferences($this->getSourceQuestionPoolId()))
+		);
+
+		$sourceQuestionPoolPathString = '';
+		
+		$i = 0;
+		$j = count($nodePath) - 2;
+		
+		foreach($nodePath as $node)
+		{
+			if( $i > 0 )
+			{
+				$sourceQuestionPoolPathString .= ' > ';
+			}
+			
+			$sourceQuestionPoolPathString .= $node['title'];
+			
+			if( $i == $j )
+			{
+				break;
+			}
+			
+			$i++;
+		}
+		
+		return $sourceQuestionPoolPathString;
+	}
+	
+	private function getSourceQuestionPoolNumQuestions()
+	{
+		$query = "
+			SELECT COUNT(*) num from qpl_questions
+			WHERE obj_fi = %s AND original_id IS NULL
+		";
+		
+		$res = $this->db->queryF(
+				$query, array('integer'), array($this->getSourceQuestionPoolId())
+		);
+		
+		$row = $this->db->fetchAssoc($res);
+		
+		return $row['num'];
+	}
 }
