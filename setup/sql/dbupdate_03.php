@@ -17480,3 +17480,33 @@ if( !$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'source_qpl_title') )
 	));
 }
 ?>
+<#4037>
+<?php
+if (!$ilDB->tableExists('skl_usage'))
+{
+	$fields = array (
+		'obj_id' => array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'skill_id' => array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tref_id' => array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+
+	);
+	$ilDB->createTable('skl_usage', $fields);
+	$ilDB->addPrimaryKey('skl_usage', array('obj_id', 'skill_id', 'tref_id'));
+}
+	
+?>

@@ -8,7 +8,9 @@
  * competence management administration of ILIAS.
  *
  * This can be either triggers (e.g. a course that triggers a competence level)
- * or resources that impart the knowledge of a competence level.
+ * or resources that impart the knowledge of a competence level. Imparting
+ * does not necessarily mean that it triggers a competence level.
+ *
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
