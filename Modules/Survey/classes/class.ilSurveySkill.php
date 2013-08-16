@@ -105,6 +105,10 @@ class ilSurveySkill
 		$this->q_skill[$a_question_id] = array("q_id" => $a_question_id,
 			"base_skill_id" => $a_base_skill_id,
 			"tref_id" => $a_tref_id);
+		
+		// add usage
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+		ilSkillUsage::setUsage($this->survey->getId(), $a_base_skill_id, $a_tref_id);
 
 	}
 	
@@ -117,11 +121,79 @@ class ilSurveySkill
 	{
 		global $ilDB;
 		
+		// read skills that are assigned to the quesiton
+		$set = $ilDB->query("SELECT * FROM svy_quest_skill ".
+			" WHERE q_id = ".$ilDB->quote($a_question_id, "integer")
+			);
+		$skills = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$skills[] = array("skill_id" => $rec["base_skill_id"],
+				"tref_id" => $rec["tref_id"]);
+		}
+		
+		// remove assignment of question
 		$ilDB->manipulate("DELETE FROM svy_quest_skill WHERE ".
 			" q_id = ".$ilDB->quote($a_question_id, "integer")
 			);
 		unset($this->q_skill[$a_question_id]);
+		
+		$this->removeUsagesOfSkills($skills);
 	}
+	
+	/**
+	 * Remove usages of skills
+	 *
+	 * This function checks, if the skills are really not in use anymore
+	 * @param array array of arrays with keys "skill_id" and "tref_id"
+	 */
+	function removeUsagesOfSkills($a_skills)
+	{
+		$used_skills = array();
+		foreach ($a_skills as $skill)
+		{
+			if ($this->isSkillAssignedToQuestion($skill["skill_id"], $skill["tref_id"]))
+			{
+				$used_skills[] = $skill["skill_id"].":".$skill["tref_id"];
+			}
+		}
+		reset($a_skills);
+		
+		// now remove all usages that have been confirmed
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+//var_dump($a_skills);
+//var_dump($used_skills); exit;
+		foreach ($a_skills as $skill)
+		{
+			if (!in_array($skill["skill_id"].":".$skill["tref_id"], $used_skills))
+			{
+				ilSkillUsage::setUsage($this->survey->getId(), $skill["skill_id"], $skill["tref_id"], false);
+			}
+		}
+	}
+	
+	/**
+	 * Is skill assigned to any question?
+	 *
+	 * @param
+	 * @return
+	 */
+	function isSkillAssignedToQuestion($a_skill_id, $a_tref_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM svy_quest_skill ".
+			" WHERE base_skill_id = ".$ilDB->quote($a_skill_id, "integer").
+			" AND tref_id = ".$ilDB->quote($a_tref_id, "integer").
+			" AND survey_id = ".$ilDB->quote($this->survey->getId(), "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 
 	/**
 	 * Get skill for question
