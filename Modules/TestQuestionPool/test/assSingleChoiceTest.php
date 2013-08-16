@@ -81,7 +81,7 @@ class assSingleChoiceTest extends PHPUnit_Framework_TestCase
 	 * @param
 	 * @return
 	 */
-	public function testCreation()
+	public function t_e_stCreation()
 	{
 		global $ilDB;
 
