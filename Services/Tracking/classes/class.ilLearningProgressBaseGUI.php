@@ -217,8 +217,7 @@ class ilLearningProgressBaseGUI
 						// matrix only consists of status...
 						include_once './Services/Object/classes/class.ilObjectLP.php';
 						$olp = ilObjectLP::getInstance($this->obj_id);			
-						$mode = $olp->getCurrentMode();
-						if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
+						if($olp->isActive())
 						{
 							$this->tabs_gui->addSubTabTarget("trac_matrix",
 															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),

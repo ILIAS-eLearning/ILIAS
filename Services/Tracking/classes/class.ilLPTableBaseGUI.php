@@ -172,7 +172,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			return false;
 		}		
 		$olp = ilObjectLP::getInstance($a_data["obj_id"]);
-		if($olp->getCurrentMode() == LP_MODE_DEACTIVATED)
+		if(!$olp->isActive())
 		{
 			return false;
 		}
@@ -882,8 +882,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		// do not show status if learning progress is deactivated
 		$olp = ilObjectLP::getInstance($this->obj_id);
-		$mode = $olp->getCurrentMode();
-		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
+		if($olp->isActive())
 		{
 			$cols["status"] = array(
 				"txt" => $lng->txt("trac_status"),

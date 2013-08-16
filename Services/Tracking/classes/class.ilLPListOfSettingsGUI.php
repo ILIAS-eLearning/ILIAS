@@ -88,7 +88,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			$opt->setValue($mode_key);
 			$mod->addOption($opt);
 
-			// :TODO: Subitem for vistits
+			// :TODO: Subitem for visits ?!
 			if($mode_key == LP_MODE_VISITS)
 			{
 				$vis = new ilNumberInputGUI($this->lng->txt('trac_visits'), 'visits');
@@ -116,26 +116,42 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$form = $this->initFormSettings();
 		if($form->checkInput())
 		{
-			// do not confuse collections
+			// anything changed?
+			
+			// mode
 			$new_mode = (int)$form->getInput('modus');
-			$old_mode = $this->obj_lp->getCurrentMode();						
-			if($old_mode != $new_mode)
+			$old_mode = $this->obj_lp->getCurrentMode();	
+			$mode_changed = ($old_mode != $new_mode);
+			
+			// visits
+			$new_visits = null;
+			$visits_changed = null;
+			if($new_mode == LP_MODE_VISITS)
+			{				
+				$new_visits = (int)$form->getInput('visits');	
+				$old_visits = $this->obj_settings->getVisits();
+				$visits_changed = ($old_visits != $new_visits);
+			}
+			
+			if($mode_changed)
 			{
+				// delete existing collection 
 				$collection = $this->obj_lp->getCollectionInstance();
 				if($collection)
 				{
 					$collection->delete();	
 				}
-			}
+			}			
 			
-			$this->obj_settings->setMode($new_mode);
+			$refresh_lp = ($mode_changed || $visits_changed);
 			
-			// :TODO:
-			$this->obj_settings->setVisits($form->getInput('visits'));
+			$this->obj_settings->setMode($new_mode);									
+			$this->obj_settings->setVisits($new_visits);			
+			$this->obj_settings->update($refresh_lp);
 			
-			$this->obj_settings->update();
-
-			if($this->obj_lp->getCollectionInstance())
+			$this->obj_lp->resetCaches();
+			
+			if($mode_changed && $this->obj_lp->getCollectionInstance())
 			{
 				ilUtil::sendInfo($this->lng->txt('trac_edit_collection'), true);
 			}

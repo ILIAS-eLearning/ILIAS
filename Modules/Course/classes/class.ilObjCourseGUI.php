@@ -1904,7 +1904,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{			
 			include_once('./Services/Object/classes/class.ilObjectLP.php');
 			$olp = ilObjectLP::getInstance($this->object->getId());
-			$this->show_tracking = ($olp->getCurrentMode() != LP_MODE_DEACTIVATED);
+			$this->show_tracking = $olp->isActive();
 		}
 			
 		include_once('./Services/Object/classes/class.ilObjectActivation.php');
@@ -3597,7 +3597,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			include_once('./Services/Object/classes/class.ilObjectLP.php');
 			$olp = ilObjectLP::getInstance($this->object->getId());
-			$this->show_tracking = ($olp->getCurrentMode() != LP_MODE_DEACTIVATED);
+			$this->show_tracking = $olp->isActive();
 		}
 		if($this->show_tracking)
 		{
