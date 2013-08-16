@@ -100,7 +100,7 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 	public function testLPMarks()
 	{
 		include_once './Services/Tracking/classes/class.ilLPMarks.php';
-		include_once './Services/Tracking/classes/class.ilLPStatusManual.php';
+		include_once './Services/Tracking/classes/class.ilLPStatusFactory.php';
 		
 		$marks = new ilLPMarks(999,888);
 		$marks->setMark('Gut');
@@ -115,7 +115,8 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 		$comment = ilLPMarks::_lookupComment(888,999);
 		$this->assertEquals($comment,'Weiter so');
 		
-		$completed = ilLPStatusManual::_getCompleted(999);
+		$class = ilLPStatusFactory::_getClassById(999, LP_MODE_MANUAL);
+		$completed = $class::_getCompleted(999);
 		$this->assertEquals(array(888),$completed);
 		
 		ilLPMarks::deleteObject(999);

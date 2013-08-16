@@ -75,7 +75,9 @@ class ilLPStatusCollectionManual extends ilLPStatus
 				$status_info["completed"][$item_id] = array();														
 			}
 			
-			$possible_items = $collection->getPossibleItems();				
+			$ref_ids = ilObject::_getAllReferences($a_obj_id);
+			$ref_id = end($ref_ids);			
+			$possible_items = $collection->getPossibleItems($ref_id);				
 			$chapter_ids = array_intersect(array_keys($possible_items),
 				$status_info["items"]);
 

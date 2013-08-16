@@ -68,7 +68,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				break;
 
 			case 'illplistofsettingsgui':
-				include_once 'Services/Tracking/classes/class.ilLPListOfSettingsGUI.php';
+				include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php';
 
 				$this->__setSubTabs(LP_ACTIVE_SETTINGS);
 				$los_gui = new ilLPListOfSettingsGUI($this->getMode(),$this->getRefId());
@@ -278,8 +278,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			}
 		}
 		
-		include_once "Services/Tracking/classes/class.ilLPStatusCollectionManual.php";
-		$lp_data = ilLPStatusCollectionManual::_getObjectStatus($this->getObjId(), $this->usr_id);
+		include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+		$class = ilLPStatusFactory::_getClassById($this->getObjId(), LP_MODE_COLLECTION_MANUAL);							
+		$lp_data = $class::_getObjectStatus($this->getObjId(), $this->usr_id);
 				
 		$grp = new ilCheckboxGroupInputGUI($subitem_title, "sids");
 		$grp->setInfo($subitem_info);
@@ -340,8 +341,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				$form = $this->initCollectionManualForm();			
 				if($form->checkInput())
 				{
-					include_once "Services/Tracking/classes/class.ilLPStatusCollectionManual.php";
-					ilLPStatusCollectionManual::_setObjectStatus($this->getObjId(), $this->usr_id, $form->getInput("sids"));
+					include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+					$class = ilLPStatusFactory::_getClassById($this->getObjId(), LP_MODE_COLLECTION_MANUAL);							
+					$class::_setObjectStatus($this->getObjId(), $this->usr_id, $form->getInput("sids"));
 					
 					ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 				}							
@@ -371,10 +373,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			$coll_items = $collection->getItems();
 			$possible_items = $collection->getPossibleItems(); // for titles
 		}
-		
-		include_once "Services/Tracking/classes/class.ilLPStatus.php";
-		include_once "Services/Tracking/classes/class.ilLPStatusCollectionTLT.php";
-		$info = ilLPStatusCollectionTLT::_getStatusInfo($this->getObjId(), true);
+			
+		include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+		$class = ilLPStatusFactory::_getClassById($this->getObjId(), LP_MODE_COLLECTION_TLT);			
+		$info = $class::_getStatusInfo($this->getObjId(), true);
 		
 		foreach($coll_items as $item_id)
 		{

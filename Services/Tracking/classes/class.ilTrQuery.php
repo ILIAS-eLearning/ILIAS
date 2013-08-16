@@ -886,8 +886,9 @@ class ilTrQuery
 				break;
 
 			case "tst":
-				include_once("./Services/Tracking/classes/class.ilLPStatusTestFinished.php");
-				$a_users = ilLPStatusTestFinished::getParticipants($obj_id);
+				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+				$class = ilLPStatusFactory::_getClassById($obj_id, LP_MODE_TEST_FINISHED);
+				$a_users = $class::getParticipants($obj_id);
 				break;
 			
 			default:
@@ -1225,8 +1226,8 @@ class ilTrQuery
 		{
 			// what about LP_MODE_SCORM_PACKAGE ?
 			case LP_MODE_SCORM:
-				include_once "Services/Tracking/classes/class.ilLPStatusSCORM.php";
-				$status_scorm = new ilLPStatusSCORM($a_parent_obj_id);
+				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+				$status_scorm = ilLPStatusFactory::_getInstance($a_parent_obj_id, LP_MODE_SCORM);
 				$scorm = $status_scorm->_getStatusInfo($a_parent_obj_id);
 				break;
 			
@@ -1238,14 +1239,14 @@ class ilTrQuery
 				break;
 				
 			case LP_MODE_COLLECTION_MANUAL:
-				include_once "Services/Tracking/classes/class.ilLPStatusCollectionManual.php";
-				$status_coll_man = new ilLPStatusCollectionManual($a_parent_obj_id);
+				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+				$status_coll_man = ilLPStatusFactory::_getInstance($a_parent_obj_id, LP_MODE_COLLECTION_MANUAL);
 				$subitems = $status_coll_man->_getStatusInfo($a_parent_obj_id);
 				break;
 				
 			case LP_MODE_COLLECTION_TLT:
-				include_once "Services/Tracking/classes/class.ilLPStatusCollectionTLT.php";
-				$status_coll_tlt = new ilLPStatusCollectionTLT($a_parent_obj_id);
+				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+				$status_coll_tlt = ilLPStatusFactory::_getInstance($a_parent_obj_id, LP_MODE_COLLECTION_TLT);
 				$subitems = $status_coll_tlt->_getStatusInfo($a_parent_obj_id);
 				break;
 				
