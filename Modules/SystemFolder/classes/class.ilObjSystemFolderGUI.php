@@ -962,6 +962,17 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ne = new ilNonEditableValueGUI($lng->txt("ilias_version"), "");
 		$ne->setValue($ilSetting->get("ilias_version"));
 		$this->form->addItem($ne);
+
+		// version controll information, object can be created by factory in later revisions (if we support git etc.)
+		require_once 'Services/Administration/classes/class.ilSubversionInformation.php';
+		$vc = new ilSubversionInformation();
+		$revision_info = $vc->getInformationAsHtml();
+		if($revision_info)
+		{
+			$ne = new ilCustomInputGUI($lng->txt('vc_information'), '');
+			$ne->setHtml($revision_info);
+			$this->form->addItem($ne);
+		}
 		
 		// host
 		$ne = new ilNonEditableValueGUI($lng->txt("host"), "");
