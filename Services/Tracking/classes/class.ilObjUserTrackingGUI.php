@@ -61,7 +61,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			
 			case 'illpobjectstatisticsgui':
 				$this->tabs_gui->setTabActive('statistics');
-				include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsGUI.php");
+				include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php");
 				$os_gui =& new ilLPObjectStatisticsGUI(LP_MODE_ADMINISTRATION);
 				$ret =& $this->ctrl->forwardCommand($os_gui);
 				break;

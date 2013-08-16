@@ -48,7 +48,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		switch($this->ctrl->getNextClass())
 		{
 			case 'illpprogresstablegui':
-				include_once './Services/Tracking/classes/class.ilLPProgressTableGUI.php';
+				include_once './Services/Tracking/repository_statistics/classes/class.ilLPProgressTableGUI.php';
 			    $table_gui = new ilLPProgressTableGUI($this, "", $this->tracked_user);
 				$this->ctrl->setReturn($this,'show');
 				$this->ctrl->forwardCommand($table_gui);
@@ -135,7 +135,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		
 		$personal_only = !$rbacsystem->checkAccess('edit_learning_progress',$this->getRefId());
 	
-		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
+		include_once("./Services/Tracking/repository_statistics/classes/class.ilLPProgressTableGUI.php");
 		$lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true, $this->details_mode, $personal_only, $this->details_obj_id);
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 		
@@ -160,7 +160,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
+		include_once("./Services/Tracking/repository_statistics/classes/class.ilLPProgressTableGUI.php");
 		$lp_table = new ilLPProgressTableGUI($this, "", $this->tracked_user);
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 
