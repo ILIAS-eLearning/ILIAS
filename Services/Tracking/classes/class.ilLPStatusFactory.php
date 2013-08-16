@@ -18,8 +18,10 @@ class ilLPStatusFactory
 {
 	static private $class_by_obj_id = array();
 	
+	const PATH = 'Services/Tracking/classes/status/';
+	
 	function _getClassById($a_obj_id, $a_mode = NULL)
-	{
+	{		
 		if($a_mode === NULL)
 		{
 			include_once 'Services/Object/classes/class.ilObjectLP.php';
@@ -37,68 +39,68 @@ class ilLPStatusFactory
 		switch($a_mode)
 		{
 			case LP_MODE_VISITS:
-				include_once 'Services/Tracking/classes/class.ilLPStatusVisits.php';
+				include_once self::PATH.'class.ilLPStatusVisits.php';
 				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusVisits';
 				
 			case LP_MODE_COLLECTION:
-				include_once 'Services/Tracking/classes/class.ilLPStatusCollection.php';
+				include_once self::PATH.'class.ilLPStatusCollection.php';
 				return self::$class_by_obj_id[$a_obj_id] ='ilLPStatusCollection';
 
 			case LP_MODE_TLT:
-				include_once 'Services/Tracking/classes/class.ilLPStatusTypicalLearningTime.php';
+				include_once self::PATH.'class.ilLPStatusTypicalLearningTime.php';
 				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusTypicalLearningTime';
 
 			case LP_MODE_SCORM:
-				include_once 'Services/Tracking/classes/class.ilLPStatusSCORM.php';
+				include_once self::PATH.'class.ilLPStatusSCORM.php';
 				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusSCORM';
+
+			case LP_MODE_TEST_FINISHED:
+				include_once self::PATH.'class.ilLPStatusTestFinished.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusTestFinished';
+
+			case LP_MODE_TEST_PASSED:
+				include_once self::PATH.'class.ilLPStatusTestPassed.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusTestPassed';
+
+			case LP_MODE_MANUAL:
+				include_once self::PATH.'class.ilLPStatusManual.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusManual';
+
+			case LP_MODE_MANUAL_BY_TUTOR:
+				include_once self::PATH.'class.ilLPStatusManualByTutor.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusManualByTutor';
+
+			case LP_MODE_EXERCISE_RETURNED:
+				include_once self::PATH.'class.ilLPStatusExerciseReturned.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusExerciseReturned';
+
+			case LP_MODE_OBJECTIVES:
+				include_once self::PATH.'class.ilLPStatusObjectives.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusObjectives';
+
+			case LP_MODE_SCORM_PACKAGE:
+				include_once self::PATH.'class.ilLPStatusSCORMPackage.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusSCORMPackage';
+				
+			case LP_MODE_EVENT:
+				include_once self::PATH.'class.ilLPStatusEvent.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusEvent';
+				
+			case LP_MODE_PLUGIN:
+				include_once self::PATH.'class.ilLPStatusPlugin.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusPlugin';
+				
+			case LP_MODE_COLLECTION_TLT:
+				include_once self::PATH.'class.ilLPStatusCollectionTLT.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusCollectionTLT';
+				
+			case LP_MODE_COLLECTION_MANUAL:
+				include_once self::PATH.'class.ilLPStatusCollectionManual.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusCollectionManual';
 
 			case LP_MODE_DEACTIVATED:
 				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatus';
-
-			case LP_MODE_TEST_FINISHED:
-				include_once 'Services/Tracking/classes/class.ilLPStatusTestFinished.php';
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusTestFinished';
-
-			case LP_MODE_TEST_PASSED:
-				include_once 'Services/Tracking/classes/class.ilLPStatusTestPassed.php';
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusTestPassed';
-
-			case LP_MODE_MANUAL:
-				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusManual';
-
-			case LP_MODE_MANUAL_BY_TUTOR:
-				include_once 'Services/Tracking/classes/class.ilLPStatusManualByTutor.php';
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusManualByTutor';
-
-			case LP_MODE_EXERCISE_RETURNED:
-				include_once 'Services/Tracking/classes/class.ilLPStatusExerciseReturned.php';
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusExerciseReturned';
-
-			case LP_MODE_OBJECTIVES:
-				include_once 'Services/Tracking/classes/class.ilLPStatusObjectives.php';
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusObjectives';
-
-			case LP_MODE_SCORM_PACKAGE:
-				include_once 'Services/Tracking/classes/class.ilLPStatusSCORMPackage.php';
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusSCORMPackage';
-				
-			case LP_MODE_EVENT:
-				include_once('./Services/Tracking/classes/class.ilLPStatusEvent.php');
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusEvent';
-				
-			case LP_MODE_PLUGIN:
-				include_once('./Services/Tracking/classes/class.ilLPStatusPlugin.php');
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusPlugin';
-				
-			case LP_MODE_COLLECTION_TLT:
-				include_once('./Services/Tracking/classes/class.ilLPStatusCollectionTLT.php');
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusCollectionTLT';
-				
-			case LP_MODE_COLLECTION_MANUAL:
-				include_once('./Services/Tracking/classes/class.ilLPStatusCollectionManual.php');
-				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusCollectionManual';
 
 			case LP_MODE_UNDEFINED:
 				include_once 'Services/Object/classes/class.ilObjectLP.php';
@@ -122,7 +124,7 @@ class ilLPStatusFactory
 		switch($a_type)
 		{
 			case 'event':
-				include_once 'Services/Tracking/classes/class.ilLPStatusEvent.php';
+				include_once self::PATH.'class.ilLPStatusEvent.php';
 				return 'ilLPStatusEvent';
 
 			default:
@@ -143,15 +145,15 @@ class ilLPStatusFactory
 		switch($a_mode)
 		{
 			case LP_MODE_VISITS:
-				include_once 'Services/Tracking/classes/class.ilLPStatusVisits.php';
+				include_once self::PATH.'class.ilLPStatusVisits.php';
 				return new ilLPStatusVisits($a_obj_id);
 
 			case LP_MODE_COLLECTION:
-				include_once 'Services/Tracking/classes/class.ilLPStatusCollection.php';
+				include_once self::PATH.'class.ilLPStatusCollection.php';
 				return new ilLPStatusCollection($a_obj_id);
 
 			case LP_MODE_TLT:
-				include_once 'Services/Tracking/classes/class.ilLPStatusTypicalLearningTime.php';
+				include_once self::PATH.'class.ilLPStatusTypicalLearningTime.php';
 				return new ilLPStatusTypicalLearningTime($a_obj_id);
 
 			case LP_MODE_SCORM:
@@ -159,43 +161,43 @@ class ilLPStatusFactory
 				return new ilLPStatusSCORM($a_obj_id);
 
 			case LP_MODE_TEST_FINISHED:
-				include_once 'Services/Tracking/classes/class.ilLPStatusTestFinished.php';
+				include_once self::PATH.'class.ilLPStatusTestFinished.php';
 				return new ilLPStatusTestFinished($a_obj_id);
 
 			case LP_MODE_TEST_PASSED:
-				include_once 'Services/Tracking/classes/class.ilLPStatusTestPassed.php';
+				include_once self::PATH.'class.ilLPStatusTestPassed.php';
 				return new ilLPStatusTestPassed($a_obj_id);
 
 			case LP_MODE_MANUAL:
-				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
+				include_once self::PATH.'class.ilLPStatusManual.php';
 				return new ilLPStatusManual($a_obj_id);
 
 			case LP_MODE_MANUAL_BY_TUTOR:
-				include_once 'Services/Tracking/classes/class.ilLPStatusManualByTutor.php';
+				include_once self::PATH.'class.ilLPStatusManualByTutor.php';
 				return new ilLPStatusManualByTutor($a_obj_id);
 
 			case LP_MODE_EXERCISE_RETURNED:
-				include_once 'Services/Tracking/classes/class.ilLPStatusExerciseReturned.php';
+				include_once self::PATH.'class.ilLPStatusExerciseReturned.php';
 				return new ilLPStatusExerciseReturned($a_obj_id);
 
 			case LP_MODE_OBJECTIVES:
-				include_once 'Services/Tracking/classes/class.ilLPStatusObjectives.php';
+				include_once self::PATH.'class.ilLPStatusObjectives.php';
 				return new ilLPStatusObjectives($a_obj_id);
 				
 			case LP_MODE_EVENT:
-				include_once 'Services/Tracking/classes/class.ilLPStatusEvent.php';
+				include_once self::PATH.'class.ilLPStatusEvent.php';
 				return new ilLPStatusEvent($a_obj_id);
 				
 			case LP_MODE_PLUGIN:
-				include_once 'Services/Tracking/classes/class.ilLPStatusPlugin.php';
+				include_once self::PATH.'class.ilLPStatusPlugin.php';
 				return new ilLPStatusEvent($a_obj_id);
 				
 			case LP_MODE_COLLECTION_TLT:
-				include_once('./Services/Tracking/classes/class.ilLPStatusCollectionTLT.php');
+				include_once self::PATH.'class.ilLPStatusCollectionTLT.php';
 				return new ilLPStatusCollectionTLT($a_obj_id);
 				
 			case LP_MODE_COLLECTION_MANUAL:
-				include_once('./Services/Tracking/classes/class.ilLPStatusCollectionManual.php');
+				include_once self::PATH.'class.ilLPStatusCollectionManual.php';
 				return new ilLPStatusCollectionManual($a_obj_id);
 				
 			case LP_MODE_UNDEFINED:
