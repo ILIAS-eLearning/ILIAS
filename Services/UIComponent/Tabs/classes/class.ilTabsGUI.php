@@ -542,7 +542,12 @@ class ilTabsGUI
 		}
 	}
 	
-	
+	function getActiveTab(){
+		foreach($this->target as $i => $target){
+			if($this->target[$i]['activate'])
+				return $this->target[$i]['id'];
+		}
+	}
 	
 	function hasTabs()
 	{

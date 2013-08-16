@@ -37,11 +37,14 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->db = $ilDB;
+
+		$this->lng->loadLanguageModule("orgu");
 	}
 
 	public function executeCommand(){
 		global $ilTabs, $lng;
-		$lng->loadLanguageModule("orgu");
+		$ilTabs = new ilTabsGUI();
+		$this->getTabs($ilTabs);
 		$own_ex = array("illearningprogressgui", "illplistofprogressgui", "ilexportgui");
 		$cmdClass = $this->ctrl->getCmdClass();
 		$cmd = $this->ctrl->getCmd();
@@ -51,12 +54,9 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		}else{
 			parent::executeCommand();
 		}
-//		$active_tab = $ilTabs->getActiveTab();
-		$ilTabs = new ilTabsGUI();
-//		$ilTabs->setTabActive($active_tab);
-		$this->getTabs($ilTabs);
-		if($cmdClass != "ilexportgui")
-			$this->setContentSubTabs($this->ctrl->getCmd());
+		//fighting the symptoms, TODO: find where this unnecessary empty target[2] comes from.
+		unset($ilTabs->target[2]);
+
 		$this->showTreeObject();
 		switch($cmd){
 			case 'editTranslations':
@@ -79,10 +79,15 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		$gui->render();
 	}
 
+	public function getAdminTabs(&$tabs_gui){
+		return;
+	}
+
 	public function ownExecuteCommand(){
 		global $lng;
 		$cmdClass = $this->ctrl->getCmdClass();
 		$cmd = $this->ctrl->getCmd();
+//		$this->setContentSubTabs($cmd);
 		switch($cmdClass){
 			case 'illearningprogressgui';
 			case 'illplistofprogressgui';
@@ -222,9 +227,8 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 	}
 
 	function getTabs(&$tabs_gui){
-		global $ilTabs;
 		/** @var ilTabsGUI $ilTabs */
-		$ilTabs = $ilTabs;
+		$ilTabs = $tabs_gui;
 		parent::getTabs($tabs_gui);
 		if($this->checkAccess("write")){
 			$ilTabs->addTab("orgu_staff", $this->lng->txt("orgu_staff"), $this->ctrl->getLinkTarget($this, "showStaff"), "", 25);
@@ -234,11 +238,15 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 				$ilTabs->removeTab("settings");
 			}
 		}
+		if($this->checkAccess("visible")){
+			$ilTabs->replaceTab("info_short", "info_short", $this->lng->txt("info_short"), $this->ctrl->getLinkTarget($this, "infoScreen"));
+		}
 	}
 
 	public function showStaffObject(){
 		global $ilTabs;
 		$ilTabs->setTabActive("orgu_staff");
+		$this->setContentSubTabs();
 		$this->addToolbar();
 		$this->ctrl->setParameter($this, "recursive", false);
 		if(!$this->checkAccess("write"))
@@ -249,6 +257,7 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 	public function showStaffRecObject(){
 		global $ilTabs;
 		$ilTabs->setTabActive("orgu_staff");
+		$this->setContentSubTabs();
 		$this->ctrl->setParameter($this, "recursive", true);
 		if(!$this->checkAccess("write"))
 			return;
@@ -428,6 +437,9 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 
 	public function setContentSubTabs($cmd = ""){
 		global $ilTabs, $lng, $ilAccess;
+
+		if(!$cmd)
+			$cmd = $this->ctrl->getCmd();
 		/** @var ilTabsGUI $ilTabs */
 		$ilTabs = $ilTabs;
 		switch($cmd){
