@@ -13,7 +13,8 @@ Todo
 - historische Darstellung aller "has levels" (inkl. Datum + Objekttitel) (4, done)
 - Resources müssen Template/Basis Kombi zuordbar sein (3)
 - Resource Selection > neue Explorerklasse
-- User Guide anpassen.
+- User Guide anpassen. (angefangen)
+-- trigger dokumentieren
 - Skill Referenzen Editing verbieten
 - spider netz anzeigen (done)
 - self_eval flag in has_level (pk)? ->
