@@ -20,13 +20,14 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 	protected $type;
 	protected $sent_col;
 	protected $peer_review;
+	protected $selected = array();
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_ass_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng;
 		
 		$this->exc = $a_exc;
 		$this->exc_id = $this->exc->getId();
@@ -97,9 +98,16 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				
 		if($this->type != ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
-			$this->addColumn($this->lng->txt("image"), "", "1");
+			$this->selected = $this->getSelectedColumns();				
+			if(in_array("image", $this->selected))
+			{
+				$this->addColumn($this->lng->txt("image"), "", "1");
+			}
 			$this->addColumn($this->lng->txt("name"), "name");
-			$this->addColumn($this->lng->txt("login"), "login");
+			if(in_array("login", $this->selected))
+			{
+				$this->addColumn($this->lng->txt("login"), "login");
+			}
 		}
 		else
 		{
@@ -131,6 +139,23 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		$this->addMultiCommand("confirmDeassignMembers", $lng->txt("exc_deassign_members"));	
 		
 		$this->addCommandButton("saveStatusAll", $lng->txt("exc_save_all"));	
+	}
+	
+	function getSelectableColumns()
+	{
+		$columns = array();
+		
+		$columns["image"] = array(
+				"txt" => $this->lng->txt("image"),
+				"default" => true
+			);
+		
+		$columns["login"] = array(
+				"txt" => $this->lng->txt("login"),
+				"default" => true
+			);
+		
+		return $columns;
 	}
 	
 	/**
@@ -188,13 +213,20 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("TXT_NAME",
 				$member["name"]);
-			$this->tpl->setVariable("TXT_LOGIN",
-				"[".$member["login"]."]");
 			
-			// image
-			$this->tpl->setVariable("USR_IMAGE",
-				$mem_obj->getPersonalPicturePath("xxsmall"));
-			$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
+			if(in_array("login", $this->selected))
+			{
+				$this->tpl->setVariable("TXT_LOGIN",
+					"[".$member["login"]."]");
+			}
+			
+			if(in_array("image", $this->selected))
+			{
+				// image
+				$this->tpl->setVariable("USR_IMAGE",
+					$mem_obj->getPersonalPicturePath("xxsmall"));
+				$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
+			}
 		}
 		// team upload
 		else
