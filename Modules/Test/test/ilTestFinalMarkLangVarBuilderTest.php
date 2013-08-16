@@ -29,7 +29,7 @@ class ilTestFinalMarkLangVarBuilderTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
-	
+
 	public function test_build()
 	{
 		$testCases = array(
@@ -87,7 +87,7 @@ class ilTestFinalMarkLangVarBuilderTest extends PHPUnit_Framework_TestCase
 
 			$expected = $case['expected'];
 
-			include_once './Modules/Test/classes/class.ilTestFinalMarkLangVarBuilder.php';
+			require_once './Modules/Test/classes/class.ilTestFinalMarkLangVarBuilder.php';
 			$instance = new ilTestFinalMarkLangVarBuilder($passedStatus, $obligationsAnsweredStatus, $obligationsEnabled);
 
 			// act

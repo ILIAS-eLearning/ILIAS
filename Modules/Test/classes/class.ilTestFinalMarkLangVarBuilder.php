@@ -1,6 +1,5 @@
 <?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * builds the language variable identifier corresponding to the given passed status
@@ -8,9 +7,9 @@
  * and the fact wether obligations are enabled or not in general
  *
  * @author	Björn Heyser <bheyser@databay.de>
+ *         
  * @version	$Id$
  *
- * @package Modules/Test
  * @ingroup ModulesTest
  */
 class ilTestFinalMarkLangVarBuilder
@@ -46,11 +45,9 @@ class ilTestFinalMarkLangVarBuilder
 	 */
 	public function __construct($passedStatus, $obligationsAnsweredStatus, $obligationsEnabled)
 	{
-		$this->passedStatus = (bool)$passedStatus;
-		
-		$this->obligationsAnsweredStatus = (bool)$obligationsAnsweredStatus;
-		
-		$this->obligationsEnabled = (bool)$obligationsEnabled;
+		$this->setPassedStatus( (bool)$passedStatus );
+		$this->setObligationsAnsweredStatus( (bool)$obligationsAnsweredStatus );
+		$this->setObligationsEnabled( (bool)$obligationsEnabled );
 	}
 
 	/**
