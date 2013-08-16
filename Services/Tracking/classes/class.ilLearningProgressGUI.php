@@ -38,7 +38,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		switch($this->__getNextClass())
 		{
 			case 'illplistofprogressgui':
-				include_once 'Services/Tracking/repository_statistics/classes/class.ilLPListOfProgressGUI.php';
+				include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfProgressGUI.php';
 				
 				$ilHelp->setScreenIdComponent("lp");
 
@@ -49,7 +49,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				break;
 
 			case 'illplistofobjectsgui':
-				include_once 'Services/Tracking/repository_statistics/classes/class.ilLPListOfObjectsGUI.php';
+				include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php';
 				if(stristr($this->ctrl->getCmd(), "matrix"))
 				{
 					$this->__setSubTabs(LP_ACTIVE_MATRIX);
