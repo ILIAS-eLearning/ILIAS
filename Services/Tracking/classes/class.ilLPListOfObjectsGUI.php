@@ -5,7 +5,6 @@
 
 include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 include_once 'Services/Search/classes/class.ilUserFilterGUI.php';
 
 /**
@@ -298,7 +297,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->details_id = $a_details_id;
 			$this->details_obj_id = $ilObjDataCache->lookupObjId($this->details_id);
 			$this->details_type = $ilObjDataCache->lookupType($this->details_obj_id);
-			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_obj_id);
+			
+			include_once 'Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($this->details_obj_id);													
+			$this->details_mode = $olp->getCurrentMode();
 		}
 	}
 

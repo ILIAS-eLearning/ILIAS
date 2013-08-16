@@ -19,11 +19,17 @@ include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
  */
 class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 {
-	function ilLPListOfSettingsGUI($a_mode,$a_ref_id)
+	protected $obj_settings;
+	protected $obj_lp;
+	
+	function __construct($a_mode,$a_ref_id)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
-
+		parent::__construct($a_mode,$a_ref_id);
+		
 		$this->obj_settings = new ilLPObjSettings($this->getObjId());
+		
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$this->obj_lp = ilObjectLP::getInstance($this->getObjId());
 	}
 
 	/**
@@ -69,20 +75,20 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		// Mode
 		$mod = new ilRadioGroupInputGUI($this->lng->txt('trac_mode'), 'modus');
 		$mod->setRequired(true);
-		$mod->setValue($this->obj_settings->getMode());
+		$mod->setValue($this->obj_lp->getCurrentMode());
 		$form->addItem($mod);
 
-		foreach($this->obj_settings->getValidModes() as $mode_key => $mode_name)
+		foreach($this->obj_lp->getValidModes() as $mode_key)
 		{			
 			$opt = new ilRadioOption(
-				$mode_name,
+				$this->obj_lp->getModeText($mode_key),
 				$mode_key,
-				ilLPObjSettings::_mode2InfoText($mode_key)
+				$this->obj_lp->getModeInfoText($mode_key)
 			);
 			$opt->setValue($mode_key);
 			$mod->addOption($opt);
 
-			// Subitem for vistits
+			// :TODO: Subitem for vistits
 			if($mode_key == LP_MODE_VISITS)
 			{
 				$vis = new ilNumberInputGUI($this->lng->txt('trac_visits'), 'visits');
@@ -95,31 +101,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$opt->addSubItem($vis);
 			}
 		}
-				
-		/*
-		// Info Active
-		$act = new ilCustomInputGUI($this->lng->txt('trac_activated'), '');
-		$img = new ilTemplate('tpl.obj_settings_img_row.html',true,true,'Services/Tracking');
-		$img->setVariable("IMG_SRC",
-			$activated = ilObjUserTracking::_enabledLearningProgress()
-				? ilUtil::getImagePath('icon_ok.png')
-				: ilUtil::getImagePath('icon_not_ok.png')
-		);
-		$act->setHTML($img->get());
-		$form->addItem($act);
-
- 		// Info Anonymized
- 		$ano = new ilCustomInputGUI($this->lng->txt('trac_anonymized'), '');
-		$img = new ilTemplate('tpl.obj_settings_img_row.html',true,true,'Services/Tracking');
-		$img->setVariable("IMG_SRC",
-			$anonymized = !ilObjUserTracking::_enabledUserRelatedData()
-				? ilUtil::getImagePath('icon_ok.png')
-				: ilUtil::getImagePath('icon_not_ok.png')
-		);
-		$ano->setHTML($img->get());
-		$form->addItem($ano);
-		*/				
-
+		
 		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
 
 		return $form;
@@ -135,25 +117,30 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		if($form->checkInput())
 		{
 			// do not confuse collections
-			$new_mode = (int) $form->getInput('modus');
-			$old_mode = $this->obj_settings->getMode();
-			if($old_mode != $new_mode &&
-				in_array($old_mode, array(LP_MODE_COLLECTION, LP_MODE_COLLECTION_MANUAL, LP_MODE_COLLECTION_TLT)))
+			$new_mode = (int)$form->getInput('modus');
+			$old_mode = $this->obj_lp->getCurrentMode();						
+			if($old_mode != $new_mode)
 			{
-				include_once "Services/Tracking/classes/class.ilLPCollections.php";
-				ilLPCollections::_deleteAll($this->getObjId());				
+				$collection = $this->obj_lp->getCollectionInstance();
+				if($collection)
+				{
+					$collection->delete();	
+				}
 			}
 			
 			$this->obj_settings->setMode($new_mode);
+			
+			// :TODO:
 			$this->obj_settings->setVisits($form->getInput('visits'));
+			
 			$this->obj_settings->update();
 
-			if(in_array($new_mode, array(LP_MODE_COLLECTION, LP_MODE_COLLECTION_MANUAL, LP_MODE_COLLECTION_TLT)))
+			if($this->obj_lp->getCollectionInstance())
 			{
-				ilUtil::sendInfo($this->lng->txt('trac_edit_collection'),true);
+				ilUtil::sendInfo($this->lng->txt('trac_edit_collection'), true);
 			}
-			ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'),true);
-			$this->ctrl->redirect($this,'show');
+			ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'), true);
+			$this->ctrl->redirect($this, 'show');
 		}
 
 		$form->setValuesByPost();
@@ -162,8 +149,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_obj_settings.html','Services/Tracking');
 		$this->tpl->setVariable('PROP_FORM',$form->getHTML());
 		$this->tpl->setVariable('COLLECTION_TABLE',$this->getTableByMode());
-
-		return;
 	}
 
 	/**
@@ -171,25 +156,15 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 	 */
 	protected function getTableByMode()
 	{
-		include_once './Services/Tracking/classes/class.ilLPCollectionSettingsTableGUI.php';
-		switch($this->obj_settings->getMode())
-		{
-			case LP_MODE_COLLECTION:
-			case LP_MODE_MANUAL_BY_TUTOR:
-			case LP_MODE_SCORM:
-			case LP_MODE_COLLECTION_MANUAL:
-			case LP_MODE_COLLECTION_TLT:
-				$table = new ilLPCollectionSettingsTableGUI($this->getRefId(),$this,'show');
-				$table->setMode($this->obj_settings->getMode());
-				$table->parse();
-				return $table->getHTML();
-
-
-			default:
-				return '';
-		}
+		$collection = $this->obj_lp->getCollectionInstance();
+		if($collection && $collection->hasSelectableItems())
+		{			
+			include_once "Services/Tracking/classes/class.ilLPCollectionSettingsTableGUI.php";
+			$table = new ilLPCollectionSettingsTableGUI($this, 'show', $this->getRefId(), $this->obj_lp->getCurrentMode());
+			$table->parse($collection);
+			return $table->getHTML();
+		}		
 	}
-
 
 	/**
 	 * Save material assignment
@@ -204,9 +179,12 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		}
 		if(count($_POST['item_ids']))
 		{
-			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-			ilLPCollections::activate($this->getObjId(), $_POST['item_ids']);
-
+			$collection = $this->obj_lp->getCollectionInstance();
+			if($collection && $collection->hasSelectableItems())
+			{			
+				$collection->activateEntries($_POST['item_ids']);
+			}
+			
 			// refresh learning progress
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 			ilLPStatusWrapper::_refreshStatus($this->getObjId());
@@ -229,12 +207,15 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		}
 		if(count($_POST['item_ids']))
 		{
-			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-			ilLPCollections::deactivate($this->getObjId(),$_POST['item_ids']);
-
-			// refresh learning progress
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-			ilLPStatusWrapper::_refreshStatus($this->getObjId());
+			$collection = $this->obj_lp->getCollectionInstance();
+			if($collection && $collection->hasSelectableItems())
+			{			
+				$collection->deactivateEntries($_POST['item_ids']);
+				
+				// refresh learning progress
+				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+				ilLPStatusWrapper::_refreshStatus($this->getObjId());
+			}		
 		}
 		ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'),true);
 		$this->ctrl->redirect($this,'show');
@@ -250,14 +231,17 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->redirect($this,'show');
 		}
+		
+		$collection = $this->obj_lp->getCollectionInstance();
+		if($collection && $collection->hasSelectableItems())
+		{
+			// Assign new grouping id
+			$collection->createNewGrouping((array)$_POST['item_ids']);
 
-		// Assign new grouping id
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		ilLPCollections::createNewGrouping($this->getObjId(),(array) $_POST['item_ids']);
-
-		// refresh learning progress
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_refreshStatus($this->getObjId());
+			// refresh learning progress
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_refreshStatus($this->getObjId());
+		}
 
 		ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'),true);
 		$this->ctrl->redirect($this,'show');
@@ -274,13 +258,16 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			$this->ctrl->redirect($this,'show');
 		}
 
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		ilLPCollections::releaseGrouping($this->getObjId(), (array) $_POST['item_ids']);
-
-		// refresh learning progress
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_refreshStatus($this->getObjId());
-
+		$collection = $this->obj_lp->getCollectionInstance();
+		if($collection && $collection->hasSelectableItems())
+		{		
+			$collection->releaseGrouping((array)$_POST['item_ids']);
+			
+			// refresh learning progress
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_refreshStatus($this->getObjId());
+		}
+		
 		ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'),true);
 		$this->ctrl->redirect($this,'show');
 	}
@@ -297,12 +284,16 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		}
 
 		try {
-			include_once './Services/Tracking/classes/class.ilLPCollections.php';
-			ilLPCollections::saveObligatoryMaterials($this->getObjId(), (array) $_POST['grp']);
+			
+			$collection = $this->obj_lp->getCollectionInstance();
+			if($collection && $collection->hasSelectableItems())
+			{	
+				$collection->saveObligatoryMaterials((array)$_POST['grp']);
 
-			// refresh learning progress
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-			ilLPStatusWrapper::_refreshStatus($this->getObjId());
+				// refresh learning progress
+				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+				ilLPStatusWrapper::_refreshStatus($this->getObjId());
+			}
 
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 			$this->ctrl->redirect($this,'show');

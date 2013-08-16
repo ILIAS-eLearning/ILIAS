@@ -117,15 +117,15 @@ class ilLMExplorer extends ilExplorer
 			{			
 				$info = null;
 
-				include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+				include_once './Services/Object/classes/class.ilObjectLP.php';
 				include_once "Services/Tracking/classes/class.ilLPStatus.php";
-				$lp = new ilLPObjSettings($this->lm_obj->getId());	
-				if($lp->getMode() == LP_MODE_COLLECTION_MANUAL)
+				$olp = ilObjectLP::getInstance($this->lm_obj->getId());	
+				if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL)
 				{
 					include_once "Services/Tracking/classes/class.ilLPStatusCollectionManual.php";
 					$info = ilLPStatusCollectionManual::_getStatusInfo($this->lm_obj->getId());						
 				}
-				else if($lp->getMode() == LP_MODE_COLLECTION_TLT)
+				else if($olp->getCurrentMode() == LP_MODE_COLLECTION_TLT)
 				{						
 					include_once "Services/Tracking/classes/class.ilLPStatusCollectionTLT.php";
 					$info = ilLPStatusCollectionTLT::_getStatusInfo($this->lm_obj->getId());

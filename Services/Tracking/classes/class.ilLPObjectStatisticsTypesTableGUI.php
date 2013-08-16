@@ -59,8 +59,6 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	
 		$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
-		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
-
 		if($a_load_items)
 		{
 			$this->getItems();

@@ -20,7 +20,7 @@ class ilTrQuery
 			$obj_ids = array_keys($obj_refs);		
 			self::refreshObjectsStatus($obj_ids, array($a_user_id));
 			
-			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+			include_once "Services/Object/classes/class.ilObjectLP.php";
 			include_once "Services/Tracking/classes/class.ilLPStatus.php";
 		
 			// prepare object view modes
@@ -74,7 +74,8 @@ class ilTrQuery
 				}
 				else if(!$rec["u_mode"])
 				{
-					$rec["u_mode"] = ilLPObjSettings::__getDefaultMode($rec["obj_id"], $rec["type"]);
+					$olp = ilObjectLP::getInstance($rec["obj_id"]);
+					$rec["u_mode"] = $olp->getCurrentMode();
 				}
 
 				// can be default mode
@@ -185,8 +186,14 @@ class ilTrQuery
 		
 		switch(ilObject::_lookupType($a_parent_obj_id))
 		{
-			case "lm":
-				$item_data = ilLPCollections::_getPossibleLMItems($a_parent_obj_id);
+			case "lm":				
+				include_once './Services/Object/classes/class.ilObjectLP.php';
+				$olp = ilObjectLP::getInstance($a_parent_obj_id);
+				$collection = $olp->getCollectionInstance();
+				if($collection)
+				{					
+					$item_data = $collection->getPossibleItems();
+				}
 				break;
 			
 			default:
@@ -1206,13 +1213,14 @@ class ilTrQuery
 	 */
 	static public function getObjectIds($a_parent_obj_id, $a_parent_ref_id = false,  $use_collection = true, $a_refresh_status = true, $a_user_ids = null)
 	{	
-		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+		include_once "Services/Object/classes/class.ilObjectLP.php";
 		
 		$object_ids = array($a_parent_obj_id);
 		$ref_ids = array($a_parent_obj_id => $a_parent_ref_id);
 		$objectives_parent_id = $scorm = $subitems = false;		
 		
-		$mode = ilLPObjSettings::_lookupMode($a_parent_obj_id);
+		$olp = ilObjectLP::getInstance($a_parent_obj_id);
+		$mode = $olp->getCurrentMode();
 		switch($mode)
 		{
 			// what about LP_MODE_SCORM_PACKAGE ?
@@ -1244,13 +1252,16 @@ class ilTrQuery
 			default:
 				// lp collection
 				if($use_collection)
-				{						
-					include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
-					foreach(ilLPCollectionCache::_getItems($a_parent_obj_id) as $child_ref_id)
+				{				
+					$collection = $olp->getCollectionInstance();
+					if($collection)
 					{
-						$child_id = ilObject::_lookupObjId($child_ref_id);
-						$object_ids[] = $child_id;
-						$ref_ids[$child_id] = $child_ref_id;
+						foreach($collection->getItems() as $child_ref_id)
+						{
+							$child_id = ilObject::_lookupObjId($child_ref_id);
+							$object_ids[] = $child_id;
+							$ref_ids[$child_id] = $child_ref_id;
+						}
 					}
 				}
 				// all objects in branch
@@ -1306,7 +1317,10 @@ class ilTrQuery
 				// as there can be deactivated items in the collection
 				// we should allow them here too
 				
-				$cmode = ilLPObjSettings::_lookupMode($child["obj_id"]);
+				$olp = ilObjectLP::getInstance($child["obj_id"]);			
+				$cmode = $olp->getCurrentMode();
+				
+				/* see ilPluginLP
 				if($cmode == LP_MODE_PLUGIN)
 				{
 					// #11368
@@ -1316,8 +1330,10 @@ class ilTrQuery
 						$a_object_ids[] = $child["obj_id"];
 						$a_ref_ids[$child["obj_id"]] = $child["ref_id"];
 					}	
-				}
-				else if(/* $cmode != LP_MODE_DEACTIVATED && */ $cmode != LP_MODE_UNDEFINED)
+				} 
+				*/
+				
+				if(/* $cmode != LP_MODE_DEACTIVATED && */ $cmode != LP_MODE_UNDEFINED)
 				{
 					$a_object_ids[] = $child["obj_id"];
 					$a_ref_ids[$child["obj_id"]] = $child["ref_id"];

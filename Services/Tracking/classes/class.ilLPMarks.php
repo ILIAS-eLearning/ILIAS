@@ -22,7 +22,7 @@
 */
 
 /**
-* Class ilLPObjSettings
+* Class ilLPMarks
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *

@@ -114,10 +114,6 @@ class ilObjFolder extends ilContainer
 		include_once('Services/Object/classes/class.ilObjectActivation.php');
 		ilObjectActivation::cloneDependencies($this->getRefId(), $a_target_id, $a_copy_id);
 		
-		include_once('Services/Tracking/classes/class.ilLPCollections.php');
-		$lp_collection = new ilLPCollections($this->getId());
-		$lp_collection->cloneCollections($a_target_id,$a_copy_id);		
-		
 	 	return true;
 	}
 	

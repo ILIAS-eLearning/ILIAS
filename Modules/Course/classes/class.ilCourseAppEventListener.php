@@ -43,9 +43,9 @@ class ilCourseAppEventListener
 					$crs = new ilObjCourse($obj_id, false);
 					if($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
 					{
-						include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-						$lp_settings = new ilLPObjSettings($obj_id);
-						$mode = $lp_settings->getMode();
+						include_once './Services/Object/classes/class.ilObjectLP.php';
+						$olp = ilObjectLP::getInstance($obj_id);
+						$mode = $olp->getCurrentMode();
 					}
 					else
 					{

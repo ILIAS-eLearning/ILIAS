@@ -117,8 +117,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		
-		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
-		
 		$this->status_map = array(LP_STATUS_NOT_ATTEMPTED_NUM => "not_attempted", 
 			LP_STATUS_IN_PROGRESS_NUM => "in_progress", 
 			LP_STATUS_COMPLETED_NUM => "completed", 

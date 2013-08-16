@@ -85,7 +85,7 @@ class ilLPCronObjectStatistics extends ilCronJob
 			// gather objects in trash
 			$trashed_objects = $tree->getSavedNodeObjIds($all_courses);
 			
-			include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+			include_once 'Services/Object/classes/class.ilObjectLP.php';
 			include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 			include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";				
 			foreach($all_courses as $crs_id)
@@ -94,7 +94,8 @@ class ilLPCronObjectStatistics extends ilCronJob
 				if(!in_array($crs_id, $trashed_objects))
 				{
 					// only if LP is active
-					$mode = ilLPObjSettings::_lookupMode($crs_id);
+					$olp = ilObjectLP::getInstance($crs_id);										
+					$mode = $olp->getCurrentMode();
 					if($mode == LP_MODE_DEACTIVATED || $mode == LP_MODE_UNDEFINED)
 					{
 						continue;

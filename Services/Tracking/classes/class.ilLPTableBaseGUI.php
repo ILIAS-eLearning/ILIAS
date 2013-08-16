@@ -23,7 +23,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		// country names
 		$this->lng->loadLanguageModule("meta");
 		
-		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
+		include_once("./Services/Object/classes/class.ilObjectLP.php");
 	}
 
 	public function executeCommand()
@@ -170,9 +170,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		if(is_array($this->filter["hide"]) && in_array($a_data["obj_id"], $this->filter["hide"]))
 		{
 			return false;
-		}
-		// :TODO: mode does not have to be set in db
-		if(ilLPObjSettings::_lookupMode($a_data["obj_id"]) == LP_MODE_DEACTIVATED)
+		}		
+		$olp = ilObjectLP::getInstance($a_data["obj_id"]);
+		if($olp->getCurrentMode() == LP_MODE_DEACTIVATED)
 		{
 			return false;
 		}
@@ -555,8 +555,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 	protected function isPercentageAvailable($a_obj_id)
 	{
-		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
-		$mode = ilLPObjSettings::_lookupMode($a_obj_id);
+		// :TODO:
+		$olp = ilObjectLP::getInstance($a_obj_id);
+		$mode = $olp->getCurrentMode();
 		if(in_array($mode, array(LP_MODE_TLT, LP_MODE_VISITS, LP_MODE_OBJECTIVES, LP_MODE_SCORM,
 			LP_MODE_TEST_PASSED)))
 		{
@@ -586,7 +587,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		if($a_obj_id != ROOT_FOLDER_ID)
 		{
 			$this->setTitle($lng->txt($action).": ".$ilObjDataCache->lookupTitle($a_obj_id).$user);
-			$this->setDescription($this->lng->txt('trac_mode').": ".ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($a_obj_id)));
+			
+			$olp = ilObjectLP::getInstance($a_obj_id);
+			$this->setDescription($this->lng->txt('trac_mode').": ".$olp->getModeText($olp->getCurrentMode()));
 		}
 		else
 		{
@@ -878,7 +881,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 
 		// do not show status if learning progress is deactivated
-		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+		$olp = ilObjectLP::getInstance($this->obj_id);
+		$mode = $olp->getCurrentMode();
 		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
 		{
 			$cols["status"] = array(

@@ -112,26 +112,27 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		
 		// Finally set template variable
 		$this->tpl->setVariable("LM_INFO",$info->getHTML());
-
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		$obj_ids = array();
-		foreach(ilLPCollectionCache::_getItems($this->details_obj_id) as $ref_id)
-		{
-			switch($this->details_mode)			
-			{			
-				case LP_MODE_SCORM:					
-				case LP_MODE_OBJECTIVES:
-				case LP_MODE_COLLECTION_MANUAL:
-				case LP_MODE_COLLECTION_TLT:
-					$obj_ids[] = $ref_id;
-					break;
-				
-				default:
-					$obj_ids[ilObject::_lookupObjectId($ref_id)] = array($ref_id);
-					break;
+		
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->details_obj_id);	
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{			
+			$obj_ids = array();
+			foreach($collection->getItems() as $item_id)
+			{
+				if($collection instanceof ilLPCollectionOfRepositoryObjects)
+				{
+					$obj_ids[ilObject::_lookupObjectId($item_id)] = array($item_id);
+					
+				}
+				else
+				{
+					$obj_ids[] = $item_id;
+				}				
 			}
 		}
-
+		
 		$personal_only = !$rbacsystem->checkAccess('edit_learning_progress',$this->getRefId());
 	
 		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
@@ -215,7 +216,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->details_id = $a_details_id;
 			$this->details_obj_id = $ilObjDataCache->lookupObjId($this->details_id);
 			$this->details_type = $ilObjDataCache->lookupType($this->details_obj_id);
-			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_obj_id);
+						
+			include_once 'Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($this->details_obj_id);													
+			$this->details_mode = $olp->getCurrentMode();
 		}
 	}
 }

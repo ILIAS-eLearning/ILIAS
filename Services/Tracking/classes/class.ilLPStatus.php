@@ -659,7 +659,7 @@ class ilLPStatus
 			ilObjUserTracking::_enabledLearningProgress() &&
 			ilObjUserTracking::_hasLearningProgressListGUI())
 		{								
-			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+			include_once "Services/Object/classes/class.ilObjectLP.php";
 			
 			// validate objects
 			$valid = $existing = array();
@@ -681,7 +681,8 @@ class ilLPStatus
 			{								
 				foreach(array_diff($a_obj_ids, $existing) as $obj_id)
 				{
-					$mode = ilLPObjSettings::__getDefaultMode($obj_id, ilObject::_lookupType($obj_id));
+					$olp = ilObjectLP::getInstance($obj_id);
+					$mode = $olp->getCurrentMode();
 					if($mode == LP_MODE_DEACTIVATED)
 					{
 						// #11141

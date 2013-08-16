@@ -1412,9 +1412,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if(ilObjUserTracking::_enabledLearningProgress())
 		{					
-			include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-			$lp_settings = new ilLPObjSettings($this->object->getId());
-			if($lp_settings->getMode())
+			include_once './Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($this->object->getId());
+			if($olp->getCurrentMode())
 			{							
 				$lp_status = new ilFormSectionHeaderGUI();
 				$lp_status->setTitle($this->lng->txt('crs_course_status_of_users'));
@@ -1888,8 +1888,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 		include_once('./Modules/Course/classes/class.ilCourseParticipantsTableGUI.php');
-		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
-		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 		
 		
 		if(isset($_GET['member_table_nav']))
@@ -1898,10 +1896,17 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->checkPermission('write');
+		
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
-			ilObjUserTracking::_enabledUserRelatedData() and
-			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
-
+			ilObjUserTracking::_enabledUserRelatedData());
+		if($this->show_tracking)
+		{			
+			include_once('./Services/Object/classes/class.ilObjectLP.php');
+			$olp = ilObjectLP::getInstance($this->object->getId());
+			$this->show_tracking = ($olp->getCurrentMode() != LP_MODE_DEACTIVATED);
+		}
+			
 		include_once('./Services/Object/classes/class.ilObjectActivation.php');
 		$this->timings_enabled = (ilObjectActivation::hasTimings($this->object->getRefId()) and 
 			($this->object->getViewMode() == IL_CRS_VIEW_TIMING));
@@ -2322,9 +2327,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(ilObjUserTracking::_enabledLearningProgress() &&
 			$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
 		{	
-			include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-			$lp_settings = new ilLPObjSettings($this->object->getId());
-			if($lp_settings->getMode() == LP_MODE_MANUAL_BY_TUTOR)
+			include_once './Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($this->object->getId());
+			if($olp->getCurrentMode() == LP_MODE_MANUAL_BY_TUTOR)
 			{
 				include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 				$marks = new ilLPMarks($this->object->getId(), $a_member_id);
@@ -3586,10 +3591,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->lng->txt('obj_crs').': '.$this->object->getTitle());
 				
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
-		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
-			ilObjUserTracking::_enabledUserRelatedData() and
-			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
+			ilObjUserTracking::_enabledUserRelatedData());
+		if($this->show_tracking)
+		{
+			include_once('./Services/Object/classes/class.ilObjectLP.php');
+			$olp = ilObjectLP::getInstance($this->object->getId());
+			$this->show_tracking = ($olp->getCurrentMode() != LP_MODE_DEACTIVATED);
+		}
 		if($this->show_tracking)
 		{
 			$list->addPreset('progress', $this->lng->txt('learning_progress'), true);

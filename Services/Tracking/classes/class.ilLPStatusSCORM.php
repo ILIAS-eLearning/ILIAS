@@ -25,13 +25,9 @@ class ilLPStatusSCORM extends ilLPStatus
 
 
 	function _getInProgress($a_obj_id)
-	{
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
-
+	{		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = array();
-
 		foreach($status_info['in_progress'] as $in_progress)
 		{
 			$users = array_merge($users,$in_progress);
@@ -121,11 +117,19 @@ class ilLPStatusSCORM extends ilLPStatus
 
 	
 	function _getStatusInfo($a_obj_id)
-	{
+	{				
 		// Which sco's determine the status
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		$status_info['scos'] = ilLPCollectionCache::_getItems($a_obj_id);
-		
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($a_obj_id);
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{		
+			$status_info['scos'] = $collection->getItems();			
+		}		
+		else
+		{
+			$status_info['scos'] = array();
+		}
 		$status_info['num_scos'] = count($status_info['scos']);
 
 		// Get subtype
@@ -210,26 +214,33 @@ class ilLPStatusSCORM extends ilLPStatus
 			$status = LP_STATUS_IN_PROGRESS_NUM;
 		}
 //$ilLog->write("-".$status."-");
+		
+		$scorm_status = "completed";		
+
 		// Which sco's determine the status
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
-		$scos = ilLPCollectionCache::_getItems($a_obj_id);
-		$completed = true;
-		$failed = false;		
-		$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);		
-		switch($subtype)
-		{
-			case 'hacp':
-			case 'aicc':
-			case 'scorm':
-				include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
-				$scorm_status = ilObjSCORMTracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
-				break;
-			
-			case 'scorm2004':
-				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-				$scorm_status = ilSCORM2004Tracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
-				break;
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($a_obj_id);
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{		
+			$scos = $collection->getItems();			
+		
+			include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';	
+			$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);		
+			switch($subtype)
+			{
+				case 'hacp':
+				case 'aicc':
+				case 'scorm':
+					include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
+					$scorm_status = ilObjSCORMTracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
+					break;
+
+				case 'scorm2004':
+					include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+					$scorm_status = ilSCORM2004Tracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
+					break;
+			}
 		}
 		
 		switch ($scorm_status)
@@ -259,22 +270,26 @@ class ilLPStatusSCORM extends ilLPStatus
 	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
 	{
 		// Which sco's determine the status
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		$scos = ilLPCollectionCache::_getItems($a_obj_id);
-		$reqscos = count($scos);
-
-		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
-		$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($a_obj_id);
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{		
+			$scos = $collection->getItems();
+			$reqscos = count($scos);		
 		
-		if ($subtype != "scorm2004")
-		{
-			include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
-			$compl = ilObjSCORMTracking::_countCompleted($scos, $a_obj_id, $a_user_id);
-		}
-		else
-		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-			$compl = ilSCORM2004Tracking::_countCompleted($scos, $a_obj_id, $a_user_id, true);			
+			include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
+			$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
+			if ($subtype != "scorm2004")
+			{
+				include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
+				$compl = ilObjSCORMTracking::_countCompleted($scos, $a_obj_id, $a_user_id);
+			}
+			else
+			{
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+				$compl = ilSCORM2004Tracking::_countCompleted($scos, $a_obj_id, $a_user_id, true);			
+			}
 		}
 
 		if ($reqscos > 0)

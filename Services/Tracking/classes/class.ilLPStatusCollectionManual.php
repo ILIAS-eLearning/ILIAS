@@ -62,47 +62,47 @@ class ilLPStatusCollectionManual extends ilLPStatus
 	function _getStatusInfo($a_obj_id)
 	{		
 		$status_info = array();
-								
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		$status_info["items"] = ilLPCollectionCache::_getItems($a_obj_id);
-		
-		foreach($status_info["items"] as $item_id)
+										
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		$olp = ilObjectLP::getInstance($a_obj_id);
+		$collection = $olp->getCollectionInstance();
+		if($collection)
 		{			
-			$status_info["completed"][$item_id] = array();			
-		}
-		
-		switch(ilObject::_lookupType($a_obj_id))
-		{
-			case "lm":
-				$possible_items = ilLPCollections::_getPossibleLMItems($a_obj_id);				
-				$chapter_ids = array_intersect(array_keys($possible_items),
-					$status_info["items"]);
-				
-				// fix order (adapt from possible items)
-				$status_info["items"] = $chapter_ids;
-								
-				if($chapter_ids)
-				{		
-					$status = self::_getObjectStatus($a_obj_id);
-					
-					foreach($chapter_ids as $item_id)
-					{
-						$status_info["item_titles"][$item_id] = $possible_items[$item_id]["title"];
+			$status_info["items"] = $collection->getItems($a_obj_id);
 						
-						if(isset($status[$item_id]))
+			foreach($status_info["items"] as $item_id)
+			{			
+				$status_info["completed"][$item_id] = array();														
+			}
+			
+			$possible_items = $collection->getPossibleItems();				
+			$chapter_ids = array_intersect(array_keys($possible_items),
+				$status_info["items"]);
+
+			// fix order (adapt from possible items)
+			$status_info["items"] = $chapter_ids;
+
+			if($chapter_ids)
+			{		
+				$status = self::_getObjectStatus($a_obj_id);
+
+				foreach($chapter_ids as $item_id)
+				{
+					$status_info["item_titles"][$item_id] = $possible_items[$item_id]["title"];
+
+					if(isset($status[$item_id]))
+					{
+						foreach($status[$item_id] as $user_id => $user_status)
 						{
-							foreach($status[$item_id] as $user_id => $user_status)
+							if($user_status)
 							{
-								if($user_status)
-								{
-									$status_info["completed"][$item_id][] = $user_id;	
-								}
+								$status_info["completed"][$item_id][] = $user_id;	
 							}
 						}
-					}												
-				}								
-				break;
-		}				
+					}
+				}												
+			}					
+		}
 		
 		return $status_info;
 	}
@@ -181,35 +181,39 @@ class ilLPStatusCollectionManual extends ilLPStatus
 			$a_completed = array();
 		}
 		
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		$all = ilLPCollectionCache::_getItems($a_obj_id);		
-		$existing = self::_getObjectStatus($a_obj_id, $a_user_id);
-		
-		foreach($all as $item_id)
-		{
-			if(isset($existing[$item_id]))
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($a_obj_id);
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{		
+			$existing = self::_getObjectStatus($a_obj_id, $a_user_id);
+			
+			foreach($collection->getItems() as $item_id)
 			{
-				// value changed
-				if((!$existing[$item_id][0] && in_array($item_id, $a_completed)) ||
-					($existing[$item_id][0] && !in_array($item_id, $a_completed)))
+				if(isset($existing[$item_id]))
 				{
-					$ilDB->manipulate("UPDATE ut_lp_coll_manual SET ".
-						" completed = ".$ilDB->quote(in_array($item_id, $a_completed), "integer").
-						" , last_change = ".$ilDB->quote($now, "integer").
-						" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
-						" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
-						" AND subitem_id = ".$ilDB->quote($item_id, "integer"));		
-				}				
-			}
-			else if(in_array($item_id, $a_completed))
-			{
-				$ilDB->manipulate("INSERT INTO ut_lp_coll_manual".
-					"(obj_id,usr_id,subitem_id,completed,last_change)".
-					" VALUES (".$ilDB->quote($a_obj_id, "integer").
-					" , ".$ilDB->quote($a_user_id, "integer").
-					" , ".$ilDB->quote($item_id, "integer").
-					" , ".$ilDB->quote(1, "integer").
-					" , ".$ilDB->quote($now, "integer").")");
+					// value changed
+					if((!$existing[$item_id][0] && in_array($item_id, $a_completed)) ||
+						($existing[$item_id][0] && !in_array($item_id, $a_completed)))
+					{
+						$ilDB->manipulate("UPDATE ut_lp_coll_manual SET ".
+							" completed = ".$ilDB->quote(in_array($item_id, $a_completed), "integer").
+							" , last_change = ".$ilDB->quote($now, "integer").
+							" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
+							" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+							" AND subitem_id = ".$ilDB->quote($item_id, "integer"));		
+					}				
+				}
+				else if(in_array($item_id, $a_completed))
+				{
+					$ilDB->manipulate("INSERT INTO ut_lp_coll_manual".
+						"(obj_id,usr_id,subitem_id,completed,last_change)".
+						" VALUES (".$ilDB->quote($a_obj_id, "integer").
+						" , ".$ilDB->quote($a_user_id, "integer").
+						" , ".$ilDB->quote($item_id, "integer").
+						" , ".$ilDB->quote(1, "integer").
+						" , ".$ilDB->quote($now, "integer").")");
+				}
 			}
 		}
 		

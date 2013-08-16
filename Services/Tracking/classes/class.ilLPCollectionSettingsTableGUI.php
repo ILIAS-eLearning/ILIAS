@@ -2,8 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Services/Tracking/classes/class.ilLPCollections.php';
-include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
 
 /**
  * Description of class
@@ -13,40 +11,21 @@ include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
  */
 class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 {
-
-	private $mode;
 	private $node_id;
-	private $collections;
+	private $mode;
 
 	/**
 	 * Constructor
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
 	 */
-	public function  __construct($node_id,$a_parent_obj, $a_parent_cmd = "")
-	{
-		$this->node_id = $node_id;
+	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_node_id, $a_mode)
+	{		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setId('lpobjs_'.$this->getNode());
-	}
-
-	/**
-	 * Set learning progress mode
-	 * @param int $a_mode
-	 * @see ilLPObjSettings
-	 */
-	public function setMode($a_mode)
-	{
-		$this->mode = $a_mode;
-	}
-
-	/**
-	 * Get mode
-	 * @return int
-	 */
-	public function getMode()
-	{
-		return $this->mode;
+		
+		$this->node_id = $a_node_id;		
+		$this->mode = $a_mode;		
 	}
 
 	/**
@@ -57,38 +36,35 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 	{
 		return $this->node_id;
 	}
-
-	/**
-	 * Get collection object
-	 * @return ilLPCollections
-	 */
-	protected function getCollection()
+	
+	public function getMode()
 	{
-		return $this->collections;
+		return $this->mode;
 	}
-
+	
 	/**
 	 * Read and parse items
 	 */
-	public function parse()
+	public function parse(ilLPCollection $a_collection)
 	{
-		switch($this->getMode())
-		{
-			case LP_MODE_COLLECTION:
-			case LP_MODE_MANUAL_BY_TUTOR:
-				$this->parseCollection();
-				break;
-
-			case LP_MODE_SCORM:
-				$this->parseScormCollection();
-				break;
-			
-			case LP_MODE_COLLECTION_MANUAL:
-			case LP_MODE_COLLECTION_TLT:
-				$this->parseSubItemCollection();
-				break;
-		}
+		$this->setData($a_collection->getTableGUIData($this->getNode()));
 		$this->initTable();
+		
+		// grouping actions
+		if($this->getMode() == LP_MODE_COLLECTION &&
+			ilLPCollectionOfRepositoryObjects::hasGroupedItems(ilObject::_lookupObjId($this->getNode())))
+		{
+			$this->addMultiCommand('releaseMaterials', $this->lng->txt('trac_release_materials'));
+			
+			foreach($this->row_data as $item)
+			{
+				if($item["grouped"])
+				{
+					$this->addCommandButton('saveObligatoryMaterials', $this->lng->txt('trac_group_materials_save'));
+					break;					
+				}
+			}			
+		}
 	}
 
 	/**
@@ -209,7 +185,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
 		// show num obligatory info
 		if(count($a_set['grouped']))
-		{
+		{					
 			$this->tpl->setCurrentBlock('num_passed_items');
 			$this->tpl->setVariable('MIN_PASSED_TXT', $this->lng->txt('trac_min_passed'));
 			$this->tpl->setVariable('NUM_OBLIGATORY', $a_set['num_obligatory']);
@@ -218,152 +194,11 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		}
 	}
 
-	/**
-	 * Read and parse collection items
-	 * @return void
-	 */
-	protected function parseCollection()
-	{
-		$hasGroupedItems = false;
-
-		$this->collections = new ilLPCollections(ilObject::_lookupObjId($this->getNode()));
-
-		$items = ilLPCollections::_getPossibleItems($this->getNode(), $this->getCollection());
-	
-		$data = array();
-		$done = array();
-		foreach($items as $item)
-		{
-			if(in_array($item, $done))
-				continue;
-
-			$tmp = $this->parseCollectionItem($item);
-			$tmp['grouped'] = array();
-			
-			if($this->getMode() == LP_MODE_COLLECTION)
-			{
-				$grouped_items = ilLPCollections::lookupGroupedItems(ilObject::_lookupObjId($this->getNode()), $item);
-				if(count((array) $grouped_items['items']) > 1)
-				{
-					foreach($grouped_items['items'] as $gr)
-					{
-						if($gr == $item)
-						{
-							continue;
-						}
-						$tmp['grouped'][] = $this->parseCollectionItem($gr);
-						$tmp['num_obligatory'] = $grouped_items['num_obligatory'];
-						$tmp['grouping_id'] = $grouped_items['grouping_id'];
-						$hasGroupedItems = true;
-						$done[] = $gr;
-					}
-				}
-			}
-			$data[] = $tmp;
-		}
-
-		if($hasGroupedItems)
-		{
-			$this->addCommandButton('saveObligatoryMaterials', $this->lng->txt('trac_group_materials_save'));
-		}
-
-		$this->setData((array) $data);
-	}
-
-	/**
-	 * parse scorm collection
-	 */
-	protected function parseScormCollection()
-	{
-		$this->collections = new ilLPCollections(ilObject::_lookupObjId($this->getNode()));
-
-		$items = ilLPCollections::_getPossibleSAHSItems(ilObject::_lookupObjId($this->getNode()));
-
-		$data = array();
-		foreach($items as $obj_id => $item)
-		{
-			$tmp['id'] = $obj_id;
-			$tmp['ref_id'] = 0;
-			$tmp['title'] = $item['title'];
-			
-			// status (sorting)
-			$tmp["status"] = $this->getCollection()->isAssigned($obj_id);
-
-			$data[] = $tmp;
-		}
-		$this->setData($data);
-		return;
-	}
-
-	/**
-	 * Parse one item
-	 * @param array $item
-	 */
-	protected function parseCollectionItem($item)
-	{
-		$tmp['ref_id'] = $item;
-		$tmp['id'] = $item;
-		$tmp['obj_id'] = ilObject::_lookupObjId($item);
-		$tmp['type'] = ilObject::_lookupType($tmp['obj_id']);
-		$tmp['title'] = ilObject::_lookupTitle($tmp['obj_id']);
-		$tmp['description'] = ilObject::_lookupDescription($tmp['obj_id']);
-		
-		// mode to text (sorting)
-		$tmp["mode_id"] = ilLPObjSettings::_lookupMode($tmp['obj_id']);
-		$tmp["mode"] = ilLPObjSettings::_mode2Text($tmp["mode_id"]);	
-		
-		// status (sorting)
-		$tmp["status"] = $this->getCollection()->isAssigned($item);
-		
-		return $tmp;
-	}
-	
-	/**
-	 * parse scorm collection
-	 */
-	protected function parseSubItemCollection()
-	{
-		$obj_id = ilObject::_lookupObjId($this->getNode());
-		$this->collections = new ilLPCollections($obj_id);
-		
-		$items = array();
-		switch(ilObject::_lookupType($obj_id))
-		{
-			case "lm":
-				$items = ilLPCollections::_getPossibleLMItems($obj_id);
-				break;
-		}
-						
-		$data = array();		
-		foreach ($items as $item)
-		{														
-			$tmp['id'] = $item["obj_id"];
-			$tmp['ref_id'] = 0;
-			$tmp['title'] = $item['title'];
-			$tmp['type'] = $item['type'];
-			
-			if($this->getMode() == LP_MODE_COLLECTION_TLT)
-			{
-				$tmp['tlt'] = $item['tlt'];
-			}
-			
-			// status (sorting)
-			$tmp["status"] = $this->getCollection()->isAssigned($item["obj_id"]);
-			
-			$data[] = $tmp;			
-		}		
-		$this->setData($data);
-		return;
-	}
-
-	/**
-	 * Init table
-	 */
 	protected function initTable()
 	{
 		global $ilCtrl;
 
-		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));		
 		switch($this->getMode())
 		{
 			case LP_MODE_COLLECTION:
@@ -427,11 +262,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
 		if($this->getMode() == LP_MODE_COLLECTION)
 		{
-			$this->addMultiCommand('groupMaterials', $this->lng->txt('trac_group_materials'));
-			if(ilLPCollections::hasGroupedItems(ilObject::_lookupObjId($this->getNode())))
-			{
-				$this->addMultiCommand('releaseMaterials', $this->lng->txt('trac_release_materials'));
-			}
+			$this->addMultiCommand('groupMaterials', $this->lng->txt('trac_group_materials'));			
 		}
 	}
 

@@ -22,7 +22,7 @@
 */
 
 /**
-* Class ilLPObjSettings
+* Class ilUserSearchOptions
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *

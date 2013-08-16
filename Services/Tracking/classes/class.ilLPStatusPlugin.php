@@ -11,11 +11,7 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
  * @package ServicesTracking
  */
 class ilLPStatusPlugin extends ilLPStatus
-{
-	static protected $plugins; // [array]
-	
-	const INACTIVE_PLUGIN = -1;
-	
+{	
 	/**
 	 * Get ilObjectPlugin for object id
 	 * 
@@ -24,28 +20,9 @@ class ilLPStatusPlugin extends ilLPStatus
 	 */
 	protected static function initPluginObj($a_obj_id)
 	{		
-		if(!isset(self::$plugins[$a_obj_id]))
-		{			
-			self::$plugins[$a_obj_id] = false;
-			
-			// active plugin?
-			include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';	
-			if(ilRepositoryObjectPluginSlot::isTypePluginWithLP(ilObject::_lookupType($a_obj_id)))
-			{
-				$obj = ilObjectFactory::getInstanceByObjId($a_obj_id);
-				if($obj && $obj instanceof ilLPStatusPluginInterface)
-				{
-					self::$plugins[$a_obj_id] = $obj;
-				}
-			}			
-			// inactive plugin?
-			else if(ilRepositoryObjectPluginSlot::isTypePluginWithLP(ilObject::_lookupType($a_obj_id), false))
-			{
-				self::$plugins[$a_obj_id] = self::INACTIVE_PLUGIN;
-			}
-		}	
-		
-		return self::$plugins[$a_obj_id];
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		$olp = ilObjectLP::getInstance($a_obj_id);
+		return $olp->getPluginInstance();
 	}
 
 	function _getNotAttempted($a_obj_id)
@@ -53,7 +30,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		$plugin = self::initPluginObj($a_obj_id);		
 		if($plugin)
 		{
-			if($plugin !== self::INACTIVE_PLUGIN)
+			if($plugin !== ilPluginLP::INACTIVE_PLUGIN)
 			{
 				return (array)$plugin->getLPNotAttempted();
 			}
@@ -71,7 +48,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		$plugin = self::initPluginObj($a_obj_id);
 		if($plugin)
 		{
-			if($plugin !== self::INACTIVE_PLUGIN)
+			if($plugin !== ilPluginLP::INACTIVE_PLUGIN)
 			{
 				return (array)$plugin->getLPInProgress();
 			}
@@ -89,7 +66,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		$plugin = self::initPluginObj($a_obj_id);
 		if($plugin)
 		{
-			if($plugin !== self::INACTIVE_PLUGIN)
+			if($plugin !== ilPluginLP::INACTIVE_PLUGIN)
 			{
 				return (array)$plugin->getLPCompleted();
 			}
@@ -107,7 +84,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		$plugin = self::initPluginObj($a_obj_id);
 		if($plugin)
 		{
-			if($plugin !== self::INACTIVE_PLUGIN)
+			if($plugin !== ilPluginLP::INACTIVE_PLUGIN)
 			{
 				return (array)$plugin->getLPFailed();
 			}
@@ -125,7 +102,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		$plugin = self::initPluginObj($a_obj_id);
 		if($plugin)
 		{					
-			if($plugin !== self::INACTIVE_PLUGIN)
+			if($plugin !== ilPluginLP::INACTIVE_PLUGIN)
 			{
 				// :TODO: create read_event here to make sure?
 				return $plugin->getLPStatusForUser($a_user_id);
@@ -145,7 +122,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		$plugin = self::initPluginObj($a_obj_id);
 		if($plugin)
 		{					
-			if($plugin !== self::INACTIVE_PLUGIN)
+			if($plugin !== ilPluginLP::INACTIVE_PLUGIN)
 			{
 				if (method_exists($plugin, "getPercentageForUser"))
 				{

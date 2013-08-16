@@ -48,22 +48,19 @@ class ilTimingCache
 		return $cache[$a_ref_id];
 	}
 		
-	function _showWarning($a_ref_id,$a_usr_id)
+	function _showWarning($a_ref_id, $a_usr_id)
 	{
-		global $objDefinition;
-		
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		include_once './Services/Tracking/classes/class.ilLPStatus.php';
-		include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-
 		global $ilObjDataCache;
+		
 		$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
-
+								
 		// if completed no warning
+		include_once './Services/Tracking/classes/class.ilLPStatus.php';
 		if(ilLPStatus::_lookupStatus($obj_id, $a_usr_id) == LP_STATUS_COMPLETED_NUM)
 		{
 			return false;
 		}
+		
 		// if editing time reached => show warning
 		$timings =& ilTimingCache::_getTimings($a_ref_id);
 		if($timings['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING)
@@ -82,14 +79,14 @@ class ilTimingCache
 			}
 		}
 
-		// objective_ids would get confused with ref_ids !
-        if(ilLPObjSettings::_lookupMode($obj_id) != LP_MODE_OBJECTIVES &&
-            $objDefinition->isContainer(ilObject::_lookupType($obj_id)))
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($obj_id);
+		$collection = $olp->getCollectionInstance();	
+        if($collection instanceof ilLPCollectionOfRepositoryObjects)
         {
-			// No check subitems
-			foreach(ilLPCollectionCache::_getItems($obj_id) as $item)
+			foreach($collection->getItems() as $item)
 			{
-				if(ilTimingCache::_showWarning($item,$a_usr_id))
+				if(ilTimingCache::_showWarning($item, $a_usr_id))
 				{
 					return true;
 				}

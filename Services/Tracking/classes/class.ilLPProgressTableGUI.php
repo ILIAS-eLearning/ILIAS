@@ -19,25 +19,24 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $mode = null, $personal_only = false, $a_parent_id = null)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache, $ilUser;
+		global $ilCtrl, $lng, $ilUser;
 
 		$this->tracked_user = $a_user;
 		$this->obj_ids = $obj_ids;
-		$this->details = $details;
+		$this->details = $details;		
 		$this->mode = $mode;
 		$this->parent_obj_id = $a_parent_id;
-
+		
 		$this->setId("lpprgtbl");
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setLimit(9999);
 		
-		$this->has_object_subitems = !in_array($this->mode, 
-			array(LP_MODE_SCORM, LP_MODE_OBJECTIVES, LP_MODE_COLLECTION_MANUAL, LP_MODE_COLLECTION_TLT));		
-
 		if(!$this->details)
-		{
+		{			
+			$this->has_object_subitems = true;
+			
 			$user = $this->tracked_user;
 			if(!$user)
 			{
@@ -62,7 +61,12 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->addMultiCommand("hideSelected", $lng->txt("trac_hide_selected"));
 		}
 		else
-		{
+		{				
+			include_once './Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($this->parent_obj_id);					
+			$collection = $olp->getCollectionInstance();
+			$this->has_object_subitems = ($collection instanceof ilLPCollectionOfRepositoryObjects);		
+			
 			if(!$personal_only)
 			{
 				$this->parseTitle($a_parent_obj->details_obj_id, "trac_subitems");
@@ -154,7 +158,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 					$data = ilTrQuery::getObjectsStatusForUser($this->tracked_user->getId(), $obj_ids);
 					foreach($data as $idx => $item)
 					{
-						if(!$item["status"] && !$this->filter["status"])
+						if(!$item["status"] && !$this->filter["status"] && !$this->details)
 						{
 							unset($data[$idx]);
 						}
@@ -208,7 +212,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			
 			$this->tpl->setVariable('STATUS_CHANGED_VAL',  ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME)));
 
-			$this->tpl->setVariable("MODE_TEXT", ilLPObjSettings::_mode2Text($a_set["u_mode"]));
+			$olp = ilObjectLP::getInstance($a_set["obj_id"]);			
+			$this->tpl->setVariable("MODE_TEXT", $olp->getModeText($a_set["u_mode"]));
 			$this->tpl->setVariable("MARK_VALUE", $a_set["mark"]);
 			$this->tpl->setVariable("COMMENT_TEXT", $a_set["comment"]);
 						
@@ -271,7 +276,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 				$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_hide'));
 				$this->tpl->parseCurrentBlock();
 
-				if(ilLPObjSettings::_isContainer($a_set["u_mode"]) && $a_set["ref_ids"])
+				$olp = ilObjectLP::getInstance($a_set["obj_id"]);		
+				if($olp->getCollectionInstance() && $a_set["ref_ids"])
 				{
 					$ref_id = $a_set["ref_ids"];
 					$ref_id = array_shift($ref_id);
