@@ -47,19 +47,30 @@ class ilObjOrgUnit extends ilObjCategory {
 	}
 
 	private function loadRoles(){
-		global $ilDB;
+		global $ilDB, $ilLog;
 		if(!$this->employee_role || !$this->superior_role){
-			$q = "SELECT obj_id, title FROM object_data WHERE title LIKE 'il_orgu_employee_".$ilDB->quote($this->getRefId(),"integer")."' OR title LIKE 'il_orgu_superior_".$ilDB->quote($this->getRefId(),"integer")."'";
-			$set = $ilDB->query($q);
-			while($res = $ilDB->fetchAssoc($set)){
-				if($res["title"] == "il_orgu_employee_".$this->getRefId())
-					$this->employee_role = $res["obj_id"];
-				elseif($res["title"] == "il_orgu_superior_".$this->getRefId())
-					$this->superior_role = $res["obj_id"];
+				$this->doLoadRoles();
 			}
 
-			if(!$this->employee_role || !$this->superior_role)
-				throw new Exception("The standard roles the orgu object with id: ".$this->getId()." aren't initialized or have been deleted!");
+			if(!$this->employee_role || !$this->superior_role){
+				$this->initDefaultRoles();
+				$this->doLoadRoles();
+				if(!$this->employee_role || !$this->superior_role)
+					throw new Exception("The standard roles the orgu object with id: ".$this->getId()." aren't initialized or have been deleted, newly creating them didn't work!");
+				else
+					$ilLog->write("[".__FILE__.":".__LINE__."] The standard roles for the orgu obj with id: ".$this->getId()." were newly created as they couldnt be found.");
+			}
+	}
+
+	private function doLoadRoles(){
+		global $ilDB;
+		$q = "SELECT obj_id, title FROM object_data WHERE title LIKE 'il_orgu_employee_".$ilDB->quote($this->getRefId(),"integer")."' OR title LIKE 'il_orgu_superior_".$ilDB->quote($this->getRefId(),"integer")."'";
+		$set = $ilDB->query($q);
+		while($res = $ilDB->fetchAssoc($set)){
+			if($res["title"] == "il_orgu_employee_".$this->getRefId())
+				$this->employee_role = $res["obj_id"];
+			elseif($res["title"] == "il_orgu_superior_".$this->getRefId())
+				$this->superior_role = $res["obj_id"];
 		}
 	}
 
