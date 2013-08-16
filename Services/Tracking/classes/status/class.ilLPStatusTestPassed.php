@@ -77,8 +77,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		$ilBench->start('LearningProgress','9183_LPStatusTestPassed_completed');
 
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-		include_once './Services/Tracking/classes/class.ilTestResultCache.php';
-
+		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		foreach($status_info['results'] as $user_data)
 		{
