@@ -381,6 +381,13 @@ class ilSurveyParticipantsGUI
 	public function confirmDeleteAllUserDataObject()
 	{
 		$this->object->deleteAllUserData();
+		
+		// #11558 - re-open closed appraisees
+		if($this->object->get360Mode())
+		{
+			$this->object->openAllAppraisees();			
+		}
+		
 		ilUtil::sendSuccess($this->lng->txt("svy_all_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "maintenance");
 	}
