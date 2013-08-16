@@ -263,14 +263,24 @@ class ilScoringAdjustmentGUI
 		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
 
-		if ($question instanceof ilObjQuestionScoringAdjustable)
+		if ($question instanceof ilGuiQuestionScoringAdjustable)
 		{
 			$question->writeQuestionSpecificPostData(true);
+
+		}
+		
+		if ($question->object instanceof ilObjQuestionScoringAdjustable)
+		{
 			$question->object->saveAdditionalQuestionDataToDb();
 		}
-		if ($question instanceof ilObjAnswerScoringAdjustable)
+		
+		if ($question instanceof ilGuiAnswerScoringAdjustable)
 		{
 			$question->writeAnswerSpecificPostData(true);
+		}
+		
+		if($question->object instanceof ilObjAnswerScoringAdjustable)
+		{
 			$question->object->saveAnswerSpecificDataToDb();
 		}
 
