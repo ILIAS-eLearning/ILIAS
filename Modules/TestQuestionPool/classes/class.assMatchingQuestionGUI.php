@@ -4,7 +4,7 @@
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
-include_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Matching question GUI representation

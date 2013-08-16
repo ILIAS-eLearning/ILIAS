@@ -1,55 +1,41 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* Numeric question GUI representation
-*
-* The assNumericGUI class encapsulates the GUI representation
-* for numeric questions.
-*
-* @author		Helmut SchottmÃ¼ller <helmut.schottmueller@mac.com>
-* @author		Nina Gharib <nina@wgserve.de>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
-class assNumericGUI extends assQuestionGUI
+ * Numeric question GUI representation
+ *
+ * The assNumericGUI class encapsulates the GUI representation
+ * for numeric questions.
+ *
+ * @author		Helmut SchottmÃ¼ller <helmut.schottmueller@mac.com>
+ * @author		Nina Gharib <nina@wgserve.de>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ *
+ * @version	$Id$
+ *
+ * @ingroup ModulesTestQuestionPool
+ */
+class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	/**
-	* assNumericGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assNumericGUI object.
-	*
-	* @param integer $id The database id of a Numeric question object
-	* @access public
-	*/
-	function __construct($id = -1)
+	 * assNumericGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assNumericGUI object.
+	 *
+	 * @param integer $id The database id of a Numeric question object
+	 *
+	 * @return assNumericGUI
+	 */
+	public function __construct($id = -1)
 	{
 		parent::__construct();
-		include_once "./Modules/TestQuestionPool/classes/class.assNumeric.php";
+		require_once './Modules/TestQuestionPool/classes/class.assNumeric.php';
 		$this->object = new assNumeric();
 		if ($id >= 0)
 		{
@@ -63,52 +49,37 @@ class assNumericGUI extends assQuestionGUI
 		{
 			$cmd = "delete";
 		}
-
 		return $cmd;
 	}
 
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			$this->object->setMaxChars($_POST["maxchars"]);
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-			$this->object->setLowerLimit($_POST['lowerlimit']);
-			$this->object->setUpperLimit($_POST['upperlimit']);
-			$this->object->setPoints($_POST['points']);
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			$this->writeAnswerSpecificPostData();
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
 		}
-		else
-		{
-			return 1;
-		}
+		return 1;
 	}
 
 	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
+	 * Creates an output of the edit form for the question
+	 *
+	 * @param bool $checkonly
+	 *
+	 * @return bool
+	 */
 	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
@@ -122,48 +93,10 @@ class assNumericGUI extends assQuestionGUI
 		$form->setTableWidth("100%");
 		$form->setId("assnumeric");
 
-		$this->addBasicQuestionFormProperties($form);
-
-		// maxchars
-		$maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
-		$maxchars->setSize(10);
-		$maxchars->setDecimals(0);
-		$maxchars->setMinValue(1);
-		$maxchars->setRequired(true);
-		if ($this->object->getMaxChars() > 0) $maxchars->setValue($this->object->getMaxChars());
-		$form->addItem($maxchars);
-
-		// points
-		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
-		$points->setValue($this->object->getPoints() > 0 ? $this->object->getPoints() : '');
-		$points->setRequired(TRUE);
-		$points->setSize(3);
-		$points->setMinValue(0.0);
-		$points->setMinvalueShouldBeGreater(true);
-		$form->addItem($points);
-
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("range"));
-		$form->addItem($header);
-		
-		// lower bound
-		$lower_limit = new ilFormulaInputGUI($this->lng->txt("range_lower_limit"), "lowerlimit");
-		$lower_limit->setSize(25);
-		$lower_limit->setMaxLength(20);
-		$lower_limit->setRequired(true);
-		$lower_limit->setValue($this->object->getLowerLimit());
-		$form->addItem($lower_limit);
-
-		// upper bound
-		$upper_limit = new ilFormulaInputGUI($this->lng->txt("range_upper_limit"), "upperlimit");
-		$upper_limit->setSize(25);
-		$upper_limit->setMaxLength(20);
-		$upper_limit->setRequired(true);
-		$upper_limit->setValue($this->object->getUpperLimit());
-		$form->addItem($upper_limit);
-		
+		$this->addBasicQuestionFormProperties( $form );
+		$this->populateQuestionSpecificFormPart( $form );
+		$this->populateAnswerSpecificFormPart( $form );
 		$this->populateTaxonomyFormSection($form);
-
 		$this->addQuestionFormCommandButtons($form);
 
 		$errors = false;
@@ -186,10 +119,8 @@ class assNumericGUI extends assQuestionGUI
 	* Checks the Range limits Upper and Lower for their correctness
 	*
 	* @return boolean 
-	* @access private
 	*/
-
-	function checkRange()
+	public function checkRange()
 	{
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
@@ -205,13 +136,17 @@ class assNumericGUI extends assQuestionGUI
 				return FALSE;
 			}
 		}
-		else 
-		{
-			return FALSE;
-		}
+		return FALSE;
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	/**
+	 * @param string		$formaction
+	 * @param integer		$active_id
+	 * @param null|integer	$pass
+	 * @param bool 			$is_postponed
+	 * @param bool 			$use_post_solutions
+	 */
+	public function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
@@ -219,18 +154,20 @@ class assNumericGUI extends assQuestionGUI
 	}
 
 	/**
-	* Get the question solution output
-	*
-	* @param integer $active_id The active user id
-	* @param integer $pass The test pass
-	* @param boolean $graphicalOutput Show visual feedback for right/wrong answers
-	* @param boolean $result_output Show the reached points for parts of the question
-	* @param boolean $show_question_only Show the question without the ILIAS content around
-	* @param boolean $show_feedback Show the question feedback
-	* @param boolean $show_correct_solution Show the correct solution instead of the user solution
-	* @param boolean $show_manual_scoring Show specific information for the manual scoring output
-	* @return The solution output of the question as HTML code
-	*/
+	 * Get the question solution output
+	 *
+	 * @param integer $active_id             The active user id
+	 * @param integer $pass                  The test pass
+	 * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
+	 * @param boolean $result_output         Show the reached points for parts of the question
+	 * @param boolean $show_question_only    Show the question without the ILIAS content around
+	 * @param boolean $show_feedback         Show the question feedback
+	 * @param boolean $show_correct_solution Show the correct solution instead of the user solution
+	 * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
+	 * @param bool    $show_question_text
+	 *
+	 * @return string The solution output of the question as HTML code
+	 */
 	function getSolutionOutput(
 		$active_id,
 		$pass = NULL,
@@ -255,7 +192,7 @@ class assNumericGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
+		require_once './Services/UICore/classes/class.ilTemplate.php';
 		$template = new ilTemplate("tpl.il_as_qpl_numeric_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		if (is_array($solutions))
@@ -297,7 +234,9 @@ class assNumericGUI extends assQuestionGUI
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
 		$questionoutput = $template->get();
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+		//$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : ""; // Moving new method 
+																								 // due to deprecation.
+		$feedback = ($show_feedback) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
 		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -309,11 +248,16 @@ class assNumericGUI extends assQuestionGUI
 		}
 		return $solutionoutput;
 	}
-	
-	function getPreview($show_question_only = FALSE)
+
+	/**
+	 * @param bool $show_question_only
+	 *
+	 * @return string
+	 */
+	public function getPreview($show_question_only = FALSE)
 	{
 		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
+		require_once './Services/UICore/classes/class.ilTemplate.php';
 		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
 		$questiontext = $this->object->getQuestion();
@@ -326,14 +270,23 @@ class assNumericGUI extends assQuestionGUI
 		}
 		return $questionoutput;
 	}
-	
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+
+	/**
+	 * @param integer		$active_id
+	 * @param integer|null	$pass
+	 * @param bool			$is_postponed
+	 * @param bool			$use_post_solutions
+	 *
+	 * @return string
+	 */
+	public function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
+		$solutions = NULL;
 		// get the solution of the user for the active pass or from the last pass if allowed
 		if ($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			
+			require_once './Modules/Test/classes/class.ilObjTest.php';
 			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
@@ -342,7 +295,7 @@ class assNumericGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
+		require_once './Services/UICore/classes/class.ilTemplate.php';
 		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		if (is_array($solutions))
 		{
@@ -361,13 +314,13 @@ class assNumericGUI extends assQuestionGUI
 
 	/**
 	 * Sets the ILIAS tabs for this question type
-	 *
-	 * @access public
 	 * 
 	 * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
 	 */
-	function setQuestionTabs()
+	public function setQuestionTabs()
 	{
+		/** @var $rbacsystem ilRbacSystem */
+		/** @var $ilTabs ilTabsGUI */
 		global $rbacsystem, $ilTabs;
 		
 		$this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
@@ -441,17 +394,19 @@ class assNumericGUI extends assQuestionGUI
 		if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0))
 		{
 			$ref_id = $_GET["calling_test"];
-			if (strlen($ref_id) == 0) $ref_id = $_GET["test_ref_id"];
+			if (strlen($ref_id) == 0) 
+			{
+				$ref_id = $_GET["test_ref_id"];
+			}
 
-                        global $___test_express_mode;
-
-                        if (!$_GET['test_express_mode'] && !$___test_express_mode) {
-                            $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
-                        }
-                        else {
-                            $link = ilTestExpressPage::getReturnToPageLink();
-                            $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
-                        }
+			global $___test_express_mode;
+			if (!$_GET['test_express_mode'] && !$___test_express_mode) {
+				$ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
+			}
+			else {
+				$link = ilTestExpressPage::getReturnToPageLink();
+				$ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
+			}
 		}
 		else
 		{
@@ -459,9 +414,72 @@ class assNumericGUI extends assQuestionGUI
 		}
 	}
 
-	function getSpecificFeedbackOutput($active_id, $pass)
+	/**
+	 * @param int $active_id
+	 * @param int $pass
+	 *
+	 * @return mixed|string
+	 */
+	public function getSpecificFeedbackOutput($active_id, $pass)
 	{
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);
+	}
+
+	public function writeQuestionSpecificPostData($always = false)
+	{
+		$this->object->setMaxChars( $_POST["maxchars"] );
+	}
+
+	public function writeAnswerSpecificPostData($always = false)
+	{
+		$this->object->setLowerLimit( $_POST['lowerlimit'] );
+		$this->object->setUpperLimit( $_POST['upperlimit'] );
+		$this->object->setPoints( $_POST['points'] );
+	}
+
+	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		// maxchars
+		$maxchars = new ilNumberInputGUI($this->lng->txt( "maxchars" ), "maxchars");
+		$maxchars->setSize( 10 );
+		$maxchars->setDecimals( 0 );
+		$maxchars->setMinValue( 1 );
+		$maxchars->setRequired( true );
+		if ($this->object->getMaxChars() > 0)
+			$maxchars->setValue( $this->object->getMaxChars() );
+		$form->addItem( $maxchars );
+	}
+
+	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		$points->setValue( $this->object->getPoints() > 0 ? $this->object->getPoints() : '' );
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0.0 );
+		$points->setMinvalueShouldBeGreater( true );
+		$form->addItem( $points );
+
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle( $this->lng->txt( "range" ) );
+		$form->addItem( $header );
+
+		// lower bound
+		$lower_limit = new ilFormulaInputGUI($this->lng->txt( "range_lower_limit" ), "lowerlimit");
+		$lower_limit->setSize( 25 );
+		$lower_limit->setMaxLength( 20 );
+		$lower_limit->setRequired( true );
+		$lower_limit->setValue( $this->object->getLowerLimit() );
+		$form->addItem( $lower_limit );
+
+		// upper bound
+		$upper_limit = new ilFormulaInputGUI($this->lng->txt( "range_upper_limit" ), "upperlimit");
+		$upper_limit->setSize( 25 );
+		$upper_limit->setMaxLength( 20 );
+		$upper_limit->setRequired( true );
+		$upper_limit->setValue( $this->object->getUpperLimit() );
+		$form->addItem( $upper_limit );
 	}
 }
