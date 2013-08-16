@@ -6084,6 +6084,15 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
+	function openAllAppraisees()
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("UPDATE svy_360_appr".
+			" SET has_closed = ".$ilDB->quote(null, "integer").
+			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer"));
+	}
+	
 	
 	//
 	// reminder/notification
