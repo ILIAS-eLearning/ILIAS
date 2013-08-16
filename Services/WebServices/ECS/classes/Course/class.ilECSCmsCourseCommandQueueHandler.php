@@ -3,6 +3,9 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/WebServices/ECS/interfaces/interface.ilECSCommandQueueHandler.php';
+include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
+include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+
 
 /**
  * Description of class
@@ -56,6 +59,7 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 			$this->mid = $details->getMySender();
 			
 			// Check if import is enabled
+			include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
 			$part = ilECSParticipantSetting::getInstance($this->getServer()->getServerId(), $this->getMid());
 			if(!$part->isImportEnabled())
 			{
