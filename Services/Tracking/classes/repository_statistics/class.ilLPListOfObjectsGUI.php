@@ -51,7 +51,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 				$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
-				include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
+				include_once("./Services/Tracking/classes/repository_statistics/class.ilTrUserObjectsPropsTableGUI.php");
 				$table_gui = new ilTrUserObjectsPropsTableGUI($this, "userDetails",
 					$user_id, $this->details_obj_id, $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
@@ -64,13 +64,13 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 					$this->details_id = ROOT_FOLDER_ID;
 					$cmd =  "show";
 				}
-				include_once './Services/Tracking/classes/class.ilTrSummaryTableGUI.php';
+				include_once './Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php';
 			    $table_gui = new ilTrSummaryTableGUI($this, $cmd, $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
 				break;
 
 			case 'iltrmatrixtablegui':
-				include_once './Services/Tracking/classes/class.ilTrMatrixTableGUI.php';
+				include_once './Services/Tracking/classes/repository_statistics/class.ilTrMatrixTableGUI.php';
 			    $table_gui = new ilTrMatrixTableGUI($this, "showUserObjectMatrix", $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
 				break;
@@ -78,7 +78,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			case 'iltrobjectuserspropstablegui':
 				$this->ctrl->setParameter($this, "details_id", $this->details_id);
 			
-				include_once './Services/Tracking/classes/class.ilTrObjectUsersPropsTableGUI.php';
+				include_once './Services/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php';
 			    $table_gui = new ilTrObjectUsersPropsTableGUI($this, "details", $this->details_obj_id, $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
 				break;
@@ -188,7 +188,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
-		include_once "Services/Tracking/classes/class.ilTrObjectUsersPropsTableGUI.php";
+		include_once "Services/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php";
 		$gui = new ilTrObjectUsersPropsTableGUI($this, "details", $this->details_obj_id, $this->details_id, $a_print_view);
 		
 		$this->tpl->setVariable("LP_OBJECTS", $gui->getHTML());
@@ -240,7 +240,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		// $this->__appendLPDetails($info,$this->details_obj_id,$user_id);
 		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
 
-		include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
+		include_once("./Services/Tracking/classes/repository_statistics/class.ilTrUserObjectsPropsTableGUI.php");
 		$table = new ilTrUserObjectsPropsTableGUI($this, "userDetails", $user_id,
 			$this->details_obj_id, $this->details_id, $print_view);
 		$this->tpl->setVariable('LP_OBJECTS', $table->getHTML());
@@ -276,7 +276,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_objects.html','Services/Tracking');
 
-		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
+		include_once("./Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php");
 		$lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);
 		
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
@@ -320,7 +320,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->ctrl->setParameter($this, 'prt', '');
 		}
 
-		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
+		include_once("./Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php");
 		$table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId(), $print_view);
 		if(!$print_view)
 		{
@@ -360,7 +360,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		include_once("./Services/Tracking/classes/class.ilTrMatrixTableGUI.php");
+		include_once("./Services/Tracking/classes/repository_statistics/class.ilTrMatrixTableGUI.php");
 		$table = new ilTrMatrixTableGUI($this, "showUserObjectMatrix", $this->getRefId());
 		$this->tpl->setVariable('LP_OBJECTS', $table->getHTML());
 		$this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
