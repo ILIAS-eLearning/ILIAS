@@ -1,66 +1,117 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjAnswerScoringAdjustable.php';
 
 /**
- * Class for multiple choice tests
+ * Class for multiple choice tests.
  *
- * assMultipleChoice is a class for multiple choice questions
+ * assMultipleChoice is a class for multiple choice questions.
  *
  * @extends assQuestion
  * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
  * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Maximilian Becker <bheyser@databay.de>
+ *
  * @version		$Id$
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assMultipleChoice extends assQuestion
+class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	/**
-	* The given answers of the multiple choice question
-	*
-	* $answers is an array of the given answers of the multiple choice question
-	*
-	* @var array
-	*/
+	 * The given answers of the multiple choice question
+	 *
+	 * $answers is an array of the given answers of the multiple choice question
+	 *
+	 * @var array
+	 */
 	var $answers;
 
 	/**
-	* Output type
-	*
-	* This is the output type for the answers of the multiple choice question. You can select
-	* OUTPUT_ORDER(=0) or OUTPUT_RANDOM (=1). The default output type is OUTPUT_ORDER
-	*
-	* @var integer
-	*/
+	 * Output type
+	 *
+	 * This is the output type for the answers of the multiple choice question. You can select
+	 * OUTPUT_ORDER(=0) or OUTPUT_RANDOM (=1). The default output type is OUTPUT_ORDER
+	 *
+	 * @var integer
+	 */
 	var $output_type;
 
-	/**
-	* Thumbnail size
-	*
-	* @var integer
-	*/
+	public $isSingleline;
+	public $lastChange;
+	public $feedback_setting;
+
+	/** @var integer Thumbnail size */
 	protected $thumb_size;
 
 	/**
-	* assMultipleChoice constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assMultipleChoice object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $comment A comment string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A numerical ID to identify the owner/creator
-	* @param string $question The question string of the multiple choice question
-	* @param integer $output_type The output order of the multiple choice answers
-	* @access public
-	* @see assQuestion:assQuestion()
-	*/
-	function __construct(
+	 * @param mixed $feedback_setting
+	 */
+	public function setFeedbackSetting($feedback_setting)
+	{
+		$this->feedback_setting = $feedback_setting;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getFeedbackSetting()
+	{
+		return $this->feedback_setting;
+	}
+
+	/**
+	 * @param mixed $isSingleline
+	 */
+	public function setIsSingleline($isSingleline)
+	{
+		$this->isSingleline = $isSingleline;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getIsSingleline()
+	{
+		return $this->isSingleline;
+	}
+
+	/**
+	 * @param mixed $lastChange
+	 */
+	public function setLastChange($lastChange)
+	{
+		$this->lastChange = $lastChange;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getLastChange()
+	{
+		return $this->lastChange;
+	}
+
+	/**
+	 * assMultipleChoice constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assMultipleChoice object.
+	 *
+	 * @param string     $title       A title string to describe the question
+	 * @param string     $comment     A comment string to describe the question
+	 * @param string     $author      A string containing the name of the questions author
+	 * @param integer    $owner       A numerical ID to identify the owner/creator
+	 * @param string     $question    The question string of the multiple choice question
+	 * @param int|string $output_type The output order of the multiple choice answers
+	 *
+	 * @see assQuestion:assQuestion()
+	 */
+	public function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -95,86 +146,23 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Saves a assMultipleChoice object to a database
-	*
-	* @param object $db A pear DB object
-	* @access public
-	*/
-	function saveToDb($original_id = "")
+	 * Saves a assMultipleChoice object to a database
+	 *
+	 * @param string $original_id
+	 */
+	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
-
 		$this->saveQuestionDataToDb($original_id);
+		$this->saveAdditionalQuestionDataToDb();
+		$this->saveAnswerSpecificDataToDb();
 
-		$oldthumbsize = 0;
-		if ($this->isSingleline && ($this->getThumbSize()))
-		{
-			// get old thumbnail size
-			$result = $ilDB->queryF("SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-				array("integer"),
-				array($this->getId())
-			);
-			if ($result->numRows() == 1)
-			{
-				$data = $ilDB->fetchAssoc($result);
-				$oldthumbsize = $data['thumb_size'];
-			}
-		}
-		if (!$this->isSingleline)
-		{
-			ilUtil::delDir($this->getImagePath());
-		}
-
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
-
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)", 
-			array("integer", "text", "text", "integer"),
-			array(
-				$this->getId(),
-				$this->getShuffle(),
-				($this->isSingleline) ? "0" : "1",
-				(strlen($this->getThumbSize()) == 0) ? null : $this->getThumbSize()
-			)
-		);
-
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_mc WHERE question_fi = %s",
-			array('integer'),
-			array($this->getId())
-		);
-
-		foreach ($this->answers as $key => $value)
-		{
-			$answer_obj = $this->answers[$key];
-			$next_id = $ilDB->nextId('qpl_a_mc');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_mc (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-				array('integer','integer','text','float','float','integer','text', 'integer'),
-				array(
-					$next_id,
-					$this->getId(),
-					ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
-					$answer_obj->getPoints(),
-					$answer_obj->getPointsUnchecked(),
-					$answer_obj->getOrder(),
-					$answer_obj->getImage(),
-					time()
-				)
-			);
-		}
-		
 		$this->ensureNoInvalidObligation($this->getId());
-
-		$this->rebuildThumbnails();
-
 		parent::saveToDb($original_id);
 	}
-	
-	/*
-	* Rebuild the thumbnail images with a new thumbnail size
-	*/
+
+	/**
+	 * Rebuild the thumbnail images with a new thumbnail size
+	 */
 	protected function rebuildThumbnails()
 	{
 		if ($this->isSingleline && ($this->getThumbSize()))
@@ -188,12 +176,19 @@ class assMultipleChoice extends assQuestion
 			}
 		}
 	}
-	
+
+	/**
+	 * @return string
+	 */
 	public function getThumbPrefix()
 	{
 		return "thumb.";
 	}
-	
+
+	/**
+	 * @param $path string
+	 * @param $file string
+	 */
 	protected function generateThumbForFile($path, $file)
 	{
 		$filename = $path . $file;
@@ -222,9 +217,8 @@ class assMultipleChoice extends assQuestion
 	* Loads a assMultipleChoice object from a database
 	*
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
-	* @access public
 	*/
-	function loadFromDb($question_id)
+	public function loadFromDb($question_id)
 	{
 		global $ilDB;
 		$hasimages = 0;
@@ -288,11 +282,9 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Duplicates an assMultipleChoiceQuestion
-	*
-	* @access public
-	*/
-	function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+	 * Duplicates an assMultipleChoiceQuestion
+	 */
+	public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
 	{
 		if ($this->id <= 0)
 		{
@@ -353,11 +345,9 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Copies an assMultipleChoice object
-	*
-	* @access public
-	*/
-	function copyObject($target_questionpool_id, $title = "")
+	 * Copies an assMultipleChoice object
+	 */
+	public function copyObject($target_questionpool_id, $title = "")
 	{
 		if ($this->id <= 0)
 		{
@@ -393,40 +383,39 @@ class assMultipleChoice extends assQuestion
 	* Gets the multiple choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
 	*
 	* @return integer The output type of the assMultipleChoice object
-	* @access public
 	* @see $output_type
 	*/
-	function getOutputType()
+	public function getOutputType()
 	{
 		return $this->output_type;
 	}
 
 	/**
-	* Sets the output type of the assMultipleChoice object
-	*
-	* @param integer $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-	* @access public
-	* @see $response
-	*/
-	function setOutputType($output_type = OUTPUT_ORDER)
+	 * Sets the output type of the assMultipleChoice object
+	 *
+	 * @param int|string $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
+	 *                                
+	 * @see    $response
+	 */
+	public function setOutputType($output_type = OUTPUT_ORDER)
 	{
 		$this->output_type = $output_type;
 	}
 
 	/**
-	* Adds a possible answer for a multiple choice question. A ASS_AnswerBinaryStateImage object will be
-	* created and assigned to the array $this->answers.
-	*
-	* @param string $answertext The answer text
-	* @param double $points The points for selecting the answer (even negative points can be used)
-	* @param boolean $state Defines the answer as correct (TRUE) or incorrect (FALSE)
-	* @param integer $order A possible display order of the answer
-	* @param double $points The points for not selecting the answer (even negative points can be used)
-	* @access public
-	* @see $answers
-	* @see ASS_AnswerBinaryStateImage
-	*/
-	function addAnswer(
+	 * Adds a possible answer for a multiple choice question. A ASS_AnswerBinaryStateImage object will be
+	 * created and assigned to the array $this->answers.
+	 *
+	 * @param string  $answertext 		The answer text
+	 * @param double  $points     		The points for selecting the answer (even negative points can be used)
+	 * @param float   $points_unchecked The points for not selecting the answer (even positive points can be used)
+	 * @param integer $order      		A possible display order of the answer
+	 * @param string  $answerimage
+	 * 
+	 * @see      $answers
+	 * @see      ASS_AnswerBinaryStateImage
+	 */
+	public function addAnswer(
 		$answertext = "",
 		$points = 0.0,
 		$points_unchecked = 0.0,
@@ -462,27 +451,25 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Returns the number of answers
-	*
-	* @return integer The number of answers of the multiple choice question
-	* @access public
-	* @see $answers
-	*/
-	function getAnswerCount()
+	 * Returns the number of answers
+	 *
+	 * @return integer The number of answers of the multiple choice question
+	 * @see $answers
+	 */
+	public function getAnswerCount()
 	{
 		return count($this->answers);
 	}
 
 	/**
-	* Returns an answer with a given index. The index of the first
-	* answer is 0, the index of the second answer is 1 and so on.
-	*
-	* @param integer $index A nonnegative index of the n-th answer
-	* @return object ASS_AnswerBinaryStateImage-Object containing the answer
-	* @access public
-	* @see $answers
+	 * Returns an answer with a given index. The index of the first
+	 * answer is 0, the index of the second answer is 1 and so on.
+	 *
+	 * @param integer $index A nonnegative index of the n-th answer
+	 * @return object ASS_AnswerBinaryStateImage-Object containing the answer
+	 * @see $answers
 	*/
-	function getAnswer($index = 0)
+	public function getAnswer($index = 0)
 	{
 		if ($index < 0) return NULL;
 		if (count($this->answers) < 1) return NULL;
@@ -492,14 +479,13 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Deletes an answer with a given index. The index of the first
-	* answer is 0, the index of the second answer is 1 and so on.
-	*
-	* @param integer $index A nonnegative index of the n-th answer
-	* @access public
-	* @see $answers
-	*/
-	function deleteAnswer($index = 0)
+	 * Deletes an answer with a given index. The index of the first
+	 * answer is 0, the index of the second answer is 1 and so on.
+	 *
+	 * @param integer $index A nonnegative index of the n-th answer
+	 * @see $answers
+	 */
+	public function deleteAnswer($index = 0)
 	{
 		if ($index < 0) return;
 		if (count($this->answers) < 1) return;
@@ -518,23 +504,21 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Deletes all answers
-	*
-	* @access public
-	* @see $answers
-	*/
-	function flushAnswers()
+	 * Deletes all answers
+	 *
+	 * @see $answers
+	 */
+	public function flushAnswers()
 	{
 		$this->answers = array();
 	}
 
 	/**
-	* Returns the maximum points, a learner can reach answering the question
-	*
-	* @access public
-	* @see $points
-	*/
-	function getMaximumPoints()
+	 * Returns the maximum points, a learner can reach answering the question
+	 * 
+	 * @see $points
+	 */
+	public function getMaximumPoints()
 	{
 		$points = 0;
 		$allpoints = 0;
@@ -555,12 +539,13 @@ class assMultipleChoice extends assQuestion
 	/**
 	 * Returns the points, a learner has reached answering the question.
 	 * The points are calculated from the given answers.
-	 * 
-	 * @access public
+	 *
 	 * @param integer $active_id
 	 * @param integer $pass
 	 * @param boolean $returndetails (deprecated !!)
-	 * @return integer/array $points/$details (array $details is deprecated !!)
+	 *
+	 * @throws ilTestException
+	 * @return integer|array $points/$details (array $details is deprecated !!)
 	 */
 	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
@@ -611,15 +596,15 @@ class assMultipleChoice extends assQuestion
 	/**
 	 * Saves the learners input of the question to the database.
 	 * 
-	 * @access public
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
+	 *                      
 	 * @return boolean $status
 	 */
 	public function saveWorkingData($active_id, $pass = NULL)
 	{
+		/** @var $ilDB ilDB */
 		global $ilDB;
-		global $ilUser;
 
 		if (is_null($pass))
 		{
@@ -628,7 +613,7 @@ class assMultipleChoice extends assQuestion
 		}
 
 		$entered_values = 0;
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
 		);
@@ -639,7 +624,7 @@ class assMultipleChoice extends assQuestion
 				if (strlen($value))
 				{
 					$next_id = $ilDB->nextId('tst_solutions');
-					$affectedRows = $ilDB->insert("tst_solutions", array(
+					$ilDB->insert("tst_solutions", array(
 						"solution_id" => array("integer", $next_id),
 						"active_fi" => array("integer", $active_id),
 						"question_fi" => array("integer", $this->getId()),
@@ -668,14 +653,86 @@ class assMultipleChoice extends assQuestion
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-		
+
 		return true;
+	}
+
+	public function saveAdditionalQuestionDataToDb()
+	{
+		/** @var $ilDB ilDB */
+		global $ilDB;
+		$oldthumbsize = 0;
+		if ($this->isSingleline && ($this->getThumbSize()))
+		{
+			// get old thumbnail size
+			$result = $ilDB->queryF( "SELECT thumb_size FROM " . $this->getAdditionalTableName(
+							 ) . " WHERE question_fi = %s",
+									 array( "integer" ),
+									 array( $this->getId() )
+			);
+			if ($result->numRows() == 1)
+			{
+				$data         = $ilDB->fetchAssoc( $result );
+				$oldthumbsize = $data['thumb_size'];
+			}
+		}
+
+		if (!$this->isSingleline)
+		{
+			ilUtil::delDir( $this->getImagePath() );
+		}
+
+		// save additional data
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName() 
+							. " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)",
+							array( "integer", "text", "text", "integer" ),
+							array(
+								$this->getId(),
+								$this->getShuffle(),
+								($this->isSingleline) ? "0" : "1",
+								(strlen( $this->getThumbSize() ) == 0) ? null : $this->getThumbSize()
+							)
+		);
+	}
+
+	public function saveAnswerSpecificDataToDb()
+	{
+		/** @var $ilDB ilDB */
+		global $ilDB;
+		$ilDB->manipulateF( "DELETE FROM qpl_a_mc WHERE question_fi = %s",
+							array( 'integer' ),
+							array( $this->getId() )
+		);
+
+		foreach ($this->answers as $key => $value)
+		{
+			$answer_obj = $this->answers[$key];
+			$next_id    = $ilDB->nextId( 'qpl_a_mc' );
+			$ilDB->manipulateF( "INSERT INTO qpl_a_mc (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+								array( 'integer', 'integer', 'text', 'float', 'float', 'integer', 'text', 'integer' ),
+								array(
+									$next_id,
+									$this->getId(),
+									ilRTE::_replaceMediaObjectImageSrc( $answer_obj->getAnswertext(), 0 ),
+									$answer_obj->getPoints(),
+									$answer_obj->getPointsUnchecked(),
+									$answer_obj->getOrder(),
+									$answer_obj->getImage(),
+									time()
+								)
+			);
+		}
+		$this->rebuildThumbnails();
 	}
 
 	/**
 	 * Reworks the allready saved working data if neccessary
 	 *
-	 * @access protected
 	 * @param integer $active_id
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
@@ -695,47 +752,43 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Returns the question type of the question
-	*
-	* @return integer The question type of the question
-	* @access public
-	*/
-	function getQuestionType()
+	 * Returns the question type of the question
+	 *
+	 * @return integer The question type of the question
+	 */
+	public function getQuestionType()
 	{
 		return "assMultipleChoice";
 	}
 	
 	/**
-	* Returns the name of the additional question data table in the database
-	*
-	* @return string The additional table name
-	* @access public
-	*/
-	function getAdditionalTableName()
+	 * Returns the name of the additional question data table in the database
+	 *
+	 * @return string The additional table name
+	 */
+	public function getAdditionalTableName()
 	{
 		return "qpl_qst_mc";
 	}
 	
 	/**
-	* Returns the name of the answer table in the database
-	*
-	* @return string The answer table name
-	* @access public
-	*/
-	function getAnswerTableName()
+	 * Returns the name of the answer table in the database
+	 *
+	 * @return string The answer table name
+	 */
+	public function getAnswerTableName()
 	{
 		return "qpl_a_mc";
 	}
 	
 	/**
-	* Sets the image file and uploads the image to the object's image directory.
-	*
-	* @param string $image_filename Name of the original image file
-	* @param string $image_tempfilename Name of the temporary uploaded image file
-	* @return integer An errorcode if the image upload fails, 0 otherwise
-	* @access public
-	*/
-	function setImageFile($image_filename, $image_tempfilename = "")
+	 * Sets the image file and uploads the image to the object's image directory.
+	 *
+	 * @param string $image_filename Name of the original image file
+	 * @param string $image_tempfilename Name of the temporary uploaded image file
+	 * @return integer An errorcode if the image upload fails, 0 otherwise
+	 */
+	public function setImageFile($image_filename, $image_tempfilename = "")
 	{
 		$result = 0;
 		if (!empty($image_tempfilename))
@@ -746,7 +799,6 @@ class assMultipleChoice extends assQuestion
 			{
 				ilUtil::makeDirParents($imagepath);
 			}
-			//if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
 			if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $imagepath.$image_filename))
 			{
 				$result = 2;
@@ -774,12 +826,11 @@ class assMultipleChoice extends assQuestion
 	}
 	
 	/**
-	* Deletes an image file
-	*
-	* @param string $image_filename Name of the image file to delete
-	* @access private
-	*/
-	function deleteImage($image_filename)
+	 * Deletes an image file
+	 *
+	 * @param string $image_filename Name of the image file to delete
+	 */
+	protected function deleteImage($image_filename)
 	{
 		$imagepath = $this->getImagePath();
 		@unlink($imagepath . $image_filename);
@@ -857,8 +908,8 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Sync images of a MC question on synchronisation with the original question
-	**/
+	 * Sync images of a MC question on synchronisation with the original question
+	 */
 	protected function syncImages()
 	{
 		global $ilLog;
@@ -900,9 +951,8 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Collects all text in the question which could contain media objects
-	* which were created with the Rich Text Editor
-	*/
+	 * Collects all text in the question which could contain media objects which were created with the Rich Text Editor.
+	 */
 	function getRTETextWithMediaObjects()
 	{
 		$text = parent::getRTETextWithMediaObjects();
@@ -924,17 +974,17 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $worksheet Reference to the parent excel worksheet
-	* @param object $startrow Startrow of the output in the excel worksheet
-	* @param object $active_id Active id of the participant
-	* @param object $pass Test pass
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @access public
-	*/
+	 * Creates an Excel worksheet for the detailed cumulated results of this question
+	 *
+	 * @param object $worksheet    Reference to the parent excel worksheet
+	 * @param object $startrow     Startrow of the output in the excel worksheet
+	 * @param object $active_id    Active id of the participant
+	 * @param object $pass         Test pass
+	 * @param object $format_title Excel title format
+	 * @param object $format_bold  Excel bold format
+	 *
+	 * @return object
+	 */
 	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
 	{
 		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
@@ -977,11 +1027,11 @@ class assMultipleChoice extends assQuestion
 	}
 
 	/**
-	* Returns a JSON representation of the question
-	*/
+	 * Returns a JSON representation of the question
+	 */
 	public function toJSON()
 	{
-		include_once("./Services/RTE/classes/class.ilRTE.php");
+		require_once './Services/RTE/classes/class.ilRTE.php';
 		$result = array();
 		$result['id'] = (int) $this->getId();
 		$result['type'] = (string) $this->getQuestionType();
@@ -1066,7 +1116,7 @@ class assMultipleChoice extends assQuestion
 	 * 2 - Feedback is shown for all checked/selected options.
 	 * 3 - Feedback is shown for all correct options.
 	 * 
-	 * @param int $a_feedback_setting 
+	 * @param integer $a_feedback_setting 
 	 */
 	function setSpecificFeedbackSetting($a_feedback_setting)
 	{
@@ -1102,6 +1152,7 @@ class assMultipleChoice extends assQuestion
 	 * 
 	 * @param integer $active_id
 	 * @param integer $pass
+	 * 
 	 * @return boolean $answered
 	 */
 	public function isAnswered($active_id, $pass)
@@ -1118,12 +1169,13 @@ class assMultipleChoice extends assQuestion
 	 * 
 	 * (overwrites method in class assQuestion)
 	 * 
-	 * @global ilDB $ilDB
 	 * @param integer $questionId
+	 * 
 	 * @return boolean $obligationPossible
 	 */
 	public static function isObligationPossible($questionId)
 	{
+		/** @var $ilDB ilDB */
 		global $ilDB;
 		
 		$query = "
@@ -1145,11 +1197,11 @@ class assMultipleChoice extends assQuestion
 	 * when points can be reached ONLY by NOT check any answer
 	 * a possibly still configured obligation will be removed
 	 * 
-	 * @global type $ilDB
 	 * @param integer $questionId 
 	 */
 	public function ensureNoInvalidObligation($questionId)
 	{
+		/** @var $ilDB ilDB */
 		global $ilDB;
 		
 		$query = "
@@ -1195,5 +1247,3 @@ class assMultipleChoice extends assQuestion
 		}
 	}
 }
-
-?>
