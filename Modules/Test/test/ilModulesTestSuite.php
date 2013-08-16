@@ -25,6 +25,17 @@ class ilModulesTestSuite extends PHPUnit_Framework_TestSuite
 {
 	public static function suite()
 	{
+		if (defined('ILIAS_PHPUNIT_CONTEXT'))
+		{
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			ilUnitUtil::performInitialisation();
+		}
+		else
+		{
+			chdir( dirname( __FILE__ ) );
+			chdir('../../../');
+		}
+
 		$suite = new ilModulesTestSuite();
 	
 		include_once("./Modules/Test/test/ilassMarkTest.php");

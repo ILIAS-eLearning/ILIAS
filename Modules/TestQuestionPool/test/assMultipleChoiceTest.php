@@ -94,12 +94,12 @@ class assMultipleChoiceTest extends PHPUnit_Framework_TestCase
 	 * @param
 	 * @return
 	 */
-	public function testCreation()
+	public function t_e_stCreation()
 	{
 		global $ilDB;
 		
 		include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
-		$insert_id = ilassMultipleChoiceTest::createSampleQuestion();
+		$insert_id = self::createSampleQuestion(null);
 		$this->assertGreaterThan(0, $insert_id);
 		if ($insert_id > 0)
 		{
