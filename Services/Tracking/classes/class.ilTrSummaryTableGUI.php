@@ -106,8 +106,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		// do not show status if learning progress is deactivated
 		include_once './Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($this->obj_id);					
-		$mode = $olp->getCurrentMode();
-		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
+		if($olp->isActive())
 		{		
 			$all[] = "status";
 			$all[] = 'status_changed_max';
@@ -220,8 +219,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		// do not show status if learning progress is deactivated
 		include_once './Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($this->obj_id);					
-		$mode = $olp->getCurrentMode();
-		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
+		if($olp->isActive())
 		{		
 			include_once "Services/Tracking/classes/class.ilLPStatus.php";
 			$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true);

@@ -1067,7 +1067,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			include_once('./Services/Object/classes/class.ilObjectLP.php');
 			$olp = ilObjectLP::getInstance($this->object->getId());
-			$this->show_tracking = ($olp->getCurrentMode() != LP_MODE_DEACTIVATED);
+			$this->show_tracking = $olp->isActive();
 		}
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
@@ -3156,7 +3156,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			include_once('./Services/Object/classes/class.ilObjectLP.php');
 			$olp = ilObjectLP::getInstance($this->object->getId());
-			$this->show_tracking = ($olp->getCurrentMode() != LP_MODE_DEACTIVATED);
+			$this->show_tracking = $olp->isActive();
 		}	
 		if($this->show_tracking)
 		{

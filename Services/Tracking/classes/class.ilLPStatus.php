@@ -662,23 +662,19 @@ class ilLPStatus
 			include_once "Services/Object/classes/class.ilObjectLP.php";
 			
 			// validate objects
-			$valid = $existing = array();
-			$sql = "SELECT obj_id, u_mode FROM ut_lp_settings".
-				" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer");
-			$set = $ilDB->query($sql);
-			while($row = $ilDB->fetchAssoc($set))
-			{
-				$existing[] = $row["obj_id"];
-												
-				if($row["u_mode"] != LP_MODE_DEACTIVATED)
+			$valid = array();
+			$existing = ilLPObjSettings::_lookupDBModeForObjects($a_obj_ids);
+			foreach($existing as $obj_id => $obj_mode)
+			{												
+				if($obj_mode != LP_MODE_DEACTIVATED)
 				{
-					$valid[$row["obj_id"]] = $row["obj_id"];
+					$valid[$obj_id] = $obj_id;
 				}
 			}
-			
-			// missing objects?	
+						
 			if(sizeof($existing) != sizeof($a_obj_ids))
 			{								
+				// missing objects (default mode)
 				foreach(array_diff($a_obj_ids, $existing) as $obj_id)
 				{
 					$olp = ilObjectLP::getInstance($obj_id);

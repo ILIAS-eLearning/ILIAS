@@ -95,8 +95,7 @@ class ilLPCronObjectStatistics extends ilCronJob
 				{
 					// only if LP is active
 					$olp = ilObjectLP::getInstance($crs_id);										
-					$mode = $olp->getCurrentMode();
-					if($mode == LP_MODE_DEACTIVATED || $mode == LP_MODE_UNDEFINED)
+					if(!$olp->isActive())
 					{
 						continue;
 					}

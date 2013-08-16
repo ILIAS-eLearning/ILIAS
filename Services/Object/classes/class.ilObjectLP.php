@@ -15,6 +15,7 @@ class ilObjectLP
 {	
 	protected $obj_id; // [int]
 	protected $collection_instance; // [ilLPCollection]
+	protected $mode; // [int]
 	
 	protected function __construct($a_obj_id)
 	{		
@@ -102,6 +103,12 @@ class ilObjectLP
 	
 		return $instances[$a_obj_id];
 	}
+		
+	public function resetCaches()
+	{
+		$this->mode = null;
+		$this->collection_instance = null;
+	}
 	
 	
 	//
@@ -119,20 +126,32 @@ class ilObjectLP
 	}	
 	
 	public function getCurrentMode()
-	{
-		global $ilDB;
-	
-		// :TODO: => ilLPObjSettings
-		
-		$set = $ilDB->query("SELECT * FROM ut_lp_settings".
-			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer"));
-		$row = $ilDB->fetchAssoc($set);
-		$mode = $row["u_mode"];
-		if(!$mode)
-		{
-			$mode = $this->getDefaultMode();
+	{		
+		if($this->mode === null)
+		{				
+			$mode = ilLPObjSettings::_lookupDBMode($this->obj_id);			
+			if(!$mode)
+			{
+				$mode = $this->getDefaultMode();
+			}
+			
+			$this->mode = $mode;
 		}
-		return $mode;
+		
+		return $this->mode;
+	}
+	
+	public function isActive()
+	{
+		// :TODO: check LP activation?
+		
+		$mode = $this->getCurrentMode();
+		if($mode == LP_MODE_DEACTIVATED || 
+			$mode == LP_MODE_UNDEFINED)
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	public function getModeText($a_mode)
@@ -228,54 +247,23 @@ class ilObjectLP
 	//
 	// RESET
 	//
-		
-	protected function resetCustomLPDataForCompleteObject($a_recursive = true)
-	{
-		return true;
-	}
 	
 	final public function resetLPDataForCompleteObject($a_recursive = true)
-	{		
-		global $ilDB;
+	{				
+		include_once "Services/Tracking/classes/class.ilLPMarks.php";
+		$user_ids = ilLPMarks::_getAllUserIds($this->obj_id);
 		
-		if($a_recursive)
+		include_once "Services/Tracking/classes/class.ilChangeEvent.php";
+		$user_ids = array_merge($user_ids, ilChangeEvent::_getAllUserIds($this->obj_id));		
+		
+		if(sizeof($user_ids))
 		{
-			$subitems = $this->getPossibleCollectionItems();
-			if(is_array($subitems))
-			{
-				foreach($subitems as $sub_ref_id)
-				{
-					$olp = self::getInstance(ilObject::_lookupObjId($sub_ref_id));
-					$olp->resetLPDataForCompleteObject(false);
-				}
-			}
-		}
-		
-		if($this->resetCustomLPDataForCompleteObject())
-		{		
-			include_once "Services/Tracking/classes/class.ilLPMarks.php";
-			ilLPMarks::_deleteObject($this->obj_id);
-
-			// :TODO: => ilChangeEvent
-			$ilDB->manipulate("DELETE FROM read_event".
-				" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer"));
-		}
+			$this->resetLPDataForUserIds(array_unique($user_ids), $a_recursive);
+		}		
 	}
 	
-	protected function resetCustomLPDataForUserId(array $a_user_ids, $a_recursive = true)
-	{
-		return true;
-	}
-
-	final public function resetLPDataForUserId($a_user_ids, $a_recursive = true)
-	{
-		global $ilDB;
-		
-		if(!is_array($a_user_ids))
-		{
-			$a_user_ids = array($a_user_ids);
-		}
-		
+	final public function resetLPDataForUserIds(array $a_user_ids, $a_recursive = true)
+	{				
 		if((bool)$a_recursive)
 		{
 			$subitems = $this->getPossibleCollectionItems();
@@ -284,23 +272,30 @@ class ilObjectLP
 				foreach($subitems as $sub_ref_id)
 				{
 					$olp = self::getInstance(ilObject::_lookupObjId($sub_ref_id));
-					$olp->resetLPDataForUserId($a_user_ids, false);
+					$olp->resetLPDataForUserIds($a_user_ids, false);
 				}
 			}
 		}
 		
-		if($this->resetCustomLPDataForUserId($a_user_ids, (bool)$a_recursive))
-		{					
-			// :TODO: => ilLPMarks
-			$ilDB->manipulate("DELETE FROM ut_lp_marks".
-				" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
-				" AND ".$ilDB->in("usr_id", $a_user_ids, "", "integer"));
+		$this->resetCustomLPDataForUserIds($a_user_ids, (bool)$a_recursive);
+						
+		include_once "Services/Tracking/classes/class.ilLPMarks.php";
+		ilLPMarks::_deleteForUsers($this->obj_id, $a_user_ids);
 
-			// :TODO: => ilChangeEvent
-			$ilDB->manipulate("DELETE FROM read_event".
-				" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
-				" AND ".$ilDB->in("usr_id", $a_user_ids, "", "integer"));
+		include_once "Services/Tracking/classes/class.ilChangeEvent.php";
+		ilChangeEvent::_deleteReadEventsForUsers($this->obj_id, $a_user_ids);		
+				
+		// update LP status to get collections up-to-date
+		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		foreach($a_user_ids as $user_id)
+		{
+			ilLPStatus::_updateStatus($this->obj_id, $user_id);
 		}
+	}
+		
+	protected function resetCustomLPDataForUserIds(array $a_user_ids, $a_recursive = true)
+	{
+		// this should delete all data that is relevant for the supported LP modes
 	}
 }
 

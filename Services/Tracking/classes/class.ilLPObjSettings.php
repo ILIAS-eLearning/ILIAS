@@ -44,20 +44,20 @@ class ilLPObjSettings
 
 	var $is_stored = false;
 	
-	static private $mode_by_obj_id = array();
-
 	function ilLPObjSettings($a_obj_id)
 	{
-		global $ilObjDataCache,$ilDB;
+		global $ilObjDataCache, $ilDB;
 
-		$this->db =& $ilDB;
-
+		$this->db = $ilDB;
 		$this->obj_id = $a_obj_id;
 
 		if(!$this->__read())
 		{
 			$this->obj_type = $ilObjDataCache->lookupType($this->obj_id);
-			$this->obj_mode = $this->__getDefaultMode($this->obj_id,$this->obj_type);
+			
+			include_once "Services/Object/classes/class.ilObjectLP.php";
+			$olp = ilObjectLP::getInstance($this->obj_id);
+			$this->obj_mode = $olp->getDefaultMode();
 		}
 	}
 	
@@ -94,11 +94,10 @@ class ilLPObjSettings
 	}
 
 	function setMode($a_mode)
-	{
-		self::$mode_by_obj_id[$this->getObjId()] = $a_mode;
-		
+	{		
 		$this->obj_mode = $a_mode;
 	}
+	
 	function getMode()
 	{
 		return $this->obj_mode;
@@ -108,6 +107,7 @@ class ilLPObjSettings
 	{
 		return (int) $this->obj_id;
 	}
+	
 	function getObjType()
 	{
 		return $this->obj_type;
@@ -130,7 +130,7 @@ class ilLPObjSettings
 		return false;
 	}
 
-	function update()
+	function update($a_refresh_lp = true)
 	{
 		global $ilDB;
 		
@@ -144,18 +144,14 @@ class ilLPObjSettings
 		$res = $ilDB->manipulate($query);
 		$this->__read();
 		
-		$this->doLPRefresh();		
+		if($a_refresh_lp)
+		{
+			$this->doLPRefresh();		
+		}
 		
 		return true;
 	}
 	
-	protected function doLPRefresh()
-	{		
-		// refresh learning progress		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");				
-		ilLPStatusWrapper::_refreshStatus($this->getObjId());
-	}
-
 	function insert()
 	{
 		global $ilDB,$ilLog;
@@ -175,6 +171,13 @@ class ilLPObjSettings
 		$this->doLPRefresh();		
 
 		return true;
+	}
+
+	protected function doLPRefresh()
+	{		
+		// refresh learning progress		
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");				
+		ilLPStatusWrapper::_refreshStatus($this->getObjId());
 	}
 
 	function _delete($a_obj_id)
@@ -204,31 +207,37 @@ class ilLPObjSettings
 		}
 		return LP_DEFAULT_VISITS;
 	}
-
-	function _lookupMode($a_obj_id)
+	
+	public static function _lookupDBModeForObjects(array $a_obj_ids)
 	{
-		global $ilDB,$ilObjDataCache;
-
-		if (isset(self::$mode_by_obj_id[$a_obj_id]))
+		global $ilDB;
+		
+		// this does NOT handle default mode!
+		
+		$res = array();
+		
+		$query = "SELECT obj_id, u_mode FROM ut_lp_settings".
+			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer");
+		$set = $ilDB->query($query);
+		while($row = $set->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return self::$mode_by_obj_id[$a_obj_id];
-		}
-
-		$query = "SELECT u_mode FROM ut_lp_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			self::$mode_by_obj_id[$a_obj_id] = $row->u_mode;
-			return $row->u_mode;
+			$res[$row->obj_id] = $row->u_mode;
 		}
 		
-		// no db entry exists => return default mode by type
-		$def_mode = ilLPObjSettings::__getDefaultMode($a_obj_id,$ilObjDataCache->lookupType($a_obj_id));
-		self::$mode_by_obj_id[$a_obj_id] = $def_mode;
+		return $res;
+	}
 
-		return $def_mode;
+	public static function _lookupDBMode($a_obj_id)
+	{
+		global $ilDB;
+		
+		// this does NOT handle default mode!
+
+		$query = "SELECT u_mode FROM ut_lp_settings".
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->u_mode;		
 	}
 		
 	public static function _mode2Text($a_mode)

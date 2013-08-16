@@ -938,5 +938,39 @@ class ilChangeEvent
 		$aff = $ilDB->manipulate($query);
 		return true;
 	}
+	
+	public static function _deleteReadEvents($a_obj_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM read_event".
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer"));
+	}
+	
+	public static function _deleteReadEventsForUsers($a_obj_id, array $a_user_ids)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM read_event".
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND ".$ilDB->in("usr_id", $a_user_ids, "", "integer"));
+	}
+	
+	public static function _getAllUserIds($a_obj_id)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT usr_id FROM read_event".
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["usr_id"];
+		}
+
+		return $res;
+	}
 }
+
 ?>

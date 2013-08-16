@@ -67,7 +67,7 @@ class ilLearningProgressAccess
 		
 		include_once './Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
-		if($olp->getCurrentMode() == LP_MODE_DEACTIVATED)
+		if(!$olp->isActive())
 		{
 			return false;
 		}
