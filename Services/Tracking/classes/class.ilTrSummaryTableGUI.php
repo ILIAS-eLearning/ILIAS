@@ -25,6 +25,13 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = ilObject::_lookupObjId($a_ref_id);
+		$this->is_root = ($a_ref_id == ROOT_FOLDER_ID);
+		
+		if(!$this->is_root)
+		{
+			include_once './Services/Object/classes/class.ilObjectLP.php';
+			$this->olp = ilObjectLP::getInstance($this->obj_id);		
+		}
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -47,7 +54,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($labels[$c]["txt"], $c);
 		}
 
-		if($this->ref_id == ROOT_FOLDER_ID)
+		if($this->is_root)
 		{
 			$this->addColumn($this->lng->txt("path"));
 			$this->addColumn($this->lng->txt("action"));
@@ -103,16 +110,14 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		$all[] = "percentage_avg";
 		
-		// do not show status if learning progress is deactivated
-		include_once './Services/Object/classes/class.ilObjectLP.php';
-		$olp = ilObjectLP::getInstance($this->obj_id);					
-		if($olp->isActive())
+		// do not show status if learning progress is deactivated					
+		if($this->is_root || $this->olp->isActive())
 		{		
 			$all[] = "status";
 			$all[] = 'status_changed_max';
 		}
 		
-		if(ilObject::_lookupType($this->obj_id) != "lm")
+		if($this->is_root || ilObject::_lookupType($this->obj_id) != "lm")
 		{
 			$all[] = "mark";
 		}
@@ -184,7 +189,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	{
 		global $lng, $ilSetting;
 		
-		if($this->ref_id == ROOT_FOLDER_ID)
+		if($this->is_root)
 		{
 			return parent::initFilter(true, false);
 		}
@@ -216,10 +221,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			"&#216; ".$lng->txt("trac_percentage")." / ".$lng->txt("user"));
 		$this->filter["percentage"] = $item->getValue();
 
-		// do not show status if learning progress is deactivated
-		include_once './Services/Object/classes/class.ilObjectLP.php';
-		$olp = ilObjectLP::getInstance($this->obj_id);					
-		if($olp->isActive())
+		// do not show status if learning progress is deactivated				
+		if($this->olp->isActive())
 		{		
 			include_once "Services/Tracking/classes/class.ilLPStatus.php";
 			$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true);
@@ -315,7 +318,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
 		$preselected_obj_ids = $filter = NULL;
-		if($this->ref_id == ROOT_FOLDER_ID)
+		if($this->is_root)
 		{
 			// using search to get all relevant objects
 			// #8498/#8499: restrict to objects with at least "edit_learning_progress" access
@@ -631,7 +634,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 		}
 
-		if($this->ref_id == ROOT_FOLDER_ID)
+		if($this->is_root)
 		{
 			$path = $this->buildPath($a_set["ref_ids"], false, true);
 			if($path)
