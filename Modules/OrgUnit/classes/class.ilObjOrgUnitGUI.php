@@ -8,7 +8,7 @@
  * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI
  * @ilCtrl_Calls ilObjOrgUnitGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
  * @ilCtrl_Calls ilObjOrgUnitGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjOrgUnitGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI, illearningprogressgui
+ * @ilCtrl_Calls ilObjOrgUnitGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI, illearningprogressgui, ilRepositorySearchGUI
  */
 
 require_once("./Modules/Category/classes/class.ilObjCategoryGUI.php");
@@ -18,6 +18,7 @@ require_once("./Modules/OrgUnit/classes/class.ilOrgUnitStaffTableGUI.php");
 //require_once("./Modules/OrgUnit/classes/class.ilOrguUserPickerToolbarInputGUI.php");
 require_once("./Modules/OrgUnit/classes/class.ilOrgUnitExporter.php");
 require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
 
 class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 
@@ -45,7 +46,7 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		global $ilTabs, $lng;
 		$ilTabs = new ilTabsGUI();
 		$this->getTabs($ilTabs);
-		$own_ex = array("illearningprogressgui", "illplistofprogressgui", "ilexportgui");
+		$own_ex = array("illearningprogressgui", "illplistofprogressgui", "ilexportgui", "ilrepositorysearchgui");
 		$cmdClass = $this->ctrl->getCmdClass();
 		$cmd = $this->ctrl->getCmd();
 		if(in_array($cmdClass, $own_ex)){
@@ -112,6 +113,15 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 				$exp = new ilExportGUI($this);
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
+				break;
+			case 'ilrepositorysearchgui':
+				if($cmd == "addUserFromAutoComplete"){
+					$this->prepareOutput();
+					$this->addUserFromAutoCompleteObject();
+					break;
+				}
+				$next = new ilRepositorySearchGUI();
+				$this->ctrl->forwardCommand($next);
 				break;
 		}
 		$this->addHeaderAction();
@@ -265,23 +275,71 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 	}
 
 	protected function addToolbar(){
+		global $lng;
 		if(!$this->checkAccess("write"))
 			return;
 
 		global $ilToolbar;
 		/** @var ilToolbarGUI $ilToolbar */
-		$ilToolbar = $ilToolbar;
+		$toolbar = $ilToolbar;
 		//TODO place old input gui.
 //		$item = new ilOrguUserPickerToolbarInputGUI("user_ids");
 //		$item->setSubmitLink($this->ctrl->getLinkTarget($this, "addStaff"));
 //		$ilToolbar->addInputItem($item);
+
+//		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+//		$ul = new ilTextInputGUI($this->lng->txt("user"), 'user_login');
+//		$ul->setDataSource($this->ctrl->getLinkTarget($this, "searchUsersAjax", "", true));
+//		$ul->setSize(15);
+//		$toolbar->addInputItem($ul, true);
+
+		$types = array(
+			"employee" => $this->lng->txt("employee"), "superior" => $this->lng->txt("superior")
+		);
+
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$ilToolbar,
+			array(
+				'auto_complete_name'	=> $lng->txt('user'),
+				'user_type'				=> $types,
+				'submit_name'			=> $lng->txt('add')
+			)
+		);
 	}
 
+
+	public function addUserFromAutoCompleteObject(){
+		$users = explode(',', $_POST['user_login']);
+		$user_ids = array();
+		foreach($users as $user)
+		{
+			$user_id = ilObjUser::_lookupId($user);
+			if($user_id)
+			{
+				$user_ids[] = $user_id;
+			}
+		}
+
+		$user_type = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
+
+		if($user_type == "employee")
+			$this->object->assignUsersToEmployeeRole($user_ids);
+		elseif($user_type == "superior")
+			$this->object->assignUsersToSuperiorRole($user_ids);
+		else
+			throw new Exception("The post request didn't specify wether the user_ids should be assigned to the employee or the superior role.");
+		ilUtil::sendSuccess($this->lng->txt("users_successfuly_added"), true);
+		$this->showStaffObject();
+	}
+
+	/**
+	 * used if JF decides for new multi user input gui.
+	 */
 	public function addStaffObject(){
 		if(!$this->checkAccess("write"))
 			return;
 		global $lng;
-		//TODO repair.
 //		$item = new ilOrguUserPickerToolbarInputGUI("user_ids");
 //		$item->setValueByArray($_POST);
 //		if($item->getStaff() == "employee")
