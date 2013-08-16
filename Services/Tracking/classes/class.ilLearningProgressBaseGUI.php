@@ -215,7 +215,9 @@ class ilLearningProgressBaseGUI
 					{
 						// do not show status if learning progress is deactivated
 						// matrix only consists of status...
-						$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+						include_once './Services/Object/classes/class.ilObjectLP.php';
+						$olp = ilObjectLP::getInstance($this->obj_id);			
+						$mode = $olp->getCurrentMode();
 						if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
 						{
 							$this->tabs_gui->addSubTabTarget("trac_matrix",
@@ -432,35 +434,26 @@ class ilLearningProgressBaseGUI
 		global $ilObjDataCache;
 
 		$details_id = $item_id ? $item_id : $this->details_id;
+		
+		include_once 'Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($details_id);													
+		$mode = $olp->getCurrentMode();
 
 		include_once './Services/MetaData/classes/class.ilMDEducational.php';
-		if(ilLPObjSettings::_lookupMode($details_id) == LP_MODE_VISITS ||
+		if($mode == LP_MODE_VISITS ||
 		   ilMDEducational::_getTypicalLearningTimeSeconds($details_id))
 		{
-
 			// Section object details
 			$info->addSection($this->lng->txt('details'));
 
-			/*
-			$info->addProperty($this->lng->txt('title'),$ilObjDataCache->lookupTitle($details_id));
-
-			// :TODO: event title
-
-			if(strlen($desc = $ilObjDataCache->lookupDescription($details_id)))
+			if($mode == LP_MODE_VISITS)
 			{
-				$info->addProperty($this->lng->txt('description'),$desc);
-			}
-			$info->addProperty($this->lng->txt('trac_mode'),ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($details_id)));
-			*/
-
-			if(ilLPObjSettings::_lookupMode($details_id) == LP_MODE_VISITS)
-			{
-				$info->addProperty($this->lng->txt('trac_required_visits'),ilLPObjSettings::_lookupVisits($details_id));
+				$info->addProperty($this->lng->txt('trac_required_visits'), ilLPObjSettings::_lookupVisits($details_id));
 			}
 
 			if($seconds = ilMDEducational::_getTypicalLearningTimeSeconds($details_id))
 			{
-				$info->addProperty($this->lng->txt('meta_typical_learning_time'),ilFormat::_secondsToString($seconds));
+				$info->addProperty($this->lng->txt('meta_typical_learning_time'), ilFormat::_secondsToString($seconds));
 			}
 
 			return true;
@@ -652,24 +645,30 @@ class ilLearningProgressBaseGUI
 	{
 		global $ilObjDataCache;
 
+		include_once 'Services/Object/classes/class.ilObjectLP.php';
+		
 		foreach($a_items as $item_id)
-		{
-			$this->obj_data[$item_id]['mode'] = ilLPObjSettings::_lookupMode($item_id);
+		{			
+			$olp = ilObjectLP::getInstance($item_id);													
+			
 			$this->obj_data[$item_id]['type'] = $ilObjDataCache->lookupType($item_id);
+			$this->obj_data[$item_id]['mode'] = $olp->getCurrentMode();						
 			if($this->obj_data[$item_id]['mode'] == LP_MODE_TLT)
 			{
 				include_once './Services/MetaData/classes/class.ilMDEducational.php';
 				$this->obj_data[$item_id]['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds($item_id);
 			}
 			if($this->obj_data[$item_id]['mode'] == LP_MODE_VISITS)
-			{
-				include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+			{				
 				$this->obj_data[$item_id]['visits'] = ilLPObjSettings::_lookupVisits($item_id);
 			}
 			if($this->obj_data[$item_id]['mode'] == LP_MODE_SCORM)
 			{
-				include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-				$this->obj_data[$item_id]['scos'] = count(ilLPCollectionCache::_getItems($item_id));
+				$collection = $olp->getCollectionInstance();
+				if($collection)
+				{
+					$this->obj_data[$item_id]['scos'] = count($collection->getItems());
+				}
 			}
 		}
 	}
@@ -717,9 +716,14 @@ class ilLearningProgressBaseGUI
 		$marks = new ilLPMarks($obj_id, $a_user_id);
 
 		$tpl = new ilTemplate('tpl.lp_edit_user.html', true, true, 'Services/Tracking');
-
+																				
         $tpl->setVariable("OBJ_TITLE", $lng->txt("edit").": ".$ilObjDataCache->lookupTitle($obj_id));
-		$tpl->setVariable("OBJ_SUBTITLE", $this->lng->txt('trac_mode').": ".ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($obj_id)));
+		
+		include_once 'Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($obj_id);		
+		$lp_mode = $olp->getCurrentMode();
+		
+		$tpl->setVariable("OBJ_SUBTITLE", $this->lng->txt('trac_mode').": ".$olp->getModeText($lp_mode));
 
 		$ilCtrl->setParameter($this,'user_id',$a_user_id);
 		$ilCtrl->setParameter($this,'details_id',$a_ref_id);
@@ -739,9 +743,8 @@ class ilLearningProgressBaseGUI
 		}
 
 		$tpl->setVariable("TXT_COMMENT",$lng->txt('trac_comment'));
-
-		$mode = ilLPObjSettings::_lookupMode($obj_id);
-		if($mode == LP_MODE_MANUAL or $mode == LP_MODE_MANUAL_BY_TUTOR)
+		
+		if($lp_mode == LP_MODE_MANUAL or $lp_mode == LP_MODE_MANUAL_BY_TUTOR)
 		{
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 			$completed = ilLPStatus::_lookupStatus($obj_id, $a_user_id);		

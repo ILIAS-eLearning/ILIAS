@@ -478,14 +478,18 @@ class ilConditionHandlerInterface
 		// Update relevant sco's
 		if($condition['trigger_type'] == 'sahs')
 		{
-			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-			$lp_collection = new ilLPCollections($condition['trigger_obj_id']);
-			$lp_collection->deleteAll();
+			include_once 'Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($condition['trigger_obj_id']);
+			$collection = $olp->getCollectionInstance();
+			if($collection)
+			{
+				$collection->delete();
+			}
 
 			$items = is_array($_POST['item_ids']) ? $_POST['item_ids'] : array();
 			foreach($items as $item_id)
 			{
-				$lp_collection->add($item_id);
+				$collection->addEntry($item_id);
 			}
 			
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -655,14 +659,18 @@ class ilConditionHandlerInterface
 		// Save assigned sco's
 		if($this->ch_obj->getTriggerType() == 'sahs')
 		{
-			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-			$lp_collection = new ilLPCollections($this->ch_obj->getTriggerObjId());
-			$lp_collection->deleteAll();
-
+			include_once 'Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($this->ch_obj->getTriggerObjId());
+			$collection = $olp->getCollectionInstance();
+			if($collection)
+			{
+				$collection->delete();
+			}
+			
 			$items = is_array($_POST['item_ids']) ? $_POST['item_ids'] : array();
 			foreach($items as $item_id)
 			{
-				$lp_collection->add($item_id);
+				$collection->addEntry($item_id);
 			}
 		}
 
@@ -827,8 +835,6 @@ class ilConditionHandlerInterface
 		if($trigger_type == 'sahs')
 		{
 			$this->lng->loadLanguageModule('trac');
-			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-			$lp_collections = new ilLPCollections($trigger_obj_id);
 			
 			$cus = new ilCustomInputGUI($this->lng->txt('trac_sahs_relevant_items'),'item_ids[]');
 			$cus->setRequired(true);
@@ -837,14 +843,20 @@ class ilConditionHandlerInterface
 				"Services/AccessControl");
 			$counter = 0;
 
-			foreach(ilLPCollections::_getPossibleSAHSItems($trigger_obj_id) as $item_id => $sahs_item)
+			include_once 'Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($trigger_obj_id);
+			$collection = $olp->getCollectionInstance();		
+			if($collection)
 			{
-				$tpl->setCurrentBlock("sco_row");
-				$tpl->setVariable('SCO_ID',$item_id);
-				$tpl->setVariable('SCO_TITLE',$sahs_item['title']);
-				$tpl->setVariable('CHECKED',$lp_collections->isAssigned($item_id) ? 'checked="checked"' : '');
-				$tpl->parseCurrentBlock();
-				$counter++;
+				foreach($collection->getPossibleItems() as $item_id => $sahs_item)
+				{
+					$tpl->setCurrentBlock("sco_row");
+					$tpl->setVariable('SCO_ID',$item_id);
+					$tpl->setVariable('SCO_TITLE',$sahs_item['title']);
+					$tpl->setVariable('CHECKED',$collection->isAssignedEntry($item_id) ? 'checked="checked"' : '');
+					$tpl->parseCurrentBlock();
+					$counter++;
+				}
 			}
 			$tpl->setVariable('INFO_SEL',$this->lng->txt('trac_lp_determination_info_sco'));
 			$cus->setHTML($tpl->get());

@@ -2,11 +2,10 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 include_once 'Services/Tracking/classes/class.ilLPStatusFactory.php';
 
 /**
-* Class ilLPObjSettings
+* Class ilLPStatusWrapper
 * This class is wrapper for all ilLPStatus classes.
 * It caches all function calls using the obj_id as key
 * TODO: substitute all ilStatus calls with this functions

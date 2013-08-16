@@ -75,18 +75,21 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			$insert_tags["[".$id."]"] = $caption;
 		}		
 
-		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-		$lp_collections = new ilLPCollections($this->object->getId());
-
-		$counter=0;
-		foreach(ilLPCollections::_getPossibleSAHSItems($this->object->getId()) as $item_id => $sahs_item)
+		include_once 'Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->object->getId());
+		$collection = $olp->getCollectionInstance();
+		if($collection)
 		{
-			if($lp_collections->isAssigned($item_id)) {
-				$insert_tags['[SCO_T_'.$counter.']'] = $sahs_item['title'];
-				$insert_tags['[SCO_P_'.$counter.']'] = number_format(30.3, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
-				$insert_tags['[SCO_PM_'.$counter.']'] = number_format(90.9, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
-				$insert_tags['[SCO_PP_'.$counter.']'] = number_format(33.3333, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
-				$counter++;
+			$counter=0;
+			foreach($collection->getPossibleItems() as $item_id => $sahs_item)
+			{
+				if($collection->isAssignedEntry($item_id)) {
+					$insert_tags['[SCO_T_'.$counter.']'] = $sahs_item['title'];
+					$insert_tags['[SCO_P_'.$counter.']'] = number_format(30.3, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+					$insert_tags['[SCO_PM_'.$counter.']'] = number_format(90.9, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+					$insert_tags['[SCO_PP_'.$counter.']'] = number_format(33.3333, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
+					$counter++;
+				}
 			}
 		}
 
@@ -149,22 +152,25 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			$insert_tags["[".$id."]"] = $caption;
 		}
 		
-		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-		$lp_collections = new ilLPCollections($this->object->getId());
-
-		$counter=0;
-		foreach(ilLPCollections::_getPossibleSAHSItems($this->object->getId()) as $item_id => $sahs_item)
+		include_once 'Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->object->getId());
+		$collection = $olp->getCollectionInstance();
+		if($collection)
 		{
-			if($lp_collections->isAssigned($item_id)) {
-				$insert_tags['[SCO_T_'.$counter.']'] = $sahs_item['title'];//." getId=".$this->object->getId()." item_id=".$item_id." user_id=".$ilUser->getId()
-				$a_scores = ilLPCollections::_getScoresForUserAndCP_Node_Id($this->object->getId(), $item_id, $ilUser->getId());
-				if ($a_scores["raw"] == null) $insert_tags['[SCO_P_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
-				else $insert_tags['[SCO_P_'.$counter.']'] = number_format($a_scores["raw"], 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
-				if ($a_scores["max"] == null) $insert_tags['[SCO_PM_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
-				else $insert_tags['[SCO_PM_'.$counter.']'] = number_format($a_scores["max"], 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
-				if ($a_scores["scaled"] == null) $insert_tags['[SCO_PP_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
-				else $insert_tags['[SCO_PP_'.$counter.']'] = number_format(($a_scores["scaled"]*100), 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
-				$counter++;
+			$counter=0;
+			foreach($collection->getPossibleItems() as $item_id => $sahs_item)
+			{
+				if($collection->isAssignedEntry($item_id)) {
+					$insert_tags['[SCO_T_'.$counter.']'] = $sahs_item['title'];//." getId=".$this->object->getId()." item_id=".$item_id." user_id=".$ilUser->getId()
+					$a_scores = $collection->getScoresForUserAndCP_Node_Id($item_id, $ilUser->getId());
+					if ($a_scores["raw"] == null) $insert_tags['[SCO_P_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
+					else $insert_tags['[SCO_P_'.$counter.']'] = number_format($a_scores["raw"], 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+					if ($a_scores["max"] == null) $insert_tags['[SCO_PM_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
+					else $insert_tags['[SCO_PM_'.$counter.']'] = number_format($a_scores["max"], 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+					if ($a_scores["scaled"] == null) $insert_tags['[SCO_PP_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
+					else $insert_tags['[SCO_PP_'.$counter.']'] = number_format(($a_scores["scaled"]*100), 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
+					$counter++;
+				}
 			}
 		}
 
@@ -197,10 +203,15 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 
 		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
 
-		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-		$lp_collections = new ilLPCollections($this->object->getId());
+		include_once 'Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->object->getId());
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{
+			$items = $collection->getPossibleItems();
+		}
 
-		if(!$items = ilLPCollections::_getPossibleSAHSItems($this->object->getId())) {
+		if(!$items) {
 			$template->setCurrentBlock('NO_SCO');
 			$template->setVariable('PH_NO_SCO',$lng->txt('certificate_ph_no_sco'));
 			$template->parseCurrentBlock();
@@ -219,18 +230,21 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			$template->parseCurrentBlock();
 		}
 
-		$counter=0;
-		foreach(ilLPCollections::_getPossibleSAHSItems($this->object->getId()) as $item_id => $sahs_item)
+		if($collection)
 		{
-			if($lp_collections->isAssigned($item_id)) {
-				$template->setCurrentBlock("SCO");
-				$template->setVariable('SCO_TITLE',$sahs_item['title']);
-				$template->setVariable('PH_SCO_TITLE','[SCO_T_'.$counter.']');
-				$template->setVariable('PH_SCO_POINTS_RAW','[SCO_P_'.$counter.']');
-				$template->setVariable('PH_SCO_POINTS_MAX','[SCO_PM_'.$counter.']');
-				$template->setVariable('PH_SCO_POINTS_SCALED','[SCO_PP_'.$counter.']');
-				$template->parseCurrentBlock();
-				$counter++;
+			$counter=0;
+			foreach($items as $item_id => $sahs_item)
+			{
+				if($collection->isAssignedEntry($item_id)) {
+					$template->setCurrentBlock("SCO");
+					$template->setVariable('SCO_TITLE',$sahs_item['title']);
+					$template->setVariable('PH_SCO_TITLE','[SCO_T_'.$counter.']');
+					$template->setVariable('PH_SCO_POINTS_RAW','[SCO_P_'.$counter.']');
+					$template->setVariable('PH_SCO_POINTS_MAX','[SCO_PM_'.$counter.']');
+					$template->setVariable('PH_SCO_POINTS_SCALED','[SCO_PP_'.$counter.']');
+					$template->parseCurrentBlock();
+					$counter++;
+				}
 			}
 		}
 

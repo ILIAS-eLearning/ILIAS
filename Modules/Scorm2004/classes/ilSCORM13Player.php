@@ -359,12 +359,22 @@ class ilSCORM13Player
 		include_once './Services/Tracking/classes/class.ilLPStatus.php';
 		$oldStatus = ilLPStatus::_lookupStatus($this->packageId, $ilUser->getID());
 		$status['saved_global_status']=(int) $oldStatus;
+		
 		$status['last_visited']=null;
-		if($this->slm->getAuto_last_visited()) $status['last_visited']=$this->get_last_visited($this->packageId, $ilUser->getID());
-		include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-		$status['lp_mode'] = ilLPObjSettings::_lookupMode($this->packageId);
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		$status['scos'] = ilLPCollectionCache::_getItems($this->packageId);
+		if($this->slm->getAuto_last_visited()) 
+		{
+			$status['last_visited']=$this->get_last_visited($this->packageId, $ilUser->getID());
+		}
+		
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->packageId);
+		$status['lp_mode'] = $olp->getCurrentMode();
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{		
+			$status['scos'] = $collection->getItems();
+		}
+		
 		$status['hash'] = $this->setHash();
 		$status['p'] = $ilUser->getID();
 		$config['status'] = $status;

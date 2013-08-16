@@ -20,11 +20,11 @@ class ilLPStatusFactory
 	
 	function _getClassById($a_obj_id, $a_mode = NULL)
 	{
-		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
-
 		if($a_mode === NULL)
 		{
-			$a_mode = ilLPObjSettings::_lookupMode($a_obj_id);
+			include_once 'Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($a_obj_id);					
+			$a_mode = $olp->getCurrentMode();
 			
 			// please keep the cache in this if-block, otherwise default values
 			// will not trigger the include_once calls
@@ -101,8 +101,9 @@ class ilLPStatusFactory
 				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusCollectionManual';
 
 			case LP_MODE_UNDEFINED:
-				$type = ilObject::_lookupType($a_obj_id);
-				$mode = ilLPObjSettings::__getDefaultMode($a_obj_id, $type);
+				include_once 'Services/Object/classes/class.ilObjectLP.php';
+				$olp = ilObjectLP::getInstance($a_obj_id);					
+				$mode = $olp->getCurrentMode();
 				if($mode != LP_MODE_UNDEFINED)
 				{
 					return self::$class_by_obj_id[$a_obj_id] = self::_getClassById($a_obj_id, $mode);
@@ -110,7 +111,7 @@ class ilLPStatusFactory
 				// fallthrough
 
 			default:
-				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);
+				echo "ilLPStatusFactory: unknown type ".$a_mode;
 				exit;
 		}
 	}
@@ -130,13 +131,13 @@ class ilLPStatusFactory
 		}
 	}
 
-	function &_getInstance($a_obj_id, $a_mode = NULL)
-	{
-		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
-
+	function _getInstance($a_obj_id, $a_mode = NULL)
+	{		
 		if($a_mode === NULL)
 		{
-			$a_mode = ilLPObjSettings::_lookupMode($a_obj_id);
+			include_once 'Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($a_obj_id);					
+			$a_mode = $olp->getCurrentMode();
 		}
 		
 		switch($a_mode)
@@ -198,8 +199,9 @@ class ilLPStatusFactory
 				return new ilLPStatusCollectionManual($a_obj_id);
 				
 			case LP_MODE_UNDEFINED:
-				$type = ilObject::_lookupType($a_obj_id);
-				$mode = ilLPObjSettings::__getDefaultMode($a_obj_id, $type);
+				include_once 'Services/Object/classes/class.ilObjectLP.php';
+				$olp = ilObjectLP::getInstance($a_obj_id);					
+				$mode = $olp->getCurrentMode();
 				if($mode != LP_MODE_UNDEFINED)
 				{
 					return self::_getInstance($a_obj_id, $mode);
@@ -207,9 +209,10 @@ class ilLPStatusFactory
 				// fallthrough		
 
 			default:
-				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);
+				echo "ilLPStatusFactory: unknown type ".$a_mode;
 				exit;
 		}
 	}
 }
+
 ?>

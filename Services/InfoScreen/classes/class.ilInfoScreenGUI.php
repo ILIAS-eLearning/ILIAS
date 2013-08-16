@@ -923,16 +923,15 @@ class ilInfoScreenGUI
 		{
 			return false;
 		}
-
-		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-
-		if(ilLPObjSettings::_lookupMode($this->gui_object->object->getId()) != LP_MODE_MANUAL)
+			
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->gui_object->object->getId());				
+		if($olp->getCurrentMode() != LP_MODE_MANUAL)
 		{
 			return false;
 		}
 
-		
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
 		$this->lng->loadLanguageModule('trac');
 
@@ -1018,7 +1017,6 @@ class ilInfoScreenGUI
 	{
 		global $ilUser;
 
-		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
 		$lp_marks = new ilLPMarks($this->gui_object->object->getId(),$ilUser->getId());

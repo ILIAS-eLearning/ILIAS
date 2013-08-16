@@ -62,57 +62,57 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 		global $ilDB;
 		
 		$status_info = array();
+								
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		$olp = ilObjectLP::getInstance($a_obj_id);
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{			
+			$status_info["items"] = $collection->getItems($a_obj_id);
+							
+			include_once './Services/MetaData/classes/class.ilMDEducational.php';	
+			foreach($status_info["items"] as $item_id)
+			{
+				$status_info["in_progress"][$item_id] = array();
+				$status_info["completed"][$item_id] = array();
+
+				$status_info["tlt"][$item_id] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id, $item_id);
+			}
 		
-		include_once './Services/MetaData/classes/class.ilMDEducational.php';							
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		$status_info["items"] = ilLPCollectionCache::_getItems($a_obj_id);
-		
-		foreach($status_info["items"] as $item_id)
-		{
-			$status_info["in_progress"][$item_id] = array();
-			$status_info["completed"][$item_id] = array();
-			
-			$status_info["tlt"][$item_id] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id, $item_id);
-		}
-		
-		switch(ilObject::_lookupType($a_obj_id))
-		{
-			case "lm":
-				$possible_items = ilLPCollections::_getPossibleLMItems($a_obj_id);				
-				$chapter_ids = array_intersect(array_keys($possible_items),
-					$status_info["items"]);
-				
-				// fix order (adapt from possible items)
-				$status_info["items"] = $chapter_ids;
-				
-				if($chapter_ids)
-				{					
-					foreach($chapter_ids as $item_id)
+			$possible_items = $collection->getPossibleItems();				
+			$chapter_ids = array_intersect(array_keys($possible_items),
+				$status_info["items"]);
+
+			// fix order (adapt from possible items)
+			$status_info["items"] = $chapter_ids;
+
+			if($chapter_ids)
+			{					
+				foreach($chapter_ids as $item_id)
+				{
+					$status_info["item_titles"][$item_id] = $possible_items[$item_id]["title"];
+				}
+
+				$set = $ilDB->query("SELECT obj_id,usr_id,spent_seconds".
+					" FROM lm_read_event".
+					" WHERE ".$ilDB->in("obj_id", $chapter_ids, "", "integer"));
+				while($row = $ilDB->fetchAssoc($set))
+				{						
+					if($row["spent_seconds"] < $status_info["tlt"][$row["obj_id"]])
 					{
-						$status_info["item_titles"][$item_id] = $possible_items[$item_id]["title"];
+						$status_info["in_progress"][$row["obj_id"]][] = $row["usr_id"];													
 					}
-				
-					$set = $ilDB->query("SELECT obj_id,usr_id,spent_seconds".
-						" FROM lm_read_event".
-						" WHERE ".$ilDB->in("obj_id", $chapter_ids, "", "integer"));
-					while($row = $ilDB->fetchAssoc($set))
-					{						
-						if($row["spent_seconds"] < $status_info["tlt"][$row["obj_id"]])
-						{
-							$status_info["in_progress"][$row["obj_id"]][] = $row["usr_id"];													
-						}
-						else
-						{
-							$status_info["completed"][$row["obj_id"]][] = $row["usr_id"];								
-						}
-						
-						if($a_include_tlt_data)
-						{
-							$status_info["tlt_users"][$row["obj_id"]][$row["usr_id"]] = $row["spent_seconds"];
-						}
-					}										
-				}								
-				break;
+					else
+					{
+						$status_info["completed"][$row["obj_id"]][] = $row["usr_id"];								
+					}
+
+					if($a_include_tlt_data)
+					{
+						$status_info["tlt_users"][$row["obj_id"]][$row["usr_id"]] = $row["spent_seconds"];
+					}
+				}										
+			}
 		}		
 		
 		if(!$a_include_tlt_data)

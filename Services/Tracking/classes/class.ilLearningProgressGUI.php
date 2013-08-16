@@ -238,10 +238,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->getRefId()))
-		{			
-			include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-			$lp = new ilLPObjSettings(ilObject::_lookupObjId($this->getRefId()));			
-			if($lp->getMode() == LP_MODE_COLLECTION_MANUAL)
+		{					
+			include_once './Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));			
+			if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL)
 			{
 				$form = $this->initCollectionManualForm();				
 				$tpl->setContent($form->getHTML());							
@@ -259,17 +259,23 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		$form->setTitle($lng->txt("learning_progress"));
 		$form->setDescription($lng->txt("trac_collection_manual_learner_info"));
 		
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		$coll_items = ilLPCollectionCache::_getItems($this->getObjId());
+		$coll_items = array();
 		
-		switch(ilObject::_lookupType($this->getObjId()))
-		{
-			case "lm":
-				$possible_items = ilLPCollections::_getPossibleLMItems($this->getObjId());		
-				$coll_items = array_intersect(array_keys($possible_items), $coll_items);
-				$subitem_title = $lng->txt("objs_st");
-				$subitem_info = $lng->txt("trac_collection_manual_learner_lm_info");
-				break;
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->getObjId());
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{					
+			$coll_items = $collection->getItems();
+			$possible_items = $collection->getPossibleItems(); // for titles
+			
+			switch(ilObject::_lookupType($this->getObjId()))
+			{
+				case "lm":					
+					$subitem_title = $lng->txt("objs_st");
+					$subitem_info = $lng->txt("trac_collection_manual_learner_lm_info");
+					break;
+			}
 		}
 		
 		include_once "Services/Tracking/classes/class.ilLPStatusCollectionManual.php";
@@ -327,9 +333,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->getRefId()))
 		{			
-			include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-			$lp = new ilLPObjSettings(ilObject::_lookupObjId($this->getRefId()));			
-			if($lp->getMode() == LP_MODE_COLLECTION_MANUAL)
+			include_once './Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));			
+			if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL)
 			{
 				$form = $this->initCollectionManualForm();			
 				if($form->checkInput())
@@ -355,15 +361,15 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		$form->setTitle($lng->txt("learning_progress"));
 		$form->setDescription($lng->txt("trac_collection_tlt_learner_info"));
 		
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		$coll_items = ilLPCollectionCache::_getItems($this->getObjId());
+		$coll_items = array();
 		
-		switch(ilObject::_lookupType($this->getObjId()))
-		{
-			case "lm":
-				$possible_items = ilLPCollections::_getPossibleLMItems($this->getObjId());		
-				$coll_items = array_intersect(array_keys($possible_items), $coll_items);
-				break;
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->getObjId());
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{					
+			$coll_items = $collection->getItems();
+			$possible_items = $collection->getPossibleItems(); // for titles
 		}
 		
 		include_once "Services/Tracking/classes/class.ilLPStatus.php";

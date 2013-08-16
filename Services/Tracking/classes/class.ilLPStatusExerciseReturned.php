@@ -31,7 +31,6 @@
 */
 
 include_once 'Services/Tracking/classes/class.ilLPStatus.php';
-include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 
 class ilLPStatusExerciseReturned extends ilLPStatus

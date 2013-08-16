@@ -1431,8 +1431,13 @@ class ilObject
 			include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 			ilChangeEvent::_delete($this->getId());
 			
-			include_once './Services/Tracking/classes/class.ilLPCollections.php';
-			ilLPCollections::_deleteAll($this->getId());
+			include_once './Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($this->getId());
+			$collection = $olp->getCollectionInstance();
+			if($collection)
+			{
+				$collection->delete();
+			}
 			
 			include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
 			ilECSImport::_deleteByObjId($this->getId());
@@ -1997,7 +2002,7 @@ class ilObject
 		
 		$deps["del_ids"][$a_obj_id] = $a_obj_id;
 		
-		if (!$objDefinition->isPlugin($type))
+		if (!$objDefinition->isPlugin($a_type))
 		{
 			$class_name = "ilObj".$objDefinition->getClassName($a_type);
 			$location = $objDefinition->getLocation($a_type);

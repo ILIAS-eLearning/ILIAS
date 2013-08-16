@@ -3,7 +3,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Tracking/classes/class.ilLPStatus.php';
-include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 
 /**

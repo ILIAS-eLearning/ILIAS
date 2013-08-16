@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilLPObjSettings
@@ -132,6 +112,23 @@ class ilLPObjSettings
 	{
 		return $this->obj_type;
 	}
+	
+	function __read()
+	{
+		$res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = ".
+			$this->db->quote($this->obj_id ,'integer'));
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->is_stored = true;
+			$this->obj_type = $row->obj_type;
+			$this->obj_mode = $row->u_mode;
+			$this->visits = $row->visits;
+
+			return true;
+		}
+
+		return false;
+	}
 
 	function update()
 	{
@@ -180,8 +177,19 @@ class ilLPObjSettings
 		return true;
 	}
 
+	function _delete($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM ut_lp_settings WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
+		$res = $ilDB->manipulate($query);
+
+		return true;
+	}
+
 
 	// Static
+	
 	function _lookupVisits($a_obj_id)
 	{
 		global $ilDB;
@@ -197,27 +205,6 @@ class ilLPObjSettings
 		return LP_DEFAULT_VISITS;
 	}
 
-	function _isContainer($a_mode)
-	{
-		return $a_mode == LP_MODE_COLLECTION or
-			$a_mode == LP_MODE_SCORM or
-			$a_mode == LP_MODE_OBJECTIVES or
-			$a_mode == LP_MODE_MANUAL_BY_TUTOR or
-			$a_mode == LP_MODE_COLLECTION_TLT or
-			$a_mode == LP_MODE_COLLECTION_MANUAL;
-	}
-		
-
-	function _delete($a_obj_id)
-	{
-		global $ilDB;
-
-		$query = "DELETE FROM ut_lp_settings WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
-		$res = $ilDB->manipulate($query);
-
-		return true;
-	}
-
 	function _lookupMode($a_obj_id)
 	{
 		global $ilDB,$ilObjDataCache;
@@ -225,17 +212,6 @@ class ilLPObjSettings
 		if (isset(self::$mode_by_obj_id[$a_obj_id]))
 		{
 			return self::$mode_by_obj_id[$a_obj_id];
-		}
-		
-		if(ilLPObjSettings::_checkObjectives($a_obj_id))
-		{
-			self::$mode_by_obj_id[$a_obj_id] = LP_MODE_OBJECTIVES;
-			return LP_MODE_OBJECTIVES;
-		}
-		if(ilLPObjSettings::_checkSCORMPreconditions($a_obj_id))
-		{
-			self::$mode_by_obj_id[$a_obj_id] = LP_MODE_SCORM;
-			return LP_MODE_SCORM;
 		}
 
 		$query = "SELECT u_mode FROM ut_lp_settings ".
@@ -254,106 +230,9 @@ class ilLPObjSettings
 
 		return $def_mode;
 	}
-
-	function getValidModes()
-	{
-		global $lng;
-
-		switch($this->obj_type)
-		{
-			case 'crs':
-				if(ilLPObjSettings::_checkObjectives($this->getObjId()))
-				{
-					return array(LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'));
-				}
-
-				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							 LP_MODE_MANUAL_BY_TUTOR => $lng->txt('trac_mode_manual_by_tutor'),
-							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
-
-				break;
-
-			case 'dbk':
-				return array(
-					LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
-					LP_MODE_DEACTIVATE => $lng->txt('trac_mode_deactivated')
-				);
-			case 'lm':
-				return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
-							 LP_MODE_COLLECTION_MANUAL => $lng->txt('trac_mode_collection_manual'),
-							 LP_MODE_VISITS => $lng->txt('trac_mode_visits'),
-							 LP_MODE_TLT => $lng->txt('trac_mode_tlt'),
-							 LP_MODE_COLLECTION_TLT => $lng->txt('trac_mode_collection_tlt'),
-							 LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
-
-			case 'htlm':
-				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'));
-
-			case 'sahs':
-				include_once './Services/Tracking/classes/class.ilLPCollections.php';
-				include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-				$subtype = ilObjSAHSLearningModule::_lookupSubType($this->getObjId());
-
-				if ($subtype != "scorm2004")
-				{
-					if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
-					{
-						return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
-					}
-					if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
-					{
-						return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-									 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
-					}
-					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
-				}
-				else
-				{
-					if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
-					{
-						return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'),
-							LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'));
-					}
-					if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
-					{
-						return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'),
-							LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
-					}
-					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-						LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'));
-				}
-				break;
-
-			case 'tst':
-				return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'),
-							 LP_MODE_TEST_PASSED => $lng->txt('trac_mode_test_passed'),
-							 LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
-
-			case 'exc':
-				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							 LP_MODE_EXERCISE_RETURNED => $lng->txt('trac_mode_exercise_returned'));
-
-			case 'grp':
-				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							 LP_MODE_MANUAL_BY_TUTOR => $lng->txt('trac_mode_manual_by_tutor'),
-							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
-
-			case 'fold':
-				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
-			
-			case 'sess':
-				return array(LP_MODE_EVENT => $this->lng->txt('trac_mode_event'));
-
-			default:
-				return array();
-		}
-	}
-
-	function _mode2Text($a_mode)
-	{
+		
+	public static function _mode2Text($a_mode)
+	{	
 		global $lng;
 
 		switch($a_mode)
@@ -399,23 +278,9 @@ class ilLPObjSettings
 				
 			case LP_MODE_PLUGIN:
 				return $lng->txt('trac_mode_plugin');
-				
-			case LP_MODE_COLLECTION_TLT:
-				return $lng->txt('trac_mode_collection_tlt');
-	
-			case LP_MODE_COLLECTION_MANUAL:
-				return $lng->txt('trac_mode_collection_manual');		
 		}
 	}
 	
-	/**
-	 * get mode info text
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int $mode
-	 */
 	public static function _mode2InfoText($a_mode)
 	{
 		global $lng;
@@ -426,7 +291,7 @@ class ilLPObjSettings
 				return $lng->txt('trac_mode_deactivated_info_new');
 
 			case LP_MODE_TLT:
-				
+				include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 				return sprintf($lng->txt('trac_mode_tlt_info'), ilObjUserTracking::_getValidTimeSpan());
 
 			case LP_MODE_VISITS:
@@ -461,130 +326,8 @@ class ilLPObjSettings
 				
 			case LP_MODE_EVENT:
 				return $lng->txt('trac_mode_event_info');
-				
-			case LP_MODE_COLLECTION_TLT:
-				return $lng->txt('trac_mode_collection_tlt_info');
-	
-			case LP_MODE_COLLECTION_MANUAL:
-				return $lng->txt('trac_mode_collection_manual_info');
-		}
-		
-	}
-							 
-				
-
-
-	// Private
-	function _checkObjectives($a_obj_id)
-	{
-		global $ilDB,$ilObjDataCache;
-
-		// Return deactivate for course with objective view
-		if($ilObjDataCache->lookupType($a_obj_id) == 'crs')
-		{
-			include_once 'Modules/Course/classes/class.ilObjCourse.php';
-
-			if(ilObjCourse::_lookupViewMode($a_obj_id) == IL_CRS_VIEW_OBJECTIVE)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	function _checkSCORMPreconditions($a_obj_id)
-	{
-		global $ilObjDataCache;
-		
-		if($ilObjDataCache->lookupType($a_obj_id) != 'sahs')
-		{
-			return false;
-		}
-		include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
-		if(count($conditions = ilConditionHandler::_getConditionsOfTrigger('sahs',$a_obj_id)))
-		{
-			return true;
-		}
-		return false;
-	}
-		
-
-
-	function __read()
-	{
-		$res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = ".
-			$this->db->quote($this->obj_id ,'integer'));
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$this->is_stored = true;
-			$this->obj_type = $row->obj_type;
-			$this->obj_mode = $row->u_mode;
-			$this->visits = $row->visits;
-
-			if(ilLPObjSettings::_checkObjectives($this->obj_id))
-			{
-				$this->obj_mode = LP_MODE_OBJECTIVES;
-			}
-			if(ilLPObjSettings::_checkSCORMPreconditions($this->obj_id))
-			{
-				$this->obj_mode = LP_MODE_SCORM;
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
-	function __getDefaultMode($a_obj_id,$a_type)
-	{
-		global $ilDB, $objDefinition;
-
-		#$type = strlen($a_type) ? $a_type : $this->obj_type;
-
-		switch($a_type)
-		{
-			case 'crs':
-				// If objectives are enabled return deactivated
-				if(ilLPObjSettings::_checkObjectives($a_obj_id))
-				{
-					return LP_MODE_OBJECTIVES;
-				}
-				return LP_MODE_MANUAL_BY_TUTOR;
-
-			case 'dbk':
-			case 'lm':
-			case 'htlm':
-				return LP_MODE_MANUAL;
-
-			case 'sahs':
-				return LP_MODE_DEACTIVATED;
-
-			case 'dbk':
-				return LP_MODE_MANUAL;
-
-			case 'tst':
-				return LP_MODE_TEST_PASSED;
-
-			case 'exc':
-				return LP_MODE_EXERCISE_RETURNED;
-
-			case 'grp':
-				return LP_MODE_DEACTIVATED;
-
-			case 'fold':
-				return LP_MODE_DEACTIVATED;
-				
-			case 'sess':
-				return LP_MODE_EVENT;
-					
-			default:
-				if($objDefinition->isPluginTypeName(ilObject::_lookupType($a_obj_id)))
-				{
-					return LP_MODE_PLUGIN;
-				}
-				return LP_MODE_UNDEFINED;
 		}
 	}
 }
+
 ?>

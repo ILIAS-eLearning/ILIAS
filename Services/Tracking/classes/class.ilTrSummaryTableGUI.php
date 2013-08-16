@@ -104,7 +104,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$all[] = "percentage_avg";
 		
 		// do not show status if learning progress is deactivated
-		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->obj_id);					
+		$mode = $olp->getCurrentMode();
 		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
 		{		
 			$all[] = "status";
@@ -216,7 +218,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->filter["percentage"] = $item->getValue();
 
 		// do not show status if learning progress is deactivated
-		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->obj_id);					
+		$mode = $olp->getCurrentMode();
 		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
 		{		
 			include_once "Services/Tracking/classes/class.ilLPStatus.php";

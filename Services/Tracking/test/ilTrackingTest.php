@@ -121,19 +121,5 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 		ilLPMarks::deleteObject(999);
 	}
 
-	/**
-	 * Test LP collections 
-	 * @return
-	 */
-	public function testLPCollections()
-	{
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		
-		$coll = new ilLPCollections(999);
-		$coll->add(888);
-		$coll->delete(888);
-		$coll->add(777);
-		ilLPCollections::_deleteAll(999);
-	}		
 }
 ?>

@@ -422,6 +422,14 @@ class ilContainer extends ilObject
 		// fix item group references in page content
 		include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
 		ilObjItemGroup::fixContainerItemGroupRefsAfterCloning($this, $a_copy_id);
+		
+		include_once('Services/Object/classes/class.ilObjectLP.php');
+		$olp = ilObjectLP::getInstance($this->getId());
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{
+			$collection->cloneCollection($a_target_id, $a_copy_id);	 	
+		}
 
 		return true;
 	}

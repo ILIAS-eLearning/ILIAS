@@ -221,12 +221,17 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	 */
 	function getObjectHierarchy($a_parent_id, array &$result)
 	{
-		include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
-		foreach(ilLPCollectionCache::_getItems($a_parent_id) as $child_ref_id)
-		{
-			$child_id = ilObject::_lookupObjId($child_ref_id);
-			$result[] = $child_id;
-			$this->getObjectHierarchy($child_id, $result);
+		include_once "Services/Object/classes/class.ilObjectLP.php";		
+		$olp = ilObjectLP::getInstance($a_parent_id);
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{		
+			foreach($collection->getItems() as $child_ref_id)
+			{
+				$child_id = ilObject::_lookupObjId($child_ref_id);
+				$result[] = $child_id;
+				$this->getObjectHierarchy($child_id, $result);
+			}
 		}
 	}
 	
@@ -236,29 +241,27 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		global $lng;
 		
 		// for scorm and objectives this filter does not make sense / is not implemented
-		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
-		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
-		if($mode == LP_MODE_SCORM || $mode == LP_MODE_OBJECTIVES)
-		{
-			return;
-		}
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->obj_id);					
+		$collection = $olp->getCollectionInstance();
+		if($collection instanceof ilLPCollectionOfRepositoryObjects)
+		{			
+			include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+			include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
 
-		include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-		include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
-		
-		// show collection only/all
-		include_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
-		include_once("./Services/Form/classes/class.ilRadioOption.php");
-		$ti = new ilRadioGroupInputGUI($lng->txt("trac_view_mode"), "view_mode");
-		$ti->addOption(new ilRadioOption($lng->txt("trac_view_mode_all"), ""));
-		$ti->addOption(new ilRadioOption($lng->txt("trac_view_mode_collection"), "coll"));
-		$this->addFilterItem($ti);
-		$ti->readFromSession();
-		$this->filter["view_mode"] = $ti->getValue(); 
-		
+			// show collection only/all
+			include_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
+			include_once("./Services/Form/classes/class.ilRadioOption.php");
+			$ti = new ilRadioGroupInputGUI($lng->txt("trac_view_mode"), "view_mode");
+			$ti->addOption(new ilRadioOption($lng->txt("trac_view_mode_all"), ""));
+			$ti->addOption(new ilRadioOption($lng->txt("trac_view_mode_collection"), "coll"));
+			$this->addFilterItem($ti);
+			$ti->readFromSession();
+			$this->filter["view_mode"] = $ti->getValue(); 
+		}
 	}
 	
 	/**

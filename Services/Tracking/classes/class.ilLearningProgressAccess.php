@@ -65,8 +65,9 @@ class ilLearningProgressAccess
 			return false;			
 		}
 		
-		include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-		if(ilLPObjSettings::_lookupMode(ilObject::_lookupObjId($a_ref_id)) == LP_MODE_DEACTIVATED)
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
+		if($olp->getCurrentMode() == LP_MODE_DEACTIVATED)
 		{
 			return false;
 		}

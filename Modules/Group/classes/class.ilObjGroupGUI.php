@@ -1061,11 +1061,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->checkPermission('write');
 		
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
-		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
-			ilObjUserTracking::_enabledUserRelatedData() and
-			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
-		
+			ilObjUserTracking::_enabledUserRelatedData());
+		if($this->show_tracking)
+		{
+			include_once('./Services/Object/classes/class.ilObjectLP.php');
+			$olp = ilObjectLP::getInstance($this->object->getId());
+			$this->show_tracking = ($olp->getCurrentMode() != LP_MODE_DEACTIVATED);
+		}
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
 
@@ -3147,10 +3150,14 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->lng->txt('obj_grp').': '.$this->object->getTitle());		
 						
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
-		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
-			ilObjUserTracking::_enabledUserRelatedData() and
-			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
+			ilObjUserTracking::_enabledUserRelatedData());		
+		if($this->show_tracking)
+		{
+			include_once('./Services/Object/classes/class.ilObjectLP.php');
+			$olp = ilObjectLP::getInstance($this->object->getId());
+			$this->show_tracking = ($olp->getCurrentMode() != LP_MODE_DEACTIVATED);
+		}	
 		if($this->show_tracking)
 		{
 			$this->lng->loadLanguageModule('trac');		
