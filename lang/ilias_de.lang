@@ -13684,4 +13684,5 @@ orgu#:#simple_import#:#Simple XML Import
 orgu#:#simple_xml#:#Simple XML Export
 orgu#:#import_xml_file#:#Import Datei
 orgu#:#view_learning_progress_rec#:#Lernfortschritt Rekursiv Einsehen
+orgu#:#lp_is_anonym#:#Der Lernfortschritte der Benutzer kann nicht eingesehen werden, da die Daten anonymisiert gespeichert werden.
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
