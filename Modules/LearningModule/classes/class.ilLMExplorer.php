@@ -116,21 +116,17 @@ class ilLMExplorer extends ilExplorer
 			if(ilLearningProgressAccess::checkAccess($this->lm_obj->getRefId()))
 			{			
 				$info = null;
-
-				include_once './Services/Object/classes/class.ilObjectLP.php';
-				include_once "Services/Tracking/classes/class.ilLPStatus.php";
+				
+				include_once './Services/Object/classes/class.ilObjectLP.php';			
 				$olp = ilObjectLP::getInstance($this->lm_obj->getId());	
-				if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL)
-				{
-					include_once "Services/Tracking/classes/class.ilLPStatusCollectionManual.php";
-					$info = ilLPStatusCollectionManual::_getStatusInfo($this->lm_obj->getId());						
+				if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL ||
+					$olp->getCurrentMode() == LP_MODE_COLLECTION_TLT)
+				{									
+					include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+					$class = ilLPStatusFactory::_getClassById($this->lm_obj->getId(), $olp->getCurrentMode());					
+					$info = $class::_getStatusInfo($this->lm_obj->getId());								
 				}
-				else if($olp->getCurrentMode() == LP_MODE_COLLECTION_TLT)
-				{						
-					include_once "Services/Tracking/classes/class.ilLPStatusCollectionTLT.php";
-					$info = ilLPStatusCollectionTLT::_getStatusInfo($this->lm_obj->getId());
-				}
-
+				
 				// parse collection items
 				if(is_array($info["items"]))
 				{
