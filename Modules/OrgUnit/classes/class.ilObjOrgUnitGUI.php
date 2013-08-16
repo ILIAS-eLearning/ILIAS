@@ -362,10 +362,12 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		global $lng;
 		$superior_table = new ilOrgUnitStaffTableGUI($this, $table_cmd, "superior");
 		$superior_table->setRecursive($recursive);
+		$superior_table->parseData();
 		$superior_table->setTitle($lng->txt("Superior"));
 
 		$employee_table = new ilOrgUnitStaffTableGUI($this, $table_cmd, "employee");
 		$employee_table->setRecursive($recursive);
+		$employee_table->parseData();
 		$employee_table->setTitle($lng->txt("Employee"));
 
 		return $superior_table->getHTML().$employee_table->getHTML();

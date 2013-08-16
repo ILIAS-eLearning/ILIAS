@@ -45,7 +45,6 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$this->setEnableTitle(true);
 		$this->setTitle($this->lng->txt("Staff"));
 		$this->setRowTemplate("tpl.staff_row.html", "Modules/OrgUnit");
-		$this->parseData();
 	}
 
 //	public function getHTML(){
@@ -69,7 +68,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$this->setData($data);
 	}
 
-	protected function parseRows($user_ids){
+	public function parseRows($user_ids){
 		$data = array();
 		foreach($user_ids as $user_id){
 			$set = array();
