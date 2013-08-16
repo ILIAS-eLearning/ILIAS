@@ -1062,6 +1062,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		// we do not want the ilRepositorySearchGUI form action
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		
+		if (count(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $_GET["ass_id"])))
+		{
+			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+			$ass = new ilExAssignment((int)$_GET["ass_id"]);
+			if($ass->getType() != ilExAssignment::TYPE_TEXT)
+			{
+				$ilToolbar->addSeparator();
+				$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadAll");
+			}
+		}		
 
 		if (count($ass) > 0)
 		{
@@ -1484,11 +1495,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->saveStatusObject(true);
 	}
 	
+	function saveStatusAllObject()
+	{
+		$this->saveStatusObject(false, true);
+	}
 	
 	/**
 	 * Save status of selecte members 
 	 */
-	function saveStatusObject($a_part_view = false)
+	function saveStatusObject($a_part_view = false, $a_force_all = false)
 	{
 		global $ilCtrl;
 		
@@ -1499,22 +1514,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 //		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
 		$saved_for = array();
-		
+				
 		foreach($_POST["id"] as $key => $value)
 		{
 			if (!$a_part_view)
-			{
-				if (count($_POST["member"]) > 0 && $_POST["member"][$key] != "1")
+			{						
+				if (!$a_force_all && $_POST["member"][$key] != "1")
 				{
 					continue;
 				}
 				else
-				{
-					if (count($_POST["member"]) > 0)
-					{
-						$uname = ilObjUser::_lookupName($key);
-						$saved_for[] = $uname["lastname"].", ".$uname["firstname"];
-					}
+				{					
+					$uname = ilObjUser::_lookupName($key);
+					$saved_for[] = $uname["lastname"].", ".$uname["firstname"];					
 				}
 			}
 			if (!$a_part_view)
@@ -1552,7 +1564,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			
 			foreach($user_ids as $user_id)
-			{
+			{								
 				ilExAssignment::updateStatusOfUser($ass_id, $user_id,
 					ilUtil::stripSlashes($_POST["status"][$key]));
 				ilExAssignment::updateNoticeForUser($ass_id, $user_id,
@@ -1575,7 +1587,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$save_for_str = "(".implode($saved_for, " - ").")";
 		}
-		ilUtil::sendSuccess($this->lng->txt("exc_status_saved")." ".$save_for_str,true);
+		if($save_for_str || $a_part_view)
+		{
+			ilUtil::sendSuccess($this->lng->txt("exc_status_saved")." ".$save_for_str,true);
+		}		
 		if (!$a_part_view)
 		{
 			$ilCtrl->redirect($this, "members");

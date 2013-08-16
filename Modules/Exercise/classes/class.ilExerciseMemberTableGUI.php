@@ -125,16 +125,12 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 		$this->setSelectAllCheckbox("member");
 
-		$this->addMultiCommand("saveStatus", $lng->txt("exc_save_changes"));
+		$this->addMultiCommand("saveStatus", $lng->txt("exc_save_selected"));
 		$this->addMultiCommand("redirectFeedbackMail", $lng->txt("exc_send_mail"));
 		$this->addMultiCommand("sendMembers", $lng->txt("exc_send_assignment"));
-		$this->addMultiCommand("confirmDeassignMembers", $lng->txt("exc_deassign_members"));
+		$this->addMultiCommand("confirmDeassignMembers", $lng->txt("exc_deassign_members"));	
 		
-		//if(count($this->exc->members_obj->getAllDeliveredFiles()))
-		if (count(ilExAssignment::getAllDeliveredFiles($this->exc_id, $this->ass_id)))
-		{
-			$this->addCommandButton("downloadAll", $lng->txt("download_all_returned_files"));
-		}		
+		$this->addCommandButton("saveStatusAll", $lng->txt("exc_save_all"));	
 	}
 	
 	/**
