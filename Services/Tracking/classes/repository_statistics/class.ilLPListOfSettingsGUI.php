@@ -175,7 +175,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$collection = $this->obj_lp->getCollectionInstance();
 		if($collection && $collection->hasSelectableItems())
 		{			
-			include_once "Services/Tracking/classes/class.ilLPCollectionSettingsTableGUI.php";
+			include_once "Services/Tracking/classes/repository_statistics/class.ilLPCollectionSettingsTableGUI.php";
 			$table = new ilLPCollectionSettingsTableGUI($this, 'show', $this->getRefId(), $this->obj_lp->getCurrentMode());
 			$table->parse($collection);
 			return $table->getHTML();
