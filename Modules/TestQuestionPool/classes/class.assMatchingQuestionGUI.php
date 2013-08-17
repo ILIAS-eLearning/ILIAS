@@ -1321,4 +1321,32 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$feedback .= '</tbody></table>';
 		return $this->object->prepareTextareaOutput($feedback, TRUE);
 	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionAnswerPostVars()
+	{
+		return array();
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionQuestionPostVars()
+	{
+		return array();
+	}
 }
