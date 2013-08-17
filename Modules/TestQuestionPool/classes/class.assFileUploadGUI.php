@@ -493,4 +493,18 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionQuestionPostVars()
+	{
+		return array();
+	}
 }

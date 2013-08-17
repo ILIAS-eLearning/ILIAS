@@ -233,14 +233,27 @@ class ilScoringAdjustmentGUI
 		if ($question instanceof ilGuiQuestionScoringAdjustable)
 		{
 			$question->populateQuestionSpecificFormPart( $form );
+			$this->suppressPostParticipationFormElements( $form, $question->getAfterParticipationSuppressionQuestionPostVars() );
 		}
-		
+
 		if ($question instanceof ilGuiAnswerScoringAdjustable)
 		{
 			$question->populateAnswerSpecificFormPart( $form );
+			$this->suppressPostParticipationFormElements( $form, $question->getAfterParticipationSuppressionAnswerPostVars());
 		}
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
+		return $form;
+	}
+
+	protected function suppressPostParticipationFormElements(\ilPropertyFormGUI $form, $postvars_to_suppress)
+	{
+		foreach ($postvars_to_suppress as $postvar)
+		{
+			/** @var $item ilFormPropertyGUI */
+			$item = $form->getItemByPostVar($postvar);
+			$item->setDisabled(true);
+		}
 		return $form;
 	}
 
