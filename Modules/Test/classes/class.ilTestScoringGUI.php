@@ -1,6 +1,5 @@
 <?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
