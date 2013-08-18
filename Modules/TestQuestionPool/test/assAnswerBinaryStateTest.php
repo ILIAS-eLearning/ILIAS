@@ -26,94 +26,91 @@ class assAnswerBinaryStateTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-    public function test_instantiateObject_shouldReturnInstance()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
 
-        // Act
-        $instance = new ASS_AnswerBinaryState();
+		// Act
+		$instance = new ASS_AnswerBinaryState();
 
-        $this->assertInstanceOf('ASS_AnswerBinaryState', $instance);
-    }
+		$this->assertInstanceOf('ASS_AnswerBinaryState', $instance);
+	}
 
-    public function test_setGetState_shouldReturnUnchangedState()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
-        $instance = new ASS_AnswerBinaryState();
-        $expected = 1;
+	public function test_setGetState_shouldReturnUnchangedState()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+		$instance = new ASS_AnswerBinaryState();
+		$expected = 1;
 
-        // Act
-        $instance->setState($expected);
-        $actual = $instance->getState();
+		// Act
+		$instance->setState($expected);
+		$actual = $instance->getState();
 
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 
-    public function test_isStateChecked_shouldReturnActualState()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
-        $instance = new ASS_AnswerBinaryState();
-        $expected = 1;
+	public function test_isStateChecked_shouldReturnActualState()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+		$instance = new ASS_AnswerBinaryState();
+		$expected = 1;
 
-        // Act
-        $instance->setState($expected);
-        $actual = $instance->isStateChecked();
+		// Act
+		$instance->setState($expected);
+		$actual = $instance->isStateChecked();
 
-        // Assert
-        $this->assertEquals($expected, $actual);
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 
-    }
+	public function test_isStateSet_shouldReturnActualState()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+		$instance = new ASS_AnswerBinaryState();
+		$expected = 1;
 
-    public function test_isStateSet_shouldReturnActualState()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
-        $instance = new ASS_AnswerBinaryState();
-        $expected = 1;
+		// Act
+		$instance->setState($expected);
+		$actual = $instance->isStateSet();
 
-        // Act
-        $instance->setState($expected);
-        $actual = $instance->isStateSet();
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 
-        // Assert
-        $this->assertEquals($expected, $actual);
+	public function test_isStateUnset_shouldReturnActualState()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+		$instance = new ASS_AnswerBinaryState();
+		$expected = 1;
 
-    }
+		// Act
+		$instance->setState($expected);
+		$actual = !$instance->isStateUnset();
 
-    public function test_isStateUnset_shouldReturnActualState()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
-        $instance = new ASS_AnswerBinaryState();
-        $expected = 1;
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 
-        // Act
-        $instance->setState($expected);
-        $actual = !$instance->isStateUnset();
+	public function test_isStateUnchecked_shouldReturnActualState()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+		$instance = new ASS_AnswerBinaryState();
+		$expected = 1;
 
-        // Assert
-        $this->assertEquals($expected, $actual);
+		// Act
+		$instance->setState($expected);
+		$actual = !$instance->isStateUnchecked();
 
-    }
-
-    public function test_isStateUnchecked_shouldReturnActualState()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
-        $instance = new ASS_AnswerBinaryState();
-        $expected = 1;
-
-        // Act
-        $instance->setState($expected);
-        $actual = !$instance->isStateUnchecked();
-
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 
 	public function test_setChecked_shouldAlterState()
 	{
