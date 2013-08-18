@@ -48,7 +48,8 @@ class assAnswerCloze extends ASS_AnswerSimple
 	*/
 	function assAnswerCloze($answertext = "", $points = 0.0, $order = 0)
 	{
-		$this->ASS_AnswerSimple($answertext, $points, $order, -1);
+		parent::__construct($answertext, $points, $order, -1);
+
 		$this->lowerBound = NULL;
 		$this->upperBound = NULL;
 	}

@@ -40,7 +40,7 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 		$depth = 0
 	)
 	{
-		$this->ASS_AnswerSimple($answertext, 0, 0);
+		parent::__construct($answertext, 0, 0);
 		$this->setRandomID($random_id);
 		$this->setOrderingDepth($depth);
 	}

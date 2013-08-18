@@ -45,7 +45,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState {
 		$id = -1
   )
   {
-    $this->ASS_AnswerBinaryState($answertext, $points, $order, $state, $id);
+	parent::__construct($answertext, $points, $order, $id);
     $this->image = $a_image;
   }
 

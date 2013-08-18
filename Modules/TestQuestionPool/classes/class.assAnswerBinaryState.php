@@ -48,7 +48,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple {
 		$id = -1
   )
   {
-    $this->ASS_AnswerSimple($answertext, $points, $order, $id);
+	parent::__construct($answertext, $points, $order, $id);
     $this->state = $state;
   }
 
