@@ -133,10 +133,11 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 
 	/**
 	 * Sets the points for an unchecked answer
-	 * Sets the points for an unchecked answer
+	 *
 	 * @param double $points_unchecked The points for an unchecked answer
-	 * @access public
-	 * @see    $points_unchecked
+	 * @see $points_unchecked
+	 *
+	 * @TODO Analyze usage and see if we can get rid of "magic nullification" here.
 	 */
 	public function setPointsUnchecked($points_unchecked)
 	{
