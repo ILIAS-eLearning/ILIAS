@@ -64,7 +64,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 		$points_unchecked = 0
 	)
 	{
-		$this->ASS_AnswerBinaryState($answertext, $points, $order, 1, $id);
+		parent::__construct($answertext, $points, 1, $id);
 		$this->coords           = $coords;
 		$this->area             = $area;
 		$this->points_unchecked = $points_unchecked;

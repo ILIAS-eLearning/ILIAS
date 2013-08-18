@@ -43,7 +43,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple {
 		$id = -1
   )
   {
-    $this->ASS_AnswerSimple($answertext, $points_checked, $order, $id);
+	parent::__construct($answertext, $points_checked, $order, $id);
     $this->setPointsUnchecked($points_unchecked);
   }
 

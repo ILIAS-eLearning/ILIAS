@@ -47,7 +47,7 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse {
 		$id = -1
   )
   {
-    $this->ASS_AnswerMultipleResponse($answertext, $points_checked, $order, $points_unchecked, $id);
+	  parent::__construct($answertext, $points_checked, $order, $points_unchecked, $id);
     $this->image = $a_image;
   }
 

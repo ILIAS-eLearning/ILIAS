@@ -43,7 +43,8 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
     $correctness = FALSE
   )
   {
-    $this->ASS_AnswerSimple($answertext, $points, $order);
+	parent::__construct($answertext, $points, $order);
+
 	// force $this->correctness to be a string
 	// ilDB->quote makes 1 from true and saving it to ENUM('1','0') makes that '0'!!!
 	// (maybe that only happens for certain mysql versions)
