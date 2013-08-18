@@ -67,4 +67,34 @@ class assAnswerImagemapTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertEquals($expected, $actual);
 	}
+
+	public function test_setGetPointsUnchecked()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerImagemap.php';
+		$instance = new ASS_AnswerImagemap();
+
+		// Act
+		$expected = "12345";
+		$instance->setPointsUnchecked($expected);
+		$actual = $instance->getPointsUnchecked();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setGetPointsUnchecked_shouldNullifyOnNonNumericPoints()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerImagemap.php';
+		$instance = new ASS_AnswerImagemap();
+
+		// Act
+		$expected = 0.0;
+		$instance->setPointsUnchecked('Günther');
+		$actual = $instance->getPointsUnchecked();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 }
