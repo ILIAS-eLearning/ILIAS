@@ -1319,10 +1319,12 @@ assessment#:#tst_question_set_type_dynamic_desc#:#In diesem Modus wird genau ein
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_existing_questions_or_pools#:#Sie sind im Begriff den Test Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test Modus abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenselektion wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenselektion kann nicht geändert werden, da bereits Teilnehmer Ergebisse vorliegen.
+assessment#:#tst_dyn_quest_set_pool_trashed#:#Der konfigurierte Quell-Fragenpool "%s" liegt aktuell im Papierkorb. Der Test kann nicht länger ausgeführt werden, wenn der Fragenpool permanent gelöscht wird.
+assessment#:#tst_dyn_quest_set_pool_deleted#:#Der Test kann nicht länger ausgeführt werden, da der konfigurierte Quell-Fragenpool "%s" permanent gelöscht wurde.
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenselektion
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Quell-Fragenpool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string_trashed#:#%s (Gelöscht) [%s Fragen]
+assessment#:#tst_dynamic_question_set_source_questionpool_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string_deleted#:#%s (Endgültig gelöscht)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomie Filter
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen Ordnung

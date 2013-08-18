@@ -3996,6 +3996,24 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($message);
 		}
 		
+		if( $this->object->isDynamicTest() && $ilAccess->checkAccess("write", "", $this->ref_id) )
+		{
+			global $ilDB;
+			
+			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($ilDB, $this->object);
+			$dynamicQuestionSetConfig->loadFromDb();
+			
+			if( $dynamicQuestionSetConfig->areDepenciesBroken($this->tree) )
+			{
+				ilUtil::sendFailure( $dynamicQuestionSetConfig->getDepenciesBrokenMessage($this->lng) );
+			}
+			elseif( $dynamicQuestionSetConfig->areDepenciesInVulnerableState($this->tree) )
+			{
+				ilUtil::sendInfo( $dynamicQuestionSetConfig->getDepenciesInVulnerableStateMessage($this->lng) );
+			}
+		}
+		
 		if ($this->object->getShowInfo())
 		{
 			$info->enablePrivateNotes();
