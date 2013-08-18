@@ -142,6 +142,17 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	 */
 	public function showFormCmd(ilPropertyFormGUI $form = null)
 	{
+		$this->questionSetConfig->loadFromDb();
+		
+		if( $this->questionSetConfig->areDepenciesBroken($this->tree) )
+		{
+			ilUtil::sendFailure( $this->questionSetConfig->getDepenciesBrokenMessage($this->lng) );
+		}
+		elseif( $this->questionSetConfig->areDepenciesInVulnerableState($this->tree) )
+		{
+			ilUtil::sendInfo( $this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lng) );
+		}
+			
 		if( $form === null )
 		{
 			$form = $this->buildForm();

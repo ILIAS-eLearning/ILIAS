@@ -293,30 +293,38 @@ class ilObjTestDynamicQuestionSetConfig
 	 */
 	public function getSourceQuestionPoolSummaryString(ilLanguage $lng, ilTree $tree)
 	{
-		if( $tree->isDeleted(current(ilObject::_getAllReferences($this->getSourceQuestionPoolId()))) )
-		{
-			$sourceQuestionPoolSummaryString = sprintf(
-					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string_trashed'),
-					$this->getSourceQuestionPoolTitle(),
-					$this->getSourceQuestionPoolNumQuestions()
-			);
-		}
-		elseif( $tree->isInTree(current(ilObject::_getAllReferences($this->getSourceQuestionPoolId()))) )
-		{
-			$sourceQuestionPoolSummaryString = sprintf(
-					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
-					$this->getSourceQuestionPoolTitle(),
-					$this->getSourceQuestionPoolPathString($tree),
-					$this->getSourceQuestionPoolNumQuestions()
-			);
-		}
-		else
+		$poolRefs = $this->getSourceQuestionPoolRefIds();
+		
+		if( !count($poolRefs) )
 		{
 			$sourceQuestionPoolSummaryString = sprintf(
 					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string_deleted'),
 					$this->getSourceQuestionPoolTitle()
 			);
+			
+			return $sourceQuestionPoolSummaryString;
 		}
+		
+		foreach($poolRefs as $refId)
+		{
+			if( !$tree->isDeleted($refId) )
+			{
+				$sourceQuestionPoolSummaryString = sprintf(
+					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
+					$this->getSourceQuestionPoolTitle(),
+					$this->getSourceQuestionPoolPathString($tree),
+					$this->getSourceQuestionPoolNumQuestions()
+				);
+				
+				return $sourceQuestionPoolSummaryString;
+			}
+		}
+		
+		$sourceQuestionPoolSummaryString = sprintf(
+				$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string_trashed'),
+				$this->getSourceQuestionPoolTitle(),
+				$this->getSourceQuestionPoolNumQuestions()
+		);
 		
 		return $sourceQuestionPoolSummaryString;
 	}
@@ -373,5 +381,62 @@ class ilObjTestDynamicQuestionSetConfig
 		$row = $this->db->fetchAssoc($res);
 		
 		return $row['num'];
+	}
+	
+	public function areDepenciesBroken(ilTree $tree)
+	{
+		$poolRefs = $this->getSourceQuestionPoolRefIds();
+		
+		if( count($poolRefs) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public function getDepenciesBrokenMessage(ilLanguage $lng)
+	{
+		$msg = sprintf(
+				$lng->txt('tst_dyn_quest_set_pool_deleted'), $this->getSourceQuestionPoolTitle()
+		);
+		
+		return $msg;
+	}
+	
+	public function areDepenciesInVulnerableState(ilTree $tree)
+	{
+		$poolRefs = $this->getSourceQuestionPoolRefIds();
+		
+		foreach( $poolRefs as $refId )
+		{
+			if( !$tree->isDeleted($refId) )
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public function getDepenciesInVulnerableStateMessage(ilLanguage $lng)
+	{
+		$msg = sprintf(
+				$lng->txt('tst_dyn_quest_set_pool_trashed'), $this->getSourceQuestionPoolTitle()
+		);
+		
+		return $msg;
+	}
+	
+	private $sourceQuestionPoolRefIds = null;
+	
+	public function getSourceQuestionPoolRefIds()
+	{
+		if( $this->sourceQuestionPoolRefIds === null )
+		{
+			$this->sourceQuestionPoolRefIds = ilObject::_getAllReferences($this->getSourceQuestionPoolId());
+		}
+		
+		return $this->sourceQuestionPoolRefIds;
 	}
 }

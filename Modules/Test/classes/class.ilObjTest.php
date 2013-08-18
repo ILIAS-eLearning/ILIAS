@@ -12047,11 +12047,20 @@ function getAnswerFeedbackPoints()
 	 * Returns the fact wether this test is a random questions test or not
 	 *
 	 * @return boolean $isRandomTest
-	 * @deprecated
 	 */
 	public function isRandomTest()
 	{
 		return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_RANDOM;
+	}
+	
+	/**
+	 * Returns the fact wether this test is a dynamic question set test or not
+	 *
+	 * @return boolean $isDynamicTest
+	 */
+	public function isDynamicTest()
+	{
+		return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC;
 	}
 	
 	/**
