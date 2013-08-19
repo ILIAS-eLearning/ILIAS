@@ -134,14 +134,15 @@ class assTextQuestion extends assQuestion
 		
 		foreach ($this->answers as $answer)
 		{
+			/** @var $answer ASS_AnswerMultipleResponseImage */
 			$nextID = $ilDB->nextId('qpl_a_essay');
 			$ilDB->manipulateF("INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) VALUES (%s, %s, %s, %s)",
 							   array("integer", "integer", "text", 'float'),
 							   array(
 								   $nextID,
 								   $this->getId(),
-								   $answer->answertext,
-								   $answer->points
+								   $answer->getAnswertext(),
+								   $answer->getPoints()
 							   )
 			);
 		}
