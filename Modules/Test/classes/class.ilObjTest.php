@@ -1105,56 +1105,23 @@ class ilObjTest extends ilObject
 
 	/**
 	 * Returns true, if a test is complete for use and can be set online
-	 *
+	 * 
+	 * @param ilTestQuestionSetConfig $testQuestionSetConfig
 	 * @return boolean
 	 */
-	function isComplete()
+	final public function isComplete(ilTestQuestionSetConfig $testQuestionSetConfig)
 	{
 		if( !count($this->mark_schema->mark_steps) )
 		{
 			return false;
 		}
 		
-		switch( $this->getQuestionSetType() )
+		if( !$testQuestionSetConfig->isQuestionSetConfigured() )
 		{
-			case ilObjTest::QUESTION_SET_TYPE_FIXED:
-				
-				if( !count($this->questions) )
-				{
-					return false;
-				}
-				
-				return true;
-			
-			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
-				
-				$randomQuestionPools = $this->getRandomQuestionpools();
-				
-				if( count($randomQuestionPools) && $this->getRandomQuestionCount() )
-				{
-					return true;
-				}
-				
-				foreach( $randomQuestionPools as $poolData )
-				{
-					if( $poolData['count'] )
-					{
-						return true;
-					}
-				}
-				
-				return false;
-				
-			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-				
-				global $ilDB;
-				
-				require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-				$questionSetConfig = new ilObjTestDynamicQuestionSetConfig($ilDB, $this);
-				$questionSetConfig->loadFromDb();
-				
-				return $questionSetConfig->isQuestionSetConfigured();
+			return false;
 		}
+		
+		return true;
 	}
 
 /**
@@ -1165,9 +1132,15 @@ class ilObjTest extends ilObject
 */
 	function _isComplete($obj_id)
 	{
+		global $tree, $ilDB;
+		
 		$test = new ilObjTest($obj_id, false);
 		$test->loadFromDb();
-		return $test->isComplete();
+
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+		
+		return $test->isComplete( $testQuestionSetConfigFactory->getQuestionSetConfig() );
 	}
 
 /**
@@ -1203,12 +1176,12 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function saveCompleteStatus()
+	function saveCompleteStatus(ilTestQuestionSetConfig $testQuestionSetConfig)
 	{
 		global $ilDB;
 
 		$complete = 0;
-		if ($this->isComplete())
+		if ($this->isComplete($testQuestionSetConfig))
 		{
 			$complete = 1;
 		}
@@ -1258,16 +1231,20 @@ class ilObjTest extends ilObject
 	 */
 	public function saveToDb($properties_only = FALSE)
 	{
-		global $ilDB;
+		global $tree, $ilDB;
 		
 		// moved online_status to ilObjectActivation (see below)
 
 		// cleanup RTE images
 		$this->cleanupMediaobjectUsage();
 
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $this);
+		$testQuestionSetConfig = $testQuestionSetConfigFactory->getQuestionSetConfig();
+		
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if ($this->test_id == -1)
-		{						
+		{
 			// Create new dataset
 			$next_id = $ilDB->nextId('tst_tests');
 			
@@ -1300,7 +1277,7 @@ class ilObjTest extends ilObject
 				'reporting_date' => array('text', $this->getReportingDate()),
 				'starting_time' => array('text', $this->getStartingTime()),
 				'ending_time' => array('text', $this->getEndingTime()),
-				'complete' => array('text', $this->isComplete()),
+				'complete' => array('text', $this->isComplete($testQuestionSetConfig)),
 				'ects_output' => array('text', $this->getECTSOutput()),
 				'ects_a' => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
 				'ects_b' => array('float', strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL),
@@ -1409,7 +1386,7 @@ class ilObjTest extends ilObject
 						'reporting_date' => array('text', $this->getReportingDate()),
 						'starting_time' => array('text', $this->getStartingTime()),
 						'ending_time' => array('text', $this->getEndingTime()),
-						'complete' => array('text', $this->isComplete()),
+						'complete' => array('text', $this->isComplete($testQuestionSetConfig)),
 						'ects_output' => array('text', $this->getECTSOutput()),
 						'ects_a' => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
 						'ects_b' => array('float', strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL),
@@ -3999,13 +3976,15 @@ function getAnswerFeedbackPoints()
 		return $duplicate_id;
 	}
 
-/**
-* Insert a question in the list of questions
-*
-* @param integer $question_id The database id of the inserted question
-* @access	public
-*/
-	function insertQuestion($question_id, $linkOnly = false)
+	/**
+	 * Insert a question in the list of questions
+	 *
+	 * @param ilTestQuestionSetConfig $testQuestionSetConfig
+	 * @param integer $question_id The database id of the inserted question
+	 * @param boolean $linkOnly
+	 * @return integer $duplicate_id
+	 */
+	public function insertQuestion(ilTestQuestionSetConfig $testQuestionSetConfig, $question_id, $linkOnly = false)
 	{
 		global $ilDB;
 #var_dump($question_id);
@@ -4050,7 +4029,7 @@ function getAnswerFeedbackPoints()
 			array($this->getTestId())
 		);
 		$this->loadQuestions();
-		$this->saveCompleteStatus();
+		$this->saveCompleteStatus($testQuestionSetConfig);
 		return $duplicate_id;
 	}
 
@@ -4437,7 +4416,7 @@ function getAnswerFeedbackPoints()
 	*/
 	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE)
 	{
-		global $ilDB, $lng, $ilPluginAdmin;
+		global $tree, $ilDB, $lng, $ilPluginAdmin;
 
 		$results = $this->getResultsForActiveId($active_id);
 		
@@ -4454,10 +4433,10 @@ function getAnswerFeedbackPoints()
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this);
 		$testSequence = $testSequenceFactory->getSequenceByPass($testSession, $pass);
 		
-		if( $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC )
+		if( $this->isDynamicTest() )
 		{
 			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($ilDB, $this);
+			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $this);
 			$dynamicQuestionSetConfig->loadFromDb();
 			
 			$testSequence->loadFromDb($dynamicQuestionSetConfig);
@@ -7535,51 +7514,6 @@ function getAnswerFeedbackPoints()
 		return $num;
 	}
 
-	/**
-	 * Removes all test data of a fixed question set test when a test was set to another question set type
-	 */
-	public function removeFixedQuestionSetQuestionsConfiguration()
-	{
-		global $ilDB;
-
-		// delete eventually set questions of a previous non-random test
-		$this->removeAllTestEditings();
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-		$this->questions = array();
-		$this->saveCompleteStatus();
-	}
-
-	/**
-	 * Removes all test data of a random question set test when a test was set to another question set type
-	 */
-	public function removeRandomQuestionSetQuestionPoolsConfiguration()
-	{
-		global $ilDB;
-		// delete eventually set random question pools of a previous random test
-		$this->removeAllTestEditings();
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_random WHERE test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-		$this->questions = array();
-		$this->saveCompleteStatus();
-	}
-
-	/**
-	 * Removes all test data of a dynamic question set test when a test was set to another question set type
-	 */
-	public function removeDynamicQuestionSetQuestionPoolConfiguration()
-	{
-		global $ilDB;
-		
-		// todo: implement dynamic questin set configuration deletion
-
-		$this->saveCompleteStatus();
-	}
-
 /**
 * Logs an action into the Test&Assessment log
 *
@@ -8459,9 +8393,9 @@ function getAnswerFeedbackPoints()
 */
 	function getAnsweredQuestionCount($active_id, $pass = NULL)
 	{
-		if( $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC )
+		if( $this->isDynamicTest() )
 		{
-			global $ilDB, $lng, $ilPluginAdmin;
+			global $tree, $ilDB, $lng, $ilPluginAdmin;
 			
 			require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 			$testSessionFactory = new ilTestSessionFactory($this);
@@ -8472,7 +8406,7 @@ function getAnswerFeedbackPoints()
 			$testSequence = $testSequenceFactory->getSequence($testSession);
 
 			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($ilDB, $this);
+			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $this);
 			$dynamicQuestionSetConfig->loadFromDb();
 			
 			$testSequence->loadFromDb($dynamicQuestionSetConfig);
@@ -11647,56 +11581,6 @@ function getAnswerFeedbackPoints()
 	public function getAutosaveIval()
 	{
 		return $this->autosave_ival;
-	}
-
-	/**
-	 * returns the fact wether questionpools for random question selection are configured
-	 *
-	 * @return boolean $isDynamicTestQuestionPoolConfigured
-	 */
-	public function isDynamicTestQuestionPoolConfigured()
-	{
-		if( $this->getQuestionSetType() != self::QUESTION_SET_TYPE_DYNAMIC )
-		{
-			return false;
-		}
-		
-		global $ilDB;
-		
-		require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-		$questionSetConfig = new ilObjTestDynamicQuestionSetConfig($ilDB, $this);
-		
-		return $questionSetConfig->isQuestionSetConfigured();
-	}
-	
-	/**
-	 * returns the fact wether questionpools for random question selection are configured
-	 *
-	 * @return boolean $areRandomTestQuestionpoolsConfigured
-	 */
-	public function areRandomTestQuestionpoolsConfigured()
-	{
-		if( $this->getQuestionSetType() != self::QUESTION_SET_TYPE_RANDOM )
-		{
-			return false;
-		}
-		
-		return count($this->getRandomQuestionpools()) > 0;
-	}
-
-	/**
-	 * returns the fact wether questions are selected for non random test
-	 *
-	 * @return boolean $doesNonRandomTestQuestionsExist
-	 */
-	public function areFixedTestQuestionsConfigured()
-	{
-		if( $this->getQuestionSetType() != self::QUESTION_SET_TYPE_FIXED )
-		{
-			return false;
-		}
-		
-		return count($this->questions) > 0;
 	}
 
 	/**

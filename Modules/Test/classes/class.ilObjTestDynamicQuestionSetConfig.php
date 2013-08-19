@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/classes/class.ilTestQuestionSetConfig.php';
+
 /**
  * class that manages/holds the data for a question set configuration for continues tests
  *
@@ -9,22 +11,8 @@
  *
  * @package		Modules/Test
  */
-class ilObjTestDynamicQuestionSetConfig
+class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 {
-	/**
-	 * global $ilDB object instance
-	 *
-	 * @var ilDB
-	 */
-	protected $db = null;
-	
-	/**
-	 * object instance of current test
-	 *
-	 * @var ilObjTest
-	 */
-	protected $testOBJ = null;
-	
 	/**
 	 * id of question pool to be used as source
 	 *
@@ -46,15 +34,6 @@ class ilObjTestDynamicQuestionSetConfig
 	 * @var integer
 	 */
 	private $orderingTaxonomyId = null;
-	
-	/**
-	 * Constructor
-	 */
-	public function __construct(ilDB $db, ilObjTest $testOBJ)
-	{
-		$this->db = $db;
-		$this->testOBJ = $testOBJ;
-	}
 	
 	/**
 	 * getter for source question pool id
@@ -268,13 +247,23 @@ class ilObjTestDynamicQuestionSetConfig
 	}
 	
 	/**
-	 * returns the fact wether a question set config exists or not
+	 * returns the fact wether a useable question set config exists or not
 	 * 
 	 * @return boolean
 	 */
 	public function isQuestionSetConfigured()
 	{
 		return $this->getSourceQuestionPoolId() > 0;
+	}
+	
+	/**
+	 * returns the fact wether a useable question set config exists or not
+	 * 
+	 * @return boolean
+	 */
+	public function doesQuestionSetRelatedDataExist()
+	{
+		return $this->isQuestionSetConfigured();
 	}
 	
 	/**
@@ -291,7 +280,7 @@ class ilObjTestDynamicQuestionSetConfig
 	 * @param ilTree $tree
 	 * @return string
 	 */
-	public function getSourceQuestionPoolSummaryString(ilLanguage $lng, ilTree $tree)
+	public function getSourceQuestionPoolSummaryString(ilLanguage $lng)
 	{
 		$poolRefs = $this->getSourceQuestionPoolRefIds();
 		
@@ -307,12 +296,12 @@ class ilObjTestDynamicQuestionSetConfig
 		
 		foreach($poolRefs as $refId)
 		{
-			if( !$tree->isDeleted($refId) )
+			if( !$this->tree->isDeleted($refId) )
 			{
 				$sourceQuestionPoolSummaryString = sprintf(
 					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
 					$this->getSourceQuestionPoolTitle(),
-					$this->getSourceQuestionPoolPathString($tree),
+					$this->getSourceQuestionPoolPathString(),
 					$this->getSourceQuestionPoolNumQuestions()
 				);
 				
@@ -333,9 +322,9 @@ class ilObjTestDynamicQuestionSetConfig
 	 * @param ilTree $tree
 	 * @return string
 	 */
-	private function getSourceQuestionPoolPathString(ilTree $tree)
+	private function getSourceQuestionPoolPathString()
 	{
-		$nodePath = $tree->getNodePath(
+		$nodePath = $this->tree->getNodePath(
 				current(ilObject::_getAllReferences($this->getSourceQuestionPoolId()))
 		);
 
@@ -383,34 +372,18 @@ class ilObjTestDynamicQuestionSetConfig
 		return $row['num'];
 	}
 	
-	public function areDepenciesBroken(ilTree $tree)
+	public function areDepenciesInVulnerableState()
 	{
-		$poolRefs = $this->getSourceQuestionPoolRefIds();
-		
-		if( count($poolRefs) )
+		if( !$this->getSourceQuestionPoolId() )
 		{
 			return false;
 		}
 		
-		return true;
-	}
-	
-	public function getDepenciesBrokenMessage(ilLanguage $lng)
-	{
-		$msg = sprintf(
-				$lng->txt('tst_dyn_quest_set_pool_deleted'), $this->getSourceQuestionPoolTitle()
-		);
-		
-		return $msg;
-	}
-	
-	public function areDepenciesInVulnerableState(ilTree $tree)
-	{
 		$poolRefs = $this->getSourceQuestionPoolRefIds();
 		
 		foreach( $poolRefs as $refId )
 		{
-			if( !$tree->isDeleted($refId) )
+			if( !$this->tree->isDeleted($refId) )
 			{
 				return false;
 			}
@@ -423,6 +396,32 @@ class ilObjTestDynamicQuestionSetConfig
 	{
 		$msg = sprintf(
 				$lng->txt('tst_dyn_quest_set_pool_trashed'), $this->getSourceQuestionPoolTitle()
+		);
+		
+		return $msg;
+	}
+	
+	public function areDepenciesBroken()
+	{
+		if( !$this->getSourceQuestionPoolId() )
+		{
+			return false;
+		}
+		
+		$poolRefs = $this->getSourceQuestionPoolRefIds();
+
+		if( count($poolRefs) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public function getDepenciesBrokenMessage(ilLanguage $lng)
+	{
+		$msg = sprintf(
+				$lng->txt('tst_dyn_quest_set_pool_deleted'), $this->getSourceQuestionPoolTitle()
 		);
 		
 		return $msg;

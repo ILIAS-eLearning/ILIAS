@@ -23,27 +23,33 @@ class ilObjTestSettingsGeneralGUI
 	const CMD_SHOW_RESET_TPL_CONFIRM	= 'showResetTemplateConfirmation';
 	const CMD_CONFIRMED_RESET_TPL		= 'confirmedResetTemplate';
 	
-	/** @var $ctrl ilCtrl */
+	/** @var ilCtrl $ctrl */
 	protected $ctrl = null;
 	
-	/** @var $access ilAccess */
+	/** @var ilAccess $access */
 	protected $access = null;
 	
-	/** @var $lng ilLanguage */
+	/** @var ilLanguage $lng */
 	protected $lng = null;
 	
-	/** @var $tpl ilTemplate */
+	/** @var ilTemplate $tpl */
 	protected $tpl = null;
 	
-	/** @var $db ilDB */
+	/** @var ilTree $tree */
+	protected $tree = null;
+	
+	/** @var ilDB $db */
 	protected $db = null;
 	
-	/** @var $testOBJ ilObjTest */
+	/** @var ilObjTest $testOBJ */
 	protected $testOBJ = null;
 
-	/** @var $testGUI ilObjTestGUI */
+	/** @var ilObjTestGUI $testGUI */
 	protected $testGUI = null;
 	
+	/** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
+	private $testQuestionSetConfigFactory = null;
+
 	/**
 	 * object instance for currently active settings template
 	 *
@@ -78,6 +84,7 @@ class ilObjTestSettingsGeneralGUI
 		ilAccessHandler $access, 
 		ilLanguage $lng, 
 		ilTemplate $tpl, 
+		ilTree $tree,
 		ilDB $db, 
 		ilObjTestGUI $testGUI
 	)
@@ -86,11 +93,15 @@ class ilObjTestSettingsGeneralGUI
 		$this->access = $access;
 		$this->lng = $lng;
 		$this->tpl = $tpl;
+		$this->tree = $tree;
 		$this->db = $db;
 
 		$this->testGUI = $testGUI;
 		$this->testOBJ = $testGUI->object;
 
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->testOBJ);
+		
 		$templateId = $this->testOBJ->getTemplate();
 
 		if( $templateId )
@@ -166,7 +177,8 @@ class ilObjTestSettingsGeneralGUI
 		
 		// return to form when online is to be set, but no questions are configured
 		
-		if( $form->getItemByPostVar('online')->getChecked() && !$this->testOBJ->isComplete() )
+		$currentQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
+		if( $form->getItemByPostVar('online')->getChecked() && !$this->testOBJ->isComplete($currentQuestionSetConfig) )
 		{
 			$form->getItemByPostVar('online')->setAlert(
 					$this->lng->txt("cannot_switch_to_online_no_questions_andor_no_mark_steps")
@@ -188,28 +200,28 @@ class ilObjTestSettingsGeneralGUI
 
 			if( !$this->testOBJ->participantDataExist() && $newQuestionSetType != $oldQuestionSetType )
 			{
-				$hasQuestionsWithoutQuestionpool = false;
-
-				switch( true )
+				$oldQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfigByType(
+						$oldQuestionSetType
+				);
+				
+				if( $oldQuestionSetConfig->doesQuestionSetRelatedDataExist() )
 				{
-					// user tries to change from a random test with existing random question pools to another test mode
-					case $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_FIXED && $this->testOBJ->areFixedTestQuestionsConfigured():
-
-						$hasQuestionsWithoutQuestionpool = $this->testOBJ->hasQuestionsWithoutQuestionpool();
-						// NO BREAK !!
-
-					// user tries to change from a fixed question set test with existing questions to another test mode
-					case $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_RANDOM && $this->testOBJ->areRandomTestQuestionpoolsConfigured():
-
-					// user tries to change from a dynamic question set test with existing dynamic question pool to another test mode
-					case $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_DYNAMIC && $this->testOBJ->isDynamicTestQuestionPoolConfigured():
-
-						if( !$isConfirmedSave )
+					if( !$isConfirmedSave )
+					{
+						if( $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_FIXED )
 						{
-							return $this->showConfirmation($form, $oldQuestionSetType, $newQuestionSetType, $hasQuestionsWithoutQuestionpool);
+							return $this->showConfirmation(
+									$form, $oldQuestionSetType, $newQuestionSetType,
+									$this->testOBJ->hasQuestionsWithoutQuestionpool()
+							);
 						}
+						
+						return $this->showConfirmation(
+								$form, $oldQuestionSetType, $newQuestionSetType, false
+						);
+					}
 
-						$questionSetTypeRelatingDataCleanupRequired = true;
+					$questionSetTypeRelatingDataCleanupRequired = true;
 				}
 
 				if( $form->getItemByPostVar('online')->getChecked() )
@@ -245,25 +257,7 @@ class ilObjTestSettingsGeneralGUI
 		
 		if( $questionSetTypeRelatingDataCleanupRequired )
 		{
-			switch( $oldQuestionSetType )
-			{
-				case ilObjTest::QUESTION_SET_TYPE_FIXED:
-					
-					$this->testOBJ->removeFixedQuestionSetQuestionsConfiguration();
-					break;
-				
-				case ilObjTest::QUESTION_SET_TYPE_RANDOM:
-					
-					$this->testOBJ->removeRandomQuestionSetQuestionPoolsConfiguration();
-					break;
-				
-				case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-					
-					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-					$questionSetConfig = new ilObjTestDynamicQuestionSetConfig($this->db, $this->testOBJ);
-					$questionSetConfig->removeQuestionSetRelatedData();
-					break;
-			}
+			$oldQuestionSetConfig->removeQuestionSetRelatedData();
 		}
 		
 		// disinvite all invited users if required

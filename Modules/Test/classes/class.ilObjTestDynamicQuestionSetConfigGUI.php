@@ -103,7 +103,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$this->testGUI = $testGUI;
 		$this->testOBJ = $testGUI->object;
 		
-		$this->questionSetConfig = new ilObjTestDynamicQuestionSetConfig($db, $testGUI->object);
+		$this->questionSetConfig = new ilObjTestDynamicQuestionSetConfig($this->tree, $db, $testGUI->object);
 	}
 	
 	/**
@@ -193,7 +193,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 			return $this->showFormCmd($form);
 		}
 		
-		$this->testOBJ->saveCompleteStatus();
+		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_dynamic_question_set_config_modified"), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_FORM);
