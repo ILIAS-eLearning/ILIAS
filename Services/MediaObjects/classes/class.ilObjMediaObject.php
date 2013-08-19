@@ -81,7 +81,7 @@ class ilObjMediaObject extends ilObject
 	*
 	* @return	boolean		true, if lm content object exists
 	*/
-	function _exists($a_id)
+	public static function _exists($a_id)
 	{
 		global $ilDB;
 		

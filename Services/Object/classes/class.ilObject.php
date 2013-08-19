@@ -1563,7 +1563,7 @@ class ilObject
 	* @param	string	restrict on a certain type.
 	* @return	boolean	true if object exists
 	*/
-	public function _exists($a_id, $a_reference = false, $a_type = null)
+	public static function _exists($a_id, $a_reference = false, $a_type = null)
 	{
 		global $ilDB;
 		
