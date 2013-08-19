@@ -437,7 +437,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/**
 	 * Check the password, a user entered for test access
 	 */
-	public function checkPassword()
+	public function checkPasswordCmd()
 	{
 		if (strcmp($this->object->getPassword(), $_POST["password"]) == 0)
 		{
