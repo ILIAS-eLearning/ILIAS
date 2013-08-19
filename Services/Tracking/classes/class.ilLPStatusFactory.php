@@ -202,6 +202,10 @@ class ilLPStatusFactory
 				include_once self::PATH.'class.ilLPStatusCollectionManual.php';
 				return new ilLPStatusCollectionManual($a_obj_id);
 				
+			case LP_MODE_DEACTIVATED:
+				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
+				return new ilLPStatus($a_obj_id);
+				
 			case LP_MODE_UNDEFINED:
 				include_once 'Services/Object/classes/class.ilObjectLP.php';
 				$olp = ilObjectLP::getInstance($a_obj_id);					
