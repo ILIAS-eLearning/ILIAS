@@ -46,7 +46,7 @@ class ilGoogleMapGUI
 			
 		$lng->loadLanguageModule("gmaps");
 		
-		$tpl->addJavaScript("http://maps.google.com/maps/api/js?sensor=false", false);
+		$tpl->addJavaScript("//maps.google.com/maps/api/js?sensor=false", false);
 		$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
 		
 	}
@@ -291,7 +291,7 @@ class ilGoogleMapGUI
 		$this->tpl = new ilTemplate("tpl.google_map.html",
 			true, true, "Services/GoogleMaps");
 		
-		$tpl->addJavaScript("http://maps.google.com/maps/api/js?sensor=false", false);
+		$tpl->addJavaScript("//maps.google.com/maps/api/js?sensor=false", false);
 		$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
 
 		// add user markers
