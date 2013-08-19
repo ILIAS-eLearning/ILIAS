@@ -76,6 +76,10 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
         ilUtil::redirect($link);
     }
+	
+	public function __construct($a_id = 0, $a_old_nr = 0) {
+		parent::__construct($a_id, $a_old_nr);
+	}
 
     function &executeCommand()
 	{
@@ -510,15 +514,23 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$manscoring = FALSE;
+				
+			global $tree, $ilDB;
+
+			require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+			$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $this->test_object);
+			$testQuestionSetConfig = $testQuestionSetConfigFactory->getQuestionSetConfig();
+
 			foreach ($selected_array as $key => $value) 
 			{
-				$last_question_id = $this->test_object->insertQuestion($value);
+				$last_question_id = $this->test_object->insertQuestion( $testQuestionSetConfig, $value );
+				
 				if (!$manscoring)
 				{
 					$manscoring = $manscoring | assQuestion::_needsManualScoring($value);
 				}
 			}
-			$this->test_object->saveCompleteStatus();
+			$this->test_object->saveCompleteStatus( $testQuestionSetConfig );
 			if ($manscoring)
 			{
 				ilUtil::sendInfo($this->lng->txt("manscoring_hint"), TRUE);

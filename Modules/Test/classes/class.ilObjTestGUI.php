@@ -35,16 +35,19 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  */
 class ilObjTestGUI extends ilObjectGUI
 {
-	/** @var $object ilObjTest */
+	/** @var ilObjTest $object */
 	public $object = null;
+
+	/** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
+	private $testQuestionSetConfigFactory = null;
 	
-	/** @var $testPlayerFactory ilTestPlayerFactory Factory for test player. */
+	/** @var ilTestPlayerFactory $testPlayerFactory Factory for test player. */
 	private $testPlayerFactory = null;
 	
-	/** @var $testSessionFactory ilTestSessionFactory Factory for test session. */
+	/** @var ilTestSessionFactory $testSessionFactory Factory for test session. */
 	private $testSessionFactory = null;
 	
-	/** @var $testSequenceFactory ilTestSequenceFactory Factory for test sequence. */
+	/** @var ilTestSequenceFactory $testSequenceFactory Factory for test sequence. */
 	private $testSequenceFactory = null;
 	
 	/**
@@ -53,7 +56,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function ilObjTestGUI()
 	{
-		global $lng, $ilCtrl, $ilDB, $ilPluginAdmin;
+		global $lng, $ilCtrl, $ilDB, $ilPluginAdmin, $tree;
 		$lng->loadLanguageModule("assessment");
 		$this->type = "tst";
 		$this->ctrl =& $ilCtrl;
@@ -67,6 +70,9 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if( $this->object instanceof ilObjTest )
 		{
+			require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+			$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $this->object);
+			
 			require_once 'Modules/Test/classes/class.ilTestPlayerFactory.php';
 			$this->testPlayerFactory = new ilTestPlayerFactory($this->object);
 
@@ -143,6 +149,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
 		}
 
+		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
+		{
+			if( $this->isQuestionSetDepenciesBrokenRedirectRequired($next_class, $cmd) )
+			{
+				$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+			}
+		}
+		
 		switch($next_class)
 		{
 			case 'iltestexportgui':
@@ -253,7 +267,9 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
-				$gui = new ilObjTestSettingsGeneralGUI($this->ctrl, $ilAccess, $this->lng, $this->tpl, $ilDB, $this);
+				$gui = new ilObjTestSettingsGeneralGUI(
+						$this->ctrl, $ilAccess, $this->lng, $this->tpl, $this->tree, $ilDB, $this
+				);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
@@ -567,6 +583,44 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
+	
+	public function isQuestionSetDepenciesBrokenRedirectRequired($nextClass, $cmd)
+	{
+		//vd($nextClass, $cmd);
+		
+		if( !$this->object->participantDataExist() )
+		{
+			return false;
+		}
+		
+		switch( $nextClass )
+		{
+			case 'ilobjtestdynamicquestionsetconfiggui':
+				
+			case 'ilmdeditorgui':
+			case 'ilpermissiongui':
+				
+				return false;
+				
+			case 'ilobjtestgui':
+			case '':
+				
+				$cmds = array(
+					'infoScreen', 'participants', 'deleteAllUserResults', 'confirmDeleteAllUserResults',
+					'deleteSingleUserResults', 'confirmDeleteSelectedUserData', 'cancelDeleteSelectedUserData'
+				);
+				
+				if( in_array($cmd, $cmds) )
+				{
+					return false;
+				}
+				
+				break;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * @param $show_pass_details
 	 * @param $show_answers
@@ -1681,9 +1735,9 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			foreach ($selected_array as $key => $value) 
 			{
-				$this->object->insertQuestion($value);
+				$this->object->insertQuestion( $this->testQuestionSetConfigFactory->getQuestionSetConfig(), $value );
 			}
-			$this->object->saveCompleteStatus();
+			$this->object->saveCompleteStatus( $this->testQuestionSetConfigFactory->getQuestionSetConfig() );
 			ilUtil::sendSuccess($this->lng->txt("tst_questions_inserted"), true);
 			$this->ctrl->redirect($this, "questions");
 			return;
@@ -1731,7 +1785,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->saveRandomQuestionCount($this->object->getRandomQuestionCount());
 			$this->object->saveRandomQuestionpools();
-			$this->object->saveCompleteStatus();
+			$this->object->saveCompleteStatus( $this->testQuestionSetConfigFactory->getQuestionSetConfig() );
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, 'randomQuestions');
 		}
@@ -2050,7 +2104,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$deleted[] = $value;
 		}
 
-		$this->object->saveCompleteStatus();
+		$this->object->saveCompleteStatus( $this->testQuestionSetConfigFactory->getQuestionSetConfig() );
 		
 		ilUtil::sendSuccess($this->lng->txt("tst_questions_removed"));
 
@@ -2295,13 +2349,13 @@ class ilObjTestGUI extends ilObjectGUI
 			$manscoring = FALSE;
 			foreach ($selected_array as $key => $value) 
 			{
-				$this->object->insertQuestion($value);
+				$this->object->insertQuestion( $this->testQuestionSetConfigFactory->getQuestionSetConfig(), $value );
 				if (!$manscoring)
 				{
 					$manscoring = $manscoring | assQuestion::_needsManualScoring($value);
 				}
 			}
-			$this->object->saveCompleteStatus();
+			$this->object->saveCompleteStatus( $this->testQuestionSetConfigFactory->getQuestionSetConfig() );
 			if ($manscoring)
 			{
 				ilUtil::sendInfo($this->lng->txt("manscoring_hint"), TRUE);
@@ -2463,7 +2517,7 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 
-				if( $this->object->isOnline() && $this->object->isComplete() )
+				if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
 				{
 					if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 					{
@@ -2650,7 +2704,7 @@ class ilObjTestGUI extends ilObjectGUI
 		else 
 		{
 			$this->object->mark_schema->saveToDb($this->object->getTestId());
-			$this->object->saveCompleteStatus();
+			$this->object->saveCompleteStatus( $this->testQuestionSetConfigFactory->getQuestionSetConfig() );
 			if ($this->object->getReportingDate())
 			{
 				$fxpercent = "";
@@ -3920,7 +3974,7 @@ class ilObjTestGUI extends ilObjectGUI
 				ilUtil::sendInfo($online_access_result);
 			}
 		}
-		if( $this->object->isOnline() && $this->object->isComplete() )
+		if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
 		{
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
@@ -3996,23 +4050,19 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($message);
 		}
 		
-		if( $this->object->isDynamicTest() && $ilAccess->checkAccess("write", "", $this->ref_id) )
+		if( $ilAccess->checkAccess("write", "", $this->ref_id) )
 		{
-			global $ilDB;
+			$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 			
-			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($ilDB, $this->object);
-			$dynamicQuestionSetConfig->loadFromDb();
-			
-			if( $dynamicQuestionSetConfig->areDepenciesBroken($this->tree) )
+			if( $testQuestionSetConfig->areDepenciesBroken() )
 			{
-				ilUtil::sendFailure( $dynamicQuestionSetConfig->getDepenciesBrokenMessage($this->lng) );
+				ilUtil::sendFailure( $testQuestionSetConfig->getDepenciesBrokenMessage($this->lng) );
 				
-				$big_button = array();
+				//$big_button = array();
 			}
-			elseif( $dynamicQuestionSetConfig->areDepenciesInVulnerableState($this->tree) )
+			elseif( $testQuestionSetConfig->areDepenciesInVulnerableState() )
 			{
-				ilUtil::sendInfo( $dynamicQuestionSetConfig->getDepenciesInVulnerableStateMessage($this->lng) );
+				ilUtil::sendInfo( $testQuestionSetConfig->getDepenciesInVulnerableStateMessage($this->lng) );
 			}
 		}
 		
@@ -4050,7 +4100,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 			$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		}
-		if( $this->object->isOnline() && $this->object->isComplete() )
+		if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
 		{
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
@@ -4958,7 +5008,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		if($this->object->isOnline() && $this->object->isComplete())
+		if($this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ))
 		{
 			if((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
@@ -5365,7 +5415,7 @@ class ilObjTestGUI extends ilObjectGUI
 		    $clone->object->setObjId($this->object->getId());
 		    $clone->object->saveToDb();
 
-		    $this->object->insertQuestion($new_id, true);
+		    $this->object->insertQuestion( $this->testQuestionSetConfigFactory->getQuestionSetConfig(), $new_id, true );
 
 		    $copy_count++;
 		}

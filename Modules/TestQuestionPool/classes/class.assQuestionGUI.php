@@ -473,10 +473,17 @@ abstract class assQuestionGUI
 			}
 			elseif ($_GET["test_ref_id"])
 			{
+				global $tree, $ilDB;
+				
 				include_once ("./Modules/Test/classes/class.ilObjTest.php");
 				$_GET["ref_id"] = $_GET["test_ref_id"];
 				$test =& new ilObjTest($_GET["test_ref_id"], true);
-				$test->insertQuestion($this->object->getId());
+				
+				require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+				$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+
+				$test->insertQuestion( $testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId() );
+				
 				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["test_ref_id"]);
 			}
 			else
@@ -528,10 +535,18 @@ abstract class assQuestionGUI
 				$test = new ilObjTest($_GET["calling_test"]);
 				if(!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()))
 				{
+					global $tree, $ilDB;
+					
 					include_once("./Modules/Test/classes/class.ilObjTest.php");
 					$_GET["ref_id"] = $_GET["calling_test"];
-					$test           =& new ilObjTest($_GET["calling_test"], true);
-					$new_id         = $test->insertQuestion($this->object->getId());
+					$test = new ilObjTest($_GET["calling_test"], true);
+					
+					require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+					$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+
+					$new_id = $test->insertQuestion(
+							$testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId()
+					);
 
 					if(isset($_REQUEST['prev_qid']))
 					{
@@ -571,9 +586,18 @@ abstract class assQuestionGUI
 					}
 					if( /*$___test_express_mode || */ $_REQUEST['express_mode'] )
 					{
+						global $tree, $ilDB;
+
 						include_once("./Modules/Test/classes/class.ilObjTest.php");
-						$test =& new ilObjTest($_GET["ref_id"], true);
-						$test->insertQuestion($this->object->getId());
+						$test = new ilObjTest($_GET["ref_id"], true);
+
+						require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+						$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+
+						$test->insertQuestion(
+								$testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId()
+						);
+						
 						require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 						$_REQUEST['q_id'] = $this->object->getId();
 						ilUtil::redirect(ilTestExpressPage::getReturnToPageLink());
@@ -623,11 +647,20 @@ abstract class assQuestionGUI
 				$q_id = $this->object->getId();
 				if(!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()))
 				{
+					global $tree, $ilDB;
+					
 					include_once("./Modules/Test/classes/class.ilObjTest.php");
 					$_GET["ref_id"] = $_GET["calling_test"];
-					$test           =& new ilObjTest($_GET["calling_test"], true);
-					$new_id         = $test->insertQuestion($this->object->getId());
-					$q_id           = $new_id;
+					$test = new ilObjTest($_GET["calling_test"], true);
+					
+					require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+					$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+
+					$new_id = $test->insertQuestion(
+							$testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId()
+					);
+					
+					$q_id = $new_id;
 					if(isset($_REQUEST['prev_qid']))
 					{
 						$test->moveQuestionAfter($this->object->getId() + 1, $_REQUEST['prev_qid']);
