@@ -61,12 +61,25 @@ class ilTestSequenceFactory
 	
 	/**
 	 * creates and returns an instance of a test sequence
-	 * that corresponds to the current test mode
+	 * that corresponds to the current test mode and the pass stored in test session
 	 * 
-	 * @param ilTestSession|ilTestSessionDynamicQuestionSet
+	 * @param ilTestSession|ilTestSessionDynamicQuestionSet $testSession
 	 * @return ilTestSequence|ilTestSequenceDynamicQuestionSet
 	 */
 	public function getSequence($testSession)
+	{
+		return $this->getSequenceByPass($testSession, $testSession->getPass());
+	}
+	
+	/**
+	 * creates and returns an instance of a test sequence
+	 * that corresponds to the current test mode and given pass
+	 * 
+	 * @param ilTestSession|ilTestSessionDynamicQuestionSet $testSession
+	 * @param integer $pass
+	 * @return ilTestSequence|ilTestSequenceDynamicQuestionSet
+	 */
+	public function getSequenceByPass($testSession, $pass)
 	{
 		if(self::$testSequence === null)
 		{
@@ -77,7 +90,7 @@ class ilTestSequenceFactory
 
 					require_once 'Modules/Test/classes/class.ilTestSequence.php';
 					self::$testSequence = new ilTestSequence(
-							$testSession->getActiveId(), $testSession->getPass(), $this->testOBJ->isRandomTest()
+							$testSession->getActiveId(), $pass, $this->testOBJ->isRandomTest()
 					);
 					break;
 

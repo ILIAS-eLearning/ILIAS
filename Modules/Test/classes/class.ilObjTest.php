@@ -4452,7 +4452,7 @@ function getAnswerFeedbackPoints()
 		
 		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this);
-		$testSequence = $testSequenceFactory->getSequence($testSession);
+		$testSequence = $testSequenceFactory->getSequenceByPass($testSession, $pass);
 		
 		if( $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC )
 		{
