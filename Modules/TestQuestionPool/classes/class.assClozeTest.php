@@ -101,7 +101,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		$this->start_tag = "[gap]";
 		$this->end_tag = "[/gap]";
 		$this->gaps = array();
-		$this->setClozeText($cloze_text); // @TODO: Should this be $question?? See setter for why this is not trivial.
+		$this->setClozeText($question); // @TODO: Should this be $question?? See setter for why this is not trivial.
 		$this->fixedTextLength = "";
 		$this->identical_scoring = 1;
 	}
