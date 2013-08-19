@@ -680,7 +680,7 @@ class ilTemplate extends ilTemplateX
 				reset($this->js_files);
 				foreach($this->js_files as $file)
 				{
-					if (is_file($file) || substr($file, 0, 4) == "http" || $a_force)
+					if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force)
 					{
 						if ($this->js_files_batch[$file] == $i)
 						{
