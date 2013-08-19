@@ -4007,6 +4007,8 @@ class ilObjTestGUI extends ilObjectGUI
 			if( $dynamicQuestionSetConfig->areDepenciesBroken($this->tree) )
 			{
 				ilUtil::sendFailure( $dynamicQuestionSetConfig->getDepenciesBrokenMessage($this->lng) );
+				
+				$big_button = array();
 			}
 			elseif( $dynamicQuestionSetConfig->areDepenciesInVulnerableState($this->tree) )
 			{
@@ -4018,13 +4020,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$info->enablePrivateNotes();
 		}
-		/*
-		if (strlen($this->object->getIntroduction()))
-		{
-			$info->addSection($this->lng->txt("tst_introduction"));
-			$info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction()));
-		}
-		 * */
+
 		if($big_button)
 		{
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($testPlayerGUI));
