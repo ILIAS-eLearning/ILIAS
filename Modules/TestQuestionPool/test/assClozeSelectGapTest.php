@@ -25,4 +25,15 @@ class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
+
+		// Act
+		$instance = new assClozeSelectGap(1); // 1 - select gap
+
+		$this->assertInstanceOf('assClozeSelectGap', $instance);
+	}
 }

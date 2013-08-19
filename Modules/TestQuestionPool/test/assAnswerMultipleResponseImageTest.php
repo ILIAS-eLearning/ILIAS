@@ -25,4 +25,15 @@ class assAnswerMultipleResponseImageTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
+
+		// Act
+		$instance = new ASS_AnswerMultipleResponseImage();
+
+		$this->assertInstanceOf('ASS_AnswerMultipleResponseImage', $instance);
+	}
 }

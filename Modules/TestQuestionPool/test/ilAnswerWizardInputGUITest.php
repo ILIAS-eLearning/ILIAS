@@ -25,4 +25,17 @@ class ilAnswerWizardInputGUITest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Services/Form/classes/class.ilTextInputGUI.php'; // I consider this a bug...
+		require_once './Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php';
+
+
+		// Act
+		$instance = new ilAnswerWizardInputGUI();
+
+		$this->assertInstanceOf('ilAnswerWizardInputGUI', $instance);
+	}
 }
