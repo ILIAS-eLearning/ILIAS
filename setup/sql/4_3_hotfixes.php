@@ -363,3 +363,7 @@ if(!$ilDB->tableColumnExists('tst_tests','ending_time'))
 <?php
     $ilCtrlStructureReader->getStructure();
 ?>
+<#19>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>

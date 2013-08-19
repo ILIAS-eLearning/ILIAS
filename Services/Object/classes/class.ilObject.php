@@ -1428,12 +1428,6 @@ class ilObject
 			$res = $ilDB->manipulate($query);
 			// END WebDAV: Delete WebDAV properties
 
-			include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-			ilChangeEvent::_delete($this->getId());
-			
-			include_once './Services/Tracking/classes/class.ilLPCollections.php';
-			ilLPCollections::_deleteAll($this->getId());
-			
 			include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
 			ilECSImport::_deleteByObjId($this->getId());
 

@@ -12,5 +12,6 @@
 	</objects>
 	<events>		
 		<event type="raise" id="updateStatus" />
+		<event type="listen" id="Services/Object" />
 	</events>
 </service>
