@@ -321,7 +321,7 @@ class ilObjectLP
 		array_pop($new_path);
 		$new_path = implode("/", $new_path);
 	
-		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		
 		// find collections with ref_ids		
 		$set = $ilDB->query("SELECT DISTINCT(ut_lp_collections.obj_id) obj_id".
@@ -349,7 +349,7 @@ class ilObjectLP
 						" AND ".$ilDB->in("item_id", $ref_ids, "", "integer");
 					$ilDB->manipulate($query);
 					
-					ilLPStatus::refreshStatus($rec["obj_id"]);				
+					ilLPStatusWrapper::_refreshStatus($rec["obj_id"]);			
 				}
 			}
 		}		
@@ -381,7 +381,7 @@ class ilObjectLP
 	{
 		global $ilDB;
 		
-		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		
 		// update parent collections?		
 		$set = $ilDB->query("SELECT ut_lp_collections.obj_id obj_id FROM ".
@@ -398,7 +398,7 @@ class ilObjectLP
 					" AND item_id = ".$ilDB->quote($this->obj_id, "integer");
 				$ilDB->manipulate($query);
 				
-				ilLPStatus::refreshStatus($rec["obj_id"]);				
+				ilLPStatusWrapper::_refreshStatus($rec["obj_id"]);				
 			}
 		}
 	}
