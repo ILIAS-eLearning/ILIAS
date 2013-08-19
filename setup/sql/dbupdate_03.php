@@ -17510,3 +17510,7 @@ if (!$ilDB->tableExists('skl_usage'))
 }
 	
 ?>
+<#4038>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
