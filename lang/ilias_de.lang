@@ -13686,7 +13686,11 @@ orgu#:#simple_import#:#Simple XML Import
 orgu#:#simple_xml#:#Simple XML Export
 orgu#:#import_xml_file#:#Import Datei
 orgu#:#view_learning_progress_rec#:#Lernfortschritt Rekursiv Einsehen
-orgu#:#lp_is_anonym#:#Der Lernfortschritte der Benutzer kann nicht eingesehen werden, da die Daten anonymisiert gespeichert werden.
+orgu#:#lp_is_anonym#:#Der Lernfortschritte der Benutzer kann nicht eingesehen werden
+orgu#:#edit_translations#:#Titel und Beschreibung
+orgu#:#edit_ext_id#:#Externe ID
+orgu#:#ext_id#:#Externe ID
+orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Daten anonymisiert gespeichert werden.
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
 exc#:#exc_save_all#:#Alle speichern
 exc#:#exc_save_selected#:#Ausgewählte speichern

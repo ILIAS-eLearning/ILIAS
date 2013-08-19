@@ -35,6 +35,48 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		return $writer;
 	}
 
+	public function simpleExportExcel($orgu_ref_id){
+		$nodes = $this->getStructure($orgu_ref_id);
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
+		$adapter = new ilExcelWriterAdapter("org_unit_export_".$orgu_ref_id.".xls", true);
+		$workbook = $adapter->getWorkbook();
+		/** @var Spreadsheet_Excel_Writer_Worksheet $worksheet */
+		$worksheet = $workbook->addWorksheet();
+
+		ob_start();
+		$worksheet->write(0, 0, "ou_id");
+		$worksheet->write(0, 1, "ou_id_type");
+		$worksheet->write(0, 2, "ou_parent_id");
+		$worksheet->write(0, 3, "ou_parent_id_type");
+		$worksheet->write(0, 4, "reference_id");
+		$worksheet->write(0, 5, "external_id");
+		$worksheet->write(0, 6, "title");
+		$worksheet->write(0, 7, "description");
+		$worksheet->write(0, 8, "action");
+
+		$row = 0;
+		foreach($nodes as $node)
+		{
+			$orgu = new ilObjOrgUnit($node);
+			if($orgu->getRefId() == ilObjOrgUnit::getRootOrgRefId())
+				continue;
+			$row++;
+			$attrs = $this->getAttrForOrgu($orgu);
+			$worksheet->write($row, 0, $attrs["ou_id"]);
+			$worksheet->write($row, 1, $attrs["ou_id_type"]);
+			$worksheet->write($row, 2, $attrs["ou_parent_id"]);
+			$worksheet->write($row, 3, $attrs["ou_parent_id_type"]);
+			$worksheet->write($row, 4, $orgu->getRefId());
+			$worksheet->write($row, 5, $orgu->getImportId());
+			$worksheet->write($row, 6, $orgu->getTitle());
+			$worksheet->write($row, 7, $orgu->getDescription());
+			$worksheet->write($row, 8, "create");
+		}
+		ob_end_clean();
+		$workbook->close();
+	}
+
 	public function sendAndCreateSimpleExportFile(){
 		$orgu_id = ilObjOrgUnit::getRootOrgId();
 		$orgu_ref_id = ilObjOrgUnit::getRootOrgRefId();
@@ -106,8 +148,6 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		} else {
 			$ou_parent_id = "__ILIAS";
 		}
-//		$ou_id = ($orgu->getImportId()?$orgu->getImportId():$orgu->getRefId());
-//		$ou_parent_id = ($parent->getImportId()?$parent->getImportId(): $parent_ref);
 		// Only the ref id is guaranteed to be unique.
 		$ou_id = $orgu->getRefId();
 		$attr = array("ou_id" => $ou_id, "ou_id_type" => "reference_id", "ou_parent_id" => $ou_parent_id, "ou_parent_id_type" => "reference_id", "action" => "create");

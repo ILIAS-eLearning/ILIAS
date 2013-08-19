@@ -142,8 +142,7 @@ class ilTabsGUI
 	 */
 	public function removeSubTab($a_id)
 	{
-		for($i = 0; $i < count($this->sub_target); $i++)
-		{
+		foreach($this->sub_target as $i => $sub_target){
 			if($this->sub_target[$i]['id'] == $a_id)
 			{
 				unset($this->sub_target[$i]);
