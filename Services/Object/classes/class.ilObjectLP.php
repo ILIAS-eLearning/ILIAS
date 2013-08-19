@@ -361,14 +361,12 @@ class ilObjectLP
 	}
 	
 	final public function handleDelete()
-	{		
-		$user_ids = $this->gatherLPUsers();	
-			
+	{				
 		include_once "Services/Tracking/classes/class.ilLPMarks.php";
-		ilLPMarks::_deleteForUsers($this->obj_id, $user_ids);
+		ilLPMarks::deleteObject($this->obj_id);
 
 		include_once "Services/Tracking/classes/class.ilChangeEvent.php";
-		ilChangeEvent::_deleteReadEventsForUsers($this->obj_id, $user_ids);		
+		ilChangeEvent::_delete($this->obj_id);		
 		
 		$collection = $this->getCollectionInstance();
 		if($collection)
