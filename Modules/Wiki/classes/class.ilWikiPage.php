@@ -821,7 +821,7 @@ class ilWikiPage extends ilPageObject
 						}
 					}
 					$wpage->setXmlContent($new_content);
-echo htmlentities($new_content);
+//echo htmlentities($new_content);
 					$wpage->update();
 				}
 			}
