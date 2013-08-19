@@ -25,4 +25,15 @@ class assAnswerTrueFalseTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
+
+		// Act
+		$instance = new ASS_AnswerTrueFalse();
+
+		$this->assertInstanceOf('ASS_AnswerTrueFalse', $instance);
+	}
 }

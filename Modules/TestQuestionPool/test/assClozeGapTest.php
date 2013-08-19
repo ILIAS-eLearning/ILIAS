@@ -25,4 +25,15 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+
+		// Act
+		$instance = new assClozeGap(0); // 0 - text gap
+
+		$this->assertInstanceOf('assClozeGap', $instance);
+	}
 }

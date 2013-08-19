@@ -23,14 +23,30 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 		{
 			chdir( dirname( __FILE__ ) );
 			chdir('../../../');
+
+			require_once './Services/UICore/classes/class.ilCtrl.php';
+			$ilCtrl_mock = $this->getMock('ilCtrl');
+			$ilCtrl_mock->expects( $this->any() )->method( 'saveParameter' );
+			$ilCtrl_mock->expects( $this->any() )->method( 'saveParameterByClass' );
+			global $ilCtrl;
+			$ilCtrl = $ilCtrl_mock;
+
+			require_once './Services/Language/classes/class.ilLanguage.php';
+			$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+			//$lng_mock->expects( $this->once() )->method( 'txt' )->will( $this->returnValue('Test') );
+			global $lng;
+			$lng = $lng_mock;
+
+			$ilias_mock = new stdClass();
+			$ilias_mock->account->id = 6;
+			$ilias_mock->account->fullname = 'Esther Tester';
+			global $ilias;
+			$ilias = $ilias_mock;
 		}
 	}
 
 	public function test_instantiateObjectSimple()
 	{
-		$this->markTestIncomplete('Parent constructor of SUT fails in test context.');
-		return;
-
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		
@@ -38,14 +54,12 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 		$instance = new assErrorText();
 		
 		// Assert
-		$this->assertIstanceFf('assErrorText', $instance);
+		$this->assertInstanceOf('assErrorText', $instance);
 	}
 
 	public function test_getErrorsFromText()
 	{
-		$this->markTestIncomplete('Parent constructor of SUT fails in test context.');
-		return;
-
+		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();
@@ -67,9 +81,7 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 
 	public function test_getErrorsFromText_noMatch()
 	{
-		$this->markTestIncomplete('Parent constructor of SUT fails in test context.');
-		return;
-
+		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();
@@ -91,9 +103,7 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 
 	public function test_getErrorsFromText_emptyArgShouldPullInternal()
 	{
-		$this->markTestIncomplete('Parent constructor of SUT fails in test context.');
-		return;
-
+		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();
@@ -113,12 +123,10 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	public function test_setErrordata_newError()
 	{
-		$this->markTestIncomplete('Parent constructor of SUT fails in test context.');
-		return;
-
+		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();
@@ -134,14 +142,12 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 		$actual = $all_errors[0];
 		
 		// Assert
-		$this->assertEquals($expected, $actual);		
+		$this->assertEquals($expected, $actual);
 	}
 	
 	public function test_setErrordata_oldErrordataPresent()
 	{
-		$this->markTestIncomplete('No good way to prepopulate errordata to make this test meaningful.');
-		return;
-		
+		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();

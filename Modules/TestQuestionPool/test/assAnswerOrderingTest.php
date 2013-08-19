@@ -25,4 +25,15 @@ class assAnswerOrderingTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerOrdering.php';
+
+		// Act
+		$instance = new ASS_AnswerOrdering();
+
+		$this->assertInstanceOf('ASS_AnswerOrdering', $instance);
+	}
 }
