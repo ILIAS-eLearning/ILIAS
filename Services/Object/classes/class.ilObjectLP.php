@@ -89,7 +89,7 @@ class ilObjectLP
 				// plugin
 				case $objDefinition->isPluginTypeName($type):
 					include_once "Services/Component/classes/class.ilPluginLP.php";
-					$instance = new ilSessionLP($a_obj_id);
+					$instance = new ilPluginLP($a_obj_id);
 					break;
 
 				default:
@@ -250,12 +250,7 @@ class ilObjectLP
 	
 	final public function resetLPDataForCompleteObject($a_recursive = true)
 	{				
-		include_once "Services/Tracking/classes/class.ilLPMarks.php";
-		$user_ids = ilLPMarks::_getAllUserIds($this->obj_id);
-		
-		include_once "Services/Tracking/classes/class.ilChangeEvent.php";
-		$user_ids = array_merge($user_ids, ilChangeEvent::_getAllUserIds($this->obj_id));		
-		
+		$user_ids = $this->gatherLPUsers();
 		if(sizeof($user_ids))
 		{
 			$this->resetLPDataForUserIds(array_unique($user_ids), $a_recursive);
@@ -296,6 +291,118 @@ class ilObjectLP
 	protected function resetCustomLPDataForUserIds(array $a_user_ids, $a_recursive = true)
 	{
 		// this should delete all data that is relevant for the supported LP modes
+	}
+	
+	protected function gatherLPUsers()
+	{
+		include_once "Services/Tracking/classes/class.ilLPMarks.php";
+		$user_ids = ilLPMarks::_getAllUserIds($this->obj_id);
+		
+		include_once "Services/Tracking/classes/class.ilChangeEvent.php";
+		$user_ids = array_merge($user_ids, ilChangeEvent::_getAllUserIds($this->obj_id));		
+		
+		return $user_ids;
+	}
+	
+	
+	//
+	// EVENTS
+	// 
+		
+	final static public function handleMove($a_source_ref_id)
+	{	
+		global $tree, $ilDB;
+		
+		$ref_ids = $tree->getSubTreeIds($a_source_ref_id);
+		$ref_ids[] = $a_source_ref_id;
+		
+		// get "parent" path to source node (not including source node)
+		$new_path = $tree->getPathId($a_source_ref_id);
+		array_pop($new_path);
+		$new_path = implode("/", $new_path);
+	
+		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		
+		// find collections with ref_ids		
+		$set = $ilDB->query("SELECT DISTINCT(ut_lp_collections.obj_id) obj_id".
+			" FROM object_reference".
+			" JOIN ut_lp_collections ON".
+			" (".$ilDB->in("object_reference.ref_id", $ref_ids, "", "integer").
+			" AND object_reference.ref_id = ut_lp_collections.item_id)");
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold")))
+			{
+				$coll_ref_id = ilObject::_getAllReferences($rec["obj_id"]);
+				$coll_ref_id = array_pop($coll_ref_id);
+				
+				// get path to collection (including collection "parent")
+				$coll_path = $tree->getPathId($coll_ref_id);
+				$coll_path = implode("/", $coll_path);
+				
+				// collection path is not inside new path
+				if(!stristr($new_path, $coll_path))
+				{
+					// delete all items of moved (sub-)tree
+					$query = "DELETE FROM ut_lp_collections".
+						" WHERE obj_id = ".$ilDB->quote($rec["obj_id"], "integer").
+						" AND ".$ilDB->in("item_id", $ref_ids, "", "integer");
+					$ilDB->manipulate($query);
+					
+					ilLPStatus::refreshStatus($rec["obj_id"]);				
+				}
+			}
+		}		
+	}
+	
+	final public function handleToTrash()
+	{			
+		$this->updateParentCollections();		
+	}
+	
+	final public function handleDelete()
+	{		
+		$user_ids = $this->gatherLPUsers();	
+			
+		include_once "Services/Tracking/classes/class.ilLPMarks.php";
+		ilLPMarks::_deleteForUsers($this->obj_id, $user_ids);
+
+		include_once "Services/Tracking/classes/class.ilChangeEvent.php";
+		ilChangeEvent::_deleteReadEventsForUsers($this->obj_id, $user_ids);		
+		
+		$collection = $this->getCollectionInstance();
+		if($collection)
+		{
+			$collection->delete();
+		}
+		
+		$this->updateParentCollections();
+	}
+	
+	final protected function updateParentCollections()
+	{
+		global $ilDB;
+		
+		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		
+		// update parent collections?		
+		$set = $ilDB->query("SELECT ut_lp_collections.obj_id obj_id FROM ".
+				"object_reference JOIN ut_lp_collections ON ".
+				"(object_reference.obj_id = ".$ilDB->quote($this->obj_id, "integer").
+				" AND object_reference.ref_id = ut_lp_collections.item_id)");
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold")))
+			{				
+				// remove from parent collection
+				$query = "DELETE FROM ut_lp_collections".
+					" WHERE obj_id = ".$ilDB->quote($rec["obj_id"], "integer").
+					" AND item_id = ".$ilDB->quote($this->obj_id, "integer");
+				$ilDB->manipulate($query);
+				
+				ilLPStatus::refreshStatus($rec["obj_id"]);				
+			}
+		}
 	}
 }
 

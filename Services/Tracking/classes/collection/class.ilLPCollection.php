@@ -145,7 +145,7 @@ abstract class ilLPCollection
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM ut_lp_collections ".
+		$query = "DELETE FROM ut_lp_collections".
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
 			" AND item_id = ".$ilDB->quote($a_item_id, "integer");
 		$ilDB->manipulate($query);

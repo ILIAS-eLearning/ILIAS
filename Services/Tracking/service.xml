@@ -11,7 +11,9 @@
 		</object>
 	</objects>
 	<events>		
-		<event type="raise" id="updateStatus" />
+		<event type="raise" id="updateStatus" />	
+		<event type="listen" id="Services/Object" />
+		<event type="listen" id="Services/Tree" />
 	</events>
 	<crons>
 		<cron id="lp_object_statistics" class="ilLPCronObjectStatistics" />
