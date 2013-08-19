@@ -1559,12 +1559,13 @@ class ilObject
 	* @static
 	* @access	public
 	* @param	integer	object id or reference id
-	* @param	boolean	ture if id is a reference, else false (default)
+	* @param	boolean	true if id is a reference, else false (default)
+	* @param	string	restrict on a certain type.
 	* @return	boolean	true if object exists
 	*/
-	function _exists($a_id, $a_reference = false)
+	public static function _exists($a_id, $a_reference = false, $a_type = null)
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 		
 		if ($a_reference)
 		{
@@ -1576,6 +1577,9 @@ class ilObject
 		{
 			$q = "SELECT * FROM object_data WHERE obj_id=".$ilDB->quote($a_id, "integer");
 		}
+
+		if($a_type)
+			$q .= " AND object_data.type = ".$ilDB->quote($a_type, "text");
 		
 		$r = $ilDB->query($q);
 

@@ -104,6 +104,10 @@ class ilObjOrgUnit extends ilObjCategory {
 		$this->employee_role = $employee_role;
 	}
 
+	public static function _exists($a_id, $a_reference = false){
+		return parent::_exists($a_id, $a_reference, "orgu");
+	}
+
 	/**
 	 * @return int
 	 */
@@ -169,5 +173,20 @@ class ilObjOrgUnit extends ilObjCategory {
 			return parent::getTitle();
 		else
 			return $this->lng->txt("obj_orgu");
+	}
+
+	/**
+	 * @return array This catches if by some means there is no translation.
+	 */
+	public function getTranslations(){
+		global $lng;
+		$translations =  parent::getTranslations();
+		if(!count($translations["Fobject"])){
+			$this->addTranslation($this->getTitle(), "", $lng->getDefaultLanguage(), true);
+			$translations["Fobject"][] = array("title"	=> $this->getTitle(),
+				"desc"	=> "",
+				"lang"	=> $lng->getDefaultLanguage());
+		}
+		return $translations;
 	}
 }

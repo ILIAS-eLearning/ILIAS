@@ -56,7 +56,7 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 			parent::executeCommand();
 		}
 		//fighting the symptoms, TODO: find where this unnecessary empty target[2] comes from.
-		unset($ilTabs->target[2]);
+//		unset($ilTabs->target[2]);
 
 		$this->showTreeObject();
 		switch($cmd){
@@ -88,7 +88,6 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		global $lng;
 		$cmdClass = $this->ctrl->getCmdClass();
 		$cmd = $this->ctrl->getCmd();
-//		$this->setContentSubTabs($cmd);
 		switch($cmdClass){
 			case 'illearningprogressgui';
 			case 'illplistofprogressgui';
@@ -128,18 +127,65 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		return true;
 	}
 
+	public function editTranslationsObject(){
+		parent::editTranslationsObject();
+		global $ilTabs;
+		$ilTabs->removeSubTab("settings_misc");
+		$ilTabs->removeSubTab("settings_trans");
+		$this->setContentSubTabs();
+	}
+
+	public function editExtIdObject(){
+		global $tpl, $ilTabs;
+		$ilTabs->setTabActive("settings");
+		$form = $this->initEditExtIdForm();
+		$tpl->setContent($form->getHTML());
+	}
+
+	public function updateExtIdObject(){
+		global $tpl, $ilTabs;
+		$ilTabs->setTabActive("settings");
+		$form = $this->initEditExtIdForm();
+		$form->setValuesByPost();
+		if($form->checkInput()){
+			$this->object->setImportId($form->getItemByPostVar("ext_id")->getValue());
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt("ext_id_updated"), true);
+			$tpl->setContent($form->getHTML());
+		}else{
+			$tpl->setContent($form->getHTML());
+		}
+	}
+
+	public function initEditExtIdForm(){
+		$form = new ilPropertyFormGUI();
+		$input = new ilTextInputGUI($this->lng->txt("ext_id"), "ext_id");
+		$input->setValue($this->object->getImportId());
+		$form->addItem($input);
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->addCommandButton("updateExtId", $this->lng->txt("save"));
+		return $form;
+	}
+
+
 	private function extendExportGUI(){
-		if($this->ctrl->getCmd() != "")
+		if($this->ctrl->getCmd() != "" || $this->object->getRefId() != ilObjOrgUnit::getRootOrgRefId())
 			return;
 		global $ilToolbar, $lng;
 		/** @var ilToolbarGUI $toolbar */
 		$toolbar = $ilToolbar;
 		$toolbar->addButton($lng->txt("simple_xml"), $this->ctrl->getLinkTarget($this, "simpleExport"));
+		$toolbar->addButton($lng->txt("simple_xls"), $this->ctrl->getLinkTarget($this, "simpleExportExcel"));
 	}
 
 	public function simpleExportObject(){
 		$exporter = new ilOrgUnitExporter();
 		$exporter->sendAndCreateSimpleExportFile();
+	}
+
+	public function simpleExportExcelObject(){
+		$exporter = new ilOrgUnitExporter();
+		$exporter->simpleExportExcel(ilObjOrgUnit::getRootOrgRefId());
 	}
 
 	protected function checkPermForLP(){
@@ -163,8 +209,10 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		parent::renderObject();
 		$ilTabs->setTabActive("view_content");
 		$this->tabs_gui->removeSubTab("page_editor");
-		if($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId())
+		if($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()){
 			$ilToolbar->addButton($this->lng->txt("simple_import"), $this->ctrl->getLinkTarget($this, "importScreen"));
+			$ilToolbar->addButton($this->lng->txt("simple_user_import"), $this->ctrl->getLinkTarget($this, "userImportScreen"));
+		}
 	}
 
 	public function viewObject() {
@@ -439,23 +487,29 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 
 	public function importScreenObject(){
 		global $tpl;
-		$form = $this->initSimpleImportForm();
+		$form = $this->initSimpleImportForm("startImport");
 		$tpl->setContent($form->getHTML());
 	}
 
-	protected  function initSimpleImportForm(){
+	public function userImportScreenObject(){
+		global $tpl;
+		$form = $this->initSimpleImportForm("startUserImport");
+		$tpl->setContent($form->getHTML());
+	}
+
+	protected  function initSimpleImportForm($submit_action){
 		$form = new ilPropertyFormGUI();
 		$input = new ilFileInputGUI($this->lng->txt("import_xml_file"), "import_file");
 		$input->setRequired(true);
 		$form->addItem($input);
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->addCommandButton("startImport", $this->lng->txt("import"));
+		$form->addCommandButton($submit_action, $this->lng->txt("import"));
 		return $form;
 	}
 
 	public function startImportObject(){
 		global $tpl, $lng;
-		$form = $this->initSimpleImportForm();
+		$form = $this->initSimpleImportForm("startImport");
 		if(!$form->checkInput()){
 			$tpl->setContent($form->getHTML());
 		}else{
@@ -470,6 +524,26 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 				$this->ctrl->redirect($this, "render");
 			}
 		$this->displayImportResults($importer);
+		}
+	}
+
+	public function startUserImportObject(){
+		global $tpl, $lng;
+		$form = $this->initSimpleImportForm("startUserImport");
+		if(!$form->checkInput()){
+			$tpl->setContent($form->getHTML());
+		}else{
+			$file = $form->getInput("import_file");
+			$importer = new ilOrgUnitImporter();
+			try{
+				$importer->simpleUserImport($file["tmp_name"]);
+			}catch(Exception $e){
+				global $ilLog;
+				$ilLog->wirte($e->getMessage()."\\n".$e->getTraceAsString());
+				ilUtil::sendFailure($lng->txt("import_failed"), true);
+				$this->ctrl->redirect($this, "render");
+			}
+			$this->displayImportResults($importer);
 		}
 	}
 
@@ -522,6 +596,17 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 				$ilTabs->addSubTab("show_staff",sprintf($lng->txt("local_staff"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaff"));
 				if($ilAccess->checkAccess("view_learning_progress_rec", "", $_GET["ref_id"]))
 					$ilTabs->addSubTab("show_staff_rec", sprintf($lng->txt("rec_staff"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaffRec"));
+				$ilTabs->setSubTabActive($active_subtab);
+				break;
+			case 'editTranslations':
+			case 'addTranslation':
+				$active_subtab = "edit_translations";
+			case 'editExtId':
+			case 'updateExtId':
+				if(!$active_subtab)
+					$active_subtab = "edit_ext_id";
+				$ilTabs->addSubTab("edit_translations", $this->lng->txt("edit_translations"), $this->ctrl->getLinkTarget($this, "editTranslations"));
+				$ilTabs->addSubTab("edit_ext_id", $this->lng->txt("edit_ext_id"), $this->ctrl->getLinkTarget($this, "editExtId"));
 				$ilTabs->setSubTabActive($active_subtab);
 				break;
 			default:

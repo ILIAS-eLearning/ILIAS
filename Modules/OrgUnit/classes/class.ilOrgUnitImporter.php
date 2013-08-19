@@ -22,6 +22,57 @@ class ilOrgUnitImporter extends ilCategoryImporter {
 		}
 	}
 
+	public function simpleUserImport($file_path){
+		$this->stats = array("updated" => 0, "deleted" => 0, "edited" => 0);
+		$a = file_get_contents($file_path, "r");
+		$xml = new SimpleXMLElement($a);
+		foreach($xml->Assignment as $a){
+			$this->simpleUserImportElement($a);
+		}
+	}
+
+	public function simpleUserImportElement(SimpleXMLElement $a){
+		global $rbacadmin;
+		$attributes = $a->attributes();
+		$action = $attributes->action;
+		$user_id_type = $a->User->attributes()->id_type;
+		$user_id = (string) $a->User;
+		$org_unit_id_type = $a->OrgUnit->attributes()->id_type;
+		$org_unit_id = (string) $a->OrgUnit;
+		$role = (string) $a->Role;
+
+		if(!$user_id = $this->buildUserId($user_id, $user_id_type)){
+			$this->addError("user_not_found", $user_id);
+			return;
+		}
+
+		if(!$org_unit_id = $this->buildRef($org_unit_id, $org_unit_id_type)){
+			$this->addError("org_unit_not_found", $org_unit_id);
+			return;
+		}
+		$org_unit = new ilObjOrgUnit($org_unit_id);
+
+		if($role == "employee"){
+			$role_id = $org_unit->getEmployeeRole();
+		}elseif($role == "superior")
+			$role_id = $org_unit->getSuperiorRole();
+		else{
+			$this->addError("not_a_valid_role", $user_id);
+			return;
+		}
+
+
+		if($action == "add"){
+			$rbacadmin->assignUser($role_id, $user_id);
+			$this->stats["created"]++;
+		}elseif($action == "remove"){
+			$rbacadmin->deassignUser($role_id, $user_id);
+			$this->stats["removed"]++;
+		}else{
+			$this->addError("not_a_valid_role", $user_id);
+		}
+	}
+
 	public function simpleImportElement(SimpleXMLElement $o){
 		global $tree, $tpl;
 		$title = $o->title;
@@ -111,7 +162,7 @@ class ilOrgUnitImporter extends ilCategoryImporter {
 
 	private function buildRef($id, $type){
 		if($type == "reference_id"){
-			if(!ilObject::_exists($id))
+			if(!ilObjOrgUnit::_exists($id, true))
 				return false;
 			return $id;
 		}
@@ -121,6 +172,25 @@ class ilOrgUnitImporter extends ilCategoryImporter {
 			if(!count($ref_ids))
 				return false;
 			return array_shift($ref_ids);
+		}else
+			return false;
+	}
+
+	private function buildUserId($id, $type){
+		global $ilDB;
+		if($type == "ilias_login"){
+			$user_id = ilObjUser::_lookupId($id);
+			return $user_id?$user_id:false;
+		}elseif($type == "external_id"){
+			$user_id = ilObjUser::_lookupObjIdByImportId($id);
+			return $user_id?$user_id:false;
+		}elseif($type == "email"){
+			$q = "SELECT usr_id FROM usr_data WHERE email = ".$ilDB->quote($id, "text");
+			$set = $ilDB->query($q);
+			$user_id = $ilDB->fetchAssoc($set);
+			return $user_id?$user_id:false;
+		}elseif($type == "user_id"){
+			return $id;
 		}else
 			return false;
 	}
