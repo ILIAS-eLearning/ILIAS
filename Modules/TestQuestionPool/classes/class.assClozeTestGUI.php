@@ -983,7 +983,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			$caption = $ordinal = $index+1 .':<i> ';
 			foreach ($answer->items as $item)
 			{
-				$caption .= '"' . $item->answertext.'" / ';
+				$caption .= '"' . $item->getAnswertext().'" / ';
 			}
 			$caption = substr($caption, 0, strlen($caption)-3);
 			$caption .= '</i>';
