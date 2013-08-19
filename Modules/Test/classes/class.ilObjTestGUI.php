@@ -4058,7 +4058,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				ilUtil::sendFailure( $testQuestionSetConfig->getDepenciesBrokenMessage($this->lng) );
 				
-				//$big_button = array();
+				$big_button = array();
 			}
 			elseif( $testQuestionSetConfig->areDepenciesInVulnerableState() )
 			{
