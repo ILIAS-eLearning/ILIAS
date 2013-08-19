@@ -1026,7 +1026,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/*
 	* Presents the final statement of a test
 	*/
-	public function showFinalStatement()
+	public function showFinalStatementCmd()
 	{
 		$template = new ilTemplate("tpl.il_as_tst_final_statement.html", TRUE, TRUE, "Modules/Test");
 		$this->ctrl->setParameter($this, "crs_show_result", $_GET['crs_show_result']);
