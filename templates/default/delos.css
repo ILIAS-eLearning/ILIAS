@@ -430,18 +430,6 @@ input[type=text].numeric {
 }
 
 /* -------------------- table formatting ------------------ */
-div.ilTable {
-	display: table; 
-	width: 100%;
-}
-
-div.ilTableRow {
-	display: table-row;
-}
-
-div.ilTableCell {
-	display: table-cell;
-}
 
 div.ilCommandRow {
 	 text-align: right; 
@@ -2488,6 +2476,19 @@ div.ilTabContentInner {
 	width: 100%;
 }
 
+div.ilTabsTable {
+	display: table; 
+	width: 100%;
+}
+
+div.ilTabsTableRow {
+	display: table-row;
+}
+
+div.ilTabsTableCell {
+	display: table-cell;
+}
+
 /* left navigation area (used, e.g. for explorer trees) */
 div.ilLeftNav {
 	top: 85px;
@@ -4350,3 +4351,26 @@ td.legendColorBox, td.legendLabel {
 		width: 100%;
 	}
 }
+
+/* print css */
+@media print {
+
+	div.ilTabContentOuter {
+		border: none;
+		box-shadow: none;
+	}
+
+	div.ilTabsTable {
+		display: block; 
+		width: auto;
+	}
+	
+	div.ilTabsTableRow {
+		display: block;
+	}
+	
+	div.ilTabsTableCell {
+		display: block;
+	}
+}
+
