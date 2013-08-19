@@ -180,7 +180,10 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	{
 //		$_SESSION['ordering_type'] = OQ_PICTURES;
 
+		$this->lng->loadLanguageModule('form');
+		
 		$inp = $this->getAnswerImageFileUploadWizardFormProperty();
+		
 		if( !$inp->checkInput() )
 		{
 			$this->uploadAlert = $inp->getAlert();
