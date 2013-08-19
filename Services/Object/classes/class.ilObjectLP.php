@@ -129,13 +129,12 @@ class ilObjectLP
 	{		
 		if($this->mode === null)
 		{				
-			$mode = ilLPObjSettings::_lookupDBMode($this->obj_id);			
-			if(!$mode)
+			$mode = ilLPObjSettings::_lookupDBMode($this->obj_id);		
+			if($mode === null)
 			{
 				$mode = $this->getDefaultMode();
-			}
-			
-			$this->mode = $mode;
+			}		
+			$this->mode = (int)$mode;
 		}
 		
 		return $this->mode;

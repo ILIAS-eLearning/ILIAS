@@ -235,9 +235,12 @@ class ilLPObjSettings
 
 		$query = "SELECT u_mode FROM ut_lp_settings".
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		return $row->u_mode;		
+		$set = $ilDB->query($query);
+		$row = $ilDB->fetchAssoc($set);
+		if(is_array($row))
+		{
+			return $row['u_mode'];		
+		}
 	}
 		
 	public static function _mode2Text($a_mode)
