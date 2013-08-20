@@ -25,4 +25,15 @@ class ilAssQuestionHintListTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
+
+		// Act
+		$instance = new ilAssQuestionHintList();
+
+		$this->assertInstanceOf('ilAssQuestionHintList', $instance);
+	}
 }

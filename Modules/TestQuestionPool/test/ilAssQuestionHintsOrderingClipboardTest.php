@@ -25,4 +25,16 @@ class ilAssQuestionHintsOrderingClipboardTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		$this->markTestIncomplete('Needs mock.');
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintsOrderingClipboard.php';
+
+		// Act
+		$instance = new ilAssQuestionHintsOrderingClipboard();
+
+		$this->assertInstanceOf('ilAssQuestionHintsOrderingClipboard', $instance);
+	}
 }

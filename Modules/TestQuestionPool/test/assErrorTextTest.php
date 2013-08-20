@@ -49,39 +49,40 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 	{
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
-		
+
 		// Act
 		$instance = new assErrorText();
-		
+
 		// Assert
 		$this->assertInstanceOf('assErrorText', $instance);
 	}
 
 	public function test_getErrorsFromText()
 	{
-		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();
-		
+
 		$errortext = '
 			Eine ((Kündigung)) kommt durch zwei gleichlautende Willenserklärungen zustande.
 			Ein Vertrag kommt durch ((drei gleichlaute)) Willenserklärungen zustande.
-			Ein Kaufvertrag an der Kasse im Supermarkt kommt durch das legen von Ware auf das 
+			Ein Kaufvertrag an der Kasse im #Supermarkt kommt durch das legen von Ware auf das
 			Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
-		
-		$expected = array( 0 => 'Kündigung', 1 => 'drei gleichlaute', 2 => 'konsequentes' );
-		
+
+		$expected = array(
+			'passages'  => array( 0 => 'Kündigung',  1=> 'drei gleichlaute', 3 => 'konsequentes'),
+			'words'     => array( 2 => 'Supermarkt')
+		);
+
 		// Act
 		$actual = $instance->getErrorsFromText($errortext);
-		
+
 		// Assert
 		$this->assertEquals($expected, $actual);
 	}
 
 	public function test_getErrorsFromText_noMatch()
 	{
-		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();
@@ -89,7 +90,7 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 		$errortext = '
 			Eine Kündigung)) kommt durch zwei gleichlautende (Willenserklärungen) zustande.
 			Ein Vertrag kommt durch (drei gleichlaute) Willenserklärungen zustande.
-			Ein Kaufvertrag an der Kasse im Supermarkt [kommt] durch das #legen von Ware auf das 
+			Ein Kaufvertrag an der Kasse im Supermarkt [kommt] durch das legen von Ware auf das
 			Kassierband und den [[Kassiervorgang]] zustande. Dies nennt man *konsequentes Handeln.';
 
 		$expected = array();
@@ -103,7 +104,6 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 
 	public function test_getErrorsFromText_emptyArgShouldPullInternal()
 	{
-		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();
@@ -111,10 +111,13 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 		$errortext = '
 			Eine ((Kündigung)) kommt durch zwei gleichlautende Willenserklärungen zustande.
 			Ein Vertrag kommt durch ((drei gleichlaute)) Willenserklärungen zustande.
-			Ein Kaufvertrag an der Kasse im Supermarkt kommt durch das legen von Ware auf das 
+			Ein Kaufvertrag an der Kasse im #Supermarkt kommt durch das legen von Ware auf das
 			Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
 
-		$expected = array( 0 => 'Kündigung', 1 => 'drei gleichlaute', 2 => 'konsequentes' );
+		$expected = array(
+			'passages'  => array( 0 => 'Kündigung',  1=> 'drei gleichlaute', 3 => 'konsequentes'),
+			'words'     => array( 2 => 'Supermarkt')
+		);
 
 		// Act
 		$instance->setErrorText($errortext);
@@ -126,37 +129,35 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 
 	public function test_setErrordata_newError()
 	{
-		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();
-		
-		$errordata = array ('error1');
+
+		$errordata = array ('passages' => array ( 0 => 'drei Matrosen'), 'words' => array());
 		require_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
-		$expected = new assAnswerErrorText($errordata[0], '', 0.0);
-		
+		$expected = new assAnswerErrorText($errordata['passages'][0], '', 0.0);
+
 		// Act
 		$instance->setErrorData($errordata);
-		
+
 		$all_errors = $instance->getErrorData();
 		$actual = $all_errors[0];
-		
+
 		// Assert
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	public function test_setErrordata_oldErrordataPresent()
 	{
-		$this->markTestIncomplete('Changes from new Unirep errortext markings not in test.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
 		$instance = new assErrorText();
 
-		$errordata = array ('error1');
+		$errordata = array ('passages' => array ( 0 => 'drei Matrosen'), 'words' => array());
 		require_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
-		$expected = new assAnswerErrorText($errordata[0], 'correct1', 10.0);
+		$expected = new assAnswerErrorText($errordata['passages'][0], '', 0);
 		$instance->errordata = $expected;
-		
+
 		// Act
 		$instance->setErrorData($errordata);
 
@@ -165,7 +166,5 @@ class assErrorTextTest extends PHPUnit_Framework_TestCase
 
 		// Assert
 		$this->assertEquals($expected, $actual);
-	}	
-	
-
+	}
 }

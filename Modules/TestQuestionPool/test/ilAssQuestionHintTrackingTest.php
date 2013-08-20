@@ -25,4 +25,15 @@ class ilAssQuestionHintTrackingTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+
+		// Act
+		$instance = new ilAssQuestionHintTracking();
+
+		$this->assertInstanceOf('ilAssQuestionHintTracking', $instance);
+	}
 }
