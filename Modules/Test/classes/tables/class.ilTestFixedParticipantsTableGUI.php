@@ -14,6 +14,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 {
+	protected $testQuestionSetDepenciesBroken;
 	protected $anonymity;
 	
 	/**
@@ -23,7 +24,7 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $anonymity, $nrOfDatasets)
+	public function __construct($a_parent_obj, $a_parent_cmd, $testQuestionSetDepenciesBroken, $anonymity, $nrOfDatasets)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -32,6 +33,7 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		
+		$this->testQuestionSetDepenciesBroken = $testQuestionSetDepenciesBroken;
 		$this->anonymity = $anonymity;
 		$this->setFormName('export');
 		$this->setStyle('table', 'fullwidth');
@@ -48,7 +50,14 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'passes', '');
 		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
 		$this->addColumn($this->lng->txt("last_access"),'access', '');
-		$this->addColumn('','results', '');
+		
+		$this->actionsColumnRequired = false;
+		if( !$this->testQuestionSetDepenciesBroken )
+		{
+			$this->actionsColumnRequired = true;
+			
+			$this->addColumn('','results', '');
+		}
 	
 		$this->setTitle($this->lng->txt('tst_participating_users'));
 		$this->setDescription($this->lng->txt("fixed_participants_hint"));
@@ -56,7 +65,7 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 
 		$this->addMultiCommand('saveClientIP', $this->lng->txt('save'));
 		$this->addMultiCommand('removeParticipant', $this->lng->txt('remove_as_participant'));
-		if (!$this->anonymity)
+		if( !$this->anonymity && !$this->testQuestionSetDepenciesBroken )
 		{
 			$this->addMultiCommand('showPassOverview', $this->lng->txt('show_pass_overview'));
 			$this->addMultiCommand('showUserAnswers', $this->lng->txt('show_user_answers'));
@@ -117,11 +126,18 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("PASSES", $passes);
 		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $finished : '');
 		$this->tpl->setVariable("ACCESS", (strlen($data['access'])) ? ilDatePresentation::formatDate(new ilDateTime($data['access'], IL_CAL_DATETIME)) : $this->lng->txt('not_yet_accessed'));
-		if ($data['active_id'] > 0)
+		
+		if( $data['active_id'] > 0 && !$this->testQuestionSetDepenciesBroken )
 		{
 			$this->tpl->setCurrentBlock('results');
 			$this->tpl->setVariable("RESULTS", $data['result']);
 			$this->tpl->setVariable("RESULTS_TEXT", ilUtil::prepareFormOutput($this->lng->txt('tst_show_results')));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if( $this->actionsColumnRequired )
+		{
+			$this->tpl->setCurrentBlock('actions_column');
 			$this->tpl->parseCurrentBlock();
 		}
 	}

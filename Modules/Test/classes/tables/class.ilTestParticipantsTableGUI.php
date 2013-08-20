@@ -14,7 +14,10 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestParticipantsTableGUI extends ilTable2GUI
 {
+	protected $testQuestionSetDepenciesBroken;
 	protected $anonymity;
+	
+	protected $actionsColumnRequired;
 	
 	/**
 	 * Constructor
@@ -23,7 +26,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $anonymity, $nrOfDatasets)
+	public function __construct($a_parent_obj, $a_parent_cmd, $testQuestionSetDepenciesBroken, $anonymity, $nrOfDatasets)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -34,6 +37,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		
 		$this->initFilter();
 		
+		$this->testQuestionSetDepenciesBroken = $testQuestionSetDepenciesBroken;
 		$this->anonymity = $anonymity;
 		$this->setFormName('participantsForm');
 		$this->setStyle('table', 'fullwidth');
@@ -52,12 +56,19 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		
 		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
 		$this->addColumn($this->lng->txt("last_access"),'access', '');
-		$this->addColumn('','', '');
+		
+		$this->actionsColumnRequired = false;
+		if( !$this->testQuestionSetDepenciesBroken )
+		{
+			$this->actionsColumnRequired = true;
+			
+			$this->addColumn('','', '');
+		}
 	
 		$this->setTitle($this->lng->txt('tst_participating_users'));
 		$this->setRowTemplate("tpl.il_as_tst_participants_row.html", "Modules/Test");
 
-		if (!$this->anonymity)
+		if( !$this->anonymity && !$this->testQuestionSetDepenciesBroken )
 		{
 			$this->addMultiCommand('showPassOverview', $this->lng->txt('show_pass_overview'));
 			$this->addMultiCommand('showUserAnswers', $this->lng->txt('show_user_answers'));
@@ -112,11 +123,18 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("PASSES", $passes);
 		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $finished : '');
 		$this->tpl->setVariable("ACCESS", ilDatePresentation::formatDate(new ilDateTime($data['access'],IL_CAL_DATETIME)));
-		if ($data['active_id'] > 0)
+
+		if( $data['active_id'] > 0 && !$this->testQuestionSetDepenciesBroken )
 		{
-			$this->tpl->setCurrentBlock('results');
+			$this->tpl->setCurrentBlock('action_results');
 			$this->tpl->setVariable("RESULTS", $data['result']);
 			$this->tpl->setVariable("RESULTS_TEXT", ilUtil::prepareFormOutput($this->lng->txt('tst_show_results')));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if( $this->actionsColumnRequired )
+		{
+			$this->tpl->setCurrentBlock('actions_column');
 			$this->tpl->parseCurrentBlock();
 		}
 	}
