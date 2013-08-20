@@ -2111,6 +2111,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$peer_min->setSize(3);
 		$peer->addSubItem($peer_min);
 		
+		$peer_dl = new ilDateTimeInputGUI($lng->txt("exc_peer_review_deadline"), "peer_dl");
+		$peer_dl->enableDateActivation("", "peer_dl_tgl");
+		$peer_dl->setShowTime(true);
+		$peer->addSubItem($peer_dl);
+		
 		
 		// global feedback
 		
@@ -2244,6 +2249,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
+										
+				if($_POST["peer_dl_tgl"])
+				{
+					$peer_dl =	$this->form->getItemByPostVar("peer_dl")->getDate();
+					$ass->setPeerReviewDeadline($peer_dl->get(IL_CAL_UNIX));
+				}
+				else
+				{
+					$ass->setPeerReviewDeadline(null);
+				}		
 			}
 
 			$ass->save();
@@ -2309,11 +2324,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->form->removeItemByPostVar("peer");
 			$this->form->removeItemByPostVar("peer_min");			
+			$this->form->removeItemByPostVar("peer_dl");			
 		}
 		else
 		{
 			$values["peer"] = $ass->getPeerReview();
 			$values["peer_min"] = $ass->getPeerReviewMin();
+				
+			if ($ass->getPeerReviewDeadline() > 0)
+			{
+				$values["peer_dl_tgl"] = true;
+				$peer_dl_date = new ilDateTime($ass->getPeerReviewDeadline(), IL_CAL_UNIX);
+				$peer_dl = $this->form->getItemByPostVar("peer_dl");
+				$peer_dl->setDate($peer_dl_date);
+			}					
 		}		
 		$this->form->setValuesByArray($values);
 
@@ -2431,8 +2455,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			// deadline
 			if ($_POST["deadline_cb"])
 			{
-				$date =
-					$this->form->getItemByPostVar("deadline")->getDate();
+				$date =	$this->form->getItemByPostVar("deadline")->getDate();
 				$ass->setDeadline($date->get(IL_CAL_UNIX));
 			}
 			else
@@ -2444,6 +2467,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
+				
+				if($_POST["peer_dl_tgl"])
+				{
+					$peer_dl =	$this->form->getItemByPostVar("peer_dl")->getDate();
+					$ass->setPeerReviewDeadline($peer_dl->get(IL_CAL_UNIX));
+				}
+				else
+				{
+					$ass->setPeerReviewDeadline(null);
+				}
 			}
 			
 			if($this->form->getItemByPostVar("fb_file")->getDeletionFlag())
