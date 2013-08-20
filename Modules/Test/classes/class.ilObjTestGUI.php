@@ -4467,9 +4467,10 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilTabs;
 
 		// participants subtab
-		$ilTabs->addSubTabTarget("participants",
+		$ilTabs->addSubTabTarget( "participants",
 			$this->ctrl->getLinkTarget($this,'participants'),
-			array("participants", "saveClientIP",
+			array(
+				"participants", "saveClientIP",
 				"removeParticipant",
 				"showParticipantAnswersForAuthor",
 				"deleteAllUserResults",
@@ -4477,19 +4478,25 @@ class ilObjTestGUI extends ilObjectGUI
 				"outParticipantsResultsOverview", "outParticipantsPassDetails",
 				"showPassOverview", "showUserAnswers", "participantsAction",
 				"showDetailedResults",
-				'npResetFilter', 'npSetFilter'),
-			"");
-		// extratime subtab
-		$ilTabs->addSubTabTarget("timing",
-			$this->ctrl->getLinkTarget($this,'timingOverview'),
-			array("timing", "timingOverview"),
-			"", "");
+				'npResetFilter', 'npSetFilter'
+			),
+			""
+		);
+		
+		if( !$this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
+		{
+			// extratime subtab
+			$ilTabs->addSubTabTarget( "timing",
+				$this->ctrl->getLinkTarget($this,'timingOverview'),
+				array("timing", "timingOverview"), "", ""
+			);
+		}
 	}
 	
 	/**
 	* adds tabs to tab gui object
 	*
-	* @param	object		$tabs_gui		ilTabsGUI object
+	* @param ilTabsGUI $tabs_gui
 	*/
 	function getTabs(&$tabs_gui)
 	{
@@ -4806,6 +4813,18 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+			}
+		}
+		
+		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
+		{
+			$hideTabs = array(
+				'settings', 'manscoring', 'scoringadjust', 'statistics', 'history', 'export'
+			);
+			
+			foreach($hideTabs as $tabId)
+			{
+				$tabs_gui->removeTab($tabId);
 			}
 		}
 	}
