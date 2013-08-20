@@ -151,7 +151,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
 		{
-			if( $this->isQuestionSetDepenciesBrokenRedirectRequired($next_class, $cmd) )
+			if( !$this->isValidRequestOnBrokenQuestionSetDepencies($next_class, $cmd) )
 			{
 				$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
 			}
@@ -584,13 +584,13 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	
-	public function isQuestionSetDepenciesBrokenRedirectRequired($nextClass, $cmd)
+	public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd)
 	{
 		//vd($nextClass, $cmd);
 		
 		if( !$this->object->participantDataExist() )
 		{
-			return false;
+			return true;
 		}
 		
 		switch( $nextClass )
@@ -600,25 +600,26 @@ class ilObjTestGUI extends ilObjectGUI
 			case 'ilmdeditorgui':
 			case 'ilpermissiongui':
 				
-				return false;
+				return true;
 				
 			case 'ilobjtestgui':
 			case '':
 				
 				$cmds = array(
-					'infoScreen', 'participants', 'deleteAllUserResults', 'confirmDeleteAllUserResults',
+					'infoScreen', 'participants', 'npSetFilter', 'npResetFilter',
+					'deleteAllUserResults', 'confirmDeleteAllUserResults',
 					'deleteSingleUserResults', 'confirmDeleteSelectedUserData', 'cancelDeleteSelectedUserData'
 				);
 				
 				if( in_array($cmd, $cmds) )
 				{
-					return false;
+					return true;
 				}
 				
 				break;
 		}
 		
-		return true;
+		return false;
 	}
 	
 	/**
@@ -3084,6 +3085,19 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
+		
+		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken($this->tree) )
+		{
+			ilUtil::sendFailure(
+					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->getDepenciesBrokenMessage($this->lng)
+			);
+		}
+		elseif( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesInVulnerableState($this->tree) )
+		{
+			ilUtil::sendInfo(
+					$this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lng)
+			);
+		}
 
 		if ($this->object->getFixedParticipants())
 		{
@@ -3155,7 +3169,10 @@ class ilObjTestGUI extends ilObjectGUI
 				));
 			}
 			include_once "./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php";
-			$table_gui = new ilTestFixedParticipantsTableGUI($this, 'participants', $this->object->getAnonymity(), count($rows));
+			$table_gui = new ilTestFixedParticipantsTableGUI( $this, 'participants',
+					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken(),
+					$this->object->getAnonymity(), count($rows)
+			);
 			$table_gui->setFilterCommand('fpSetFilter');
 			$table_gui->setResetCommand('fpResetFiler');
 			$rows = $this->applyFilterCriteria($rows);
@@ -3198,7 +3215,10 @@ class ilObjTestGUI extends ilObjectGUI
 				));
 			}
 			include_once "./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php";
-			$table_gui = new ilTestParticipantsTableGUI($this, 'participants', $this->object->getAnonymity(), count($rows));
+			$table_gui = new ilTestParticipantsTableGUI( $this, 'participants',
+					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken(),
+					$this->object->getAnonymity(), count($rows)
+			);
 			$table_gui->setFilterCommand('npSetFilter');
 			$table_gui->setResetCommand('npResetFilter');
 			$rows = $this->applyFilterCriteria($rows);
