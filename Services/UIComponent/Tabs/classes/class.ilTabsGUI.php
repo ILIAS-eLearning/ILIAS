@@ -122,11 +122,11 @@ class ilTabsGUI
 	 */
 	public function removeTab($a_id)
 	{
-		for($i = 0; $i < count($this->target); $i++)
+		foreach($this->target as $key => $target)
 		{
-			if($this->target[$i]['id'] == $a_id)
+			if($target['id'] == $a_id)
 			{
-				unset($this->target[$i]);
+				unset($this->target[$key]);
 				return true;
 			}
 		}
