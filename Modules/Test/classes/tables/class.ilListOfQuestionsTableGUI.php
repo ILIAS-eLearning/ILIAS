@@ -137,12 +137,12 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("POSTPONED", $data['postponed']);
 		if ($data["worked_through"])
 		{
-			$this->tpl->setVariable("HREF_WORKED_THROUGH", ilUtil::getImagePath("icon_ok.png"));
+			$this->tpl->setVariable("HREF_WORKED_THROUGH", ilUtil::getImagePath("icon_worked_through.png"));
 			$this->tpl->setVariable("WORKED_THROUGH", $this->lng->txt("worked_through"));
 		}
 		else
 		{
-			$this->tpl->setVariable("HREF_WORKED_THROUGH", ilUtil::getImagePath("icon_not_ok.png"));
+			$this->tpl->setVariable("HREF_WORKED_THROUGH", ilUtil::getImagePath("icon_not_worked_through.png"));
 			$this->tpl->setVariable("WORKED_THROUGH", $this->lng->txt("not_worked_through"));
 		}
 	}
