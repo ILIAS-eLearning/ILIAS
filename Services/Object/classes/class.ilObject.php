@@ -1995,9 +1995,9 @@ class ilObject
 		
 		$deps["del_ids"][$a_obj_id] = $a_obj_id;
 		
-		if (!$objDefinition->isPlugin($a_type))
+		if (!$objDefinition->isPluginTypeName($a_type))
 		{
-			$class_name = "ilObj".$objDefinition->getClassName($a_type);
+			$class_name = "ilObj".$objDefinition->getClassName($a_type);		
 			$location = $objDefinition->getLocation($a_type);
 			include_once($location."/class.".$class_name.".php");
 			$odeps = call_user_func(array($class_name, "getDeletionDependencies"), $a_obj_id);
