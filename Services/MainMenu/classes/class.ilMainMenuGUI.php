@@ -293,6 +293,9 @@ class ilMainMenuGUI
 				$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
 				$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php?lang=".$ilias->account->getCurrentLanguage());
 				$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
+				$this->tpl->setVariable("LOGIN",$ilias->account->getLogin());
+				$this->tpl->setVariable("MATRICULATION",$ilias->account->getMatriculation());
+				$this->tpl->setVariable("EMAIL",$ilias->account->getEmail());
 				$this->tpl->parseCurrentBlock();
 			}
 	
