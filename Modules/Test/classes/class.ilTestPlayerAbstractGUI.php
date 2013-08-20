@@ -1051,7 +1051,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if ($this->object->getShowKioskModeParticipant())
 		{
 			$template->setCurrentBlock("kiosk_show_participant");
-			$template->setVariable("PARTICIPANT_NAME", $this->lng->txt("login_as") . " " . $ilUser->getFullname());
+			$template->setVariable("PARTICIPANT_NAME_TXT", $this->lng->txt("login_as"));
+			$template->setVariable("PARTICIPANT_NAME", $ilUser->getFullname());
+			$template->setVariable("PARTICIPANT_LOGIN", $ilUser->getLogin());
+			$template->setVariable("PARTICIPANT_MATRICULATION", $ilUser->getMatriculation());
+			$template->setVariable("PARTICIPANT_EMAIL", $ilUser->getEmail());
 			$template->parseCurrentBlock();
 		}
 		if ($this->object->getExamidInKiosk())
