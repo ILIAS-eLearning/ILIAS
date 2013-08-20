@@ -268,9 +268,9 @@ class ilTabsGUI
 	*/
 	function setTabActive($a_id)
 	{
-		for($i = 0; $i < count($this->target);$i++)
+		foreach($this->target as $key => $target)
 		{
-			$this->target[$i]['activate'] = $this->target[$i]['id'] == $a_id;
+			$this->target[$key]['activate'] = $this->target[$key]['id'] == $a_id;
 		}
 		if ($a_id != "")
 		{
