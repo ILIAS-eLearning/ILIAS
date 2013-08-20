@@ -13694,3 +13694,6 @@ orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Da
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
 exc#:#exc_save_all#:#Alle speichern
 exc#:#exc_save_selected#:#Ausgewählte speichern
+exc#:#exc_peer_review_deadline#:#Endtermin Feedback
+exc#:#exc_peer_review_deadline_info#:#Endtermin: %s
+exc#:#exc_peer_review_deadline_reached#:#Feedback-Zeit ist abgelaufen.

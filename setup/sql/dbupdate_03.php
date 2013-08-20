@@ -17514,3 +17514,17 @@ if (!$ilDB->tableExists('skl_usage'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4039>
+<?php
+
+if( !$ilDB->tableColumnExists('exc_assignment', 'peer_dl') )
+{
+	$ilDB->addTableColumn("exc_assignment", "peer_dl",
+		array(	
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0)
+		);
+}
+?>

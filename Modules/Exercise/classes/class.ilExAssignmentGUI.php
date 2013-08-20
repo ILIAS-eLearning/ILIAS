@@ -484,10 +484,25 @@ class ilExAssignmentGUI
 																				
 				// peer feedback
 				if($times_up && $a_data["peer"])
-				{		
-					$peer_url = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "editPeerReview");
-					$edit_pc = "<a href=\"".$peer_url."\" class=\"submit\">".
-						$lng->txt("exc_peer_review_give")."</a>";
+				{							
+					if(!$a_data["peer_dl"] || $a_data["peer_dl"] > time())
+					{			
+						$dl_info = "";
+						if($a_data["peer_dl"])
+						{
+							$dl_info = " (".sprintf($lng->txt("exc_peer_review_deadline_info"), 
+								ilDatePresentation::formatDate(new ilDateTime($a_data["peer_dl"], IL_CAL_UNIX))).")";							
+						}
+						
+						$peer_url = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "editPeerReview");
+						$edit_pc = "<a href=\"".$peer_url."\" class=\"submit\">".
+							$lng->txt("exc_peer_review_give").$dl_info."</a>";
+					}
+					else if($a_data["peer_dl"])
+					{
+						$edit_pc = $lng->txt("exc_peer_review_deadline_reached");
+					}
+					
 					
 					if(ilExAssignment::maySeeGivenFeedback($a_data["id"], $a_data["peer_min"]))
 					{
