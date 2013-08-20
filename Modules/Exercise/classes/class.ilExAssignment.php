@@ -2489,7 +2489,8 @@ class ilExAssignment
 			" AND giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
 			" AND tstamp IS NOT NULL");			
 		$cnt = $ilDB->fetchAssoc($set);
-		return ((int)$cnt >= (int)$a_min);		
+		$cnt = (int)$cnt["cnt"];
+		return ($cnt >= $a_min);		
 	}
 	
 	public static function getPendingFeedbackNotifications()
