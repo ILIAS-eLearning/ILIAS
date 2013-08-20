@@ -25,4 +25,15 @@ class ilAssQuestionHintRequestStatisticDataTest extends PHPUnit_Framework_TestCa
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticData.php';
+
+		// Act
+		$instance = new ilAssQuestionHintRequestStatisticData();
+
+		$this->assertInstanceOf('ilAssQuestionHintRequestStatisticData', $instance);
+	}
 }

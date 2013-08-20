@@ -25,4 +25,15 @@ class ilAssQuestionHintAbstractTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php';
+
+		// Act
+		$instance = new ASS_AnswerBinaryStateImage();
+
+		$this->assertInstanceOf('ASS_AnswerBinaryStateImage', $instance);
+	}
 }

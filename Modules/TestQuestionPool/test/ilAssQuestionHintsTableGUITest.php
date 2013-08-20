@@ -25,4 +25,16 @@ class ilAssQuestionHintsTableGUITest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		$this->markTestIncomplete('Needs mock.');
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php';
+
+		// Act
+		$instance = new ilAssQuestionHintsTableGUI();
+
+		$this->assertInstanceOf('assImagemapQuestion', $instance);
+	}
 }

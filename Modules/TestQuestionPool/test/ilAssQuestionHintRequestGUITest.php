@@ -25,4 +25,16 @@ class ilAssQuestionHintRequestGUITest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		$this->markTestIncomplete('Needs question mock.');
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
+
+		// Act
+		$instance = new ilAssQuestionHintRequestGUI();
+
+		$this->assertInstanceOf('ilAssQuestionHintRequestGUI', $instance);
+	}
 }

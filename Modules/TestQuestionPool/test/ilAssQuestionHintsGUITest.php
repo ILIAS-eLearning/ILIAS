@@ -25,4 +25,16 @@ class ilAssQuestionHintsGUITest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		$this->markTestIncomplete('Needs mock.');
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
+
+		// Act
+		$instance = new ilAssQuestionHintsGUI();
+
+		$this->assertInstanceOf('ASS_AnswerBinaryStateImage', $instance);
+	}
 }
