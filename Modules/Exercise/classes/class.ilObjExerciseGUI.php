@@ -3409,7 +3409,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setContent($tbl->getHTML());						
 	}
 	
-	protected function initAssignmentTextForm(ilExAssignment $a_ass, $a_read_only = false, $a_cancel_cmd = "showOverview")
+	protected function initAssignmentTextForm(ilExAssignment $a_ass, $a_read_only = false, $a_cancel_cmd = "showOverview", $a_peer_review_cmd = null, $a_peer_rating_html = null)
 	{		
 		global $ilCtrl, $ilUser;
 		
@@ -3455,7 +3455,24 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$text = new ilNonEditableValueGUI($this->lng->txt("exc_files_returned_text"), "atxt", true);	
 			$form->addItem($text);		
 			
-			$form->setFormAction($ilCtrl->getFormAction($this, "showOverview"));
+			if(!$a_peer_review_cmd)
+			{
+				$form->setFormAction($ilCtrl->getFormAction($this, "showOverview"));
+			}
+			else
+			{				
+				$rating = new ilCustomInputGUI($this->lng->txt("exc_peer_review_rating"));
+				$rating->setHtml($a_peer_rating_html);
+				$form->addItem($rating);				
+				
+				$comm = new ilTextAreaInputGUI($this->lng->txt("comment"), "comm");
+				$comm->setCols(45);
+				$comm->setRows(10);				
+				$form->addItem($comm);
+				
+				$form->setFormAction($ilCtrl->getFormAction($this, $a_peer_review_cmd));
+				$form->addCommandButton($a_peer_review_cmd, $this->lng->txt("save"));	
+			}
 		}
 		$form->addCommandButton($a_cancel_cmd, $this->lng->txt("cancel"));
 		
@@ -3579,13 +3596,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function showAssignmentTextObject()
 	{
-		global $ilTabs, $ilCtrl, $ilUser, $lng;
+		global $ilTabs, $ilCtrl, $ilUser, $lng, $tpl;
 		
 		if(!$this->ass || 
-			$this->ass->getType() != ilExAssignment::TYPE_TEXT)				
+			$this->ass->getType() != ilExAssignment::TYPE_TEXT)	
 		{
 			$ilCtrl->redirect($this, "showOverview");
 		}
+		
+		$add_rating = null;
 		
 		// tutor
 		if((int)$_GET["grd"])
@@ -3616,9 +3635,24 @@ class ilObjExerciseGUI extends ilObjectGUI
 																
 			$ilTabs->activateTab("content");
 			$this->addContentSubTabs("content");
-		
+					
 			$user_id = (int)$_GET["member_id"];
-			$cancel_cmd = "editPeerReview";
+			$cancel_cmd = "editPeerReview";		
+			
+			// rating
+			$add_rating = "updatePeerReviewText";
+			$ilCtrl->setParameter($this, "peer_id", $user_id);		
+			include_once './Services/Rating/classes/class.ilRatingGUI.php';
+			$rating = new ilRatingGUI();
+			$rating->setObject($this->ass->getId(), "ass", $user_id, "peer");
+			$rating->setUserId($ilUser->getId());
+			$rating = '<div id="rtr_widget">'.$rating->getHTML(false, true,
+				"il.ExcPeerReview.saveSingleRating(".$user_id.", %rating%)").'</div>';		
+			
+			$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
+			$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
+			$ilCtrl->getLinkTarget($this, "updatePeerReviewComments", "", true, false).
+				"')");
 		}
 		// personal
 		else
@@ -3632,21 +3666,30 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$cancel_cmd = null;
 		}
 		
-		$a_form = $this->initAssignmentTextForm($this->ass, true, $cancel_cmd);	
+		$a_form = $this->initAssignmentTextForm($this->ass, true, $cancel_cmd, $add_rating, $rating);	
 		
 		if(($user_id != $ilUser->getId() || (bool)$_GET["grd"]))
 		{
 			if(!stristr($cancel_cmd, "peer"))
 			{
 				include_once "Services/User/classes/class.ilUserUtil.php";
-				$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));
+				$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));						
 			}
 			else
 			{			
 				$a_form->setDescription($lng->txt("id").": ".(int)$_GET["seq"]);
-			}
+								
+				foreach($this->ass->getPeerReviewsByPeerId($user_id) as $item)
+				{
+					if($item["giver_id"] == $ilUser->getId())
+					{						
+						$a_form->getItemByPostVar("comm")->setValue($item["pcomment"]);					
+						break;
+					}
+				}
+			}						
 		}
-			
+		
 		$files = ilExAssignment::getDeliveredFiles($this->ass->getExerciseId(), $this->ass->getId(), $user_id);
 		if($files)
 		{
@@ -3665,9 +3708,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function editPeerReviewObject()
 	{
 		global $ilCtrl, $ilUser, $ilTabs, $tpl;
-		
+				
 		if(!$this->ass || 
-			!$this->ass->getPeerReview())				
+			!$this->ass->getPeerReview() ||
+			!$this->ass->getDeadline() ||
+			$this->ass->getDeadline()-time() > 0)				
 		{
 			$ilCtrl->redirect($this, "showOverview");
 		}
@@ -3735,6 +3780,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if(!$this->ass || 
 			!$this->ass->getPeerReview() ||
+			!$this->ass->getDeadline() ||
+			$this->ass->getDeadline()-time() > 0 ||
 			!sizeof($_POST["pc"]) ||
 			!$ilCtrl->isAsynch())				
 		{
@@ -3775,12 +3822,33 @@ class ilObjExerciseGUI extends ilObjectGUI
 		exit();
 	}
 	
+	function updatePeerReviewTextObject()
+	{
+		global $ilCtrl;
+		
+		if(!$this->ass || 
+			!$this->ass->getPeerReview() ||
+			!$this->ass->getDeadline() ||
+			$this->ass->getDeadline()-time() > 0 ||
+			!(int)$_REQUEST["peer_id"])
+		{
+			$ilCtrl->redirect($this, "editPeerReview");	
+		}
+		
+		$this->ass->updatePeerReviewComment((int)$_REQUEST["peer_id"], trim($_POST["comm"]));		
+		
+		ilUtil::sendInfo($this->lng->txt("exc_peer_review_updated"), true);
+		$ilCtrl->redirect($this, "editPeerReview");	
+	}
+	
 	function showPersonalPeerReviewObject()
 	{
 		global $ilCtrl, $ilTabs, $ilUser, $tpl;
 		
 		if(!$this->ass || 
-			!$this->ass->getPeerReview())				
+			!$this->ass->getPeerReview() ||
+			!$this->ass->getDeadline() ||
+			$this->ass->getDeadline()-time() > 0)				
 		{
 			$ilCtrl->redirect($this, "showOverview");
 		}

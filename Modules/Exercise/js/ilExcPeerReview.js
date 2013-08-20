@@ -35,5 +35,24 @@ il.ExcPeerReview = {
 		}).done(function(data) {			
 			 $('#rtr_' + rating_peer_id).html(data);
 		});
-	}			
+	},	
+	
+	saveSingleRating: function (rating_peer_id, rating) {
+		
+		var pcomm = {};
+		pcomm[rating_peer_id] = $("#comm").val();
+		
+		$.ajax({
+			url: this.ajax_url,
+			dataType: 'text',
+			type: 'POST',
+			data: {
+				pc: pcomm,
+				rating_peer_id: rating_peer_id,
+				rating: rating
+			}			
+		}).done(function(data) {			
+			 $('#rtr_widget').html(data);
+		});
+	}		
 };
