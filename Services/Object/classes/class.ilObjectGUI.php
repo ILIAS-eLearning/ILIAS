@@ -1550,7 +1550,7 @@ class ilObjectGUI
  	*/
 	public function deleteObject($a_error = false)
 	{
-		global $tpl, $ilCtrl;
+		global $ilCtrl;
 		
 		if ($_GET["item_ref_id"] != "")
 		{
