@@ -502,8 +502,7 @@ class ilExAssignmentGUI
 					{
 						$edit_pc = $lng->txt("exc_peer_review_deadline_reached");
 					}
-					
-					
+										
 					if(ilExAssignment::maySeeGivenFeedback($a_data["id"], $a_data["peer_min"]))
 					{
 						$view_url = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "showPersonalPeerReview");
