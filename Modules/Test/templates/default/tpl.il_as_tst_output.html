@@ -7,7 +7,10 @@
 <div id="tst_left">{LIST_OF_QUESTIONS}</div>
 <div id="tst_right">
 <!-- BEGIN enableprocessingtime -->
-<div id="workingtime"><span id="userworkingtime">{USER_WORKING_TIME}</span><span id="timeleft">{USER_REMAINING_TIME}</span></div>
+<div class="ilTstWorkingFormBlock_WorkingTime">
+	<span class="ilTstWorkingFormInfo_UserWorkingTime">{USER_WORKING_TIME}</span>
+	<span id="timeleft" class="ilTstWorkingFormInfo_ProcessTimeLeft">{USER_REMAINING_TIME}</span>
+</div>
 <!-- END enableprocessingtime -->
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 <table class="fullwidth_invisible">
