@@ -529,7 +529,12 @@ class ilExAssignmentGUI
 		}
 		else
 		{
-			$time_diff = ilUtil::int2array($a_deadline - time(),null);
+			$time_diff = ilUtil::int2array($a_deadline - time(),null);	
+			// #11576  - order ascending!
+			if (isset($time_diff['minutes']))
+			{
+				unset($time_diff['seconds']);
+			}			
 			if (isset($time_diff['days']))
 			{
 				unset($time_diff['minutes']);
@@ -537,11 +542,7 @@ class ilExAssignmentGUI
 			if (isset($time_diff['months']))
 			{
 				unset($time_diff['hours']);
-			}
-			if (isset($time_diff['minutes']))
-			{
-				unset($time_diff['seconds']);
-			}
+			}		
 			$time_str = ilUtil::timearray2string($time_diff);
 		}
 
