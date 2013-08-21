@@ -83,7 +83,9 @@ class ilSurveyEditorGUI
 
 	protected function questionsSubtabs($a_cmd)
 	{
-		global $ilTabs;
+		global $ilTabs;		
+		
+		$_SESSION["calling_survey"] = $_GET["ref_id"];
 		
 		if($a_cmd == "questions" && $_REQUEST["pgov"])
 		{
@@ -205,8 +207,6 @@ class ilSurveyEditorGUI
 	
 		// table gui
 		
-		$_SESSION["calling_survey"] = $_GET["ref_id"];
-
 		include_once "Modules/Survey/classes/class.ilSurveyQuestionTableGUI.php";
 		$table = new ilSurveyQuestionTableGUI($this, "questions", $this->object,
 			$read_only);
