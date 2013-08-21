@@ -2,7 +2,7 @@
 
 <div id="xcld_message"></div>
 
-<div id="xcld_blocks">{BLOCKS_CONTENT}</div>
+<div id="xcld_blocks" class="ilFileDropTarget">{BLOCKS_CONTENT}</div>
 
 {PLUGIN_AFTER_CONTENT}
 
@@ -11,7 +11,6 @@
 <script type="text/javascript">
         il.CloudFileList = new ilCloudFileList({ASYNC_GET_BLOCK}, {ASYNC_CREATE_FOLDER}, {ASYNC_UPLOAD_FILE}, {ASYNC_DELETE_ITEM}, {ROOT_ID}, {ROOT_PATH}, {CURRENT_ID}, {CURRENT_PATH}, {MAX_FILE_SIZE});
 </script>
-
 <div id="loading_div_background">
     <div id="loading_div" class="ui-corner-all">
         <img id="loading_img" src="./Modules/Cloud/templates/images/loading.gif" alt="Loading.."/>

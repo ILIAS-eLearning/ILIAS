@@ -36,6 +36,10 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
         }
     }
 
+    this.getCurrentId = function () {
+        return current_id;
+    }
+
     this.setRootPath = function (path) {
         root_path = path;
     }
@@ -48,7 +52,6 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
     //hide Block with id
     this.hideBlock = function (id) {
         $('#xcld_block_' + id).hide();
-        $('#xcld_locator_' + id).hide();
     }
 
     //show Block with Id
@@ -59,13 +62,26 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 
 
     this.showItemCreationList = function () {
-        $("#ilAdvSelListAnchorElement_item_creation").show();
-        $("#ilAdvSelListTable_item_creation").show();
+        $("#xcld_toolbar").show();
+        $("#il_add_new_cld_item_v").show();
     }
 
     this.hideItemCreationList = function () {
-        $("#ilAdvSelListAnchorElement_item_creation").hide();
-        $("#ilAdvSelListTable_item_creation").hide();
+        $("#xcld_toolbar").hide();
+        $("#il_add_new_cld_item_v").hide();
+    }
+
+    this.toggleTabs = function () {
+        if (current_id == root_id) {
+            $("#tab_settings").show();
+            $("#tab_id_permissions").show();
+            $("#tab_id_info").show();
+        }
+        else {
+            $("#tab_settings").hide();
+            $("#tab_id_permissions").hide();
+            $("#tab_id_info").hide();
+        }
     }
 
     this.hideMessage = function () {
@@ -79,7 +95,7 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
         display_message = true;
     }
 
-    this.showCurrent = function (show_message, callback) {
+    this.showCurrent = function (show_message, callback, data) {
         if(!show_message)
         {
             this.hideMessage();
@@ -90,9 +106,13 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
         perm_link = perm_link.replace(/path_.*_endPath/,"path_"+ current_path+"_endPath");
         $("#current_perma_link").val(perm_link);
 
+        //Show or hide Tabs
+        this.toggleTabs();
+
         //Check if block already exists as hidden html block (if it was drawn previously) if so, just show it again.
         if ($("#xcld_block_" + current_id).length > 0) {
             this.showDebugMessage("showCurrent: Block already exists, not going Ajax. id=" + current_id);
+            $('.xcld_locator').hide();
             this.showBlock(current_id);
             this.hideProgressAnimation();
             if (callback instanceof Function) {
@@ -110,7 +130,8 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
                     if (return_data.success) {
                         self.showDebugMessage("showCurrent: Block did not exist, successfull ajax request. id=" + current_id + " path= " + current_path);
                         $("#xcld_blocks").append(return_data.content);
-                        $('.ilLocator').append(return_data.locator);
+                        $('.xcld_locator').hide();
+                        $('.ilToolbarSeparator').before(return_data.locator);
                     }
                     else {
                         self.showDebugMessage("showCurrent: Block did not exist, not successfull ajax request. id=" + current_id + " path= " + current_path);
@@ -126,9 +147,8 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 
                         self.hideItemCreationList();
                     }
-
                     if (callback instanceof Function) {
-                        callback(self);
+                        callback(self, data);
                     }
                     self.hideProgressAnimation();
                 });
@@ -190,11 +210,11 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
             if(data.success)
             {
                 self.removeBlock(current_id);
-                this.showCurrent(true, callback(self, data));
+                this.showCurrent(true, callback, data);
             }
             else
             {
-                this.showCurrent(false, callback(self, data));
+                this.showCurrent(false, callback, data);
             }
         }
         else {
@@ -263,15 +283,16 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
                 }
                 else if (data.success) {
                     self.showDebugMessage("afterCreateFolder: Folder successfully created.");
+                    window.location.hash = $("#xcld_folder_" + data.folder_id).find("a:first").attr('href');
                     self.showMessage(data.message);
                 }
             }
             if (data.success) {
                 self.removeBlock(current_id);
-                this.showCurrent(true, callback(self, data));
+                this.showCurrent(true, callback, data);
             }
             else {
-                this.showCurrent(false, callback(self, data));
+                this.showCurrent(false, callback, data);
             }
         }
         else {
@@ -316,7 +337,7 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 
     this.afterUpload = function (message) {
         self.clicked_upload_item = false;
-        self.showDebugMessage(console.log("afterUpload: "+ message));
+        self.showDebugMessage("afterUpload: "+ message);
         this.showCurrent(false, function (self) {
             $("#form_upload").remove();
             self.showItemCreationList();
@@ -331,7 +352,8 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
     this.hideProgressAnimation = function () {
         $("#loading_div_background").hide();
     }
-    $('.ilLocator').html("");
+
+    $("#xcld_message").insertBefore("#xcld_toolbar");
 
     /** if Errors or var_dumps occured in an Ajax request, they might have been sent to the cld_blank_target iframe.
      * If so, display them

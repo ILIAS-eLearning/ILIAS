@@ -297,6 +297,11 @@ class ilCloudFileTree
             $service = ilCloudConnector::getServiceClass($this->getServiceName(), $this->getId());
             $service->createFolder($path, $this);
 
+            $this->addItemsFromService($current_node->getId());
+            $new_path = ilCloudUtil::joinPaths($current_node->getPath(), $folder_name);
+            $new_node = $this->getNodeFromPath($new_path);
+            return $new_node;
+
         } catch (Exception $e)
         {
             if ($e instanceof ilCloudException)

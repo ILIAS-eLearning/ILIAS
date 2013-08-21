@@ -15,7 +15,7 @@ include_once("class.ilCloudConnector.php");
  * @ilCtrl_Calls ilObjCloudGUI: ilPermissionGUI, ilNoteGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginUploadGUI, ilCloudPluginCreateFolderGUI, ilCloudPluginSettingsGUI,
  * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginDeleteGUI, ilCloudPluginActionListGUI, ilCloudPluginItemCreationListGUI,
- * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginFileTreeGUI, ilCloudPluginInitGUI, ilCloudPluginHeaderActionGUI
+ * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginFileTreeGUI, ilCloudPluginInitGUI, ilCloudPluginHeaderActionGUI, ilCloudPluginInfoScreenGUI
  *
  * @extends ilObject2GUI
  */
@@ -116,6 +116,10 @@ class ilObjCloudGUI extends ilObject2GUI
 
         switch ($next_class)
         {
+            case "ilinfoscreengui":
+                $this->prepareOutput();
+                $this->infoScreenForward();
+                break;
             case "ilcommonactiondispatchergui":
                 include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
@@ -136,7 +140,7 @@ class ilObjCloudGUI extends ilObject2GUI
                 }
                 break;
             case "ilcloudplugincreatefoldergui":
-                if ($this->checkPermissionBool("create_folders"))
+                if ($this->checkPermissionBool("folders_create"))
                 {
                     $folder_gui = ilCloudConnector::getCreateFolderGUIClass($this->plugin_service);
                     $this->ctrl->forwardCommand($folder_gui);
@@ -226,6 +230,7 @@ class ilObjCloudGUI extends ilObject2GUI
         if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
         {
             $ilTabs->addTab("content", $lng->txt("content"), $ilCtrl->getLinkTarget($this, "render"));
+            $ilTabs->addTab("id_info", $lng->txt("info"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
         }
 
         // a "properties" tab
@@ -239,6 +244,25 @@ class ilObjCloudGUI extends ilObject2GUI
         {
             $ilTabs->addTab("id_permissions", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
         }
+    }
+
+    /**
+     * show information screen
+     */
+    public function infoScreenForward()
+    {
+        global $ilTabs, $ilErr;
+
+        $ilTabs->activateTab("id_info");
+
+        if (!$this->checkPermissionBool("visible"))
+        {
+            $ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
+        }
+
+        $plugin_info = ilCloudConnector::getInfoScreenGUIClass($this->plugin_service);
+        $info = $plugin_info->getInfoScreen($this);
+        $this->ctrl->forwardCommand($info);
     }
 
 
@@ -372,6 +396,7 @@ class ilObjCloudGUI extends ilObject2GUI
                 $this->object->setRootId("root",true);
                 $this->object->setAuthComplete(true);
                 $this->object->update();
+                ilUtil::sendSuccess($lng->txt("cld_object_added"), true);
                 $ilCtrl->redirectByClass("ilCloudPluginSettingsGUI", "editSettings");
             }
             else
@@ -395,17 +420,18 @@ class ilObjCloudGUI extends ilObject2GUI
     protected function addHeaderAction()
     {
         $lg = $this->initHeaderAction();
-        $header_action_class = ilCloudConnector::getHeaderActionGUIClass($this->plugin_service);
-        $header_action_class->addCustomHeaderAction($lg);
-        $this->insertHeaderAction($lg);
-
-
+        if($lg)
+        {
+            $header_action_class = ilCloudConnector::getHeaderActionGUIClass($this->plugin_service);
+            $header_action_class->addCustomHeaderAction($lg);
+            $this->insertHeaderAction($lg);
+        }
     }
 
     public function render()
     {
         $init_gui = ilCloudConnector::getInitGUIClass($this->plugin_service);
-        $init_gui->initGUI($this,   $this->checkPermissionBool("create_folders"),
+        $init_gui->initGUI($this,   $this->checkPermissionBool("folders_create"),
                                     $this->checkPermissionBool("upload"),
                                     $this->checkPermissionBool("delete_files"),
                                     $this->checkPermissionBool("delete_folders"),
@@ -430,7 +456,14 @@ class ilObjCloudGUI extends ilObject2GUI
             $file_tree->updateFileTree($_POST["path"]);
             $node = $file_tree->getNodeFromPath($_POST["path"]);
             $file_tree_gui = ilCloudConnector::getFileTreeGUIClass($this->plugin_service,$file_tree);
-            $response->content = $file_tree_gui->getFolderHtml($this, $node->getId(), $this->checkPermissionBool("delete_files"), $this->checkPermissionBool("delete_folders"), $this->checkPermissionBool("download"), $this->checkPermissionBool("files_visible"), $this->checkPermissionBool("folders_visible"));
+            $response->content = $file_tree_gui->getFolderHtml($this,
+                $node->getId(),
+                $this->checkPermissionBool("delete_files"),
+                $this->checkPermissionBool("delete_folders"),
+                $this->checkPermissionBool("download"),
+                $this->checkPermissionBool("files_visible"),
+                $this->checkPermissionBool("folders_visible"));
+
             $response->locator = $file_tree_gui->getLocatorHtml($file_tree->getNodeFromId($node->getId()));
             $response->success = true;
         }

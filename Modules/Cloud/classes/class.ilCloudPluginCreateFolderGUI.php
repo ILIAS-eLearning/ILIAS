@@ -84,14 +84,17 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $response        = new stdClass();
         $response->success = null;
         $response->message = null;
+        $response->folder_id = null;
         try
         {
             $response->status = "done";
             include_once("class.ilCloudFileTree.php");
             $file_tree = ilCloudFileTree::getFileTreeFromSession();
-            $file_tree->addFolderToService($_POST["parent_folder_id"], $_POST["folder_name"]);
+            $new_node = $file_tree->addFolderToService($_POST["parent_folder_id"], $_POST["folder_name"]);
+            $response->folder_id = $new_node->getId();
+            $response->folder_path = $new_node->getPath();
             $response->success = true;
-            $response->message = $tpl->getMessageHTML($lng->txt("cld_folder_created1") . " '" . $_POST["folder_name"]. "' ". $lng->txt("cld_folder_created2"), "success");
+            $response->message = $tpl->getMessageHTML($lng->txt("cld_folder_created"), "success");
         } catch(Exception $e)
         {
             $response->message = $tpl->getMessageHTML($e->getMessage(), "failure");

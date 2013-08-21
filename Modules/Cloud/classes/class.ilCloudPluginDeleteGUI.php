@@ -52,11 +52,11 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
             $response->content = "<div id = 'cld_delete_item' >";
             if($this->is_dir)
             {
-                $response->content .= $tpl->getMessageHTML($lng->txt("cld_confirm_delete_folder") . " " . $this->path, "question");
+                $response->content .= $tpl->getMessageHTML($lng->txt("cld_confirm_delete_folder"), "question");
             }
             else
             {
-                $response->content .= $tpl->getMessageHTML($lng->txt("cld_confirm_delete_file") . " " . $this->path, "question");
+                $response->content .= $tpl->getMessageHTML($lng->txt("cld_confirm_delete_file"), "question");
             }
             $response->content .= $this->gui->getHTML();
             $response->content .= "</div >";
@@ -81,17 +81,17 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
         $this->gui->setFormName("cld_delete_item");
         $this->gui->getTemplateObject()->setVariable("ACTIONTARGET","cld_blank_target");
 
-        $this->gui->addCommandButton('deleteItem', $lng->txt('delete'));
+        $this->gui->addCommandButton('deleteItem', $lng->txt('confirm'));
         $this->gui->addCommandButton('cancel', $lng->txt('cancel'));
         $this->gui->setFormAction($ilCtrl->getFormAction($this));
 
         if($this->is_dir)
         {
-            $item[] = array("var" => 'id', "id" => $this->id, "text" => $this->path, "img" => "/Modules/Cloud/templates/images/icon_cld.png");
+            $item[] = array("var" => 'id', "id" => $this->id, "text" => basename($this->path), "img" => "/Modules/Cloud/templates/images/icon_folder.png");
         }
         else
         {
-            $item[] = array("var" => 'id', "id" => $this->id, "text" => $this->path, "img" => "/Modules/Cloud/templates/images/icon_file.png");
+            $item[] = array("var" => 'id', "id" => $this->id, "text" => basename($this->path), "img" => "/Modules/Cloud/templates/images/icon_file.png");
         }
         $this->gui->setData($item);
     }
@@ -101,7 +101,7 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
      */
     public function deleteItem()
     {
-        global $tpl;
+        global $tpl, $lng;
 
         $response          = new stdClass();
         $response->success = null;
@@ -114,7 +114,7 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
                 $file_tree = ilCloudFileTree::getFileTreeFromSession();
                 $node = $file_tree->getNodeFromId($_POST["id"]);
                 $file_tree->deleteFromService($node->getId());
-                $response->message = $tpl->getMessageHTML("cld_file_deleted" . " " . $node->getPath(), "success");
+                $response->message = $tpl->getMessageHTML($lng->txt("cld_file_deleted"), "success");
                 $response->success = true;
             } catch (Exception $e)
             {

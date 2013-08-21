@@ -15,16 +15,11 @@ include_once("class.ilCloudPluginGUI.php");
 abstract class ilCloudPluginListGUI extends ilCloudPluginGUI
 {
     /**
-     * @var ilAdvancedSelectionListGUI
-     */
-    protected $selection_list = null;
-
-    /**
      * @var ilcloudFileNode
      */
     protected $node = null;
 
-    abstract protected function addSelectionListItemsBefore();
-    abstract protected function addSelectionListItemsAfter();
+    abstract protected function addItemsBefore();
+    abstract protected function addItemsAfter();
 }
 ?>

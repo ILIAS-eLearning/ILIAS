@@ -201,7 +201,7 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
 
     public function initGUI(ilObjCloudGUI $gui_class, $perm_create_folder, $perm_upload_items , $perm_delete_files, $perm_delete_folders,$perm_download, $perm_files_visible, $perm_folders_visible)
     {
-        global $tpl, $ilTabs, $lng;
+        global $ilTabs, $lng, $tpl;
         $ilTabs->activateTab("content");
 
         $this->setGuiClass($gui_class);
@@ -213,14 +213,12 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->setPermFilesVisible($perm_files_visible);
         $this->setPermFoldersVisible($perm_folders_visible);
 
-
         try
         {
             ilCloudConnector::checkServiceActive($this->getGUIClass()->object->getServiceName());
             $this->beforeInitGUI();
 
-            $create_selection_list_gui = ilCloudConnector::getItemCreationListGUIClass($this->getService());
-            $tpl->setVariable("SELECT_OBJTYPE_REPOS", $create_selection_list_gui->getSelectionListItemsHTML($this->getPermUploadItems(), $this->getPermCreateFolders()));
+
 
             //if($this->getPluginObject()->getAsyncDrawing())
             {
@@ -237,6 +235,8 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
 
                 $file_tree = new ilCloudFileTree($this->getGUIClass()->object->getRootFolder(), $this->getGUIClass()->object->getRootId(), $this->getGUIClass()->object->getId(), $this->getGUIClass()->object->getServiceName());
                 $file_tree->storeFileTreeToSession();
+
+                $this->addToolbar($file_tree->getRootNode());
 
                 $this->tpl_file_tree->setVariable("ASYNC_GET_BLOCK", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilobjcloudgui", "asyncGetBlock", true)));
                 $this->tpl_file_tree->setVariable("ASYNC_CREATE_FOLDER", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilcloudplugincreatefoldergui", "asyncCreateFolder", true)));
@@ -302,6 +302,33 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
 
             }
             ilUtil::sendFailure($e->getMessage());
+        }
+    }
+
+    function addToolbar($root_node)
+    {
+        global $lng, $ilToolbar, $tpl;
+
+        $create_list_gui = ilCloudConnector::getItemCreationListGUIClass($this->getService());
+
+        $list_gui_html = $create_list_gui->getGroupedListItemsHTML($this->getPermUploadItems(), $this->getPermCreateFolders());
+
+        if($list_gui_html)
+        {
+            // toolbar
+            $ov_id         = "il_add_new_cld_item_v";
+            $ov_trigger_id = $ov_id ."_tr";
+            $ilLocator = new ilLocatorGUI();
+            $ilLocator->addItem($this->getGuiClass()->object->getTitle(), ilCloudPluginFileTreeGUI::getLinkToFolder($root_node));
+            $ilToolbar->setId('xcld_toolbar');
+            $ilToolbar->addText("<div class='xcld_locator'>".$ilLocator->getHtml()."</div>");
+            $ilToolbar->addSeparator();
+            $ilToolbar->addButton($lng->txt("cld_add_new_item"), "#", "", "", "", $ov_trigger_id, 'submit emphsubmit');
+            include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
+            $ov = new ilOverlayGUI($ov_id);
+            $ov->add();
+            $ov->addTrigger($ov_trigger_id, "click", $ov_trigger_id, false, "tl", "tr");
+            $tpl->setVariable("SELECT_OBJTYPE_REPOS", '<div id="' . $ov_id . '" style="display:none;" class="ilOverlay">'.$list_gui_html.'</div>');
         }
     }
 
