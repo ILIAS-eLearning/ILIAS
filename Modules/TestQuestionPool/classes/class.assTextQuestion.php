@@ -572,7 +572,7 @@ class assTextQuestion extends assQuestion
 				
 				foreach ($answers as $answer)
 				{
-					$qst_answer  = $answer->answertext;
+					$qst_answer  = $answer->getAnswertext();
 					$user_answer = '  '.$row['value1'];
 					
 					if( $this->isKeywordInAnswer( $user_answer, $qst_answer ) )
