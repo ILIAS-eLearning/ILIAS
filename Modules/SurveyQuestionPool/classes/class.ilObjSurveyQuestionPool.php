@@ -984,7 +984,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	* @return array The available question pools
 	* @access public
 	*/
-	function &_getAvailableQuestionpools($use_object_id = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $permission = "read")
+	function _getAvailableQuestionpools($use_object_id = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $permission = "read")
 	{
 		global $ilUser;
 		global $ilDB;
@@ -993,7 +993,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$qpls = ilUtil::_getObjectsByOperations("spl", $permission, $ilUser->getId(), -1);
 		$titles = ilObject::_prepareCloneSelection($qpls, "spl", $showPath);
 		$allqpls = array();
-		$result = $ilDB->query("SELECT obj_fi, isonline FROM svy_qpl");
+		$result = $ilDB->query("SELECT obj_fi, isonline FROM svy_qpl");		
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$allqpls[$row['obj_fi']] = $row['isonline'];
@@ -1001,7 +1001,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		foreach ($qpls as $ref_id)
 		{
 			$obj_id = ilObject::_lookupObjectId($ref_id);
-			if (($could_be_offline) || ($allqpls[$obj_id]['isonline'] == 1))
+			if ($could_be_offline || $allqpls[$obj_id] == 1)
 			{
 				if ($use_object_id)
 				{
