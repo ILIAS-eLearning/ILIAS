@@ -49,7 +49,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("exc_submission"), "");
 		}
 		$this->addColumn($this->lng->txt("exc_peer_review_rating"), "mark");
-		$this->addColumn($this->lng->txt("comment"), "");
+		$this->addColumn($this->lng->txt("exc_peer_review_comment"), "");
 		$this->addColumn($this->lng->txt("last_update"), "tstamp");
 		
 		$this->setDefaultOrderField("tstamp");

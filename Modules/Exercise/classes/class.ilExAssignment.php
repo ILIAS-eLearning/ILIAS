@@ -2435,11 +2435,13 @@ class ilExAssignment
 		return $res;
 	}
 	
-	public function getPeerReviewsByPeerId($a_user_id)
+	public function getPeerReviewsByPeerId($a_user_id, $a_only_valid = false)
 	{
 		global $ilDB;
 		
 		$res = array();
+		
+		include_once './Services/Rating/classes/class.ilRating.php';
 					
 		$set = $ilDB->query("SELECT *".
 			" FROM exc_assignment_peer".
@@ -2448,7 +2450,24 @@ class ilExAssignment
 			" ORDER BY peer_id");
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$res[] = $row;
+			$valid = true;
+			if($a_only_valid)
+			{
+				$valid = false;			
+				if(trim($row["pcomment"]))
+				{
+					$valid = true;
+				}
+				else
+				{
+					$valid = (bool)round(ilRating::getRatingForUserAndObject($this->getId(), 
+						"ass", $row["peer_id"], "peer", $row["giver_id"]));				
+				}
+			}			
+			if($valid)
+			{
+				$res[] = $row;
+			}
 		}						
 		
 		return $res;
@@ -2490,9 +2509,41 @@ class ilExAssignment
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 	
-	public static function maySeeGivenFeedback($a_ass_id, $a_min)
+	public static function countGivenFeedback($a_ass_id)
 	{
 		global $ilDB, $ilUser;
+		
+		$cnt = 0;
+		
+		include_once './Services/Rating/classes/class.ilRating.php';
+		
+		$set = $ilDB->query("SELECT *".
+			" FROM exc_assignment_peer".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND giver_id = ".$ilDB->quote($ilUser->getId(), "integer"));			
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			if(trim($row["pcomment"]))
+			{
+				$cnt++;
+			}
+			else
+			{
+				$mark = (int)round(ilRating::getRatingForUserAndObject($a_ass_id, 
+					"ass", $row["peer_id"], "peer", $row["giver_id"]));
+				if($mark)
+				{
+					$cnt++;
+				}
+			}
+		}
+		
+		return $cnt;
+	}
+	
+	public static function getNumberOfMissingFeedbacks($a_ass_id, $a_min)
+	{
+		global $ilDB;
 		
 		// check if number of returned assignments is lower than assignment peer min
 		$set = $ilDB->query("SELECT COUNT(DISTINCT(user_id)) cnt".
@@ -2508,15 +2559,8 @@ class ilExAssignment
 		}
 				
 		$a_min = min($cnt-1, $a_min);
-		
-		$set = $ilDB->query("SELECT count(*) cnt".
-			" FROM exc_assignment_peer".
-			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
-			" AND giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
-			" AND tstamp IS NOT NULL");			
-		$cnt = $ilDB->fetchAssoc($set);
-		$cnt = (int)$cnt["cnt"];
-		return ($cnt >= $a_min);		
+				
+		return max(0, $a_min-self::countGivenFeedback($a_ass_id));		
 	}
 	
 	public static function getPendingFeedbackNotifications()

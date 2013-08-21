@@ -490,7 +490,7 @@ class ilExAssignmentGUI
 						$dl_info = "";
 						if($a_data["peer_dl"])
 						{
-							$dl_info = " (".sprintf($lng->txt("exc_peer_review_deadline_info"), 
+							$dl_info = " (".sprintf($lng->txt("exc_peer_review_deadline_info_button"), 
 								ilDatePresentation::formatDate(new ilDateTime($a_data["peer_dl"], IL_CAL_UNIX))).")";							
 						}
 						
@@ -502,17 +502,20 @@ class ilExAssignmentGUI
 					{
 						$edit_pc = $lng->txt("exc_peer_review_deadline_reached");
 					}
-										
-					if(ilExAssignment::maySeeGivenFeedback($a_data["id"], $a_data["peer_min"]))
+					
+					if((!$a_data["peer_dl"] || $a_data["peer_dl"] < time()) && 
+						!ilExAssignment::getNumberOfMissingFeedbacks($a_data["id"], $a_data["peer_min"]))
 					{
 						$view_url = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "showPersonalPeerReview");
 						$view_pc = "<a href=\"".$view_url."\" class=\"submit\">".
 							$lng->txt("exc_peer_review_show")."</a>";
 					}
-					else
+					/*
+					else 
 					{
 						$view_pc = $lng->txt("exc_peer_review_show_not_rated_yet");
 					}
+					*/
 					
 					$info->addProperty($lng->txt("exc_peer_review"),
 						$edit_pc." ".$view_pc);																									
