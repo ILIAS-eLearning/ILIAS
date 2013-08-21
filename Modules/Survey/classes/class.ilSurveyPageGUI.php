@@ -402,6 +402,7 @@ class ilSurveyPageGUI
 		
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 			$q_gui = SurveyQuestionGUI::_getQuestionGUI($type_trans);
+			$q_gui->object->setObjId($this->object->getId());
 			$q_gui->object->createNewQuestion();		
 			$q_gui_class = get_class($q_gui);	
 

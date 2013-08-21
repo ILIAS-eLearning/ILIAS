@@ -144,7 +144,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			default:
 				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 				$q_gui = SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
+				// $q_gui->object->setObjId($this->object->getId());
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
@@ -677,11 +677,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	public function &createQuestionObject()
 	{
 		global $ilUser;
+		
 		$ilUser->writePref("svy_lastquestiontype", $_POST["sel_question_types"]);
+		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
 		$q_gui->object->createNewQuestion();
+		
 		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $q_gui->object->getId());
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_POST["sel_question_types"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");

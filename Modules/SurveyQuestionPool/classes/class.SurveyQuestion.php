@@ -875,9 +875,9 @@ class SurveyQuestion
 	*/
 	public function createNewQuestion()
 	{
-		global $ilDB, $ilUser;
-		
-		$obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
+		global $ilDB;
+				
+		$obj_id = $this->getObjId();
 		if ($obj_id > 0)
 		{
 			$next_id = $ilDB->nextId('svy_question');
@@ -1578,7 +1578,7 @@ class SurveyQuestion
 		}
 	}
 	
-	function _getInternalLinkHref($target = "")
+	function _getInternalLinkHref($target = "", $a_parent_ref_id = null)
 	{
 		global $ilDB;
 		$linktypes = array(
@@ -1607,7 +1607,7 @@ class SurveyQuestion
 					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "MediaObject":
-					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
+					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$a_parent_ref_id."&mob_id=".$target_id;
 					break;
 			}
 		}

@@ -38,7 +38,6 @@ abstract class SurveyQuestionGUI
 	protected $ctrl;
 	protected $cumulated; // [array]	
 	protected $parent_url;
-	protected $parent_ref_id;
 	
 	public $object;
 		
@@ -140,10 +139,9 @@ abstract class SurveyQuestionGUI
 		}
 	}
 	
-	public function setBackUrl($a_url, $a_parent_ref_id)
+	public function setBackUrl($a_url)
 	{
-		$this->parent_url = $a_url;
-		$this->parent_ref_id = $a_parent_ref_id;				
+		$this->parent_url = $a_url;				
 	}
 	
 	function setQuestionTabsForClass($guiclass)
@@ -365,7 +363,7 @@ abstract class SurveyQuestionGUI
 			else
 			{
 				// form: update original pool question, too?
-				if ($_GET["calling_survey"] && $originalexists &&
+				if ($originalexists &&
 					SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 				{
 					if($a_return)
@@ -584,7 +582,7 @@ abstract class SurveyQuestionGUI
 				switch ($material->type)
 				{
 					case 0:
-						$href = SurveyQuestion::_getInternalLinkHref($material->internal_link);
+						$href = SurveyQuestion::_getInternalLinkHref($material->internal_link, $_GET['ref_id']);
 						$template->setVariable('MATERIAL_TYPE', 'internallink');
 						$template->setVariable('MATERIAL_HREF', $href);
 						break;
@@ -724,7 +722,7 @@ abstract class SurveyQuestionGUI
 				switch ($material->type)
 				{
 					case 0:
-						$href = SurveyQuestion::_getInternalLinkHref($material->internal_link);
+						$href = SurveyQuestion::_getInternalLinkHref($material->internal_link, $_GET['ref_id']);
 						$type = $this->lng->txt('internal_link');
 						break;
 				}
