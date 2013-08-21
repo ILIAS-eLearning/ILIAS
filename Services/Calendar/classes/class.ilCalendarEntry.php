@@ -203,7 +203,9 @@ class ilCalendarEntry implements ilDatePeriod
 	{
 		global $ilUser,$lng;
 		
-		if($this->getTranslationType() == IL_CAL_TRANSLATION_NONE)
+		// #11587
+		if($this->getTranslationType() == IL_CAL_TRANSLATION_NONE ||
+			!$this->getSubtitle())
 		{
 			$title = $this->getTitle();
 		}
