@@ -207,6 +207,11 @@ class ilTestDynamicQuestionSet
 		return $questionData[$questionId];
 	}
 	
+	public function getAllQuestionsData()
+	{
+		return $this->completeQuestionList->getQuestionDataArray();
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public function getFilteredQuestionsData()

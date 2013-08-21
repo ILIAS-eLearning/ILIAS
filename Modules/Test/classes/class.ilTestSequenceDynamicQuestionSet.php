@@ -268,7 +268,7 @@ class ilTestSequenceDynamicQuestionSet
 		return false;
 	}
 	
-	public function trackedQuestionExist()
+	public function trackedQuestionExists()
 	{
 		return (bool)count($this->questionTracking);
 	}
@@ -291,6 +291,20 @@ class ilTestSequenceDynamicQuestionSet
 		}
 		
 		return $questionList;
+	}
+	
+	public function openQuestionExists()
+	{
+		return count($this->getOpenQuestions()) > 0;
+	}
+	
+	public function getOpenQuestions()
+	{
+		$completeQuestionIds = array_keys( $this->questionSet->getAllQuestionsData() );
+		
+		$openQuestions = array_diff($completeQuestionIds, $this->correctAnsweredQuestions);
+		
+		return $openQuestions;
 	}
 	
 	public function getTrackedQuestionCount()
@@ -386,7 +400,7 @@ class ilTestSequenceDynamicQuestionSet
 	
 	public function hasStarted()
 	{
-		return $this->trackedQuestionExist();
+		return $this->trackedQuestionExists();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
