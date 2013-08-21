@@ -238,7 +238,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		
 		foreach($answers as $answer)
 		{
-			$answerTexts[] = $answer->answertext;
+			$answerTexts[] = $answer->getAnswertext();
 		}
 		
 		return $answerTexts;
