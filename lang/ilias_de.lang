@@ -745,6 +745,9 @@ assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbe
 assessment#:#qpl_export_excel#:#Microsoft Excel Datei
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
 assessment#:#qpl_export_xml#:#QTI XML Datei
+assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie Filter als Navigationsbaum
+assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Wenn eine Taxonomy ausgewählt ist, wird diese statt als Tabellen Filter als Navigationsbaum angezeigt.
+assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Verwende keine Taxonomie als Navigationsbaum
 assessment#:#tst_pass_deletion#:#Vorherige Durchläufe
 assessment#:#tst_pass_deletion_not_allowed#:#Die Löschung von vorherigen Durchläufen ist NICHT erlaubt
 assessment#:#tst_pass_deletion_allowed#:#Die Löschung von vorherigen Durchläufen ist erlaubt
