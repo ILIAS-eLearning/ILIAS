@@ -254,6 +254,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilUser, $ilHelp;
 		
+		if($this->object instanceof ilObjSurveyQuestionPool)
+		{
+			return true;
+		}
+		
 		$ilHelp->setScreenIdComponent("svy");
 
 		$hidden_tabs = array();
