@@ -912,6 +912,7 @@ class ilConsultationHoursGUI
 				$entry = new ilCalendarEntry();
 				$entry->setContextId($booking->getId());
 				$entry->setTitle($this->form->getInput('ti'));
+				$entry->setSubtitle("#consultationhour#"); // dynamic, see ilCalendarEntry
 				$entry->setDescription($this->form->getInput('de'));
 				$entry->setLocation($this->form->getInput('lo'));
 				$entry->setStart($app_start);
