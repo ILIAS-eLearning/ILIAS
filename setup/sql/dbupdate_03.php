@@ -17584,3 +17584,60 @@ $ilDB->manipulate("UPDATE cal_entries ce".
     ilDBUpdateNewObjectType::updateOperationOrder('delete_files', 3260);
     ilDBUpdateNewObjectType::updateOperationOrder('delete_folders', 3270);
 ?>
+<#4046>
+<?php
+if (!$ilDB->tableExists('copg_multilang'))
+{
+	$fields = array (
+		'parent_type' => array(
+			'type' => 'text', 
+			'length' => 10,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent_id' => array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'master_lang' => array(
+			'type' => 'text', 
+			'length' => 2,
+			'notnull' => true
+		)
+	);
+	$ilDB->createTable('copg_multilang', $fields);
+	$ilDB->addPrimaryKey('copg_multilang', array('parent_type', 'parent_id'));
+}
+	
+?>
+<#4047>
+<?php
+if (!$ilDB->tableExists('copg_multilang_lang'))
+{
+	$fields = array (
+		'parent_type' => array(
+			'type' => 'text', 
+			'length' => 10,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent_id' => array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'lang' => array(
+			'type' => 'text', 
+			'length' => 2,
+			'notnull' => true
+		)
+	);
+	$ilDB->createTable('copg_multilang_lang', $fields);
+	$ilDB->addPrimaryKey('copg_multilang_lang', array('parent_type', 'parent_id', 'lang'));
+}
+	
+?>
+

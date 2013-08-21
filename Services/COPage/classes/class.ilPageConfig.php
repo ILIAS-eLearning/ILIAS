@@ -29,6 +29,8 @@ abstract class ilPageConfig
 	protected $int_link_def_type = "";
 	protected $int_link_def_id = 0;
 	protected $multi_lang_support = false;
+	protected $single_page_mode = false;	// currently only used by multi-lang support
+											// single page means: only one page per parent_id
 	
 	/**
 	 * Constructor
@@ -442,6 +444,26 @@ abstract class ilPageConfig
 	function getMultiLangSupport()
 	{
 		return $this->multi_lang_support;
+	}
+	
+	/**
+	 * Set single page mode
+	 *
+	 * @param bool $a_val single page mode (only one page per parent_id)	
+	 */
+	function setSinglePageMode($a_val)
+	{
+		$this->single_page_mode = $a_val;
+	}
+	
+	/**
+	 * Get single page mode
+	 *
+	 * @return bool single page mode (only one page per parent_id)
+	 */
+	function getSinglePageMode()
+	{
+		return $this->single_page_mode;
 	}
 }
 ?>
