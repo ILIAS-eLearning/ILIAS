@@ -1256,6 +1256,7 @@ class ilStartUpGUI
 		}
 //echo "2";
 		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl->setAddFooter(false); // no client yet
 
 		// to do: get standard style
 		$tpl->setVariable("PAGETITLE","Client List");
