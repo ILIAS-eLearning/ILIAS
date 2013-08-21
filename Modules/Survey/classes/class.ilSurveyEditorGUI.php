@@ -61,10 +61,14 @@ class ilSurveyEditorGUI
 					$ilTabs->clearTargets();
 					$this->ctrl->saveParameter($this, array("new_for_survey", "calling_survey"));
 					
+					$this->ctrl->setParameter($this, "ref_id", $_SESSION["calling_survey"]);
+					$back_url = $this->ctrl->getLinkTarget($this, "questions");
+					$this->ctrl->setParameter($this, "ref_id", $_REQUEST["ref_id"]);
+					
 					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 					$q_gui = SurveyQuestionGUI::_getQuestionGUI(null, $_REQUEST["q_id"]);					
 					$q_gui->object->setObjId($this->object->getId());
-					$q_gui->setBackUrl($this->ctrl->getLinkTarget($this, "questions"), $this->object->getRefId());
+					$q_gui->setBackUrl($back_url, $_SESSION["calling_survey"]);
 					$q_gui->setQuestionTabs();									
 					$this->ctrl->forwardCommand($q_gui);
 				}
@@ -200,6 +204,8 @@ class ilSurveyEditorGUI
 
 	
 		// table gui
+		
+		$_SESSION["calling_survey"] = $_GET["ref_id"];
 
 		include_once "Modules/Survey/classes/class.ilSurveyQuestionTableGUI.php";
 		$table = new ilSurveyQuestionTableGUI($this, "questions", $this->object,
