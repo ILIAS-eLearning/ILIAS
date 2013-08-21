@@ -508,50 +508,9 @@ class ilCalendarWeekGUI
 						break;
 				}
 			}
-
-			// booking
-			if($a_app['category_type'] == ilCalendarCategory::TYPE_CH)
-			{
-				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
-				$entry = new ilBookingEntry($a_app['event']->getContextId());
-				if($entry)
-				{
-					$title .= ' '.$a_app['event']->getTitle();
-					if($entry->isOwner())
-					{
-						$max = (int) $entry->getNumberOfBookings();
-						$current = (int) $entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());
-						
-						if(!$current)
-						{
-							$td_style .= (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
-							$title .= ' ('.$this->lng->txt('cal_book_free').')';
-						}
-						elseif($current >= $max)
-						{
-							$td_style .= (';border-left-width: 5px; border-left-style: solid; border-left-color: red');
-							$title .= ' ('.$this->lng->txt('cal_booked_out').')';
-						}
-						else
-						{
-							$td_style .= (';border-left-width: 5px; border-left-style: solid; border-left-color: yellow');
-							$title .= ' ('.$current.'/'.$max.')';
-						}
-					}
-					include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-					$apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $a_app['event']->getContextId(), $a_app['event']->getStart());
-					$orig_event = $apps[0];
-					if($entry->hasBooked($orig_event))
-					{
-						$td_style .= (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
-						$title .= ' ('.$this->lng->txt('cal_date_booked').')';
-					}
-				}
-			}
-		    else
-			{
-				$title .= (' '.$a_app['event']->getPresentationTitle());
-			}
+			
+			$title .= (' '.$a_app['event']->getPresentationTitle());		
+			$td_style .= $a_app['event']->getPresentationStyle();
 		}
 		
 		$this->tpl->setVariable('APP_TITLE',$title);

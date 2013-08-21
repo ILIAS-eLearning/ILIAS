@@ -201,7 +201,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function getPresentationTitle($a_shorten = true)
 	{
-		global $ilUser,$lng;
+		global $lng;
 		
 		if($this->getTranslationType() == IL_CAL_TRANSLATION_NONE)
 		{
@@ -209,8 +209,20 @@ class ilCalendarEntry implements ilDatePeriod
 		}
 		elseif(strlen($this->getSubtitle()))
 		{
-			$title = $this->getTitle().' ('.$lng->txt($this->getSubtitle()).')';
-		}
+			// parse dynamic title?
+			if(preg_match("/#([a-z]+)#/", $this->getSubtitle(), $matches))
+			{
+				$subtitle = $this->parseDynamicTitle($matches[1]);
+			}
+			else
+			{
+				$subtitle = $lng->txt($this->getSubtitle());
+			}
+			$title = $this->getTitle().
+				(strlen($subtitle) 
+				? ' ('.$subtitle.')'
+				: '');
+		}		
 		else
 		{
 			$title = $this->getTitle();
@@ -219,6 +231,64 @@ class ilCalendarEntry implements ilDatePeriod
 		if($a_shorten)
 		{
 			return ilUtil::shortenText(ilUtil::shortenWords($title,20),40,true);
+		}
+		return $title;
+	}
+	
+	public function getPresentationStyle()
+	{
+		// see parseDynamicTitle()
+		return $this->presentation_style;
+	}
+	
+	protected function parseDynamicTitle($a_type)
+	{
+		global $lng;
+		
+		$title = $style = "";
+		switch($a_type)
+		{
+			case "consultationhour":
+				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+				$entry = new ilBookingEntry($this->getContextId());
+				if($entry)
+				{
+					if($entry->isOwner())
+					{
+						$max = (int)$entry->getNumberOfBookings();
+						$current = (int)$entry->getCurrentNumberOfBookings($this->getEntryId());						
+						if(!$current)
+						{
+							$style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
+							$title = $lng->txt('cal_book_free');
+						}
+						elseif($current >= $max)
+						{
+							$style = ';border-left-width: 5px; border-left-style: solid; border-left-color: red';
+							$title = $lng->txt('cal_booked_out');
+						}
+						else
+						{
+							$style = ';border-left-width: 5px; border-left-style: solid; border-left-color: yellow';
+							$title = $current.'/'.$max;
+						}
+					}
+					
+					include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+					$apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $this->getContextId(), $this->getStart());
+					$orig_event = $apps[0];
+					if($entry->hasBooked($orig_event))
+					{
+						$style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
+						$title = $lng->txt('cal_date_booked');
+					}
+				}												
+				break;						
+		}
+		
+		if($style)
+		{
+			$this->presentation_style = $style;
 		}
 		return $title;
 	}

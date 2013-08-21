@@ -17528,3 +17528,13 @@ if( !$ilDB->tableColumnExists('exc_assignment', 'peer_dl') )
 		);
 }
 ?>
+<#4040>
+<?php
+
+$ilDB->manipulate("UPDATE cal_entries ce".
+	" JOIN cal_cat_assignments ccass ON (ccass.cal_id = ce.cal_id)".
+	" JOIN cal_categories ccat ON (ccat.cat_id = ccass.cat_id)".
+	" SET ce.subtitle = ".$ilDB->quote("#consultationhour#", "text").
+	" WHERE ccat.type = ".$ilDB->quote(4, "integer"));
+
+?>

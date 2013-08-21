@@ -389,57 +389,14 @@ class ilCalendarDayGUI
 			}
 		}
 
-
-		// booking
-		if($a_app['category_type'] == ilCalendarCategory::TYPE_CH)
-		{
-			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
-			$entry = new ilBookingEntry($a_app['event']->getContextId());
-			if($entry)
-			{
-				$title .= ' '.$a_app['event']->getTitle();
-				if($entry->isOwner())
-				{
-					$max = (int)$entry->getNumberOfBookings();
-					$current = (int)$entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());
-					
-					if(!$current)
-					{
-						$additional_styles .= (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
-						$title .= ' ('.$this->lng->txt('cal_book_free').')';
-					}
-					elseif($current >= $max)
-					{
-						$additional_styles .= (';border-left-width: 5px; border-left-style: solid; border-left-color: red');
-						$title .= ' ('.$this->lng->txt('cal_booked_out').')';
-					}
-					else
-					{
-						$additional_styles .= (';border-left-width: 5px; border-left-style: solid; border-left-color: yellow');
-						$title .= ' ('.$current.'/'.$max.')';
-					}
-				}
-				include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-				$apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $a_app['event']->getContextId(), $a_app['event']->getStart());
-				$orig_event = $apps[0];
-				if($entry->hasBooked($orig_event))
-				{
-					$additional_styles = (';border-left-width: 5px; border-left-style: solid; border-left-color: green');
-					$title .= ' ('.$this->lng->txt('cal_date_booked').')';
-				}
-			}
-		}
-		else
-		{
-			$title .= (' '.$a_app['event']->getPresentationTitle(false));
-		}
-
+		$title .= (' '.$a_app['event']->getPresentationTitle(false));
+		
 		$this->tpl->setVariable('APP_TITLE',$title);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_BGCOLOR',$color);
 		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
-		$this->tpl->setVariable('APP_ADD_STYLES',$additional_styles);
+		$this->tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
 		
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
