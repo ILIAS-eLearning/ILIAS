@@ -2277,7 +2277,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		if(ilLearningProgressAccess::checkAccess($_GET["ref_id"]))
 		{			
 			include_once './Services/Object/classes/class.ilObjectLP.php';
-			$olp = ilObjectLP::getInstance($this->lm_obj->getId());			
+			$olp = ilObjectLP::getInstance($this->object->getId());			
 			if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL)
 			{
 				$tabs_gui->$addcmd("learning_progress", 

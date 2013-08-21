@@ -17538,3 +17538,38 @@ $ilDB->manipulate("UPDATE cal_entries ce".
 	" WHERE ccat.type = ".$ilDB->quote(4, "integer"));
 
 ?>
+<#4041>
+<?php
+	if(!$ilDB->tableColumnExists('page_object', 'lang'))
+	{
+		$ilDB->addTableColumn('page_object', 'lang', array(
+			'type' => 'text',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => "-"
+		));
+	}
+?>
+<#4042>
+<?php
+	$ilDB->dropPrimaryKey("page_object");
+	$ilDB->addPrimaryKey('page_object', array('page_id', 'parent_type', 'lang'));
+?>
+<#4043>
+<?php
+	if(!$ilDB->tableColumnExists('page_history', 'lang'))
+	{
+		$ilDB->addTableColumn('page_history', 'lang', array(
+			'type' => 'text',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => "-"
+		));
+	}
+?>
+<#4044>
+<?php
+	$ilDB->dropPrimaryKey("page_history");
+	$ilDB->addPrimaryKey('page_history', array('page_id', 'parent_type', 'hdate', 'lang'));
+?>
+

@@ -1500,7 +1500,7 @@ cntr#:#cntr_saved_sorting#:#Saved Sorting.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to new content of this page. Old content will be removed.
 cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. The content from the old editor cannot be transferred. Please start adding new page content below. If you click the following link, the new content will be used.
 cntr#:#cntr_switched_editor#:#Switched to new content.
-cntr#:#cntr_text_media_editor#:#Customise Page
+cntr#:#cntr_text_media_editor#:#Customize Page
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
 cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.

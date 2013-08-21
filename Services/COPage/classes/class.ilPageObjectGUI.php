@@ -3015,7 +3015,7 @@ class ilPageObjectGUI
 		
 		// left page
 		$lpage = $compare["l_page"];
-		$lpage_gui = new ilPageObjectGUI("wpg");
+		$lpage_gui = new ilPageObjectGUI($lpage->getParentType(), 0);
 		$cfg = $lpage_gui->getPageConfig();
 		$cfg->setPreventHTMLUnmasking(true);
 		$lpage_gui->setOutputMode(IL_PAGE_PREVIEW);
@@ -3029,7 +3029,7 @@ class ilPageObjectGUI
 		
 		// right page
 		$rpage = $compare["r_page"];
-		$rpage_gui = new ilPageObjectGUI("wpg");
+		$rpage_gui = new ilPageObjectGUI($rpage->getParentType(), 0);
 		$cfg = $rpage_gui->getPageConfig();
 		$cfg->setPreventHTMLUnmasking(true);
 		$rpage_gui->setOutputMode(IL_PAGE_PREVIEW);

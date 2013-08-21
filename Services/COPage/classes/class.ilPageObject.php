@@ -63,12 +63,13 @@ abstract class ilPageObject
 	var $offline_handler;
 	var $dom_builded;
 	var $history_saved;
+	var $language = "-";
 	
 	/**
 	* Constructor
 	* @access	public
 	*/
-	final public function ilPageObject($a_id = 0, $a_old_nr = 0)
+	final public function ilPageObject($a_id = 0, $a_old_nr = 0, $a_lang = "-")
 	{
 		global $ilias;
 
@@ -79,6 +80,7 @@ abstract class ilPageObject
 		$this->parent_type = $this->getParentType();
 		$this->id = $a_id;
 		$this->ilias =& $ilias;
+		$this->setLanguage($a_lang);
 
 		$this->contains_int_link = false;
 		$this->needs_parsing = false;
@@ -132,6 +134,26 @@ abstract class ilPageObject
 		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
 		$cfg = ilPageObjectFactory::getConfigInstance($this->getParentType());
 		$this->setPageConfig($cfg);
+	}
+	
+	/**
+	 * Set language
+	 *
+	 * @param string $a_val language code or "-" for unknown / not set	
+	 */
+	function setLanguage($a_val)
+	{
+		$this->language = $a_val;
+	}
+	
+	/**
+	 * Get language
+	 *
+	 * @return string language code
+	 */
+	function getLanguage()
+	{
+		return $this->language;
 	}
 	
 	/**
@@ -285,7 +307,8 @@ abstract class ilPageObject
 		if ($this->old_nr == 0)
 		{
 			$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($this->id, "integer")." ".
-				"AND parent_type=".$ilDB->quote($this->getParentType(), "text");
+				"AND parent_type=".$ilDB->quote($this->getParentType(), "text").
+				"AND lang = ".$ilDB->quote($this->getLanguage(), "text");
 			$pg_set = $this->ilias->db->query($query);
 			$this->page_record = $ilDB->fetchAssoc($pg_set);
 			$this->setActive($this->page_record["active"]);
@@ -298,7 +321,8 @@ abstract class ilPageObject
 			$query = "SELECT * FROM page_history WHERE ".
 				"page_id = ".$ilDB->quote($this->id, "integer")." ".
 				"AND parent_type=".$ilDB->quote($this->getParentType(), "text").
-				" AND nr = ".$ilDB->quote((int) $this->old_nr, "integer");
+				" AND nr = ".$ilDB->quote((int) $this->old_nr, "integer").
+				" AND lang = ".$ilDB->quote($this->getLanguage(), "text");
 			$pg_set = $ilDB->query($query);
 			$this->page_record = $ilDB->fetchAssoc($pg_set);
 		}
@@ -321,56 +345,55 @@ abstract class ilPageObject
 	}
 	
 	/**
-	* checks whether page exists
-	*
-	* @param	string		$a_parent_type	parent type
-	* @param	int			$a_id			page id
-	*/
-	static function _exists($a_parent_type, $a_id)
+	 * Checks whether page exists
+	 *
+	 * @param string $a_parent_type parent type
+	 * @param int $a_id page id
+	 * @param string $a_lang language code, if empty language independent existence is checked
+	 */
+	static function _exists($a_parent_type, $a_id, $a_lang = "")
 	{
 		global $ilDB;
-		if (isset(self::$exists[$a_parent_type.":".$a_id]))
+		if (isset(self::$exists[$a_parent_type.":".$a_id.":".$a_lang]))
 		{
-			return self::$exists[$a_parent_type.":".$a_id];
+			return self::$exists[$a_parent_type.":".$a_id.":".$a_lang];
+		}
+		
+		$and_lang = "";
+		if ($a_lang != "")
+		{
+			$and_lang = " AND lang = ".$ilDB->quote($a_lang, "text");
 		}
 		
 		$query = "SELECT page_id FROM page_object WHERE page_id = ".$ilDB->quote($a_id, "integer")." ".
-			"AND parent_type= ".$ilDB->quote($a_parent_type, "text");
+			"AND parent_type = ".$ilDB->quote($a_parent_type, "text").$and_lang;
 		$set = $ilDB->query($query);
 		if ($row = $ilDB->fetchAssoc($set))
 		{
-			self::$exists[$a_parent_type.":".$a_id] = true;
+			self::$exists[$a_parent_type.":".$a_id.":".$a_lang] = true;
 			return true;
 		}
 		else
 		{
-			self::$exists[$a_parent_type.":".$a_id] = false;
+			self::$exists[$a_parent_type.":".$a_id.":".$a_lang] = false;
 			return false;
 		}
 	}
 
 	/**
-	* checks whether page exists and is not empty (may return true on some empty pages)
-	*
-	* @param	string		$a_parent_type	parent type
-	* @param	int			$a_id			page id
-	*/
-	function _existsAndNotEmpty($a_parent_type, $a_id)
+	 * Checks whether page exists and is not empty (may return true on some empty pages)
+	 *
+	 * @param string $a_parent_type parent type
+	 * @param int $a_id page id
+	 * @param string $a_lang language code ("-" for unknown / not set)
+	 */
+	static function _existsAndNotEmpty($a_parent_type, $a_id, $a_lang = "-")
 	{
 		global $ilDB;
 		
-		$query = "SELECT page_id, is_empty FROM page_object WHERE page_id = ".$ilDB->quote($a_id, "integer")." ".
-			"AND parent_type= ".$ilDB->quote($a_parent_type, "text");
-
-		$set = $ilDB->query($query);
-		if ($row = $ilDB->fetchAssoc($set))
-		{
-			if ($row["is_empty"] != 1)
-			{
-				return true;
-			}
-		}
-		return false;
+		include_once("./Services/COPage/classes/class.ilPageUtil.php");
+		
+		return ilPageUtil::_existsAndNotEmpty($a_parent_type, $a_id, $a_lang);
 	}
 
 	function buildDom($a_force = false)
@@ -491,14 +514,20 @@ abstract class ilPageObject
 	/**
 	 * lookup activation status
 	 */
-	function _lookupActive($a_id, $a_parent_type, $a_check_scheduled_activation = false)
+	function _lookupActive($a_id, $a_parent_type, $a_check_scheduled_activation = false, $a_lang = "-")
 	{
 		global $ilDB;
+		
+		// language must be set at least to "-"
+		if ($a_lang == "")
+		{
+			$a_lang = "-";
+		}
 
 		$set = $ilDB->queryF("SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s".
-			" AND parent_type = %s",
-				array("integer", "text"),
-				array($a_id, $a_parent_type));
+			" AND parent_type = %s AND lang = %s",
+				array("integer", "text", "text"),
+				array($a_id, $a_parent_type, $a_lang));
 		$rec = $ilDB->fetchAssoc($set);
 		$rec["n"] = ilUtil::now();
 
@@ -517,13 +546,19 @@ abstract class ilPageObject
 	/**
 	* Check whether page is activated by time schedule
 	*/
-	static function _isScheduledActivation($a_id, $a_parent_type)
+	static function _isScheduledActivation($a_id, $a_parent_type, $a_lang = "-")
 	{
 		global $ilDB;
 		
+		// language must be set at least to "-"
+		if ($a_lang == "")
+		{
+			$a_lang = "-";
+		}
+		
 		$set = $ilDB->queryF("SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s".
-			" AND parent_type = %s", array("integer", "text"),
-			array($a_id, $a_parent_type));
+			" AND parent_type = %s AND lang = %s", array("integer", "text", "text"),
+			array($a_id, $a_parent_type, $a_lang));
 		$rec = $ilDB->fetchAssoc($set);
 
 		if (!$rec["active"] && $rec["activation_start"] != "")
@@ -537,36 +572,48 @@ abstract class ilPageObject
 	/**
 	 * write activation status
 	 */
-	function _writeActive($a_id, $a_parent_type, $a_active, $a_reset_scheduled_activation = true)
+	function _writeActive($a_id, $a_parent_type, $a_active, $a_reset_scheduled_activation = true, $a_lang = "-")
 	{
 		global $ilDB;
+		
+		// language must be set at least to "-"
+		if ($a_lang == "")
+		{
+			$a_lang = "-";
+		}		
 
 		if ($a_reset_scheduled_activation)
 		{
 			$st = $ilDB->manipulateF("UPDATE page_object SET active = %s, activation_start = %s, ".
 				" activation_end = %s WHERE page_id = %s".
-				" AND parent_type = %s", array("boolean", "timestamp", "timestamp", "integer", "text"),
-				array($a_active, null, null, $a_id, $a_parent_type));
+				" AND parent_type = %s AND lang = %s", array("boolean", "timestamp", "timestamp", "integer", "text", "text"),
+				array($a_active, null, null, $a_id, $a_parent_type, $a_lang));
 		}
 		else
 		{
 			$st = $ilDB->prepareManip("UPDATE page_object SET active = %s WHERE page_id = %s".
-				" AND parent_type = %s", array("boolean", "integer", "text"),
-				array($a_active, $a_id, $a_parent_type));
+				" AND parent_type = %s AND lang = %s", array("boolean", "integer", "text", "text"),
+				array($a_active, $a_id, $a_parent_type, $a_lang));
 		}
 	}
 
 	/**
-	 * lookup activation status
+	 * Lookup activation data
 	 */
-	function _lookupActivationData($a_id, $a_parent_type)
+	function _lookupActivationData($a_id, $a_parent_type, $a_lang = "-")
 	{
 		global $ilDB;
 
+		// language must be set at least to "-"
+		if ($a_lang == "")
+		{
+			$a_lang = "-";
+		}		
+
 		$set = $ilDB->queryF("SELECT active, activation_start, activation_end, show_activation_info FROM page_object WHERE page_id = %s".
-			" AND parent_type = %s",
-				array("integer", "text"),
-				array($a_id, $a_parent_type));
+			" AND parent_type = %s AND lang = %s",
+				array("integer", "text", "text"),
+				array($a_id, $a_parent_type, $a_lang));
 		$rec = $ilDB->fetchAssoc($set);
 		
 		return $rec;
@@ -2204,8 +2251,8 @@ abstract class ilPageObject
 	}
 
 	/**
-	* create new page object with current xml content
-	*/
+	 * Create new page object with current xml content
+	 */
 	function createFromXML()
 	{
 		global $lng, $ilDB, $ilUser;
@@ -2221,20 +2268,10 @@ abstract class ilPageObject
 		$inl = $this->containsIntLinks($this->getXMLContent());
 				
 		// create object
-		/* $query = "INSERT INTO page_object (page_id, parent_id, content, parent_type, create_user, last_change_user, inactive_elements, int_links, created, last_change) VALUES ".
-			"(".$ilDB->quote($this->getId()).",".
-			$ilDB->quote($this->getParentId()).",".
-			$ilDB->quote($this->getXMLContent()).
-			", ".$ilDB->quote($this->getParentType()).
-			", ".$ilDB->quote($ilUser->getId()).
-			", ".$ilDB->quote($ilUser->getId()).
-			", ".$ilDB->quote($iel, "integer")." ".
-			", ".$ilDB->quote($inl, "integer")." ".
-			", now(), now())"; */
-			
 		$ilDB->insert("page_object", array(
 			"page_id" => array("integer", $this->getId()),
 			"parent_id" => array("integer", $this->getParentId()),
+			"lang" => array("text", $this->getLanguage()),
 			"content" => array("clob", $this->getXMLContent()),
 			"parent_type" => array("text", $this->getParentType()),
 			"create_user" => array("integer", $ilUser->getId()),
@@ -2245,15 +2282,6 @@ abstract class ilPageObject
 			"created" => array("timestamp", ilUtil::now()),
 			"last_change" => array("timestamp", ilUtil::now())
 			));
-
-// todo: put this into insert
-/*		if(!$ilDB->checkQuerySize($query))
-		{
-			$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
-			return false;
-		}*/
-
-//		$ilDB->query($query);
 	}
 
 
@@ -2271,19 +2299,6 @@ abstract class ilPageObject
 		$iel = $this->containsDeactivatedElements($this->getXMLContent());
 		$inl = $this->containsIntLinks($this->getXMLContent());
 
-		/*$query = "UPDATE page_object ".
-			"SET content = ".$ilDB->quote($this->getXMLContent())." ".
-			", parent_id = ".$ilDB->quote($this->getParentId())." ".
-			", last_change_user = ".$ilDB->quote($ilUser->getId())." ".
-			", last_change = now() ".
-			", active = ".$ilDB->quote($this->getActive())." ".
-			", activation_start = ".$ilDB->quote($this->getActivationStart())." ".
-			", activation_end = ".$ilDB->quote($this->getActivationEnd())." ".
-			", inactive_elements = ".$ilDB->quote($iel, "integer")." ".
-			", int_links = ".$ilDB->quote($inl, "integer")." ".
-			"WHERE page_id = ".$ilDB->quote($this->getId())." AND parent_type=".
-			$ilDB->quote($this->getParentType());*/
-			
 		$ilDB->update("page_object", array(
 			"content" => array("clob", $this->getXMLContent()),
 			"parent_id" => array("integer", $this->getParentId()),
@@ -2296,17 +2311,11 @@ abstract class ilPageObject
 			"int_links" => array("integer", $inl),
 			), array(
 			"page_id" => array("integer", $this->getId()),
-			"parent_type" => array("text", $this->getParentType())
+			"parent_type" => array("text", $this->getParentType()),
+			"lang" => array("text", $this->getLanguage())
 			));
 
-// todo: move this to update
-/*		if(!$ilDB->checkQuerySize($query))
-		{
-			$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
-			return false;
-		}
-		$ilDB->query($query);*/
-// 	save style usage
+			// 	save style usage
 
 			// @todo: generalize, style usage info
 			$this->saveStyleUsage($this->getXMLContent());
@@ -2356,10 +2365,12 @@ abstract class ilPageObject
 			// write history entry
 			$old_set = $ilDB->query("SELECT * FROM page_object WHERE ".
 				"page_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
-				"parent_type = ".$ilDB->quote($this->getParentType(), "text"));
+				"parent_type = ".$ilDB->quote($this->getParentType(), "text")." AND ".
+				"lang = ".$ilDB->quote($this->getLanguage(), "text"));
 			$last_nr_set = $ilDB->query("SELECT max(nr) as mnr FROM page_history WHERE ".
 				"page_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
-				"parent_type = ".$ilDB->quote($this->getParentType(), "text"));
+				"parent_type = ".$ilDB->quote($this->getParentType(), "text")." AND ".
+				"lang = ".$ilDB->quote($this->getLanguage(), "text"));
 			$last_nr = $ilDB->fetchAssoc($last_nr_set);
 			if ($old_rec = $ilDB->fetchAssoc($old_set))
 			{
@@ -2371,9 +2382,9 @@ abstract class ilPageObject
 					if ($old_rec["content"] != "<PageObject></PageObject>")
 					{
 						$ilDB->manipulateF("DELETE FROM page_history WHERE ".
-							"page_id = %s AND parent_type = %s AND hdate = %s",
-							array("integer", "text", "timestamp"),
-							array($old_rec["page_id"], $old_rec["parent_type"], $old_rec["last_change"]));
+							"page_id = %s AND parent_type = %s AND hdate = %s AND lang = %s",
+							array("integer", "text", "timestamp", "text"),
+							array($old_rec["page_id"], $old_rec["parent_type"], $old_rec["last_change"], $old_rec["lang"]));
 
 						// the following lines are a workaround for
 						// bug 6741
@@ -2386,6 +2397,7 @@ abstract class ilPageObject
 						$ilDB->insert("page_history", array(
 							"page_id" => 		array("integer", $old_rec["page_id"]),
 							"parent_type" => 	array("text", $old_rec["parent_type"]),
+							"lang" => 	array("text", $old_rec["lang"]),
 							"hdate" => 			array("timestamp", $last_c),
 							"parent_id" => 		array("integer", $old_rec["parent_id"]),
 							"content" => 		array("clob", $old_rec["content"]),
@@ -2393,18 +2405,6 @@ abstract class ilPageObject
 							"ilias_version" => 	array("text", ILIAS_VERSION_NUMERIC),
 							"nr" => 			array("integer", (int) $last_nr["mnr"] + 1)
 							));
-						/*$h_query = "REPLACE INTO page_history ".
-							"(page_id, parent_type, hdate, parent_id, content, user_id, ilias_version, nr) VALUES (".
-							$ilDB->quote($old_rec["page_id"]).",".
-							$ilDB->quote($old_rec["parent_type"]).",".
-							$ilDB->quote($old_rec["last_change"]).",".
-							$ilDB->quote($old_rec["parent_id"]).",".
-							$ilDB->quote($old_rec["content"]).",".
-							$ilDB->quote($old_rec["last_change_user"]).",".
-							$ilDB->quote(ILIAS_VERSION_NUMERIC).",".
-							$ilDB->quote($last_nr["mnr"] + 1).")";
-//echo "<br><br>+$a_no_history+$h_query";
-						$ilDB->query($h_query);*/
 						
 						// @todo 1: after update hook needed
 						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
@@ -2430,19 +2430,6 @@ abstract class ilPageObject
 			
 			// @todo 1: hook needed?
 			$inl = $this->containsIntLinks($content);
-			/*$query = "UPDATE page_object ".
-				"SET content = ".$ilDB->quote($content)." ".
-				", parent_id= ".$ilDB->quote($this->getParentId())." ".
-				", last_change_user= ".$ilDB->quote($ilUser->getId())." ".
-				", last_change = now() ".
-				", is_empty = ".$ilDB->quote($em, "integer")." ".
-				", active = ".$ilDB->quote($this->getActive())." ".
-				", activation_start = ".$ilDB->quote($this->getActivationStart())." ".
-				", activation_end = ".$ilDB->quote($this->getActivationEnd())." ".
-				", inactive_elements = ".$ilDB->quote($iel, "integer")." ".
-				", int_links = ".$ilDB->quote($inl, "integer")." ".
-				" WHERE page_id = ".$ilDB->quote($this->getId()).
-				" AND parent_type= ".$ilDB->quote($this->getParentType());*/
 				
 			$ilDB->update("page_object", array(
 				"content" => array("clob", $content),
@@ -2458,18 +2445,10 @@ abstract class ilPageObject
 				"int_links" => array("integer", $inl),
 				), array(
 				"page_id" => array("integer", $this->getId()),
-				"parent_type" => array("text", $this->getParentType())
+				"parent_type" => array("text", $this->getParentType()),
+				"lang" => array("text", $this->getLanguage())
 				));
 				
-// todo put this into update function
-/*			if(!$this->ilias->db->checkQuerySize($query))
-			{
-				$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
-				return false;
-			}*/
-
-//			$this->ilias->db->query($query);
-			
 			// @todo 1: hook!
 			if (!$skip_handle_usages)
 			{
@@ -4380,17 +4359,19 @@ abstract class ilPageObject
 	/**
 	* lookup whether page contains deactivated elements
 	*/
-	function _lookupContainsDeactivatedElements($a_id, $a_parent_type)
+	function _lookupContainsDeactivatedElements($a_id, $a_parent_type, $a_lang = "-")
 	{
 		global $ilDB;
+		
+		if ($a_lang == "")
+		{
+			$a_lang = "-";
+		}
 
-		/*$query = "SELECT * FROM page_object WHERE page_id = ".
-			$ilDB->quote($a_id)." AND ".
-			" parent_type = ".$ilDB->quote($a_parent_type)." AND ".
-			" content LIKE '% Enabled=\"False\"%'";*/
 		$query = "SELECT * FROM page_object WHERE page_id = ".
 			$ilDB->quote($a_id, "integer")." AND ".
 			" parent_type = ".$ilDB->quote($a_parent_type, "text")." AND ".
+			" lang = ".$ilDB->quote($a_lang, "text")." AND ".
 			" inactive_elements = ".$ilDB->quote(1, "integer");
 		$obj_set = $ilDB->query($query);
 		
@@ -4427,6 +4408,7 @@ abstract class ilPageObject
 		$h_query = "SELECT * FROM page_history ".
 			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND lang = ".$ilDB->quote($this->getLanguage(), "text").
 			" ORDER BY hdate DESC";
 		
 		$hset = $ilDB->query($h_query);
@@ -4452,9 +4434,10 @@ abstract class ilPageObject
 		$res = $ilDB->queryF("SELECT * FROM page_history ".
 			" WHERE page_id = %s ".
 			" AND parent_type = %s ".
-			" AND nr = %s",
-			array("integer", "text", "integer"),
-			array($this->getId(), $this->getParentType(), $a_old_nr));
+			" AND nr = %s".
+			" AND lang = %s",
+			array("integer", "text", "integer". "text"),
+			array($this->getId(), $this->getParentType(), $a_old_nr, $this->getLanguage()));
 		if ($hrec = $ilDB->fetchAssoc($res))
 		{
 			return $hrec;
@@ -4478,6 +4461,7 @@ abstract class ilPageObject
 		$res = $ilDB->query("SELECT MAX(nr) mnr FROM page_history ".
 			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND lang = ".$ilDB->quote($this->getLanguage(), "text").
 			" AND nr < ".$ilDB->quote((int) $a_nr, "integer"));
 		$row = $ilDB->fetchAssoc($res);
 		if ($row["mnr"] > 0)
@@ -4485,6 +4469,7 @@ abstract class ilPageObject
 			$res = $ilDB->query("SELECT * FROM page_history ".
 				" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
 				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+				" AND lang = ".$ilDB->quote($this->getLanguage(), "text").
 				" AND nr = ".$ilDB->quote((int) $row["mnr"], "integer"));
 			$row = $ilDB->fetchAssoc($res);
 			$ret["previous"] = $row;
@@ -4494,6 +4479,7 @@ abstract class ilPageObject
 		$res = $ilDB->query("SELECT MIN(nr) mnr FROM page_history ".
 			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND lang = ".$ilDB->quote($this->getLanguage(), "text").
 			" AND nr > ".$ilDB->quote((int) $a_nr, "integer"));
 		$row = $ilDB->fetchAssoc($res);
 		if ($row["mnr"] > 0)
@@ -4501,6 +4487,7 @@ abstract class ilPageObject
 			$res = $ilDB->query("SELECT * FROM page_history ".
 				" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
 				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+				" AND lang = ".$ilDB->quote($this->getLanguage(), "text").
 				" AND nr = ".$ilDB->quote((int) $row["mnr"], "integer"));
 			$row = $ilDB->fetchAssoc($res);
 			$ret["next"] = $row;
@@ -4510,6 +4497,7 @@ abstract class ilPageObject
 		$res = $ilDB->query("SELECT * FROM page_history ".
 			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND lang = ".$ilDB->quote($this->getLanguage(), "text").
 			" AND nr = ".$ilDB->quote((int) $a_nr, "integer"));
 		$row = $ilDB->fetchAssoc($res);
 		$ret["current"] = $row;
@@ -4607,8 +4595,8 @@ abstract class ilPageObject
 	}
 	
 	/**
-	* increase view cnt
-	*/
+	 * Increase view cnt
+	 */
 	function increaseViewCnt()
 	{
 		global $ilDB;
@@ -4616,8 +4604,8 @@ abstract class ilPageObject
 		$ilDB->manipulate("UPDATE page_object ".
 			" SET view_cnt = view_cnt + 1 ".
 			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
-			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text"));
-		//$ilDB->query($q);
+			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND lang = ".$ilDB->quote($this->getLanguage(), "text"));
 	}
 	
 	/**
@@ -4627,22 +4615,31 @@ abstract class ilPageObject
 	* @param	int		$a_parent_id	Parent ID
 	* @param	int		$a_period		Time Period
 	*/
-	static function getRecentChanges($a_parent_type, $a_parent_id, $a_period = 30)
+	static function getRecentChanges($a_parent_type, $a_parent_id, $a_period = 30, $a_lang = "")
 	{
 		global $ilDB;
+		
+		$and_lang = "";
+		if ($a_lang != "")
+		{
+			$and_lang = " AND lang = ".$ilDB->quote($a_lang, "text");
+		}
 		
 		$page_changes = array();
 		$limit_ts = date('Y-m-d H:i:s', time() - ($a_period * 24 * 60 * 60));
 		$q = "SELECT * FROM page_object ".
 			" WHERE parent_id = ".$ilDB->quote($a_parent_id, "integer").
 			" AND parent_type = ".$ilDB->quote($a_parent_type, "text").
-			" AND last_change >= ".$ilDB->quote($limit_ts, "timestamp");
+			" AND last_change >= ".$ilDB->quote($limit_ts, "timestamp").$and_lang;
 		//	" AND (TO_DAYS(now()) - TO_DAYS(last_change)) <= ".((int)$a_period);
 		$set = $ilDB->query($q);
 		while($page = $ilDB->fetchAssoc($set))
 		{
-			$page_changes[] = array("date" => $page["last_change"],
-				"id" => $page["page_id"], "type" => "page",
+			$page_changes[] = array(
+				"date" => $page["last_change"],
+				"id" => $page["page_id"],
+				"lang" => $page["lang"],
+				"type" => "page",
 				"user" => $page["last_change_user"]);
 		}
 
@@ -4656,12 +4653,16 @@ abstract class ilPageObject
 		$q = "SELECT * FROM page_history ".
 			" WHERE parent_id = ".$ilDB->quote($a_parent_id, "integer").
 			" AND parent_type = ".$ilDB->quote($a_parent_type, "text").
-			$and_str;
+			$and_str.$and_lang;
 		$set = $ilDB->query($q);
 		while ($page = $ilDB->fetchAssoc($set))
 		{
-			$page_changes[] = array("date" => $page["hdate"],
-				"id" => $page["page_id"], "type" => "hist", "nr" => $page["nr"],
+			$page_changes[] = array(
+				"date" => $page["hdate"],
+				"id" => $page["page_id"],
+				"lang" => $page["lang"],
+				"type" => "hist",
+				"nr" => $page["nr"],
 				"user" => $page["user_id"]);
 		}
 		
@@ -4677,21 +4678,33 @@ abstract class ilPageObject
 	* @param	int		$a_parent_id	Parent ID
 	* @param	int		$a_period		Time Period
 	*/
-	static function getAllPages($a_parent_type, $a_parent_id)
+	static function getAllPages($a_parent_type, $a_parent_id, $a_lang = "-")
 	{
 		global $ilDB;
 		
+		$and_lang = "";
+		if ($a_lang != "")
+		{
+			$and_lang = " AND lang = ".$ilDB->quote($a_lang, "text");
+		}
+
 		$page_changes = array();
 		
 		$q = "SELECT * FROM page_object ".
 			" WHERE parent_id = ".$ilDB->quote($a_parent_id, "integer").
-			" AND parent_type = ".$ilDB->quote($a_parent_type, "text");
+			" AND parent_type = ".$ilDB->quote($a_parent_type, "text").$and_lang;
 		$set = $ilDB->query($q);
 		$pages = array();
 		while ($page = $ilDB->fetchAssoc($set))
 		{
-			$pages[$page["page_id"]] = array("date" => $page["last_change"],
-				"id" => $page["page_id"], "user" => $page["last_change_user"]);
+			$key_add = ($a_lang == "")
+				? ":".$page["lang"]
+				: "";
+			$pages[$page["page_id"].$key_add] = array(
+				"date" => $page["last_change"],
+				"id" => $page["page_id"],
+				"lang" => $page["lang"],
+				"user" => $page["last_change_user"]);
 		}
 
 		return $pages;
@@ -4703,23 +4716,31 @@ abstract class ilPageObject
 	* @param	string	$a_parent_type	Parent Type
 	* @param	int		$a_parent_id	Parent ID
 	*/
-	static function getNewPages($a_parent_type, $a_parent_id)
+	static function getNewPages($a_parent_type, $a_parent_id, $a_lang = "-")
 	{
 		global $ilDB;
 		
+		$and_lang = "";
+		if ($a_lang != "")
+		{
+			$and_lang = " AND lang = ".$ilDB->quote($a_lang, "text");
+		}
+
 		$pages = array();
 		
 		$q = "SELECT * FROM page_object ".
 			" WHERE parent_id = ".$ilDB->quote($a_parent_id, "integer").
-			" AND parent_type = ".$ilDB->quote($a_parent_type, "text").
+			" AND parent_type = ".$ilDB->quote($a_parent_type, "text").$and_lang.
 			" ORDER BY created DESC";
 		$set = $ilDB->query($q);
 		while($page = $ilDB->fetchAssoc($set))
 		{
 			if ($page["created"] != "")
 			{
-				$pages[] = array("created" => $page["created"],
+				$pages[] = array(
+					"created" => $page["created"],
 					"id" => $page["page_id"],
+					"lang" => $page["lang"],
 					"user" => $page["create_user"],
 					);
 			}
@@ -4734,31 +4755,52 @@ abstract class ilPageObject
 	* @param	string	$a_parent_type	Parent Type
 	* @param	int		$a_parent_id	Parent ID
 	*/
-	static function getParentObjectContributors($a_parent_type, $a_parent_id)
+	static function getParentObjectContributors($a_parent_type, $a_parent_id, $a_lang = "-")
 	{
 		global $ilDB;
 		
+		$and_lang = "";
+		if ($a_lang != "")
+		{
+			$and_lang = " AND lang = ".$ilDB->quote($a_lang, "text");
+		}
+		
 		$contributors = array();
-		$set = $ilDB->queryF("SELECT last_change_user FROM page_object ".
+		$set = $ilDB->queryF("SELECT last_change_user, lang FROM page_object ".
 			" WHERE parent_id = %s AND parent_type = %s ".
-			" AND last_change_user != %s",
+			" AND last_change_user != %s".$and_lang,
 			array("integer", "text", "integer"),
 			array($a_parent_id, $a_parent_type, 0));
 
 		while ($page = $ilDB->fetchAssoc($set))
 		{
-			$contributors[$page["last_change_user"]][$page["page_id"]] = 1;
+			if ($a_lang == "")
+			{
+				$contributors[$page["last_change_user"]][$page["page_id"]][$page["lang"]] = 1;
+			}
+			else
+			{
+				$contributors[$page["last_change_user"]][$page["page_id"]] = 1;
+			}
 		}
 
-		$set = $ilDB->queryF("SELECT count(DISTINCT page_id, parent_type, hdate) as cnt, page_id, user_id FROM page_history ".
-			" WHERE parent_id = %s AND parent_type = %s AND user_id != %s ".
-			" GROUP BY page_id, user_id ",
+		$set = $ilDB->queryF("SELECT count(DISTINCT page_id, parent_type, hdate, lang) as cnt, lang, page_id, user_id FROM page_history ".
+			" WHERE parent_id = %s AND parent_type = %s AND user_id != %s ".$and_lang.
+			" GROUP BY page_id, user_id, lang ",
 			array("integer", "text", "integer"),
 			array($a_parent_id, $a_parent_type, 0));
 		while ($hpage = $ilDB->fetchAssoc($set))
 		{
-			$contributors[$hpage["user_id"]][$hpage["page_id"]] =
-				$contributors[$hpage["user_id"]][$hpage["page_id"]] + $hpage["cnt"];
+			if ($a_lang == "")
+			{
+				$contributors[$hpage["user_id"]][$hpage["page_id"]][$hpage["lang"]] =
+					$contributors[$hpage["user_id"]][$hpage["page_id"]][$hpage["lang"]] + $hpage["cnt"];
+			}
+			else
+			{
+				$contributors[$hpage["user_id"]][$hpage["page_id"]] =
+					$contributors[$hpage["user_id"]][$hpage["page_id"]] + $hpage["cnt"];
+			}
 		}
 		
 		$c = array();
@@ -4781,31 +4823,52 @@ abstract class ilPageObject
 	* @param	string	$a_parent_type	Parent Type
 	* @param	int		$a_parent_id	Parent ID
 	*/
-	static function getPageContributors($a_parent_type, $a_page_id)
+	static function getPageContributors($a_parent_type, $a_page_id, $a_lang = "-")
 	{
 		global $ilDB;
 		
+		$and_lang = "";
+		if ($a_lang != "")
+		{
+			$and_lang = " AND lang = ".$ilDB->quote($a_lang, "text");
+		}
+
 		$contributors = array();
-		$set = $ilDB->queryF("SELECT last_change_user FROM page_object ".
+		$set = $ilDB->queryF("SELECT last_change_user, lang FROM page_object ".
 			" WHERE page_id = %s AND parent_type = %s ".
-			" AND last_change_user != %s",
+			" AND last_change_user != %s".$and_lang,
 			array("integer", "text", "integer"),
 			array($a_page_id, $a_parent_type, 0));
 
 		while ($page = $ilDB->fetchAssoc($set))
 		{
-			$contributors[$page["last_change_user"]] = 1;
+			if ($a_lang == "")
+			{
+				$contributors[$page["last_change_user"]][$page["lang"]] = 1;
+			}
+			else
+			{
+				$contributors[$page["last_change_user"]] = 1;
+			}
 		}
 
-		$set = $ilDB->queryF("SELECT count(*) as cnt, page_id, user_id FROM page_history ".
-			" WHERE page_id = %s AND parent_type = %s AND user_id != %s ".
-			" GROUP BY user_id, page_id ",
+		$set = $ilDB->queryF("SELECT count(DISTINCT page_id, parent_type, hdate, lang) as cnt, lang, page_id, user_id FROM page_history ".
+			" WHERE page_id = %s AND parent_type = %s AND user_id != %s ".$and_lang.
+			" GROUP BY user_id, page_id, lang ",
 			array("integer", "text", "integer"),
 			array($a_page_id, $a_parent_type, 0));
 		while ($hpage = $ilDB->fetchAssoc($set))
 		{
-			$contributors[$hpage["user_id"]] =
-				$contributors[$hpage["user_id"]] + $hpage["cnt"];
+			if ($a_lang == "")
+			{
+				$contributors[$hpage["user_id"]][$page["lang"]] =
+					$contributors[$hpage["user_id"]][$page["lang"]] + $hpage["cnt"];
+			}
+			else
+			{
+				$contributors[$hpage["user_id"]] =
+					$contributors[$hpage["user_id"]] + $hpage["cnt"];
+			}
 		}
 		
 		$c = array();
@@ -4820,8 +4883,8 @@ abstract class ilPageObject
 	}
 
 	/**
-	* Write rendered content
-	*/
+	 * Write rendered content
+	 */
 	function writeRenderedContent($a_content, $a_md5)
 	{
 		global $ilDB;
@@ -4832,14 +4895,9 @@ abstract class ilPageObject
 			"rendered_time" => array("timestamp", ilUtil::now())
 			), array(
 			"page_id" => array("integer", $this->getId()),
+			"lang" => array("text", $this->getLanguage()),
 			"parent_type" => array("text", $this->getParentType())
 			));
-		/*$st = $ilDB->prepareManip("UPDATE page_object ".
-			" SET rendered_content = ?, render_md5 = ?, rendered_time = now()".
-			" WHERE page_id = ?  AND parent_type = ?",
-			array("text", "text", "integer", "text"));
-		$r = $ilDB->execute($st,
-			array($a_content, $a_md5, $this->getId(), $this->getParentType()));*/
 	}
 
 	/**
@@ -4849,22 +4907,34 @@ abstract class ilPageObject
 	* @param	int		$a_parent_id	Parent ID
 	* @param	int		$a_period		Time Period
 	*/
-	static function getPagesWithLinks($a_parent_type, $a_parent_id)
+	static function getPagesWithLinks($a_parent_type, $a_parent_id, $a_lang = "-")
 	{
 		global $ilDB;
 		
 		$page_changes = array();
 		
+		$and_lang = "";
+		if ($a_lang != "")
+		{
+			$and_lang = " AND lang = ".$ilDB->quote($a_lang, "text");
+		}
+
 		$q = "SELECT * FROM page_object ".
 			" WHERE parent_id = ".$ilDB->quote($a_parent_id, "integer").
 			" AND parent_type = ".$ilDB->quote($a_parent_type, "text").
-			" AND int_links = ".$ilDB->quote(1, "integer");
+			" AND int_links = ".$ilDB->quote(1, "integer").$and_lang;
 		$set = $ilDB->query($q);
 		$pages = array();
 		while ($page = $ilDB->fetchAssoc($set))
 		{
-			$pages[$page["page_id"]] = array("date" => $page["last_change"],
-				"id" => $page["page_id"], "user" => $page["last_change_user"]);
+			$key_add = ($a_lang == "")
+				? ":".$page["lang"]
+				: "";
+			$pages[$page["page_id"].$key_add] = array(
+				"date" => $page["last_change"],
+				"id" => $page["page_id"],
+				"lang" => $page["lang"],
+				"user" => $page["last_change_user"]);
 		}
 
 		return $pages;
