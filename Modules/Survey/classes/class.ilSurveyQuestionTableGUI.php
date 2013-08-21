@@ -171,13 +171,10 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 					if ($data["obj_fi"] > 0)
 					{
 						// edit url
-						$q_gui = $data["type_tag"]."GUI";
-						$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));						
-						$ilCtrl->setParameterByClass($q_gui, "ref_id", $qpl_ref_id);
+						$q_gui = $data["type_tag"]."GUI";						
 						$ilCtrl->setParameterByClass($q_gui, "q_id", $id);
 						$table_data[$id]["url"] = $ilCtrl->getLinkTargetByClass($q_gui, "editQuestion") .
 						$ilCtrl->setParameterByClass($q_gui, "q_id", "");
-						$ilCtrl->setParameterByClass($q_gui, "ref_id", "");
 					}
 
 					// order
