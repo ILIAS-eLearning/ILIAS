@@ -24,6 +24,7 @@ class ilContainerPageConfig extends ilPageConfig
 		$this->setEnablePCType("FileList", false);
 		$this->setEnablePCType("Map", true);
 		$this->setEnablePCType("Resources", true);
+		$this->setMultiLangSupport(true);
 	}
 	
 }

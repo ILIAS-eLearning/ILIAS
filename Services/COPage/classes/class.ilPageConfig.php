@@ -28,6 +28,7 @@ abstract class ilPageConfig
 	protected $enabledselfassessment_scorm = false;
 	protected $int_link_def_type = "";
 	protected $int_link_def_id = 0;
+	protected $multi_lang_support = false;
 	
 	/**
 	 * Constructor
@@ -421,6 +422,26 @@ abstract class ilPageConfig
 	function getEnableSelfAssessmentScorm()
 	{
 		return $this->enabledselfassessment_scorm;
+	}
+	
+	/**
+	 * Set multi language support
+	 *
+	 * @param bool $a_val general multi language support?	
+	 */
+	function setMultiLangSupport($a_val)
+	{
+		$this->multi_lang_support = $a_val;
+	}
+	
+	/**
+	 * Get multi language support
+	 *
+	 * @return bool general multi language support?
+	 */
+	function getMultiLangSupport()
+	{
+		return $this->multi_lang_support;
 	}
 }
 ?>

@@ -219,13 +219,8 @@ class ilPageLayout
 	 */
 	public function getXMLContent()
 	{
-		global $ilias, $ilDB;
-
-        $r = $ilias->db->query("SELECT content FROM page_object WHERE parent_type='stys' AND page_id=".
-			$ilDB->quote($this->layout_id));
-	    $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $row['content'];
+		$layout_page = new ilPageLayoutPage($this->layout_id);
+		return $layout_page->getXMLContent();
 	}
 	
 
