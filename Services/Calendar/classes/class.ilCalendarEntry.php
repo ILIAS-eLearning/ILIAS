@@ -272,15 +272,20 @@ class ilCalendarEntry implements ilDatePeriod
 							$style = ';border-left-width: 5px; border-left-style: solid; border-left-color: yellow';
 							$title = $current.'/'.$max;
 						}
-					}
-					
-					include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-					$apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $this->getContextId(), $this->getStart());
-					$orig_event = $apps[0];
-					if($entry->hasBooked($orig_event))
+					}				
+					else
 					{
-						$style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
-						$title = $lng->txt('cal_date_booked');
+						/*
+						 * if($entry->hasBooked($this->getEntryId()))
+						 */
+						include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+						$apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $this->getContextId(), $this->getStart());
+						$orig_event = $apps[0];
+						if($entry->hasBooked($orig_event))
+						{
+							$style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
+							$title = $lng->txt('cal_date_booked');
+						}
 					}
 				}												
 				break;						
