@@ -17572,4 +17572,15 @@ $ilDB->manipulate("UPDATE cal_entries ce".
 	$ilDB->dropPrimaryKey("page_history");
 	$ilDB->addPrimaryKey('page_history', array('page_id', 'parent_type', 'hdate', 'lang'));
 ?>
+<#4045>
+<?php
+    include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 
+    ilDBUpdateNewObjectType::updateOperationOrder('files_visible', 3210);
+    ilDBUpdateNewObjectType::updateOperationOrder('folders_visible', 3220);
+    ilDBUpdateNewObjectType::updateOperationOrder('download', 3230);
+    ilDBUpdateNewObjectType::updateOperationOrder('upload', 3240);
+    ilDBUpdateNewObjectType::updateOperationOrder('folders_create', 3250);
+    ilDBUpdateNewObjectType::updateOperationOrder('delete_files', 3260);
+    ilDBUpdateNewObjectType::updateOperationOrder('delete_folders', 3270);
+?>
