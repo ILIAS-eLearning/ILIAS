@@ -13415,8 +13415,8 @@ rbac#:#sysc_write#:#Benutzer darf Systemcheck durchführen.
 assessment#:#apply_def_settings_to_tst#:#Einstellungen für Test übernehmen
 cld#:#cld_add#:#Neues Cloud Objekt
 cld#:#cld_add_download_failed#:#Download Fehlgeschlagen
-cld#:#cld_add_file#:#Datei hinzufügen
-cld#:#cld_add_folder#:#Ordner hinzufügen
+cld#:#cld_add_file#:#Datei
+cld#:#cld_add_folder#:#Ordner
 cld#:#cld_add_items_from_service_failed#:#Hinzufügen eines Items vom Service ist Fehlgeschlagen
 cld#:#cld_add_new_item#:#Neues Objekt hinzufügen
 cld#:#cld_auth_failed#:#Authentifzierung fehlgeschlagen
@@ -13425,19 +13425,19 @@ cld#:#cld_config_entry_does_not_exist#:#Der Konfigurationswert existiert nicht i
 cld#:#cld_config_no_valid_get_or_set_function#:#Ungültige Set- oder Getfunktion
 cld#:#cld_config_table_does_not_exist#:#Konfigurationstabelle existiert nicht
 cld#:#cld_config_unknown_exception#:#Unbekannter Fehler
-cld#:#cld_confirm_delete_file#:#Datei Löschen
-cld#:#cld_confirm_delete_folder#:#Ordner Löschen
-cld#:#cld_create_folder#:#Ordner Erstellen
+cld#:#cld_confirm_delete_file#:#Sind Sie sicher, dass folgende Datei gelöscht werden soll:
+cld#:#cld_confirm_delete_folder#:#Sind Sie sicher, dass folgender Ordner gelöscht werden soll:
+cld#:#cld_create_folder#:#Ordner anlegen
 cld#:#cld_delete_failed#:#Löschen Fehlgeschlagen
-cld#:#cld_edit_Settings#:#Cloud Einstellungen bearbeiten
+cld#:#cld_file_deleted#:#Objekt gelöscht
+cld#:#cld_edit_Settings#:#Cloud Einstellungen
 cld#:#cld_empty#:#Leer
 cld#:#cld_file_not_existing_on_service#:#Datei existiert in der Cloud nicht:
 cld#:#cld_folder_already_existing_on_service#:#Ordner existiert bereits in der Cloud
-cld#:#cld_folder_created1#:#Ordner
-cld#:#cld_folder_created2#:#erstellt
+cld#:#cld_folder_created#:#Ordner angelegt
 cld#:#cld_folder_creation_failed#:#Ordnererstellung ist fehlgeschlagen
 cld#:#cld_folder_name#:#Ordnername
-cld#:#cld_folder_not_existing_on_service#:#Ordner existiert icht in der Cloud
+cld#:#cld_folder_not_existing_on_service#:#Ordner existiert nicht in der Cloud
 cld#:#cld_id_already_exists_in_file_tree_in_session#:#Die Id existiert bereits in der Session:
 cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Die Id existiert nicht in der Session
 cld#:#cld_info_add_file_to_current_directory#:#Datei zum Verzeichnis hinzufügen
@@ -13453,7 +13453,7 @@ cld#:#cld_permission_denied#:#Zugriff verweigert
 cld#:#cld_permission_to_change_root_folder_denied#:#Zugriff für das Ändern des Basisiverzeichnis wurde verweigert.
 cld#:#cld_plugin_hook_could_not_be_instantiated#:#Die Plugin-Hook Klasse konnte nicht instanziert werden.
 cld#:#cld_plugin_not_active#:#Das Plugin für den gewählten Cloud-Dienst ist nicht aktiv.
-cld#:#cld_root_folder#:#Basisverzeichnis
+cld#:#cld_root_folder#:#Ordnerstruktur
 cld#:#cld_service#:#Service
 cld#:#cld_service_class_file_not_found#:#Die Datei der Serviceklasse wurde nicht gefunden.
 cld#:#cld_service_not_active#:#Der gewählte Cloud-Dienst ist nicht aktiv
