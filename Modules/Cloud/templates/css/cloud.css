@@ -24,3 +24,14 @@
     padding-bottom: 1px;
     opacity: 1.0;
 }
+
+.xcld_locator{
+    float: left;
+    padding-top: 4px;
+    padding-left: 10px;
+    min-width: 300px;
+}
+
+#xcld_toolbar {
+    white-space: inherit;
+}

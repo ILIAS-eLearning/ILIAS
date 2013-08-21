@@ -75,21 +75,24 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
             throw new ilCloudException(ilCloudException::ID_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION, $id);
         }
         $tree_tpl = new ilTemplate("tpl.cloud_block.html", true, true, "Modules/Cloud/");
+
         if ($files_visible || $folders_visible)
         {
             $tree_tpl->setVariable("NODE_ID", $node->getId());
+
             $block = new ilTemplate("tpl.container_list_block.html", true, true, "Services/Container/");
-            $block->setVariable("BLOCK_HEADER_CONTENT", "/" . ltrim($node->getPath(), $this->getFileTree()->getRootNode()->getPath()));
 
             if ($node->hasChildren())
             {
+                $block->setVariable("BLOCK_HEADER_CONTENT", $lng->txt("content"));
+
                 $children = $this->getFileTree()->getSortedListOfChildren($node);
                 foreach ($children as $path)
                 {
                     $child_node = $this->getFileTree()->getNodeFromPath($path);
                     if (($child_node->getIsDir() && $folders_visible) || (!$child_node->getIsDir() && $files_visible))
                     {
-                        $block->touchBlock("row_type_1");
+
                         $block->setCurrentBlock("container_standard_row");
                         if ($child_node->getIsDir())
                         {
@@ -109,7 +112,8 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
             $tree_tpl->setVariable("CONTENT", $block->get());
         } else
         {
-            $tree_tpl->setVariable("CONTENT", $lng->txt("file_folder_not_visible"));
+           // Nothing is visible
+           // $tree_tpl->setVariable("CONTENT", $lng->txt("file_folder_not_visible"));
         }
         $this->setTreeVariablePlugin($tree_tpl, $gui_class, $id, $delete_files, $delete_folder, $download , $files_visible , $folders_visible );
         return $tree_tpl->get();
@@ -165,7 +169,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         {
             if($node->getIconPath() == "")
             {
-                $item->setVariable("SRC_ICON", "./Modules/Cloud/templates/images/icon_cld.png");
+                $item->setVariable("SRC_ICON", "./Modules/Cloud/templates/images/icon_folder_b.png");
             }
             $item->setVariable("TXT_TITLE_LINKED", basename($node->getPath()));
 
@@ -178,13 +182,13 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
             {
                 //$item->setVariable("HREF_TITLE_LINKED", $ilCtrl->getLinkTarget($gui_class, "render") . "&current_id=" . $node->getId() . "&current_path=" . $node->getPath());
             }**/
-            $item->setVariable("TXT_DESC", $modified);
+            //$item->setVariable("TXT_DESC", $modified);
         } //File
         else
         {
             if ($node->getIconPath() == "")
             {
-                $item->setVariable("SRC_ICON", "./Modules/Cloud/templates/images/icon_file.png");
+                $item->setVariable("SRC_ICON", "./Modules/Cloud/templates/images/icon_file_b.png");
             }
 
             $item->setVariable("TXT_DESC", pathinfo($node->getPath(), PATHINFO_EXTENSION) . "&nbsp;&nbsp;&nbsp;" . $node->getSize() . "&nbsp;&nbsp;&nbsp;" . $modified);
@@ -219,23 +223,35 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         if ($node == $this->getFileTree()->getRootNode())
         {
             $ilLocator = new ilLocatorGUI();
-            $ilLocator->addRepositoryItems();
-            $ilLocator->addItem("/", $this->getLinkToFolder($node));
+            $ilLocator->addItem($this->getPluginObject()->getCloudModulObject()->getTitle(), ilCloudPluginFileTreeGUI::getLinkToFolder($node));
         } else
         {
             $this->getLocatorHtml($this->getFileTree()->getNodeFromId($node->getParentId()));
             $ilLocator->addItem(basename($node->getPath()), $this->getLinkToFolder($node));
         }
-        return "<DIV id='locator'><DIV class='xcld_locator' id='xcld_locator_" . $node->getId() . "'>" . $ilLocator->getHTML() . "</DIV></DIV>";
+        return "<DIV class='xcld_locator' id='xcld_locator_" . $node->getId() . "'>" . $ilLocator->getHTML() . "</DIV>";
     }
 
     /**
      * @param ilCloudFileNode $node
      * @return string
      */
-    protected function getLinkToFolder(ilCloudFileNode $node)
+    static function getLinkToFolder(ilCloudFileNode $node)
     {
         return "#/open_folder?id_parent=" . $node->getParentId() . "&current_id=" . $node->getId(). "&current_path=" . $node->getPath();
+    }
+
+    protected function addDropZone()
+    {
+        $options                   = new stdClass();
+        $options->dropZone         = ".ilFileUploadDropZone_1";
+        $options->fileInput        = "#ilFileUploadInput_1";
+        $options->submitButton     = "uploadFiles";
+        $options->cancelButton     = "cancelAll";
+        $options->dropArea         = ".ilFileDropTarget";
+        $options->fileList         = "#ilFileUploadList_1";
+        $options->fileSelectButton = "#ilFileUploadFileSelect_1";
+        echo "<script language='javascript' type='text/javascript'>var fileUpload1 = new ilFileUpload(1, " . ilJsonUtil::encode($options) . ");</script>";
     }
 }
 

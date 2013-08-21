@@ -13,6 +13,7 @@ include_once('class.ilCloudPluginUploadGUI.php');
 include_once('class.ilCloudPluginDeleteGUI.php');
 include_once('class.ilCloudPluginCreateFolderGUI.php');
 include_once('class.ilCloudPluginHeaderActionGUI.php');
+include_once('class.ilCloudPluginInfoScreenGUI.php');
 
 /**
  * ilCloudConnector class
@@ -236,6 +237,16 @@ class ilCloudConnector
     public static function getCreationGUIClass(ilCloudPluginService $plugin_service_class)
     {
         $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(), "CreationGUI");
+        return new $class_name($plugin_service_class);
+    }
+
+    /**
+     * @param ilCloudPluginService $plugin_service_class
+     * @return ilCloudPluginInfoScreenGUI
+     */
+    public static function getInfoScreenGUIClass(ilCloudPluginService $plugin_service_class)
+    {
+        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(), "InfoScreenGUI");
         return new $class_name($plugin_service_class);
     }
 }

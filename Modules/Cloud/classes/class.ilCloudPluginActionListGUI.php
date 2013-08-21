@@ -67,13 +67,13 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
     protected function addSelectionListItems($delete_item, $delete_folder)
     {
         global $lng;
-        $this->addSelectionListItemsBefore();
+        $this->addItemsBefore();
         if (($delete_item && !$this->node->getIsDir()) || ($delete_folder && $this->node->getIsDir()))
         {
             $this->selection_list->addItem($lng->txt("delete"), "delete_item", "javascript:il.CloudFileList.deleteItem(\'" . $this->node->getId() . "\');");
         }
 
-        $this->addSelectionListItemsAfter();
+        $this->addItemsAfter();
     }
 
     /**
@@ -103,8 +103,8 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
         }
     }
 
-    protected function addSelectionListItemsBefore(){}
-    protected function addSelectionListItemsAfter(){}
+    protected function addItemsBefore(){}
+    protected function addItemsAfter(){}
     protected function checkHasAction(){}
     protected function getAsyncMode()
     {
