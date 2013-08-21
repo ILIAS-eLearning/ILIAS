@@ -13694,5 +13694,9 @@ orgu#:#ext_id#:#External ID
 orgu#:#ext_id_updated#:#The external ID has been updated successfully.
 cld#:#cld_object_added#:#A new Cloud Objekt has been added
 exc#:#exc_peer_review_deadline#:#Feedback Deadline 
-exc#:#exc_peer_review_deadline_info#:#Deadline: %s
+exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.
+exc#:#exc_peer_review_deadline_info_button#:#Deadline: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback time is up.
+exc#:#exc_peer_review_comment#:#My Feedback
+exc#:#exc_peer_review_missing_info#:#To see your received feedback, you still have to give %s feedbacks.
+exc#:#exc_peer_review_missing_info_deadline#:#To see your received feedback, you still have to give %1$s feedbacks. Access will be granted on: %2$s.

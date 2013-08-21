@@ -2092,7 +2092,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$files = new ilFileWizardInputGUI($this->lng->txt('objs_file'),'files');
 			$files->setFilenames(array(0 => ''));
-			$this->form->addItem($files);
+			$this->form->addItem($files);						
 		}
 				
 		// peer review
@@ -2109,9 +2109,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$peer_min->setRequired(true);
 		$peer_min->setValue(5);
 		$peer_min->setSize(3);
+		$peer_min->setValue(2);
 		$peer->addSubItem($peer_min);
 		
 		$peer_dl = new ilDateTimeInputGUI($lng->txt("exc_peer_review_deadline"), "peer_dl");
+		$peer_dl->setInfo($lng->txt("exc_peer_review_deadline_info"));
 		$peer_dl->enableDateActivation("", "peer_dl_tgl");
 		$peer_dl->setShowTime(true);
 		$peer->addSubItem($peer_dl);
@@ -3465,9 +3467,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$rating->setHtml($a_peer_rating_html);
 				$form->addItem($rating);				
 				
-				$comm = new ilTextAreaInputGUI($this->lng->txt("comment"), "comm");
-				$comm->setCols(45);
-				$comm->setRows(10);				
+				$comm = new ilTextAreaInputGUI($this->lng->txt("exc_peer_review_comment"), "comm");
+				$comm->setCols(75);
+				$comm->setRows(15);				
 				$form->addItem($comm);
 				
 				$form->setFormAction($ilCtrl->getFormAction($this, $a_peer_review_cmd));
@@ -3728,6 +3730,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers"), true);
 			$ilCtrl->redirect($this, "showOverview");
 		}
+				
+		$missing = ilExAssignment::getNumberOfMissingFeedbacks($this->ass->getId(), $this->ass->getPeerReviewMin());
+		if($missing)
+		{
+			$dl = $this->ass->getPeerReviewDeadline();
+			if(!$dl || $dl < time())
+			{
+				ilUtil::sendInfo(sprintf($this->lng->txt("exc_peer_review_missing_info"), $missing));
+			}
+			else
+			{
+				ilUtil::sendInfo(sprintf($this->lng->txt("exc_peer_review_missing_info_deadline"), $missing, 
+					ilDatePresentation::formatDate(new ilDateTime($dl, IL_CAL_UNIX))));
+			}
+		}			
 		
 		$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
 		$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
@@ -3888,7 +3905,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		
-		$peer_items = $this->ass->getPeerReviewsByPeerId($user_id);
+		$peer_items = $this->ass->getPeerReviewsByPeerId($user_id, true);
 		if(!sizeof($peer_items))
 		{
 			// #11373
