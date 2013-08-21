@@ -79,8 +79,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
-		$this->questionpools = ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, false, true);
-		
+		$this->questionpools = ilObjSurveyQuestionPool::_getAvailableQuestionpools(true, false, true);
 		
 		$this->enable('sort');
 		$this->enable('header');

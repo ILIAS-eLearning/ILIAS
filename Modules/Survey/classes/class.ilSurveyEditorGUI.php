@@ -85,6 +85,7 @@ class ilSurveyEditorGUI
 	{
 		global $ilTabs;		
 		
+		// :TODO:
 		$_SESSION["calling_survey"] = $_GET["ref_id"];
 		
 		if($a_cmd == "questions" && $_REQUEST["pgov"])
@@ -811,7 +812,7 @@ class ilSurveyEditorGUI
 			if($_REQUEST["pgov"])
 			{
 				include_once "Modules/Survey/classes/class.ilSurveyPageGUI.php";
-				$page_gui = new ilSurveyPageGUI($this);
+				$page_gui = new ilSurveyPageGUI($this->object, $this);
 				$page_gui->determineCurrentPage();	
 				
 				// as target position is predefined, insert in reverse order
@@ -899,7 +900,7 @@ class ilSurveyEditorGUI
 			if($_REQUEST["pgov"])
 			{
 				include_once "Modules/Survey/classes/class.ilSurveyPageGUI.php";
-				$page_gui = new ilSurveyPageGUI($this);
+				$page_gui = new ilSurveyPageGUI($this->object, $this);
 				$page_gui->determineCurrentPage();	
 				
 				// as target position is predefined, insert in reverse order
