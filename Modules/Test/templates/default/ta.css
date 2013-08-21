@@ -446,3 +446,8 @@ div.ilAssQuestionRelatedNavigationContainer
 	margin: 20px 0;
 	text-align: center;
 }
+
+div.ilTestOutputBlock_DynTestFinished
+{
+	margin: 50px;
+}

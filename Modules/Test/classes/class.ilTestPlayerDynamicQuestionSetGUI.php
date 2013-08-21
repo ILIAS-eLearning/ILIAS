@@ -671,11 +671,32 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->populateQuestionSelectionButtons();
 		}
+		
+		if( $this->testSequence->openQuestionExists() )
+		{
+			$msgLangVar = 'tst_dyn_test_msg_currently_finished_selection';
+		}
+		else
+		{
+			$msgLangVar = 'tst_dyn_test_msg_currently_finished_completely';
+		}
+		
+		$msgHtml = $this->tpl->getMessageHTML($this->lng->txt($msgLangVar));
+		
+		$this->tpl->addBlockFile(
+				'QUESTION_OUTPUT', 'test_currently_finished_msg_block',
+				'tpl.test_currently_finished_msg.html', 'Modules/Test'
+		);
+		
+		$this->tpl->setCurrentBlock('test_currently_finished_msg_block');
+		$this->tpl->setVariable('TEST_CURRENTLY_FINISHED_MSG', $msgHtml);
+		$this->tpl->parseCurrentBlock();
+
 	}
 	
 	protected function isFirstPageInSequence($sequence)
 	{
-		return !$this->testSequence->trackedQuestionExist();
+		return !$this->testSequence->trackedQuestionExists();
 	}
 
 	protected function isLastQuestionInSequence(assQuestionGUI $questionGUI)
@@ -853,7 +874,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	private function getEnterTestButtonLangVar()
 	{
-		if( $this->testSequence->trackedQuestionExist() )
+		if( $this->testSequence->trackedQuestionExists() )
 		{
 			return $this->lng->txt('tst_resume_dyn_test_with_cur_quest_sel');
 		}

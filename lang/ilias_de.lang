@@ -1340,6 +1340,8 @@ assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktuell
 assessment#:#tst_tracked_question_list#:#Vorherige beantwortete Fragen
 assessment#:#tst_filtered_question_list#:#Auswahl der Test Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
+assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet.<br />Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
+assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet.<br />Ändern Sie die Fragenauswahl um den Test fort zu führen.
 assessment#:#feedback_setting#:#Modus des antwortspezifischen Feedback.
 assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Feedback bei ausgewählten Antworten des Prüflings.

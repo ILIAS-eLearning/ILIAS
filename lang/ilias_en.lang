@@ -1162,6 +1162,8 @@ assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Qu
 assessment#:#tst_tracked_question_list#:#Previously Answered Questions
 assessment#:#tst_filtered_question_list#:#Test Question Selection
 assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection
+assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully.<br />When there are new or edited questions in the question pool you can proceed the test.
+assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully.<br />Change the question selection to proceed the test.
 assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
