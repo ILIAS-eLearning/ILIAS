@@ -290,7 +290,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		foreach($coll_items as $item_id)
 		{			
 			$info = null;
-			$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+			$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 			
 			if(isset($lp_data[$item_id]))
 			{
@@ -300,7 +300,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				
 				if($lp_data[$item_id][0])
 				{
-					$status = LP_STATUS_COMPLETED_NUM;					
+					$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;					
 					$completed[] = $item_id;					
 				}
 			}
@@ -383,16 +383,16 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			$field = new ilCustomInputGUI($possible_items[$item_id]["title"]);
 			
 			// lp status
-			$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+			$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 			if(isset($info["completed"][$item_id]) && 
 				in_array($ilUser->getId(), $info["completed"][$item_id]))
 			{
-				$status = LP_STATUS_COMPLETED_NUM;
+				$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 			}
 			else if(isset($info["in_progress"][$item_id]) && 
 				in_array($ilUser->getId(), $info["in_progress"][$item_id]))
 			{
-				$status = LP_STATUS_IN_PROGRESS_NUM;
+				$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 			}
 			$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
 			$text = ilLearningProgressBaseGUI::_getStatusText($status);

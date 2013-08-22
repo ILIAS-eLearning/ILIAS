@@ -127,9 +127,9 @@ class ilLPStatusEvent extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilObjDataCache, $ilDB;
+		global $ilObjDataCache;
 		
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'sess':
@@ -147,12 +147,12 @@ class ilLPStatusEvent extends ilLPStatus
 					// is user registered -> in progress
 					if (ilEventParticipants::_isRegistered($a_user_id, $a_obj_id))
 					{
-						$status = LP_STATUS_IN_PROGRESS_NUM;
+						$status = self::LP_STATUS_IN_PROGRESS_NUM;
 					}
 				}
 				if (ilEventParticipants::_hasParticipated($a_user_id, $a_obj_id))
 				{
-					$status = LP_STATUS_COMPLETED_NUM;
+					$status = self::LP_STATUS_COMPLETED_NUM;
 				}
 				break;
 		}
@@ -202,7 +202,7 @@ class ilLPStatusEvent extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
 	}
 	
 	/**
@@ -234,7 +234,7 @@ class ilLPStatusEvent extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
 	}	
 }	
 ?>

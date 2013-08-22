@@ -56,7 +56,7 @@ class ilTimingCache
 								
 		// if completed no warning
 		include_once './Services/Tracking/classes/class.ilLPStatus.php';
-		if(ilLPStatus::_lookupStatus($obj_id, $a_usr_id) == LP_STATUS_COMPLETED_NUM)
+		if(ilLPStatus::_hasUserCompleted($obj_id, $a_usr_id))
 		{
 			return false;
 		}

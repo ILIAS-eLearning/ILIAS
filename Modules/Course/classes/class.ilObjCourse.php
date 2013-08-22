@@ -2045,9 +2045,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		if(ilObjUserTracking::_enabledLearningProgress() &&
 			$this->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
 		{			
-			include_once("Services/Tracking/classes/class.ilLPStatus.php");
-			$lp_status = ilLPStatus::_lookupStatus($this->getId(), $a_member_id);			
-			if($lp_status == LP_STATUS_COMPLETED_NUM)
+			include_once("Services/Tracking/classes/class.ilLPStatus.php");	
+			if(ilLPStatus::_hasUserCompleted($this->getId(), $a_member_id))
 			{
 				$this->getMembersObject()->updatePassed($a_member_id, true, -1);
 			}						

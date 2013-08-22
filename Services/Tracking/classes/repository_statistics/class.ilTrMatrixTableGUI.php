@@ -271,18 +271,18 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						// completed status, I changed the setting in: first check failed
 						// then check completed since failed should superseed completed
 						// (before completed has been checked before failed)
-						$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+						$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 						if(in_array($user_id, $collection["scorm"]["failed"][$sco]))
 						{
-							$status = LP_STATUS_FAILED_NUM;
+							$status = ilLPStatus::LP_STATUS_FAILED_NUM;
 						}
 						else if(in_array($user_id, $collection["scorm"]["completed"][$sco]))
 						{
-							$status = LP_STATUS_COMPLETED_NUM;
+							$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 						}
 						else if(in_array($user_id, $collection["scorm"]["in_progress"][$sco]))
 						{
-							$status = LP_STATUS_IN_PROGRESS_NUM;
+							$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 						}
 
 						$obj_id = "objsco_".$sco;
@@ -299,15 +299,15 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					{
 						$this->subitem_ids[$item_id] = $collection["subitems"]["item_titles"][$item_id];
 						
-						$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+						$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 						if(in_array($user_id, $collection["subitems"]["completed"][$item_id]))
 						{
-							$status = LP_STATUS_COMPLETED_NUM;
+							$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 						}
 						else if(is_array($collection["subitems"]["in_progress"]) &&
 							in_array($user_id, $collection["subitems"]["in_progress"][$item_id]))
 						{
-							$status = LP_STATUS_IN_PROGRESS_NUM;
+							$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 						}			
 						
 						$obj_id = "objsub_".$item_id;
@@ -376,7 +376,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						}
 					}
 
-					if($data['status'] != LP_STATUS_COMPLETED_NUM)
+					if($data['status'] != ilLPStatus::LP_STATUS_COMPLETED_NUM)
 					{
 						$timing = $this->showTimingsWarning($this->ref_ids[$obj_id], $a_set["usr_id"]);
 						if($timing)

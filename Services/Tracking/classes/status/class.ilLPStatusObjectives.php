@@ -137,14 +137,14 @@ class ilLPStatusObjectives extends ilLPStatus
 		// table crs_objective_status (must not contain a dataset)
 		// ilCourseObjectiveResult -> added ilLPStatusWrapper::_updateStatus()
 	
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case "crs":
 				include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
 				{
-					$status = LP_STATUS_IN_PROGRESS_NUM;
+					$status = self::LP_STATUS_IN_PROGRESS_NUM;
 
 					include_once 'Modules/Course/classes/class.ilCourseObjective.php';
 					$objectives = ilCourseObjective::_getObjectiveIds($a_obj_id);
@@ -157,7 +157,7 @@ class ilLPStatusObjectives extends ilLPStatus
 						{
 							if ($rec["cnt"] == count($objectives))
 							{
-								$status = LP_STATUS_COMPLETED_NUM;
+								$status = self::LP_STATUS_COMPLETED_NUM;
 							}
 						}
 					}
@@ -196,7 +196,7 @@ class ilLPStatusObjectives extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
 	}
 	
 	/**
@@ -228,7 +228,7 @@ class ilLPStatusObjectives extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
 	}	
 }
 		

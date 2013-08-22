@@ -54,7 +54,7 @@ class ilCourseAppEventListener
 					self::$course_mode[$obj_id] = $mode;
 				}
 				
-				$is_completed = ($status == LP_STATUS_COMPLETED_NUM);
+				$is_completed = ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM);
 				
 				// we are NOT using the members object because of performance issues
 				switch(self::$course_mode[$obj_id])

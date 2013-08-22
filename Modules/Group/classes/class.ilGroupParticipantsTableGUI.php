@@ -231,22 +231,22 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('lp');
             switch($a_set['progress'])
             {
-                case LP_STATUS_COMPLETED:
+                case ilLPStatus::LP_STATUS_COMPLETED:
                     $this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
                     $this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/complete.png'));
                     break;
                     
-                case LP_STATUS_IN_PROGRESS:
+                case ilLPStatus::LP_STATUS_IN_PROGRESS:
                     $this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
                     $this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/incomplete.png'));
                     break;
 
-                case LP_STATUS_NOT_ATTEMPTED:
+                case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
                     $this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
                     $this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/not_attempted.png'));
                     break;  
 
-                case LP_STATUS_FAILED:
+                case ilLPStatus::LP_STATUS_FAILED:
                     $this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
                     $this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/failed.png'));
                     break;

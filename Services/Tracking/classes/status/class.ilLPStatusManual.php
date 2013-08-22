@@ -64,7 +64,7 @@ class ilLPStatusManual extends ilLPStatus
 	{
 		global $ilObjDataCache, $ilDB;
 
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'dbk':
@@ -73,7 +73,7 @@ class ilLPStatusManual extends ilLPStatus
 				include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
 				{
-					$status = LP_STATUS_IN_PROGRESS_NUM;
+					$status = self::LP_STATUS_IN_PROGRESS_NUM;
 					
 					// completed?
 					$set = $ilDB->query($q = "SELECT usr_id FROM ut_lp_marks ".
@@ -82,7 +82,7 @@ class ilLPStatusManual extends ilLPStatus
 						"AND completed = '1' ");
 					if ($rec = $ilDB->fetchAssoc($set))
 					{
-						$status = LP_STATUS_COMPLETED_NUM;
+						$status = self::LP_STATUS_COMPLETED_NUM;
 					}
 				}
 				break;			

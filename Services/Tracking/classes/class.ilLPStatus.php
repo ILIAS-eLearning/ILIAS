@@ -1,22 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define('LP_STATUS_NOT_ATTEMPTED','trac_no_attempted');
-define('LP_STATUS_IN_PROGRESS','trac_in_progress');
-define('LP_STATUS_COMPLETED','trac_completed');
-define('LP_STATUS_FAILED','trac_failed');
-
-define('LP_STATUS_NOT_ATTEMPTED_NUM', 0);
-define('LP_STATUS_IN_PROGRESS_NUM', 1);
-define('LP_STATUS_COMPLETED_NUM', 2);
-define('LP_STATUS_FAILED_NUM', 3);
-
-// Stati for events
-define('LP_STATUS_REGISTERED','trac_registered');
-define('LP_STATUS_NOT_REGISTERED','trac_not_registered');
-define('LP_STATUS_PARTICIPATED','trac_participated');
-define('LP_STATUS_NOT_PARTICIPATED','trac_not_participated');
-
 /**
  * Abstract class ilLPStatus for all learning progress modes
  * E.g  ilLPStatusManual, ilLPStatusObjectives ...
@@ -32,10 +16,25 @@ class ilLPStatus
 {
 	var $obj_id = null;
 
-	var $db = null;
+	var $db = null;	
 	
 	static $list_gui_cache;
+	
+	const LP_STATUS_NOT_ATTEMPTED = 'trac_no_attempted';
+	const LP_STATUS_IN_PROGRESS = 'trac_in_progress';
+	const LP_STATUS_COMPLETED = 'trac_completed';
+	const LP_STATUS_FAILED = 'trac_failed';
+	
+	const LP_STATUS_NOT_ATTEMPTED_NUM = 0;
+	const LP_STATUS_IN_PROGRESS_NUM = 1;
+	const LP_STATUS_COMPLETED_NUM = 2;
+	const LP_STATUS_FAILED_NUM = 3;
 
+	const LP_STATUS_REGISTERED = 'trac_registered';
+	const LP_STATUS_NOT_REGISTERED = 'trac_not_registered';
+	const LP_STATUS_PARTICIPATED = 'trac_participated';
+	const LP_STATUS_NOT_PARTICIPATED = 'trac_not_participated';
+	
 	function ilLPStatus($a_obj_id)
 	{
 		global $ilDB;
@@ -201,7 +200,7 @@ class ilLPStatus
 
 		$status = $this->determineStatus($a_obj_id, $a_usr_id, $a_obj);
 		$percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
-		ilLPStatus::writeStatus($a_obj_id, $a_usr_id, $status, $percentage);
+		self::writeStatus($a_obj_id, $a_usr_id, $status, $percentage);
 		
 		if(!$a_no_raise)
 		{
@@ -303,25 +302,25 @@ class ilLPStatus
 		foreach ($not_attempted as $user_id)
 		{
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
-			ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_NOT_ATTEMPTED_NUM, $percentage, true);
+			self::writeStatus($a_obj_id, $user_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, $percentage, true);
 		}
 		$in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);
 		foreach ($in_progress as $user_id)
 		{
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
-			ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_IN_PROGRESS_NUM, $percentage, true);
+			self::writeStatus($a_obj_id, $user_id, self::LP_STATUS_IN_PROGRESS_NUM, $percentage, true);
 		}
 		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
 		foreach ($completed as $user_id)
 		{
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
-			ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_COMPLETED_NUM, $percentage, true);
+			self::writeStatus($a_obj_id, $user_id, self::LP_STATUS_COMPLETED_NUM, $percentage, true);
 		}
 		$failed = ilLPStatusWrapper::_getFailed($a_obj_id);
 		foreach ($failed as $user_id)
 		{
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
-			ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_FAILED_NUM, $percentage, true);
+			self::writeStatus($a_obj_id, $user_id, self::LP_STATUS_FAILED_NUM, $percentage, true);
 		}
 		if($a_users)
 		{		
@@ -453,7 +452,7 @@ class ilLPStatus
 		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			// current status is not attempted, so we need to update
-			if($rec["status"] == LP_STATUS_NOT_ATTEMPTED_NUM)
+			if($rec["status"] == self::LP_STATUS_NOT_ATTEMPTED_NUM)
 			{
 				$needs_update = true;
 			}
@@ -536,6 +535,18 @@ class ilLPStatus
 				return $rec["status"];
 			}
 		}
+	}
+	
+	/**
+	 * Lookup user object completion
+	 * 
+	 * @param int $a_obj_id
+	 * @param int $a_user_id
+	 * @return bool
+	 */
+	public static function _hasUserCompleted($a_obj_id, $a_user_id)
+	{
+		return (self::_lookupStatus($a_obj_id, $a_user_id) == self::LP_STATUS_COMPLETED_NUM);
 	}
 		
 	/**
@@ -620,7 +631,7 @@ class ilLPStatus
 	 */
 	public static function _lookupCompletedForObject($a_obj_id, $a_user_ids = null)
 	{
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
 	}
 	
 	/**
@@ -632,7 +643,7 @@ class ilLPStatus
 	 */
 	public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
 	{
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_FAILED_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids);
 	}
 	
 	/**
@@ -644,7 +655,7 @@ class ilLPStatus
 	 */
 	public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
 	{
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
 	}
 	
 	public static function preloadListGUIData($a_obj_ids)
@@ -715,7 +726,7 @@ class ilLPStatus
 			{
 				if(!isset($res[$obj_id]))
 				{
-					$res[$obj_id] = LP_STATUS_NOT_ATTEMPTED_NUM;
+					$res[$obj_id] = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 				}
 			}
 

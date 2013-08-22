@@ -132,16 +132,16 @@ class ilLMExplorer extends ilExplorer
 				{
 					foreach($info["items"] as $item_id)
 					{
-						$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+						$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 						if(is_array($info["in_progress"][$item_id]) && 
 							in_array($ilUser->getId(), $info["in_progress"][$item_id]))
 						{
-							$status = LP_STATUS_IN_PROGRESS_NUM;
+							$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 						}
 						else if(is_array($info["completed"][$item_id]) && 
 							in_array($ilUser->getId(), $info["completed"][$item_id]))
 						{
-							$status = LP_STATUS_COMPLETED_NUM;
+							$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 						}
 						$this->lp_cache[$this->lm_obj->getId()][$item_id] =$status;
 					}

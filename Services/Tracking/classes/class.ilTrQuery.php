@@ -36,7 +36,7 @@ class ilTrQuery
 
 			$sessions = self::getSessionData($a_user_id, $obj_ids);
 
-			$query = "SELECT object_data.obj_id, title, CASE WHEN status IS NULL THEN ".LP_STATUS_NOT_ATTEMPTED_NUM." ELSE status END AS status,".
+			$query = "SELECT object_data.obj_id, title, CASE WHEN status IS NULL THEN ".ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM." ELSE status END AS status,".
 				" status_changed, percentage, read_count+childs_read_count AS read_count, spent_seconds+childs_spent_seconds AS spent_seconds,".
 				" u_mode, type, visits, mark, u_comment".
 				" FROM object_data".
@@ -103,7 +103,7 @@ class ilTrQuery
 		{
 			if($rec["status"])
 			{
-				$rec["status"] = LP_STATUS_COMPLETED_NUM;
+				$rec["status"] = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 			}
 			$result[] = $rec;
 		}
@@ -154,19 +154,19 @@ class ilTrQuery
 			// #9719 - can have in_progress AND failed/completed
 			if(in_array($a_user_id, $status_info["failed"][$sco_id]))
 			{
-				$status = LP_STATUS_FAILED;
+				$status = ilLPStatus::LP_STATUS_FAILED;
 			}
 			elseif(in_array($a_user_id, $status_info["completed"][$sco_id]))
 			{
-				$status = LP_STATUS_COMPLETED;
+				$status = ilLPStatus::LP_STATUS_COMPLETED;
 			}
 			elseif(in_array($a_user_id, $status_info["in_progress"][$sco_id]))
 			{
-				$status = LP_STATUS_IN_PROGRESS;
+				$status = ilLPStatus::LP_STATUS_IN_PROGRESS;
 			}
 			else
 			{
-				$status = LP_STATUS_NOT_ATTEMPTED;
+				$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED;
 			}
 			
 			$items[$sco_id] = array(
@@ -213,15 +213,15 @@ class ilTrQuery
 			
 			if(in_array($a_user_id, $status_info["completed"][$item_id]))
 			{
-				$status = LP_STATUS_COMPLETED;
+				$status = ilLPStatus::LP_STATUS_COMPLETED;
 			}
 			elseif(in_array($a_user_id, $status_info["in_progress"][$item_id]))
 			{
-				$status = LP_STATUS_IN_PROGRESS;
+				$status = ilLPStatus::LP_STATUS_IN_PROGRESS;
 			}
 			else
 			{
-				$status = LP_STATUS_NOT_ATTEMPTED;
+				$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED;
 			}
 			
 			$items[$item_id] = array(
@@ -460,7 +460,7 @@ class ilTrQuery
 				else
 				{
 		            include_once("Services/Tracking/classes/class.ilLPStatus.php");
-					$objective_fields[] = "CASE WHEN status IS NOT NULL THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END AS status";
+					$objective_fields[] = "CASE WHEN status IS NOT NULL THEN ".ilLPStatus::LP_STATUS_COMPLETED_NUM." ELSE NULL END AS status";
 				}
 			  }
 			}
@@ -533,18 +533,18 @@ class ilTrQuery
 					$row = array("title" => $objects["scorm"]["scos_title"][$sco],
 						"type" => "sco");
 
-					$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+					$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 					if(in_array($a_user_id, $objects["scorm"]["completed"][$sco]))
 					{
-						$status = LP_STATUS_COMPLETED_NUM;
+						$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 					}
 					else if(in_array($a_user_id, $objects["scorm"]["failed"][$sco]))
 					{
-						$status = LP_STATUS_FAILED_NUM;
+						$status = ilLPStatus::LP_STATUS_FAILED_NUM;
 					}
 					else if(in_array($a_user_id, $objects["scorm"]["in_progress"][$sco]))
 					{
-						$status = LP_STATUS_IN_PROGRESS_NUM;
+						$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 					}
 					$row["status"] = $status;
 
@@ -944,10 +944,10 @@ class ilTrQuery
 						break;
 
 					case "status":
-						if($value == LP_STATUS_NOT_ATTEMPTED_NUM)
+						if($value == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
 						{
 							// #10645 - not_attempted is default
-							$where[] = "(ut_lp_marks.status = ".$ilDB->quote(LP_STATUS_NOT_ATTEMPTED_NUM ,"text").
+							$where[] = "(ut_lp_marks.status = ".$ilDB->quote(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM ,"text").
 								" OR ut_lp_marks.status IS NULL)";
 							break;
 						}
@@ -1523,7 +1523,7 @@ class ilTrQuery
 		    include_once("Services/Tracking/classes/class.ilLPStatus.php");
 
 			$fields = array("crs_objectives.objective_id AS obj_id", "crs_objective_status.user_id AS usr_id", "title");
-			$fields[] = "CASE WHEN status IS NOT NULL THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END AS status";
+			$fields[] = "CASE WHEN status IS NOT NULL THEN ".ilLPStatus::LP_STATUS_COMPLETED_NUM." ELSE NULL END AS status";
 
 			$where = array();
 			$where[] = "crs_objectives.crs_id = ".$ilDB->quote($a_parent_obj_id, "integer");

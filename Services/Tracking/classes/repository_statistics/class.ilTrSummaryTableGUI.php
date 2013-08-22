@@ -227,10 +227,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			include_once "Services/Tracking/classes/class.ilLPStatus.php";
 			$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true);
 			$item->setOptions(array("" => $lng->txt("trac_all"),
-				LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(LP_STATUS_NOT_ATTEMPTED),
-				LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(LP_STATUS_IN_PROGRESS),
-				LP_STATUS_COMPLETED_NUM+1 => $lng->txt(LP_STATUS_COMPLETED),
-				LP_STATUS_FAILED_NUM+1 => $lng->txt(LP_STATUS_FAILED)));
+				ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+				ilLPStatus::LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+				ilLPStatus::LP_STATUS_COMPLETED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
+				ilLPStatus::LP_STATUS_FAILED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_FAILED)));
 			$this->filter["status"] = $item->getValue();
 			if($this->filter["status"])
 			{
@@ -345,7 +345,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		// build status to image map
 		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");			
-		$valid_status = array(LP_STATUS_NOT_ATTEMPTED_NUM, LP_STATUS_IN_PROGRESS_NUM, LP_STATUS_COMPLETED_NUM, LP_STATUS_FAILED_NUM);
+		$valid_status = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM, 
+			ilLPStatus::LP_STATUS_IN_PROGRESS_NUM, 
+			ilLPStatus::LP_STATUS_COMPLETED_NUM, 
+			ilLPStatus::LP_STATUS_FAILED_NUM);
 		$status_map = array();			
 		foreach($valid_status as $status)
 		{
@@ -390,7 +393,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				// null is cast to ""
 				if($status_code === "" || !in_array($status_code, $valid_status))
 				{
-					$result["status"][LP_STATUS_NOT_ATTEMPTED_NUM] += $status_counter;
+					$result["status"][ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM] += $status_counter;
 					unset($result["status"][$status_code]);
 				}
 			}
@@ -752,7 +755,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 					// build status to image map
 					include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 					include_once("./Services/Tracking/classes/class.ilLPStatus.php");			
-					$valid_status = array(LP_STATUS_NOT_ATTEMPTED_NUM, LP_STATUS_IN_PROGRESS_NUM, LP_STATUS_COMPLETED_NUM, LP_STATUS_FAILED_NUM);			
+					$valid_status = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM, 
+						ilLPStatus::LP_STATUS_IN_PROGRESS_NUM, 
+						ilLPStatus::LP_STATUS_COMPLETED_NUM, 
+						ilLPStatus::LP_STATUS_FAILED_NUM);			
 					$cnt--;
 					foreach($valid_status as $status)
 					{
@@ -847,7 +853,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 					// build status to image map
 					include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 					include_once("./Services/Tracking/classes/class.ilLPStatus.php");			
-					$valid_status = array(LP_STATUS_NOT_ATTEMPTED_NUM, LP_STATUS_IN_PROGRESS_NUM, LP_STATUS_COMPLETED_NUM, LP_STATUS_FAILED_NUM);			
+					$valid_status = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM, 
+						ilLPStatus::LP_STATUS_IN_PROGRESS_NUM, 
+						ilLPStatus::LP_STATUS_COMPLETED_NUM, 
+						ilLPStatus::LP_STATUS_FAILED_NUM);			
 					foreach($valid_status as $status)
 					{
 						$text = ilLearningProgressBaseGUI::_getStatusText($status);

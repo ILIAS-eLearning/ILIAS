@@ -181,15 +181,15 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 		}	
 									
 		$status = ilLPStatus::_lookupStatus($obj_id, $a_usr_id);		
-		if($status == LP_STATUS_COMPLETED_NUM)
+		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM)
 		{
 			return 'completed';
 		}
-		else if($status == LP_STATUS_FAILED)
+		else if($status == ilLPStatus::LP_STATUS_FAILED)
 		{
 			return 'failed';
 		}
-		else if($status == LP_STATUS_IN_PROGRESS_NUM)
+		else if($status == ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
 		{
 			return 'in_progress';
 		}
