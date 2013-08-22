@@ -1833,6 +1833,12 @@ class ilPageObjectGUI
 				$ilCtrl->getLinkTarget($this, "initialOpenedContent"));
 		}
 		
+		// multi-lang actions
+		if ($this->addMultiLangActionsToMenu($list))
+		{
+			$entries = true;
+		}
+		
 		if ($entries)
 		{
 			$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
@@ -1893,6 +1899,40 @@ class ilPageObjectGUI
 
 		$a_tpl->setVariable("EDIT_MODE", $list->getHTML());
 	}
+
+	/**
+	 * Add multi-language actions to menu
+	 *
+	 * @param
+	 * @return
+	 */
+	function addMultiLangActionsToMenu($a_list)
+	{
+		global $lng, $ilCtrl;
+		
+		$any_items = false;
+		
+		$cfg = $this->getPageConfig();
+		
+		// general multi lang support and single page mode?
+		if ($cfg->getMultiLangSupport() && $cfg->getSinglePageMode())
+		{
+			include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+			$ml = new ilPageMultiLang($this->getPageObject()->getParentType(),
+				$this->getPageObject()->getParentId());
+			
+			if (!$ml->getActivated())
+			{
+				$a_list->addItem($lng->txt("cont_activate_multi_lang"), "",
+					$ilCtrl->getLinkTarget($this, "activateMultiLanguage"));
+
+				$any_items = true;
+			}
+		}
+		
+		return $any_items;
+	}
+	
 
 	/**
 	 * Set edit mode

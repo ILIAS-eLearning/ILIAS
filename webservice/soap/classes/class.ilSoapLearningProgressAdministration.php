@@ -242,5 +242,45 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		$ilDB->manipulate($query);
 	
 	}
+	
+	/**
+	 * Get learning progress changes
+	 */
+	public function getLearningProgressChanges($sid, $timestamp, $include_ref_ids, $type_filter)
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+		}
+		global $rbacsystem, $tree, $ilLog;
+
+		// check administrator
+		$types = "";
+		if (is_array($type_filter))
+		{
+			$types = implode($type_filter, ",");
+		}
+		
+		// output lp changes as xml
+		try
+		{
+			include_once './Services/Tracking/classes/class.ilLPXmlWriter.php';
+			$writer = new ilLPXmlWriter(true);
+			$writer->setTimestamp($timestamp);
+			$writer->setIncludeRefIds($include_ref_ids);
+			$writer->setTypeFilter($type_filter);
+			$writer->write();
+		
+			return $writer->xmlDumpMem(true);
+		}
+		catch(UnexpectedValueException $e)
+		{
+			return $this->__raiseError($e->getMessage(), 'Client');
+		}
+	}
+
 }
 ?>

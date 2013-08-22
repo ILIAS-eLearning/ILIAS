@@ -16,6 +16,7 @@ class ilPageMultiLang
 	protected $parent_id;
 	protected $master_lang;
 	protected $languages = array();
+	protected $activated = false;
 	
 	/**
 	 * Constructor
@@ -128,6 +129,26 @@ class ilPageMultiLang
 	}
 	
 	/**
+	 * Set activated
+	 *
+	 * @param bool $a_val activated?	
+	 */
+	protected function setActivated($a_val)
+	{
+		$this->activated = $a_val;
+	}
+	
+	/**
+	 * Get activated
+	 *
+	 * @return bool activated?
+	 */
+	function getActivated()
+	{
+		return $this->activated;
+	}
+	
+	/**
 	 * Read
 	 *
 	 * @param
@@ -139,8 +160,15 @@ class ilPageMultiLang
 			" WHERE parent_type = ".$this->db->quote($this->getParentType(), "text").
 			" AND parent_id = ".$this->db->quote($this->getParentId(), "integer")
 			);
-		$rec = $this->db->fetchAssoc($set);
-		$this->setMasterLanguage($rec["master_lang"]);
+		if ($rec = $this->db->fetchAssoc($set))
+		{
+			$this->setMasterLanguage($rec["master_lang"]);
+			$this->setActivated(true);
+		}
+		else
+		{
+			$this->setActivated(false);
+		}
 
 		$this->setLanguages(array());
 		$set = $this->db->query("SELECT * FROM copg_multilang_lang ".

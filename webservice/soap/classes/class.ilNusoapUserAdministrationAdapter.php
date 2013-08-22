@@ -1288,6 +1288,18 @@ class ilNusoapUserAdministrationAdapter
 			SERVICE_STYLE,
 			SERVICE_USE,
 			'ILIAS updateWebLink():update existing weblink, update weblink properties from xml (see ilias_weblink_4_0.dtd for details).');
+		
+		// mcs-patch start
+        $this->server->register('getLearningProgressChanges',
+			array('sid' => 'xsd:string', 'timestamp' => 'xsd:string', 'include_ref_ids' => 'xsd:boolean', 'type_filter' => 'tns:stringArray'),
+			array('lp_data' => 'xsd:string'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#getLearningProgressChanges',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS getLearningProgressChanges(): Get learning progress changes after a given timestamp.');
+		// mcs-patch end
+		
 
 		
 		$this->server->register('deleteProgress',

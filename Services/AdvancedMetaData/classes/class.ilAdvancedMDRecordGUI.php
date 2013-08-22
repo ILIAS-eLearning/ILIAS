@@ -826,6 +826,7 @@ class ilAdvancedMDRecordGUI
 	 					break;
 	 					
 	 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+	 					include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 	 					$select = new ilSelectInputGUI($def->getTitle(),'md_'.$def->getFieldId());
 	 					$select->setOptions($def->getFieldValuesForSelect());
 	 					$this->table_gui->addFilterItem($select);
@@ -834,14 +835,14 @@ class ilAdvancedMDRecordGUI
 	 					break;
 	 					
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-	 					
+	 					include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
 	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md_'.$def->getFieldId());
 	 					$time->setShowTime(false);
 	 					$time->enableDateActivation($this->lng->txt('enabled'),
 							'md_activated['.$def->getFieldId().']', false);
 	 					$this->table_gui->addFilterItem($time);
 	 					$time->readFromSession();
-	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getValue();
+	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getDate();
 	 					break;
 	 					
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
