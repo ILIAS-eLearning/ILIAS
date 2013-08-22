@@ -98,6 +98,8 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->enable('sort');
 		$this->enable('select_all');
+		
+		$this->setShowRowsSelector(true);
 	}
 
 	/**
