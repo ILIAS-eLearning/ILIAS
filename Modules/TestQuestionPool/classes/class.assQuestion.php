@@ -1779,6 +1779,9 @@ abstract class assQuestion
 			$ilLog->write("EXCEPTION: Error updating the question pool question count of question pool " . $this->getObjId() . " when deleting question $question_id: $e");
 			return false;
 		}
+		
+		$this->notifyQuestionDeleted($this);
+		
 		return true;
 	}
 
@@ -2223,6 +2226,8 @@ abstract class assQuestion
 		// update question count of question pool
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		ilObjQuestionPool::_updateQuestionCount($this->obj_id);
+		
+		$this->notifyQuestionEdited($this);
 	}
 
         public function setNewOriginalId($newId) {
@@ -4014,13 +4019,13 @@ abstract class assQuestion
 		return $this->questionChangeListeners;
 	}
 	
-	private function notifyQuestionCreated()
-	{
-		foreach($this->getQuestionChangeListeners() as $listener)
-		{
-			$listener->notifyQuestionCreated($this);
-		}
-	}
+//	private function notifyQuestionCreated()
+//	{
+//		foreach($this->getQuestionChangeListeners() as $listener)
+//		{
+//			$listener->notifyQuestionCreated($this);
+//		}
+//	}
 	
 	private function notifyQuestionEdited()
 	{
