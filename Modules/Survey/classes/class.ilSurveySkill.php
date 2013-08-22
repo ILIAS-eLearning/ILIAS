@@ -321,6 +321,10 @@ class ilSurveySkill
 		foreach ($question_ids as $q_id)
 		{
 			$q = SurveyQuestion::_instanciateQuestion($q_id);
+			if(!is_object($q))
+			{				
+				continue;
+			}
 			$cats = $q->getCategories();
 			$max_scale = 0;
 			for($i = 0; $i<= $cats->getCategoryCount(); $i++)
