@@ -1062,6 +1062,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		// we do not want the ilRepositorySearchGUI form action
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+		$ilToolbar->addSeparator();
+		
+		// multi-feebdack
+		$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
+			$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
 		
 		if (count(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $_GET["ass_id"])))
 		{
@@ -2609,7 +2615,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $ilTabs, $lng, $ilCtrl, $tpl, $ilHelp;
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$tpl->setTitle(ilExAssignment::lookupTitle($_GET["ass_id"]));
+		$tpl->setTitle(ilExAssignment::lookupTitle((int) $_GET["ass_id"]));
 		$tpl->setDescription("");
 		
 		$ilTabs->clearTargets();
@@ -3917,6 +3923,120 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		ilUtil::deliverFile($this->ass->getFeedbackFilePath(), $this->ass->getFeedbackFile());
+	}
+	
+	////
+	//// Multi Feedback
+	////
+	
+	/**
+	 * Show multi-feedback screen
+	 *
+	 * @param
+	 * @return
+	 */
+	function showMultiFeedbackObject()
+	{
+		global $ilTabs, $ilToolbar, $lng, $tpl;
+		
+		$ilTabs->activateTab("grades");
+		$this->checkPermission("write");
+		$this->addSubmissionSubTabs("assignment");
+
+		$ilToolbar->addButton($lng->txt("exc_download_zip_structure"),
+			$this->ctrl->getLinkTarget($this, "downloadMultiFeedbackZip"));
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->addCommandButton("uploadMultiFeedback", $lng->txt("upload"));
+		$form->addCommandButton("members", $lng->txt("cancel"));
+		
+		// multi feedback file
+		$fi = new ilFileInputGUI($lng->txt("exc_multi_feedback_file"), "mfzip");
+		$fi->setSuffixes(array("zip"));
+		$form->addItem($fi);
+		
+		
+		$form->setTitle(ilExAssignment::lookupTitle((int) $_GET["ass_id"]));
+		$form->setFormAction($this->ctrl->getFormAction($this, "uploadMultiFeedback"));
+		
+		
+		$tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Download multi-feedback structrue file
+	 */
+	function downloadMultiFeedbackZipObject()
+	{
+		$ass = new ilExAssignment((int) $_GET["ass_id"]);
+		$ass->sendMultiFeedbackStructureFile($this->object);
+	}
+	
+	/**
+	 * Upload multi feedback file
+	 */
+	function uploadMultiFeedbackObject()
+	{
+		global $ilCtrl;
+		
+		try
+		{
+			$ass = new ilExAssignment((int) $_GET["ass_id"]);
+			$ass->uploadMultiFeedbackFile(ilUtil::stripSlashesArray($_FILES["mfzip"]));
+			$ilCtrl->redirect($this, "showMultiFeedbackConfirmationTable");
+		}
+		catch (ilExerciseException $e)
+		{
+			ilUtil::sendFailure($e->getMessage(), true);
+			$this->ctrl->redirect($this, "showMultiFeedback");
+		}
+	}
+	
+	/**
+	 * Show multi feedback confirmation table
+	 *
+	 * @param
+	 * @return
+	 */
+	function showMultiFeedbackConfirmationTableObject()
+	{
+		global $ilCtrl, $ilTabs, $tpl;
+		
+		$ilTabs->activateTab("grades");
+		$this->checkPermission("write");
+		$this->addSubmissionSubTabs("assignment");
+		
+		$ass = new ilExAssignment((int) $_GET["ass_id"]);
+		include_once("./Modules/Exercise/classes/class.ilFeedbackConfirmationTable2GUI.php");
+		$tab = new ilFeedbackConfirmationTable2GUI($this, "showMultiFeedbackConfirmationTable", $ass);
+		$tpl->setContent($tab->getHTML());
+		
+	}
+	
+	/**
+	 * Cancel Multi Feedback
+	 */
+	function cancelMultiFeedbackObject()
+	{
+		$this->checkPermission("write");
+		$ass = new ilExAssignment((int) $_GET["ass_id"]);
+		$ass->clearMultiFeedbackDirectory();
+		
+		$this->ctrl->redirect($this, "members");
+	}
+	
+	/**
+	 * Save multi feedback
+	 */
+	function saveMultiFeedbackObject()
+	{
+		$this->checkPermission("write");
+		$ass = new ilExAssignment((int) $_GET["ass_id"]);
+		$ass->saveMultiFeedbackFiles($_POST["file"]);
+		
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "members");
 	}
 }
 

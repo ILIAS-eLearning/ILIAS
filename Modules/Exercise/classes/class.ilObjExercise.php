@@ -962,7 +962,11 @@ class ilObjExercise extends ilObject
 		$not = new ilExerciseMailNotification();
 		$not->setType(ilExerciseMailNotification::TYPE_FEEDBACK_FILE_ADDED);
 		$not->setAssignmentId($a_ass_id);
-		$not->setRefId($this->getRefId());
+		$not->setObjId($this->getId());
+		if ($this->getRefId() > 0)
+		{
+			$not->setRefId($this->getRefId());
+		}
 		$not->setRecipients($user_ids);
 		$not->send();
 	}

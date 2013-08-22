@@ -254,8 +254,9 @@ die ("ilFileDataExercise is deprecated.");
 			if (!is_dir($sourcedir))
 				continue;
 			$userName = ilObjUser::_lookupName($id);
-			$directory = ilUtil::getASCIIFilename(trim($userName["lastname"])."_".trim($userName["firstname"]));
-			if (array_key_exists($directory, $cache))
+			$directory = ilUtil::getASCIIFilename(trim($userName["lastname"])."_".
+				trim($userName["firstname"])."_".trim($userName["login"])."_".$userName["user_id"]);
+			/*if (array_key_exists($directory, $cache))
 			{
 				// first try is to append the login;
 				$directory = ilUtil::getASCIIFilename($directory."_".trim(ilObjUser::_lookupLogin($id)));
@@ -263,7 +264,7 @@ die ("ilFileDataExercise is deprecated.");
 					// second and secure: append the user id as well.
 					$directory .= "_".$id;
 				}
-			}
+			}*/
 
 			$cache[$directory] = $directory;
 			ilUtil::makeDir ($directory);
