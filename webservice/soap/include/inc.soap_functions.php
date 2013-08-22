@@ -1015,6 +1015,17 @@ class ilSoapFunctions {
 		$sla = new ilSoapLearningProgressAdministration();
 		return $sla->deleteProgress($sid, $ref_ids, $usr_ids, $type_filter, $progress_filter);
 	}
+	// mcs-patch start
+	public static function getLearningProgressChanges($sid, $timestamp, $include_ref_ids, $type_filter)
+	{
+		include_once './webservice/soap/classes/class.ilSoapLearningProgressAdministration.php';
+
+		$s = new ilSoapLearningProgressAdministration();
+		
+		return $s->getLearningProgressChanges($sid, $timestamp, $include_ref_ids, $type_filter);
+	}
+	// mcs-patch end
+	
 }
 
 /*	function  ilClone($sid,$copy_identifier)
