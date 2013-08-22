@@ -149,7 +149,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
 		}
 
-		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
+		if( !$this->getCreationMode() && $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
 		{
 			if( !$this->isValidRequestOnBrokenQuestionSetDepencies($next_class, $cmd) )
 			{
