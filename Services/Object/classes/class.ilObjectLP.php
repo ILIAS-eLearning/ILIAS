@@ -110,6 +110,12 @@ class ilObjectLP
 		$this->collection_instance = null;
 	}
 	
+	public function isAnonymized()
+	{
+		// see ilLPCollectionOfRepositoryObjects::validateEntry()
+		return false;
+	}
+	
 	
 	//
 	// MODE

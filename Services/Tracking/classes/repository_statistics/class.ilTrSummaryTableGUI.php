@@ -67,8 +67,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
 		
 		$this->getItems($a_parent_obj->getObjId(), $a_ref_id);
-		
-		$this->anonymized = (bool)!ilObjUserTracking::_enabledUserRelatedData();
 	}
 
 	function getSelectableColumns()

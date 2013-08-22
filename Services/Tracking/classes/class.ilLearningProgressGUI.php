@@ -167,7 +167,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				}
 				
 				if(!$this->anonymized and 
-				   !$this->isObjectAnonymized() and 
 				   $ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
 				{
 					return 'illplistofobjectsgui';

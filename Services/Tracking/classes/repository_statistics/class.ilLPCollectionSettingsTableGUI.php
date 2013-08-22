@@ -120,7 +120,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("COLL_MODE", "");
 					$this->tpl->setVariable("COLL_MODE_DEACTIVATED", $a_set['mode']);			
 				}
-				if($this->isAnonymized($a_set))
+				if($a_set["anonymized"])
 				{
 					$this->tpl->setVariable("ANONYMIZED", $this->lng->txt('trac_anonymized_info_short'));
 				}
@@ -265,29 +265,6 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			$this->addMultiCommand('groupMaterials', $this->lng->txt('trac_group_materials'));			
 		}
 	}
-
-	/**
-	 * Check if item is anonymized
-	 * @param array item
-	 * @return <type>
-	 */
-	protected function isAnonymized($a_item)
-	{
-		switch($a_item['type'])
-		{
-			case 'tst':
-				include_once './Modules/Test/classes/class.ilObjTest.php';
-
-				if(ilObjTest::_lookupAnonymity($a_item['obj_id']))
-				{
-					return true;
-				}
-				return false;
-
-			default:
-				return false;
-		}
-	}
-
 }
+
 ?>
