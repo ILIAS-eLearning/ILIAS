@@ -122,6 +122,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
 
+		$points->allowDecimals(true);
 		// mbecker: Fix for mantis bug 7866: Predefined values schould make sense.
 		// This implements a default value of "1" for this question type.
 		if($this->object->getPoints() == null)
