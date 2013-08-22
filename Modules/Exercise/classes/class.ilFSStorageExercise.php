@@ -54,6 +54,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 				$this->submission_path = $this->path."/subm_".$this->ass_id;
 				$this->tmp_path = $this->path."/tmp_".$this->ass_id;
 				$this->feedb_path = $this->path."/feedb_".$this->ass_id;
+				$this->multi_feedback_upload_path = $this->path."/mfb_up_".$this->ass_id;
 				$this->path.= "/ass_".$this->ass_id;
 			}
 		}
@@ -126,6 +127,21 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		return $path;
 	}
 
+	/**
+	 * Get multi feedback upload path
+	 * (each uploader handled in a separate path)
+	 */
+	function getMultiFeedbackUploadPath($a_user_id)
+	{
+		$path = $this->multi_feedback_upload_path."/".$a_user_id;
+		if(!file_exists($path))
+		{
+			ilUtil::makeDirParents($path);
+		}
+		return $path;
+	}
+	
+	
 	/**
 	 * Create directory
 	 *

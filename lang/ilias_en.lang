@@ -13714,3 +13714,7 @@ mcst#:#mcst_download_cnt#:#Downloaded
 mcst#:#mcst_play_cnt#:#Played
 glo#:#glo_term#:#Glossary Term
 content#:#glo_add_term_properties#:#Activate Additional Glossary Term Properties
+exc#:#exc_multi_feedback#:#Multi-Feedback
+exc#:#exc_download_zip_structure#:#Download ZIP Structure
+exc#:#exc_multi_feedback_file#:#Multi-Feedback File
+exc#:#exc_multi_feedback_files#:#Multi-Feedback Files

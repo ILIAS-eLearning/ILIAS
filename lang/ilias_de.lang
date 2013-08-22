@@ -13715,3 +13715,7 @@ mcst#:#mcst_download_cnt#:#Downloaded
 mcst#:#mcst_play_cnt#:#Played
 glo#:#glo_term#:#Glossarbegriff
 content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen aktivieren
+exc#:#exc_multi_feedback#:#Multi-Feedback
+exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
+exc#:#exc_multi_feedback_file#:#Multi-Feedback Datei
+exc#:#exc_multi_feedback_files#:#Multi-Feedback Dateien

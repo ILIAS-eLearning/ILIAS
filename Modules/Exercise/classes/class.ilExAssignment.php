@@ -1554,8 +1554,10 @@ class ilExAssignment
 			if (!is_dir($sourcedir))
 				continue;
 			$userName = ilObjUser::_lookupName($id);
-			$directory = ilUtil::getASCIIFilename(trim($userName["lastname"])."_".trim($userName["firstname"]));
-			if (array_key_exists($directory, $cache))
+			//$directory = ilUtil::getASCIIFilename(trim($userName["lastname"])."_".trim($userName["firstname"]));
+			$directory = ilUtil::getASCIIFilename(trim($userName["lastname"])."_".
+				trim($userName["firstname"])."_".trim($userName["login"])."_".$userName["user_id"]);
+			/*if (array_key_exists($directory, $cache))
 			{
 				// first try is to append the login;
 				$directory = ilUtil::getASCIIFilename($directory."_".trim(ilObjUser::_lookupLogin($id)));
@@ -1563,7 +1565,7 @@ class ilExAssignment
 					// second and secure: append the user id as well.
 					$directory .= "_".$id;
 				}
-			}
+			}*/
 
 			$cache[$directory] = $directory;
 			ilUtil::makeDir ($directory);
@@ -1614,7 +1616,7 @@ class ilExAssignment
 		exec($zipcmd);
 		ilUtil::delDir($tmpdir);
 
-		$assTitle = ilExAssignment::lookupTitle($a_ass_id);
+		$assTitle = ilExAssignment::lookupTitle($a_ass_id)."_".$a_ass_id;
 		chdir($cdir);
 		ilUtil::deliverFile($tmpzipfile, (strlen($assTitle) == 0
 			? strtolower($lng->txt("exc_assignment"))
@@ -2626,6 +2628,229 @@ class ilExAssignment
 			" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
 		return true;		
 	}
+	
+	////
+	//// Multi-Feedback
+	////
+
+	/**
+	 * Create member status record for a new assignment for all participants
+	 */
+	function sendMultiFeedbackStructureFile()
+	{
+		global $ilDB;
+		
+		
+		// send and delete the zip file
+		$deliverFilename = trim(str_replace(" ", "_", $this->getTitle()."_".$this->getId()));
+		$deliverFilename = ilUtil::getASCIIFilename($deliverFilename);
+		$deliverFilename = "multi_feedback_".$deliverFilename;
+
+		$exc = new ilObjExercise($this->getExerciseId(), false);
+		
+		$cdir = getcwd();
+		
+		// create temporary directoy
+		$tmpdir = ilUtil::ilTempnam();
+		ilUtil::makeDir($tmpdir);
+		$mfdir = $tmpdir."/".$deliverFilename;
+		ilUtil::makeDir($mfdir);
+		
+		// create subfolders <lastname>_<firstname>_<id> for each participant
+		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
+		$exmem = new ilExerciseMembers($exc);
+		$mems = $exmem->getMembers();
+
+		foreach ($mems as $mem)
+		{
+			$name = ilObjUser::_lookupName($mem);
+			$subdir = $name["lastname"]."_".$name["firstname"]."_".$name["login"]."_".$name["user_id"];
+			$subdir = ilUtil::getASCIIFilename($subdir);
+			ilUtil::makeDir($mfdir."/".$subdir);
+		}
+		
+		// create the zip file
+		chdir($tmpdir);
+		$tmpzipfile = $tmpdir."/multi_feedback.zip";
+		ilUtil::zip($tmpdir, $tmpzipfile, true);
+		chdir($cdir);
+		
+
+		ilUtil::deliverFile($tmpzipfile, $deliverFilename.".zip", "", false, true);
+	}
+	
+	/**
+	 * Upload multi feedback file
+	 *
+	 * @param array 
+	 * @return
+	 */
+	function uploadMultiFeedbackFile($a_file)
+	{
+		global $lng, $ilUser;
+		
+		include_once("./Modules/Exercise/exceptions/class.ilExerciseException.php");
+		if (!is_file($a_file["tmp_name"]))
+		{
+			throw new ilExerciseException($lng->txt("exc_feedback_file_could_not_be_uploaded"));
+		}
+		
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+		$mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
+		ilUtil::delDir($mfu, true);
+		ilUtil::moveUploadedFile($a_file["tmp_name"], "multi_feedback.zip", $mfu."/"."multi_feedback.zip");
+		ilUtil::unzip($mfu."/multi_feedback.zip", true);
+		$subdirs = ilUtil::getDir($mfu);
+		$subdir = "notfound";
+		foreach ($subdirs as $s => $j)
+		{
+			if ($j["type"] == "dir" && substr($s, 0, 14) == "multi_feedback")
+			{
+				$subdir = $s;
+			}
+		}
+
+		if (!is_dir($mfu."/".$subdir))
+		{
+			throw new ilExerciseException($lng->txt("exc_no_feedback_dir_found_in_zip"));
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Get multi feedback files (of uploader)
+	 *
+	 * @param int $a_user_id user id of uploader
+	 * @return array array of user files (keys: lastname, firstname, user_id, login, file)
+	 */
+	function getMultiFeedbackFiles($a_user_id = 0)
+	{
+		global $ilUser;
+		
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		
+		$mf_files = array();
+		
+		// get members
+		$exc = new ilObjExercise($this->getExerciseId(), false);
+		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
+		$exmem = new ilExerciseMembers($exc);
+		$mems = $exmem->getMembers();
+
+		// read mf directory
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+		$mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
+
+		// get subdir that starts with multi_feedback
+		$subdirs = ilUtil::getDir($mfu);
+		$subdir = "notfound";
+		foreach ($subdirs as $s => $j)
+		{
+			if ($j["type"] == "dir" && substr($s, 0, 14) == "multi_feedback")
+			{
+				$subdir = $s;
+			}
+		}
+		
+		$items = ilUtil::getDir($mfu."/".$subdir);
+		foreach ($items as $k => $i)
+		{
+			// check directory
+			if ($i["type"] == "dir" && !in_array($k, array(".", "..")))
+			{
+				// check if valid member id is given
+				$parts = explode("_", $i["entry"]);
+				$user_id = (int) $parts[count($parts) - 1];
+				if (in_array($user_id, $mems))
+				{
+					// read dir of user
+					$name = ilObjUser::_lookupName($user_id);
+					$files = ilUtil::getDir($mfu."/".$subdir."/".$k);
+					foreach ($files as $k2 => $f)
+					{
+						// append files to array
+						if ($f["type"] == "file" && substr($k2, 0, 1) != ".")
+						{
+							$mf_files[] = array(
+								"lastname" => $name["lastname"],
+								"firstname" => $name["firstname"],
+								"login" => $name["login"],
+								"user_id" => $name["user_id"],
+								"full_path" => $mfu."/".$subdir."/".$k."/".$k2,
+								"file" => $k2);
+						}
+					}
+				}
+			}
+		}
+		return $mf_files;
+	}
+	
+	/**
+	 * Clear multi feedback directory
+	 *
+	 * @param array 
+	 * @return
+	 */
+	function clearMultiFeedbackDirectory()
+	{
+		global $lng, $ilUser;
+		
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+		$mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
+		ilUtil::delDir($mfu);
+	}
+	
+	/**
+	 * Save multi feedback files
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveMultiFeedbackFiles($a_files, $a_user_id = 0)
+	{
+		global $ilUser;
+		
+		$exc = new ilObjExercise($this->getExerciseId(), false);
+		
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+		$fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+		$fstorage->create();
+		
+		$mfu = $fstorage->getMultiFeedbackUploadPath($ilUser->getId());
+
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		
+		$mf_files = $this->getMultiFeedbackFiles();
+		foreach ($mf_files as $f)
+		{
+			if ($a_files[$f["user_id"]][$f["file"]] != "")
+			{
+				$fb_path = $fstorage->getFeedbackPath((int) $f["user_id"]);
+				$target = $fb_path."/".$f["file"];
+				if (is_file($target))
+				{
+					unlink($target);
+				}
+				// rename file
+				rename($f["full_path"], $target);
+				$exc->sendFeedbackFileNotification($f["file"], (int) $f["user_id"],
+					(int) $this->getId());
+			}
+		}
+		$this->clearMultiFeedbackDirectory();
+	}
+
 }
 
 ?>
