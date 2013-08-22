@@ -3598,7 +3598,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function showAssignmentTextObject()
 	{
-		global $ilTabs, $ilCtrl, $ilUser, $lng, $tpl;
+		global $ilCtrl, $ilUser, $lng, $tpl;
 		
 		if(!$this->ass || 
 			$this->ass->getType() != ilExAssignment::TYPE_TEXT)	
@@ -3612,31 +3612,22 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if((int)$_GET["grd"])
 		{
 			$this->checkPermission("write");
-									
-			$ilTabs->activateTab("grades");
 			
 			if((int)$_GET["grd"] == 1)
-			{				
-				$this->addSubmissionSubTabs("assignment");			
-				$cancel_cmd = "members";
-				
+			{													
 				$user_id = (int)$_GET["member_id"];				
+				$cancel_cmd = "members";	
 			}
 			else
-			{	
-				$this->addSubmissionSubTabs("participant");		
-				$cancel_cmd = "showParticipant";
-				
-				$user_id = (int)$_GET["part_id"];				
-			}			
+			{			
+				$user_id = (int)$_GET["part_id"];					
+				$cancel_cmd = "showParticipant";		
+			}									
 		}		
 		// peer review
 		else if($this->ass->hasPeerReviewAccess((int)$_GET["member_id"]))
 		{
 			$this->checkPermission("read");		
-																
-			$ilTabs->activateTab("content");
-			$this->addContentSubTabs("content");
 					
 			$user_id = (int)$_GET["member_id"];
 			$cancel_cmd = "editPeerReview";		
@@ -3660,13 +3651,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 		else
 		{
 			$this->checkPermission("read");		
-							
-			$ilTabs->activateTab("content");
-			$this->addContentSubTabs("content");
-		
+			
 			$user_id = $ilUser->getId();
-			$cancel_cmd = null;
+			$cancel_cmd = "showOverview";
 		}
+					
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, $cancel_cmd));		
 		
 		$a_form = $this->initAssignmentTextForm($this->ass, true, $cancel_cmd, $add_rating, $rating);	
 		
@@ -3709,7 +3700,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function editPeerReviewObject()
 	{
-		global $ilCtrl, $ilUser, $ilTabs, $tpl;
+		global $ilCtrl, $ilUser, $tpl;
 				
 		if(!$this->ass || 
 			!$this->ass->getPeerReview() ||
@@ -3720,9 +3711,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 				
 		$this->checkPermission("read");		
-
-		$ilTabs->activateTab("content");
-		$this->addContentSubTabs("content");
+					
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showOverview"));				
 
 		$peer_items = $this->ass->getPeerReviewsByGiver($ilUser->getId());
 		if(!sizeof($peer_items))
@@ -3860,7 +3851,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function showPersonalPeerReviewObject()
 	{
-		global $ilCtrl, $ilTabs, $ilUser, $tpl;
+		global $ilCtrl, $ilUser, $tpl;
 		
 		if(!$this->ass || 
 			!$this->ass->getPeerReview() ||
@@ -3875,35 +3866,28 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->checkPermission("write");
 			
-			$ilTabs->activateTab("grades");
-			
 			if((int)$_GET["grd"] == 1)
-			{				
-				$this->addSubmissionSubTabs("assignment");			
+			{														
+				$user_id = (int)$_GET["member_id"];		
 				$cancel_cmd = "members";
-				
-				$user_id = (int)$_GET["member_id"];				
 			}
 			else
-			{	
-				$this->addSubmissionSubTabs("participant");		
-				$cancel_cmd = "showParticipant";
-				
+			{										
 				$user_id = (int)$_GET["part_id"];				
+				$cancel_cmd = "showParticipant";
 			}
 		}
 		// personal
 		else
 		{
 			$this->checkPermission("read");		
-							
-			$ilTabs->activateTab("content");
-			$this->addContentSubTabs("content");
-		
+			
 			$user_id = $ilUser->getId();
 			$cancel_cmd = "showOverview";
 		}
-		
+					
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, $cancel_cmd));				
 		
 		$peer_items = $this->ass->getPeerReviewsByPeerId($user_id, true);
 		if(!sizeof($peer_items))
