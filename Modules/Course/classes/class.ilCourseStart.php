@@ -227,8 +227,7 @@ class ilCourseStart
 				break;
 			case 'sahs':
 				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
-				$completed = ilLPStatus::_lookupStatus($obj_id, $user_id);
-				if($completed == LP_STATUS_COMPLETED_NUM)
+				if(ilLPStatus::_lookupStatus($obj_id, $user_id) != LP_STATUS_COMPLETED_NUM)
 				{
 					return false;
 				}
