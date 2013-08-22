@@ -82,8 +82,15 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			$rbac_ref_id = $_REQUEST["ref_id"];
+			$rbac_ref_id = $_REQUEST["ref_id"];			
 		}
+		
+		// #11418 - goto
+		if(!$rbac_ref_id)
+		{
+			$rbac_ref_id = $_GET["ref_id"];
+		}
+		
 		if (!$ilAccess->checkAccess("read", "", $rbac_ref_id) && 
 			!$ilAccess->checkAccess("visible", "", $rbac_ref_id))
 		{
@@ -926,6 +933,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
+		
 		if ($ilAccess->checkAccess("write", "", $a_target))
 		{
 			$_GET["baseClass"] = "ilObjSurveyQuestionPoolGUI";
