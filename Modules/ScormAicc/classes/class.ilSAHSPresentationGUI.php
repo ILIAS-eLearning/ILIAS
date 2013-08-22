@@ -180,7 +180,7 @@ class ilSAHSPresentationGUI
 			case "illearningprogressgui":								
 				$this->setInfoTabs("learning_progress");
 				include_once "./Services/Tracking/classes/class.ilLearningProgressGUI.php";
-				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY, $_GET['ref_id']);
+				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $_GET['ref_id']);
 				$this->ctrl->forwardCommand($new_gui);
 				$this->tpl->show();
 				break;

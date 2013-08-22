@@ -64,7 +64,7 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
 			$tmp['type'] = $item['type'];
 			$tmp["status"] = $this->isAssignedEntry($item['obj_id']);
 			
-			if($this->mode == LP_MODE_COLLECTION_TLT)
+			if($this->mode == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
 			{
 				$tmp['tlt'] = $item['tlt'];
 			}

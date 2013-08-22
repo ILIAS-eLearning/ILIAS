@@ -119,8 +119,8 @@ class ilLMExplorer extends ilExplorer
 				
 				include_once './Services/Object/classes/class.ilObjectLP.php';			
 				$olp = ilObjectLP::getInstance($this->lm_obj->getId());	
-				if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL ||
-					$olp->getCurrentMode() == LP_MODE_COLLECTION_TLT)
+				if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL ||
+					$olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
 				{									
 					include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
 					$class = ilLPStatusFactory::_getClassById($this->lm_obj->getId(), $olp->getCurrentMode());					

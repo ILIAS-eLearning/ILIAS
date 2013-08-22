@@ -69,11 +69,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		switch($this->getMode())
 		{
 			// Show only detail of current repository item if called from repository
-			case LP_MODE_REPOSITORY:
+			case self::LP_CONTEXT_REPOSITORY:
 				$this->__initDetails($this->getRefId());
 				return $this->details();
 
-			case LP_MODE_USER_FOLDER:
+			case self::LP_CONTEXT_USER_FOLDER:
 				// if called from user folder obj_id is id of current user
 				$this->__initUser($this->getUserId());
 				break;
@@ -94,9 +94,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->ctrl->setParameter($this,'details_id',(int) $_GET['crs_id']);
 			$this->__showButton($this->ctrl->getLinkTarget($this,'details'),$this->lng->txt('trac_view_crs'));
 		}
-		elseif($this->getMode() == LP_MODE_PERSONAL_DESKTOP or
-			   $this->getMode() == LP_MODE_ADMINISTRATION or
-			   $this->getMode() == LP_MODE_USER_FOLDER)
+		elseif($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP or
+			   $this->getMode() == self::LP_CONTEXT_ADMINISTRATION or
+			   $this->getMode() == self::LP_CONTEXT_USER_FOLDER)
 		{
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
 		}
@@ -187,7 +187,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		}
 		
 		// #8762: see ilObjUserGUI->getTabs()
-		if($this->mode == LP_MODE_USER_FOLDER && $rbacsystem->checkAccess('read',$this->ref_id))
+		if($this->mode == self::LP_CONTEXT_USER_FOLDER && $rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			return true;
 		}

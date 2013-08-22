@@ -15,18 +15,18 @@ class ilLearningModuleLP extends ilObjectLP
 {
 	public function getDefaultMode()
 	{		
-		return LP_MODE_MANUAL;
+		return ilLPObjSettings::LP_MODE_MANUAL;
 	}
 	
 	public function getValidModes()
 	{						
 		return array(
-			LP_MODE_DEACTIVATED,
-			LP_MODE_MANUAL,
-			LP_MODE_COLLECTION_MANUAL,
-			LP_MODE_VISITS,
-			LP_MODE_TLT,
-			LP_MODE_COLLECTION_TLT
+			ilLPObjSettings::LP_MODE_DEACTIVATED,
+			ilLPObjSettings::LP_MODE_MANUAL,
+			ilLPObjSettings::LP_MODE_COLLECTION_MANUAL,
+			ilLPObjSettings::LP_MODE_VISITS,
+			ilLPObjSettings::LP_MODE_TLT,
+			ilLPObjSettings::LP_MODE_COLLECTION_TLT
 		);
 	}		
 }

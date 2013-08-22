@@ -11,28 +11,6 @@
 * @package ilias-tracking
 *
 */
-
-define("LP_MODE_DEACTIVATED",0);
-define("LP_MODE_TLT",1);
-define("LP_MODE_VISITS",2);
-define("LP_MODE_MANUAL",3);
-define("LP_MODE_OBJECTIVES",4);
-define("LP_MODE_COLLECTION",5);
-define("LP_MODE_SCORM",6);
-define("LP_MODE_TEST_FINISHED",7);
-define("LP_MODE_TEST_PASSED",8);
-define("LP_MODE_EXERCISE_RETURNED",9);
-define("LP_MODE_EVENT",10);
-define("LP_MODE_MANUAL_BY_TUTOR",11);
-define("LP_MODE_SCORM_PACKAGE",12);
-define("LP_MODE_UNDEFINED",13);
-define("LP_MODE_PLUGIN",14);
-define("LP_MODE_COLLECTION_TLT", 15);
-define("LP_MODE_COLLECTION_MANUAL", 16);
-
-define("LP_DEFAULT_VISITS",30);
-
-
 class ilLPObjSettings
 {
 	var $db = null;
@@ -43,7 +21,27 @@ class ilLPObjSettings
 	var $visits = null;
 
 	var $is_stored = false;
-	
+		 	
+	const LP_MODE_DEACTIVATED = 0;
+	const LP_MODE_TLT = 1;
+	const LP_MODE_VISITS = 2;
+	const LP_MODE_MANUAL = 3;
+	const LP_MODE_OBJECTIVES = 4;
+	const LP_MODE_COLLECTION = 5;
+	const LP_MODE_SCORM = 6;
+	const LP_MODE_TEST_FINISHED = 7;
+	const LP_MODE_TEST_PASSED = 8;
+	const LP_MODE_EXERCISE_RETURNED = 9;
+	const LP_MODE_EVENT = 10;
+	const LP_MODE_MANUAL_BY_TUTOR = 11;
+	const LP_MODE_SCORM_PACKAGE = 12;
+	const LP_MODE_UNDEFINED = 13;
+	const LP_MODE_PLUGIN = 14;
+	const LP_MODE_COLLECTION_TLT = 15;
+	const LP_MODE_COLLECTION_MANUAL = 16;
+
+	const LP_DEFAULT_VISITS = 30;
+
 	function ilLPObjSettings($a_obj_id)
 	{
 		global $ilObjDataCache, $ilDB;
@@ -85,7 +83,7 @@ class ilLPObjSettings
 
 	function getVisits()
 	{
-		return (int) $this->visits ? $this->visits : LP_DEFAULT_VISITS;
+		return (int) $this->visits ? $this->visits : self::LP_DEFAULT_VISITS;
 	}
 
 	function setVisits($a_visits)
@@ -205,7 +203,7 @@ class ilLPObjSettings
 		{
 			return $row->visits;
 		}
-		return LP_DEFAULT_VISITS;
+		return self::LP_DEFAULT_VISITS;
 	}
 	
 	public static function _lookupDBModeForObjects(array $a_obj_ids)
@@ -249,46 +247,46 @@ class ilLPObjSettings
 
 		switch($a_mode)
 		{
-			case LP_MODE_DEACTIVATED:
+			case self::LP_MODE_DEACTIVATED:
 				return $lng->txt('trac_mode_deactivated');
 
-			case LP_MODE_TLT:
+			case self::LP_MODE_TLT:
 				return $lng->txt('trac_mode_tlt');
 
-			case LP_MODE_VISITS:
+			case self::LP_MODE_VISITS:
 				return $lng->txt('trac_mode_visits');
 				
-			case LP_MODE_MANUAL:
+			case self::LP_MODE_MANUAL:
 				return $lng->txt('trac_mode_manual');
 
-			case LP_MODE_MANUAL_BY_TUTOR:
+			case self::LP_MODE_MANUAL_BY_TUTOR:
 				return $lng->txt('trac_mode_manual_by_tutor');
 
-			case LP_MODE_OBJECTIVES:
+			case self::LP_MODE_OBJECTIVES:
 				return $lng->txt('trac_mode_objectives');
 
-			case LP_MODE_COLLECTION:
+			case self::LP_MODE_COLLECTION:
 				return $lng->txt('trac_mode_collection');
 
-			case LP_MODE_SCORM:
+			case self::LP_MODE_SCORM:
 				return $lng->txt('trac_mode_scorm');
 
-			case LP_MODE_TEST_FINISHED:
+			case self::LP_MODE_TEST_FINISHED:
 				return $lng->txt('trac_mode_test_finished');
 
-			case LP_MODE_TEST_PASSED:
+			case self::LP_MODE_TEST_PASSED:
 				return $lng->txt('trac_mode_test_passed');
 
-			case LP_MODE_EXERCISE_RETURNED:
+			case self::LP_MODE_EXERCISE_RETURNED:
 				return $lng->txt('trac_mode_exercise_returned');
 			
-			case LP_MODE_SCORM_PACKAGE:
+			case self::LP_MODE_SCORM_PACKAGE:
 				return $lng->txt('trac_mode_scorm_package');
 				
-			case LP_MODE_EVENT:
+			case self::LP_MODE_EVENT:
 				return $lng->txt('trac_mode_event');
 				
-			case LP_MODE_PLUGIN:
+			case self::LP_MODE_PLUGIN:
 				return $lng->txt('trac_mode_plugin');
 		}
 	}
@@ -299,44 +297,44 @@ class ilLPObjSettings
 		
 		switch($a_mode)
 		{
-			case LP_MODE_DEACTIVATED:
+			case self::LP_MODE_DEACTIVATED:
 				return $lng->txt('trac_mode_deactivated_info_new');
 
-			case LP_MODE_TLT:
+			case self::LP_MODE_TLT:
 				include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 				return sprintf($lng->txt('trac_mode_tlt_info'), ilObjUserTracking::_getValidTimeSpan());
 
-			case LP_MODE_VISITS:
+			case self::LP_MODE_VISITS:
 				return $lng->txt('trac_mode_visits_info');
 				
-			case LP_MODE_MANUAL:
+			case self::LP_MODE_MANUAL:
 				return $lng->txt('trac_mode_manual_info');
 				
-			case LP_MODE_MANUAL_BY_TUTOR:
+			case self::LP_MODE_MANUAL_BY_TUTOR:
 				return $lng->txt('trac_mode_manual_by_tutor_info');
 
-			case LP_MODE_OBJECTIVES:
+			case self::LP_MODE_OBJECTIVES:
 				return $lng->txt('trac_mode_objectives_info');
 
-			case LP_MODE_COLLECTION:
+			case self::LP_MODE_COLLECTION:
 				return $lng->txt('trac_mode_collection_info');
 
-			case LP_MODE_SCORM:
+			case self::LP_MODE_SCORM:
 				return $lng->txt('trac_mode_scorm_info');
 
-			case LP_MODE_TEST_FINISHED:
+			case self::LP_MODE_TEST_FINISHED:
 				return $lng->txt('trac_mode_test_finished_info');
 
-			case LP_MODE_TEST_PASSED:
+			case self::LP_MODE_TEST_PASSED:
 				return $lng->txt('trac_mode_test_passed_info');
 
-			case LP_MODE_EXERCISE_RETURNED:
+			case self::LP_MODE_EXERCISE_RETURNED:
 				return $lng->txt('trac_mode_exercise_returned_info');
 
-			case LP_MODE_SCORM_PACKAGE:
+			case self::LP_MODE_SCORM_PACKAGE:
 				return $lng->txt('trac_mode_scorm_package_info');
 				
-			case LP_MODE_EVENT:
+			case self::LP_MODE_EVENT:
 				return $lng->txt('trac_mode_event_info');
 		}
 	}

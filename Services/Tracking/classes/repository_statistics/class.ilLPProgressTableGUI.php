@@ -79,7 +79,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("trac_title"), "title", "31%");
 			$this->addColumn($this->lng->txt("status"), "status", "7%");
 			
-			if($this->mode == LP_MODE_SCORM)
+			if($this->mode == ilLPObjSettings::LP_MODE_SCORM)
 			{
 				$this->lng->loadLanguageModule('content');
 				$this->addColumn($this->lng->txt('cont_score'),'score','10%');
@@ -141,16 +141,16 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 			switch($this->mode)
 			{
-				case LP_MODE_SCORM:
+				case ilLPObjSettings::LP_MODE_SCORM:
 					$data = ilTrQuery::getSCOsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id, $obj_ids);
 					break;
 				
-				case LP_MODE_OBJECTIVES:
+				case ilLPObjSettings::LP_MODE_OBJECTIVES:
 					$data = ilTrQuery::getObjectivesStatusForUser($this->tracked_user->getId(), $obj_ids);
 					break;
 				
-				case LP_MODE_COLLECTION_MANUAL:
-				case LP_MODE_COLLECTION_TLT:				
+				case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
+				case ilLPObjSettings::LP_MODE_COLLECTION_TLT:				
 					$data = ilTrQuery::getSubItemsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id, $obj_ids);					
 					break;
 				
@@ -202,7 +202,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("STATUS_ALT", ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 		$this->tpl->setVariable("STATUS_IMG", ilLearningProgressBaseGUI::_getImagePathForStatus($a_set["status"]));
 
-		if($this->mode == LP_MODE_SCORM)
+		if($this->mode == ilLPObjSettings::LP_MODE_SCORM)
 		{
 			$this->tpl->setVariable('SCORE_VAL', $a_set["score"]); 
 		}

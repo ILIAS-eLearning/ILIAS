@@ -81,7 +81,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(LP_MODE_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
+				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 

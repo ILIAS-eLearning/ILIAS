@@ -200,7 +200,7 @@ class ilPersonalDesktopGUI
 				$this->getStandardTemplates();
 				$this->setTabs();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui = new ilLearningProgressGUI(LP_MODE_PERSONAL_DESKTOP,0);
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP,0);
 				$ret =& $this->ctrl->forwardCommand($new_gui);
 				
 				break;		

@@ -676,7 +676,7 @@ class ilLPStatus
 			$existing = ilLPObjSettings::_lookupDBModeForObjects($a_obj_ids);
 			foreach($existing as $obj_id => $obj_mode)
 			{												
-				if($obj_mode != LP_MODE_DEACTIVATED)
+				if($obj_mode != ilLPObjSettings::LP_MODE_DEACTIVATED)
 				{
 					$valid[$obj_id] = $obj_id;
 				}
@@ -689,12 +689,12 @@ class ilLPStatus
 				{
 					$olp = ilObjectLP::getInstance($obj_id);
 					$mode = $olp->getCurrentMode();
-					if($mode == LP_MODE_DEACTIVATED)
+					if($mode == ilLPObjSettings::LP_MODE_DEACTIVATED)
 					{
 						// #11141
 						unset($valid[$obj_id]);
 					}
-					else if($mode != LP_MODE_UNDEFINED)
+					else if($mode != ilLPObjSettings::LP_MODE_UNDEFINED)
 					{
 						$valid[$obj_id] = $obj_id;
 					}

@@ -926,7 +926,7 @@ class ilInfoScreenGUI
 			
 		include_once './Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($this->gui_object->object->getId());				
-		if($olp->getCurrentMode() != LP_MODE_MANUAL)
+		if($olp->getCurrentMode() != ilLPObjSettings::LP_MODE_MANUAL)
 		{
 			return false;
 		}

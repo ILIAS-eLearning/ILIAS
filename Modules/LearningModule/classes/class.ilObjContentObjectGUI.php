@@ -78,7 +78,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$this->setTabs("learning_progress");
 
-				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
+				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());
 				$new_gui->activateStatistics();
 				$this->ctrl->forwardCommand($new_gui);
 
@@ -2278,13 +2278,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{			
 			include_once './Services/Object/classes/class.ilObjectLP.php';
 			$olp = ilObjectLP::getInstance($this->object->getId());			
-			if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL)
+			if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL)
 			{
 				$tabs_gui->$addcmd("learning_progress", 
 					$this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "editmanual"),
 						"", "", $buttonTarget, $active["learning_progress"]);
 			}
-			else if($olp->getCurrentMode() == LP_MODE_COLLECTION_TLT)
+			else if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
 			{
 				$tabs_gui->$addcmd("learning_progress", 
 					$this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "showtlt"),

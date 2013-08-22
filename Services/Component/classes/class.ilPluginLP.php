@@ -50,14 +50,14 @@ class ilPluginLP extends ilObjectLP
 	
 	public function getDefaultMode()
 	{		
-		return LP_MODE_UNDEFINED;
+		return ilLPObjSettings::LP_MODE_UNDEFINED;
 	}
 	
 	public function getValidModes()
 	{						
 		return array(		
-			LP_MODE_UNDEFINED,
-			LP_MODE_PLUGIN
+			ilLPObjSettings::LP_MODE_UNDEFINED,
+			ilLPObjSettings::LP_MODE_PLUGIN
 		);		
 	}	
 	
@@ -65,9 +65,9 @@ class ilPluginLP extends ilObjectLP
 	{		
 		if($this->status !== null)
 		{
-			return LP_MODE_PLUGIN;
+			return ilLPObjSettings::LP_MODE_PLUGIN;
 		}		
-		return LP_MODE_UNDEFINED;
+		return ilLPObjSettings::LP_MODE_UNDEFINED;
 	}
 }
 

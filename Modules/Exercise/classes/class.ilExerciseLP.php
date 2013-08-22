@@ -15,14 +15,14 @@ class ilExerciseLP extends ilObjectLP
 {
 	public function getDefaultMode()
 	{		
-		return LP_MODE_EXERCISE_RETURNED;
+		return ilLPObjSettings::LP_MODE_EXERCISE_RETURNED;
 	}
 	
 	public function getValidModes()
 	{				
 		return array(
-			LP_MODE_DEACTIVATED,
-			LP_MODE_EXERCISE_RETURNED
+			ilLPObjSettings::LP_MODE_DEACTIVATED,
+			ilLPObjSettings::LP_MODE_EXERCISE_RETURNED
 		);
 	}		
 }
