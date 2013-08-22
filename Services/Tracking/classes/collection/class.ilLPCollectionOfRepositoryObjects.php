@@ -53,7 +53,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 					
 					// avoid recursion
 					if($item_ref_id == $a_ref_id ||
-						!$this->validateEntry($item_ref_id))
+						!$this->validateEntry($item_ref_id, $node['type']))
 					{
 						continue;
 					}
@@ -119,14 +119,20 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 		return self::$possible_items[$cache_idx];
 	}			
 	
-	protected function validateEntry($a_item_ref_id)
-	{				
-		// Check anonymized
-		$item_obj_id = ilObject::_lookupObjId($a_item_ref_id);
-		if(ilObject::_lookupType($item_obj_id) == 'tst')
+	protected function validateEntry($a_item_ref_id, $a_item_type = null)
+	{								
+		if(!$a_item_type)
 		{
-			include_once './Modules/Test/classes/class.ilObjTest.php';
-			if(ilObjTest::_lookupAnonymity($item_obj_id))
+			$a_item_type = ilObject::_lookupType($a_item_ref_id, true);
+		}
+		
+		// this is hardcoded so we do not need to call all ObjectLP types
+		if($a_item_type == 'tst')
+		{
+			// Check anonymized
+			$item_obj_id = ilObject::_lookupObjId($a_item_ref_id);
+			$olp = ilObjectLP::getInstance($item_obj_id);
+			if($olp->isAnonymized())
 			{
 				return false;
 			}
@@ -149,7 +155,8 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 		$ref_id = end($ref_ids);
 		$possible = $this->getPossibleItems($ref_id);
 		
-		$res = $ilDB->query("SELECT item_id FROM ut_lp_collections utc".
+		$res = $ilDB->query("SELECT utc.item_id, obd.type".
+			" FROM ut_lp_collections utc".
 			" JOIN object_reference obr ON item_id = ref_id".
 			" JOIN object_data obd ON obr.obj_id = obd.obj_id".
 			" WHERE utc.obj_id = ".$ilDB->quote($this->obj_id, "integer").
@@ -158,7 +165,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(in_array($row->item_id, $possible) &&
-				$this->validateEntry($row->item_id))
+				$this->validateEntry($row->item_id, $row->type))
 			{
 				$items[] = $row->item_id;
 			}
@@ -412,6 +419,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 		$olp = ilObjectLP::getInstance($a_item['obj_id']);
 		$table_item['mode_id'] = $olp->getCurrentMode();
 		$table_item['mode'] = $olp->getModeText($table_item['mode_id']);	
+		$table_item['anonymized'] = $olp->isAnonymized();
 		
 		return $table_item;
 	}

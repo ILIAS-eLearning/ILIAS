@@ -15,6 +15,7 @@ include_once  './Services/Search/classes/class.ilSearchSettings.php';
 class ilLPTableBaseGUI extends ilTable2GUI
 {
 	protected $filter; // array
+	protected $anonymized; // [bool]
 
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
 	{
@@ -24,6 +25,14 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule("meta");
 		
 		include_once("./Services/Object/classes/class.ilObjectLP.php");
+		
+		$this->anonymized = (bool)!ilObjUserTracking::_enabledUserRelatedData();
+		if(!$this->anonymized && $this->obj_id)
+		{
+			include_once "Services/Object/classes/class.ilObjectLP.php";
+			$olp = ilObjectLP::getInstance($this->obj_id);
+			$this->anonymized = $olp->isAnonymized();
+		}
 	}
 
 	public function executeCommand()
@@ -821,14 +830,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	{
 		global $lng, $ilSetting;
 		
-		$cols = $privacy_fields = array();
-		
-		$anonymized_object = false;
-		include_once './Modules/Test/classes/class.ilObjTest.php';
-		if(ilObjTest::_lookupAnonymity($this->obj_id))
-		{
-			$anonymized_object = true;
-		}
+		$cols = $privacy_fields = array();	
 		
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
@@ -841,7 +843,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			"txt" => $lng->txt("login"),
 			"default" => true);
 
-		if(!$anonymized_object)
+		if(!$this->anonymized)
 		{
 			$cols["firstname"] = array(
 				"txt" => $lng->txt("firstname"),
@@ -915,7 +917,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			"default" => false);
 
 	    // add user data only if object is [part of] course
-		if(!$anonymized_object && 
+		if(!$this->anonymized && 
 			($a_in_course || $a_in_group))
 		{						
 			// only show if export permission is granted

@@ -24,7 +24,13 @@ class ilTestLP extends ilObjectLP
 			ilLPObjSettings::LP_MODE_TEST_FINISHED, 
 			ilLPObjSettings::LP_MODE_TEST_PASSED
 		);
-	}		
+	}	
+	
+	public function isAnonymized()
+	{
+		include_once './Modules/Test/classes/class.ilObjTest.php';
+		return (bool)ilObjTest::_lookupAnonymity($this->obj_id);
+	}
 }
 
 ?>

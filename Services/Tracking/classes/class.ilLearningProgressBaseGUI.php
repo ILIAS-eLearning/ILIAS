@@ -22,13 +22,12 @@ class ilLearningProgressBaseGUI
 {
 	var $tpl = null;
 	var $ctrl = null;
-	var $lng = null;
-
+	var $lng = null;	
 	var $ref_id = 0;
-
-	var $mode = 0;
-	
+	var $mode = 0;	
 	var $statistics_activated = false;	// show sub tab for access statistics
+	
+	protected $anonymized;
 	
 	const LP_CONTEXT_PERSONAL_DESKTOP = 1;
 	const LP_CONTEXT_ADMINISTRATION = 2;
@@ -63,7 +62,13 @@ class ilLearningProgressBaseGUI
 		$this->obj_type = $ilObjDataCache->lookupType($this->obj_id);
 		$this->usr_id = $a_usr_id;
 
-		$this->anonymized = (bool) !ilObjUserTracking::_enabledUserRelatedData();
+		$this->anonymized = (bool)!ilObjUserTracking::_enabledUserRelatedData();
+		if(!$this->anonymized && $this->obj_id)
+		{
+			include_once "Services/Object/classes/class.ilObjectLP.php";
+			$olp = ilObjectLP::getInstance($this->obj_id);
+			$this->anonymized = $olp->isAnonymized();
+		}
 	}
 
 	function isAnonymized()
@@ -71,22 +76,6 @@ class ilLearningProgressBaseGUI
 		return $this->anonymized;
 	}
 
-	function isObjectAnonymized()
-	{
-		switch($this->obj_type)
-		{
-			case 'tst':
-				include_once './Modules/Test/classes/class.ilObjTest.php';
-				if(ilObjTest::_lookupAnonymity($this->obj_id))
-				{
-					return true;
-				}
-			default:
-				return false;
-		}
-		return false;
-	}
-	
 	function getMode()
 	{
 		return $this->mode;
@@ -162,7 +151,7 @@ class ilLearningProgressBaseGUI
 
 				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
 				{
-					if($this->isAnonymized() || $this->isObjectAnonymized())
+					if($this->isAnonymized())
 					{
 						$this->ctrl->setParameterByClass('illplistofprogressgui','user_id',$this->getUserId());
 						$this->tabs_gui->addSubTabTarget('trac_progress',
