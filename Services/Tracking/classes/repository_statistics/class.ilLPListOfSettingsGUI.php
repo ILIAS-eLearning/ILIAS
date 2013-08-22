@@ -89,7 +89,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			$mod->addOption($opt);
 
 			// :TODO: Subitem for visits ?!
-			if($mode_key == LP_MODE_VISITS)
+			if($mode_key == ilLPObjSettings::LP_MODE_VISITS)
 			{
 				$vis = new ilNumberInputGUI($this->lng->txt('trac_visits'), 'visits');
 				$vis->setSize(3);
@@ -126,7 +126,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			// visits
 			$new_visits = null;
 			$visits_changed = null;
-			if($new_mode == LP_MODE_VISITS)
+			if($new_mode == ilLPObjSettings::LP_MODE_VISITS)
 			{				
 				$new_visits = (int)$form->getInput('visits');	
 				$old_visits = $this->obj_settings->getVisits();

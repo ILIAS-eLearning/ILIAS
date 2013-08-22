@@ -147,8 +147,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 
 		// Show back button
-		if($this->getMode() == LP_MODE_PERSONAL_DESKTOP or
-		   $this->getMode() == LP_MODE_ADMINISTRATION)
+		if($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP or
+		   $this->getMode() == self::LP_CONTEXT_ADMINISTRATION)
 		{
 			$print_view = false;
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
@@ -261,7 +261,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		// Show only detail of current repository item if called from repository
 		switch($this->getMode())
 		{
-			case LP_MODE_REPOSITORY:
+			case self::LP_CONTEXT_REPOSITORY:
 				$this->__initDetails($this->getRefId());
 				$this->details();
 				return true;

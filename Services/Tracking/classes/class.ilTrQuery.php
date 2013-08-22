@@ -43,7 +43,7 @@ class ilTrQuery
 				" LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)".
 				" LEFT JOIN read_event ON (read_event.obj_id = object_data.obj_id AND read_event.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
 				" LEFT JOIN ut_lp_marks ON (ut_lp_marks.obj_id = object_data.obj_id AND ut_lp_marks.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
-				// " WHERE (u_mode IS NULL OR u_mode <> ".$ilDB->quote(LP_MODE_DEACTIVATED, "integer").")".
+				// " WHERE (u_mode IS NULL OR u_mode <> ".$ilDB->quote(ilLPObjSettings::LP_MODE_DEACTIVATED, "integer").")".
 				" WHERE ".$ilDB->in("object_data.obj_id", $obj_ids, false, "integer").
 				" ORDER BY title";
 			$set = $ilDB->query($query);
@@ -70,7 +70,7 @@ class ilTrQuery
 				// lp mode might not match object/course view mode
 				if($rec["type"] == "crs" && $view_modes[$rec["obj_id"]] == IL_CRS_VIEW_OBJECTIVE)
 				{
-					$rec["u_mode"] = LP_MODE_OBJECTIVES;
+					$rec["u_mode"] = ilLPObjSettings::LP_MODE_OBJECTIVES;
 				}
 				else if(!$rec["u_mode"])
 				{
@@ -79,7 +79,7 @@ class ilTrQuery
 				}
 
 				// can be default mode
-				if(/*$rec["u_mode"] != LP_MODE_DEACTIVATE*/ true)
+				if(/*$rec["u_mode"] != ilLPObjSettings::LP_MODE_DEACTIVATE*/ true)
 				{
 					$result[] = $rec;
 				}
@@ -887,7 +887,7 @@ class ilTrQuery
 
 			case "tst":
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$class = ilLPStatusFactory::_getClassById($obj_id, LP_MODE_TEST_FINISHED);
+				$class = ilLPStatusFactory::_getClassById($obj_id, ilLPObjSettings::LP_MODE_TEST_FINISHED);
 				$a_users = $class::getParticipants($obj_id);
 				break;
 			
@@ -1225,28 +1225,28 @@ class ilTrQuery
 		switch($mode)
 		{
 			// what about LP_MODE_SCORM_PACKAGE ?
-			case LP_MODE_SCORM:
+			case ilLPObjSettings::LP_MODE_SCORM:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$status_scorm = ilLPStatusFactory::_getInstance($a_parent_obj_id, LP_MODE_SCORM);
+				$status_scorm = ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_SCORM);
 				$scorm = $status_scorm->_getStatusInfo($a_parent_obj_id);
 				break;
 			
-			case LP_MODE_OBJECTIVES:				
+			case ilLPObjSettings::LP_MODE_OBJECTIVES:				
 				if(ilObject::_lookupType($a_parent_obj_id) == "crs")
 				{
 					$objectives_parent_id = $a_parent_obj_id;
 				}
 				break;
 				
-			case LP_MODE_COLLECTION_MANUAL:
+			case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$status_coll_man = ilLPStatusFactory::_getInstance($a_parent_obj_id, LP_MODE_COLLECTION_MANUAL);
+				$status_coll_man = ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_COLLECTION_MANUAL);
 				$subitems = $status_coll_man->_getStatusInfo($a_parent_obj_id);
 				break;
 				
-			case LP_MODE_COLLECTION_TLT:
+			case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$status_coll_tlt = ilLPStatusFactory::_getInstance($a_parent_obj_id, LP_MODE_COLLECTION_TLT);
+				$status_coll_tlt = ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_COLLECTION_TLT);
 				$subitems = $status_coll_tlt->_getStatusInfo($a_parent_obj_id);
 				break;
 				
@@ -1322,7 +1322,7 @@ class ilTrQuery
 				$cmode = $olp->getCurrentMode();
 				
 				/* see ilPluginLP
-				if($cmode == LP_MODE_PLUGIN)
+				if($cmode == ilLPObjSettings::LP_MODE_PLUGIN)
 				{
 					// #11368
 					include_once "Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php";	
@@ -1334,7 +1334,7 @@ class ilTrQuery
 				} 
 				*/
 				
-				if(/* $cmode != LP_MODE_DEACTIVATED && */ $cmode != LP_MODE_UNDEFINED)
+				if(/* $cmode != ilLPObjSettings::LP_MODE_DEACTIVATED && */ $cmode != ilLPObjSettings::LP_MODE_UNDEFINED)
 				{
 					$a_object_ids[] = $child["obj_id"];
 					$a_ref_ids[$child["obj_id"]] = $child["ref_id"];

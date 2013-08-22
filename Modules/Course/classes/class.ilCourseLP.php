@@ -17,21 +17,21 @@ class ilCourseLP extends ilObjectLP
 	{
 		if($this->checkObjectives())
 		{
-			return LP_MODE_OBJECTIVES;
+			return ilLPObjSettings::LP_MODE_OBJECTIVES;
 		}
-		return LP_MODE_MANUAL_BY_TUTOR;
+		return ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR;
 	}
 	
 	public function getValidModes()
 	{		
 		if($this->checkObjectives())
 		{
-			return array(LP_MODE_OBJECTIVES);
+			return array(ilLPObjSettings::LP_MODE_OBJECTIVES);
 		}
 		return array(
-			LP_MODE_DEACTIVATED,
-			LP_MODE_MANUAL_BY_TUTOR, 
-			LP_MODE_COLLECTION
+			ilLPObjSettings::LP_MODE_DEACTIVATED,
+			ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR, 
+			ilLPObjSettings::LP_MODE_COLLECTION
 		);
 	}	
 	
@@ -39,7 +39,7 @@ class ilCourseLP extends ilObjectLP
 	{
 		if($this->checkObjectives())
 		{
-			return LP_MODE_OBJECTIVES;
+			return ilLPObjSettings::LP_MODE_OBJECTIVES;
 		}
 		return parent::getCurrentMode();
 	}

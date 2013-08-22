@@ -14,15 +14,15 @@ class ilTestLP extends ilObjectLP
 {
 	public function getDefaultMode()
 	{		
-		return LP_MODE_TEST_PASSED;
+		return ilLPObjSettings::LP_MODE_TEST_PASSED;
 	}
 	
 	public function getValidModes()
 	{				
 		return array(
-			LP_MODE_DEACTIVATED,
-			LP_MODE_TEST_FINISHED, 
-			LP_MODE_TEST_PASSED
+			ilLPObjSettings::LP_MODE_DEACTIVATED,
+			ilLPObjSettings::LP_MODE_TEST_FINISHED, 
+			ilLPObjSettings::LP_MODE_TEST_PASSED
 		);
 	}		
 }

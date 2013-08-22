@@ -2329,7 +2329,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{	
 			include_once './Services/Object/classes/class.ilObjectLP.php';
 			$olp = ilObjectLP::getInstance($this->object->getId());
-			if($olp->getCurrentMode() == LP_MODE_MANUAL_BY_TUTOR)
+			if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR)
 			{
 				include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 				$marks = new ilLPMarks($this->object->getId(), $a_member_id);
@@ -4301,7 +4301,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
-				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,
+				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 													  $this->object->getRefId(),
 													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);

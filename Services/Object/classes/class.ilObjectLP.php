@@ -117,7 +117,7 @@ class ilObjectLP
 	
 	public function getDefaultMode()
 	{
-		return LP_MODE_UNDEFINED;
+		return ilLPObjSettings::LP_MODE_UNDEFINED;
 	}
 	
 	public function getValidModes()
@@ -145,8 +145,8 @@ class ilObjectLP
 		// :TODO: check LP activation?
 		
 		$mode = $this->getCurrentMode();
-		if($mode == LP_MODE_DEACTIVATED || 
-			$mode == LP_MODE_UNDEFINED)
+		if($mode == ilLPObjSettings::LP_MODE_DEACTIVATED || 
+			$mode == ilLPObjSettings::LP_MODE_UNDEFINED)
 		{
 			return false;
 		}
@@ -180,24 +180,24 @@ class ilObjectLP
 			$mode = $this->getCurrentMode();		
 			switch($mode)
 			{
-				case LP_MODE_COLLECTION:
-				case LP_MODE_MANUAL_BY_TUTOR:		
+				case ilLPObjSettings::LP_MODE_COLLECTION:
+				case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:		
 					include_once $path."class.ilLPCollectionOfRepositoryObjects.php";
 					$this->collection_instance = new ilLPCollectionOfRepositoryObjects($this->obj_id, $mode);		
 					break;
 
-				case LP_MODE_OBJECTIVES:
+				case ilLPObjSettings::LP_MODE_OBJECTIVES:
 					include_once $path."class.ilLPCollectionOfObjectives.php";
 					$this->collection_instance = new ilLPCollectionOfObjectives($this->obj_id, $mode);		
 					break;
 
-				case LP_MODE_SCORM:	
+				case ilLPObjSettings::LP_MODE_SCORM:	
 					include_once $path."class.ilLPCollectionOfSCOs.php";
 					$this->collection_instance = new ilLPCollectionOfSCOs($this->obj_id, $mode);		
 					break;
 
-				case LP_MODE_COLLECTION_MANUAL:	
-				case LP_MODE_COLLECTION_TLT:	
+				case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:	
+				case ilLPObjSettings::LP_MODE_COLLECTION_TLT:	
 					include_once $path."class.ilLPCollectionofLMChapters.php";
 					$this->collection_instance = new ilLPCollectionofLMChapters($this->obj_id, $mode);	
 					break;

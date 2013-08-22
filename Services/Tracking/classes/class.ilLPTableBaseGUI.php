@@ -558,8 +558,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		// :TODO:
 		$olp = ilObjectLP::getInstance($a_obj_id);
 		$mode = $olp->getCurrentMode();
-		if(in_array($mode, array(LP_MODE_TLT, LP_MODE_VISITS, LP_MODE_OBJECTIVES, LP_MODE_SCORM,
-			LP_MODE_TEST_PASSED)))
+		if(in_array($mode, array(ilLPObjSettings::LP_MODE_TLT, 
+			ilLPObjSettings::LP_MODE_VISITS, 
+			ilLPObjSettings::LP_MODE_OBJECTIVES, 
+			ilLPObjSettings::LP_MODE_SCORM,
+			ilLPObjSettings::LP_MODE_TEST_PASSED)))
 		{
 			return true;
 		}

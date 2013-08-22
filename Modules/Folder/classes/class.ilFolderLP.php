@@ -15,14 +15,14 @@ class ilFolderLP extends ilObjectLP
 {
 	public function getDefaultMode()
 	{		
-		return LP_MODE_DEACTIVATED;
+		return ilLPObjSettings::LP_MODE_DEACTIVATED;
 	}
 	
 	public function getValidModes()
 	{				
 		return array(
-			LP_MODE_DEACTIVATED,
-			LP_MODE_COLLECTION
+			ilLPObjSettings::LP_MODE_DEACTIVATED,
+			ilLPObjSettings::LP_MODE_COLLECTION
 		);
 	}		
 }

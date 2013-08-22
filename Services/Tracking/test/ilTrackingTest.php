@@ -115,7 +115,7 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 		$comment = ilLPMarks::_lookupComment(888,999);
 		$this->assertEquals($comment,'Weiter so');
 		
-		$class = ilLPStatusFactory::_getClassById(999, LP_MODE_MANUAL);
+		$class = ilLPStatusFactory::_getClassById(999, ilLPObjSettings::LP_MODE_MANUAL);
 		$completed = $class::_getCompleted(999);
 		$this->assertEquals(array(888),$completed);
 		

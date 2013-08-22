@@ -100,7 +100,7 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 				if($user_id = $_GET["obj_id"]){
 					$this->ctrl->saveParameterByClass("illearningprogressgui", "obj_id");
 					$this->ctrl->saveParameterByClass("illearningprogressgui", "recursive");
-					$did = new ilLearningProgressGUI(LP_MODE_USER_FOLDER,USER_FOLDER_ID, $user_id);
+					$did = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER,USER_FOLDER_ID, $user_id);
 					$this->ctrl->forwardCommand($did);
 				}
 				break;

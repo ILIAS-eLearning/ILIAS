@@ -59,13 +59,13 @@ class ilCourseAppEventListener
 				// we are NOT using the members object because of performance issues
 				switch(self::$course_mode[$obj_id])
 				{
-					case LP_MODE_MANUAL_BY_TUTOR:
+					case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:
 						include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 						ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed, $ilUser->getId());						    										
 						break;
 
-					case LP_MODE_COLLECTION:
-					case LP_MODE_OBJECTIVES:
+					case ilLPObjSettings::LP_MODE_COLLECTION:
+					case ilLPObjSettings::LP_MODE_OBJECTIVES:
 						if($is_completed)
 						{
 							include_once "Modules/Course/classes/class.ilCourseParticipants.php";

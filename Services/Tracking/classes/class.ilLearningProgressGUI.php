@@ -42,7 +42,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				
 				$ilHelp->setScreenIdComponent("lp");
 
-				$this->__setSubTabs(LP_ACTIVE_PROGRESS);
+				$this->__setSubTabs(self::LP_ACTIVE_PROGRESS);
 				$this->__setCmdClass('illplistofprogressgui');
 				$lop_gui = new ilLPListOfProgressGUI($this->getMode(),$this->getRefId(),$this->getUserId());
 				$this->ctrl->forwardCommand($lop_gui);
@@ -52,15 +52,15 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php';
 				if(stristr($this->ctrl->getCmd(), "matrix"))
 				{
-					$this->__setSubTabs(LP_ACTIVE_MATRIX);
+					$this->__setSubTabs(self::LP_ACTIVE_MATRIX);
 				}
 				else if(stristr($this->ctrl->getCmd(), "summary"))
 				{
-					$this->__setSubTabs(LP_ACTIVE_SUMMARY);
+					$this->__setSubTabs(self::LP_ACTIVE_SUMMARY);
 				}
 				else
 				{
-					$this->__setSubTabs(LP_ACTIVE_OBJECTS);
+					$this->__setSubTabs(self::LP_ACTIVE_OBJECTS);
 				}
 				$loo_gui = new ilLPListOfObjectsGUI($this->getMode(),$this->getRefId());
 				$this->__setCmdClass('illplistofobjectsgui');
@@ -70,7 +70,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			case 'illplistofsettingsgui':
 				include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php';
 
-				$this->__setSubTabs(LP_ACTIVE_SETTINGS);
+				$this->__setSubTabs(self::LP_ACTIVE_SETTINGS);
 				$los_gui = new ilLPListOfSettingsGUI($this->getMode(),$this->getRefId());
 				$this->__setCmdClass('illplistofsettingsgui');
 				$this->ctrl->forwardCommand($los_gui);
@@ -79,7 +79,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			case 'illmstatisticsgui':
 				include_once 'Services/Tracking/classes/class.ilLMStatisticsGUI.php';
 
-				$this->__setSubTabs(LP_ACTIVE_LM_STATISTICS);
+				$this->__setSubTabs(self::LP_ACTIVE_LM_STATISTICS);
 				$los_gui = new ilLMStatisticsGUI($this->getMode(),$this->getRefId());
 				$this->__setCmdClass('illmstatisticsgui');
 				$this->ctrl->forwardCommand($los_gui);
@@ -89,19 +89,19 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				include_once 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php';
 				if(stristr($this->ctrl->getCmd(), "access"))
 				{
-					$this->__setSubTabs(LP_ACTIVE_OBJSTATACCESS);
+					$this->__setSubTabs(self::LP_ACTIVE_OBJSTATACCESS);
 				}
 				else if(stristr($this->ctrl->getCmd(), "types"))
 				{
-					$this->__setSubTabs(LP_ACTIVE_OBJSTATTYPES);
+					$this->__setSubTabs(self::LP_ACTIVE_OBJSTATTYPES);
 				}
 				else if(stristr($this->ctrl->getCmd(), "daily"))
 				{
-					$this->__setSubTabs(LP_ACTIVE_OBJSTATDAILY);
+					$this->__setSubTabs(self::LP_ACTIVE_OBJSTATDAILY);
 				}
 				else
 				{
-					$this->__setSubTabs(LP_ACTIVE_OBJSTATADMIN);
+					$this->__setSubTabs(self::LP_ACTIVE_OBJSTATADMIN);
 				}
 				$this->__setCmdClass('illpobjectstatisticsgui');
 				$ost_gui = new ilLPObjectStatisticsGUI($this->getMode(),$this->getRefId());
@@ -148,7 +148,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 		if(strlen($next_class = $this->ctrl->getNextClass()))
 		{
-			if($this->getMode() == LP_MODE_PERSONAL_DESKTOP)
+			if($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP)
 			{
 				$_SESSION['il_lp_history'] = $next_class;
 			}
@@ -156,10 +156,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		}
 		switch($this->getMode())
 		{
-			case LP_MODE_ADMINISTRATION:
+			case self::LP_CONTEXT_ADMINISTRATION:
 				return 'illplistofobjectsgui';
 
-			case LP_MODE_REPOSITORY:
+			case self::LP_CONTEXT_REPOSITORY:
 				$cmd = $this->ctrl->getCmd();
 				if(in_array($cmd, array("editmanual", "updatemanual", "showtlt")))
 				{
@@ -174,7 +174,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				}
 				return 'illplistofprogressgui';
 
-			case LP_MODE_PERSONAL_DESKTOP:
+			case self::LP_CONTEXT_PERSONAL_DESKTOP:
 								
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");			
 				$has_edit = ilObjUserTracking::_hasLearningProgressOtherUsers();		
@@ -224,7 +224,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				// should not happen
 				ilUtil::redirect("ilias.php?baseClass=ilPersonalDesktopGUI");
 				
-			case LP_MODE_USER_FOLDER:
+			case self::LP_CONTEXT_USER_FOLDER:
 				if(ilObjUserTracking::_enabledUserRelatedData())
 				{
 					return 'illplistofprogressgui';
@@ -241,7 +241,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		{					
 			include_once './Services/Object/classes/class.ilObjectLP.php';
 			$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));			
-			if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL)
+			if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL)
 			{
 				$form = $this->initCollectionManualForm();				
 				$tpl->setContent($form->getHTML());							
@@ -279,7 +279,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		}
 		
 		include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-		$class = ilLPStatusFactory::_getClassById($this->getObjId(), LP_MODE_COLLECTION_MANUAL);							
+		$class = ilLPStatusFactory::_getClassById($this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_MANUAL);							
 		$lp_data = $class::_getObjectStatus($this->getObjId(), $this->usr_id);
 				
 		$grp = new ilCheckboxGroupInputGUI($subitem_title, "sids");
@@ -336,13 +336,13 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		{			
 			include_once './Services/Object/classes/class.ilObjectLP.php';
 			$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));			
-			if($olp->getCurrentMode() == LP_MODE_COLLECTION_MANUAL)
+			if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL)
 			{
 				$form = $this->initCollectionManualForm();			
 				if($form->checkInput())
 				{
 					include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-					$class = ilLPStatusFactory::_getClassById($this->getObjId(), LP_MODE_COLLECTION_MANUAL);							
+					$class = ilLPStatusFactory::_getClassById($this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_MANUAL);							
 					$class::_setObjectStatus($this->getObjId(), $this->usr_id, $form->getInput("sids"));
 					
 					ilUtil::sendSuccess($lng->txt("settings_saved"), true);
@@ -375,7 +375,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		}
 			
 		include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-		$class = ilLPStatusFactory::_getClassById($this->getObjId(), LP_MODE_COLLECTION_TLT);			
+		$class = ilLPStatusFactory::_getClassById($this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_TLT);			
 		$info = $class::_getStatusInfo($this->getObjId(), true);
 		
 		foreach($coll_items as $item_id)

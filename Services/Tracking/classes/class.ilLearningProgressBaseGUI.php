@@ -1,60 +1,23 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-/**
-* Class ilObjUserTrackingGUI
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @package ilias-tracking
-*
-*/
-
-define("LP_MODE_PERSONAL_DESKTOP",1);
-define("LP_MODE_ADMINISTRATION",2);
-define("LP_MODE_REPOSITORY",3);
-define("LP_MODE_USER_FOLDER",4);
-
-define("LP_ACTIVE_SETTINGS",1);
-define("LP_ACTIVE_OBJECTS",2);
-define("LP_ACTIVE_PROGRESS",3);
-define("LP_ACTIVE_LM_STATISTICS",4);
-define("LP_ACTIVE_USERS",5);
-define("LP_ACTIVE_SUMMARY",6);
-define("LP_ACTIVE_OBJSTATACCESS",7);
-define("LP_ACTIVE_OBJSTATTYPES",8);
-define("LP_ACTIVE_OBJSTATDAILY",9);
-define("LP_ACTIVE_OBJSTATADMIN",10);
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
-/* Base class for all Learning progress gui classes.
+/**
+ * Class ilObjUserTrackingGUI
+ * 
+ * Base class for all Learning progress gui classes.
  * Defines modes for presentation according to the context in which it was called
- * E.g: mode LP_MODE_PERSONAL_DESKTOP displays only listOfObjects.
+ * E.g: mode LP_CONTEXT_PERSONAL_DESKTOP displays only listOfObjects.
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ *
+ * @version $Id$
+ *
+ * @package ilias-tracking
+ *
  */
-
 class ilLearningProgressBaseGUI 
 {
 	var $tpl = null;
@@ -66,6 +29,23 @@ class ilLearningProgressBaseGUI
 	var $mode = 0;
 	
 	var $statistics_activated = false;	// show sub tab for access statistics
+	
+	const LP_CONTEXT_PERSONAL_DESKTOP = 1;
+	const LP_CONTEXT_ADMINISTRATION = 2;
+	const LP_CONTEXT_REPOSITORY = 3;
+	const LP_CONTEXT_USER_FOLDER = 4;
+	
+	const LP_ACTIVE_SETTINGS = 1;
+	const LP_ACTIVE_OBJECTS = 2;
+	const LP_ACTIVE_PROGRESS = 3;
+	const LP_ACTIVE_LM_STATISTICS = 4;
+	const LP_ACTIVE_USERS = 5;
+	const LP_ACTIVE_SUMMARY = 6;
+	const LP_ACTIVE_OBJSTATACCESS = 7;
+	const LP_ACTIVE_OBJSTATTYPES = 8;
+	const LP_ACTIVE_OBJSTATDAILY = 9;
+	const LP_ACTIVE_OBJSTATADMIN = 10;
+	const LP_ACTIVE_MATRIX = 11;
 
 	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0,$a_usr_id = 0)
 	{
@@ -152,13 +132,13 @@ class ilLearningProgressBaseGUI
 
 	function __setSubTabs($a_active)
 	{
-		global $rbacsystem,$ilObjDataCache,$lng,$ilUser;
+		global $rbacsystem,$ilObjDataCache;
 
 
 		
 		switch($this->getMode())
 		{
-			case LP_MODE_PERSONAL_DESKTOP:
+			case self::LP_CONTEXT_PERSONAL_DESKTOP:
 
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 				if(ilObjUserTracking::_hasLearningProgressLearner() && 
@@ -166,19 +146,19 @@ class ilLearningProgressBaseGUI
 				{
 					$this->tabs_gui->addTarget('trac_progress',
 													$this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
-													"","","",$a_active == LP_ACTIVE_PROGRESS);
+													"","","",$a_active == self::LP_ACTIVE_PROGRESS);
 				}
 
 				if(ilObjUserTracking::_hasLearningProgressOtherUsers())
 				{
 					$this->tabs_gui->addTarget('trac_objects',
 													 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
-													 "","","",$a_active == LP_ACTIVE_OBJECTS);
+													 "","","",$a_active == self::LP_ACTIVE_OBJECTS);
 				}
 				break;
 
 
-			case LP_MODE_REPOSITORY:
+			case self::LP_CONTEXT_REPOSITORY:
 
 				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
 				{
@@ -187,7 +167,7 @@ class ilLearningProgressBaseGUI
 						$this->ctrl->setParameterByClass('illplistofprogressgui','user_id',$this->getUserId());
 						$this->tabs_gui->addSubTabTarget('trac_progress',
 														 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
-														 "","","",$a_active == LP_ACTIVE_PROGRESS);
+														 "","","",$a_active == self::LP_ACTIVE_PROGRESS);
 					}
 					else
 					{
@@ -198,7 +178,7 @@ class ilLearningProgressBaseGUI
 
 						$this->tabs_gui->addSubTabTarget($sub_tab,
 														 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
-														 "","","",$a_active == LP_ACTIVE_OBJECTS);
+														 "","","",$a_active == self::LP_ACTIVE_OBJECTS);
 
 					}
 
@@ -207,7 +187,7 @@ class ilLearningProgressBaseGUI
 					{
 						$this->tabs_gui->addSubTabTarget('trac_lm_statistics',
 														 $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''),
-														 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);
+														 "","","",$a_active == self::LP_ACTIVE_LM_STATISTICS);
 					}
 					*/ 
 					
@@ -221,32 +201,32 @@ class ilLearningProgressBaseGUI
 						{
 							$this->tabs_gui->addSubTabTarget("trac_matrix",
 															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
-															"", "", "", $a_active == LP_ACTIVE_MATRIX);
+															"", "", "", $a_active == self::LP_ACTIVE_MATRIX);
 						}
 					}
 
 					$this->tabs_gui->addSubTabTarget("trac_summary",
 													$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showObjectSummary'),
-													"", "", "", $a_active == LP_ACTIVE_SUMMARY);
+													"", "", "", $a_active == self::LP_ACTIVE_SUMMARY);
 
 					$this->tabs_gui->addSubTabTarget('trac_settings',
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
-													 "","","",$a_active == LP_ACTIVE_SETTINGS);
+													 "","","",$a_active == self::LP_ACTIVE_SETTINGS);
 				}
 				break;
 
-			case LP_MODE_ADMINISTRATION:
+			case self::LP_CONTEXT_ADMINISTRATION:
 				/*
 				$this->tabs_gui->addSubTabTarget('trac_progress',
 									 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
-									 "","","",$a_active == LP_ACTIVE_PROGRESS);
+									 "","","",$a_active == self::LP_ACTIVE_PROGRESS);
 				*/
 				$this->tabs_gui->addSubTabTarget('trac_objects',
 									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
-									 "","","",$a_active == LP_ACTIVE_OBJECTS);
+									 "","","",$a_active == self::LP_ACTIVE_OBJECTS);
 				break;
 
-			case LP_MODE_USER_FOLDER:
+			case self::LP_CONTEXT_USER_FOLDER:
 				
 				// No tabs default class is lpprogressgui
 				break;
@@ -263,7 +243,7 @@ class ilLearningProgressBaseGUI
 	{
 		switch($this->getMode())
 		{
-			case LP_MODE_PERSONAL_DESKTOP:
+			case self::LP_CONTEXT_PERSONAL_DESKTOP:
 
 				$this->tpl->show(true);
 		}
@@ -271,7 +251,7 @@ class ilLearningProgressBaseGUI
 
 	function __buildHeader()
 	{
-		if($this->getMode() == LP_MODE_PERSONAL_DESKTOP)
+		if($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP)
 		{
 			//$this->tpl->setCurrentBlock("header_image");
 			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.png"));
@@ -439,13 +419,13 @@ class ilLearningProgressBaseGUI
 		$mode = $olp->getCurrentMode();
 
 		include_once './Services/MetaData/classes/class.ilMDEducational.php';
-		if($mode == LP_MODE_VISITS ||
+		if($mode == ilLPObjSettings::LP_MODE_VISITS ||
 		   ilMDEducational::_getTypicalLearningTimeSeconds($details_id))
 		{
 			// Section object details
 			$info->addSection($this->lng->txt('details'));
 
-			if($mode == LP_MODE_VISITS)
+			if($mode == ilLPObjSettings::LP_MODE_VISITS)
 			{
 				$info->addProperty($this->lng->txt('trac_required_visits'), ilLPObjSettings::_lookupVisits($details_id));
 			}
@@ -652,16 +632,16 @@ class ilLearningProgressBaseGUI
 			
 			$this->obj_data[$item_id]['type'] = $ilObjDataCache->lookupType($item_id);
 			$this->obj_data[$item_id]['mode'] = $olp->getCurrentMode();						
-			if($this->obj_data[$item_id]['mode'] == LP_MODE_TLT)
+			if($this->obj_data[$item_id]['mode'] == ilLPObjSettings::LP_MODE_TLT)
 			{
 				include_once './Services/MetaData/classes/class.ilMDEducational.php';
 				$this->obj_data[$item_id]['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds($item_id);
 			}
-			if($this->obj_data[$item_id]['mode'] == LP_MODE_VISITS)
+			if($this->obj_data[$item_id]['mode'] == ilLPObjSettings::LP_MODE_VISITS)
 			{				
 				$this->obj_data[$item_id]['visits'] = ilLPObjSettings::_lookupVisits($item_id);
 			}
-			if($this->obj_data[$item_id]['mode'] == LP_MODE_SCORM)
+			if($this->obj_data[$item_id]['mode'] == ilLPObjSettings::LP_MODE_SCORM)
 			{
 				$collection = $olp->getCollectionInstance();
 				if($collection)
@@ -743,7 +723,7 @@ class ilLearningProgressBaseGUI
 
 		$tpl->setVariable("TXT_COMMENT",$lng->txt('trac_comment'));
 		
-		if($lp_mode == LP_MODE_MANUAL or $lp_mode == LP_MODE_MANUAL_BY_TUTOR)
+		if($lp_mode == ilLPObjSettings::LP_MODE_MANUAL or $lp_mode == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR)
 		{
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 			$completed = ilLPStatus::_lookupStatus($obj_id, $a_user_id);		

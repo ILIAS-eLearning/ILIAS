@@ -124,7 +124,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			case "illearningprogressgui":
 				$ilTabs->activateTab('id_learning_progress');
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,
+				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 													  $this->object->getRefId(),
 													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);

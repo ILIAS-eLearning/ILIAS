@@ -15,7 +15,7 @@ class ilScormLP extends ilObjectLP
 {
 	public function getDefaultMode()
 	{		
-		return LP_MODE_DEACTIVATED;
+		return ilLPObjSettings::LP_MODE_DEACTIVATED;
 	}
 	
 	public function getValidModes()
@@ -26,37 +26,37 @@ class ilScormLP extends ilObjectLP
 		{
 			if($this->checkSCORMPreconditions())
 			{
-				return array(LP_MODE_SCORM);
+				return array(ilLPObjSettings::LP_MODE_SCORM);
 			}
 			
 			include_once "Services/Tracking/classes/collection/class.ilLPCollectionOfSCOs.php";	
-			$collection = new ilLPCollectionOfSCOs($this->obj_id, LP_MODE_SCORM);				
+			$collection = new ilLPCollectionOfSCOs($this->obj_id, ilLPObjSettings::LP_MODE_SCORM);				
 			if(sizeof($collection->getPossibleItems()))			
 			{
-				return array(LP_MODE_DEACTIVATED, 
-					LP_MODE_SCORM);
+				return array(ilLPObjSettings::LP_MODE_DEACTIVATED, 
+					ilLPObjSettings::LP_MODE_SCORM);
 			}
-			return array(LP_MODE_DEACTIVATED);
+			return array(ilLPObjSettings::LP_MODE_DEACTIVATED);
 		}
 		else
 		{
 			if($this->checkSCORMPreconditions())
 			{
-				return array(LP_MODE_SCORM,	
-					LP_MODE_SCORM_PACKAGE);
+				return array(ilLPObjSettings::LP_MODE_SCORM,	
+					ilLPObjSettings::LP_MODE_SCORM_PACKAGE);
 			}
 			
 			include_once "Services/Tracking/classes/collection/class.ilLPCollectionOfSCOs.php";	
-			$collection = new ilLPCollectionOfSCOs($this->obj_id, LP_MODE_SCORM);				
+			$collection = new ilLPCollectionOfSCOs($this->obj_id, ilLPObjSettings::LP_MODE_SCORM);				
 			if(sizeof($collection->getPossibleItems()))			
 			{
-				return array(LP_MODE_DEACTIVATED,
-					LP_MODE_SCORM_PACKAGE,
-					LP_MODE_SCORM);
+				return array(ilLPObjSettings::LP_MODE_DEACTIVATED,
+					ilLPObjSettings::LP_MODE_SCORM_PACKAGE,
+					ilLPObjSettings::LP_MODE_SCORM);
 			}
 			
-			return array(LP_MODE_DEACTIVATED,
-				LP_MODE_SCORM_PACKAGE);
+			return array(ilLPObjSettings::LP_MODE_DEACTIVATED,
+				ilLPObjSettings::LP_MODE_SCORM_PACKAGE);
 		}
 	}		
 	
@@ -64,7 +64,7 @@ class ilScormLP extends ilObjectLP
 	{
 		if($this->checkSCORMPreconditions())
 		{
-			return LP_MODE_SCORM;
+			return ilLPObjSettings::LP_MODE_SCORM;
 		}
 		return parent::getCurrentMode();
 	}

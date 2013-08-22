@@ -15,13 +15,13 @@ class ilSessionLP extends ilObjectLP
 {
 	public function getDefaultMode()
 	{		
-		return LP_MODE_EVENT;
+		return ilLPObjSettings::LP_MODE_EVENT;
 	}
 	
 	public function getValidModes()
 	{				
 		return array(
-			LP_MODE_EVENT
+			ilLPObjSettings::LP_MODE_EVENT
 		);
 	}		
 }

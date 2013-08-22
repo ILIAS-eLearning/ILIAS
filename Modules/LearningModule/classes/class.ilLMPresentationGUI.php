@@ -180,7 +180,7 @@ class ilLMPresentationGUI
 			case "illearningprogressgui":
 				$this->initScreenHead("learning_progress");
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';				
-				$new_gui = new ilLearningProgressGUI(LP_MODE_REPOSITORY, $_GET["ref_id"], $ilUser->getId());						
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $_GET["ref_id"], $ilUser->getId());						
 				$this->ctrl->forwardCommand($new_gui);				
 				break;
 

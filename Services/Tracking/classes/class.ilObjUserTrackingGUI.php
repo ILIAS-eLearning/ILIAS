@@ -55,14 +55,14 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			case 'illearningprogressgui':
 				$this->tabs_gui->setTabActive('learning_progress');
 				include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
-				$lp_gui =& new ilLearningProgressGUI(LP_MODE_ADMINISTRATION);
+				$lp_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION);
 				$ret =& $this->ctrl->forwardCommand($lp_gui);
 				break;
 			
 			case 'illpobjectstatisticsgui':
 				$this->tabs_gui->setTabActive('statistics');
 				include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php");
-				$os_gui =& new ilLPObjectStatisticsGUI(LP_MODE_ADMINISTRATION);
+				$os_gui =& new ilLPObjectStatisticsGUI(ilLPObjectStatisticsGUI::LP_CONTEXT_ADMINISTRATION);
 				$ret =& $this->ctrl->forwardCommand($os_gui);
 				break;
 			
