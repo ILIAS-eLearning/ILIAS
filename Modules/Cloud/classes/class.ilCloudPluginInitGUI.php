@@ -202,6 +202,7 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     public function initGUI(ilObjCloudGUI $gui_class, $perm_create_folder, $perm_upload_items , $perm_delete_files, $perm_delete_folders,$perm_download, $perm_files_visible, $perm_folders_visible)
     {
         global $ilTabs, $lng, $tpl;
+
         $ilTabs->activateTab("content");
 
         $this->setGuiClass($gui_class);
@@ -217,8 +218,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         {
             ilCloudConnector::checkServiceActive($this->getGUIClass()->object->getServiceName());
             $this->beforeInitGUI();
-
-
 
             //if($this->getPluginObject()->getAsyncDrawing())
             {
@@ -318,10 +317,10 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
             // toolbar
             $ov_id         = "il_add_new_cld_item_v";
             $ov_trigger_id = $ov_id ."_tr";
-            $ilLocator = new ilLocatorGUI();
-            $ilLocator->addItem($this->getGuiClass()->object->getTitle(), ilCloudPluginFileTreeGUI::getLinkToFolder($root_node));
+            $toolbar_locator = new ilLocatorGUI();
+            $toolbar_locator->addItem($this->getGuiClass()->object->getTitle(), ilCloudPluginFileTreeGUI::getLinkToFolder($root_node));
             $ilToolbar->setId('xcld_toolbar');
-            $ilToolbar->addText("<div class='xcld_locator'>".$ilLocator->getHtml()."</div>");
+            $ilToolbar->addText("<div class='xcld_locator'>". $toolbar_locator->getHtml()."</div>");
             $ilToolbar->addSeparator();
             $ilToolbar->addButton($lng->txt("cld_add_new_item"), "#", "", "", "", $ov_trigger_id, 'submit emphsubmit');
             include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";

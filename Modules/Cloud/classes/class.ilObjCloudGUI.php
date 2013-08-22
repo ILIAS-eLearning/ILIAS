@@ -428,8 +428,22 @@ class ilObjCloudGUI extends ilObject2GUI
         }
     }
 
+    /**
+     * addLocatorItems
+     */
+    protected function addLocatorItems()
+    {
+        global $ilLocator;
+
+        if (is_object($this->object))
+        {
+            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
+        }
+    }
+
     public function render()
     {
+
         $init_gui = ilCloudConnector::getInitGUIClass($this->plugin_service);
         $init_gui->initGUI($this,   $this->checkPermissionBool("folders_create"),
                                     $this->checkPermissionBool("upload"),
