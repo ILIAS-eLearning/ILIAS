@@ -1746,21 +1746,24 @@ class SurveyQuestion
 	}
 
 	
-/**
-* Creates an instance of a question with a given question id
-*
-* @param integer $question_id The question id
-* @return object The question instance
-* @access public
-*/
-  function &_instanciateQuestion($question_id) 
+	/**
+	* Creates an instance of a question with a given question id
+	*
+	* @param integer $question_id The question id
+	* @return object The question instance
+	* @access public
+	*/
+	function &_instanciateQuestion($question_id) 
 	{
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
-		SurveyQuestion::_includeClass($question_type);
-		$question = new $question_type();
-		$question->loadFromDb($question_id);
-		return $question;
-  }
+		if($question_type)
+		{
+			SurveyQuestion::_includeClass($question_type);
+			$question = new $question_type();
+			$question->loadFromDb($question_id);
+			return $question;
+		}
+	}
 	
 	/**
 	* Creates an instance of a question GUI with a given question id
@@ -1769,14 +1772,17 @@ class SurveyQuestion
 	* @return object The question GUI instance
 	* @access public
 	*/
-	  function &_instanciateQuestionGUI($question_id) 
+	function &_instanciateQuestionGUI($question_id) 
+	{
+		$question_type = SurveyQuestion::_getQuestionType($question_id);
+		if($question_type)
 		{
-			$question_type = SurveyQuestion::_getQuestionType($question_id);
 			SurveyQuestion::_includeClass($question_type, 1);
 			$guitype = $question_type . "GUI";
 			$question = new $guitype($question_id);
 			return $question;
-	  }
+		}
+	}
 
 	/**
 	* Checks if a given string contains HTML or not
