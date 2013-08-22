@@ -280,6 +280,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				if($this->object->getType() == 'qpl')
 				{
 					$q_gui->setTaxonomyIds($this->object->getTaxonomyIds());
+					
+					$q_gui->object->addQuestionChangeListener(
+							ilObjTest::getQuestionChangeListener( $this->object->getId() )
+					);
 				}
 				$q_gui->setQuestionTabs();
 				$ret = $this->ctrl->forwardCommand($q_gui);

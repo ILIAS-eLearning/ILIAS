@@ -220,6 +220,11 @@ abstract class assQuestion
 	var $defaultnroftries = false;
 	
 	/**
+	 * @var array[ilQuestionChangeListener]
+	 */
+	protected $questionChangeListeners = array();
+	
+	/**
 	* assQuestion constructor
 	*
 	* @param string $title A title string to describe the question
@@ -3991,5 +3996,45 @@ abstract class assQuestion
 			self::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT,
 			self::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
 		);
+	}
+	
+	/**
+	 * @param ilQuestionChangeListener $listener
+	 */
+	public function addQuestionChangeListener(ilQuestionChangeListener $listener)
+	{
+		$this->questionChangeListeners[] = $listener;
+	}
+	
+	/**
+	 * @return array[ilQuestionChangeListener]
+	 */
+	public function getQuestionChangeListeners()
+	{
+		return $this->questionChangeListeners;
+	}
+	
+	private function notifyQuestionCreated()
+	{
+		foreach($this->getQuestionChangeListeners() as $listener)
+		{
+			$listener->notifyQuestionCreated($this);
+		}
+	}
+	
+	private function notifyQuestionEdited()
+	{
+		foreach($this->getQuestionChangeListeners() as $listener)
+		{
+			$listener->notifyQuestionEdited($this);
+		}
+	}
+	
+	private function notifyQuestionDeleted()
+	{
+		foreach($this->getQuestionChangeListeners() as $listener)
+		{
+			$listener->notifyQuestionDeleted($this);
+		}
 	}
 }
