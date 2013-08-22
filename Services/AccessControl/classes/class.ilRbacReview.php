@@ -2185,10 +2185,19 @@ class ilRbacReview
 	public function getRoleFolderOfRole($a_role_id)
 	{
 		global $ilDB;
+		
+		if(ilObject::_lookupType($a_role_id) == 'role')
+		{
+			$and = ('AND assign = '.$ilDB->quote('y','text'));
+		}
+		else
+		{
+			$and = '';
+		}
 
 		$query = 'SELECT * FROM rbac_fa '.
 			'WHERE rol_id = '.$ilDB->quote($a_role_id,'integer').' '.
-			'AND assign = '.$ilDB->quote('y','text');
+			$and;
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
