@@ -17531,11 +17531,30 @@ if( !$ilDB->tableColumnExists('exc_assignment', 'peer_dl') )
 <#4040>
 <?php
 
+/* mysql only :( 
 $ilDB->manipulate("UPDATE cal_entries ce".
 	" JOIN cal_cat_assignments ccass ON (ccass.cal_id = ce.cal_id)".
 	" JOIN cal_categories ccat ON (ccat.cat_id = ccass.cat_id)".
 	" SET ce.subtitle = ".$ilDB->quote("#consultationhour#", "text").
 	" WHERE ccat.type = ".$ilDB->quote(4, "integer"));
+*/
+	
+$entry_ids = array();
+$set = $ilDB->query("SELECT ce.cal_id".
+	" FROM cal_entries ce".
+	" JOIN cal_cat_assignments ccass ON (ccass.cal_id = ce.cal_id)".
+	" JOIN cal_categories ccat ON (ccat.cat_id = ccass.cat_id)".
+	" WHERE ccat.type = ".$ilDB->quote(4, "integer"));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$entry_ids[] = $row["cal_id"];
+}
+if(sizeof($entry_ids))
+{
+	$ilDB->manipulate("UPDATE cal_entries".		
+		" SET subtitle = ".$ilDB->quote("#consultationhour#", "text").
+		" WHERE ".$ilDB->in("cal_id", $entry_ids, "", "integer"));	
+}
 
 ?>
 <#4041>
