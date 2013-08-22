@@ -13706,3 +13706,12 @@ exc#:#exc_peer_review_deadline_reached#:#Feedback-Zeit ist abgelaufen.
 exc#:#exc_peer_review_comment#:#Mein Feedback
 exc#:#exc_peer_review_missing_info#:#Um das erhaltene Feedback zu sehen, fehlen noch %s eigene Feedbacks.
 exc#:#exc_peer_review_missing_info_deadline#:#Um das erhaltene Feedback zu sehen, fehlen noch %1$s eigene Feedbacks. Die Freischaltung erfolgt am: %2$s.
+content#:#cont_glossaries#:#Glossare
+content#:#cont_auto_glossaries#:#Automatisch verlinkte Glossare
+content#:#cont_link_glo_in_lm#:#Should all glossary terms be linked in the learning module now?
+content#:#cont_hide_head_foot_print#:#Hide custom header and footer in print view
+fold#:#fold_settings#:#Ordnereigenschaften
+mcst#:#mcst_download_cnt#:#Downloaded
+mcst#:#mcst_play_cnt#:#Played
+glo#:#glo_term#:#Glossarbegriff
+content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen aktivieren
