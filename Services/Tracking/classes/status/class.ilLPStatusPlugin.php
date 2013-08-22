@@ -37,7 +37,7 @@ class ilLPStatusPlugin extends ilLPStatus
 			else
 			{
 				// re-use existing data for inactive plugin
-				return self::getLPStatusData($a_obj_id, LP_STATUS_NOT_ATTEMPTED_NUM);
+				return self::getLPStatusData($a_obj_id, self::LP_STATUS_NOT_ATTEMPTED_NUM);
 			}
 		}
 		return array();
@@ -55,7 +55,7 @@ class ilLPStatusPlugin extends ilLPStatus
 			else
 			{
 				// re-use existing data for inactive plugin
-				return self::getLPStatusData($a_obj_id, LP_STATUS_IN_PROGRESS_NUM);
+				return self::getLPStatusData($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM);
 			}
 		}
 		return array();
@@ -73,7 +73,7 @@ class ilLPStatusPlugin extends ilLPStatus
 			else
 			{
 				// re-use existing data for inactive plugin
-				return self::getLPStatusData($a_obj_id, LP_STATUS_COMPLETED_NUM);
+				return self::getLPStatusData($a_obj_id, self::LP_STATUS_COMPLETED_NUM);
 			}
 		}
 		return array();
@@ -91,7 +91,7 @@ class ilLPStatusPlugin extends ilLPStatus
 			else
 			{
 				// re-use existing data for inactive plugin
-				return self::getLPStatusData($a_obj_id, LP_STATUS_FAILED_NUM);
+				return self::getLPStatusData($a_obj_id, self::LP_STATUS_FAILED_NUM);
 			}
 		}
 		return array();
@@ -114,7 +114,7 @@ class ilLPStatusPlugin extends ilLPStatus
 			}
 		}
 		// #11368
-		return LP_STATUS_NOT_ATTEMPTED_NUM;
+		return self::LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 	
 	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
@@ -179,7 +179,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		$status = $row["status"];
 		if(!$status)
 		{
-			$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+			$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		}
 		return $status;
 	}

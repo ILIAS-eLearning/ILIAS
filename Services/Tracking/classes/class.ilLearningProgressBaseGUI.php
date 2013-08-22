@@ -357,26 +357,26 @@ class ilLearningProgressBaseGUI
 		// constants are either number or string, so make comparison string-based
 		switch((string)$a_status)
 		{
-			case LP_STATUS_IN_PROGRESS_NUM:
-			case LP_STATUS_IN_PROGRESS:
-			case LP_STATUS_REGISTERED:
+			case ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
+			case ilLPStatus::LP_STATUS_IN_PROGRESS:
+			case ilLPStatus::LP_STATUS_REGISTERED:
 				return ilUtil::getImagePath('scorm/incomplete.png');
 				break;
 
-			case LP_STATUS_COMPLETED_NUM:
-			case LP_STATUS_COMPLETED:
-			case LP_STATUS_PARTICIPATED:
+			case ilLPStatus::LP_STATUS_COMPLETED_NUM:
+			case ilLPStatus::LP_STATUS_COMPLETED:
+			case ilLPStatus::LP_STATUS_PARTICIPATED:
 				return ilUtil::getImagePath('scorm/complete.png');
 				break;
 			
-			case LP_STATUS_NOT_ATTEMPTED:
-			case LP_STATUS_NOT_PARTICIPATED:
-			case LP_STATUS_NOT_REGISTERED:
+			case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
+			case ilLPStatus::LP_STATUS_NOT_PARTICIPATED:
+			case ilLPStatus::LP_STATUS_NOT_REGISTERED:
 				return ilUtil::getImagePath('scorm/not_attempted.png');
 				break;
 
-			case LP_STATUS_FAILED_NUM:
-			case LP_STATUS_FAILED:
+			case ilLPStatus::LP_STATUS_FAILED_NUM:
+			case ilLPStatus::LP_STATUS_FAILED:
 				return ilUtil::getImagePath('scorm/failed.png');
 				break;
 			
@@ -397,19 +397,19 @@ class ilLearningProgressBaseGUI
 //echo "#".$a_status."#";
 		switch($a_status)
 		{
-			case LP_STATUS_IN_PROGRESS_NUM:
-				return $lng->txt(LP_STATUS_IN_PROGRESS);
+			case ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
+				return $lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS);
 				
-			case LP_STATUS_COMPLETED_NUM:
-				return $lng->txt(LP_STATUS_COMPLETED);
+			case ilLPStatus::LP_STATUS_COMPLETED_NUM:
+				return $lng->txt(ilLPStatus::LP_STATUS_COMPLETED);
 
-			case LP_STATUS_FAILED_NUM:
-				return $lng->txt(LP_STATUS_FAILED);
+			case ilLPStatus::LP_STATUS_FAILED_NUM:
+				return $lng->txt(ilLPStatus::LP_STATUS_FAILED);
 
 			default:
-				if ($a_status === LP_STATUS_NOT_ATTEMPTED_NUM)
+				if ($a_status === ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
 				{
-					return $lng->txt(LP_STATUS_NOT_ATTEMPTED);
+					return $lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
 				}
 				return $lng->txt($a_status);
 		}		
@@ -557,17 +557,17 @@ class ilLearningProgressBaseGUI
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		switch($status)
 		{
-			case LP_STATUS_IN_PROGRESS_NUM:
-				return LP_STATUS_IN_PROGRESS;
+			case ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
+				return ilLPStatus::LP_STATUS_IN_PROGRESS;
 
-			case LP_STATUS_COMPLETED_NUM:
-				return LP_STATUS_COMPLETED;
+			case ilLPStatus::LP_STATUS_COMPLETED_NUM:
+				return ilLPStatus::LP_STATUS_COMPLETED;
 
-			case LP_STATUS_FAILED_NUM:
-				return LP_STATUS_FAILED;
+			case ilLPStatus::LP_STATUS_FAILED_NUM:
+				return ilLPStatus::LP_STATUS_FAILED;
 
-			case LP_STATUS_NOT_ATTEMPTED_NUM:
-				return LP_STATUS_NOT_ATTEMPTED;
+			case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
+				return ilLPStatus::LP_STATUS_NOT_ATTEMPTED;
 
 			default:
 				return $status;
@@ -750,7 +750,7 @@ class ilLearningProgressBaseGUI
 
 			$tpl->setVariable("mode_manual");
 			$tpl->setVariable("TXT_COMPLETED",$lng->txt('trac_completed'));
-			$tpl->setVariable("CHECK_COMPLETED",ilUtil::formCheckbox(($completed == LP_STATUS_COMPLETED_NUM),
+			$tpl->setVariable("CHECK_COMPLETED",ilUtil::formCheckbox(($completed == ilLPStatus::LP_STATUS_COMPLETED_NUM),
 																		   'completed',
 																		   '1'));
 		}

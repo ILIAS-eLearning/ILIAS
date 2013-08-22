@@ -132,15 +132,15 @@ class ilLPStatusCollectionManual extends ilLPStatus
 			}		
 			if($completed)
 			{
-				return LP_STATUS_COMPLETED_NUM;
+				return self::LP_STATUS_COMPLETED_NUM;
 			}	
 			if($in_progress)
 			{
-				return LP_STATUS_IN_PROGRESS_NUM;
+				return self::LP_STATUS_IN_PROGRESS_NUM;
 			}			
 		}		
 		
-		return LP_STATUS_NOT_ATTEMPTED_NUM;
+		return self::LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 	
 	function _getObjectStatus($a_obj_id, $a_user_id = null)

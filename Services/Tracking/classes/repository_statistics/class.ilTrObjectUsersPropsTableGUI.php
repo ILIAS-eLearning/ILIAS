@@ -261,10 +261,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 					include_once "Services/Tracking/classes/class.ilLPStatus.php";
 					$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
 					$item->setOptions(array("" => $lng->txt("trac_all"),
-						LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(LP_STATUS_NOT_ATTEMPTED),
-						LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(LP_STATUS_IN_PROGRESS),
-						LP_STATUS_COMPLETED_NUM+1 => $lng->txt(LP_STATUS_COMPLETED),
-						LP_STATUS_FAILED_NUM+1 => $lng->txt(LP_STATUS_FAILED)));
+						ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+						ilLPStatus::LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+						ilLPStatus::LP_STATUS_COMPLETED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
+						ilLPStatus::LP_STATUS_FAILED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_FAILED)));
 					$this->filter["status"] = $item->getValue();
 					if($this->filter["status"])
 					{
@@ -295,7 +295,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			if($c == 'status' && $data[$c] != LP_STATUS_COMPLETED_NUM)
+			if($c == 'status' && $data[$c] != ilLPStatus::LP_STATUS_COMPLETED_NUM)
 			{
 				$timing = $this->showTimingsWarning($this->ref_id, $data["usr_id"]);
 				if($timing)

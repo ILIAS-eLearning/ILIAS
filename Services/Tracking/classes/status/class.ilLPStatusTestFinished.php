@@ -96,7 +96,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 	{
 		global $ilObjDataCache, $ilDB, $ilLog;
 		
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
@@ -108,11 +108,11 @@ class ilLPStatusTestFinished extends ilLPStatus
 		{
 			if ($rec["tries"] == 0)
 			{
-				$status = LP_STATUS_IN_PROGRESS_NUM;
+				$status = self::LP_STATUS_IN_PROGRESS_NUM;
 			}
 			else if ($rec["tries"] > 0)
 			{
-				$status = LP_STATUS_COMPLETED_NUM;
+				$status = self::LP_STATUS_COMPLETED_NUM;
 			}
 
 		}

@@ -82,14 +82,14 @@ class ilLPStatusVisits extends ilLPStatus
 	{
 		global $ilObjDataCache, $ilDB;
 		
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'lm':
 				include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
 				{
-					$status = LP_STATUS_IN_PROGRESS_NUM;
+					$status = self::LP_STATUS_IN_PROGRESS_NUM;
 					
 					// completed?
 					$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
@@ -99,7 +99,7 @@ class ilLPStatusVisits extends ilLPStatus
 					$re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
 					if ($re[0]['read_count'] >= $required_visits)
 					{
-						$status = LP_STATUS_COMPLETED_NUM;
+						$status = self::LP_STATUS_COMPLETED_NUM;
 					}
 				}
 				break;			

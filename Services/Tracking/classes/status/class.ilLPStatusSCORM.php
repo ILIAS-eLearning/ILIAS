@@ -204,14 +204,14 @@ class ilLPStatusSCORM extends ilLPStatus
 	{
 		global $ilObjDataCache, $ilDB, $ilLog;
 		
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
 		// if the user has accessed the scorm object
 		// the status is at least "in progress"
 		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
 		if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
 		{
-			$status = LP_STATUS_IN_PROGRESS_NUM;
+			$status = self::LP_STATUS_IN_PROGRESS_NUM;
 		}
 //$ilLog->write("-".$status."-");
 		
@@ -246,13 +246,13 @@ class ilLPStatusSCORM extends ilLPStatus
 		switch ($scorm_status)
 		{
 			case "in_progress":
-				$status = LP_STATUS_IN_PROGRESS_NUM;
+				$status = self::LP_STATUS_IN_PROGRESS_NUM;
 				break;
 			case "completed":
-				$status = LP_STATUS_COMPLETED_NUM;
+				$status = self::LP_STATUS_COMPLETED_NUM;
 				break;
 			case "failed":
-				$status = LP_STATUS_FAILED_NUM;
+				$status = self::LP_STATUS_FAILED_NUM;
 				break;
 		}
 //$ilLog->write("-".$status."-");
@@ -339,7 +339,7 @@ class ilLPStatusSCORM extends ilLPStatus
 			foreach($not_attempted_users as $usr_id)
 			{
 				// this will update any (parent) collections if necessary
-				ilLPStatus::writeStatus($a_obj_id, $usr_id, LP_STATUS_NOT_ATTEMPTED_NUM, 0);				
+				ilLPStatus::writeStatus($a_obj_id, $usr_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, 0);				
 			}						
 		}
 	}

@@ -16,8 +16,10 @@ include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 {	
 	protected $types = array("min", "avg", "max"); 
-	protected $status = array(LP_STATUS_NOT_ATTEMPTED_NUM, LP_STATUS_IN_PROGRESS_NUM, 
-		LP_STATUS_COMPLETED_NUM, LP_STATUS_FAILED_NUM);	
+	protected $status = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM, 
+		ilLPStatus::LP_STATUS_IN_PROGRESS_NUM, 
+		ilLPStatus::LP_STATUS_COMPLETED_NUM, 
+		ilLPStatus::LP_STATUS_FAILED_NUM);	
 	protected $is_chart = false;
 	protected $is_details = false;
 	protected $chart_data = array();
@@ -117,10 +119,10 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		
-		$this->status_map = array(LP_STATUS_NOT_ATTEMPTED_NUM => "not_attempted", 
-			LP_STATUS_IN_PROGRESS_NUM => "in_progress", 
-			LP_STATUS_COMPLETED_NUM => "completed", 
-			LP_STATUS_FAILED_NUM => "failed");				
+		$this->status_map = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => "not_attempted", 
+			ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => "in_progress", 
+			ilLPStatus::LP_STATUS_COMPLETED_NUM => "completed", 
+			ilLPStatus::LP_STATUS_FAILED_NUM => "failed");				
 
 		if($a_load_items)
 		{
@@ -200,8 +202,8 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 				"mem_cnt_max" => $lng->txt("members")." ".$lng->txt("trac_object_stat_lp_max"),
 				"mem_cnt_avg" => $lng->txt("members")." &#216;",
 				// we are using the db column names here (not the lp constants)!
-				"in_progress_max" => ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_IN_PROGRESS_NUM)." ".$lng->txt("trac_object_stat_lp_max"),
-				"in_progress_avg" => ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_IN_PROGRESS_NUM)." &#216;");
+				"in_progress_max" => ilLearningProgressBaseGUI::_getStatusText(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)." ".$lng->txt("trac_object_stat_lp_max"),
+				"in_progress_avg" => ilLearningProgressBaseGUI::_getStatusText(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)." &#216;");
 			$si->setOptions($options);
 			$this->addFilterItem($si);
 			$si->readFromSession();
@@ -483,10 +485,10 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 		
 		// needed for correct stacking
 		$custom_order = array(
-			LP_STATUS_IN_PROGRESS_NUM => array("#f7d408", "#fffa00"),
-			LP_STATUS_FAILED_NUM => array("#cf0202", "#f15b5b"),
-			LP_STATUS_COMPLETED_NUM => array("#17aa0e", "#6ce148"),
-			LP_STATUS_NOT_ATTEMPTED_NUM => array("#a4a4a4", "#c4c4c4")
+			ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => array("#f7d408", "#fffa00"),
+			ilLPStatus::LP_STATUS_FAILED_NUM => array("#cf0202", "#f15b5b"),
+			ilLPStatus::LP_STATUS_COMPLETED_NUM => array("#17aa0e", "#6ce148"),
+			ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => array("#a4a4a4", "#c4c4c4")
 			);
 		
 		$chart->setColors(array());

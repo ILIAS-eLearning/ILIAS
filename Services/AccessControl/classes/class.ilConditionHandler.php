@@ -755,7 +755,7 @@ class ilConditionHandler
 
 			case 'sahs':
 				include_once './Services/Tracking/classes/class.ilLPStatus.php';
-				return (ilLPStatus::_lookupStatus($condition['trigger_obj_id'], $a_usr_id) == LP_STATUS_COMPLETED_NUM);
+				return ilLPStatus::_hasUserCompleted($condition['trigger_obj_id'], $a_usr_id);
 
 			case 'svy':
 				include_once './Modules/Survey/classes/class.ilObjSurvey.php';

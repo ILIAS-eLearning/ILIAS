@@ -143,7 +143,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 			}
 			if($completed)
 			{
-				return LP_STATUS_COMPLETED_NUM;
+				return self::LP_STATUS_COMPLETED_NUM;
 			}	
 		}
 		
@@ -153,12 +153,12 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 			{
 				if(in_array($a_user_id, $user_ids))
 				{
-					return LP_STATUS_IN_PROGRESS_NUM;
+					return self::LP_STATUS_IN_PROGRESS_NUM;
 				}
 			}
 		}
 		
-		return LP_STATUS_NOT_ATTEMPTED_NUM;
+		return self::LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 }	
 

@@ -334,19 +334,19 @@ class ilLPStatusCollection extends ilLPStatus
 			
 				if($status['completed'])
 				{
-					return LP_STATUS_COMPLETED_NUM;
+					return self::LP_STATUS_COMPLETED_NUM;
 				}
 				if($status['failed'])
 				{
-					return LP_STATUS_FAILED_NUM;
+					return self::LP_STATUS_FAILED_NUM;
 				}
 				if($status['in_progress'])
 				{
-					return LP_STATUS_IN_PROGRESS_NUM;
+					return self::LP_STATUS_IN_PROGRESS_NUM;
 				}
 				break;
 		}
-		return LP_STATUS_NOT_ATTEMPTED_NUM;
+		return self::LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 
 	/**
@@ -383,7 +383,7 @@ class ilLPStatusCollection extends ilLPStatus
 			$item_id = $ilObjDataCache->lookupObjId($item_id);
 			$gr_status = ilLPStatusWrapper::_determineStatus($item_id, $user_id);
 
-			if($gr_status == LP_STATUS_FAILED_NUM)
+			if($gr_status == self::LP_STATUS_FAILED_NUM)
 			{
 				if(++$num_failed > $max_allowed_failed)
 				{
@@ -392,7 +392,7 @@ class ilLPStatusCollection extends ilLPStatus
 					return $status;
 				}
 			}
-			if($gr_status == LP_STATUS_COMPLETED_NUM)
+			if($gr_status == self::LP_STATUS_COMPLETED_NUM)
 			{
 				if(++$num_completed >= $required_completed)
 				{
@@ -458,7 +458,7 @@ class ilLPStatusCollection extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
 	}
 	
 	/**
@@ -478,7 +478,7 @@ class ilLPStatusCollection extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_FAILED_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids);
 	}
 	
 	/**
@@ -498,7 +498,7 @@ class ilLPStatusCollection extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
 	}	
 }	
 ?>

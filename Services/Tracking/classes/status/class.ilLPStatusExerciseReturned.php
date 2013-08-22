@@ -105,7 +105,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 	{
 		global $ilObjDataCache;
 		
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'exc':
@@ -114,16 +114,16 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id) ||
 					ilExerciseMembers::_hasReturned($a_obj_id, $a_user_id))
 				{
-					$status = LP_STATUS_IN_PROGRESS_NUM;
+					$status = self::LP_STATUS_IN_PROGRESS_NUM;
 				}
 				$ex_stat = ilExerciseMembers::_lookupStatus($a_obj_id, $a_user_id);
 				if ($ex_stat == "passed")
 				{
-					$status = LP_STATUS_COMPLETED_NUM;
+					$status = self::LP_STATUS_COMPLETED_NUM;
 				}
 				if ($ex_stat == "failed")
 				{
-					$status = LP_STATUS_FAILED_NUM;
+					$status = self::LP_STATUS_FAILED_NUM;
 				}
 				break;			
 		}
@@ -158,7 +158,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
 	}
 	
 	/**
@@ -178,7 +178,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_FAILED_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids);
 	}
 	
 	/**
@@ -198,7 +198,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 				return array();
 			}
 		}
-		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
 	}	
 }
 

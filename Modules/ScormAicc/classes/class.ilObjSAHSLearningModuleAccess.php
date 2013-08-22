@@ -190,8 +190,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
 			if (ilObjUserTracking::_enabledLearningProgress())
 			{
 				include_once "./Services/Tracking/classes/class.ilLPStatus.php";
-				$completed = ilLPStatus::_lookupStatus($obj_id, $uid);
-				$completed = ($completed == LP_STATUS_COMPLETED_NUM);
+				$completed = ilLPStatus::_hasUserCompleted($obj_id, $uid);
 				$lpdata = true;
 			}
 			switch ($type)

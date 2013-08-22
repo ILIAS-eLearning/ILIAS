@@ -1009,19 +1009,19 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				if(in_array($usr_id,$completed))
 				{
-					$tmp_data['progress'] = LP_STATUS_COMPLETED;
+					$tmp_data['progress'] = ilLPStatus::LP_STATUS_COMPLETED;
 				}
 				elseif(in_array($usr_id,$in_progress))
 				{
-					$tmp_data['progress'] = LP_STATUS_IN_PROGRESS;
+					$tmp_data['progress'] = ilLPStatus::LP_STATUS_IN_PROGRESS;
 				}
 				elseif(in_array($usr_id,$failed))
 				{
-					$tmp_data['progress'] = LP_STATUS_FAILED;
+					$tmp_data['progress'] = ilLPStatus::LP_STATUS_FAILED;
 				}
 				else
 				{
-					$tmp_data['progress'] = LP_STATUS_NOT_ATTEMPTED;
+					$tmp_data['progress'] = ilLPStatus::LP_STATUS_NOT_ATTEMPTED;
 				}
 			}
 
