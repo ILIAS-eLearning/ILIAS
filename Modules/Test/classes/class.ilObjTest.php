@@ -11975,4 +11975,29 @@ function getAnswerFeedbackPoints()
 		$scoring = new ilTestScoring($this);
 		$scoring->recalculateSolutions();
 	}
+	
+	public static function getQuestionChangeListener($poolObjectId)
+	{
+		global $ilDB;
+		
+		$query = "
+			SELECT obj_fi
+			FROM tst_dyn_quest_set_cfg
+			INNER JOIN tst_tests
+			ON tst_tests.test_id = tst_dyn_quest_set_cfg.test_fi
+			WHERE source_qpl_fi = %s
+		";
+		
+		$res = $ilDB->queryF($query, array('integer'), array($poolObjectId));
+		
+		require_once 'Modules/Test/classes/class.ilTestQuestionChangeListener.php';
+		$questionChangeListener = new ilTestQuestionChangeListener();
+		
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			$questionChangeListener->addTestObjId( $row['obj_fi'] );
+		}
+		
+		return $questionChangeListener;
+	}
 }
