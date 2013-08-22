@@ -331,6 +331,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		}
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
+		$points->allowDecimals(true);
 		$points->setValue($this->object->getPoints());
 		$points->setRequired(TRUE);
 		$points->setSize(3);
