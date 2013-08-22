@@ -13705,3 +13705,12 @@ exc#:#exc_peer_review_deadline_reached#:#Feedback time is up.
 exc#:#exc_peer_review_comment#:#My Feedback
 exc#:#exc_peer_review_missing_info#:#To see your received feedback, you still have to give %s feedbacks.
 exc#:#exc_peer_review_missing_info_deadline#:#To see your received feedback, you still have to give %1$s feedbacks. Access will be granted on: %2$s.
+content#:#cont_glossaries#:#Glossaries
+content#:#cont_auto_glossaries#:#Auto-Linked Glossaries
+content#:#cont_link_glo_in_lm#:#Should all glossary terms be linked in the learning module now?
+content#:#cont_hide_head_foot_print#:#Hide custom header and footer in print view
+fold#:#fold_settings#:#Folder Settings
+mcst#:#mcst_download_cnt#:#Downloaded
+mcst#:#mcst_play_cnt#:#Played
+glo#:#glo_term#:#Glossary Term
+content#:#glo_add_term_properties#:#Activate Additional Glossary Term Properties
