@@ -449,5 +449,6 @@ div.ilAssQuestionRelatedNavigationContainer
 
 div.ilTestOutputBlock_DynTestFinished
 {
-	margin: 50px;
+	background-color: #FAFAFA;
+	padding: 100px;
 }

@@ -365,10 +365,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function populateScoreBlock($reachedPoints, $maxPoints)
 	{
-		$this->tpl->setCurrentBlock( "solution_output" );
-		$this->tpl->setVariable( "RECEIVED_POINTS_INFORMATION",
-								 sprintf( $this->lng->txt( "you_received_a_of_b_points" ), $reachedPoints, $maxPoints )
+		$scoreInformation = sprintf(
+				$this->lng->txt( "you_received_a_of_b_points" ), $reachedPoints, $maxPoints
 		);
+		
+		$this->tpl->setCurrentBlock( "received_points_information" );
+		$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", $scoreInformation);
 		$this->tpl->parseCurrentBlock();
 	}
 
