@@ -62,6 +62,13 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 		require_once("./Modules/TestQuestionPool/test/assFlashQuestionGUITest.php");
 		$suite->addTestSuite("assFlashQuestionGUITest");
 
+		// Type: Formula
+		require_once("./Modules/TestQuestionPool/test/assFormulaQuestionTest.php");
+		$suite->addTestSuite("assFormulaQuestionTest");
+
+		require_once("./Modules/TestQuestionPool/test/assFormulaQuestionGUITest.php");
+		$suite->addTestSuite("assFormulaQuestionGUITest");
+
 		// Type: Imagemap
 		require_once("./Modules/TestQuestionPool/test/assImagemapQuestionTest.php");
 		$suite->addTestSuite("assImagemapQuestionTest");
