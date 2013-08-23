@@ -17752,3 +17752,26 @@ if(!$ilDB->tableColumnExists('il_qpl_qst_fq_unit', 'question_fi'))
 	);
 }
 ?>
+<#4050>
+<?php
+if(!$ilDB->tableExists('il_qpl_qst_fq_ucat'))
+{
+	$fields = array(
+		'category_id' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'category'    => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+	$ilDB->createTable('il_qpl_qst_fq_ucat', $fields);
+	$ilDB->addPrimaryKey('il_qpl_qst_fq_ucat', array('category_id'));
+	$ilDB->createSequence('il_qpl_qst_fq_ucat');
+}
+?>
