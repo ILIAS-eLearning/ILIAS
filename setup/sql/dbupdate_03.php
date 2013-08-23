@@ -17775,3 +17775,17 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_ucat'))
 	$ilDB->createSequence('il_qpl_qst_fq_ucat');
 }
 ?>
+<#4051>
+<?php
+if(!$ilDB->tableColumnExists('il_qpl_qst_fq_ucat', 'question_fi'))
+{
+	$ilDB->addTableColumn('il_qpl_qst_fq_ucat', 'question_fi',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+}
+?>
