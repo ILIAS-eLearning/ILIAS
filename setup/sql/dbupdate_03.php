@@ -17738,20 +17738,6 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_unit'))
 	$ilDB->createSequence('il_qpl_qst_fq_unit');
 }
 ?>
-<#4049>
-<?php
-if(!$ilDB->tableColumnExists('il_qpl_qst_fq_unit', 'question_fi'))
-{
-	$ilDB->addTableColumn('il_qpl_qst_fq_unit', 'question_fi',
-		array(
-			'type'    => 'integer',
-			'length'  => 4,
-			'notnull' => true,
-			'default' => 0
-		)
-	);
-}
-?>
 <#4050>
 <?php
 if(!$ilDB->tableExists('il_qpl_qst_fq_ucat'))
@@ -18014,6 +18000,20 @@ while($row = $ilDB->fetchAssoc($res))
 			'range_max_txt' => array('text', $row['range_max']),
 		),
 		array('result_id' => array('integer', $row['result_id']))
+	);
+}
+?>
+<#4059>
+<?php
+if(!$ilDB->tableColumnExists('il_qpl_qst_fq_unit', 'question_fi'))
+{
+	$ilDB->addTableColumn('il_qpl_qst_fq_unit', 'question_fi',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		)
 	);
 }
 ?>
