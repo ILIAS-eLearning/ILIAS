@@ -245,7 +245,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
 		$ilToolbar->addSeparator();
 
-		$ilToolbar->addButton($this->lng->txt("export"),
+		$ilToolbar->addButton($this->lng->txt("export_html"),
 			$this->ctrl->getLinkTarget($this, "export"));				
 				
 		include_once "Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
