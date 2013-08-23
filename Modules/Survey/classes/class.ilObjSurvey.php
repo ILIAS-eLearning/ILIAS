@@ -1480,7 +1480,7 @@ class ilObjSurvey extends ilObject
 * @return array An array containing the following keys: result (boolean) and messages (array)
 * @access public
 */
-	function canStartSurvey($anonymous_id = NULL)
+	function canStartSurvey($anonymous_id = NULL, $a_no_rbac = false)
 	{
 		global $ilAccess;
 		
@@ -1522,7 +1522,7 @@ class ilObjSurvey extends ilObject
 			$edit_settings = true;
 		}
 		// check rbac permissions
-		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
+		if (!$a_no_rbac && !$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			array_push($messages, $this->lng->txt("cannot_participate_survey"));
 			$result = FALSE;
@@ -6089,6 +6089,34 @@ class ilObjSurvey extends ilObject
 		$ilDB->manipulate("UPDATE svy_360_appr".
 			" SET has_closed = ".$ilDB->quote(null, "integer").
 			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer"));
+	}
+	
+	public static function validateExternalRaterCode($a_ref_id, $a_code)
+	{				
+		if(!isset($_SESSION["360_extrtr"][$a_ref_id]))
+		{			
+			$svy = new self($a_ref_id);
+			$svy->loadFromDB();
+			if($svy->canStartSurvey(null, true) &&
+				$svy->get360Mode() &&
+				$svy->isAnonymousKey($a_code))
+			{
+				$anonymous_id = $svy->getAnonymousIdByCode($a_code);
+				if($anonymous_id)
+				{
+					if(sizeof($svy->getAppraiseesToRate(null, $anonymous_id)))
+					{
+						$_SESSION["360_extrtr"][$a_ref_id] = true;
+						return true;
+					}
+				}			
+			}
+
+			$_SESSION["360_extrtr"][$a_ref_id] = false;	
+			return false;
+		}
+		
+		return $_SESSION["360_extrtr"][$a_ref_id];
 	}
 	
 	
