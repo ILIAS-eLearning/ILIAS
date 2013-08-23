@@ -17789,3 +17789,90 @@ if(!$ilDB->tableColumnExists('il_qpl_qst_fq_ucat', 'question_fi'))
 	);
 }
 ?>
+<#4052>
+<?php
+if(!$ilDB->tableExists('il_qpl_qst_fq_res'))
+{
+	$fields = array(
+		'result_id'     => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi'   => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'result'        => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'range_min'     => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'range_max'     => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'tolerance'     => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'unit_fi'       => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'formula'       => array(
+			'type'    => 'clob',
+			'notnull' => false,
+			'default' => null
+		),
+		'rating_simple' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 1
+		),
+		'rating_sign'   => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0.25
+		),
+		'rating_val'    => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0.25
+		),
+		'rating_unit'   => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0.25
+		),
+		'points'        => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'resprecision'  => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable('il_qpl_qst_fq_res', $fields);
+	$ilDB->addPrimaryKey('il_qpl_qst_fq_res', array('result_id'));
+	$ilDB->createSequence('il_qpl_qst_fq_res');
+}
+?>
