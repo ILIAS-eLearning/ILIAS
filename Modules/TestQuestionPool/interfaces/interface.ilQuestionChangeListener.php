@@ -11,10 +11,10 @@
  */
 interface ilQuestionChangeListener
 {
-//	/**
-//	 * @param assQuestion $question
-//	 */
-//	public function notifyQuestionCreated(assQuestion $question);
+	/**
+	 * @param assQuestion $question
+	 */
+	public function notifyQuestionCreated(assQuestion $question);
 
 	/**
 	 * @param assQuestion $question
