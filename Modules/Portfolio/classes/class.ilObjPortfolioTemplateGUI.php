@@ -11,7 +11,7 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  *
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExport
  *
  * @ingroup ModulesPortfolio
  */
@@ -77,6 +77,15 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 				$this->ctrl->forwardCommand($cmd);
 				break;
 			
+			case 'ilexportgui':
+				$this->prepareOutput();
+				$this->tabs_gui->activateTab("export");
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this); 
+				$exp_gui->addFormat("xml");
+				$this->ctrl->forwardCommand($exp_gui);
+				break;
+			
 			default:			
 				$this->addHeaderAction($cmd);				
 				return ilObject2GUI::executeCommand();		
@@ -108,6 +117,10 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			$this->tabs_gui->addTab("settings",
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));
+			
+			$this->tabs_gui->addTab("export",
+				$this->lng->txt("export"),
+				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));			
 		}				
 			
 		if ($this->checkPermissionBool("read"))

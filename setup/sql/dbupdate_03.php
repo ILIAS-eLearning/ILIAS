@@ -18017,3 +18017,7 @@ if(!$ilDB->tableColumnExists('il_qpl_qst_fq_unit', 'question_fi'))
 	);
 }
 ?>
+<#4060>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
