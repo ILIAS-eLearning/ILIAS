@@ -5764,15 +5764,13 @@ class ilObjSurvey extends ilObject
 			" WHERE obj_id = ".$ilDB->quote($this->getSurveyId(), "integer").		
 			" AND appr_id = ".$ilDB->quote($a_appraisee_id, "integer"));		
 		while($row = $ilDB->fetchAssoc($set))
-		{					
-		
-			
+		{										
 			if($row["anonymous_id"])
 			{				
 				$res["a".$row["anonymous_id"]] = array(
 					"lastname" => "unknown code ".$row["anonymous_id"],
 					"sent" => $row["mail_sent"],
-					"finished" => $finished
+					"finished" => null
 				);
 				$anonymous_ids[] = $row["anonymous_id"];
 			}
@@ -5803,7 +5801,7 @@ class ilObjSurvey extends ilObject
 						"code" => $item["code"],
 						"href" => $item["href"],
 						"sent" => $res["a".$item["id"]]["sent"],
-						"finished" => (bool)$this->is360SurveyStarted($a_appraisee_id, null, $item["id"])
+						"finished" => (bool)$this->is360SurveyStarted($a_appraisee_id, null, $item["code"])
 					);					
 				}
 			}
