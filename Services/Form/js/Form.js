@@ -1,5 +1,9 @@
 il.Form = {
 
+	escapeSelector: function(str) {
+		return str.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1');
+	},
+
 	sub_active: [],	// active sub forms for each context
 
 	//ad
@@ -13,12 +17,16 @@ il.Form = {
 
 	// hide sub forms
 	hideSubForm: function (id) {
+		id = il.Form.escapeSelector(id);
 		$("#" + id).css('overflow', 'hidden').css('height', '0px').css('display', 'none');
 	},
 
 	// show Subform
 	showSubForm: function (id, cont_id, cb) {
 		var nh, obj, k, m;
+
+		id      = il.Form.escapeSelector(id);
+		cont_id = il.Form.escapeSelector(cont_id);
 
 		if (cb == null) {
 			il.Form.sub_active[cont_id] = id;
@@ -37,7 +45,7 @@ il.Form = {
 
 			// activated in the meantime?
 			for (m = 0; m < il.Form.sub_active.length; m++) {
-				if (this.id == il.Form.sub_active[m]) {
+				if (il.Form.escapeSelector(this.id) == il.Form.sub_active[m]) {
 					$(this).css('display', '');
 				}
 			}
@@ -45,7 +53,7 @@ il.Form = {
 		});
 
 		// activate subform
-		obj = document.getElementById(id);
+		obj = $("#" + id).get(0);
 		if (obj && obj.style.display == 'none' && (cb == null || cb.checked == true)) {
 			obj.style.display = '';
 			obj.style.position = 'relative';
@@ -75,7 +83,7 @@ il.Form = {
 				$(this).css('display', 'none');
 				// activated in the meantime?
 				for (k = 0; k < il.Form.sub_active.length; k++) {
-					if (this.id == il.Form.sub_active[k]) {
+					if (il.Form.escapeSelector(this.id) == il.Form.sub_active[k]) {
 						$(this).css('display', '');
 					}
 				}
@@ -93,10 +101,10 @@ il.Form = {
 		$("a.ilLinkInputRemove").click(function (e) {
 			var id = this.parentNode.id;
 			id = id.substr(0, id.length - 4);
-			$("input[name=" + id + "_ajax_type]").val('');
-			$("input[name=" + id + "_ajax_id]").val('');
-			$("input[name=" + id + "_ajax_target]").val('');
-			$("#" + id + "_value").html('');
+			$("input[name=" + Form.escapeSelector(id) + "_ajax_type]").val('');
+			$("input[name=" + Form.escapeSelector(id) + "_ajax_id]").val('');
+			$("input[name=" + Form.escapeSelector(id) + "_ajax_target]").val('');
+			$("#" + il.Form.escapeSelector(id) + "_value").html('');
 			$(this.parentNode).css('display', 'none');
 			console.log(id);
 		});
@@ -105,6 +113,8 @@ il.Form = {
 	// set internal link in form item
 	addInternalLink: function (link, title, input_id, ev) {
 		var type, id, part, target = "";
+
+		input_id = il.Form.escapeSelector(input_id);
 
 		$("#" + input_id + "_value").html($(ev.target).html());
 
@@ -130,6 +140,8 @@ il.Form = {
 	// initialisation for number fields
 	initNumericCheck: function (id, decimals_allowed) {
 		var current;
+		
+		id = il.Form.escapeSelector(id);
 		
 		$('#' + id).keydown(function (event) {
 
