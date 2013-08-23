@@ -238,41 +238,18 @@ function hideMenu(id)
 	obj = document.getElementById(id);
 	if (obj)
 	{
-		obj.style.visibility = 'hidden';
+		$(obj).addClass("ilNoDisplay");
 	}
 }
 
 function showMenu(id, x, y)
 {
-	var obj = document.getElementById(id);
-	
+	var obj = document.getElementById(id);	
 	if (!obj) return;
-/* alert("x:" + x + " y:" + y); */
-	obj.style.visibility = '';
-	obj.style.left = x + 10 + "px";
-	obj.style.top = y + "px";
 	
-	var w = Math.floor(getBodyWidth() / 2);
-
-	var wih = ilGetWinInnerHeight();
-	var yoff = ilGetWinPageYOffset();
-	var top = ilGetOffsetTop(obj);
-	
-/*alert("menu.offsetTop:" + top
-	+ "\nmenu.offsetHeight:" + obj.offsetHeight
-	+ "\nwin.innerHeight:" + wih
-	+ "\nwin.pageYOffset:" + yoff
-	);*/
-
-	if (Mposx > w)
-	{
-		obj.style.left = Mposx - (obj.offsetWidth + 10) + "px";
-	}
-
-	if (top + (obj.offsetHeight + 10) > wih + yoff)
-	{
-		obj.style.top = (wih + yoff - (obj.offsetHeight + 10)) + "px";
-	}
+	$(obj).removeClass("ilNoDisplay");
+	YAHOO.util.Dom.setXY(obj, [x,y], true);
+	il.Overlay.fixPosition(id);
 }
 
 function doMouseDblClick(e, id)
