@@ -383,10 +383,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		
 		parent::addCommandButtons();
 		
-		if(!$this->isRegistrationPossible())
-		{
-			return false;
-		}
 
 		switch($this->container->getSubscriptionType())
 		{
@@ -397,7 +393,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('crs_update_subscr_request'));				
 					$this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('crs_cancel_subscr_request'));				
 				}
-				else
+				elseif($this->isRegistrationPossible())
 				{
 					$this->form->clearCommandButtons();
 					$this->form->addCommandButton('join', $this->lng->txt('crs_join_request'));
@@ -405,6 +401,11 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				}
 				break;
 		}
+		if(!$this->isRegistrationPossible())
+		{
+			return false;
+		}
+
 		return true;		
 	}
 
