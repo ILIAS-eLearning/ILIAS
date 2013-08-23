@@ -17692,3 +17692,49 @@ else
 	);
 }
 ?>
+<#4049>
+<?php
+if(!$ilDB->tableExists('il_qpl_qst_fq_unit'))
+{
+	$fields = array(
+		'unit_id'     => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'unit'        => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'factor'      => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'baseunit_fi' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'category_fi' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sequence'    => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable('il_qpl_qst_fq_unit', $fields);
+	$ilDB->addPrimaryKey('il_qpl_qst_fq_unit', array('unit_id'));
+	$ilDB->createSequence('il_qpl_qst_fq_unit');
+}
+?>
