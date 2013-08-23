@@ -1473,7 +1473,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{				
 			// closing survey?
 			$is_appraisee = false; 
-			if($this->object->isAppraisee($ilUser->getId()))
+			if($this->object->get360Mode() && 
+				$this->object->isAppraisee($ilUser->getId()))
 			{
 				$info->addSection($this->lng->txt("survey_360_appraisee_info"));
 
@@ -1619,9 +1620,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}					
 					
 					if(sizeof($appr_ids))
-					{	
-						
-												
+					{																			
 						// map existing runs to appraisees
 						$active_appraisees = array();
 						if($participant_status)
