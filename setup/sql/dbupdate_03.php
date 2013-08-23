@@ -17890,3 +17890,18 @@ if(!$ilDB->tableColumnExists('il_qpl_qst_fq_res', 'result_type'))
 	);
 }
 ?>
+<#4054>
+<?php
+if(!$ilDB->tableColumnExists('il_qpl_qst_fq_res', 'range_min_txt'))
+{
+	$ilDB->addTableColumn(
+		'il_qpl_qst_fq_res', 'range_min_txt', array('type' => 'text', 'length' => 4000, 'notnull' => false)
+	);
+}
+if(!$ilDB->tableColumnExists('il_qpl_qst_fq_res', 'range_max_txt'))
+{
+	$ilDB->addTableColumn(
+		'il_qpl_qst_fq_res', 'range_max_txt', array('type' => 'text', 'length' => 4000, 'notnull' => false)
+	);
+}
+?>
