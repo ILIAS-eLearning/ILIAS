@@ -17989,3 +17989,17 @@ if(!$ilDB->tableColumnExists('il_qpl_qst_fq_var', 'range_max_txt'))
 	);
 }
 ?>
+<#4057>
+<?php
+$res = $ilDB->query('SELECT variable_id, range_min, range_max FROM il_qpl_qst_fq_var');
+while($row = $ilDB->fetchAssoc($res))
+{
+	$ilDB->update('il_qpl_qst_fq_var',
+		array(
+			'range_min_txt' => array('text', $row['range_min']),
+			'range_max_txt' => array('text', $row['range_max']),
+		),
+		array('variable_id' => array('integer', $row['variable_id']))
+	);
+}
+?>
