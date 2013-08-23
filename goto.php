@@ -127,6 +127,8 @@ if($target_type == "impr")
 	ilUtil::redirect('ilias.php?baseClass=ilImprintGUI');
 }
 
+var_dump("checkgoto");
+
 // goto is not granted?
 include_once("Services/Init/classes/class.ilStartUpGUI.php");
 if(!ilStartUpGUI::_checkGoto($_GET["target"]))
