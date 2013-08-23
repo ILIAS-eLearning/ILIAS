@@ -1596,8 +1596,6 @@ class ilStartUpGUI
 			return false;
 		}
 		
-		var_dump("checkgoto1");
-		
 		$location = $objDefinition->getLocation($type);
 		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");

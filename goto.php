@@ -39,13 +39,8 @@ if (isset($_GET["client_id"]))
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
 
-var_dump("checkgoto0");
-exit();
-
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
-
-var_dump("checkgoto05");
 
 // special handling for direct navigation request
 require_once "./Services/Navigation/classes/class.ilNavigationHistoryGUI.php";
@@ -131,8 +126,6 @@ if($target_type == "impr")
 {
 	ilUtil::redirect('ilias.php?baseClass=ilImprintGUI');
 }
-
-var_dump("checkgoto");
 
 // goto is not granted?
 include_once("Services/Init/classes/class.ilStartUpGUI.php");
