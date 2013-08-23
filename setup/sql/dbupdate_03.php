@@ -17905,3 +17905,72 @@ if(!$ilDB->tableColumnExists('il_qpl_qst_fq_res', 'range_max_txt'))
 	);
 }
 ?>
+<#4055>
+<?php
+if(!$ilDB->tableExists('il_qpl_qst_fq_var'))
+{
+	$fields = array(
+		'variable_id'  => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi'  => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'variable'     => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'range_min'    => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'range_max'    => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'unit_fi'      => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'step_dim_min' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'step_dim_max' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'varprecision' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'intprecision' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 1
+		)
+	);
+	$ilDB->createTable('il_qpl_qst_fq_var', $fields);
+	$ilDB->addPrimaryKey('il_qpl_qst_fq_var', array('variable_id'));
+	$ilDB->createSequence('il_qpl_qst_fq_var');
+}
+?>
