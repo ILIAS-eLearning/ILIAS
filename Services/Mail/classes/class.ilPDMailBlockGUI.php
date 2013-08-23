@@ -178,7 +178,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			else
 			{
 				$this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
-				$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIcon.png'));
+				$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.png'));
 				$this->tpl->setVariable('ALT_SENDER', ilMail::_getIliasMailerName());
 			}
 
