@@ -11,7 +11,7 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  *
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExport
+ * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI
  *
  * @ingroup ModulesPortfolio
  */
