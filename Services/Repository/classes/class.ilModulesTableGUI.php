@@ -95,6 +95,7 @@ class ilModulesTableGUI extends ilTable2GUI
 				{					
 					$obj_types[$rt["id"]] = array(
 						"object" => $rt["class_name"],
+						"caption" => $lng->txt("obj_".$rt["id"]),
 						"subdir" => $mod["subdir"],
 						"grp" => $rt["grp"],
 						"default_pos" => $rt["default_pos"]
@@ -110,9 +111,10 @@ class ilModulesTableGUI extends ilTable2GUI
 		{								
 			$pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
 			if($pl_id)
-			{
+			{				
 				$obj_types[$pl_id] = array(
 					"object" => $pl_name,
+					"caption" => ilPlugin::lookupTxt("rep_robj", $pl_id, "obj_".$pl_id),
 					"subdir" => $lng->txt("cmps_plugin"),
 					"grp" => "",
 					"default_pos" => 2000 
@@ -148,6 +150,7 @@ class ilModulesTableGUI extends ilTable2GUI
 			$data[] = array(
 				"id" => $obj_type,
 				"object" => $item["object"],
+				"caption" => $item["caption"],
 				"subdir" => $item["subdir"],
 				"pos" => (int)substr($org_pos, 4),
 				"pos_group" => $pos_grp_id,
@@ -197,7 +200,8 @@ class ilModulesTableGUI extends ilTable2GUI
 		}
 
 		$this->tpl->setCurrentBlock("rep_object");
-		$this->tpl->setVariable("TXT_REP_OBJECT", $a_set["object"]);
+		// #11598 - using "caption" (from lng) instead of "object"
+		$this->tpl->setVariable("TXT_REP_OBJECT", $a_set["caption"]);
 		$this->tpl->setVariable("TXT_REP_OBJECT_ID", $a_set["id"]);
 		$this->tpl->setVariable("IMG_REP_OBJECT",
 			ilObject::_getIcon("", "tiny", $a_set["id"]));
