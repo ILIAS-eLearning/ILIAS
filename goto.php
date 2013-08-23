@@ -39,8 +39,12 @@ if (isset($_GET["client_id"]))
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
 
+var_dump("checkgoto0");
+
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
+
+var_dump("checkgoto05");
 
 // special handling for direct navigation request
 require_once "./Services/Navigation/classes/class.ilNavigationHistoryGUI.php";
