@@ -1129,6 +1129,9 @@ class SurveyQuestion
 			$mob_obj =& new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
+		
+		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
+		ilSurveySkill::handleQuestionDeletion($question_id, $obj_id);
 	}
 
 /**
