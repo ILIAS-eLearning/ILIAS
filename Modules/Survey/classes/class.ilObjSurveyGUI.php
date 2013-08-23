@@ -1470,7 +1470,45 @@ class ilObjSurveyGUI extends ilObjectGUI
 				
 		$big_button = false;
 		if ($showButtons)
-		{									
+		{				
+			// closing survey?
+			$is_appraisee = false; 
+			if($this->object->isAppraisee($ilUser->getId()))
+			{
+				$info->addSection($this->lng->txt("survey_360_appraisee_info"));
+
+				$appr_data = $this->object->getAppraiseesData();
+				$appr_data = $appr_data[$ilUser->getId()];
+				$info->addProperty($this->lng->txt("survey_360_raters_status_info"), $appr_data["finished"]);		
+
+				if(!$appr_data["closed"])
+				{
+					$close_button_360 = '<div>'.
+						'<a class="submit" href="'.$this->ctrl->getLinkTargetByClass("ilsurveyparticipantsgui", "confirmappraiseeclose").'">'.
+						$this->lng->txt("survey_360_appraisee_close_action").'</a></div>';
+
+					$txt = "survey_360_appraisee_close_action_info";
+					if($this->object->get360SkillService())
+					{
+						$txt .= "_skill";
+					}								
+					$info->addProperty($this->lng->txt("status"), 
+						$close_button_360.$this->lng->txt($txt));									
+				}
+				else								
+				{									
+					ilDatePresentation::setUseRelativeDates(false);
+
+					$dt = new ilDateTime($appr_data["closed"], IL_CAL_UNIX);								
+					$info->addProperty($this->lng->txt("status"), 
+						sprintf($this->lng->txt("survey_360_appraisee_close_action_status"),
+							ilDatePresentation::formatDate($dt)));										
+				}
+				
+				$is_appraisee = true;
+			}
+			
+			
 			// handle code				
 			
 			// validate incoming
@@ -1513,6 +1551,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 			// (final) check for proper anonymous code
 			if(!$this->object->isAccessibleWithoutCode() && 
+				!$is_appraisee &&
 				$code_input && // #11346
 				(!$anonymous_code || !$this->object->isAnonymousKey($anonymous_code)))
 			{				
@@ -1524,7 +1563,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$_SESSION["anonymous_id"][$this->object->getId()] = $anonymous_code;
 			
 			// code is mandatory and not given yet
-			if(!$anonymous_code && !$this->object->isAccessibleWithoutCode())
+			if(!$is_appraisee &&
+				$anonymous_code && 
+				!$this->object->isAccessibleWithoutCode())
 			{				
 				$info->setFormAction($this->ctrl->getFormAction($this, "infoScreen"));
 				$info->addSection($this->lng->txt("anonymization"));
@@ -1579,39 +1620,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					
 					if(sizeof($appr_ids))
 					{	
-						// closing survey
-						if($this->object->isAppraisee($ilUser->getId()))
-						{
-							$info->addSection($this->lng->txt("survey_360_appraisee_info"));
 						
-							$appr_data = $this->object->getAppraiseesData();
-							$appr_data = $appr_data[$ilUser->getId()];
-							$info->addProperty($this->lng->txt("survey_360_raters_status_info"), $appr_data["finished"]);		
-														
-							if(!$appr_data["closed"])
-							{
-								$close_button_360 = '<div>'.
-									'<a class="submit" href="'.$this->ctrl->getLinkTargetByClass("ilsurveyparticipantsgui", "confirmappraiseeclose").'">'.
-									$this->lng->txt("survey_360_appraisee_close_action").'</a></div>';
-								
-								$txt = "survey_360_appraisee_close_action_info";
-								if($this->object->get360SkillService())
-								{
-									$txt .= "_skill";
-								}								
-								$info->addProperty($this->lng->txt("status"), 
-									$close_button_360.$this->lng->txt($txt));									
-							}
-							else								
-							{									
-								ilDatePresentation::setUseRelativeDates(false);
-								
-								$dt = new ilDateTime($appr_data["closed"], IL_CAL_UNIX);								
-								$info->addProperty($this->lng->txt("status"), 
-									sprintf($this->lng->txt("survey_360_appraisee_close_action_status"),
-										ilDatePresentation::formatDate($dt)));										
-							}
-						}
 												
 						// map existing runs to appraisees
 						$active_appraisees = array();
@@ -1676,7 +1685,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							}						
 						}																
 					}					
-					else
+					else if(!$is_appraisee)
 					{
 						ilUtil::sendFailure($this->lng->txt("survey_360_no_appraisees"));
 					}																										
