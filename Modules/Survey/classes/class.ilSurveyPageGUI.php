@@ -1028,12 +1028,9 @@ class ilSurveyPageGUI
 		
 		$data = $this->object->getSurveyQuestions();
 		$data = $data[$a_id];
-		
-		$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));			
-		$q_gui = $data["type_tag"]."GUI";
-		
+					
+		$q_gui = $data["type_tag"]."GUI";		
 		$ilCtrl->setParameterByClass($q_gui, "pgov", $this->current_page);
-		$ilCtrl->setParameterByClass($q_gui, "ref_id", $qpl_ref_id);
 		$ilCtrl->setParameterByClass($q_gui, "q_id", $a_id);
 		
 		$ilCtrl->redirectByClass($q_gui, "editQuestion");
