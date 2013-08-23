@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/Portfolio/prtt/4_4"
+	xmlns:t = 'http://www.ilias.de/Modules/Portfolio/prtt/4_4'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- Portfolio -->
+	<element name='Portfolio'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Comments' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:BgColor' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:FontColor' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Img' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Ppic' minOccurs='1' maxOccurs='1'/>		
+			<element ref='t:Dir' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Description' type='t:Data' />
+	<element name='Comments' type='t:Data' />
+	<element name='BgColor' type='t:Data' />
+	<element name='FontColor' type='t:Data' />
+	<element name='Img' type='t:Data' />
+	<element name='Ppic' type='t:Data' />
+	<element name='Dir' type='t:Data' />
+
+	<!-- PortfolioPage -->
+	<element name='PortfolioPage'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:PortfolioId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:OrderNr' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Type' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='PortfolioId' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='OrderNr' type='t:Data' />
+	<element name='Type' type='t:Data' />
+
+</schema>
