@@ -13718,3 +13718,112 @@ exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#Download ZIP Structure
 exc#:#exc_multi_feedback_file#:#Multi-Feedback File
 exc#:#exc_multi_feedback_files#:#Multi-Feedback Files
+assessment#:#assFormulaQuestion#:#Formula Question
+assessment#:#parseQuestion#:#Parse Question
+assessment#:#variables#:#Variables
+assessment#:#results#:#Results
+assessment#:#select_unit#:#--- Select Unit ---
+assessment#:#formula#:#Formula
+assessment#:#rating_simple#:#Simple Rating
+assessment#:#unit#:#Unit
+assessment#:#range_min#:#Range (Minimum)
+assessment#:#range_max#:#Range (Maximum)
+assessment#:#step_dim_min#:#Dimension (Minimum)
+assessment#:#step_dim_max#:#Dimension (Maximum)
+assessment#:#tolerance#:#Tolerance (%)
+assessment#:#result_units#:#Available Units
+assessment#:#all_units#:#All Units
+assessment#:#precision#:#Precision
+assessment#:#err_range#:#The maximum range must be greater than the minimum range
+assessment#:#err_no_min_range#:#Please enter a minimum range value
+assessment#:#err_no_max_range#:#Please enter a maximum range value
+assessment#:#err_no_precision#:#Please enter a precision
+assessment#:#err_wrong_precision#:#The precision must be an integer number greater or equal zero
+assessment#:#err_no_min_range_number#:#The minimum range must be number
+assessment#:#err_no_max_range_number#:#The maximum range must be number
+assessment#:#err_tolerance_wrong_value#:#The tolerance must be a percentage value between 0 and 100´
+assessment#:#err_wrong_points#:#You must enter points for a result
+assessment#:#err_no_formula#:#You must enter a formula
+assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent 
+assessment#:#rating_sign#:#Rate Sign
+assessment#:#rating_value#:#Rate Value
+assessment#:#rating_unit#:#Rate Unit
+assessment#:#rated_sign#:#Sign
+assessment#:#rated_value#:#Value
+assessment#:#rated_unit#:#Unit
+assessment#:#suggest_range#:#Suggest Range
+assessment#:#units#:#Units
+assessment#:#qpl_qst_formulaquestion_00_no_category#:#No category assigned
+assessment#:#category#:#Category
+assessment#:#categories#:#Categories
+assessment#:#new_category#:#New Unit Category
+assessment#:#selected_unit#:#Selected Unit
+assessment#:#new_unit#:#New Unit
+assessment#:#factor#:#Factor
+assessment#:#baseunit#:#Base Unit
+assessment#:#unit_placeholder#:#** New Unit **
+assessment#:#err_no_unitname#:#Please enter a unit name
+assessment#:#err_wrong_unitfactor#:#Please enter a correct factor for the unit
+assessment#:#err_unit_in_variables#:#The unit cannot be deleted. It is aleady in use in one or more test questions.
+assessment#:#err_unit_in_results#:#The unit cannot be deleted. It is aleady in use in one or more test questions.
+assessment#:#err_unit_is_baseunit#:#The unit cannot be deleted. It is used as base unit by other units.
+assessment#:#err_rating_advanced_not_allowed#:#A rating other than simple rating is not allowed since you are offering multiple result units with an identical base unit.
+assessment#:#err_wrong_categoryname#:#The category already exists.
+assessment#:#un_sure_delete_categories#:#Are you sure you want to delete the selected categories?
+assessment#:#un_sure_delete_categories_s#:#Are you sure you want to delete the selected category?
+assessment#:#un_deleted_categories#:#Deletion successfully processed
+assessment#:#un_deleted_categories_s#:#Deletion successfully processed
+assessment#:#un_cat_deletion_errors_f#:#Cannot delete certain categories:
+assessment#:#un_cat_deletion_errors_f_s#:#Cannot delete category:
+assessment#:#un_cat_deletion_errors_p#:#Could not delete certain categories:
+assessment#:#un_cat_deletion_errors_p_s#:#Could not delete category:
+assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.
+assessment#:#un_sure_delete_units#:#Are you sure you want to delete the selected units?
+assessment#:#un_sure_delete_units_s#:#Are you sure you want to delete the selected unit?
+assessment#:#un_deleted_units#:#Deletion successfully processed
+assessment#:#un_deleted_units_s#:#Deletion successfully processed
+assessment#:#un_unit_deletion_errors_f#:#Cannot delete certain units:
+assessment#:#un_unit_deletion_errors_f_s#:#Cannot delete unit:
+assessment#:#un_unit_deletion_errors_p#:#Could not delete certain units:
+assessment#:#un_unit_deletion_errors_p_s#:#Could not delete unit:
+assessment#:#selected_category#:#Selected Category: %s
+assessment#:#un_sel_cat_sel_unit#:#Selected Category: %s, Selected Unit: %s
+assessment#:#un_sequence#:#Sequence
+assessment#:#un_no_category_id_passed#:#The requested category does not exist.
+assessment#:#un_category_not_exist#:#The requested category does not exist.
+assessment#:#un_no_unit_id_passed#:#The requested unit does not exist.
+assessment#:#un_unit_not_exist#:#The requested unit does not exist.
+assessment#:#un_save_order#:#Save Order
+assessment#:#intprecision#:#Divisible By
+assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.
+assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.
+assessment#:#err_duplicate_variables#:#You used a variable more than once. This is not allowed in the question text.
+assessment#:#result_type_selection#:#Result Type Selection
+assessment#:#result_dec#:#Decimal
+assessment#:#result_frac#:#Fraction
+assessment#:#result_co_frac#:#Coprime Fraction
+assessment#:#no_result_type#:#Select No Result Type
+assessment#:#result_dec_info#:#Valid results are i.e.: 2,3 and 2.3
+assessment#:#result_frac_info#:#i.e.: 1/3 and 2/6 are valid results
+assessment#:#result_co_frac_info#:#Canceled out fraction i.e.: only 1/3 is a valid result
+assessment#:#unit_editor#:#Unit Editor
+assessment#:#custom_categories#:#Question-Categories
+assessment#:#adm_categories#:#Pool-Categories
+assessment#:#change_adm_categories_not_allowed#:#You do not have any permissions concerning this category.
+assessment#:#change_adm_units_not_allowed#:#This unit can only by changed by administrator
+assessment#:#expected_result_type#:#Expected result type
+assessment#:#enter_valid_values#:#Please enter valid value. Chars will be evaluated as incorrect!
+assessment#:#res_contains_undef_var#:#A result formula contains an undefined variable!
+assessment#:#que_contains_unused_var#:#The question text contains a variable, that is not used in any result formula!
+assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!
+assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect information!!
+assessment#:#un_show_units#:#Show Units
+assessment#:#un_local_units#:#Local Units
+assessment#:#un_global_units#:#Global Units
+assessment#:#un_units_of_category_x#:#Units of Category: %s
+assessment#:#un_unit_in_use#:#The unit is already in use.
+assessment#:#variable_x#:#Variable %s
+assessment#:#result_x#:#Result %s
+assessment#:#rating#:#Rating
+assessment#:#advanced_rating#:#Advanced Rating
+assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.
