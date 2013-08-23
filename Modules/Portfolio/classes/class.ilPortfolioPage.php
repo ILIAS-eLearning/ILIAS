@@ -154,11 +154,14 @@ class ilPortfolioPage extends ilPageObject
 	/**
 	 * Create new portfolio page
 	 */
-	function create()
+	function create($a_import = false)
 	{
 		global $ilDB;
 
-		$this->setOrderNr(self::lookupMaxOrderNr($this->portfolio_id) + 10);
+		if(!$a_import)
+		{
+			$this->setOrderNr(self::lookupMaxOrderNr($this->portfolio_id) + 10);
+		}
 
 		$id = $ilDB->nextId("usr_portfolio_page");
 		$this->setId($id);
@@ -168,8 +171,11 @@ class ilPortfolioPage extends ilPageObject
 
 		$ilDB->insert("usr_portfolio_page", $fields);
 
-		parent::create();
-		$this->saveInternalLinks($this->getXMLContent());
+		if(!$a_import)
+		{
+			parent::create();
+			$this->saveInternalLinks($this->getXMLContent());
+		}
 	}
 
 	/**
@@ -272,7 +278,7 @@ class ilPortfolioPage extends ilPageObject
 	 * @param int $a_portfolio_id
 	 * @return array
 	 */
-	static function getAllPages($a_portfolio_id)
+	static function getAllPages($a_portfolio_id, $a_co_page_only = false)
 	{
 		global $ilDB, $lng;
 
@@ -288,7 +294,10 @@ class ilPortfolioPage extends ilPageObject
 				$rec["title"] = $lng->txt("profile");
 			}
 			
-			$pages[] = $rec;
+			if(!$a_co_page_only || $rec["type"] == self::TYPE_PAGE)
+			{
+				$pages[] = $rec;
+			}
 		}
 		return $pages;
 	}

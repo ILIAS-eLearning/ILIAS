@@ -199,17 +199,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	//
 	// CREATE/EDIT
 	// 
-	
-	protected function initCreationForms($a_new_type)
-	{		
-		$forms = parent::initCreationForms($a_new_type);
-		
-		// :TODO: no import for now?
-		unset($forms[self::CFORM_IMPORT]);
-		
-		return $forms;
-	}
-	
+
 	protected function initDidacticTemplate(ilPropertyFormGUI $a_form)
 	{
 		global $ilUser;

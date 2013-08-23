@@ -53,7 +53,7 @@ class ilBlogExporter extends ilXmlExporter
 	{
 		return array (
                 "4.3.0" => array(
-                        "namespace" => "http://www.ilias.de/Services/Modules/Blog/4_3",
+                        "namespace" => "http://www.ilias.de/Modules/Blog/4_3",
                         "xsd_file" => "ilias_blog_4_3.xsd",
                         "uses_dataset" => true,
                         "min" => "4.3.0",
