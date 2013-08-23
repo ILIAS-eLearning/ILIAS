@@ -13719,3 +13719,113 @@ exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
 exc#:#exc_multi_feedback_file#:#Multi-Feedback Datei
 exc#:#exc_multi_feedback_files#:#Multi-Feedback Dateien
+assessment#:#assFormulaQuestion#:#Formelfrage
+assessment#:#parseQuestion#:#Frage analysieren
+assessment#:#variables#:#Variablen
+assessment#:#results#:#Ergebnisse
+assessment#:#select_unit#:#--- Einheit auswählen ---
+assessment#:#formula#:#Formel
+assessment#:#rating_simple#:#Einfache Bewertung
+assessment#:#unit#:#Einheit
+assessment#:#range_min#:#Bereich (Minimum)
+assessment#:#range_max#:#Bereich (Maximum)
+assessment#:#step_dim_min#:#Dimension (Minimum)
+assessment#:#step_dim_max#:#Dimension (Maximum)
+assessment#:#tolerance#:#Toleranz (%)
+assessment#:#result_units#:#Verfügbare Einheiten
+assessment#:#all_units#:#Alle Einheiten
+assessment#:#precision#:#Präzision
+assessment#:#err_range#:#Die obere Grenze muss größer als die untere Grenze sein
+assessment#:#err_no_min_range#:#Bitte geben Sie einen Wert für die untere Grenze ein
+assessment#:#err_no_max_range#:#Bitte geben Sie einen Wert für die obere Grenze ein
+assessment#:#err_no_precision#:#Bitte geben Sie einen Wert für die Präzision an
+assessment#:#err_wrong_precision#:#Die Präzision muss eine Ganzzahl größer oder gleich Null sein
+assessment#:#err_no_min_range_number#:#Die untere Grenze muss eine Zahl sein
+assessment#:#err_no_max_range_number#:#Die obere Grenze muss eine Zahl sein
+assessment#:#err_tolerance_wrong_value#:#Die Toleranz muss ein prozentualer Wert zwischen 0 und 100 sein
+assessment#:#err_wrong_points#:#Bitte vergeben Sie Punkte für das Ergebnis
+assessment#:#err_no_formula#:#Bitte geben Sie eine Formel zur Berechnung des Ergebnisses an
+assessment#:#err_wrong_rating_advanced#:#Bitte stellen Sie sicher, dass die Summe der erweiterten Bewertungsoptionen genau 100 Prozent ergibt
+assessment#:#rating_sign#:#Bewertung (Vorzeichen)
+assessment#:#rating_value#:#Bewertung (Wert)
+assessment#:#rating_unit#:#Bewertung (Einheit)
+assessment#:#rated_sign#:#Vorzeichen
+assessment#:#rated_value#:#Wert
+assessment#:#rated_unit#:#Einheit
+assessment#:#suggest_range#:#Grenzen vorschlagen
+assessment#:#units#:#Einheiten
+assessment#:#qpl_qst_formulaquestion_00_no_category#:#Keine Kategorie zugewiesen
+assessment#:#category#:#Kategorie
+assessment#:#categories#:#Kategorien
+assessment#:#new_category#:#Neue Einheiten-Kategorie
+assessment#:#selected_unit#:#Ausgewählte Einheit
+assessment#:#new_unit#:#Neue Einheit
+assessment#:#factor#:#Faktor
+assessment#:#baseunit#:#Basiseinheit
+assessment#:#unit_placeholder#:#** Neue Einheit **
+assessment#:#err_no_unitname#:#Bitte geben Sie einen Namen für die Einheit ein
+assessment#:#err_wrong_unitfactor#:#Bitte geben Sie einen korrekten Faktor für die Einheit ein
+assessment#:#err_unit_in_variables#:#Die Einheit kann nicht gelöscht werden. Sie wird bereits in Testfragen verwendet.
+assessment#:#err_unit_in_results#:#Die Einheit kann nicht gelöscht werden. Sie wird bereits in Testfragen verwendet.
+assessment#:#err_unit_is_baseunit#:#Die Einheit kann nicht gelöscht werden. Sie wird von anderen Einheiten als Basiseinheit verwendet.
+assessment#:#err_rating_advanced_not_allowed#:#Sie können nur die einfache Bewertung verwenden, da Sie mehrere Ergebniseinheiten mit einer identischen Basiseinheit verwenden.
+assessment#:#err_wrong_categoryname#:#Die Kategorie existiert bereits.
+assessment#:#un_sure_delete_categories#:#Sind Sie sicher, dass die gewählten Kategorien gelöscht werden sollen?
+assessment#:#un_sure_delete_categories_s#:#Sind Sie sicher, dass die gewählte Kategorie gelöscht werden soll?
+assessment#:#un_deleted_categories#:#Die gewählten Kategorien wurden erfolgreich gelöscht.
+assessment#:#un_deleted_categories_s#:#Die gewählte Kategorie wurde erfolgreich gelöscht.
+assessment#:#un_cat_deletion_errors_f#:#Die folgenden Kategorien können nicht gelöscht werden:
+assessment#:#un_cat_deletion_errors_f_s#:#Die folgende Kategorie kann nicht gelöscht werden:
+assessment#:#un_cat_deletion_errors_p#:#Die folgenden Kategorien konnten nicht gelöscht werden:
+assessment#:#un_cat_deletion_errors_p_s#:#Die folgende Kategorie konnte nicht gelöscht werden:
+assessment#:#err_category_in_use#:#Die Kategorie kann nicht gelöscht werden. Eine oder mehrere Einheiten der Kategorie sind bereits in Benutzung.
+assessment#:#un_sure_delete_units#:#Sind Sie sicher, dass die gewählten Einheiten gelöscht werden sollen?
+assessment#:#un_sure_delete_units_s#:#Sind Sie sicher, dass die gewählte Einheit gelöscht werden soll?
+assessment#:#un_deleted_units#:#Die gewählten Einheiten wurden erfolgreich gelöscht.
+assessment#:#un_deleted_units_s#:#Die gewählte Einheit wurde erfolgreich gelöscht.
+assessment#:#un_unit_deletion_errors_f#:#Die folgenden Einheiten können nicht gelöscht werden:
+assessment#:#un_unit_deletion_errors_f_s#:#Die folgende Einheit kann nicht gelöscht werden:
+assessment#:#un_unit_deletion_errors_p#:#Die folgenden Einheiten konnten nicht gelöscht werden:
+assessment#:#un_unit_deletion_errors_p_s#:#Die folgende Einheit konnte nicht gelöscht werden:
+assessment#:#selected_category#:#Ausgewählte Kategorie: %s
+assessment#:#un_sel_cat_sel_unit#:#Ausgewählte Kategorie: %s, Ausgewählte Einheit: %s
+assessment#:#un_sequence#:#Reihenfolge
+assessment#:#un_no_category_id_passed#:#Die angefragte Kategorie existiert nicht.
+assessment#:#un_category_not_exist#:#Die angefragte Kategorie existiert nicht.
+assessment#:#un_no_unit_id_passed#:#Die angefragte Einheit existiert nicht.
+assessment#:#un_unit_not_exist#:#Die angefragte Einheit existiert nicht.
+assessment#:#reorder#:#Reihenfolge ändern
+assessment#:#un_save_order#:#Reihenfolge speichern
+assessment#:#intprecision#:#Teilbar durch
+assessment#:#errRecursionInResult#:#Die Formel enthält eine nicht auflösbare Rekursion.
+assessment#:#err_duplicate_results#:#Sie haben eine Ergebnisvariable mehrfach verwendet. Das ist innerhalb des Aufgabentextes nicht erlaubt!
+assessment#:#err_duplicate_variables#:#Sie haben eine Variable mehrfach verwendet. Das ist innerhalb des Aufgabentextes nicht erlaubt!
+assessment#:#result_type_selection#:#Ergebnistypauswahl
+assessment#:#result_dec#:#Dezimal
+assessment#:#result_frac#:#Bruch
+assessment#:#result_co_frac#:#Teilerfremder Bruch
+assessment#:#no_result_type#:#Keinen Ergebnistyp festlegen
+assessment#:#result_dec_info#:#Gültige Dezimalzahlen sind z.B: 2,3 und 2.3
+assessment#:#result_frac_info#:#Z.B.: 1/3 und 2/6  sind gültige Ergebnisse
+assessment#:#result_co_frac_info#:#Gekürzter Bruch z.B.: Nur 1/3 ist ein gültiges Ergebnis
+assessment#:#unit_editor#:#Einheiteneditor
+assessment#:#custom_categories#:#Fragen-Kategorien
+assessment#:#adm_categories#:#Pool-Kategorien
+assessment#:#change_adm_categories_not_allowed#:#An dieser Stelle haben Sie keine Schreibberechtigung an der Kategorie.
+assessment#:#change_adm_units_not_allowed#:#Diese Einheit kann nur durch einen Administrator geändert werden
+assessment#:#expected_result_type#:#Erwarteter Ergebnistyp
+assessment#:#enter_valid_values#:#Bitte achten Sie auf die Eingabe gültiger Werte. Die Eingabe von Buchstaben wird als falsch gewertet! 
+assessment#:#res_contains_undef_var#:#In der Formel werden Variablen verwendet, die im Fragen-Text nicht vorhanden sind.
+assessment#:#que_contains_unused_var#:#Im Fragen-Text sind Variablen enthalten, die in keiner Formel verwendet werden.
+assessment#:#res_contains_undef_res#:#In der Formel werden Ergebnisse verwendet, die im Fragen-Text nicht vorhanden sind.
+assessment#:#errFormulaQuestion#:#Eine Formelfrage enthält fehlerhafte Angaben
+assessment#:#un_show_units#:#Zeige Einheiten
+assessment#:#un_local_units#:#Lokale Einheiten
+assessment#:#un_global_units#:#Globale Einheiten
+assessment#:#un_units_of_category_x#:#Einheiten der Kategorie: %s
+assessment#:#un_unit_in_use#:#Die Einheit wird bereits verwendet.
+assessment#:#variable_x#:#Variable %s
+assessment#:#result_x#:#Ergebnis %s
+assessment#:#rating#:#Bewertung
+assessment#:#advanced_rating#:#Erweiterte Bewertung
+assessment#:#advanced_rating_info#:#Die erweiterte Bewertung ist nur dann möglich, wenn Sie für das Ergebnis eine Einheit bestimmt haben.
