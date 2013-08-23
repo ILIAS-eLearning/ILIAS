@@ -18025,3 +18025,11 @@ if(!$ilDB->tableColumnExists('il_qpl_qst_fq_unit', 'question_fi'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4062>
+<?php
+$ilDB->manipulateF(
+	"UPDATE il_plugin SET last_update_version = %s WHERE name = %s AND slot_id = %s AND plugin_id = %s",
+	array('text', 'text', 'text', 'text'),
+	array('99.0.1', 'assFormulaQuestion', 'qst', 'formulaquestion')
+);
+?>
