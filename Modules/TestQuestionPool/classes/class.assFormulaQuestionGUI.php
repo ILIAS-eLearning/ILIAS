@@ -339,7 +339,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
 	{
 		$save = $this->isSaveCommand();
 		
-		$this->tpl->addCss('./Modules/TestQuestionPool/templates/default/formula.css');
 		$this->getQuestionTemplate();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
