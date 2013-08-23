@@ -29,8 +29,7 @@ class ilPortfolioExporter extends ilXmlExporter
 		$pg_ids = array();		
 		foreach ($a_ids as $id)
 		{			
-			// no blog (template) pages
-			foreach(ilPortfolioTemplatePage::getAllPages($id, true) as $p)
+			foreach(ilPortfolioTemplatePage::getAllPages($id) as $p)
 			{
 				$pg_ids[] = "prtt:".$p["id"];
 			}

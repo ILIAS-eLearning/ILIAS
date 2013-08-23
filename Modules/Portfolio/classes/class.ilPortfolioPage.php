@@ -212,6 +212,7 @@ class ilPortfolioPage extends ilPageObject
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 
+		$this->setPortfolioId($rec["portfolio_id"]);
 		$this->setType($rec["type"]);
 		$this->setTitle($rec["title"]);
 		$this->setOrderNr($rec["order_nr"]);
@@ -278,7 +279,7 @@ class ilPortfolioPage extends ilPageObject
 	 * @param int $a_portfolio_id
 	 * @return array
 	 */
-	static function getAllPages($a_portfolio_id, $a_co_page_only = false)
+	static function getAllPages($a_portfolio_id)
 	{
 		global $ilDB, $lng;
 
@@ -294,10 +295,7 @@ class ilPortfolioPage extends ilPageObject
 				$rec["title"] = $lng->txt("profile");
 			}
 			
-			if(!$a_co_page_only || $rec["type"] == self::TYPE_PAGE)
-			{
-				$pages[] = $rec;
-			}
+			$pages[] = $rec;			
 		}
 		return $pages;
 	}

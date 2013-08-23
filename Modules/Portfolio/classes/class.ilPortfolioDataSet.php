@@ -203,11 +203,7 @@ class ilPortfolioDataSet extends ilDataSet
 					$newObj->setOrderNr($a_rec["OrderNr"]);				
 					$newObj->create(true);
 					
-					// no blog (template) pages
-					if($a_rec["Type"] == 1)
-					{
-						$a_mapping->addMapping("Services/COPage", "pg", "prtt:".$a_rec["Id"], "prtt:".$newObj->getId());				
-					}
+					$a_mapping->addMapping("Services/COPage", "pg", "prtt:".$a_rec["Id"], "prtt:".$newObj->getId());									
 				}
 				break;
 		}
