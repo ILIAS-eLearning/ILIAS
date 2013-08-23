@@ -40,6 +40,7 @@ if (isset($_GET["client_id"]))
 }
 
 var_dump("checkgoto0");
+exit();
 
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
