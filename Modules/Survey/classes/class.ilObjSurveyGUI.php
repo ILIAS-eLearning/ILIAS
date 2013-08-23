@@ -37,19 +37,31 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilNavigationHistory, $ilErr, $ilTabs;
 
-		if (!$ilAccess->checkAccess("read", "", $this->ref_id) && 
-			!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		$this->external_rater_360 = false;
+		if($this->object->get360Mode() &&
+			$_SESSION["anonymous_id"][$this->object->getId()] && 
+			ilObjSurvey::validateExternalRaterCode($this->object->getRefId(), 
+				$_SESSION["anonymous_id"][$this->object->getId()]))
 		{
-			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+			$this->external_rater_360 = true;
 		}
 		
-		// add entry to navigation history
-		if (!$this->getCreationMode() &&
-			$ilAccess->checkAccess("read", "", $this->ref_id))
+		if(!$this->external_rater_360)
 		{
-			$this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-			$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");	
-			$ilNavigationHistory->addItem($this->ref_id, $link, "svy");
+			if (!$ilAccess->checkAccess("read", "", $this->ref_id) && 
+				!$ilAccess->checkAccess("visible", "", $this->ref_id))
+			{
+				$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+			}
+
+			// add entry to navigation history
+			if (!$this->getCreationMode() &&
+				$ilAccess->checkAccess("read", "", $this->ref_id))
+			{
+				$this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+				$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");	
+				$ilNavigationHistory->addItem($this->ref_id, $link, "svy");
+			}
 		}
 
 		$cmd = $this->ctrl->getCmd("properties");						
@@ -1426,7 +1438,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilTabs, $ilUser, $ilToolbar;
 		
-		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		if (!$this->external_rater_360 &&
+			!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1441,7 +1454,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$info->enablePrivateNotes();
 				
 		// "active" survey?
-		$canStart = $this->object->canStartSurvey();
+		$canStart = $this->object->canStartSurvey(null, $this->external_rater_360);
 		
 		$showButtons = $canStart["result"];
 		if (!$showButtons)
@@ -1790,26 +1803,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function _goto($a_target, $a_access_code = "")
 	{
 		global $ilAccess, $ilErr, $lng;
-		if ($ilAccess->checkAccess("read", "", $a_target))
+		
+		// see ilObjSurveyAccess::_checkGoto()
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		if (strlen($a_access_code))
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			if (strlen($a_access_code))
-			{
-				$_SESSION["anonymous_id"][ilObject::_lookupObjId($a_target)] = $a_access_code;
-				$_GET["baseClass"] = "ilObjSurveyGUI";
-				$_GET["cmd"] = "infoScreen";
-				$_GET["ref_id"] = $a_target;
-				include("ilias.php");
-				exit;
-			}
-			else
-			{
-				$_GET["baseClass"] = "ilObjSurveyGUI";
-				$_GET["cmd"] = "infoScreen";
-				$_GET["ref_id"] = $a_target;
-				include("ilias.php");
-				exit;
-			}
+			$_SESSION["anonymous_id"][ilObject::_lookupObjId($a_target)] = $a_access_code;
+			$_GET["baseClass"] = "ilObjSurveyGUI";
+			$_GET["cmd"] = "infoScreen";
+			$_GET["ref_id"] = $a_target;
+			include("ilias.php");
+			exit;
+		}
+		
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{			
+			$_GET["baseClass"] = "ilObjSurveyGUI";
+			$_GET["cmd"] = "infoScreen";
+			$_GET["ref_id"] = $a_target;
+			include("ilias.php");
+			exit;		
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{

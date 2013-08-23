@@ -60,6 +60,15 @@ class ilSurveyExecutionGUI
 		$this->ilias =& $ilias;
 		$this->object =& $a_object;
 		$this->tree =& $tree;
+				
+		$this->external_rater_360 = false;
+		if($this->object->get360Mode() &&
+			$_SESSION["anonymous_id"][$this->object->getId()] && 
+			ilObjSurvey::validateExternalRaterCode($this->object->getRefId(), 
+					$_SESSION["anonymous_id"][$this->object->getId()]))
+		{
+			$this->external_rater_360 = true;
+		}
 
 		// stay in preview mode
 		$this->preview = (bool)$_REQUEST["prvw"];
@@ -105,7 +114,8 @@ class ilSurveyExecutionGUI
 			return true;
 		}
 						
-		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
+		if (!$this->external_rater_360 &&
+			!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
 		{
 			// only with read access it is possible to run the test
 			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
