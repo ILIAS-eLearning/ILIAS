@@ -1533,7 +1533,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$code_input = true;
 				}
-			}						
+			}				
 							
 			// try to find code for current (registered) user from existing run
 			if($this->object->getAnonymize() && !$anonymous_code)
@@ -1564,7 +1564,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 			// code is mandatory and not given yet
 			if(!$is_appraisee &&
-				$anonymous_code && 
+				!$anonymous_code && 
 				!$this->object->isAccessibleWithoutCode())
 			{				
 				$info->setFormAction($this->ctrl->getFormAction($this, "infoScreen"));
