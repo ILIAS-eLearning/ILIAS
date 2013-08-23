@@ -18021,3 +18021,7 @@ if(!$ilDB->tableColumnExists('il_qpl_qst_fq_unit', 'question_fi'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4061>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

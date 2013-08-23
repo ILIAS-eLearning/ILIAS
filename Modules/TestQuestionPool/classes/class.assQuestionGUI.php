@@ -1680,6 +1680,19 @@ abstract class assQuestionGUI
 		
 		$tabs->addTarget('feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
 	}
+
+	/**
+	 * @param ilTabsGUI $tabs
+	 */
+	protected function addTab_Units(ilTabsGUI $tabs)
+	{
+		/**
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilCtrl;
+
+		$tabs->addTarget('units', $ilCtrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
+	}
 	
 	/**
 	 * adds the hints tab to ilTabsGUI

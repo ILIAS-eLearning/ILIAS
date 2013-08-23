@@ -6,16 +6,15 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once 'Modules/Test/classes/class.ilObjTest.php';
 
 /**
- * Class ilObjAssessmentFolderGUI
- *
- * @author Helmut Schottmüller <hschottm@gmx.de>
- * 
- * @version $Id$
- * 
- * @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI, ilSettingsTemplateGUI
- *
- * @ingroup ModulesTest
- */
+* Class ilObjAssessmentFolderGUI
+*
+* @author Helmut Schottmüller <hschottm@gmx.de>
+* @version $Id$
+* 
+* @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI, ilSettingsTemplateGUI, ilGlobalUnitConfigurationGUI
+*
+* @extends ilObjectGUI
+*/
 class ilObjAssessmentFolderGUI extends ilObjectGUI
 {
 
@@ -39,16 +38,20 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	
 	public function &executeCommand()
 	{
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilTabs     ilTabsGUI
+		 */
+		global $rbacsystem, $ilTabs;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 
-                global $ilTabs;
-
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
-                                $ilTabs->activateTab('perm_settings');
+                $ilTabs->activateTab('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -60,7 +63,23 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$set_tpl_gui = new ilSettingsTemplateGUI($this->getSettingsTemplateConfig());
 				$this->ctrl->forwardCommand($set_tpl_gui);
 				break;
-                            
+
+			case 'ilglobalunitconfigurationgui':
+				if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
+				{
+					$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
+				}
+
+				$ilTabs->setTabActive('units');
+
+				require_once 'Modules/TestQuestionPool/classes/class.ilGlobalUnitConfigurationGUI.php';
+				require_once 'Modules/TestQuestionPool/classes/class.ilUnitConfigurationRepository.php';
+				$gui = new ilGlobalUnitConfigurationGUI(
+					new ilUnitConfigurationRepository(0)
+				);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 				if($cmd == "" || $cmd == "view")
 				{
@@ -572,6 +591,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$tabs_gui->addTab("templates",
 				$lng->txt("adm_settings_templates"),
 				$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
+		}
+
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget('units', $this->ctrl->getLinkTargetByClass('ilGlobalUnitConfigurationGUI', ''), '', 'ilglobalunitconfigurationgui');
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
