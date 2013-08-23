@@ -17659,4 +17659,36 @@ if (!$ilDB->tableExists('copg_multilang_lang'))
 }
 	
 ?>
+<#4048>
+<?php
+$res = $ilDB->queryF(
+	'SELECT question_type_id, plugin FROM qpl_qst_type WHERE type_tag = %s',
+	array('text'),
+	array('assFormulaQuestion')
+);
+$row = $ilDB->fetchAssoc($res);
 
+if((int)$row['question_type_id'])
+{
+	if((int)$row['plugin'])
+	{
+		$ilDB->manipulateF(
+			'UPDATE qpl_qst_type SET plugin = %s WHERE question_type_id = %s',
+			array('integer', 'integer'),
+			array(0, (int)$row['question_type_id'])
+		);
+	}
+}
+else
+{
+	$res  = $ilDB->query('SELECT MAX(question_type_id) maxid FROM qpl_qst_type');
+	$data = $ilDB->fetchAssoc($res);
+	$max  = $data['maxid'] + 1;
+
+	$ilDB->manipulateF(
+		'INSERT INTO qpl_qst_type (question_type_id, type_tag, plugin) VALUES (%s, %s, %s)',
+		array('integer', 'text', 'integer'),
+		array($max, 'assFormulaQuestion', 0)
+	);
+}
+?>
