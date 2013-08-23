@@ -497,8 +497,15 @@ abstract class ilPlugin
 	static function lookupTxt($a_mod_prefix, $a_pl_id, $a_lang_var)
 	{
 		global $lng;
+		
+		// this enables default language fallback
+		$prefix = $a_mod_prefix."_".$a_pl_id;
+		return $lng->txt($prefix."_".$a_lang_var, $prefix);		
+		
+		/*
 		return $lng->_lookupEntry($lng->lang_key, $a_mod_prefix."_".$a_pl_id,
-			$a_mod_prefix."_".$a_pl_id."_".$a_lang_var);
+			$a_mod_prefix."_".$a_pl_id."_".$a_lang_var);		 
+		*/
 	}
 	
 	/**
