@@ -17974,3 +17974,18 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_var'))
 	$ilDB->createSequence('il_qpl_qst_fq_var');
 }
 ?>
+<#4056>
+<?php
+if(!$ilDB->tableColumnExists('il_qpl_qst_fq_var', 'range_min_txt'))
+{
+	$ilDB->addTableColumn(
+		'il_qpl_qst_fq_var', 'range_min_txt', array('type' => 'text', 'length' => 4000, 'notnull' => false)
+	);
+}
+if(!$ilDB->tableColumnExists('il_qpl_qst_fq_var', 'range_max_txt'))
+{
+	$ilDB->addTableColumn(
+		'il_qpl_qst_fq_var', 'range_max_txt', array('type' => 'text', 'length' => 4000, 'notnull' => false)
+	);
+}
+?>
