@@ -2138,6 +2138,9 @@ abstract class assQuestion
 				$this->createPageObject();
 			}
 		}
+		
+		$this->notifyQuestionCreated();
+		
 		return $this->getId();
 	}
 
@@ -2788,14 +2791,13 @@ abstract class assQuestion
 		}
 	}
 
-/**
-* Creates an instance of a question with a given question id
-*
-* @param integer $question_id The question id
-* @return object The question instance
-* @access public
-*/
-	function &_instanciateQuestion($question_id) 
+	/**
+	 * Creates an instance of a question with a given question id
+	 *
+	 * @param integer $question_id The question id
+	 * @return assQuestion The question instance
+	 */
+	public function &_instanciateQuestion($question_id) 
 	{
 		global $ilCtrl, $ilDB, $lng;
 		
@@ -4019,13 +4021,13 @@ abstract class assQuestion
 		return $this->questionChangeListeners;
 	}
 	
-//	private function notifyQuestionCreated()
-//	{
-//		foreach($this->getQuestionChangeListeners() as $listener)
-//		{
-//			$listener->notifyQuestionCreated($this);
-//		}
-//	}
+	private function notifyQuestionCreated()
+	{
+		foreach($this->getQuestionChangeListeners() as $listener)
+		{
+			$listener->notifyQuestionCreated($this);
+		}
+	}
 	
 	private function notifyQuestionEdited()
 	{

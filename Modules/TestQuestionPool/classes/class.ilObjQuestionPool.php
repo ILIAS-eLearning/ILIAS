@@ -264,9 +264,24 @@ class ilObjQuestionPool extends ilObject
 	function deleteQuestion($question_id)
 	{
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		
-		$question =& ilObjTest::_instanciateQuestion($question_id);
+		$question = assQuestion::_instanciateQuestion($question_id);
+		$this->addQuestionChangeListeners($question);
 		$question->delete($question_id);
+	}
+	
+	/**
+	 * @param assQuestion $question
+	 */
+	public function addQuestionChangeListeners(assQuestion $question)
+	{
+		global $ilDB;
+		
+		foreach(ilObjTest::getPoolQuestionChangeListeners($ilDB, $this->getId()) as $listener)
+		{
+			$question->addQuestionChangeListener($listener);
+		}
 	}
 
 	/**

@@ -438,4 +438,31 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		
 		return $this->sourceQuestionPoolRefIds;
 	}
+	
+	/**
+	 * @param integer $poolObjId
+	 * @return \ilDynamicTestQuestionChangeListener
+	 */
+	public static function getPoolQuestionChangeListener(ilDB $db, $poolObjId)
+	{
+		$query = "
+			SELECT obj_fi
+			FROM tst_dyn_quest_set_cfg
+			INNER JOIN tst_tests
+			ON tst_tests.test_id = tst_dyn_quest_set_cfg.test_fi
+			WHERE source_qpl_fi = %s
+		";
+		
+		$res = $db->queryF($query, array('integer'), array($poolObjId));
+		
+		require_once 'Modules/Test/classes/class.ilDynamicTestQuestionChangeListener.php';
+		$questionChangeListener = new ilDynamicTestQuestionChangeListener($db);
+		
+		while( $row = $db->fetchAssoc($res) )
+		{
+			$questionChangeListener->addTestObjId( $row['obj_fi'] );
+		}
+		
+		return $questionChangeListener;
+	}
 }

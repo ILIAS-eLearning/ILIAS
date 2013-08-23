@@ -301,10 +301,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				if($this->object->getType() == 'qpl')
 				{
 					$q_gui->setTaxonomyIds($this->object->getTaxonomyIds());
-					
-					$q_gui->object->addQuestionChangeListener(
-							ilObjTest::getQuestionChangeListener( $this->object->getId() )
-					);
+					$this->object->addQuestionChangeListeners($q_gui->object);
 				}
 				$q_gui->setQuestionTabs();
 				$ret = $this->ctrl->forwardCommand($q_gui);
@@ -682,6 +679,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$q_gui =& assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
+		$this->object->addQuestionChangeListeners($q_gui->object);
 		$q_gui->object->setObjId($this->object->getId());
 		$q_gui->object->setAdditionalContentEditingMode($addContEditMode);
 		$q_gui->object->createNewQuestion();

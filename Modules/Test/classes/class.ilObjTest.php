@@ -3695,6 +3695,7 @@ function getAnswerFeedbackPoints()
 				$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
 			}
 		}
+		
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE tst_sequence.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 			array('integer'),
 			array($this->getTestId())
@@ -5904,6 +5905,8 @@ function getAnswerFeedbackPoints()
 * @param integer $question_id The question id
 * @return object The question instance
 * @access public
+ * 
+ * @deprecated use assQuestion::_instanciateQuestion($question_id) instead
 */
   function &_instanciateQuestion($question_id)
 	{
@@ -11976,28 +11979,14 @@ function getAnswerFeedbackPoints()
 		$scoring->recalculateSolutions();
 	}
 	
-	public static function getQuestionChangeListener($poolObjectId)
+	public static function getPoolQuestionChangeListeners(ilDB $db, $poolObjId)
 	{
-		global $ilDB;
+		require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 		
-		$query = "
-			SELECT obj_fi
-			FROM tst_dyn_quest_set_cfg
-			INNER JOIN tst_tests
-			ON tst_tests.test_id = tst_dyn_quest_set_cfg.test_fi
-			WHERE source_qpl_fi = %s
-		";
+		$questionChangeListeners = array(
+			ilObjTestDynamicQuestionSetConfig::getPoolQuestionChangeListener($db, $poolObjId)
+		);
 		
-		$res = $ilDB->queryF($query, array('integer'), array($poolObjectId));
-		
-		require_once 'Modules/Test/classes/class.ilTestQuestionChangeListener.php';
-		$questionChangeListener = new ilTestQuestionChangeListener();
-		
-		while( $row = $ilDB->fetchAssoc($res) )
-		{
-			$questionChangeListener->addTestObjId( $row['obj_fi'] );
-		}
-		
-		return $questionChangeListener;
+		return $questionChangeListeners;
 	}
 }
