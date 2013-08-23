@@ -791,7 +791,7 @@ class ilMailFolderGUI
 		else
 		{
 			$from = new ilCustomInputGUI($this->lng->txt('from'));
-			$from->setHtml(ilUtil::img(ilUtil::getImagePath('HeaderIcon.png'), ilMail::_getIliasMailerName()) . '<br />' . ilMail::_getIliasMailerName());
+			$from->setHtml(ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.png'), ilMail::_getIliasMailerName()) . '<br />' . ilMail::_getIliasMailerName());
 			$form->addItem($from);
 		}
 
