@@ -18003,3 +18003,17 @@ while($row = $ilDB->fetchAssoc($res))
 	);
 }
 ?>
+<#4058>
+<?php
+$res = $ilDB->query('SELECT result_id, range_min, range_max FROM il_qpl_qst_fq_res');
+while($row = $ilDB->fetchAssoc($res))
+{
+	$ilDB->update('il_qpl_qst_fq_res',
+		array(
+			'range_min_txt' => array('text', $row['range_min']),
+			'range_max_txt' => array('text', $row['range_max']),
+		),
+		array('result_id' => array('integer', $row['result_id']))
+	);
+}
+?>
