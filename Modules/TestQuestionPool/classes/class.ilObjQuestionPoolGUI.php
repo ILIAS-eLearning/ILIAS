@@ -23,7 +23,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI
  *
  * @ingroup ModulesTestQuestionPool
@@ -219,6 +219,27 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$gui = new ilAssQuestionHintsGUI($questionGUI);
 				$ilCtrl->forwardCommand($gui);
 				
+				break;
+			
+			case 'illocalunitconfigurationgui':
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI->object->setObjId($this->object->getId());
+				$questionGUI->setQuestionTabs();
+
+				$this->ctrl->setReturn($this, 'questions');
+
+				require_once 'Modules/TestQuestionPool/classes/class.ilLocalUnitConfigurationGUI.php';
+				require_once 'Modules/TestQuestionPool/classes/class.ilUnitConfigurationRepository.php';
+				$gui = new ilLocalUnitConfigurationGUI(
+					new ilUnitConfigurationRepository((int)$_GET['q_id'])
+				);
+				$ilCtrl->forwardCommand($gui);
 				break;
 			
 			case 'ilassquestionfeedbackeditinggui':

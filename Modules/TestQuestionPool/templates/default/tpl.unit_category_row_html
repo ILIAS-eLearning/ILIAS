@@ -1,0 +1,5 @@
+<tr class="{CSS_ROW}">
+	<td class="std">{VAL_CHB}</td>
+	<td class="std">{VAL_CATEGORY}</td>
+	<td class="std">{VAL_ACTIONS}</td>
+</tr>
