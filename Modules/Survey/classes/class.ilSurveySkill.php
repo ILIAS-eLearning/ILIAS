@@ -39,11 +39,17 @@ class ilSurveySkill
 		$set = $ilDB->query("SELECT * FROM svy_quest_skill ".
 			" WHERE survey_id = ".$ilDB->quote($this->survey->getId(), "integer")
 			);
+		
+		include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
+		
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$this->q_skill[$rec["q_id"]] = array("q_id" => $rec["q_id"],
-				"base_skill_id" => $rec["base_skill_id"],
-				"tref_id" => $rec["tref_id"]);
+			if (SurveyQuestion::_questionExists($rec["q_id"]))
+			{
+				$this->q_skill[$rec["q_id"]] = array("q_id" => $rec["q_id"],
+					"base_skill_id" => $rec["base_skill_id"],
+					"tref_id" => $rec["tref_id"]);
+			}
 		}
 	}
 	
@@ -139,6 +145,22 @@ class ilSurveySkill
 		unset($this->q_skill[$a_question_id]);
 		
 		$this->removeUsagesOfSkills($skills);
+	}
+
+	/**
+	 * Remove question skill assignment
+	 *
+	 * @param int $a_question_id question id
+	 */
+	static function handleQuestionDeletion($a_question_id, $a_obj_id)
+	{
+		global $ilDB;
+		if (ilObject::_lookupType($a_obj_id) == "svy")
+		{
+			$svy = new ilObjSurvey($obj_id, false);
+			$svy_skill = new ilSurveySkill($svy);
+			$svy_skill->removeQuestionSkillAssignment($a_question_id);
+		}
 	}
 	
 	/**
