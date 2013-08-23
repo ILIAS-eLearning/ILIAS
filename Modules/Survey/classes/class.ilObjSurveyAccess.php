@@ -372,13 +372,9 @@ class ilObjSurveyAccess extends ilObjectAccess
 			return false;
 		}
 		
-		var_dump("-0-");
-		
 		// 360° external raters
 		if ($_GET["accesscode"])
-		{
-			var_dump("-1-");
-			
+		{			
 			include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 			if(ilObjSurvey::validateExternalRaterCode($t_arr[1], $_GET["accesscode"]))
 			{
