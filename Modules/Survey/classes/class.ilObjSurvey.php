@@ -6097,15 +6097,24 @@ class ilObjSurvey extends ilObject
 		{			
 			$svy = new self($a_ref_id);
 			$svy->loadFromDB();
+			
+			var_dump($a_ref_id);
+			
 			if($svy->canStartSurvey(null, true) &&
 				$svy->get360Mode() &&
 				$svy->isAnonymousKey($a_code))
 			{
+				var_dump("-2-");
+				
 				$anonymous_id = $svy->getAnonymousIdByCode($a_code);
 				if($anonymous_id)
 				{
+					var_dump("-3-");
+					
 					if(sizeof($svy->getAppraiseesToRate(null, $anonymous_id)))
 					{
+						var_dump("-4-");
+						
 						$_SESSION["360_extrtr"][$a_ref_id] = true;
 						return true;
 					}
