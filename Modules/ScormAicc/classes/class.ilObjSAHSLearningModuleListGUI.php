@@ -91,6 +91,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 
 			case "editContent":
 				$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id."&amp;cmd=editContent";
+				break;
 
 			case "edit":
 				$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
