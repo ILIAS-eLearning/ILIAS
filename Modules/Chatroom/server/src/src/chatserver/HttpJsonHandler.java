@@ -50,7 +50,7 @@ public abstract class HttpJsonHandler implements HttpHandler {
 				resultString = info.getParams().get("callback") + "(" + resultString + ")";
 			}
 			he.getResponseHeaders().add("connection", "close");
-			he.getResponseHeaders().add("conent-type", "text/javascript");
+			he.getResponseHeaders().add("content-type", "text/javascript");
 			he.sendResponseHeaders(200, resultString.getBytes().length);
 			try {
 				he.getResponseBody().write(resultString.getBytes());

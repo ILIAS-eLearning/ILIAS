@@ -3,30 +3,28 @@ package chatserver;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.midi.MidiDevice;
 
 /**
  * Quick and dirty session handler
  */
 public class HttpSessionGC {
-
+	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	private final RemoteInstances instances;
 	private ScheduledFuture<?> gcHandle;
 	/**
-	 * sessions times out after 10 seconds
+	 * sessions times out after 20 seconds
 	 */
-	private long sessionTimeout = 10000;
+	private long sessionTimeout = 20000;
 
 	public HttpSessionGC(RemoteInstances instances) {
 		this.instances = instances;
@@ -38,7 +36,7 @@ public class HttpSessionGC {
 	public void startGC() {
 
 		final Runnable gc = new Runnable() {
-
+			
 			public void run() {
 				// storage for users to disconnect
 				/**
@@ -61,9 +59,28 @@ public class HttpSessionGC {
 							Subscriber subscriber = subscribers.next();
 							// find all subscribers with a timed out session
 							if (System.currentTimeMillis() - subscriber.getLastConnect() > sessionTimeout) {
+								Logger.getLogger("default").log(
+									Level.INFO,
+									"[{0}] Will remove subscriber {1} fro scope {2}, Last connect: {3}, Current datetime: {4}",
+									new Object[]{
+										instance.getIliasClient(),
+										scope.getId(),
+										subscriber.getId(),
+										sdf.format(new Date(subscriber.getLastConnect())),
+										sdf.format(new Date(System.currentTimeMillis()))
+									}
+								);
 								// remove the subscriber from the scope
 								subscribers.remove();
-								Logger.getLogger("default").finer("removing user " + subscriber.getId());
+								Logger.getLogger("default").log(
+									Level.INFO,
+									"[{0}] Removed subscriber {1} from subscriber list in scope {2}",
+									new Object[] {
+										instance.getIliasClient(),
+										subscriber.getId(),
+										scope.getId()
+									}
+								);
 								// add the subscriber to the "this-users-must-be-disconnected"-list
 								disconnectInfo.getSubscriberList().add(subscriber);
 							}
@@ -73,7 +90,6 @@ public class HttpSessionGC {
 						if (disconnectInfo.getSubscriberList().size() > 0) {
 							disconnectsByInstance.add(disconnectInfo);
 						}
-
 					}
 
 					// merge instance disconnects with global disconnects
@@ -86,7 +102,7 @@ public class HttpSessionGC {
 					// push disconnect information to the remote instance (e.g. ILIAS)
 					sendFeedback(usersToDisconnect);
 				} catch (IOException ex) {
-					Logger.getLogger(HttpSessionGC.class.getName()).log(Level.SEVERE, null, ex);
+					Logger.getLogger("default").log(Level.SEVERE, null, ex);
 				}
 			}
 
@@ -109,7 +125,7 @@ public class HttpSessionGC {
 					}
 
 					URLConnection connection = instance.getFeedbackConnection("");
-					Logger.getLogger("default").finer("calling " + connection.getURL() + " for disconnected users");
+					Logger.getLogger("default").finer("Calling " + connection.getURL() + " for disconnected users");
 					connection.setDoOutput(true); // Triggers POST.
 					connection.setRequestProperty("Accept-Charset", "utf-8");
 					connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");

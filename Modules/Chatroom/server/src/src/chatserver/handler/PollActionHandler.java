@@ -1,14 +1,13 @@
 package chatserver.handler;
 
-import chatserver.HttpChatCallInformation;
-import chatserver.MissingArgumentException;
-import chatserver.ActionHandlerException;
-import chatserver.ActionHandler;
-import chatserver.MapMessageNotifier;
-import chatserver.Subscriber;
+import chatserver.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * handler for fetching all new messages since the last polling call
@@ -21,6 +20,7 @@ import java.util.Map;
  * @todo currently the long waits a maximum of one second... that could be better
  */
 public class PollActionHandler implements ActionHandler {
+	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public Map<String, Object> handle(HttpChatCallInformation info) throws ActionHandlerException {
 		if (!info.getParams().containsKey("id")) {
@@ -43,6 +43,17 @@ public class PollActionHandler implements ActionHandler {
 
 		Subscriber subscriber = info.getScope().getSubscibers().getSubscriberBySessionId(id);
 		subscriber.refreshSubscription();
+		Logger.getLogger("default").log(
+			Level.FINER,
+			"[{0}] Session refreshed for subscriber {1} in scope {2}, Current datetime: {3}",
+			new Object[]{
+				info.getInstance().getIliasClient(),
+				subscriber.getId(),
+				info.getScope().getId(),
+				sdf.format(new Date(subscriber.getLastConnect()))
+			}
+		);
+								
 
 		// using a map notifier to let the messages easily be serialized to json
 		MapMessageNotifier notifier = new MapMessageNotifier();

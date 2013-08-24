@@ -100,7 +100,7 @@ public class RemoteInstance {
 		URL url = new URL(this.feedbackUrl + "ilias.php?baseClass=ilObjChatroomGUI&serverInquiry=true" + "&" + query);
 		URLConnection con = url.openConnection();
 
-		Logger.getLogger("default").finer("calling ILIAS (" + getIliasClient() + ") with session " + getIliasSession());
+		Logger.getLogger("default").finer("[" + getIliasClient() + "] Calling ILIAS with session " + getIliasSession());
 
 		con.setRequestProperty("Cookie", "ilClientId=" + getIliasClient() + ";" + "PHPSESSID=" + getIliasSession());
 		return con;
@@ -159,10 +159,10 @@ public class RemoteInstance {
 			if (m.find()) {
 				setIliasSession(m.group(1));
 
-				Logger.getLogger("default").finer("logged in to ILIAS (" + getIliasClient() + ") using user " + getIliasUser() + ". Session: " + getIliasSession());
+				Logger.getLogger("default").finer("[" + getIliasClient() + "] Logged in to ILIAS using user " + getIliasUser() + ", Session: " + getIliasSession());
 			} else {
-				Logger.getLogger("default").severe("unable to login to ILIAS (" + getIliasClient() + ") using user " + getIliasUser() + ".");
-				throw new RuntimeException("could not login");
+				Logger.getLogger("default").severe("[" + getIliasClient() + "] Could not find session, unable to login to ILIAS using user " + getIliasUser());
+				throw new RuntimeException("Could not login");
 			}
 
 			lastLoggedIn = System.currentTimeMillis();
@@ -174,7 +174,7 @@ public class RemoteInstance {
 			e.printStackTrace();
 
 			if (connection != null) {
-				Logger.getLogger("default").log(Level.SEVERE, "unable to login to ILIAS (" + getIliasClient() + ") using user " + getIliasUser() + ".", e);
+				Logger.getLogger("default").log(Level.SEVERE, "[" + getIliasClient() + "] Unable to login to ILIAS using user " + getIliasUser(), e);
 
 				InputStream in = connection.getErrorStream();
 				int b;
@@ -183,9 +183,9 @@ public class RemoteInstance {
 						System.out.print((char) b);
 					}
 				} catch (IOException ex) {
-					Logger.getLogger(RemoteInstance.class.getName()).log(Level.SEVERE, null, ex);
+					Logger.getLogger("default").log(Level.SEVERE, null, ex);
 				}
-				throw new RuntimeException("could not login");
+				throw new RuntimeException("Could not login");
 			}
 		}
 	}
