@@ -1,10 +1,183 @@
-{BLABLA}
-		<div id="divCheckSopConnector" style="display:block">checking for sopConnector</div>
-		<div id="divOfflineManager" style="display:none">
-			<div><input type="button" value="open client0_205" onclick="openLm('client0_205')"/></div><br />
-			<div><input type="button" value="open client0_206" onclick="openLm('client0_206')"/></div><br />
-			<div><input type="button" value="import client0_207" onclick="importLm('client0_207')"/></div><br />
-			<div><input type="button" value="import client0_208" onclick="importLm('client0_208')"/></div><br />
-			<div><input type="button" value="import tracking" onclick="importTracking('client0_208','55')"/></div><br />
-		</div>
-		<div id="out"></div>
+<script type="text/javascript">
+var clientId = '{CLIENT_ID}',
+	refId = {REF_ID},
+	lmId = {LM_ID},
+	urlId = window.location.hostname+(window.location.pathname.substring(0,window.location.pathname.indexOf('/ilias.php'))),
+	importContentUrl = document.URL+="GetContent",
+	cmdUrl = document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+refId+'&client_id='+clientId+'&cmd=',
+	importTrackingUrl = cmdUrl+'cmi',
+	msg_sop_not_found = '{SOP_NOT_FOUND}',
+	msg_use_firefox = '{USE_FIREFOX}'
+	msg_import_failure		= 'Transfering content or data to SCORM Offline Manager was not successfull. ',
+	msg_import_content		= 'Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait ...',
+	msg_import_content_ok	= 'Transfering content was successfull.',
+	msg_import_tracking		= 'Transfering tracking data to SCORM Offline Manager. Please wait some seconds,',
+	msg_import_tracking_ok	= 'Transfering tracking data was successfull.';
+
+var id=clientId+'_'+lmId;
+//var importTrackingUrl = "http://localhost:81/ilias/trunk/ilias.php?baseClass=ilSAHSPresentationGUI&cmd=cmi";		// Stefan internal NAT
+//var importTrackingUrl = 'http://www.internetlehrer.de/trunk/ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=50&cmd=cmi';
+//&ref_id=55";  
+//var urlId=window.location.hostname+window.location.pathname;
+//urlId=urlId.substring(0,document.URL.indexOf('/ilias.php')));
+//alert(document.URL.indexOf('?'));
+//alert (document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+refId+'&client_id='+clientId+'&cmd=cmi');
+//document.URL.substring(0,document.URL.indexOf('/ilias.php')));
+
+//&client_id=osplbb 
+
+function print(txt) {
+	var divOut = document.getElementById("out");
+	divOut.innerHTML = "";
+	divOut.innerHTML = txt;
+ }
+
+function checkCallback(success) {
+	var divCheck = document.getElementById("divCheckSopConnector");
+	var divManager = document.getElementById("divOfflineManager");
+	
+	if (success) {
+		divCheck.style.display = "none";
+		divManager.style.display = "block";
+	}
+	else {
+		divCheck.style.display = "none";
+		divManager.style.display = "none";
+		print("no sopConnector found"); // Check user_agent Firefox and offer xpi download if allowed 
+	}
+} 
+
+function checkSopConnector(handler) {
+	var timeout = 5000;
+	var sopFound = false;
+	var counter = 0;
+
+	var timer = setInterval(function() { 
+		counter+=100;
+		try {
+			if (sopConnector) {
+				sopFound = true;
+				clearInterval(timer);
+				return;
+				//checkSopVersion(sopConnector.getSopVersion());
+				//alert(sopConnector.getSopVersion());
+			}
+		}
+		catch(e) {}
+		finally {
+			if (sopFound) {
+				clearInterval(timer);
+				if (typeof handler == "function") {
+					handler.call(null,true);
+				}
+				return;
+			}
+			if (counter > timeout) {
+				clearInterval(timer);
+				if (typeof handler == "function") {
+					handler.call(null,false);
+				}
+				return;
+			}
+		}
+	} , 100);
+}
+
+function checkSopVersion(v) {
+	var metas = document.getElementsByTagName('meta');  
+	for (var i=0; i<metas.length; i++) {
+		if (metas[i].getAttribute("name") == "require-sop-version") {
+			var reqV =  metas[i].getAttribute("content");
+			//alert(v + reqV);
+		} 
+	}
+}
+
+
+//nötig?
+function getOfflineUrl(id) {
+	var url = sopConnector.getOfflineUrl(id);
+	return url;
+}
+
+function openLm(id) {
+	var url = getOfflineUrl(id);
+	open(url,"SCORM Offline Player");
+}
+
+function importLm(id) { // url: network address for binary and async zip download
+	var url = sopConnector.atoB(importContentUrl);
+	function handler(success) {
+		alert(success);
+	}
+	sopConnector.importLm(id, url, handler);
+	
+}
+
+var importLmOk,
+	importTrackingOk;
+
+function importLmWait(counter) {
+	if (importLmOk==true) {
+		document.getElementById("divImportLm").innerHTML=msg_import_content_ok;
+		return;
+	}
+	msg_import_content+='.';
+	document.getElementById("divImportLm").innerHTML=msg_import_content;
+	window.setTimeout('importLmWait('+(counter++)+')',200);
+}
+
+function importTrackingWait(counter) {
+	if (importLmOk==true) {
+		document.getElementById("divImportTracking").innerHTML=msg_import_tracking_ok;
+		return;
+	}
+	msg_import_tracking+='.';
+	document.getElementById("divImportTracking").innerHTML=msg_import_tracking;
+	window.setTimeout('importTrackingWait('+(counter++)+')',100);
+}
+
+function importWait(counter) {
+	if (importLmOk == false || importTrackingOk == false) location.replace(cmdUrl+'offlineModeImportStop');
+//	else if (importLmOk == true && importTrackingOk == true) location.replace(cmdUrl+'offlineModeImportOk');
+	else window.setTimeout('importWait('+(counter++)+')',100);
+}
+
+
+function importSOP() {
+	function importLm() { // url: network address for binary and async zip download
+		var url = sopConnector.atoB(importContentUrl);
+		function handler(success) {
+			importLmOk=success;
+		}
+		sopConnector.importLm(id, url, handler);
+		window.setTimeout('importLmWait(1)',200);
+	}
+	function importTracking() {
+		var url = sopConnector.atoB(importTrackingUrl);
+		function handler(success) {
+			importTrackingOk=success;
+		}
+		sopConnector.importTracking(id,url,handler);
+		window.setTimeout('importTrackingWait(1)',100);
+	}
+	document.getElementById("divOfflineManager").innerHTML="";
+	document.getElementById("divImportLm").style.display = "block";
+	document.getElementById("divImportTracking").style.display = "block";
+	importLm();
+	importTracking();
+	window.setTimeout('importWait(1)',1000);
+}
+
+checkSopConnector(checkCallback);
+
+
+</script>
+<div id="divCheckSopConnector" style="display:block">{CHECKING_SOPCONNECTOR}</div>
+<div id="divImportLm" style="display:none"></div>
+<div id="divImportTracking" style="display:none"></div>
+<div id="divOfflineManager" style="display:none">
+	<div><input type="button" value="open client0_205" onclick="openLm('client0_205')"/></div><br />
+	<div><input type="button" value="import" onclick="importSOP()"/></div><br />
+</div>
+<div id="out"></div>
