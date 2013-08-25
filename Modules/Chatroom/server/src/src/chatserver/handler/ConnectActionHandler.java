@@ -65,7 +65,7 @@ public class ConnectActionHandler implements ActionHandler {
 			info.getScope().attatchSubscriber(subscriber);
 			Logger.getLogger("default").log(
 				Level.INFO,
-				"[{0}] Registered session {1} for just attached substriber {2} in scope {3}",
+				"[{0}] Registered session {1} for new substriber {2} in scope {3}",
 				new Object[]{
 					info.getInstance().getIliasClient(),
 					sessionId,
