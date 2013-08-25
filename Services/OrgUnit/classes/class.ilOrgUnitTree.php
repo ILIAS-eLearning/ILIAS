@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once('Services/Tree/classes/class.ilTree.php');
 require_once('Services/OrgUnit/classes/class.ilOrgUnit.php');
@@ -7,7 +7,7 @@ require_once('Services/OrgUnit/classes/class.ilOrgUnit.php');
 /**
 * Organisation Unit Tree
 *
-* @author	Bjoern Heyser <bheyser@databay.de>
+* @author	Oskar Truffer <ot@studer-raimann.ch>
 * @version	$Id$
 *
 * @ingroup ServicesOrgUnit
