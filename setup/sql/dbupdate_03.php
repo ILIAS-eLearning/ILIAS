@@ -18033,3 +18033,61 @@ $ilDB->manipulateF(
 	array('99.0.1', 'assFormulaQuestion', 'qst', 'formulaquestion')
 );
 ?>
+<#4063>
+<?php
+if(!$ilDB->tableColumnExists('sahs_lm','offline_zip_created'))
+{
+	$ilDB->addTableColumn(
+		'sahs_lm',
+		'offline_zip_created',
+		array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	);
+}
+?>
+<#4064>
+<?php
+if(!$ilDB->tableColumnExists('sahs_user','last_access'))
+{
+	$ilDB->addTableColumn(
+		'sahs_user',
+		'last_access',
+		array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	);
+}
+?>
+<#4065>
+<?php
+if(!$ilDB->tableColumnExists('sahs_user','total_time_sec'))
+{
+	$ilDB->addTableColumn(
+		'sahs_user',
+		'total_time_sec',
+		array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => false
+		)
+	);
+}
+?>
+<#4066>
+<?php
+if(!$ilDB->tableColumnExists('sahs_user','sco_total_time_sec'))
+{
+	$ilDB->addTableColumn(
+		'sahs_user',
+		'sco_total_time_sec',
+		array(
+			'type' => 'integer', 
+			'length' => 4,
+			'notnull' => false
+		)
+	);
+}
+?>
