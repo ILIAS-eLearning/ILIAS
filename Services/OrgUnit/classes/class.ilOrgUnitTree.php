@@ -7,7 +7,7 @@ require_once('Services/OrgUnit/classes/class.ilOrgUnit.php');
 /**
 * Organisation Unit Tree
 *
-* @author	Oskar Truffer <ot@studer-raimann.ch>
+* @author	Bjoern Heyser <bheyser@databay.de>
 * @version	$Id$
 *
 * @ingroup ServicesOrgUnit

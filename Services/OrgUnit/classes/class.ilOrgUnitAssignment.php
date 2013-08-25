@@ -4,7 +4,7 @@
 /**
 * Organisation Unit Assignment
 *
-* @author	Oskar Truffer <ot@studer-raimann.ch>
+* @author	Bjoern Heyser <bheyser@databay.de>
 * @version	$Id$
 *
 * @ingroup ServicesOrgUnit

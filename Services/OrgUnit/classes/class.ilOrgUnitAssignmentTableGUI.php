@@ -7,7 +7,7 @@ require_once "./Services/Table/classes/class.ilTable2GUI.php";
 /**
 * Organisation Unit Assignment Table
 *
-* @author	Oskar Truffer <ot@studer-raimann.ch>
+* @author	Bjoern Heyser <bheyser@databay.de>
 * @version	$Id$
 *
 * @ingroup ServicesOrgUnit

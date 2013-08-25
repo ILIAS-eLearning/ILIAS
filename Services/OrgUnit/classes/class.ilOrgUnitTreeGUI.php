@@ -7,7 +7,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 /**
 * Organisation Unit Tree
 *
-* @author	Oskar Truffer <ot@studer-raimann.ch>
+* @author	Bjoern Heyser <bheyser@databay.de>
 * @version	$Id$
 *
 * @ingroup ServicesOrgUnit
