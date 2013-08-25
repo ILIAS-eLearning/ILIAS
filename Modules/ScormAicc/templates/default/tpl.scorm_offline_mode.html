@@ -2,7 +2,7 @@
 var clientId = '{CLIENT_ID}',
 	refId = {REF_ID},
 	lmId = {LM_ID},
-	urlId = window.location.hostname+(window.location.pathname.substring(0,window.location.pathname.indexOf('/ilias.php'))),
+	urlId = window.location.hostname.replace(/www./,'')+(window.location.pathname.substring(0,window.location.pathname.indexOf('/ilias.php'))),
 	importContentUrl = document.URL+="GetContent",
 	cmdUrl = document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+refId+'&client_id='+clientId+'&cmd=',
 	importTrackingUrl = cmdUrl+'cmi',
@@ -14,17 +14,7 @@ var clientId = '{CLIENT_ID}',
 	msg_import_tracking		= 'Transfering tracking data to SCORM Offline Manager. Please wait some seconds,',
 	msg_import_tracking_ok	= 'Transfering tracking data was successfull.';
 
-var id=clientId+'_'+lmId;
-//var importTrackingUrl = "http://localhost:81/ilias/trunk/ilias.php?baseClass=ilSAHSPresentationGUI&cmd=cmi";		// Stefan internal NAT
-//var importTrackingUrl = 'http://www.internetlehrer.de/trunk/ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=50&cmd=cmi';
-//&ref_id=55";  
-//var urlId=window.location.hostname+window.location.pathname;
-//urlId=urlId.substring(0,document.URL.indexOf('/ilias.php')));
-//alert(document.URL.indexOf('?'));
-//alert (document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+refId+'&client_id='+clientId+'&cmd=cmi');
-//document.URL.substring(0,document.URL.indexOf('/ilias.php')));
-
-//&client_id=osplbb 
+var id=urlId+'/'+clientId+'/'+lmId;
 
 function print(txt) {
 	var divOut = document.getElementById("out");
