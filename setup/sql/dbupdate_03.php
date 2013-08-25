@@ -18091,3 +18091,18 @@ if(!$ilDB->tableColumnExists('sahs_user','sco_total_time_sec'))
 	);
 }
 ?>
+<#4067>
+<?php
+if(!$ilDB->tableColumnExists('sahs_user','status'))
+{
+	$ilDB->addTableColumn(
+		'sahs_user',
+		'status',
+		array(
+			'type' => 'integer', 
+			'length' => 1,
+			'notnull' => false
+		)
+	);
+}
+?>
