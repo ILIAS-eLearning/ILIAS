@@ -1,15 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * ilOrgUnit
- *
- * @author	Oskar Truffer <ot@studer-raimann.ch>
- * @version	$Id$
- *
- * @ingroup ServicesOrgUnit
- */
-
 require_once('Services/OrgUnit/exceptions/class.ilOrgUnitException.php');
 
 class ilOrgUnit
