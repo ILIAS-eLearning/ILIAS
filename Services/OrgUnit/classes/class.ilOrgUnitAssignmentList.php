@@ -6,7 +6,7 @@ require_once('Services/OrgUnit/classes/class.ilOrgUnitAssignment.php');
 /**
 * Organisation Unit Assignment List
 *
-* @author	Oskar Truffer <ot@studer-raimann.ch>
+* @author	Bjoern Heyser <bheyser@databay.de>
 * @version	$Id$
 *
 * @ingroup ServicesOrgUnit
