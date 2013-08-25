@@ -1281,6 +1281,13 @@ class ilObjSAHSLearningModule extends ilObject
 		
 		return $new_obj;
 	}
+	
+	public function zipLmForOfflineMode()
+	{
+		$lmDir=ilUtil::getWebspaceDir("filesystem")."/lm_data/lm_".$this->getId();
+		$zipFile=ilUtil::getDataDir()."/lm_data/lm_".$this->getId();
+		return ilUtil::zip($lmDir, $zipFile, true);
+	}
 
 }
 ?>

@@ -665,6 +665,12 @@ $this->ctrl->redirect($this, "properties");
 		
 		if ($this->object->editable != 1)
 		{
+			//check if OfflineMode-Zip has to be created
+			$tmpOfflineMode=ilUtil::yn2tf($_POST["cobj_offline_mode"]);
+			if ($tmpOfflineMode == true && $this->object->getOfflineMode() == false) {
+				$this->object->zipLmForOfflineMode();
+			}
+
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 			$this->object->setOpenMode($_POST["open_mode"]);
 			$this->object->setWidth($_POST["width"]);
@@ -683,7 +689,7 @@ $this->ctrl->redirect($this, "properties");
 			$this->object->setComments(ilUtil::yn2tf($_POST["cobj_comments"]));
 			$this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
 			$this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
-			$this->object->setOfflineMode(ilUtil::yn2tf($_POST["cobj_offline_mode"]));
+			$this->object->setOfflineMode($tmpOfflineMode);
 			$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
 			//$this->object->setDebugPw($_POST["debug_pw"]);
 
