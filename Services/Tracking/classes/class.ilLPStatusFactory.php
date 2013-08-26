@@ -159,7 +159,7 @@ class ilLPStatusFactory
 				return new ilLPStatusTypicalLearningTime($a_obj_id);
 
 			case ilLPObjSettings::LP_MODE_SCORM:
-				include_once 'Services/Tracking/classes/class.ilLPStatusSCORM.php';
+				include_once self::PATH.'class.ilLPStatusSCORM.php';
 				return new ilLPStatusSCORM($a_obj_id);
 
 			case ilLPObjSettings::LP_MODE_TEST_FINISHED:
