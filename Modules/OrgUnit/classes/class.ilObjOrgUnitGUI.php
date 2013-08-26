@@ -42,6 +42,11 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		$this->lng->loadLanguageModule("orgu");
 	}
 
+    function isActiveAdministrationPanel()
+    {
+        return false;
+    }
+
 	public function executeCommand(){
 		global $ilTabs, $lng;
 		$ilTabs = new ilTabsGUI();
@@ -90,6 +95,7 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		$cmd = $this->ctrl->getCmd();
 		switch($cmdClass){
 			case 'illearningprogressgui';
+                $this->tabs_gui->setTabActive('orgu_staff');
 			case 'illplistofprogressgui';
 				if(!$this->checkPermForLP()){
 					ilUtil::sendFailure($lng->txt("permission_denied"), true);
@@ -126,6 +132,39 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 		$this->addHeaderAction();
 		return true;
 	}
+
+    /**
+     * Init object creation form
+     *
+     * @param	string	$a_new_type
+     * @return	ilPropertyFormGUI
+     */
+    protected function initCreateForm($a_new_type)
+    {
+        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+        $form = new ilPropertyFormGUI();
+        $form->setTarget("_top");
+        $form->setFormAction($this->ctrl->getFormAction($this, "save"));
+        $form->setTitle($this->lng->txt($a_new_type."_new"));
+
+        // title
+        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+        $ti->setMaxLength(128);
+        $ti->setSize(40);
+        $ti->setRequired(true);
+        $form->addItem($ti);
+
+        // description
+        $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+        $ta->setCols(40);
+        $ta->setRows(2);
+        $form->addItem($ta);
+
+        $form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
+        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
+
+        return $form;
+    }
 
 	public function editTranslationsObject(){
 		parent::editTranslationsObject();
