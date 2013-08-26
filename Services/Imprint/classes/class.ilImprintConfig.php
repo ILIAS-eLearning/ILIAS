@@ -11,7 +11,7 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  * @version $Id$
  * @ingroup ServicesImprint
  */
-class ilImprintPageConfig extends ilPageConfig
+class ilImprintConfig extends ilPageConfig
 {
 	/**
 	 * Init
