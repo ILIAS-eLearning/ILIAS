@@ -1577,7 +1577,7 @@ class ilPersonalSkillsGUI
 				$ref_id = $r["rep_ref_id"];
 				$obj_id = ilObject::_lookupObjId($ref_id);
 				$title = ilObject::_lookupTitle($obj_id);
-				include_once("./classes/class.ilLink.php");
+				include_once("./Services/Link/classes/class.ilLink.php");
 				$a_tpl->setCurrentBlock("resource_item");
 				$a_tpl->setVariable("TXT_RES", $title);
 				$a_tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
