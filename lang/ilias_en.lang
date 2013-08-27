@@ -10035,8 +10035,8 @@ mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via
 content#:#glo_quick_navigation#:#Quick Navigation
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Preset subject on reply
-administration#:#obj_frma#:#Forum
-administration#:#obj_frma_desc#:#Global Forum Settings
+common#:#obj_frma#:#Forum
+common#:#obj_frma_desc#:#Global Forum Settings
 administration#:#forum_settings#:#Forumsettings
 administration#:#show_topics_overview#:#Topic Overview
 administration#:#topics_overview_info#:#Please select the attributes which should to be shown in the topics overview.
