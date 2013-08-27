@@ -1,7 +1,26 @@
 <script>
-	$.ui.sortable.prototype.restoreInitialOrder = function() {
-		$(this).html($(this).data('initial_order'));
-	};
+	var initialorder = new Array();
+	var initialized_sortable = false;
+	
+	function saveInitialOrder()
+	{
+		var ul = document.getElementById("orderlist");
+		var listelements = ul.getElementsByTagName("li");
+		for (var i = 0; i < listelements.length; i++)
+		{
+			initialorder.push(listelements[i].id);
+		}
+	}
+
+	function restoreInitialOrder()
+	{
+		for (var i = initialorder.length - 1; i > 0; i--)
+		{
+			var $a = $("#" + initialorder[i]);
+			var $b = $("#" + initialorder[i- 1]);
+			$a.before($b);
+		}
+	}
 
 	function saveOrder(listID)
 	{
@@ -16,18 +35,8 @@
 		document.test_output.orderresult.value = itemsString;
 	}
 
-	function restoreInitialOrder()
-	{
-		$('#orderlist').sortable("destroy");
-		$("#orderlist").html($("#orderlist").data('initial_order'));
-		createSortable();
-	}
-
 	function createSortable() {
 		$("#orderlist").sortable({
-			create: function (event, ui) {
-				$(this).data('initial_order', $(this).html());
-			},
 			opacity: 0.6,
 			revert: true,
 			cursor: "move",
@@ -37,5 +46,6 @@
 
 	$(function() {
 		createSortable();
+		saveInitialOrder();
 	});
 </script>
