@@ -845,9 +845,11 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		{
 			// BEGIN: add javascript code for javascript enabled ordering questions
 			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_qpl_ordering_output_javascript.html", "Modules/TestQuestionPool");
-			$this->tpl->setCurrentBlock("head_content");
-			$this->tpl->setVariable("JS_LOCATION", "./Modules/TestQuestionPool/js/toolman/");
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock('head_content');
+
+			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
 			// END: add javascript code for javascript enabled ordering questions
 			
 			// BEGIN: add additional stylesheet for javascript enabled ordering questions
@@ -991,9 +993,11 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		{
 			// BEGIN: add javascript code for javascript enabled ordering questions
 			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_qpl_ordering_output_javascript.html", "Modules/TestQuestionPool");
-			$this->tpl->setCurrentBlock("head_content");
-			$this->tpl->setVariable("JS_LOCATION", "./Modules/TestQuestionPool/js/toolman/");
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("head_content");
+
+			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
 			// END: add javascript code for javascript enabled ordering questions
 			
 			// BEGIN: add additional stylesheet for javascript enabled ordering questions
