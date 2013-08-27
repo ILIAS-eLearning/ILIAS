@@ -44,7 +44,7 @@ public class PollActionHandler implements ActionHandler {
 		Subscriber subscriber = info.getScope().getSubscibers().getSubscriberBySessionId(id);
 		subscriber.refreshSubscription();
 		Logger.getLogger("default").log(
-			Level.FINER,
+			Level.FINEST,
 			"[{0}] Session refreshed for subscriber {1} in scope {2}, Current datetime: {3}",
 			new Object[]{
 				info.getInstance().getIliasClient(),

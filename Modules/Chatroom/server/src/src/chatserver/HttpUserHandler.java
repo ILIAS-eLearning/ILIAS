@@ -182,10 +182,12 @@ public class HttpUserHandler implements ChatHandler {
 						////////////////////////
 						// execute the action //
 						////////////////////////
+						Logger.getLogger("default").finer("Accepted connection from " + remote + ": " + he.getRequestURI().toString());
 						return handleCall(info);
 					}
 				}
 
+				Logger.getLogger("default").warning("Refused connection from " + remote + " (not in the list of allowed hosts): " + he.getRequestURI().toString());
 				throw new Exception(remote + " is not in the list of allowed hosts");
 			}
 		});
@@ -196,9 +198,9 @@ public class HttpUserHandler implements ChatHandler {
 		this.server.createContext("/frontend", new HttpJsonHandler(this.instances) {
 
 			public Map<String, Object> handleRequest(HttpExchange he, HttpChatCallInformation info) throws Exception {
-				Logger.getLogger("default").finer("Frontend connection from " + he.getRemoteAddress().getAddress().getHostAddress().toString() + ": " + he.getRequestURI().toString());
+				Logger.getLogger("default").finest("Frontend connection from " + he.getRemoteAddress().getAddress().getHostAddress().toString() + ": " + he.getRequestURI().toString());
 				if (!info.getAction().equals("Poll") && !info.getAction().equals("Status")) {
-					Logger.getLogger("default").finer("Access from " + he.getRemoteAddress().getAddress().getHostAddress().toString() + " denied to handler: " + info.getAction());
+					Logger.getLogger("default").warning("Access from " + he.getRemoteAddress().getAddress().getHostAddress().toString() + " denied to handler: " + info.getAction());
 					throw new Exception(info.getAction() + " is not accessible by frontend call. Use /backend instead.");
 				}
 				////////////////////////
