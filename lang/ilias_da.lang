@@ -198,7 +198,7 @@ common#:#account_expires_body#:#Du har begrænset adgang, den vil udløbe:
 common#:#account_expires_subject#:#[ILIAS] Din konto udløber
 common#:#action_aborted#:#Handling afbrudt
 common#:#actions#:#Handlinger
-common#:#activate_assessment_logging#:#Aktiver logging for Test&Assessment
+common#:#activate_assessment_logging#:#Aktiver logging for Test & Assessment
 common#:#activate_tracking#:#Aktiver sporing
 common#:#activate_https#:#HTTPS håndtering af ILIAShandling <br/>(Betaling, brugernavn)
 common#:#activation#:#Aktivering
@@ -3096,14 +3096,14 @@ assessment#:#maxchars#:#Maksimum antal karakterer
 assessment#:#maximum_nr_of_tries_reached#:#Du har nået maximum antallet af forsøg for denne test. Testen kan ikke åbnes!
 assessment#:#maximum_points#:#Maksimalt opnåelige point
 assessment#:#meaning#:#betydning
-assessment#:#min_percentage_ne_0#:#Du skal angive et minimum procentdel af 0 procent! Mærke skemaet er ikke gemt!
+assessment#:#min_percentage_ne_0#:#Du skal angive et minimum procentdel af 0 procent! Karakterskemaet er ikke gemt!
 assessment#:#multiline_answers_hide#:#Use single-line answers
 assessment#:#multiline_answers_show#:#Use multi-line answers
 assessment#:#multiline_terms_hide#:#Use single-line terms
 assessment#:#multiline_terms_show#:#Use multi-line terms
 assessment#:#negative_points_not_allowed#:#Det er ikke muligt at indtaste minus point!
 assessment#:#next_question_rows#:#Spørgsmål %d - %d af %d >>
-assessment#:#no_passed_mark#:#Du skal sætte mindst et mærke som bestået! Mærke skemaet er ikke gemt.
+assessment#:#no_passed_mark#:#Du skal sætte mindst en karakter som bestået! Karakterskema ikke gemt.
 assessment#:#no_question_selected_for_move#:#Marker venligst et spørgsål for at flytte det!
 assessment#:#no_questions_available#:#Der er ikke nogen spørgsmål tilgængelige!
 assessment#:#no_target_selected_for_move#:#Du skal vælge en position!
@@ -3257,7 +3257,7 @@ assessment#:#shuffle_answers#:#Bland svar
 assessment#:#solution_hint#:#Foreslået løsning
 assessment#:#solution_may_contain_keywords#:#Løsningen må indeholde et af de følgende ord
 assessment#:#solution_order#:#Løsnings række
-assessment#:#start_tag#:#Start mærke
+assessment#:#start_tag#:#Start karakter
 assessment#:#starting_time_not_reached#:#Du har ikke nået begyndelsestidspunktet
 assessment#:#statistical_data#:#Statistisk data
 assessment#:#statistics#:#Statistik
@@ -3303,7 +3303,7 @@ assessment#:#tst_defaults_dont_use#:# Use the ILIAS test defaults ###25 02 2007 
 assessment#:#tst_defaults_enter_name#:#Du skal indtaste et navn til teststandarderne.
 assessment#:#tst_defaults_not_defined#:#Der er endnu ikke defineret nogen standard.
 assessment#:#tst_delete_all_user_data#:#Slet alle bruger data
-assessment#:#tst_delete_missing_mark#:#Vælg venligst mindst et mærke for at slette det
+assessment#:#tst_delete_missing_mark#:#Vælg venligst mindst en karakter for at slette den
 assessment#:#tst_delete_results#:#Nulstil test
 assessment#:#tst_ending_time#:#Sluttidspunkt
 assessment#:#tst_enter_questionpool#:#Indtast venligst et spørgsmålsgruppenavn hvor de nye spørgsmål vil blive gemt
@@ -3357,7 +3357,7 @@ assessment#:#tst_list_of_questions_end#:#Vis spørgsmålslisten før deltageren 
 assessment#:#tst_list_of_questions_with_description#:#Vis beskrivelsen i spørgsmålslisten
 assessment#:#tst_participants_no#:#Ingen har taget testen endnu.
 assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!###12 11 2006 new variable
-assessment#:#tst_mark#:#Mærke
+assessment#:#tst_mark#:#Karakter
 assessment#:#tst_mark_create_new_mark_step#:#Opret ny karakter
 assessment#:#tst_mark_create_simple_mark_schema#:#Opret simpel karakterskala
 assessment#:#tst_mark_minimum_level#:#Min. niveau (i %)
@@ -3369,12 +3369,12 @@ assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous 
 assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
 assessment#:#tst_maximum_points#:#Maksimum point
 assessment#:#tst_missing_author#:#Du har ikke skrevet forfatterens navn i test egenskaberne! Tilføj venligst forfatterens navn.
-assessment#:#tst_missing_marks#:#Du har ikke et mærke skema for denne test! Tilføj venligst mindst et simpely mærke skema i denne test.
+assessment#:#tst_missing_marks#:#Du har ikke et karakterskema for denne test! Tilføj venligst mindst en karakter.
 assessment#:#tst_missing_questions#:#Der er ikke nogen spørgsmål i denne test! Tilføj venligst mindst et spørgsmål i denne test.
 assessment#:#tst_missing_title#:#Du har ikke skrevet en test overskrift! Gå venligst til metadata sektionen og tilføj en overskrift.
 assessment#:#tst_must_be_online_exam#:#Denne indstilling er kun tilgængelig i online eksamener!
 assessment#:#tst_no_evaluation_data#:#No one has started the test right now. There is no evaluation data available.###29 11 2006 new variable
-assessment#:#tst_no_marks_defined#:#Der er ikke defineret nogen mærker, opret venligst mindst et simpelt mærke skema!
+assessment#:#tst_no_marks_defined#:#Der er ikke defineret nogen karakerer, opret venligst mindst et simpelt karakterskema!
 assessment#:#tst_no_more_available_questionpools#:#Der er ikke flere spørgsmålsbibliotekter tilgængelige.
 assessment#:#tst_no_question_selected_for_removal#:#Marker venligst et spørgsmål for at flytte det!
 assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###21 Apr 2005 new variable
@@ -3383,17 +3383,17 @@ assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from
 assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.###17 Aug 2005 new variable
 assessment#:#tst_no_taken_tests#:#Der er ingen taget test!
 assessment#:#tst_no_tries#:#Ingen
-assessment#:#tst_nr_of_passes#:#Number of Test Passes###25 02 2007 new variable
+assessment#:#tst_nr_of_passes#:#Antal testforsøg
 assessment#:#tst_nr_of_tries#:#Max. antal forsøg
 assessment#:#tst_nr_of_tries_of_user#:#Forsøg allerede gennemført###23 Dec 2005 content changed
 assessment#:#tst_participating_users#:#Brugere med besvarelser
 assessment#:#tst_fixed_participating_users#:#Fixed Participants in this Test###29 11 2006 new variable
-assessment#:#tst_pass_best_pass#:#Score the best pass of a user
+assessment#:#tst_pass_best_pass#:#Scoring er bedste besvarelse fra bruger
 assessment#:#tst_pass_details#:#Vis detaljer
-assessment#:#tst_pass_last_pass#:#Score the last pass of a user
+assessment#:#tst_pass_last_pass#:#Scoring er sidste besvarelse fra bruger
 assessment#:#tst_pass_scoring_description#:#If the last pass is scored, the last test pass of a participant will be used to calculate the test results. If the best pass is scored, the test pass with the highest number of reached points will be chosen a test result. This setting only has effect, if more than one test pass is allowed for a test.###18 12 2006 new variable
-assessment#:#tst_pass_scoring#:#Multiple pass scoring
-assessment#:#tst_passes#:#Test Passes###12 11 2006 new variable
+assessment#:#tst_pass_scoring#:#Scoring ved ny besvarelse
+assessment#:#tst_passes#:#Testforsøg
 assessment#:#tst_password#:#Test password
 assessment#:#tst_password_details#:#Hvis du indtaster et test password skal alle brugere der vil tilgå testen indtaste dette ved start af testen.
 assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
@@ -3427,7 +3427,7 @@ assessment#:#tst_questions_inserted#:#Spørgsmål indsat i test.
 assessment#:#tst_questions_removed#:#Spørgsmål fjernet!
 assessment#:#tst_random_nr_of_questions#:#Hvor mange spørgsmål?
 assessment#:#tst_random_qpl_unselected#:#There is at least one unselected questionpool! You don't need to add a new questionpool.###21 Apr 2005 new variable
-assessment#:#tst_random_questionpools#:#Source questionpools###21 Apr 2005 new variable
+assessment#:#tst_random_questionpools#:#Spørgsmålskilder
 assessment#:#tst_random_select_questionpool#:#Vælg spørgsmålsgruppen du vil vælge spørgsmål fra.
 assessment#:#tst_random_selection#:#Tilfældig udvælgelse
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
@@ -3480,7 +3480,7 @@ assessment#:#tst_sequence_fixed#:#Sekvensen af spørgsmål er lavet
 assessment#:#tst_sequence_postpone#:#Kursusdeltageren kan udsætte et spørgsmål til slutningen af testen
 assessment#:#tst_sequence_properties#:#Sekvensegenskaber
 assessment#:#tst_session_settings#:#Sessionsegenskaber
-assessment#:#tst_list_of_answers_show#:#Show List of Answers###12 11 2006 new variable
+assessment#:#tst_list_of_answers_show#:#Vis svarliste
 assessment#:#tst_show_answer_sheet#:#Vis svar
 assessment#:#tst_show_cancel#:#Vis suspender test
 assessment#:#tst_show_cancel_description#:#Hvis valgt kan deltagerne holde pause.
@@ -3516,14 +3516,14 @@ assessment#:#tst_stat_result_distancemedian#:#Distance til median
 assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###21 Apr 2005 new variable
 assessment#:#tst_stat_result_firstvisit#:#Første besøg
 assessment#:#tst_stat_result_lastvisit#:#Sidste besøg
-assessment#:#tst_stat_result_mark_median#:#Mærke af midten
+assessment#:#tst_stat_result_mark_median#:#Karakter af midten
 assessment#:#tst_stat_result_median#:#Midten af test resultat i point
 assessment#:#tst_stat_result_pworkedthrough#:#Procent af samlet arbejde allerede gennemgået
 assessment#:#tst_stat_result_qworkedthrough#:#Spørgsmål allerede besvaret
 assessment#:#tst_stat_result_qmax#:#Total number of Questions###29 11 2006 new variable
 assessment#:#tst_stat_result_rank_median#:#Rang af median
 assessment#:#tst_stat_result_rank_participant#:#Rang af deltager
-assessment#:#tst_stat_result_resultsmarks#:#Test resultat i mærker
+assessment#:#tst_stat_result_resultsmarks#:#Test resultat i karakterer
 assessment#:#tst_stat_result_resultspoints#:#Test resultat i point
 assessment#:#tst_stat_result_specification#:#Specifikation af evaluerings data
 assessment#:#tst_stat_result_timeofwork#:#Tid brugt på arbejde
@@ -3656,7 +3656,7 @@ bibitem#:#bibitem_issn#:#ISSN###21 Apr 2005 new variable
 bibitem#:#bibitem_journal#:#Journal###21 Apr 2005 new variable
 bibitem#:#bibitem_journal_article#:#Journal artikel
 bibitem#:#bibitem_keyword#:#Nøgleord
-bibitem#:#bibitem_label#:#Mærke
+bibitem#:#bibitem_label#:#Karakter
 bibitem#:#bibitem_language#:#sprog
 bibitem#:#bibitem_last_name#:#Efternavn
 bibitem#:#bibitem_manual#:#Manual###21 Apr 2005 new variable
@@ -7289,8 +7289,8 @@ assessment#:#tst_show_solution_answers_only#:#Udskriftsvisning af resultater (ku
 survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!###14 11 2007 new variable
 grp#:#grp_deleted_export_files#:#Eksportfiler slettet
 grp#:#grp_select_one_file#:#Vælg venligst en fil
-assessment#:#passes_finished#:#%s passes###14 11 2007 new variable
-assessment#:#pass_finished#:#%s pas###14 11 2007 new variable
+assessment#:#passes_finished#:#%s forsøg
+assessment#:#pass_finished#:#%s forsøg
 news#:#news_no_news_items#:#Ingen nyheder
 common#:#enable_ext_lang_maint#:#Aktiver udvidet vedligeholdelse
 common#:#disable_ext_lang_maint#:#Deaktiver udvidet vedligeholdelse
@@ -9387,8 +9387,8 @@ administration#:#adm_repository_cache_time_info#:#Repository access cache time. 
 wiki#:#wiki_please_enter_search_term#:#Please enter a search term.###12 08 2009 new variable
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.###12 08 2009 new variable
 trac#:#trac_query#:#Titel/beskrivelse
-common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.###12 08 2009 new variable
-common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email###12 08 2009 new variable
+common#:#reg_mail_body_2_confirmation#:#Linket er kun gyldigt i %s, hvorefter du må tilbage og starte forfra.
+common#:#reg_mail_body_3_confirmation#:#Hvis denne email er irrelevant for dig er det muligt nogen fejlagtigt har indtastet din emailadresse. Du kan i så fald blot ignorere den.
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.###18 08 2009 new variable
 cmps#:#no_changes#:#Ingen ændringer
 cmps#:#database_is_uptodate#:#Databasen er opdateret
@@ -9951,7 +9951,7 @@ common#:#settings_for_all_members#:#Globale indstillinger for alle kursus/gruppe
 common#:#settings_per_users#:#Indstillinger pr. kursus/gruppe medlem
 user#:#enable_local_user_administration#:#Enable Local User Administration###16 07 2010 new variable
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.###16 07 2010 new variable
-user#:#restrict_user_access#:#Restriced Access to User Accounts###16 07 2010 new variable
+user#:#restrict_user_access#:#Begrænset adgang til brugerkonti
 user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". ###16 07 2010 new variable
 common#:#backto_lua#:#Back to Local User Administration###16 07 2010 new variable
 common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
@@ -10669,7 +10669,7 @@ survey#:#survey_dnd_move_previous#:#Move to Previous Page###12 06 2011 new varia
 survey#:#survey_dnd_split_page#:#Split Page###12 06 2011 new variable
 survey#:#survey_dnd_double_click_to_delete#:#Double click on a content element to select it for cutting and deleting.###12 06 2011 new variable
 survey#:#survey_dnd_clear_clipboard#:#Clear Clipboard###12 06 2011 new variable
-survey#:#survey_dnd_paste#:#Paste###12 06 2011 new variable
+survey#:#survey_dnd_paste#:#Sæt ind
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.###12 06 2011 new variable
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###12 06 2011 new variable
 survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.###12 06 2011 new variable
@@ -11379,29 +11379,29 @@ chatroom_adm#:#storepass#:#Storepass###06 08 2011 new variable
 chatroom_adm#:#settings_has_been_saved#:#Indstillingerne blev gemt.
 common#:#obj_chtr#:#Chatrum
 chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.###06 08 2011 new variable
-user#:#user_account_codes#:#Account Codes###06 08 2011 new variable
-user#:#user_account_codes_add#:#Add Codes###06 08 2011 new variable
-user#:#user_account_codes_export#:#Export Codes###06 08 2011 new variable
+user#:#user_account_codes#:#Kontokoder
+user#:#user_account_codes_add#:#Opret koder
+user#:#user_account_codes_export#:#Eksporter koder
 user#:#user_account_codes_edit_header#:#Add Codes###06 08 2011 new variable
-user#:#user_account_codes_number#:#Number Of Codes###06 08 2011 new variable
-user#:#user_account_code#:#Code###06 08 2011 new variable
-user#:#user_account_code_valid_until#:#Valid Until###06 08 2011 new variable
-user#:#user_account_code_valid_until_static#:#End Date###06 08 2011 new variable
-user#:#user_account_code_valid_until_dynamic#:#Number of Days###06 08 2011 new variable
-user#:#user_account_code_generated#:#Date Of Generation###06 08 2011 new variable
-user#:#user_account_code_used#:#Date Of Use###06 08 2011 new variable
-user#:#user_account_used#:#Date Of Usage###06 08 2011 new variable
-user#:#user_account_code_generated_all#:#All Dates###06 08 2011 new variable
+user#:#user_account_codes_number#:#Antal koder
+user#:#user_account_code#:#Kode
+user#:#user_account_code_valid_until#:#Gyldig til
+user#:#user_account_code_valid_until_static#:#Slutdato
+user#:#user_account_code_valid_until_dynamic#:#Antal date
+user#:#user_account_code_generated#:#Oprettelsesdato
+user#:#user_account_code_used#:#Anvendelsesdato
+user#:#user_account_used#:#Anvendelsesdato
+user#:#user_account_code_generated_all#:#Alle datoer
 user#:#user_account_export_codes_no_data#:#No codes to export were selected.###06 08 2011 new variable
-user#:#user_account_code_not_valid#:#The given registration code is either invalid or already has been used.###06 08 2011 new variable
-user#:#user_account_code_valid_until_unlimited#:#Unlimited###06 08 2011 new variable
+user#:#user_account_code_not_valid#:#Den anvendte registreringskode er enten ugyldig eller allerede brugt.
+user#:#user_account_code_valid_until_unlimited#:#Ubegrænset
 user#:#user_account_code_setting#:#Enable Account Re-Activation By Code###06 08 2011 new variable
 user#:#user_account_code_setting_info#:#Inactive Accounts can be re-activated by users with pre-defined codes.###06 08 2011 new variable
 registration#:#registration_code_optional_info#:#If you have an ILIAS registration code, you can enter it now.###06 08 2011 new variable
-registration#:#registration_code_required_info#:#A pre-defined code is mandatory for the registration process.###06 08 2011 new variable
-auth#:#auth_account_code#:#Code###06 08 2011 new variable
+registration#:#registration_code_required_info#:#En foruddefineret kode er krævet i registreringsprocessen.
+auth#:#auth_account_code#:#Kode
 auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.###06 08 2011 new variable
-auth#:#auth_account_code_title#:#Account Code###06 08 2011 new variable
+auth#:#auth_account_code_title#:#Kontokode
 auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.###06 08 2011 new variable
 prtf#:#prtf_no_blogs_info#:#Your workspace does not contain any blogs. Create blogs to use them as part of your portfolios.###06 08 2011 new variable
 prtf#:#prtf_add_blog#:#Add Blog###06 08 2011 new variable
@@ -11941,14 +11941,14 @@ assessment#:#tst_instant_feedback_answer_generic#:#Show Generic ("Correct/Wrong"
 assessment#:#all_participants#:#All participants###28 08 2012 new variable
 assessment#:#with_solutions_participants#:#Participants with solutions###28 08 2012 new variable
 assessment#:#without_solutions_participants#:#Participants without solutions###28 08 2012 new variable
-assessment#:#tst_show_toplist#:#Show Highscores###28 08 2012 new variable
-assessment#:#toplist_by_score#:#Highscore by score###28 08 2012 new variable
-assessment#:#toplist_by_time#:#Highscore by working time###28 08 2012 new variable
-assessment#:#toplist_top_n_results#:#Top %s Results###28 08 2012 new variable
-assessment#:#toplist_col_rank#:#Rank###28 08 2012 new variable
-assessment#:#toplist_col_participant#:#Participant###28 08 2012 new variable
-assessment#:#toplist_col_achieved#:#Date###28 08 2012 new variable
-assessment#:#toplist_col_score#:#Score###28 08 2012 new variable
+assessment#:#tst_show_toplist#:#Vis topplaceringer
+assessment#:#toplist_by_score#:#Placering efter resultat
+assessment#:#toplist_by_time#:#Placering efter tidsforbrug
+assessment#:#toplist_top_n_results#:#Top %s resultater
+assessment#:#toplist_col_rank#:#Placering
+assessment#:#toplist_col_participant#:#Deltager
+assessment#:#toplist_col_achieved#:#Dato
+assessment#:#toplist_col_score#:#Resultat
 assessment#:#toplist_col_percentage#:#Procent
 assessment#:#toplist_col_hints#:#Tips
 assessment#:#toplist_col_wtime#:#Arbejdstid
@@ -12086,12 +12086,12 @@ tax#:#tax_order#:#Order###28 08 2012 new variable
 administration#:#adm_rep_shorten_description#:#Shorten Descriptions###28 08 2012 new variable
 administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists will be shortened.###28 08 2012 new variable
 administration#:#adm_rep_shorten_description_length#:#Max. number of characters###28 08 2012 new variable
-file#:#file_uploaded_by#:#Uploaded by###28 08 2012 new variable
+file#:#file_uploaded_by#:#Uploaded af
 trac#:#trac_session_statistics_mode_year#:#Year###28 08 2012 new variable
-assessment#:#tst_question#:#Question###28 08 2012 new variable
+assessment#:#tst_question#:#Spørgsmål
 assessment#:#tst_participant_solution#:#Participant Solution###28 08 2012 new variable
-assessment#:#tst_suggested_solution#:#Best Solution###28 08 2012 new variable
-assessment#:#tst_participant#:#Participant###28 08 2012 new variable
+assessment#:#tst_suggested_solution#:#Bedste løsning
+assessment#:#tst_participant#:#Deltager
 assessment#:#tst_participant_status#:#Participant Status###28 08 2012 new variable
 assessment#:#tst_edit_scoring#:#Edit Scoring###28 08 2012 new variable
 assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s###28 08 2012 new variable
@@ -12112,7 +12112,7 @@ blog#:#blog_edit_date_info#:#Publication status does not depend on this date.###
 administration#:#adm_captcha_wiki_forum#:#Activate Captcha for Anonymous (Forum/Wiki)###28 08 2012 new variable
 content#:#cont_captcha_verification#:#User Verification###28 08 2012 new variable
 content#:#cont_captcha_code#:#Kode
-cptch#:#cptch_wrong_input#:#Wrong Input###28 08 2012 new variable
+cptch#:#cptch_wrong_input#:#Forkert indtastning
 forum#:#cont_captcha_code#:#Kode
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.###28 08 2012 new variable
 certificate#:#certificate_file_basename#:#Certifikat
@@ -12125,8 +12125,8 @@ rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more referenc
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.###28 08 2012 new variable
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:###28 08 2012 new variable
 blog#:#blog_enable_rss#:#Aktiver RSS
-blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.###28 08 2012 new variable
-user#:#user_allow_delete_own_account#:#Allow users to delete own account###28 08 2012 new variable
+blog#:#blog_enable_rss_info#:#The RSS feed er offentligt og uafhængigt af blog-deling og brugerrettigheder.
+user#:#user_allow_delete_own_account#:#Tillad bruger at slette egen konto
 user#:#user_delete_own_account_notification_email#:#Notification Email###28 08 2012 new variable
 user#:#user_delete_own_account_info#:#Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible! ###28 08 2012 new variable
 user#:#user_delete_own_account_password_confirmation#:#Enter password for authorisation###28 08 2012 new variable
@@ -12254,12 +12254,12 @@ tax#:#tax_order_nr#:#Order Nr###28 08 2012 new variable
 tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.###28 08 2012 new variable
 tax#:#tax_please_select_target#:#Please select the target.###28 08 2012 new variable
 rep#:#rep_activation_availability#:#Tilgængelighed
-rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#If offline, only course administrators and tutors can see and edit the course.###28 08 2012 new variable
-rep#:#rep_activation_access#:#Access###28 08 2012 new variable
-rep#:#rep_activation_limited_start#:#Starting Time###28 08 2012 new variable
-rep#:#rep_activation_limited_end#:#Ending Time###28 08 2012 new variable
-rep#:#rep_activation_limited_visibility#:#Always Visible###28 08 2012 new variable
+rep#:#rep_activation_online#:#Aktiveret
+crs#:#crs_activation_online_info#:#Indtil aktivering er det kun kursusadministratorer og tutorer der kan se og redigere kurset.
+rep#:#rep_activation_access#:#Adgang
+rep#:#rep_activation_limited_start#:#Starttidspunkt
+rep#:#rep_activation_limited_end#:#Sluttidspunkt
+rep#:#rep_activation_limited_visibility#:#Altid synlig
 crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.###28 08 2012 new variable
 tax#:#tax_delete_taxonomy#:#Delete Taxononmy###28 08 2012 new variable
 tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?###28 08 2012 new variable
@@ -12300,7 +12300,7 @@ rep#:#rep_visibility_limitless#:#Ubegrænset
 rep#:#rep_visibility_until#:#Temporarily Available###28 08 2012 new variable
 assessment#:#tst_availability_limitless_info#:#Choose this mode for making the test available and accessible to users (depending on participants restriction settings below).###28 08 2012 new variable
 assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participants restriction settings below).###28 08 2012 new variable
-assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.###28 08 2012 new variable
+assessment#:#tst_activation_online_info#:#Indtil testen er aktiveret er det kun administratorer der kan se og redigere testen.
 assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.###28 08 2012 new variable
 book#:#booking_nr_of_items#:#Nr of Items###28 08 2012 new variable
 book#:#book_schedule_type_fixed#:#Fast plan
