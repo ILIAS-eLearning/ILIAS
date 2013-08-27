@@ -200,8 +200,8 @@ administration#:#nothing_to_remove#:#Nichts zu entfernen...
 administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Globale Blogeinstellungen
-administration#:#obj_frma#:#Forum
-administration#:#obj_frma_desc#:#Globale Foreneinstellungen
+common#:#obj_frma#:#Forum
+common#:#obj_frma_desc#:#Globale Foreneinstellungen
 administration#:#obj_mds#:#Metadaten
 administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 administration#:#obj_otpl#:#Objektvorlagen
