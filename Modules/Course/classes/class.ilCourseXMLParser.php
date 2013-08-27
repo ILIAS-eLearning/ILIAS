@@ -180,6 +180,17 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				}
 				break;
 
+			case 'Owner':
+                if($id_data = $this->__parseId($a_attribs['id']))
+                {
+                    if($id_data['local'] or $id_data['imported'])
+                    {
+                        $this->course_obj->setOwner($id_data['usr_id']);
+                        $this->course_obj->updateOwner();
+                    }
+                }
+                break;
+				
 
 			case 'Settings':
 				$this->in_settings = true;
