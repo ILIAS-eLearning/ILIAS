@@ -185,7 +185,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 		// show taxonomies
 		
 		$showTax = new ilCheckboxInputGUI($this->lng->txt('qpl_settings_general_form_property_show_taxonomies'), 'show_taxonomies');
-		$showTax->setInfo($this->lng->txt('qpl_settings_general_form_property_show_taxonomies_description'));
+		$showTax->setInfo($this->lng->txt('qpl_settings_general_form_prop_show_tax_desc'));
 		$showTax->setChecked($this->poolOBJ->getShowTaxonomies());
 		$form->addItem($showTax);
 	
