@@ -764,7 +764,7 @@ assessment#:#qpl_settings_subtab_taxonomies#:#Taxonomien
 assessment#:#qpl_form_general_settings#:#Allgemeine Einstellungen
 assessment#:#qpl_settings_general_form_property_online#:#Online
 assessment#:#qpl_settings_general_form_property_online_description#:#Ein Fragenpool muss online sein, um in Tests verwendet werden zu können.
-assessment#:#qpl_settings_general_form_property_show_taxonomies_description#:#Erstellte Taxonomien werden für Filterzwecke gezeigt.
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Erstellte Taxonomien werden für Filterzwecke gezeigt.
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Zeige Taxonomies
 assessment#:#qpl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie wenigstens eine Frage in die Zwischenablage.
 assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingefügt
@@ -1169,7 +1169,7 @@ assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchl
 assessment#:#tst_sequence_properties#:#Einstellungen Reihenfolge
 assessment#:#tst_session_settings#:#Einstellungen Arbeitssitzung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde auf Offline gesetzt, da der Test Modus gewechselt wurde. Sie müssen eine neue Test Modus bezogene Fragen Konfiguration erstellen bevor Sie den Test wieder online setzen können.
-assessment#:#tst_cannot_set_online_due_to_switched_question_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Test Modus gewechselt wurde. Sie müssen eine Test Modus bezogene Fragen Konfiguration erstellen bevor Sie den Test online setzen können.
+assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Test Modus gewechselt wurde. Sie müssen eine Test Modus bezogene Fragen Konfiguration erstellen bevor Sie den Test online setzen können.
 assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" Option anzeigen
@@ -1319,7 +1319,7 @@ assessment#:#tst_question_set_type_random#:#Test mit zufälliger Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#In diesem Modus werden ein oder mehrere Fragenpool(s) ausgewählt, aus welchem für jeden Teilnehmer eine eigene zufällige Fragenauswahl verwendet wird. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
 assessment#:#tst_question_set_type_dynamic#:#Fortlaufender Test über Fragenpool
 assessment#:#tst_question_set_type_dynamic_desc#:#In diesem Modus wird genau ein Fragenpool ausgewählt. Die Testdurchführung erfolgt in einem niemals endenden Durchlauf, in welchem die Fragenauswahl für jeden Teilnehmer individuell und zur Laufzeit erfolgt.
-assessment#:#tst_change_quest_set_type_from_old_to_new_with_existing_questions_or_pools#:#Sie sind im Begriff den Test Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test Modus abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test Modus abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenselektion wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenselektion kann nicht geändert werden, da bereits Teilnehmer Ergebisse vorliegen.
 assessment#:#tst_dyn_quest_set_pool_trashed#:#Der konfigurierte Quell-Fragenpool "%s" liegt aktuell im Papierkorb. Der Test kann nicht länger ausgeführt werden, wenn der Fragenpool permanent gelöscht wird.
@@ -1327,14 +1327,14 @@ assessment#:#tst_dyn_quest_set_pool_deleted#:#Der Test kann nicht länger ausgef
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenselektion
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Quell-Fragenpool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string_deleted#:#%s (Endgültig gelöscht)
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomie Filter
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen Ordnung
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordne Fragen nach Datum
-assessment#:#tst_input_dynamic_question_set_question_ordering_by_date_description#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
+assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Ordne Fragen nach Taxonomie
-assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax_description#:#Die Reihenfolge der Fragen orientiert sich an den Zuweisungen der Fragen in einer Taxonomie.
+assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#Die Reihenfolge der Fragen orientiert sich an den Zuweisungen der Fragen in einer Taxonomie.
 assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordnungs Taxonomie
 assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#Die Test Fragen werden entsprechend der Zuweisungen der Fragen in der gewählten Taxonomie angeordnet präsentiert.
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragen Auswahl starten

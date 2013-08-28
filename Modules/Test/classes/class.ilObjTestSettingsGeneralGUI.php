@@ -234,7 +234,7 @@ class ilObjTestSettingsGeneralGUI
 					}
 					else
 					{
-						$infoMsg = $this->lng->txt("tst_cannot_set_online_due_to_switched_question_set_type_setting");
+						$infoMsg = $this->lng->txt("tst_cannot_online_due_to_switched_quest_set_type_setting");
 					}
 
 					ilUtil::sendInfo($infoMsg, true);
@@ -531,7 +531,7 @@ class ilObjTestSettingsGeneralGUI
 		$confirmation = new ilConfirmationGUI();
 		
 		$headerText = sprintf(
-			$this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_existing_questions_or_pools'),
+			$this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),
 			$this->getQuestionSetTypeTranslation($oldQuestionSetType),
 			$this->getQuestionSetTypeTranslation($newQuestionSetType)
 		);

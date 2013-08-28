@@ -282,13 +282,13 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$optionOrderByDate = new ilRadioOption(
 				$this->lng->txt('tst_input_dynamic_question_set_question_ordering_by_date'),
 				self::QUESTION_ORDERING_TYPE_UPDATE_DATE,
-				$this->lng->txt('tst_input_dynamic_question_set_question_ordering_by_date_description')
+				$this->lng->txt('tst_inp_dyn_quest_set_quest_ordering_by_date_desc')
 		);
 		$questionOderingInput->addOption($optionOrderByDate);
 		$optionOrderByTax = new ilRadioOption(
 				$this->lng->txt('tst_input_dynamic_question_set_question_ordering_by_tax'),
 				self::QUESTION_ORDERING_TYPE_TAXONOMY,
-				$this->lng->txt('tst_input_dynamic_question_set_question_ordering_by_tax_description')
+				$this->lng->txt('tst_inp_dyn_quest_set_quest_ordering_by_tax_desc')
 		);
 			$orderTaxInput = new ilSelectInputGUI($this->lng->txt('tst_input_dynamic_question_set_ordering_tax'), 'ordering_tax');
 			$orderTaxInput->setInfo($this->lng->txt('tst_input_dynamic_question_set_ordering_tax_description'));

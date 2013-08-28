@@ -287,7 +287,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		if( !count($poolRefs) )
 		{
 			$sourceQuestionPoolSummaryString = sprintf(
-					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string_deleted'),
+					$lng->txt('tst_dyn_quest_set_src_qpl_summary_string_deleted'),
 					$this->getSourceQuestionPoolTitle()
 			);
 			
@@ -310,7 +310,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		}
 		
 		$sourceQuestionPoolSummaryString = sprintf(
-				$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string_trashed'),
+				$lng->txt('tst_dyn_quest_set_src_qpl_summary_string_trashed'),
 				$this->getSourceQuestionPoolTitle(),
 				$this->getSourceQuestionPoolNumQuestions()
 		);
