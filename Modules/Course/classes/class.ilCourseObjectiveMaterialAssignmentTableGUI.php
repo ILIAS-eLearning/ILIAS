@@ -185,7 +185,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 			$tmp_data['description'] = $node['description'];
 			$tmp_data['type'] = $node['type'];
 			$tmp_data['id'] = $node['child'];
-			$tmp_date['obj_id'] = $node['obj_id'];
+			$tmp_data['obj_id'] = $node['obj_id'];
 			
 			$materials[] = $tmp_data;
 		}

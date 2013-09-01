@@ -54,7 +54,7 @@ class ilUtil
 	 */
 	public static function getTypeIconPath($a_type,$a_obj_id,$a_size = 'small')
 	{
-	 	global $ilSetting;
+	 	global $ilSetting, $objDefinition;
 
 	 	if($ilSetting->get("custom_icons"))
 	 	{
@@ -70,6 +70,14 @@ class ilUtil
 	 				}
 		 	}
 	 	}
+		
+		if ($objDefinition->isPluginTypeName($a_type))
+		{
+			$class_name = "il".$objDefinition->getClassName($a_type).'Plugin';
+			$location = $objDefinition->getLocation($a_type);
+			include_once($location."/class.".$class_name.".php");
+			return call_user_func(array($class_name, "_getIcon"), $a_type, $a_size, $a_obj_id);                                
+		}			
 
 	 	switch($a_size)
 	 	{
