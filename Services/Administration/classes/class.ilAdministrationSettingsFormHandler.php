@@ -20,6 +20,7 @@ class ilAdministrationSettingsFormHandler
 	const FORM_GROUP = 7;
 	const FORM_REPOSITORY = 8;
 	const FORM_LDAP = 9;
+	const FORM_FORUM = 10;
 	
 	const SETTINGS_USER = "usrf";
 	const SETTINGS_GENERAL = "adm";
