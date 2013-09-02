@@ -60,16 +60,30 @@ class ilCourseAppEventListener
 				switch(self::$course_mode[$obj_id])
 				{
 					case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:
+						// manual process always "overwrite"
 						include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-						ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed, $ilUser->getId());						    										
+						ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed);						    										
 						break;
 
 					case ilLPObjSettings::LP_MODE_COLLECTION:
-					case ilLPObjSettings::LP_MODE_OBJECTIVES:
-						if($is_completed)
+					case ilLPObjSettings::LP_MODE_OBJECTIVES:						
+						// overwrites course passed status if it was set automatically (full sync)
+						// or toggle manually set passed status to completed (1-way-sync)						
+						$do_update = $is_completed;
+						include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+						if(!$do_update)
 						{
-							include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-							ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed, -1);	
+							$part = new ilCourseParticipants($obj_id);
+							$passed = $part->getPassedInfo($user_id);	
+							if(!is_array($passed) || 
+								$passed["user_id"] == -1)
+							{
+								$do_update = true;
+							}									
+						}
+						if($do_update)
+						{						
+							ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed);	
 						}
 						break;
 				}										
