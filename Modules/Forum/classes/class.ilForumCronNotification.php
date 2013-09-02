@@ -226,6 +226,23 @@ class ilForumCronNotification extends ilCronJob
 		return $numRows;
 	}
 
+	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
+	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_FORUM:
+				$a_fields['cron_forum_notification'] = $a_is_active ?
+					$lng->txt('enabled') :
+					$lng->txt('disabled');
+				break;
+		}
+	}
+
 	public function activationWasToggled($a_currently_active)
 	{		
 		global $ilSetting;
@@ -237,9 +254,8 @@ class ilForumCronNotification extends ilCronJob
 		}
 		else
 		{
-			// :TODO: TBD
 			$ilSetting->set('forum_notification', 1);
-		}		
+		}
 	}
 }
 

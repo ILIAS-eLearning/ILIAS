@@ -129,7 +129,12 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 			$ilSetting->set('enable_fora_statistics', 1);
 		else $ilSetting->set('enable_fora_statistics', 0);
 
-		$ilSetting->set('forum_notification', ilUtil::stripSlashes($_POST["forum_notification"]));
+		require_once 'Services/Cron/classes/class.ilCronManager.php';
+		$job = ilCronManager::getCronJobData('frm_notification', true);
+		if(!$job[0]['job_status'])
+		{
+			$ilSetting->set('forum_notification', (int)$_POST['forum_notification']);
+		}
 
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 		$ilCtrl->redirect($this, "view");
@@ -185,16 +190,35 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$check->setChecked($this->anonymous_fora);
 		$form->addItem($check);
 
-		$frm_sel =  new ilSelectInputGUI($this->lng->txt('cron_forum_notification'), 'forum_notification');
-		$notification_options = array(
-			0 => $this->lng->txt('cron_forum_notification_never'),
-			1 => $this->lng->txt('cron_forum_notification_directly'),
-			2 => $this->lng->txt('cron_forum_notification_cron'));
-		
-		$frm_sel->setOptions($notification_options);
-		$frm_sel->setValue($ilSetting->get('forum_notification'));
-		$frm_sel->setInfo($this->lng->txt('cron_forum_notification_desc'));
-		$form->addItem($frm_sel);
+		require_once 'Services/Cron/classes/class.ilCronManager.php';
+		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
+		$job = ilCronManager::getCronJobData('frm_notification', true);
+		if($job[0]['job_status'])
+		{
+			//$notifications = new ilNonEditableValueGUI($this->lng->txt('cron_forum_notification'));
+			//$notifications->setValue($this->lng->txt('cron_forum_notification_cron'));
+
+			//$gui = new ilCronManagerGUI();
+			//$data = $gui->addToExternalSettingsForm(ilAdministrationSettingsFormHandler::FORM_FORUM);
+			/*if(sizeof($data))
+			{
+				self::parseFieldDefinition("cron", $a_form, $parent_gui, $data);
+			}*/
+
+			ilAdministrationSettingsFormHandler::addFieldsToForm(
+				ilAdministrationSettingsFormHandler::FORM_FORUM,
+				$form,
+				$this
+			);
+		}
+		else
+		{
+			$notifications = new ilCheckboxInputGui($this->lng->txt('cron_forum_notification'), 'forum_notification');
+			$notifications->setInfo($this->lng->txt('cron_forum_notification_desc'));
+			$notifications->setValue(1);
+			$notifications->setChecked((int)$ilSetting->get('forum_notification') === 1 ? true : false);
+			$form->addItem($notifications);
+		}
 
 		$this->tpl->setContent($form->getHTML());
 	}
