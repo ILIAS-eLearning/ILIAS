@@ -733,16 +733,48 @@ class ilLearningProgressBaseGUI
 
 	function __updateUser($user_id, $obj_id)
 	{
+		global $ilUser;
+		
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
 		$marks = new ilLPMarks($obj_id, $user_id);
 		$marks->setMark(ilUtil::stripSlashes($_POST['mark']));
 		$marks->setComment(ilUtil::stripSlashes($_POST['comment']));
-		$marks->setCompleted((bool) $_POST['completed']);
+		
+		$do_lp = false;
+		if($marks->getCompleted() != (bool) $_POST['completed'])
+		{
+			$marks->setCompleted((bool) $_POST['completed']);
+			$do_lp = true;
+		}
+		
 		$marks->update();
 
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+		// #11600
+		if($do_lp)
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+			
+			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+			if(ilObject::_lookupType($obj_id) == "crs" &&
+				ilObjUserTracking::_enabledLearningProgress())
+			{				
+				include_once "Modules/Course/classes/class.ilObjCourse.php";			
+				$crs = new ilObjCourse($obj_id, false);						 					
+				if($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
+				{						
+					include_once './Services/Object/classes/class.ilObjectLP.php';
+					$olp = ilObjectLP::getInstance($crs->getId());
+					if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR)
+					{						
+						// #11600 - mark passed status as manual
+						include_once('Modules/Course/classes/class.ilCourseParticipants.php');
+						ilCourseParticipants::_setPassedOrigin($crs->getId(), $user_id, $ilUser->getId());
+					}
+				}
+			}
+		}
 	}
 	
 	static function isObjectOffline($a_obj_id, $a_type = null)
