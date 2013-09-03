@@ -159,9 +159,23 @@ class ilObjTestRandomQuestionSetConfigGUI
 		}
 	}
 	
+	private function buildGeneralConfigForm()
+	{
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('tst_rnd_quest_set_cfg_general_form'));
+		$form->setId("tstRndQuestSetCfgGeneralForm");
+		
+		return $form;
+	}
+	
 	private function showGeneralConfigFormCmd()
 	{
+		$form = $this->buildGeneralConfigForm();
 		
+		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 	}
 	
 	private function showPoolConfigTableCmd()
