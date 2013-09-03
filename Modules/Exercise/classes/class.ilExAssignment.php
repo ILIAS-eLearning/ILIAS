@@ -1225,7 +1225,7 @@ class ilExAssignment
 	/**
 	 * was: deliverReturnedFiles($a_member_id, $a_only_new = false)
 	 */
-	function deliverReturnedFiles($a_exc_id, $a_ass_id, $a_user_id, $a_only_new = false)
+	function deliverReturnedFiles($a_exc_id, $a_ass_id, $a_user_id, $a_only_new = false, $a_peer_review_mask_filename = false)
 	{
 		global $ilUser, $ilDB;
 		
@@ -1258,6 +1258,20 @@ class ilExAssignment
 		{
 			ilExAssignment::updateTutorDownloadTime($a_exc_id, $a_ass_id, $user_id);
 		}
+		
+		if($a_peer_review_mask_filename)
+		{
+			// process peer review sequence id
+			$peer_id = null;
+			foreach($this->ass->getPeerReviewsByGiver($ilUser->getId()) as $idx => $item)
+			{
+				if($item["peer_id"] == $a_user_id)
+				{
+					$peer_id = $idx+1;
+					break;
+				}
+			}
+		}
 
 		$query = "SELECT * FROM exc_returned".
 			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
@@ -1281,10 +1295,16 @@ class ilExAssignment
 						$row["filetitle"]["lastname"]." (".
 						$row["filetitle"]["login"].").zip";
 					break;
-				
+
 				default:
 					break;
-			}			
+			}		
+			
+			if($a_peer_review_mask_filename)
+			{
+				$suffix = array_pop(explode(".", $row["filetitle"]));
+				$row["filetitle"] = self::lookupTitle($a_ass_id)."_peer".$peer_id.".".$suffix;							
+			}
 			
 			ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $row["user_id"],
 				$row["filename"], $row["filetitle"]);
@@ -1293,9 +1313,22 @@ class ilExAssignment
 		{
 			$array_files = array();
 			$filename = "";
+			$seq = 0;
 			while ($row = $ilDB->fetchAssoc($result))
-			{
-				$array_files[$row["user_id"]][] = basename($row["filename"]);
+			{				
+				$src = basename($row["filename"]);				
+				if($a_peer_review_mask_filename)
+				{									
+					$suffix = array_pop(explode(".", $src));
+					$tgt = self::lookupTitle($a_ass_id)."_peer".$peer_id.
+						"_".(++$seq).".".$suffix;				
+					
+					$array_files[$row["user_id"]][] = array($src, $tgt);
+				}
+				else
+				{
+					$array_files[$row["user_id"]][] = $src;
+				}				
 			}
 			$pathinfo = pathinfo($filename);
 			$dir = $pathinfo["dirname"];
@@ -1459,14 +1492,23 @@ class ilExAssignment
 
 			foreach($files as $filename)
 			{
-				// remove timestamp
-				$newFilename = trim($filename);
-				$pos = strpos($newFilename , "_");
-				if ($pos === false)
+				// peer review masked filenames, see deliverReturnedFiles()
+				if(is_array($filename))
 				{
-				} else
+					$newFilename = $filename[1];
+					$filename = $filename[0];
+				}
+				else
 				{
-					$newFilename= substr($newFilename, $pos + 1);
+					// remove timestamp
+					$newFilename = trim($filename);
+					$pos = strpos($newFilename , "_");
+					if ($pos === false)
+					{
+					} else
+					{
+						$newFilename= substr($newFilename, $pos + 1);
+					}
 				}
 				$newFilename = $tmpdir.DIRECTORY_SEPARATOR.$deliverFilename.DIRECTORY_SEPARATOR.$newFilename;
 				// copy to temporal directory
