@@ -90,7 +90,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	/**
 	 * Constructor
 	 */
-	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilTemplate $tpl, ilDB $db, ilTree $tree, ilObjTestGUI $testGUI)
+	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilTemplate $tpl, ilDB $db, ilTree $tree, ilObjTest $testOBJ)
 	{
 		$this->ctrl = $ctrl;
 		$this->access = $access;
@@ -100,10 +100,9 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$this->db = $db;
 		$this->tree = $tree;
 		
-		$this->testGUI = $testGUI;
-		$this->testOBJ = $testGUI->object;
+		$this->testOBJ = $testOBJ;
 		
-		$this->questionSetConfig = new ilObjTestDynamicQuestionSetConfig($this->tree, $db, $testGUI->object);
+		$this->questionSetConfig = new ilObjTestDynamicQuestionSetConfig($this->tree, $this->db, $this->testOBJ);
 	}
 	
 	/**
@@ -113,10 +112,10 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	{
 		// allow only write access
 		
-		if (!$this->access->checkAccess("write", "", $this->testGUI->ref_id)) 
+		if (!$this->access->checkAccess("write", "", $this->testOBJ->getRefId())) 
 		{
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirect($this->testGUI, "infoScreen");
+			$this->ctrl->redirectByClass('ilObjTestGUI', "infoScreen");
 		}
 		
 		// activate corresponding tab (auto activation does not work in ilObjTestGUI-Tabs-Salad)
