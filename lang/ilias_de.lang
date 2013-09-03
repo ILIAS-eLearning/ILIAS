@@ -13000,3 +13000,5 @@ blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the
 exp#:#exp_file_created#:#The export file has been created.###10 07 2013 new variable
 survey#:#survey_notification_tutor_link#:#Link zur Umfrage
 dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
+crs#:#crs_passed_status_system#:#System
+crs#:#crs_passed_status_manual_by#:#Manuell durch

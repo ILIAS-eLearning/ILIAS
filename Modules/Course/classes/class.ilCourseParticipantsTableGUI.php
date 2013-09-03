@@ -444,15 +444,15 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 					$pinfo = $a_user_data[$ud['usr_id']]["passed_info"];								
 					if($pinfo["user_id"] < 0)
 					{
-						$passed_info = "LP";
+						$passed_info = $this->lng->txt("crs_passed_status_system");
 					}
 					else
 					{
 						$name = ilObjUser::_lookupName($pinfo["user_id"]);
-						$passed_info = $name["login"];
-						$passed_info .= "<br />".ilDatePresentation::formatDate($pinfo["timestamp"]);	
+						$passed_info = $this->lng->txt("crs_passed_status_manual_by").": ".$name["login"];									
 					}
 				}
+				$passed_info .= "<br />".ilDatePresentation::formatDate($pinfo["timestamp"]);	
 				$a_user_data[$ud['usr_id']]["passed_info"] = $passed_info;
 			}
 		}

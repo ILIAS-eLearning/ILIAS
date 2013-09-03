@@ -115,13 +115,12 @@ class ilCourseParticipants extends ilParticipants
 	 * @access public
 	 * @param int usr_id
 	 * @param bool passed
-	 * @param int $a_origin
 	 */
-	public function updatePassed($a_usr_id, $a_passed, $a_origin = null)
+	public function updatePassed($a_usr_id, $a_passed)
 	{				
 		$this->participants_status[$a_usr_id]['passed'] = (int) $a_passed;
 
-		return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_origin);
+		return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed);
 	}
 	
 	/**
@@ -131,9 +130,8 @@ class ilCourseParticipants extends ilParticipants
 	 * @param int obj_id
 	 * @param int usr_id
 	 * @param bool passed
-	 * @param int $a_origin
 	 */
-	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_origin = null)
+	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed)
 	{
 		global $ilDB;
 		
@@ -149,7 +147,7 @@ class ilCourseParticipants extends ilParticipants
 			{			
 				$query = "UPDATE obj_members SET ".
 					"passed = ".$ilDB->quote((int) $a_passed,'integer').", ".
-					"origin = ".$ilDB->quote((int) $a_origin,'integer').", ".
+					"origin = ".$ilDB->quote(-1,'integer').", ".
 					"origin_ts = ".$ilDB->quote(time(),'integer')." ".
 					"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 					"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
@@ -164,11 +162,21 @@ class ilCourseParticipants extends ilParticipants
 				$ilDB->quote($a_usr_id,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
-				$ilDB->quote($a_origin,'integer').", ".
+				$ilDB->quote(-1,'integer').", ".
 				$ilDB->quote(time(),'integer').")";					
 		}
 		$res = $ilDB->manipulate($query);
 		return true;	
+	}
+	
+	public static function _setPassedOrigin($a_obj_id, $a_usr_id, $a_origin)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("UPDATE obj_members SET".		
+			" origin = ".$ilDB->quote((int)$a_origin, 'integer').			
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, 'integer').
+			" AND usr_id = ".$ilDB->quote($a_usr_id, 'integer'));
 	}
 	
 	/**
