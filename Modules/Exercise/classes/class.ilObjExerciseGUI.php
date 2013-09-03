@@ -865,6 +865,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		
+		$peer_review_mask_filename = false;
+		
 		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()) &&
 			$this->object->getShowSubmissions() &&
 			$this->object->getTimestamp() - time() <= 0)
@@ -880,10 +882,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				$this->checkPermission("write");
 			}
+			else
+			{
+				$peer_review_mask_filename = true;
+			}
 		}
-
+		
 		if (!ilExAssignment::deliverReturnedFiles(
-			$this->object->getId(), (int) $_GET["ass_id"], (int) $_GET["member_id"]))
+			$this->object->getId(), (int) $_GET["ass_id"], (int) $_GET["member_id"], 
+				false, $peer_review_mask_filename))
 		{
 			$this->ctrl->redirect($this, "members");
 		}
@@ -897,6 +904,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		
+		$peer_review_mask_filename = false;
+		
 		// ok: read access + peer review
 		$ass = new ilExAssignment((int) $_GET["ass_id"]);
 		if(!($ilAccess->checkAccess("read", "", $this->object->getRefId()) && 
@@ -904,9 +913,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->checkPermission("write");
 		}
+		else
+		{
+			$peer_review_mask_filename = true;
+		}
 		
 		if (!ilExAssignment::deliverReturnedFiles(
-			$this->object->getId(), (int) $_GET["ass_id"], (int) $_GET["member_id"], true))
+			$this->object->getId(), (int) $_GET["ass_id"], (int) $_GET["member_id"], 
+				true, $peer_review_mask_filename))
 		{
 			$this->ctrl->redirect($this, "members");
 		}
