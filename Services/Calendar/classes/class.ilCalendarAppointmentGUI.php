@@ -100,6 +100,15 @@ class ilCalendarAppointmentGUI
 	}
 	
 	/**
+	 * Get current appointment
+	 * @return ilCalendarEntry
+	 */
+	public function getAppointment()
+	{
+		return $this->app;
+	}
+	
+	/**
 	 * cancel editing
 	 *
 	 * @access protected
@@ -118,7 +127,7 @@ class ilCalendarAppointmentGUI
 	 * @param string mode ('edit' | 'create')
 	 * @return
 	 */
-	protected function initForm($a_mode, $a_as_milestone = false)
+	protected function initForm($a_mode, $a_as_milestone = false, $a_edit_single_app = false)
 	{
 		global $ilUser,$tpl;
 		
@@ -595,19 +604,90 @@ class ilCalendarAppointmentGUI
 	}
 	
 	/**
+	 * Check edit single apppointment / edit all appointments for recurring appointments.
+	 * @todo works with milestones???
+	 */
+	protected function askEdit()
+	{
+		// check for recurring entries
+		include_once './Services/Calendar/classes/class.ilCalendarRecurrences.php';
+		$rec = ilCalendarRecurrences::_getRecurrences($this->getAppointment()->getEntryId());
+		if(!$rec)
+		{
+			return $this->edit();
+		}
+		// Show edit single/all appointments
+		$this->ctrl->saveParameter($this,array('seed','app_id','dt','idate'));
+
+		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setHeaderText($this->lng->txt('cal_edit_app_sure'));
+		$confirm->setCancel($this->lng->txt('cancel'),'cancel');
+		$confirm->addItem('appointments[]',$this->app->getEntryId(),$this->app->getTitle());
+		$confirm->addButton($this->lng->txt('cal_edit_single'),'editSingle');
+	    $confirm->setConfirm($this->lng->txt('cal_edit_recurrences'),'edit');
+
+		$GLOBALS['tpl']->setContent($confirm->getHTML());
+	}
+	
+	/**
+	 * Edit one single appointment
+	^ */
+	protected function editSingle()
+	{
+		$_REQUEST['rexl'] = 1;
+		$GLOBALS['ilCtrl']->setParameter($this,'rexcl',1);
+		$this->edit(true);
+	}
+	
+	/**
 	 * edit appointment
 	 *
 	 * @access protected
 	 * @param
 	 * @return
 	 */
-	protected function edit()
+	protected function edit($a_edit_single_app = false)
 	{
 		global $tpl,$ilUser,$ilErr;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');		
+
+		$GLOBALS['ilCtrl']->saveParameter($this,array('seed','app_id','dt','idate'));
+
+		if($_REQUEST['rexl'])
+		{
+			$GLOBALS['ilCtrl']->setParameter($this,'rexl',1);
+
+			// Calculate new appointment time
+			$duration = $this->getAppointment()->getEnd()->get(IL_CAL_UNIX) - $this->getAppointment()->getStart()->get(IL_CAL_UNIX);
+			include_once './Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php';
+			$calc = new ilCalendarRecurrenceCalculator($this->getAppointment(), $this->rec);
+			
+			$current_date = new ilDateTime($_REQUEST['dt'],IL_CAL_UNIX);
+
+			$yesterday = clone $current_date;
+			$yesterday->increment(IL_CAL_DAY,-1);
+			$tomorrow = clone $current_date;
+			$tomorrow->increment(IL_CAL_DAY, 1);
+			
+
+			foreach($calc->calculateDateList($current_date, $tomorrow, 1) as $date_entry)
+			{
+				if(ilDateTime::_equals($current_date, $date_entry,IL_CAL_DAY))
+				{
+					$this->getAppointment()->setStart(new ilDateTime($date_entry->get(IL_CAL_UNIX),IL_CAL_UNIX));
+					$this->getAppointment()->setEnd(new ilDateTime($date_entry->get(IL_CAL_UNIX) + $duration,IL_CAL_UNIX));
+					break;
+				}
+			}
+			
+			// Finally reset recurrence
+			$this->rec = new ilCalendarRecurrence();
+		}
 		
 		$cat_id = ilCalendarCategoryAssignments::_lookupCategory($this->app->getEntryId());
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
@@ -623,7 +703,7 @@ class ilCalendarAppointmentGUI
 			return true;
 		}
 		
-		$this->initForm('edit', $this->app->isMilestone());
+		$this->initForm('edit', $this->app->isMilestone(), $a_edit_single_app);
 		$tpl->setContent($this->form->getHTML());
 	}
 	
@@ -725,6 +805,8 @@ class ilCalendarAppointmentGUI
 	{
 		global $ilErr;
 
+		$single_editing = ($_REQUEST['rexl'] ? true : false);
+		
 		$this->load($this->app->isMilestone());
 		
 		if($this->app->validate() and $this->notification->validate())
@@ -738,12 +820,24 @@ class ilCalendarAppointmentGUI
 				$cat_id = (int) $_POST['calendar'];
 			}
 			
-			$this->app->update();
+			if($single_editing)
+			{
+				$this->getAppointment()->save();
+				$this->deleteExclude(false);
+				
+				$this->rec = new ilCalendarRecurrence();
+				$this->rec->setEntryId($this->getAppointment()->getEntryId());
+			}
+			else
+			{
+				$this->getAppointment()->update();
+			}
 			$this->notification->save();
 			$this->saveRecurrenceSettings();
 			
 			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
+			$GLOBALS['ilLog']->write($this->app->getEntryId());
 			$ass->deleteAssignments();
 			$ass->addAssignment($cat_id);
 			
@@ -837,16 +931,19 @@ class ilCalendarAppointmentGUI
 	 * @param
 	 * @return
 	 */
-	protected function deleteExclude()
+	protected function deleteExclude($a_return = true)
 	{
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceExclusion.php');
 		$excl = new ilCalendarRecurrenceExclusion();
-		$excl->setEntryId($_GET['app_id']);
-		$excl->setDate(new ilDate($_GET['dt'], IL_CAL_UNIX));
+		$excl->setEntryId($_REQUEST['app_id']);
+		$excl->setDate(new ilDate($_REQUEST['dt'], IL_CAL_UNIX));
 		$excl->save();
 
-		ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'),true);
-		$this->ctrl->returnToParent($this);
+		if($a_return)
+		{
+			ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'),true);
+			$this->ctrl->returnToParent($this);
+		}
 	}
 	
 	/**
