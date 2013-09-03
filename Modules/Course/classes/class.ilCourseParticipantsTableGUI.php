@@ -452,7 +452,10 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 						$passed_info = $this->lng->txt("crs_passed_status_manual_by").": ".$name["login"];									
 					}
 				}
-				$passed_info .= "<br />".ilDatePresentation::formatDate($pinfo["timestamp"]);	
+				if($pinfo["timestamp"])
+				{
+					$passed_info .= "<br />".ilDatePresentation::formatDate($pinfo["timestamp"]);	
+				}
 				$a_user_data[$ud['usr_id']]["passed_info"] = $passed_info;
 			}
 		}
