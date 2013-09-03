@@ -622,7 +622,7 @@ class ilCalendarAppointmentGUI
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
-		$confirm->setHeaderText($this->lng->txt('cal_edit_app_sure'));
+		#$confirm->setHeaderText($this->lng->txt('cal_edit_app_sure'));
 		$confirm->setCancel($this->lng->txt('cancel'),'cancel');
 		$confirm->addItem('appointments[]',$this->app->getEntryId(),$this->app->getTitle());
 		$confirm->addButton($this->lng->txt('cal_edit_single'),'editSingle');
