@@ -130,8 +130,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		else $ilSetting->set('enable_fora_statistics', 0);
 
 		require_once 'Services/Cron/classes/class.ilCronManager.php';
-		$job = ilCronManager::getCronJobData('frm_notification', true);
-		if(!$job[0]['job_status'])
+		if(!ilCronManager::isJobActive('frm_notification'))
 		{
 			$ilSetting->set('forum_notification', (int)$_POST['forum_notification']);
 		}
@@ -191,20 +190,9 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$form->addItem($check);
 
 		require_once 'Services/Cron/classes/class.ilCronManager.php';
-		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
-		$job = ilCronManager::getCronJobData('frm_notification', true);
-		if($job[0]['job_status'])
+		if(ilCronManager::isJobActive('frm_notification'))
 		{
-			//$notifications = new ilNonEditableValueGUI($this->lng->txt('cron_forum_notification'));
-			//$notifications->setValue($this->lng->txt('cron_forum_notification_cron'));
-
-			//$gui = new ilCronManagerGUI();
-			//$data = $gui->addToExternalSettingsForm(ilAdministrationSettingsFormHandler::FORM_FORUM);
-			/*if(sizeof($data))
-			{
-				self::parseFieldDefinition("cron", $a_form, $parent_gui, $data);
-			}*/
-
+			require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
 			ilAdministrationSettingsFormHandler::addFieldsToForm(
 				ilAdministrationSettingsFormHandler::FORM_FORUM,
 				$form,
