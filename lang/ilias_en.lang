@@ -677,6 +677,7 @@ assessment#:#radio_unset#:#Unset
 assessment#:#random_accept_sample#:#Accept Sample
 assessment#:#random_another_sample#:#Get another Sample
 assessment#:#random_selection#:#Random Selection
+assessment#:#tst_rnd_quest_set_cfg_general_form#:#Random Question Selection Config
 assessment#:#range_lower_limit#:#Lower Bound
 assessment#:#range_upper_limit#:#Upper Bound
 assessment#:#range#:#Range
@@ -1136,6 +1137,8 @@ assessment#:#tst_highscore_top_table_description#:#Controls, if the table 'top r
 assessment#:#tst_highscore_top_num#:#Number of ranks
 assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should be included in the top ranking table.
 assessment#:#tst_highscore_top_num_unit#:#entries
+assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config
+assessment#:#tst_rnd_quest_cfg_tab_pool#:#Source Question Pools
 assessment#:#tst_question_set_type#:#Test Mode
 assessment#:#tst_question_set_type_fixed#:#Testing with Fixed Set of Questions
 assessment#:#tst_question_set_type_fixed_desc#:#With this mode a fixed set of questions is to be selected and is used for all particapants. Depending on the detailed test configuration the participants can take one or more test passes.

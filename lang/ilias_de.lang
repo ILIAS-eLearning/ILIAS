@@ -793,6 +793,7 @@ assessment#:#radio_unset#:#Nicht ausgewählt
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
 assessment#:#random_another_sample#:#Neue Zusammenstellung
 assessment#:#random_selection#:#Zufällige Auswahl
+assessment#:#tst_rnd_quest_set_cfg_general_form#:#Zufällige Fragen-Auswahl Konfiguration
 assessment#:#range#:#Bereich
 assessment#:#range_lower_limit#:#Untere Schranke
 assessment#:#range_upper_limit#:#Obere Schranke
@@ -1312,6 +1313,8 @@ assessment#:#tst_highscore_top_table_description#:#Bestimmt, ob eine Tabelle mit
 assessment#:#tst_highscore_top_num#:#Anzahl der angezeigten Top-Platzierungen
 assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Tabelle "Top-Platzierungen" angezeigt werden.
 assessment#:#tst_highscore_top_num_unit#:#Platzierungen
+assessment#:#tst_rnd_quest_cfg_tab_general#:#Allgemeine Konfiguration
+assessment#:#tst_rnd_quest_cfg_tab_pool#:#Quell-Fragenpools
 assessment#:#tst_question_set_type#:#Test Modus
 assessment#:#tst_question_set_type_fixed#:#Test mit fest definierter Fragenauswahl
 assessment#:#tst_question_set_type_fixed_desc#:#In diesem Modus kann eine feste Auswahl von Fragen definiert werden, welche für alle Teilnehmer gilt. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
