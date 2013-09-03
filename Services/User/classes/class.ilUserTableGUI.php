@@ -318,7 +318,11 @@ class ilUserTableGUI extends ilTable2GUI
 		$user_ids = array();
 		foreach($usr_data["set"] as $item)
 		{
-			$user_ids[] = $item["usr_id"];
+			// #11632
+			if($item["usr_id"] != SYSTEM_USER_ID)
+			{
+				$user_ids[] = $item["usr_id"];
+			}
 		}
 		return $user_ids;
 	}
