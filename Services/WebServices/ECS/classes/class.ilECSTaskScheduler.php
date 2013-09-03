@@ -226,8 +226,9 @@ class ilECSTaskScheduler
 					break;
 				
 				case ilECSEventQueueReader::TYPE_COURSE_URLS:
+					$this->log->write(__METHOD__.': Ignoring event type in queue '.$event['type']);
 					$event_ignored = true;
-					
+					break;
 
 				default:
 					$this->log->write(__METHOD__.': Unknown event type in queue '.$event['type']);
