@@ -489,6 +489,22 @@ class ilCronManager
 	}
 	
 	/**
+	 * Check if given job is currently active
+	 * 
+	 * @param string $a_job_id
+	 * @return boolean
+	 */
+	public static function isJobActive($a_job_id)
+	{
+		$job = self::getCronJobData($a_job_id);
+		if((bool)$job[0]["job_status"])
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Save job result
 	 * 
 	 * @param ilCronJob $a_job
