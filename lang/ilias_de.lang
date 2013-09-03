@@ -13833,3 +13833,5 @@ prtt#:#prtt_import#:#Portfoliovorlage importieren
 orgu#:#simple_user_import#:#XML Benutzerzuweisung
 crs#:#crs_passed_status_system#:#System
 crs#:#crs_passed_status_manual_by#:#Manuell durch
+dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
+dateplaner#:#cal_edit_recurrences#:#Alle Termine bearbeiten

@@ -359,7 +359,8 @@ class ilCalendarAppointmentPanelGUI
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->getSeed()->get(IL_CAL_DATE));
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
-			$this->tpl->setVariable('PANEL_EDIT_HREF',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','dt',$a_app['dstart']);
+			$this->tpl->setVariable('PANEL_EDIT_HREF',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','askEdit'));
 
 			$this->tpl->setCurrentBlock('panel_delete_link');
 			$this->tpl->setVariable('TXT_PANEL_DELETE',$this->lng->txt('delete'));
