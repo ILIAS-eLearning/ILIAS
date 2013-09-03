@@ -156,7 +156,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng, $ilSetting;
+	    global $ilSetting;
 
 		$this->tabs_gui->setTabActive('settings');
 		$frma_set = new ilSetting("frma");
