@@ -29,6 +29,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilAssQuestionPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI, ilObjTestSettingsGeneralGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI, ilObjTestDynamicQuestionSetConfigGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilObjTestRandomQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
  *
  * @ingroup ModulesTest
@@ -278,6 +279,14 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfigGUI.php';
 				$gui = new ilObjTestDynamicQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			case 'ilobjtestrandomquestionsetconfiggui':
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				require_once 'Modules/Test/classes/class.ilObjTestRandomQuestionSetConfigGUI.php';
+				$gui = new ilObjTestRandomQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
@@ -4672,6 +4681,7 @@ class ilObjTestGUI extends ilObjectGUI
 					
 					case ilObjTest::QUESTION_SET_TYPE_RANDOM:
 						$target = $this->ctrl->getLinkTarget($this,'questions');
+						if(DEVMODE) $target = $this->ctrl->getLinkTargetByClass('ilObjTestRandomQuestionSetConfigGUI');
 						break;
 						
 					case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
