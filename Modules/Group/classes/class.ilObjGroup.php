@@ -1,26 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 //TODO: function getRoleId($groupRole) returns the object-id of grouprole
 
@@ -65,6 +44,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	const ERR_WRONG_MAX_MEMBERS = 'grp_wrong_max_members';
 	const ERR_WRONG_REG_TIME_LIMIT = 'grp_wrong_reg_time_limit';
 	
+	const MAIL_ALLOWED_ALL = 1;
+	const MAIL_ALLOWED_TUTORS = 2;
+	
 	protected $information;
 	protected $group_type = null;
 	protected $reg_type = GRP_REGISTRATION_DIRECT;
@@ -89,6 +71,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 	private $view_mode = NULL;
 	
+	private $mail_members = self::MAIL_ALLOWED_ALL;
 	
 	
 	public $members_obj;
@@ -520,6 +503,26 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$this->reg_access_code_enabled = $a_status;
 	}
+	
+	/**
+	 * Set mail to members type
+	 * @see ilCourseConstants
+	 * @param type $a_type
+	 */
+	public function setMailToMembersType($a_type)
+	{
+		$this->mail_members = $a_type;
+	}
+	
+	/**
+	 * Get mail to members type
+	 * @return int
+	 */
+	public function getMailToMembersType()
+	{
+		return $this->mail_members;
+	}
+	
 
 	
 	
@@ -574,7 +577,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
 			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
-			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode) ".
+			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode,mail_members_type) ".
 			"VALUES(".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getInformation() ,'text').", ".
@@ -594,7 +597,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			$ilDB->quote($this->getViewMode(false),'integer').' '.
+			$ilDB->quote($this->getViewMode(false),'integer').', '.
+			$ilDB->quote($this->getMailToMembersType(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -638,7 +642,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"enablemap = ".$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			'view_mode = '.$ilDB->quote($this->getViewMode(false),'integer').' '.
+			'view_mode = '.$ilDB->quote($this->getViewMode(false),'integer').', '.
+			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		
@@ -718,6 +723,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$this->enableRegistrationAccessCode($row->reg_ac_enabled);
 			$this->setRegistrationAccessCode($row->reg_ac);
 			$this->setViewMode($row->view_mode);
+			$this->setMailToMembersType($row->mail_members_type);
 		}
 		$this->initParticipants();
 		
@@ -764,6 +770,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
 
 		$new_obj->setViewMode($this->getViewMode());
+		$new_obj->setMailToMembersType($this->getMailToMembersType());
 		
 		$new_obj->update();
 

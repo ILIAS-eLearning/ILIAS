@@ -1246,6 +1246,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		foreach(ilGroupParticipants::getMemberRoles($this->object->getRefId()) as $role_id)
 		{
+			// Do not show table if no user is assigned
+			if(!($GLOBALS['rbacreview']->getNumberOfAssignedUsers(array($role_id))))
+			{
+				continue;
+			}
 			if($ilUser->getPref('grp_role_hide'.$role_id))
 			{
 				$table_gui = new ilGroupParticipantsTableGUI($this,'role',false,$this->show_tracking,$role_id);
@@ -2815,6 +2820,22 @@ class ilObjGroupGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
 					)
 				);
+
+			// Notification Settings
+			$notification = new ilFormSectionHeaderGUI();
+			$notification->setTitle($this->lng->txt('grp_notification'));
+			$this->form->addItem($notification);
+		
+			// Show members type
+			$mail_type = new ilRadioGroupInputGUI($this->lng->txt('grp_mail_type'), 'mail_type');
+			$mail_type->setValue($this->object->getMailToMembersType());
+
+			$mail_tutors = new ilRadioOption($this->lng->txt('grp_mail_tutors_only'), ilObjGroup::MAIL_ALLOWED_TUTORS);
+			$mail_type->addOption($mail_tutors);
+
+			$mail_all = new ilRadioOption($this->lng->txt('grp_mail_all'),  ilObjGroup::MAIL_ALLOWED_ALL);
+			$mail_type->addOption($mail_all);
+			$this->form->addItem($mail_type);
 		}
 		
 		switch($a_mode)
@@ -2876,6 +2897,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->enableRegistrationAccessCode((bool) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
+		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		
 		return true;
 	}
@@ -2941,9 +2963,15 @@ class ilObjGroupGUI extends ilContainerGUI
 						"membersMap", get_class($this));
 				}
 				
-				$this->tabs_gui->addSubTabTarget("mail_members",
-				$this->ctrl->getLinkTarget($this,'mailMembers'),
-				"mailMembers", get_class($this));
+				if(
+					$ilAccess->checkAccess('write','',$this->object->getRefId()) or
+					$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL
+				)
+				{
+					$this->tabs_gui->addSubTabTarget("mail_members",
+					$this->ctrl->getLinkTarget($this,'mailMembers'),
+					"mailMembers", get_class($this));
+				}
 				
 				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{

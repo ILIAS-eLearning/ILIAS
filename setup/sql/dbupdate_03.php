@@ -18128,3 +18128,20 @@ if(!$ilDB->tableColumnExists('crs_settings','mail_members_type'))
 }
 ?>
 
+<#4070>
+<?php
+if(!$ilDB->tableColumnExists('grp_settings','mail_members_type'))
+{
+	$ilDB->addTableColumn(
+		'grp_settings',
+		'mail_members_type',
+		array(
+			'type' => 'integer', 
+			'length' => 1,
+			'notnull' => false,
+			'default' => 1
+		)
+	);
+}
+?>
+
