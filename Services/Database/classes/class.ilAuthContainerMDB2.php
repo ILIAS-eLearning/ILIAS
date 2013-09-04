@@ -97,6 +97,7 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 		
 		switch($auth_id)
 		{
+			case AUTH_APACHE:
 			case AUTH_LOCAL:
 				return true;
 				

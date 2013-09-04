@@ -664,6 +664,7 @@ class ilAuthUtils
 		switch($a_auth_mode)
 		{
 			case AUTH_LOCAL:
+			case AUTH_APACHE:
 				return false;
 			default: 
 				return true;
@@ -696,6 +697,7 @@ class ilAuthUtils
 			// Always for openid and local
 			case AUTH_LOCAL:
 			case AUTH_OPENID:
+			case AUTH_APACHE:
 				return true;
 
 			// Read setting:
