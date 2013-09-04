@@ -530,7 +530,25 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$this->tabs_gui->clearTargets();
 			
 		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
-		$current_page = $_GET["user_page"];
+		$current_page = (int)$_GET["user_page"];
+		
+		// validate current page
+		if($pages && $current_page)
+		{
+			$found = false;
+			foreach($pages as $page)
+			{
+				if($page["id"] == $current_page)
+				{
+					$found = true;
+					break;
+				}
+			}
+			if(!$found)
+			{
+				$current_page = null;
+			}
+		}
 
 		// display first page of portfolio if none given
 		if(!$current_page && $pages)
@@ -538,7 +556,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$current_page = $pages;
 			$current_page = array_shift($current_page);
 			$current_page = $current_page["id"];
-		}		
+		}				
 		
 		// render tabs
 		$current_blog = null;
@@ -609,9 +627,16 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		}
 			
 		if($this->perma_link === null)
-		{
+		{			
 			include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
-			$plink = new ilPermanentLinkGUI("prtf", $this->object->getId());
+			if($this->getType() == "prtf")
+			{
+				$plink = new ilPermanentLinkGUI($this->getType(), $this->object->getId(), "_".$current_page);
+			}
+			else
+			{
+				$plink = new ilPermanentLinkGUI($this->getType(), $this->object->getRefId());
+			}
 			$plink = $plink->getHTML();		
 		}
 		else
