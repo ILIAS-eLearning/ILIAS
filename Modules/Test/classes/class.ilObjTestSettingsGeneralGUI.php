@@ -828,6 +828,7 @@ class ilObjTestSettingsGeneralGUI
 		$nr_of_tries->setValue($this->testOBJ->getNrOfTries());
 		$nr_of_tries->setRequired(true);
 		$nr_of_tries->setSuffix($this->lng->txt("0_unlimited"));
+		$total = $this->testOBJ->evalTotalPersons();
 		if ($total) $nr_of_tries->setDisabled(true);
 		$form->addItem($nr_of_tries);
 
