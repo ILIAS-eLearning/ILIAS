@@ -1,31 +1,34 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* Text question GUI representation
-*
-* The assTextQuestionGUI class encapsulates the GUI representation
-* for text questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
-class assTextQuestionGUI extends assQuestionGUI
+ * Text question GUI representation
+ *
+ * The assTextQuestionGUI class encapsulates the GUI representation for text questions.
+ *
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ *
+ * @version	$Id$
+ *
+ * @ingroup ModulesTestQuestionPool
+ */
+class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	/**
-	* assTextQuestionGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assTextQuestionGUI object.
-	*
-	* @param integer $id The database id of a text question object
-	* @access public
-	*/
-	function __construct($id = -1)
+	 * assTextQuestionGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assTextQuestionGUI object.
+	 *
+	 * @param integer $id The database id of a text question object
+	 */
+	public function __construct($id = -1)
 	{
 		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assTextQuestion.php";
@@ -37,70 +40,24 @@ class assTextQuestionGUI extends assQuestionGUI
 	}
 
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			$this->object->setMaxNumOfChars($_POST["maxchars"]);
-			$this->object->setTextRating($_POST["text_rating"]);
-			if ($this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setNrOfTries($_POST['nr_of_tries']);
-			}
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-			$this->object->setKeywordRelation($_POST['scoring_mode']);
-			
-			switch( $this->object->getKeywordRelation() )
-			{
-					
-				case 'non':
-					
-					$this->object->setAnswers(array());
-					$this->object->setPoints($_POST['non_keyword_points']);
-					break;
-				
-				case 'any':
-					
-					$this->object->setAnswers($_POST['any_keyword']);
-					$this->object->setPoints($this->object->getMaximumPoints());
-					break;
-				
-				case 'all':
-					$this->object->setAnswers($_POST['all_keyword']);
-					$this->object->setPoints($_POST['all_keyword_points']);
-					break;
-				
-				case 'one':
-
-					$this->object->setAnswers($_POST['one_keyword']);
-					$this->object->setPoints($_POST['one_keyword_points']);
-					break;
-			}
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			$this->writeAnswerSpecificPostData();
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
 		}
-		else
-		{
-			return 1;
-		}
+		return 1;
 	}
 
 	/**
@@ -120,99 +77,11 @@ class assTextQuestionGUI extends assQuestionGUI
 		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
 		$form->setId("asstextquestion");
-		
-		// title, author, description, question, working time (assessment mode)
-		$this->addBasicQuestionFormProperties($form);
 
-		// maxchars
-		$maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
-		$maxchars->setSize(5);
-		if ($this->object->getMaxNumOfChars() > 0) $maxchars->setValue($this->object->getMaxNumOfChars());
-		$maxchars->setInfo($this->lng->txt("description_maxchars"));
-		$form->addItem($maxchars);
+		$this->addBasicQuestionFormProperties( $form );
+		$this->populateQuestionSpecificFormPart( $form );
+		$this->populateAnswerSpecificFormPart( $form );
 
-		if (!$this->object->getSelfAssessmentEditingMode())
-		{	
-			if( $this->object->getAnswerCount() == 0 )
-			{
-				$this->object->addAnswer("", 0, 0, 0);
-			}
-
-			$scoringMode = new ilRadioGroupInputGUI(
-					$this->lng->txt('essay_scoring_mode'), 'scoring_mode'
-			);
-			
-			$scoringOptionNone = new ilRadioOption( $this->lng->txt('essay_scoring_mode_without_keywords'),
-					'non', $this->lng->txt('essay_scoring_mode_without_keywords_desc')
-			);
-			$scoringOptionAnyKeyword = new ilRadioOption( $this->lng->txt('essay_scoring_mode_keyword_relation_any'),
-					'any', $this->lng->txt('essay_scoring_mode_keyword_relation_any_desc')
-			);
-			$scoringOptionAllKeyword = new ilRadioOption( $this->lng->txt('essay_scoring_mode_keyword_relation_all'),
-					'all', $this->lng->txt('essay_scoring_mode_keyword_relation_all_desc')
-			);
-			$scoringOptionOneKeyword = new ilRadioOption( $this->lng->txt('essay_scoring_mode_keyword_relation_one'),
-					'one', $this->lng->txt('essay_scoring_mode_keyword_relation_one_desc')
-			);
-			
-			$scoringMode->addOption($scoringOptionNone);
-			$scoringMode->addOption($scoringOptionAnyKeyword);
-			$scoringMode->addOption($scoringOptionAllKeyword);
-			$scoringMode->addOption($scoringOptionOneKeyword);
-			$scoringMode->setRequired(true);
-			$scoringMode->setValue(strlen($this->object->getKeywordRelation()) ? $this->object->getKeywordRelation() : 'non');
-			
-			require_once "./Modules/TestQuestionPool/classes/class.ilEssayKeywordWizardInputGUI.php";
-
-			// Without Keywords
-				$nonKeywordPoints = new ilNumberInputGUI($this->lng->txt("points"), "non_keyword_points");
-				$nonKeywordPoints->setValue($this->object->getPoints());
-				$nonKeywordPoints->setRequired(TRUE);
-				$nonKeywordPoints->setSize(3);
-				$nonKeywordPoints->setMinValue(0.0);
-				$nonKeywordPoints->setMinvalueShouldBeGreater(true);
-			$scoringOptionNone->addSubItem($nonKeywordPoints);
-			
-			// Any Keyword
-				$anyKeyword = new ilEssayKeywordWizardInputGUI($this->lng->txt("answers"), "any_keyword");
-				$anyKeyword->setRequired(TRUE);
-				$anyKeyword->setQuestionObject($this->object);
-				$anyKeyword->setSingleline(TRUE);
-				$anyKeyword->setValues($this->object->getAnswers());
-			$scoringOptionAnyKeyword->addSubItem($anyKeyword);
-			
-			// All Keywords
-				$allKeyword = new ilTextWizardInputGUI($this->lng->txt("answers"), "all_keyword");
-				$allKeyword->setRequired(TRUE);
-				//$allKeyword->setQuestionObject($this->object);
-				//$allKeyword->setSingleline(TRUE);
-				$allKeyword->setValues(self::buildAnswerTextOnlyArray($this->object->getAnswers()));
-			$scoringOptionAllKeyword->addSubItem($allKeyword);
-				$allKeywordPoints = new ilNumberInputGUI($this->lng->txt("points"), "all_keyword_points");
-				$allKeywordPoints->setValue($this->object->getPoints());
-				$allKeywordPoints->setRequired(TRUE);
-				$allKeywordPoints->setSize(3);
-				$allKeywordPoints->setMinValue(0.0);
-				$allKeywordPoints->setMinvalueShouldBeGreater(true);
-			$scoringOptionAllKeyword->addSubItem($allKeywordPoints);
-
-			// One Keywords
-				$oneKeyword = new ilTextWizardInputGUI($this->lng->txt("answers"), "one_keyword");
-				$oneKeyword->setRequired(TRUE);
-				//$oneKeyword->setQuestionObject($this->object);
-				//$oneKeyword->setSingleline(TRUE);
-				$oneKeyword->setValues(self::buildAnswerTextOnlyArray($this->object->getAnswers()));
-			$scoringOptionOneKeyword->addSubItem($oneKeyword);
-				$oneKeywordPoints = new ilNumberInputGUI($this->lng->txt("points"), "one_keyword_points");
-				$oneKeywordPoints->setValue($this->object->getPoints());
-				$oneKeywordPoints->setRequired(TRUE);
-				$oneKeywordPoints->setSize(3);
-				$oneKeywordPoints->setMinValue(0.0);
-				$oneKeywordPoints->setMinvalueShouldBeGreater(true);
-			$scoringOptionOneKeyword->addSubItem($oneKeywordPoints);
-
-			$form->addItem($scoringMode);
-		}
 		
 		$this->populateTaxonomyFormSection($form);
 		
@@ -659,4 +528,164 @@ class assTextQuestionGUI extends assQuestionGUI
 			$feedback .= '</tbody></table>';
 			return $this->object->prepareTextareaOutput($feedback, TRUE);
 	}
+
+	public function writeQuestionSpecificPostData( $always = true)
+	{
+		$this->object->setMaxNumOfChars( $_POST["maxchars"] );
+		$this->object->setTextRating( $_POST["text_rating"] );
+		$this->object->setKeywordRelation( $_POST['scoring_mode'] );
+	}
+
+	public function writeAnswerSpecificPostData( $always = true )
+	{
+		switch ($this->object->getKeywordRelation())
+		{
+			case 'non':
+				$this->object->setAnswers( array() );
+				$this->object->setPoints( $_POST['non_keyword_points'] );
+				break;
+			case 'any':
+				$this->object->setAnswers( $_POST['any_keyword'] );
+				$this->object->setPoints( $this->object->getMaximumPoints() );
+				break;
+			case 'all':
+				$this->object->setAnswers( $_POST['all_keyword'] );
+				$this->object->setPoints( $_POST['all_keyword_points'] );
+				break;
+			case 'one':
+				$this->object->setAnswers( $_POST['one_keyword'] );
+				$this->object->setPoints( $_POST['one_keyword_points'] );
+				break;
+		}
+	}
+
+	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		// maxchars
+		$maxchars = new ilNumberInputGUI($this->lng->txt( "maxchars" ), "maxchars");
+		$maxchars->setSize( 5 );
+		if ($this->object->getMaxNumOfChars() > 0)
+			$maxchars->setValue( $this->object->getMaxNumOfChars() );
+		$maxchars->setInfo( $this->lng->txt( "description_maxchars" ) );
+		$form->addItem( $maxchars );
+		return $form;
+	}
+
+	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		$scoringMode = new ilRadioGroupInputGUI(
+			$this->lng->txt( 'essay_scoring_mode' ), 'scoring_mode'
+		);
+
+		$scoringOptionNone = new ilRadioOption($this->lng->txt( 'essay_scoring_mode_without_keywords' ),
+											   'non', $this->lng->txt( 'essay_scoring_mode_without_keywords_desc'
+			)
+		);
+		$scoringOptionAnyKeyword = new ilRadioOption($this->lng->txt( 'essay_scoring_mode_keyword_relation_any' ),
+													 'any', $this->lng->txt( 'essay_scoring_mode_keyword_relation_any_desc'
+			)
+		);
+		$scoringOptionAllKeyword = new ilRadioOption($this->lng->txt( 'essay_scoring_mode_keyword_relation_all' ),
+													 'all', $this->lng->txt( 'essay_scoring_mode_keyword_relation_all_desc'
+			)
+		);
+		$scoringOptionOneKeyword = new ilRadioOption($this->lng->txt( 'essay_scoring_mode_keyword_relation_one' ),
+													 'one', $this->lng->txt( 'essay_scoring_mode_keyword_relation_one_desc'
+			)
+		);
+
+		$scoringMode->addOption( $scoringOptionNone );
+		$scoringMode->addOption( $scoringOptionAnyKeyword );
+		$scoringMode->addOption( $scoringOptionAllKeyword );
+		$scoringMode->addOption( $scoringOptionOneKeyword );
+		$scoringMode->setRequired( true );
+		$scoringMode->setValue( strlen( $this->object->getKeywordRelation() ) ? $this->object->getKeywordRelation(
+								) : 'non'
+		);
+
+		if ($this->object->getAnswerCount() == 0)
+		{
+			$this->object->addAnswer( "", 0, 0, 0 );
+		}
+		require_once "./Modules/TestQuestionPool/classes/class.ilEssayKeywordWizardInputGUI.php";
+
+		// Without Keywords
+		$nonKeywordPoints = new ilNumberInputGUI($this->lng->txt( "points" ), "non_keyword_points");
+		$nonKeywordPoints->setValue( $this->object->getPoints() );
+		$nonKeywordPoints->setRequired( TRUE );
+		$nonKeywordPoints->setSize( 3 );
+		$nonKeywordPoints->setMinValue( 0.0 );
+		$nonKeywordPoints->setMinvalueShouldBeGreater( true );
+		$scoringOptionNone->addSubItem( $nonKeywordPoints );
+
+		// Any Keyword
+		$anyKeyword = new ilEssayKeywordWizardInputGUI($this->lng->txt( "answers" ), "any_keyword");
+		$anyKeyword->setRequired( TRUE );
+		$anyKeyword->setQuestionObject( $this->object );
+		$anyKeyword->setSingleline( TRUE );
+		$anyKeyword->setValues( $this->object->getAnswers() );
+		$scoringOptionAnyKeyword->addSubItem( $anyKeyword );
+
+		// All Keywords
+		$allKeyword = new ilTextWizardInputGUI($this->lng->txt( "answers" ), "all_keyword");
+		$allKeyword->setRequired( TRUE );
+		//$allKeyword->setQuestionObject($this->object);
+		//$allKeyword->setSingleline(TRUE);
+		$allKeyword->setValues( self::buildAnswerTextOnlyArray( $this->object->getAnswers() ) );
+		$scoringOptionAllKeyword->addSubItem( $allKeyword );
+		$allKeywordPoints = new ilNumberInputGUI($this->lng->txt( "points" ), "all_keyword_points");
+		$allKeywordPoints->setValue( $this->object->getPoints() );
+		$allKeywordPoints->setRequired( TRUE );
+		$allKeywordPoints->setSize( 3 );
+		$allKeywordPoints->setMinValue( 0.0 );
+		$allKeywordPoints->setMinvalueShouldBeGreater( true );
+		$scoringOptionAllKeyword->addSubItem( $allKeywordPoints );
+
+		// One Keywords
+		$oneKeyword = new ilTextWizardInputGUI($this->lng->txt( "answers" ), "one_keyword");
+		$oneKeyword->setRequired( TRUE );
+		//$oneKeyword->setQuestionObject($this->object);
+		//$oneKeyword->setSingleline(TRUE);
+		$oneKeyword->setValues( self::buildAnswerTextOnlyArray( $this->object->getAnswers() ) );
+		$scoringOptionOneKeyword->addSubItem( $oneKeyword );
+		$oneKeywordPoints = new ilNumberInputGUI($this->lng->txt( "points" ), "one_keyword_points");
+		$oneKeywordPoints->setValue( $this->object->getPoints() );
+		$oneKeywordPoints->setRequired( TRUE );
+		$oneKeywordPoints->setSize( 3 );
+		$oneKeywordPoints->setMinValue( 0.0 );
+		$oneKeywordPoints->setMinvalueShouldBeGreater( true );
+		$scoringOptionOneKeyword->addSubItem( $oneKeywordPoints );
+
+		$form->addItem( $scoringMode );
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionAnswerPostVars()
+	{
+		return array();
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionQuestionPostVars()
+	{
+		return array();
+	}
+
+
 }
