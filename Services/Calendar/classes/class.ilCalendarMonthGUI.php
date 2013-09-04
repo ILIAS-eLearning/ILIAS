@@ -142,7 +142,7 @@ class ilCalendarMonthGUI
 			$this->tpl->setVariable('TXT_WEEKDAY',ilCalendarUtil::_numericDayToString($i,true));
 			$this->tpl->parseCurrentBlock();
 		}
-
+		
 		if(isset($_GET["bkid"]))
 		{
 			$user_id = $_GET["bkid"];
@@ -160,6 +160,12 @@ class ilCalendarMonthGUI
 			$user_id = $ilUser->getId();
 			$disable_empty = false;
 			$no_add = false;
+			
+			if(ilCalendarCategories::_getInstance()->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION)
+			{
+				$no_add = true;
+				$is_portfolio_embedded = true;
+			}
 		}
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
 		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user_id,$disable_empty);
@@ -215,7 +221,8 @@ class ilCalendarMonthGUI
 				$month_day = $day;
 			}
 
-			if(!$disable_empty || $has_events)
+			if(!$is_portfolio_embedded &&
+				(!$disable_empty || $has_events))
 			{
 				$this->tpl->setCurrentBlock('month_day_link');
 				$this->ctrl->clearParametersByClass('ilcalendardaygui');
@@ -266,6 +273,13 @@ class ilCalendarMonthGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+	}
+	
+	// used in portfolio
+	function getHTML()
+	{
+		$this->show();		
+		return $this->tpl->get();
 	}
 	
 	/**

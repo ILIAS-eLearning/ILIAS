@@ -318,14 +318,28 @@ class ilCalendarAppointmentPanelGUI
 						$this->tpl->parseCurrentBlock();
 					}
 
+					$link_users = true;
+					if(ilCalendarCategories::_getInstance()->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION)
+					{
+						$link_users = false;
+					}
+					
 					include_once './Services/Link/classes/class.ilLink.php';
 					$bookings = array();
 					$this->ctrl->setParameterByClass('ilconsultationhoursgui','panel',1);
 					foreach($entry->getCurrentBookings($a_app['event']->getEntryId()) as $user_id)
 					{
-						$this->ctrl->setParameterByClass('ilconsultationhoursgui','user',$user_id);
-						$bookings[] = '<a href="'.$this->ctrl->getLinkTargetByClass('ilconsultationhoursgui', 'showprofile').'">'.ilObjUser::_lookupFullname($user_id);
-						$this->ctrl->setParameterByClass('ilconsultationhoursgui','user','');
+						if($link_users)
+						{
+							$this->ctrl->setParameterByClass('ilconsultationhoursgui','user',$user_id);
+							$bookings[] = '<a href="'.$this->ctrl->getLinkTargetByClass('ilconsultationhoursgui', 'showprofile').'">'.
+								ilObjUser::_lookupFullname($user_id).'</a>';
+							$this->ctrl->setParameterByClass('ilconsultationhoursgui','user','');
+						}
+						else
+						{
+							$bookings[] = ilObjUser::_lookupFullname($user_id);
+						}
 					}
 					$this->ctrl->setParameterByClass('ilconsultationhoursgui','panel','');
 					$this->tpl->setCurrentBlock('panel_current_booking');

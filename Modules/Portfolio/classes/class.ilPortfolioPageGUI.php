@@ -11,11 +11,14 @@ include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
  *
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilObjBlogGUI, ilBlogPostingGUI
+ * @ilCtrl_Calls ilPortfolioPageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI
  *
  * @ingroup ModulesPortfolio
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
 {
+	const EMBEDDED_NO_OUTPUT = -99;
+	
 	protected $js_onload_code = array();
 	protected $additional = array();
 	
@@ -84,6 +87,21 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				$blog_gui->disableNotes(!$this->enable_comments);
 				return $ilCtrl->forwardCommand($blog_gui);
 				
+			case "ilcalendarmonthgui":
+				// booking action
+				if($cmd && $cmd != "preview")
+				{
+					include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');				
+					$month_gui = new ilCalendarMonthGUI(new ilDate());	
+					return $ilCtrl->forwardCommand($month_gui);
+				}
+				// calendar month navigation
+				else
+				{
+					$ilCtrl->setParameter($this, "cmd", "preview");
+					return self::EMBEDDED_NO_OUTPUT;	
+				}
+			
 			case "ilpageobjectgui":
 				die("Deprecated. ilPortfolioPage gui forwarding to ilpageobject");
 				return;
@@ -404,11 +422,49 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	}	
 	
 	protected function renderConsultationHours($a_user_id, $a_mode, $a_group_ids)
-	{
-		global $lng;
+	{		
+		global $ilUser;
 		
-		$lng->loadLanguageModule("dateplaner");
-		return "<div style=\"margin:5px\">".$lng->txt("app_consultation_hours")." :TODO:</div>";
+		if($this->getOutputMode() == "preview")
+		{	
+			return $this->renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids);
+		}
+		
+		if($this->getOutputMode() == "offline")
+		{	
+			return;
+		}
+		
+		// only if not owner
+		if($ilUser->getId() != $a_user_id)
+		{
+			$_GET["bkid"] = $a_user_id;
+		}
+		
+		if($a_mode != "manual")
+		{
+			$a_group_ids = null;
+		}
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		ilCalendarCategories::_getInstance()->setCHUserId($a_user_id);
+		ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, $a_group_ids, true);
+		
+		if(!$_REQUEST["seed"])
+		{
+			$seed = new ilDate(time(), IL_CAL_UNIX);
+		}
+		else
+		{
+			$seed = new ilDate($_REQUEST["seed"], IL_CAL_DATE);
+		}
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
+		$month_gui = new ilCalendarMonthGUI($seed);		
+
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
+		
+		return $this->ctrl->getHTML($month_gui);	
 	}	
 	
 	function getJsOnloadCode()

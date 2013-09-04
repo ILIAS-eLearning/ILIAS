@@ -42,6 +42,7 @@ class ilCalendarCategories
 	const MODE_PERSONAL_DESKTOP_ITEMS = 5; 
 	const MODE_MANAGE = 6;
 	const MODE_CONSULTATION = 7;
+	const MODE_PORTFOLIO_CONSULTATION = 8;
 	
 	protected static $instance = null;
 	
@@ -258,7 +259,8 @@ class ilCalendarCategories
 			// Read categories from cache
 			if($cats = ilCalendarCache::getInstance()->getEntry($this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id))
 			{
-				if($this->getMode() != self::MODE_CONSULTATION)
+				if($this->getMode() != self::MODE_CONSULTATION &&
+					$this->getMode() != self::MODE_PORTFOLIO_CONSULTATION)
 				{
 					$this->wakeup($cats);
 					return;
@@ -304,6 +306,10 @@ class ilCalendarCategories
 				#$this->readPrivateCalendars();
 				$this->setTargetRefId($a_source_ref_id);
 				$this->readConsultationHoursCalendar($a_source_ref_id);
+				break;
+			
+			case self::MODE_PORTFOLIO_CONSULTATION:
+				$this->readConsultationHoursCalendar(null, $a_source_ref_id);
 				break;
 		}
 		

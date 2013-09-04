@@ -406,7 +406,8 @@ class ilCalendarSchedule
 					if(!$booking->isBookedOut($row->cal_id, true))
 					{
 						// Check target 
-						if($cats->getMode() == ilCalendarCategories::MODE_CONSULTATION and
+						if(($cats->getMode() == ilCalendarCategories::MODE_CONSULTATION or
+							$cats->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION) and
 							$booking->isTargetObjectVisible($cats->getTargetRefId()))
 						{
 							$events[] = $event;

@@ -59,7 +59,15 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$this->lng->txt("portfolio"));
 
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd("view");				
+		$cmd = $this->ctrl->getCmd("view");		
+		
+		/*
+		if($_REQUEST["ecal"])
+		{	
+			$cmd = "preview";
+			$next_class = "";
+		}
+		*/
 		
 		switch($next_class)
 		{
@@ -80,13 +88,15 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				break;
 			
 			case 'ilportfoliopagegui':									
-				$this->determinePageCall(); // has to be done before locator!
-				$this->addLocator();
-				
-				include_once "Services/Form/classes/class.ilFileInputGUI.php";
-				ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);						
-
-				$this->handlePageCall($cmd);
+				if($this->determinePageCall()) 
+				{	
+					// only in edit mode
+					$this->addLocator();	
+										
+					include_once "Services/Form/classes/class.ilFileInputGUI.php";
+					ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);						
+				}
+				$this->handlePageCall($cmd);			
 				break;
 				
 			case "ilnotegui";				
