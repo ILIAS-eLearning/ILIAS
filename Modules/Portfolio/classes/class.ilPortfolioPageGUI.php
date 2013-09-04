@@ -448,7 +448,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		ilCalendarCategories::_getInstance()->setCHUserId($a_user_id);
-		ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, $a_group_ids, true);
+		ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
 		
 		if(!$_REQUEST["seed"])
 		{
@@ -460,7 +460,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		}
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
-		$month_gui = new ilCalendarMonthGUI($seed);		
+		$month_gui = new ilCalendarMonthGUI($seed);
+		$month_gui->setConsultationHoursGroupIds($a_group_ids);
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
 		

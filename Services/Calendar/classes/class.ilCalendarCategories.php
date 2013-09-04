@@ -309,7 +309,7 @@ class ilCalendarCategories
 				break;
 			
 			case self::MODE_PORTFOLIO_CONSULTATION:
-				$this->readConsultationHoursCalendar(null, $a_source_ref_id);
+				$this->readConsultationHoursCalendar();
 				break;
 		}
 		
