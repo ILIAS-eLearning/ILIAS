@@ -142,35 +142,38 @@ class ilCalendarMonthGUI
 			$this->tpl->setVariable('TXT_WEEKDAY',ilCalendarUtil::_numericDayToString($i,true));
 			$this->tpl->parseCurrentBlock();
 		}
-		
+				
 		if(isset($_GET["bkid"]))
 		{
 			$user_id = $_GET["bkid"];
 			$disable_empty = true;
-			$no_add = true;
+			$no_add = true;			
+			$is_portfolio_embedded = false;
 		}
 		elseif($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
 			$user_id = $ilUser->getId();
 			$disable_empty = false;
 			$no_add = true;
+			$is_portfolio_embedded = false;
 		}
 		else
 		{
 			$user_id = $ilUser->getId();
 			$disable_empty = false;
 			$no_add = false;
-			
+			$is_portfolio_embedded = false;
+						
 			if(ilCalendarCategories::_getInstance()->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION)
-			{
-				$no_add = true;
+			{				
+				$no_add = true;				
 				$is_portfolio_embedded = true;
-			}
+			}			
 		}
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
 		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user_id,$disable_empty);
 		$this->scheduler->addSubitemCalendars(true);
-		$this->scheduler->calculate();
+		$this->scheduler->calculate($this->consultation_hours_group_ids);
 
 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
 		$settings = ilCalendarSettings::_getInstance();
@@ -277,9 +280,14 @@ class ilCalendarMonthGUI
 	
 	// used in portfolio
 	function getHTML()
-	{
+	{		
 		$this->show();		
 		return $this->tpl->get();
+	}
+	
+	public function setConsultationHoursGroupIds($a_group_ids)
+	{
+		$this->consultation_hours_group_ids = $a_group_ids;
 	}
 	
 	/**

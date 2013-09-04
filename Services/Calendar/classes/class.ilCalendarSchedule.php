@@ -193,11 +193,11 @@ class ilCalendarSchedule
 	 *
 	 * @access protected
 	 */
-	public function calculate()
+	public function calculate($a_consultation_hours_group_ids = null)
 	{
 		global $ilDB;
 
-		$events = $this->getEvents();
+		$events = $this->getEvents($a_consultation_hours_group_ids);
 
 		// we need category type for booking handling
 		$ids = array();
@@ -214,7 +214,7 @@ class ilCalendarSchedule
 			$cat = new ilCalendarCategory($cat_id);
 			$cat_types[$cat_id] = $cat->getType();
 		}
-
+		
 		$counter = 0;
 		foreach($events as $event)
 		{
@@ -348,7 +348,7 @@ class ilCalendarSchedule
 	 *
 	 * @access protected
 	 */
-	public function getEvents()
+	public function getEvents($a_consultation_hours_group_ids = null)
 	{
 		global $ilDB;
 		
@@ -388,7 +388,7 @@ class ilCalendarSchedule
 		
 		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
-
+		
 		$cats = ilCalendarCategories::_getInstance();
 		$events = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -398,12 +398,30 @@ class ilCalendarSchedule
 				$event = new ilCalendarEntry($row->cal_id);
 				if(!$this->filter_bookings)
 				{
-					$events[] = $event;
+					// portfolio embedded: filter by consultation hour groups?
+					// this is the version for the owner
+					if(is_array($a_consultation_hours_group_ids))
+					{
+						$booking = new ilBookingEntry($event->getContextId());
+						if(in_array($booking->getBookingGroup(), $a_consultation_hours_group_ids))
+						{
+							$events[] = $event;
+						}						
+					}
+					else
+					{
+						$events[] = $event;
+					}
 				}
 				else
 				{
 					$booking = new ilBookingEntry($event->getContextId());
-					if(!$booking->isBookedOut($row->cal_id, true))
+					
+					// portfolio embedded: filter by consultation hour groups?
+					// this is the version for the learner
+					if((!is_array($a_consultation_hours_group_ids) ||
+						in_array($booking->getBookingGroup(), $a_consultation_hours_group_ids)) &&
+						!$booking->isBookedOut($row->cal_id, true))
 					{
 						// Check target 
 						if(($cats->getMode() == ilCalendarCategories::MODE_CONSULTATION or
