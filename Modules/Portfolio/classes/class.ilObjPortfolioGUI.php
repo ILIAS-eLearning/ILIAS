@@ -42,7 +42,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	function executeCommand()
-	{				
+	{					
+		// goto link to portfolio page
+		if($_GET["gtp"])
+		{		
+			$_GET["user_page"] = $_GET["gtp"];	
+		}
+		
 		$title = $this->lng->txt("portfolio");
 		if($this->object)
 		{
@@ -930,14 +936,17 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->ctrl->setParameter($this, "prt_id", $target_id);
 		$this->ctrl->redirect($this, "view");
 	}	
-		
-	
+			
 	function _goto($a_target)
 	{
 		$id = explode("_", $a_target);
-	
+		
 		$_GET["baseClass"] = "ilsharedresourceGUI";	
 		$_GET["prt_id"] = $id[0];		
+		if(sizeof($id) == 2)
+		{
+			$_GET["gtp"] = $id[1];
+		}		
 		
 		include("ilias.php");
 		exit;

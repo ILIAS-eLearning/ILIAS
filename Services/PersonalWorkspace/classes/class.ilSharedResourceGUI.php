@@ -208,7 +208,7 @@ class ilSharedResourceGUI
 		{
 			case "blog":
 				$ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
-				$ilCtrl->setParameterByClass($gui, "gtp", $_GET["gtp"]);
+				$ilCtrl->setParameterByClass($gui, "gtp", (int)$_GET["gtp"]);
 				$ilCtrl->redirectByClass($gui, "preview");
 				
 			case "tstv":
@@ -223,6 +223,7 @@ class ilSharedResourceGUI
 				
 			case "prtf":
 				$ilCtrl->setParameterByClass($gui, "prt_id", $a_node_id);
+				$ilCtrl->setParameterByClass($gui, "gtp", (int)$_GET["gtp"]);
 				if($_GET["back_url"])
 				{
 					$ilCtrl->setParameterByClass($gui, "back_url", rawurlencode($_GET["back_url"]));
