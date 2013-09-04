@@ -69,7 +69,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			
 			$this->page_id = $_REQUEST["ppage"];
 			$this->page_mode = "edit";
-			$this->ctrl->setParameter($this, "ppage", $this->page_id);								
+			$this->ctrl->setParameter($this, "ppage", $this->page_id);	
+			return true;
 		}
 		// preview
 		else
@@ -77,6 +78,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$this->page_id = $_REQUEST["user_page"];
 			$this->page_mode = "preview";
 			$this->ctrl->setParameter($this, "user_page", $this->page_id);			
+			return false;
 		}				
 	}
 	
@@ -95,12 +97,20 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$ret = $this->ctrl->forwardCommand($page_gui);
 
 		if ($ret != "" && $ret !== true)
-		{						
+		{									
 			// preview (fullscreen)
 			if($this->page_mode == "preview")
 			{						
-				// suppress (portfolio) notes for blog postings 
-				$this->preview(false, $ret, ($a_cmd != "previewEmbedded"));
+				// embedded call which did not generate any output (e.g. calendar month navigation)
+				if($ret != ilPortfolioPageGUI::EMBEDDED_NO_OUTPUT)
+				{
+					// suppress (portfolio) notes for blog postings 
+					$this->preview(false, $ret, ($a_cmd != "previewEmbedded"));
+				}
+				else
+				{
+					$this->preview(false);
+				}
 			}
 			// edit
 			else
