@@ -174,7 +174,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			"Blog" => array("0-9", "0-9", "0-9;\W"),  // user, blog id, posting ids
 			"BlogTeaser" => array("0-9", "0-9", "0-9;\W"),  // user, blog id, posting ids
 			"Skills" => array("0-9", "0-9"),  // user, skill id
-			"SkillsTeaser" => array("0-9", "0-9")  // user, skill id
+			"SkillsTeaser" => array("0-9", "0-9"),  // user, skill id
+			"ConsultationHours" => array("0-9", "a-z", "0-9;\W"),  // user, mode, group ids
+			"ConsultationHoursTeaser" => array("0-9", "a-z", "0-9;\W")  // user, mode, group ids
 			);
 			
 		foreach($parts as $type => $def)
@@ -192,6 +194,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 						case "BlogTeaser":
 						case "Skills":
 						case "SkillsTeaser":
+						case "ConsultationHours":
+						case "ConsultationHoursTeaser":
 							$subs = null;
 							if(trim($blocks[3][$idx]))
 							{
@@ -370,6 +374,41 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		return "<div style=\"margin:5px\">".$lng->txt("skills").": \"".
 				ilSkillTreeNode::_lookupTitle($a_skills_id)."\"</div>";
+	}	
+	
+	protected function renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids)
+	{
+		global $lng;
+		
+		if($a_mode == "auto")
+		{
+			$mode = $lng->txt("cont_cach_mode_automatic");
+			$groups = null;
+		}
+		else
+		{
+			$mode = $lng->txt("cont_cach_mode_manual");
+			
+			include_once "Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php";		
+			$groups = array();
+			foreach($a_group_ids as $grp_id)
+			{
+				$groups[] = ilConsultationHourGroups::lookupTitle($grp_id);
+			}
+			$groups = " (".implode(", ", $groups).")";
+		}
+		
+		$lng->loadLanguageModule("dateplaner");
+		return "<div style=\"margin:5px\">".$lng->txt("app_consultation_hours").": \"".
+				$mode."\"".$groups."</div>";
+	}	
+	
+	protected function renderConsultationHours($a_user_id, $a_mode, $a_group_ids)
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("dateplaner");
+		return "<div style=\"margin:5px\">".$lng->txt("app_consultation_hours")." :TODO:</div>";
 	}	
 	
 	function getJsOnloadCode()
