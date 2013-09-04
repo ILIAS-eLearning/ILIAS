@@ -1,36 +1,41 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* Ordering question GUI representation
-*
-* The assOrderingQuestionGUI class encapsulates the GUI representation
-* for ordering questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
-class assOrderingQuestionGUI extends assQuestionGUI
+ * Ordering question GUI representation
+ *
+ * The assOrderingQuestionGUI class encapsulates the GUI representation for ordering questions.
+ *
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ *         
+ * @version	$Id$
+ *          
+ * @ingroup ModulesTestQuestionPool
+ */
+class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	private $uploadAlert = null;
-	
+
 	public $old_ordering_depth = array();
 	public $leveled_ordering = array();
 	
 	/**
-	* assOrderingQuestionGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assOrderingQuestionGUI object.
-	*
-	* @param integer $id The database id of a ordering question object
-	* @access public
-	*/
-	function __construct($id = -1)
+	 * assOrderingQuestionGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assOrderingQuestionGUI object.
+	 *
+	 * @param integer $id The database id of a ordering question object
+	 *                    
+	 * @return assOrderingQuestionGUI
+	 */
+	public function __construct($id = -1)
 	{
 		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assOrderingQuestion.php";
@@ -40,11 +45,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$this->object->loadFromDb($id);
 		}
 		$this->object->setOutputType(OUTPUT_JAVASCRIPT); 
-	}
-
-	function getCommand($cmd)
-	{
-		return $cmd;
 	}
 
 	public function changeToPictures()
@@ -62,7 +62,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		}
 		$this->editQuestion();
 	}
-	
+
 	public function changeToText()
 	{
 		if($_SESSION['ordering_type'] != OQ_NESTED_TERMS
@@ -94,25 +94,16 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		}
 		$this->editQuestion();
 	}
+
 	public function orderNestedPictures()
 	{
-//		if($_SESSION['ordering_type'] != OQ_NESTED_PICTURES
-//			&& $_SESSION['ordering_type'] != OQ_PICTURES)
-//		{
-//			$_SESSION['ordering_type'] = OQ_NESTED_PICTURES;
-//			$this->writePostData(true, true);
-//		}
-//		else
-//		{
-			$_SESSION['ordering_type'] = OQ_NESTED_PICTURES;
-			$this->writePostData(true);
-//		}
+		$_SESSION['ordering_type'] = OQ_NESTED_PICTURES;
+		$this->writePostData(true);
 		$this->editQuestion();
 	}
 
 	public function addanswers()
 	{
-//		$_SESSION['ordering_type'] = OQ_TERMS;
 		$this->writePostData(true);
 		$position = key($_POST["cmd"]["addanswers"]);
 		$this->object->addAnswer("", $position+1);
@@ -121,7 +112,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 	public function removeimageanswers()
 	{
-//		$_SESSION['ordering_type'] = OQ_PICTURES;
 		$this->writePostData(true);
 		$position = key($_POST['cmd']['removeimageanswers']);
 		$filename = $_POST['answers']['imagename'][$position];
@@ -131,7 +121,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 	public function removeanswers()
 	{
-//		$_SESSION['ordering_type'] = OQ_TERMS;
 		$this->writePostData(true);
 		$position = key($_POST["cmd"]["removeanswers"]);
 		$this->object->deleteAnswer($position);
@@ -140,7 +129,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 	public function upanswers()
 	{
-//		$_SESSION['ordering_type'] = OQ_TERMS;
 		$this->writePostData(true);
 		$position = key($_POST["cmd"]["upanswers"]);
 		$this->object->moveAnswerUp($position);
@@ -149,13 +137,12 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 	public function downanswers()
 	{
-//		$_SESSION['ordering_type'] = OQ_PICTURES;
 		$this->writePostData(true);
 		$position = key($_POST["cmd"]["downanswers"]);
 		$this->object->moveAnswerDown($position);
 		$this->editQuestion();
 	}
-	
+
 	/**
 	 * @return \ilImageWizardInputGUI
 	 */
@@ -178,272 +165,291 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 	public function uploadanswers()
 	{
-//		$_SESSION['ordering_type'] = OQ_PICTURES;
-
 		$this->lng->loadLanguageModule('form');
-		
+
 		$inp = $this->getAnswerImageFileUploadWizardFormProperty();
-		
+
 		if( !$inp->checkInput() )
 		{
 			$this->uploadAlert = $inp->getAlert();
 		}
-		
+
 		$this->writePostData(true);
 		$this->editQuestion();
 	}
-	
+
+	public function writeQuestionSpecificPostData($always = true)
+	{
+		$this->object->setThumbGeometry( $_POST["thumb_geometry"] );
+		$this->object->setElementHeight( $_POST["element_height"] );
+		$this->object->setOrderingType( $_POST["ordering_type"] );
+		$this->object->setPoints($_POST["points"]);
+	}
+
+	public function writeAnswerSpecificPostData($clear_answers = false)
+	{
+		$ordering_type = $_POST["ordering_type"];
+		// Delete all existing answers and create new answers from the form data
+		$this->object->flushAnswers();
+		$saved = false;
+
+		// add answers
+		if ($ordering_type == OQ_TERMS
+			|| $ordering_type == OQ_NESTED_TERMS
+			|| $ordering_type == OQ_NESTED_PICTURES
+		)
+		{
+			$answers = $_POST["answers"];
+			if (is_array( $answers ))
+			{
+				//// get leveled ordering
+				$answers_ordering = $_POST['answers_ordering'];
+				$new_hierarchy    = json_decode( $answers_ordering );
+
+				$this->getOldLeveledOrdering();
+
+				if (!is_array( $new_hierarchy ))
+				{
+					$this->leveled_ordering = $this->old_ordering_depth;
+				}
+				else
+				{
+					$this->setLeveledOrdering( $new_hierarchy );
+				}
+
+				$counter = 0;
+				foreach ($answers as $index => $answer)
+				{
+					if ($clear_answers)
+					{
+						$answer = "";
+					}
+					$this->object->addAnswer( $answer, -1, $this->leveled_ordering[$counter] );
+					$counter++;
+				}
+			}
+		}
+		else
+		{
+			if (is_array( $_POST['answers']['count'] ))
+			{
+				foreach (array_keys( $_POST['answers']['count'] ) as $index)
+				{
+					if ($clear_answers)
+					{
+						$this->object->addAnswer( "" );
+						continue;
+					}
+
+					$picturefile    = $_POST['answers']['imagename'][$index];
+					$file_org_name  = $_FILES['answers']['name']['image'][$index];
+					$file_temp_name = $_FILES['answers']['tmp_name']['image'][$index];
+
+					// new file
+					if (strlen( $file_temp_name ))
+					{
+						// check suffix						
+						$suffix = strtolower( array_pop( explode( ".", $file_org_name ) ) );
+						if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
+						{
+							// upload image
+							$filename = $this->object->createNewImageFileName( $file_org_name );
+							$filename = $this->object->getEncryptedFilename( $filename );
+							if ($this->object->setImageFile( $file_temp_name, $filename, $picturefile ))
+							{
+								$picturefile = $filename;
+							}
+						}
+					}
+
+					$this->object->addAnswer( $picturefile );
+				}
+			}
+		}
+	}
+
+	public function getOrderingTypeFromPost()
+	{
+		if (isset($_SESSION['ordering_type']))
+		{
+			$orderingtype = $_SESSION['ordering_type'];
+			return $orderingtype;
+		} 
+		elseif (strcmp( $this->ctrl->getCmd(), 'changeToPictures' ) == 0)
+		{
+			$orderingtype = OQ_PICTURES;
+			return $orderingtype;
+		} 
+		elseif (strcmp( $this->ctrl->getCmd(), 'orderNestedTerms' ) == 0)
+		{
+			$orderingtype = OQ_NESTED_TERMS;
+			return $orderingtype;
+		}
+		elseif (strcmp( $this->ctrl->getCmd(), 'orderNestedPictures' ) == 0)
+		{	
+			$orderingtype = OQ_NESTED_PICTURES;
+			return $orderingtype;
+		}
+		elseif (strcmp( $this->ctrl->getCmd(), 'changeToText' ) == 0)
+		{
+			$orderingtype = OQ_TERMS;
+			return $orderingtype;
+		}
+		else
+		{
+			$orderingtype = (array_key_exists( 'ordering_type',$_POST)) ? $_POST['ordering_type'] : $this->object->getOrderingType();
+			return $orderingtype;
+		}
+	}
+
+	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		$orderingtype = $this->getOrderingTypeFromPost();
+
+		if (count($this->object->getAnswers()) == 0)
+		{
+			$this->object->addAnswer();
+		}
+
+		if ($orderingtype == OQ_PICTURES)
+		{
+			$answerImageUpload = $this->getAnswerImageFileUploadWizardFormProperty();
+			if ($this->uploadAlert !== null)
+			{
+				$answerImageUpload->setAlert( $this->uploadAlert );
+			}
+			$form->addItem( $answerImageUpload );
+		}
+		else if ($orderingtype == OQ_NESTED_TERMS || $orderingtype == OQ_NESTED_PICTURES)
+		{
+			require_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
+			$answers = new ilNestedOrderingGUI($this->lng->txt( "answers" ), "answers");
+			$answers->setOrderingType( $orderingtype );
+			$answers->setObjAnswersArray( $this->object->getAnswers() );
+
+			if ($orderingtype == OQ_NESTED_PICTURES)
+			{
+				$answers->setImagePath( $this->object->getImagePath() );
+				$answers->setImagePathWeb( $this->object->getImagePathWeb() );
+				$answers->setThumbPrefix( $this->object->getThumbPrefix() );
+			}
+			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
+			$form->addItem( $answers );
+		}
+		else
+		{
+			$answers      = new ilTextWizardInputGUI($this->lng->txt( "answers" ), "answers");
+			$answervalues = array();
+			foreach ($this->object->getAnswers() as $index => $answervalue)
+			{
+				$answervalues[$index] = $answervalue->getAnswertext();
+			}
+			ksort( $answervalues );
+			$answers->setValues( $answervalues );
+			$answers->setAllowMove( TRUE );
+			$answers->setRequired( TRUE );
+
+			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
+			$form->addItem( $answers );
+		}
+		return $form;
+	}
+
+	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		$orderingtype = $this->getOrderingTypeFromPost();
+
+		// Edit mode
+		$hidden = new ilHiddenInputGUI("ordering_type");
+		$hidden->setValue( $orderingtype );
+		$form->addItem( $hidden );
+
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			$element_height = new ilNumberInputGUI($this->lng->txt( "element_height" ), "element_height");
+			$element_height->setValue( $this->object->getElementHeight() );
+			$element_height->setRequired( false );
+			$element_height->setMaxLength( 6 );
+			$element_height->setMinValue( 20 );
+			$element_height->setSize( 6 );
+			$element_height->setInfo( $this->lng->txt( "element_height_info" ) );
+			$form->addItem( $element_height );
+		}
+
+		if ($orderingtype == OQ_PICTURES)
+		{
+			$geometry = new ilNumberInputGUI($this->lng->txt( "thumb_geometry" ), "thumb_geometry");
+			$geometry->setValue( $this->object->getThumbGeometry() );
+			$geometry->setRequired( true );
+			$geometry->setMaxLength( 6 );
+			$geometry->setMinValue( 20 );
+			$geometry->setSize( 6 );
+			$geometry->setInfo( $this->lng->txt( "thumb_geometry_info" ) );
+			$form->addItem( $geometry );
+		}
+
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		$points->allowDecimals( true );
+		$points->setValue( $this->object->getPoints() );
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0 );
+		$points->setMinvalueShouldBeGreater( true );
+		$form->addItem( $points );
+		
+		return $form;
+	}
+
 	private function isUploadAnswersCommand()
 	{
 		return $this->ctrl->getCmd() == 'uploadanswers';
 	}
 
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false, $clear_answers = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 * @param bool $clear_answers
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false, $clear_answers = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			$this->object->setThumbGeometry($_POST["thumb_geometry"]);
-			$this->object->setElementHeight($_POST["element_height"]);
-			if ($this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setNrOfTries($_POST['nr_of_tries']);
-			}
-			// adding estimated working time
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-			$ordering_type = $_POST["ordering_type"];
-			$this->object->setOrderingType($ordering_type);
-
-			// Delete all existing answers and create new answers from the form data
-			$this->object->flushAnswers();
-			$saved = false;
-
-			// add answers
-			if ($ordering_type == OQ_TERMS 
-			|| $ordering_type == OQ_NESTED_TERMS
-			|| $ordering_type == OQ_NESTED_PICTURES
-			)
-			{
-				$answers = $_POST["answers"];
-				if (is_array($answers))
-				{
-					//// get leveled ordering
-					$answers_ordering = $_POST['answers_ordering'];
-					$new_hierarchy = json_decode($answers_ordering);
-
-					$this->getOldLeveledOrdering();
-
-					if(!is_array($new_hierarchy))
-					{
-						$this->leveled_ordering = $this->old_ordering_depth;
-					}
-					else
-					{
-						$this->setLeveledOrdering($new_hierarchy);
-					}
-
-					$counter = 0;
-					foreach ($answers as $index => $answer)
-					{
-						if($clear_answers)
-						{
-							$answer = "";
-						}
-						$this->object->addAnswer($answer, -1, $this->leveled_ordering[$counter]);
-						$counter ++;
-					}
-				}
-			}
-			else
-			{
-				if(is_array($_POST['answers']['count']))
-				{
-					foreach (array_keys($_POST['answers']['count']) as $index)
-					{															
-						if($clear_answers)
-						{
-							$this->object->addAnswer("");
-							continue;
-						}
-	
-						$picturefile = $_POST['answers']['imagename'][$index];
-						$file_org_name = $_FILES['answers']['name']['image'][$index];
-						$file_temp_name = $_FILES['answers']['tmp_name']['image'][$index];			
-	
-						// new file
-						if (strlen($file_temp_name))
-						{						
-							// check suffix						
-							$suffix = strtolower(array_pop(explode(".", $file_org_name)));						
-							if(in_array($suffix, array("jpg", "jpeg", "png", "gif")))
-							{							
-								// upload image
-								$filename = $this->object->createNewImageFileName($file_org_name);
-								$filename = $this->object->getEncryptedFilename($filename);
-								if ($this->object->setImageFile($file_temp_name, $filename, $picturefile))
-								{
-									$picturefile = $filename;
-								}
-							}
-						}
-	
-						$this->object->addAnswer($picturefile);
-					}				
-				}
-			}
-			$this->object->setPoints($_POST["points"]);
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			$this->writeAnswerSpecificPostData( $clear_answers );
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
 		}
-		else
-		{
-			return 1;
-		}
+
+		return 1;
 	}
 	
 	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
-	function editQuestion($checkonly = FALSE)
+	 * Creates an output of the edit form for the question
+	 */
+	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
 		$this->getQuestionTemplate();
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-//		$orderingtype = (array_key_exists('ordering_type', $_POST)) ? $_POST['ordering_type'] : $this->object->getOrderingType();
-		
-		if(isset($_SESSION['ordering_type'])) $orderingtype = $_SESSION['ordering_type'];
-
-		elseif (strcmp($this->ctrl->getCmd(), 'changeToPictures') == 0) $orderingtype = OQ_PICTURES;
-		elseif (strcmp($this->ctrl->getCmd(), 'orderNestedTerms') == 0) $orderingtype = OQ_NESTED_TERMS;
-		elseif (strcmp($this->ctrl->getCmd(), 'orderNestedPictures') == 0) $orderingtype = OQ_NESTED_PICTURES;
-		elseif (strcmp($this->ctrl->getCmd(), 'changeToText') == 0) 
-		{
-			$orderingtype = OQ_TERMS;
-		}
-		else
-		{
-//			$orderingtype= $this->object->getOrderingType();
-		 	$orderingtype = (array_key_exists('ordering_type', $_POST)) ? $_POST['ordering_type'] : $this->object->getOrderingType();
-		}
-		
+		require_once "./Services/Form/classes/class.ilPropertyFormGUI.php";
+		$orderingtype = $this->getOrderingTypeFromPost();
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(($orderingtype == OQ_PICTURES) ? TRUE : FALSE);
 		$form->setTableWidth("100%");
 		$form->setId("ordering");
-
-		// Edit mode
-		$hidden = new ilHiddenInputGUI("ordering_type");
-		$hidden->setValue($orderingtype);
-		$form->addItem($hidden);
-		
 		// title, author, description, question, working time (assessment mode)
-		$this->addBasicQuestionFormProperties($form);
+		$this->addBasicQuestionFormProperties( $form );
+		$this->populateQuestionSpecificFormPart($form );
+		$this->populateAnswerSpecificFormPart( $form );
 
-		if (!$this->object->getSelfAssessmentEditingMode())
-		{
-			$element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
-			$element_height->setValue($this->object->getElementHeight());
-			$element_height->setRequired(false);
-			$element_height->setMaxLength(6);
-			$element_height->setMinValue(20);
-			$element_height->setSize(6);
-			$element_height->setInfo($this->lng->txt("element_height_info"));
-			$form->addItem($element_height);
-		}
-		
-		if ($orderingtype == OQ_PICTURES)
-		{
-			$geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
-			$geometry->setValue($this->object->getThumbGeometry());
-			$geometry->setRequired(true);
-			$geometry->setMaxLength(6);
-			$geometry->setMinValue(20);
-			$geometry->setSize(6);
-			$geometry->setInfo($this->lng->txt("thumb_geometry_info"));
-			$form->addItem($geometry);
-		}
-		if (count($this->object->getAnswers()) == 0)
-		{
-			$this->object->addAnswer();
-		}
-		// Answers
-		if ($orderingtype == OQ_PICTURES)
-		{
-			$answerImageUpload = $this->getAnswerImageFileUploadWizardFormProperty();
-			if( $this->uploadAlert !== null )
-			{
-				$answerImageUpload->setAlert($this->uploadAlert);
-			}
-			$form->addItem($answerImageUpload);
-		}
-		else if($orderingtype == OQ_NESTED_TERMS
-		|| $orderingtype == OQ_NESTED_PICTURES
-		)
-		{
-			
-			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
-			$answers = new ilNestedOrderingGUI($this->lng->txt("answers"), "answers");
-			$answers->setOrderingType($orderingtype);
-			$answers->setObjAnswersArray($this->object->getAnswers());
-				
-			if($orderingtype == OQ_NESTED_PICTURES)
-			{		
-				$answers->setImagePath($this->object->getImagePath());
-				$answers->setImagePathWeb($this->object->getImagePathWeb());
-				$answers->setThumbPrefix($this->object->getThumbPrefix());
-			}
-			$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
-			$form->addItem($answers);
-		}
-		else
-		{
-			$answers = new ilTextWizardInputGUI($this->lng->txt("answers"), "answers");
-			$answervalues = array();
-			foreach ($this->object->getAnswers() as $index => $answervalue)
-			{
-				$answervalues[$index] = $answervalue->getAnswertext();
-			}
-			ksort($answervalues);
-			$answers->setValues($answervalues);
-			$answers->setAllowMove(TRUE);
-			$answers->setRequired(TRUE);
-			
-			$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
-			$form->addItem($answers);
-		}
-		// points
-		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
-		$points->allowDecimals(true);
-		$points->setValue($this->object->getPoints());
-		$points->setRequired(TRUE);
-		$points->setSize(3);
-		$points->setMinValue(0);
-		$points->setMinvalueShouldBeGreater(true);
-		$form->addItem($points);
-		
 		if (true || !$this->object->getSelfAssessmentEditingMode())
 		{
 			if ($orderingtype == OQ_PICTURES)
@@ -467,13 +473,10 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				$form->addCommandButton("orderNestedTerms", $this->lng->txt("order_nested_terms"));
 			}
 		}
-		
+
 		$this->populateTaxonomyFormSection($form);
-
 		$this->addQuestionFormCommandButtons($form);
-
 		$errors = false;
-	
 		if ($save)
 		{
 			$form->setValuesByPost();
@@ -1328,4 +1331,31 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		return $this->old_ordering_depth;
 	}
 
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionAnswerPostVars()
+	{
+		return array();
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionQuestionPostVars()
+	{
+		return array();
+	}
 }
