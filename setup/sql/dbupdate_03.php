@@ -18110,3 +18110,21 @@ if(!$ilDB->tableColumnExists('sahs_user','status'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#4069>
+<?php
+if(!$ilDB->tableColumnExists('crs_settings','mail_members_type'))
+{
+	$ilDB->addTableColumn(
+		'crs_settings',
+		'mail_members_type',
+		array(
+			'type' => 'integer', 
+			'length' => 1,
+			'notnull' => false,
+			'default' => 1
+		)
+	);
+}
+?>
+

@@ -969,6 +969,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setArchiveType($_POST['archive_type']);
 		$this->object->setAboStatus((int) $_POST['abo']);
 		$this->object->setShowMembers((int) $_POST['show_members']);
+		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		
 		$this->object->enableSessionLimit((int) $_POST['sl']);
 		$this->object->setNumberOfPreviousSessions(is_numeric($_POST['sp']) ? (int) $_POST['sp'] : -1 );
@@ -1285,11 +1286,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$form->addItem($lim);
 	
-		$not = new ilCheckboxInputGUI($this->lng->txt('crs_auto_notification'), 'auto_notification');
-		$not->setValue(1);
-		$not->setInfo($this->lng->txt('crs_auto_notification_info'));
-		$not->setChecked( $this->object->getAutoNotification() );
-		$form->addItem($not);
 
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
@@ -1434,6 +1430,30 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 		
+		// Notification Settings
+		$notification = new ilFormSectionHeaderGUI();
+		$notification->setTitle($this->lng->txt('crs_notification'));
+		$form->addItem($notification);
+		
+		// Self notification
+		$not = new ilCheckboxInputGUI($this->lng->txt('crs_auto_notification'), 'auto_notification');
+		$not->setValue(1);
+		$not->setInfo($this->lng->txt('crs_auto_notification_info'));
+		$not->setChecked( $this->object->getAutoNotification() );
+		$form->addItem($not);
+		
+		// Show members type
+		$mail_type = new ilRadioGroupInputGUI($this->lng->txt('crs_mail_type'), 'mail_type');
+		$mail_type->setValue($this->object->getMailToMembersType());
+		
+		$mail_tutors = new ilRadioOption($this->lng->txt('crs_mail_tutors_only'), ilCourseConstants::MAIL_ALLOWED_TUTORS);
+		$mail_type->addOption($mail_tutors);
+		
+		$mail_all = new ilRadioOption($this->lng->txt('crs_mail_all'),  ilCourseConstants::MAIL_ALLOWED_ALL);
+		$mail_type->addOption($mail_all);
+		$form->addItem($mail_type);
+		
+		// Further information
 		$further = new ilFormSectionHeaderGUI();
 		$further->setTitle($this->lng->txt('crs_further_settings'));
 		$form->addItem($further);
@@ -1620,9 +1640,14 @@ class ilObjCourseGUI extends ilContainerGUI
 													 $this->ctrl->getLinkTargetByClass("ilCourseParticipantsGroupsGUI", "show"),
 													 "", "ilCourseParticipantsGroupsGUI");
 				}
-				$this->tabs_gui->addSubTabTarget("crs_members_gallery",
-												 $this->ctrl->getLinkTarget($this,'membersGallery'),
-												 "membersGallery", get_class($this));
+				elseif(
+					$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED
+				)
+				{
+					$this->tabs_gui->addSubTabTarget("crs_members_gallery",
+													 $this->ctrl->getLinkTarget($this,'membersGallery'),
+													 "membersGallery", get_class($this));
+				}
 				
 				// members map
 				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
@@ -1635,8 +1660,10 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				
 				include_once 'Services/Mail/classes/class.ilMail.php';
-				$mail =& new ilMail($ilUser->getId());
-				if($rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
+				$mail = new ilMail($ilUser->getId());
+				if(
+					$this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL and
+					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 				{
 					$this->tabs_gui->addSubTabTarget("mail_members",
 													 $this->ctrl->getLinkTarget($this,'mailMembers'),
@@ -2189,9 +2216,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->parseCurrentBlock();
 			
 		}
-
 		foreach(ilCourseParticipants::getMemberRoles($this->object->getRefId()) as $role_id)
 		{
+			// Do not show table if no user is assigned
+			if(!($GLOBALS['rbacreview']->getNumberOfAssignedUsers(array($role_id))))
+			{
+				continue;
+			}
 			if($ilUser->getPref('crs_role_hide_'.$role_id))
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
@@ -3296,6 +3327,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		
 		$is_participant = ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId());
+		include_once './Services/Mail/classes/class.ilMail.php';
+		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
 		// member list
 		if($ilAccess->checkAccess('write','',$this->ref_id))
@@ -3305,14 +3338,29 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "members",
 								 get_class($this));
 		}			
-		elseif ($this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED &&
-			$is_participant)
+		elseif(
+			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED and
+			$is_participant
+		)
 		{
 			$tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "membersGallery"), 
 								 "members",
 								 get_class($this));
 		}
+		elseif(
+			$this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL and
+			$GLOBALS['rbacsystem']->checkAccess('internal_mail',$mail->getMailObjectReferenceId ()) and
+			$is_participant
+		)
+		{
+			$tabs_gui->addTarget("members",
+								 $this->ctrl->getLinkTarget($this, "mailMembers"), 
+								 "members",
+								 get_class($this));
+			
+		}
+			
 
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
@@ -4126,7 +4174,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
 
 		if (!$is_admin &&
-			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED)
+			$this->object->getMailToMembersType() != ilCourseConstants::MAIL_ALLOWED_ALL)
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}

@@ -13836,6 +13836,12 @@ prtt#:#prtt_import#:#Import Portfolio Template
 orgu#:#simple_user_import#:#XML User Assignment
 crs#:#crs_passed_status_system#:#System
 crs#:#crs_passed_status_manual_by#:#Manual by
+crs#:#crs_mail_type#:#Mail to Members
+crs#:#crs_mail_tutors_only#:#For Tutors and Administrators only
+crs#:#crs_mail_all#:#For all Participants
+grp#:#grp_mail_type#:#Mail to Members
+grp#:#grp_mail_tutors_only#:#For Administrators only
+grp#:#grp_mail_all#:#For all Participants
 content#:#cont_ed_insert_consultation_hours#:#Insert Consultation Hours
 content#:#cont_insert_consultation_hours#:#Insert Consultation Hours
 content#:#cont_update_consultation_hours#:#Edit Consultation Hours
