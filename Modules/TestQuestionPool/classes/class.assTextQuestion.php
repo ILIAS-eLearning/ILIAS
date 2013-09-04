@@ -1,23 +1,25 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjAnswerScoringAdjustable.php';
 
 /**
  * Class for text questions
  *
  * assTextQuestion is a class for text questions
- *
- * @extends assQuestion
  * 
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
- * @author		Björn Heyser <bheyser@databay.de>
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com> 
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ *          
  * @version		$Id$
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assTextQuestion extends assQuestion
+class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	/**
 	* Maximum number of characters of the answertext
@@ -37,7 +39,7 @@ class assTextQuestion extends assQuestion
 	* @var string
 	*/
 	var $keywords;
-	
+
 	var $answers;
 
 	/**
@@ -46,25 +48,25 @@ class assTextQuestion extends assQuestion
 	* @var string
 	*/
 	var $text_rating;
-	
+
 	/* method for automatic string matching */
 	private $matchcondition;
+
 	public $keyword_relation;
 
 	/**
-	* assTextQuestion constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assTextQuestion object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $comment A comment string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A numerical ID to identify the owner/creator
-	* @param string $question The question string of the text question
-	* @access public
-	* @see assQuestion:assQuestion()
-	*/
-	function __construct(
+	 * assTextQuestion constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assTextQuestion object.
+	 *
+	 * @param string $title A title string to describe the question
+	 * @param string $comment A comment string to describe the question
+	 * @param string $author A string containing the name of the questions author
+	 * @param integer $owner A numerical ID to identify the owner/creator
+	 * @param string $question The question string of the text question
+	 *                         
+	 */
+	public function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -83,70 +85,30 @@ class assTextQuestion extends assQuestion
 	* Returns true, if a multiple choice question is complete for use
 	*
 	* @return boolean True, if the multiple choice question is complete for use, otherwise false
-	* @access public
 	*/
-	function isComplete()
+	public function isComplete()
 	{
-		if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0))
+		if (strlen($this->title) 
+			&& $this->author 
+			&& $this->question 
+			&& $this->getMaximumPoints() > 0
+		)
 		{
 			return true;
 		}
-			else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
-	* Saves a assTextQuestion object to a database
-	*
-	* @param object $db A pear DB object
-	* @access public
-	*/
-	function saveToDb($original_id = "")
+	 * Saves a assTextQuestion object to a database
+	 *
+	 * @param string $original_id
+	 */
+	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
-
 		$this->saveQuestionDataToDb($original_id);
-
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
-
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxnumofchars, keywords, textgap_rating, matchcondition, keyword_relation) VALUES (%s, %s, %s, %s, %s, %s)",
-			array("integer", "integer", "text", "text", 'integer', 'text'),
-			array(
-				$this->getId(),
-				$this->getMaxNumOfChars(),
-				NULL,
-				$this->getTextRating(),
-				$this->matchcondition,
-				$this->getKeywordRelation()
-			)
-		);
-		
-		$ilDB->manipulateF("DELETE FROM qpl_a_essay WHERE question_fi = %s",
-						   array("integer"),
-						   array($this->getId())
-		);
-		
-		foreach ($this->answers as $answer)
-		{
-			/** @var $answer ASS_AnswerMultipleResponseImage */
-			$nextID = $ilDB->nextId('qpl_a_essay');
-			$ilDB->manipulateF("INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) VALUES (%s, %s, %s, %s)",
-							   array("integer", "integer", "text", 'float'),
-							   array(
-								   $nextID,
-								   $this->getId(),
-								   $answer->getAnswertext(),
-								   $answer->getPoints()
-							   )
-			);
-		}
-
+		$this->saveAdditionalQuestionDataToDb();
+		$this->saveAnswerSpecificDataToDb();
 		parent::saveToDb($original_id);
 	}
 
@@ -674,6 +636,56 @@ class assTextQuestion extends assQuestion
 		}
 		
 		return true;
+	}
+
+	public function saveAdditionalQuestionDataToDb()
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() 
+							)
+		);
+
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxnumofchars, keywords, 
+							 textgap_rating, matchcondition, keyword_relation) VALUES (%s, %s, %s, %s, %s, %s)",
+							array( "integer", "integer", "text", "text", 'integer', 'text' ),
+							array(
+								$this->getId(),
+								$this->getMaxNumOfChars(),
+								NULL,
+								$this->getTextRating(),
+								$this->matchcondition,
+								$this->getKeywordRelation()
+							)
+		);
+	}
+
+	public function saveAnswerSpecificDataToDb()
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+
+		$ilDB->manipulateF( "DELETE FROM qpl_a_essay WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+
+		foreach ($this->answers as $answer)
+		{
+			/** @var $answer ASS_AnswerMultipleResponseImage */
+			$nextID = $ilDB->nextId( 'qpl_a_essay' );
+			$ilDB->manipulateF( "INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) VALUES (%s, %s, %s, %s)",
+								array( "integer", "integer", "text", 'float' ),
+								array(
+									$nextID,
+									$this->getId(),
+									$answer->getAnswertext(),
+									$answer->getPoints()
+								)
+			);
+		}
 	}
 
 	/**
