@@ -1,34 +1,38 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* Multiple choice question GUI representation
-*
-* The assTextSubsetGUI class encapsulates the GUI representation
-* for multiple choice questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
-class assTextSubsetGUI extends assQuestionGUI
+ * Multiple choice question GUI representation
+ *
+ * The assTextSubsetGUI class encapsulates the GUI representation
+ * for multiple choice questions.
+ *
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ *
+ * @version	$Id$
+ *
+ * @ingroup ModulesTestQuestionPool
+ */
+class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	/**
-	* assTextSubsetGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assTextSubsetGUI object.
-	*
-	* @param integer $id The database id of a text subset question object
-	* @access public
-	*/
-	function __construct($id = -1)
+	 * assTextSubsetGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assTextSubsetGUI object.
+	 *
+	 * @param integer $id The database id of a text subset question object
+	 */
+	public function __construct($id = -1)
 	{
 		parent::__construct();
-		include_once "./Modules/TestQuestionPool/classes/class.assTextSubset.php";
+		require_once './Modules/TestQuestionPool/classes/class.assTextSubset.php';
 		$this->object = new assTextSubset();
 		if ($id >= 0)
 		{
@@ -36,70 +40,36 @@ class assTextSubsetGUI extends assQuestionGUI
 		}
 	}
 
-	function getCommand($cmd)
-	{
-		return $cmd;
-	}
-
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			if ($this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setNrOfTries($_POST['nr_of_tries']);
-			}
-			
-			// mbecker: fix for 8407
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			$this->object->setCorrectAnswers($_POST["correctanswers"]);
-			$this->object->setTextRating($_POST["text_rating"]);
-			// Delete all existing answers and create new answers from the form data
-			$this->object->flushAnswers();
-			foreach ($_POST['answers']['answer'] as $index => $answer)
-			{
-				$answertext = $answer;
-				$this->object->addAnswer($answertext, $_POST['answers']['points'][$index], $index);
-			}
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			$this->writeAnswerSpecificPostData();
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
 		}
-		else
-		{
-			return 1;
-		}
+		return 1;
 	}
 
 	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
+	 * Creates an output of the edit form for the question
+	 */
 	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
 		$this->getQuestionTemplate();
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
@@ -108,63 +78,16 @@ class assTextSubsetGUI extends assQuestionGUI
 		$form->setId("asstextsubset");
 
 		$this->addBasicQuestionFormProperties($form);
-
-		// number of requested answers
-		$correctanswers = new ilNumberInputGUI($this->lng->txt("nr_of_correct_answers"), "correctanswers");
-		$correctanswers->setMinValue(1);
-		$correctanswers->setDecimals(0);
-		$correctanswers->setSize(3);
-		$correctanswers->setValue($this->object->getCorrectAnswers());
-		$correctanswers->setRequired(true);
-		$form->addItem($correctanswers);
-
-		// maximum available points
-		$points = new ilNumberInputGUI($this->lng->txt("maximum_points"), "points");
-		$points->setMinValue(0.25);
-		$points->setSize(6);
-		$points->setDisabled(true);
-		$points->setValue($this->object->getMaximumPoints());
-		$points->setRequired(false);
-		$form->addItem($points);
-
-		// text rating
-		$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
-		$text_options = array(
-			"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
-			"cs" => $this->lng->txt("cloze_textgap_case_sensitive")
-		);
-		if (!$this->object->getSelfAssessmentEditingMode())
-		{
-			$text_options["l1"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1");
-			$text_options["l2"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2");
-			$text_options["l3"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3");
-			$text_options["l4"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4");
-			$text_options["l5"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5");
-		}
-		$textrating->setOptions($text_options);
-		$textrating->setValue($this->object->getTextRating());
-		$form->addItem($textrating);
-
-		// Choices
-		include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
-		$choices = new ilAnswerWizardInputGUI($this->lng->txt("answers"), "answers");
-		$choices->setRequired(true);
-		$choices->setQuestionObject($this->object);
-		$choices->setSingleline(true);
-		$choices->setAllowMove(false);
-		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0);
-		$choices->setValues($this->object->getAnswers());
-		$form->addItem($choices);
-
+		$this->populateQuestionSpecificFormPart( $form );
+		$this->populateAnswerSpecificFormPart( $form );
 		$this->populateTaxonomyFormSection($form);
-		
 		$this->addQuestionFormCommandButtons($form);
-	
+
 		$errors = false;
-	
 		if ($save)
 		{
 			$form->setValuesByPost();
+			$points = $form->getItemByPostVar('points');
 			$points->setValue($this->object->getMaximumPoints());
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
@@ -497,5 +420,107 @@ class assTextSubsetGUI extends assQuestionGUI
 	{
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);
+	}
+
+	public function writeQuestionSpecificPostData($always = true)
+	{
+		$this->object->setCorrectAnswers( $_POST["correctanswers"] );
+		$this->object->setTextRating( $_POST["text_rating"] );
+	}
+
+	public function writeAnswerSpecificPostData($always = true)
+	{
+		// Delete all existing answers and create new answers from the form data
+		$this->object->flushAnswers();
+		foreach ($_POST['answers']['answer'] as $index => $answer)
+		{
+			$answertext = $answer;
+			$this->object->addAnswer( $answertext, $_POST['answers']['points'][$index], $index );
+		}
+	}
+
+	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		// number of requested answers
+		$correctanswers = new ilNumberInputGUI($this->lng->txt( "nr_of_correct_answers" ), "correctanswers");
+		$correctanswers->setMinValue( 1 );
+		$correctanswers->setDecimals( 0 );
+		$correctanswers->setSize( 3 );
+		$correctanswers->setValue( $this->object->getCorrectAnswers() );
+		$correctanswers->setRequired( true );
+		$form->addItem( $correctanswers );
+
+		// maximum available points
+		$points = new ilNumberInputGUI($this->lng->txt( "maximum_points" ), "points");
+		$points->setMinValue( 0.25 );
+		$points->setSize( 6 );
+		$points->setDisabled( true );
+		$points->setValue( $this->object->getMaximumPoints() );
+		$points->setRequired( false );
+		$form->addItem( $points );
+
+		// text rating
+		$textrating   = new ilSelectInputGUI($this->lng->txt( "text_rating" ), "text_rating");
+		$text_options = array(
+			"ci" => $this->lng->txt( "cloze_textgap_case_insensitive" ),
+			"cs" => $this->lng->txt( "cloze_textgap_case_sensitive" )
+		);
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			$text_options["l1"] = sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "1" );
+			$text_options["l2"] = sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "2" );
+			$text_options["l3"] = sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "3" );
+			$text_options["l4"] = sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "4" );
+			$text_options["l5"] = sprintf( $this->lng->txt( "cloze_textgap_levenshtein_of" ), "5" );
+		}
+		$textrating->setOptions( $text_options );
+		$textrating->setValue( $this->object->getTextRating() );
+		$form->addItem( $textrating );
+		return $form;
+	}
+
+	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		// Choices
+		include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
+		$choices = new ilAnswerWizardInputGUI($this->lng->txt( "answers" ), "answers");
+		$choices->setRequired( true );
+		$choices->setQuestionObject( $this->object );
+		$choices->setSingleline( true );
+		$choices->setAllowMove( false );
+		if ($this->object->getAnswerCount() == 0)
+			$this->object->addAnswer( "", 0, 0 );
+		$choices->setValues( $this->object->getAnswers() );
+		$form->addItem( $choices );
+		return $form;
+	}
+
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionAnswerPostVars()
+	{
+		return array();
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionQuestionPostVars()
+	{
+		return array();
 	}
 }
