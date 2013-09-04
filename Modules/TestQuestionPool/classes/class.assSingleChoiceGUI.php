@@ -1,33 +1,36 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* Single choice question GUI representation
-*
-* The assSingleChoiceGUI class encapsulates the GUI representation
-* for single choice questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
-class assSingleChoiceGUI extends assQuestionGUI
+ * Single choice question GUI representation
+ *
+ * The assSingleChoiceGUI class encapsulates the GUI representation for single choice questions.
+ *
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ *          
+ * @version	$Id$
+ *          
+ * @ingroup ModulesTestQuestionPool
+ */
+class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	var $choiceKeys;
-	
+
 	/**
-	* assSingleChoiceGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assSingleChoiceGUI object.
-	*
-	* @param integer $id The database id of a single choice question object
-	* @access public
-	*/
-	function __construct($id = -1)
+	 * assSingleChoiceGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assSingleChoiceGUI object.
+	 *
+	 * @param integer $id The database id of a single choice question object
+	 */
+	public function __construct($id = -1)
 	{
 		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assSingleChoice.php";
@@ -38,102 +41,31 @@ class assSingleChoiceGUI extends assQuestionGUI
 		}
 	}
 
-	function getCommand($cmd)
-	{
-		return $cmd;
-	}
-
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			$this->object->setShuffle($_POST["shuffle"]);
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-			$this->object->setMultilineAnswerSetting($_POST["types"]);
-			if (is_array($_POST['choice']['imagename']) && $_POST["types"] == 1)
-			{	
-				$this->object->isSingleline = true;
-				ilUtil::sendInfo($this->lng->txt('info_answer_type_change'), true);
-			}
-			else
-			{
-				$this->object->isSingleline = ($_POST["types"] == 0) ? true : false;
-			}
-			$this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
-			if ($this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setNrOfTries($_POST['nr_of_tries']);
-			}
-
-			// Delete all existing answers and create new answers from the form data
-			$this->object->flushAnswers();
-			if ($this->object->isSingleline)
-			{
-				foreach ($_POST['choice']['answer'] as $index => $answertext)
-				{			
-					$picturefile = $_POST['choice']['imagename'][$index];
-					$file_org_name = $_FILES['choice']['name']['image'][$index];
-					$file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];		
-
-					if (strlen($file_temp_name))
-					{
-						// check suffix						
-						$suffix = strtolower(array_pop(explode(".", $file_org_name)));						
-						if(in_array($suffix, array("jpg", "jpeg", "png", "gif")))
-						{							
-							// upload image
-							$filename = $this->object->createNewImageFileName($file_org_name);
-							if ($this->object->setImageFile($filename, $file_temp_name) == 0)
-							{
-								$picturefile = $filename;
-							}
-						}
-					}
-
-					$this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $index, $picturefile);
-				}					
-			}
-			else
-			{
-				foreach ($_POST['choice']['answer'] as $index => $answer)
-				{
-					$answertext = $answer;
-					$this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $index);
-				}
-			}
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
+			$this->writeAnswerSpecificPostData();
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
 		}
-		else
-		{
-			return 1;
-		}
+		return 1;
 	}
 
 	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
+	 * Creates an output of the edit form for the question
+	 *
+	 */
 	public function editQuestion($checkonly = FALSE)
 	{
 		$save = $this->isSaveCommand();
@@ -156,65 +88,11 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$form->setTableWidth("100%");
 		$form->setId("asssinglechoice");
 
-		// title, author, description, question, working time (assessment mode)
-		$this->addBasicQuestionFormProperties($form);
+		$this->addBasicQuestionFormProperties( $form );
+		$this->populateQuestionSpecificFormPart( $form );
+		$this->populateAnswerSpecificFormPart( $form );
 
-		// shuffle
-		$shuffle = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
-		$shuffle->setValue(1);
-		$shuffle->setChecked($this->object->getShuffle());
-		$shuffle->setRequired(FALSE);
-		$form->addItem($shuffle);
-	
-		if ($this->object->getId())
-		{
-			$hidden = new ilHiddenInputGUI("", "ID");
-			$hidden->setValue($this->object->getId());
-			$form->addItem($hidden);
-		}
 
-		if(!$this->object->getSelfAssessmentEditingMode())
-		{
-			// Answer types
-			$types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
-			$types->setRequired(false);
-			$types->setValue(($isSingleline) ? 0 : 1);
-			$types->setOptions(array(
-				0 => $this->lng->txt('answers_singleline'),
-				1 => $this->lng->txt('answers_multiline'),
-			));
-			$form->addItem($types);
-		}
-
-		if ($isSingleline)
-		{
-			// thumb size
-			$thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
-			$thumb_size->setMinValue(20);
-			$thumb_size->setDecimals(0);
-			$thumb_size->setSize(6);
-			$thumb_size->setInfo($this->lng->txt('thumb_size_info'));
-			$thumb_size->setValue($this->object->getThumbSize());
-			$thumb_size->setRequired(false);
-			$form->addItem($thumb_size);
-		}
-
-		// Choices
-		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
-		$choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
-		$choices->setRequired(true);
-		$choices->setQuestionObject($this->object);
-		$choices->setSingleline($isSingleline);
-		$choices->setAllowMove(false);
-		if ($this->object->getSelfAssessmentEditingMode())
-		{
-			$choices->setSize(40);
-			$choices->setMaxLength(800);
-		}
-		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0);
-		$choices->setValues($this->object->getAnswers());
-		$form->addItem($choices);
-		
 		$this->populateTaxonomyFormSection($form);
 		
 		$this->addQuestionFormCommandButtons($form);
@@ -762,5 +640,157 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
+
+	public function writeQuestionSpecificPostData($always = true)
+	{
+		$this->object->setShuffle( $_POST["shuffle"] );
+		$this->object->setMultilineAnswerSetting( $_POST["types"] );
+		if (is_array( $_POST['choice']['imagename'] ) && $_POST["types"] == 1)
+		{
+			$this->object->isSingleline = true;
+			ilUtil::sendInfo( $this->lng->txt( 'info_answer_type_change' ), true );
+		}
+		else
+		{
+			$this->object->isSingleline = ($_POST["types"] == 0) ? true : false;
+		}
+		$this->object->setThumbSize( (strlen( $_POST["thumb_size"] )) ? $_POST["thumb_size"] : "" );
+	}
+
+	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		$isSingleline = ($this->object->lastChange == 0 && !array_key_exists( 'types',$_POST)) ? (($this->object->getMultilineAnswerSetting()) ? false : true) : $this->object->isSingleline;
+		// shuffle
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt( "shuffle_answers" ), "shuffle");
+		$shuffle->setValue( 1 );
+		$shuffle->setChecked( $this->object->getShuffle() );
+		$shuffle->setRequired( FALSE );
+		$form->addItem( $shuffle );
+
+		if ($this->object->getId())
+		{
+			$hidden = new ilHiddenInputGUI("", "ID");
+			$hidden->setValue( $this->object->getId() );
+			$form->addItem( $hidden );
+		}
+
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			// Answer types
+			$types = new ilSelectInputGUI($this->lng->txt( "answer_types" ), "types");
+			$types->setRequired( false );
+			$types->setValue( ($isSingleline) ? 0 : 1 );
+			$types->setOptions( array(
+									0 => $this->lng->txt( 'answers_singleline' ),
+									1 => $this->lng->txt( 'answers_multiline' ),
+								)
+			);
+			$form->addItem( $types );
+		}
+
+		if ($isSingleline)
+		{
+			// thumb size
+			$thumb_size = new ilNumberInputGUI($this->lng->txt( "thumb_size" ), "thumb_size");
+			$thumb_size->setMinValue( 20 );
+			$thumb_size->setDecimals( 0 );
+			$thumb_size->setSize( 6 );
+			$thumb_size->setInfo( $this->lng->txt( 'thumb_size_info' ) );
+			$thumb_size->setValue( $this->object->getThumbSize() );
+			$thumb_size->setRequired( false );
+			$form->addItem( $thumb_size );
+		}
+		return $form;
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionQuestionPostVars()
+	{
+		return array();
+	}
+
+	public function writeAnswerSpecificPostData($always = true)
+	{
+		// Delete all existing answers and create new answers from the form data
+		$this->object->flushAnswers();
+		if ($this->object->isSingleline)
+		{
+			foreach ($_POST['choice']['answer'] as $index => $answertext)
+			{
+				$picturefile    = $_POST['choice']['imagename'][$index];
+				$file_org_name  = $_FILES['choice']['name']['image'][$index];
+				$file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
+
+				if (strlen( $file_temp_name ))
+				{
+					// check suffix						
+					$suffix = strtolower( array_pop( explode( ".", $file_org_name ) ) );
+					if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
+					{
+						// upload image
+						$filename = $this->object->createNewImageFileName( $file_org_name );
+						if ($this->object->setImageFile( $filename, $file_temp_name ) == 0)
+						{
+							$picturefile = $filename;
+						}
+					}
+				}
+
+				$this->object->addAnswer( $answertext, $_POST['choice']['points'][$index], $index, $picturefile );
+			}
+		}
+		else
+		{
+			foreach ($_POST['choice']['answer'] as $index => $answer)
+			{
+				$answertext = $answer;
+				$this->object->addAnswer( $answertext, $_POST['choice']['points'][$index], $index );
+			}
+		}
+	}
+
+	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		$isSingleline = ($this->object->lastChange == 0 && !array_key_exists('types', $_POST)) ? (($this->object->getMultilineAnswerSetting()) ? false : true) : $this->object->isSingleline;
+
+		// Choices
+		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+		$choices = new ilSingleChoiceWizardInputGUI($this->lng->txt( "answers" ), "choice");
+		$choices->setRequired( true );
+		$choices->setQuestionObject( $this->object );
+		$choices->setSingleline( $isSingleline );
+		$choices->setAllowMove( false );
+		if ($this->object->getSelfAssessmentEditingMode())
+		{
+			$choices->setSize( 40 );
+			$choices->setMaxLength( 800 );
+		}
+		if ($this->object->getAnswerCount() == 0)
+			$this->object->addAnswer( "", 0, 0 );
+		$choices->setValues( $this->object->getAnswers() );
+		$form->addItem( $choices );
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionAnswerPostVars()
+	{
+		return array();
+	}
+
 }
-?>

@@ -1,24 +1,25 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjAnswerScoringAdjustable.php';
 
 /**
  * Class for single choice questions
  *
  * assSingleChoice is a class for single choice questions.
- *
- * @extends assQuestion
  * 
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
- * @author		Björn Heyser <bheyser@databay.de>
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com> 
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ *          
  * @version		$Id$
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assSingleChoice extends assQuestion
+class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	/**
 	* The given answers of the single choice question
@@ -47,20 +48,20 @@ class assSingleChoice extends assQuestion
 	protected $thumb_size;
 
 	/**
-	* assSingleChoice constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assSingleChoice object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $comment A comment string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A numerical ID to identify the owner/creator
-	* @param string $question The question string of the single choice question
-	* @param integer $output_type The output order of the single choice answers
-	* @access public
-	* @see assQuestion:assQuestion()
-	*/
-	function __construct(
+	 * assSingleChoice constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assSingleChoice object.
+	 *
+	 * @param string     $title       A title string to describe the question
+	 * @param string     $comment     A comment string to describe the question
+	 * @param string     $author      A string containing the name of the questions author
+	 * @param integer    $owner       A numerical ID to identify the owner/creator
+	 * @param string     $question    The question string of the single choice question
+	 * @param int|string $output_type The output order of the single choice answers
+	 *
+	 * @see    assQuestion:assQuestion()
+	 */
+	public function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -99,17 +100,19 @@ class assSingleChoice extends assQuestion
 	}
 
 	/**
-	* Saves a assSingleChoice object to a database
-	*
-	* @param object $db A pear DB object
-	* @access public
-	*/
-	function saveToDb($original_id = "")
+	 * Saves a assSingleChoice object to a database
+	 *
+	 * @param string $original_id
+	 *
+	 */
+	public function saveToDb($original_id = "")
 	{
+		/** @var ilDB $ilDB */
 		global $ilDB;
 
 		$this->saveQuestionDataToDb($original_id);
 
+		// kann das weg?
 		$oldthumbsize = 0;
 		if ($this->isSingleline && ($this->getThumbSize()))
 		{
@@ -124,51 +127,11 @@ class assSingleChoice extends assQuestion
 				$oldthumbsize = $data['thumb_size'];
 			}
 		}
-		if (!$this->isSingleline)
-		{
-			ilUtil::delDir($this->getImagePath());
-		}
 
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)", 
-			array("integer", "text", "text", "integer"),
-			array(
-				$this->getId(),
-				$this->getShuffle(),
-				($this->isSingleline) ? "0" : "1",
-				(strlen($this->getThumbSize()) == 0) ? null : $this->getThumbSize()
-			)
-		);
+		$this->saveAdditionalQuestionDataToDb();
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_sc WHERE question_fi = %s",
-			array('integer'),
-			array($this->getId())
-		);
-
-		foreach ($this->answers as $key => $value)
-		{
-			$answer_obj = $this->answers[$key];
-			$next_id = $ilDB->nextId('qpl_a_sc');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_sc (answer_id, question_fi, answertext, points, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-				array('integer','integer','text','float','integer','text','integer'),
-				array(
-					$next_id,
-					$this->getId(),
-					ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
-					$answer_obj->getPoints(),
-					$answer_obj->getOrder(),
-					$answer_obj->getImage(),
-					time()
-				)
-			);
-		}
-
-		$this->rebuildThumbnails();
+		$this->saveAnswerSpecificDataToDb();
 		
 		parent::saveToDb($original_id);
 	}
@@ -681,6 +644,63 @@ class assSingleChoice extends assQuestion
 		return true;
 	}
 
+	public function saveAdditionalQuestionDataToDb()
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+		
+		// save additional data
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
+																			   ) . " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)",
+							array( "integer", "text", "text", "integer" ),
+							array(
+								$this->getId(),
+								$this->getShuffle(),
+								($this->isSingleline) ? "0" : "1",
+								(strlen( $this->getThumbSize() ) == 0) ? null : $this->getThumbSize()
+							)
+		);
+	}
+
+	public function saveAnswerSpecificDataToDb()
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+		if (!$this->isSingleline)
+		{
+			ilUtil::delDir( $this->getImagePath() );
+		}
+		$ilDB->manipulateF( "DELETE FROM qpl_a_sc WHERE question_fi = %s",
+							array( 'integer' ),
+							array( $this->getId() )
+		);
+
+		foreach ($this->answers as $key => $value)
+		{
+			/** @var ASS_AnswerMultipleResponseImage $answer_obj */
+			$answer_obj = $this->answers[$key];
+			$next_id    = $ilDB->nextId( 'qpl_a_sc' );
+			$ilDB->manipulateF( "INSERT INTO qpl_a_sc (answer_id, question_fi, answertext, points, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+								array( 'integer', 'integer', 'text', 'float', 'integer', 'text', 'integer' ),
+								array(
+									$next_id,
+									$this->getId(),
+									ilRTE::_replaceMediaObjectImageSrc( $answer_obj->getAnswertext(), 0 ),
+									$answer_obj->getPoints(),
+									$answer_obj->getOrder(),
+									$answer_obj->getImage(),
+									time()
+								)
+			);
+		}
+		$this->rebuildThumbnails();
+	}
+
 	/**
 	 * Reworks the allready saved working data if neccessary
 	 *
@@ -1097,5 +1117,3 @@ class assSingleChoice extends assQuestion
 		return true;
 	}
 }
-
-?>
