@@ -1,20 +1,24 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
-* The assOrderingHorizontalGUI class encapsulates the GUI representation
-* for horizontal ordering questions.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-* @ilctrl_iscalledby assOrderingHorizontalGUI: ilObjQuestionPoolGUI
-* */
-class assOrderingHorizontalGUI extends assQuestionGUI
+ * The assOrderingHorizontalGUI class encapsulates the GUI representation for horizontal ordering questions.
+ *
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ *          
+ * @version	$Id$
+ *          
+ * @ingroup ModulesTestQuestionPool
+ *          
+ * @ilctrl_iscalledby assOrderingHorizontalGUI: ilObjQuestionPoolGUI
+ */
+class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
 	/**
 	* assOrderingHorizontalGUI constructor
@@ -42,45 +46,23 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 	}
 
 	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData($always = false)
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @param bool $always
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 */
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setAuthor($_POST["author"]);
-			$this->object->setComment($_POST["comment"]);
-			if ($this->object->getSelfAssessmentEditingMode())
-			{
-				$this->object->setNrOfTries($_POST['nr_of_tries']);
-			}
-
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
-			$this->object->setQuestion($questiontext);
-			$this->object->setPoints($_POST["points"]);
-			// adding estimated working time
-			$this->object->setEstimatedWorkingTime(
-				$_POST["Estimated"]["hh"],
-				$_POST["Estimated"]["mm"],
-				$_POST["Estimated"]["ss"]
-			);
-			$this->object->setTextSize($_POST["textsize"]);
-			$this->object->setOrderText($_POST["ordertext"]);
-			
+			$this->writeQuestionGenericPostData();
+			$this->writeQuestionSpecificPostData();
 			$this->saveTaxonomyAssignments();
-			
 			return 0;
 		}
-		else
-		{
-			return 1;
-		}
+		return 1;
 	}
 
 	/**
@@ -101,44 +83,10 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		$form->setTableWidth("100%");
 		$form->setId("orderinghorizontal");
 
-		$this->addBasicQuestionFormProperties($form);
+		$this->addBasicQuestionFormProperties( $form );
+		$this->populateQuestionSpecificFormPart( $form );
 
-		// ordertext
-		$ordertext = new ilTextAreaInputGUI($this->lng->txt("ordertext"), "ordertext");
-		$ordertext->setValue($this->object->prepareTextareaOutput($this->object->getOrderText()));
-		$ordertext->setRequired(TRUE);
-		$ordertext->setInfo(sprintf($this->lng->txt("ordertext_info"), $this->object->separator));
-		$ordertext->setRows(10);
-		$ordertext->setCols(80);
-		$form->addItem($ordertext);
-		// textsize
-		$textsize = new ilNumberInputGUI($this->lng->txt("textsize"), "textsize");
-		$textsize->setValue($this->object->getTextSize());
-		$textsize->setInfo($this->lng->txt("textsize_info"));
-		$textsize->setSize(6);
-		$textsize->setMinValue(10);
-		$textsize->setRequired(FALSE);
-		$form->addItem($textsize);
-		// points
-		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
 
-		$points->allowDecimals(true);
-		// mbecker: Fix for mantis bug 7866: Predefined values schould make sense.
-		// This implements a default value of "1" for this question type.
-		if($this->object->getPoints() == null)
-		{
-			$points->setValue("1");
-		} 
-		else 
-		{
-			$points->setValue($this->object->getPoints());
-		}
-		$points->setRequired(TRUE);
-		$points->setSize(3);
-		$points->setMinValue(0.0);
-		$points->setMinvalueShouldBeGreater(true);
-		$form->addItem($points);
-		
 		$this->populateTaxonomyFormSection($form);
 
 		$this->addQuestionFormCommandButtons($form);
@@ -506,5 +454,65 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 	{
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);
+	}
+
+	public function writeQuestionSpecificPostData($always = true)
+	{
+		$this->object->setTextSize( $_POST["textsize"] );
+		$this->object->setOrderText( $_POST["ordertext"] );
+		$this->object->setPoints( $_POST["points"] );
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionQuestionPostVars()
+	{
+		return array();
+	}
+
+	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+	{
+		// ordertext
+		$ordertext = new ilTextAreaInputGUI($this->lng->txt( "ordertext" ), "ordertext");
+		$ordertext->setValue( $this->object->prepareTextareaOutput( $this->object->getOrderText() ) );
+		$ordertext->setRequired( TRUE );
+		$ordertext->setInfo( sprintf( $this->lng->txt( "ordertext_info" ), $this->object->separator ) );
+		$ordertext->setRows( 10 );
+		$ordertext->setCols( 80 );
+		$form->addItem( $ordertext );
+		// textsize
+		$textsize = new ilNumberInputGUI($this->lng->txt( "textsize" ), "textsize");
+		$textsize->setValue( $this->object->getTextSize() );
+		$textsize->setInfo( $this->lng->txt( "textsize_info" ) );
+		$textsize->setSize( 6 );
+		$textsize->setMinValue( 10 );
+		$textsize->setRequired( FALSE );
+		$form->addItem( $textsize );
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+
+		$points->allowDecimals( true );
+		// mbecker: Fix for mantis bug 7866: Predefined values schould make sense.
+		// This implements a default value of "1" for this question type.
+		if ($this->object->getPoints() == null)
+		{
+			$points->setValue( "1" );
+		}
+		else
+		{
+			$points->setValue( $this->object->getPoints() );
+		}
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0.0 );
+		$points->setMinvalueShouldBeGreater( true );
+		$form->addItem( $points );
 	}
 }
