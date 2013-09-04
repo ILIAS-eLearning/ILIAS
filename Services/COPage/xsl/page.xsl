@@ -85,6 +85,7 @@
 <xsl:param name="enable_skills"/>
 <xsl:param name="flv_video_player"/>
 <xsl:param name="enable_placeholder"/>
+<xsl:param name="enable_consultation_hours"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -855,6 +856,14 @@
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">insert_skills</xsl:with-param>
 			<xsl:with-param name="langvar">ed_insert_skills</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+	
+	<!-- insert consultation hours -->
+	<xsl:if test = "$enable_consultation_hours = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_cach</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_consultation_hours</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
 	

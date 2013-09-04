@@ -18106,3 +18106,7 @@ if(!$ilDB->tableColumnExists('sahs_user','status'))
 	);
 }
 ?>
+<#4068>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
