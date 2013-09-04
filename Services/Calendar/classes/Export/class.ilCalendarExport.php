@@ -220,7 +220,7 @@ class ilCalendarExport
 
 		$this->createRecurrences($app);
 		
-		$this->writer->addLine('SUMMARY:'.ilICalWriter::escapeText($app->getPresentationTitle()));
+		$this->writer->addLine('SUMMARY:'.ilICalWriter::escapeText($app->getPresentationTitle(false)));
 		if(strlen($app->getDescription()))
 			$this->writer->addLine('DESCRIPTION:'.ilICalWriter::escapeText($app->getDescription()));
 		if(strlen($app->getLocation()))
