@@ -1,8 +1,10 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjAnswerScoringAdjustable.php';
 
 /**
  * Class for TextSubset questions
@@ -10,16 +12,16 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  * assTextSubset is a class for TextSubset questions. To solve a TextSubset
  * question, a learner has to enter a TextSubsetal value in a defined range
  *
- * @extends assQuestion
- * 
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
- * @author		Nina Gharib <nina@wgserve.de>
- * @author		Björn Heyser <bheyser@databay.de>
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author	Nina Gharib <nina@wgserve.de>
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ *
  * @version		$Id$
- * 
+ *
  * @ingroup		ModulesTestQuestionPool
  */
-class assTextSubset extends assQuestion
+class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	/**
 	* The text which defines the correct set of answers 
@@ -49,19 +51,17 @@ class assTextSubset extends assQuestion
 	var $text_rating;
 
 	/**
-	* assTextSubset constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assTextSubset object.
-	*
-	* @param string $title A title string to describe the question
-	* @param string $comment A comment string to describe the question
-	* @param string $author A string containing the name of the questions author
-	* @param integer $owner A TextSubsetal ID to identify the owner/creator
-	* @param string $question The question string of the TextSubset question
-	* @access public
-	* @see assQuestion:assQuestion()
-	*/
-	function __construct(
+	 * assTextSubset constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the assTextSubset object.
+	 *
+	 * @param string $title A title string to describe the question
+	 * @param string $comment A comment string to describe the question
+	 * @param string $author A string containing the name of the questions author
+	 * @param integer $owner A TextSubsetal ID to identify the owner/creator
+	 * @param string $question The question string of the TextSubset question
+	 */
+	public function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -82,64 +82,32 @@ class assTextSubset extends assQuestion
 	*/
 	function isComplete()
 	{
-		if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers) >= $this->correctanswers) and ($this->getMaximumPoints() > 0))
+		if (
+			strlen($this->title) 
+			&& $this->author 
+			&& $this->question  && 
+			count($this->answers) >= $this->correctanswers 
+			&& $this->getMaximumPoints() > 0
+		)
 		{
 			return true;
 		}
-			else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
-	* Saves a assTextSubset object to a database
-	*
-	* @param object $db A pear DB object
-	* @access public
-	*/
-	function saveToDb($original_id = "")
+	 * Saves a assTextSubset object to a database
+	 *
+	 * @param string $original_id
+	 *
+	 */
+	public function saveToDb($original_id = "")
 	{
 		global $ilDB;
 
 		$this->saveQuestionDataToDb($original_id);
-		
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
-
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)", 
-			array("integer", "text", "integer"),
-			array(
-				$this->getId(),
-				$this->getTextRating(),
-				$this->getCorrectAnswers()
-			)
-		);
-
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_textsubset WHERE question_fi = %s",
-			array('integer'),
-			array($this->getId())
-		);
-
-		foreach ($this->answers as $key => $value)
-		{
-			$answer_obj = $this->answers[$key];
-			$next_id = $ilDB->nextId('qpl_a_textsubset');
-			$query = $ilDB->manipulateF("INSERT INTO qpl_a_textsubset (answer_id, question_fi, answertext, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer', 'integer', 'text', 'float', 'integer', 'integer'),
-				array(
-					$next_id,
-					$this->getId(),
-					$answer_obj->getAnswertext(),
-					$answer_obj->getPoints(),
-					$answer_obj->getOrder(),
-					time()
-				)
-			);
-		}
+		$this->saveAdditionalQuestionDataToDb();
+		$this->saveAnswerSpecificDataToDb();
 
 		parent::saveToDb($original_id);
 	}
@@ -651,6 +619,55 @@ class assTextSubset extends assQuestion
 		}
 		
 		return true;
+	}
+
+	public function saveAdditionalQuestionDataToDb()
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+
+		// save additional data
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
+																		) . " (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
+							array( "integer", "text", "integer" ),
+							array(
+								$this->getId(),
+								$this->getTextRating(),
+								$this->getCorrectAnswers()
+							)
+		);
+	}
+
+	public function saveAnswerSpecificDataToDb()
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+		$ilDB->manipulateF( "DELETE FROM qpl_a_textsubset WHERE question_fi = %s",
+							array( 'integer' ),
+							array( $this->getId() )
+		);
+
+		foreach ($this->answers as $key => $value)
+		{
+			$answer_obj = $this->answers[$key];
+			$next_id    = $ilDB->nextId( 'qpl_a_textsubset' );
+			$ilDB->manipulateF( "INSERT INTO qpl_a_textsubset (answer_id, question_fi, answertext, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+								array( 'integer', 'integer', 'text', 'float', 'integer', 'integer' ),
+								array(
+										$next_id,
+										$this->getId(),
+										$answer_obj->getAnswertext(),
+										$answer_obj->getPoints(),
+										$answer_obj->getOrder(),
+										time()
+								)
+			);
+		}
 	}
 
 	/**
