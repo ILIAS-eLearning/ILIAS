@@ -126,8 +126,12 @@ class ilTestExportGUI extends ilExportGUI
 		require_once 'class.ilTestArchiver.php';
 		$archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
 		$archive_dir = $archiver->getZipExportDirectory();
-		$archive_files = scandir($archive_dir);
-
+		$archive_files = array();
+		if( file_exists($archive_dir) && is_dir($archive_dir) )
+		{
+			$archive_files = scandir($archive_dir);
+		}
+		
 		$export_dir   = $this->obj->getExportDirectory();
 		$export_files = $this->obj->getExportFiles($export_dir);
 		$data         = array();
