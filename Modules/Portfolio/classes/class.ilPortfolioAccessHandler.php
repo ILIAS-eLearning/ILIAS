@@ -317,18 +317,39 @@ class ilPortfolioAccessHandler
 		
 		$obj_ids = $this->getPossibleSharedTargets();
 		
-		$res = array();
-		$set = $ilDB->query("SELECT obj.obj_id".
+		$res = array();		
+		$set = $ilDB->query("SELECT obj.obj_id, obj.owner".
 			" FROM object_data obj".
 			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
-			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
+			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").		
 			" AND obj.owner = ".$ilDB->quote($a_owner_id, "integer"));
 		while ($row = $ilDB->fetchAssoc($set))
-		{
-			$res[$row["obj_id"]] = $row["obj_id"];
+		{			
+			$res[$row["obj_id"]] = $row["obj_id"];						
 		}
 	
 		return $res;
+	}
+	
+	public function getShardObjectsDataForUserIds(array $a_owner_ids)
+	{
+		global $ilDB;
+		
+		$obj_ids = $this->getPossibleSharedTargets();
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT obj.obj_id, obj.owner, obj.title".
+			" FROM object_data obj".
+			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
+			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
+			" AND ".$ilDB->in("obj.owner", $a_owner_ids, "", "integer"));
+		while ($row = $ilDB->fetchAssoc($set))
+		{			
+			$res[$row["owner"]][$row["obj_id"]] = $row["title"];					
+		}
+	
+		return $res;		
 	}
 	
 	public function findSharedObjects(array $a_filter = null, array $a_crs_ids = null, array $a_grp_ids = null)

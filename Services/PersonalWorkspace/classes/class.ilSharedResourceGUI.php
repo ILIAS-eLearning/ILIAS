@@ -223,6 +223,10 @@ class ilSharedResourceGUI
 				
 			case "prtf":
 				$ilCtrl->setParameterByClass($gui, "prt_id", $a_node_id);
+				if($_GET["back_url"])
+				{
+					$ilCtrl->setParameterByClass($gui, "back_url", rawurlencode($_GET["back_url"]));
+				}
 				$ilCtrl->redirectByClass($gui, "preview");
 				
 			default:
