@@ -1,21 +1,22 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
 
 /**
  * Class for horizontal ordering questions
- *
- * @extends assQuestion
  * 
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
- * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com> 
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ *          
+ * @version	 $Id$
  * 
- * @ingroup		ModulesTestQuestionPool
+ * @ingroup	ModulesTestQuestionPool
  */
-class assOrderingHorizontal extends assQuestion
+class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable
 {
 	protected $ordertext;
 	protected $textsize;
@@ -69,25 +70,8 @@ class assOrderingHorizontal extends assQuestion
 	*/
 	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
-
 		$this->saveQuestionDataToDb($original_id);
-
-		// save additional data
-		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
-			array("integer"),
-			array($this->getId())
-		);
-
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordertext, textsize) VALUES (%s, %s, %s)", 
-			array("integer", "text", "float"),
-			array(
-				$this->getId(),
-				$this->getOrderText(),
-				($this->getTextSize() < 10) ? NULL : $this->getTextSize()
-			)
-		);
-	
+		$this->saveAdditionalQuestionDataToDb();
 		parent::saveToDb();
 	}
 
@@ -369,6 +353,28 @@ class assOrderingHorizontal extends assQuestion
 		}
 
 		return true;
+	}
+
+	public function saveAdditionalQuestionDataToDb()
+	{
+		global $ilDB;
+
+		// save additional data
+		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() 
+							. " WHERE question_fi = %s",
+							array( "integer" ),
+							array( $this->getId() )
+		);
+
+		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName() 
+							. " (question_fi, ordertext, textsize) VALUES (%s, %s, %s)",
+							array( "integer", "text", "float" ),
+							array(
+								$this->getId(),
+								$this->getOrderText(),
+								($this->getTextSize() < 10) ? NULL : $this->getTextSize()
+							)
+		);
 	}
 
 	/**
