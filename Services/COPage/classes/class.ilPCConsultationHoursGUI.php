@@ -113,14 +113,28 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 		$opt_auto->setInfo($this->lng->txt("cont_cach_mode_automatic_info"));
 		$mode->addOption($opt_auto);
 		
-		$opt_manual = new ilRadioOption($this->lng->txt("cont_cach_mode_manual"), "man");
+		$opt_manual = new ilRadioOption($this->lng->txt("cont_cach_mode_manual"), "manual");
 		$opt_manual->setInfo($this->lng->txt("cont_cach_mode_manual_info"));				
 		$mode->addOption($opt_manual);
 		
-		$this->lng->loadLanguageModule("dateplaner");
-		$groups = new ilCheckboxGroupInputGUI($this->lng->txt("cal_ch_app_grp"), "grp");
-		$groups->setRequired(true);
-		$opt_manual->addSubItem($groups);
+		include_once "Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php";
+		$grp_ids = ilConsultationHourGroups::getGroupsOfUser($ilUser->getId());
+		if(sizeof($grp_ids))
+		{			
+			$this->lng->loadLanguageModule("dateplaner");
+			$groups = new ilCheckboxGroupInputGUI($this->lng->txt("cal_ch_app_grp"), "grp");
+			$groups->setRequired(true);
+			$opt_manual->addSubItem($groups);
+		
+			foreach($grp_ids as $grp_obj)
+			{
+				$groups->addOption(new ilCheckboxOption($grp_obj->getTitle(), $grp_obj->getGroupId()));
+			}
+		}
+		else
+		{
+			$opt_manual->setDisabled(true);
+		}
 		
 		if ($a_insert)
 		{
@@ -135,7 +149,7 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 			$grp_ids = $this->content_obj->getGroupIds();
 			if(sizeof($grp_ids))
 			{
-				$mode->setValue("man");
+				$mode->setValue("manual");
 				$groups->setValue($grp_ids);
 			}
 			else
@@ -158,16 +172,16 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 		$form = $this->initForm(true);
 		if($form->checkInput())
 		{								
-			$grp_ids = array();
+			$grp_ids = null;
 			$mode = $form->getInput("mode");
-			if($mode == "man")
+			if($mode == "manual")
 			{
 				$grp_ids = $form->getInput("grp");
 			}
 			
 			$this->content_obj = new ilPCConsultationHours($this->getPage());
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-			$this->content_obj->setData($mode, $grp_ids);
+			$this->content_obj->setData($mode, (array)$grp_ids);
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{
@@ -189,7 +203,7 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 		{	
 			$grp_ids = array();
 			$mode = $form->getInput("mode");
-			if($mode == "man")
+			if($mode == "manual")
 			{
 				$grp_ids = $form->getInput("grp");
 			}

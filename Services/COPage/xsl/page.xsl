@@ -3842,6 +3842,30 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- Consultation hours data -->
+<xsl:template match="ConsultationHours">
+	{{{{{ConsultationHours<xsl:if test="$mode = 'edit'">Teaser</xsl:if>#<xsl:value-of select="@User"/>#<xsl:value-of select="@Mode"/>#
+		<xsl:for-each select="ConsultationHoursGroup">
+			<xsl:value-of select="@Id"/>;
+		</xsl:for-each>
+	}}}}}
+	<xsl:if test="$mode = 'edit'">
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test="$javascript='disable'">
+			<br />
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+				</xsl:attribute>
+			</input>
+		</xsl:if>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
+			<xsl:with-param name="edit">y</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+</xsl:template>
+
 <!-- helper functions -->
 
 <xsl:template name="substring-before-last">

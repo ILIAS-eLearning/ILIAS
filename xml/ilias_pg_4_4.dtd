@@ -21,7 +21,7 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?, InitOpenedContent?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | ConsultationHours), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -466,6 +466,17 @@ col or row span. -->
 <!ATTLIST Skills
 	Id CDATA #REQUIRED
 	User CDATA #REQUIRED
+>
+
+<!ELEMENT ConsultationHours (ConsultationHoursGroup*)>
+<!ATTLIST ConsultationHours
+	Mode (auto | manual) #REQUIRED	
+	User CDATA #REQUIRED
+>
+
+<!ELEMENT ConsultationHoursGroup EMPTY>
+<!ATTLIST ConsultationHoursGroup
+	Id CDATA #REQUIRED
 >
 
 <!ELEMENT InitOpenedContent (IntLink?)>

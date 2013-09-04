@@ -69,7 +69,26 @@ class ilPCConsultationHours extends ilPageContent
 		
 		$this->cach_node->set_attribute("Mode", $a_mode);
 		$this->cach_node->set_attribute("User", $ilUser->getId());
-		$this->cach_node->set_attribute("GroupIds", implode(";", $a_grp_ids));
+		
+		// remove all children first
+		$children = $this->cach_node->child_nodes();
+		if($children)
+		{
+			foreach($children as $child)
+			{
+				$this->cach_node->remove_child($child);
+			}
+		}
+
+		if($a_mode == "manual")
+		{
+			foreach($a_grp_ids as $grp_id)
+			{
+				$field_node = $this->dom->create_element("ConsultationHoursGroup");
+				$field_node = $this->cach_node->append_child($field_node);
+				$field_node->set_attribute("Id", $grp_id);
+			}
+		}
 	}
 
 	/**
@@ -79,10 +98,19 @@ class ilPCConsultationHours extends ilPageContent
 	 */
 	function getGroupIds()
 	{
+		$res = array();
 		if (is_object($this->cach_node))
 		{
-			return explode(";", $this->cach_node->get_attribute("GroupIds"));
+			$children = $this->cach_node->child_nodes();
+			if($children)
+			{
+				foreach($children as $child)
+				{
+					$res[] = $child->get_attribute("Id");
+				}
+			}
 		}
+		return $res;
 	}
 }
 ?>
