@@ -320,9 +320,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		
 		foreach ($this->answers as $answer)
 		{
-			if ($answer->points > 0)
+			if ($answer->getPoints() > 0)
 			{
-				$points = $points + $answer->points;
+				$points = $points + $answer->getPoints();
 			}
 		}
 		
@@ -340,9 +340,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
 		foreach ($this->answers as $answer)
 		{
-			if ($answer->points < 0)
+			if ($answer->getPoints() < 0)
 			{
-				$points = $points + $answer->points;
+				$points = $points + $answer->getPoints();
 			}
 		}
 
@@ -499,12 +499,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 				
 				foreach ($answers as $answer)
 				{
-					$qst_answer  = $answer->answertext;
+					$qst_answer  = $answer->getAnswertext();
 					$user_answer = '  '.$row['value1'];
 					
 					if( $this->isKeywordInAnswer( $user_answer, $qst_answer ) )
 					{
-						$points += $answer->points;
+						$points += $answer->getPoints();
 					}
 				}
 				
@@ -516,7 +516,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 				
 				foreach ($answers as $answer)
 				{
-					$qst_answer  = $answer->answertext;
+					$qst_answer  = $answer->getAnswertext();
 					$user_answer = '  '.$row['value1'];
 					
 					if( !$this->isKeywordInAnswer( $user_answer, $qst_answer ) )

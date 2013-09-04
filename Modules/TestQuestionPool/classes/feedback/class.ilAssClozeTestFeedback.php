@@ -39,7 +39,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 		
 		foreach( $answer->items as $item )
 		{
-			$caption .= '"' . $item->answertext.'" / ';
+			$caption .= '"' . $item->getAnswertext().'" / ';
 		}
 		
 		$caption = substr($caption, 0, strlen($caption)-3);
