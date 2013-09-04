@@ -60,6 +60,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	private $reg_access_code_enabled = false;
 	private $status_dt = null;
 	
+	private $mail_members = ilCourseConstants::MAIL_ALLOWED_ALL;
+	
 	/**
 	 *
 	 * 
@@ -626,6 +628,25 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		return $this->show_members;
 	}
+	
+	/**
+	 * Set mail to members type
+	 * @see ilCourseConstants
+	 * @param type $a_type
+	 */
+	public function setMailToMembersType($a_type)
+	{
+		$this->mail_members = $a_type;
+	}
+	
+	/**
+	 * Get mail to members type
+	 * @return int
+	 */
+	public function getMailToMembersType()
+	{
+		return $this->mail_members;
+	}
 
 	function getMessage()
 	{
@@ -1151,8 +1172,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
 			'auto_notification = '.$ilDB->quote( (int)$this->getAutoNotification(), 'integer').', '.
-			'status_dt = '.$ilDB->quote((int) $this->getStatusDetermination()).' '.
+			'status_dt = '.$ilDB->quote((int) $this->getStatusDetermination()).', '.
+			'mail_members_type = '.$ilDB->quote((int) $this->getMailToMembersType(),'integer').' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
+		
 				
 		$res = $ilDB->manipulate($query);
 		
@@ -1279,6 +1302,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
 			$ilDB->quote((int)$this->getAutoNotification(),'integer').', '.
 			$ilDB->quote((int)$this->getStatusDetermination(),'integer').' '.
+			$ilDB->quote((int) $this->getMailToMembersType(),'integer').' '.
 			")";
 			
 		$res = $ilDB->manipulate($query);
@@ -1334,6 +1358,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setRegistrationAccessCode($row->reg_ac);
 			$this->setAutoNotification($row->auto_notification == 1 ? true : false);
 			$this->setStatusDetermination((int) $row->status_dt);
+			$this->setMailToMembersType($row->mail_members_type);
 		}
 		
 		// moved activation to ilObjectActivation

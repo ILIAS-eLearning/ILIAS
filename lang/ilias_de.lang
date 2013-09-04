@@ -13838,6 +13838,12 @@ crs#:#crs_passed_status_system#:#System
 crs#:#crs_passed_status_manual_by#:#Manuell durch
 dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
 dateplaner#:#cal_edit_recurrences#:#Alle Termine bearbeiten
+crs#:#crs_mail_type#:#Mail an Mitglieder
+crs#:#crs_mail_tutors_only#:#Ausschließlich für Administratoren und Tutoren
+crs#:#crs_mail_all#:#Für alle Teilnehmer
+grp#:#grp_mail_type#:#Mail an Mitglieder
+grp#:#grp_mail_tutors_only#:#Ausschließlich für Administratoren
+grp#:#grp_mail_all#:#Für alle Teilnehmer
 content#:#cont_ed_insert_consultation_hours#:#Sprechstunden hinzufügen
 content#:#cont_insert_consultation_hours#:#Sprechstunden hinzufügen
 content#:#cont_update_consultation_hours#:#Sprechstunden bearbeiten
