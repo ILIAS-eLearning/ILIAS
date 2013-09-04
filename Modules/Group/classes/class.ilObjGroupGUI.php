@@ -976,8 +976,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 	
     
-	protected function readMemberData($ids,$role = 'admin')
-	{
+	protected function readMemberData($ids,$role = 'admin',$selected_columns = null)
+	{			
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
 
@@ -988,11 +988,21 @@ class ilObjGroupGUI extends ilContainerGUI
 			$in_progress = ilLPStatusWrapper::_lookupInProgressForObject($this->object->getId());
 			$failed = ilLPStatusWrapper::_lookupFailedForObject($this->object->getId());
 		}
-
+		
 		if($privacy->enabledGroupAccessTimes())
 		{
 			include_once('./Services/Tracking/classes/class.ilLearningProgress.php');
 			$progress = ilLearningProgress::_lookupProgressByObjId($this->object->getId());
+		}
+		
+		$do_prtf = (is_array($selected_columns) && 
+			in_array('prtf', $selected_columns) &&
+			is_array($ids));
+		if($do_prtf)
+		{
+			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+			$all_prtf = ilObjPortfolio::getAvailablePortfolioLinksForUserIds($ids,
+				$this->ctrl->getLinkTarget($this, "members"));
 		}
 
 		foreach($ids as $usr_id)
@@ -1038,6 +1048,11 @@ class ilObjGroupGUI extends ilContainerGUI
 					$tmp_data['access_time'] = $this->lng->txt('no_date');
 					$tmp_data['access_time_unix'] = 0;
 				}
+			}
+			
+			if($do_prtf)
+			{
+				$tmp_data['prtf'] = $all_prtf[$usr_id];
 			}
 
 			$members[$usr_id] = $tmp_data;
@@ -1222,7 +1237,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 				
 			$table_gui->setTitle($this->lng->txt('grp_members'),'icon_usr.png',$this->lng->txt('grp_members'));
-			$table_gui->parse($this->readMemberData($GLOBALS['rbacreview']->assignedUsers($this->object->getDefaultMemberRole())));
+			$table_gui->parse($this->readMemberData($GLOBALS['rbacreview']->assignedUsers($this->object->getDefaultMemberRole()),
+				null, $table_gui->getSelectedColumns()));
 			$this->tpl->setCurrentBlock('member_block');
 			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());	
 			$this->tpl->parseCurrentBlock();

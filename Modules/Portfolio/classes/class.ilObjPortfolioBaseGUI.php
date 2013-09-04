@@ -500,7 +500,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 * Show user page
 	 */
 	function preview($a_return = false, $a_content = false, $a_show_notes = true)
-	{		
+	{				
 		// public profile
 		if($_REQUEST["back_url"])
 		{

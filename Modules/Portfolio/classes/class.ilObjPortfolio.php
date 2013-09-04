@@ -219,6 +219,32 @@ class ilObjPortfolio extends ilObjPortfolioBase
 			array($this->getId()),
 			true);	
 	}
+	
+	public static function getAvailablePortfolioLinksForUserIds(array $a_owner_ids, $a_back_url = null)
+	{
+		$res = array();
+		
+		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+		$access_handler = new ilPortfolioAccessHandler();	
+		
+		$params = null;
+		if($a_back_url)
+		{
+			$params = array("back_url"=>rawurlencode($a_back_url));
+		}
+		
+		include_once "Services/Link/classes/class.ilLink.php";
+		foreach($access_handler->getShardObjectsDataForUserIds($a_owner_ids) as $owner_id => $items)
+		{
+			foreach($items as $id => $title)
+			{
+				$url = ilLink::_getLink($id, 'prtf', $params);
+				$res[$owner_id][$url] = $title;				
+			}			
+		}		
+		
+		return $res;
+	}
 }
 
 ?>

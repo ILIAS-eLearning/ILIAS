@@ -1802,8 +1802,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 	
-	public function readMemberData($ids,$role = 'admin')
-	{
+	public function readMemberData($ids,$role = 'admin',$selected_columns = null)
+	{		
 		if($this->show_tracking)
 		{
 			include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
@@ -1820,6 +1820,16 @@ class ilObjCourseGUI extends ilContainerGUI
 			$progress = ilLearningProgress::_lookupProgressByObjId($this->object->getId());
 		}
 
+		$do_prtf = (is_array($selected_columns) && 
+			in_array('prtf', $selected_columns) &&
+			is_array($ids));
+		if($do_prtf)
+		{
+			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+			$all_prtf = ilObjPortfolio::getAvailablePortfolioLinksForUserIds($ids,
+				$this->ctrl->getLinkTarget($this, "members"));
+		}
+
 		foreach((array) $ids as $usr_id)
 		{
 			$name = ilObjUser::_lookupName($usr_id);
@@ -1834,7 +1844,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tmp_data['notification'] = $this->object->getMembersObject()->isNotificationEnabled($usr_id) ? 1 : 0;
 			$tmp_data['blocked'] = $this->object->getMembersObject()->isBlocked($usr_id) ? 1 : 0;
 			$tmp_data['usr_id'] = $usr_id;
-
+		
 			if($this->show_tracking)
 			{
 				if(in_array($usr_id,$completed))
@@ -1868,6 +1878,12 @@ class ilObjCourseGUI extends ilContainerGUI
 					$tmp_data['access_time'] = $this->lng->txt('no_date');
 				}
 			}
+							
+			if($do_prtf)
+			{
+				$tmp_data['prtf'] = $all_prtf[$usr_id];
+			}
+			
 			$members[$usr_id] = $tmp_data;
 		}
 		return $members ? $members : array();

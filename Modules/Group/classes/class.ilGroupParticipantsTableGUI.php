@@ -133,14 +133,26 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
      */
     public function getSelectableColumns()
     {
+		global $ilSetting;
+		
 		if(self::$all_columns)
 		{
-			return self::$all_columns;
+			# return self::$all_columns;
 		}
 		
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
 		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
 		self::$all_columns = $ef->getSelectableFieldsInfo($this->getParentObject()->object->getId());
+		
+		if ($this->type == 'member' &&
+			$ilSetting->get('user_portfolios'))
+		{
+			self::$all_columns['prtf'] = array(
+				'txt' => $this->lng->txt('obj_prtf'),
+				'default' => false
+			);			
+		}
+		
 		return self::$all_columns;
     }
     
@@ -193,7 +205,6 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
                     break;
 
 				case 'consultation_hour':
-
 					$this->tpl->setCurrentBlock('custom_field');
 					$dts = array();
 					foreach((array) $a_set['consultation_hours'] as $ch)
@@ -211,6 +222,18 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 					$dt_string = implode('<br />', $dts);
 					$this->tpl->setVariable('VAL_CUST',$dt_string) ;
 					$this->tpl->parseCurrentBlock();
+					break;
+					
+				case 'prtf':			
+					$tmp = array();
+					if(is_array($a_set['prtf']))
+					{						
+						foreach($a_set['prtf'] as $prtf_url => $prtf_txt)
+						{
+							$tmp[] = '<a href="'.$prtf_url.'">'.$prtf_txt.'</a>';							
+						}
+					}
+					$this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp)) ;					
 					break;
                                         
                 default:
@@ -293,10 +316,9 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
         unset($additional_fields["lastname"]);
         unset($additional_fields["last_login"]);
         unset($additional_fields["access_until"]);
-		// begin-patch ch
 		unset($additional_fields['consultation_hour']);
-		
-		
+		unset($additional_fields['prtf']);
+				
         switch($this->type)
         {
             case 'admin':

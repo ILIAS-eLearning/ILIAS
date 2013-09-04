@@ -208,7 +208,9 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 * @return 
 	 */
 	public function getSelectableColumns()
-	{
+	{		
+		global $ilSetting;
+		
 		if(self::$all_columns)
 		{
 			#return self::$all_columns;
@@ -217,6 +219,16 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
 		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
 		self::$all_columns = $ef->getSelectableFieldsInfo($this->getParentObject()->object->getId());
+		
+		if ($this->type == 'member' &&
+			$ilSetting->get('user_portfolios'))
+		{
+			self::$all_columns['prtf'] = array(
+				'txt' => $this->lng->txt('obj_prtf'),
+				'default' => false
+			);			
+		}
+		
 		return self::$all_columns;
 	}
 
@@ -269,8 +281,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 					break;
 				
 				case 'consultation_hour':
-
-					$this->tpl->setCurrentBlock('custom_field');
+					$this->tpl->setCurrentBlock('custom_fields');
 					$dts = array();
 					foreach((array) $a_set['consultation_hours'] as $ch)
 					{
@@ -285,8 +296,20 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 						$dts[] = $tmp;
 					}
 					$dt_string = implode('<br />', $dts);
-					$this->tpl->setVariable('VAL_CUST',$dt_string) ;
+					$this->tpl->setVariable('VAL_CUST',$dt_string);
 					$this->tpl->parseCurrentBlock();
+					break;
+					
+				case 'prtf':			
+					$tmp = array();
+					if(is_array($a_set['prtf']))
+					{						
+						foreach($a_set['prtf'] as $prtf_url => $prtf_txt)
+						{
+							$tmp[] = '<a href="'.$prtf_url.'">'.$prtf_txt.'</a>';							
+						}
+					}
+					$this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp)) ;					
 					break;
 
 				default:
@@ -390,7 +413,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings'));
 			$this->tpl->setVariable('LINK_TXT', $this->lng->txt('timings_timings'));
 			$this->tpl->parseCurrentBlock();
-		}
+		}		
 	}
 
 	/**
@@ -413,6 +436,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
 		unset($additional_fields['consultation_hour']);
+		unset($additional_fields['prtf']);
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
@@ -453,7 +477,9 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		}
 		
 		// merge course data
-		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,$this->type == 'admin');
+		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,
+			$this->type == 'admin',
+			$this->getSelectedColumns());
 		$a_user_data = array();
 		foreach((array) $usr_data['set'] as $ud)
 		{			
