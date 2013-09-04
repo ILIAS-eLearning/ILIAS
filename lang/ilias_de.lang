@@ -13838,3 +13838,11 @@ crs#:#crs_passed_status_system#:#System
 crs#:#crs_passed_status_manual_by#:#Manuell durch
 dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
 dateplaner#:#cal_edit_recurrences#:#Alle Termine bearbeiten
+content#:#cont_ed_insert_consultation_hours#:#Sprechstunden hinzufügen
+content#:#cont_insert_consultation_hours#:#Sprechstunden hinzufügen
+content#:#cont_update_consultation_hours#:#Sprechstunden bearbeiten
+content#:#cont_cach_mode#:#Modus
+content#:#cont_cach_mode_automatic#:#Automatisch
+content#:#cont_cach_mode_automatic_info#:#Es werden alle Ihre Sprechstundentermine veröffentlicht.
+content#:#cont_cach_mode_manual#:#Manuell
+content#:#cont_cach_mode_manual_info#:#Es werden nur die Sprechstundentermine veröffentlich, die in einer der folgenden Sprechstundengruppen enthalten sind.

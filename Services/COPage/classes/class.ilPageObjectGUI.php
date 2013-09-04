@@ -1599,6 +1599,7 @@ class ilPageObjectGUI
 						 'enable_blog' =>  $cfg->getEnablePCType("Blog") ? "y" : "n",
 						 'enable_skills' =>  $cfg->getEnablePCType("Skills") ? "y" : "n",
 						 'enable_qover' =>  $cfg->getEnablePCType("QuestionOverview") ? "y" : "n",
+						 'enable_consultation_hours' =>  $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
 						 'flv_video_player' => $flv_video_player
 						);
 		if($this->link_frame != "")		// todo other link types
