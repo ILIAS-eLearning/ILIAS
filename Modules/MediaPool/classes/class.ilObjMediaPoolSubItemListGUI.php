@@ -103,11 +103,10 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 		return $this->tpl->get();	 
 	}
 	
-	protected function parseImage($sub_id)
+	protected function parseImage($a_sub_id)
 	{
 		include_once './Modules/MediaPool/classes/class.ilMediaPoolItem.php';
-		$sub_id = ilMediaPoolItem::lookupForeignId($sub_id);
-		
+		$sub_id = ilMediaPoolItem::lookupForeignId($a_sub_id);
 		// output thumbnail (or mob icon)
 		if (ilObject::_lookupType($sub_id) == "mob")
 		{
@@ -118,7 +117,15 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 			
 			if ($target != "")
 			{
-				$this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img($target));
+				// begin-patch mime_filter
+				$this->tpl->setVariable('LINKED_LINK',
+						ilLink::_getLink(
+								$this->getRefId(),
+								'mep',
+								array('action' => 'showMedia', 'mob_id' => $sub_id,'mepitem_id' => $a_sub_id)));
+				$this->tpl->setVariable('LINKED_TARGET','_blank');
+				$this->tpl->setVariable("LINKED_IMAGE", ilUtil::img($target));
+				// end-patch mime_filter
 			}
 			else
 			{
