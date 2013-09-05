@@ -108,6 +108,7 @@ public class RPCSearchHandler {
 			MultiFieldQueryParser multiParser = new MultiFieldQueryParser(
 					fieldInfo.getFieldsAsStringArray(),
 					new StandardAnalyzer());
+			multiParser.setAllowLeadingWildcard(luceneSettings.isPrefixWildcardQueryEnabled());
 			
 			if(luceneSettings.getDefaultOperator() == LuceneSettings.OPERATOR_AND) {
 				multiParser.setDefaultOperator(Operator.AND);
@@ -172,6 +173,7 @@ public class RPCSearchHandler {
 	 */
 	public String highlight(String clientKey, Vector<Integer> objIds, String queryString) {
 
+		LuceneSettings luceneSettings;
 		LocalSettings.setClientKey(clientKey);
 		FieldInfo fieldInfo;
 		IndexSearcher searcher;
@@ -180,6 +182,7 @@ public class RPCSearchHandler {
 		
 		try {
 			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
+			luceneSettings = LuceneSettings.getInstance(LocalSettings.getClientKey());
 			
 			long start = new java.util.Date().getTime();
 			
@@ -194,6 +197,13 @@ public class RPCSearchHandler {
 			for(int i = 0; i < fieldInfo.getFieldSize(); i++) {
 				occurs.add(BooleanClause.Occur.SHOULD);
 			}
+
+			MultiFieldQueryParser multi = new MultiFieldQueryParser(
+					fieldInfo.getFieldsAsStringArray(),
+					new StandardAnalyzer()
+			);
+			multi.setAllowLeadingWildcard(luceneSettings.isPrefixWildcardQueryEnabled());
+			multi.setDefaultOperator(Operator.OR);
 			
 			Query query = searcher.rewrite(
 					MultiFieldQueryParser.parse(
@@ -204,7 +214,7 @@ public class RPCSearchHandler {
 					)
 			);
 
-			logger.info("What occurs" + occurs.toString());
+			logger.debug("What occurs" + occurs.toString());
 			logger.debug("Rewritten query is: " + query.toString());
 			
 			TopDocCollector collector = new TopDocCollector(1000);
