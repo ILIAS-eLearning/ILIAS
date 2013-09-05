@@ -13861,3 +13861,4 @@ search#:#lucene_show_sub_relevance#:#Relevanz von Unterobjekten anzeigen
 search#:#search_mime_filter_form#:#Dateityp-Filter
 search#:#lucene_prefix_wildcard#:#Platzhalter am Wortbeginn
 search#:#lucene_prefix_wildcard_info#:#Wenn aktiviert, können Platzhalter auch am Beginn eines Suchbegriffes genutzt werden.
+rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
