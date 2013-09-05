@@ -13857,3 +13857,5 @@ search#:#search_mime_powerpoint#:#Powerpoint Files
 search#:#search_mime_image#:#Images
 search#:#lucene_show_sub_relevance#:#Show Subitem Relevance
 search#:#search_mime_filter_form#:#Mime Type Filter
+search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
+search#:#lucene_prefix_wildcard_info#:#If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported.

@@ -36,6 +36,7 @@ class ilSearchSettings
 	protected $lucene_mime_filter_enabled = false;
 	protected $lucene_mime_filter = array();
 	protected $showSubRelevance = false;
+	protected $prefix_wildcard = false;
 
 	var $ilias = null;
 	var $max_hits = null;
@@ -140,6 +141,17 @@ class ilSearchSettings
 		}
 		return $enabled;
 	}
+	
+	public function enablePrefixWildcardQuery($a_stat)
+	{
+		$this->prefix_wildcard = $a_stat;
+	}
+	
+	public function isPrefixWildcardQueryEnabled()
+	{
+		return $this->prefix_wildcard;
+	}
+	
 	// end-patch mime_filter
 
 	/**
@@ -374,8 +386,8 @@ class ilSearchSettings
 		$this->ilias->setSetting('lucene_offline_filter',(int) $this->isLuceneOfflineFilterEnabled());
 		$this->ilias->setSetting('lucene_mime_filter',serialize($this->getLuceneMimeFilter()));
 		$this->ilias->setSetting('lucene_sub_relevance',$this->isSubRelevanceVisible());
-		
 		$ilSetting->set('lucene_mime_filter_enabled',$this->isLuceneMimeFilterEnabled());
+		$this->ilias->setSetting('lucene_prefix_wildcard',$this->isPrefixWildcardQueryEnabled());
 
 		return true;
 	}
@@ -417,6 +429,7 @@ class ilSearchSettings
 		$filter = $this->ilias->getSetting('lucene_mime_filter',serialize($this->getLuceneMimeFilter()));
 		$this->setLuceneMimeFilter(unserialize($filter));
 		$this->showSubRelevance($this->ilias->getSetting('lucene_sub_relevance',$this->showSubRelevance));
+		$this->enablePrefixWildcardQuery($this->ilias->getSetting('lucene_prefix_wildcard',$this->prefix_wildcard));
 		
 	}
 }
