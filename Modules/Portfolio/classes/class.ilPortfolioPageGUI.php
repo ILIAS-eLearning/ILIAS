@@ -462,6 +462,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
 		$month_gui = new ilCalendarMonthGUI($seed);
 		
+		// custom schedule filter: handle booking group ids
 		include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
 		$filter = new ilCalendarScheduleFilterBookings($a_user_id, $a_group_ids);
 		$month_gui->addScheduleFilter($filter);

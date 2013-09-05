@@ -49,7 +49,6 @@ class ilCalendarDayGUI
 	protected $tpl;
 	
 	protected $num_appointments = 1; 
-	protected $schedule_filters = array();
 	
 	protected $timezone = 'UTC';
 
@@ -113,16 +112,6 @@ class ilCalendarDayGUI
 	}
 	
 	/**
-	 * Add schedule filter
-	 * 
-	 * @param ilCalendarScheduleFilter $a_filter
-	 */
-	public function addScheduleFilter(ilCalendarScheduleFilter $a_filter)
-	{
-		$this->schedule_filters[] = $a_filter;
-	}
-	
-	/**
 	 * fill data section
 	 *
 	 * @access protected
@@ -169,14 +158,7 @@ class ilCalendarDayGUI
 		}
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
 		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY,$user_id);
-		$this->scheduler->addSubitemCalendars(true);
-		if(sizeof($this->schedule_filters))
-		{
-			foreach($this->schedule_filters as $filter)
-			{
-				$this->scheduler->addFilter($filter);
-			}
-		}		
+		$this->scheduler->addSubitemCalendars(true);		
 		$this->scheduler->calculate();
 		$daily_apps = $this->scheduler->getByDay($this->seed,$this->timezone);
 		$hours = $this->parseInfoIntoRaster($daily_apps,
