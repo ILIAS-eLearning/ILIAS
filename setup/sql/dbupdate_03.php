@@ -18144,4 +18144,18 @@ if(!$ilDB->tableColumnExists('grp_settings','mail_members_type'))
 	);
 }
 ?>
-
+<#4071>
+<?php
+if(!$ilDB->tableColumnExists('usr_search','mime_filter'))
+{
+	$ilDB->addTableColumn(
+		'usr_search',
+		'mime_filter',
+		array(
+			'type'	=> 'text',
+			'length' => 1000,
+			'notnull' => false
+		)
+	);
+}
+?>
