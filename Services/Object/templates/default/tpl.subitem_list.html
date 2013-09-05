@@ -2,13 +2,21 @@
 <!-- BEGIN subitem -->
 <div style="margin: 5px 2em; padding-top:5px;">
 <hr width="60%" align="left" size="1px" color="lightgrey" />
-<table>
+<table border="0" width="100%">
 	<tr>
-		<td>
+		<td width="1%" nowrap="nowrap">
+			<!-- BEGIN is_image -->
+			{SUB_ITEM_IMAGE}
+			<!-- END is_image -->
+			<!-- BEGIN is_type -->
 			{SUBITEM_TYPE}{SEPERATOR}
+			<!-- END is_type -->
 		</td>
 		<td>
 			<a href="{LINK}" target="{TARGET}">{TITLE}</a>
+		</td>
+		<td width="80%" align="right">
+			{SUB_REL}
 		</td>
 	</tr>
 	<tr>
@@ -17,6 +25,7 @@
 		<td>
 			<!-- BEGIN sea_fragment  --><div class="il_SearchFragment">{TXT_FRAGMENT} ...</div><!-- END sea_fragment -->
 		</td>
+		<td></td>
 	</tr>
 </table>	
 </div>

@@ -33,7 +33,10 @@ class ilSearchSettings
 	protected $lucene_offline_filter = true;
 	protected $auto_complete_length = 10;
 	
-	
+	protected $lucene_mime_filter_enabled = false;
+	protected $lucene_mime_filter = array();
+	protected $showSubRelevance = false;
+
 	var $ilias = null;
 	var $max_hits = null;
 	var $index = null;
@@ -83,6 +86,17 @@ class ilSearchSettings
 		);
 	}
 	
+	public static function getLuceneMimeFilterDefinitions()
+	{
+		return array(
+			'pdf' => array('filter' => 'mimeType:pdf','trans' => 'search_mime_pdf'),
+			'word' => array('filter' => 'mimeType:word','trans' => 'search_mime_word'),
+			'excel' => array('filter' => 'mimeType:excel','trans' => 'search_mime_excel'),
+			'powerpoint' => array('filter' => 'mimeType:powerpoint','trans' => 'search_mime_powerpoint'),
+			'image' => array('filter' => 'mimeType:image','trans' => 'search_mime_image')
+		);
+	}
+	
 	/**
 	 * Get lucene item filter definitions
 	 * @return
@@ -106,6 +120,27 @@ class ilSearchSettings
 		}
 		return $enabled;
 	}
+	
+	// begin-patch mime_filter
+	public function getEnabledLuceneMimeFilterDefinitions()
+	{
+		if(!$this->isLuceneItemFilterEnabled())
+		{
+			return array();
+		}
+		
+		$filter = $this->getLuceneMimeFilter();
+		$enabled = array();
+		foreach(self::getLuceneMimeFilterDefinitions() as $mime => $def)
+		{
+			if(isset($filter[$mime]) and $filter[$mime])
+			{
+				$enabled[$mime] = $def;
+			}
+		}
+		return $enabled;
+	}
+	// end-patch mime_filter
 
 	/**
 	* Read the ref_id of Search Settings object. normally used for rbacsystem->checkAccess()
@@ -166,7 +201,6 @@ class ilSearchSettings
 		$this->max_hits = $a_max_hits;
 	}
 	
-	// BEGIN PATCH Lucene search
 	public function getDefaultOperator()
 	{
 		return $this->default_operator;
@@ -256,6 +290,7 @@ class ilSearchSettings
 		return $this->lucene_item_filter;
 	}
 	
+	
 	public function setLuceneItemFilter($a_filter)
 	{
 		$this->lucene_item_filter = $a_filter;
@@ -271,6 +306,45 @@ class ilSearchSettings
 		return $this->lucene_offline_filter;
 	}
 	
+	public function showSubRelevance($a_stat)
+	{
+		$this->showSubRelevance = $a_stat;
+	}
+	
+	public function isSubRelevanceVisible()
+	{
+		return $this->showSubRelevance;
+	}
+	
+	
+	public function setLuceneMimeFilter($a_filter)
+	{
+		$this->lucene_mime_filter = $a_filter;
+	}
+	
+	public function getLuceneMimeFilter()
+	{
+		return $this->lucene_mime_filter;
+	}
+
+	/**
+	 * Check if lucene mime filter is enabled
+	 */
+	public function isLuceneMimeFilterEnabled()
+	{
+		return $this->lucene_mime_filter_enabled;
+	}
+	
+	/**
+	 * Enable lucene mime filter
+	 * @param type $a_stat
+	 */
+	public function enableLuceneMimeFilter($a_stat)
+	{
+		$this->lucene_mime_filter_enabled = $a_stat;
+	}
+	
+	
 	/**
 	 * @param object instance of ilDateTime 
 	 */
@@ -278,11 +352,11 @@ class ilSearchSettings
 	{
 		$this->last_index_date = $time;
 	}
-	// END PATCH Lucene Search
 	
 	function update()
 	{
-		// setSetting writes to db
+		global $ilSetting;
+
 		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
 		$this->ilias->setSetting('search_index',(int) $this->enabledIndex());
 		$this->ilias->setSetting('search_lucene',(int) $this->enabledLucene());
@@ -297,7 +371,11 @@ class ilSearchSettings
 		$this->ilias->setSetting('auto_complete_length',(int) $this->getAutoCompleteLength());
 		$this->ilias->setSetting('lucene_item_filter_enabled',(int) $this->isLuceneItemFilterEnabled());
 		$this->ilias->setSetting('lucene_item_filter',serialize($this->getLuceneItemFilter()));
-		#$this->ilias->setSetting('lucene_offline_filter',(int) $this->isLuceneOfflineFilterEnabled());
+		$this->ilias->setSetting('lucene_offline_filter',(int) $this->isLuceneOfflineFilterEnabled());
+		$this->ilias->setSetting('lucene_mime_filter',serialize($this->getLuceneMimeFilter()));
+		$this->ilias->setSetting('lucene_sub_relevance',$this->isSubRelevanceVisible());
+		
+		$ilSetting->set('lucene_mime_filter_enabled',$this->isLuceneMimeFilterEnabled());
 
 		return true;
 	}
@@ -305,6 +383,8 @@ class ilSearchSettings
 	// PRIVATE
 	function __read()
 	{
+		global $ilSetting;
+		
 		$this->setMaxHits($this->ilias->getSetting('search_max_hits',10));
 		$this->enableIndex($this->ilias->getSetting('search_index',0));
 		$this->enableLucene($this->ilias->getSetting('search_lucene',0));
@@ -331,7 +411,13 @@ class ilSearchSettings
 		
 		$filter = $this->ilias->getSetting('lucene_item_filter',serialize($this->getLuceneItemFilter()));
 		$this->setLuceneItemFilter(unserialize($filter));
-		#$this->enableLuceneOfflineFilter($this->ilias->getSetting('lucene_offline_filter'), $this->isLuceneOfflineFilterEnabled());
+		$this->enableLuceneOfflineFilter($this->ilias->getSetting('lucene_offline_filter'), $this->isLuceneOfflineFilterEnabled());
+		
+		$this->enableLuceneMimeFilter($ilSetting->get('lucene_mime_filter_enabled',$this->lucene_item_filter_enabled));
+		$filter = $this->ilias->getSetting('lucene_mime_filter',serialize($this->getLuceneMimeFilter()));
+		$this->setLuceneMimeFilter(unserialize($filter));
+		$this->showSubRelevance($this->ilias->getSetting('lucene_sub_relevance',$this->showSubRelevance));
+		
 	}
 }
 ?>

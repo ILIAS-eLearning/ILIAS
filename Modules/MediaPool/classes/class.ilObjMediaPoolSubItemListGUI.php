@@ -78,12 +78,69 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 			
 			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_'.ilMediaPoolItem::lookupType($sub_item)));
 			$this->tpl->setVariable('TITLE',ilMediaPoolItem::lookupTitle($sub_item));
+			#$this->getItemListGUI()->setChildId($sub_item);
+			
+			// begin-patch mime_filter
+
+			if(!$this->parseImage($sub_item))
+			{
+				include_once './Modules/MediaPool/classes/class.ilMediaPoolItem.php';
+				$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_'.ilMediaPoolItem::lookupType($sub_item)));
+				$this->tpl->setVariable('SEPERATOR',':');
+			}
+			
+
+			if(count($this->getSubItemIds(true)) > 1)
+			{
+				$this->parseRelevance($sub_item);
+			}
+
 			$this->tpl->parseCurrentBlock();
 		}
 		
 		$this->showDetailsLink();
 		
 		return $this->tpl->get();	 
+	}
+	
+	protected function parseImage($sub_id)
+	{
+		include_once './Modules/MediaPool/classes/class.ilMediaPoolItem.php';
+		$sub_id = ilMediaPoolItem::lookupForeignId($sub_id);
+		
+		// output thumbnail (or mob icon)
+		if (ilObject::_lookupType($sub_id) == "mob")
+		{
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+			$mob = new ilObjMediaObject($sub_id);
+			$med = $mob->getMediaItem("Standard");
+			$target = $med->getThumbnailTarget();
+			
+			if ($target != "")
+			{
+				$this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img($target));
+			}
+			else
+			{
+				$this->tpl->setVariable("SUB_ITEM_IMAGE",ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".gif")));
+			}
+			if (ilUtil::deducibleSize($med->getFormat()) && $med->getLocationType() == "Reference")
+			{
+				$size = @getimagesize($med->getLocation());
+				if ($size[0] > 0 && $size[1] > 0)
+				{
+					$wr = $size[0] / 80;
+					$hr = $size[1] / 80;
+					$r = max($wr, hr);
+					$w = (int) ($size[0]/$r);
+					$h = (int) ($size[1]/$r);
+					$this->tpl->setVariable("SUB_ITEM_IMAGE",ilUtil::img($med->getLocation(), "", $w, $h));
+					return true;
+				}
+			}
+		}
+		return false;
+		
 	}
 }
 ?>

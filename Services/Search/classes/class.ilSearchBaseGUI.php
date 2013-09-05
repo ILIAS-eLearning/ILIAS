@@ -154,7 +154,24 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 				}
 				$cbgr->addOption($cb);
 			}
-			$cbgr->setValue($details);
+			if($a_mode == self::SEARCH_FORM_LUCENE)
+			{
+				if(ilSearchSettings::getInstance()->isLuceneMimeFilterEnabled())
+				{
+					$mimes = $this->getMimeDetails();
+					foreach(ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data)
+					{
+						$op3 = new ilCheckboxOption($this->lng->txt($data['trans']),$type);
+						if($mimes[$type])
+						{
+							$det = true;
+						}
+						$cbgr->addOption($op3);
+					}
+				}
+			}
+			
+			$cbgr->setValue(array_merge((array) $details,(array) $mimes));
 			$op2->addSubItem($cbgr);
 			
 			if($a_mode != self::SEARCH_FORM_STANDARD && $det)

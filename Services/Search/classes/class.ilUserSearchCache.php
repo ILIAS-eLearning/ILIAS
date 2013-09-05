@@ -61,6 +61,10 @@ class ilUserSearchCache
 
 	private $isAnonymous = false;
 	
+	// begin-patch mime_filter
+	private $mime_filter = array();
+	// end-patch mime_filter
+	
 	
 	/**
 	 * Constructor
@@ -313,6 +317,16 @@ class ilUserSearchCache
 		return (array) $this->item_filter;
 	}
 	
+	public function setMimeFilter($a_filter)
+	{
+		$this->mime_filter = $a_filter;
+	}
+	
+	public function getMimeFilter()
+	{
+		return (array) $this->mime_filter;
+	}
+
 	/**
 	 * delete cached entries
 	 * @param
@@ -431,7 +445,9 @@ class ilUserSearchCache
 			'search_type'	=> array('integer',(int) $this->search_type),
 			'query'			=> array('clob',serialize($this->getQuery())),
 			'root'			=> array('integer',$this->getRoot()),
-			'item_filter'	=> array('text',serialize($this->getItemFilter()))));
+			'item_filter'	=> array('text',serialize($this->getItemFilter())),
+			'mime_filter'	=> array('text',  serialize($this->getMimeFilter()))
+		));
 			
 			
 		// Write last query information
@@ -455,6 +471,7 @@ class ilUserSearchCache
 		$_SESSION['usr_search_cache'][$this->search_type]['query'] =  $this->getQuery();
 		$_SESSION['usr_search_cache'][$this->search_type]['root'] =  $this->getRoot();
 		$_SESSION['usr_search_cache'][$this->search_type]['item_filter'] =  $this->getItemFilter();
+		$_SESSION['usr_search_cache'][$this->search_type]['mime_filter'] =  $this->getMimeFilter();
 
 		$_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] =  $this->getQuery();
 
@@ -518,6 +535,7 @@ class ilUserSearchCache
 		$this->setQuery((string) $_SESSION['usr_search_cache'][$this->search_type]['query']);
 		$this->setRoot((string) $_SESSION['usr_search_cache'][$this->search_type]['root']);
 		$this->setItemFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['item_filter']);
+		$this->setMimeFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['mime_filter']);
 
 		return true;
 	}
