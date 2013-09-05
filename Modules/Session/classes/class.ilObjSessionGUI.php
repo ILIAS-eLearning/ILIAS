@@ -1786,9 +1786,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	$ilHelp->setScreenIdComponent("sess");
 	 	
 		$parent_id = $tree->getParentId($this->object->getRefId());
-
+		
+		// #11650
+		$parent_type = ilObject::_lookupType($parent_id, true);
+		
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
-		$tabs_gui->setBackTarget($this->lng->txt('back_to_crs_content'),
+		$tabs_gui->setBackTarget($this->lng->txt('back_to_'.$parent_type.'_content'),
 			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 		
