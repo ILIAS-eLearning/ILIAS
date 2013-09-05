@@ -42,7 +42,8 @@ class ilCalendarInboxGUI
 {
 	protected $seed = null;
 	protected $user_settings = null;
-
+	protected $schedule_filters = array();
+		
 	protected $lng;
 	protected $ctrl;
 	protected $tabs_gui;
@@ -107,6 +108,16 @@ class ilCalendarInboxGUI
 	}
 	
 	/**
+	 * Add schedule filter
+	 * 
+	 * @param ilCalendarScheduleFilter $a_filter
+	 */
+	public function addScheduleFilter(ilCalendarScheduleFilter $a_filter)
+	{
+		$this->schedule_filters[] = $a_filter;
+	}
+	
+	/**
 	 * show inbox
 	 *
 	 * @access protected
@@ -134,6 +145,13 @@ class ilCalendarInboxGUI
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_INBOX);
 		$schedule->setEventsLimit(100);
 		$schedule->addSubitemCalendars(true);
+		if(sizeof($this->schedule_filters))
+		{
+			foreach($this->schedule_filters as $filter)
+			{
+				$schedule->addFilter($filter);
+			}
+		}
 		$schedule->calculate();
 		
 		if(isset($_GET['changed']))

@@ -41,6 +41,7 @@ include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 class ilCalendarMonthGUI
 {
 	protected $num_appointments = 1;
+	protected $schedule_filters = array();
 	
 	protected $seed = null;
 	protected $user_settings = null;
@@ -118,6 +119,16 @@ class ilCalendarMonthGUI
 	}
 	
 	/**
+	 * Add schedule filter
+	 * 
+	 * @param ilCalendarScheduleFilter $a_filter
+	 */
+	public function addScheduleFilter(ilCalendarScheduleFilter $a_filter)
+	{
+		$this->schedule_filters[] = $a_filter;
+	}
+	
+	/**
 	 * fill data section
 	 *
 	 * @access public
@@ -148,32 +159,41 @@ class ilCalendarMonthGUI
 			$user_id = $_GET["bkid"];
 			$disable_empty = true;
 			$no_add = true;			
-			$is_portfolio_embedded = false;
-		}
-		elseif($ilUser->getId() == ANONYMOUS_USER_ID)
-		{
-			$user_id = $ilUser->getId();
-			$disable_empty = false;
-			$no_add = true;
-			$is_portfolio_embedded = false;
 		}
 		else
 		{
-			$user_id = $ilUser->getId();
-			$disable_empty = false;
-			$no_add = false;
-			$is_portfolio_embedded = false;
-						
-			if(ilCalendarCategories::_getInstance()->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION)
-			{				
-				$no_add = true;				
-				$is_portfolio_embedded = true;
+			if($ilUser->getId() == ANONYMOUS_USER_ID)
+			{
+				$user_id = $ilUser->getId();
+				$disable_empty = false;
+				$no_add = true;
+			}
+			else
+			{
+				$user_id = $ilUser->getId();
+				$disable_empty = false;
+				$no_add = false;
 			}			
 		}
+							
+		$is_portfolio_embedded = false;
+		if(ilCalendarCategories::_getInstance()->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION)
+		{				
+			$no_add = true;				
+			$is_portfolio_embedded = true;
+		}			
+		
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user_id,$disable_empty);
+		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user_id);
 		$this->scheduler->addSubitemCalendars(true);
-		$this->scheduler->calculate($this->consultation_hours_group_ids);
+		if(sizeof($this->schedule_filters))
+		{
+			foreach($this->schedule_filters as $filter)
+			{
+				$this->scheduler->addFilter($filter);
+			}
+		}
+		$this->scheduler->calculate();
 
 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
 		$settings = ilCalendarSettings::_getInstance();
@@ -223,7 +243,7 @@ class ilCalendarMonthGUI
 			{
 				$month_day = $day;
 			}
-
+			
 			if(!$is_portfolio_embedded &&
 				(!$disable_empty || $has_events))
 			{
@@ -284,12 +304,7 @@ class ilCalendarMonthGUI
 		$this->show();		
 		return $this->tpl->get();
 	}
-	
-	public function setConsultationHoursGroupIds($a_group_ids)
-	{
-		$this->consultation_hours_group_ids = $a_group_ids;
-	}
-	
+
 	/**
 	 * 
 	 * Show events

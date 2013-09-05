@@ -188,7 +188,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl,$ilTabs;
+		global $ilCtrl,$ilTabs,$ilUser;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -206,27 +206,27 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			case "ilcalendardaygui":
 				$ilTabs->setSubTabActive('app_day');
 				include_once('./Services/Calendar/classes/class.ilCalendarDayGUI.php');
-				$day_gui = new ilCalendarDayGUI($this->seed);
+				$day_gui = new ilCalendarDayGUI($this->seed);				
 				$ilCtrl->forwardCommand($day_gui);
 				break;
 
 			case "ilcalendarweekgui":
 				$ilTabs->setSubTabActive('app_week');
 				include_once('./Services/Calendar/classes/class.ilCalendarWeekGUI.php');
-				$week_gui = new ilCalendarWeekGUI($this->seed);
+				$week_gui = new ilCalendarWeekGUI($this->seed);				
 				$ilCtrl->forwardCommand($week_gui);
 				break;
 
 			case "ilcalendarmonthgui":
 				$ilTabs->setSubTabActive('app_month');
 				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
-				$month_gui = new ilCalendarMonthGUI($this->seed);
+				$month_gui = new ilCalendarMonthGUI($this->seed);				
 				$ilCtrl->forwardCommand($month_gui);
 				break;
 				
 			case "ilcalendarinboxgui":
 				include_once('./Services/Calendar/classes/class.ilCalendarInboxGUI.php');
-				$inbox = new ilCalendarInboxGUI($this->seed);
+				$inbox = new ilCalendarInboxGUI($this->seed);				
 				$ilCtrl->forwardCommand($inbox);
 				break;
 
@@ -323,8 +323,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$disable_empty = false;
 		}
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user_id,$disable_empty);
-		$this->scheduler->addSubitemCalendars(true);
+		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user_id);
+		$this->scheduler->addSubitemCalendars(true);		
 		$this->scheduler->calculate();
 		
 		$counter = 0;
@@ -578,7 +578,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		global $ilUser, $lng, $ilCtrl;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
+		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);	
 		$events = $schedule->getChangedEvents(true);
 
 		$ilCtrl->setParameterByClass('ilcalendarinboxgui', 'changed', 1);
@@ -832,7 +832,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');		
-		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_INBOX);				
+		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_INBOX);			
 		$events = $schedule->getEvents();
 		
 		$data = array();

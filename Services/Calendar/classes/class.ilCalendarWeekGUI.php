@@ -44,6 +44,7 @@ class ilCalendarWeekGUI
 	protected $seed = null;
 	protected $user_settings = null;
 	protected $weekdays = array();
+	protected $schedule_filters = array();
 
 	protected $lng;
 	protected $ctrl;
@@ -118,6 +119,16 @@ class ilCalendarWeekGUI
 	}
 	
 	/**
+	 * Add schedule filter
+	 * 
+	 * @param ilCalendarScheduleFilter $a_filter
+	 */
+	public function addScheduleFilter(ilCalendarScheduleFilter $a_filter)
+	{
+		$this->schedule_filters[] = $a_filter;
+	}
+	
+	/**
 	 * fill data section
 	 *
 	 * @access public
@@ -173,6 +184,13 @@ class ilCalendarWeekGUI
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
 		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK,$user_id,$disable_empty);
 		$this->scheduler->addSubitemCalendars(true);
+		if(sizeof($this->schedule_filters))
+		{
+			foreach($this->schedule_filters as $filter)
+			{
+				$this->scheduler->addFilter($filter);
+			}
+		}	
 		$this->scheduler->calculate();
 		
 		$counter = 0;
