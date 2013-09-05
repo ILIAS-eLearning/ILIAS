@@ -1042,6 +1042,22 @@ class ilObject
 			"WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
 		$res = $ilDB->manipulate($query);
 	}
+	
+	/**
+	 * Set deleted date
+	 * @global type $ilDB
+	 * @param type $a_ref_ids
+	 * @return type
+	 */
+	public static function setDeletedDates($a_ref_ids)
+	{
+		global $ilDB;
+		
+		$query = 'UPDATE object_reference SET deleted = '.$ilDB->quote($ilDB->now().' '.
+				'WHERE ref_id = '.$ilDB->in('ref_id',(array) $a_ref_ids,false,'integer'));
+		$ilDB->manipulate($query);
+		return;
+	}
 
 	/**
 	* only called in ilObjectGUI::insertSavedNodes
