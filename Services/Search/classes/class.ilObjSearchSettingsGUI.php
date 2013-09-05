@@ -376,6 +376,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->form->addItem($offline);
 		 */
 		
+		// Item filter
 		$if = new ilCheckboxInputGUI($this->lng->txt('search_mime_filter_form'),'mime_enabled');
 		$if->setValue(1);
 		$if->setChecked($this->settings->isLuceneMimeFilterEnabled());
@@ -393,6 +394,13 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			$ch->setValue(1);
 			$if->addSubItem($ch);
 		}
+		
+		$prefix = new ilCheckboxInputGUI($this->lng->txt('lucene_prefix_wildcard'),'prefix');
+		$prefix->setValue(1);
+		$prefix->setInfo($this->lng->txt('lucene_prefix_wildcard_info'));
+		$prefix->setChecked($this->settings->isPrefixWildcardQueryEnabled());
+		$this->form->addItem($prefix);
+		
 
 		$numFrag = new ilNumberInputGUI($this->lng->txt('lucene_num_fragments'),'fragmentCount');
 		$numFrag->setRequired(true);
@@ -467,6 +475,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$settings->enableLuceneMimeFilter((int) $_POST['mime_enabled']);
 		$settings->setLuceneMimeFilter((array) $_POST['mime']);
 		$settings->showSubRelevance((int) $_POST['subrelevance']);
+		$settings->enablePrefixWildcardQuery((int) $_POST['prefix']);
 		
 		if($this->form->checkInput())
 		{
