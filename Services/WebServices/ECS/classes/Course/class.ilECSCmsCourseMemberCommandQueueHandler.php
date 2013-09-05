@@ -5,6 +5,7 @@
 include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
 include_once './Services/WebServices/ECS/interfaces/interface.ilECSCommandQueueHandler.php';
 include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
+include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
 
 /**
  * Description of class
@@ -69,6 +70,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			$this->mid = $details->getMySender();
 			
 			// Check if import is enabled
+			include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
 			$part = ilECSParticipantSetting::getInstance($this->getServer()->getServerId(), $this->getMid());
 			if(!$part->isImportEnabled())
 			{
@@ -167,14 +169,16 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 	{
 		$GLOBALS['ilLog']->write(__METHOD__.': Starting ecs  member update');
 		
-		$course_id = (int) $course_member->courseID;
+		$course_id = (int) $course_member->lectureID;
 		if(!$course_id)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Missing course id');
 			return false;
 		}
 		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-		$crs_obj_id = ilECSImport::_lookupObjId($this->getServer()->getServerId(), $course_id, $this->mid);
+		$GLOBALS['ilLog']->write(__METHOD__.': sid: '.$this->getServer()->getServerId().' course_id: '.$course_id.' mid: '.$this->mid);
+		//$crs_obj_id = ilECSImport::_lookupObjId($this->getServer()->getServerId(), $course_id, $this->mid);
+		$crs_obj_id = ilECSImport::lookupObjIdByContentId($this->getServer()->getServerId(), $this->mid, $course_id);
 		
 		if(!$crs_obj_id)
 		{
@@ -193,12 +197,12 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			$sub_id = ($cms_id == $course_id) ? 0 : $cms_id;
 			
 			include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-			$obj_id = ilECSImport::_lookupObjId(
+			$obj_id = ilECSImport::lookupObjIdByContentId(
 					$this->getServer()->getServerId(),
-					$course_id,
 					$this->getMid(),
-					$sub_id
-			);
+					$course_id,
+					$sub_id);
+					
 			$this->refreshAssignmentStatus($course_member, $obj_id, $sub_id, $assigned);
 		}
 		return true;
@@ -242,7 +246,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 				break;
 		}
 		
-		$course_id = $course_member->courseID;
+		$course_id = $course_member->lectureID;
 		$assigned = array();
 		foreach((array) $course_member->members as $member)
 		{
@@ -251,12 +255,12 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 				'role' => $member->role
 			);
 			
-			foreach((array) $member->parallelGroup as $pgroup)
+			foreach((array) $member->groups as $pgroup)
 			{
 				if(!$put_in_course)
 				{
 					// @todo check hierarchy of roles
-					$assigned[$pgroup->id][$member->personID] = array(
+					$assigned[$pgroup->num][$member->personID] = array(
 						'id' => $member->personID,
 						'role' => $pgroup->role
 					);
@@ -292,7 +296,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		
 		
 
-		$course_id = (int) $course_member->courseID;
+		$course_id = (int) $course_member->lectureID;
 		$usr_ids = ilECSCourseMemberAssignment::lookupUserIds(
 				$course_id,
 				$sub_id,
@@ -384,10 +388,11 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 	{
 		$role_mappings = $this->getMappingSettings()->getRoleMappings();
 		
+		/* Zero is an allowed value */
 		if(!$role_value)
 		{
- 			$GLOBALS['ilLog']->write(__METHOD__.': No role assignment missing attribute: role');
-			return 0;
+ 			//$GLOBALS['ilLog']->write(__METHOD__.': No role assignment missing attribute: role');
+			//return 0;
 		}
 		foreach($role_mappings as $name => $map)
 		{
@@ -468,7 +473,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			$ecs_id = ilECSImport::lookupEContentIdByContentId(
 					$this->getServer()->getServerId(),
 					$this->getMid(),
-					$course_member->courseID
+					$course_member->lectureID
 			);
 			
 			include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
