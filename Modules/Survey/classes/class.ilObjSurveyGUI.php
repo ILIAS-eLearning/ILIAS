@@ -38,7 +38,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilAccess, $ilNavigationHistory, $ilErr, $ilTabs;
 
 		$this->external_rater_360 = false;
-		if($this->object->get360Mode() &&
+		if(!$this->creation_mode &&
+			$this->object->get360Mode() &&
 			$_SESSION["anonymous_id"][$this->object->getId()] && 
 			ilObjSurvey::validateExternalRaterCode($this->object->getRefId(), 
 				$_SESSION["anonymous_id"][$this->object->getId()]))
