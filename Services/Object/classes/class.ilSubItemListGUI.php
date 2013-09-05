@@ -248,8 +248,8 @@ abstract class ilSubItemListGUI
 		$this->tpl->setVariable('VAL_REL',sprintf("%d %%",$relevance));
 		$this->tpl->setVariable('WIDTH_A',$width1);
 		$this->tpl->setVariable('WIDTH_B',$width2);
-		$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
-		$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.gif"));
+		$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
+		$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
 		$this->tpl->parseCurrentBlock();
 	}
 	// end-patch mime_filter
