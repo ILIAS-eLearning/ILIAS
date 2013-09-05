@@ -117,23 +117,23 @@ public class MimeTypeExtractor implements ContentTransformer {
 
 		String extension = content.substring(content.lastIndexOf(".") + 1);
 		logger.debug("Extension is " + extension);
-		if(MIME_DOC_LIST.contains(extension)) {
+		if(MIME_DOC_LIST.contains(extension.toLowerCase())) {
 			logger.info("Found mime " + MIME_DOC + " for " + content);
 			return MIME_DOC;
 		}
-		if(MIME_EXCEL_LIST.contains(extension)) {
+		if(MIME_EXCEL_LIST.contains(extension.toLowerCase())) {
 			logger.info("Found mime " + MIME_EXCEL + " for " + content);
 			return MIME_EXCEL;
 		}
-		if(MIME_POWERPOINT_LIST.contains(extension)) {
+		if(MIME_POWERPOINT_LIST.contains(extension.toLowerCase())) {
 			logger.info("Found mime " + MIME_POWERPOINT + " for " + content);
 			return MIME_POWERPOINT;
 		}
-		if(MIME_IMAGE_LIST.contains(extension)) {
+		if(MIME_IMAGE_LIST.contains(extension.toLowerCase())) {
 			logger.info("Found mime " + MIME_IMAGE + " for " + content);
 			return MIME_IMAGE;
 		}
-		if(MIME_PDF_LIST.contains(extension)) {
+		if(MIME_PDF_LIST.contains(extension.toLowerCase())) {
 			logger.info("Found mime " + MIME_PDF + " for " + content);
 			return MIME_PDF;
 		}
