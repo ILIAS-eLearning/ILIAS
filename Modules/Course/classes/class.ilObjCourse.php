@@ -1247,6 +1247,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
 		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
 		$new_obj->setStatusDetermination($this->getStatusDetermination());
+		$new_obj->setMailToMembersType($this->getMailToMembersType());
 		
 		$new_obj->update();
 	}
