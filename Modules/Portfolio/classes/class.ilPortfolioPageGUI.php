@@ -461,8 +461,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
 		$month_gui = new ilCalendarMonthGUI($seed);
-		$month_gui->setConsultationHoursGroupIds($a_group_ids);
-
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
+		$filter = new ilCalendarScheduleFilterBookings($a_user_id, $a_group_ids);
+		$month_gui->addScheduleFilter($filter);
+		
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
 		
 		return $this->ctrl->getHTML($month_gui);	

@@ -182,10 +182,10 @@ class ilBookingEntry
 	 * @param type $a_ref_id
 	 */
 	public function isTargetObjectVisible($a_ref_id)
-	{
+	{				
 		// no course/group filter
 		if(!$this->getTargetObjIds())
-		{
+		{			
 			return true;
 		}
 		

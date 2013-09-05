@@ -49,17 +49,16 @@ class ilCalendarSchedule
 	protected $schedule = array();
 	protected $timezone;
 	protected $weekstart;
-	protected $hidden_cat = null;
 	protected $type = 0;
 	
 	protected $subitems_enabled = false;
-	protected $filter_bookings = false;
 	
 	protected $start = null;
 	protected $end = null;
 	protected $user = null;
 	protected $user_settings = null;
 	protected $db = null;
+	protected $filters = array();
 	
 	/**
 	 * Constructor
@@ -70,7 +69,7 @@ class ilCalendarSchedule
 	 * @param int user_id
 	 * 
 	 */
-	public function __construct(ilDate $seed,$a_type,$a_user_id = 0,$filter_bookings=false)
+	public function __construct(ilDate $seed,$a_type,$a_user_id = 0)
 	{
 	 	global $ilUser,$ilDB;
 	 	
@@ -87,12 +86,31 @@ class ilCalendarSchedule
 		{
 			$this->user = new ilObjUser($a_user_id);
 		}
-		$this->filter_bookings = $filter_bookings;
 	 	$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 	 	$this->weekstart = $this->user_settings->getWeekStart();
 	 	$this->timezone = $this->user->getTimeZone();
-	 	
-	 	$this->hidden_cat = ilCalendarHidden::_getInstanceByUserId($this->user->getId());
+	 					
+		
+		// category / event filters
+		
+		// portfolio does custom filter handling (booking group ids)
+		if(ilCalendarCategories::_getInstance()->getMode() != ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION)
+		{
+			// consultation hour calendar views do not mind calendar category visibility
+			if(ilCalendarCategories::_getInstance()->getMode() != ilCalendarCategories::MODE_CONSULTATION)
+			{
+				// this is the "default" filter which handles currently hidden categories for the user
+				include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterHidden.php');
+				$this->addFilter(new ilCalendarScheduleFilterHidden($this->user->getId()));		
+			}
+			else
+			{
+				// handle booking visibility (target object, booked out)
+				include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
+				$this->addFilter(new ilCalendarScheduleFilterBookings($this->user->getId()));		
+			}
+		}
+		
 	}
 	
 	/**
@@ -139,6 +157,16 @@ class ilCalendarSchedule
 	public function enabledSubitemCalendars()
 	{
 		return (bool) $this->subitems_enabled;
+	}
+	
+	/**
+	 * Add filter
+	 * 
+	 * @param ilCalendarScheduleFilter $a_filter
+	 */
+	public function addFilter(ilCalendarScheduleFilter $a_filter)
+	{
+		$this->filters[] = $a_filter;
 	}
 	
 	/**
@@ -193,11 +221,9 @@ class ilCalendarSchedule
 	 *
 	 * @access protected
 	 */
-	public function calculate($a_consultation_hours_group_ids = null)
-	{
-		global $ilDB;
-
-		$events = $this->getEvents($a_consultation_hours_group_ids);
+	public function calculate()
+	{		
+		$events = $this->getEvents();
 
 		// we need category type for booking handling
 		$ids = array();
@@ -205,6 +231,7 @@ class ilCalendarSchedule
 		{
 			$ids[] = $event->getEntryId();
 		}
+		
 		include_once('Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 		$cat_map = ilCalendarCategoryAssignments::_getAppointmentCalendars($ids);
 		include_once('Services/Calendar/classes/class.ilCalendarCategory.php');
@@ -300,6 +327,39 @@ class ilCalendarSchedule
 		return (array) $this->schedule;
 	}
 
+	protected function filterCategories(array $a_cats)
+	{
+		if(!sizeof($a_cats))
+		{
+			return;
+		}
+		
+		foreach($this->filters as $filter)
+		{			
+			if(sizeof($a_cats))
+			{
+				$a_cats = $filter->filterCategories($a_cats);
+			}
+		}
+		
+		return $a_cats;
+	}
+
+	protected function isValidEventByFilters(ilCalendarEntry $a_event)
+	{
+		$valid = true;
+		
+		foreach($this->filters as $filter)
+		{							
+			if(!$filter->isValidEvent($a_event))
+			{
+				$valid = false;
+				break;
+			}			
+		}
+		
+		return $valid;
+	}						
 
 	/**
 	 * get new/changed events
@@ -315,8 +375,8 @@ class ilCalendarSchedule
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($a_include_subitem_calendars);
-		$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($this->user->getId())->getCategoriesInfo());
-		
+		$cats = $this->filterCategories($cats);
+				
 		if(!count($cats))
 		{
 			return array();
@@ -333,10 +393,11 @@ class ilCalendarSchedule
 		$res = $this->db->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id))
+		{						
+			$event = new ilCalendarEntry($row->cal_id);			
+			if($this->isValidEventByFilters($event))
 			{
-				$events[] = new ilCalendarEntry($row->cal_id);
+				$events[] = $event;
 			}
 		}
 		return $events ? $events : array();
@@ -348,93 +409,52 @@ class ilCalendarSchedule
 	 *
 	 * @access protected
 	 */
-	public function getEvents($a_consultation_hours_group_ids = null)
+	public function getEvents()
 	{
 		global $ilDB;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($this->enabledSubitemCalendars());
-		if(!$this->filter_bookings)
-		{
-			$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($this->user->getId())->getCategoriesInfo());
-		}
-	
+		$cats = $this->filterCategories($cats);
+		
 		if(!count($cats))
 		{
 			return array();
 		}
 
 		// TODO: optimize
-		$query = "SELECT ce.cal_id cal_id FROM cal_entries ce LEFT JOIN cal_recurrence_rules crr ON ce.cal_id = crr.cal_id ".
-			"JOIN cal_cat_assignments ca ON ca.cal_id = ce.cal_id ";
+		$query = "SELECT ce.cal_id cal_id".
+			" FROM cal_entries ce".
+			" LEFT JOIN cal_recurrence_rules crr ON (ce.cal_id = crr.cal_id)".
+			" JOIN cal_cat_assignments ca ON (ca.cal_id = ce.cal_id)";
 
 		if($this->type != self::TYPE_INBOX)
 		{
-			$query .= "WHERE ((starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp')." ".
-				"AND enda >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME,'','UTC'),'timestamp').") ".
-				"OR (starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp')." ".
-				"AND NOT rule_id IS NULL)) ";
+			$query .= " WHERE ((starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp').
+				" AND enda >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME,'','UTC'),'timestamp').")".
+				" OR (starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp').
+				" AND NOT rule_id IS NULL))";
 		}
 		else
 	    {
 			$date = new ilDateTime(mktime(0, 0, 0), IL_CAL_UNIX);
-			$query .= "WHERE starta >= ".$this->db->quote($date->get(IL_CAL_DATETIME,'','UTC'),'timestamp');
+			$query .= " WHERE starta >= ".$this->db->quote($date->get(IL_CAL_DATETIME,'','UTC'),'timestamp');
 		}
 
-		$query .= "AND ".$ilDB->in('ca.cat_id',$cats,false,'integer')." ".
-			"ORDER BY starta";
+		$query .= " AND ".$ilDB->in('ca.cat_id',$cats,false,'integer').
+			" ORDER BY starta";
 
 		$res = $this->db->query($query);
-		
-		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
-		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
-		
-		$cats = ilCalendarCategories::_getInstance();
+				
 		$events = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id) || $this->filter_bookings)
+			$event = new ilCalendarEntry($row->cal_id);			
+			if($this->isValidEventByFilters($event))
 			{
-				$event = new ilCalendarEntry($row->cal_id);
-				if(!$this->filter_bookings)
-				{
-					// portfolio embedded: filter by consultation hour groups?
-					// this is the version for the owner
-					if(is_array($a_consultation_hours_group_ids))
-					{
-						$booking = new ilBookingEntry($event->getContextId());
-						if(in_array($booking->getBookingGroup(), $a_consultation_hours_group_ids))
-						{
-							$events[] = $event;
-						}						
-					}
-					else
-					{
-						$events[] = $event;
-					}
-				}
-				else
-				{
-					$booking = new ilBookingEntry($event->getContextId());
-					
-					// portfolio embedded: filter by consultation hour groups?
-					// this is the version for the learner
-					if((!is_array($a_consultation_hours_group_ids) ||
-						in_array($booking->getBookingGroup(), $a_consultation_hours_group_ids)) &&
-						!$booking->isBookedOut($row->cal_id, true))
-					{
-						// Check target 
-						if(($cats->getMode() == ilCalendarCategories::MODE_CONSULTATION or
-							$cats->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION) and
-							$booking->isTargetObjectVisible($cats->getTargetRefId()))
-						{
-							$events[] = $event;
-						}
-					}
-				}
-			}
-		
-		}
+				$events[] = $event;
+			}		
+		}		
 		return $events;
 	}
 	
