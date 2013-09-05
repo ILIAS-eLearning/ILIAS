@@ -126,7 +126,7 @@ class ilMemberAgreementGUI
 		$this->tpl->setVariable('AGREEMENT_HEADER',$this->lng->txt($this->type.'_agreement_header'));
 		$this->tpl->setVariable('TXT_AGREEMENT',$this->lng->txt($this->type.'_user_agreement'));
 		$this->tpl->setVariable('TXT_INFO_AGREEMENT',$this->lng->txt($this->type.'_info_agreement'));
-		if($this->privacy->confirmationRequired($this->type) or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
+		if($this->privacy->confirmationRequired($this->type))
 		{
 			$this->tpl->setCurrentBlock('agreement');
 			$this->tpl->setVariable('CHECK_AGREE',ilUtil::formCheckbox(0,'agreed',1));
@@ -294,11 +294,11 @@ class ilMemberAgreementGUI
 	 	{
 	 		return true;
 	 	}
-		if(!$this->privacy->confirmationRequired($this->type) and !ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
+		if($this->privacy->confirmationRequired($this->type))
 		{
-			return true;
+			return false;
 		}
-	 	return false;
+	 	return true;
 	}
 	
 	
