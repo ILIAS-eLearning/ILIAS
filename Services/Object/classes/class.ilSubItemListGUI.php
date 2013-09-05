@@ -229,6 +229,31 @@ abstract class ilSubItemListGUI
 		
 	}
 	
+	// begin-patch mime_filter
+	protected function parseRelevance($sub_item)
+	{
+		if(!ilSearchSettings::getInstance()->isSubRelevanceVisible())
+		{
+			return '';
+		}
+		
+		$this->tpl->addBlockFile('SUB_REL','sub_rel','tpl.lucene_sub_relevance.html','Services/Search');
+		
+		$relevance = $this->getHighlighter()->getRelevance($this->getObjId(),$sub_item);
+		
+		$width1 = (int) ((int) $relevance / 2);
+		$width2 = (int) ((50 - $width1));
+			
+		$this->tpl->setCurrentBlock('relev');
+		$this->tpl->setVariable('VAL_REL',sprintf("%d %%",$relevance));
+		$this->tpl->setVariable('WIDTH_A',$width1);
+		$this->tpl->setVariable('WIDTH_B',$width2);
+		$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
+		$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.gif"));
+		$this->tpl->parseCurrentBlock();
+	}
+	// end-patch mime_filter
+	
 	abstract public function getHTML();
 	
 	

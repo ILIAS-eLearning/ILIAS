@@ -80,7 +80,15 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
 			#$this->getItemListGUI()->setChildId($sub_item);
 			$this->tpl->setVariable('LINK',$link_data['target']);
 			$this->tpl->setVariable('TARGET','_blank');
-			$this->tpl->setVariable('TITLE',$link_data['title']);			
+			$this->tpl->setVariable('TITLE',$link_data['title']);	
+			
+			// begin-patch mime_filter
+			if(count($this->getSubItemIds(true)) > 1)
+			{
+				$this->parseRelevance($sub_item);
+			}
+			// end-patch mime_filter
+
 			$this->tpl->parseCurrentBlock();
 		}
 		

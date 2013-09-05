@@ -376,6 +376,23 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->form->addItem($offline);
 		 */
 		
+		$if = new ilCheckboxInputGUI($this->lng->txt('search_mime_filter_form'),'mime_enabled');
+		$if->setValue(1);
+		$if->setChecked($this->settings->isLuceneMimeFilterEnabled());
+		$if->setInfo($this->lng->txt('search_item_filter_form_info'));
+		$this->form->addItem($if);
+		
+		$mimes = $this->settings->getLuceneMimeFilter();
+		foreach(ilSearchSettings::getLuceneMimeFilterDefinitions() as $mime => $def)
+		{
+			$ch = new ilCheckboxInputGUI($this->lng->txt($def['trans']),'mime['.$mime.']');
+			if(isset($mimes[$mime]) and $mimes[$mime])
+			{
+				$ch->setChecked(true);
+			}
+			$ch->setValue(1);
+			$if->addSubItem($ch);
+		}
 
 		$numFrag = new ilNumberInputGUI($this->lng->txt('lucene_num_fragments'),'fragmentCount');
 		$numFrag->setRequired(true);
@@ -414,6 +431,14 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$relevance->setChecked($this->settings->isRelevanceVisible());
 		$this->form->addItem($relevance);
 		
+		// begin-patch mime_filter
+		$subrel = new ilCheckboxInputGUI('','subrelevance');
+		$subrel->setOptionTitle($this->lng->txt('lucene_show_sub_relevance'));
+		$subrel->setValue(1);
+		$subrel->setChecked($this->settings->isSubRelevanceVisible());
+		$relevance->addSubItem($subrel);
+		// end-patch mime_filter
+		
 		$last_index = new ilDateTimeInputGUI($this->lng->txt('lucene_last_index_time'),'last_index');
 		$last_index->setShowTime(true);
 		$last_index->setDate($this->settings->getLastIndexTime());
@@ -439,6 +464,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$settings->setMaxSubitems((int) $_POST['maxSubitems']);
 		$settings->showRelevance((int) $_POST['relevance']);
 		$settings->enableLuceneOfflineFilter((int) $_POST['offline_filter']);
+		$settings->enableLuceneMimeFilter((int) $_POST['mime_enabled']);
+		$settings->setLuceneMimeFilter((array) $_POST['mime']);
+		$settings->showSubRelevance((int) $_POST['subrelevance']);
 		
 		if($this->form->checkInput())
 		{

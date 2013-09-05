@@ -79,7 +79,7 @@ class ilSearchController
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		$forward_class = $this->ctrl->getNextClass($this) ? $this->ctrl->getNextClass($this) : $this->getLastClass();
-
+		
 		switch($forward_class)
 		{
 			case 'illucenesearchgui':

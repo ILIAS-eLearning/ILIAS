@@ -36,15 +36,49 @@ class ilLuceneHighlighterResultParser
 	private $result_string = '';
 	private $result = array();
 	
+	// begin-patch mime_filter
+	private $max_score = 0;
+	// end-patch mime_filter
+	
+	
 	/**
 	 * Contructor 
 	 * @return
 	 */
 	public function __construct()
 	{
-			 
+		
 	}
 	
+	// begin-patch mime_filter
+	public function getMaxScore()
+	{
+		return $this->max_score;
+	}
+	
+	public function setMaxScore($a_score)
+	{
+		$this->max_score = $a_score;
+	}
+	
+	/**
+	 * get relevance 
+	 * @param int obj_id
+	 * @return int	relevance in percent
+	 */
+	public function getRelevance($a_obj_id, $sub_id)
+	{
+		if(!$this->getMaxScore())
+		{
+			return 0;
+		}
+		
+		$score = $this->result[$a_obj_id][$sub_id]['score'];
+		return $score / $this->getMaxScore() * 100;
+	}
+	
+	// end-patch mime_filter
+
 	/**
 	 * set result xml string 
 	 * @param
@@ -76,12 +110,24 @@ class ilLuceneHighlighterResultParser
 			return false;
 		}
 		$root = new SimpleXMLElement($this->getResultString());
+		
+		// begin-patch mime_filter
+		$this->setMaxScore((string) $root['maxScore']);
+		// end-patch mime_filter
+		
+		
 		foreach($root->children() as $object) 
 		{
 			$obj_id = (string) $object['id'];
 			foreach($object->children() as $item)
 			{
 				$sub_id = (string) $item['id'];
+				
+				// begin-patch mime_filter
+				$score = (string) $item['absoluteScore'];
+				$this->result[$obj_id][$sub_id]['score'] = $score;
+				// end-patch mime_filter
+				
 				foreach($item->children() as $field)
 				{
 					$name = (string) $field['name'];
@@ -89,6 +135,7 @@ class ilLuceneHighlighterResultParser
 				}
 			}
 		}
+		
 		return true;
 	}
 	

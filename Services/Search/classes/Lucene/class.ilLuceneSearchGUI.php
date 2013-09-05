@@ -176,6 +176,16 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	}
 	
 	/**
+	 * Needed for base class search form
+	 * @todo rename
+	 * @return type
+	 */
+	protected function getMimeDetails()
+	{
+		return (array) $this->search_cache->getMimeFilter();
+	}
+	
+	/**
 	 * Search from main menu
 	 */
 	protected function remoteSearch()
@@ -293,6 +303,27 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			}
 			$filter_query .= ') ';
 		}
+		// begin-patch mime_filter
+		$mime_query = '';
+		if($this->search_cache->getMimeFilter() and ilSearchSettings::getInstance()->isLuceneMimeFilterEnabled())
+		{
+			$filter_settings = ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions();
+			foreach($this->search_cache->getMimeFilter() as $mime => $value)
+			{
+				if(!$mime_query)
+				{
+					$mime_query .= '+( ';
+				}
+				else
+				{
+					$mime_query .= 'OR';
+				}
+				$mime_query .= (' '. (string) $filter_settings[$mime]['filter'].' ');
+			}
+			$mime_query .= ') ';
+		}
+		$filter_query = $filter_query . ' '. $mime_query;
+		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
 		$qp = new ilLuceneQueryParser($filter_query.' +('.$this->search_cache->getQuery().')');
@@ -341,7 +372,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			#$this->fillAdminPanel();
 		}
 	}
-	
 	
 	/**
 	 * Store new root node
@@ -412,11 +442,23 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 					}
 				}
 				$this->search_cache->setItemFilter($filtered);
+
+				// Mime filter
+				$mime = array();
+				foreach(ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data)
+				{
+					if($_POST['filter_type'][$type])
+					{
+						$mime[$type] = 1;
+					}
+				}
+				$this->search_cache->setMimeFilter($mime);
 			}
 			else
 			{
 				// @todo: keep item filter settings
 				$this->search_cache->setItemFilter(array());
+				$this->search_cache->setMimeFilter(array());
 			}
 		}
 	}
