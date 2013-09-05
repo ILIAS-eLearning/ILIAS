@@ -80,7 +80,8 @@ class ilObjOrgUnitGUI extends ilObjCategoryGUI{
 	function showPossibleSubObjects()
 	{
 		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
-		$gui = new ilObjectAddNewItemGUI($this->object->getRefId(), false);
+		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+		$gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
 		$gui->setCreationUrl($this->ctrl->getLinkTarget($this, "create"));
 		$gui->render();
 	}

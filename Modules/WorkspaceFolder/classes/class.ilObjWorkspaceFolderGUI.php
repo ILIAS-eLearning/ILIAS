@@ -129,7 +129,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		
 		// add new item
 		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
-		$gui = new ilObjectAddNewItemGUI($this->node_id, true);
+		$gui = new ilObjectAddNewItemGUI($this->node_id);
+		$gui->setMode(ilObjectDefinition::MODE_WORKSPACE);
 		$gui->setCreationUrl($ilCtrl->getLinkTarget($this, "create"));
 		$gui->render();
 	

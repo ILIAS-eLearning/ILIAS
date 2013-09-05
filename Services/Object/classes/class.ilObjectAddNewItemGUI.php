@@ -11,8 +11,8 @@
  */
 class ilObjectAddNewItemGUI
 {
-	protected $parent_ref_id; // [int]
-	protected $personal_workspace; // [bool]
+	protected $mode; // [int]
+	protected $parent_ref_id; // [int]	
 	protected $disabled_object_types; // [array]
 	protected $sub_objects; // [array]
 	protected $url_creation_callback; // [int]
@@ -22,18 +22,22 @@ class ilObjectAddNewItemGUI
 	 * Constructor
 	 * 
 	 * @param int $a_parent_ref_id
-	 * @param bool $a_personal_workspace
 	 * @return ilObjectAddNewItemGUI
 	 */
-	public function __construct($a_parent_ref_id, $a_personal_workspace = false)
+	public function __construct($a_parent_ref_id)
 	{
 		global $lng;
 		
 		$this->parent_ref_id = (int)$a_parent_ref_id;
-		$this->personal_workspace = (bool)$a_personal_workspace;
+		$this->mode = ilObjectDefinition::MODE_REPOSITORY;
 				
 		$lng->loadLanguageModule("rep");		
 		$lng->loadLanguageModule("cntr");				
+	}
+	
+	public function setMode($a_mode)
+	{
+		$this->mode = (int)$a_mode;
 	}
 	
 	/**
@@ -125,7 +129,7 @@ class ilObjectAddNewItemGUI
 		$this->disabled_object_types[] = "rolf";						
 		
 		$parent_type = ilObject::_lookupType($this->parent_ref_id, true);
-		$subtypes = $objDefinition->getCreatableSubObjects($parent_type);		
+		$subtypes = $objDefinition->getCreatableSubObjects($parent_type, $this->mode);		
 		if (count($subtypes) > 0)
 		{						
 			// grouping of object types
@@ -212,7 +216,7 @@ class ilObjectAddNewItemGUI
 	{
 		global $ilCtrl;
 				
-		if(!$this->personal_workspace && !isset($this->url_creation))
+		if($this->mode != ilObjectDefinition::MODE_WORKSPACE && !isset($this->url_creation))
 		{
 			$base_url = "ilias.php?baseClass=ilRepositoryGUI&ref_id=".$this->parent_ref_id."&cmd=create";
 		}
@@ -277,7 +281,7 @@ class ilObjectAddNewItemGUI
 	{
 		global $ilToolbar, $tpl, $lng;
 						
-		if((bool)$this->personal_workspace)
+		if($this->mode == ilObjectDefinition::MODE_WORKSPACE)
 		{
 			if (!$this->parsePersonalWorkspace())
 			{

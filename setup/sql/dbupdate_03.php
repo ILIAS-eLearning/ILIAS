@@ -18110,7 +18110,6 @@ if(!$ilDB->tableColumnExists('sahs_user','status'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
 <#4069>
 <?php
 if(!$ilDB->tableColumnExists('crs_settings','mail_members_type'))
@@ -18158,4 +18157,8 @@ if(!$ilDB->tableColumnExists('usr_search','mime_filter'))
 		)
 	);
 }
+?>
+<#4072>
+<?php
+	$ilCtrlStructureReader->getStructure();
 ?>
