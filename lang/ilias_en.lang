@@ -13850,3 +13850,10 @@ content#:#cont_cach_mode_automatic#:#Automatic
 content#:#cont_cach_mode_automatic_info#:#All your consultation hours will be published.
 content#:#cont_cach_mode_manual#:#Manual
 content#:#cont_cach_mode_manual_info#:#Only the consultation hours of the following groups will be published.
+search#:#search_mime_pdf#:#PDF Files
+search#:#search_mime_word#:#Word Files
+search#:#search_mime_excel#:#Excel Files
+search#:#search_mime_powerpoint#:#Powerpoint Files
+search#:#search_mime_image#:#Images
+search#:#lucene_show_sub_relevance#:#Show Subitem Relevance
+search#:#search_mime_filter_form#:#Mime Type Filter

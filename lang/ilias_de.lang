@@ -13852,3 +13852,10 @@ content#:#cont_cach_mode_automatic#:#Automatisch
 content#:#cont_cach_mode_automatic_info#:#Es werden alle Ihre Sprechstundentermine veröffentlicht.
 content#:#cont_cach_mode_manual#:#Manuell
 content#:#cont_cach_mode_manual_info#:#Es werden nur die Sprechstundentermine veröffentlich, die in einer der folgenden Sprechstundengruppen enthalten sind.
+search#:#search_mime_pdf#:#PDF-Dateien
+search#:#search_mime_word#:#Word-Dateien
+search#:#search_mime_excel#:#Excel-Dateien
+search#:#search_mime_powerpoint#:#Powerpoint-Dateien
+search#:#search_mime_image#:#Bilder
+search#:#lucene_show_sub_relevance#:#Relevanz von Unterobjekten anzeigen
+search#:#search_mime_filter_form#:#Dateityp-Filter
