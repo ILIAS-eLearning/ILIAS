@@ -93,7 +93,9 @@ class ilCalendarSchedule
 		
 		// category / event filters
 		
-		// portfolio does custom filter handling (booking group ids)
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		
+		// portfolio does custom filter handling (booking group ids)		
 		if(ilCalendarCategories::_getInstance()->getMode() != ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION)
 		{
 			// consultation hour calendar views do not mind calendar category visibility

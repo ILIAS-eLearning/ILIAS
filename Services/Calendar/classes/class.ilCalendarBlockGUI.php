@@ -617,6 +617,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		else
 		{
+			// display consultation hours only (in course/group)
 			ilCalendarCategories::_getInstance()->setCHUserId((int) $_GET['bkid']);
 			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_CONSULTATION,(int) $_GET['ref_id'],true);
 		}
