@@ -39,6 +39,7 @@ class ilObjectDefinition extends ilSaxParser
 
 	const MODE_REPOSITORY = 1;
 	const MODE_WORKSPACE = 2;
+	const MODE_ADMINISTRATION = 3;
 
 	/**
 	* Constructor
@@ -633,6 +634,10 @@ class ilObjectDefinition extends ilSaxParser
 				unset($subobjects[$type]);
 			}
 			if ($a_context == self::MODE_WORKSPACE && !$this->isAllowedInWorkspace($type))
+			{
+				unset($subobjects[$type]);
+			}
+			if ($a_context == self::MODE_ADMINISTRATION && !$this->isAdministrationObject($type))
 			{
 				unset($subobjects[$type]);
 			}
