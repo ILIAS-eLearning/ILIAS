@@ -17,10 +17,14 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
  */
 class ilTestRandomQuestionSetConfigGUI
 {
-	const CMD_SHOW_GENERAL_CONFIG_FORM = 'showGeneralConfigForm';
-	const CMD_SAVE_GENERAL_CONFIG_FORM = 'saveGeneralConfigForm';
-	const CMD_SHOW_POOL_CONFIG_TABLE = 'showPoolConfigTable';
-	const CMD_SAVE_POOL_CONFIG_TABLE = 'savePoolConfigTable';
+	const CMD_SHOW_GENERAL_CONFIG = 'showGeneralConfig';
+	const CMD_SAVE_GENERAL_CONFIG = 'saveGeneralConfig';
+	
+	const CMD_SHOW_POOL_CONFIG_LIST = 'showPoolConfigList';
+	const CMD_SAVE_POOL_CONFIG_LIST = 'savePoolConfigList';
+	
+	const CMD_SHOW_POOL_CONFIG = 'showPoolConfig';
+	const CMD_SAVE_POOL_CONFIG = 'savePoolConfig';
 	
 	/**
 	 * global $ilCtrl object
@@ -127,7 +131,7 @@ class ilTestRandomQuestionSetConfigGUI
 		switch($nextClass)
 		{
 			default:
-				$cmd = $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG_FORM).'Cmd';
+				$cmd = $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG).'Cmd';
 				$this->$cmd();
 		}
 	}
@@ -139,24 +143,27 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->tabs->addSubTab(
 				'tstRandQuestSetGeneralConfig',
 				$this->lng->txt('tst_rnd_quest_cfg_tab_general'),
-				$this->ctrl->getLinkTarget($this, self::CMD_SHOW_GENERAL_CONFIG_FORM)
+				$this->ctrl->getLinkTarget($this, self::CMD_SHOW_GENERAL_CONFIG)
 		);
 		
 		$this->tabs->addSubTab(
 				'tstRandQuestSetPoolConfig',
 				$this->lng->txt('tst_rnd_quest_cfg_tab_pool'),
-				$this->ctrl->getLinkTarget($this, self::CMD_SHOW_POOL_CONFIG_TABLE)
+				$this->ctrl->getLinkTarget($this, self::CMD_SHOW_POOL_CONFIG_LIST)
 		);
 		
-		switch( $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG_FORM) )
+		switch( $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG) )
 		{
-			case self::CMD_SHOW_GENERAL_CONFIG_FORM:
-			case self::CMD_SAVE_GENERAL_CONFIG_FORM:
+			case self::CMD_SHOW_GENERAL_CONFIG:
+			case self::CMD_SAVE_GENERAL_CONFIG:
 				
 				$this->tabs->activateSubTab('tstRandQuestSetGeneralConfig');
 				break;
 
-			case self::CMD_SHOW_POOL_CONFIG_TABLE:
+			case self::CMD_SHOW_POOL_CONFIG_LIST:
+			case self::CMD_SAVE_POOL_CONFIG_LIST:
+			case self::CMD_SHOW_POOL_CONFIG:
+			case self::CMD_SAVE_POOL_CONFIG:
 				
 				$this->tabs->activateSubTab('tstRandQuestSetPoolConfig');
 				break;
@@ -176,7 +183,7 @@ class ilTestRandomQuestionSetConfigGUI
 		return $form;
 	}
 	
-	private function showGeneralConfigFormCmd(ilTestRandomQuestionSetGeneralConfigFormGUI $form = null)
+	private function showGeneralConfigCmd(ilTestRandomQuestionSetGeneralConfigFormGUI $form = null)
 	{
 		if($form === null)
 		{
@@ -187,7 +194,7 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 	}
 	
-	private function saveGeneralConfigFormCmd()
+	private function saveGeneralConfigCmd()
 	{
 		$this->questionSetConfig->loadFromDb();
 		$form = $this->buildGeneralConfigForm();
@@ -195,32 +202,31 @@ class ilTestRandomQuestionSetConfigGUI
 		if( $this->testOBJ->participantDataExist() )
 		{
 			ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_random_question_set_conf_due_to_part"), true);
-			return $this->showGeneralConfigFormCmd($form);
+			return $this->showGeneralConfigCmd($form);
 		}
 		
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
-
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 
 		if($errors)
 		{
-			return $this->showGeneralConfigFormCmd($form);
+			return $this->showGeneralConfigCmd($form);
 		}
 		
 		$saved = $form->save();
 		
 		if( !$saved )
 		{
-			return $this->showGeneralConfigFormCmd($form);
+			return $this->showGeneralConfigCmd($form);
 		}
 		
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
-		$this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
+		$this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG);
 	}
 	
-	private function buildPoolConfigToolbar()
+	private function buildPoolConfigListToolbar()
 	{
 		require_once 'Modules/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolsToolbarGUI.php';
 		
@@ -233,12 +239,12 @@ class ilTestRandomQuestionSetConfigGUI
 		return $toolbar;
 	}
 	
-	private function buildPoolConfigTable()
+	private function buildPoolConfigListTable()
 	{
 		require_once 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolsTableGUI.php';
 		
 		$table = new ilTestRandomQuestionSetSourcePoolsTableGUI(
-				$this, self::CMD_SHOW_POOL_CONFIG_TABLE
+				$this, self::CMD_SHOW_POOL_CONFIG_LIST
 		);
 		
 		$table->build();
@@ -246,13 +252,41 @@ class ilTestRandomQuestionSetConfigGUI
 		return $table;
 	}
 	
-	private function showPoolConfigTableCmd()
+	private function showPoolConfigListCmd()
 	{
-		$toolbar = $this->buildPoolConfigToolbar();
-		$table = $this->buildPoolConfigTable();
+		$toolbar = $this->buildPoolConfigListToolbar();
+		$table = $this->buildPoolConfigListTable();
 		
 		$this->tpl->setContent(
 				$this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table)
 		);
+	}
+	
+	private function savePoolConfigListCmd()
+	{
+		
+	}
+	
+	private function buildPoolConfigForm()
+	{
+		require_once 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetPoolConfigFormGUI.php';
+		
+		$form = new ilTestRandomQuestionSetPoolConfigFormGUI(
+				$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
+		);
+		
+		$form->build();
+		
+		return $form;
+	}
+	
+	private function showPoolConfigCmd()
+	{
+		
+	}
+	
+	private function savePoolConfigCmd()
+	{
+		
 	}
 }
