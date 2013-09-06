@@ -391,7 +391,7 @@ class ilStartUpGUI
 		$count->setInfo($lng->txt('auth_account_code_info'));
 		$form->addItem($count);
 		
-		$form->addCommandButton('processcode', $lng->txt('send'));
+		$form->addCommandButton('processCode', $lng->txt('send'));
 		
 		return $form;
 	}
