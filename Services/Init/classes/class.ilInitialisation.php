@@ -1361,7 +1361,8 @@ class ilInitialisation
 			
 			$cmd = self::getCurrentCmd();
 			if($cmd == "showTermsOfService" || $cmd == "showClientList" || 
-				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount')
+				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
+				$cmd == 'processCode')
 			{
 				return true;
 			}
