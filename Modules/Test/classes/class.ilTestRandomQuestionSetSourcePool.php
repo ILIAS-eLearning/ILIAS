@@ -54,7 +54,7 @@ class ilTestRandomQuestionSetSourcePool
 	public function loadFromDb()
 	{
 		$res = $this->db->queryF(
-				"SELECT * FROM tst_dyn_quest_set_cfg WHERE test_fi = %s",
+				"SELECT * FROM tst_dyn_quest_set_pools WHERE test_fi = %s",
 				array('integer'), array($this->testOBJ->getTestId())
 		);
 		
