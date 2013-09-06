@@ -1356,7 +1356,8 @@ class ilInitialisation
 			
 			$cmd = self::getCurrentCmd();
 			if($cmd == "showUserAgreement" || $cmd == "showClientList" || 
-				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount')
+				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
+				$cmd == 'processCode')
 			{
 				return true;
 			}
