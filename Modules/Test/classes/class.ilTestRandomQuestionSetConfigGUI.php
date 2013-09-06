@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilObjTestRandomQuestionSetConfig.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 
 /**
  * GUI class that manages the question set configuration for continues tests
@@ -11,11 +11,12 @@ require_once 'Modules/Test/classes/class.ilObjTestRandomQuestionSetConfig.php';
  *
  * @package		Modules/Test
  * 
- * @ilCtrl_Calls ilObjTestRandomQuestionSetConfigGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetGeneralConfigFormGUI
  */
-class ilObjTestRandomQuestionSetConfigGUI
+class ilTestRandomQuestionSetConfigGUI
 {
 	const CMD_SHOW_GENERAL_CONFIG_FORM = 'showGeneralConfigForm';
+	const CMD_SAVE_GENERAL_CONFIG_FORM = 'saveGeneralConfigForm';
 	const CMD_SHOW_POOL_CONFIG_TABLE = 'showPoolConfigTable';
 	
 	/**
@@ -23,61 +24,61 @@ class ilObjTestRandomQuestionSetConfigGUI
 	 * 
 	 * @var ilCtrl
 	 */
-	protected $ctrl = null;
+	public $ctrl = null;
 	
 	/**
 	 * global $ilAccess object
 	 * 
 	 * @var ilAccess
 	 */
-	protected $access = null;
+	public $access = null;
 	
 	/**
 	 * global $ilTabs object
 	 *
 	 * @var ilTabsGUI
 	 */
-	protected $tabs = null;
+	public $tabs = null;
 	
 	/**
 	 * global $lng object
 	 * 
 	 * @var ilLanguage
 	 */
-	protected $lng = null;
+	public $lng = null;
 	
 	/**
 	 * global $tpl object
 	 * 
 	 * @var ilTemplate
 	 */
-	protected $tpl = null;
+	public $tpl = null;
 	
 	/**
 	 * global $ilDB object
 	 * 
 	 * @var ilDB
 	 */
-	protected $db = null;
+	public $db = null;
 	
 	/**
 	 * global $tree object
 	 * 
 	 * @var ilTree
 	 */
-	protected $tree = null;
+	public $tree = null;
 	
 	/**
 	 * object instance for current test
 	 *
 	 * @var ilObjTest
 	 */
-	protected $testOBJ = null;
+	public $testOBJ = null;
 	
 	/**
 	 * object instance managing the dynamic question set config
 	 *
-	 * @var ilObjTestRandomQuestionSetConfig 
+	 * @var ilTestRandomQuestionSetConfig 
 	 */
 	protected $questionSetConfig = null;
 	
@@ -96,7 +97,7 @@ class ilObjTestRandomQuestionSetConfigGUI
 		
 		$this->testOBJ = $testOBJ;
 		
-		$this->questionSetConfig = new ilObjTestRandomQuestionSetConfig($this->tree, $this->db, $this->testOBJ);
+		$this->questionSetConfig = new ilTestRandomQuestionSetConfig($this->tree, $this->db, $this->testOBJ);
 	}
 	
 	/**
@@ -161,12 +162,13 @@ class ilObjTestRandomQuestionSetConfigGUI
 	
 	private function buildGeneralConfigForm()
 	{
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		require_once 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php';
 		
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('tst_rnd_quest_set_cfg_general_form'));
-		$form->setId("tstRndQuestSetCfgGeneralForm");
+		$form = new ilTestRandomQuestionSetGeneralConfigFormGUI(
+				$this->ctrl, $this->lng, $this, $this->questionSetConfig
+		);
+		
+		$form->build();
 		
 		return $form;
 	}
@@ -176,6 +178,43 @@ class ilObjTestRandomQuestionSetConfigGUI
 		$form = $this->buildGeneralConfigForm();
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
+	}
+	
+	private function saveGeneralConfigFormCmd()
+	{
+		$form = $this->buildGeneralConfigForm();
+
+		if( $this->testOBJ->participantDataExist() )
+		{
+			ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"), true);
+			return $this->showFormCmd($form);
+		}
+		
+		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
+		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
+
+		if($errors)
+		{
+			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+			return $this->showFormCmd($form);
+		}
+		
+		$saved = $this->performSaveForm($form);
+		
+		if( !$saved )
+		{
+			return $this->showFormCmd($form);
+		}
+		
+		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
+
+		ilUtil::sendSuccess($this->lng->txt("tst_msg_dynamic_question_set_config_modified"), true);
+		$this->ctrl->redirect($this, self::CMD_SHOW_FORM);
+	}
+	
+	private function buildPoolConfigTable()
+	{
+		
 	}
 	
 	private function showPoolConfigTableCmd()
