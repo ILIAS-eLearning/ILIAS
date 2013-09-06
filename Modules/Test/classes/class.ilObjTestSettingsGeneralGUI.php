@@ -344,7 +344,10 @@ class ilObjTestSettingsGeneralGUI
 		$this->testOBJ->setShowInfo($form->getItemByPostVar('showinfo')->getChecked());
 		$this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
-		$this->testOBJ->setSequenceSettings($form->getItemByPostVar('chb_postpone')->getChecked());
+		if( $form->getItemByPostVar('chb_postpone') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setSequenceSettings($form->getItemByPostVar('chb_postpone')->getChecked());
+		}
 		$this->testOBJ->setShuffleQuestions($form->getItemByPostVar('chb_shuffle_questions')->getChecked());
 		$this->testOBJ->setListOfQuestions($form->getItemByPostVar('list_of_questions')->getChecked());
 		$listOfQuestionsOptions = $form->getItemByPostVar('list_of_questions_options')->getValue();
