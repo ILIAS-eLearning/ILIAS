@@ -1264,7 +1264,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
 			"sub_max_members,sub_notify,view_mode,archive_start,archive_end,archive_type,abo," .
 			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members, ".
-			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_notification, status_dt) ".
+			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_notification, status_dt,mail_members_type) ".
 			"VALUES( ".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getSyllabus() ,'text').", ".
@@ -1302,7 +1302,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
 			$ilDB->quote((int)$this->getAutoNotification(),'integer').', '.
-			$ilDB->quote((int)$this->getStatusDetermination(),'integer').' '.
+			$ilDB->quote((int)$this->getStatusDetermination(),'integer').', '.
 			$ilDB->quote((int) $this->getMailToMembersType(),'integer').' '.
 			")";
 			
