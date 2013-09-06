@@ -13504,7 +13504,7 @@ rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
 rbac#:#rbac_create_cld#:#Create new Cloud Object
 wsp#:#wsp_shared_date#:#Date of Share
-wsp#:#wsp_shared_type#:#Shared with
+wsp#:#wsp_shared_type#:#Shared With
 wsp#:#wsp_shared_object_type#:#Type of Resource
 wsp#:#wsp_shared_user_filter#:#Login/Name
 wsp#:#wsp_shared_date_filter#:#Shared From
