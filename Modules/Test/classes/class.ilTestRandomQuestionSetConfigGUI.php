@@ -14,15 +14,17 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetGeneralConfigFormGUI
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolsToolbarGUI
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolsTableGUI
+ * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetPoolConfigFormGUI
  */
 class ilTestRandomQuestionSetConfigGUI
 {
+	/**
+	 * command constants
+	 */
 	const CMD_SHOW_GENERAL_CONFIG = 'showGeneralConfig';
 	const CMD_SAVE_GENERAL_CONFIG = 'saveGeneralConfig';
-	
 	const CMD_SHOW_POOL_CONFIG_LIST = 'showPoolConfigList';
 	const CMD_SAVE_POOL_CONFIG_LIST = 'savePoolConfigList';
-	
 	const CMD_SHOW_POOL_CONFIG = 'showPoolConfig';
 	const CMD_SAVE_POOL_CONFIG = 'savePoolConfig';
 	
@@ -280,9 +282,15 @@ class ilTestRandomQuestionSetConfigGUI
 		return $form;
 	}
 	
-	private function showPoolConfigCmd()
+	private function showPoolConfigCmd(ilTestRandomQuestionSetPoolConfigFormGUI $form = null)
 	{
+		if($form === null)
+		{
+			$this->questionSetConfig->loadFromDb();
+			$form = $this->buildPoolConfigForm();
+		}
 		
+		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 	}
 	
 	private function savePoolConfigCmd()
