@@ -930,6 +930,12 @@ assessment#:#tst_question_offer#:#Do you accept this sample or do you want anoth
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points
 assessment#:#tst_question_selection#:#Question Selection
+assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Require Pools with Homogeneous Scored Questions
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools with homogeneous scored questions will be offered. The test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
+assessment#:#tst_inp_quest_amount_cfg_mode#:#Question Amount
+assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Configuration of the Question Amount per Test
+assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Configuration of the Question Amount per Selected Question Pools
+assessment#:#tst_inp_quest_amount_per_test#:#Number of Questions for the Whole Test
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question Type
 assessment#:#tst_question_unmark#:#Remove the mark for this question

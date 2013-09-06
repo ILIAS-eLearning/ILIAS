@@ -1094,6 +1094,12 @@ assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, o
 assessment#:#tst_question_selection#:#Fragenauswahl
 assessment#:#tst_question_selection_description#:#Wenn Sie nur Fragenpools verwenden, deren Fragen die gleiche maximale Punktezahl aufweisen, hat dieser Test die gleiche maximale Punktezahl für alle Teilnehmer, wodurch die Testergebnisse besser miteinander vergleichbar sind. Diese Vorgehensweise wird empfohlen.
 assessment#:#tst_question_selection_equal#:#Nur Fragenpools mit Fragen gleicher maximaler Punktezahl verwenden
+assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Verlange Fragenpools mit homogen bewerteten Fragen
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#Wenn aktiviert, werden nur Fragenpools mit homogen bewerteten Fragen angeboten. Dieser Test wird dann die gleiche maximale Punktezahl für alle Teilnehmer haben, wodurch die Testergebnisse besser miteinander vergleichbar sind. Diese Vorgehensweise wird empfohlen.
+assessment#:#tst_inp_quest_amount_cfg_mode#:#Fragen Menge
+assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Konfiguration der Fragen Menge für den gesamten Test
+assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Konfiguration der Fragen Menge je ausgewähltem Fragenpool
+assessment#:#tst_inp_quest_amount_per_test#:#Anzahl Fragen für den gesamten Test
 assessment#:#tst_question_title#:#Titel
 assessment#:#tst_question_type#:#Fragetyp
 assessment#:#tst_question_unmark#:#Markierung für diese Frage entfernen
