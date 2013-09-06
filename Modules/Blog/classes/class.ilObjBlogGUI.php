@@ -1952,7 +1952,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		// page might be deleted, so setting halt on errors to false
 		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-		$post = new ilBlogPosting($a_posting_id, 0, false);
+		$post = new ilBlogPosting($a_posting_id);
 		if($post->getBlogId() == $a_blog_id)
 		{
 			return $post->getTitle();
@@ -2034,7 +2034,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				if(!$a_author_id)
 				{
 					include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-					$post = new ilBlogPosting($a_posting_id, 0, false);
+					$post = new ilBlogPosting($a_posting_id);
 					$a_author_id = $post->getAuthor();					
 				}				
 				if($ilUser->getId() == $a_author_id)

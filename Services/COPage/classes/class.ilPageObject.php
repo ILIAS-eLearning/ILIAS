@@ -306,9 +306,10 @@ abstract class ilPageObject
 		$this->setActive(true);
 		if ($this->old_nr == 0)
 		{
-			$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($this->id, "integer")." ".
-				"AND parent_type=".$ilDB->quote($this->getParentType(), "text").
-				"AND lang = ".$ilDB->quote($this->getLanguage(), "text");
+			$query = "SELECT * FROM page_object".
+				" WHERE page_id = ".$ilDB->quote($this->id, "integer").
+				" AND parent_type=".$ilDB->quote($this->getParentType(), "text").
+				" AND lang = ".$ilDB->quote($this->getLanguage(), "text");
 			$pg_set = $this->ilias->db->query($query);
 			$this->page_record = $ilDB->fetchAssoc($pg_set);
 			$this->setActive($this->page_record["active"]);
@@ -318,9 +319,9 @@ abstract class ilPageObject
 		}
 		else
 		{
-			$query = "SELECT * FROM page_history WHERE ".
-				"page_id = ".$ilDB->quote($this->id, "integer")." ".
-				"AND parent_type=".$ilDB->quote($this->getParentType(), "text").
+			$query = "SELECT * FROM page_history".
+				" WHERE page_id = ".$ilDB->quote($this->id, "integer").
+				" AND parent_type=".$ilDB->quote($this->getParentType(), "text").
 				" AND nr = ".$ilDB->quote((int) $this->old_nr, "integer").
 				" AND lang = ".$ilDB->quote($this->getLanguage(), "text");
 			$pg_set = $ilDB->query($query);
