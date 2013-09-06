@@ -78,7 +78,8 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$this->initFilter();
 		
 		// reset will remove all filters
-		if(!$this->filter["obj_type"])
+		if($this->portfolio_mode &&
+			!$this->filter["obj_type"])
 		{
 			$this->filter["obj_type"] = "prtf";
 		}
