@@ -149,6 +149,7 @@ class ilTestRandomQuestionSetConfigGUI
 		switch( $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG_FORM) )
 		{
 			case self::CMD_SHOW_GENERAL_CONFIG_FORM:
+			case self::CMD_SAVE_GENERAL_CONFIG_FORM:
 				
 				$this->tabs->activateSubTab('tstRandQuestSetGeneralConfig');
 				break;
@@ -165,7 +166,7 @@ class ilTestRandomQuestionSetConfigGUI
 		require_once 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php';
 		
 		$form = new ilTestRandomQuestionSetGeneralConfigFormGUI(
-				$this->ctrl, $this->lng, $this, $this->questionSetConfig
+				$this->ctrl, $this->lng, $this, $this->questionSetConfig, $this->testOBJ
 		);
 		
 		$form->build();
@@ -173,43 +174,48 @@ class ilTestRandomQuestionSetConfigGUI
 		return $form;
 	}
 	
-	private function showGeneralConfigFormCmd()
+	private function showGeneralConfigFormCmd(ilTestRandomQuestionSetGeneralConfigFormGUI $form = null)
 	{
-		$form = $this->buildGeneralConfigForm();
+		if($form === null)
+		{
+			$this->questionSetConfig->loadFromDb();
+			$form = $this->buildGeneralConfigForm();
+		}
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 	}
 	
 	private function saveGeneralConfigFormCmd()
 	{
+		$this->questionSetConfig->loadFromDb();
 		$form = $this->buildGeneralConfigForm();
 
 		if( $this->testOBJ->participantDataExist() )
 		{
-			ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"), true);
-			return $this->showFormCmd($form);
+			ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_random_question_set_conf_due_to_part"), true);
+			return $this->showGeneralConfigFormCmd($form);
 		}
 		
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
+
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 
 		if($errors)
 		{
-			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-			return $this->showFormCmd($form);
+			return $this->showGeneralConfigFormCmd($form);
 		}
 		
-		$saved = $this->performSaveForm($form);
+		$saved = $form->save();
 		
 		if( !$saved )
 		{
-			return $this->showFormCmd($form);
+			return $this->showGeneralConfigFormCmd($form);
 		}
 		
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
-		ilUtil::sendSuccess($this->lng->txt("tst_msg_dynamic_question_set_config_modified"), true);
-		$this->ctrl->redirect($this, self::CMD_SHOW_FORM);
+		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
+		$this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
 	}
 	
 	private function buildPoolConfigTable()

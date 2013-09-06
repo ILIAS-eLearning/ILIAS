@@ -32,6 +32,11 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	private $questionAmountPerTest = null;
 	
 	/**
+	 * @var integer
+	 */
+	private $lastQuestionSyncTimestamp = null;
+	
+	/**
 	 * @param boolean $requirePoolsWithHomogeneousScoredQuestions
 	 */
 	public function setPoolsWithHomogeneousScoredQuestionsRequired($requirePoolsWithHomogeneousScoredQuestions)
@@ -79,6 +84,22 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 		return $this->questionAmountPerTest;
 	}
 	
+	/**
+	 * @param integer $lastQuestionSyncTimestamp
+	 */
+	public function setLastQuestionSyncTimestamp($lastQuestionSyncTimestamp)
+	{
+		$this->lastQuestionSyncTimestamp = $lastQuestionSyncTimestamp;
+	}
+	
+	/**
+	 * @return integer
+	 */
+	public function getLastQuestionSyncTimestamp()
+	{
+		return $this->lastQuestionSyncTimestamp;
+	}
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	
 	/**
@@ -96,6 +117,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 				case 'req_pools_homo_scored':		$this->setPoolsWithHomogeneousScoredQuestionsRequired($value);	break;
 				case 'quest_amount_cfg_mode':		$this->setQuestionAmountConfigurationMode($value);				break;
 				case 'quest_amount_per_test':		$this->setQuestionAmountPerTest($value);						break;
+				case 'quest_sync_timestamp':		$this->setLastQuestionSyncTimestamp($value);					break;
 			}
 		}
 	}
@@ -179,9 +201,10 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		$aff = $this->db->update('tst_rnd_quest_set_cfg',
 			array(
-				'poolquest_equal_points' => array('integer', $this->arePoolsWithHomogeneousScoredQuestionsRequired()),
+				'req_pools_homo_scored' => array('integer', $this->arePoolsWithHomogeneousScoredQuestionsRequired()),
 				'quest_amount_cfg_mode' => array('text', $this->getQuestionAmountConfigurationMode()),
-				'quest_amount_per_test' => array('integer', $this->getQuestionAmountPerTest())
+				'quest_amount_per_test' => array('integer', $this->getQuestionAmountPerTest()),
+				'quest_sync_timestamp' => array('integer', $this->getLastQuestionSyncTimestamp())
 			),
 			array(
 				'test_fi' => array('integer', $this->testOBJ->getTestId())
@@ -201,9 +224,10 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		$aff = $this->db->insert('tst_dyn_quest_set_cfg', array(
 				'test_fi' => array('integer', $this->testOBJ->getTestId()),
-				'poolquest_equal_points' => array('integer', $this->arePoolsWithHomogeneousScoredQuestionsRequired()),
+				'req_pools_homo_scored' => array('integer', $this->arePoolsWithHomogeneousScoredQuestionsRequired()),
 				'quest_amount_cfg_mode' => array('text', $this->getQuestionAmountConfigurationMode()),
-				'quest_amount_per_test' => array('integer', $this->getQuestionAmountPerTest())
+				'quest_amount_per_test' => array('integer', $this->getQuestionAmountPerTest()),
+				'quest_sync_timestamp' => array('integer', $this->getLastQuestionSyncTimestamp())
 		));
 		
 		return (bool)$aff;
