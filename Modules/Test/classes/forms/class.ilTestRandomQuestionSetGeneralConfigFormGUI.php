@@ -41,12 +41,20 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 	 */
 	public $questionSetConfig = null;
 	
-	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
+	/**
+	 * object instance for current test
+	 *
+	 * @var ilObjTest
+	 */
+	public $testOBJ = null;
+	
+	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig, ilObjTest $testOBJ)
 	{
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
 		$this->questionSetConfigGUI = $questionSetConfigGUI;
 		$this->questionSetConfig = $questionSetConfig;
+		$this->testOBJ = $testOBJ;
 	}
 	
 	public function build()
@@ -100,6 +108,8 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 		
 		$questionAmountConfigMode->addOption($questionAmountConfigModePerPool);
 		
+		$questionAmountConfigMode->setRequired(true);
+		
 		$this->addItem($questionAmountConfigMode);
 		
 			// question amount per test
@@ -118,5 +128,43 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 			);
 			
 		$questionAmountConfigModePerTest->addSubItem($questionAmountPerTest);
+	}
+	
+	public function save()
+	{
+		$this->questionSetConfig->setPoolsWithHomogeneousScoredQuestionsRequired(
+				$this->getItemByPostVar('quest_points_equal_per_pool')->getChecked()
+		);
+
+		$this->questionSetConfig->setQuestionAmountConfigurationMode(
+				
+		);
+
+		switch( $this->getItemByPostVar('quest_amount_cfg_mode')->getValue() )
+		{
+			case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST:
+				
+				$this->questionSetConfig->setQuestionAmountConfigurationMode(
+						$this->getItemByPostVar('quest_amount_cfg_mode')->getValue()
+				);
+				
+				$this->questionSetConfig->setQuestionAmountPerTest(
+						$this->getItemByPostVar('quest_amount_per_test')->getValue()
+				);
+				
+				break;
+				
+			case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL:
+				
+				$this->questionSetConfig->setQuestionAmountConfigurationMode(
+						$this->getItemByPostVar('quest_amount_cfg_mode')->getValue()
+				);
+				
+				$this->questionSetConfig->setQuestionAmountPerTest(null);
+				
+				break;
+		}
+		
+		return $this->questionSetConfig->saveToDb( $this->testOBJ->getTestId() );
 	}
 }
