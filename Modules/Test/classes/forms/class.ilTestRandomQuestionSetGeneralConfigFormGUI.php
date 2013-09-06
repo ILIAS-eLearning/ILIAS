@@ -65,7 +65,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 		$this->setId('tstRndQuestSetCfgGeneralForm');
 		
 		$this->addCommandButton(
-				ilTestRandomQuestionSetConfigGUI::CMD_SAVE_GENERAL_CONFIG_FORM, $this->lng->txt('save')
+				ilTestRandomQuestionSetConfigGUI::CMD_SAVE_GENERAL_CONFIG, $this->lng->txt('save')
 		);
 
 		// Require Pools with Homogeneous Scored Questions

@@ -68,6 +68,13 @@ class ilTestRandomQuestionSetSourcePoolsToolbarGUI extends ilToolbarGUI
 		$poolSelection->setOptions( $this->buildSourcePoolSelectOptionsArray($availablePools) );
 		
 		$this->addInputItem($poolSelection, true);
+		
+		$this->setFormAction( $this->ctrl->getFormAction($this->questionSetConfigGUI) );
+		
+		$this->addFormButton(
+				$this->lng->txt('tst_rnd_quest_set_tb_add_pool_btn'),
+				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_POOL_CONFIG
+		);
 	}
 	
 	private function buildSourcePoolSelectOptionsArray($availablePools)
