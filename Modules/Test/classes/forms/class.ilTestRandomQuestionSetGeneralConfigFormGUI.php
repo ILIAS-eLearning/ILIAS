@@ -28,6 +28,13 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 	public $lng = null;
 	
 	/**
+	 * object instance for current test
+	 *
+	 * @var ilObjTest
+	 */
+	public $testOBJ = null;
+	
+	/**
 	 * global $lng object
 	 * 
 	 * @var ilTestRandomQuestionSetConfigGUI
@@ -41,20 +48,13 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 	 */
 	public $questionSetConfig = null;
 	
-	/**
-	 * object instance for current test
-	 *
-	 * @var ilObjTest
-	 */
-	public $testOBJ = null;
-	
-	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig, ilObjTest $testOBJ)
+	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
 	{
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
+		$this->testOBJ = $testOBJ;
 		$this->questionSetConfigGUI = $questionSetConfigGUI;
 		$this->questionSetConfig = $questionSetConfig;
-		$this->testOBJ = $testOBJ;
 	}
 	
 	public function build()

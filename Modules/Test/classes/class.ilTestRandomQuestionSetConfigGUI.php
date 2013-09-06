@@ -12,12 +12,15 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
  * @package		Modules/Test
  * 
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetGeneralConfigFormGUI
+ * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolsToolbarGUI
+ * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolsTableGUI
  */
 class ilTestRandomQuestionSetConfigGUI
 {
 	const CMD_SHOW_GENERAL_CONFIG_FORM = 'showGeneralConfigForm';
 	const CMD_SAVE_GENERAL_CONFIG_FORM = 'saveGeneralConfigForm';
 	const CMD_SHOW_POOL_CONFIG_TABLE = 'showPoolConfigTable';
+	const CMD_SAVE_POOL_CONFIG_TABLE = 'savePoolConfigTable';
 	
 	/**
 	 * global $ilCtrl object
@@ -113,9 +116,8 @@ class ilTestRandomQuestionSetConfigGUI
 			$this->ctrl->redirectByClass('ilObjTestGUI', "infoScreen");
 		}
 		
-		// activate corresponding tab (auto activation does not work in ilObjTestGUI-Tabs-Salad)
+		// manage sub tabs and tab activation
 		
-		$this->tabs->activateTab('assQuestions');
 		$this->handleTabs();
 		
 		// process command
@@ -166,7 +168,7 @@ class ilTestRandomQuestionSetConfigGUI
 		require_once 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php';
 		
 		$form = new ilTestRandomQuestionSetGeneralConfigFormGUI(
-				$this->ctrl, $this->lng, $this, $this->questionSetConfig, $this->testOBJ
+				$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
 		);
 		
 		$form->build();
@@ -218,13 +220,39 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
 	}
 	
+	private function buildPoolConfigToolbar()
+	{
+		require_once 'Modules/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolsToolbarGUI.php';
+		
+		$toolbar = new ilTestRandomQuestionSetSourcePoolsToolbarGUI(
+				$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
+		);
+		
+		$toolbar->build();
+		
+		return $toolbar;
+	}
+	
 	private function buildPoolConfigTable()
 	{
+		require_once 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolsTableGUI.php';
 		
+		$table = new ilTestRandomQuestionSetSourcePoolsTableGUI(
+				$this, self::CMD_SHOW_POOL_CONFIG_TABLE
+		);
+		
+		$table->build();
+		
+		return $table;
 	}
 	
 	private function showPoolConfigTableCmd()
 	{
+		$toolbar = $this->buildPoolConfigToolbar();
+		$table = $this->buildPoolConfigTable();
 		
+		$this->tpl->setContent(
+				$this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table)
+		);
 	}
 }

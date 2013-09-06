@@ -36,8 +36,8 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_cfg') )
 			'quest_amount_per_test' => array(
 				'type'     => 'integer',
 				'length'   => 4,
-				'notnull' => true,
-				'default' => 0
+				'notnull' => false,
+				'default' => null
 			),
 			'quest_sync_timestamp' => array(
 				'type'     => 'integer',
