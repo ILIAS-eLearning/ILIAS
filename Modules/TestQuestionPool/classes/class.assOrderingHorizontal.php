@@ -76,6 +76,15 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getAnswerSeparator()
+	{
+		return $this->answer_separator;
+	}
+
+	
+	/**
 	* Loads a assOrderingHorizontal object from a database
 	*
 	* @param object $db A pear DB object
