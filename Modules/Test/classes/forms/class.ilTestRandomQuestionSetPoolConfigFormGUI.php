@@ -115,7 +115,7 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		if( $this->questionSetConfig->isQuestionAmountConfigurationModePerPool() )
 		{
 			$questionAmountPerSourcePool = new ilNumberInputGUI(
-					$this->lng->txt('tst_inp_quest_amount_per_source_pool'), 'num_questions'
+					$this->lng->txt('tst_inp_quest_amount_per_source_pool'), 'question_amount_per_pool'
 			);
 			
 			$questionAmountPerSourcePool->setRequired(true);
