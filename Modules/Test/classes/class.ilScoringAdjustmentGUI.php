@@ -268,6 +268,37 @@ class ilScoringAdjustmentGUI
 		}
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
+		
+		$participants = $this->object->getParticipants();
+		$active_ids = array_keys($participants);
+		foreach ($active_ids as $active_id)
+		{
+			$passes[] = $this->object->_getPass($active_id);
+			foreach ($passes as $key => $pass)
+			{
+				for ($i = 0; $i <= $pass; $i++)
+				{
+					$results[] = $question->object->getSolutionValues($active_id, $i);
+				}
+			}
+		}
+
+		$relevant_answers = array();
+		foreach ($results as $result)
+		{
+			foreach ($result as $answer)
+			{
+				if( $answer['question_fi'] == $question->object->getId() )
+				{
+					$relevant_answers[] = $answer;
+				}
+			}
+		}
+
+		$answers_view = $question->getAggregatedAnswersView($relevant_answers);
+		$custom_input = new ilCustomInputGUI('USERANSWERS', 'user_answers');
+		$custom_input->setHtml('<pre>' . $answers_view . '<pre>');
+		$form->addItem($custom_input);
 		return $form;
 	}
 
