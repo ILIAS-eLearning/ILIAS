@@ -526,6 +526,45 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return ''; //print_r($relevant_answers,true);
+		return  $this->renderAggregateView(
+					$this->aggregateAnswers( $relevant_answers, $this->object->getOrderText() ) )->get();
+	}
+
+	public function aggregateAnswers($relevant_answers_chosen, $answer_defined_on_question)
+	{
+		$aggregate = array();
+		foreach($relevant_answers_chosen as $answer)
+		{
+			$answer = str_replace($this->object->getAnswerSeparator(), '&nbsp;&nbsp;-&nbsp;&nbsp;', $answer);
+			if (in_array($answer['value1'], $aggregate))
+			{
+				$aggregate[$answer['value1']] = $aggregate[$answer['value1']]+1;
+			}
+			else
+			{
+				$aggregate[$answer['value1']] = 1;
+			}
+		}
+
+		return $aggregate;
+	}
+
+	/**
+	 * @param $aggregate
+	 *
+	 * @return ilTemplate
+	 */
+	public function renderAggregateView($aggregate)
+	{
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
+
+		foreach ($aggregate as $key => $line_data)
+		{
+			$tpl->setCurrentBlock( 'aggregaterow' );
+			$tpl->setVariable( 'COUNT', $line_data );
+			$tpl->setVariable( 'OPTION', $key );
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
 	}
 }
