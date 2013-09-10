@@ -12,7 +12,27 @@
  */
 class ilTestRandomQuestionSetSourcePool
 {
+	/**
+	 * @var ilDB
+	 */
+	private $db = null;
+	
 	private $poolId = null;
+	
+	private $poolTitle = null;
+	
+	private $poolPath = null;
+	
+	private $poolQuestionAmount = null;
+	
+	private $numQuestions = null;
+	
+	private $sequencePosition = null;
+	
+	public function __construct(ilDB $db)
+	{
+		$this->db = $db;
+	}
 	
 	public function setPoolId($poolId)
 	{
@@ -22,6 +42,56 @@ class ilTestRandomQuestionSetSourcePool
 	public function getPoolId()
 	{
 		return $this->poolId;
+	}
+	
+	public function setPoolTitle($poolTitle)
+	{
+		$this->poolTitle = $poolTitle;
+	}
+	
+	public function getPoolTitle()
+	{
+		return $this->poolTitle;
+	}
+	
+	public function setPoolPath($poolPath)
+	{
+		$this->poolPath = $poolPath;
+	}
+	
+	public function getPoolPath()
+	{
+		return $this->poolPath;
+	}
+	
+	public function setPoolQuestionAmount($poolQuestionAmount)
+	{
+		$this->poolQuestionAmount = $poolQuestionAmount;
+	}
+	
+	public function getPoolQuestionAmount()
+	{
+		return $this->poolQuestionAmount;
+	}
+	
+	public function setNumQuestions($numQuestions)
+	{
+		$this->numQuestions = $numQuestions;
+	}
+	
+	public function getNumQuestions()
+	{
+		return $this->numQuestions;
+	}
+	
+	public function setSequencePosition($sequencePosition)
+	{
+		$this->sequencePosition = $sequencePosition;
+	}
+	
+	public function getSequencePosition()
+	{
+		return $this->sequencePosition;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -155,6 +225,20 @@ class ilTestRandomQuestionSetSourcePool
 		));
 		
 		return (bool)$aff;
+	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	public function getPoolInfoLabel(ilLanguage $lng)
+	{
+		$poolInfoLabel = sprintf(
+			$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
+			$this->getPoolTitle(),
+			$this->getPoolPath(),
+			$this->getPoolQuestionAmount()
+		);
+		
+		return $poolInfoLabel;
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------

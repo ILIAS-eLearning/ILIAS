@@ -57,7 +57,7 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		$this->questionSetConfig = $questionSetConfig;
 	}
 	
-	public function build()
+	public function build(ilTestRandomQuestionSetSourcePool $sourcePool)
 	{
 		$this->setFormAction( $this->ctrl->getFormAction($this->questionSetConfigGUI) );
 		
@@ -74,6 +74,10 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		$nonEditablePoolLabel = new ilNonEditableValueGUI(
 				$this->lng->txt('tst_inp_source_pool_label'), 'source_pool_label'
 		);
+		$nonEditablePoolLabel->setValue( $sourcePool->getPoolInfoLabel($this->lng) );
+		
+		// other stuff ... tax, num q, ...
+		
 		$this->addItem($nonEditablePoolLabel);
 		
 	}

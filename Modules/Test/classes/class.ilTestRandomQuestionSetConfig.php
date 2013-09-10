@@ -257,4 +257,25 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
+	
+	public function isSourceQuestionPool($poolId)
+	{
+		// check if is involved in current config or not
+		
+		return false;
+	}
+	
+	public function isAvailableQuestionPool($poolId)
+	{
+		$availablePools = $this->testOBJ->getAvailableQuestionpools(
+			true, $this->arePoolsWithHomogeneousScoredQuestionsRequired(), false, true, true
+		);
+		
+		if( isset($availablePools[$poolId]) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }

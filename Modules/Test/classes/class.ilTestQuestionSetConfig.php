@@ -103,4 +103,39 @@ abstract class ilTestQuestionSetConfig
 	 * removes all question set config related data
 	 */
 	abstract public function removeQuestionSetRelatedData();
+	
+	/**
+	 * @param integer $poolId
+	 * @return string
+	 */
+	public function getQuestionPoolPathString($poolId)
+	{
+		$nodePath = $this->tree->getNodePath(
+				current(ilObject::_getAllReferences($poolId))
+		);
+
+		$questionPoolPathString = '';
+		
+		$i = 0;
+		$j = count($nodePath) - 2;
+		
+		foreach($nodePath as $node)
+		{
+			if( $i > 0 )
+			{
+				$questionPoolPathString .= ' > ';
+			}
+			
+			$questionPoolPathString .= $node['title'];
+			
+			if( $i == $j )
+			{
+				break;
+			}
+			
+			$i++;
+		}
+		
+		return $questionPoolPathString;
+	}
 }

@@ -269,7 +269,7 @@ class ilTestRandomQuestionSetConfigGUI
 		
 	}
 	
-	private function buildPoolConfigForm()
+	private function buildPoolConfigForm(ilTestRandomQuestionSetSourcePool $sourcePool)
 	{
 		require_once 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetPoolConfigFormGUI.php';
 		
@@ -277,17 +277,22 @@ class ilTestRandomQuestionSetConfigGUI
 				$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
 		);
 		
-		$form->build();
+		$form->build($sourcePool);
 		
 		return $form;
 	}
 	
 	private function showPoolConfigCmd(ilTestRandomQuestionSetPoolConfigFormGUI $form = null)
 	{
+		$this->questionSetConfig->loadFromDb();
+			
+		$poolId = $this->fetchPoolConfigParameter();
+		
+		$sourcePool = $this->buildSourcePoolInstance($poolId);
+		
 		if($form === null)
 		{
-			$this->questionSetConfig->loadFromDb();
-			$form = $this->buildPoolConfigForm();
+			$form = $this->buildPoolConfigForm($sourcePool);
 		}
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
@@ -296,5 +301,48 @@ class ilTestRandomQuestionSetConfigGUI
 	private function savePoolConfigCmd()
 	{
 		
+	}
+	
+	private function fetchPoolConfigParameter()
+	{
+		if( isset($_POST['source_pool_id']) && (int)$_POST['source_pool_id'] )
+		{
+			return (int)$_POST['source_pool_id'];
+		}
+		
+		if( isset($_GET['source_pool_id']) && (int)$_GET['source_pool_id'] )
+		{
+			return (int)$_GET['source_pool_id'];
+		}
+		
+		require_once 'Modules/Test/exceptions/class.ilTestInvalidParameterException.php';
+		throw new ilTestInvalidParameterException('no source question pool id given');
+	}
+	
+	private function buildSourcePoolInstance($poolId)
+	{
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolFactory.php';
+		$sourcePoolFactory = new ilTestRandomQuestionSetSourcePoolFactory($this->db, $this->testOBJ);
+		
+		if( $this->questionSetConfig->isSourceQuestionPool($poolId) )
+		{
+			return $sourcePoolFactory->getSourcePoolByMirroredPoolData($poolId);
+		}
+		
+		$availablePools = $this->testOBJ->getAvailableQuestionpools(
+			true, $this->questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired(), false, true, true
+		);
+		
+		if( isset($availablePools[$poolId]) )
+		{
+			$originalPoolData = $availablePools[$poolId];
+			
+			$originalPoolData['qpl_path'] = $this->questionSetConfig->getQuestionPoolPathString($poolId);
+			
+			return $sourcePoolFactory->getSourcePoolByOriginalPoolData($originalPoolData);
+		}
+		
+		require_once 'Modules/Test/exceptions/class.ilTestInvalidParameterException.php';
+		throw new ilTestInvalidParameterException('invalid source question pool id given');
 	}
 }
