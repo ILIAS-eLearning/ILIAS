@@ -8,8 +8,10 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  *
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
- *
+ *  
  * @package		Modules/Test
+ *
+ * @ilCtrl_Calls ilTestRandomQuestionSetGeneralConfigFormGUI: ilFormPropertyDispatchGUI
  */
 class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 {
