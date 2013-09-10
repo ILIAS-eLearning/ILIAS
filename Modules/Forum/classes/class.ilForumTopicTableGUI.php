@@ -112,6 +112,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	 */
 	public function initTopicsOverviewTable()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
 		if($this->parent_cmd  == "showThreads")
 		{
 			$this->setSelectAllCheckbox('thread_ids');
@@ -145,7 +150,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		{
 			// Multi commands
 			$this->addMultiCommand('', $this->lng->txt('please_choose'));
-			if($this->ilias->getSetting('forum_notification') == 1)
+			if($this->ilias->getSetting('forum_notification') == 1  && !$ilUser->isAnonymous())
 			{
 				$this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
 				$this->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
