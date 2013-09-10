@@ -301,7 +301,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 				$sourceQuestionPoolSummaryString = sprintf(
 					$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
 					$this->getSourceQuestionPoolTitle(),
-					$this->getSourceQuestionPoolPathString(),
+					$this->getQuestionPoolPathString($this->getSourceQuestionPoolId()),
 					$this->getSourceQuestionPoolNumQuestions()
 				);
 				
@@ -317,42 +317,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		
 		return $sourceQuestionPoolSummaryString;
 	}
-	
-	/**
-	 * @param ilTree $tree
-	 * @return string
-	 */
-	private function getSourceQuestionPoolPathString()
-	{
-		$nodePath = $this->tree->getNodePath(
-				current(ilObject::_getAllReferences($this->getSourceQuestionPoolId()))
-		);
-
-		$sourceQuestionPoolPathString = '';
 		
-		$i = 0;
-		$j = count($nodePath) - 2;
-		
-		foreach($nodePath as $node)
-		{
-			if( $i > 0 )
-			{
-				$sourceQuestionPoolPathString .= ' > ';
-			}
-			
-			$sourceQuestionPoolPathString .= $node['title'];
-			
-			if( $i == $j )
-			{
-				break;
-			}
-			
-			$i++;
-		}
-		
-		return $sourceQuestionPoolPathString;
-	}
-	
 	/**
 	 * @return integer
 	 */

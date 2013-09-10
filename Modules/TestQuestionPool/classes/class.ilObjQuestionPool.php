@@ -1450,11 +1450,19 @@ class ilObjQuestionPool extends ilObject
 
 					if ($use_object_id)
 					{
-						$result_array[$row["obj_fi"]] = array("title" => $title, "count" => $row["questioncount"]);
+						$result_array[$row["obj_fi"]] = array(
+							'qpl_title' => $row['title'],
+							"title" => $title,
+							"count" => $row["questioncount"]
+						);
 					}
 					else
 					{
-						$result_array[$ref_id] = array("title" => $title, "count" => $row["questioncount"]);
+						$result_array[$ref_id] = array(
+							'qpl_title' => $row['title'],
+							"title" => $title,
+							"count" => $row["questioncount"]
+						);
 					}
 				}
 			}
