@@ -25,6 +25,10 @@ class ilTestRandomQuestionSetSourcePool
 	
 	private $poolQuestionAmount = null;
 	
+	private $filterTaxId = null;
+	
+	private $filterNodeId = null;
+	
 	private $numQuestions = null;
 	
 	private $sequencePosition = null;
@@ -72,6 +76,26 @@ class ilTestRandomQuestionSetSourcePool
 	public function getPoolQuestionAmount()
 	{
 		return $this->poolQuestionAmount;
+	}
+	
+	public function setFilterTaxId($filterTaxId)
+	{
+		$this->filterTaxId = $filterTaxId;
+	}
+	
+	public function getFilterTaxId()
+	{
+		return $this->filterTaxId;
+	}
+	
+	public function setFilterNodeId($filterNodeId)
+	{
+		$this->filterNodeId = $filterNodeId;
+	}
+	
+	public function getFilterNodeId()
+	{
+		return $this->filterNodeId;
 	}
 	
 	public function setNumQuestions($numQuestions)
