@@ -4787,7 +4787,9 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			// Scoring Adjustment
-			if ($ilAccess->checkAccess("write", "", $this->ref_id)  && !in_array('scoringadjust', $hidden_tabs))
+			$setting = new ilSetting('assessment');
+			$scoring_adjust_active = (bool) $setting->get('assessment_adjustments_enabled', false);
+			if ($ilAccess->checkAccess("write", "", $this->ref_id) && $scoring_adjust_active && !in_array('scoringadjust', $hidden_tabs))
 			{
 				// scoring tab
 				$tabs_gui->addTarget(

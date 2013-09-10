@@ -198,6 +198,10 @@ assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are grant
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.
+assessment#:#assessment_scoring_adjust#:#Enable corrections
+assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to allow modifications to questions in a test.
+assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment
+assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
 assessment#:#add_answer_tf#:#True/False Answers
