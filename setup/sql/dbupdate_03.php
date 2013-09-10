@@ -18162,3 +18162,21 @@ if(!$ilDB->tableColumnExists('usr_search','mime_filter'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4073>
+<?php
+if(!$ilDB->tableColumnExists('cal_shared','writable'))
+{
+	$ilDB->addTableColumn(
+		'cal_shared',
+		'writable',
+		array(
+			'type' => 'integer', 
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+	);
+}
+?>
+
+
