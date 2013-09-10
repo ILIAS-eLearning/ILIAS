@@ -644,6 +644,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			$form->addItem($hidden);
 		}
 
+		$this->populateTaxonomyFormSection($form);
+
 		$form->addCommandButton('parseQuestion', $this->lng->txt("parseQuestion"));
 		$form->addCommandButton('saveReturnFQ', $this->lng->txt("save_return"));
 		$form->addCommandButton('saveFQ', $this->lng->txt("save"));
@@ -816,6 +818,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		{
 			$ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
 			$ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
+			$this->saveTaxonomyAssignments();
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -893,6 +896,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		}
 		else
 		{
+			$this->saveTaxonomyAssignments();
 			$this->save();
 		}
 	}
