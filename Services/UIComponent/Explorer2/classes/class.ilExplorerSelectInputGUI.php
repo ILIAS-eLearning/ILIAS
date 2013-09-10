@@ -226,6 +226,17 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 		
 		return $tpl->get();
 	}
+	
+	/**
+	 * Insert property html
+	 * @param ilTemplate
+	 */
+	function insert(&$a_tpl)
+	{
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $this->render());
+		$a_tpl->parseCurrentBlock();
+	}
 
 	/**
 	 * Get HTML for table filter
