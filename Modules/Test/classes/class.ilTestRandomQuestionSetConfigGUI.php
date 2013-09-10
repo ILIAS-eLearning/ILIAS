@@ -132,8 +132,20 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		switch($nextClass)
 		{
+			case 'ilTestRandomQuestionSetPoolConfigFormGUI':
+				
+				$formGUI = new ilTestRandomQuestionSetPoolConfigFormGUI(
+						$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
+				);
+				
+				$this->ctrl->forwardCommand($formGUI);
+				
+				break;
+				
 			default:
+				
 				$cmd = $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG).'Cmd';
+				
 				$this->$cmd();
 		}
 	}

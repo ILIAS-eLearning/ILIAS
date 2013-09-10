@@ -38,6 +38,7 @@ class ilTestRandomQuestionSetSourcePoolFactory
 	{
 		$sourcePool = new ilTestRandomQuestionSetSourcePool($this->db, $this->testOBJ);
 		
+		$sourcePool->setPoolId( $originalPoolData['qpl_id'] );
 		$sourcePool->setPoolTitle( $originalPoolData['qpl_title'] );
 		$sourcePool->setPoolPath( $originalPoolData['qpl_path'] );
 		$sourcePool->setPoolQuestionCount( $originalPoolData['count'] );

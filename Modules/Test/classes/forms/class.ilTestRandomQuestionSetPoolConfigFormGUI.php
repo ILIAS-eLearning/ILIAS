@@ -10,6 +10,8 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  * @version		$Id$
  *
  * @package		Modules/Test
+ * 
+ * @ilCtrl_Calls ilTestRandomQuestionSetPoolConfigFormGUI: ilFormPropertyDispatchGUI
  */
 class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 {
@@ -93,6 +95,8 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 					$this->lng->txt('tst_inp_source_pool_no_tax_filter_info')
 			));
 			
+			require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
+
 			foreach($taxIds as $taxId)
 			{
 				$taxonomy = new ilObjTaxonomy($taxId);

@@ -1451,6 +1451,7 @@ class ilObjQuestionPool extends ilObject
 					if ($use_object_id)
 					{
 						$result_array[$row["obj_fi"]] = array(
+							'qpl_id' => $row['obj_fi'],
 							'qpl_title' => $row['title'],
 							"title" => $title,
 							"count" => $row["questioncount"]
@@ -1459,6 +1460,7 @@ class ilObjQuestionPool extends ilObject
 					else
 					{
 						$result_array[$ref_id] = array(
+							'qpl_id' => $row['obj_fi'],
 							'qpl_title' => $row['title'],
 							"title" => $title,
 							"count" => $row["questioncount"]
