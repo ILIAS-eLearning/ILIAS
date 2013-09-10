@@ -28,7 +28,6 @@ class ilTestRandomQuestionSetSourcePoolFactory
 	public function __construct(ilDB $db, ilObjTest $testOBJ)
 	{
 		$this->db = $db;
-		
 		$this->testOBJ = $testOBJ;
 	}
 	

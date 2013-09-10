@@ -75,15 +75,49 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 				$this->lng->txt('tst_inp_source_pool_label'), 'source_pool_label'
 		);
 		$nonEditablePoolLabel->setValue( $sourcePool->getPoolInfoLabel($this->lng) );
-		
-		// other stuff ... tax, num q, ...
-		
+
 		$this->addItem($nonEditablePoolLabel);
 		
+		$taxIds = $this->getAvailableTaxonomyIds( $sourcePool->getPoolId() );
+		
+		if( count($taxIds) )
+		{
+			$taxRadio = new ilRadioGroupInputGUI(
+					$this->lng->txt('tst_inp_source_pool_filter_tax'), 'source_pool_filter_tax'
+			);
+			
+			$taxRadio->addOption(new ilRadioOption(
+					$this->lng->txt('tst_inp_source_pool_no_tax_filter'), 0,
+					$this->lng->txt('tst_inp_source_pool_no_tax_filter_info')
+			));
+			
+			foreach($taxIds as $taxId)
+			{
+				$taxonomy = new ilObjTaxonomy($taxId);
+				$label = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
+				
+				$taxRadioOption = new ilRadioOption(
+					$label, $taxId, $this->lng->txt('tst_inp_source_pool_filter_tax_x_info')
+				);
+				
+				$taxRadio->addOption($taxRadioOption);
+				
+				$taxSelect = new ilTaxSelectInputGUI($taxId, "tax_$taxId", false);
+				$taxRadioOption->addSubItem($taxSelect);
+			}
+			
+			$this->addItem($taxRadio);
+		}
 	}
 	
 	public function save()
 	{
 		return;
+	}
+	
+	private function getAvailableTaxonomyIds($objId)
+	{
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		return ilObjTaxonomy::getUsageOfObject($objId);
 	}
 }
