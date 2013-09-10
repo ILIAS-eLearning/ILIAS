@@ -803,6 +803,51 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return ''; //print_r($relevant_answers,true);
+		return  $this->renderAggregateView(
+					$this->aggregateAnswers( $relevant_answers, $this->object->getAnswers() ) )->get();
+	}
+
+	public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question)
+	{
+		$aggregate = array();
+		foreach ($answers_defined_on_question as $answer)
+		{
+			$aggregated_info_for_answer 					= array();
+			$aggregated_info_for_answer['answertext']		= $answer->getAnswerText();
+			$aggregated_info_for_answer['count_checked']	= 0;
+
+			foreach ($relevant_answers_chosen as $relevant_answer)
+			{
+				if ($relevant_answer['value1'] == $answer->getOrder())
+				{
+					$aggregated_info_for_answer['count_checked']++;
+				}
+			}
+			$aggregated_info_for_answer['count_unchecked'] =
+				ceil(count($relevant_answers_chosen) / count($answers_defined_on_question))
+				- $aggregated_info_for_answer['count_checked'];
+
+			$aggregate[] = $aggregated_info_for_answer;
+		}
+		return $aggregate;
+	}
+
+	/**
+	 * @param $aggregate
+	 *
+	 * @return ilTemplate
+	 */
+	public function renderAggregateView($aggregate)
+	{
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
+
+		foreach ($aggregate as $line_data)
+		{
+			$tpl->setCurrentBlock( 'aggregaterow' );
+			$tpl->setVariable( 'OPTION', $line_data['answertext'] );
+			$tpl->setVariable( 'COUNT', $line_data['count_checked'] );
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
 	}
 }
