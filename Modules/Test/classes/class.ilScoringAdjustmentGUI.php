@@ -146,7 +146,7 @@ class ilScoringAdjustmentGUI
 		{
 			$question_object = assQuestion::instantiateQuestionGUI($question['question_id']);
 
-			if ( $this->supportsAdjustment( $question_object ) )
+			if ( $this->supportsAdjustment( $question_object ) && $this->allowedInAdjustment( $question_object ) )
 			{
 				$filtered_data[] = $question;
 			}
@@ -178,6 +178,31 @@ class ilScoringAdjustmentGUI
 			|| $question_object instanceof ilGuiAnswerScoringAdjustable)
 			&& ($question_object->object instanceof ilObjQuestionScoringAdjustable
 			|| $question_object->object instanceof ilObjAnswerScoringAdjustable);
+	}
+
+	/**
+	 * Returns if the question type is allowed for adjustments in the global test administration.
+	 * 
+	 * @param assQuestionGUI $question_object
+	 * @return bool
+	 */
+	protected function allowedInAdjustment(\assQuestionGUI $question_object)
+	{
+		$setting = new ilSetting('assessment');
+		$types = explode(',',$setting->get('assessment_scoring_adjustment'));
+		require_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+		$type_def = array();
+		foreach ($types as $type)
+		{
+			$type_def[$type] = ilObjQuestionPool::getQuestionTypeByTypeId($type);
+		}
+
+		$type = $question_object->getQuestionType();
+		if (in_array($type,$type_def))
+		{
+			return true; 
+		}
+		return false;
 	}
 
 	protected function editQuestion()

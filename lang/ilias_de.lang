@@ -294,6 +294,10 @@ assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#Die Punkte werden au
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatische Bewertung bei Nennung eines Begriffs
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#Die Punkte werden automatisch vergeben, wenn mindestens ein Begriff gefunden wird.
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein valides Schema.
+assessment#:#assessment_scoring_adjust#:#Aktiviere Nachkorrekturmodus
+assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, mit dem nachträglich Fragen in Tests hinsichtlich ihrer Bewertung konfiguriert werden können.
+assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
+assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Dieses Setting berücksichtigt nicht die Fähigkeit einer Frage im Nachkorrekturmodus behandelt zu werden.
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Antwort hinzufügen

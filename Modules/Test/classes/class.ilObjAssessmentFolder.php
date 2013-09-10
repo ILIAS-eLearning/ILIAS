@@ -311,6 +311,39 @@ class ilObjAssessmentFolder extends ilObject
 		}
 	}
 
+	public static function getScoringAdjustableQuestions()
+	{
+		$setting = new ilSetting("assessment");
+
+		$types = $setting->get("assessment_scoring_adjustment");
+		return explode(",", $types);
+	}
+	
+	public static function setScoringAdjustableQuestions($type_ids)
+	{
+		$setting = new ilSetting("assessment");
+		if ((!is_array($type_ids)) || (count($type_ids) == 0))
+		{
+			$setting->delete("assessment_scoring_adjustment");
+		}
+		else
+		{
+			$setting->set("assessment_scoring_adjustment", implode($type_ids, ","));
+		}
+	}
+
+	public static function getScoringAdjustmentEnabled()
+	{
+		$setting = new ilSetting("assessment");
+		return $setting->get('assessment_adjustments_enabled');
+	}
+
+	public static function setScoringAdjustmentEnabled($active)
+	{
+		$setting = new ilSetting('assessment');
+		$setting->set('assessment_adjustments_enabled', (bool) $active);
+	}
+
 	/**
 	* Add an assessment log entry
 	*

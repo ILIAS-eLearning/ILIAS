@@ -215,6 +215,23 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$manual->setInfo($this->lng->txt('assessment_log_manual_scoring_desc'));
 		$form->addItem($manual);
 
+		// scoring adjustment active
+		$scoring_activation = new ilCheckboxInputGUI($this->lng->txt('assessment_scoring_adjust'),'chb_scoring_adjust');
+		$scoring_activation->setChecked($this->object->getScoringAdjustmentEnabled());
+		$scoring_activation->setInfo($this->lng->txt('assessment_scoring_adjust_desc'));
+		$form->addItem($scoring_activation);
+
+		// scoring adjustment
+		$scoring = new ilCheckboxGroupInputGUI($this->lng->txt('assessment_log_scoring_adjustment_activate'), "chb_scoring_adjustment");
+		$scoring_active = $this->object->getScoringAdjustableQuestions();
+		$scoring->setValue($scoring_active);
+		foreach ($questiontypes as $type_name => $qtype)
+		{
+			$scoring->addOption(new ilCheckboxOption($type_name, $qtype["question_type_id"]));
+		}
+		$scoring->setInfo($this->lng->txt('assessment_log_scoring_adjustment_desc'));
+		$form->addItem($scoring);
+
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$form->addCommandButton("saveSettings", $this->lng->txt("save"));
@@ -256,6 +273,18 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			}
 		}
 		$this->object->_setForbiddenQuestionTypes($forbidden_types);
+		
+		$this->object->setScoringAdjustmentEnabled($_POST['chb_scoring_adjust']);
+		$scoring_types = array();
+		foreach ($questiontypes as $name => $row)
+		{
+			if (in_array($row["question_type_id"], $_POST["chb_scoring_adjustment"]))
+			{
+				array_push($scoring_types, $row["question_type_id"]);
+			}
+		}
+		$this->object->setScoringAdjustableQuestions($scoring_types);
+		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');
