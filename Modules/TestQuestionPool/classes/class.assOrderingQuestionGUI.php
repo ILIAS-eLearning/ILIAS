@@ -1369,6 +1369,84 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return ''; //print_r($relevant_answers,true);
+		return  $this->renderAggregateView(
+					$this->aggregateAnswers( $relevant_answers, $this->object->getAnswers() ) )->get();
+	}
+
+	public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question)
+	{
+		$passdata = array(); // Regroup answers into units of passes.
+		foreach($relevant_answers_chosen as $answer_chosen)
+		{
+			$passdata[$answer_chosen['active_fi'].'-'. $answer_chosen['pass']][$answer_chosen['value2']] = $answer_chosen['value1'];
+		}
+		
+		$variants = array(); // Determine unique variants.
+		foreach($passdata as $key => $data)
+		{
+			$hash = md5(implode('-', $data));
+			$value_set = false;
+			foreach ($variants as $vkey => $variant)
+			{
+				if ($variant['hash'] == $hash)
+				{
+					$variant['count']++;
+					$value_set = true;
+				}
+			}
+			if (!$value_set)
+			{
+				$variants[$key]['hash'] = $hash;
+				$variants[$key]['count'] = 1;
+			}
+		}
+
+		$aggregate = array(); // Render aggregate from variant.
+		foreach ($variants as $key => $variant_entry)
+		{
+			$variant = $passdata[$key];
+			
+			foreach($variant as $variant_key => $variant_line)
+			{
+				$i = 0;
+				$aggregated_info_for_answer['count'] = $variant_entry['count'];
+				foreach ($answers_defined_on_question as $answer)
+				{
+					$i++;
+					$aggregated_info_for_answer[$i . ' - ' . $answer->getAnswerText()] 
+						= $passdata[$key][$i];
+				}
+				
+			}
+			$aggregate[] = $aggregated_info_for_answer;
+		}
+		return $aggregate;
+	}
+
+	/**
+	 * @param $aggregate
+	 *
+	 * @return ilTemplate
+	 */
+	public function renderAggregateView($aggregate)
+	{
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
+
+		foreach ($aggregate as $line_data)
+		{
+			$tpl->setCurrentBlock( 'aggregaterow' );
+			$count = array_shift($line_data);
+			$html = '<ul>';
+			foreach($line_data as $key => $line)
+			{
+				$html .= '<li>'. ++$line .'&nbsp;-&nbsp;' .$key. '</li>';
+			}
+			$html .= '</ul>';
+			$tpl->setVariable( 'COUNT', $count );
+			$tpl->setVariable( 'OPTION', $html );
+
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
 	}
 }
