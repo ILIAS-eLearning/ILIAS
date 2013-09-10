@@ -521,6 +521,44 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return ''; //print_r($relevant_answers,true);
+		return  $this->renderAggregateView(
+					$this->aggregateAnswers( $relevant_answers ) )->get();
+	}
+
+	public function aggregateAnswers($relevant_answers_chosen)
+	{
+		$aggregate = array();
+
+			foreach ($relevant_answers_chosen as $relevant_answer)
+			{
+				if ( array_key_exists($relevant_answer['value1'], $aggregate) )
+				{
+					$aggregate[$relevant_answer['value1']]++;
+				} 
+				else 
+				{
+					$aggregate[$relevant_answer['value1']] = 1;
+				}
+			}
+		return $aggregate;
+	}
+
+	/**
+	 * @param $aggregate
+	 *
+	 * @return ilTemplate
+	 */
+	public function renderAggregateView($aggregate)
+	{
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
+
+		foreach ($aggregate as $key => $value)
+		{
+			$tpl->setCurrentBlock( 'aggregaterow' );
+			$tpl->setVariable( 'OPTION', $key );
+			$tpl->setVariable( 'COUNT', $value );
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
 	}
 }
