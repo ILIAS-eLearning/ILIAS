@@ -59,8 +59,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		 * @var $ilCtrl ilCtrl
 		 * @var $lng    ilLanguage
 		 * @var $tpl    ilTemplate
+		 * @var $ilUser ilObjUser
 		 */
-		global $ilCtrl, $lng, $tpl;
+		global $ilCtrl, $lng, $tpl, $ilUser;
 
 		$this->lng  = $lng;
 		$this->ctrl = $ilCtrl;
@@ -105,7 +106,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		// Multi commands
 		$this->addMultiCommand('', $this->lng->txt('please_choose'));
-		if($this->ilias->getSetting('forum_notification') == 1)
+		if($this->ilias->getSetting('forum_notification') == 1 && !$ilUser->isAnonymous())
 		{
 			$this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
 			$this->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
