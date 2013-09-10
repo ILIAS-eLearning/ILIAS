@@ -29,7 +29,7 @@ class ilTestRandomQuestionSetSourcePool
 	
 	private $filterNodeId = null;
 	
-	private $questionSelectionCount = null;
+	private $questionAmount = null;
 	
 	private $selectionSequencePosition = null;
 	
@@ -98,14 +98,14 @@ class ilTestRandomQuestionSetSourcePool
 		return $this->filterNodeId;
 	}
 	
-	public function setQuestionSelectionCount($questionSelectionCount)
+	public function setQuestionAmount($questionAmount)
 	{
-		$this->questionSelectionCount = $questionSelectionCount;
+		$this->questionAmount = $questionAmount;
 	}
 	
-	public function getQuestionSelectionCount()
+	public function getQuestionAmount()
 	{
-		return $this->questionSelectionCount;
+		return $this->questionAmount;
 	}
 	
 	public function setSelectionSequencePosition($selectionSequencePosition)
