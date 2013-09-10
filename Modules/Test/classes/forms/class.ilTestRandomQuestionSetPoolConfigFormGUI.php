@@ -71,12 +71,14 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_POOL_CONFIG_LIST, $this->lng->txt('cancel')
 		);
 
+		
 		$nonEditablePoolLabel = new ilNonEditableValueGUI(
 				$this->lng->txt('tst_inp_source_pool_label'), 'source_pool_label'
 		);
 		$nonEditablePoolLabel->setValue( $sourcePool->getPoolInfoLabel($this->lng) );
 
 		$this->addItem($nonEditablePoolLabel);
+		
 		
 		$taxIds = $this->getAvailableTaxonomyIds( $sourcePool->getPoolId() );
 		
@@ -107,6 +109,21 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 			}
 			
 			$this->addItem($taxRadio);
+		}
+		
+		
+		if( $this->questionSetConfig->isQuestionAmountConfigurationModePerPool() )
+		{
+			$questionAmountPerSourcePool = new ilNumberInputGUI(
+					$this->lng->txt('tst_inp_quest_amount_per_source_pool'), 'num_questions'
+			);
+			
+			$questionAmountPerSourcePool->setRequired(true);
+			$questionAmountPerSourcePool->allowDecimals(false);
+			$questionAmountPerSourcePool->setMinValue(0);
+			$questionAmountPerSourcePool->setMinvalueShouldBeGreater(true);
+			
+			$this->addItem($questionAmountPerSourcePool);
 		}
 	}
 	

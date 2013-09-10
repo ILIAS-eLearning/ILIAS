@@ -40,7 +40,7 @@ class ilTestRandomQuestionSetSourcePoolFactory
 		
 		$sourcePool->setPoolTitle( $originalPoolData['qpl_title'] );
 		$sourcePool->setPoolPath( $originalPoolData['qpl_path'] );
-		$sourcePool->setPoolQuestionAmount( $originalPoolData['count'] );
+		$sourcePool->setPoolQuestionCount( $originalPoolData['count'] );
 
 		return $sourcePool;
 	}

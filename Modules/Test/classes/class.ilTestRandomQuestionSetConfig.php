@@ -69,6 +69,14 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	}
 	
 	/**
+	 * @return boolean
+	 */
+	public function isQuestionAmountConfigurationModePerPool()
+	{
+		return $this->getQuestionAmountConfigurationMode() == self::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL;
+	}
+	
+	/**
 	 * @param integer $questionAmountPerTest
 	 */
 	public function setQuestionAmountPerTest($questionAmountPerTest)

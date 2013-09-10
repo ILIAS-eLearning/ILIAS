@@ -23,15 +23,15 @@ class ilTestRandomQuestionSetSourcePool
 	
 	private $poolPath = null;
 	
-	private $poolQuestionAmount = null;
+	private $poolQuestionCount = null;
 	
 	private $filterTaxId = null;
 	
 	private $filterNodeId = null;
 	
-	private $numQuestions = null;
+	private $questionSelectionCount = null;
 	
-	private $sequencePosition = null;
+	private $selectionSequencePosition = null;
 	
 	public function __construct(ilDB $db)
 	{
@@ -68,14 +68,14 @@ class ilTestRandomQuestionSetSourcePool
 		return $this->poolPath;
 	}
 	
-	public function setPoolQuestionAmount($poolQuestionAmount)
+	public function setPoolQuestionCount($poolQuestionCount)
 	{
-		$this->poolQuestionAmount = $poolQuestionAmount;
+		$this->poolQuestionCount = $poolQuestionCount;
 	}
 	
-	public function getPoolQuestionAmount()
+	public function getPoolQuestionCount()
 	{
-		return $this->poolQuestionAmount;
+		return $this->poolQuestionCount;
 	}
 	
 	public function setFilterTaxId($filterTaxId)
@@ -98,24 +98,24 @@ class ilTestRandomQuestionSetSourcePool
 		return $this->filterNodeId;
 	}
 	
-	public function setNumQuestions($numQuestions)
+	public function setQuestionSelectionCount($questionSelectionCount)
 	{
-		$this->numQuestions = $numQuestions;
+		$this->questionSelectionCount = $questionSelectionCount;
 	}
 	
-	public function getNumQuestions()
+	public function getQuestionSelectionCount()
 	{
-		return $this->numQuestions;
+		return $this->questionSelectionCount;
 	}
 	
-	public function setSequencePosition($sequencePosition)
+	public function setSelectionSequencePosition($selectionSequencePosition)
 	{
-		$this->sequencePosition = $sequencePosition;
+		$this->selectionSequencePosition = $selectionSequencePosition;
 	}
 	
-	public function getSequencePosition()
+	public function getSelectionSequencePosition()
 	{
-		return $this->sequencePosition;
+		return $this->selectionSequencePosition;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -259,7 +259,7 @@ class ilTestRandomQuestionSetSourcePool
 			$lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
 			$this->getPoolTitle(),
 			$this->getPoolPath(),
-			$this->getPoolQuestionAmount()
+			$this->getPoolQuestionCount()
 		);
 		
 		return $poolInfoLabel;
