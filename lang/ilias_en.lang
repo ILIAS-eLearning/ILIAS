@@ -10873,8 +10873,8 @@ survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one ques
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
 assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
-assessment#:#tst_anonymity_no_anonymization#:#Particpants Results and Names are Tracked
-assessment#:#tst_anonymity_anonymous_test#:#Particpants Take Test Anonymously
+assessment#:#tst_anonymity_no_anonymization#:#Participants' Results and Names are Tracked
+assessment#:#tst_anonymity_anonymous_test#:#Participants Take Test Anonymously
 assessment#:#tst_beginning_ending_information#:#Information at Beginning and End of Test
 assessment#:#tst_presentation_properties#:#Presentation Settings
 assessment#:#tst_settings_template#:#Template
