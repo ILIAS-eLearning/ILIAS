@@ -43,6 +43,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	
 	public function __construct(ilTree $tree, ilDB $db, ilObjTest $testOBJ)
 	{
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolList.php';
 		$this->sourcePoolList = new ilTestRandomQuestionSetSourcePoolList($db, $testOBJ);
 				
 		parent::__construct($tree, $db, $testOBJ);
@@ -254,6 +255,9 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	
+	/**
+	 * @return ilTestRandomQuestionSetSourcePoolList
+	 */
 	public function getSourcePoolList()
 	{
 		return $this->sourcePoolList;
