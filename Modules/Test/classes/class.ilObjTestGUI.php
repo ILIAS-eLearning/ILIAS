@@ -2685,7 +2685,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if ($mark_check !== true)
 		{
-			ilUtil::sendFailure($mark_check);
+			ilUtil::sendFailure($this->lng->txt($mark_check));
 		}
 		elseif ($_POST["chbECTS"] && ((strcmp($_POST["ects_grade_a"], "") == 0) or (strcmp($_POST["ects_grade_b"], "") == 0) or (strcmp($_POST["ects_grade_c"], "") == 0) or (strcmp($_POST["ects_grade_d"], "") == 0) or (strcmp($_POST["ects_grade_e"], "") == 0)))
 		{
