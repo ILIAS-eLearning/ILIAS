@@ -296,8 +296,24 @@ class ilScoringAdjustmentGUI
 		}
 
 		$answers_view = $question->getAggregatedAnswersView($relevant_answers);
-		$custom_input = new ilCustomInputGUI('USERANSWERS', 'user_answers');
-		$custom_input->setHtml('<pre>' . $answers_view . '<pre>');
+
+		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+		iljQueryUtil::initjQuery();
+		include_once 'Services/YUI/classes/class.ilYuiUtil.php';
+		ilYuiUtil::initPanel();
+		ilYuiUtil::initOverlay();
+		$this->tpl->addJavascript('./Services/UIComponent/Overlay/js/ilOverlay.js');
+		$this->tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
+		
+		$container = new ilTemplate('tpl.il_as_tst_adjust_answer_aggregation_container.html', true, true, 'Modules/Test');
+		$container->setVariable('FORM_ELEMENT_NAME', 'aggr_usr_answ');
+		$container->setVariable('IMG_SRC_CLOSE', ilUtil::getImagePath('icon_close2_s.png'));
+		$container->setVariable('TXT_SHOW_ANSWER_OVERVIEW', $this->lng->txt('show_answer_overview'));
+		$container->setVariable('TXT_CLOSE', $this->lng->txt('close'));
+		$container->setVariable('ANSWER_OVERVIEW', $answers_view);
+
+		$custom_input = new ilCustomInputGUI('', 'aggr_usr_answ');
+		$custom_input->setHtml($container->get());
 		$form->addItem($custom_input);
 		return $form;
 	}
