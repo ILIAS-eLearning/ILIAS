@@ -798,6 +798,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
+		// Empty implementation here since a feasible way to aggregate answer is not known.
 		return ''; //print_r($relevant_answers,true);
 	}
 }
