@@ -13,9 +13,18 @@
 class ilTestRandomQuestionSetSourcePool
 {
 	/**
+	 * global $ilDB object instance
+	 *
 	 * @var ilDB
 	 */
-	private $db = null;
+	protected $db = null;
+	
+	/**
+	 * object instance of current test
+	 *
+	 * @var ilObjTest
+	 */
+	protected $testOBJ = null;
 	
 	private $poolId = null;
 	
@@ -33,9 +42,10 @@ class ilTestRandomQuestionSetSourcePool
 	
 	private $sequencePosition = null;
 	
-	public function __construct(ilDB $db)
+	public function __construct(ilDB $db, ilObjTest $testOBJ)
 	{
 		$this->db = $db;
+		$this->testOBJ = $testOBJ;
 	}
 	
 	public function setPoolId($poolId)
@@ -148,7 +158,7 @@ class ilTestRandomQuestionSetSourcePool
 	public function loadFromDb($poolId)
 	{
 		$res = $this->db->queryF(
-				"SELECT * FROM tst_dyn_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
+				"SELECT * FROM tst_rnd_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
 				array('integer', 'integer'), array($this->testOBJ->getTestId(), $poolId)
 		);
 		
@@ -181,7 +191,7 @@ class ilTestRandomQuestionSetSourcePool
 	public function deleteFromDb()
 	{
 		$aff = $this->db->manipulateF(
-				"DELETE FROM tst_dyn_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
+				"DELETE FROM tst_rnd_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
 				array('integer', 'integer'), array($this->testOBJ->getTestId(), $this->getPoolId())
 		);
 		
@@ -194,7 +204,7 @@ class ilTestRandomQuestionSetSourcePool
 	private function dbRecordExists()
 	{
 		$res = $this->db->queryF(
-			"SELECT COUNT(*) cnt FROM tst_dyn_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
+			"SELECT COUNT(*) cnt FROM tst_rnd_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
 			array('integer', 'integer'), array($this->testOBJ->getTestId(), $this->getPoolId())
 		);
 		
@@ -208,7 +218,7 @@ class ilTestRandomQuestionSetSourcePool
 	 */
 	private function updateDbRecord()
 	{
-		$aff = $this->db->update('tst_dyn_quest_set_qpls',
+		$aff = $this->db->update('tst_rnd_quest_set_qpls',
 			array(
 				'pool_title' => array('text', $this->getPoolTitle()),
 				'pool_path' => array('text', $this->getPoolPath()),
@@ -232,7 +242,7 @@ class ilTestRandomQuestionSetSourcePool
 	 */
 	private function insertDbRecord()
 	{
-		$aff = $this->db->insert('tst_dyn_quest_set_qpls', array(
+		$aff = $this->db->insert('tst_rnd_quest_set_qpls', array(
 				'test_fi' => array('integer', $this->testOBJ->getTestId()),
 				'pool_fi' => array('integer', $this->getPoolId()),
 				'pool_title' => array('text', $this->getPoolTitle()),
