@@ -121,9 +121,6 @@ class ilTestRandomQuestionSetSourcePool
 	// -----------------------------------------------------------------------------------------------------------------
 	
 	/**
-	 * initialises the current object instance with values
-	 * from matching properties within the passed array
-	 * 
 	 * @param array $dataArray
 	 */
 	public function initFromArray($dataArray)
@@ -141,8 +138,6 @@ class ilTestRandomQuestionSetSourcePool
 	}
 	
 	/**
-	 * loads the question set config for current test from the database
-	 * 
 	 * @return boolean
 	 */
 	public function loadFromDb()
@@ -163,8 +158,6 @@ class ilTestRandomQuestionSetSourcePool
 	}
 	
 	/**
-	 * saves the question set config for current test to the database
-	 * 
 	 * @return boolean
 	 */
 	public function saveToDb()
@@ -178,8 +171,6 @@ class ilTestRandomQuestionSetSourcePool
 	}
 	
 	/**
-	 * deletes the question set config for current test from the database
-	 * 
 	 * @return boolean
 	 */
 	public function deleteFromDb()
@@ -193,8 +184,6 @@ class ilTestRandomQuestionSetSourcePool
 	}
 	
 	/**
-	 * checks wether a question set config for current test exists in the database
-	 * 
 	 * @return boolean
 	 */
 	private function dbRecordExists()
@@ -210,9 +199,6 @@ class ilTestRandomQuestionSetSourcePool
 	}
 	
 	/**
-	 * updates the record in the database that corresponds
-	 * to the question set config for the current test
-	 * 
 	 * @return boolean
 	 */
 	private function updateDbRecord()
@@ -233,9 +219,6 @@ class ilTestRandomQuestionSetSourcePool
 	}
 	
 	/**
-	 * inserts a new record for the question set config
-	 * for the current test into the database
-	 * 
 	 * @return boolean
 	 */
 	private function insertDbRecord()
