@@ -53,7 +53,8 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
 		
 		$this->addColumn('','id','1px');
 		$this->addColumn($this->lng->txt('type'),'type','1px');
-		$this->addColumn($this->lng->txt('title'),'title','20%');
+		$this->addColumn($this->lng->txt('title'),'title','80%');
+		$this->addColumn($this->lng->txt('cal_shared_access_table_col'),'access','20%');
 		
 		$this->addMultiCommand('shareDeassign',$this->lng->txt('cal_unshare_cal'));
 		$this->setPrefix('shared');
@@ -91,6 +92,15 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$a_set['type'].'_s.png'));
 		$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$a_set['type']));
 		
+		if($a_set['writable'])
+		{
+			$this->tpl->setVariable('CAL_ACCESS',$this->lng->txt('cal_shared_access_read_write'));
+		}
+		else
+		{
+			$this->tpl->setVariable('CAL_ACCESS',$this->lng->txt('cal_shared_access_read_only'));
+		}
+		
 	}
 	
 	/**
@@ -125,6 +135,7 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
 			}
 			$data['obj_id'] = $item['obj_id'];
 			$data['create_date'] = $item['create_date'];
+			$data['writable'] = $item['writable'];
 			
 			$items[] = $data;
 		}

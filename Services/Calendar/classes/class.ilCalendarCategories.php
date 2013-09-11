@@ -682,7 +682,25 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['title'] = $row->title;
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
-			$this->categories_info[$row->cat_id]['editable'] = $row->obj_id == $ilUser->getId();
+			
+			include_once './Services/Calendar/classes/class.ilCalendarShared.php';
+			if(in_array($row->cat_id, $accepted_ids))
+			{
+				$shared = new ilCalendarShared($row->cat_id);
+				if($shared->isEditableForUser($ilUser->getId()))
+				{
+					$this->categories_info[$row->cat_id]['editable'] = true;
+				}
+				else
+				{
+					$this->categories_info[$row->cat_id]['editable'] = false;
+				}
+			}
+			else
+			{
+				$this->categories_info[$row->cat_id]['editable'] = true;
+			}
+			
 			$this->categories_info[$row->cat_id]['accepted'] = in_array($row->cat_id, $accepted_ids);
 			$this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
 		}

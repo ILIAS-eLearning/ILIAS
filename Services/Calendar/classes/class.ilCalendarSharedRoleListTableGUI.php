@@ -55,6 +55,7 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('assigned_members'),'num','25%');
 		
 		$this->addMultiCommand('shareAssignRoles',$this->lng->txt('cal_share_cal'));
+		$this->addMultiCommand('shareAssignRolesEditable',$this->lng->txt('cal_share_cal_editable'));
 		$this->setSelectAllCheckbox('role_ids');
 		$this->setPrefix('search');
 	}

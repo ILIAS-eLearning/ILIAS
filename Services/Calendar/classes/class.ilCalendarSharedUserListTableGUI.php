@@ -55,6 +55,7 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('login'),'login','40%');
 		
 		$this->addMultiCommand('shareAssign',$this->lng->txt('cal_share_cal'));
+		$this->addMultiCommand('shareAssignEditable',$this->lng->txt('cal_share_cal_editable'));
 		$this->setSelectAllCheckbox('user_ids');
 		$this->setPrefix('search');
 	}
