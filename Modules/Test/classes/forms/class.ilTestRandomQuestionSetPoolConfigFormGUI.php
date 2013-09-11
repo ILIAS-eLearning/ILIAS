@@ -150,7 +150,7 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		}
 	}
 	
-	public function save(ilTestRandomQuestionSetSourcePool $sourcePool, $availableTaxonomyIds)
+	public function applySubmit(ilTestRandomQuestionSetSourcePool $sourcePool, $availableTaxonomyIds)
 	{
 		switch( true )
 		{

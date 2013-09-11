@@ -335,12 +335,14 @@ class ilTestRandomQuestionSetConfigGUI
 			return $this->showPoolConfigCmd($form);
 		}
 		
-		$form->save( $sourcePool, $availableTaxonomyIds );
+		$form->applySubmit( $sourcePool, $availableTaxonomyIds );
 		
 		if( !$sourcePool->saveToDb() )
 		{
 			return $this->showPoolConfigCmd($form);
 		}
+		
+		$this->questionSetConfig->fetchRandomQuestionSet();
 		
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
