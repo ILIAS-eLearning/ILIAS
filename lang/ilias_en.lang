@@ -1151,10 +1151,10 @@ assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Source Question Pools
 assessment#:#tst_question_set_type#:#Test Mode
 assessment#:#tst_question_set_type_fixed#:#Testing with Fixed Set of Questions
-assessment#:#tst_question_set_type_fixed_desc#:#With this mode a fixed set of questions is to be selected and is used for all particapants. Depending on the detailed test configuration the participants can take one or more test passes.
+assessment#:#tst_question_set_type_fixed_desc#:#With this mode a fixed set of questions is to be selected and is used for all participants. Depending on the detailed test configuration the participants can take one or more test passes.
 assessment#:#tst_question_set_type_random#:#Testing with Random Set of Questions
 assessment#:#tst_question_set_type_random_desc#:#With this mode one or more question pools are to be selected from which an individual random set of questions is selected for each participant. Depending on the detailed test configuration the participants can take one or more test passes.
-assessment#:#tst_question_set_type_dynamic#:#Continues Testing
+assessment#:#tst_question_set_type_dynamic#:#Continuous Testing
 assessment#:#tst_question_set_type_dynamic_desc#:#With this mode exactly one question pool is to be selected. The test is taken in a never ending pass by the participants and the questions are selected individually and on demand for each participant.
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change test mode from <b>%s</b> to <b>%s</b>, although a test mode relating questions/questionpool configuration allready exists.<br />This allready existing configuration will be lost.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
