@@ -281,7 +281,7 @@ class ilTestRandomQuestionSetConfigGUI
 		
 	}
 	
-	private function buildPoolConfigForm(ilTestRandomQuestionSetSourcePool $sourcePool)
+	private function buildPoolConfigForm(ilTestRandomQuestionSetSourcePool $sourcePool, $availableTaxonomyIds)
 	{
 		require_once 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetPoolConfigFormGUI.php';
 		
@@ -289,7 +289,7 @@ class ilTestRandomQuestionSetConfigGUI
 				$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
 		);
 		
-		$form->build($sourcePool);
+		$form->build( $sourcePool, $availableTaxonomyIds );
 		
 		return $form;
 	}
@@ -304,7 +304,7 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		if($form === null)
 		{
-			$form = $this->buildPoolConfigForm($sourcePool);
+			$form = $this->buildPoolConfigForm( $sourcePool, $this->getAvailableTaxonomyIds($sourcePool->getPoolId()) );
 		}
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
@@ -313,7 +313,13 @@ class ilTestRandomQuestionSetConfigGUI
 	private function savePoolConfigCmd()
 	{
 		$this->questionSetConfig->loadFromDb();
-		$form = $this->buildPoolConfigForm();
+		
+		$poolId = $this->fetchPoolConfigParameter();
+		$sourcePool = $this->buildSourcePoolInstance($poolId);
+		
+		$availableTaxonomyIds = $this->getAvailableTaxonomyIds( $sourcePool->getPoolId() );
+		
+		$form = $this->buildPoolConfigForm( $sourcePool, $availableTaxonomyIds );
 
 		if( $this->testOBJ->participantDataExist() )
 		{
@@ -329,9 +335,9 @@ class ilTestRandomQuestionSetConfigGUI
 			return $this->showPoolConfigCmd($form);
 		}
 		
-		$saved = $form->save();
+		$form->save( $sourcePool, $availableTaxonomyIds );
 		
-		if( !$saved )
+		if( !$sourcePool->saveToDb() )
 		{
 			return $this->showPoolConfigCmd($form);
 		}
@@ -383,5 +389,11 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		require_once 'Modules/Test/exceptions/class.ilTestInvalidParameterException.php';
 		throw new ilTestInvalidParameterException('invalid source question pool id given');
+	}
+	
+	private function getAvailableTaxonomyIds($objId)
+	{
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		return ilObjTaxonomy::getUsageOfObject($objId);
 	}
 }

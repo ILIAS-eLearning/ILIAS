@@ -59,7 +59,7 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		$this->questionSetConfig = $questionSetConfig;
 	}
 	
-	public function build(ilTestRandomQuestionSetSourcePool $sourcePool)
+	public function build(ilTestRandomQuestionSetSourcePool $sourcePool, $availableTaxonomyIds)
 	{
 		$this->setFormAction( $this->ctrl->getFormAction($this->questionSetConfigGUI) );
 		
@@ -87,9 +87,7 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		$this->addItem($nonEditablePoolLabel);
 		
 		
-		$taxIds = $this->getAvailableTaxonomyIds( $sourcePool->getPoolId() );
-		
-		if( count($taxIds) )
+		if( count($availableTaxonomyIds) )
 		{
 			$taxRadio = new ilRadioGroupInputGUI(
 					$this->lng->txt('tst_inp_source_pool_filter_tax'), 'source_pool_filter_tax'
@@ -106,7 +104,7 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 			
 			require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
 
-			foreach($taxIds as $taxId)
+			foreach($availableTaxonomyIds as $taxId)
 			{
 				$taxonomy = new ilObjTaxonomy($taxId);
 				$label = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
@@ -124,11 +122,7 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 				if( $taxId == $sourcePool->getFilterTaxId() )
 				{
 					$taxRadio->setValue( $sourcePool->getFilterTaxId() );
-					
-					if( $sourcePool->getFilterNodeId() )
-					{
-						$taxSelect->setValue( array($sourcePool->getFilterNodeId()) );
-					}
+					$taxSelect->setValue( $sourcePool->getFilterNodeId() );
 				}
 			}
 			
@@ -156,16 +150,27 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		}
 	}
 	
-	public function save()
+	public function save(ilTestRandomQuestionSetSourcePool $sourcePool, $availableTaxonomyIds)
 	{
+		switch( true )
+		{
+			case $this->getItemByPostVar('source_pool_filter_tax') === null:
+				
+			case !in_array($this->getItemByPostVar('source_pool_filter_tax')->getValue(), $availableTaxonomyIds):
+				
+				$sourcePool->setFilterTaxId(null);
+				$sourcePool->setFilterNodeId(null);
+				break;
+			
+			default:
+				
+				$taxId = $this->getItemByPostVar('source_pool_filter_tax')->getValue();
+				
+				$sourcePool->setFilterTaxId( $taxId );
+				
+				$sourcePool->setFilterNodeId( $this->getItemByPostVar("source_pool_filter_tax_$taxId")->getValue() );
+		}
 		
-		
-		return;
-	}
-	
-	private function getAvailableTaxonomyIds($objId)
-	{
-		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-		return ilObjTaxonomy::getUsageOfObject($objId);
+		$sourcePool->setQuestionAmount( $this->getItemByPostVar('question_amount_per_pool')->getValue() );
 	}
 }
