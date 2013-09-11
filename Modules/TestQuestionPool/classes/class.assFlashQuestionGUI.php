@@ -566,6 +566,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return print_r($relevant_answers,true);
+		// Empty implementation here since a feasible way to aggregate answer is not known.
+		return ''; //print_r($relevant_answers,true);
 	}
 }
