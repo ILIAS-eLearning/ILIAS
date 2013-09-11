@@ -31,7 +31,7 @@ class ilTestRandomQuestionSetSourcePool
 	
 	private $questionAmount = null;
 	
-	private $selectionSequencePosition = null;
+	private $sequencePosition = null;
 	
 	public function __construct(ilDB $db)
 	{
@@ -108,14 +108,14 @@ class ilTestRandomQuestionSetSourcePool
 		return $this->questionAmount;
 	}
 	
-	public function setSelectionSequencePosition($selectionSequencePosition)
+	public function setSequencePosition($sequencePosition)
 	{
-		$this->selectionSequencePosition = $selectionSequencePosition;
+		$this->sequencePosition = $sequencePosition;
 	}
 	
-	public function getSelectionSequencePosition()
+	public function getSequencePosition()
 	{
-		return $this->selectionSequencePosition;
+		return $this->sequencePosition;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -129,22 +129,27 @@ class ilTestRandomQuestionSetSourcePool
 		{
 			switch($field)
 			{
-				case 'source_qpl_fi':			$this->setSourceQuestionPoolId($value);		break;
-				case 'source_qpl_title':		$this->setSourceQuestionPoolTitle($value);	break;
-				case 'tax_filter_enabled':		$this->setTaxonomyFilterEnabled($value);	break;
-				case 'order_tax':				$this->setOrderingTaxonomyId($value);		break;
+				case 'pool_fi':				$this->setPoolId($value);				break;
+				case 'pool_title':			$this->setPoolTitle($value);			break;
+				case 'pool_path':			$this->setPoolPath($value);				break;
+				case 'pool_quest_count':	$this->setPoolQuestionCount($value);	break;
+				case 'filter_tax_fi':		$this->setFilterTaxId($value);			break;
+				case 'filter_node_fi':		$this->setFilterNodeId($value);			break;
+				case 'quest_amount':		$this->setQuestionAmount($value);		break;
+				case 'sequence_pos':		$this->setSequencePosition($value);		break;
 			}
 		}
 	}
 	
 	/**
+	 * @param integer $poolId
 	 * @return boolean
 	 */
-	public function loadFromDb()
+	public function loadFromDb($poolId)
 	{
 		$res = $this->db->queryF(
-				"SELECT * FROM tst_dyn_quest_set_pools WHERE test_fi = %s",
-				array('integer'), array($this->testOBJ->getTestId())
+				"SELECT * FROM tst_dyn_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
+				array('integer', 'integer'), array($this->testOBJ->getTestId(), $poolId)
 		);
 		
 		while( $row = $this->db->fetchAssoc($res) )
@@ -162,12 +167,12 @@ class ilTestRandomQuestionSetSourcePool
 	 */
 	public function saveToDb()
 	{
-		if( $this->dbRecordExists($this->testOBJ->getTestId()) )
+		if( $this->dbRecordExists() )
 		{
-			return $this->updateDbRecord($this->testOBJ->getTestId());
+			return $this->updateDbRecord();
 		}
 		
-		return $this->insertDbRecord($this->testOBJ->getTestId());
+		return $this->insertDbRecord();
 	}
 	
 	/**
@@ -176,8 +181,8 @@ class ilTestRandomQuestionSetSourcePool
 	public function deleteFromDb()
 	{
 		$aff = $this->db->manipulateF(
-				"DELETE FROM tst_dyn_quest_set_cfg WHERE test_fi = %s",
-				array('integer'), array($this->testOBJ->getTestId())
+				"DELETE FROM tst_dyn_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
+				array('integer', 'integer'), array($this->testOBJ->getTestId(), $this->getPoolId())
 		);
 		
 		return (bool)$aff;
@@ -189,8 +194,8 @@ class ilTestRandomQuestionSetSourcePool
 	private function dbRecordExists()
 	{
 		$res = $this->db->queryF(
-			"SELECT COUNT(*) cnt FROM tst_dyn_quest_set_cfg WHERE test_fi = %s",
-			array('integer'), array($this->testOBJ->getTestId())
+			"SELECT COUNT(*) cnt FROM tst_dyn_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
+			array('integer', 'integer'), array($this->testOBJ->getTestId(), $this->getPoolId())
 		);
 		
 		$row = $this->db->fetchAssoc($res);
@@ -203,15 +208,19 @@ class ilTestRandomQuestionSetSourcePool
 	 */
 	private function updateDbRecord()
 	{
-		$aff = $this->db->update('tst_dyn_quest_set_cfg',
+		$aff = $this->db->update('tst_dyn_quest_set_qpls',
 			array(
-				'source_qpl_fi' => array('integer', $this->getSourceQuestionPoolId()),
-				'source_qpl_title' => array('text', $this->getSourceQuestionPoolTitle()),
-				'tax_filter_enabled' => array('integer', $this->isTaxonomyFilterEnabled()),
-				'order_tax' => array('integer', $this->getOrderingTaxonomyId())
+				'pool_title' => array('text', $this->getPoolTitle()),
+				'pool_path' => array('text', $this->getPoolPath()),
+				'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
+				'filter_tax_fi' => array('integer', $this->getFilterTaxId()),
+				'filter_node_fi' => array('integer', $this->getFilterNodeId()),
+				'quest_amount' => array('integer', $this->getQuestionAmount()),
+				'sequence_pos' => array('integer', $this->getSequencePosition())
 			),
 			array(
-				'test_fi' => array('integer', $this->testOBJ->getTestId())
+				'test_fi' => array('integer', $this->testOBJ->getTestId()),
+				'pool_fi' => array('integer', $this->getPoolId())
 			)
 		);
 		
@@ -223,12 +232,16 @@ class ilTestRandomQuestionSetSourcePool
 	 */
 	private function insertDbRecord()
 	{
-		$aff = $this->db->insert('tst_dyn_quest_set_cfg', array(
+		$aff = $this->db->insert('tst_dyn_quest_set_qpls', array(
 				'test_fi' => array('integer', $this->testOBJ->getTestId()),
-				'source_qpl_fi' => array('integer', $this->getSourceQuestionPoolId()),
-				'source_qpl_title' => array('text', $this->getSourceQuestionPoolTitle()),
-				'tax_filter_enabled' => array('integer', $this->isTaxonomyFilterEnabled()),
-				'order_tax' => array('integer', $this->getOrderingTaxonomyId())
+				'pool_fi' => array('integer', $this->getPoolId()),
+				'pool_title' => array('text', $this->getPoolTitle()),
+				'pool_path' => array('text', $this->getPoolPath()),
+				'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
+				'filter_tax_fi' => array('integer', $this->getFilterTaxId()),
+				'filter_node_fi' => array('integer', $this->getFilterNodeId()),
+				'quest_amount' => array('integer', $this->getQuestionAmount()),
+				'sequence_pos' => array('integer', $this->getSequencePosition())
 		));
 		
 		return (bool)$aff;
