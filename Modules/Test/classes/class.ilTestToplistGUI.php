@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
 * Scoring class for tests
@@ -15,6 +15,10 @@ class ilTestToplistGUI
 {
 	/** @var $object ilObjTest */
 	protected $object;
+
+	/**
+	 * @param ilObjTestGUI $a_object
+	 */
 	public function __construct($a_object)
 	{
 		$this->object = $a_object->object;
@@ -68,7 +72,7 @@ class ilTestToplistGUI
 
 			$table_gui->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
 			$table_gui->setData($data);
-			$html .= '<h3>'. sprintf($lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()) . '</h3>';
+			$html = '<h3>'. sprintf($lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()) . '</h3>';
 
 			$html .= $table_gui->getHTML();
 		}
@@ -84,10 +88,12 @@ class ilTestToplistGUI
 			$table_gui2->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
 			$table_gui2->setData($data2);
 
+			/** @noinspection PhpUndefinedVariableInspection */
 			$html .= '<h3>' . $lng->txt('toplist_your_result') . '</h3>';
 			$html .= $table_gui2->getHTML();
 		}
-		
+
+		/** @noinspection PhpUndefinedVariableInspection */
 		$tpl->setVariable("ADM_CONTENT", $html);		
 	}
 	
@@ -105,7 +111,7 @@ class ilTestToplistGUI
 
 			$table_gui->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
 			$table_gui->setData($data);
-			$html .= '<h3>'. sprintf($lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()) . '</h3>';
+			$html = '<h3>'. sprintf($lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()) . '</h3>';
 
 			$html .= $table_gui->getHTML();
 		}
@@ -121,14 +127,19 @@ class ilTestToplistGUI
 			$table_gui2->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
 			$table_gui2->setData($data2);
 
+			/** @noinspection PhpUndefinedVariableInspection */
 			$html .= '<h3>' . $lng->txt('toplist_your_result') . '</h3>';
 			$html .= $table_gui2->getHTML();
 		}
+		/** @noinspection PhpUndefinedVariableInspection */
 		$tpl->setVariable("ADM_CONTENT", $html);
 		
 	}
-	
-	private function prepareTable($table_gui)
+
+	/**
+	 * @param ilTable2GUI $table_gui
+	 */
+	private function prepareTable(ilTable2GUI $table_gui)
 	{
 		global $lng;
 		
@@ -161,7 +172,12 @@ class ilTestToplistGUI
 		$table_gui->setEnableNumInfo(false);
 		$table_gui->setLimit(10);
 	}
-	
+
+	/**
+	 * @param int $seconds
+	 *
+	 * @return string
+	 */
 	private function formatTime($seconds) 
 	{
 		$retval = '';
@@ -172,11 +188,17 @@ class ilTestToplistGUI
 		$seconds = intval($seconds % 60); 
 		$retval .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
 		return $retval;
-
 	}
-	
+
+	/**
+	 * @param int $a_test_ref_id
+	 * @param int $a_user_id
+	 *
+	 * @return array
+	 */
 	private function getGeneralToplistByPercentage($a_test_ref_id, $a_user_id)
 	{
+		/** @var ilDB $ilDB */
 		global $ilDB;
 		$result = $ilDB->query(
 			'
@@ -194,6 +216,7 @@ class ilTestToplistGUI
 		);
 		$i = 0;
 		$data = array();
+		/** @noinspection PhpAssignmentInConditionInspection */
 		while($row = $ilDB->fetchAssoc($result))
 		{
 			$i++;
@@ -203,9 +226,16 @@ class ilTestToplistGUI
 		}
 		return $data;
 	}
-	
+
+	/**
+	 * @param int $a_test_ref_id
+	 * @param int $a_user_id
+	 *
+	 * @return array
+	 */
 	private function getGeneralToplistByWorkingtime($a_test_ref_id, $a_user_id)
 	{
+		/** @var ilDB $ilDB */
 		global $ilDB;
 		$result = $ilDB->query(
 			'
@@ -223,6 +253,7 @@ class ilTestToplistGUI
 		);
 		$i = 0;
 		$data = array();
+		/** @noinspection PhpAssignmentInConditionInspection */
 		while($row = $ilDB->fetchAssoc($result))
 		{
 			$i++;
@@ -232,6 +263,13 @@ class ilTestToplistGUI
 		return $data;		
 	}
 
+	/**
+	 * @param array $row
+	 * @param int $i
+	 * @param int $a_user_id
+	 *
+	 * @return array
+	 */
 	private function getResultTableRow($row, $i, $a_user_id)
 	{
 		$item = array();
@@ -275,11 +313,18 @@ class ilTestToplistGUI
 		$item['Highlight'] = ($row['usr_id'] == $a_user_id) ? 'tblrowmarked' : '';
 		return $item;
 	}
-	
+
+	/**
+	 * @param int $a_test_ref_id
+	 * @param int $a_user_id
+	 *
+	 * @return array
+	 */
 	private function getUserToplistByWorkingtime($a_test_ref_id, $a_user_id)
 	{
+		/** @var ilDB $ilDB */
 		global $ilDB;
-		
+
 		// Get placement of user
 		$result = $ilDB->query(
 		'
@@ -409,7 +454,8 @@ class ilTestToplistGUI
 			$item = array('Rank' => '...');
 			$data[] = $item;
 		}
-		
+
+		/** @noinspection PhpAssignmentInConditionInspection */
 		while($row = $ilDB->fetchAssoc($result))
 		{
 			
@@ -427,9 +473,16 @@ class ilTestToplistGUI
 		return $data;		
 		
 	}
-	
+
+	/**
+	 * @param int $a_test_ref_id
+	 * @param int $a_user_id
+	 *
+	 * @return array
+	 */
 	private function getUserToplistByPercentage($a_test_ref_id, $a_user_id)
 	{
+		/** @var ilDB $ilDB */
 		global $ilDB;
 		
 		// Get placement of user
@@ -562,7 +615,8 @@ class ilTestToplistGUI
 			$item = array('Rank' => '...');
 			$data[] = $item;
 		}
-		
+
+		/** @noinspection PhpAssignmentInConditionInspection */
 		while($row = $ilDB->fetchAssoc($result))
 		{
 			
@@ -570,14 +624,14 @@ class ilTestToplistGUI
 			$i++;
 			$data[] = $item;
 		}
-				
+
 		if ($number_total > $i)
 		{
 			$item = array('Rank' => '...');
-			$data[] = $item;			
+			$data[] = $item;
 		}
-		
-		return $data;	
+
+		return $data;
 	}
 	
 }
