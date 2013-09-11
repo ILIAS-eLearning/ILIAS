@@ -1120,7 +1120,7 @@ class ilObjTestSettingsGeneralGUI
 		$highscore_top_num->setSize(4);
 		$highscore_top_num->setSuffix($this->lng->txt("tst_highscore_top_num_unit"));
 		$highscore_top_num->setValue($this->testOBJ->getHighscoreTopNum());
-		$highscore_top_table->setInfo($this->lng->txt("tst_highscore_top_num_description"));
+		$highscore_top_num->setInfo($this->lng->txt("tst_highscore_top_num_description"));
 		$highscore->addSubItem($highscore_top_num);
 		
 		if( !$this->settingsTemplate || $this->formShowTestExecutionSection($this->settingsTemplate->getSettings()) )
