@@ -37,6 +37,17 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	private $lastQuestionSyncTimestamp = null;
 	
 	/**
+	 * @var ilTestRandomQuestionSetSourcePoolList
+	 */
+	private $sourcePoolList = null;
+	
+	public function __construct(ilTree $tree, ilDB $db, ilObjTest $testOBJ)
+	{
+		$this->sourcePoolList = new ilTestRandomQuestionSetSourcePoolList($db, $testOBJ);
+				
+		parent::__construct($tree, $db, $testOBJ);
+	}
+	/**
 	 * @param boolean $requirePoolsWithHomogeneousScoredQuestions
 	 */
 	public function setPoolsWithHomogeneousScoredQuestionsRequired($requirePoolsWithHomogeneousScoredQuestions)
@@ -239,6 +250,13 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 		));
 		
 		return (bool)$aff;
+	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	public function getSourcePoolList()
+	{
+		return $this->sourcePoolList;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
