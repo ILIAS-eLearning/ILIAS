@@ -693,12 +693,20 @@ class ilCalendarCategoryGUI
 	}
 	
 	/**
+	 * Share with write access
+	 */
+	public function shareAssignEditable()
+	{
+		return $this->shareAssign(true);
+	}
+	
+	/**
 	 * share assign
 	 *
 	 * @access public
 	 * @return
 	 */
-	public function shareAssign()
+	public function shareAssign($a_editable = false)
 	{
 		global $ilUser;
 		
@@ -730,11 +738,19 @@ class ilCalendarCategoryGUI
 		{
 			if($ilUser->getId() != $user_id)
 			{
-				$shared->share($user_id,ilCalendarShared::TYPE_USR);	
+				$shared->share($user_id,ilCalendarShared::TYPE_USR,$a_editable);	
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt('cal_shared_selected_usr'));
 		$this->shareSearch();
+	}
+	
+	/**
+	 * Share editable
+	 */
+	protected function shareAssignRolesEditable()
+	{
+		return $this->shareAssignRolesEditable(true);
 	}
 	
 	/**
@@ -744,7 +760,7 @@ class ilCalendarCategoryGUI
 	 * @param
 	 * @return
 	 */
-	public function shareAssignRoles()
+	public function shareAssignRoles($a_editable = false)
 	{
 		global $ilUser;
 		
@@ -773,7 +789,7 @@ class ilCalendarCategoryGUI
 		
 		foreach($_POST['role_ids'] as $role_id)
 		{
-			$shared->share($role_id,ilCalendarShared::TYPE_ROLE);	
+			$shared->share($role_id,ilCalendarShared::TYPE_ROLE,$a_editable);	
 		}
 		ilUtil::sendSuccess($this->lng->txt('cal_shared_selected_usr'));
 		$this->shareSearch();

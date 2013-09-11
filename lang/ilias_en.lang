@@ -6045,7 +6045,11 @@ dateplaner#:#cal_search#:#Search Term
 dateplaner#:#cal_second#:#Second
 dateplaner#:#cal_server_tz#:#Server Timezone
 dateplaner#:#cal_share_accept#:#Accept Invitation
-dateplaner#:#cal_share_cal#:#Share calendar
+dateplaner#:#cal_share_cal#:#Share Calendar (Read-only)
+dateplaner#:#cal_share_cal_editable#:#Share Calendar (Read and Write)
+dateplaner#:#cal_shared_access_table_col#:#Access
+dateplaner#:#cal_shared_access_read_write#:#Read and Write
+dateplaner#:#cal_shared_access_read_only#:#Read-only
 dateplaner#:#cal_share_decline#:#Decline Invitation
 dateplaner#:#cal_share_search_header#:#Share Calendar
 dateplaner#:#cal_share_search_role_header#:#Role Selection

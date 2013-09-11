@@ -7056,7 +7056,11 @@ dateplaner#:#cal_second#:#Zweiten
 dateplaner#:#cal_server_tz#:#Server-Zeitzone
 dateplaner#:#cal_share#:#Kalender freigeben
 dateplaner#:#cal_share_accept#:#Einladung annehmen
-dateplaner#:#cal_share_cal#:#Kalender freigeben
+dateplaner#:#cal_share_cal#:#Kalender freigeben (Lesezugriff)
+dateplaner#:#cal_share_cal_editable#:#Kalender freigeben (Lese- und Schreibzugriff)
+dateplaner#:#cal_shared_access_table_col#:#Zugriff
+dateplaner#:#cal_shared_access_read_write#:#Lese- und Schreibzugriff
+dateplaner#:#cal_shared_access_read_only#:#nur Lesezugriff
 dateplaner#:#cal_share_decline#:#Einladung ablehnen
 dateplaner#:#cal_share_search_header#:#Kalender freigeben
 dateplaner#:#cal_share_search_role_header#:#Rollenauswahl

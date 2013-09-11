@@ -256,6 +256,44 @@ class ilCalendarShared
 	}
 	
 	/**
+	 * Check if calendar is editable for user
+	 * @param type $a_user_id
+	 */
+	public function isEditableForUser($a_user_id)
+	{
+		foreach((array) $this->shared as $info)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Calendar info:' . print_r($info,true));
+			$GLOBALS['ilLog']->write(__METHOD__.': Current user:' . $a_user_id);
+			if(!$info['writable'])
+			{
+				continue;
+			}
+			
+			switch($info['obj_type'])
+			{
+				case self::TYPE_USR:
+					if($info['obj_id'] == $a_user_id)
+					{
+						$GLOBALS['ilLog']->write(__METHOD__.': Shared calendar is writable.');
+						return true;
+					}
+					break;
+					
+				case self::TYPE_ROLE:
+					if($GLOBALS['rbacreview']->isAssigned($a_user_id,$info['obj_id']))
+					{
+						$GLOBALS['ilLog']->write(__METHOD__.': Shared calendar is writable.');
+						return true;
+					}
+					break;
+			}
+		}
+		$GLOBALS['ilLog']->write(__METHOD__.': Shared calendar is not writable.');
+		return false;
+	}
+	
+	/**
 	 * share calendar
 	 *
 	 * @access public
@@ -263,7 +301,7 @@ class ilCalendarShared
 	 * @param int type
 	 * @return bool
 	 */
-	public function share($a_obj_id,$a_type)
+	public function share($a_obj_id,$a_type, $a_writable = false)
 	{
 		global $ilDB;
 		
@@ -271,13 +309,15 @@ class ilCalendarShared
 		{
 			return false;
 		}
-		$query = "INSERT INTO cal_shared (cal_id,obj_id,obj_type,create_date) ".
+		$query = "INSERT INTO cal_shared (cal_id,obj_id,obj_type,create_date,writable) ".
 			"VALUES ( ".
 			$this->db->quote($this->getCalendarId() ,'integer').", ".
 			$this->db->quote($a_obj_id ,'integer').", ".
 			$this->db->quote($a_type ,'integer').", ".
-			$ilDB->now()." ".
+			$ilDB->now().", ".
+			$this->db->quote((int) $a_writable,'integer').' '.
 			")";
+		
 		$res = $ilDB->manipulate($query);
 		
 		$this->read();
@@ -333,6 +373,7 @@ class ilCalendarShared
 					$this->shared_users[$row->obj_id]['obj_id'] = $row->obj_id;
 					$this->shared_users[$row->obj_id]['obj_type'] = $row->obj_type;
 					$this->shared_users[$row->obj_id]['create_date'] = $row->create_date;
+					$this->shared_users[$row->obj_id]['writable'] = $row->writable;
 					break;
 				
 				
@@ -340,6 +381,7 @@ class ilCalendarShared
 					$this->shared_roles[$row->obj_id]['obj_id'] = $row->obj_id;
 					$this->shared_roles[$row->obj_id]['obj_type'] = $row->obj_type;
 					$this->shared_roles[$row->obj_id]['create_date'] = $row->create_date;
+					$this->shared_role[$row->obj_id]['writable'] = $row->writable;
 					break;
 					
 			}
@@ -347,6 +389,7 @@ class ilCalendarShared
 			$this->shared[$row->obj_id]['obj_id'] = $row->obj_id;
 			$this->shared[$row->obj_id]['obj_type'] = $row->obj_type;
 			$this->shared[$row->obj_id]['create_date'] = $row->create_date;
+			$this->shared[$row->obj_id]['writable'] = $row->writable;
 		}
 		return true;
 	}

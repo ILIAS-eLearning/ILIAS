@@ -40,6 +40,7 @@ class ilCalendarSharedStatus
 	private $usr_id = 0;
 	
 	private $calendars = array();
+	private $writable = array();
 	
 
 	/**
@@ -82,7 +83,7 @@ class ilCalendarSharedStatus
 	{
 		return isset($this->calendars[$a_cal_id]) and $this->calendars[$a_cal_id] == self::STATUS_DECLINED;
 	}
-
+	
 	/**
 	 * get accepted shared calendars
 	 *
