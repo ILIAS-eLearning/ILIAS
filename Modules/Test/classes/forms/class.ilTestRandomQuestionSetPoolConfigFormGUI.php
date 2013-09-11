@@ -95,6 +95,8 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 					$this->lng->txt('tst_inp_source_pool_no_tax_filter_info')
 			));
 			
+			$taxRadio->setValue(0);
+			
 			require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
 
 			foreach($taxIds as $taxId)
@@ -110,6 +112,16 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 				
 				$taxSelect = new ilTaxSelectInputGUI($taxId, "tax_$taxId", false);
 				$taxRadioOption->addSubItem($taxSelect);
+				
+				if( $taxId == $sourcePool->getFilterTaxId() )
+				{
+					$taxRadio->setValue( $sourcePool->getFilterTaxId() );
+					
+					if( $sourcePool->getFilterNodeId() )
+					{
+						$taxSelect->setValue( array($sourcePool->getFilterNodeId()) );
+					}
+				}
 			}
 			
 			$this->addItem($taxRadio);
@@ -126,6 +138,11 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 			$questionAmountPerSourcePool->allowDecimals(false);
 			$questionAmountPerSourcePool->setMinValue(0);
 			$questionAmountPerSourcePool->setMinvalueShouldBeGreater(true);
+			
+			if( $sourcePool->getQuestionAmount() )
+			{
+				$questionAmountPerSourcePool->setValue( $sourcePool->getQuestionAmount() );
+			}
 			
 			$this->addItem($questionAmountPerSourcePool);
 		}
