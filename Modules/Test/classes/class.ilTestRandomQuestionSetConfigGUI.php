@@ -236,7 +236,7 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
-		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
+		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"));
 		$this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG);
 	}
 	
@@ -312,7 +312,34 @@ class ilTestRandomQuestionSetConfigGUI
 	
 	private function savePoolConfigCmd()
 	{
+		$this->questionSetConfig->loadFromDb();
+		$form = $this->buildPoolConfigForm();
+
+		if( $this->testOBJ->participantDataExist() )
+		{
+			ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_random_question_set_conf_due_to_part"));
+			return $this->showPoolConfigCmd($form);
+		}
 		
+		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
+		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
+
+		if($errors)
+		{
+			return $this->showPoolConfigCmd($form);
+		}
+		
+		$saved = $form->save();
+		
+		if( !$saved )
+		{
+			return $this->showPoolConfigCmd($form);
+		}
+		
+		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
+
+		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
+		$this->ctrl->redirect($this, self::CMD_SHOW_POOL_CONFIG_LIST);
 	}
 	
 	private function fetchPoolConfigParameter()
