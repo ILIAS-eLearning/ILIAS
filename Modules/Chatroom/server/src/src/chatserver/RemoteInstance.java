@@ -96,8 +96,12 @@ public class RemoteInstance {
 				login();
 			}
 		}
+		
+		if (!query.equals("")) {
+			query = "&" + query;
+		}
 
-		URL url = new URL(this.feedbackUrl + "ilias.php?baseClass=ilObjChatroomGUI&serverInquiry=true" + "&" + query);
+		URL url = new URL(this.feedbackUrl + "ilias.php?baseClass=ilObjChatroomGUI&serverInquiry=true" + query);
 		URLConnection con = url.openConnection();
 
 		Logger.getLogger("default").finer("[" + getIliasClient() + "] Calling ILIAS with session " + getIliasSession());

@@ -1,7 +1,10 @@
 package chatserver;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,9 +25,9 @@ public class HttpSessionGC {
 	private final RemoteInstances instances;
 	private ScheduledFuture<?> gcHandle;
 	/**
-	 * sessions times out after 20 seconds
+	 * sessions times out after 10 seconds
 	 */
-	private long sessionTimeout = 20000;
+	private long sessionTimeout = 10000;
 
 	public HttpSessionGC(RemoteInstances instances) {
 		this.instances = instances;
@@ -113,45 +116,81 @@ public class HttpSessionGC {
 			 * how many users are in a room (for list guis)
 			 */
 			private void sendFeedback(Map<RemoteInstance, List<DisconnectTupple>> data) throws IOException {
+				String query;
+				String subs_to_disconnect;
 				for (RemoteInstance instance : data.keySet()) {
 					// create query string with all user ids to disconnect
-					String query = "task=disconnectedUsers&";
+					query = "";
 					for (DisconnectTupple tupple : data.get(instance)) {
-						query += "scope[" + tupple.getScope().getId() + "]=";
-						for (Subscriber subscriber : tupple.getSubscriberList()) {
-							query += subscriber.getId() + ",";
+						if (!query.equals("")) {
+							query += "&";
 						}
-						query += "&";
+						
+						subs_to_disconnect = "";
+						for (Subscriber subscriber : tupple.getSubscriberList()) {
+							if (!subs_to_disconnect.equals("")) {
+								subs_to_disconnect += ",";
+							}
+							subs_to_disconnect += subscriber.getId();
+						}
+						
+						if (subs_to_disconnect.equals("")) {
+							continue;
+						}
+						
+						query += "scope[" + tupple.getScope().getId() + "]=" + subs_to_disconnect;
 					}
+					
+					if (query.equals("")) {
+						continue;
+					}
+					
+					query = "task=disconnectedUsers&" + query;
 
 					URLConnection connection = instance.getFeedbackConnection("");
 					Logger.getLogger("default").finer("Calling " + connection.getURL() + " for disconnected users");
+					Logger.getLogger("default").finer("Body " + query);
 					connection.setDoOutput(true); // Triggers POST.
 					connection.setRequestProperty("Accept-Charset", "utf-8");
 					connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+					//connection.setRequestProperty("Content-Length", "" + query.getBytes("utf-8").length);
 					OutputStream output = null;
+					connection.setUseCaches(false);
 					try {
 						// send as post
 						output = connection.getOutputStream();
 						output.write(query.getBytes("utf-8"));
+					} catch(IOException ex) {
+						Logger.getLogger("default").log(Level.SEVERE, null, ex);
 					} finally {
 						if (output != null) {
 							try {
 								output.close();
-							} catch (IOException logOrIgnore) {
+							} catch (IOException ex) {
+							    Logger.getLogger("default").log(Level.SEVERE, null, ex);
 							}
 						}
 					}
-
-					/*
-					// for debugging
-					InputStream in = connection.getInputStream();
-					int letter;
-					while (-1 != (letter = in.read())) {
-						//System.out.print((char) letter);
+					
+					InputStream in = null;
+					try {
+						// We have to open the input stream, otherwise the users will not be disconnected
+						in = connection.getInputStream();
+						/*int letter;
+						while (-1 != (letter = in.read())) {
+							//System.out.print((char) letter);
+						}*/
+					} catch(IOException ex) {
+						Logger.getLogger("default").log(Level.SEVERE, null, ex);
+					} finally {
+						if (in != null) {
+							try {
+								in.close();
+							} catch (IOException ex) {
+							    Logger.getLogger("default").log(Level.SEVERE, null, ex);
+							}
+						}
 					}
-					 */
-
 				}
 			}
 		};

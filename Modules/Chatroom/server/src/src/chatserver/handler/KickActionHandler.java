@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * handler for removing a user from a scope
@@ -64,6 +65,8 @@ public class KickActionHandler implements ActionHandler {
 		String query = "task=disconnectedUsers&scope[" + scope.getId() + "]=" + user.getId();
 
 		URLConnection connection = instance.getFeedbackConnection("");
+		Logger.getLogger("default").finer("Calling " + connection.getURL() + " for disconnected users");
+		Logger.getLogger("default").finer("Body " + query);
 		connection.setDoOutput(true); // Triggers POST.
 		connection.setRequestProperty("Accept-Charset", "utf-8");
 		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
