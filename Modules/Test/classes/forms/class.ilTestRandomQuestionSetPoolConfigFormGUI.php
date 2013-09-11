@@ -72,7 +72,12 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		$this->addCommandButton(
 				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_POOL_CONFIG_LIST, $this->lng->txt('cancel')
 		);
-
+		
+		
+		$hiddenPoolId = new ilHiddenInputGUI('source_pool_id');
+		$hiddenPoolId->setValue( $sourcePool->getPoolId() );
+		$this->addItem($hiddenPoolId);
+		
 		
 		$nonEditablePoolLabel = new ilNonEditableValueGUI(
 				$this->lng->txt('tst_inp_source_pool_label'), 'source_pool_label'
@@ -89,6 +94,8 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 			$taxRadio = new ilRadioGroupInputGUI(
 					$this->lng->txt('tst_inp_source_pool_filter_tax'), 'source_pool_filter_tax'
 			);
+			
+			$taxRadio->setRequired(true);
 			
 			$taxRadio->addOption(new ilRadioOption(
 					$this->lng->txt('tst_inp_source_pool_no_tax_filter'), 0,
@@ -111,6 +118,7 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 				$taxRadio->addOption($taxRadioOption);
 				
 				$taxSelect = new ilTaxSelectInputGUI($taxId, "tax_$taxId", false);
+				$taxSelect->setRequired(true);
 				$taxRadioOption->addSubItem($taxSelect);
 				
 				if( $taxId == $sourcePool->getFilterTaxId() )
@@ -150,6 +158,8 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 	
 	public function save()
 	{
+		
+		
 		return;
 	}
 	
