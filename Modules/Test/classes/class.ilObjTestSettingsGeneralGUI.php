@@ -1155,16 +1155,11 @@ class ilObjTestSettingsGeneralGUI
 		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled' );
 		$rm_enabled->setChecked($redirection_mode == '0' ? false : true);
 			$radio_rm = new ilRadioGroupInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_mode');
-			$seb_opt_always = new ilRadioOption($this->lng->txt('tst_results_access_always'), REDIRECT_ALWAYS);
-			$radio_rm->addOption($seb_opt_always);
-			$seb_opt_kiosk = new ilRadioOption($this->lng->txt('redirect_in_kiosk_mode'), REDIRECT_KIOSK);
-			$radio_rm->addOption($seb_opt_kiosk);
-			if((boolean) ilSetting::_lookupValue('assessment', 'assessment_use_seb') == true)
-			{
-				$seb_opt_seb = new ilRadioOption($this->lng->txt('redirect_if_seb_enabled'), REDIRECT_SEB);
-				$radio_rm->addOption($seb_opt_seb);
-			}
-			$radio_rm->setValue($redirection_mode);
+			$always = new ilRadioOption($this->lng->txt('tst_results_access_always'), REDIRECT_ALWAYS);
+			$radio_rm->addOption($always);
+			$kiosk = new ilRadioOption($this->lng->txt('redirect_in_kiosk_mode'), REDIRECT_KIOSK);
+			$radio_rm->addOption($kiosk);
+			$radio_rm->setValue(in_array($redirection_mode, array(REDIRECT_ALWAYS, REDIRECT_KIOSK)) ? $redirection_mode : REDIRECT_ALWAYS);
 		$rm_enabled->addSubItem($radio_rm);
 			$redirection_url = new ilTextInputGUI($this->lng->txt('redirection_url'), 'redirection_url');
 			$redirection_url->setValue((string)$this->testOBJ->getRedirectionUrl());

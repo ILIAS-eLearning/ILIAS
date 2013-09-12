@@ -892,13 +892,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 					ilUtil::redirect($redirection_url);
 				}
 			}
-			else if($redirection_mode == REDIRECT_SEB)
-			{
-				if(ilSetting::_lookupValue('assessment', 'assessment_use_seb'))
-				{
-					ilUtil::redirect($redirection_url);
-				}
-			}
 			else
 			{
 				ilUtil::redirect($redirection_url);
