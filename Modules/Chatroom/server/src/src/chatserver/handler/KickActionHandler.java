@@ -9,10 +9,12 @@ import chatserver.ChatScope;
 import chatserver.RemoteInstance;
 import chatserver.Subscriber;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -62,7 +64,7 @@ public class KickActionHandler implements ActionHandler {
 	 */
 	private void sendFeedback(RemoteInstance instance, ChatScope scope, Subscriber user) throws IOException {
 
-		String query = "task=disconnectedUsers&scope[" + scope.getId() + "]=" + user.getId();
+		String query = "task=disconnectedUsers&handledAction=kick&scope[" + scope.getId() + "]=" + user.getId();
 
 		URLConnection connection = instance.getFeedbackConnection("");
 		Logger.getLogger("default").finer("Calling " + connection.getURL() + " for disconnected users");
@@ -71,17 +73,26 @@ public class KickActionHandler implements ActionHandler {
 		connection.setRequestProperty("Accept-Charset", "utf-8");
 		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 		OutputStream output = null;
+		InputStream in = null;
 		try {
 			output = connection.getOutputStream();
 			output.write(query.getBytes("utf-8"));
+			in = connection.getInputStream();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (output != null) {
 				try {
 					output.close();
-				} catch (IOException logOrIgnore) {
-					logOrIgnore.printStackTrace();
+				} catch (IOException ex) {
+					Logger.getLogger("default").log(Level.SEVERE, null, ex);
+				}
+			}
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException ex) {
+					Logger.getLogger("default").log(Level.SEVERE, null, ex);
 				}
 			}
 		}

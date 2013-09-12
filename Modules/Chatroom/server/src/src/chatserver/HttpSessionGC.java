@@ -67,8 +67,8 @@ public class HttpSessionGC {
 									"[{0}] Will remove subscriber {1} fro scope {2}, Last connect: {3}, Current datetime: {4}",
 									new Object[]{
 										instance.getIliasClient(),
-										scope.getId(),
 										subscriber.getId(),
+										scope.getId(),
 										sdf.format(new Date(subscriber.getLastConnect())),
 										sdf.format(new Date(System.currentTimeMillis()))
 									}
@@ -155,11 +155,12 @@ public class HttpSessionGC {
 					connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 					//connection.setRequestProperty("Content-Length", "" + query.getBytes("utf-8").length);
 					OutputStream output = null;
-					connection.setUseCaches(false);
+					InputStream in = null;
 					try {
 						// send as post
 						output = connection.getOutputStream();
 						output.write(query.getBytes("utf-8"));
+						in = connection.getInputStream();
 					} catch(IOException ex) {
 						Logger.getLogger("default").log(Level.SEVERE, null, ex);
 					} finally {
@@ -170,19 +171,6 @@ public class HttpSessionGC {
 							    Logger.getLogger("default").log(Level.SEVERE, null, ex);
 							}
 						}
-					}
-					
-					InputStream in = null;
-					try {
-						// We have to open the input stream, otherwise the users will not be disconnected
-						in = connection.getInputStream();
-						/*int letter;
-						while (-1 != (letter = in.read())) {
-							//System.out.print((char) letter);
-						}*/
-					} catch(IOException ex) {
-						Logger.getLogger("default").log(Level.SEVERE, null, ex);
-					} finally {
 						if (in != null) {
 							try {
 								in.close();
