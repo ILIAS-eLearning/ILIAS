@@ -1,25 +1,26 @@
 package chatserver;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.midi.MidiDevice;
 
 /**
  * Quick and dirty session handler
  */
 public class HttpSessionGC {
-
+	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	private final RemoteInstances instances;
 	private ScheduledFuture<?> gcHandle;
@@ -38,7 +39,7 @@ public class HttpSessionGC {
 	public void startGC() {
 
 		final Runnable gc = new Runnable() {
-
+			
 			public void run() {
 				// storage for users to disconnect
 				/**
@@ -61,9 +62,28 @@ public class HttpSessionGC {
 							Subscriber subscriber = subscribers.next();
 							// find all subscribers with a timed out session
 							if (System.currentTimeMillis() - subscriber.getLastConnect() > sessionTimeout) {
+								Logger.getLogger("default").log(
+									Level.INFO,
+									"[{0}] Will remove subscriber {1} fro scope {2}, Last connect: {3}, Current datetime: {4}",
+									new Object[]{
+										instance.getIliasClient(),
+										subscriber.getId(),
+										scope.getId(),
+										sdf.format(new Date(subscriber.getLastConnect())),
+										sdf.format(new Date(System.currentTimeMillis()))
+									}
+								);
 								// remove the subscriber from the scope
 								subscribers.remove();
-								Logger.getLogger("default").finer("removing user " + subscriber.getId());
+								Logger.getLogger("default").log(
+									Level.INFO,
+									"[{0}] Removed subscriber {1} from subscriber list in scope {2}",
+									new Object[] {
+										instance.getIliasClient(),
+										subscriber.getId(),
+										scope.getId()
+									}
+								);
 								// add the subscriber to the "this-users-must-be-disconnected"-list
 								disconnectInfo.getSubscriberList().add(subscriber);
 							}
@@ -73,7 +93,6 @@ public class HttpSessionGC {
 						if (disconnectInfo.getSubscriberList().size() > 0) {
 							disconnectsByInstance.add(disconnectInfo);
 						}
-
 					}
 
 					// merge instance disconnects with global disconnects
@@ -86,7 +105,7 @@ public class HttpSessionGC {
 					// push disconnect information to the remote instance (e.g. ILIAS)
 					sendFeedback(usersToDisconnect);
 				} catch (IOException ex) {
-					Logger.getLogger(HttpSessionGC.class.getName()).log(Level.SEVERE, null, ex);
+					Logger.getLogger("default").log(Level.SEVERE, null, ex);
 				}
 			}
 
@@ -97,45 +116,69 @@ public class HttpSessionGC {
 			 * how many users are in a room (for list guis)
 			 */
 			private void sendFeedback(Map<RemoteInstance, List<DisconnectTupple>> data) throws IOException {
+				String query;
+				String subs_to_disconnect;
 				for (RemoteInstance instance : data.keySet()) {
 					// create query string with all user ids to disconnect
-					String query = "task=disconnectedUsers&";
+					query = "";
 					for (DisconnectTupple tupple : data.get(instance)) {
-						query += "scope[" + tupple.getScope().getId() + "]=";
-						for (Subscriber subscriber : tupple.getSubscriberList()) {
-							query += subscriber.getId() + ",";
+						if (!query.equals("")) {
+							query += "&";
 						}
-						query += "&";
+						
+						subs_to_disconnect = "";
+						for (Subscriber subscriber : tupple.getSubscriberList()) {
+							if (!subs_to_disconnect.equals("")) {
+								subs_to_disconnect += ",";
+							}
+							subs_to_disconnect += subscriber.getId();
+						}
+						
+						if (subs_to_disconnect.equals("")) {
+							continue;
+						}
+						
+						query += "scope[" + tupple.getScope().getId() + "]=" + subs_to_disconnect;
 					}
+					
+					if (query.equals("")) {
+						continue;
+					}
+					
+					query = "task=disconnectedUsers&" + query;
 
 					URLConnection connection = instance.getFeedbackConnection("");
-					Logger.getLogger("default").finer("calling " + connection.getURL() + " for disconnected users");
+					Logger.getLogger("default").finer("Calling " + connection.getURL() + " for disconnected users");
+					Logger.getLogger("default").finer("Body " + query);
 					connection.setDoOutput(true); // Triggers POST.
 					connection.setRequestProperty("Accept-Charset", "utf-8");
 					connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+					//connection.setRequestProperty("Content-Length", "" + query.getBytes("utf-8").length);
 					OutputStream output = null;
+					InputStream in = null;
 					try {
 						// send as post
 						output = connection.getOutputStream();
 						output.write(query.getBytes("utf-8"));
+						in = connection.getInputStream();
+					} catch(IOException ex) {
+						Logger.getLogger("default").log(Level.SEVERE, null, ex);
 					} finally {
 						if (output != null) {
 							try {
 								output.close();
-							} catch (IOException logOrIgnore) {
+							} catch (IOException ex) {
+							    Logger.getLogger("default").log(Level.SEVERE, null, ex);
+							}
+						}
+						if (in != null) {
+							try {
+								in.close();
+							} catch (IOException ex) {
+							    Logger.getLogger("default").log(Level.SEVERE, null, ex);
 							}
 						}
 					}
-
-					/*
-					// for debugging
-					InputStream in = connection.getInputStream();
-					int letter;
-					while (-1 != (letter = in.read())) {
-						//System.out.print((char) letter);
-					}
-					 */
-
 				}
 			}
 		};

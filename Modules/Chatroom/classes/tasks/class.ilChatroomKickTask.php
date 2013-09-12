@@ -89,6 +89,8 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 					'public' => 1,
 					'sub'    => 0
 				));
+
+				// 2013-09-11: Should already been done by the chat server
 				$room->disconnectUser($params['userToKick']);
 			}
 		}

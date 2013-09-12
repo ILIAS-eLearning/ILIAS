@@ -762,8 +762,8 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 						break;
 					case 'userjustkicked':
 						// Handles kicks and bans of private rooms and the main room
+						var kickeduser = $('#chat_users').ilChatList('getDataById', messageObject.user);
 						usermanager.remove(messageObject.user, messageObject.sub);
-						
 						if( messageObject.user == myId ) {
 							var data = $('#private_rooms').ilChatList('getDataById', messageObject.sub);
 							
@@ -777,18 +777,18 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 							
 							$('#private_rooms').ilChatList('removeById', messageObject.sub);
 						 } else if (messageObject.sub ==  subRoomId) {
-							var kickeduser = $('#chat_users').ilChatList('getDataById', messageObject.user);
-
 							if (typeof messageOptions != 'undefined' && messageOptions.recipient && messageOptions.recipient == messageObject.user )  {
 								setRecipientOptions(false, 1);
 							}
 
-							$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub, {
-								type:   'notice',
-								message:translate('user_kicked', {
-									user: kickeduser.label
-								})
-							});
+							if (typeof kickeduser != "undefined") {
+								$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub, {
+									type:    'notice',
+									message: translate('user_kicked', {
+										user: kickeduser.label
+									})
+								});
+							}
 							
 							if (!subRoomId) {
 								$('#chat_users').ilChatList('removeById', messageObject.user);

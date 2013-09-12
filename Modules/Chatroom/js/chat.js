@@ -84,10 +84,7 @@
 
 				$('#modal_alpha').remove();
 
-				$('<div id="modal_alpha">')
-					.css('height', $('body').height())
-					.css('width', $('body').width())
-					.appendTo($('body'));
+				$('<div id="modal_alpha" class="chat_modal_overlay">').appendTo($('body'));
 
 				var dialogBody = $('<div class="ilChatDialogBody">').appendTo(dialog);
 				$(this).appendTo(dialogBody).show();

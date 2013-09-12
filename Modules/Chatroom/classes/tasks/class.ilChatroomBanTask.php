@@ -142,25 +142,26 @@ class ilChatroomBanTask extends ilDBayTaskHandler
 				$room->addHistoryEntry($messageObject, '', 1);
 
 				$message = json_encode(array(
-											'type'  => 'userjustkicked',
-											'user'  => $params['userToKick'],
-											'sub'   => 0
-									   ));
-
+					'type' => 'userjustkicked',
+					'user' => $params['userToKick'],
+					'sub'  => 0
+				));
 
 				$connector->sendMessage($room->getRoomId(), $message, array(
-																		   'public'  => 1,
-																		   'sub'     => 0
-																	  ));
+					'public' => 1,
+					'sub'    => 0
+				));
+
+				// 2013-09-11: Should already been done by the chat server
 				$room->disconnectUser($params['userToKick']);
 			}
 		}
 		else
 		{
 			$response = json_encode(array(
-										 'success'   => false,
-										 'reason'    => 'unkown room'
-									));
+				'success' => false,
+				'reason'  => 'unkown room'
+			));
 		}
 
 		echo $response;

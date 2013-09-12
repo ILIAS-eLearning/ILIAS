@@ -3,9 +3,9 @@
 == Requirements ==
 
   JRE 1.6 (Java Runtime)
-    The sources has been compiled using version OpenJDK 1.6.0_20. If you have
+    The sources has been compiled using version OpenJDK 1.6.0_27. If you have
     any problems running the chatserver using your OpenJDK please contact
-    jposselt (at) databay.de with detailed RTE information.
+    mjansen (at) databay (dot) de with detailed RTE information.
 
   SOAP webservices must be enabled in your ILIAS administration
 
@@ -66,11 +66,16 @@ After you made changes, the chatserver must be restarted.
         Example: /srv/private/server.p12
 
     Keypass: Password for the private key
-	Example: mySecretKeyPassword
+        Example: mySecretKeyPassword
 
     Storepass: Password for the PKCS12 storage 
-	Example: mySecretKeyStoragePassword
+        Example: mySecretKeyStoragePassword
 
+==== Logging ====
+    You can enable file logging by adding the property "log_path" pointing to your desired log file
+        Example: log_path = /srv/www/logs/ilias_chat.log
+    You can set/change the log level by adding the property "log_level" with your desired value (e.g. OFF, INFO, CONFIG, ALL, FINE, FINER, FINEST, WARNING, SEVERE)
+        Example: log_level = FINEST
 
 === Client Settings ===
 

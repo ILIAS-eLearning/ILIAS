@@ -1,21 +1,16 @@
 package chatserver.handler;
 
-import chatserver.HttpChatCallInformation;
-import chatserver.Message;
-import chatserver.MissingArgumentException;
-import chatserver.ActionHandlerException;
-import chatserver.ActionHandler;
-import chatserver.Subscriber;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Random;
+import chatserver.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handler for connecting a new user to the chat
  */
 public class ConnectActionHandler implements ActionHandler {
-
+	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public static HashSet<Integer> knownSessionIdSet = new HashSet<Integer>();
 
 	private static int generateSessionId() {
@@ -43,13 +38,23 @@ public class ConnectActionHandler implements ActionHandler {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		int sessionId = generateSessionId();
-
+		
 		// check if user is alread active in the addressed scope
 		// user is active
 		if (info.getScope().getSubscibers().getSubscriberById(id) != null) {
 			Subscriber subscriber = info.getScope().getSubscibers().getSubscriberById(id);
 			// register another user session (maybe the user opend a second window)
 			info.getScope().getSubscibers().registerSession(sessionId, subscriber);
+			Logger.getLogger("default").log(
+				Level.INFO,
+				"[{0}] Registered session {1} for substriber {2} in scope {3}",
+				new Object[]{
+					info.getInstance().getIliasClient(),
+					sessionId,
+					subscriber.getId(),
+					info.getScope().getId()
+				}
+			);
 		}
 		// user is not active
 		else {
@@ -58,6 +63,16 @@ public class ConnectActionHandler implements ActionHandler {
 			subscriber.addSessionId(sessionId);
 
 			info.getScope().attatchSubscriber(subscriber);
+			Logger.getLogger("default").log(
+				Level.INFO,
+				"[{0}] Registered session {1} for new substriber {2} in scope {3}",
+				new Object[]{
+					info.getInstance().getIliasClient(),
+					sessionId,
+					subscriber.getId(),
+					info.getScope().getId()
+				}
+			);
 
 			// post the message given by the remote instance (e.g. user xxx has entered the room)
 			if (info.getParams().containsKey("message") && info.getParams().get("message").length() > 0) {
