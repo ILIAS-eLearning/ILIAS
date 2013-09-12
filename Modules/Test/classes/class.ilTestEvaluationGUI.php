@@ -1089,7 +1089,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 			if (!$hide_details && $this->object->canShowSolutionPrintview())
 			{
-				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
+				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, $this->object->getShowSolutionListComparison());
 			}
 			else if ($this->object->getShowSolutionDetails())
 			{
