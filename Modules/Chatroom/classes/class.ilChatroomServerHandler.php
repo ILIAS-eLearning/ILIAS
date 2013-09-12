@@ -126,7 +126,10 @@ class ilChatroomServerHandler
 
 				$chatroom->disconnectUsers( $users );
 				
-				$this->getConnector()->sendMessage( $chatroom->getRoomId(), $message );
+				if(!isset($_REQUEST['handledAction']) || $_REQUEST['handledAction'] != 'kick')
+				{
+					$this->getConnector()->sendMessage( $chatroom->getRoomId(), $message );
+				}
 
 				if( true || $chatroom->getSetting( 'enable_history' ) ) {
 					$messageObject = array(
