@@ -157,7 +157,9 @@ class ilSurveySkill
 		global $ilDB;
 		if (ilObject::_lookupType($a_obj_id) == "svy")
 		{
-			$svy = new ilObjSurvey($obj_id, false);
+			// mantis 11691
+			include_once './Modules/Survey/classes/class.ilObjSurvey.php';
+			$svy = new ilObjSurvey($a_obj_id, false);
 			$svy_skill = new ilSurveySkill($svy);
 			$svy_skill->removeQuestionSkillAssignment($a_question_id);
 		}
