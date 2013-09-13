@@ -35,19 +35,17 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	 * @var integer
 	 */
 	private $lastQuestionSyncTimestamp = null;
-	
+
 	/**
-	 * @var ilTestRandomQuestionSetSourcePoolDefinitionList
+	 * @param ilTree $tree
+	 * @param ilDB $db
+	 * @param ilObjTest $testOBJ
 	 */
-	private $sourcePoolDefinitionList = null;
-	
 	public function __construct(ilTree $tree, ilDB $db, ilObjTest $testOBJ)
 	{
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
-		$this->sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($db, $testOBJ);
-				
 		parent::__construct($tree, $db, $testOBJ);
 	}
+
 	/**
 	 * @param boolean $requirePoolsWithHomogeneousScoredQuestions
 	 */

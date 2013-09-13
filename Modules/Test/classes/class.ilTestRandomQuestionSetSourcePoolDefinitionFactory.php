@@ -45,17 +45,25 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
 
 		return $sourcePoolDefinition;
 	}
-	
+
 	/**
 	 * @return ilTestRandomQuestionSetSourcePoolDefinition
 	 */
-	public function buildSourcePoolDefinitionByDefinitionId($definitionId)
+	public function getSourcePoolDefinitionByDefinitionId($definitionId)
 	{
 		$sourcePoolDefinition = $this->buildDefinitionInstance();
-		
+
 		$sourcePoolDefinition->loadFromDb($definitionId);
-		
+
 		return $sourcePoolDefinition;
+	}
+
+	/**
+	 * @return ilTestRandomQuestionSetSourcePoolDefinition
+	 */
+	public function getEmptySourcePoolDefinition()
+	{
+		return $this->buildDefinitionInstance();
 	}
 
 	/**
