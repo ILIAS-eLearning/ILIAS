@@ -27,7 +27,8 @@ class ilTestRandomQuestionSetConfigGUI
 	const CMD_SAVE_GENERAL_CONFIG_FORM = 'saveGeneralConfigForm';
 	const CMD_SHOW_SRC_POOL_DEF_LIST = 'showSourcePoolDefinitionList';
 	const CMD_SAVE_SRC_POOL_DEF_LIST = 'saveSourcePoolDefinitionList';
-	const CMD_DELETE_SRC_POOL_DEFS = 'deleteSourcePoolDefinitions';
+	const CMD_DELETE_SINGLE_SRC_POOL_DEF = 'deleteSingleSourcePoolDefinition';
+	const CMD_DELETE_MULTI_SRC_POOL_DEFS = 'deleteMultipleSourcePoolDefinitions';
 	const CMD_SHOW_CREATE_SRC_POOL_DEF_FORM = 'showCreateSourcePoolDefinitionForm';
 	const CMD_SAVE_CREATE_SRC_POOL_DEF_FORM = 'saveCreateSourcePoolDefinitionForm';
 	const CMD_SHOW_EDIT_SRC_POOL_DEF_FORM = 'showEditSourcePoolDefinitionForm';
