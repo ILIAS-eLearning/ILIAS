@@ -9,7 +9,7 @@ require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
  *
  * @package	Modules/Test
  */
-class ilTestRandomQuestionSetSourcePoolsToolbarGUI extends ilToolbarGUI
+class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolbarGUI
 {
 	/**
 	 * global $ilCtrl object
@@ -64,7 +64,7 @@ class ilTestRandomQuestionSetSourcePoolsToolbarGUI extends ilToolbarGUI
 		);
 		
 		require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-		$poolSelection = new ilSelectInputGUI($this->lng->txt('tst_rnd_quest_set_tb_pool_select'), 'source_pool_id');
+		$poolSelection = new ilSelectInputGUI($this->lng->txt('tst_rnd_quest_set_tb_pool_select'), 'quest_pool_id');
 		$poolSelection->setOptions( $this->buildSourcePoolSelectOptionsArray($availablePools) );
 		
 		$this->addInputItem($poolSelection, true);
@@ -73,7 +73,7 @@ class ilTestRandomQuestionSetSourcePoolsToolbarGUI extends ilToolbarGUI
 		
 		$this->addFormButton(
 				$this->lng->txt('tst_rnd_quest_set_tb_add_pool_btn'),
-				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_POOL_CONFIG
+				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM
 		);
 	}
 	

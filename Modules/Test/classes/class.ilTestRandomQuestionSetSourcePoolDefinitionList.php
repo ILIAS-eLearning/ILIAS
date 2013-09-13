@@ -7,7 +7,7 @@
  *
  * @package		Modules/Test
  */
-class ilTestRandomQuestionSetSourcePoolList
+class ilTestRandomQuestionSetSourcePoolDefinitionList
 {
 	/**
 	 * global $ilDB object instance
@@ -24,9 +24,9 @@ class ilTestRandomQuestionSetSourcePoolList
 	protected $testOBJ = null;
 	
 	/**
-	 * @var ilTestRandomQuestionSetSourcePool[]
+	 * @var ilTestRandomQuestionSetSourcePoolDefinition[]
 	 */
-	private $sourcePools = array();
+	private $sourcePoolDefinitions = array();
 	
 	/**
 	 * Constructor
@@ -41,27 +41,27 @@ class ilTestRandomQuestionSetSourcePoolList
 	}
 	
 	
-	public function loadPools()
+	public function loadDefinitions()
 	{
 		
 	}
 	
-	public function savePools()
+	public function saveDefinitions()
 	{
 		
 	}
 	
-	public function poolExists()
+	public function definitionExists()
 	{
 		
 	}
 	
-	public function reindexSequence()
+	public function reindexPositions()
 	{
 		
 	}
 	
-	public function getNewPosition()
+	public function getNextPosition()
 	{
 		
 	}
