@@ -152,7 +152,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 		{
 			$set = array();
 
-			$set['def_id'] = $sourcePoolDefinition->getPoolId();
+			$set['def_id'] = $sourcePoolDefinition->getId();
 			$set['source_pool_label'] = $sourcePoolDefinition->getPoolTitle();
 			$set['filter_taxonomy'] = $sourcePoolDefinition->getFilterTaxId();
 			$set['filter_tax_node'] = $sourcePoolDefinition->getFilterTaxNodeId();
