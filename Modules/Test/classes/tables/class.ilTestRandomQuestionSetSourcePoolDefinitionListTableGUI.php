@@ -10,7 +10,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  *
  * @package	Modules/Test
  */
-class ilTestRandomQuestionSetSourcePoolsTableGUI extends ilTable2GUI
+class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
 	public function __construct($parentGUI, $parentCMD)
 	{

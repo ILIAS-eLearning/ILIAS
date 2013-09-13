@@ -11,9 +11,9 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  *
  * @package		Modules/Test
  * 
- * @ilCtrl_Calls ilTestRandomQuestionSetPoolConfigFormGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls ilTestRandomQuestionSetPoolDefinitionFormGUI: ilFormPropertyDispatchGUI
  */
-class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
+class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 {
 	/**
 	 * global $ilCtrl object
@@ -49,6 +49,8 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 	 * @var ilTestRandomQuestionSetConfig
 	 */
 	public $questionSetConfig = null;
+
+	private $saveCommand = null;
 	
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
 	{
@@ -58,8 +60,18 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		$this->questionSetConfigGUI = $questionSetConfigGUI;
 		$this->questionSetConfig = $questionSetConfig;
 	}
-	
-	public function build(ilTestRandomQuestionSetSourcePool $sourcePool, $availableTaxonomyIds)
+
+	public function setSaveCommand($saveCommand)
+	{
+		$this->saveCommand = $saveCommand;
+	}
+
+	public function getSaveCommand()
+	{
+		return $this->saveCommand;
+	}
+
+	public function build(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $availableTaxonomyIds)
 	{
 		$this->setFormAction( $this->ctrl->getFormAction($this->questionSetConfigGUI) );
 		
@@ -67,20 +79,20 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		$this->setId('tstRndQuestSetCfgPoolForm');
 		
 		$this->addCommandButton(
-				ilTestRandomQuestionSetConfigGUI::CMD_SAVE_POOL_CONFIG, $this->lng->txt('save')
+				$this->getSaveCommand(), $this->lng->txt('save')
 		);
 		$this->addCommandButton(
-				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_POOL_CONFIG_LIST, $this->lng->txt('cancel')
+				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_SRC_POOL_DEF_LIST, $this->lng->txt('cancel')
 		);
 		
 		
-		$hiddenPoolId = new ilHiddenInputGUI('source_pool_id');
+		$hiddenPoolId = new ilHiddenInputGUI('quest_pool_id');
 		$hiddenPoolId->setValue( $sourcePool->getPoolId() );
 		$this->addItem($hiddenPoolId);
 		
 		
 		$nonEditablePoolLabel = new ilNonEditableValueGUI(
-				$this->lng->txt('tst_inp_source_pool_label'), 'source_pool_label'
+				$this->lng->txt('tst_inp_source_pool_label'), 'quest_pool_label'
 		);
 		$nonEditablePoolLabel->setValue( $sourcePool->getPoolInfoLabel($this->lng) );
 
@@ -90,7 +102,7 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		if( count($availableTaxonomyIds) )
 		{
 			$taxRadio = new ilRadioGroupInputGUI(
-					$this->lng->txt('tst_inp_source_pool_filter_tax'), 'source_pool_filter_tax'
+					$this->lng->txt('tst_inp_source_pool_filter_tax'), 'filter_tax'
 			);
 			
 			$taxRadio->setRequired(true);
@@ -115,14 +127,14 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 				
 				$taxRadio->addOption($taxRadioOption);
 				
-				$taxSelect = new ilTaxSelectInputGUI($taxId, "source_pool_filter_tax_$taxId", false);
+				$taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_$taxId", false);
 				$taxSelect->setRequired(true);
 				$taxRadioOption->addSubItem($taxSelect);
 				
 				if( $taxId == $sourcePool->getFilterTaxId() )
 				{
 					$taxRadio->setValue( $sourcePool->getFilterTaxId() );
-					$taxSelect->setValue( $sourcePool->getFilterNodeId() );
+					$taxSelect->setValue( $sourcePool->getFilterTaxNodeId() );
 				}
 			}
 			
@@ -150,25 +162,25 @@ class ilTestRandomQuestionSetPoolConfigFormGUI extends ilPropertyFormGUI
 		}
 	}
 	
-	public function applySubmit(ilTestRandomQuestionSetSourcePool $sourcePool, $availableTaxonomyIds)
+	public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $availableTaxonomyIds)
 	{
 		switch( true )
 		{
 			case $this->getItemByPostVar('source_pool_filter_tax') === null:
 				
-			case !in_array($this->getItemByPostVar('source_pool_filter_tax')->getValue(), $availableTaxonomyIds):
+			case !in_array($this->getItemByPostVar('filter_tax')->getValue(), $availableTaxonomyIds):
 				
 				$sourcePool->setFilterTaxId(null);
-				$sourcePool->setFilterNodeId(null);
+				$sourcePool->setFilterTaxNodeId(null);
 				break;
 			
 			default:
 				
-				$taxId = $this->getItemByPostVar('source_pool_filter_tax')->getValue();
+				$taxId = $this->getItemByPostVar('filter_tax')->getValue();
 				
 				$sourcePool->setFilterTaxId( $taxId );
 				
-				$sourcePool->setFilterNodeId( $this->getItemByPostVar("source_pool_filter_tax_$taxId")->getValue() );
+				$sourcePool->setFilterTaxNodeId( $this->getItemByPostVar("filter_tax_$taxId")->getValue() );
 		}
 		
 		$sourcePool->setQuestionAmount( $this->getItemByPostVar('question_amount_per_pool')->getValue() );

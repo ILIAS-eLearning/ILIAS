@@ -12,9 +12,21 @@ if(!$rbacsystem->checkAccess('visible,read', SYSTEM_FOLDER_ID))
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+if( $ilDB->tableExists('tst_rnd_quest_set_cfg') )
+{
+	$ilDB->dropTable('tst_rnd_quest_set_cfg');
+}
+
+if( $ilDB->tableExists('tst_rnd_quest_set_qpls') )
+{
+	$ilDB->dropTable('tst_rnd_quest_set_qpls');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
 if( !$ilDB->tableExists('tst_rnd_quest_set_cfg') )
 {
-	$ilDB->createTable('tst_rnd_quest_set_cfg', array(            
+	$ilDB->createTable('tst_rnd_quest_set_cfg', array(
 			'test_fi' => array(
 				'type'     => 'integer',
 				'length'   => 4,
@@ -76,7 +88,13 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_cfg') )
 
 if( !$ilDB->tableExists('tst_rnd_quest_set_qpls') )
 {
-	$ilDB->createTable('tst_rnd_quest_set_qpls', array(            
+	$ilDB->createTable('tst_rnd_quest_set_qpls', array(
+			'def_id' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
 			'test_fi' => array(
 				'type'     => 'integer',
 				'length'   => 4,
@@ -133,8 +151,10 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_qpls') )
 			)
 	));
 
-	$ilDB->addPrimaryKey('tst_rnd_quest_set_qpls', array('test_fi', 'pool_fi'));
-	
+	$ilDB->addPrimaryKey('tst_rnd_quest_set_qpls', array('def_id'));
+
+	$ilDB->createSequence('tst_rnd_quest_set_qpls');
+
 	$query = "
 		SELECT		tst_test_random.test_fi,
 					tst_test_random.questionpool_fi,
@@ -165,8 +185,11 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_qpls') )
 		{
 			$row['num_of_q'] = null;
 		}
-		
+
+		$nextId = $ilDB->nextId('tst_rnd_quest_set_qpls');
+
 		$ilDB->insert('tst_rnd_quest_set_qpls', array(
+				'def_id' => array('integer', $nextId),
 				'test_fi' => array('integer', $row['test_fi']),
 				'pool_fi' => array('integer', $row['questionpool_fi']),
 				'pool_title' => array('text', $row['qpl_title']),

@@ -37,14 +37,14 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	private $lastQuestionSyncTimestamp = null;
 	
 	/**
-	 * @var ilTestRandomQuestionSetSourcePoolList
+	 * @var ilTestRandomQuestionSetSourcePoolDefinitionList
 	 */
-	private $sourcePoolList = null;
+	private $sourcePoolDefinitionList = null;
 	
 	public function __construct(ilTree $tree, ilDB $db, ilObjTest $testOBJ)
 	{
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolList.php';
-		$this->sourcePoolList = new ilTestRandomQuestionSetSourcePoolList($db, $testOBJ);
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
+		$this->sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($db, $testOBJ);
 				
 		parent::__construct($tree, $db, $testOBJ);
 	}
@@ -256,11 +256,11 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	// -----------------------------------------------------------------------------------------------------------------
 	
 	/**
-	 * @return ilTestRandomQuestionSetSourcePoolList
+	 * @return ilTestRandomQuestionSetSourcePoolDefinitionList
 	 */
-	public function getSourcePoolList()
+	public function getSourcePoolDefinitionList()
 	{
-		return $this->sourcePoolList;
+		return $this->sourcePoolDefinitionList;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -288,24 +288,4 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	
-	public function isSourceQuestionPool($poolId)
-	{
-		// check if is involved in current config or not
-		
-		return false;
-	}
-	
-	public function isAvailableQuestionPool($poolId)
-	{
-		$availablePools = $this->testOBJ->getAvailableQuestionpools(
-			true, $this->arePoolsWithHomogeneousScoredQuestionsRequired(), false, true, true
-		);
-		
-		if( isset($availablePools[$poolId]) )
-		{
-			return true;
-		}
-		
-		return false;
-	}
 }

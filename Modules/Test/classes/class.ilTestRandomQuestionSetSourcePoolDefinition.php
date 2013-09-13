@@ -1,16 +1,13 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Description of class
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @version		$Id$
  *
- * @author bheyser
+ * @package		Modules/Test
  */
-class ilTestRandomQuestionSetSourcePool
+class ilTestRandomQuestionSetSourcePoolDefinition
 {
 	/**
 	 * global $ilDB object instance
@@ -25,6 +22,8 @@ class ilTestRandomQuestionSetSourcePool
 	 * @var ilObjTest
 	 */
 	protected $testOBJ = null;
+
+    private $id = null;
 	
 	private $poolId = null;
 	
@@ -36,7 +35,7 @@ class ilTestRandomQuestionSetSourcePool
 	
 	private $filterTaxId = null;
 	
-	private $filterNodeId = null;
+	private $filterTaxNodeId = null;
 	
 	private $questionAmount = null;
 	
@@ -46,6 +45,16 @@ class ilTestRandomQuestionSetSourcePool
 	{
 		$this->db = $db;
 		$this->testOBJ = $testOBJ;
+	}
+
+    public function setId($id)
+	{
+		$this->id = $id;
+	}
+
+	public function getId()
+	{
+		return $this->id;
 	}
 	
 	public function setPoolId($poolId)
@@ -98,14 +107,14 @@ class ilTestRandomQuestionSetSourcePool
 		return $this->filterTaxId;
 	}
 	
-	public function setFilterNodeId($filterNodeId)
+	public function setFilterTaxNodeId($filterNodeId)
 	{
-		$this->filterNodeId = $filterNodeId;
+		$this->filterTaxNodeId = $filterNodeId;
 	}
 	
-	public function getFilterNodeId()
+	public function getFilterTaxNodeId()
 	{
-		return $this->filterNodeId;
+		return $this->filterTaxNodeId;
 	}
 	
 	public function setQuestionAmount($questionAmount)
@@ -139,12 +148,13 @@ class ilTestRandomQuestionSetSourcePool
 		{
 			switch($field)
 			{
+				case 'def_id':				$this->setId($value);					break;
 				case 'pool_fi':				$this->setPoolId($value);				break;
 				case 'pool_title':			$this->setPoolTitle($value);			break;
 				case 'pool_path':			$this->setPoolPath($value);				break;
 				case 'pool_quest_count':	$this->setPoolQuestionCount($value);	break;
 				case 'filter_tax_fi':		$this->setFilterTaxId($value);			break;
-				case 'filter_node_fi':		$this->setFilterNodeId($value);			break;
+				case 'filter_node_fi':		$this->setFilterTaxNodeId($value);		break;
 				case 'quest_amount':		$this->setQuestionAmount($value);		break;
 				case 'sequence_pos':		$this->setSequencePosition($value);		break;
 			}
@@ -155,11 +165,10 @@ class ilTestRandomQuestionSetSourcePool
 	 * @param integer $poolId
 	 * @return boolean
 	 */
-	public function loadFromDb($poolId)
+	public function loadFromDb($id)
 	{
 		$res = $this->db->queryF(
-				"SELECT * FROM tst_rnd_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
-				array('integer', 'integer'), array($this->testOBJ->getTestId(), $poolId)
+				"SELECT * FROM tst_rnd_quest_set_qpls WHERE id = %s", array('integer'), array($id)
 		);
 		
 		while( $row = $this->db->fetchAssoc($res) )
@@ -186,16 +195,15 @@ class ilTestRandomQuestionSetSourcePool
 	}
 	
 	/**
-	 * @return boolean
+	 * @return integer
 	 */
 	public function deleteFromDb()
 	{
 		$aff = $this->db->manipulateF(
-				"DELETE FROM tst_rnd_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
-				array('integer', 'integer'), array($this->testOBJ->getTestId(), $this->getPoolId())
+				"DELETE FROM tst_rnd_quest_set_qpls WHERE id = %s", array('integer'), array($this->getId())
 		);
 		
-		return (bool)$aff;
+		return $aff;
 	}
 	
 	/**
@@ -214,27 +222,26 @@ class ilTestRandomQuestionSetSourcePool
 	}
 	
 	/**
-	 * @return boolean
+	 * @return integer
 	 */
 	private function updateDbRecord()
 	{
-		$aff = $this->db->update('tst_rnd_quest_set_qpls',
+		$this->db->update('tst_rnd_quest_set_qpls',
 			array(
+				'test_fi' => array('integer', $this->testOBJ->getTestId()),
+				'pool_fi' => array('integer', $this->getPoolId()),
 				'pool_title' => array('text', $this->getPoolTitle()),
 				'pool_path' => array('text', $this->getPoolPath()),
 				'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
 				'filter_tax_fi' => array('integer', $this->getFilterTaxId()),
-				'filter_node_fi' => array('integer', $this->getFilterNodeId()),
+				'filter_node_fi' => array('integer', $this->getFilterTaxNodeId()),
 				'quest_amount' => array('integer', $this->getQuestionAmount()),
 				'sequence_pos' => array('integer', $this->getSequencePosition())
 			),
 			array(
-				'test_fi' => array('integer', $this->testOBJ->getTestId()),
-				'pool_fi' => array('integer', $this->getPoolId())
+				'def_id' => array('integer', $this->getId())
 			)
 		);
-		
-		return (bool)$aff;
 	}
 	
 	/**
@@ -242,19 +249,22 @@ class ilTestRandomQuestionSetSourcePool
 	 */
 	private function insertDbRecord()
 	{
-		$aff = $this->db->insert('tst_rnd_quest_set_qpls', array(
+		$nextId = $this->db->getNextId('tst_rnd_quest_set_qpls');
+
+		$this->db->insert('tst_rnd_quest_set_qpls', array(
+				'def_id' => array('integer', $nextId),
 				'test_fi' => array('integer', $this->testOBJ->getTestId()),
 				'pool_fi' => array('integer', $this->getPoolId()),
 				'pool_title' => array('text', $this->getPoolTitle()),
 				'pool_path' => array('text', $this->getPoolPath()),
 				'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
 				'filter_tax_fi' => array('integer', $this->getFilterTaxId()),
-				'filter_node_fi' => array('integer', $this->getFilterNodeId()),
+				'filter_node_fi' => array('integer', $this->getFilterTaxNodeId()),
 				'quest_amount' => array('integer', $this->getQuestionAmount()),
 				'sequence_pos' => array('integer', $this->getSequencePosition())
 		));
-		
-		return (bool)$aff;
+
+		$this->testOBJ->setId($nextId);
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
