@@ -2476,7 +2476,7 @@ common#:#group_registration_time#:#Registration Period
 common#:#group_registration#:#Registration
 common#:#group_req_direct#:#Join directly
 common#:#group_req_password#:#Join with group password
-common#:#group_req_registration_msg#:#You can request membership for this group. You will receive a message when a group administrator has accepted or declined your request.
+common#:#group_req_registration_msg#:#You have to request for membership to access this group. Please describe your interest for becoming member in the message form. You will be notified as soon as an administrator has accepted or declined your request.
 common#:#group_req_registration#:#Request membership
 common#:#group_reset#:#Reset Group Permissions
 common#:#group_status_closed#:#Closed
@@ -5421,7 +5421,7 @@ crs#:#crs_important_info#:#Important Information
 crs#:#crs_info_agree#:#I accept, that the above data types are visible for course administrators.
 crs#:#crs_info_agreement#:#The following data types are visible for course administrators:
 crs#:#crs_info_download#:#Files for Download
-crs#:#crs_info_reg_confirmation#:#You can request membership for this course. You will get a message from a course administrator when your request has been admitted or declined.
+crs#:#crs_info_reg_confirmation#:#You have to request for membership to access this course. Please describe your interest for becoming member in the message form. You will be notified as soon as an administrator has accepted or declined your request.
 crs#:#crs_info_reg_deactivated#:#Course admittance is closed.
 crs#:#crs_info_reg_direct#:#You can join this course directly.
 crs#:#crs_info_reg_password#:#If a course administrator has given you the course password, you can join this course.

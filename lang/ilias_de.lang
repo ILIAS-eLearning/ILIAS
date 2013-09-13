@@ -3061,7 +3061,7 @@ common#:#group_registration_time#:#Zeitraum
 common#:#group_req_direct#:#Direkter Beitritt
 common#:#group_req_password#:#Beitritt mit Gruppenpasswort
 common#:#group_req_registration#:#Antrag mit Bestätigung
-common#:#group_req_registration_msg#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat.
+common#:#group_req_registration_msg#:#Sie müssen einen Aufnahmeantrag stellen, um in die Gruppe aufgenommen zu werden. Beschreiben Sie im Feld Nachricht, warum Sie beitreten möchten. Sobald Ihr Antrag angenommen oder abgelehnt wurde, erhalten Sie eine Benachrichtigung.
 common#:#group_reset#:#Rechteeinstellungen der Gruppe zurücksetzen
 common#:#group_status#:#Gruppe ist
 common#:#group_status_closed#:#Geschlossen
@@ -6330,7 +6330,7 @@ crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Da
 crs#:#crs_info_agreement#:#Die folgenden Daten können von Kursadministratoren eingesehen werden:
 crs#:#crs_info_download#:#Dateien zum Herunterladen
 crs#:#crs_info_reg#:#Aufnahmeverfahren
-crs#:#crs_info_reg_confirmation#:#Sie können die Aufnahme in diesen Kurs beantragen. Sie werden per Mail benachrichtigt, wenn Ihr Antrag angenommen oder abgelehnt wurde.
+crs#:#crs_info_reg_confirmation#:#Sie müssen einen Aufnahmeantrag stellen, um in die Gruppe aufgenommen zu werden. Beschreiben Sie im Feld Nachricht, warum Sie beitreten möchten. Sobald Ihr Antrag angenommen oder abgelehnt wurde, erhalten Sie eine Benachrichtigung.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
 crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
 crs#:#crs_info_reg_password#:#Wenn Sie das Kurspasswort von einem Kursadministrator erhalten haben, können Sie in diesen Kurs beitreten.
