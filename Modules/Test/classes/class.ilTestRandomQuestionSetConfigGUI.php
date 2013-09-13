@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 
 /**
@@ -26,6 +27,7 @@ class ilTestRandomQuestionSetConfigGUI
 	const CMD_SAVE_GENERAL_CONFIG_FORM = 'saveGeneralConfigForm';
 	const CMD_SHOW_SRC_POOL_DEF_LIST = 'showSourcePoolDefinitionList';
 	const CMD_SAVE_SRC_POOL_DEF_LIST = 'saveSourcePoolDefinitionList';
+	const CMD_DELETE_SRC_POOL_DEFS = 'deleteSourcePoolDefinitions';
 	const CMD_SHOW_CREATE_SRC_POOL_DEF_FORM = 'showCreateSourcePoolDefinitionForm';
 	const CMD_SAVE_CREATE_SRC_POOL_DEF_FORM = 'saveCreateSourcePoolDefinitionForm';
 	const CMD_SHOW_EDIT_SRC_POOL_DEF_FORM = 'showEditSourcePoolDefinitionForm';
@@ -114,9 +116,17 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->testOBJ = $testOBJ;
 		
-		$this->questionSetConfig = new ilTestRandomQuestionSetConfig($this->tree, $this->db, $this->testOBJ);
+		$this->questionSetConfig = new ilTestRandomQuestionSetConfig(
+			$this->tree, $this->db, $this->testOBJ
+		);
 
-		$this->sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($this->db, $this->testOBJ);
+		$this->sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+			$this->db, $this->testOBJ
+		);
+
+		$this->sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+			$this->db, $this->testOBJ, $this->sourcePoolDefinitionFactory
+		);
 	}
 	
 	/**
@@ -256,7 +266,10 @@ class ilTestRandomQuestionSetConfigGUI
 	{
 		$toolbar = $this->buildSourcePoolDefinitionListToolbarGUI();
 		$table = $this->buildSourcePoolDefinitionListTableGUI();
-		
+
+		$this->sourcePoolDefinitionList->loadDefinitions();
+		$table->init( $this->sourcePoolDefinitionList );
+
 		$this->tpl->setContent(
 				$this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table)
 		);
@@ -280,7 +293,7 @@ class ilTestRandomQuestionSetConfigGUI
 		require_once 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI.php';
 
 		$table = new ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI(
-			$this, self::CMD_SHOW_SRC_POOL_DEF_LIST
+			$this->ctrl, $this->lng, $this, self::CMD_SHOW_SRC_POOL_DEF_LIST
 		);
 
 		$table->build();
