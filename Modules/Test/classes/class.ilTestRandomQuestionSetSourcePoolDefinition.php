@@ -186,7 +186,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 	 */
 	public function saveToDb()
 	{
-		if( $this->dbRecordExists() )
+		if( $this->getId() )
 		{
 			return $this->updateDbRecord();
 		}
@@ -249,7 +249,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 	 */
 	private function insertDbRecord()
 	{
-		$nextId = $this->db->getNextId('tst_rnd_quest_set_qpls');
+		$nextId = $this->db->nextId('tst_rnd_quest_set_qpls');
 
 		$this->db->insert('tst_rnd_quest_set_qpls', array(
 				'def_id' => array('integer', $nextId),

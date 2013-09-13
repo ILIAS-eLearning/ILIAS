@@ -285,5 +285,9 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
-	
+
+	public function fetchRandomQuestionSet()
+	{
+
+	}
 }

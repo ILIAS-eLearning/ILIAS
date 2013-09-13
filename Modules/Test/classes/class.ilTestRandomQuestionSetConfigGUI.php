@@ -356,10 +356,7 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$form->applySubmit( $sourcePoolDefinition, $availableTaxonomyIds );
 
-		if( !$sourcePoolDefinition->saveToDb() )
-		{
-			return $this->showSourcePoolDefinitionListCmd($form);
-		}
+		$sourcePoolDefinition->saveToDb();
 
 		$this->questionSetConfig->fetchRandomQuestionSet();
 
