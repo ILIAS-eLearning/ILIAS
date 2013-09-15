@@ -18178,5 +18178,324 @@ if(!$ilDB->tableColumnExists('cal_shared','writable'))
 	);
 }
 ?>
-
-
+<#4074>
+<?php
+//put cmi_custom to sahs_user
+$set = $ilDB->query("SELECT obj_id,user_id FROM cmi_custom GROUP BY obj_id, user_id");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fields = array();
+	$fields["obj_id"]  = array("integer", $row["obj_id"]);
+	$fields["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->insert("sahs_user", $fields);
+}
+?>
+<#4075>
+<?php
+	// empty step
+?>
+<#4076>
+<?php
+	// empty step
+?>
+<#4077>
+<?php
+// move to sahs_user
+$set = $ilDB->queryF(
+		"SELECT obj_id,user_id, max(c_timestamp) last_access FROM cmi_custom WHERE lvalue <> %s GROUP BY obj_id, user_id",
+		array('text'),array("hash"));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fields = array();
+	$fields["last_access"] = array("date", $row["last_access"]);
+	$where = array();
+	$where["obj_id"] = array("integer", $row["obj_id"]);
+	$where["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->update("sahs_user", $fields, $where);
+}
+?>
+<#4078>
+<?php
+$lval      = "hash";
+$lvalField = $lval;
+$lvalType  = "text";
+$counter=0;
+// move to sahs_user
+$set = $ilDB->queryF(
+		"SELECT obj_id,user_id,rvalue,c_timestamp FROM cmi_custom WHERE lvalue = %s GROUP BY obj_id, user_id, rvalue, c_timestamp",
+		array('text'),array($lval));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fields = array();
+	$fields[$lvalField] = array($lvalType, $row["rvalue"]);
+	$fields["hash_end"] = array("date", $row["c_timestamp"]);
+	$where = array();
+	$where["obj_id"] = array("integer", $row["obj_id"]);
+	$where["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->update("sahs_user", $fields, $where);
+	$counter++;
+}
+?>
+<#4079>
+<?php
+$lval      = "hash";
+$lvalField = $lval;
+// delete old values
+$set = $ilDB->query("SELECT obj_id, user_id FROM sahs_user where ".$lvalField." is not null");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$ilDB->queryF("DELETE FROM cmi_custom WHERE lvalue = %s AND obj_id = %s AND user_id = %s",
+		array('text','integer','integer'), array($lval,$row["obj_id"],$row["user_id"]));
+}
+?>
+<#4080>
+<?php
+$lval      = "package_attempts";
+$lvalField = $lval;
+$lvalType  = "integer";
+$counter=0;
+// move to sahs_user
+$set = $ilDB->queryF(
+		"SELECT obj_id,user_id,rvalue FROM cmi_custom WHERE lvalue = %s GROUP BY obj_id, user_id, rvalue",
+		array('text'),array($lval));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fieldValue = $row["rvalue"];
+	if ($lvalType == "integer") $fieldValue = (int)$fieldValue;
+	$fields = array();
+	$fields[$lvalField] = array($lvalType, $fieldValue);
+	$where = array();
+	$where["obj_id"] = array("integer", $row["obj_id"]);
+	$where["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->update("sahs_user", $fields, $where);
+	$counter++;
+}
+?>
+<#4081>
+<?php
+$lval      = "package_attempts";
+$lvalField = $lval;
+// delete old values
+$set = $ilDB->query("SELECT obj_id, user_id FROM sahs_user where ".$lvalField." is not null");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$ilDB->queryF("DELETE FROM cmi_custom WHERE lvalue = %s AND obj_id = %s AND user_id = %s",
+		array('text','integer','integer'), array($lval,$row["obj_id"],$row["user_id"]));
+}
+?>
+<#4082>
+<?php
+$lval      = "module_version";
+$lvalField = $lval;
+$lvalType  = "integer";
+$counter=0;
+// move to sahs_user
+$set = $ilDB->queryF(
+		"SELECT obj_id,user_id,rvalue FROM cmi_custom WHERE lvalue = %s GROUP BY obj_id, user_id, rvalue",
+		array('text'),array($lval));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fieldValue = $row["rvalue"];
+	if ($lvalType == "integer") $fieldValue = (int)$fieldValue;
+	$fields = array();
+	$fields[$lvalField] = array($lvalType, $fieldValue);
+	$where = array();
+	$where["obj_id"] = array("integer", $row["obj_id"]);
+	$where["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->update("sahs_user", $fields, $where);
+	$counter++;
+}
+?>
+<#4083>
+<?php
+$lval      = "module_version";
+$lvalField = $lval;
+// delete old values
+$set = $ilDB->query("SELECT obj_id, user_id FROM sahs_user where ".$lvalField." is not null");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$ilDB->queryF("DELETE FROM cmi_custom WHERE lvalue = %s AND obj_id = %s AND user_id = %s",
+		array('text','integer','integer'), array($lval,$row["obj_id"],$row["user_id"]));
+}
+?>
+<#4084>
+<?php
+$lval      = "last_visited";
+$lvalField = $lval;
+$lvalType  = "text";
+$counter=0;
+// move to sahs_user
+$set = $ilDB->queryF(
+		"SELECT obj_id,user_id,rvalue FROM cmi_custom WHERE lvalue = %s GROUP BY obj_id, user_id, rvalue",
+		array('text'),array($lval));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fieldValue = $row["rvalue"];
+	if ($lvalType == "integer") $fieldValue = (int)$fieldValue;
+	$fields = array();
+	$fields[$lvalField] = array($lvalType, $fieldValue);
+	$where = array();
+	$where["obj_id"] = array("integer", $row["obj_id"]);
+	$where["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->update("sahs_user", $fields, $where);
+	$counter++;
+}
+?>
+<#4085>
+<?php
+$lval      = "last_visited";
+$lvalField = $lval;
+// delete old values
+$set = $ilDB->query("SELECT obj_id, user_id FROM sahs_user where ".$lvalField." is not null");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$ilDB->queryF("DELETE FROM cmi_custom WHERE lvalue = %s AND obj_id = %s AND user_id = %s",
+		array('text','integer','integer'), array($lval,$row["obj_id"],$row["user_id"]));
+}
+?>
+<#4086>
+<?php
+if(!$ilDB->tableColumnExists('sahs_user','percentage_completed'))
+{
+	$ilDB->addTableColumn(
+		'sahs_user',
+		'percentage_completed',
+		array(
+			'type' => 'integer', 
+			'length' => 1,
+			'notnull' => false
+		)
+	);
+}
+?>
+<#4087>
+<?php
+//put scorm_tracking to sahs_user
+$set = $ilDB->query("SELECT obj_id,user_id FROM scorm_tracking GROUP BY obj_id, user_id");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fields = array();
+	$fields["obj_id"]  = array("integer", $row["obj_id"]);
+	$fields["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->insert("sahs_user", $fields);
+}
+?>
+<#4088>
+<?php
+// move to sahs_user
+$set = $ilDB->query("SELECT obj_id,user_id, max(c_timestamp) last_access FROM scorm_tracking GROUP BY obj_id, user_id");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fields = array();
+	$fields["last_access"] = array("date", $row["last_access"]);
+	$where = array();
+	$where["obj_id"] = array("integer", $row["obj_id"]);
+	$where["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->update("sahs_user", $fields, $where);
+}
+?>
+<#4089>
+<?php
+$lval      = "package_attempts";
+$lvalField = $lval;
+$lvalType  = "integer";
+$counter=0;
+// move to sahs_user
+$set = $ilDB->queryF(
+		"SELECT obj_id,user_id,rvalue FROM scorm_tracking WHERE lvalue = %s",
+		array('text'),array($lval));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fieldValue = $row["rvalue"];
+	if ($lvalType == "integer") $fieldValue = (int)$fieldValue;
+	$fields = array();
+	$fields[$lvalField] = array($lvalType, $fieldValue);
+	$where = array();
+	$where["obj_id"] = array("integer", $row["obj_id"]);
+	$where["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->update("sahs_user", $fields, $where);
+	$counter++;
+}
+?>
+<#4090>
+<?php
+$lval      = "package_attempts";
+$lvalField = $lval;
+// delete old values
+$set = $ilDB->query("SELECT obj_id, user_id FROM sahs_user where ".$lvalField." is not null");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$ilDB->queryF("DELETE FROM scorm_tracking WHERE lvalue = %s AND obj_id = %s AND user_id = %s",
+		array('text','integer','integer'), array($lval,$row["obj_id"],$row["user_id"]));
+}
+?>
+<#4091>
+<?php
+$lval      = "module_version";
+$lvalField = $lval;
+$lvalType  = "integer";
+$counter=0;
+// move to sahs_user
+$set = $ilDB->queryF(
+		"SELECT obj_id,user_id,rvalue FROM scorm_tracking WHERE lvalue = %s",
+		array('text'),array($lval));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fieldValue = $row["rvalue"];
+	if ($lvalType == "integer") $fieldValue = (int)$fieldValue;
+	$fields = array();
+	$fields[$lvalField] = array($lvalType, $fieldValue);
+	$where = array();
+	$where["obj_id"] = array("integer", $row["obj_id"]);
+	$where["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->update("sahs_user", $fields, $where);
+	$counter++;
+}
+?>
+<#4092>
+<?php
+$lval      = "module_version";
+$lvalField = $lval;
+// delete old values
+$set = $ilDB->query("SELECT obj_id, user_id FROM sahs_user where ".$lvalField." is not null");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$ilDB->queryF("DELETE FROM scorm_tracking WHERE lvalue = %s AND obj_id = %s AND user_id = %s",
+		array('text','integer','integer'), array($lval,$row["obj_id"],$row["user_id"]));
+}
+?>
+<#4093>
+<?php
+$lval      = "last_visited";
+$lvalField = $lval;
+$lvalType  = "text";
+$counter=0;
+// move to sahs_user
+$set = $ilDB->queryF(
+		"SELECT obj_id,user_id,rvalue FROM scorm_tracking WHERE lvalue = %s",
+		array('text'),array($lval));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fieldValue = $row["rvalue"];
+	if ($lvalType == "integer") $fieldValue = (int)$fieldValue;
+	$fields = array();
+	$fields[$lvalField] = array($lvalType, $fieldValue);
+	$where = array();
+	$where["obj_id"] = array("integer", $row["obj_id"]);
+	$where["user_id"] = array("integer", $row["user_id"]);
+	$ilDB->update("sahs_user", $fields, $where);
+	$counter++;
+}
+?>
+<#4094>
+<?php
+$lval      = "last_visited";
+$lvalField = $lval;
+// delete old values
+$set = $ilDB->query("SELECT obj_id, user_id FROM sahs_user where ".$lvalField." is not null");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$ilDB->queryF("DELETE FROM scorm_tracking WHERE lvalue = %s AND obj_id = %s AND user_id = %s",
+		array('text','integer','integer'), array($lval,$row["obj_id"],$row["user_id"]));
+}
+?>
