@@ -99,8 +99,9 @@ class ilSCORMPresentationGUI
 		//count attempt
 		//Cause there is no way to check if the Java-Applet is sucessfully loaded, an attempt equals opening the SCORM player
 		
-		$this->increase_attempt();
-		$this->save_module_version();
+		$this->increase_attemptAndsave_module_version();
+//		$this->increase_attempt();
+//		$this->save_module_version();
 
 		if ($javascriptAPI == false) {
 			if (count($items) > 1
@@ -190,133 +191,173 @@ class ilSCORMPresentationGUI
 	/**
 	* Get number of actual attempts for the user
 	*/
-	function get_actual_attempts() {
+	function get_actual_attempts() 
+	{
 		global $ilDB, $ilUser;
-
-		$val_set = $ilDB->queryF('
-			SELECT * FROM scorm_tracking 
-			WHERE user_id =  %s
-			AND sco_id = %s
-			AND lvalue= %s
-			AND obj_id = %s',
-			array('integer','integer','text','integer'),
-			array($ilUser->getId(),0,'package_attempts',$this->slm->getId())
-		);
-		$val_rec = $ilDB->fetchAssoc($val_set);	
-		
-		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-		if ($val_rec["rvalue"] == null) {
-			$val_rec["rvalue"]=0;
-		}
-
-		return $val_rec["rvalue"];
+		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			array('integer','integer'), array($this->slm->getId(),$ilUser->getId()));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		$attempts = $val_rec["package_attempts"];
+		if ($attempts == null) $attempts = 0;
+		return $attempts;
 	}
+	// function get_actual_attempts() {
+		// global $ilDB, $ilUser;
+		// $val_set = $ilDB->queryF('
+			// SELECT * FROM scorm_tracking 
+			// WHERE user_id =  %s
+			// AND sco_id = %s
+			// AND lvalue= %s
+			// AND obj_id = %s',
+			// array('integer','integer','text','integer'),
+			// array($ilUser->getId(),0,'package_attempts',$this->slm->getId())
+		// );
+		// $val_rec = $ilDB->fetchAssoc($val_set);	
+		
+		// $val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		// if ($val_rec["rvalue"] == null) {
+			// $val_rec["rvalue"]=0;
+		// }
+
+		// return $val_rec["rvalue"];
+	// }
 	
 	/**
 	* Increases attempts by one for this package
 	*/
-	function increase_attempt() {
-		global $ilDB, $ilUser;
+	// function increase_attempt() {
+		// global $ilDB, $ilUser;
 		
-		//get existing account - sco id is always 0
-		$val_set = $ilDB->queryF('
-			SELECT * FROM scorm_tracking 
-			WHERE user_id =  %s
-			AND sco_id = %s
-			AND lvalue= %s
-			AND obj_id = %s',
-			array('integer','integer','text','integer'),
-			array($ilUser->getId(),0,'package_attempts',$this->slm->getId())
-			);
+		// //get existing account - sco id is always 0
+		// $val_set = $ilDB->queryF('
+			// SELECT * FROM scorm_tracking 
+			// WHERE user_id =  %s
+			// AND sco_id = %s
+			// AND lvalue= %s
+			// AND obj_id = %s',
+			// array('integer','integer','text','integer'),
+			// array($ilUser->getId(),0,'package_attempts',$this->slm->getId())
+			// );
 
-		$val_rec = $ilDB->fetchAssoc($val_set);		
+		// $val_rec = $ilDB->fetchAssoc($val_set);		
 		
-		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-		if ($val_rec["rvalue"] == null) {
-			$val_rec["rvalue"]=0;
-		}
-		$new_rec =  $val_rec["rvalue"]+1;
-		//increase attempt by 1
-		if($ilDB->numRows($val_set) > 0)
-		{
-			$ilDB->update('scorm_tracking',
-				array(
-					'rvalue'		=> array('clob', $new_rec),
-					'c_timestamp'	=> array('timestamp', ilUtil::now())
-				),
-				array(
-					'user_id'		=> array('integer', $ilUser->getId()),
-					'sco_id'		=> array('integer', 0),
-					'lvalue'		=> array('text', 'package_attempts'),
-					'obj_id'		=> array('integer', $this->slm->getId())
-				)
-			);
-		}
-		else
-		{
-			$ilDB->insert('scorm_tracking', array(
-				'obj_id'		=> array('integer', $this->slm->getId()),
-				'user_id'		=> array('integer', $ilUser->getId()),
-				'sco_id'		=> array('integer', 0),
-				'lvalue'		=> array('text', 'package_attempts'),
-				'rvalue'		=> array('clob', $new_rec),
-				'c_timestamp'	=> array('timestamp', ilUtil::now())
-			));
-		}
+		// $val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		// if ($val_rec["rvalue"] == null) {
+			// $val_rec["rvalue"]=0;
+		// }
+		// $new_rec =  $val_rec["rvalue"]+1;
+		// //increase attempt by 1
+		// //TODO: do not set c_timestamp because of last_access
+		// if($ilDB->numRows($val_set) > 0)
+		// {
+			// $ilDB->update('scorm_tracking',
+				// array(
+					// 'rvalue'		=> array('clob', $new_rec),
+					// 'c_timestamp'	=> array('timestamp', ilUtil::now())
+				// ),
+				// array(
+					// 'user_id'		=> array('integer', $ilUser->getId()),
+					// 'sco_id'		=> array('integer', 0),
+					// 'lvalue'		=> array('text', 'package_attempts'),
+					// 'obj_id'		=> array('integer', $this->slm->getId())
+				// )
+			// );
+		// }
+		// else
+		// {
+			// $ilDB->insert('scorm_tracking', array(
+				// 'obj_id'		=> array('integer', $this->slm->getId()),
+				// 'user_id'		=> array('integer', $ilUser->getId()),
+				// 'sco_id'		=> array('integer', 0),
+				// 'lvalue'		=> array('text', 'package_attempts'),
+				// 'rvalue'		=> array('clob', $new_rec),
+				// 'c_timestamp'	=> array('timestamp', ilUtil::now())
+			// ));
+		// }
 		
+		// include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+		// ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
+
+	// }	
+		/**
+	* Increases attempts by one and saves module_version for this package
+	*/
+	function increase_attemptAndsave_module_version()
+	{
+		global $ilDB, $ilUser;
+		$res = $ilDB->queryF(
+			'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			array('integer','integer'),
+			array($this->slm->getId(),$ilUser->getId()));
+		$val_rec = $ilDB->fetchAssoc($res);
+		if ($val_rec["cnt"] == 0) { //offline_mode could be inserted
+			$attempts = 1;
+			$ilDB->manipulateF(
+				'INSERT INTO sahs_user (obj_id,user_id,package_attempts,module_version,last_access) VALUES(%s,%s,%s,%s,%s)',
+				array('integer', 'integer', 'integer', 'integer', 'timestamp'),
+				array($this->slm->getId(), $ilUser->getId(), $attempts, $this->slm->getModuleVersion(), date('Y-m-d H:i:s')));
+		} else {
+			$attempts = $val_rec["package_attempts"];
+			if ($attempts == null) $attempts = 0;
+			$attempts++;
+			$ilDB->manipulateF(
+				'UPDATE sahs_user SET package_attempts = %s, module_version = %s, last_access=%s WHERE obj_id = %s AND user_id = %s ',
+				array('integer', 'integer', 'timestamp', 'integer', 'integer'),
+				array($attempts, $this->slm->getModuleVersion(), date('Y-m-d H:i:s'), $this->slm->getId(), $ilUser->getId()));
+		}
+		//only SCORM 1.2, not 2004
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 		ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
+	}
 
-	}	
-	
 	/**
 	* save the active module version to scorm_tracking
 	*/
-	function save_module_version() {
-		global $ilDB, $ilUser;
-		
-		$val_set = $ilDB->queryF('
-			SELECT * FROM scorm_tracking 
-			WHERE user_id =  %s
-			AND sco_id = %s
-			AND lvalue= %s
-			AND obj_id = %s',
-			array('integer','integer','text','integer'),
-			array($ilUser->getId(),0,'module_version',$this->slm->getId())
+	// function save_module_version() {
+		// global $ilDB, $ilUser;
 
-			);
+		// $val_set = $ilDB->queryF('
+			// SELECT * FROM scorm_tracking 
+			// WHERE user_id =  %s
+			// AND sco_id = %s
+			// AND lvalue= %s
+			// AND obj_id = %s',
+			// array('integer','integer','text','integer'),
+			// array($ilUser->getId(),0,'module_version',$this->slm->getId())
+
+			// );
 		
-		if($ilDB->numRows($val_set) > 0)
-		{
-			$ilDB->update('scorm_tracking',
-				array(
-					'rvalue'		=> array('clob', $this->slm->getModuleVersion()),
-					'c_timestamp'	=> array('timestamp', ilUtil::now())
-				),
-				array(
-					'user_id'		=> array('integer', $ilUser->getId()),
-					'sco_id'		=> array('integer', 0),
-					'lvalue'		=> array('text', 'module_version'),
-					'obj_id'		=> array('integer', $this->slm->getId())
-				)
-			);
-		}
-		else
-		{
-			$ilDB->insert('scorm_tracking', array(
-				'obj_id'		=> array('integer', $this->slm->getId()),
-				'user_id'		=> array('integer', $ilUser->getId()),
-				'sco_id'		=> array('integer', 0),
-				'lvalue'		=> array('text', 'module_version'),
-				'rvalue'		=> array('clob', $this->slm->getModuleVersion()),
-				'c_timestamp'	=> array('timestamp', ilUtil::now())
-			));
-		}
+		// if($ilDB->numRows($val_set) > 0)
+		// {
+			// $ilDB->update('scorm_tracking',
+				// array(
+					// 'rvalue'		=> array('clob', $this->slm->getModuleVersion()),
+					// 'c_timestamp'	=> array('timestamp', ilUtil::now())
+				// ),
+				// array(
+					// 'user_id'		=> array('integer', $ilUser->getId()),
+					// 'sco_id'		=> array('integer', 0),
+					// 'lvalue'		=> array('text', 'module_version'),
+					// 'obj_id'		=> array('integer', $this->slm->getId())
+				// )
+			// );
+		// }
+		// else
+		// {
+			// $ilDB->insert('scorm_tracking', array(
+				// 'obj_id'		=> array('integer', $this->slm->getId()),
+				// 'user_id'		=> array('integer', $ilUser->getId()),
+				// 'sco_id'		=> array('integer', 0),
+				// 'lvalue'		=> array('text', 'module_version'),
+				// 'rvalue'		=> array('clob', $this->slm->getModuleVersion()),
+				// 'c_timestamp'	=> array('timestamp', ilUtil::now())
+			// ));
+		// }
 		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-		ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
+		// include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+		// ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
 		
-	}
+	// }
 	
 	/**
 	* output table of content

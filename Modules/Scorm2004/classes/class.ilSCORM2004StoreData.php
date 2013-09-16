@@ -22,63 +22,18 @@ class ilSCORM2004StoreData
 			$userId=(int) $data->p;
 			self::checkIfAllowed($packageId,$userId,$data->hash); 
 		}
-		if ($data->last !="") $this->set_last_visited($packageId,$userId,$data->last);
-
+		$last_visited = "";
+		if ($data->last !="") $last_visited = $data->last;
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i')+5, date('s'), date('m'), date('d'), date('Y')));
-		$ilDB->manipulateF('
-			UPDATE cmi_custom 
-			SET c_timestamp = %s
-			WHERE user_id = %s 
-			AND	sco_id = %s 
-			AND obj_id = %s 
-			AND	lvalue = %s',  
-			array('timestamp', 'integer', 'integer', 'integer', 'text'),
-			array($endDate, $userId, 0, $packageId, 'hash')
+		$ilDB->manipulateF('UPDATE sahs_user 
+			SET last_visited = %s, hash_end =%s, last_access = %s
+			WHERE obj_id = %s AND user_id = %s',  
+			array('text', 'timestamp', 'timestamp', 'integer', 'integer'),
+			array($last_visited, $endDate, date('Y-m-d H:i:s'), $packageId, $userId)
 		);
-		
+
 		header('Content-Type: text/plain; charset=UTF-8');
 		print("");
-	}
-
-	function set_last_visited($a_obj_id, $a_user_id, $last_visited)
-	{
-		global $ilDB;
-
-		$val_set = $ilDB->queryF('
-		SELECT rvalue FROM cmi_custom 
-		WHERE user_id = %s
-				AND sco_id = %s
-				AND lvalue = %s
-				AND obj_id = %s',
-		array('integer','integer', 'text','integer'),
-		array($a_user_id, 0,'last_visited',$a_obj_id));
-		
-		$val_rec = $ilDB->fetchAssoc($val_set);
-		$pre_last_visited=$val_rec["rvalue"];
-
-		if ($pre_last_visited == $last_visited) return;
-		if ($pre_last_visited == null) {
-			$ilDB->manipulateF('
-				INSERT INTO cmi_custom (rvalue, user_id, sco_id, obj_id, lvalue, c_timestamp)
-				VALUES(%s, %s, %s, %s, %s, %s)',  
-				array('text', 'integer', 'integer', 'integer', 'text', 'timestamp'),
-				array($last_visited, $a_user_id, 0, $a_obj_id, 'last_visited', date('Y-m-d H:i:s'))
-			);
-		}
-		else
-		{
-			$ilDB->manipulateF('
-				UPDATE cmi_custom 
-				SET rvalue = %s, 
-					c_timestamp = %s
-				WHERE user_id = %s 
-				AND	sco_id = %s 
-				AND obj_id = %s 
-				AND	lvalue = %s',  
-				array('text', 'timestamp', 'integer', 'integer', 'integer', 'text'),
-				array($last_visited, date('Y-m-d H:i:s'), $a_user_id, 0, $a_obj_id, 'last_visited')
-			);
-		}
 	}
 
 
@@ -121,13 +76,12 @@ class ilSCORM2004StoreData
 
 	function checkIfAllowed($packageId,$userId,$hash){
 		global $ilDB;
-		$res = $ilDB->queryF(
-			'select rvalue,c_timestamp from cmi_custom where user_id=%s and obj_id=%s and lvalue=%s and c_timestamp>%s',
-			array('integer','integer','text','timestamp'),
-			array($userId,$packageId,'hash',date('Y-m-d H:i:s'))
+		$res = $ilDB->queryF('select hash from sahs_user where obj_id=%s AND user_id=%s AND hash_end>%s',
+			array('integer','integer','timestamp'),
+			array($packageId,$userId,date('Y-m-d H:i:s'))
 		);
 		$rowtmp=$ilDB->fetchAssoc($res);
-		if ($rowtmp['rvalue']==$hash) return;
+		if ($rowtmp['hash']==$hash) return;
 		else die("not allowed");
 	}
 
@@ -366,25 +320,19 @@ class ilSCORM2004StoreData
 		//ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
 		
 		// get attempts
-		$val_set = $ilDB->queryF('
-		SELECT rvalue FROM cmi_custom 
-		WHERE user_id = %s
-				AND sco_id = %s
-				AND lvalue = %s
-				AND obj_id = %s',
-		array('integer','integer', 'text','integer'),
-		array($userId, 0,'package_attempts',$packageId));
-		
+		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			array('integer','integer'), array($packageId,$userId));
 		$val_rec = $ilDB->fetchAssoc($val_set);
-		
-		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-		if ($val_rec["rvalue"] == null) {
-			$val_rec["rvalue"]="";
-		}
+		$attempts = $val_rec["package_attempts"];
+		if ($attempts == null) $attempts = "";
 
-		$attempts = $val_rec["rvalue"];
+		//update percentage_completed, sco_total_time_sec,status in sahs_user
 		$totalTime=(int)$data->totalTimeCentisec;
 		$totalTime=round($totalTime/100);
+		$ilDB->queryF('UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s WHERE obj_id = %s AND user_id = %s',
+			array('integer', 'integer', 'integer', 'integer', 'integer'), 
+			array($totalTime, $new_global_status, $data->percentageCompleted, $packageId, $userId));
+		
 		self::ensureObjectDataCacheExistence();
 		global $ilObjDataCache;
 		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");

@@ -1033,6 +1033,12 @@ class ilObjSAHSLearningModule extends ilObject
 		$ilDB->manipulateF('DELETE FROM scorm_tracking WHERE obj_id = %s',
 			array('integer'), array($this->getId()));
 
+		$q_log = "DELETE FROM sahs_user WHERE obj_id = ".$ilDB->quote($this->getId());
+		$ilLog->write("SAHS Delete(SAHSLM): ".$q_log);
+
+		$ilDB->manipulateF('DELETE FROM sahs_user WHERE obj_id = %s',
+			array('integer'), array($this->getId()));
+
 		// always call parent delete function at the end!!
 		return true;
 	}

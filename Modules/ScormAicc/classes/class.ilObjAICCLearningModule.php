@@ -135,6 +135,11 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		$ilDB->manipulateF('DELETE FROM scorm_tracking WHERE obj_id = %s',
 		array('integer'), array($this->getId()));
 
+		$q_log = "DELETE FROM sahs_user WHERE obj_id = ".$ilDB->quote($this->getId());
+		$ilLog->write("SAHS Delete (AICC LM): ".$q_log);
+		$ilDB->manipulateF('DELETE FROM sahs_user WHERE obj_id = %s',
+		array('integer'), array($this->getId()));
+
 		// update learning progress status
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_refreshStatus($this->getId());

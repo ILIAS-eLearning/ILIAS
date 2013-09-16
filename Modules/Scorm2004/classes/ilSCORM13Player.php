@@ -374,7 +374,7 @@ class ilSCORM13Player
 		{		
 			$status['scos'] = $collection->getItems();
 		}
-		
+		else $status['scos'] = array();
 		$status['hash'] = $this->setHash();
 		$status['p'] = $ilUser->getID();
 		$config['status'] = $status;
@@ -460,10 +460,9 @@ class ilSCORM13Player
 		//count attempt
 		//Cause there is no way to check if the Java-Applet is sucessfully loaded, an attempt equals opening the SCORM player
 		
-		$this->increase_attempt();
+		$this->increase_attemptAndsave_module_version();
 		$this->resetSharedData();
-		$this->save_module_version();
-		
+
 		$this->tpl->show("DEFAULT", false);
 	}
 
@@ -1273,80 +1272,42 @@ class ilSCORM13Player
 	function get_actual_attempts() 
 	{
 		global $ilDB, $ilUser;
-
-		$res = $ilDB->queryF('
-			SELECT rvalue FROM cmi_custom 
-			WHERE user_id = %s AND sco_id = %s
-			AND lvalue = %s	AND obj_id = %s',
-			array('integer', 'integer', 'text', 'integer'),
-			array($this->userId, 0, 'package_attempts', $this->packageId)
-		);
-		$row = $ilDB->fetchAssoc($res);		
-		
-		$row['rvalue'] = str_replace("\r\n", "\n", $row['rvalue']);
-		if($row['rvalue'] == null)
-		{
-			$row['rvalue'] = 0;
-		}
-		return $row['rvalue'];
+		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			array('integer','integer'), array($this->packageId,$this->userId));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		$attempts = $val_rec["package_attempts"];
+		if ($attempts == null) $attempts = 0;
+		return $attempts;
 	}
 	
 	/**
-	* Increases attempts by one for this package
+	* Increases attempts by one and saves module_version for this package
 	*/
-	function increase_attempt()
+	function increase_attemptAndsave_module_version()
 	{
 		global $ilDB, $ilUser;
-		
-		//get existing account - sco id is always 0
-		$res = $ilDB->queryF('
-			SELECT rvalue FROM cmi_custom 
-			WHERE user_id = %s
-			AND sco_id = %s
-			AND lvalue = %s
-			AND obj_id = %s',
-			array('integer', 'integer','text', 'integer'),
-			array($this->userId, 0, 'package_attempts', $this->packageId)
-		);
-		$row = $ilDB->fetchAssoc($res);
-		
-		$tmp_row = $row;
-		
-		$row['rvalue'] = str_replace("\r\n", "\n", $row['rvalue']);
-		if($row['rvalue'] == null)
-		{
-			$row['rvalue'] = 0;
+		$res = $ilDB->queryF(
+			'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			array('integer','integer'),
+			array($this->packageId,$this->userId));
+		$val_rec = $ilDB->fetchAssoc($res);
+		if ($val_rec["cnt"] == 0) { //offline_mode could be inserted
+			$attempts = 1;
+			$ilDB->manipulateF(
+				'INSERT INTO sahs_user (obj_id,user_id,package_attempts,module_version,last_access) VALUES(%s,%s,%s,%s,%s)',
+				array('integer', 'integer', 'integer', 'integer', 'timestamp'),
+				array($this->packageId, $this->userId, $attempts, $this->get_Module_Version(), date('Y-m-d H:i:s')));
+		} else {
+			$attempts = $val_rec["package_attempts"];
+			if ($attempts == null) $attempts = 0;
+			$attempts++;
+			$ilDB->manipulateF(
+				'UPDATE sahs_user SET package_attempts = %s, module_version = %s, last_access=%s WHERE obj_id = %s AND user_id = %s ',
+				array('integer', 'integer', 'timestamp', 'integer', 'integer'),
+				array($attempts, $this->get_Module_Version(), date('Y-m-d H:i:s'), $this->packageId, $this->userId));
 		}
-		$new_rec =  $row['rvalue'] + 1;
-		
-		//increase attempt by 1
-		if(!is_array($tmp_row) || !count($tmp_row))
-		{
-			$ilDB->manipulateF('
-				INSERT INTO cmi_custom (rvalue, user_id, sco_id, obj_id, lvalue, c_timestamp) 
-				VALUES(%s, %s, %s, %s, %s, %s)', 
-				array('text', 'integer', 'integer', 'integer', 'text', 'timestamp'), 
-				array($new_rec, $this->userId, 0, $this->packageId, 'package_attempts', date('Y-m-d H:i:s'))
-			);
-		}
-		else
-		{
-			$ilDB->manipulateF('
-				UPDATE cmi_custom 
-				SET rvalue = %s,
-					c_timestamp = %s
-				WHERE 	user_id = %s 
-				AND		sco_id = %s 
-				AND		obj_id = %s 
-				AND		lvalue = %s',
-				array('text', 'timestamp', 'integer', 'integer', 'integer','text'), 
-				array($new_rec, date('Y-m-d H:i:s'), $this->userId, 0, $this->packageId, 'package_attempts')
-			);
-		}
-		
+	}
 
-	}	
-	
 	function resetSharedData()
 	{
 		global $ilDB;
@@ -1386,47 +1347,6 @@ class ilSCORM13Player
 			);
 		}
 	}
-	/**
-	* save the active module version to scorm_tracking
-	*/
-	function save_module_version()
-	{
-		global $ilDB, $ilUser;
-
-		$res = $ilDB->queryF('
-			SELECT rvalue FROM cmi_custom 
-			WHERE user_id = %s
-			AND sco_id = %s
-			AND lvalue = %s
-			AND obj_id = %s',
-			array('integer', 'integer', 'text', 'integer'),
-			array($this->userId, 0, 'module_version', $this->packageId)
-		);		
-		if(!$ilDB->numRows($res))
-		{
-			$ilDB->manipulateF('
-				INSERT INTO cmi_custom (rvalue, user_id, sco_id, obj_id, lvalue, c_timestamp)
-				VALUES(%s, %s, %s, %s, %s, %s)',  
-				array('text', 'integer', 'integer', 'integer', 'text', 'timestamp'),
-				array($this->get_Module_Version(), $this->userId, 0, $this->packageId, 'module_version', date('Y-m-d H:i:s'))
-			);
-		}
-		else
-		{
-		//optimize: check first if $this->get_Module_Version() = module_version
-			$ilDB->manipulateF('
-				UPDATE cmi_custom 
-				SET rvalue = %s, 
-					c_timestamp = %s
-				WHERE user_id = %s 
-				AND	sco_id = %s 
-				AND obj_id = %s 
-				AND	lvalue = %s',  
-				array('text', 'timestamp', 'integer', 'integer', 'integer', 'text'),
-				array($this->get_Module_Version(), date('Y-m-d H:i:s'),	$this->userId, 0, $this->packageId, 'module_version')
-			);	
-		}
-	}
 
 	// hash for storing data without session
 	private function setHash() {
@@ -1434,47 +1354,33 @@ class ilSCORM13Player
 		$hash = mt_rand(1000000000,9999999999);
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')+1, date('Y')));
 
-		$res = $ilDB->queryF('
-			SELECT rvalue FROM cmi_custom 
-			WHERE user_id = %s
-			AND sco_id = %s
-			AND lvalue = %s
-			AND obj_id = %s',
-			array('integer', 'integer', 'text', 'integer'),
-			array($this->userId, 0, 'hash', $this->packageId)
+		$res = $ilDB->queryF('SELECT count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			array('integer', 'integer'),
+			array($this->packageId,$this->userId)
 		);
-		if(!$ilDB->numRows($res))
-		{
-			$ilDB->manipulateF('
-				INSERT INTO cmi_custom (rvalue, user_id, sco_id, obj_id, lvalue, c_timestamp)
-				VALUES(%s, %s, %s, %s, %s, %s)',  
-				array('text', 'integer', 'integer', 'integer', 'text', 'timestamp'),
-				array("".$hash, $this->userId, 0, $this->packageId, 'hash', $endDate)
+		$val_rec = $ilDB->fetchAssoc($res);
+		if ($val_rec["cnt"] == 0) { //offline_mode could be inserted
+			$ilDB->manipulateF('INSERT INTO sahs_user (obj_id, user_id, hash, hash_end) VALUES(%s, %s, %s, %s)',  
+				array('integer', 'integer', 'text', 'timestamp'),
+				array($this->packageId, $this->userId, "".$hash, $endDate)
 			);
 		}
 		else
 		{
-			$ilDB->manipulateF('
-				UPDATE cmi_custom 
-				SET rvalue = %s, 
-					c_timestamp = %s
-				WHERE user_id = %s 
-				AND	sco_id = %s 
-				AND obj_id = %s 
-				AND	lvalue = %s',  
-				array('text', 'timestamp', 'integer', 'integer', 'integer', 'text'),
-				array("".$hash, $endDate, $this->userId, 0, $this->packageId, 'hash')
-			);	
-		}
-		//clean table
-		if (fmod($hash,100) == 0) //note: do not use % for large numbers; here php-min-Version: 4.2.0
-		{
-			$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')-2, date('Y')));
-			$ilDB->manipulateF('DELETE FROM cmi_custom WHERE lvalue = %s AND c_timestamp < %s',
-				array('text', 'timestamp'),
-				array('hash', $endDate)
+			$ilDB->manipulateF('UPDATE sahs_user SET hash = %s, hash_end = %s WHERE obj_id = %s AND user_id = %s',
+				array('text', 'timestamp', 'integer', 'integer'),
+				array("".$hash, $endDate, $this->packageId, $this->userId)
 			);
 		}
+		//clean table
+		// if (fmod($hash,100) == 0) //note: do not use % for large numbers; here php-min-Version: 4.2.0
+		// {
+			// $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')-2, date('Y')));
+			// $ilDB->manipulateF('DELETE FROM cmi_custom WHERE lvalue = %s AND c_timestamp < %s',
+				// array('text', 'timestamp'),
+				// array('hash', $endDate)
+			// );
+		// }
 		return $hash;
 	}
 
@@ -2241,18 +2147,12 @@ class ilSCORM13Player
 	function get_last_visited($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
-
-		$val_set = $ilDB->queryF('
-		SELECT rvalue FROM cmi_custom 
-		WHERE user_id = %s
-				AND sco_id = %s
-				AND lvalue = %s
-				AND obj_id = %s',
-		array('integer','integer', 'text','integer'),
-		array($a_user_id, 0,'last_visited',$a_obj_id));
+		$val_set = $ilDB->queryF('SELECT last_visited FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+		array('integer','integer'),
+		array($a_obj_id,$a_user_id));
 		
 		$val_rec = $ilDB->fetchAssoc($val_set);
-		return $val_rec["rvalue"];
+		return $val_rec["last_visited"];
 	}
 }
 

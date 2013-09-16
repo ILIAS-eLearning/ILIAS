@@ -596,8 +596,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 				AND obj_id = %s',
 				array('integer', 'integer'),
 				array($user, $this->object->getID()));
-			
-			ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
+
+			$ilDB->manipulateF('
+				DELETE FROM sahs_user
+				WHERE user_id = %s
+				AND obj_id = %s',
+				array('integer', 'integer'),
+				array($user, $this->object->getID()));
+
+				ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
 		}
 			
 		$this->ctrl->redirect($this, "showTrackingItems");
@@ -794,61 +801,80 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	function decreaseAttempts()
 	{
 		global $ilDB, $ilUser;
-
 		if (!isset($_POST["user"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
 		}
-
+		
 		foreach ($_POST["user"] as $user)
 		{
 			//first check if there is a package_attempts entry
-			//get existing account - sco id is always 0
-			$val_set = $ilDB->queryF('
-			SELECT * FROM scorm_tracking 
-			WHERE user_id = %s
-			AND sco_id = %s 
-			AND lvalue = %s
-			AND obj_id = %s',
-			array('integer','integer','text','integer'),
-			array($user,0,'package_attempts',$this->object->getID()));
-
+			$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE user_id = %s AND obj_id = %s',
+			array('integer','integer'),
+			array($user,$this->object->getID()));
+			
 			$val_rec = $ilDB->fetchAssoc($val_set);
-
-			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-			if ($val_rec["rvalue"] != null && $val_rec["rvalue"] != 0) 
+			
+			if ($val_rec["package_attempts"] != null && $val_rec["package_attempts"] != 0) 
 			{
-				$new_rec =  $val_rec["rvalue"]-1;
+				$new_rec = 0;
 				//decrease attempt by 1
-				if($res = $ilDB->numRows($val_set) > 0)
-				{		
-					$ilDB->update('scorm_tracking',
-						array(
-							'rvalue'	=> array('clob', $new_rec)
-						),
-						array(
-							'user_id'	=> array('integer', $user),
-							'sco_id'	=> array('integer', 0),
-							'obj_id'	=> array('integer', $this->object->getId()),
-							'lvalue'	=> array('text', 'package_attempts')
-						)
-					);
-				}
-				else
-				{
-					$ilDB->insert('scorm_tracking', array(
-						'rvalue'	=> array('clob', $new_rec),
-						'user_id'	=> array('integer', $user),
-						'sco_id'	=> array('integer', 0),
-						'obj_id'	=> array('integer', $this->object->getId()),
-						'lvalue'	=> array('text', 'package_attempts')
-					));
-				}
-				
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+				if ((int)$val_rec["package_attempts"] > 0) $new_rec = (int)$val_rec["package_attempts"]-1;
+				$ilDB->manipulateF('UPDATE sahs_user SET package_attempts = %s WHERE user_id = %s AND obj_id = %s',
+					array('integer','integer','integer'),
+					array($new_rec,$user,$this->object->getID()));
+
+				//following 2 lines were before 4.4 only for SCORM 1.2
+				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 				ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
 			}
 		}
+		// foreach ($_POST["user"] as $user)
+		// {
+			// $val_set = $ilDB->queryF('
+			// SELECT * FROM scorm_tracking 
+			// WHERE user_id = %s
+			// AND sco_id = %s 
+			// AND lvalue = %s
+			// AND obj_id = %s',
+			// array('integer','integer','text','integer'),
+			// array($user,0,'package_attempts',$this->object->getID()));
+
+			// $val_rec = $ilDB->fetchAssoc($val_set);
+
+			// $val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+			// if ($val_rec["rvalue"] != null && $val_rec["rvalue"] != 0) 
+			// {
+				// $new_rec =  $val_rec["rvalue"]-1;
+				// if($res = $ilDB->numRows($val_set) > 0)
+				// {		
+					// $ilDB->update('scorm_tracking',
+						// array(
+							// 'rvalue'	=> array('clob', $new_rec)
+						// ),
+						// array(
+							// 'user_id'	=> array('integer', $user),
+							// 'sco_id'	=> array('integer', 0),
+							// 'obj_id'	=> array('integer', $this->object->getId()),
+							// 'lvalue'	=> array('text', 'package_attempts')
+						// )
+					// );
+				// }
+				// else //TODO: check if it is necessary
+				// {
+					// $ilDB->insert('scorm_tracking', array(
+						// 'rvalue'	=> array('clob', $new_rec),
+						// 'user_id'	=> array('integer', $user),
+						// 'sco_id'	=> array('integer', 0),
+						// 'obj_id'	=> array('integer', $this->object->getId()),
+						// 'lvalue'	=> array('text', 'package_attempts')
+					// ));
+				// }
+				
+				// include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+				// ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
+			// }
+		// }
 
 		//$this->ctrl->saveParameter($this, "cdir");
 		$this->ctrl->redirect($this, "showTrackingItems");

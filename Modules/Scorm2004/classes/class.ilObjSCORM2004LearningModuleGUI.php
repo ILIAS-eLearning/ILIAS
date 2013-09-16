@@ -1367,75 +1367,38 @@ function showTrackingItem()
 	 	$this->ctrl->redirect($this, "showTrackingItems");
 	}
 	
-	function decreaseAttempts()
-	{
-		global $ilDB, $ilUser;
+	// function decreaseAttempts()
+	// {
+		// global $ilDB, $ilUser;
+		// if (!isset($_POST["user"]) || !is_array($_POST["user"]))
+		// {
+			// ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
+		// }
 		
-		if (!isset($_POST["user"]) || !is_array($_POST["user"]))
-		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
-		}
-		
-		foreach ($_POST["user"] as $user)
-		{
-			//first check if there is a package_attempts entry
+		// foreach ($_POST["user"] as $user)
+		// {
+			// //first check if there is a package_attempts entry
 
-			//get existing account - sco id is always 0
-
-			$val_set = $ilDB->queryF('
-			SELECT * FROM cmi_custom 
-			WHERE user_id = %s
-			AND sco_id = %s
-			AND lvalue = %s
-			 AND obj_id = %s',
-			array('integer','integer','text','integer'),
-			array($user,0,'package_attempts',$this->object->getID()));
+			// $val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE user_id = %s AND obj_id = %s',
+			// array('integer','integer'),
+			// array($user,$this->object->getID()));
 			
-			$val_rec = $ilDB->fetchAssoc($val_set);
+			// $val_rec = $ilDB->fetchAssoc($val_set);
 			
-			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-			if ($val_rec["rvalue"] != null && $val_rec["rvalue"] != 0) 
-			{
-				$new_rec =  $val_rec["rvalue"]-1;
-				//decrease attempt by 1
-				$res = $ilDB->queryF('
-				SELECT * FROM cmi_custom 
-				WHERE user_id = %s
-				AND lvalue = %s
-				AND obj_id = %s
-				AND sco_id = %s',
-				array('integer','text','integer','integer'),
-				array($user, 'package_attempts',$this->object->getID(),0));
+			// if ($val_rec["package_attempts"] != null && $val_rec["package_attempts"] != 0) 
+			// {
+				// $new_rec = 0;
+				// //decrease attempt by 1
+				// if ((int)$val_rec["package_attempts"] > 0) $new_rec = (int)$val_rec["package_attempts"]-1;
+				// $ilDB->manipulateF('UPDATE sahs_user SET package_attempts = %s WHERE user_id = %s AND obj_id = %s',
+					// array('integer','integer','integer'),
+					// array($new_rec,$user,$this->object->getID()));
+			// }
+		// }
 
-				
-				if($ilDB->numRows($res) > 0)
-				{
-					$val_set = $ilDB->manipulateF('
-					UPDATE cmi_custom
-					SET rvalue = %s,
-						c_timestamp = %s
-					WHERE user_id = %s
-					AND sco_id = %s
-					AND	obj_id = %s
-					AND	lvalue = %s',
-					array('text','timestamp','integer','integer','integer','text'),
-					array($new_rec, date("Y-m-d H:i:s") ,$user,0,$this->object->getID(),'package_attempts'));
-				}
-				else
-				{
-					$val_set = $ilDB->manipulateF('
-					INSERT INTO cmi_custom
-					(rvalue,user_id,sco_id,obj_id,lvalue,c_timestamp) 
-					VALUES(%s,%s,%s,%s,%s,%s)',
-					array('text','integer','integer','integer','text','timestamp'),
-					array($new_rec,$user,0,$this->object->getID(),'package_attempts',date("Y-m-d H:i:s")));
-				}				
-			}			
-		}
-
-		//$this->ctrl->saveParameter($this, "cdir");
-		$this->ctrl->redirect($this, "showTrackingItems");
-	}
+		// //$this->ctrl->saveParameter($this, "cdir");
+		// $this->ctrl->redirect($this, "showTrackingItems");
+	// }
 	
 	function deleteTrackingData()
 	{
