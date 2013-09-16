@@ -133,8 +133,6 @@ assessment#:#cannot_export_test#:#Ne posedujete potrebnu dozvolu za izvoz testa!
 assessment#:#cannot_maintain_test#:#Ne posedujete potrebnu dozvolu za održavanje testa!
 assessment#:#cannot_read_questionpool#:#Ne posedujete potrebnu dozvolu za citanje podataka o pitanjima!###09 Aug 2005 content changed
 assessment#:#cannot_save_metaobject#:#Ne posedujete dozvolu za snimanje metapodataka!
-assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###21 Aug 2006 new variable
-assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###21 Aug 2006 new variable
 assessment#:#change_solution#:#Promenite predložena rešenja
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.###10 Jul 2006 new variable
 assessment#:#changelog_heading#:#Changelog###10 Jul 2006 new variable
@@ -377,8 +375,6 @@ assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI fi
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
 assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving###03 Nov 2005 new variable
 assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving###03 Nov 2005 new variable
-assessment#:#qpl_online_property#:#Online###03 Nov 2005 new variable
-assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###03 Nov 2005 new variable
 assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###03 Nov 2005 new variable
 assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool###03 Nov 2005 new variable
 assessment#:#qpl_question_is_in_use#:#Pitanje koje nameravate da izmenite nalazi se u %s testova. Ukoliko promenite ovo pitanje, NECETE promeniti pitanje(a) u testu/testovima, zato što sistem pravi kopije pitanja kada su una ubacena u test!
@@ -566,8 +562,6 @@ assessment#:#tst_random_questionpools#:#Izvorna baza pitanja###09 Aug 2005 conte
 assessment#:#tst_random_select_questionpool#:#Odaberite bazu pitanja kako biste izabrali formu pitanja
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.###10 Jul 2006 new variable
 assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.###10 Jul 2006 new variable
-assessment#:#tst_random_test#:#Nasumicni test
-assessment#:#tst_random_test_description#:#Ukoliko su proverena, pitanja za test ce biti generisana od strane neposrednog generatora
 assessment#:#tst_reached_points#:#Osvojeni poeni
 assessment#:#tst_remove_questions#:#Da li ste sigurni da želite da uklonite sledece(a) pitanje(a) iz testa?
 assessment#:#tst_remove_questions_and_results#:#Ovaj test je vec izvršen/uraden od strane %s korisnika. Uklanjanjem pitanja iz ovog testa bice uklonjeni svi rezultati ovih korisnika. Da li ste sigurni da želite da uklonite sledece(a) pitanje(a) iz testa?
@@ -1458,7 +1452,6 @@ common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variabl
 common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Uvoz foruma.
 common#:#forum_import_file#:#Unesite fajlove
-common#:#forum_notification#:#Obaveštenje
 common#:#forum_notify_me#:#Obavesti me kada odgovor potvrden
 common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
 common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
@@ -4239,14 +4232,10 @@ exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
 exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
 exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
 exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
-forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forumi
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read ### 2006-8-11 --- Add new translation here.
 forum#:#forums_attachments#:#Dodaci
 forum#:#forums_attachments_add#:#Dodaj dodatak
-forum#:#forums_attachments_edit#:#Uredi dodatak
-forum#:#forums_available#:#Raspoloživi forumi
 forum#:#forums_censor_comment#:#Komentar kriticara
 forum#:#forums_count#:#Broj foruma
 forum#:#forums_count_art#:#Broj clanaka
@@ -4261,36 +4250,25 @@ forum#:#forums_info_censor2_post#:#Opozvati cenzuru?
 forum#:#forums_info_censor_post#:#Da li ste sigurni da želite da sakrijete ovaj clanak?
 forum#:#forums_info_delete_post#:#Da li ste sigurni da želite da obrišete ovaj clanak ukljucujuci i reagovanja?
 forum#:#forums_mark_read#:#Markiraj sve procitano
-forum#:#forums_new_entries#:#Novi unosi na forumu
 forum#:#forums_new_thread#:#Nova tema
-forum#:#forums_not_available#:#Forumi nisu dostupni
 forum#:#forums_notification#:#Notification###08 Nov 2005 new variable
 forum#:#forums_notification_enabled#:#Notification enabled###08 Nov 2005 new variable
 forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s###08 Nov 2005 new variable
-forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.###08 Nov 2005 new variable
-forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.###08 Nov 2005 new variable
 forum#:#forums_notification_show_post#:#Show post: %s###08 Nov 2005 new variable
 forum#:#forums_notification_subject#:#New post in a forum topic###08 Nov 2005 new variable
-forum#:#forums_overview#:#Pregled foruma
 forum#:#forums_post_deleted#:#Clanak je odrisan
 forum#:#forums_post_modified#:#Clanak je izmenjen
 forum#:#forums_post_new_entry#:#Novi clanak je kreiran
 forum#:#forums_posts#:#Svi clanci
 forum#:#forums_posts_not_available#:#Clanci nisu dostupni
 forum#:#forums_print_thread#:#Štampaj stupce
-forum#:#forums_print_view#:#Print view ### 2006-8-11 --- Add new translation here.
-forum#:#forums_quote#:#Citat
-forum#:#forums_respond#:#postavljen odgovor
 forum#:#forums_subject#:#Tema
 forum#:#forums_the_post#:#Clanak
 forum#:#forums_thread#:#Tema
-forum#:#forums_thread_articles#:#Clanci na temu
 forum#:#forums_thread_create_date#:#Kreiranu u
 forum#:#forums_thread_create_from#:#Kreirano iz
 forum#:#forums_thread_marked#:#Stupci su obeleženi kao procitani
 forum#:#forums_thread_new_entry#:#Nova tema je kreirana
-forum#:#forums_threads_not_available#:#Teme nisu dostupne
-forum#:#forums_topics_overview#:#Pregled tema
 forum#:#forums_your_reply#:#Vaš odgovor
 forum#:#frm_anonymous_posting#:#Anonymous posting###23 Dec 2005 new variable
 forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.###23 Dec 2005 new variable
@@ -4299,7 +4277,6 @@ forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for f
 forum#:#frm_statistics_enabled#:#Enable Statistics###19 Feb 2006 new variable
 forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###19 Feb 2006 new variable
 forum#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
-forum#:#frm_title_required#:#Molimo ubacite naslov.
 forum#:#is_read#:#markiraj procitano
 forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
@@ -6099,7 +6076,6 @@ barometer#:#barometer_add#:#Add new Feedbac###25 10 2006 new variable
 assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
 assessment#:#tst_postpone#:#Postpone Questions###26 10 2006 new variable
 assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test###26 10 2006 new variable
-assessment#:#tst_random_selection#:#Random Selection of Questions###26 10 2006 new variable
 assessment#:#tst_show_cancel#:#Show Suspend Test Option###26 10 2006 new variable
 assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution###26 10 2006 new variable
 assessment#:#tst_use_previous_answers#:#Use Previous Answers###26 10 2006 new variable
@@ -7090,17 +7066,11 @@ content#:#seq_abandonall#:#The current course session has been abandoned..###23 
 content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.###23 09 2007 new variable
 forum#:#threads_moved_successfully#:#The chosen topics were moved to another forum successfully.###23 09 2007 new variable
 forum#:#select_at_least_one_thread#:#Please select at least one topic.###23 09 2007 new variable
-forum#:#no_forum_available_for_moving_threads#:#No forum available to move the chosen topics to.###23 09 2007 new variable
 forum#:#move_chosen_topics#:#Move Chosen Topics###23 09 2007 new variable
-forum#:#to_forum#:#To Forum###23 09 2007 new variable
 forum#:#no_forum_selected#:#No forum selected for moving the chosen topics###23 09 2007 new variable
-forum#:#sure_move_threads#:#Are you sure you want to move the chosen topics?###23 09 2007 new variable
 forum#:#make_topics_sticky#:#Make Topics Sticky###23 09 2007 new variable
 forum#:#make_topics_non_sticky#:#Make Topics Non-Sticky###23 09 2007 new variable
-forum#:#make_topic_sticky#:#Make Topic Sticky###23 09 2007 new variable
-forum#:#make_topic_non_sticky#:#Make Topic Non-Sticky###23 09 2007 new variable
 forum#:#activate_post#:#Activate###23 09 2007 new variable
-forum#:#deactivate_post#:#Deactivate###23 09 2007 new variable
 forum#:#activate_post_txt#:#Would you really like to activate the current post and if applicable all its child posts? Please note that all parent posts will be activated, too.###23 09 2007 new variable
 forum#:#deactivate_post_txt#:#Would you really like to deactivate the current post and all its child posts?###23 09 2007 new variable
 forum#:#activate_only_current#:#Activate Current###23 09 2007 new variable
@@ -7159,7 +7129,6 @@ news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
 news#:#news_1_file_updated#:#1 File has been updated.###23 10 2007 new variable
 news#:#news_x_postings#:#%s Postings have been added.###23 10 2007 new variable
 news#:#news_1_postings#:#1 Posting has been added.###23 10 2007 new variable
-forum#:#forums_post_and_children_were_deactivated#:#The post and all its child posts were deactivated.###23 10 2007 new variable
 forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.###23 10 2007 new variable
 forum#:#forums_post_was_activated#:#The post was activated.###23 10 2007 new variable
 forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but it needs to be activated by a moderator.###23 10 2007 new variable
@@ -8259,13 +8228,9 @@ forum#:#frm_moderators#:#Moderators###24 02 2009 new variable
 forum#:#frm_detach_moderator_role#:#Detach Moderator Role###24 02 2009 new variable
 forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.###24 02 2009 new variable
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.###24 02 2009 new variable
-forum#:#frm_moderators_search#:#User Search###24 02 2009 new variable
-forum#:#frm_moderators_search_query#:#Searchterm(s)###24 02 2009 new variable
-forum#:#frm_moderators_do_search#:#Search###24 02 2009 new variable
 forum#:#frm_moderator_role_added_successfully#:#The moderator role was added successfully.###24 02 2009 new variable
 forum#:#frm_moderators_select_one#:#Please choose one user.###24 02 2009 new variable
 forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator. ###24 02 2009 new variable
-forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any results.###24 02 2009 new variable
 payment#:#shop_info#:#Shop Information###24 02 2009 new variable
 content#:#cont_tracking_byuser#:#By User###24 02 2009 new variable
 content#:#cont_tracking_bysco#:#By Chapter###24 02 2009 new variable
@@ -9108,7 +9073,6 @@ common#:#lang_size_kb#:#KB###24 07 2009 new variable
 common#:#lang_size_bytes#:#bytes###24 07 2009 new variable
 common#:#webdav#:#WebDAV###24 07 2009 new variable
 common#:#downloading_settings#:#Downloading Settings###24 07 2009 new variable
-common#:#enable_disk_quota#:#Activate Disk Quota###24 07 2009 new variable
 common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.###24 07 2009 new variable
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails###24 07 2009 new variable
 common#:#mail_attachment#:#Mail attachment###24 07 2009 new variable
@@ -9899,9 +9863,6 @@ mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via
 content#:#glo_quick_navigation#:#Quick Navigation###16 07 2010 new variable
 forum#:#post_reply#:#Re:###16 07 2010 new variable
 forum#:#preset_subject#:#Preset subject on reply###16 07 2010 new variable
-forum#:#preset_subject_info#:#If disabled the user have to enter a new title for postings.###16 07 2010 new variable
-administration#:#obj_frma#:#Forum###16 07 2010 new variable
-administration#:#obj_frma_desc#:#Global Forumsettings###16 07 2010 new variable
 administration#:#forum_settings#:#Forumsettings###16 07 2010 new variable
 administration#:#show_topics_overview#:#Topic Overview###16 07 2010 new variable
 administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown###16 07 2010 new variable
@@ -10737,7 +10698,6 @@ common#:#tst_edit_questions#:#Edit Questions###12 06 2011 new variable
 assessment#:#tst_mail_notification#:#Mail Notifications###12 06 2011 new variable
 assessment#:#saveOrder#:#Save Order###12 06 2011 new variable
 assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link###12 06 2011 new variable
-common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>###12 06 2011 new variable
 assessment#:#tst_result#:#Test Result###12 06 2011 new variable
 common#:#first#:#First###12 06 2011 new variable
 rating#:#rat_one_rating#:#One Rating###12 06 2011 new variable
@@ -11181,7 +11141,6 @@ forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlig
 dateplaner#:#cal_cache_settings#:#Cache###18 07 2011 new variable
 dateplaner#:#cal_milestone_settings#:#Milestones###18 07 2011 new variable
 assessment#:#test_edit_settings#:#Edit Settings###18 07 2011 new variable
-assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been set to offline, because toggling the setting for random question selection causes the allready existing questions to be removed.###18 07 2011 new variable
 ecs#:#ecs_tab_import#:#Import###18 07 2011 new variable
 ecs#:#ecs_tab_export#:#Export###18 07 2011 new variable
 ecs#:#ecs_mapping_crs#:#Mapping for Courses###18 07 2011 new variable
@@ -11893,7 +11852,6 @@ blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10
 blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
 blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable
 administration#:#language_scope_dbremarks#:#Shows only entries with comments in database###18 01 2012 new variable
-assessment#:#test_create_question#:#Create Question###18 01 2012 new variable
 dateplaner#:#cal_cal_deleted#:#The calendars have been deleted###18 01 2012 new variable
 wfld#:#wfld_edit#:#Edit Folder###18 01 2012 new variable
 pd#:#pd_enable_comments#:#Enable Comments###18 01 2012 new variable
@@ -11930,11 +11888,6 @@ assessment#:#autosave_ival#:#Interval###28 08 2012 new variable
 assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (microseconds)###28 08 2012 new variable
 assessment#:#for#:#for###28 08 2012 new variable
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:###28 08 2012 new variable
-assessment#:#essay_keyword_relation#:#Score is granted###28 08 2012 new variable
-assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.###28 08 2012 new variable
-assessment#:#essay_keyword_relation_all#:#Only if all keywords are found.###28 08 2012 new variable
-assessment#:#essay_keyword_relation_one#:#in full if one keyword is found.###28 08 2012 new variable
-assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.###28 08 2012 new variable
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.###28 08 2012 new variable
 assessment#:#answer_characters#:# characters allowed, entered number of characters: ###28 08 2012 new variable
 assessment#:#mark_tst_failed_obligations_answered#:#Sorry, you failed the test.<br />You filled out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;###28 08 2012 new variable
@@ -12767,7 +12720,6 @@ common#:#delete_inactivated_user_accounts_interval_desc#:#Deletion conditions wi
 blog#:#blog_contributors#:#Contributors###28 09 2012 new variable
 blog#:#blog_add_contributor#:#Add Contributor###28 09 2012 new variable
 blog#:#blog_search_users#:#Search Users###28 09 2012 new variable
-blog#:#blog_contributor_container_add#:#Add Users From Course/Group###28 09 2012 new variable
 common#:#il_blog_contributor#:#Blog Contributor###28 09 2012 new variable
 rbac#:#blog_contribute#:#User can contribute###28 09 2012 new variable
 blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.###28 09 2012 new variable
@@ -12946,3 +12898,974 @@ dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fiel
 rbac#:#itgr_visible#:#Item group is visible###14 01 2013 new variable
 content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###14 01 2013 new variable
 common#:#edited_on#:#Edited on###14 01 2013 new variable
+assessment#:#essay_scoring_mode#:#Scoring Mode###16 09 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###16 09 2013 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###16 09 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###16 09 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###16 09 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###16 09 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###16 09 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###16 09 2013 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###16 09 2013 new variable
+assessment#:#assessment_scoring_adjust#:#Enable corrections###16 09 2013 new variable
+assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to allow modifications to questions in a test.###16 09 2013 new variable
+assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment###16 09 2013 new variable
+assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.###16 09 2013 new variable
+assessment#:#ass_create_export_test_archive#:#Create Test Archive File###16 09 2013 new variable
+assessment#:#feedback_generic#:#Common Solution Feedback###16 09 2013 new variable
+assessment#:#qpl_qst_edit_form_taxonomy_section#:#Taxonomies###16 09 2013 new variable
+assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomy "%s"###16 09 2013 new variable
+assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree###16 09 2013 new variable
+assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.###16 09 2013 new variable
+assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter###16 09 2013 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###16 09 2013 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###16 09 2013 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###16 09 2013 new variable
+assessment#:#qpl_settings_subtab_general#:#General Settings###16 09 2013 new variable
+assessment#:#qpl_settings_subtab_taxonomies#:#Taxonomies###16 09 2013 new variable
+assessment#:#qpl_form_general_settings#:#General Settings###16 09 2013 new variable
+assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.###16 09 2013 new variable
+assessment#:#qpl_settings_general_form_property_online#:#Online###16 09 2013 new variable
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.###16 09 2013 new variable
+assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies###16 09 2013 new variable
+assessment#:#tst_rnd_quest_set_cfg_general_form#:#Random Question Selection Config###16 09 2013 new variable
+assessment#:#review_view#:#Review###16 09 2013 new variable
+assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Require Pools with Homogeneous Scored Questions###16 09 2013 new variable
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools with homogeneous scored questions will be offered. The test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.###16 09 2013 new variable
+assessment#:#tst_inp_quest_amount_cfg_mode#:#Question Amount###16 09 2013 new variable
+assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Configuration of the Question Amount per Test###16 09 2013 new variable
+assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Configuration of the Question Amount per Selected Question Pools###16 09 2013 new variable
+assessment#:#tst_inp_quest_amount_per_test#:#Number of Questions for the Whole Test###16 09 2013 new variable
+assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>###16 09 2013 new variable
+assessment#:#exam_id#:#Exam Id: ###16 09 2013 new variable
+assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode ###16 09 2013 new variable
+assessment#:#show_exam_id#:#Display Exam Id ###16 09 2013 new variable
+assessment#:#test_enable_archiving#:#Enable Archiving.###16 09 2013 new variable
+assessment#:#ass_create_archive_export#:#Create Archive-Export.###16 09 2013 new variable
+assessment#:#cannot_export_archive#:#Archive-Export cannot be created.###16 09 2013 new variable
+assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config###16 09 2013 new variable
+assessment#:#tst_rnd_quest_cfg_tab_pool#:#Source Question Pools###16 09 2013 new variable
+assessment#:#tst_question_set_type#:#Test Mode###16 09 2013 new variable
+assessment#:#tst_question_set_type_fixed#:#Testing with Fixed Set of Questions###16 09 2013 new variable
+assessment#:#tst_question_set_type_fixed_desc#:#With this mode a fixed set of questions is to be selected and is used for all participants. Depending on the detailed test configuration the participants can take one or more test passes.###16 09 2013 new variable
+assessment#:#tst_question_set_type_random#:#Testing with Random Set of Questions###16 09 2013 new variable
+assessment#:#tst_question_set_type_random_desc#:#With this mode one or more question pools are to be selected from which an individual random set of questions is selected for each participant. Depending on the detailed test configuration the participants can take one or more test passes.###16 09 2013 new variable
+assessment#:#tst_question_set_type_dynamic#:#Continuous Testing###16 09 2013 new variable
+assessment#:#tst_question_set_type_dynamic_desc#:#With this mode exactly one question pool is to be selected. The test is taken in a never ending pass by the participants and the questions are selected individually and on demand for each participant.###16 09 2013 new variable
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change test mode from <b>%s</b> to <b>%s</b>, although a test mode relating questions/questionpool configuration allready exists.<br />This allready existing configuration will be lost.###16 09 2013 new variable
+assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.###16 09 2013 new variable
+assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.###16 09 2013 new variable
+assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection###16 09 2013 new variable
+assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool###16 09 2013 new variable
+assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]###16 09 2013 new variable
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]###16 09 2013 new variable
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)###16 09 2013 new variable
+assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter###16 09 2013 new variable
+assessment#:#tst_input_dynamic_question_set_question_ordering#:#Question Ordering###16 09 2013 new variable
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Order Questions by Date###16 09 2013 new variable
+assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#The presentation order for the questions bases upon the question's last editing date.###16 09 2013 new variable
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Order Questions by Taxonomy###16 09 2013 new variable
+assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#The presentation order for the questions bases upon the question's assignments in a taxonomy.###16 09 2013 new variable
+assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordering Taxonomy###16 09 2013 new variable
+assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#The test questions will be presented accordingly to their assignments in the selected taxonomy.###16 09 2013 new variable
+assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Question Selection###16 09 2013 new variable
+assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection###16 09 2013 new variable
+assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Question Selection###16 09 2013 new variable
+assessment#:#tst_tracked_question_list#:#Previously Answered Questions###16 09 2013 new variable
+assessment#:#tst_filtered_question_list#:#Test Question Selection###16 09 2013 new variable
+assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection###16 09 2013 new variable
+assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.###16 09 2013 new variable
+assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.###16 09 2013 new variable
+assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content###16 09 2013 new variable
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content###16 09 2013 new variable
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor###16 09 2013 new variable
+assessment#:#tst_question_feedback_edit_page#:#Edit Content###16 09 2013 new variable
+assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question###16 09 2013 new variable
+assessment#:#enable_examview#:#Enable Exam View###16 09 2013 new variable
+assessment#:#enable_examview_desc#:#Enables the view of the test in the shape of an exam at the end of the pass, prior to submission.###16 09 2013 new variable
+assessment#:#show_examview_html#:#Show exam view on the test submission page.###16 09 2013 new variable
+assessment#:#show_examview_html_desc#:#Shows the tests questions and answers in ILIAS in a step prior to submission.###16 09 2013 new variable
+assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.###16 09 2013 new variable
+assessment#:#show_examview_pdf_desc#:#Shows the tests questions and answers in a PDF file in a step prior to submission. (Download button available as well.)###16 09 2013 new variable
+assessment#:#scoringadjust#:#Corrections###16 09 2013 new variable
+assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.###16 09 2013 new variable
+assessment#:#test_scoring#:#Scoring Options###16 09 2013 new variable
+assessment#:#test_presentation#:#Presentation Options###16 09 2013 new variable
+assessment#:#test_results#:#Results Options###16 09 2013 new variable
+assessment#:#misc#:#Misc Options###16 09 2013 new variable
+assessment#:#saved_adjustment#:#Changes saved.###16 09 2013 new variable
+assessment#:#sign_submission#:#Digitally sign test submissions###16 09 2013 new variable
+assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###16 09 2013 new variable
+dateplaner#:#cal_share_cal_editable#:#Share Calendar (Read and Write)###16 09 2013 new variable
+dateplaner#:#cal_shared_access_table_col#:#Access###16 09 2013 new variable
+dateplaner#:#cal_shared_access_read_write#:#Read and Write###16 09 2013 new variable
+dateplaner#:#cal_shared_access_read_only#:#Read-only###16 09 2013 new variable
+user#:#user_no_groups#:#No Groups Assigned###16 09 2013 new variable
+common#:#obj_frma#:#Forum###16 09 2013 new variable
+common#:#obj_frma_desc#:#Global Forum Settings###16 09 2013 new variable
+assessment#:#ass_create_question#:#Create Question###16 09 2013 new variable
+assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.###16 09 2013 new variable
+assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#The test cannot be set to online, because the test mode setting has been changed. You have to set a test mode relating question config before the test can be set to online.###16 09 2013 new variable
+chatroom#:#no_username_given#:#Please choose a username###16 09 2013 new variable
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.###16 09 2013 new variable
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!###16 09 2013 new variable
+assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question###16 09 2013 new variable
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution###16 09 2013 new variable
+assessment#:#tst_manscoring_input_best_solution#:#Best Solution###16 09 2013 new variable
+assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points###16 09 2013 new variable
+assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page###16 09 2013 new variable
+assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points###16 09 2013 new variable
+assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page###16 09 2013 new variable
+assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List###16 09 2013 new variable
+dcl#:#dcl_record#:#Record###16 09 2013 new variable
+dcl#:#dcl_hello#:#Dear###16 09 2013 new variable
+dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.###16 09 2013 new variable
+dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.###16 09 2013 new variable
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###16 09 2013 new variable
+common#:#obj_tos_desc#:#Terms of Service Settings###16 09 2013 new variable
+common#:#obj_tos#:#Terms of Service###16 09 2013 new variable
+tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.###16 09 2013 new variable
+tos#:#tos_agreement_by_lng#:#Terms of Service###16 09 2013 new variable
+tos#:#tos_agreement#:#Terms of Service###16 09 2013 new variable
+tos#:#tos_agreement_exists#:#Existent###16 09 2013 new variable
+tos#:#tos_agreement_missing#:#Missing###16 09 2013 new variable
+tos#:#tos_agreement_document#:#Document###16 09 2013 new variable
+tos#:#tos_agreement_document_missing#:#Missing###16 09 2013 new variable
+tos#:#tos_tos_settings#:#Settings###16 09 2013 new variable
+tos#:#tos_status_enable#:#Enable###16 09 2013 new variable
+tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.###16 09 2013 new variable
+tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service###16 09 2013 new variable
+tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP webservices, the chat server, or the cron job.###16 09 2013 new variable
+tos#:#tos_reset_successfull#:#The terms of service have been reset successfully.###16 09 2013 new variable
+user#:#tos_show_signed_text#:#Show Details###16 09 2013 new variable
+user#:#tos_not_accepted_yet#:#Not accepted yet###16 09 2013 new variable
+user#:#tos_accepted_content#:#Accepted Content###16 09 2013 new variable
+tos#:#tos_last_modified#:#Last Change###16 09 2013 new variable
+tos#:#tos_acceptance_history#:#Acceptance History###16 09 2013 new variable
+tos#:#tos_period#:#Period###16 09 2013 new variable
+tos#:#tos_period_from#:#From###16 09 2013 new variable
+tos#:#tos_period_until#:#Until###16 09 2013 new variable
+tos#:#tos_acceptance_datetime#:#Date###16 09 2013 new variable
+ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###16 09 2013 new variable
+survey#:#svy_invite_action#:#Invite users to a survey###16 09 2013 new variable
+rbac#:#chtr_delete#:#User can move or delete course###16 09 2013 new variable
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###16 09 2013 new variable
+ecs#:#ecs_role_mapping_value#:#Attribute Value###16 09 2013 new variable
+forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads ###16 09 2013 new variable
+forum#:#frm_sorting_threads#:#Thread Sorting###16 09 2013 new variable
+forum#:#frm_sorting_posts#:#Posts Sorting###16 09 2013 new variable
+forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.###16 09 2013 new variable
+mail#:#cron_update_addressbook#:#Synchronize address book entries automatically###16 09 2013 new variable
+mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.###16 09 2013 new variable
+mail#:#auto_update#:#Update###16 09 2013 new variable
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###16 09 2013 new variable
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###16 09 2013 new variable
+forum#:#merge#:#Merge###16 09 2013 new variable
+forum#:#please_choose_target#:#Please choose a thread as merge target.###16 09 2013 new variable
+forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target thread if the first posting of the source thread is created earlier than the first posting of the target thread.###16 09 2013 new variable
+forum#:#not_allowed_to_merge_into_another_forum#:#It is not possible to merge threads of different forums.###16 09 2013 new variable
+forum#:#frm_selected_merge_src#:#Selected Thread to Merge: %s###16 09 2013 new variable
+forum#:#error_same_thread_ids#:#Source and target thread have to be different.###16 09 2013 new variable
+forum#:#frm_merge_src#:#Selected Thread: %s###16 09 2013 new variable
+forum#:#frm_merge_target#:#Target: %s###16 09 2013 new variable
+forum#:#merged_threads_successfully#:#The selected threads were merged successfully###16 09 2013 new variable
+forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.###16 09 2013 new variable
+assessment#:#order_nested_terms#:#Switch to term nesting view ###16 09 2013 new variable
+assessment#:#order_nested_pictures#:#Switch to picture nesting view###16 09 2013 new variable
+cron#:#cron_job_id#:#Id###16 09 2013 new variable
+cron#:#cron_component#:#Component###16 09 2013 new variable
+cron#:#cron_schedule#:#Schedule###16 09 2013 new variable
+cron#:#cron_status#:#Status###16 09 2013 new variable
+cron#:#cron_status_info#:#Status Info###16 09 2013 new variable
+cron#:#cron_result#:#Result###16 09 2013 new variable
+cron#:#cron_result_info#:#Result Info###16 09 2013 new variable
+cron#:#cron_last_run#:#Last Run###16 09 2013 new variable
+cron#:#cron_result_status_invalid_configuration#:#Invalid Configuration###16 09 2013 new variable
+cron#:#cron_result_status_no_action#:#Ok, no processing###16 09 2013 new variable
+cron#:#cron_result_status_ok#:#Ok###16 09 2013 new variable
+cron#:#cron_result_status_crashed#:#Crashed###16 09 2013 new variable
+cron#:#cron_result_status_reset#:#Reset###16 09 2013 new variable
+cron#:#cron_action_activate#:#Activate###16 09 2013 new variable
+cron#:#cron_action_deactivate#:#Deactivate###16 09 2013 new variable
+cron#:#cron_action_reset#:#Reset###16 09 2013 new variable
+cron#:#cron_action_edit#:#Edit###16 09 2013 new variable
+cron#:#cron_status_active#:#Active###16 09 2013 new variable
+cron#:#cron_status_inactive#:#Inactive###16 09 2013 new variable
+cron#:#cron_schedule_daily#:#Daily###16 09 2013 new variable
+cron#:#cron_schedule_weekly#:#Weekly###16 09 2013 new variable
+cron#:#cron_schedule_monthly#:#Monthly###16 09 2013 new variable
+cron#:#cron_schedule_quarterly#:#Quarterly###16 09 2013 new variable
+cron#:#cron_schedule_yearly#:#Yearly###16 09 2013 new variable
+cron#:#cron_schedule_in_minutes#:#Every %s minutes###16 09 2013 new variable
+cron#:#cron_schedule_in_hours#:#Every %s hours###16 09 2013 new variable
+cron#:#cron_schedule_in_days#:#Every %s days###16 09 2013 new variable
+cron#:#cron_schedule_type#:#Schedule Type###16 09 2013 new variable
+cron#:#cron_schedule_value#:#Interval###16 09 2013 new variable
+cron#:#cron_changed_by_crontab#:#SYSTEM ###16 09 2013 new variable
+cron#:#cron_running_since#:#Running since###16 09 2013 new variable
+cron#:#cron_action_run#:#Execute###16 09 2013 new variable
+cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?###16 09 2013 new variable
+cron#:#cron_action_activate_sure#:#Are you sure you want to activate the cron-job "%s"?###16 09 2013 new variable
+cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron-job "%s"?###16 09 2013 new variable
+cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron-job "%s"?###16 09 2013 new variable
+cron#:#cron_action_run_success#:#Cron-Job run successfully.###16 09 2013 new variable
+cron#:#cron_action_run_fail#:#Cron-Job failed.###16 09 2013 new variable
+cron#:#cron_action_activate_success#:#Cron-Job activated.###16 09 2013 new variable
+cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.###16 09 2013 new variable
+cron#:#cron_action_reset_success#:#Cron-Job reset.###16 09 2013 new variable
+cron#:#cron_action_edit_success#:#Schedule updated.###16 09 2013 new variable
+dcl#:#dcl_no_warnings#:#The import terminated with no warnings.###16 09 2013 new variable
+dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import###16 09 2013 new variable
+dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:###16 09 2013 new variable
+dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLS file.###16 09 2013 new variable
+dcl#:#dcl_import_terminated#:#The import terminated. Entries added###16 09 2013 new variable
+dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.###16 09 2013 new variable
+dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.###16 09 2013 new variable
+dcl#:#dcl_import_records .xls#:#Import .xls###16 09 2013 new variable
+dcl#:#dcl_file_format_description#:#The file needs to be an excel .XSL file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.###16 09 2013 new variable
+dcl#:#dcl_simulate_import#:#Simulate Import###16 09 2013 new variable
+dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.###16 09 2013 new variable
+dcl#:#dcl_multiple_selection#:#Multiple Selection###16 09 2013 new variable
+common#:#obj_bibl#:#Bibliography###16 09 2013 new variable
+common#:#objs_bibl#:#Bibliographies###16 09 2013 new variable
+bibl#:#bibl_new#:#New Bibliography###16 09 2013 new variable
+bibl#:#bibl_add#:#Add Bibliography###16 09 2013 new variable
+bibl#:#Download Original File#:#Download Original File###16 09 2013 new variable
+bibl#:#Type#:#Type###16 09 2013 new variable
+bibl#:#Override Entries#:#Override Entries###16 09 2013 new variable
+bibl#:#bibl_edit#:#Edit Bibliography###16 09 2013 new variable
+bibl#:#bibliography file#:#Bibliography File###16 09 2013 new variable
+bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###16 09 2013 new variable
+bibl#:#detail_view#:#Detail View###16 09 2013 new variable
+rbac#:#bibl_visible#:#Bibliography is visible###16 09 2013 new variable
+rbac#:#bibl_read#:#User can read bibliography content###16 09 2013 new variable
+rbac#:#bibl_copy#:#User can copy bibliography###16 09 2013 new variable
+rbac#:#bibl_write#:#User can edit bibliography settings###16 09 2013 new variable
+rbac#:#bibl_delete#:#User can move or delete bibliography###16 09 2013 new variable
+rbac#:#bibl_edit_permission#:#User can change permission settings###16 09 2013 new variable
+rbac#:#cat_create_bibl#:#Create Bibliography###16 09 2013 new variable
+rbac#:#crs_create_bibl#:#Create Bibliography###16 09 2013 new variable
+rbac#:#fold_create_bibl#:#Create Bibliography###16 09 2013 new variable
+rbac#:#grp_create_bibl#:#Create Bibliography###16 09 2013 new variable
+rbac#:#root_create_bibl#:#Create Bibliography###16 09 2013 new variable
+ldap#:#ldap_edit_role_assignment#:#Edit Role -> Group Assignment###16 09 2013 new variable
+trac#:#trac_mode_collection_tlt#:#Typical Learning Time (per Chapter)###16 09 2013 new variable
+trac#:#trac_mode_collection_tlt_info#:#Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'.###16 09 2013 new variable
+trac#:#trac_mode_collection_manual#:#Manual by Learner (per Chapter)###16 09 2013 new variable
+trac#:#trac_mode_collection_manual_info#:#Users have to decide for each chapter whether their status is completed or not.###16 09 2013 new variable
+trac#:#trac_collection_manual_learner_info#:#The learning progress for this object has to be set manually.###16 09 2013 new variable
+trac#:#trac_collection_manual_learner_changed_ts#:#Changed on###16 09 2013 new variable
+trac#:#trac_collection_manual_learner_lm_info#:#Activate all chapters you completed.###16 09 2013 new variable
+trac#:#trac_collection_tlt_learner_info#:#The learning progress for this object is based on the typical learning time.###16 09 2013 new variable
+trac#:#trac_collection_tlt_learner_subitem#:#You have spent %s of the %s needed for completion (%s%%).###16 09 2013 new variable
+trac#:#trac_lp_list_gui#:#Personal Desktop, Repository, Search###16 09 2013 new variable
+trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.###16 09 2013 new variable
+common#:#hide_all_details#:#Hide all details###16 09 2013 new variable
+common#:#show_all_details#:#Show all details###16 09 2013 new variable
+common#:#select_files_from_computer#:#Select the files from your computer###16 09 2013 new variable
+common#:#drag_files_here#:#Drag-and-drop your files here###16 09 2013 new variable
+common#:#selected_files#:#Selected files###16 09 2013 new variable
+common#:#num_of_selected_files#:#%s file(s) selected###16 09 2013 new variable
+common#:#cancel_file_upload#:#Do you really want to cancel all pending uploads?###16 09 2013 new variable
+common#:#upload_files#:#Upload files###16 09 2013 new variable
+common#:#upload_files_title#:#Upload files###16 09 2013 new variable
+common#:#upload_pending#:#Pending###16 09 2013 new variable
+common#:#error_empty_file_or_folder#:#The file size is 0 bytes or it is a folder.###16 09 2013 new variable
+common#:#error_upload_was_zero_bytes#:#The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile.###16 09 2013 new variable
+common#:#uploading#:#Uploading...###16 09 2013 new variable
+common#:#extracting#:#Extracting...###16 09 2013 new variable
+common#:#drop_files_on_repo_obj_info#:#Drop the files here to upload them into this object.###16 09 2013 new variable
+common#:#error_extraction_failed#:#The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object.###16 09 2013 new variable
+common#:#upload_settings#:#Uploading Settings###16 09 2013 new variable
+common#:#enable_dnd_upload#:#Enable drag-and-drop upload###16 09 2013 new variable
+common#:#enable_dnd_upload_info#:#Files can be uploaded with drag-and-drop from the local computer if enabled.###16 09 2013 new variable
+common#:#enable_repository_dnd_upload#:#Enable in Repository###16 09 2013 new variable
+common#:#enable_repository_dnd_upload_info#:#Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object.###16 09 2013 new variable
+common#:#concurrent_uploads#:#Number of concurrent uploads###16 09 2013 new variable
+common#:#concurrent_uploads_info#:#Defines the number of files that can be uploaded per upload process at the same time.###16 09 2013 new variable
+common#:#download_link#:#Download Link###16 09 2013 new variable
+common#:#file_confirm_delete_versions#:#Are you sure to delete the following file versions?###16 09 2013 new variable
+common#:#file_confirm_delete_all_versions#:#You selected all file versions. This will delete the whole file object. Do you want to continue?###16 09 2013 new variable
+common#:#file_versions_deleted#:#The selected file versions were successfully deleted.###16 09 2013 new variable
+common#:#file_rollback_select_exact_one#:#Only one file version can be selected to make it the current version.###16 09 2013 new variable
+common#:#file_rollback_done#:#File version %s is now the current version.###16 09 2013 new variable
+common#:#file_version_new_version#:#New version###16 09 2013 new variable
+common#:#file_version_create#:#Initial version###16 09 2013 new variable
+common#:#file_version_replace#:#All versions replaced###16 09 2013 new variable
+common#:#file_version_rollback#:#Rollback from version %s by %s###16 09 2013 new variable
+common#:#file_rollback#:#Make this the current version###16 09 2013 new variable
+obj#:#edit_questions#:#Edit Questions###16 09 2013 new variable
+common#:#frm_import#:#Import Forum###16 09 2013 new variable
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.###16 09 2013 new variable
+user#:#user_delete_own_account_logout_button#:#Proceed to Authentication###16 09 2013 new variable
+user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.###16 09 2013 new variable
+rbac#:#edit_userassignment#:#Edit User Assignment###16 09 2013 new variable
+blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.###16 09 2013 new variable
+survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following access codes?###16 09 2013 new variable
+survey#:#survey_360_title#:#360°###16 09 2013 new variable
+survey#:#survey_360_mode#:#360° Feedback###16 09 2013 new variable
+survey#:#survey_360_self_evaluation#:#Appraisees Can Rate Themselves###16 09 2013 new variable
+survey#:#survey_360_self_raters#:#Appraisees Can Manage Their Raters###16 09 2013 new variable
+survey#:#survey_360_self_appraisee#:#Users Can Add Themselves As Appraisees###16 09 2013 new variable
+survey#:#survey_360_results#:#Access To Results For Appraisees###16 09 2013 new variable
+survey#:#survey_360_results_none#:#None###16 09 2013 new variable
+survey#:#survey_360_results_own#:#To Own Raters###16 09 2013 new variable
+survey#:#survey_360_results_all#:#To All Appraisees###16 09 2013 new variable
+survey#:#survey_360_appraisees#:#Appraisees###16 09 2013 new variable
+survey#:#survey_360_edit_raters#:#Manage Raters###16 09 2013 new variable
+survey#:#survey_360_sure_delete_appraises#:#Are you sure you want to remove the following appraisees?###16 09 2013 new variable
+survey#:#survey_360_sure_delete_raters#:#Are you sure you want to remove the following raters for %s?###16 09 2013 new variable
+survey#:#survey_360_add_external_rater#:#Add External Rater###16 09 2013 new variable
+survey#:#survey_360_no_appraisees#:#There are currently no appraisees for you to rate.###16 09 2013 new variable
+survey#:#survey_360_add_self_appraisee#:#Add yourself as appraisee to this survey###16 09 2013 new variable
+survey#:#survey_360_list_title#:#360° Mode###16 09 2013 new variable
+survey#:#survey_360_select_appraisee#:#Select###16 09 2013 new variable
+survey#:#survey_360_appraisee#:#Appraisee###16 09 2013 new variable
+skmg#:#skmg_skill_profiles#:#Profiles###16 09 2013 new variable
+skmg#:#skmg_add_profile#:#Add Profile###16 09 2013 new variable
+skmg#:#skmg_edit_profile#:#Edit Profile###16 09 2013 new variable
+skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?###16 09 2013 new variable
+skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Levels###16 09 2013 new variable
+skmg#:#skmg_assign_level#:#Assign Level###16 09 2013 new variable
+skmg#:#skmg_profile#:#Profile###16 09 2013 new variable
+skmg#:#skmg_remove_levels#:#Remove Levels###16 09 2013 new variable
+skmg#:#skmg_select_skill_level_assign#:#Please select a skill.###16 09 2013 new variable
+skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?###16 09 2013 new variable
+skmg#:#skmg_assigned_users#:#Assigned Users###16 09 2013 new variable
+skmg#:#skmg_assign_user#:#Assign User###16 09 2013 new variable
+skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?###16 09 2013 new variable
+skmg#:#skmg_resources#:#Resources###16 09 2013 new variable
+skmg#:#skmg_add_resource#:#Add Resource###16 09 2013 new variable
+skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the followin resources from the competence level?###16 09 2013 new variable
+survey#:#survey_activate_skill_service#:#Activate Competence Service###16 09 2013 new variable
+survey#:#survey_skill_assign#:#Question/Competence Assignment###16 09 2013 new variable
+survey#:#survey_skill#:#Competence###16 09 2013 new variable
+survey#:#survey_assign_competence#:#Assign Competence###16 09 2013 new variable
+survey#:#survey_remove_competence#:#Remove Competence###16 09 2013 new variable
+survey#:#survey_skill_thresholds#:#Competence Thresholds###16 09 2013 new variable
+survey#:#survey_skill_level#:#Competence Level###16 09 2013 new variable
+survey#:#survey_up_to_x_points#:#Up to x points###16 09 2013 new variable
+survey#:#survey_skill_nr_q#:#Number of Questions###16 09 2013 new variable
+survey#:#survey_skill_max_scale_points#:#Max. Scale Points###16 09 2013 new variable
+survey#:#survey_reached_level#:#Reached Level###16 09 2013 new variable
+survey#:#survey_sum_of_means#:#Sum of Arithm. Means per Question###16 09 2013 new variable
+survey#:#survey_calc_skills#:#Determine Competence Levels###16 09 2013 new variable
+survey#:#survey_write_skills#:#Write Competences###16 09 2013 new variable
+skmg#:#skmg_target_level#:#Profile Target Level###16 09 2013 new variable
+skmg#:#skmg_360_survey#:#360° Survey###16 09 2013 new variable
+skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.###16 09 2013 new variable
+skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.###16 09 2013 new variable
+skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.###16 09 2013 new variable
+survey#:#survey_360_rater_mail_sent#:#Mail sent###16 09 2013 new variable
+survey#:#survey_360_rater_code_mail_on_demand#:#generated on demand###16 09 2013 new variable
+survey#:#survey_360_rater_message_content_registered#:#Message Content (Registered)###16 09 2013 new variable
+survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)###16 09 2013 new variable
+survey#:#survey_360_rater_message_content_registered_default#:#You can start the survey in your web browser using the URL [url].###16 09 2013 new variable
+survey#:#survey_360_rater_message_content_anonymous_default#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url].###16 09 2013 new variable
+survey#:#survey_360_rater_subject_default#:#You have been invited as rater to a 360° survey.###16 09 2013 new variable
+survey#:#survey_360_raters_finished#:#Raters Finished###16 09 2013 new variable
+survey#:#survey_360_rater_finished#:#Survey Finished###16 09 2013 new variable
+survey#:#survey_competences#:#Competences###16 09 2013 new variable
+survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not supported for this question type.###16 09 2013 new variable
+survey#:#svy_back#:#Back###16 09 2013 new variable
+survey#:#survey_360_appraisee_is_closed#:#The appraisee has closed his survey.###16 09 2013 new variable
+survey#:#survey_360_no_closed_appraisees#:#No appraisee has closed his survey yet.###16 09 2013 new variable
+survey#:#survey_360_rate_other_appraisees#:#Rate appraisees###16 09 2013 new variable
+survey#:#survey_360_appraisee_info#:#Appraisee Info###16 09 2013 new variable
+survey#:#survey_360_raters_status_info#:#Raters finished###16 09 2013 new variable
+survey#:#survey_360_appraisee_close_action#:#Close Survey For Raters###16 09 2013 new variable
+survey#:#survey_360_appraisee_close_action_info#:#This will give access to your statistics.###16 09 2013 new variable
+survey#:#survey_360_appraisee_close_action_info_skill#:#This will give access to your statistics and update your competence levels.###16 09 2013 new variable
+survey#:#survey_360_appraisee_close_action_success#:#You have closed your 360° survey for your raters.###16 09 2013 new variable
+survey#:#survey_360_appraisee_close_action_status#:#Survey was closed on %s.###16 09 2013 new variable
+survey#:#survey_360_sure_appraisee_close#:#Are you sure you want to close the survey for all of your raters?###16 09 2013 new variable
+survey#:#survey_360_appraisee_close_table#:#Closed on###16 09 2013 new variable
+survey#:#svy_eval_competences#:#Competence Results###16 09 2013 new variable
+survey#:#svy_gap_analysis#:#Gap Analysis###16 09 2013 new variable
+survey#:#svy_all_survey_competences#:#All Survey Competences###16 09 2013 new variable
+survey#:#survey_360_raters#:#Raters###16 09 2013 new variable
+survey#:#svy_results#:#Results###16 09 2013 new variable
+survey#:#svy_analysis#:#Analysis###16 09 2013 new variable
+mail#:#mail_add_folder#:#Add New Subfolder###16 09 2013 new variable
+survey#:#survey_notification_settings#:#Notification###16 09 2013 new variable
+survey#:#survey_reminder_setting#:#Remind Users to Participate###16 09 2013 new variable
+survey#:#survey_reminder_start#:#Start###16 09 2013 new variable
+survey#:#survey_reminder_end#:#End###16 09 2013 new variable
+survey#:#survey_reminder_frequency#:#Frequency###16 09 2013 new variable
+survey#:#survey_reminder_frequency_days#:#Days###16 09 2013 new variable
+survey#:#survey_notification_target_group#:#Target Group###16 09 2013 new variable
+survey#:#survey_notification_target_group_parent_course#:#All members of parent course/group###16 09 2013 new variable
+survey#:#survey_notification_target_group_parent_course_inactive#:#No parent course/group given - no reminders will be sent!###16 09 2013 new variable
+survey#:#survey_notification_target_group_invited#:#All invited users###16 09 2013 new variable
+survey#:#survey_notification_target_group_invited_info#:#Currently invited users: %s###16 09 2013 new variable
+survey#:#survey_notification_tutor_setting#:#Notify tutors when	all participants have finished###16 09 2013 new variable
+survey#:#survey_notification_tutor_recipients#:#Tutors (Login[s])###16 09 2013 new variable
+survey#:#survey_notification_tutor_recipients_invalid#:#Please state users with write permission.###16 09 2013 new variable
+survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"###16 09 2013 new variable
+survey#:#survey_notification_tutor_salutation#:#Hello %s,###16 09 2013 new variable
+survey#:#survey_notification_tutor_body#:#The following survey has been finished by all participants###16 09 2013 new variable
+survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variable
+survey#:#survey_reminder_subject#:#Survey "%s" was not finished###16 09 2013 new variable
+survey#:#survey_reminder_salutation#:#Hello %s,###16 09 2013 new variable
+survey#:#survey_reminder_body#:#the following survey has not been finished by you yet###16 09 2013 new variable
+survey#:#survey_reminder_link#:#URL###16 09 2013 new variable
+mail#:#mail_rename_folder#:#Rename Folder###16 09 2013 new variable
+common#:#rpc_pdf_generation#:#PDF-Generation###16 09 2013 new variable
+common#:#rpc_pdf_font#:#Fonts###16 09 2013 new variable
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.###16 09 2013 new variable
+registration#:#registration_codes_no_assigned_role#:#No Predefined Assigned Role###16 09 2013 new variable
+registration#:#registration_codes_roles_local#:#Local Role(s) ###16 09 2013 new variable
+registration#:#registration_codes_roles_title#:#Role for New Accounts###16 09 2013 new variable
+registration#:#registration_codes_roles_limitation_none#:#No Predefined Access Limitation###16 09 2013 new variable
+registration#:#reg_access_limitation_mode_absolute_target#:#Valid until###16 09 2013 new variable
+registration#:#reg_access_limitation_mode_relative_target#:#Valid for###16 09 2013 new variable
+registration#:#registration_codes_access_limitation_all#:#All###16 09 2013 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###16 09 2013 new variable
+dateplaner#:#cal_ch_app_grp#:#Consultation Hour Groups###16 09 2013 new variable
+dateplaner#:#cal_ch_app_list#:#Consultation Hour Appointments###16 09 2013 new variable
+dateplaner#:#cal_ch_grp_header#:#Consultation Hour Group###16 09 2013 new variable
+dateplaner#:#cal_ch_add_grp#:#Create new Consultation Hour Group###16 09 2013 new variable
+dateplaner#:#cal_ch_grps#:#Consultation Hour Groups###16 09 2013 new variable
+dateplaner#:#cal_ch_assigned_apps#:#Number of Appointments###16 09 2013 new variable
+dateplaner#:#cal_ch_max_books#:#Bookings per User###16 09 2013 new variable
+dateplaner#:#cal_ch_grp_add_tbl#:#Create new Consultation Hour Group###16 09 2013 new variable
+dateplaner#:#cal_ch_grp_update_tbl#:#Edit Consultation Hour Group###16 09 2013 new variable
+dateplaner#:#cal_ch_grp_multiple#:#Bookings per User###16 09 2013 new variable
+dateplaner#:#cal_ch_grp_multiple_info#:#You can define the maximum number of bookings per user.###16 09 2013 new variable
+dateplaner#:#cal_ch_grp_selection#:#Assignment to Consultation Hour Groups###16 09 2013 new variable
+dateplaner#:#cal_ch_grp_no_assignment#:#-- Not Assigned --###16 09 2013 new variable
+dateplaner#:#cal_ch_grp_delete_sure#:#Do you really want to delete the following consultation hour groups?###16 09 2013 new variable
+dateplaner#:#cal_ch_delete_booking#:#Delete Booking###16 09 2013 new variable
+dateplaner#:#cal_ch_reject_booking#:#Cancel Booking###16 09 2013 new variable
+dateplaner#:#cal_ch_bookings_tbl#:#Booked Appointments###16 09 2013 new variable
+dateplaner#:#cal_ch_app_bookings#:#Bookings###16 09 2013 new variable
+dateplaner#:#cal_ch_canceled_bookings#:#The selected bookings have been deleted.###16 09 2013 new variable
+dateplaner#:#cal_ch_deleted_bookings#:#The selected bookings have been canceled.###16 09 2013 new variable
+dateplaner#:#cal_ch_delete_booking_sure#:#Do you really want to delete the following bookings?###16 09 2013 new variable
+dateplaner#:#cal_ch_cancel_booking_sure#:#Do you really want to cancel the following bookings?###16 09 2013 new variable
+dateplaner#:#cal_ch_assign_participants#:#Assign Users###16 09 2013 new variable
+dateplaner#:#cal_ch_booking_message_tbl#:#Comment###16 09 2013 new variable
+dateplaner#:#cal_ch_field_ch#:#Consultation Hour Appointments###16 09 2013 new variable
+dateplaner#:#cal_ch_export_apps#:#Booked Appointments###16 09 2013 new variable
+dateplaner#:#cal_ch_booking_reminder_subject#:#Reminder for "%s"###16 09 2013 new variable
+dateplaner#:#cal_ch_booking_reminder_body#:#your appointment with "%s" starts soon.###16 09 2013 new variable
+dateplaner#:#cal_ch_cron_reminder#:#Send Consultation Hour Reminder###16 09 2013 new variable
+dateplaner#:#cal_ch_cron_reminder_info#:#If enabled, notification mails about upcoming consultation hour events will be send.###16 09 2013 new variable
+dateplaner#:#cal_ch_cron_reminder_days#:#Number of Days###16 09 2013 new variable
+dateplaner#:#cal_ch_delete_booking_info#:#"Delete Booking" will not notify users by email. If you want to notify users, please choose the action "Cancele Booking".###16 09 2013 new variable
+dateplaner#:#cal_ch_cancel_booking_info#:#"Cancel Booking" sends notification mails to the users. If you do not want to notify the users, choose the option "Delete Booking".###16 09 2013 new variable
+dateplaner#:#cal_ch_delete_app_booking_info#:#The following appointments have existing bookings. If you delete these appointments, the users will not be notified.###16 09 2013 new variable
+dateplaner#:#cal_ch_user_assignment_success#:#The users have been assigned to the chosen appointments.###16 09 2013 new variable
+dateplaner#:#cal_ch_user_assignment_failed_info#:#The following users could not be assigned to appointments, since the maximum number of bookings is exceeded.###16 09 2013 new variable
+dateplaner#:#cal_booking_failed_info#:#This appointment is booked out. Please choose another appointment.###16 09 2013 new variable
+registration#:#registration_codes_override_info#:#This setting overrides any values defined in "Registration Settings".###16 09 2013 new variable
+registration#:#registration_codes_override_global_info#:#These settings may be overridden by registration codes.###16 09 2013 new variable
+crs#:#event_list_registered_only#:#Only Registered Members###16 09 2013 new variable
+didactic#:#didactic_default_type#:#Default###16 09 2013 new variable
+pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following objects from your Personal Desktop?###16 09 2013 new variable
+pd#:#pd_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?###16 09 2013 new variable
+pd#:#pd_min_one_admin#:#There has to be at least one administrator assigned to this object.###16 09 2013 new variable
+file#:#enable_personal_workspace_disk_quota#:#Activate Hard Quota for Personal Workspace###16 09 2013 new variable
+file#:#enable_personal_workspace_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal workspace and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.###16 09 2013 new variable
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace###16 09 2013 new variable
+file#:#repository_disk_quota#:#Soft Disk Quota for Repository###16 09 2013 new variable
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace. ###16 09 2013 new variable
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###16 09 2013 new variable
+pd#:#pd_remove_multiple#:#Remove Multiple Objects###16 09 2013 new variable
+pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###16 09 2013 new variable
+pd#:#pd_unsubscribe_memberships#:#Unsubscribe###16 09 2013 new variable
+survey#:#survey_mode#:#Mode###16 09 2013 new variable
+survey#:#survey_default_mode#:#Survey###16 09 2013 new variable
+survey#:#survey_default_mode_info#:#Use for evaluation purposes###16 09 2013 new variable
+survey#:#survey_360_mode_info#:#Use for peer-reviewing of persons###16 09 2013 new variable
+exp#:#exp_file_created#:#The export file has been created.###16 09 2013 new variable
+blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###16 09 2013 new variable
+assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.###16 09 2013 new variable
+assessment#:#tst_extratime_nodata#:#There are no entries for the selected participant.###16 09 2013 new variable
+assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.###16 09 2013 new variable
+assessment#:#extratime#:#Extra Time###16 09 2013 new variable
+assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###16 09 2013 new variable
+assessment#:#timing#:#Extra Time###16 09 2013 new variable
+assessment#:#tst_change_workingtime#:#Add extra time for a participant###16 09 2013 new variable
+assessment#:#tst_imap_qst_mode#:#Mode###16 09 2013 new variable
+assessment#:#tst_imap_qst_mode_sc#:#Single Choice###16 09 2013 new variable
+assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice###16 09 2013 new variable
+assessment#:#tst_test_execution#:#Test Execution###16 09 2013 new variable
+assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test###16 09 2013 new variable
+assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode###16 09 2013 new variable
+assessment#:#redirection_url#:#Redirection target###16 09 2013 new variable
+assessment#:#exp_file_created#:#Export file created.###16 09 2013 new variable
+tax#:#tax_added#:#Taxonomy has been created.###16 09 2013 new variable
+tax#:#tax_max_one_tax#:#You can use maximum one taxonomy in this context.###16 09 2013 new variable
+tax#:#tax_node_sorting#:#Sorting of Nodes###16 09 2013 new variable
+tax#:#tax_item_sorting#:#Support Sorting of Assigned Items###16 09 2013 new variable
+tax#:#tax_assigned_items#:#Assigned Items###16 09 2013 new variable
+ecs#:#ecs_cmap_att_courseType#:#Course Type###16 09 2013 new variable
+ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme###16 09 2013 new variable
+ecs#:#ecs_cmap_att_module#:#Module###16 09 2013 new variable
+ecs#:#ecs_cmap_att_venue#:#Venue###16 09 2013 new variable
+assessment#:#tst_man_scoring_by_part#:#Scoring by Participant###16 09 2013 new variable
+assessment#:#tst_man_scoring_by_qst#:#Scoring by Question###16 09 2013 new variable
+assessment#:#tst_no_scorable_qst_available#:#No scorable question available###16 09 2013 new variable
+assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points###16 09 2013 new variable
+assessment#:#answers_of#:#Answers of:###16 09 2013 new variable
+survey#:#survey_360_appraisee_close_action_success_admin#:#The 360° surveys of the appraisees were closed for the raters.###16 09 2013 new variable
+survey#:#survey_360_sure_appraisee_close_admin#:#Are you sure you want to close the surveys for the following appraisees?###16 09 2013 new variable
+assessment#:#question_id#:#Question ID###16 09 2013 new variable
+assessment#:#question_id_short#:#ID###16 09 2013 new variable
+mcst#:#mcst_download_videoalternative#:#Download Alternative File###16 09 2013 new variable
+dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.###16 09 2013 new variable
+prtf#:#prtf_allow_html#:#Allow HTML/Javascript###16 09 2013 new variable
+prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.###16 09 2013 new variable
+blog#:#blog_allow_html#:#Allow HTML/Javascript###16 09 2013 new variable
+common#:#obj_sysc#:#System Check###16 09 2013 new variable
+common#:#obj_sysc_desc#:#System Check and Repair Tools###16 09 2013 new variable
+rbac#:#sysc_edit_permission#:#User can change permissions of System Check.###16 09 2013 new variable
+rbac#:#sysc_read#:#User has read access to System Check.###16 09 2013 new variable
+rbac#:#sysc_visible#:#System Check is visible.###16 09 2013 new variable
+rbac#:#sysc_write#:#User can execute System Check.###16 09 2013 new variable
+assessment#:#apply_def_settings_to_tst#:#Apply Settings###16 09 2013 new variable
+cld#:#cld_add#:#Add Cloud Object###16 09 2013 new variable
+cld#:#cld_add_download_failed#:#Download Failed###16 09 2013 new variable
+cld#:#cld_add_file#:#File###16 09 2013 new variable
+cld#:#cld_add_folder#:#Folder###16 09 2013 new variable
+cld#:#cld_add_items_from_service_failed#:#Add Items from Service Failed###16 09 2013 new variable
+cld#:#cld_add_new_item#:#Add New Item###16 09 2013 new variable
+cld#:#cld_auth_failed#:#Authentication Failed###16 09 2013 new variable
+cld#:#cld_authentication_failed#:#:#Authentication Failed###16 09 2013 new variable
+cld#:#cld_config_entry_does_not_exist#:#Config entry does not exist###16 09 2013 new variable
+cld#:#cld_config_no_valid_get_or_set_function#:#No valid get or set function for config value###16 09 2013 new variable
+cld#:#cld_config_table_does_not_exist#:#Config table does not exist###16 09 2013 new variable
+cld#:#cld_config_unknown_exception#:#Unkown Exception###16 09 2013 new variable
+cld#:#cld_confirm_delete_file#:#Are you sure, that the following file is to be deleted:###16 09 2013 new variable
+cld#:#cld_confirm_delete_folder#:#Are you sure, that the following folder is to be deleted:###16 09 2013 new variable
+cld#:#cld_create_folder#:#Create Folder###16 09 2013 new variable
+cld#:#cld_delete_failed#:#Delete Failed###16 09 2013 new variable
+cld#:#cld_file_deleted#:#Object deleted###16 09 2013 new variable
+cld#:#cld_edit_Settings#:#Cloud Settings###16 09 2013 new variable
+cld#:#cld_empty#:#Empty###16 09 2013 new variable
+cld#:#cld_file_not_existing_on_service#:#File not existing on service:###16 09 2013 new variable
+cld#:#cld_folder_already_existing_on_service#:#Folder already existing on service:###16 09 2013 new variable
+cld#:#cld_folder_created#:#Folder created###16 09 2013 new variable
+cld#:#cld_folder_creation_failed#:#Folder Creation Failed###16 09 2013 new variable
+cld#:#cld_folder_name#:#Folder Name###16 09 2013 new variable
+cld#:#cld_folder_not_existing_on_service#:#Folder not existing on service:###16 09 2013 new variable
+cld#:#cld_id_already_exists_in_file_tree_in_session#:#Id already exists in filetree in Session:###16 09 2013 new variable
+cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Id does not exist in filetree in Session:###16 09 2013 new variable
+cld#:#cld_info_add_file_to_current_directory#:#Add Folder to current directory###16 09 2013 new variable
+cld#:#cld_info_add_folder_to_current_directory#:#Add Folder to current directory###16 09 2013 new variable
+cld#:#cld_invalid_input#:#Invalid Input###16 09 2013 new variable
+cld#:#cld_new#:#New Cloud Object###16 09 2013 new variable
+cld#:#cld_no_service_active#:#No cloud-plugin active###16 09 2013 new variable
+cld#:#cld_no_service_selected#:#No service selected###16 09 2013 new variable
+cld#:#cld_not_authenticated_offline#:#Not Authenticated - Offline###16 09 2013 new variable
+cld#:#cld_only_owner_has_permission_to_change_root_path#:#Due to privacy concerns only the creator of a cloud object has the permission to change it's root path.###16 09 2013 new variable
+cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Path does not exist in filetree in Session:###16 09 2013 new variable
+cld#:#cld_permission_denied#:#Permission Denied###16 09 2013 new variable
+cld#:#cld_permission_to_change_root_folder_denied#:#Permission to change root folder denied###16 09 2013 new variable
+cld#:#cld_plugin_hook_could_not_be_instantiated#:#Plugin hook cloud not be instantiated###16 09 2013 new variable
+cld#:#cld_plugin_not_active#:#Plugin is not active###16 09 2013 new variable
+cld#:#cld_root_folder#:#Root Folder###16 09 2013 new variable
+cld#:#cld_service#:#Service###16 09 2013 new variable
+cld#:#cld_service_class_file_not_found#:#Service class file not found###16 09 2013 new variable
+cld#:#cld_service_not_active#:#Service not active###16 09 2013 new variable
+cld#:#cld_service_specific_settings#:#Specific Settings###16 09 2013 new variable
+cld#:#cld_unknown_exception#:#Unknown Exception###16 09 2013 new variable
+cld#:#cld_upload_failed_max_filesize#:#Upload Failed (Max. File Size exceeded)###16 09 2013 new variable
+cld#:#cld_upload_failed#:#Upload Failed###16 09 2013 new variable
+cld#:#cld_upload_files#:#Upload Files###16 09 2013 new variable
+cld#:#service_specific_settings#:#Specific Settings###16 09 2013 new variable
+common#:#obj_cld#:#Cloud Object###16 09 2013 new variable
+common#:#objs_cld#:#Cloud Objects###16 09 2013 new variable
+assessment#:#tst_show_solution_compare#:#Compare Answer with Solution in List of Answers###16 09 2013 new variable
+assessment#:#tst_header_participant#:#Result:###16 09 2013 new variable
+assessment#:#tst_header_solution#:#Correct solution:###16 09 2013 new variable
+rbac#:#delete_files#:#Delete Files###16 09 2013 new variable
+rbac#:#cld_delete_files#:#Users can delete Files in the cloud object###16 09 2013 new variable
+rbac#:#delete_folders#:#Delete Folders###16 09 2013 new variable
+rbac#:#cld_delete_folders#:#Users can delete Folders in the cloud object###16 09 2013 new variable
+rbac#:#files_visible#:#Files Visible###16 09 2013 new variable
+rbac#:#cld_files_visible#:#Files are visible in the cloud object###16 09 2013 new variable
+rbac#:#folders_visible#:#Folders Visible###16 09 2013 new variable
+rbac#:#cld_folders_visible#:#Folders are visible in the cloud object###16 09 2013 new variable
+rbac#:#folders_create#:#Create Folders###16 09 2013 new variable
+rbac#:#cld_folders_create#:#Folders may be created in the cloud object###16 09 2013 new variable
+rbac#:#cld_visible#:#Cloud Object is visible###16 09 2013 new variable
+rbac#:#cld_read#:#User can open a Cloud Object###16 09 2013 new variable
+rbac#:#cld_write#:#User can edit cloud object settings###16 09 2013 new variable
+rbac#:#cld_delete#:#User can delete cloud object###16 09 2013 new variable
+rbac#:#cld_permission#:#User can change permission settings###16 09 2013 new variable
+rbac#:#cat_create_cld#:#Create Cloud Object###16 09 2013 new variable
+rbac#:#crs_create_cld#:#Create Cloud Object###16 09 2013 new variable
+rbac#:#fold_create_cld#:#Create Cloud Object###16 09 2013 new variable
+rbac#:#grp_create_cld#:#Create Cloud Object###16 09 2013 new variable
+rbac#:#root_create_cld#:#Create Cloud Object###16 09 2013 new variable
+rbac#:#cld_upload#:#User can upload files to the cloud object Dateien in das Cloud Objekt laden###16 09 2013 new variable
+rbac#:#cld_download#:#User can download files from the cloud object###16 09 2013 new variable
+rbac#:#cld_edit_permission#:#User can change permission settings###16 09 2013 new variable
+rbac#:#rbac_create_cld#:#Create new Cloud Object###16 09 2013 new variable
+wsp#:#wsp_shared_date#:#Date of Share###16 09 2013 new variable
+wsp#:#wsp_shared_type#:#Shared With###16 09 2013 new variable
+wsp#:#wsp_shared_object_type#:#Type of Resource###16 09 2013 new variable
+wsp#:#wsp_shared_user_filter#:#Login/Name###16 09 2013 new variable
+wsp#:#wsp_shared_date_filter#:#Shared From###16 09 2013 new variable
+wsp#:#wsp_shared_mandatory_filter_info#:#Please set at least one filter attribute. Text filters have to be at least 4 characters long.###16 09 2013 new variable
+wsp#:#wsp_shared_member_filter#:#Members of Course / Group###16 09 2013 new variable
+blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.###16 09 2013 new variable
+common#:#scorm_without_session#:#SCORM 2004: enable storing data without session###16 09 2013 new variable
+common#:#scorm_without_session_info#:#This ensures the storage of SCORM learning data even if ILIAS session expired###16 09 2013 new variable
+common#:#msg_obj_no_download#:#cannot be downloaded.###16 09 2013 new variable
+common#:#download_selected_items#:#Download###16 09 2013 new variable
+common#:#download_multiple_objects#:#Download Multiple Objects###16 09 2013 new variable
+common#:#msg_obj_perm_download#:#You do not have sufficient rights to download the following objects:###16 09 2013 new variable
+common#:#enable_multi_download#:#«Download multiple objects» enabled###16 09 2013 new variable
+common#:#enable_multi_download_info#:#Enables that multiple folders/files can be selected to download them as zip archive.###16 09 2013 new variable
+book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation###16 09 2013 new variable
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please state the numbers of objects to book.###16 09 2013 new variable
+exc#:#exc_type_text#:#Text###16 09 2013 new variable
+exc#:#exc_files_returned_text#:#Assignment Text###16 09 2013 new variable
+exc#:#exc_text_assignment_edit#:#Edit Text###16 09 2013 new variable
+exc#:#exc_text_assignment_show#:#Show Text###16 09 2013 new variable
+survey#:#survey_360_remove_appraisees#:#Remove Appraisee(s)###16 09 2013 new variable
+search#:#search_add_members_from_container_grp#:#Add Users of Current Group###16 09 2013 new variable
+search#:#search_add_members_from_container_crs#:#Add Users of Current Course###16 09 2013 new variable
+exc#:#exc_peer_review#:#Peer-Feedback###16 09 2013 new variable
+exc#:#exc_peer_review_info#:#Not available for team upload assignments.###16 09 2013 new variable
+exc#:#exc_peer_review_min_number#:#Number of feedback given required to see personal feedback###16 09 2013 new variable
+exc#:#exc_peer_review_give#:#Give Feedback###16 09 2013 new variable
+exc#:#exc_peer_review_no_peers#:#There are no peers to give feedback for.###16 09 2013 new variable
+exc#:#exc_peer_review_rating#:#Rating###16 09 2013 new variable
+exc#:#exc_peer_review_updated#:#Your feedback has been saved.###16 09 2013 new variable
+common#:#preview#:#Preview###16 09 2013 new variable
+common#:#preview_show#:#Show Preview###16 09 2013 new variable
+common#:#preview_none#:#Preview (not created yet)###16 09 2013 new variable
+common#:#preview_settings#:#File Preview###16 09 2013 new variable
+common#:#enable_preview#:#Enable Preview###16 09 2013 new variable
+common#:#enable_preview_info#:#Enable this option to display preview images on supported file types.###16 09 2013 new variable
+common#:#max_previews_per_object#:#Number of preview images per file###16 09 2013 new variable
+common#:#max_previews_per_object_info#:#Defines the maximum number of preview images that are created per file.###16 09 2013 new variable
+common#:#preview_create#:#Create Preview###16 09 2013 new variable
+common#:#preview_delete#:#Delete Preview###16 09 2013 new variable
+common#:#preview_status_creating#:#The preview gets created. This may take some time...###16 09 2013 new variable
+common#:#preview_status_deleting#:#The preview gets deleted...###16 09 2013 new variable
+common#:#preview_status_pending#:#The preview has not been created yet. Please try again later.###16 09 2013 new variable
+common#:#preview_status_failed#:#Failed to create the preview.###16 09 2013 new variable
+common#:#preview_status_missing#:#No preview exists for this file.###16 09 2013 new variable
+common#:#preview_loading#:#Loading Preview...###16 09 2013 new variable
+common#:#loaded_preview_renderers#:#Loaded Preview Renderers###16 09 2013 new variable
+common#:#renderer_type_plugin#:#Plugin###16 09 2013 new variable
+common#:#renderer_type_builtin#:#Built-in###16 09 2013 new variable
+common#:#renderer_supported_repo_types#:#Supported ILIAS Objects###16 09 2013 new variable
+common#:#renderer_supported_file_types#:#Supported File Types###16 09 2013 new variable
+common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.###16 09 2013 new variable
+exc#:#exc_peer_review_show_not_rated_yet#:#You must give feedback before you can see the feedback you received.###16 09 2013 new variable
+exc#:#exc_peer_review_show#:#Show Received Feedback###16 09 2013 new variable
+exc#:#exc_needs_deadline#:#This feature does only work with an assignment deadline.###16 09 2013 new variable
+exc#:#exc_team_upload_not_supported#:#This feature does not support team upload assignments.###16 09 2013 new variable
+exc#:#exc_global_feedback_file#:#Feedback file for all learners###16 09 2013 new variable
+exc#:#exc_global_feedback_file_cron#:#Notification###16 09 2013 new variable
+exc#:#exc_global_feedback_file_cron_info#:#All learners will be notified via cron job when the feedback file becomes available.###16 09 2013 new variable
+exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment of exercise "%s"###16 09 2013 new variable
+exc#:#exc_feedback_notification_salutation#:#Hello %s,###16 09 2013 new variable
+exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.###16 09 2013 new variable
+exc#:#exc_feedback_notification_link#:#Link to exercise###16 09 2013 new variable
+mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation###16 09 2013 new variable
+mail#:#system_notification_installation_changed_by#:#Changed By###16 09 2013 new variable
+exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###16 09 2013 new variable
+exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###16 09 2013 new variable
+blog#:#blog_change_notification_reason#:#You are receiving this email because you activated notifications for the blog mentioned above.###16 09 2013 new variable
+survey#:#survey_notification_finished_introduction#:#The following participant has finished the survey.###16 09 2013 new variable
+survey#:#survey_notification_finished_reason#:#You are receiving this email because you activated notifications for the survey mentioned above.###16 09 2013 new variable
+content#:#cont_offline_mode_allow#:#allow offline-mode###16 09 2013 new variable
+content#:#cont_offline_mode_allow_info#:#In offline mode, learning modules can only be processed with the SCORM offline player. The tracking data are transferred if the learner clicks on 'finish offline mode' in ILIAS.###16 09 2013 new variable
+wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###16 09 2013 new variable
+administration#:#adm_https#:#HTTPS###16 09 2013 new variable
+common#:#obj_reps#:#Repository###16 09 2013 new variable
+common#:#obj_reps_desc#:#General settings for the Repository###16 09 2013 new variable
+rep#:#rep_object_lists#:#Object Lists###16 09 2013 new variable
+rep#:#rep_custom_icons#:#Custom Icons###16 09 2013 new variable
+cmps#:#cmps_enable_creation#:#Enable Creation###16 09 2013 new variable
+cmps#:#cmps_slots#:#Slots###16 09 2013 new variable
+pd#:#pd_personal_workspace#:#Personal Workspace###16 09 2013 new variable
+common#:#obj_wbrs#:#Weblink###16 09 2013 new variable
+common#:#obj_wbrs_desc#:#General settings for Web Links###16 09 2013 new variable
+common#:#obj_crss#:#Course###16 09 2013 new variable
+common#:#obj_crss_desc#:#General settings for Courses###16 09 2013 new variable
+common#:#obj_grps#:#Group###16 09 2013 new variable
+common#:#obj_grps_desc#:#General settings for Groups###16 09 2013 new variable
+administration#:#adm_external_setting_prefix#:#External Settings###16 09 2013 new variable
+administration#:#adm_external_setting_edit#:#Edit Settings###16 09 2013 new variable
+ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization ###16 09 2013 new variable
+rating#:#rating_new_objects_auto#:#Enable Rating for new Objects###16 09 2013 new variable
+rating#:#rating_new_objects_auto_info#:#If enabled, new files, learning modules and wikis can be rated.###16 09 2013 new variable
+rating#:#rating_activate_rating#:#Enable Rating###16 09 2013 new variable
+rating#:#rating_activate_rating_info#:#if enabled, users can rate this object.###16 09 2013 new variable
+exc#:#exc_peer_review_no_peers_reviewed_yet#:#There was no feedback given yet.###16 09 2013 new variable
+exc#:#exc_peer_review_ass_setting_info#:#If enabled, users can rate their peers after the deadline.###16 09 2013 new variable
+book#:#book_copy#:#Copy Booking Pool###16 09 2013 new variable
+book#:#obj_book_duplicate#:#Copy Booking Pool###16 09 2013 new variable
+administration#:#adm_user_starting_point_invalid_info#:#This feature is currently not active.###16 09 2013 new variable
+ps#:#ps_password_settings#:#Password Settings###16 09 2013 new variable
+rep#:#rep_new_item_group_unassigned#:#Not Assigned###16 09 2013 new variable
+rep#:#rep_new_item_groups#:#New Item Groups###16 09 2013 new variable
+rep#:#rep_new_item_group_add#:#Add Group###16 09 2013 new variable
+rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects###16 09 2013 new variable
+rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s###16 09 2013 new variable
+rep#:#rep_new_item_group_edit#:#Edit Group###16 09 2013 new variable
+rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?###16 09 2013 new variable
+registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.###16 09 2013 new variable
+payment#:#placeholders#:#Placeholders###16 09 2013 new variable
+payment#:#current_timestamp#:#Current Unix Timestamp###16 09 2013 new variable
+payment#:#user_id#:#User ID###16 09 2013 new variable
+payment#:#incremental_number#:#Incrementing Number###16 09 2013 new variable
+rep#:#rep_new_item_group_add_separator#:#Add Column Separator###16 09 2013 new variable
+rep#:#rep_new_item_group_separator#:#Column Separator###16 09 2013 new variable
+rep#:#rep_new_item_group_other#:#Other###16 09 2013 new variable
+wsp#:#wsp_shared_title#:#Title of Resource###16 09 2013 new variable
+adve#:#adve_excass_settings#:#Exercise Assignments###16 09 2013 new variable
+dateplaner#:#cal_edit_single#:#Edit this Appointment###16 09 2013 new variable
+dateplaner#:#cal_edit_recurrences#:#Edit all Appointments###16 09 2013 new variable
+adve#:#advanced_editing_excass_settings#:#Exercise Assignments Settings###16 09 2013 new variable
+common#:#obj_prtt#:#Portfolio Template###16 09 2013 new variable
+common#:#objs_prtt#:#Portfolio Templates###16 09 2013 new variable
+common#:#obj_prtt_duplicate#:#Copy Portfolio Template###16 09 2013 new variable
+prtt#:#prtt_new#:#New Portfolio Template###16 09 2013 new variable
+prtt#:#prtt_add#:#Create Portfolio Template###16 09 2013 new variable
+prtt#:#prtt_copy#:#Copy Portfolio Template###16 09 2013 new variable
+prtt#:#prtt_edit#:#Edit Portfolio Template###16 09 2013 new variable
+rbac#:#prtt_visible#:#Booking pool is visible###16 09 2013 new variable
+rbac#:#prtt_read#:#User has read access to portfolio template###16 09 2013 new variable
+rbac#:#prtt_copy#:#User can copy portfolio template###16 09 2013 new variable
+rbac#:#prtt_write#:#User can edit settings and content of portfolio template###16 09 2013 new variable
+rbac#:#prtt_delete#:#User can move or delete portfolio template###16 09 2013 new variable
+rbac#:#prtt_edit_permission#:#User can change permission settings for portfolio template###16 09 2013 new variable
+prtt#:#prtt_activation_online_info#:#Activate this setting to make the portfolio template accessible to users.###16 09 2013 new variable
+prtt#:#prtt_availability_limitless_info#:#Choose this mode for making the portfolio template available limitless.###16 09 2013 new variable
+prtt#:#prtt_availability_until_info#:#Choose this mode for making the portfolio template available for a fixed period of time.###16 09 2013 new variable
+prtt#:#prtt_activation_limited_visibility_info#:#If chosen, the portfolio template is visible even outside of the given availability.###16 09 2013 new variable
+content#:#cont_profile_mode_template_inherit_info#:#Use the profile settings###16 09 2013 new variable
+prtf#:#prtf_template_editor_placeholder_info#:#This placeholder will be replaced in the portfolio.###16 09 2013 new variable
+prtf#:#prtf_creation_mode#:#New Portfolio###16 09 2013 new variable
+prtf#:#prtf_creation_mode_template#:#Create from Template###16 09 2013 new variable
+prtf#:#prtf_creation_mode_scratch#:#Create without Template###16 09 2013 new variable
+prtf#:#prtf_template_import_blog_create#:#Create New Blog###16 09 2013 new variable
+prtf#:#prtf_template_import_blog_reuse#:#Use Existing Blog###16 09 2013 new variable
+prtf#:#prtf_template_import_blog_ignore#:#Remove Blog Page###16 09 2013 new variable
+prtf#:#prtf_create_template_from_portfolio#:#Portfolio###16 09 2013 new variable
+prtf#:#prtf_create_template_from_portfolio_info#:#Select a portfolio to use its content and settings for the template.###16 09 2013 new variable
+prtf#:#prtf_template_import_quota_failure#:#This portfolio template cannot be copied because it would exceed your disk quota.###16 09 2013 new variable
+cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template###16 09 2013 new variable
+content#:#content_plugin_not_activated#:#The page content element plugin is currently not activated.###16 09 2013 new variable
+administration#:#vc_information#:#Version Control Information###16 09 2013 new variable
+administration#:#svn_revision_current#:#Current Revision: %s###16 09 2013 new variable
+administration#:#svn_revision_last_change#:#Last Changed Revision: %s###16 09 2013 new variable
+administration#:#svn_root#:#Root: %s###16 09 2013 new variable
+administration#:#svn_path#:#Path: %s###16 09 2013 new variable
+content#:#cont_verification_placeh#:#Click and edit to insert certificate###16 09 2013 new variable
+content#:#cont_verification_placehl#:#Certificate Placeholder###16 09 2013 new variable
+content#:#cont_ed_plachverification#:#Placeholder Certificate###16 09 2013 new variable
+cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object has been created.###16 09 2013 new variable
+dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
+common#:#objs_orgu#:#Organisational Unit###16 09 2013 new variable
+common#:#obj_orgu#:#Organisational Unit###16 09 2013 new variable
+orgu#:#view_learning_progress#:#View Learning Progress###16 09 2013 new variable
+orgu#:#il_orgu_employee#:#Employee###16 09 2013 new variable
+orgu#:#il_orgu_superior#:#Superior###16 09 2013 new variable
+orgu#:#orgu_staff#:#Staff###16 09 2013 new variable
+orgu#:#orgu_view_learning_progress_rec#:#View Learning Progress Recursivly###16 09 2013 new variable
+orgu#:#Staff#:#Staff###16 09 2013 new variable
+orgu#:#orgu_edit#:#Edit###16 09 2013 new variable
+orgu#:#employee#:#Employee###16 09 2013 new variable
+orgu#:#Employee#:#Employee###16 09 2013 new variable
+orgu#:#superior#:#Superior###16 09 2013 new variable
+orgu#:#Superior#:#Superior###16 09 2013 new variable
+orgu#:#Actions#:#Actions###16 09 2013 new variable
+orgu#:#show_learning_progress#:#Show Learning Progress###16 09 2013 new variable
+orgu#:#users_successfuly_added#:#The user has been added successfully.###16 09 2013 new variable
+orgu#:#change_to_superior#:#Change to superior###16 09 2013 new variable
+orgu#:#change_to_employee#:#Change to employee###16 09 2013 new variable
+orgu#:#user_changed_successful#:#The user has been changed successfully.###16 09 2013 new variable
+orgu#:#ou_id_type_not_valid#:#The ou_id type is not valid. Valid are: "reference_id" or "external_id".###16 09 2013 new variable
+orgu#:#ou_parent_id_not_valid#:#The ou_parent_id type is not valid. Valid are: "reference_id" or "external_id".###16 09 2013 new variable
+orgu#:#import_successful#:#The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s.###16 09 2013 new variable
+orgu#:#import_terminated_with_warnings#:#The import terminated with warnings###16 09 2013 new variable
+orgu#:#import_terminated_with_errors#:#The import terminated with errors, some organisational couldn't be created, edited or deleted.###16 09 2013 new variable
+orgu#:#import_failed#:#The import failed. Make sure your file is in the xml format and is has a valid structure.###16 09 2013 new variable
+orgu#:#orgu_already_deleted#:#The object was already deleted.###16 09 2013 new variable
+orgu#:#orgu_new#:#New Organisational Unit###16 09 2013 new variable
+orgu#:#orgu_add#:#Add Organisational Unit###16 09 2013 new variable
+orgu#:#orgu_import#:#Import Organisational Unit###16 09 2013 new variable
+orgu#:#orgu_copy#:#Copy Organisational Unit###16 09 2013 new variable
+orgu#:#obj_orgu_duplicate#:#Dublicate Organisational Unit###16 09 2013 new variable
+orgu#:#local_staff#:#Employees %s###16 09 2013 new variable
+orgu#:#rec_staff#:#Employees %s recursivly###16 09 2013 new variable
+orgu#:#placeholder#:#...###16 09 2013 new variable
+orgu#:#simple_import#:#Simple XML Import###16 09 2013 new variable
+orgu#:#simple_xml#:#Simple XML Export###16 09 2013 new variable
+orgu#:#import_xml_file#:#Import Datei###16 09 2013 new variable
+orgu#:#view_learning_progress_rec#:#View Learning Progress Recursivly###16 09 2013 new variable
+orgu#:#lp_is_anonym#:#The learning progress can't be viewed because the data is stored anonymously.###16 09 2013 new variable
+orgu#:#edit_translations#:#Title and Description###16 09 2013 new variable
+orgu#:#edit_ext_id#:#External ID###16 09 2013 new variable
+orgu#:#ext_id#:#External ID###16 09 2013 new variable
+orgu#:#ext_id_updated#:#The external ID has been updated successfully.###16 09 2013 new variable
+cld#:#cld_object_added#:#A new Cloud Objekt has been added###16 09 2013 new variable
+exc#:#exc_peer_review_deadline#:#Feedback Deadline ###16 09 2013 new variable
+exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.###16 09 2013 new variable
+exc#:#exc_peer_review_deadline_info_button#:#Deadline: %s###16 09 2013 new variable
+exc#:#exc_peer_review_deadline_reached#:#Feedback time is up.###16 09 2013 new variable
+exc#:#exc_peer_review_comment#:#My Feedback###16 09 2013 new variable
+exc#:#exc_peer_review_missing_info#:#To see your received feedback, you still have to give %s feedbacks.###16 09 2013 new variable
+exc#:#exc_peer_review_missing_info_deadline#:#To see your received feedback, you still have to give %1$s feedbacks. Access will be granted on: %2$s.###16 09 2013 new variable
+content#:#cont_glossaries#:#Glossaries###16 09 2013 new variable
+content#:#cont_auto_glossaries#:#Auto-Linked Glossaries###16 09 2013 new variable
+content#:#cont_link_glo_in_lm#:#Should all glossary terms be linked in the learning module now?###16 09 2013 new variable
+content#:#cont_hide_head_foot_print#:#Hide custom header and footer in print view###16 09 2013 new variable
+fold#:#fold_settings#:#Folder Settings###16 09 2013 new variable
+mcst#:#mcst_download_cnt#:#Downloaded###16 09 2013 new variable
+mcst#:#mcst_play_cnt#:#Played###16 09 2013 new variable
+glo#:#glo_term#:#Glossary Term###16 09 2013 new variable
+content#:#glo_add_term_properties#:#Activate Additional Glossary Term Properties###16 09 2013 new variable
+exc#:#exc_multi_feedback#:#Multi-Feedback###16 09 2013 new variable
+exc#:#exc_download_zip_structure#:#Download ZIP Structure###16 09 2013 new variable
+exc#:#exc_multi_feedback_file#:#Multi-Feedback File###16 09 2013 new variable
+exc#:#exc_multi_feedback_files#:#Multi-Feedback Files###16 09 2013 new variable
+assessment#:#assFormulaQuestion#:#Formula Question###16 09 2013 new variable
+assessment#:#parseQuestion#:#Parse Question###16 09 2013 new variable
+assessment#:#variables#:#Variables###16 09 2013 new variable
+assessment#:#results#:#Results###16 09 2013 new variable
+assessment#:#select_unit#:#--- Select Unit ---###16 09 2013 new variable
+assessment#:#formula#:#Formula###16 09 2013 new variable
+assessment#:#rating_simple#:#Simple Rating###16 09 2013 new variable
+assessment#:#unit#:#Unit###16 09 2013 new variable
+assessment#:#range_min#:#Range (Minimum)###16 09 2013 new variable
+assessment#:#range_max#:#Range (Maximum)###16 09 2013 new variable
+assessment#:#step_dim_min#:#Dimension (Minimum)###16 09 2013 new variable
+assessment#:#step_dim_max#:#Dimension (Maximum)###16 09 2013 new variable
+assessment#:#tolerance#:#Tolerance (%)###16 09 2013 new variable
+assessment#:#result_units#:#Available Units###16 09 2013 new variable
+assessment#:#all_units#:#All Units###16 09 2013 new variable
+assessment#:#precision#:#Precision###16 09 2013 new variable
+assessment#:#err_range#:#The maximum range must be greater than the minimum range###16 09 2013 new variable
+assessment#:#err_no_min_range#:#Please enter a minimum range value###16 09 2013 new variable
+assessment#:#err_no_max_range#:#Please enter a maximum range value###16 09 2013 new variable
+assessment#:#err_no_precision#:#Please enter a precision###16 09 2013 new variable
+assessment#:#err_wrong_precision#:#The precision must be an integer number greater or equal zero###16 09 2013 new variable
+assessment#:#err_no_min_range_number#:#The minimum range must be number###16 09 2013 new variable
+assessment#:#err_no_max_range_number#:#The maximum range must be number###16 09 2013 new variable
+assessment#:#err_tolerance_wrong_value#:#The tolerance must be a percentage value between 0 and 100´###16 09 2013 new variable
+assessment#:#err_wrong_points#:#You must enter points for a result###16 09 2013 new variable
+assessment#:#err_no_formula#:#You must enter a formula###16 09 2013 new variable
+assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent ###16 09 2013 new variable
+assessment#:#rating_sign#:#Rate Sign###16 09 2013 new variable
+assessment#:#rating_value#:#Rate Value###16 09 2013 new variable
+assessment#:#rating_unit#:#Rate Unit###16 09 2013 new variable
+assessment#:#rated_sign#:#Sign###16 09 2013 new variable
+assessment#:#rated_value#:#Value###16 09 2013 new variable
+assessment#:#rated_unit#:#Unit###16 09 2013 new variable
+assessment#:#suggest_range#:#Suggest Range###16 09 2013 new variable
+assessment#:#units#:#Units###16 09 2013 new variable
+assessment#:#qpl_qst_formulaquestion_00_no_category#:#No category assigned###16 09 2013 new variable
+assessment#:#category#:#Category###16 09 2013 new variable
+assessment#:#categories#:#Categories###16 09 2013 new variable
+assessment#:#new_category#:#New Unit Category###16 09 2013 new variable
+assessment#:#selected_unit#:#Selected Unit###16 09 2013 new variable
+assessment#:#new_unit#:#New Unit###16 09 2013 new variable
+assessment#:#factor#:#Factor###16 09 2013 new variable
+assessment#:#baseunit#:#Base Unit###16 09 2013 new variable
+assessment#:#unit_placeholder#:#** New Unit **###16 09 2013 new variable
+assessment#:#err_no_unitname#:#Please enter a unit name###16 09 2013 new variable
+assessment#:#err_wrong_unitfactor#:#Please enter a correct factor for the unit###16 09 2013 new variable
+assessment#:#err_unit_in_variables#:#The unit cannot be deleted. It is aleady in use in one or more test questions.###16 09 2013 new variable
+assessment#:#err_unit_in_results#:#The unit cannot be deleted. It is aleady in use in one or more test questions.###16 09 2013 new variable
+assessment#:#err_unit_is_baseunit#:#The unit cannot be deleted. It is used as base unit by other units.###16 09 2013 new variable
+assessment#:#err_rating_advanced_not_allowed#:#A rating other than simple rating is not allowed since you are offering multiple result units with an identical base unit.###16 09 2013 new variable
+assessment#:#err_wrong_categoryname#:#The category already exists.###16 09 2013 new variable
+assessment#:#un_sure_delete_categories#:#Are you sure you want to delete the selected categories?###16 09 2013 new variable
+assessment#:#un_sure_delete_categories_s#:#Are you sure you want to delete the selected category?###16 09 2013 new variable
+assessment#:#un_deleted_categories#:#Deletion successfully processed###16 09 2013 new variable
+assessment#:#un_deleted_categories_s#:#Deletion successfully processed###16 09 2013 new variable
+assessment#:#un_cat_deletion_errors_f#:#Cannot delete certain categories:###16 09 2013 new variable
+assessment#:#un_cat_deletion_errors_f_s#:#Cannot delete category:###16 09 2013 new variable
+assessment#:#un_cat_deletion_errors_p#:#Could not delete certain categories:###16 09 2013 new variable
+assessment#:#un_cat_deletion_errors_p_s#:#Could not delete category:###16 09 2013 new variable
+assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.###16 09 2013 new variable
+assessment#:#un_sure_delete_units#:#Are you sure you want to delete the selected units?###16 09 2013 new variable
+assessment#:#un_sure_delete_units_s#:#Are you sure you want to delete the selected unit?###16 09 2013 new variable
+assessment#:#un_deleted_units#:#Deletion successfully processed###16 09 2013 new variable
+assessment#:#un_deleted_units_s#:#Deletion successfully processed###16 09 2013 new variable
+assessment#:#un_unit_deletion_errors_f#:#Cannot delete certain units:###16 09 2013 new variable
+assessment#:#un_unit_deletion_errors_f_s#:#Cannot delete unit:###16 09 2013 new variable
+assessment#:#un_unit_deletion_errors_p#:#Could not delete certain units:###16 09 2013 new variable
+assessment#:#un_unit_deletion_errors_p_s#:#Could not delete unit:###16 09 2013 new variable
+assessment#:#selected_category#:#Selected Category: %s###16 09 2013 new variable
+assessment#:#un_sel_cat_sel_unit#:#Selected Category: %s, Selected Unit: %s###16 09 2013 new variable
+assessment#:#un_sequence#:#Sequence###16 09 2013 new variable
+assessment#:#un_no_category_id_passed#:#The requested category does not exist.###16 09 2013 new variable
+assessment#:#un_category_not_exist#:#The requested category does not exist.###16 09 2013 new variable
+assessment#:#un_no_unit_id_passed#:#The requested unit does not exist.###16 09 2013 new variable
+assessment#:#un_unit_not_exist#:#The requested unit does not exist.###16 09 2013 new variable
+assessment#:#un_save_order#:#Save Order###16 09 2013 new variable
+assessment#:#intprecision#:#Divisible By###16 09 2013 new variable
+assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.###16 09 2013 new variable
+assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.###16 09 2013 new variable
+assessment#:#err_duplicate_variables#:#You used a variable more than once. This is not allowed in the question text.###16 09 2013 new variable
+assessment#:#result_type_selection#:#Result Type Selection###16 09 2013 new variable
+assessment#:#result_dec#:#Decimal###16 09 2013 new variable
+assessment#:#result_frac#:#Fraction###16 09 2013 new variable
+assessment#:#result_co_frac#:#Coprime Fraction###16 09 2013 new variable
+assessment#:#no_result_type#:#Select No Result Type###16 09 2013 new variable
+assessment#:#result_dec_info#:#Valid results are i.e.: 2,3 and 2.3###16 09 2013 new variable
+assessment#:#result_frac_info#:#i.e.: 1/3 and 2/6 are valid results###16 09 2013 new variable
+assessment#:#result_co_frac_info#:#Canceled out fraction i.e.: only 1/3 is a valid result###16 09 2013 new variable
+assessment#:#unit_editor#:#Unit Editor###16 09 2013 new variable
+assessment#:#custom_categories#:#Question-Categories###16 09 2013 new variable
+assessment#:#adm_categories#:#Pool-Categories###16 09 2013 new variable
+assessment#:#change_adm_categories_not_allowed#:#You do not have any permissions concerning this category.###16 09 2013 new variable
+assessment#:#change_adm_units_not_allowed#:#This unit can only by changed by administrator###16 09 2013 new variable
+assessment#:#expected_result_type#:#Expected result type###16 09 2013 new variable
+assessment#:#enter_valid_values#:#Please enter valid value. Chars will be evaluated as incorrect!###16 09 2013 new variable
+assessment#:#res_contains_undef_var#:#A result formula contains an undefined variable!###16 09 2013 new variable
+assessment#:#que_contains_unused_var#:#The question text contains a variable, that is not used in any result formula!###16 09 2013 new variable
+assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!###16 09 2013 new variable
+assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect information!!###16 09 2013 new variable
+assessment#:#un_show_units#:#Show Units###16 09 2013 new variable
+assessment#:#un_local_units#:#Local Units###16 09 2013 new variable
+assessment#:#un_global_units#:#Global Units###16 09 2013 new variable
+assessment#:#un_units_of_category_x#:#Units of Category: %s###16 09 2013 new variable
+assessment#:#un_unit_in_use#:#The unit is already in use.###16 09 2013 new variable
+assessment#:#variable_x#:#Variable %s###16 09 2013 new variable
+assessment#:#result_x#:#Result %s###16 09 2013 new variable
+assessment#:#rating#:#Rating###16 09 2013 new variable
+assessment#:#advanced_rating#:#Advanced Rating###16 09 2013 new variable
+assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.###16 09 2013 new variable
+prtt#:#prtt_import#:#Import Portfolio Template###16 09 2013 new variable
+orgu#:#simple_user_import#:#XML User Assignment###16 09 2013 new variable
+crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
+crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
+crs#:#crs_mail_type#:#Mail to Members###16 09 2013 new variable
+crs#:#crs_mail_tutors_only#:#For Tutors and Administrators only###16 09 2013 new variable
+crs#:#crs_mail_all#:#For all Participants###16 09 2013 new variable
+grp#:#grp_mail_type#:#Mail to Members###16 09 2013 new variable
+grp#:#grp_mail_tutors_only#:#For Administrators only###16 09 2013 new variable
+grp#:#grp_mail_all#:#For all Participants###16 09 2013 new variable
+content#:#cont_ed_insert_consultation_hours#:#Insert Consultation Hours###16 09 2013 new variable
+content#:#cont_insert_consultation_hours#:#Insert Consultation Hours###16 09 2013 new variable
+content#:#cont_update_consultation_hours#:#Edit Consultation Hours###16 09 2013 new variable
+content#:#cont_cach_mode#:#Mode###16 09 2013 new variable
+content#:#cont_cach_mode_automatic#:#Automatic###16 09 2013 new variable
+content#:#cont_cach_mode_automatic_info#:#All your consultation hours will be published.###16 09 2013 new variable
+content#:#cont_cach_mode_manual#:#Manual###16 09 2013 new variable
+content#:#cont_cach_mode_manual_info#:#Only the consultation hours of the following groups will be published.###16 09 2013 new variable
+search#:#search_mime_pdf#:#PDF Files###16 09 2013 new variable
+search#:#search_mime_word#:#Word Files###16 09 2013 new variable
+search#:#search_mime_excel#:#Excel Files###16 09 2013 new variable
+search#:#search_mime_powerpoint#:#Powerpoint Files###16 09 2013 new variable
+search#:#search_mime_image#:#Images###16 09 2013 new variable
+search#:#lucene_show_sub_relevance#:#Show Subitem Relevance###16 09 2013 new variable
+search#:#search_mime_filter_form#:#Mime Type Filter###16 09 2013 new variable
+search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries###16 09 2013 new variable
+search#:#lucene_prefix_wildcard_info#:#If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported.###16 09 2013 new variable
+content#:#cont_activate_multi_lang#:#Activate Multilinguality###16 09 2013 new variable
+content#:#cont_select_master_lang#:#Please select the master language. The current content will be assigned to the master language.###16 09 2013 new variable
+assessment#:#show_answer_overview#:#Show Answer Overview###16 09 2013 new variable
