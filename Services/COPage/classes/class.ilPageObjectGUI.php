@@ -3508,5 +3508,41 @@ class ilPageObjectGUI
 		$ilCtrl->redirect($this, "edit");
 	}
 	
+	////
+	//// Multilinguality functions
+	////
+	
+	/**
+	 * Activate multi language (-> master language selection)
+	 *
+	 * @param
+	 * @return
+	 */
+	function activateMultiLanguage()
+	{
+		global $tpl, $lng, $ilCtrl, $ilUser;
+		
+		ilUtil::sendInfo($lng->txt("cont_select_master_lang"));
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		
+		// master language
+		include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$options = ilMDLanguageItem::_getLanguages();
+		$si = new ilSelectInputGUI($this->lng->txt("cont_master_lang"), "master_lang");
+		$si->setOptions($options);
+		$si->setValue($ilUser->getLanguage());
+		$form->addItem($si);
+		
+		$form->addCommandButton("setMasterLanguage", $lng->txt("save"));
+		$form->addCommandButton("edit", $lng->txt("cancel"));
+		$form->setTitle($lng->txt("cont_activate_multi_lang"));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		$tpl->setContent($form->getHTML());
+		
+	}
+	
 }
 ?>
