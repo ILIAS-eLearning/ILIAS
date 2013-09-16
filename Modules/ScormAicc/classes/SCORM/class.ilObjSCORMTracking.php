@@ -266,24 +266,18 @@ class ilObjSCORMTracking
 	function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
 	{
 		global $ilDB, $ilLog;
-
+		//TODO: use sahs_user in future!! Especially for learningTime!
 		// get attempts
-		$val_set = $ilDB->queryF('
-		SELECT rvalue FROM scorm_tracking 
-		WHERE user_id = %s
-		AND sco_id = %s
-		AND lvalue = %s
-		AND obj_id = %s',
-		array('integer','integer','text','integer'),
-		array($a_user_id,0,'package_attempts',$a_obj_id));
+		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+		array('integer','integer'),
+		array($a_obj_id,$a_user_id));
 		
 		$val_rec = $ilDB->fetchAssoc($val_set);
 		
-		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-		if ($val_rec["rvalue"] == null) {
-			$val_rec["rvalue"]="";
+		if ($val_rec["package_attempts"] == null) {
+			$val_rec["package_attempts"]="";
 		}
-		$attempts = $val_rec["rvalue"];
+		$attempts = $val_rec["package_attempts"];
 
 		// get learning time
 		$sco_set = $ilDB->queryF('
@@ -726,42 +720,49 @@ class ilObjSCORMTracking
 		if ($obj_id <= 1){
 			$GLOBALS['ilLog']->write(__METHOD__.' no valid obj_id');
 		} else {
-			$data=$_POST['last_visited'];
+			$last_visited=$_POST['last_visited'];
+			$ilDB->manipulateF('UPDATE sahs_user 
+				SET last_visited = %s, last_access = %s
+				WHERE obj_id = %s AND user_id = %s',  
+				array('text', 'timestamp', 'integer', 'integer'),
+				array($last_visited, date('Y-m-d H:i:s'), $obj_id, $user_id)
+			);
+//			$data=$_POST['last_visited'];
 //			$GLOBALS['ilLog']->write(__METHOD__.' last_visited: '.$data);
-			if($data) {
-				$set = $ilDB->queryF('
-				SELECT rvalue FROM scorm_tracking 
-				WHERE user_id = %s
-				AND sco_id =  %s
-				AND lvalue =  %s
-				AND obj_id = %s',
-				array('integer','integer','text','integer'), 
-				array($user_id,0,'last_visited',$obj_id));
-				if ($rec = $ilDB->fetchAssoc($set)) {
-					$ilDB->update('scorm_tracking',
-						array(
-							'rvalue'		=> array('clob', $data),
-							'c_timestamp'	=> array('timestamp', ilUtil::now())
-						),
-						array(
-							'user_id'		=> array('integer', $user_id),
-							'sco_id'		=> array('integer', 0),
-							'lvalue'		=> array('text', 'last_visited'),
-							'obj_id'		=> array('integer', $obj_id)
-						)
-					);
-				}
-				else {
-					$ilDB->insert('scorm_tracking', array(
-						'obj_id'		=> array('integer', $obj_id),
-						'user_id'		=> array('integer', $user_id),
-						'sco_id'		=> array('integer', 0),
-						'lvalue'		=> array('text', 'last_visited'),
-						'rvalue'		=> array('clob', $data),
-						'c_timestamp'	=> array('timestamp', ilUtil::now())
-					));
-				}
-			}
+			// if($data) {
+				// $set = $ilDB->queryF('
+				// SELECT rvalue FROM scorm_tracking 
+				// WHERE user_id = %s
+				// AND sco_id =  %s
+				// AND lvalue =  %s
+				// AND obj_id = %s',
+				// array('integer','integer','text','integer'), 
+				// array($user_id,0,'last_visited',$obj_id));
+				// if ($rec = $ilDB->fetchAssoc($set)) {
+					// $ilDB->update('scorm_tracking',
+						// array(
+							// 'rvalue'		=> array('clob', $data),
+							// 'c_timestamp'	=> array('timestamp', ilUtil::now())
+						// ),
+						// array(
+							// 'user_id'		=> array('integer', $user_id),
+							// 'sco_id'		=> array('integer', 0),
+							// 'lvalue'		=> array('text', 'last_visited'),
+							// 'obj_id'		=> array('integer', $obj_id)
+						// )
+					// );
+				// }
+				// else {
+					// $ilDB->insert('scorm_tracking', array(
+						// 'obj_id'		=> array('integer', $obj_id),
+						// 'user_id'		=> array('integer', $user_id),
+						// 'sco_id'		=> array('integer', 0),
+						// 'lvalue'		=> array('text', 'last_visited'),
+						// 'rvalue'		=> array('clob', $data),
+						// 'c_timestamp'	=> array('timestamp', ilUtil::now())
+					// ));
+				// }
+			// }
 			// update time and numbers of attempts in change event
 			//NOTE: here it is correct (not count of commit with changed values); be careful to performance issues
 			ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);

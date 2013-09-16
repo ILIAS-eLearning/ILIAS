@@ -486,7 +486,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				}
 				else
 				{
-					$data_rec["session_time"] = self::_ISODurationToCentisec($data_rec["session_time"])/100;
+					$data_rec["total_time"] = self::_ISODurationToCentisec($data_rec["total_time"])/100;
 					$data[$data_rec["cp_node_id"]] = $data_rec;
 				}
 	   		}
@@ -501,24 +501,17 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	function getAttemptsForUser($a_user_id){
 		global $ilDB;
+		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE user_id = %s AND obj_id = %s',
+		array('integer','integer'),
+		array($a_user_id, $this->getId()));
 
-		$val_set = $ilDB->queryF('
-		SELECT * FROM cmi_custom 
-		WHERE user_id = %s
-				AND sco_id = %s
-				AND lvalue = %s
-				AND obj_id = %s',
-		array('integer','integer', 'text','integer'),
-		array($a_user_id, 0,'package_attempts',$this->getId()));
-		
 		$val_rec = $ilDB->fetchAssoc($val_set);
-		
-		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-		if ($val_rec["rvalue"] == null) {
-			$val_rec["rvalue"]="";
+
+		if ($val_rec["package_attempts"] == null) {
+			$val_rec["package_attempts"]="";
 		}
 
-		return $val_rec["rvalue"];
+		return $val_rec["package_attempts"];
 	}
 	
 	
@@ -527,23 +520,16 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	function getModuleVersionForUser($a_user_id){
 		global $ilDB;
+		$val_set = $ilDB->queryF('SELECT module_version FROM sahs_user WHERE user_id = %s AND obj_id = %s',
+		array('integer','integer'),
+		array($a_user_id, $this->getId()));
 
-		$val_set = $ilDB->queryF('
-		SELECT * FROM cmi_custom 
-		WHERE user_id = %s
-				AND sco_id = %s
-				AND lvalue = %s
-				AND obj_id = %s',
-		array('integer','integer', 'text','integer'),
-		array($a_user_id, 0,'module_version',$this->getId()));
-		
-		$val_rec = $ilDB->fetchAssoc($val_set);				
-		
-		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-		if ($val_rec["rvalue"] == null) {
-			$val_rec["rvalue"]="";
+		$val_rec = $ilDB->fetchAssoc($val_set);
+
+		if ($val_rec["module_version"] == null) {
+			$val_rec["module_version"]="";
 		}
-		return $val_rec["rvalue"];
+		return $val_rec["module_version"];
 	}
 	
 	

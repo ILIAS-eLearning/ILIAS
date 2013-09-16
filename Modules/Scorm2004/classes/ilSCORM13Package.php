@@ -1199,7 +1199,10 @@ class ilSCORM13Package
 		$ilDB->manipulate($query);
 
 		//custom
+		//TODO: delete cmi_custom
 		$query = 'DELETE FROM cmi_custom WHERE obj_id = %s';
+		$ilDB->manipulateF($query, array('integer'), array($this->packageId));
+		$query = 'DELETE FROM sahs_user WHERE obj_id = %s';
 		$ilDB->manipulateF($query, array('integer'), array($this->packageId));
 
 		//g_objective

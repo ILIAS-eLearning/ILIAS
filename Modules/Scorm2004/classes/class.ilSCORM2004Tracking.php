@@ -348,7 +348,6 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	public static function _hasMaxAttempts($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
-		
 		// see ilSCORM13Player
 		$res = $ilDB->queryF(
 			'SELECT max_attempt FROM sahs_lm WHERE id = %s', 
@@ -356,30 +355,20 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			array($a_obj_id)
 		);
 		$row = $ilDB->fetchAssoc($res);
-		$max_attempts = $row['max_attempt']; 		
+		$max_attempts = $row['max_attempt'];
 
 		if ($max_attempts)
-		{		
-			$res = $ilDB->queryF('
-				SELECT rvalue FROM cmi_custom 
-				WHERE user_id = %s AND sco_id = %s
-				AND lvalue = %s	AND obj_id = %s',
-				array('integer', 'integer', 'text', 'integer'),
-				array($a_user_id, 0, 'package_attempts', $a_obj_id)
-			);
-			$row = $ilDB->fetchAssoc($res);		
+		{
+			$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+				array('integer','integer'), array($a_obj_id,$a_user_id));
+			$val_rec = $ilDB->fetchAssoc($val_set);
+			$attempts = $val_rec["package_attempts"];
+			if ($attempts == null) $attempts = 0;
 
-			$row['rvalue'] = str_replace("\r\n", "\n", $row['rvalue']);
-			if($row['rvalue'] == null)
-			{
-				$row['rvalue'] = 0;
-			}
-			$act_attempts = $row['rvalue'];
-			
-			if ($act_attempts >= $max_attempts)
+			if ($attempts >= $max_attempts)
 			{
 				return true;
-			}		
+			}
 		}
 		
 		return false;
@@ -433,69 +422,25 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 */
 	function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
 	{
-		global $ilDB, $ilLog;
-
-		// get attempts
+		global $ilDB;
+		// get attempts and time
 		$val_set = $ilDB->queryF('
-		SELECT rvalue FROM cmi_custom 
-		WHERE user_id = %s
-				AND sco_id = %s
-				AND lvalue = %s
-				AND obj_id = %s',
-		array('integer','integer', 'text','integer'),
-		array($a_user_id, 0,'package_attempts',$a_obj_id));
-		
+			SELECT package_attempts, sco_total_time_sec 
+			FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			array('integer','integer'), array($a_obj_id,$a_user_id));
 		$val_rec = $ilDB->fetchAssoc($val_set);
-		
-		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-		if ($val_rec["rvalue"] == null) {
-			$val_rec["rvalue"]="";
-		}
+		$time = $val_rec["sco_total_time_sec"]; //could be changed to total_time_sec if switch is available
+		$attempts = $val_rec["package_attempts"];
+		if ($attempts == null) $attempts = "";
 
-		$attempts = $val_rec["rvalue"];
-
-		// time
-		$scos = array();
-		$val_set = $ilDB->queryF(
-			'SELECT cp_node_id FROM cp_node 
-			WHERE nodename = %s
-			AND cp_node.slm_id = %s',
-			array('text', 'integer'),
-			array('item', $a_obj_id)
-		);
-		while($val_rec = $ilDB->fetchAssoc($val_set))
-		{
-			array_push($scos,$val_rec['cp_node_id']);
-		}
-		$time = 0;
-		foreach ($scos as $sco) 
-		{
-			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
-			$data_set = $ilDB->queryF('
-				SELECT total_time
-				FROM cmi_node 
-				WHERE cp_node_id = %s
-				AND user_id = %s',
-				array('integer','integer'),
-				array($sco, $a_user_id)
-			);
-			
-			while($data_rec = $ilDB->fetchAssoc($data_set))
-			{
-				// see bug report 7246
-//				$sec = ilObjSCORM2004LearningModule::_ISODurationToCentisec($data_rec["session_time"]) / 100;
-				$sec = ilObjSCORM2004LearningModule::_ISODurationToCentisec($data_rec["total_time"]) / 100; 
-			}
-			$time += (int) $sec;
-			$sec = 0;
-//$ilLog->write("++".$time);
+		if ($attempts != "" && $time == null) { //use old way
+			$time = self::getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id,true);
 		}
 
 		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
 		ilChangeEvent::_recordReadEvent($a_type, $a_ref_id,
 			$a_obj_id, $a_user_id, false, $attempts, $time);
 	}
-
 
 	/**
 	 * 
@@ -536,6 +481,52 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		return false;
 	}
 
+	/**
+	 * should be avoided; store value to increase performance for further requests
+	 */
+	function getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, $a_write=false)
+	{
+		global $ilDB, $ilLog;
+		$scos = array();
+		$val_set = $ilDB->queryF(
+			'SELECT cp_node_id FROM cp_node 
+			WHERE nodename = %s
+			AND cp_node.slm_id = %s',
+			array('text', 'integer'),
+			array('item', $a_obj_id)
+		);
+		while($val_rec = $ilDB->fetchAssoc($val_set))
+		{
+			array_push($scos,$val_rec['cp_node_id']);
+		}
+		$time = 0;
+		foreach ($scos as $sco) 
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+			$data_set = $ilDB->queryF('
+				SELECT total_time
+				FROM cmi_node 
+				WHERE cp_node_id = %s
+				AND user_id = %s',
+				array('integer','integer'),
+				array($sco, $a_user_id)
+			);
+			
+			while($data_rec = $ilDB->fetchAssoc($data_set))
+			{
+				$sec = ilObjSCORM2004LearningModule::_ISODurationToCentisec($data_rec["total_time"]) / 100; 
+			}
+			$time += (int) $sec;
+			$sec = 0;
+//$ilLog->write("++".$time);
+		}
+		if ($a_write && $time>0) {
+			$ilDB->queryF('UPDATE sahs_user SET sco_total_time_sec=%s WHERE obj_id = %s AND user_id = %s',
+				array('integer', 'integer', 'integer'), 
+				array($time, $a_obj_id, $a_user_id));
+		}
+		return $time;
+	}
 
 }
 // END class.ilSCORM2004Tracking

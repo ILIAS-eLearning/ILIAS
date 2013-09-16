@@ -264,7 +264,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		global $ilDB;
 
 		$result = $ilDB->queryF('
-		SELECT MAX(c_timestamp) last_access FROM scorm_tracking 
+		SELECT last_access FROM sahs_user 
 		WHERE  obj_id = %s
 		AND user_id = %s',
 		array('integer','integer'), array($a_obj_id,$a_usr_id));
@@ -280,8 +280,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	function getTrackedUsers($a_search)
 	{
 		global $ilDB, $ilUser;
-
-		$query = 'SELECT user_id,MAX(c_timestamp) last_access, lastname, firstname FROM scorm_tracking st ' .
+//TODO: UK last_access is not correct if no Commit or last_visited_sco
+//		$query = 'SELECT user_id,MAX(c_timestamp) last_access, lastname, firstname FROM scorm_tracking st ' .
+		$query = 'SELECT user_id, last_access, lastname, firstname FROM sahs_user st ' .
 			'JOIN usr_data ud ON st.user_id = ud.usr_id ' .
 			'WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer');
 		if($a_search) {
@@ -308,16 +309,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	public function getAttemptsForUsers()
 	{
 		global $ilDB;
-
-		$query = 'SELECT user_id,rvalue FROM scorm_tracking ' .
-			'WHERE lvalue = ' . $ilDB->quote('package_attempts', 'text') . ' ' .
-			'AND obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ';
+		$query = 'SELECT user_id, package_attempts FROM sahs_user WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ';
 		$res = $ilDB->query($query);
 
 		$attempts = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$attempts[$row['user_id']] = (int) $row['rvalue'];
+			$attempts[$row['user_id']] = (int) $row['package_attempts'];
 		}
 		return $attempts;
 	}
@@ -328,23 +326,16 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	function getAttemptsForUser($a_user_id){
 		global $ilDB;
+		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+		array('integer','integer'),
+		array($this->getId(),$a_user_id,0));
 
-		$val_set = $ilDB->queryF('
-		SELECT * FROM scorm_tracking 
-		WHERE user_id = %s
-		AND sco_id = %s
-		AND lvalue = %s
-		AND obj_id = %s',
-		array('integer','integer','text','integer'),
-		array($a_user_id,0,'package_attempts',$this->getId()));
-		
 		$val_rec = $ilDB->fetchAssoc($val_set);
 		
-		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-		if ($val_rec["rvalue"] == null) {
-			$val_rec["rvalue"]="";
+		if ($val_rec["package_attempts"] == null) {
+			$val_rec["package_attempts"]="";
 		}
-		return $val_rec["rvalue"];
+		return $val_rec["package_attempts"];
 	}
 
 
@@ -355,16 +346,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	public function getModuleVersionForUsers()
 	{
 		global $ilDB;
-
-		$query = 'SELECT user_id,rvalue FROM scorm_tracking ' .
-			'WHERE lvalue = ' . $ilDB->quote('module_version', 'text') . ' ' .
-			'AND obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ';
+		$query = 'SELECT user_id, module_version FROM sahs_user WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ';
 		$res = $ilDB->query($query);
 
 		$versions = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$versions[$row['user_id']] = (int) $row['rvalue'];
+			$versions[$row['user_id']] = (int) $row['module_version'];
 		}
 		return $versions;
 	}
@@ -375,24 +363,16 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	function getModuleVersionForUser($a_user_id){
 		global $ilDB;
+		$val_set = $ilDB->queryF('SELECT module_version FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+		array('integer','integer'),
+		array($this->getId(),$a_user_id,0));
+
+		$val_rec = $ilDB->fetchAssoc($val_set);
 		
-		$val_set = $ilDB->queryF('
-		SELECT * FROM scorm_tracking 
-		WHERE user_id = %s
-		AND sco_id = %s
-		AND lvalue = %s
-		AND obj_id = %s',
-		array('integer','integer','text','integer'),
-		array($a_user_id,0,'module_version',$this->getId()));
-		
-		$val_rec = $ilDB->fetchAssoc($val_set);		
-		
-		
-		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-		if ($val_rec["rvalue"] == null) {
-			$val_rec["rvalue"]="";
+		if ($val_rec["module_version"] == null) {
+			$val_rec["module_version"]="";
 		}
-		return $val_rec["rvalue"];
+		return $val_rec["module_version"];
 	}
 
 	/**
@@ -619,20 +599,55 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				$csv->addColumn('il_usr_'.$inst_id.'_'.$user_id);
 			}
 			// Sco unrelated information
-			$query = 'SELECT rvalue, lvalue, c_timestamp FROM scorm_tracking '.
-				'WHERE sco_id = 0 AND user_id = '.$ilDB->quote($user_id,'integer').' '.
+			$query = 'SELECT package_attempts,module_version,last_visited,last_access FROM sahs_user '.
+				'WHERE user_id = '.$ilDB->quote($user_id,'integer').' '.
 				'AND obj_id = '.$ilDB->quote($this->getId(),'integer');
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$csv->addRow();
-				$csv->addColumn(0);
-				$csv->addColumn($row->lvalue);
-				$csv->addColumn($row->rvalue);
-				$csv->addColumn(isset($emails[$user_id]) ? (string) $emails[$user_id] : '');
-				$csv->addColumn($row->c_timestamp);
-				$csv->addColumn('il_usr_'.$inst_id.'_'.$user_id);
+				if ($row->package_attempts != null) {
+					$csv->addRow();
+					$csv->addColumn(0);
+					$csv->addColumn("package_attempts");
+					$csv->addColumn($row->package_attempts);
+					$csv->addColumn(isset($emails[$user_id]) ? (string) $emails[$user_id] : '');
+					$csv->addColumn($row->last_access);
+					$csv->addColumn('il_usr_'.$inst_id.'_'.$user_id);
+				}
+				if ($row->last_visited != null) {
+					$csv->addRow();
+					$csv->addColumn(0);
+					$csv->addColumn("last_visited");
+					$csv->addColumn($row->last_visited);
+					$csv->addColumn(isset($emails[$user_id]) ? (string) $emails[$user_id] : '');
+					$csv->addColumn($row->last_access);
+					$csv->addColumn('il_usr_'.$inst_id.'_'.$user_id);
+				}
+				if ($row->module_version != null) {
+					$csv->addRow();
+					$csv->addColumn(0);
+					$csv->addColumn("module_version");
+					$csv->addColumn($row->module_version);
+					$csv->addColumn(isset($emails[$user_id]) ? (string) $emails[$user_id] : '');
+					$csv->addColumn($row->last_access);
+					$csv->addColumn('il_usr_'.$inst_id.'_'.$user_id);
+				}
 			}
+			//before 4.4
+			// $query = 'SELECT rvalue, lvalue, c_timestamp FROM scorm_tracking '.
+				// 'WHERE sco_id = 0 AND user_id = '.$ilDB->quote($user_id,'integer').' '.
+				// 'AND obj_id = '.$ilDB->quote($this->getId(),'integer');
+			// $res = $ilDB->query($query);
+			// while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			// {
+				// $csv->addRow();
+				// $csv->addColumn(0);
+				// $csv->addColumn($row->lvalue);
+				// $csv->addColumn($row->rvalue);
+				// $csv->addColumn(isset($emails[$user_id]) ? (string) $emails[$user_id] : '');
+				// $csv->addColumn($row->c_timestamp);
+				// $csv->addColumn('il_usr_'.$inst_id.'_'.$user_id);
+			// }
 		}
 
 		ilUtil::deliverData(
@@ -960,6 +975,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	private function importRaw($a_file)
 	{
 		global $ilDB, $ilUser;
+		//no need to use sahs_user because never data was imported
 
 		$fhandle = fopen($a_file, "r");
 
@@ -1260,6 +1276,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			array('integer'),
 			array($user_id)
 		);
+		$ilDB->manipulateF(
+			'DELETE FROM sahs_user WHERE user_id = %s',
+			array('integer'),
+			array($user_id)
+		);
 	}
 	
 	function _getScoresForUser($a_item_id, $a_user_id)
@@ -1289,18 +1310,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	public function getLastVisited($user_id)
 	{
 		global $ilDB;
-		$val_set = $ilDB->queryF('
-			SELECT rvalue FROM scorm_tracking 
-			WHERE user_id = %s
-			AND sco_id =  %s
-			AND lvalue =  %s
-			AND obj_id = %s',
-			array('integer','integer','text','integer'), 
-			array($user_id,0,'last_visited',$this->getID())
+		$val_set = $ilDB->queryF('SELECT last_visited FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			array('integer','integer'), 
+			array($this->getID(),$user_id)
 		);
 		while ($val_rec = $ilDB->fetchAssoc($val_set))
 		{
-			return "".$val_rec["rvalue"];
+			return "".$val_rec["last_visited"];
 		}
 		return '0';
 	}
