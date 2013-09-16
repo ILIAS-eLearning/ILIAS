@@ -13000,3 +13000,7 @@ prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in
 blog#:#blog_allow_html#:#Allow HTML/Javascript###10 07 2013 new variable
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.###10 07 2013 new variable
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###10 07 2013 new variable
+survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variable
+dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
+crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
+crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
