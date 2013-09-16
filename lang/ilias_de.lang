@@ -1335,8 +1335,6 @@ assessment#:#tst_question_set_type_dynamic_desc#:#In diesem Modus wird genau ein
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test Modus abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenselektion wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenselektion kann nicht geändert werden, da bereits Teilnehmer Ergebisse vorliegen.
-assessment#:#tst_dyn_quest_set_pool_trashed#:#Der konfigurierte Quell-Fragenpool "%s" liegt aktuell im Papierkorb. Der Test kann nicht länger ausgeführt werden, wenn der Fragenpool permanent gelöscht wird.
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Der Test kann nicht länger ausgeführt werden, da der konfigurierte Quell-Fragenpool "%s" permanent gelöscht wurde.
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenselektion
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Quell-Fragenpool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
@@ -2117,8 +2115,6 @@ common#:#advanced_editing_lm_settings#:#Lernmodul- und Glossar-Einstellungen
 common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Rich-Text-Editor nicht erlauben
 common#:#advanced_editing_rep_page_editing#:#Aktiviere Seitenbearbeitung im Magazin
 common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen. Wenn die Funktion deaktiviert wird, werden bereits existierende Texte/Medien nicht mehr angezeigt.
-common#:#advanced_editing_tst_editing#:#Aktiviere Seitenbearbeitung im Test & Assessment
-common#:#advanced_editing_tst_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu Feedback oder Hinweisen von Testfragen.
 common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
 common#:#advanced_editing_settings#:#Editoreinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
@@ -2768,7 +2764,6 @@ common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kur
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppen hoch.
-common#:#enable_disk_quota#:#Aktiviere Disk-Quota
 common#:#enable_disk_quota_info#:#Erlaubt die Bestimmung des maximal verfügbaren Plattenplatzes im Magazin pro Benutzerkonto und für jede globale Rolle. Benutzer die ihre Disk-Quota überschritten haben, können von ILIAS informiert werden. Das Hochladen weiterer Dateien wird aber nicht eingeschränkt. Die Funktion setzt den entsprechenden Cron-Job voraus, der die Speicherplatznutzung pro Benutzer einmal täglich ermittelt. Die tatsächliche Speicherplatznutzung wird im Benutzerformular und im Disk-Quota Bericht aufgeführt.
 common#:#enable_disk_quota_reminder_mail#:#Sende Disk-Quota-Erinnerungsnachrichten
 common#:#enable_disk_quota_summary_mail#:#Sende Disk-Quota-Zusammenfassungen
@@ -3030,7 +3025,6 @@ common#:#forum_direct_notification#:#Direkte Benachrichtigung
 common#:#forum_general_notification#:#Generelle Benachrichtigung
 common#:#forum_import#:#Forum importieren
 common#:#forum_import_file#:#Importdatei
-common#:#forum_notification#:#Benachrichtigung
 common#:#forum_notify_me#:#Benachrichtigung, wenn ein Beitrag gesendet wurde
 common#:#forum_notify_me_directly#:#Ich möchte benachrichtigt werden, wenn es einen direkten Beitrag auf meinen Beitrag gibt.
 common#:#forum_notify_me_generally#:#Ich möchte benachrichtigt werden, wenn es generell einen neuen Beitrag zu meinem Thema gibt.
@@ -7716,13 +7710,10 @@ forum#:#forums_print_thread#:#Thema drucken
 forum#:#forums_subject#:#Titel
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
-forum#:#forums_thread_articles#:#Beiträge zum Thema
 forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
-forum#:#forums_threads_not_available#:#Keine Themen verfügbar
-forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihr Beitrag
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer nur mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge in diesem Forum schreiben.
@@ -13142,7 +13133,6 @@ bibl#:#bibl_new#:#Neue Literaturliste
 bibl#:#bibl_add#:#Literaturliste hinzufügen
 bibl#:#Download Original File#:#Original-Datei herunterladen
 bibl#:#Type#:#Typ
-bibl#:#Override entries#:#Einträge überschreiben
 bibl#:#bibl_edit#:#Edit Literaturliste bearbeiten
 bibl#:#bibliography file#:#Literaturlisten-Datei
 bibl#:#obj_bibl_duplicate#:#Literaturliste duplizieren
@@ -13707,8 +13697,6 @@ orgu#:#edit_ext_id#:#Externe ID
 orgu#:#ext_id#:#Externe ID
 orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Daten anonymisiert gespeichert werden.
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
-exc#:#exc_save_all#:#Alle speichern
-exc#:#exc_save_selected#:#Ausgewählte speichern
 exc#:#exc_peer_review_deadline#:#Endtermin Feedback
 exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin kann Feedback gegeben werden und das erhaltene Feedback ist erst ab dann einsehbar.
 exc#:#exc_peer_review_deadline_info_button#:#Endtermin: %s
@@ -13804,7 +13792,6 @@ assessment#:#un_no_category_id_passed#:#Die angefragte Kategorie existiert nicht
 assessment#:#un_category_not_exist#:#Die angefragte Kategorie existiert nicht.
 assessment#:#un_no_unit_id_passed#:#Die angefragte Einheit existiert nicht.
 assessment#:#un_unit_not_exist#:#Die angefragte Einheit existiert nicht.
-assessment#:#reorder#:#Reihenfolge ändern
 assessment#:#un_save_order#:#Reihenfolge speichern
 assessment#:#intprecision#:#Teilbar durch
 assessment#:#errRecursionInResult#:#Die Formel enthält eine nicht auflösbare Rekursion.
@@ -13870,3 +13857,15 @@ search#:#lucene_prefix_wildcard#:#Platzhalter am Wortbeginn
 search#:#lucene_prefix_wildcard_info#:#Wenn aktiviert, können Platzhalter auch am Beginn eines Suchbegriffes genutzt werden.
 rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
 assessment#:#show_answer_overview#:#Antwortübersicht zeigen
+forum#:#forums_notification#:#Notification###16 09 2013 new variable
+bibl#:#Override Entries#:#Override Entries###16 09 2013 new variable
+exp#:#exp_file_created#:#The export file has been created.###16 09 2013 new variable
+tax#:#tax_added#:#Taxonomy has been created.###16 09 2013 new variable
+tax#:#tax_max_one_tax#:#You can use maximum one taxonomy in this context.###16 09 2013 new variable
+tax#:#tax_node_sorting#:#Sorting of Nodes###16 09 2013 new variable
+tax#:#tax_item_sorting#:#Support Sorting of Assigned Items###16 09 2013 new variable
+tax#:#tax_assigned_items#:#Assigned Items###16 09 2013 new variable
+cld#:#service_specific_settings#:#Specific Settings###16 09 2013 new variable
+content#:#content_plugin_not_activated#:#The page content element plugin is currently not activated.###16 09 2013 new variable
+content#:#cont_activate_multi_lang#:#Activate Multilinguality###16 09 2013 new variable
+content#:#cont_select_master_lang#:#Please select the master language. The current content will be assigned to the master language.###16 09 2013 new variable
