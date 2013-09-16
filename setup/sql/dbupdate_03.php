@@ -18374,10 +18374,16 @@ if(!$ilDB->tableColumnExists('sahs_user','percentage_completed'))
 $set = $ilDB->query("SELECT obj_id,user_id FROM scorm_tracking GROUP BY obj_id, user_id");
 while($row = $ilDB->fetchAssoc($set))
 {
-	$fields = array();
-	$fields["obj_id"]  = array("integer", $row["obj_id"]);
-	$fields["user_id"] = array("integer", $row["user_id"]);
-	$ilDB->insert("sahs_user", $fields);
+	$res=$ilDB->queryF(
+		"SELECT obj_id, user_id FROM sahs_user WHERE obj_id=%s AND user_id=%s",
+		array('integer','integer'),array($row["obj_id"],$row["user_id"])
+	);
+	if(!$ilDB->numRows($res)){
+		$fields = array();
+		$fields["obj_id"]  = array("integer", $row["obj_id"]);
+		$fields["user_id"] = array("integer", $row["user_id"]);
+		$ilDB->insert("sahs_user", $fields);
+	}
 }
 ?>
 <#4088>
