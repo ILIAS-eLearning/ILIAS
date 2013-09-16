@@ -111,8 +111,15 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 			}
 		}
 		
-		$completion_date = $this->getUserCompletionDate($user_data["usr_id"]);		
-		
+		if($user_data["usr_id"] > 0)
+		{
+			$completion_date = $this->getUserCompletionDate($user_data["usr_id"]);
+		}
+		else
+		{
+			$completion_date = false;
+		}
+
 		$vars = $this->getBaseVariablesForPresentation($user_data, null, $completion_date);		
 		$vars["RESULT_PASSED"] = ilUtil::prepareFormOutput($passed);
 		$vars["RESULT_POINTS"] = ilUtil::prepareFormOutput($result_array["test"]["total_reached_points"]);

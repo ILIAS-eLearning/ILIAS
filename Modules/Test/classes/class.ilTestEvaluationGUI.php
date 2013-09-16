@@ -725,17 +725,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			foreach ($total_users as $active_id => $name)
 			{
-				if(!$active_id)
-				{
-					continue;
-				}
-				
 				$user_id = $this->object->_getUserIdFromActiveId($active_id);
-				if($user_id <= 0)
-				{
-					continue;
-				}
-				
 				$pdf = $certificate->outCertificate(
 					array(
 						"active_id" => $active_id,
