@@ -88,6 +88,17 @@ class ilTestExportGUI extends ilExportGUI
 			include_once("./Modules/Test/classes/class.ilTestArchiver.php");
 			$test_id = $this->obj->getId();
 			$archive_exp = new ilTestArchiver($test_id);
+			
+			require_once './Modules/Test/classes/class.ilTestScoring.php';
+			$scoring = new ilTestScoring($this->obj);
+			$best_solution = $scoring->calculateBestSolutionForTest();
+			
+			require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
+			$generator = new ilTestPDFGenerator();
+			$generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, 'Best_Solution.pdf');
+			$archive_exp->handInTestBestSolution($best_solution, 'Best_Solution.pdf');
+			unlink('Best_Solution.pdf');
+			
 			$archive_exp->updateTestArchive();
 			$archive_exp->compressTestArchive();
 		}

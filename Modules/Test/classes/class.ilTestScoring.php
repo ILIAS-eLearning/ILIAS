@@ -22,12 +22,17 @@
  */
 class ilTestScoring 
 {
-	/** @var $test ilObjTest */
+	/** @var ilObjTest $test */
 	protected $test;
+	
+	/** @var ilObjTestGUI $testGUI*/
+	protected $testGUI;
 	
 	public function __construct(ilObjTest $test)
 	{
 		$this->test = $test;
+		require_once './Modules/Test/classes/class.ilObjTestGUI.php';
+		$this->testGUI = new ilObjTestGUI();
 	}
 
 	public function recalculateSolutions()
@@ -103,5 +108,21 @@ class ilTestScoring
 											true
 			);
 		}
+	}
+
+	/**
+	 * @return string HTML with the best solution output.
+	 */
+	public function calculateBestSolutionForTest()
+	{
+		$solution = '';
+		foreach ($this->test->getAllQuestions() as $question)
+		{
+			/** @var AssQuestionGUI $question_gui */
+			$question_gui = $this->test->createQuestionGUI("", $question['question_id'] );
+			$solution .= $question_gui->getSolutionOutput(0, null, true, true, false, false, true, false);
+		}
+		
+		return $solution;
 	}
 }
