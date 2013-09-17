@@ -1373,9 +1373,9 @@ return;
 //		if ($this->form->checkInput())
 		if ($_POST["note"] != "")
 		{			
-			$note->setText($_POST["note"]);
-			$note->setSubject($_POST["sub_note"]);
-			$note->setLabel($_POST["note_label"]);
+			$note->setText(ilUtil::stripSlashes($_POST["note"]));
+			$note->setSubject(ilUtil::stripSlashes($_POST["sub_note"]));
+			$note->setLabel(ilUtil::stripSlashes($_POST["note_label"]));
 			if ($this->checkEdit($note))
 			{
 				$note->update();
