@@ -736,21 +736,28 @@ class ilRbacAdmin
 	{
 		global $ilDB, $rbacreview;
 
-		$this->copyRoleTemplatePermissions(
-			$a_source1_id,
-			$a_source1_parent,
-			$a_dest_parent,
-			$a_dest_id
-		);
+		// only copy if source2 is different than target
+		if(
+			$a_source2_id != $a_dest_id and
+			$a_source2_parent != $a_dest_parent
+		)
+		{
+			$this->copyRoleTemplatePermissions(
+				$a_source2_id,
+				$a_source2_parent,
+				$a_dest_parent,
+				$a_dest_id
+			);
+		}
 
 		$s1_ops = $rbacreview->getAllOperationsOfRole($a_source1_id,$a_source1_parent);
 		$s2_ops = $rbacreview->getAlloperationsOfRole($a_source2_id,$a_source2_parent);
 
-		foreach($s2_ops as $type => $ops)
+		foreach($s1_ops as $type => $ops)
 		{
 			foreach($ops as $op)
 			{
-				if(!isset($s1_ops[$type]) or !in_array($op, $s1_ops[$type]))
+				if(!isset($s2_ops[$type]) or !in_array($op, $s2_ops[$type]))
 				{
 					$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
 						'VALUES( '.
@@ -759,6 +766,38 @@ class ilRbacAdmin
 						$ilDB->quote($op,'integer').', '.
 						$ilDB->quote($a_dest_parent,'integer').' '.
 						')';
+					$ilDB->manipulate($query);
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Subtract role permissions
+	 * @param type $a_source_id
+	 * @param type $a_source_parent
+	 * @param type $a_dest_id
+	 * @param type $a_dest_parent
+	 */
+	public function copyRolePermissionSubtract($a_source_id, $a_source_parent, $a_dest_id, $a_dest_parent)
+	{
+		global $rbacreview, $ilDB;
+		
+		$s1_ops = $rbacreview->getAllOperationsOfRole($a_source_id,$a_source_parent);
+		$d_ops = $rbacreview->getAllOperationsOfRole($a_dest_id,$a_dest_parent);
+		
+		foreach($s1_ops as $type => $ops)
+		{
+			foreach($ops as $op)
+			{
+				if(isset($d_ops[$type]) and in_array($op, $d_ops[$type]))
+				{
+					$query = 'DELETE FROM rbac_templates '.
+							'WHERE rol_id = '.$ilDB->quote($a_dest_id,'integer').' '.
+							'AND type = '.$ilDB->quote($type,'text').' '.
+							'AND ops_id = '.$ilDB->quote($op,'integer').' '.
+							'AND parent = '.$ilDB->quote($a_dest_parent,'integer');
 					$ilDB->manipulate($query);
 				}
 			}

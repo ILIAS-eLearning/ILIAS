@@ -257,10 +257,22 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$roles = new ilHiddenInputGUI('roles');
 		$roles->setValue(implode(',',(array) $_POST['roles']));
 		$form->addItem($roles);
-
-		$form->addCommandButton('copyRole', $this->lng->txt('rbac_copy_role'));
+		
+		
+		// if source is role template show option add permission, remove permissions and copy permissions
+		if(ilObject::_lookupType((int) $_REQUEST['copy_source']) == 'rolt')
+		{
+			$form->addCommandButton('addRolePermissions', $this->lng->txt('rbac_copy_role_add_perm'));
+			$form->addCommandButton('removeRolePermissions', $this->lng->txt('rbac_copy_role_remove_perm'));
+			$form->addCommandButton('copyRole', $this->lng->txt('rbac_copy_role_copy'));
+		}
+		else
+		{
+			$form->addCommandButton('copyRole', $this->lng->txt('rbac_copy_role'));
+		}
 		return $form;
 	}
+	
 
 	/**
 	 * Copy role
@@ -289,6 +301,94 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	 * Add role permissions
+	 */
+	protected function addRolePermissionsObject()
+	{
+		global $ilCtrl;
+
+		// Finally copy role/rolt
+		$roles = explode(',',$_POST['roles']);
+		$source = (int) $_REQUEST['copy_source'];
+
+		$form = $this->initCopyBehaviourForm();
+		if($form->checkInput())
+		{
+			foreach((array) $roles as $role_id)
+			{
+				if($role_id != $source)
+				{
+					$this->doAddRolePermissions($source,$role_id,$form->getInput('change_existing'));
+				}
+			}
+
+			ilUtil::sendSuccess($this->lng->txt('rbac_copy_finished'),true);
+			$ilCtrl->redirect($this,'view');
+		}
+	}
+
+	/**
+	 * do add role permission
+	 */
+	protected function doAddRolePermissions($source, $target, $change_existing)
+	{
+		global $rbacadmin, $rbacreview;
+		
+		$rbacadmin->copyRolePermissionUnion(
+				$source,
+				$this->object->getRefId(),
+				$target,
+				$rbacreview->getRoleFolderOfRole($target),
+				$target,
+				$rbacreview->getRoleFolderOfRole($target)
+		);
+	}
+	
+	/**
+	 * Remove role permissions
+	 */
+	protected function removeRolePermissionsObject()
+	{
+		global $ilCtrl;
+
+		// Finally copy role/rolt
+		$roles = explode(',',$_POST['roles']);
+		$source = (int) $_REQUEST['copy_source'];
+
+		$form = $this->initCopyBehaviourForm();
+		if($form->checkInput())
+		{
+			foreach((array) $roles as $role_id)
+			{
+				if($role_id != $source)
+				{
+					$this->doRemoveRolePermissions($source,$role_id,$form->getInput('change_existing'));
+				}
+			}
+
+			ilUtil::sendSuccess($this->lng->txt('rbac_copy_finished'),true);
+			$ilCtrl->redirect($this,'view');
+		}
+	}
+	
+	/**
+	 * do add role permission
+	 */
+	protected function doRemoveRolePermissions($source, $target, $change_existing)
+	{
+		global $rbacadmin, $rbacreview;
+		
+		$rbacadmin->copyRolePermissionSubtract(
+				$source,
+				$this->object->getRefId(),
+				$target,
+				$rbacreview->getRoleFolderOfRole($target)
+		);
+	}
+	
+	
+	
 	/**
 	 * Perform copy of role
 	 * @global ilTree $tree
