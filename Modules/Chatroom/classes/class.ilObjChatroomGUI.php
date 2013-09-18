@@ -75,13 +75,12 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 	public function executeCommand()
 	{
 		/**
-		 * @var $rbacsystem          ilRbacSystem
 		 * @var $ilAccess            ilAccessHandler
 		 * @var $ilNavigationHistory ilNavigationHistory
 		 * @var $ilCtrl              ilCtrl
 		 * @var $ilHelp              ilHelpGUI
 		 */
-		global $rbacsystem, $ilNavigationHistory, $ilCtrl, $ilHelp;
+		global $ilNavigationHistory, $ilCtrl, $ilHelp, $ilAccess;
 
 		if('cancel' == $ilCtrl->getCmd() && $this->getCreationMode())
 		{
