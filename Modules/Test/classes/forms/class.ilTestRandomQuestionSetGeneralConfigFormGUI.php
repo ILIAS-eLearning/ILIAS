@@ -138,10 +138,6 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 				$this->getItemByPostVar('quest_points_equal_per_pool')->getChecked()
 		);
 
-		$this->questionSetConfig->setQuestionAmountConfigurationMode(
-				
-		);
-
 		switch( $this->getItemByPostVar('quest_amount_cfg_mode')->getValue() )
 		{
 			case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST:

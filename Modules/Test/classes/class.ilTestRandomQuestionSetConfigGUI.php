@@ -226,7 +226,7 @@ class ilTestRandomQuestionSetConfigGUI
 		if( $this->testOBJ->participantDataExist() )
 		{
 			ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_random_question_set_conf_due_to_part"), true);
-			return $this->showGeneralConfigCmd($form);
+			return $this->showGeneralConfigFormCmd($form);
 		}
 		
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
@@ -234,19 +234,14 @@ class ilTestRandomQuestionSetConfigGUI
 
 		if($errors)
 		{
-			return $this->showGeneralConfigCmd($form);
+			return $this->showGeneralConfigFormCmd($form);
 		}
 		
-		$saved = $form->save();
-		
-		if( !$saved )
-		{
-			return $this->showGeneralConfigCmd($form);
-		}
-		
+		$form->save();
+
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
-		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"));
+		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
 	}
 

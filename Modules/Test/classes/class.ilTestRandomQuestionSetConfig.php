@@ -171,25 +171,23 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		if( $this->dbRecordExists($this->testOBJ->getTestId()) )
 		{
-			return $this->updateDbRecord($this->testOBJ->getTestId());
+			$this->updateDbRecord($this->testOBJ->getTestId());
 		}
-		
-		return $this->insertDbRecord($this->testOBJ->getTestId());
+		else
+		{
+			$this->insertDbRecord($this->testOBJ->getTestId());
+		}
 	}
 	
 	/**
 	 * deletes the question set config for current test from the database
-	 * 
-	 * @return boolean
 	 */
 	public function deleteFromDb()
 	{
-		$aff = $this->db->manipulateF(
+		$this->db->manipulateF(
 				"DELETE FROM tst_rnd_quest_set_cfg WHERE test_fi = %s",
 				array('integer'), array($this->testOBJ->getTestId())
 		);
-		
-		return (bool)$aff;
 	}
 	
 	/**
@@ -212,12 +210,10 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	/**
 	 * updates the record in the database that corresponds
 	 * to the question set config for the current test
-	 * 
-	 * @return boolean
 	 */
 	private function updateDbRecord()
 	{
-		$aff = $this->db->update('tst_rnd_quest_set_cfg',
+		$this->db->update('tst_rnd_quest_set_cfg',
 			array(
 				'req_pools_homo_scored' => array('integer', $this->arePoolsWithHomogeneousScoredQuestionsRequired()),
 				'quest_amount_cfg_mode' => array('text', $this->getQuestionAmountConfigurationMode()),
@@ -228,27 +224,21 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 				'test_fi' => array('integer', $this->testOBJ->getTestId())
 			)
 		);
-		
-		return (bool)$aff;
 	}
 	
 	/**
 	 * inserts a new record for the question set config
 	 * for the current test into the database
-	 * 
-	 * @return boolean
 	 */
 	private function insertDbRecord()
 	{
-		$aff = $this->db->insert('tst_dyn_quest_set_cfg', array(
-				'test_fi' => array('integer', $this->testOBJ->getTestId()),
-				'req_pools_homo_scored' => array('integer', $this->arePoolsWithHomogeneousScoredQuestionsRequired()),
-				'quest_amount_cfg_mode' => array('text', $this->getQuestionAmountConfigurationMode()),
-				'quest_amount_per_test' => array('integer', $this->getQuestionAmountPerTest()),
-				'quest_sync_timestamp' => array('integer', $this->getLastQuestionSyncTimestamp())
+		$this->db->insert('tst_dyn_quest_set_cfg', array(
+			'test_fi' => array('integer', $this->testOBJ->getTestId()),
+			'req_pools_homo_scored' => array('integer', $this->arePoolsWithHomogeneousScoredQuestionsRequired()),
+			'quest_amount_cfg_mode' => array('text', $this->getQuestionAmountConfigurationMode()),
+			'quest_amount_per_test' => array('integer', $this->getQuestionAmountPerTest()),
+			'quest_sync_timestamp' => array('integer', $this->getLastQuestionSyncTimestamp())
 		));
-		
-		return (bool)$aff;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
