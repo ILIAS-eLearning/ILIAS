@@ -281,7 +281,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 	public static function _goto($params)
 	{
 		/**
-		 * @var $rbacsystem $ilAccess
+		 * @var $rbacsystem ilRbacSystem
 		 * @var $ilError    ilErrorHandling
 		 * @var $lng        ilLanguage
 		 */
