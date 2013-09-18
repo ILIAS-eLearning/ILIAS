@@ -179,7 +179,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			$this->object->setAuthor($_POST["author"]);
 			$this->object->setComment($_POST["comment"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = $_POST["question"];
+			$questiontext = ilUtil::stripOnlySlashes($_POST["question"]);
 			$this->object->setQuestion($questiontext);
 			$this->object->setEstimatedWorkingTime(
 				$_POST["Estimated"]["hh"],
