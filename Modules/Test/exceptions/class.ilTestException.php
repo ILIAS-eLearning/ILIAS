@@ -13,7 +13,7 @@ include_once 'Services/Exceptions/classes/class.ilException.php';
  */
 class ilTestException extends ilException
 {
-	public function __construct($msg, $code)
+	public function __construct($msg = '', $code = 0)
 	{
 		if( !strlen($msg) )
 		{
