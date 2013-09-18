@@ -89,7 +89,7 @@ class ilChatroomPrivateRoomTask extends ilDBayTaskHandler
 
 	public function delete()
 	{
-	    global $tpl, $ilUser, $ilAccess;
+	    global $tpl, $ilUser, $rbacsystem;
 
 	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
@@ -108,7 +108,7 @@ class ilChatroomPrivateRoomTask extends ilDBayTaskHandler
 		echo json_encode( $response );
 		exit;
 	    }
-	    else if( !$room->isOwnerOfPrivateRoom( $user_id, $_REQUEST['sub'] ) && !$ilAccess->checkAccess('moderate', '', $this->gui->getRefId()) )
+	    else if( !$room->isOwnerOfPrivateRoom( $user_id, $_REQUEST['sub'] ) && !$rbacsystem->checkAccess('moderate', $this->gui->getRefId()) )
 	    {
 		$response = json_encode( array(
 			'success'   => false,

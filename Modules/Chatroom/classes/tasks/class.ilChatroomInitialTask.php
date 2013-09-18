@@ -31,7 +31,7 @@ class ilChatroomInitialTask extends ilDBayTaskHandler
 
 	public function executeDefault($method)
 	{
-		global $tpl, $ilUser, $ilCtrl, $lng, $ilAccess;
+		global $tpl, $ilUser, $ilCtrl, $lng, $rbacsystem;
 
 		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
 		$chat_user = new ilChatroomUser( $ilUser, $room );
@@ -40,7 +40,7 @@ class ilChatroomInitialTask extends ilDBayTaskHandler
 		$result->users = $room->getConnectedUsers();
 		$result->private_rooms = $room->getActivePrivateRooms($ilUser->getId());
 		$result->userinfo = array(
-		    'moderator' => $ilAccess->checkAccess('moderate', '', $_GET['ref_id']),
+		    'moderator' => $rbacsystem->checkAccess('moderate', (int)$_GET['ref_id']),
 		    'userid' => $chat_user->getUserId()
 		);
 

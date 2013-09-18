@@ -42,7 +42,6 @@ class ilObjChatroomAccess extends ilObjectAccess
 	/**
 	 * Check whether goto script will succeed.
 	 *
-	 * @global ilAccessHandler $ilAccess
 	 * @param string $a_target
 	 * @return bool
 	 * @todo: $a_target muss eig. immer ein string sein, da sonst das explode
@@ -50,7 +49,10 @@ class ilObjChatroomAccess extends ilObjectAccess
 	 */
 	public function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $rbacsystem;
 
 		$t_arr = explode("_", $a_target);
 
@@ -59,7 +61,7 @@ class ilObjChatroomAccess extends ilObjectAccess
 			return false;
 		}
 
-		if ($ilAccess->checkAccess("visible", "", $t_arr[1]))
+		if ($rbacsystem->checkAccess("visible", $t_arr[1]))
 		{
 			return true;
 		}
@@ -71,7 +73,7 @@ class ilObjChatroomAccess extends ilObjectAccess
 
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $ilAccess, $rbacsystem;
+		global $ilUser, $rbacsystem;
 
 		if (self::$chat_enabled === null) {
 			$chatSetting = new ilSetting('chatroom');
@@ -83,7 +85,7 @@ class ilObjChatroomAccess extends ilObjectAccess
 			$a_user_id = $ilUser->getId();
 		}
 
-		if ($rbacsystem->checkAccess('write', $a_ref_id)) {
+		if ($rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
 			return true;
 		}
 		return self::$chat_enabled;

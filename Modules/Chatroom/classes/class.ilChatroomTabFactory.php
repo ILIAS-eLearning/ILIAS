@@ -21,11 +21,6 @@ class ilChatroomTabFactory
 	private $lng;
 
 	/**
-	 * @var ilAccessHandler
-	 */
-	private $access;
-
-	/**
 	 * Constructor
 	 * Sets $this->gui using given $gui.
 	 * Sets $this->lng and $this->access
@@ -37,11 +32,10 @@ class ilChatroomTabFactory
 		 * @var $lng      ilLanguage
 		 * @var $ilAccess ilAccessHandler
 		 */
-		global $lng, $ilAccess;
+		global $lng;
 
 		$this->gui    = $gui;
 		$this->lng    = $lng;
-		$this->access = $ilAccess;
 	}
 
 	/**
@@ -297,6 +291,11 @@ class ilChatroomTabFactory
 	 */
 	private function buildTabs(ilTabsGUI $tabs, $config, $command)
 	{
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $rbacsystem;
+		
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		foreach($config as $id => $tabDefinition)
 		{
@@ -317,7 +316,7 @@ class ilChatroomTabFactory
 			{
 				foreach($tabDefinition['subtabs'] as $subid => $subTabDefinition)
 				{
-					if(!$this->access->checkAccess($subTabDefinition['permission'], '', $this->gui->getRefId()))
+					if(!$rbacsystem->checkAccess($subTabDefinition['permission'], $this->gui->getRefId()))
 					{
 						continue;
 					}

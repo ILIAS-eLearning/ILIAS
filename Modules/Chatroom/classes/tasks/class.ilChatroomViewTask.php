@@ -45,11 +45,11 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		 * @var $tpl                 ilTemplate    $tpl
 		 * @var $ilUser              ilObjUser
 		 * @var $ilCtrl              ilCtrl
-		 * @var $ilAccess            ilAccessHandler
+		 * @var $rbacsystem          ilRbacSystem
 		 * @var $lng                 ilLanguage
 		 * @var $ilNavigationHistory ilNavigationHistory
 		 */
-		global $tpl, $ilUser, $ilCtrl, $ilAccess, $lng, $ilNavigationHistory;
+		global $tpl, $ilUser, $ilCtrl, $rbacsystem, $lng, $ilNavigationHistory;
 
 		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
 		{
@@ -109,7 +109,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		$initial->private_rooms_enabled = (boolean)$room->getSetting('private_rooms_enabled');
 
 		$initial->userinfo = array(
-			'moderator' => $ilAccess->checkAccess('moderate', '', $_GET['ref_id']),
+			'moderator' => $rbacsystem->checkAccess('moderate', (int)$_GET['ref_id']),
 			'userid'    => $chat_user->getUserId()
 		);
 

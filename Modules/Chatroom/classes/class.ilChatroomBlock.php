@@ -16,10 +16,10 @@ class ilChatroomBlock
 	private function getReadableAreas()
 	{
 		/**
-		 * @var $ilUser   ilObjUser
-		 * @var $ilAccess ilAccessHandler
+		 * @var $ilUser     ilObjUser
+		 * @var $rbacsystem ilRbacSystem
 		 */
-		global $ilUser, $ilAccess;
+		global $ilUser, $rbacsystem;
 
 		$readable_rooms = array();
 
@@ -31,7 +31,7 @@ class ilChatroomBlock
 				continue;
 			}
 
-			if($ilAccess->checkAccess('read', '', $object['ref_id']))
+			if($rbacsystem->checkAccess('read', '', $object['ref_id']))
 			{
 				$room = ilChatroom::byObjectId($object['obj_id']);
 				if($room && !$room->isUserBanned($ilUser->getId()))
