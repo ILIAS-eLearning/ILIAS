@@ -105,9 +105,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
-		if($this->object->isInternalTemplate())
+		if($a_mode != self::FORM_MODE_CREATE)
 		{
-			$title->setDisabled(true);
+			if($this->object->isInternalTemplate())
+			{
+				$title->setDisabled(true);
+			}
 		}
 		$title->setValue($this->object->getTitle());
 		$title->setSize(40);
