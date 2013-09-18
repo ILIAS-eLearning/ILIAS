@@ -1523,7 +1523,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 	}
 	
-	function finishListOfAnswers()
+	function finishListOfAnswersCmd()
 	{
 		$this->confirmFinishTestCmd();
 	}
