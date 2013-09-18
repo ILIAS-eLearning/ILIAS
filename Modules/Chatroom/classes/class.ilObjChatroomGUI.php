@@ -80,7 +80,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 		 * @var $ilCtrl              ilCtrl
 		 * @var $ilHelp              ilHelpGUI
 		 */
-		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilHelp;
+		global $ilNavigationHistory, $ilCtrl, $ilHelp, $ilAccess;
 
 		if('cancel' == $ilCtrl->getCmd() && $this->getCreationMode())
 		{
@@ -89,7 +89,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 		}
 
 		// add entry to navigation history
-		if(!$this->getCreationMode() && $ilAccess->checkAccess('read', '', $_GET['ref_id']))
+		if(!$this->getCreationMode() && $ilAccess->checkAccess('read', '', (int)$_GET['ref_id']))
 		{
 			$ilNavigationHistory->addItem($_GET['ref_id'], './goto.php?target=' . $this->type . '_' . $_GET['ref_id'], $this->type);
 		}
@@ -281,17 +281,17 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 	public static function _goto($params)
 	{
 		/**
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilError  ilErrorHandling
-		 * @var $lng      ilLanguage
+		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilError    ilErrorHandling
+		 * @var $lng        ilLanguage
 		 */
-		global $ilAccess, $ilErr, $lng;
+		global $rbacsystem, $ilErr, $lng;
 
 		$parts  = explode('_', $params);
 		$ref_id = $parts[0];
 		$sub    = $parts[1];
 
-		if($ilAccess->checkAccess('read', '', $ref_id))
+		if($rbacsystem->checkAccess('read', $ref_id))
 		{
 			if($sub)
 			{
@@ -300,7 +300,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 			include_once 'Services/Object/classes/class.ilObjectGUI.php';
 			ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
 		}
-		else if($ilAccess->checkAccess('read', '', ROOT_FOLDER_ID))
+		else if($rbacsystem->checkAccess('read', ROOT_FOLDER_ID))
 		{
 			ilUtil::sendInfo(sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), true);
 			include_once 'Services/Object/classes/class.ilObjectGUI.php';
