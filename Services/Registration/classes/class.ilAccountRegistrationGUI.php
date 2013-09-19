@@ -348,6 +348,17 @@ class ilAccountRegistrationGUI
 			}
 		}
 
+		$error_lng_var = '';
+		if(
+			!$this->registration_settings->passwordGenerationEnabled() &&
+			!ilUtil::isPasswordValidForUserContext($this->form->getInput('usr_password'), $this->form->getInput('username'), $error_lng_var)
+		)
+		{
+			$passwd_obj = $this->form->getItemByPostVar('usr_password');
+			$passwd_obj->setAlert($lng->txt($error_lng_var));
+			$form_valid = false;
+		}
+
 		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service'))
 		{
 			$agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');

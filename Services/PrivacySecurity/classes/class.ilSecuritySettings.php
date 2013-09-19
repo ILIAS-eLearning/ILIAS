@@ -72,6 +72,7 @@ class ilSecuritySettings
 	private $password_ucase_chars_num = 0;
 	private $password_lcase_chars_num = 0;
 	private $login_max_attempts = self::DEFAULT_LOGIN_MAX_ATTEMPTS;
+	private $password_must_not_contain_loginname = false;
 
 	private $password_change_on_first_login_enabled = self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED;
 	private $prevent_simultaneous_logins = self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS;
@@ -407,6 +408,7 @@ class ilSecuritySettings
 		$this->settings->set('ps_login_max_attempts',(int) $this->getLoginMaxAttempts());
 		$this->settings->set('ps_password_uppercase_chars_num', (int) $this->getPasswordNumberOfUppercaseChars());
 		$this->settings->set('ps_password_lowercase_chars_num', (int) $this->getPasswordNumberOfLowercaseChars());
+		$this->settings->set('ps_password_must_not_contain_loginame', (int) $this->getPasswordMustNotContainLoginnameStatus());
 
 		$this->settings->set('ps_password_change_on_first_login_enabled',(bool) $this->isPasswordChangeOnFirstLoginEnabled());
 		$this->settings->set('ps_prevent_simultaneous_logins', (int)$this->isPreventionOfSimultaneousLoginsEnabled());
@@ -445,6 +447,7 @@ class ilSecuritySettings
 		$this->login_max_attempts = (int) $this->settings->get('ps_login_max_attempts', self::DEFAULT_LOGIN_MAX_ATTEMPTS);
 		$this->password_ucase_chars_num = (int) $this->settings->get('ps_password_uppercase_chars_num', 0);
 		$this->password_lcase_chars_num = (int) $this->settings->get('ps_password_lowercase_chars_num', 0);
+		$this->password_must_not_contain_loginname = $this->settings->get('ps_password_must_not_contain_loginame', 0) == '1' ? true : false;
 
 		$this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled', self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED);
 		$this->prevent_simultaneous_logins = (bool) $this->settings->get('ps_prevent_simultaneous_logins', self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS);
@@ -640,7 +643,6 @@ class ilSecuritySettings
 	/**
 	 * Set number of uppercase characters required
 	 * @param    integer
-	 * @access    public
 	 */
 	public function setPasswordNumberOfUppercaseChars($password_ucase_chars_num)
 	{
@@ -650,7 +652,6 @@ class ilSecuritySettings
 	/**
 	 * Returns number of uppercase characters required
 	 * @return    integer
-	 * @access    public
 	 */
 	public function getPasswordNumberOfUppercaseChars()
 	{
@@ -660,7 +661,6 @@ class ilSecuritySettings
 	/**
 	 * Set number of lowercase characters required
 	 * @param    integer
-	 * @access    public
 	 */
 	public function setPasswordNumberOfLowercaseChars($password_lcase_chars_num)
 	{
@@ -670,11 +670,28 @@ class ilSecuritySettings
 	/**
 	 * Returns number of lowercase characters required
 	 * @return    integer
-	 * @access    public
 	 */
 	public function getPasswordNumberOfLowercaseChars()
 	{
 		return $this->password_lcase_chars_num;
+	}
+
+	/**
+	 * Set whether the password must not contain the loginname or not
+	 * @param	boolean
+	 */
+	public function setPasswordMustNotContainLoginnameStatus($status)
+	{
+		$this->password_must_not_contain_loginname = $status;
+	}
+
+	/**
+	 * Return whether the password must not contain the loginname or not
+	 * @param	boolean
+	 */
+	public function getPasswordMustNotContainLoginnameStatus()
+	{
+		return $this->password_must_not_contain_loginname;
 	}
 }
 ?>

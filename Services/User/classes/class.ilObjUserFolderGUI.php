@@ -1787,6 +1787,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$security->setLoginMaxAttempts((int) $_POST["login_max_attempts"]);
 			$security->setPreventionOfSimultaneousLogins((bool)$_POST['ps_prevent_simultaneous_logins']);
 			$security->setPasswordChangeOnFirstLoginEnabled((bool) $_POST['password_change_on_first_login_enabled']);
+			$security->setPasswordMustNotContainLoginnameStatus((int) $_POST['password_must_not_contain_loginame']);
 				
 			if(!$security->validate($this->form))
 			{
@@ -2024,6 +2025,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->form->addItem($check);
 		
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+
+		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_must_not_contain_loginame'),'password_must_not_contain_loginame');
+		$check->setInfo($this->lng->txt('ps_password_must_not_contain_loginame_info'));
+		$this->form->addItem($check);
 		
 		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_chars_and_numbers_enabled'),'password_chars_and_numbers_enabled');			
 		//$check->setOptionTitle($this->lng->txt('ps_password_chars_and_numbers_enabled'));
@@ -3130,6 +3135,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 				$subitems = array(
 					'ps_password_change_on_first_login_enabled' => array($security->isPasswordChangeOnFirstLoginEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'ps_password_must_not_contain_loginame' => array((bool)$security->getPasswordMustNotContainLoginnameStatus(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
 					'ps_password_chars_and_numbers_enabled' => array($security->isPasswordCharsAndNumbersEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
 					'ps_password_special_chars_enabled' => array($security->isPasswordSpecialCharsEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
 					'ps_password_min_length' => (int)$security->getPasswordMinLength(),
