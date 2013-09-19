@@ -278,7 +278,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
+		$rte = new $rtestring('3.4.7');
 		include_once "./Services/Object/classes/class.ilObject.php";
 		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
