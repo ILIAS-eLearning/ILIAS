@@ -9731,7 +9731,7 @@ ps#:#ps_error_message_invalid_password_max_age#:#Maximales Passwortalter darf ni
 ps#:#ps_error_message_invalid_password_max_length#:#Maximale Passwortlänge darf nicht kleiner sein  als 0.
 ps#:#ps_error_message_invalid_password_min_length#:#Minimale Passwortlänge darf nicht kleiner sein als 0.
 ps#:#ps_error_message_password_max_less_min#:#Maximale Passwortlänge darf nicht kleiner sein als die minimale Passwortlänge.
-ps#:#ps_error_message_password_min1_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als %s sein.
+ps#:#ps_error_message_password_min1_because_chars#:#Minimale Passwortlänge darf nicht kleiner als %s sein.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben und Zahlen enthalten soll.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll.
 ps#:#ps_export_admin#:#Administratoren
