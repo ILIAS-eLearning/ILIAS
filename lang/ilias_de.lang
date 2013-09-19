@@ -13872,3 +13872,7 @@ content#:#cont_select_master_lang#:#Please select the master language. The curre
 rbac#:#rbac_copy_role_add_perm#:#Rechte hinzufügen
 rbac#:#rbac_copy_role_remove_perm#:#Rechte entfernen
 rbac#:#rbac_copy_role_copy#:#Rechte kopieren
+common#:#ps_password_lowercase_chars_num#:#Kleinbuchstaben
+common#:#ps_password_lowercase_chars_num_info#:#Tragen Sie hier die Anzahl der Kleinbuchstaben ein, die in einem Benutzerpasswort enthalten sein müssen. Der Wert 0 eingetragen wird, sind Kleinbuchstaben im Passwort nicht obligatorisch.
+common#:#ps_password_uppercase_chars_num#:#Großbuchstaben
+common#:#ps_password_uppercase_chars_num_info#:#Tragen Sie hier die Anzahl der Großbuchstaben ein, die in einem Benutzerpasswort enthalten sein müssen. Der Wert 0 eingetragen wird, sind Großbuchstaben im Passwort nicht obligatorisch.

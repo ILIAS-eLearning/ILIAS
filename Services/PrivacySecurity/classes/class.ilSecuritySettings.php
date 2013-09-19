@@ -64,12 +64,14 @@ class ilSecuritySettings
 	const DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED = false;
 	const DEFAULT_PREVENT_SIMULTANEOUS_LOGINS = false;
 
-	private $password_chars_and_numbers_enabled	= self::DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED;
-	private $password_special_chars_enabled		= self::DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED;
-	private $password_min_length				= self::DEFAULT_PASSWORD_MIN_LENGTH;
-	private $password_max_length				= self::DEFAULT_PASSWORD_MAX_LENGTH;
-	private $password_max_age					= self::DEFAULT_PASSWORD_MAX_AGE;
-	private $login_max_attempts					= self::DEFAULT_LOGIN_MAX_ATTEMPTS;
+	private $password_chars_and_numbers_enabled = self::DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED;
+	private $password_special_chars_enabled = self::DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED;
+	private $password_min_length = self::DEFAULT_PASSWORD_MIN_LENGTH;
+	private $password_max_length = self::DEFAULT_PASSWORD_MAX_LENGTH;
+	private $password_max_age = self::DEFAULT_PASSWORD_MAX_AGE;
+	private $password_ucase_chars_num = 0;
+	private $password_lcase_chars_num = 0;
+	private $login_max_attempts = self::DEFAULT_LOGIN_MAX_ATTEMPTS;
 
 	private $password_change_on_first_login_enabled = self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED;
 	private $prevent_simultaneous_logins = self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS;
@@ -403,6 +405,8 @@ class ilSecuritySettings
 		$this->settings->set('ps_password_max_length',(int) $this->getPasswordMaxLength());
 		$this->settings->set('ps_password_max_age',(int) $this->getPasswordMaxAge());
 		$this->settings->set('ps_login_max_attempts',(int) $this->getLoginMaxAttempts());
+		$this->settings->set('ps_password_uppercase_chars_num', (int) $this->getPasswordNumberOfUppercaseChars());
+		$this->settings->set('ps_password_lowercase_chars_num', (int) $this->getPasswordNumberOfLowercaseChars());
 
 		$this->settings->set('ps_password_change_on_first_login_enabled',(bool) $this->isPasswordChangeOnFirstLoginEnabled());
 		$this->settings->set('ps_prevent_simultaneous_logins', (int)$this->isPreventionOfSimultaneousLoginsEnabled());
@@ -439,6 +443,8 @@ class ilSecuritySettings
 		$this->password_max_length = (int)  $this->settings->get('ps_password_max_length', self::DEFAULT_PASSWORD_MAX_LENGTH);
 		$this->password_max_age = (int) $this->settings->get('ps_password_max_age', self::DEFAULT_PASSWORD_MAX_AGE);
 		$this->login_max_attempts = (int) $this->settings->get('ps_login_max_attempts', self::DEFAULT_LOGIN_MAX_ATTEMPTS);
+		$this->password_ucase_chars_num = (int) $this->settings->get('ps_password_uppercase_chars_num', 0);
+		$this->password_lcase_chars_num = (int) $this->settings->get('ps_password_lowercase_chars_num', 0);
 
 		$this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled', self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED);
 		$this->prevent_simultaneous_logins = (bool) $this->settings->get('ps_prevent_simultaneous_logins', self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS);
@@ -630,5 +636,45 @@ class ilSecuritySettings
     {
     	$this->prevent_simultaneous_logins = (bool)$value;
     }
+
+	/**
+	 * Set number of uppercase characters required
+	 * @param    integer
+	 * @access    public
+	 */
+	public function setPasswordNumberOfUppercaseChars($password_ucase_chars_num)
+	{
+		$this->password_ucase_chars_num = $password_ucase_chars_num;
+	}
+
+	/**
+	 * Returns number of uppercase characters required
+	 * @return    integer
+	 * @access    public
+	 */
+	public function getPasswordNumberOfUppercaseChars()
+	{
+		return $this->password_ucase_chars_num;
+	}
+
+	/**
+	 * Set number of lowercase characters required
+	 * @param    integer
+	 * @access    public
+	 */
+	public function setPasswordNumberOfLowercaseChars($password_lcase_chars_num)
+	{
+		$this->password_lcase_chars_num = $password_lcase_chars_num;
+	}
+
+	/**
+	 * Returns number of lowercase characters required
+	 * @return    integer
+	 * @access    public
+	 */
+	public function getPasswordNumberOfLowercaseChars()
+	{
+		return $this->password_lcase_chars_num;
+	}
 }
 ?>
