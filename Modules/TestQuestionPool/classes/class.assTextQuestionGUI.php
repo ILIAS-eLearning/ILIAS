@@ -263,7 +263,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$answers = $this->object->getAnswers();
 		if (count( $answers ))
 		{
-			$user_solution = $this->lng->txt( "solution_contain_keywords" ) . ":<ul>";
+			$user_solution = $this->lng->txt( "solution_contain_keywords" ) . "<ul>";
 			
 			foreach ($answers as $answer)
 			{
@@ -277,18 +277,18 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			}
 			$user_solution .= '</ul>';
 			
-			$user_solution .= $this->lng->txt('essay_keyword_relation') . ' ';
+			$user_solution .= $this->lng->txt('essay_scoring_mode') . ': ';
 			
 			switch( $this->object->getKeywordRelation() )
 			{
 				case 'any':
-					$user_solution .= $this->lng->txt('essay_keyword_relation_any');
+					$user_solution .= $this->lng->txt('essay_scoring_mode_keyword_relation_any');
 					break;
 				case 'all':
-					$user_solution .= $this->lng->txt('essay_keyword_relation_all');
+					$user_solution .= $this->lng->txt('essay_scoring_mode_keyword_relation_all');
 					break;
 				case 'one':
-					$user_solution .= $this->lng->txt('essay_keyword_relation_one');
+					$user_solution .= $this->lng->txt('essay_scoring_mode_keyword_relation_one');
 					break;
 			}
 		}
