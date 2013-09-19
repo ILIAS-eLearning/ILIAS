@@ -78,6 +78,10 @@ Dependencies
   	- ilInternalLink adopted: done
   	- ilPageObject and ilPageObjectGUI adopted: done
   	- update and delete events refactored: done
+  - page_style_usage: new field page_lang, Services/COPage/classes/class.ilPageObject.php
+    -> page service 
+    - db table extended (lang): done
+    - update and delete events refactored: done
   - page_question (currently in saveInternalLinks)
     -> pc_question
     - db table extended (lang): done
@@ -88,8 +92,6 @@ Dependencies
     -> pc_paragraph
   - page_pc_usage: new field usage_lang, Services/COPage/classes/class.ilPageContentUsage.php
     -> pc_content_include, skill?
-  - page_style_usage: new field page_lang, Services/COPage/classes/class.ilPageObject.php
-    -> 
   - file_usage: new field usage_lang, Modules/File/classes/class.ilObjFile.php
     -> pc_file_list, verifications?
   - meta keywords? (currently just added)
