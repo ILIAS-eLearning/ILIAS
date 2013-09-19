@@ -8431,8 +8431,9 @@ ps#:#ps_error_message_invalid_password_max_age#:#Maximum password age may not be
 ps#:#ps_error_message_invalid_password_max_length#:#Maximum password size may not be less than 0.
 ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.
 ps#:#ps_error_message_password_max_less_min#:#Maximum password size may not be less than minimum password size.
-ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password size may not be less than 2 if password have to contain characters and numbers.
-ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
+ps#:#ps_error_message_password_min1_because_chars_numbers#:#Minimum password size may not be less than %s.
+ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password size may not be less than %s if password have to contain characters and numbers.
+ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than %s if password have to contain characters, numbers and special characters.
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups

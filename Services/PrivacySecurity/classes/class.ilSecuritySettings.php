@@ -41,6 +41,7 @@ class ilSecuritySettings
 	const SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_LENGTH			= 5;
 	const SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE				= 6;
 	const SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS				= 7;
+	const SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN1				= 11;
 	const SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN2				= 8;
 	const SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3				= 9;
 	const SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH	= 10;
@@ -539,6 +540,21 @@ class ilSecuritySettings
 		}
 
 		$password_min_length = 1;
+
+		if($this->getPasswordNumberOfUppercaseChars() > 0 || $this->getPasswordNumberOfLowercaseChars() > 0)
+		{
+			$password_min_length = 0;
+			if($this->getPasswordNumberOfUppercaseChars() > 0)
+			{
+				$password_min_length += $this->getPasswordNumberOfUppercaseChars();
+			}
+			if($this->getPasswordNumberOfLowercaseChars() > 0)
+			{
+				$password_min_length += $this->getPasswordNumberOfLowercaseChars();
+			}
+			$password_min_length_error_code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN1;
+		}
+
 		if( $this->isPasswordCharsAndNumbersEnabled() )
 		{
 			$password_min_length++;
@@ -550,6 +566,12 @@ class ilSecuritySettings
 				$password_min_length_error_code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3;
 			}
 		}
+		else if($password_min_length > 1 && $this->isPasswordSpecialCharsEnabled())
+		{
+			$password_min_length++;
+			$password_min_length_error_code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3;
+		}
+
 		if( $this->getPasswordMinLength() > 0 && $this->getPasswordMinLength() < $password_min_length )
 		{				
 			$code = $password_min_length_error_code;
@@ -560,7 +582,7 @@ class ilSecuritySettings
 			else
 			{	
 				$a_form->getItemByPostVar('password_min_length')
-						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+						->setAlert(sprintf(ilObjPrivacySecurityGUI::getErrorMessage($code), $password_min_length));
 			}
 		}
 		if( $this->getPasswordMaxLength() > 0 && $this->getPasswordMaxLength() < $this->getPasswordMinLength() )
