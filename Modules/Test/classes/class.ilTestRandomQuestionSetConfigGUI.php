@@ -139,16 +139,18 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		if (!$this->access->checkAccess("write", "", $this->testOBJ->getRefId())) 
 		{
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendFailure($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirectByClass('ilObjTestGUI', "infoScreen");
 		}
-		
-		// manage sub tabs and tab activation
-		
+
+		if( $this->isAvoidManipulationRedirectRequired() )
+		{
+			ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_random_question_set_conf_due_to_part"), true);
+			$this->ctrl->redirect($this);
+		}
+
 		$this->handleTabs();
-		
-		// process command
-		
+
 		$nextClass = $this->ctrl->getNextClass();
 		
 		switch($nextClass)
@@ -169,6 +171,38 @@ class ilTestRandomQuestionSetConfigGUI
 				
 				$this->$cmd();
 		}
+	}
+
+	private function isAvoidManipulationRedirectRequired()
+	{
+		if( !$this->testOBJ->participantDataExist() )
+		{
+			return false;
+		}
+
+		if( !$this->isManipulationCommand() )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private function isManipulationCommand()
+	{
+		switch( $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG_FORM) )
+		{
+			case self::CMD_SAVE_GENERAL_CONFIG_FORM:
+			case self::CMD_SAVE_SRC_POOL_DEF_LIST:
+			case self::CMD_DELETE_SINGLE_SRC_POOL_DEF:
+			case self::CMD_DELETE_MULTI_SRC_POOL_DEFS:
+			case self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM:
+			case self::CMD_SAVE_EDIT_SRC_POOL_DEF_FORM:
+
+				return true;
+		}
+
+		return false;
 	}
 	
 	private function handleTabs()
@@ -197,6 +231,8 @@ class ilTestRandomQuestionSetConfigGUI
 
 			case self::CMD_SHOW_SRC_POOL_DEF_LIST:
 			case self::CMD_SAVE_SRC_POOL_DEF_LIST:
+			case self::CMD_DELETE_SINGLE_SRC_POOL_DEF:
+			case self::CMD_DELETE_MULTI_SRC_POOL_DEFS:
 			case self::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM:
 			case self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM:
 			case self::CMD_SHOW_EDIT_SRC_POOL_DEF_FORM:
@@ -223,12 +259,6 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->questionSetConfig->loadFromDb();
 		$form = $this->buildGeneralConfigFormGUI();
 
-		if( $this->testOBJ->participantDataExist() )
-		{
-			ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_random_question_set_conf_due_to_part"), true);
-			return $this->showGeneralConfigFormCmd($form);
-		}
-		
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 
@@ -271,6 +301,11 @@ class ilTestRandomQuestionSetConfigGUI
 		);
 	}
 
+	private function saveSourcePoolDefinitionListCmd()
+	{
+
+	}
+
 	private function buildSourcePoolDefinitionListToolbarGUI()
 	{
 		require_once 'Modules/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI.php';
@@ -297,9 +332,35 @@ class ilTestRandomQuestionSetConfigGUI
 		return $table;
 	}
 
-	private function saveSourcePoolDefinitionListCmd()
+	private function deleteSingleSourcePoolDefinitionCmd()
 	{
-		
+		$definitionId = $this->fetchSingleSourcePoolDefinitionIdParameter();
+		$this->deleteSourcePoolDefinitions( array($definitionId) );
+
+		ilUtil::sendSuccess($this->lng->txt("tst_msg_source_pool_definitions_deleted"), true);
+		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+	}
+
+	private function deleteMultipleSourcePoolDefinitionsCmd()
+	{
+		$definitionIds = $this->fetchMultiSourcePoolDefinitionIdsParameter();
+		$this->deleteSourcePoolDefinitions( $definitionIds );
+
+		ilUtil::sendSuccess($this->lng->txt("tst_msg_source_pool_definitions_deleted"), true);
+		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+	}
+
+	private function deleteSourcePoolDefinitions($definitionIds)
+	{
+		foreach($definitionIds as $definitionId)
+		{
+			$definition = $this->sourcePoolDefinitionFactory->getSourcePoolDefinitionByDefinitionId($definitionId);
+			$definition->deleteFromDb();
+		}
+
+		$this->sourcePoolDefinitionList->loadDefinitions();
+		$this->sourcePoolDefinitionList->reindexPositions();
+		$this->sourcePoolDefinitionList->saveDefinitions();
 	}
 
 	private function showCreateSourcePoolDefinitionFormCmd(ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null)
@@ -335,12 +396,6 @@ class ilTestRandomQuestionSetConfigGUI
 			self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM
 		);
 
-		if( $this->testOBJ->participantDataExist() )
-		{
-			ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_random_question_set_conf_due_to_part"));
-			return $this->showSourcePoolDefinitionListCmd($form);
-		}
-
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 
@@ -351,8 +406,12 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$form->applySubmit( $sourcePoolDefinition, $availableTaxonomyIds );
 
+		$this->sourcePoolDefinitionList->loadDefinitions();
+		$sourcePoolDefinition->setSequencePosition( $this->sourcePoolDefinitionList->getNextPosition() );
+
 		$sourcePoolDefinition->saveToDb();
 
+		$this->questionSetConfig->removeRandomQuestionSet();
 		$this->questionSetConfig->fetchRandomQuestionSet();
 
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
@@ -397,11 +456,11 @@ class ilTestRandomQuestionSetConfigGUI
 		throw new ilTestMissingQuestionPoolIdParameterException();
 	}
 
-	private function fetchSourcePoolDefinitionIdParameter()
+	private function fetchSingleSourcePoolDefinitionIdParameter()
 	{
-		if( isset($_POST['quest_pool_id']) && (int)$_POST['quest_pool_id'] )
+		if( isset($_POST['src_pool_def_id']) && (int)$_POST['src_pool_def_id'] )
 		{
-			return (int)$_POST['quest_pool_id'];
+			return (int)$_POST['src_pool_def_id'];
 		}
 
 		if( isset($_GET['src_pool_def_id']) && (int)$_GET['src_pool_def_id'] )
@@ -409,8 +468,34 @@ class ilTestRandomQuestionSetConfigGUI
 			return (int)$_GET['src_pool_def_id'];
 		}
 
-		require_once 'Modules/Test/exceptions/class.ilTestMissingSourcePoolDefinitionIdParameterException.php';
-		throw new ilTestMissingSourcePoolDefinitionIdParameterException();
+		require_once 'Modules/Test/exceptions/class.ilTestMissingSourcePoolDefinitionParameterException.php';
+		throw new ilTestMissingSourcePoolDefinitionParameterException();
+	}
+
+	private function fetchMultiSourcePoolDefinitionIdsParameter()
+	{
+		if( !isset($_POST['src_pool_def_ids']) || !is_array($_POST['src_pool_def_ids']) )
+		{
+			require_once 'Modules/Test/exceptions/class.ilTestMissingSourcePoolDefinitionParameterException.php';
+			throw new ilTestMissingSourcePoolDefinitionParameterException();
+		}
+
+		$definitionIds = array();
+
+		foreach($_POST['src_pool_def_ids'] as $definitionId)
+		{
+			$definitionId = (int)$definitionId;
+
+			if( !$definitionId )
+			{
+				require_once 'Modules/Test/exceptions/class.ilTestMissingSourcePoolDefinitionParameterException.php';
+				throw new ilTestMissingSourcePoolDefinitionParameterException();
+			}
+
+			$definitionIds[] = $definitionId;
+		}
+
+		return $definitionIds;
 	}
 
 	private function getAvailableTaxonomyIds($objId)
