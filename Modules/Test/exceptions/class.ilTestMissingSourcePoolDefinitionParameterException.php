@@ -11,11 +11,8 @@ include_once 'Modules/Test/exceptions/class.ilTestException.php';
  *
  * @ingroup ModulesTest
  */
-class ilTestMissingSourcePoolDefinitionIdParameterException extends ilTestException
+class ilTestMissingSourcePoolDefinitionParameterException extends ilTestException
 {
-	public function __construct()
-	{
-		parent::__construct('', 0);
-	}
+
 }
 

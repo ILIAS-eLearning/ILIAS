@@ -168,7 +168,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 	public function loadFromDb($id)
 	{
 		$res = $this->db->queryF(
-				"SELECT * FROM tst_rnd_quest_set_qpls WHERE id = %s", array('integer'), array($id)
+				"SELECT * FROM tst_rnd_quest_set_qpls WHERE def_id = %s", array('integer'), array($id)
 		);
 		
 		while( $row = $this->db->fetchAssoc($res) )
@@ -200,7 +200,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 	public function deleteFromDb()
 	{
 		$aff = $this->db->manipulateF(
-				"DELETE FROM tst_rnd_quest_set_qpls WHERE id = %s", array('integer'), array($this->getId())
+				"DELETE FROM tst_rnd_quest_set_qpls WHERE def_id = %s", array('integer'), array($this->getId())
 		);
 		
 		return $aff;

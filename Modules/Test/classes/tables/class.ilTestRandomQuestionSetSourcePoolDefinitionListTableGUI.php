@@ -69,7 +69,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
 	private function getSelectionCheckboxHTML($sourcePoolDefinitionId)
 	{
-		return '<input type="checkbox" value="'.$sourcePoolDefinitionId.'" name="def_id[]" />';
+		return '<input type="checkbox" value="'.$sourcePoolDefinitionId.'" name="src_pool_def_ids[]" />';
 	}
 
 	private function getQuestionAmountInputHTML($srcPoolDefId, $questionAmount)
@@ -98,7 +98,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 			$this->parent_obj, ilTestRandomQuestionSetConfigGUI::CMD_SHOW_EDIT_SRC_POOL_DEF_FORM
 		);
 
-		$href = ilUtil::appendUrlParameterString($href, "def_id=".$sourcePoolDefinitionId, true);
+		$href = ilUtil::appendUrlParameterString($href, "src_pool_def_id=".$sourcePoolDefinitionId, true);
 
 		return $href;
 	}
@@ -109,7 +109,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 			$this->parent_obj, ilTestRandomQuestionSetConfigGUI::CMD_DELETE_SINGLE_SRC_POOL_DEF
 		);
 
-		$href = ilUtil::appendUrlParameterString($href, "def_id=".$sourcePoolDefinitionId, true);
+		$href = ilUtil::appendUrlParameterString($href, "src_pool_def_id=".$sourcePoolDefinitionId, true);
 
 		return $href;
 	}

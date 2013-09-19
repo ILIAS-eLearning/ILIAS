@@ -72,34 +72,69 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 
 	public function reindexPositions()
 	{
-		
+		$positionIndex = array();
+
+		foreach($this as $definition)
+		{
+			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
+			$positionIndex[ $definition->getId() ] = $definition->getSequencePosition();
+		}
+
+		sort($positionIndex);
+
+		$i = 1;
+
+		foreach($positionIndex as $definitionId => $definitionPosition)
+		{
+			$index[$definitionId] = $i++;
+		}
+
+		foreach($this as $definition)
+		{
+			$definition->setSequencePosition( $positionIndex[$definition->getId()] );
+		}
 	}
 	
 	public function getNextPosition()
 	{
-		
+		return ( count($this->sourcePoolDefinitions) + 1 );
 	}
 
+	/**
+	 * @return ilTestRandomQuestionSetSourcePoolDefinition
+	 */
 	public function rewind()
 	{
 		return reset($this->sourcePoolDefinitions);
 	}
 
+	/**
+	 * @return ilTestRandomQuestionSetSourcePoolDefinition
+	 */
 	public function current()
 	{
 		return current($this->sourcePoolDefinitions);
 	}
 
+	/**
+	 * @return integer
+	 */
 	public function key()
 	{
 		return key($this->sourcePoolDefinitions);
 	}
 
+	/**
+	 * @return ilTestRandomQuestionSetSourcePoolDefinition
+	 */
 	public function next()
 	{
 		return next($this->sourcePoolDefinitions);
 	}
 
+	/**
+	 * @return boolean
+	 */
 	public function valid()
 	{
 		return key($this->sourcePoolDefinitions) !== null;

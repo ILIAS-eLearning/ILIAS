@@ -276,6 +276,11 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	
 	// -----------------------------------------------------------------------------------------------------------------
 
+	public function removeRandomQuestionSet()
+	{
+
+	}
+
 	public function fetchRandomQuestionSet()
 	{
 
