@@ -267,8 +267,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 				{
 					$changed_one = true;
 					
-					// @todo 4 Bjoern: Recalculate results?
-					// @todo 4 Max: Archiving
 					ilLPStatusWrapper::_updateStatus(
 						$this->object->getId(), ilObjTestAccess::_getParticipantId($active_id)
 					);
@@ -279,6 +277,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		if($changed_one)
 		{
 			ilUtil::sendSuccess(sprintf($this->lng->txt('tst_saved_manscoring_successfully'), $pass + 1), true);
+
+			require_once './Modules/Test/classes/class.ilTestScoring.php';
+			$scorer = new ilTestScoring($this->object);
+			$scorer->recalculateSolutions();
 		}
 		
 		$this->showManScoringByQuestionParticipantsTable();
