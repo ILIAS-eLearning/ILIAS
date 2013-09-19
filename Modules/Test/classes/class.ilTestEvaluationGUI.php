@@ -27,10 +27,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 * The constructor takes possible arguments an creates an instance of the 
 * ilTestEvaluationGUI object.
 *
-* @param object $a_object Associated ilObjTest class
+* @param ilObjTest $a_object Associated ilObjTest class
 * @access public
 */
-  function ilTestEvaluationGUI($a_object)
+  function ilTestEvaluationGUI(ilObjTest $a_object)
   {
 		global $ilAccess;
 		

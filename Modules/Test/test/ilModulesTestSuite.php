@@ -30,4 +30,3 @@ class ilModulesTestSuite extends PHPUnit_Framework_TestSuite
 		return $suite;
 	}
 }
-?>
