@@ -13872,3 +13872,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview
 rbac#:#rbac_copy_role_add_perm#:#Add Permissions
 rbac#:#rbac_copy_role_remove_perm#:#Remove Permissions
 rbac#:#rbac_copy_role_copy#:#Copy Permissions
+common#:#ps_password_lowercase_chars_num#:#Lower Case Letters
+common#:#ps_password_lowercase_chars_num_info#:#Please insert the number of lower case letters a password must contain.
+common#:#ps_password_uppercase_chars_num#:#Capital Letters
+common#:#ps_password_uppercase_chars_num_info#:#Please insert the number of capital letters a password must contain.

@@ -1233,6 +1233,7 @@ class ilUtil
 		}
 		
 		// check if password not to long
+		// Hmmmmm, maybe we should discuss this limitation. In my opinion it is stupid to limit the password length ;-). There should only be a technical limitation (field size in database).
 		if( $security->getPasswordMaxLength() > 0 && strlen($a_passwd) > $security->getPasswordMaxLength() )
 		{
 			$errors[] = sprintf( $lng->txt('password_to_long'), $security->getPasswordMaxLength() );
@@ -1259,6 +1260,25 @@ class ilUtil
 			if( !$hasCharsAndNumbers )
 			{
 				$errors[] = $lng->txt('password_must_chars_and_numbers');
+				$isPassword = false;
+			}
+		}
+
+		require_once 'Services/Utilities/classes/class.ilStr.php';
+		if($security->getPasswordNumberOfUppercaseChars() > 0)
+		{
+			if(ilStr::strLen($a_passwd) - ilStr::strLen(preg_replace('/[A-Z]/', '', $a_passwd)) < $security->getPasswordNumberOfUppercaseChars())
+			{
+				$errors[]   = sprintf($lng->txt('password_must_contain_ucase_chars'), $security->getPasswordNumberOfUppercaseChars());
+				$isPassword = false;
+			}
+		}
+
+		if($security->getPasswordNumberOfLowercaseChars() > 0)
+		{
+			if(ilStr::strLen($a_passwd) - ilStr::strLen(preg_replace('/[a-z]/', '', $a_passwd)) < $security->getPasswordNumberOfLowercaseChars())
+			{
+				$errors[]   = sprintf($lng->txt('password_must_contain_lcase_chars'), $security->getPasswordNumberOfLowercaseChars());
 				$isPassword = false;
 			}
 		}

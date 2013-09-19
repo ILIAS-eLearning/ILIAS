@@ -1739,6 +1739,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'password_special_chars_enabled' => $security->isPasswordSpecialCharsEnabled() ? 1 : 0 ,
 				'password_min_length' => $security->getPasswordMinLength(),
 				'password_max_length' => $security->getPasswordMaxLength(),
+				'password_ucase_chars_num' => $security->getPasswordNumberOfUppercaseChars(),
+				'password_lowercase_chars_num' => $security->getPasswordNumberOfLowercaseChars(),
 				'password_max_age' => $security->getPasswordMaxAge(),
 				
 				'login_max_attempts' => $security->getLoginMaxAttempts(),				
@@ -1779,6 +1781,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$security->setPasswordSpecialCharsEnabled((bool) $_POST["password_special_chars_enabled"]);
 			$security->setPasswordMinLength((int) $_POST["password_min_length"]);
 			$security->setPasswordMaxLength((int) $_POST["password_max_length"]);
+			$security->setPasswordNumberOfUppercaseChars((int) $_POST['password_ucase_chars_num']);
+			$security->setPasswordNumberOfLowercaseChars((int) $_POST['password_lowercase_chars_num']);
 			$security->setPasswordMaxAge((int) $_POST["password_max_age"]);
 			$security->setLoginMaxAttempts((int) $_POST["login_max_attempts"]);
 			$security->setPreventionOfSimultaneousLogins((bool)$_POST['ps_prevent_simultaneous_logins']);
@@ -2039,6 +2043,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$text = new ilNumberInputGUI($this->lng->txt('ps_password_max_length'),'password_max_length');
 		$text->setInfo($this->lng->txt('ps_password_max_length_info'));
+		$text->setSize(2);
+		$text->setMaxLength(3);
+		$this->form->addItem($text);
+
+		$text = new ilNumberInputGUI($this->lng->txt('ps_password_uppercase_chars_num'), 'password_ucase_chars_num');
+		$text->setInfo($this->lng->txt('ps_password_uppercase_chars_num_info'));
+		$text->setMinValue(0);
+		$text->setSize(2);
+		$text->setMaxLength(3);
+		$this->form->addItem($text);
+
+		$text = new ilNumberInputGUI($this->lng->txt('ps_password_lowercase_chars_num'), 'password_lowercase_chars_num');
+		$text->setInfo($this->lng->txt('ps_password_lowercase_chars_num_info'));
+		$text->setMinValue(0);
 		$text->setSize(2);
 		$text->setMaxLength(3);
 		$this->form->addItem($text);
@@ -3116,6 +3134,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					'ps_password_special_chars_enabled' => array($security->isPasswordSpecialCharsEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
 					'ps_password_min_length' => (int)$security->getPasswordMinLength(),
 					'ps_password_max_length' => (int)$security->getPasswordMaxLength(),
+					'ps_password_uppercase_chars_num' => (int)$security->getPasswordNumberOfUppercaseChars(),
+					'ps_password_lowercase_chars_num' => (int)$security->getPasswordNumberOfLowercaseChars(),
 					'ps_password_max_age' => (int)$security->getPasswordMaxAge()
 				);				
 				$fields['ps_password_settings'] = array(null, null, $subitems);
