@@ -596,7 +596,8 @@ class ilLMPageObject extends ilLMObject
 	 */
 	function getQuestionIds()
 	{
-		return ilLMPage::_getQuestionIdsForPage($this->content_object->getType(),
+		include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+		return ilPCQuestion::_getQuestionIdsForPage($this->content_object->getType(),
 			$this->getId());
 	}
 

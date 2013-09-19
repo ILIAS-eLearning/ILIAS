@@ -242,21 +242,23 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		foreach($tree->getSubTree($tree->getNodeData($this->getId()),true,'page') as $page)
 		{
 			$page_obj = new ilSCORM2004Page($page["obj_id"]);
-		$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
-		if (count($q_ids) > 0)
-		{
-			include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-			foreach ($q_ids as $q_id)
+			
+			include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+			$q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
+			if (count($q_ids) > 0)
 			{
-				$q_obj =& assQuestion::_instanciateQuestion($q_id);
-				$qti_file = fopen($a_target_dir."/qti_".$q_id.".xml", "w");
-				fwrite($qti_file, $q_obj->toXML());
-				fclose($qti_file);
-					$x = file_get_contents($a_target_dir."/qti_".$q_id.".xml");
-					$x = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $x);
-					$a_xml_writer->appendXML($x);
+				include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+				foreach ($q_ids as $q_id)
+				{
+					$q_obj =& assQuestion::_instanciateQuestion($q_id);
+					$qti_file = fopen($a_target_dir."/qti_".$q_id.".xml", "w");
+					fwrite($qti_file, $q_obj->toXML());
+					fclose($qti_file);
+						$x = file_get_contents($a_target_dir."/qti_".$q_id.".xml");
+						$x = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $x);
+						$a_xml_writer->appendXML($x);
+				}
 			}
-		}
 			unset($page_obj);
 		}
 	}
@@ -438,7 +440,8 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 			if ( $mode == 'pdf')
 			{
-				$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
+				include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+				$q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
 				foreach ($q_ids as $q_id)
 				{
 					include_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
@@ -458,7 +461,8 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			// get all question ids of the sco
 			if ($a_one_file != "")
 			{
-				$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
+				include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+				$q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
 				foreach ($q_ids as $i)
 				{
 					if (!in_array($i, $sco_q_ids))
@@ -732,7 +736,8 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				$this->file_ids[$file_id] = $file_id;
 			}
 
-			$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
+			include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+			$q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
 			if (count($q_ids) > 0)
 			{
 				include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");

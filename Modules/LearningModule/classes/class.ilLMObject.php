@@ -1171,7 +1171,7 @@ class ilLMObject
 			$page = ilPageObjectFactory::getInstance($pg[0], $pg[1]);
 			if ($page->moveIntLinks($fixes))
 			{
-				$page->update(true, true, true);
+				$page->update(true, true);
 			}
 		}
 	}

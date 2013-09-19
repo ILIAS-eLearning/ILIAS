@@ -100,7 +100,8 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 		foreach ($childs as $child)
 		{
 			// get question ids
-			$qids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $child["child"]);
+			include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+			$qids = ilPCQuestion::_getQuestionIdsForPage("sahs", $child["child"]);
 
 			if (count($qids) > 0)
 			{

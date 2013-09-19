@@ -14,28 +14,36 @@
 class ilInternalLink
 {
 	/**
-	* delete all links of a given source
-	*
-	* @param	string		$a_source_type		source type
-	* @param	int			$a_source_if		source id
-	*/
-	function _deleteAllLinksOfSource($a_source_type, $a_source_id)
+	 * Delete all links of a given source
+	 *
+	 * @param string $a_source_type source type
+	 * @param int $a_source_if source id
+	 * @param int $a_lang source language
+	 */
+	function _deleteAllLinksOfSource($a_source_type, $a_source_id, $a_lang = "-")
 	{
 		global $ilias, $ilDB;
 
+		$lang_where = "";
+		if ($a_lang != "")
+		{
+			$lang_where = " AND source_lang = ".$ilDB->quote($a_lang, "text");
+		}
+		
 		$q = "DELETE FROM int_link WHERE source_type = ".
 			$ilDB->quote($a_source_type, "text")." AND source_id=".
-			$ilDB->quote((int) $a_source_id, "integer");
+			$ilDB->quote((int) $a_source_id, "integer").
+			$lang_where;
 		$ilDB->manipulate($q);
 	}
 
 	/**
-	* delete all links to a given target
-	*
-	* @param	string		$a_target_type		target type
-	* @param	int			$a_target_id		target id
-	* @param	int			$a_target_inst		target installation id
-	*/
+	 * Delete all links to a given target
+	 *
+	 * @param	string		$a_target_type		target type
+	 * @param	int			$a_target_id		target id
+	 * @param	int			$a_target_inst		target installation id
+	 */
 	function _deleteAllLinksToTarget($a_target_type, $a_target_id, $a_target_inst = 0)
 	{
 		global $ilias, $ilDB;
@@ -47,15 +55,16 @@ class ilInternalLink
 	}
 
 	/**
-	* save internal link information
-	*
-	* @param	string		$a_source_type		source type
-	* @param	int			$a_source_if		source id
-	* @param	string		$a_target_type		target type
-	* @param	int			$a_target_id		target id
-	* @param	int			$a_target_inst		target installation id
-	*/
-	function _saveLink($a_source_type, $a_source_id, $a_target_type, $a_target_id, $a_target_inst = 0)
+	 * save internal link information
+	 *
+	 * @param	string		$a_source_type		source type
+	 * @param	int			$a_source_if		source id
+	 * @param	string		$a_target_type		target type
+	 * @param	int			$a_target_id		target id
+	 * @param	int			$a_target_inst		target installation id
+	 */
+	function _saveLink($a_source_type, $a_source_id, $a_target_type, $a_target_id, $a_target_inst = 0,
+		$a_source_lang = "-")
 	{
 		global $ilias, $ilDB;
 
@@ -64,25 +73,27 @@ class ilInternalLink
 			"source_id = ".$ilDB->quote((int) $a_source_id, "integer")." AND ".
 			"target_type = ".$ilDB->quote($a_target_type, "text")." AND ".
 			"target_id = ".$ilDB->quote((int) $a_target_id, "integer")." AND ".
-			"target_inst = ".$ilDB->quote((int) $a_target_inst, "integer"));
+			"target_inst = ".$ilDB->quote((int) $a_target_inst, "integer")." AND ".
+			"source_lang = ".$ilDB->quote($a_source_lang, "text"));
 		$ilDB->manipulate("INSERT INTO int_link ".
-			"(source_type, source_id, target_type, target_id, target_inst) VALUES (".
+			"(source_type, source_id, target_type, target_id, target_inst, source_lang) VALUES (".
 			$ilDB->quote($a_source_type, "text").",".
 			$ilDB->quote((int) $a_source_id, "integer").",".
 			$ilDB->quote($a_target_type, "text").",".
 			$ilDB->quote((int) $a_target_id, "integer").",".
-			$ilDB->quote((int) $a_target_inst, "integer").")");
+			$ilDB->quote((int) $a_target_inst, "integer").",".
+			$ilDB->quote($a_source_lang, "text").")");
 	}
 
 	/**
-	* get all sources of a link target
-	*
-	* @param	string		$a_target_type		target type
-	* @param	int			$a_target_id		target id
-	* @param	int			$a_target_inst		target installation id
-	*
-	* @return	array		sources (array of array("type", "id"))
-	*/
+	 * get all sources of a link target
+	 *
+	 * @param	string		$a_target_type		target type
+	 * @param	int			$a_target_id		target id
+	 * @param	int			$a_target_inst		target installation id
+	 *
+	 * @return	array		sources (array of array("type", "id"))
+	 */
 	function _getSourcesOfTarget($a_target_type, $a_target_id, $a_target_inst)
 	{
 		global $ilias, $ilDB;
@@ -95,28 +106,36 @@ class ilInternalLink
 		$sources = array();
 		while ($source_rec = $ilDB->fetchAssoc($source_set))
 		{
-			$sources[$source_rec["source_type"].":".$source_rec["source_id"]] =
-				array("type" => $source_rec["source_type"], "id" => $source_rec["source_id"]);
+			$sources[$source_rec["source_type"].":".$source_rec["source_id"].":".$source_rec["source_lang"]] =
+				array("type" => $source_rec["source_type"], "id" => $source_rec["source_id"],
+					"lang" => $source_rec["source_lang"]);
 		}
 
 		return $sources;
 	}
 
 	/**
-	* get all targets of a source object (e.g., a page)
-	*
-	* @param	string		$a_source_type		source type (e.g. "lm:pg" | "dbk:pg")
-	* @param	int			$a_source_id		source id
-	*
-	* @return	array		targets (array of array("type", "id", "inst"))
-	*/
-	function _getTargetsOfSource($a_source_type, $a_source_id)
+	 * Get all targets of a source object (e.g., a page)
+	 *
+	 * @param	string		$a_source_type		source type (e.g. "lm:pg" | "dbk:pg")
+	 * @param	int			$a_source_id		source id
+	 *
+	 * @return	array		targets (array of array("type", "id", "inst"))
+	 */
+	function _getTargetsOfSource($a_source_type, $a_source_id, $a_source_lang = "-")
 	{
 		global $ilDB;
 
+		$lang_where = "";
+		if ($a_source_lang != "")
+		{
+			$lang_where = " AND source_lang = ".$ilDB->quote($a_source_lang, "text");
+		}
+
 		$q = "SELECT * FROM int_link WHERE ".
 			"source_type = ".$ilDB->quote($a_source_type, "text")." AND ".
-			"source_id = ".$ilDB->quote((int) $a_source_id, "integer");
+			"source_id = ".$ilDB->quote((int) $a_source_id, "integer").
+			$lang_where;
 
 		$target_set = $ilDB->query($q);
 		$targets = array();
@@ -131,14 +150,14 @@ class ilInternalLink
 	}
 
 	/**
-	* get current id for an import id
-	*
-	* @param	string		$a_type			target type ("PageObject" | "StructureObject" |
-	*										"GlossaryItem" | "MediaObject")
-	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
-	*
-	* @return	string		current target id (e.g. "il__pg_244")
-	*/
+	 * Get current id for an import id
+	 *
+	 * @param	string		$a_type			target type ("PageObject" | "StructureObject" |
+	 *										"GlossaryItem" | "MediaObject")
+	 * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	 *
+	 * @return	string		current target id (e.g. "il__pg_244")
+	 */
 	function _getIdForImportId($a_type, $a_target)
 	{
 		switch($a_type)
@@ -216,14 +235,14 @@ class ilInternalLink
 	}
 
 	/**
-	* check if internal link refers to a valid target
-	*
-	* @param	string		$a_type			target type ("PageObject" | "StructureObject" |
-	*										"GlossaryItem" | "MediaObject")
-	* @param	string		$a_target		target id, e.g. "il__pg_244")
-	*
-	* @return	boolean		true/false
-	*/
+	 * Check if internal link refers to a valid target
+	 *
+	 * @param	string		$a_type			target type ("PageObject" | "StructureObject" |
+	 *										"GlossaryItem" | "MediaObject")
+	 * @param	string		$a_target		target id, e.g. "il__pg_244")
+	 *
+	 * @return	boolean		true/false
+	 */
 	function _exists($a_type, $a_target)
 	{
 		global $tree;
@@ -256,10 +275,10 @@ class ilInternalLink
 
 	
 	/**
-	* extract installation id out of target
-	*
-	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
-	*/
+	 * Extract installation id out of target
+	 *
+	 * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	 */
 	function _extractInstOfTarget($a_target)
 	{
 		if (!is_int(strpos($a_target, "__")))
@@ -274,10 +293,10 @@ class ilInternalLink
 	}
 	
 	/**
-	* removes installation id from target string
-	*
-	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
-	*/
+	 * Removes installation id from target string
+	 *
+	 * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	 */
 	function _removeInstFromTarget($a_target)
 	{
 		if (!is_int(strpos($a_target, "__")))
@@ -292,10 +311,10 @@ class ilInternalLink
 	}
 	
 	/**
-	* extract object id out of target
-	*
-	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
-	*/
+	 * Extract object id out of target
+	 *
+	 * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	 */
 	function _extractObjIdOfTarget($a_target)
 	{
 		$target = explode("_", $a_target);
@@ -303,10 +322,10 @@ class ilInternalLink
 	}
 
 	/**
-	* extract type out of target
-	*
-	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
-	*/
+	 * Extract type out of target
+	 *
+	 * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	 */
 	function _extractTypeOfTarget($a_target)
 	{
 		$target = explode("_", $a_target);
