@@ -1314,7 +1314,49 @@ class ilUtil
 
 		return $isPassword;
 	}
-	
+
+	/**
+	 * @param string $clear_text_password The validated clear text password
+	 * @param ilObjUser|string|array $user Could be an instance of ilObjUser, the users' loginname as string, or an array containing the users' loginname and id
+	 * @param null|string $error_language_variable
+	 * @return bool
+	 */
+	public static function isPasswordValidForUserContext($clear_text_password, $user, &$error_language_variable = null)
+	{
+		include_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
+		$security = ilSecuritySettings::_getInstance();
+
+		$login = null;
+
+		if(is_string($user))
+		{
+			$login = $user;
+		}
+		else if(is_array($user))
+		{
+			// Try to get loginname and user_id from array
+			$login  = $user['login'];
+			$userId = $user['id'];
+		}
+		else if($user instanceof ilObjUser)
+		{
+			$login  = $user->getLogin();
+			$userId = $user->getId();
+		}
+
+		// The user context (user instance or id) can be used for further validation (e.g. compare a password with the users' password history, etc.) in future releases.
+
+		if($login && (int)$security->getPasswordMustNotContainLoginnameStatus() &&
+			strpos(strtolower($clear_text_password), strtolower($login)) !== false
+		)
+		{
+			$error_language_variable = 'password_contains_parts_of_login_err';
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * All valid chars for password
 	 * 
@@ -1380,7 +1422,17 @@ class ilUtil
 		{
 			$infos[] = $lng->txt('password_must_special_chars');			
 		}
-		
+
+		if($security->getPasswordNumberOfUppercaseChars() > 0)
+		{
+			$infos[] = sprintf($lng->txt('password_must_contain_ucase_chars'), $security->getPasswordNumberOfUppercaseChars());
+		}
+
+		if($security->getPasswordNumberOfLowercaseChars() > 0)
+		{
+			$infos[] = sprintf($lng->txt('password_must_contain_lcase_chars'), $security->getPasswordNumberOfLowercaseChars());
+		}
+
 		return implode('<br />', $infos);
 	}
 

@@ -795,6 +795,16 @@ class ilPersonalSettingsGUI
 					$np->setAlert($this->lng->txt("passwd_invalid"));
 				}
 			}
+			$error_lng_var = '';
+			if(
+				$this->ilias->getSetting("passwd_auto_generate") != 1 &&
+				!ilUtil::isPasswordValidForUserContext($_POST["new_password"], $ilUser, $error_lng_var)
+			)
+			{
+				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+				$np->setAlert($this->lng->txt($error_lng_var));
+				$error = true;
+			}
 			if ($this->ilias->getSetting("passwd_auto_generate") != 1 &&
 				($ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded()) &&
 				($_POST["current_password"] == $_POST["new_password"]))

@@ -13873,6 +13873,11 @@ rbac#:#rbac_copy_role_add_perm#:#Add Permissions
 rbac#:#rbac_copy_role_remove_perm#:#Remove Permissions
 rbac#:#rbac_copy_role_copy#:#Copy Permissions
 common#:#ps_password_lowercase_chars_num#:#Lower Case Letters
-common#:#ps_password_lowercase_chars_num_info#:#Please insert the number of lower case letters a password must contain.
+common#:#ps_password_lowercase_chars_num_info#:#Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement.
 common#:#ps_password_uppercase_chars_num#:#Capital Letters
-common#:#ps_password_uppercase_chars_num_info#:#Please insert the number of capital letters a password must contain.
+common#:#ps_password_uppercase_chars_num_info#:#Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement.
+common#:#ps_password_must_not_contain_loginame#:#Prevent Username in Password
+common#:#ps_password_must_not_contain_loginame_info#:#If activated, a password must not contain the username.
+common#:#password_contains_parts_of_login_err#:#The chosen password contains your username. Please insert a new password.
+common#:#password_must_contain_lcase_chars#:#The password must contain at least %s lower case letters.
+common#:#password_must_contain_ucase_chars#:#The password must contain at least %s capital letters.

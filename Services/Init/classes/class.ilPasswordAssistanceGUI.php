@@ -674,6 +674,13 @@ class ilPasswordAssistanceGUI
 				$message = $lng->txt("passwd_invalid");
 				$is_successful = false;
 			}
+
+			$error_lng_var = '';
+			if(!ilUtil::isPasswordValidForUserContext($password1, $userObj, $error_lng_var))
+			{
+				$message = $lng->txt($error_lng_var);
+				$is_successful = false;
+			}
 			
 			// End of validation
 			// If the validation was successful, we change the password of the
