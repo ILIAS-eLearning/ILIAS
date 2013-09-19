@@ -245,7 +245,7 @@ class ilScoringAdjustmentGUI
 
 		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable|ilGuiAnswerScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
-		$form->setTitle( $question->outQuestionType() );
+		$form->setTitle( $question->object->getTitle() . '<br /><small>(' . $question->outQuestionType() . ')</small>' );
 
 		$hidden_q_id = new ilHiddenInputGUI('q_id');
 		$hidden_q_id->setValue( $question_id );

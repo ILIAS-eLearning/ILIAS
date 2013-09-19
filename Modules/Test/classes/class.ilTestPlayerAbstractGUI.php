@@ -974,6 +974,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				}
 			}
 		}
+		$passdata = $this->object->getTestResult($active, $pass);
+		$overview = $testevaluationgui->getPassListOfAnswers($passdata, $active, $pass, true, false, false, true);
+		$filename = ilUtil::getWebspaceDir() . '/assessment/scores-'.$this->object->getId() . '-' . $active . '-' . $pass . '.pdf';
+		ilTestPDFGenerator::generatePDF($overview, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
+		$archiver->handInTestResult($active, $pass, $filename);
+		unlink($filename);
+		
 		return;
 	}
 	

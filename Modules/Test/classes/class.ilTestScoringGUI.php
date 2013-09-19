@@ -305,7 +305,11 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			));
 
 			$notification->send();
-		}	
+		}
+
+		require_once './Modules/Test/classes/class.ilTestScoring.php';
+		$scorer = new ilTestScoring($this->object);
+		$scorer->recalculateSolutions();
 
 		ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1), true);
 		$ilCtrl->redirect($this, 'showManScoringParticipantScreen');

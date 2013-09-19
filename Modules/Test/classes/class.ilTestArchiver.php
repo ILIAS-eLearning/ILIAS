@@ -125,7 +125,7 @@ class ilTestArchiver
 		$pdf_new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP
 			. self::PDF_SUBMISSION_FILENAME;
 		copy( $pdf_path, $pdf_new_path );
-
+# /home/mbecker/public_html/ilias/trunk-primary/extern/default/tst_data/archive/tst_350/2013/09/19/80_1_root_user_/test_submission.pdf
 		$html_new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP
 			. self::HTML_SUBMISSION_FILENAME;
 		file_put_contents($html_new_path, $html_string);
@@ -446,6 +446,7 @@ class ilTestArchiver
 	 */
 	protected function hasPassDataDirectory($active_fi, $pass) 
 	{
+		$pass_data_dir = $this->getPassDataDirectory($active_fi, $pass);
 		return is_dir($this->getPassDataDirectory($active_fi, $pass));
 	}
 
@@ -473,20 +474,19 @@ class ilTestArchiver
 	 */
 	protected function getPassDataDirectory($active_fi, $pass) 
 	{
-		$data_index_entry = $this->archive_data_index[$active_fi . '|' . $pass];
-		if ( $data_index_entry != null && is_dir( $data_index_entry['directory'] ) )
+		foreach ($this->archive_data_index as $data_index_entry)
 		{
-			array_shift($data_index_entry);
-			return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
+			if ( $data_index_entry != null && $data_index_entry['identifier'] == $active_fi.'|'.$pass )
+			{
+				array_shift($data_index_entry);
+				return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
+			}
 		}
-		else
-		{
-			global $ilUser;
-			$this->appendToArchiveDataIndex(date(DATE_ISO8601), $active_fi, $pass, $ilUser->getFirstname(), $ilUser->getLastname(), $ilUser->getMatriculation());
-			$data_index_entry = $this->archive_data_index[$active_fi . '|' . $pass];
-			array_shift($data_index_entry);
-			return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
-		}
+		global $ilUser;
+		$this->appendToArchiveDataIndex(date(DATE_ISO8601), $active_fi, $pass, $ilUser->getFirstname(), $ilUser->getLastname(), $ilUser->getMatriculation());
+		$data_index_entry = $this->getPassDataDirectory($active_fi, $pass);
+		array_shift($data_index_entry);
+		return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
 	}
 
 	/**
@@ -610,7 +610,7 @@ class ilTestArchiver
 				$line_data['directory'] = $line_items[5];
 				$contents[] = $line_data;
 			}
-		}	
+		}
 		return $contents;
 	}
 
@@ -630,15 +630,20 @@ class ilTestArchiver
 	{
 		$line = $this->determinePassDataPath( $date, $active_fi, $pass, $user_firstname, $user_lastname, $matriculation );
 		
-		$this->archive_data_index[$active_fi . '|' . $pass] = $line;
+		$this->archive_data_index[] = $line;
 		$output_contents = '';
 		
 		foreach ($this->archive_data_index as $line_data)
 		{
+			if($line_data['identifier'] == "|")
+			{
+				continue;
+			}
 			$output_contents .= implode('|', $line_data) . "\n";
 		}
 		
 		file_put_contents($this->getTestArchive() . self::DIR_SEP . self::DATA_INDEX_FILENAME, $output_contents);
+		$this->readArchiveDataIndex();
 		return;
 	}
 

@@ -58,12 +58,27 @@ class ilTestScoring
 	 */
 	public function recalculatePasses($userdata, $active_id)
 	{
+		require_once './Modules/Test/classes/class.ilTestEvaluationGUI.php'; // Below!
+		require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
+		require_once './Modules/Test/classes/class.ilTestArchiver.php';
+
 		$passes = $userdata->getPasses();
 		foreach ($passes as $pass => $passdata)
 		{
 			if (is_object( $passdata ))
 			{
 				$this->recalculatePass( $passdata, $active_id, $pass );
+				if ($this->test->getEnableArchiving())
+				{
+					// requires out of the loop!
+					$test_evaluation_gui = new ilTestEvaluationGUI($this->test);
+					$overview = $test_evaluation_gui->getPassListOfAnswers($passdata,$active_id, $pass, true, false, false, true);
+					$filename = ilUtil::getWebspaceDir() . '/assessment/scores-'.$this->test->getId() . '-' . $active_id . '-' . $pass . '.pdf';
+					ilTestPDFGenerator::generatePDF($overview, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
+					$archiver = new ilTestArchiver($this->test->getId());
+					$archiver->handInTestResult($active_id, $pass, $filename);
+					unlink($filename);
+				}
 			}
 		}
 	}
