@@ -18534,4 +18534,16 @@ while($row = $ilDB->fetchAssoc($set))
 		));
 	}
 ?>
+<#4098>
+<?php
+	if(!$ilDB->tableColumnExists('page_style_usage', 'page_lang'))
+	{
+		$ilDB->addTableColumn('page_style_usage', 'page_lang', array(
+			'type' => 'text',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => "-"
+		));
+	}
+?>
 

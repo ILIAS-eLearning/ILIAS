@@ -2376,7 +2376,7 @@ abstract class ilPageObject
 		$this->saveInternalLinks($a_domdoc);
 
 		// save style usage
-		$this->saveStyleUsage($a_xml);
+		$this->saveStyleUsage($a_domdoc);
 		
 		// pc classes hook
 		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
@@ -2531,9 +2531,16 @@ abstract class ilPageObject
 							"nr" => 			array("integer", (int) $last_nr["mnr"] + 1)
 							));
 						
+						$old_content = $old_rec["content"];
+						$old_domdoc = new DOMDocument();
+						$old_nr = $last_nr["mnr"] + 1;
+						$old_domdoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>'.$old_content);
+						
+						// after history entry creation event
+						$this->__afterHistoryEntry($old_domdoc, $old_content, $old_nr);
+						
 						// @todo 1: after update hook needed
 						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
-						$this->saveStyleUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveContentIncludeUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveSkillUsage($old_rec["content"], $last_nr["mnr"] + 1);
@@ -2609,7 +2616,7 @@ abstract class ilPageObject
 		$this->saveMobUsage("<dummy></dummy>");
 
 		// delete style usages
-		$this->saveStyleUsage("<dummy></dummy>");
+		$this->deleteStyleUsages(false);
 
 		// delete style usages
 		$this->saveContentIncludeUsage("<dummy></dummy>");
@@ -2698,6 +2705,27 @@ abstract class ilPageObject
 		}
 	}
 	
+	/**
+	 * Before deletion handler (internal).
+	 * 
+	 * @param
+	 */
+	protected final function __afterHistoryEntry($a_old_domdoc, $a_old_content, $a_old_nr)
+	{
+		// save style usage
+		$this->saveStyleUsage($a_old_domdoc, $a_old_nr);
+		
+		// pc classes hook
+		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+		$defs = ilCOPagePCDef::getPCDefinitions();
+		foreach ($defs as $def)
+		{
+			ilCOPagePCDef::requirePCClassByName($def["name"]);
+			$cl = $def["pc_class"];
+			call_user_func($def["pc_class"].'::afterPageHistoryEntry', $this, $a_old_domdoc, $a_old_content, $a_old_nr);
+		}
+	}
+
 	/**
 	* save all keywords
 	*
@@ -2967,51 +2995,49 @@ abstract class ilPageObject
 	* @param	string		$a_xml		xml data of page
 	*/
 	// @todo: move to specific classes, style useag info in xml
-	function saveStyleUsage($a_xml, $a_old_nr = 0)
+	function saveStyleUsage($a_domdoc, $a_old_nr = 0)
 	{
 		global $ilDB;
 
-		$doc = domxml_open_mem($a_xml);
-
 		// media aliases
-		$xpc = xpath_new_context($doc);
+		$xpath = new DOMXPath($a_domdoc);
 		$path = "//Paragraph | //Section | //MediaAlias | //FileItem".
 			" | //Table | //TableData | //Tabs | //List";
-		$res = xpath_eval($xpc, $path);
+		$nodes = $xpath->query($path);	
 		$usages = array();
-		for ($i=0; $i < count($res->nodeset); $i++)
+		foreach($nodes as $node)
 		{
-			switch ($res->nodeset[$i]->node_name())
+			switch ($node->localName)
 			{
 				case "Paragraph":
-					$sname = $res->nodeset[$i]->get_attribute("Characteristic");
+					$sname = $node->getAttribute("Characteristic");
 					$stype = "text_block";
 					$template = 0;
 					break;
 
 				case "Section":
-					$sname = $res->nodeset[$i]->get_attribute("Characteristic");
+					$sname = $node->getAttribute("Characteristic");
 					$stype = "section";
 					$template = 0;
 					break;
 
 				case "MediaAlias":
-					$sname = $res->nodeset[$i]->get_attribute("Class");
+					$sname = $node->getAttribute("Class");
 					$stype = "media_cont";
 					$template = 0;
 					break;
 
 				case "FileItem":
-					$sname = $res->nodeset[$i]->get_attribute("Class");
+					$sname = $node->getAttribute("Class");
 					$stype = "flist_li";
 					$template = 0;
 					break;
 
 				case "Table":
-					$sname = $res->nodeset[$i]->get_attribute("Template");
+					$sname = $node->getAttribute("Template");
 					if ($sname == "")
 					{
-						$sname = $res->nodeset[$i]->get_attribute("Class");
+						$sname = $node->getAttribute("Class");
 						$stype = "table";
 						$template = 0;
 					}
@@ -3023,20 +3049,20 @@ abstract class ilPageObject
 					break;
 
 				case "TableData":
-					$sname = $res->nodeset[$i]->get_attribute("Class");
+					$sname = $node->getAttribute("Class");
 					$stype = "table_cell";
 					$template = 0;
 					break;
 
 				case "Tabs":
-					$sname = $res->nodeset[$i]->get_attribute("Template");
+					$sname = $node->getAttribute("Template");
 					if ($sname != "")
 					{
-						if ($res->nodeset[$i]->get_attribute("Type") == "HorizontalAccordion")
+						if ($node->getAttribute("Type") == "HorizontalAccordion")
 						{
 							$stype = "haccordion";
 						}
-						if ($res->nodeset[$i]->get_attribute("Type") == "VerticalAccordion")
+						if ($node->getAttribute("Type") == "VerticalAccordion")
 						{
 							$stype = "vaccordion";
 						}
@@ -3045,8 +3071,8 @@ abstract class ilPageObject
 					break;
 				
 				case "List":
-					$sname = $res->nodeset[$i]->get_attribute("Class");
-					if ($res->nodeset[$i]->get_attribute("Type") == "Ordered")
+					$sname = $node->getAttribute("Class");
+					if ($node->getAttribute("Type") == "Ordered")
 					{
 						$stype = "list_o";
 					}
@@ -3064,18 +3090,16 @@ abstract class ilPageObject
 			}
 		}
 		
-		$ilDB->manipulate("DELETE FROM page_style_usage WHERE ".
-			" page_id = ".$ilDB->quote($this->getId(), "integer").
-			" AND page_type = ".$ilDB->quote($this->getParentType(), "text").
-			" AND page_nr = ".$ilDB->quote($a_old_nr, "integer")
-			);
+		
+		$this->deleteStyleUsages($a_old_nr);
 		
 		foreach ($usages as $u)
 		{
 			$ilDB->manipulate("INSERT INTO page_style_usage ".
-				"(page_id, page_type, page_nr, template, stype, sname) VALUES (".
+				"(page_id, page_type, page_lang, page_nr, template, stype, sname) VALUES (".
 				$ilDB->quote($this->getId(), "integer").",".
 				$ilDB->quote($this->getParentType(), "text").",".
+				$ilDB->quote($this->getLanguage(), "text").",".
 				$ilDB->quote($a_old_nr, "integer").",".
 				$ilDB->quote($u["template"], "integer").",".
 				$ilDB->quote($u["stype"], "text").",".
@@ -3083,6 +3107,30 @@ abstract class ilPageObject
 				")");
 		}
 	}
+	
+	/**
+	 * Delete style usages
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteStyleUsages($a_old_nr = 0)
+	{
+		global $ilDB;
+		
+		if ($a_old_nr !== false)
+		{
+			$and_old_nr = " AND page_nr = ".$ilDB->quote($a_old_nr, "integer");
+		}
+		
+		$ilDB->manipulate("DELETE FROM page_style_usage WHERE ".
+			" page_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND page_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND page_lang = ".$ilDB->quote($this->getLanguage(), "text").
+			$and_old_nr
+			);		
+	}
+	
 
 	/**
 	* Get last update of included elements (media objects and files).

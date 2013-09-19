@@ -375,10 +375,10 @@ abstract class ilPageContent
 	/**
 	 * After page has been updated (or created)
 	 *
-	 * @param object page object
+	 * @param object $a_page page object
 	 * @param DOMDocument $a_domdoc dom document
-	 * @param string xml
-	 * @param bool true on creation, otherwise false
+	 * @param string $a_xml xml
+	 * @param bool $a_creation true on creation, otherwise false
 	 */
 	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
 	{
@@ -387,9 +387,21 @@ abstract class ilPageContent
 	/**
 	 * Before page is being deleted
 	 *
-	 * @param object page object
+	 * @param object $a_page page object
 	 */
 	static function beforePageDelete($a_page)
+	{
+	}
+
+	/**
+	 * After page history entry has been created
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_old_domdoc old dom document
+	 * @param string $a_old_xml old xml
+	 * @param integer $a_old_nr history number
+	 */
+	static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
 	{
 	}
 	
