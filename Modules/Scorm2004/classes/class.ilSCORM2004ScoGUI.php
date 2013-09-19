@@ -245,7 +245,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		foreach($tree->getSubTree($tree->getNodeData($this->node_object->getId()),true,'page') as $page)
 		{
 			// get question ids
-			$qids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
+			include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+			$qids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
 			if (count($qids) > 0)
 			{
 				// output questions

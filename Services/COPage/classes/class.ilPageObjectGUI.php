@@ -1271,7 +1271,7 @@ class ilPageObjectGUI
 			if($this->getOutputMode() == "edit")
 			{
 				$links = ilInternalLink::_getTargetsOfSource($this->obj->getParentType().":pg",
-					$this->obj->getId());
+					$this->obj->getId(), $this->obj->getLanguage());
 				$mob_links = array();
 				foreach($links as $link)
 				{
@@ -3520,9 +3520,20 @@ class ilPageObjectGUI
 	 */
 	function activateMultiLanguage()
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser;
+		global $tpl, $lng;
 		
 		ilUtil::sendInfo($lng->txt("cont_select_master_lang"));
+		
+		$form = $this->getMultiLangForm();
+		$tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Get multi language form
+	 */
+	function getMultiLangForm()
+	{
+		global $tpl, $lng, $ilCtrl, $ilUser;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -3535,13 +3546,71 @@ class ilPageObjectGUI
 		$si->setValue($ilUser->getLanguage());
 		$form->addItem($si);
 		
-		$form->addCommandButton("setMasterLanguage", $lng->txt("save"));
+		// additional languages
+		include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$options = ilMDLanguageItem::_getLanguages();
+		$options = array("" => $lng->txt("please_select")) + $options;
+		$si = new ilSelectInputGUI($this->lng->txt("cont_additional_langs"), "additional_langs");
+		$si->setOptions($options);
+		$si->setMulti(true);
+		$form->addItem($si);
+		
+		$form->addCommandButton("saveMultilingualitySettings", $lng->txt("save"));
 		$form->addCommandButton("edit", $lng->txt("cancel"));
 		$form->setTitle($lng->txt("cont_activate_multi_lang"));
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		
-		$tpl->setContent($form->getHTML());
+		return $form;
+	}
+	
+	/**
+	 * Save multlilinguality settings
+	 */
+	function saveMultilingualitySettings()
+	{
+		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+		$pg_ml = new ilPageMultiLang($this->getPageObject()->getParentType(), $this->getPageObject()->getParentId());
 		
+		$form = $this->getMultiLangForm();
+		if ($form->checkInput())
+		{
+			$ml = $form->getInput("master_lang");
+			$pg_ml->setMasterLanguage($ml);
+			
+			$ad = $form->getInput("additional_langs");
+			foreach ($ad as $l)
+			{
+				if ($l != $ml && $l != "")
+				{
+					$pg_ml->addLanguage($l);
+				}
+			}
+			$pg_ml->save();
+		}
+	}
+	
+	/**
+	* Save  form
+	*
+	*/
+	public function save()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initForm("create");
+		if ($this->form->checkInput())
+		{
+			$this->set($this->form->getInput(""));
+	
+			save();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "");
+		}
+		else
+		{
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
 	}
 	
 }

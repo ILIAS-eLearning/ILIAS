@@ -147,6 +147,84 @@ class ilPCQuestion extends ilPageContent
 		return array("ed_insert_pcqst", "empty_question", "pc_qst");
 	}
 
+	/**
+	 * After page has been updated (or created)
+	 *
+	 * @param object page object
+	 * @param DOMDocument $a_domdoc dom document
+	 * @param string xml
+	 * @param bool true on creation, otherwise false
+	 */
+	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
+	{
+		global $ilDB;
+		
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		
+		$ilDB->manipulateF("DELETE FROM page_question WHERE page_parent_type = %s ".
+			" AND page_id = %s AND page_lang = %s", array("text", "integer", "text"),
+			array($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage()));
+
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query('//Question');	
+		$q_ids = array();
+		foreach ($nodes as $node)
+		{
+			$q_ref = $node->getAttribute("QRef");
+
+			$inst_id = ilInternalLink::_extractInstOfTarget($q_ref);
+			if (!($inst_id > 0))
+			{
+				$q_id = ilInternalLink::_extractObjIdOfTarget($q_ref);
+				if ($q_id > 0)
+				{
+					$q_ids[$q_id] = $q_id;
+				}
+			}
+		}
+		foreach($q_ids as $qid)
+		{
+			$ilDB->manipulateF("INSERT INTO page_question (page_parent_type, page_id, page_lang, question_id)".
+				" VALUES (%s,%s,%s,%s)",
+				array("text", "integer", "text", "integer"),
+				array($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage(), $qid));
+		}
+
+	}
 	
+	/**
+	 * Before page is being deleted
+	 *
+	 * @param object page object
+	 */
+	static function beforePageDelete($a_page)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulateF("DELETE FROM page_question WHERE page_parent_type = %s ".
+			" AND page_id = %s AND page_lang = %s", array("text", "integer", "text"),
+			array($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage()));
+	}
+	
+	/**
+	 * Get all questions of a page
+	 */
+	static function _getQuestionIdsForPage($a_parent_type, $a_page_id, $a_lang = "-")
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF("SELECT * FROM page_question WHERE page_parent_type = %s ".
+			" AND page_id = %s AND page_lang = %s",
+			array("text", "integer", "text"),
+			array($a_parent_type, $a_page_id, $a_lang));
+		$q_ids = array();
+		while ($rec = $ilDB->fetchAssoc($res))
+		{
+			$q_ids[] = $rec["question_id"];
+		}
+
+		return $q_ids;
+	}
+
 }
 ?>

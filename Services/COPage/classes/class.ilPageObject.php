@@ -433,10 +433,30 @@ abstract class ilPageObject
 		unset($this->dom);
 	}
 
+	/**
+	 * Deprecated php4DomDocument
+	 */
 	function getDom()
 	{
 		return $this->dom;
 	}
+	
+	/**
+	 * Get dom doc (php5 dom document)
+	 *
+	 * @param
+	 * @return
+	 */
+	function getDomDoc()
+	{
+		if ($this->dom instanceof php4DOMDocument)
+		{
+			return $this->dom->myDOMDocument;
+		}
+		
+		return $this->dom;
+	}
+	
 
 	/**
 	* set id
@@ -2214,14 +2234,17 @@ abstract class ilPageObject
 			{
 //echo "B";
 				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
-				$page_obj = new ilLMPage($source["id"], false);
-				if  (!$page_obj->page_not_found)
+				if (self::_exists("lm", $source["id"], $source["lang"]))
 				{
-//echo "C";
-					$page_obj->handleImportRepositoryLink($a_rep_import_id,
-						$a_rep_type, $a_rep_ref_id);
+					$page_obj = new ilLMPage($source["id"], 0, $source["lang"]);
+					if  (!$page_obj->page_not_found)
+					{
+	//echo "C";
+						$page_obj->handleImportRepositoryLink($a_rep_import_id,
+							$a_rep_type, $a_rep_ref_id);
+					}
+					$page_obj->update();
 				}
-				$page_obj->update();
 			}
 		}
 	}
@@ -2265,15 +2288,19 @@ abstract class ilPageObject
 			$this->setXMLContent("<PageObject></PageObject>");
 		}
 		
-		$iel = $this->containsDeactivatedElements($this->getXMLContent());
-		$inl = $this->containsIntLinks($this->getXMLContent());
+		$content = $this->getXMLContent();
+		$this->buildDom(true);
+		$dom_doc = $this->getDomDoc();
+		
+		$iel = $this->containsDeactivatedElements($content);
+		$inl = $this->containsIntLinks($content);
 				
 		// create object
 		$ilDB->insert("page_object", array(
 			"page_id" => array("integer", $this->getId()),
 			"parent_id" => array("integer", $this->getParentId()),
 			"lang" => array("text", $this->getLanguage()),
-			"content" => array("clob", $this->getXMLContent()),
+			"content" => array("clob", $content),
 			"parent_type" => array("text", $this->getParentType()),
 			"create_user" => array("integer", $ilUser->getId()),
 			"last_change_user" => array("integer", $ilUser->getId()),
@@ -2283,12 +2310,21 @@ abstract class ilPageObject
 			"created" => array("timestamp", ilUtil::now()),
 			"last_change" => array("timestamp", ilUtil::now())
 			));
+		
+		// after update event
+		$this->__afterUpdate($dom_doc, $content, true);
+
 	}
 
 
 	/**
-	* updates page object with current xml content
-	*/
+	 * Updates page object with current xml content
+	 *
+	 * This function is currently (4.4.0 alpha) called by:
+	 * - ilContObjParser (LM and Glossary import parser)
+	 * - ilSCORM13Package->dbImportSco (SCORM importer)
+	 * - assQuestion->copyPageOfQuestion
+	 */
 	function updateFromXML()
 	{
 		global $lng, $ilDB, $ilUser;
@@ -2297,11 +2333,15 @@ abstract class ilPageObject
 //echo "update:".ilUtil::prepareDBString(($this->getXMLContent())).":<br>";
 //echo "update:".htmlentities($this->getXMLContent()).":<br>";
 
-		$iel = $this->containsDeactivatedElements($this->getXMLContent());
-		$inl = $this->containsIntLinks($this->getXMLContent());
+		$content = $this->getXMLContent();
+		$this->buildDom(true);
+		$dom_doc = $this->getDomDoc();
+
+		$iel = $this->containsDeactivatedElements($content);
+		$inl = $this->containsIntLinks($content);
 
 		$ilDB->update("page_object", array(
-			"content" => array("clob", $this->getXMLContent()),
+			"content" => array("clob", $content),
 			"parent_id" => array("integer", $this->getParentId()),
 			"last_change_user" => array("integer", $ilUser->getId()),
 			"last_change" => array("timestamp", ilUtil::now()),
@@ -2316,20 +2356,101 @@ abstract class ilPageObject
 			"lang" => array("text", $this->getLanguage())
 			));
 
-			// 	save style usage
+		// after update event
+		$this->__afterUpdate($dom_doc, $content);
 
-			// @todo: generalize, style usage info
-			$this->saveStyleUsage($this->getXMLContent());
-			
-			// save internal link information
-			$this->saveInternalLinks($this->getXMLContent());
 		return true;
 	}
+	
+	/**
+	 * After update event handler (internal). The hooks are e.g. for
+	 * storing any dependent relations/references in the database.
+	 * 
+	 * @param
+	 */
+	protected final function __afterUpdate($a_domdoc, $a_xml, $a_creation = false)
+	{
+		// save internal link information
+		// the page object is responsible to do this, since it "offers" the
+		// internal link feature pc and page classes
+		$this->saveInternalLinks($a_domdoc);
+
+		// save style usage
+		$this->saveStyleUsage($a_xml);
+		
+		// pc classes hook
+		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+		$defs = ilCOPagePCDef::getPCDefinitions();
+		foreach ($defs as $def)
+		{
+			ilCOPagePCDef::requirePCClassByName($def["name"]);
+			$cl = $def["pc_class"];
+			call_user_func($def["pc_class"].'::afterPageUpdate', $this, $a_domdoc, $a_xml, $a_creation);
+		}
+		
+		// pc media
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$mob_ids = ilObjMediaObject::_getMobsOfObject(
+			$this->getParentType().":pg", $this->getId());
+		$this->saveMobUsage($a_xml);
+		foreach($mob_ids as $mob)	// check, whether media object can be deleted
+		{
+			if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
+			{
+				$mob_obj = new ilObjMediaObject($mob);
+				$usages = $mob_obj->getUsages(false);
+				if (count($usages) == 0)	// delete, if no usage exists
+				{
+					$mob_obj->delete();
+				}
+			}
+		}
+		
+		// pc paragraph
+		$this->saveMetaKeywords($a_xml);
+		$this->saveAnchors($a_xml);
+
+		// pc filelist
+		include_once("./Modules/File/classes/class.ilObjFile.php");
+		$file_ids = ilObjFile::_getFilesOfObject(
+			$this->getParentType().":pg", $this->getId());
+		$this->saveFileUsage();
+		foreach($file_ids as $file)	// check, whether file object can be deleted
+		{
+			if (ilObject::_exists($file))
+			{
+				$file_obj = new ilObjFile($file, false);
+				$usages = $file_obj->getUsages();
+				if (count($usages) == 0)	// delete, if no usage exists
+				{
+					if ($file_obj->getMode() == "filelist")		// non-repository object
+					{
+						$file_obj->delete();
+					}
+				}
+			}
+		}
+
+		// pc content include
+		$this->saveContentIncludeUsage($a_xml);
+		
+		// pc skill
+		$this->saveSkillUsage($a_xml);
+
+		
+		// call page hook
+		
+		// call other update listeners
+		$this->callUpdateListeners();
+	}
+	
+	
 
 	/**
-	* update complete page content in db (dom xml content is used)
-	*/
-	function update($a_validate = true, $a_no_history = false, $skip_handle_usages = false)
+	 * update complete page content in db (dom xml content is used)
+	 * 
+	 */
+	function update($a_validate = true, $a_no_history = false)
 	{
 		global $lng, $ilDB, $ilUser, $ilLog, $ilCtrl;
 		
@@ -2360,7 +2481,10 @@ abstract class ilPageObject
 			// related -> plugins should be able to hook in!?
 			$this->performAutomaticModifications();
 			
+			// get xml content
 			$content = $this->getXMLFromDom();
+			$dom_doc = $this->getDomDoc();
+			
 			// this needs to be locked
 
 			// write history entry
@@ -2425,11 +2549,9 @@ abstract class ilPageObject
 			$em = (trim($content) == "<PageObject/>")
 				? 1
 				: 0;
-				
 			
+			// @todo: pass dom instead?
 			$iel = $this->containsDeactivatedElements($content);
-			
-			// @todo 1: hook needed?
 			$inl = $this->containsIntLinks($content);
 				
 			$ilDB->update("page_object", array(
@@ -2449,63 +2571,10 @@ abstract class ilPageObject
 				"parent_type" => array("text", $this->getParentType()),
 				"lang" => array("text", $this->getLanguage())
 				));
-				
-			// @todo 1: hook!
-			if (!$skip_handle_usages)
-			{
-				// handle media object usage
-				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-				$mob_ids = ilObjMediaObject::_getMobsOfObject(
-					$this->getParentType().":pg", $this->getId());
-				$this->saveMobUsage($this->getXMLFromDom());
-				$this->saveMetaKeywords($this->getXMLFromDom());
-				foreach($mob_ids as $mob)	// check, whether media object can be deleted
-				{
-					if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
-					{
-						$mob_obj = new ilObjMediaObject($mob);
-						$usages = $mob_obj->getUsages(false);
-						if (count($usages) == 0)	// delete, if no usage exists
-						{
-							$mob_obj->delete();
-						}
-					}
-				}
-				
-				// handle file usages
-				include_once("./Modules/File/classes/class.ilObjFile.php");
-				$file_ids = ilObjFile::_getFilesOfObject(
-					$this->getParentType().":pg", $this->getId());
-				$this->saveFileUsage();
-				foreach($file_ids as $file)	// check, whether file object can be deleted
-				{
-					if (ilObject::_exists($file))
-					{
-						$file_obj = new ilObjFile($file, false);
-						$usages = $file_obj->getUsages();
-						if (count($usages) == 0)	// delete, if no usage exists
-						{
-							if ($file_obj->getMode() == "filelist")		// non-repository object
-							{
-								$file_obj->delete();
-							}
-						}
-					}
-				}
-				
-				// save style usage
-				$this->saveStyleUsage($this->getXMLFromDom());
-				
-				// save content include usage
-				$this->saveContentIncludeUsage($this->getXMLFromDom());
-				$this->saveSkillUsage($this->getXMLFromDom());
-			}
-			
-			// save internal link information
-			// @todo 1: hook!
-			$this->saveInternalLinks($this->getXMLFromDom());
-			$this->saveAnchors($this->getXMLFromDom());
-			$this->callUpdateListeners();
+						
+			// after update event
+			$this->__afterUpdate($dom_doc, $content);
+
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
 			return true;
 		}
@@ -2515,10 +2584,11 @@ abstract class ilPageObject
 		}
 	}
 
+	
 
 	/**
-	* delete page object
-	*/
+	 * delete page object
+	 */
 	function delete()
 	{
 		global $ilDB;
@@ -2533,9 +2603,8 @@ abstract class ilPageObject
 			$files = $this->collectFileItems();
 		}
 
-		
-		// @todo 1: delete hook!
-		
+		$this->__beforeDelete();
+
 		// delete mob usages
 		$this->saveMobUsage("<dummy></dummy>");
 
@@ -2547,7 +2616,7 @@ abstract class ilPageObject
 		$this->saveSkillUsage("<dummy></dummy>");
 
 		// delete internal links
-		$this->saveInternalLinks("<dummy></dummy>");
+		$this->deleteInternalLinks();
 
 		// delete anchors
 		$this->saveAnchors("<dummy></dummy>");
@@ -2611,6 +2680,24 @@ abstract class ilPageObject
 		*/
 	}
 
+	/**
+	 * Before deletion handler (internal).
+	 * 
+	 * @param
+	 */
+	protected final function __beforeDelete()
+	{
+		// pc classes hook
+		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+		$defs = ilCOPagePCDef::getPCDefinitions();
+		foreach ($defs as $def)
+		{
+			ilCOPagePCDef::requirePCClassByName($def["name"]);
+			$cl = $def["pc_class"];
+			call_user_func($def["pc_class"].'::beforePageDelete', $this);
+		}
+	}
+	
 	/**
 	* save all keywords
 	*
@@ -3015,29 +3102,37 @@ abstract class ilPageObject
 	}
 
 	/**
+	 * Delete internal links
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteInternalLinks()
+	{
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		ilInternalLink::_deleteAllLinksOfSource($this->getParentType().":pg", $this->getId(),
+			$this->getLanguage());	
+	}
+	
+	
+	/**
 	 * save internal links of page
 	 *
 	 * @param	string		xml page code
 	 */
 	// @todo: move to specific classes, internal link use info
-	function saveInternalLinks($a_xml)
+	function saveInternalLinks($a_domdoc)
 	{
 		global $ilDB;
+		
+		$this->deleteInternalLinks();
 
-//echo "<br>PageObject::saveInternalLinks[".$this->getId()."]";
-		$doc = domxml_open_mem($a_xml);
-
-
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
-		ilInternalLink::_deleteAllLinksOfSource($this->getParentType().":pg", $this->getId());
-
-		// get all internal links
-		$xpc = xpath_new_context($doc);
-		$path = "//IntLink";
-		$res =& xpath_eval($xpc, $path);
-		for ($i=0; $i < count($res->nodeset); $i++)
+		// query IntLink elements		
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query('//IntLink');
+		foreach($nodes as $node)
 		{
-			$link_type = $res->nodeset[$i]->get_attribute("Type");
+			$link_type = $node->getAttribute("Type");
 
 			switch ($link_type)
 			{
@@ -3066,7 +3161,7 @@ abstract class ilPageObject
 					break;
 			}
 
-			$target = $res->nodeset[$i]->get_attribute("Target");
+			$target = $node->getAttribute("Target");
 			$target_arr = explode("_", $target);
 			$t_id = $target_arr[count($target_arr) - 1];
 
@@ -3083,67 +3178,13 @@ abstract class ilPageObject
 			if ($t_id > 0)
 			{
 				ilInternalLink::_saveLink($this->getParentType().":pg", $this->getId(), $t_type,
-					$t_id, $t_inst);
+					$t_id, $t_inst, $this->getLanguage());
 			}
-		}
-
-		// *** STEP 2: Save question references of page ***
-
-		// delete all reference records
-		$ilDB->manipulateF("DELETE FROM page_question WHERE page_parent_type = %s ".
-			" AND page_id = %s", array("text", "integer"),
-			array($this->getParentType(), $this->getId()));
-
-		// save question references of page
-		$doc = domxml_open_mem($a_xml);
-		$xpc = xpath_new_context($doc);
-		$path = "//Question";
-		$res = xpath_eval($xpc, $path);
-		$q_ids = array();
-		for ($i=0; $i < count($res->nodeset); $i++)
-		{
-			$q_ref = $res->nodeset[$i]->get_attribute("QRef");
-
-			$inst_id = ilInternalLink::_extractInstOfTarget($q_ref);
-			if (!($inst_id > 0))
-			{
-				$q_id = ilInternalLink::_extractObjIdOfTarget($q_ref);
-				if ($q_id > 0)
-				{
-					$q_ids[$q_id] = $q_id;
-				}
-			}
-		}
-		foreach($q_ids as $qid)
-		{
-			$ilDB->manipulateF("INSERT INTO page_question (page_parent_type, page_id, question_id)".
-				" VALUES (%s,%s,%s)",
-				array("text", "integer", "integer"),
-				array($this->getParentType(), $this->getId(), $qid));
 		}
 	}
 
 // @todo begin: move to specific classes
 
-	/**
-	 * Get all questions of a page
-	 */
-	static function _getQuestionIdsForPage($a_parent_type, $a_page_id)
-	{
-		global $ilDB;
-
-		$res = $ilDB->queryF("SELECT * FROM page_question WHERE page_parent_type = %s ".
-			" AND page_id = %s",
-			array("text", "integer"),
-			array($a_parent_type, $a_page_id));
-		$q_ids = array();
-		while ($rec = $ilDB->fetchAssoc($res))
-		{
-			$q_ids[] = $rec["question_id"];
-		}
-
-		return $q_ids;
-	}
 
 	/**
 	* save anchors
@@ -5105,6 +5146,31 @@ abstract class ilPageObject
 	 */
 	function beforePageContentUpdate($a_page_content)
 	{
+		
+	}
+	
+	/**
+	 * Modify page language
+	 *
+	 * @param
+	 * @return
+	 */
+	function modifyPageLanguage($a_parent_type, $a_page_id, $a_lang, $a_target_lang)
+	{
+		if ($a_lang == "" || $a_target_lang == "" || $a_lang == $a_target_lang)
+		{
+			return;
+		}
+		
+		if (self::_exists($a_parent_type, $a_page_id, $a_target_lang))
+		{
+			include_once("./Services/COPage/exceptions/class.ilCOPageAlreadyExists.php");
+			throw new ilCOPageAlreadyExists("Error: modifyPageLanguage: Page ".$a_parent_type."-".$a_page_id."-".$a_target_lang." already exists.");
+		}
+		
+		// update
+		
+		
 		
 	}
 	

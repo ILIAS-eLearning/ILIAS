@@ -73,13 +73,37 @@ Multi lang
 
 Dependencies
   - int_link: new field source_lang, Services/COPage/classes/class.ilInternalLink.php
+  	-> make this a page service!
+  	- db table extended (lang): done
+  	- ilInternalLink adopted: done
+  	- ilPageObject and ilPageObjectGUI adopted: done
+  	- update and delete events refactored: done
+  - page_question (currently in saveInternalLinks)
+    -> pc_question
+    - db table extended (lang): done
+    - update and delete events refactored / moved code to ilPCQuestion: done
   - mob_usage: new field usage_lang, Services/MediaObject/classes/class.ilObjMediaObject.php
+    -> pc_mob
   - page_anchor: new field page_lang, Services/COPage/classes/class.ilPageObject.php
+    -> pc_paragraph
   - page_pc_usage: new field usage_lang, Services/COPage/classes/class.ilPageContentUsage.php
+    -> pc_content_include, skill?
   - page_style_usage: new field page_lang, Services/COPage/classes/class.ilPageObject.php
-  - file_usage: new field usage_lang, Modules/File/classes/class.ilObjFile.php 
+    -> 
+  - file_usage: new field usage_lang, Modules/File/classes/class.ilObjFile.php
+    -> pc_file_list, verifications?
   - meta keywords? (currently just added)
+    -> pc_paragraph
   
+- update/updateXML must pass lang to dependencies
+- writeHistory must call dependencies
+- delete must call dependencies
+- modifyPageLanguage must call dependencies
+
+- open
+  - fix page copy/move procedures
+  - fix intlinks on page/chapter copies
+  - check if adopted ilInternalLink methods are used in other services than COPage
 
 =================================
 extends ilPageObject (18)

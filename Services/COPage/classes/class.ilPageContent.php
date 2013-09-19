@@ -371,6 +371,27 @@ abstract class ilPageContent
 	{
 		return $a_output;
 	}
+
+	/**
+	 * After page has been updated (or created)
+	 *
+	 * @param object page object
+	 * @param DOMDocument $a_domdoc dom document
+	 * @param string xml
+	 * @param bool true on creation, otherwise false
+	 */
+	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
+	{
+	}
+	
+	/**
+	 * Before page is being deleted
+	 *
+	 * @param object page object
+	 */
+	static function beforePageDelete($a_page)
+	{
+	}
 	
 }
 ?>

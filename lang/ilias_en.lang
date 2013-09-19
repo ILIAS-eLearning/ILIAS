@@ -13869,6 +13869,8 @@ search#:#lucene_prefix_wildcard_info#:#If enabled, prefix wildcard queries (*LIA
 content#:#cont_activate_multi_lang#:#Activate Multilinguality
 content#:#cont_select_master_lang#:#Please select the master language. The current content will be assigned to the master language.
 assessment#:#show_answer_overview#:#Show Answer Overview
+content#:#cont_master_lang#:#Master Language
+content#:#cont_additional_langs#:#Additional Languages
 rbac#:#rbac_copy_role_add_perm#:#Add Permissions
 rbac#:#rbac_copy_role_remove_perm#:#Remove Permissions
 rbac#:#rbac_copy_role_copy#:#Copy Permissions

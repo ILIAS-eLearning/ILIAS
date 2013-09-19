@@ -18505,3 +18505,33 @@ while($row = $ilDB->fetchAssoc($set))
 		array('text','integer','integer'), array($lval,$row["obj_id"],$row["user_id"]));
 }
 ?>
+<#4095>
+<?php
+	if(!$ilDB->tableColumnExists('int_link', 'source_lang'))
+	{
+		$ilDB->addTableColumn('int_link', 'source_lang', array(
+			'type' => 'text',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => "-"
+		));
+	}
+?>
+<#4096>
+<?php
+	$ilDB->dropPrimaryKey("int_link");
+	$ilDB->addPrimaryKey('int_link', array('source_type', 'source_id', 'source_lang', 'target_type', 'target_id', 'target_inst'));
+?>
+<#4097>
+<?php
+	if(!$ilDB->tableColumnExists('page_question', 'page_lang'))
+	{
+		$ilDB->addTableColumn('page_question', 'page_lang', array(
+			'type' => 'text',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => "-"
+		));
+	}
+?>
+

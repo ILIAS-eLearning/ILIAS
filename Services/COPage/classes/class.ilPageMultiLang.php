@@ -129,6 +129,21 @@ class ilPageMultiLang
 	}
 	
 	/**
+	 * Add language
+	 *
+	 * @param
+	 * @return
+	 */
+	function addLanguage($a_lang)
+	{
+		if ($a_lang != "" && !in_array($a_lang, $this->languages))
+		{
+			$this->languages[] = $a_lang;
+		}
+	}
+	
+	
+	/**
 	 * Set activated
 	 *
 	 * @param bool $a_val activated?	
@@ -207,7 +222,7 @@ class ilPageMultiLang
 		
 		foreach ($this->getLanguages() as $lang)
 		{
-			$this->db->manipulate("INSERT INTO copg_multilang ".
+			$this->db->manipulate("INSERT INTO copg_multilang_lang ".
 				"(parent_type, parent_id, lang) VALUES (".
 				$this->db->quote($this->getParentType(), "text").",".
 				$this->db->quote($this->getParentId(), "integer").",".
