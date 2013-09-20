@@ -10509,18 +10509,27 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Creates an associated array with all active id's for a given test and original question id
-	*
-	* @access public
-	*/
-	function getParticipantsForTestAndQuestion($test_id, $question_id)
+	 * Creates an associated array with all active id's for a given test and original question id
+	 */
+	public function getParticipantsForTestAndQuestion($test_id, $question_id)
 	{
+		/** @var ilDB $ilDB */
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT tst_test_result.active_fi, tst_test_result.question_fi, tst_test_result.pass FROM tst_test_result, tst_active, qpl_questions WHERE tst_active.active_id = tst_test_result.active_fi AND tst_active.test_fi = %s AND tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.original_id = %s",
+		
+		$query = "
+			SELECT tst_test_result.active_fi, tst_test_result.question_fi, tst_test_result.pass 
+			FROM tst_test_result, tst_active, qpl_questions 
+			WHERE tst_active.active_id = tst_test_result.active_fi 
+			AND tst_active.test_fi = %s 
+			AND tst_test_result.question_fi = qpl_questions.question_id 
+			AND tst_test_result.question_fi = %s";
+
+		$result = $ilDB->queryF($query,
 			array('integer', 'integer'),
 			array($test_id, $question_id)
 		);
 		$foundusers = array();
+		/** @noinspection PhpAssignmentInConditionInspection */
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if (!array_key_exists($row["active_fi"], $foundusers))
@@ -10532,26 +10541,6 @@ function getAnswerFeedbackPoints()
 		return $foundusers;
 	}
 
-	/**
-	* Returns true if PDF processing is enabled, false otherwise
-	*
-	* @access public
-	*/
-	public function hasPDFProcessing()
-	{
-		global $ilias;
-		
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
-	}
-	
 	/**
 	* Returns the aggregated test results
 	*

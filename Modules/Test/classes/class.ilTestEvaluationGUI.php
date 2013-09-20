@@ -1,48 +1,46 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
-
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
 
 /**
-* Output class for assessment test evaluation
-*
-* The ilTestEvaluationGUI class creates the output for the ilObjTestGUI
-* class when authors evaluate a test. This saves some heap space because 
-* the ilObjTestGUI class will be much smaller then
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <helmut.schottmueller@mac.com>
-* @version		$Id$
-* @ingroup ModulesTest
-* @extends ilTestServiceGUI
-*/
+ * Output class for assessment test evaluation
+ *
+ * The ilTestEvaluationGUI class creates the output for the ilObjTestGUI
+ * class when authors evaluate a test. This saves some heap space because 
+ * the ilObjTestGUI class will be much smaller then
+ *
+ * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author	Björn Heyser <bheyser@databay.de>
+ * @author	Maximilian Becker <mbecker@databay.de>
+ * 
+ * @version		$Id$
+ * 
+ * @ingroup ModulesTest
+ */
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
-/**
-* ilTestEvaluationGUI constructor
-*
-* The constructor takes possible arguments an creates an instance of the 
-* ilTestEvaluationGUI object.
-*
-* @param ilObjTest $a_object Associated ilObjTest class
-* @access public
-*/
-  function ilTestEvaluationGUI(ilObjTest $a_object)
-  {
-		global $ilAccess;
-		
+
+	/**
+	 * ilTestEvaluationGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the 
+	 * ilTestEvaluationGUI object.
+	 *
+	 * @param ilObjTest $a_object Associated ilObjTest class
+	 */
+	public function __construct(ilObjTest $a_object)
+	{
 		parent::ilTestServiceGUI($a_object);
 	}
 
 	/**
-	* execute command
-	*/
-	function &executeCommand()
+	 * execute command
+	 */
+	public function &executeCommand()
 	{
-		global $ilUser;
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->saveParameter($this, "sequence");
@@ -465,21 +463,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	}
 	
 	/**
-	* Creates a PDF representation of the answers for a given question in a test
-	*
-	* @access public
-	*/
-	function exportQuestionForAllParticipants()
+	 * Creates a PDF representation of the answers for a given question in a test
+	 *
+	 */
+	public function exportQuestionForAllParticipants()
 	{
 		$this->getQuestionResultForTestUsers($_GET["qid"], $this->object->getTestId());
 	}
 	
 	/**
-	* Creates a ZIP file containing all file uploads for a given question in a test
-	*
-	* @access public
-	*/
-	function exportFileUploadsForAllParticipants()
+	 * Creates a ZIP file containing all file uploads for a given question in a test
+	 *
+	 */
+	public function exportFileUploadsForAllParticipants()
 	{
 		$question_object =& ilObjTest::_instanciateQuestion($_GET["qid"]);
 		$download = "";
@@ -1280,11 +1276,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	}
 
 	/**
-	* Creates user results for single questions
-	*
-	* @access public
-	*/
-	function singleResults()
+	 * Creates user results for single questions
+	 *
+	 */
+	public function singleResults()
 	{
 		global $ilAccess;
 
@@ -1327,7 +1322,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				}
 				$counter++;
 				$this->ctrl->setParameter($this, "qid", $question_id);
-				$question_object =& ilObjTest::_instanciateQuestion($question_id);
+				require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+				$question_object = assQuestion::instantiateQuestionGUI($question_id);
 				$download = "";
 				if (method_exists($question_object, "hasFileUploads"))
 				{
@@ -1348,8 +1344,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			if (count($rows))
 			{
-				include_once("./Modules/Test/classes/tables/class.ilResultsByQuestionTableGUI.php");
-				$table_gui = new ilResultsByQuestionTableGUI($this, "singleResults", $this->object->hasPDFProcessing());
+				require_once './Modules/Test/classes/tables/class.ilResultsByQuestionTableGUI.php';
+				$table_gui = new ilResultsByQuestionTableGUI($this, "singleResults");
 
 				$table_gui->setTitle($this->lng->txt("tst_answered_questions_test"));
 				$table_gui->setData($rows);
@@ -1368,15 +1364,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	public function outCertificate()
 	{
-		global $ilUser;
-
 		$testSession = $this->testSessionFactory->getSession();
-		$active_id = $testSession->getActiveId();
-		$counted_pass = ilObjTest::_getResultPass($active_id);
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilTestCertificateAdapter($this->object));
-		$certificate->outCertificate(array("active_id" => $active_id, "pass" => $counted_pass));
+		
+		require_once './Services/Certificate/classes/class.ilCertificate.php';
+		require_once './Modules/Test/classes/class.ilTestCertificateAdapter.php';
+		$certificate = new ilCertificate(new ilTestCertificateAdapter( $this->object ) );
+		$certificate->outCertificate(
+			array(
+				"active_id" => $testSession->getActiveId(), 
+				"pass" 		=> ilObjTest::_getResultPass( $testSession->getActiveId() ) 
+			)
+		);
 	}
 	
 	public function confirmDeletePass()
@@ -1406,7 +1404,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->redirect($this, 'outUserResultsOverview');
 		}
-		
+			/** @var ilDB $ilDB */
 			global $ilDB;
 
 			$active_fi = $_GET['active_id'];
@@ -1589,4 +1587,3 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass('iltestoutputgui', 'outuserresultsoverview');
 	}
 }
-?>

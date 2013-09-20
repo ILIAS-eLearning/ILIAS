@@ -988,9 +988,8 @@ class ilTestServiceGUI
 	 * @param integer $question_id The original id of the question
 	 * @param integer $test_id The test id
 	 * @return string HTML code of the question results
-	 * @access public
 	 */
-	function getQuestionResultForTestUsers($question_id, $test_id)
+	public function getQuestionResultForTestUsers($question_id, $test_id)
 	{
 		$foundusers = $this->object->getParticipantsForTestAndQuestion($test_id, $question_id);
 		$output = "";
@@ -1003,14 +1002,21 @@ class ilTestServiceGUI
 				{
 					$question_gui =& $this->object->createQuestionGUI("", $passes[$i]["qid"]);
 					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass+1);
-					$output .= $question_gui->getSolutionOutput($active_id, $resultpass, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = FALSE, $show_feedback = FALSE);
+					$output .= $question_gui->getSolutionOutput(
+						$active_id, 
+						$resultpass, 
+						$graphicalOutput = FALSE, 
+						$result_output = FALSE, 
+						$show_question_only = FALSE, 
+						$show_feedback = FALSE
+					);
 					$output .= "<br /><br /><br />";
 				}
 			}
 		}
-		require_once 'class.ilTestPDFGenerator.php';
+
+		require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
 		ilTestPDFGenerator::generatePDF($output, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
-		//$this->object->deliverPDFfromHTML($output, $question_gui->object->getTitle());
 	}
 }
 
@@ -1032,5 +1038,3 @@ function sortResults($a, $b)
 	if ($a[$sort] == $b[$sort]) return 0;
 	return ($a[$sort] < $b[$sort]) ? $smaller : $greater;
 }
-
-?>
