@@ -1,4 +1,4 @@
-<?php
+. <?php
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10283,7 +10283,15 @@ function getAnswerFeedbackPoints()
 	function getParticipantsForTestAndQuestion($test_id, $question_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT tst_test_result.active_fi, tst_test_result.question_fi, tst_test_result.pass FROM tst_test_result, tst_active, qpl_questions WHERE tst_active.active_id = tst_test_result.active_fi AND tst_active.test_fi = %s AND tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.original_id = %s",
+		$query  = "
+			SELECT tst_test_result.active_fi, tst_test_result.question_fi, tst_test_result.pass 
+			FROM tst_test_result, tst_active, qpl_questions 
+			WHERE tst_active.active_id = tst_test_result.active_fi 
+			AND tst_active.test_fi = %s 
+			AND tst_test_result.question_fi = qpl_questions.question_id 
+			AND tst_test_result.question_fi = %s";
+
+		$result = $ilDB->queryF( $query,
 			array('integer', 'integer'),
 			array($test_id, $question_id)
 		);
