@@ -45,7 +45,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		$this->testOBJ = $testOBJ;
 		$this->sourcePoolDefinitionFactory = $sourcePoolDefinitionFactory;
 	}
-	
+
+	public function addDefinition(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition)
+	{
+		$this->sourcePoolDefinitions[ $sourcePoolDefinition->getId() ] = $sourcePoolDefinition;
+	}
 	
 	public function loadDefinitions()
 	{
@@ -58,7 +62,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 
 			$sourcePoolDefinition->initFromArray($row);
 
-			$this->sourcePoolDefinitions[ $sourcePoolDefinition->getId() ] = $sourcePoolDefinition;
+			$this->addDefinition($sourcePoolDefinition);
 		}
 	}
 	
