@@ -1088,7 +1088,6 @@ class ilContObjParser extends ilMDSaxParser
 							$xmlcontent = str_replace($this->cur_qid,
 								"il__qst_".$ids["pool"], $xml);
 							$page->setXMLContent($xmlcontent);
-							$page->saveMobUsage($xmlcontent);
 							$page->updateFromXML();
 							unset($page);
 						}
@@ -1100,7 +1099,6 @@ class ilContObjParser extends ilMDSaxParser
 							$xmlcontent = str_replace($this->cur_qid, 
 								"il__qst_".$ids["test"], $xml);
 							$page->setXMLContent($xmlcontent);
-							$page->saveMobUsage($xmlcontent);
 							$page->updateFromXML();
 							unset($page);
 						}
