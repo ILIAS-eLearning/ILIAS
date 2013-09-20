@@ -3,7 +3,7 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 
 /**
  * Class for Java Applet Questions

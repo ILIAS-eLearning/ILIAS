@@ -8,7 +8,7 @@ include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionVariabl
 include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionUnit.php";
 include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionUnitCategory.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
 
 /**
  * Single choice question GUI representation

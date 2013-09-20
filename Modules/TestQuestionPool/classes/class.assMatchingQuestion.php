@@ -3,8 +3,8 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/ilObjAnswerScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
 
 /**
  * Class for matching questions

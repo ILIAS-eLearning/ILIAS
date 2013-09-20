@@ -3,7 +3,8 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilObjFileHandlingQuestionType.php';
 
 /**
  * Class for file upload questions
@@ -16,7 +17,7 @@ require_once './Modules/TestQuestionPool/interfaces/ilObjQuestionScoringAdjustab
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable
+class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType
 {
 	protected $maxsize;
 	
@@ -890,12 +891,14 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 				break;
 		}
 	}
-	
+
 	/**
-	* Checks if file uploads exist for a given test and the original id of the question
-	*
-	* @return boolean TRUE if file uploads exist, FALSE otherwise
-	*/
+	 * Checks if file uploads exist for a given test and the original id of the question
+	 *
+	 * @param int $test_id
+	 *
+	 * @return boolean TRUE if file uploads exist, FALSE otherwise
+	 */
 	public function hasFileUploads($test_id)
 	{
 		global $ilDB;
