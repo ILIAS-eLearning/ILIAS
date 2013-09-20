@@ -627,23 +627,23 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable('TBL_AVG_REACHED', $table_gui->getHTML());	
 	}
 
-/**
-* Exports the evaluation data to a selected file format
-*
-* @access public
-*/
-	function exportEvaluation()
+	/**
+	 * Exports the evaluation data to a selected file format
+	 */
+	public function exportEvaluation()
 	{
 		$filterby = "";
 		if (array_key_exists("g_filterby", $_GET))
 		{
 			$filterby = $_GET["g_filterby"];
 		}
+
 		$filtertext = "";
 		if (array_key_exists("g_userfilter", $_GET))
 		{
 			$filtertext = $_GET["g_userfilter"];
 		}
+
 		$passedonly = FALSE;
 		if (array_key_exists("g_passedonly", $_GET))
 		{
@@ -652,18 +652,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$passedonly = TRUE;
 			}
 		}
+
 		switch ($_POST["export_type"])
 		{
 			case "excel":
-				include_once "./Modules/Test/classes/class.ilTestExport.php";
+				require_once './Modules/Test/classes/class.ilTestExport.php';
 				$exportObj = new ilTestExport($this->object, "results");
 				$exportObj->exportToExcel($deliver = TRUE, $filterby, $filtertext, $passedonly);
 				break;
+
 			case "csv":
-				include_once "./Modules/Test/classes/class.ilTestExport.php";
+				require_once './Modules/Test/classes/class.ilTestExport.php';
 				$exportObj = new ilTestExport($this->object, "results");
 				$exportObj->exportToCSV($deliver = TRUE, $filterby, $filtertext, $passedonly);
 				break;
+
 			case "certificate":
 				if ($passedonly)
 				{
