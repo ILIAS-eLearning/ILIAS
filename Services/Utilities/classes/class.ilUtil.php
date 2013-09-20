@@ -4013,62 +4013,60 @@ class ilUtil
 			$length  = rand($min,$max);
 			$next  = rand(1,2);
 			$vowels = "aeiou";
+			$vowels_uc = "AEIOU";
 			$consonants = "bcdfghjklmnpqrstvwxyz";
+			$consonants_uc = "BCDFGHJKLMNPQRSTVWXYZ";
 			$numbers = "1234567890";
 			$special = "_.+?#-*@!$%~";
 			$pw = "";
 			
-			// position for number
-			if ($security->isPasswordCharsAndNumbersEnabled())
+			if($security->getPasswordNumberOfUppercaseChars() > 0)
 			{
-				$num_pos = rand(0, $length - 1);
-			}
-			
-			// position for special character
-			if ($security->isPasswordSpecialCharsEnabled())
-			{
-				$spec_pos = rand(0, $length - 1);
-				if ($security->isPasswordCharsAndNumbersEnabled())
-				{
-					if ($num_pos == $spec_pos)	// not same position for number/special
-					{
-						if ($spec_pos > 0)
-						{
-							$spec_pos -= 1;
-						}
-						else
-						{
-							$spec_pos += 1;
-						}
-					}
-				}
-			}
-			for ($j=0; $j < $length; $j++)
-			{
-				if ($security->isPasswordCharsAndNumbersEnabled() && $num_pos == $j)
-				{
-					$pw.= $numbers[rand(0,strlen($numbers)-1)];
-				}
-				else if ($security->isPasswordSpecialCharsEnabled() && $spec_pos == $j)
-				{
-					$pw.= $special[rand(0,strlen($special)-1)];
-				}
-				else
+				for($j = 0; $j < $security->getPasswordNumberOfUppercaseChars(); $j++)
 				{
 					switch ($next)
 					{
 						case 1:
-							$pw.= $consonants[rand(0,strlen($consonants)-1)];
+							$pw.= $consonants_uc[rand(0, strlen($consonants_uc) - 1)];
 							$next = 2;
 							break;
 						
 						case 2:
-							$pw.= $vowels[rand(0,strlen($vowels)-1)];
+							$pw.= $vowels_uc[rand(0, strlen($vowels_uc) - 1)];
 							$next = 1;
 							break;
 					}
 				}
 			}
+
+			if($security->isPasswordCharsAndNumbersEnabled())
+			{
+				$pw.= $numbers[rand(0, strlen($numbers) - 1)];
+			}
+
+			if($security->isPasswordSpecialCharsEnabled())
+			{
+				$pw.= $special[rand(0, strlen($special) - 1)];
+			}
+
+			$num_lcase_chars = max($security->getPasswordNumberOfLowercaseChars(), $length - strlen($pw));
+			for($j = 0; $j < $num_lcase_chars; $j++)
+			{
+				switch ($next)
+				{
+					case 1:
+						$pw.= $consonants[rand(0, strlen($consonants) - 1)];
+						$next = 2;
+						break;
+					
+					case 2:
+						$pw.= $vowels[rand(0, strlen($vowels) - 1)];
+						$next = 1;
+						break;
+				}
+			}
+
+			$pw = str_shuffle($pw);
 		
 			$ret[] = $pw;
 		}
