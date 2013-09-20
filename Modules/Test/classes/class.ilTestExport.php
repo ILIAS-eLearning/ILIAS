@@ -1,33 +1,45 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once "Services/Utilities/classes/class.ilFormat.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Services/Utilities/classes/class.ilFormat.php';
 
 /**
-* Export class for tests
-*
-* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
-*
-* @ingroup ModulesTest
-*/
+ * Export class for tests
+ *
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author Maximilian Becker <mbecker@databay.de>
+ * 
+ * @version $Id$
+ *
+ * @ingroup ModulesTest
+ */
 class ilTestExport
 {
+	/** @var  ilErrorHandling $err */
 	var $err;			// error object
+	
+	/** @var  ilDB $db */
 	var $db;			// database object
+	
+	/** @var  ILIAS $ilias */
 	var $ilias;			// ilias object
+	
+	/** @var  ilObjTest $test_obj */
 	var $test_obj;		// test object
+	
 	var $inst_id;		// installation id
 	var $mode;
+	
+	/** @var ilLanguage $lng */
 	private $lng;
+	
 	private $resultsfile;
 
 	/**
-	* Constructor
-	* @access	public
-	*/
-	function ilTestExport(&$a_test_obj, $a_mode = "xml")
+	 * Constructor
+	 */
+	public function __construct(&$a_test_obj, $a_mode = "xml")
 	{
 		global $ilErr, $ilDB, $ilias, $lng;
 
@@ -39,7 +51,6 @@ class ilTestExport
 		$this->mode = $a_mode;
 		$this->lng =& $lng;
 
-		$settings = $this->ilias->getAllSettings();
 		$this->inst_id = IL_INST_ID;
 
 		$date = time();
@@ -260,19 +271,20 @@ class ilTestExport
 	}
 
 	/**
-	* Exports the evaluation data to the Microsoft Excel file format
-	*
-	* @param string $filtertext Filter text for the user data
-	* @param boolean $passedonly TRUE if only passed user datasets should be exported, FALSE otherwise
-	* @access public
-	*/
-	function exportToExcel($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
+	 * Exports the evaluation data to the Microsoft Excel file format
+	 *
+	 * @param bool    $deliver
+	 * @param string  $filterby
+	 * @param string  $filtertext Filter text for the user data
+	 * @param boolean $passedonly TRUE if only passed user datasets should be exported, FALSE otherwise
+	 *
+	 * @return string
+	 */
+	public function exportToExcel($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
 	{
-		global $ilLog;
-		
 		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToExcel($deliver);
-		
-		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
+
+		require_once './Services/Excel/classes/class.ilExcelWriterAdapter.php';
 		$excelfile = ilUtil::ilTempnam();
 		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 		$testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->test_obj->getTitle())) . ".xls";
@@ -290,7 +302,7 @@ class ilTestExport
 		$format_title->setColor('black');
 		$format_title->setPattern(1);
 		$format_title->setFgColor('silver');
-		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+		require_once './Services/Excel/classes/class.ilExcelUtils.php';
 		$worksheet =& $workbook->addWorksheet(ilExcelUtils::_convert_text($this->lng->txt("tst_results")));
 		$additionalFields = $this->test_obj->getEvaluationAdditionalFields();
 		$row = 0;
@@ -336,7 +348,6 @@ class ilTestExport
 
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("pass")), $format_title);
 
-		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 		$counter = 1;
 		$data =& $this->test_obj->getCompleteEvaluationData(TRUE, $filterby, $filtertext);
 		$firstrowwritten = false;
@@ -710,8 +721,9 @@ class ilTestExport
 					if (is_object($userdata) && is_array($userdata->getQuestions($pass)))
 					{
 						foreach ($userdata->getQuestions($pass) as $question)
-						{ 
-							$question =& $this->test_obj->_instanciateQuestion($question["aid"]);
+						{
+							require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+							$question = assQuestion::_instanciateQuestion($question["id"]);
 							if (is_object($question))
 							{
 								$row = $question->setExportDetailsXLS($resultsheet, $row, $active_id, $pass, $format_title, $format_bold);
