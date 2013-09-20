@@ -195,6 +195,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "iltestoutputgui":
 				require_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
 				if(!$this->object->getKioskMode()) $this->prepareOutput();
+
 				$output_gui =& new ilTestOutputGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;

@@ -20,9 +20,6 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefini
  */
 class ilTestRandomQuestionSetConfigGUI
 {
-	/**
-	 * command constants
-	 */
 	const CMD_SHOW_GENERAL_CONFIG_FORM = 'showGeneralConfigForm';
 	const CMD_SAVE_GENERAL_CONFIG_FORM = 'saveGeneralConfigForm';
 	const CMD_SHOW_SRC_POOL_DEF_LIST = 'showSourcePoolDefinitionList';
@@ -35,65 +32,47 @@ class ilTestRandomQuestionSetConfigGUI
 	const CMD_SAVE_EDIT_SRC_POOL_DEF_FORM = 'saveEditSourcePoolDefinitionForm';
 	
 	/**
-	 * global $ilCtrl object
-	 * 
 	 * @var ilCtrl
 	 */
 	public $ctrl = null;
 	
 	/**
-	 * global $ilAccess object
-	 * 
 	 * @var ilAccess
 	 */
 	public $access = null;
 	
 	/**
-	 * global $ilTabs object
-	 *
 	 * @var ilTabsGUI
 	 */
 	public $tabs = null;
 	
 	/**
-	 * global $lng object
-	 * 
 	 * @var ilLanguage
 	 */
 	public $lng = null;
 	
 	/**
-	 * global $tpl object
-	 * 
 	 * @var ilTemplate
 	 */
 	public $tpl = null;
 	
 	/**
-	 * global $ilDB object
-	 * 
 	 * @var ilDB
 	 */
 	public $db = null;
 	
 	/**
-	 * global $tree object
-	 * 
 	 * @var ilTree
 	 */
 	public $tree = null;
 	
 	/**
-	 * object instance for current test
-	 *
 	 * @var ilObjTest
 	 */
 	public $testOBJ = null;
 	
 	/**
-	 * object instance managing the dynamic question set config
-	 *
-	 * @var ilTestRandomQuestionSetConfig 
+	 * @var ilTestRandomQuestionSetConfig
 	 */
 	protected $questionSetConfig = null;
 
@@ -102,9 +81,6 @@ class ilTestRandomQuestionSetConfigGUI
 	 */
 	protected $sourcePoolDefinitionFactory = null;
 	
-	/**
-	 * Constructor
-	 */
 	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilTemplate $tpl, ilDB $db, ilTree $tree, ilObjTest $testOBJ)
 	{
 		$this->ctrl = $ctrl;
@@ -130,14 +106,9 @@ class ilTestRandomQuestionSetConfigGUI
 		);
 	}
 	
-	/**
-	 * Command Execution
-	 */
 	public function executeCommand()
 	{
-		// allow only write access
-		
-		if (!$this->access->checkAccess("write", "", $this->testOBJ->getRefId())) 
+		if (!$this->access->checkAccess("write", "", $this->testOBJ->getRefId()))
 		{
 			ilUtil::sendFailure($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirectByClass('ilObjTestGUI', "infoScreen");
@@ -408,11 +379,12 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->sourcePoolDefinitionList->loadDefinitions();
 		$sourcePoolDefinition->setSequencePosition( $this->sourcePoolDefinitionList->getNextPosition() );
-
 		$sourcePoolDefinition->saveToDb();
+		$this->sourcePoolDefinitionList->addDefinition($sourcePoolDefinition);
 
-		$this->questionSetConfig->removeRandomQuestionSet();
-		$this->questionSetConfig->fetchRandomQuestionSet();
+		$this->stagingPool->rebuild(
+			$this->questionSetConfig, $this->sourcePoolDefinitionList
+		);
 
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 

@@ -162,27 +162,27 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 		}
 	}
 	
-	public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $availableTaxonomyIds)
+	public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $availableTaxonomyIds)
 	{
 		switch( true )
 		{
 			case $this->getItemByPostVar('source_pool_filter_tax') === null:
 				
 			case !in_array($this->getItemByPostVar('filter_tax')->getValue(), $availableTaxonomyIds):
-				
-				$sourcePool->setFilterTaxId(null);
-				$sourcePool->setFilterTaxNodeId(null);
+
+				$sourcePoolDefinition->setFilterTaxId(null);
+				$sourcePoolDefinition->setFilterTaxNodeId(null);
 				break;
 			
 			default:
 				
 				$taxId = $this->getItemByPostVar('filter_tax')->getValue();
-				
-				$sourcePool->setFilterTaxId( $taxId );
-				
-				$sourcePool->setFilterTaxNodeId( $this->getItemByPostVar("filter_tax_$taxId")->getValue() );
+
+				$sourcePoolDefinition->setFilterTaxId( $taxId );
+
+				$sourcePoolDefinition->setFilterTaxNodeId( $this->getItemByPostVar("filter_tax_$taxId")->getValue() );
 		}
-		
-		$sourcePool->setQuestionAmount( $this->getItemByPostVar('question_amount_per_pool')->getValue() );
+
+		$sourcePoolDefinition->setQuestionAmount( $this->getItemByPostVar('question_amount_per_pool')->getValue() );
 	}
 }
