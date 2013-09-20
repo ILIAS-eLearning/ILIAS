@@ -1515,54 +1515,6 @@ abstract class ilPageObject
 	}
 
 	/**
-	* get all file items that are used within the page
-	*/
-	// @todo: move to file item class
-	function collectFileItems($a_xml = "")
-	{
-//echo "<br>PageObject::collectFileItems[".$this->getId()."]";
-		// determine all media aliases of the page
-		if ($a_xml == "")
-		{
-			$xpc = xpath_new_context($this->dom);
-			$doc = $this->dom;
-			$path = "//FileItem/Identifier";
-			$res =& xpath_eval($xpc, $path);
-		}
-		else
-		{
-			$doc = domxml_open_mem($a_xml);
-			$xpc = xpath_new_context($doc);
-			$path = "//FileItem/Identifier";
-			$res =& xpath_eval($xpc, $path);
-		}
-		$file_ids = array();
-		for($i = 0; $i < count($res->nodeset); $i++)
-		{
-			$id_arr = explode("_", $res->nodeset[$i]->get_attribute("Entry"));
-			$file_id = $id_arr[count($id_arr) - 1];
-			$file_ids[$file_id] = $file_id;
-		}
-		
-		// file items in download links
-		$xpc = xpath_new_context($doc);
-		$path = "//IntLink[@Type='File']";
-		$res =& xpath_eval($xpc, $path);
-		for($i = 0; $i < count($res->nodeset); $i++)
-		{
-			$t = $res->nodeset[$i]->get_attribute("Target");
-			if (substr($t, 0, 9) == "il__dfile")
-			{
-				$id_arr = explode("_", $t);
-				$file_id = $id_arr[count($id_arr) - 1];
-				$file_ids[$file_id] = $file_id;
-			}
-		}		
-//var_dump($file_ids); exit;
-		return $file_ids;
-	}
-
-	/**
 	* get a xml string that contains all media object elements, that
 	* are referenced by any media alias in the page
 	*/
@@ -2387,41 +2339,23 @@ abstract class ilPageObject
 			$cl = $def["pc_class"];
 			call_user_func($def["pc_class"].'::afterPageUpdate', $this, $a_domdoc, $a_xml, $a_creation);
 		}
-
-		// pc filelist
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$file_ids = ilObjFile::_getFilesOfObject(
-			$this->getParentType().":pg", $this->getId());
-		$this->saveFileUsage();
-		foreach($file_ids as $file)	// check, whether file object can be deleted
-		{
-			if (ilObject::_exists($file))
-			{
-				$file_obj = new ilObjFile($file, false);
-				$usages = $file_obj->getUsages();
-				if (count($usages) == 0)	// delete, if no usage exists
-				{
-					if ($file_obj->getMode() == "filelist")		// non-repository object
-					{
-						$file_obj->delete();
-					}
-				}
-			}
-		}
-
-		// pc content include
-		$this->saveContentIncludeUsage($a_xml);
-		
-		// pc skill
-		$this->saveSkillUsage($a_xml);
-
-		
+				
 		// call page hook
+		$this->afterUpdate();
 		
-		// call other update listeners
+		// call update listeners
 		$this->callUpdateListeners();
 	}
 	
+	/**
+	 * After update
+	 *
+	 * @param
+	 * @return
+	 */
+	function afterUpdate()
+	{
+	}
 	
 
 	/**
@@ -2517,10 +2451,6 @@ abstract class ilPageObject
 						// after history entry creation event
 						$this->__afterHistoryEntry($old_domdoc, $old_content, $old_nr);
 						
-						// @todo 1: after update hook needed
-						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
-						$this->saveContentIncludeUsage($old_rec["content"], $last_nr["mnr"] + 1);
-						$this->saveSkillUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->history_saved = true;		// only save one time
 					}
 					else
@@ -2584,7 +2514,6 @@ abstract class ilPageObject
 		{
 			$this->buildDom();
 			$mobs = $this->collectMediaObjects(false);
-			$files = $this->collectFileItems();
 		}
 
 		$this->__beforeDelete();
@@ -2592,16 +2521,8 @@ abstract class ilPageObject
 		// delete style usages
 		$this->deleteStyleUsages(false);
 
-		// delete style usages
-		$this->saveContentIncludeUsage("<dummy></dummy>");
-		$this->saveSkillUsage("<dummy></dummy>");
-
 		// delete internal links
 		$this->deleteInternalLinks();
-
-		// delete all file usages
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 
 		// delete all mob usages
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -2634,15 +2555,6 @@ abstract class ilPageObject
 			}
 		}
 
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		foreach ($files as $file_id)
-		{
-			if (ilObject::_exists($file_id))
-			{
-				$file_obj =& new ilObjFile($file_id, false);
-				$file_obj->delete();
-			}
-		}
 
 		/* delete public and private notes (see PageObjectGUI->getNotesHTML())
 		  as they can be seen as personal data we are keeping them for now
@@ -2697,132 +2609,11 @@ abstract class ilPageObject
 		}
 	}
 
-
-// @todo begin: move to specific classes
-
-
 	/**
-	* save file usages
-	*/
-	function saveFileUsage($a_xml = "", $a_old_nr = 0)
-	{
-		$file_ids = $this->collectFileItems($a_xml, $a_old_nr);
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId(), $a_old_nr);
-		foreach($file_ids as $file_id)
-		{
-			ilObjFile::_saveUsage($file_id, $this->getParentType().":pg", $this->getId(), $a_old_nr);
-		}
-	}
-
-	/**
-	* save content include usages
-	*/
-	function saveContentIncludeUsage($a_xml = "", $a_old_nr = 0)
-	{
-		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
-		$ci_ids = $this->collectContentIncludes($a_xml);
-		ilPageContentUsage::deleteAllUsages("incl", $this->getParentType().":pg", $this->getId(), $a_old_nr);
-		foreach($ci_ids as $ci_id)
-		{
-			if ((int) $ci_id["inst_id"] <= 0)
-			{
-				ilPageContentUsage::saveUsage("incl", $ci_id["id"], $this->getParentType().":pg", $this->getId(), $a_old_nr);
-			}
-		}
-	}
-
-	/**
-	* get all content includes that are used within the page
-	*/
-	function collectContentIncludes($a_xml = "")
-	{
-		// determine all media aliases of the page
-		if ($a_xml == "")
-		{
-			$this->buildDom();
-			$xpc = xpath_new_context($this->dom);
-			$path = "//ContentInclude";
-			$res =& xpath_eval($xpc, $path);
-		}
-		else
-		{
-			$doc = domxml_open_mem($a_xml);
-			$xpc = xpath_new_context($doc);
-			$path = "//ContentInclude";
-			$res =& xpath_eval($xpc, $path);
-		}
-		$ci_ids = array();
-		for($i = 0; $i < count($res->nodeset); $i++)
-		{
-			$type = $res->nodeset[$i]->get_attribute("ContentType");
-			$id = $res->nodeset[$i]->get_attribute("ContentId");
-			$inst_id = $res->nodeset[$i]->get_attribute("InstId");
-			$ci_ids[$type.":".$id.":".$inst_id] = array(
-				"type" => $type, "id" => $id, "inst_id" => $inst_id);
-		}
-
-		return $ci_ids;
-	}
-	
-	/**
-	* save content include usages
-	*/
-	function saveSkillUsage($a_xml = "", $a_old_nr = 0)
-	{
-		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
-		$skl_ids = $this->collectSkills($a_xml);
-		ilPageContentUsage::deleteAllUsages("skmg", $this->getParentType().":pg", $this->getId(), $a_old_nr);
-		foreach($skl_ids as $skl_id)
-		{
-			if ((int) $skl_id["inst_id"] <= 0)
-			{
-				ilPageContentUsage::saveUsage("skmg", $skl_id["id"], $this->getParentType().":pg", $this->getId(), $a_old_nr);
-			}
-		}
-	}
-
-	/**
-	* get all content includes that are used within the page
-	*/
-	function collectSkills($a_xml = "")
-	{
-		// determine all media aliases of the page
-		if ($a_xml == "")
-		{
-			$this->buildDom();
-			$xpc = xpath_new_context($this->dom);
-			$path = "//Skills";
-			$res =& xpath_eval($xpc, $path);
-		}
-		else
-		{
-			$doc = domxml_open_mem($a_xml);
-			$xpc = xpath_new_context($doc);
-			$path = "//Skills";
-			$res =& xpath_eval($xpc, $path);
-		}
-		$skl_ids = array();
-		for($i = 0; $i < count($res->nodeset); $i++)
-		{
-			$user = $res->nodeset[$i]->get_attribute("User");
-			$id = $res->nodeset[$i]->get_attribute("Id");
-			$inst_id = $res->nodeset[$i]->get_attribute("InstId");
-			$skl_ids[$user.":".$id.":".$inst_id] = array(
-				"user" => $user, "id" => $id, "inst_id" => $inst_id);
-		}
-
-		return $skl_ids;
-	}
-
-// @todo end
-	
-	/**
-	* Save all style class/template usages
-	*
-	* @param	string		$a_xml		xml data of page
-	*/
-	// @todo: move to specific classes, style useag info in xml
+	 * Save all style class/template usages
+	 *
+	 * @param	string		$a_xml		xml data of page
+	 */
 	function saveStyleUsage($a_domdoc, $a_old_nr = 0)
 	{
 		global $ilDB;

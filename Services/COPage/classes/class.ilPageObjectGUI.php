@@ -1298,7 +1298,9 @@ class ilPageObjectGUI
 				}
 				
 				// content snippets used
-				$snippets = $this->getPageObject()->collectContentIncludes();
+				include_once("./Services/COPage/classes/class.ilPCContentInclude.php");
+				$snippets = ilPCContentInclude::collectContentIncludes($this->getPageObject(),
+					$this->getPageObject()->getDomDoc());
 				if (count($snippets) > 0)
 				{
 					foreach ($snippets as $s)

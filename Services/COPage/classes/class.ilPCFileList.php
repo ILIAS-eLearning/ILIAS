@@ -251,5 +251,122 @@ class ilPCFileList extends ilPageContent
 		return array("ed_edit_files", "ed_insert_filelist", "pc_flist");
 	}
 
+	/**
+	 * After page has been updated (or created)
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_domdoc dom document
+	 * @param string $a_xml xml
+	 * @param bool $a_creation true on creation, otherwise false
+	 */
+	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
+	{
+		// pc filelist
+		include_once("./Modules/File/classes/class.ilObjFile.php");
+		$file_ids = ilObjFile::_getFilesOfObject(
+			$a_page->getParentType().":pg", $a_page->getId(), 0, $a_page->getLanguage());
+		self::saveFileUsage($a_page, $a_domdoc);
+		foreach($file_ids as $file)	// check, whether file object can be deleted
+		{
+			if (ilObject::_exists($file))
+			{
+				$file_obj = new ilObjFile($file, false);
+				$usages = $file_obj->getUsages();
+				if (count($usages) == 0)	// delete, if no usage exists
+				{
+					if ($file_obj->getMode() == "filelist")		// non-repository object
+					{
+						$file_obj->delete();
+					}
+				}
+			}
+		}
+
+	}
+	
+	/**
+	 * Before page is being deleted
+	 *
+	 * @param object $a_page page object
+	 */
+	static function beforePageDelete($a_page)
+	{
+		$files = self::collectFileItems($a_page, $a_page->getDomDoc());
+		
+		// delete all file usages
+		include_once("./Modules/File/classes/class.ilObjFile.php");
+		ilObjFile::_deleteAllUsages($a_page->getParentType().":pg", $a_page->getId(), false,
+			$a_page->getLanguage());
+
+		include_once("./Modules/File/classes/class.ilObjFile.php");
+		foreach ($files as $file_id)
+		{
+			if (ilObject::_exists($file_id))
+			{
+				$file_obj = new ilObjFile($file_id, false);
+				$file_obj->delete();
+			}
+		}
+	}
+
+	/**
+	 * After page history entry has been created
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_old_domdoc old dom document
+	 * @param string $a_old_xml old xml
+	 * @param integer $a_old_nr history number
+	 */
+	static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
+	{
+		self::saveFileUsage($a_page, $a_old_domdoc, $a_old_nr);
+	}
+
+	/**
+	 * Save file usages
+	 */
+	static function saveFileUsage($a_page, $a_domdoc, $a_old_nr = 0)
+	{
+		$file_ids = self::collectFileItems($a_page, $a_domdoc);
+		include_once("./Modules/File/classes/class.ilObjFile.php");
+		ilObjFile::_deleteAllUsages($a_page->getParentType().":pg", $a_page->getId(), $a_old_nr, $a_page->getLanguage());
+		foreach($file_ids as $file_id)
+		{
+			ilObjFile::_saveUsage($file_id, $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
+				$a_page->getLanguage());
+		}
+	}
+
+	/**
+	 * Get all file items that are used within the page
+	 */
+	static function collectFileItems($a_page, $a_domdoc)
+	{
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query('//FileItem/Identifier');	
+		$file_ids = array();
+		foreach($nodes as $node)
+		{
+			$id_arr = explode("_", $node->getAttribute("Entry"));
+			$file_id = $id_arr[count($id_arr) - 1];
+			$file_ids[$file_id] = $file_id;
+		}
+		
+		// file items in download links
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query("//IntLink[@Type='File']");	
+		foreach($nodes as $node)
+		{
+			$t = $node->getAttribute("Target");
+			if (substr($t, 0, 9) == "il__dfile")
+			{
+				$id_arr = explode("_", $t);
+				$file_id = $id_arr[count($id_arr) - 1];
+				$file_ids[$file_id] = $file_id;
+			}
+		}
+		return $file_ids;
+	}
+
 }
 ?>

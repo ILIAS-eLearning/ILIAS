@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "Services/Object/classes/class.ilObject2.php";
 include_once('Modules/File/classes/class.ilFSStorageFile.php');
@@ -856,15 +856,20 @@ class ilObjFile extends ilObject2
 	/**
 	* static delete all usages of
 	*/
-	function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0)
+	function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
 		global $ilDB;
+		
+		$and_hist = ($a_usage_hist_nr !== false)
+			? " AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer")
+			: "";
 		
 		$file_ids = array();
 		$set = $ilDB->query("SELECT id FROM file_usage".
 			" WHERE usage_type = ".$ilDB->quote($a_type, "text").
 			" AND usage_id= ".$ilDB->quote($a_id, "integer").
-			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer"));
+			" AND usage_lang= ".$ilDB->quote($a_usage_lang, "text").
+			$and_hist);
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$file_ids[] = $row["id"];
@@ -873,6 +878,7 @@ class ilObjFile extends ilObject2
 		$ilDB->manipulate("DELETE FROM file_usage WHERE usage_type = ".
 			$ilDB->quote($a_type, "text").
 			" AND usage_id = ".$ilDB->quote((int) $a_id, "integer").
+			" AND usage_lang= ".$ilDB->quote($a_usage_lang, "text").
 			" AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer"));
 		
 		foreach($file_ids as $file_id)
@@ -884,21 +890,24 @@ class ilObjFile extends ilObject2
 	/**
 	* save usage
 	*/
-	function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0)
+	function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
 		global $ilDB;
 		
 		$ilDB->manipulate("DELETE FROM file_usage WHERE usage_type = ".
 			$ilDB->quote((string) $a_type, "text").
 			" AND usage_id = ".$ilDB->quote((int) $a_id, "integer").
+			" AND usage_lang = ".$ilDB->quote($a_lang, "text").
 			" AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer").
 			" AND id = ".$ilDB->quote((int) $a_file_id, "integer"));
 
-		$ilDB->manipulate("INSERT INTO file_usage (id, usage_type, usage_id, usage_hist_nr) VALUES".
+		$ilDB->manipulate("INSERT INTO file_usage (id, usage_type, usage_id, usage_hist_nr, usage_lang) VALUES".
 			" (".$ilDB->quote((int) $a_file_id, "integer").",".
 			$ilDB->quote((string) $a_type, "text").",".
 			$ilDB->quote((int) $a_id, "integer").",".
-			$ilDB->quote((int) $a_usage_hist_nr, "integer").")");
+			$ilDB->quote((int) $a_usage_hist_nr, "integer").",".
+			$ilDB->quote($a_usage_lang, "text").
+			")");
 		
 		self::handleQuotaUpdate(new self($a_file_id, false));		
 	}
@@ -918,6 +927,7 @@ class ilObjFile extends ilObject2
 		{
 			$ret[] = array("type" => $us_rec["usage_type"],
 				"id" => $us_rec["usage_id"],
+				"lang" => $us_rec["usage_lang"],
 				"hist_nr" => $us_rec["usage_hist_nr"]);
 		}
 
@@ -932,7 +942,7 @@ class ilObjFile extends ilObject2
 	*
 	* @return	array		array of file ids
 	*/
-	function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0)
+	function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
 		global $ilDB;
 
@@ -940,6 +950,7 @@ class ilObjFile extends ilObject2
 		$q = "SELECT * FROM file_usage WHERE ".
 			"usage_id = ".$ilDB->quote((int) $a_id, "integer")." AND ".
 			"usage_type = ".$ilDB->quote((string) $a_type, "text")." AND ".
+			"usage_lang = ".$ilDB->quote((string) $a_usage_lang, "text")." AND ".
 			"usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer");
 		$file_set = $ilDB->query($q);
 		$ret = array();

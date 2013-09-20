@@ -18580,5 +18580,37 @@ while($row = $ilDB->fetchAssoc($set))
 	$ilDB->dropPrimaryKey("page_anchor");
 	$ilDB->addPrimaryKey('page_anchor', array('page_parent_type', 'page_id', 'page_lang', 'anchor_name'));
 ?>
-
-
+<#4103>
+<?php
+	if(!$ilDB->tableColumnExists('file_usage', 'usage_lang'))
+	{
+		$ilDB->addTableColumn('file_usage', 'usage_lang', array(
+			'type' => 'text',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => "-"
+		));
+	}
+?>
+<#4104>
+<?php
+	$ilDB->dropPrimaryKey("file_usage");
+	$ilDB->addPrimaryKey('file_usage', array('id', 'usage_type', 'usage_id', 'usage_hist_nr', 'usage_lang'));
+?>
+<#4105>
+<?php
+	if(!$ilDB->tableColumnExists('page_pc_usage', 'usage_lang'))
+	{
+		$ilDB->addTableColumn('page_pc_usage', 'usage_lang', array(
+			'type' => 'text',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => "-"
+		));
+	}
+?>
+<#4106>
+<?php
+	$ilDB->dropPrimaryKey("page_pc_usage");
+	$ilDB->addPrimaryKey('page_pc_usage', array('pc_type', 'pc_id', 'usage_type', 'usage_id', 'usage_hist_nr', 'usage_lang'));
+?>

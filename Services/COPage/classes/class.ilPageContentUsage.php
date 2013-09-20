@@ -14,7 +14,7 @@ class ilPageContentUsage
 	/**
 	* Save usages
 	*/
-	static function saveUsage($a_pc_type, $a_pc_id, $a_usage_type, $a_usage_id, $a_usage_hist_nr = 0)
+	static function saveUsage($a_pc_type, $a_pc_id, $a_usage_type, $a_usage_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 		
@@ -23,6 +23,7 @@ class ilPageContentUsage
 			"pc_id" => array("integer", (int) $a_pc_id),
 			"usage_type" => array("text", $a_usage_type),
 			"usage_id" => array("integer", (int) $a_usage_id),
+			"usage_lang" => array("text", $a_lang),
 			"usage_hist_nr" => array("integer", (int) $a_usage_hist_nr)
 			),array());
 	}
@@ -30,14 +31,19 @@ class ilPageContentUsage
 	/**
 	* Delete all usages
 	*/
-	static function deleteAllUsages($a_pc_type, $a_usage_type, $a_usage_id, $a_usage_hist_nr = 0)
+	static function deleteAllUsages($a_pc_type, $a_usage_type, $a_usage_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
+		
+		$and_hist = ($a_usage_hist_nr !== false)
+			? " AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer")
+			: "";
 		
 		$ilDB->manipulate($q = "DELETE FROM page_pc_usage WHERE usage_type = ".
 			$ilDB->quote($a_usage_type, "text").
 			" AND usage_id = ".$ilDB->quote((int) $a_usage_id, "integer").
-			" AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer").
+			" AND usage_lang = ".$ilDB->quote($a_usage_lang, "text").
+			$and_hist.
 			" AND pc_type = ".$ilDB->quote($a_pc_type, "text"));
 	}
 	
@@ -72,7 +78,7 @@ class ilPageContentUsage
 	 * @param
 	 * @return
 	 */
-	function getUsagesOfPage($a_usage_id, $a_usage_type, $a_hist_nr = 0, $a_all_hist_nrs = false)
+	function getUsagesOfPage($a_usage_id, $a_usage_type, $a_hist_nr = 0, $a_all_hist_nrs = false, $a_lang = "-")
 	{
 		global $ilDB;
 
@@ -83,6 +89,7 @@ class ilPageContentUsage
 
 		$set = $ilDB->query("SELECT pc_type, pc_id FROM page_pc_usage WHERE ".
 			" usage_id = ".$ilDB->quote($a_usage_id, "integer")." AND ".
+			" usage_lang = ".$ilDB->quote($a_usage_lang, "text")." AND ".
 			" usage_type = ".$ilDB->quote($a_usage_type, "text").
 			$hist_str
 			);
