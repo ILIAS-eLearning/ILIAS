@@ -3,7 +3,7 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
 
 /**
  * The assFileUploadGUI class encapsulates the GUI representation for file upload questions.

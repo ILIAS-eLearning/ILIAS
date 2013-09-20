@@ -2,8 +2,8 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -598,6 +598,21 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return print_r($relevant_answers,true);
+		$errortext = $this->object->getErrorText();
+		
+		$passdata = array(); // Regroup answers into units of passes.
+		foreach($relevant_answers as $answer_chosen)
+		{
+			$passdata[$answer_chosen['active_fi'].'-'. $answer_chosen['pass']][$answer_chosen['value2']][] = $answer_chosen['value1'];
+		}
+		
+		$html = '';
+		foreach($passdata as $key => $pass)
+		{
+			$passdata[$key] = $this->object->createErrorTextOutput($pass);
+			$html .= $passdata[$key] . '<hr /><br />';
+		}
+
+		return $html;
 	}
 }

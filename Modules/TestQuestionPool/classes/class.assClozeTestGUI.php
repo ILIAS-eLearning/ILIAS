@@ -2,8 +2,8 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/ilGuiQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/ilGuiAnswerScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
 
 /**
  * Cloze test question GUI representation
