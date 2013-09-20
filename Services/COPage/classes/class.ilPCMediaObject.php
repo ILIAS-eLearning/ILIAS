@@ -282,6 +282,136 @@ class ilPCMediaObject extends ilPageContent
 		return array("pc_mob");
 	}
 
+	/**
+	 * After page has been updated (or created)
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_domdoc dom document
+	 * @param string $a_xml xml
+	 * @param bool $a_creation true on creation, otherwise false
+	 */
+	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
+	{
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$mob_ids = ilObjMediaObject::_getMobsOfObject(
+			$a_page->getParentType().":pg", $a_page->getId(), 0, $a_page->getLanguage());
+		self::saveMobUsage($a_page, $a_domdoc);
+		foreach($mob_ids as $mob)	// check, whether media object can be deleted
+		{
+			if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
+			{
+				$mob_obj = new ilObjMediaObject($mob);
+				$usages = $mob_obj->getUsages(false);
+				if (count($usages) == 0)	// delete, if no usage exists
+				{
+					$mob_obj->delete();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Before page is being deleted
+	 *
+	 * @param object $a_page page object
+	 */
+	static function beforePageDelete($a_page)
+	{
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$mob_ids = ilObjMediaObject::_getMobsOfObject(
+			$a_page->getParentType().":pg", $a_page->getId(), 0, $a_page->getLanguage());
+
+		ilObjMediaObject::_deleteAllUsages($a_page->getParentType().":pg", $a_page->getId(), false,
+			$a_page->getLanguage());
+
+		foreach($mob_ids as $mob)	// check, whether media object can be deleted
+		{
+			if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
+			{
+				$mob_obj = new ilObjMediaObject($mob);
+				$usages = $mob_obj->getUsages(false);
+				if (count($usages) == 0)	// delete, if no usage exists
+				{
+					$mob_obj->delete();
+				}
+			}
+		}
+	}
+
+	/**
+	 * After page history entry has been created
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_old_domdoc old dom document
+	 * @param string $a_old_xml old xml
+	 * @param integer $a_old_nr history number
+	 */
+	static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
+	{
+		self::saveMobUsage($a_page, $a_old_domdoc, $a_old_nr);
+	}
+
+	/**
+	 * Save all usages of media objects (media aliases, media objects, internal links)
+	 *
+	 * @param	string		$a_xml		xml data of page
+	 */
+	static function saveMobUsage($a_page, $a_domdoc, $a_old_nr = 0)
+	{
+		$usages = array();
+		
+		// media aliases
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query('//MediaAlias');	
+		foreach($nodes as $node)
+		{
+			$id_arr = explode("_", $node->getAttribute("OriginId"));
+			$mob_id = $id_arr[count($id_arr) - 1];
+			if ($mob_id > 0)
+			{
+				$usages[$mob_id] = true;
+			}
+		}
+
+		// media objects
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query('//MediaObject/MetaData/General/Identifier');	
+		foreach($nodes as $node)
+		{
+			$mob_entry = $node->getAttribute("Entry");
+			$mob_arr = explode("_", $mob_entry);
+			$mob_id = $mob_arr[count($mob_arr) - 1];
+			if ($mob_id > 0)
+			{
+				$usages[$mob_id] = true;
+			}
+		}
+
+		// internal links
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query("//IntLink[@Type='MediaObject']");	
+		foreach($nodes as $node)
+		{
+			$mob_target = $node->getAttribute("Target");
+			$mob_arr = explode("_", $mob_target);
+			$mob_id = $mob_arr[count($mob_arr) - 1];
+			if ($mob_id > 0)
+			{
+				$usages[$mob_id] = true;
+			}
+		}
+
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		ilObjMediaObject::_deleteAllUsages($a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
+			$a_page->getLanguage());
+		foreach($usages as $mob_id => $val)
+		{
+			ilObjMediaObject::_saveUsage($mob_id, $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
+				$a_page->getLanguage());
+		}
+		
+		return $usages;
+	}
 
 }
 ?>

@@ -2387,28 +2387,6 @@ abstract class ilPageObject
 			$cl = $def["pc_class"];
 			call_user_func($def["pc_class"].'::afterPageUpdate', $this, $a_domdoc, $a_xml, $a_creation);
 		}
-		
-		// pc media
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$mob_ids = ilObjMediaObject::_getMobsOfObject(
-			$this->getParentType().":pg", $this->getId());
-		$this->saveMobUsage($a_xml);
-		foreach($mob_ids as $mob)	// check, whether media object can be deleted
-		{
-			if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
-			{
-				$mob_obj = new ilObjMediaObject($mob);
-				$usages = $mob_obj->getUsages(false);
-				if (count($usages) == 0)	// delete, if no usage exists
-				{
-					$mob_obj->delete();
-				}
-			}
-		}
-		
-		// pc paragraph
-		$this->saveMetaKeywords($a_xml);
-		$this->saveAnchors($a_xml);
 
 		// pc filelist
 		include_once("./Modules/File/classes/class.ilObjFile.php");
@@ -2540,7 +2518,6 @@ abstract class ilPageObject
 						$this->__afterHistoryEntry($old_domdoc, $old_content, $old_nr);
 						
 						// @todo 1: after update hook needed
-						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveContentIncludeUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveSkillUsage($old_rec["content"], $last_nr["mnr"] + 1);
@@ -2612,9 +2589,6 @@ abstract class ilPageObject
 
 		$this->__beforeDelete();
 
-		// delete mob usages
-		$this->saveMobUsage("<dummy></dummy>");
-
 		// delete style usages
 		$this->deleteStyleUsages(false);
 
@@ -2624,9 +2598,6 @@ abstract class ilPageObject
 
 		// delete internal links
 		$this->deleteInternalLinks();
-
-		// delete anchors
-		$this->saveAnchors("<dummy></dummy>");
 
 		// delete all file usages
 		include_once("./Modules/File/classes/class.ilObjFile.php");
@@ -2726,152 +2697,9 @@ abstract class ilPageObject
 		}
 	}
 
-	/**
-	* save all keywords
-	*
-	* @param	string		$a_xml		xml data of page
-	*/
-	// @todo 1: hook
-	function saveMetaKeywords($a_xml)
-	{
-		// not nice, should be set by context per method
-		if ($this->getParentType() == "gdf" ||
-			$this->getParentType() == "lm" ||
-			$this->getParentType() == "dbk")
-		{
-			$doc = domxml_open_mem($a_xml);
-
-			// get existing keywords
-			$keywords = array();
-			
-			// find all Keyw tags
-			$xpc = xpath_new_context($doc);
-			$path = "//Keyw";
-			$res = xpath_eval($xpc, $path);
-			for ($i=0; $i < count($res->nodeset); $i++)
-			{
-				$k =  trim(strip_tags($res->nodeset[$i]->get_content()));
-				if (!in_array($k, $keywords))
-				{
-					$keywords[] = $k;
-				}
-			}
-			
-			$meta_type = ($this->getParentType() == "gdf")
-				? "gdf"
-				: "pg";
-			$meta_rep_id = $this->getParentId();
-			$meta_id = $this->getId();
-			
-			include_once("./Services/MetaData/classes/class.ilMD.php");
-			$md_obj = new ilMD($meta_rep_id, $meta_id, $meta_type);
-			$mkeywords = array();
-			$lang = "";
-			if(is_object($md_section = $md_obj->getGeneral()))
-			{
-				foreach($ids = $md_section->getKeywordIds() as $id)
-				{
-					$md_key = $md_section->getKeyword($id);
-					$mkeywords[] = strtolower($md_key->getKeyword());
-					if ($lang == "")
-					{
-						$lang = $md_key->getKeywordLanguageCode();
-					}
-				}
-			}
-			if ($lang == "")
-			{
-				foreach($ids = $md_section->getLanguageIds() as $id)
-				{
-					$md_lang = $md_section->getLanguage($id);
-					if ($lang == "")
-					{
-						$lang = $md_lang->getLanguageCode();
-					}
-				}
-			}
-			foreach ($keywords as $k)
-			{
-				if (!in_array(strtolower($k), $mkeywords))
-				{
-					if (trim($k) != "" && $lang != "")
-					{
-						$md_key = $md_section->addKeyword();
-						$md_key->setKeyword(ilUtil::stripSlashes($k));
-						$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
-						$md_key->save();
-					}
-					$mkeywords[] = strtolower($k);
-				}
-			}
-		}
-	}
 
 // @todo begin: move to specific classes
 
-	/**
-	* save all usages of media objects (media aliases, media objects, internal links)
-	*
-	* @param	string		$a_xml		xml data of page
-	*/
-	function saveMobUsage($a_xml, $a_old_nr = 0)
-	{
-		$doc = domxml_open_mem($a_xml);
-
-		// media aliases
-		$xpc = xpath_new_context($doc);
-		$path = "//MediaAlias";
-		$res =& xpath_eval($xpc, $path);
-		$usages = array();
-		for ($i=0; $i < count($res->nodeset); $i++)
-		{
-			$id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
-			$mob_id = $id_arr[count($id_arr) - 1];
-			if ($mob_id > 0)
-			{
-				$usages[$mob_id] = true;
-			}
-		}
-
-		// media objects
-		$xpc = xpath_new_context($doc);
-		$path = "//MediaObject/MetaData/General/Identifier";
-		$res =& xpath_eval($xpc, $path);
-		for ($i=0; $i < count($res->nodeset); $i++)
-		{
-			$mob_entry = $res->nodeset[$i]->get_attribute("Entry");
-			$mob_arr = explode("_", $mob_entry);
-			$mob_id = $mob_arr[count($mob_arr) - 1];
-			if ($mob_id > 0)
-			{
-				$usages[$mob_id] = true;
-			}
-		}
-
-		// internal links
-		$xpc = xpath_new_context($doc);
-		$path = "//IntLink[@Type='MediaObject']";
-		$res =& xpath_eval($xpc, $path);
-		for ($i=0; $i < count($res->nodeset); $i++)
-		{
-			$mob_target = $res->nodeset[$i]->get_attribute("Target");
-			$mob_arr = explode("_", $mob_target);
-			$mob_id = $mob_arr[count($mob_arr) - 1];
-			if ($mob_id > 0)
-			{
-				$usages[$mob_id] = true;
-			}
-		}
-
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		ilObjMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId(), $a_old_nr);
-		foreach($usages as $mob_id => $val)
-		{
-			ilObjMediaObject::_saveUsage($mob_id, $this->getParentType().":pg", $this->getId(), $a_old_nr);
-		}
-		
-		return $usages;
-	}
 
 	/**
 	* save file usages
@@ -3230,81 +3058,6 @@ abstract class ilPageObject
 			}
 		}
 	}
-
-// @todo begin: move to specific classes
-
-
-	/**
-	* save anchors
-	*
-	* @param	string		xml page code
-	*/
-	function saveAnchors($a_xml)
-	{
-		$doc = domxml_open_mem($a_xml);
-
-		ilPageObject::_deleteAnchors($this->getParentType(), $this->getId());
-
-		// get all anchors
-		$xpc = xpath_new_context($doc);
-		$path = "//Anchor";
-		$res =& xpath_eval($xpc, $path);
-		$saved = array();
-		for ($i=0; $i < count($res->nodeset); $i++)
-		{
-			$name = $res->nodeset[$i]->get_attribute("Name");
-			if (trim($name) != "" && !in_array($name, $saved))
-			{
-				ilPageObject::_saveAnchor($this->getParentType(), $this->getId(), $name);
-				$saved[] = $name;
-			}
-		}
-
-	}
-
-	/**
-	* Delete anchors of a page
-	*/
-	static function _deleteAnchors($a_parent_type, $a_page_id)
-	{
-		global $ilDB;
-		
-		$st = $ilDB->prepareManip("DELETE FROM page_anchor WHERE page_parent_type = ? ".
-			" AND page_id = ?", array("text", "integer"));
-		$ilDB->execute($st, array($a_parent_type, $a_page_id));
-	}
-	
-	/**
-	* Save an anchor
-	*/
-	static function _saveAnchor($a_parent_type, $a_page_id, $a_anchor_name)
-	{
-		global $ilDB;
-		
-		$st = $ilDB->prepareManip("INSERT INTO page_anchor (page_parent_type, page_id, anchor_name) ".
-			" VALUES (?,?,?) ", array("text", "integer", "text"));
-		$ilDB->execute($st, array($a_parent_type, $a_page_id, $a_anchor_name));
-	}
-
-	/**
-	* Read anchors of a page
-	*/
-	static function _readAnchors($a_parent_type, $a_page_id)
-	{
-		global $ilDB;
-		
-		$st = $ilDB->prepare("SELECT * FROM page_anchor WHERE page_parent_type = ? ".
-			" AND page_id = ?", array("text", "integer"));
-		$set = $ilDB->execute($st, array($a_parent_type, $a_page_id));
-		$anchors = array();
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			$anchors[] = $rec["anchor_name"];
-		}
-		return $anchors;
-	}
-
-// @todo end
 
 	/**
 	* create new page (with current xml data)

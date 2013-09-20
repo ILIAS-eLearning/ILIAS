@@ -18546,4 +18546,39 @@ while($row = $ilDB->fetchAssoc($set))
 		));
 	}
 ?>
+<#4099>
+<?php
+	if(!$ilDB->tableColumnExists('mob_usage', 'usage_lang'))
+	{
+		$ilDB->addTableColumn('mob_usage', 'usage_lang', array(
+			'type' => 'text',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => "-"
+		));
+	}
+?>
+<#4100>
+<?php
+	$ilDB->dropPrimaryKey("mob_usage");
+	$ilDB->addPrimaryKey('mob_usage', array('id', 'usage_type', 'usage_id', 'usage_hist_nr', 'usage_lang'));
+?>
+<#4101>
+<?php
+	if(!$ilDB->tableColumnExists('page_anchor', 'page_lang'))
+	{
+		$ilDB->addTableColumn('page_anchor', 'page_lang', array(
+			'type' => 'text',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => "-"
+		));
+	}
+?>
+<#4102>
+<?php
+	$ilDB->dropPrimaryKey("page_anchor");
+	$ilDB->addPrimaryKey('page_anchor', array('page_parent_type', 'page_id', 'page_lang', 'anchor_name'));
+?>
+
 

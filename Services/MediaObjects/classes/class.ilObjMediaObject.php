@@ -949,15 +949,22 @@ class ilObjMediaObject extends ilObject
 	/**
 	* static
 	*/
-	function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0)
+	function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
+		
+		$and_hist = "";
+		if ($a_usage_hist_nr !== false)
+		{
+			$and_hist = " AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
+		}
 		
 		$mob_ids = array();
 		$set = $ilDB->query("SELECT id FROM mob_usage".
 			" WHERE usage_type = ".$ilDB->quote($a_type, "text").
-			" AND usage_id= ".$ilDB->quote($a_id, "integer").
-			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer"));
+			" AND usage_id = ".$ilDB->quote($a_id, "integer").
+			" AND usage_lang = ".$ilDB->quote($a_lang, "text").
+			$and_hist);
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$mob_ids[] = $row["id"];
@@ -966,7 +973,8 @@ class ilObjMediaObject extends ilObject
 		$q = "DELETE FROM mob_usage WHERE usage_type = ".
 			$ilDB->quote($a_type, "text").
 			" AND usage_id= ".$ilDB->quote($a_id, "integer").
-			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
+			" AND usage_lang = ".$ilDB->quote($a_lang, "text").
+			$and_hist;
 		$ilDB->manipulate($q);
 		
 		foreach($mob_ids as $mob_id)
@@ -978,13 +986,14 @@ class ilObjMediaObject extends ilObject
 	/**
 	* get mobs of object
 	*/
-	function _getMobsOfObject($a_type, $a_id, $a_usage_hist_nr = 0)
+	function _getMobsOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 
 		$q = "SELECT * FROM mob_usage WHERE ".
 			"usage_type = ".$ilDB->quote($a_type, "text")." AND ".
 			"usage_id = ".$ilDB->quote($a_id, "integer")." AND ".
+			"usage_lang = ".$ilDB->quote($a_lang, "text")." AND ".
 			"usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
 		$mobs = array();
 		$mob_set = $ilDB->query($q);
@@ -1002,7 +1011,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* Save usage of mob within another container (e.g. page)
 	*/
-	function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0)
+	function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 		
@@ -1010,13 +1019,16 @@ class ilObjMediaObject extends ilObject
 			" id = ".$ilDB->quote((int) $a_mob_id, "integer")." AND ".
 			" usage_type = ".$ilDB->quote($a_type, "text")." AND ".
 			" usage_id = ".$ilDB->quote((int) $a_id, "integer")." AND ".
+			" usage_lang = ".$ilDB->quote($a_lang, "text")." AND ".
 			" usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer");
 		$ilDB->manipulate($q);
-		$q = "INSERT INTO mob_usage (id, usage_type, usage_id, usage_hist_nr) VALUES".
+		$q = "INSERT INTO mob_usage (id, usage_type, usage_id, usage_hist_nr, usage_lang) VALUES".
 			" (".$ilDB->quote((int) $a_mob_id, "integer").",".
 			$ilDB->quote($a_type, "text").",".
 			$ilDB->quote((int) $a_id, "integer").",".
-			$ilDB->quote((int) $a_usage_hist_nr, "integer").")";
+			$ilDB->quote((int) $a_usage_hist_nr, "integer").",".
+			$ilDB->quote($a_lang, "text").
+			")";
 		$ilDB->manipulate($q);
 		
 		self::handleQuotaUpdate(new self($a_mob_id));		
@@ -1025,7 +1037,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* Remove usage of mob in another container
 	*/
-	function _removeUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0)
+	function _removeUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 		
@@ -1033,6 +1045,7 @@ class ilObjMediaObject extends ilObject
 			" id = ".$ilDB->quote((int) $a_mob_id, "integer")." AND ".
 			" usage_type = ".$ilDB->quote($a_type, "text")." AND ".
 			" usage_id = ".$ilDB->quote((int) $a_id, "integer")." AND ".
+			" usage_lang = ".$ilDB->quote($a_lang, "text")." AND ".
 			" usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer");
 		$ilDB->manipulate($q);
 		
@@ -1063,7 +1076,7 @@ class ilObjMediaObject extends ilObject
 		}
 		
 		// get usages in pages
-		$q = "SELECT DISTINCT usage_type, usage_id".$hist_str." FROM mob_usage WHERE id = ".
+		$q = "SELECT DISTINCT usage_type, usage_id, usage_lang".$hist_str." FROM mob_usage WHERE id = ".
 			$ilDB->quote($a_id, "integer");
 
 		if (!$a_include_history)
@@ -1098,6 +1111,7 @@ class ilObjMediaObject extends ilObject
 			{
 				$ret[] = array("type" => $us_rec["usage_type"],
 					"id" => $us_rec["usage_id"],
+					"lang" => $us_rec["usage_lang"],
 					"hist_nr" => $us_rec["usage_hist_nr"]);
 			}
 		}

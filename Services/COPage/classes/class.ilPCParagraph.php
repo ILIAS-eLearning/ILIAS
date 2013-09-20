@@ -1810,5 +1810,200 @@ if (!$a_wysiwyg)
 				
 		$a_page->update();
 	}
+	
+	/**
+	 * After page has been updated (or created)
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_domdoc dom document
+	 * @param string $a_xml xml
+	 * @param bool $a_creation true on creation, otherwise false
+	 */
+	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
+	{
+		// pc paragraph
+		self::saveMetaKeywords($a_page, $a_domdoc);
+		self::saveAnchors($a_page, $a_domdoc);
+	}
+	
+	/**
+	 * Before page is being deleted
+	 *
+	 * @param object $a_page page object
+	 */
+	static function beforePageDelete($a_page)
+	{
+		// delete anchors
+		self::_deleteAnchors($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage());
+	}
+
+	/**
+	 * After page history entry has been created
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_old_domdoc old dom document
+	 * @param string $a_old_xml old xml
+	 * @param integer $a_old_nr history number
+	 */
+	static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
+	{
+	}
+
+	/**
+	 * Save anchors
+	 *
+	 * @param	string		xml page code
+	 */
+	function saveAnchors($a_page, $a_domdoc)
+	{
+		self::_deleteAnchors($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage());
+
+		// get all anchors
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query('//Anchor');	
+		$saved = array();
+		foreach ($nodes as $node)
+		{
+			$name = $node->getAttribute("Name");
+			if (trim($name) != "" && !in_array($name, $saved))
+			{
+				self::_saveAnchor($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage(), $name);
+				$saved[] = $name;
+			}
+		}
+
+	}
+
+	/**
+	 * Delete anchors of a page
+	 */
+	static function _deleteAnchors($a_parent_type, $a_page_id, $a_page_lang)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM page_anchor WHERE ".
+			" page_parent_type = ".$ilDB->quote($a_parent_type, "text").
+			" AND page_id = ".$ilDB->quote($a_page_id, "integer").
+			" AND page_lang = ".$ilDB->quote($a_page_lang, "text")
+			);
+	}
+	
+	/**
+	 * Save an anchor
+	 */
+	static function _saveAnchor($a_parent_type, $a_page_id, $a_page_lang, $a_anchor_name)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("INSERT INTO page_anchor ".
+			"(page_parent_type, page_id, page_lang, anchor_name) VALUES (".
+			$ilDB->quote($a_parent_type, "text").",".
+			$ilDB->quote($a_page_id, "integer").",".
+			$ilDB->quote($a_page_lang, "text").",".
+			$ilDB->quote($a_anchor_name, "text").
+			")");
+	}
+
+	/**
+	 * Read anchors of a page
+	 */
+	static function _readAnchors($a_parent_type, $a_page_id, $a_page_lang = "-")
+	{
+		global $ilDB;
+		
+		$and_lang = ($a_page_lang != "")
+			? " AND page_lang = ".$ilDB->quote($a_page_lang, "text")
+			: "";
+		
+		$set = $ilDB->query("SELECT * FROM page_anchor ".
+			" WHERE page_parent_type = ".$ilDB->quote($a_parent_type, "text").
+			" AND page_id = ".$ilDB->quote($a_page_id, "integer").
+			$and_lang
+			);
+		$anchors = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$anchors[] = $rec["anchor_name"];
+		}
+		return $anchors;
+	}
+
+	/**
+	 * save all keywords
+	 *
+	 * @param object $a_page page object
+	 * @param object $a_domdoc dom document
+	 */
+	function saveMetaKeywords($a_page, $a_domdoc)
+	{
+		// not nice, should be set by context per method
+		if ($a_page->getParentType() == "gdf" ||
+			$a_page->getParentType() == "lm")
+		{
+			// get existing keywords
+			$keywords = array();
+			
+			// find all Keyw tags
+			$xpath = new DOMXPath($a_domdoc);
+			$nodes = $xpath->query('//Keyw');
+			foreach($nodes as $node)
+			{
+				$k =  trim(strip_tags($node->nodeValue));
+				if (!in_array($k, $keywords))
+				{
+					$keywords[] = $k;
+				}
+			}
+			
+			$meta_type = ($a_page->getParentType() == "gdf")
+				? "gdf"
+				: "pg";
+			$meta_rep_id = $a_page->getParentId();
+			$meta_id = $a_page->getId();
+			
+			include_once("./Services/MetaData/classes/class.ilMD.php");
+			$md_obj = new ilMD($meta_rep_id, $meta_id, $meta_type);
+			$mkeywords = array();
+			$lang = "";
+			if(is_object($md_section = $md_obj->getGeneral()))
+			{
+				foreach($ids = $md_section->getKeywordIds() as $id)
+				{
+					$md_key = $md_section->getKeyword($id);
+					$mkeywords[] = strtolower($md_key->getKeyword());
+					if ($lang == "")
+					{
+						$lang = $md_key->getKeywordLanguageCode();
+					}
+				}
+			}
+			if ($lang == "")
+			{
+				foreach($ids = $md_section->getLanguageIds() as $id)
+				{
+					$md_lang = $md_section->getLanguage($id);
+					if ($lang == "")
+					{
+						$lang = $md_lang->getLanguageCode();
+					}
+				}
+			}
+			foreach ($keywords as $k)
+			{
+				if (!in_array(strtolower($k), $mkeywords))
+				{
+					if (trim($k) != "" && $lang != "")
+					{
+						$md_key = $md_section->addKeyword();
+						$md_key->setKeyword(ilUtil::stripSlashes($k));
+						$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
+						$md_key->save();
+					}
+					$mkeywords[] = strtolower($k);
+				}
+			}
+		}
+	}
+
 }
 ?>

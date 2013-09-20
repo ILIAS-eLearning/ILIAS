@@ -86,16 +86,25 @@ Dependencies
     -> pc_question
     - db table extended (lang): done
     - update and delete events refactored / moved code to ilPCQuestion: done
+    
   - mob_usage: new field usage_lang, Services/MediaObject/classes/class.ilObjMediaObject.php
     -> pc_mob
+    - db table extended (lang): done
+    - update and delete events refactored / moved code to ilPCMediaObject: done
+    
   - page_anchor: new field page_lang, Services/COPage/classes/class.ilPageObject.php
     -> pc_paragraph
+    - db table extended (lang): done
+    - update and delete events refactored / moved code to ilPCParagraph: done
+  - meta keywords? (currently just added)
+    -> pc_paragraph
+    - update and delete events refactored / moved code to ilPCParagraph: done
+
+    
   - page_pc_usage: new field usage_lang, Services/COPage/classes/class.ilPageContentUsage.php
     -> pc_content_include, skill?
   - file_usage: new field usage_lang, Modules/File/classes/class.ilObjFile.php
     -> pc_file_list, verifications?
-  - meta keywords? (currently just added)
-    -> pc_paragraph
   
 - update/updateXML must pass lang to dependencies
 - writeHistory must call dependencies

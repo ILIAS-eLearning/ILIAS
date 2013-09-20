@@ -1965,7 +1965,6 @@ abstract class assQuestion
 
 			$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id, $page->getXMLContent());
 			$this->page->setXMLContent($xml);
-			$this->page->saveMobUsage($xml);
 			$this->page->updateFromXML();
 		}
 	}
@@ -3826,9 +3825,7 @@ abstract class assQuestion
 				$duplicatePageObject = new ilAssHintPage();
 				$duplicatePageObject->setId($duplicateHintId);
 				$duplicatePageObject->setParentId($this->getId());
-				$duplicatePageObject->setXMLContent($originalXML);
-				$duplicatePageObject->saveMobUsage($originalXML);
-				
+				$duplicatePageObject->setXMLContent($originalXML);				
 				$duplicatePageObject->createFromXML();
 			}
 		}

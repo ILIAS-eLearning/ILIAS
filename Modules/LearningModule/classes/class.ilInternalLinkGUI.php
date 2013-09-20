@@ -391,9 +391,10 @@ class ilInternalLinkGUI
 
 					if($node["type"] == "pg")
 					{
+						include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 						$this->renderLink($tpl, $node["title"], $node["obj_id"],
 							"PageObject", "pg", "page",
-							ilLMPage::_readAnchors($type, $node["obj_id"]));	
+							ilPCParagraph::_readAnchors($type, $node["obj_id"], ""));	
 					}
 				}
 
@@ -416,9 +417,10 @@ class ilInternalLinkGUI
 
 					foreach ($free_pages as $node)
 					{
+						include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 						$this->renderLink($tpl, $node["title"], $node["obj_id"],
 							"PageObject", "pg", "page",
-							ilLMPage::_readAnchors($type, $node["obj_id"]));	
+							ilPCParagraph::_readAnchors($type, $node["obj_id"], ""));	
 					}
 				}
 
