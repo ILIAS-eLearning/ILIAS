@@ -729,7 +729,7 @@ class ilTestExport
 					{
 						foreach ($userdata->getQuestions($pass) as $question)
 						{ 
-							$question =& $this->test_obj->_instanciateQuestion($question["aid"]);
+							$question =& $this->test_obj->_instanciateQuestion($question["id"]);
 							if (is_object($question))
 							{
 								$row = $question->setExportDetailsXLS($resultsheet, $row, $active_id, $pass, $format_title, $format_bold);
