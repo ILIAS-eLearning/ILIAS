@@ -477,9 +477,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	public function exportFileUploadsForAllParticipants()
 	{
-		$question_object =& ilObjTest::_instanciateQuestion($_GET["qid"]);
-		$download = "";
-		if (method_exists($question_object, "getFileUploadZIPFile"))
+		require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+		$question_object = assQuestion::_instanciateQuestion($_GET["qid"]);
+		if ( $question_object instanceof ilObjFileHandlingQuestionType )
 		{
 			$question_object->getFileUploadZIPFile($this->object->getTestId());
 		}
@@ -1323,9 +1323,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$counter++;
 				$this->ctrl->setParameter($this, "qid", $question_id);
 				require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-				$question_object = assQuestion::instantiateQuestionGUI($question_id);
+				$question_object = assQuestion::_instanciateQuestion($question_id);
 				$download = "";
-				if (method_exists($question_object, "hasFileUploads"))
+				if ( $question_object instanceof ilObjFileHandlingQuestionType )
 				{
 					if ($question_object->hasFileUploads($this->object->getTestId()))
 					{

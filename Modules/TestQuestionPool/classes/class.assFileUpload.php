@@ -902,7 +902,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	public function hasFileUploads($test_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT tst_solutions.solution_id FROM tst_solutions, tst_active, qpl_questions WHERE tst_solutions.active_fi = tst_active.active_id AND tst_solutions.question_fi = qpl_questions.question_id AND qpl_questions.original_id = %s AND tst_active.test_fi = %s",
+		$query  = "
+		SELECT tst_solutions.solution_id 
+		FROM tst_solutions, tst_active, qpl_questions 
+		WHERE tst_solutions.active_fi = tst_active.active_id 
+		AND tst_solutions.question_fi = qpl_questions.question_id 
+		AND tst_solutions.question_fi = %s AND tst_active.test_fi = %s";
+		$result = $ilDB->queryF( $query,
 			array("integer", "integer"),
 			array($this->getId(), $test_id)
 		);
@@ -915,14 +921,28 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			return false;
 		}
 	}
-	
+
 	/**
-	* Generates a ZIP file containing all file uploads for a given test and the original id of the question
-	*/
+	 * Generates a ZIP file containing all file uploads for a given test and the original id of the question
+	 *
+	 * @param int $test_id
+	 */
 	public function getFileUploadZIPFile($test_id)
 	{
-		global $ilDB, $ilLog;
-		$result = $ilDB->queryF("SELECT tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi, tst_solutions.value1, tst_solutions.value2, tst_solutions.tstamp FROM tst_solutions, tst_active, qpl_questions WHERE tst_solutions.active_fi = tst_active.active_id AND tst_solutions.question_fi = qpl_questions.question_id AND qpl_questions.original_id = %s AND tst_active.test_fi = %s ORDER BY tst_solutions.active_fi, tst_solutions.tstamp",
+		/** @var ilDB $ilDB */
+		global $ilDB;
+		$query  = "
+		SELECT 
+			tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi, 
+			tst_solutions.value1, tst_solutions.value2, tst_solutions.tstamp 
+		FROM tst_solutions, tst_active, qpl_questions 
+		WHERE tst_solutions.active_fi = tst_active.active_id 
+		AND tst_solutions.question_fi = qpl_questions.question_id 
+		AND tst_solutions.question_fi = %s 
+		AND tst_active.test_fi = %s 
+		ORDER BY tst_solutions.active_fi, tst_solutions.tstamp";
+		
+		$result = $ilDB->queryF( $query,
 			array("integer", "integer"),
 			array($this->getId(), $test_id)
 		);
