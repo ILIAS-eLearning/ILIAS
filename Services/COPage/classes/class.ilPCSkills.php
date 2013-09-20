@@ -75,5 +75,85 @@ class ilPCSkills extends ilPageContent
 			return $this->skill_node->get_attribute("Id");
 		}
 	}
+	
+	/**
+	 * After page has been updated (or created)
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_domdoc dom document
+	 * @param string $a_xml xml
+	 * @param bool $a_creation true on creation, otherwise false
+	 */
+	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
+	{
+		// pc skill
+		self::saveSkillUsage($a_page, $a_domdoc);
+	}
+	
+	/**
+	 * Before page is being deleted
+	 *
+	 * @param object $a_page page object
+	 */
+	static function beforePageDelete($a_page)
+	{
+		ilPageContentUsage::deleteAllUsages("skmg", $a_page->getParentType().":pg", $a_page->getId(), false,
+			$a_page->getLanguage());
+	}
+
+	/**
+	 * After page history entry has been created
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_old_domdoc old dom document
+	 * @param string $a_old_xml old xml
+	 * @param integer $a_old_nr history number
+	 */
+	static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
+	{
+		self::saveSkillUsage($a_page, $a_old_domdoc, $a_old_nr);
+	}
+	
+	/**
+	 * save content include usages
+	 */
+	static function saveSkillUsage($a_page, $a_domdoc, $a_old_nr = 0)
+	{
+		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
+		$skl_ids = self::collectSkills($a_page, $a_domdoc);
+		ilPageContentUsage::deleteAllUsages("skmg", $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
+			$a_page->getLanguage());
+		foreach($skl_ids as $skl_id)
+		{
+			if ((int) $skl_id["inst_id"] <= 0)
+			{
+				ilPageContentUsage::saveUsage("skmg", $skl_id["id"], $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
+					$a_page->getLanguage());
+			}
+		}
+	}
+
+	/**
+	 * get all content includes that are used within the page
+	 */
+	static function collectSkills($a_page, $a_domdoc)
+	{
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query('//Skills');	
+
+		$skl_ids = array();
+		foreach($nodes as $node)
+		{
+			$user = $node->getAttribute("User");
+			$id = $node->getAttribute("Id");
+			$inst_id = $node->getAttribute("InstId");
+			$skl_ids[$user.":".$id.":".$inst_id] = array(
+				"user" => $user, "id" => $id, "inst_id" => $inst_id);
+		}
+
+		return $skl_ids;
+	}
+
+
 }
 ?>

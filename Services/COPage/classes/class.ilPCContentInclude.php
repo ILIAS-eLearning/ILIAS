@@ -132,6 +132,83 @@ class ilPCContentInclude extends ilPageContent
 		}
 	}
 
+		/**
+	 * After page has been updated (or created)
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_domdoc dom document
+	 * @param string $a_xml xml
+	 * @param bool $a_creation true on creation, otherwise false
+	 */
+	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
+	{
+		// pc content include
+		self::saveContentIncludeUsage($a_page, $a_domdoc);
+	}
+	
+	/**
+	 * Before page is being deleted
+	 *
+	 * @param object $a_page page object
+	 */
+	static function beforePageDelete($a_page)
+	{
+		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
+		ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType().":pg", $a_page->getId(), false, $a_page->getLanguage());
+	}
+
+	/**
+	 * After page history entry has been created
+	 *
+	 * @param object $a_page page object
+	 * @param DOMDocument $a_old_domdoc old dom document
+	 * @param string $a_old_xml old xml
+	 * @param integer $a_old_nr history number
+	 */
+	static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
+	{
+		self::saveContentIncludeUsage($a_page, $a_old_domdoc, $a_old_nr);
+	}
+
+	/**
+	 * save content include usages
+	 */
+	static function saveContentIncludeUsage($a_page, $a_domdoc, $a_old_nr = 0)
+	{
+		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
+		$ci_ids = self::collectContentIncludes($a_page, $a_domdoc);
+		ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr, $a_page->getLanguage());
+		foreach($ci_ids as $ci_id)
+		{
+			if ((int) $ci_id["inst_id"] <= 0)
+			{
+				ilPageContentUsage::saveUsage("incl", $ci_id["id"], $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
+					$a_page->getLanguage());
+			}
+		}
+	}
+
+	/**
+	 * get all content includes that are used within the page
+	 */
+	static function collectContentIncludes($a_page, $a_domdoc)
+	{
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query('//ContentInclude');	
+
+		$ci_ids = array();
+		foreach ($nodes as $node)
+		{
+			$type = $node->getAttribute("ContentType");
+			$id = $node->getAttribute("ContentId");
+			$inst_id = $node->getAttribute("InstId");
+			$ci_ids[$type.":".$id.":".$inst_id] = array(
+				"type" => $type, "id" => $id, "inst_id" => $inst_id);
+		}
+
+		return $ci_ids;
+	}
+
 }
 
 ?>

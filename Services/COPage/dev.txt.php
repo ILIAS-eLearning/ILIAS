@@ -86,30 +86,30 @@ Dependencies
     -> pc_question
     - db table extended (lang): done
     - update and delete events refactored / moved code to ilPCQuestion: done
-    
   - mob_usage: new field usage_lang, Services/MediaObject/classes/class.ilObjMediaObject.php
     -> pc_mob
     - db table extended (lang): done
     - update and delete events refactored / moved code to ilPCMediaObject: done
-    
   - page_anchor: new field page_lang, Services/COPage/classes/class.ilPageObject.php
     -> pc_paragraph
     - db table extended (lang): done
     - update and delete events refactored / moved code to ilPCParagraph: done
-  - meta keywords? (currently just added)
+  - meta keywords (currently just added)
     -> pc_paragraph
     - update and delete events refactored / moved code to ilPCParagraph: done
-
-    
-  - page_pc_usage: new field usage_lang, Services/COPage/classes/class.ilPageContentUsage.php
-    -> pc_content_include, skill?
   - file_usage: new field usage_lang, Modules/File/classes/class.ilObjFile.php
-    -> pc_file_list, verifications?
+    -> pc_file_list, file links
+    - db table extended (lang): done
+    - update and delete events refactored / moved code to ilPCFileList: done
+  - page_pc_usage: new field usage_lang, Services/COPage/classes/class.ilPageContentUsage.php
+    -> pc_content_include, skill
+    - db table extended (lang): done
+    - update and delete events refactored / moved code to ilPCFileList: done
   
-- update/updateXML must pass lang to dependencies
-- writeHistory must call dependencies
-- delete must call dependencies
-- modifyPageLanguage must call dependencies
+- update/updateXML must pass lang to dependencies done
+- writeHistory must call dependencies done
+- delete must call dependencies done
+- modifyPageLanguage must call dependencies ??
 
 - open
   - fix page copy/move procedures
