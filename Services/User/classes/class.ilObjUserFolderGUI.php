@@ -1735,6 +1735,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 				'passwd_auto_generate' => (bool)$ilSetting->get("passwd_auto_generate"),			
 				'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0, 													
+				'password_must_not_contain_loginame' => $security->getPasswordMustNotContainLoginnameStatus() ? 1 : 0, 													
 				'password_chars_and_numbers_enabled' => $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0,
 				'password_special_chars_enabled' => $security->isPasswordSpecialCharsEnabled() ? 1 : 0 ,
 				'password_min_length' => $security->getPasswordMinLength(),
