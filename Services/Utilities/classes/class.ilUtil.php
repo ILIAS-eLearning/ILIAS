@@ -4013,9 +4013,9 @@ class ilUtil
 			$length  = rand($min,$max);
 			$next  = rand(1,2);
 			$vowels = "aeiou";
-			$vowels_uc = "AEIOU";
+			$vowels_uc = strtoupper($vowels);
 			$consonants = "bcdfghjklmnpqrstvwxyz";
-			$consonants_uc = "BCDFGHJKLMNPQRSTVWXYZ";
+			$consonants_uc = strtoupper($consonants);
 			$numbers = "1234567890";
 			$special = "_.+?#-*@!$%~";
 			$pw = "";
