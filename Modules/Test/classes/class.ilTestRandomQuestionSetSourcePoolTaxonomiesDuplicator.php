@@ -1,22 +1,34 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: bheyser
- * Date: 23.09.13
- * Time: 12:26
- * To change this template use File | Settings | File Templates.
- */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
+require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
+
+/**
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @version		$Id$
+ *
+ * @package		Modules/Test
+ */
 class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 {
+	/**
+	 * @var ilObjTest
+	 */
+	public $testOBJ = null;
+
 	private $sourcePoolId = null;
 
 	private $questionIdMapping = null;
 
-	public function __construct($sourcePoolId, $questionIdMapping)
+	private $taxonomyIdMapping = null;
+
+	public function __construct(ilObjTest $testOBJ, $sourcePoolId, $questionIdMapping)
 	{
+		$this->testOBJ = $testOBJ;
 		$this->sourcePoolId = $sourcePoolId;
 		$this->questionIdMapping = $questionIdMapping;
+		$this->taxonomyIdMapping = array();
 	}
 
 	public function setSourcePoolId($sourcePoolId)
@@ -39,28 +51,60 @@ class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 		return $this->questionIdMapping;
 	}
 
+	public function addTaxonomyIdMapping($originalTaxonomyId, $mappedTaxonomyId)
+	{
+		$this->taxonomyIdMapping[ $originalTaxonomyId ] = $mappedTaxonomyId;
+	}
+
+	public function getMappedTaxonomyId($originalTaxonomyId)
+	{
+		return $this->taxonomyIdMapping[ $originalTaxonomyId ];
+	}
+
 	public function duplicate()
 	{
-		$taxonomyIds = ilObjTaxonomy::getUsageOfObject($this->testOBJ->getId());
+		$poolTaxonomyIds = ilObjTaxonomy::getUsageOfObject($this->getSourcePoolId());
 
-		foreach($taxonomyIds as $taxId)
+		foreach($poolTaxonomyIds as $poolTaxId)
 		{
-			$nodeMapping = $this->duplicateTaxonomyFromPoolToTest($taxId);
+			$nodeMapping = $this->duplicateTaxonomyFromPoolToTest($poolTaxId);
+
+			$this->transferAssignmentsFromOriginalToDuplicatedTaxonomy($poolTaxId, $nodeMapping);
 		}
 	}
 
 	private function duplicateTaxonomyFromPoolToTest($poolTaxonomyId)
 	{
 		$testTaxonomy = new ilObjTaxonomy();
-		$testTaxonomy->doCreate();
+		$testTaxonomy->create();
 
 		$poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
 		$poolTaxonomy->doCloneObject($testTaxonomy, null, null);
 
-		$testTaxonomy->doUpdate();
+		$testTaxonomy->update();
 
 		ilObjTaxonomy::saveUsage( $testTaxonomy->getId(), $this->testOBJ->getId() );
 
+		$this->addTaxonomyIdMapping($poolTaxonomy->getId(), $testTaxonomy->getId());
+
 		return $poolTaxonomy->getNodeMapping();
+	}
+
+	private function transferAssignmentsFromOriginalToDuplicatedTaxonomy($originalTaxonomyId, $nodeMapping)
+	{
+		$duplicatedTaxonomyId = $this->getMappedTaxonomyId($originalTaxonomyId);
+
+		$originalTaxAssignment = new ilTaxNodeAssignment('qpl', 'quest', $originalTaxonomyId);
+		$duplicatedTaxAssignment = new ilTaxNodeAssignment('qpl', 'quest', $duplicatedTaxonomyId);
+
+		foreach($this->getQuestionIdMapping() as $originalQuestionId => $duplicatedQuestionId)
+		{
+			$assignments = $originalTaxAssignment->getAssignmentsOfItem($originalQuestionId);
+
+			foreach($assignments as $assData)
+			{
+				$duplicatedTaxAssignment->addAssignment($nodeMapping[$assData['node_id']], $duplicatedQuestionId);
+			}
+		}
 	}
 }

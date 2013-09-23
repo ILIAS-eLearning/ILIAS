@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator.php';
 require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 
@@ -28,11 +29,11 @@ class ilTestRandomQuestionSetStagingPool
 		$this->testOBJ = $testOBJ;
 	}
 
-	public function rebuild(ilTestRandomQuestionSetConfig $questionSetConfig, ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	public function rebuild(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	{
 		$this->reset();
 
-		$this->build($questionSetConfig, $sourcePoolDefinitionList);
+		$this->build($sourcePoolDefinitionList);
 	}
 
 	private function reset()
@@ -69,7 +70,7 @@ class ilTestRandomQuestionSetStagingPool
 		$this->db->manipulateF( $query, array('integer'), array($this->testOBJ->getTestId()) );
 	}
 
-	private function build(ilTestRandomQuestionSetConfig $questionSetConfig, ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	private function build(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	{
 		$involvedSourcePoolIds = $sourcePoolDefinitionList->getInvolvedSourcePoolIds();
 
@@ -109,7 +110,10 @@ class ilTestRandomQuestionSetStagingPool
 
 	private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping)
 	{
-		$duplicator = new ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator($sourcePoolId, $questionIdMapping);
+		$duplicator = new ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator(
+			$this->testOBJ, $sourcePoolId, $questionIdMapping
+		);
+
 		$duplicator->duplicate();
 	}
 }
