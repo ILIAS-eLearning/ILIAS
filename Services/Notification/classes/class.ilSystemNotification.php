@@ -140,7 +140,7 @@ class ilSystemNotification extends ilMailNotification
 					}
 				}
 			}
-			else 
+			else if($this->is_in_wsp) // #11680
 			{					
 				$this->ref_id = $this->wsp_tree->lookupNodeId($this->getObjId());
 			}
