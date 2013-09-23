@@ -305,6 +305,7 @@ class ilTrQuery
 		self::getUDFAndHandlePrivacy($result, $udf, $check_agreement, $privacy_fields, $a_filters);
 		
 		// as we cannot do this in the query, sort by custom field here
+		// this will not work with pagination!
 		if($udf_order)
 		{
 			include_once "Services/Utilities/classes/class.ilStr.php";
