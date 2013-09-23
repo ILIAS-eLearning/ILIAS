@@ -285,7 +285,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function getContainerPageHTML()
 	{
-		global $ilSetting;
+		global $ilSetting, $ilUser;
 		
 		if (!$ilSetting->get("enable_cat_page_edit"))
 		{
@@ -325,7 +325,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->parseCurrentBlock();
 
 		// get page object
-		$page_gui = new ilContainerPageGUI($this->object->getId());
+		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+		$ml = new ilPageMultiLang("cont", $this->object->getId());
+		$lang = $ml->getEffectiveLang($ilUser->getLanguage());
+		$page_gui = new ilContainerPageGUI($this->object->getId(), 0, $lang);
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));

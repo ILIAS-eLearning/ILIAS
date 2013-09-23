@@ -231,6 +231,24 @@ class ilPageMultiLang
 		}
 	}
 
+	/**
+	 * Get effective language
+	 *
+	 * @param
+	 * @return
+	 */
+	function getEffectiveLang($a_lang)
+	{
+		if ($this->getActivated() &&
+			in_array($a_lang, $this->getLanguages()) &&
+			ilPageObject::_exists($this->getParentType(), $this->getParentId(), $a_lang))
+		{
+			return $a_lang;
+		}
+		return "-";
+	}
+	
+	
 }
 
 ?>
