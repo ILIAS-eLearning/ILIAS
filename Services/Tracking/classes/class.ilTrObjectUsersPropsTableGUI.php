@@ -67,10 +67,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			$first = $c;
 			
-			// list cannot be sorted by udf fields (separate query)
-			$sort_id = (substr($c, 0, 4) == "udf_") ? "" : $c;
+			/* list cannot be sorted by udf fields (separate query)
+			$sort_id = (substr($c, 0, 4) == "udf_") ? "" : $c; */
 			
-			$this->addColumn($labels[$c]["txt"], $sort_id);
+			$this->addColumn($labels[$c]["txt"], $c);
 		}
 		
 		if(!$this->getPrintMode())
