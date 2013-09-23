@@ -343,14 +343,16 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
-		if(ilSearchSettings::getInstance()->getHideAdvancedSearch())
-		{
-			return false;
-		}
-		
 		$this->tabs_gui->addTarget('search',$this->ctrl->getLinkTargetByClass('illucenesearchgui'));
 		
-		if($this->fields->getActiveFields())
+		if(ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())
+		{
+			$this->tabs_gui->addTarget('search_user',$this->ctrl->getLinkTargetByClass('illuceneusersearchgui'));
+		}
+		
+		if(
+			!ilSearchSettings::getInstance()->getHideAdvancedSearch() and
+			$this->fields->getActiveFields())
 		{
 			$this->tabs_gui->addTarget('search_advanced',$this->ctrl->getLinkTarget($this));
 		}

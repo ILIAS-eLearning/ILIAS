@@ -1,47 +1,22 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Search/classes/class.ilSearchSettings.php';
 include_once './Services/Search/classes/class.ilSearchBaseGUI.php';
 include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchFields.php';
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
-include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
+
 
 /** 
-* @classDescription GUI for simple Lucene search
+* @classDescription GUI for  Lucene user search
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
-* @ilCtrl_IsCalledBy ilLuceneSearchGUI: ilSearchController
-* @ilCtrl_Calls ilLuceneSearchGUI: ilPropertyFormGUI
-* @ilCtrl_Calls ilLuceneSearchGUI: ilObjectGUI, ilContainerGUI
-* @ilCtrl_Calls ilLuceneSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilLuceneSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
+* @ilCtrl_IsCalledBy ilLuceneUserSearchGUI: ilSearchController
 * 
 * @ingroup ServicesSearch
 */
-class ilLuceneSearchGUI extends ilSearchBaseGUI
+class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 {
 	protected $ilTabs;
 	
@@ -54,7 +29,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		
 		$this->tabs_gui = $ilTabs;
 		parent::__construct();
-		$this->fields = ilLuceneAdvancedSearchFields::getInstance(); 
 		$this->initUserSearchCache();
 		
 	}
@@ -66,28 +40,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	{
 		global $ilBench, $ilCtrl;
 		
-		$ilBench->start('Lucene','0900_executeCommand');
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 		switch($next_class)
 		{
-			case "ilpropertyformgui":
-				/*$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
-				$ilCtrl->setReturn($this, 'storeRoot');
-				$ilCtrl->forwardCommand($this->form);*/
-				$form = $this->getSearchAreaForm();
-				$ilCtrl->setReturn($this, 'storeRoot');
-				$ilCtrl->forwardCommand($form);
-				break;
-			
-			case 'ilobjectcopygui':
-				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
-				$cp = new ilObjectCopyGUI($this);
-				$this->ctrl->forwardCommand($cp);
-				break;
-			
 			default:
 				$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
 				if(!$cmd)
@@ -97,7 +55,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 				$this->handleCommand($cmd);
 				break;
 		}
-		$ilBench->stop('Lucene','0900_executeCommand');
 		return true;
 	}
 	
@@ -212,42 +169,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			return false;
 		}
 
-		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
-		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
-		$qp = new ilLuceneQueryParser($this->search_cache->getQuery());
-		$qp->parse();
-		$searcher = ilLuceneSearcher::getInstance($qp);
-		$searcher->search();
-
-		// Load saved results
-		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
-		$filter = ilLuceneSearchResultFilter::getInstance($ilUser->getId());
-		$filter->loadFromDb();
-
-		// Highlight
-		$searcher->highlight($filter->getResultObjIds());
-		
-		include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
-		$presentation = new ilSearchResultPresentation($this);
-		$presentation->setResults($filter->getResultIds());
-		
-		$presentation->setSearcher($searcher);
-
-		// TODO: other handling required
-		$this->addPager($filter,'max_page');
-
-		$presentation->setPreviousNext($this->prev_link, $this->next_link);
-			
-		$this->showSearchForm();	
-
-		if($presentation->render())
-		{
-			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML(true));
-		}
-		elseif(strlen($this->search_cache->getQuery()))
-		{
-			ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'),$qp->getQuery()));
-		}
 	}
 	
 	/**
@@ -281,114 +202,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function performSearch()
 	{
-		global $ilUser,$ilBench;
-		
-		unset($_SESSION['vis_references']);
-
-		$filter_query = '';
-		if($this->search_cache->getItemFilter() and ilSearchSettings::getInstance()->isLuceneItemFilterEnabled())
-		{
-			$filter_settings = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
-			foreach((array) $this->search_cache->getItemFilter() as $obj => $value)
-			{
-				if(!$filter_query)
-				{
-					$filter_query .= '+( ';
-				}
-				else
-				{
-					$filter_query .= 'OR';
-				}
-				$filter_query .= (' '. (string) $filter_settings[$obj]['filter'].' ');
-			}
-			$filter_query .= ') ';
-		}
-		// begin-patch mime_filter
-		$mime_query = '';
-		if($this->search_cache->getMimeFilter() and ilSearchSettings::getInstance()->isLuceneMimeFilterEnabled())
-		{
-			$filter_settings = ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions();
-			foreach($this->search_cache->getMimeFilter() as $mime => $value)
-			{
-				if(!$mime_query)
-				{
-					$mime_query .= '+( ';
-				}
-				else
-				{
-					$mime_query .= 'OR';
-				}
-				$mime_query .= (' '. (string) $filter_settings[$mime]['filter'].' ');
-			}
-			$mime_query .= ') ';
-		}
-		$filter_query = $filter_query . ' '. $mime_query;
-		
-		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
-		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
-		$qp = new ilLuceneQueryParser($filter_query.' +('.$this->search_cache->getQuery().')');
-		$qp->parse();
-		$searcher = ilLuceneSearcher::getInstance($qp);
-		$searcher->search();
-		
-		// Filter results
-		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
-		include_once './Services/Search/classes/Lucene/class.ilLucenePathFilter.php';
-		$filter = ilLuceneSearchResultFilter::getInstance($ilUser->getId());
-		$filter->addFilter(new ilLucenePathFilter($this->search_cache->getRoot()));
-		$filter->setCandidates($searcher->getResult());
-		$filter->filter();
-				
-		if($filter->getResultObjIds()) {
-			$searcher->highlight($filter->getResultObjIds());
-		}
-
-		// Show results
-		$this->showSearchForm();
-
-		include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
-		$presentation = new ilSearchResultPresentation($this);
-		$presentation->setResults($filter->getResultIds());
-		$presentation->setSearcher($searcher);
-
-		// TODO: other handling required
-		$ilBench->start('Lucene','1500_fo');
-		$this->addPager($filter,'max_page');
-		$ilBench->stop('Lucene','1500_fo');
-
-		$presentation->setPreviousNext($this->prev_link, $this->next_link);
-
-		if($presentation->render())
-		{
-			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML(true));
-		}
-		else
-		{
-			ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'),$this->search_cache->getQuery()));
-		}
-		
-		if($filter->getResultIds())
-		{
-			#$this->fillAdminPanel();
-		}
-	}
-	
-	/**
-	 * Store new root node
-	 */
-	protected function storeRoot()
-	{
-		$form = $this->getSearchAreaForm();
-
-		$this->root_node = $form->getItemByPostVar('area')->getValue();
-		$this->search_cache->setRoot($this->root_node);
-		$this->search_cache->save();
-		$this->search_cache->deleteCachedEntries();
-
-		include_once './Services/Object/classes/class.ilSubItemListGUI.php';
-		ilSubItemListGUI::resetDetails();
-
-		$this->performSearch();
+		return true;
 	}
 	
 	/**
@@ -396,25 +210,23 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
-		if(ilSearchSettings::getInstance()->getHideAdvancedSearch())
-		{
-			return false;
-		}
-
-		$this->tabs_gui->addTarget('search',$this->ctrl->getLinkTarget($this));
+		$this->tabs_gui->addTarget('search',$this->ctrl->getLinkTargetByClass('illucenesearchgui'));
 		
 		if(ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())
 		{
 			$this->tabs_gui->addTarget('search_user',$this->ctrl->getLinkTargetByClass('illuceneusersearchgui'));
 		}
 		
-		if($this->fields->getActiveFields())
+		$fields = ilLuceneAdvancedSearchFields::getInstance(); 
+		
+		if(
+			!ilSearchSettings::getInstance()->getHideAdvancedSearch() and
+			$fields->getActiveFields())
 		{
-			$this->tabs_gui->addTarget('search_advanced',$this->ctrl->getLinkTargetByClass('illuceneAdvancedSearchgui'));
+			$this->tabs_gui->addTarget('search_advanced',$this->ctrl->getLinkTargetByClass('illuceneadvancedsearchgui'));
 		}
 		
-		$this->tabs_gui->setTabActive('search');
-		
+		$this->tabs_gui->setTabActive('search_user');
 	}
 	
 	/**
