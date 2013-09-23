@@ -71,10 +71,10 @@ class ilPageObjectGUI
 	* @access	public
 	*/
 	function ilPageObjectGUI($a_parent_type, $a_id, $a_old_nr = 0,
-		$a_prevent_get_id = false)
+		$a_prevent_get_id = false, $a_lang = "-")
 	{
 		global $tpl, $lng, $ilCtrl,$ilTabs;
-		
+
 		$this->setParentType($a_parent_type);
 		$this->setId($a_id);		
 		if ($a_old_nr == 0 && !$a_prevent_get_id && $_GET["old_nr"] > 0)
@@ -83,9 +83,17 @@ class ilPageObjectGUI
 		}
 		$this->setOldNr($a_old_nr);
 		
-		if ($_GET["transl"] != "")
+		if ($a_lang == "-" && $_GET["transl"] != "")
 		{
 			$this->setLanguage($_GET["transl"]);
+		}
+		else
+		{
+			if ($a_lang == "")
+			{
+				$a_lang = "-";
+			}
+			$this->setLanguage($a_lang);
 		}
 		
 		$this->tpl = $tpl;
