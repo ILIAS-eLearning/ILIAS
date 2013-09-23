@@ -151,7 +151,7 @@ class ilSurveyConstraintsGUI
 				$counter++;
 			}
 		}
-		if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets)
+		if (!$hasDatasets)
 		{
 			if ($hasPreconditions)
 			{
