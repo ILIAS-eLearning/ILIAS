@@ -627,7 +627,7 @@ class ilSurveyEditorGUI
 		$pools->setOptions($questionpools);
 		$existing_pool->addSubItem($pools);
 
-		$name = new ilTextInputGUI($this->lng->txt("cat_create_spl"), "name_spl");
+		$name = new ilTextInputGUI($this->lng->txt("spl_new"), "name_spl"); // #11740
 		$name->setSize(50);
 		$name->setMaxLength(50);
 		$new_pool->addSubItem($name);
