@@ -13884,3 +13884,4 @@ common#:#password_must_contain_lcase_chars#:#Das Passwort muss mindestens %s Kle
 common#:#password_must_contain_ucase_chars#:#Das Passwort muss mindestens %s Großbuchstaben enthalten.
 search#:#search_user_search_form#:#Personensuche
 search#:#search_user_search_info_form#:#Wenn aktiviert, werden Benutzerdaten indexiert und können über die globale Suche gefunden werden.
+exc#:#exc_fb_tutor_info#:#Durch eine hochgeladene Feedback-Datei wird eine Benachrichtigung an den Benutzer gesendet und die Datei wird in dessen Übungseinheiten-Übersicht gelistet.
