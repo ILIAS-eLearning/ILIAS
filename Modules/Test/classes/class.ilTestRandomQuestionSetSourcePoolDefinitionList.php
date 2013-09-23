@@ -104,6 +104,17 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		return ( count($this->sourcePoolDefinitions) + 1 );
 	}
 
+	public function getInvolvedSourcePoolIds()
+	{
+		foreach($this as $definition)
+		{
+			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
+			$involvedSourcePoolIds[ $definition->getPoolId() ] = $definition->getPoolId();
+		}
+
+		return array_values($involvedSourcePoolIds);
+	}
+
 	/**
 	 * @return ilTestRandomQuestionSetSourcePoolDefinition
 	 */
