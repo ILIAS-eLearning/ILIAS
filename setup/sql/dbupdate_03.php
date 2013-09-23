@@ -18614,3 +18614,7 @@ while($row = $ilDB->fetchAssoc($set))
 	$ilDB->dropPrimaryKey("page_pc_usage");
 	$ilDB->addPrimaryKey('page_pc_usage', array('pc_type', 'pc_id', 'usage_type', 'usage_id', 'usage_hist_nr', 'usage_lang'));
 ?>
+<#4107>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
