@@ -86,6 +86,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 						$ilTabs->setBackTarget($lng->txt("back"),
 							$ilCtrl->getLinkTarget($this, "showParticipant"));
 					}
+					
+					ilUtil::sendInfo($lng->txt("exc_fb_tutor_info"));
+										
 					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 					$fstorage = new ilFSStorageExercise($this->object->getId(), (int) $_GET["ass_id"]);
 					$fstorage->create();
