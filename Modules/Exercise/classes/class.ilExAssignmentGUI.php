@@ -457,7 +457,8 @@ class ilExAssignmentGUI
 					
 					if ($cnt_files > 0 || ($times_up && $a_data["fb_file"]))
 					{
-						$info->addSection($lng->txt("exc_fb_files"));
+						$info->addSection($lng->txt("exc_fb_files").
+							'<a name="fb'.$a_data["id"].'"></a>');
 						
 						if($cnt_files > 0)
 						{

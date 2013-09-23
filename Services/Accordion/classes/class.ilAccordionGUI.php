@@ -11,7 +11,9 @@
 class ilAccordionGUI
 {
 	protected $items = array();
-	protected static $accordion_cnt = 0;
+	protected $force_open;
+	protected static $accordion_cnt = 0;	
+	
 	const VERTICAL = "vertical";
 	const HORIZONTAL = "horizontal";
 	const FORCE_ALL_OPEN = "ForceAllOpen";
@@ -229,7 +231,7 @@ class ilAccordionGUI
 	{
 		return $this->behaviour;
 	}
-	
+		
 	/**
 	* Add javascript files that are necessary to run accordion
 	*/
@@ -258,10 +260,15 @@ class ilAccordionGUI
 	/**
 	* Add item
 	*/
-	function addItem($a_header, $a_content)
+	function addItem($a_header, $a_content, $a_force_open = false)
 	{
 		$this->items[] = array("header" => $a_header,
 			"content" => $a_content);
+		
+		if($a_force_open)
+		{
+			$this->force_open = sizeof($this->items);
+		}
 	}
 	
 	/**
@@ -335,11 +342,23 @@ class ilAccordionGUI
 		$tpl->setVariable("ORIENTATION", $this->getOrientation());
 		$tpl->setVariable("ID", $this->getId());
 		if ($this->getBehaviour() == "OneOpenSession" && $this->getId() != "")
-		{
+		{			
 			include_once("./Services/Accordion/classes/class.ilAccordionPropertiesStorage.php");
-			$stor = new  ilAccordionPropertiesStorage();
-			$ctab = $stor->getProperty($this->getId(), $ilUser->getId(),
-				"opened");
+			$stor = new ilAccordionPropertiesStorage();
+			
+			if($this->force_open)
+			{
+				$stor->storeProperty($this->getId(), $ilUser->getId(),
+					"opened", $this->force_open);
+				
+				$ctab = $this->force_open;
+			}
+			else
+			{
+				$ctab = $stor->getProperty($this->getId(), $ilUser->getId(),
+					"opened");
+			}
+			
 			$tpl->setVariable("BEHAVIOUR", $ctab);
 			$tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilaccordionpropertiesstorage&cmd=setOpenedTab".
 				"&accordion_id=".$this->getId()."&user_id=".$ilUser->getId());

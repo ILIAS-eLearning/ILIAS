@@ -209,7 +209,7 @@ switch($target_type)
 	// please migrate to default branch implementation
 	case "exc":
 		require_once("./Modules/Exercise/classes/class.ilObjExerciseGUI.php");
-		ilObjExerciseGUI::_goto($target_id);
+		ilObjExerciseGUI::_goto($target_id, $rest);
 		break;
 		
 	// please migrate to default branch implementation
