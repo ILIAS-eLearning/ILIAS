@@ -148,11 +148,6 @@ class ilECSResult
 	 */
 	private function init()
 	{
-		if(!$this->result_string)
-		{
-			$this->result = array();
-			return true;
-		}
 		if($this->header_parsing and $this->result_string)
 		{
 			$this->splitHeader();
