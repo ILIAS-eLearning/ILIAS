@@ -637,7 +637,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 		$ilLog->write(__METHOD__.': Receivers are '. print_r($details->getReceivers(),true));
 		$ilLog->write(__METHOD__.': Senders are '. print_r($details->getSenders(),true));
 		
-		// check owner
+		// check owner (sender mid)
 		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
 		if(!ilECSParticipantSettings::getInstanceByServerId($a_server->getServerId())->isImportAllowed($details->getSenders()))
 		{
@@ -678,6 +678,8 @@ abstract class ilRemoteObjectBase extends ilObject2
 			}
 			
 			// Update existing
+			
+			// Check receiver mid
 			if($obj_id = ilECSImport::_isImported($a_server->getServerId(),$a_econtent_id,$mid))
 			{
 				$ilLog->write(__METHOD__.': Handling update for existing object');
@@ -691,6 +693,8 @@ abstract class ilRemoteObjectBase extends ilObject2
 			}
 			else
 			{
+				$GLOBALS['ilLog']->write(__METHOD__.': my sender '. $details->getMySender().'vs mid'. $mid);
+				
 				$ilLog->write(__METHOD__.': Handling create for non existing object');
 				$this->createFromECSEContent($a_server,$json,$details->getMySender());
 								
@@ -699,6 +703,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 				include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
 				$import = new ilECSImport($a_server->getServerId(),$this->getId());
 				$import->setEContentId($a_econtent_id);
+				// Store receiver mid
 				$import->setMID($mid);
 				$import->save();
 				
@@ -762,18 +767,15 @@ abstract class ilRemoteObjectBase extends ilObject2
 	{
 		global $tree, $ilLog;
 		
+
 		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-		// if mid is zero delete all obj_ids
-		if(!$a_mid)
-		{
-	 		$obj_ids = ilECSImport::_lookupObjIds($a_server->getServerId(),$a_econtent_id);
-		}
-		else
-		{
-			$obj_ids = (array) ilECSImport::_lookupObjId($a_server->getServerId(),$a_econtent_id,$a_mid);
- 		}
+		
+		// there is no information about the original mid anymore.
+		// Therefor delete any remote objects with given econtent id
+ 		$obj_ids = ilECSImport::_lookupObjIds($a_server->getServerId(),$a_econtent_id);
 		$ilLog->write(__METHOD__.': Received obj_ids '.print_r($obj_ids,true));
-	 	foreach($obj_ids as $obj_id)
+
+		foreach($obj_ids as $obj_id)
 	 	{
 	 		$references = ilObject::_getAllReferences($obj_id);
 	 		foreach($references as $ref_id)
