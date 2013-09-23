@@ -34,7 +34,6 @@ class ilPageObjectGUI
 	var $ctrl;
 	var $obj;
 	var $output_mode;
-	var $output_submode;
 	var $presentation_title;
 	var $target_script;
 	var $return_location;
@@ -84,6 +83,11 @@ class ilPageObjectGUI
 		}
 		$this->setOldNr($a_old_nr);
 		
+		if ($_GET["transl"] != "")
+		{
+			$this->setLanguage($_GET["transl"]);
+		}
+		
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -98,7 +102,6 @@ class ilPageObjectGUI
 		$this->question_html = "";
 		$this->tabs_gui =& $ilTabs;
 
-		// USED FOR TRANSLATIONS
 		$this->template_output_var = "PAGE_CONTENT";
 		$this->citation = false;
 		$this->change_comments = false;
@@ -106,15 +109,28 @@ class ilPageObjectGUI
 		$lng->loadLanguageModule("content");
 		
 		$this->setTemplateOutput(false);
+		
+		$ilCtrl->saveParameter($this, "transl");
+		
+		$this->afterConstructor();
 	}
+	
+	/**
+	 * After constructor
+	 */
+	function afterConstructor()
+	{
+	}
+	
 
 	/**
 	 * Init page object
 	 */
-	function initPageObject()
+	protected final function initPageObject()
 	{
 		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-		$page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $this->getOldNr());
+		$page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $this->getOldNr(),
+			$this->getLanguage());
 		$this->setPageObject($page);
 	}
 	
@@ -176,6 +192,31 @@ class ilPageObjectGUI
 	function getOldNr()
 	{
 		return $this->old_nr;
+	}
+	
+	/**
+	 * Set language
+	 *
+	 * @param string $a_val language	
+	 */
+	function setLanguage($a_val)
+	{
+		$this->language = $a_val;
+	}
+	
+	/**
+	 * Get language
+	 *
+	 * @return string language
+	 */
+	function getLanguage()
+	{
+		if ($this->language == "")
+		{
+			return "-";
+		}
+		
+		return $this->language;
 	}
 	
 	/**
@@ -363,24 +404,12 @@ class ilPageObjectGUI
 
 	function setTemplateOutputVar($a_value)
 	{
-		// USED FOR TRANSLATION PRESENTATION OF dbk OBJECTS
 		$this->template_output_var = $a_value;
 	}
 
 	function getTemplateOutputVar()
 	{
 		return $this->template_output_var;
-	}
-
-	function setOutputSubmode($a_mode)
-	{
-		// USED FOR TRANSLATION PRESENTATION OF dbk OBJECTS
-		$this->output_submode = $a_mode;
-	}
-
-	function getOutputSubmode()
-	{
-		return $this->output_submode;
 	}
 
 	// @todo 1: can we get rid of this?
@@ -1168,95 +1197,88 @@ class ilPageObjectGUI
 			}
 			else
 			{
-				if($this->getOutputSubmode() == 'translation')
+				// presentation or preview here
+				
+				$tpl = new ilTemplate("tpl.page.html", true, true, "Services/COPage");
+				if ($this->getEnabledPageFocus())
 				{
-					$tpl = new ilTemplate("tpl.page_translation_content.html", true, true, "Services/COPage");
+					$tpl->touchBlock("page_focus");
 				}
-				else
+				
+				include_once("./Services/User/classes/class.ilUserUtil.php");
+				
+				// presentation
+				if ($this->getOutputMode() == IL_PAGE_PREVIEW ||
+					$this->getRenderPageContainer())
 				{
-					// presentation or preview here
-					
-					$tpl = new ilTemplate("tpl.page.html", true, true, "Services/COPage");
-					if ($this->getEnabledPageFocus())
-					{
-						$tpl->touchBlock("page_focus");
-					}
-					
-					include_once("./Services/User/classes/class.ilUserUtil.php");
-					
-					// presentation
-					if ($this->getOutputMode() == IL_PAGE_PREVIEW ||
-						$this->getRenderPageContainer())
-					{
-						$tpl->touchBlock("page_container_1");
-						$tpl->touchBlock("page_container_2");
-						$tpl->touchBlock("page_container_3");
-					}
+					$tpl->touchBlock("page_container_1");
+					$tpl->touchBlock("page_container_2");
+					$tpl->touchBlock("page_container_3");
+				}
 
-					// history
-					$c_old_nr = $this->getPageObject()->old_nr;
-					if ($c_old_nr > 0)
-					{
-						$hist_info =
-							$this->getPageObject()->getHistoryInfo($c_old_nr);
-							
-						if (!$this->getCompareMode())
-						{
-							// previous revision
-							if (is_array($hist_info["previous"]))
-							{
-								$tpl->setCurrentBlock("previous_rev");
-								$tpl->setVariable("TXT_PREV_REV", $lng->txt("cont_previous_rev"));
-								$ilCtrl->setParameter($this, "old_nr", $hist_info["previous"]["nr"]);
-								$tpl->setVariable("HREF_PREV",
-									$ilCtrl->getLinkTarget($this, "preview"));
-								$tpl->parseCurrentBlock();
-							}
-							else
-							{
-								$tpl->setCurrentBlock("previous_rev_disabled");
-								$tpl->setVariable("TXT_PREV_REV", $lng->txt("cont_previous_rev"));
-								$tpl->parseCurrentBlock();
-							}
-							
-							// next revision
-							$tpl->setCurrentBlock("next_rev");
-							$tpl->setVariable("TXT_NEXT_REV", $lng->txt("cont_next_rev"));
-							$ilCtrl->setParameter($this, "old_nr", $hist_info["next"]["nr"]);
-							$tpl->setVariable("HREF_NEXT",
-								$ilCtrl->getLinkTarget($this, "preview"));
-							$tpl->parseCurrentBlock();
-							
-							// latest revision
-							$tpl->setCurrentBlock("latest_rev");
-							$tpl->setVariable("TXT_LATEST_REV", $lng->txt("cont_latest_rev"));
-							$ilCtrl->setParameter($this, "old_nr", "");
-							$tpl->setVariable("HREF_LATEST",
-								$ilCtrl->getLinkTarget($this, "preview"));
-							$tpl->parseCurrentBlock();
+				// history
+				$c_old_nr = $this->getPageObject()->old_nr;
+				if ($c_old_nr > 0)
+				{
+					$hist_info =
+						$this->getPageObject()->getHistoryInfo($c_old_nr);
 						
-							// rollback
-							if ($c_old_nr > 0 && $ilUser->getId() != ANONYMOUS_USER_ID)
-							{
-								$tpl->setCurrentBlock("rollback");
-								$ilCtrl->setParameter($this, "old_nr", $c_old_nr);
-								$tpl->setVariable("HREF_ROLLBACK",
-									$ilCtrl->getLinkTarget($this, "rollbackConfirmation"));
-								$ilCtrl->setParameter($this, "old_nr", "");
-								$tpl->setVariable("TXT_ROLLBACK",
-									$lng->txt("cont_rollback"));
-								$tpl->parseCurrentBlock();
-							}
+					if (!$this->getCompareMode())
+					{
+						// previous revision
+						if (is_array($hist_info["previous"]))
+						{
+							$tpl->setCurrentBlock("previous_rev");
+							$tpl->setVariable("TXT_PREV_REV", $lng->txt("cont_previous_rev"));
+							$ilCtrl->setParameter($this, "old_nr", $hist_info["previous"]["nr"]);
+							$tpl->setVariable("HREF_PREV",
+								$ilCtrl->getLinkTarget($this, "preview"));
+							$tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$tpl->setCurrentBlock("previous_rev_disabled");
+							$tpl->setVariable("TXT_PREV_REV", $lng->txt("cont_previous_rev"));
+							$tpl->parseCurrentBlock();
 						}
 						
-						$tpl->setCurrentBlock("hist_nav");
-						$tpl->setVariable("TXT_REVISION", $lng->txt("cont_revision"));
-						$tpl->setVariable("VAL_REVISION_DATE",
-							ilDatePresentation::formatDate(new ilDateTime($hist_info["current"]["hdate"], IL_CAL_DATETIME)));
-						$tpl->setVariable("VAL_REV_USER",
-							ilUserUtil::getNamePresentation($hist_info["current"]["user_id"]));
+						// next revision
+						$tpl->setCurrentBlock("next_rev");
+						$tpl->setVariable("TXT_NEXT_REV", $lng->txt("cont_next_rev"));
+						$ilCtrl->setParameter($this, "old_nr", $hist_info["next"]["nr"]);
+						$tpl->setVariable("HREF_NEXT",
+							$ilCtrl->getLinkTarget($this, "preview"));
 						$tpl->parseCurrentBlock();
+						
+						// latest revision
+						$tpl->setCurrentBlock("latest_rev");
+						$tpl->setVariable("TXT_LATEST_REV", $lng->txt("cont_latest_rev"));
+						$ilCtrl->setParameter($this, "old_nr", "");
+						$tpl->setVariable("HREF_LATEST",
+							$ilCtrl->getLinkTarget($this, "preview"));
+						$tpl->parseCurrentBlock();
+					
+						// rollback
+						if ($c_old_nr > 0 && $ilUser->getId() != ANONYMOUS_USER_ID)
+						{
+							$tpl->setCurrentBlock("rollback");
+							$ilCtrl->setParameter($this, "old_nr", $c_old_nr);
+							$tpl->setVariable("HREF_ROLLBACK",
+								$ilCtrl->getLinkTarget($this, "rollbackConfirmation"));
+							$ilCtrl->setParameter($this, "old_nr", "");
+							$tpl->setVariable("TXT_ROLLBACK",
+								$lng->txt("cont_rollback"));
+							$tpl->parseCurrentBlock();
+						}
 					}
+					
+					$tpl->setCurrentBlock("hist_nav");
+					$tpl->setVariable("TXT_REVISION", $lng->txt("cont_revision"));
+					$tpl->setVariable("VAL_REVISION_DATE",
+						ilDatePresentation::formatDate(new ilDateTime($hist_info["current"]["hdate"], IL_CAL_DATETIME)));
+					$tpl->setVariable("VAL_REV_USER",
+						ilUserUtil::getNamePresentation($hist_info["current"]["user_id"]));
+					$tpl->parseCurrentBlock();
 				}
 			}
 			if ($this->getOutputMode() != IL_PAGE_PRESENTATION &&
@@ -1837,7 +1859,7 @@ class ilPageObjectGUI
 		}
 		
 		// multi-lang actions
-		if ($this->addMultiLangActionsToMenu($list))
+		if ($this->addMultiLangActionsAndInfo($list, $a_tpl))
 		{
 			$entries = true;
 		}
@@ -1909,7 +1931,7 @@ class ilPageObjectGUI
 	 * @param
 	 * @return
 	 */
-	function addMultiLangActionsToMenu($a_list)
+	function addMultiLangActionsAndInfo($a_list, $a_tpl)
 	{
 		global $lng, $ilCtrl;
 		
@@ -1928,6 +1950,46 @@ class ilPageObjectGUI
 			{
 				$a_list->addItem($lng->txt("cont_activate_multi_lang"), "",
 					$ilCtrl->getLinkTarget($this, "activateMultiLanguage"));
+
+				$any_items = true;
+			}
+			else
+			{
+				$lng->loadLanguageModule("meta");
+				
+				$a_list->addItem($lng->txt("cont_deactivate_multi_lang"), "",
+					$ilCtrl->getLinkTarget($this, "confirmDeactivateMultiLanguage"));
+				
+
+				if ($this->getPageObject()->getLanguage() != $ml->getMasterLanguage())
+				{
+					$l = $ml->getMasterLanguage();
+					$a_list->addItem($lng->txt("cont_edit_language_version").": ".
+						$lng->txt("meta_l_".$l), "",
+						$ilCtrl->getLinkTarget($this, "editMasterLanguage"));
+				}
+
+				foreach ($ml->getLanguages() as $al)
+				{
+					if ($this->getPageObject()->getLanguage() != $al)
+					{
+						$ilCtrl->setParameter($this, "totransl", $al);
+						$a_list->addItem($lng->txt("cont_edit_language_version").": ".
+							$lng->txt("meta_l_".$al), "",
+							$ilCtrl->getLinkTarget($this, "switchToLanguage"));
+						$ilCtrl->setParameter($this, "totransl", $_GET["totransl"]);
+					}
+				}
+				
+				$a_tpl->setCurrentBlock("multilinguality");
+				$a_tpl->setVariable("TXT_MASTER_LANG", $lng->txt("cont_master_lang"));
+				$a_tpl->setVariable("VAL_ML", $lng->txt("meta_l_".$ml->getMasterLanguage()));
+				$cl = ($this->getPageObject()->getLanguage() == "-")
+					? $ml->getMasterLanguage()
+					: $this->getPageObject()->getLanguage();
+				$a_tpl->setVariable("TXT_CURRENT_LANG", $lng->txt("cont_current_lang"));
+				$a_tpl->setVariable("VAL_CL", $lng->txt("meta_l_".$cl));
+				$a_tpl->parseCurrentBlock();
 
 				$any_items = true;
 			}
@@ -3614,6 +3676,80 @@ class ilPageObjectGUI
 			$tpl->setContent($this->form->getHtml());
 		}
 	}
+	
+	/**
+	 * Switch to language
+	 *
+	 * @param
+	 * @return
+	 */
+	function switchToLanguage()
+	{
+		global $ilCtrl;
+		
+		$l = ilUtil::stripSlashes($_GET["totransl"]);
+		$p = $this->getPageObject();
+		if (!ilPageObject::_exists($p->getParentType(), $p->getId(), $l))
+		{
+			$this->confirmPageTranslationCreation();
+			return;
+		}
+		$ilCtrl->setParameter($this, "transl", $_GET["totransl"]); 
+		$ilCtrl->redirect($this, "edit");
+	}
+	
+	/**
+	 * Confirm page translation creation
+	 */
+	function confirmPageTranslationCreation()
+	{
+		global $ilCtrl, $tpl, $lng;
+			
+		$l = ilUtil::stripSlashes($_GET["totransl"]);
+		$ilCtrl->setParameter($this, "totransl", $l);
+		$lng->loadLanguageModule("meta");
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setHeaderText($lng->txt("cont_page_translation_does_not_exist").": ".
+			$lng->txt("meta_l_".$l));
+		$cgui->setCancel($lng->txt("cancel"), "editMasterLanguage");
+		$cgui->setConfirm($lng->txt("confirm"), "createPageTranslation");
+		$tpl->setContent($cgui->getHTML());
+	}
+	
+	/**
+	 * Edit master language
+	 *
+	 * @param
+	 * @return
+	 */
+	function editMasterLanguage()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setParameter($this, "transl", "");
+		$ilCtrl->redirect($this, "edit");
+	}
+	
+	/**
+	 * Create page translation
+	 *
+	 * @param
+	 * @return
+	 */
+	function createPageTranslation()
+	{
+		global $ilCtrl;
+		
+		$l = ilUtil::stripSlashes($_GET["totransl"]);
+		$this->getPageObject()->copyPageToTranslation($l);
+		$ilCtrl->setParameter($this, "transl", $l);
+		$ilCtrl->redirect($this, "edit");
+	}
+	
+	
 	
 }
 ?>

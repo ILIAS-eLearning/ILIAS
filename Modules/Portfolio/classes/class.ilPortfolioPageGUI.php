@@ -33,6 +33,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$this->enable_comments = (bool)$a_enable_comments;
 		
 		parent::__construct($this->getParentType(), $a_id, $a_old_nr);
+		$this->getPageObject()->setPortfolioId($this->portfolio_id);
 		
 		// content style
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -51,21 +52,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	function getParentType()
 	{
 		return "prtf";
-	}
-
-	/**
-	 * Init page object
-	 *
-	 * @param	string	parent type
-	 * @param	int		id
-	 * @param	int		old nr
-	 */
-	function initPageObject()
-	{
-		include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
-		$page = new ilPortfolioPage($this->getId(), $this->getOldNr());
-		$page->setPortfolioId($this->portfolio_id);
-		$this->setPageObject($page);
 	}
 
 	/**

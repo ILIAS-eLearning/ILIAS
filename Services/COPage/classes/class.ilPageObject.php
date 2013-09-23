@@ -4742,30 +4742,23 @@ abstract class ilPageObject
 	}
 	
 	/**
-	 * Modify page language
+	 * Copy page
 	 *
 	 * @param
 	 * @return
 	 */
-	function modifyPageLanguage($a_parent_type, $a_page_id, $a_lang, $a_target_lang)
+	function copyPageToTranslation($a_target_lang)
 	{
-		if ($a_lang == "" || $a_target_lang == "" || $a_lang == $a_target_lang)
-		{
-			return;
-		}
-		
-		if (self::_exists($a_parent_type, $a_page_id, $a_target_lang))
-		{
-			include_once("./Services/COPage/exceptions/class.ilCOPageAlreadyExists.php");
-			throw new ilCOPageAlreadyExists("Error: modifyPageLanguage: Page ".$a_parent_type."-".$a_page_id."-".$a_target_lang." already exists.");
-		}
-		
-		// update
-		
-		
-		
+		$transl_page = ilPageObjectFactory::getInstance($this->getParentType(),
+			0, 0, $a_target_lang);
+		$transl_page->setId($this->getId());
+		$transl_page->setParentId($this->getParentId());
+		$transl_page->setXMLContent($this->copyXMLContent());
+		$transl_page->setActive($this->getActive());
+		$transl_page->setActivationStart($this->getActivationStart());
+		$transl_page->setActivationEnd($this->getActivationEnd());
+		$transl_page->create();
 	}
 	
-
 }
 ?>

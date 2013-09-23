@@ -21,14 +21,6 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 		return "prtt";
 	}
 	
-	function initPageObject()
-	{
-		include_once("./Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php");
-		$page = new ilPortfolioTemplatePage($this->getId(), $this->getOldNr());
-		$page->setPortfolioId($this->portfolio_id);
-		$this->setPageObject($page);
-	}
-	
 	function showPage()
 	{		
 		if(!$this->getPageObject())
