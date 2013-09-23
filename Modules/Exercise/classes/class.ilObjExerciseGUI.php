@@ -1940,12 +1940,23 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target)
+	function _goto($a_target, $a_raw)
 	{
-		global $rbacsystem, $ilErr, $lng, $ilAccess;
+		global $ilErr, $lng, $ilAccess;
 
+		$ass_id = null;
+		$parts = explode("_", $a_raw);
+		if(sizeof($parts) == 2)
+		{
+			$ass_id = (int)$parts[1];
+		}
+		
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
+			if($ass_id)
+			{
+				$_GET["ass_id_goto"] = $ass_id;
+			}
 			$_GET["ref_id"] = $a_target;
 			$_GET["cmd"] = "showOverview";
 			$_GET["baseClass"] = "ilExerciseHandlerGUI";
@@ -2695,8 +2706,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		foreach ($ass_data as $ass)
 		{
+			// incoming assignment deeplink
+			$force_open = false;
+			if(isset($_GET["ass_id_goto"]) &&
+				(int)$_GET["ass_id_goto"] == $ass["id"])
+			{
+				$force_open = true;
+			}	
+			
 			$acc->addItem($ass_gui->getOverviewHeader($ass),
-				$ass_gui->getOverviewBody($ass));
+				$ass_gui->getOverviewBody($ass),
+				$force_open);										
 		}
 		
 		if (count($ass_data) < 2)

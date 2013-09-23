@@ -80,7 +80,8 @@ class ilExerciseMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('exc_mail_permanent_link'));
 					$this->appendBody("\n");
-					$this->appendBody($this->createPermanentLink());
+					$this->appendBody($this->createPermanentLink(array(), '_'.$this->getAssignmentId()).
+						'#fb'.$this->getAssignmentId());
 					$this->getMail()->appendInstallationSignature(true);
 										
 					$this->sendMail(array($rcp),array('system'));
