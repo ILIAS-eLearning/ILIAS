@@ -37,6 +37,8 @@ class ilSearchSettings
 	protected $lucene_mime_filter = array();
 	protected $showSubRelevance = false;
 	protected $prefix_wildcard = false;
+	
+	protected $user_search = false;
 
 	var $ilias = null;
 	var $max_hits = null;
@@ -365,6 +367,24 @@ class ilSearchSettings
 		$this->last_index_date = $time;
 	}
 	
+	/**
+	 * Check if user search is enabled
+	 * @return type
+	 */
+	public function isLuceneUserSearchEnabled()
+	{
+		return $this->user_search;
+	}
+	
+	/**
+	 * Enable lucene user search
+	 * @param type $a_status
+	 */
+	public function enableLuceneUserSearch($a_status)
+	{
+		$this->user_search = $a_status;
+	}
+	
 	function update()
 	{
 		global $ilSetting;
@@ -388,6 +408,7 @@ class ilSearchSettings
 		$this->ilias->setSetting('lucene_sub_relevance',$this->isSubRelevanceVisible());
 		$ilSetting->set('lucene_mime_filter_enabled',$this->isLuceneMimeFilterEnabled());
 		$this->ilias->setSetting('lucene_prefix_wildcard',$this->isPrefixWildcardQueryEnabled());
+		$ilSetting->set('lucene_user_search',$this->isLuceneUserSearchEnabled());
 
 		return true;
 	}
@@ -430,6 +451,7 @@ class ilSearchSettings
 		$this->setLuceneMimeFilter(unserialize($filter));
 		$this->showSubRelevance($this->ilias->getSetting('lucene_sub_relevance',$this->showSubRelevance));
 		$this->enablePrefixWildcardQuery($this->ilias->getSetting('lucene_prefix_wildcard',$this->prefix_wildcard));
+		$this->enableLuceneUserSearch($ilSetting->get('lucene_user_search',$this->user_search));
 		
 	}
 }

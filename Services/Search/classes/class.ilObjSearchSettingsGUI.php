@@ -376,6 +376,14 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->form->addItem($offline);
 		 */
 		
+		// user search
+		$us = new ilCheckboxInputGUI($this->lng->txt('search_user_search_form'),'user_search_enabled');
+		$us->setInfo($this->lng->txt('search_user_search_info_form'));
+		$us->setValue(1);
+		$us->setChecked($this->settings->isLuceneUserSearchEnabled());
+		$this->form->addItem($us);
+		
+		
 		// Item filter
 		$if = new ilCheckboxInputGUI($this->lng->txt('search_mime_filter_form'),'mime_enabled');
 		$if->setValue(1);
@@ -467,6 +475,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->initFormLuceneSettings();
 		
 		$settings = ilSearchSettings::getInstance();
+		$settings->enableLuceneUserSearch((int) $_POST['user_search_enabled']);
 		$settings->setFragmentCount((int) $_POST['fragmentCount']);
 		$settings->setFragmentSize((int) $_POST['fragmentSize']);
 		$settings->setMaxSubitems((int) $_POST['maxSubitems']);
