@@ -1838,11 +1838,6 @@ class ilLMPresentationGUI
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
 		$page_object_gui->setSourcecodeDownloadScript($this->getSourcecodeDownloadLink());
 
-		if($_SESSION["tr_id"])
-		{
-			$page_object_gui->setOutputSubmode("translation");
-		}
-
 		// syntax style
 		$this->tpl->setCurrentBlock("SyntaxStyle");
 		if (!$this->offlineMode())

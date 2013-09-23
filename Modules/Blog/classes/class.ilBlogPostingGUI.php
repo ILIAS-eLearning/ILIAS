@@ -44,6 +44,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->enable_public_notes = (bool)$a_enable_public_notes;
 
 		parent::__construct("blp", $a_id, $a_old_nr);
+
+		// needed for notification
+		$this->getBlogPosting()->setBlogNodeId($this->node_id, $this->isInWorkspace());
 		
 		// #11151
 		$this->may_contribute = (bool)$a_may_contribute;
@@ -61,21 +64,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();		
-	}
-
-	/**
-	 * Init internal data object
-	 *
-	 * @param string $a_parent_type
-	 * @param int $a_id
-	 * @param int $a_old_nr
-	 */
-	function initPageObject()
-	{
-		$this->setPageObject(new ilBlogPosting($this->getId(), $this->getOldNr()));
-		
-		// needed for notification
-		$this->getBlogPosting()->setBlogNodeId($this->node_id, $this->isInWorkspace());
 	}
 
 	/**

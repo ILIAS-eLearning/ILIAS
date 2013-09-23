@@ -560,14 +560,14 @@ class ilWikiPage extends ilPageObject
 	*
 	* @param	string		xml page code
 	*/
-	function saveInternalLinks($a_xml)
+	function saveInternalLinks($a_domdoc)
 	{
 		global $ilDB;
 		
 		
 		// *** STEP 1: Standard Processing ***
 		
-		parent::saveInternalLinks($a_xml);
+		parent::saveInternalLinks($a_domdoc);
 		
 		
 		// *** STEP 2: Other Pages -> This Page ***
@@ -602,8 +602,8 @@ class ilWikiPage extends ilPageObject
 		
 		// collect the wiki links of the page
 		include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
-		$int_wiki_links = ilWikiUtil::collectInternalLinks($a_xml, $this->getWikiId(), true);
-
+		$xml = $a_domdoc->saveXML();
+		$int_wiki_links = ilWikiUtil::collectInternalLinks($xml, $this->getWikiId(), true);
 		foreach($int_wiki_links as $wlink)
 		{
 			$page_id = ilWikiPage::_getPageIdForWikiTitle($this->getWikiId(), $wlink);

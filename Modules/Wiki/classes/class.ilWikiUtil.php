@@ -71,7 +71,7 @@ class ilWikiUtil
 		$collect = array();
 		// both from mediawiki DefaulSettings.php
 		$wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";
-		
+
 		// Adapter for media wiki classes
 		include_once("./Modules/Wiki/classes/class.ilMediaWikiAdapter.php");
 		$GLOBALS["wgContLang"] = new ilMediaWikiAdapter();

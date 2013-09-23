@@ -29,6 +29,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->setWikiRefId($a_wiki_ref_id);
 		
 		parent::__construct("wpg", $a_id, $a_old_nr);
+		$this->getPageObject()->setWikiRefId($this->getWikiRefId());
 		
 		// content style
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -50,13 +51,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		global $ilHelp;
 		
 		$ilHelp->setScreenIdComponent("copgwpg");
-	}
-
-	function initPageObject()
-	{
-		$page = new ilWikiPage($this->getId(), $this->getOldNr());
-		$page->setWikiRefId($this->getWikiRefId());
-		$this->setPageObject($page);
 	}
 
 	function setWikiRefId($a_ref_id)

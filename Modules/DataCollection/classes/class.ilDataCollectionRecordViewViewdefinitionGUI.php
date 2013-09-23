@@ -49,7 +49,9 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		}
 
         parent::__construct("dclf", $a_definition_id);
-
+        $this->getPageObject()->setTableId($this->table_id);
+        
+        
         // content style (using system defaults)
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 
@@ -63,20 +65,6 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
 
-	}
-	
-	/**
-	 * Init internal data object
-	 *
-	 * @param string $a_parent_type
-	 * @param int $a_id
-	 * @param int $a_old_nr
-	 */
-	public function initPageObject()
-	{
-		$pg = new ilDataCollectionRecordViewViewdefinition($this->getId());
-		$pg->setTableId($this->table_id);
-		$this->setPageObject($pg);
 	}
 	
 	/**
