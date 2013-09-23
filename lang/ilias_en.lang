@@ -13884,3 +13884,5 @@ common#:#ps_password_must_not_contain_loginame_info#:#If activated, a password m
 common#:#password_contains_parts_of_login_err#:#The chosen password contains your username. Please insert a new password.
 common#:#password_must_contain_lcase_chars#:#The password must contain at least %s lower case letters.
 common#:#password_must_contain_ucase_chars#:#The password must contain at least %s capital letters.
+search#:#search_user_search_form#:#User Search
+search#:#search_user_search_info_form#:#If enabled, users data will be indexed and is searchable.
