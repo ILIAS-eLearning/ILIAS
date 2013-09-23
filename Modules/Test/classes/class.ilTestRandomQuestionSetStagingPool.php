@@ -71,41 +71,45 @@ class ilTestRandomQuestionSetStagingPool
 
 	private function build(ilTestRandomQuestionSetConfig $questionSetConfig, ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	{
-		$this->mirrorSourcePoolsTaxonomies(
-			$sourcePoolDefinitionList->getInvolvedSourcePoolIds()
-		);
+		$involvedSourcePoolIds = $sourcePoolDefinitionList->getInvolvedSourcePoolIds();
 
-		$this->stageQuestionsFromSourcePools($sourcePoolDefinitionList);
-	}
-
-	private function mirrorSourcePoolsTaxonomies($questionPoolIds)
-	{
-		foreach($questionPoolIds as $poolId)
+		foreach($involvedSourcePoolIds as $sourcePoolId)
 		{
-			$taxonomyIds = ilObjTaxonomy::getUsageOfObject($this->testOBJ->getId());
+			$questionIdMapping = $this->stageQuestionsFromSourcePool($sourcePoolId);
 
-			foreach($taxonomyIds as $taxId)
-			{
-				$this->copyTaxonomyFromPoolToTest($taxId);
-			}
+			$this->mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping);
 		}
 	}
 
-	private function copyTaxonomyFromPoolToTest($poolTaxonomyId)
+	private function stageQuestionsFromSourcePool($sourcePoolId)
 	{
-		$testTaxonomy = new ilObjTaxonomy();
-		$testTaxonomy->doCreate();
+		$questionIdMapping = array();
 
-		$poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
-		$poolTaxonomy->doCloneObject($testTaxonomy, null, null);
+		$query = 'SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND complete = %s AND original_id IS NULL';
+		$res = $this->db->queryF( $query, array('integer', 'text'), array($sourcePoolId, 1) );
 
-		$testTaxonomy->doUpdate();
+		while( $row = $this->db->fetchAssoc($res) )
+		{
+			$question = assQuestion::_instanciateQuestion($row['question_id']);
+			$duplicateId = $question->duplicate(true, null, null, null, $this->testOBJ->getId());
 
-		ilObjTaxonomy::saveUsage( $testTaxonomy->getId(), $this->testOBJ->getId() );
+			$nextId = $this->db->nextId('tst_rnd_cpy');
+			$this->db->insert('tst_rnd_cpy', array(
+				'copy_id' => array('integer', $nextId),
+				'tst_fi' => array('integer', $this->testOBJ->getTestId()),
+				'qst_fi' => array('integer', $duplicateId),
+				'qpl_fi' => array('integer', $sourcePoolId)
+			));
+
+			$questionMapping[ $row['question_id'] ] = $duplicateId;
+		}
+
+		return $questionIdMapping;
 	}
 
-	private function stageQuestionsFromSourcePools(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping)
 	{
-		
+		$duplicator = new ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator($sourcePoolId, $questionIdMapping);
+		$duplicator->duplicate();
 	}
 }
