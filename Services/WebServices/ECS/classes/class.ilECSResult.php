@@ -148,22 +148,29 @@ class ilECSResult
 	 */
 	private function init()
 	{
-		
 		if(!$this->result_string)
 		{
 			$this->result = array();
 			return true;
 		}
-		if($this->header_parsing)
+		if($this->header_parsing and $this->result_string)
 		{
 			$this->splitHeader();
 			$this->parseHeader();
 		}
 
+		
 	 	switch($this->result_type)
 	 	{
 	 		case self::RESULT_TYPE_JSON:
-				$this->result = json_decode($this->result_string);
+				if($this->result_string)
+				{
+					$this->result = json_decode($this->result_string);
+				}
+				else
+				{
+					$this->result = array();
+				}
 				break;
 
 			case self::RESULT_TYPE_URL_LIST:
