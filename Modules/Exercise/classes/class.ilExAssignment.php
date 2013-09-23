@@ -1100,12 +1100,25 @@ class ilExAssignment
 
 		if (count($file_id_array))
 		{					
-			$team_id = ilExAssignment::getTeamIdByAssignment($a_ass_id, $a_user_id);
-				
-			$result = $ilDB->query("SELECT * FROM exc_returned WHERE user_id = ".
-				$ilDB->quote($a_user_id, "integer")." AND ".
-				$ilDB->in("returned_id", $file_id_array, false, "integer"));
-
+			$team_id = self::getTeamIdByAssignment($a_ass_id, $a_user_id);
+			if($team_id)
+			{
+				// #11733
+				$user_ids = self::getTeamMembersByAssignmentId($a_ass_id, $a_user_id);			
+				if(!$user_ids)
+				{
+					return;
+				}
+			}
+			else
+			{
+				$user_ids = array($a_user_id);
+			}
+		
+			$result = $ilDB->query("SELECT * FROM exc_returned".
+				" WHERE ".$ilDB->in("returned_id", $file_id_array, false, "integer").
+				" AND ".$ilDB->in("user_id", $user_ids, "", "integer"));	
+			
 			if ($ilDB->numRows($result))
 			{
 				$result_array = array();
@@ -1114,13 +1127,11 @@ class ilExAssignment
 					$row["timestamp"] = $row["ts"];
 					array_push($result_array, $row);
 				}
+				
 				// delete the entries in the database
-				$ilDB->manipulate("DELETE FROM exc_returned WHERE user_id = ".
-					$ilDB->quote($a_user_id, "integer")." AND ".
-					$ilDB->in("returned_id", $file_id_array, false, "integer"));
-					//returned_id IN ("
-					//.implode(ilUtil::quoteArray($file_id_array) ,",").")",
-					//$this->ilias->db->quote($a_member_id . "")
+				$ilDB->manipulate("DELETE FROM exc_returned".
+					" WHERE ".$ilDB->in("returned_id", $file_id_array, false, "integer").
+					" AND ".$ilDB->in("user_id", $user_ids, "", "integer"));
 
 				// delete the files
 				foreach ($result_array as $key => $value)
