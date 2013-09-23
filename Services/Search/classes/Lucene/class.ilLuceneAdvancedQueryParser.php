@@ -64,7 +64,7 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
 	
 	public function parse()
 	{
-		foreach($this->getQueryData() as $field => $query)
+		foreach((array) $this->getQueryData() as $field => $query)
 		{
 			if(!trim($query))
 			{
