@@ -87,14 +87,14 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		$mtree->setTableNames('mail_tree', 'mail_obj_data');
 		$this->_folderNode = $mtree->getNodeData($this->_currentFolderId);
 
+		// fetch table data
+		$this->fetchTableData();
+
 		// command buttons
 		$this->initCommandButtons();
 
 		// mail actions
 		$this->initMultiCommands($this->_parentObject->mbox->getActions($this->_currentFolderId));
-
-		// fetch table data
-		$this->fetchTableData();
 
 		return $this;
 	}
@@ -165,7 +165,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 */
 	private function initCommandButtons()
 	{
-		if($this->_folderNode['m_type'] == 'trash')
+		if($this->_folderNode['m_type'] == 'trash' && $this->getNumerOfMails() > 0)
 		{
 			$this->addCommandButton('askForEmptyTrash', $this->lng->txt('mail_empty_trash'));
 		}
