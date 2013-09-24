@@ -132,15 +132,16 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	private function getTaxonomyFilterExpressions()
 	{
 		$expressions = array();
-		$questionIds = array();
-		
-		$forceBypass = true; // will be falsed when at least one tax node is filtered
-		
+
 		require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
 		require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-		
+
 		foreach($this->taxFilters as $taxId => $taxNodes)
 		{
+			$questionIds = array();
+
+			$forceBypass = true;
+
 			foreach($taxNodes as $taxNode)
 			{
 				$forceBypass = false;
@@ -158,13 +159,13 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 					$questionIds[$taxItem['item_id']] = $taxItem['item_id'];
 				}
 			}
+
+			if( !$forceBypass )
+			{
+				$expressions[] = $this->db->in('question_id', $questionIds, false, 'integer');
+			}
 		}
-		
-		if( !$forceBypass )
-		{
-			$expressions[] = $this->db->in('question_id', $questionIds, false, 'integer');
-		}
-		
+
 		return $expressions;
 	}
 	
