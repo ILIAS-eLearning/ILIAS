@@ -154,6 +154,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 			$questionAmountPerSourcePool->allowDecimals(false);
 			$questionAmountPerSourcePool->setMinValue(0);
 			$questionAmountPerSourcePool->setMinvalueShouldBeGreater(true);
+			$questionAmountPerSourcePool->setSize(4);
 			
 			if( $sourcePool->getQuestionAmount() )
 			{
@@ -185,6 +186,9 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 				$sourcePoolDefinition->setFilterTaxNodeId( $this->getItemByPostVar("filter_tax_$taxId")->getValue() );
 		}
 
-		$sourcePoolDefinition->setQuestionAmount( $this->getItemByPostVar('question_amount_per_pool')->getValue() );
+		if( $this->questionSetConfig->isQuestionAmountConfigurationModePerPool() )
+		{
+			$sourcePoolDefinition->setQuestionAmount( $this->getItemByPostVar('question_amount_per_pool')->getValue() );
+		}
 	}
 }

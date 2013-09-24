@@ -30,10 +30,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
 	{
+		parent::__construct($parentGUI, $parentCMD);
+
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
 
-		parent::__construct($parentGUI, $parentCMD);
+		$this->questionAmountColumnEnabled = false;
 	}
 
 	public function setQuestionAmountColumnEnabled($questionAmountColumnEnabled)
@@ -41,7 +43,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 		$this->questionAmountColumnEnabled = $questionAmountColumnEnabled;
 	}
 
-	public function getQuestionAmountColumnEnabled()
+	public function isQuestionAmountColumnEnabled()
 	{
 		return $this->questionAmountColumnEnabled;
 	}
@@ -56,11 +58,18 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 		$this->tpl->setVariable('ACTIONS_HTML', $this->getActionsHTML($set['def_id']));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock('col_question_amount');
-		$this->tpl->setVariable('QUESTION_AMOUNT_INPUT_HTML', $this->getQuestionAmountInputHTML(
-			$set['def_id'], $set['question_amount']
+		if( $this->isQuestionAmountColumnEnabled() )
+		{
+			$this->tpl->setCurrentBlock('col_question_amount');
+			$this->tpl->setVariable('QUESTION_AMOUNT_INPUT_HTML', $this->getQuestionAmountInputHTML(
+				$set['def_id'], $set['question_amount']
+			));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setVariable('ORDER_INPUT_HTML', $this->getDefinitionOrderInputHTML(
+			$set['def_id'], $this->getOrderNumberForSequencePosition($set['sequence_position'])
 		));
-		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable('SOURCE_POOL_LABEL', $set['source_pool_label']);
 		$this->tpl->setVariable('FILTER_TAXONOMY', $set['filter_taxonomy']);
@@ -70,6 +79,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 	private function getSelectionCheckboxHTML($sourcePoolDefinitionId)
 	{
 		return '<input type="checkbox" value="'.$sourcePoolDefinitionId.'" name="src_pool_def_ids[]" />';
+	}
+
+	private function getDefinitionOrderInputHTML($srcPoolDefId, $defOrderNumber)
+	{
+		return '<input type="text" size="2" value="'.$defOrderNumber.'" name="def_order['.$srcPoolDefId.']" />';
 	}
 
 	private function getQuestionAmountInputHTML($srcPoolDefId, $questionAmount)
@@ -114,6 +128,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 		return $href;
 	}
 
+	private function getOrderNumberForSequencePosition($sequencePosition)
+	{
+		return ( $sequencePosition * 10 );
+	}
+
 	public function build()
 	{
 		$this->setId('sourceQuestionPoolDefinitionListTable');
@@ -136,11 +155,17 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
 		$this->setTitle($this->lng->txt('tst_src_quest_pool_def_list_table'));
 
-		$this->addColumn('','','1%', true);
+		$this->addColumn('', 'select', '1%', true);
+		$this->addColumn('', 'order', '1%', true);
 		$this->addColumn($this->lng->txt("tst_source_question_pool"),'source_question_pool', '');
 		$this->addColumn($this->lng->txt("tst_filter_taxonomy"),'tst_filter_taxonomy', '');
 		$this->addColumn($this->lng->txt("tst_filter_tax_node"),'tst_filter_tax_node', '');
-		$this->addColumn($this->lng->txt("tst_question_amount"),'tst_question_amount', '');
+
+		if( $this->isQuestionAmountColumnEnabled() )
+		{
+			$this->addColumn($this->lng->txt("tst_question_amount"),'tst_question_amount', '');
+		}
+
 		$this->addColumn($this->lng->txt("actions"),'actions', '');
 	}
 
@@ -150,9 +175,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
 		foreach($sourcePoolDefinitionList as $sourcePoolDefinition)
 		{
+			/** @var ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition */
+
 			$set = array();
 
 			$set['def_id'] = $sourcePoolDefinition->getId();
+			$set['sequence_position'] = $sourcePoolDefinition->getSequencePosition();
 			$set['source_pool_label'] = $sourcePoolDefinition->getPoolTitle();
 			$set['filter_taxonomy'] = $sourcePoolDefinition->getFilterTaxId();
 			$set['filter_tax_node'] = $sourcePoolDefinition->getFilterTaxNodeId();
@@ -162,5 +190,36 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 		}
 
 		$this->setData($rows);
+	}
+
+	public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	{
+		foreach($sourcePoolDefinitionList as $sourcePoolDefinition)
+		{
+			/** @var ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition */
+
+			$orderNumber = $this->fetchOrderNumberParameter($sourcePoolDefinition);
+			$sourcePoolDefinition->setSequencePosition($orderNumber);
+
+			if( $this->isQuestionAmountColumnEnabled())
+			{
+				$questionAmount = $this->fetchQuestionAmountParameter($sourcePoolDefinition);
+				$sourcePoolDefinition->setQuestionAmount($questionAmount);
+			}
+			else
+			{
+				$sourcePoolDefinition->setQuestionAmount(null);
+			}
+		}
+	}
+
+	private function fetchOrderNumberParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	{
+		return (int)$_POST['def_order'][$definition->getId()];
+	}
+
+	private function fetchQuestionAmountParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	{
+		return (int)$_POST['def_order'][$definition->getId()];
 	}
 }

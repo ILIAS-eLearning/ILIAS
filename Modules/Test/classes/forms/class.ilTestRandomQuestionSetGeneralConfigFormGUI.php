@@ -124,6 +124,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 			$questionAmountPerTest->setMinValue(0);
 			$questionAmountPerTest->allowDecimals(false);
 			$questionAmountPerTest->setMinvalueShouldBeGreater(true);
+			$questionAmountPerTest->setSize(4);
 			
 			$questionAmountPerTest->setValue(
 					$this->questionSetConfig->getQuestionAmountPerTest()

@@ -245,6 +245,7 @@ class ilTestRandomQuestionSetConfigGUI
 	private function saveGeneralConfigFormCmd()
 	{
 		$this->questionSetConfig->loadFromDb();
+
 		$form = $this->buildGeneralConfigFormGUI();
 
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
@@ -291,7 +292,19 @@ class ilTestRandomQuestionSetConfigGUI
 
 	private function saveSourcePoolDefinitionListCmd()
 	{
+		$this->questionSetConfig->loadFromDb();
 
+		$table = $this->buildSourcePoolDefinitionListTableGUI();
+
+		$this->sourcePoolDefinitionList->loadDefinitions();
+
+		$table->applySubmit($this->sourcePoolDefinitionList);
+
+		$this->sourcePoolDefinitionList->reindexPositions();
+		$this->sourcePoolDefinitionList->saveDefinitions();
+
+		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
+		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
 	}
 
 	private function buildSourcePoolDefinitionListToolbarGUI()
@@ -313,6 +326,10 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$table = new ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI(
 			$this->ctrl, $this->lng, $this, self::CMD_SHOW_SRC_POOL_DEF_LIST
+		);
+
+		$table->setQuestionAmountColumnEnabled(
+			$this->questionSetConfig->isQuestionAmountConfigurationModePerPool()
 		);
 
 		$table->build();

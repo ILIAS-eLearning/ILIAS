@@ -53,7 +53,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	
 	public function loadDefinitions()
 	{
-		$query = "SELECT * FROM tst_rnd_quest_set_qpls WHERE test_fi = %s";
+		$query = "SELECT * FROM tst_rnd_quest_set_qpls WHERE test_fi = %s ORDER BY sequence_pos ASC";
 		$res = $this->db->queryF($query, array('integer'), array($this->testOBJ->getTestId()));
 
 		while( $row = $this->db->fetchAssoc($res) )
@@ -84,13 +84,13 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 			$positionIndex[ $definition->getId() ] = $definition->getSequencePosition();
 		}
 
-		sort($positionIndex);
+		asort($positionIndex);
 
 		$i = 1;
 
 		foreach($positionIndex as $definitionId => $definitionPosition)
 		{
-			$index[$definitionId] = $i++;
+			$positionIndex[$definitionId] = $i++;
 		}
 
 		foreach($this as $definition)
