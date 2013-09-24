@@ -84,13 +84,15 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 		$this->addCommandButton(
 				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_SRC_POOL_DEF_LIST, $this->lng->txt('cancel')
 		);
-		
-		
+
+		$hiddenDefId = new ilHiddenInputGUI('src_pool_def_id');
+		$hiddenDefId->setValue( $sourcePool->getId() );
+		$this->addItem($hiddenDefId);
+
 		$hiddenPoolId = new ilHiddenInputGUI('quest_pool_id');
 		$hiddenPoolId->setValue( $sourcePool->getPoolId() );
 		$this->addItem($hiddenPoolId);
-		
-		
+
 		$nonEditablePoolLabel = new ilNonEditableValueGUI(
 				$this->lng->txt('tst_inp_source_pool_label'), 'quest_pool_label'
 		);
