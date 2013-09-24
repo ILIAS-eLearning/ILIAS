@@ -341,11 +341,34 @@ class ilCustomUserFieldsGUI
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$user_field_definitions->setFieldType($this->field_definition["field_type"]);
 		
+		// gather old select options 
+		$old_options = null;
+		if($this->field_id)
+		{			
+			$old_values = $user_field_definitions->getDefinition($this->field_id);
+			if($old_values["field_type"] == UDF_TYPE_SELECT)
+			{
+				$old_options = $old_values["field_values"];
+			}
+		}
+		
 		$access = array();
 		$form = $this->initForm("edit");				
 		if($this->validateForm($form, $user_field_definitions, $access) && $this->field_id)
 		{
 			// field values are set in validateForm()...
+			
+			// diff old select options against new to handle deleted values properly
+			if(is_array($old_options))
+			{
+				foreach($old_options as $old_option)
+				{
+					if(!in_array($old_option, $user_field_definitions->getFieldValues()))
+					{
+						 ilUserDefinedData::deleteFieldValue($this->field_id, $old_option);						
+					}
+				}
+			}				
 						
 			$user_field_definitions->setFieldName($form->getInput("name"));								
 			$user_field_definitions->enableVisible($access['visible']);
