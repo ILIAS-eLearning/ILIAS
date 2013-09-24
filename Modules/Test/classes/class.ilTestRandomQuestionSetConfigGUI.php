@@ -6,6 +6,8 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefini
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPool.php';
 
+require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+
 /**
  * GUI class that manages the question set configuration for continues tests
  *
@@ -364,12 +366,12 @@ class ilTestRandomQuestionSetConfigGUI
 		$poolId = $this->fetchQuestionPoolIdParameter();
 
 		$sourcePoolDefinition = $this->getSourcePoolDefinitionByAvailableQuestionPoolId($poolId);
+		$availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($sourcePoolDefinition->getPoolId());
 
 		if($form === null)
 		{
 			$form = $this->buildSourcePoolDefinitionFormGUI(
-				$sourcePoolDefinition, $this->getAvailableTaxonomyIds($sourcePoolDefinition->getPoolId()),
-				self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM
+				$sourcePoolDefinition, $availableTaxonomyIds, self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM
 			);
 		}
 
@@ -383,11 +385,10 @@ class ilTestRandomQuestionSetConfigGUI
 		$poolId = $this->fetchQuestionPoolIdParameter();
 		$sourcePoolDefinition = $this->getSourcePoolDefinitionByAvailableQuestionPoolId($poolId);
 
-		$availableTaxonomyIds = $this->getAvailableTaxonomyIds( $sourcePoolDefinition->getPoolId() );
+		$availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($sourcePoolDefinition->getPoolId());
 
 		$form = $this->buildSourcePoolDefinitionFormGUI(
-			$sourcePoolDefinition, $availableTaxonomyIds,
-			self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM
+			$sourcePoolDefinition, $availableTaxonomyIds, self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM
 		);
 
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
@@ -414,10 +415,24 @@ class ilTestRandomQuestionSetConfigGUI
 
 	private function showEditSourcePoolDefinitionFormCmd(ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null)
 	{
+		$this->questionSetConfig->loadFromDb();
 
+		$defId = $this->fetchSingleSourcePoolDefinitionIdParameter();
+
+		$sourcePoolDefinition = $this->sourcePoolDefinitionFactory->getSourcePoolDefinitionByDefinitionId($defId);
+		$availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($sourcePoolDefinition->getPoolId());
+
+		if($form === null)
+		{
+			$form = $this->buildSourcePoolDefinitionFormGUI(
+				$sourcePoolDefinition, $availableTaxonomyIds, self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM
+			);
+		}
+
+		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 	}
 
-	private function saveEditSourcePoolDefinitionFormCmd(ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null)
+	private function saveEditSourcePoolDefinitionFormCmd()
 	{
 
 	}
@@ -488,12 +503,6 @@ class ilTestRandomQuestionSetConfigGUI
 		}
 
 		return $definitionIds;
-	}
-
-	private function getAvailableTaxonomyIds($objId)
-	{
-		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-		return ilObjTaxonomy::getUsageOfObject($objId);
 	}
 
 	private function getSourcePoolDefinitionByAvailableQuestionPoolId($poolId)
