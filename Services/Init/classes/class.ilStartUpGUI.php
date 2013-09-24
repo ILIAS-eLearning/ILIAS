@@ -1444,33 +1444,32 @@ class ilStartUpGUI
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 
-		// language selection
-		$languages = $lng->getInstalledLanguages();
-
-		// #11237
-		if(sizeof($languages) > 1)
-		{			
+		// #9728
+		$lang_opts = array();
+		foreach ($lng->getInstalledLanguages() as $lang_key)
+		{
+			$lang_opts[$lang_key] = ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key);
+		}
+		
+		if(sizeof($lang_opts) > 1) // #11237
+		{
 			$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 			$tpl->setVariable("TXT_OK", $lng->txt("ok"));
-		
-			$count = (int) round(count($languages) / 2);
-			$num = 1;
-
-			foreach ($languages as $lang_key)
+			
+			asort($lang_opts);
+			
+			foreach($lang_opts as $lang_key => $lang_caption)
 			{
 				$tpl->setCurrentBlock("languages");
 				$tpl->setVariable("LANG_VAL_CMD", $this->ctrl->getCmd());
 				$tpl->setVariable("AGR_LANG_ACTION",
 					$this->ctrl->getFormAction($this));
-				$tpl->setVariable("LANG_NAME",
-					ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
+				$tpl->setVariable("LANG_NAME", $lang_caption);
 				$tpl->setVariable("LANG_ICON", $lang_key);
 				$tpl->setVariable("LANG_KEY", $lang_key);
 				$tpl->setVariable("BORDER", 0);
 				$tpl->setVariable("VSPACE", 0);
 				$tpl->parseCurrentBlock();
-
-				$num++;
 			}
 		}
 		

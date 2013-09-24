@@ -741,6 +741,7 @@ class ilUserProfile
 							$options[$lang_key] = $lng->txt("meta_l_".$lang_key);
 						}
 						$ta->setOptions($options);
+						asort($options); // #9728
 						$ta->setRequired($ilSetting->get("require_".$f));
 						if(!$ta->getRequired() || $ta->getValue())
 						{
