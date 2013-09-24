@@ -294,11 +294,11 @@ class ilExAssignmentGUI
 									$node["title"].'</a>';
 								$valid_blog = true;
 							}	
-							else
-							{
-								// remove invalid resource
+							// remove invalid resource if no upload yet (see download below)
+							else if(substr($delivered_files["filename"], -1) == "/")
+							{								
 								$this->exc->deleteResourceObject($delivered_files["ass_id"],
-									$ilUser->getId(), $delivered_files["returned_id"]);
+									$ilUser->getId(), $delivered_files["returned_id"]); 
 							}
 						}						
 						if(!$times_up)
@@ -356,9 +356,9 @@ class ilExAssignmentGUI
 									$valid_prtf = true;
 								}
 							}
-							else
-							{							
-								// remove invalid resource
+							// remove invalid resource if no upload yet (see download below)
+							else if(substr($delivered_files["filename"], -1) == "/")
+							{		
 								$this->exc->deleteResourceObject($delivered_files["ass_id"],
 									$ilUser->getId(), $delivered_files["returned_id"]);							
 							}
