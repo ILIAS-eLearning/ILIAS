@@ -134,7 +134,7 @@ class ilECSEventQueueReader
 		
 		include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
-
+		
 		try
 		{
 			include_once('./Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php');
@@ -148,6 +148,10 @@ class ilECSEventQueueReader
 			
 			$list = self::getAllResourceIds($server, $types);						
 			$imported = ilECSImport::getAllImportedRemoteObjects($server->getServerId());
+			
+			$GLOBALS['ilLog']->write(__METHOD__.': Imported = '.print_r($imported,true));
+			$GLOBALS['ilLog']->write(__METHOD__.': List = '.print_r($list,true));
+			
 			foreach($list as $resource_type => $link_ids)
 			{
 				if(!in_array($resource_type, ilECSUtils::getPossibleRemoteTypes()))
@@ -236,28 +240,26 @@ class ilECSEventQueueReader
 
 		$types = self::getAllEContentTypes();					
 		$list = self::getAllResourceIds($server, $types, true);
-
-		// Delete all deprecated local export info
-		foreach($list as $resource_type => $remote_econtent_ids)
+		
+		
+		// merge in one array
+		$all_remote_ids = array();
+		foreach($list as $resource_type => $remote_ids)
 		{
-			if($remote_econtent_ids)
+			$all_remote_ids = array_merge($all_remote_ids,(array) $remote_ids);
+		}
+		$all_remote_ids = array_unique($all_remote_ids);
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': Resources = ' . print_r($all_remote_ids,true));
+		$GLOBALS['ilLog']->write(__METHOD__.': Local = ' . print_r($local_econtent_ids,true));
+		foreach($local_econtent_ids as $local_econtent_id => $local_obj_id)
+		{
+			if(!in_array($local_econtent_id, $all_remote_ids))
 			{
-				foreach($local_econtent_ids as $econtent_id => $obj_id)
-				{
-					if(!in_array($econtent_id, $remote_econtent_ids))
-					{
-						ilECSExport::_deleteEContentIds($server->getServerId(),array($econtent_id));
-					}
-				}
-
-				// Delete all with deprecated remote info
-				foreach($remote_econtent_ids as $econtent_id)
-				{
-					if(!isset($local_econtent_ids[$econtent_id]))
-					{
-						ilECSExport::_deleteEContentIds($server->getServerId(),array($econtent_id));
-					}
-				}
+				// Delete this deprecated info
+				$GLOBALS['ilLog']->write(__METHOD__.': Deleting deprecated econtent id '. $local_econtent_id);
+				ilECSExport::_deleteEContentIds($server->getServerId(),array($local_econtent_id));
+				
 			}
 		}
 		return true;
