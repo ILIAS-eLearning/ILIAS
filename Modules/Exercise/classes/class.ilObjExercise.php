@@ -1108,6 +1108,24 @@ class ilObjExercise extends ilObject
 	}
 	
 	/**
+	 * Remove personal resource to assigment
+	 * 
+	 * @param int $a_ass_id
+	 * @param int $user_id 
+	 * @param int $a_returned_id 
+	 */
+	public function deleteResourceObject($a_ass_id, $user_id, $a_returned_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM exc_returned".
+			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND user_id = ".$ilDB->quote($user_id, "integer").
+			" AND ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND returned_id = ".$ilDB->quote($a_returned_id, "integer"));		
+	}
+	
+	/**
 	 * Handle text assignment submissions
 	 *
 	 * @param int $a_exc_id
