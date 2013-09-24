@@ -597,8 +597,8 @@ class ilECSConnector
 			switch($this->getServer()->getAuthType())
 			{
 				case ilECSSetting::AUTH_APACHE:
-					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER,0);
-					$this->curl->setOpt(CURLOPT_SSL_VERIFYHOST,0);
+					#$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER,0);
+					#$this->curl->setOpt(CURLOPT_SSL_VERIFYHOST,0);
 					$this->curl->setOpt(CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 					$this->curl->setOpt(CURLOPT_USERPWD,
 						$this->getServer()->getAuthUser().':'.$this->getServer()->getAuthPass()
@@ -607,7 +607,8 @@ class ilECSConnector
 
 				case ilECSSetting::AUTH_CERTIFICATE:
 					$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER,1);
-					$this->curl->setOpt(CURLOPT_SSL_VERIFYHOST,1);
+					// use default 2 for libcurl 7.28.1 support
+					#$this->curl->setOpt(CURLOPT_SSL_VERIFYHOST,1);
 					$this->curl->setOpt(CURLOPT_CAINFO,$this->settings->getCACertPath());
 					$this->curl->setOpt(CURLOPT_SSLCERT,$this->settings->getClientCertPath());
 					$this->curl->setOpt(CURLOPT_SSLKEY,$this->settings->getKeyPath());
