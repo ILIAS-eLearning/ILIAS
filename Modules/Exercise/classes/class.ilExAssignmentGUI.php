@@ -293,7 +293,13 @@ class ilExAssignmentGUI
 								$files_str = '<a href="'.$blog_link.'">'.
 									$node["title"].'</a>';
 								$valid_blog = true;
-							}						
+							}	
+							else
+							{
+								// remove invalid resource
+								$this->exc->deleteResourceObject($delivered_files["ass_id"],
+									$ilUser->getId(), $delivered_files["returned_id"]);
+							}
 						}						
 						if(!$times_up)
 						{
@@ -349,6 +355,12 @@ class ilExAssignmentGUI
 										'">'.$portfolio->getTitle().'</a>';
 									$valid_prtf = true;
 								}
+							}
+							else
+							{							
+								// remove invalid resource
+								$this->exc->deleteResourceObject($delivered_files["ass_id"],
+									$ilUser->getId(), $delivered_files["returned_id"]);							
 							}
 						}
 						if(!$times_up)
