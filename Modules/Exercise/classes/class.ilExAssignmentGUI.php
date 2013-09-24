@@ -330,21 +330,25 @@ class ilExAssignmentGUI
 							$delivered_files = array_pop($delivered_files);
 							$portfolio_id = (int)$delivered_files["filetitle"];
 							
-							include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
-							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
-							$portfolio = new ilObjPortfolio($portfolio_id, false);											
-							
-							if($portfolio->getTitle())
-							{								
-								// #10116
-								// $prtf_link = ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id)						
-								$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $portfolio_id);
-								$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilobjportfoliogui"), "pages");
-								$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
-								
-								$files_str = '<a href="'.$prtf_link.
-									'">'.$portfolio->getTitle().'</a>';
-								$valid_prtf = true;
+							// #11746
+							if(ilObject::_exists($portfolio_id, false))
+							{
+								include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+								include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
+								$portfolio = new ilObjPortfolio($portfolio_id, false);											
+
+								if($portfolio->getTitle())
+								{								
+									// #10116
+									// $prtf_link = ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id)						
+									$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $portfolio_id);
+									$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilobjportfoliogui"), "pages");
+									$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
+
+									$files_str = '<a href="'.$prtf_link.
+										'">'.$portfolio->getTitle().'</a>';
+									$valid_prtf = true;
+								}
 							}
 						}
 						if(!$times_up)
