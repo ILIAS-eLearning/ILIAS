@@ -146,7 +146,6 @@ class ilECSImport
 			$all[$row->econtent_id] = $row->obj_id;
 		}
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($all,true));
 		return $all ? $all : array();
 	}
 	
