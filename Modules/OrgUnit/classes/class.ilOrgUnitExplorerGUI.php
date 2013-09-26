@@ -3,7 +3,7 @@
 
 	class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 
-		protected $stay_with_command = array("", "render", "view", "infoScreen", "showStaff");
+		protected $stay_with_command = array("", "render", "view", "infoScreen", "showStaff","performPaste");
 
 		public function getNodeContent($node){
 			global $lng;
@@ -33,16 +33,99 @@
 
 		function getNodeHref($node){
 			global $ilCtrl;
+            if($ilCtrl->getCmd() == "performPaste")
+            {
+                $ilCtrl->setParameterByClass("ilObjOrgUnitGUI","target_node",$node["child"]);
+            }
 			$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $node["child"]);
 			return $this->getLinkTarget();
 		}
 
 		protected function getLinkTarget(){
 			global $ilCtrl;
+
 			if($ilCtrl->getCmdClass() == "ilobjorgunitgui" && in_array($ilCtrl->getCmd(), $this->stay_with_command))
-				return $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), $ilCtrl->getCmd());
+            {
+               return $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), $ilCtrl->getCmd());
+            }
 			else
-				return $ilCtrl->getLinkTargetByClass("ilobjorgunitgui", "view");
+            {
+                return $ilCtrl->getLinkTargetByClass("ilobjorgunitgui", "view");
+            }
+
 		}
+
+		/**
+		 * Get childs of node
+		 *
+		 * @param $a_parent_node_id
+		 * @internal param int $a_parent_id parent id
+		 * @return array childs
+		 */
+        function getChildsOfNode($a_parent_node_id)
+        {
+            global $ilAccess;
+
+            $wl = $this->getTypeWhiteList();
+            if (is_array($wl) && count($wl) > 0)
+            {
+                $childs = $this->tree->getChildsByTypeFilter($a_parent_node_id, $wl, $this->getOrderField());
+            }
+            else
+            {
+                $childs = $this->tree->getChilds($a_parent_node_id, $this->getOrderField());
+            }
+
+            // apply black list filter
+            $bl = $this->getTypeBlackList();
+            if (is_array($bl) && count($bl) > 0)
+            {
+                $bl_childs = array();
+                foreach($childs as $k => $c)
+                {
+                    if (!in_array($c["type"], $bl))
+                    {
+                        $bl_childs[$k] = $c;
+                    }
+                }
+                return $bl_childs;
+            }
+
+            //Check Access
+            foreach($childs as $key => $child)
+            {
+                if(!$ilAccess->checkAccess('read', '', $child['ref_id']))
+                {
+                    unset($childs[$key]);
+                }
+            }
+
+            return $childs;
+        }
+
+		/**
+		 * Sort childs
+		 *
+		 * @param array $a_childs array of child nodes
+		 * @param $a_parent_node_id
+		 * @internal param mixed $a_parent_node parent node
+		 *
+		 * @return array array of childs nodes
+		 */
+        function sortChilds($a_childs, $a_parent_node_id)
+        {
+            usort($a_childs,array( __CLASS__,  "sortbyTitle"));
+
+            return $a_childs;
+        }
+
+        /*
+         * sortbyTitle
+         * Helper Method for sortChilds -> usort
+         */
+        function sortbyTitle($a, $b)
+        {
+            return strcmp($a["title"], $b["title"]);
+        }
 	}
 ?>

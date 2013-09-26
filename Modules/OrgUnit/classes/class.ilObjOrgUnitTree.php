@@ -110,7 +110,7 @@ class ilObjOrgUnitTree {
 		return $all_users;
 	}
 
-	private function getAllChildren($ref_id){
+	public function getAllChildren($ref_id){
 		$open = array($ref_id);
 		$closed = array();
 		while(count($open)){
@@ -130,14 +130,22 @@ class ilObjOrgUnitTree {
 	 */
 	public function getOrgusWhereUserHasPermissionForOperation($operation){
 		global $ilUser;
-		$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
+		/*$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
 		INNER JOIN rbac_operations ON rbac_operations.operation = ".$this->db->quote($operation, "text")."
 		INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."
 		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')
 		INNER JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 		INNER JOIN tree ON tree.child = rbac_fa.parent
 		INNER JOIN object_reference ON object_reference.ref_id = tree.parent
+		WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'orgu'";*/
+
+        $q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
+		INNER JOIN rbac_operations ON rbac_operations.operation = ".$this->db->quote($operation, "text")."
+		INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."
+		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')
+		INNER JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id
 		WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'orgu'";
+
 		$set = $this->db->query($q);
 		$orgus = array();
 		while($res = $this->db->fetchAssoc($set)){
@@ -165,6 +173,7 @@ class ilObjOrgUnitTree {
 		INNER JOIN tree ON tree.child = rbac_fa.parent
 		INNER JOIN object_reference ON object_reference.ref_id = tree.parent
 		WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'orgu'";
+
 		$set = $this->db->query($q);
 		$orgus = array();
 		while($res = $this->db->fetchAssoc($set)){
@@ -237,15 +246,15 @@ class ilObjOrgUnitTree {
 	}
 
 	/**
-	 * for additional info see the other getLevelX method.
-	 * @param $user_id
-	 * @param $level
-	 * @return int[]
+	 * @param $user_id int
+	 * @param $recursive bool if this is true subsequent orgunits of this users superior role get searched as well.
+	 * @return int[] returns an array of user_ids of the users which have an employee role in an orgunit of which this user's id has a superior role.
 	 */
-	public function getLevelXOfUser($user_id, $level){
+	public function getSuperiorsOfUser($user_id, $recursive = true){
+		//querry for all orgu where user_id is superior.
 		$q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
                 INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
-				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
+				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id)
 				INNER JOIN rbac_ua rbac ON rbac.usr_id = ".$this->db->quote($user_id, "integer")." AND roles.obj_id = rbac.rol_id
 				WHERE orgu.type = 'orgu'";
 		$set = $this->db->query($q);
@@ -253,11 +262,61 @@ class ilObjOrgUnitTree {
 		while($res = $this->db->fetchAssoc($set)){
 			$orgu_ref_ids[] = $res['ref_id'];
 		}
-		$orgus_on_level_x = array();
+		$superiors = array();
 		foreach($orgu_ref_ids as $orgu_ref_id){
-		$orgus_on_level_x[] = $this->getLevelXOfTreenode($orgu_ref_id, $level);
+			$superiors = array_merge($superiors, $this->getSuperiors($orgu_ref_id, $recursive));
 		}
+		return $superiors;
+	}
+
+
+	/**
+	 * for additional info see the other getLevelX method.
+	 *
+	 * @param $user_id
+	 * @param $level
+	 *
+	 * @return int[]
+	 */
+	public function getLevelXOfUser($user_id, $level) {
+		$q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
+                INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
+				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
+				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
+				WHERE orgu.type = 'orgu'";
+		$set = $this->db->query($q);
+		$orgu_ref_ids = array();
+		while ($res = $this->db->fetchAssoc($set)) {
+			$orgu_ref_ids[] = $res['ref_id'];
+		}
+		$orgus_on_level_x = array();
+		foreach ($orgu_ref_ids as $orgu_ref_id) {
+			$orgus_on_level_x[] = $this->getLevelXOfTreenode($orgu_ref_id, $level);
+		}
+
 		return array_unique($orgus_on_level_x);
+	}
+
+
+	/**
+     * getOrgUnitOfUser
+     *
+     * @param $user_id
+     * @return int[]
+     */
+    public function getOrgUnitOfUser($user_id){
+        $q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
+                INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
+				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
+				INNER JOIN rbac_ua rbac ON rbac.usr_id = ".$this->db->quote($user_id, "integer")." AND roles.obj_id = rbac.rol_id
+				WHERE orgu.type = 'orgu'";
+        $set = $this->db->query($q);
+        $orgu_ref_ids = array();
+        while($res = $this->db->fetchAssoc($set)){
+            $orgu_ref_ids[] = $res['ref_id'];
+        }
+
+        return array_unique($orgu_ref_ids);
 	}
 
 	public function getTitles($org_refs){
