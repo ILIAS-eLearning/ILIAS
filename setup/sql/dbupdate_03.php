@@ -18618,3 +18618,26 @@ while($row = $ilDB->fetchAssoc($set))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4108>
+<?php
+	if (!$ilDB->tableColumnExists("page_object", "edit_lock_user"))
+	{
+		$ilDB->addTableColumn("page_object", "edit_lock_user", array(
+			"type" => "integer",
+			"notnull" => false,
+		 	"length" => 4));
+	}
+
+?>
+<#4109>
+<?php
+	if (!$ilDB->tableColumnExists("page_object", "edit_lock_ts"))
+	{
+		$ilDB->addTableColumn("page_object", "edit_lock_ts", array(
+			"type" => "integer",
+			"notnull" => true,
+			"default" => 0,
+		 	"length" => 4));
+	}
+
+?>

@@ -1615,7 +1615,9 @@ if (!$a_wysiwyg)
 	function updatePage($a_page)
 	{
 		$a_page->beforePageContentUpdate($this);
-		return $a_page->update();
+		
+		$ret = $a_page->update();
+		return $ret;
 	}
 	
 	/**

@@ -13890,5 +13890,10 @@ content#:#cont_edit_language_version#:#Edit Version
 content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created
 search#:#search_user_search_form#:#User Search
 search#:#search_user_search_info_form#:#If enabled, users data will be indexed and is searchable.
+adve#:#adve_blocking_mode#:#Edit Lock
+adve#:#adve_minutes#:#Minutes
+adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
+content#:#content_until#:#At least locked until: 
+content#:#content_no_edit_lock#:#The page is currently locked by another user.
 exc#:#exc_fb_tutor_info#:#When a feedback file is uploaded, a notification is sent to the user and the feedback file will be listed in the user's assignment view.
 obj#:#svy_results#:#Results

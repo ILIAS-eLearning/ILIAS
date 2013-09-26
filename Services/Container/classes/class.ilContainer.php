@@ -284,7 +284,6 @@ class ilContainer extends ilObject
 			$big_file_name = ilUtil::escapeShellArg($big_file_name);
 			ilUtil::execConvert($a_big_icon."[0] -geometry ".$big_geom." PNG:".$big_file_name);
 		}
-
 		if (is_file($cont_dir."/icon_big.png"))
 		{
 			ilContainer::_writeContainerSetting($this->getId(), "icon_big", 1);
@@ -293,7 +292,6 @@ class ilContainer extends ilObject
 		{
 			ilContainer::_writeContainerSetting($this->getId(), "icon_big", 0);
 		}
-	
 		// save small icon
 		$small_geom = $this->ilias->getSetting("custom_icon_small_width")."x".
 			$this->ilias->getSetting("custom_icon_small_height");

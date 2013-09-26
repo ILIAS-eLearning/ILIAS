@@ -1561,7 +1561,7 @@ abstract class ilPageObject
 	function validateDom()
 	{
 		$this->stripHierIDs();
-		$this->dom->validate($error);
+		@$this->dom->validate($error);
 		return $error;
 	}
 
@@ -2384,6 +2384,17 @@ abstract class ilPageObject
 		if($a_validate)
 		{
 			$errors = $this->validateDom();
+		}
+		
+		if (empty($errors) && !$this->getEditLock())
+		{
+			include_once("./Services/User/classes/class.ilUserUtil.php");
+			$lock = $this->getEditLockInfo();
+			$errors = $lng->txt("cont_not_saved_edit_lock_expired");
+			$errors.= "</br>".$lng->txt("obj_usr").": ".
+				ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+			$errors.= "</br>".$lng->txt("content_until").": ".
+				ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX));
 		}
 
 //echo "-".htmlentities($this->getXMLFromDom())."-"; exit;
@@ -4760,5 +4771,73 @@ abstract class ilPageObject
 		$transl_page->create();
 	}
 	
+	////
+	//// Page locking
+	////
+	
+	/**
+	 * Get page lock
+	 *
+	 * @param
+	 * @return
+	 */
+	function getEditLock()
+	{
+		global $ilUser, $ilDB;
+		
+		$aset = new ilSetting("adve");
+		
+		$min = (int) $aset->get("block_mode_minutes") ;
+		if ($min > 0)
+		{
+			// try to set the lock for the user
+			$ts = time();
+			$ilDB->manipulate("UPDATE page_object SET ".
+				" edit_lock_user = ".$ilDB->quote($ilUser->getId(), "integer").",".
+				" edit_lock_ts = ".$ilDB->quote($ts, "integer").
+				" WHERE (edit_lock_user = ".$ilDB->quote($ilUser->getId(), "integer")." OR ".
+				" edit_lock_ts < ".$ilDB->quote(time() - ($min * 60), "integer").") ".
+				" AND page_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text")
+				);
+			
+			$set = $ilDB->query("SELECT edit_lock_user FROM page_object ".
+				" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text")
+				);
+			$rec = $ilDB->fetchAssoc($set);
+			if ($rec["edit_lock_user"] != $ilUser->getId())
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Get edit lock info
+	 *
+	 * @param
+	 * @return
+	 */
+	function getEditLockInfo()
+	{
+		global $ilDB;
+		
+		$aset = new ilSetting("adve");		
+		$min = (int) $aset->get("block_mode_minutes");
+		
+		$set = $ilDB->query("SELECT edit_lock_user, edit_lock_ts FROM page_object ".
+			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+		$rec["edit_lock_until"] = $rec["edit_lock_ts"] + $min * 60;
+		
+		return $rec;
+	}
+	
+
 }
 ?>
