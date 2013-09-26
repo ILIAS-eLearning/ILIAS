@@ -210,7 +210,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
-//echo "-".ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())."-";
 		$this->tpl->setCurrentBlock("SyntaxStyle");
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
@@ -423,7 +422,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function showPossibleSubObjects()
 	{							
 		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
-		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());		
+		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());
 		$gui->render();
 	}
 	
@@ -1566,8 +1565,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		//$this->ilias->raiseError("move operation does not work at the moment and is disabled",$this->ilias->error_obj->MESSAGE);
 
-//echo "CUT";
-//echo $_SESSION["referer"];
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -1603,12 +1600,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".implode(',',$this->getTitlesByRefId($no_cut)),
 									 $this->ilias->error_obj->MESSAGE);
 		}
-		//echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
 		$_SESSION["clipboard"]["cmd"] = $ilCtrl->getCmd();
-//echo "-".$clipboard["cmd"]."-";
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
-//echo "-".$_SESSION["clipboard"]["cmd"]."-";
 
 		ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"),true);
 

@@ -2,54 +2,44 @@
 /**
  * Created by JetBrains PhpStorm.
  * @author: Oskar Truffer <ot@studer-raimann.ch>
+ * @author: Martin Studer <ms@studer-raimann.ch>
  * Date: 4/07/13
  * Time: 12:39 PM
  * To change this template use File | Settings | File Templates.
  */
 include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-include_once("./Modules/Category/classes/class.ilObjCategoryListGUI.php");
 
-class ilObjOrgUnitListGUI extends ilObjCategoryListGUI {
+class ilObjOrgUnitListGUI extends ilObjectListGUI {
+
 	function __construct(){
 		$this->ilObjectListGUI();
-		$this->enableComments(false, false);
+		//$this->enableComments(false, false);
 	}
 
-	/**
-	 * Get command link url.
-	 *
-	 * Overwrite this method, if link target is not build by ctrl class
-	 * (e.g. "forum.php"). This is the case
-	 * for all links now, but bringing everything to ilCtrl should
-	 * be realised in the future.
-	 *
-	 * @param	string		$a_cmd			command
-	 *
-	 * @return	string		command link url
-	 */
-	function getCommandLink($a_cmd)
-	{
-		if($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SHOP)
-		{
+    /**
+     * initialisation
+     */
+    function init()
+    {
+        $this->static_link_enabled = true;
+        $this->delete_enabled = true;
+        $this->cut_enabled = true;
+        $this->info_screen_enabled = true;
+        $this->copy_enabled = false;
+        $this->subscribe_enabled = true;
+        $this->link_enabled = false;
+        $this->payment_enabled = false;
 
-			$this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $this->getCommandId());
-			$cmd_link = $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
-			$this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $_GET["ref_id"]);
-			return $cmd_link;
-		}
-		else
-		{
-			$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", "");
-			$this->ctrl->setParameterByClass($this->gui_class_name, "wsp_id", $this->ref_id);
-			return $this->ctrl->getLinkTargetByClass($this->gui_class_name, $a_cmd);
-		}
-	}
+        $this->type = "orgu";
+        $this->gui_class_name = "ilobjorgunitgui";
 
-	public function init(){
-		parent::init();
+        // general commands array
+        include_once('./Modules/OrgUnit/classes/class.ilObjOrgUnitAccess.php');
+        $this->commands = ilObjOrgUnitAccess::_getCommands();
+    }
 
-		$this->type = "orgu";
-	}
+
+
 
 
 	/**
@@ -66,13 +56,39 @@ class ilObjOrgUnitListGUI extends ilObjCategoryListGUI {
 		return;
 	}
 
-	public function getCommands(){
-		$cmds = parent::getCommands();
-		$my_cmds = array();
-		foreach($cmds as $cmd){
-			if(!$cmd["cmd"] == "enableAdministrationPanel")
-				$my_cmds[] = $cmd;
-		}
-		return $my_cmds;
-	}
+    /**
+     * insert info screen command
+     */
+    function insertInfoScreenCommand()
+    {
+
+        if ($this->std_cmd_only)
+        {
+            return;
+        }
+        $cmd_link = $this->getCommandLink("infoScreen");
+        $cmd_frame = $this->getCommandFrame("infoScreen");
+        $this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
+            ilUtil::getImagePath("cmd_info_s.png"));
+    }
+
+    function getCommandLink($a_cmd)
+    {
+        $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id",  $this->ref_id);
+        //$this->ctrl->setParameterByClass("ilobjorgunitgui", "wsp_id", $this->ref_id);
+        return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
+    }
+
+
+    /*public function getCommands(){
+        $cmds = parent::getCommands();
+        $my_cmds = array();
+        foreach($cmds as $cmd){
+            if(!$cmd["cmd"] == "enableAdministrationPanel")
+                $my_cmds[] = $cmd;
+        }
+        return $my_cmds;
+    }*/
+
+
 }

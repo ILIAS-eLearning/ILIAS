@@ -48,10 +48,6 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$this->setRowTemplate("tpl.staff_row.html", "Modules/OrgUnit");
 	}
 
-//	public function getHTML(){
-//		return parent::getHTML();
-//	}
-
 	protected function setTableHeaders(){
 		$this->addColumn($this->lng->txt("firstname"), "first_name");
 		$this->addColumn($this->lng->txt("lastname"), "last_name");
@@ -135,7 +131,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	 * @param $selection ilAdvancedSelectionListGUI
 	 */
 	protected function addEmployeeActions(&$selection){
-		$selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "removeFromEmployees"));
+		$selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "confirmRemoveFromEmployees"));
 		$selection->addItem($this->lng->txt("change_to_superior"), "change_to_superior", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "fromEmployeeToSuperior"));
 	}
 
@@ -143,7 +139,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	 * @param $selection ilAdvancedSelectionListGUI
 	 */
 	protected function addSuperiorActions(&$selection){
-		$selection->addItem($this->lng->txt("remove"), "delete_from_superiors", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "removeFromSuperiors"));
+		$selection->addItem($this->lng->txt("remove"), "delete_from_superiors", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "confirmRemoveFromSuperiors"));
 		$selection->addItem($this->lng->txt("change_to_employee"), "change_to_employee", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "fromSuperiorToEmployee"));
 	}
 
