@@ -596,10 +596,11 @@ class ilSAHSPresentationGUI
 	{		
 		global $ilTabs, $ilLocator, $ilAccess;
 		
-		// #9658
+		// #9658 / #11753
 		include_once "Services/Tracking/classes/class.ilLearningProgressAccess.php";
 		if(ilLearningProgressAccess::checkAccess($_GET["ref_id"]) &&
-			!$ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"]))
+			(!$ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"]) ||
+			!$ilAccess->checkAccess("write", "", $_GET["ref_id"])))
 		{
 			$ilTabs->addTab("info_short", $this->lng->txt("info_short"), 
 				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
