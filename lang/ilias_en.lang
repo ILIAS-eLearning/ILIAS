@@ -13634,7 +13634,7 @@ prtt#:#prtt_new#:#New Portfolio Template
 prtt#:#prtt_add#:#Create Portfolio Template
 prtt#:#prtt_copy#:#Copy Portfolio Template
 prtt#:#prtt_edit#:#Edit Portfolio Template
-rbac#:#prtt_visible#:#Booking pool is visible
+rbac#:#prtt_visible#:#Portfolio Template is visible
 rbac#:#prtt_read#:#User has read access to portfolio template
 rbac#:#prtt_copy#:#User can copy portfolio template
 rbac#:#prtt_write#:#User can edit settings and content of portfolio template
