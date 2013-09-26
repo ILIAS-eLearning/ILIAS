@@ -1438,6 +1438,10 @@ class ilStartUpGUI
 				$tpl->setCurrentBlock('languages');
 				$tpl->setVariable('LANG_NAME', $lang_caption);
 				$tpl->setVariable('LANG_KEY', $lang_key);
+				if($lang_key == $lng->lang_key)
+				{
+					$tpl->setVariable("SELECTED_LANG", ' selected="selected"');
+				}
 				$tpl->parseCurrentBlock();
 			}			
 		}
