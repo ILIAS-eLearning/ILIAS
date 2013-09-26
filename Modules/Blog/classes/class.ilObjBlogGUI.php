@@ -926,16 +926,18 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			else if($this->mayContribute())
 			{
 				$prvm = $_GET["prvm"];
-				$this->ctrl->setParameter($this, "prvm", "");
+				$this->ctrl->setParameter($this, "prvm", "");				
 				if(!$_GET["blpg"])
 				{								
 					$back = $this->ctrl->getLinkTarget($this, "");
 				}
 				else
 				{
+					$this->ctrl->setParameterByClass("ilblogpostinggui", "prvm", "");
 					$this->ctrl->setParameterByClass("ilblogpostinggui", "bmn", $this->month);
 					$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
 					$back = $this->ctrl->getLinkTargetByClass("ilblogpostinggui", "preview");
+					$this->ctrl->setParameterByClass("ilblogpostinggui", "prvm", $prvm);
 				}
 				$this->ctrl->setParameter($this, "prvm", $prvm);
 			}
@@ -1848,7 +1850,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		global $ilUser, $ilCtrl;
 		
 		// preview?
-		if(stristr($a_cmd, "preview") || $_GET["prvm"])
+		if($a_cmd == "preview" || $a_cmd == "previewFullscreen" || $_GET["prvm"])
 		{						
 			// notification
 			if($ilUser->getId() != ANONYMOUS_USER_ID)			
@@ -1918,16 +1920,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$this->lng->txt("blog_notification_deactivated"));
 			}
 			
-			// #11758
-			
-			if($sub_id && $this->mayContribute($sub_id))			
-			{					
-				$ilCtrl->setParameterByClass("ilblogpostinggui", "prvm", "");
-				$link = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit");
-				$ilCtrl->setParameterByClass("ilblogpostinggui", "prvm", "fsc");					
-				$lg->addCustomCommand($link, "edit_content");	
-			}
-
+			// #11758			
 			if($this->mayContribute())
 			{
 				$ilCtrl->setParameter($this, "prvm", "");
@@ -1938,6 +1931,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$ilCtrl->setParameter($this, "bmn", $this->month);
 				$ilCtrl->setParameter($this, "prvm", "fsc");					
 				$lg->addCustomCommand($link, "blog_add_posting");	
+								
+				if($sub_id && $this->mayContribute($sub_id))			
+				{					
+					$ilCtrl->setParameterByClass("ilblogpostinggui", "prvm", "");
+					$link = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit");
+					$ilCtrl->setParameterByClass("ilblogpostinggui", "prvm", "fsc");					
+					$lg->addCustomCommand($link, "edit_content");	
+				}
 			}			
 			
 			$ilCtrl->setParameter($this, "ntf", "");
