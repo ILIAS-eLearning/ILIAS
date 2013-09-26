@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="usr">
+	<Document type="default">
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT obj_id, type, login title
+				FROM object_data JOIN usr_data ON obj_id = usr_id
+				WHERE obj_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="title" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT firstname,lastname FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_profile' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="firstname" type="text" name="uFirstname" />
+			<Field store="YES" index="ANALYZED" column="lastname" type="text" name="uLastname" />
+			<Field store="YES" index="ANALYZED" column="firstname" type="text" name="uPropertyHigh" />
+			<Field store="YES" index="ANALYZED" column="lastname" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT email FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_email' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="email" type="text" name="uEmail" />
+			<Field store="YES" index="ANALYZED" column="email" type="text" name="uPropertyHigh" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>
