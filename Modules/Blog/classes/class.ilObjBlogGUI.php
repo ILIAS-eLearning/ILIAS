@@ -1848,7 +1848,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		global $ilUser, $ilCtrl;
 		
 		// preview?
-		if($a_cmd == "preview" || $_GET["prvm"])
+		if(stristr($a_cmd, "preview") || $_GET["prvm"])
 		{						
 			// notification
 			if($ilUser->getId() != ANONYMOUS_USER_ID)			
@@ -1886,7 +1886,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$sub_id = $_GET["blpg"];
 		}		
 				
-		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+		$lg = parent::initHeaderAction($sub_type, $sub_id);
 		
 		if($a_is_preview)
 		{
@@ -1899,6 +1899,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$ilCtrl->setParameter($this, "ntf", 1);
 				$link = $ilCtrl->getLinkTarget($this, "setNotification");
+				$ilCtrl->setParameter($this, "ntf", "");				
 				$lg->addCustomCommand($link, "blog_notification_toggle_off");
 				
 				$lg->addHeaderIcon("not_icon",
@@ -1909,12 +1910,35 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$ilCtrl->setParameter($this, "ntf", 2);
 				$link = $ilCtrl->getLinkTarget($this, "setNotification");
+				$ilCtrl->setParameter($this, "ntf", "");
 				$lg->addCustomCommand($link, "blog_notification_toggle_on");
 				
 				$lg->addHeaderIcon("not_icon",
 					ilUtil::getImagePath("notification_off.png"),
 					$this->lng->txt("blog_notification_deactivated"));
 			}
+			
+			// #11758
+			
+			if($sub_id && $this->mayContribute($sub_id))			
+			{					
+				$ilCtrl->setParameterByClass("ilblogpostinggui", "prvm", "");
+				$link = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit");
+				$ilCtrl->setParameterByClass("ilblogpostinggui", "prvm", "fsc");					
+				$lg->addCustomCommand($link, "edit_content");	
+			}
+
+			if($this->mayContribute())
+			{
+				$ilCtrl->setParameter($this, "prvm", "");
+				$ilCtrl->setParameter($this, "bmn", "");
+				$ilCtrl->setParameter($this, "blpg", "");
+				$link = $ilCtrl->getLinkTarget($this, "");		
+				$ilCtrl->setParameter($this, "blpg", $sub_id);
+				$ilCtrl->setParameter($this, "bmn", $this->month);
+				$ilCtrl->setParameter($this, "prvm", "fsc");					
+				$lg->addCustomCommand($link, "blog_add_posting");	
+			}			
 			
 			$ilCtrl->setParameter($this, "ntf", "");
 		}
