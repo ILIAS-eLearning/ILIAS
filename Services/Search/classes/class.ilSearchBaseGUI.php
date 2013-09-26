@@ -28,6 +28,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	
 	const SEARCH_FORM_LUCENE = 1;
 	const SEARCH_FORM_STANDARD = 2;
+	const SEARCH_FORM_USER = 3;
 	
 	var $settings = null;
 
@@ -70,7 +71,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		$this->tpl->setTitle($lng->txt("search"));
 
 		ilUtil::infoPanel();
-
+		
 	}
 	
 	/**
@@ -89,33 +90,6 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		$radg = new ilHiddenInputGUI('search_term_combination');
 		$radg->setValue(ilSearchSettings::getInstance()->getDefaultOperator());
 		$this->form->addItem($radg);
-		
-		/**
-		$radg = new ilRadioGroupInputGUI($lng->txt("search_term_combination"),
-			"combination");
-		$radg->setValue(($this->getCombination() == ilSearchBaseGUI::SEARCH_AND) ? "and" : "or");
-		$op1 = new ilRadioOption($lng->txt("search_any_word"), "or");
-		$radg->addOption($op1);
-		$op2 = new ilRadioOption($lng->txt("search_all_words"), "and");
-		$radg->addOption($op2);
-		*/
-		
-		// search area
-/*
-		include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
-		$ti = new ilRepositorySelectorInputGUI($lng->txt("search_area"), "area");
-		$ti->setSelectText($lng->txt("search_select_search_area"));
-		$this->form->addItem($ti);
-		$ti->readFromSession();*/
-		
-		// alex, 15.8.2012: Added the following lines to get the value
-		// from the main menu top right input search form
-/*		if (isset($_POST["root_id"]))
-		{
-			$ti->setValue($_POST["root_id"]);
-			$ti->writeToSession();
-		}*/
-
 		
 		if(ilSearchSettings::getInstance()->isLuceneItemFilterEnabled())
 		{
@@ -230,6 +204,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	}
 
 	
+	/**
+	 * Handle command
+	 * @param string $a_cmd
+	 */
 	public function handleCommand($a_cmd)
 	{
 		if(method_exists($this, $a_cmd))

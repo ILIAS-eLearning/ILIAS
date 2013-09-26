@@ -34,17 +34,21 @@ include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResult.php';
 */
 class ilLuceneSearcher
 {
+	const TYPE_STANDARD = 1;
+	const TYPE_USER = 2;
+	
 	private static $instance = null;
 	
 	private $query_parser = null;
 	private $result = null;
 	private $highlighter = null;
 	private $page_number = 1;
+	private $type = self::TYPE_STANDARD;
 
 	/**
 	 * Constructor 
 	 * @param object ilLuceneQueryParser
-	 * @return
+	 * @return ilLuceneSearcher
 	 */
 	private function __construct($qp)
 	{
@@ -57,7 +61,7 @@ class ilLuceneSearcher
 	 * Get singleton instance
 	 *
 	 * @param object ilLuceneQueryParser
-	 * @return
+	 * @return ilLuceneSearcher
 	 * @static
 	 */
 	public static function getInstance(ilLuceneQueryParser $qp)
@@ -69,6 +73,25 @@ class ilLuceneSearcher
 		return self::$instance = new ilLuceneSearcher($qp);
 	}
 	
+	/**
+	 * Set search type
+	 * @param type $a_type
+	 */
+	public function setType($a_type)
+	{
+		$this->type = $a_type;
+	}
+	
+	/**
+	 * Get type
+	 * @return int
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+
 	/**
 	 * Search  
 	 * @return
@@ -153,7 +176,7 @@ class ilLuceneSearcher
 	/**
 	 * Get result
 	 * @param
-	 * @return
+	 * @return ilLuceneSearchResult
 	 */
 	public function getResult()
 	{
@@ -190,12 +213,28 @@ class ilLuceneSearcher
 		$ilBench->start('Lucene','SearchCombinedIndex');
 		try
 		{
-			include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
-			$res = ilRpcClientFactory::factory('RPCSearchHandler')->search(
-				CLIENT_ID.'_'.$ilSetting->get('inst_id',0),
-				(string) $this->query_parser->getQuery(),
-				$this->getPageNumber()
-			);
+			switch($this->getType())
+			{
+				
+				case self::TYPE_USER:
+					include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+					$res = ilRpcClientFactory::factory('RPCSearchHandler')->searchUsers(
+						CLIENT_ID.'_'.$ilSetting->get('inst_id',0),
+						(string) $this->query_parser->getQuery()
+					);
+					break;
+				
+				case self::TYPE_STANDARD:
+				default:
+					include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+					$res = ilRpcClientFactory::factory('RPCSearchHandler')->search(
+						CLIENT_ID.'_'.$ilSetting->get('inst_id',0),
+						(string) $this->query_parser->getQuery(),
+						$this->getPageNumber()
+					);
+					break;
+				
+			}
 		}
 		catch(XML_RPC2_FaultException $e)
 		{

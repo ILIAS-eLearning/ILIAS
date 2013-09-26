@@ -109,46 +109,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		parent::prepareOutput();
 		$this->getTabs();
 		return true;
-		
-		global $ilAccess, $ilSetting;
-		global $ilUser;
-
-		if($_SESSION['il_cont_admin_panel'])
-		{
-			$GLOBALS["tpl"]->setAdminViewButton(
-				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"),
-				$this->lng->txt("basic_commands"));
-			
-			$GLOBALS["tpl"]->addAdminPanelCommand("delete",
-				$this->lng->txt("delete_selected_items"));
-			
-			if(!$_SESSION["clipboard"])
-			{
-				$GLOBALS["tpl"]->addAdminPanelCommand("cut",
-					$this->lng->txt("move_selected_items"));
-
-				$GLOBALS["tpl"]->addAdminPanelCommand("link",
-					$this->lng->txt("link_selected_items"));
-			}
-			else
-			{
-				$GLOBALS["tpl"]->addAdminPanelCommand("paste",
-					$this->lng->txt("paste_clipboard_items"));
-				$GLOBALS["tpl"]->addAdminPanelCommand("clear",
-					$this->lng->txt("clear_clipboard"));
-			}
-		}
-		elseif($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			$GLOBALS["tpl"]->setAdminViewButton(
-				$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"),
-				$this->lng->txt("all_commands"));
-		}
-
-		$this->ctrl->setParameter($this, "type", "");
-		$this->ctrl->setParameter($this, "item_ref_id", "");
-		$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
-		
 	}
 	
 	/**
@@ -365,11 +325,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		else
 		{
 			ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'),$this->search_cache->getQuery()));
-		}
-		
-		if($filter->getResultIds())
-		{
-			#$this->fillAdminPanel();
 		}
 	}
 	
