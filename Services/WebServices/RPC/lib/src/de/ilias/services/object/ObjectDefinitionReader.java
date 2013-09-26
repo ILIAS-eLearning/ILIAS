@@ -110,13 +110,19 @@ public class ObjectDefinitionReader {
 			throw new ConfigurationException("Absolute path required. Path: " + absolutePath.getAbsolutePath());
 		}
 		
-		// Traverse through Modules and Services
+		// Traverse through Modules
 		File start = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Modules");
-		logger.debug("Start path is : " + start.getAbsoluteFile());
+		logger.info("Start path is : " + start.getAbsoluteFile());
 		traverse(start);
+
+		// Traverse through Services
+		File service = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Services");
+		logger.info("Start path is : " + service.getAbsoluteFile());
+		traverse(service);
 
 		// Traverse through Plugins
 		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.pluginPath);
+		logger.info("Start path is : " + plugin.getAbsoluteFile());
 		traverse(plugin);
 	}
 	
@@ -145,7 +151,7 @@ public class ObjectDefinitionReader {
 						}
 						//logger.debug(path.getName() + " <-> " + objectPropertyName);
 						if(path.getName().equalsIgnoreCase(objectPropertyName)) {
-							logger.debug("Found: " + path.getAbsolutePath());
+							logger.info("Found: " + path.getAbsolutePath());
 							objectPropertyFiles.add(path);
 						}
 						return false;

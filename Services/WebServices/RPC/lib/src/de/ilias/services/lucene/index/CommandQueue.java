@@ -246,26 +246,38 @@ public class CommandQueue {
 	private synchronized void addCommandsByType(String objType) throws SQLException {
 
 		try {
-		
-			PreparedStatement sta = DBFactory.getPreparedStatement(
-				"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id " +
-				"WHERE (deleted IS NULL) AND type = ? " +
-				"GROUP BY oda.obj_id");
+			
+			ResultSet res = null;
+			PreparedStatement sta = null;
+			
+			if(objType.equalsIgnoreCase("usr") != true) 
+			{
+				sta = DBFactory.getPreparedStatement(
+					"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id " +
+					"WHERE (deleted IS NULL) AND type = ? " +
+					"GROUP BY oda.obj_id");
+			}
+			else {
+				sta = DBFactory.getPreparedStatement(
+					"SELECT obj_id FROM object_data " + 
+					"WHERE type = ? "
+				);
+			}
 
 			DBFactory.setString(sta, 1, objType);
-			ResultSet res = sta.executeQuery();
-			
+			res = sta.executeQuery();
+
 			logger.info("Adding new commands for object type: " + objType);
-			
+
 			// Add each single object
 			PreparedStatement objReset = DBFactory.getPreparedStatement(
 					"INSERT INTO search_command_queue (obj_id, obj_type, sub_id, sub_type, command, last_update, finished) " + 
 					"VALUES (?, ?, ?, ?, ?, ?, ?)");
-	
+
 			while(res.next()) {
-				
+
 				logger.debug("Added new reset command");
-				
+
 				objReset.setInt(1,res.getInt("obj_id"));
 				objReset.setString(2, objType);
 				objReset.setInt(3,0);
@@ -273,15 +285,18 @@ public class CommandQueue {
 				objReset.setString(5,"reset");
 				objReset.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
 				objReset.setInt(7,0);
-				
+
 				objReset.executeUpdate();
 			}
 			try {
-				res.close();
-			} catch (SQLException e) {
+				if(res != null)
+				{
+					res.close();
+				}
+			} 
+			catch (SQLException e) {
 				logger.warn("Cannot close result set: " + e);
 			}
-			return;
 		}
 		catch(SQLException e) {
 			
