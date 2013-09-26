@@ -37,6 +37,8 @@ public class QueryRewriter {
 	public static final int MODE_SEARCH = 1;
 	public static final int MODE_HIGHLIGHT = 2;
 
+	public static final int MODE_USER_HIGHLIGHT = 4;
+			
 	protected static Logger logger = Logger.getLogger(QueryRewriter.class);
 	
 	private String query;
@@ -63,6 +65,8 @@ public class QueryRewriter {
 			return rewriteSearch();
 		case MODE_HIGHLIGHT:
 			return rewriteHighlight();
+		case MODE_USER_HIGHLIGHT:
+			return rewriteUserHighlight();
 		}
 		return getQuery();
 	}
@@ -103,6 +107,21 @@ public class QueryRewriter {
 		rewritten.append(" AND +docType:combined");
 		
 		logger.debug("Searching for: " + rewritten.toString());
+		return rewritten.toString();
+	}
+	
+	/**
+	 * Rewrite user search 
+	 * @return 
+	 */
+	private String rewriteUserHighlight() {
+		
+		rewritten.append("(");
+		rewritten.append(getQuery());
+		rewritten.append(")");
+		rewritten.append(" AND type:usr");
+		
+		logger.info("Searching for:" + rewritten.toString());
 		return rewritten.toString();
 	}
 
