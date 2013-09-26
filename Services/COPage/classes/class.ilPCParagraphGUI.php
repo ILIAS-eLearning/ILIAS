@@ -643,6 +643,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 		$this->updated = $this->content_obj->updatePage($this->pg_obj);
 //echo "<br>PARupdate_after:".htmlentities($this->pg_obj->dom->dump_mem(0, "UTF-8")).":";
+//debug_print_backtrace();
 
 		$ilBench->stop("Editor","Paragraph_update");
 

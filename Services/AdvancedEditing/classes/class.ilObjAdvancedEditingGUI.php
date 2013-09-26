@@ -503,6 +503,21 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$cb->setInfo($this->lng->txt("adve_use_physical_info"));
 		$cb->setChecked($aset->get("use_physical"));
 		$form->addItem($cb);
+
+		// blocking mode
+		$cb = new ilCheckboxInputGUI($this->lng->txt("adve_blocking_mode"), "block_mode_act");
+		$cb->setChecked($aset->get("block_mode_minutes") > 0);
+		$form->addItem($cb);
+
+			// number of minutes
+			$ni = new ilNumberInputGUI($this->lng->txt("adve_minutes"), "block_mode_minutes");
+			$ni->setMinValue(2);
+			$ni->setMaxLength(5);
+			$ni->setSize(5);
+			$ni->setRequired(true);
+			$ni->setInfo($this->lng->txt("adve_minutes_info"));
+			$ni->setValue($aset->get("block_mode_minutes"));
+			$cb->addSubItem($ni);
 		
 		$form->addCommandButton("saveGeneralPageSettings", $lng->txt("save"));
 	                
@@ -517,16 +532,29 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	function saveGeneralPageSettingsObject()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $tpl;
 		
 		$form = $this->initGeneralPageSettingsForm();
 		if ($form->checkInput())
 		{
 			$aset = new ilSetting("adve");
 			$aset->set("use_physical", $_POST["use_physical"]);
+			if ($_POST["block_mode_act"])
+			{
+				$aset->set("block_mode_minutes", (int) $_POST["block_mode_minutes"]);
+			}
+			else
+			{
+				$aset->set("block_mode_minutes", 0);
+			}
+			
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "showGeneralPageEditorSettings");
 		}
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-		$ilCtrl->redirect($this, "showGeneralPageEditorSettings");
+		
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHTML());
 	}
+		
 } // END class.ilObjAdvancedEditingGUI
 ?>

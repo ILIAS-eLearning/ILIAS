@@ -2743,12 +2743,14 @@ class ilPageObjectGUI
 	{
 		global $tree, $lng, $ilCtrl, $ilSetting, $ilUser;
 		
+		// editing allowed?
 		if (!$this->getEnableEditing())
 		{
 			ilUtil::sendFailure($lng->txt("permission_denied"), true);
 			$ilCtrl->redirect($this, "preview");
 		}
 		
+		// captcha
 		include_once("./Services/Captcha/classes/class.ilCaptchaUtil.php");
 		if ($ilUser->getId() == ANONYMOUS_USER_ID &&
 			ilCaptchaUtil::isActive() &&
@@ -2763,6 +2765,23 @@ class ilPageObjectGUI
 			{
 				return $form->getHTML();
 			}
+		}
+		
+		// edit lock
+		if (!$this->getPageObject()->getEditLock())
+		{
+			$info = $lng->txt("content_no_edit_lock");
+			
+			include_once("./Services/User/classes/class.ilUserUtil.php");
+			
+			$lock = $this->getPageObject()->getEditLockInfo();
+			$info.= "</br>".$lng->txt("content_until").": ".
+				ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX));
+			$info.= "</br>".$lng->txt("obj_usr").": ".
+				ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+			
+			ilUtil::sendInfo($info);
+			return "";
 		}
 		
 		$this->setOutputMode(IL_PAGE_EDIT);
@@ -2905,7 +2924,7 @@ class ilPageObjectGUI
 	{
 		if(is_array($a_error))
 		{
-			$error_str = "<b>Validation Error(s):</b><br>";
+			$error_str = "<b>Error(s):</b><br>";
 			foreach ($a_error as $error)
 			{
 				$err_mess = implode($error, " - ");

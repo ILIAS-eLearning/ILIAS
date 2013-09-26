@@ -506,7 +506,7 @@ class ilPageContentGUI
 	{
 		if(is_array($this->updated))
 		{
-			$error_str = "<b>Validation Error(s):</b><br>";
+			$error_str = "<b>Error(s):</b><br>";
 			foreach ($this->updated as $error)
 			{
 				$err_mess = implode($error, " - ");
@@ -519,7 +519,7 @@ class ilPageContentGUI
 		}
 		else if($this->updated != "" && $this->updated !== true)
 		{
-			$this->tpl->setVariable("MESSAGE", "<b>Validation Error(s):</b><br />".
+			$this->tpl->setVariable("MESSAGE", "<b>Error(s):</b><br />".
 				$this->updated."<br />");
 		}
 	}

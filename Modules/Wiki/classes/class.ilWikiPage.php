@@ -191,12 +191,18 @@ class ilWikiPage extends ilPageObject
 			",rating = ".$ilDB->quote((int) $this->getRating(), "integer").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
-		parent::update($a_validate, $a_no_history);
+		$updated = parent::update($a_validate, $a_no_history);
 
-		include_once "./Services/Notification/classes/class.ilNotification.php";
-		ilWikiUtil::sendNotification("update", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
-
-		$this->updateNews(true);
+		if ($updated === true)
+		{
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			ilWikiUtil::sendNotification("update", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());	
+			$this->updateNews(true);
+		}
+		else
+		{
+			return $updated;
+		}
 
 		return true;
 	}

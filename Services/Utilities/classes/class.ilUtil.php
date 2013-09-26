@@ -3828,7 +3828,7 @@ class ilUtil
 		{
 			$cmd .= " ".$args;
 		}
-//echo "<br>".$cmd;
+//echo "<br>".$cmd; exit;
 		exec($cmd, $arr);
 //		$ilLog->write("ilUtil::execQuoted: ".$cmd.".");
 		return $arr;

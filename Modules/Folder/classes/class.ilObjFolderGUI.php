@@ -595,11 +595,11 @@ class ilObjFolderGUI extends ilContainerGUI
 				if($_POST["cont_tiny_icon_delete"])
 				{
 					$this->object->removeTinyIcon();
-				}				
+				}
 				$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
 					$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
+
 			}
-			
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 			$this->ctrl->redirect($this,"editIcons");
 		}
