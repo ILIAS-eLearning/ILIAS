@@ -43,6 +43,8 @@ class ilUserSearchCache
 	const LUCENE_ADVANCED = 6;
 	
 	const LAST_QUERY = 7;
+	
+	const LUCENE_USER_SEARCH = 8;
 
 	private static $instance = null;
 	private $db;

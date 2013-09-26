@@ -296,46 +296,6 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		parent::prepareOutput();
 		$this->getTabs();
 		return true;
-		
-		global $ilAccess, $ilSetting;
-		global $ilUser;
-
-		if($_SESSION['il_cont_admin_panel'])
-		{
-			$this->setAdminViewButton(
-				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"),
-				$this->lng->txt("basic_commands"));
-			
-			$this->addAdminPanelCommand("delete",
-				$this->lng->txt("delete_selected_items"));
-			
-			if(!$_SESSION["clipboard"])
-			{
-				$this->addAdminPanelCommand("cut",
-					$this->lng->txt("move_selected_items"));
-
-				$this->addAdminPanelCommand("link",
-					$this->lng->txt("link_selected_items"));
-			}
-			else
-			{
-				#$this->addAdminPanelCommand("paste",
-				#	$this->lng->txt("paste_clipboard_items"));
-				$this->addAdminPanelCommand("clear",
-					$this->lng->txt("clear_clipboard"));
-			}
-		}
-		elseif($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			$this->setAdminViewButton(
-				$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"),
-				$this->lng->txt("all_commands"));
-		}
-
-		$this->ctrl->setParameter($this, "type", "");
-		$this->ctrl->setParameter($this, "item_ref_id", "");
-		$this->tpl->setPageFormAction($this->ctrl->getFormAction($this));
-		
 	}
 	
 	/**
