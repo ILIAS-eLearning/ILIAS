@@ -14,7 +14,7 @@ var clientId = '{CLIENT_ID}',
 	msg_import_tracking		= 'Transfering tracking data to SCORM Offline Manager. Please wait some seconds,',
 	msg_import_tracking_ok	= 'Transfering tracking data was successfull.';
 
-var id=urlId+'/'+clientId+'/'+lmId;
+//var id=urlId.replace(/\//g,'_')+'_'+clientId+'/'+lmId;
 
 function print(txt) {
 	var divOut = document.getElementById("out");
@@ -94,7 +94,7 @@ function openLm(id) {
 	var url = getOfflineUrl(id);
 	open(url,"SCORM Offline Player");
 }
-
+/*
 function importLm(id) { // url: network address for binary and async zip download
 	var url = sopConnector.atoB(importContentUrl);
 	function handler(success) {
@@ -103,7 +103,7 @@ function importLm(id) { // url: network address for binary and async zip downloa
 	sopConnector.importLm(id, url, handler);
 	
 }
-
+*/
 var importLmOk,
 	importTrackingOk;
 
@@ -112,7 +112,7 @@ function importLmWait(counter) {
 		document.getElementById("divImportLm").innerHTML=msg_import_content_ok;
 		return;
 	}
-	msg_import_content+='.';
+	msg_import_content+=' .';
 	document.getElementById("divImportLm").innerHTML=msg_import_content;
 	window.setTimeout('importLmWait('+(counter++)+')',200);
 }
@@ -122,14 +122,14 @@ function importTrackingWait(counter) {
 		document.getElementById("divImportTracking").innerHTML=msg_import_tracking_ok;
 		return;
 	}
-	msg_import_tracking+='.';
+	msg_import_tracking+=' .';
 	document.getElementById("divImportTracking").innerHTML=msg_import_tracking;
 	window.setTimeout('importTrackingWait('+(counter++)+')',100);
 }
 
 function importWait(counter) {
 	if (importLmOk == false || importTrackingOk == false) location.replace(cmdUrl+'offlineModeImportStop');
-//	else if (importLmOk == true && importTrackingOk == true) location.replace(cmdUrl+'offlineModeImportOk');
+	else if (importLmOk == true && importTrackingOk == true) location.replace(cmdUrl+'offlineModeImportOk');
 	else window.setTimeout('importWait('+(counter++)+')',100);
 }
 
@@ -154,6 +154,7 @@ function importSOP() {
 	document.getElementById("divOfflineManager").innerHTML="";
 	document.getElementById("divImportLm").style.display = "block";
 	document.getElementById("divImportTracking").style.display = "block";
+	var id=sopConnector.atoB(urlId+'/'+clientId)+'_'+lmId;
 	importLm();
 	importTracking();
 	window.setTimeout('importWait(1)',1000);
