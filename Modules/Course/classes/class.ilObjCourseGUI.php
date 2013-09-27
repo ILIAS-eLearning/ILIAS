@@ -930,24 +930,24 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));		
-		
-		$activation_start = $this->loadDate('activation_start');
-		$activation_end = $this->loadDate('activation_end');
-		$subscription_start = $this->loadDate('subscription_start');
-		$subscription_end = $this->loadDate('subscription_end');
+					
+		/*
 		$archive_start = $this->loadDate('archive_start');
-		$archive_end = $this->loadDate('archive_end');
+		$archive_end = $this->loadDate('archive_end');				 
+		*/
+		$period = $form->getItemByPostVar("access_period");										
+		$sub_period = $form->getItemByPostVar("subscription_period");										
 		
 		$this->object->setOfflineStatus(!(bool)$_POST['activation_online']);
 		$this->object->setActivationType((int)$_POST['activation_type']);
-		$this->object->setActivationStart($activation_start->get(IL_CAL_UNIX));
-		$this->object->setActivationEnd($activation_end->get(IL_CAL_UNIX));
+		$this->object->setActivationStart($period->getStart()->get(IL_CAL_UNIX));
+		$this->object->setActivationEnd($period->getEnd()->get(IL_CAL_UNIX));
 		$this->object->setActivationVisibility((int)$_POST['activation_visibility']);
 		$this->object->setSubscriptionLimitationType((int) $_POST['subscription_limitation_type']);
 		$this->object->setSubscriptionType((int) $_POST['subscription_type']);
 		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));
-		$this->object->setSubscriptionStart($subscription_start->get(IL_CAL_UNIX));
-		$this->object->setSubscriptionEnd($subscription_end->get(IL_CAL_UNIX));
+		$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
+		$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));
 		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
 		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
@@ -964,9 +964,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->object->setOrderType((int) $_POST['order_type']);
 		}
+		/*
 		$this->object->setArchiveStart($archive_start->get(IL_CAL_UNIX));
-		$this->object->setArchiveEnd($archive_end->get(IL_CAL_UNIX));
+		$this->object->setArchiveEnd($archive_end->get(IL_CAL_UNIX));		
 		$this->object->setArchiveType($_POST['archive_type']);
+		 */
 		$this->object->setAboStatus((int) $_POST['abo']);
 		$this->object->setShowMembers((int) $_POST['show_members']);
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
@@ -1144,21 +1146,17 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 			$opt = new ilRadioOption($this->lng->txt('crs_visibility_until'),IL_CRS_ACTIVATION_LIMITED);
 			$opt->setInfo($this->lng->txt('crs_availability_until_info'));
-
-				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'activation_start');
-				#$start->setMode(ilDateTimeInputGUI::MODE_INPUT);
-				$start->setShowTime(true);
-				$start_date = new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX);
-				$start->setDate($start_date);
-				$opt->addSubItem($start);
-
-				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'activation_end');
-				#$end->setMode(ilDateTimeInputGUI::MODE_INPUT);
-				$end->setShowTime(true);
-				$end_date = new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX);
-				$end->setDate($end_date);
-				$opt->addSubItem($end);
-				
+			
+				$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+				$dur = new ilDateDurationInputGUI("", "access_period");
+				$dur->setShowTime(true);																	
+				$dur->setStart(new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX));
+				$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
+				$dur->setEnd(new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX));
+				$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
+				$opt->addSubItem($dur);
+			
 				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
 				$visible->setInfo($this->lng->txt('crs_activation_limited_visibility_info'));
 			    $visible->setChecked($this->object->getActivationVisibility());
@@ -1186,19 +1184,16 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			$opt = new ilRadioOption($this->lng->txt('crs_registration_limited'),IL_CRS_SUBSCRIPTION_LIMITED);
 			$opt->setInfo($this->lng->txt('crs_reg_lim_info'));
-
-				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'subscription_start');
-				$start->setShowTime(true);
-				$start_date = new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX);
-				$start->setDate($start_date);
-				$opt->addSubItem($start);
-
-				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'subscription_end');
-				$end->setShowTime(true);
-				$end_date = new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX);
-				$end->setDate($end_date);
-				$opt->addSubItem($end);
-				
+			
+				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+				$sdur = new ilDateDurationInputGUI("", "subscription_period");
+				$sdur->setShowTime(true);																	
+				$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));
+				$sdur->setStartText($this->lng->txt('crs_start'));				
+				$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));
+				$sdur->setEndText($this->lng->txt('crs_end'));				
+				$opt->addSubItem($sdur);
+			
 			$reg_type->addOption($opt);
 
 		$form->addItem($reg_type);

@@ -549,13 +549,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				if($_POST["access_type"] == ilObjectActivation::TIMINGS_ACTIVATION)
 				{	
 					$this->object->setActivationLimited(true);								    			
-					$this->object->setActivationVisibility($_POST["access_visiblity"]);
-
-					$date = new ilDateTime($_POST['access_begin']['date'] . ' ' . $_POST['access_begin']['time'], IL_CAL_DATETIME);
-					$this->object->setActivationStartDate($date->get(IL_CAL_UNIX));
-
-					$date = new ilDateTime($_POST['access_end']['date'] . ' ' . $_POST['access_end']['time'], IL_CAL_DATETIME);
-					$this->object->setActivationEndDate($date->get(IL_CAL_UNIX));							
+					$this->object->setActivationVisibility($_POST["access_visiblity"]);	
+					
+					$period = $form->getItemByPostVar("access_period");										
+					$this->object->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
+					$this->object->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));							
 				}
 				else
 				{
@@ -795,20 +793,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
 			$opt->setInfo($this->lng->txt('svy_availability_until_info'));
 
-				$date = $this->object->getActivationStartDate();
-				
-				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'access_begin');
-				$start->setShowTime(true);		
-				$start->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-				$opt->addSubItem($start);
-				
+				$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+				$dur = new ilDateDurationInputGUI("", "access_period");
+				$dur->setShowTime(true);						
+				$date = $this->object->getActivationStartDate();				
+				$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
 				$date = $this->object->getActivationEndDate();
-				
-				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'access_end');			
-				$end->setShowTime(true);			
-				$end->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-				$opt->addSubItem($end);
-				
+				$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
+				$opt->addSubItem($dur);
+			
 				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visiblity');
 				$visible->setInfo($this->lng->txt('svy_activation_limited_visibility_info'));
 				$visible->setChecked($this->object->getActivationVisibility());
