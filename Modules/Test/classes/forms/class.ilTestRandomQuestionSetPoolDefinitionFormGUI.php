@@ -133,10 +133,10 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 				$taxSelect->setRequired(true);
 				$taxRadioOption->addSubItem($taxSelect);
 				
-				if( $taxId == $sourcePool->getFilterTaxId() )
+				if( $taxId == $sourcePool->getOriginalFilterTaxId() )
 				{
-					$taxRadio->setValue( $sourcePool->getFilterTaxId() );
-					$taxSelect->setValue( $sourcePool->getFilterTaxNodeId() );
+					$taxRadio->setValue( $sourcePool->getOriginalFilterTaxId() );
+					$taxSelect->setValue( $sourcePool->getOriginalFilterTaxNodeId() );
 				}
 			}
 			
@@ -173,17 +173,17 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 				
 			case !in_array($this->getItemByPostVar('filter_tax')->getValue(), $availableTaxonomyIds):
 
-				$sourcePoolDefinition->setFilterTaxId(null);
-				$sourcePoolDefinition->setFilterTaxNodeId(null);
+				$sourcePoolDefinition->setOriginalFilterTaxId(null);
+				$sourcePoolDefinition->setOriginalFilterTaxNodeId(null);
 				break;
 			
 			default:
 				
 				$taxId = $this->getItemByPostVar('filter_tax')->getValue();
 
-				$sourcePoolDefinition->setFilterTaxId( $taxId );
+				$sourcePoolDefinition->setOriginalFilterTaxId( $taxId );
 
-				$sourcePoolDefinition->setFilterTaxNodeId( $this->getItemByPostVar("filter_tax_$taxId")->getValue() );
+				$sourcePoolDefinition->setOriginalFilterTaxNodeId( $this->getItemByPostVar("filter_tax_$taxId")->getValue() );
 		}
 
 		if( $this->questionSetConfig->isQuestionAmountConfigurationModePerPool() )

@@ -31,7 +31,14 @@ class ilTestQuestionSetConfigFactory
 	 * @var ilDB
 	 */
 	private $db = null;
-	
+
+	/**
+	 * object instance of $ilPluginAdmin
+	 *
+	 * @var ilPluginAdmin
+	 */
+	private $pluginAdmin = null;
+
 	/**
 	 * object instance of current test
 	 *
@@ -44,10 +51,11 @@ class ilTestQuestionSetConfigFactory
 	 * 
 	 * @param ilObjTest $testOBJ
 	 */
-	public function __construct(ilTree $tree, ilDB $db, ilObjTest $testOBJ)
+	public function __construct(ilTree $tree, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
 	{
 		$this->tree = $tree;
 		$this->db = $db;
+		$this->pluginAdmin = $pluginAdmin;
 		$this->testOBJ = $testOBJ;
 	}
 	
@@ -78,7 +86,7 @@ class ilTestQuestionSetConfigFactory
 
 					require_once 'Modules/Test/classes/class.ilTestFixedQuestionSetConfig.php';
 					self::$testQuestionSetConfig = new ilTestFixedQuestionSetConfig(
-							$this->tree, $this->db, $this->testOBJ
+							$this->tree, $this->db, $this->pluginAdmin, $this->testOBJ
 					);
 					break;
 
@@ -86,7 +94,7 @@ class ilTestQuestionSetConfigFactory
 
 					require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 					self::$testQuestionSetConfig = new ilTestRandomQuestionSetConfig(
-							$this->tree, $this->db, $this->testOBJ
+							$this->tree, $this->db, $this->pluginAdmin, $this->testOBJ
 					);
 					break;
 
@@ -94,7 +102,7 @@ class ilTestQuestionSetConfigFactory
 
 					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 					self::$testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
-							$this->tree, $this->db, $this->testOBJ
+							$this->tree, $this->db, $this->pluginAdmin, $this->testOBJ
 					);
 					break;
 			}

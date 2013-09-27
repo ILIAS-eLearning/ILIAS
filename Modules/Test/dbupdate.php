@@ -125,13 +125,25 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_qpls') )
 				'notnull' => false,
 				'default' => null
 			),
-			'filter_tax_fi' => array(
+			'origin_tax_fi' => array(
 				'type'     => 'integer',
 				'length'   => 4,
 				'notnull' => false,
 				'default' => null
 			),
-			'filter_node_fi' => array(
+			'origin_node_fi' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => false,
+				'default' => null
+			),
+			'mapped_tax_fi' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => false,
+				'default' => null
+			),
+			'mapped_node_fi' => array(
 				'type'     => 'integer',
 				'length'   => 4,
 				'notnull' => false,
@@ -193,8 +205,10 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_qpls') )
 				'test_fi' => array('integer', $row['test_fi']),
 				'pool_fi' => array('integer', $row['questionpool_fi']),
 				'pool_title' => array('text', $row['qpl_title']),
-				'filter_tax_fi' => array('integer', null),
-				'filter_node_fi' => array('integer', null),
+				'origin_tax_fi' => array('integer', null),
+				'origin_node_fi' => array('integer', null),
+				'mapped_tax_fi' => array('integer', null),
+				'mapped_node_fi' => array('integer', null),
 				'quest_amount' => array('integer', $row['num_of_q']),
 				'sequence_pos' => array('integer', $row['sequence'])
 		));
@@ -221,5 +235,7 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_qpls') )
 		);
 	}
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------

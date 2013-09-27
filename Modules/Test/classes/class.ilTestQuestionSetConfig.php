@@ -24,21 +24,32 @@ abstract class ilTestQuestionSetConfig
 	 * @var ilDB
 	 */
 	protected $db = null;
-	
+
+	/**
+	 * global $pluginAdmin object instance
+	 *
+	 * @var ilPluginAdmin
+	 */
+	protected $pluginAdmin = null;
+
 	/**
 	 * object instance of current test
 	 *
 	 * @var ilObjTest
 	 */
 	protected $testOBJ = null;
-	
+
 	/**
-	 * Constructor
+	 * @param ilTree $tree
+	 * @param ilDB $db
+	 * @param ilPluginAdmin $pluginAdmin
+	 * @param ilObjTest $testOBJ
 	 */
-	public function __construct(ilTree $tree, ilDB $db, ilObjTest $testOBJ)
+	public function __construct(ilTree $tree, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
 	{
 		$this->tree = $tree;
 		$this->db = $db;
+		$this->pluginAdmin = $pluginAdmin;
 		$this->testOBJ = $testOBJ;
 	}
 	

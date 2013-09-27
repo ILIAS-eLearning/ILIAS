@@ -33,10 +33,14 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 	
 	private $poolQuestionCount = null;
 	
-	private $filterTaxId = null;
+	private $originalFilterTaxId = null;
 	
-	private $filterTaxNodeId = null;
-	
+	private $originalFilterTaxNodeId = null;
+
+	private $mappedFilterTaxId = null;
+
+	private $mappedFilterTaxNodeId = null;
+
 	private $questionAmount = null;
 	
 	private $sequencePosition = null;
@@ -97,26 +101,46 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 		return $this->poolQuestionCount;
 	}
 	
-	public function setFilterTaxId($filterTaxId)
+	public function setOriginalFilterTaxId($originalFilterTaxId)
 	{
-		$this->filterTaxId = $filterTaxId;
+		$this->originalFilterTaxId = $originalFilterTaxId;
 	}
 	
-	public function getFilterTaxId()
+	public function getOriginalFilterTaxId()
 	{
-		return $this->filterTaxId;
+		return $this->originalFilterTaxId;
 	}
 	
-	public function setFilterTaxNodeId($filterNodeId)
+	public function setOriginalFilterTaxNodeId($originalFilterNodeId)
 	{
-		$this->filterTaxNodeId = $filterNodeId;
+		$this->originalFilterTaxNodeId = $originalFilterNodeId;
 	}
 	
-	public function getFilterTaxNodeId()
+	public function getOriginalFilterTaxNodeId()
 	{
-		return $this->filterTaxNodeId;
+		return $this->originalFilterTaxNodeId;
 	}
-	
+
+	public function setMappedFilterTaxId($mappedFilterTaxId)
+	{
+		$this->mappedFilterTaxId = $mappedFilterTaxId;
+	}
+
+	public function getMappedFilterTaxId()
+	{
+		return $this->mappedFilterTaxId;
+	}
+
+	public function setMappedFilterTaxNodeId($mappedFilterTaxNodeId)
+	{
+		$this->mappedFilterTaxNodeId = $mappedFilterTaxNodeId;
+	}
+
+	public function getMappedFilterTaxNodeId()
+	{
+		return $this->mappedFilterTaxNodeId;
+	}
+
 	public function setQuestionAmount($questionAmount)
 	{
 		$this->questionAmount = $questionAmount;
@@ -148,15 +172,17 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 		{
 			switch($field)
 			{
-				case 'def_id':				$this->setId($value);					break;
-				case 'pool_fi':				$this->setPoolId($value);				break;
-				case 'pool_title':			$this->setPoolTitle($value);			break;
-				case 'pool_path':			$this->setPoolPath($value);				break;
-				case 'pool_quest_count':	$this->setPoolQuestionCount($value);	break;
-				case 'filter_tax_fi':		$this->setFilterTaxId($value);			break;
-				case 'filter_node_fi':		$this->setFilterTaxNodeId($value);		break;
-				case 'quest_amount':		$this->setQuestionAmount($value);		break;
-				case 'sequence_pos':		$this->setSequencePosition($value);		break;
+				case 'def_id':				$this->setId($value);						break;
+				case 'pool_fi':				$this->setPoolId($value);					break;
+				case 'pool_title':			$this->setPoolTitle($value);				break;
+				case 'pool_path':			$this->setPoolPath($value);					break;
+				case 'pool_quest_count':	$this->setPoolQuestionCount($value);		break;
+				case 'origin_tax_fi':		$this->setOriginalFilterTaxId($value);		break;
+				case 'origin_node_fi':		$this->setOriginalFilterTaxNodeId($value);	break;
+				case 'mapped_tax_fi':		$this->setMappedFilterTaxId($value);		break;
+				case 'mapped_node_fi':		$this->setMappedFilterTaxNodeId($value);	break;
+				case 'quest_amount':		$this->setQuestionAmount($value);			break;
+				case 'sequence_pos':		$this->setSequencePosition($value);			break;
 			}
 		}
 	}
@@ -233,8 +259,10 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 				'pool_title' => array('text', $this->getPoolTitle()),
 				'pool_path' => array('text', $this->getPoolPath()),
 				'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
-				'filter_tax_fi' => array('integer', $this->getFilterTaxId()),
-				'filter_node_fi' => array('integer', $this->getFilterTaxNodeId()),
+				'origin_tax_fi' => array('integer', $this->getOriginalFilterTaxId()),
+				'origin_node_fi' => array('integer', $this->getOriginalFilterTaxNodeId()),
+				'mapped_tax_fi' => array('integer', $this->getMappedFilterTaxId()),
+				'mapped_node_fi' => array('integer', $this->getMappedFilterTaxNodeId()),
 				'quest_amount' => array('integer', $this->getQuestionAmount()),
 				'sequence_pos' => array('integer', $this->getSequencePosition())
 			),
@@ -258,8 +286,10 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 				'pool_title' => array('text', $this->getPoolTitle()),
 				'pool_path' => array('text', $this->getPoolPath()),
 				'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
-				'filter_tax_fi' => array('integer', $this->getFilterTaxId()),
-				'filter_node_fi' => array('integer', $this->getFilterTaxNodeId()),
+				'origin_tax_fi' => array('integer', $this->getOriginalFilterTaxId()),
+				'origin_node_fi' => array('integer', $this->getOriginalFilterTaxNodeId()),
+				'mapped_tax_fi' => array('integer', $this->getMappedFilterTaxId()),
+				'mapped_node_fi' => array('integer', $this->getMappedFilterTaxNodeId()),
 				'quest_amount' => array('integer', $this->getQuestionAmount()),
 				'sequence_pos' => array('integer', $this->getSequencePosition())
 		));

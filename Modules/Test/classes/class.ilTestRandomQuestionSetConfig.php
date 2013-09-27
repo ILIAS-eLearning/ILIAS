@@ -39,11 +39,12 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	/**
 	 * @param ilTree $tree
 	 * @param ilDB $db
+	 * @param ilPluginAdmin $pluginAdmin
 	 * @param ilObjTest $testOBJ
 	 */
-	public function __construct(ilTree $tree, ilDB $db, ilObjTest $testOBJ)
+	public function __construct(ilTree $tree, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
 	{
-		parent::__construct($tree, $db, $testOBJ);
+		parent::__construct($tree, $db, $pluginAdmin, $testOBJ);
 	}
 
 	/**
@@ -240,49 +241,86 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 			'quest_sync_timestamp' => array('integer', $this->getLastQuestionSyncTimestamp())
 		));
 	}
-	
-	// -----------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * @return ilTestRandomQuestionSetSourcePoolDefinitionList
-	 */
-	public function getSourcePoolDefinitionList()
-	{
-		return $this->sourcePoolDefinitionList;
-	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public function isQuestionSetConfigured()
 	{
+		if( !$this->isQuestionAmountConfigComplete() )
+		{
+			return false;
+		}
+
+		if( !$this->hasSourcePoolDefinitions() )
+		{
+			return false;
+		}
+
+		if( !$this->isQuestionSetBuildable() )
+		{
+			return false;
+		}
+
 		return true;
 	}
-	
-	/**
-	 * checks wether question set config related data exists or not
-	 */
-	public function doesQuestionSetRelatedDataExist()
+
+	private function isQuestionAmountConfigComplete()
 	{
+		if( $this->isQuestionAmountConfigurationModePerPool() )
+		{
+			return true;
+		}
+
+		if( $this->getQuestionAmountPerTest() > 0 )
+		{
+			return true;
+		}
+
 		return false;
 	}
+
+	private function hasSourcePoolDefinitions()
+	{
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
+		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+			$this->db, $this->testOBJ
+		);
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
+		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+			$this->db, $this->testOBJ, $sourcePoolDefinitionFactory
+		);
+
+		return $sourcePoolDefinitionList->savedDefinitionsExist();
+	}
+
+	private function isQuestionSetBuildable()
+	{
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
+		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($this->db, $this->testOBJ);
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
+		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($this->db, $this->testOBJ, $sourcePoolDefinitionFactory);
+		$sourcePoolDefinitionList->loadDefinitions();
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
+		$stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($this->db, $this->pluginAdmin);
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
+		$questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($this->db, $this->testOBJ, $this, $sourcePoolDefinitionList, $stagingPoolQuestionList);
+
+		return $questionSetBuilder->checkBuildable();
+	}
 	
-	/**
-	 * removes all question set config related data
-	 */
+	public function doesQuestionSetRelatedDataExist()
+	{
+		throw new Exception('IMPLEMENT BODY OF METHOD!!! '.__METHOD__);
+	}
+	
 	public function removeQuestionSetRelatedData()
 	{
-		
+		throw new Exception('IMPLEMENT BODY OF METHOD!!! '.__METHOD__);
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
-
-	public function removeRandomQuestionSet()
-	{
-
-	}
-
-	public function fetchRandomQuestionSet()
-	{
-
-	}
 }

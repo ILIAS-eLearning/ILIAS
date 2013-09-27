@@ -72,7 +72,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $this->object instanceof ilObjTest )
 		{
 			require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-			$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $this->object);
+			$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this->object);
 			
 			require_once 'Modules/Test/classes/class.ilTestPlayerFactory.php';
 			$this->testPlayerFactory = new ilTestPlayerFactory($this->object);
@@ -270,7 +270,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
 				$gui = new ilObjTestSettingsGeneralGUI(
-						$this->ctrl, $ilAccess, $this->lng, $this->tpl, $this->tree, $ilDB, $this
+						$this->ctrl, $ilAccess, $this->lng, $this->tpl, $this->tree, $ilDB, $ilPluginAdmin, $this
 				);
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -287,7 +287,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfigGUI.php';
-				$gui = new ilTestRandomQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $this->object);
+				$gui = new ilTestRandomQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $ilPluginAdmin, $this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
 				

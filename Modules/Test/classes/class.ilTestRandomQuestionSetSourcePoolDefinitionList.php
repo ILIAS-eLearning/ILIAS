@@ -116,6 +116,19 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function savedDefinitionsExist()
+	{
+		$query = "SELECT COUNT(*) cnt FROM tst_rnd_quest_set_qpls WHERE test_fi = %s";
+		$res = $this->db->queryF($query, array('integer'), array($this->testOBJ->getTestId()));
+
+		$row = $this->db->fetchAssoc($res);
+
+		return $row['cnt'] > 0;
+	}
+
+	/**
 	 * @return ilTestRandomQuestionSetSourcePoolDefinition
 	 */
 	public function rewind()

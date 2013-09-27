@@ -262,7 +262,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$shuffle = $this->object->getShuffleQuestions();
 				if ($this->object->isRandomTest())
 				{
-					$this->object->generateRandomQuestions($this->testSession->getActiveId());
+					$this->generateRandomTestPassForActiveUser();
 					$this->object->loadQuestions();
 					$shuffle = FALSE; // shuffle is already done during the creation of the random questions
 				}
@@ -296,10 +296,10 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 				if ($this->object->isRandomTest())
 				{
-					if (!$this->object->hasRandomQuestionsForPass($active_id, $this->testSession->getPass()))
+					if (!$this->testSequence->hasRandomQuestionsForPass($active_id, $this->testSession->getPass()))
 					{
 						// create a new set of random questions
-						$this->object->generateRandomQuestions($active_id, $this->testSession->getPass());
+						$this->generateRandomTestPassForActiveUser();
 					}
 				}
 				$shuffle = $this->object->getShuffleQuestions();
@@ -699,5 +699,67 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		$this->ctrl->setParameter($this, 'activecommand', 'handleQuestionAction');
 		$this->ctrl->redirect($this, 'redirectQuestion');
+	}
+
+	protected function performTearsAndAngerBrokenConfessionChecks()
+	{
+		if ($this->testSession->getActiveId() > 0)
+		{
+			if ($this->testSequence->hasRandomQuestionsForPass($this->testSession->getActiveId(), $this->testSession->getPass()) > 0)
+			{
+				// Something went wrong. Maybe the user pressed the start button twice
+				// Questions already exist so there is no need to create new questions
+				return;
+			}
+
+			if ($this->testSession->getPass() > 0)
+			{
+				if ($this->getNrOfResultsForPass($this->testSession->getActiveId(), $this->testSession->getPass() - 1) == 0)
+				{
+					// This means that someone maybe reloaded the test submission page
+					// If there are no existing results for the previous test, it makes
+					// no sense to create a new set of random questions
+					return;
+				}
+			}
+		}
+		else
+		{
+			// This may not happen! If it happens, raise a fatal error...
+
+			global $ilias, $ilErr, $ilUser;
+
+			$error = sprintf(
+				$this->lng->txt("error_random_question_generation"), $ilUser->getId(), $this->object->getTestId()
+			);
+
+			$ilias->raiseError($error, $ilErr->FATAL);
+		};
+	}
+
+	protected function generateRandomTestPassForActiveUser()
+	{
+		$this->performTearsAndAngerBrokenConfessionChecks();
+
+		global $tree, $ilDB, $ilPluginAdmin;
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
+		$questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
+		$questionSetConfig->loadFromDb();
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
+		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($ilDB, $this->object);
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
+		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($ilDB, $this->object, $sourcePoolDefinitionFactory);
+		$sourcePoolDefinitionList->loadDefinitions();
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
+		$stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
+		$questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($ilDB, $this->object, $questionSetConfig, $sourcePoolDefinitionList, $stagingPoolQuestionList);
+
+		$questionSetBuilder->performBuild($this->testSession);
 	}
 }

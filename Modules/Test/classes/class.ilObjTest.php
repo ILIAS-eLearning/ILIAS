@@ -1231,7 +1231,7 @@ class ilObjTest extends ilObject
 	 */
 	public function saveToDb($properties_only = FALSE)
 	{
-		global $tree, $ilDB;
+		global $tree, $ilDB, $ilPluginAdmin;
 		
 		// moved online_status to ilObjectActivation (see below)
 
@@ -1239,7 +1239,7 @@ class ilObjTest extends ilObject
 		$this->cleanupMediaobjectUsage();
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $this);
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$testQuestionSetConfig = $testQuestionSetConfigFactory->getQuestionSetConfig();
 		
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
