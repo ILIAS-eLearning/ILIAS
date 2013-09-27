@@ -9,6 +9,46 @@ include_once 'Services/Search/classes/class.ilSearchSettings.php';
 */
 class ilSearchAutoComplete
 {
+	
+	/**
+	 * Performs better than standard like search on huge installations
+	 */
+	public static function getLuceneList($a_str)
+	{
+		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
+		$qp = new ilLuceneQueryParser('title:'.$a_str.'*');
+		$qp->parse();
+		
+		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
+		$searcher = ilLuceneSearcher::getInstance($qp);
+		$searcher->setType(ilLuceneSearcher::TYPE_STANDARD);
+		$searcher->search();
+		
+		$res = $searcher->getResult()->getCandidates();
+		
+		$list = array();
+		foreach($res as $res_obj_id)
+		{
+			if(self::checkObjectPermission($res_obj_id))
+			{
+				$list[] = ilObject::_lookupTitle($res_obj_id,true);
+			}
+		}
+		
+		$i = 0;
+		$result = array();
+		foreach($list as $entry)
+		{
+			$result[$i] = new stdClass();
+			$result[$i]->value = $entry;
+			$i++;
+		}
+		include_once './Services/JSON/classes/class.ilJsonUtil.php';
+		return ilJsonUtil::encode($result);
+	}
+	
+	
+	
 	/**
 	* Get completion list
 	*/
@@ -16,6 +56,13 @@ class ilSearchAutoComplete
 	{
 		global $ilDB;
 
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		if(ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())
+		{
+			return self::getLuceneList($a_str);
+		}
+		
+		
 		$a_str = str_replace('"', "", $a_str);
 		
 		$settings = new ilSearchSettings();
