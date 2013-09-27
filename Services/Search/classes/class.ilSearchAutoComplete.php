@@ -26,12 +26,23 @@ class ilSearchAutoComplete
 		
 		$res = $searcher->getResult()->getCandidates();
 		
+		$max_entries = ilSearchSettings::getInstance()->getAutoCompleteLength() ?
+			ilSearchSettings::getInstance()->getAutoCompleteLength() : 
+			10;
+		
+		
 		$list = array();
+		$num_entries = 0;
 		foreach($res as $res_obj_id)
 		{
 			if(self::checkObjectPermission($res_obj_id))
 			{
 				$list[] = ilObject::_lookupTitle($res_obj_id,true);
+				$num_entries++;
+			}
+			if($num_entries >= $max_entries)
+			{
+				break;
 			}
 		}
 		
