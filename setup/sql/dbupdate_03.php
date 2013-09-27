@@ -18645,4 +18645,15 @@ while($row = $ilDB->fetchAssoc($set))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4111>
+<?php
+	if (!$ilDB->tableColumnExists("content_object", "disable_def_feedback"))
+	{
+		$ilDB->addTableColumn("content_object", "disable_def_feedback", array(
+			"type" => "integer",
+			"notnull" => true,
+			"default" => 0,
+		 	"length" => 4));
+	}
 
+?>

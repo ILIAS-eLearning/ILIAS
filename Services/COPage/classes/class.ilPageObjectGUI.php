@@ -3494,6 +3494,11 @@ class ilPageObjectGUI
 				$tpl->addOnloadCode("ilCOPageQuestionHandler.initCallback('".$url."');");
 			}
 
+			if ($this->getPageConfig()->getDisableDefaultQuestionFeedback())
+			{
+				$tpl->addOnloadCode("ilias.questions.default_feedback = false;");
+			}
+
 			$lk = $this->getPageConfig()->getLocalizationLanguage();
 			self::addPreparationJavascript($tpl, $lk);
 		}

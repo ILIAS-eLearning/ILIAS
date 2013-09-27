@@ -406,11 +406,17 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$com = new ilCheckboxInputGUI($lng->txt("enable_hist_user_comments"), "cobj_user_comments");
 		$com->setInfo($this->lng->txt("enable_hist_user_comments_desc"));
 		$this->form->addItem($com);
-				
+
+		// rating
 		$this->lng->loadLanguageModule('rating');
 		$rate = new ilCheckboxInputGUI($this->lng->txt('rating_activate_rating'), 'rating');
 		$rate->setInfo($this->lng->txt('rating_activate_rating_info'));
 		$this->form->addItem($rate);		
+
+		// disable default feedback for questions
+		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_disable_def_feedback"), "disable_def_feedback");
+		$qfeed->setInfo($this->lng->txt("cont_disable_def_feedback_info"));
+		$this->form->addItem($qfeed);
 
 		$this->form->setTitle($lng->txt("cont_general_properties"));
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
@@ -450,6 +456,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 		$values["layout_per_page"] = $this->object->getLayoutPerPage();
 		$values["rating"] = $this->object->hasRating();
+		$values["disable_def_feedback"] = $this->object->getDisableDefaultFeedback();
 		
 		$this->form->setValuesByArray($values);
 	}
@@ -478,6 +485,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setHistoryUserComments($_POST["cobj_user_comments"]);
 			$this->object->setLayoutPerPage($_POST["layout_per_page"]);
 			$this->object->setRating($_POST["rating"]);
+			$this->object->setDisableDefaultFeedback((int) $_POST["disable_def_feedback"]);
 			$this->object->updateProperties();
 			$this->object->update();
 			

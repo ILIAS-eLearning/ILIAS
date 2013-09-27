@@ -31,6 +31,7 @@ abstract class ilPageConfig
 	protected $multi_lang_support = false;
 	protected $single_page_mode = false;	// currently only used by multi-lang support
 											// single page means: only one page per parent_id
+	protected $disable_default_qfeedback = false;
 	
 	/**
 	 * Constructor
@@ -424,6 +425,26 @@ abstract class ilPageConfig
 	function getEnableSelfAssessmentScorm()
 	{
 		return $this->enabledselfassessment_scorm;
+	}
+	
+	/**
+	 * Set disable default question feedback
+	 *
+	 * @param bool $a_val disable feedback	
+	 */
+	function setDisableDefaultQuestionFeedback($a_val)
+	{
+		$this->disable_default_qfeedback = $a_val;
+	}
+	
+	/**
+	 * Get disable default question feedback
+	 *
+	 * @return bool disable feedback
+	 */
+	function getDisableDefaultQuestionFeedback()
+	{
+		return $this->disable_default_qfeedback;
 	}
 	
 	/**

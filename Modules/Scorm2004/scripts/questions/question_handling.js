@@ -2,23 +2,25 @@ var ilias = {}; //namespace
 var icount = 0; //interaction count
 ilias.UTILS={};
 ilias.questions = {
-	answers:Object,
-	success: "not attempted"
+	answers: Object,
+	success: "not attempted",
+	default_feedback: true
 };
 
-ilias.questions.txt = {};
-ilias.questions.txt.wrong_answers = "Incorrect Items";
-ilias.questions.txt.wrong_answers_single = "Incorrect Choice.";
-ilias.questions.txt.tries_remaining = "Tries Remaining";
-ilias.questions.txt.please_try_again = "Please try again!";
-ilias.questions.txt.all_answers_correct = "Correct!";
-ilias.questions.txt.nr_of_tries_exceeded = "Number of tries exceeded.";
-ilias.questions.txt.correct_answers_shown = "Correct solution see above.";
-ilias.questions.txt.correct_answers_also = "Also correct are:";
-ilias.questions.txt.correct_answer_also = "Also correct is:";
-ilias.questions.txt.ov_all_correct = "You have correctly answered all questions.";
-ilias.questions.txt.ov_some_correct = "You have correctly answered [x] out of [y] questions.";
-ilias.questions.txt.ov_wrong_answered = "The following questions were not answered or answered wrong";
+ilias.questions.txt = {
+	wrong_answers: "Incorrect Items",
+	wrong_answers_single: "Incorrect Choice.",
+	tries_remaining: "Tries Remaining",
+	please_try_again: "Please try again!",
+	all_answers_correct: "Correct!",
+	nr_of_tries_exceeded: "Number of tries exceeded.",
+	correct_answers_shown: "Correct solution see above.",
+	correct_answers_also: "Also correct are:",
+	correct_answer_also: "Also correct is:",
+	ov_all_correct: "You have correctly answered all questions.",
+	ov_some_correct: "You have correctly answered [x] out of [y] questions.",
+	ov_wrong_answered: "The following questions were not answered or answered wrong"
+};
 
 ilias.questions.init = function() {
 	ilias.questions.shuffle();
@@ -566,6 +568,8 @@ ilias.questions.assErrorText =function(a_id) {
 
 ilias.questions.showFeedback =function(a_id) {
 	
+	var fbtext = "";
+	
 	jQuery('#feedback'+a_id).hide();
 
 	// "image map as single choice" not supported yet
@@ -578,20 +582,28 @@ ilias.questions.showFeedback =function(a_id) {
 		var txt_wrong_answers = ilias.questions.txt.wrong_answers + ': ' +
 				answers[a_id].wrong ;
 	}
-	
+	fbtext = "";
 	if (answers[a_id].passed===true || (answers[a_id].tries >=questions[a_id].nr_of_tries && questions[a_id].nr_of_tries!=0)) {
 		jQuery('#button'+a_id).attr("disabled", "true");
 		if (answers[a_id].passed===true) {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedw_FeedbackWrong");				
-			jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");	
-            jQuery('#feedback'+a_id).html('<b>' + ilias.questions.txt.all_answers_correct + '</b><br />'+questions[a_id].feedback['allcorrect']);
+			jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");
+			if (ilias.questions.default_feedback) {
+				fbtext = '<b>' + ilias.questions.txt.all_answers_correct + '</b><br />';
+			}
+			fbtext += questions[a_id].feedback['allcorrect'];
+            jQuery('#feedback'+a_id).html(fbtext);
 			ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"correct",ilias.questions.toJSONString(answers[a_id]));
 		} else {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");	
-            jQuery('#feedback'+a_id).html('<b>' + ilias.questions.txt.nr_of_tries_exceeded +
-				'</b><br />' + ilias.questions.txt.correct_answers_shown + '<br />'+questions[a_id].feedback['onenotcorrect']);
+			if (ilias.questions.default_feedback) {
+				fbtext = '<b>' + ilias.questions.txt.nr_of_tries_exceeded + '</b><br />'
+					+ ilias.questions.txt.correct_answers_shown + '<br />';
+			}
+			fbtext += questions[a_id].feedback['onenotcorrect'];
+            jQuery('#feedback'+a_id).html(fbtext);
 			ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}
@@ -600,15 +612,24 @@ ilias.questions.showFeedback =function(a_id) {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");	
 			var rem = questions[a_id].nr_of_tries - answers[a_id].tries;
-			jQuery('#feedback'+a_id).html(txt_wrong_answers + '<br />' +
-				ilias.questions.txt.tries_remaining + ': '+ rem +
-				"<br />" + questions[a_id].feedback['onenotcorrect']);
+			
+			if (ilias.questions.default_feedback) {
+				fbtext = txt_wrong_answers + '<br />' +
+					ilias.questions.txt.tries_remaining + ': '+ rem +
+					"<br />";
+			}
+			fbtext += questions[a_id].feedback['onenotcorrect'];
+			jQuery('#feedback'+a_id).html(fbtext);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		} else {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");
-            jQuery('#feedback'+a_id).html(txt_wrong_answers + '<br /> ' +
-				ilias.questions.txt.please_try_again + '<br />' + questions[a_id].feedback['onenotcorrect']);
+			if (ilias.questions.default_feedback) {
+				fbtext = txt_wrong_answers + '<br /> ' +
+					ilias.questions.txt.please_try_again + '<br />';
+			}
+			fbtext += questions[a_id].feedback['onenotcorrect'];
+            jQuery('#feedback'+a_id).html(fbtext);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}	
 	}
