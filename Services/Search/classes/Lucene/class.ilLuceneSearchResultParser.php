@@ -72,7 +72,14 @@ class ilLuceneSearchResultParser
 		
 		foreach($hits->children() as $object)
 		{
-			$result->addObject((string) $object['id'],(float) $object['absoluteScore']);
+			if(isset($object['absoluteScore']))
+			{
+				$result->addObject((string) $object['id'],(float) $object['absoluteScore']);
+			}
+			else
+			{
+				$result->addObject((string) $object['id'],(float) $object->Item[0]['absoluteScore']);
+			}
 		}
 		return $result;
 	}
