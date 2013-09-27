@@ -13,39 +13,73 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilRepositoryUserResultTableGUI extends ilTable2GUI
 {
+	const TYPE_STANDARD = 1;
+	const TYPE_GLOBAL_SEARCH = 2;
+	
+	
 	protected static $all_selectable_cols = NULL;
 	protected $admin_mode;
+	protected $type;
 	
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_admin_mode = false)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_admin_mode = false, $a_type = self::TYPE_STANDARD)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
 
 		$this->admin_mode = (bool)$a_admin_mode;
+		$this->type = $a_type;
 
 		$this->setId("rep_search_".$ilUser->getId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		$this->addColumn("", "", "1", true);
+		
+		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
+		$this->setTitle($this->lng->txt('search_results'));
+		$this->setEnableTitle(true);
+		$this->setDefaultOrderDirection("asc");
+		$this->setShowRowsSelector(true);
+		
+
+		if($this->getType() == self::TYPE_STANDARD)
+		{
+			$this->setRowTemplate("tpl.rep_search_usr_result_row.html", "Services/Search");
+			$this->addColumn("", "", "1", true);
+			$this->enable('select_all');
+			$this->setSelectAllCheckbox("user[]");	
+			$this->setDefaultOrderField("login");
+		}
+		else
+		{
+			$this->setRowTemplate("tpl.global_search_usr_result_row.html", "Services/Search");
+			$this->addColumn('', '', "110px");
+		}
 
 		$all_cols = $this->getSelectableColumns();
 		foreach($this->getSelectedColumns() as $col)
 		{
 			$this->addColumn($all_cols[$col]['txt'], $col);
 		}
-
-		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
-		$this->setRowTemplate("tpl.rep_search_usr_result_row.html", "Services/Search");
-		$this->setTitle($this->lng->txt('search_results'));
-		$this->setEnableTitle(true);
-		$this->setDefaultOrderField("login");
-		$this->setDefaultOrderDirection("asc");
-		$this->enable('select_all');
-		$this->setSelectAllCheckbox("user[]");	
 		
-		$this->setShowRowsSelector(true);
+		if($this->getType() == self::TYPE_STANDARD)
+		{
+			
+		}
+		else
+		{
+			$this->addColumn($this->lng->txt('lucene_relevance_short'),'relevance');
+		}
+
+	}
+	
+	/**
+	 * Get search context type
+	 * @return string
+	 */
+	public function getType()
+	{
+		return $this->type;
 	}
 
 	/**
@@ -99,6 +133,29 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng;
 
 		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
+		
+		if($this->getType() == self::TYPE_GLOBAL_SEARCH)
+		{
+			include_once './Services/User/classes/class.ilUserUtil.php';
+			$link = ilUserUtil::getProfileLink($a_set['usr_id']);
+			if($link)
+			{
+				$this->tpl->setVariable('IMG_LINKED_TO_PROFILE',$link);
+				$this->tpl->setVariable(
+					'USR_IMG_SRC_LINKED',
+					ilObjUser::_getPersonalPicturePath($a_set['usr_id'],'xsmall')
+				);
+			}
+			else
+			{
+				$this->tpl->setVariable(
+					'USR_IMG_SRC',
+					ilObjUser::_getPersonalPicturePath($a_set['usr_id'],'xsmall')
+				);
+			}
+		}
+		
+		
 		foreach($this->getSelectedColumns() as $field)
 		{			
 			switch($field)
