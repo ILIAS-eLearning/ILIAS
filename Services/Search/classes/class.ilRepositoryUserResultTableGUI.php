@@ -40,7 +40,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 		$this->setTitle($this->lng->txt('search_results'));
 		$this->setEnableTitle(true);
-		$this->setDefaultOrderDirection("asc");
 		$this->setShowRowsSelector(true);
 		
 
@@ -51,6 +50,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 			$this->enable('select_all');
 			$this->setSelectAllCheckbox("user[]");	
 			$this->setDefaultOrderField("login");
+			$this->setDefaultOrderDirection("asc");
 		}
 		else
 		{
@@ -71,6 +71,8 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		else
 		{
 			$this->addColumn($this->lng->txt('lucene_relevance_short'),'relevance');
+			$this->setDefaultOrderField("relevance");
+			$this->setDefaultOrderDirection("desc");
 		}
 
 	}
