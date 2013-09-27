@@ -270,15 +270,19 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			
 			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
 			$opt->setInfo($this->lng->txt('prtt_availability_until_info'));
-								
-				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'access_begin');
-				$start->setShowTime(true);		
-				$opt->addSubItem($start);
-												
-				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'access_end');			
-				$end->setShowTime(true);			
-				$opt->addSubItem($end);
-				
+			
+				$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+				$dur = new ilDateDurationInputGUI("", "access_period");
+				$dur->setShowTime(true);						
+				$date = $this->object->getActivationStartDate();				
+				$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
+				$date = $this->object->getActivationEndDate();
+				$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
+				$opt->addSubItem($dur);
+			
 				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visiblity');
 				$visible->setInfo($this->lng->txt('prtt_activation_limited_visibility_info'));
 				$opt->addSubItem($visible);
@@ -304,22 +308,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		
 		$a_values["access_visiblity"] = $this->object->getActivationVisibility();
 		
-		$date = $this->object->getActivationStartDate();
-		$date = new ilDateTime($date ? $date : time(), IL_CAL_UNIX);
-		$date = $date->get(IL_CAL_DATETIME);	
-		$a_values["access_begin"] = array(
-			"date" => substr($date, 0, 10),
-			"time" => substr($date, 11)
-		);
-		
-		$date = $this->object->getActivationEndDate();
-		$date = new ilDateTime($date ? $date : time(), IL_CAL_UNIX);
-		$date = $date->get(IL_CAL_DATETIME);
-		$a_values["access_end"] = array(
-			"date" => substr($date, 0, 10),
-			"time" => substr($date, 11)
-		);
-			
 		parent::getEditFormCustomValues($a_values);
 	}
 	
@@ -333,13 +321,9 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			$this->object->setActivationLimited(true);								    			
 			$this->object->setActivationVisibility($a_form->getInput("access_visiblity"));
 			
-			$date = $a_form->getInput("access_begin");			
-			$date = new ilDateTime($date["date"]." ".$date["time"], IL_CAL_DATETIME);
-			$this->object->setActivationStartDate($date->get(IL_CAL_UNIX));
-
-			$date = $a_form->getInput("access_end");			
-			$date = new ilDateTime($date["date"]." ".$date["time"], IL_CAL_DATETIME);
-			$this->object->setActivationEndDate($date->get(IL_CAL_UNIX));							
+			$period = $a_form->getItemByPostVar("access_period");										
+			$this->object->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
+			$this->object->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));										
 		}
 		else
 		{

@@ -328,11 +328,9 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setActivationLimited(true);								    			
 			$this->testOBJ->setActivationVisibility($form->getItemByPostVar('activation_visibility')->getChecked());
 
-			$actStartingTimeSetting = $form->getItemByPostVar('act_starting_time');
-			$this->testOBJ->setActivationStartingTime($actStartingTimeSetting->getDate()->get(IL_CAL_UNIX));
-
-			$actEndingTimeSetting = $form->getItemByPostVar('act_ending_time');
-			$this->testOBJ->setActivationEndingTime($actEndingTimeSetting->getDate()->get(IL_CAL_UNIX));							
+			$period = $form->getItemByPostVar("access_period");			
+			$this->testOBJ->setActivationStartingTime($period->getStart()->get(IL_CAL_UNIX));
+			$this->testOBJ->setActivationEndingTime($period->getEnd()->get(IL_CAL_UNIX));							
 		}
 		else
 		{
@@ -725,23 +723,19 @@ class ilObjTestSettingsGeneralGUI
 			
 			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
 			$opt->setInfo($this->lng->txt('tst_availability_until_info'));
-
+			
+				$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+				$dur = new ilDateDurationInputGUI("", "access_period");
+				$dur->setShowTime(true);						
 				$date = $this->testOBJ->getActivationStartingTime();				
-				
-				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'act_starting_time');
-				#$start->setMode(ilDateTimeInputGUI::MODE_INPUT);
-				$start->setShowTime(true);
-				$start->setDate(new ilDateTime($date ? $date : time(),IL_CAL_UNIX));
-				$opt->addSubItem($start);
-				
+				$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
 				$date = $this->testOBJ->getActivationEndingTime();
-				
-				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'act_ending_time');
-				#$end->setMode(ilDateTimeInputGUI::MODE_INPUT);
-				$end->setShowTime(true);
-				$end->setDate(new ilDateTime($date ? $date : time(),IL_CAL_UNIX));
-				$opt->addSubItem($end);
-				
+				$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
+				$opt->addSubItem($dur);
+			
 				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
 				$visible->setInfo($this->lng->txt('tst_activation_limited_visibility_info'));
 			    $visible->setChecked($this->testOBJ->getActivationVisibility());
