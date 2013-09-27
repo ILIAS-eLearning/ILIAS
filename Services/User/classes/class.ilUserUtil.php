@@ -137,6 +137,24 @@ class ilUserUtil
 		return $return_as_array ? $names : $names[$a_user_id[0]];
 	}
 	
+	/**
+	 * Get link to personal profile 
+	 * Return empty string in case of not public profile
+	 * @param type $a_usr_id
+	 * @return string
+	 */
+	public static function getProfileLink($a_usr_id)
+	{
+		$public_profile = ilObjUser::_lookupPref($a_usr_id,'public_profile');
+		if($public_profile != 'y' and $public_profile != 'g')
+		{
+			return '';
+		}
+		
+		$GLOBALS['ilCtrl']->setParameterByClass('ilpublicuserprofilegui','user',$a_usr_id);
+		return $GLOBALS['ilCtrl']->getLinkTargetByClass('ilpublicuserprofilegui','getHTML');
+	}
+	
 	
 	//
 	// Personal starting point

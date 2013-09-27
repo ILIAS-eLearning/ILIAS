@@ -7,15 +7,16 @@ include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchField
 
 
 /** 
-* @classDescription GUI for  Lucene user search
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* @ilCtrl_IsCalledBy ilLuceneUserSearchGUI: ilSearchController
-* 
-* @ingroup ServicesSearch
-*/
+ * @classDescription GUI for  Lucene user search
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * 
+ * @ilCtrl_Calls ilLuceneUserSearchGUI: ilPublicUserProfileGUI
+ * @ilCtrl_IsCalledBy ilLuceneUserSearchGUI: ilSearchController
+ * 
+ * @ingroup ServicesSearch
+ */
 class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 {
 	protected $ilTabs;
@@ -42,10 +43,19 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
+		
 		$this->prepareOutput();
 		switch($next_class)
 		{
+			case "ilpublicuserprofilegui":				
+				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
+				$profile = new ilPublicUserProfileGUI((int) $_REQUEST['user']);
+				$profile->setBackUrl($this->ctrl->getLinkTarget($this,'showSavedResults'));
+				$ret = $ilCtrl->forwardCommand($profile);
+				$GLOBALS['tpl']->setContent($ret);
+			    break;
+
+			
 			default:
 				$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_USER);
 				if(!$cmd)
@@ -117,13 +127,12 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 	{
 		global $ilUser,$ilBench;
 		
-		if(!strlen($this->search_cache->getQuery()))
+		if(strlen($this->search_cache->getQuery()))
 		{
-			$this->showSearchForm();
-			return false;
+			return $this->performSearch();
 		}
 
-		$this->showSearchForm();
+		return $this->showSearchForm();
 	}
 	
 	/**
@@ -168,7 +177,12 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 		$this->showSearchForm();
 		
 		include_once './Services/Search/classes/class.ilRepositoryUserResultTableGUI.php';
-		$user_table = new ilRepositoryUserResultTableGUI($this, 'performSearch');
+		$user_table = new ilRepositoryUserResultTableGUI(
+				$this, 
+				'performSearch',
+				false, 
+				ilRepositoryUserResultTableGUI::TYPE_GLOBAL_SEARCH
+		);
 		$user_table->parseUserIds($searcher->getResult()->getCandidates());
 
 		$GLOBALS['tpl']->setVariable('SEARCH_RESULTS',$user_table->getHTML());
@@ -220,35 +234,9 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 		if(isset($_POST['term']))
 		{
 			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));
-			if($_POST['item_filter_enabled'])
-			{
-				$filtered = array();
-				foreach(ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data)
-				{
-					if($_POST['filter_type'][$type])
-					{
-						$filtered[$type] = 1;
-					}
-				}
-				$this->search_cache->setItemFilter($filtered);
-
-				// Mime filter
-				$mime = array();
-				foreach(ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data)
-				{
-					if($_POST['filter_type'][$type])
-					{
-						$mime[$type] = 1;
-					}
-				}
-				$this->search_cache->setMimeFilter($mime);
-			}
-			else
-			{
-				// @todo: keep item filter settings
-				$this->search_cache->setItemFilter(array());
-				$this->search_cache->setMimeFilter(array());
-			}
+			$this->search_cache->setItemFilter(array());
+			$this->search_cache->setMimeFilter(array());
+			$this->search_cache->save();
 		}
 	}
 	
