@@ -42,6 +42,20 @@ class ilLMPageConfig extends ilPageConfig
 			$this->setEnablePCType("ContentInclude", true);
 		}
 	}
+
+	/**
+	 * Object specific configuration 
+	 *
+	 * @param int $a_obj_id object id
+	 */
+	function configureByObjectId($a_obj_id)
+	{
+		if ($a_obj_id > 0)
+		{
+			include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+			$this->setDisableDefaultQuestionFeedback(ilObjLearningModule::_lookupDisableDefaultFeedback($a_obj_id));
+		}
+	}
 	
 }
 

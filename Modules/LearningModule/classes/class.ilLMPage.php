@@ -22,6 +22,18 @@ class ilLMPage extends ilPageObject
 	{
 		return "lm";
 	}
+	
+	/**
+	 * After constructor
+	 *
+	 * @param
+	 * @return
+	 */
+	function afterConstructor()
+	{
+		$this->getPageConfig()->configureByObjectId($this->getParentId());
+	}
+
 
 	/**
 	 * Before page content update

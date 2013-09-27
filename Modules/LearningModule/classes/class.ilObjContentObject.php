@@ -203,6 +203,26 @@ class ilObjContentObject extends ilObject
 		return $this->layout_per_page;
 	}
 	
+	/**
+	 * Set disable default feedback for questions
+	 *
+	 * @param bool $a_val disable default feedback	
+	 */
+	function setDisableDefaultFeedback($a_val)
+	{
+		$this->disable_def_feedback = $a_val;
+	}
+	
+	/**
+	 * Get disable default feedback for questions
+	 *
+	 * @return bool disable default feedback
+	 */
+	function getDisableDefaultFeedback()
+	{
+		return $this->disable_def_feedback;
+	}
+	
 	function &getTree()
 	{
 		return $this->lm_tree;
@@ -699,6 +719,22 @@ class ilObjContentObject extends ilObject
 	}
 	
 	/**
+	 * Lookup disable default feedback
+	 */
+	static function _lookupDisableDefaultFeedback($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT disable_def_feedback FROM content_object ".
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
+		$res = $ilDB->query($q);
+		$rec = $ilDB->fetchAssoc($res);
+
+		return $rec["disable_def_feedback"];
+	}
+	
+
+	/**
 	* gets the number of learning modules assigned to a content style
 	*
 	* @param	int		$a_style_id		style id
@@ -998,6 +1034,7 @@ class ilObjContentObject extends ilObject
 		$this->setPublicExportFile("scorm", $lm_rec["public_scorm_file"]);
 		$this->setLayoutPerPage($lm_rec["layout_per_page"]);
 		$this->setRating($lm_rec["rating"]);
+		$this->setDisableDefaultFeedback($lm_rec["disable_def_feedback"]);
 	}
 
 	/**
@@ -1037,7 +1074,8 @@ class ilObjContentObject extends ilObject
 			" footer_page = ".$ilDB->quote($this->getFooterPage(), "integer").",".
 			" lm_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()), "text").", ".
 			" layout_per_page = ".$ilDB->quote($this->getLayoutPerPage(), "integer").", ".
-			" rating = ".$ilDB->quote($this->hasRating(), "integer")." ".
+			" rating = ".$ilDB->quote($this->hasRating(), "integer").", ".
+			" disable_def_feedback = ".$ilDB->quote($this->getDisableDefaultFeedback(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
 	}
