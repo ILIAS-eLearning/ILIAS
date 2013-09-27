@@ -78,6 +78,20 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	}
 	
 	/**
+	 * enable numeric ordering for relevance
+	 * @param type $a_field
+	 * @return boolean
+	 */
+	public function numericOrdering($a_field)
+	{
+		if($a_field == 'relevance')
+		{
+			return true;
+		}
+		return parent::numericOrdering($a_field);
+	}
+	
+	/**
 	 * Get search context type
 	 * @return string
 	 */
