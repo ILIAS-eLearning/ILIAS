@@ -183,6 +183,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 				false, 
 				ilRepositoryUserResultTableGUI::TYPE_GLOBAL_SEARCH
 		);
+		$user_table->setLuceneResult($searcher->getResult());
 		$user_table->parseUserIds($searcher->getResult()->getCandidates());
 
 		$GLOBALS['tpl']->setVariable('SEARCH_RESULTS',$user_table->getHTML());

@@ -16,6 +16,8 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	const TYPE_STANDARD = 1;
 	const TYPE_GLOBAL_SEARCH = 2;
 	
+	protected $lucene_result = null;
+	
 	
 	protected static $all_selectable_cols = NULL;
 	protected $admin_mode;
@@ -80,6 +82,25 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	public function getType()
 	{
 		return $this->type;
+	}
+	
+	/**
+	 * Set lucene result
+	 * For parsing relevances
+	 * @param ilLuceneSearchResult $res
+	 */
+	public function setLuceneResult(ilLuceneSearchResult $res)
+	{
+		$this->lucene_result = $res;
+	}
+	
+	/**
+	 * Get lucene result
+	 * @return ilLuceneSearchResult
+	 */
+	public function getLuceneResult()
+	{
+		return $this->lucene_result;
 	}
 
 	/**
@@ -206,6 +227,11 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 					break;
 			}
 		}
+		
+		if($this->getType() == self::TYPE_GLOBAL_SEARCH)
+		{
+			$this->tpl->setVariable('SEARCH_RELEVANCE',$this->getRelevanceHTML($a_set['relevance']));
+		}
 
 	}
 	
@@ -314,8 +340,40 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		{
 			$users = $usr_data['set'];
 		}
+		
+		if($this->getType() == self::TYPE_GLOBAL_SEARCH)
+		{
+			if($this->getLuceneResult() instanceof ilLuceneSearchResult)
+			{
+				foreach($users as $counter => $ud)
+				{
+					$users[$counter]['relevance'] = $this->getLuceneResult()->getRelevance($ud['usr_id']);
+				}
+			}
+		}
+		
 		$this->setData($users);
 	}
 
+
+	/**
+	 * Get relevance html
+	 */
+	public function getRelevanceHTML($a_rel)
+	{
+		$tpl = new ilTemplate('tpl.lucene_relevance.html',true,true,'Services/Search');
+		
+		$width1 = (int) $a_rel;
+		$width2 = (int) (100 - $width1);
+		
+		$tpl->setCurrentBlock('relevance');
+		$tpl->setVariable('VAL_REL',sprintf("%d %%",$a_rel));
+		$tpl->setVariable('WIDTH_A',$width1);
+		$tpl->setVariable('WIDTH_B',$width2);
+		$tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
+		$tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
+		$tpl->parseCurrentBlock();
+		return $tpl->get();
+	}
 }
 ?>
