@@ -43,6 +43,7 @@ import org.apache.lucene.search.TopDocCollector;
 import org.apache.lucene.search.BooleanClause.Occur;
 
 import de.ilias.services.lucene.index.FieldInfo;
+import de.ilias.services.lucene.index.FieldInfoUser;
 import de.ilias.services.lucene.search.highlight.HitHighlighter;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
@@ -177,7 +178,7 @@ public class RPCSearchHandler {
 		
 		LuceneSettings luceneSettings;
 		LocalSettings.setClientKey(clientKey);
-		FieldInfo fieldInfo;
+		FieldInfoUser fieldInfo;
 		IndexSearcher searcher;
 		String rewrittenQuery;
 		
@@ -186,7 +187,7 @@ public class RPCSearchHandler {
 			// Store duration of request
 			long start = new java.util.Date().getTime();
 			
-			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
+			fieldInfo = (FieldInfoUser) FieldInfoUser.getInstance(LocalSettings.getClientKey());
 			luceneSettings = LuceneSettings.getInstance();
 			
 			// Rewrite query
