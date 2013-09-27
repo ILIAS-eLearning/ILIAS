@@ -920,6 +920,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// mail notification
 		$mailnotification = new ilCheckboxInputGUI($this->lng->txt("mailnotification"), "mailnotification");
 		// $mailnotification->setOptionTitle($this->lng->txt("activate"));
+		$mailnotification->setInfo($this->lng->txt("svy_result_mail_notification_info")); // #11762
 		$mailnotification->setValue(1);
 		$mailnotification->setChecked($this->object->getMailNotification());
 

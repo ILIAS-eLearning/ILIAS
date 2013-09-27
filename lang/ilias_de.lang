@@ -13889,3 +13889,4 @@ search#:#search_user_search_form#:#Personensuche
 search#:#search_user_search_info_form#:#Wenn aktiviert, werden Benutzerdaten indexiert und können über die globale Suche gefunden werden.
 exc#:#exc_fb_tutor_info#:#Durch eine hochgeladene Feedback-Datei wird eine Benachrichtigung an den Benutzer gesendet und die Datei wird in dessen Übungseinheiten-Übersicht gelistet.
 obj#:#svy_results#:#Ergebnisse
+survey#:#svy_result_mail_notification_info#:#Nach Beenden einer Umfrage werden die Antworten des Teilnehmers an die gesetzten Empfänger gesendet.
