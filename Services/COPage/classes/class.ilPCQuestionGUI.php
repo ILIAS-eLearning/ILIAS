@@ -12,8 +12,6 @@ include_once "./Services/COPage/classes/class.ilPCQuestion.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilPCQuestionGUI: ilQuestionEditGUI
-* @ilCtrl_Calls ilPCQuestionGUI: ilAssQuestionFeedbackEditingGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -45,52 +43,9 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		$q_type = ($_POST["q_type"] != "")
 			? $_POST["q_type"]
 			: $_GET["q_type"];
-			
-		
-		
+
 		switch($next_class)
 		{
-
-			case "ilquestioneditgui":
-				include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
-
-				$edit_gui = new ilQuestionEditGUI();
-				if ($q_type != "")
-				{
-					$edit_gui->setQuestionType($q_type);
-				}
-				$edit_gui->setPageConfig($this->getPageConfig());
-				//$edit_gui->setPoolRefId($qpool_ref_id);		
-				$this->setTabs();
-			    $edit_gui->addNewIdListener($this, "setNewQuestionId");
-				$edit_gui->setSelfAssessmentEditingMode(true);
-				$ret = $ilCtrl->forwardCommand($edit_gui);
-				$this->tpl->setContent($ret);
-				break;
-
-			case 'ilassquestionfeedbackeditinggui':
-
-				// set tabs
-				$this->setTabs();
-				
-				// load required lang mods
-				$lng->loadLanguageModule("assessment");
-
-				// set context tabs
-				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
-				$questionGUI->object->setObjId(0);
-				$questionGUI->object->setSelfAssessmentEditingMode(true);
-				$questionGUI->object->setDefaultNrOfTries(null);
-				//$questionGUI->setQuestionTabs();
-				
-				// forward to ilAssQuestionFeedbackGUI
-				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
-				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
-				$ilCtrl->forwardCommand($gui);
-				
-				break;
-			
 			default:
 				//set tabs
 				if ($cmd != "insert")
@@ -190,6 +145,35 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		$qtype_input->setRequired(true);
 		$this->form_gui->addItem($qtype_input);
 		
+		// additional content editor
+		// assessment
+		include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+		if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled())
+		{
+			$ri = new ilRadioGroupInputGUI($this->lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
+			
+			$ri->addOption(new ilRadioOption(
+				$this->lng->txt('tst_add_quest_cont_edit_mode_default'),
+					assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
+			));
+
+			$ri->addOption(new ilRadioOption(
+					$this->lng->txt('tst_add_quest_cont_edit_mode_page_object'),
+					assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+			));
+			
+			$ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+
+			$this->form_gui->addItem($ri, true);
+		}
+		else
+		{
+			$hi = new ilHiddenInputGUI("question_content_editing_type");
+			$hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+			$this->form_gui->addItem($hi, true);
+		}
+
+		
 		// Select Question Pool
 /*
 		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
@@ -258,6 +242,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 			$this->pg_obj->addHierIDs();
 			$hier_id = $this->content_obj->lookupHierId();
 			$ilCtrl->setParameter($this, "q_type", $_POST["q_type"]);
+			$ilCtrl->setParameter($this, "add_quest_cont_edit_mode", $_POST["add_quest_cont_edit_mode"]);
 //			$ilCtrl->setParameter($this, "qpool_ref_id", $pool_ref_id);
 			//$ilCtrl->setParameter($this, "hier_id", $hier_id);
 			$ilCtrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
@@ -318,34 +303,46 @@ class ilPCQuestionGUI extends ilPageContentGUI
 			include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 			include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 			
-			$ilCtrl->setCmdClass("ilquestioneditgui");
+/*			$ilCtrl->setCmdClass("ilquestioneditgui");
 			$ilCtrl->setCmd("editQuestion");
-			$edit_gui = new ilQuestionEditGUI();
+			$edit_gui = new ilQuestionEditGUI();*/
 			
 			// create question first-hand (needed for uploads)
 			if($q_id < 1 && $q_type)
 			{
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type);
-				$q_id = $q_gui->object->createNewQuestion(true);
-				unset($q_gui);
-				
-				if ($_GET["qpool_ref_id"] > 0)
+
+				// feedback editing mode
+				include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+				if(ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()
+					&& $_REQUEST['add_quest_cont_edit_mode'] != "")
 				{
-					$edit_gui->setPoolRefId($_GET["qpool_ref_id"]);
-					$edit_gui->setPoolRefId(0);
-				}				
+					$addContEditMode = $_GET['add_quest_cont_edit_mode'];
+				}
+				else
+				{
+					$addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
+				}
+				$q_gui->object->setAdditionalContentEditingMode($addContEditMode);
+				
 				//set default tries
-				$edit_gui->setDefaultNrOfTries(ilObjSAHSLearningModule::_getTries($this->scormlmid));
+				$q_gui->object->setDefaultNrOfTries(ilObjSAHSLearningModule::_getTries($this->scormlmid));
+				$q_id = $q_gui->object->createNewQuestion(true);
+				$this->content_obj->setQuestionReference("il__qst_".$q_id);
+				$this->pg_obj->update();
+				unset($q_gui);
 			}
+			$ilCtrl->setParameterByClass("ilQuestionEditGUI", "q_id", $q_id);
+			$ilCtrl->redirectByClass(array(get_class($this->pg_obj)."GUI", "ilQuestionEditGUI"), "editQuestion");
 			
-			$edit_gui->setPoolObjId(0);
-			$edit_gui->setQuestionId($q_id);			
+/*			$edit_gui->setPoolObjId(0);
+			$edit_gui->setQuestionId($q_id);	
 			$edit_gui->setQuestionType($q_type);
 			$edit_gui->setSelfAssessmentEditingMode(true);
 			$edit_gui->setPageConfig($this->getPageConfig());
 			$ret = $ilCtrl->forwardCommand($edit_gui);
-			$this->tpl->setContent($ret);
+			$this->tpl->setContent($ret);*/
 			return $ret;
 		}
 		else	// behaviour in question pool
@@ -359,8 +356,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	function feedback() 
 	{
 		global $ilCtrl, $ilTabs;
-		
-		
 		
 		include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
 		include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -424,6 +419,11 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	*/
 	function setTabs()
 	{
+		if ($this->getSelfAssessmentMode())
+		{
+			return;
+		}
+		
 		global $ilTabs, $ilCtrl, $lng;
 		include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		

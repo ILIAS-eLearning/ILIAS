@@ -247,12 +247,12 @@ class ilErrorHandling extends PEAR
 	 */
 	public function handleUncaughtException(Exception $e)
 	{
-		if(DEVMODE or 1)
+		$error = $e->getMessage();
+		if (DEVMODE)
 		{
-			$error = $e->getTraceAsString();
-			$error .= '<br />';
+			$error.= '<br /><br />';
+			$error.= nl2br($e->getTraceAsString());
 		}
-		$error .= $e->getMessage();
 		$this->raiseError($error,$this->WARNING);
 	}
 

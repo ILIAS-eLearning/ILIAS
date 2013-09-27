@@ -904,7 +904,7 @@ class ilPageObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		global $ilCtrl, $ilTabs, $lng, $ilAccess, $tpl;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -1010,6 +1010,39 @@ class ilPageObjectGUI
 				$ilCtrl->forwardCommand($link_gui);
 				break;
 
+			case "ilquestioneditgui":
+				include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
+				$edit_gui = new ilQuestionEditGUI();
+				$edit_gui->setPageConfig($this->getPageConfig());
+				$this->setQEditTabs("question");
+//			    $edit_gui->addNewIdListener($this, "setNewQuestionId");
+				$edit_gui->setSelfAssessmentEditingMode(true);
+				$ret = $ilCtrl->forwardCommand($edit_gui);
+				$this->tpl->setContent($ret);
+				break;
+
+			case 'ilassquestionfeedbackeditinggui':
+				
+				// set tabs
+				$this->setQEditTabs("feedback");
+				
+				// load required lang mods
+				$lng->loadLanguageModule("assessment");
+
+				// set context tabs
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+				$questionGUI = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType((int) $_GET['q_id']), (int) $_GET['q_id']);
+				$questionGUI->object->setObjId(0);
+				$questionGUI->object->setSelfAssessmentEditingMode(true);
+				$questionGUI->object->setDefaultNrOfTries(null);
+				//$questionGUI->setQuestionTabs();
+				
+				// forward to ilAssQuestionFeedbackGUI
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
+				$ilCtrl->forwardCommand($gui);
+				break;
 
 			default:
 				$cmd = $this->ctrl->getCmd("preview");
@@ -1020,6 +1053,35 @@ class ilPageObjectGUI
 		return $ret;
 	}
 
+	/**
+	 * Set question editing tabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function setQEditTabs($a_active)
+	{		
+		global $ilTabs, $ilCtrl, $lng;
+		include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+		
+		$ilTabs->clearTargets();
+		
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "edit"));
+		
+		$ilCtrl->setParameterByClass("ilquestioneditgui", "q_id", $_GET["q_id"]);
+		$ilTabs->addTab("question", $lng->txt("question"),
+			$ilCtrl->getLinkTargetByClass("ilquestioneditgui", "editQuestion"));
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+		$ilCtrl->setParameterByClass("ilAssQuestionFeedbackEditingGUI", "q_id", $_GET["q_id"]);
+		$ilTabs->addTab("feedback", $lng->txt("feedback"),
+			$ilCtrl->getLinkTargetByClass("ilAssQuestionFeedbackEditingGUI", ilAssQuestionFeedbackEditingGUI::CMD_SHOW));
+		
+		$ilTabs->activateTab($a_active);
+	}
+	
+	
 	function deactivatePage()
 	{
 		$this->getPageObject()->setActivationStart(null);
