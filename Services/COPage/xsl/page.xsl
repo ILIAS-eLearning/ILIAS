@@ -2797,7 +2797,7 @@
 		</xsl:when>
 
 		<!-- flv, mp4 (mediaelement.js) -->
-		<xsl:when test = "substring-before($data,'.flv') != '' or $type = 'video/mp4'">
+		<xsl:when test = "substring-before($data,'.flv') != '' or $type = 'video/mp4' or $type = 'video/webm'">
 			<video class="ilPageVideo" controls="controls" preload="none">
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
@@ -2810,6 +2810,11 @@
 				<xsl:choose>
 					<xsl:when test = "$type = 'video/mp4'">
 						<source type="video/mp4">
+							<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+						</source>
+					</xsl:when>
+					<xsl:when test = "$type = 'video/webm'">
+						<source type="video/webm">
 							<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 						</source>
 					</xsl:when>
