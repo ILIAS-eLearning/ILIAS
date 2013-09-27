@@ -4,7 +4,7 @@
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPool.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolBuilder.php';
 
 require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 
@@ -68,7 +68,12 @@ class ilTestRandomQuestionSetConfigGUI
 	 * @var ilTree
 	 */
 	public $tree = null;
-	
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	public $pluginAdmin = null;
+
 	/**
 	 * @var ilObjTest
 	 */
@@ -90,11 +95,14 @@ class ilTestRandomQuestionSetConfigGUI
 	protected $sourcePoolDefinitionList= null;
 
 	/**
-	 * @var ilTestRandomQuestionSetStagingPool
+	 * @var ilTestRandomQuestionSetStagingPoolBuilder
 	 */
 	protected $stagingPool = null;
 	
-	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilTemplate $tpl, ilDB $db, ilTree $tree, ilObjTest $testOBJ)
+	public function __construct(
+		ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng,
+		ilTemplate $tpl, ilDB $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
+	)
 	{
 		$this->ctrl = $ctrl;
 		$this->access = $access;
@@ -103,11 +111,12 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->tpl = $tpl;
 		$this->db = $db;
 		$this->tree = $tree;
-		
+		$this->pluginAdmin = $pluginAdmin;
+
 		$this->testOBJ = $testOBJ;
 
 		$this->questionSetConfig = new ilTestRandomQuestionSetConfig(
-			$this->tree, $this->db, $this->testOBJ
+			$this->tree, $this->db, $this->pluginAdmin, $this->testOBJ
 		);
 
 		$this->sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
@@ -118,7 +127,7 @@ class ilTestRandomQuestionSetConfigGUI
 			$this->db, $this->testOBJ, $this->sourcePoolDefinitionFactory
 		);
 
-		$this->stagingPool = new ilTestRandomQuestionSetStagingPool(
+		$this->stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder(
 			$this->db, $this->testOBJ
 		);
 	}
@@ -258,6 +267,9 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$form->save();
 
+		$this->sourcePoolDefinitionList->loadDefinitions();
+		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+		$this->sourcePoolDefinitionList->saveDefinitions();
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
@@ -279,6 +291,8 @@ class ilTestRandomQuestionSetConfigGUI
 
 	private function showSourcePoolDefinitionListCmd()
 	{
+		$this->questionSetConfig->loadFromDb();
+
 		$toolbar = $this->buildSourcePoolDefinitionListToolbarGUI();
 		$table = $this->buildSourcePoolDefinitionListTableGUI();
 
@@ -302,6 +316,10 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->sourcePoolDefinitionList->reindexPositions();
 		$this->sourcePoolDefinitionList->saveDefinitions();
+
+		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+		$this->sourcePoolDefinitionList->saveDefinitions();
+		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
@@ -328,6 +346,11 @@ class ilTestRandomQuestionSetConfigGUI
 			$this->ctrl, $this->lng, $this, self::CMD_SHOW_SRC_POOL_DEF_LIST
 		);
 
+		if( !$this->testOBJ->participantDataExist() )
+		{
+			$table->setDefinitionEditModeEnabled(true);
+		}
+
 		$table->setQuestionAmountColumnEnabled(
 			$this->questionSetConfig->isQuestionAmountConfigurationModePerPool()
 		);
@@ -342,10 +365,6 @@ class ilTestRandomQuestionSetConfigGUI
 		$definitionId = $this->fetchSingleSourcePoolDefinitionIdParameter();
 		$this->deleteSourcePoolDefinitions( array($definitionId) );
 
-		$this->sourcePoolDefinitionList->loadDefinitions();
-		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
-		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
-
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_source_pool_definitions_deleted"), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
 	}
@@ -354,10 +373,6 @@ class ilTestRandomQuestionSetConfigGUI
 	{
 		$definitionIds = $this->fetchMultiSourcePoolDefinitionIdsParameter();
 		$this->deleteSourcePoolDefinitions( $definitionIds );
-
-		$this->sourcePoolDefinitionList->loadDefinitions();
-		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
-		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_source_pool_definitions_deleted"), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
@@ -374,6 +389,11 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->sourcePoolDefinitionList->loadDefinitions();
 		$this->sourcePoolDefinitionList->reindexPositions();
 		$this->sourcePoolDefinitionList->saveDefinitions();
+
+		$this->sourcePoolDefinitionList->loadDefinitions();
+		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+		$this->sourcePoolDefinitionList->saveDefinitions();
+		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 	}
 
 	private function showCreateSourcePoolDefinitionFormCmd(ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null)
@@ -421,6 +441,7 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->sourcePoolDefinitionList->addDefinition($sourcePoolDefinition);
 
 		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+		$this->sourcePoolDefinitionList->saveDefinitions();
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);

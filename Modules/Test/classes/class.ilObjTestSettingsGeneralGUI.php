@@ -40,7 +40,10 @@ class ilObjTestSettingsGeneralGUI
 	
 	/** @var ilDB $db */
 	protected $db = null;
-	
+
+	/** @var ilPluginAdmin $pluginAdmin */
+	protected $pluginAdmin = null;
+
 	/** @var ilObjTest $testOBJ */
 	protected $testOBJ = null;
 
@@ -85,7 +88,8 @@ class ilObjTestSettingsGeneralGUI
 		ilLanguage $lng, 
 		ilTemplate $tpl, 
 		ilTree $tree,
-		ilDB $db, 
+		ilDB $db,
+		ilPluginAdmin $pluginAdmin,
 		ilObjTestGUI $testGUI
 	)
 	{
@@ -95,12 +99,13 @@ class ilObjTestSettingsGeneralGUI
 		$this->tpl = $tpl;
 		$this->tree = $tree;
 		$this->db = $db;
+		$this->pluginAdmin = $pluginAdmin;
 
 		$this->testGUI = $testGUI;
 		$this->testOBJ = $testGUI->object;
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-		$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->testOBJ);
+		$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $this->testOBJ);
 		
 		$templateId = $this->testOBJ->getTemplate();
 

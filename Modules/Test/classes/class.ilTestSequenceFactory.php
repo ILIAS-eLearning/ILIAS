@@ -86,10 +86,17 @@ class ilTestSequenceFactory
 			switch( $this->testOBJ->getQuestionSetType() )
 			{
 				case ilObjTest::QUESTION_SET_TYPE_FIXED:
-				case ilObjTest::QUESTION_SET_TYPE_RANDOM:
 
 					require_once 'Modules/Test/classes/class.ilTestSequence.php';
 					self::$testSequence = new ilTestSequence(
+							$testSession->getActiveId(), $pass, $this->testOBJ->isRandomTest()
+					);
+					break;
+
+				case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+
+					require_once 'Modules/Test/classes/class.ilTestSequenceRandomQuestionSet.php';
+					self::$testSequence = new ilTestSequenceRandomQuestionSet(
 							$testSession->getActiveId(), $pass, $this->testOBJ->isRandomTest()
 					);
 					break;

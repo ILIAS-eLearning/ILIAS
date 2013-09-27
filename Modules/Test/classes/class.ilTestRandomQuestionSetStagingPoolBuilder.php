@@ -11,7 +11,7 @@ require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
  *
  * @package		Modules/Test
  */
-class ilTestRandomQuestionSetStagingPool
+class ilTestRandomQuestionSetStagingPoolBuilder
 {
 	/**
 	 * @var ilDB
@@ -28,6 +28,8 @@ class ilTestRandomQuestionSetStagingPool
 		$this->db = $db;
 		$this->testOBJ = $testOBJ;
 	}
+
+	// =================================================================================================================
 
 	public function rebuild(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	{
@@ -78,7 +80,9 @@ class ilTestRandomQuestionSetStagingPool
 		{
 			$questionIdMapping = $this->stageQuestionsFromSourcePool($sourcePoolId);
 
-			$this->mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping);
+			$taxonomiesKeysMap = $this->mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping);
+
+			$this->applyMappedTaxonomiesKeys($sourcePoolDefinitionList, $taxonomiesKeysMap, $sourcePoolId);
 		}
 	}
 
@@ -102,7 +106,7 @@ class ilTestRandomQuestionSetStagingPool
 				'qpl_fi' => array('integer', $sourcePoolId)
 			));
 
-			$questionMapping[ $row['question_id'] ] = $duplicateId;
+			$questionIdMapping[ $row['question_id'] ] = $duplicateId;
 		}
 
 		return $questionIdMapping;
@@ -115,5 +119,33 @@ class ilTestRandomQuestionSetStagingPool
 		);
 
 		$duplicator->duplicate();
+
+		return $duplicator->getDuplicatedTaxonomiesKeysMap();
 	}
+
+	/**
+	 * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
+	 * @param ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap
+	 * @param integer $sourcePoolId
+	 */
+	private function applyMappedTaxonomiesKeys(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList, ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap, $sourcePoolId)
+	{
+		foreach($sourcePoolDefinitionList as $definition)
+		{
+			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
+
+			if($definition->getPoolId() == $sourcePoolId)
+			{
+				$definition->setMappedFilterTaxId(
+					$taxonomiesKeysMap->getMappedTaxonomyId($definition->getOriginalFilterTaxId())
+				);
+
+				$definition->setMappedFilterTaxNodeId(
+					$taxonomiesKeysMap->getMappedTaxNodeId($definition->getOriginalFilterTaxNodeId())
+				);
+			}
+		}
+	}
+
+	// =================================================================================================================
 }
