@@ -254,6 +254,9 @@ class ilSCORM13Player
 				ilSCORM2004StoreData::scormPlayerUnload($this->userId, $this->packageId);
 				break;
 				
+			// case 'getConfigForPlayer':
+				// $this->getConfigForPlayer();
+				// break;
 			default:
 				$this->getPlayer();
 				break;
@@ -283,24 +286,14 @@ class ilSCORM13Player
 	}
 		
 	
-	
-	public function getPlayer()
+	public function getConfigForPlayer()
 	{
-		global $ilUser,$lng, $ilias, $ilSetting;
-		// player basic config data
-		
-		if ($this->slm->getSession()) {		
+		global $ilUser,$ilias;
+
+		if ($this->slm->getSession()) {
 			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
 		} else {
 			$session_timeout = 0;
-		}
-
-		$initSuspendData = null;
-		$initAdlactData = null;
-		if ($this->slm->getSequencing() == true) {
-			$initSuspendData = json_decode($this->getSuspendDataInit());
-			$initAdlactData = json_decode($this->getADLActDataInit());
-			$initGlobalobjData = $this->readGObjectiveInit();
 		}
 
 		$store_url = 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"];
@@ -326,14 +319,7 @@ class ilSCORM13Player
 			'get_gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getGobjective&ref_id='.$_GET["ref_id"],
 			'ping_url' =>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=pingSession&ref_id='.$_GET["ref_id"],
 			'scorm_player_unload_url' => $unload_url,
-			'scope'=>$this->getScope(),
-			'learner_id' => (string) $ilUser->getID(),
-			'course_id' => (string) $this->packageId,
-			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
-			'mode' => 'normal',
-			'credit' => 'credit',
-			'auto_review' => $this->slm->getAutoReview(),
-			'hide_navig' => $this->slm->getHideNavig(),
+
 			'debug' => $this->slm->getDebug(),
 			'package_url' =>  $this->getDataDirectory()."/",
 			'session_ping' => $session_timeout,
@@ -342,6 +328,15 @@ class ilSCORM13Player
 			'livelog_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=liveLogContent&ref_id='.$_GET["ref_id"],
 			'debug_fields' => $this->getDebugValues(),
 			'debug_fields_test' => $this->getDebugValues(true),
+
+			'scope'=>$this->getScope(),
+			'learner_id' => (string) $ilUser->getID(),
+			'course_id' => (string) $this->packageId,
+			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
+			'mode' => 'normal',
+			'credit' => 'credit',
+			'auto_review' => $this->slm->getAutoReview(),
+			'hide_navig' => $this->slm->getHideNavig(),
 			'sequencing_enabled' => $this->slm->getSequencing(),
 			'interactions_storable' => $this->slm->getInteractions(),
 			'objectives_storable' => $this->slm->getObjectives(),
@@ -379,6 +374,24 @@ class ilSCORM13Player
 		$status['p'] = $ilUser->getID();
 		$config['status'] = $status;
 
+		return $config;
+	}
+
+	public function getPlayer()
+	{
+		global $ilUser,$lng, $ilias, $ilSetting;
+		// player basic config data
+		
+
+		$initSuspendData = null;
+		$initAdlactData = null;
+		if ($this->slm->getSequencing() == true) {
+			$initSuspendData = json_decode($this->getSuspendDataInit());
+			$initAdlactData = json_decode($this->getADLActDataInit());
+			$initGlobalobjData = $this->readGObjectiveInit();
+		}
+
+		$config = $this->getConfigForPlayer();
 		//language strings
 		$langstrings['btnStart'] = $lng->txt('scplayer_start');
 		$langstrings['btnExit'] = $lng->txt('scplayer_exit');
@@ -390,7 +403,7 @@ class ilSCORM13Player
 		$langstrings['btnshowtree']=$lng->txt('scplayer_showtree');
 		$langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
 		$langstrings['linkcollapseTree']=$lng->txt('scplayer_collapsetree');
-		$config['langstrings'] = $langstrings;
+//		$config['langstrings'] = $langstrings;
 		
 		//template variables	
 		//$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
@@ -986,7 +999,7 @@ class ilSCORM13Player
 		}
 	}
 
-	private function getCMIData($userId, $packageId) 
+	public function getCMIData($userId, $packageId) 
 	{
 		global $ilDB;
 		

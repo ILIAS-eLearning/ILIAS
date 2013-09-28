@@ -86,11 +86,11 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings")
         );
 		if (ilObjSAHSLearningModuleAccess::_lookupOfflineModeAvailable($a_obj_id)) {
-			$offlineMode=ilObjSAHSLearningModuleAccess::_lookupUserOfflineMode($a_obj_id);
+			$offlineMode=ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);
 			if ($offlineMode == false) {
 				$commands[]=array("permission" => "read", "cmd" => "offlineModeStart", "lang_var" => "offlineModeStart");
 			}
-			else if ($offlineMode == 'offline') {
+			else {
 				$commands[]=array("permission" => "read", "cmd" => "offlineModeStop", "lang_var" => "offlineModeStop");
 				$commands[0]=array("permission" => "read", "cmd" => "offlineModeView", "lang_var" => "show","default" => true);
 			}
@@ -230,9 +230,9 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
 	}
 	
 	/**
-		* Checks offlineMode
+		* Checks offlineMode and returns false if 
 		*/
-	static function _lookupUserOfflineMode($obj_id)
+	static function _lookupUserIsOfflineMode($obj_id)
 	{
 		global $ilDB,$ilUser;
 
@@ -243,8 +243,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
 			array($a_id, $user_id)
 		);
 		$rec = $ilDB->fetchAssoc($set);
-		if ($rec["offline_mode"] == null) return false;
-		return $rec["offline_mode"];
+		if ($rec["offline_mode"] == "offline") return true;
+		return false;
 	}
 	
 	/**

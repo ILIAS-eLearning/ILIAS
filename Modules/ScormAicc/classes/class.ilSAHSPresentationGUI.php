@@ -177,7 +177,7 @@ class ilSAHSPresentationGUI
 				$ret =& $this->ctrl->forwardCommand($hacp_gui);
 				break;
 			
-			case "illearningprogressgui":								
+			case "illearningprogressgui":
 				$this->setInfoTabs("learning_progress");
 				include_once "./Services/Tracking/classes/class.ilLearningProgressGUI.php";
 				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $_GET['ref_id']);
@@ -186,11 +186,9 @@ class ilSAHSPresentationGUI
 				break;
 
 			case "ilscormofflinemodegui":
-				$this->setOfflineModeTabs($cmd);
 				include_once "./Modules/ScormAicc/classes/class.ilSCORMOfflineModeGUI.php";
 				$new_gui =& new ilSCORMOfflineModeGUI($type);
 				$this->ctrl->forwardCommand($new_gui);
-				$this->tpl->show();
 				break;
 
 			default:
@@ -712,26 +710,6 @@ class ilSAHSPresentationGUI
 			//$this->tpl->setContent("aa");
 			$this->tpl->show();
 		//}
-	}
-
-	function setOfflineModeTabs($a_active)
-	{		
-		global $ilTabs, $ilLocator, $ilAccess;
-		$thisurl = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$_GET["ref_id"]."&amp;cmd=".$a_active;
-		$ilTabs->addTab("info_short", $this->lng->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
-			
-//		$ilTabs->addTab($a_active, $this->lng->txt($a_active), $this->ctrl->getLinkTargetByClass(array('ilsahspresentationgui', 'ilscormofflinemodegui'),$a_active));
-		$ilTabs->addTab($a_active, $this->lng->txt($a_active), $thisurl);
-			
-		$ilTabs->activateTab($a_active);
-
-		$this->tpl->getStandardTemplate();
-		$this->tpl->setTitle($this->slm_gui->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm_b.png"));
-		$ilLocator->addRepositoryItems();
-		$ilLocator->addItem($this->slm_gui->object->getTitle(),$thisurl);
-//			$this->ctrl->getLinkTarget($this, $a_active),'', $_GET["ref_id"]);
-		$this->tpl->setLocator();
 	}
 
 }
