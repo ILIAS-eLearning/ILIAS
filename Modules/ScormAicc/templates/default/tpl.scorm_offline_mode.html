@@ -1,20 +1,23 @@
 <script type="text/javascript">
-var clientId = '{CLIENT_ID}',
+var ilClient = '{CLIENT_ID}',
 	refId = {REF_ID},
 	lmId = {LM_ID},
-	urlId = window.location.hostname.replace(/www./,'')+(window.location.pathname.substring(0,window.location.pathname.indexOf('/ilias.php'))),
-	importContentUrl = document.URL+="GetContent",
-	cmdUrl = document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+refId+'&client_id='+clientId+'&cmd=',
-	importTrackingUrl = cmdUrl+'cmi',
+	mode = '{OFFLINE_MODE}',
+	id = "",
+	client = '{CLIENT_ID_SOP}',//window.location.hostname.replace(/www./,'')+(window.location.pathname.substring(0,window.location.pathname.indexOf('/ilias.php'))),
+//	importContentUrl = document.URL+="GetContent",
+	cmdUrl = document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+refId+'&client_id='+ilClient+'&cmd=',
+	importContentUrl = cmdUrl+"offlineMode_il2sopContent",
+//	importTrackingUrl = cmdUrl+'cmi',
+	importTrackingUrl = cmdUrl+"offlineMode_il2sop",
+	msg_result = '{MESSAGE_RESULT}';
 	msg_sop_not_found = '{SOP_NOT_FOUND}',
 	msg_use_firefox = '{USE_FIREFOX}'
 	msg_import_failure		= 'Transfering content or data to SCORM Offline Manager was not successfull. ',
 	msg_import_content		= 'Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait ...',
 	msg_import_content_ok	= 'Transfering content was successfull.',
-	msg_import_tracking		= 'Transfering tracking data to SCORM Offline Manager. Please wait some seconds,',
+	msg_import_tracking		= 'Transfering tracking data to SCORM Offline Manager. Please wait some seconds',
 	msg_import_tracking_ok	= 'Transfering tracking data was successfull.';
-
-//var id=urlId.replace(/\//g,'_')+'_'+clientId+'/'+lmId;
 
 function print(txt) {
 	var divOut = document.getElementById("out");
@@ -27,7 +30,14 @@ function checkCallback(success) {
 	var divManager = document.getElementById("divOfflineManager");
 	
 	if (success) {
+		id=sopConnector.atoB(client)+'_'+lmId;
 		divCheck.style.display = "none";
+		if (mode=="online") {
+			divManager.innerHTML = msg_result + 'TEXT_IMPORT<input type="button" value="import" onclick="importSOP()"/>';
+		}
+		else if (mode=="offline") {
+			divManager.innerHTML = msg_result + 'TEXT_START<input type="button" value="start" onclick="openLm()"/>';
+		}
 		divManager.style.display = "block";
 	}
 	else {
@@ -90,7 +100,7 @@ function getOfflineUrl(id) {
 	return url;
 }
 
-function openLm(id) {
+function openLm() {
 	var url = getOfflineUrl(id);
 	open(url,"SCORM Offline Player");
 }
@@ -107,32 +117,35 @@ function importLm(id) { // url: network address for binary and async zip downloa
 var importLmOk,
 	importTrackingOk;
 
-function importLmWait(counter) {
+function il2sopLmWait(counter) {
 	if (importLmOk==true) {
-		document.getElementById("divImportLm").innerHTML=msg_import_content_ok;
+		//document.getElementById("divImportLm").innerHTML=msg_import_content_ok;
 		return;
 	}
 	msg_import_content+=' .';
 	document.getElementById("divImportLm").innerHTML=msg_import_content;
-	window.setTimeout('importLmWait('+(counter++)+')',200);
+	window.setTimeout('il2sopLmWait('+(counter++)+')',200);
 }
 
-function importTrackingWait(counter) {
+function il2sopDataWait(counter) {
 	if (importLmOk==true) {
-		document.getElementById("divImportTracking").innerHTML=msg_import_tracking_ok;
+		//document.getElementById("divImportTracking").innerHTML=msg_import_tracking_ok;
 		return;
 	}
 	msg_import_tracking+=' .';
 	document.getElementById("divImportTracking").innerHTML=msg_import_tracking;
-	window.setTimeout('importTrackingWait('+(counter++)+')',100);
+	window.setTimeout('il2sopDataWait('+(counter++)+')',100);
 }
 
-function importWait(counter) {
-	if (importLmOk == false || importTrackingOk == false) location.replace(cmdUrl+'offlineModeImportStop');
+function il2sopWait(counter) {
+	if (importLmOk == false || importTrackingOk == false) location.replace(cmdUrl+'offlineMode_il2sopStop');
 	else if (importLmOk == true && importTrackingOk == true) location.replace(cmdUrl+'offlineModeImportOk');
-	else window.setTimeout('importWait('+(counter++)+')',100);
+	else window.setTimeout('il2sopWait('+(counter++)+')',100);
 }
 
+//function il2sopStop() {
+//	document.getElementById("divOfflineManager").innerHTML = "<br/>" + msg_import_failure + '<br/><a href="javascript:location.reload()">retry</a>';
+//}
 
 function importSOP() {
 	function importLm() { // url: network address for binary and async zip download
@@ -141,7 +154,7 @@ function importSOP() {
 			importLmOk=success;
 		}
 		sopConnector.importLm(id, url, handler);
-		window.setTimeout('importLmWait(1)',200);
+		window.setTimeout('il2sopLmWait(1)',200);
 	}
 	function importTracking() {
 		var url = sopConnector.atoB(importTrackingUrl);
@@ -149,15 +162,14 @@ function importSOP() {
 			importTrackingOk=success;
 		}
 		sopConnector.importTracking(id,url,handler);
-		window.setTimeout('importTrackingWait(1)',100);
+		window.setTimeout('il2sopDataWait(1)',100);
 	}
 	document.getElementById("divOfflineManager").innerHTML="";
 	document.getElementById("divImportLm").style.display = "block";
 	document.getElementById("divImportTracking").style.display = "block";
-	var id=sopConnector.atoB(urlId+'/'+clientId)+'_'+lmId;
 	importLm();
 	importTracking();
-	window.setTimeout('importWait(1)',1000);
+	window.setTimeout('il2sopWait(1)',1000);
 }
 
 checkSopConnector(checkCallback);
@@ -168,7 +180,6 @@ checkSopConnector(checkCallback);
 <div id="divImportLm" style="display:none"></div>
 <div id="divImportTracking" style="display:none"></div>
 <div id="divOfflineManager" style="display:none">
-	<div><input type="button" value="open client0_205" onclick="openLm('client0_205')"/></div><br />
-	<div><input type="button" value="import" onclick="importSOP()"/></div><br />
+	
 </div>
 <div id="out"></div>
