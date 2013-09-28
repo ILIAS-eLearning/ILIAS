@@ -1316,7 +1316,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		);
 		while ($val_rec = $ilDB->fetchAssoc($val_set))
 		{
-			return "".$val_rec["last_visited"];
+			if ($val_rec["last_visited"] != null) return "".$val_rec["last_visited"];
 		}
 		return '0';
 	}
