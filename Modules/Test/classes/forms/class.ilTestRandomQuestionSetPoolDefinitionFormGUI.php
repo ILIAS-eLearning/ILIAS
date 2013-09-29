@@ -142,6 +142,18 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 			
 			$this->addItem($taxRadio);
 		}
+		else
+		{
+			$hiddenNoTax = new ilHiddenInputGUI('filter_tax');
+			$hiddenNoTax->setValue(0);
+			$this->addItem($hiddenNoTax);
+
+			$nonEditableNoTax = new ilNonEditableValueGUI(
+				$this->lng->txt('tst_inp_source_pool_filter_tax'), 'no_tax_label'
+			);
+			$nonEditableNoTax->setValue( $this->lng->txt('tst_inp_no_available_tax_hint') );
+			$this->addItem($nonEditableNoTax);
+		}
 		
 		
 		if( $this->questionSetConfig->isQuestionAmountConfigurationModePerPool() )
