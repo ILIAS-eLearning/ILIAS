@@ -147,9 +147,9 @@ class ilObjectListGUI
 	*
 	* this method should be overwritten by derived classes
 	*/
-	function setContainerObject(&$container_obj)
+	function setContainerObject($container_obj)
 	{
-		$this->container_obj =& $container_obj;
+		$this->container_obj = $container_obj;
 	}
 	
 	/**
@@ -2398,8 +2398,8 @@ class ilObjectListGUI
 	*/
 	function insertSubscribeCommand()
 	{
-		global $ilSetting;
-		
+		global $ilSetting, $ilUser;
+
 		if ($this->std_cmd_only)
 		{
 			return;
@@ -2412,7 +2412,7 @@ class ilObjectListGUI
 		
 		$type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
 
-		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			// BEGIN WebDAV: Lock/Unlock objects
 			/* This code section is temporarily commented out. 
@@ -2441,7 +2441,7 @@ class ilObjectListGUI
 			*/
 			// END WebDAV: Lock/Unlock objects
 
-			if (!$this->ilias->account->isDesktopItem($this->getCommandId(), $type))
+			if (!$ilUser->isDesktopItem($this->getCommandId(), $type))
 			{
 				// Pass type and object ID to ilAccess to improve performance
 			    global $ilAccess;
@@ -2868,7 +2868,8 @@ class ilObjectListGUI
 		if(!$objDefinition->isContainer(ilObject::_lookupType($this->obj_id)))
 			return false;
 		
-		if(is_object($this->getContainerObject()))
+		if(is_object($this->getContainerObject()) &&
+			$this->getContainerObject() instanceof ilContainerGUI)
 		{
 			$this->ctrl->setParameter($this->getContainerObject(), "type", "");
 			$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
