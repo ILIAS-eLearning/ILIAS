@@ -872,7 +872,14 @@ ilCOPagePres =
 	
 	initAudioVideo: function () {
 		if ($('video.ilPageVideo,audio.ilPageAudio').mediaelementplayer) {
-			$('video.ilPageVideo,audio.ilPageAudio').mediaelementplayer({});
+			$('video.ilPageVideo,audio.ilPageAudio').each(function(i, el) {
+				var def = $(el).find("track[default='default']").first().attr("srclang");
+				var cfg = {};
+				if (def != ""){
+					cfg.startLanguage = def;
+				}
+				$(el).mediaelementplayer(cfg);
+			});
 		}
 	}
 

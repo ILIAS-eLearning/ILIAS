@@ -2824,6 +2824,16 @@
 						</source>
 					</xsl:otherwise>
 				</xsl:choose>
+				<!-- subtitle tracks -->
+				<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Subtitle">
+					<track kind="subtitles">
+						<xsl:attribute name="src"><xsl:value-of select="@File"/></xsl:attribute>
+						<xsl:attribute name="srclang"><xsl:value-of select="@Language"/></xsl:attribute>
+						<xsl:if test = "@Default = 'true'">
+							<xsl:attribute name="default">default</xsl:attribute>
+						</xsl:if>
+					</track>
+				</xsl:for-each>
 				<object type="application/x-shockwave-flash">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>

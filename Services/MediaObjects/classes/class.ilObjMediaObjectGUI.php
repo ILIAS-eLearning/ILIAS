@@ -32,6 +32,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->lng =& $lng;
 		$this->back_title = "";
 		$this->type = "mob";
+		
+		$lng->loadLanguageModule("mob");
 	}
 
 	function setHeader($a_title = "")
@@ -805,6 +807,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function editObject()
 	{
 		global $tpl;
+		
+		$this->setPropertiesSubTabs("general");
 
 		$this->initForm("edit");
 		$this->getValues();
@@ -1749,7 +1753,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$st_item =& $this->object->getMediaItem("Standard");
 
 			// video tools
-			if (substr($st_item->getFormat(), 0, 6) == "video/")
+			if (DEVMODE && substr($st_item->getFormat(), 0, 6) == "video/")
 			{
 				$ilTabs->addTarget("mob_video_tools",
 					$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "showVideoTool"),
@@ -1853,5 +1857,132 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		ilPlayerUtil::initMediaElementJs($a_tpl);
 	}
 	
+	/**
+	 * Set subtabs for properties 
+	 *
+	 * @param string $a_active active tab id
+	 */
+	function setPropertiesSubTabs($a_active)
+	{
+		global $ilTabs, $ilCtrl, $lng;
+
+		$ilTabs->activateTab("cont_mob_def_prop");
+		
+		$ilTabs->addSubTab("general",
+			$lng->txt("mob_general"),
+			$ilCtrl->getLinkTarget($this, "edit"));
+		
+		if ($this->object->getMediaItem("Standard")->getFormat() == "video/webm")
+		{
+			$ilTabs->addSubTab("subtitles",
+				$lng->txt("mob_subtitles"),
+				$ilCtrl->getLinkTarget($this, "listSubtitleFiles"));
+		}
+		
+		$ilTabs->activateSubTab($a_active);
+	}
+	
+	/**
+	 * List subtitls files
+	 *
+	 * @param
+	 * @return
+	 */
+	function listSubtitleFilesObject()
+	{
+		global $ilToolbar, $tpl, $ilCtrl, $lng, $ilUser;
+		
+		$this->setPropertiesSubTabs("subtitles");
+		
+		// upload file
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("mob_subtitle_file")." (.srt)", "subtitle_file");
+		$fi->setSuffixes(array("srt"));
+		$ilToolbar->addInputItem($fi, true);
+		
+		// language
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$options = ilMDLanguageItem::_getLanguages();
+		$si = new ilSelectInputGUI($this->lng->txt("mob_language"), "language");
+		$si->setOptions($options);
+		$si->setValue($ilUser->getLanguage());
+		$ilToolbar->addInputItem($si, true);
+
+		$ilToolbar->addFormButton($lng->txt("upload"), "uploadSubtitleFile");
+		
+		include_once("./Services/MediaObjects/classes/class.ilMobSubtitleTableGUI.php");
+		$tab = new ilMobSubtitleTableGUI($this, "listSubtitleFiles", $this->object);
+			
+		$tpl->setContent($tab->getHTML());
+	}
+	
+	/**
+	 * Upload srt file
+	 *
+	 * @param
+	 * @return
+	 */
+	function uploadSubtitleFileObject()
+	{
+		global $lng, $ilCtrl;
+		
+		if ($this->object->uploadSrtFile($_FILES["subtitle_file"]["tmp_name"], ilUtil::stripSlashes($_POST["language"])))
+		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "listSubtitleFiles");
+	}
+	
+	/**
+	 * Confirm srt file deletion
+	 */
+	function confirmSrtDeletionObject()
+	{
+		global $ilCtrl, $tpl, $lng;
+			
+		$lng->loadLanguageModule("meta");
+		
+		if (!is_array($_POST["srt"]) || count($_POST["srt"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "listSubtitleFiles");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("mob_really_delete_srt"));
+			$cgui->setCancel($lng->txt("cancel"), "listSubtitleFiles");
+			$cgui->setConfirm($lng->txt("delete"), "deleteSrtFiles");
+			
+			foreach ($_POST["srt"] as $i)
+			{
+				$cgui->addItem("srt[]", $i, "subtitle_".$i.".srt (".$lng->txt("meta_l_".$i).")");
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+	
+	/**
+	 * Delete srt files
+	 */
+	function deleteSrtFilesObject()
+	{
+		global $lng, $ilCtrl;
+		
+		foreach ($_POST["srt"] as $i)
+		{
+			if (strlen($i) == 2 && !is_int(strpos($i, ".")))
+			{
+				$this->object->removeAdditionalFile("srt/subtitle_".$i.".srt");
+			}
+		}
+		ilUtil::sendSuccess($lng->txt("mob_srt_files_deleted"), true);
+		$ilCtrl->redirect($this, "listSubtitleFiles");
+	}
 }
 ?>
