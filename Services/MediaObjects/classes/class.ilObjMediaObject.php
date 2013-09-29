@@ -640,6 +640,8 @@ class ilObjMediaObject extends ilObject
 	*/
 	function getXML($a_mode = IL_MODE_FULL, $a_inst = 0)
 	{
+		global $ilUser;
+		
 		// TODO: full implementation of all parameters
 //echo "-".$a_mode."-";
 		switch ($a_mode)
@@ -744,6 +746,24 @@ class ilObjMediaObject extends ilObject
 						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
 					}
 					$xml .= $item->getMapAreasXML();
+					
+					// Subtitles
+					if ($item->getPurpose() == "Standard")
+					{
+						$srts = $this->getSrtFiles();
+						foreach ($srts as $srt)
+						{
+							$def = "";
+							$meta_lang = "";
+							if ($ilUser->getLanguage() != $meta_lang &&
+								$ilUser->getLanguage() == $srt["language"])
+							{
+								$def = ' Default="true" ';
+							}
+							$xml .= "<Subtitle File=\"".ilObjMediaObject::_getDirectory($this->getId())."/".$srt["full_path"].
+								"\" Language=\"".$srt["language"]."\" ".$def."/>";
+						}
+					}
 					$xml .= "</MediaItem>";
 				}
 				break;
@@ -1563,6 +1583,53 @@ class ilObjMediaObject extends ilObject
 		ilUtil::makeDirParents($dir);
 		ilUtil::moveUploadedFile($tmp_name, $a_name, $dir."/".$a_name);
 		ilUtil::renameExecutables($mob_dir);
+	}
+	
+	/**
+	 * Upload srt file
+	 *
+	 * @param
+	 * @return
+	 */
+	function uploadSrtFile($a_tmp_name, $a_language)
+	{
+		if (is_file($a_tmp_name) && $a_language != "")
+		{
+			$this->uploadAdditionalFile("subtitle_".$a_language.".srt", $a_tmp_name, "srt");
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Get srt files
+	 */
+	function getSrtFiles()
+	{
+		$srt_dir = ilObjMediaObject::_getDirectory($this->getId())."/srt";
+		
+		if (!is_dir($srt_dir))
+		{
+			return array();
+		}
+		
+		$items = ilUtil::getDir($srt_dir);
+
+		$srt_files = array();
+		foreach ($items as $i)
+		{
+			if (!in_array($i["entry"], array(".", "..")) && $i["type"] == "file")
+			{
+				$name = explode(".", $i["entry"]);
+				if ($name[1] == "srt" && substr($name[0], 0, 9) == "subtitle_")
+				{
+					$srt_files[] = array("file" => $i["entry"],
+						"full_path" => "srt/".$i["entry"], "language" => substr($name[0], 9, 2));
+				}
+			}
+		}
+		
+		return $srt_files;
 	}
 
 	/**

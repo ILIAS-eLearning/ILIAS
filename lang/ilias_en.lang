@@ -13902,3 +13902,11 @@ obj#:#svy_results#:#Results
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback
 content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.
 survey#:#svy_result_mail_notification_info#:#On finishing the survey the answers of each participant will be sent to the defined recipients.
+mob#:#mob_general#:#General
+mob#:#mob_subtitles#:#Subtitles
+mob#:#mob_subtitle_files#:#Subtitle Files
+mob#:#mob_subtitle_file#:#Subtitle File
+mob#:#mob_language#:#Language
+mob#:#mob_file#:#File
+mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?
+mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted. 
