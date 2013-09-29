@@ -52,10 +52,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     public function addToDeskObject()
     {
-	 	global $ilCtrl;
+	 	global $ilCtrl, $lng;
 		
 		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::addToDesktop();
+	 	ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
     }
     
@@ -64,10 +65,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     public function removeFromDeskObject()
     {
-	 	global $ilCtrl;
+	 	global $ilCtrl, $lng;
 		
 		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::removeFromDesktop();
+	 	ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
     }
 	
@@ -497,7 +499,15 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					$item_list_gui->enablePayment(false);
 					$item_list_gui->enableLink(false);
 					$item_list_gui->enableInfoScreen(true);
-					$item_list_gui->enableSubscribe(false);
+					if ($ilSetting->get('disable_my_offers') == 1)
+					{
+						$item_list_gui->enableSubscribe(false);
+					}
+					else
+					{
+						$item_list_gui->enableSubscribe(true);
+					}
+					$item_list_gui->setContainerObject($this);
 					if ($this->getCurrentDetailLevel() < 3 || $this->manage)
 					{
 						//echo "3";
@@ -670,7 +680,16 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
 						$item_list_gui->enableInfoScreen(true);
-						$item_list_gui->enableSubscribe(false);
+						if ($ilSetting->get('disable_my_offers') == 1)
+						{
+							$item_list_gui->enableSubscribe(false);
+						}
+						else
+						{
+							$item_list_gui->enableSubscribe(true);
+						}
+
+						$item_list_gui->setContainerObject($this);
 						if ($this->manage)
 						{
 							$item_list_gui->enableCheckbox(true);
