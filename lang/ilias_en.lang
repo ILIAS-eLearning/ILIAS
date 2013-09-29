@@ -13909,4 +13909,77 @@ mob#:#mob_subtitle_file#:#Subtitle File
 mob#:#mob_language#:#Language
 mob#:#mob_file#:#File
 mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?
-mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted. 
+mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.
+bibl#:#bib_default_address#:#Address
+bibl#:#bib_default_author#:#Author
+bibl#:#bib_default_booktitle#:#Title
+bibl#:#bib_default_chapter#:#Chapter
+bibl#:#bib_default_edition#:#Edition
+bibl#:#bib_default_editor#:#Editor
+bibl#:#bib_default_institution#:#Institution
+bibl#:#bib_default_journal#:#Journal
+bibl#:#bib_default_number#:#Number
+bibl#:#bib_default_organization#:#Organization
+bibl#:#bib_default_pages#:#Pages
+bibl#:#bib_default_publisher#:#Publisher
+bibl#:#bib_default_title#:#Title
+bibl#:#bib_default_type#:#Type
+bibl#:#bib_default_volume#:#Volume
+bibl#:#bib_default_year#:#Year
+bibl#:#bib_default_school#:#School
+bibl#:#bib_default_url#:#URL
+bibl#:#bib_default_crossref#:#Cross Reference
+bibl#:#bib_default_keywords#:#Keywords
+bibl#:#bib_default_isbn#:#ISSN/ISBN
+bibl#:#ris_default_ty#:#Type
+bibl#:#ris_default_id#:#Reference ID
+bibl#:#ris_default_t1#:#Title
+bibl#:#ris_default_ti#:#Book title
+bibl#:#ris_default_ct#:#Title of unpublished reference
+bibl#:#ris_default_a1#:#Primary author
+bibl#:#ris_default_a2#:#Secondary author
+bibl#:#ris_default_au#:#Author
+bibl#:#ris_default_y1#:#Primary date
+bibl#:#ris_default_py#:#Publication year
+bibl#:#ris_default_n1#:#Notes
+bibl#:#ris_default_kw#:#Keywords
+bibl#:#ris_default_rp#:#Reprint status
+bibl#:#ris_default_sp#:#Start page
+bibl#:#ris_default_ep#:#Ending page
+bibl#:#ris_default_jf#:#Periodical full name
+bibl#:#ris_default_jo#:#Periodical standard abbreviation
+bibl#:#ris_default_ja#:#Periodical in which article was published
+bibl#:#ris_default_j1#:#Periodical name - User abbreviation 1
+bibl#:#ris_default_j2#:#Periodical name - User abbreviation 2
+bibl#:#ris_default_vl#:#Volume
+bibl#:#ris_default_is#:#Issue
+bibl#:#ris_default_t2#:#Title secondary
+bibl#:#ris_default_cy#:#City of Publication
+bibl#:#ris_default_pb#:#Publisher
+bibl#:#ris_default_u1#:#User 1
+bibl#:#ris_default_u2#:#User 2
+bibl#:#ris_default_u3#:#User 3
+bibl#:#ris_default_u4#:#User 4
+bibl#:#ris_default_u5#:#User 5
+bibl#:#ris_default_t3#:#Title series
+bibl#:#ris_default_n2#:#Abstract
+bibl#:#ris_default_sn#:#ISSN/ISBN/ASIN
+bibl#:#ris_default_av#:#Availability
+bibl#:#ris_default_m1#:#Misc. 1
+bibl#:#ris_default_m2#:#Misc. 2
+bibl#:#ris_default_m3#:#Misc. 3
+bibl#:#ris_default_ad#:#Address
+bibl#:#ris_default_ur#:#URL
+bibl#:#ris_default_l1#:#Link to PDF
+bibl#:#ris_default_l2#:#Link to Full-text
+bibl#:#ris_default_l3#:#Related records
+bibl#:#ris_default_l4#:#Images
+bibl#:#ris_default_y2#:#Primary date 2
+bibl#:#ris_default_a3#:#Authors
+bibl#:#ris_default_ab#:#Abstract
+bibl#:#ris_default_la#:#Language
+bibl#:#ris_default_ts#:#TS
+bibl#:#ris_default_do#:#DOI
+bibl#:#ris_default_ed#:#Further Persons
+bibl#:#ris_default_in#:#In
+bibl#:#ris_default_et#:#Edition

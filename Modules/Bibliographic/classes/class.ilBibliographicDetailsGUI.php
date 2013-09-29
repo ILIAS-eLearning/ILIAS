@@ -30,14 +30,26 @@ class ilBibliographicDetailsGUI
 
         $form->setTitle($lng->txt('detail_view'));
 
-        foreach($entry->getAttributes() as $key => $attribute){
+        foreach($entry->getAttributes() as $key => $attribute)
+        {
 
-            $ci = new ilCustomInputGUI($lng->txt($key));
+            //Check if there is a specific language entry
+            if($lng->exists($key))
+            {
+                $strDescTranslated = $lng->txt($key);
+            }
+            //If not: get the default language entry
+            else
+            {
+                $arrKey = explode("_",$key);
+                $strDescTranslated = $lng->txt($arrKey[0]."_default_".$arrKey[2]);
+            }
+
+            $ci = new ilCustomInputGUI($strDescTranslated);
             $ci->setHtml($attribute);
             $form->addItem($ci);
 
         }
-
 
         // set content and title
         $tpl->setContent($form->getHTML());

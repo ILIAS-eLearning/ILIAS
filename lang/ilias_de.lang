@@ -13890,3 +13890,76 @@ search#:#search_user_search_info_form#:#Wenn aktiviert, werden Benutzerdaten ind
 exc#:#exc_fb_tutor_info#:#Durch eine hochgeladene Feedback-Datei wird eine Benachrichtigung an den Benutzer gesendet und die Datei wird in dessen Übungseinheiten-Übersicht gelistet.
 obj#:#svy_results#:#Ergebnisse
 survey#:#svy_result_mail_notification_info#:#Nach Beenden einer Umfrage werden die Antworten des Teilnehmers an die gesetzten Empfänger gesendet.
+bibl#:#bib_default_address#:#Adresse Autor
+bibl#:#bib_default_author#:#Autor
+bibl#:#bib_default_booktitle#:#Titel
+bibl#:#bib_default_chapter#:#Kapitel
+bibl#:#bib_default_edition#:#Auflage
+bibl#:#bib_default_editor#:#Editor
+bibl#:#bib_default_institution#:#Institution
+bibl#:#bib_default_journal#:#Journal
+bibl#:#bib_default_number#:#Nummer
+bibl#:#bib_default_organization#:#Organisation
+bibl#:#bib_default_pages#:#Seiten
+bibl#:#bib_default_publisher#:#Heausgeber
+bibl#:#bib_default_title#:#Titel
+bibl#:#bib_default_type#:#Typ
+bibl#:#bib_default_volume#:#Auflage
+bibl#:#bib_default_year#:#Jahr
+bibl#:#bib_default_school#:#Schule
+bibl#:#bib_default_url#:#URL
+bibl#:#bib_default_crossref#:#Cross Reference
+bibl#:#bib_default_keywords#:#Schlagwörter
+bibl#:#bib_default_isbn#:#ISSN/ISBN
+bibl#:#ris_default_ty#:#Typ
+bibl#:#ris_default_id#:#Reference ID
+bibl#:#ris_default_t1#:#Titel
+bibl#:#ris_default_ti#:#Buchtitel
+bibl#:#ris_default_ct#:#Titel der unveröffentlichten Referenz
+bibl#:#ris_default_a1#:#Autor
+bibl#:#ris_default_a2#:#Zweiter Autor
+bibl#:#ris_default_au#:#Autor
+bibl#:#ris_default_y1#:#Datum (Primary date)
+bibl#:#ris_default_py#:#Erscheinungsjahr
+bibl#:#ris_default_n1#:#Hinweise
+bibl#:#ris_default_kw#:#Schlagwörter
+bibl#:#ris_default_rp#:#Reprint status
+bibl#:#ris_default_sp#:#Seite von
+bibl#:#ris_default_ep#:#Seite bis
+bibl#:#ris_default_jf#:#Zeitschrift vollständiger Titel
+bibl#:#ris_default_jo#:#Zeitschrift Abkürzung
+bibl#:#ris_default_ja#:#Zeitschrift, in der der Artikel veröffentlicht wurde
+bibl#:#ris_default_j1#:#Zeitschrift Titel - Benutzerdefiniert 1
+bibl#:#ris_default_j2#:#Zeitschrift Titel - Benutzerdefiniert 2
+bibl#:#ris_default_vl#:#Volume
+bibl#:#ris_default_is#:#Ausgabe
+bibl#:#ris_default_t2#:#Zweiter Titel
+bibl#:#ris_default_cy#:#Ort
+bibl#:#ris_default_pb#:#Heausgeber
+bibl#:#ris_default_u1#:#Benutzerdefiniert 1
+bibl#:#ris_default_u2#:#Benutzerdefiniert 2
+bibl#:#ris_default_u3#:#Benutzerdefiniert 3
+bibl#:#ris_default_u4#:#Benutzerdefiniert 4
+bibl#:#ris_default_u5#:#Benutzerdefiniert 5
+bibl#:#ris_default_t3#:#Titel der Serie
+bibl#:#ris_default_n2#:#Abstract
+bibl#:#ris_default_sn#:#ISSN/ISBN/ASIN
+bibl#:#ris_default_av#:#Verfügbarkeit
+bibl#:#ris_default_m1#:#Misc. 1
+bibl#:#ris_default_m2#:#Misc. 2
+bibl#:#ris_default_m3#:#Misc. 3
+bibl#:#ris_default_ad#:#Adresse
+bibl#:#ris_default_ur#:#URL
+bibl#:#ris_default_l1#:#Link zu PDF
+bibl#:#ris_default_l2#:#Link zu Volltext
+bibl#:#ris_default_l3#:#Ähnliche Datensätze
+bibl#:#ris_default_l4#:#Bilder
+bibl#:#ris_default_y2#:#Datum (Primary date 2)
+bibl#:#ris_default_a3#:#Autoren
+bibl#:#ris_default_ab#:#Abstract
+bibl#:#ris_default_la#:#Sprache
+bibl#:#ris_default_ts#:#TS
+bibl#:#ris_default_do#:#DOI
+bibl#:#ris_default_ed#:#Sonst. Personen
+bibl#:#ris_default_in#:#In
+bibl#:#ris_default_et#:#Ausgabe

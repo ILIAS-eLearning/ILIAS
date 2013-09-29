@@ -299,6 +299,12 @@ class ilObjBibliographic extends ilObject2
             //get first two signs as the key
             $key = substr($line, 0, 2);
 
+            //If the 4 character is not a dash -> wrong RIS-Format. Ignore the line
+            if(substr($line, 4, 1) != "-")
+            {
+                continue;
+            }
+
             //When key equals to 'er', write the entry[] in to entries[] and reset the entry[] for filling in the next one.
             if(strtolower($key) != 'er'){
 
@@ -371,13 +377,38 @@ class ilObjBibliographic extends ilObject2
             $entries[$entry][$attribute_id]['name'] = 'TY';
             $entries[$entry][$attribute_id++]['value'] = substr(str_replace(' ', '', $file_content), $pos_atSign + 1, $pos_curlyBracket_without_spaces - $pos_atSign - 1);
 
+
+
             $file_content = substr($file_content, $pos_curlyBracket + 1);
+            $pos_equal_sign = strpos($file_content, "=");
+
+            //Check if there is a "," before the first "="
+            /*
+             * @book{McLean.2011,
+                author = {McLean, Ian L.},
+                year = {2011},
+                title = {Creating HTML5 animations with Flash and Wallaby},
+                url = {http://proquest.safaribooksonline.com/9781449312725},
+                address = {Sebastopol and CA},
+                publisher = {O'Reilly},
+                isbn = {978-1-4493-0713-4}
+                }
+             */
+            $pos_first_comma = strpos($file_content, ",");
+            if($pos_first_comma < $pos_equal_sign)
+            {
+                $file_content = substr($file_content, $pos_first_comma + 1);
+            }
 
 
             //read for each entry, all attributes from the file
             while(strpos(trim($file_content), "}") != 0){
+
+
                 $pos_equal_sign = strpos($file_content, "=");
+
                 $attribute_key = trim(substr($file_content, 0, $pos_equal_sign));
+
                 $file_content = substr($file_content, $pos_equal_sign + 1);
 
                 $pos_curlyBracket_open = strpos($file_content, "{");
