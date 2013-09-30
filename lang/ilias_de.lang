@@ -13963,3 +13963,11 @@ bibl#:#ris_default_do#:#DOI
 bibl#:#ris_default_ed#:#Sonst. Personen
 bibl#:#ris_default_in#:#In
 bibl#:#ris_default_et#:#Ausgabe
+mail#:#mail_filter#:#Filter
+mail#:#mail_filter_sender#:#Sender
+mail#:#mail_filter_recipients#:#Empfänger
+mail#:#mail_filter_subject#:#Betreff
+mail#:#mail_filter_body#:#Nachricht
+mail#:#mail_filter_attach#:#Anhänge
+mail#:#mail_filter_field_placeholder#:#Nachrichten durchsuchen ...
+mail#:#mail_filter_txt#:#Suchen in

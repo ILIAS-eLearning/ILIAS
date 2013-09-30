@@ -13983,3 +13983,11 @@ bibl#:#ris_default_do#:#DOI
 bibl#:#ris_default_ed#:#Further Persons
 bibl#:#ris_default_in#:#In
 bibl#:#ris_default_et#:#Edition
+mail#:#mail_filter#:#Filter
+mail#:#mail_filter_sender#:#Sender
+mail#:#mail_filter_recipients#:#Recipients
+mail#:#mail_filter_subject#:#Subject
+mail#:#mail_filter_body#:#Body
+mail#:#mail_filter_attach#:#Attachments
+mail#:#mail_filter_field_placeholder#:#Filter theses messages ...
+mail#:#mail_filter_txt#:#Filter messages by
