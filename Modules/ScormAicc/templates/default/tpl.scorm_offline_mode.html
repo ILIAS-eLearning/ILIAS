@@ -5,45 +5,37 @@ var ilClient = '{CLIENT_ID}',
 	mode = '{OFFLINE_MODE}',
 	id = "",
 	client = '{CLIENT_ID_SOP}',//window.location.hostname.replace(/www./,'')+(window.location.pathname.substring(0,window.location.pathname.indexOf('/ilias.php'))),
-//	importContentUrl = document.URL+="GetContent",
 	cmdUrl = document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+refId+'&client_id='+ilClient+'&cmd=',
 	importContentUrl = cmdUrl+"offlineMode_il2sopContent",
-//	importTrackingUrl = cmdUrl+'cmi',
 	importTrackingUrl = cmdUrl+"offlineMode_il2sop",
-	msg_result = '{MESSAGE_RESULT}';
-	msg_sop_not_found = '{SOP_NOT_FOUND}',
-	msg_use_firefox = '{USE_FIREFOX}'
-	msg_import_failure		= 'Transfering content or data to SCORM Offline Manager was not successfull. ',
-	msg_import_content		= 'Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait ...',
-	msg_import_content_ok	= 'Transfering content was successfull.',
-	msg_import_tracking		= 'Transfering tracking data to SCORM Offline Manager. Please wait some seconds',
-	msg_import_tracking_ok	= 'Transfering tracking data was successfull.';
-
-function print(txt) {
-	var divOut = document.getElementById("out");
-	divOut.innerHTML = "";
-	divOut.innerHTML = txt;
- }
+	pushTrackingUrl = cmdUrl+"offlineMode_sop2il",
+ 	importLmOk,
+	importTrackingOk,
+	pushTrackingOk,
+	msg_result = '{MESSAGE_RESULT}',
+	msg_sop_not_found = '{SOPCONNECTOR_NOT_FOUND}',
+	msg_use_firefox = '{USE_FIREFOX}',
+	msg_import_failure = 'Transfering content or data to SCORM Offline Manager was not successfull.',
+	msg_import_content = 'Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds',
+	msg_import_content_ok = 'Transfering content was successfull.',
+	msg_import_tracking = 'Transfering tracking data to SCORM Offline Manager. Please wait some seconds',
+	msg_import_tracking_ok = 'Transfering tracking data was successfull.',
+	msg_push_tracking = 'Transfering tracking data to ILIAS. Please wait some seconds',
+	msg_push_tracking_ok = 'Transfering tracking data was successful';
 
 function checkCallback(success) {
-	var divCheck = document.getElementById("divCheckSopConnector");
-	var divManager = document.getElementById("divOfflineManager");
-	
+	/*
+	if (msg_result != "") {
+		print(msg_result,false);
+	}
+	*/
 	if (success) {
+		print(msg_result,false); // any messages?
 		id=sopConnector.atoB(client)+'_'+lmId;
-		divCheck.style.display = "none";
-		if (mode=="online") {
-			divManager.innerHTML = msg_result + 'TEXT_IMPORT<input type="button" value="import" onclick="importSOP()"/>';
-		}
-		else if (mode=="offline") {
-			divManager.innerHTML = msg_result + 'TEXT_START<input type="button" value="start" onclick="openLm()"/>';
-		}
-		divManager.style.display = "block";
+		formView();
 	}
 	else {
-		divCheck.style.display = "none";
-		divManager.style.display = "none";
-		print("no sopConnector found"); // Check user_agent Firefox and offer xpi download if allowed 
+		print(msg_sop_not_found,true); // Check user_agent Firefox and offer xpi download if allowed 
 	}
 } 
 
@@ -51,16 +43,14 @@ function checkSopConnector(handler) {
 	var timeout = 5000;
 	var sopFound = false;
 	var counter = 0;
-
 	var timer = setInterval(function() { 
-		counter+=100;
+		counter+=200;
+		addPrint(" .");
 		try {
 			if (sopConnector) {
 				sopFound = true;
 				clearInterval(timer);
 				return;
-				//checkSopVersion(sopConnector.getSopVersion());
-				//alert(sopConnector.getSopVersion());
 			}
 		}
 		catch(e) {}
@@ -80,10 +70,10 @@ function checkSopConnector(handler) {
 				return;
 			}
 		}
-	} , 100);
+	} , 200);
 }
 
-function checkSopVersion(v) {
+function checkSopVersion(v) { // obsolet?
 	var metas = document.getElementsByTagName('meta');  
 	for (var i=0; i<metas.length; i++) {
 		if (metas[i].getAttribute("name") == "require-sop-version") {
@@ -93,8 +83,6 @@ function checkSopVersion(v) {
 	}
 }
 
-
-//nötig?
 function getOfflineUrl(id) {
 	var url = sopConnector.getOfflineUrl(id);
 	return url;
@@ -102,28 +90,16 @@ function getOfflineUrl(id) {
 
 function openLm() {
 	var url = getOfflineUrl(id);
+//	var url = getOfflineUrl("client0_205");
 	open(url,"SCORM Offline Player");
 }
-/*
-function importLm(id) { // url: network address for binary and async zip download
-	var url = sopConnector.atoB(importContentUrl);
-	function handler(success) {
-		alert(success);
-	}
-	sopConnector.importLm(id, url, handler);
-	
-}
-*/
-var importLmOk,
-	importTrackingOk;
 
 function il2sopLmWait(counter) {
 	if (importLmOk==true) {
-		//document.getElementById("divImportLm").innerHTML=msg_import_content_ok;
 		return;
 	}
 	msg_import_content+=' .';
-	document.getElementById("divImportLm").innerHTML=msg_import_content;
+	print(msg_import_content,false);
 	window.setTimeout('il2sopLmWait('+(counter++)+')',200);
 }
 
@@ -133,15 +109,35 @@ function il2sopDataWait(counter) {
 		return;
 	}
 	msg_import_tracking+=' .';
-	document.getElementById("divImportTracking").innerHTML=msg_import_tracking;
+	print(msg_import_tracking,true,"2");
 	window.setTimeout('il2sopDataWait('+(counter++)+')',100);
 }
 
 function il2sopWait(counter) {
-	if (importLmOk == false || importTrackingOk == false) location.replace(cmdUrl+'offlineMode_il2sopStop');
-	else if (importLmOk == true && importTrackingOk == true) location.replace(cmdUrl+'offlineModeImportOk');
+	if (importLmOk == false || importTrackingOk == false) {
+		location.replace(cmdUrl+'offlineMode_il2sopStop');
+	}
+	else if (importLmOk == true && importTrackingOk == true) {
+		location.replace(cmdUrl+'offlineMode_il2sopOk');
+	}
 	else window.setTimeout('il2sopWait('+(counter++)+')',100);
 }
+
+function sop2ilWait(counter) {
+	if (pushTrackingOk == false) {
+		location.replace(cmdUrl+'offlineMode_sop2ilStop');
+	}
+	else if (pushTrackingOk == true) { 
+		location.replace(cmdUrl+'offlineMode_sop2ilOk');
+	}
+	else {
+		msg_push_tracking+=' .';
+		print(msg_push_tracking,true);
+		window.setTimeout('sop2ilWait('+(counter++)+')',100);
+	}
+	//document.getElementById("divPushTracking").innerHTML=msg_push_tracking;
+}
+
 
 //function il2sopStop() {
 //	document.getElementById("divOfflineManager").innerHTML = "<br/>" + msg_import_failure + '<br/><a href="javascript:location.reload()">retry</a>';
@@ -164,22 +160,72 @@ function importSOP() {
 		sopConnector.importTracking(id,url,handler);
 		window.setTimeout('il2sopDataWait(1)',100);
 	}
-	document.getElementById("divOfflineManager").innerHTML="";
-	document.getElementById("divImportLm").style.display = "block";
-	document.getElementById("divImportTracking").style.display = "block";
+	//hideForm();
 	importLm();
 	importTracking();
 	window.setTimeout('il2sopWait(1)',1000);
+}
+
+function pushTracking() {
+	var url = sopConnector.atoB(pushTrackingUrl);
+	function handler(success) {
+		print(msg_push_tracking_ok,false);
+		pushTrackingOk=success;
+	}
+	sopConnector.pushTracking(id,url,handler);
+	window.setTimeout('sop2ilWait(1)',1000);
+	//alert(JSON.stringify(ret.data));
+}
+
+function formView() {
+	document.getElementById("divOfflineManager").style.display="block";
+	switch (mode) {
+		case  "offline" :
+			document.getElementById("onlineForm").style.display="none";
+		break;
+		case "online" :
+			document.getElementById("offlineForm").style.display="none";
+		break;
+	} 
+	document.getElementById(mode+"Form").style.display="block";
+}
+	
+function print(txt,hide,out) {
+	if (hide==true) {
+		hideForm();
+	}
+	var o = (out) ? out : "1";
+	var divOut = document.getElementById("out"+o);
+	divOut.innerHTML = "";
+	divOut.innerHTML = txt;
+}
+
+function addPrint(msg,out) {
+	var o = (out) ? out : "1";
+	var divOut = document.getElementById("out"+o);
+	divOut.innerHTML += msg;
+}
+
+function hideForm() {
+	document.getElementById("divOfflineManager").style.display="none";
 }
 
 checkSopConnector(checkCallback);
 
 
 </script>
-<div id="divCheckSopConnector" style="display:block">{CHECKING_SOPCONNECTOR}</div>
-<div id="divImportLm" style="display:none"></div>
-<div id="divImportTracking" style="display:none"></div>
-<div id="divOfflineManager" style="display:none">
-	
+
+<div id="divOfflineManager">
+	<div id="onlineForm" style="display:none">
+		<div>TEXT_IMPORT <input type="button" value="import" onclick="importSOP()"/></div>
+	</div>
+	<div id="offlineForm" style="display:none">
+		<div>TEXT_START <input type="button" value="start" onclick="openLm()"/></div>
+		<div>TEXT_PUSH_TRACKING <input type="button" value="push Tracking" onclick="pushTracking()"/></div>
+	</div>
 </div>
-<div id="out"></div>
+
+<!-- for async printing -->
+<div id="out1">{SOPCONNECTOR_CHECK}</div>
+<div id="out2"></div>
+<div id="out3"></div>
