@@ -52,27 +52,6 @@ class ilPersonalSettingsGUI
 			
 			default:
 				$cmd = $this->ctrl->getCmd("showGeneralSettings");
-				
-				// check whether password of user have to be changed
-				// due to first login or password of user is expired
-				if( $ilUser->isPasswordChangeDemanded() && $cmd != 'savePassword' )
-				{
-					$cmd = 'showPassword';
-
-					ilUtil::sendInfo(
-						$this->lng->txt('password_change_on_first_login_demand'), true
-					);
-				}
-				elseif( $ilUser->isPasswordExpired() && $cmd != 'savePassword' )
-				{
-					$cmd = 'showPassword';
-
-					$msg = $this->lng->txt('password_expired');
-					$password_age = $ilUser->getPasswordAge();
-
-					ilUtil::sendInfo( sprintf($msg,$password_age), true );
-				}
-
 				$this->$cmd();
 				break;
 		}
@@ -611,12 +590,26 @@ class ilPersonalSettingsGUI
 	*/
 	function showPassword($a_no_init = false)
 	{
-		global $ilTabs;
+		global $ilTabs, $ilUser;
 		
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->activateTab("password");
 
 		$this->setHeader();
+		// check whether password of user have to be changed
+		// due to first login or password of user is expired
+		if($ilUser->isPasswordChangeDemanded())
+		{
+			ilUtil::sendInfo(
+				$this->lng->txt('password_change_on_first_login_demand')
+			);
+		}
+		else if($ilUser->isPasswordExpired())
+		{
+			$msg          = $this->lng->txt('password_expired');
+			$password_age = $ilUser->getPasswordAge();
+			ilUtil::sendInfo(sprintf($msg, $password_age));
+		}
 
 		if (!$a_no_init)
 		{
@@ -821,7 +814,17 @@ class ilPersonalSettingsGUI
 				{
 					$ilUser->setLastPasswordChangeToNow();
 				}
-				$ilCtrl->redirect($this, "showPassword");
+				if($ilUser->getPref('org_request_target'))
+				{
+					$target = $ilUser->getPref('org_request_target');
+					$ilUser->setPref('org_request_target', '');
+					ilObjUser::_writePref($ilUser->getId(), 'org_request_target', '');
+					ilUtil::redirect($target);
+				}
+				else
+				{
+					$ilCtrl->redirect($this, "showPassword");
+				}
 			}
 		}
 		$this->form->setValuesByPost();

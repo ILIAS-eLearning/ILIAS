@@ -57,21 +57,6 @@ class ilMailGUI
 
 	public function executeCommand()
 	{
-		global $ilUser;
-
-		// Check for incomplete profile
-		if($ilUser->getProfileIncomplete())
-		{
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
-		}
-		
-		// check whether password of user have to be changed
-		// due to first login or password of user is expired
-		if( $ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired() )
-		{
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
-		}
-
 		if ($_GET["type"] == "search_res")
 		{
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "searchResults");

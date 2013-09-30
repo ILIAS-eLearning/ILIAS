@@ -967,14 +967,26 @@ class ilPersonalProfileGUI
 				$ilUser->setDescription($ilUser->getEmail());
 	
 				$ilUser->update();
-				
-                                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-                                if ($redirect = $_SESSION['profile_complete_redirect']) {
+
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				if($ilUser->getPref('org_request_target'))
+				{
+					$target = $ilUser->getPref('org_request_target');
+					$ilUser->setPref('org_request_target', '');
+					ilObjUser::_writePref($ilUser->getId(), 'org_request_target', '');
+					ilUtil::redirect($target);
+				}
+
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				if($redirect = $_SESSION['profile_complete_redirect'])
+				{
 					unset($_SESSION['profile_complete_redirect']);
 					ilUtil::redirect($redirect);
 				}
 				else
-                                    $ilCtrl->redirect($this, "showPersonalData");
+				{
+					$ilCtrl->redirect($this, "showPersonalData");
+				}
 			}
 		}
 		
