@@ -1457,7 +1457,17 @@ class ilStartUpGUI
 				{
 					require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 					ilTermsOfServiceHelper::trackAcceptance($ilUser, $document);
-					ilUtil::redirect('index.php?target='.$_GET['target'].'&client_id='.CLIENT_ID);
+
+					if(ilSession::get('orig_request_target'))
+					{
+						$target = ilSession::get('orig_request_target');
+						ilSession::set('orig_request_target', '');
+						ilUtil::redirect($target);
+					}
+					else
+					{
+						ilUtil::redirect('index.php?target='.$_GET['target'].'&client_id='.CLIENT_ID);
+					}
 				}
 
 				$tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));

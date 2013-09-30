@@ -808,17 +808,18 @@ class ilPersonalSettingsGUI
 			
 			if (!$error)
 			{
-				ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 				$ilUser->resetPassword($_POST["new_password"], $_POST["new_password"]);
 				if ($_POST["current_password"] != $_POST["new_password"])
 				{
 					$ilUser->setLastPasswordChangeToNow();
 				}
-				if($ilUser->getPref('org_request_target'))
+
+				ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+
+				if(ilSession::get('orig_request_target'))
 				{
-					$target = $ilUser->getPref('org_request_target');
-					$ilUser->setPref('org_request_target', '');
-					ilObjUser::_writePref($ilUser->getId(), 'org_request_target', '');
+					$target = ilSession::get('orig_request_target');
+					ilSession::set('orig_request_target', '');
 					ilUtil::redirect($target);
 				}
 				else
