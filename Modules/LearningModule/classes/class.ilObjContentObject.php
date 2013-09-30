@@ -3235,11 +3235,15 @@ class ilObjContentObject extends ilObject
 	/**
 	 * Is module an online module
 	 *
-	 * @return boolean true, if current wiki is an online help wiki
+	 * @return boolean true, if current learning module is an online help lm
 	 */
-	static function isOnlineHelpModule($a_ref_id)
+	static function isOnlineHelpModule($a_id, $a_as_obj_id = false)
 	{
-		if ($a_ref_id > 0 && $a_ref_id == OH_REF_ID)
+		if (!$a_as_obj_id && $a_id > 0 && $a_id == OH_REF_ID)
+		{
+			return true;
+		}
+		if ($a_as_obj_id && $a_id > 0 && $a_id == ilObject::_lookupObjId(OH_REF_ID))
 		{
 			return true;
 		}

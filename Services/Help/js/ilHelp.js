@@ -166,6 +166,19 @@ il.Help = {
 				{cmd: "activateTooltips"}, {mode: "tooltipHandling"}, this.handleAjaxSuccess);
 		}
 		return false;
-	}
+	},
+	
+	// show single help page
+	openLink: function (e) {
+		var s, pageid, href = e.currentTarget.href;
+		s = href.split("#");
+		page_id = s[1].substr(3);
+		console.log(e.currentTarget.href);
+		console.log(page_id);
+		il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+			{cmd: "showPage", help_page: page_id}, {}, this.handleAjaxSuccess);
+		return false;
+	},
+
 
 };
