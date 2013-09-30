@@ -567,6 +567,7 @@ class ilInitialisation
 		if (!ilSession::get("AccountId"))
 		{
 			ilSession::set("AccountId", $ilUser->checkUserId());
+			ilSession::set('orig_request_target', '');
 			$ilUser->hasToAcceptTermsOfServiceInSession(true);
 		}
 		
@@ -575,10 +576,6 @@ class ilInitialisation
 		{
 			$ilUser->setId($uid);	
 			$ilUser->read();
-						
-			// #10822 - Terms of service accepted?
-			self::checkUserAgreement($ilUser);
-			
 		}
 		else
 		{
@@ -1267,6 +1264,19 @@ class ilInitialisation
 		// $tpl
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		self::initGlobal("tpl", $tpl);
+		if(ilContext::hasUser() && ilContext::doAuthentication())
+		{
+			/**
+			 * @var $ilUser ilObjUser
+			 * @var $ilCtrl ilCtrl
+			 * @var $lng    ilLanguage
+			 */
+			global $ilUser, $ilCtrl, $lng;
+
+			require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
+			$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $ilCtrl, $lng);
+			$request_adjuster->adjust();
+		}
 		
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();

@@ -969,16 +969,14 @@ class ilPersonalProfileGUI
 				$ilUser->update();
 
 				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				if($ilUser->getPref('org_request_target'))
+
+				if(ilSession::get('orig_request_target'))
 				{
-					$target = $ilUser->getPref('org_request_target');
-					$ilUser->setPref('org_request_target', '');
-					ilObjUser::_writePref($ilUser->getId(), 'org_request_target', '');
+					$target = ilSession::get('orig_request_target');
+					ilSession::set('orig_request_target', '');
 					ilUtil::redirect($target);
 				}
-
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				if($redirect = $_SESSION['profile_complete_redirect'])
+				else if($redirect = $_SESSION['profile_complete_redirect'])
 				{
 					unset($_SESSION['profile_complete_redirect']);
 					ilUtil::redirect($redirect);
