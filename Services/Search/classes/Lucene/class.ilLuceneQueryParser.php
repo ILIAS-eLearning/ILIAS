@@ -34,7 +34,7 @@ include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParserExceptio
 */
 class ilLuceneQueryParser
 {
-	private $query_string;
+	protected $query_string;
 	protected $parsed_query;
 	
 
