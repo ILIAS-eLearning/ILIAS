@@ -296,8 +296,6 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
 	private function isQuestionSetBuildable()
 	{
-		if($this->isQuestionAmountConfigurationModePerPool()) return true;
-
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($this->db, $this->testOBJ);
 

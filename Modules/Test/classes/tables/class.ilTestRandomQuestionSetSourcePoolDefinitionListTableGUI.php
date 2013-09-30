@@ -12,6 +12,8 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
+	const IDENTIFIER = 'sourceQuestionPoolDefinitionListTable';
+
 	/**
 	 * @var ilCtrl
 	 */
@@ -164,28 +166,35 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
 	public function build()
 	{
-		$this->setId('sourceQuestionPoolDefinitionListTable');
-		$this->setPrefix('sourceQuestionPoolDefinitionListTable');
+		$this->setTableIdentifiers();
 
 		$this->setTitle($this->lng->txt('tst_src_quest_pool_def_list_table'));
 
 		$this->setRowTemplate("tpl.il_tst_rnd_quest_set_src_pool_def_row.html", "Modules/Test");
 
 		$this->enable('header');
-		$this->enable('select_all');
 		$this->disable('sort');
+
+		$this->enable('select_all');
+		$this->setSelectAllCheckbox('src_pool_def_ids[]');
 
 		$this->setExternalSegmentation(true);
 		$this->setLimit(PHP_INT_MAX);
 
-		$this->setFormName('sourceQuestionPoolDefinition');
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
 
 		$this->addCommands();
 		$this->addColumns();
 	}
 
-	public function addCommands()
+	private function setTableIdentifiers()
+	{
+		$this->setId(self::IDENTIFIER);
+		$this->setPrefix(self::IDENTIFIER);
+		$this->setFormName(self::IDENTIFIER);
+	}
+
+	private function addCommands()
 	{
 		if( $this->isDefinitionEditModeEnabled() )
 		{
@@ -194,7 +203,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 		}
 	}
 
-	public function addColumns()
+	private function addColumns()
 	{
 		if( $this->isDefinitionEditModeEnabled() )
 		{
