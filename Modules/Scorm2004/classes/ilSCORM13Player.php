@@ -285,58 +285,22 @@ class ilSCORM13Player
 		return $lm_dir;
 	}
 		
-	
+	//config data also used for SOP
 	public function getConfigForPlayer()
 	{
 		global $ilUser,$ilias;
-
-		if ($this->slm->getSession()) {
-			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
-		} else {
-			$session_timeout = 0;
-		}
-
-		$store_url = 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"];
-		$unload_url = 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=scormPlayerUnload&ref_id='.$_GET["ref_id"];
-		if ($this->slm->getSessionDeactivated()){
-			$store_url = 'storeScorm2004.php?package_id='.$this->packageId.'&ref_id='.$_GET["ref_id"].'&client_id='.$this->ilias->client_id.'&do=store';
-			$unload_url = 'storeScorm2004.php?package_id='.$this->packageId.'&ref_id='.$_GET["ref_id"].'&client_id='.$this->ilias->client_id.'&do=unload';
-		}
-
+		$initSuspendData = null;
 		$config = array
 		(
-			'cp_url' => 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id='.$_GET["ref_id"],
-			'cmi_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"],
-			'store_url'=> $store_url,
-			'get_adldata_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getSharedData&ref_id='.$_GET["ref_id"],
-			'set_adldata_url' => 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=setSharedData&ref_id=' . $_GET["ref_id"],
-			'adlact_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=adlact&ref_id='.$_GET["ref_id"],
-			'specialpage_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=specialPage&ref_id='.$_GET["ref_id"],
-			'suspend_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=suspend&ref_id='.$_GET["ref_id"],
-			'get_suspend_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getSuspend&ref_id='.$_GET["ref_id"],
-			//next 2 lines could be deleted later
-			'gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=gobjective&ref_id='.$_GET["ref_id"],
-			'get_gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getGobjective&ref_id='.$_GET["ref_id"],
-			'ping_url' =>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=pingSession&ref_id='.$_GET["ref_id"],
-			'scorm_player_unload_url' => $unload_url,
-
-			'debug' => $this->slm->getDebug(),
-			'package_url' =>  $this->getDataDirectory()."/",
-			'session_ping' => $session_timeout,
-			'envEditor' => $this->envEditor,
-			'post_log_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=postLogEntry&ref_id='.$_GET["ref_id"],
-			'livelog_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=liveLogContent&ref_id='.$_GET["ref_id"],
-			'debug_fields' => $this->getDebugValues(),
-			'debug_fields_test' => $this->getDebugValues(true),
-
 			'scope'=>$this->getScope(),
 			'learner_id' => (string) $ilUser->getID(),
 			'course_id' => (string) $this->packageId,
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
-			'mode' => 'normal',
+			'mode' => 'normal',//TODO CHECK CP_PACKAGE
 			'credit' => 'credit',
 			'auto_review' => $this->slm->getAutoReview(),
 			'hide_navig' => $this->slm->getHideNavig(),
+			'hide_menu' => $this->slm->getNoMenu(),
 			'sequencing_enabled' => $this->slm->getSequencing(),
 			'interactions_storable' => $this->slm->getInteractions(),
 			'objectives_storable' => $this->slm->getObjectives(),
@@ -392,6 +356,49 @@ class ilSCORM13Player
 		}
 
 		$config = $this->getConfigForPlayer();
+
+		//session
+		if ($this->slm->getSession()) {
+			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
+		} else {
+			$session_timeout = 0;
+		}
+		$config['session_ping'] = $session_timeout;
+
+		//url strings
+		$store_url = 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"];
+		$unload_url = 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=scormPlayerUnload&ref_id='.$_GET["ref_id"];
+		if ($this->slm->getSessionDeactivated()){
+			$store_url = 'storeScorm2004.php?package_id='.$this->packageId.'&ref_id='.$_GET["ref_id"].'&client_id='.$this->ilias->client_id.'&do=store';
+			$unload_url = 'storeScorm2004.php?package_id='.$this->packageId.'&ref_id='.$_GET["ref_id"].'&client_id='.$this->ilias->client_id.'&do=unload';
+		}
+		$config['cp_url']				= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id='.$_GET["ref_id"];
+		$config['cmi_url']				= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"];
+		$config['store_url']			= $store_url;
+		$config['get_adldata_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getSharedData&ref_id='.$_GET["ref_id"];
+		$config['set_adldata_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=setSharedData&ref_id=' . $_GET["ref_id"];
+		$config['adlact_url']			= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=adlact&ref_id='.$_GET["ref_id"];
+		$config['specialpage_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=specialPage&ref_id='.$_GET["ref_id"];
+		$config['suspend_url']			= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=suspend&ref_id='.$_GET["ref_id"];
+		$config['get_suspend_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getSuspend&ref_id='.$_GET["ref_id"];
+		//next 2 lines could be deleted later
+		$config['gobjective_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=gobjective&ref_id='.$_GET["ref_id"];
+		$config['get_gobjective_url']	= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getGobjective&ref_id='.$_GET["ref_id"];
+		$config['ping_url']				= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=pingSession&ref_id='.$_GET["ref_id"];
+		$config['scorm_player_unload_url']= $unload_url;
+		$config['post_log_url']			= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=postLogEntry&ref_id='.$_GET["ref_id"];
+		$config['livelog_url']			= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=liveLogContent&ref_id='.$_GET["ref_id"];
+		$config['package_url']			= $this->getDataDirectory()."/";
+
+		//editor
+		$config['envEditor']			= $this->envEditor;
+		
+		//debug
+		$config['debug']				= $this->slm->getDebug();
+		$config['debug_fields']			= $this->getDebugValues();
+		$config['debug_fields_test']	= $this->getDebugValues(true);
+
+
 		//language strings
 		$langstrings['btnStart'] = $lng->txt('scplayer_start');
 		$langstrings['btnExit'] = $lng->txt('scplayer_exit');
@@ -471,8 +478,6 @@ class ilSCORM13Player
 		}
 		
 		//count attempt
-		//Cause there is no way to check if the Java-Applet is sucessfully loaded, an attempt equals opening the SCORM player
-		
 		$this->increase_attemptAndsave_module_version();
 		$this->resetSharedData();
 
@@ -1107,7 +1112,7 @@ class ilSCORM13Player
 					}
 					break;
 
-				case "package":
+				case "package"://delete because data exist except of learner_name
 					$q = 'SELECT usr_data.usr_id user_id, 
 						CONCAT(CONCAT(COALESCE(usr_data.firstname, \'\'), \' \'), COALESCE(usr_data.lastname, \'\')) learner_name, 
 						sahs_lm.id slm_id , sahs_lm.default_lesson_mode "mode", sahs_lm.credit
