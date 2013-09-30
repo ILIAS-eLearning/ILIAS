@@ -145,7 +145,7 @@ abstract class ilContainerContentGUI
 	*/
 	protected function getCenterColumnHTML()
 	{
-		global $ilCtrl, $tpl;
+		global $ilCtrl, $tpl, $ilDB;
 		
 		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 		
@@ -164,7 +164,9 @@ abstract class ilContainerContentGUI
 				break;
 				
 			default:
+				$ilDB->useSlave(true);
 				$html = $this->getMainContent();
+				$ilDB->useSlave(false);
 				break;
 		}
 		

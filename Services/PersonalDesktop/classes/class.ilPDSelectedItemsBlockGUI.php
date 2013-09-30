@@ -184,8 +184,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 	function getHTML()
 	{
-		global $ilCtrl, $ilSetting, $tpl, $lng, $ilHelp;
+		global $ilCtrl, $ilSetting, $tpl, $lng, $ilHelp, $ilDB;
 
+		$ilDB->useSlave(true);
+		
 		// both views are activated (show buttons)
 		if($ilSetting->get('disable_my_offers') == 0 &&
 		   $ilSetting->get('disable_my_memberships') == 0)
@@ -244,6 +246,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 		$ilCtrl->clearParametersByClass("ilpersonaldesktopgui");
 		$ilCtrl->clearParameters($this);
+		
+		$ilDB->useSlave(false);
+		
 		return parent::getHTML();
 	}
 	

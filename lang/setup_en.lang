@@ -565,3 +565,9 @@ lang_fa#:#Persian (farsi)
 ghostscript_path_comment_win#:#Optional for creating previews of PDFs, e.g. 'C:/tools/Ghostscript/gswin32c.exe'.
 ghostscript_path_comment#:#Optional for creating previews of PDFs, e.g. '/your_path/gs'.
 ghostscript_path#:#Ghostscript Path
+db_master#:#Master
+db_slave#:#Slave
+mysql_replication_info_alpha#:#ILIAS MySQL Replication support has currently an experimental status. The code is non-stable. Data may be corrupted.
+db_slave_settings#:#Slave Settings
+db_active#:#Active
+db_set_password#:#Set Password

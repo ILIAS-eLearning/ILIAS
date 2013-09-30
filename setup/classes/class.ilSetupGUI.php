@@ -43,6 +43,11 @@ class ilSetupGUI
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 
+		// note: this is currently only used for subtabs, alex 8.1.2012
+		include_once("./Services/UIComponent/Tabs/classes/class.ilTabsGUI.php");
+		$this->tabs = new ilTabsGUI();
+		$this->tabs->setSetupMode(true);
+		
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery($this->tpl);
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
@@ -314,6 +319,10 @@ echo "<br>+".$client_id;
 				$this->displayDatabase();
 				break;
 	
+			case "dbslave":
+				$this->displayDatabaseSlave();
+				break;
+	
 			case "sess":
 				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "sess" and $this->setup->error === true)
 				{
@@ -430,6 +439,7 @@ echo "<br>+".$client_id;
 			case "cloneSelectSource":
 			case "cloneSaveSource":
 			case "saveProxy":
+			case "saveDbSlave":
 				$this->$cmd();
 				break;
 
@@ -1970,6 +1980,23 @@ else
 	}
 
 	/**
+	 * Show subtabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function displaySubTabs()
+	{
+		$sub_tab_html = $this->tabs->getSubTabHTML();
+		if ($sub_tab_html != "")
+		{
+			$this->tpl->setVariable("SUBTABS", $sub_tab_html);
+		}
+
+	}
+	
+	
+	/**
 	 * determine display mode and load correct panel
 	 */
 	function checkPanelMode()
@@ -2019,6 +2046,8 @@ else
 		// database is intalled
 		if ($this->setup->getClient()->db_installed)
 		{
+			$this->setDbSubTabs("db");
+			
 			$ilDB = $this->setup->getClient()->db;
 			$this->lng->setDbHandler($ilDB);
 			$dbupdate = new ilDBUpdate($ilDB);
@@ -2047,7 +2076,173 @@ else
 		}
 		
 		$this->checkPanelMode();
+		
+		$this->displaySubTabs();
 	}
+	
+	/**
+	 * Display database slave
+	 */
+	function displayDatabaseSlave($a_from_save = false)
+	{
+		global $ilErr,$ilDB,$ilLog;
+
+		$this->checkDisplayMode("setup_database");
+		
+		//$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html", "setup");
+
+		// database is intalled
+		if (!$this->setup->getClient()->db_installed)
+		{
+			return;
+		}
+		
+		$this->setDbSubTabs("repl");
+		
+		if (!$a_from_save)
+		{
+			$ilDB = $this->setup->getClient()->db;
+			$this->lng->setDbHandler($ilDB);
+		}
+		
+		ilUtil::sendInfo($this->lng->txt("mysql_replication_info_alpha"));
+		
+		if (!$a_from_save)
+		{
+			$this->initDbSlaveForm();
+		}
+
+		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
+
+		$this->checkPanelMode();
+		
+		$this->displaySubTabs();
+	}
+
+	/**
+	 * Init db slave form
+	 */
+	public function initDbSlaveForm()
+	{
+		global $lng, $ilCtrl, $ilDB;
+
+		$client = $this->setup->getClient();
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		// db type
+		$ne = new ilNonEditableValueGUI($lng->txt("db_type"), "slave_type");
+		$ne->setValue($lng->txt("db_".$ilDB->getDbType()));
+		$this->form->addItem($ne);
+
+		// activate slave
+		$act = new ilCheckboxInputGUI($this->lng->txt("db_active"), "slave_active");
+		$act->setChecked($client->getDbSlaveActive());
+		$this->form->addItem($act);
+
+		// slave host
+		$ti = new ilTextInputGUI($lng->txt("db_host"), "slave_host");
+		$ti->setValue($client->getDbSlaveHost());
+		$ti->setMaxLength(120);
+		$ti->setRequired(true);
+		$act->addSubItem($ti);
+		
+		// slave name
+		$ti = new ilTextInputGUI($lng->txt("db_name"), "slave_name");
+		$ti->setValue($client->getDbSlaveName());
+		$ti->setRequired(true);
+		$ti->setMaxLength(40);
+		$act->addSubItem($ti);
+		
+		// slave user
+		$ti = new ilTextInputGUI($lng->txt("db_user"), "slave_user");
+		$ti->setValue($client->getDbSlaveUser());
+		$ti->setMaxLength(40);
+		$ti->setRequired(true);
+		$act->addSubItem($ti);
+
+		// slave port
+		$ti = new ilTextInputGUI($lng->txt("db_port"), "slave_port");
+		$ti->setValue($client->getDbSlavePort());
+		$ti->setMaxLength(8);
+		$act->addSubItem($ti);
+
+		// set password
+		$set_pw = new ilCheckboxInputGUI($this->lng->txt("db_set_password"), "set_slave_password");
+		$act->addSubItem($set_pw);
+
+		// slave password
+		$ti = new ilTextInputGUI($lng->txt("db_pass"), "slave_pass");
+		$ti->setMaxLength(40);
+		$set_pw->addSubItem($ti);
+		
+		$this->form->addCommandButton("saveDbSlave", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("db_slave_settings"));
+		$this->form->setFormAction("setup.php?cmd=gateway");
+	}
+
+	/**
+	 * Save db slave form
+	 */	
+	public function saveDbSlave()
+	{
+		global $tpl, $lng, $ilCtrl, $ilDB;
+		
+		$client = $this->setup->getClient();
+
+		$ilDB = $this->setup->getClient()->db;
+		$this->lng->setDbHandler($ilDB);
+
+		$this->initDbSlaveForm();
+		if ($this->form->checkInput())
+		{
+			$client->setDbSlaveActive($this->form->getInput("slave_active"));
+			if ($this->form->getInput("slave_active"))
+			{
+				$client->setDbSlaveHost($this->form->getInput("slave_host"));
+				$client->setDbSlaveUser($this->form->getInput("slave_user"));
+				$client->setDbSlavePort($this->form->getInput("slave_port"));
+				$client->setDbSlaveName($this->form->getInput("slave_name"));
+				if ($this->form->getInput("set_slave_password"))
+				{
+					$client->setDbSlavePass($this->form->getInput("slave_pass"));
+				}
+			}
+			$client->writeIni();
+
+			ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+			ilUtil::redirect("setup.php?cmd=dbslave");
+		}
+		else
+		{
+			$this->form->setValuesByPost();
+			$this->displayDatabaseSlave(true);
+		}
+	}
+	
+	
+	/**
+	 * Set db subtabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function setDbSubtabs($a_subtab_id = "db")
+	{
+		global $ilDB;
+		
+		if ($ilDB->getDbType() == "mysql")
+		{
+			$this->tabs->addSubTab("db", $this->lng->txt("db_master"), "setup.php?client_id=".$this->client_id."&cmd=db");
+			$this->tabs->addSubTab("repl", $this->lng->txt("db_slave"), "setup.php?client_id=".$this->client_id."&cmd=dbslave");
+		}
+		
+		$this->tabs->activateSubTab($a_subtab_id);
+	}
+	
+	
 	
 	/**
 	* Init client db form.
