@@ -1269,12 +1269,11 @@ class ilInitialisation
 			/**
 			 * @var $ilUser ilObjUser
 			 * @var $ilCtrl ilCtrl
-			 * @var $lng    ilLanguage
 			 */
-			global $ilUser, $ilCtrl, $lng;
+			global $ilUser, $ilCtrl;
 
 			require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
-			$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $ilCtrl, $lng);
+			$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $ilCtrl);
 			$request_adjuster->adjust();
 		}
 		

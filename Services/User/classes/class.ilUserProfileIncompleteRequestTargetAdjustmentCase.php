@@ -9,25 +9,15 @@ require_once 'Services/User/classes/class.ilUserRequestTargetAdjustmentCase.php'
 class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTargetAdjustmentCase
 {
 	/**
-	 * @return mixed
+	 * @return boolean
 	 */
-	public function shouldRequestTargetBeStored()
+	public function shouldStoreRequestTarget()
 	{
-		if(!$this->user->getId() || $this->user->isAnonymous())
-		{
-			return false;
-		}
-
-		if(strtolower($this->ctrl->getCmdClass()) == 'ilpersonalprofilegui')
-		{
-			return false;
-		}
-
 		return true;
 	}
 
 	/**
-	 * @return bool
+	 * @return boolean
 	 */
 	public function isInFulfillment()
 	{
@@ -43,16 +33,11 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 	}
 
 	/**
-	 * @return void
+	 * @return boolean
 	 */
 	public function shouldAdjustRequest()
 	{
-		if(!$this->user->getId() || $this->user->isAnonymous())
-		{
-			return false;
-		}
-
-		if($this->user->getProfileIncomplete() && !$this->isInFulfillment())
+		if(!$this->isInFulfillment() && $this->user->getProfileIncomplete())
 		{
 			return true;
 		}

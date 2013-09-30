@@ -17,25 +17,18 @@ abstract class ilUserRequestTargetAdjustmentCase
 	protected $user;
 
 	/**
-	 * @var ilLanguage
+	 * @param ilObjUser $user
+	 * @param ilCtrl    $ctrl
 	 */
-	protected $lng;
-
-	/**
-	 * @param ilObjUser  $user
-	 * @param ilCtrl     $ctrl
-	 * @param ilLanguage $lng
-	 */
-	final public function __construct($user, $ctrl, $lng)
+	public function __construct(ilObjUser $user, ilCtrl $ctrl)
 	{
-		$this->user   = $user;
-		$this->ctrl   = $ctrl;
-		$this->lng    = $lng;
+		$this->user = $user;
+		$this->ctrl = $ctrl;
 	}
 	/**
-	 * @return mixed
+	 * @return boolean
 	 */
-	abstract public function shouldRequestTargetBeStored();
+	abstract public function shouldStoreRequestTarget();
 
 	/**
 	 * @return boolean
