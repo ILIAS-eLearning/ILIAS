@@ -294,7 +294,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 				'sequence_pos' => array('integer', $this->getSequencePosition())
 		));
 
-		$this->testOBJ->setId($nextId);
+		$this->setId($nextId);
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------

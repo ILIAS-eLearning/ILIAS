@@ -430,7 +430,7 @@ class ilTestRandomQuestionSetConfigGUI
 
 		if($errors)
 		{
-			return $this->showSourcePoolDefinitionListCmd($form);
+			return $this->showCreateSourcePoolDefinitionFormCmd($form);
 		}
 
 		$form->applySubmit( $sourcePoolDefinition, $availableTaxonomyIds );

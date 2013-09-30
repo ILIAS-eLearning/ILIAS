@@ -15,7 +15,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 	{
 	}
 
-	public function performBuild()
+	public function performBuild(ilTestSession $testSession)
 	{
 	}
 }
