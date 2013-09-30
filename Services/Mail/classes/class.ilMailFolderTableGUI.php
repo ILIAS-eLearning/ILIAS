@@ -3,6 +3,7 @@
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Services/Mail/classes/class.ilMailUserCache.php';
+require_once 'Services/Mail/classes/class.ilMailBoxQuery.php';
 
 /**
  * @author  Jan Posselt <jposselt@databay.de>
@@ -25,6 +26,16 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	protected $_isSentFolder = false;
 
 	/**
+	 * @var array
+	 */
+	protected $filter = array();
+
+	/**
+	 * @var array
+	 */
+	protected $sub_filter = array();
+	
+	/**
 	 * Constructor
 	 * @access	public
 	 * @param	ilObjectGUI		$a_parent_obj		   Pass an instance of ilObjectGUI
@@ -44,22 +55,26 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		$this->ctrl = $ilCtrl;
 
 		$this->_currentFolderId = $a_current_folder_id;
-		$this->_parentObject    = $a_parent_obj;
-
-		$this->setId('mail_folder_tbl');
+		$this->_parentObject = $a_parent_obj;
+		
+		$this->setId('mail_folder_tbl_'.$a_current_folder_id);
 		$this->setPrefix('mtable');
 
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-
-		$this->setFormAction($this->ctrl->getFormAction($this->_parentObject, 'showFolder'));
-
-		$this->setEnableTitle(true);
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setDefaultOrderField('send_time');
 		$this->setDefaultOrderDirection('desc');
-		$this->setSelectAllCheckbox('mail_id[]');
+
+		parent::__construct($a_parent_obj, $a_parent_cmd);
+		
+		$this->setFormAction($this->ctrl->getFormAction($this->_parentObject, 'showFolder'));
+		
+		$this->setEnableTitle(true);
+		$this->setSelectAllCheckbox('mail_id[]');		
 		$this->setRowTemplate('tpl.mail_folder_row.html', 'Services/Mail');
+
+		$this->setFilterCommand('applyFilter');
+		$this->setResetCommand('resetFilter');
 	}
 
 	/**
@@ -79,7 +94,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('recipient'), 'rcp_to', '25%');
 		else
 			$this->addColumn($this->lng->txt('sender'), 'from', '25%');
-		$this->addColumn($this->lng->txt('subject'), 'm_subject', '40%');
+		
+		if($this->isLuceneSearchEnabled())
+		{
+			$this->addColumn($this->lng->txt('search_content'), '', '40%');
+		}
+		else
+		{
+			$this->addColumn($this->lng->txt('subject'), 'm_subject', '40%');
+		}
 		$this->addColumn($this->lng->txt('date'), 'send_time', '20%');
 
 		// init folder data
@@ -240,6 +263,18 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	}
 
 	/**
+	 * @return bool
+	 */
+	protected function isLuceneSearchEnabled()
+	{
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
+		if(ilSearchSettings::getInstance()->enabledLucene() && strlen($this->filter['mail_filter']))
+		{
+			return true;
+		}
+	}
+
+	/**
 	 * fetchTableData
 	 * @access	protected
 	 * @return	ilMailFolderTableGUI
@@ -247,27 +282,89 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 */
 	protected function fetchTableData()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilUser;
 
-		$this->determineOffsetAndOrder();
-
-		require_once 'Services/Mail/classes/class.ilMailBoxQuery.php';
-
-		ilMailBoxQuery::$folderId       = $this->_currentFolderId;
-		ilMailBoxQuery::$userId         = $ilUser->getId();
-		ilMailBoxQuery::$limit          = $this->getLimit();
-		ilMailBoxQuery::$offset         = $this->getOffset();
-		ilMailBoxQuery::$orderDirection = $this->getOrderDirection();
-		ilMailBoxQuery::$orderColumn    = $this->getOrderField();
-		$data                           = ilMailBoxQuery::_getMailBoxListData();
-
-		if(!count($data['set']) && $this->getOffset() > 0)
+		// table title
+		if($this->_folderNode['m_type'] == 'user_folder')
 		{
-			$this->resetOffset();
+			$txt_folder = $this->_folderNode['title'];
+			$img_folder = 'icon_user_folder.png';
+		}
+		else
+		{
+			$txt_folder = $this->lng->txt('mail_' . $this->_folderNode['title']);
+			$img_folder = 'icon' . substr($this->_folderNode['title'], 1) . '.png';
+		}
 
-			ilMailBoxQuery::$limit  = $this->getLimit();
-			ilMailBoxQuery::$offset = $this->getOffset();
-			$data                   = ilMailBoxQuery::_getMailBoxListData();
+		try
+		{
+			if($this->isLuceneSearchEnabled())
+			{
+				include_once 'Services/Mail/classes/class.ilMailLuceneQueryParser.php';
+				$query_parser = new ilMailLuceneQueryParser($this->filter['mail_filter']);
+				$query_parser->setFields(array(
+					'title'       => (bool)$this->filter['mail_filter_subject'],
+					'content'     => (bool)$this->filter['mail_filter_body'],
+					'mattachment' => (bool)$this->filter['mail_filter_attach'],
+					'msender'     => (bool)$this->filter['mail_filter_sender'],
+					'mrcp'        => (bool)$this->filter['mail_filter_recipients']
+				));
+				$query_parser->parse();
+				
+				require_once 'Services/Mail/classes/class.ilMailLuceneSearcher.php';
+				require_once 'Services/Mail/classes/class.ilMailSearchResult.php';
+				$result = new ilMailSearchResult();
+				$searcher = new ilMailLuceneSearcher($query_parser, $result);
+				$searcher->search($ilUser->getId(), $this->_currentFolderId);
+
+				if(!$result->getIds())
+				{
+					throw new ilException('mail_search_empty_result');
+				}
+	
+				ilMailBoxQuery::$filtered_ids   = $result->getIds();
+				ilMailBoxQuery::$filter         = array();
+			}
+			else
+			{
+				ilMailBoxQuery::$filter         = (array)$this->filter;
+			}
+				
+			$this->determineOffsetAndOrder();
+	
+			ilMailBoxQuery::$folderId       = $this->_currentFolderId;
+			ilMailBoxQuery::$userId         = $ilUser->getId();
+			ilMailBoxQuery::$limit          = $this->getLimit();
+			ilMailBoxQuery::$offset         = $this->getOffset();
+			ilMailBoxQuery::$orderDirection = $this->getOrderDirection();
+			ilMailBoxQuery::$orderColumn    = $this->getOrderField();
+			$data                           = ilMailBoxQuery::_getMailBoxListData();
+			
+			if(!count($data['set']) && $this->getOffset() > 0)
+			{
+				$this->resetOffset();
+	
+				ilMailBoxQuery::$limit  = $this->getLimit();
+				ilMailBoxQuery::$offset = $this->getOffset();
+				$data                   = ilMailBoxQuery::_getMailBoxListData();
+			}
+		}
+		catch(Exception $e)
+		{
+			$this->setTitleData($txt_folder, 0, 0, $img_folder);
+
+			if('mail_search_empty_result' == $e->getMessage())
+			{
+				$data['set'] = array();
+				$data['cnt'] = 0;
+			}
+			else
+			{
+				throw $e;
+			}
 		}
 
 		if(!$this->isDraftFolder() && !$this->isSentFolder())
@@ -319,23 +416,56 @@ class ilMailFolderTableGUI extends ilTable2GUI
 					}
 				}
 			}
-			$mail['mailclass'] = $mail['m_status'] == 'read' ? 'mailread' : 'mailunread';
 
 			if($this->isDraftFolder())
 			{
 				$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', $mail['mail_id']);
 				$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'draft');
-				$mail['mail_link_read'] = $this->ctrl->getLinkTargetByClass('ilmailformgui');
+				$link_mark_as_read = $this->ctrl->getLinkTargetByClass('ilmailformgui');
 				$this->ctrl->clearParametersByClass('ilmailformgui');
 			}
 			else
 			{
 				$this->ctrl->setParameter($this->_parentObject, 'mail_id', $mail['mail_id']);
-				$mail['mail_link_read'] = $this->ctrl->getLinkTarget($this->_parentObject, 'showMail');
+				$link_mark_as_read = $this->ctrl->getLinkTarget($this->_parentObject, 'showMail');
 				$this->ctrl->clearParameters($this->_parentObject);
 			}
+			$css_class = $mail['m_status'] == 'read' ? 'mailread' : 'mailunread';
 
-			$mail['mail_subject'] = htmlspecialchars($mail['m_subject']);
+			if($this->isLuceneSearchEnabled())
+			{
+				$search_result = array();
+				foreach($result->getFields($mail['mail_id']) as $content)
+				{
+					if('title' == $content[0])
+					{
+						$mail['msr_subject_link_read'] = $link_mark_as_read;
+						$mail['msr_subject_mailclass'] = $css_class;
+						$mail['msr_subject']           = $content[1];
+					}
+					else
+					{
+						$search_result[] = $content[1];
+					}
+				}
+				$mail['msr_data'] = implode('', array_map(function($value) {
+					return '<p>'.$value.'</p>';
+				}, $search_result));
+				
+				if(!$mail['msr_subject'])
+				{
+					$mail['msr_subject_link_read'] = $link_mark_as_read;
+					$mail['msr_subject_mailclass'] = $css_class;
+					$mail['msr_subject']           = htmlspecialchars($mail['m_subject']);
+				}
+			}
+			else
+			{
+				$mail['mail_link_read'] = $link_mark_as_read;
+				$mail['mailclass']      = $css_class;
+				$mail['mail_subject']   = htmlspecialchars($mail['m_subject']);
+			}
+
 			$mail['mail_date']    = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'], IL_CAL_DATETIME));
 
 			$data['set'][$key] = $mail;
@@ -345,19 +475,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		$this->setMaxCount($data['cnt']);
 		$this->setNumerOfMails($data['cnt']);
 
-		// table title
-		$txt_folder = '';
-		$img_folder = '';
-		if($this->_folderNode['m_type'] == 'user_folder')
-		{
-			$txt_folder = $this->_folderNode['title'];
-			$img_folder = 'icon_user_folder.png';
-		}
-		else
-		{
-			$txt_folder = $this->lng->txt('mail_' . $this->_folderNode['title']);
-			$img_folder = 'icon' . substr($this->_folderNode['title'], 1) . '.png';
-		}
 		$this->setTitleData($txt_folder, $data['cnt'], $data['cnt_unread'], $img_folder);
 
 		return $this;
@@ -425,4 +542,98 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			$this->tpl->setVariable(strtoupper($key), $value);
 		}
 	}
-}
+
+	public function initFilter()
+	{
+		$this->filter = array();
+		
+		include_once 'Services/Mail/classes/Form/class.ilMailQuickFilterInputGUI.php';
+		$ti = new ilMailQuickFilterInputGUI($this->lng->txt('mail_filter'), 'mail_filter');
+		$ti->setSubmitFormOnEnter(false);
+		$this->addFilterItem($ti);
+		$ti->readFromSession();
+		$this->filter['mail_filter'] = $ti->getValue();
+
+		include_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
+
+		if($this->isDraftFolder() || $this->isSentFolder())
+		{
+			$this->sub_filter[] = $ci = new ilCheckboxInputGUI($this->lng->txt('mail_filter_recipients'), 'mail_filter_recipients');
+			$ci->setOptionTitle($this->lng->txt('mail_filter_recipients'));
+			$ci->setValue(1);
+			$ti->addSubItem($ci);
+			$ci->setParent($this);
+			$ci->readFromSession();
+			$this->filter['mail_filter_recipients'] = (int)$ci->getChecked();
+		}
+		else
+		{
+			$this->sub_filter[] = $ci = new ilCheckboxInputGUI($this->lng->txt('mail_filter_sender'), 'mail_filter_sender');
+			$ci->setOptionTitle($this->lng->txt('mail_filter_sender'));
+			$ci->setValue(1);
+			$ti->addSubItem($ci);
+			$ci->setParent($this);
+			$ci->readFromSession();
+			$this->filter['mail_filter_sender'] = (int)$ci->getChecked();
+		}
+
+		$this->sub_filter[] = $ci = new ilCheckboxInputGUI($this->lng->txt('mail_filter_subject'), 'mail_filter_subject');
+		$ci->setOptionTitle($this->lng->txt('mail_filter_subject'));
+		$ci->setValue(1);
+		$ti->addSubItem($ci);
+		$ci->setParent($this);
+		$ci->readFromSession();
+		$this->filter['mail_filter_subject'] = (int)$ci->getChecked();
+
+		$this->sub_filter[] = $ci = new ilCheckboxInputGUI($this->lng->txt('mail_filter_body'), 'mail_filter_body');
+		$ci->setOptionTitle($this->lng->txt('mail_filter_body'));
+		$ci->setValue(1);
+		$ti->addSubItem($ci);
+		$ci->setParent($this);
+		$ci->readFromSession();
+		$this->filter['mail_filter_body'] = (int)$ci->getChecked();
+
+		$this->sub_filter[] = $ci = new ilCheckboxInputGUI($this->lng->txt('mail_filter_attach'), 'mail_filter_attach');
+		$ci->setOptionTitle($this->lng->txt('mail_filter_attach'));
+		$ci->setValue(1);
+		$ti->addSubItem($ci);
+		$ci->setParent($this);
+		$ci->readFromSession();
+		$this->filter['mail_filter_attach'] = (int)$ci->getChecked();
+	}
+
+	/**
+	 * Write filter values to session
+	 */
+	public function writeFilterToSession()
+	{
+		parent::writeFilterToSession();
+
+		foreach($this->sub_filter as $item)
+		{
+			if($item->checkInput())
+			{
+				$item->setValueByArray($_POST);
+				$item->writeToSession();
+			}
+		}
+	}
+
+	/**
+	 * Reset filter
+	 */
+	public function resetFilter()
+	{
+		parent::resetFilter();
+
+		foreach($this->sub_filter as $item)
+		{
+			if($item->checkInput())
+			{
+				$item->setValueByArray($_POST);
+				$item->clearFromSession();
+			}
+		}
+	}
+} 
+?>

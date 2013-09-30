@@ -17,6 +17,8 @@ class ilMailBoxQuery
 	public static $offset = 0;
 	public static $orderDirection = '';
 	public static $orderColumn = '';
+	public static $filter = array();
+	public static $filtered_ids = array();
 
 	/**
 	 * _getMailBoxListData
@@ -28,24 +30,59 @@ class ilMailBoxQuery
 	 */
 	public static function _getMailBoxListData()
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 		
 		// initialize array
 		$mails = array('cnt' => 0, 'cnt_unread' => 0, 'set' => array());
-		
+
+		$filter = array(
+			'mail_filter_sender'     => 'CONCAT(CONCAT(firstname, lastname), login)',
+			'mail_filter_recipients' => ($ilDB->getDBType() == 'oracle' ?
+				"CONCAT(CONCAT(CAST(rcp_to AS VARCHAR2(4000)), CAST(rcp_cc AS VARCHAR2(4000))), CAST(rcp_bcc AS VARCHAR2(4000))))" :
+				"CONCAT(CONCAT(rcp_to, rcp_cc), rcp_bcc)"),
+			'mail_filter_subject'    => 'm_subject',
+			'mail_filter_body'       => 'm_message',
+			'mail_filter_attach'     => ''
+		);
+		$filter_parts = array();
+		if(isset(self::$filter['mail_filter']) && strlen(self::$filter['mail_filter']))
+		{
+			foreach($filter as  $key => $column)
+			{
+				if(strlen($column) && isset(self::$filter[$key]) && (int)self::$filter[$key])
+				{
+					$filter_parts[] = $ilDB->like($column, 'text', '%%'.self::$filter['mail_filter'].'%%', false);
+				}
+			}
+		}
+		$filter_qry = '';
+		if($filter_parts)
+		{
+			$filter_qry = 'AND ('.implode(' OR ', $filter_parts).')';
+		}
 		// count query
 		$queryCount = 'SELECT COUNT(mail_id) cnt FROM mail '
 			   	    . 'LEFT JOIN usr_data ON usr_id = sender_id '
 			   		. 'WHERE user_id = %s '
 					. 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
-			   		. 'AND folder_id = %s ' 
+			   		. 'AND folder_id = %s '
+					. $filter_qry.' '
 					. 'UNION ALL '
 					. 'SELECT COUNT(mail_id) cnt FROM mail '
 					. 'LEFT JOIN usr_data ON usr_id = sender_id '
 			   		. 'WHERE user_id = %s '
 					. 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
 			   		. 'AND folder_id = %s '
+					. $filter_qry.' '
 					. 'AND m_status = %s';   
+		
+		if(self::$filtered_ids)
+		{
+			$queryCount .= ' AND '.$ilDB->in('mail_id', self::$filtered_ids, false, 'integer').' ';
+		}
 		
 		$res = $ilDB->queryf(
 			$queryCount,
@@ -77,6 +114,7 @@ class ilMailBoxQuery
 			$sortColumn = ", CAST(rcp_to AS VARCHAR2(4000)) SORTCOL";
 		}
 
+		$firstname = '';
 		if(self::$orderColumn == 'from')
 		{
 			// Because of the user id of automatically generated mails and ordering issues we have to do some magic
@@ -93,7 +131,13 @@ class ilMailBoxQuery
 			   . 'LEFT JOIN usr_data ON usr_id = sender_id '
 			   . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
 			   . 'WHERE user_id = %s '
-			   . 'AND folder_id = %s';	   
+			   . $filter_qry.' '
+			   . 'AND folder_id = %s';
+
+		if(self::$filtered_ids)
+		{
+			$query .= ' AND '.$ilDB->in('mail_id', self::$filtered_ids, false, 'integer').' ';
+		}
 		
 		// order direction
 		$orderDirection = '';			
@@ -140,7 +184,7 @@ class ilMailBoxQuery
 			$query,
 			array('integer', 'integer'),
 			array(self::$userId, self::$folderId)
-		);	
+		);
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$row['attachments'] = unserialize(stripslashes($row['attachments']));

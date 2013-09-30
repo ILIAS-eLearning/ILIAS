@@ -12,7 +12,13 @@
 	<!-- END mails_from -->
 		{MAIL_LOGIN}
 	</td>
-	<td class="std"  valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td>
+	<!-- BEGIN mail_subject --><td class="std"  valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td><!-- END mail_subject -->
+	<!-- BEGIN search_result -->
+	<td class="std">
+	<!-- BEGIN msr_subject --><p><a class="{MSR_SUBJECT_MAILCLASS}" href="{MSR_SUBJECT_LINK_READ}">{MSR_SUBJECT}</a></p><!-- END msr_subject -->
+	<!-- BEGIN msr_data -->{MSR_DATA}<!-- END msr_data -->
+	</td>
+	<!-- END search_result -->
 	<td class="std"  valign="middle">{MAIL_DATE}</td>
 </tr>
 <!-- END row -->

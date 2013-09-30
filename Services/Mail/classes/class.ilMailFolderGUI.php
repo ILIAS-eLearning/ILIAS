@@ -6,6 +6,7 @@ require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Services/Mail/classes/class.ilMailbox.php';
 require_once 'Services/Mail/classes/class.ilMail.php';
 require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+include_once 'Services/Mail/classes/class.ilMailFolderTableGUI.php';
 
 /**
 * @author Jens Conze
@@ -253,9 +254,7 @@ class ilMailFolderGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
 		$this->tpl->setTitle($this->lng->txt('mail'));
-		
-		include_once 'Services/Mail/classes/class.ilMailFolderTableGUI.php';
-		
+
 		$sentFolderId = $this->mbox->getSentFolder();
 		$draftsFolderId = $this->mbox->getDraftsFolder();
 
@@ -300,10 +299,25 @@ class ilMailFolderGUI
 
 		$mailtable = new ilMailFolderTableGUI($this, (int)$_GET['mobj_id'], 'showFolder');
 		$mailtable->isSentFolder($isSentFolder)
-				  ->isDraftFolder($isDraftFolder)
-				  ->isTrashFolder($isTrashFolder)
-				  ->setSelectedItems($_POST['mail_id'])
-				  ->prepareHTML();
+			->isDraftFolder($isDraftFolder)
+			->isTrashFolder($isTrashFolder)
+			->initFilter();
+		$mailtable->setSelectedItems($_POST['mail_id']);
+
+		try
+		{
+			$mailtable->prepareHTML();
+		}
+		catch(Exception $e)
+		{
+			ilUtil::sendFailure(
+				$this->lng->txt($e->getMessage()) != '-'.$e->getMessage().'-' ?
+				$this->lng->txt($e->getMessage()) :
+				$e->getMessage()
+			);
+		}
+
+		$table_html = $mailtable->getHtml();
 
 		$folder_options = array();
 		if('tree' != ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
@@ -380,7 +394,7 @@ class ilMailFolderGUI
 			$this->tpl->setVariable('CONFIRMATION', $confirmation->getHTML());
 		}
 
-		$this->tpl->setVariable('MAIL_TABLE', $mailtable->getHtml());
+		$this->tpl->setVariable('MAIL_TABLE', $table_html);
 		$this->tpl->show();
 	}
 	
@@ -1019,5 +1033,50 @@ class ilMailFolderGUI
 		}
 	}
 
+	/**
+	 * 
+	 */
+	public function applyFilter()
+	{
+		$sentFolderId   = $this->mbox->getSentFolder();
+		$draftsFolderId = $this->mbox->getDraftsFolder();
+
+		$isTrashFolder = $_GET['mobj_id'] == $this->mbox->getTrashFolder();
+		$isSentFolder  = $_GET['mobj_id'] == $sentFolderId;
+		$isDraftFolder = $_GET['mobj_id'] == $draftsFolderId;
+
+		$table = new ilMailFolderTableGUI($this, (int)$_GET['mobj_id'], 'showFolder');
+		$table->isSentFolder($isSentFolder)
+			->isDraftFolder($isDraftFolder)
+			->isTrashFolder($isTrashFolder)
+			->initFilter();
+		$table->resetOffset();
+		$table->writeFilterToSession();
+
+		$this->showFolder();
+	}
+
+	/**
+	 *
+	 */
+	public function resetFilter()
+	{
+		$sentFolderId   = $this->mbox->getSentFolder();
+		$draftsFolderId = $this->mbox->getDraftsFolder();
+
+		$isTrashFolder = $_GET['mobj_id'] == $this->mbox->getTrashFolder();
+		$isSentFolder  = $_GET['mobj_id'] == $sentFolderId;
+		$isDraftFolder = $_GET['mobj_id'] == $draftsFolderId;
+
+		$table = new ilMailFolderTableGUI($this, (int)$_GET['mobj_id'], 'showFolder');
+		$table->isSentFolder($isSentFolder)
+			->isDraftFolder($isDraftFolder)
+			->isTrashFolder($isTrashFolder)
+			->initFilter();
+		$table->resetOffset();
+		$table->resetFilter();
+
+		$this->showFolder();
+	}
 }
 ?>
