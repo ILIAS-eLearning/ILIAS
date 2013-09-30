@@ -24,8 +24,7 @@ class ilFileUploadUtil
 	{
 		global $objDefinition, $ilAccess;
 		
-		// right now, only the repository is supported
-		if (strtolower($_GET["baseClass"]) == "ilrepositorygui")
+		if (self::isUploadSupported())
 		{
 			include_once("./Services/FileUpload/classes/class.ilFileUploadSettings.php");
 			
@@ -41,6 +40,26 @@ class ilFileUploadUtil
 			}
 		}
 		
+		return false;
+	}
+	
+	/**
+	 * Determines whether file upload is supported at the current location.
+	 * 
+	 * @return bool true, if file upload is supported; otherwise, false.
+	 */
+	public static function isUploadSupported()
+	{
+		global $ilCtrl;
+		
+		// right now, only the repository is supported
+		if (strtolower($_GET["baseClass"]) == "ilrepositorygui")
+		{
+			$cmd = $ilCtrl->getCmd();
+			if ($cmd == "" || $cmd == "view" || $cmd == "render")
+				return true;
+		}
+			
 		return false;
 	}
 	

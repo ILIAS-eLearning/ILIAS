@@ -81,6 +81,9 @@ class ilFileUploadGUI
 		
 		// set url
 		$url = $this->getUploadUrl();
+		if ($url === false)
+			return "";			
+			
 		if ($url != null)
 			$options->url = $this->getUploadUrl();
 		
@@ -358,23 +361,20 @@ class ilFileUploadGUI
 	{
 		global $ilCtrl;
 		
+		// return null when the form is used
 		if ($this->use_form)
 			return null;
 		
-		include_once("Modules/File/classes/class.ilObjFileGUI.php");
+		// check if supported
+		if (!ilFileUploadUtil::isUploadSupported())
+			return false;
 			
-		// only repository is supported by now
-		$url = null;
-		if (strtolower($_GET["baseClass"]) == "ilrepositorygui")
-		{				
-			// build upload URL
-			$ilCtrl->setParameterByClass(self::FILE_OBJ_GUI_CLASS, "ref_id", $this->ref_id);
-			$ilCtrl->setParameterByClass(self::FILE_OBJ_GUI_CLASS, "new_type", "file");
-		
-			$url = $ilCtrl->getFormActionByClass(self::FILE_OBJ_GUI_CLASS, "uploadFiles", "", true, false);
-		}
-		
-		return $url;
+		// build upload URL
+		include_once("Modules/File/classes/class.ilObjFileGUI.php");
+		$ilCtrl->setParameterByClass(self::FILE_OBJ_GUI_CLASS, "ref_id", $this->ref_id);
+		$ilCtrl->setParameterByClass(self::FILE_OBJ_GUI_CLASS, "new_type", "file");
+	
+		return $ilCtrl->getFormActionByClass(self::FILE_OBJ_GUI_CLASS, "uploadFiles", "", true, false);
 	}
 	
 	private function makeJqueryId($a_id)
