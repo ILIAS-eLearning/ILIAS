@@ -17,25 +17,18 @@ class ilUserRequestTargetAdjustment
 	protected $user;
 
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-
-	/**
 	 * @var ilUserRequestTargetAdjustmentCase[]
 	 */
 	protected $cases = array();
 
 	/**
-	 * @param ilObjUser  $user
-	 * @param ilCtrl     $ctrl
-	 * @param ilLanguage $lng
+	 * @param ilObjUser $user
+	 * @param ilCtrl    $ctrl
 	 */
-	public function __construct($user, $ctrl, $lng)
+	public function __construct(ilObjUser $user, ilCtrl $ctrl)
 	{
 		$this->user = $user;
 		$this->ctrl = $ctrl;
-		$this->lng  = $lng;
 
 		$this->initCases();
 	}
@@ -45,14 +38,15 @@ class ilUserRequestTargetAdjustment
 	 */
 	protected function initCases()
 	{
-		require_once 'Services/User/classes/class.ilUserTermsOfServiceRequestTargetAdjustmentCase.php';
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceRequestTargetAdjustmentCase.php';
 		require_once 'Services/User/classes/class.ilUserProfileIncompleteRequestTargetAdjustmentCase.php';
 		require_once 'Services/User/classes/class.ilUserPasswordResetRequestTargetAdjustmentCase.php';
 
-		$this->cases   = array();
-		$this->cases[] = new ilUserTermsOfServiceRequestTargetAdjustmentCase($this->user, $this->ctrl, $this->lng);
-		$this->cases[] = new ilUserProfileIncompleteRequestTargetAdjustmentCase($this->user, $this->ctrl, $this->lng);
-		$this->cases[] = new ilUserPasswordResetRequestTargetAdjustmentCase($this->user, $this->ctrl, $this->lng);
+		$this->cases = array(
+			new ilTermsOfServiceRequestTargetAdjustmentCase($this->user, $this->ctrl),
+			new ilUserProfileIncompleteRequestTargetAdjustmentCase($this->user, $this->ctrl),
+			new ilUserPasswordResetRequestTargetAdjustmentCase($this->user, $this->ctrl)
+		);
 	}
 
 	/**
@@ -63,9 +57,9 @@ class ilUserRequestTargetAdjustment
 		/**
 		 * @var $http ilHTTPS
 		 */
-		global $https, $ilUser;
+		global $https;
 
-		if(!$this->user->getPref('org_request_target'))
+		if(!ilSession::get('orig_request_target'))
 		{
 			$target_protocol = 'http';
 			if($https->isDetected())
@@ -75,53 +69,54 @@ class ilUserRequestTargetAdjustment
 			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST'];
 			$request_url = $_SERVER['REQUEST_URI']{0} == '/' ? $_SERVER['REQUEST_URI'] : '/'. $_SERVER['REQUEST_URI'];
 			$url = $target_protocol . '://' . $host . $request_url;
-	
-			ilObjUser::_writePref($this->user->getId(), 'org_request_target', $url);
-			$this->user->writePref('org_request_target', $url);
+			ilSession::set('orig_request_target', $url);
 		}
 	}
 
 	/**
-	 *
+	 * @return boolean
 	 */
 	public function adjust()
 	{
 		if(defined('IL_CERT_SSO'))
 		{
-			return;
+			return false;
 		}
 		else if(!ilContext::supportsRedirects())
 		{
-			return;
+			return false;
 		}
 		else if($this->ctrl->isAsynch())
 		{
-			return;
+			return false;
 		}
 		else if(in_array(basename($_SERVER['PHP_SELF']), array('logout.php')))
 		{
-			return;
+			return false;
+		}
+		else if(!$this->user->getId() || $this->user->isAnonymous())
+		{
+			return false;
 		}
 
-		$in_fulfillment = false;
 		foreach($this->cases as $case)
 		{
-			if(!$in_fulfillment && $case->isInFulfillment())
+			if($case->isInFulfillment())
 			{
-				$in_fulfillment = true;
+				return false;
 			}
 
-			if(!$in_fulfillment && $case->shouldAdjustRequest())
+			if($case->shouldAdjustRequest())
 			{
-				/**
-				 * @var $case ilUserRequestTargetAdjustmentCase
-				 */
-				if($case->shouldRequestTargetBeStored())
+				if($case->shouldStoreRequestTarget())
 				{
 					$this->storeRequest();
 				}
 				$case->adjust();
+				return true;
 			}
 		}
+
+		return false;
 	}
 }

@@ -9,25 +9,15 @@ require_once 'Services/User/classes/class.ilUserRequestTargetAdjustmentCase.php'
 class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTargetAdjustmentCase
 {
 	/**
-	 * @return mixed
+	 * @return boolean
 	 */
-	public function shouldRequestTargetBeStored()
+	public function shouldStoreRequestTarget()
 	{
-		if(!$this->user->getId() || $this->user->isAnonymous())
-		{
-			return false;
-		}
-
-		if(strtolower($this->ctrl->getCmdClass()) == 'ilpersonalsettingsgui')
-		{
-			return false;
-		}
-
 		return true;
 	}
 
 	/**
-	 * @return bool
+	 * @return boolean
 	 */
 	public function isInFulfillment()
 	{
@@ -43,21 +33,11 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
 	}
 
 	/**
-	 * @return void
+	 * @return boolean
 	 */
 	public function shouldAdjustRequest()
 	{
-		if(!$this->user->getId() || $this->user->isAnonymous())
-		{
-			return false;
-		}
-
-		if(defined('IL_CERT_SSO') || !ilContext::supportsRedirects())
-		{
-			return false;
-		}
-
-		if(($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired()) && !$this->isInFulfillment())
+		if(!$this->isInFulfillment() && ($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired()))
 		{
 			return true;
 		}
