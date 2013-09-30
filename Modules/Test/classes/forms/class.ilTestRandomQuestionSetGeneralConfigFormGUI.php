@@ -91,10 +91,10 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 		$questionAmountConfigMode = new ilRadioGroupInputGUI(
 				$this->lng->txt('tst_inp_quest_amount_cfg_mode'), 'quest_amount_cfg_mode'
 		);
-		
-		$questionAmountConfigMode->setValue(
-				$this->questionSetConfig->getQuestionAmountConfigurationMode()
-		);
+
+		$questionAmountConfigMode->setValue( $this->fetchValidQuestionAmountConfigModeWithFallbackModePerTest(
+				$this->questionSetConfig
+		));
 		
 		$questionAmountConfigModePerTest = new ilRadioOption(
 				$this->lng->txt('tst_inp_quest_amount_cfg_mode_test'),
@@ -131,6 +131,19 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 			);
 			
 		$questionAmountConfigModePerTest->addSubItem($questionAmountPerTest);
+	}
+
+	private function fetchValidQuestionAmountConfigModeWithFallbackModePerTest(ilTestRandomQuestionSetConfig $config)
+	{
+		switch( $config->getQuestionAmountConfigurationMode() )
+		{
+			case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST:
+			case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL:
+
+				return $config->getQuestionAmountConfigurationMode();
+		}
+
+		return ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST;
 	}
 	
 	public function save()
