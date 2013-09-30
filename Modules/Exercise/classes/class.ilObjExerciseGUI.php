@@ -2118,8 +2118,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		// Work Instructions
 		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
-		$desc_input->setRows(5);
-		$this->form->addItem($desc_input);
+		$desc_input->setRows(20);
+		$desc_input->setUseRte(true);				
+		$desc_input->setRteTagSet("mini");		
+		$this->form->addItem($desc_input);		
 								
 		// files
 		if ($a_mode == "create")

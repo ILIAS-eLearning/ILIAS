@@ -100,6 +100,14 @@ class ilRTE
 			unset($this->plugins[$key]);
 		}
 	}
+		
+	public function removeAllPlugins()
+	{
+		foreach($this->plugins as $plugin)
+		{
+			$this->removePlugin($plugin);
+		}		
+	}
 	
 	/**
 	* Removes a button from the button list
