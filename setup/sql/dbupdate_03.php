@@ -18657,3 +18657,8 @@ while($row = $ilDB->fetchAssoc($set))
 	}
 
 ?>
+<#4112>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

@@ -1790,17 +1790,13 @@ class ilLMPresentationGUI
 		// read link targets
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 		$link_xml.= $this->getLinkTargetsXML();
-		
+//echo htmlentities($link_xml);
 		// get lm page object
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
 		//$pg_obj->setParentId($this->lm->getId());
 		$page_object_gui->setLinkXML($link_xml);
 		
-		// USED FOR DBK PAGE TURNS
-		$page_object_gui->setBibId($_SESSION["bib_id"]);
-		$page_object_gui->enableCitation((bool) $_SESSION["citation"]);
-
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];
 		$page_object_gui->setLinkFrame($_GET["frame"]);		

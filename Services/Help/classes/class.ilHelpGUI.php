@@ -9,6 +9,9 @@ include_once ("Services/Help/classes/class.ilHelp.php");
 *
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
+*
+* @ilCtrl_Calls ilHelpGUI: ilLMPageGUI
+*
 */
 class ilHelpGUI
 {
@@ -295,6 +298,14 @@ class ilHelpGUI
 		$cfg->setEnablePCType("Map", false);
 		$cfg->setEnablePCType("Tabs", false);
 		$cfg->setEnablePCType("FileList", false);
+		
+		$page_gui->getPageObject()->buildDom();
+		$int_links = $page_gui->getPageObject()->getInternalLinks();
+		$link_xml = $this->getLinkXML($int_links);
+		$link_xml.= $this->getLinkTargetsXML();
+//echo htmlentities($link_xml);
+		$page_gui->setLinkXML($link_xml);
+		
 		$ret = $page_gui->showPage();
 
 		$h_tpl->setVariable("CONTENT", $ret);
@@ -388,5 +399,67 @@ class ilHelpGUI
 		$ilUser->writePref("hide_help_tt", "0");
 	}
 	
+	/**
+	 * get xml for links
+	 */
+	function getLinkXML($a_int_links)
+	{
+		global $ilCtrl;
+
+		$link_info = "<IntLinkInfos>";
+		foreach ($a_int_links as $int_link)
+		{
+			$target = $int_link["Target"];
+			if (substr($target, 0, 4) == "il__")
+			{
+				$target_arr = explode("_", $target);
+				$target_id = $target_arr[count($target_arr) - 1];
+				$type = $int_link["Type"];
+				$targetframe = "None";
+					
+				// anchor
+				$anc = $anc_add = "";
+				if ($int_link["Anchor"] != "")
+				{
+					$anc = $int_link["Anchor"];
+					$anc_add = "_".rawurlencode($int_link["Anchor"]);
+				}
+
+				switch($type)
+				{
+					case "PageObject":
+					case "StructureObject":
+							if ($type == "PageObject")
+							{
+								$href = "#pg_".$target_id;
+							}
+							else
+							{
+								$href = "#";
+							}
+						break;
+
+				}
+				
+				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
+					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"\" Anchor=\"\"/>";
+			}
+		}
+		$link_info.= "</IntLinkInfos>";
+
+		return $link_info;
+	}
+
+	/**
+	* Get XMl for Link Targets
+	*/
+	function getLinkTargetsXML()
+	{
+		$link_info = "<LinkTargets>";
+		$link_info.="<LinkTarget TargetFrame=\"None\" LinkTarget=\"\" OnClick=\"return il.Help.openLink(event);\" />";
+		$link_info.= "</LinkTargets>";
+		return $link_info;
+	}
+
 }
 ?>

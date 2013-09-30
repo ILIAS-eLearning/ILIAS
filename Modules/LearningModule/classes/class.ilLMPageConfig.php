@@ -54,6 +54,11 @@ class ilLMPageConfig extends ilPageConfig
 		{
 			include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 			$this->setDisableDefaultQuestionFeedback(ilObjLearningModule::_lookupDisableDefaultFeedback($a_obj_id));
+			
+			if (ilObjContentObject::isOnlineHelpModule($a_obj_id, true))
+			{
+				$this->setEnableSelfAssessment(false, false);
+			}
 		}
 	}
 	

@@ -16,7 +16,7 @@ require_once 'Services/LinkChecker/interfaces/interface.ilLinkCheckerGUIRowHandl
  *
  * $Id$
  *
- * @ingroup ModulesIliasLearningModule
+ * @ingroup ModulesLearningModule
  */
 class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHandling
 {
