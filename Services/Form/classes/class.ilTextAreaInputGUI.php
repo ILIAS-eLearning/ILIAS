@@ -84,6 +84,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $root_block_element = null;
 	
 	protected $rte_tag_set = array(
+		"mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a"),
 		"standard" => array ("strong", "em", "u", "ol", "li", "ul", "p", "div",
 			"i", "b", "code", "sup", "sub", "pre", "strike", "gap"),
 		"extended" => array (
@@ -464,8 +465,15 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 					$rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"], false, $this->rteSupport['cfg_template'], $this->rteSupport['hide_switch']);
 				}
 				else
-				{
-					$rte->addCustomRTESupport(0, "", $this->getRteTags());
+				{					
+					// disable all plugins for mini-tagset
+					if(!array_diff($this->getRteTags(), $this->getRteTagSet("mini")))
+					{
+						$rte->removeAllPlugins();
+						$rte->disableButtons(array("anchor"));
+					}
+					
+					$rte->addCustomRTESupport(0, "", $this->getRteTags());					
 				}			
 				
 				$ttpl->touchBlock("prop_ta_w");
