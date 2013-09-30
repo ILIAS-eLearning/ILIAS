@@ -22,22 +22,176 @@ class ilDBMySQL extends ilDB
 	* @var int
 	*/
 	var $max_allowed_packet_size;
+	protected $slave_active = false;
+	protected $use_slave = false;
 
 	/**
-	* Get DSN.
-	*/
+	 * Supports slave
+	 *
+	 * @param
+	 * @return
+	 */
+	function supportsSlave()
+	{
+		return true;
+	}
+
+	/**
+	 * Set slave active
+	 *
+	 * @param bool $a_val slave active	
+	 */
+	function setDBSlaveActive($a_val)
+	{
+		$this->slave_active = $a_val;
+	}
+	
+	/**
+	 * Get slave active
+	 *
+	 * @return bool slave active
+	 */
+	function getDBSlaveActive()
+	{
+		return $this->slave_active;
+	}
+	
+	/**
+	 * Set slave database user
+	 *
+	 * @param	string		slave database user
+	 */
+	function setDBSlaveUser($a_user)
+	{
+		$this->slave_user = $a_user;
+	}
+	
+	/**
+	 * Get slave database user
+	 *
+	 * @param	string		slave database user
+	 */
+	function getDBSlaveUser()
+	{
+		return $this->slave_user;
+	}
+
+	/**
+	 * Set slave database port
+	 *
+	 * @param	string		slave database port
+	 */
+	function setDBSlavePort($a_port)
+	{
+		$this->slave_port = $a_port;
+	}
+	
+	/**
+	 * Get slave database port
+	 *
+	 * @param	string		slave database port
+	 */
+	function getDBSlavePort()
+	{
+		return $this->slave_port;
+	}
+
+	/**
+	 * Set slave database host
+	 *
+	 * @param	string		slave database host
+	 */
+	function setDBSlaveHost($a_host)
+	{
+		$this->slave_host = $a_host;
+	}
+	
+	/**
+	 * Get slave database host
+	 *
+	 * @param	string		slave database host
+	 */
+	function getDBSlaveHost()
+	{
+		return $this->slave_host;
+	}
+
+	/**
+	 * Set slave database password
+	 *
+	 * @param	string		slave database password
+	 */
+	function setDBSlavePassword($a_password)
+	{
+		$this->slave_password = $a_password;
+	}
+	
+	/**
+	 * Get slave database password
+	 *
+	 * @param	string		slave database password
+	 */
+	function getDBSlavePassword()
+	{
+		return $this->slave_password;
+	}
+
+	/**
+	 * Set slave database name
+	 *
+	 * @param	string		slave database name
+	 */
+	function setDBSlaveName($a_name)
+	{
+		$this->slave_name = $a_name;
+	}
+	
+	/**
+	 * Get slave database name
+	 *
+	 * @param	string		slave database name
+	 */
+	function getDBSlaveName()
+	{
+		return $this->slave_name;
+	}
+
+	/**
+	 * Get DSN.
+	 */
 	function getDSN()
 	{
+		return $this->__buildDSN($this->getDBHost(), $this->getDBName(),
+			$this->getDBUser(), $this->getDBPassword(), $this->getDBPort());
+	}
+
+	/**
+	 * Get slave DSN.
+	 */
+	function getSlaveDSN()
+	{
+		return $this->__buildDSN($this->getDBSlaveHost(), $this->getDBSlaveName(),
+			$this->getDBSlaveUser(), $this->getDBSlavePassword(), $this->getDBSlavePort());
+	}
+
+	/**
+	 * Build DSN string
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function __buildDSN($a_host, $a_name, $a_user, $a_pass, $a_port = "")
+	{
 		$db_port_str = "";
-		if (trim($this->getdbPort()) != "")
+		if (trim($a_port) != "")
 		{
-			$db_port_str = ":".$this->getdbPort();
+			$db_port_str = ":".$a_port;
 		}
 		
 		$driver = $this->isMySQLi() ? "mysqli" : "mysql";      
 		
-		return $driver."://".$this->getDBUser().":".$this->getDBPassword().
-			"@".$this->getdbHost().$db_port_str."/".$this->getDBName();
+		return $driver."://".$a_user.":".$a_pass.
+			"@".$a_host.$db_port_str."/".$a_name;
 	}
 	
 	protected function isMySQLi()
@@ -112,6 +266,50 @@ class ilDBMySQL extends ilDB
 		"ZEROFILL"
 		);
 	}
+	
+	/**
+	 * Init db parameters from ini file
+	 * @param $tmpClientIniFile	overwrite global client ini file if is set to an object 
+	 */
+	function initFromIniFile($tmpClientIniFile = null)
+	{
+		global $ilClientIniFile;
+		
+		parent::initFromIniFile($tmpClientIniFile);
+		
+		//overwrite global client ini file if local parameter is set 
+		if (is_object($tmpClientIniFile))
+			$clientIniFile = $tmpClientIniFile;
+		else 
+			$clientIniFile = $ilClientIniFile;	
+			
+		if (is_object($clientIniFile ))
+		{
+			if ($clientIniFile->readVariable("db", "slave_active") == 1)
+			{
+				$this->setDBSlaveActive(true);
+				$this->setDBSlaveUser($clientIniFile->readVariable("db", "slave_user"));
+				$this->setDBSlaveHost($clientIniFile->readVariable("db", "slave_host"));
+				$this->setDBSlavePort($clientIniFile->readVariable("db", "slave_port"));
+				$this->setDBSlavePassword($clientIniFile->readVariable("db", "slave_pass"));
+				$this->setDBSlaveName($clientIniFile->readVariable("db", "slave_name"));
+			}
+		}
+	}
+
+	/**
+	 * Standard way to connect to db
+	 */
+	function doConnect()
+	{
+		parent::doConnect();
+		if ($this->getDBSlaveActive())
+		{
+			$this->slave = MDB2::connect($this->getSlaveDSN(),
+				array("use_transactions" => false));
+		}
+	}
+
 	
 	/**
 	 * Initialize the database connection
@@ -392,5 +590,30 @@ class ilDBMySQL extends ilDB
 			return mysqli_error($this->db->connection);
 		}
 	}
+	
+	/**
+	 * Query
+	 *
+	 * @param
+	 * @return
+	 */
+	function query($sql, $a_handle_error = true)
+	{
+		if (!$this->use_slave || !$this->getDBSlaveActive())
+		{
+			return parent::query($sql, $a_handle_error);
+		}
+		
+		$r = $this->slave->query($sql);
+		
+		if ($a_handle_error)
+		{
+			return $this->handleError($r, "query(".$sql.")");
+		}
+
+		return $r;
+
+	}
+	
 }
 ?>

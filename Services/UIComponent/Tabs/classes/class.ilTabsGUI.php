@@ -20,6 +20,7 @@ class ilTabsGUI
 	var $target = array();
 	var $sub_target = array();
 	var $non_tabbed_link = array();
+	var $setup_mode = false;
 
 	/**
 	* Constructor
@@ -40,6 +41,26 @@ class ilTabsGUI
 		$this->back_target = "";
 		$this->back_2_target = "";
 		$this->back_2_title = "";
+	}
+	
+	/**
+	 * Set setup mode
+	 *
+	 * @param boolean $a_val setup mode	
+	 */
+	function setSetupMode($a_val)
+	{
+		$this->setup_mode = $a_val;
+	}
+	
+	/**
+	 * Get setup mode
+	 *
+	 * @return boolean setup mode
+	 */
+	function getSetupMode()
+	{
+		return $this->setup_mode;
 	}
 	
 	/**
@@ -190,7 +211,10 @@ class ilTabsGUI
 	{
 		global $ilHelp;
 		
-		$ilHelp->setScreenIdComponent("");
+		if (!$this->getSetupMode())
+		{
+			$ilHelp->setScreenIdComponent("");
+		}
 		
 		$this->target = array();
 		$this->sub_target = array();
@@ -375,17 +399,25 @@ class ilTabsGUI
 		global $ilCtrl, $lng, $ilUser, $ilPluginAdmin, $ilHelp;
 
 		// user interface hook [uihk]
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-		foreach ($pl_names as $pl)
+		if (!$this->getSetupMode())
 		{
-			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-			$gui_class = $ui_plugin->getUIClassInstance();
-			$resp = $gui_class->modifyGUI("", $a_get_sub_tabs ? "sub_tabs" : "tabs",
-				array("tabs" => $this));
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+			foreach ($pl_names as $pl)
+			{
+				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+				$gui_class = $ui_plugin->getUIClassInstance();
+				$resp = $gui_class->modifyGUI("", $a_get_sub_tabs ? "sub_tabs" : "tabs",
+					array("tabs" => $this));
+			}
 		}
 
-		$cmd = $ilCtrl->getCmd();
-		$cmdClass = $ilCtrl->getCmdClass();
+		
+		// user interface hook [uihk]
+		if (!$this->getSetupMode())
+		{
+			$cmd = $ilCtrl->getCmd();
+			$cmdClass = $ilCtrl->getCmdClass();
+		}
 
 		if ($a_get_sub_tabs)
 		{
@@ -461,33 +493,43 @@ class ilTabsGUI
 					$tpl->setCurrentBlock("sel_text");
 					$tpl->setVariable("TXT_SELECTED", $lng->txt("stat_selected"));
 					$tpl->parseCurrentBlock();
-					if ($a_get_sub_tabs)
+					
+					if (!$this->getSetupMode())
 					{
-						$part = ilHelpGUI::ID_PART_SUB_SCREEN;
+						if ($a_get_sub_tabs)
+						{
+							$part = ilHelpGUI::ID_PART_SUB_SCREEN;
+						}
+						else
+						{
+							$part = ilHelpGUI::ID_PART_SCREEN;
+						}
+						$ilHelp->setDefaultScreenId($part, $target["id"]);
 					}
-					else
-					{
-						$part = ilHelpGUI::ID_PART_SCREEN;
-					}
-					$ilHelp->setDefaultScreenId($part, $target["id"]);
 				}
 	
 				$tpl->setCurrentBlock($pre."tab");
 				$tpl->setVariable("ID", $pre."tab_".$target["id"]);
 				
 				// tooltip
-				$ttext = $ilHelp->getTabTooltipText($target["id"]);
-				if ($ttext != "")
+				if (!$this->getSetupMode())
 				{
-					include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-					ilTooltipGUI::addTooltip($pre."tab_".$target["id"], $ttext, "",
-						"bottom center", "top center", false);
+					$ttext = $ilHelp->getTabTooltipText($target["id"]);
+					if ($ttext != "")
+					{
+						include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+						ilTooltipGUI::addTooltip($pre."tab_".$target["id"], $ttext, "",
+							"bottom center", "top center", false);
+					}
 				}
 				
 				$tpl->setVariable($pre2."TAB_TYPE", $tabtype);
-				$hash = ($ilUser->getPref("screen_reader_optimization"))
-					? "#after_".$sr_pre."tabs"
-					: "";
+				if (!$this->getSetupMode())
+				{
+					$hash = ($ilUser->getPref("screen_reader_optimization"))
+						? "#after_".$sr_pre."tabs"
+						: "";
+				}
 				
 				$tpl->setVariable($pre2."TAB_LINK", $target["link"].$hash);
 				if ($target["dir_text"])
@@ -522,12 +564,15 @@ class ilTabsGUI
 					$tpl->parseCurrentBlock();
 					
 					// tooltip
-					$ttext = $ilHelp->getTabTooltipText($link["id"]);
-					if ($ttext != "")
+					if (!$this->getSetupMode())
 					{
-						include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-						ilTooltipGUI::addTooltip("nontab_".$link["id"], $ttext, "",
-							"bottom center", "top center", false);
+						$ttext = $ilHelp->getTabTooltipText($link["id"]);
+						if ($ttext != "")
+						{
+							include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+							ilTooltipGUI::addTooltip("nontab_".$link["id"], $ttext, "",
+								"bottom center", "top center", false);
+						}
 					}
 				}
 			}

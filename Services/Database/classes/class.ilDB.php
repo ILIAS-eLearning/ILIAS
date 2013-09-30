@@ -371,6 +371,32 @@ abstract class ilDB extends PEAR
 	}
 
 	/**
+	 * Supports slave
+	 *
+	 * @param
+	 * @return
+	 */
+	function supportsSlave()
+	{
+		return false;
+	}
+
+	/**
+	 * Use slave
+	 *
+	 * @param
+	 * @return
+	 */
+	function useSlave($a_val = true)
+	{
+		if (!$this->supportsSlave())
+		{
+			return false;
+		}
+		$this->use_slave = $a_val;
+	}
+
+	/**
 	* Handle MDB2 Errors
 	*
 	* @param	mixed 	result set or anything that is a MDB2::error if

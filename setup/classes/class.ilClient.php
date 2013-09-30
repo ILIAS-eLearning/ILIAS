@@ -367,6 +367,116 @@ class ilClient
 	}
 
 	/**
+	* set the slave active
+	* @param int
+	*/
+	function setDbSlaveActive($a_act)
+	{
+		$this->ini->setVariable("db","slave_active", (int) $a_act);
+	}
+	
+	/**
+	* get slave active
+	* @return int active
+	* 
+	*/
+	function getDbSlaveActive()
+	{
+		return (int) $this->ini->readVariable("db","slave_active");
+	}
+
+	/**
+	* set the slave host
+	* @param	string
+	*/
+	function setDbSlaveHost($a_str)
+	{
+		$this->ini->setVariable("db","slave_host",$a_str);
+	}
+	
+	/**
+	* get db slave host
+	* @return	string	db host
+	* 
+	*/
+	function getDbSlaveHost()
+	{
+		return $this->ini->readVariable("db","slave_host");
+	}
+
+	/**
+	* set the name of slave database
+	* @param	string
+	*/
+	function setDbSlaveName($a_str)
+	{
+		$this->ini->setVariable("db","slave_name",$a_str);
+	}
+
+	/**
+	* get name of slave database
+	* @return	string	name of database
+	*/
+	function getDbSlaveName()
+	{
+		return $this->ini->readVariable("db","slave_name");
+	}
+
+	/**
+	* set slave db user
+	* @param	string	db user
+	*/
+	function setDbSlaveUser($a_str)
+	{
+		$this->ini->setVariable("db","slave_user",$a_str);
+	}
+	
+	/**
+	* get slave db user
+	* @return	string	db user
+	*/
+	function getDbSlaveUser()
+	{
+		return $this->ini->readVariable("db","slave_user");
+	}
+
+	/**
+	* get slave db port
+	* @return	string	db port
+	*/
+	function getDbSlavePort()
+	{
+		return $this->ini->readVariable("db","slave_port");
+	}
+
+	/**
+	* set slave db port
+	* @param	string
+	*/
+	function setDbSlavePort($a_str)
+	{
+		$this->ini->setVariable("db","slave_port",$a_str);
+	}
+
+	/**
+	* set slave db password
+	* @param	string
+	*/
+	function setDbSlavePass($a_str)
+	{
+		$this->ini->setVariable("db","slave_pass",$a_str);
+	}
+	
+	/**
+	* get slave db password
+	* @return	string	db password
+	*/
+	function getDbSlavePass()
+	{
+		return $this->ini->readVariable("db","slave_pass");
+	}
+
+	/**
 	* set the type of database
 	* @param	string
 	*/
@@ -764,5 +874,17 @@ class ilClient
 
 		return true;
 	}
+	
+	/**
+	 * write init
+	 *
+	 * @param
+	 * @return
+	 */
+	function writeIni()
+	{
+		$this->ini->write();
+	}
+	
 } // END class.ilClient
 ?>
