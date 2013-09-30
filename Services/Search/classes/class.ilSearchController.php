@@ -56,20 +56,7 @@ class ilSearchController
 
 	function &executeCommand()
 	{
-		global $rbacsystem,$ilUser;
-		
-		// Check for incomplete profile
-		if($ilUser->getProfileIncomplete())
-		{
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
-		}
-
-		// check whether password of user have to be changed
-		// due to first login or password of user is expired
-		if( $ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired() )
-		{
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
-		}
+		global $rbacsystem;
 
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
