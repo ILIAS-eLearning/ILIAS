@@ -37,6 +37,7 @@ class ilObjBibliographicGUI extends ilObject2GUI
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
         global $lng;
+		$this->lng = $lng;
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -71,7 +72,7 @@ class ilObjBibliographicGUI extends ilObject2GUI
      */
     public function executeCommand()
     {
-        global $ilCtrl, $ilTabs, $ilNavigationHistory, $tpl, $ilUser;
+        global $ilCtrl, $ilTabs, $ilNavigationHistory, $tpl, $lng;
 
         // Navigation History
         $link = $ilCtrl->getLinkTarget($this, $this->getStandardCmd());
@@ -150,14 +151,16 @@ class ilObjBibliographicGUI extends ilObject2GUI
      */
     public function infoScreenForward()
     {
-        global $ilTabs, $ilErr;
+        global $ilTabs, $ilErr, $lng;
 
         $ilTabs->activateTab("id_info");
 
-        if (!$this->checkPermissionBool("visible"))
-        {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
-        }
+	    if (!$this->checkPermissionBool("visible"))
+	    {
+		    ilUtil::sendFailure($lng->txt("no_permission"),true);
+		    ilObjectGUI::_gotoRepositoryRoot();
+		    return;
+	    }
 
         include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
@@ -372,25 +375,26 @@ class ilObjBibliographicGUI extends ilObject2GUI
 
             include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
             $ilToolbar = new ilToolbarGUI();
-            $ilToolbar->addButton($lng->txt("Download Original File"), $ilCtrl->getLinkTargetByClass("ilBibliographicDetailsGUI", "dropFile"));
+            $ilToolbar->addButton($lng->txt("Download Original File"), $ilCtrl->getLinkTargetByClass("ilBibliographicDetailsGUI", "sendFile"));
 
             include_once "./Modules/Bibliographic/classes/class.ilBibliographicRecordListTableGUI.php";
             $table = new ilDataBibliographicRecordListTableGUI($this, $this->cmd);
             $html = $table->getHTML();
             $tpl->setContent($html);
         }else{
-            $tpl->setContent($lng->txt('permission_denied'));
+	        ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+	        ilObjectGUI::_gotoRepositoryRoot();
         }
     }
 
     /**
      * provide file as a download
      */
-    public function dropFile(){
+    public function sendFile(){
         global $ilAccess, $tpl, $lng;
-        if($ilAccess->checkAccess('edit', "", $this->object->getRefId())){
+        if($ilAccess->checkAccess('read', "", $this->object->getRefId())){
 
-            $file_path = $this->bibl_obj->getFilePath();
+            $file_path = $this->bibl_obj->getFileAbsolutePath();
 
             if($file_path){
                 if(is_file($file_path)){
@@ -403,7 +407,8 @@ class ilObjBibliographicGUI extends ilObject2GUI
                 }
             }
         }else{
-            $tpl->setContent($lng->txt('permission_denied'));
+            ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+	        ilObjectGUI::_gotoRepositoryRoot();
         }
     }
 
@@ -413,7 +418,8 @@ class ilObjBibliographicGUI extends ilObject2GUI
             $bibGUI = new ilBibliographicDetailsGUI();
             $bibGUI->showDetails($this->bibl_obj, $_GET['entryId']);
         }else{
-            $tpl->setContent($lng->txt('permission_denied'));
+	        ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+	        ilObjectGUI::_gotoRepositoryRoot();
         }
     }
 
@@ -428,13 +434,14 @@ class ilObjBibliographicGUI extends ilObject2GUI
     public function updateCustom(ilPropertyFormGUI $a_form)
     {
         global $ilUser, $ilAccess, $tpl, $lng;
-        if($ilAccess->checkAccess('edit', "", $this->object->getRefId())){
+        if($ilAccess->checkAccess('write', "", $this->object->getRefId())){
             if($this->object->getOnline() != $a_form->getInput("is_online")){
                 $this->object->setOnline($a_form->getInput("is_online"));
                 $this->object->doUpdate();
             }
         }else{
-            $tpl->setContent($lng->txt('permission_denied'));
+	        ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+	        ilObjectGUI::_gotoRepositoryRoot();
         }
     }
 

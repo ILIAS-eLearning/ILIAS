@@ -13963,6 +13963,7 @@ bibl#:#ris_default_do#:#DOI
 bibl#:#ris_default_ed#:#Sonst. Personen
 bibl#:#ris_default_in#:#In
 bibl#:#ris_default_et#:#Ausgabe
+bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Empfänger
