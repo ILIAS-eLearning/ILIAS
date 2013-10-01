@@ -288,35 +288,6 @@ public class CommandQueue {
 
 				objReset.executeUpdate();
 			}
-			// begin-patch user-search
-			
-			// @todo it should be possible to define whether an object is referenced or not 
-			// in LuceneObjectDefinition.xml
-			if(objType.equalsIgnoreCase("usr"))
-			{
-				PreparedStatement usrSta = DBFactory.getPreparedStatement(
-						"SELECT obj_id FROM object_data WHERE type = ? ");
-				DBFactory.setString(usrSta, 1, "usr");
-				ResultSet usrRes = usrSta.executeQuery();
-
-				logger.info("Adding new commands for object type: " + objType);
-
-				while(usrRes.next()) {
-
-					logger.debug("Added new reset command");
-
-					objReset.setInt(1,usrRes.getInt("obj_id"));
-					objReset.setString(2, objType);
-					objReset.setInt(3,0);
-					objReset.setString(4,"");
-					objReset.setString(5,"reset");
-					objReset.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
-					objReset.setInt(7,0);
-
-					objReset.executeUpdate();
-				}
-			}
-			// end-patch user-search
 			
 			try {
 				if(res != null)
