@@ -349,7 +349,10 @@ class ilPCFileList extends ilPageContent
 		{
 			$id_arr = explode("_", $node->getAttribute("Entry"));
 			$file_id = $id_arr[count($id_arr) - 1];
-			$file_ids[$file_id] = $file_id;
+			if ($file_id > 0 && $id_arr[1] == "")
+			{
+				$file_ids[$file_id] = $file_id;
+			}
 		}
 		
 		// file items in download links
