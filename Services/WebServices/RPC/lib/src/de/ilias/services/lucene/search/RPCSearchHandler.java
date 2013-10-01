@@ -166,6 +166,7 @@ public class RPCSearchHandler {
 		}
 		return "";
 	}
+<<<<<<< .working
 	
 	
 	/**
@@ -259,6 +260,9 @@ public class RPCSearchHandler {
 		return "";
 	}
 
+=======
+	
+>>>>>>> .merge-rechts.r39287
 	/**
 	 * 
 	 * @param clientKey
@@ -339,6 +343,82 @@ public class RPCSearchHandler {
 		catch (IOException e) {
 			logger.error(e);
 		} 
+		catch (Exception e) {
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
+		}
+		return "";
+	}
+	
+	/**
+	 * Search for mails
+	 * @param clientKey
+	 * @param userId
+	 * @param query
+	 * @param folderId
+	 * @return 
+	 */
+	public String searchMail(String clientKey, int userId, String queryString, int folderId) {
+		
+		LocalSettings.setClientKey(clientKey);
+		FieldInfo fieldInfo;
+		IndexSearcher searcher;
+		String rewrittenQuery;
+		
+		try {
+			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
+			
+			long start = new java.util.Date().getTime();
+			
+			// Rewrite query
+			QueryRewriter rewriter = new QueryRewriter(QueryRewriter.MODE_MAIL_HIGHLIGHT,queryString);
+			rewrittenQuery = rewriter.rewrite(userId,folderId);
+			logger.info("Searching for: " + rewrittenQuery);
+
+			searcher = SearchHolder.getInstance().getSearcher();
+			
+			Vector<Occur> occurs = new Vector<Occur>();
+			for(int i = 0; i < fieldInfo.getFieldSize(); i++) {
+				occurs.add(BooleanClause.Occur.SHOULD);
+			}
+			
+			Query query = searcher.rewrite(
+					MultiFieldQueryParser.parse(
+						rewrittenQuery,
+						fieldInfo.getFieldsAsStringArray(),
+						occurs.toArray(new Occur[0]),
+						new StandardAnalyzer()
+					)
+			);
+
+			logger.info("Rewritten query is: " + query.toString());
+			
+			TopDocCollector collector = new TopDocCollector(500);
+			searcher.search(query,collector);
+			ScoreDoc[] hits = collector.topDocs().scoreDocs;
+
+			long h_start = new java.util.Date().getTime();
+			HitHighlighter hh = new HitHighlighter(query,hits);
+			hh.highlight();
+			long h_end = new java.util.Date().getTime();
+
+			//logger.debug(hh.toXML());
+			long end = new java.util.Date().getTime();
+			
+			logger.info("Highlighter time: " + (h_end - h_start));
+			logger.info("Total time: " + (end - start));
+			return hh.toXML();
+		}
+		catch(CorruptIndexException e) {
+			logger.fatal(e);
+		} 
+		catch (ConfigurationException e) {
+			logger.error(e);
+		} 
+		catch (ParseException e) {
+			logger.warn(e);
+		}
 		catch (Exception e) {
 			StringWriter writer = new StringWriter();
 			e.printStackTrace(new PrintWriter(writer));
