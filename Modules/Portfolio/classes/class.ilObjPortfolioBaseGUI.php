@@ -94,6 +94,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		}
 
 		$page_gui = $this->getPageGUIInstance($this->page_id);
+		
+		// needed for editor			
+		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+			$this->object->getStyleSheetId(), $this->getType()));			
+		
 		$ret = $this->ctrl->forwardCommand($page_gui);
 
 		if ($ret != "" && $ret !== true)
@@ -115,6 +120,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			// edit
 			else
 			{
+				$this->setContentStyleSheet();					
 				$this->tpl->setContent($ret);
 			}
 		}			
@@ -154,9 +160,25 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	//
 	// CREATE/EDIT
 	//
+	
+	protected function setSettingsSubTabs($a_active)
+	{
+		// general properties
+		$this->tabs_gui->addSubTab("properties",
+			$this->lng->txt($this->getType()."_properties"),
+				$this->ctrl->getLinkTarget($this, 'edit'));
+		
+		$this->tabs_gui->addSubTab("style",
+			$this->lng->txt("obj_sty"),
+			$this->ctrl->getLinkTarget($this, 'editStyleProperties'));
+		
+		$this->tabs_gui->activateSubTab($a_active);
+	}
 		
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{							
+		$this->setSettingsSubTabs("properties");
+		
 		// comments
 		$comments = new ilCheckboxInputGUI($this->lng->txt("prtf_public_comments"), "comments");
 		$a_form->addItem($comments);
@@ -663,6 +685,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$this->tpl->setContent($content.
 			'<div class="ilClearFloat">'.$notes.$plink.'</div>');			
 		$this->tpl->setFrameFixedWidth(true);
+						
+		$this->setContentStyleSheet($this->tpl);		
 		
 		echo $this->tpl->show("DEFAULT", true, true);
 		exit();
@@ -840,6 +864,135 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$form->addCommandButton("view", $this->lng->txt("cancel"));
 		
 		return $form;
+	}
+	
+	
+	////
+	//// Style related functions
+	////
+	
+	function setContentStyleSheet($a_tpl = null)
+	{
+		global $tpl;
+
+		if ($a_tpl != null)
+		{
+			$ctpl = $a_tpl;
+		}
+		else
+		{
+			$ctpl = $tpl;
+		}
+
+		$ctpl->setCurrentBlock("ContentStyle");
+		$ctpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		$ctpl->parseCurrentBlock();
+	}
+	
+	function editStyleProperties()
+	{		
+		$this->checkPermission("write");
+		
+		$this->tabs_gui->activateTab("settings");
+		$this->setSettingsSubTabs("style");
+		
+		$form = $this->initStylePropertiesForm();
+		$this->tpl->setContent($form->getHTML());				
+	}
+	
+	function initStylePropertiesForm()
+	{
+		global $ilSetting;
+						
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->lng->loadLanguageModule("style");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		
+		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		$style_id = $this->object->getStyleSheetId();
+
+		if ($fixed_style > 0)
+		{
+			$st = new ilNonEditableValueGUI($this->lng->txt("style_current_style"));
+			$st->setValue(ilObject::_lookupTitle($fixed_style)." (".
+				$this->lng->txt("global_fixed").")");
+			$form->addItem($st);
+		}
+		else
+		{
+			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
+				$_GET["ref_id"]);
+
+			$st_styles[0] = $this->lng->txt("default");
+			ksort($st_styles);
+
+			if ($style_id > 0)
+			{
+				// individual style
+				if (!ilObjStyleSheet::_lookupStandard($style_id))
+				{
+					$st = new ilNonEditableValueGUI($this->lng->txt("style_current_style"));
+					$st->setValue(ilObject::_lookupTitle($style_id));
+					$form->addItem($st);
+
+					// delete command
+					$form->addCommandButton("editStyle", $this->lng->txt("style_edit_style"));
+					$form->addCommandButton("deleteStyle", $this->lng->txt("style_delete_style"));
+				}
+			}
+
+			if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
+			{
+				$style_sel = new ilSelectInputGUI($this->lng->txt("style_current_style"), 
+					"style_id");
+				$style_sel->setOptions($st_styles);
+				$style_sel->setValue($style_id);
+				$form->addItem($style_sel);
+
+				$form->addCommandButton("saveStyleSettings", $this->lng->txt("save"));
+				$form->addCommandButton("createStyle", $this->lng->txt("sty_create_ind_style"));
+			}
+		}
+		
+		$form->setTitle($this->lng->txt($this->getType()."_style"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		return $form;
+	}
+
+	function createStyle()
+	{		
+		$this->ctrl->redirectByClass("ilobjstylesheetgui", "create");
+	}
+		
+	function editStyle()
+	{
+		$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+	}
+
+	function deleteStyle()
+	{		
+		$this->ctrl->redirectByClass("ilobjstylesheetgui", "delete");
+	}
+
+	function saveStyleSettings()
+	{
+		global $ilSetting;
+	
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
+			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
+			|| $this->object->getStyleSheetId() == 0))
+		{
+			$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
+			$this->object->update();
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		}
+		$this->ctrl->redirect($this, "editStyleProperties");
 	}
 }
 

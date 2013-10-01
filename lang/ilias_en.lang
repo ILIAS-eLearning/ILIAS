@@ -13993,3 +13993,7 @@ mail#:#mail_filter_field_placeholder#:#Filter these messages ...
 mail#:#mail_filter_txt#:#Filter messages by
 blog#:#blog_properties#:#Blog Properties
 blog#:#blog_style#:#Blog Style
+prtf#:#prtf_properties#:#Portfolio Properties
+prtf#:#prtf_style#:#Portfolio Style
+prtt#:#prtt_properties#:#Portfolio Template Properties
+prtt#:#prtt_style#:#Portfolio Template Style

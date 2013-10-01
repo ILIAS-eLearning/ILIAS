@@ -11,7 +11,7 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  *
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI
+ * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI, ilObjStyleSheetGUI
  *
  * @ingroup ModulesPortfolio
  */
@@ -84,6 +84,33 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 				$exp_gui = new ilExportGUI($this); 
 				$exp_gui->addFormat("xml");
 				$this->ctrl->forwardCommand($exp_gui);
+				break;
+			
+			case "ilobjstylesheetgui":
+				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				$this->ctrl->setReturn($this, "editStyleProperties");
+				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui->omitLocator();
+				if ($cmd == "create" || $_GET["new_type"]=="sty")
+				{
+					$style_gui->setCreationMode(true);
+				}
+
+				if ($cmd == "confirmedDelete")
+				{
+					$this->object->setStyleSheetId(0);
+					$this->object->update();
+				}
+
+				$ret = $this->ctrl->forwardCommand($style_gui);
+
+				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
+				{
+					$style_id = $ret;
+					$this->object->setStyleSheetId($style_id);
+					$this->object->update();
+					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+				}
 				break;
 			
 			default:			
