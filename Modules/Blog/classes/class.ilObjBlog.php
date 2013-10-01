@@ -21,6 +21,7 @@ class ilObjBlog extends ilObject2
 	protected $ppic; // [string]
 	protected $rss; // [bool]
 	protected $approval; // [bool]
+	protected $style; // [bool]
 	
 	function initType()
 	{
@@ -41,6 +42,9 @@ class ilObjBlog extends ilObject2
 		$this->setImage($row["img"]);
 		$this->setRSS($row["rss_active"]);
 		$this->setApproval($row["approval"]);
+		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
 	}
 
 	protected function doCreate()
@@ -53,6 +57,14 @@ class ilObjBlog extends ilObject2
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(false, "integer").")");
+		
+		/*
+		if ($this->getStyleSheetId() > 0)
+		{
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
+		}		 
+		*/
 	}
 	
 	protected function doDelete()
@@ -87,6 +99,10 @@ class ilObjBlog extends ilObject2
 					",rss_active = ".$ilDB->quote($this->hasRSS(), "text").
 					",approval = ".$ilDB->quote($this->hasApproval(), "integer").
 					" WHERE id = ".$ilDB->quote($this->id, "integer"));
+			
+			
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
 		}
 	}
 
@@ -111,6 +127,17 @@ class ilObjBlog extends ilObject2
 		$new_obj->setRSS($this->hasRSS());
 		$new_obj->setApproval($this->hasApproval());
 		$new_obj->update();		
+		
+		// set/copy stylesheet
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$style_id = $this->getStyleSheetId();
+		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+		{
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
+			$new_id = $style_obj->ilClone();
+			$new_obj->setStyleSheetId($new_id);
+			$new_obj->update();
+		}
 	}
 	
 	/**
@@ -373,6 +400,26 @@ class ilObjBlog extends ilObject2
 	function setApproval($a_status)
 	{
 		$this->approval = (bool)$a_status;
+	}
+	
+	/**
+	 * Get style sheet id
+	 * 
+	 * @return bool
+	 */
+	function getStyleSheetId()
+	{
+		return (int)$this->style;
+	}
+
+	/**
+	 * Set style sheet id
+	 *
+	 * @param int $a_style
+	 */
+	function setStyleSheetId($a_style)
+	{
+		$this->style = (int)$a_style;
 	}
 	
 	static function sendNotification($a_action, $a_in_wsp, $a_blog_node_id, $a_posting_id, $a_comment = null)

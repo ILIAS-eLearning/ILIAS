@@ -15,7 +15,7 @@ require_once "./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjStyleSheetGUI
 *
 * @extends ilObject2GUI
 */
@@ -82,10 +82,26 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);		
 		$ilCtrl->redirect($this, "");
 	}
+	
+	protected function setSettingsSubTabs($a_active)
+	{
+		// general properties
+		$this->tabs_gui->addSubTab("properties",
+			$this->lng->txt("blog_properties"),
+				$this->ctrl->getLinkTarget($this, 'edit'));
+		
+		$this->tabs_gui->addSubTab("style",
+			$this->lng->txt("obj_sty"),
+			$this->ctrl->getLinkTarget($this, 'editStyleProperties'));
+		
+		$this->tabs_gui->activateSubTab($a_active);
+	}
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		global $lng, $ilSetting;
+		
+		$this->setSettingsSubTabs("properties");
 		
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{	
@@ -233,7 +249,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilTabs, $lng, $ilUser, $ilNavigationHistory;
+		global $ilCtrl, $tpl, $ilTabs, $lng, $ilNavigationHistory;
 
 		// goto link to blog posting
 		if($_GET["gtp"])
@@ -284,7 +300,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$this->mayContribute($_GET["blpg"]));
 				
 				// needed for editor			
-				$bpost_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "blog"));
+				$bpost_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+					$this->object->getStyleSheetId(), "blog"));				
 			
 				// keep preview mode through notes gui (has its own commands)
 				switch($cmd)
@@ -301,6 +318,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					
 					// edit
 					default:						
+						$this->setContentStyleSheet();	
+						
 						$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
 						$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
 							$this->ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
@@ -431,6 +450,33 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$exp_gui = new ilExportGUI($this); 
 				$exp_gui->addFormat("xml");
 				$ret = $ilCtrl->forwardCommand($exp_gui);
+				break;
+			
+			case "ilobjstylesheetgui":
+				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				$this->ctrl->setReturn($this, "editStyleProperties");
+				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui->omitLocator();
+				if ($cmd == "create" || $_GET["new_type"]=="sty")
+				{
+					$style_gui->setCreationMode(true);
+				}
+
+				if ($cmd == "confirmedDelete")
+				{
+					$this->object->setStyleSheetId(0);
+					$this->object->update();
+				}
+
+				$ret = $this->ctrl->forwardCommand($style_gui);
+
+				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
+				{
+					$style_id = $ret;
+					$this->object->setStyleSheetId($style_id);
+					$this->object->update();
+					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+				}
 				break;
 
 			default:				
@@ -622,6 +668,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$list = $this->renderList($list_items, $this->month, "preview", null, $is_owner);
 			$nav = $this->renderNavigation($this->items, "render", "preview", null, $is_owner);		
 		}
+		
+		$this->setContentStyleSheet();	
 					
 		$tpl->setContent($list);
 		$tpl->setRightContent($nav);
@@ -965,6 +1013,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$tpl->setTopBar($back);
 		
 		$this->renderFullscreenHeader($tpl, $owner);
+				
+		$this->setContentStyleSheet();		
 	
 		// content
 		$tpl->setContent($a_content);
@@ -1587,9 +1637,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		// init co page html exporter
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($export_dir);
+		$this->co_page_html_export->setContentStyleId($this->object->getStyleSheetId());
 		$this->co_page_html_export->createDirectories();
 		$this->co_page_html_export->exportStyles();
-		$this->co_page_html_export->exportSupportScripts();
+		$this->co_page_html_export->exportSupportScripts();	
 		
 		// banner / profile picture
 		$blga_set = new ilSetting("blga");
@@ -2283,6 +2334,135 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 				
 		$this->ctrl->redirect($this, "render");
+	}
+	
+	
+	////
+	//// Style related functions
+	////
+	
+	function setContentStyleSheet($a_tpl = null)
+	{
+		global $tpl;
+
+		if ($a_tpl != null)
+		{
+			$ctpl = $a_tpl;
+		}
+		else
+		{
+			$ctpl = $tpl;
+		}
+
+		$ctpl->setCurrentBlock("ContentStyle");
+		$ctpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		$ctpl->parseCurrentBlock();
+	}
+	
+	function editStyleProperties()
+	{		
+		$this->checkPermission("write");
+		
+		$this->tabs_gui->activateTab("settings");
+		$this->setSettingsSubTabs("style");
+		
+		$form = $this->initStylePropertiesForm();
+		$this->tpl->setContent($form->getHTML());				
+	}
+	
+	function initStylePropertiesForm()
+	{
+		global $ilSetting;
+						
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->lng->loadLanguageModule("style");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		
+		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		$style_id = $this->object->getStyleSheetId();
+
+		if ($fixed_style > 0)
+		{
+			$st = new ilNonEditableValueGUI($this->lng->txt("style_current_style"));
+			$st->setValue(ilObject::_lookupTitle($fixed_style)." (".
+				$this->lng->txt("global_fixed").")");
+			$form->addItem($st);
+		}
+		else
+		{
+			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
+				$_GET["ref_id"]);
+
+			$st_styles[0] = $this->lng->txt("default");
+			ksort($st_styles);
+
+			if ($style_id > 0)
+			{
+				// individual style
+				if (!ilObjStyleSheet::_lookupStandard($style_id))
+				{
+					$st = new ilNonEditableValueGUI($this->lng->txt("style_current_style"));
+					$st->setValue(ilObject::_lookupTitle($style_id));
+					$form->addItem($st);
+
+					// delete command
+					$form->addCommandButton("editStyle", $this->lng->txt("style_edit_style"));
+					$form->addCommandButton("deleteStyle", $this->lng->txt("style_delete_style"));
+				}
+			}
+
+			if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
+			{
+				$style_sel = new ilSelectInputGUI($this->lng->txt("style_current_style"), 
+					"style_id");
+				$style_sel->setOptions($st_styles);
+				$style_sel->setValue($style_id);
+				$form->addItem($style_sel);
+
+				$form->addCommandButton("saveStyleSettings", $this->lng->txt("save"));
+				$form->addCommandButton("createStyle", $this->lng->txt("sty_create_ind_style"));
+			}
+		}
+		
+		$form->setTitle($this->lng->txt("blog_style"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		return $form;
+	}
+
+	function createStyle()
+	{		
+		$this->ctrl->redirectByClass("ilobjstylesheetgui", "create");
+	}
+		
+	function editStyle()
+	{
+		$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+	}
+
+	function deleteStyle()
+	{		
+		$this->ctrl->redirectByClass("ilobjstylesheetgui", "delete");
+	}
+
+	function saveStyleSettings()
+	{
+		global $ilSetting;
+	
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
+			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
+			|| $this->object->getStyleSheetId() == 0))
+		{
+			$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
+			$this->object->update();
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		}
+		$this->ctrl->redirect($this, "editStyleProperties");
 	}
 	
 	/**

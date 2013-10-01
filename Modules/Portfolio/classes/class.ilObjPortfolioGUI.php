@@ -10,7 +10,7 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  * @version $Id$
  *
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI, ilObjStyleSheetGUI
  *
  * @ingroup ModulesPortfolio
  */
