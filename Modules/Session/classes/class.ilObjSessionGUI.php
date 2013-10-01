@@ -1155,7 +1155,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$list->addPreset('participated', $this->lng->txt('event_tbl_participated'), true);		
 		$list->addBlank($this->lng->txt('sess_signature'));
 		
-		$list->addMemberSubItem('registered', $this->lng->txt('event_list_registered_only'));
+		$list->addUserFilter('registered', $this->lng->txt('event_list_registered_only'));
 		
 		return $list;
 	}
@@ -1189,11 +1189,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 * @param array $a_filters
 	 * @return array 
 	 */
-	public function getAttendanceListUserData($a_user_id, $a_is_admin, $a_is_tutor, $a_is_member, $a_filters)
+	public function getAttendanceListUserData($a_user_id, $a_filters)
 	{			
 		$data = $this->event_part->getUser($a_user_id);	
 		
-		if($a_is_member && $a_filters && $a_filters["members"]["registered"] && !$data["registered"])
+		if($a_filters && $a_filters["registered"] && !$data["registered"])
 		{
 			return;
 		}

@@ -3653,8 +3653,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
 		
+		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
+		$waiting_list = new ilCourseWaitingList($this->object->getId());
+		
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$list = new ilAttendanceList($this, $members_obj);		
+		$list = new ilAttendanceList($this, $members_obj, $waiting_list);		
 		$list->setId('crsmemlst');
 	
 		$list->setTitle($this->lng->txt('crs_members_print_title'),
@@ -3698,9 +3701,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$list->initFromForm();
 		$list->setCallback(array($this, 'getAttendanceListUserData'));	
 		
-		$this->members_data = $this->fetchPrintMemberData($this->object->getMembersObject()->getParticipants());
+		$this->members_data = $this->fetchPrintMemberData($this->object->getMembersObject()->getParticipants());	
+		$list->getNonMemberUserData($this->members_data);
 		
-		echo $list->getFullscreenHTML();
+		$list->getFullscreenHTML();
 		exit();
 	
 		/* currently deactivated

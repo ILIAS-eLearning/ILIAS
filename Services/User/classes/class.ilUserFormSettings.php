@@ -223,6 +223,10 @@ class ilUserFormSettings
 						$value = $value->get(IL_CAL_DATETIME);
 					}
 				}
+				else if(method_exists($item, "getChecked"))
+				{		
+					$value = $item->getChecked();
+				}
 				else if(method_exists($item, "getMulti") && $item->getMulti())
 				{		
 					$value = $item->getMultiValues();
@@ -259,14 +263,13 @@ class ilUserFormSettings
 						$date = new ilDateTime($value, IL_CAL_DATETIME);
 						$item->setDate($date);
 					}
+					else if(method_exists($item, "setChecked"))
+					{						
+						$item->setChecked((bool)$value);
+					}
 					else if(method_exists($item, "setValue"))
 					{
-						$item->setValue($value);
-
-						if(method_exists($item, "setChecked"))
-						{
-							$item->setChecked(true);
-						}
+						$item->setValue($value);					
 					}									
 				}
 			}

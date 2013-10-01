@@ -3186,8 +3186,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		$members_obj = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
 		
+		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+		$waiting_list = new ilGroupWaitingList($this->object->getId());
+		
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$list = new ilAttendanceList($this, $members_obj);		
+		$list = new ilAttendanceList($this, $members_obj, $waiting_list);		
 		$list->setId('grpmemlst');
 				
 		$list->setTitle($this->lng->txt('grp_members_print_title'),
@@ -3235,6 +3238,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
 		$this->members_data = $this->readMemberData($part->getParticipants());
+		$list->getNonMemberUserData($this->members_data);
 		
 		echo $list->getFullscreenHTML();
 		exit();	
