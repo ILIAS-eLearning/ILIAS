@@ -504,7 +504,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$userCriteria->setValue(($isSingleline) ? 0 : 1);
 
 			$manager = $ilDB->db->loadModule('Manager');
-			$fields = $manager->listTableFields('usr_data');
+			//$fields = $manager->listTableFields('usr_data'); 
+			array('usr_id', 'login', 'email', 'matriculation', 'ext_account');
 			$usr_fields = array();
 			foreach ($fields as $field)
 			{
