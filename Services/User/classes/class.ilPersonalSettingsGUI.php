@@ -586,9 +586,10 @@ class ilPersonalSettingsGUI
 	//
 
 	/**
-	* Password form.
-	*/
-	function showPassword($a_no_init = false)
+	 * @param bool $a_no_init
+	 * @param bool $hide_form
+	 */
+	function showPassword($a_no_init = false, $hide_form = false)
 	{
 		global $ilTabs, $ilUser;
 		
@@ -611,11 +612,11 @@ class ilPersonalSettingsGUI
 			ilUtil::sendInfo(sprintf($msg, $password_age));
 		}
 
-		if (!$a_no_init)
+		if (!$a_no_init && !$hide_form)
 		{
 			$this->initPasswordForm();
 		}
-		$this->tpl->setContent($this->form->getHTML());
+		$this->tpl->setContent(!$hide_form ? $this->form->getHTML() : '');
 		$this->tpl->show();
 	}
 
@@ -814,17 +815,18 @@ class ilPersonalSettingsGUI
 					$ilUser->setLastPasswordChangeToNow();
 				}
 
-				ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-
 				if(ilSession::get('orig_request_target'))
 				{
+					ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 					$target = ilSession::get('orig_request_target');
 					ilSession::set('orig_request_target', '');
 					ilUtil::redirect($target);
 				}
 				else
 				{
-					$ilCtrl->redirect($this, "showPassword");
+					ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+					$this->showPassword(true, true);
+					return;
 				}
 			}
 		}
