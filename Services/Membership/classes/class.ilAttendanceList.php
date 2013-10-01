@@ -14,35 +14,71 @@ class ilAttendanceList
 {
 	protected $parent_obj; // [object]
 	protected $participants; // [object]
+	protected $waiting_list; // [object]
 	protected $callback; // [string|array]
 	protected $presets; // [array]	
-	protected $show_admins; // [bool]
-	protected $show_tutors; // [bool]
-	protected $show_members; // [bool]
+	protected $role_data; // [array]
+	protected $roles; // [array]
+	protected $has_local_role; // [bool]
 	protected $blank_columns; // [array]
 	protected $title; // [string]
 	protected $description; // [string]
 	protected $pre_blanks; // [array]
 	protected $id; // [string]
-	protected $members_sub; // [array]
+	protected $include_waiting_list; // [bool]
+	protected $include_subscribers;  // [bool]		
+	protected $user_filters; // [array]
 		
 	/**
 	 * Constructor
 	 * 
 	 * @param object $a_parent_obj
-	 * @param object $a_participants_object
+	 * @param ilParticipants $a_participants_object
+	 * @param ilWaitingList $a_waiting_list
 	 */
-	function __construct($a_parent_obj, $a_participants_object = null)
+	function __construct($a_parent_obj, ilParticipants $a_participants_object = null, ilWaitingList $a_waiting_list = null)
 	{	
 		global $lng;
 		
 		$this->parent_obj = $a_parent_obj;
 		$this->participants = $a_participants_object;
+		$this->waiting_list = $a_waiting_list;
 		
 		// always available
 		$this->presets['name'] = array($lng->txt('name'), true);
 		$this->presets['login'] = array($lng->txt('login'), true);
-		$this->presets['email'] = array($lng->txt('email'));		
+		$this->presets['email'] = array($lng->txt('email'));	
+		
+		$lng->loadLanguageModule('crs');
+		
+		// roles
+		$roles = $this->participants->getRoles();
+		foreach($roles as $role_id)
+		{
+			$title = ilObject::_lookupTitle($role_id);
+			switch(substr($title, 0, 8))
+			{
+				case 'il_crs_a':
+				case 'il_grp_a':					
+					$this->addRole($role_id, $lng->txt('event_tbl_admins'), 'admin');					
+					break;
+				
+				case 'il_crs_t':					
+					$this->addRole($role_id, $lng->txt('event_tbl_tutors'), 'tutor');					
+					break;
+				
+				case 'il_crs_m':
+				case 'il_grp_m':
+					$this->addRole($role_id, $lng->txt('event_tbl_members'), 'member');
+					break;
+				
+				// local
+				default:
+					$this->has_local_role = true;
+					$this->addRole($role_id, $title, 'local');
+					break;
+			}			
+		}			
 	}
 	
 	/**
@@ -80,38 +116,81 @@ class ilAttendanceList
 	}
 	
 	/**
-	 * Include admins 
+	 * Add role
 	 * 
-	 * @param bool $a_value 
+	 * @param int $a_id
+	 * @param string $a_caption
+	 * @param string $a_type
 	 */
-	function showAdmins($a_value = true)
+	protected function addRole($a_id, $a_caption, $a_type)
 	{
-		$this->show_admins = (bool)$a_value;
+		$this->role_data[$a_id] = array($a_caption, $a_type);
 	}
 	
 	/**
-	 * Include tutors 
+	 * Set role selection
 	 * 
-	 * @param bool $a_value 
+	 * @param array $a_role_ids
 	 */
-	function showTutors($a_value = true)
+	protected function setRoleSelection($a_role_ids)
 	{
-		$this->show_tutors = (bool)$a_value;
+		$this->roles = $a_role_ids;
 	}
+	
+	/**
+	 * Add user filter 
+	 * 
+	 * @param int $a_id
+	 * @param string $a_caption
+	 * @param bool $a_checked
+	 */
+	function addUserFilter($a_id, $a_caption, $a_checked = false)
+	{
+		$this->user_filters[$a_id] = array($a_caption, $a_checked);
+	}
+	
+	/**
+	 * Get user data for subscribers and waiting list
+	 * 
+	 * @param array &$a_res
+	 */
+	function getNonMemberUserData(array &$a_res)
+	{
+		global $lng;
+		
+		$subscriber_ids = $this->participants->getSubscribers();
+		
+		$user_ids = $subscriber_ids;		
+		
+		if($this->waiting_list)
+		{
+			$user_ids = array_merge($user_ids, $this->waiting_list->getUserIds());
+		}
+		
+		if(sizeof($user_ids))
+		{
+			foreach(array_unique($user_ids) as $user_id)
+			{					
+				if(!isset($a_res[$user_id]))
+				{
+					if($tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false))
+					{
+						$a_res[$user_id]['login'] = $tmp_obj->getLogin();
+						$a_res[$user_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();		
+						$a_res[$user_id]['email'] = $tmp_obj->getEmail();		
 
-	/**
-	 * Include members 
-	 * 
-	 * @param bool $a_value 
-	 */
-	function showMembers($a_value = true)
-	{
-		$this->show_members = (bool)$a_value;
-	}
-	
-	function addMemberSubItem($a_id, $a_caption, $a_checked = false)
-	{
-		$this->members_sub[$a_id] = array($a_caption, $a_checked);
+						if(in_array($user_id, $subscriber_ids))
+						{
+							$a_res[$user_id]['status'] = $lng->txt('group_new_registrations'); 
+						}
+						else
+						{
+							$a_res[$user_id]['status'] = $lng->txt('crs_waiting_list'); 
+						}
+					}			
+				}
+			}
+		}
 	}
 	
 	/**
@@ -214,35 +293,37 @@ class ilAttendanceList
 		$part->setTitle($lng->txt('event_participant_selection'));
 		$form->addItem($part);
 		
-		// Admins
-		$admin = new ilCheckboxInputGUI($lng->txt('event_tbl_admins'),'show_admins');
-		$admin->setOptionTitle($lng->txt('event_inc_admins'));
-		$admin->setValue(1);
-		$form->addItem($admin);
-		
-		// Tutors
-		$tutor = new ilCheckboxInputGUI($lng->txt('event_tbl_tutors'),'show_tutors');
-		$tutor->setOptionTitle($lng->txt('event_inc_tutors'));
-		$tutor->setValue(1);
-		$form->addItem($tutor);
-
-		// Members
-		$member = new ilCheckboxInputGUI($lng->txt('event_tbl_members'),'show_members');
-		$member->setOptionTitle($lng->txt('event_inc_members'));
-		$member->setValue(1);
-		$member->setChecked(true);
-		$form->addItem($member);
-		
-		if($this->members_sub)
+		// participants by roles
+		foreach($this->role_data as $role_id => $role_data)
 		{
-			foreach($this->members_sub as $sub_id => $sub_item)
+			$chk = new ilCheckboxInputGUI($role_data[0], 'role_'.$role_id);			
+			$chk->setValue(1);
+			$chk->setChecked(1);
+			$form->addItem($chk);
+		}
+				
+		// not in sessions
+		if($this->waiting_list)
+		{
+			$chk = new ilCheckboxInputGUI($lng->txt('group_new_registrations'), 'subscr');			
+			$chk->setValue(1);		
+			$form->addItem($chk);		
+
+			$chk = new ilCheckboxInputGUI($lng->txt('crs_waiting_list'), 'wlist');			
+			$chk->setValue(1);
+			$form->addItem($chk);
+		}
+			
+		if($this->user_filters)
+		{
+			foreach($this->user_filters as $sub_id => $sub_item)
 			{
 				$sub = new ilCheckboxInputGUI($sub_item[0], 'members_'.$sub_id);
 				if($sub_item[1])
 				{
 					$sub->setChecked(true);
 				}
-				$member->addSubItem($sub);
+				$form->addItem($sub);
 			}
 		}
 		
@@ -284,19 +365,33 @@ class ilAttendanceList
 			}
 			
 			$this->setTitle($form->getInput('title'), $form->getInput('desc'));
-			$this->setBlankColumns($form->getInput('blank'));
-			$this->showAdmins($form->getInput('show_admins'));
-			$this->showTutors($form->getInput('show_tutors'));
-			$this->showMembers($form->getInput('show_members'));	
+			$this->setBlankColumns($form->getInput('blank'));	
 			
-			if($this->show_members && $this->members_sub)
+			$roles = array();
+			foreach(array_keys($this->role_data) as $role_id)
 			{
-				foreach(array_keys($this->members_sub) as $msub_id)
+				if($form->getInput('role_'.$role_id))
 				{
-					$this->members_sub[$msub_id][2] = $form->getInput("members_".$msub_id);
-				}			
+					$roles[] = $role_id;
+				}
 			}
-									
+			$this->setRoleSelection($roles);
+			
+			// not in sessions
+			if($this->waiting_list)
+			{
+				$this->include_subscribers = (bool)$form->getInput('subscr');			
+				$this->include_waiting_list = (bool)$form->getInput('wlist');
+			}
+			
+			if($this->user_filters)
+			{
+				foreach(array_keys($this->user_filters) as $msub_id)
+				{
+					$this->user_filters[$msub_id][2] = $form->getInput("members_".$msub_id);
+				}			
+			}				
+			
 			if($this->id)
 			{
 				$form->setValuesByPost();
@@ -379,42 +474,82 @@ class ilAttendanceList
 
 		
 		// handle members
+	
+		$valid_user_ids = $filters = array();
 		
-		$member_ids = $filters = $all_admin_ids = $all_tutor_ids = $all_member_ids = array();
-		if($this->show_admins)
-		{
-			$all_admin_ids = $this->participants->getAdmins();
-			$member_ids = array_merge((array)$member_ids, $all_admin_ids);
-		}
-		if($this->show_tutors)
-		{
-			$all_tutor_ids = $this->participants->getTutors();
-			$member_ids = array_merge((array)$member_ids, $all_tutor_ids);
-		}
-		if($this->show_members)
-		{
-			$all_member_ids = $this->participants->getMembers();
-			$member_ids = array_merge((array)$member_ids, $all_member_ids);	
-			
-			foreach($this->members_sub as $sub_id => $sub_item)
-			{
-				$filters["members"][$sub_id] = (bool)$sub_item[2];
+		if($this->roles)
+		{			
+			if($this->has_local_role)
+			{				
+				$members = array();
+				foreach($this->participants->getMembers() as $member_id)
+				{
+					foreach($this->participants->getAssignedRoles($member_id) as $role_id)
+					{
+						$members[$role_id][] = $member_id;
+					}				
+				}							
 			}
-		}				
-		$member_ids = ilUtil::_sortIds((array) $member_ids,'usr_data','lastname','usr_id');						
+			else
+			{
+				$members = $this->participants->getMembers();
+			}
+		
+			foreach($this->roles as $role_id)
+			{
+				switch($this->role_data[$role_id][1])
+				{
+					case "admin":
+						$valid_user_ids = array_merge($valid_user_ids, $this->participants->getAdmins());
+						break;
+					
+					case "tutor":
+						$valid_user_ids = array_merge($valid_user_ids, $this->participants->getTutors());
+						break;
+					
+					// member/local
+					default:
+						if(!$this->has_local_role)
+						{	
+							$valid_user_ids = array_merge($valid_user_ids, (array)$members);
+						}
+						else
+						{
+							$valid_user_ids = array_merge($valid_user_ids, (array)$members[$role_id]);
+						}
+						break;
+				}								
+			}							
+		}
+		
+		if($this->include_subscribers)
+		{
+			$valid_user_ids = array_merge($valid_user_ids, $this->participants->getSubscribers()); 			
+		}
+		
+		if($this->include_waiting_list)
+		{
+			$valid_user_ids = array_merge($valid_user_ids, $this->waiting_list->getUserIds()); 			
+		}
+			
+		if($this->user_filters)
+		{
+			foreach($this->user_filters as $sub_id => $sub_item)
+			{
+				$filters[$sub_id] = (bool)$sub_item[2];
+			}
+		}
+
+		$valid_user_ids = ilUtil::_sortIds(array_unique($valid_user_ids),'usr_data','lastname','usr_id');						
 		
 		
 		// rows 
 		
-		foreach($member_ids as $user_id)
+		foreach($valid_user_ids as $user_id)
 		{
 			if($this->callback)
 			{
-				$user_data = call_user_func_array($this->callback, array($user_id, 
-					in_array($user_id, $all_admin_ids),
-					in_array($user_id, $all_tutor_ids),
-					in_array($user_id, $all_member_ids),
-					$filters));	
+				$user_data = call_user_func_array($this->callback, array($user_id, $filters));	
 				if(!$user_data)
 				{
 					continue;
