@@ -58,18 +58,18 @@ class ilObjBibliographicAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * checks wether a user may invoke a command or not
-     * (this method is called by ilAccessHandler::checkAccess)
-     *
-     * @param	string		$a_cmd		command (not permission!)
-     * @param	string		$a_permission	permission
-     * @param	int			$a_ref_id	reference id
-     * @param	int			$a_obj_id	object id
-     * @param	int			$a_user_id	user id (if not provided, current user is taken)
-     *
-     * @return	boolean		true, if everything is ok
-     */
+	/**
+	 * checks wether a user may invoke a command or not
+	 * (this method is called by ilAccessHandler::checkAccess)
+	 *
+	 * @param    string $a_cmd        command (not permission!)
+	 * @param    string $a_permission    permission
+	 * @param    int $a_ref_id    reference id
+	 * @param    int $a_obj_id    object id
+	 * @param int|string $a_user_id user id (if not provided, current user is taken)
+	 *
+	 * @return    boolean        true, if everything is ok
+	 */
     public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
     {
         global $ilUser, $lng, $rbacsystem, $ilAccess;

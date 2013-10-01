@@ -53,13 +53,13 @@ class ilObjBibliographic extends ilObject2
         $this->type = "bibl";
     }
 
-    /**
-     * If bibliographic object exists, read it's data from database, otherwise create it
-     *
-     * @param bool $existant_bibl_id is not set when object is getting created
-     * @return void
-     */
-    public function __construct($existant_bibl_id = false)
+	/**
+	 * If bibliographic object exists, read it's data from database, otherwise create it
+	 *
+	 * @param $existant_bibl_id int is not set when object is getting created
+	 * @return \ilObjBibliographic
+	 */
+    public function __construct($existant_bibl_id = 0)
     {
         if($existant_bibl_id){
             $this->setId($existant_bibl_id);
@@ -144,22 +144,38 @@ class ilObjBibliographic extends ilObject2
             //il_bibl_data
             $ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
         }
+
+	    // delete history entries
+	    require_once("./Services/History/classes/class.ilHistory.php");
+	    ilHistory::_removeEntriesForObject($this->getId());
     }
+
+	/**
+	 * @return string the folder is: $ILIAS-data-folder/bibl/$id
+	 */
+	public function getFileDirectory(){
+		return ilUtil::getDataDir() . DIRECTORY_SEPARATOR . $this->getType() . DIRECTORY_SEPARATOR . $this->getId();
+	}
 
     public function moveFile($file_to_copy = false){
 
-        $target_dir = ilUtil::getDataDir() . DIRECTORY_SEPARATOR . $this->getType() . DIRECTORY_SEPARATOR . $this->getId();
+        $target_dir = $this->getFileDirectory();
 
         if(!is_dir($target_dir)){
                 ilUtil::makeDir($target_dir);
-            }
+        }
+
         if($_FILES['bibliographic_file']['name']){
-            $target_full_filename = $target_dir . DIRECTORY_SEPARATOR . $_FILES['bibliographic_file']['name'];
-        }else{
+            $filename = $_FILES['bibliographic_file']['name'];
+        }elseif($file_to_copy){
             //file is not uploaded, but a clone is made out of another bibl
             $split_path = explode(DIRECTORY_SEPARATOR, $file_to_copy);
-            $target_full_filename = $target_dir . DIRECTORY_SEPARATOR . $split_path[sizeof($split_path)-1];
+	        $filename = $split_path[sizeof($split_path)-1];
+        }else{
+	        throw new Exception("Either a file must be delivered via \$_POST/\$_FILE or the file must be delivered via the method argument file_to_copy");
         }
+
+		$target_full_filename = $target_dir . DIRECTORY_SEPARATOR . $filename;
 
         //If there is no file_to_copy (which is used for clones), copy the file from the temporary upload directory (new creation of object).
         //Therefore, a warning predicates nothing and can be suppressed.
@@ -167,17 +183,14 @@ class ilObjBibliographic extends ilObject2
             ilUtil::moveUploadedFile($_FILES['bibliographic_file']['tmp_name'], $_FILES['bibliographic_file']['name'], $target_full_filename);
         }
 
-        $this->setFilename($target_full_filename);
-
+        $this->setFilename($filename);
         ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-
     }
 
 
     function  deleteFile(){
         $path = $this->getFilePath(true);
-
-  	self::__force_rmdir($path);
+		self::__force_rmdir($path);
       }
 
     /**
@@ -202,8 +215,6 @@ class ilObjBibliographic extends ilObject2
         }
     }
 
-
-
     public function setFilename($filename)
     {
         $this->filename = $filename;
@@ -213,6 +224,13 @@ class ilObjBibliographic extends ilObject2
     {
         return $this->filename;
     }
+
+	/**
+	 * @return string returns the absolute filepath of the bib/ris file. it's build as follows: $ILIAS-data-folder/bibl/$id/$filename
+	 */
+	public function getFileAbsolutePath(){
+		return $this->getFileDirectory().DIRECTORY_SEPARATOR.$this->getFilename();
+	}
 
 
     public function getFiletype()
@@ -436,15 +454,15 @@ class ilObjBibliographic extends ilObject2
     }
 
 
-
-    /**
-     * Clone DCL
-     *
-     * @param ilObjDataCollection new object
-     * @param int target ref_id
-     * @param int copy id
-     * @return ilObjPoll
-     */
+	/**
+	 * Clone DCL
+	 *
+	 * @param ilObjBibliographic $new_obj
+	 * @param $a_target_id
+	 * @param int $a_copy_id copy id
+	 * @internal param \new $ilObjDataCollection object
+	 * @return ilObjPoll
+	 */
     public function doCloneObject(ilObjBibliographic $new_obj, $a_target_id, $a_copy_id = 0)
     {
         $new_obj->cloneStructure($this->getId());
@@ -453,16 +471,16 @@ class ilObjBibliographic extends ilObject2
     }
 
 
-    /**
-     * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
-     * @/** @varparam $original_id The original ID of the dataselection you want to clone it's structure
-     * @return void
-     */
+	/**
+	 * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
+	 * @param $original_id The original ID of the dataselection you want to clone it's structure
+	 * @return void
+	 */
     public function cloneStructure($original_id)
     {
         $original = new ilObjBibliographic($original_id);
 
-        $this->moveFile($original->getFilename());
+        $this->moveFile($original->getFileAbsolutePath());
 
         $this->setOnline($original->getOnline());
         $this->setDescription($original->getDescription());
@@ -494,10 +512,10 @@ class ilObjBibliographic extends ilObject2
         //Read File
         switch($this->getFiletype()){
             case("ris"):
-                $entries_from_file = self::__readRisFile($this->getFilename());
+                $entries_from_file = self::__readRisFile($this->getFileAbsolutePath());
                 break;
             case("bib"):
-                $entries_from_file = self::__readBibFile($this->getFilename());
+                $entries_from_file = self::__readBibFile($this->getFileAbsolutePath());
                 break;
         }
 
