@@ -181,7 +181,7 @@ class ilAttendanceList
 
 						if(in_array($user_id, $subscriber_ids))
 						{
-							$a_res[$user_id]['status'] = $lng->txt('group_new_registrations'); 
+							$a_res[$user_id]['status'] = $lng->txt('crs_subscriber'); 
 						}
 						else
 						{
