@@ -227,7 +227,9 @@ class ilObject
 			$log->write($message);
 				
 			// raise error
-			$this->ilias->raiseError("ilObject::read(): Type mismatch. (".$this->type."/".$this->id.")",$this->ilias->error_obj->WARNING);
+			include_once("./Services/Object/exceptions/class.ilObjectTypeMismatchException.php");
+			throw new ilObjectTypeMismatchException($message);
+			return;
 		}
 		
 		$this->type = $obj["type"];
