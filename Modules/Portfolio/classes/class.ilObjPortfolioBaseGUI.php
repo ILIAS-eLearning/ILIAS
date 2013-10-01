@@ -624,7 +624,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$page_gui = $this->getPageGUIInstance($current_page);
 			$page_gui->setEmbedded(true);
 
-			$content = $this->ctrl->getHTML($page_gui);
+			$content = $this->ctrl->getHTML($page_gui);			
 		}
 		else
 		{
@@ -635,7 +635,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		{
 			return $content;
 		}
-		
+						
 		// blog posting comments are handled within the blog
 		$notes = "";
 		if($a_show_notes && $this->object->hasPublicComments() && !$current_blog)
@@ -677,10 +677,18 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		}
 		
 		self::renderFullscreenHeader($this->object, $this->tpl, $user_id);
-		
+						
 		// wiki/forum will set locator items
 		$this->tpl->setVariable("LOCATOR", "");
 		
+		if(!$current_blog)
+		{
+			$content = '<div id="ilCOPageContent" class="ilc_page_cont_PageContainer">'.
+				'<div class="ilc_page_Page">'.
+					$content.
+				'</div></div>';
+		}				
+	
 		// #10717
 		$this->tpl->setContent($content.
 			'<div class="ilClearFloat">'.$notes.$plink.'</div>');			
