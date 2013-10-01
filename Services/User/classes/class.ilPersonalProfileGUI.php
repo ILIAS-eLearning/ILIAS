@@ -1051,7 +1051,7 @@ class ilPersonalProfileGUI
 		{
 			// Activate public profile
 			$radg = new ilRadioGroupInputGUI($lng->txt("user_activate_public_profile"), "public_profile");
-			$radg->setInfo($this->lng->txt("user_activate_public_profile_info"));
+			$info = $this->lng->txt("user_activate_public_profile_info");
 			$pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
 				? $ilUser->prefs["public_profile"]
 				: "n";
@@ -1071,11 +1071,17 @@ class ilPersonalProfileGUI
 			}
 			$this->form->addItem($radg);
 			
-			// #10826
-			$prtf = $lng->txt("user_profile_portfolio");
-			$prtf .= "<br /><a href=\"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio\">&raquo; ".
-				$lng->txt("user_portfolios")."</a>";			
-			$radg->setInfo($prtf);
+			// #11773
+			if ($ilSetting->get('user_portfolios'))
+			{
+				// #10826
+				$prtf = "<br />".$lng->txt("user_profile_portfolio");
+				$prtf .= "<br /><a href=\"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio\">&raquo; ".
+					$lng->txt("user_portfolios")."</a>";			
+				$info .= $prtf;
+			}
+			
+			$radg->setInfo($info);
 		}
 		else
 		{
