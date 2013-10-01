@@ -681,20 +681,21 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		// wiki/forum will set locator items
 		$this->tpl->setVariable("LOCATOR", "");
 		
+		// blog pages do their own (page) style handling
 		if(!$current_blog)
 		{
 			$content = '<div id="ilCOPageContent" class="ilc_page_cont_PageContainer">'.
 				'<div class="ilc_page_Page">'.
 					$content.
 				'</div></div>';
+										
+			$this->setContentStyleSheet($this->tpl);				
 		}				
 	
 		// #10717
 		$this->tpl->setContent($content.
 			'<div class="ilClearFloat">'.$notes.$plink.'</div>');			
 		$this->tpl->setFrameFixedWidth(true);
-						
-		$this->setContentStyleSheet($this->tpl);		
 		
 		echo $this->tpl->show("DEFAULT", true, true);
 		exit();
