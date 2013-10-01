@@ -60,12 +60,27 @@ public class Main {
 					}
 				}
 			}
-
-			InputStream in = connection.getInputStream();
-			int letter;
-			while (-1 != (letter = in.read())) {
-				//System.out.print((char) letter);
+			
+			InputStream in = null;
+			try {
+				in = connection.getInputStream();
+				int letter;
+				while (-1 != (letter = in.read())) {
+					//System.out.print((char) letter);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException logOrIgnore) {
+						logOrIgnore.printStackTrace();
+					}
+				}
 			}
+			
+			Logger.getLogger("default").info("[" + instance.getIliasClient() + "]  Sent serverStarted command");
 		}
 	}
 
