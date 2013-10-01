@@ -219,6 +219,7 @@ class ilPageLayout
 	 */
 	public function getXMLContent()
 	{
+		include_once "Services/Style/classes/class.ilPageLayoutPage.php";
 		$layout_page = new ilPageLayoutPage($this->layout_id);
 		return $layout_page->getXMLContent();
 	}
