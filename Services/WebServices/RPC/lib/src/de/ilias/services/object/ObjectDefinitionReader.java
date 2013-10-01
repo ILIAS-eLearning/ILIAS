@@ -112,13 +112,13 @@ public class ObjectDefinitionReader {
 		
 		// Traverse through Modules
 		File start = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Modules");
-		logger.info("Start path is : " + start.getAbsoluteFile());
+		logger.debug("Start path is : " + start.getAbsoluteFile());
 		traverse(start);
 
-		// Traverse through Services
-		File service = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Services");
-		logger.info("Start path is : " + service.getAbsoluteFile());
-		traverse(service);
+		// Traverse through Modules
+		File services = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Services");
+		logger.debug("Start path is : " + start.getAbsoluteFile());
+		traverse(services);
 
 		// Traverse through Plugins
 		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.pluginPath);
