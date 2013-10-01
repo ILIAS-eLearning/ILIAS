@@ -166,7 +166,6 @@ public class RPCSearchHandler {
 		}
 		return "";
 	}
-<<<<<<< .working
 	
 	
 	/**
@@ -260,9 +259,6 @@ public class RPCSearchHandler {
 		return "";
 	}
 
-=======
-	
->>>>>>> .merge-rechts.r39287
 	/**
 	 * 
 	 * @param clientKey
