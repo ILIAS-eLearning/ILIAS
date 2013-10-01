@@ -147,4 +147,7 @@
 			<Field store="YES" index="ANALYZED" column="matriculation" type="text" name="uPropertyHigh" />
 		</DataSource>
 	</Document>
+	<Document type="subItem">
+		<xi:include href="../../Services/Mail/LuceneDataSource.xml" />
+	</Document>
 </ObjectDefinition>
