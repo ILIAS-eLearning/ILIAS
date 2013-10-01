@@ -1978,30 +1978,30 @@ if (!$a_wysiwyg)
 						$lang = $md_key->getKeywordLanguageCode();
 					}
 				}
-			}
-			if ($lang == "")
-			{
-				foreach($ids = $md_section->getLanguageIds() as $id)
+				if ($lang == "")
 				{
-					$md_lang = $md_section->getLanguage($id);
-					if ($lang == "")
+					foreach($ids = $md_section->getLanguageIds() as $id)
 					{
-						$lang = $md_lang->getLanguageCode();
+						$md_lang = $md_section->getLanguage($id);
+						if ($lang == "")
+						{
+							$lang = $md_lang->getLanguageCode();
+						}
 					}
 				}
-			}
-			foreach ($keywords as $k)
-			{
-				if (!in_array(strtolower($k), $mkeywords))
+				foreach ($keywords as $k)
 				{
-					if (trim($k) != "" && $lang != "")
+					if (!in_array(strtolower($k), $mkeywords))
 					{
-						$md_key = $md_section->addKeyword();
-						$md_key->setKeyword(ilUtil::stripSlashes($k));
-						$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
-						$md_key->save();
+						if (trim($k) != "" && $lang != "")
+						{
+							$md_key = $md_section->addKeyword();
+							$md_key->setKeyword(ilUtil::stripSlashes($k));
+							$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
+							$md_key->save();
+						}
+						$mkeywords[] = strtolower($k);
 					}
-					$mkeywords[] = strtolower($k);
 				}
 			}
 		}

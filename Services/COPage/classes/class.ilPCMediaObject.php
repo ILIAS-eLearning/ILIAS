@@ -367,7 +367,7 @@ class ilPCMediaObject extends ilPageContent
 		{
 			$id_arr = explode("_", $node->getAttribute("OriginId"));
 			$mob_id = $id_arr[count($id_arr) - 1];
-			if ($mob_id > 0)
+			if ($mob_id > 0 && $id_arr[1] == "")
 			{
 				$usages[$mob_id] = true;
 			}
@@ -381,7 +381,7 @@ class ilPCMediaObject extends ilPageContent
 			$mob_entry = $node->getAttribute("Entry");
 			$mob_arr = explode("_", $mob_entry);
 			$mob_id = $mob_arr[count($mob_arr) - 1];
-			if ($mob_id > 0)
+			if ($mob_id > 0 && $mob_arr[1] == "")
 			{
 				$usages[$mob_id] = true;
 			}
@@ -394,8 +394,11 @@ class ilPCMediaObject extends ilPageContent
 		{
 			$mob_target = $node->getAttribute("Target");
 			$mob_arr = explode("_", $mob_target);
+//echo "<br>3<br>";
+//echo $mob_target."<br>";
+//var_dump($mob_arr);
 			$mob_id = $mob_arr[count($mob_arr) - 1];
-			if ($mob_id > 0)
+			if ($mob_id > 0 && $mob_arr[1] == "")
 			{
 				$usages[$mob_id] = true;
 			}

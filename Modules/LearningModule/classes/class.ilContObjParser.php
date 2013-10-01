@@ -90,7 +90,7 @@ class ilContObjParser extends ilMDSaxParser
 		$this->cnt = array();
 		$this->current_element = array();
 		$this->structure_objects = array();
-		$this->content_object =& $a_content_object;
+		$this->content_object = $a_content_object;
 		//$this->lm_id = $a_lm_id;
 		$this->st_into_tree = array();
 		$this->pg_into_tree = array();
@@ -101,8 +101,8 @@ class ilContObjParser extends ilMDSaxParser
 		$this->pg_mapping = array();
 		$this->link_targets = array();
 		$this->subdir = $a_subdir;
-		$this->lng =& $lng;
-		$this->tree =& $tree;
+		$this->lng = $lng;
+		$this->tree = $tree;
 		$this->inside_code = false;
 		$this->qst_mapping = array();
 		$this->coType = $this->content_object->getType();
@@ -147,6 +147,7 @@ class ilContObjParser extends ilMDSaxParser
 		$this->copyMobFiles();
 //echo "<b>copyFileItems</b><br>";
 		$this->copyFileItems();
+//echo "<br>END Parsing"; exit;
 	}
 
 	
@@ -163,6 +164,8 @@ class ilContObjParser extends ilMDSaxParser
 //echo "insert st id: ".$st["id"].", parent:".$st["parent"]."<br>";
 			$this->lm_tree->insertNode($st["id"], $st["parent"]);
 //echo "done<br>";
+//var_dump($this->pg_into_tree[$st["id"]]);
+//echo "<br>";
 			if (is_array($this->pg_into_tree[$st["id"]]))
 			{
 				foreach($this->pg_into_tree[$st["id"]] as $pg)
@@ -193,6 +196,7 @@ class ilContObjParser extends ilMDSaxParser
 			}
 		}
 //echo "<b>END: storing the tree</b>";
+//exit;
 	}
 
 
@@ -246,7 +250,7 @@ class ilContObjParser extends ilMDSaxParser
 
 			if ($page_arr[0] == "gdf")
 			{
-				$def =& new ilGlossaryDefinition($page_arr[1]);
+				$def = new ilGlossaryDefinition($page_arr[1]);
 				$def->updateShortText();
 			}
 
@@ -491,19 +495,19 @@ class ilContObjParser extends ilMDSaxParser
 		switch($a_name)
 		{
 			case "ContentObject":
-				$this->current_object =& $this->content_object;
+				$this->current_object = $this->content_object;
 //echo "<br>Parser:CObjType:".$a_attribs["Type"];
 				if ($a_attribs["Type"] == "Glossary")
 				{
-					$this->glossary_object =& $this->content_object;
+					$this->glossary_object = $this->content_object;
 				}
 				break;
 
 			case "StructureObject":
 //echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				$this->structure_objects[count($this->structure_objects)]
-					=& new ilStructureObject($this->content_object);
-				$this->current_object =& $this->structure_objects[count($this->structure_objects) - 1];
+					= new ilStructureObject($this->content_object);
+				$this->current_object = $this->structure_objects[count($this->structure_objects) - 1];
 				$this->current_object->setLMId($this->content_object->getId());
 				// new meta data handling: we create the structure
 				// object already here, this should also create a
@@ -542,7 +546,7 @@ class ilContObjParser extends ilMDSaxParser
 				$this->in_media_object = true;
 				$this->media_meta_start = true;
 				$this->media_meta_cache = array();
-				$this->media_object =& new ilObjMediaObject();
+				$this->media_object = new ilObjMediaObject();
 				break;
 
 			case "MediaAlias":
@@ -558,7 +562,7 @@ class ilContObjParser extends ilMDSaxParser
 			case "MediaItem":
 			case "MediaAliasItem":
 				$this->in_media_item = true;
-				$this->media_item =& new ilMediaItem();
+				$this->media_item = new ilMediaItem();
 				$this->media_item->setPurpose($a_attribs["Purpose"]);
 				/*if ($a_name == "MediaItem")
 				{
@@ -585,7 +589,7 @@ class ilContObjParser extends ilMDSaxParser
 
 			case "MapArea":
 				$this->in_map_area = true;
-				$this->map_area =& new ilMapArea();
+				$this->map_area = new ilMapArea();
 				$this->map_area->setShape($a_attribs["Shape"]);
 				$this->map_area->setCoords($a_attribs["Coords"]);
 				$this->map_area->setHighlightMode($a_attribs["HighlightMode"]);
@@ -596,21 +600,21 @@ class ilContObjParser extends ilMDSaxParser
 				$this->in_glossary = true;
 				if ($this->content_object->getType() != "glo")
 				{
-					$this->glossary_object =& new ilObjGlossary();
+					$this->glossary_object = new ilObjGlossary();
 					$this->glossary_object->setTitle("");
 					$this->glossary_object->setDescription("");
 					$this->glossary_object->create(true);
 					$this->glossary_object->createReference();
-					$parent =& $this->tree->getParentNodeData($this->content_object->getRefId());
+					$parent = $this->tree->getParentNodeData($this->content_object->getRefId());
 					$this->glossary_object->putInTree($parent["child"]);
 					$this->glossary_object->setPermissions($parent["child"]);
 					$this->glossary_object->notify("new", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$this->glossary_object->getRefId());
 				}
-				$this->current_object =& $this->glossary_object;
+				$this->current_object = $this->glossary_object;
 				break;
 
 			case "GlossaryItem":
-				$this->glossary_term =& new ilGlossaryTerm();
+				$this->glossary_term = new ilGlossaryTerm();
 				$this->glossary_term->setGlossaryId($this->glossary_object->getId());
 				$this->glossary_term->setLanguage($a_attribs["Language"]);
 				$this->glossary_term->setImportId($a_attribs["Id"]);
@@ -619,19 +623,19 @@ class ilContObjParser extends ilMDSaxParser
 
 			case "Definition":
 				$this->in_glossary_definition = true;
-				$this->glossary_definition =& new ilGlossaryDefinition();
+				$this->glossary_definition = new ilGlossaryDefinition();
 				include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 				$this->page_object = new ilGlossaryDefPage();
 				$this->page_object->setParentId($this->glossary_term->getGlossaryId());
 				$this->glossary_definition->setTermId($this->glossary_term->getId());
 				$this->glossary_definition->assignPageObject($this->page_object);
-				$this->current_object =& $this->glossary_definition;
+				$this->current_object = $this->glossary_definition;
 				$this->glossary_definition->create(true);
 				break;
 
 			case "FileItem":
 				$this->in_file_item = true;
-				$this->file_item =& new ilObjFile();
+				$this->file_item = new ilObjFile();
 				$this->file_item->setTitle("dummy");
 				$this->file_item->setMode("filelist");
 				if (is_object($this->page_object))
@@ -757,14 +761,14 @@ class ilContObjParser extends ilMDSaxParser
 							{
 								$this->lm_page_object->create(true);
 							}
-							$this->md =& new ilMD($this->content_object->getId() ,
+							$this->md = new ilMD($this->content_object->getId() ,
 								$this->current_object->getId(),
 								$this->current_object->getType());
 						}
 						// type gdf
 						else if ($this->current_object->getType() == "gdf")
 						{
-							$this->md =& new ilMD($this->glossary_object->getId() ,
+							$this->md = new ilMD($this->glossary_object->getId() ,
 								$this->current_object->getId(),
 								$this->current_object->getType());
 						}
@@ -773,7 +777,7 @@ class ilContObjParser extends ilMDSaxParser
 						{
 							if ($this->processMeta())
 							{
-								$this->md =& new ilMD($this->current_object->getId() ,
+								$this->md = new ilMD($this->current_object->getId() ,
 									0,
 									$this->current_object->getType());
 							}
@@ -782,7 +786,7 @@ class ilContObjParser extends ilMDSaxParser
 					else
 					{
 						// type qpl or tst
-						$this->md =& new ilMD($this->content_object->getId() ,
+						$this->md = new ilMD($this->content_object->getId() ,
 							0,
 							$this->current_object->getType()
 						);
@@ -839,7 +843,7 @@ class ilContObjParser extends ilMDSaxParser
 								= $this->media_object->getId();
 						}
 						$this->media_object->setImportId($a_attribs["Entry"]);
-						$this->md =& new ilMD(0 ,
+						$this->md = new ilMD(0 ,
 							$this->media_object->getId(),
 							"mob");
 						$this->emptyMediaMetaCache($a_xml_parser);
@@ -895,7 +899,7 @@ class ilContObjParser extends ilMDSaxParser
 			case "Bibliography":
 				$this->in_bib_item = true;
 //echo "<br>---NEW BIBLIOGRAPHY---<br>";
-				$this->bib_item =& new ilBibItem();
+				$this->bib_item = new ilBibItem();
 				break;
 
 		}
@@ -1107,15 +1111,21 @@ class ilContObjParser extends ilMDSaxParser
 
 				// if we are within a structure object: put page in tree
 				$cnt = count($this->structure_objects);
+//echo "1";
 				if ($cnt > 0)
 				{
+//echo "B-$cnt-<br>";
+//echo "<br>"; var_dump($this->structure_objects); echo "<br>";
 					$parent_id = $this->structure_objects[$cnt - 1]->getId();
 					if ($this->lm_page_object->isAlias())
 					{
+//echo "3";
 						$this->pg_into_tree[$parent_id][] = array("type" => "pg_alias", "id" => $this->lm_page_object->getOriginId());
+//echo "<br>"; var_dump($this->pg_into_tree); echo "<br>";
 					}
 					else
 					{
+//echo "4";
 						$this->pg_into_tree[$parent_id][] = array("type" => "pg", "id" => $this->lm_page_object->getId());
 					}
 				}
