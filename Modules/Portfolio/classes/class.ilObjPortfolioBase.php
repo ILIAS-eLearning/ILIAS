@@ -19,6 +19,8 @@ abstract class ilObjPortfolioBase extends ilObject2
 	protected $font_color; // [string]
 	protected $img; // [string]
 	protected $ppic; // [string]
+	protected $style; // [bool]
+	
 	
 	//
 	// PROPERTIES
@@ -168,6 +170,26 @@ abstract class ilObjPortfolioBase extends ilObject2
 		$this->img = (string)$a_value;
 	}
 	
+	/**
+	 * Get style sheet id
+	 * 
+	 * @return bool
+	 */
+	function getStyleSheetId()
+	{
+		return (int)$this->style;
+	}
+
+	/**
+	 * Set style sheet id
+	 *
+	 * @param int $a_style
+	 */
+	function setStyleSheetId($a_style)
+	{
+		$this->style = (int)$a_style;
+	}
+	
 	
 	//
 	// CRUD
@@ -187,6 +209,9 @@ abstract class ilObjPortfolioBase extends ilObject2
 		$this->setBackgroundColor($row["bg_color"]);
 		$this->setFontColor($row["font_color"]);
 		$this->setImage($row["img"]);
+		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
 		
 		$this->doReadCustom($row);
 	}
@@ -218,6 +243,9 @@ abstract class ilObjPortfolioBase extends ilObject2
 			"img" => array("text", $this->getImage())
 		);
 		$this->doUpdateCustom($fields);
+		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
 				
 		$ilDB->update("usr_portfolio", $fields,
 			array("id"=>array("integer", $this->id)));
@@ -402,6 +430,17 @@ abstract class ilObjPortfolioBase extends ilObject2
 		$source_dir = $a_source->initStorage($source_id);
 		$target_dir = $a_target->initStorage($target_id);
 		ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
+		
+		// set/copy stylesheet
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$style_id = $a_source->getStyleSheetId();
+		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+		{
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
+			$new_id = $style_obj->ilClone();
+			$a_target->setStyleSheetId($new_id);
+			$a_target->update();
+		}
 
 		// copy pages
 		$blog_count = 0;

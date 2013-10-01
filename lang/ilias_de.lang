@@ -13971,5 +13971,9 @@ mail#:#mail_filter_body#:#Nachricht
 mail#:#mail_filter_attach#:#Anhänge
 mail#:#mail_filter_field_placeholder#:#Nachrichten durchsuchen ...
 mail#:#mail_filter_txt#:#Suchen in
-blog#:#blog_properties#:#Blog Eigenschaften
+blog#:#blog_properties#:#Blog-Eigenschaften
 blog#:#blog_style#:#Blog-Style
+prtf#:#prtf_properties#:#Portfolio-Eigenschaften
+prtf#:#prtf_style#:#Portfolio-Style
+prtt#:#prtt_properties#:#Portfoliovorlagen-Eigenschaften
+prtt#:#prtt_style#:#Portfoliovorlagen-Style

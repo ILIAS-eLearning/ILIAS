@@ -103,6 +103,33 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$this->preview();				
 				break;
 			
+			case "ilobjstylesheetgui":
+				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				$this->ctrl->setReturn($this, "editStyleProperties");
+				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui->omitLocator();
+				if ($cmd == "create" || $_GET["new_type"]=="sty")
+				{
+					$style_gui->setCreationMode(true);
+				}
+
+				if ($cmd == "confirmedDelete")
+				{
+					$this->object->setStyleSheetId(0);
+					$this->object->update();
+				}
+
+				$ret = $this->ctrl->forwardCommand($style_gui);
+
+				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
+				{
+					$style_id = $ret;
+					$this->object->setStyleSheetId($style_id);
+					$this->object->update();
+					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+				}
+				break;
+			
 			default:		
 				if($cmd != "preview")
 				{
