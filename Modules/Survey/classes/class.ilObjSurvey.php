@@ -6312,7 +6312,7 @@ class ilObjSurvey extends ilObject
 			$end = $this->getReminderEnd();
 			if($end)
 			{
-				$end = $start->get(IL_CAL_DATE);
+				$end = $end->get(IL_CAL_DATE);
 			}
 			$today = date("Y-m-d");
 			if($today >= $start && 
