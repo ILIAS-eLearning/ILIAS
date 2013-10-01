@@ -13991,3 +13991,5 @@ mail#:#mail_filter_body#:#Body
 mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_field_placeholder#:#Filter these messages ...
 mail#:#mail_filter_txt#:#Filter messages by
+blog#:#blog_properties#:#Blog Properties
+blog#:#blog_style#:#Blog Style
