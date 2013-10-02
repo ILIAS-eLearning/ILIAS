@@ -182,6 +182,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	function updateUser($sid,$user_data)
 	{
+		/**
+		 * @var $user_obj ilObjUser
+		 */
 		$this->initAuth($sid);
 		$this->initIlias();
 
@@ -223,7 +226,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$log->write('SOAP: updateUser()');
 		$user_obj->update();
 
-		if($user_data['accepted_agreement'] and !$user_obj->hasAcceptedUserAgreement())
+		if($user_data['accepted_agreement'] && $user_obj->hasToAcceptTermsOfService())
 		{
 			$user_obj->writeAccepted();
 		}
@@ -612,7 +615,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$usr_data['user_style'] = $usr_obj->getPref('style');
 		$usr_data['user_language'] = $usr_obj->getLanguage();
 		$usr_data['auth_mode'] = $usr_obj->getAuthMode();
-		$usr_data['accepted_agreement'] = $usr_obj->hasAcceptedUserAgreement();
+		$usr_data['accepted_agreement'] = !$usr_obj->hasToAcceptTermsOfService();
 		$usr_data['import_id'] = $usr_obj->getImportId();
 		
 		return $usr_data;
