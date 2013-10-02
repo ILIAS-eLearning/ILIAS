@@ -13998,3 +13998,5 @@ prtf#:#prtf_properties#:#Portfolio Properties
 prtf#:#prtf_style#:#Portfolio Style
 prtt#:#prtt_properties#:#Portfolio Template Properties
 prtt#:#prtt_style#:#Portfolio Template Style
+exc#:#exc_save_all#:#Save All
+exc#:#exc_save_selected#:#Save Selected
