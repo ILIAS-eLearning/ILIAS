@@ -1059,10 +1059,12 @@ class ilExAssignment
 	{
 		global $ilUser, $ilDB;
 		
-		// #11000
+		// #11000 / #11785
+		$is_team = true;
 		$user_ids = self::getTeamMembersByAssignmentId($a_ass_id, $a_user_id);
 		if(!$user_ids)
 		{
+			$is_team = false;
 			$user_ids = array($a_user_id);
 		}		
 
@@ -1130,7 +1132,8 @@ class ilExAssignment
 			$pathinfo = pathinfo($filename);
 			$dir = $pathinfo["dirname"];
 			
-			ilExAssignment::downloadMultipleFiles($a_exc_id, $a_ass_id, $array_files, null, true);
+			ilExAssignment::downloadMultipleFiles($a_exc_id, $a_ass_id, $array_files, 
+				 ($is_team ? null : $a_user_id), $is_team);
 		}
 		else
 		{
@@ -1168,9 +1171,12 @@ class ilExAssignment
 		
 		if (count($array_file_id))
 		{
+			// #11785
+			$is_team = true;
 			$user_ids = self::getTeamMembersByAssignmentId($a_ass_id, $a_user_id);
 			if(!$user_ids)
 			{
+				$is_team = false;
 				$user_ids = array($a_user_id);
 			}		
 			
@@ -1216,7 +1222,7 @@ class ilExAssignment
 						$filenames[$value["user_id"]][] = basename($value["filename"]);
 					}
 					ilExAssignment::downloadMultipleFiles($a_exc_id, $a_ass_id, 
-						$filenames, null, true);
+						$filenames,  ($is_team ? null : $a_user_id), $is_team);
 				}
 			}
 		}
