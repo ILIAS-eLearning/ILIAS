@@ -81,7 +81,7 @@ class ilContextRssAuth extends ilContextBase
 	 */
 	public static function doAuthentication()
 	{
-		return true;
+		return false;
 	}
 }
 
