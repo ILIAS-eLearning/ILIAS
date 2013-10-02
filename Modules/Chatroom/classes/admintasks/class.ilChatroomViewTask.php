@@ -32,6 +32,9 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		$this->commonSettings = new ilSetting('common');
 	}
 
+	/**
+	 *
+	 */
 	private function showSoapWarningIfNeeded()
 	{
 		/**
@@ -52,7 +55,7 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 	{
 		/**
 		 * @var $ilCtrl ilCtrl
-		 * @var $lng ilLanguage
+		 * @var $lng    ilLanguage
 		 */
 		global $ilCtrl, $lng;
 
@@ -63,27 +66,27 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		if(!$form->checkInput())
 		{
 			$form->setValuesByPost();
-			$this->clientsettings($form);
+			$this->serversettings($form);
 			return;
 		}
 
-		if(!$this->checkPrivHosts($_POST['priv_hosts']))
+		if(!$this->checkPrivHosts($form->getInput('priv_hosts')))
 		{
 			$form->setValuesByPost();
 			ilUtil::sendFailure($lng->txt('invalid_priv_hosts'));
-			$this->clientsettings($form);
+			$this->serversettings($form);
 			return;
 		}
 
 		$settings = array(
-			'protocol'   => $_POST['protocol'],
-			'instance'   => $_POST['instance'],
-			'port'       => $_POST['port'],
-			'address'    => $_POST['address'],
-			'priv_hosts' => $_POST['priv_hosts'],
-			'keystore'   => $_POST['keystore'],
-			'keypass'    => $_POST['keypass'],
-			'storepass'  => $_POST['storepass']
+			'protocol'   => $form->getInput('protocol'),
+			'instance'   => $form->getInput('instance'),
+			'port'       => $form->getInput('port'),
+			'address'    => $form->getInput('address'),
+			'priv_hosts' => $form->getInput('priv_hosts'),
+			'keystore'   => $form->getInput('keystore'),
+			'keypass'    => $form->getInput('keypass'),
+			'storepass'  => $form->getInput('storepass')
 		);
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
@@ -93,10 +96,8 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		$this->writeDataToFile($settings);
 
 		ilUtil::sendSuccess($lng->txt('settings_has_been_saved'), true);
-
 		$ilCtrl->redirect($this->gui, 'view-serversettings');
 	}
-
 
 	/**
 	 * Saves client settings fetched from $_POST
@@ -121,27 +122,26 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		}
 
 		$settings = array(
-			'hash'                  => $_POST['name'],
-			'name'                  => $_POST['name'],
-			'url'                   => $_POST['url'],
-			'user'                  => $_POST['user'],
-			'password'              => $_POST['password'],
+			'hash'                  => $form->getInput('name'),
+			'name'                  => $form->getInput('name'),
+			'url'                   => $form->getInput('url'),
+			'user'                  => $form->getInput('user'),
+			'password'              => $form->getInput('password'),
 			'client'                => CLIENT_ID,
-			'enable_osd'            => (boolean)$_POST['enable_osd'],
-			'osd_intervall'         => (int)$_POST['osd_intervall'],
-			'chat_enabled'          => ((boolean)$_POST['chat_enabled']) && ((boolean)$this->commonSettings->get('soap_user_administration')),
-			'enable_smilies'        => (boolean)$_POST['enable_smilies'],
-			'play_invitation_sound' => (boolean)$_POST['play_invitation_sound'],
+			'enable_osd'            => (boolean)$form->getInput('enable_osd'),
+			'osd_intervall'         => (int)$form->getInput('osd_intervall'),
+			'chat_enabled'          => ((boolean)$form->getInput('chat_enabled')) && ((boolean)$this->commonSettings->get('soap_user_administration')),
+			'enable_smilies'        => (boolean)$form->getInput('enable_smilies'),
+			'play_invitation_sound' => (boolean)$form->getInput('play_invitation_sound')
 		);
 
 		$notificationSettings = new ilSetting('notifications');
-
-		$notificationSettings->set('osd_polling_intervall', (int)$_POST['osd_intervall']);
-		$notificationSettings->set('enable_osd', (boolean)$_POST['enable_osd']);
+		$notificationSettings->set('osd_polling_intervall', (int)$form->getInput('osd_intervall'));
+		$notificationSettings->set('enable_osd', (boolean)$form->getInput('enable_osd'));
 
 		$chatSettings = new ilSetting('chatroom');
 		$chatSettings->set('chat_enabled', $settings['chat_enabled']);
-		$chatSettings->set('play_invitation_sound', (bool)$_POST['play_invitation_sound']);
+		$chatSettings->set('play_invitation_sound', (boolean)$form->getInput('play_invitation_sound'));
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
 		$adminSettings = new ilChatroomAdmin($this->gui->object->getId());
@@ -314,6 +314,10 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 			$factory = new ilChatroomFormFactory();
 			$form    = $factory->getGeneralSettingsForm();
 
+			if(!$serverSettings['protocol'])
+			{
+				$serverSettings['protocol'] = 'http';
+			}
 
 			$form->setValuesByArray($serverSettings);
 		}
@@ -342,7 +346,11 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 	 */
 	public function executeDefault($method)
 	{
+		/**
+		 * @var $ilCtrl ilCtrl
+		 */
 		global $ilCtrl;
+
 		$ilCtrl->redirect($this->gui, 'view-clientsettings');
 	}
 
@@ -417,7 +425,6 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 
 		$form->setTitle($lng->txt('general_settings_title'));
 		$form->addCommandButton('view-saveClientSettings', $lng->txt('save'));
-		//$form->addCommandButton( 'view-clientsettings', $lng->txt( 'cancel' ) );
 		$form->setFormAction($ilCtrl->getFormAction($this->gui, 'view-saveClientSettings'));
 
 		$settingsTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'Modules/Chatroom');
@@ -471,7 +478,6 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 			$this->createPublicRoom();
 			return;
 		}
-
 	}
 
 	/**
@@ -485,18 +491,7 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		global $lng;
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
-		ilUtil::sendSuccess($lng->txt('public_chat_created'), true);
 		ilChatroomInstaller::createDefaultPublicRoom(true);
-	}
-
-	/**
-	 *
-	 */
-	public function getServerStatus()
-	{
-		require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
-		echo array('server_alive' => (boolean)@ilChatroomServerConnector::checkServerConnection());
+		ilUtil::sendSuccess($lng->txt('public_chat_created'), true);
 	}
 }
-
-?>
