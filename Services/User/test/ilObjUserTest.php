@@ -13,7 +13,7 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	* Creates a user, sets preferences, lookups data, changes password,
-	* accept user agreement, delete user
+	* delete user
 	*/
 	public function testCreateSetLookupDelete()
 	{
@@ -105,17 +105,6 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 			$value.= "pref2"."-";
 		}
 		
-		// user agreement acceptance
-		if (!ilObjUser::_hasAcceptedAgreement("aatestuser"))
-		{
-			$value.= "agr1-";
-		}
-		$user->writeAccepted();
-		if (ilObjUser::_hasAcceptedAgreement("aatestuser"))
-		{
-			$value.= "agr2-";
-		}
-		
 		// activation
 		$user->setActive(false);
 		if (!ilObjUser::getStoredActive($id));
@@ -137,7 +126,7 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 		$user->delete();
 		
 		$this->assertEquals("Max-Maxi-de@de.de-m-1.2.3.4-Mutzke-aatestuser-ext_mutzke-$id-no-le-".
-			"pw1-pw2-pw3-pw4-pref1-pref2-agr1-agr2-act1-act2-act3-",
+			"pw1-pw2-pw3-pw4-pref1-pref2-act1-act2-act3-",
 			$value);
 	}
 	
