@@ -912,16 +912,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$peer_review_mask_filename = false;
 		
-		// ok: read access + peer review
-		$ass = new ilExAssignment((int) $_GET["ass_id"]);
-		if(!($ilAccess->checkAccess("read", "", $this->object->getRefId()) && 
-			$ass->hasPeerReviewAccess((int) $_GET["member_id"])))
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$this->checkPermission("write");
-		}
-		else
-		{
-			$peer_review_mask_filename = true;
+			// ok: read access + peer review
+			$ass = new ilExAssignment((int) $_GET["ass_id"]);
+			if(!($ilAccess->checkAccess("read", "", $this->object->getRefId()) && 
+				$ass->hasPeerReviewAccess((int) $_GET["member_id"])))
+			{
+				$this->checkPermission("write");
+			}
+			else
+			{
+				$peer_review_mask_filename = true;
+			}
 		}
 		
 		if (!ilExAssignment::deliverReturnedFiles(
