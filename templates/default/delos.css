@@ -3840,7 +3840,7 @@ td.dcl_actions {
 }
 
 #dcl_record_list td, #dcl_field_list td {
-	padding: 4px 6px;
+	padding: 10px 7px;
 	font-size: 90%;
 }
 
