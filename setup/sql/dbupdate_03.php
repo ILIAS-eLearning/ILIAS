@@ -13672,7 +13672,7 @@ if(!$chtr_perms)
 	}
 	
 	$setting->set("ilchtrperms", 1);
-}a
+}
 ?>
 <#3799>
 <?php
