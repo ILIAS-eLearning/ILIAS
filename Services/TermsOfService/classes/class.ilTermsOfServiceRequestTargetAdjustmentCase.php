@@ -37,7 +37,11 @@ class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdj
 			return false;
 		}
 
-		if(!$this->user->hasAcceptedUserAgreement() && $this->user->checkTimeLimit())
+		if(
+			$this->user->hasToAcceptTermsOfService() &&
+			$this->user->checkTimeLimit() &&
+			$this->user->hasToAcceptTermsOfServiceInSession()
+		)
 		{
 			return true;
 		}
