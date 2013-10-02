@@ -5343,7 +5343,7 @@ class ilObjUser extends ilObject
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 
 		if(ilTermsOfServiceHelper::isEnabled() && 
-		   null === $this->agree_date &&
+		   null == $this->agree_date &&
 		   !in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)))
 		{
 			return true;
