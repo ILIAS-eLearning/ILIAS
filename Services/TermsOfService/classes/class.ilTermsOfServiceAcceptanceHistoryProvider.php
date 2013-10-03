@@ -9,10 +9,12 @@ require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDatabas
  */
 class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDatabaseDataProvider
 {
+
 	/**
+	 * @param array $filter
 	 * @return string
 	 */
-	protected function getSelectPart()
+	protected function getSelectPart(array $filter)
 	{
 		$fields = array(
 			'ud.usr_id',
@@ -29,9 +31,10 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
 	}
 
 	/**
+	 * @param array $filter
 	 * @return string
 	 */
-	protected function getFromPart()
+	protected function getFromPart(array $filter)
 	{
 		$joins = array(
 			'INNER JOIN tos_acceptance_track ON tos_acceptance_track.usr_id = ud.usr_id',
@@ -76,9 +79,10 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
 	}
 
 	/**
+	 * @param array $filter
 	 * @return string
 	 */
-	protected function getGroupByPart()
+	protected function getGroupByPart(array $filter)
 	{
 		return '';
 	}

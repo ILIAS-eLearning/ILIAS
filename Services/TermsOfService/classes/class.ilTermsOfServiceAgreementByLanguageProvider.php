@@ -77,8 +77,7 @@ class ilTermsOfServiceAgreementByLanguageProvider implements ilTermsOfServiceTab
 	}
 
 	/**
-	 * @param array $params
-	 * @param array $filter
+	 * {@inheritdoc}
 	 */
 	public function getList(array $params, array $filter)
 	{

@@ -8,8 +8,8 @@
 interface ilTermsOfServiceTableDataProvider
 {
 	/**
-	 * @param array $params
-	 * @param array $filter
+	 * @param array $params Table paramaters like limit or order
+	 * @param array $filter Filter settings
 	 * @return array
 	 */
 	public function getList(array $params, array $filter);
