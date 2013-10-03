@@ -16,7 +16,7 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
 	protected $db;
 
 	/**
-	 * @param ilDB      $db
+	 * @param ilDB $db
 	 */
 	public function __construct(ilDB $db)
 	{
@@ -24,46 +24,52 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
 	}
 
 	/**
+	 * @param array $params
 	 * @param array $filter
 	 * @return string
 	 * @abstract
 	 */
-	abstract protected function getSelectPart(array $filter);
-
-	/**
-	 * @param array $filter
-	 * @return string
-	 * @abstract
-	 */
-	abstract protected function getFromPart(array $filter);
-
-	/**
-	 * @param array $filter
-	 * @return string
-	 * @abstract
-	 */
-	abstract protected function getWherePart(array $filter);
-
-	/**
-	 * @param array $filter
-	 * @return string
-	 * @abstract
-	 */
-	abstract protected function getGroupByPart(array $filter);
-
-	/**
-	 * @param array $filter
-	 * @return string
-	 * @abstract
-	 */
-	abstract protected function getHavingPart(array $filter);
+	abstract protected function getSelectPart(array $params, array $filter);
 
 	/**
 	 * @param array $params
+	 * @param array $filter
 	 * @return string
 	 * @abstract
 	 */
-	abstract protected function getOrderByPart(array $params);
+	abstract protected function getFromPart(array $params, array $filter);
+
+	/**
+	 * @param array $params
+	 * @param array $filter
+	 * @return string
+	 * @abstract
+	 */
+	abstract protected function getWherePart(array $params, array $filter);
+
+	/**
+	 * @param array $params
+	 * @param array $filter
+	 * @return string
+	 * @abstract
+	 */
+	abstract protected function getGroupByPart(array $params, array $filter);
+
+	/**
+	 * @param array $params
+	 * @param array $filter
+	 * @return string
+	 * @abstract
+	 */
+	abstract protected function getHavingPart(array $params, array $filter);
+
+	/**
+	 * @param array $params
+	 * @param array $filter
+	 * @return string
+	 * @abstract
+	 */
+	abstract protected function getOrderByPart(array $params, array $filter);
 
 	/**
 	 * @param array $params
@@ -78,12 +84,12 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
 			'cnt'   => 0
 		);
 
-		$select = $this->getSelectPart($filter);
-		$where  = $this->getWherePart($filter);
-		$from   = $this->getFromPart($filter);
-		$order  = $this->getOrderByPart($params);
-		$group  = $this->getGroupByPart($filter);
-		$having = $this->getHavingPart($filter);
+		$select = $this->getSelectPart($params, $filter);
+		$where  = $this->getWherePart($params, $filter);
+		$from   = $this->getFromPart($params, $filter);
+		$order  = $this->getOrderByPart($params, $filter);
+		$group  = $this->getGroupByPart($params, $filter);
+		$having = $this->getHavingPart($params, $filter);
 
 		if(isset($params['limit']))
 		{

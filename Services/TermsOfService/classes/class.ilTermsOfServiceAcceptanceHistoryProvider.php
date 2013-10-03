@@ -9,12 +9,12 @@ require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDatabas
  */
 class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDatabaseDataProvider
 {
-
 	/**
+	 * @param array $params
 	 * @param array $filter
 	 * @return string
 	 */
-	protected function getSelectPart(array $filter)
+	protected function getSelectPart(array $params, array $filter)
 	{
 		$fields = array(
 			'ud.usr_id',
@@ -31,10 +31,11 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
 	}
 
 	/**
+	 * @param array $params
 	 * @param array $filter
 	 * @return string
 	 */
-	protected function getFromPart(array $filter)
+	protected function getFromPart(array $params, array $filter)
 	{
 		$joins = array(
 			'INNER JOIN tos_acceptance_track ON tos_acceptance_track.usr_id = ud.usr_id',
@@ -45,10 +46,11 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
 	}
 
 	/**
+	 * @param array $params
 	 * @param array $filter
 	 * @return string
 	 */
-	protected function getWherePart(array $filter)
+	protected function getWherePart(array $params, array $filter)
 	{
 		$where = array();
 
@@ -79,29 +81,32 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
 	}
 
 	/**
+	 * @param array $params
 	 * @param array $filter
 	 * @return string
 	 */
-	protected function getGroupByPart(array $filter)
-	{
-		return '';
-	}
-
-	/**
-	 * @param array $filter
-	 * @return mixed
-	 */
-	protected function getHavingPart(array $filter)
+	protected function getGroupByPart(array $params, array $filter)
 	{
 		return '';
 	}
 
 	/**
 	 * @param array $params
+	 * @param array $filter
+	 * @return string
+	 */
+	protected function getHavingPart(array $params, array $filter)
+	{
+		return '';
+	}
+
+	/**
+	 * @param array $params
+	 * @param array $filter
 	 * @return string
 	 * @throws InvalidArgumentException
 	 */
-	protected function getOrderByPart(array $params)
+	protected function getOrderByPart(array $params, array $filter)
 	{
 		if(isset($params['order_field']))
 		{
