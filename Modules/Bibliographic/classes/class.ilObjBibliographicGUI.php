@@ -159,8 +159,7 @@ class ilObjBibliographicGUI extends ilObject2GUI
 
 	    if (!$this->checkPermissionBool("visible"))
 	    {
-		    ilUtil::sendFailure($lng->txt("no_permission"),true);
-		    ilObjectGUI::_gotoRepositoryRoot();
+            $ilErr->raiseError($lng->txt("msg_no_perm_read"));
 		    return;
 	    }
 
@@ -383,7 +382,7 @@ class ilObjBibliographicGUI extends ilObject2GUI
      */
     public function showContent(){
         global $ilAccess, $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs;
-        if($ilAccess->checkAccess('visible', "", $this->object->getRefId())){
+        if($ilAccess->checkAccess('read', "", $this->object->getRefId())){
 
             $ilTabs->setTabActive("content");
 
@@ -431,7 +430,7 @@ class ilObjBibliographicGUI extends ilObject2GUI
 
     public function showDetails() {
         global $ilAccess, $tpl, $lng;
-        if($ilAccess->checkAccess('visible', "", $this->object->getRefId())){
+        if($ilAccess->checkAccess('read', "", $this->object->getRefId())){
             $bibGUI = new ilBibliographicDetailsGUI();
             $bibGUI->showDetails($this->bibl_obj, $_GET['entryId']);
         }else{
