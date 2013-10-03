@@ -75,7 +75,8 @@ class ilTermsOfServiceHelper
 			$entity->setHash(md5($document->getContent()));
 			$data_gateway->trackAcceptance($entity);
 
-			$user->writeAccepted();
+			$user->writeAccepted(); // <- Has to be refactored in future releases
+
 			$user->hasToAcceptTermsOfServiceInSession(false);
 		}
 	}

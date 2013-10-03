@@ -24,16 +24,18 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
 	}
 
 	/**
+	 * @param array $filter
 	 * @return string
 	 * @abstract
 	 */
-	abstract protected function getSelectPart();
+	abstract protected function getSelectPart(array $filter);
 
 	/**
+	 * @param array $filter
 	 * @return string
 	 * @abstract
 	 */
-	abstract protected function getFromPart();
+	abstract protected function getFromPart(array $filter);
 
 	/**
 	 * @param array $filter
@@ -43,10 +45,11 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
 	abstract protected function getWherePart(array $filter);
 
 	/**
+	 * @param array $filter
 	 * @return string
 	 * @abstract
 	 */
-	abstract protected function getGroupByPart();
+	abstract protected function getGroupByPart(array $filter);
 
 	/**
 	 * @param array $filter
@@ -75,22 +78,12 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
 			'cnt'   => 0
 		);
 
-		$select = $this->getSelectPart();
+		$select = $this->getSelectPart($filter);
 		$where  = $this->getWherePart($filter);
-		$from   = $this->getFromPart();
+		$from   = $this->getFromPart($filter);
 		$order  = $this->getOrderByPart($params);
-		$group  = $this->getGroupByPart();
+		$group  = $this->getGroupByPart($filter);
 		$having = $this->getHavingPart($filter);
-
-		if(isset($params['group']))
-		{
-			if(!is_string($params['group']))
-			{
-				throw new InvalidArgumentException('Please provide a valid group field parameter.');
-			}
-
-			$group = $params['group'];
-		}
 
 		if(isset($params['limit']))
 		{

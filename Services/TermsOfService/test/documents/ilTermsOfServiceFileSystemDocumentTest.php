@@ -95,6 +95,11 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 		file_put_contents(vfsStream::url('root/Customizing/clients/default/agreement/agreement_de.html'), 'phpunit');
 
 		$document->determine();
+		$this->assertEquals('de', $document->getIso2LanguageCode());
+		$this->assertTrue($document->hasContent());
+		$this->assertEquals('phpunit', $document->getContent());
+		$this->assertEquals(ilTermsOfServiceFileSystemDocument::SRC_TYPE_FILE_SYSTEM_PATH, $document->getSourceType());
+		$this->assertEquals(vfsStream::url('root/Customizing/clients/default/agreement/agreement_de.html'), $document->getSource());
 	}
 
 	/**
@@ -107,6 +112,11 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 		file_put_contents(vfsStream::url('root/Customizing/clients/default/agreement/agreement_fr.html'), 'phpunit');
 
 		$document->determine();
+		$this->assertEquals('fr', $document->getIso2LanguageCode());
+		$this->assertTrue($document->hasContent());
+		$this->assertEquals('phpunit', $document->getContent());
+		$this->assertEquals(ilTermsOfServiceFileSystemDocument::SRC_TYPE_FILE_SYSTEM_PATH, $document->getSourceType());
+		$this->assertEquals(vfsStream::url('root/Customizing/clients/default/agreement/agreement_fr.html'), $document->getSource());
 	}
 
 	/**
@@ -119,6 +129,11 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 		file_put_contents(vfsStream::url('root/Customizing/clients/default/agreement/agreement_en.html'), 'phpunit');
 
 		$document->determine();
+		$this->assertEquals('en', $document->getIso2LanguageCode());
+		$this->assertTrue($document->hasContent());
+		$this->assertEquals('phpunit', $document->getContent());
+		$this->assertEquals(ilTermsOfServiceFileSystemDocument::SRC_TYPE_FILE_SYSTEM_PATH, $document->getSourceType());
+		$this->assertEquals(vfsStream::url('root/Customizing/clients/default/agreement/agreement_en.html'), $document->getSource());
 	}
 
 	/**
@@ -131,6 +146,11 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 		file_put_contents(vfsStream::url('root/Customizing/global/agreement/agreement_de.html'), 'phpunit');
 
 		$document->determine();
+		$this->assertEquals('de', $document->getIso2LanguageCode());
+		$this->assertTrue($document->hasContent());
+		$this->assertEquals('phpunit', $document->getContent());
+		$this->assertEquals(ilTermsOfServiceFileSystemDocument::SRC_TYPE_FILE_SYSTEM_PATH, $document->getSourceType());
+		$this->assertEquals(vfsStream::url('root/Customizing/global/agreement/agreement_de.html'), $document->getSource());
 	}
 
 	/**
@@ -143,6 +163,11 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 		file_put_contents(vfsStream::url('root/Customizing/global/agreement/agreement_fr.html'), 'phpunit');
 
 		$document->determine();
+		$this->assertEquals('fr', $document->getIso2LanguageCode());
+		$this->assertTrue($document->hasContent());
+		$this->assertEquals('phpunit', $document->getContent());
+		$this->assertEquals(ilTermsOfServiceFileSystemDocument::SRC_TYPE_FILE_SYSTEM_PATH, $document->getSourceType());
+		$this->assertEquals(vfsStream::url('root/Customizing/global/agreement/agreement_fr.html'), $document->getSource());
 	}
 
 	/**
@@ -155,5 +180,10 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 		file_put_contents(vfsStream::url('root/Customizing/global/agreement/agreement_en.html'), 'phpunit');
 
 		$document->determine();
+		$this->assertEquals('en', $document->getIso2LanguageCode());
+		$this->assertTrue($document->hasContent());
+		$this->assertEquals('phpunit', $document->getContent());
+		$this->assertEquals(ilTermsOfServiceFileSystemDocument::SRC_TYPE_FILE_SYSTEM_PATH, $document->getSourceType());
+		$this->assertEquals(vfsStream::url('root/Customizing/global/agreement/agreement_en.html'), $document->getSource());
 	}
 }
