@@ -5,6 +5,10 @@
     require_once "Services/Object/classes/class.ilObject2.php";
     require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
 
+
+    /* Declaring namespace for library RISReader */
+    use \LibRIS\RISReader;
+
     /**
      * Class ilObjBibliographic
      *
@@ -295,167 +299,51 @@ class ilObjBibliographic extends ilObject2
 
     static function __readRisFile($full_filename){
 
-        $handle = fopen($full_filename, "r");
+        require_once "./Modules/Bibliographic/lib/LibRIS/src/LibRIS/RISReader.php";
 
-        //Get rid of UTF-8 BOM
-        $bom = fread($handle, 3);
-        if ($bom != "\xEF\xBB\xBF"){
-            rewind($handle);
-        }
-
-        $entry = array();
-
-        $key_before = null;
-
-        while($line = fgets($handle)){
-
-            $line = mb_convert_encoding($line, "HTML-ENTITIES", "UTF-8");
-
-            //remove unwanted spaces or dashes in the beginning of the line
-            $line = self::__removeSpacesAndDashesAtBeginning($line);
-
-            //get first two signs as the key
-            $key = substr($line, 0, 2);
-
-            //If the 4 character is not a dash -> wrong RIS-Format. Ignore the line
-            if(substr($line, 4, 1) != "-")
-            {
-                continue;
-            }
-
-            //When key equals to 'er', write the entry[] in to entries[] and reset the entry[] for filling in the next one.
-            if(strtolower($key) != 'er'){
-
-                $line = substr($line, 2);
-                $value = self::__removeSpacesAndDashesAtBeginning($line);
-
-                //remove char [new line] at the end
-                while($value[strlen($value) - 1] == "\r" || $value[strlen($value) - 1] == "\n"){
-                    $value = substr($value, 0, strlen($value)-1);
-                }
-
-                if($key != $key_before){
-                    $key_before = $key;
-
-                    $entry[] = array('name' => $key, 'value' => $value);
-                }else{
-                    foreach($entry as $entry_key => $attribute){
-                        if($attribute['name'] == $key){
-                            $entry[$entry_key]['value'] .= "; " . $value;
-                        }
-                    }
-                }
-            }else{
-                $entries[] = $entry;
-                $entry = array();
-            }
-        }
-
-        return $entries;
+        $ris_reader = new RISReader();
+        $ris_reader->parseFile($full_filename);
+        return $ris_reader->getRecords();
     }
 
     static function __readBibFile($full_filename){
 
-        $escapedChars['{\&}'] = '&';
+        require_once 'Modules/Bibliographic/lib/PEAR_BibTex_1.0.0RC5/Structures/BibTex.php';
 
-        $handle = fopen($full_filename, "r");
+        $bibtex_reader = new Structures_BibTex();
 
+        //Loading and parsing the file example.bib
+        $ret=$bibtex_reader->loadFile($full_filename);
 
-        //Get rid of UTF-8 BOM
-        $bom = fread($handle, 3);
-        if ($bom != "\xEF\xBB\xBF"){
-            rewind($handle);
-        }
+        $bibtex_reader->setOption("extractAuthors", false);
+        $bibtex_reader->parse();
 
-        $file_content = fread($handle, filesize($full_filename));
+        // Remove library-bug: if there is no cite, the library mixes up the key for the type and the first attribute.
+        // It also shows an empty and therefore unwanted cite in the array.
+        //
+        // The cite is the text coming right after the type. Example:
+        // ﻿@book {cite,
+        // author = { "...."},
+        foreach($bibtex_reader->data as $key => $entry){
+            if(empty($entry['cite'])){
+                unset($bibtex_reader->data[$key]['cite']);
 
-        $file_content = mb_convert_encoding($file_content, "HTML-ENTITIES", "UTF-8");
-
-        //remove newlines
-        $file_content = str_replace(array("\r", "\r\n", "\n"), '', $file_content);
-
-        //replace escaped chars by it's actual meanings
-        foreach($escapedChars as $escape => $actualChar){
-            $file_content = str_replace($escape, $actualChar, $file_content);
-        }
-
-        //read every entry in the file
-        $entry = -1;
-        while(substr(trim($file_content), 0) != "}"){
-
-            $attribute_id = 0;
-
-            $entry++;
-
-            //get entrys document type and remove it from the file content
-            $pos_atSign = strpos($file_content, "@");
-            $pos_curlyBracket = strpos($file_content, "{", $pos_atSign);
-            $pos_curlyBracket_without_spaces = strpos(str_replace(' ', '', $file_content), "    {", $pos_atSign);
-
-            $entries[$entry][$attribute_id]['name'] = 'TY';
-            $entries[$entry][$attribute_id++]['value'] = substr(str_replace(' ', '', $file_content), $pos_atSign + 1, $pos_curlyBracket_without_spaces - $pos_atSign - 1);
-
-
-
-            $file_content = substr($file_content, $pos_curlyBracket + 1);
-            $pos_equal_sign = strpos($file_content, "=");
-
-            //Check if there is a "," before the first "="
-            /*
-             * @book{McLean.2011,
-                author = {McLean, Ian L.},
-                year = {2011},
-                title = {Creating HTML5 animations with Flash and Wallaby},
-                url = {http://proquest.safaribooksonline.com/9781449312725},
-                address = {Sebastopol and CA},
-                publisher = {O'Reilly},
-                isbn = {978-1-4493-0713-4}
+                foreach ($entry as $attr_key => $attribute){
+                    if(strpos($attr_key, '{') !== false){
+                        unset($bibtex_reader->data[$key][$attr_key]);
+                        $attr_key_exploaded = explode('{', $attr_key);
+                        $bibtex_reader->data[$key]['entryType'] = trim($attr_key_exploaded[0]);
+                        $bibtex_reader->data[$key][trim($attr_key_exploaded[1])] = $attribute;
+                    }
                 }
-             */
-            $pos_first_comma = strpos($file_content, ",");
-            if($pos_first_comma < $pos_equal_sign)
-            {
-                $file_content = substr($file_content, $pos_first_comma + 1);
-            }
-
-
-            //read for each entry, all attributes from the file
-            while(strpos(trim($file_content), "}") != 0){
-
-
-                $pos_equal_sign = strpos($file_content, "=");
-
-                $attribute_key = trim(substr($file_content, 0, $pos_equal_sign));
-
-                $file_content = substr($file_content, $pos_equal_sign + 1);
-
-                $pos_curlyBracket_open = strpos($file_content, "{");
-                $pos_curlyBracket_close = strpos($file_content, "}");
-                $attribute_value = trim(substr($file_content, $pos_curlyBracket_open + 1, $pos_curlyBracket_close - $pos_curlyBracket_open -1));
-
-                //remove value
-                $file_content = substr($file_content, $pos_curlyBracket_close + 1);
-
-                $file_content = self::__removeSpacesAndDashesAtBeginning($file_content);
-
-                //remove comma
-                if(strpos($file_content, ",") <= 3 && strpos($file_content, ",") !== false){
-                    $file_content = substr($file_content, strpos($file_content, ",")+1);
-                }
-
-                $entries[$entry][$attribute_id]['name'] = $attribute_key;
-                $entries[$entry][$attribute_id++]['value'] = $attribute_value;
-
             }
         }
-
-        return $entries;
-
+        return $bibtex_reader->data;
     }
 
 
 	/**
-	 * Clone DCL
+	 * Clone BIBL
 	 *
 	 * @param ilObjBibliographic $new_obj
 	 * @param $a_target_id
@@ -522,19 +410,30 @@ class ilObjBibliographic extends ilObject2
         //fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
         foreach($entries_from_file as $file_entry){
             $type = null;
-            foreach($file_entry as $key => $attribute){
-                // ty is the type and is treated seperately
-                if(strtolower($attribute['name']) == 'ty'){
-                    $type = $attribute['value'];
-                    unset($file_entry[$key]);
-                    break;
-                }
-            }
+            $x = 0;
+            $parsed_entry = array();
 
+            foreach($file_entry as $key => $attribute){
+                // if the attribute is an array, make a comma separated string out of it
+                if(is_array($attribute)){
+                    $attribute = implode(", ", $attribute);
+                }
+
+                // ty (RIS) or entryType (BIB) is the type and is treated seperately
+                if(strtolower($key) == 'ty' || strtolower($key) == 'entrytype'){
+                    $type = $attribute;
+                    continue;
+                }
+
+                //TODO - Refactoring for ILIAS 4.5 - get rid off array restructuring
+                //change array structure (name not as the key, but under the key "name")
+                $parsed_entry[$x]['name'] = $key;
+                $parsed_entry[$x++]['value'] = $attribute;
+            }
             //create the entry and fill data into database by executing doCreate()
             $entry_model = new ilBibliographicEntry($this->getFiletype());
             $entry_model->setType($type);
-            $entry_model->setAttributes($file_entry);
+            $entry_model->setAttributes($parsed_entry);
             $entry_model->setBibliographicObjId($this->getId());
             $entry_model->doCreate();
         }
