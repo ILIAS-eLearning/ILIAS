@@ -32,6 +32,7 @@ class ilPersonalSettingsGUI
 		$this->settings = $ilias->getAllSettings();
 //		$lng->loadLanguageModule("jsmath");
 		$lng->loadLanguageModule('chatroom');
+		$lng->loadLanguageModule('chatroom_adm');
 		$this->upload_error = "";
 		$this->password_error = "";
 		$lng->loadLanguageModule("user");
@@ -415,15 +416,17 @@ class ilPersonalSettingsGUI
 			$ilTabs->addTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"), "", "", "", $showMailOptions);
 		}
 
-		if(((int)$ilSetting->get('chat_sound_status') &&
-		    ((int)$ilSetting->get('chat_new_invitation_sound_status') || 
-		     (int)$ilSetting->get('chat_new_message_sound_status'))) ||
-		   (int)$ilSetting->get('chat_message_notify_status') == 1)
+		$chatSettings = new ilSetting('chatroom');
+		$notificationSettings = new ilSetting('notifications');
+		if(
+			$chatSettings->get('chat_enabled', false) &&
+			$notificationSettings->get('enable_osd', false) &&
+			$chatSettings->get('play_invitation_sound', false)
+		)
 		{		
-			$ilTabs->addTarget("chat_settings", $this->ctrl->getLinkTarget($this, "showChatOptions"),
-										 "", "", "", $showChatOptions);
+			$ilTabs->addTarget('chat_settings', $this->ctrl->getLinkTarget($this, 'showChatOptions'), '', '', '', $showChatOptions);
 		}
-		
+
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 /*		$jsMathSetting = new ilSetting("jsMath");
 		if ($jsMathSetting->get("enable"))
@@ -440,141 +443,117 @@ class ilPersonalSettingsGUI
 		}
 	}
 
+	/**
+	 * @return ilPropertyFormGUI
+	 */
 	private function getChatSettingsForm()
 	{
-		global $ilSetting, $lng;
-		
+		/**
+		 * @var $ilSetting ilSetting
+		 * @var $lng       ilLanguage
+		 */
+		global $lng;
+
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveChatOptions'));
 		$form->setTitle($lng->txt("chat_settings"));
 
-		if((int)$ilSetting->get('chat_message_notify_status'))
-		{
-			// chat message notification in ilias
-			//$rg_parent = new ilRadioGroupInputGUI($this->lng->txt('chat_message_notify'), 'chat_message_notify_status');
-			//$rg_parent->setValue(0);
-
-			$ro_parent = new ilCheckboxInputGUI($this->lng->txt('chat_message_notify_activate'), 'chat_message_notify_activate');
-			//$rg_parent->addOption($ro_parent);
-			#$ro_parent->setValue(0);
-
-			if((int)$ilSetting->get('chat_sound_status') &&
-				((int)$ilSetting->get('chat_new_invitation_sound_status') ||
-					(int)$ilSetting->get('chat_new_message_sound_status'))
-			)
-			{
-				// sound activation/deactivation for new chat invitations and messages
-				#$rg = new ilRadioGroupInputGUI($this->lng->txt('chat_sounds'), 'chat_sound_status');
-				#$rg->setValue(0);
-				#$ro = new ilCheckboxInputGUI($this->lng->txt('chat_sound_status_activate'), 1);
-				if((int)$ilSetting->get('chat_new_invitation_sound_status'))
-				{
-					$chb = new ilCheckboxInputGUI('', 'chat_new_invitation_sound_status');
-					$chb->setOptionTitle($this->lng->txt('chat_new_invitation_sound_status'));
-					$chb->setChecked(false);
-					$ro_parent->addSubItem($chb);
-				}
-
-				if((int)$ilSetting->get('chat_new_message_sound_status'))
-				{
-					$chb = new ilCheckBoxInputGUI('', 'chat_new_message_sound_status');
-					$chb->setOptionTitle($this->lng->txt('chat_new_message_sound_status'));
-					$chb->setChecked(false);
-					$ro_parent->addSubItem($chb);
-				}
-				#$rg->addOption($ro);
-
-				//$ro = new ilRadioOption($this->lng->txt('chat_sound_status_deactivate'), 0);
-				//$rg->addOption($ro);
-
-				#$ro_parent->addSubItem($rg);
-				//$form->addItem($rg);
-			}
-
-
-			#$ro_parent = new ilRadioOption($this->lng->txt('chat_message_notify_deactivate'), 0);
-			#$rg_parent->addOption($ro_parent);
-			$form->addItem($ro_parent);
-		}
+		$chb = new ilCheckboxInputGUI('', 'play_invitation_sound');
+		$chb->setOptionTitle($this->lng->txt('play_invitation_sound'));
+		$form->addItem($chb);
 
 		$form->addCommandButton("saveChatOptions", $lng->txt("save"));
+
 		return $form;
 	}
-	
+
+	/**
+	 *
+	 */
 	public function saveChatOptions()
 	{
-		global $ilUser, $ilSetting, $lng;
-		
-		if((int)$ilSetting->get('chat_message_notify_status'))
+		/**
+		 * @var $ilUser    ilObjUser
+		 * @var $ilSetting ilSetting
+		 * @var $lng       ilLanguage
+		 * @var $ilCtrl    ilCtrl
+		 */
+		global $ilUser, $lng, $ilCtrl;
+
+		$chatSettings         = new ilSetting('chatroom');
+		$notificationSettings = new ilSetting('notifications');
+		if(!(
+			$chatSettings->get('chat_enabled', false) &&
+			$notificationSettings->get('enable_osd', false) &&
+			$chatSettings->get('play_invitation_sound', false)
+		)
+		)
 		{
-			$ilUser->setPref('chat_message_notify_status', (int)$_POST['chat_message_notify_activate']);
+			$ilCtrl->redirect($this);
 		}
-		
-		if((int)$ilSetting->get('chat_sound_status') &&
-		   ((int)$ilSetting->get('chat_new_invitation_sound_status') || 
-		    (int)$ilSetting->get('chat_new_message_sound_status')))
+
+		$form = $this->getChatSettingsForm();
+		if(!$form->checkInput())
 		{
-			$ilUser->setPref('chat_sound_status', (int)$_POST['chat_sound_status']);
-			if((int)$ilSetting->get('chat_new_invitation_sound_status'))
-			{
-				$ilUser->setPref('chat_new_invitation_sound_status', (int)$_POST['chat_new_invitation_sound_status']);
-			}
-			if((int)$ilSetting->get('chat_new_message_sound_status'))
-			{
-				$ilUser->setPref('chat_new_message_sound_status', (int)$_POST['chat_new_message_sound_status']);
-			}
+			$this->showChatOptions($form);
+			return;
 		}
-		
-		$ilUser->writePrefs();		
-		
+
+		$ilUser->setPref('chat_play_invitation_sound', (int)$form->getInput('play_invitation_sound'));
+		$ilUser->writePrefs();
+
 		ilUtil::sendSuccess($lng->txt('saved_successfully'));
-		
-		$this->showChatOptions(true);
+		$this->showChatOptions($form);
 	}
 
 	/**
 	 * Set header
 	 */
-	function setHeader()
+	public function setHeader()
 	{
-//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"), "");
 		$this->tpl->setVariable('HEADER', $this->lng->txt('personal_settings'));
 	}
 
 	/**
-	 * show Chat Settings
+	 * @param ilPropertyFormGUI $form
 	 */
-	public function showChatOptions($by_post = false)
+	public function showChatOptions(ilPropertyFormGUI $form = null)
 	{
-		global $ilCtrl, $ilSetting, $lng, $ilUser;
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilUser, $ilCtrl;
+
+		$chatSettings = new ilSetting('chatroom');
+		$notificationSettings = new ilSetting('notifications');
+		if(!(
+			$chatSettings->get('chat_enabled', false) &&
+			$notificationSettings->get('enable_osd', false) &&
+			$chatSettings->get('play_invitation_sound', false)
+		))
+		{
+			$ilCtrl->redirect($this);
+		}
 
 		$this->__initSubTabs('showChatOptions');
-
 		$this->setHeader();
-		
-		$form = false;
-		if($by_post)
+
+		if($form)
 		{
-			$form = $this->getChatSettingsForm();
 			$form->setValuesByPost();
 		}
 		else
 		{
-			$values = array();
-			$values['chat_message_notify_status'] = $ilUser->getPref('chat_message_notify_status');
-                        $values['chat_message_notify_activate'] = $ilUser->getPref('chat_message_notify_status');
-
-			$values['chat_sound_status'] = $ilUser->getPref('chat_sound_status');
-			$values['chat_new_invitation_sound_status'] = $ilUser->getPref('chat_new_invitation_sound_status');
-			$values['chat_new_message_sound_status'] = $ilUser->getPref('chat_new_message_sound_status');
-			
 			$form = $this->getChatSettingsForm();
-			$form->setValuesByArray($values);
-			
+			$form->setValuesByArray(array(
+				'play_invitation_sound' => $ilUser->getPref('chat_play_invitation_sound')
+			));
 		}
-		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+
+		$this->tpl->setContent($form->getHTML());
 		$this->tpl->show();
 	}
 	
