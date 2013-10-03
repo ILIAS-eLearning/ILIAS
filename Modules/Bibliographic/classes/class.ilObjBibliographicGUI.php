@@ -133,6 +133,8 @@ class ilObjBibliographicGUI extends ilObject2GUI
         return true;
     }
 
+
+
     /**
      * this one is called from the info button in the repository
      * not very nice to set cmdClass/Cmd manually, if everything
@@ -195,10 +197,22 @@ class ilObjBibliographicGUI extends ilObject2GUI
 
         $_GET["baseClass"] = "ilRepositoryGUI";
         $_GET["ref_id"] = $id[0];
-        $_GET["cmd"] = "view";
+
+        if($id[1])
+        {
+            $_GET["entryId"] = $id[1];
+            $_GET["cmd"] = "showDetails";
+        }
+        else
+        {
+            $_GET["cmd"] = "view";
+        }
+
 
         include("ilias.php");
     }
+
+
 
     /*
      * initCreationForms
@@ -381,6 +395,9 @@ class ilObjBibliographicGUI extends ilObject2GUI
             $table = new ilDataBibliographicRecordListTableGUI($this, $this->cmd);
             $html = $table->getHTML();
             $tpl->setContent($html);
+
+            //Permanent Link
+            $tpl->setPermanentLink("bibl", $this->object->getRefId());
         }else{
 	        ilUtil::sendFailure($this->lng->txt("no_permission"), true);
 	        ilObjectGUI::_gotoRepositoryRoot();

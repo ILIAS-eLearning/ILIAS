@@ -9,11 +9,11 @@ require_once "./Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
 class ilBibliographicDetailsGUI
 {
     /**
-     * @param $bibl_obj
+     * @param ilObjBibliographic $bibl_obj
      * @return void
      *
      */
-    public function showDetails($bibl_obj)
+    public function showDetails(ilObjBibliographic $bibl_obj)
     {
         global $tpl, $ilTabs, $ilCtrl, $lng;
 
@@ -53,6 +53,10 @@ class ilBibliographicDetailsGUI
 
         // set content and title
         $tpl->setContent($form->getHTML());
+
+        //Permanent Link
+        $tpl->setPermanentLink("bibl", $bibl_obj->getRefId(),"_".$_GET['entryId']);
+
     }
 
 
