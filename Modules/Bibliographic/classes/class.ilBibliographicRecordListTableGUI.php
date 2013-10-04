@@ -21,25 +21,30 @@ class ilDataBibliographicRecordListTableGUI  extends ilTable2GUI
 	 */
 	public function  __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd)
 	{
-		global $lng, $tpl, $ilCtrl, $ilTabs;
+		global $lng, $ilCtrl;
+
+        $this->setId("tbl_bibl_overview");
+        $this->setPrefix("tbl_bibl_overview");
+        $this->setFormName('tbl_bibl_overview');
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 	 	$this->parent_obj = $a_parent_obj;
 
         //Number of records
-        //$this->setEnableNumInfo(false);
-        //No paging
-        $this->setLimit(0,0);
+        $this->setEnableNumInfo(true);
+
+        // paging
+        $this->setLimit(15,15);
+
         //No row titles
 		$this->setEnableHeader(false);
 
+        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 
         $this->addColumn($lng->txt("title"), 'title', "auto");
         $this->setRowTemplate("tpl.bibliographic_record_table_row.html", "Modules/Bibliographic");
 
         //FIXME das ganze setzen des Textes allenfalls Auslagern in Model!
-
-
 		$this->setData(ilBibliographicEntry::__getAllEntries($this->parent_obj->object->getId()));
 	}
 
