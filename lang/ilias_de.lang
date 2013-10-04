@@ -13911,6 +13911,7 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_crossref#:#Cross Reference
 bibl#:#bib_default_keywords#:#Schlagwörter
 bibl#:#bib_default_isbn#:#ISSN/ISBN
+bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#ris_default_ty#:#Typ
 bibl#:#ris_default_id#:#Reference ID
 bibl#:#ris_default_t1#:#Titel
