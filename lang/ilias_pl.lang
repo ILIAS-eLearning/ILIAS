@@ -1,8 +1,8 @@
-/* Copyright (c) 1998-2013 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
-* @module			language file Polish
+* @module			language file -lang_pl-
 * @modulegroup		language
 * @author			Dariusz Poczekalewicz <d.poczekalewicz@aon.edu.pl>
 * @version			$Id$
@@ -10,7 +10,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -508,6 +508,20 @@ assessment#:#errors#:#Errors
 assessment#:#errors_section#:#Error Data
 assessment#:#errortext#:#Error Text
 assessment#:#errortext_info#:#Please enter the error text.
+assessment#:#essay_keyword_relation#:#Score is granted
+assessment#:#essay_keyword_relation_all#:#Only if all keywords are found.
+assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.
+assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.
+assessment#:#essay_keyword_relation_one#:#in full if one keyword is found.
+assessment#:#essay_scoring_mode#:#Scoring Mode
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#eval_all_users#:#Oszacowanie dla wszystkich użytkowników
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
@@ -746,6 +760,8 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Brak oceny wybranego py
 assessment#:#qpl_assessment_of_questions#:#Ocena pytań
 assessment#:#qpl_assessment_total_of_answers#:#Ogółem odpowiedzi
 assessment#:#qpl_assessment_total_of_right_answers#:#Ogółem procent prawidłowych  odpowiedzi (procent maksymalnej punktacji)
+assessment#:#qpl_browsercolumns#:#Spersonalizowane listy pytań
+assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
 assessment#:#qpl_confirm_delete_questions#:#Czy jesteś pewien, że chcesz usunąć następujące pytania? Jeśli usuniesz zaznaczone pytania to rezultaty wszystkich testów zawierających zaznaczone pytania będą również usunięte.
 assessment#:#qpl_copy_insert_clipboard#:#Wybrane pytania zostały skopiowane do schowka
 assessment#:#qpl_copy_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania do schowka
@@ -874,6 +890,7 @@ assessment#:#term#:#Temin
 assessment#:#term_image#:#Zobrazowanie Terminu
 assessment#:#term_text#:#Opisu Terminu
 assessment#:#terms#:#Terminy
+assessment#:#test_add_new_question#:#Add Question
 assessment#:#test_cancelled#:#Test został anulowany
 assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 assessment#:#test_create_question#:#Utwórz pytanie
@@ -1053,6 +1070,10 @@ assessment#:#tst_list_of_questions_start#:#Pokaż listę pytań przed pierwszym 
 assessment#:#tst_list_of_questions_with_description#:#Pokaż opisy pytań na liście pytań
 assessment#:#tst_list_of_questions_yes#:#Tak, i dodatkowo
 assessment#:#tst_mail_notification#:#Powiadomienia E-mailowe
+assessment#:#tst_manscoring_input_best_solution#:#Best Solution
+assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!
 assessment#:#tst_manscoring_question_section_header#:#Question: %s
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_mark#:#Wybór
@@ -1095,6 +1116,9 @@ assessment#:#tst_participants_no#:#Nikt teraz nie rozpoczął wykonania testu!
 assessment#:#tst_participants_no_fixed#:#Nikogo nie przydzielono jako stałego uczestnika testu!
 assessment#:#tst_participating_users#:#Użytkownicy uczestniczący
 assessment#:#tst_pass_best_pass#:#Punktacja najlepszego wyniku użytkownika
+assessment#:#tst_pass_deletion#:#Previous Passes
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed
 assessment#:#tst_pass_details#:#Pokaż szczegóły
 assessment#:#tst_pass_last_pass#:#Punktacja ostatniego wykonania testu dla użytkownika
 assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s
@@ -1217,6 +1241,7 @@ assessment#:#tst_results_presentation_description#:#Jeśli jest wybrane "Pokaż 
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.
 assessment#:#tst_resume_test#:#Wykonywanie testu
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.
 assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s was saved successfully.
 assessment#:#tst_score_cut_question#:#Wyzeruj ujemne punkty dla każdego pytania
 assessment#:#tst_score_cut_test#:#Wyzeruj ujemne punkty dla sumy wyników wszystkich pytań
@@ -1309,7 +1334,7 @@ assessment#:#tst_test_output#:#Wyświetlenie testu
 assessment#:#tst_text_count_system#:#System punktacji
 assessment#:#tst_time_already_spent#:#Czas spędzony na pracy
 assessment#:#tst_time_already_spent_left#:#Do końca testu pozostało %s
-assessment#:#tst_title_output#:#Tytuł wyjścia testu
+assessment#:#tst_title_output#:# wyjścia testu
 assessment#:#tst_title_output_description#:#Wybierz jedną z powyższych opcji dla prezentacji tytułu testu i dostępnych punktów podczas wykonywania testu.
 assessment#:#tst_title_output_full#:#Pokaż tytuł testu i dostępne punkty
 assessment#:#tst_title_output_hide_points#:#Pokaż tylko tytuł testu
@@ -1472,7 +1497,7 @@ bibitem#:#bibitem_how_published#:#Jak opublikowane
 bibitem#:#bibitem_identifier#:#Identyfikator
 bibitem#:#bibitem_inbook#:#Wydawnictwo wewnętrzne
 bibitem#:#bibitem_inproceedings#:#Inproceedings
-bibitem#:#bibitem_institution#:#Instytucja
+bibitem#:#bibitem_institution#:#JW/Komórka organizacyjna/Uczelnia
 bibitem#:#bibitem_internet#:#Internet
 bibitem#:#bibitem_isbn#:#ISBN
 bibitem#:#bibitem_issn#:#ISSN
@@ -1518,6 +1543,8 @@ blog#:#blog_add_contributor#:#Add Contributor
 blog#:#blog_add_posting#:#Add Posting
 blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
+blog#:#blog_allow_html#:#Allow HTML/Javascript
+blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
 blog#:#blog_approve#:#Approve
 blog#:#blog_author#:#Author
 blog#:#blog_authors#:#Authors
@@ -1538,6 +1565,7 @@ blog#:#blog_contributors#:#Contributors
 blog#:#blog_copy#:#Copy Blog
 blog#:#blog_draft#:#Draft
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.
+blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.
 blog#:#blog_edit#:#Edit Blog
 blog#:#blog_edit_date#:#Edit Date
 blog#:#blog_edit_date_info#:#Publication status does not depend on this date.
@@ -1555,6 +1583,7 @@ blog#:#blog_font_color#:#Font Color
 blog#:#blog_import#:#Import Blog
 blog#:#blog_keyword#:#Keyword
 blog#:#blog_keywords#:#Keywords
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 blog#:#blog_list_more#:#more
 blog#:#blog_navigation#:#Postings
 blog#:#blog_needs_approval#:#Needs Approval
@@ -1570,6 +1599,7 @@ blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting#:#Blog Posting
 blog#:#blog_posting_deleted#:#The entry has been deleted.
 blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following entry?
+blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.
 blog#:#blog_preview#:#Preview
 blog#:#blog_preview_banner#:#Custom Banner
 blog#:#blog_preview_banner_height#:#Banner Height
@@ -1580,6 +1610,7 @@ blog#:#blog_rename_posting#:#Rename Posting
 blog#:#blog_search_users#:#Search Users
 blog#:#blog_settings#:#Blog Administration
 blog#:#blog_toggle_draft#:#Save As Draft
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_toggle_final#:#Publish Posting
 book#:#book_add#:#Add Booking Pool
 book#:#book_add_object#:#Add Object
@@ -1785,7 +1816,7 @@ certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Pa
 certificate#:#certificate_wrong_unit#:#Wprowadziłeś błędną jednostkę
 certificate#:#certificate_wrong_units#:#Wprowadziłeś błędny zestaw jednostek
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
-certificate#:#download_certificate#:#Download Certificate
+certificate#:#download_certificate#:#Pobierz Certyfikat
 chatroom#:#allow_anonymous#:#Zezwalaj na anonimowe logowanie
 chatroom#:#allow_custom_usernames#:#Zezwalaj na niestandardowe nazwy użytkowników
 chatroom#:#allow_private_rooms#:#Allow private rooms
@@ -1879,6 +1910,7 @@ chatroom#:#main#:#Główny pokój
 chatroom#:#moderate#:#Moderate
 chatroom#:#no_further_users#:#Nie ma dostępnych użytkowników
 chatroom#:#no_messages#:#Nie ma zapisanych wiadomości dla danego okresu.
+chatroom#:#no_username_given#:#Please choose a username
 chatroom#:#obj_chtr#:#Pokój Czat
 chatroom#:#period#:#Okres
 chatroom#:#permissions#:#Uprawnienia
@@ -2358,6 +2390,7 @@ common#:#cat_a#:#kategoria
 common#:#cat_add#:#Dodaj kategorię
 common#:#cat_added#:#Kategoria dodana
 common#:#cat_clear_page#:#Wyczyść stronę
+common#:#cat_copy_threads_info#:#Zdecyduj proszę, które elementy kategorii chcesz skopiować, linkować lub pominąć.
 common#:#cat_edit#:#Edytuj Kategorię
 common#:#cat_new#:#Nowa kategoria
 common#:#cat_pages#:#Strony kategorii
@@ -2457,6 +2490,7 @@ common#:#cond_ref_unique#:#Unique Preconditions for Links
 common#:#condition#:#Warunek
 common#:#condition_already_assigned#:#Obiekt jest już przydzielony
 common#:#condition_circle_created#:#To powiązanie nie jest możliwe, dopóki wchodzą w interakcje.
+common#:#condition_delete_sure#:#Czy na pewno chcesz usunąć następujący warunek?
 common#:#condition_deleted#:#Warunek  usunięty.
 common#:#condition_finished#:#Zakończony
 common#:#condition_not_finished#:#Nie ukończony
@@ -2641,7 +2675,7 @@ common#:#deleted_user_account#:#Usuń Konto Użytkownika
 common#:#deleted_users#:#Usunięci użytkownicy
 common#:#delicious#:#Konto del.icio.us
 common#:#deliver#:#Dostarcz ćwiczenie
-common#:#department#:#Dział
+common#:#department#:#Dział/Sekcja/Wydział
 common#:#desc#:#Opis
 common#:#description#:#Opis
 common#:#desired_password#:#Nowe hasło
@@ -2700,7 +2734,7 @@ common#:#edit_stylesheet#:#Edytuj styl
 common#:#edited_at#:#Edytowany
 common#:#edited_on#:#Edited on
 common#:#editor#:#Edytor
-common#:#email#:#E-mail
+common#:#email#:#E-mail (preferowany służbowy)
 common#:#email_feedback#:#E-mail zwrotny
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Wprowadzony adres e-mail jest nieprawidłowy!
@@ -2993,10 +3027,13 @@ common#:#gender_m#:#Mężczyzna
 common#:#general_settings#:#Ustawienia Ogólne
 common#:#generate#:#Generuj
 common#:#glo#:#Słownik
+common#:#glo_a#:#Słownik
 common#:#glo_add#:#Dodaj słownik
 common#:#glo_added#:#Słownik został dodany
 common#:#glo_create#:#Twórz Słownik
 common#:#glo_import#:#Import Glossary
+common#:#glo_join#:#Subskrybuj Słownik
+common#:#glo_leave#:#Rezygnuję z subskrypcji Słownika
 common#:#glo_mode#:#Tryb
 common#:#glo_mode_desc#:#Wirualny słownik działa tak jak normalny słownik. Dodatkowo zawiera hasła ze wszystkich słowników umieszczonych na tym samym poziomie zasobów oraz może zawierać hasła ze słowników położonych poniżej.
 common#:#glo_mode_level#:#wirtualny (tylko ten sam poziom)
@@ -3365,7 +3402,7 @@ common#:#install_local#:#Instaluj z plikiem lokalnym
 common#:#installed#:#Zainstalowane
 common#:#installed_local#:#Zainstalowane z plikiem lokalnym
 common#:#instant_messengers#:#Kuriery Natychmiastowych Wiadomości
-common#:#institution#:#Instytucja
+common#:#institution#:#Nazwa instytucji/jednostki wojskowej
 common#:#internal_local_roles_only#:#Lokalne role (tylko wygenerowane automatycznie)
 common#:#internal_system#:#System wewnętrzny
 common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.
@@ -3923,7 +3960,7 @@ common#:#obj_extt#:#Oprogramowanie Innych Firm
 common#:#obj_extt_desc#:#Konfiguruj zewnętrzne oprogramowanie lub serwis obsługiwane przez ILIAS
 common#:#obj_facs#:#Pliki i Foldery
 common#:#obj_facs_desc#:#Konfiguracja dostępu do obiektów.
-common#:#obj_feed#:#Web Feed
+common#:#obj_feed#:#Kanał Internetowy
 common#:#obj_file#:#Plik
 common#:#obj_file_duplicate#:#Kopiuj plik
 common#:#obj_file_inline#:#Plik Modułu Nauczania
@@ -4055,7 +4092,7 @@ common#:#obj_uset#:#Ustawienia użytkownika
 common#:#obj_usr#:#Użytkownik
 common#:#obj_usrf#:#Konta Użytkowników
 common#:#obj_usrf_desc#:#Zarządzanie kontami użytkowników.
-common#:#obj_webr#:#Zasób web
+common#:#obj_webr#:#Link Internetowy
 common#:#obj_webr_duplicate#:#Kopiuj zasób Web
 common#:#obj_webr_select#:#-- Wybierz jeden zasób Web --
 common#:#obj_wfld#:#Folder
@@ -4158,7 +4195,7 @@ common#:#order_by#:#Kolejność wg
 common#:#order_by_answers#:#Uporządkowane wg odpowiedzi
 common#:#order_by_date#:#Uporządkowane wg daty
 common#:#organization#:#Provider
-common#:#other#:#Inne
+common#:#other#:#Dodatkowe dane
 common#:#overview#:#Przegląd
 common#:#overwrite#:#Nadpisz
 common#:#owner#:#Właściciel
@@ -4237,7 +4274,7 @@ common#:#permission_denied#:#Dostęp zabroniony
 common#:#permission_denied_filed_locked_by#:#Access denied. The file was locked by '%s'.
 common#:#permission_settings#:#Ustawienia uprawnień dostępu
 common#:#permission_settings_info#:#Ten formularz określa która rola co może wykonywać z bieżącym obiektem '%s'.
-common#:#person_title#:#Tytuł
+common#:#person_title#:#Stopień wojskowy/tytuł
 common#:#personal_data#:#Dane osobowe
 common#:#personal_desktop#:#Pulpit Osobisty
 common#:#personal_picture#:#Zdjęcie
@@ -4253,7 +4290,7 @@ common#:#pg_new#:#Nowa strona
 common#:#phone#:#Telefon
 common#:#phone_home#:#Telefon domowy
 common#:#phone_mobile#:#Telefon komórkowy
-common#:#phone_office#:#Telefon do pracy
+common#:#phone_office#:#Telefon służbowy/kontaktowy
 common#:#phrase#:#Fraza
 common#:#please_choose#:#-- Wybierz --
 common#:#please_enter_target#:#Podaj przeznaczenie
@@ -4375,7 +4412,7 @@ common#:#repeat_scan_failed#:#Powtórzone skanowanie nieudane.
 common#:#repeat_scan_succeded#:#Powtórzone skanowanie udane.
 common#:#replace_file#:#Zamień plik
 common#:#reply#:#Odpowiedz
-common#:#repository#:#Dostępne Zasoby
+common#:#repository#:#Dostępne zasoby
 common#:#repository_admin#:#Dostępne Zasoby, Kosz i Uprawnienia
 common#:#repository_admin_desc#:#Ustaw uprawnienia dla pozycji Dostępnych Zasobów, przywróć lub usuń obiekty z kosza systemowego.
 common#:#repository_frame#:#Zawartość Dostępnych Zasobów
@@ -4469,6 +4506,9 @@ common#:#rolt_new#:#Nowy szablon roli
 common#:#root_edit#:#Edycja korzenia systemu
 common#:#row#:#Wiersz
 common#:#rows#:#Wiersze
+common#:#rpc_pdf_font#:#Fonts
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.
+common#:#rpc_pdf_generation#:#PDF-Generation
 common#:#rte_editor_disabled#:#Edytor Rich Text wyłączony
 common#:#rte_editor_enabled#:#Edytor Rich Text wybrany
 common#:#sahs#:#Moduł Nauczania SCORM/AICC
@@ -4584,6 +4624,7 @@ common#:#setSystemLanguage#:#Ustaw język systemowy
 common#:#settings#:#Ustawienia
 common#:#settings_for_all_members#:#Global Setting for all Course/Group Members
 common#:#settings_for_new_members#:#Settings for new Members
+common#:#settings_per_members#:#Ustawienia dla każdego użytkownika osobno
 common#:#settings_per_users#:#Settings per Course/Group Members
 common#:#settings_saved#:#Ustawienia zapisane
 common#:#setUserLanguage#:#Ustaw język użytkownika
@@ -4659,6 +4700,7 @@ common#:#soap_connect_timeout#:#Connection Timeout
 common#:#soap_connect_timeout_info#:#The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted.
 common#:#soap_user_administration#:#Zewnętrzna Administracja użytkownikami (SOAP)
 common#:#soap_user_administration_desc#:#Jeśli wybrane, to wszystkie konta mogą być zarządzane zewnętrznym klientem SOAP.
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
 common#:#socialbm_disable#:#Disable
@@ -4799,7 +4841,7 @@ common#:#title_and_translations#:#Tytuł i Tłumaczenia
 common#:#title_long#:#Długi tytuł
 common#:#title_required#:#Proszę wprowadź tytuł.
 common#:#to#:#Do
-common#:#to_client_list#:#Do wyboru klienta
+common#:#to_client_list#:#Wybór Klienta
 common#:#to_desktop#:#Dodaj do pulpitu
 common#:#to_filter#:#Filter
 common#:#today#:#Dzisiaj
@@ -5044,7 +5086,7 @@ common#:#webfolder_instructions_titletext#:#Open %1$s as webfolder
 common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">other Browser</a>.
 common#:#webr#:#Zasób web
 common#:#webr_active#:#Aktywny
-common#:#webr_add#:#Dodaj zasób web
+common#:#webr_add#:#Dodaj Link Internetowy
 common#:#webr_add_item#:#Dodaj zasób web
 common#:#webr_delete_items#:#Usuń zasoby web
 common#:#webr_deleted_items#:#Usunięte zasoby web.
@@ -5579,7 +5621,7 @@ content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Właściwości modułu nauczania
-content#:#cont_LocalFile#:#Local File
+content#:#cont_localfile#:#Local File
 content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".
 content#:#cont_location#:#Location
@@ -6067,6 +6109,7 @@ content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If delet
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 content#:#htlm_import#:#Import HTML Learning Module
 content#:#HTML export#:#Eksport HTML
+content#:#HTML_export#:#Eksport HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Edycja pozycji menu
 content#:#lm_menu_entry_target#:#Przeznaczenie
@@ -6087,6 +6130,7 @@ content#:#Pages#:#Strony
 content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
 content#:#PDF export#:#Eksport PDF
+content#:#PDF_export#:#Eksport PDF
 content#:#pg#:#Strona
 content#:#public_section#:#Sekcja publiczna
 content#:#read offline#:#Czytaj Offline
@@ -6135,7 +6179,7 @@ crs#:#crs_accept_subscriber#:#Subskrypcja kursu
 crs#:#crs_accept_subscriber_body#:#Zostałeś przydzielony do tego kursu.
 crs#:#crs_access#:#Access
 crs#:#crs_access_password#:#Hasło
-crs#:#crs_activate_notification#:#Activate Notification
+crs#:#crs_activate_notification#:#Aktywuj Powiadomienia
 crs#:#crs_activation#:#Aktywacja
 crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.
 crs#:#crs_activation_online_info#:#Jeśli włączony jest tryb offline, wówczas tylko administratorzy kursu i opiekunowie mogą zobaczyć i edytować kurs.
@@ -6210,7 +6254,7 @@ crs#:#crs_create_date#:#Twórz termin
 crs#:#crs_crs_structure#:#Struktura kursu
 crs#:#crs_custom_user_fields#:#Course Relevant User Data
 crs#:#crs_dates#:#Terminy
-crs#:#crs_deactivate_notification#:#Deactivate Notification
+crs#:#crs_deactivate_notification#:#Wyłącz Powiadamianie
 crs#:#crs_deassign_lm_sure#:#Czy chcesz usunąć ten przydział?
 crs#:#crs_delete_file#:#Usunąć plik?
 crs#:#crs_delete_from_list_sure#:#Czy chcesz usunąć następujących użytkowników z listy?
@@ -6375,8 +6419,9 @@ crs#:#crs_no_valid_member_id_given#:#Brak ważnego Id uczestnika
 crs#:#crs_not_available#:#-nie dostępne-
 crs#:#crs_notification#:#Zawiadomienie
 crs#:#crs_notification_activated#:#Notification Activated
-crs#:#crs_notification_deactivated#:#Notification Deactivated
+crs#:#crs_notification_deactivated#:#Powiadomienia Dezaktywowane
 crs#:#crs_notification_explanation_admin#:#Otrzymałeś tego maila ponieważ jesteś administratorem / opiekunem z włączona opcją powiadamiania.
+crs#:#crs_notification_list_title#:#Powiadomienie o Nowym Uczestniku
 crs#:#crs_notification_salutation#:#Drogi uczestniku kursu,
 crs#:#crs_notify#:#Nowe żądania rejestracji
 crs#:#crs_nr#:#Nr
@@ -6415,6 +6460,7 @@ crs#:#crs_objective_self_assessment#:#Initial Test
 crs#:#crs_objective_status#:#Objective Status
 crs#:#crs_objective_step#:#Step
 crs#:#crs_objective_updated_test#:#Modyfikacje zapamiętane.
+crs#:#crs_objective_view#:#Widok zorientowany na cele
 crs#:#crs_objective_wiz_final#:#Final Test Questions
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test
@@ -7180,6 +7226,7 @@ dateplaner#:#r_nonrecurring#:#Raz
 dateplaner#:#r_week#:#co tydzień
 dateplaner#:#r_year#:#co rok
 dateplaner#:#readimportfile#:#Wstaw
+dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.
 dateplaner#:#rotation#:#Cykl
 dateplaner#:#rotation_dates#:#Terminy cykliczne
 dateplaner#:#Sa_long#:#Sobota
@@ -7221,6 +7268,7 @@ dateplaner#:#wk_short#:#TD
 dateplaner#:#year#:#rok
 dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
+dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activate Record Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
@@ -7238,6 +7286,7 @@ dcl#:#dcl_change_notification_dcl_new_record#:#the following record was created
 dcl#:#dcl_change_notification_dcl_update_record#:#the following record was updated
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
@@ -7247,7 +7296,7 @@ dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this t
 dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
 dcl#:#dcl_copy#:#Copy Data Collection
 dcl#:#dcl_create_field#:#Create Field
-dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".
+dcl#:#dcl_create_fields#:#Należy utworzyć co najmniej jedno pole w zakładce "Pola."
 dcl#:#dcl_datatype#:#Datatype
 dcl#:#dcl_datetime#:#Datetime
 dcl#:#dcl_delete_perm#:#Permission Delete Entry
@@ -7279,11 +7328,14 @@ dcl#:#dcl_export_table_excel#:#Export .xls
 dcl#:#dcl_field_datatype#:#Field Datatype
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
+dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.
 dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_height#:#Height
+dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module
 dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view
+dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.
 dcl#:#dcl_integer#:#Integer
 dcl#:#dcl_learning_progress#:#Show the learning progess of the linked module of the viewer
 dcl#:#dcl_legend_placeholders#:#Placeholders
@@ -7302,7 +7354,7 @@ dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
-dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
+dcl#:#dcl_no_fields_yet#:#Brak pola zdefiniowanego dla tej tabeli. w związku z czym nie można tworzyć żadnych wpisów.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection
@@ -7315,6 +7367,7 @@ dcl#:#dcl_order#:#Order
 dcl#:#dcl_owner_editable#:#Edit only own records
 dcl#:#dcl_permissions_form#:#User rights
 dcl#:#dcl_rating#:#Rating
+dcl#:#dcl_record#:#Record
 dcl#:#dcl_record_deleted#:#Record deleted
 dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition
 dcl#:#dcl_record_id#:#Record ID
@@ -7364,6 +7417,7 @@ didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the
 didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the following didactic templates?
 didactic#:#didactic_copy_suc_message#:#Copied didactic template
 didactic#:#didactic_deactivated_msg#:#Deactivated didactic templates
+didactic#:#didactic_default_type#:#Default
 didactic#:#didactic_default_type_info#:#Domyślne uprawnienia %s
 didactic#:#didactic_delete_msg#:#Deleted didactical templates.
 didactic#:#didactic_do_export#:#Export
@@ -7419,10 +7473,14 @@ ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute
 ecs#:#ecs_cmap_all_in_one#:#Course in one Category
 ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
 ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.
+ecs#:#ecs_cmap_att_courseType#:#Course Type
+ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme
 ecs#:#ecs_cmap_att_lecturer#:#Lecturer
+ecs#:#ecs_cmap_att_module#:#Module
 ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_term#:#Term
 ecs#:#ecs_cmap_att_title#:#Title
+ecs#:#ecs_cmap_att_venue#:#Venue
 ecs#:#ecs_cmap_attributes#:#Mapping Attributes
 ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration
 ecs#:#ecs_cmap_def_cat#:#Default Category
@@ -7442,6 +7500,7 @@ ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value
 ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
 ecs#:#ecs_cmap_overview#:#Mapping Overview
+ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation
 ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS Directory Trees
 ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System
@@ -7564,6 +7623,8 @@ ecs#:#ecs_released_content#:#Released E-Content
 ecs#:#ecs_remote_imported#:#Informations about remote courses have been refreshed.
 ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts
 ecs#:#ecs_role#:#Role Assignment
+ecs#:#ecs_role_mapping_value#:#Attribute Value
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_server_addr#:#Server Address
 ecs#:#ecs_server_deleted#:#Deleted Server
 ecs#:#ecs_server_settings#:#ECS Functionalities
@@ -7576,6 +7637,7 @@ ecs#:#ecs_status_mapped#:#Mapped
 ecs#:#ecs_status_pending_unmapped#:#Pending (unmapped)
 ecs#:#ecs_status_pending_unmapped_discon#:#Pending (mapped, disconnection possible)
 ecs#:#ecs_status_pending_unmapped_nondiscon#:#Pending (mapped, disconnection impossible)
+ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tbl_active#:#Active
@@ -7725,6 +7787,7 @@ exercise#:#exc_your_submission#:#Twoje ćwiczenie
 exp#:#exp_create_file#:#Utwórz Plik Eksportu
 exp#:#exp_create_xml_file#:#Create Export Package (XML)
 exp#:#exp_export_files#:#Pliki Eksportu
+exp#:#exp_file_created#:#The export file has been created.
 exp#:#exp_html#:#HTML
 exp#:#exp_really_delete#:#Do you really want to delete these export files?
 exp#:#exp_scorm#:#SCORM
@@ -7743,9 +7806,9 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_resource#:#Resource
 export#:#export_save_selection#:#Start Export
 export#:#export_select_resources#:#Select Resources
-feed#:#block_feed_block_feed_url#:#Feed URL
+feed#:#block_feed_block_feed_url#:#Link URL
 feed#:#block_feed_block_feed_url_info#:#Musi być prawidłowym RSS/Atom URL, np. http://www.ilias.de/rss.php
-feed#:#block_feed_block_head#:#Feed zewnętrznej wiadomości
+feed#:#block_feed_block_head#:#Zewnętrzny Kanał Internetowy
 feed#:#block_feed_block_title#:#Tytuł
 feed#:#feed_disable_rep_feeds#:#Wyłącz zewnętrzne Web Feeds w kategoriach
 feed#:#feed_disable_rep_feeds_info#:#Ta opcja deaktywuje wszystkie istniejące zewnętrzne bloki web feed, w przypadku nieoczekiwanych problemów z zewnętrznymi żródłami feed.
@@ -7974,6 +8037,7 @@ grp#:#crs_grouping_select_one#:#Wybierz dokładnie jeden limit uczestnictwa.
 grp#:#crs_grp_added_grouping#:#Limit na ilość uczestników został dodany.
 grp#:#crs_grp_assign_crs#:#Przydział grup
 grp#:#crs_grp_enter_title#:#Wypełnij wymagane pola.
+grp#:#crs_grp_info_reg#:#Możesz się zarejestrować tylko do jednej z tych grup:
 grp#:#crs_grp_no_courses_assigned#:#Nie przydzielono żadnej grupy
 grp#:#crs_grp_table_assigned_courses#:#Przydzielone grupy
 grp#:#events#:#Sessions
@@ -8358,6 +8422,7 @@ mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Linia rozdzielająca
 mail#:#mail_account_mail#:#Konto pocztowe
 mail#:#mail_account_mail_check#:#Sprawdź konto pocztowe
+mail#:#mail_add_folder#:#Add New Subfolder
 mail#:#mail_add_recipient#:#Podaj odbiorcę
 mail#:#mail_add_subfolder#:#Dodaj podfolder
 mail#:#mail_add_subject#:#Podaj temat
@@ -8466,6 +8531,7 @@ mail#:#mail_options_saved#:#Opcje zachowane
 mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)
 mail#:#mail_received_x_new_mails#:#Otrzymałeś %s nowe maile.
 mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidłowy.
+mail#:#mail_rename_folder#:#Rename Folder
 mail#:#mail_s#:#Poczta elektroniczna
 mail#:#mail_s_unread#:#Nieprzeczytane wiadomości
 mail#:#mail_salutation_anonymous#:#Hello
@@ -8525,6 +8591,7 @@ mcst#:#mcst_default_visibility#:#Default Access
 mcst#:#mcst_det_playtime#:#Określ czas odtwarzania
 mcst#:#mcst_download_audioportable#:#Download Audio Portable
 mcst#:#mcst_download_standard#:#Download
+mcst#:#mcst_download_videoalternative#:#Download Alternative File
 mcst#:#mcst_download_videoportable#:#Download Video Portable
 mcst#:#mcst_downloadable#:#Pobierz
 mcst#:#mcst_downloadable_info#:#Jeśli ta opcja jest zaznaczona, istnieje możliwość pobrania pliku.
@@ -8701,7 +8768,7 @@ meta#:#meta_c_AS#:#Samoa Amerykańskie
 meta#:#meta_c_AT#:#Austria
 meta#:#meta_c_AU#:#Australia
 meta#:#meta_c_AW#:#Aruba
-meta#:#meta_c_AX#:#Åland Islands
+meta#:#meta_c_AX#:#Aland Islands
 meta#:#meta_c_AZ#:#Azerbejdżan
 meta#:#meta_c_BA#:#Bośnia i Herzegowina
 meta#:#meta_c_BB#:#Barbados
@@ -9242,6 +9309,8 @@ news#:#finish_publishing_date#:#Finish Publishing:
 news#:#news_1_file_created#:#1 plik został dodany.
 news#:#news_1_file_updated#:#1 plik został zaktualizowany.
 news#:#news_1_postings#:#1 Post został dodany.
+news#:#news_acc_cache#:#Sprawdzenie uprawnień (Minuty)
+news#:#news_acc_cache_info#:#Sprawdź uprawnienia do czytania wiadomości przez x minut (tylko pulpit osobisty). '0' oznacza zawsze. Większe wartości zwiększają wydajność, lecz linki mogą wskazywać niedostępne pozycje.
 news#:#news_add_news#:#Add News
 news#:#news_all_items#:#Wszystkie pozycje
 news#:#news_allow_longer_periods#:#Allow Longer Periods
@@ -9352,6 +9421,7 @@ notes#:#notes_private_annotating#:#Private Annotation
 notes#:#notes_public_commenting#:#Public Comments
 notes#:#notes_public_comments#:#Publiczne komentarze
 notes#:#notes_show_comments#:#Pokaż Komentarze
+obj#:#edit_questions#:#Edit Questions
 objref#:#objref_custom_title#:#Use Custom Title
 objref#:#objref_edit_ref#:#Target Settings
 objref#:#objref_edit_title#:#Title Settings
@@ -9979,6 +10049,8 @@ prtf#:#prtf_add_page#:#Dodaj Stronę
 prtf#:#prtf_add_portfolio#:#Dodaj Portfolio
 prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
+prtf#:#prtf_allow_html#:#Allow HTML/Javascript
+prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
 prtf#:#prtf_background_color#:#Kolor Tła
 prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_copy_page#:#Kopiuj Strony
@@ -10029,6 +10101,7 @@ ps#:#ps_account_security_mode#:#Account Security
 ps#:#ps_account_security_mode_customized#:#Customized Account Security
 ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security
 ps#:#ps_agreement_accepted#:#Warunki użytkowania zostały zaakceptowane
+ps#:#ps_agreement_req_info#:#Zaakceptuj warunki użytkowania aby mieć dostęp do zawartości kursu.
 ps#:#ps_auto_https#:#Autodetekcja HTTPS
 ps#:#ps_auto_https_description#:#jeśli włączony, ILIAS próbuje wykryć status HTTPs przez analizę wartości nagłówka podanej poniżej.
 ps#:#ps_auto_https_header_name#:#Nazwa nagłówka
@@ -10041,6 +10114,7 @@ ps#:#ps_cdf_delete_sure#:#Czy chcesz usunąć to pole użytkownika?
 ps#:#ps_cdf_deleted#:#Usunięto pole użytkownika.
 ps#:#ps_cdf_deleted_field#:#Usunięto wartość.
 ps#:#ps_cdf_edit_field#:#Edit Data Field
+ps#:#ps_cdf_info#:#Dalsze specyficzne dla kursu dane:
 ps#:#ps_cdf_name#:#Nazwa
 ps#:#ps_cdf_no_fields#:#Nie zdefiniowano pól użytkownika
 ps#:#ps_cdf_no_name_given#:#Podaj nazwę
@@ -10101,6 +10175,7 @@ ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins
 ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.
 ps#:#ps_privacy_protection#:#Ustawienia prywatności
 ps#:#ps_profile_export#:#Zabezpieczenie danych profilu użytkownika
+ps#:#ps_required_info#:#Dalsze pola specyficzne dla kursu są wymagane dla dostępu do zawartości kursu.
 ps#:#ps_security_protection#:#Ustawienia bezpieczeństwa
 ps#:#ps_select_one#:#Wybierz jeden plik eksportowy
 ps#:#ps_show_crs_access#:#Pokaż ostatni czas dostępu uczestników kursu
@@ -10134,7 +10209,7 @@ pwassist#:#pwassist_not_permitted#:#Podaj inną nazwę użytkownika.\nPomoc do h
 pwassist#:#pwassist_password_assigned#:#Hasło zostało przydzielone użytkownikowi "%1$s".
 pwassist#:#pwassist_session_expired#:#Wypełnij ponownie ten formularz.\nSesja pomocy do hasła minęła. To mogło nastąpić, ponieważ próbowałeś użyć odnośnika wysłanego do Ciebie więcej razy, lub minęło zbyt dużo czasu od chwili wysłania tego adresu do Ciebie.
 pwassist#:#pwassist_update_error#:#Skontaktuj się z administratorem systemu.\nHasło nie zostało przydzielone do konta z powodu błędu zapisu w bazie danych.
-pwassist#:#pwassist_username_mail_body#:#Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail:n%s\n\nTa wiadomość została utworzona automatycznie przez serwer ILIAS:\n\t%s\n\nTy (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.\n\nSprawdź dane i wykonaj co jest sugerowane::\n\n-Jeśli żądałeś tej wiadomości:nNa końcu usuń tę wiadomość.\n\n-Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości:\nSkontaktuj się z %s.\n\n- Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::\n\n1. Otwórz swoją przeglądarkę www.\n\n2. Wprowadź następujący url:\n\t%s\n\nUwaga: Adres jest pojedynczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn że twój klient pocztowy sam podzielił go na wiersze.\n\n3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony, wraz z jedną z nazw użytkownika i łącznie z adresem e-mail, uzyskasz nowe hasło.
+pwassist#:#pwassist_username_mail_body#:#Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail:\n%s\n\nTa wiadomość została utworzona automatycznie przez serwer ILIAS:\n\t%s\n\nTy (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.\n\nSprawdź dane i wykonaj co jest sugerowane::\n\n-Jeśli żądałeś tej wiadomości:nNa końcu usuń tę wiadomość.\n\n-Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości:\nSkontaktuj się z %s.\n\n- Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::\n\n1. Otwórz swoją przeglądarkę www.\n\n2. Wprowadź następujący url:\n\t%s\n\nUwaga: Adres jest pojedynczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn że twój klient pocztowy sam podzielił go na wiersze.\n\n3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony, wraz z jedną z nazw użytkownika i łącznie z adresem e-mail, uzyskasz nowe hasło.
 rating#:#rat_not_rated_yet#:#Not Rated Yet
 rating#:#rat_nr_ratings#:#%s Ratings
 rating#:#rat_one_rating#:#One Rating
@@ -10209,6 +10284,35 @@ rbac#:#cat_administrate_users#:#Administrate Local User Accounts
 rbac#:#cat_cat_administrate_users#:#Administracja kontami lokalnych użytkowników
 rbac#:#cat_copy#:#Kopiuj Kategorię
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
+rbac#:#cat_create_blog#:#Create Blog
+rbac#:#cat_create_book#:#Create Booking Pool
+rbac#:#cat_create_cat#:#Twórz Kategorię
+rbac#:#cat_create_catr#:#Kopiuj Odwołanie do Kursu
+rbac#:#cat_create_chtr#:#Create Chatroom
+rbac#:#cat_create_crs#:#Twórz Kurs
+rbac#:#cat_create_crsr#:#Twórz Nowe Odwołanie do Kursu
+rbac#:#cat_create_dcl#:#Create Data Collection
+rbac#:#cat_create_exc#:#Twórz Ćwiczenie
+rbac#:#cat_create_feed#:#Utwórz Web Feed
+rbac#:#cat_create_file#:#Załaduj plik
+rbac#:#cat_create_frm#:#Twórz Forum
+rbac#:#cat_create_glo#:#Twórz Słownik
+rbac#:#cat_create_grp#:#Twórz Grupę
+rbac#:#cat_create_htlm#:#Twórz Moduł Nauczania HTML
+rbac#:#cat_create_icrs#:#Twórz seminarium LearnLinc
+rbac#:#cat_create_itgr#:#Create Item Group
+rbac#:#cat_create_lm#:#Twórz Moduł Nauczania
+rbac#:#cat_create_mcst#:#Utwórz MediaCast
+rbac#:#cat_create_mep#:#Twórz pulę mediów
+rbac#:#cat_create_poll#:#Create Poll
+rbac#:#cat_create_qpl#:#Twórz pulę pytań
+rbac#:#cat_create_rcrs#:#Create Course-Links
+rbac#:#cat_create_sahs#:#Twórz moduł nauczania SCORM/AICC
+rbac#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)
+rbac#:#cat_create_svy#:#Twórz ankietę
+rbac#:#cat_create_tst#:#Twórz test
+rbac#:#cat_create_webr#:#Twórz nowy zasób web
+rbac#:#cat_create_wiki#:#Twórz Wiki
 rbac#:#cat_delete#:#Usuń Kategorię
 rbac#:#cat_edit_permission#:#Zmień ustawienia uprawnień
 rbac#:#cat_read#:#Prawo czytania Kategorii
@@ -10232,6 +10336,7 @@ rbac#:#change_existing_prefix#:#Zmień istniejący
 rbac#:#change_existing_prefix_single#:#Zmień
 rbac#:#change_existing_suffix#:#&nbsp;
 rbac#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#chtr_delete#:#User can move or delete course
 rbac#:#chtr_edit_permission#:#Change Permissions
 rbac#:#chtr_moderate#:#Moderate Chatroom
 rbac#:#chtr_read#:#Read
@@ -10244,6 +10349,34 @@ rbac#:#cmps_write#:#Edit component settings
 rbac#:#contribute#:#Contribute
 rbac#:#crs_copy#:#Kopiuj Kurs
 rbac#:#crs_copy_threads_info#:#Zdecyduj, które materiały kursu mają być skopiowane, złączone lub pominięte.
+rbac#:#crs_create_blog#:#Create Blog
+rbac#:#crs_create_book#:#Create Booking Pool
+rbac#:#crs_create_catr#:#Create Category Reference
+rbac#:#crs_create_chtr#:#Create Chatroom
+rbac#:#crs_create_crsr#:#Create new Course Reference
+rbac#:#crs_create_dcl#:#Create Data Collection
+rbac#:#crs_create_exc#:#Twórz ćwiczenie
+rbac#:#crs_create_feed#:#Utwórz Web Feed
+rbac#:#crs_create_file#:#Załaduj plik
+rbac#:#crs_create_fold#:#Twórz Folder
+rbac#:#crs_create_frm#:#Twórz Forum
+rbac#:#crs_create_glo#:#Twórz Słownik
+rbac#:#crs_create_grp#:#Twórz Grupę
+rbac#:#crs_create_htlm#:#Twórz Moduł Nauczania HTML
+rbac#:#crs_create_icrs#:#Twórz seminarium LearnLinc
+rbac#:#crs_create_itgr#:#Create Item Group
+rbac#:#crs_create_lm#:#Twórz Moduł Nauczania
+rbac#:#crs_create_mcst#:#Utwórz MediaCast
+rbac#:#crs_create_mep#:#Twórz pulę Mediów
+rbac#:#crs_create_poll#:#Create Poll
+rbac#:#crs_create_qpl#:#Twórz pulę pytań dla Testów
+rbac#:#crs_create_sahs#:#Twórz moduł nauczania SCORM/AICC
+rbac#:#crs_create_sess#:#Create Session
+rbac#:#crs_create_spl#:#Twórz pulę pytań dla Ankiet
+rbac#:#crs_create_svy#:#Twórz Ankietę
+rbac#:#crs_create_tst#:#Twórz Test
+rbac#:#crs_create_webr#:#Twórz nowy zasób web
+rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_delete#:#Usuń Kurs
 rbac#:#crs_edit_event#:#Edytuj Wydarzenia w Kalendarzu
 rbac#:#crs_edit_learning_progress#:#Edycja postępu nauczania
@@ -10274,6 +10407,7 @@ rbac#:#edit_event#:#Edit Calendar
 rbac#:#edit_learning_progress#:#Edycja postępu nauczania
 rbac#:#edit_permission#:#Zmiana Uprawnień
 rbac#:#edit_roleassignment#:#Edycja przydziału ról
+rbac#:#edit_userassignment#:#Edit User Assignment
 rbac#:#exc_copy#:#Kopiuj Ćwiczenie
 rbac#:#exc_delete#:#Usuń ćwiczenie
 rbac#:#exc_edit_learning_progress#:#Edytuj Postęp Nauczania
@@ -10308,6 +10442,31 @@ rbac#:#filter_local_roles_object#:#Pokaż tylko role zdefiniowane w tej pozycji
 rbac#:#filter_roles_local_policy#:#Pokaż tylko role używając lokalnej polityki w tej pozycji
 rbac#:#fld_create_poll#:#Create Poll
 rbac#:#fold_copy#:#Kopiuj Folder
+rbac#:#fold_create_blog#:#Create Blog
+rbac#:#fold_create_book#:#Create Booking Pool
+rbac#:#fold_create_chtr#:#Create Chatroom
+rbac#:#fold_create_dcl#:#Create Data Collection
+rbac#:#fold_create_exc#:#Twórz Ćwiczenie
+rbac#:#fold_create_file#:#Załaduj plik
+rbac#:#fold_create_fold#:#Twórz Folder
+rbac#:#fold_create_frm#:#Twórz Forum
+rbac#:#fold_create_glo#:#Twórz Słownik
+rbac#:#fold_create_grp#:#Dodaj nową grupę
+rbac#:#fold_create_htlm#:#Twórz Moduł Nauczania HTML
+rbac#:#fold_create_icrs#:#Twórz seminarium LearnLinc
+rbac#:#fold_create_itgr#:#Create Item Group
+rbac#:#fold_create_lm#:#Twórz Moduł Nauczania
+rbac#:#fold_create_mcst#:#Utwórz MediaCast
+rbac#:#fold_create_mep#:#Twórz pulę Mediów
+rbac#:#fold_create_poll#:#Create Poll
+rbac#:#fold_create_qpl#:#Twórz pulę pytań dla Testów
+rbac#:#fold_create_sahs#:#Twórz moduł nauczania SCORM/AICC
+rbac#:#fold_create_sess#:#Create Session
+rbac#:#fold_create_spl#:#Twórz pulę pytań dla ankiet
+rbac#:#fold_create_svy#:#Twórz Ankietę
+rbac#:#fold_create_tst#:#Twórz Test
+rbac#:#fold_create_webr#:#Twórz nowy zasób web
+rbac#:#fold_create_wiki#:#Create Wiki
 rbac#:#fold_delete#:#Usuń Folder
 rbac#:#fold_edit_learning_progress#:#Edycja procesu nauczania
 rbac#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
@@ -10335,6 +10494,34 @@ rbac#:#glo_visible#:#Słownik jest widoczny
 rbac#:#glo_write#:#Edycja Słownika
 rbac#:#grp#:#User can copy group
 rbac#:#grp_copy#:#Kopiuj Grupę
+rbac#:#grp_create_blog#:#Create Blog
+rbac#:#grp_create_book#:#Create Booking Pool
+rbac#:#grp_create_catr#:#Create Category Reference
+rbac#:#grp_create_chtr#:#Create Chatroom
+rbac#:#grp_create_crsr#:#Create Course Reference
+rbac#:#grp_create_dcl#:#Create Data Collection
+rbac#:#grp_create_exc#:#Twórz Ćwiczenie
+rbac#:#grp_create_feed#:#Utwórz Web Feed
+rbac#:#grp_create_file#:#Użytkownik może przysyłać pliki
+rbac#:#grp_create_fold#:#Użytkownik może tworzyć foldery
+rbac#:#grp_create_frm#:#Twórz Forum
+rbac#:#grp_create_glo#:#Twórz Słownik
+rbac#:#grp_create_grp#:#Twórz grupę
+rbac#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
+rbac#:#grp_create_icrs#:#Twórz seminarium LearnLinc
+rbac#:#grp_create_itgr#:#Create Item Group
+rbac#:#grp_create_lm#:#Twórz Moduł Nauczania
+rbac#:#grp_create_mcst#:#Utwórz MediaCast
+rbac#:#grp_create_mep#:#Twórz Pulę Mediów
+rbac#:#grp_create_poll#:#Create Poll
+rbac#:#grp_create_qpl#:#Twórz pulę pytań dla Testów
+rbac#:#grp_create_sahs#:#Twórz moduł nauczania SCORM/AICC
+rbac#:#grp_create_sess#:#Create Session
+rbac#:#grp_create_spl#:#Twórz pulę pytań dla Ankiet
+rbac#:#grp_create_svy#:#Twórz Ankietę
+rbac#:#grp_create_tst#:#Twórz Test
+rbac#:#grp_create_webr#:#Twórz nowy zasób web
+rbac#:#grp_create_wiki#:#Create Wiki
 rbac#:#grp_delete#:#Usuń Grupę
 rbac#:#grp_edit_event#:#Edytuj Wydarzenia w Kalendarzu
 rbac#:#grp_edit_learning_progress#:#Edytuj proces nauczania
@@ -10620,6 +10807,37 @@ rbac#:#role_block_role#:#Block Role
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
 rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?
 rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
+rbac#:#root_create_blog#:#Create Blog
+rbac#:#root_create_book#:#Create Booking Pool
+rbac#:#root_create_cat#:#Użytkownik może tworzyć Kategorie
+rbac#:#root_create_catr#:#Twórz Odwołanie do Kategorii
+rbac#:#root_create_chat#:#Create Chat
+rbac#:#root_create_chtr#:#Create Chatroom
+rbac#:#root_create_crs#:#Create Course
+rbac#:#root_create_crsr#:#Create Course Referenc
+rbac#:#root_create_dbk#:#Create Digilib Book
+rbac#:#root_create_dcl#:#Create Data Collection
+rbac#:#root_create_exc#:#Create Exercise
+rbac#:#root_create_feed#:#Create Web Feed
+rbac#:#root_create_file#:#Upload File
+rbac#:#root_create_frm#:#Create Forum
+rbac#:#root_create_glo#:#Create Glossary
+rbac#:#root_create_grp#:#Create Group
+rbac#:#root_create_htlm#:#Create HTML Learning Module
+rbac#:#root_create_icrs#:#Create LearnLinc Seminar
+rbac#:#root_create_itgr#:#Create Item Group
+rbac#:#root_create_lm#:#Create ILIAS Learning Module
+rbac#:#root_create_mcst#:#Create Mediacast
+rbac#:#root_create_mep#:#Utwórz Pulę Mediów
+rbac#:#root_create_poll#:#Create Poll
+rbac#:#root_create_qpl#:#Create Question Pool Test
+rbac#:#root_create_rcrs#:#Create Course-Link
+rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#root_create_spl#:#Create Question Pool Survey
+rbac#:#root_create_svy#:#Create Survey
+rbac#:#root_create_tst#:#Create Test
+rbac#:#root_create_webr#:#Create Weblink
+rbac#:#root_create_wiki#:#Create Wiki
 rbac#:#root_edit_permission#:#Zmień ustawienia uprawnień
 rbac#:#root_read#:#Prawo czytania systemu ILIAS
 rbac#:#root_visible#:#System ILIAS jest widoczny
@@ -12109,6 +12327,8 @@ survey#:#show_questiontext#:#Wyświetl tekst pytania
 survey#:#show_questiontext_description#:#Jeśli to pole wyboru jest wybrane, to dla każdego pytania bloku pytań będzie widoczna treść pytania. Jeśli nie jest wybrane, to treść pytania każdego pytania w bloku pytań będzie ukryta.
 survey#:#skipped#:#pominięty
 survey#:#specialusers#:#Special Users
+survey#:#spl_browsercolumns#:#Spersonalizowane listy pytań
+survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
 survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 survey#:#spl_general_properties#:#Właściwości ogólne
@@ -12241,6 +12461,7 @@ survey#:#svy_eval_user#:#Wyniki charakterystyczne dla użytkownika
 survey#:#svy_export_files#:#Eksport plików
 survey#:#svy_file#:#Plik
 survey#:#svy_general_properties#:#Właściwości ogólne
+survey#:#svy_invite_action#:#Invite users to a survey
 survey#:#svy_maintenance_information_no_results#:#Brak istniejących zestawów danych użytkowników dla ankiety. Potrzebujesz conajmniej jednego zestawu aby zamontować dane.
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
 survey#:#svy_missing_author#:#Nie podałeś nazwiska autora we właściwościach ankiety! Podaj nazwisko autora.
@@ -12721,10 +12942,13 @@ user#:#user_all#:#Wszyscy
 user#:#user_allow_delete_own_account#:#Allow users to delete own account
 user#:#user_any#:#Any
 user#:#user_delete_own_account#:#Delete Account
+user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.
 user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s.
 user#:#user_delete_own_account_email_subject#:#User account deleted
 user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last time to remove your user account from ILIAS!
 user#:#user_delete_own_account_info#:#Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible!
+user#:#user_delete_own_account_logout_button#:#Proceed to Authentication
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.
 user#:#user_delete_own_account_notification_email#:#Notification Email
 user#:#user_delete_own_account_password_confirmation#:#Enter password for authorisation
 user#:#user_ext_profile#:#Extended Profile
@@ -12773,14 +12997,14 @@ webr#:#webr_edit_links#:#Edytuj Linki
 webr#:#webr_edit_list#:#Edit Web Resource Lis
 webr#:#webr_edit_settings#:#Ustawienia edycji
 webr#:#webr_imort#:#Import Weblink
-webr#:#webr_import#:#Import Weblink
+webr#:#webr_import#:#Importuj Link
 webr#:#webr_inactive_success#:#The chosen link is deactivated.
 webr#:#webr_link_added#:#A new link has been created.
-webr#:#webr_link_target#:#Link Target
+webr#:#webr_link_target#:#Źródło Linku
 webr#:#webr_link_title#:#Link Name
 webr#:#webr_list_desc#:#Opis listy linków
 webr#:#webr_list_title#:#Nazwa listy linków
-webr#:#webr_new_link#:#Add New Link
+webr#:#webr_new_link#:#Dodaj Nowy Link
 webr#:#webr_sort_manual#:#Manualne sortowanie
 webr#:#webr_sort_title#:#Sortuj wedłu tytułu
 webr#:#webr_sorting#:#Sortowanie linków
@@ -12891,6 +13115,7 @@ wiki#:#wiki_short_title#:#Short Title
 wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.
 wiki#:#wiki_short_title_desc2#:#This title will be used in links to the wiki. Once choosen you should not change this title, since users may loose their bookmarks.
 wiki#:#wiki_start_page#:#Strona Starowa
+wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
 wiki#:#wiki_start_page_title#:#Start Page Title
 wiki#:#wiki_style#:#Styl
 wiki#:#wiki_sure_remove_imp_pages#:#Do you really want to remove the following pages from the list of important pages?
@@ -12940,65 +13165,3 @@ wsp#:#wsp_type_file#:#Plik
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Zasób web
 wsp#:#wsp_type_wfld#:#Folder
-assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
-assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
-assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
-assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
-assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
-assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
-common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###08 03 2013 new variable
-content#:#cont_localfile#:#Local File###08 03 2013 new variable
-chatroom#:#no_username_given#:#Please choose a username###08 03 2013 new variable
-ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###08 03 2013 new variable
-survey#:#svy_invite_action#:#Invite users to a survey###08 03 2013 new variable
-rbac#:#chtr_delete#:#User can move or delete course###08 03 2013 new variable
-ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###08 03 2013 new variable
-ecs#:#ecs_role_mapping_value#:#Attribute Value###08 03 2013 new variable
-blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###08 03 2013 new variable
-blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###08 03 2013 new variable
-crs#:#crs_notification_list_title#:#Notification About New Members###08 03 2013 new variable
-dcl#:#dcl_hello#:#Dear###26 04 2013 new variable
-dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.###26 04 2013 new variable
-dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.###26 04 2013 new variable
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###26 04 2013 new variable
-obj#:#edit_questions#:#Edit Questions###26 04 2013 new variable
-user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.###26 04 2013 new variable
-user#:#user_delete_own_account_logout_button#:#Proceed to Authentication###26 04 2013 new variable
-user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.###26 04 2013 new variable
-rbac#:#edit_userassignment#:#Edit User Assignment###26 04 2013 new variable
-blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.###26 04 2013 new variable
-assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.###10 07 2013 new variable
-assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!###10 07 2013 new variable
-assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question###10 07 2013 new variable
-assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution###10 07 2013 new variable
-assessment#:#tst_manscoring_input_best_solution#:#Best Solution###10 07 2013 new variable
-dcl#:#dcl_record#:#Record###10 07 2013 new variable
-mail#:#mail_add_folder#:#Add New Subfolder###10 07 2013 new variable
-mail#:#mail_rename_folder#:#Rename Folder###10 07 2013 new variable
-common#:#rpc_pdf_generation#:#PDF-Generation###10 07 2013 new variable
-common#:#rpc_pdf_font#:#Fonts###10 07 2013 new variable
-common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.###10 07 2013 new variable
-didactic#:#didactic_default_type#:#Default###10 07 2013 new variable
-blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###10 07 2013 new variable
-exp#:#exp_file_created#:#The export file has been created.###10 07 2013 new variable
-ecs#:#ecs_cmap_att_courseType#:#Course Type###10 07 2013 new variable
-ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme###10 07 2013 new variable
-ecs#:#ecs_cmap_att_module#:#Module###10 07 2013 new variable
-ecs#:#ecs_cmap_att_venue#:#Venue###10 07 2013 new variable
-mcst#:#mcst_download_videoalternative#:#Download Alternative File###10 07 2013 new variable
-dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.###10 07 2013 new variable
-prtf#:#prtf_allow_html#:#Allow HTML/Javascript###10 07 2013 new variable
-prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.###10 07 2013 new variable
-blog#:#blog_allow_html#:#Allow HTML/Javascript###10 07 2013 new variable
-blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.###10 07 2013 new variable
-wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###10 07 2013 new variable
-survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variable
-dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
-crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
-crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
