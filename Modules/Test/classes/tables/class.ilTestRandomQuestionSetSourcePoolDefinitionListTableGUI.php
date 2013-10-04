@@ -34,6 +34,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 	 */
 	private $questionAmountColumnEnabled = null;
 
+	/**
+	 * @var ilTestTaxonomyFilterLabelTranslater
+	 */
+	private $taxonomyLabelTranslater = null;
+
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
 	{
 		parent::__construct($parentGUI, $parentCMD);
@@ -43,6 +48,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
 		$this->definitionEditModeEnabled = false;
 		$this->questionAmountColumnEnabled = false;
+	}
+
+	public function setTaxonomyFilterLabelTranslater(ilTestTaxonomyFilterLabelTranslater $translater)
+	{
+		$this->taxonomyLabelTranslater = $translater;
 	}
 
 	public function setDefinitionEditModeEnabled($definitionEditModeEnabled)
@@ -103,8 +113,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 		}
 
 		$this->tpl->setVariable('SOURCE_POOL_LABEL', $set['source_pool_label']);
-		$this->tpl->setVariable('FILTER_TAXONOMY', $set['filter_taxonomy']);
-		$this->tpl->setVariable('FILTER_TAX_NODE', $set['filter_tax_node']);
+		$this->tpl->setVariable('FILTER_TAXONOMY', $this->getTaxonomyTreeLabel($set['filter_taxonomy']));
+		$this->tpl->setVariable('FILTER_TAX_NODE', $this->getTaxonomyNodeLabel($set['filter_tax_node']));
 	}
 
 	private function getSelectionCheckboxHTML($sourcePoolDefinitionId)
@@ -162,6 +172,26 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 	private function getOrderNumberForSequencePosition($sequencePosition)
 	{
 		return ( $sequencePosition * 10 );
+	}
+
+	private function getTaxonomyTreeLabel($taxonomyTreeId)
+	{
+		if( !$taxonomyTreeId )
+		{
+			return '';
+		}
+
+		return $this->taxonomyLabelTranslater->getTaxonomyTreeLabel($taxonomyTreeId);
+	}
+
+	private function getTaxonomyNodeLabel($taxonomyNodeId)
+	{
+		if( !$taxonomyNodeId )
+		{
+			return '';
+		}
+
+		return $this->taxonomyLabelTranslater->getTaxonomyNodeLabel($taxonomyNodeId);
 	}
 
 	public function build()
@@ -239,8 +269,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 			$set['def_id'] = $sourcePoolDefinition->getId();
 			$set['sequence_position'] = $sourcePoolDefinition->getSequencePosition();
 			$set['source_pool_label'] = $sourcePoolDefinition->getPoolTitle();
-			$set['filter_taxonomy'] = $sourcePoolDefinition->getOriginalFilterTaxId();
-			$set['filter_tax_node'] = $sourcePoolDefinition->getOriginalFilterTaxNodeId();
+			$set['filter_taxonomy'] = $sourcePoolDefinition->getMappedFilterTaxId();
+			$set['filter_tax_node'] = $sourcePoolDefinition->getMappedFilterTaxNodeId();
 			$set['question_amount'] = $sourcePoolDefinition->getQuestionAmount();
 
 			$rows[] = $set;

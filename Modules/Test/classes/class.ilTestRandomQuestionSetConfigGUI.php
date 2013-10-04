@@ -303,7 +303,7 @@ class ilTestRandomQuestionSetConfigGUI
 		}
 
 		$table = $this->buildSourcePoolDefinitionListTableGUI();
-		$table->init( $this->sourcePoolDefinitionList );
+		$table->init( $this->sourcePoolDefinitionList);
 		$content .= $this->ctrl->getHTML($table);
 
 		$this->tpl->setContent($content);
@@ -359,6 +359,11 @@ class ilTestRandomQuestionSetConfigGUI
 		$table->setQuestionAmountColumnEnabled(
 			$this->questionSetConfig->isQuestionAmountConfigurationModePerPool()
 		);
+
+		require_once 'Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
+		$translater = new ilTestTaxonomyFilterLabelTranslater($this->db);
+		$translater->loadLabels($this->sourcePoolDefinitionList);
+		$table->setTaxonomyFilterLabelTranslater($translater);
 
 		$table->build();
 
