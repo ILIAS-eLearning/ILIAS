@@ -229,7 +229,7 @@ class ilChatroomFormFactory
 
 	/**
 	 * Returns session form with period set by given $sessions.
-	 * @param array       $sessions
+	 * @param array $sessions
 	 * @return ilPropertyFormGUI
 	 */
 	public function getSessionForm(array $sessions)
@@ -250,7 +250,7 @@ class ilChatroomFormFactory
 			$end   = new ilDateTime($session['disconnected'], IL_CAL_UNIX);
 
 			$options[$session['connected'] . ',' .
-				$session['disconnected']] = ilDatePresentation::formatPeriod($start, $end);
+			$session['disconnected']] = ilDatePresentation::formatPeriod($start, $end);
 		}
 
 		$list->setOptions($options);
@@ -359,6 +359,7 @@ class ilChatroomFormFactory
 		$form->addItem($user);
 
 		$password = new ilPasswordInputGUI($lng->txt('soap_user_password'), 'password');
+		$password->setSkipSyntaxCheck(true);
 		$password->setRequired(true);
 		$form->addItem($password);
 
