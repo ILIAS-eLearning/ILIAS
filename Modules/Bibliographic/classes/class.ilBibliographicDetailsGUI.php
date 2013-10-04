@@ -24,15 +24,15 @@ class ilBibliographicDetailsGUI
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget("back", $ilCtrl->getLinkTarget($this, 'showContent'));
 
-
-        $entry = new ilBibliographicEntry($bibl_obj->getFiletype(), $_GET['entryId']);
-
-
         $form->setTitle($lng->txt('detail_view'));
 
-        foreach($entry->getAttributes() as $key => $attribute)
-        {
 
+        $entry = new ilBibliographicEntry($bibl_obj->getFiletype(), $_GET['entryId']);
+        $attributes = $entry->getAttributes();
+
+        //translate array key in order to sort by those keys
+        foreach($attributes as $key => $attribute)
+        {
             //Check if there is a specific language entry
             if($lng->exists($key))
             {
@@ -44,11 +44,19 @@ class ilBibliographicDetailsGUI
                 $arrKey = explode("_",$key);
                 $strDescTranslated = $lng->txt($arrKey[0]."_default_".$arrKey[2]);
             }
+            unset($attributes[$key]);
+            $attributes[$strDescTranslated] = $attribute;
+        }
 
-            $ci = new ilCustomInputGUI($strDescTranslated);
+        // sort attributes alphabetically by their array-key
+        ksort($attributes, SORT_STRING);
+
+        // render attributes to html
+        foreach($attributes as $key => $attribute)
+        {
+            $ci = new ilCustomInputGUI($key);
             $ci->setHtml($attribute);
             $form->addItem($ci);
-
         }
 
         // set content and title
