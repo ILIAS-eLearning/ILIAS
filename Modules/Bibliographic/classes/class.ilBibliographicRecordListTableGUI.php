@@ -41,11 +41,22 @@ class ilDataBibliographicRecordListTableGUI  extends ilTable2GUI
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 
-        $this->addColumn($lng->txt("title"), 'title', "auto");
         $this->setRowTemplate("tpl.bibliographic_record_table_row.html", "Modules/Bibliographic");
 
+
+        // enable sorting by alphabet -- therefore an unvisible column 'content' is added to the table, and the array-key 'content' is also delivered in setData
+        $this->addColumn($lng->txt("a"), 'content', "auto");
+        foreach(ilBibliographicEntry::__getAllEntries($this->parent_obj->object->getId()) as $entry){
+            $ilObjEntry = new ilBibliographicEntry($this->parent_obj->object->getFiletype(), $entry['entry_id']);
+            $entry['content'] = strip_tags($ilObjEntry->getOverwiew());
+            $entries[] = $entry;
+        }
+
+        $this->setOrderField('content');
+        $this->setDefaultOrderField('content');
+
         //FIXME das ganze setzen des Textes allenfalls Auslagern in Model!
-		$this->setData(ilBibliographicEntry::__getAllEntries($this->parent_obj->object->getId()));
+		$this->setData($entries);
 	}
 
 
@@ -57,7 +68,7 @@ class ilDataBibliographicRecordListTableGUI  extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $ilCtrl;
 
         $ilObjEntry = new ilBibliographicEntry($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
 
