@@ -200,7 +200,6 @@ class ilChatroomInstaller
 
 		self::registerObject();
 		self::registerAdminObject();
-		//self::createDefaultPublicRoom();
 		self::removeOldChatEntries();
 		self::convertChatObjects();
 
@@ -280,6 +279,15 @@ class ilChatroomInstaller
 		}
 		if($create)
 		{
+			$query             = "
+				SELECT object_data.obj_id, object_reference.ref_id
+				FROM object_data
+				INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id
+				WHERE type = " . $ilDB->quote('chta', 'text');
+			$rset              = $ilDB->query($query);
+			$row               = $ilDB->fetchAssoc($rset);
+			$chatfolder_ref_id = $row['ref_id'];
+			
 			require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
 			$newObj = new ilObjChatroom();
 
@@ -288,8 +296,8 @@ class ilChatroomInstaller
 			$newObj->setDescription('');
 			$newObj->create(); // true for upload
 			$newObj->createReference();
-			$newObj->putInTree(1);
-			$newObj->setPermissions(1);
+			$newObj->putInTree($chatfolder_ref_id);
+			$newObj->setPermissions($chatfolder_ref_id);
 
 			$obj_id = $newObj->getId();
 			$ref_id = $newObj->getRefId();
@@ -519,5 +527,41 @@ class ilChatroomInstaller
 		}
 
 		self::setChatroomSettings($roomsToFix);
+	}
+
+	/**
+	 * @param int $ref_id
+	 */
+	public static function ensureCorrectPublicChatroomTreeLocation($ref_id)
+	{
+		/**
+		 * @var $tree      ilTree
+		 * @var $ilDB      ilDB
+		 * @var $rbacadmin ilRbacAdmin
+		 */
+		global $tree, $ilDB, $rbacadmin;
+
+		$ilDB->setLimit(1);
+		$query             = "
+			SELECT object_data.obj_id, object_reference.ref_id
+			FROM object_data
+			INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id
+			WHERE type = " . $ilDB->quote('chta', 'text');
+		$rset              = $ilDB->query($query);
+		$row               = $ilDB->fetchAssoc($rset);
+		$chatfolder_ref_id = $row['ref_id'];
+		$pid               = $tree->getParentId($ref_id);
+
+		if(
+			$chatfolder_ref_id &&
+			$pid != $chatfolder_ref_id &&
+			!$tree->isDeleted($chatfolder_ref_id)
+		)
+		{
+			$tree->moveTree($ref_id, $chatfolder_ref_id);
+			$rbacadmin->adjustMovedObjectPermissions($ref_id, $pid);
+			include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+			ilConditionHandler::_adjustMovedObjectConditions($ref_id);
+		}
 	}
 }

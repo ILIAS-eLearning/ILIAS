@@ -478,6 +478,9 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 			$this->createPublicRoom();
 			return;
 		}
+
+		require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
+		ilChatroomInstaller::ensureCorrectPublicChatroomTreeLocation($ref_id);
 	}
 
 	/**
