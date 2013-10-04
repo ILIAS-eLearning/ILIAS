@@ -269,7 +269,9 @@ class ilMainMenuGUI
 					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '5');
-					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') ? 'true' : 'false');
+					$this->tpl->setVariable(
+						'OSD_PLAY_SOUND',
+						$chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
 					foreach($notifications as $notification)
 					{
 						if($notification['type'] == 'osd_maint')
