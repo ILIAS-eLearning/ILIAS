@@ -1,3 +1,4 @@
+
 <#2949>
 <?php
 	// empty step
@@ -18664,4 +18665,18 @@ while($row = $ilDB->fetchAssoc($set))
 <#4113>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#4114>
+<?php
+//fill bibliographic overview model default-patterns (new standard)
+//BibTeX
+    $ilDB->manipulateF('UPDATE  il_bibl_overview_model SET filetype = %s, literature_type = %s, pattern = %s WHERE ovm_id = %s',
+        array('text', 'text', 'text', 'integer'),
+        array('bib', 'default', '[<strong>|bib_default_author|</strong> ][|bib_default_title|]: <Emph>[|bib_default_publisher| ][|bib_default_year| ][|bib_default_address|]</Emph>', 1)
+    );
+//RIS
+    $ilDB->manipulateF('UPDATE  il_bibl_overview_model SET filetype = %s, literature_type = %s, pattern = %s WHERE ovm_id = %s',
+        array('text', 'text', 'text', 'integer'),
+        array('ris', 'default', '[<strong>|ris_default_a1|</strong> ][<strong>|ris_default_au|</strong> ][|ris_default_t1|][ |ris_default_ti|]: <Emph>[|ris_default_pb| ][|ris_default_y1| ][|ris_default_py| ][|ris_default_cy|]</Emph>',2)
+    );
 ?>
