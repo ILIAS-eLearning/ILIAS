@@ -67,8 +67,8 @@ public class KickActionHandler implements ActionHandler {
 		String query = "task=disconnectedUsers&handledAction=kick&scope[" + scope.getId() + "]=" + user.getId();
 
 		URLConnection connection = instance.getFeedbackConnection("");
-		Logger.getLogger("default").finer("Calling " + connection.getURL() + " for disconnected users");
-		Logger.getLogger("default").finer("Body " + query);
+		Logger.getLogger("default").log(Level.INFO, "[{0}] Calling {1} for disconnected users", new Object[]{instance.getIliasClient(), connection.getURL()});
+		Logger.getLogger("default").log(Level.INFO, "[{0}] Body {1}", new Object[]{instance.getIliasClient(), query});
 		connection.setDoOutput(true); // Triggers POST.
 		connection.setRequestProperty("Accept-Charset", "utf-8");
 		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -79,23 +79,22 @@ public class KickActionHandler implements ActionHandler {
 			output.write(query.getBytes("utf-8"));
 			in = connection.getInputStream();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.getLogger("default").log(Level.SEVERE, null, e);
 		} finally {
 			if (output != null) {
 				try {
 					output.close();
-				} catch (IOException ex) {
-					Logger.getLogger("default").log(Level.SEVERE, null, ex);
+				} catch (IOException e) {
+					Logger.getLogger("default").log(Level.SEVERE, null, e);
 				}
 			}
 			if (in != null) {
 				try {
 					in.close();
-				} catch (IOException ex) {
-					Logger.getLogger("default").log(Level.SEVERE, null, ex);
+				} catch (IOException e) {
+					Logger.getLogger("default").log(Level.SEVERE, null, e);
 				}
 			}
 		}
-
 	}
 }

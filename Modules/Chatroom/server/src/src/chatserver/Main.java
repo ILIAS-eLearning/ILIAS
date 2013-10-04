@@ -16,15 +16,14 @@ public class Main {
 	private RemoteInstances instances = new RemoteInstances();
 
 	public Main(Properties serverProperties, Vector<Properties> instanceProperties) throws FileNotFoundException, IOException {
-		/**
-		 * register all instances
-		 */
+		// register all instances
 		for (Properties instanceProps : instanceProperties.toArray(new Properties[]{})) {
 			RemoteInstance instance = RemoteInstance.fromProperties(instanceProps);
 			instances.registerRemoteInstance(instance);
 			Logger.getLogger("default").log(Level.INFO, "Loaded instance file {0}", instanceProps.getProperty("origin"));
 		}
 
+		// Initialize each server (soap login, kick all users, ...)
 		initializeServer();
 
 		HttpUserHandler handler = new HttpUserHandler(instances);
@@ -36,12 +35,14 @@ public class Main {
 
 	final public void initializeServer() throws MalformedURLException, IOException {
 		for (RemoteInstance instance : instances) {
+			// login via webservice
+			instance.login();
+			
 			String query = "task=serverStarted";
 
-			instance.login();
-
 			URLConnection connection = instance.getFeedbackConnection(""); //= url.openConnection();
-
+			Logger.getLogger("default").log(Level.INFO, "[{0}] Calling {1} for disconnected users", new Object[]{instance.getIliasClient(), connection.getURL()});
+			Logger.getLogger("default").log(Level.INFO, "[{0}] Body {1}", new Object[]{instance.getIliasClient(), query});
 			connection.setDoOutput(true);
 			connection.setRequestProperty("Accept-Charset", "utf-8");
 			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -50,13 +51,13 @@ public class Main {
 				output = connection.getOutputStream();
 				output.write(query.getBytes("utf-8"));
 			} catch (Exception e) {
-				e.printStackTrace();
+				Logger.getLogger("default").log(Level.SEVERE, null, e);
 			} finally {
 				if (output != null) {
 					try {
 						output.close();
-					} catch (IOException logOrIgnore) {
-						logOrIgnore.printStackTrace();
+					} catch (IOException e) {
+						Logger.getLogger("default").log(Level.SEVERE, null, e);
 					}
 				}
 			}
@@ -69,18 +70,16 @@ public class Main {
 					//System.out.print((char) letter);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				Logger.getLogger("default").log(Level.SEVERE, null, e);
 			} finally {
 				if (in != null) {
 					try {
 						in.close();
-					} catch (IOException logOrIgnore) {
-						logOrIgnore.printStackTrace();
+					} catch (IOException e) {
+						Logger.getLogger("default").log(Level.SEVERE, null, e);
 					}
 				}
 			}
-			
-			Logger.getLogger("default").info("[" + instance.getIliasClient() + "]  Sent serverStarted command");
 		}
 	}
 
@@ -110,7 +109,7 @@ public class Main {
 			logger.log(Level.WARNING, getUsage());
 			System.exit(1);
 		}
-            
+     
 		Properties props = new Properties();
 		
 		// load the server configuration
@@ -132,10 +131,11 @@ public class Main {
 				fh.setFormatter(new SimpleFormatter());
 				fh.setLevel(Level.ALL);
 				logger.addHandler(fh);
+				logger.info("Successfully attached filte logger: " + props.getProperty("log_path"));
 			} catch (IOException e) {
-				Logger.getLogger("default").info("Could not attach file logger: " + e.getMessage());
+				logger.info("Could not attach file logger: " + e.getMessage());
 			} catch (SecurityException e) {
-				Logger.getLogger("default").info("Could not attach file logger: " + e.getMessage());
+				logger.info("Could not attach file logger: " + e.getMessage());
 			}
 		} else {
 			logger.log(Level.INFO, "Hint: You can enable file logging by adding the property \"log_path\" to {0}", args[0]);
@@ -144,8 +144,9 @@ public class Main {
 		if (props.getProperty("log_level") != null) {
 			try {
 				logger.setLevel(Level.parse(props.getProperty("log_level")));
+				logger.info("Set global log level: " + logger.getLevel());
 			} catch (IllegalArgumentException e) {
-				Logger.getLogger("default").info("Passed log level not supported, fallback to default");
+				logger.info("Passed log level not supported, fallback to default");
 			}
 		} else {
 			logger.log(Level.INFO, "Hint: You can set the log level by adding the property \"log_level\" to {0}", args[0]);
@@ -172,11 +173,12 @@ public class Main {
 		}
 
 		if (oProperties.size() <= 0) {
-			logger.log(Level.WARNING, "No client configurations given... exit");
+			logger.log(Level.SEVERE, "No client configurations given");
 			System.exit(1);
 		}
+
 		// launch the server
-		Main main = new Main(props, oProperties);
+		new Main(props, oProperties);
 	}
 	
 	/**
