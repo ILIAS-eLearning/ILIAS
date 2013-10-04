@@ -131,6 +131,14 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 			);
 			
 		$questionAmountConfigModePerTest->addSubItem($questionAmountPerTest);
+
+		if( $this->testOBJ->participantDataExist() )
+		{
+			$requirePoolsQuestionsHomoScored->setDisabled(true);
+			$questionAmountConfigMode->setDisabled(true);
+			$questionAmountPerTest->setDisabled(true);
+
+		}
 	}
 
 	private function fetchValidQuestionAmountConfigModeWithFallbackModePerTest(ilTestRandomQuestionSetConfig $config)

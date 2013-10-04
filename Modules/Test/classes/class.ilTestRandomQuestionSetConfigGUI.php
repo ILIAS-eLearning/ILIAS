@@ -250,7 +250,7 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 	}
-	
+
 	private function saveGeneralConfigFormCmd()
 	{
 		$this->questionSetConfig->loadFromDb();
@@ -292,16 +292,21 @@ class ilTestRandomQuestionSetConfigGUI
 	private function showSourcePoolDefinitionListCmd()
 	{
 		$this->questionSetConfig->loadFromDb();
-
-		$toolbar = $this->buildSourcePoolDefinitionListToolbarGUI();
-		$table = $this->buildSourcePoolDefinitionListTableGUI();
-
 		$this->sourcePoolDefinitionList->loadDefinitions();
-		$table->init( $this->sourcePoolDefinitionList );
 
-		$this->tpl->setContent(
-				$this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table)
-		);
+		$content = '';
+
+		if( !$this->testOBJ->participantDataExist() )
+		{
+			$toolbar = $this->buildSourcePoolDefinitionListToolbarGUI();
+			$content .= $this->ctrl->getHTML($toolbar);
+		}
+
+		$table = $this->buildSourcePoolDefinitionListTableGUI();
+		$table->init( $this->sourcePoolDefinitionList );
+		$content .= $this->ctrl->getHTML($table);
+
+		$this->tpl->setContent($content);
 	}
 
 	private function saveSourcePoolDefinitionListCmd()
