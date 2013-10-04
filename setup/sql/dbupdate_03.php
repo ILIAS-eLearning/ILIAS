@@ -7769,7 +7769,7 @@ $setting->set("enable_sahs_pd", 1);
 	    $ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
 			    "VALUES (%s, %s, %s, %s, %s, %s, %s)",
 			    array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
-			    array($rolf_obj_id, "rolf", $obj_id, "(ref_id ".$chat_ref_id.")", -1, ilUtil::now(), ilUtil::now()));
+			    array($rolf_obj_id, "rolf", $obj_id, "(ref_id ".$ref_id.")", -1, ilUtil::now(), ilUtil::now()));
 
 	    $rolf_ref_id = $ilDB->nextId('object_reference');
 
