@@ -13985,6 +13985,7 @@ bibl#:#ris_default_do#:#DOI
 bibl#:#ris_default_ed#:#Further Persons
 bibl#:#ris_default_in#:#In
 bibl#:#ris_default_et#:#Edition
+content#:#cont_multilang_currently_deactivated#:#Multilinguality support is currently not activated.
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
@@ -13999,6 +14000,7 @@ prtf#:#prtf_properties#:#Portfolio Properties
 prtf#:#prtf_style#:#Portfolio Style
 prtt#:#prtt_properties#:#Portfolio Template Properties
 prtt#:#prtt_style#:#Portfolio Template Style
+content#:#cont_multilinguality#:#Multilinguality
 exc#:#exc_save_all#:#Save All
 exc#:#exc_save_selected#:#Save Selected
 mail#:#search_content#:#Search Result

@@ -30,11 +30,10 @@ class ilLMObject
 	/**
 	* @param	object		$a_content_obj		content object (digi book or learning module)
 	*/
-	function ilLMObject(&$a_content_obj, $a_id = 0)
+	function ilLMObject($a_content_obj, $a_id = 0)
 	{
 		global $ilias;
 
-		$this->ilias =& $ilias;
 		$this->id = $a_id;
 		$this->setContentObject($a_content_obj);
 		$this->setLMId($a_content_obj->getId());
@@ -964,23 +963,38 @@ class ilLMObject
 	*
 	* @param	array		titles (key is ID, value is title)
 	*/
-	static function saveTitles($a_lm, $a_titles)
+	static function saveTitles($a_lm, $a_titles, $a_lang = "-")
 	{
+		include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
+		
+		if ($a_lang == "")
+		{
+			$a_lang = "-";
+		}
 		if (is_array($a_titles))
 		{
 			include_once("./Services/MetaData/classes/class.ilMD.php");
 			foreach($a_titles as $id => $title)
 			{
-				$lmobj = ilLMObjectFactory::getInstance($a_lm, $id, false);
-				if (is_object($lmobj))
+				if ($a_lang == "-")
 				{
-					// Update Title and description
-					$md = new ilMD($a_lm->getId(), $id, $lmobj->getType());
-					$md_gen = $md->getGeneral();
-					$md_gen->setTitle($title);
-					$md_gen->update();
-					$md->update();
-					ilLMObject::_writeTitle($id, $title);
+					$lmobj = ilLMObjectFactory::getInstance($a_lm, $id, false);
+					if (is_object($lmobj))
+					{
+						// Update Title and description
+						$md = new ilMD($a_lm->getId(), $id, $lmobj->getType());
+						$md_gen = $md->getGeneral();
+						$md_gen->setTitle($title);
+						$md_gen->update();
+						$md->update();
+						ilLMObject::_writeTitle($id, $title);
+					}
+				}
+				else
+				{
+					$lmobjtrans = new ilLMObjTranslation($id, $a_lang);
+					$lmobjtrans->setTitle($title);
+					$lmobjtrans->save();
 				}
 			}
 		}

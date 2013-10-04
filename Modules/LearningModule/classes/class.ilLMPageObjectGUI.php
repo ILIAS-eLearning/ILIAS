@@ -70,7 +70,21 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$lm_set = new ilSetting("lm");
 
 				$this->ctrl->setReturn($this, "edit");
-				$page_gui = new ilLMPageGUI($this->obj->getId());
+				if (!ilPageObject::_exists("lm", $this->obj->getId(), $_GET["transl"]) &&
+					ilPageObject::_exists("lm", $this->obj->getId(), "-"))
+				{
+					if ($_GET["totransl"] == "")
+					{
+						$_GET["totransl"] = $_GET["transl"];
+						$ilCtrl->setCmd("switchToLanguage");
+					}
+					$ilCtrl->setCmdClass("illmpagegui");
+					$page_gui = new ilLMPageGUI($this->obj->getId(), 0, false, "-");
+				}
+				else
+				{
+					$page_gui = new ilLMPageGUI($this->obj->getId());
+				}
 				$page_gui->setEditPreview(true);
 				$page_gui->activateMetaDataEditor($this->content_object->getID(),
 					$this->obj->getId(), $this->obj->getType(),

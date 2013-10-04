@@ -48,7 +48,6 @@ class ilLMPageObject extends ilLMObject
 		parent::ilLMObject($a_content_obj, $a_id);
 		$this->setType("pg");
 		$this->id = $a_id;
-		$this->ilias =& $ilias;
 
 		$this->is_alias = false;
 		$this->contains_int_link = false;

@@ -31,6 +31,7 @@ class ilLMPageConfig extends ilPageConfig
 		$this->setEnableKeywords(true);
 		$this->setEnableInternalLinks(true);
 		$this->setEnableAnchors(true);
+		$this->setMultiLangSupport(true);
 		if ($lm_set->get("time_scheduled_page_activation"))
 		{
 			$this->setEnableScheduledActivation(true);
