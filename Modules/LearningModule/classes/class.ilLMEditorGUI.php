@@ -59,7 +59,7 @@ class ilLMEditorGUI
 		$this->ctrl =& $ilCtrl;
 
 		//$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
-		$this->ctrl->saveParameter($this, array("ref_id"));
+		$this->ctrl->saveParameter($this, array("ref_id", "transl"));
 
 		// initiate variables
 		$this->ilias =& $ilias;

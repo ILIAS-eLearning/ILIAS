@@ -11,7 +11,7 @@ include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ilCtrl_Calls ilLMPageGUI: ilPageEditorGUI, ilMDEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector, ilCommonActionDispatcherGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilLMPageGUI: ilNewsItemGUI, ilQuestionEditGUI, ilAssQuestionFeedbackEditingGUI
+ * @ilCtrl_Calls ilLMPageGUI: ilNewsItemGUI, ilQuestionEditGUI, ilAssQuestionFeedbackEditingGUI, ilPageMultiLangGUI
  * @ingroup ModuleLearningModule
  */
 class ilLMPageGUI extends ilPageObjectGUI
@@ -20,9 +20,9 @@ class ilLMPageGUI extends ilPageObjectGUI
 	 * Constructor
 	 */
 	function __construct($a_id = 0, $a_old_nr = 0,
-		$a_prevent_get_id = false)
+		$a_prevent_get_id = false, $a_lang = "")
 	{
-		parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id);
+		parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 	}
 
 }

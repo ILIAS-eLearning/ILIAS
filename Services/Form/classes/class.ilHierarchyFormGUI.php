@@ -866,6 +866,14 @@ class ilHierarchyFormGUI extends ilFormGUI
 		$a_tpl->setVariable("CBOX_NAME", $this->getCheckboxName());
 		$a_tpl->parseCurrentBlock();
 		
+		// node info
+		if (($info = $this->getChildInfo($a_child)) != "")
+		{
+			$a_tpl->setCurrentBlock("node_info");
+			$a_tpl->setVariable("NODE_INFO", $info);
+			$a_tpl->parseCurrentBlock();
+		}
+		
 		// commands of child node
 		$child_commands = $this->getChildCommands($a_child);
 		if (is_array($child_commands))
@@ -886,7 +894,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 		{
 			$a_tpl->setVariable("CLASS", ' class="ilHFormHighlighted" ');
 		}
-		$a_tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_child["title"]));
+		$a_tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->getChildTitle($a_child)));
 		$a_tpl->setVariable("TNODE_ID", $a_child["node_id"]);
 		$a_tpl->parseCurrentBlock();
 		$grandchilds = null;
@@ -1058,6 +1066,28 @@ class ilHierarchyFormGUI extends ilFormGUI
 		return false;
 	}
 
+	/**
+	 * Get child title
+	 *
+	 * @param array $a_child node array
+	 * @return string node title
+	 */
+	function getChildTitle($a_child)
+	{
+		return $a_child["title"];
+	}	
+	
+	/**
+	 * Get child info
+	 *
+	 * @param array $a_child node array
+	 * @return string node title
+	 */
+	function getChildInfo($a_child)
+	{
+		return "";
+	}		
+	
 	/**
 	* Get menu items for drop area of node.
 	*

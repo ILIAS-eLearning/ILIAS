@@ -236,6 +236,17 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
+				
+			case "ilpagemultilanggui":
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$ilCtrl->setReturn($this, "properties");
+				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
+				$ml_gui = new ilPageMultiLangGUI("lm", $this->object->getId());
+				$this->setTabs("settings");
+				$this->setSubTabs("cont_multilinguality");
+				$ret = $this->ctrl->forwardCommand($ml_gui);
+				break;
 			
 			default:
 				$new_type = $_POST["new_type"]
@@ -1204,134 +1215,101 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->setTabs();
 		$this->setContentSubTabs("chapters");
 		
-		if ($ilUser->getPref("lm_js_chapter_editing") != "disable")
-		{
-			$ilCtrl->setParameter($this, "backcmd", "chapters");
-			
-			include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
-			$form_gui = new ilChapterHierarchyFormGUI($this->object->getType());
-			$form_gui->setFormAction($ilCtrl->getFormAction($this));
-			$form_gui->setTitle($this->object->getTitle());
-			$form_gui->setIcon(ilUtil::getImagePath("icon_lm.png"));
-			$form_gui->setTree($this->lm_tree);
-			$form_gui->setMaxDepth(0);
-			$form_gui->setCurrentTopNodeId($this->tree->getRootId());
-			$form_gui->addMultiCommand($lng->txt("delete"), "delete");
-			$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
-			$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
-			if ($this->object->getLayoutPerPage())
-			{	
-				$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
-			}
-			$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.png"));
-			$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
-			$up_gui = ($this->object->getType() == "dbk")
-				? "ilobjdlbookgui"
-				: "ilobjlearningmodulegui";
-			$form_gui->setExplorerUpdater("tree", "tree_div",
-				$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
-
-			$ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
-			$ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
-			$ilCtrl->setParameter($this, "obj_id", "");
-			$ctpl->setVariable("HREF_NO_JS_EDIT",
-				$ilCtrl->getLinkTarget($this, "deactivateJSChapterEditing"));
-			$ctpl->setVariable("TXT_NO_JS_EDIT",
-				$lng->txt("cont_not_js_chap_editing"));
-
-			$this->tpl->setContent($ctpl->get());
+		$ilCtrl->setParameter($this, "backcmd", "chapters");
+		
+		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
+		$form_gui = new ilChapterHierarchyFormGUI($this->object->getType(), $_GET["transl"]);
+		$form_gui->setFormAction($ilCtrl->getFormAction($this));
+		$form_gui->setTitle($this->object->getTitle());
+		$form_gui->setIcon(ilUtil::getImagePath("icon_lm.png"));
+		$form_gui->setTree($this->lm_tree);
+		$form_gui->setMaxDepth(0);
+		$form_gui->setCurrentTopNodeId($this->tree->getRootId());
+		$form_gui->addMultiCommand($lng->txt("delete"), "delete");
+		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
+		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
+		if ($this->object->getLayoutPerPage())
+		{	
+			$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
 		}
-		else
-		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", "Modules/LearningModule");
-			$num = 0;
-	
-			$this->ctrl->setParameter($this, "backcmd", "chapters");
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_chapters"));
-			$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
-	
-			$cnt = 0;
-			$childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
-			foreach ($childs as $child)
-			{
-				if($child["type"] != "st")
-				{
-					continue;
-				}
-	
-				$this->tpl->setCurrentBlock("table_row");
-				// color changing
-				$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
-	
-				// checkbox
-				$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.png"));
-	
-				// link
-				$this->ctrl->setParameter($this, "backcmd", "");
-				$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
-				$this->tpl->setVariable("LINK_TARGET",
-					$this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view"));
-	
-				// title
-				$this->tpl->setVariable("TEXT_CONTENT",
-					ilStructureObject::_getPresentationTitle($child["obj_id"],
-					$this->object->isActiveNumbering()));
-	
-				$this->tpl->parseCurrentBlock();
-			}
-	
-			$paste_active = false;
-			if ($ilUser->clipboardHasObjectsOfType("st"))
-			{
-				$paste_active = true;
-			}
-	
-			if($cnt == 0 && !$paste_active)
-			{
-				$this->tpl->setCurrentBlock("notfound");
-				$this->tpl->setVariable("NUM_COLS", 3);
-				$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				// SHOW VALID ACTIONS
-				$this->tpl->setVariable("NUM_COLS", 3);
-				if ($cnt > 0)
-				{
-					$acts = array("delete" => "delete", "cutChapter" => "cut",
-						"copyChapter" => "copyChapter");
-				}
-				if ($paste_active)
-				{
-					$acts["pasteChapter"] =  "pasteChapter";
-				}
-				$this->showActions($acts);
-			}
-	
-			// SHOW POSSIBLE SUB OBJECTS
-			$this->tpl->setVariable("NUM_COLS", 3);
-			$subobj = array("st");
-			$opts = ilUtil::formSelect(12,"new_type",$subobj);
-			$this->tpl->setCurrentBlock("add_object");
-			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("BTN_NAME", "create");
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("insert"));
-			$this->tpl->parseCurrentBlock();
-	
-			$this->tpl->setCurrentBlock("form");
-			$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setVariable("HREF_JS_EDIT",
-				$ilCtrl->getLinkTarget($this, "activateJSChapterEditing"));
-			$this->tpl->setVariable("TXT_JS_EDIT",
-				$lng->txt("cont_js_chap_editing"));
-		}
+		$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.png"));
+		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
+		$up_gui = ($this->object->getType() == "dbk")
+			? "ilobjdlbookgui"
+			: "ilobjlearningmodulegui";
+		$form_gui->setExplorerUpdater("tree", "tree_div",
+			$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
+
+		$ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
+		$ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
+		$ilCtrl->setParameter($this, "obj_id", "");
+
+		$ml_head = self::getMultiLangHeader($this->object->getId(), $this);		
+		
+		$this->tpl->setContent($ml_head.$ctpl->get());
 	}
 
+	/**
+	 * Get multi lang header
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getMultiLangHeader($a_lm_id, $a_gui_class)
+	{
+		global $lng, $ilCtrl;
+		
+		// multi language
+		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+		$ml = new ilPageMultiLang("lm", $a_lm_id);
+		if ($ml->getActivated())
+		{
+			$lng->loadLanguageModule("meta");
+			
+			// info
+			include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
+			$ml_gui = new ilPageMultiLangGUI("lm", $a_lm_id);
+			include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
+			$ml_head = $ml_gui->getMultiLangInfo($_GET["transl"]);
+			
+			// language switch
+			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+			$list = new ilAdvancedSelectionListGUI();
+			$list->setListTitle($lng->txt("actions"));
+			$list->setId("copage_act");
+			$entries = false;
+			if (!in_array($_GET["transl"], array("", "-")))
+			{
+				$l = $ml->getMasterLanguage();
+				$list->addItem($lng->txt("cont_edit_language_version").": ".
+					$lng->txt("meta_l_".$l), "",
+					$ilCtrl->getLinkTarget($a_gui_class, "editMasterLanguage"));
+				$entries = true;
+			}
+
+			foreach ($ml->getLanguages() as $al)
+			{
+				if ($_GET["transl"] != $al)
+				{
+					$ilCtrl->setParameter($a_gui_class, "totransl", $al);
+					$list->addItem($lng->txt("cont_edit_language_version").": ".
+						$lng->txt("meta_l_".$al), "",
+						$ilCtrl->getLinkTarget($a_gui_class, "switchToLanguage"));
+					$ilCtrl->setParameter($a_gui_class, "totransl", $_GET["totransl"]);
+				}
+				$entries = true;
+			}
+			
+			if ($entries)
+			{
+				$ml_head = '<div style="float:left">'.$ml_head.'</div><div style="text-align:right; margin: 5px 0;" class="small">'.$list->getHTML()."</div>";
+			}
+
+		}
+
+		return $ml_head;
+	}
+	
 
 	/*
 	* List all pages of learning module
@@ -1555,28 +1533,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	}
 
 	/**
-	* Deactivate Javascript Chapter Editing
-	*/
-	function deactivateJSChapterEditing()
-	{
-		global $ilCtrl, $ilUser;
-		
-		$ilUser->writePref("lm_js_chapter_editing", "disable");
-		$ilCtrl->redirect($this, "chapters");
-	}
-	
-	/**
-	* Deactivate Javascript Chapter Editing
-	*/
-	function activateJSChapterEditing()
-	{
-		global $ilCtrl, $ilUser;
-		
-		$ilUser->writePref("lm_js_chapter_editing", "enable");
-		$ilCtrl->redirect($this, "chapters");
-	}
-
-	/**
 	* paste page
 	*/
 	function pastePage()
@@ -1653,14 +1609,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		ilLMObject::clipboardCopy($this->object->getId(), $items);
 		ilEditClipboard::setAction("copy");
 
-		if ($ilUser->getPref("lm_js_chapter_editing") != "disable")
-		{
-			ilUtil::sendInfo($this->lng->txt("cont_selected_items_have_been_copied"), true);
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"), true);
-		}
+		ilUtil::sendInfo($this->lng->txt("cont_selected_items_have_been_copied"), true);
 
 		$this->ctrl->redirect($this, "pages");
 	}
@@ -1991,14 +1940,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if ($ilUser->getPref("lm_js_chapter_editing") != "disable")
-		{
-			ilUtil::sendInfo($this->lng->txt("cont_selected_items_have_been_cut"), true);
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"), true);
-		}
+		ilUtil::sendInfo($this->lng->txt("cont_selected_items_have_been_cut"), true);
 
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		ilLMObject::clipboardCut($this->object->getId(), $items);
@@ -2692,7 +2634,7 @@ $tabs_gui = $ilTabs;
 
 		if (in_array($a_active,
 			array("cont_general_properties", "cont_style", "cont_lm_menu", "public_section",
-				"cont_glossaries")))
+				"cont_glossaries", "cont_multilinguality")))
 		{
 			// general properties
 			$ilTabs->addSubTabTarget("cont_general_properties",
@@ -2724,7 +2666,13 @@ $tabs_gui = $ilTabs;
 						"", "");
 				}
 			}
-				
+
+			// multilinguality
+			$ilTabs->addSubTabTarget("cont_multilinguality",
+				$this->ctrl->getLinkTargetByClass("ilPageMultiLangGUI", ''),
+				"", "");
+
+
 			$ilTabs->setSubTabActive($a_active);
 		}
 	}
@@ -3283,7 +3231,7 @@ $tabs_gui = $ilTabs;
 	{
 		global $ilCtrl;
 		
-		ilLMObject::saveTitles($this->object, ilUtil::stripSlashesArray($_POST["title"]));
+		ilLMObject::saveTitles($this->object, ilUtil::stripSlashesArray($_POST["title"]), $_GET["transl"]);
 		
 		$ilCtrl->redirect($this, "chapters");
 	}
@@ -3333,25 +3281,8 @@ $tabs_gui = $ilTabs;
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
-		if ($ilUser->getPref("lm_js_chapter_editing") != "disable")
-		{
-			//$num = ilChapterHierarchyFormGUI::getPostMulti();
-			$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
-			$first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
-		}
-		else
-		{
-			if (!isset($_POST["id"]) || $_POST["id"][0] == -1)
-			{
-				$node_id = $this->lm_tree->getRootId();
-				$first_child = true;
-			}
-			else
-			{
-				$node_id = $_POST["id"][0];
-				$first_child = false;
-			}
-		}
+		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
+		$first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
 
 		$ilLog->write("InsertChapterClip, num: $num, node_id: $node_id, ".
 			" getPostFirstChild ".ilChapterHierarchyFormGUI::getPostFirstChild());
@@ -4043,5 +3974,33 @@ $tabs_gui = $ilTabs;
 		$ilCtrl->redirect($this, "editGlossaries");
 	}
 	
+	/**
+	 * Edit master language
+	 *
+	 * @param
+	 * @return
+	 */
+	function editMasterLanguage()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setParameter($this, "transl", "");
+		$ilCtrl->redirect($this, "chapters");
+	}
+
+	/**
+	 * Switch to language
+	 *
+	 * @param
+	 * @return
+	 */
+	function switchToLanguage()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setParameter($this, "transl", $_GET["totransl"]); 
+		$ilCtrl->redirect($this, "chapters");
+	}
+
 }
 ?>

@@ -23,7 +23,7 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
  *
  * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
- * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  *
  * @ingroup ServicesCOPage
  */
@@ -67,11 +67,16 @@ class ilPageObjectGUI
 	var $pl_end = "}}}}}";
 	
 	/**
-	* Constructor
-	* @access	public
-	*/
+	 * Constructor
+	 *
+	 * @param string $a_parent_type type of parent object
+	 * @param int $a_id page id
+	 * @param int $a_old_nr history number (current version 0)
+	 * @param bool $a_prevent_get_id prevent getting id automatically from $_GET (e.g. set when concentInclude are included)
+	 * @param string $a_lang language ("" reads also $_GET["transl"], "-" forces master lang)
+	 */
 	function ilPageObjectGUI($a_parent_type, $a_id, $a_old_nr = 0,
-		$a_prevent_get_id = false, $a_lang = "-")
+		$a_prevent_get_id = false, $a_lang = "")
 	{
 		global $tpl, $lng, $ilCtrl,$ilTabs;
 
@@ -83,7 +88,7 @@ class ilPageObjectGUI
 		}
 		$this->setOldNr($a_old_nr);
 		
-		if ($a_lang == "-" && $_GET["transl"] != "")
+		if ($a_lang == "" && $_GET["transl"] != "")
 		{
 			$this->setLanguage($_GET["transl"]);
 		}
@@ -1042,6 +1047,15 @@ class ilPageObjectGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
 				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
 				$ilCtrl->forwardCommand($gui);
+				break;
+
+			case "ilpagemultilanggui":
+				$ilCtrl->setReturn($this, "edit");
+				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
+				$ml_gui = new ilPageMultiLangGUI($this->getPageObject()->getParentType(), $this->getPageObject()->getParentId());
+				//$this->setTabs("settings");
+				//$this->setSubTabs("cont_multilinguality");
+				$ret = $this->ctrl->forwardCommand($ml_gui);
 				break;
 
 			default:
@@ -2010,7 +2024,7 @@ class ilPageObjectGUI
 		$cfg = $this->getPageConfig();
 		
 		// general multi lang support and single page mode?
-		if ($cfg->getMultiLangSupport() && $cfg->getSinglePageMode())
+		if ($cfg->getMultiLangSupport())
 		{
 			include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 			$ml = new ilPageMultiLang($this->getPageObject()->getParentType(),
@@ -2018,20 +2032,25 @@ class ilPageObjectGUI
 			
 			if (!$ml->getActivated())
 			{
-				$a_list->addItem($lng->txt("cont_activate_multi_lang"), "",
-					$ilCtrl->getLinkTarget($this, "activateMultiLanguage"));
-
-				$any_items = true;
+				if ($cfg->getSinglePageMode())
+				{
+					$a_list->addItem($lng->txt("cont_activate_multi_lang"), "",
+						$ilCtrl->getLinkTargetByClass("ilpagemultilanggui", "activateMultilinguality"));
+	
+					$any_items = true;
+				}
 			}
 			else
 			{
 				$lng->loadLanguageModule("meta");
 				
-				$a_list->addItem($lng->txt("cont_deactivate_multi_lang"), "",
-					$ilCtrl->getLinkTarget($this, "confirmDeactivateMultiLanguage"));
-				
+				if ($cfg->getSinglePageMode())
+				{
+					$a_list->addItem($lng->txt("cont_deactivate_multi_lang"), "",
+						$ilCtrl->getLinkTarget($this, "confirmDeactivateMultiLanguage"));
+				}
 
-				if ($this->getPageObject()->getLanguage() != $ml->getMasterLanguage())
+				if ($this->getPageObject()->getLanguage() != "-")
 				{
 					$l = $ml->getMasterLanguage();
 					$a_list->addItem($lng->txt("cont_edit_language_version").": ".
@@ -2050,16 +2069,10 @@ class ilPageObjectGUI
 						$ilCtrl->setParameter($this, "totransl", $_GET["totransl"]);
 					}
 				}
-				
-				$a_tpl->setCurrentBlock("multilinguality");
-				$a_tpl->setVariable("TXT_MASTER_LANG", $lng->txt("cont_master_lang"));
-				$a_tpl->setVariable("VAL_ML", $lng->txt("meta_l_".$ml->getMasterLanguage()));
-				$cl = ($this->getPageObject()->getLanguage() == "-")
-					? $ml->getMasterLanguage()
-					: $this->getPageObject()->getLanguage();
-				$a_tpl->setVariable("TXT_CURRENT_LANG", $lng->txt("cont_current_lang"));
-				$a_tpl->setVariable("VAL_CL", $lng->txt("meta_l_".$cl));
-				$a_tpl->parseCurrentBlock();
+				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
+				$ml_gui = new ilPageMultiLangGUI($this->getPageObject()->getParentType(),
+					$this->getPageObject()->getParentId());
+				$a_tpl->setVariable("MULTI_LANG_INFO", $ml_gui->getMultiLangInfo($this->getPageObject()->getLanguage()));
 
 				$any_items = true;
 			}
@@ -2540,7 +2553,7 @@ class ilPageObjectGUI
 
 				if (ilMediaPoolPage::_exists($param[1]))
 				{
-					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true);
+					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, "-");
 					if ($this->getOutputMode() != "offline")
 					{
 						$page_gui->setFileDownloadLink($this->determineFileDownloadLink());
@@ -3669,107 +3682,7 @@ class ilPageObjectGUI
 	////
 	//// Multilinguality functions
 	////
-	
-	/**
-	 * Activate multi language (-> master language selection)
-	 *
-	 * @param
-	 * @return
-	 */
-	function activateMultiLanguage()
-	{
-		global $tpl, $lng;
 		
-		ilUtil::sendInfo($lng->txt("cont_select_master_lang"));
-		
-		$form = $this->getMultiLangForm();
-		$tpl->setContent($form->getHTML());
-	}
-	
-	/**
-	 * Get multi language form
-	 */
-	function getMultiLangForm()
-	{
-		global $tpl, $lng, $ilCtrl, $ilUser;
-		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		
-		// master language
-		include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
-		$options = ilMDLanguageItem::_getLanguages();
-		$si = new ilSelectInputGUI($this->lng->txt("cont_master_lang"), "master_lang");
-		$si->setOptions($options);
-		$si->setValue($ilUser->getLanguage());
-		$form->addItem($si);
-		
-		// additional languages
-		include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
-		$options = ilMDLanguageItem::_getLanguages();
-		$options = array("" => $lng->txt("please_select")) + $options;
-		$si = new ilSelectInputGUI($this->lng->txt("cont_additional_langs"), "additional_langs");
-		$si->setOptions($options);
-		$si->setMulti(true);
-		$form->addItem($si);
-		
-		$form->addCommandButton("saveMultilingualitySettings", $lng->txt("save"));
-		$form->addCommandButton("edit", $lng->txt("cancel"));
-		$form->setTitle($lng->txt("cont_activate_multi_lang"));
-		$form->setFormAction($ilCtrl->getFormAction($this));
-		
-		return $form;
-	}
-	
-	/**
-	 * Save multlilinguality settings
-	 */
-	function saveMultilingualitySettings()
-	{
-		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-		$pg_ml = new ilPageMultiLang($this->getPageObject()->getParentType(), $this->getPageObject()->getParentId());
-		
-		$form = $this->getMultiLangForm();
-		if ($form->checkInput())
-		{
-			$ml = $form->getInput("master_lang");
-			$pg_ml->setMasterLanguage($ml);
-			
-			$ad = $form->getInput("additional_langs");
-			foreach ($ad as $l)
-			{
-				if ($l != $ml && $l != "")
-				{
-					$pg_ml->addLanguage($l);
-				}
-			}
-			$pg_ml->save();
-		}
-	}
-	
-	/**
-	* Save  form
-	*
-	*/
-	public function save()
-	{
-		global $tpl, $lng, $ilCtrl;
-	
-		$this->initForm("create");
-		if ($this->form->checkInput())
-		{
-			$this->set($this->form->getInput(""));
-	
-			save();
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$ilCtrl->redirect($this, "");
-		}
-		else
-		{
-			$this->form->setValuesByPost();
-			$tpl->setContent($this->form->getHtml());
-		}
-	}
 	
 	/**
 	 * Switch to language

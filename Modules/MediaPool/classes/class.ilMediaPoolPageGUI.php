@@ -21,11 +21,11 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false)
+	function __construct($a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "")
 	{
 		global $tpl;
 		
-		parent::__construct("mep", $a_id, $a_old_nr, $a_prevent_get_id);
+		parent::__construct("mep", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 		
 		// content style
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");

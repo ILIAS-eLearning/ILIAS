@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Form/classes/class.ilHierarchyFormGUI.php");
+include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 
 /**
 * This class represents a hierarchical form. These forms are used for
@@ -19,14 +20,48 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	*
 	* @param
 	*/
-	function __construct($a_lm_type)
+	function __construct($a_lm_type, $a_lang = "-")
 	{
 		$this->lm_type = $a_lm_type;
 
+		$this->lang = ($a_lang == "")
+			? "-"
+			: $a_lang;
 		parent::__construct();
 		$this->setCheckboxName("id");
 	}
 	
+	/**
+	 * Get child title
+	 *
+	 * @param
+	 * @return
+	 */
+	function getChildTitle($a_child)
+	{
+		if ($this->lang != "-")
+		{
+			$lmobjtrans = new ilLMObjTranslation($a_child["node_id"], $this->lang);
+			return $lmobjtrans->getTitle();
+		}
+		return $a_child["title"];
+	}	
+
+	/**
+	 * Get child info
+	 *
+	 * @param array $a_child node array
+	 * @return string node title
+	 */
+	function getChildInfo($a_child)
+	{
+		if ($this->lang != "-")
+		{
+			return $a_child["title"];
+		}
+		return "";
+	}		
+
 	/**
 	* Get menu items
 	*/

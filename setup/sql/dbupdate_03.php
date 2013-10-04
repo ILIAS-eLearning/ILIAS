@@ -18680,3 +18680,33 @@ while($row = $ilDB->fetchAssoc($set))
         array('ris', 'default', '[<strong>|ris_default_a1|</strong> ][<strong>|ris_default_au|</strong> ][|ris_default_t1|][ |ris_default_ti|]: <Emph>[|ris_default_pb| ][|ris_default_y1| ][|ris_default_py| ][|ris_default_cy|]</Emph>',2)
     );
 ?>
+<#4115>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4116>
+<?php
+
+$ilDB->createTable("lm_data_transl",
+	array(
+		"id" => array(
+			"type" => "integer", "length" => 4, "notnull" => true
+		),
+		"lang" => array(
+			"type" => "text", "length" => 2, "notnull" => true
+		),
+		"title" => array(
+			"type" => "text", "length" => 200, "notnull" => false
+		),
+		"create_date" => array(
+			"type" => "timestamp"
+		),
+		"last_update" => array(
+			"type" => "timestamp"
+		)
+	)
+);
+
+$ilDB->addPrimaryKey("lm_data_transl", array("id", "lang"));
+
+?>
