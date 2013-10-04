@@ -1,10 +1,8 @@
 package chatserver;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,7 +12,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.midi.MidiDevice;
 
 /**
  * Quick and dirty session handler
@@ -64,7 +61,7 @@ public class HttpSessionGC {
 							if (System.currentTimeMillis() - subscriber.getLastConnect() > sessionTimeout) {
 								Logger.getLogger("default").log(
 									Level.INFO,
-									"[{0}] Will remove subscriber {1} fro scope {2}, Last connect: {3}, Current datetime: {4}",
+									"[{0}] Will remove subscriber {1,number} from scope {2,number}, Last connect: {3}, Current datetime: {4}",
 									new Object[]{
 										instance.getIliasClient(),
 										subscriber.getId(),
@@ -77,7 +74,7 @@ public class HttpSessionGC {
 								subscribers.remove();
 								Logger.getLogger("default").log(
 									Level.INFO,
-									"[{0}] Removed subscriber {1} from subscriber list in scope {2}",
+									"[{0}] Removed subscriber {1,number} from subscriber list in scope {2,number}",
 									new Object[] {
 										instance.getIliasClient(),
 										subscriber.getId(),
@@ -104,8 +101,8 @@ public class HttpSessionGC {
 				try {
 					// push disconnect information to the remote instance (e.g. ILIAS)
 					sendFeedback(usersToDisconnect);
-				} catch (IOException ex) {
-					Logger.getLogger("default").log(Level.SEVERE, null, ex);
+				} catch (IOException e) {
+					Logger.getLogger("default").log(Level.SEVERE, null, e);
 				}
 			}
 
@@ -148,12 +145,11 @@ public class HttpSessionGC {
 					query = "task=disconnectedUsers&" + query;
 
 					URLConnection connection = instance.getFeedbackConnection("");
-					Logger.getLogger("default").finer("Calling " + connection.getURL() + " for disconnected users");
-					Logger.getLogger("default").finer("Body " + query);
+					Logger.getLogger("default").log(Level.INFO, "[{0}] Calling {1} for disconnected users", new Object[]{instance.getIliasClient(), connection.getURL()});
+					Logger.getLogger("default").log(Level.INFO, "[{0}] Body {1}", new Object[]{instance.getIliasClient(), query});
 					connection.setDoOutput(true); // Triggers POST.
 					connection.setRequestProperty("Accept-Charset", "utf-8");
 					connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-					//connection.setRequestProperty("Content-Length", "" + query.getBytes("utf-8").length);
 					OutputStream output = null;
 					InputStream in = null;
 					try {
@@ -161,21 +157,21 @@ public class HttpSessionGC {
 						output = connection.getOutputStream();
 						output.write(query.getBytes("utf-8"));
 						in = connection.getInputStream();
-					} catch(IOException ex) {
-						Logger.getLogger("default").log(Level.SEVERE, null, ex);
+					} catch(IOException e) {
+						Logger.getLogger("default").log(Level.SEVERE, null, e);
 					} finally {
 						if (output != null) {
 							try {
 								output.close();
-							} catch (IOException ex) {
-							    Logger.getLogger("default").log(Level.SEVERE, null, ex);
+							} catch (IOException e) {
+							    Logger.getLogger("default").log(Level.SEVERE, null, e);
 							}
 						}
 						if (in != null) {
 							try {
 								in.close();
-							} catch (IOException ex) {
-							    Logger.getLogger("default").log(Level.SEVERE, null, ex);
+							} catch (IOException e) {
+							    Logger.getLogger("default").log(Level.SEVERE, null, e);
 							}
 						}
 					}
