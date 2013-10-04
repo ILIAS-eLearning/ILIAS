@@ -173,8 +173,11 @@ class ilBibliographicEntry
 
         $parsed_attributes = array();
         foreach($all_attributes as $key => $value){
-            //surround links with <a href="">
-            $value = preg_replace('!(http)(s)?:\/\/[a-zA-Z0-9.?&_/\-]+!', "<a href=\"\\0\" target=\"_blank\">\\0</a>",$value);
+
+            // surround links with <a href="">
+            // Allowed signs in URL: a-z A-Z 0-9 . ? & _ / - ~ ! ' * ( ) + , : ; @ = $ # [ ] %
+            $value = preg_replace('!(http)(s)?:\/\/[a-zA-Z0-9.?&_/\-~\!\'\*()+,:;@=$#\[\]%]+!', "<a href=\"\\0\" target=\"_blank\">\\0</a>",$value);
+
             $parsed_attributes[strtolower($this->file_type . '_' . $type  . '_' . $key)] = $value;
         }
        return $parsed_attributes;
