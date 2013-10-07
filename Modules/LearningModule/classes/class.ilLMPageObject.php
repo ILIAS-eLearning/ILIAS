@@ -404,15 +404,35 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE,
 		$a_include_numbers = false, $a_time_scheduled_activation = false,
-		$a_force_content = false)
+		$a_force_content = false, $a_lm_id = 0, $a_lang = "-")
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
+		
+		if ($a_lm_id == 0)
+		{
+			$a_lm_id = ilLMObject::_lookupContObjID($a_pg_id);
+		}
+		
+		// @todo: optimize
+		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+		$ml = new ilPageMultiLang("lm", $a_lm_id);
 
 		// select
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_pg_id, "integer");
 		$pg_set = $ilDB->query($query);
 		$pg_rec = $ilDB->fetchAssoc($pg_set);
+		
+		if ($a_lang != "-" && $ml->getActivated() && in_array($a_lang,
+			$ml->getLanguages()))
+		{
+			include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
+			$lmobjtrans = new ilLMObjTranslation($a_pg_id, $a_lang);
+			if ($lmobjtrans->getTitle() != "")
+			{
+				$pg_rec["title"] = $lmobjtrans->getTitle();
+			}
+		}
 
 		if($a_mode == IL_NO_HEADER && !$a_force_content)
 		{

@@ -176,7 +176,7 @@ class ilLMObjTranslation
 		}
 		return false;
 	}
-			
+	
 }
 
 ?>

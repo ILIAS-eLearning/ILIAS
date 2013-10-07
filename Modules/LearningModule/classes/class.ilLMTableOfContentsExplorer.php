@@ -50,9 +50,9 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilTableOfContentsExplorer($a_target,&$a_lm_obj, $a_export_format = "")
+	function ilTableOfContentsExplorer($a_target,&$a_lm_obj, $a_export_format = "", $a_lang = "-")
 	{
-		parent::ilLMExplorer($a_target, $a_lm_obj);
+		parent::ilLMExplorer($a_target, $a_lm_obj, $a_lang);
 		$this->setSessionExpandVariable("lmtocexpand");
 		$this->export_format = $a_export_format;
 		$this->lm_obj =& $a_lm_obj;
@@ -126,7 +126,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		if ($a_type == "st")
 		{
 			return ilStructureObject::_getPresentationTitle($a_id,
-				$this->lm_obj->isActiveNumbering()).$access_str;
+				$this->lm_obj->isActiveNumbering(), false, $this->lm_obj->getId(), $this->lang).$access_str;
 		}
 
 		if ($this->lm_obj->getTOCMode() == "chapters" || $a_type != "pg")
@@ -139,7 +139,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 			{
 				return ilLMPageObject::_getPresentationTitle($a_id,
 					$this->lm_obj->getPageHeader(), $this->lm_obj->isActiveNumbering(),
-					$this->lm_set->get("time_scheduled_page_activation")).$access_str;
+					$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm_obj->getId(), $this->lang).$access_str;
 			}
 		}
 		
@@ -354,7 +354,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 
 	function isVisible($a_id, $a_type)
 	{
-		include_once("./Module/LearningModule/classes/class.ilLMPage.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		$active = ilLMPage::_lookupActive($a_id, $this->lm_obj->getType(),
 			$this->lm_set->get("time_scheduled_page_activation"));
 

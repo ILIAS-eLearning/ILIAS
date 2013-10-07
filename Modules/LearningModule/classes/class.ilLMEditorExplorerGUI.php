@@ -33,6 +33,9 @@ class ilLMEditorExplorerGUI extends ilTreeExplorerGUI
 //		$this->setTypeWhiteList(array("dummy", "fold"));
 		$this->setSkipRootNode(false);
 		$this->setAjax(false);
+		
+		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+		$this->ml = new ilPageMultiLang("lm", $this->lm->getId());
 	}
 
 	/**
@@ -43,20 +46,18 @@ class ilLMEditorExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		global $lng;
+		global $lng, $ilUser;
 
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
 			return $this->lm->getTitle();
 		}
-		
-		if ($a_node["type"] == "st")
-		{
-			return ilStructureObject::_getPresentationTitle($a_node["child"],
-				$this->lm->isActiveNumbering());
-		}
-				
-		return $a_node["title"];
+
+		$lang = ($_GET["transl"] != "")
+			? $_GET["transl"]
+			: "-";
+		return ilLMObject::_getPresentationTitle($a_node, IL_PAGE_TITLE,
+			false, false, false, $this->lm->getId(), $lang);		
 	}
 	
 	/**
