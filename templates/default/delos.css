@@ -3689,8 +3689,8 @@ div.ilSideBarContent{
 	display: inline-block;
 	width: 97%;
 	margin: 1.5%;
-	font-weight: bold;
 	font-size: 90%;
+	font-style: italic;
 }
 
 img.ilPollQuestionImage {
