@@ -423,11 +423,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						if(isset($days[$loop]['captions']))
 						{
 							foreach($days[$loop]['captions'] as $slot_id => $slot_caption)
-							{
+							{								
 								$mytpl->setCurrentBlock('choice');
 								$mytpl->setVariable('TXT_DATE', $slot_caption);
 								$mytpl->setVariable('VALUE_DATE', $slot_id);
 								$mytpl->setVariable('DATE_COLOR', $color[$loop]);
+								$mytpl->setVariable('TXT_AVAILABLE', 
+									sprintf($this->lng->txt('book_reservation_available'), 
+									$days[$loop]['available'][$slot_id]));
 								$mytpl->parseCurrentBlock();
 							}
 
@@ -535,8 +538,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						$slot_from = mktime(substr($slot['from'], 0, 2), substr($slot['from'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
 						$slot_to = mktime(substr($slot['to'], 0, 2), substr($slot['to'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
 
+						// always single object, we can sum up
+						$nr_available = (array)ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to-1, false, true);						
+						
 						// check deadline
-						if($slot_from < (time()+$schedule->getDeadline()*60*60) || !ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to-1))
+						if($slot_from < (time()+$schedule->getDeadline()*60*60) || !array_sum($nr_available))
 						{
 							continue;
 						}
@@ -554,6 +560,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 							if(!in_array($id, $slot_captions))
 							{
 								$dates[$hour][$column]['captions'][$id] = $from.'-'.$to;
+								$dates[$hour][$column]['available'][$id] = array_sum($nr_available);
 								$slot_captions[] = $id;
 							}
 
