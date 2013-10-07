@@ -166,15 +166,36 @@ class ilStructureObject extends ilLMObject
 	*
 	*/
 	function _getPresentationTitle($a_st_id, $a_include_numbers = false,
-		$a_time_scheduled_activation = false)
+		$a_time_scheduled_activation = false, $a_lm_id = 0, $a_lang = "-")
 	{
 		global $ilDB;
+
+		if ($a_lm_id == 0)
+		{
+			$a_lm_id = ilLMObject::_lookupContObjID($a_st_id);
+		}
+		
+		// @todo: optimize
+		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+		$ml = new ilPageMultiLang("lm", $a_lm_id);
 
 		// get chapter data
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_st_id, "integer");
 		$st_set = $ilDB->query($query);
 		$st_rec = $ilDB->fetchAssoc($st_set);
+		
+		if ($a_lang != "-" && $ml->getActivated() && in_array($a_lang,
+			$ml->getLanguages()))
+		{
+			include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
+			$lmobjtrans = new ilLMObjTranslation($a_st_id, $a_lang);
+			if ($lmobjtrans->getTitle() != "")
+			{
+				$st_rec["title"] = $lmobjtrans->getTitle();
+			}
+		}
+
 
 		$tree = new ilTree($st_rec["lm_id"]);
 		$tree->setTableNames('lm_tree','lm_data');

@@ -22,11 +22,11 @@ class ilLMTOCExplorer extends ilLMExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilLMTOCExplorer($a_target,&$a_lm_obj)
+	function ilLMTOCExplorer($a_target, $a_lm_obj, $a_lang = "-")
 	{
 		$this->offline = false;
 		$this->force_open_path = array();
-		parent::ilLMExplorer($a_target, $a_lm_obj);
+		parent::ilLMExplorer($a_target, $a_lm_obj, $a_lang);
 		$this->lm_set = new ilSetting("lm");
 	}
 	
@@ -59,12 +59,11 @@ class ilLMTOCExplorer extends ilLMExplorer
 	* standard implementation for title, maybe overwritten by derived classes
 	*/
 	function buildTitle($a_title, $a_id, $a_type)
-	{
-//echo "<br>-$a_title-$a_type-$a_id-";
+	{		
 		if ($a_type == "st")
 		{
 			return ilStructureObject::_getPresentationTitle($a_id,
-				$this->lm_obj->isActiveNumbering());
+				$this->lm_obj->isActiveNumbering(), false, $this->lm_obj->getId(), $this->lang);
 		}
 
 		if ($this->lm_obj->getTOCMode() == "chapters" || $a_type != "pg")
@@ -77,7 +76,7 @@ class ilLMTOCExplorer extends ilLMExplorer
 			{
 				return ilLMPageObject::_getPresentationTitle($a_id,
 					$this->lm_obj->getPageHeader(), $this->lm_obj->isActiveNumbering(),
-					$this->lm_set->get("time_scheduled_page_activation"), true);
+					$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm_obj->getId(), $this->lang);
 			}
 		}
 	}

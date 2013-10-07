@@ -32,9 +32,10 @@ class ilLMExplorer extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilLMExplorer($a_target,&$a_lm_obj)
+	function ilLMExplorer($a_target, $a_lm_obj, $a_lang = "-")
 	{
 		parent::ilExplorer($a_target);
+		$this->lang = $a_lang;
 		$this->tree = new ilTree($a_lm_obj->getId());
 		$this->tree->setTableNames('lm_tree','lm_data');
 		$this->tree->setTreeTablePK("lm_id");
