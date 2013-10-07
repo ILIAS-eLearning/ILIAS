@@ -56,22 +56,19 @@ class ilTestTaxonomyFilterLabelTranslater
 
 	private function loadTaxonomyTreeLabels()
 	{
-		$IN_taxIds = $this->db->in('tax_tree.tax_tree_id', $this->taxonomyTreeIds, false, 'integer');
+		$IN_taxIds = $this->db->in('obj_id', $this->taxonomyTreeIds, false, 'integer');
 
 		$query = "
-			SELECT		tax_tree.tax_tree_id,
-						tax_node.title tax_tree_title
+			SELECT		obj_id tax_tree_id,
+						title tax_tree_title
 
-			FROM		tax_tree
-
-			INNER JOIN	tax_node
-			ON			obj_id = child
+			FROM		object_data
 
 			WHERE		$IN_taxIds
-			AND			tax_tree.parent = %s
+			AND			type = %s
 		";
 
-		$res = $this->db->queryF($query, array('integer'), array(0));
+		$res = $this->db->queryF($query, array('text'), array('tax'));
 
 		while( $row = $this->db->fetchAssoc($res) )
 		{

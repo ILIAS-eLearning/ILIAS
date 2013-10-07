@@ -21,15 +21,19 @@ class ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap
 	private $taxNodeKeyMap = array();
 
 	/**
-	 * @param integer $originalTaxonomyId
-	 * @param integer $mappedTaxonomyId
-	 * @param array $nodeKeyMapping
+	 * @var array
 	 */
-	public function addDuplicatedTaxonomy($originalTaxonomyId, $mappedTaxonomyId, $nodeKeyMappingArray)
-	{
-		$this->taxonomyKeyMap[$originalTaxonomyId] = $mappedTaxonomyId;
+	private $taxRootNodeKeyMap = array();
 
-		foreach($nodeKeyMappingArray as $originalNodeId => $mappedNodeId)
+	/**
+	 * @param ilObjTaxonomy $originalTaxonomyId
+	 * @param ilObjTaxonomy $mappedTaxonomyId
+	 */
+	public function addDuplicatedTaxonomy(ilObjTaxonomy $originalTaxonomy, ilObjTaxonomy $mappedTaxonomy)
+	{
+		$this->taxonomyKeyMap[ $originalTaxonomy->getId() ] = $mappedTaxonomy->getId();
+
+		foreach($originalTaxonomy->getNodeMapping() as $originalNodeId => $mappedNodeId)
 		{
 			$this->taxNodeKeyMap[$originalNodeId] = $mappedNodeId;
 		}
@@ -51,5 +55,13 @@ class ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap
 	public function getMappedTaxNodeId($originalTaxNodeId)
 	{
 		return $this->taxNodeKeyMap[$originalTaxNodeId];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTaxonomyRootNodeMap()
+	{
+		return $this->taxRootNodeKeyMap;
 	}
 }

@@ -66,7 +66,10 @@ class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 		foreach($poolTaxonomyIds as $poolTaxId)
 		{
 			$this->duplicateTaxonomyFromPoolToTest($poolTaxId);
-			$this->transferAssignmentsFromOriginalToDuplicatedTaxonomy($poolTaxId);
+
+			$this->transferAssignmentsFromOriginalToDuplicatedTaxonomy(
+				$poolTaxId, $this->duplicatedTaxonomiesKeysMap->getMappedTaxonomyId($poolTaxId)
+			);
 		}
 	}
 
@@ -78,19 +81,18 @@ class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 		$poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
 		$poolTaxonomy->doCloneObject($testTaxonomy, null, null);
 
+		$poolTaxonomy->getTree()->readRootId();
+		$testTaxonomy->getTree()->readRootId();
+
 		$testTaxonomy->update();
 
 		ilObjTaxonomy::saveUsage( $testTaxonomy->getId(), $this->testOBJ->getId() );
 
-		$this->duplicatedTaxonomiesKeysMap->addDuplicatedTaxonomy(
-			$poolTaxonomy->getId(), $testTaxonomy->getId(), $poolTaxonomy->getNodeMapping()
-		);
+		$this->duplicatedTaxonomiesKeysMap->addDuplicatedTaxonomy($poolTaxonomy, $testTaxonomy);
 	}
 
-	private function transferAssignmentsFromOriginalToDuplicatedTaxonomy($originalTaxonomyId)
+	private function transferAssignmentsFromOriginalToDuplicatedTaxonomy($originalTaxonomyId, $mappedTaxonomyId)
 	{
-		$mappedTaxonomyId = $this->duplicatedTaxonomiesKeysMap->getMappedTaxonomyId($originalTaxonomyId);
-
 		$originalTaxAssignment = new ilTaxNodeAssignment('qpl', 'quest', $originalTaxonomyId);
 		$duplicatedTaxAssignment = new ilTaxNodeAssignment('qpl', 'quest', $mappedTaxonomyId);
 
@@ -107,6 +109,9 @@ class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 		}
 	}
 
+	/**
+	 * @return ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap
+	 */
 	public function getDuplicatedTaxonomiesKeysMap()
 	{
 		return $this->duplicatedTaxonomiesKeysMap;
