@@ -1,0 +1,49 @@
+<!-- BEGIN CODE -->
+<input type="submit" class="submit" name="gapbutton" id="gaptrigger" value="{INSERT_GAP}" />
+<script type="text/javascript">
+    jQuery.fn.extend({
+        insertAtCaret: function(value) {
+            return this.each(function(i) {
+                if (typeof tinyMCE != "undefined" && typeof tinyMCE.get('question') != "undefined") {
+                    var ed =  tinyMCE.get('question');
+                    var uid = 'frm_elmid_' + new Date().getTime();
+                    ed.execCommand("mceInsertContent", false, "<span id='" + uid + "'>" + value + "</span>");
+
+                    var rng = tinymce.DOM.createRng();
+                    var newNode = ed.dom.select('#' + uid)[0];
+                    rng.setStart(newNode, 0);
+                    rng.setEnd(newNode, 0);
+                    ed.selection.setRng(rng);
+                    ed.focus();
+                    return;
+                }
+                if (document.selection) {
+                    //For browsers like Internet Explorer
+                    this.focus();
+                    sel = document.selection.createRange();
+                    sel.text = value;
+                    this.focus();
+                }
+                else if (this.selectionStart || this.selectionStart == '0') {
+                    //For browsers like Firefox and Webkit based
+                    var startPos = this.selectionStart;
+                    var endPos = this.selectionEnd;
+                    var scrollTop = this.scrollTop;
+                    this.value = this.value.substring(0, startPos)+ value + this.value.substring(endPos, this.value.length);
+                    this.focus();
+                    this.selectionStart = startPos + value.length;
+                    this.selectionEnd = startPos + value.length;
+                    this.scrollTop = scrollTop;
+                } else {
+                    this.value += value;
+                    this.focus();
+                }
+            });
+        }
+    });
+    $('#gaptrigger').on('click',function() {
+        var textfeld_id = 'question';
+        $('#'+textfeld_id).insertAtCaret('[gap][/gap]');
+    });
+</script>
+<!-- END CODE -->
