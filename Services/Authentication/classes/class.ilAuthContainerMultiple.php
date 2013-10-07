@@ -129,6 +129,22 @@ class ilAuthContainerMultiple extends Auth_Container
 						include_once './Services/Radius/classes/class.ilAuthContainerRadius.php';
 						$this->current_container = new ilAuthContainerRadius();
 						break;
+					
+					// begin-patch auth_plugin
+					default:
+						$this->log('Container Plugin: Trying new container',AUTH_LOG_DEBUG);
+						foreach(ilAuthUtils::getAuthPlugins() as $pl)
+						{
+							$container = $pl->getContainer($auth_mode);
+							if($container instanceof Auth_Container)
+							{
+								$this->current_container = $container;
+								break;
+							}
+						}
+						break;
+					// end-patch auth_plugin
+					
 				}
 			}
             $this->current_container->_auth_obj = $this->_auth_obj;

@@ -18710,3 +18710,8 @@ $ilDB->createTable("lm_data_transl",
 $ilDB->addPrimaryKey("lm_data_transl", array("id", "lang"));
 
 ?>
+<#4117>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

@@ -233,6 +233,19 @@ class ilAuthModeDetermination
 							$this->position[] = $auth_mode;
 						}
 						break;
+						
+					// begin-patch auth_plugin
+					default:
+						foreach(ilAuthUtils::getAuthPlugins() as $pl)
+						{
+							if($pl->isAuthActive($auth_mode))
+							{
+								$this->position[] = $auth_mode;
+							}
+						}
+						break;
+					// end-patch auth_plugin
+						
 				}
 			}
 		}
@@ -264,13 +277,28 @@ class ilAuthModeDetermination
 				$this->position[] = AUTH_SOAP;
 			}
 		}
-                if($apache_active)
+		if($apache_active)
 		{
 			if(!in_array(AUTH_APACHE,$this->position))
 			{
 				$this->position[] = AUTH_APACHE;
 			}
 		}
+		// begin-patch auth_plugin
+		foreach(ilAuthUtils::getAuthPlugins() as $pl)
+		{
+			foreach($pl->getAuthIds() as $auth_id)
+			{
+				if($pl->isAuthActive($auth_id))
+				{
+					if(!in_array($auth_id, $this->position))
+					{
+						$this->position[] = $auth_id;
+					}
+				}
+			}
+		}
+		// end-patch auth_plugin
 	}
 }
 

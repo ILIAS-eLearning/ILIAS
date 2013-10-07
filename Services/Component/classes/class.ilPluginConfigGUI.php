@@ -25,7 +25,7 @@ abstract class ilPluginConfigGUI
 	/**
 	 * Get plugin object
 	 *
-	 * @return ilPlugin	plugin object
+	 * @return ilPlugin	 object
 	 */
 	public final function getPluginObject()
 	{

@@ -193,7 +193,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				{
 					continue;
 				}
-
+				
 				$this->tpl->setCurrentBlock("auth_mode_selection");
 
 				if ($auth_name == 'default')
@@ -754,6 +754,15 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				case AUTH_APACHE:
 					$text = $this->lng->txt('auth_apache');
 					break;
+				// begin-patch auth_plugin
+				default:
+					foreach(ilAuthUtils::getAuthPlugins() as $pl)
+					{
+						$option = $pl->getMultipleAuthModeOptions($auth_mode);
+						$text = $option[$auth_mode]['txt'];
+					}
+					break;
+				// end-patch auth_plugin
 			}
 			
 			

@@ -553,13 +553,17 @@ class ilUserImportParser extends ilSaxParser
 						case "cas":
 						case "soap":
 						case "openid":
+						// begin-patch auth_plugin
+						default:
 							$this->auth_mode_set = true;
 							$this->userObj->setAuthMode($a_attribs["type"]);
 							break;
-						default:
+						/*
 							$this->logFailure($this->userObj->getLogin(),
 											  sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
 							break;
+						 * 
+						 */
 					}
 				}
 				else
@@ -677,11 +681,16 @@ class ilUserImportParser extends ilSaxParser
 						case "cas":
 						case "soap":
 						case "openid":
+						// begin-patch auth_plugin
+						default:
 							$this->userObj->setAuthMode($a_attribs["type"]);
 							break;
+						/*
 						default:
 							$this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",$a_attribs["type"]));
 							break;
+						 *
+						 */
 					}
 				}
 				else
