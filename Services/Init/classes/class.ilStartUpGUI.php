@@ -258,12 +258,13 @@ class ilStartUpGUI
 
 				case AUTH_USER_TIME_LIMIT_EXCEEDED:
 					ilSession::setClosingContext(ilSession::SESSION_CLOSE_TIME);
+					$username = $ilAuth->getUsername();
 					$ilAuth->logout();
 
 					// user could reactivate by code?
 					if($ilSetting->get('user_reactivate_code'))
 					{				
-						return $this->showCodeForm();
+						return $this->showCodeForm($username);
 					}
 
 					session_destroy();				
@@ -352,7 +353,7 @@ class ilStartUpGUI
 		$tpl->show("DEFAULT", false);
 	}
 	
-	protected function showCodeForm($a_form = null)
+	protected function showCodeForm($a_username = null, $a_form = null)
 	{
 		global $tpl, $lng;
 		
@@ -362,19 +363,14 @@ class ilStartUpGUI
 		
 		if(!$a_form)
 		{
-			$a_form = $this->initCodeForm();
+			$a_form = $this->initCodeForm($a_username);
 		}
 		
-		if($_POST["username"])
-		{
-			ilSession::set("username", $_POST["username"]);
-		}
-	
 		$tpl->setVariable("FORM", $a_form->getHTML());
 		$tpl->show("DEFAULT", false);
 	}
 	
-	protected function initCodeForm()
+	protected function initCodeForm($a_username)
 	{
 		global $lng, $ilCtrl;
 		
@@ -391,6 +387,11 @@ class ilStartUpGUI
 		$count->setInfo($lng->txt('auth_account_code_info'));
 		$form->addItem($count);
 		
+		// #11658
+		$uname = new ilHiddenInputGUI("uname");
+		$uname->setValue($a_username);
+		$form->addItem($uname);
+		
 		$form->addCommandButton('processCode', $lng->txt('send'));
 		
 		return $form;
@@ -400,8 +401,10 @@ class ilStartUpGUI
 	{
 		global $lng, $ilAuth, $ilCtrl;
 		
-		$form = $this->initCodeForm();
-		if($form->checkInput())
+		$uname = $_POST["uname"];
+		
+		$form = $this->initCodeForm($uname);
+		if($uname && $form->checkInput())
 		{
 			$code = $form->getInput("code");			
 						
@@ -410,7 +413,7 @@ class ilStartUpGUI
 			{
 				$valid_until = ilAccountCode::getCodeValidUntil($code);			
 				
-				if(!$user_id = ilObjUser::_lookupId(ilSession::get("username")))
+				if(!$user_id = ilObjUser::_lookupId($uname))
 				{
 					$this->showLogin();
 					return false;
@@ -465,7 +468,7 @@ class ilStartUpGUI
 		}
 		
 		$form->setValuesByPost();
-		$this->showCodeForm($form);		
+		$this->showCodeForm($uname, $form);		
 	}
 	
 	
