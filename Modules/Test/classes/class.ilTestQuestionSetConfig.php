@@ -55,34 +55,19 @@ abstract class ilTestQuestionSetConfig
 	
 	/**
 	 * loads the question set config for current test from the database
-	 * 
-	 * @return boolean
 	 */
-	public function loadFromDb()
-	{
-		return true;
-	}
-	
+	abstract public function loadFromDb();
+
 	/**
 	 * saves the question set config for current test to the database
-	 * 
-	 * @return boolean
 	 */
-	public function saveToDb()
-	{
-		return true;
-	}
-	
+	abstract public function saveToDb();
+
 	/**
 	 * deletes the question set config for current test from the database
-	 * 
-	 * @return boolean
 	 */
-	public function deleteFromDb()
-	{
-		return true;
-	}
-	
+	abstract public function deleteFromDb();
+
 	public function areDepenciesInVulnerableState()
 	{
 		return false;

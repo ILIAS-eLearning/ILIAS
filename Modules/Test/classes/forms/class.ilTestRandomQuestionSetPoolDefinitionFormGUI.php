@@ -110,8 +110,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 			$taxRadio->setRequired(true);
 			
 			$taxRadio->addOption(new ilRadioOption(
-					$this->lng->txt('tst_inp_source_pool_no_tax_filter'), 0,
-					$this->lng->txt('tst_inp_source_pool_no_tax_filter_info')
+					$this->lng->txt('tst_inp_source_pool_no_tax_filter'), 0
 			));
 			
 			$taxRadio->setValue(0);
@@ -123,9 +122,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 				$taxonomy = new ilObjTaxonomy($taxId);
 				$label = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
 				
-				$taxRadioOption = new ilRadioOption(
-					$label, $taxId, $this->lng->txt('tst_inp_source_pool_filter_tax_x_info')
-				);
+				$taxRadioOption = new ilRadioOption($label, $taxId);
 				
 				$taxRadio->addOption($taxRadioOption);
 				

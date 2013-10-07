@@ -264,7 +264,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 		return true;
 	}
 
-	private function isQuestionAmountConfigComplete()
+	public function isQuestionAmountConfigComplete()
 	{
 		if( $this->isQuestionAmountConfigurationModePerPool() )
 		{
@@ -279,7 +279,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 		return false;
 	}
 
-	private function hasSourcePoolDefinitions()
+	public function hasSourcePoolDefinitions()
 	{
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
@@ -294,7 +294,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 		return $sourcePoolDefinitionList->savedDefinitionsExist();
 	}
 
-	private function isQuestionSetBuildable()
+	public function isQuestionSetBuildable()
 	{
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($this->db, $this->testOBJ);
