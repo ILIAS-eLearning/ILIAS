@@ -1124,14 +1124,10 @@ class ilExAssignment
 		else if ($count > 0)
 		{
 			$array_files = array();
-			$filename = "";
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$array_files[$row["user_id"]][] = basename($row["filename"]);
-			}
-			$pathinfo = pathinfo($filename);
-			$dir = $pathinfo["dirname"];
-			
+			}			
 			ilExAssignment::downloadMultipleFiles($a_exc_id, $a_ass_id, $array_files, 
 				 ($is_team ? null : $a_user_id), $is_team);
 		}
@@ -1215,9 +1211,7 @@ class ilExAssignment
 				else
 				{
 					$filenames = array();
-					$dir = "";
-					$file = "";
-					foreach ($array_found as $key => $value)
+					foreach ($array_found as $value)
 					{
 						$filenames[$value["user_id"]][] = basename($value["filename"]);
 					}
@@ -1249,14 +1243,7 @@ class ilExAssignment
 // @todo: check whether files of multiple users are downloaded this way
 	function downloadMultipleFiles($a_exc_id, $a_ass_id, $array_filenames,
 		$a_user_id, $a_multi_user = false)
-	{
-		global $lng, $ilObjDataCache;
-		
-		if(!$a_multi_user)
-		{
-			$array_filenames = array($a_user_id => $array_filenames);
-		}
-		
+	{				
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$fs = new ilFSStorageExercise($a_exc_id, $a_ass_id);
 		
