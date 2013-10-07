@@ -188,7 +188,7 @@ class ilAuthUtils
         // if no auth mode selected AND default mode is AUTH_APACHE then use it...
 		if ($authmode == null && AUTH_DEFAULT == AUTH_APACHE)
 			$authmode = AUTH_APACHE;
-
+		
 		switch ($authmode)
 		{
 			case AUTH_LDAP:
@@ -250,14 +250,34 @@ class ilAuthUtils
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerApache());
 				break;
 
+			// begin-patch auth_plugin
 			case AUTH_LOCAL:
-			default:
-				
 				global $ilLog;
-
 				include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
 				break;
+
+			default:
+				// check for plugin
+				if($authmode)
+				{
+					foreach(self::getAuthPlugins() as $pl)
+					{
+						$container = $pl->getContainer($authmode);
+						if($container instanceof Auth_Container)
+						{
+							$GLOBALS['ilLog']->write(__METHOD__.' Using plugin authentication with auth_mode '.$authmode);
+							$ilAuth = ilAuthFactory::factory($container);
+							break 2;
+						}
+					}
+				}
+				$GLOBALS['ilLog']->write(__METHOD__.' Using default authentication');
+				// default for logged in users
+				include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
+				break;
+			// end-patch auth_plugin
 		}
 		
                 // Due to a bug in Pear Auth_HTTP, we can't use idle time 
@@ -466,7 +486,19 @@ class ilAuthUtils
 		{
 			$modes['openid'] = AUTH_OPENID;
 		}
-
+		
+		// begin-path auth_plugin
+		foreach(self::getAuthPlugins() as $pl)
+		{
+			foreach($pl->getAuthIds() as $auth_id)
+			{
+				if($pl->isAuthActive($auth_id))
+				{
+					$modes[$pl->getAuthName($auth_id)] = $auth_id;
+				}
+			}
+		}
+		// end-path auth_plugin
 		return $modes;
 	}
 	
@@ -534,6 +566,21 @@ class ilAuthUtils
 		if ($ilSetting->get('apache_active')) {
 			return true;
 		}
+		
+		// begin-patch auth_plugin
+		foreach(ilAuthUtils::getAuthPlugins() as $pl)
+		{
+			foreach($pl->getAuthIds() as $auth_id)
+			{
+				if($pl->getMultipleAuthModeOptions($auth_id))
+				{
+					return true;
+				}
+			}
+		}
+		// end-patch auth_plugin
+		
+		
 		return false;
 	}
 	
@@ -583,7 +630,25 @@ class ilAuthUtils
 		$default = $ilSetting->get('default_auth_mode',$default);
 		$default = (int) $_REQUEST['auth_mode'] ? (int) $_REQUEST['auth_mode'] : $default;
 		
+		
+		// begin-patch auth_plugin
+		$pls = ilAuthUtils::getAuthPlugins();
+		foreach($pls as $pl)
+		{
+			$auths = $pl->getAuthIds();
+			foreach($auths as $auth_id)
+			{
+				$pl_auth_option = $pl->getMultipleAuthModeOptions($auth_id);
+				if($pl_auth_option)
+				{
+					$options = $options + $pl_auth_option;
+				}
+			}
+		}
+		// end-patch auth_plugins
+		
 		$options[$default]['checked'] = true;
+
 		return $options ? $options : array();
 	}
 
@@ -741,5 +806,31 @@ class ilAuthUtils
 				return ilAuthUtils::LOCAL_PWV_USER;
 		}
 	} 
+	
+	// begin-patch auth_plugin
+	/**
+	 * Get active enabled auth plugins
+	 * @return ilAuthDefinition
+	 */
+	public static function getAuthPlugins()
+	{
+		$pls = $GLOBALS['ilPluginAdmin']->getActivePluginsForSlot(
+				IL_COMP_SERVICE,
+				'Authentication',
+				'authhk'
+		);
+		$pl_objs = array();
+		foreach($pls as $pl)
+		{
+			$pl_objs[] = $GLOBALS['ilPluginAdmin']->getPluginObject(
+					IL_COMP_SERVICE,
+					'Authentication',
+					'authhk',
+					$pl
+			);
+		}
+		return $pl_objs;
+	}
+	// end-patch auth_plugins
 }
 ?>

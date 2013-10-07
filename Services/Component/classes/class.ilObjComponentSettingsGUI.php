@@ -184,10 +184,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		
 		include_once("./Services/Component/classes/class.ilComponent.php");
 		$comp = ilComponent::getComponentObject($_GET["ctype"], $_GET["cname"]);
-
+		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
-
+		
 		// component
 		$ne = new ilNonEditableValueGUI($lng->txt("cmps_component"), "", true);
 		$ne->setValue($comp->getComponentType()."/".$comp->getName()." [".$comp->getId()."]");
