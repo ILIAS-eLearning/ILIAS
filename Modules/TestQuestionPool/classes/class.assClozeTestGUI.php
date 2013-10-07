@@ -178,7 +178,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$this->addQuestionFormCommandButtons($form);
 
 		$errors = false;
-	
+
 		if ($save)
 		{
 			$form->setValuesByPost();
@@ -191,6 +191,122 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
 	}
+
+	function addBasicQuestionFormProperties($form)
+	{
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			// author
+			$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+			$author->setValue($this->object->getAuthor());
+			$author->setRequired(TRUE);
+			$form->addItem($author);
+
+			// description
+			$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+			$description->setValue($this->object->getComment());
+			$description->setRequired(FALSE);
+			$form->addItem($description);
+		}
+		else
+		{
+			// author as hidden field
+			$hi = new ilHiddenInputGUI("author");
+			$author = ilUtil::prepareFormOutput($this->object->getAuthor());
+			if (trim($author) == "")
+			{
+				$author = "-";
+			}
+			$hi->setValue($author);
+			$form->addItem($hi);
+
+		}
+
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			if( $this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT )
+			{
+				$question->setUseRte(TRUE);
+				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+				$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$question->addPlugin("latex");
+				$question->addButton("latex");
+				$question->addButton("pastelatex");
+				$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+			}
+		}
+		else
+		{
+			$question->setRteTags(self::getSelfAssessmentTags());
+			$question->setUseTagsForRteOnly(false);
+		}
+		$form->addItem($question);
+
+		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
+		$tpl->parseCurrentBlock();
+		$button = new ilCustomInputGUI('&nbsp;','');
+		$button->setHtml($tpl->get());
+		$form->addItem($button);
+		
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			// duration
+			$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+			$duration->setShowHours(TRUE);
+			$duration->setShowMinutes(TRUE);
+			$duration->setShowSeconds(TRUE);
+			$ewt = $this->object->getEstimatedWorkingTime();
+			$duration->setHours($ewt["h"]);
+			$duration->setMinutes($ewt["m"]);
+			$duration->setSeconds($ewt["s"]);
+			$duration->setRequired(FALSE);
+			$form->addItem($duration);
+		}
+		else
+		{
+			// number of tries
+			if (strlen($this->object->getNrOfTries()))
+			{
+				$nr_tries = $this->object->getNrOfTries();
+			}
+			else
+			{
+				$nr_tries = $this->object->getDefaultNrOfTries();
+			}
+			/*if ($nr_tries <= 0)
+			{
+				$nr_tries = 1;
+			}*/
+
+			if ($nr_tries < 0)
+			{
+				$nr_tries = 0;
+			}
+
+			$ni = new ilNumberInputGUI($this->lng->txt("qst_nr_of_tries"), "nr_of_tries");
+			$ni->setValue($nr_tries);
+			//$ni->setMinValue(1);
+			$ni->setMinValue(0);
+			$ni->setSize(5);
+			$ni->setMaxLength(5);
+			$ni->setRequired(true);
+			$form->addItem($ni);
+		}
+	}
+
 
 	public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
 	{
