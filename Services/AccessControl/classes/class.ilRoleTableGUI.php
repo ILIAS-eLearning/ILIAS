@@ -340,6 +340,11 @@ class ilRoleTableGUI extends ilTable2GUI
 		$rows = array();
 		foreach((array) $role_list as $role)
 		{
+			if($role['parent'] and $GLOBALS['tree']->isDeleted($role['parent']))
+			{
+				continue;
+			}
+			
 			$title = ilObjRole::_getTranslation($role['title']);
 			if($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL)
 			{
@@ -351,6 +356,8 @@ class ilRoleTableGUI extends ilTable2GUI
 					}
 				}
 			}
+			
+			
 			$rows[$counter]['title_orig'] = $role['title'];
 			$rows[$counter]['title'] = $title;
 			$rows[$counter]['description'] = $role['description'];
