@@ -266,7 +266,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					$this->object->loadQuestions();
 					$shuffle = FALSE; // shuffle is already done during the creation of the random questions
 				}
-				
+
 				// ensure existing test sequence
 				if( !$this->testSequence->hasSequence() )
 				{
@@ -374,10 +374,10 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->showSideList();
 		}
-		
+
 		$question_gui = $this->object->createQuestionGUI("", $this->testSequence->getQuestionForSequence($sequence));
 		$question_gui->setTargetGui($this);
-		
+
 		if ($this->object->getJavaScriptOutput())
 		{
 			$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
@@ -714,7 +714,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 			if ($this->testSession->getPass() > 0)
 			{
-				if ($this->getNrOfResultsForPass($this->testSession->getActiveId(), $this->testSession->getPass() - 1) == 0)
+				if ($this->object->getNrOfResultsForPass($this->testSession->getActiveId(), $this->testSession->getPass() - 1) == 0)
 				{
 					// This means that someone maybe reloaded the test submission page
 					// If there are no existing results for the previous test, it makes
