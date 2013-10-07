@@ -13,6 +13,7 @@ include_once('class.ilCloudPluginUploadGUI.php');
 include_once('class.ilCloudPluginDeleteGUI.php');
 include_once('class.ilCloudPluginCreateFolderGUI.php');
 include_once('class.ilCloudPluginHeaderActionGUI.php');
+include_once('class.ilCloudPluginCreationGUI.php');
 include_once('class.ilCloudPluginInfoScreenGUI.php');
 
 /**
