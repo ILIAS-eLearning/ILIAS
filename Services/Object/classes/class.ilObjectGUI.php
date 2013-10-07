@@ -444,7 +444,7 @@ class ilObjectGUI
 	}
 	
 	// BEGIN WebDAV: Show Mount Webfolder Icon.
-	final private function showMountWebfolderIcon()
+	protected function showMountWebfolderIcon()
 	{
 		global $tree, $tpl, $objDefinition;
 
