@@ -53,7 +53,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 			$questionSet = $this->mergeQuestionCollections($questionSet, $questions);
 		}
 
-		$requiredQuestionAmount = $this->getRequiredQuestionAmountForDefinitionList($this->sourcePoolDefinitionList);
+		$requiredQuestionAmount = self::getRequiredQuestionAmountForDefinitionList($this->sourcePoolDefinitionList);
 
 		if( $this->questionCollectionSmallerThanRequiredAmount($questionSet, $requiredQuestionAmount) )
 		{
@@ -88,7 +88,12 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 		return array_merge($questionSet, $questions);
 	}
 
-	private function getRequiredQuestionAmountForDefinitionList(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	private function getMissingQuestionCount($questionSet, $requiredQuestionAmount)
+	{
+		return ( $requiredQuestionAmount - count($questionSet) );
+	}
+
+	public static function getRequiredQuestionAmountForDefinitionList(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	{
 		$requiredQuestionAmountPerTest = 0;
 
@@ -99,10 +104,5 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 		}
 
 		return $requiredQuestionAmountPerTest;
-	}
-
-	private function getMissingQuestionCount($questionSet, $requiredQuestionAmount)
-	{
-		return ( $requiredQuestionAmount - count($questionSet) );
 	}
 }

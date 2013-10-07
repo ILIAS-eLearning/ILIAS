@@ -64,7 +64,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 		);
 		
 		require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-		$poolSelection = new ilSelectInputGUI($this->lng->txt('tst_rnd_quest_set_tb_pool_select'), 'quest_pool_id');
+		$poolSelection = new ilSelectInputGUI(null, 'quest_pool_id');
 		$poolSelection->setOptions( $this->buildSourcePoolSelectOptionsArray($availablePools) );
 		
 		$this->addInputItem($poolSelection, true);

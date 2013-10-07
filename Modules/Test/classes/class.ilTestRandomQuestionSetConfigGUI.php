@@ -249,6 +249,8 @@ class ilTestRandomQuestionSetConfigGUI
 		}
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
+
+		$this->handleConfigurationStateMessages();
 	}
 
 	private function saveGeneralConfigFormCmd()
@@ -270,6 +272,10 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->sourcePoolDefinitionList->loadDefinitions();
 		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
 		$this->sourcePoolDefinitionList->saveDefinitions();
+
+		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		$this->questionSetConfig->saveToDb();
+
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
@@ -307,6 +313,8 @@ class ilTestRandomQuestionSetConfigGUI
 		$content .= $this->ctrl->getHTML($table);
 
 		$this->tpl->setContent($content);
+
+		$this->handleConfigurationStateMessages();
 	}
 
 	private function saveSourcePoolDefinitionListCmd()
@@ -324,6 +332,10 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
 		$this->sourcePoolDefinitionList->saveDefinitions();
+
+		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		$this->questionSetConfig->saveToDb();
+
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
@@ -403,6 +415,10 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->sourcePoolDefinitionList->loadDefinitions();
 		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
 		$this->sourcePoolDefinitionList->saveDefinitions();
+
+		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		$this->questionSetConfig->saveToDb();
+
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 	}
 
@@ -452,6 +468,10 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
 		$this->sourcePoolDefinitionList->saveDefinitions();
+
+		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		$this->questionSetConfig->saveToDb();
+
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
@@ -510,6 +530,16 @@ class ilTestRandomQuestionSetConfigGUI
 		$form->applySubmit($sourcePoolDefinition, $availableTaxonomyIds);
 
 		$sourcePoolDefinition->saveToDb();
+
+		$this->sourcePoolDefinitionList->loadDefinitions();
+		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+
+		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		$this->questionSetConfig->saveToDb();
+
+		$this->sourcePoolDefinitionList->saveDefinitions();
+
+		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
@@ -598,5 +628,33 @@ class ilTestRandomQuestionSetConfigGUI
 
 		require_once 'Modules/Test/exceptions/class.ilTestQuestionPoolNotAvailableAsSourcePoolException.php';
 		throw new ilTestQuestionPoolNotAvailableAsSourcePoolException();
+	}
+
+	private function handleConfigurationStateMessages()
+	{
+		if( !$this->questionSetConfig->isQuestionAmountConfigComplete() )
+		{
+			$infoMessage = $this->lng->txt('tst_msg_rand_quest_set_incomplete_quest_amount_cfg');
+		}
+		elseif( !$this->questionSetConfig->hasSourcePoolDefinitions() )
+		{
+			$infoMessage = $this->lng->txt('tst_msg_rand_quest_set_no_src_pool_defs');
+		}
+		elseif( !$this->questionSetConfig->isQuestionSetBuildable() )
+		{
+			$infoMessage = $this->lng->txt('tst_msg_rand_quest_set_pass_not_buildable');
+		}
+		else
+		{
+			$syncDate = new ilDateTime(
+				$this->questionSetConfig->getLastQuestionSyncTimestamp(), IL_CAL_UNIX
+			);
+
+			$infoMessage = sprintf(
+				$this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'), ilDatePresentation::formatDate($syncDate)
+			);
+		}
+
+		ilUtil::sendInfo($infoMessage);
 	}
 }
