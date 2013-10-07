@@ -134,7 +134,7 @@ abstract class ilTestRandomQuestionSetBuilder
 
 	protected function fetchQuestionsFromStageRandomly($questionStage, $requiredQuestionAmount)
 	{
-		$randomKeys = array_rand($questionStage, $requiredQuestionAmount);
+		$randomKeys = $this->getRandomArrayKeys($questionStage, $requiredQuestionAmount);
 
 		$questionSet = array();
 
@@ -149,6 +149,21 @@ abstract class ilTestRandomQuestionSetBuilder
 		}
 
 		return $questionSet;
+	}
+
+	private function getRandomArrayKeys($array, $numKeys)
+	{
+		if( $numKeys < 1 )
+		{
+			return array();
+		}
+
+		if( $numKeys > 1 )
+		{
+			return array_rand($array, $numKeys);
+		}
+
+		return array( array_rand($array, $numKeys) );
 	}
 
 	// =================================================================================================================

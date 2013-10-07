@@ -1769,11 +1769,13 @@ class ilObjTest extends ilObject
 		return $result;
 	}
 
-/**
-* Calculates the number of user results for a specific test pass
-*
-* @access private
-*/
+	/**
+	 * Calculates the number of user results for a specific test pass
+	 *
+	 * @access private
+	 *
+	 * @deprecated: still in use?
+	 */
 	function getNrOfResultsForPass($active_id, $pass)
 	{
 		global $ilDB;
@@ -1786,15 +1788,15 @@ class ilObjTest extends ilObject
 	}
 
 	/**
-	* Checkes wheather a random test has already created questions for a given pass or not
-	*
-	* @access private
-	* @param $active_id Active id of the test
-	* @param $pass Pass of the test
-	* @return boolean TRUE if the test already contains questions, FALSE otherwise
+	 * Checkes wheather a random test has already created questions for a given pass or not
+	 *
+	 * @access private
+	 * @param $active_id Active id of the test
+	 * @param $pass Pass of the test
+	 * @return boolean TRUE if the test already contains questions, FALSE otherwise
 	 *
 	 * @deprecated: still in use?
-	*/
+	 */
 	function hasRandomQuestionsForPass($active_id, $pass)
 	{
 		global $ilDB;
@@ -6874,6 +6876,8 @@ function getAnswerFeedbackPoints()
 			$questionSetConfig = new ilTestRandomQuestionSetConfig(
 				$tree, $ilDB, $ilPluginAdmin, $this
 			);
+
+			$questionSetConfig->loadFromDb();
 
 			if( $questionSetConfig->isQuestionAmountConfigurationModePerPool() )
 			{
