@@ -1120,7 +1120,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 			// activate captcha for anonymous wiki/forum editing
 			include_once("./Services/Captcha/classes/class.ilCaptchaUtil.php");
-			$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_wiki_forum'),'activate_captcha_anonym');
+			$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous'),'activate_captcha_anonym');
 			$cap->setValue(1);
 			if (ilCaptchaUtil::checkFreetype())
 			{
