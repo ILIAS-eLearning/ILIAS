@@ -59,15 +59,15 @@ class ilAdministrationGUI
 		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition,
 			$_GET, $ilCtrl, $ilLog, $ilMainMenu;
 
-		$this->lng =& $lng;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('administration');
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->tree =& $tree;
-		$this->rbacsystem =& $rbacsystem;
-		$this->objDefinition =& $objDefinition;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->tree = $tree;
+		$this->rbacsystem = $rbacsystem;
+		$this->objDefinition = $objDefinition;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$ilMainMenu->setActive("administration");
 		
 		$this->creation_mode = false;
@@ -154,47 +154,11 @@ class ilAdministrationGUI
 			$this->ctrl->setCmd("view");
 		}
 
-		$cmd = $this->ctrl->getCmd("frameset");
+		$cmd = $this->ctrl->getCmd("forward");
 
 //echo "<br>cmd:$cmd:nextclass:$next_class:-".$_GET["cmdClass"]."-".$_GET["cmd"]."-";
 		switch ($next_class)
 		{
-			/*
-			case "ilobjusergui":
-				include_once('./Services/User/classes/class.ilObjUserGUI.php');
-
-				if(!$_GET['obj_id'])
-				{
-					$this->gui_obj = new ilObjUserGUI("",$_GET['ref_id'],true, false);
-					$this->gui_obj->setCreationMode($this->creation_mode);
-
-					$this->prepareOutput(false);
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				}
-				else
-				{
-					$this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'],false, false);
-					$this->gui_obj->setCreationMode($this->creation_mode);
-
-					$this->prepareOutput(false);
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				}
-				$this->tpl->show();
-				break;
-			*/
-				
-			/*
-			case "ilobjuserfoldergui":
-				include_once('./Services/User/classes/class.ilObjUserFolderGUI.php');
-
-				$this->gui_obj = new ilObjUserFolderGUI("", $_GET['ref_id'],true, false);
-				$this->gui_obj->setCreationMode($this->creation_mode);
-
-				$this->prepareOutput(false);
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				$this->tpl->show();
-				break;*/
-
 			default:
 			
 				// forward all other classes to gui commands
@@ -260,9 +224,10 @@ class ilAdministrationGUI
 //					{
 						$ilHelp->setScreenIdComponent(ilObject::_lookupType($this->cur_ref_id,true));
 //					}
+					$this->showTree();
 						
 					$this->ctrl->setReturn($this, "return");					
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+					$ret = $this->ctrl->forwardCommand($this->gui_obj);
 					$html = $this->gui_obj->getHTML();
 
 					if ($html != "")
@@ -273,7 +238,7 @@ class ilAdministrationGUI
 				}
 				else	// 
 				{
-					$cmd = $this->ctrl->getCmd("frameset");
+					$cmd = $this->ctrl->getCmd("forward");
 					$this->$cmd();
 				}
 				break;
@@ -281,19 +246,12 @@ class ilAdministrationGUI
 	}
 
 	/**
-	* output tree frameset
-	*/
-	function frameset()
+	 * Forward to class/command
+	 */
+	function forward()
 	{
 		global $tree;
 		
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-		$fs_gui->setFrameSetTitle($this->lng->txt("administration"));
-
 		if ($_GET["admin_mode"] != "repository")	// settings
 		{
 			if ($_GET["ref_id"] == USER_FOLDER_ID)
@@ -312,7 +270,7 @@ class ilAdministrationGUI
 					$fs_gui->setMainFrameSource(
 						$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
 				}
-		$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
+				$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
 			}
 			else
 			{
@@ -332,32 +290,22 @@ class ilAdministrationGUI
                 	
                     $fs_gui->setMainFrameSource(
                         base64_decode(rawurldecode($_GET['fr'])));
-		ilUtil::redirect(ILIAS_HTTP_PATH.'/'.base64_decode(rawurldecode($_GET['fr'])));
+                    ilUtil::redirect(ILIAS_HTTP_PATH.'/'.base64_decode(rawurldecode($_GET['fr'])));
                 }
                 else
                 {
                     $fs_gui->setMainFrameSource(
                         $this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view"));
-		$this->ctrl->redirectByClass("ilobjsystemfoldergui", "view");
+                    $this->ctrl->redirectByClass("ilobjsystemfoldergui", "view");
                 }
 			}
-			$this->ctrl->setParameter($this, "expand", "1");
-			$fs_gui->setSideFrameSource(
-				$this->ctrl->getLinkTarget($this, "showTree"));
 		}
 		else
 		{
 			$this->ctrl->setParameter($this, "ref_id", ROOT_FOLDER_ID);
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
-			$fs_gui->setMainFrameSource(
-				$this->ctrl->getLinkTargetByClass("ilobjrootfoldergui", "view"));
-			$this->ctrl->setParameter($this, "expand", "1");
-			$fs_gui->setSideFrameSource(
-				$this->ctrl->getLinkTarget($this, "showTree"));
+			$this->ctrl->redirectByClass("ilobjrootfoldergui", "view");
 		}
-		
-		$fs_gui->show();
-		exit;
 	}
 
 	/**
@@ -366,49 +314,18 @@ class ilAdministrationGUI
 	function showTree()
 	{
 		global $tpl, $tree, $lng;
-
-		require_once "./Services/Administration/classes/class.ilAdministrationExplorer.php";
-
-		$explorer = new ilAdministrationExplorer("ilias.php?baseClass=ilAdministrationGUI&cmd=view");		
-		$explorer->setExpand($_GET["expand"]);
-		$explorer->setExpandTarget($this->ctrl->getLinkTarget($this, "showTree"));
-		$explorer->setUseStandardFrame(true);
 		
-		// hide RecoveryFolder if empty
-		if (!$tree->getChilds(RECOVERY_FOLDER_ID))
+		if ($_GET["admin_mode"] != "repository")
 		{
-			$explorer->addFilter("recf");
+			return;
 		}
-		//$explorer->addFilter("rolf");
-
-		if ($_GET["admin_mode"] == "settings")
+		
+		include_once("./Services/Administration/classes/class.ilAdministrationExplorerGUI.php");
+		$exp = new ilAdministrationExplorerGUI($this, "showTree");
+		if (!$exp->handleCommand())
 		{
-			$explorer->addFilter("cat");
-			$explorer->addFilter("catr");
+			$tpl->setLeftNavContent($exp->getHTML());
 		}
-		else
-		{
-			$explorer->addFilter("adm");
-		}
-		/*
-		$explorer->addFilter("root");
-		$explorer->addFilter("cat");
-		$explorer->addFilter("grp");
-		$explorer->addFilter("crs");
-		$explorer->addFilter("le");
-		$explorer->addFilter("frm");
-		$explorer->addFilter("lo");
-		$explorer->addFilter("rolf");
-		$explorer->addFilter("adm");
-		$explorer->addFilter("lngf");
-		$explorer->addFilter("usrf");
-		$explorer->addFilter("objf");
-		*/
-		//$explorer->setFiltered(false);
-		$explorer->setOutput(0);		
-		$output = $explorer->getOutput();		
-		$this->ctrl->setParameter($this, "expand", $_GET["expand"]);
-		echo $output;
 	}
 	
 	/**
