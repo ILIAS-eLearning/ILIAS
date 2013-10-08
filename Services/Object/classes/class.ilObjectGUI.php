@@ -483,14 +483,14 @@ class ilObjectGUI
 	{
 		global $tree;
 
-		if ($_GET["admin_mode"] == "repository")
+/*		if ($_GET["admin_mode"] == "repository")
 		{
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
 			$tabs_gui->setBackTarget($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
-		}
+		}*/
 		
 		if ($this->checkPermissionBool("visible,read"))
 		{
