@@ -109,7 +109,11 @@ abstract class ilAuthBase
 				}
 
 				require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-				if(ilContext::hasHTML() && ilCaptchaUtil::isActive())
+				if(
+					ilContext::hasHTML() &&
+					ilAuthFactory::getContext() == ilAuthFactory::CONTEXT_WEB &&
+					ilCaptchaUtil::isActive()
+				)
 				{
 					require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 					require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
