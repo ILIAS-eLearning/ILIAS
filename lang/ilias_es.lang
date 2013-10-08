@@ -1009,11 +1009,11 @@ assessment#:#tst_highscore_achieved_ts_description#:#Controla si debe mostrarse 
 assessment#:#tst_highscore_achieved_ts#:#Mostrar fecha del test
 assessment#:#tst_highscore_anon#:#Anonimato de las entradas.
 assessment#:#tst_highscore_anon_description#:#Controla si los nombres aparecen ocultos en las clasificaciones. Esta opción puede ser modificada mediante el botón de anonimato de test
-assessment#:#tst_highscore_description#:#¿Desea visualizar las puntuaciones máximas?
-assessment#:#tst_highscore_enabled#:#Visualizar puntuación máxima activado
+assessment#:#tst_highscore_description#:#¿Desea que se muestren las puntuaciones más altas que se han alcanzado?
+assessment#:#tst_highscore_enabled#:#Visualizar puntuaciones más altas
 assessment#:#tst_highscore_hints_description#:#Controla si debe mostrarse una columna con las sugerencias solicitadas para el test.
 assessment#:#tst_highscore_hints#:#Mostrar sugerencias
-assessment#:#tst_highscore_options#:#Puntuación máxima
+assessment#:#tst_highscore_options#:#Puntuaciones más altas
 assessment#:#tst_highscore_own_table_description#:#Controla si debe mostrarse la tabla 'clasificación propia'.
 assessment#:#tst_highscore_own_table#:#Mostrar tabla 'clasificación propia'
 assessment#:#tst_highscore_percentage_description#:#Controla si debe mostrarse una columna con el porcentaje de test.
@@ -1245,7 +1245,7 @@ assessment#:#tst_session_settings#:#Configuración de Sesión
 assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#El test se ha establecido a offline, debido a que alternar los ajustes de selección de preguntas al azar causa que las preguntas ya existentes sean eliminadas
 assessment#:#tst_setting_enable_obligations_info#:#Se se activa, las preguntas del test pueden marcarse como obligatorias (*). Todas las preguntas obligatorias necesitan contestarse para finalizar la prueba. Puede definir preguntas obligatorias en "visualizar lista". Es recomendable que también se active “Mostrar lista de Preguntas” cuando se creen preguntas obligatorias.
 assessment#:#tst_setting_enable_obligations_label#:#Preguntas obligatorias
-assessment#:#tst_setting_offer_hints_info#:#Si se activa, se ofrecen muestran las sugerencias pespecíficas para cada pregunta.
+assessment#:#tst_setting_offer_hints_info#:#Si se activa, se ofrecen las sugerencias específicas para cada pregunta.
 assessment#:#tst_setting_offer_hints_label#:#Sugerencias específicas para preguntas
 assessment#:#tst_settings_template#:#Plantilla
 assessment#:#tst_show_answer_sheet#:#mostrar respuestas
@@ -11801,7 +11801,7 @@ survey#:#duplicate_svy#:#Duplicar encuesta
 survey#:#edit_ask_continue#:#Quiere continuar y editar esta pregunta?
 survey#:#edit_constraints_introduction#:#Ha seleccionado la siguiente pregunta(s)/bloque(s) de preguntas para editar sus restricciones
 survey#:#edit_heading#:#Editar cabecera
-survey#:#edit_phrase#:#Editar frase
+survey#:#edit_phrase#:#Editar conjunto 
 survey#:#end_date#:#Fecha fin
 survey#:#end_date_reached#:#No puede comenzar la encuesta. Se ha superado la fecha límite!
 survey#:#enter_anonymous_id#:#Código de acceso a encuesta
@@ -12022,8 +12022,8 @@ survey#:#participating_users#:#Usuarios que participan
 survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron este valor
 survey#:#percentage_of_offered_answers#:#Porcentaje de respuestas ofrecidas
 survey#:#percentage_of_selections#:#Porcentaje de usuarios que seleccionaron esta categoría
-survey#:#phrase_added#:#Frase añadida
-survey#:#phrase_new#:#Crear nueva frase
+survey#:#phrase_added#:#Conjunto añadido
+survey#:#phrase_new#:#Crear nuevo conjunto 
 survey#:#phrase_saved#:#El conjunto fue grabado con éxito
 survey#:#please_enter_mail_code#:#Por favor, introduce el código de acceso marcado [code]
 survey#:#please_enter_mail_message#:#Por favor, introduzca un mensaje de correo
@@ -12981,3 +12981,24 @@ common#:#rpc_pdf_font_info#:#Fuentes adicionales para la genración de ficheros 
 didactic#:#didactic_default_type#:#Plantilla didáctica por defecto
 blog#:#blog_draft_info_contributors#:#Este borrador de envío solo es visible por los contribuidores.
 exp#:#exp_file_created#:#Se ha creado el fichero de exportación.
+assessment#:#tst_save_manscoring_failed#:#No se ha podido guardar la puntuación manual para la realización del test %s
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Se ha superado la puntuación máxima de %s punto/s
+assessment#:#tst_manscoring_input_max_points_for_question#:#Puntuación máxima por pregunta
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Pregunta y respuesta del usuario
+assessment#:#tst_manscoring_input_best_solution#:#Mejor solución
+dcl#:#dcl_record#:#Registro
+ecs#:#ecs_cmap_att_courseType#:#Tipo de curso
+ecs#:#ecs_cmap_att_degreeProgramme#:#Programa del Grado
+ecs#:#ecs_cmap_att_module#:#Módulo
+ecs#:#ecs_cmap_att_venue#:#Ubicación
+mcst#:#mcst_download_videoalternative#:#Descargar fichero alternativo
+dateplaner#:#remote_pass_info#:#Por favor, introduzca los datos de su cuenta si el acceso al calendario webestá protegido
+prtf#:#prtf_allow_html#:#Permitir HTML/Javascript
+prtf#:#prtf_allow_html_info#:#Permitir a los usuarios incluir HTML/Javascript en las páginas de sus e-portfolios. Esto puede ocasionar problemas de seguridad
+blog#:#blog_allow_html#:#Permitir HTML/Javascript
+blog#:#blog_allow_html_info#:#Permitir a los usuarios incluir HTML/Javascript en sus envíos a blogs. Esto puede ocasionar problemas de seguridad
+wiki#:#wiki_start_page_info#:#Se creará una nueva página si no existe otra anterior con el mismo nombre
+survey#:#survey_notification_tutor_link#:#Enlace a la encuesta
+dcl#:#fieldtitle_allow_chars#:#Caracteres permitidos
+crs#:#crs_passed_status_system#:#Sistema
+crs#:#crs_passed_status_manual_by#:#De forma manual
