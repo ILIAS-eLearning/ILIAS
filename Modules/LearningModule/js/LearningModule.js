@@ -1,48 +1,112 @@
 il.LearningModule = {
 	
 	save_url: '',
-	init_frame: '',
-	last_frame_url: '',
+	init_frame: {},
+	last_frame_url: {},
+	all_targets: ["center_bottom", "right", "right_top", "right_bottom"],
 	
 	setSaveUrl: function (url) {
 		il.LearningModule.save_url = url;
 	},
 	
-	showContentFrame: function (e) {
-		return il.LearningModule.loadContentFrame(e.target.href);
+	showContentFrame: function (e, target) {
+		return il.LearningModule.loadContentFrame(e.target.href, target);
 	},
 	
-	initContentFrame: function (href) {
-		il.LearningModule.init_frame = href;
+	initContentFrame: function (href, target) {
+		il.LearningModule.init_frame[target] = href;
 	},
 	
-	setLastFrameUrl: function (href) {
-		il.LearningModule.last_frame_url = href;
+	setLastFrameUrl: function (href, target) {
+		il.LearningModule.last_frame_url[target] = href;
 	},
 	
 	openInitFrames: function () {
-		if (il.LearningModule.init_frame != "") {
-			il.LearningModule.loadContentFrame(il.LearningModule.init_frame);
-		} else if (il.LearningModule.last_frame_url != "") {
-			il.LearningModule.loadContentFrame(il.LearningModule.last_frame_url);
+		var i, t;
+		for (i = 0; i < il.LearningModule.all_targets.length; i++) {
+			t = il.LearningModule.all_targets[i];
+			if (il.LearningModule.init_frame[t]) {
+				il.LearningModule.loadContentFrame(il.LearningModule.init_frame[t], t);
+			} else if (il.LearningModule.last_frame_url[t]) {
+				il.LearningModule.loadContentFrame(il.LearningModule.last_frame_url[t], t);
+			}
+		}
+		il.LearningModule.refreshLayout();
+	},
+	
+	refreshLayout: function () {
+		var e;
+		
+		// fix right content area 
+		if ($("#right_top_area > iframe").attr("src") &&
+			$("#right_bottom_area > iframe").attr("src")) {
+			$("#right_cont_area").addClass("ilRightContAreaSplit");
+//console.log("splitting");
+		} else {
+			$("#right_cont_area").removeClass("ilRightContAreaSplit");
+//console.log("unsplitting");
+		}
+		if (!$("#right_top_area > iframe").attr("src") &&
+			!$("#right_bottom_area > iframe").attr("src")) {
+			$("#right_cont_area").remove();
+		}
+		
+		// adapt main content
+		e = $("#left_nav");
+		if (e.length != 0) {
+			$("#fixed_content").addClass("ilLeftNavSpace");
+		} else {
+			$("#fixed_content").removeClass("ilLeftNavSpace");
+		}
+		e = $("#right_area, #right_cont_area");
+		if (e.length != 0) {
+			$("#fixed_content").addClass("ilRightAreaSpace");
+		} else {
+			$("#fixed_content").removeClass("ilRightAreaSpace");
 		}
 	},
 	
-	loadContentFrame: function (href) {
-		var faqt = $("#bot_center_area");
-		if (faqt.length == 0) {
-			$('body').append('<div id="bot_center_area" class="ilBotCenterArea"><div id="bot_center_area_drag"></div><img class="ilAreaClose" src="/templates/default/images/empty.png" /><iframe /></div>');
+	loadContentFrame: function (href, t) {
+		var area, el_id = t + "_area";
+
+		// exception we should get rid off
+		if (t == "center_bottom") {
+			el_id = "bot_center_area";
 		}
-		$("img.ilAreaClose").click(function () {
-			il.LearningModule.closeContentFrame();
-			});
-		$("#bot_center_area > iframe").attr("src", href);
 		
+		if (t != "right_top" && t != "right_bottom") { 
+			area = $("#" + el_id);
+			if (area.length == 0) {
+				$('body').append('<div id="' + el_id + '"><div id="' + el_id + '_drag"></div><img class="ilAreaClose" src="/templates/default/images/empty.png" /><iframe /></div>');
+			}
+		} else {
+			//check right area existence
+			area = $("#right_cont_area");
+			if (area.length == 0) {
+				$('body').append('<div id="right_cont_area"><div id="right_area_drag"></div></div>');
+			}
+			// append right top and right bottom areas
+			area = $("#right_top_area");
+			if (area.length == 0) {
+				$('#right_cont_area').append('<div id="right_top_area"><div id="right_top_drag"></div><img class="ilAreaClose" src="/templates/default/images/empty.png" /><iframe /></div>');
+			}
+			area = $("#right_bottom_area");
+			if (area.length == 0) {
+				$('#right_cont_area').append('<div id="right_bottom_area"><div id="right_bottom_drag"></div><img class="ilAreaClose" src="/templates/default/images/empty.png" /><iframe /></div>');
+			}
+		}
+		
+		$("#" + el_id + " img.ilAreaClose").click(function () {
+			il.LearningModule.closeContentFrame(t);
+			});
+		$("#" + el_id + " > iframe").attr("src", href);
+		$("#" + el_id).css("display", "block");
 		il.UICore.initLayoutDrag();
 		
+		il.LearningModule.refreshLayout();
 		il.UICore.refreshLayout();
 		if (il.LearningModule.save_url != '') {
-			il.Util.sendAjaxGetRequestToUrl(il.LearningModule.save_url + "&url=" + encodeURIComponent(href),
+			il.Util.sendAjaxGetRequestToUrl(il.LearningModule.save_url + "&target=" + t + "&url=" + encodeURIComponent(href),
 				{}, {}, il.LearningModule.handleSuccess);
 		}
 		
@@ -53,12 +117,19 @@ il.LearningModule = {
 		//
 	},
 	
-	closeContentFrame: function () {
+	closeContentFrame: function (t) {
+		var el_id = t + "_area";
+		// exception we should get rid off
+		if (t == "center_bottom") {
+			el_id = "bot_center_area";
+		}
+
 		//alert("close!");
-		$("#bot_center_area").remove();
+		$("#" + el_id).remove();
+		il.LearningModule.refreshLayout();
 		il.UICore.refreshLayout();
 		if (il.LearningModule.save_url != '') {
-			il.Util.sendAjaxGetRequestToUrl(il.LearningModule.save_url + "&url=",
+			il.Util.sendAjaxGetRequestToUrl(il.LearningModule.save_url + "&target=" + t + "&url=",
 				{}, {}, il.LearningModule.handleSuccess);
 		}
 	}
@@ -68,6 +139,7 @@ il.LearningModule = {
 
 $(function() {
 	$('body').focus();
+	il.LearningModule.refreshLayout();
 	$(document).keydown(function(e) {
 	if (e.target.tagName != "TEXTAREA" &&
 		e.target.tagName != "INPUT") {
