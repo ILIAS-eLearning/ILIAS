@@ -3354,7 +3354,7 @@ common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden Benutze
 common#:#info_assigned#:#zugewiesen
 common#:#info_available_roles#:#Verfügbare Rollen
 common#:#info_change_user_view#:#Rechte dieses Benutzers anzeigen 
-common#:#info_deactivate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer nicht als aktive Benutzer bestätigen wollen?
+common#:#info_deactivate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer deaktivieren wollen?
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_delete_warning_no_trash#:#(WARNUNG: Die ausgewählten Objekte werden unwiderruflich aus dem System entfernt und können nicht wiederhergestellt werden!)
 common#:#info_deleted#:#Objekt(e) gelöscht
@@ -8942,7 +8942,7 @@ news#:#news_allow_longer_periods_info#:#Benutzer können längere Zeiträume fü
 news#:#news_allow_shorter_periods#:#Kürzere Zeiträume zulassen
 news#:#news_allow_shorter_periods_info#:#Benutzer können kürzere Zeiträume für Nachrichten auf dem persönlichen Schreibtisch auswählen.
 news#:#news_attached_to#:#Zugeordnet zu
-news#:#news_block_information#:#Der Nachrichtenblock zeigt chronologisch alle <b>Nachrichten</b> zu den Objekten an, die sich auf Ihrem Persönlichen Schreibtisch im Block <b>Meine Angebote</b> befinden.
+news#:#news_block_information#:#Der Nachrichtenblock zeigt chronologisch alle <b>Nachrichten</b> zu den Objekten an, die sich auf Ihrem Persönlichen Schreibtisch im Block <b>Ausgewählte Angebote</b> befinden.
 news#:#news_block_news_for_context#:#Nachrichten
 news#:#news_cache#:#Nachrichten-Cache (Minuten)
 news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
@@ -9564,7 +9564,7 @@ pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Prof
 pd#:#pd_enable_my_memberships#:#'Meine Kurse und Gruppen' aktivieren
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#'Ausgewählte Angebote' aktivieren
-pd#:#pd_enable_my_offers_info#:#Die Sicht 'Meine Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
+pd#:#pd_enable_my_offers_info#:#Die Sicht 'Ausgewählte Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
 pd#:#pd_enable_notes#:#Notizen aktivieren
 pd#:#pd_enable_personal_workspace#:#Mein Arbeitsraum aktivieren
 pd#:#pd_enable_prtf#:#Portfolios aktivieren
