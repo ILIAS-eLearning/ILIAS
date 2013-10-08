@@ -616,7 +616,7 @@ class ilLMPresentationGUI
 					$last_frame_url = $store->get("cf_".$this->lm->getId());
 					if ($last_frame_url != "")
 					{
-						$this->tpl->addOnLoadCode("il.LearningModule.setLastFrameUrl('".$last_frame_url."');");
+						$this->tpl->addOnLoadCode("il.LearningModule.setLastFrameUrl('".$last_frame_url."', 'center_bottom');");
 					}
 					
 					if (in_array($layout, array("toc2windyn")))
@@ -778,15 +778,15 @@ class ilLMPresentationGUI
 			return;
 		}
 
-		if ($this->determineLayout() == "2window" || 
-			$this->determineLayout() == "3window")
-		{
-			$ilMainMenu->setSmallMode(true);
-		}
-		else
-		{
+//		if ($this->determineLayout() == "2window" || 
+//			$this->determineLayout() == "3window")
+//		{
+//			$ilMainMenu->setSmallMode(true);
+//		}
+//		else
+//		{
 			$ilMainMenu->setSmallMode(false);
-		}
+//		}
 
 		$page_id = $this->getCurrentPageId();
 		if ($page_id > 0)
@@ -905,13 +905,15 @@ class ilLMPresentationGUI
 
 //		$this->renderPageTitle();
 
-		// set style sheets
+		// set explorer
+		$this->tpl->setCurrentBlock("il_toc");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("overview"));
-		$this->tpl->setVariable("EXPLORER",$output);
-
+		$this->tpl->setVariable("EXPLORER", $output);
 		$this->tpl->setVariable("ACTION",
 			$this->getLink($this->lm->getRefId(), $_GET["cmd"], "", $_GET["frame"]).
 			"&lmexpand=".$_GET["lmexpand"]);
+		$this->tpl->parseCurrentBlock();
+		
 //		$this->tpl->parseCurrentBlock();
 
 		if ($_GET["lmexpand"] == "")
