@@ -25,7 +25,10 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 		
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("captcha");
-		$lng->loadLanguageModule("cptch");
+		if($lng instanceof ilLanguage)
+		{
+			$lng->loadLanguageModule("cptch");
+		}
 	}
 
 	/**
@@ -60,7 +63,10 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 		{
-			$this->setAlert($lng->txt("msg_input_is_required"));
+			if($lng instanceof ilLanguage)
+			{
+				$this->setAlert($lng->txt("msg_input_is_required"));
+			}
 
 			return false;
 		}
@@ -69,7 +75,10 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 		$si = new ilSecurImage();
 		if (!$si->check($_POST[$this->getPostVar()]))
 		{
-			$this->setAlert($lng->txt("cptch_wrong_input"));
+			if($lng instanceof ilLanguage)
+			{
+				$this->setAlert($lng->txt('cptch_wrong_input'));
+			}
 
 			return false;
 		}

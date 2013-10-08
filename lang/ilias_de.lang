@@ -14000,3 +14000,5 @@ mail#:#search_content#:#Suchergebnis
 book#:#book_reservation_available#:#%s verfügbar
 form#:#form_retype_email#:#E-Mail nochmals eingeben
 form#:#email_not_match#:#Ihre Eingaben für die E-Mail-Adresse stimmen nicht überein! Bitte geben Sie die E-Mail-Adresse erneut ein.
+common#:#captcha_code#:#Benutzerverifikation
+common#:#captcha_code_info#:#Bitte geben Sie die Zeichen aus der Grafik in das Textfeld ein.

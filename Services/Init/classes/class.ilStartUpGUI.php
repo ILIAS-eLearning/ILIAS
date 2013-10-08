@@ -235,7 +235,14 @@ class ilStartUpGUI
 				case AUTH_APACHE_FAILED:
 					$failure = $lng->txt("err_auth_apache_failed");
 					break;
-				
+
+				case AUTH_CAPTCHA_INVALID:
+					$lng->loadLanguageModule('cptch');
+					ilSession::setClosingContext(ilSession::SESSION_CLOSE_CAPTCHA);
+					$ilAuth->logout();
+					session_destroy();
+					$failure = $lng->txt("cptch_wrong_input");
+					break;
 				
 				// special cases: extended user validation failed
 				// ilAuth was successful, so we have to logout here
@@ -547,6 +554,16 @@ class ilStartUpGUI
 			$form->addItem($pi);
 			$form->addCommandButton("showLogin", $lng->txt("log_in"));
 			#$form->addCommandButton("butSubmit", $lng->txt("log_in"));
+
+			require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+			if(ilCaptchaUtil::isActive())
+			{
+				require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
+				$captcha = new ilCaptchaInputGUI($lng->txt('captcha_code'), 'captcha_code');
+				$captcha->setRequired(true);
+				$captcha->setInfo($lng->txt('captcha_code_info'));
+				$form->addItem($captcha);
+			}
 
 			return $this->substituteLoginPageElements(
 				$tpl,

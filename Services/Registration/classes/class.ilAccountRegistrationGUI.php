@@ -261,6 +261,16 @@ class ilAccountRegistrationGUI
 			}
 		}
 
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		if(ilCaptchaUtil::isActive())
+		{
+			require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
+			$captcha = new ilCaptchaInputGUI($lng->txt("captcha_code"), 'captcha_code');
+			$captcha->setRequired(true);
+			$captcha->setInfo($lng->txt('captcha_code_info'));
+			$this->form->addItem($captcha);
+		}
+
 		$this->form->addCommandButton("saveForm", $lng->txt("register"));		
 	}
 	

@@ -14022,3 +14022,5 @@ mail#:#search_content#:#Search Result
 book#:#book_reservation_available#:#%s available
 form#:#form_retype_email#:#Retype Email
 form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.
+common#:#captcha_code#:#User Verification
+common#:#captcha_code_info#:#Please type in the letters you see in the image.
