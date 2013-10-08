@@ -43,13 +43,37 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	 */
 	public function removeQuestionSetRelatedData()
 	{
-		// delete eventually set questions of a previous non-random test
 		$this->testOBJ->removeAllTestEditings();
+
 		$this->db->manipulateF("DELETE FROM tst_test_question WHERE test_fi = %s",
 			array('integer'),
 			array($this->testOBJ->getTestId())
 		);
 		$this->testOBJ->questions = array();
 		$this->testOBJ->saveCompleteStatus($this);
+	}
+
+	/**
+	 * loads the question set config for current test from the database
+	 */
+	public function loadFromDb()
+	{
+		// TODO: Implement loadFromDb() method.
+	}
+
+	/**
+	 * saves the question set config for current test to the database
+	 */
+	public function saveToDb()
+	{
+		// TODO: Implement saveToDb() method.
+	}
+
+	/**
+	 * deletes the question set config for current test from the database
+	 */
+	public function deleteFromDb()
+	{
+		// TODO: Implement deleteFromDb() method.
 	}
 }
