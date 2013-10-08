@@ -14020,3 +14020,5 @@ exc#:#exc_save_all#:#Save All
 exc#:#exc_save_selected#:#Save Selected
 mail#:#search_content#:#Search Result
 book#:#book_reservation_available#:#%s available
+form#:#form_retype_email#:#Retype Email
+form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.

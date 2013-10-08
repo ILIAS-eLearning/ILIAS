@@ -662,6 +662,10 @@ class ilUserProfile
 						{
 							$em->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
+						if(self::MODE_REGISTRATION == self::$mode)
+						{
+							$em->setRetype(true);
+						}
 						$a_form->addItem($em);
 					}
 					break;
