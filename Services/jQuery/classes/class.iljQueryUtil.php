@@ -21,7 +21,7 @@ class iljQueryUtil
 	static function initjQuery($a_tpl = null)
 	{
 		global $tpl;
-		
+
 		if ($a_tpl == null)
 		{
 			$a_tpl = $tpl;
