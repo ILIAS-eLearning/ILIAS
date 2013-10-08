@@ -513,6 +513,14 @@ class ilLMPresentationGUI
 				$style_name = $ilUser->getPref("style").".css";
 				$this->tpl->setVariable("LOCATION_STYLESHEET","./style/".$style_name);
 			}
+			
+			include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+
+			iljQueryUtil::initjQuery($this->tpl);
+			iljQueryUtil::initjQueryUI($this->tpl);
+
+			// to make e.g. advanced seletions lists work:
+			$GLOBALS["tpl"] = $this->tpl;
 
 			$childs = $node->child_nodes();
 			
