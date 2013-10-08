@@ -508,11 +508,6 @@ assessment#:#errors#:#Errors
 assessment#:#errors_section#:#Error Data
 assessment#:#errortext#:#Error Text
 assessment#:#errortext_info#:#Please enter the error text.
-assessment#:#essay_keyword_relation#:#Score is granted
-assessment#:#essay_keyword_relation_all#:#Only if all keywords are found.
-assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.
-assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.
-assessment#:#essay_keyword_relation_one#:#in full if one keyword is found.
 assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
@@ -760,8 +755,6 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Brak oceny wybranego py
 assessment#:#qpl_assessment_of_questions#:#Ocena pytań
 assessment#:#qpl_assessment_total_of_answers#:#Ogółem odpowiedzi
 assessment#:#qpl_assessment_total_of_right_answers#:#Ogółem procent prawidłowych  odpowiedzi (procent maksymalnej punktacji)
-assessment#:#qpl_browsercolumns#:#Spersonalizowane listy pytań
-assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
 assessment#:#qpl_confirm_delete_questions#:#Czy jesteś pewien, że chcesz usunąć następujące pytania? Jeśli usuniesz zaznaczone pytania to rezultaty wszystkich testów zawierających zaznaczone pytania będą również usunięte.
 assessment#:#qpl_copy_insert_clipboard#:#Wybrane pytania zostały skopiowane do schowka
 assessment#:#qpl_copy_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania do schowka
@@ -890,7 +883,6 @@ assessment#:#term#:#Temin
 assessment#:#term_image#:#Zobrazowanie Terminu
 assessment#:#term_text#:#Opisu Terminu
 assessment#:#terms#:#Terminy
-assessment#:#test_add_new_question#:#Add Question
 assessment#:#test_cancelled#:#Test został anulowany
 assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 assessment#:#test_create_question#:#Utwórz pytanie
@@ -2390,7 +2382,6 @@ common#:#cat_a#:#kategoria
 common#:#cat_add#:#Dodaj kategorię
 common#:#cat_added#:#Kategoria dodana
 common#:#cat_clear_page#:#Wyczyść stronę
-common#:#cat_copy_threads_info#:#Zdecyduj proszę, które elementy kategorii chcesz skopiować, linkować lub pominąć.
 common#:#cat_edit#:#Edytuj Kategorię
 common#:#cat_new#:#Nowa kategoria
 common#:#cat_pages#:#Strony kategorii
@@ -2490,7 +2481,6 @@ common#:#cond_ref_unique#:#Unique Preconditions for Links
 common#:#condition#:#Warunek
 common#:#condition_already_assigned#:#Obiekt jest już przydzielony
 common#:#condition_circle_created#:#To powiązanie nie jest możliwe, dopóki wchodzą w interakcje.
-common#:#condition_delete_sure#:#Czy na pewno chcesz usunąć następujący warunek?
 common#:#condition_deleted#:#Warunek  usunięty.
 common#:#condition_finished#:#Zakończony
 common#:#condition_not_finished#:#Nie ukończony
@@ -3027,13 +3017,10 @@ common#:#gender_m#:#Mężczyzna
 common#:#general_settings#:#Ustawienia Ogólne
 common#:#generate#:#Generuj
 common#:#glo#:#Słownik
-common#:#glo_a#:#Słownik
 common#:#glo_add#:#Dodaj słownik
 common#:#glo_added#:#Słownik został dodany
 common#:#glo_create#:#Twórz Słownik
 common#:#glo_import#:#Import Glossary
-common#:#glo_join#:#Subskrybuj Słownik
-common#:#glo_leave#:#Rezygnuję z subskrypcji Słownika
 common#:#glo_mode#:#Tryb
 common#:#glo_mode_desc#:#Wirualny słownik działa tak jak normalny słownik. Dodatkowo zawiera hasła ze wszystkich słowników umieszczonych na tym samym poziomie zasobów oraz może zawierać hasła ze słowników położonych poniżej.
 common#:#glo_mode_level#:#wirtualny (tylko ten sam poziom)
@@ -4624,7 +4611,6 @@ common#:#setSystemLanguage#:#Ustaw język systemowy
 common#:#settings#:#Ustawienia
 common#:#settings_for_all_members#:#Global Setting for all Course/Group Members
 common#:#settings_for_new_members#:#Settings for new Members
-common#:#settings_per_members#:#Ustawienia dla każdego użytkownika osobno
 common#:#settings_per_users#:#Settings per Course/Group Members
 common#:#settings_saved#:#Ustawienia zapisane
 common#:#setUserLanguage#:#Ustaw język użytkownika
@@ -6109,7 +6095,6 @@ content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If delet
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 content#:#htlm_import#:#Import HTML Learning Module
 content#:#HTML export#:#Eksport HTML
-content#:#HTML_export#:#Eksport HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Edycja pozycji menu
 content#:#lm_menu_entry_target#:#Przeznaczenie
@@ -6130,7 +6115,6 @@ content#:#Pages#:#Strony
 content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
 content#:#PDF export#:#Eksport PDF
-content#:#PDF_export#:#Eksport PDF
 content#:#pg#:#Strona
 content#:#public_section#:#Sekcja publiczna
 content#:#read offline#:#Czytaj Offline
@@ -6460,7 +6444,6 @@ crs#:#crs_objective_self_assessment#:#Initial Test
 crs#:#crs_objective_status#:#Objective Status
 crs#:#crs_objective_step#:#Step
 crs#:#crs_objective_updated_test#:#Modyfikacje zapamiętane.
-crs#:#crs_objective_view#:#Widok zorientowany na cele
 crs#:#crs_objective_wiz_final#:#Final Test Questions
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test
@@ -7268,7 +7251,6 @@ dateplaner#:#wk_short#:#TD
 dateplaner#:#year#:#rok
 dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activate Record Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
@@ -7500,7 +7482,6 @@ ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value
 ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
 ecs#:#ecs_cmap_overview#:#Mapping Overview
-ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation
 ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS Directory Trees
 ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System
@@ -8037,7 +8018,6 @@ grp#:#crs_grouping_select_one#:#Wybierz dokładnie jeden limit uczestnictwa.
 grp#:#crs_grp_added_grouping#:#Limit na ilość uczestników został dodany.
 grp#:#crs_grp_assign_crs#:#Przydział grup
 grp#:#crs_grp_enter_title#:#Wypełnij wymagane pola.
-grp#:#crs_grp_info_reg#:#Możesz się zarejestrować tylko do jednej z tych grup:
 grp#:#crs_grp_no_courses_assigned#:#Nie przydzielono żadnej grupy
 grp#:#crs_grp_table_assigned_courses#:#Przydzielone grupy
 grp#:#events#:#Sessions
@@ -9309,8 +9289,6 @@ news#:#finish_publishing_date#:#Finish Publishing:
 news#:#news_1_file_created#:#1 plik został dodany.
 news#:#news_1_file_updated#:#1 plik został zaktualizowany.
 news#:#news_1_postings#:#1 Post został dodany.
-news#:#news_acc_cache#:#Sprawdzenie uprawnień (Minuty)
-news#:#news_acc_cache_info#:#Sprawdź uprawnienia do czytania wiadomości przez x minut (tylko pulpit osobisty). '0' oznacza zawsze. Większe wartości zwiększają wydajność, lecz linki mogą wskazywać niedostępne pozycje.
 news#:#news_add_news#:#Add News
 news#:#news_all_items#:#Wszystkie pozycje
 news#:#news_allow_longer_periods#:#Allow Longer Periods
@@ -10101,7 +10079,6 @@ ps#:#ps_account_security_mode#:#Account Security
 ps#:#ps_account_security_mode_customized#:#Customized Account Security
 ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security
 ps#:#ps_agreement_accepted#:#Warunki użytkowania zostały zaakceptowane
-ps#:#ps_agreement_req_info#:#Zaakceptuj warunki użytkowania aby mieć dostęp do zawartości kursu.
 ps#:#ps_auto_https#:#Autodetekcja HTTPS
 ps#:#ps_auto_https_description#:#jeśli włączony, ILIAS próbuje wykryć status HTTPs przez analizę wartości nagłówka podanej poniżej.
 ps#:#ps_auto_https_header_name#:#Nazwa nagłówka
@@ -10114,7 +10091,6 @@ ps#:#ps_cdf_delete_sure#:#Czy chcesz usunąć to pole użytkownika?
 ps#:#ps_cdf_deleted#:#Usunięto pole użytkownika.
 ps#:#ps_cdf_deleted_field#:#Usunięto wartość.
 ps#:#ps_cdf_edit_field#:#Edit Data Field
-ps#:#ps_cdf_info#:#Dalsze specyficzne dla kursu dane:
 ps#:#ps_cdf_name#:#Nazwa
 ps#:#ps_cdf_no_fields#:#Nie zdefiniowano pól użytkownika
 ps#:#ps_cdf_no_name_given#:#Podaj nazwę
@@ -10175,7 +10151,6 @@ ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins
 ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.
 ps#:#ps_privacy_protection#:#Ustawienia prywatności
 ps#:#ps_profile_export#:#Zabezpieczenie danych profilu użytkownika
-ps#:#ps_required_info#:#Dalsze pola specyficzne dla kursu są wymagane dla dostępu do zawartości kursu.
 ps#:#ps_security_protection#:#Ustawienia bezpieczeństwa
 ps#:#ps_select_one#:#Wybierz jeden plik eksportowy
 ps#:#ps_show_crs_access#:#Pokaż ostatni czas dostępu uczestników kursu
@@ -10284,35 +10259,6 @@ rbac#:#cat_administrate_users#:#Administrate Local User Accounts
 rbac#:#cat_cat_administrate_users#:#Administracja kontami lokalnych użytkowników
 rbac#:#cat_copy#:#Kopiuj Kategorię
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
-rbac#:#cat_create_blog#:#Create Blog
-rbac#:#cat_create_book#:#Create Booking Pool
-rbac#:#cat_create_cat#:#Twórz Kategorię
-rbac#:#cat_create_catr#:#Kopiuj Odwołanie do Kursu
-rbac#:#cat_create_chtr#:#Create Chatroom
-rbac#:#cat_create_crs#:#Twórz Kurs
-rbac#:#cat_create_crsr#:#Twórz Nowe Odwołanie do Kursu
-rbac#:#cat_create_dcl#:#Create Data Collection
-rbac#:#cat_create_exc#:#Twórz Ćwiczenie
-rbac#:#cat_create_feed#:#Utwórz Web Feed
-rbac#:#cat_create_file#:#Załaduj plik
-rbac#:#cat_create_frm#:#Twórz Forum
-rbac#:#cat_create_glo#:#Twórz Słownik
-rbac#:#cat_create_grp#:#Twórz Grupę
-rbac#:#cat_create_htlm#:#Twórz Moduł Nauczania HTML
-rbac#:#cat_create_icrs#:#Twórz seminarium LearnLinc
-rbac#:#cat_create_itgr#:#Create Item Group
-rbac#:#cat_create_lm#:#Twórz Moduł Nauczania
-rbac#:#cat_create_mcst#:#Utwórz MediaCast
-rbac#:#cat_create_mep#:#Twórz pulę mediów
-rbac#:#cat_create_poll#:#Create Poll
-rbac#:#cat_create_qpl#:#Twórz pulę pytań
-rbac#:#cat_create_rcrs#:#Create Course-Links
-rbac#:#cat_create_sahs#:#Twórz moduł nauczania SCORM/AICC
-rbac#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)
-rbac#:#cat_create_svy#:#Twórz ankietę
-rbac#:#cat_create_tst#:#Twórz test
-rbac#:#cat_create_webr#:#Twórz nowy zasób web
-rbac#:#cat_create_wiki#:#Twórz Wiki
 rbac#:#cat_delete#:#Usuń Kategorię
 rbac#:#cat_edit_permission#:#Zmień ustawienia uprawnień
 rbac#:#cat_read#:#Prawo czytania Kategorii
@@ -10349,34 +10295,6 @@ rbac#:#cmps_write#:#Edit component settings
 rbac#:#contribute#:#Contribute
 rbac#:#crs_copy#:#Kopiuj Kurs
 rbac#:#crs_copy_threads_info#:#Zdecyduj, które materiały kursu mają być skopiowane, złączone lub pominięte.
-rbac#:#crs_create_blog#:#Create Blog
-rbac#:#crs_create_book#:#Create Booking Pool
-rbac#:#crs_create_catr#:#Create Category Reference
-rbac#:#crs_create_chtr#:#Create Chatroom
-rbac#:#crs_create_crsr#:#Create new Course Reference
-rbac#:#crs_create_dcl#:#Create Data Collection
-rbac#:#crs_create_exc#:#Twórz ćwiczenie
-rbac#:#crs_create_feed#:#Utwórz Web Feed
-rbac#:#crs_create_file#:#Załaduj plik
-rbac#:#crs_create_fold#:#Twórz Folder
-rbac#:#crs_create_frm#:#Twórz Forum
-rbac#:#crs_create_glo#:#Twórz Słownik
-rbac#:#crs_create_grp#:#Twórz Grupę
-rbac#:#crs_create_htlm#:#Twórz Moduł Nauczania HTML
-rbac#:#crs_create_icrs#:#Twórz seminarium LearnLinc
-rbac#:#crs_create_itgr#:#Create Item Group
-rbac#:#crs_create_lm#:#Twórz Moduł Nauczania
-rbac#:#crs_create_mcst#:#Utwórz MediaCast
-rbac#:#crs_create_mep#:#Twórz pulę Mediów
-rbac#:#crs_create_poll#:#Create Poll
-rbac#:#crs_create_qpl#:#Twórz pulę pytań dla Testów
-rbac#:#crs_create_sahs#:#Twórz moduł nauczania SCORM/AICC
-rbac#:#crs_create_sess#:#Create Session
-rbac#:#crs_create_spl#:#Twórz pulę pytań dla Ankiet
-rbac#:#crs_create_svy#:#Twórz Ankietę
-rbac#:#crs_create_tst#:#Twórz Test
-rbac#:#crs_create_webr#:#Twórz nowy zasób web
-rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_delete#:#Usuń Kurs
 rbac#:#crs_edit_event#:#Edytuj Wydarzenia w Kalendarzu
 rbac#:#crs_edit_learning_progress#:#Edycja postępu nauczania
@@ -10442,31 +10360,6 @@ rbac#:#filter_local_roles_object#:#Pokaż tylko role zdefiniowane w tej pozycji
 rbac#:#filter_roles_local_policy#:#Pokaż tylko role używając lokalnej polityki w tej pozycji
 rbac#:#fld_create_poll#:#Create Poll
 rbac#:#fold_copy#:#Kopiuj Folder
-rbac#:#fold_create_blog#:#Create Blog
-rbac#:#fold_create_book#:#Create Booking Pool
-rbac#:#fold_create_chtr#:#Create Chatroom
-rbac#:#fold_create_dcl#:#Create Data Collection
-rbac#:#fold_create_exc#:#Twórz Ćwiczenie
-rbac#:#fold_create_file#:#Załaduj plik
-rbac#:#fold_create_fold#:#Twórz Folder
-rbac#:#fold_create_frm#:#Twórz Forum
-rbac#:#fold_create_glo#:#Twórz Słownik
-rbac#:#fold_create_grp#:#Dodaj nową grupę
-rbac#:#fold_create_htlm#:#Twórz Moduł Nauczania HTML
-rbac#:#fold_create_icrs#:#Twórz seminarium LearnLinc
-rbac#:#fold_create_itgr#:#Create Item Group
-rbac#:#fold_create_lm#:#Twórz Moduł Nauczania
-rbac#:#fold_create_mcst#:#Utwórz MediaCast
-rbac#:#fold_create_mep#:#Twórz pulę Mediów
-rbac#:#fold_create_poll#:#Create Poll
-rbac#:#fold_create_qpl#:#Twórz pulę pytań dla Testów
-rbac#:#fold_create_sahs#:#Twórz moduł nauczania SCORM/AICC
-rbac#:#fold_create_sess#:#Create Session
-rbac#:#fold_create_spl#:#Twórz pulę pytań dla ankiet
-rbac#:#fold_create_svy#:#Twórz Ankietę
-rbac#:#fold_create_tst#:#Twórz Test
-rbac#:#fold_create_webr#:#Twórz nowy zasób web
-rbac#:#fold_create_wiki#:#Create Wiki
 rbac#:#fold_delete#:#Usuń Folder
 rbac#:#fold_edit_learning_progress#:#Edycja procesu nauczania
 rbac#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
@@ -10494,34 +10387,6 @@ rbac#:#glo_visible#:#Słownik jest widoczny
 rbac#:#glo_write#:#Edycja Słownika
 rbac#:#grp#:#User can copy group
 rbac#:#grp_copy#:#Kopiuj Grupę
-rbac#:#grp_create_blog#:#Create Blog
-rbac#:#grp_create_book#:#Create Booking Pool
-rbac#:#grp_create_catr#:#Create Category Reference
-rbac#:#grp_create_chtr#:#Create Chatroom
-rbac#:#grp_create_crsr#:#Create Course Reference
-rbac#:#grp_create_dcl#:#Create Data Collection
-rbac#:#grp_create_exc#:#Twórz Ćwiczenie
-rbac#:#grp_create_feed#:#Utwórz Web Feed
-rbac#:#grp_create_file#:#Użytkownik może przysyłać pliki
-rbac#:#grp_create_fold#:#Użytkownik może tworzyć foldery
-rbac#:#grp_create_frm#:#Twórz Forum
-rbac#:#grp_create_glo#:#Twórz Słownik
-rbac#:#grp_create_grp#:#Twórz grupę
-rbac#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
-rbac#:#grp_create_icrs#:#Twórz seminarium LearnLinc
-rbac#:#grp_create_itgr#:#Create Item Group
-rbac#:#grp_create_lm#:#Twórz Moduł Nauczania
-rbac#:#grp_create_mcst#:#Utwórz MediaCast
-rbac#:#grp_create_mep#:#Twórz Pulę Mediów
-rbac#:#grp_create_poll#:#Create Poll
-rbac#:#grp_create_qpl#:#Twórz pulę pytań dla Testów
-rbac#:#grp_create_sahs#:#Twórz moduł nauczania SCORM/AICC
-rbac#:#grp_create_sess#:#Create Session
-rbac#:#grp_create_spl#:#Twórz pulę pytań dla Ankiet
-rbac#:#grp_create_svy#:#Twórz Ankietę
-rbac#:#grp_create_tst#:#Twórz Test
-rbac#:#grp_create_webr#:#Twórz nowy zasób web
-rbac#:#grp_create_wiki#:#Create Wiki
 rbac#:#grp_delete#:#Usuń Grupę
 rbac#:#grp_edit_event#:#Edytuj Wydarzenia w Kalendarzu
 rbac#:#grp_edit_learning_progress#:#Edytuj proces nauczania
@@ -10807,37 +10672,6 @@ rbac#:#role_block_role#:#Block Role
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
 rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?
 rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
-rbac#:#root_create_blog#:#Create Blog
-rbac#:#root_create_book#:#Create Booking Pool
-rbac#:#root_create_cat#:#Użytkownik może tworzyć Kategorie
-rbac#:#root_create_catr#:#Twórz Odwołanie do Kategorii
-rbac#:#root_create_chat#:#Create Chat
-rbac#:#root_create_chtr#:#Create Chatroom
-rbac#:#root_create_crs#:#Create Course
-rbac#:#root_create_crsr#:#Create Course Referenc
-rbac#:#root_create_dbk#:#Create Digilib Book
-rbac#:#root_create_dcl#:#Create Data Collection
-rbac#:#root_create_exc#:#Create Exercise
-rbac#:#root_create_feed#:#Create Web Feed
-rbac#:#root_create_file#:#Upload File
-rbac#:#root_create_frm#:#Create Forum
-rbac#:#root_create_glo#:#Create Glossary
-rbac#:#root_create_grp#:#Create Group
-rbac#:#root_create_htlm#:#Create HTML Learning Module
-rbac#:#root_create_icrs#:#Create LearnLinc Seminar
-rbac#:#root_create_itgr#:#Create Item Group
-rbac#:#root_create_lm#:#Create ILIAS Learning Module
-rbac#:#root_create_mcst#:#Create Mediacast
-rbac#:#root_create_mep#:#Utwórz Pulę Mediów
-rbac#:#root_create_poll#:#Create Poll
-rbac#:#root_create_qpl#:#Create Question Pool Test
-rbac#:#root_create_rcrs#:#Create Course-Link
-rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module
-rbac#:#root_create_spl#:#Create Question Pool Survey
-rbac#:#root_create_svy#:#Create Survey
-rbac#:#root_create_tst#:#Create Test
-rbac#:#root_create_webr#:#Create Weblink
-rbac#:#root_create_wiki#:#Create Wiki
 rbac#:#root_edit_permission#:#Zmień ustawienia uprawnień
 rbac#:#root_read#:#Prawo czytania systemu ILIAS
 rbac#:#root_visible#:#System ILIAS jest widoczny
@@ -12327,8 +12161,6 @@ survey#:#show_questiontext#:#Wyświetl tekst pytania
 survey#:#show_questiontext_description#:#Jeśli to pole wyboru jest wybrane, to dla każdego pytania bloku pytań będzie widoczna treść pytania. Jeśli nie jest wybrane, to treść pytania każdego pytania w bloku pytań będzie ukryta.
 survey#:#skipped#:#pominięty
 survey#:#specialusers#:#Special Users
-survey#:#spl_browsercolumns#:#Spersonalizowane listy pytań
-survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
 survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 survey#:#spl_general_properties#:#Właściwości ogólne
@@ -13165,3 +12997,8 @@ wsp#:#wsp_type_file#:#Plik
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Zasób web
 wsp#:#wsp_type_wfld#:#Folder
+content#:#cont_LocalFile#:#Local File###08 10 2013 new variable
+survey#:#survey_notification_tutor_link#:#Link to Survey###08 10 2013 new variable
+dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###08 10 2013 new variable
+crs#:#crs_passed_status_system#:#System###08 10 2013 new variable
+crs#:#crs_passed_status_manual_by#:#Manual by###08 10 2013 new variable
