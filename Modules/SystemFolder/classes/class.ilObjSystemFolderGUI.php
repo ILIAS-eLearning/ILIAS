@@ -1102,6 +1102,21 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setValue($ilSetting->get("short_inst_name"));
 		$ti->setInfo($this->lng->txt("short_inst_name_info"));
 		$this->form->addItem($ti);
+
+		// activate captcha for anonymous wiki/forum editing
+		include_once("./Services/Captcha/classes/class.ilCaptchaUtil.php");
+		$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'),'activate_captcha_anonym');
+		$cap->setInfo($this->lng->txt('adm_captcha_anonymous'));
+		$cap->setValue(1);
+		if (ilCaptchaUtil::checkFreetype())
+		{
+			$cap->setChecked($ilSetting->get('activate_captcha_anonym'));
+		}
+		else
+		{
+			$cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
+		}
+		$this->form->addItem($cap);
 		
 		// public section
 		$cb = new ilCheckboxInputGUI($this->lng->txt("pub_section"), "pub_section");
@@ -1118,20 +1133,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$cb_prop->setChecked($ilSetting->get('enable_global_profiles'));
 			$cb->addSubItem($cb_prop);
 
-			// activate captcha for anonymous wiki/forum editing
-			include_once("./Services/Captcha/classes/class.ilCaptchaUtil.php");
-			$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous'),'activate_captcha_anonym');
-			$cap->setValue(1);
-			if (ilCaptchaUtil::checkFreetype())
-			{
-				$cap->setChecked($ilSetting->get('activate_captcha_anonym'));
-			}
-			else
-			{
-				$cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
-			}
-			$cb->addSubItem($cap);		
-		
 		// search engine
 		include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
 		$robot_settings = ilRobotSettings::_getInstance();
