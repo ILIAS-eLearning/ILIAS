@@ -13998,3 +13998,5 @@ exc#:#exc_save_all#:#Alle speichern
 exc#:#exc_save_selected#:#Ausgewählte speichern
 mail#:#search_content#:#Suchergebnis
 book#:#book_reservation_available#:#%s verfügbar
+form#:#form_retype_email#:#E-Mail nochmals eingeben
+form#:#email_not_match#:#Ihre Eingaben für die E-Mail-Adresse stimmen nicht überein! Bitte geben Sie die E-Mail-Adresse erneut ein.
