@@ -92,13 +92,13 @@ abstract class ilAuthBase
 		global $ilLog, $ilAppEventHandler, $ilSetting;
 		
 		if($this->getContainer()->loginObserver($a_username,$a_auth))
-		{								
+		{
 			// validate user
-			include_once "Services/User/classes/class.ilObjUser.php";			
+			include_once "Services/User/classes/class.ilObjUser.php";
 			$user_id = ilObjUser::_loginExists($a_auth->getUsername());
 			if($user_id != ANONYMOUS_USER_ID)
 			{
-				$user = new ilObjUser($user_id);	
+				$user = new ilObjUser($user_id);
 					
 			    // check if profile is complete						
 				include_once "Services/User/classes/class.ilUserProfile.php";
@@ -107,7 +107,20 @@ abstract class ilAuthBase
 					$user->setProfileIncomplete(true);
 					$user->update();
 				}
-				
+
+				require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+				if(ilCaptchaUtil::isActive())
+				{
+					require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+					require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
+					$captcha = new ilCaptchaInputGUI('', 'captcha_code');
+					$captcha->setRequired(true);
+					if(!$captcha->checkInput())
+					{
+						$this->status = AUTH_CAPTCHA_INVALID;
+						return;
+					}
+				}
 				
 				// --- extended user validation
 				// 
