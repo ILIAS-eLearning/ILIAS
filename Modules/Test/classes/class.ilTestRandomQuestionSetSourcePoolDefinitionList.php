@@ -74,6 +74,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		}
 	}
 
+	public function deleteDefinitions()
+	{
+		$query = "DELETE FROM tst_rnd_quest_set_qpls WHERE test_fi = %s";
+		$this->db->manipulateF($query, array('integer'), array($this->testOBJ->getTestId()));
+	}
+
 	public function reindexPositions()
 	{
 		$positionIndex = array();

@@ -170,13 +170,13 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	 */
 	public function saveToDb()
 	{
-		if( $this->dbRecordExists($this->testOBJ->getTestId()) )
+		if( $this->dbRecordExists() )
 		{
-			$this->updateDbRecord($this->testOBJ->getTestId());
+			$this->updateDbRecord();
 		}
 		else
 		{
-			$this->insertDbRecord($this->testOBJ->getTestId());
+			$this->insertDbRecord();
 		}
 	}
 	
@@ -268,39 +268,38 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		if( $this->isQuestionAmountConfigurationModePerPool() )
 		{
-			return true;
-		}
+			$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
 
-		if( $this->getQuestionAmountPerTest() > 0 )
+			$sourcePoolDefinitionList->loadDefinitions();
+
+			foreach($sourcePoolDefinitionList as $definition)
+			{
+				/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
+
+				if( $definition->getQuestionAmount() < 1 )
+				{
+					return false;
+				}
+			}
+		}
+		elseif( $this->getQuestionAmountPerTest() < 1 )
 		{
-			return true;
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	public function hasSourcePoolDefinitions()
 	{
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
-		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-			$this->db, $this->testOBJ
-		);
-
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
-		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-			$this->db, $this->testOBJ, $sourcePoolDefinitionFactory
-		);
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
 
 		return $sourcePoolDefinitionList->savedDefinitionsExist();
 	}
 
 	public function isQuestionSetBuildable()
 	{
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
-		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($this->db, $this->testOBJ);
-
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
-		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($this->db, $this->testOBJ, $sourcePoolDefinitionFactory);
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
 		$sourcePoolDefinitionList->loadDefinitions();
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
@@ -314,12 +313,49 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	
 	public function doesQuestionSetRelatedDataExist()
 	{
-		throw new Exception('IMPLEMENT BODY OF METHOD!!! '.__METHOD__);
+		if( $this->dbRecordExists() )
+		{
+			return true;
+		}
+
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
+
+		if( $sourcePoolDefinitionList->savedDefinitionsExist() )
+		{
+			return true;
+		}
+
+		return false;
 	}
 	
 	public function removeQuestionSetRelatedData()
 	{
-		throw new Exception('IMPLEMENT BODY OF METHOD!!! '.__METHOD__);
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
+		$sourcePoolDefinitionList->deleteDefinitions();
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolBuilder.php';
+		$stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder(
+			$this->db, $this->testOBJ
+		);
+
+		$stagingPool->reset();
+
+		$this->deleteFromDb();
+	}
+
+	private function buildSourcePoolDefinitionList()
+	{
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
+		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+			$this->db, $this->testOBJ
+		);
+
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
+		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+			$this->db, $this->testOBJ, $sourcePoolDefinitionFactory
+		);
+
+		return $sourcePoolDefinitionList;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------

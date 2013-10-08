@@ -38,7 +38,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 		$this->build($sourcePoolDefinitionList);
 	}
 
-	private function reset()
+	public function reset()
 	{
 		$this->removeMirroredTaxonomies();
 
