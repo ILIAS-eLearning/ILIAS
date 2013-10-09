@@ -12187,7 +12187,7 @@ ecs#:#ecs_server_deleted#:#Server gelöscht
 blog#:#blog_edit_date#:#Datum editieren
 blog#:#blog_edit_date_info#:#Der Status der Veröffentlichung hängt nicht von diesem Datum ab.
 certificate#:#certificate_file_basename#:#Zertifikat
-administration#:#adm_captcha_anonymous#:#Captcha für Anonymous aktivieren (Forum/Wiki/Login/Registrierung)
+administration#:#adm_captcha_anonymous#:#Captchas für Anonymous aktivieren (Forum/Wiki/Login/Registrierung). Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
 content#:#cont_captcha_verification#:#Benutzerverifikation
 content#:#cont_captcha_code#:#Code
 cptch#:#cptch_wrong_input#:#Falsche Eingabe
