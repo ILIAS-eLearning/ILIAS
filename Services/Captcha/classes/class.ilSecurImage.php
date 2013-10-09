@@ -13,6 +13,11 @@ include_once("./Services/Captcha/classes/class.ilSecurImageUtil.php");
 class ilSecurImage
 {
 	/**
+	 * @var Securimage
+	 */
+	protected $securimage;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param
@@ -27,6 +32,14 @@ class ilSecurImage
 			$this->securimage->use_gd_font = true;
 			$this->securimage->num_lines = 5;
 		}
+	}
+
+	/**
+	 * @return Securimage
+	 */
+	public function getSecureImageObject()
+	{
+		return $this->securimage;
 	}
 	
 	/**
