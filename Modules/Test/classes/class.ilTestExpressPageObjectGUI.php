@@ -515,10 +515,10 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$manscoring = FALSE;
 				
-			global $tree, $ilDB;
+			global $tree, $ilDB, $ilPluginAdmin;
 
 			require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-			$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $this->test_object);
+			$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this->test_object);
 			$testQuestionSetConfig = $testQuestionSetConfigFactory->getQuestionSetConfig();
 
 			foreach ($selected_array as $key => $value) 
