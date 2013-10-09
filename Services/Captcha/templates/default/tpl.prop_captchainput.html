@@ -1,10 +1,10 @@
-<div>
-	<img id="captcha" src="{IMAGE_SCRIPT}" alt="CAPTCHA Image" />
-	<input  type="text" size="10" maxlength="10" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
-	<div style="text-align:left">
-		<a href="#" title="{TXT_NEW_IMAGE}" onclick="document.getElementById('captcha').src = '{IMAGE_SCRIPT}' + '?' + Math.random(); return false"><img src="{SRC_RELOAD}" alt="{TXT_NEW_IMAGE}" /></a>
-		<object type="application/x-shockwave-flash" data="{AUDIO_SCRIPT}" width="19" height="19">
+<div class="iosCaptcha">
+	<img class="iosCaptchaImage" src="{IMAGE_SCRIPT}" alt="{TXT_CAPTCHA_ALT}" />
+	<div class="iosCaptchaButtonContainer">
+		<object type="application/x-shockwave-flash" data="{AUDIO_SCRIPT}" width="19" height="19" title="{TXT_CAPTCHA_AUDIO_TITLE}">
 			<param name="movie" value="{AUDIO_SCRIPT}" />
 		</object>
+		<a href="#" title="{TXT_RELOAD}" onclick="document.getElementById('captcha').src = '{IMAGE_SCRIPT}' + '?' + Math.random(); return false"><img src="{SRC_RELOAD}" alt="{TXT_RELOAD}" /></a>
 	</div>
+	<input class="iosCaptchaInput" type="text" size="10" maxlength="10" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
 </div>
