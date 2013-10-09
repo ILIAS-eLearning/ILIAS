@@ -106,10 +106,10 @@ class ilSCORMOfflineMode
 		$package_attempts	= 0;
 		$module_version		= 1;//if module_version in sop is different...
 		$last_visited		= "";
-		$first_access		= "";
-		$last_access		= "";
-		$last_status_change	= "";
-		$total_time_sec		= 0;
+		$first_access		= null;
+		$last_access		= null;
+		$last_status_change	= null;
+		$total_time_sec		= null;
 		$sco_total_time_sec	= 0;
 		$status				= 0;
 		$percentage_completed = 0;
@@ -124,7 +124,9 @@ class ilSCORMOfflineMode
 		{
 			$module_version = $row['module_version'];
 			$last_visited = $row['last_visited'];
-			$last_access = $row['last_access'];
+			if ($row['last_access'] != null) {
+				$last_access = strtotime($row['last_access'])*1000;//check Oracle!
+			}
 			$total_time_sec = $row['total_time_sec'];
 			$sco_total_time_sec = $row['sco_total_time_sec'];
 			$status = $row['status'];
