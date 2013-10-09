@@ -300,7 +300,7 @@ class ilObjPollGUI extends ilObject2GUI
 			{
 				$url = $ilCtrl->getLinkTarget($this, "showParticipants");
 				ilUtil::sendInfo($lng->txt("poll_votes_no_edit").
-					" <a href=\"".$url."\">&raquo;".$lng->txt("poll_participants")."</a>");				
+					" <a href=\"".$url."\">&raquo;".$lng->txt("poll_result")."</a>");				
 			}
 			
 			$a_form = $this->initQuestionForm($this->object->countVotes());
