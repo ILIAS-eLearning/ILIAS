@@ -295,6 +295,7 @@ div#il_startup_content {
 
 div.ilStartupSection div.ilForm {
 	margin: auto;
+	text-align:left;
 }
 
 .registration {
@@ -4110,16 +4111,15 @@ td.legendColorBox, td.legendLabel {
 }
 
 div.iosCaptcha {
-	width: 160px;
-	margin: 0 auto;
-	position: relative;
+	float:left;
+}
+
+div.iosCaptchaImageContainer {
+	float:left;
 }
 
 div.iosCaptchaButtonContainer {
-	position: absolute;
-	top: 0;
-	right: -50px;
-	width: 32px;
+	float:left;
 }
 
 input.iosCaptchaInput {
