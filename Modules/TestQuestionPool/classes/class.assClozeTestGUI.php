@@ -174,7 +174,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$this->populateAnswerSpecificFormPart( $form );
 		$this->populateTaxonomyFormSection($form);
 
-		$form->addCommandButton('createGaps', $this->lng->txt('create_gaps'));
 		$this->addQuestionFormCommandButtons($form);
 
 		$errors = false;
@@ -256,6 +255,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
+		$tpl->setVariable('CREATE_GAPS', $this->lng->txt('create_gaps'));
 		$tpl->parseCurrentBlock();
 		$button = new ilCustomInputGUI('&nbsp;','');
 		$button->setHtml($tpl->get());

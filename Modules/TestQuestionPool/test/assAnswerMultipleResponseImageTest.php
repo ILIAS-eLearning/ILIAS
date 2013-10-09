@@ -36,4 +36,19 @@ class assAnswerMultipleResponseImageTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('ASS_AnswerMultipleResponseImage', $instance);
 	}
+
+	public function test_setGetImage()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
+		$instance = new ASS_AnswerMultipleResponseImage();
+		$expected = 'c:\image.jpg';
+
+		// Act
+		$instance->setImage($expected);
+		$actual = $instance->getImage();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 }
