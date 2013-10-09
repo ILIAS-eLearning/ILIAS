@@ -112,6 +112,8 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 		$tpl->setVariable("TXT_RELOAD", $lng->txt("captcha_code_reload"));
 		
 		$tpl->setVariable("TXT_CAPTCHA_AUDIO_TITLE", $lng->txt("captcha_audio_title"));
+
+		$tpl->setVariable("TXT_CAPTCHA_ID", $this->getFieldId());
 		
 		$tpl->setVariable("POST_VAR", $this->getPostVar());
 		$tpl->setVariable("TXT_CONSTR_PROP", $lng->txt("cont_constrain_proportions"));

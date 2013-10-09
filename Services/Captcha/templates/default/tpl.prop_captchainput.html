@@ -1,10 +1,10 @@
 <div class="iosCaptcha">
-	<img class="iosCaptchaImage" src="{IMAGE_SCRIPT}" alt="{TXT_CAPTCHA_ALT}" />
+	<img id="{TXT_CAPTCHA_ID}" class="iosCaptchaImage" src="{IMAGE_SCRIPT}" alt="{TXT_CAPTCHA_ALT}" />
 	<div class="iosCaptchaButtonContainer">
 		<object type="application/x-shockwave-flash" data="{AUDIO_SCRIPT}" width="19" height="19" title="{TXT_CAPTCHA_AUDIO_TITLE}">
 			<param name="movie" value="{AUDIO_SCRIPT}" />
 		</object>
-		<a href="#" title="{TXT_RELOAD}" onclick="document.getElementById('captcha').src = '{IMAGE_SCRIPT}' + '?' + Math.random(); return false"><img src="{SRC_RELOAD}" alt="{TXT_RELOAD}" /></a>
+		<a href="#" title="{TXT_RELOAD}" onclick="document.getElementById('{TXT_CAPTCHA_ID}').src = '{IMAGE_SCRIPT}' + '?' + Math.random(); return false"><img src="{SRC_RELOAD}" alt="{TXT_RELOAD}" /></a>
 	</div>
 	<input class="iosCaptchaInput" type="text" size="20" maxlength="10" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
 </div>
