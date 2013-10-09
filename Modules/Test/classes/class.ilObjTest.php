@@ -674,7 +674,7 @@ class ilObjTest extends ilObject
 */
 	function deleteTest()
 	{
-		global $tree, $ilDB, $pluginAdmin;
+		global $tree, $ilDB, $ilPluginAdmin;
 		
 		// first of all remove all test editings, because the delete statements used for this
 		// contain a subquery for active ids, that are deleted in the next steps
@@ -722,7 +722,7 @@ class ilObjTest extends ilObject
 		);
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $pluginAdmin, $this);
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$testQuestionSetConfigFactory->getQuestionSetConfig()->removeQuestionSetRelatedData();
 
 		// delete export files
@@ -1092,13 +1092,13 @@ class ilObjTest extends ilObject
 */
 	function _isComplete($obj_id)
 	{
-		global $tree, $ilDB;
+		global $tree, $ilDB, $ilPluginAdmin;
 		
 		$test = new ilObjTest($obj_id, false);
 		$test->loadFromDb();
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 		
 		return $test->isComplete( $testQuestionSetConfigFactory->getQuestionSetConfig() );
 	}
@@ -6693,7 +6693,7 @@ function getAnswerFeedbackPoints()
 	*/
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilLog, $tree, $ilDB, $pluginAdmin;
+		global $ilLog, $tree, $ilDB, $ilPluginAdmin;
 
 		$this->loadFromDb();
 
@@ -6766,7 +6766,7 @@ function getAnswerFeedbackPoints()
 		$cert->cloneCertificate($newcert);
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $pluginAdmin, $this);
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj->getTestId());
 
 		$newObj->saveToDb();
