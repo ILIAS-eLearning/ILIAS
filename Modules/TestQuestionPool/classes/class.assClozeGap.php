@@ -4,85 +4,81 @@
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
-* Class for cloze question gaps
-* 
-* assClozeGap is a class for the abstraction of cloze gaps. It represents a
-* text gap.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
+ * Class for cloze question gaps
+ *
+ * assClozeGap is a class for the abstraction of cloze gaps. It represents a text gap.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Maximilian Becker <mbecker@databay.de>
+ *
+ * @version	$Id$
+ *
+ * @ingroup ModulesTestQuestionPool
 */
-
 class assClozeGap 
 {
-/**
-* Type of gap
-* 
-* An integer value indicating the type of the gap
-* 0 == text gap, 1 == select gap, 2 == numeric gap
-*
-* @var int
-*/
+
+	/**
+	 * Type of gap
+	 *
+	 * An integer value indicating the type of the gap
+	 * 0 == text gap, 1 == select gap, 2 == numeric gap
+	 *
+	 * @var int $type
+	 */
 	var $type;
 
-/**
-* List of items in the gap
-* 
-* List of items in the gap
-*
-* @var array
-*/
+	/**
+	 * List of items in the gap
+	 *
+	 * List of items in the gap
+	 *
+	 * @var array
+	 */
 	var $items;
 
 	/**
-	* Indicates if the items should be shuffled in the output
-	* 
-	* @var boolean
-	*/
+	 * Indicates if the items should be shuffled in the output
+	 *
+	 * @var boolean
+	 */
 	var $shuffle;
 
-/**
-* assClozeGap constructor
-* 
-* @param string $answertext A string defining the answer text
-* @param double $points The number of points given for the selected answer
-* @param boolean $correctness A boolean value indicating the correctness of the answer
-* @param integer $order A nonnegative value representing a possible display or sort order
-* @param integer $cloze_type An integer representing the answer type
-* @access public
-*/
-	function assClozeGap($a_type)
+	/**
+	 * assClozeGap constructor
+	 *
+	 * @param int $a_type
+	 *
+	 */
+	public function assClozeGap($a_type)
 	{
 		$this->type = $a_type;
 		$this->items = array();
 		$this->shuffle = true;
 	}
-  
-/**
-* Gets the cloze gap type
-* 
-* Gets the cloze gap type
-*
-* @return integer cloze gap type
-* @access public
-* @see $type
-*/
-	function getType() 
+
+	/**
+	 * Gets the cloze gap type
+	 *
+	 * Gets the cloze gap type
+	 *
+	 * @return integer cloze gap type
+	 *
+	 * @see $type for mapping.
+	 */
+	public function getType()
 	{
 		return $this->type;
 	}
 
-/**
-* Sets the cloze gap type
-* 
-* Sets the cloze gap type
-*
-* @param integer $a_type Cloze gap type
-* @access public
-* @see $type
-*/
-  function setType($a_type = 0) 
+	/**
+	 * Sets the cloze gap type
+	 *
+	 * @param integer $a_type cloze gap type
+	 *
+	 * @see $type for mapping.
+	 */
+	public function setType($a_type = 0)
 	{
 		$this->type = $a_type;
 	}
@@ -295,41 +291,41 @@ class assClozeGap
 	}
 
 	/**
-	* Sets the shuffle state of the items
-	* 
-	* Sets the shuffle state of the items
-	*
-	* @param boolean $a_shuffle Shuffle state
-	* @access public
-	* @see $shuffle
-	*/
-	function setShuffle($a_shuffle = TRUE) 
+	 * Sets the shuffle state of the items
+	 *
+	 * Sets the shuffle state of the items
+	 *
+	 * @param boolean $a_shuffle Shuffle state
+	 */
+	public function setShuffle($a_shuffle = true)
 	{
-		$this->shuffle = $a_shuffle ? TRUE : FALSE;
+		$this->shuffle = (bool) $a_shuffle;
 	}
 
 	/**
-	* Gets the shuffle state of the items
-	* 
-	* Gets the shuffle state of the items
-	*
-	* @return boolean Shuffle state
-	* @access public
-	* @see $shuffle
-	*/
-	function getShuffle() 
+	 * Gets the shuffle state of the items
+	 *
+	 * @return boolean Shuffle state
+	 */
+	public function getShuffle()
 	{
 		return $this->shuffle;
 	}
 
 	/**
-	* Shuffles the values of a given array
-	*
-	* Shuffles the values of a given array
-	*
-	* @param array $array An array which should be shuffled
-	* @access public
-	*/
+	 * Shuffles the values of a given array
+	 *
+	 * Shuffles the values of a given array
+	 *
+	 * @param array $array An array which should be shuffled
+	 * @return array
+	 * @access public
+	 *
+	 * @TODO: Figure out why this method exists. (See note)
+	 * MBecker: PHP knows the function shuffle since 4.2 which is out
+	 * since April 2002. Still, Helmut built this function in
+	 * 2007 with rev. 13281 ... This needs investigation.
+	 */
 	function arrayShuffle($array)
 	{
 		mt_srand((double)microtime()*1000000);
@@ -444,5 +440,3 @@ class assClozeGap
 		}
 	}
 }
-
-?>
