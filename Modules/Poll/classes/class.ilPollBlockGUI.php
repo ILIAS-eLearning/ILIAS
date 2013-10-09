@@ -128,6 +128,13 @@ class ilPollBlockGUI extends ilBlockGUI
 				$this->tpl->setVariable("URL_FORM", $url);
 				$this->tpl->setVariable("CMD_FORM", "vote");
 				$this->tpl->setVariable("TXT_SUBMIT", $lng->txt("poll_vote"));		
+								
+				if($this->poll_block->getPoll()->getVotingPeriod())
+				{
+					$this->tpl->setVariable("TXT_VOTING_PERIOD",
+						sprintf($lng->txt("poll_voting_period_info"),
+							ilDatePresentation::formatDate(new ilDateTime($this->poll_block->getPoll()->getVotingPeriodEnd(), IL_CAL_UNIX))));
+				}
 			}
 
 
