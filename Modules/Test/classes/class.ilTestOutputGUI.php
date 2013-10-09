@@ -709,7 +709,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			{
 				// Something went wrong. Maybe the user pressed the start button twice
 				// Questions already exist so there is no need to create new questions
-				return;
+				return true;
 			}
 
 			if ($this->testSession->getPass() > 0)
@@ -719,7 +719,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					// This means that someone maybe reloaded the test submission page
 					// If there are no existing results for the previous test, it makes
 					// no sense to create a new set of random questions
-					return;
+					return true;
 				}
 			}
 		}
@@ -735,11 +735,16 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 			$ilias->raiseError($error, $ilErr->FATAL);
 		};
+
+		return false;
 	}
 
 	protected function generateRandomTestPassForActiveUser()
 	{
-		$this->performTearsAndAngerBrokenConfessionChecks();
+		if( $this->performTearsAndAngerBrokenConfessionChecks() )
+		{
+			return;
+		}
 
 		global $tree, $ilDB, $ilPluginAdmin;
 
