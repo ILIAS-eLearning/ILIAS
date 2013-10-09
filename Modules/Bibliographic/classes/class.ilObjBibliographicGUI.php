@@ -36,8 +36,9 @@ class ilObjBibliographicGUI extends ilObject2GUI
      */
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
-        global $lng;
-		$this->lng = $lng;
+        global $lng, $ilias;
+        $this->lng = $lng;
+        $this->ilias = $ilias;
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -155,13 +156,13 @@ class ilObjBibliographicGUI extends ilObject2GUI
     {
         global $ilTabs, $ilErr, $lng;
 
-        $ilTabs->activateTab("id_info");
+        if (!$this->checkPermissionBool("visible"))
+        {
+            ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
+            $this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
+        }
 
-	    if (!$this->checkPermissionBool("visible"))
-	    {
-            $ilErr->raiseError($lng->txt("msg_no_perm_read"));
-		    return;
-	    }
+        $ilTabs->activateTab("id_info");
 
         include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
@@ -453,7 +454,6 @@ class ilObjBibliographicGUI extends ilObject2GUI
         if($ilAccess->checkAccess('write', "", $this->object->getRefId())){
             if($this->object->getOnline() != $a_form->getInput("is_online")){
                 $this->object->setOnline($a_form->getInput("is_online"));
-                $this->object->doUpdate();
             }
         }else{
 	        ilUtil::sendFailure($this->lng->txt("no_permission"), true);

@@ -82,7 +82,6 @@ class ilObjBibliographicAccess extends ilObjectAccess
         switch ($a_cmd)
         {
             case "view":
-    //TODO:
                 if(!self::_lookupOnline($a_obj_id)
                     && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
                 {
@@ -107,7 +106,6 @@ class ilObjBibliographicAccess extends ilObjectAccess
         switch($a_permission)
         {
             case "read":
-                //TODO
             case "visible":
                 if (!self::_lookupOnline($a_obj_id) &&
                     (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)))
