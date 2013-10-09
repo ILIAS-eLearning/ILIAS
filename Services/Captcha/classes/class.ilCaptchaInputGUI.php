@@ -73,8 +73,6 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 		
 		include_once("./Services/Captcha/classes/class.ilSecurImage.php");
 		$si = new ilSecurImage();
-		$si->getSecureImageObject()->image_width = 160;
-		$si->getSecureImageObject()->image_height = 60;
 		if (!$si->check($_POST[$this->getPostVar()]))
 		{
 			if($lng instanceof ilLanguage)
