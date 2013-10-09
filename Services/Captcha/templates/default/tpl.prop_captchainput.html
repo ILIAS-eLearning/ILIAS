@@ -3,10 +3,10 @@
 		<img id="{TXT_CAPTCHA_ID}" class="iosCaptchaImage" src="{IMAGE_SCRIPT}" alt="{TXT_CAPTCHA_ALT}" />
 	</div>
 	<div class="iosCaptchaButtonContainer">
-		<object type="application/x-shockwave-flash" data="{AUDIO_SCRIPT}" width="19" height="19" title="{TXT_CAPTCHA_AUDIO_TITLE}">
+		<object class="audio" type="application/x-shockwave-flash" data="{AUDIO_SCRIPT}" title="{TXT_CAPTCHA_AUDIO_TITLE}">
 			<param name="movie" value="{AUDIO_SCRIPT}" />
 		</object>
-		<a href="#" title="{TXT_RELOAD}" onclick="document.getElementById('{TXT_CAPTCHA_ID}').src = '{IMAGE_SCRIPT}' + '?' + Math.random(); return false"><img src="{SRC_RELOAD}" alt="{TXT_RELOAD}" /></a>
+		<a class="reload" href="#" title="{TXT_RELOAD}" onclick="document.getElementById('{TXT_CAPTCHA_ID}').src = '{IMAGE_SCRIPT}' + '?' + Math.random(); return false"><img src="{SRC_RELOAD}" alt="{TXT_RELOAD}" /></a>
 	</div>
 </div>
 <div style="clear:both"></div>

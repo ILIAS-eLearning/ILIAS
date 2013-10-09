@@ -11,7 +11,7 @@
  */
 class ilSecurImageUtil
 {
-	private static $ver = "3_0_1";
+	private static $ver = "3_5_1";
 	
 	/**
 	 * Get directory
@@ -38,7 +38,7 @@ class ilSecurImageUtil
 	 */
 	public static function getAudioScript()
 	{
-		return self::getDirectory() . '/securimage_play.swf?audio_file=' . self::getDirectory(). '/il_securimage_play.php';
+		return self::getDirectory() . '/securimage_play.swf?audio_file=' . self::getDirectory(). '/il_securimage_play.php&amp;icon_file=' . ilUtil::getImagePath('amarok.png');
 	}
 	
 	/**

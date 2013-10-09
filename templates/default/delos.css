@@ -4111,17 +4111,35 @@ td.legendColorBox, td.legendLabel {
 }
 
 div.iosCaptcha {
-	float:left;
 }
 
 div.iosCaptchaImageContainer {
-	float:left;
 }
 
 div.iosCaptchaButtonContainer {
-	float:left;
-	text-align: center;
-	width: 40px;
+	margin: 10px 0 0 0;
+}
+
+div.iosCaptchaButtonContainer .reload {
+	width: 19px;
+	height: 19px !important;
+	font-size: 100%;
+	vertical-align: top;
+	margin: 0;
+	padding: 0;
+}
+
+div.iosCaptchaButtonContainer .reload img {
+	width: 19px;
+	height: 19px;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+
+div.iosCaptchaButtonContainer .audio {
+	width: 19px;
+	height: 19px;
 }
 
 input.iosCaptchaInput {
