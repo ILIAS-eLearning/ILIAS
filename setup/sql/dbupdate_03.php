@@ -18950,3 +18950,31 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_qpls') )
 	$ilDB->query("UPDATE sahs_lm SET auto_suspend = 'n'");
 }
 ?>
+<#4121>
+<?php
+if(!$ilDB->tableColumnExists('sahs_user','first_access'))
+{
+	$ilDB->addTableColumn(
+		'sahs_user',
+		'first_access',
+		array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	);
+}
+?>
+<#4122>
+<?php
+if(!$ilDB->tableColumnExists('sahs_user','last_status_change'))
+{
+	$ilDB->addTableColumn(
+		'sahs_user',
+		'last_status_change',
+		array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	);
+}
+?>
