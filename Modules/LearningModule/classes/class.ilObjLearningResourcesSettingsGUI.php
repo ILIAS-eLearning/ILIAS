@@ -186,6 +186,13 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($lm_set->get("scormdebug_global_activate"));
 		$form->addItem($cb_prop);
 
+		// scorm2004 login instead of userId for cmi.learner_id
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("scorm_login_as_learner_id"),
+			"scorm_login_as_learner_id");
+		$cb_prop->setInfo($lng->txt("scorm_login_as_learner_id_info"));
+		$cb_prop->setChecked($lm_set->get("scorm_login_as_learner_id"));
+		$form->addItem($cb_prop);
+
 		// scorm2004 disableRTECaching
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("scormdebug_disable_cache"),
 			"scormdebug_disable_cache");
@@ -233,6 +240,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 			ilUtil::stripSlashes($_POST["cont_upload_dir"]));
 		$lm_set->setScormDebug("scormdebug_global_activate",
 			ilUtil::stripSlashes($_POST["scormdebug_global_activate"]));
+		$lm_set->set("scorm_login_as_learner_id",
+			ilUtil::stripSlashes($_POST["scorm_login_as_learner_id"]));
 		$lm_set->set("scormdebug_disable_cache",
 			ilUtil::stripSlashes($_POST["scormdebug_disable_cache"]));
 		$lm_set->set("scorm_without_session",

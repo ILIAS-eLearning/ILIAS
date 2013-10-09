@@ -2557,7 +2557,7 @@ function load()
 			{
 				globalAct[remoteMapping['package'][i]] = row[i];
 			}
-			globalAct.learner_id = globalAct.user_id;
+//			globalAct.learner_id = globalAct.user_id; //TODO UK check
 		}
 	}
 	
