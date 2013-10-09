@@ -14004,3 +14004,4 @@ common#:#captcha_code#:#Benutzerverifikation
 common#:#captcha_code_info#:#Bitte geben Sie die Zeichen aus der Grafik in das Textfeld ein.
 administration#:#adm_captcha_anonymous_short#:#Captcha
 poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
+common#:#captcha_code_reload#:#Bild erneut laden

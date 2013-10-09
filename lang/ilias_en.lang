@@ -14026,3 +14026,4 @@ common#:#captcha_code#:#User Verification
 common#:#captcha_code_info#:#Please type in the letters you see in the image.
 administration#:#adm_captcha_anonymous_short#:#Captcha
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s
+common#:#captcha_code_reload#:#Reload Captcha

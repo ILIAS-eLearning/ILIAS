@@ -32,6 +32,14 @@ class ilSecurImageUtil
 	{
 		return self::getDirectory()."/il_securimage_show.php";
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function getAudioScript()
+	{
+		return self::getDirectory() . '/securimage_play.swf?audio_file=' . self::getDirectory(). '/il_securimage_play.php';
+	}
 	
 	/**
 	 * Inlcude securimage script
