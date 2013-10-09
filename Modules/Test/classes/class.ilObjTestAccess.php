@@ -405,49 +405,22 @@ class ilObjTestAccess extends ilObjectAccess
 	{
 		global $ilDB;
 		
-		$test_id = ilObjTestAccess::_getTestIDFromObjectID($a_obj_id);
-		$result = $ilDB->queryF("SELECT tst_mark.*, tst_tests.* FROM tst_tests, tst_mark WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = %s",
-			array('integer'),
-			array($test_id)
-		);
-		$found = $result->numRows();
-		if ($found)
+		$query = "
+			SELECT tst_tests.complete
+			FROM object_data
+			INNER JOIN tst_tests
+			ON tst_tests.obj_fi = object_data.obj_id
+			WHERE object_data.obj_id = %s
+		";
+
+		$res = $ilDB->queryF($query, array('integer'), array($a_obj_id));
+
+		while( $row = $ilDB->fetchAssoc($res) )
 		{
-			$row = $ilDB->fetchAssoc($result);
-			// check for at least: title, author and minimum of 1 mark step
-			if ((strlen($row["title"])) &&
-				(strlen($row["author"])) &&
-				($found))
-			{
-				// check also for minmum of 1 question
-				if (ilObjTestAccess::_getQuestionCount($test_id) > 0)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			else
-			{
-				return false;
-			}
+			return (bool)$row['complete'];
 		}
-		else
-		{
-			return false;
-		}
-		$test = new ilObjTest($obj_id, false);
-		$test->loadFromDb();
-		if (($test->getTitle()) and ($test->author) and (count($test->mark_schema->mark_steps)) and (count($test->questions)))
-		{
-			return true;
-		} 
-			else 
-		{
-			return false;
-		}
+
+		return false;
 	}
 	
 	/**
@@ -489,51 +462,7 @@ class ilObjTestAccess extends ilObjectAccess
 		$row = $ilDB->fetchAssoc($result);
 		return $row["obj_fi"];
 	}
-	
-/**
-* Calculates the number of questions in a test
-*
-* @return int The number of questions in the test
-* @access public
-*/
-function _getQuestionCount($test_id)
-{
-	global $ilDB;
 
-	$num = 0;
-
-	$test =& ilObjTestAccess::_getTestData($test_id);
-
-	if ($test["random_test"] == 1)
-	{
-		if ($test["random_question_count"] > 0)
-		{
-			$num = $test["random_question_count"];
-		}
-		else
-		{
-			$result = $ilDB->queryF("SELECT SUM(num_of_q) questioncount FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
-				array('integer'),
-				array($test_id)
-			);
-			if ($result->numRows())
-			{
-				$row = $ilDB->fetchAssoc($result);
-				$num = $row["questioncount"];
-			}
-		}
-	}
-	else
-	{
-		$result = $ilDB->queryF("SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
-			array('integer'),
-			array($test_id)
-		);
-		$num = $result->numRows();
-	}
-	return $num;
-}
-	
 	/**
 	* Get all tests using a question pool for random selection
 	*
@@ -545,14 +474,15 @@ function _getQuestionCount($test_id)
 	{
 		global $ilDB;
 	
-		$query = 'SELECT DISTINCT t.obj_fi '
-				.'FROM tst_tests t '
-				.'INNER JOIN tst_test_random r '
-				.'ON t.test_id = r.test_fi '
-				.'WHERE r.questionpool_fi = '
-				. $ilDB->quote($qpl_id, 'integer');
+		$query = "
+			SELECT DISTINCT t.obj_fi
+			FROM tst_tests t
+			INNER JOIN tst_rnd_quest_set_qpls r
+			ON t.test_id = r.test_fi
+			WHERE r.pool_fi = %s
+		";
 	
-		$result = $ilDB->query($query);
+		$result = $ilDB->queryF($query, array('integer'), array($qpl_id));
 	
 		$tests = array();
 		while ($row = $ilDB->fetchAssoc($result))

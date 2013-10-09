@@ -674,7 +674,7 @@ class ilObjTest extends ilObject
 */
 	function deleteTest()
 	{
-		global $ilDB;
+		global $tree, $ilDB, $pluginAdmin;
 		
 		// first of all remove all test editings, because the delete statements used for this
 		// contain a subquery for active ids, that are deleted in the next steps
@@ -716,45 +716,14 @@ class ilObjTest extends ilObject
 			array($this->getTestId())
 		);
 
-		$result = $ilDB->queryF("SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$this->removeQuestion($row["question_fi"]);
-		}
-
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_tests WHERE test_id = %s",
 			array('integer'),
 			array($this->getTestId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_random WHERE test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-
-		// this delete is allready done by call to removeAllTestEditings some lines above
-		/*$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst WHERE tst_test_rnd_qst.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
-			array('integer'),
-			array($this->getTestId())
-		);*/
-
-		// moved to top of this method because this method performs delete statements,
-		// that use a subquery for active ids, that are allready deleted some lines above
-		//$this->removeAllTestEditings();
-
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-
-		if ($this->isRandomTest())
-		{
-			$this->removeDuplicatedQuestionpools();
-		}
-
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $pluginAdmin, $this);
+		$testQuestionSetConfigFactory->getQuestionSetConfig()->removeQuestionSetRelatedData();
 
 		// delete export files
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -6714,37 +6683,6 @@ function getAnswerFeedbackPoints()
 		return $result_array;
 	}
 
-/**
-* Duplicates the source random questionpools for another test
-*
-* @param integer $new_id Test id of the new test which should take the random questionpools
-* @access public
-*/
-	function cloneRandomQuestions($new_id)
-	{
-		global $ilDB;
-
-		if ($new_id > 0)
-		{
-			$result = $ilDB->queryF("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY sequence, test_random_id",
-				array('integer'),
-				array($this->getTestId())
-			);
-			if ($result->numRows())
-			{
-				while ($row = $ilDB->fetchAssoc($result))
-				{
-					$next_id = $ilDB->nextId('tst_test_random');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp, sequence) VALUES (%s, %s, %s, %s, %s, %s)",
-						array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-						array($next_id, $new_id, $row["questionpool_fi"], $row["num_of_q"], time(), $row['sequence'])
-					);
-				}
-			}
-		}
-	}
-	
-	
 	/**
 	* Clone object
 	*
@@ -6755,7 +6693,7 @@ function getAnswerFeedbackPoints()
 	*/
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilLog;
+		global $ilLog, $tree, $ilDB, $pluginAdmin;
 
 		$this->loadFromDb();
 
@@ -6790,7 +6728,6 @@ function getAnswerFeedbackPoints()
 		$newObj->setPassScoring($this->getPassScoring());
 		$newObj->setPassword($this->getPassword());
 		$newObj->setProcessingTime($this->getProcessingTime());
-		$newObj->setRandomQuestionCount($this->getRandomQuestionCount());
 		$newObj->setQuestionSetType($this->getQuestionSetType());
 		$newObj->setReportingDate($this->getReportingDate());
 		$newObj->setResetProcessingTime($this->getResetProcessingTime());
@@ -6827,34 +6764,11 @@ function getAnswerFeedbackPoints()
 		$cert = new ilCertificate(new ilTestCertificateAdapter($this));
 		$newcert = new ilCertificate(new ilTestCertificateAdapter($newObj));
 		$cert->cloneCertificate($newcert);
-		
-		if ($this->isRandomTest())
-		{
-			$newObj->saveRandomQuestionCount($newObj->getRandomQuestionCount());
-			$this->cloneRandomQuestions($newObj->getTestId());
-		}
-		else
-		{
-			include_once("./Services/CopyWizard/classes/class.ilCopyWizardOptions.php");
-			$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
-			
-			// clone the questions
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			foreach ($this->questions as $key => $question_id)
-			{
-				$question = ilObjTest::_instanciateQuestion($question_id);
-				$newObj->questions[$key] = $question->duplicate(true, null, null, null, $newObj->getId());
-				$original_id = assQuestion::_getOriginalId($question_id);
-				$question = ilObjTest::_instanciateQuestion($newObj->questions[$key]);
-				$question->saveToDb($original_id);
-				
-				// Save the mapping of old question id <-> new question id
-				// This will be used in class.ilObjCourse::cloneDependencies to copy learning objectives
-				$cwo->appendMapping($this->getRefId().'_'.$question_id,$newObj->getRefId().'_'.$newObj->questions[$key]);
-				$ilLog->write(__METHOD__.': Added mapping '.$this->getRefId().'_'.$question_id.' <-> ' .
-						$newObj->getRefId().'_'.$newObj->questions[$key]);
-			}
-		}
+
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $pluginAdmin, $this);
+		$testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj->getTestId());
+
 		$newObj->saveToDb();
 		return $newObj;
 	}
