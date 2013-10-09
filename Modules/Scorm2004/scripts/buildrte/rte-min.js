@@ -1,4 +1,4 @@
-// Build: 2013705172242 
+// Build: 20131009234614 
 
 function ADLAuxiliaryResource()
 {}
@@ -2813,8 +2813,7 @@ function load()
 {remoteMapping[k][remoteMapping[k][i]]=i;}}
 while((row=cmi.data['package'].pop()))
 {for(i=remoteMapping['package'].length;i--;)
-{globalAct[remoteMapping['package'][i]]=row[i];}
-globalAct.learner_id=globalAct.user_id;}}
+{globalAct[remoteMapping['package'][i]]=row[i];}}}
 for(i=cmi.data.node.length;i--;)
 {row=cmi.data.node[i];act=activitiesByCAM[row[remoteMapping.node.cp_node_id]];for(j=remoteMapping.node.length;j--;)
 {if(row[j]===null){continue;}

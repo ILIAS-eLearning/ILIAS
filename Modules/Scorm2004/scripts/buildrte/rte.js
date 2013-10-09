@@ -1,4 +1,4 @@
-// Build: 2013705172242 
+// Build: 20131009234614 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13337,7 +13337,7 @@ function load()
 			{
 				globalAct[remoteMapping['package'][i]] = row[i];
 			}
-			globalAct.learner_id = globalAct.user_id;
+//			globalAct.learner_id = globalAct.user_id; //TODO UK check
 		}
 	}
 	
