@@ -16,7 +16,7 @@ class ilTestQuestionSetConfigFactory
 	 *
 	 * @var ilTestQuestionSetConfig
 	 */
-	private static $testQuestionSetConfig = null;
+	private $testQuestionSetConfig = null;
 	
 	/**
 	 * global $tree object instance
@@ -78,14 +78,14 @@ class ilTestQuestionSetConfigFactory
 	 */
 	public function getQuestionSetConfigByType($questionSetType)
 	{
-		if(self::$testQuestionSetConfig === null)
+		if($this->testQuestionSetConfig === null)
 		{
 			switch( $questionSetType )
 			{
 				case ilObjTest::QUESTION_SET_TYPE_FIXED:
 
 					require_once 'Modules/Test/classes/class.ilTestFixedQuestionSetConfig.php';
-					self::$testQuestionSetConfig = new ilTestFixedQuestionSetConfig(
+					$this->testQuestionSetConfig = new ilTestFixedQuestionSetConfig(
 							$this->tree, $this->db, $this->pluginAdmin, $this->testOBJ
 					);
 					break;
@@ -93,7 +93,7 @@ class ilTestQuestionSetConfigFactory
 				case ilObjTest::QUESTION_SET_TYPE_RANDOM:
 
 					require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
-					self::$testQuestionSetConfig = new ilTestRandomQuestionSetConfig(
+					$this->testQuestionSetConfig = new ilTestRandomQuestionSetConfig(
 							$this->tree, $this->db, $this->pluginAdmin, $this->testOBJ
 					);
 					break;
@@ -101,15 +101,15 @@ class ilTestQuestionSetConfigFactory
 				case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
 
 					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-					self::$testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
+					$this->testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
 							$this->tree, $this->db, $this->pluginAdmin, $this->testOBJ
 					);
 					break;
 			}
-			
-			self::$testQuestionSetConfig->loadFromDb();
+
+			$this->testQuestionSetConfig->loadFromDb();
 		}
 
-		return self::$testQuestionSetConfig;
+		return $this->testQuestionSetConfig;
 	}
 }

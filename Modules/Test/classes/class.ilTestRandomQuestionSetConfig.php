@@ -257,7 +257,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	 */
 	private function insertDbRecord($testId)
 	{
-		$this->db->insert('tst_dyn_quest_set_cfg', array(
+		$this->db->insert('tst_rnd_quest_set_cfg', array(
 			'test_fi' => array('integer', $testId),
 			'req_pools_homo_scored' => array('integer', $this->arePoolsWithHomogeneousScoredQuestionsRequired()),
 			'quest_amount_cfg_mode' => array('text', $this->getQuestionAmountConfigurationMode()),

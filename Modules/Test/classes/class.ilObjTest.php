@@ -6767,7 +6767,7 @@ function getAnswerFeedbackPoints()
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
-		$testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj->getTestId());
+		$testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj);
 
 		$newObj->saveToDb();
 		return $newObj;
