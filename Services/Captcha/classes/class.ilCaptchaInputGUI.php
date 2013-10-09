@@ -103,12 +103,18 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 
 		include_once("./Services/Captcha/classes/class.ilSecurImageUtil.php");
 		$tpl->setVariable("IMAGE_SCRIPT", ilSecurImageUtil::getImageScript());
+		$tpl->setVariable("TXT_CAPTCHA_ALT", $lng->txt("captcha_alt_txt"));
+
 		$tpl->setVariable("AUDIO_SCRIPT", ilSecurImageUtil::getAudioScript());
 		$tpl->setVariable("SRC_RELOAD", ilSecurImageUtil::getDirectory() . '/images/refresh.png');
+		$tpl->setVariable("TXT_RELOAD", $lng->txt("captcha_code_reload"));
+		
+		$tpl->setVariable("TXT_CAPTCHA_AUDIO_TITLE", $lng->txt("captcha_audio_title"));
 		
 		$tpl->setVariable("POST_VAR", $this->getPostVar());
 		$tpl->setVariable("TXT_CONSTR_PROP", $lng->txt("cont_constrain_proportions"));
-		$tpl->setVariable("TXT_NEW_IMAGE", $lng->txt("captcha_code_reload"));
+		
+		
 		
 //		$GLOBALS["tpl"]->addJavascript("./Services/MediaObjects/js/ServiceMediaObjectPropWidthHeight.js");
 
