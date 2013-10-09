@@ -48,6 +48,14 @@ class ilSecurImage
 		chdir(ilSecurImageUtil::getDirectory());
 		$this->securimage->show();
 	}
-	
+
+	/**
+	 * 
+	 */
+	public function outputAudioFile()
+	{
+		chdir(ilSecurImageUtil::getDirectory());
+		$this->securimage->outputAudioFile();
+	}
 }
 ?>

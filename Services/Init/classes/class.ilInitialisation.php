@@ -1327,6 +1327,7 @@ class ilInitialisation
 		if($a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
 			$a_current_script == "confirmReg.php" ||
+			$a_current_script == "il_securimage_play.php" ||
 			$a_current_script == "il_securimage_show.php") 
 		{
 			return true;
