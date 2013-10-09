@@ -18933,3 +18933,20 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_qpls') )
 	$ilDB->dropTable('tst_test_random');
 }
 ?>
+<#4120>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','auto_suspend'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'auto_suspend',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'n'
+			)
+		);
+	$ilDB->query("UPDATE sahs_lm SET auto_suspend = 'n'");
+}
+?>
