@@ -1735,7 +1735,7 @@ class ilObjTest extends ilObject
 				// Questions already exist so there is no need to create new questions
 				return;
 			}
-			if ($pass > 0)
+			if (false && $pass > 0) // fixed mantis #9221
 			{
 				if ($this->getNrOfResultsForPass($active_id, $pass - 1) == 0)
 				{

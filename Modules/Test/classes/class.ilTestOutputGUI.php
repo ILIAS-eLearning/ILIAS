@@ -1085,11 +1085,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$_SESSION['tst_pass_finish'] = 0;
 				$this->object->createTestSession();
 				$active_id = $this->object->getTestSession()->getActiveId();
-				
-				assQuestion::_updateTestPassResults(
-						$active_id, $this->object->getTestSession()->getPass(), $this->object->areObligationsEnabled()
-				);
-				
 				$this->ctrl->setParameter($this, "active_id", $active_id);
 				$shuffle = $this->object->getShuffleQuestions();
 				if ($this->object->isRandomTest())
@@ -1098,6 +1093,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 					$this->object->loadQuestions();
 					$shuffle = FALSE; // shuffle is already done during the creation of the random questions
 				}
+
+				assQuestion::_updateTestPassResults(
+					$active_id, $this->object->getTestSession()->getPass(), $this->object->areObligationsEnabled()
+				);
+
 				$this->object->createTestSequence($active_id, 0, $shuffle);
 				$active_time_id = $this->object->startWorkingTime($this->object->getTestSession()->getActiveId(), $this->object->getTestSession()->getPass());
 				$_SESSION["active_time_id"] = $active_time_id;
@@ -1132,6 +1132,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				{
 					$shuffle = FALSE;
 				}
+
+				assQuestion::_updateTestPassResults(
+					$active_id, $this->object->getTestSession()->getPass(), $this->object->areObligationsEnabled()
+				);
+
 				$this->object->createTestSequence($active_id, $this->object->getTestSession()->getPass(), $shuffle);
 
 				$this->sequence = $this->object->getTestSession()->getLastSequence();
