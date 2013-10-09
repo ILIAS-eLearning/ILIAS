@@ -13002,3 +13002,4 @@ survey#:#survey_notification_tutor_link#:#Link to Survey
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
 crs#:#crs_passed_status_system#:#System
 crs#:#crs_passed_status_manual_by#:#Manual by
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s
