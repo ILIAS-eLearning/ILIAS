@@ -171,48 +171,66 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		
 		return $this->insertDbRecord($this->testOBJ->getTestId());
 	}
-	
+
+	/**
+	 * saves the question set config for test with given id to the database
+	 *
+	 * @param $testId
+	 */
+	public function saveToDbByTestId($testId)
+	{
+		if( $this->dbRecordExists($testId) )
+		{
+			$this->updateDbRecord($testId);
+		}
+		else
+		{
+			$this->insertDbRecord($testId);
+		}
+	}
+
 	/**
 	 * deletes the question set config for current test from the database
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function deleteFromDb()
 	{
 		$aff = $this->db->manipulateF(
-				"DELETE FROM tst_dyn_quest_set_cfg WHERE test_fi = %s",
-				array('integer'), array($this->testOBJ->getTestId())
+			"DELETE FROM tst_dyn_quest_set_cfg WHERE test_fi = %s",
+			array('integer'), array($this->testOBJ->getTestId())
 		);
-		
+
 		return (bool)$aff;
 	}
-	
+
 	/**
 	 * checks wether a question set config for current test exists in the database
-	 * 
+	 *
+	 * @param $testId
 	 * @return boolean
 	 */
-	private function dbRecordExists()
+	private function dbRecordExists($testId)
 	{
 		$res = $this->db->queryF(
 			"SELECT COUNT(*) cnt FROM tst_dyn_quest_set_cfg WHERE test_fi = %s",
-			array('integer'), array($this->testOBJ->getTestId())
+			array('integer'), array($testId)
 		);
 		
 		$row = $this->db->fetchAssoc($res);
 		
 		return (bool)$row['cnt'];
 	}
-	
+
 	/**
 	 * updates the record in the database that corresponds
 	 * to the question set config for the current test
-	 * 
-	 * @return boolean
+	 *
+	 * @param $testId
 	 */
-	private function updateDbRecord()
+	private function updateDbRecord($testId)
 	{
-		$aff = $this->db->update('tst_dyn_quest_set_cfg',
+		$this->db->update('tst_dyn_quest_set_cfg',
 			array(
 				'source_qpl_fi' => array('integer', $this->getSourceQuestionPoolId()),
 				'source_qpl_title' => array('text', $this->getSourceQuestionPoolTitle()),
@@ -220,30 +238,26 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 				'order_tax' => array('integer', $this->getOrderingTaxonomyId())
 			),
 			array(
-				'test_fi' => array('integer', $this->testOBJ->getTestId())
+				'test_fi' => array('integer', $testId)
 			)
 		);
-		
-		return (bool)$aff;
 	}
-	
+
 	/**
 	 * inserts a new record for the question set config
 	 * for the current test into the database
-	 * 
-	 * @return boolean
+	 *
+	 * @param $testId
 	 */
-	private function insertDbRecord()
+	private function insertDbRecord($testId)
 	{
-		$aff = $this->db->insert('tst_dyn_quest_set_cfg', array(
-				'test_fi' => array('integer', $this->testOBJ->getTestId()),
+		$this->db->insert('tst_dyn_quest_set_cfg', array(
+				'test_fi' => array('integer', $testId),
 				'source_qpl_fi' => array('integer', $this->getSourceQuestionPoolId()),
 				'source_qpl_title' => array('text', $this->getSourceQuestionPoolTitle()),
 				'tax_filter_enabled' => array('integer', $this->isTaxonomyFilterEnabled()),
 				'order_tax' => array('integer', $this->getOrderingTaxonomyId())
 		));
-		
-		return (bool)$aff;
 	}
 	
 	/**
@@ -274,7 +288,18 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		$this->deleteFromDb();
 	}
-	
+
+	/**
+	 * removes all question set config related data for cloned/copied test
+	 *
+	 * @param ilObjTest $cloneTestOBJ
+	 */
+	public function cloneQuestionSetRelatedData($cloneTestOBJ)
+	{
+		$this->loadFromDb();
+		$this->saveToDbByTestId($cloneTestOBJ->getTestId());
+	}
+
 	/**
 	 * @param ilLanguage $lng
 	 * @param ilTree $tree

@@ -1532,14 +1532,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				); 
 			}		
 
-			// tst_tests -> nothing to do
-			
-			// tst_test_defaults -> nothing to do
-			
-			// tst_test_question -> nothing to do
-			
-			// tst_test_random -> nothing to do
-			
 			// tst_test_result
 			$ilDB->manipulate(
 				'DELETE

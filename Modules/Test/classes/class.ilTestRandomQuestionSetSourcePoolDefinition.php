@@ -206,55 +206,46 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 		
 		return false;
 	}
-	
-	/**
-	 * @return boolean
-	 */
+
 	public function saveToDb()
 	{
 		if( $this->getId() )
 		{
-			return $this->updateDbRecord();
+			$this->updateDbRecord($this->testOBJ->getTestId());
 		}
-		
-		return $this->insertDbRecord();
+		else
+		{
+			$this->insertDbRecord($this->testOBJ->getTestId());
+		}
 	}
-	
-	/**
-	 * @return integer
-	 */
+
+	public function saveToDbByTestId($testId)
+	{
+		if( $this->getId() )
+		{
+			$this->updateDbRecord($testId);
+		}
+		else
+		{
+			$this->insertDbRecord($testId);
+		}
+	}
+
 	public function deleteFromDb()
 	{
-		$aff = $this->db->manipulateF(
+		$this->db->manipulateF(
 				"DELETE FROM tst_rnd_quest_set_qpls WHERE def_id = %s", array('integer'), array($this->getId())
 		);
-		
-		return $aff;
 	}
-	
+
 	/**
-	 * @return boolean
+	 * @param $testId
 	 */
-	private function dbRecordExists()
-	{
-		$res = $this->db->queryF(
-			"SELECT COUNT(*) cnt FROM tst_rnd_quest_set_qpls WHERE test_fi = %s AND pool_fi = %s",
-			array('integer', 'integer'), array($this->testOBJ->getTestId(), $this->getPoolId())
-		);
-		
-		$row = $this->db->fetchAssoc($res);
-		
-		return (bool)$row['cnt'];
-	}
-	
-	/**
-	 * @return integer
-	 */
-	private function updateDbRecord()
+	private function updateDbRecord($testId)
 	{
 		$this->db->update('tst_rnd_quest_set_qpls',
 			array(
-				'test_fi' => array('integer', $this->testOBJ->getTestId()),
+				'test_fi' => array('integer', $testId),
 				'pool_fi' => array('integer', $this->getPoolId()),
 				'pool_title' => array('text', $this->getPoolTitle()),
 				'pool_path' => array('text', $this->getPoolPath()),
@@ -271,17 +262,17 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 			)
 		);
 	}
-	
+
 	/**
-	 * @return boolean
+	 * @param $testId
 	 */
-	private function insertDbRecord()
+	private function insertDbRecord($testId)
 	{
 		$nextId = $this->db->nextId('tst_rnd_quest_set_qpls');
 
 		$this->db->insert('tst_rnd_quest_set_qpls', array(
 				'def_id' => array('integer', $nextId),
-				'test_fi' => array('integer', $this->testOBJ->getTestId()),
+				'test_fi' => array('integer', $testId),
 				'pool_fi' => array('integer', $this->getPoolId()),
 				'pool_title' => array('text', $this->getPoolTitle()),
 				'pool_path' => array('text', $this->getPoolPath()),

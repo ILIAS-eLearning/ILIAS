@@ -70,8 +70,19 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	{
 		foreach($this as $sourcePoolDefinition)
 		{
+			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
 			$sourcePoolDefinition->saveToDb();
 		}
+	}
+
+	public function saveDefinitionsByTestId($testId)
+	{
+		foreach($this as $definition)
+		{
+			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
+			$definition->saveToDbByTestId($testId);
+		}
+
 	}
 
 	public function deleteDefinitions()

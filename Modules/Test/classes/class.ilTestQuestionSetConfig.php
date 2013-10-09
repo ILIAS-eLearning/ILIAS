@@ -64,6 +64,13 @@ abstract class ilTestQuestionSetConfig
 	abstract public function saveToDb();
 
 	/**
+	 * saves the question set config for test with given id to the database
+	 *
+	 * @param $testId
+	 */
+	abstract public function saveToDbByTestId($testId);
+
+	/**
 	 * deletes the question set config for current test from the database
 	 */
 	abstract public function deleteFromDb();
@@ -99,6 +106,13 @@ abstract class ilTestQuestionSetConfig
 	 * removes all question set config related data
 	 */
 	abstract public function removeQuestionSetRelatedData();
+
+	/**
+	 * removes all question set config related data for cloned/copied test
+	 *
+	 * @param ilObjTest $cloneTestOBJ
+	 */
+	abstract public function cloneQuestionSetRelatedData($cloneTestOBJ);
 	
 	/**
 	 * @param integer $poolId

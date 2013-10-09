@@ -170,16 +170,33 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	 */
 	public function saveToDb()
 	{
-		if( $this->dbRecordExists() )
+		if( $this->dbRecordExists($this->testOBJ->getTestId()) )
 		{
-			$this->updateDbRecord();
+			$this->updateDbRecord($this->testOBJ->getTestId());
 		}
 		else
 		{
-			$this->insertDbRecord();
+			$this->insertDbRecord($this->testOBJ->getTestId());
 		}
 	}
-	
+
+	/**
+	 * saves the question set config for test with given id to the database
+	 *
+	 * @param $testId
+	 */
+	public function saveToDbByTestId($testId)
+	{
+		if( $this->dbRecordExists($testId) )
+		{
+			$this->updateDbRecord($testId);
+		}
+		else
+		{
+			$this->insertDbRecord($testId);
+		}
+	}
+
 	/**
 	 * deletes the question set config for current test from the database
 	 */
@@ -190,29 +207,34 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 				array('integer'), array($this->testOBJ->getTestId())
 		);
 	}
-	
+
+	// -----------------------------------------------------------------------------------------------------------------
+
 	/**
 	 * checks wether a question set config for current test exists in the database
-	 * 
+	 *
+	 * @param $testId
 	 * @return boolean
 	 */
-	private function dbRecordExists()
+	private function dbRecordExists($testId)
 	{
 		$res = $this->db->queryF(
 			"SELECT COUNT(*) cnt FROM tst_rnd_quest_set_cfg WHERE test_fi = %s",
-			array('integer'), array($this->testOBJ->getTestId())
+			array('integer'), array($testId)
 		);
 		
 		$row = $this->db->fetchAssoc($res);
 		
 		return (bool)$row['cnt'];
 	}
-	
+
 	/**
 	 * updates the record in the database that corresponds
 	 * to the question set config for the current test
+	 *
+	 * @param $testId
 	 */
-	private function updateDbRecord()
+	private function updateDbRecord($testId)
 	{
 		$this->db->update('tst_rnd_quest_set_cfg',
 			array(
@@ -222,7 +244,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 				'quest_sync_timestamp' => array('integer', $this->getLastQuestionSyncTimestamp())
 			),
 			array(
-				'test_fi' => array('integer', $this->testOBJ->getTestId())
+				'test_fi' => array('integer', $testId)
 			)
 		);
 	}
@@ -230,11 +252,13 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	/**
 	 * inserts a new record for the question set config
 	 * for the current test into the database
+	 *
+	 * @param $testId
 	 */
-	private function insertDbRecord()
+	private function insertDbRecord($testId)
 	{
 		$this->db->insert('tst_dyn_quest_set_cfg', array(
-			'test_fi' => array('integer', $this->testOBJ->getTestId()),
+			'test_fi' => array('integer', $testId),
 			'req_pools_homo_scored' => array('integer', $this->arePoolsWithHomogeneousScoredQuestionsRequired()),
 			'quest_amount_cfg_mode' => array('text', $this->getQuestionAmountConfigurationMode()),
 			'quest_amount_per_test' => array('integer', $this->getQuestionAmountPerTest()),
@@ -313,7 +337,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	
 	public function doesQuestionSetRelatedDataExist()
 	{
-		if( $this->dbRecordExists() )
+		if( $this->dbRecordExists($this->testOBJ->getTestId()) )
 		{
 			return true;
 		}
@@ -342,6 +366,24 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
 		$this->deleteFromDb();
 	}
+
+	/**
+	 * removes all question set config related data for cloned/copied test
+	 *
+	 * @param ilObjTest $cloneTestOBJ
+	 */
+	public function cloneQuestionSetRelatedData($cloneTestOBJ)
+	{
+		$this->loadFromDb();
+		$this->saveToDbByTestId($cloneTestOBJ->getTestId());
+
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
+		$sourcePoolDefinitionList->loadDefinitions();
+		$sourcePoolDefinitionList->saveDefinitionsByTestId($cloneTestOBJ->getTestId());
+
+		// TODO: implement cloning of staging pool and taxonomies (wasn't implemented all the time ^^)
+	}
+
 
 	private function buildSourcePoolDefinitionList()
 	{
