@@ -253,11 +253,6 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->testSession->saveToDb();
 				
 				$active_id = $this->testSession->getActiveId();
-				
-				assQuestion::_updateTestPassResults(
-						$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled()
-				);
-				
 				$this->ctrl->setParameter($this, "active_id", $active_id);
 				$shuffle = $this->object->getShuffleQuestions();
 				if ($this->object->isRandomTest())
@@ -266,6 +261,10 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					$this->object->loadQuestions();
 					$shuffle = FALSE; // shuffle is already done during the creation of the random questions
 				}
+
+				assQuestion::_updateTestPassResults(
+					$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled()
+				);
 
 				// ensure existing test sequence
 				if( !$this->testSequence->hasSequence() )
@@ -307,6 +306,10 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				{
 					$shuffle = FALSE;
 				}
+
+				assQuestion::_updateTestPassResults(
+					$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled()
+				);
 
 				// ensure existing test sequence
 				if( !$this->testSequence->hasSequence() )
@@ -710,17 +713,6 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				// Something went wrong. Maybe the user pressed the start button twice
 				// Questions already exist so there is no need to create new questions
 				return true;
-			}
-
-			if ($this->testSession->getPass() > 0)
-			{
-				if ($this->object->getNrOfResultsForPass($this->testSession->getActiveId(), $this->testSession->getPass() - 1) == 0)
-				{
-					// This means that someone maybe reloaded the test submission page
-					// If there are no existing results for the previous test, it makes
-					// no sense to create a new set of random questions
-					return true;
-				}
 			}
 		}
 		else
