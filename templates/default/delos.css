@@ -4109,6 +4109,22 @@ td.legendColorBox, td.legendLabel {
 	padding: 3px;
 }
 
+div.iosCaptcha {
+	width: 160px;
+	margin: 0 auto;
+	position: relative;
+}
+
+div.iosCaptchaButtonContainer {
+	position: absolute;
+	top: 0;
+	right: -50px;
+	width: 32px;
+}
+
+input.iosCaptchaInput {
+	margin: 10px 0;
+}
 
 /* basic responsiveness (beta)
 
