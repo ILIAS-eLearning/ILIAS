@@ -473,14 +473,14 @@ abstract class assQuestionGUI
 			}
 			elseif ($_GET["test_ref_id"])
 			{
-				global $tree, $ilDB;
+				global $tree, $ilDB, $ilPluginAdmin;
 				
 				include_once ("./Modules/Test/classes/class.ilObjTest.php");
 				$_GET["ref_id"] = $_GET["test_ref_id"];
 				$test =& new ilObjTest($_GET["test_ref_id"], true);
 				
 				require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-				$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+				$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
 				$test->insertQuestion( $testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId() );
 				
