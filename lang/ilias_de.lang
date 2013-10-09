@@ -14003,3 +14003,4 @@ form#:#email_not_match#:#Ihre Eingaben für die E-Mail-Adresse stimmen nicht üb
 common#:#captcha_code#:#Benutzerverifikation
 common#:#captcha_code_info#:#Bitte geben Sie die Zeichen aus der Grafik in das Textfeld ein.
 administration#:#adm_captcha_anonymous_short#:#Captcha
+poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
