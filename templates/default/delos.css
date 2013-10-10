@@ -4117,11 +4117,15 @@ div.iosCaptcha {
 div.iosCaptchaImageContainer {
 }
 
-div.iosCaptchaButtonContainer {
+div.iosCaptchaInfoContainer {
 	margin: 10px 0 0 0;
 }
 
-div.iosCaptchaButtonContainer .reload {
+div.iosCaptchaInputCommandContainer {
+	margin: 10px 0 0 0;
+}
+
+div.iosCaptchaInputCommandContainer .reload {
 	width: 19px;
 	height: 19px !important;
 	font-size: 100%;
@@ -4130,21 +4134,20 @@ div.iosCaptchaButtonContainer .reload {
 	padding: 0;
 }
 
-div.iosCaptchaButtonContainer .reload img {
+div.iosCaptchaInputCommandContainer .reload img {
 	width: 19px;
 	height: 19px;
 	margin: 0;
 	padding: 0;
-	vertical-align: baseline;
 }
 
-div.iosCaptchaButtonContainer .audio {
+div.iosCaptchaInputCommandContainer .audio {
 	width: 19px;
 	height: 19px;
+	vertical-align: middle;
 }
 
 input.iosCaptchaInput {
-	margin: 10px 0;
 }
 
 /* basic responsiveness (beta)
