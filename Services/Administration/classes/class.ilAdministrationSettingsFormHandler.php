@@ -21,6 +21,7 @@ class ilAdministrationSettingsFormHandler
 	const FORM_REPOSITORY = 8;
 	const FORM_LDAP = 9;
 	const FORM_FORUM = 10;
+	const FORM_ACCESSIBILITY = 11;
 	
 	const SETTINGS_USER = "usrf";
 	const SETTINGS_GENERAL = "adm";
@@ -97,6 +98,10 @@ class ilAdministrationSettingsFormHandler
 				$types = array(self::SETTINGS_REPOSITORY);
 				break;	
 			
+			case self::FORM_ACCESSIBILITY:
+				$types = array(self::SETTINGS_GENERAL);
+				break;
+				
 			case self::FORM_MAIL:
 				$types = array(self::SETTINGS_COURSE, self::SETTINGS_GROUP);
 				break;

@@ -61,13 +61,46 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 			default:
 				if(!$cmd || $cmd == 'view')
 				{
-					$cmd = "editAccessKeys";
+					$cmd = "editAccessibilitySettings";
 				}
 
 				$this->$cmd();
 				break;
 		}
 		return true;
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function  getSettingsForm()
+	{
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('settings'));
+
+		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY,
+			$form,
+			$this
+		);
+		
+		return $form;
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function editAccessibilitySettings(ilPropertyFormGUI $form = null)
+	{
+		$this->tabs_gui->setTabActive('acc_settings');
+		if(!$form)
+		{
+			$form = $this->getSettingsForm();
+		}
+		
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
@@ -79,6 +112,11 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	public function getAdminTabs()
 	{
 		global $rbacsystem, $ilAccess, $ilTabs;
+
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$ilTabs->addTab('acc_settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'editAccessibilitySettings'));
+		}
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -101,6 +139,8 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	function editAccessKeys()
 	{
 		global $tpl;
+
+		$this->tabs_gui->setTabActive('acc_access_keys');
 		
 		include_once("./Services/Accessibility/classes/class.ilAccessKeyTableGUI.php");
 		$table = new ilAccessKeyTableGUI($this, "editAccessKeys");
@@ -123,7 +163,4 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 		}
 		$ilCtrl->redirect($this, "editAccessKeys");
 	}
-	
-
 }
-?>

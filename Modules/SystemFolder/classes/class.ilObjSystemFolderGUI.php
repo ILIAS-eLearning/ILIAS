@@ -2212,7 +2212,19 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$fields['activate_https'] = 
 					array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
 				
-				return array("general_settings" => array("showHTTPS", $fields));					
+				return array("general_settings" => array("showHTTPS", $fields));
+				
+			case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
+				/**
+				 * @var $ilSetting ilSetting
+				 */
+				global $ilSetting;
+
+				$fields = array(
+					'adm_captcha_anonymous_short' => array($ilSetting->get('adm_captcha_anonymous_short', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				);
+
+				return array('general_settings' => array('showBasicSettings', $fields));
 		}
 	}
 	
