@@ -46,6 +46,7 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 	{
 		$this->updateVisibility();
 		$this->updateFilterability();
+		$this->updateExportability();
 	}
 	
 	/*

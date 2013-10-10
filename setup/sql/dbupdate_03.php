@@ -18993,3 +18993,19 @@ if(!$ilDB->tableColumnExists('sahs_user','last_status_change'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4125>
+<?php
+// 4 is ilDataCollectionField::EXPORTABLE_VIEW
+require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
+require_once("./Modules/DataCollection/classes/class.ilObjDataCollection.php");
+//we need to initialize the view of the export. thus we select all table ids which currently do not have this view.
+$q = "SELECT il_dcl_table.id FROM il_dcl_table WHERE not exists (SELECT il_dcl_view.id FROM il_dcl_view WHERE il_dcl_view.table_id = il_dcl_table.id AND il_dcl_view.type = ".$ilDB->quote(ilDataCollectionField::EXPORTABLE_VIEW, "integer").")";
+$set = $ilDB->query($q);
+while($res = $ilDB->fetchAssoc($set)){
+	// create the view for this table
+	$table_id = $res["id"];
+	$view_id = $ilDB->nextId("il_dcl_view");
+	$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($table_id, "integer").", ".$ilDB->quote(ilDataCollectionField::EXPORTABLE_VIEW, "integer").", ".$ilDB->quote(1, "integer").")";
+	$ilDB->manipulate($query);
+}
+?>

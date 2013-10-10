@@ -68,6 +68,7 @@ class ilDataCollectionFieldListGUI
 			$field->setEditable($_POST['editable'][$field->getId()] == "on");
 			$field->setFilterable($_POST['filterable'][$field->getId()] == "on");
 			$field->setLocked($_POST['locked'][$field->getId()] == "on");
+			$field->setExportable($_POST['exportable'][$field->getId()] == "on");
 			$field->setOrder($_POST['order'][$field->getId()]);
 			$field->doUpdate();
 		}
