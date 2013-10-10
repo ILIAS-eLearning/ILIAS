@@ -14032,3 +14032,5 @@ poll#:#poll_voting_period_info#:#Deadline for Voting: %s
 common#:#captcha_code_reload#:#Load new image
 common#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and characters of the captcha.
 common#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha
+obj#:#obj_features#:#Features
+obj#:#obj_tool_setting_info_tab#:#Show Info Tab

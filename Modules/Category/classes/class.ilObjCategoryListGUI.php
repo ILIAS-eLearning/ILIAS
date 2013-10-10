@@ -54,7 +54,9 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
+		
 		$this->info_screen_enabled = true;
+
 		$this->type = "cat";
 		$this->gui_class_name = "ilobjcategorygui";
 
@@ -68,6 +70,27 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 		// general commands array
 		include_once('./Modules/Category/classes/class.ilObjCategoryAccess.php');
 		$this->commands = ilObjCategoryAccess::_getCommands();
+	}
+
+	/**
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getInfoScreenStatus()
+	{
+		include_once("./Services/Container/classes/class.ilContainer.php");
+		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+		if (ilContainer::_lookupContainerSetting(
+						$this->obj_id,
+						ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+						true
+				))
+		{
+			return $this->info_screen_enabled;
+		}
+
+		return false;
 	}
 
 	/**

@@ -36,6 +36,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$this->type = "cat";
 		$this->ilContainerGUI($a_data,(int) $a_id,$a_call_by_reference,false);
+		
+		include_once("./Services/Container/classes/class.ilContainer.php");
+		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+		$this->info_screen_enabled = ilContainer::_lookupContainerSetting(
+				$this->object->getId(),
+				ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+				true);
+
 	}
 
 	function &executeCommand()
@@ -99,8 +107,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 				break;
 				
 			case 'ilinfoscreengui':
-				$this->prepareOutput();
-				$this->infoScreen();
+				if ($this->info_screen_enabled)
+				{
+					$this->prepareOutput();
+					$this->infoScreen();
+				}
 				break;
 				
 			case 'ilcontainerlinklistgui':
@@ -228,15 +239,18 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this, ""));
 
 			//BEGIN ChangeEvent add info tab to category object
-			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
-				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
-				? true
-				: false;
-			$tabs_gui->addTarget("info_short",
-				 $this->ctrl->getLinkTargetByClass(
-				 array("ilobjcategorygui", "ilinfoscreengui"), "showSummary"),
-				 array("showSummary","", "infoScreen"),
-				 "", "", $force_active);
+			if ($this->info_screen_enabled)
+			{
+				$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
+					|| strtolower($_GET["cmdClass"]) == "ilnotegui")
+					? true
+					: false;
+				$tabs_gui->addTarget("info_short",
+					 $this->ctrl->getLinkTargetByClass(
+					 array("ilobjcategorygui", "ilinfoscreengui"), "showSummary"),
+					 array("showSummary","", "infoScreen"),
+					 "", "", $force_active);
+			}
 			//END ChangeEvent add info tab to category object
 		}
 		
@@ -349,6 +363,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		if (!$this->info_screen_enabled)
+		{
+			return;
 		}
 		
 		// #10986
@@ -514,16 +533,29 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$sort->setValue($settings->getSortMode());
 		$form->addItem($sort);
-
-
+				
+		// icon settings
 		$this->showCustomIconsEditing(1, $form, false);
-		
 		
 		// Edit ecs export settings
 		include_once 'Modules/Category/classes/class.ilECSCategorySettings.php';
 		$ecs = new ilECSCategorySettings($this->object);		
 		$ecs->addSettingsToForm($form, 'cat');
 		
+		// services
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt('obj_features'));
+		$form->addItem($sh);
+
+		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::initServiceSettingsForm(
+				$this->object->getId(),
+				$form,
+				array(
+					ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+					ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+				)
+			);
 
 		$form->addCommandButton("update", $this->lng->txt("save"));
 		$form->addCommandButton("addTranslation", $this->lng->txt("add_translation"));		
@@ -584,6 +616,17 @@ class ilObjCategoryGUI extends ilContainerGUI
 				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
 				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());				
 				// END ChangeEvent: Record update
+				
+				// services
+				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+				ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+					$this->object->getId(),
+					$form,
+					array(
+						ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+						ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+					)
+				);
 				
 				// Update ecs export settings
 				include_once 'Modules/Category/classes/class.ilECSCategorySettings.php';	

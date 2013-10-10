@@ -16,6 +16,7 @@ class ilObjectServiceSettingsGUI
 	const CALENDAR_VISIBILITY = 'cont_show_calendar';
 	const NEWS_VISIBILITY = 'cont_show_news';
 	const AUTO_RATING_NEW_OBJECTS = 'cont_auto_rate_new_obj';
+	const INFO_TAB_VISIBILITY = 'cont_show_info_tab';
 	
 	private $gui = null;
 	private $modes = array();
@@ -62,6 +63,21 @@ class ilObjectServiceSettingsGUI
 	{
 		global $ilSetting;
 		
+		// info tab
+		if(in_array(self::INFO_TAB_VISIBILITY, $services))
+		{
+			$info = new ilCheckboxInputGUI('', self::INFO_TAB_VISIBILITY);
+			$info->setValue(1);
+			$info->setChecked(ilContainer::_lookupContainerSetting(
+						$a_obj_id,
+						self::INFO_TAB_VISIBILITY,
+						true
+				));
+			$info->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_info_tab'));
+			$form->addItem($info);
+		}
+		
+		// calendar
 		if(in_array(self::CALENDAR_VISIBILITY, $services))
 		{
 			include_once './Services/Calendar/classes/class.ilObjCalendarSettings.php';
@@ -76,6 +92,8 @@ class ilObjectServiceSettingsGUI
 				$form->addItem($cal);
 			}
 		}
+		
+		// news
 		if(in_array(self::NEWS_VISIBILITY, $services))
 		{
 			if($ilSetting->get('block_activated_news'))
@@ -92,6 +110,8 @@ class ilObjectServiceSettingsGUI
 				$form->addItem($news);
 			}
 		}
+		
+		// auto rating
 		if(in_array(self::AUTO_RATING_NEW_OBJECTS, $services))
 		{			
 			$GLOBALS['lng']->loadLanguageModule("rating");
@@ -120,6 +140,14 @@ class ilObjectServiceSettingsGUI
 	 */
 	public static function updateServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
 	{
+		// info
+		if(in_array(self::INFO_TAB_VISIBILITY, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::INFO_TAB_VISIBILITY,(int) $form->getInput(self::INFO_TAB_VISIBILITY));
+		}
+		
+		// calendar
 		if(in_array(self::CALENDAR_VISIBILITY, $services))
 		{
 			include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
@@ -129,11 +157,15 @@ class ilObjectServiceSettingsGUI
 				ilContainer::_writeContainerSetting($a_obj_id,self::CALENDAR_VISIBILITY,(int) $form->getInput(self::CALENDAR_VISIBILITY));
 			}
 		}
+		
+		// news
 		if(in_array(self::NEWS_VISIBILITY, $services))
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::NEWS_VISIBILITY,(int) $form->getInput(self::NEWS_VISIBILITY));
 		}
+		
+		// rating
 		if(in_array(self::AUTO_RATING_NEW_OBJECTS, $services))
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
