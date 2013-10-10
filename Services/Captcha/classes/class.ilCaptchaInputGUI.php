@@ -114,7 +114,7 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 	{
 		return $this->size;
 	}
-	
+
 	/**
 	 * Check input, strip slashes etc. set alert, if input is not ok.
 	 * @return    boolean        Input ok, true/false
