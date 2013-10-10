@@ -100,7 +100,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		
 		foreach($this->table->getFields() as $field)
 		{
-			if($field->isVisible())
+			if($field->getExportable())
 			{
 				$worksheet->writeString($row, $col, $field->getTitle());
 				$col++;
@@ -192,7 +192,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$col = 0;
 		foreach($this->table->getFields() as $field)
 		{
-			if($field->isVisible())
+			if($field->getExportable())
 			{
 				$worksheet->writeString($row, $col, $record["_record"]->getRecordFieldExportValue($field->getId()));
 				$col++;
