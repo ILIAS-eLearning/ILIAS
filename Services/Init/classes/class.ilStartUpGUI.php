@@ -544,13 +544,14 @@ class ilStartUpGUI
 			// username
 			$ti = new ilTextInputGUI($lng->txt("username"), "username");
 			$ti->setSize(20);
+			$ti->setAutocomplete(false);
 			$form->addItem($ti);
 
 			// password
 			$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
 			$pi->setRetype(false);
 			$pi->setSize(20);
-			$pi->setAutocomplete(true);
+			$pi->setAutocomplete(false);
 			$form->addItem($pi);
 			$form->addCommandButton("showLogin", $lng->txt("log_in"));
 			#$form->addCommandButton("butSubmit", $lng->txt("log_in"));
@@ -988,6 +989,7 @@ class ilStartUpGUI
 		
 		$keep = new ilRadioOption($lng->txt('auth_account_migration_keep'),1,$lng->txt('auth_info_migrate'));
 		$user = new ilTextInputGUI($lng->txt('login'),'mig_username');
+		$user->setAutocomplete(false);
 		$user->setValue(ilUtil::prepareFormOutput($_POST['mig_username']));
 		$user->setSize(32);
 		$user->setMaxLength(128);
@@ -1921,6 +1923,7 @@ class ilStartUpGUI
 		$form->setTitle($lng->txt('login_to_ilias_via_openid'));
 		
 		$openid = new ilTextInputGUI($lng->txt('auth_openid_login'),'oid_username');
+		$openid->setAutocomplete(false);
 		$openid->setSize(18);
 		$openid->setMaxLength(255);
 		$openid->setRequired(true);

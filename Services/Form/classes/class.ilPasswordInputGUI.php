@@ -17,7 +17,11 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $requiredonauth = false;
 	protected $preselection = false;
 	protected $maxlength = false;
-	protected $autocomplete = false;
+
+	/**
+	 * @var bool Flag whether the html autocomplete attribute should be set or not
+	 */
+	protected $autocomplete = true;
 	
 	/**
 	* Constructor
