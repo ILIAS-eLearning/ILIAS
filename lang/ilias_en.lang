@@ -14023,6 +14023,7 @@ book#:#book_reservation_available#:#%s available
 form#:#form_retype_email#:#Retype Email
 form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.
 common#:#captcha_code#:#User Verification
+content#:#save_new#:#Save and New
 common#:#captcha_code_info#:#Please type in the letters and characters of the image.
 administration#:#adm_captcha_anonymous_short#:#Captcha
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s

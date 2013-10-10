@@ -5,8 +5,11 @@
 <div id="ilsaving" class="ilHighlighted" style="display:none;">{TXT_SAVING}</div>
 <div id="ilTinyMenuButtons">
 	<!-- BEGIN save_return -->
-	<a class="ilEditSubmit" href="#" onClick="ilCOPage.cmdSaveReturn(); return false;" >&nbsp;{TXT_SAVE_RETURN}&nbsp;</a>
+	<a class="ilEditSubmit" href="#" onClick="ilCOPage.cmdSaveReturn(false); return false;" >&nbsp;{TXT_SAVE_RETURN}&nbsp;</a>
 	<!-- END save_return -->
+	<!-- BEGIN save_new -->
+	<a class="ilEditSubmit" href="#" onClick="ilCOPage.cmdSaveReturn(true); return false;" >&nbsp;{TXT_SAVE_NEW}&nbsp;</a>
+	<!-- END save_new -->
 	<a class="ilEditSubmit" href="#" accesskey="s" onClick="ilCOPage.cmdSave(null); return false;" >&nbsp;{TXT_SAVE}&nbsp;</a>
 	<a class="ilEditSubmit" href="#" onClick="ilCOPage.cmdCancel(); return false;" >&nbsp;{TXT_CANCEL}&nbsp;</a>
 	<!-- BEGIN debug_ghost -->
