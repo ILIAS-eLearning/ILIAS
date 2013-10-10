@@ -44,6 +44,7 @@ class ilCourseDefinedFieldDefinition
 	private $name;
 	private $type;
 	private $values;
+	private $value_options = array();
 	private $required;
 	
 	/**
@@ -85,6 +86,7 @@ class ilCourseDefinedFieldDefinition
 			$cdf->setName($field_obj->getName());
 			$cdf->setType($field_obj->getType());
 			$cdf->setValues($field_obj->getValues());
+			$cdf->setValueOptions($field_obj->getValueOptions());
 			$cdf->enableRequired($field_obj->isRequired());
 			$cdf->save();
 		}
@@ -135,7 +137,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public static function _getFields($a_container_id,$a_sort = IL_CDF_SORT_NAME)
 	{
-		foreach(ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id,$a_sort) as $field_id)
+		foreach(ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id,IL_CDF_SORT_ID) as $field_id)
 	 	{
 	 		$fields[] = new ilCourseDefinedFieldDefinition($a_container_id,$field_id);
 	 	}
@@ -204,7 +206,7 @@ class ilCourseDefinedFieldDefinition
 		
 	 	$query = "SELECT field_id FROM crs_f_definitions ".
 	 		"WHERE obj_id = ".$ilDB->quote($a_container_id,'integer')." ".
-	 		"ORDER BY ".$a_sort;
+	 		"ORDER BY ".IL_CDF_SORT_ID;
 	 	$res = $ilDB->query($query);
 	 	while($row = $ilDB->fetchObject($res))
 	 	{
@@ -288,6 +290,17 @@ class ilCourseDefinedFieldDefinition
 		$this->required = $a_status;
 	}
 	
+	public function setValueOptions($a_options)
+	{
+		$this->value_options = $a_options;
+	}
+	
+	public function getValueOptions()
+	{
+		return (array) $this->value_options;
+	}
+	
+	
 	/**
 	 * Prepare an array of options for ilUtil::formSelect()
 	 *
@@ -323,15 +336,19 @@ class ilCourseDefinedFieldDefinition
 		{
 			return false;
 		}
-		foreach($a_values as $value)
+		foreach($a_values as $idx => $value)
 		{
+			if($idx === 'open')
+			{
+				continue;
+			}
 			$value = trim(ilUtil::stripSlashes($value));
 			if(strlen($value))
 			{
 				$tmp_values[] = $value;
 			}
 		}
-		sort($tmp_values);
+		#sort($tmp_values);
 		return $tmp_values ? $tmp_values : array();
 	}
 	
@@ -347,7 +364,7 @@ class ilCourseDefinedFieldDefinition
 			return false;
 		}
 		$this->values = array_unique(array_merge($this->values,$a_values));
-		sort($this->values);
+		#sort($this->values);
 		return true;
 	}
 	
@@ -386,7 +403,8 @@ class ilCourseDefinedFieldDefinition
 	 		$this->db->quote($this->getName(),"text").", ".
 	 		$this->db->quote($this->getType(),'integer').", ".
 	 		$this->db->quote(serialize($this->getValues()),'text').", ".
-	 		$ilDB->quote($this->isRequired(),'integer')." ".
+	 		$ilDB->quote($this->isRequired(),'integer').", ".
+			$ilDB->quote(serialize($this->getValueOptions()),'text').' '.
 	 		") ";
 		$res = $ilDB->manipulate($query);
 	 	$this->id = $next_id;
@@ -407,7 +425,8 @@ class ilCourseDefinedFieldDefinition
 	 		"SET field_name = ".$this->db->quote($this->getName(),'text').", ".
 	 		"field_type = ".$this->db->quote($this->getType(),'integer').", ".
 	 		"field_values = ".$this->db->quote(serialize($this->getValues()),'text').", ".
-	 		"field_required = ".$ilDB->quote($this->isRequired(),'integer')." ".
+	 		"field_required = ".$ilDB->quote($this->isRequired(),'integer').", ".
+			'field_values_opt = '.$ilDB->quote(serialize($this->getValueOptions()),'text').' '.
 	 		"WHERE field_id = ".$this->db->quote($this->getId(),'integer')." ".
 	 		"AND obj_id = ".$this->db->quote($this->getObjId(),'integer');
 		$res = $ilDB->manipulate($query);
@@ -451,6 +470,7 @@ class ilCourseDefinedFieldDefinition
 		$this->setName($row->field_name);
 		$this->setType($row->field_type);
 		$this->setValues(unserialize($row->field_values));
+		$this->setValueOptions(unserialize($row->field_values_opt));
 		$this->enableRequired($row->field_required);
 	}
 }

@@ -227,6 +227,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(!$this->checkAgreement())
 		{
 			include_once('Services/Membership/classes/class.ilMemberAgreementGUI.php');
+			$this->tabs_gui->clearTargets();
 			$this->ctrl->setReturn($this,'view_content');
 			$agreement = new ilMemberAgreementGUI($this->object->getRefId());
 			$this->ctrl->setCmdClass(get_class($agreement));
@@ -4475,6 +4476,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			case 'ilmemberagreementgui':
 				include_once('Services/Membership/classes/class.ilMemberAgreementGUI.php');
+				$this->tabs_gui->clearTargets();
 				$this->ctrl->setReturn($this,'');
 				$agreement = new ilMemberAgreementGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($agreement);

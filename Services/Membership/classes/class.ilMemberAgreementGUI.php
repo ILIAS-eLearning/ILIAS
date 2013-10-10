@@ -95,6 +95,33 @@ class ilMemberAgreementGUI
 		}	 	
 	}
 	
+	
+	protected function initFormAgreement()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt($this->type.'_agreement_header'));
+		$form->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
+		$form->addCommandButton('save', $this->lng->txt('save'));
+		#$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		
+		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
+		$fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
+		
+		$usr_fields = new ilCustomInputGUI('','usr_fields');
+		
+		
+		foreach($fields_info->getExportableFields() as $field)
+		{
+			$this->tpl->setCurrentBlock('field');
+			$this->tpl->setVariable('FIELD_NAME',$this->lng->txt($field));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		
+		return $form;
+	}
+	
 	/**
 	 * show agreement
 	 *
@@ -103,6 +130,16 @@ class ilMemberAgreementGUI
 	 */
 	private function showAgreement($send_info = true)
 	{
+		
+		#$form = $this->initFormAgreement();
+		
+		#$GLOBALS['tpl']->setContent($form->getHTML());
+		
+		#return true;
+		
+		
+		
+		
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_user_agreement.html','Modules/Course');
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
@@ -184,19 +221,43 @@ class ilMemberAgreementGUI
 			switch($field_obj->getType())
 			{
 				case IL_CDF_TYPE_SELECT:
-					$this->tpl->setCurrentBlock('sel_row');
-
-					// Workaround for mantis 9868
-					$options[0] = $this->lng->txt('links_select_one');
-					foreach($field_obj->getValues() as $value)
+					
+					if($field_obj->getValueOptions())
 					{
-						$options[$field_obj->getId().'_'.$value] = $value;
+						$options = $field_obj->getValueOptions();
+						foreach($field_obj->getValues() as $idx => $value)
+						{
+							if(in_array($idx, $options))
+							{
+								$this->tpl->setCurrentBlock('sel_open_txt');
+								$this->tpl->setVariable('OPEN_TXT_NAME','123');
+								$this->tpl->setVariable('OPEN_TXT_VALUE','');
+								$this->tpl->parseCurrentBlock();
+							}
+							$this->tpl->setCurrentBlock('sel_open_row');
+							$this->tpl->setVariable('SEL_OPEN_RADIO',
+									ilUtil::formRadioButton(false, 'cdf['.$field_obj->getId().']',$value));
+							$this->tpl->setVariable('SEL_OPEN_TEXT',$value);
+							$this->tpl->parseCurrentBlock();
+						}
 					}
-					$this->tpl->setVariable('SEL_SELECT',ilUtil::formSelect($field_obj->getId().'_'.$course_user_data->getValue(),
-																			'cdf['.$field_obj->getId().']',
-																			$options,
-																			false,
-																			true));
+					else
+					{
+						$this->tpl->setCurrentBlock('sel_row');
+
+						// Workaround for mantis 9868
+						$options[0] = $this->lng->txt('links_select_one');
+						foreach($field_obj->getValues() as $value)
+						{
+							$options[$field_obj->getId().'_'.$value] = $value;
+						}
+						$this->tpl->setVariable('SEL_SELECT',ilUtil::formSelect($field_obj->getId().'_'.$course_user_data->getValue(),
+																				'cdf['.$field_obj->getId().']',
+																				$options,
+																				false,
+																				true));
+					}
+					
 					break;
 				case IL_CDF_TYPE_TEXT:
 					$this->tpl->setCurrentBlock('txt_row');
