@@ -81,7 +81,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 		  {
 			   $a_user_id = $ilUser->getId();
 		  }
-
 		  switch ($a_cmd)
 		  {
 			   case "view":

@@ -193,7 +193,10 @@ class ilObjBibliographicGUI extends ilObject2GUI
      */
     public function _goto($a_target)
     {
+        global $ilAccess, $ilErr;
+
         $id = explode("_", $a_target);
+
 
         $_GET["baseClass"] = "ilRepositoryGUI";
         $_GET["ref_id"] = $id[0];
@@ -208,6 +211,28 @@ class ilObjBibliographicGUI extends ilObject2GUI
             $_GET["cmd"] = "view";
         }
 
+
+        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+        {
+            ilObjectGUI::_gotoRepositoryNode($_GET["ref_id"]);
+        }
+        else
+        {
+            if ($ilAccess->checkAccess("visible", "", $_GET["ref_id"]))
+            {
+                ilObjectGUI::_gotoRepositoryNode($_GET["ref_id"], "infoScreen");
+            }
+            else
+            {
+                if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+                {
+                    ilUtil::sendFailure(sprintf($this->lng->txt("msg_no_perm_read_item"),
+                        ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]))), true);
+                    ilObjectGUI::_gotoRepositoryRoot();
+                }
+            }
+        }
+        $ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 
         include("ilias.php");
     }
@@ -283,9 +308,13 @@ class ilObjBibliographicGUI extends ilObject2GUI
     {
         global $ilAccess, $ilTabs, $lng;
 
-        $ilTabs->addTab("content",
+        // info screen
+        if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))
+        {
+            $ilTabs->addTab("content",
             $lng->txt("content"),
             $this->ctrl->getLinkTarget($this, "showContent"));
+        }
 
         // info screen
         if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()))
@@ -383,8 +412,8 @@ class ilObjBibliographicGUI extends ilObject2GUI
      */
     public function showContent(){
         global $ilAccess, $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs;
-        if($ilAccess->checkAccess('read', "", $this->object->getRefId())){
-
+        // if user has read permission and object is online OR user has write permissions
+        if(($ilAccess->checkAccess('read', "", $this->object->getRefId()) && $this->object->getOnline()) || $ilAccess->checkAccess('write', "", $this->object->getRefId())){
             $ilTabs->setTabActive("content");
 
             include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -399,8 +428,11 @@ class ilObjBibliographicGUI extends ilObject2GUI
             //Permanent Link
             $tpl->setPermanentLink("bibl", $this->object->getRefId());
         }else{
-	        ilUtil::sendFailure($this->lng->txt("no_permission"), true);
-	        ilObjectGUI::_gotoRepositoryRoot();
+            $object_title = ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]));
+            ilUtil::sendFailure(sprintf($this->lng->txt("msg_no_perm_read_item"), $object_title), true);
+            //redirect to repository without any parameters
+            unset($_GET);
+            ilObjectGUI::_gotoRepositoryRoot();
         }
     }
 

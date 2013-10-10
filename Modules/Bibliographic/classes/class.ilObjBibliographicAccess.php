@@ -42,8 +42,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      */
     public function _checkGoto($a_target)
     {
-        global $ilAccess;
-
+        global $ilAccess, $lng;
         $t_arr = explode("_", $a_target);
 
         if ($t_arr[0] != "bibl" || ((int) $t_arr[1]) <= 0)
@@ -55,6 +54,9 @@ class ilObjBibliographicAccess extends ilObjectAccess
         {
             return true;
         }
+
+        $object_title = ilObject::_lookupTitle(ilObject::_lookupObjId($t_arr[1]));
+        ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"), $object_title), true);
         return false;
     }
 
