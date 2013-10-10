@@ -84,6 +84,11 @@ class ilDataCollectionField
     protected $property;
 
 	/**
+	 * @var bool
+	 */
+	protected $exportable;
+
+	/**
 	 * @var ilDataCollectionDatatype This fields Datatype.
 	 */
 	protected $datatype;
@@ -109,6 +114,7 @@ class ilDataCollectionField
 	const VIEW_VIEW 		= 1;
 	const EDIT_VIEW 		= 2;
 	const FILTER_VIEW 	= 3;
+	const EXPORTABLE_VIEW 	= 4;
 
 	/**
 	 * Constructor
@@ -465,7 +471,7 @@ class ilDataCollectionField
 
 	/**
 	 * loadViewDefinition
-	 * @param $view use VIEW_VIEW or EDIT_VIEW
+	 * @param $view int use VIEW_VIEW or EDIT_VIEW
 	 */
 	private function loadViewDefinition($view)
 	{
@@ -488,6 +494,9 @@ class ilDataCollectionField
 			case self::FILTER_VIEW:
 				$this->filterable = $prop;
 				break;
+			case self::EXPORTABLE_VIEW:
+				$this->exportable = $prop;
+				break;
 		}
 
         if(!$this->order)
@@ -507,7 +516,7 @@ class ilDataCollectionField
 		
 		return $this->editable;
 	}
-	
+
 	/*
 	 * editable
 	 */
@@ -516,6 +525,11 @@ class ilDataCollectionField
 		$this->editable = $editable;
 	}
 
+	public function getExportable(){
+		if(!isset($this->exportable))
+			$this->loadExportability();
+		return $this->exportable;
+	}
 	/*
 	 * loadEditability
 	 */
@@ -526,7 +540,18 @@ class ilDataCollectionField
 		   $this->loadViewDefinition(self::EDIT_VIEW);
 		}
 	}
-	
+
+	/**
+	 *
+	 */
+	private function loadExportability()
+	{
+		if($this->editable == NULL)
+		{
+		   $this->loadViewDefinition(self::EXPORTABLE_VIEW);
+		}
+	}
+
 	/*
 	 * toArray
 	 */
@@ -616,6 +641,7 @@ class ilDataCollectionField
 		$this->updateVisibility();
 		$this->updateFilterability();
 		$this->updateEditability();
+		$this->updateExportability();
 	}
 
 	/**
@@ -632,22 +658,23 @@ class ilDataCollectionField
 			"description" => array("text", $this->getDescription()),
 			"required" => array("integer",$this->getRequired()),
 			"is_unique" => array("integer",$this->isUnique()),
-			"is_locked" => array("integer",$this->getLocked()?1:0)
+			"is_locked" => array("integer",$this->getLocked()?1:0),
 			), array(
 			"id" => array("integer", $this->getId())
 			));
 		$this->updateVisibility();
 		$this->updateFilterability();
 		$this->updateEditability();
+		$this->updateExportability();
 	}
 
-	/*
-	 * getFilterable
+	/**
+	 * @return bool returns the same as isFilterable.
 	 */
-	/*public function getFilterable()
+	public function getFilterable()
 	{
-		
-	}*/
+		return $this->isFilterable();
+	}
 
 	/*
 	 * updateVisibility
@@ -669,9 +696,13 @@ class ilDataCollectionField
 		$this->updateViewDefinition(self::EDIT_VIEW);
 	}
 
+	protected function updateExportability(){
+		$this->updateViewDefinition(self::EXPORTABLE_VIEW);
+	}
+
 	/**
 	 * updateViewDefinition
-	 * @param $view use constant VIEW_VIEW or EDIT_VIEW
+	 * @param $view int use constant VIEW_VIEW or EDIT_VIEW
 	 */
 	private function updateViewDefinition($view)
 	{
@@ -689,6 +720,11 @@ class ilDataCollectionField
 				break;
 			case self::FILTER_VIEW:
 				$set = $this->isFilterable();
+				if($set && $this->order === NULL)
+					$this->order = 0;
+				break;
+			case self::EXPORTABLE_VIEW:
+				$set = $this->getExportable();
 				if($set && $this->order === NULL)
 					$this->order = 0;
 				break;
@@ -746,6 +782,7 @@ class ilDataCollectionField
 		$this->deleteViewDefinition(self::VIEW_VIEW);
 		$this->deleteViewDefinition(self::FILTER_VIEW);
 		$this->deleteViewDefinition(self::EDIT_VIEW);
+		$this->deleteViewDefinition(self::EXPORTABLE_VIEW);
 
 		$query = "DELETE FROM il_dcl_field_prop WHERE field_id = ".$ilDB->quote($this->getId(), "text");
 		$ilDB->manipulate($query);
@@ -964,7 +1001,7 @@ class ilDataCollectionField
 		$this->setOrder($original->getOrder());
 		$this->setRequired($original->getRequired());
 		$this->setUnique($original->isUnique());
-        $this->setUnique($original->isUnique());
+		$this->setExportable($original->getExportable());
         $this->doCreate();
         $this->cloneProperties($original);
     }
@@ -984,6 +1021,14 @@ class ilDataCollectionField
             $fieldprop_obj->doCreate();
         }
     }
+
+	/**
+	 * @param boolean $exportable
+	 */
+	public function setExportable($exportable)
+	{
+		$this->exportable = $exportable;
+	}
 }
 
 ?>

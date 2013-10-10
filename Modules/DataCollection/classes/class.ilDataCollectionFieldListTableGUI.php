@@ -38,8 +38,7 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("dcl_visible"),  null,  "30px");
 		$this->addColumn($lng->txt("dcl_filter"),  null,  "30px");
 		$this->addColumn($lng->txt("dcl_locked"),  null,  "30px");
-		// ALWAYS EDITABLE FOR FIRST RELEASE
-		//$this->addColumn($lng->txt("dcl_editable"),  "editable",  "30px");
+		$this->addColumn($lng->txt("dcl_in_export"),  null,  "30px");
 		$this->addColumn($lng->txt("dcl_description"),  null,  "auto");
 		$this->addColumn($lng->txt("dcl_field_datatype"),  null,  "auto");
 		$this->addColumn($lng->txt("dcl_required"),  null,  "auto");
@@ -49,9 +48,6 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui","table_id", $this->parent_obj->table_id);
 		$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->parent_obj->table_id);
 		
-//		$img = " <img src='".ilUtil::getImagePath("cmd_add_s.png")."' /> "; // Wirklich hässlich, doch leider wird der Text, der addHeaderCommand mitgeben wird, nicht mehr angezeigt, sobald man ein Bild mitsendet...
-//
-//		$this->addHeaderCommand(.$img);
 		$this->setFormAction($ilCtrl->getFormActionByClass("ildatacollectionfieldlistgui"));
 		$this->addCommandButton("save", $lng->txt("dcl_save"));
 
@@ -73,11 +69,8 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		$this->table = ilDataCollectionCache::getTableCache($table_id);
 
 		$this->setData($this->table->getFields());
-
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php'); //wird dies benötigt?
-
 		$this->setTitle($lng->txt("dcl_table_list_fields"));
-
 		$this->setRowTemplate("tpl.field_list_row.html", "Modules/DataCollection");
 	}
 	/**
@@ -103,6 +96,12 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		if($a_set->isFilterable())
 		{
 			$this->tpl->setVariable("CHECKBOX_FILTERABLE_CHECKED", "checked");
+		}
+
+		$this->tpl->setVariable("CHECKBOX_EXPORTABLE", "exportable[".$a_set->getId()."]");
+		if($a_set->getExportable())
+		{
+			$this->tpl->setVariable("CHECKBOX_EXPORTABLE_CHECKED", "checked");
 		}
 
 		if(!$a_set->isStandardField())
