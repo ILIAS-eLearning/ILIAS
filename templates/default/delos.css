@@ -4138,12 +4138,13 @@ div.iosCaptchaInputCommandContainer .reload img {
 	width: 19px;
 	height: 19px;
 	margin: 0;
-	padding: 0;
+	padding: 3;
 }
 
 div.iosCaptchaInputCommandContainer .audio {
 	width: 19px;
 	height: 19px;
+	margin: 0 10px 0 12px;
 	vertical-align: middle;
 }
 
