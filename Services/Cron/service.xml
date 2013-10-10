@@ -4,4 +4,7 @@
 	<baseclasses>
 		<baseclass name="ilCronManagerGUI" dir="classes" />
 	</baseclasses>
+	<pluginslots>
+		<pluginslot id="crnhk" name="CronHook" />
+    </pluginslots>
 </service>

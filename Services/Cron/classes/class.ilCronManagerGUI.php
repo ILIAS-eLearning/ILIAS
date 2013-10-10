@@ -68,11 +68,15 @@ class ilCronManagerGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$data = array_pop(ilCronManager::getCronJobData($a_job_id));
-		$job = ilCronManager::getJobInstance($data["job_id"], $data["component"], 
-			$data["class"], $data["path"]);
+		$job = ilCronManager::getJobInstanceById($a_job_id);		
+		if(!$job)
+		{			
+			$ilCtrl->redirect($this, "render");
+		}
 		
 		$ilCtrl->setParameter($this, "jid", $a_job_id);
+		
+		$data = array_pop(ilCronManager::getCronJobData($job->getId()));				
 		
 		include_once("Services/Cron/classes/class.ilCronJob.php");
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -154,7 +158,7 @@ class ilCronManagerGUI
 		$form = $this->initEditForm($id);
 		if($form->checkInput())
 		{			
-			$job = ilCronManager::getJobInstanceById($id);
+			$job = ilCronManager::getJobInstanceById($id);					
 			if($job)
 			{
 				$valid = true;
@@ -299,12 +303,24 @@ class ilCronManagerGUI
 	{
 		global $ilCtrl, $tpl, $lng;
 		
+		$job = ilCronManager::getJobInstanceById($_REQUEST["jid"]);
+		if(!$job)
+		{
+			$ilCtrl->redirect($this, "render");
+		}
+		
 		$ilCtrl->setParameter($this, "jid", $_REQUEST["jid"]);
+		
+		$title = $job->getTitle();
+		if(!$title)
+		{
+			$title = preg_replace("[^A-Za-z0-9_\-]", "", $job->getId());
+		}
 		
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText(sprintf($lng->txt("cron_action_".$a_action."_sure"), 
-			preg_replace("[^A-Za-z0-9_\-]", "", $_GET["jid"])));
+			$title));
 
 		$cgui->setFormAction($ilCtrl->getFormAction($this, "confirmed".ucfirst($a_action)));
 		$cgui->setCancel($lng->txt("cancel"), "render");
