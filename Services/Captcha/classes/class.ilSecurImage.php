@@ -38,6 +38,13 @@ class ilSecurImage
 	protected $securimage;
 
 	/**
+	 * @var array
+	 */
+	protected static $supported_audio_languages = array(
+		'fr', 'de', 'nl', 'it'
+	);
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -82,7 +89,19 @@ class ilSecurImage
 	 */
 	public function outputAudioFile()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $ilUser;
+		
 		chdir(ilSecurImageUtil::getDirectory());
+		if(
+			$ilUser->getLanguage() != 'en' &&
+			in_array($ilUser->getLanguage(), self::$supported_audio_languages)
+		)
+		{
+			$this->securimage->audio_path = $this->securimage->securimage_path . '/audio/' . $ilUser->getLanguage() . '/';
+		}
 		$this->securimage->outputAudioFile();
 	}
 
