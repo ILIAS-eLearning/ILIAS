@@ -113,28 +113,30 @@ class ilCourseParticipants extends ilParticipants
 	 * Update passed status
 	 *
 	 * @access public
-	 * @param int usr_id
-	 * @param bool passed
+	 * @param int $usr_id
+	 * @param bool $passed
+	 * @param bool $a_no_origin
 	 */
-	public function updatePassed($a_usr_id, $a_passed)
+	public function updatePassed($a_usr_id, $a_passed, $a_no_origin = false)
 	{				
 		$this->participants_status[$a_usr_id]['passed'] = (int) $a_passed;
 
-		return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed);
+		return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_no_origin);
 	}
 	
 	/**
 	 * Update passed status (static)
 	 *
 	 * @access public
-	 * @param int obj_id
-	 * @param int usr_id
-	 * @param bool passed
+	 * @param int $obj_id
+	 * @param int $usr_id
+	 * @param bool $passed
+	 * @param bool $a_no_origin
 	 */
-	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed)
+	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_no_origin = false)
 	{
 		global $ilDB;
-		
+									
 		$query = "SELECT passed FROM obj_members ".
 		"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 		"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
@@ -155,6 +157,19 @@ class ilCourseParticipants extends ilParticipants
 		}
 		else
 		{
+			// when member is added we should not set any date 
+			// see ilObjCourse::checkLPStatusSync()
+			if($a_no_origin)
+			{
+				$origin = 0;
+				$origin_ts = 0;
+			}
+			else
+			{
+				$origin = -1;
+				$origin_ts = time();
+			}
+			
 			$query = "INSERT INTO obj_members (passed,obj_id,usr_id,notification,blocked,origin,origin_ts) ".
 				"VALUES ( ".
 				$ilDB->quote((int) $a_passed,'integer').", ".
@@ -162,8 +177,8 @@ class ilCourseParticipants extends ilParticipants
 				$ilDB->quote($a_usr_id,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
-				$ilDB->quote(-1,'integer').", ".
-				$ilDB->quote(time(),'integer').")";					
+				$ilDB->quote($origin,'integer').", ".
+				$ilDB->quote($origin_ts,'integer').")";					
 		}
 		$res = $ilDB->manipulate($query);
 		return true;	
