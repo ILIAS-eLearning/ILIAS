@@ -116,9 +116,10 @@ class ilObjBibliographic extends ilObject2
 
         if(!empty($_FILES['bibliographic_file']['name'])){
             $this->deleteFile();
-            $this->doDelete(true);
             $this->moveFile();
         }
+        // Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
+        $this->doDelete(true, true);
 
         $ilDB->manipulate("UPDATE il_bibl_data SET " .
             "filename = " . $ilDB->quote($this->getFilename(), "text") . ", " .// filename
@@ -132,15 +133,18 @@ class ilObjBibliographic extends ilObject2
     /*
     * Delete data from db
     */
-    function doDelete($leave_out_il_bibl_data = false)
+    function doDelete($leave_out_il_bibl_data = false, $leave_out_delete_file = false)
     {
         global $ilDB;
 
-        $this->deleteFile();
+        if(!$leave_out_delete_file){
+            $this->deleteFile();
+        }
 
         //il_bibl_attribute
         $ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN " .
                            "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " .$ilDB->quote($this->getId(), "integer") . ");");
+
         //il_bibl_entry
         $ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = " . $ilDB->quote($this->getId(), "integer"));
 
