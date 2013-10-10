@@ -231,6 +231,8 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	protected function saveField()
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($_POST,true));
+		
 		$this->initFieldForm(self::MODE_CREATE);
 		if($this->form->checkInput())
 		{
@@ -272,6 +274,7 @@ class ilObjectCustomUserFieldsGUI
 		$this->form->getItemByPostVar('ty')->setValue($udf->getType());
 		$this->form->getItemByPostVar('re')->setChecked($udf->isRequired());
 		$this->form->getItemByPostVar('va')->setValues($udf->getValues());
+		$this->form->getItemByPostVar('va')->setOpenAnswerIndexes($udf->getValueOptions());
 		
 		$this->tpl->setContent($this->form->getHTML());
 	}
@@ -282,6 +285,8 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	protected function updateField()
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($_POST,true));
+
 		$this->initFieldForm(self::MODE_UPDATE);
 		
 		if($this->form->checkInput())
@@ -290,6 +295,7 @@ class ilObjectCustomUserFieldsGUI
 			$udf->setName($this->form->getInput('na'));
 			$udf->setType($this->form->getInput('ty'));
 			$udf->setValues($udf->prepareValues($this->form->getInput('va')));
+			$udf->setValueOptions($this->form->getItemByPostVar('va')->getOpenAnswerIndexes());
 			$udf->enableRequired($this->form->getInput('re'));
 			$udf->update();
 
@@ -357,13 +363,14 @@ class ilObjectCustomUserFieldsGUI
 		$ty_se = new ilRadioOption($this->lng->txt('ps_type_select_long'),IL_CDF_TYPE_SELECT);
 		$ty->addOption($ty_se);
 		
-		//			Select Type Values
-		$ty_se_mu = new ilTextWizardInputGUI($this->lng->txt('ps_cdf_value'),'va');
+		// Select Type Values
+		include_once './Services/Form/classes/class.ilSelectBuilderInputGUI.php';
+		$ty_se_mu = new ilSelectBuilderInputGUI($this->lng->txt('ps_cdf_value'),'va');
+		$ty_se_mu->setAllowMove(true);
 		$ty_se_mu->setRequired(true);
 		$ty_se_mu->setSize(32);
 		$ty_se_mu->setMaxLength(128);
 		$ty_se->addSubItem($ty_se_mu);
-		
 		
 		// Required
 		$re = new ilCheckboxInputGUI($this->lng->txt('ps_cdf_required'),'re');

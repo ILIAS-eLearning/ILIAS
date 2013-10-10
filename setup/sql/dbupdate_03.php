@@ -18978,3 +18978,14 @@ if(!$ilDB->tableColumnExists('sahs_user','last_status_change'))
 	);
 }
 ?>
+<#4123>
+<?php
+	if(!$ilDB->tableColumnExists('crs_f_definitions', 'field_values_opt'))
+	{
+		$ilDB->addTableColumn('crs_f_definitions', 'field_values_opt', array(
+			'type' => 'text',
+			'length'  => 1000,
+			'notnull' => false
+		));
+	}
+?>
