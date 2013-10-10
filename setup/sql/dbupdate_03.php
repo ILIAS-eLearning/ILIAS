@@ -18989,3 +18989,7 @@ if(!$ilDB->tableColumnExists('sahs_user','last_status_change'))
 		));
 	}
 ?>
+<#4124>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

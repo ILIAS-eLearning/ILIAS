@@ -24,9 +24,20 @@ class ilCronManager
 		
 		$ilSetting->set('last_cronjob_start_ts', time());
 		
+		// system
 		foreach(self::getCronJobData(null, false) as $row)
 		{					
-			self::runJob($row);
+			$job = self::getJobInstanceById($row["job_id"]);
+			if($job)
+			{
+				self::runJob($job, $row);
+			}
+		}
+		
+		// plugins
+		foreach(self::getPluginJobs(true) as $item)
+		{
+			self::runJob($item[0], $item[1]);
 		}		
 		
 		$ilLog->write("CRON - batch end");
@@ -46,10 +57,11 @@ class ilCronManager
 		
 		$ilLog->write("CRON - manual start (".$a_job_id.")");
 		
-		$job_data = array_pop(self::getCronJobData($a_job_id, false));
-		if($job_data["job_id"] == $a_job_id)
-		{
-			$result = self::runJob($job_data, true);						
+		$job = self::getJobInstanceById($a_job_id);		
+		if($job)
+		{			
+			$job_data = array_pop(self::getCronJobData($job->getId()));
+			$result = self::runJob($job, $job_data, true);						
 		}
 		else
 		{
@@ -64,19 +76,18 @@ class ilCronManager
 	/**
 	 * Run single cron job (internal)
 	 * 
+	 * @param ilCronJob $a_job
 	 * @param array $a_job_data
 	 * @param bool $a_manual
 	 * @return boolean
 	 */
-	protected static function runJob(array $a_job_data, $a_manual = false)
+	protected static function runJob(ilCronJob $a_job, array $a_job_data, $a_manual = false)
 	{
 		global $ilLog, $ilDB;
 		
 		$did_run = false;
 	
-		$job = self::getJobInstance($a_job_data["job_id"], $a_job_data["component"], 
-			$a_job_data["class"], $a_job_data["path"]);
-		if($job)
+		if($a_job)
 		{			
 			include_once "Services/Cron/classes/class.ilCronJobResult.php";		
 			
@@ -104,16 +115,16 @@ class ilCronManager
 
 					if(!$a_manual)
 					{
-						self::sendNotification($job, $result);
+						self::sendNotification($a_job, $result);
 					}
 
-					self::updateJobResult($job, $result, $a_manual);							
+					self::updateJobResult($a_job, $result, $a_manual);							
 
 					$ilLog->write("CRON - job ".$a_job_data["job_id"]." deactivated (assumed crash)");
 				}		
 			}
 			// initiate run?
-			else if($job->isActive($a_job_data["job_result_ts"], 
+			else if($a_job->isActive($a_job_data["job_result_ts"], 
 				$a_job_data["schedule_type"], $a_job_data["schedule_value"], $a_manual))
 			{
 				$ilLog->write("CRON - job ".$a_job_data["job_id"]." started");
@@ -124,7 +135,7 @@ class ilCronManager
 					" WHERE job_id = ".$ilDB->quote($a_job_data["job_id"], "text"));
 
 				$ts_in = self::getMicrotime();					
-				$result = $job->run();
+				$result = $a_job->run();
 				$ts_dur = self::getMicrotime()-$ts_in;
 
 				// no proper result 
@@ -137,7 +148,7 @@ class ilCronManager
 
 					if(!$a_manual)
 					{
-						self::sendNotification($job, $result);
+						self::sendNotification($a_job, $result);
 					}
 
 					$ilLog->write("CRON - job ".$a_job_data["job_id"]." no result");
@@ -145,11 +156,11 @@ class ilCronManager
 				// no valid configuration, job won't work
 				else if($result->getStatus() == ilCronJobResult::STATUS_INVALID_CONFIGURATION)
 				{
-					self::deactivateJob($job);
+					self::deactivateJob($a_job);
 
 					if(!$a_manual)
 					{
-						self::sendNotification($job, $result);	
+						self::sendNotification($a_job, $result);	
 					}
 
 					$ilLog->write("CRON - job ".$a_job_data["job_id"]." invalid configuration");
@@ -162,7 +173,7 @@ class ilCronManager
 
 				$result->setDuration($ts_dur);
 
-				self::updateJobResult($job, $result, $a_manual);
+				self::updateJobResult($a_job, $result, $a_manual);
 
 				$ilDB->manipulate("UPDATE cron_job SET".
 					" running_ts = ".$ilDB->quote(0, "integer").
@@ -188,18 +199,45 @@ class ilCronManager
 	 */
 	public static function getJobInstanceById($a_job_id)
 	{
-		global $ilLog;
-		
-		$job_data = array_pop(self::getCronJobData($a_job_id));
-		if($job_data["job_id"] == $a_job_id)
+		global $ilLog, $ilPluginAdmin;
+				
+		// plugin
+		if(substr($a_job_id, 0, 4) == "pl__")
 		{
-			return self::getJobInstance($job_data["job_id"], $job_data["component"], 
-				$job_data["class"], $job_data["path"]);				
+			$parts = explode("__", $a_job_id);
+			$pl_name = $parts[1];
+			$job_id = $parts[2];			
+			if($ilPluginAdmin->isActive(IL_COMP_SERVICE, "Cron", "crnhk", $pl_name))
+			{
+                $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, 
+					"Cron", "crnhk", $pl_name);			
+				$job = $plugin_obj->getCronJobInstance($job_id);
+				if($job instanceof ilCronJob)
+				{
+					// should never happen but who knows...
+					if(!sizeof(ilCronManager::getCronJobData($job_id)))
+					{						
+						// as job is not "imported" from xml
+						ilCronManager::createDefaultEntry($job, $pl_name, IL_COMP_PLUGIN, "");
+					}					
+					return $job;
+				}				
+			}
+			
+			return null;
 		}
+		// system
 		else
 		{
-			$ilLog->write("CRON - job ".$a_job_id." seems invalid or is inactive");
+			$job_data = array_pop(self::getCronJobData($a_job_id));
+			if($job_data["job_id"] == $a_job_id)
+			{
+				return self::getJobInstance($job_data["job_id"], $job_data["component"], 
+					$job_data["class"], $job_data["path"]);				
+			}
 		}
+		
+		$ilLog->write("CRON - job ".$a_job_id." seems invalid or is inactive");		
 	}
 	
 	/**
@@ -250,6 +288,56 @@ class ilCronManager
 		// :TODO:
 	}	
 	
+	public static function createDefaultEntry(ilCronJob $a_job, $a_component, $a_class, $a_path)
+	{
+		global $ilDB, $ilLog;
+		
+		// already exists?			
+		$sql = "SELECT job_id, schedule_type FROM cron_job".
+			" WHERE component = ".$ilDB->quote($a_component, "text").
+			" AND job_id = ".$ilDB->quote($a_job->getId(), "text");
+		$set = $ilDB->query($sql);
+		$row = $ilDB->fetchAssoc($set);
+		$job_exists = ($row["job_id"] == $a_job->getId());
+		$schedule_type = $row["schedule_type"];
+
+		// new job
+		if(!$job_exists)
+		{							
+			$sql = "INSERT INTO cron_job (job_id, component, class, path)".
+				" VALUES (".$ilDB->quote($a_job->getId(), "text").", ".
+				$ilDB->quote($a_component, "text").", ".
+				$ilDB->quote($a_class, "text").", ".
+				$ilDB->quote($a_path, "text").")";
+			$ilDB->manipulate($sql);
+			
+			$ilLog->write("Cron XML - Job ".$a_job->getId()." in class ".$a_class.
+				" added.");
+
+			// only if flexible
+			self::updateJobSchedule($a_job,  
+				$a_job->getDefaultScheduleType(),
+				$a_job->getDefaultScheduleValue());
+
+			if($a_job->hasAutoActivation())
+			{
+				self::activateJob($a_job);							
+			}														
+		}	
+		// existing job - but schedule is flexible now
+		else if($a_job->hasFlexibleSchedule() && !$schedule_type)
+		{
+			self::updateJobSchedule($a_job,  
+				$a_job->getDefaultScheduleType(),
+				$a_job->getDefaultScheduleValue());
+		}
+		// existing job - but schedule is static now
+		else if(!$a_job->hasFlexibleSchedule() && $schedule_type)
+		{
+			self::updateJobSchedule($a_job, null, null);
+		}		
+	}
+	
 	/**
 	 * Process data from module.xml/service.xml
 	 *
@@ -259,8 +347,8 @@ class ilCronManager
 	 * @param string $_path
 	 */
 	public static function updateFromXML($a_component, $a_id, $a_class, $a_path = null)
-	{
-		global $ilDB, $ilLog;
+	{		
+		global $ilDB;
 		
 		if(!$ilDB->tableExists("cron_job"))
 		{
@@ -271,50 +359,7 @@ class ilCronManager
 		$job = self::getJobInstance($a_id, $a_component, $a_class, $a_path);
 		if($job)
 		{	
-			// already exists?			
-			$sql = "SELECT job_id, schedule_type FROM cron_job".
-				" WHERE component = ".$ilDB->quote($a_component, "text").
-				" AND job_id = ".$ilDB->quote($a_id, "text");
-			$set = $ilDB->query($sql);
-			$row = $ilDB->fetchAssoc($set);
-			$job_exists = ($row["job_id"] == $a_id);
-			$schedule_type = $row["schedule_type"];
-		
-			// new job
-			if(!$job_exists)
-			{							
-				$sql = "INSERT INTO cron_job (job_id, component, class, path)".
-					" VALUES (".$ilDB->quote($job->getId(), "text").", ".
-					$ilDB->quote($a_component, "text").", ".
-					$ilDB->quote($a_class, "text").", ".
-					$ilDB->quote($a_path, "text").")";
-				$ilDB->manipulate($sql);
-
-				$ilLog->write("Cron XML - Job ".$job->getId()." in class ".$a_class.
-					" added.");
-
-				// only if flexible
-				self::updateJobSchedule($job,  
-					$job->getDefaultScheduleType(),
-					$job->getDefaultScheduleValue());
-
-				if($job->hasAutoActivation())
-				{
-					self::activateJob($job);							
-				}														
-			}	
-			// existing job - but schedule is flexible now
-			else if($job->hasFlexibleSchedule() && !$schedule_type)
-			{
-				self::updateJobSchedule($job,  
-					$job->getDefaultScheduleType(),
-					$job->getDefaultScheduleValue());
-			}
-			// existing job - but schedule is static now
-			else if(!$job->hasFlexibleSchedule() && $schedule_type)
-			{
-				self::updateJobSchedule($job, null, null);
-			}
+			self::createDefaultEntry($job, $a_component, $a_class, $a_path);
 		}												
 	}
 	
@@ -371,6 +416,38 @@ class ilCronManager
 		}
 	}
 	
+	public static function getPluginJobs($a_only_active = false)
+	{
+		global $ilPluginAdmin;
+		
+		$res = array();
+		
+		foreach($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Cron", "crnhk") as $pl_name)
+		{
+			$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "Cron", "crnhk", $pl_name);
+								
+			foreach((array)$plugin_obj->getCronJobInstances() as $job)
+			{				
+				$item = array_pop(ilCronManager::getCronJobData($job->getId()));					
+				if(!sizeof($item))
+				{						
+					// as job is not "imported" from xml
+					ilCronManager::createDefaultEntry($job, $pl_name, IL_COMP_PLUGIN, "");
+				}		
+				
+				$item = array_pop(ilCronManager::getCronJobData($job->getId()));	
+			}
+					
+			if(!$a_only_active ||
+				$item["job_status"] == 1)
+			{
+				$res[$job->getId()] = array($job, $item);	
+			}
+		}
+		
+		return $res;
+	}
+	
 	/**
 	 * Get cron job configuration/execution data
 	 * 
@@ -395,6 +472,10 @@ class ilCronManager
 		if($a_id)
 		{
 			$where[] = $ilDB->in("job_id", $a_id, "", "text");
+		}
+		else
+		{
+			$where[] = "class <> ".$ilDB->quote(IL_COMP_PLUGIN, "text");
 		}
 		if(!$a_include_inactive)
 		{
