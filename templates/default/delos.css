@@ -294,8 +294,9 @@ div#il_startup_content {
 }
 
 div.ilStartupSection div.ilForm {
-	margin: auto;
+	margin:auto;
 	text-align:left;
+	width:40em;
 }
 
 .registration {
