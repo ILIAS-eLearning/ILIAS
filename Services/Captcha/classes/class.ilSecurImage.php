@@ -54,7 +54,6 @@ class ilSecurImage
 		if(!function_exists("imagettftext"))
 		{
 			$this->securimage->use_gd_font = true;
-			$this->securimage->num_lines   = 5;
 		}
 
 		$this->securimage->num_lines = 3;
