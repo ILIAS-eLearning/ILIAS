@@ -220,7 +220,7 @@ var ilCOPage =
 		}
 	},
 	
-	cmdSaveReturn: function ()
+	cmdSaveReturn: function (and_new)
 	{
 		var el = document.getElementById('ilsaving');
 		el.style.display = '';
@@ -252,7 +252,7 @@ var ilCOPage =
 				pc_id_str: this.pc_id_str,
 				insert_at_id: ed_para,
 				ajaxform_char: style_class},
-				true, {}, this.saveReturnAjaxSuccess);
+				true, {and_new: and_new}, this.saveReturnAjaxSuccess);
 		}
 		else
 		{
@@ -269,7 +269,7 @@ var ilCOPage =
 				{ajaxform_content: content,
 				pc_id_str: this.pc_id_str,
 				ajaxform_char: style_class},
-				true, {}, this.saveReturnAjaxSuccess);
+				true, {and_new: and_new}, this.saveReturnAjaxSuccess);
 		}
 	},
 
@@ -1393,6 +1393,12 @@ if (add_final_spacer)
 				{
 					il.AdvancedSelectionList.init['style_selection']();
 					il.AdvancedSelectionList.init['char_style_selection']();
+				}
+				
+				// perform direct insert
+				if (o.argument.and_new) {
+					clickcmdid = ed_para;
+					doActionForm('cmd[exec]', 'command', 'insert_par', '', 'PageContent', '');
 				}
 			}
 		}

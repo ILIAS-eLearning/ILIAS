@@ -720,6 +720,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			}
 		}
 
+		// e.g. e.g. ###3:110dad8bad6df8620071a0a693a2d328###
 		$a_pc_id_str = $this->content_obj->getLastSavedPcId($this->pg_obj, true);
 		$ilCtrl->setParameterByClass($ilCtrl->getReturnClass($this), "updated_pc_id_str",
 			urlencode($a_pc_id_str));

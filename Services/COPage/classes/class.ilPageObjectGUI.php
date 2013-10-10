@@ -1835,6 +1835,7 @@ class ilPageObjectGUI
 		if ($ilCtrl->isAsynch() && !$this->getRawPageContent() &&
 			$this->getOutputMode() == "edit")
 		{
+			// e.g. ###3:110dad8bad6df8620071a0a693a2d328###
 			if ($_GET["updated_pc_id_str"] != "")
 			{
 				echo $_GET["updated_pc_id_str"];
@@ -2299,6 +2300,10 @@ class ilPageObjectGUI
 		{
 			$btpl->setCurrentBlock("save_return");
 			$btpl->setVariable("TXT_SAVE_RETURN", $lng->txt("save_return"));
+			$btpl->parseCurrentBlock();
+
+			$btpl->setCurrentBlock("save_new");
+			$btpl->setVariable("TXT_SAVE_NEW", $lng->txt("save_new"));
 			$btpl->parseCurrentBlock();
 		}
 
@@ -2817,7 +2822,7 @@ class ilPageObjectGUI
 	function edit()
 	{
 		global $tree, $lng, $ilCtrl, $ilSetting, $ilUser;
-		
+
 		// editing allowed?
 		if (!$this->getEnableEditing())
 		{
