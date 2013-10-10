@@ -27,6 +27,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $submit_form_on_enter = false;
 
 	/**
+	 * @var bool Flag whether the html autocomplete attribute should be set or not
+	 */
+	protected $autocomplete = true;
+
+	/**
 	* Constructor
 	*
 	* @param	string	$a_title	Title
@@ -485,6 +490,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		{
 			$tpl->setVariable("STYLE_PAR", '');
 		}
+
+		if(!$this->getAutoComplete())
+		{
+			$tpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
+		}
 		
 		// multi icons
 		if($this->getMulti() && !$a_mode && !$this->getDisabled())
@@ -526,6 +536,21 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		$html = $this->render("toolbar");
 		return $html;
 	}
-	
+
+	/**
+	 * @param boolean $autocomplete
+	 */
+	public function setAutocomplete($autocomplete)
+	{
+		$this->autocomplete = $autocomplete;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getAutocomplete()
+	{
+		return $this->autocomplete;
+	}
 }
 ?>
