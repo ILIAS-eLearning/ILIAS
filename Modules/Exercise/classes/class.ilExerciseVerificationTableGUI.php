@@ -44,6 +44,10 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 		global $ilUser;
 
 		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
+		
+		// #11818
+		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
+		include_once "./Services/Certificate/classes/class.ilCertificate.php";
 
 		$data = array();
 		foreach(ilObjExercise::_lookupFinishedUserExercises($ilUser->getId()) as $exercise_id => $passed)
@@ -51,7 +55,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 			// #11210 - only available certificates!
 			$exc = new ilObjExercise($exercise_id, false);				
 			if($exc->hasUserCertificate($ilUser->getId()))
-			{						
+			{										
 				$adapter = new ilExerciseCertificateAdapter($exc);
 				if(ilCertificate::_isComplete($adapter))
 				{				
