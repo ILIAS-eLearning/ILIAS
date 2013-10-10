@@ -38,7 +38,7 @@ class ilSecurImageUtil
 	{
 		$script = self::getDirectory() . '/securimage_play.swf';
 		$script = ilUtil::appendUrlParameterString($script, 'audio_file=' . self::getDirectory() . '/il_securimage_play.php', true);
-		$script = ilUtil::appendUrlParameterString($script, 'icon_file=' . ilUtil::getImagePath('amarok.png'), true);
+		$script = ilUtil::appendUrlParameterString($script, 'icon_file=' . ilUtil::getImagePath('icon_audiocaptcha-19.png'), true);
 		return $script;
 	}
 
