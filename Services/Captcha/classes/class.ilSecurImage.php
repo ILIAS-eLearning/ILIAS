@@ -1,17 +1,38 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Captcha/classes/class.ilSecurImageUtil.php");
+require_once 'Services/Captcha/classes/class.ilSecurImageUtil.php';
 
 /**
  * SecurImage Wrapper (very simply wrapper, does not abstract other captchas)
  *
  * @author Alex Killing <alex.killing@gmx.de>
+ * @author Michael Jansen <mjansen@databay.de>
  * @ingroup	ServicesCaptcha
  * @version $Id$
  */
 class ilSecurImage
 {
+	/**
+	 * @var int
+	 */
+	const MAX_CAPTCHA_IMG_WIDTH = 430;
+
+	/**
+	 * @var int
+	 */
+	const MAX_CAPTCHA_IMG_HEIGHT = 160;
+
+	/**
+	 * @var int
+	 */
+	protected $image_width = 0;
+
+	/**
+	 * @var int
+	 */
+	protected $image_height = 0;
+	
 	/**
 	 * @var Securimage
 	 */
@@ -70,5 +91,46 @@ class ilSecurImage
 		chdir(ilSecurImageUtil::getDirectory());
 		$this->securimage->outputAudioFile();
 	}
+
+	/**
+	 * @param int $image_height
+	 * @throws InvalidArgumentException
+	 */
+	public function setImageHeight($image_height)
+	{
+		if(!is_numeric($image_height) || $image_height > self::MAX_CAPTCHA_IMG_HEIGHT)
+		{
+			throw new InvalidArgumentException('Please provide a valid image height (numeric value > 0 and <= ' . self::MAX_CAPTCHA_IMG_HEIGHT);
+		}
+		$this->image_height = $image_height;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getImageHeight()
+	{
+		return $this->image_height;
+	}
+
+	/**
+	 * @param int $image_width
+	 * @throws InvalidArgumentException
+	 */
+	public function setImageWidth($image_width)
+	{
+		if(!is_numeric($image_width) || $image_width > self::MAX_CAPTCHA_IMG_WIDTH)
+		{
+			throw new InvalidArgumentException('Please provide a valid image width (numeric value > 0 and <= ' . self::MAX_CAPTCHA_IMG_WIDTH);
+		}
+		$this->image_width = $image_width;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getImageWidth()
+	{
+		return $this->image_width;
+	}
 }
-?>

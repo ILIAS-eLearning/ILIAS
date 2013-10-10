@@ -1,13 +1,13 @@
 <div class="iosCaptcha">
 	<div class="iosCaptchaImageContainer">
-		<img id="{TXT_CAPTCHA_ID}" class="iosCaptchaImage" src="{IMAGE_SCRIPT}" alt="{TXT_CAPTCHA_ALT}" />
+		<img id="{CAPTCHA_ID}" class="iosCaptchaImage" src="{IMAGE_SCRIPT}" alt="{TXT_CAPTCHA_ALT}" />
 	</div>
-	<div class="iosCaptchaButtonContainer">
+	<div class="iosCaptchaInfoContainer ilFormInfo">{TXT_CAPTCHA_INFO}</div>
+	<div class="iosCaptchaInputCommandContainer">
+		<input class="iosCaptchaInput" type="text" size="{SIZE}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
 		<object class="audio" type="application/x-shockwave-flash" data="{AUDIO_SCRIPT}" title="{TXT_CAPTCHA_AUDIO_TITLE}">
 			<param name="movie" value="{AUDIO_SCRIPT}" />
 		</object>
-		<a class="reload" href="#" title="{TXT_RELOAD}" onclick="document.getElementById('{TXT_CAPTCHA_ID}').src = '{IMAGE_SCRIPT}' + '?' + Math.random(); return false"><img src="{SRC_RELOAD}" alt="{TXT_RELOAD}" /></a>
+		<a class="reload" href="#" title="{TXT_RELOAD}" onclick="document.getElementById('{CAPTCHA_ID}').src = '{IMAGE_SCRIPT}' + '?' + Math.random(); return false"><img src="{SRC_RELOAD}" alt="{TXT_RELOAD}" /></a>
 	</div>
 </div>
-<div style="clear:both"></div>
-<input class="iosCaptchaInput" type="text" size="20" maxlength="10" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
