@@ -2073,7 +2073,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		{			
 			include_once("Services/Tracking/classes/class.ilLPStatus.php");	
 			$has_completed = ilLPStatus::_hasUserCompleted($this->getId(), $a_member_id);
-			$this->getMembersObject()->updatePassed($a_member_id, $has_completed);					
+			$this->getMembersObject()->updatePassed($a_member_id, $has_completed, true);					
 		}		
 	}		
 	
