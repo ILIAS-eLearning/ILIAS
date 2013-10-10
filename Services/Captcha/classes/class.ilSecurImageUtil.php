@@ -40,7 +40,7 @@ class ilSecurImageUtil
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function includeSecurImage()
 	{

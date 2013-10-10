@@ -5,11 +5,10 @@ require_once 'Services/Captcha/classes/class.ilSecurImageUtil.php';
 
 /**
  * SecurImage Wrapper (very simply wrapper, does not abstract other captchas)
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @author Michael Jansen <mjansen@databay.de>
- * @ingroup	ServicesCaptcha
- * @version $Id$
+ * @author     Alex Killing <alex.killing@gmx.de>
+ * @author     Michael Jansen <mjansen@databay.de>
+ * @ingroup    ServicesCaptcha
+ * @version    $Id$
  */
 class ilSecurImage
 {
@@ -32,26 +31,23 @@ class ilSecurImage
 	 * @var int
 	 */
 	protected $image_height = 0;
-	
+
 	/**
 	 * @var Securimage
 	 */
 	protected $securimage;
-	
+
 	/**
 	 * Constructor
-	 *
-	 * @param
-	 * @return
 	 */
-	function __construct()
+	public function __construct()
 	{
 		ilSecurImageUtil::includeSecurImage();
 		$this->securimage = new Securimage();
-		if (!function_exists("imagettftext"))
+		if(!function_exists("imagettftext"))
 		{
 			$this->securimage->use_gd_font = true;
-			$this->securimage->num_lines = 5;
+			$this->securimage->num_lines   = 5;
 		}
 	}
 
@@ -62,29 +58,27 @@ class ilSecurImage
 	{
 		return $this->securimage;
 	}
-	
+
 	/**
-	 * Check the input
+	 * @param $a_input
+	 * @return bool
 	 */
-	function check($a_input)
+	public function check($a_input)
 	{
 		return $this->securimage->check($a_input);
 	}
-	
+
 	/**
-	 * Show image
-	 *
-	 * @param
-	 * @return
+	 * 
 	 */
-	function showImage()
+	public function showImage()
 	{
 		chdir(ilSecurImageUtil::getDirectory());
 		$this->securimage->show();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function outputAudioFile()
 	{
