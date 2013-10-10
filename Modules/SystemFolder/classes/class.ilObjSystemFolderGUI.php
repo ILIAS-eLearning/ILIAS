@@ -2221,7 +2221,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				global $ilSetting;
 
 				$fields = array(
-					'adm_captcha_anonymous_short' => array($ilSetting->get('adm_captcha_anonymous_short', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+					'adm_captcha_anonymous_short' => array($ilSetting->get('activate_captcha_anonym', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
 				);
 
 				return array('general_settings' => array('showBasicSettings', $fields));
