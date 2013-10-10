@@ -101,12 +101,10 @@ class ilObjOrgUnitTree {
 				$this->staff[$title][$orgu_ref][] = $res["usr_id"];
 			}
 		}
-
 		//collect * users.
 		$all_users = array();
 		foreach($all_refs as $ref)
 			$all_users = array_merge($all_users, $this->staff[$title][$ref]);
-
 		return $all_users;
 	}
 

@@ -13672,6 +13672,8 @@ dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
 common#:#objs_orgu#:#Organisationseinheiten
 common#:#obj_orgu#:#Organisationseinheit
 orgu#:#view_learning_progress#:#Lernfortschritt Einsehen
+orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
+orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
 orgu#:#il_orgu_employee#:#Angestellter
 orgu#:#il_orgu_superior#:#Vorgesetzter
 orgu#:#orgu_staff#:#Mitarbeiter
