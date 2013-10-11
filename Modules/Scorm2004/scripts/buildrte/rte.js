@@ -1,4 +1,4 @@
-// Build: 20131011140746 
+// Build: 20131011161338 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -15052,6 +15052,8 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);
 					cmiItem.cmi.total_time = total_time.toString();
 				}
+				//auto suspend
+				if (config.auto_suspend==true) cmiItem.cmi.exit="suspend";
 				//store correct status in DB; returnValue1 because of IE;
 				var statusValues=syncCMIADLTree();
 				statusHandler(cmiItem.scoid,"completion",statusValues[0]);
