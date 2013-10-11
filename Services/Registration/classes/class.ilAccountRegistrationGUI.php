@@ -109,7 +109,7 @@ class ilAccountRegistrationGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			$this->tpl->setCurrentBlock('LANG_CHANGE_FORMACTION');
+			$this->tpl->setCurrentBlock('lang_headline');
 			$this->tpl->setVariable('LANG_CHANGE_CMD', 'displayForm');
 			$this->tpl->setVariable('LANG_CHANGE_FORMACTION', $this->ctrl->getFormAction($this, 'displayForm'));
 			$this->tpl->setVariable('LANG_CHANGE_TXT_OK', $lng->txt('ok'));
