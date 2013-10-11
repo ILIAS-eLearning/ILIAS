@@ -158,16 +158,14 @@ class ilPasswordAssistanceGUI
 	public function showAssistanceForm(ilPropertyFormGUI $form = null, $message = '')
 	{
 		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assistance.html', true);
+		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
+		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
 		if($message)
 		{
 			ilStartUpGUI::showFailure(str_replace("\\n", '<br />', $message));
 		}
 
-		$this->tpl->setVariable('IMG_AUTH', ilUtil::getImagePath('icon_auth_b.png'));
-		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
-
-		$contact_address = $this->settings->get('admin_email');
 		$this->tpl->setVariable
 		(
 			'TXT_ENTER_USERNAME_AND_EMAIL',
@@ -177,7 +175,7 @@ class ilPasswordAssistanceGUI
 				sprintf
 				(
 					$this->lng->txt('pwassist_enter_username_and_email'),
-					'<a href="mailto:' . $contact_address . '">' . $contact_address . '</a>'
+					'<a href="mailto:' . $this->settings->get('admin_email') . '">' . $this->settings->get('admin_email') . '</a>'
 				)
 			)
 		);
@@ -428,14 +426,14 @@ class ilPasswordAssistanceGUI
 		else
 		{
 			ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assignpassword.html', true);
+			$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
+			$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
 			if($message)
 			{
 				ilStartUpGUI::showFailure(str_replace("\\n", '<br />', $message));
 			}
 
-			$this->tpl->setVariable('IMG_AUTH', ilUtil::getImagePath('icon_auth_b.png'));
-			$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 			$this->tpl->setVariable('TXT_ENTER_USERNAME_AND_NEW_PASSWORD', $this->lng->txt('pwassist_enter_username_and_new_password'));
 
 			if(!$form)
@@ -602,16 +600,14 @@ class ilPasswordAssistanceGUI
 	public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null, $message = '')
 	{
 		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_username_assistance.html', true);
+		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
+		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
 		if($message)
 		{
 			ilStartUpGUI::showFailure(str_replace("\\n", '<br />', $message));
 		}
 
-		$this->tpl->setVariable('IMG_AUTH', ilUtil::getImagePath('icon_auth_b.png'));
-		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
-
-		$contact_address = $this->settings->get('admin_email');
 		$this->tpl->setVariable
 		(
 			'TXT_ENTER_USERNAME_AND_EMAIL',
@@ -621,7 +617,7 @@ class ilPasswordAssistanceGUI
 				sprintf
 				(
 					$this->lng->txt('pwassist_enter_email'),
-					'<a href="mailto:' . $contact_address . '">' . $contact_address . '</a>'
+					'<a href="mailto:' . $this->settings->get('admin_email') . '">' . $this->settings->get('admin_email') . '</a>'
 				)
 			)
 		);
@@ -772,9 +768,9 @@ class ilPasswordAssistanceGUI
 		}
 
 		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_message.html', true);
-
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
-		$this->tpl->setVariable('IMG_AUTH', ilUtil::getImagePath('icon_auth_b.png'));
+		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
+
 		$this->tpl->setVariable('TXT_TEXT', str_replace("\\n", '<br />', $text));
 		$this->tpl->show();
 	}
