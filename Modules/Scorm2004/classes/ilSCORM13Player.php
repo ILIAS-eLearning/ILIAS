@@ -303,7 +303,7 @@ class ilSCORM13Player
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
 			'mode' => 'normal',//TODO CHECK CP_PACKAGE
 			'credit' => 'credit',
-			'auto_review' => $this->slm->getAutoReview(),
+			'auto_review' => $this->slm->getAutoReviewChar(),
 			'hide_navig' => $this->slm->getHideNavig(),
 			'hide_menu' => $this->slm->getNoMenu(),
 			'sequencing_enabled' => $this->slm->getSequencing(),
