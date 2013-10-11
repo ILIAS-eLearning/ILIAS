@@ -121,7 +121,6 @@ function initDebug(){
 			if(ir[i][1]==iv.launchId) href=ir[i][3];
 		}
 		as_APIcalls.push('<tr class="d"><td colspan=5>SCO: '+decodeURIComponent(iv.dataDirectory+href)+' (Id: '+iv.launchId+')</td></tr>');
-		APIcallStartTimeMS=new Date().getTime();
 	}
 }
 

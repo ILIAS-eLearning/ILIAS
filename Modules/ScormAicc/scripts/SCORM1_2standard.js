@@ -312,23 +312,24 @@ function addTime(s_a,s_b) {
 		}
 		return it;
 	}
-	function hsec2timestr(ts){
-		function fmt(ix){
-			var sx=Math.floor(ix).toString();
-			if(ix<10) sx="0"+sx;
-			return sx;
-		}
-		var ic=ts%100;
-		var is=(ts%6000)/100;
-		var im=(ts%360000)/6000;
-		var ih=ts/360000;
-		if(ih>9999) ih=9999;
-		if(ic == 0) return fmt(ih)+":"+fmt(im)+":"+fmt(is);
-		return fmt(ih)+":"+fmt(im)+":"+fmt(is)+"."+fmt(ic);
-	}
 	var i_hs=timestr2hsec(s_a)+timestr2hsec(s_b);
 	return hsec2timestr(i_hs);
-}	
+}
+
+function hsec2timestr(ts){
+	function fmt(ix){
+		var sx=Math.floor(ix).toString();
+		if(ix<10) sx="0"+sx;
+		return sx;
+	}
+	var ic=ts%100;
+	var is=(ts%6000)/100;
+	var im=(ts%360000)/6000;
+	var ih=ts/360000;
+	if(ih>9999) ih=9999;
+	if(ic == 0) return fmt(ih)+":"+fmt(im)+":"+fmt(is);
+	return fmt(ih)+":"+fmt(im)+":"+fmt(is)+"."+fmt(ic);
+}
 
 function LMSInitialize(param){
 	function setreturn(thisErrorCode,thisDiag){
@@ -387,6 +388,8 @@ function LMSInitialize(param){
 		o_i["interactions"]=new Object();
 	}
 
+	APIcallStartTimeMS=new Date().getTime();
+
 	initDebug();
 
 	return setreturn(0,"");
@@ -403,6 +406,14 @@ function LMSCommit(param) {
 	}
 	if (param!=="") return setreturn(201,"param must be empty string");
 	if (!Initialized) return setreturn(301,"");
+	if (iv.c_storeSessionTime == "i") {
+		var timeNowMS=new Date().getTime();
+		var i_sessionTimeHsec=Math.round((timeNowMS-APIcallStartTimeMS)/10);
+		var s_sessionTime=hsec2timestr(i_sessionTimeHsec);
+		var b_result=setValueIntern(sco_id,'cmi.core.session_time',s_sessionTime,true);
+		var ttime = addTime(totalTimeAtInitialize, s_sessionTime);
+		b_result=setValueIntern(sco_id,'cmi.core.total_time',ttime,true);
+	}
 	if (IliasCommit()==false) return setreturn(101,"LMSCommit was not successful");
 	else return setreturn(0,"");
 }
