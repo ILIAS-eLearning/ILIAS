@@ -314,16 +314,15 @@ class ilStartUpGUI
 		
 		// Instantiate login template
 		self::initStartUpTemplate("tpl.login.html");
-		
-				
+
 		// we need the template for this
 		if($failure)
 		{
-			self::showFailure($failure);
+			ilUtil::sendFailure($failure);
 		}
 		else if($success)
 		{
-			self::showSuccess($success);
+			ilUtil::sendSuccess($success);
 		}
 
 		$page_editor_html = $this->getLoginPageEditorHTML();
@@ -349,7 +348,7 @@ class ilStartUpGUI
 		// browser does not accept cookies
 		if (isset($_GET['cookies']) && $_GET['cookies'] == 'nocookies')
 		{
-			self::showFailure($lng->txt("err_no_cookies"));			
+			ilUtil::sendFailure($lng->txt("err_no_cookies"));
 		}
 
 		if(strlen($page_editor_html))
@@ -366,8 +365,8 @@ class ilStartUpGUI
 		
 		self::initStartUpTemplate("tpl.login_reactivate_code.html");
 
-		self::showFailure($lng->txt("time_limit_reached"));
-		
+		ilUtil::sendFailure($lng->txt("time_limit_reached"));
+
 		if(!$a_form)
 		{
 			$a_form = $this->initCodeForm($a_username);
@@ -937,58 +936,24 @@ class ilStartUpGUI
 	}
 
 	/**
-	 * @param string $a_mess
-	 */
-	public static function showFailure($a_mess)
-	{
-		/**
-		 * @var $tpl ilTemplate
-		 * @var $lng ilLanguage
-		 */
-		global $tpl, $lng;
-
-		$tpl->setCurrentBlock('warning');
-		$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $a_mess);
-		$tpl->setVariable('MESSAGE_HEADING', $lng->txt('failure_message'));
-		$tpl->setVariable('ALT_IMAGE', $lng->txt('icon') . ' ' . $lng->txt('failure_message'));
-		$tpl->setVariable('SRC_IMAGE', ilUtil::getImagePath('mess_failure.png'));
-		$tpl->parseCurrentBlock();
-	}
-
-	/**
-	 * @param string $a_mess
-	 */
-	public static function showSuccess($a_mess)
-	{
-		/**
-		 * @var $tpl ilTemplate
-		 * @var $lng ilLanguage
-		 */
-		global $tpl, $lng;
-
-		$tpl->setCurrentBlock('success');
-		$tpl->setVariable('TXT_MSG_LOGIN_SUCCESS', $a_mess);
-		$tpl->setVariable('MESSAGE_HEADING', $lng->txt('success_message'));
-		$tpl->setVariable('ALT_IMAGE', $lng->txt('icon') . ' ' . $lng->txt('success_message'));
-		$tpl->setVariable('SRC_IMAGE', ilUtil::getImagePath('mess_success.png'));
-		$tpl->parseCurrentBlock();
-	}
-	
-	/**
 	 * Show account migration screen
-	 *
-	 * @access public
-	 * @param 
-	 * 
+	 * @param string $a_message
 	 */
 	public function showAccountMigration($a_message = '')
 	{
-	 	global $tpl,$lng;
-	 	
+		/**
+		 * @var $tpl ilTemplate
+		 * @var $lng ilLanguage
+		 */
+		global $tpl, $lng;
+		
+		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+		iljQueryUtil::initjQuery();
+
 		$lng->loadLanguageModule('auth');		
-		self::initStartUpTemplate("tpl.login_account_migration.html");
+		self::initStartUpTemplate('tpl.login_account_migration.html');
 	 
-	 	include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+	 	include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 	 	$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this,'migrateAccount'));
 		
@@ -1026,10 +991,10 @@ class ilStartUpGUI
 		
 		if(strlen($a_message))
 		{
-			self::showFailure($a_message);
+			ilUtil::sendFailure($a_message);
 		}
 
-		$tpl->show('DEFAULT');		
+		$tpl->show('DEFAULT');
 	}
 	
 	/**
@@ -1219,14 +1184,13 @@ class ilStartUpGUI
 
 		$valid = $ilAuth->getValidationData();
 
-		$tpl->addBlockFile("CONTENT", "content", "tpl.user_mapping_selection.html",
-			"Services/Init");
+		self::initStartUpTemplate("tpl.user_mapping_selection.html");
 		$email_user = ilObjUser::_getLocalAccountsForEmail($valid["email"]);
 
 
 		if ($ilAuth->sub_status == AUTH_WRONG_LOGIN)
 		{
-			self::showFailure($lng->txt("err_wrong_login"));
+			ilUtil::sendFailure($lng->txt("err_wrong_login"));
 		}
 
 		include_once('./Services/User/classes/class.ilObjUser.php');
