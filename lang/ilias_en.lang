@@ -14069,7 +14069,7 @@ common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS User Name as cmi.lear
 common#:#scorm_login_as_learner_id_info#:#If enabled, the User Name instead of the User ID is set for cmi.learner_id.
 content#:#cont_sc_auto_review_2004#:#Automatic Review Mode
 content#:#cont_sc_auto_review_info_2004#:#If the automatic review mode is enabled, then the tracking data for a chapter (SCO) of the learning module are not stored when one of these options apply. In the rare case however, that the learning module makes use of Sequencing & Navigation according to SCORM 2004, this option should not be enabled.
-content#:#cont_sc_auto_review_no#:#diabled
+content#:#cont_sc_auto_review_no#:#disabled
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#if completed or passed, but not failed (recommended for Automatic Review Mode)
 content#:#cont_sc_auto_review_passed#:#if passed
 content#:#cont_sc_auto_review_passed_or_failed#:#if passed or failed
