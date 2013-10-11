@@ -1435,50 +1435,46 @@ class ilStartUpGUI
 	protected function showTermsOfService()
 	{
 		/**
-		 * @var $lng ilLanguage
-		 * @var $tpl ilTemplate
-		 * @var $ilUser ilObjUser
+		 * @var $lng       ilLanguage
+		 * @var $tpl       ilTemplate
+		 * @var $ilUser    ilObjUser
 		 * @var $ilSetting ilSetting
 		 */
 		global $lng, $tpl, $ilUser, $ilSetting;
-		
-		$back_to_login =('getAcceptance' != $this->ctrl->getCmd());
-		
-		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);		
-		$tpl->addBlockFile('STATUSLINE', 'statusline', 'tpl.statusline.html');
 
-		ilUtil::infoPanel();
+		$back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
+		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 		$tpl->setVariable('TXT_PAGEHEADLINE', $lng->txt('usr_agreement'));
-		$tpl->setVariable('TXT_PAGETITLE', - 'ILIAS3' . $lng->txt('usr_agreement'));
-		
+
 		// #9728
 		$lang_opts = array();
-		foreach ($lng->getInstalledLanguages() as $lang_key)
+		foreach($lng->getInstalledLanguages() as $lang_key)
 		{
-			$lang_opts[$lang_key] = ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key);
+			$lang_opts[$lang_key] = ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key);
 		}
-		
+
 		if(sizeof($lang_opts) > 1) // #11237
-		{			
-			$tpl->setVariable('LANG_VAL_CMD', $this->ctrl->getCmd());
-			$tpl->setVariable('AGR_LANG_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-			$tpl->setVariable('TXT_CHOOSE_LANGUAGE', $lng->txt('choose_language'));
-			$tpl->setVariable('TXT_OK', $lng->txt('ok'));
-						
+		{
 			asort($lang_opts);
-			
 			foreach($lang_opts as $lang_key => $lang_caption)
 			{
-				$tpl->setCurrentBlock('languages');
-				$tpl->setVariable('LANG_NAME', $lang_caption);
-				$tpl->setVariable('LANG_KEY', $lang_key);
-				if($lang_key == $lng->lang_key)
+				$tpl->setCurrentBlock('lang_headline_languages');
+				$tpl->setVariable('LANG_HEADLINE_LANGUAGES_LANG_NAME', $lang_caption);
+				$tpl->setVariable('LANG_HEADLINE_LANGUAGES_LANG_KEY', $lang_key);
+				if($lang_key == $lng->getLangKey())
 				{
-					$tpl->setVariable("SELECTED_LANG", ' selected="selected"');
+					$tpl->setVariable('LANG_HEADLINE_LANGUAGES_SELECTED_LANG', ' selected="selected"');
 				}
 				$tpl->parseCurrentBlock();
-			}			
+			}
+
+			$tpl->setCurrentBlock('lang_headline');
+			$tpl->setVariable('LANG_CHANGE_CMD', $this->ctrl->getCmd());
+			$tpl->setVariable('LANG_CHANGE_FORMACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+			$tpl->setVariable('LANG_CHANGE_TXT_OK', $lng->txt('ok'));
+			$tpl->setVariable('LANG_CHANGE_TXT_CHOOSE_LANGUAGE', $lng->txt('choose_language'));
+			$tpl->setCurrentBlock('lang_headline');
 		}
 
 		try
@@ -1501,7 +1497,7 @@ class ilStartUpGUI
 					}
 					else
 					{
-						ilUtil::redirect('index.php?target='.$_GET['target'].'&client_id='.CLIENT_ID);
+						ilUtil::redirect('index.php?target=' . $_GET['target'] . '&client_id=' . CLIENT_ID);
 					}
 				}
 
@@ -1515,7 +1511,7 @@ class ilStartUpGUI
 		}
 		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
 		{
-			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:'.$ilSetting->get('feedback_recipient')));
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:' . $ilSetting->get('feedback_recipient')));
 		}
 
 		$tpl->show();
@@ -1960,39 +1956,62 @@ class ilStartUpGUI
 			'OID_LOGIN_FORM'
 		);
 	}
-	
+
+	/**
+	 * This method enriches the global template with some user interface elements (language selection, headlines, back buttons, ...) for public service views
+	 * @param mixed   $a_tmpl The template file as a string of as an array (index 0: template file, index 1: template directory)
+	 * @param bool    $a_show_back
+	 * @param bool    $a_show_logout
+	 */
 	public static function initStartUpTemplate($a_tmpl, $a_show_back = false, $a_show_logout = false)
 	{
+		/**
+		 * @var $tpl       ilTemplate
+		 * @var $lng       ilLanguage
+		 * @var $ilCtrl    ilCtrl
+		 * @var $ilSetting ilSetting
+		 * @var $ilAccess  ilAccessHandler
+		 */
 		global $tpl, $lng, $ilCtrl, $ilSetting, $ilAccess;
-		
-		$tpl->addBlockfile("CONTENT", "content", "tpl.startup_screen.html",
-			"Services/Init");
-		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		
+
+		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
+		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
+
 		if($a_show_back)
 		{
-			$tpl->setCurrentBlock("link_item_bl");
-			$tpl->setVariable("LINK_TXT", $lng->txt("login_to_ilias"));
-			$tpl->setVariable("LINK_URL", $ilCtrl->getLinkTargetByClass("ilStartUpGUI", "showLogin"));
+			$tpl->setCurrentBlock('link_item_bl');
+			$tpl->setVariable('LINK_TXT', $lng->txt('login_to_ilias'));
+			$tpl->setVariable('LINK_URL', $ilCtrl->getLinkTargetByClass('ilStartUpGUI', 'showLogin'));
 			$tpl->parseCurrentBlock();
-			
-			if ($ilSetting->get("pub_section") &&
-				$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID))
-			{				
-				$tpl->setVariable("LINK_URL","?client_id=".$_COOKIE["ilClientId"]."&lang=".$lng->getLangKey());
-				$tpl->setVariable("LINK_TXT",$lng->txt("home"));
+
+			if(
+				$ilSetting->get('pub_section') &&
+				$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)
+			)
+			{
+				$tpl->setVariable('LINK_URL', '?client_id=' . $_COOKIE['ilClientId'] . '&lang=' . $lng->getLangKey());
+				$tpl->setVariable('LINK_TXT', $lng->txt('home'));
 				$tpl->parseCurrentBlock();
-			}			
+			}
 		}
 		else if($a_show_logout)
 		{
-			$tpl->setCurrentBlock("link_item_bl");
+			$tpl->setCurrentBlock('link_item_bl');
 			$tpl->setVariable('LINK_TXT', $lng->txt('logout'));
-			$tpl->setVariable('LINK_URL', ILIAS_HTTP_PATH.'/logout.php');
-			$tpl->parseCurrentBlock();		
+			$tpl->setVariable('LINK_URL', ILIAS_HTTP_PATH . '/logout.php');
+			$tpl->parseCurrentBlock();
 		}
-		
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", $a_tmpl,"Services/Init");
+
+		if(is_array($a_tmpl))
+		{
+			$template_file = $a_tmpl[0];
+			$template_dir  = $a_tmpl[1];
+		}
+		else
+		{
+			$template_file = $a_tmpl;
+			$template_dir  = 'Services/Init';
+		}
+		$tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
 	}
 }
-?>

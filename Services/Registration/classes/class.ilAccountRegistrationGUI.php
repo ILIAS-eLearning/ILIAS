@@ -74,54 +74,54 @@ class ilAccountRegistrationGUI
 		return true;
 	}
 
+	/**
+	 * 
+	 */
 	public function displayForm()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
-		$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$this->tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.usr_registration.html",
-			"Services/Registration");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
+		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
+		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
 		$lang_opts = array();
-		foreach ($lng->getInstalledLanguages() as $lang_key)
+		foreach($lng->getInstalledLanguages() as $lang_key)
 		{
-			$lang_opts[$lang_key] = ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key);
+			$lang_opts[$lang_key] = ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_' . $lang_key);
 		}
-		
+
 		// #11237
 		if(sizeof($lang_opts) > 1)
-		{			
-			// language selection
-			$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TXT_OK",$lng->txt("ok"));
-			$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-			
+		{
 			asort($lang_opts);
-
-			$this->tpl->setCurrentBlock("languages");
 			foreach($lang_opts as $lang_key => $lang_caption)
 			{
-				$this->tpl->setVariable("LANG_NAME", $lang_caption);
-				$this->tpl->setVariable("LANG_ICON", $lang_key);
-
+				$this->tpl->setCurrentBlock('lang_headline_languages');
+				$this->tpl->setVariable('LANG_HEADLINE_LANGUAGES_LANG_NAME', $lang_caption);
+				$this->tpl->setVariable('LANG_HEADLINE_LANGUAGES_LANG_KEY', $lang_key);
 				if($lang_key == $lng->getLangKey())
 				{
-					$this->tpl->setVariable("SELECTED_LANG", " selected=\"selected\"");
+					$this->tpl->setVariable('LANG_HEADLINE_LANGUAGES_SELECTED_LANG', ' selected="selected"');
 				}
-
 				$this->tpl->parseCurrentBlock();
 			}
+
+			$this->tpl->setCurrentBlock('LANG_CHANGE_FORMACTION');
+			$this->tpl->setVariable('LANG_CHANGE_CMD', 'displayForm');
+			$this->tpl->setVariable('LANG_CHANGE_FORMACTION', $this->ctrl->getFormAction($this, 'displayForm'));
+			$this->tpl->setVariable('LANG_CHANGE_TXT_OK', $lng->txt('ok'));
+			$this->tpl->setVariable('LANG_CHANGE_TXT_CHOOSE_LANGUAGE', $lng->txt('choose_language'));
+			$this->tpl->setCurrentBlock('lang_headline');
 		}
 
 		if(!$this->form)
 		{
 			$this->__initForm();
 		}
-		$this->tpl->setVariable("FORM", $this->form->getHTML());
+		$this->tpl->setVariable('FORM', $this->form->getHTML());
 	}
 	
 	protected function __initForm()
@@ -822,57 +822,59 @@ class ilAccountRegistrationGUI
 			}
 		}
 	}
-	
+
+	/**
+	 * @param string $password
+	 */
 	public function login($password)
 	{
-		global $ilias,$lng,$ilLog;
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
 
-		$ilLog->write("Entered login");
+		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), true);
+		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
-		$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$this->tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.usr_registered.html",
-			"Services/Registration");
-
-		$this->tpl->setVariable("IMG_USER",
-			ilUtil::getImagePath("icon_usr_b.png"));
-		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
-		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".$this->userObj->getTitle()."!");
-
-		if (($this->registration_settings->getRegistrationType() == IL_REG_DIRECT or
-				$this->registration_settings->getRegistrationType() == IL_REG_CODES or
-				$this->code_was_used) and
-			!$this->registration_settings->passwordGenerationEnabled())
+		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
+		if(
+			(
+				$this->registration_settings->getRegistrationType() == IL_REG_DIRECT ||
+				$this->registration_settings->getRegistrationType() == IL_REG_CODES ||
+				$this->code_was_used
+			) &&
+			!$this->registration_settings->passwordGenerationEnabled()
+		)
 		{
-			$this->tpl->setCurrentBlock("activation");
-			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
-			$this->tpl->setVariable("FORMACTION", "login.php?cmd=post&target=".$_GET["target"]);
-			if(isset($_SESSION['forceShoppingCartRedirect']))
+			$this->tpl->setCurrentBlock('activation');
+			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered'));
+			$this->tpl->setVariable('FORMACTION', 'login.php?cmd=post&target=' . ilUtil::stripSlashes($_GET['target']));
+			if(ilSession::get('forceShoppingCartRedirect'))
 			{
-				$this->tpl->setVariable("FORMACTION", './login.php?forceShoppingCartRedirect=1');
+				$this->tpl->setVariable('FORMACTION', './login.php?forceShoppingCartRedirect=1');
 			}
-			$this->tpl->setVariable("TARGET","target=\"_parent\"");
-			$this->tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
-			$this->tpl->setVariable("USERNAME",$this->userObj->getLogin());
-			$this->tpl->setVariable("PASSWORD",$password);
+			$this->tpl->setVariable('TARGET', 'target="_parent"');
+			$this->tpl->setVariable('TXT_LOGIN', $lng->txt('login_to_ilias'));
+			$this->tpl->setVariable('USERNAME', $this->userObj->getLogin());
+			$this->tpl->setVariable('PASSWORD', $password);
 			$this->tpl->parseCurrentBlock();
 		}
-		else if ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
+		else if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 		{
-			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_submitted"));
-			
+			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_submitted'));
+
 			if(IS_PAYMENT_ENABLED == true)
 			{
-				if(isset($_SESSION['forceShoppingCartRedirect']))
+				if(ilSession::get('forceShoppingCartRedirect'))
 				{
-					$this->tpl->setCurrentBlock("activation");
+					$this->tpl->setCurrentBlock('activation');
 					include_once 'Services/Payment/classes/class.ilShopLinkBuilder.php';
 					$shop_link = new ilShopLinkBuilder();
-					$this->tpl->setVariable("FORMACTION", $shop_link->buildLink('ilshopshoppingcartgui', '_forceShoppingCartRedirect_user='.$this->userObj->getId()));
-					$this->tpl->setVariable("TARGET","target=\"_parent\"");
-					
+					$this->tpl->setVariable('FORMACTION', $shop_link->buildLink('ilshopshoppingcartgui', '_forceShoppingCartRedirect_user=' . $this->userObj->getId()));
+					$this->tpl->setVariable('TARGET', 'target=\'_parent\'');
+
 					$this->lng->loadLanguageModule('payment');
-					$this->tpl->setVariable("TXT_LOGIN", $lng->txt("pay_goto_shopping_cart"));
+					$this->tpl->setVariable('TXT_LOGIN', $lng->txt('pay_goto_shopping_cart'));
 					$this->tpl->parseCurrentBlock();
 					$this->lng->loadLanguageModule('registration');
 				}
@@ -880,14 +882,13 @@ class ilAccountRegistrationGUI
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{
-			$login_url = './login.php?cmd=force_login&lang='.$this->userObj->getLanguage();
-			$this->tpl->setVariable("TXT_REGISTERED", sprintf($lng->txt("reg_confirmation_link_successful"), $login_url));
-			$this->tpl->setVariable("REDIRECT_URL", $login_url);
+			$login_url = './login.php?cmd=force_login&lang=' . $this->userObj->getLanguage();
+			$this->tpl->setVariable('TXT_REGISTERED', sprintf($lng->txt('reg_confirmation_link_successful'), $login_url));
+			$this->tpl->setVariable('REDIRECT_URL', $login_url);
 		}
 		else
 		{
-			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered_passw_gen"));
+			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered_passw_gen'));
 		}
 	}
 }
-?>
