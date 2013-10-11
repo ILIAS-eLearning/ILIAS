@@ -153,18 +153,12 @@ class ilPasswordAssistanceGUI
 
 	/**
 	 * @param ilPropertyFormGUI $form
-	 * @param string            $message
 	 */
-	public function showAssistanceForm(ilPropertyFormGUI $form = null, $message = '')
+	public function showAssistanceForm(ilPropertyFormGUI $form = null)
 	{
 		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assistance.html', true);
 		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
-
-		if($message)
-		{
-			ilStartUpGUI::showFailure(str_replace("\\n", '<br />', $message));
-		}
 
 		$this->tpl->setVariable
 		(
@@ -205,7 +199,7 @@ class ilPasswordAssistanceGUI
 		if(!$form->checkInput())
 		{
 			$form->setValuesByPost();
-			$this->showAssistanceForm($form, $this->lng->txt('form_input_not_valid'));
+			$this->showAssistanceForm($form);
 			return;
 		}
 
@@ -241,8 +235,9 @@ class ilPasswordAssistanceGUI
 		// Show the password assistance form again, and display an error message.
 		if($userObj == null)
 		{
+			ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt($txt_key)));
 			$form->setValuesByPost();
-			$this->showAssistanceForm($form, $this->lng->txt($txt_key));
+			$this->showAssistanceForm($form);
 		}
 		else
 		{
@@ -258,21 +253,14 @@ class ilPasswordAssistanceGUI
 				$this->rbacreview->isAssigned($userObj->getId, SYSTEM_ROLE_ID)
 			)
 			{
+				ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt('pwassist_not_permitted')));
 				$form->setValuesByPost();
-				$this->showAssistanceForm($form, $this->lng->txt('pwassist_not_permitted'));
+				$this->showAssistanceForm($form);
 			}
 			else
 			{
 				$this->sendPasswordAssistanceMail($userObj);
-				$this->showMessageForm
-				(
-					null,
-					sprintf
-					(
-						$this->lng->txt('pwassist_mail_sent'),
-						$email
-					)
-				);
+				$this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
 			}
 		}
 	}
@@ -400,10 +388,9 @@ class ilPasswordAssistanceGUI
 	 * If the key is missing, or if the password assistance session has expired, the
 	 * password assistance form will be shown instead of this form.
 	 * @param ilPropertyFormGUI $form
-	 * @param string            $message
 	 * @param string            $pwassist_id
 	 */
-	public function showAssignPasswordForm(ilPropertyFormGUI $form = null, $message = '', $pwassist_id = '')
+	public function showAssignPasswordForm(ilPropertyFormGUI $form = null, $pwassist_id = '')
 	{
 		require_once 'include/inc.pwassist_session_handler.php';
 		require_once 'Services/Language/classes/class.ilLanguage.php';
@@ -428,11 +415,6 @@ class ilPasswordAssistanceGUI
 			ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assignpassword.html', true);
 			$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
 			$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
-
-			if($message)
-			{
-				ilStartUpGUI::showFailure(str_replace("\\n", '<br />', $message));
-			}
 
 			$this->tpl->setVariable('TXT_ENTER_USERNAME_AND_NEW_PASSWORD', $this->lng->txt('pwassist_enter_username_and_new_password'));
 
@@ -473,7 +455,6 @@ class ilPasswordAssistanceGUI
 		if(!$form->checkInput())
 		{
 			$form->setValuesByPost();
-			$this->showAssistanceForm($form, $this->lng->txt('form_input_not_valid'));
 			return;
 		}
 
@@ -489,8 +470,9 @@ class ilPasswordAssistanceGUI
 			$pwassist_session['expires'] < time()
 		)
 		{
+			ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt('pwassist_session_expired')));
 			$form->setValuesByPost();
-			$this->showAssistanceForm($form, $this->lng->txt('pwassist_session_expired'));
+			$this->showAssistanceForm($form);
 			return;
 		}
 		else
@@ -547,20 +529,13 @@ class ilPasswordAssistanceGUI
 			if($is_successful)
 			{
 				db_pwassist_session_destroy($pwassist_id);
-				$this->showMessageForm
-				(
-					null,
-					sprintf
-					(
-						$this->lng->txt('pwassist_password_assigned'),
-						$username
-					)
-				);
+				$this->showMessageForm(sprintf($this->lng->txt('pwassist_password_assigned'), $username));
 			}
 			else
 			{
+				ilUtil::sendFailure(str_replace("\\n", '', $message));
 				$form->setValuesByPost();
-				$this->showAssignPasswordForm($form, $message, $pwassist_id);
+				$this->showAssignPasswordForm($form, $pwassist_id);
 			}
 		}
 	}
@@ -595,18 +570,12 @@ class ilPasswordAssistanceGUI
 	 * When the user submits the form, then this script is invoked with the cmd
 	 * 'submitAssistanceForm'.
 	 * @param ilPropertyFormGUI $form
-	 * @param string            $message
 	 */
-	public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null, $message = '')
+	public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null)
 	{
 		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_username_assistance.html', true);
 		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
-
-		if($message)
-		{
-			ilStartUpGUI::showFailure(str_replace("\\n", '<br />', $message));
-		}
 
 		$this->tpl->setVariable
 		(
@@ -650,7 +619,7 @@ class ilPasswordAssistanceGUI
 		if(!$form->checkInput())
 		{
 			$form->setValuesByPost();
-			$this->showUsernameAssistanceForm($form, $this->lng->txt('form_input_not_valid'));
+			$this->showUsernameAssistanceForm($form);
 			return;
 		}
 
@@ -664,8 +633,9 @@ class ilPasswordAssistanceGUI
 		// Show the password assistance form again, and display an error message.
 		if(!is_array($logins) || count($logins) < 1)
 		{
+			ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt('pwassist_invalid_email')));
 			$form->setValuesByPost();
-			$this->showUsernameAssistanceForm($form, $this->lng->txt('pwassist_invalid_email'));
+			$this->showUsernameAssistanceForm($form);
 		}
 		else
 		{
@@ -691,15 +661,7 @@ class ilPasswordAssistanceGUI
 					else */
 			{
 				$this->sendUsernameAssistanceMail($email, $logins);
-				$this->showMessageForm
-				(
-					null,
-					sprintf
-					(
-						$this->lng->txt('pwassist_mail_sent'),
-						$email
-					)
-				);
+				$this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
 			}
 		}
 	}
@@ -755,18 +717,10 @@ class ilPasswordAssistanceGUI
 
 	/**
 	 * This form is used to show a message to the user.
-	 * @param string $message
 	 * @param string $text
 	 */
-	public function showMessageForm($message = '', $text = '')
+	public function showMessageForm($text)
 	{
-		if($message)
-		{
-			$this->tpl->setCurrentBlock('pw_message');
-			$this->tpl->setVariable('TXT_MESSAGE', str_replace("\\n", '<br>', $message));
-			$this->tpl->parseCurrentBlock();
-		}
-
 		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_message.html', true);
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
