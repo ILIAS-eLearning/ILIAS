@@ -71,7 +71,7 @@ class ilObjSAHSLearningModule extends ilObject
 		while($lm_rec = $ilDB->fetchAssoc($lm_set))
 		{
 			$this->setOnline(ilUtil::yn2tf($lm_rec["c_online"]));
-			$this->setAutoReview(ilUtil::yn2tf($lm_rec["auto_review"]));
+			$this->setAutoReviewChar($lm_rec["auto_review"]);
 			$this->setAPIAdapterName($lm_rec["api_adapter"]);
 			$this->setDefaultLessonMode($lm_rec["default_lesson_mode"]);
 			$this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
@@ -348,20 +348,34 @@ class ilObjSAHSLearningModule extends ilObject
 
 
 	/**
-	* get auto review
+	* set auto review as true/false for SCORM 1.2, HACP, SAHS, AICC
 	*/
 	function setAutoReview($a_auto_review)
+	{
+		$this->auto_review = ilUtil::tf2yn($a_auto_review);
+	}
+	/**
+	* get auto review as true/false for SCORM 1.2, HACP, SAHS, AICC
+	*/
+	function getAutoReview()
+	{
+		return ilUtil::yn2tf($this->auto_review);
+	}
+	
+	/**
+	* set auto review as Char for SCORM 2004
+	*/
+	function setAutoReviewChar($a_auto_review)
 	{
 		$this->auto_review = $a_auto_review;
 	}
 	/**
-	* set auto review
+	* get auto review as Char for SCORM 2004
 	*/
-	function getAutoReview()
+	function getAutoReviewChar()
 	{
 		return $this->auto_review;
 	}
-	
 	
 	/**
 	* get max attempt
@@ -820,7 +834,7 @@ class ilObjSAHSLearningModule extends ilObject
 		array(	ilUtil::tf2yn($this->getOnline()),
 				$this->getAPIAdapterName(),
 				$this->getAPIFunctionsPrefix(),
-				ilUtil::tf2yn($this->getAutoReview()),
+				$this->getAutoReviewChar(),
 				$this->getDefaultLessonMode(),
 				$this->getSubType(),
 				$this->getStyleSheetId(),
@@ -1197,7 +1211,7 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj->setSubType($this->getSubType());
 		$new_obj->setAPIAdapterName($this->getAPIAdapterName());
 		$new_obj->setAPIFunctionsPrefix($this->getAPIFunctionsPrefix());
-		$new_obj->setAutoReview($this->getAutoReview());
+		$new_obj->setAutoReviewChar($this->getAutoReviewChar());
 		$new_obj->setDefaultLessonMode($this->getDefaultLessonMode());
 		$new_obj->setEditable($this->getEditable());
 		$new_obj->setMaxAttempt($this->getMaxAttempt());

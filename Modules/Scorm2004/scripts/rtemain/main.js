@@ -3174,11 +3174,21 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		//support for auto-review
 		item.options = new Object();
 		item.options.notracking = false;
-		if (globalAct.auto_review) {
-			if (item.completion_status == 'completed' || item.success_status == 'passed') {
+		if (globalAct.auto_review != 'n') {
+			if (
+				(globalAct.auto_review == 'r' && ((item.completion_status == 'completed' && item.success_status != 'failed') || item.success_status == 'passed') ) ||
+				(globalAct.auto_review == 'p' && item.success_status == 'passed') ||
+				(globalAct.auto_review == 'q' && (item.success_status == 'passed' || item.success_status == 'failed') ) ||
+				(globalAct.auto_review == 'c' && item.completion_status == 'completed') ||
+				(globalAct.auto_review == 'd' && (item.completion_status == 'completed' && item.success_status == 'passed') ) ||
+				(globalAct.auto_review == 'y' && (item.completion_status == 'completed' || item.success_status == 'passed') )
+			) {
 				data.cmi.mode = "review";
-				item.options.notracking = true;//no better score for example!
 			}
+		}
+		if (data.cmi.mode == "review") {
+			data.cmi.credit = "no-credit";
+			item.options.notracking = true;//UK: no better score for example!
 		}
 
 		if (item.exit!="suspend") {

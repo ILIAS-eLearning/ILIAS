@@ -467,12 +467,21 @@ $this->ctrl->redirect($this, "properties");
 		$this->form->addItem($si);
 		
 		// set lesson mode review when completed
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_sc_auto_review"), "auto_review");
-		$cb->setValue("y");
-		$cb->setChecked($this->object->getAutoReview());
-		$cb->setInfo($this->lng->txt("cont_sc_auto_review_info"));
-		$this->form->addItem($cb);
-		
+		$options = array(
+			"n" => $this->lng->txt("cont_sc_auto_review_no"),
+			"r" => $this->lng->txt("cont_sc_auto_review_completed_not_failed_or_passed"),
+			"p" => $this->lng->txt("cont_sc_auto_review_passed"),
+			"q" => $this->lng->txt("cont_sc_auto_review_passed_or_failed"),
+			"c" => $this->lng->txt("cont_sc_auto_review_completed"),
+			"d" => $this->lng->txt("cont_sc_auto_review_completed_and_passed"),
+			"y" => $this->lng->txt("cont_sc_auto_review_completed_or_passed"),
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_sc_auto_review_2004"), "auto_review");
+		$si->setOptions($options);
+		$si->setValue($this->object->getAutoReviewChar());
+		$si->setInfo($this->lng->txt("cont_sc_auto_review_info_2004"));
+		$this->form->addItem($si);
+
 		//
 		// rte settings
 		//
@@ -677,7 +686,7 @@ $this->ctrl->redirect($this, "properties");
 			$this->object->setHeight($_POST["height"]);
 			$this->object->setCreditMode($_POST["credit_mode"]);
 			$this->object->setMaxAttempt($_POST["max_attempt"]);
-			$this->object->setAutoReview(ilUtil::yn2tf($_POST["auto_review"]));
+			$this->object->setAutoReviewChar($_POST["auto_review"]);
 			$this->object->setDefaultLessonMode($_POST["lesson_mode"]);
 			$this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
 			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
