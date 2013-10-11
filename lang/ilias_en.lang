@@ -14076,3 +14076,5 @@ content#:#cont_sc_auto_review_passed_or_failed#:#if passed or failed
 content#:#cont_sc_auto_review_completed#:#if completed
 content#:#cont_sc_auto_review_completed_and_passed#:#if completed and passed
 content#:#cont_sc_auto_review_completed_or_passed#:#if completed or passed
+content#:#cont_auto_suspend#:#Ensure getting tracking data from previous attempts
+content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit.

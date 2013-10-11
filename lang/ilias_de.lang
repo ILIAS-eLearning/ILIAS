@@ -14051,3 +14051,5 @@ content#:#cont_sc_auto_review_passed_or_failed#:#wenn 'bestanden' oder 'nicht be
 content#:#cont_sc_auto_review_completed#:#wenn 'vollständig bearbeitet'
 content#:#cont_sc_auto_review_completed_and_passed#:#wenn 'vollständig bearbeitet' und 'bestanden'
 content#:#cont_sc_auto_review_completed_or_passed#:#wenn 'vollständig bearbeitet' oder 'bestanden'
+content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
+content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in einer unzureichenden Weise unterstützen indem sie keine geeigneten Werte für cmi.exit senden.
