@@ -10563,7 +10563,6 @@ mep#:#mobs_restrict_file_types#:#Begræns filtyper
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.###01 04 2011 new variable
 common#:#personal_settings#:#Personlige indstillinger
 common#:#rep_main_page#:#Forside
-assessment#:#msg_randompool_duplicate_qpl#:#Please use only unique question pools###12 06 2011 new variable
 trac#:#trac_read_count_spent_seconds#:#Time Spent / Access###12 06 2011 new variable
 trac#:#trac_object_stat_access#:#Usage Intensity###12 06 2011 new variable
 trac#:#trac_show_graph#:#Show Graph###12 06 2011 new variable
@@ -12062,7 +12061,6 @@ crs#:#crs_course_group_notification_link#:#Link:###28 08 2012 new variable
 common#:#obj_lm_duplicate#:#Copy Learning Module###28 08 2012 new variable
 blog#:#blog_edit_date#:#Edit Date###28 08 2012 new variable
 blog#:#blog_edit_date_info#:#Publication status does not depend on this date.###28 08 2012 new variable
-administration#:#adm_captcha_wiki_forum#:#Activate Captcha for Anonymous (Forum/Wiki)###28 08 2012 new variable
 content#:#cont_captcha_verification#:#User Verification###28 08 2012 new variable
 content#:#cont_captcha_code#:#Kode
 cptch#:#cptch_wrong_input#:#Forkert indtastning
@@ -13869,3 +13867,214 @@ search#:#lucene_prefix_wildcard_info#:#If enabled, prefix wildcard queries (*LIA
 content#:#cont_activate_multi_lang#:#Activate Multilinguality###16 09 2013 new variable
 content#:#cont_select_master_lang#:#Please select the master language. The current content will be assigned to the master language.###16 09 2013 new variable
 assessment#:#show_answer_overview#:#Show Answer Overview###16 09 2013 new variable
+assessment#:#insert_gap#:#Insert Gap###11 10 2013 new variable
+assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Add New Source Question Pool Definition###11 10 2013 new variable
+assessment#:#tst_src_quest_pool_def_list_table#:#Source Question Pool Definitions###11 10 2013 new variable
+assessment#:#tst_source_question_pool#:#Source Question Pool###11 10 2013 new variable
+assessment#:#tst_filter_taxonomy#:#Filter Taxonomy###11 10 2013 new variable
+assessment#:#tst_filter_tax_node#:#Taxonomy Node###11 10 2013 new variable
+assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random test was successfully modified.###11 10 2013 new variable
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#The generation of random test passes for participants is possible with the current configuration.<br />The moment of the last synchronisation of the selected source question pools was: <b>%s</b>###11 10 2013 new variable
+assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#The generation of random test passes for participants is not possible with the current configuration of source question pools and question amount(s).###11 10 2013 new variable
+assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Without the definition of source question pools, the generation of random test passes for participants is not possible.###11 10 2013 new variable
+assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Without a correctly defined question amount, the generation of random test passes for participants is not possible.###11 10 2013 new variable
+assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Source Question Pool Definition###11 10 2013 new variable
+assessment#:#tst_inp_source_pool_label#:#Source Question Pool###11 10 2013 new variable
+assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter###11 10 2013 new variable
+assessment#:#tst_inp_source_pool_no_tax_filter#:#Use No Taxonomy Based Filter###11 10 2013 new variable
+assessment#:#tst_inp_source_pool_filter_tax_x#:#Use Taxonomy "%s" as Filter###11 10 2013 new variable
+ps#:#ps_error_message_password_min1_because_chars#:#Minimum password size may not be less than %s.###11 10 2013 new variable
+administration#:#adm_captcha_anonymous#:#Activate captchas for anonymous (Forum/Wiki/Login/Registration). Please keep in mind that this may effect the accessibility of your installation.###11 10 2013 new variable
+dcl#:#dcl_in_export#:#In Export###11 10 2013 new variable
+orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from this role?###11 10 2013 new variable
+orgu#:#deassign_user_successful#:#Users have been deasigned successfuly from this role.###11 10 2013 new variable
+orgu#:#no_roles#:#There are no additional roles at this point.###11 10 2013 new variable
+orgu#:#local_other_roles#:#Additional Roles %s###11 10 2013 new variable
+content#:#cont_master_lang#:#Master Language###11 10 2013 new variable
+content#:#cont_additional_langs#:#Additional Languages###11 10 2013 new variable
+rbac#:#rbac_copy_role_add_perm#:#Add Permissions###11 10 2013 new variable
+rbac#:#rbac_copy_role_remove_perm#:#Remove Permissions###11 10 2013 new variable
+rbac#:#rbac_copy_role_copy#:#Copy Permissions###11 10 2013 new variable
+common#:#ps_password_lowercase_chars_num#:#Lower Case Letters###11 10 2013 new variable
+common#:#ps_password_lowercase_chars_num_info#:#Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement.###11 10 2013 new variable
+common#:#ps_password_uppercase_chars_num#:#Capital Letters###11 10 2013 new variable
+common#:#ps_password_uppercase_chars_num_info#:#Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement.###11 10 2013 new variable
+common#:#ps_password_must_not_contain_loginame#:#Prevent Username in Password###11 10 2013 new variable
+common#:#ps_password_must_not_contain_loginame_info#:#If activated, a password must not contain the username.###11 10 2013 new variable
+common#:#password_contains_parts_of_login_err#:#The chosen password contains your username. Please insert a new password.###11 10 2013 new variable
+common#:#password_must_contain_lcase_chars#:#The password must contain at least %s lower case letters.###11 10 2013 new variable
+common#:#password_must_contain_ucase_chars#:#The password must contain at least %s capital letters.###11 10 2013 new variable
+content#:#cont_current_lang#:#Current Language###11 10 2013 new variable
+content#:#cont_deactivate_multi_lang#:#Deactivate Multilinguality###11 10 2013 new variable
+content#:#cont_edit_language_version#:#Edit Version###11 10 2013 new variable
+content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created###11 10 2013 new variable
+search#:#search_user_search_form#:#User Search###11 10 2013 new variable
+search#:#search_user_search_info_form#:#If enabled, users data will be indexed and is searchable.###11 10 2013 new variable
+adve#:#adve_blocking_mode#:#Edit Lock###11 10 2013 new variable
+adve#:#adve_minutes#:#Minutes###11 10 2013 new variable
+adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.###11 10 2013 new variable
+content#:#content_until#:#At least locked until: ###11 10 2013 new variable
+content#:#content_no_edit_lock#:#The page is currently locked by another user.###11 10 2013 new variable
+exc#:#exc_fb_tutor_info#:#When a feedback file is uploaded, a notification is sent to the user and the feedback file will be listed in the user's assignment view.###11 10 2013 new variable
+obj#:#svy_results#:#Results###11 10 2013 new variable
+content#:#cont_disable_def_feedback#:#Disable Default Question Feedback###11 10 2013 new variable
+content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.###11 10 2013 new variable
+survey#:#svy_result_mail_notification_info#:#On finishing the survey the answers of each participant will be sent to the defined recipients.###11 10 2013 new variable
+mob#:#mob_general#:#General###11 10 2013 new variable
+mob#:#mob_subtitles#:#Subtitles###11 10 2013 new variable
+mob#:#mob_subtitle_files#:#Subtitle Files###11 10 2013 new variable
+mob#:#mob_subtitle_file#:#Subtitle File###11 10 2013 new variable
+mob#:#mob_language#:#Language###11 10 2013 new variable
+mob#:#mob_file#:#File###11 10 2013 new variable
+mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?###11 10 2013 new variable
+mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.###11 10 2013 new variable
+bibl#:#bibl_copy#:#User can copy bibliography###11 10 2013 new variable
+bibl#:#bib_default_address#:#Address###11 10 2013 new variable
+bibl#:#bib_default_author#:#Author###11 10 2013 new variable
+bibl#:#bib_default_booktitle#:#Title###11 10 2013 new variable
+bibl#:#bib_default_chapter#:#Chapter###11 10 2013 new variable
+bibl#:#bib_default_edition#:#Edition###11 10 2013 new variable
+bibl#:#bib_default_editor#:#Editor###11 10 2013 new variable
+bibl#:#bib_default_institution#:#Institution###11 10 2013 new variable
+bibl#:#bib_default_journal#:#Journal###11 10 2013 new variable
+bibl#:#bib_default_number#:#Number###11 10 2013 new variable
+bibl#:#bib_default_organization#:#Organization###11 10 2013 new variable
+bibl#:#bib_default_pages#:#Pages###11 10 2013 new variable
+bibl#:#bib_default_publisher#:#Publisher###11 10 2013 new variable
+bibl#:#bib_default_title#:#Title###11 10 2013 new variable
+bibl#:#bib_default_type#:#Type###11 10 2013 new variable
+bibl#:#bib_default_volume#:#Volume###11 10 2013 new variable
+bibl#:#bib_default_year#:#Year###11 10 2013 new variable
+bibl#:#bib_default_school#:#School###11 10 2013 new variable
+bibl#:#bib_default_url#:#URL###11 10 2013 new variable
+bibl#:#bib_default_crossref#:#Cross Reference###11 10 2013 new variable
+bibl#:#bib_default_keywords#:#Keywords###11 10 2013 new variable
+bibl#:#bib_default_isbn#:#ISSN/ISBN###11 10 2013 new variable
+bibl#:#bib_default_cite#:#Bib Cite###11 10 2013 new variable
+bibl#:#ris_default_ty#:#Type###11 10 2013 new variable
+bibl#:#ris_default_id#:#Reference ID###11 10 2013 new variable
+bibl#:#ris_default_t1#:#Title###11 10 2013 new variable
+bibl#:#ris_default_ti#:#Book title###11 10 2013 new variable
+bibl#:#ris_default_ct#:#Title of unpublished reference###11 10 2013 new variable
+bibl#:#ris_default_a1#:#Primary author###11 10 2013 new variable
+bibl#:#ris_default_a2#:#Secondary author###11 10 2013 new variable
+bibl#:#ris_default_au#:#Author###11 10 2013 new variable
+bibl#:#ris_default_y1#:#Primary date###11 10 2013 new variable
+bibl#:#ris_default_py#:#Publication year###11 10 2013 new variable
+bibl#:#ris_default_n1#:#Notes###11 10 2013 new variable
+bibl#:#ris_default_kw#:#Keywords###11 10 2013 new variable
+bibl#:#ris_default_rp#:#Reprint status###11 10 2013 new variable
+bibl#:#ris_default_sp#:#Start page###11 10 2013 new variable
+bibl#:#ris_default_ep#:#Ending page###11 10 2013 new variable
+bibl#:#ris_default_jf#:#Periodical full name###11 10 2013 new variable
+bibl#:#ris_default_jo#:#Periodical standard abbreviation###11 10 2013 new variable
+bibl#:#ris_default_ja#:#Periodical in which article was published###11 10 2013 new variable
+bibl#:#ris_default_j1#:#Periodical name - User abbreviation 1###11 10 2013 new variable
+bibl#:#ris_default_j2#:#Periodical name - User abbreviation 2###11 10 2013 new variable
+bibl#:#ris_default_vl#:#Volume###11 10 2013 new variable
+bibl#:#ris_default_is#:#Issue###11 10 2013 new variable
+bibl#:#ris_default_t2#:#Title secondary###11 10 2013 new variable
+bibl#:#ris_default_cy#:#City of Publication###11 10 2013 new variable
+bibl#:#ris_default_pb#:#Publisher###11 10 2013 new variable
+bibl#:#ris_default_u1#:#User 1###11 10 2013 new variable
+bibl#:#ris_default_u2#:#User 2###11 10 2013 new variable
+bibl#:#ris_default_u3#:#User 3###11 10 2013 new variable
+bibl#:#ris_default_u4#:#User 4###11 10 2013 new variable
+bibl#:#ris_default_u5#:#User 5###11 10 2013 new variable
+bibl#:#ris_default_t3#:#Title series###11 10 2013 new variable
+bibl#:#ris_default_n2#:#Abstract###11 10 2013 new variable
+bibl#:#ris_default_sn#:#ISSN/ISBN/ASIN###11 10 2013 new variable
+bibl#:#ris_default_av#:#Availability###11 10 2013 new variable
+bibl#:#ris_default_m1#:#Misc. 1###11 10 2013 new variable
+bibl#:#ris_default_m2#:#Misc. 2###11 10 2013 new variable
+bibl#:#ris_default_m3#:#Misc. 3###11 10 2013 new variable
+bibl#:#ris_default_ad#:#Address###11 10 2013 new variable
+bibl#:#ris_default_ur#:#URL###11 10 2013 new variable
+bibl#:#ris_default_l1#:#Link to PDF###11 10 2013 new variable
+bibl#:#ris_default_l2#:#Link to Full-text###11 10 2013 new variable
+bibl#:#ris_default_l3#:#Related records###11 10 2013 new variable
+bibl#:#ris_default_l4#:#Images###11 10 2013 new variable
+bibl#:#ris_default_y2#:#Primary date 2###11 10 2013 new variable
+bibl#:#ris_default_a3#:#Authors###11 10 2013 new variable
+bibl#:#ris_default_ab#:#Abstract###11 10 2013 new variable
+bibl#:#ris_default_la#:#Language###11 10 2013 new variable
+bibl#:#ris_default_ts#:#TS###11 10 2013 new variable
+bibl#:#ris_default_do#:#DOI###11 10 2013 new variable
+bibl#:#ris_default_ed#:#Further Persons###11 10 2013 new variable
+bibl#:#ris_default_in#:#In###11 10 2013 new variable
+bibl#:#ris_default_et#:#Edition###11 10 2013 new variable
+content#:#cont_multilang_currently_deactivated#:#Multilinguality support is currently not activated.###11 10 2013 new variable
+mail#:#mail_filter#:#Filter###11 10 2013 new variable
+mail#:#mail_filter_sender#:#Sender###11 10 2013 new variable
+mail#:#mail_filter_recipients#:#Recipients###11 10 2013 new variable
+mail#:#mail_filter_subject#:#Subject###11 10 2013 new variable
+mail#:#mail_filter_body#:#Body###11 10 2013 new variable
+mail#:#mail_filter_attach#:#Attachments###11 10 2013 new variable
+mail#:#mail_filter_field_placeholder#:#Filter these messages ...###11 10 2013 new variable
+mail#:#mail_filter_txt#:#Filter messages by###11 10 2013 new variable
+blog#:#blog_properties#:#Blog Properties###11 10 2013 new variable
+blog#:#blog_style#:#Blog Style###11 10 2013 new variable
+prtf#:#prtf_properties#:#Portfolio Properties###11 10 2013 new variable
+prtf#:#prtf_style#:#Portfolio Style###11 10 2013 new variable
+prtt#:#prtt_properties#:#Portfolio Template Properties###11 10 2013 new variable
+prtt#:#prtt_style#:#Portfolio Template Style###11 10 2013 new variable
+content#:#cont_multilinguality#:#Multilinguality###11 10 2013 new variable
+exc#:#exc_save_all#:#Save All###11 10 2013 new variable
+exc#:#exc_save_selected#:#Save Selected###11 10 2013 new variable
+mail#:#search_content#:#Search Result###11 10 2013 new variable
+book#:#book_reservation_available#:#%s available###11 10 2013 new variable
+form#:#form_retype_email#:#Retype Email###11 10 2013 new variable
+form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.###11 10 2013 new variable
+form#:#captcha_code#:#User Verification###11 10 2013 new variable
+content#:#save_new#:#Save and New###11 10 2013 new variable
+cptch#:#captcha_code_info#:#Please type in the letters and characters of the image.###11 10 2013 new variable
+administration#:#adm_captcha_anonymous_short#:#Captcha###11 10 2013 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###11 10 2013 new variable
+cptch#:#captcha_code_reload#:#Load new image###11 10 2013 new variable
+cptch#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and characters of the captcha.###11 10 2013 new variable
+cptch#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha###11 10 2013 new variable
+obj#:#obj_features#:#Features###11 10 2013 new variable
+obj#:#obj_tool_setting_info_tab#:#Show Info Tab###11 10 2013 new variable
+adve#:#char_selector#:#Selector for Unicode Characters###11 10 2013 new variable
+adve#:#char_selector_inactive#:#Inactive###11 10 2013 new variable
+adve#:#char_selector_inherit#:#Inherit###11 10 2013 new variable
+adve#:#char_selector_enabled#:#Enabled###11 10 2013 new variable
+adve#:#char_selector_disabled#:#Disabled###11 10 2013 new variable
+adve#:#char_selector_inactive_info_admin#:#Deactivates the selector. Users and tests can't overwrite this setting.###11 10 2013 new variable
+adve#:#char_selector_inherit_info_user#:#Take the platform setting.###11 10 2013 new variable
+adve#:#char_selector_inherit_info_test#:#Take the platform or user specific setting.###11 10 2013 new variable
+adve#:#char_selector_enabled_info_admin#:#Enables the selector, invoked through a button in the main menu. Users and tests can have individual settings.###11 10 2013 new variable
+adve#:#char_selector_enabled_info_user#:#Enables the selector, invoked through a button in the main menu.###11 10 2013 new variable
+adve#:#char_selector_enabled_info_test#:#Enables the selector during the a test run.###11 10 2013 new variable
+adve#:#char_selector_disabled_info_admin#:#Disables the selector. Users and tests can have individual settings.###11 10 2013 new variable
+adve#:#char_selector_disabled_info_user#:#Disables the selector. Tests can have an individual setting.###11 10 2013 new variable
+adve#:#char_selector_disabled_info_test#:#Disables the selector during a test run.###11 10 2013 new variable
+adve#:#char_selector_blocks#:#Available Unicode Blocks###11 10 2013 new variable
+adve#:#char_selector_blocks_info#:#All characters of the selected blocks will be listed, but not all of them may be supported by the current browser font.###11 10 2013 new variable
+adve#:#char_selector_custom_items#:#Custom Selection###11 10 2013 new variable
+adve#:#char_selector_custom_items_info1#:#The custom selection will be listed before the selected blocks. Please add your characters in the following style:###11 10 2013 new variable
+adve#:#char_selector_custom_items_info2a#:#A B C###11 10 2013 new variable
+adve#:#char_selector_custom_items_info2b#:#Characters are separated by space, generating separate selector buttons###11 10 2013 new variable
+adve#:#char_selector_custom_items_info3a#:#A BC D###11 10 2013 new variable
+adve#:#char_selector_custom_items_info3b#:#It is possible to put more characters on one button###11 10 2013 new variable
+adve#:#char_selector_custom_items_info4a#:#A-Z###11 10 2013 new variable
+adve#:#char_selector_custom_items_info4b#:#Ranges of characters can be defined with a "-"###11 10 2013 new variable
+adve#:#char_selector_custom_items_info5a#:#U+00C0###11 10 2013 new variable
+adve#:#char_selector_custom_items_info5b#:#A character can also be defined in Unicode notation (case insensitive)###11 10 2013 new variable
+adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF###11 10 2013 new variable
+adve#:#char_selector_custom_items_info6b#:#Ranges are also possible in Unicode notation###11 10 2013 new variable
+adve#:#char_selector_unicode_all#:#All Unicode Blocks###11 10 2013 new variable
+adve#:#adve_char_selector_settings#:#Character Selector###11 10 2013 new variable
+common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS User Name as cmi.learner_id###11 10 2013 new variable
+common#:#scorm_login_as_learner_id_info#:#If enabled, the User Name instead of the User ID is set for cmi.learner_id.###11 10 2013 new variable
+content#:#cont_sc_auto_review_2004#:#Automatic Review Mode###11 10 2013 new variable
+content#:#cont_sc_auto_review_info_2004#:#If the automatic review mode is enabled, then the tracking data for a chapter (SCO) of the learning module are not stored when one of these options apply. In the rare case however, that the learning module makes use of Sequencing & Navigation according to SCORM 2004, this option should not be enabled.###11 10 2013 new variable
+content#:#cont_sc_auto_review_no#:#disabled###11 10 2013 new variable
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#if completed or passed, but not failed (recommended for Automatic Review Mode)###11 10 2013 new variable
+content#:#cont_sc_auto_review_passed#:#if passed###11 10 2013 new variable
+content#:#cont_sc_auto_review_passed_or_failed#:#if passed or failed###11 10 2013 new variable
+content#:#cont_sc_auto_review_completed#:#if completed###11 10 2013 new variable
+content#:#cont_sc_auto_review_completed_and_passed#:#if completed and passed###11 10 2013 new variable
+content#:#cont_sc_auto_review_completed_or_passed#:#if completed or passed###11 10 2013 new variable
+content#:#cont_auto_suspend#:#Ensure getting tracking data from previous attempts###11 10 2013 new variable
+content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit.###11 10 2013 new variable
