@@ -468,6 +468,7 @@ class ilSCORMPresentationGUI
 		$b_storeInteractions='true';
 		$b_readInteractions='false';
 		$c_storeSessionTime='s';//n=no, s=sco, i=ilias
+		if ($slm_obj->getTime_from_lms()) $c_storeSessionTime='i';
 		$i_lessonScoreMax='-1';
 		$i_lessonMasteryScore='-1';
 		
