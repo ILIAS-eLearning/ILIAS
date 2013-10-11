@@ -1009,8 +1009,8 @@ class ilStartUpGUI
 		$keep->addSubItem($user);
 		
 		$pass = new ilPasswordInputGUI($lng->txt('password'),'mig_password');
-		$user->setRequired(true);
-		$user->setValue(ilUtil::prepareFormOutput($_POST['mig_password']));
+		$pass->setRequired(true);
+		$pass->setValue(ilUtil::prepareFormOutput($_POST['mig_password']));
 		$pass->setRetype(false);
 		$pass->setSize(12);
 		$pass->setMaxLength(128);
