@@ -313,6 +313,7 @@ class ilSCORM13Player
 			'time_from_lms' => $this->slm->getTime_from_lms(),
 			'auto_last_visited' => $this->slm->getAuto_last_visited(),
 			'checkSetValues' => $this->slm->getCheck_values(),
+			'auto_suspend' => $this->slm->getAutoSuspend(),
 			'suspend_data' => $initSuspendData,
 			'cp_data' => null,
 			'cmi_data' => null,
