@@ -102,6 +102,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setAuto_last_visited(ilUtil::yn2tf($lm_rec["auto_last_visited"]));
 			$this->setCheck_values(ilUtil::yn2tf($lm_rec["check_values"]));
 			$this->setOfflineMode(ilUtil::yn2tf($lm_rec["offline_mode"]));
+			$this->setAutoSuspend(ilUtil::yn2tf($lm_rec["auto_suspend"]));
 			
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			if (ilObject::_lookupType($this->getStyleSheetId()) != "sty")
@@ -679,6 +680,21 @@ class ilObjSAHSLearningModule extends ilObject
 		return $this->seq_exp_mode;
 	}
 
+	/**
+	* get auto continue
+	*/
+	function setAutoSuspend($a_auto_suspend)
+	{
+		$this->auto_suspend = $a_auto_suspend;
+	}
+	/**
+	* set auto continue
+	*/
+	function getAutoSuspend()
+	{
+		return $this->auto_suspend;
+	}
+
 	
 	/**
 	* open_mode
@@ -795,7 +811,8 @@ class ilObjSAHSLearningModule extends ilObject
 				auto_continue = %s,
 				auto_last_visited = %s,
 				check_values = %s,
-				offline_mode =%s
+				offline_mode = %s,
+				auto_suspend = %s
 			WHERE id = %s', 
 		array(	'text',
 				'text',
@@ -825,6 +842,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'integer',
 				'integer',
 				'integer',
+				'text',
 				'text',
 				'text',
 				'text',
@@ -863,6 +881,7 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getAuto_last_visited()),
 				ilUtil::tf2yn($this->getCheck_values()),
 				ilUtil::tf2yn($this->getOfflineMode()),
+				ilUtil::tf2yn($this->getAutoSuspend()),
 				$this->getId())
 		);
 
@@ -1239,6 +1258,7 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj->setAuto_last_visited($this->getAuto_last_visited());
 		$new_obj->setCheck_values($this->getCheck_values());
 		$new_obj->setOfflineMode($this->getOfflineMode());
+		$new_obj->setAutoSuspend($this->getAutoSuspend());
 		$new_obj->update();
 
 

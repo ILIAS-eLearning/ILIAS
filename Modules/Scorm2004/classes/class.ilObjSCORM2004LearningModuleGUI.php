@@ -534,6 +534,13 @@ $this->ctrl->redirect($this, "properties");
 		$cb->setChecked($this->object->getCheck_values());
 		$this->form->addItem($cb);
 
+		// auto cmi.exit to suspend
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_auto_suspend"), "cobj_auto_suspend");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getAutoSuspend());
+		$cb->setInfo($this->lng->txt("cont_auto_suspend_info"));
+		$this->form->addItem($cb);
+
 		//
 		// debugging
 		//
@@ -698,6 +705,7 @@ $this->ctrl->redirect($this, "properties");
 			$this->object->setComments(ilUtil::yn2tf($_POST["cobj_comments"]));
 			$this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
 			$this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
+			$this->object->setAutoSuspend(ilUtil::yn2tf($_POST["cobj_auto_suspend"]));
 			$this->object->setOfflineMode($tmpOfflineMode);
 			$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
 			//$this->object->setDebugPw($_POST["debug_pw"]);
