@@ -14025,13 +14025,13 @@ mail#:#search_content#:#Search Result
 book#:#book_reservation_available#:#%s available
 form#:#form_retype_email#:#Retype Email
 form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.
-common#:#captcha_code#:#User Verification
+form#:#captcha_code#:#User Verification
 content#:#save_new#:#Save and New
-common#:#captcha_code_info#:#Please type in the letters and characters of the image.
+cptch#:#captcha_code_info#:#Please type in the letters and characters of the image.
 administration#:#adm_captcha_anonymous_short#:#Captcha
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s
-common#:#captcha_code_reload#:#Load new image
-common#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and characters of the captcha.
-common#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha
+cptch#:#captcha_code_reload#:#Load new image
+cptch#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and characters of the captcha.
+cptch#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha
 obj#:#obj_features#:#Features
 obj#:#obj_tool_setting_info_tab#:#Show Info Tab

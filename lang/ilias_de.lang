@@ -14003,10 +14003,10 @@ mail#:#search_content#:#Suchergebnis
 book#:#book_reservation_available#:#%s verfügbar
 form#:#form_retype_email#:#E-Mail nochmals eingeben
 form#:#email_not_match#:#Ihre Eingaben für die E-Mail-Adresse stimmen nicht überein! Bitte geben Sie die E-Mail-Adresse erneut ein.
-common#:#captcha_code#:#Sicherheitsüberprüfung
-common#:#captcha_code_info#:#Bitte geben Sie die Zeichen aus der Grafik in das Textfeld ein.
+form#:#captcha_code#:#Sicherheitsüberprüfung
+cptch#:#captcha_code_info#:#Bitte geben Sie die Zeichen aus der Grafik in das Textfeld ein.
 administration#:#adm_captcha_anonymous_short#:#Captcha
 poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
-common#:#captcha_code_reload#:#Neue Grafik laden
-common#:#captcha_audio_title#:#Akustisches Captcha. Bitte anklicken, um Zeichen vorgelesen zu bekommen.
-common#:#captcha_alt_txt#:#Grafik mit Zeichen, genannt Captcha. Klicken Sie mit der Tab-Taste weiter zu einem akustischen Captcha.
+cptch#:#captcha_code_reload#:#Neue Grafik laden
+cptch#:#captcha_audio_title#:#Akustisches Captcha. Bitte anklicken, um Zeichen vorgelesen zu bekommen.
+cptch#:#captcha_alt_txt#:#Grafik mit Zeichen, genannt Captcha. Klicken Sie mit der Tab-Taste weiter zu einem akustischen Captcha.
