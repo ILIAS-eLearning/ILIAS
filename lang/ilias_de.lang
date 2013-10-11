@@ -14045,7 +14045,7 @@ common#:#scorm_login_as_learner_id_info#:#Lernmodule erhalten den ILIAS Benutzer
 content#:#cont_sc_auto_review_2004#:#Automatischer Review Modus
 content#:#cont_sc_auto_review_info_2004#:#Wenn der automatische Review-Modus aktiviert ist, dann wird der Lernstand für ein Kapitel (SCO) des Lernmoduls nicht mehr gespeichert sobald eine der genannten Bedingungen zutrifft. Sofern der seltene Fall zutrifft, dass das Lernmodul Sequencing & Navigation gemäß SCORM 2004 nutzt, sollte diese Option nicht aktiviert werden.
 content#:#cont_sc_auto_review_no#:#deaktiviert
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#wenn 'vollständig bearbeitet' oder 'bestanden', jedoch nicht 'nicht bestanden' (empfohlen für den automatischen Review-Modus)
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#wenn 'vollständig bearbeitet' oder 'bestanden', jedoch nicht 'nicht bestanden' (empfohlen)
 content#:#cont_sc_auto_review_passed#:#wenn 'bestanden'
 content#:#cont_sc_auto_review_passed_or_failed#:#wenn 'bestanden' oder 'nicht bestanden'
 content#:#cont_sc_auto_review_completed#:#wenn 'vollständig bearbeitet'
