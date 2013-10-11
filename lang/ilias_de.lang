@@ -13708,7 +13708,6 @@ orgu#:#rec_staff#:#Mitarbeiter %s und nachfolgend
 orgu#:#placeholder#:#...
 orgu#:#simple_import#:#Simple XML Import
 orgu#:#simple_xml#:#Simple XML Export
-orgu#:#simple_xls#:#Simple XLS Export
 orgu#:#import_xml_file#:#Import Datei
 orgu#:#view_learning_progress_rec#:#Lernfortschritt Rekursiv Einsehen
 orgu#:#lp_is_anonym#:#Der Lernfortschritte der Benutzer kann nicht eingesehen werden
@@ -14053,3 +14052,29 @@ content#:#cont_sc_auto_review_completed_and_passed#:#wenn 'vollständig bearbeit
 content#:#cont_sc_auto_review_completed_or_passed#:#wenn 'vollständig bearbeitet' oder 'bestanden'
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
 content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in einer unzureichenden Weise unterstützen indem sie keine geeigneten Werte für cmi.exit senden.
+content#:#cont_master_lang#:#Master Language###11 10 2013 new variable
+content#:#cont_additional_langs#:#Additional Languages###11 10 2013 new variable
+content#:#cont_current_lang#:#Current Language###11 10 2013 new variable
+content#:#cont_deactivate_multi_lang#:#Deactivate Multilinguality###11 10 2013 new variable
+content#:#cont_edit_language_version#:#Edit Version###11 10 2013 new variable
+content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created###11 10 2013 new variable
+adve#:#adve_blocking_mode#:#Edit Lock###11 10 2013 new variable
+adve#:#adve_minutes#:#Minutes###11 10 2013 new variable
+adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.###11 10 2013 new variable
+content#:#content_until#:#At least locked until: ###11 10 2013 new variable
+content#:#content_no_edit_lock#:#The page is currently locked by another user.###11 10 2013 new variable
+content#:#cont_disable_def_feedback#:#Disable Default Question Feedback###11 10 2013 new variable
+content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.###11 10 2013 new variable
+mob#:#mob_general#:#General###11 10 2013 new variable
+mob#:#mob_subtitles#:#Subtitles###11 10 2013 new variable
+mob#:#mob_subtitle_files#:#Subtitle Files###11 10 2013 new variable
+mob#:#mob_subtitle_file#:#Subtitle File###11 10 2013 new variable
+mob#:#mob_language#:#Language###11 10 2013 new variable
+mob#:#mob_file#:#File###11 10 2013 new variable
+mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?###11 10 2013 new variable
+mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.###11 10 2013 new variable
+content#:#cont_multilang_currently_deactivated#:#Multilinguality support is currently not activated.###11 10 2013 new variable
+content#:#cont_multilinguality#:#Multilinguality###11 10 2013 new variable
+content#:#save_new#:#Save and New###11 10 2013 new variable
+obj#:#obj_features#:#Features###11 10 2013 new variable
+obj#:#obj_tool_setting_info_tab#:#Show Info Tab###11 10 2013 new variable

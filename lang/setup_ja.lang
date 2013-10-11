@@ -564,3 +564,13 @@ setup_process_step_proxy#:#Proxy###02 09 2012 new variable
 step_proxy#:#Proxy###02 09 2012 new variable
 db_innodb#:#MySQL (InnoDB)###02 09 2012 new variable
 show_update_steps#:#Show Update Step###02 09 2012 new variable
+lang_fa#:#Persian (farsi)###11 10 2013 new variable
+ghostscript_path_comment_win#:#Optional for creating previews of PDFs, e.g. 'C:/tools/Ghostscript/gswin32c.exe'.###11 10 2013 new variable
+ghostscript_path_comment#:#Optional for creating previews of PDFs, e.g. '/your_path/gs'.###11 10 2013 new variable
+ghostscript_path#:#Ghostscript Path###11 10 2013 new variable
+db_master#:#Master###11 10 2013 new variable
+db_slave#:#Slave###11 10 2013 new variable
+mysql_replication_info_alpha#:#ILIAS MySQL Replication support has currently an experimental status. The code is non-stable. Data may be corrupted.###11 10 2013 new variable
+db_slave_settings#:#Slave Settings###11 10 2013 new variable
+db_active#:#Active###11 10 2013 new variable
+db_set_password#:#Set Password###11 10 2013 new variable
