@@ -829,7 +829,14 @@ class ilParticipants
 		if($this->type == 'crs') {
 		 	// Add event: used for ecs accounts
 			$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
-			$ilAppEventHandler->raise("Modules/Course", "addParticipant", array('usr_id' => $a_usr_id,'role_id' => $a_role));
+			$ilAppEventHandler->raise(
+					"Modules/Course", 
+					"addParticipant", 
+					array(
+						'obj_id' => $this->obj_id,
+						'usr_id' => $a_usr_id,
+						'role_id' => $a_role)
+			);
 		}
 	 	return true;
 	}
