@@ -37,13 +37,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->type = "cat";
 		$this->ilContainerGUI($a_data,(int) $a_id,$a_call_by_reference,false);
 		
-		include_once("./Services/Container/classes/class.ilContainer.php");
-		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
-		$this->info_screen_enabled = ilContainer::_lookupContainerSetting(
-				$this->object->getId(),
-				ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-				true);
-
+		if (is_object($this->object))
+		{
+			include_once("./Services/Container/classes/class.ilContainer.php");
+			include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+			$this->info_screen_enabled = ilContainer::_lookupContainerSetting(
+					$this->object->getId(),
+					ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+					true);
+		}
 	}
 
 	function &executeCommand()
