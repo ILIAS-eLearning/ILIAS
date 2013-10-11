@@ -319,11 +319,11 @@ class ilStartUpGUI
 		// we need the template for this
 		if($failure)
 		{
-			$this->showFailure($failure);
+			self::showFailure($failure);
 		}
 		else if($success)
 		{
-			$this->showSuccess($success);
+			self::showSuccess($success);
 		}
 
 		$page_editor_html = $this->getLoginPageEditorHTML();
@@ -349,7 +349,7 @@ class ilStartUpGUI
 		// browser does not accept cookies
 		if (isset($_GET['cookies']) && $_GET['cookies'] == 'nocookies')
 		{
-			$this->showFailure($lng->txt("err_no_cookies"));			
+			self::showFailure($lng->txt("err_no_cookies"));			
 		}
 
 		if(strlen($page_editor_html))
@@ -365,8 +365,8 @@ class ilStartUpGUI
 		global $tpl, $lng;
 		
 		self::initStartUpTemplate("tpl.login_reactivate_code.html");
-	
-		$this->showFailure($lng->txt("time_limit_reached"));
+
+		self::showFailure($lng->txt("time_limit_reached"));
 		
 		if(!$a_form)
 		{
@@ -541,26 +541,26 @@ class ilStartUpGUI
 				}
 			}
 
-			// username
 			$ti = new ilTextInputGUI($lng->txt("username"), "username");
 			$ti->setSize(20);
 			$ti->setAutocomplete(false);
+			$ti->setRequired(true);
 			$form->addItem($ti);
 
-			// password
 			$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
 			$pi->setRetype(false);
 			$pi->setSize(20);
 			$pi->setAutocomplete(false);
+			$pi->setRequired(true);
 			$form->addItem($pi);
 			$form->addCommandButton("showLogin", $lng->txt("log_in"));
-			#$form->addCommandButton("butSubmit", $lng->txt("log_in"));
 
 			require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 			if(ilCaptchaUtil::isActive())
 			{
 				require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
 				$captcha = new ilCaptchaInputGUI($lng->txt('captcha_code'), 'captcha_code');
+				$captcha->setRequired(true);
 				$form->addItem($captcha);
 			}
 
@@ -936,27 +936,40 @@ class ilStartUpGUI
 		);
 	}
 
-
-	function showFailure($a_mess)
+	/**
+	 * @param string $a_mess
+	 */
+	public static function showFailure($a_mess)
 	{
+		/**
+		 * @var $tpl ilTemplate
+		 * @var $lng ilLanguage
+		 */
 		global $tpl, $lng;
-		
-		$tpl->setCurrentBlock("warning");
+
+		$tpl->setCurrentBlock('warning');
 		$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $a_mess);
-		$tpl->setVariable("MESSAGE_HEADING", $lng->txt("failure_message"));
-		$tpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt("failure_message"));
-		$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.png"));
+		$tpl->setVariable('MESSAGE_HEADING', $lng->txt('failure_message'));
+		$tpl->setVariable('ALT_IMAGE', $lng->txt('icon') . ' ' . $lng->txt('failure_message'));
+		$tpl->setVariable('SRC_IMAGE', ilUtil::getImagePath('mess_failure.png'));
 		$tpl->parseCurrentBlock();
 	}
-	
-	public function showSuccess($a_mess)
+
+	/**
+	 * @param string $a_mess
+	 */
+	public static function showSuccess($a_mess)
 	{
+		/**
+		 * @var $tpl ilTemplate
+		 * @var $lng ilLanguage
+		 */
 		global $tpl, $lng;
-		
+
 		$tpl->setCurrentBlock('success');
 		$tpl->setVariable('TXT_MSG_LOGIN_SUCCESS', $a_mess);
 		$tpl->setVariable('MESSAGE_HEADING', $lng->txt('success_message'));
-		$tpl->setVariable('ALT_IMAGE', $lng->txt('icon').' '.$lng->txt('success_message'));
+		$tpl->setVariable('ALT_IMAGE', $lng->txt('icon') . ' ' . $lng->txt('success_message'));
 		$tpl->setVariable('SRC_IMAGE', ilUtil::getImagePath('mess_success.png'));
 		$tpl->parseCurrentBlock();
 	}
@@ -988,6 +1001,7 @@ class ilStartUpGUI
 		
 		$keep = new ilRadioOption($lng->txt('auth_account_migration_keep'),1,$lng->txt('auth_info_migrate'));
 		$user = new ilTextInputGUI($lng->txt('login'),'mig_username');
+		$user->setRequired(true);
 		$user->setAutocomplete(false);
 		$user->setValue(ilUtil::prepareFormOutput($_POST['mig_username']));
 		$user->setSize(32);
@@ -995,7 +1009,8 @@ class ilStartUpGUI
 		$keep->addSubItem($user);
 		
 		$pass = new ilPasswordInputGUI($lng->txt('password'),'mig_password');
-		$pass->setValue(ilUtil::prepareFormOutput($_POST['mig_password']));
+		$user->setRequired(true);
+		$user->setValue(ilUtil::prepareFormOutput($_POST['mig_password']));
 		$pass->setRetype(false);
 		$pass->setSize(12);
 		$pass->setMaxLength(128);
@@ -1011,7 +1026,7 @@ class ilStartUpGUI
 		
 		if(strlen($a_message))
 		{
-			$this->showFailure($a_message);
+			self::showFailure($a_message);
 		}
 
 		$tpl->show('DEFAULT');		
@@ -1211,7 +1226,7 @@ class ilStartUpGUI
 
 		if ($ilAuth->sub_status == AUTH_WRONG_LOGIN)
 		{
-			$this->showFailure($lng->txt("err_wrong_login"));
+			self::showFailure($lng->txt("err_wrong_login"));
 		}
 
 		include_once('./Services/User/classes/class.ilObjUser.php');
