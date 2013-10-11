@@ -1073,6 +1073,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$template->setVariable(	"EXAM_ID", $exam_id);
 			$template->parseCurrentBlock();			
 		}
+		global $ilSetting;
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = ilCharSelectorGUI::_getCurrentGUI();
+			if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED)
+			{
+				$char_selector->addToPage();
+				$template->setVariable("CHAR_SELECTOR_TEMPLATE", $char_selector->getSelectorHtml());
+			}
+		}
 		return $template->get();
 	}
 	

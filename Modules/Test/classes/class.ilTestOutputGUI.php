@@ -66,6 +66,15 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initConnectionWithAnimation();
 		
+		// Ensure that the selector for unicode characters respects the test settings
+		// This should be done before ilMainMenu gets the current selector for display
+		global $ilSetting;
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			ilCharSelectorGUI::_getCurrentGUI($this->object);
+		}
+		
 		$cmd = $this->getCommand($cmd);
 		
 		switch($next_class)

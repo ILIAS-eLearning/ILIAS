@@ -491,6 +491,13 @@ class ilObjTest extends ilObject
 	/** @var bool $sign_submission */
 	protected $sign_submission;
 	
+	/** @var mixed availability of selector for special characters  */
+	protected $char_selector_availability;
+	
+	/** @var string definition of selector for special characters  */
+	protected $char_selector_definition;
+
+	
 	#endregion
 	
 	/**
@@ -595,6 +602,8 @@ class ilObjTest extends ilObject
 		$this->examid_in_kiosk = false;
 		$this->show_exam_id = false;
 		$this->sign_submission = false;
+		$this->char_selector_availability = 0;
+		$this->char_selector_definition = null;
 		
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
@@ -1291,7 +1300,9 @@ class ilObjTest extends ilObject
 				'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk()),
 				'show_exam_id' => array('integer', (int)$this->getShowExamid()),
 				'sign_submission' => array('integer', (int)$this->getSignSubmission()),
-				'question_set_type' => array('text', $this->getQuestionSetType())
+				'question_set_type' => array('text', $this->getQuestionSetType()),
+				'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
+				'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1398,7 +1409,9 @@ class ilObjTest extends ilObject
 						'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk()),
 						'show_exam_id' => array('integer', (int)$this->getShowExamid()),
 						'sign_submission' => array('integer', (int)$this->getSignSubmission()),
-						'question_set_type' => array('text', $this->getQuestionSetType())
+						'question_set_type' => array('text', $this->getQuestionSetType()),
+						'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
+						'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -1880,6 +1893,8 @@ class ilObjTest extends ilObject
 			$this->setShowExamid( (bool)$data->show_exam_id);
 			$this->setSignSubmission( (bool)$data->sign_submission );
 			$this->setQuestionSetType($data->question_set_type);
+			$this->setCharSelectorAvailability((int)$data->char_selector_availability);
+			$this->setCharSelectorDefinition($data->char_selector_definition);
 			$this->loadQuestions();
 		}
 
@@ -6756,6 +6771,8 @@ function getAnswerFeedbackPoints()
 		$newObj->setShowExamViewPdf($this->getShowExamviewPdf());
 		$newObj->setEnableArchiving($this->getEnableArchiving());
 		$newObj->setSignSubmission($this->getSignSubmission());
+		$newObj->setCharSelectorEnabled($this->getCharSelectorEnabled());
+		$newObj->setCharSelectorDefinition($this->getCharSelectorDefinition());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -11174,6 +11191,39 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->sign_submission;
 	}
+	
+	/**
+	 * @param int availability of the special character selector
+	 */
+	public function setCharSelectorAvailability($availability)
+	{
+		$this->char_selector_availability = (int) $availability;
+	}
+	
+	/**
+	 * @return int	availability of the special character selector
+	 */
+	public function getCharSelectorAvailability()
+	{
+		return (int) $this->char_selector_availability;
+	}
+	
+	/**
+	 * @param string	definition of the special character selector
+	 */
+	public function setCharSelectorDefinition($definition = '')
+	{
+		$this->char_selector_definition = $definition;
+	}
+
+	/**
+	 * @return string	definition of the special character selector
+	 */
+	public function getCharSelectorDefinition()
+	{
+		return $this->char_selector_definition;
+	}
+
 	
 	/**
 	 * setter for question set type
