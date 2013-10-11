@@ -14010,3 +14010,33 @@ poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
 cptch#:#captcha_code_reload#:#Neue Grafik laden
 cptch#:#captcha_audio_title#:#Akustisches Captcha. Bitte anklicken, um Zeichen vorgelesen zu bekommen.
 cptch#:#captcha_alt_txt#:#Grafik mit Zeichen, genannt Captcha. Klicken Sie mit der Tab-Taste weiter zu einem akustischen Captcha.
+adve#:#char_selector#:#Auswahl von Unicode-Zeichen
+adve#:#char_selector_inactive#:#Nicht verfügbar
+adve#:#char_selector_inherit#:#Übernommen
+adve#:#char_selector_enabled#:#Aktiviert
+adve#:#char_selector_disabled#:#Deaktiviert
+adve#:#char_selector_inactive_info_admin#:#Deaktiviert die Auswahl komplett. Nutzer und Tests können diese Einstellung nicht überschreiben.
+adve#:#char_selector_inherit_info_user#:#Es werden die Plattformeinstellungen übernommen.
+adve#:#char_selector_inherit_info_test#:#Es werden die Plattform- oder Nutzereinstellungen übernommen.
+adve#:#char_selector_enabled_info_admin#:#Aktiviert die Auswahl über einen Knopf im Hauptmenü. Nutzer und Tests können eigene Einstellungen besitzen.
+adve#:#char_selector_enabled_info_user#:#Aktiviert die Auswahl über einen Knopf im Hauptmenü. Tests können eigene Einstellungen besitzen.
+adve#:#char_selector_enabled_info_test#:#Aktiviert die Auswahl während eines Testdurchlaufs.
+adve#:#char_selector_disabled_info_admin#:#Deaktiviert die Auswahl. Nutzer und Tests können eigene Einstellungen besitzen.
+adve#:#char_selector_disabled_info_user#:#Deaktiviert die Auswahl. Tests können eigene Einstellungen besitzen.
+adve#:#char_selector_disabled_info_test#:#Deaktiviert die Auswahl während eines Testdurchlaufs.
+adve#:#char_selector_blocks#:#Verfügbare Unicode-Zeichenblöcke
+adve#:#char_selector_blocks_info#:#Alle Zeichen der ausgewählten Blöcke werden gelistet, auch wenn die Browserschrift nicht alle unterstützt.
+adve#:#char_selector_custom_items#:#Spezielle Auswahl
+adve#:#char_selector_custom_items_info1#:#Die Spezielle Auswahl wird vor den Unicode-Blöcken gelistet. Fügen Sie hier die Zeichen im folgenden Format ein:
+adve#:#char_selector_custom_items_info2a#:#A B C
+adve#:#char_selector_custom_items_info2b#:#Einzelne Zeichen werden durch Leerzeichen getrennt und bekommen so separate Auswahlschalter
+adve#:#char_selector_custom_items_info3a#:#A BC D
+adve#:#char_selector_custom_items_info3b#:#Zusammenhängende Zeichen landen gemeinsam auf einem Auswahlschalter
+adve#:#char_selector_custom_items_info4a#:#A-Z
+adve#:#char_selector_custom_items_info4b#:#Zeichenbereiche können mit einem "-" definiert werden
+adve#:#char_selector_custom_items_info5a#:#U+00C0
+adve#:#char_selector_custom_items_info5b#:#Ein Zeichen kann auch in Unicode-Notation angegeben werden (Groß/Kleinschreibung beliebig)
+adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
+adve#:#char_selector_custom_items_info6b#:#Auch Zeichenbereiche können in Unicode-Notation angegeben werden 
+adve#:#char_selector_unicode_all#:#Alle Unicode-Blöcke
+adve#:#adve_char_selector_settings#:#Zeichenauswahl
