@@ -556,7 +556,7 @@ function LMSSetValue(s_el,value){
 
 	var b_result=setValueIntern(sco_id,s_el,value,b_storeDB);
 	if (b_result==false) return setreturn(201,"out of order");
-	if (s_el=='cmi.core.session_time'){
+	if (s_el=='cmi.core.session_time' && iv.c_storeSessionTime=="s"){
 		var ttime = addTime(totalTimeAtInitialize, value);
 		b_result=setValueIntern(sco_id,'cmi.core.total_time',ttime,true);
 	}
