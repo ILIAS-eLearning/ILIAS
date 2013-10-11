@@ -2,6 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$"
         id="ui">
         <baseclasses>
+			<baseclass name="ilCharSelectorGUI" dir="CharSelector/classes" />
         </baseclasses>
         <objects>
         </objects>

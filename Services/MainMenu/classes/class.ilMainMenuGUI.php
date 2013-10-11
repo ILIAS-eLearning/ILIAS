@@ -175,6 +175,9 @@ class ilMainMenuGUI
 		
 		$this->renderStatusBox($this->tpl);
 		
+		// char selector
+		$this->renderCharSelector();
+		
 		// online help
 		$this->renderHelpButtons();
 
@@ -996,6 +999,24 @@ class ilMainMenuGUI
 	}
 
 	/**
+	 * Render the selector for unicode characters
+	 */
+	function renderCharSelector()
+	{	
+		global $ilSetting;
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = ilCharSelectorGUI::_getCurrentGUI();
+			if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED)
+			{
+				$char_selector->addToPage();
+				$this->tpl->TouchBlock("char_selector");
+			}
+		}
+	}
+	
+	/**
 	 * Render help button
 	 *
 	 * @param
@@ -1071,6 +1092,7 @@ class ilMainMenuGUI
 			$ilCtrl->setTargetScript($ts);
 		}
 	}
+	
 	
 	/**
 	 * Toggle rendering of main menu, search, user info

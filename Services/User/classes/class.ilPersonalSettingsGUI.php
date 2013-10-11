@@ -1127,6 +1127,17 @@ class ilPersonalSettingsGUI
 			$si->addOption($repobj);
 		}		
 		
+		// selector for unicode characters
+		global $ilSetting;
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_USER);
+			$char_selector->getConfig()->setAvailability($ilUser->getPref('char_selector_availability'));
+			$char_selector->getConfig()->setDefinition($ilUser->getPref('char_selector_definition'));
+			$char_selector->addFormProperties($this->form);
+			$char_selector->setFormValues($this->form);
+		}
 		
 		$this->form->addCommandButton("saveGeneralSettings", $lng->txt("save"));
 		$this->form->setTitle($lng->txt("general_settings"));
@@ -1228,6 +1239,17 @@ class ilPersonalSettingsGUI
 					$this->form->getInput('usr_start_ref_id'));
 			}
 
+			// selector for unicode characters
+			global $ilSetting;
+			if ($ilSetting->get('char_selector_availability') > 0)
+			{
+				require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+				$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_USER);
+				$char_selector->getFormValues($this->form);
+				$ilUser->setPref('char_selector_availability', $char_selector->getConfig()->getAvailability());
+				$ilUser->setPref('char_selector_definition', $char_selector->getConfig()->getDefinition());
+			}
+
 			$ilUser->update();
 
 			// calendar settings
@@ -1237,7 +1259,7 @@ class ilPersonalSettingsGUI
 			$user_settings->setDateFormat((int)$this->form->getInput("date_format"));
 			$user_settings->setTimeFormat((int)$this->form->getInput("time_format"));
 			$user_settings->save();
-			
+						
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showGeneralSettings");
 		}

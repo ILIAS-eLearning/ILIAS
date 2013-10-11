@@ -19024,4 +19024,34 @@ while($res = $ilDB->fetchAssoc($set)){
 	$ilDB->manipulate($q);
 }
 ?>
-
+<#4127>
+<?php
+	if (!$ilDB->tableColumnExists("tst_tests", "char_selector_availability"))
+	{
+		$ilDB->addTableColumn("tst_tests", "char_selector_availability", array(
+			"type" => "integer",
+			"notnull" => true,
+			"default" => 0,
+		 	"length" => 4));
+	}
+	
+	if (!$ilDB->tableColumnExists("tst_tests", "char_selector_definition"))
+	{
+		$ilDB->addTableColumn("tst_tests", "char_selector_definition", array(
+			"type" => "text",
+		 	"length" => 4000));
+	}
+?>
+<#4128>
+<?php
+	// change type of usr_pref.value from char(40) to varchar(4000)
+	// flexible space is needed	to store the individual char selector settings
+	$ilDB->addTableColumn('usr_pref','value2', array("type" => "text", "length" => 4000));
+	$ilDB->manipulate("UPDATE usr_pref SET value2 = value");
+	$ilDB->dropTableColumn('usr_pref','value');
+	$ilDB->renameTableColumn('usr_pref','value2','value');
+?>
+<#4129>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

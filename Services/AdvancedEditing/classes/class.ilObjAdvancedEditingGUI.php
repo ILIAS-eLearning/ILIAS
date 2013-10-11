@@ -99,7 +99,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 		if ($ilCtrl->getNextClass() != "ilpermissiongui" &&
 			!in_array($ilCtrl->getCmd(), array("showPageEditorSettings",
-				"showGeneralPageEditorSettings", "", "view")))
+				"showGeneralPageEditorSettings", "showCharSelectorSettings", "", "view")))
 		{
 			$tabs_gui->addSubTabTarget("adve_general_settings",
 											 $this->ctrl->getLinkTarget($this, "settings"),
@@ -166,6 +166,10 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			$tabs_gui->addTarget("adve_rte_settings",
 				$this->ctrl->getLinkTarget($this, "settings"),
 					array("settings","assessment", "survey", "frmPost"), "", "");
+			
+			$tabs_gui->addTarget("adve_char_selector_settings",
+			$this->ctrl->getLinkTarget($this, "showCharSelectorSettings"),
+					array("showCharSelectorSettings", "","view"));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -555,6 +559,64 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHTML());
 	}
+	
+	/**
+	 * Init the settings form for the selector of unicode characters
+	 */
+	public function initCharSelectorSettingsForm(ilCharSelectorGUI $char_selector)
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($lng->txt('settings'));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->addCommandButton("saveCharSelectorSettings", $lng->txt("save"));
+		$char_selector->addFormProperties($form);
+
+		return $form;
+	}
+	
+	
+	/**
+	 * Show the settings for the selector of unicode characters
+	 */
+	function showCharSelectorSettingsObject()
+	{
+		global $ilTabs, $ilSetting, $tpl;
+
+		$ilTabs->activateTab("adve_char_selector_settings");
+				
+		require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+		$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
+		$char_selector->getConfig()->setAvailability($ilSetting->get('char_selector_availability'));
+		$char_selector->getConfig()->setDefinition($ilSetting->get('char_selector_definition'));
+		$form = $this->initCharSelectorSettingsForm($char_selector);
+		$char_selector->setFormValues($form);
+		$tpl->setContent($form->getHTML());
+	}
+	
+	
+	/**
+	 *  Save the settings for the selector of unicode characters
+	 */
+	function saveCharSelectorSettingsObject()
+	{
+		global $ilSetting, $ilCtrl, $lng, $tpl;
+		
+		require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+		$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
+		$form = $this->initCharSelectorSettingsForm($char_selector);
+		$form->checkInput();
+		$char_selector->getFormValues($form);
+
+		$ilSetting->set('char_selector_availability', $char_selector->getConfig()->getAvailability());
+		$ilSetting->set('char_selector_definition', $char_selector->getConfig()->getDefinition());
+			
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "showCharSelectorSettings");
+	}
+
 		
 } // END class.ilObjAdvancedEditingGUI
 ?>

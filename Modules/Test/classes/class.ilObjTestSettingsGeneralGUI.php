@@ -484,10 +484,22 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setAllowedUsersTimeGap($form->getItemByPostVar('allowedUsersTimeGap')->getValue());
 		}
 
+		// Selector for uicode characters
+		global $ilSetting;
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
+			$char_selector->addFormProperties($form);
+			$char_selector->getFormValues($form);
+			$this->testOBJ->setCharSelectorAvailability($char_selector->getConfig()->getAvailability());
+			$this->testOBJ->setCharSelectorDefinition($char_selector->getConfig()->getDefinition());
+		}
+
 		$this->testOBJ->setAutosave($form->getItemByPostVar('autosave')->getChecked());
 		$this->testOBJ->setAutosaveIval($form->getItemByPostVar('autosave_ival')->getValue() * 1000);
 
-		$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());
+		$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());		
 
 		// highscore settings
 		$this->testOBJ->setHighscoreEnabled((bool) $form->getItemByPostVar('highscore_enabled')->getChecked());
@@ -965,6 +977,18 @@ class ilObjTestSettingsGeneralGUI
 		$title_output->setInfo($this->lng->txt("tst_title_output_description"));
 		$form->addItem($title_output);
 
+		// selector for unicode characters
+		global $ilSetting;
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
+			$char_selector->getConfig()->setAvailability($this->testOBJ->getCharSelectorAvailability());
+			$char_selector->getConfig()->setDefinition($this->testOBJ->getCharSelectorDefinition());
+			$char_selector->addFormProperties($form);
+			$char_selector->setFormValues($form);
+		}
+		
 		// Autosave
 		$autosave_output = new ilCheckboxInputGUI($this->lng->txt('autosave'), 'autosave');
 		$autosave_output->setValue(1);
@@ -977,6 +1001,7 @@ class ilObjTestSettingsGeneralGUI
 		$autosave_interval->setInfo($this->lng->txt('autosave_ival_info'));
 		$autosave_output->addSubItem($autosave_interval);
 		$form->addItem($autosave_output);
+		
 		
 		if( !$this->settingsTemplate || $this->formShowSequenceSection($this->settingsTemplate->getSettings()) )
 		{
