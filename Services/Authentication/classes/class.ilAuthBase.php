@@ -108,6 +108,11 @@ abstract class ilAuthBase
 					$user->update();
 				}
 
+				/*
+				@todo: Maybe move this before login() in class Auth is called (maybe the captcha should be verified before authentication)
+				We should only verify the captcha for authentication methods of the main login form (ldap, local, radius)
+				I will move/change this code after a discussion with the Jour Fixe/first maintainer
+				*/
 				require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 				if(
 					ilContext::hasHTML() &&
