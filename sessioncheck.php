@@ -18,3 +18,4 @@ echo $session_reminder_check->getJsonResponse(
 	ilUtil::stripSlashes($_POST['session_id'])
 );
 exit();
+?>
