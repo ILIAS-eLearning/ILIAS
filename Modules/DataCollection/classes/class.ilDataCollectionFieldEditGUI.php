@@ -283,8 +283,8 @@ class ilDataCollectionFieldEditGUI
 					}
 					else
 					{
-						$subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
-						$opt->addSubItem($subitem);
+                        $subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
+                        $opt->addSubItem($subitem);
 					}
 				}
 			}
@@ -357,7 +357,7 @@ class ilDataCollectionFieldEditGUI
 	 */
 	public function save($a_mode = "create")
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $tpl;
 
 		//check access
 		if(!$this->table->hasPermissionToFields($this->parent_obj->ref_id)){
@@ -366,11 +366,22 @@ class ilDataCollectionFieldEditGUI
 		}
 
 		$this->initForm($a_mode == "update"?"edit":"create");
-		if ($this->form->checkInput())
+        if ($this->form->checkInput())
 		{
             $title = $this->form->getInput("title");
             if($a_mode != "create" && $title != $this->field_obj->getTitle())
                 ilUtil::sendInfo($lng->txt("dcl_field_title_change_warning"), true);
+
+            // Additional check for text fields: The length property should be max 200 if the textarea option is not set
+            if ($this->form->getInput('datatype') == ilDataCollectionDatatype::INPUTFORMAT_TEXT
+                    && (int) $this->form->getInput('prop_'.ilDataCollectionField::PROPERTYID_LENGTH) > 200
+                    && !$this->form->getInput('prop_'.ilDataCollectionField::PROPERTYID_TEXTAREA)) {
+                $inputObj = $this->form->getItemByPostVar('prop_'.ilDataCollectionField::PROPERTYID_LENGTH);
+                $inputObj->setAlert($lng->txt("form_msg_value_too_high"));
+                $this->form->setValuesByPost();
+                $tpl->setContent($this->form->getHtml());
+                return;
+            }
 
 			$this->field_obj->setTitle($title);
 			$this->field_obj->setDescription($this->form->getInput("description"));
@@ -425,7 +436,6 @@ class ilDataCollectionFieldEditGUI
 		}
 		else
 		{
-			global $tpl;
 			$this->form->setValuesByPost();
 			$tpl->setContent($this->form->getHTML());
 		}
