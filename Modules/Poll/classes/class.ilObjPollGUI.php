@@ -498,12 +498,19 @@ class ilObjPollGUI extends ilObject2GUI
 		// is sideblock: so show parent instead
 		$container_id = $tree->getParentId($id[0]);
 		
+		// #11810
+		include_once "Services/Link/classes/class.ilLink.php";
+		ilUtil::redirect(ilLink::_getLink($container_id).
+			"#poll".ilObject::_lookupObjId($id[0]));
+		
+		/*
 		$_GET["baseClass"] = "ilRepositoryGUI";	
 		$_GET["ref_id"] = $container_id;		
-		$_GET["cmd"] = "render";
+		$_GET["cmd"] = "render";		
 		
 		include("ilias.php");
-		exit;
+		exit;		 
+		*/
 	}
 }
 
