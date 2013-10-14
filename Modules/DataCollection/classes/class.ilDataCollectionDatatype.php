@@ -311,15 +311,18 @@ class ilDataCollectionDatatype
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
-				$options = array("" => $lng->txt("dcl_any"));
 				$ref_field_id = $field->getFieldRef();
 				$ref_field = ilDataCollectionCache::getFieldCache($ref_field_id);
 				$ref_table = ilDataCollectionCache::getTableCache($ref_field->getTableId());
-				foreach($ref_table->getRecords() as $record)
+				$options = array();
+                foreach($ref_table->getRecords() as $record)
 				{
 					$options[$record->getId()] = $record->getRecordFieldValue($ref_field_id);
 				}
-				$input->setOptions($options);
+                // Sort by values ASC
+                asort($options);
+                $options = array('' => $lng->txt('dcl_any')) + $options;
+                $input->setOptions($options);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
@@ -337,14 +340,17 @@ class ilDataCollectionDatatype
             case ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST:
                 //FIXME
                 $input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
-                $options = array("" => $lng->txt("dcl_any"));
                 $ref_field_id = $field->getFieldRef();
                 $ref_field = ilDataCollectionCache::getFieldCache($ref_field_id);
                 $ref_table = ilDataCollectionCache::getTableCache($ref_field->getTableId());
+                $options = array();
                 foreach($ref_table->getRecords() as $record)
                 {
                     $options[$record->getId()] = $record->getRecordFieldValue($ref_field_id);
                 }
+                // Sort by values ASC
+                asort($options);
+                $options = array('' => $lng->txt('dcl_any')) + $options;
                 $input->setOptions($options);
                 break;
 		}
