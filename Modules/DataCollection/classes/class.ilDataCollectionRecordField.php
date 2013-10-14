@@ -73,7 +73,7 @@ class ilDataCollectionRecordField
 	{
 		global $ilDB;
 		
-		$this->loadValue();
+		//$this->loadValue(); //Removed Mantis #0011799
 		$datatype = $this->field->getDatatype();
 
 		$query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$ilDB->quote($this->id, "integer");
@@ -123,8 +123,9 @@ class ilDataCollectionRecordField
 		$old = $this->value;
 
 		//if parse value fails keep the old value
-		if($tmp !== null)
-		{
+//		if($tmp !== null) // $tmp can be null to store NULL values in DB
+        if ($tmp !== false)
+   		{
 			$this->value = $tmp;
 			//delete old file from filesystem
 			if($old && $this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)
@@ -183,15 +184,15 @@ class ilDataCollectionRecordField
 	 */
 	protected function loadValue()
 	{
-		if($this->value === NULL)
-		{
+		//if($this->value === NULL)
+		//{
 			global $ilDB;
 			$datatype = $this->field->getDatatype();
 			$query = "SELECT * FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$ilDB->quote($this->id, "integer");
 			$set = $ilDB->query($query);
 			$rec = $ilDB->fetchAssoc($set);
 			$this->value = $rec['value'];
-		}
+		//}
 	}
 	
 	/*

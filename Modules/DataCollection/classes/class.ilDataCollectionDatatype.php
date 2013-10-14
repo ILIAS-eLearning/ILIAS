@@ -552,6 +552,8 @@ class ilDataCollectionDatatype
                 $return = nl2br($value);
             else
                 $return = $value;
+        } else if ($this->id == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
+            $return = ($value == '') ? null : $value; //SW, Ilias Mantis #0011799: Return null otherwise '' is casted to 0 in DB
         }
 		else
 		{
@@ -628,7 +630,7 @@ class ilDataCollectionDatatype
 	 */
 	public function parseHTML($value, ilDataCollectionRecordField $record_field)
 	{
-		switch($this->id)
+        switch($this->id)
 		{
 			case self::INPUTFORMAT_DATETIME:
 				$html = ilDatePresentation::formatDate(new ilDate($value,IL_CAL_DATETIME));
@@ -711,7 +713,7 @@ class ilDataCollectionDatatype
 				$html = $value;
 				break;
 		}
-		return $html;
+        return $html;
 	}
 
 
