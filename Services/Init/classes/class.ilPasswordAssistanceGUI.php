@@ -138,12 +138,10 @@ class ilPasswordAssistanceGUI
 
 		$username = new ilTextInputGUI($this->lng->txt('username'), 'username');
 		$username->setRequired(true);
-		$username->setAutocomplete(false);
 		$form->addItem($username);
 
 		$email = new ilTextInputGUI($this->lng->txt('email'), 'email');
 		$email->setRequired(true);
-		$email->setAutocomplete(false);
 		$form->addItem($email);
 
 		$form->addCommandButton('submitAssistanceForm', $this->lng->txt('submit'));
@@ -361,7 +359,6 @@ class ilPasswordAssistanceGUI
 
 		$username = new ilTextInputGUI($this->lng->txt('username'), 'username');
 		$username->setRequired(true);
-		$username->setAutocomplete(false);
 		$form->addItem($username);
 
 		$password = new ilPasswordInputGUI($this->lng->txt('password'), 'password');
@@ -553,7 +550,6 @@ class ilPasswordAssistanceGUI
 
 		$email = new ilTextInputGUI($this->lng->txt('email'), 'email');
 		$email->setRequired(true);
-		$email->setAutocomplete(false);
 		$form->addItem($email);
 
 		$form->addCommandButton('submitUsernameAssistanceForm', $this->lng->txt('submit'));
