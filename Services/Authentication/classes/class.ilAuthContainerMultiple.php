@@ -168,5 +168,13 @@ class ilAuthContainerMultiple extends Auth_Container
 		}
         return false;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function supportsCaptchaVerification()
+	{
+		return true;
+	}
 }
 ?>

@@ -204,6 +204,13 @@ class ilAuthContainerRadius extends Auth_Container_Radius
 		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function supportsCaptchaVerification()
+	{
+		return true;
+	}
 }
 
 ?>

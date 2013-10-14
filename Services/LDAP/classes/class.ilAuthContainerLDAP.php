@@ -291,5 +291,13 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		}
 		return false;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function supportsCaptchaVerification()
+	{
+		return true;
+	}
 }
 ?>

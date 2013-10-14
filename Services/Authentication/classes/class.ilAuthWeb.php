@@ -53,4 +53,32 @@ class ilAuthWeb extends Auth
 		
 		$this->initAuth();
 	}
+
+	/**
+	 * 
+	 */
+	public function login()
+	{
+		$this->_loadStorage();
+
+		if(!empty($this->username) && $this->storage->supportsCaptchaVerification())
+		{
+			require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+			if(ilCaptchaUtil::isActive())
+			{
+				require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+				require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
+				$captcha = new ilCaptchaInputGUI('', 'captcha_code');
+				$captcha->setRequired(true);
+				if(!$captcha->checkInput())
+				{
+					$this->log('Captcha verification failed');
+					$this->status = AUTH_CAPTCHA_INVALID;
+					return;
+				}
+			}
+		}
+
+		parent::login();
+	}
 }

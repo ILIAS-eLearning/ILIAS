@@ -78,6 +78,15 @@ abstract class ilAuthContainerBase
 	{
 		
 	}
-	
+
+	/**
+	 * Returns whether or not the auth container supports the verification of captchas
+	 * This should be true for those auth methods, which are available in the default login form.
+	 * @return bool
+	 */
+	public function supportsCaptchaVerification()
+	{
+		return false;
+	}
 }
 ?>
