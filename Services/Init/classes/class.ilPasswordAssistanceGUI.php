@@ -363,7 +363,6 @@ class ilPasswordAssistanceGUI
 
 		$password = new ilPasswordInputGUI($this->lng->txt('password'), 'password');
 		$password->setRequired(true);
-		$password->setAutocomplete(false);
 		$form->addItem($password);
 
 		$key = new ilHiddenInputGUI('key');

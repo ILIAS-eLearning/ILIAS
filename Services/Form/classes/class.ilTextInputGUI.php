@@ -27,9 +27,9 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $submit_form_on_enter = false;
 
 	/**
-	 * @var bool Flag whether the html autocomplete attribute should be set or not
+	 * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
 	 */
-	protected $autocomplete = true;
+	protected $autocomplete_disabled = false;
 
 	/**
 	* Constructor
@@ -491,7 +491,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			$tpl->setVariable("STYLE_PAR", '');
 		}
 
-		if(!$this->getAutoComplete())
+		if($this->isHtmlAutoCompleteDisabled())
 		{
 			$tpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
 		}
@@ -540,17 +540,17 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	/**
 	 * @param boolean $autocomplete
 	 */
-	public function setAutocomplete($autocomplete)
+	public function setDisableHtmlAutoComplete($autocomplete)
 	{
-		$this->autocomplete = $autocomplete;
+		$this->autocomplete_disabled = $autocomplete;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function getAutocomplete()
+	public function isHtmlAutoCompleteDisabled()
 	{
-		return $this->autocomplete;
+		return $this->autocomplete_disabled;
 	}
 }
 ?>

@@ -14,7 +14,11 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	protected $size = 40;
 	protected $max_length = 80;
 	protected $checkunused = 0;
-	protected $autocomplete = false;
+
+	/**
+	 * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
+	 */
+	protected $autocomplete_disabled = false;
 	
 	/**
 	* Constructor
@@ -82,9 +86,9 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	*
 	* @param	bool	$a_value	Value
 	*/
-	function setAutoComplete($a_value)
+	function setDisableHtmlAutoComplete($a_value)
 	{
-		$this->autocomplete = (bool)$a_value;
+		$this->autocomplete_disabled = (bool)$a_value;
 	}
 
 	/**
@@ -92,9 +96,9 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	*
 	* @return	bool	Value
 	*/
-	function getAutoComplete()
+	function isHtmlAutoCompleteDisabled()
 	{
-		return $this->autocomplete;
+		return $this->autocomplete_disabled;
 	}
 	
 	/**
@@ -149,7 +153,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 			$a_tpl->setVariable("DISABLED",
 				" disabled=\"disabled\"");
 		}
-		if(!$this->getAutoComplete())
+		if($this->isHtmlAutoCompleteDisabled())
 		{
 			$a_tpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
 		}
