@@ -113,6 +113,15 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 		$a_auth->logout();
 		
 		return false;
-	}	
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function supportsCaptchaVerification()
+	{
+		return true;
+	}
+	
 }
 ?>
