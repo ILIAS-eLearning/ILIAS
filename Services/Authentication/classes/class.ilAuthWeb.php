@@ -61,7 +61,11 @@ class ilAuthWeb extends Auth
 	{
 		$this->_loadStorage();
 
-		if(!empty($this->username) && $this->storage->supportsCaptchaVerification())
+		if(
+			!empty($this->username) && 
+			'anonymous' != $this->username &&
+			$this->storage->supportsCaptchaVerification()
+		)
 		{
 			require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 			if(ilCaptchaUtil::isActive())
