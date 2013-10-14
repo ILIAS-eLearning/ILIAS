@@ -22,6 +22,8 @@ require_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 {
 
+    const DATETIME_SORTING_STR = '_timestamp';
+
 	private $table;
 
     /**
@@ -53,11 +55,14 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		
 		$this->addColumn("", "_front", "15px");
         $this->numeric_fields = array();
-
         foreach($this->table->getVisibleFields() as $field)
 		{
-			$this->addColumn($field->getTitle(), $field->getTitle());
-			if($field->getLearningProgress()){
+			$title = $field->getTitle();
+            $sort_field = $title;
+            if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) $sort_field = $title . self::DATETIME_SORTING_STR;
+            $this->addColumn($title, $sort_field);
+
+            if($field->getLearningProgress()){
 				$this->addColumn($lng->txt("dcl_status"), "_status_".$field->getTitle());
 			}
             if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_NUMBER)
@@ -119,7 +124,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         foreach($this->object_data as $record){
             $record_data = array();
             $record_data["_front"] = null;
-
             foreach($this->table->getVisibleFields() as $field)
             {
                 $title = $field->getTitle();
@@ -132,6 +136,13 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                 if($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
                     $options['link']['display'] = true;
                 }
+                if ($field->getDatatypeId() == ilDataCollectionDataType::INPUTFORMAT_DATETIME) {
+                    $record_data[$title] = ($record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):null);
+                    // Add (hidden) column for timestamp, needed for correct sorting of the column
+                    $timestamp = strtotime($record->getRecordFieldValue($field->getId()));
+                    $record_data[$title . self::DATETIME_SORTING_STR] = $timestamp;
+                }
+
                 if(($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_RATING)){
                     $val = ilRating::getOverallRatingForObject($record->getId(), "dcl_record",
                         $field->getId(), "dcl_field");
