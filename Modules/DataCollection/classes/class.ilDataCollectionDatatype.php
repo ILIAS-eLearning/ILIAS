@@ -629,8 +629,8 @@ class ilDataCollectionDatatype
 		switch($this->id)
 		{
 			case self::INPUTFORMAT_DATETIME:
-				$html = substr($value, 0, -9);
-				break;
+				$html = ilDatePresentation::formatDate(new ilDate($value,IL_CAL_DATETIME));
+                break;
 				
 			case self::INPUTFORMAT_FILE:
 				global $ilCtrl;
