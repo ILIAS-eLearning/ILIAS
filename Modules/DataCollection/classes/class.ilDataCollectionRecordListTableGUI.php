@@ -151,7 +151,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                     $record_data[$title] =  str_pad(round($val["avg"]*100,0), 3, 0, STR_PAD_LEFT).".".str_pad($val["cnt"], 10, 0, STR_PAD_LEFT);
                 }
                 else{
-                    $record_data[$title] = ($record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):null);
+                    //$record_data[$title] = ($record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):null);
+                    $record_data[$title] = $record->getRecordFieldHTML($field->getId(),$options);
                 }
                 if($field->getLearningProgress())
                     $record_data["_status_".$title] = $this->getStatus($record, $field);
@@ -219,7 +220,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	 */
 	public function fillRow($record_data)
 	{
-
+        //print_r($record_data);
 		foreach($this->table->getVisibleFields() as $field)
 		{
             $title = $field->getTitle();
@@ -234,7 +235,10 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             if($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
                 $options['link']['display'] = true;
             }
-            $this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):"");
+//            $this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):"");
+            $content = $record->getRecordFieldHTML($field->getId(),$options);
+            if ($content === false || $content === null) $content = ''; // SW - This ensures to display also zeros in the table...
+            $this->tpl->setVariable("CONTENT", $content);
 			$this->tpl->parseCurrentBlock();
 			if($field->getLearningProgress()){
                 $this->tpl->setCurrentBlock("field");
