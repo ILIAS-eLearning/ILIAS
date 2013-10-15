@@ -36,7 +36,7 @@ class ilAdministrationSettingsFormHandler
 	const SETTINGS_PRIVACY_SECURITY = "ps";
 	const SETTINGS_CALENDAR         = "cals";
 	const SETTINGS_AUTH             = "auth";
-	const SETTINGS_WIKI             = "wiki";
+	const SETTINGS_WIKI             = "wkia";
 
 	const VALUE_BOOL = "bool";
 	
