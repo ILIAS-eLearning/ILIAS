@@ -201,6 +201,13 @@ class ilDataCollectionRecordEditGUI
 			$this->form->addItem($item);
 		}
 
+        // Add possibility to change the owner in edit mode
+        if ($this->record_id) {
+            $ownerField = $this->table->getField('owner');
+            $inputfield = ilDataCollectionDatatype::getInputField($ownerField);
+            $this->form->addItem($inputfield);
+        }
+
 		// save and cancel commands
 		if(isset($this->record_id))
 		{
@@ -347,6 +354,18 @@ class ilDataCollectionRecordEditGUI
 					}
                     $record_obj->setRecordFieldValue($field->getId(), $value);
 			}
+
+            // Do we need to set a new owner for this record?
+            $owner_id = ilObjUser::_lookupId($_POST['field_owner']);
+            if(!$owner_id) {
+                ilUtil::sendFailure($lng->txt('user_not_known'));
+                $this->sendFailure();
+                return;
+            }
+            if ($owner_id != $record_obj->getOwner()) {
+                $record_obj->setOwner($owner_id);
+            }
+
             if($create_mode){
                 ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
             }
