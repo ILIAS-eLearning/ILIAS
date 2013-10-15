@@ -125,6 +125,7 @@ class ilPageEditorGUI
 		global $ilCtrl, $ilHelp;;
 
 		$cmd = $this->ctrl->getCmd("displayPage");
+//echo "-$cmd-"; exit;
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
 
 		$hier_id = $_GET["hier_id"];
@@ -139,6 +140,7 @@ class ilPageEditorGUI
 		$new_type = (isset($_GET["new_type"]))
 			? $_GET["new_type"]
 			: $_POST["new_type"];
+
 //echo "-$cmd-";
 //var_dump($_GET); var_dump($_POST); exit;
 /*array
@@ -233,6 +235,7 @@ var_dump($_GET);
 echo ";$cmd;".$next_class.";";
 echo "-$pc_id-";
 echo "-$cmd-".$this->ctrl->getCmd()."-";
+exit;
 }
 
 //var_dump($_POST);
@@ -265,6 +268,7 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				}
 			}
 		}
+
 //$this->ctrl->debug("+ctype:".$ctype."+");
 //		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 //		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");

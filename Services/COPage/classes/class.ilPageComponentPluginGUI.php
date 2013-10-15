@@ -86,7 +86,7 @@ abstract class ilPageComponentPluginGUI
 	{
 		if ($this->getMode() == ilPageComponentPlugin::CMD_INSERT)
 		{
-			$this->create();
+			$this->insert();
 		}
 		else if ($this->getMode() == ilPageComponentPlugin::CMD_EDIT)
 		{
@@ -98,8 +98,9 @@ abstract class ilPageComponentPluginGUI
 	
 
 	abstract function executeCommand();
-	abstract function create();
+	abstract function insert();
 	abstract function edit();
+	abstract function create();
 	abstract function getElementHTML($a_mode, array $a_properties, $plugin_version);
 	
 	function createElement(array $a_properties)
@@ -147,6 +148,19 @@ abstract class ilPageComponentPluginGUI
 			return $co->getProperties($a_val);
 		}
 		return array();
+	}
+
+	/**
+	 * Add creation button
+	 *
+	 * @param
+	 * @return
+	 */
+	final protected function addCreationButton($a_form)
+	{
+		global $lng;
+		
+		$a_form->addCommandButton("create_plug", $lng->txt("save"));
 	}
 
 }

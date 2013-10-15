@@ -341,6 +341,7 @@ col or row span. -->
 	PluginVersion CDATA #REQUIRED
 >
 <!ELEMENT PluggedProperty (#PCDATA)>
+<!-- <!ELEMENT PluggedProperty EMPTY> -->
 <!ATTLIST PluggedProperty
 	Name CDATA #REQUIRED
 >

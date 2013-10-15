@@ -57,7 +57,9 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilPluginAdmin;
+		global $ilPluginAdmin, $ilTabs, $lng, $ilCtrl;
+		
+		$ilTabs->setBackTarget($lng->txt("pg"), $ilCtrl->getLinkTarget($this, "returnToParent"));
 		
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
@@ -177,5 +179,6 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	{
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
+	
 }
 ?>

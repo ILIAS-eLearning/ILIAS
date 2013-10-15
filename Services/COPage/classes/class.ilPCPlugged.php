@@ -76,7 +76,10 @@ class ilPCPlugged extends ilPageContent
 			$prop_node = $this->dom->create_element("PluggedProperty");
 			$prop_node = $this->plug_node->append_child($prop_node);
 			$prop_node->set_attribute("Name", $key);
-			$prop_node->set_content($value);
+			if ($value != "")
+			{
+				$prop_node->set_content($value);
+			}
 		}
 	}
 
@@ -183,23 +186,25 @@ class ilPCPlugged extends ilPageContent
 		global $lng, $ilPluginAdmin;
 		
 		$c_pos = 0;
-		$start = strpos($a_html, "{{{{{Plugged;");
+		$start = strpos($a_html, "{{{{{Plugged<pl");
+//echo htmlentities($a_html)."-";
 		if (is_int($start))
 		{
 			$end = strpos($a_html, "}}}}}", $start);
 		}
 		$i = 1;
+
 		while ($end > 0)
 		{
-			$param = substr($a_html, $start + 13, $end - $start - 13);
-			
-			$param = explode(";", $param);
-			
-			$plugin_name = $param[0];
-			$plugin_version = $param[1];
+			$param = substr($a_html, $start + 5, $end - $start - 5);
+			$param = str_replace(' xmlns:xhtml="http://www.w3.org/1999/xhtml"', "", $param);
+			$param = explode("<pl/>", $param);
+//var_dump($param); exit;
+			$plugin_name = $param[1];
+			$plugin_version = $param[2];
 			$properties = array();
 
-			for ($i = 2; $i < count($param); $i+=2)
+			for ($i = 3; $i < count($param); $i+=2)
 			{
 				$properties[$param[$i]] = $param[$i+1];
 			}
@@ -221,7 +226,7 @@ class ilPCPlugged extends ilPageContent
 				$plugin_html.
 				substr($a_html, $end + 5);
 
-			$start = strpos($a_html, "{{{{{Plugged;", $start + 5);
+			$start = strpos($a_html, "{{{{{Plugged<pl", $start + 5);
 			$end = 0;
 			if (is_int($start))
 			{
