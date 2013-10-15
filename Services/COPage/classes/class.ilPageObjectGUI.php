@@ -2830,14 +2830,15 @@ class ilPageObjectGUI
 			$ilCtrl->redirect($this, "preview");
 		}
 		
-		// captcha
-		include_once("./Services/Captcha/classes/class.ilCaptchaUtil.php");
-		if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-			ilCaptchaUtil::isActive() &&
-			!$ilUser->isCaptchaVerified())
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		if(
+			$ilUser->isAnonymous() &&
+			!$ilUser->isCaptchaVerified() &&
+			ilCaptchaUtil::isActiveForWiki()
+		)
 		{
 			$form = $this->initCaptchaForm();
-			if ($_POST["captcha_code"] && $form->checkInput())
+			if($_POST['captcha_code'] && $form->checkInput())
 			{
 				$ilUser->setCaptchaVerified(true);
 			}
@@ -2902,20 +2903,23 @@ class ilPageObjectGUI
 	 */
 	public function initCaptchaForm()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 * @var $ilCtrl ilCtrl
+		 */
 		global $lng, $ilCtrl;
-	
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
+		require_once  'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		
-		// captcha code
-		include_once("./Services/Captcha/classes/class.ilCaptchaInputGUI.php");
-		$ci = new ilCaptchaInputGUI($lng->txt("cont_captcha_code"), "captcha_code");
+		require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
+		$ci = new ilCaptchaInputGUI($lng->txt('cont_captcha_code'), 'captcha_code');
 		$ci->setRequired(true);
 		$form->addItem($ci);
-	
-		$form->addCommandButton("edit", $lng->txt("ok"));
+
+		$form->addCommandButton('edit', $lng->txt('ok'));
 		
-		$form->setTitle($lng->txt("cont_captcha_verification"));
+		$form->setTitle($lng->txt('cont_captcha_verification'));
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		
 		return $form;
