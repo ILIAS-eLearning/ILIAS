@@ -689,7 +689,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	
 	protected function formatSeconds($seconds, $a_shorten_zero = false)
 	{
-		$seconds = $seconds ? $seconds : 0;
+		$seconds = ((int)$seconds > 0) ? $seconds : 0;
 		if($a_shorten_zero && !$seconds)
 		{
 			return "-";
