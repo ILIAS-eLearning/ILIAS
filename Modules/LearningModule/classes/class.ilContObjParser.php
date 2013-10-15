@@ -274,6 +274,7 @@ class ilContObjParser extends ilMDSaxParser
 			$target_inst = $link_arr[1];
 			$target_type = $link_arr[2];
 			$target_id = $link_arr[3];
+//echo "<br>-".$target_type."-".$target_id."-".$target_inst."-";
 			$sources = ilInternalLink::_getSourcesOfTarget($target_type, $target_id, $target_inst);
 			foreach($sources as $key => $source)
 			{
@@ -287,13 +288,17 @@ class ilContObjParser extends ilMDSaxParser
 				// content object pages
 				if ($type_arr[1] == "pg")
 				{
-					include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-					$page_object = ilPageObjectFactory::getInstance($type_arr[0], $source["id"]);
-					$page_object->buildDom();
-					$page_object->resolveIntLinks();
-					$page_object->update();
-					unset($page_object);
+					if (ilPageObject::_exists($type_arr[0],$source["id"]))
+					{
+						include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+						$page_object = ilPageObjectFactory::getInstance($type_arr[0], $source["id"]);
+						$page_object->buildDom();
+						$page_object->resolveIntLinks();
+						$page_object->update();
+						unset($page_object);
+					}
 				}
+
 				// eventually correct links in questions to learning modules
 				if ($type_arr[0] == "qst")
 				{
