@@ -308,19 +308,19 @@ class ilChangeEvent
 		$fields["mm"] = array("integer", date("m"));
 		$fields["dd"] = array("integer", date("d"));
 		$fields["hh"] = array("integer", date("H"));
-		if($a_spent_seconds != null)
+		if($a_spent_seconds > 0)
 		{
 			$fields["spent_seconds"] = array("integer", $a_spent_seconds);
 		}
-		if($a_read_count != null)
+		if($a_read_count > 0)
 		{
 			$fields["read_count"] = array("integer", $a_read_count);
 		}
-		if($a_childs_spent_seconds != null)
+		if($a_childs_spent_seconds > 0)
 		{
 			$fields["childs_spent_seconds"] = array("integer", $a_childs_spent_seconds);
 		}
-		if($a_child_read_count != null)
+		if($a_child_read_count > 0)
 		{
 			$fields["childs_read_count"] = array("integer", $a_child_read_count);
 		}
