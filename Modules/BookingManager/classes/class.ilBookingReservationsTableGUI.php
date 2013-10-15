@@ -16,7 +16,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	protected $ref_id;	// int
 	protected $filter;	// array
 	protected $pool_id;	// int
-	protected $has_schedule;	// bool
+	protected $show_all; // bool
+	protected $has_schedule; // bool
+	protected $objects; // array
 
 	/**
 	 * Constructor
@@ -24,16 +26,20 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 * @param	string	$a_parent_cmd
 	 * @param	int		$a_ref_id
 	 * @param	int		$a_pool_id
+	 * @param	bool	$a_show_all
+	 * @param	bool	$a_has_schedule
+	 * @param	array	$a_filter_pre
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_has_schedule)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_show_all, $a_has_schedule, array $a_filter_pre = null)
 	{
 		global $ilCtrl, $lng;
 
 		$this->pool_id = $a_pool_id;
 		$this->ref_id = $a_ref_id;
-		$this->has_schedule = (bool)$a_has_schedule;
+		$this->show_all = $a_show_all;
+		$this->has_schedule = (bool)$a_has_schedule;		
 		
-		$this->setId("bkrsv");
+		$this->setId("bkrsv".$a_ref_id);
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -62,7 +68,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 
-		$this->initFilter();
+		$this->initFilter($a_filter_pre);
 
 		$this->getItems($this->getCurrentFilter());
 	}
@@ -70,8 +76,31 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	/**
 	* Init filter
 	*/
-	function initFilter()
-	{
+	function initFilter(array $a_filter_pre = null)
+	{							
+		if(is_array($a_filter_pre) && 
+			isset($a_filter_pre["object"]))
+		{			
+			$_SESSION["form_".$this->getId()]["object"] = serialize($a_filter_pre["object"]);			
+			if($this->has_schedule)
+			{
+				$_SESSION["form_".$this->getId()]["fromto"] = serialize(array(
+					"from" => serialize(new ilDateTime(date("Y-m-d"), IL_CAL_DATE)),
+					"to" => ""
+				));
+			}
+		}
+		
+		$this->objects = array();
+		include_once "Modules/BookingManager/classes/class.ilBookingObject.php";
+		foreach(ilBookingObject::getList($this->pool_id) as $item)
+		{
+			$this->objects[$item["booking_object_id"]] = $item["title"];
+		}				
+		$item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
+		$item->setOptions(array(""=>$this->lng->txt('book_all'))+$this->objects);		
+		$this->filter["object"] = $item->getValue();
+		
 		if($this->hasSchedule)
 		{
 			$valid_status = array(ilBookingReservation::STATUS_IN_USE, 
@@ -114,10 +143,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 */
 	function getCurrentFilter()
 	{
-		$filter = array();
-		if($this->filter["type"])
+		$filter = array();		
+		if($this->filter["object"])
 		{
-			$filter["type"] = $this->filter["type"];
+			$filter["object"] = $this->filter["object"];
 		}
 		if($this->filter["status"])
 		{
@@ -148,19 +177,33 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 */
 	function getItems(array $filter)
 	{		
-		$this->determineOffsetAndOrder();
-				
-		$ids = array();
-		include_once "Modules/BookingManager/classes/class.ilBookingObject.php";
-		foreach(ilBookingObject::getList($this->pool_id) as $item)
-		{
-			$ids[] = $item["booking_object_id"];
-		}
+		global $ilUser;
 		
+		$this->determineOffsetAndOrder();
+		
+		if(!$filter["object"])
+		{
+			$ids = array_keys($this->objects);
+		}
+		else
+		{
+			$ids = array($filter["object"]);
+		}
+	
 		include_once "Modules/BookingManager/classes/class.ilBookingReservation.php";
 		$data = ilBookingReservation::getList($ids, $this->getLimit(), $this->getOffset(), $filter);
 		
-		$this->setMaxCount($data['counter']);
+		if(!$this->show_all)
+		{
+			foreach($data['data'] as $idx => $item)
+			{				
+				if($item["user_id"] != $ilUser->getId())
+				{
+					unset($data['data'][$idx]);
+				}				
+			}
+		}
+				
 		$this->setData($data['data']);
 	}
 

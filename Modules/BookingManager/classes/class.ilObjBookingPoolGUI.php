@@ -214,13 +214,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$this->lng->txt("info_short"),
 				$this->ctrl->getLinkTarget($this, "infoscreen"));
 
-		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()) ||
-			$this->object->hasPublicLog())
-		{
-			$this->tabs_gui->addTab("log",
-				$this->lng->txt("book_log"),
-				$this->ctrl->getLinkTarget($this, "log"));
-		}
+		$this->tabs_gui->addTab("log",
+			$this->lng->txt("book_log"),
+			$this->ctrl->getLinkTarget($this, "log"));		
 		
 		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
@@ -900,16 +896,27 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function logObject()
 	{
-		global $tpl;
+		global $tpl, $ilAccess;
 
 		$this->tabs_gui->setTabActive('log');
+				
+		$show_all = ($ilAccess->checkAccess('write', '', $this->object->getRefId()) ||
+			$this->object->hasPublicLog());
+		
+		$filter = null;
+		if($_GET["object_id"])
+		{
+			$filter["object"] = (int)$_GET["object_id"];
+		}
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
 		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id, 
-			$this->object->getId(), ($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE));
+			$this->object->getId(), $show_all, 
+			($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE),
+			$filter);
 		$tpl->setContent($table->getHTML());
 	}
-
+	
 	/**
 	 * Change status of given reservations
 	 */
@@ -940,9 +947,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function applyLogFilterObject()
 	{
+		global $ilAccess;
+				
+		$show_all = ($ilAccess->checkAccess('write', '', $this->object->getRefId()) ||
+			$this->object->hasPublicLog());
+		
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
 		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id,
-			$this->object->getId(), ($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE));
+			$this->object->getId(), $show_all,
+			($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE));
 		$table->resetOffset();
 		$table->writeFilterToSession();
 		$this->logObject();
@@ -953,9 +966,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function resetLogFilterObject()
 	{
+		global $ilAccess;
+				
+		$show_all = ($ilAccess->checkAccess('write', '', $this->object->getRefId()) ||
+			$this->object->hasPublicLog());
+		
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
 		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id,
-			$this->object->getId(), ($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE));
+			$this->object->getId(), $show_all,
+			($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE));
 		$table->resetOffset();
 		$table->resetFilter();
 		$this->logObject();

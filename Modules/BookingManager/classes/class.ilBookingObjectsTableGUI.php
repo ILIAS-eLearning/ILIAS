@@ -50,16 +50,6 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("available"));
 		}
 
-		if ($this->may_edit)
-		{			
-			$this->addColumn($this->lng->txt("book_current_user"));
-			
-			if($this->has_schedule)
-			{
-				$this->addColumn($this->lng->txt("book_period"));
-			}
-		}
-		
 		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setEnableHeader(true);
@@ -100,15 +90,13 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		{									
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 			$reservation = ilBookingReservation::getList(array($a_set['booking_object_id']), 1000, 0, array());
-			$cnt = 0;			
-			$user_ids = array();				
+			$cnt = 0;						
 			foreach($reservation["data"] as $item)
 			{			
 				if($item["status"] != ilBookingReservation::STATUS_CANCELLED)
 				{
 					$cnt++;
-					$user_ids[$item["user_id"]] = ilObjUser::_lookupFullName($item['user_id']);
-					
+				
 					if($item["user_id"] == $ilUser->getId())
 					{
 						$has_booking = true;
@@ -121,48 +109,24 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VALUE_AVAIL", $a_set["nr_items"]-$cnt); 
 			$this->tpl->setVariable("VALUE_AVAIL_ALL", $a_set["nr_items"]); 
 
-			if($a_set["nr_items"] <= $cnt)
+			if($a_set["nr_items"] <= $cnt || $has_booking)
 			{
 				$booking_possible = false;
-			}
-			
-			if ($this->may_edit)
-			{
-				if($user_ids)
-				{
-					$this->tpl->setVariable("TXT_CURRENT_USER", implode("<br />", array_unique($user_ids)));		
-				}
-				else
-				{
-					$this->tpl->setVariable("TXT_CURRENT_USER", "");
-				}			
-			}
+			}			
 		}
-		else
+		else if(!$this->may_edit)
 		{
-			if ($this->may_edit)
-			{
-				include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-				$reservation = ilBookingReservation::getCurrentOrUpcomingReservation($a_set['booking_object_id']);
-			
-				if($reservation)
-				{					
-					$date_from = new ilDateTime($reservation['date_from'], IL_CAL_UNIX);
-					$date_to = new ilDateTime($reservation['date_to'], IL_CAL_UNIX);
-
-					$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($reservation['user_id']));
-					$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
-					
-					$has_reservations = true;					
-				}
-				else
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+			$reservation = ilBookingReservation::getList(array($a_set['booking_object_id']), 1000, 0, array());					
+			foreach($reservation["data"] as $item)
+			{			
+				if($item["status"] != ilBookingReservation::STATUS_CANCELLED &&
+					$item["user_id"] == $ilUser->getId())
 				{
-					$this->tpl->setVariable("TXT_CURRENT_USER", "");
-					$this->tpl->setVariable("VALUE_DATE", "");
-				}
+					$has_booking = true;
+				}				
 			}
 		}
-
 		
 		$items = array();
 		
@@ -172,15 +136,13 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		{
 			$items['info'] = array($lng->txt('book_download_info'), $ilCtrl->getLinkTarget($this->parent_obj, 'deliverInfo'));
 		}	
-	
-		if(!$has_booking)
+			
+		if($booking_possible)
 		{
-			if($booking_possible)
-			{
-				$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
-			}
+			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
 		}
-		else
+		
+		if(!$this->schedule && $has_booking)
 		{	
 			if(trim($a_set['post_text']) || $a_set['post_file'])
 			{
@@ -188,6 +150,13 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			}	
 		
 			$items['cancel'] = array($lng->txt('book_set_cancel'), $ilCtrl->getLinkTarget($this->parent_obj, 'rsvCancelUser'));
+		}
+		
+		if($this->may_edit || $has_booking)
+		{
+			$ilCtrl->setParameterByClass('ilObjBookingPoolGUI', 'object_id', $a_set['booking_object_id']);
+			$items['log'] = array($lng->txt('book_log'), $ilCtrl->getLinkTargetByClass('ilObjBookingPoolGUI', 'log'));				
+			$ilCtrl->setParameterByClass('ilObjBookingPoolGUI', 'object_id', '');
 		}
 
 		if ($this->may_edit)
