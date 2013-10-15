@@ -292,6 +292,8 @@ class ilDataCollectionRecordEditGUI
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
 			$record_obj->setLastEditBy($ilUser->getId());
 
+            $create_mode = false;
+
 			if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id))
 			{
 				$all_fields = $this->table->getRecordFields();
@@ -356,14 +358,16 @@ class ilDataCollectionRecordEditGUI
 			}
 
             // Do we need to set a new owner for this record?
-            $owner_id = ilObjUser::_lookupId($_POST['field_owner']);
-            if(!$owner_id) {
-                ilUtil::sendFailure($lng->txt('user_not_known'));
-                $this->sendFailure();
-                return;
-            }
-            if ($owner_id != $record_obj->getOwner()) {
-                $record_obj->setOwner($owner_id);
+            if (!$create_mode) {
+                $owner_id = ilObjUser::_lookupId($_POST['field_owner']);
+                if(!$owner_id) {
+                    ilUtil::sendFailure($lng->txt('user_not_known'));
+                    $this->sendFailure();
+                    return;
+                }
+                if ($owner_id != $record_obj->getOwner()) {
+                    $record_obj->setOwner($owner_id);
+                }
             }
 
             if($create_mode){
