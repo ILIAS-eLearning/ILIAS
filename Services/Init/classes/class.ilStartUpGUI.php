@@ -553,7 +553,7 @@ class ilStartUpGUI
 			$form->addCommandButton("showLogin", $lng->txt("log_in"));
 
 			require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-			if(ilCaptchaUtil::isActive())
+			if(ilCaptchaUtil::isActiveForLogin())
 			{
 				require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
 				$captcha = new ilCaptchaInputGUI($lng->txt('captcha_code'), 'captcha_code');
