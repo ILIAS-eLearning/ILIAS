@@ -3580,9 +3580,8 @@
 
 <!-- Plugged -->
 <xsl:template match="Plugged">
-	<div>
-		{{{{{Plugged;<xsl:value-of select="@PluginName"/>;<xsl:value-of select="@PluginVersion"/><xsl:for-each select="./PluggedProperty">;<xsl:value-of select="@Name"/>;<xsl:value-of select="."/></xsl:for-each>}}}}}
-		<xsl:call-template name="EditReturnAnchors"/>
+	<xsl:call-template name="EditReturnAnchors"/>
+		{{{{{Plugged<pl/><xsl:value-of select="@PluginName"/><pl/><xsl:value-of select="@PluginVersion"/><xsl:for-each select="./PluggedProperty"><pl/><xsl:value-of select="@Name"/><pl/><xsl:value-of select="."/></xsl:for-each>}}}}}
 		<xsl:if test="$mode = 'edit'">
 			<!-- <xsl:value-of select="../@HierId"/> -->
 			<xsl:if test="$javascript='disable'">
@@ -3598,7 +3597,6 @@
 				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
-	</div>
 </xsl:template>
 
 <!-- Content Includes -->

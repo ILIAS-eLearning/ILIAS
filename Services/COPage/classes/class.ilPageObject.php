@@ -2372,6 +2372,7 @@ abstract class ilPageObject
 //echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
 //echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
 //echo "\n<br>PageObject::update:".$this->getXMLFromDom().":";
+//debug_print_backtrace();
 //echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()); exit;
 
 		// add missing pc ids
@@ -2385,7 +2386,7 @@ abstract class ilPageObject
 		{
 			$errors = $this->validateDom();
 		}
-		
+//var_dump($errors); exit;
 		if (empty($errors) && !$this->getEditLock())
 		{
 			include_once("./Services/User/classes/class.ilUserUtil.php");
