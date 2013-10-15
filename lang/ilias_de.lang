@@ -12187,7 +12187,6 @@ ecs#:#ecs_server_deleted#:#Server gelöscht
 blog#:#blog_edit_date#:#Datum editieren
 blog#:#blog_edit_date_info#:#Der Status der Veröffentlichung hängt nicht von diesem Datum ab.
 certificate#:#certificate_file_basename#:#Zertifikat
-administration#:#adm_captcha_anonymous#:#Captchas für Anonymous aktivieren (Forum/Wiki/Login/Registrierung). Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
 content#:#cont_captcha_verification#:#Benutzerverifikation
 content#:#cont_captcha_code#:#Code
 cptch#:#cptch_wrong_input#:#Falsche Eingabe
@@ -14078,3 +14077,7 @@ content#:#cont_multilinguality#:#Multilinguality###11 10 2013 new variable
 content#:#save_new#:#Save and New###11 10 2013 new variable
 obj#:#obj_features#:#Features###11 10 2013 new variable
 obj#:#obj_tool_setting_info_tab#:#Show Info Tab###11 10 2013 new variable
+administration#:#adm_captcha_anonymous_frm#:#Captcha für Anonymous im Forum. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
+administration#:#adm_captcha_anonymous_auth#:#Captcha für Anonymous im Anmeldeformular. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
+administration#:#adm_captcha_anonymous_reg#:#Captcha für Anonymous im Registrierungsformular. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
+auth#:#auth_auth_settings#:#Einstellungen
