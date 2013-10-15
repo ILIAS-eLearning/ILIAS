@@ -1381,12 +1381,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$oFileUploadGUI = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
 		$oFileUploadGUI->setFilenames(array(0 => ''));
 		$this->replyEditForm->addItem($oFileUploadGUI);
-		
-		if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-			$ilSetting->get('activate_captcha_anonym'))
+
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		if(
+			$ilUser->isAnonymous() &&
+			!$ilUser->isCaptchaVerified() &&
+			ilCaptchaUtil::isActiveForForum()
+		)
 		{
-			include_once("./Services/Captcha/classes/class.ilCaptchaInputGUI.php");			
-			$captcha = new ilCaptchaInputGUI($this->lng->txt("cont_captcha_code"), 'captcha_code');
+			require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
+			$captcha = new ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
 			$captcha->setRequired(true);		
 			$this->replyEditForm->addItem($captcha);
 		}
@@ -1455,6 +1459,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$oReplyEditForm = $this->getReplyEditForm();
 		if($oReplyEditForm->checkInput())
 		{
+			require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+			if(
+				$ilUser->isAnonymous() &&
+				!$ilUser->isCaptchaVerified() &&
+				ilCaptchaUtil::isActiveForForum()
+			)
+			{
+				$ilUser->setCaptchaVerified(true);
+			}
+
 			// init objects
 			$oForumObjects = $this->getForumObjects();
 			/**
@@ -3236,12 +3250,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->create_topic_form_gui->addItem($gen_notification_gui);
 			}
 		}
-		
-		if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-			$ilSetting->get('activate_captcha_anonym'))
+
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		if(
+			$ilUser->isAnonymous() &&
+			!$ilUser->isCaptchaVerified() &&
+			ilCaptchaUtil::isActiveForForum()
+		)
 		{
-			include_once("./Services/Captcha/classes/class.ilCaptchaInputGUI.php");			
-			$captcha = new ilCaptchaInputGUI($this->lng->txt("cont_captcha_code"), 'captcha_code');
+			require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';			
+			$captcha = new ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
 			$captcha->setRequired(true);		
 			$this->create_topic_form_gui->addItem($captcha);
 		}
@@ -3308,6 +3326,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->initTopicCreateForm();
 		if($this->create_topic_form_gui->checkInput())
 		{
+			require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+			if(
+				$ilUser->isAnonymous() &&
+				!$ilUser->isCaptchaVerified() &&
+				ilCaptchaUtil::isActiveForForum()
+			)
+			{
+				$ilUser->setCaptchaVerified(true);
+			}
+
 			if($this->objProperties->isAnonymized())
 			{
 				if(!strlen($this->create_topic_form_gui->getInput('alias')))
