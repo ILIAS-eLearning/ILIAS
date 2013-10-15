@@ -168,13 +168,22 @@ class ilDataCollectionRecordEditGUI
 			{
 				$fieldref = $field->getFieldRef();
 				$reffield = ilDataCollectionCache::getFieldCache($fieldref);
-				$options = array();
+                $options = array();
                 if(!$field->isNRef())
 				    $options[""] = '--';
 				$reftable = ilDataCollectionCache::getTableCache($reffield->getTableId());
 				foreach($reftable->getRecords() as $record)
 				{
-					$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
+					// If the referenced field is MOB or FILE, we display the filename in the dropdown
+                    if ($reffield->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
+                        $file_obj = new ilObjFile($record->getRecordFieldValue($fieldref), false);
+                        $options[$record->getId()] = $file_obj->getFileName();
+                    } else if ($reffield->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB) {
+                        $media_obj = new ilObjMediaObject($record->getRecordFieldValue($fieldref), false);
+                        $options[$record->getId()] = $media_obj->getTitle();
+                    } else {
+                        $options[$record->getId()] = $record->getRecordFieldValue($fieldref);
+                    }
 				}
 				$item->setOptions($options);
 			}
