@@ -1103,21 +1103,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setInfo($this->lng->txt("short_inst_name_info"));
 		$this->form->addItem($ti);
 
-		// activate captcha for anonymous wiki/forum editing
-		include_once("./Services/Captcha/classes/class.ilCaptchaUtil.php");
-		$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'),'activate_captcha_anonym');
-		$cap->setInfo($this->lng->txt('adm_captcha_anonymous'));
-		$cap->setValue(1);
-		if (ilCaptchaUtil::checkFreetype())
-		{
-			$cap->setChecked($ilSetting->get('activate_captcha_anonym'));
-		}
-		else
-		{
-			$cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
-		}
-		$this->form->addItem($cap);
-		
 		// public section
 		$cb = new ilCheckboxInputGUI($this->lng->txt("pub_section"), "pub_section");
 		$cb->setInfo($lng->txt("pub_section_info"));
@@ -1246,7 +1231,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 					? (int)$_POST['enable_global_profiles']
 					: 0;				
 				$ilSetting->set('enable_global_profiles', $global_profiles);
-				$ilSetting->set('activate_captcha_anonym',(int) $_POST['activate_captcha_anonym']);
 								
 			$ilSetting->set("open_google", $_POST["open_google"]);			
 			$ilSetting->set("locale", $_POST["locale"]);
@@ -2213,18 +2197,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 					array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
 				
 				return array("general_settings" => array("showHTTPS", $fields));
-				
-			case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
-				/**
-				 * @var $ilSetting ilSetting
-				 */
-				global $ilSetting;
-
-				$fields = array(
-					'adm_captcha_anonymous_short' => array($ilSetting->get('activate_captcha_anonym', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
-				);
-
-				return array('general_settings' => array('showBasicSettings', $fields));
 		}
 	}
 	
