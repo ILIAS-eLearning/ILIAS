@@ -262,7 +262,7 @@ class ilAccountRegistrationGUI
 		}
 
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-		if(ilCaptchaUtil::isActive())
+		if(ilCaptchaUtil::isActiveForRegistration())
 		{
 			require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
 			$captcha = new ilCaptchaInputGUI($lng->txt("captcha_code"), 'captcha_code');
