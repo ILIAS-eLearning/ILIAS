@@ -419,5 +419,21 @@ class ilForumProperties
 		return $this->mark_mod_posts;
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getUserToggleNoti()
+	{
+		return $this->user_toggle_noti;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getAdminForceNoti()
+	{
+		return $this->admin_force_noti;
+	}
+
 }
 ?>

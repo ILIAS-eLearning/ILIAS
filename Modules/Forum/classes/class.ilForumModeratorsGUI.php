@@ -21,6 +21,7 @@ class ilForumModeratorsGUI
 	private $ctrl = null;
 	private $tpl = null;
 	private $lng = null;
+	private $ref_id = 0;
 	private $oForumModerators = null;
 	
 	public function __construct()
@@ -47,7 +48,8 @@ class ilForumModeratorsGUI
 			$ilias->raiseError($this->lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
 		}		
 		
-		$this->oForumModerators = new ilForumModerators((int)$_GET['ref_id']);		
+		$this->oForumModerators = new ilForumModerators((int)$_GET['ref_id']);
+		$this->ref_id = (int)$_GET['ref_id'];
 	}
 
 	public function executeCommand()
@@ -83,16 +85,35 @@ class ilForumModeratorsGUI
 	
 	public function addModerator()
 	{
+		global $ilUser;
+		
 		if(!$_POST['user'])
 		{
 			ilUtil::sendInfo($this->lng->txt('frm_moderators_select_one'));
 			return $this->showModeratorsSearchResult($_SESSION['frm']['moderators']['search_result']);
 		}
-		
+
+		include_once "Modules/Forum/classes/class.ilForumNotification.php";
+		$isCrsGrp = ilForumNotification::_isParentNodeGrpCrs($this->ref_id);
+		include_once "Modules/Forum/classes/class.ilForumProperties.php";
+		$objFrmProps = ilForumProperties::getInstance(ilObject::_lookupObjId($this->ref_id));
+		$frm_noti_type = $objFrmProps->getNotificationType();
+
 		unset($_SESSION['frm']['moderators']['search_result']);
 		foreach($_POST['user'] as $user_id)
 		{
 			$this->oForumModerators->addModeratorRole((int)$user_id);
+			
+			if($isCrsGrp && $frm_noti_type != 'default')
+			{
+				$tmp_frm_noti = new ilForumNotification($this->ref_id); 
+				$tmp_frm_noti->setUserId((int)$user_id);
+				$tmp_frm_noti->setUserIdNoti($ilUser->getId());
+				$tmp_frm_noti->setUserToggle((int)$objFrmProps->getUserToggleNoti());
+				$tmp_frm_noti->setAdminForce((int)$objFrmProps->getAdminForceNoti());
+			
+				$tmp_frm_noti->insertAdminForce();
+			}
 		}
 		
 		ilUtil::sendInfo($this->lng->txt('frm_moderator_role_added_successfully'));		
@@ -170,10 +191,37 @@ class ilForumModeratorsGUI
 			ilUtil::sendInfo($this->lng->txt('frm_moderators_select_at_least_one'));
 			return $this->showModerators();
 		}
+		include_once "Modules/Forum/classes/class.ilForumNotification.php";
+		$isCrsGrp = ilForumNotification::_isParentNodeGrpCrs($this->ref_id);
+		
+		if($isCrsGrp)
+		{
+			global $tree;
+			$parent_ref_id = $tree->getParentId($this->ref_id);
+			
+			include_once "Services/Membership/classes/class.ilParticipants.php";
+		}
+		
+		include_once "Modules/Forum/classes/class.ilForumProperties.php";
+		$objFrmProps = ilForumProperties::getInstance(ilObject::_lookupObjId($this->ref_id));
+		$frm_noti_type = $objFrmProps->getNotificationType();
 		
 		foreach($_POST['usr_id'] as $usr_id)
 		{
 			$this->oForumModerators->detachModeratorRole((int)$usr_id);
+
+			if($isCrsGrp && $frm_noti_type != 'default')
+			{
+				//IMPORTANT!! delete this forced notification ONLY if the user is NOT a crs/grp member!! 
+				if(!ilParticipants::_isParticipant($this->ref_id, $usr_id))
+				{
+					$tmp_frm_noti = new ilForumNotification($this->ref_id);
+					$tmp_frm_noti->setUserId((int)$usr_id);
+					$tmp_frm_noti->setForumId(ilObject::_lookupObjId($this->ref_id));
+	
+					$tmp_frm_noti->deleteAdminForce();
+				}
+			}
 		}
 		
 		ilUtil::sendInfo($this->lng->txt('frm_moderators_detached_role_successfully'));
