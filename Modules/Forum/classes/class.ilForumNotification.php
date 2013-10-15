@@ -246,7 +246,10 @@ class ilForumNotification
 			{
 				$frm_noti->setUserToggle($user_toggle);
 				$frm_noti->setForumId($data['obj_id']);
-				$frm_noti->insertAdminForce();
+				if($frm_noti->existsNotification() == false)
+				{
+					$frm_noti->insertAdminForce();	
+				}
 			}
 		}
 	}
@@ -256,10 +259,16 @@ class ilForumNotification
 		global $tree, $ilUser;
 
 		$node_data = $tree->getChildsByType($ref_id, 'frm');
+		
+		include_once 'Modules/Forum/classes/class.ilForumModerators.php';
+		
 		foreach($node_data as $data)
 		{
 			//check frm_properties if frm_noti is enabled
 			$frm_noti = new ilForumNotification($data['ref_id']);
+			$objFrmMods = new ilForumModerators($data['ref_id']);
+			$moderator_ids = $objFrmMods->getCurrentModerators();
+			
 			if($user_id != 0)
 			{
 				$frm_noti->setUserId($user_id);
@@ -267,7 +276,10 @@ class ilForumNotification
 			else $frm_noti->setUserId($ilUser->getId());
 
 			$frm_noti->setForumId($data['obj_id']);
-			$frm_noti->deleteAdminForce();
+			if(!in_array($frm_noti->getUserId(), $moderator_ids))
+			{
+				$frm_noti->deleteAdminForce();	
+			}
 		}
 	}
 	
@@ -422,8 +434,6 @@ class ilForumNotification
 		 ORDER BY user_id ASC',
 			array('integer', 'integer'), array(0, $merge_source_thread_id));
 
-
-
 		$res_2 = $ilDB->queryF('SELECT user_id FROM frm_notification 
 		WHERE frm_id = %s 
 		AND  thread_id = %s
@@ -446,6 +456,28 @@ class ilForumNotification
 					array('thread_id' => array('integer', $merge_target_thread_id)));
 			}
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function existsNotification()
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF('
+			SELECT * FROM frm_notification 
+			WHERE user_id = %s
+			AND frm_id = %s 
+			AND admin_force_noti = %s',
+			array('integer', 'integer', 'integer'),
+			array($this->getUserId(), $this->getForumId(), $this->getAdminForce()));
+
+		if($row = $ilDB->numRows($res) > 0)
+		{
+			return true;
+		}
+		return false;
 	}
 	
 } // END class.ilForumNotification

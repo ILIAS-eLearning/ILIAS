@@ -443,5 +443,23 @@ class ilForumProperties
 	{
 		return $this->thread_sorting;	
 	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getUserToggleNoti()
+	{
+		return $this->user_toggle_noti;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getAdminForceNoti()
+	{
+		return $this->admin_force_noti;
+	}
+
+
 }
 ?>
