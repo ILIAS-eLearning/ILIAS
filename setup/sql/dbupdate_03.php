@@ -19055,3 +19055,14 @@ while($res = $ilDB->fetchAssoc($set)){
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4130>
+<?php
+$settings = new ilSetting();
+$settings_captcha = new ilSetting('cptch');
+if((int)$settings->get('activate_captcha_anonym', 0))
+{
+	$settings_captcha->set('activate_captcha_anonym_frm', 1);
+	$settings_captcha->set('activate_captcha_anonym_wiki', 1);
+}
+$settings->delete('activate_captcha_anonym');
+?>

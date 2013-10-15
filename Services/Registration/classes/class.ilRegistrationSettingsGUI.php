@@ -137,6 +137,16 @@ class ilRegistrationSettingsGUI
 		$pwd_gen->setInfo($this->lng->txt('reg_info_pwd'));
 		$this->form_gui->addItem($pwd_gen);
 
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
+		$cap->setInfo($this->lng->txt('adm_captcha_anonymous_reg'));
+		$cap->setValue(1);
+		if(!ilCaptchaUtil::checkFreetype())
+		{
+			$cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
+		}
+		$this->form_gui->addItem($cap);
+		
 		$approver = new ilTextInputGUI($this->lng->txt('reg_notification'), 'reg_approver');
 		$approver->setSize(32);
 		$approver->setMaxLength(50);
@@ -186,6 +196,7 @@ class ilRegistrationSettingsGUI
 			$role_type = IL_REG_ROLES_EMAIL;
 		}
 
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		$values = array(
 			'reg_type' => $this->registration_settings->getRegistrationType(),
 			'reg_hash_life_time' => (int)$this->registration_settings->getRegistrationHashLifetime(),
@@ -193,7 +204,8 @@ class ilRegistrationSettingsGUI
 			'reg_approver' => $this->registration_settings->getApproveRecipientLogins(),
 			'reg_role_type' => $role_type,
 			'reg_access_limitation' => $this->registration_settings->getAccessLimitation(),
-			'reg_allowed_domains' => implode(';', $this->registration_settings->getAllowedDomains())
+			'reg_allowed_domains' => implode(';', $this->registration_settings->getAllowedDomains()),
+			'activate_captcha_anonym' => ilCaptchaUtil::isActiveForRegistration()
 			);
 
 		$allow_codes = $this->registration_settings->getAllowCodes();
@@ -274,6 +286,9 @@ class ilRegistrationSettingsGUI
 									
 			}
 		}
+
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		ilCaptchaUtil::setActiveForRegistration((bool)$_POST['activate_captcha_anonym']);
 		
 		$this->registration_settings->save();
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));

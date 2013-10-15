@@ -717,9 +717,23 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTableWidth('100%');
-		$this->form->setTitle($this->lng->txt('auth_auth_mode_determination'));
+		$this->form->setTitle($this->lng->txt('auth_auth_settings'));
 		$this->form->addCommandButton('updateAuthModeDetermination',$this->lng->txt('save'));
-		$this->form->addCommandButton('authSettings',$this->lng->txt('cancel'));
+
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
+		$cap->setInfo($this->lng->txt('adm_captcha_anonymous_auth'));
+		$cap->setValue(1);
+		if(!ilCaptchaUtil::checkFreetype())
+		{
+			$cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
+		}
+		$cap->setChecked(ilCaptchaUtil::isActiveForLogin());
+		$this->form->addItem($cap);
+		
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt('auth_auth_mode_determination'));
+		$this->form->addItem($header);
 		
 		$kind = new ilRadioGroupInputGUI($this->lng->txt('auth_kind_determination'),'kind');
 		$kind->setInfo($this->lng->txt('auth_mode_determination_info'));
@@ -800,7 +814,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	 	}
 	 	$det->setAuthModeSequence($position ? $position : array());
 	 	$det->save();
-	 	
+
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		ilCaptchaUtil::setActiveForLogin((bool)$_POST['activate_captcha_anonym']);
+
 	 	ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 	 	$this->authSettingsObject();
 	}
@@ -1176,5 +1193,22 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		return join("\n",  preg_split("/[\r\n]+/", $text));
 	}
 
+	/**
+	 * @param string $a_form_id
+	 * @return array
+	 */
+	public function addToExternalSettingsForm($a_form_id)
+	{
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
+				require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+				$fields = array(
+					'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForLogin(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+				);
+
+				return array('authentication_settings' => array('authSettings', $fields));
+		}
+	}
 } // END class.ilObjAuthSettingsGUI
 ?>
