@@ -22,20 +22,22 @@ class ilAdministrationSettingsFormHandler
 	const FORM_LDAP = 9;
 	const FORM_FORUM = 10;
 	const FORM_ACCESSIBILITY = 11;
-	
-	const SETTINGS_USER = "usrf";
-	const SETTINGS_GENERAL = "adm";
-	const SETTINGS_FILE = "facs";
-	const SETTINGS_ROLE = "rolf";
-	const SETTINGS_FORUM = "frma";
-	const SETTINGS_LRES = "lrss";
-	const SETTINGS_REPOSITORY = "reps";
-	const SETTINGS_PD = "pdts";
-	const SETTINGS_COURSE = "crss";
-	const SETTINGS_GROUP = "grps";
+
+	const SETTINGS_USER             = "usrf";
+	const SETTINGS_GENERAL          = "adm";
+	const SETTINGS_FILE             = "facs";
+	const SETTINGS_ROLE             = "rolf";
+	const SETTINGS_FORUM            = "frma";
+	const SETTINGS_LRES             = "lrss";
+	const SETTINGS_REPOSITORY       = "reps";
+	const SETTINGS_PD               = "pdts";
+	const SETTINGS_COURSE           = "crss";
+	const SETTINGS_GROUP            = "grps";
 	const SETTINGS_PRIVACY_SECURITY = "ps";
-	const SETTINGS_CALENDAR = "cals";
-	
+	const SETTINGS_CALENDAR         = "cals";
+	const SETTINGS_AUTH             = "auth";
+	const SETTINGS_WIKI             = "wiki";
+
 	const VALUE_BOOL = "bool";
 	
 	protected static function initObjectMap()
@@ -99,7 +101,7 @@ class ilAdministrationSettingsFormHandler
 				break;	
 			
 			case self::FORM_ACCESSIBILITY:
-				$types = array(self::SETTINGS_GENERAL);
+				$types = array(self::SETTINGS_FORUM, self::SETTINGS_AUTH, self::SETTINGS_WIKI);
 				break;
 				
 			case self::FORM_MAIL:
