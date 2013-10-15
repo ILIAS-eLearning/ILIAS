@@ -3765,6 +3765,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$admins = array();
 		$members = array();
 		$tutors = array();
+		
+		$all_forum_users = array_merge($moderator_ids, $admin_ids, $member_ids, $tutor_ids);
+		$all_forum_users= array_unique($all_forum_users);
 
 		if($this->objProperties->getNotificationType() == 'default')
 		{
@@ -3859,7 +3862,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$frm_noti = new ilForumNotification($this->object->getRefId());
 			$all_notis = $frm_noti->read();
 
-			foreach($member_ids as $user_id)
+			foreach($all_forum_users as $user_id)
 			{
 				$frm_noti->setUserId($user_id);
 
@@ -3870,7 +3873,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$frm_noti->update();
 				}
-				else
+				else if($frm_noti->existsNotification() == false && !in_array($user_id, $moderator_ids))
 				{
 					$frm_noti->insertAdminForce();
 				}
