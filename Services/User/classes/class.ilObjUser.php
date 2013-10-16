@@ -143,9 +143,9 @@ class ilObjUser extends ilObject
 
 	/**
 	 * flag for self registered users
-	 * @var int
+	 * @var bool
 	 */
-	private $is_self_registered = 0;
+	private $is_self_registered = false;
 
 	/**
 	* Constructor
@@ -2347,7 +2347,7 @@ class ilObjUser extends ilObject
 		if( !ilAuthUtils::_needsExternalAccountByAuthMode( $this->getAuthMode(true) )
 			&& $security->isPasswordChangeOnFirstLoginEnabled()
 			&& $this->getLastPasswordChangeTS() == 0
-			&& $this->is_self_registered == 0
+			&& $this->is_self_registered == false
 		){
 			return true;
 		}
@@ -5431,11 +5431,11 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	 * @param int $status
+	 * @param bool $status
 	 */
 	public function setIsSelfRegistered($status)
 	{
-		$this->is_self_registered = $status;
+		$this->is_self_registered = (bool) $status;
 	}
 	
 	public function isSelfRegistered()
