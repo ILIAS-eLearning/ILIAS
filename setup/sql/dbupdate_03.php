@@ -19066,3 +19066,15 @@ if((int)$settings->get('activate_captcha_anonym', 0))
 }
 $settings->delete('activate_captcha_anonym');
 ?>
+<#4131>
+<?php
+if (!$ilDB->tableColumnExists("usr_data", "is_self_registered"))
+{
+	$ilDB->addTableColumn("usr_data", "is_self_registered", array(
+		"type" => "integer",
+		"notnull" => true,
+		"default" => 0,
+		"length" => 1)
+	);
+}
+?>	
