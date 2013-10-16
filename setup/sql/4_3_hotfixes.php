@@ -367,3 +367,15 @@ if(!$ilDB->tableColumnExists('tst_tests','ending_time'))
 <?php
     $ilCtrlStructureReader->getStructure();
 ?>
+<#20>
+<?php
+if (!$ilDB->tableColumnExists("usr_data", "is_self_registered"))
+{
+	$ilDB->addTableColumn("usr_data", "is_self_registered", array(
+			"type" => "integer",
+			"notnull" => true,
+			"default" => 0,
+			"length" => 1)
+	);
+}
+?>

@@ -142,6 +142,12 @@ class ilObjUser extends ilObject
 	protected $inactivation_date = null;
 
 	/**
+	 * flag for self registered users
+	 * @var int
+	 */
+	private $is_self_registered = 0;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer		user_id
@@ -370,6 +376,8 @@ class ilObjUser extends ilObject
 		//authentication
 		$this->setAuthMode($a_data['auth_mode']);
 		$this->setExternalAccount($a_data['ext_account']);
+		
+		$this->setIsSelfRegistered((bool)$a_data['is_self_registered']);
 	}
 
 	/**
@@ -467,7 +475,8 @@ class ilObjUser extends ilObject
 			"last_password_change" => array("integer", (int) $this->last_password_change_ts),
 			"im_jabber" => array("text", $this->im_jabber),
 			"im_voip" => array("text", $this->im_voip),
-			'inactivation_date' => array('timestamp', $this->inactivation_date)
+			'inactivation_date' => array('timestamp', $this->inactivation_date),
+			'is_self_registered' => array('integer', (int)$this->is_self_registered)
 			);
 		$ilDB->insert("usr_data", $insert_array);
 
@@ -2353,6 +2362,7 @@ class ilObjUser extends ilObject
 		if( !ilAuthUtils::_needsExternalAccountByAuthMode( $this->getAuthMode(true) )
 			&& $security->isPasswordChangeOnFirstLoginEnabled()
 			&& $this->getLastPasswordChangeTS() == 0
+			&& $this->is_self_registered == 0
 		){
 			return true;
 		}
@@ -5365,6 +5375,19 @@ class ilObjUser extends ilObject
 	public function hasDeletionFlag()
 	{
 		return (bool)$this->getPref("delete_flag");
+	}
+
+	/**
+	 * @param int $status
+	 */
+	public function setIsSelfRegistered($status)
+	{
+		$this->is_self_registered = $status;
+	}
+	
+	public function isSelfRegistered()
+	{
+		return (bool) $this->is_self_registered;
 	}
 	
 } // END class ilObjUser

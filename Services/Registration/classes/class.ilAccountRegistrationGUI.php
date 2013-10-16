@@ -565,6 +565,8 @@ class ilAccountRegistrationGUI
 		// in ilSecuritySettings
 		$this->userObj->setLastPasswordChangeTS( time() );
 
+		$this->userObj->setIsSelfRegistered(true);
+
 		//insert user data in table user_data
 		$this->userObj->saveAsNew();
 
