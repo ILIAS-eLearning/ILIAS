@@ -658,6 +658,8 @@ class ilAccountRegistrationGUI
 		// set a timestamp for last_password_change
 		// this ts is needed by ilSecuritySettings
 		$this->userObj->setLastPasswordChangeTS( time() );
+		
+		$this->userObj->setIsSelfRegistered(true);
 
 		//insert user data in table user_data
 		$this->userObj->saveAsNew();
