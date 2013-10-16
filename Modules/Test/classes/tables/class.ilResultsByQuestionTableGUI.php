@@ -65,7 +65,7 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		if ($this->has_pdf)
+		if ($this->has_pdf && $a_set[1] > 0)
 		{
 			$this->tpl->setCurrentBlock('pdf');
 			$this->tpl->setVariable("PDF_EXPORT", $a_set[2]);
