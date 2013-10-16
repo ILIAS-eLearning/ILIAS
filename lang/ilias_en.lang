@@ -307,7 +307,7 @@ assessment#:#coordinates#:#Coordinates
 assessment#:#correct_solution_is#:#The correct solution is
 assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
-assessment#:#create_gaps#:#Create Gaps
+assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_imagemap#:#Create an Image Map
 assessment#:#create_new#:#Create New
 assessment#:#customstyle_description#:#It is possible to use a custom style sheet for this test. Please select one of the available style sheets to assign it to this test.
