@@ -176,7 +176,7 @@ abstract class ilTestExportPlugin extends ilPlugin
 	/**
 	 * This method is called if the user wants to export a test of YOUR export type
 	 * If you throw an exception of type ilException with a respective language variable, ILIAS presents a translated failure message.
-	 * 
+	 * @throws ilException
 	 * @param string $export_path The path to store the export file
 	 */
 	abstract protected function buildExportFile(ilTestExportFilename $export_path);
