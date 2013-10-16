@@ -84,9 +84,11 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	protected function getLinkTargetForCmd($cmd)
 	{
 		/** @var $ilCtrl ilCtrl */
-		/** @var $ilIliasIniFile ilIniFile */
-		global $ilCtrl, $ilIliasIniFile;
-		return $ilIliasIniFile->readVariable('server', 'http_path') . '/' . $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd);
+		global $ilCtrl;
+		return 
+			'http://'. $_SERVER['HTTP_HOST'] 
+			. substr($_SERVER['PHP_SELF'],0, strlen($_SERVER['PHP_SELF']) - 10) 
+			. '/' . $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd);
 	}
 
 	/**
@@ -98,9 +100,10 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	protected function getLinkTargetForRessource($cmd, $ressource)
 	{
 		/** @var $ilCtrl ilCtrl */
-		/** @var $ilIliasIniFile ilIniFile */
-		global $ilCtrl, $ilIliasIniFile;
-		$link = $ilIliasIniFile->readVariable('server', 'http_path') . '/' 
+		global $ilCtrl;
+		$link = 'http://'. $_SERVER['HTTP_HOST']
+			. substr($_SERVER['PHP_SELF'],0, strlen($_SERVER['PHP_SELF']) - 10)
+			. '/'
 			. $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd) . '&ressource=' . $ressource;
 		return $link;
 	}
@@ -188,4 +191,5 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	 * @return void
 	 */
 	abstract function invoke($cmd = null);
+
 }
