@@ -439,7 +439,7 @@ class ilDataCollectionRecordEditGUI
 		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
 		$object_search = new ilLikeObjectSearch($query_parser);
 		$res = $object_search->performSearch();
-		$res->setRequiredPermission('copy');
+		//$res->setRequiredPermission('copy');
 		$res->filter(ROOT_FOLDER_ID,true);
 
 		if(!count($results = $res->getResultsByObjId()))
