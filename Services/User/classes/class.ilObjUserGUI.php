@@ -3741,6 +3741,7 @@ class ilObjUserGUI extends ilObjectGUI
 				$action = new ilAdvancedSelectionListGUI();
 				$action->setId('asl_content_accepted_content');
 				$action->setListTitle($this->lng->txt('tos_accepted_content'));
+				$action->setHeaderIcon(ilUtil::getImagePath('icon_preview.png'));
 				$action->setAsynch(true);
 				$action->setAsynchUrl($this->ctrl->getLinkTarget($this, 'showAgreementTextAsynch', '', true, false));
 				$agreement_document->setValue($entity->getSource().$action->getHtml());
