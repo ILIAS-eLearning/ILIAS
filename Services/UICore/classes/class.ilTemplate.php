@@ -1953,7 +1953,7 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilUser;
 
-		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
+		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization") && $this->blockExists("sr_focus"))
 		{
 			$this->touchBlock("sr_focus");
 		}
