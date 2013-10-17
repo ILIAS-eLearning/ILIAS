@@ -19077,4 +19077,15 @@ if (!$ilDB->tableColumnExists("usr_data", "is_self_registered"))
 		"length" => 1)
 	);
 }
-?>	
+?>
+<#4132>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('wiks', 'Wiki Settings');
+
+?>
+<#4133>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

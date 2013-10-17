@@ -14082,3 +14082,5 @@ administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in 
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
 auth#:#auth_auth_settings#:#Settings
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
+common#:#obj_wiks#:#Wiki
+common#:#obj_wiks_desc#:#Global Wiki Settings
