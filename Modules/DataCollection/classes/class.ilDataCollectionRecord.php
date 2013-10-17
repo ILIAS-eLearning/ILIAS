@@ -437,6 +437,11 @@ class ilDataCollectionRecord
 		{
 			case "last_edit_by":
 				return $this->getLastEditBy();
+                break;
+            case 'owner':
+                $usr_data = ilObjUser::_lookupName($this->getOwner());
+                return $usr_data['login'];
+                break;
 		}
 		
 		return $this->$field_id;
