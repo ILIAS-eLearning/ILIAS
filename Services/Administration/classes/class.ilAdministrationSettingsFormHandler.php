@@ -36,7 +36,7 @@ class ilAdministrationSettingsFormHandler
 	const SETTINGS_PRIVACY_SECURITY = "ps";
 	const SETTINGS_CALENDAR         = "cals";
 	const SETTINGS_AUTH             = "auth";
-	const SETTINGS_WIKI             = "wkia";
+	const SETTINGS_WIKI             = "wiks";
 
 	const VALUE_BOOL = "bool";
 	
@@ -124,7 +124,7 @@ class ilAdministrationSettingsFormHandler
 			{
 				$gui = self::getSettingsGUIInstance($type);			
 				if($gui && method_exists($gui, "addToExternalSettingsForm"))
-				{	
+				{
 					$data = $gui->addToExternalSettingsForm($a_form_id);
 					if(is_array($data))
 					{
@@ -183,7 +183,7 @@ class ilAdministrationSettingsFormHandler
 		{
 			return;
 		}
-			
+
 		foreach($a_data as $area_caption => $fields)
 		{	
 			if(is_numeric($area_caption) || !trim($area_caption))
