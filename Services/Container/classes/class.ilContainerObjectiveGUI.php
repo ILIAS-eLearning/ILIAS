@@ -488,21 +488,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	protected function showButton($a_cmd,$a_text,$a_target = '')
 	{
-		global $tpl,$ilCtrl;
+		global $ilToolbar, $ilCtrl;
 		
-		$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
-		// display button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK",$ilCtrl->getLinkTarget($this->getContainerGUI(),$a_cmd));
-		$tpl->setVariable("BTN_TXT",$a_text);
-
-		if($a_target)
-		{
-			$tpl->setVariable("BTN_TARGET",$a_target);
-		}
-
-		$tpl->parseCurrentBlock();
+		// #11842
+		$ilToolbar->addButton($a_text, 
+			$ilCtrl->getLinkTarget($this->getContainerGUI(),$a_cmd),
+			$a_target);	
 	}
 }
 ?>
