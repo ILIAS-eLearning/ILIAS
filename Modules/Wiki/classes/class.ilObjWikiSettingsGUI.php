@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObject2GUI.php");
+include_once("./Services/Object/classes/class.ilObjectGUI.php");
 
 /**
  * Wiki settings gui class
@@ -14,14 +14,16 @@ include_once("./Services/Object/classes/class.ilObject2GUI.php");
  *
  * @ingroup ModulesWiki
  */
-class ilObjWikiSettingsGUI extends ilObject2GUI
+class ilObjWikiSettingsGUI extends ilObjectGUI
 {
 	/**
-	 * Get type
+	 * Contructor
+	 * @access public
 	 */
-	function getType()
+	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		return "wiks";
+		$this->type = 'wiks';
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
 
 	/**
@@ -68,9 +70,9 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 	}
 
 	/**
-	* Edit news settings.
-	*/
-	public function editSettings()
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function editSettings(ilPropertyFormGUI $form = null)
 	{
 		global $ilCtrl, $lng, $ilTabs, $ilToolbar, $tpl;
 		
@@ -78,36 +80,53 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 		
 		if ($this->checkPermissionBool("read"))
 		{
-			$form = $this->initForm();
+			if(!$form)
+			{
+				$form = $this->initForm();
+				$this->populateWithCurrentSettings($form);
+			}
 			$tpl->setContent($form->getHTML());
 		}
 	}
 
 	/**
-	* Init  form.
-	*
-	* @param        int        $a_mode        Edit Mode
-	*/
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function populateWithCurrentSettings(ilPropertyFormGUI $form)
+	{
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+
+		$form->setValuesByArray(array(
+			'activate_captcha_anonym' => ilCaptchaUtil::isActiveForWiki()
+		));
+	}
+
+	/**
+	 * @param string $a_mode
+	 * @return ilPropertyFormGUI
+	 */
 	public function initForm($a_mode = "edit")
 	{
 		global $lng, $ilCtrl;
 
-		$set = new ilSetting("wiki");
-		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
-		
-		// captcha
-		/*$cb = new ilCheckboxInputGUI($this->lng->txt("wiki_act_captcha"), "captcha");
-		$cb->setInfo($this->lng->txt("wiki_act_captcha_info"));
-		$cb->setChecked($set->get("chaptcha"));
-		$form->addItem($cb);*/
+
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
+		$cap->setInfo($this->lng->txt('adm_captcha_anonymous_wiki'));
+		$cap->setValue(1);
+		if(!ilCaptchaUtil::checkFreetype())
+		{
+			$cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
+		}
+		$form->addItem($cap);
 		
 		if ($this->checkPermissionBool("write"))
 		{
 			$form->addCommandButton("saveSettings", $lng->txt("save"));
 		}
-	                
+
 		$form->setTitle($lng->txt("settings"));
 		$form->setFormAction($ilCtrl->getFormAction($this));
 	 
@@ -116,25 +135,36 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 	
 	/**
 	 * Save settings
-	 *
-	 * @param
-	 * @return
 	 */
-	function saveSettings()
+	protected function saveSettings()
 	{
-		global $ilCtrl, $lng;
-		
-		if ($this->checkPermissionBool("write"))
+		/**
+		 * @var $lng ilLanguage
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $lng, $ilCtrl;
+
+		if(!$this->checkPermissionBool("write"))
 		{
-			$set = new ilSetting("wiki");
-//			$set->set("captcha", (int) $_POST["captcha"]);
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->editSettings();
+			return;
 		}
-		
-		$ilCtrl->redirect($this, "editSettings");
+
+		$form = $this->initForm();
+		if(!$form->checkInput())
+		{
+			$form->setValuesByPost();
+			$this->editSettings($form);
+			return;
+		}
+
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		ilCaptchaUtil::setActiveForWiki((bool)$form->getInput('activate_captcha_anonym'));
+
+		ilUtil::sendSuccess($lng->txt('msg_obj_modified'), true);
+		$ilCtrl->redirect($this, 'editSettings');
 	}
-	
-	
+
 	/**
 	 * administration tabs show only permissions and trash folder
 	 */
@@ -156,6 +186,24 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 				$this->lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
 			);
+		}
+	}
+
+	/**
+	 * @param string $a_form_id
+	 * @return array
+	 */
+	public function addToExternalSettingsForm($a_form_id)
+	{
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
+				require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+				$fields = array(
+					'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForWiki(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+				);
+
+				return array('wiki ' => array('editSettings', $fields));
 		}
 	}
 }

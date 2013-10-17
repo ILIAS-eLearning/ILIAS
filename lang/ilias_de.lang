@@ -14080,5 +14080,6 @@ obj#:#obj_tool_setting_info_tab#:#Show Info Tab###11 10 2013 new variable
 administration#:#adm_captcha_anonymous_frm#:#Captcha für Anonymous im Forum. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
 administration#:#adm_captcha_anonymous_auth#:#Captcha für Anonymous im Anmeldeformular. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
 administration#:#adm_captcha_anonymous_reg#:#Captcha für Anonymous im Registrierungsformular. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
+administration#:#adm_captcha_anonymous_wiki#:#Captcha für Anonymous im Wiki. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
 auth#:#auth_auth_settings#:#Einstellungen
 book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das Objekt nicht mehr verfügbar ist.
