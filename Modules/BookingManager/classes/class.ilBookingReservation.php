@@ -289,6 +289,24 @@ class ilBookingReservation
 			}
 		}
 	}
+	
+	static function isObjectAvailableNoSchedule($a_obj_id)
+	{
+		global $ilDB;
+		
+		$all = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));
+		$all = (int)$all[$a_obj_id];
+		
+		$set = $ilDB->query('SELECT COUNT(*) cnt'.
+			' FROM booking_reservation r'.
+			' JOIN booking_object o ON (o.booking_object_id = r.object_id)'.
+			' WHERE (status IS NULL OR status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').')'.
+			' AND r.object_id = '.$ilDB->quote($a_obj_id, 'integer'));		
+		$cnt = $ilDB->fetchAssoc($set);
+		$cnt = (int)$cnt['cnt'];
+		
+		return (bool)$all-$cnt;
+	}
 
 	/**
 	 * Get details about object reservation

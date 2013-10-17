@@ -567,8 +567,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 * Book object - either of type or specific - for given dates
 	 */
 	function confirmedBookingObject()
-	{		
-		global $tpl;
+	{				
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';		
 		
 		$success = false;
 		
@@ -576,8 +577,16 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{	
 			if($_POST['object_id'])
 			{
-				$this->processBooking($_POST['object_id']);
-				$success = $_POST['object_id'];	
+				$object_id = $_POST['object_id'];
+				if($object_id)
+				{
+					// #11852
+					if(ilBookingReservation::isObjectAvailableNoSchedule($object_id))				
+					{
+						$this->processBooking($object_id);
+						$success = $object_id;	
+					}
+				}				
 			}
 		}	
 		else
@@ -591,25 +600,27 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			// single object reservation(s)
 			if(isset($_GET['object_id']))
 			{
-				foreach($_POST['date'] as $date)
-				{
-					$fromto = explode('_', $date);
-					$fromto[1]--;
+				$object_id = (int)$_GET['object_id'];
+				if($object_id)
+				{					
+					foreach($_POST['date'] as $date)
+					{
+						$fromto = explode('_', $date);
+						$fromto[1]--;
 
-					$object_id = (int)$_GET['object_id'];
-					if($object_id)
-					{	
-						$this->processBooking($object_id, $fromto[0], $fromto[1]);
-						$success = $object_id;		
+						// #11852
+						if(ilBookingReservation::getAvailableObject(array($object_id), $fromto[0], $fromto[1]));
+						{	
+							$this->processBooking($object_id, $fromto[0], $fromto[1]);
+							$success = $object_id;		
+						}
 					}
 				}
 			}
 			/*
 			// group object reservation(s)
 			else
-			{				
-				include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-				include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';											
+			{															
 				$all_object_ids = array();
 				foreach(ilBookingObject::getList((int)$_GET['type_id']) as $item)
 				{
