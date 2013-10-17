@@ -325,14 +325,17 @@ class ilMailSearchCoursesGUI
 			$num_courses_hidden_members = 0;
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			foreach($crs_ids as $crs_id) 
-			{		
+			{
+				/**
+				 * @var $oTmpCrs ilObjCourse
+				 */
 				$oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
 
-				$isOffline = $oTmpCrs->getOfflineStatus();
+				$isOffline = !$oTmpCrs->isActivated();
 				$hasUntrashedReferences = ilObject::_hasUntrashedReference($crs_id);
 				$showMemberListEnabled = (boolean)$oTmpCrs->getShowMembers();
 				$ref_ids = array_keys(ilObject::_getAllReferences($crs_id));
-				$isPrivilegedUser = $rbacsystem->checkAccess('edit', $ref_ids[0]);
+				$isPrivilegedUser = $rbacsystem->checkAccess('write', $ref_ids[0]);
 
 				if($hasUntrashedReferences && ((!$isOffline && $showMemberListEnabled) || $isPrivilegedUser))
 				{				
