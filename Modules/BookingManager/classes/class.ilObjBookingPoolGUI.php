@@ -579,12 +579,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			{
 				$object_id = $_POST['object_id'];
 				if($object_id)
-				{
-					// #11852
+				{					
 					if(ilBookingReservation::isObjectAvailableNoSchedule($object_id))				
 					{
 						$this->processBooking($object_id);
 						$success = $object_id;	
+					}
+					else
+					{
+						// #11852
+						ilUtil::sendFailure($this->lng->txt('book_reservation_failed_overbooked'), true);
+						$this->ctrl->redirect($this, 'render');						
 					}
 				}				
 			}
@@ -608,7 +613,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						$fromto = explode('_', $date);
 						$fromto[1]--;
 
-						// #11852
 						if(ilBookingReservation::getAvailableObject(array($object_id), $fromto[0], $fromto[1]));
 						{	
 							$this->processBooking($object_id, $fromto[0], $fromto[1]);

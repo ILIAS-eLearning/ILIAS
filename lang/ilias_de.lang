@@ -13003,3 +13003,4 @@ dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
 crs#:#crs_passed_status_system#:#System
 crs#:#crs_passed_status_manual_by#:#Manuell durch
 poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
+book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das Objekt nicht mehr verfügbar ist.
