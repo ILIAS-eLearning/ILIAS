@@ -598,6 +598,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						$this->processBooking($object_id);
 						$success = $object_id;	
 					}
+					else
+					{
+						// #11852
+						ilUtil::sendFailure($this->lng->txt('book_reservation_failed_overbooked'), true);
+						$this->ctrl->redirect($this, 'render');						
+					}
 				}
 			}
 		}	
@@ -647,9 +653,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			/*
 			// group object reservation(s)
 			else
-			{				
-				include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-				include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';											
+			{														
 				$all_object_ids = array();
 				foreach(ilBookingObject::getList((int)$_GET['type_id']) as $item)
 				{
