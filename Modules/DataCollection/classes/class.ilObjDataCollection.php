@@ -290,8 +290,30 @@ class ilObjDataCollection extends ilObject2
 
 		// update because maintable id is now set.
 		$this->doUpdate();
-		
-	}
+
+        // Set new field-ID of referenced fields
+        foreach ($original->getTables() as $origTable) {
+            foreach ($origTable->getRecordFields() as $origField) {
+                if ($origField->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
+                    $newRefId = null;
+                    $origFieldRefObj = ilDataCollectionCache::getFieldCache($origField->getFieldRef());
+                    $origRefTable = ilDataCollectionCache::getTableCache($origFieldRefObj->getTableId());
+                    // Lookup the new ID of the referenced field in the actual DC
+                    $tableId = ilDataCollectionTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
+                    $fieldId = ilDataCollectionField::_getFieldIdByTitle($origFieldRefObj->getTitle(), $tableId);
+                    $field = ilDataCollectionCache::getFieldCache($fieldId);
+                    $newRefId = $field->getId();
+                    // Set the new refID in the actual DC
+                    $tableId = ilDataCollectionTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
+                    $fieldId = ilDataCollectionField::_getFieldIdByTitle($origField->getTitle(), $tableId);
+                    $field = ilDataCollectionCache::getFieldCache($fieldId);
+                    $field->setPropertyvalue($newRefId, ilDataCollectionField::PROPERTYID_REFERENCE);
+                    $field->doUpdate();
+                }
+            }
+        }
+
+    }
 
 
 	/**
