@@ -931,6 +931,20 @@ class ilDataCollectionTable
 		return $result->numRows() != 0;
 	}
 
+    /**
+     * @param $title Title of table
+     * @param $obj_id DataCollection object ID where the table belongs to
+     * @return int
+     */
+    public static function _getTableIdByTitle($title, $obj_id) {
+        global $ilDB;
+        $result = $ilDB->query('SELECT id FROM il_dcl_table WHERE title = ' . $ilDB->quote($title, 'text') . ' AND obj_id = ' . $ilDB->quote($obj_id, 'integer'));
+        $id = 0;
+        while($rec = $ilDB->fetchAssoc($result)) {
+            $id = $rec['id'];
+        }
+        return $id;
+    }
 
     public function buildTableAsArray(){
         global $ilDB;
