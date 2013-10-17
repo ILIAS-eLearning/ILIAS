@@ -332,7 +332,7 @@ class ilMailSearchCoursesGUI
 				$hasUntrashedReferences = ilObject::_hasUntrashedReference($crs_id);
 				$showMemberListEnabled = (boolean)$oTmpCrs->getShowMembers();
 				$ref_ids = array_keys(ilObject::_getAllReferences($crs_id));
-				$isPrivilegedUser = $rbacsystem->checkAccess('edit', $ref_ids[0]);
+				$isPrivilegedUser = $rbacsystem->checkAccess('write', $ref_ids[0]);
 
 				if($hasUntrashedReferences && ((!$isOffline && $showMemberListEnabled) || $isPrivilegedUser))
 				{				
