@@ -89,6 +89,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 			$action = new ilAdvancedSelectionListGUI();
 			$action->setId('asl_content_' . md5($row['language']));
 			$action->setAsynch(true);
+			$action->setHeaderIcon(ilUtil::getImagePath('icon_preview.png'));
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', rawurlencode($row['agreement_document']));
 			$action->setAsynchUrl($this->ctrl->getLinkTarget($this->getParentObject(), 'showAgreementTextAsynch', '', true, false));
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', '');

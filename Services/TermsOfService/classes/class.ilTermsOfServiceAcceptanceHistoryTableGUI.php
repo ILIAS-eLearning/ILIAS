@@ -89,7 +89,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 	protected function prepareRow(array &$row)
 	{
 		$row['id']       = md5($row['usr_id'].$row['ts']);
-		$row['img_down'] = ilUtil::getImagePath(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		$row['img_down'] = ilUtil::getImagePath('icon_preview.png');
 	}
 
 	/**
