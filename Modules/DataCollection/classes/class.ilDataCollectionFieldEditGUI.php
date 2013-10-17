@@ -366,22 +366,11 @@ class ilDataCollectionFieldEditGUI
 		}
 
 		$this->initForm($a_mode == "update"?"edit":"create");
-        if ($this->form->checkInput())
+        if ($this->checkInput())
 		{
             $title = $this->form->getInput("title");
             if($a_mode != "create" && $title != $this->field_obj->getTitle())
                 ilUtil::sendInfo($lng->txt("dcl_field_title_change_warning"), true);
-
-            // Additional check for text fields: The length property should be max 200 if the textarea option is not set
-            if ($this->form->getInput('datatype') == ilDataCollectionDatatype::INPUTFORMAT_TEXT
-                    && (int) $this->form->getInput('prop_'.ilDataCollectionField::PROPERTYID_LENGTH) > 200
-                    && !$this->form->getInput('prop_'.ilDataCollectionField::PROPERTYID_TEXTAREA)) {
-                $inputObj = $this->form->getItemByPostVar('prop_'.ilDataCollectionField::PROPERTYID_LENGTH);
-                $inputObj->setAlert($lng->txt("form_msg_value_too_high"));
-                $this->form->setValuesByPost();
-                $tpl->setContent($this->form->getHtml());
-                return;
-            }
 
 			$this->field_obj->setTitle($title);
 			$this->field_obj->setDescription($this->form->getInput("description"));
@@ -440,7 +429,26 @@ class ilDataCollectionFieldEditGUI
 			$tpl->setContent($this->form->getHTML());
 		}
 	}
-	
+
+    /**
+     * Check input of form
+     * @return bool
+     */
+    protected function checkInput() {
+        global $lng;
+        if (!$this->form->checkInput()) return false;
+        // Additional check for text fields: The length property should be max 200 if the textarea option is not set
+        if ($this->form->getInput('datatype') == ilDataCollectionDatatype::INPUTFORMAT_TEXT
+            && (int) $this->form->getInput('prop_'.ilDataCollectionField::PROPERTYID_LENGTH) > 200
+            && !$this->form->getInput('prop_'.ilDataCollectionField::PROPERTYID_TEXTAREA)) {
+                $inputObj = $this->form->getItemByPostVar('prop_'.ilDataCollectionField::PROPERTYID_LENGTH);
+                $inputObj->setAlert($lng->txt("form_msg_value_too_high"));
+                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                return false;
+        }
+        return true;
+    }
+
 	/*
 	 * accessDenied
 	 */

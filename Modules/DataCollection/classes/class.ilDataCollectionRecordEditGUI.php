@@ -374,9 +374,7 @@ class ilDataCollectionRecordEditGUI
                     $this->sendFailure();
                     return;
                 }
-                if ($owner_id != $record_obj->getOwner()) {
-                    $record_obj->setOwner($owner_id);
-                }
+                $record_obj->setOwner($owner_id);
             }
 
             if($create_mode){
