@@ -203,7 +203,7 @@ class ilObjWikiSettingsGUI extends ilObjectGUI
 					'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForWiki(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
 				);
 
-				return array('wiki ' => array('editSettings', $fields));
+				return array('obj_wiks' => array('editSettings', $fields));
 		}
 	}
 }
