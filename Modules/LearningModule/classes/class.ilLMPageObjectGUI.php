@@ -14,7 +14,7 @@ require_once ("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMPageObjectGUI: ilLMPageGUI
+* @ilCtrl_Calls ilLMPageObjectGUI: ilLMPageGUI, ilAssGenFeedbackPageGUI
 *
 * @ingroup ModulesIliasLearningModule
 */

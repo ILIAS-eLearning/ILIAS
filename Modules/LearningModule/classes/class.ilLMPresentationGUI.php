@@ -15,7 +15,7 @@ require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 *
 * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
