@@ -6353,7 +6353,7 @@ class ilObjSurvey extends ilObject
 				$finished_ids = array();
 				$set = $ilDB->query("SELECT user_fi FROM svy_finished".
 				" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
-				" AND state = ".$ilDB->quote(1, "integer").
+				" AND state = ".$ilDB->quote(1, "text").
 				" AND ".$ilDB->in("user_fi", $user_ids, "", "integer"));
 				while($row = $ilDB->fetchAssoc($set))
 				{
