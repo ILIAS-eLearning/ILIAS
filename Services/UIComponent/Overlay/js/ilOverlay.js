@@ -158,7 +158,7 @@ il.Overlay = {
 	fixPosition: function (id) {
 		var el = document.getElementById(id),
 			el_reg,
-			cl_reg,
+			cl, cl_reg,
 			newHeight,
 			newy;
 
@@ -168,7 +168,12 @@ il.Overlay = {
 		el.style.overflow = '';
 		el_reg = il.Util.getRegion(el);
 		cl_reg = il.Util.getViewportRegion();
-
+		cl = document.getElementById("fixed_content");
+		if (cl && $(el).closest(cl).length) {
+			cl_reg = il.Util.getRegion(cl);
+		}
+		
+		
 		// make it smaller, if window height is not sufficient
 		if (cl_reg.height < el_reg.height + 20) {
 			newHeight = cl_reg.height - 20;
