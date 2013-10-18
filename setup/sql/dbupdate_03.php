@@ -19128,3 +19128,8 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_res_unit'))
 	$ilDB->addIndex('il_qpl_qst_fq_res_unit', array('question_fi', 'unit_fi'), 'i1');
 }
 ?>
+<#4135>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

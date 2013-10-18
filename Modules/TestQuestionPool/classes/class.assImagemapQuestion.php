@@ -859,12 +859,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
-			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc(
-					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), false), 0
-			),
-			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc(
-					$this->feedbackOBJ->getGenericFeedbackExportPresentation($this->getId(), true), 0
-			)
+			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
+			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
 		);
 		$result['image'] = (string) $this->getImagePathWeb() . $this->getImageFilename();
 		
