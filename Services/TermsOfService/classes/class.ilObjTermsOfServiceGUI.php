@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/classes/class.ilObjectGUI.php';
+require_once 'Services/Object/classes/class.ilObject2GUI.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDataProviderFactory.php';
@@ -14,7 +14,7 @@ require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceHi
  * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjTermsOfServiceGUI: ilAdministrationGUI
  */
-class ilObjTermsOfServiceGUI extends ilObjectGUI
+class ilObjTermsOfServiceGUI extends ilObject2GUI
 {
 	/**
 	 * @var ilPropertyFormGUI
@@ -47,12 +47,11 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 	public $factory;
 
 	/**
-	 * @param      $a_data
-	 * @param      $a_id
-	 * @param      $a_call_by_reference
-	 * @param bool $a_prepare_output
+	 * @param int $a_id
+	 * @param int $a_id_type
+	 * @param int $a_parent_node_id
 	 */
-	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
 		/**
 		 * @var $lng  ilLanguage
@@ -60,13 +59,21 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 		 */
 		global $lng, $ilDB;
 
-		$this->type = 'tos';
-		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+
 		$this->lng->loadLanguageModule('tos');
 
 		$this->factory = new ilTermsOfServiceTableDataProviderFactory();
 		$this->factory->setLanguageAdapter($lng);
 		$this->factory->setDatabaseAdapter($ilDB);
+	}
+
+	/**
+	 * Functions that must be overwritten
+	 */
+	public function getType()
+	{
+		return 'tos';
 	}
 
 	/**
@@ -339,25 +346,33 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 	/**
 	 *
 	 */
-	protected function showAgreementTextAsynch()
+	protected function getAgreementTextByFilenameAsynch()
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */
 		global $rbacsystem;
 
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceJsonResponse.php';
+		$response = new ilTermsOfServiceJsonResponse();
+
 		if(!isset($_GET['agreement_document']) || !strlen($_GET['agreement_document']) || !$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
-			exit();
+			$response->setStatus(ilTermsOfServiceJsonResponse::STATUS_FAILURE);
+			echo $response;
 		}
 
 		$file = realpath(strip_tags(rawurldecode(ilUtil::stripOnlySlashes($_GET['agreement_document']))));
 		if(preg_match('/Customizing[\/\\\](global[\/\\\]agreement|clients[\/\\\]' . CLIENT_ID . '[\/\\\]agreement)[\/\\\]agreement_([a-z]{2})\.html$/', $file))
 		{
-			echo '<div style="overflow:auto;max-width:640px;max-height:480px;padding:5px">' . nl2br(trim(file_get_contents($file))) . '</div>';
+			$response->setBody(nl2br(trim(file_get_contents($file))));
+		}
+		else
+		{
+			$response->setStatus(ilTermsOfServiceJsonResponse::STATUS_FAILURE);
 		}
 
-		exit();
+		echo $response;
 	}
 
 	/**
@@ -386,6 +401,26 @@ class ilObjTermsOfServiceGUI extends ilObjectGUI
 		$table->populate();
 
 		$tpl->setContent($table->getHtml());
+	}
+
+	/**
+	 * 
+	 */
+	protected function getAcceptedContentAsynch()
+	{
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceJsonResponse.php';
+		$response = new ilTermsOfServiceJsonResponse();
+
+		if(!isset($_GET['tosv_id']))
+		{
+			$response->setStatus(ilTermsOfServiceJsonResponse::STATUS_FAILURE);
+			echo $response;
+		}
+
+		$entity = ilTermsOfServiceHelper::getById(ilUtil::stripSlashes($_GET['tosv_id']));
+		$response->setBody($entity->getText());
+
+		echo $response;
 	}
 
 	/**

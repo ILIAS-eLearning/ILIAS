@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableGUI.php';
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -51,6 +50,12 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 
 		$this->setShowRowsSelector(true);
 
+		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+		require_once 'Services/YUI/classes/class.ilYuiUtil.php';
+		iljQueryUtil::initjQuery();
+		ilYuiUtil::initPanel();
+		ilYuiUtil::initOverlay();
+
 		$this->initFilter();
 		$this->setFilterCommand('applyAgreementByLanguageFilter');
 		$this->setResetCommand('resetAgreementByLanguageFilter');
@@ -86,14 +91,11 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	{
 		if(is_string($row['agreement_document']) && strlen($row['agreement_document']))
 		{
-			$action = new ilAdvancedSelectionListGUI();
-			$action->setId('asl_content_' . md5($row['language']));
-			$action->setAsynch(true);
-			$action->setHeaderIcon(ilUtil::getImagePath('icon_preview.png'));
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', rawurlencode($row['agreement_document']));
-			$action->setAsynchUrl($this->ctrl->getLinkTarget($this->getParentObject(), 'showAgreementTextAsynch', '', true, false));
+			$row['content_link'] = $this->ctrl->getLinkTarget($this->getParentObject(), 'getAgreementTextByFilenameAsynch', '', true, false);
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', '');
-			$row['action_show_agreement_text'] = $action->getHtml();
+			$row['img_down'] = ilUtil::getImagePath('icon_preview.png');
+			$row['id'] = md5($row['language']);
 		}
 		else
 		{
@@ -106,7 +108,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	 */
 	protected function getStaticData()
 	{
-		return array('language', 'agreement', 'missing_agreement_css_class', 'agreement_document', 'action_show_agreement_text');
+		return array('id', 'language', 'agreement', 'missing_agreement_css_class', 'agreement_document', 'content_link', 'img_down', 'language_key');
 	}
 
 	/**

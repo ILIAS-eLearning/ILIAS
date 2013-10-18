@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableGUI.php';
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -50,6 +49,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 
 		$this->setRowTemplate('tpl.tos_acceptance_history_table_row.html', 'Services/TermsOfService');
 
+		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+		require_once 'Services/YUI/classes/class.ilYuiUtil.php';
+		iljQueryUtil::initjQuery();
+		ilYuiUtil::initPanel();
+		ilYuiUtil::initOverlay();
+
 		$this->setShowRowsSelector(true);
 
 		$this->initFilter();
@@ -88,8 +93,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 	 */
 	protected function prepareRow(array &$row)
 	{
-		$row['id']       = md5($row['usr_id'].$row['ts']);
+		$this->ctrl->setParameter($this->getParentObject(), 'tosv_id', $row['tosv_id']);
+		$row['content_link'] = $this->ctrl->getLinkTarget($this->getParentObject(), 'getAcceptedContentAsynch', '', true, false);
+		$this->ctrl->setParameter($this->getParentObject(), 'tosv_id', '');
 		$row['img_down'] = ilUtil::getImagePath('icon_preview.png');
+
+		$row['id']       = md5($row['usr_id'].$row['ts']);
 	}
 
 	/**
@@ -97,7 +106,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 	 */
 	protected function getStaticData()
 	{
-		return array('ts', 'login', 'lng', 'src', 'text', 'id', 'img_down');
+		return array('ts', 'login', 'lng', 'src', 'text', 'id', 'img_down', 'content_link');
 	}
 
 	/**
@@ -110,10 +119,6 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		if($column == 'ts')
 		{
 			return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
-		}
-		else if($column == 'text')
-		{
-			return json_encode($row[$column]);
 		}
 
 		return $row[$column];

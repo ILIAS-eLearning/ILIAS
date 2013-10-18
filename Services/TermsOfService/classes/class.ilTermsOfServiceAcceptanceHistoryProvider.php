@@ -17,6 +17,7 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
 	protected function getSelectPart(array $params, array $filter)
 	{
 		$fields = array(
+			'tos_acceptance_track.tosv_id',
 			'ud.usr_id',
 			'ud.login',
 			'ud.firstname',

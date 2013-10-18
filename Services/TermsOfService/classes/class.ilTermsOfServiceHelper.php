@@ -57,6 +57,18 @@ class ilTermsOfServiceHelper
 	}
 
 	/**
+	 * @param integer $id
+	 * @return ilTermsOfServiceAcceptanceEntity
+	 */
+	public static function getById($id)
+	{
+		$entity       = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+		$entity->setId($id);
+		return $data_gateway->loadById($entity);
+	}
+
+	/**
 	 * @param ilObjUser                        $user
 	 * @param ilTermsOfServiceSignableDocument $document
 	 */

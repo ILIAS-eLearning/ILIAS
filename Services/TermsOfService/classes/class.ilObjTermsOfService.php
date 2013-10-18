@@ -1,23 +1,31 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/classes/class.ilObject.php';
+require_once 'Services/Object/classes/class.ilObject2.php';
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilObjTermsOfService extends ilObject
+class ilObjTermsOfService extends ilObject2
 {
 	/**
 	 * @param int  $a_id
-	 * @param bool $a_call_by_reference
+	 * @param bool $a_reference
 	 */
-	public function __construct($a_id = 0, $a_call_by_reference = true)
+	public function __construct($a_id = 0, $a_reference = true)
+	{
+		
+		parent::__construct($a_id, $a_reference);
+	}
+
+	/**
+	 * 
+	 */
+	protected function initType()
 	{
 		$this->type = 'tos';
-		parent::__construct($a_id, $a_call_by_reference);
 	}
 
 	/**
