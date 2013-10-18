@@ -99,6 +99,33 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 
 	/**
 	 * @param ilTermsOfServiceAcceptanceEntity $entity
+	 * @return ilTermsOfServiceAcceptanceEntity
+	 */
+	public function loadById(ilTermsOfServiceAcceptanceEntity $entity)
+	{
+		$res = $this->db->queryF('
+			SELECT *
+			FROM tos_versions
+			WHERE id = %s
+			',
+			array('integer'),
+			array($entity->getId())
+		);
+		$row = $this->db->fetchAssoc($res);
+
+		$entity->setId($row['id']);
+		$entity->setIso2LanguageCode($row['lng']);
+		$entity->setSource($row['src']);
+		$entity->setSourceType($row['src_type']);
+		$entity->setText($row['text']);
+		$entity->setTimestamp($row['ts']);
+		$entity->setHash($row['hash']);
+
+		return $entity;
+	}
+
+	/**
+	 * @param ilTermsOfServiceAcceptanceEntity $entity
 	 */
 	public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity)
 	{
