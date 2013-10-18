@@ -535,14 +535,14 @@ abstract class assQuestionGUI
 				$test = new ilObjTest($_GET["calling_test"]);
 				if(!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()))
 				{
-					global $tree, $ilDB;
+					global $tree, $ilDB, $ilPluginAdmin;
 					
 					include_once("./Modules/Test/classes/class.ilObjTest.php");
 					$_GET["ref_id"] = $_GET["calling_test"];
 					$test = new ilObjTest($_GET["calling_test"], true);
 					
 					require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-					$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+					$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
 					$new_id = $test->insertQuestion(
 							$testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId()
@@ -586,13 +586,13 @@ abstract class assQuestionGUI
 					}
 					if( /*$___test_express_mode || */ $_REQUEST['express_mode'] )
 					{
-						global $tree, $ilDB;
+						global $tree, $ilDB, $ilPluginAdmin;
 
 						include_once("./Modules/Test/classes/class.ilObjTest.php");
 						$test = new ilObjTest($_GET["ref_id"], true);
 
 						require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-						$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+						$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
 						$test->insertQuestion(
 								$testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId()
@@ -647,14 +647,14 @@ abstract class assQuestionGUI
 				$q_id = $this->object->getId();
 				if(!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()))
 				{
-					global $tree, $ilDB;
+					global $tree, $ilDB, $ilPluginAdmin;
 					
 					include_once("./Modules/Test/classes/class.ilObjTest.php");
 					$_GET["ref_id"] = $_GET["calling_test"];
 					$test = new ilObjTest($_GET["calling_test"], true);
 					
 					require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-					$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $test);
+					$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
 					$new_id = $test->insertQuestion(
 							$testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId()
