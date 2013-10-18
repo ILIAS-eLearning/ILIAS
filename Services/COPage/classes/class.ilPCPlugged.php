@@ -236,6 +236,75 @@ class ilPCPlugged extends ilPageContent
 				
 		return $a_html;
 	}
+	
+	/**
+	 * Get javascript files
+	 */
+	function getJavascriptFiles()
+	{
+		global $ilPluginAdmin;
+		
+		$js_files = array();
+		
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE,
+			"COPage", "pgcp");
+		foreach ($pl_names as $pl_name)
+		{
+			$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
+				"COPage", "pgcp", $pl_name);
+			$pl_dir = $plugin->getDirectory();
+			
+			$pl_js_files = $plugin->getJavascriptFiles();
+			foreach ($pl_js_files as $pl_js_file)
+			{
+				if (!is_int(strpos($pl_js_file, "//")))
+				{
+					$pl_js_file = $pl_dir."/".$pl_js_file;
+				}
+				if (!in_array($pl_js_file, $js_files))
+				{
+					$js_files[] = $pl_js_file;
+				}
+			}
+		}
+//var_dump($js_files);
+		return $js_files;
+	}
+	
+	/**
+	 * Get css files
+	 */
+	function getCssFiles()
+	{
+		global $ilPluginAdmin;
+		
+		$css_files = array();
+		
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE,
+			"COPage", "pgcp");
+		foreach ($pl_names as $pl_name)
+		{
+			$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
+				"COPage", "pgcp", $pl_name);
+			$pl_dir = $plugin->getDirectory();
+			
+			$pl_css_files = $plugin->getCssFiles();
+			foreach ($pl_css_files as $pl_css_file)
+			{
+				if (!is_int(strpos($pl_css_file, "//")))
+				{
+					$pl_css_file = $pl_dir."/".$pl_css_file;
+				}
+				if (!in_array($pl_css_file, $css_files))
+				{
+					$css_files[] = $pl_css_file;
+				}
+			}
+		}
+
+		return $css_files;
+	}
+
 }
 
 ?>

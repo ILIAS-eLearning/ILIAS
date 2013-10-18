@@ -105,6 +105,21 @@ abstract class ilPageContent
 		return $this->node;
 	}
 
+	/**
+	 * Get Javascript files
+	 */
+	function getJavascriptFiles()
+	{
+		return array();
+	}
+	
+	/**
+	 * Get css files
+	 */
+	function getCssFiles()
+	{
+		return array();
+	}
 
 	/**
 	* Set hierarchical ID in xml structure
