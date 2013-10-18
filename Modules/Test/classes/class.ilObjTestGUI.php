@@ -30,7 +30,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI, ilObjTestSettingsGeneralGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI, ilObjTestDynamicQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestRandomQuestionSetConfigGUI
- * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
  *
  * @ingroup ModulesTest
  */
@@ -467,6 +467,26 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($pg_gui);
 				break;
 
+			case 'illocalunitconfigurationgui':
+				$this->prepareSubGuiOutput();
+
+				// set return target
+				$this->ctrl->setReturn($this, "questions");
+
+				// set context tabs
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				$questionGUI = assQuestionGUI::_getQuestionGUI('', $_GET['q_id']);
+				$questionGUI->object->setObjId($this->object->getId());
+				$questionGUI->setQuestionTabs();
+
+				require_once 'Modules/TestQuestionPool/classes/class.ilLocalUnitConfigurationGUI.php';
+				require_once 'Modules/TestQuestionPool/classes/class.ilUnitConfigurationRepository.php';
+				$gui = new ilLocalUnitConfigurationGUI(
+					new ilUnitConfigurationRepository((int)$_GET['q_id'])
+				);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			case "ilcommonactiondispatchergui":
 				require_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
@@ -502,7 +522,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				// set context tabs
 				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI = assQuestionGUI::_getQuestionGUI('', $_GET['q_id']);
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
 
