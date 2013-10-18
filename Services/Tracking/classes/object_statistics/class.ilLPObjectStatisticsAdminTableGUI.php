@@ -49,6 +49,15 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 	{
 		include_once "Services/Tracking/classes/class.ilTrQuery.php";
 		$data = ilTrQuery::getObjectStatisticsMonthlySummary();
+		
+		// #11855
+		foreach($data as $idx => $item)
+		{
+			$data[$idx]["id"] = $item["month"];
+			
+			$data[$idx]["month"]= substr($item["month"], 0, 4).
+				"-".str_pad(substr($item["month"], 5), 2, "0", STR_PAD_LEFT);			
+		}
 
 		$this->setData($data);
 	}
@@ -58,12 +67,12 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl, $lng;
+		global $lng;
 
-		$caption = $lng->txt("month_".str_pad(substr($a_set["month"], 5), 2, "0", STR_PAD_LEFT)."_long").
+		$caption = $lng->txt("month_".substr($a_set["month"], 5, 2)."_long").
 			" ".substr($a_set["month"], 0, 4);
 
-		$this->tpl->setVariable("ID", $a_set["month"]);
+		$this->tpl->setVariable("ID", $a_set["id"]);
 		$this->tpl->setVariable("MONTH", $caption);
 		$this->tpl->setVariable("COUNT", $a_set["count"]);
 	}
