@@ -6299,59 +6299,90 @@ class ilObjSurvey extends ilObject
 	
 	public function checkReminder()
 	{
-		global $ilDB;
+		global $ilDB, $ilAccess;
 		
-		if($this->getReminderStatus())
+		$now = time();		
+		$today = date("Y-m-d");
+		
+		// object settings / participation period
+		if($this->isOffline() ||
+			!$this->getReminderStatus() ||
+			($this->getStartDate() && $now < $this->getStartDate()) ||
+			($this->getEndDate() && $now > $this->getEndDate()))
 		{
-			// check period
-			$start = $this->getReminderStart();
-			if($start)
+			return false;
+		}
+						
+		// reminder period
+		$start = $this->getReminderStart();
+		if($start)
+		{
+			$start = $start->get(IL_CAL_DATE);
+		}
+		$end = $this->getReminderEnd();
+		if($end)
+		{
+			$end = $end->get(IL_CAL_DATE);
+		}		
+		if($today < $start ||
+			($end && $today > $end))
+		{
+			return false;
+		}
+		
+		// object access period
+		include_once "Services/Object/classes/class.ilObjectActivation.php";	
+		$item_data = ilObjectActivation::getItem($this->getRefId());				
+		if($item_data["timing_type"] == ilObjectActivation::TIMINGS_ACTIVATION &&
+			($now < $item_data["timing_start"] ||
+			$now > $item_data["timing_end"]))
+		{
+			return false;
+		}
+		
+		// check frequency
+		$cut = new ilDate($today, IL_CAL_DATE);
+		$cut->increment(IL_CAL_DAY, $this->getReminderFrequency()*-1);
+		if(!$this->getReminderLastSent() ||
+			$cut->get(IL_CAL_DATE) > $this->getReminderLastSent())				
+		{				
+			$user_ids = $this->getNotificationTargetUserIds();
+			if($user_ids)
 			{
-				$start = $start->get(IL_CAL_DATE);
-			}
-			$end = $this->getReminderEnd();
-			if($end)
-			{
-				$end = $end->get(IL_CAL_DATE);
-			}
-			$today = date("Y-m-d");
-			if($today >= $start && 
-				(!$end || $today <= $end))
-			{
-				// check frequency
-				$cut = new ilDate($today, IL_CAL_DATE);
-				$cut->increment(IL_CAL_DAY, $this->getReminderFrequency()*-1);
-				if(!$this->getReminderLastSent() ||
-					$cut->get(IL_CAL_DATE) > $this->getReminderLastSent())				
-				{				
-					$user_ids = $this->getNotificationTargetUserIds();
-					if($user_ids)
-					{
-						// gather participants who already finished
-						$finished_ids = array();
-						$set = $ilDB->query("SELECT user_fi FROM svy_finished".
-						" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
-						" AND state = ".$ilDB->quote(1, "integer").
-						" AND ".$ilDB->in("user_fi", $user_ids, "", "integer"));
-						while($row = $ilDB->fetchAssoc($set))
-						{
-							$finished_ids[] = $row["user_fi"];						
-						}
+				// gather participants who already finished
+				$finished_ids = array();
+				$set = $ilDB->query("SELECT user_fi FROM svy_finished".
+				" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
+				" AND state = ".$ilDB->quote(1, "integer").
+				" AND ".$ilDB->in("user_fi", $user_ids, "", "integer"));
+				while($row = $ilDB->fetchAssoc($set))
+				{
+					$finished_ids[] = $row["user_fi"];						
+				}
 
-						// some users missing out?
-						$missing_ids = array_diff($user_ids, $finished_ids);
-						if($missing_ids)
+				// some users missing out?
+				$missing_ids = array_diff($user_ids, $finished_ids);
+				if($missing_ids)
+				{
+					foreach($missing_ids as $idx => $user_id)
+					{
+						// should be able to participate
+						if(!$ilAccess->checkAccessOfUser($user_id, "read", "", $this->getRefId(), "svy", $this->getId()))
 						{
-							$this->sentReminder($missing_ids);
+							unset($missing_ids[$idx]);
 						}
 					}
-					
-					$this->setReminderLastSent($today);
-					
-					return true;
+				}								
+				if($missing_ids)
+				{
+					$this->sentReminder($missing_ids);
 				}
-			}			
-		}		
+			}
+
+			$this->setReminderLastSent($today);
+
+			return true;
+		}
 		
 		return false;
 	}
