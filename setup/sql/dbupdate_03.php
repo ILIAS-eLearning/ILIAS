@@ -19132,4 +19132,7 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_res_unit'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#4136>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
