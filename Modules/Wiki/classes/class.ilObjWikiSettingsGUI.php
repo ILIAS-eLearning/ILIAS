@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
+include_once("./Services/Object/classes/class.ilObject2GUI.php");
 
 /**
  * Wiki settings gui class
@@ -14,17 +14,20 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
  *
  * @ingroup ModulesWiki
  */
-class ilObjWikiSettingsGUI extends ilObjectGUI
+class ilObjWikiSettingsGUI extends ilObject2GUI
 {
+	
 	/**
-	 * Contructor
-	 * @access public
+	 * Get type
+	 *
+	 * @param
+	 * @return
 	 */
-	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	function getType()
 	{
-		$this->type = 'wiks';
-		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		return "wiks";
 	}
+	
 
 	/**
 	 * Execute command
