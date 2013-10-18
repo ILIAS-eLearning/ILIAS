@@ -17737,6 +17737,7 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_unit'))
 	$ilDB->createTable('il_qpl_qst_fq_unit', $fields);
 	$ilDB->addPrimaryKey('il_qpl_qst_fq_unit', array('unit_id'));
 	$ilDB->createSequence('il_qpl_qst_fq_unit');
+	$ilDB->addIndex('il_qpl_qst_fq_unit', array('baseunit_fi', 'category_fi'), 'i1');
 }
 ?>
 <#4050>
@@ -17861,6 +17862,7 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_res'))
 	$ilDB->createTable('il_qpl_qst_fq_res', $fields);
 	$ilDB->addPrimaryKey('il_qpl_qst_fq_res', array('result_id'));
 	$ilDB->createSequence('il_qpl_qst_fq_res');
+	$ilDB->addIndex('il_qpl_qst_fq_res', array('question_fi', 'result'), 'i1');
 }
 ?>
 <#4053>
@@ -17959,6 +17961,7 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_var'))
 	$ilDB->createTable('il_qpl_qst_fq_var', $fields);
 	$ilDB->addPrimaryKey('il_qpl_qst_fq_var', array('variable_id'));
 	$ilDB->createSequence('il_qpl_qst_fq_var');
+	$ilDB->addIndex('il_qpl_qst_fq_var', array('question_fi', 'variable'), 'i1');
 }
 ?>
 <#4056>
