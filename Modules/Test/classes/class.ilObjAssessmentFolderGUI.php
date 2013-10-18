@@ -470,6 +470,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function defaultsObject()
 	{
+
 		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl, $ilTabs;
 
                 $ilTabs->activateTab('defaults');
@@ -501,11 +502,13 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$userCriteria = new ilSelectInputGUI($this->lng->txt("user_criteria"), "user_criteria");
 			$userCriteria->setInfo($this->lng->txt("user_criteria_desc"));
 			$userCriteria->setRequired(true);
+			
+			//@Todo bheyser: $isSingleline is not defined...
 			$userCriteria->setValue(($isSingleline) ? 0 : 1);
 
 			$manager = $ilDB->db->loadModule('Manager');
 			//$fields = $manager->listTableFields('usr_data'); 
-			array('usr_id', 'login', 'email', 'matriculation', 'ext_account');
+			$fields = array('usr_id', 'login', 'email', 'matriculation', 'ext_account');
 			$usr_fields = array();
 			foreach ($fields as $field)
 			{
