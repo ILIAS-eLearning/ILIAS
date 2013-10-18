@@ -1816,7 +1816,7 @@ class ilPageObjectGUI
 			$output = '<div class="il_editarea_disabled">'.$output.'</div>';
 		}
 		
-		// post xsl page content modification by pc elements
+		// for all page components...
 		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
 		$defs = ilCOPagePCDef::getPCDefinitions();
 		foreach ($defs as $def)
@@ -1824,7 +1824,23 @@ class ilPageObjectGUI
 			ilCOPagePCDef::requirePCClassByName($def["name"]);
 			$pc_class = $def["pc_class"];
 			$pc_obj = new $pc_class($this->getPageObject());
+			
+			// post xsl page content modification by pc elements
 			$output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode());
+			
+			// javascript files
+			$js_files = $pc_obj->getJavascriptFiles();
+			foreach ($js_files as $js)
+			{
+				$GLOBALS["tpl"]->addJavascript($js);
+			}
+
+			// css files
+			$css_files = $pc_obj->getCssFiles();
+			foreach ($css_files as $css)
+			{
+				$GLOBALS["tpl"]->addCss($css);
+			}
 		}
 		
 		$output = $this->obj->insertSourceCodeParagraphs($output, $this->getOutputMode());

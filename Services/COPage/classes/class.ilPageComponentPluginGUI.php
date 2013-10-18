@@ -94,8 +94,6 @@ abstract class ilPageComponentPluginGUI
 		}
 		
 	}
-	
-	
 
 	abstract function executeCommand();
 	abstract function insert();
@@ -162,6 +160,5 @@ abstract class ilPageComponentPluginGUI
 		
 		$a_form->addCommandButton("create_plug", $lng->txt("save"));
 	}
-
 }
 ?>

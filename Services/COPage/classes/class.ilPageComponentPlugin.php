@@ -77,6 +77,22 @@ abstract class ilPageComponentPlugin extends ilPlugin
 	abstract function isValidParentType($a_type);
 	
 	/**
+	 * Get Javascript files
+	 */
+	function getJavascripFiles()
+	{
+		return array();
+	}
+	
+	/**
+	 * Get css files
+	 */
+	function getCssFiles()
+	{
+		return array();
+	}
+	
+	/**
 	 * Set Mode.
 	 *
 	 * @param	string	$a_mode	Mode
