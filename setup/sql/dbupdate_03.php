@@ -19089,3 +19089,39 @@ ilDBUpdateNewObjectType::addAdminNode('wiks', 'Wiki Settings');
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4134>
+<?php
+if(!$ilDB->tableExists('il_qpl_qst_fq_res_unit'))
+{
+	$fields = array(
+		'result_unit_id' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'result'         => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'question_fi'    => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'unit_fi'        => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable('il_qpl_qst_fq_res_unit', $fields);
+	$ilDB->addPrimaryKey('il_qpl_qst_fq_res_unit', array('result_unit_id'));
+	$ilDB->createSequence('il_qpl_qst_fq_res_unit');
+	$ilDB->addIndex('il_qpl_qst_fq_res_unit', array('question_fi', 'unit_fi'), 'i1');
+}
+?>
