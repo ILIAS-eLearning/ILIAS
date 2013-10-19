@@ -553,12 +553,16 @@ class ilTable2GUI extends ilTableGUI
 					$invalid[] = $col["sort_field"];
 				}
 			}
-			if(sizeof($invalid))
+			
+			// this triggers an error, if some columns are not set for some rows
+			// which may just be a representation of "null" values, e.g.
+			// ilAdvancedMDValues:queryForRecords works that way.
+/*			if(sizeof($invalid))
 			{
 				trigger_error("The following columns are defined as sortable but".
 					" cannot be found in the given data: ".implode(", ", $invalid).
 					". Sorting will not work properly.", E_USER_WARNING);
-			}
+			}*/
 		}
 		
 		$this->row_data = $a_data;
