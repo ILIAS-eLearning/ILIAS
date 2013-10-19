@@ -209,7 +209,7 @@ class ilAdvancedMDValue
 	 	$query = "DELETE FROM adv_md_values ".
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ".
 	 		"AND sub_type = ".$this->db->quote($this->getSubType() ,'text')." ".
-	 		"AND sub_id = ".$this->db->quote($this->getSubType() ,'integer')." ".
+	 		"AND sub_id = ".$this->db->quote($this->getSubId() ,'integer')." ".
 	 		"AND field_id = ".$this->db->quote($this->field_id ,'integer');
 		$res = $ilDB->manipulate($query);
 	}
