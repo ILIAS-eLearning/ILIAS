@@ -343,7 +343,7 @@ class ilObjTaxonomy extends ilObject2
 	 * @param
 	 * @return
 	 */
-	static function getSubTreeItems($a_tax_id, $a_node)
+	static function getSubTreeItems($a_comp, $a_item_type, $a_tax_id, $a_node)
 	{
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
 		$tree = new ilTaxonomyTree($a_tax_id);
@@ -351,7 +351,9 @@ class ilObjTaxonomy extends ilObject2
 		$sub_nodes = $tree->getSubTreeIds($a_node);
 		$sub_nodes[] = $a_node;
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-		$items = ilTaxNodeAssignment::getAssignmentsOfNode($sub_nodes);
+		
+		$tn_ass = new ilTaxNodeAssignment($a_comp, $a_item_type, $a_tax_id);
+		$items = $tn_ass->getAssignmentsOfNode($sub_nodes);
 		
 		return $items;
 	}
