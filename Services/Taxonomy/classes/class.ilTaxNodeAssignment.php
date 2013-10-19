@@ -114,7 +114,7 @@ class ilTaxNodeAssignment
 	final public function getAssignmentsOfNode($a_node_id)
 	{
 		global $ilDB;
-		
+
 		if (is_array($a_node_id))
 		{
 			$set = $ilDB->query("SELECT * FROM tax_node_assignment ".

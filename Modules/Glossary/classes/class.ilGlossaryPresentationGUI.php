@@ -1209,7 +1209,7 @@ class ilGlossaryPresentationGUI
 			case "sel_topic":
 				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 				$t_id = $this->glossary->getTaxonomyId();
-				$items = ilObjTaxonomy::getSubTreeItems($t_id, (int) $_POST["topic"]);
+				$items = ilObjTaxonomy::getSubTreeItems("glo", "term", $t_id, (int) $_POST["topic"]);
 				foreach ($items as $i)
 				{
 					if ($i["item_type"] == "term")
