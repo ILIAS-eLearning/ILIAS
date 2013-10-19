@@ -416,7 +416,7 @@ class ilSCORM13Player
 		$langstrings['btnshowtree']=$lng->txt('scplayer_showtree');
 		$langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
 		$langstrings['linkcollapseTree']=$lng->txt('scplayer_collapsetree');
-//		$config['langstrings'] = $langstrings;
+		$config['langstrings'] = $langstrings;
 		
 		//template variables	
 		//$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
