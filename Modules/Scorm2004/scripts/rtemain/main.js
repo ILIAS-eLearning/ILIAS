@@ -3077,9 +3077,8 @@ function onWindowUnload ()
 	result["p"]=config.status.p;
 	result["last"]="";
 	if (config.auto_last_visited==true) result["last"]=activities[mlaunch.mActivityID].id;
-	var result=this.config.scorm_player_unload_url 
-		? sendJSONRequest(this.config.scorm_player_unload_url, result)
-		: {};
+	if (typeof SOP!="undefined" && SOP==true) result=scormPlayerUnload(result);
+	else result=this.config.scorm_player_unload_url ? sendJSONRequest(this.config.scorm_player_unload_url, result): {};
 	removeResource();
 
 	//try{windowOpenerLoc.reload();} catch(e){}
