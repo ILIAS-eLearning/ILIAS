@@ -1,4 +1,4 @@
-// Build: 20131011161338 
+// Build: 20131020141053 
 
 function ADLAuxiliaryResource()
 {}
@@ -2931,7 +2931,7 @@ return c;}
 function onWindowLoad()
 {attachUIEvent(window,'unload',onWindowUnload);attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
-{summaryOnUnload=true;var result={};result["hash"]=config.status.hash;result["p"]=config.status.p;result["last"]="";if(config.auto_last_visited==true)result["last"]=activities[mlaunch.mActivityID].id;var result=this.config.scorm_player_unload_url?sendJSONRequest(this.config.scorm_player_unload_url,result):{};removeResource();}
+{summaryOnUnload=true;var result={};result["hash"]=config.status.hash;result["p"]=config.status.p;result["last"]="";if(config.auto_last_visited==true)result["last"]=activities[mlaunch.mActivityID].id;if(typeof SOP!="undefined"&&SOP==true)result=scormPlayerUnload(result);else result=this.config.scorm_player_unload_url?sendJSONRequest(this.config.scorm_player_unload_url,result):{};removeResource();}
 function onItemDeliver(item,wasSuspendAll)
 {var url=item.href,v;if(item.sco)
 {var data=getAPI(item.foreignId);if(this.config.sequencing_enabled)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
