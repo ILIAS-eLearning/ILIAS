@@ -13142,6 +13142,8 @@ dcl#:#dcl_file_format_description#:#The file needs to be an excel .XSL file with
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
 dcl#:#dcl_multiple_selection#:#Multiple Selection
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 bibl#:#bibl_new#:#New Bibliography
