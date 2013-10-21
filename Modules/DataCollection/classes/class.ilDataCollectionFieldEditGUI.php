@@ -366,7 +366,7 @@ class ilDataCollectionFieldEditGUI
 		}
 
 		$this->initForm($a_mode == "update"?"edit":"create");
-        if ($this->checkInput())
+        if ($this->checkInput($a_mode))
 		{
             $title = $this->form->getInput("title");
             if($a_mode != "create" && $title != $this->field_obj->getTitle())
@@ -432,21 +432,36 @@ class ilDataCollectionFieldEditGUI
 
     /**
      * Check input of form
+     * @param $a_mode 'create' | 'update'
      * @return bool
      */
-    protected function checkInput() {
+    protected function checkInput($a_mode) {
         global $lng;
-        if (!$this->form->checkInput()) return false;
+        $return = $this->form->checkInput();
+
         // Additional check for text fields: The length property should be max 200 if the textarea option is not set
         if ($this->form->getInput('datatype') == ilDataCollectionDatatype::INPUTFORMAT_TEXT
             && (int) $this->form->getInput('prop_'.ilDataCollectionField::PROPERTYID_LENGTH) > 200
             && !$this->form->getInput('prop_'.ilDataCollectionField::PROPERTYID_TEXTAREA)) {
                 $inputObj = $this->form->getItemByPostVar('prop_'.ilDataCollectionField::PROPERTYID_LENGTH);
                 $inputObj->setAlert($lng->txt("form_msg_value_too_high"));
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
-                return false;
+                $return = false;
         }
-        return true;
+
+        // Don't allow multiple fields with the same title in this table
+        if ($a_mode == 'create') {
+            if ($title = $this->form->getInput('title')) {
+                if (ilDataCollectionTable::_hasFieldByTitle($title, $this->table_id)) {
+                    $inputObj = $this->form->getItemByPostVar('title');
+                    $inputObj->setAlert($lng->txt("dcl_field_title_unique"));
+                    $return = false;
+                }
+            }
+        }
+
+        if (!$return) ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+
+        return $return;
     }
 
 	/*

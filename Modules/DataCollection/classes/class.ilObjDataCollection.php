@@ -490,6 +490,17 @@ class ilObjDataCollection extends ilObject2
 		return $tables;
 	}
 
+    /**
+     * Checks if a DataCollection has a table with a given title
+     * @param $title Title of table
+     * @param $obj_id Obj-ID of the table
+     * @return bool
+     */
+    public static function _hasTableByTitle($title, $obj_id) {
+        global $ilDB;
+        $result = $ilDB->query('SELECT * FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = ' . $ilDB->quote($title, 'text'));
+        return ($ilDB->numRows($result)) ? true : false;
+    }
 }
 
 ?>

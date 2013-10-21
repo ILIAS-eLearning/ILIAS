@@ -970,6 +970,18 @@ class ilDataCollectionTable
     {
         return $this->export_enabled;
     }
+
+    /**
+     * Checks if a table has a field with the given title
+     * @param $title Title of field
+     * @param $obj_id Obj-ID of the table
+     * @return bool
+     */
+    public static function _hasFieldByTitle($title, $obj_id) {
+        global $ilDB;
+        $result = $ilDB->query('SELECT * FROM il_dcl_field WHERE table_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = ' . $ilDB->quote($title, 'text'));
+        return ($ilDB->numRows($result)) ? true : false;
+    }
 }
 
 
