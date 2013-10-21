@@ -532,7 +532,9 @@ class ilDataCollectionDatatype
             else
                 $return = $value;
         }
-		else
+		else if ($this->id == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
+            $return = ($value == '') ? null : $value; //SW, Ilias Mantis #0011799: Return null otherwise '' is casted to 0 in DB
+        } else
 		{
 			$return = $value;
 		}
