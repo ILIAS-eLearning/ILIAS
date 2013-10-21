@@ -320,7 +320,7 @@ class ilBookingReservation
 		$cnt = $ilDB->fetchAssoc($set);
 		$cnt = (int)$cnt['cnt'];
 		
-		return (bool)$all-$cnt;
+		return (bool)($all-$cnt); // #11864
 	}
 
 	/**
