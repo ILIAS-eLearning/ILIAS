@@ -13117,7 +13117,7 @@ cron#:#cron_schedule_yearly#:#Jährlich
 cron#:#cron_schedule_in_minutes#:#Alle %s Minuten
 cron#:#cron_schedule_in_hours#:#Alle %s Stunden
 cron#:#cron_schedule_in_days#:#Alle %s Tage
-cron#:#cron_schedule_type#:#Zeitplan-Typ
+cron#:#cron_schedule_type#:#Zeitplan
 cron#:#cron_schedule_value#:#Intervall
 cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_running_since#:#Läuft seit
