@@ -10,7 +10,7 @@ require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilGlossaryDefPageGUI
+* @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilGlossaryDefPageGUI, ilPropertyFormGUI
 *
 * @ingroup ModulesGlossary
 */
@@ -62,6 +62,11 @@ class ilGlossaryTermGUI
 				$this->quickList("edit", $def_edit);
 				break;
 
+			case "ilpropertyformgui";
+				$form = $this->getEditTermForm();
+				$this->ctrl->forwardCommand($form);
+				break;
+				
 			default:
 				$ret =& $this->$cmd();
 				break;
@@ -124,7 +129,7 @@ class ilGlossaryTermGUI
 	 */
 	function editTerm()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilCtrl;
 
 		$this->getTemplate();
 		$this->displayLocator();
@@ -134,6 +139,23 @@ class ilGlossaryTermGUI
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
 
+		$form = $this->getEditTermForm();
+		
+		$this->tpl->setContent($ilCtrl->getHTML($form));
+
+		$this->quickList();
+	}
+	
+	/**
+	 * Get edit term form
+	 *
+	 * @param
+	 * @return
+	 */
+	function getEditTermForm()
+	{
+		global $ilTabs, $ilCtrl;
+		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "updateTerm"));
@@ -153,10 +175,26 @@ class ilGlossaryTermGUI
 		// taxonomy
 		if ($this->glossary->getTaxonomyId() > 0)
 		{
-			include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
+			/*include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
 			$tax_node_assign = new ilTaxAssignInputGUI($this->glossary->getTaxonomyId());
 			$tax_node_assign->setCurrentValues("glo", "term", $this->term->getId());
+			$form->addItem($tax_node_assign);*/
+			
+			include_once("./Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
+			$tax_node_assign = new ilTaxSelectInputGUI($this->glossary->getTaxonomyId(), "tax_node", true);
+			
+			include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+			$ta = new ilTaxNodeAssignment("glo", "term", $this->glossary->getTaxonomyId());
+			$assgnmts = $ta->getAssignmentsOfItem($this->term->getId());
+			$node_ids = array();
+			foreach ($assgnmts as $a)
+			{
+				$node_ids[] = $a["node_id"];
+			}
+			$tax_node_assign->setValue($node_ids);
+			
 			$form->addItem($tax_node_assign);
+			
 		}
 
 		// advanced metadata
@@ -168,11 +206,10 @@ class ilGlossaryTermGUI
 		$record_gui->parse();
 		
 		$form->addCommandButton("updateTerm", $this->lng->txt("save"));
-		
-		$this->tpl->setContent($form->getHTML());
 
-		$this->quickList();
+		return $form;
 	}
+	
 
 
 	/**
@@ -188,9 +225,20 @@ class ilGlossaryTermGUI
 		// update taxonomy assignment
 		if ($this->glossary->getTaxonomyId() > 0)
 		{
-			include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
+			include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+			$ta = new ilTaxNodeAssignment("glo", "term", $this->glossary->getTaxonomyId());
+			$ta->deleteAssignmentsOfItem($this->term->getId());
+			if (is_array($_POST["tax_node"]))
+			{
+				foreach ($_POST["tax_node"] as $node_id)
+				{
+					$ta->addAssignment($node_id, $this->term->getId());
+				}
+			}		
+
+/*			include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
 			$tax_node_assign = new ilTaxAssignInputGUI($this->glossary->getTaxonomyId());
-			$tax_node_assign->saveInput("glo", "term", $this->term->getId());
+			$tax_node_assign->saveInput("glo", "term", $this->term->getId());*/
 		}
 		
 		// advanced metadata
