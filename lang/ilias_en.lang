@@ -14086,3 +14086,4 @@ auth#:#auth_auth_settings#:#Settings
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
 common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Global Wiki Settings
+blog#:#blog_edit_posting#:#Edit Posting

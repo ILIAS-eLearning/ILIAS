@@ -1979,12 +1979,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$link = $ilCtrl->getLinkTarget($this, "");		
 				$ilCtrl->setParameter($this, "blpg", $sub_id);
 				$ilCtrl->setParameter($this, "bmn", $this->month);									
-				$lg->addCustomCommand($link, "blog_add_posting");	
+				$lg->addCustomCommand($link, "blog_edit"); // #11868	
 								
 				if($sub_id && $this->mayContribute($sub_id))			
 				{										
 					$link = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit");									
-					$lg->addCustomCommand($link, "edit_content");	
+					$lg->addCustomCommand($link, "blog_edit_posting");	
 				}
 				
 				$ilCtrl->setParameter($this, "prvm", "fsc");
