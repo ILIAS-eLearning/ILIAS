@@ -2380,7 +2380,7 @@ a.MMInactive:link, a.MMInactive:visited {
 a.MMInactive:hover {
 	color: #000;
 	text-decoration: none;
-	background-image: url(images/mm_back3.png) repeat-x #D0E8FF;
+	background: url(images/mm_back3.png) repeat-x #D0E8FF;
 }
 
 a.MMActive:link, a.MMActive:visited {
@@ -2393,7 +2393,7 @@ a.MMActive:link, a.MMActive:visited {
 	margin: 1px 0 2px -1px;
 	font-weight: normal;
 	white-space: nowrap;
-	background-image: url(images/mm_back3.png) repeat-x #D0E8FF;
+	background: url(images/mm_back3.png) repeat-x #D0E8FF;
 }
 
 a.MMActive:hover {
