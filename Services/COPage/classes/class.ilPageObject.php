@@ -2803,7 +2803,7 @@ abstract class ilPageObject
 	function saveInternalLinks($a_domdoc)
 	{
 		global $ilDB;
-		
+
 		$this->deleteInternalLinks();
 
 		// query IntLink elements		

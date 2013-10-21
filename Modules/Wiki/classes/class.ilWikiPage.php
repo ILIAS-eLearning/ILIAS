@@ -164,7 +164,7 @@ class ilWikiPage extends ilPageObject
 		if (!$a_prevent_page_creation)
 		{
 			parent::create();
-			$this->saveInternalLinks($this->getXMLContent());
+			$this->saveInternalLinks($this->getDomDoc());
 
 			include_once "./Services/Notification/classes/class.ilNotification.php";
 			ilWikiUtil::sendNotification("new", ilNotification::TYPE_WIKI, $this->getWikiRefId(), $this->getId());
