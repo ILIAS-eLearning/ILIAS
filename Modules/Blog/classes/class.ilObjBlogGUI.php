@@ -1195,6 +1195,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				{
 					$alist->addItem($lng->txt("edit_content"), "edit", 
 						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit"));
+					
+					// #11858
+					if($is_active)
+					{
+						$alist->addItem($lng->txt("blog_toggle_draft"), "deactivate", 
+							$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deactivatePageToList"));
+					}
+					else
+					{
+						$alist->addItem($lng->txt("blog_toggle_final"), "activate", 
+							$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "activatePageToList"));
+					}
+					
 					$alist->addItem($lng->txt("rename"), "rename", 
 						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edittitle"));
 					$alist->addItem($lng->txt("blog_edit_keywords"), "keywords", 

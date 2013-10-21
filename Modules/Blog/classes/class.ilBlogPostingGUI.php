@@ -518,15 +518,32 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				"activatePage" => $lng->txt("blog_toggle_final"));
 	}	
 	
-	function deactivatePage()
+	function deactivatePageToList()
+	{
+		$this->deactivatePage(true);
+	}
+	
+	function deactivatePage($a_to_list = false)
 	{
 		$this->getBlogPosting()->setApproved(false);
 		$this->getBlogPosting()->setActive(false);
 		$this->getBlogPosting()->update(true, false, false);
-		$this->ctrl->redirect($this, "edit");
+		if(!$a_to_list)
+		{
+			$this->ctrl->redirect($this, "edit");
+		}
+		else
+		{
+			$this->ctrl->redirectByClass("ilobjbloggui", "");
+		}
 	}
 	
-	function activatePage()
+	function activatePageToList()
+	{
+		$this->activatePage(true);	
+	}
+	
+	function activatePage($a_to_list = false)
 	{
 		// send notifications
 		include_once "Modules/Blog/classes/class.ilObjBlog.php";
@@ -534,7 +551,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		
 		$this->getBlogPosting()->setActive(true);
 		$this->getBlogPosting()->update(true, false, false);
-		$this->ctrl->redirect($this, "edit");
+		if(!$a_to_list)
+		{
+			$this->ctrl->redirect($this, "edit");
+		}
+		else
+		{
+			$this->ctrl->redirectByClass("ilobjbloggui", "");
+		}
 	}
 	
 	function editKeywords(ilPropertyFormGUI $a_form = null)
