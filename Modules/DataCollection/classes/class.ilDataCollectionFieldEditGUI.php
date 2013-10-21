@@ -421,6 +421,17 @@ class ilDataCollectionFieldEditGUI
             $return = false;
         }
 
+        // Don't allow multiple fields with the same title in this table
+        if ($a_mode == 'create') {
+            if ($title = $this->form->getInput('title')) {
+                if (ilDataCollectionTable::_hasFieldByTitle($title, $this->table_id)) {
+                    $inputObj = $this->form->getItemByPostVar('title');
+                    $inputObj->setAlert($lng->txt("dcl_field_title_unique"));
+                    $return = false;
+                }
+            }
+        }
+
         if (!$return) ilUtil::sendFailure($lng->txt("form_input_not_valid"));
 
         return $return;

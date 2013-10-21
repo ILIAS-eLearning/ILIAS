@@ -241,7 +241,7 @@ class ilDataCollectionTableEditGUI
 		
 		$this->initForm($a_mode);
 		
-		if($this->form->checkInput())
+		if($this->checkInput($a_mode))
 		{
             if($a_mode != "update")
             {
@@ -300,6 +300,30 @@ class ilDataCollectionTableEditGUI
 			$tpl->setContent($this->form->getHTML());
 		}
 	}
+
+    /**
+     * Custom checks for the form input
+     * @param $a_mode 'create' | 'update'
+     * @return bool
+     */
+    protected function checkInput($a_mode) {
+        global $lng;
+        $return = $this->form->checkInput();
+
+        // Title of table must be unique in one DC
+        if ($a_mode == 'create') {
+            if ($title = $this->form->getInput('title')) {
+                if (ilObjDataCollection::_hasTableByTitle($title, $this->obj_id)) {
+                    $inputObj = $this->form->getItemByPostVar('title');
+                    $inputObj->setAlert($lng->txt("dcl_table_title_unique"));
+                    $return = false;
+                }
+            }
+        }
+
+        if (!$return) ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+        return $return;
+    }
 
 	/*
 	 * accessDenied

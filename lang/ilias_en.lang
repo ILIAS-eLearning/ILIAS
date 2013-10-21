@@ -12456,6 +12456,8 @@ dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team

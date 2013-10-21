@@ -286,11 +286,32 @@ class ilObjDataCollection extends ilObject2
 				$this->setMainTableId($new_table->getId());
 			}
 		}
-		
 
 		// update because maintable id is now set.
 		$this->doUpdate();
-		
+
+        // Set new field-ID of referenced fields
+        foreach ($original->getTables() as $origTable) {
+            foreach ($origTable->getRecordFields() as $origField) {
+                if ($origField->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
+                    $newRefId = null;
+                    $origFieldRefObj = ilDataCollectionCache::getFieldCache($origField->getFieldRef());
+                    $origRefTable = ilDataCollectionCache::getTableCache($origFieldRefObj->getTableId());
+                    // Lookup the new ID of the referenced field in the actual DC
+                    $tableId = ilDataCollectionTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
+                    $fieldId = ilDataCollectionField::_getFieldIdByTitle($origFieldRefObj->getTitle(), $tableId);
+                    $field = ilDataCollectionCache::getFieldCache($fieldId);
+                    $newRefId = $field->getId();
+                    // Set the new refID in the actual DC
+                    $tableId = ilDataCollectionTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
+                    $fieldId = ilDataCollectionField::_getFieldIdByTitle($origField->getTitle(), $tableId);
+                    $field = ilDataCollectionCache::getFieldCache($fieldId);
+                    $field->setPropertyvalue($newRefId, ilDataCollectionField::PROPERTYID_REFERENCE);
+                    $field->doUpdate();
+                }
+            }
+        }
+
 	}
 
 
@@ -468,6 +489,17 @@ class ilObjDataCollection extends ilObject2
 		return $tables;
 	}
 
+    /**
+     * Checks if a DataCollection has a table with a given title
+     * @param $title Title of table
+     * @param $obj_id Obj-ID of the table
+     * @return bool
+     */
+    public static function _hasTableByTitle($title, $obj_id) {
+        global $ilDB;
+        $result = $ilDB->query('SELECT * FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = ' . $ilDB->quote($title, 'text'));
+        return ($ilDB->numRows($result)) ? true : false;
+    }
 }
 
 ?>

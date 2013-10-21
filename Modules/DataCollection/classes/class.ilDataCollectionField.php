@@ -81,7 +81,7 @@ class ilDataCollectionField
     /**
      * @var array
      */
-    protected $property;
+    protected $property = array();
 
 	/**
 	 * @var ilDataCollectionDatatype This fields Datatype.
@@ -142,6 +142,21 @@ class ilDataCollectionField
         }
     }
 
+
+    /**
+     * @param $title Title of the field
+     * @param $table_id ID of table where the field belongs to
+     * @return int
+     */
+    public static function _getFieldIdByTitle($title, $table_id) {
+        global $ilDB;
+        $result = $ilDB->query('SELECT id FROM il_dcl_field WHERE title = ' . $ilDB->quote($title, 'text') . ' AND table_id = ' . $ilDB->quote($table_id, 'integer'));
+        $id = 0;
+        while($rec = $ilDB->fetchAssoc($result)) {
+            $id = $rec['id'];
+        }
+        return $id;
+    }
 
     /**
 	 * Set field id
@@ -560,6 +575,7 @@ class ilDataCollectionField
 		$this->setRequired($rec["required"]);
 		$this->setUnique($rec["is_unique"]);
 		$this->setLocked($rec["is_locked"]);
+        $this->loadProperties();
 	}
 	
 	/*
@@ -637,7 +653,23 @@ class ilDataCollectionField
 		$this->updateVisibility();
 		$this->updateFilterability();
 		$this->updateEditability();
+        $this->updateProperties();
 	}
+
+    /**
+     * Update properties of this field in Database
+     */
+    protected function updateProperties() {
+        global $ilDB;
+        foreach ($this->property as $key => $value) {
+            $ilDB->update('il_dcl_field_prop', array(
+                'value' => array('integer', $value),
+            ), array(
+                'field_id' => array('integer', $this->getId()),
+                'datatype_prop_id' => array('integer', $key),
+            ));
+        }
+    }
 
 	/*
 	 * getFilterable
@@ -956,6 +988,10 @@ class ilDataCollectionField
             $fieldprop_obj = new ilDataCollectionFieldProp();
             $fieldprop_obj->setDatatypePropertyId($id);
             $fieldprop_obj->setFieldId($this->getId());
+            // If reference field, we must reset the referenced field, otherwise it will point to the old ID
+            if ($originalField->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE && $id == ilDataCollectionField::PROPERTYID_REFERENCE) {
+                $value = null;
+            }
             $fieldprop_obj->setValue($value);
             $fieldprop_obj->doCreate();
         }

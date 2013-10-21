@@ -924,6 +924,20 @@ class ilDataCollectionTable
 		return $result->numRows() != 0;
 	}
 
+    /**
+     * @param $title Title of table
+     * @param $obj_id DataCollection object ID where the table belongs to
+     * @return int
+     */
+    public static function _getTableIdByTitle($title, $obj_id) {
+        global $ilDB;
+        $result = $ilDB->query('SELECT id FROM il_dcl_table WHERE title = ' . $ilDB->quote($title, 'text') . ' AND obj_id = ' . $ilDB->quote($obj_id, 'integer'));
+        $id = 0;
+        while($rec = $ilDB->fetchAssoc($result)) {
+            $id = $rec['id'];
+        }
+        return $id;
+    }
 
     public function buildTableAsArray(){
         global $ilDB;
@@ -948,6 +962,18 @@ class ilDataCollectionTable
     public function getExportEnabled()
     {
         return $this->export_enabled;
+    }
+
+    /**
+     * Checks if a table has a field with the given title
+     * @param $title Title of field
+     * @param $obj_id Obj-ID of the table
+     * @return bool
+     */
+    public static function _hasFieldByTitle($title, $obj_id) {
+        global $ilDB;
+        $result = $ilDB->query('SELECT * FROM il_dcl_field WHERE table_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = ' . $ilDB->quote($title, 'text'));
+        return ($ilDB->numRows($result)) ? true : false;
     }
 }
 
