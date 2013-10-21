@@ -2683,7 +2683,7 @@ div.il_Tab {
     float: left;
 	padding-left: 0;
 	line-height: normal;
-	border-bottom: 1px solid #E0E0E0;
+	/* border-bottom: 1px solid #E0E0E0; */
 	margin: 0 10px;
 }
 
