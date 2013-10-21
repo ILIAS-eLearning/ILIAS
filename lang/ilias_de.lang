@@ -14085,3 +14085,4 @@ administration#:#adm_captcha_anonymous_reg#:#Captcha für Anonymous im Registrie
 administration#:#adm_captcha_anonymous_wiki#:#Captcha für Anonymous im Wiki. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
 auth#:#auth_auth_settings#:#Einstellungen
 book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das Objekt nicht mehr verfügbar ist.
+blog#:#blog_edit_posting#:#Eintrag bearbeiten
