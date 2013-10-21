@@ -2700,7 +2700,7 @@ common#:#delete_object#:#Lösche Objekte
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected#:#Auswahl löschen
 common#:#delete_selected_items#:#Löschen
-common#:#delete_tr_data#:#Tracking Daten löschen
+common#:#delete_tr_data#:#Tracking-Daten löschen
 common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
 common#:#deleted_user_account#:#Gelöschtes Benutzerkonto
@@ -4969,7 +4969,7 @@ rbac#:#trac_read#:#Lesezugriff auf Zugriffsstatistiken und Lernfortschrittsverwa
 rbac#:#trac_visible#:#Zugriffsstatistiken und Lernfortschrittsverwaltung ist sichtbar
 common#:#tracked_objects#:#Zugriffsobjekte
 common#:#tracking_data#:#Tracking-Daten
-common#:#tracking_data_del_confirm#:#Möchten sie wirklich alle Tracking Daten ab (und inklusive) dem angegebenen Monat löschen?
+common#:#tracking_data_del_confirm#:#Möchten sie wirklich alle Tracking-Daten ab (und inklusive) dem angegebenen Monat löschen?
 common#:#tracking_data_deleted#:#Tracking-Daten wurden gelöscht.
 common#:#tracking_settings#:#Einstellungen
 common#:#translation#:#Übersetzung

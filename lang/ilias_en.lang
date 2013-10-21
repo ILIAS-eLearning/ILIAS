@@ -179,7 +179,7 @@ adve#:#adve_grp_rep#:#Repository Pages
 adve#:#adve_grp_scorm#:#SCORM Editing
 adve#:#adve_grp_test#:#Test and Assessment
 adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_page_editor_settings#:#ILIAS Content Editor
+adve#:#adve_page_editor_settings#:#ILIAS Page Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#autosave#:#Automatic saving
@@ -332,7 +332,7 @@ assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s
 assessment#:#detailed_evaluation_missing_active_id#:#You must call the Datailed Evaluation for a selected participant!
 assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation
 assessment#:#detailed_evaluation#:#Detailed Evaluation
-assessment#:#detailed_output_printview#:#Detailed Output with Question Printviews
+assessment#:#detailed_output_printview#:#Detailed Output with Question Print Views
 assessment#:#detailed_output_solutions#:#Detailed Output with Question Solutions
 assessment#:#detailed_output#:#Detailed Output
 assessment#:#direct_feedback#:#Verify Your Solution
@@ -509,7 +509,7 @@ assessment#:#manscoring_none#:#Unscored Participants
 assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn't activated for a question type. You are not allowed to use this tab.
 assessment#:#manscoring_pending#:#Partially Scored Participants
 assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.
-assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s
+assessment#:#manscoring_results_pass#:#Manual Scoreable Questions for Pass %s
 assessment#:#manscoring_select_user#:#Please select a participant to set the score manually
 assessment#:#manscoring#:#Manual Scoring
 assessment#:#mark_schema#:#Mark Schema
@@ -584,7 +584,7 @@ assessment#:#not_yet_accessed#:#Not yet accessed
 assessment#:#nr_of_correct_answers#:#Number of Requested Answers
 assessment#:#number_of_answers#:#Number of Answers
 assessment#:#numeric_gap#:#Numeric Gap
-assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.
+assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the print view of answers and to print out your test results, please press the &quot;Answers' print view&quot; button.
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.
 assessment#:#optional_keywords#:#Optional input of keywords
 assessment#:#or#:#or
@@ -11884,7 +11884,7 @@ chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the pr
 chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
 administration#:#obj_otpl#:#Object Templates
-administration#:#obj_otpl_desc#:#Template for the creation of new objects
+administration#:#obj_otpl_desc#:#Template for creation of new objects
 rbac#:#otpl_visible#:#Administration of Object Templates is visible
 rbac#:#otpl_read#:#User has read access to Object Templates administration
 rbac#:#otpl_write#:#User can edit settings of Object Templates
@@ -11895,19 +11895,19 @@ didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.
 didactic#:#didactic_selected_tpl_option#:#Applied didactic template:
 didactic#:#didactic_template_applied#:#Applied didactic template.
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!
-chatroom#:#chatserver_address#:#IP-Adress of the Chatservers
-chatroom#:#chatserver_port#:#Port of the Chatservers
+chatroom#:#chatserver_address#:#IP-Adress of Chatservers
+chatroom#:#chatserver_port#:#Port of Chatservers
 chatroom#:#instance_name#:#Unique Identifier
 chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation
-chatroom#:#soap_user#:#Name of the SOAP-User
-chatroom#:#soap_user_password#:#Password of the SOAP-User
+chatroom#:#soap_user#:#Name of SOAP User
+chatroom#:#soap_user_password#:#Password of SOAP User
 chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.
 chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters "-" and "_".
 chatroom#:#enable_smilies#:#Enable Smilies
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.
 chatroom#:#display_past_msgs#:#Number of Past Messages
-chatroom#:#hint_display_past_msgs#:#Number of past messages to show, when the room is entered. A value of "0" disables this feature.
+chatroom#:#hint_display_past_msgs#:#Number of former messages shown when chatroom is entered. A value of "0" disables this feature.
 chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chatserver.
