@@ -182,8 +182,7 @@ class ilPublicUserProfileGUI
 					$plink = $plink->getHTML();		
 					
 					include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
-					$gui = new ilObjPortfolioGUI();					
-					$gui->initPortfolioObject($portfolio_id);		
+					$gui = new ilObjPortfolioGUI($portfolio_id); // #11876		
 					$gui->setAdditional($this->getAdditional());
 					$gui->setPermaLink($plink);
 					$ilCtrl->forwardCommand($gui);	
