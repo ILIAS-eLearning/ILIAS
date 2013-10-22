@@ -1877,11 +1877,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	* displays confirmation formular with users that shall be assigned to group
 	* @access public
 	*/
-	function addUserObject($user_ids, $a_type)
+	public function addUserObject($user_ids, $a_type)
 	{
-		include_once 'Services/Mail/classes/class.ilMail.php';
-		$mail = new ilMail($_SESSION["AccountId"]);
-
 		if (empty($user_ids[0]))
 		{
 			$GLOBALS['lng']->loadLanguageModule('search');
