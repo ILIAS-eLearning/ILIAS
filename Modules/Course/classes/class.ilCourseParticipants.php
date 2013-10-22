@@ -159,7 +159,7 @@ class ilCourseParticipants extends ilParticipants
 		{
 			// when member is added we should not set any date 
 			// see ilObjCourse::checkLPStatusSync()
-			if($a_no_origin)
+			if($a_no_origin && !$a_passed)
 			{
 				$origin = 0;
 				$origin_ts = 0;
