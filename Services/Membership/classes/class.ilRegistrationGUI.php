@@ -292,30 +292,17 @@ abstract class ilRegistrationGUI
 		$section->setTitle($this->lng->txt('usr_agreement'));
 		$this->form->addItem($section);
 		
-		$fields = new ilCustomInputGUI($this->lng->txt($this->type.'_user_agreement'),'');
-		$tpl = new ilTemplate('tpl.agreement_form.html',true,true,'Services/Membership');
-		$tpl->setVariable('TXT_INFO_AGREEMENT',$this->lng->txt($this->type.'_info_agreement'));
-		foreach($fields_info->getExportableFields() as $field)
-		{
-			$tpl->setCurrentBlock('field_item');
-			$tpl->setVariable('FIELD_NAME',$this->lng->txt($field));
-			$tpl->parseCurrentBlock();
-		}
-		$fields->setHtml($tpl->get());
-		$this->form->addItem($fields);
+		include_once './Services/Membership/classes/class.ilMemberAgreementGUI.php';
+		ilMemberAgreementGUI::addExportFieldInfo($this->form, $this->obj_id, $this->type);
+		
 
-		$this->showCustomFields();
+		ilMemberAgreementGUI::addCustomFields($this->form, $this->obj_id, $this->type);
 
 		// Checkbox agreement		
 		if($this->privacy->confirmationRequired($this->type))
-		{		
-			$agreement = new ilCheckboxInputGUI($this->lng->txt($this->type.'_agree'),'agreement');
-			$agreement->setRequired(true);
-			$agreement->setOptionTitle($this->lng->txt($this->type.'_info_agree'));
-			$agreement->setValue(1);
-			$this->form->addItem($agreement);
+		{
+			ilMemberAgreementGUI::addAgreement($this->form, $this->obj_id, $this->type);
 		}
-		
 		return true;
 	}
 	
@@ -409,41 +396,46 @@ abstract class ilRegistrationGUI
 	{
 		global $ilUser;
 		
-		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
-		
-		$all_required = true;
+
+		$required_fullfilled = true;
 		foreach(ilCourseDefinedFieldDefinition::_getFields($this->container->getId()) as $field_obj)
 		{
 			switch($field_obj->getType())
 			{
 				case IL_CDF_TYPE_SELECT:
-					$tmp_value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);
-					$value = '';
-					foreach((array) $field_obj->getValues() as $v)
+					
+					// Split value id from post
+					list($field_id,$option_id) = explode('_', $_POST['cdf_'.$field_obj->getId()]);
+					$open_answer_indexes = (array) $field_obj->getValueOptions();
+					if(in_array($option_id, $open_answer_indexes))
 					{
-						if($v == $tmp_value)
-						{
-							$value = $tmp_value;
-							break;
-						}
+						$value = $_POST['cdf_oa_'.$field_obj->getId()];
+					}
+					else
+					{
+						$value = $field_obj->getValueById($option_id);
 					}
 					break;
-				
+					
 				case IL_CDF_TYPE_TEXT:
-					$value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);	
+					$value = $_POST['cdf_'.$field_obj->getId()];
 					break;
 			}
+			
+			$GLOBALS['ilLog']->write(__METHOD__.': new value '. $value);
+			
+			
 			$course_user_data = new ilCourseUserData($ilUser->getId(),$field_obj->getId());
 			$course_user_data->setValue($value);
 			$course_user_data->update();
 			
-			if($field_obj->isRequired() and (!strlen($value) or $value == -1))
+			if($field_obj->isRequired() and !$value)
 			{
-				$all_required = false;
+				$required_fullfilled = false;
 			}
 		}
-		return $all_required;
+
+		return $required_fullfilled;
 	}
 	
 	/**
