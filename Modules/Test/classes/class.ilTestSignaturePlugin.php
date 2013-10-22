@@ -88,7 +88,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 		return 
 			'http://'. $_SERVER['HTTP_HOST'] 
 			. substr($_SERVER['PHP_SELF'],0, strlen($_SERVER['PHP_SELF']) - 10) 
-			. '/' . $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd);
+			. '/' . $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd, '', false, false);
 	}
 
 	/**
@@ -104,7 +104,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 		$link = 'http://'. $_SERVER['HTTP_HOST']
 			. substr($_SERVER['PHP_SELF'],0, strlen($_SERVER['PHP_SELF']) - 10)
 			. '/'
-			. $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd) . '&ressource=' . $ressource;
+			. $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd, '', false, false) . '&ressource=' . $ressource;
 		return $link;
 	}
 
