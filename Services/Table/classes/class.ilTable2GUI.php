@@ -22,7 +22,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $optional_filters = array();
 	protected $filter_cmd = 'applyFilter';
 	protected $reset_cmd = 'resetFilter';
-	protected $filter_cols = 4;
+	protected $filter_cols = 5;
 	protected $ext_sort = false;
 	protected $ext_seg = false;
 	protected $context = "";
