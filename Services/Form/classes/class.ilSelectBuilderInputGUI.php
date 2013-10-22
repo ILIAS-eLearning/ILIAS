@@ -120,10 +120,15 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 		$i = 0;
 		foreach ($this->values as $value)
 		{
-			if (strlen($value))
+			if(!is_string($value))
+			{
+				continue;
+			}
+			
+			if (strlen((string) $value))
 			{
 				$tpl->setCurrentBlock("prop_text_propval");
-				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value));
+				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput((string) $value));
 				$tpl->parseCurrentBlock();
 			}
 			if ($this->getAllowMove())
