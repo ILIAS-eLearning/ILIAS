@@ -139,10 +139,11 @@ class ilSessionDataSet extends ilDataSet
 			// convert server dates to utc
 			if(!$a_set["Fulltime"])
 			{
-				$start = new ilDateTime($a_set["EventStart"], IL_CAL_DATETIME);
-				$a_set["EventStart"] = $start->get(IL_CAL_DATETIME,'','UTC');
-				$end = new ilDateTime($a_set["EventEnd"], IL_CAL_DATETIME);
-				$a_set["EventEnd"] = $end->get(IL_CAL_DATETIME,'','UTC');
+				// nothing has to be done here, since the dates are already stored in UTC
+				#$start = new ilDateTime($a_set["EventStart"], IL_CAL_DATETIME);
+				#$a_set["EventStart"] = $start->get(IL_CAL_DATETIME,'','UTC');
+				#$end = new ilDateTime($a_set["EventEnd"], IL_CAL_DATETIME);
+				#$a_set["EventEnd"] = $end->get(IL_CAL_DATETIME,'','UTC');
 			}
 		}
 		if ($a_entity == "sess_item")
