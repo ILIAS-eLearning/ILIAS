@@ -549,8 +549,9 @@ class ilObjBlog extends ilObject2
 		$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, $is_wsp);
 		$url = str_replace("&", "&amp;", $url);
 		
-		$feed->setChannelTitle($blog->getTitle());
-		$feed->setChannelDescription($blog->getDescription());
+		// #11870
+		$feed->setChannelTitle(str_replace("&", "&amp;", $blog->getTitle()));
+		$feed->setChannelDescription(str_replace("&", "&amp;", $blog->getDescription()));
 		$feed->setChannelLink($url);
 		
 		// needed for blogpostinggui / pagegui
