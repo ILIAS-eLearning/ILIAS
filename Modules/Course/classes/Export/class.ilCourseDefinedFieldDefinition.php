@@ -133,7 +133,7 @@ class ilCourseDefinedFieldDefinition
 	 * @access public
 	 * @static
 	 * @param int container obj_id
-	 * @return array array of ilCourseDefinedFieldDefinitions objects
+	 * @return ilCourseDefinedFieldDefinitions[]
 	 */
 	public static function _getFields($a_container_id,$a_sort = IL_CDF_SORT_NAME)
 	{
@@ -270,7 +270,7 @@ class ilCourseDefinedFieldDefinition
 	}
 	public function getValueById($a_id)
 	{
-	 	if(is_array($this->values) and array_key_exists($a_id,$this->values))
+		if(is_array($this->values) and array_key_exists($a_id,$this->values))
 	 	{
 	 		return $this->values[$a_id];
 	 	}
@@ -315,9 +315,9 @@ class ilCourseDefinedFieldDefinition
 		$options = array();
 		$options[0] = $lng->txt('select_one');
 		
-		foreach($this->values as $value)
+		foreach($this->values as $key => $value)
 		{
-			$options[$value] = $value;
+			$options[$this->getId().'_'.$key] = $value;
 		}
 		return $options;
 	}
@@ -396,7 +396,7 @@ class ilCourseDefinedFieldDefinition
 		global $ilDB;
 		
 		$next_id = $ilDB->nextId('crs_f_definitions');
-	 	$query = "INSERT INTO crs_f_definitions (field_id,obj_id,field_name,field_type,field_values,field_required) ".
+	 	$query = "INSERT INTO crs_f_definitions (field_id,obj_id,field_name,field_type,field_values,field_required,field_values_opt) ".
 	 		"VALUES ( ".
 	 		$ilDB->quote($next_id,'integer').", ".
 	 		$this->db->quote($this->getObjId(),'integer').", ".

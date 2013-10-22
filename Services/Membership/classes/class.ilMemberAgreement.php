@@ -332,7 +332,7 @@ class ilMemberAgreement
 	 		$this->db->quote((int) $this->isAccepted() ,'integer').", ".
 	 		$this->db->quote($this->getAcceptanceTime() ,'integer')." ".
 	 		")";
-	 	$res = $ilDB->manipulate($query);
+	 	$ilDB->manipulate($query);
 		return true;	
 	}
 	

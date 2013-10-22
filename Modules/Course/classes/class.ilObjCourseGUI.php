@@ -3275,6 +3275,30 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->membersObject();
 		return true;
 	}
+	
+	/**
+	 * Get tabs for member agreement
+	 */
+	protected function getAgreementTabs()
+	{
+		
+		if ($ilAccess->checkAccess('visible','',$this->ref_id))
+		{
+			$GLOBALS['ilTabs']->addTarget("info_short",
+								 $this->ctrl->getLinkTargetByClass(
+								 array("ilobjcoursegui", "ilinfoscreengui"), "showSummary"),
+								 "infoScreen"
+			);
+		}
+		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and $this->object->getMemberObject()->isMember())
+		{
+			$GLOBALS['ilTabs']->addTarget("crs_unsubscribe",
+					$this->ctrl->getLinkTarget($this, "unsubscribe"), 
+					'leave',
+					 "");
+		}
+		
+	}
 
 	/**
 	* Get tabs
@@ -4477,6 +4501,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilmemberagreementgui':
 				include_once('Services/Membership/classes/class.ilMemberAgreementGUI.php');
 				$this->tabs_gui->clearTargets();
+				
 				$this->ctrl->setReturn($this,'');
 				$agreement = new ilMemberAgreementGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($agreement);
@@ -4682,12 +4707,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(($privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) 
 			and !ilMemberAgreement::_hasAccepted($ilUser->getId(),$this->object->getId()))
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Missing course confirmation.');
 			return false;
 		}
 		// Check required fields
 		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
 		if(!ilCourseUserData::_checkRequired($ilUser->getId(),$this->object->getId()))
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Missing required fields');
 			return false;
 		}
 		return true;
