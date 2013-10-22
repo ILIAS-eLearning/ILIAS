@@ -7923,7 +7923,7 @@ grp#:#grp_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Wa
 grp#:#grp_view_info_by_type#:#Diese Gruppenansicht ordnet alle Gruppeninhalte nach ihrem Objekttyp.
 grp#:#grp_view_info_simple#:#Diese Gruppenansicht stellt alle Gruppeninhalte in einer Liste dar.
 grp#:#grp_view_inherit#:#Standard
-grp#:#grp_view_inherit_info#:#Die Gruppenansicht wird vom übergeodneten Kurs übernommen.
+grp#:#grp_view_inherit_info#:#Die Gruppenansicht wird vom übergeordneten Kurs übernommen.
 grp#:#grp_waiting_list#:#Warteliste
 grp#:#grp_waiting_list_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer auf eine Warteliste setzen lassen.
 grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
