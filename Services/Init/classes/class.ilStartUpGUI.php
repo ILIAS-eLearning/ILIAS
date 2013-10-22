@@ -329,6 +329,8 @@ class ilStartUpGUI
 		$page_editor_html = $this->showUserAgreementLink($page_editor_html);
 
 		$page_editor_html = $this->purgePlaceholders($page_editor_html);
+		
+		
 
 		// not controlled by login page editor
 
@@ -795,7 +797,7 @@ class ilStartUpGUI
 		$languages = $lng->getInstalledLanguages();
 		if(count($languages) <= 1)
 		{
-			return '';
+			return $page_editor_html;
 		}
 
 		$ltpl = new ilTemplate('tpl.login_form_lang_selection.html',true,true,'Services/Init');
