@@ -92,8 +92,8 @@ abstract class ilWaitingList
 	
 	/**
 	 * Delete one user entry
-	 * @param object $a_usr_id
-	 * @param object $a_obj_id
+	 * @param int $a_usr_id
+	 * @param int $a_obj_id
 	 * @return 
 	 */
 	public static function deleteUserEntry($a_usr_id, $a_obj_id)
