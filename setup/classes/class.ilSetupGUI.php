@@ -2420,7 +2420,7 @@ else
 					$ne->setValue($dbupdate->getHotfixFileVersion());
 					$this->form->addItem($ne);					
 				}
-				if ($custom_updates_available && $dbupdate->getCustomUpdatesFileVersion() > 0)
+				if ($dbupdate->getCustomUpdatesFileVersion() > 0)
 				{
 					// custom updates current version
 					$ne = new ilNonEditableValueGUI($lng->txt("applied_custom_updates"), "curcu");
