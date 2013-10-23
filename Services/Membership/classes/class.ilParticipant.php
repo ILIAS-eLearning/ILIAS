@@ -35,7 +35,7 @@ abstract class ilParticipant
 {
 	private $obj_id = 0;
 	private $usr_id = 0;
-	private $type = '';
+	protected $type = '';
 	private $ref_id = 0;
 
 	private $participants = false;
