@@ -964,6 +964,11 @@ class ilObjectListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "", $a_context = self::CONTEXT_REPOSITORY)
 	{
+		$this->offline_mode = false;
+		include_once('Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php');
+		if ($this->type == "sahs") {
+			$this->offline_mode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);  	
+		}
 		$this->access_cache = array();
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = $a_obj_id;
@@ -975,6 +980,7 @@ class ilObjectListGUI
 		// checks, whether any admin commands are included in the output
 		$this->adm_commands_included = false;
 		$this->prevent_access_caching = false;
+
 	}
 	
 	/**
@@ -1436,6 +1442,9 @@ class ilObjectListGUI
 	*/
 	public function getIconImageType() 
 	{
+		if ($this->type == "sahs" && $this->offline_mode) {
+			return $this->type . "_offline";	
+		}
 		return $this->type;
 	}
 	// END WebDAV: Visualize object state in its icon.

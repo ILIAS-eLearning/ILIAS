@@ -69,22 +69,26 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	function getCommandLink($a_cmd)
 	{
 		global $ilCtrl;
-		
 		$cmd_link = null;
 		switch($a_cmd)
 		{
 			case "view":
-//				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
+				// require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
 				// if (!ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id))
 				// {
-					$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
+					if ($this->offline_mode) {
+						$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id."&amp;cmd=offlineModeStart";
+					}
+					else {
+						$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
+					}
 				// }
 				// else
 				// {
 					// $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
 				// }
-				break;
 
+				break;
 			case "offlineModeView":
 				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id."&amp;cmd=offlineModeView";
 				break;
@@ -145,7 +149,12 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				}
 				else
 				{
-					$frame = "ilContObj".$this->obj_id;
+					if ($this->offline_mode) {
+						$frame = ilFrameTargetInfo::_getFrame("MainContent");
+					}
+					else {
+						$frame = "ilContObj".$this->obj_id;
+					}
 				}
 				if ($sahs_obj->getEditable() == 1)
 				{

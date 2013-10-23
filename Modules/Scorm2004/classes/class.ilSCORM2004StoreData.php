@@ -51,8 +51,9 @@ class ilSCORM2004StoreData
 		if ($userId == null) {
 			$userId=(int) $data->p;
 			self::checkIfAllowed($packageId,$userId,$data->hash);
-			header('Access-Control-Allow-Origin: http://localhost:50012');//just for tests - not for release UK
+//			header('Access-Control-Allow-Origin: http://localhost:50012');//just for tests - not for release UK
 		}
+		$return = array();
 		$return = ilSCORM2004StoreData::setCMIData(
 			$userId, 
 			$packageId, 
@@ -61,6 +62,12 @@ class ilSCORM2004StoreData
 			$interactions,
 			$objectives
 			);
+		
+		$new_global_status=ilSCORM2004StoreData::setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data);
+		$return["new_global_status"] = $new_global_status;
+		
+		ilSCORM2004StoreData::syncGlobalStatus($userId, $packageId, $data, $new_global_status);
+		
 		$ilLog->write("SCORM: return of persistCMIData: ".json_encode($return));
 		if ($jsMode) 
 		{
@@ -85,13 +92,12 @@ class ilSCORM2004StoreData
 		else die("not allowed");
 	}
 
-	private function setCMIData($userId, $packageId, $data,$getComments,$getInteractions,$getObjectives)
-	{
+	public function setCMIData($userId, $packageId, $data,$getComments,$getInteractions,$getObjectives) {
 		global $ilDB, $ilLog;
 
 		$result = array();
 
-		if (!$data) return;
+		if (!$data) return $result;
 
 		$i_check=$data->i_check;
 		$i_set=$data->i_set;
@@ -292,7 +298,13 @@ class ilSCORM2004StoreData
 				}
 			}
 		}
+		return $result;
+	}
 
+
+	private function setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data) {
+
+		global $ilLog;
 		$changed_seq_utilities=$data->changed_seq_utilities;
 		$ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
 //		if ($changed_seq_utilities == 1) {
@@ -311,19 +323,30 @@ class ilSCORM2004StoreData
 		}
 		else $new_global_status = $data->now_global_status; //6=selected scos, 0=no tracking
 		$ilLog->write("new_global_status=".$new_global_status);
+		return $new_global_status;
+	}
+	
+	public function syncGlobalStatus($userId, $packageId, $data, $new_global_status) {
+
+		global $ilDB, $ilLog;
 		$saved_global_status=$data->saved_global_status;
 		$ilLog->write("saved_global_status=".$saved_global_status);
-		$result["new_global_status"]=$new_global_status;
 
 		// sync access number and time in read event table
 		//include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
 		//ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
 		
+		//last_visited!
+		
 		// get attempts
-		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
-			array('integer','integer'), array($packageId,$userId));
-		$val_rec = $ilDB->fetchAssoc($val_set);
-		$attempts = $val_rec["package_attempts"];
+		if (!$data->packageAttempts) {
+			$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+				array('integer','integer'), array($packageId,$userId));
+			$val_rec = $ilDB->fetchAssoc($val_set);
+			$attempts = $val_rec["package_attempts"];
+		} else {
+			$attempts=$data->packageAttempts;
+		}
 		if ($attempts == null) $attempts = "";
 
 		//update percentage_completed, sco_total_time_sec,status in sahs_user
@@ -354,7 +377,7 @@ class ilSCORM2004StoreData
 
 //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
 		}
-		return $result;
+		return true;
 	}
 
 

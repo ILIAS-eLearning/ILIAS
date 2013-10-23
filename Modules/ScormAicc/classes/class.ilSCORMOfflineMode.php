@@ -122,8 +122,12 @@ class ilSCORMOfflineMode
 		);
 		while($row = $ilDB->fetchAssoc($res))
 		{
+			$package_attempts = $row['package_attempts'];
 			$module_version = $row['module_version'];
 			$last_visited = $row['last_visited'];
+			if ($row['first_access'] != null) {
+				$first_access = strtotime($row['first_access'])*1000;//check Oracle!
+			}
 			if ($row['last_access'] != null) {
 				$last_access = strtotime($row['last_access'])*1000;//check Oracle!
 			}
@@ -136,8 +140,10 @@ class ilSCORMOfflineMode
 	}
 
 	function sop2il() {
-		sleep(5);
+//		sleep(5);
+		global $ilDB,$ilUser;
 		$in = file_get_contents("php://input");
+		$GLOBALS['ilLog']->write($in);
 		$ret = array('msg'=>array(),'err'=>array());
 		
 		if (!$in || $in == "") {
@@ -145,14 +151,48 @@ class ilSCORMOfflineMode
 			print(json_encode($ret));
 			exit;
 		}
-		
-		$obj = json_decode($in,true);
-		if (!is_array($obj)) {
-			$ret['err'][] = "invalid post data recieved";
-			print(json_encode($ret));
-			exit;
+		$userId=$ilUser->getID();
+		$result=true;
+//		$scorm_version = "1.2";
+//		if ($this->type == "scorm2004") $scorm_version = "2004";
+
+		if ($this->type == 'scorm2004') {
+			$lm_set = $ilDB->queryF('SELECT default_lesson_mode, interactions, objectives, comments FROM sahs_lm WHERE id = %s', array('integer'),array($this->obj_id));
+			while($lm_rec = $ilDB->fetchAssoc($lm_set))
+			{
+				$defaultLessonMode=($lm_rec["default_lesson_mode"]);
+				$interactions=(ilUtil::yn2tf($lm_rec["interactions"]));
+				$objectives=(ilUtil::yn2tf($lm_rec["objectives"]));
+				$comments=(ilUtil::yn2tf($lm_rec["comments"]));
+			}
+			include_once './Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
+			$data = json_decode($in);
+			$GLOBALS['ilLog']->write('cmi_count='.count($data->cmi));
+			for ($i=0; $i<count($data->cmi); $i++) {
+				if($result==true) {
+					//$a_r=array();
+					$cdata=$data->cmi[$i];
+					$a_r = ilSCORM2004StoreData::setCMIData(
+						$userId, 
+						$this->obj_id, 
+						$data->cmi[$i],//json_decode($data->cmi[$i]), 
+						$comments,
+						$interactions,
+						$objectives
+						);
+					if (!is_array($a_r)) $result=false; 
+				}
+			}
+			if ($result==true) {
+				$result=ilSCORM2004StoreData::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status);
+			}
 		}
-		$ret['msg'][]  = "post data recieved";
+
+		if ($result==false) {
+			$ret['err'][] = "invalid post data recieved";
+		} else {
+			$ret['msg'][]  = "post data recieved";
+		}
 		header('Content-Type: text/plain; charset=UTF-8');
 		print json_encode($ret);
 		exit;
