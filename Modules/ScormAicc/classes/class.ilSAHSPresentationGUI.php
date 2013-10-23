@@ -41,7 +41,7 @@ class ilSAHSPresentationGUI
 	function &executeCommand()
 	{
 		global $lng,$ilAccess, $ilNavigationHistory, $ilCtrl, $ilLocator, $ilObjDataCache;
-
+		
 		include_once "./Services/Object/classes/class.ilObjectGUI.php";
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
@@ -52,6 +52,8 @@ class ilSAHSPresentationGUI
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
+			$this->offline_mode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($obj_id);
+
 			if (!ilObjSAHSLearningModuleAccess::_lookupEditable($obj_id))
 			{
 				$ilNavigationHistory->addItem($_GET["ref_id"],
@@ -90,9 +92,9 @@ class ilSAHSPresentationGUI
 			$scorm_gui = new ilSCORMPresentationGUI();
 			$ret =& $this->ctrl->forwardCommand($scorm_gui);
 		}
-
-		if (substr($cmd,0,11) == "offlineMode") $next_class = "ilscormofflinemodegui";
-
+		
+		if (substr($cmd,0,11) == "offlineMode" || $this->offline_mode) $next_class = "ilscormofflinemodegui";
+		
 		switch($type)
 		{
 			
@@ -354,7 +356,6 @@ class ilSAHSPresentationGUI
 			$this->tpl->setVariable("API_NAME", $this->slm->getAPIAdapterName());
 			$this->tpl->parseCurrentBlock();
 		}
-
 
 		$val_set = $ilDB->queryF('
 		SELECT * FROM scorm_tracking 
