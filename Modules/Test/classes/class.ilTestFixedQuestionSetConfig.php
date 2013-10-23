@@ -52,12 +52,12 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 
 		while( $row = $this->db->fetchAssoc($res) )
 		{
-			$this->removeQuestion($row["question_fi"]);
+			$this->testOBJ->removeQuestion($row["question_fi"]);
 		}
 
 		$this->db->manipulateF(
 			"DELETE FROM tst_test_question WHERE test_fi = %s",
-			array('integer'), array($this->getTestId())
+			array('integer'), array($this->testOBJ->getTestId())
 		);
 
 		$this->testOBJ->questions = array();
@@ -91,7 +91,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 
 			// Save the mapping of old question id <-> new question id
 			// This will be used in class.ilObjCourse::cloneDependencies to copy learning objectives
-			$originalKey = $this->getRefId().'_'.$question_id;
+			$originalKey = $this->testOBJ->getRefId().'_'.$question_id;
 			$mappedKey = $cloneTestOBJ->getRefId().'_'.$cloneTestOBJ->questions[$key];
 			$cwo->appendMapping($originalKey, $mappedKey);
 			$ilLog->write(__METHOD__.": Added mapping $originalKey <-> $mappedKey");
