@@ -6771,7 +6771,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setShowExamViewPdf($this->getShowExamviewPdf());
 		$newObj->setEnableArchiving($this->getEnableArchiving());
 		$newObj->setSignSubmission($this->getSignSubmission());
-		$newObj->setCharSelectorEnabled($this->getCharSelectorEnabled());
+		$newObj->setCharSelectorAvailability((int)$this->getCharSelectorAvailability());
 		$newObj->setCharSelectorDefinition($this->getCharSelectorDefinition());
 		$newObj->saveToDb();
 		
