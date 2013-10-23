@@ -823,7 +823,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	{
 		if (strlen($this->allowedextensions))
 		{
-			return split(",", $this->allowedextensions);
+			return array_filter(explode(",", $this->allowedextensions));
 		}
 		return array();
 	}
