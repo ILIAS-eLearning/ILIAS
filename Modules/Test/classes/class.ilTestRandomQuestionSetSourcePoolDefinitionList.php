@@ -123,6 +123,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 
 	public function getInvolvedSourcePoolIds()
 	{
+		$involvedSourcePoolIds = array();
+
 		foreach($this as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
