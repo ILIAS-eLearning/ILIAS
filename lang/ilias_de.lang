@@ -14086,3 +14086,16 @@ administration#:#adm_captcha_anonymous_wiki#:#Captcha für Anonymous im Wiki. Bi
 auth#:#auth_auth_settings#:#Einstellungen
 book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das Objekt nicht mehr verfügbar ist.
 blog#:#blog_edit_posting#:#Eintrag bearbeiten
+common#:#offline_mode#:#Offline-Modus
+sop#:#sop_check_system_requirements#:#Systemvoraussetzungen werden überprüft
+sop#:#sop_firefox_required#:#Für den Offline-Modus wird ein aktueller Mozilla-Firefox Browser (> 20) benötigt.<br /><a href="http://www.mozilla.org/de/firefox/new" target="_new">Download Firefox</a>
+sop#:#sop_xpi_install#:#Bitte installieren Sie zunächst folgendes Firefox-Addon: %s<br />Danach können Sie das SCORM-Lernmodul für den Offline exportieren und jederzeit auch ohne Internet Verbindung bearbeiten
+sop#:#sop_text_export#:#SCORM-Lernmodul für die Offline Bearbeitung exportieren
+sop#:#sop_desc_export#:#Das Lernmodul wird dann nur noch offline bearbeitet werden können und erst nach einem Import der Offline-Trackingdaten wieder online verfügbar sein.
+sop#:#sop_export#:#SCORM-Lernmodul exportieren
+sop#:#sop_text_start_offline#:#Lernmodul im Offline-Modus starten
+sop#:#sop_start_offline#:#Lernmodul offline starten
+sop#:#sop_text_start_som#:#SCORM-Offline-Manager starten
+sop#:#sop_start_som#:#SOM Starten
+sop#:#sop_text_push_tracking#:#Lernstandsdaten nach ILIAS importieren und wieder in den Online-Modus wechseln  
+sop#:#sop_push_tracking#:#Lernstandsdaten importieren
