@@ -821,7 +821,7 @@ class assFileUpload extends assQuestion
 	{
 		if (strlen($this->allowedextensions))
 		{
-			return split(",", $this->allowedextensions);
+			return array_filter(explode(",", $this->allowedextensions));
 		}
 		return array();
 	}
