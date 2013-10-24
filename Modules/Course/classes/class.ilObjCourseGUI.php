@@ -157,7 +157,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilUser;
 		
-		$part = new ilCourseParticipants($a_new_object->getId());
+		// #11895
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		$part = ilCourseParticipants::_getInstanceByObjId($a_new_object->getId());
 		$part->add($ilUser->getId(), ilCourseConstants::CRS_ADMIN);
 		$part->updateNotification($ilUser->getId(), 1);
 
