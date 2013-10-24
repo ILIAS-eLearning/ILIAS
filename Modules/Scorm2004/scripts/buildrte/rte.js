@@ -1,4 +1,4 @@
-// Build: 20131020141053 
+// Build: 20131024183431 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13834,7 +13834,11 @@ function onWindowLoad ()
 	//dummy - most code removed, cause of sync problems with init method
 	//finishing 
 	// Hook core events
-	attachUIEvent(window, 'unload', onWindowUnload);
+	if (typeof SOP!="undefined" && SOP==true) {
+		attachUIEvent(window, 'beforeunload', onWindowUnload);
+	} else {
+		attachUIEvent(window, 'unload', onWindowUnload);
+	}
 	attachUIEvent(document, 'click', onDocumentClick);
 	
 	/*

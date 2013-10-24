@@ -1,4 +1,4 @@
-// Build: 20131020141053 
+// Build: 20131024183431 
 
 function ADLAuxiliaryResource()
 {}
@@ -2929,7 +2929,8 @@ function dirtyCount()
 {c+=Number(activities[i].dirty);}
 return c;}
 function onWindowLoad()
-{attachUIEvent(window,'unload',onWindowUnload);attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
+{if(typeof SOP!="undefined"&&SOP==true){attachUIEvent(window,'beforeunload',onWindowUnload);}else{attachUIEvent(window,'unload',onWindowUnload);}
+attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
 {summaryOnUnload=true;var result={};result["hash"]=config.status.hash;result["p"]=config.status.p;result["last"]="";if(config.auto_last_visited==true)result["last"]=activities[mlaunch.mActivityID].id;if(typeof SOP!="undefined"&&SOP==true)result=scormPlayerUnload(result);else result=this.config.scorm_player_unload_url?sendJSONRequest(this.config.scorm_player_unload_url,result):{};removeResource();}
 function onItemDeliver(item,wasSuspendAll)
