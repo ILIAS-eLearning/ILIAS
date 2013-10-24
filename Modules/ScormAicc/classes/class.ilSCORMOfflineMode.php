@@ -114,7 +114,7 @@ class ilSCORMOfflineMode
 		$status				= 0;
 		$percentage_completed = 0;
 		$user_data			= "";
-		
+
 		global $ilDB,$ilUser;
 		$res = $ilDB->queryF('SELECT * FROM sahs_user WHERE obj_id=%s AND user_id=%s',
 			array('integer','integer'),
@@ -135,6 +135,14 @@ class ilSCORMOfflineMode
 			$sco_total_time_sec = $row['sco_total_time_sec'];
 			$status = $row['status'];
 			$percentage_completed = $row['percentage_completed'];
+		}
+		if ($first_access == null) {
+			include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+			$all = ilChangeEvent::_lookupReadEvents($this->obj_id,$ilUser->getID());
+			foreach($all as $event)
+			{
+				$first_access = strtotime($event['first_access'])*1000;//
+			}
 		}
 		return array($package_attempts, $module_version, $last_visited, $first_access, $last_access, $last_status_change, $total_time_sec, $sco_total_time_sec, $status, $percentage_completed, $user_data);
 	}
