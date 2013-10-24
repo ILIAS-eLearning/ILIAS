@@ -14100,3 +14100,10 @@ sop#:#sop_text_push_tracking#:#Lernstandsdaten nach ILIAS importieren und wieder
 sop#:#sop_push_tracking#:#Lernstandsdaten importieren
 common#:#obj_wiks#:#Wiki###24 10 2013 new variable
 common#:#obj_wiks_desc#:#Global Wiki Settings###24 10 2013 new variable
+sop#:#sop_msg_export_failure#:#Die Übertragung der Dateien des Lernmoduls oder der Lernstandsdaten zum SCORM Offline Manager war nicht erfolgreich.
+sop#:#sop_msg_export_ok#:#Übertragung des Lernmodul Contents und der Lernstandsdaten zum SCORM Offline Manager war erfolgreich.
+sop#:#sop_msg_export_content#:#Übertragung der Lernstandsdaten zum SCORM Offline Manager. Dies kann je nach Lernmodulgröße einige Zeit in Anspruch nehmen. Bitte warten Sie einige Sekunden
+sop#:#sop_msg_export_tracking#:#Übertragung der Lernstandsdaten zum SCORM Offline Manager. Bitte warten Sie einge Sekunden
+sop#:#sop_msg_push_tracking#:#Übertragung der Lernstandsdaten zu ILIAS. Bitte warten Sie einige Sekunden
+sop#:#sop_msg_push_tracking_failure#:#Die Übertragung der Lernstandsdaten zu ILIAS war nicht erfolgreich.
+sop#:#sop_msg_push_tracking_ok#:#Die Übertragung der Lernstandsdaten zu ILIAS war erfolgreich.

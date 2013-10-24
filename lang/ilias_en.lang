@@ -14100,3 +14100,10 @@ sop#:#sop_start_som#:#Start SOM
 sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode
 sop#:#sop_push_tracking#:#Import trackingdata
 common#:#offline_mode#:#Offline-Mode
+sop#:#sop_msg_export_failure#:#Transfering content or data to SCORM Offline Manager was not successfull.
+sop#:#sop_msg_export_ok#:#Transfering content and tracking data was successfull
+sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds
+sop#:#sop_msg_export_tracking#:#Transfering tracking data to SCORM Offline Manager. Please wait some seconds
+sop#:#sop_msg_push_tracking#:#Transfering tracking data to ILIAS. Please wait some seconds
+sop#:#sop_msg_push_tracking_failure#:#Transfering tracking data was not successful
+sop#:#sop_msg_push_tracking_ok#:#Transfering tracking data was successful

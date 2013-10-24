@@ -16,13 +16,10 @@ var ilClient = '{CLIENT_ID}',
 	msg_result = '{MESSAGE_RESULT}',
 	msg_firefox_required = '{FIREFOX_REQUIRED}',
 	msg_xpi_install = '{XPI_INSTALL}',
-	msg_import_failure = 'Transfering content or data to SCORM Offline Manager was not successfull.',
-	msg_import_content = 'Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds',
-	msg_import_content_ok = 'Transfering content was successfull.',
-	msg_import_tracking = 'Transfering tracking data to SCORM Offline Manager. Please wait some seconds',
-	msg_import_tracking_ok = 'Transfering tracking data was successfull.',
-	msg_push_tracking = 'Transfering tracking data to ILIAS. Please wait some seconds',
-	msg_push_tracking_ok = 'Transfering tracking data was successful';
+	msg_export_content = '{MSG_EXPORT_CONTENT}',
+	msg_export_tracking = '{MSG_EXPORT_TRACKING}',
+	msg_push_tracking = '{MSG_PUSH_TRACKING}',
+	msg_push_tracking_ok = '{MSG_PUSH_TRACKING_OK}';
 
 function checkCallback(success) {
 
@@ -101,18 +98,18 @@ function il2sopLmWait(counter) {
 	if (importLmOk==true) {
 		return;
 	}
-	msg_import_content+=' .';
-	print(msg_import_content,false);
+	msg_export_content+=' .';
+	print(msg_export_content,false);
 	window.setTimeout('il2sopLmWait('+(counter++)+')',200);
 }
 
 function il2sopDataWait(counter) {
 	if (importLmOk==true) {
-		//document.getElementById("divImportTracking").innerHTML=msg_import_tracking_ok;
+		//document.getElementById("divImportTracking").innerHTML=msg_export_tracking_ok;
 		return;
 	}
-	msg_import_tracking+=' .';
-	print(msg_import_tracking,true,"2");
+	msg_export_tracking+=' .';
+	print(msg_export_tracking,true,"2");
 	window.setTimeout('il2sopDataWait('+(counter++)+')',100);
 }
 
