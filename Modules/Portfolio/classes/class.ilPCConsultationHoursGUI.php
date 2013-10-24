@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCConsultationHours.php");
+require_once("./Modules/Portfolio/classes/class.ilPCConsultationHours.php");
 require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 
 /**
