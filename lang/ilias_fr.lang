@@ -14104,3 +14104,10 @@ book#:#book_reservation_failed_overbooked#:#The booking failed because the objec
 common#:#obj_wiks#:#Wiki###24 10 2013 new variable
 common#:#obj_wiks_desc#:#Global Wiki Settings###24 10 2013 new variable
 blog#:#blog_edit_posting#:#Edit Posting###24 10 2013 new variable
+sop#:#sop_msg_export_failure#:#Transfering content or data to SCORM Offline Manager was not successfull.
+sop#:#sop_msg_export_ok#:#Transfering content and tracking data was successfull
+sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds
+sop#:#sop_msg_export_tracking#:#Transfering tracking data to SCORM Offline Manager. Please wait some seconds
+sop#:#sop_msg_push_tracking#:#Transfering tracking data to ILIAS. Please wait some seconds
+sop#:#sop_msg_push_tracking_failure#:#Transfering tracking data was not successful
+sop#:#sop_msg_push_tracking_ok#:#Transfering tracking data was successful
