@@ -272,11 +272,15 @@ class ilNestedSetTree implements ilTreeImplementation
 			$parentId = $this->getTree()->getParentId($a_endnode_id);
 		}
 
-			//$this->writelog('getIdsUsingAdjacencyMap depth='.$nodeDepth);
-
 		// Fetch the node ids. For shallow depths we can fill in the id's directly.	
 		$pathIds = array();
-		if ($nodeDepth == 1)
+		
+		// backward compatible check for nodes not in tree
+		if(!$nodeDepth )
+		{
+			return array();
+		}
+		else if ($nodeDepth == 1)
 		{
 				$takeId = $takeId || $a_endnode_id == $a_startnode_id;
 				if ($takeId) $pathIds[] = $a_endnode_id;
