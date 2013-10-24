@@ -12887,7 +12887,8 @@ wsp#:#wsp_type_excv#:#Verifikace: Cvičení
 wsp#:#wsp_type_file#:#Soubor
 wsp#:#wsp_type_tstv#:#Verifikace: Test
 wsp#:#wsp_type_webr#:#Weblový odkaz
-wsp#:#wsp_type_wfld#:#Složkaassessment#:#essay_scoring_mode#:#Scoring Mode###24 10 2013 new variable
+wsp#:#wsp_type_wfld#:#Složka
+assessment#:#essay_scoring_mode#:#Scoring Mode###24 10 2013 new variable
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###24 10 2013 new variable
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###24 10 2013 new variable
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###24 10 2013 new variable
