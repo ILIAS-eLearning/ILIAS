@@ -12957,7 +12957,8 @@ wsp#:#wsp_type_excv#:#検証: 演習問題
 wsp#:#wsp_type_file#:#ファイル
 wsp#:#wsp_type_tstv#:#検証: テスト
 wsp#:#wsp_type_webr#:#Webリンク
-wsp#:#wsp_type_wfld#:#フォルダーassessment#:#assessment_scoring_adjust#:#Enable corrections###24 10 2013 new variable
+wsp#:#wsp_type_wfld#:#フォルダー
+assessment#:#assessment_scoring_adjust#:#Enable corrections###24 10 2013 new variable
 assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to allow modifications to questions in a test.###24 10 2013 new variable
 assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment###24 10 2013 new variable
 assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.###24 10 2013 new variable
