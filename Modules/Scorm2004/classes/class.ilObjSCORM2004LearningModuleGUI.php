@@ -682,9 +682,13 @@ $this->ctrl->redirect($this, "properties");
 		if ($this->object->editable != 1)
 		{
 			//check if OfflineMode-Zip has to be created
-			$tmpOfflineMode=ilUtil::yn2tf($_POST["cobj_offline_mode"]);
-			if ($tmpOfflineMode == true && $this->object->getOfflineMode() == false) {
-				$this->object->zipLmForOfflineMode();
+			$tmpOfflineMode= ilUtil::yn2tf($_POST["cobj_offline_mode"]);
+			$tmpSequencing = ilUtil::yn2tf($_POST["cobj_sequencing"]);
+			if ($tmpOfflineMode == true) {
+				$tmpSequencing = false; //actually no sequencing for offline_mode
+				if ($this->object->getOfflineMode() == false) {
+					$this->object->zipLmForOfflineMode();
+				}
 			}
 
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
@@ -699,7 +703,7 @@ $this->ctrl->redirect($this, "properties");
 			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
 			$this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
 			$this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
-			$this->object->setSequencing(ilUtil::yn2tf($_POST["cobj_sequencing"]));
+			$this->object->setSequencing($tmpSequencing);
 			$this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
 			$this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));
 			$this->object->setComments(ilUtil::yn2tf($_POST["cobj_comments"]));
