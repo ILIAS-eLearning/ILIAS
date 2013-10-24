@@ -364,11 +364,16 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 
-				$q_gui =& assQuestionGUI::_getQuestionGUI("", $qid);
+				$q_gui = assQuestionGUI::_getQuestionGUI("", $qid);
+				if(!($q_gui instanceof assQuestionGUI))
+				{
+					$this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', '');
+					$this->ctrl->redirectByClass('iltestexpresspageobjectgui', $this->ctrl->getCmd());
+				}
 
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
-				$question =& $q_gui->object;
+				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 
 				#$this->lng->loadLanguageModule("content");
