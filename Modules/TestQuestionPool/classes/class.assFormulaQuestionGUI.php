@@ -833,14 +833,24 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$test = new ilObjTest($_GET["calling_test"]);
 				#var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
 				$q_id = $this->object->getId();
-				if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()))
+				if(!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()))
 				{
-					include_once ("./Modules/Test/classes/class.ilObjTest.php");
+					global $tree, $ilDB, $ilPluginAdmin;
+
+					include_once("./Modules/Test/classes/class.ilObjTest.php");
 					$_GET["ref_id"] = $_GET["calling_test"];
-					$test =& new ilObjTest($_GET["calling_test"], true);
-					$new_id = $test->insertQuestion($this->object->getId());
+					$test = new ilObjTest($_GET["calling_test"], true);
+
+					require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+					$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
+
+					$new_id = $test->insertQuestion(
+						$testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId()
+					);
+
 					$q_id = $new_id;
-					if(isset($_REQUEST['prev_qid'])) {
+					if(isset($_REQUEST['prev_qid']))
+					{
 						$test->moveQuestionAfter($this->object->getId() + 1, $_REQUEST['prev_qid']);
 					}
 
@@ -849,13 +859,14 @@ class assFormulaQuestionGUI extends assQuestionGUI
 					#$this->ctrl->setParameter($this, 'test_ref_id', false);
 
 				}
-
-				if(/*$___test_express_mode || */$_REQUEST['test_express_mode']) {
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+				if($_REQUEST['test_express_mode'])
+				{
 					ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($q_id));
 				}
 				else
 				{
-					ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+					ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["calling_test"]);
 				}
 			}
 			else

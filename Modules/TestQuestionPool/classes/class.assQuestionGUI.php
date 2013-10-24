@@ -657,7 +657,7 @@ abstract class assQuestionGUI
 					$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
 					$new_id = $test->insertQuestion(
-							$testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId()
+						$testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId()
 					);
 					
 					$q_id = $new_id;
