@@ -2685,7 +2685,6 @@ common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutze
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
 common#:#delete_inactive_user_accounts_interval#:#Häufigkeit
-common#:#delete_inactive_user_accounts_interval_desc#:#Häufigkeit in der die Löschbedingungen überprüft werden.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
 common#:#delete_inactive_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
 common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
@@ -14099,3 +14098,5 @@ sop#:#sop_text_start_som#:#SCORM-Offline-Manager starten
 sop#:#sop_start_som#:#SOM Starten
 sop#:#sop_text_push_tracking#:#Lernstandsdaten nach ILIAS importieren und wieder in den Online-Modus wechseln  
 sop#:#sop_push_tracking#:#Lernstandsdaten importieren
+common#:#obj_wiks#:#Wiki###24 10 2013 new variable
+common#:#obj_wiks_desc#:#Global Wiki Settings###24 10 2013 new variable

@@ -9858,7 +9858,6 @@ common#:#delete_inactive_user_accounts_period_desc#:#Deletion will be executed i
 common#:#delete_inactive_user_accounts_include_roles#:#Included roles###16 07 2010 new variable
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.###16 07 2010 new variable
 common#:#delete_inactive_user_accounts_interval#:#Frequency###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###16 07 2010 new variable
 mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)###16 07 2010 new variable
 content#:#glo_quick_navigation#:#Quick Navigation###16 07 2010 new variable
 forum#:#post_reply#:#Re:###16 07 2010 new variable
@@ -13884,7 +13883,6 @@ assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter###11 10 2013 new v
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Use No Taxonomy Based Filter###11 10 2013 new variable
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Use Taxonomy "%s" as Filter###11 10 2013 new variable
 ps#:#ps_error_message_password_min1_because_chars#:#Minimum password size may not be less than %s.###11 10 2013 new variable
-administration#:#adm_captcha_anonymous#:#Activate captchas for anonymous (Forum/Wiki/Login/Registration). Please keep in mind that this may effect the accessibility of your installation.###11 10 2013 new variable
 dcl#:#dcl_in_export#:#In Export###11 10 2013 new variable
 orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from this role?###11 10 2013 new variable
 orgu#:#deassign_user_successful#:#Users have been deasigned successfuly from this role.###11 10 2013 new variable
@@ -14078,3 +14076,27 @@ content#:#cont_sc_auto_review_completed_and_passed#:#if completed and passed###1
 content#:#cont_sc_auto_review_completed_or_passed#:#if completed or passed###11 10 2013 new variable
 content#:#cont_auto_suspend#:#Ensure getting tracking data from previous attempts###11 10 2013 new variable
 content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit.###11 10 2013 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###24 10 2013 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###24 10 2013 new variable
+administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.###24 10 2013 new variable
+administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.###24 10 2013 new variable
+administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.###24 10 2013 new variable
+administration#:#adm_captcha_anonymous_wiki#:#Activate captcha for anonymous in wikis. Please keep in mind that this may effect the accessibility of your installation.###24 10 2013 new variable
+auth#:#auth_auth_settings#:#Settings###24 10 2013 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###24 10 2013 new variable
+common#:#obj_wiks#:#Wiki###24 10 2013 new variable
+common#:#obj_wiks_desc#:#Global Wiki Settings###24 10 2013 new variable
+blog#:#blog_edit_posting#:#Edit Posting###24 10 2013 new variable
+sop#:#sop_check_system_requirements#:#Checking system requirements###24 10 2013 new variable
+sop#:#sop_firefox_required#:#The Offline-Mode requires an up-to-date Mozilla-Firefox Browser (> 20)<br /><a href="http://www.mozilla.org/de/firefox/new" target="_new">Download Firefox</a>###24 10 2013 new variable
+sop#:#sop_xpi_install#:#Please install the following Firefox-Addon: %s<br />After that the SCORM Learning Module is exportable for the Offline-Mode.###24 10 2013 new variable
+sop#:#sop_text_export#:#Export SCORM-Learning Module for offline performance  ###24 10 2013 new variable
+sop#:#sop_export#:#SCORM-Learning Module Export###24 10 2013 new variable
+sop#:#sop_desc_export#:#Offline learning modules are only available for offline usage. After trackingdata import the learning module will be online again.###24 10 2013 new variable
+sop#:#sop_text_start_offline#:#Start learning module in offline mode###24 10 2013 new variable
+sop#:#sop_start_offline#:#Start learning module offline###24 10 2013 new variable
+sop#:#sop_text_start_som#:#Start SCORM-Offline-Manager###24 10 2013 new variable
+sop#:#sop_start_som#:#Start SOM###24 10 2013 new variable
+sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode###24 10 2013 new variable
+sop#:#sop_push_tracking#:#Import trackingdata###24 10 2013 new variable
+common#:#offline_mode#:#Offline-Mode###24 10 2013 new variable
