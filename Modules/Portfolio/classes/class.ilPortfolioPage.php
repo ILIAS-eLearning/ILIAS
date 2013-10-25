@@ -174,7 +174,7 @@ class ilPortfolioPage extends ilPageObject
 		if(!$a_import)
 		{
 			parent::create();
-			$this->saveInternalLinks($this->getXMLContent());
+			// $this->saveInternalLinks($this->getDomDoc());
 		}
 	}
 

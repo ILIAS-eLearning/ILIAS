@@ -23,20 +23,6 @@ class ilMediaPoolPage extends ilPageObject
 		return "mep";
 	}	
 
-
-	/**
-	* Create new media pool page
-	*/
-	function create()
-	{
-		global $ilDB;
-		
-		// create page object
-		parent::create();
-		
-		$this->saveInternalLinks($this->getXMLContent());
-	}
-
 	/**
 	* update object data
 	*

@@ -57,7 +57,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$data = ilObjPortfolio::getPortfoliosOfUser($this->user_id);
 		
-		$this->shared_objects = $access_handler->getObjectsIShare();		
+		$this->shared_objects = $access_handler->getObjectsIShare(false);		
 		
 		$this->setData($data);				
 	}
