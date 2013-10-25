@@ -17,12 +17,13 @@ class ilTermListTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_tax_node)
 	{
 		global $ilCtrl, $lng;
 		
 		$this->glossary = $a_parent_obj->object;
 		$this->setId("glotl".$this->glossary->getId());
+		$this->tax_node = $a_tax_node;
 
 		// selectable columns
 		$this->selectable_cols = array(
@@ -91,7 +92,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		
 		$this->initFilter();
 		$this->setData($this->glossary->getTermList($this->filter["term"], "",
-			$this->filter["definition"], 0, true, true));
+			$this->filter["definition"], $this->tax_node, true, true));
 	}
 	
 	/**
