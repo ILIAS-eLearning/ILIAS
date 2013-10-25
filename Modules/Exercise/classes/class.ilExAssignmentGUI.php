@@ -469,9 +469,9 @@ class ilExAssignmentGUI
 					}
 					else if ($status != "notgraded")
 					{
-						$img = '<img border="0" src="'.ilUtil::getImagePath("scorm/".$status.".png").'" '.
+						$img = '<img src="'.ilUtil::getImagePath("scorm/".$status.".png").'" '.
 							' alt="'.$lng->txt("exc_".$status).'" title="'.$lng->txt("exc_".$status).
-							'" style="vertical-align:middle;"/>';
+							'" />';
 						$info->addProperty($lng->txt("status"),
 							$img." ".$lng->txt("exc_".$status));
 					}

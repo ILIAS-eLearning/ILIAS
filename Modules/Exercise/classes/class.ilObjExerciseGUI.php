@@ -1896,9 +1896,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 				//else
 				if ($status != "notgraded")
 				{
-					$img = '<img border="0" src="'.ilUtil::getImagePath("scorm/".$status.".png").'" '.
+					$img = '<img src="'.ilUtil::getImagePath("scorm/".$status.".png").'" '.
 						' alt="'.$lng->txt("exc_".$status).'" title="'.$lng->txt("exc_".$status).
-						'" style="vertical-align:middle;"/>';
+						'" />';
 
 					$add = "";
 					if ($st["failed_a_mandatory"])

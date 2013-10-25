@@ -124,11 +124,9 @@ class ilForumMoveTopicsExplorer extends ilRepositoryExplorer
 		{
 			if ($picture == 'plus')
 			{
-				$tpl->setCurrentBlock("exp_desc");
-				$tpl->setVariable("EXP_DESC", $lng->txt("expand"));
-				$tpl->parseCurrentBlock();
-				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("EXP_DESC", $lng->txt("expand"));
+				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.png"));
@@ -138,11 +136,9 @@ class ilForumMoveTopicsExplorer extends ilRepositoryExplorer
 
 			if ($picture == 'minus' && $this->show_minus)
 			{
-				$tpl->setCurrentBlock("exp_desc");
-				$tpl->setVariable("EXP_DESC", $lng->txt("collapse"));
-				$tpl->parseCurrentBlock();
-				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("EXP_DESC", $lng->txt("collapse"));
+				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.png"));

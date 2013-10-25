@@ -994,10 +994,8 @@ class ilExplorer
 		{
 			if ($picture == 'plus')
 			{
-				$tpl->setCurrentBlock("exp_desc");
-				$tpl->setVariable("EXP_DESC", $lng->txt("collapsed"));
-				$tpl->parseCurrentBlock();
 				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("EXP_DESC", $lng->txt("collapsed"));
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				if (!$this->getAsynchExpanding())
 				{
@@ -1017,11 +1015,9 @@ class ilExplorer
 
 			if ($picture == 'forceexp')
 			{
-				$tpl->setCurrentBlock("exp_desc");
-				$tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
-				$tpl->parseCurrentBlock();
-				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
+				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/forceexp.png"));
@@ -1031,10 +1027,8 @@ class ilExplorer
 
 			if ($picture == 'minus' && $this->show_minus)
 			{
-				$tpl->setCurrentBlock("exp_desc");
-				$tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
-				$tpl->parseCurrentBlock();
 				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				if (!$this->getAsynchExpanding())
 				{

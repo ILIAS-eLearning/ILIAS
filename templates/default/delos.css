@@ -241,20 +241,48 @@ body.std {
 	background: url(images/frame_back.png) repeat-x #F9F9F9 ;
 }
 
+.ilHidden {
+	visibility: hidden;
+}
+
 .ilNoDisplay {
 	display: none;
 }
 
+.ilDisplayInline {
+	display: inline;
+}
+
+.ilDisplayInlineBlock {
+	display: inline-block;
+}
+
+.ilDisplayBlock {
+	display: block;
+}
+
 .ilClearFloat {
-	clear:both; 
+	clear: both; 
 }
 
 .ilFloatRight {
   float: right;
 }
 
+.ilFloatLeft {
+  float: left;
+}
+
+.ilWhiteSpaceNowrap {
+	white-space: nowrap;
+}
+
 .ilPositionStatic {
 	position: static;
+}
+
+.ilPositionRelative {
+	position: relative;
 }
 
 .ilPrintContent {
@@ -293,6 +321,23 @@ div#il_startup_content {
 	text-align: center;
 }
 
+.ilRight {
+	text-align: right;
+}
+
+.ilValignTop {
+	vertical-align: top;
+}
+
+.ilValignMiddle {
+	vertical-align: middle;
+}
+
+.ilValignBottom {
+	vertical-align: bottom;
+}
+
+
 div.ilStartupSection div.ilForm {
 	margin:auto;
 	text-align:left;
@@ -315,6 +360,14 @@ div#mainscrolldiv {
 
 .fullwidth {
 	width: 100%;
+}
+
+.halfWidth {
+	width: 50%;
+}
+
+.ilInheritBGColor {
+	background-color: inherit;
 }
 
 /* --- 3 column layout -- */
@@ -535,6 +588,17 @@ tr.std {
 	background-color: #FFF;
 	color: #222;
 	padding: 3px;
+}
+
+th {
+	text-align: left;
+	vertical-align: bottom;
+	font-weight: normal;
+}
+
+td.std, th.std {
+	padding: 4px 6px;
+	text-align: left;
 }
 
 th.option, td.option {
@@ -2292,6 +2356,14 @@ div.ilMainMenuSection {
 	clear: both;
 }
 
+div.ilMemberViewMainHeader {
+	color: #FFF;
+}
+
+div.ilMemberViewMainHeader + div {
+	padding: 10px 30px 30px;
+}
+
 div#il_main_logo {
 	padding: 5px 0 5px 19px;
 	float: left;
@@ -3266,17 +3338,6 @@ tr.tblheader {
 	border-bottom: 1px solid #D6D6D6;
 }
 
-th {
-	text-align: left;
-	vertical-align: bottom;
-	font-weight: normal;
-}
-
-td.std, th.std {
-	padding: 4px 6px;
-	text-align: left;
-}
-
 /* Navigation History */
 form.ilNavHistoryForm {
 	padding: 0;
@@ -3692,17 +3753,21 @@ div.ilTopBarRight td.il_adv_sel {
 	background-color: #444;
 }
 
-td.ilRight, th.ilRight {
-	text-align: right;
-}
-
 .ilBlogListItemDraft {
 	border: 2px dotted red;
 	padding: 3px;
 }
 
 .ilBlogNavigationItemDraft {
-	color: red;
+	margin-right: 50px;
+}
+
+.ilBlogListPermalink {
+	margin: 5px;
+}
+
+.ilBlogRating {
+	margin-bottom: 5px;
 }
 
 div.ilSideBarHead{
@@ -4149,6 +4214,107 @@ div.iosCaptchaInputCommandContainer .audio {
 }
 
 input.iosCaptchaInput {
+}
+
+.ilUserOnlineRow {
+	margin: 0 0 0 40px;
+}
+
+.ilUserImage {
+	margin:0 0 0 -40px;
+}
+
+div.ilUserImage + img {
+	margin: 2px 0; 
+}
+
+span[id^="ilAdvSelListAnchorElement_"] + div {
+	position: absolute; 
+	z-index: 5000; 
+	left: 0; 
+	right: 0;
+}
+
+div[id^="ilAdvSelListTable_"] {
+	overflow: auto; 
+	background-color: #FFF;
+	clear: both;
+	display: none;
+	position: absolute;
+}
+
+td.ilAsyncImgLoader {
+	padding: 0 40px;
+}
+
+#chat_actions {
+	white-space: nowrap; 
+	margin-left: 10px;
+}
+
+#chat_messages {
+	width: 100%; 
+	min-height: 200px;
+}
+
+#chat_users {
+	overflow: auto; 
+	height: 100%;
+}
+
+#private_rooms {
+	z-index: 200; 
+	display: none;
+}
+
+td.chatroom {
+	width: 200px; 
+	height: auto;
+}
+
+ul.noStyle {
+	list-style: none;
+}
+
+.noMargin {
+	margin: 0;
+}
+
+li.smallPad {
+	padding: 1px;
+}
+
+.listIndent {
+	padding: 0 0 20px;
+}
+
+div.editLink {
+	padding-right: 1em;
+}
+
+.ilTopGap {
+	margin-top: 15px;
+}
+
+ilPadLeft {
+	padding-left: 20px;
+}
+
+.ilExportPage {
+	min-height: 468px; 
+	padding-bottom: 20px;
+}
+
+.ilTextinfo {
+	margin-bottom: 10px;
+}
+
+ilBorderLeft {
+	border-left: 1px solid #CCC;
+}
+
+div[id^="ilFormField"] {
+	margin-bottom: 10px;
 }
 
 /* basic responsiveness (beta)

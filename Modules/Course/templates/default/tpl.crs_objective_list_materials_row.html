@@ -1,10 +1,10 @@
 <tr class="{CSS_ROW}">
-	<td class="std" valign="top">
+	<td class="std">
 		<input type="checkbox" name="materials[]" value="{VAL_ID}" id="{VAL_ID}" {VAL_CHECKED} />
 	</td>	
-	<td class="std" style="text-align:center" valign="top">
+	<td class="std ilCenter">
   		<label for="{VAL_ID}">
-			<img src="{ROW_TYPE_IMG}" alt="{ROW_TYPE_ALT}" title="{ROW_TYPE_ALT}" border="0" vspace="0" />
+			<img src="{ROW_TYPE_IMG}" alt="{ROW_TYPE_ALT}" title="{ROW_TYPE_ALT}" />
 		</label>
 	</td>
 	<td class="std">
@@ -15,14 +15,14 @@
 		<!-- BEGIN chapters -->
 		<div>
 			<strong>{TXT_CHAPTER}:</strong>
-			<ul style="list-style:none;margin: 0px">
+			<ul class="noStyle noMargin">
 				<!-- BEGIN chapter -->
-				<!--  BEGIN begin_depth --><div style="padding-left: 20px" ><!--  END begin_depth -->
+				<!--  BEGIN begin_depth --><div class="listIndent"><!--  END begin_depth -->
 				<li>
-					<input type="checkbox" name="chapters[]" value="{CHAP_ID}" id="{CHAP_ID}" {CHAP_CHECKED}>
+					<input type="checkbox" name="chapters[]" value="{CHAP_ID}" id="{CHAP_ID}" {CHAP_CHECKED} />
 					<label for="{CHAP_ID}"> 
-					<img src="{CHAP_TYPE_IMG}" alt="{CHAP_TYPE_ALT}" title="{CHAP_TYPE_ALT}" border="0" vspace="0" />
-					{CHAPTER_TITLE}
+						<img src="{CHAP_TYPE_IMG}" alt="{CHAP_TYPE_ALT}" title="{CHAP_TYPE_ALT}" />
+						{CHAPTER_TITLE}
 					</label>
 				</li>
 				<!--  BEGIN end_depth --></div><!-- END end_depth -->

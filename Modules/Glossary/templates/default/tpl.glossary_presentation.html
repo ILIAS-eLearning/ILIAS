@@ -9,14 +9,14 @@
 <!-- BEGIN search_form -->
 <form action="{FORMACTION1}" name="post" method="post">
 <table class="std">
-	<tr valign="middle">
+	<tr class="ilValignMiddle">
 		<td class="option">
 		{TXT_TERM}
 		</td>
 		<td class="option_value" colspan="2">
-			<input type="text" name="term" size="30" value="{TERM}" maxlength="80">
-			<input type="submit" class="submit" name="cmd[searchTerms]" value="{TXT_SEARCH}">
-			<input type="submit" class="submit" name="cmd[clearTerms]" value="{TXT_CLEAR}">
+			<input type="text" name="term" size="30" value="{TERM}" maxlength="80" />
+			<input type="submit" class="submit" name="cmd[searchTerms]" value="{TXT_SEARCH}" />
+			<input type="submit" class="submit" name="cmd[clearTerms]" value="{TXT_CLEAR}" />
 		</td>
 	</tr>
 </table>
@@ -25,7 +25,7 @@
 {TERM_TABLE}
 <br />
 <!-- BEGIN edit_glossary -->
-<div style="float:right;">
+<div class="ilFloatRight">
 <a class="il_ContainerItemCommand" href="{EDIT_LINK}" target="{EDIT_TARGET}">{EDIT_TXT}</a>
 </div>
 <!-- END edit_glossary -->

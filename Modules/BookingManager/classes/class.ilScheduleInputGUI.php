@@ -233,11 +233,11 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 			// manage hidden buttons
 			if($row > 0)
 			{
-				$tpl->setVariable("ADD_STYLE", " style=\"display:none\"");				
+				$tpl->setVariable("ADD_CLASS", "ilNoDisplay");				
 			}
 			else
 			{
-				$tpl->setVariable("RMV_STYLE", " style=\"display:none\"");		
+				$tpl->setVariable("RMV_CLASS", "ilNoDisplay");		
 			}
 			
 			$tpl->parseCurrentBlock();
