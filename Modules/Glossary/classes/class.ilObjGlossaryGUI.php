@@ -39,6 +39,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "offset"));
+		
 		$lng->loadLanguageModule("content");
 		
 		$this->type = "glo";
@@ -53,6 +54,18 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->term_id = "";
 		}
 
+		$this->tax_id = $this->object->getTaxonomyId();
+		if ($this->tax_id > 0)
+		{
+			$this->ctrl->saveParameter($this, array("show_tax", "tax_node"));
+			
+			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+			$this->tax = new ilObjTaxonomy($this->tax_id);
+		}
+		if ((int) $_GET["tax_node"] > 1 && $this->tax->getTree()->readRootId() != $_GET["tax_node"])
+		{
+			$this->tax_node = (int) $_GET["tax_node"];
+		}
 	}
 
 	/**
@@ -186,7 +199,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
 
-			default:
+			default:				
 				$cmd = $this->ctrl->getCmd("listTerms");
 
 				if (($cmd == "create") && ($_POST["new_type"] == "term"))
@@ -854,6 +867,11 @@ return;
 	{
 		global $ilUser, $ilToolbar, $lng, $ilCtrl, $tpl;
 
+		if ($_GET["show_tax"])
+		{
+			$this->showTaxonomy();
+		}
+		
 		// term
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($lng->txt("cont_new_term"), "new_term");
@@ -882,12 +900,56 @@ return;
 		$ilToolbar->addFormButton($lng->txt("glo_add_new_term"), "addTerm");
 		//$select_language = ilUtil::formSelect ($s_lang, "term_language",$lang,false,true);
 		//$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
+		
+		if (is_object($this->tax))
+		{
+			$ilToolbar->addSeparator();
+			if ($_GET["show_tax"])
+			{
+				$ilToolbar->addButton($lng->txt("glo_hide_taxonomy"),
+						$ilCtrl->getLinkTarget($this, "deactTaxonomy"));				
+			}
+			else
+			{
+				$ilToolbar->addButton($lng->txt("glo_show_taxonomy"),
+						$ilCtrl->getLinkTarget($this, "actTaxonomy"));
+			}
+		}
 
 		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
-		$tab = new ilTermListTableGUI($this, "listTerms");
+		$tab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
 		$tpl->setContent($tab->getHTML());
 	}
 
+	/**
+	 * Show Taxonomy
+	 *
+	 * @param
+	 * @return
+	 */
+	function actTaxonomy()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setParameter($this, "show_tax", 1);
+		$ilCtrl->redirect($this, "listTerms");
+	}
+
+	/**
+	 * Hide Taxonomy
+	 *
+	 * @param
+	 * @return
+	 */
+	function deactTaxonomy()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setParameter($this, "show_tax", "");
+		$ilCtrl->redirect($this, "listTerms");
+	}
+
+	
 	/**
 	 * show possible action (form buttons)
 	 *
@@ -1711,6 +1773,32 @@ return;
 		}
 	
 		return " ";		
+	}
+
+	/**
+	 * Show taxonomy
+	 *
+	 * @param
+	 * @return
+	 */
+	function showTaxonomy()
+	{
+		global $tpl, $lng;
+
+		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
+		if (count($tax_ids) > 0)
+		{
+			include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
+			$tax_exp = new ilTaxonomyExplorerGUI($this, "showTaxonomy", $tax_ids[0],
+				"ilobjglossarygui", "listTerms");
+			if (!$tax_exp->handleCommand())
+			{
+				//$tpl->setLeftNavContent($tax_exp->getHTML());
+				$tpl->setLeftNavContent($tax_exp->getHTML()."&nbsp;");
+			}
+		}
+
 	}
 
 }
