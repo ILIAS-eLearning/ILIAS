@@ -738,7 +738,7 @@ class ilConsultationHoursGUI
 			// Duration
 			$du = new ilDurationInputGUI($this->lng->txt('cal_ch_duration'),'du');
 			$du->setShowMinutes(true);
-			$du->setShowHours(false);
+			$du->setShowHours(true);
 			$this->form->addItem($du);
 
 			// Number of appointments
@@ -875,8 +875,11 @@ class ilConsultationHoursGUI
 		$start = clone $this->form->getItemByPostVar('st')->getDate();
 		for($i = 0; $i < $this->form->getItemByPostVar('ap')->getValue(); $i++)
 		{
-			$concurrent_dates->add($start);
-			$start = new ilDateTime($start->increment(ilDateTime::MINUTE,$this->form->getItemByPostVar('du')->getMinutes()),IL_CAL_UNIX);
+			$concurrent_dates->add(clone $start);
+			
+			$start->increment(ilDateTime::MINUTE,$this->form->getItemByPostVar('du')->getMinutes());
+			$start->increment(ilDateTime::HOUR,$this->form->getItemByPostVar('du')->getHours());
+			#$start = new ilDateTime(,IL_CAL_UNIX);
 		}
 		
 		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
@@ -891,6 +894,7 @@ class ilConsultationHoursGUI
 		{
 			$end = clone $dt;
 			$end->increment(ilDateTime::MINUTE,$this->form->getItemByPostVar('du')->getMinutes());
+			$end->increment(ilDateTime::HOUR,$this->form->getItemByPostVar('du')->getHours());
 
 			$calc = new ilCalendarRecurrenceCalculator(
 				new ilBookingPeriod($dt,$end),
