@@ -66,6 +66,12 @@ class ilPortfolioAccessHandler
 		{
 			return true;
 		}
+		
+		// #11921
+		if(!$pf->isOnline())
+		{
+			return false;
+		}
 
 		// other users can only read
 		if($a_permission == "read" || $a_permission == "visible")
@@ -257,8 +263,10 @@ class ilPortfolioAccessHandler
 		$res = array();
 		$set = $ilDB->query("SELECT obj.obj_id".
 			" FROM object_data obj".
+			" JOIN usr_portfolio prtf ON (prtf.id = obj.obj_id)".
 			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
-			" WHERE obj.owner = ".$ilDB->quote($ilUser->getId(), "integer"));
+			" WHERE obj.owner = ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND prtf.is_online = ".$ilDB->quote(1, "integer"));
 		while ($row = $ilDB->fetchAssoc($set))
 		{
 			$res[] = $row["obj_id"];
@@ -294,10 +302,12 @@ class ilPortfolioAccessHandler
 		$user_ids = array();
 		$set = $ilDB->query("SELECT DISTINCT(obj.owner), u.lastname, u.firstname, u.title".
 			" FROM object_data obj".
+			" JOIN usr_portfolio prtf ON (prtf.id = obj.obj_id)".
 			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
 			" JOIN usr_data u on (u.usr_id = obj.owner)".
 			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
 			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND prtf.is_online = ".$ilDB->quote(1, "integer").
 			" ORDER BY u.lastname, u.firstname, u.title");
 		while ($row = $ilDB->fetchAssoc($set))
 		{
@@ -320,9 +330,11 @@ class ilPortfolioAccessHandler
 		$res = array();		
 		$set = $ilDB->query("SELECT obj.obj_id, obj.owner".
 			" FROM object_data obj".
+			" JOIN usr_portfolio prtf ON (prtf.id = obj.obj_id)".
 			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
 			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").		
-			" AND obj.owner = ".$ilDB->quote($a_owner_id, "integer"));
+			" AND obj.owner = ".$ilDB->quote($a_owner_id, "integer").
+			" AND prtf.is_online = ".$ilDB->quote(1, "integer"));
 		while ($row = $ilDB->fetchAssoc($set))
 		{			
 			$res[$row["obj_id"]] = $row["obj_id"];						
@@ -341,9 +353,11 @@ class ilPortfolioAccessHandler
 		
 		$set = $ilDB->query("SELECT obj.obj_id, obj.owner, obj.title".
 			" FROM object_data obj".
+			" JOIN usr_portfolio prtf ON (prtf.id = obj.obj_id)".
 			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
-			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
-			" AND ".$ilDB->in("obj.owner", $a_owner_ids, "", "integer"));
+			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").			
+			" AND ".$ilDB->in("obj.owner", $a_owner_ids, "", "integer").
+			" AND prtf.is_online = ".$ilDB->quote(1, "integer"));
 		while ($row = $ilDB->fetchAssoc($set))
 		{			
 			$res[$row["owner"]][$row["obj_id"]] = $row["title"];					
@@ -394,13 +408,15 @@ class ilPortfolioAccessHandler
 		
 		$res = array();
 		
-		$sql = "SELECT obj.obj_id,obj.title,obj.owner,".
-			"acl.object_id acl_type, acl.tstamp acl_date".
+		$sql = "SELECT obj.obj_id,obj.title,obj.owner".
+			",acl.object_id acl_type, acl.tstamp acl_date".
 			" FROM object_data obj".
+			" JOIN usr_portfolio prtf ON (prtf.id = obj.obj_id)".	
 			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
 			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
 			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer").
-			" AND obj.type = ".$ilDB->quote("prtf", "text");
+			" AND obj.type = ".$ilDB->quote("prtf", "text").
+			" AND prtf.is_online = ".$ilDB->quote(1, "integer");
 		
 		if($a_filter["title"] && strlen($a_filter["title"]) >= 3)
 		{
