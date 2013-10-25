@@ -294,11 +294,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		{
 			if($num_unread > 0)
 			{
-				$topicStats .= '<br /><span class="alert" style="white-space:nowrap">' . $this->lng->txt('unread') . ': ' . $num_unread . '</span>';
+				$topicStats .= '<br /><span class="alert ilWhiteSpaceNowrap">' . $this->lng->txt('unread') . ': ' . $num_unread . '</span>';
 			}
 			if($num_new > 0 && $this->getOverviewSetting() == 0)
 			{
-				$topicStats .= '<br /><span class="alert" style="white-space:nowrap">' . $this->lng->txt('new') . ': ' . $num_new . '</span>';
+				$topicStats .= '<br /><span class="alert ilWhiteSpaceNowrap">' . $this->lng->txt('new') . ': ' . $num_new . '</span>';
 			}
 		}
 
@@ -328,8 +328,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
 					)
 				);
 
-				$this->tpl->setVariable('VAL_LP_DATE', '<div style="white-space:nowrap">' . ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(), IL_CAL_DATETIME)) . '</div>' .
-					'<div style="white-space:nowrap">' . $this->lng->txt('from') . ' ' . $authorinfo->getLinkedAuthorName() . '</div>'
+				$this->tpl->setVariable('VAL_LP_DATE', '<div class="ilWhiteSpaceNowrap">' . ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(), IL_CAL_DATETIME)) . '</div>' .
+					'<div class="ilWhiteSpaceNowrap">' . $this->lng->txt('from') . ' ' . $authorinfo->getLinkedAuthorName() . '</div>'
 				);
 			}
 		}

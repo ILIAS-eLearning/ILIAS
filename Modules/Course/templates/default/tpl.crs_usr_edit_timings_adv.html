@@ -1,12 +1,12 @@
 	<form action="{FORMACTION}" method="post">
-	  <table class="fullwidth" border="0">
+	  <table class="fullwidth">
 		<tr class="tbltitle">
 		  <th class="std" colspan="7">
-			<div style="float:left">
-			  <img style="vertical-align: middle;" border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+			<div class="ilFloatLeft">
+			  <img src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
 			  &nbsp;{BLOCK_HEADER_CONTENT}
 			</div>
-			<div style="float:right;">
+			<div class="ilFloatRight">
 			  <a class="il_ContainerItemCommand" href="{SHOW_HIDE_LINK}">{SHOW_HIDE_TEXT}</a>
 			</div>
 		  </th>
@@ -14,7 +14,7 @@
 		<tr class="tblheader">
 		  <th class="std"><div style="margin-left:26px">{TXT_TITLE}</div><div class="subtitle">&nbsp;</div></th>
 		  <th class="std">{TXT_START_END}<div class="subtitle">{TXT_INFO_START_END}</div></th>
-		  <th class="std"><div style="valign:top">{TXT_LIMIT}</div><div class="subtitle">&nbsp;</div></th>
+		  <th class="std"><div class="ilValignTop">{TXT_LIMIT}</div><div class="subtitle">&nbsp;</div></th>
 		  <th class="std">{TXT_DURATION}<div class="subtitle">{TXT_INFO_DURATION}</div></th>
 		  <th class="std">{TXT_OWN_PRESETTING}<div class="subtitle">{TXT_INFO_OWN_PRESETTING}</div></th>
 		</tr>
@@ -22,10 +22,10 @@
 		<tr class="{ROWCLASS}">
 		  <td>
 			<!-- BEGIN start_indent --><div style="padding-left:26px"><!-- END start_indent -->
-			  <div style="float:left;">
-				<img src="{TYPE_IMG}" alt="{TYPE_ALT_IMG}" title="{TYPE_ALT_IMG}" border="0" vspace="0" align="absmiddle" />
+			  <div class="ilFloatLeft">
+				<img src="{TYPE_IMG}" alt="{TYPE_ALT_IMG}" title="{TYPE_ALT_IMG}" />
 			  </div>
-			  <div style="float:left;padding-left:5px">
+			  <div class="ilFloatLeft" style="padding-left:5px">
 				<!-- BEGIN title_as_link -->
 				<a class="il_ContainerItemTitle" href="{TITLE_LINK}" target="_top">{TITLE_NAME}</a>
 				<!-- END title_as_link -->
@@ -43,11 +43,11 @@
 			  </div>
 			  <!-- BEGIN end_indent --></div><!-- END end_indent -->
 		  </td>
-		  <td nowrap="nowrap">
+		  <td class="ilWhiteSpaceNowrap">
 			{SUG_START}<br />
 			{SUG_END}
 		  </td>
-		  <td nowrap="nowrap">
+		  <td class="ilWhiteSpaceNowrap">
 			{LIM_END}
 		  </td>
 		  <td>
@@ -55,7 +55,7 @@
 			<input type="text" name="{NAME_DURATION}" value="{VAL_DURATION}" size="2" maxlength="3" />
 			<!-- END input_duration -->
 		  </td>
-		  <td nowrap="nowrap">
+		  <td class="ilWhiteSpaceNowrap">
 			{OWN_START}<br />
 			{OWN_END}
 		  </td>
@@ -63,7 +63,7 @@
 		<!-- END container_standard_row -->
 		<tr class="tblfooter">
 		  <td class="std" colspan="6">
-			<div align="right">
+			<div class="ilRight">
 			  <input class="submit" type="submit" name="cmd[updateUserTimings]" value="{TXT_BTN_UPDATE}" />
 			  <input class="submit" type="submit" name="cmd[editUserTimings]" value="{TXT_CANCEL}" />
 			</div>
@@ -88,7 +88,7 @@
 		</tr>
 		<tr class="tblfooter">
 		  <td class="std" colspan="2">
-			<div align="right">
+			<div  class="ilRight">
 			  <input class="submit" type="submit" name="cmd[saveAcceptance]" value="{TXT_BTN_UPDATE}" />
 			</div>
 		  </td>

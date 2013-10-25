@@ -31,7 +31,7 @@
 	<!-- BEGIN chapter_row -->
 		<tr class="{ROWCLASS}">
 			<!-- BEGIN thumbnail -->
-			<td>{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
+			<td>{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
 			<!-- END thumbnail -->
 			<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}
 			<!-- BEGIN anchor_link -->
@@ -44,7 +44,7 @@
 	<!-- BEGIN chapter_row_js -->
 		<tr class="{ROWCLASS}">
 			<!-- BEGIN thumbnail_js -->
-			<td>{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
+			<td>{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
 			<!-- END thumbnail_js -->
 			<td class="std">
 				<a href="#" onClick="return il.IntLink.addInternalLink('{LINK_BEGIN}','{LINK_END}', event);">{TXT_CHAPTER}</a>
@@ -58,15 +58,15 @@
 	<!-- BEGIN link_row -->
 		<tr class="{ROWCLASS}">
 			<!-- BEGIN thumbnail_link -->
-			<td width="1">{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
+			<td width="1">{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
 			<!-- END thumbnail_link -->
 
 			<!-- BEGIN icon -->
-				<td class="std" nowrap="1" width="1">
-				<img border="0" src="{ICON_SRC}"/>
+				<td class="std ilWhiteSpaceNowrap" width="1">
+				<img alt="" src="{ICON_SRC}" />
 				</td>
 			<!-- END icon -->
-			<td class="std" nowrap="1">
+			<td class="std ilWhiteSpaceNowrap">
 			<a href="{LINK}" {LR_ONCLICK} target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
 		</tr>
 	<!-- END link_row -->

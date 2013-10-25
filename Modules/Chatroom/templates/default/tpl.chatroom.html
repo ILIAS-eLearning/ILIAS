@@ -46,13 +46,13 @@ var myId = {MY_ID};
     });
 </script>
 
-<div id="invite_users_container" style="display: none;">
+<div id="invite_users_container" class="ilNoDisplay">
 	<div>
 	    <input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
 		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
 	</div>
 	<div>
-		<p id="invite_user_text_wrapper" style="display: none"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input type="text" id="invite_user_text" /></p>
+		<p id="invite_user_text_wrapper" class="ilNoDisplay"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input type="text" id="invite_user_text" /></p>
 		<ul id="invite_users_available">
 			<li></li>
 		</ul>
@@ -61,13 +61,13 @@ var myId = {MY_ID};
 
 <table id="chat_wrapper">
     <tr id="chat_head_line">
-        <td valign="bottom" colspan="2">
+        <td class="ilValignBottom" colspan="2">
 		<h2 class="current_room_title"></h2>
 		<div class="ilHeadAction" id="chat_actions_wrapper">
-			<span style="white-space: nowrap; margin-left: 10px;" id="chat_actions">
+			<span id="chat_actions">
 				<a class="small" target="_top" href="#" onclick="this.blur(); return false;">
 					<span id="chat_actions_title">{ACTIONS}</span>
-					<img border="0" alt="" src="./templates/default/images/mm_down_arrow_dark.png" />
+					<img alt="" src="./templates/default/images/mm_down_arrow_dark.png" />
 				</a>
 			</span>
 		</div>
@@ -76,24 +76,24 @@ var myId = {MY_ID};
     </tr>
     <tr>
         <td>
-            <div id="chat_messages" style="width: 100%; min-height: 200px">
+            <div id="chat_messages">
 
             </div>
         </td>
-        <td style="width: 200px; height: auto;" rowspan="4" valign="top">
-	    <div id="chat_users" style="overflow: auto; height: 100%">
+        <td class="chatroom" rowspan="4">
+	    <div id="chat_users">
 		    <h3 class="chat_block_title">{LBL_USERS}</h3>
-		    <p class="no_users small" style="text-align: center">{LBL_NO_FURTHER_USERS}</p>
+		    <p class="no_users small ilCenter">{LBL_NO_FURTHER_USERS}</p>
 	    </div>
-	    <div id="private_rooms" style="z-index: 200; display: none"></div>
+	    <div id="private_rooms"></div>
         </td>
     </tr>
     <tr>
-	    <td style="text-align: right"><label for="chat_auto_scroll">{LBL_AUTO_SCROLL}</label><input type="checkbox" id="chat_auto_scroll" checked="checked"/></td>
+	    <td class="ilRight"><label for="chat_auto_scroll">{LBL_AUTO_SCROLL}</label><input type="checkbox" id="chat_auto_scroll" checked="checked" /></td>
     </tr>
     <tr>
         <td>
-			<div class="ilForm" id="chat_toolbox" style="width:100%">
+			<div class="ilForm fullwidth" id="chat_toolbox">
 				
 				<div class="ilFormRow">
 					<div class="ilFormHeader">
@@ -130,7 +130,7 @@ var myId = {MY_ID};
 										<label for="colorpicker">{LBL_FONTCOLOR}:</label>
 									</div>
 									<div class="ilFormSubValue">
-										<input type="text" id="colorpicker" value="{VAL_FONTCOLOR}"/>
+										<input type="text" id="colorpicker" value="{VAL_FONTCOLOR}" />
 									</div>
 								</div>
 
@@ -182,8 +182,8 @@ var myId = {MY_ID};
     </tr>
 </table>
 
-<input style="visibility: hidden" type="text" name="moreOptions" id="moreOptions"/>
+<input class="ilHidden" type="text" name="moreOptions" id="moreOptions" />
 
-<div style="display: none" id="create_private_room_dialog">
-    <label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input type="text" id="new_room_name"/>
+<div class="ilNoDisplay" id="create_private_room_dialog">
+    <label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input type="text" id="new_room_name" />
 </div>

@@ -1302,7 +1302,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			
 			if ($entries)
 			{
-				$ml_head = '<div style="float:left">'.$ml_head.'</div><div style="text-align:right; margin: 5px 0;" class="small">'.$list->getHTML()."</div>";
+				$ml_head = '<div class="ilFloatLeft">'.$ml_head.'</div><div style="margin: 5px 0;" class="small ilRight">'.$list->getHTML()."</div>";
 			}
 
 		}

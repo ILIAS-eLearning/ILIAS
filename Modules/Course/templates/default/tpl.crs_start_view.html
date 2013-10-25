@@ -9,18 +9,18 @@
 	  <table class="fullwidth">
 		<tr class="tbltitle">
 		  <td colspan="4">
-			<table class="fullwidth_invisible" cellspacing="0">
+			<table class="fullwidth_invisible">
 			  <tr class="tbltitle">
-				<td class="tbltitle" align="left">&nbsp;{TBL_TITLE_START}</td>
+				<td class="tbltitle">&nbsp;{TBL_TITLE_START}</td>
 			  </tr>
 			</table>
 		  </td>
 		</tr>
 		<tr class="tblheader">
-		  <td class="std" nowrap="nowrap" align="center" width="5%"><div align="center">{HEADER_NR}</div></td>
-		  <td class="std" nowrap="nowrap" align="center" width="45%">{HEADER_DESC}</td>
-		  <td class="std" nowrap="nowrap" align="center" width="25%"><div align="center">{HEADER_EDITED}</div></td>
-		  <td class="std" nowrap="nowrap" align="center" width="25%"></td>
+		  <td class="std ilWhiteSpaceNowrap ilCenter" width="5%"><div align="center">{HEADER_NR}</div></td>
+		  <td class="std ilWhiteSpaceNowrap ilCenter" width="45%">{HEADER_DESC}</td>
+		  <td class="std ilWhiteSpaceNowrap ilCenter" width="25%"><div align="center">{HEADER_EDITED}</div></td>
+		  <td class="std ilWhiteSpaceNowrap ilCenter" width="25%"></td>
 		</tr>
 		<!-- BEGIN start_row -->
 		<tr class="std">
@@ -43,10 +43,10 @@
 			<!-- END start_description -->
 		  </td>
 		  <td class="{ROW_CLASS_CENTER}">
-			<img src="{EDITED_IMG}" alt="{EDITED_ALT}" title="{EDITED_ALT}" border="0" />
+			<img src="{EDITED_IMG}" alt="{EDITED_ALT}" title="{EDITED_ALT}" />
 		  </td>
 		  <td class="{ROW_CLASS_CENTER}">
-			<div style="float:right"
+			  <div class="ilFloatRight">
 			  <!-- BEGIN link -->
 			  <a class="il_ContainerItemCommand" href="{LINK_HREF}" target="{LINK_TARGET}">{LINK_NAME}</a>
 			  <!-- END link -->

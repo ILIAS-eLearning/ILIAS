@@ -1,8 +1,8 @@
 <tr class="{CSS_ROW}">
-  <!-- <td class="std" valign="top">
+  <!-- <td class="std">
   {VAL_CHKBOX}
   </td>-->
-  <td class="std" valign="top">
+  <td class="std">
   <input type="hidden" name="id[{VAL_ID}]" value = "1" />
   {TXT_ASS_TITLE}
   <!-- BEGIN team_ass -->
@@ -16,7 +16,7 @@
   </div>
   <!-- END team_ass -->
   </td>
-  <td class="std" valign="top">
+  <td class="std">
   <span class="small">{TXT_LAST_SUBMISSION}: {VAL_LAST_SUBMISSION}<br />
   {TXT_SUBMITTED_FILES}: {VAL_SUBMITTED_FILES} &nbsp;</span>
   <!-- BEGIN download_link -->
@@ -33,8 +33,8 @@
   </span>
   </div>
   </td>
-  <td class="std" valign="top"><span class="small" style="white-space: nowrap;">
-  	<img border="0" src="{IMG_STATUS}" alt="{ALT_STATUS}" style="vertical-align:middle;"/>
+  <td class="std"><span class="small ilWhiteSpaceNowrap">
+  	<img src="{IMG_STATUS}" alt="{ALT_STATUS}" />
   	<select name="status[{VAL_ID}]" >
 		<option value="notgraded" {SEL_NOTGRADED}>{TXT_NOTGRADED}</option>
 		<option value="passed" {SEL_PASSED}>{TXT_PASSED}</option>
@@ -46,7 +46,7 @@
   <!-- END status_date -->
   </span>
   </td>
-  <td class="std" valign="top">
+  <td class="std">
   <div><a class="il_ContainerItemCommand" target="_blank" href="{LINK_FEEDBACK}">{TXT_FEEDBACK}</a></div>
   <!-- BEGIN feedback_date -->
   <div class="small" style="margin-top: 4px">

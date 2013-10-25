@@ -327,7 +327,7 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
             $ov = new ilOverlayGUI($ov_id);
             $ov->add();
             $ov->addTrigger($ov_trigger_id, "click", $ov_trigger_id, false, "tl", "tr");
-            $tpl->setVariable("SELECT_OBJTYPE_REPOS", '<div id="' . $ov_id . '" style="display:none;" class="ilOverlay">'.$list_gui_html.'</div>');
+            $tpl->setVariable("SELECT_OBJTYPE_REPOS", '<div id="' . $ov_id . '" class="ilOverlay ilNoDisplay">'.$list_gui_html.'</div>');
         }
     }
 

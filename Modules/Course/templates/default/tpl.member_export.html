@@ -4,12 +4,12 @@
 	<form class="il_Form" name="cmd" method="post" action="{FORM_ACTION}">
 	  <table class="fullwidth">
 		<tr class="tblheader">
-		  <th class="std" colspan="2">
-			<div style="float:left;">{TXT_EXPORT_SETTINGS}</div>
+		  <th class="std ilLeft" colspan="2">
+			{TXT_EXPORT_SETTINGS}
 		  </th>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top">{TXT_USER_SELECTION}</td>
+		  <td class="option">{TXT_USER_SELECTION}</td>
 		  <td class="option_value">
 			{CHECK_EXPORT_ADMIN}&nbsp;{TXT_EXPORT_ADMIN}<br />
 			<!-- BEGIN tutor_check -->
@@ -22,11 +22,11 @@
 		</tr>
 		<tr class="tblheader">
 		  <td class="std" colspan="2">
-			<div style="float:left;">{TXT_EXPORT_USER_DATA_HEADER}</div>
+			<div class="ilFloatLeft">{TXT_EXPORT_USER_DATA_HEADER}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top">{TXT_USER_DATA_SELECTION}</td>
+		  <td class="option">{TXT_USER_DATA_SELECTION}</td>
 		  <td class="option_value">
 			<!-- BEGIN user_data_row -->
 			{CHECK_EXPORT_USER_DATA}&nbsp;{TXT_EXPORT_USER_DATA}<br />
@@ -35,7 +35,7 @@
 		</tr>
 		<!-- BEGIN cdf_fields -->
 		<tr class="std">
-		  <td class="option" align="top">{TXT_CDF_SELECTION}</td>
+		  <td class="option">{TXT_CDF_SELECTION}</td>
 		  <td class="option_value">
 			<!-- BEGIN cdf_row -->
 			{CHECK_CDF_DATA}&nbsp;{TXT_CDF_NAME}<br />
@@ -45,14 +45,14 @@
 		<!-- END cdf_fields -->
 		<!-- BEGIN consultation -->
 		<tr class="std">
-		  <td class="option" align="top">{TXT_CH}</td>
+		  <td class="option">{TXT_CH}</td>
 		  <td class="option_value">
 			{CHECK_EXPORT_CH}&nbsp;{TXT_EXPORT_CH}<br />
 		  </td>
 		</tr>
 		<!-- END consultation -->
 		<tr>
-		  <td class="submit" colspan="2" align="right">
+		  <td class="submit ilRight" colspan="2">
 			<input type="submit" class="submit" name="cmd[export]" value="{TXT_EXPORT}" />
 			<input type="submit" class="submit" name="cmd[exportExcel]" value="{TXT_EXPORT_EXCEL}" />
 		  </td>
@@ -61,6 +61,6 @@
 	</form>
 
 <!-- BEGIN iframe -->
-<iframe src="{SOURCE}" width="1px" height="1px" name="export_frame">
+<iframe src="{SOURCE}" width="1" height="1" name="export_frame">
 </iframe>
 <!-- END iframe -->

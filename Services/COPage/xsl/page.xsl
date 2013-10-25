@@ -945,7 +945,7 @@
 	<xsl:param name="img_id"/>
 	<xsl:param name="float">n</xsl:param>
 
-	<img border="0">
+	<img>
 		<xsl:if test="$float = 'y'">
 			<xsl:attribute name="style"></xsl:attribute>
 		</xsl:if>
