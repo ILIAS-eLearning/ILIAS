@@ -33,11 +33,7 @@ il.AdvancedSelectionList =
 	
 	showAnchor: function(id)
 	{
-		anchor = document.getElementById(id);
-		if (anchor !=  null)
-		{
-			anchor.style.display='';
-		}
+		$("#" + id).removeClass("ilNoDisplay");
 	},
 	
 	submitForm: function (id, hid_name, hid_val, form_id, cmd)
