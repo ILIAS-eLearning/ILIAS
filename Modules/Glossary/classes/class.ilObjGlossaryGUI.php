@@ -290,7 +290,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		return $form;
 	}
-
+	
 	function importObject()
 	{
 		$this->createObject();

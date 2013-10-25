@@ -28,6 +28,11 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		$this->tax_id = $a_tax_id;
 		$this->setId("glopr".$this->glossary->getId());
 		
+		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
+		$adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getId());
+		$this->adv_fields = $adv_ad->getAllFields();
+
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		//$this->setTitle($lng->txt("cont_terms"));
 
@@ -40,11 +45,17 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			$this->addColumn($lng->txt("cont_term"), "term");
 			
 			// advanced metadata
+			foreach ($this->adv_fields as $f)
+			{
+				$this->addColumn($f["title"], "md_".$f["id"]);
+			}
+			
+			/*
 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_TABLE_HEAD,'glo',$this->glossary->getId(),'term');
 			$record_gui->setSelectedOnly(true);
 			$record_gui->setTableGUI($this);
-			$record_gui->parse();
+			$record_gui->parse();*/
 			
 			$this->addColumn($lng->txt("cont_definitions"));
 			if ($this->glossary->isVirtual())
@@ -224,13 +235,33 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		$ilCtrl->clearParameters($this->parent_obj);
 
 		// advanced metadata
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_TABLE_CELLS,'glo',$this->glossary->getId(),'term',
-			$term["id"]);
-		$record_gui->setSelectedOnly(true);
-		$record_gui->setRowData($term);
-		$html = $record_gui->parse();
-		$this->tpl->setVariable("AMET_CELLS", $html);
+		foreach ($this->adv_fields as $f)
+		{
+			$id = $f["id"];
+			$this->tpl->setCurrentBlock("td_md");
+			switch ($f["type"])
+			{
+				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+					$val = ($term["md_".$id] > 0)
+						? ilDatePresentation::formatDate(new ilDateTime($term["md_".$id], IL_CAL_UNIX))
+						: " ";
+					break;
+					
+				case ilAdvancedMDFieldDefinition::TYPE_DATE:
+					$val = ($term["md_".$id] > 0)
+						? ilDatePresentation::formatDate(new ilDate($term["md_".$id], IL_CAL_UNIX))
+						: " ";
+					break;
+					
+				default:
+					$val = ($term["md_".$id] != "")
+						? $term["md_".$id]
+						: " ";
+					break;
+			}
+			$this->tpl->setVariable("MD_VAL", $val);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 }
