@@ -256,17 +256,24 @@ class ilPortfolioAccessHandler
 		return (bool)$ilDB->numRows($set);
 	}
 	
-	public function getObjectsIShare()
+	public function getObjectsIShare($a_online_only = true)
 	{
 		global $ilDB, $ilUser;
 		
 		$res = array();
-		$set = $ilDB->query("SELECT obj.obj_id".
+		
+		$sql = "SELECT obj.obj_id".
 			" FROM object_data obj".
 			" JOIN usr_portfolio prtf ON (prtf.id = obj.obj_id)".
 			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
-			" WHERE obj.owner = ".$ilDB->quote($ilUser->getId(), "integer").
-			" AND prtf.is_online = ".$ilDB->quote(1, "integer"));
+			" WHERE obj.owner = ".$ilDB->quote($ilUser->getId(), "integer");
+		
+		if($a_online_only)
+		{
+			$sql .= " AND prtf.is_online = ".$ilDB->quote(1, "integer");
+		}
+		
+		$set = $ilDB->query($sql);
 		while ($row = $ilDB->fetchAssoc($set))
 		{
 			$res[] = $row["obj_id"];
