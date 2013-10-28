@@ -189,7 +189,7 @@ class ilMemberAgreementGUI
 
 		if(!count($cdf_fields = ilCourseDefinedFieldDefinition::_getFields($a_obj_id)))
 		{
-			return true;
+			return $form;
 		}
 		
 		$cdf = new ilNonEditableValueGUI($lng->txt('ps_crs_user_fields'));
