@@ -224,7 +224,18 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 			}
 			else
 			{
+				// delete local role and change exiting objects
 				$rbacadmin->deleteLocalRole($role_id,$rolf);
+				// Change existing object
+				include_once './Services/AccessControl/classes/class.ilObjRole.php';
+				$role_obj = new ilObjRole($role_id);
+				$role_obj->changeExistingObjects(
+					$source->getRefId(),
+					$role['protected'] ? 
+						ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : 
+						ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
+					array('all')
+				);
 			}
 			
 		}
