@@ -631,11 +631,10 @@ class ilObjRole extends ilObject
 		// Get node info of subtree
 		$nodes = $tree->getRbacSubtreeInfo($a_start_node);
 		
-		#var_dump($nodes);
 		
 		// get local policies
 		$all_local_policies = $rbacreview->getObjectsWithStopedInheritance($this->getId());
-		
+
 		
 		// filter relevant roles
 		$local_policies = array();
@@ -714,7 +713,7 @@ class ilObjRole extends ilObject
 		array_push($left_stack, $start_node['lft']);
 		array_push($right_stack, $start_node['rgt']);
 		$this->updatePolicyStack($policy_stack, $start_node['child']);
-		$this->updateOperationStack($operation_stack, $start_node['child']);
+		$this->updateOperationStack($operation_stack, $start_node['child'],true);
 
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 		$rbac_log_active = ilRbacLog::isActive();
@@ -883,7 +882,7 @@ class ilObjRole extends ilObject
 	 * @param int $a_node
 	 * @return 
 	 */
-	protected function updateOperationStack(&$a_stack,$a_node)
+	protected function updateOperationStack(&$a_stack,$a_node, $a_init = false)
 	{
 		global $rbacreview;
 		
@@ -894,6 +893,19 @@ class ilObjRole extends ilObject
 		else
 		{
 			$rolf = $rbacreview->getRoleFolderIdOfObject($a_node);
+			
+			if($a_init)
+			{
+				$parent_roles = $rbacreview->getParentRoleIds($a_node,false);
+				if($parent_roles[$this->getId()])
+				{
+					$a_stack[] = $rbacreview->getAllOperationsOfRole(
+						$this->getId(),
+						$parent_roles[$this->getId()]['parent']
+					);
+				}
+				return true;
+			}
 		}
 		
 		if(!$rolf)
