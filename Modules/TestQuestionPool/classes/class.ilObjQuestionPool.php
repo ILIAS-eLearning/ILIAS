@@ -728,7 +728,8 @@ class ilObjQuestionPool extends ilObject
 			$page_object->buildDom();
 			$page_object->insertInstIntoIDs($a_inst);
 			$mob_ids = $page_object->collectMediaObjects(false);
-			$file_ids = $page_object->collectFileItems();
+			require_once 'Services/COPage/classes/class.ilPCFileList.php';
+			$file_ids = ilPCFileList::collectFileItems($page_object, $page_object->getDomDoc());
 			$xml = $page_object->getXMLFromDom(false, false, false, "", true);
 			$xml = str_replace("&","&amp;", $xml);
 			$a_xml_writer->appendXML($xml);
