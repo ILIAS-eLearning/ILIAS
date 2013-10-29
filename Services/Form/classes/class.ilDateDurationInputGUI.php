@@ -405,6 +405,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$_POST[$this->getPostVar()]['start']["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
 			$_POST[$this->getPostVar()]['start']["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
 		{
+			// #11847
+			$this->invalid_input['start'] = $_POST[$this->getPostVar()]['start']["date"];
 			$this->setAlert($lng->txt("exc_date_not_valid"));
 			$ok = false;
 		}
@@ -448,6 +450,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$_POST[$this->getPostVar()]['end']["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
 			$_POST[$this->getPostVar()]['end']["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
 		{
+			$this->invalid_input['end'] = $_POST[$this->getPostVar()]['end']["date"];
 			$this->setAlert($lng->txt("exc_date_not_valid"));
 			$ok = false;
 		}
@@ -469,7 +472,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		global $lng,$ilUser;
 		
 		$tpl = new ilTemplate("tpl.prop_datetime_duration.html", true, true, "Services/Form");
-
+		
 		// Init start		
 		if(is_a($this->getStart(),'ilDate'))
 		{
@@ -484,6 +487,14 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$this->setStart(new ilDateTime(time(), IL_CAL_UNIX));
 			$start_info = $this->getStart()->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());
 		}
+		// display invalid input again
+		if(is_array($this->invalid_input['start']))
+		{
+			$start_info['year'] = $this->invalid_input['start']['y'];
+			$start_info['mon'] = $this->invalid_input['start']['m'];
+			$start_info['mday'] = $this->invalid_input['start']['d'];		
+		}
+		
 		// Init end
 		if(is_a($this->getEnd(),'ilDate'))
 		{
@@ -497,6 +508,13 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		{
 			$this->setEnd(new ilDateTime(time(), IL_CAL_UNIX));
 			$end_info = $this->getEnd()->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());
+		}
+		// display invalid input again
+		if(is_array($this->invalid_input['end']))
+		{
+			$end_info['year'] = $this->invalid_input['end']['y'];
+			$end_info['mon'] = $this->invalid_input['end']['m'];
+			$end_info['mday'] = $this->invalid_input['end']['d'];		
 		}
 		
 		$lng->loadLanguageModule("jscalendar");

@@ -287,7 +287,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	*/	
 	function checkInput()
 	{
-		global $ilUser;
+		global $ilUser, $lng;
 		
 		if ($this->getDisabled())
 		{
@@ -408,6 +408,14 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		{
 			$dt = false;
 		}
+		
+		// #11847
+		if(!checkdate($dt['mon'], $dt['mday'], $dt['year']))
+		{
+			$this->invalid_input = $_POST[$this->getPostVar()]['date'];
+			$this->setAlert($lng->txt("exc_date_not_valid"));
+			$dt = false;
+		}
 
 		$date = new ilDateTime($dt, IL_CAL_FKT_GETDATE, $ilUser->getTimeZone());
 		$this->setDate($date);
@@ -457,6 +465,14 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			{
 				$this->setDate(new ilDateTime(time(), IL_CAL_UNIX));
 				$date_info = $this->getDate()->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());
+			}
+			
+			// display invalid input again
+			if(is_array($this->invalid_input))
+			{
+				$date_info['year'] = $this->invalid_input['y'];
+				$date_info['mon'] = $this->invalid_input['m'];
+				$date_info['mday'] = $this->invalid_input['d'];						
 			}
 		}
 
