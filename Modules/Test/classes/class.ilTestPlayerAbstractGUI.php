@@ -859,10 +859,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				}
 			}
 			$this->testSession->increaseTestPass();
+			ilSession::set('passincreased', $actualpass);
 		}
 
-		if ($this->object->getEnableArchiving())
+		if ($this->object->getEnableArchiving() && ilSession::get('archived') == $actualpass)
 		{
+			ilSession::set('archived', $actualpass);
 			$this->archiveParticipantSubmission( $active_id, $actualpass );
 		}
 
@@ -871,9 +873,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if ($this->object->getSignSubmission() 
 			&& count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig')) != 0)
 		{
-			$key = 'signed_'. $active_id .'_'. ($actualpass-1);
+			$key = 'signed_'. $active_id .'_'. $actualpass;
+			if (ilSession::get('passincreased') != null )
+			{
+				$key = 'signed_'. $active_id .'_'. ilSession::get('passincreased');
+			}
 			$val = ilSession::get($key);
-			if (is_null($val))
+			if ( is_null($val) )
 			{
 				/** @var $ilCtrl ilCtrl */
 				$ilCtrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');

@@ -140,7 +140,7 @@ class ilTestSignatureGUI
 		$pass = $this->test->_getMaxPass($active);
 		$key = 'signed_'. $active .'_'. $pass;
 		ilSession::set($key, $success);
-		$ilCtrl->redirectByClass('ilTestOutputGUI','finishTest');
+		$ilCtrl->redirectByClass('ilTestOutputGUI','confirmFinish');
 		return;
 	}
 }
