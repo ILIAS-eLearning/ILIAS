@@ -401,5 +401,140 @@ class ilNestedSetTree implements ilTreeImplementation
 		}
 		return $pathIds ? $pathIds : array();
 	}
+	
+	
+	/**
+	 * Move source subtree to target 
+	 * @param type $a_source_id
+	 * @param type $a_target_id
+	 * @param type $a_position
+	 */
+	public function moveTree($a_source_id, $a_target_id, $a_position)
+	{
+		global $ilDB;
+
+		if ($this->getTree()->__isMainTree())
+		{
+			$ilDB->lockTables(
+					array(
+						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+		}
+		// Receive node infos for source and target
+		$query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
+				'WHERE ( child = %s OR child = %s ) ' .
+				'AND ' . $this->getTree()->getTreePk() . ' = %s ';
+		$res = $ilDB->queryF($query, array('integer', 'integer', 'integer'), array(
+			$a_source_id,
+			$a_target_id,
+			$this->getTree()->getTreeId()));
+
+		// Check in tree
+		if ($res->numRows() != 2)
+		{
+			if ($this->getTree()->__isMainTree())
+			{
+				$ilDB->unlockTables();
+			}
+			$GLOBALS['ilLog']->logStack();
+			$GLOBALS['ilLog']->write(__METHOD__.': Objects not found in tree');
+			throw new InvalidArgumentException('Error moving subtree');
+		}
+		while ($row = $ilDB->fetchObject($res))
+		{
+			if ($row->child == $a_source_id)
+			{
+				$source_lft = $row->lft;
+				$source_rgt = $row->rgt;
+				$source_depth = $row->depth;
+				$source_parent = $row->parent;
+			}
+			else
+			{
+				$target_lft = $row->lft;
+				$target_rgt = $row->rgt;
+				$target_depth = $row->depth;
+			}
+		}
+
+		// Check target not child of source
+		if ($target_lft >= $source_lft and $target_rgt <= $source_rgt)
+		{
+			if ($this->getTree()->__isMainTree())
+			{
+				$ilDB->unlockTables();
+			}
+			$GLOBALS['ilLog']->logStack();
+			$GLOBALS['ilLog']->write(__METHOD__.': Target is child of source');
+			throw new ilInvalidArgumentException('Error moving subtree: target is child of source');
+		}
+
+		// Now spread the tree at the target location. After this update the table should be still in a consistent state.
+		// implementation for IL_LAST_NODE
+		$spread_diff = $source_rgt - $source_lft + 1;
+		#var_dump("<pre>","SPREAD_DIFF: ",$spread_diff,"<pre>");
+
+		$query = 'UPDATE ' . $this->getTree()->getTreeTable() . ' SET ' .
+				'lft = CASE WHEN lft >  %s THEN lft + %s ELSE lft END, ' .
+				'rgt = CASE WHEN rgt >= %s THEN rgt + %s ELSE rgt END ' .
+				'WHERE ' . $this->getTree()->getTreePk() . ' = %s ';
+		$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer'), array(
+			$target_rgt,
+			$spread_diff,
+			$target_rgt,
+			$spread_diff,
+			$this->getTree()->getTreeId()));
+
+		// Maybe the source node has been updated, too.
+		// Check this:
+		if ($source_lft > $target_rgt)
+		{
+			$where_offset = $spread_diff;
+			$move_diff = $target_rgt - $source_lft - $spread_diff;
+		}
+		else
+		{
+			$where_offset = 0;
+			$move_diff = $target_rgt - $source_lft;
+		}
+		$depth_diff = $target_depth - $source_depth + 1;
+
+
+		$query = 'UPDATE ' . $this->getTree()->getTreeTable() . ' SET ' .
+				'parent = CASE WHEN parent = %s THEN %s ELSE parent END, ' .
+				'rgt = rgt + %s, ' .
+				'lft = lft + %s, ' .
+				'depth = depth + %s ' .
+				'WHERE lft >= %s ' .
+				'AND rgt <= %s ' .
+				'AND ' . $this->getTree()->getTreePk() . ' = %s ';
+		$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'), array(
+			$source_parent,
+			$a_target_id,
+			$move_diff,
+			$move_diff,
+			$depth_diff,
+			$source_lft + $where_offset,
+			$source_rgt + $where_offset,
+			$this->getTree()->getTreeId()));
+
+		// done: close old gap
+		$query = 'UPDATE ' . $this->getTree()->getTreeTable() . ' SET ' .
+				'lft = CASE WHEN lft >= %s THEN lft - %s ELSE lft END, ' .
+				'rgt = CASE WHEN rgt >= %s THEN rgt - %s ELSE rgt END ' .
+				'WHERE ' . $this->getTree()->getTreePk() . ' = %s ';
+
+		$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer'), array(
+			$source_lft + $where_offset,
+			$spread_diff,
+			$source_rgt + $where_offset,
+			$spread_diff,
+			$this->getTree()->getTreeId()));
+
+		if ($this->getTree()->__isMainTree())
+		{
+			$ilDB->unlockTables();
+		}
+	}
+
 }
 ?>

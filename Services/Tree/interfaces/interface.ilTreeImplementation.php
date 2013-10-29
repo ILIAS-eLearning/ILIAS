@@ -62,6 +62,12 @@ interface ilTreeImplementation
 	public function moveToTrash($a_node_id);
 			
 	
-	
+	/**
+	 * Move a source subtree to target
+	 * @param type $a_source_id
+	 * @param type $a_target_id
+	 * @param type $a_position
+	 */
+	public function moveTree($a_source_id, $a_target_id, $a_position);
 }
 ?>

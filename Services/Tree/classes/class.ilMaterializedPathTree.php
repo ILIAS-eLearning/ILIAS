@@ -15,6 +15,7 @@ include_once './Services/Tree/interfaces/interface.ilTreeImplementation.php';
  */
 class ilMaterializedPathTree implements ilTreeImplementation
 {
+	private $maximum_possible_depth = 100;
 	private $tree = NULL;
 	
 	/**
@@ -24,6 +25,15 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	public function __construct(ilTree $a_tree)
 	{
 		$this->tree = $a_tree;
+	}
+	
+	/**
+	 * Get maximum possible depth
+	 * @return type
+	 */
+	protected function getMaximumPossibleDepth()
+	{
+		return $this->maximum_possible_depth;
 	}
 
 	/**
@@ -164,6 +174,135 @@ class ilMaterializedPathTree implements ilTreeImplementation
 				'AND '.$ilDB->quote($a_node['path'].'.Z','text').' '.
 				'AND '.$this->getTree()->getTreePk().' = '.$ilDB->quote($a_node[$this->getTree()->getTreePk()]);
 		$ilDB->manipulate($query);
+		return true;
+	}
+	
+	/**
+	 * Move subtree to trash
+	 * @param type $a_node_id
+	 * @todo
+	 */
+	public function moveToTrash($a_node_id)
+	{
+		
+	}
+	
+	/**
+	 * move source subtree to target node
+	 * @param type $a_source_id
+	 * @param type $a_target_id
+	 * @param type $a_position
+	 */
+	public function moveTree($a_source_id, $a_target_id, $a_position)
+	{
+		global $ilDB;
+		
+		if ($this->getTree()->__isMainTree())
+		{
+			$ilDB->lockTables(
+					array(
+						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+		}
+
+		// Receive node infos for source and target
+		$this->ilDB->setLimit(2);
+		$res = $this->ilDB->query(
+			'SELECT depth, child, parent, path FROM ' . $this->getTree()->getTreeTable() . 
+			'WHERE ' . $this->ilDB->in('child', array($a_source_id, $a_target_id), false, 'integer') . 
+			'AND tree = ' . $this->ilDB->quote($this->getTree()->getTreeId(), 'integer')
+		);
+
+		// Check in tree
+		if ($this->ilDB->numRows($res) != 2)
+		{
+			if ($this->getTree()->__isMainTree())
+			{
+				$ilDB->unlockTables();
+			}
+			$GLOBALS['ilLog']->logStack();
+			$GLOBALS['ilLog']->write(__METHOD__.': Objects not found in tree');
+			throw new InvalidArgumentException('Error moving subtree');
+		}
+
+		while ($row = $this->ilDB->fetchObject($res))
+		{
+			if ($row->child == $a_source_id)
+			{
+				$source_path = $row->path;
+				$source_depth = $row->depth;
+				$source_parent = $row->parent;
+			}
+			else
+			{
+				$target_path = $row->path;
+				$target_depth = $row->depth;
+			}
+		}
+
+		if ($target_depth >= $source_depth)
+		{
+			// We move nodes deeper into the tree. Therefore we need to
+			// check whether we might exceed the maximal path length.
+			// We use FOR UPDATE here, because we don't want anyone to
+			// insert new nodes while we move the subtree.
+
+			$res = $this->ilDB->queryF('
+                    SELECT  MAX(depth) max_depth
+                    FROM    ' . $this->getTree()->getTreeTable() . '
+                    WHERE   path BETWEEN %s AND %s
+                    AND     tree = %s ', 
+				array('text', 'text', 'integer'), array($source_path, $source_path . '.Z', $this->getTree()->getTreeId()));
+
+			$row = $this->ilDB->fetchObject($res);
+
+			if ($row->max_depth - $source_depth + $target_depth + 1 > $this->getMaximumPossibleDepth())
+			{
+				if ($this->getTree()->__isMainTree())
+				{
+					$ilDB->unlockTables();
+				}
+				$GLOBALS['ilLog']->logStack();
+				$GLOBALS['ilLog']->write(__METHOD__.': Objects not found in tree');
+				throw new ilInvalidTreeStructureException('Maximum tree depth exceeded');
+			}
+		}
+		// Check target not child of source
+		if (substr($target_path . '.', 0, strlen($source_path) . '.') == $source_path . '.')
+		{
+			if ($this->getTree()->__isMainTree())
+			{
+				$ilDB->unlockTables();
+			}
+			$GLOBALS['ilLog']->logStack();
+			$GLOBALS['ilLog']->write(__METHOD__.': Target is child of source');
+			throw new ilInvalidArgumentException('Error moving subtree: target is child of source');
+		}
+		$depth_diff = $target_depth - $source_depth + 1;
+
+		// move subtree:
+		$query = '
+                UPDATE ' . $this->table_tree . '
+                SET parent = CASE WHEN parent = ' . $this->ilDB->quote($source_parent, 'integer') . '
+                             THEN ' . $this->ilDB->quote($a_target_id, 'integer') . '
+                             ELSE parent END,
+
+                    path = ' . $this->ilDB->concat(array(
+					array($this->ilDB->quote($target_path, 'text'), 'text'),
+					array($this->ilDB->substr('path', strrpos('.' . $source_path, '.')), 'text'))) . ' ,
+
+                    depth = depth + ' . $this->ilDB->quote($depth_diff, 'integer') . '
+
+                WHERE path  BETWEEN ' . $this->ilDB->quote($source_path, 'text') . '
+                            AND ' . $this->ilDB->quote($source_path . '.Z', 'text') . '
+
+                AND tree = ' . $this->ilDB->quote($this->tree_id, 'integer');
+
+
+		$this->ilDB->manipulate($query);
+		if ($this->getTree()->__isMainTree())
+		{
+			$ilDB->unlockTables();
+		}
 		return true;
 	}
 	
