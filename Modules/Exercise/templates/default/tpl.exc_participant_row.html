@@ -3,19 +3,32 @@
   {VAL_CHKBOX}
   </td>-->
   <td class="std" valign="top">
+  <!-- BEGIN multi_bl -->
   <input type="hidden" name="id[{VAL_ID}]" value = "1" />
+  <!-- END multi_bl -->
   {TXT_ASS_TITLE}
   <!-- BEGIN team_ass -->
   <div class="small">
+	  <!-- BEGIN team_ass_details -->
 	  <ul>
 		<!-- BEGIN ass_members -->
 		<li>{TXT_MEMBER_NAME}</li>
 		<!-- END ass_members -->
 	  </ul>
 	  <a href="{HREF_LOG}" class="il_ContainerItemCommand">{TXT_LOG}</a>
+	  <!-- END team_ass_details -->
+	  <!-- BEGIN team_info -->	  
+	  <span class="small">({TXT_TEAM_INFO})</span>
+	  <!-- END team_info -->
   </div>
   <!-- END team_ass -->
   </td>
+   <!-- BEGIN member_has_no_team_bl -->
+  <td colspan="3">
+	  &nbsp;
+  </td>
+  <!-- END member_has_no_team_bl -->
+  <!-- BEGIN member_has_team_bl -->
   <td class="std" valign="top">
   <span class="small">{TXT_LAST_SUBMISSION}: {VAL_LAST_SUBMISSION}<br />
   {TXT_SUBMITTED_FILES}: {VAL_SUBMITTED_FILES} &nbsp;</span>
@@ -57,4 +70,5 @@
   <!-- BEGIN feedback_file_date -->
   <!-- END feedback_file_date -->
   </td>
+  <!-- END member_has_team_bl -->
 </tr>
