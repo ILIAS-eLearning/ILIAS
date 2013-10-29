@@ -68,13 +68,18 @@ class ilChatroomBanTask extends ilChatroomTaskHandler
 	 */
 	public function delete()
 	{
-		global $ilCtrl;
+		/**
+		 * @var $ilCtrl ilCtrl
+		 * @var $lng ilLanguage
+		 */
+		global $ilCtrl, $lng;
 
 		$users = $_REQUEST['banned_user_id'];
 
 		if( !is_array( $users ) )
 		{
-			return;
+			ilUtil::sendInfo($lng->txt('no_checkbox'), true);
+			$ilCtrl->redirect( $this->gui, 'ban-show' );
 		}
 
 		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
