@@ -175,6 +175,78 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		}
 		return $pathIds;
 	}
+	
+	/**
+	 * Insert new node under parent node
+	 * @param type $a_node_id
+	 * @param type $a_parent_id
+	 * @param type $a_pos
+	 */
+	public function insertNode($a_node_id, $a_parent_id, $a_pos)
+	{
+		global $ilDB;
+		 
+		// LOCKED ###########################################################
+		if ($this->getTree()->__isMainTree())
+		{
+			$ilDB->lockTables(
+					array(
+						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+		}
+
+		// get path and depth of parent
+		$this->ilDB->setLimit(1);
+		$res = $this->ilDB->queryF(
+			'SELECT parent, depth, path FROM ' . $this->getTree()->getTreeTable() . ' ' .
+			'WHERE child = %s '. ' '.
+			'AND ' . $this->getTree()->getTreePk() . ' = %s', array('integer', 'integer'), 
+			array($a_parent_id, $this->getTree()->getTreeId()));
+
+
+		$r = $this->ilDB->fetchObject($res);
+
+		if ($r->parent == NULL)
+		{
+			if ($this->getTree()->__isMainTree())
+			{
+				$ilDB->unlockTables();
+			}
+			$GLOBALS['ilLog']->logStack();
+			throw new ilInvalidTreeStructureException('Parent node not found in tree');
+		}
+
+		if ($r->depth >= $this->getMaximumPossibleDepth())
+		{
+			// LOCKED ###########################################################
+			if ($this->getTree()->__isMainTree())
+			{
+				$ilDB->unlockTables();
+			}
+			$GLOBALS['ilLog']->logStack();
+			throw new ilInvalidTreeStructureException('Maximum tree depth exceeded');
+		}
+
+		$parentPath = $r->path;
+		$depth = $r->depth + 1;
+		$lft = 0;
+		$rgt = 0;
+
+
+		$this->ilDB->insert($this->getTree()->getTreeTable(), array($this->getTree()->getTreePk() => array('integer', $this->getTree()->getTreeId()),
+			'child' => array('integer', $a_node_id),
+			'parent' => array('integer', $a_parent_id),
+			'lft' => array('integer', $lft),
+			'rgt' => array('integer', $rgt),
+			'depth' => array('integer', $depth),
+			'path' => array('text', $parentPath . "." . $a_node_id)));
+		
+		
+		if ($this->getTree()->__isMainTree())
+		{
+			$ilDB->unlockTables();
+		}
+	}
+	
 
 	/**
 	 * Delete a subtree
