@@ -219,6 +219,8 @@ class ilNestedSetTree implements ilTreeImplementation
 	/**
 	 * Move to trash
 	 * @param type $a_node_id
+	 * 
+	 * @todo lock table
 	 */
 	public function moveToTrash($a_node_id)
 	{

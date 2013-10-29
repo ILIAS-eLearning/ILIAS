@@ -2799,7 +2799,6 @@ class ilTree
 	 */
 	public function moveTree($a_source_id, $a_target_id, $a_location = self::POS_LAST_NODE)
 	{
-		
 		$this->getTreeImplementation()->moveTree($a_source_id,$a_target_id,$a_location);
 		$GLOBALS['ilAppEventHandler']->raise(
 				"Services/Tree", 
