@@ -14108,3 +14108,4 @@ sop#:#sop_msg_push_tracking#:#Transfering tracking data to ILIAS. Please wait so
 sop#:#sop_msg_push_tracking_failure#:#Transfering tracking data was not successful
 sop#:#sop_msg_push_tracking_ok#:#Transfering tracking data was successful
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
+exc#:#exc_no_team_yet#:#No team yet

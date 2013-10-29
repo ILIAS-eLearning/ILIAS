@@ -1,7 +1,9 @@
 <tr class="{CSS_ROW}">
   <td class="std">
+  <!-- BEGIN multi_bl -->
   {VAL_CHKBOX}
   <input type="hidden" name="id[{VAL_ID}]" value = "1" />
+  <!-- END multi_bl -->
   </td>
   <!-- BEGIN member_specific -->
   <!-- BEGIN img_bl -->
@@ -19,19 +21,30 @@
   <!-- END login_bl -->
   <!-- END member_specific -->
   <!-- BEGIN team_specific -->
-  <td class="std">
+  <td class="std">	  
 	  <!-- BEGIN team_member -->
 	  {TXT_MEMBER_NAME}<br />
 	  <!-- END team_member -->
+	  <!-- BEGIN team_log -->
 	  <a href="{HREF_LOG}" class="il_ContainerItemCommand">{TXT_LOG}</a>
+	  <!-- END team_log -->
+	  <!-- BEGIN team_info -->	  
+	  <span class="small">({TXT_TEAM_INFO})</span>
+	  <!-- END team_info -->
   </td>
   <!-- END team_specific -->
+  <!-- BEGIN member_has_no_team_bl -->
+  <td colspan="3">
+	  &nbsp;
+  </td>
+  <!-- END member_has_no_team_bl -->
+  <!-- BEGIN member_has_team_bl -->
   <!-- BEGIN mail_sent -->
   <td class="std">
   <span class="small">{TXT_MAIL_SENT}</span>
   </td>
   <!-- END mail_sent -->
-  <td class="std">
+  <td class="std">	
   <span class="small">{TXT_LAST_SUBMISSION}: {VAL_LAST_SUBMISSION}<br />
   {TXT_SUBMITTED_FILES}: {VAL_SUBMITTED_FILES} &nbsp;</span>
   <!-- BEGIN download_link -->
@@ -78,5 +91,6 @@
   </div>
   <!-- END peer_review_bl -->  
   </td>
-  	<!--<input type="text" name="{ROW_INPUT_NAME}" value="{ROW_INPUT_VALUE}" size="40" maxlength="200" />-->
+  <!--<input type="text" name="{ROW_INPUT_NAME}" value="{ROW_INPUT_VALUE}" size="40" maxlength="200" />-->
+  <!-- END member_has_team_bl -->  
 </tr>

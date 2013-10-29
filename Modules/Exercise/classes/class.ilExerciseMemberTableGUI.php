@@ -62,11 +62,14 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			foreach($data as $item)
 			{
 				$team_id = $team_map[$item["usr_id"]];
-				
-				// #11058
+								
 				if(!$team_id)
 				{
-					$team_id = $ass_obj->getTeamId($item["usr_id"], true);
+					// #11058
+					// $team_id = $ass_obj->getTeamId($item["usr_id"], true);
+					
+					// #11957
+					$team_id = "nty".$item["usr_id"];
 				}
 				
 				if(!isset($tmp[$team_id]))
@@ -172,41 +175,46 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		{
 			return;
 		}
+		
+		$has_no_team_yet = (substr($member["team_id"], 0, 3) == "nty");
 
-		// mail sent
-		if ($this->sent_col)
+		if(!$has_no_team_yet)
 		{
-			if (ilExAssignment::lookupStatusSentOfUser($this->ass_id, $member_id))
+			// mail sent
+			if ($this->sent_col)
 			{
-				$this->tpl->setCurrentBlock("mail_sent");
-				if (($st = ilExAssignment::lookupSentTimeOfUser($this->ass_id,
-					$member_id)) > 0)
+				if (ilExAssignment::lookupStatusSentOfUser($this->ass_id, $member_id))
 				{
-					$this->tpl->setVariable("TXT_MAIL_SENT",
-						sprintf($lng->txt("exc_sent_at"),
-						ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
+					$this->tpl->setCurrentBlock("mail_sent");
+					if (($st = ilExAssignment::lookupSentTimeOfUser($this->ass_id,
+						$member_id)) > 0)
+					{
+						$this->tpl->setVariable("TXT_MAIL_SENT",
+							sprintf($lng->txt("exc_sent_at"),
+							ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
+					}
+					else
+					{
+						$this->tpl->setVariable("TXT_MAIL_SENT",
+							$lng->txt("sent"));
+					}
+					$this->tpl->parseCurrentBlock();
 				}
 				else
 				{
+					$this->tpl->setCurrentBlock("mail_sent");
 					$this->tpl->setVariable("TXT_MAIL_SENT",
-						$lng->txt("sent"));
+						"&nbsp;");
+					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->parseCurrentBlock();
 			}
-			else
-			{
-				$this->tpl->setCurrentBlock("mail_sent");
-				$this->tpl->setVariable("TXT_MAIL_SENT",
-					"&nbsp;");
-				$this->tpl->parseCurrentBlock();
-			}
-		}
 
-		// checkbox
-		$this->tpl->setVariable("VAL_CHKBOX",
-			ilUtil::formCheckbox(0,"member[$member_id]",1));
-		$this->tpl->setVariable("VAL_ID",
-			$member_id);
+			// checkbox
+			$this->tpl->setVariable("VAL_CHKBOX",
+				ilUtil::formCheckbox(0,"member[$member_id]",1));
+			$this->tpl->setVariable("VAL_ID",
+				$member_id);				
+		}
 			
 		// name and login
 		if(!isset($member["team"]))
@@ -230,7 +238,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		}
 		// team upload
 		else
-		{
+		{						
 			$this->tpl->setCurrentBlock("team_member");
 			asort($member["team"]);
 			foreach($member["team"] as $member_name) // #10749
@@ -238,149 +246,166 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_MEMBER_NAME", $member_name);
 				$this->tpl->parseCurrentBlock();
 			}
-			
-			$ilCtrl->setParameter($this->parent_obj, "lmem", $member_id);
-			$this->tpl->setVariable("HREF_LOG", 
-				$ilCtrl->getLinkTarget($this->parent_obj, "showTeamLog"));
-			$this->tpl->setVariable("TXT_LOG", $lng->txt("exc_team_log"));
-			$ilCtrl->setParameter($this->parent_obj, "lmem", "");
+						
+			if(!$has_no_team_yet)
+			{
+				$this->tpl->setCurrentBlock("team_log");
+				$ilCtrl->setParameter($this->parent_obj, "lmem", $member_id);
+				$this->tpl->setVariable("HREF_LOG", 
+					$ilCtrl->getLinkTarget($this->parent_obj, "showTeamLog"));
+				$this->tpl->setVariable("TXT_LOG", $lng->txt("exc_team_log"));
+				$ilCtrl->setParameter($this->parent_obj, "lmem", "");
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("team_info");
+				$this->tpl->setVariable("TXT_TEAM_INFO", $lng->txt("exc_no_team_yet"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
-		
-		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $this->type, $this->ass_id, $member_id, $this->parent_cmd);
-		
-		$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
-		$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
-		
-		$this->tpl->setVariable("TXT_SUBMITTED_FILES", $file_info["files"]["txt"]);
-		$this->tpl->setVariable("VAL_SUBMITTED_FILES", $file_info["files"]["count"]);
-		
-		if($file_info["files"]["download_url"])
+		if(!$has_no_team_yet)
 		{
-			$this->tpl->setCurrentBlock("download_link");
-			$this->tpl->setVariable("LINK_DOWNLOAD", $file_info["files"]["download_url"]);
-			$this->tpl->setVariable("TXT_DOWNLOAD", $file_info["files"]["download_txt"]);		
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if($file_info["files"]["download_new_url"])
-		{
-			$this->tpl->setCurrentBlock("download_link");
-			$this->tpl->setVariable("LINK_NEW_DOWNLOAD", $file_info["files"]["download_new_url"]);
-			$this->tpl->setVariable("TXT_NEW_DOWNLOAD", $file_info["files"]["download_new_txt"]);		
-			$this->tpl->parseCurrentBlock();
-		}
-				
-		// note
-		$this->tpl->setVariable("TXT_NOTE", $lng->txt("note"));
-		$this->tpl->setVariable("NAME_NOTE",
-			"notice[$member_id]");
-		$this->tpl->setVariable("VAL_NOTE",
-			ilUtil::prepareFormOutput(ilExAssignment::lookupNoticeOfUser($this->ass_id, $member_id)));
-			
-		// comment for learner
-		$this->tpl->setVariable("TXT_LCOMMENT", $lng->txt("exc_comment_for_learner"));
-		$this->tpl->setVariable("NAME_LCOMMENT",
-			"lcomment[$member_id]");
-		$lpcomment = ilExAssignment::lookupCommentForUser($this->ass_id, $member_id);
-		$this->tpl->setVariable("VAL_LCOMMENT",
-			ilUtil::prepareFormOutput($lpcomment));
+			$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $this->type, $this->ass_id, $member_id, $this->parent_cmd);
 
-		// solved
-		//$this->tpl->setVariable("CHKBOX_SOLVED",
-		//	ilUtil::formCheckbox($this->exc->members_obj->getStatusByMember($member_id),"solved[$member_id]",1));
-		$status = ilExAssignment::lookupStatusOfUser($this->ass_id, $member_id);
-		$this->tpl->setVariable("SEL_".strtoupper($status), ' selected="selected" ');
-		$this->tpl->setVariable("TXT_NOTGRADED", $lng->txt("exc_notgraded"));
-		$this->tpl->setVariable("TXT_PASSED", $lng->txt("exc_passed"));
-		$this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));
-		if (($sd = ilExAssignment::lookupStatusTimeOfUser($this->ass_id, $member_id)) > 0)
-		{
-			$this->tpl->setCurrentBlock("status_date");
-			$this->tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
-			$this->tpl->setVariable('VAL_STATUS_DATE',
-				ilDatePresentation::formatDate(new ilDateTime($sd,IL_CAL_DATETIME)));
+			$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
+			$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
+
+			$this->tpl->setVariable("TXT_SUBMITTED_FILES", $file_info["files"]["txt"]);
+			$this->tpl->setVariable("VAL_SUBMITTED_FILES", $file_info["files"]["count"]);
+
+			if($file_info["files"]["download_url"])
+			{
+				$this->tpl->setCurrentBlock("download_link");
+				$this->tpl->setVariable("LINK_DOWNLOAD", $file_info["files"]["download_url"]);
+				$this->tpl->setVariable("TXT_DOWNLOAD", $file_info["files"]["download_txt"]);		
+				$this->tpl->parseCurrentBlock();
+			}
+
+			if($file_info["files"]["download_new_url"])
+			{
+				$this->tpl->setCurrentBlock("download_link");
+				$this->tpl->setVariable("LINK_NEW_DOWNLOAD", $file_info["files"]["download_new_url"]);
+				$this->tpl->setVariable("TXT_NEW_DOWNLOAD", $file_info["files"]["download_new_txt"]);		
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// note
+			$this->tpl->setVariable("TXT_NOTE", $lng->txt("note"));
+			$this->tpl->setVariable("NAME_NOTE",
+				"notice[$member_id]");
+			$this->tpl->setVariable("VAL_NOTE",
+				ilUtil::prepareFormOutput(ilExAssignment::lookupNoticeOfUser($this->ass_id, $member_id)));
+
+			// comment for learner
+			$this->tpl->setVariable("TXT_LCOMMENT", $lng->txt("exc_comment_for_learner"));
+			$this->tpl->setVariable("NAME_LCOMMENT",
+				"lcomment[$member_id]");
+			$lpcomment = ilExAssignment::lookupCommentForUser($this->ass_id, $member_id);
+			$this->tpl->setVariable("VAL_LCOMMENT",
+				ilUtil::prepareFormOutput($lpcomment));
+
+			// solved
+			//$this->tpl->setVariable("CHKBOX_SOLVED",
+			//	ilUtil::formCheckbox($this->exc->members_obj->getStatusByMember($member_id),"solved[$member_id]",1));
+			$status = ilExAssignment::lookupStatusOfUser($this->ass_id, $member_id);
+			$this->tpl->setVariable("SEL_".strtoupper($status), ' selected="selected" ');
+			$this->tpl->setVariable("TXT_NOTGRADED", $lng->txt("exc_notgraded"));
+			$this->tpl->setVariable("TXT_PASSED", $lng->txt("exc_passed"));
+			$this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));
+			if (($sd = ilExAssignment::lookupStatusTimeOfUser($this->ass_id, $member_id)) > 0)
+			{
+				$this->tpl->setCurrentBlock("status_date");
+				$this->tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
+				$this->tpl->setVariable('VAL_STATUS_DATE',
+					ilDatePresentation::formatDate(new ilDateTime($sd,IL_CAL_DATETIME)));
+				$this->tpl->parseCurrentBlock();
+			}
+			switch($status)
+			{
+				case "passed": 	$pic = "scorm/passed.png"; break;
+				case "failed":	$pic = "scorm/failed.png"; break;
+				default: 		$pic = "scorm/not_attempted.png"; break;
+			}
+			$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
+			$this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$status));
+
+			// mark
+			$this->tpl->setVariable("TXT_MARK", $lng->txt("exc_mark"));
+			$this->tpl->setVariable("NAME_MARK",
+				"mark[$member_id]");
+			$mark = ilExAssignment::lookupMarkOfUser($this->ass_id, $member_id);
+			$this->tpl->setVariable("VAL_MARK",
+				ilUtil::prepareFormOutput($mark));
+
+			// feedback
+			$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
+			if (($ft = ilExAssignment::lookupFeedbackTimeOfUser($this->ass_id, $member_id)) > 0)
+			{
+				$this->tpl->setCurrentBlock("feedback_date");
+				$this->tpl->setVariable("TXT_FEEDBACK_MAIL_SENT",
+					sprintf($lng->txt("exc_sent_at"),
+					ilDatePresentation::formatDate(new ilDateTime($ft,IL_CAL_DATETIME))));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// feedback mail		
+			$this->tpl->setVariable("LINK_FEEDBACK",
+				$ilCtrl->getLinkTarget($this->parent_obj, "redirectFeedbackMail"));
+			$this->tpl->setVariable("TXT_FEEDBACK",
+				$lng->txt("exc_send_mail"));
+
+			if($this->type == ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				$feedback_id = "t".$member["team_id"];
+			}
+			else
+			{
+				$feedback_id = $member_id;
+			}
+
+			// file feedback
+			$cnt_files = $this->storage->countFeedbackFiles($feedback_id);
+			$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedback");
+			$this->tpl->setVariable("LINK_FILE_FEEDBACK",
+				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
+			if ($cnt_files == 0)
+			{
+				$this->tpl->setVariable("TXT_FILE_FEEDBACK",
+					$lng->txt("exc_add_feedback_file"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_FILE_FEEDBACK",
+					$lng->txt("exc_fb_files")." (".$cnt_files.")");
+			}
+
+			// peer review / rating
+			if(!isset($member["team"]) && $this->peer_review)
+			{						
+				$this->tpl->setCurrentBlock("peer_review_bl");
+				$this->tpl->setVariable("TXT_PEER_REVIEW", $lng->txt("exc_peer_review_show"));
+
+				$ilCtrl->setParameter($this->parent_obj, "grd", 1);
+				$this->tpl->setVariable("LINK_PEER_REVIEW", 
+					$ilCtrl->getLinkTarget($this->parent_obj, "showPersonalPeerReview"));
+				$ilCtrl->setParameter($this->parent_obj, "grd", "");
+
+				$rating = new ilRatingGUI();
+				$rating->setObject($this->ass_id, "ass", $member_id, "peer");
+				$rating->setUserId(0);			
+				$this->tpl->setVariable("VAL_RATING", $rating->getHTML(true, false));		
+
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->parseCurrentBlock();
-		}
-		switch($status)
-		{
-			case "passed": 	$pic = "scorm/passed.png"; break;
-			case "failed":	$pic = "scorm/failed.png"; break;
-			default: 		$pic = "scorm/not_attempted.png"; break;
-		}
-		$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
-		$this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$status));
-		
-		// mark
-		$this->tpl->setVariable("TXT_MARK", $lng->txt("exc_mark"));
-		$this->tpl->setVariable("NAME_MARK",
-			"mark[$member_id]");
-		$mark = ilExAssignment::lookupMarkOfUser($this->ass_id, $member_id);
-		$this->tpl->setVariable("VAL_MARK",
-			ilUtil::prepareFormOutput($mark));
-			
-		// feedback
-		$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
-		if (($ft = ilExAssignment::lookupFeedbackTimeOfUser($this->ass_id, $member_id)) > 0)
-		{
-			$this->tpl->setCurrentBlock("feedback_date");
-			$this->tpl->setVariable("TXT_FEEDBACK_MAIL_SENT",
-				sprintf($lng->txt("exc_sent_at"),
-				ilDatePresentation::formatDate(new ilDateTime($ft,IL_CAL_DATETIME))));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// feedback mail		
-		$this->tpl->setVariable("LINK_FEEDBACK",
-			$ilCtrl->getLinkTarget($this->parent_obj, "redirectFeedbackMail"));
-		$this->tpl->setVariable("TXT_FEEDBACK",
-			$lng->txt("exc_send_mail"));
-		
-		if($this->type == ilExAssignment::TYPE_UPLOAD_TEAM)
-		{
-			$feedback_id = "t".$member["team_id"];
 		}
 		else
 		{
-			$feedback_id = $member_id;
+			$this->tpl->touchBlock("member_has_no_team_bl");
 		}
-							
-		// file feedback
-		$cnt_files = $this->storage->countFeedbackFiles($feedback_id);
-		$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedback");
-		$this->tpl->setVariable("LINK_FILE_FEEDBACK",
-			$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
-		if ($cnt_files == 0)
-		{
-			$this->tpl->setVariable("TXT_FILE_FEEDBACK",
-				$lng->txt("exc_add_feedback_file"));
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_FILE_FEEDBACK",
-				$lng->txt("exc_fb_files")." (".$cnt_files.")");
-		}
-		
-		// peer review / rating
-		if(!isset($member["team"]) && $this->peer_review)
-		{						
-			$this->tpl->setCurrentBlock("peer_review_bl");
-			$this->tpl->setVariable("TXT_PEER_REVIEW", $lng->txt("exc_peer_review_show"));
-			
-			$ilCtrl->setParameter($this->parent_obj, "grd", 1);
-			$this->tpl->setVariable("LINK_PEER_REVIEW", 
-				$ilCtrl->getLinkTarget($this->parent_obj, "showPersonalPeerReview"));
-			$ilCtrl->setParameter($this->parent_obj, "grd", "");
-			
-			$rating = new ilRatingGUI();
-			$rating->setObject($this->ass_id, "ass", $member_id, "peer");
-			$rating->setUserId(0);			
-			$this->tpl->setVariable("VAL_RATING", $rating->getHTML(true, false));		
-			
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->parseCurrentBlock();
 	}
 
 }
