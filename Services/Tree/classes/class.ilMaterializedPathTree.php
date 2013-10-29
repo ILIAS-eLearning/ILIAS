@@ -77,10 +77,27 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 * Get relation of two nodes
 	 * @param type $a_node_a
 	 * @param type $a_node_b
-	 * @todo
 	 */
 	public function getRelation($a_node_a, $a_node_b)
 	{
+		$node_a = $this->getTree()->getNodeTreeData($a_node_a);
+		$node_b = $this->getTree()->getNodeTreeData($a_node_b);
+		
+		$path_a = substr($node_a['path'], -1);
+		$path_b = substr($node_b['path'], -1);
+		
+		if($path_a['path'] and strcmp($path_a['path'],$path_b['path']) == 0)
+		{
+			return ilTree::RELATION_SIBLING;
+		}
+		if(stristr($path_b, $path_a))
+		{
+			return ilTree::RELATION_PARENT;
+		}
+		if(stristr($path_a, $path_b))
+		{
+			return ilTree::RELATION_CHILD;
+		}
 		return ilTree::RELATION_NONE;
 	}
 
@@ -180,7 +197,6 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	/**
 	 * Move subtree to trash
 	 * @param type $a_node_id
-	 * @todo
 	 */
 	public function moveToTrash($a_node_id)
 	{
