@@ -47,6 +47,7 @@ interface ilTreeImplementation
 	public function getPathIds($a_endnode, $a_startnode = 0);
 	
 	
+	public function insertNode($a_node_id, $a_parent_id, $a_pos);
 	
 	/**
 	 * Delete tree
