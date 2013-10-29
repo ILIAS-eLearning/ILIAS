@@ -790,7 +790,7 @@ abstract class ilAssQuestionFeedback
 	 * @param type $pageObjectType
 	 * @param type $pageObjectId
 	 */
-	final private function ensurePageObjectDeleted($pageObjectType, $pageObjectId)
+	final protected function ensurePageObjectDeleted($pageObjectType, $pageObjectId)
 	{
 		if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK)
 		{
