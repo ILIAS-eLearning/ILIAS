@@ -3604,7 +3604,7 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			if( !$elm ) continue;            
 			
-			if( $elm->getRequired() && $definition['changeable'] && $definition['required'] )
+			if( $elm->getRequired() && $definition['changeable'] && $definition['required'] && $definition['visible'] )
 			{
 				$profileMaybeIncomplete = true;
 				
