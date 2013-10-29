@@ -23,6 +23,10 @@ include_once './Services/Tree/exceptions/class.ilInvalidTreeStructureException.p
 */
 class ilTree
 {
+	const POS_LAST_NODE = -2;
+	const POS_FIRST_NODE = -1;
+	
+	
 	const RELATION_NONE = 0;
 	const RELATION_CHILD = 1;
 	const RELATION_PARENT = 2;
@@ -1513,11 +1517,11 @@ class ilTree
 	}
 
 	/**
-	* Return the maximum depth in tree
-	* @access	public
-	* @return	integer	max depth level of tree
-	*/
-	function getMaximumDepth()
+	 * Return the current maximum depth in the tree
+	 * @access	public
+	 * @return	integer	max depth level of tree
+	 */
+	public function getMaximumDepth()
 	{
 		global $ilDB;
 		
@@ -1809,7 +1813,7 @@ class ilTree
 	* @return	array
 	* @throws InvalidArgumentException
 	*/
-	function getParentNodeData($a_node_id)
+	public function getParentNodeData($a_node_id)
 	{
 		global $ilDB;
 		global $ilLog;
@@ -1946,27 +1950,25 @@ class ilTree
 	* @return	boolean		true on success
 	* @access	public
  	*/
-	function removeTree($a_tree_id)
+	public function removeTree($a_tree_id)
 	{
 		global $ilDB;
 		
 		// OPERATION NOT ALLOWED ON MAIN TREE
 		if($this->__isMainTree())
 		{
-			$message = sprintf('%s::removeTree(): Operation not allowed on main tree! $a_tree_if: %s',
-							   get_class($this),
-							   $a_tree_id);
-			$this->log->write($message,$this->log->FATAL);
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			$GLOBALS['ilLog']->logStack();
+			throw new InvalidArgumentException('Operation not allowed on main tree');
 		}
 		if (!$a_tree_id)
 		{
-			$this->ilErr->raiseError(get_class($this)."::removeTree(): No tree_id given! Action aborted",$this->ilErr->MESSAGE);
+			$GLOBALS['ilLog']->logStack();
+			throw new InvalidArgumentException('Missing parameter tree id');
 		}
 
 		$query = 'DELETE FROM '.$this->table_tree.
 			' WHERE '.$this->tree_pk.' = %s ';
-		$res = $ilDB->manipulateF($query,array('integer'),array($a_tree_id));
+		$ilDB->manipulateF($query,array('integer'),array($a_tree_id));
 		return true;
 	}
 	
@@ -2049,17 +2051,20 @@ class ilTree
 	}
 
 	/**
-	* This is a wrapper for isSaved() with a more useful name
-	*/
-	function isDeleted($a_node_id)
+	 * This is a wrapper for isSaved() with a more useful name
+	 * @param int $a_node_id
+	 */
+	public function isDeleted($a_node_id)
 	{
 		return $this->isSaved($a_node_id);
 	}
 
 	/**
-	* check if node is saved
-	*/
-	function isSaved($a_node_id)
+	 * Use method isDeleted
+	 * check if node is saved
+	 * @deprecated since 4.4.0
+	 */
+	public function isSaved($a_node_id)
 	{
 		global $ilDB;
 		
@@ -2096,10 +2101,10 @@ class ilTree
 	/**
 	 * Preload deleted information
 	 *
-	 * @param
-	 * @return
+	 * @param array nodfe ids
+	 * @return bool
 	 */
-	function preloadDeleted($a_node_ids)
+	public function preloadDeleted($a_node_ids)
 	{
 		global $ilDB;
 
@@ -2784,148 +2789,19 @@ class ilTree
 	}
 	
 	/**
-	* Move Tree Implementation
-	* 
-	* @access	public
-	* @param int source ref_id
-	* @param int target ref_id
-	* @param int location IL_LAST_NODE or IL_FIRST_NODE (IL_FIRST_NODE not implemented yet)
-	*
-	*/
-	public function moveTree($a_source_id,$a_target_id,$a_location = IL_LAST_NODE)
-    {
-		global $ilDB;
+	 * Move Tree Implementation
+	 * 
+	 * @access	public
+	 * @param int source ref_id
+	 * @param int target ref_id
+	 * @param int location IL_LAST_NODE or IL_FIRST_NODE (IL_FIRST_NODE not implemented yet)
+	 *
+	 */
+	public function moveTree($a_source_id, $a_target_id, $a_location = self::POS_LAST_NODE)
+	{
 		
-		if($this->__isMainTree())
-		{
-			#ilDB::_lockTables(array('tree' => 'WRITE'));
-			$ilDB->lockTables(
-				array(
-					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
-											 
-		}
-		// Receive node infos for source and target
-		$query = 'SELECT * FROM '.$this->table_tree.' '.
-			'WHERE ( child = %s OR child = %s ) '.
-			'AND '.$this->tree_pk.' = %s ';
-		$res = $ilDB->queryF($query,array('integer','integer','integer'),array(
-			$a_source_id,
-			$a_target_id,
-			$this->tree_id));
-		
-		// Check in tree
-		if($res->numRows() != 2)
-		{
-			if($this->__isMainTree())
-			{
-				$ilDB->unlockTables();
-			}
-			$this->log->write(__METHOD__.' Objects not found in tree!',$this->log->FATAL);
-			$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
-		}
-		while($row = $ilDB->fetchObject($res))
-		{
-			if($row->child == $a_source_id)
-			{
-				$source_lft = $row->lft;
-				$source_rgt = $row->rgt;
-				$source_depth = $row->depth;
-				$source_parent = $row->parent;
-			}
-			else
-			{
-				$target_lft = $row->lft;
-				$target_rgt = $row->rgt;
-				$target_depth = $row->depth;
-			}
-		}
-		
-		#var_dump("<pre>",$source_lft,$source_rgt,$source_depth,$target_lft,$target_rgt,$target_depth,"<pre>");
-		// Check target not child of source
-		if($target_lft >= $source_lft and $target_rgt <= $source_rgt)
-		{
-			if($this->__isMainTree())
-			{
-				$ilDB->unlockTables();
-			}
-			$this->log->write(__METHOD__.' Target is child of source',$this->log->FATAL);
-			$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
-		}
-		
-		// Now spread the tree at the target location. After this update the table should be still in a consistent state.
-		// implementation for IL_LAST_NODE
-		$spread_diff = $source_rgt - $source_lft + 1;
-		#var_dump("<pre>","SPREAD_DIFF: ",$spread_diff,"<pre>");
-		        
-		$query = 'UPDATE '.$this->table_tree.' SET '.
-			'lft = CASE WHEN lft >  %s THEN lft + %s ELSE lft END, '.
-			'rgt = CASE WHEN rgt >= %s THEN rgt + %s ELSE rgt END '.
-			'WHERE '.$this->tree_pk.' = %s ';
-		$res = $ilDB->manipulateF($query,array('integer','integer','integer','integer','integer'),array(
-			$target_rgt,
-			$spread_diff,
-			$target_rgt,
-			$spread_diff,
-			$this->tree_id));
-		
-		// Maybe the source node has been updated, too.
-		// Check this:
-		if($source_lft > $target_rgt)
-		{
-			$where_offset = $spread_diff;
-			$move_diff = $target_rgt - $source_lft - $spread_diff;
-		}
-		else
-		{
-			$where_offset = 0;
-			$move_diff = $target_rgt - $source_lft;
-		}
-		$depth_diff = $target_depth - $source_depth + 1;
-		
-		
-		$query = 'UPDATE '.$this->table_tree.' SET '.
-			'parent = CASE WHEN parent = %s THEN %s ELSE parent END, '.
-			'rgt = rgt + %s, '.
-			'lft = lft + %s, '.
-			'depth = depth + %s '.
-			'WHERE lft >= %s '.
-			'AND rgt <= %s '.
-			'AND '.$this->tree_pk.' = %s ';
-		$res = $ilDB->manipulateF($query,
-			array('integer','integer','integer','integer','integer','integer','integer','integer'),
-			array(
-			$source_parent,
-			$a_target_id,
-			$move_diff,
-			$move_diff,
-			$depth_diff,
-			$source_lft + $where_offset,
-			$source_rgt + $where_offset,
-			$this->tree_id));
-		
-		// done: close old gap
-		$query = 'UPDATE '.$this->table_tree.' SET '.
-			'lft = CASE WHEN lft >= %s THEN lft - %s ELSE lft END, '.
-			'rgt = CASE WHEN rgt >= %s THEN rgt - %s ELSE rgt END '.
-			'WHERE '.$this->tree_pk.' = %s ';
-
-		$res = $ilDB->manipulateF($query,
-			array('integer','integer','integer','integer','integer'),
-			array(
-			$source_lft + $where_offset,
-			$spread_diff,
-			$source_rgt +$where_offset,
-			$spread_diff,
-			$this->tree_id));
-			
-		if($this->__isMainTree())
-		{
-			$ilDB->unlockTables();
-		}
-
-	   global $ilAppEventHandler;
-		
-		$ilAppEventHandler->raise(
+		$this->getTreeImplementation()->moveTree($a_source_id,$a_target_id,$a_location);
+		$GLOBALS['ilAppEventHandler']->raise(
 				"Services/Tree", 
 				"moveTree", 
 				array(
@@ -2933,9 +2809,11 @@ class ilTree
 					'source_id' => $a_source_id, 
 					'target_id' => $a_target_id)
 		);
-		
 		return true;
-    }
+	}
+	
+	
+	
 	
 	/**
 	 * This method is used for change existing objects 
