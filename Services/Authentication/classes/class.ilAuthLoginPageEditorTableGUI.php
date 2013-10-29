@@ -27,6 +27,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->lng = $lng;
+		$this->lng->loadLanguageModule('meta');
 
 		$this->initTable();
 	}
@@ -61,7 +62,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable('LANGID',$a_set['key']);
 		$this->tpl->setVariable('LANGKEY_CHECKED',$a_set['status'] ? 'checked="checked' : '');
-		$this->tpl->setVariable('TXT_LANGUAGE',$this->lng->txt('lang_'.$a_set['key']));
+		$this->tpl->setVariable('TXT_LANGUAGE',$this->lng->txt('meta_l_'.$a_set['key']));
 
 		if($this->lng->getDefaultLanguage() == $a_set['key'])
 		{
