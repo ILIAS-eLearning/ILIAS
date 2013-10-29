@@ -184,7 +184,45 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function moveToTrash($a_node_id)
 	{
+		global $ilDB;
+ 
+		// LOCKED ###########################################################
+		if ($this->getTree()->__isMainTree())
+		{
+			$ilDB->lockTables(
+					array(
+						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+		}
+		try 
+		{
+			$node = $this->getTree()->getNodeTreeData($a_node_id);
+		}
+		catch(Exception $e) 
+		{
+			if ($this->getTree()->__isMainTree())
+			{
+				$ilDB->unlockTables();
+			}
+			throw $e;
+		}
+
+
+		// Set the nodes deleted (negative tree id)
+		$ilDB->manipulateF('
+			UPDATE ' . $this->getTree()->getTreeTable().' '.
+			'SET tree = %s' .' '.
+			'WHERE ' . $this->getTree()->getTreePk() . ' = %s ' .
+			'AND path BETWEEN %s AND %s', 
+		array('integer', 'integer', 'text', 'text'),
+		array(-$a_node_id, $this->getTree()->getTreeId(), $node['path'], $node['path'] . '.Z'));
+
 		
+		// LOCKED ###########################################################
+		if ($this->getTree()->__isMainTree())
+		{
+			$ilDB->unlockTables();
+		}
+		return true;
 	}
 	
 	/**
