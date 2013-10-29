@@ -14107,3 +14107,4 @@ sop#:#sop_msg_export_tracking#:#Übertragung der Lernstandsdaten zum SCORM Offli
 sop#:#sop_msg_push_tracking#:#Übertragung der Lernstandsdaten zu ILIAS. Bitte warten Sie einige Sekunden
 sop#:#sop_msg_push_tracking_failure#:#Die Übertragung der Lernstandsdaten zu ILIAS war nicht erfolgreich.
 sop#:#sop_msg_push_tracking_ok#:#Die Übertragung der Lernstandsdaten zu ILIAS war erfolgreich.
+exc#:#exc_no_team_yet#:#Noch kein Team
