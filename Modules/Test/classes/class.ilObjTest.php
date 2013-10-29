@@ -5703,9 +5703,6 @@ function getAnswerFeedbackPoints()
 						$this->setQuestionSetType(self::QUESTION_SET_TYPE_FIXED);
 					}
 					break;
-				case "random_question_count":
-					$this->setRandomQuestionCount($metadata["entry"]);
-					break;
 				case "results_presentation":
 					$this->setResultsPresentation($metadata["entry"]);
 					break;
@@ -6013,12 +6010,6 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "title_output");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getTitleOutput()));
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-
-		// random question count
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "random_question_count");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getRandomQuestionCount()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// results presentation
@@ -9310,9 +9301,7 @@ function getAnswerFeedbackPoints()
 			"ECTSOutput" => $this->getECTSOutput(),
 			"ECTSFX" => $this->getECTSFX(),
 			"ECTSGrades" => $this->getECTSGrades(),
-			//"isRandomTest" => $this->isRandomTest(),
 			"questionSetType" => $this->getQuestionSetType(),
-			"RandomQuestionCount" => $this->getRandomQuestionCount(),
 			"CountSystem" => $this->getCountSystem(),
 			"MCScoring" => $this->getMCScoring(),
 			"mailnotification" => $this->getMailNotification(),
@@ -9393,8 +9382,6 @@ function getAnswerFeedbackPoints()
 		{
 			$this->setQuestionSetType($testsettings["questionSetType"]);
 		}
-		$this->setRandomTest($testsettings["isRandomTest"]);
-		$this->setRandomQuestionCount($testsettings["RandomQuestionCount"]);
 		$this->setCountSystem($testsettings["CountSystem"]);
 		$this->setMCScoring($testsettings["MCScoring"]);
 		$this->setMailNotification($testsettings["mailnotification"]);
