@@ -426,7 +426,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 * Displays a password protection page when a test password is set
 	 *
 	 */
-	public function showPasswordProtectionPage()
+	public function showPasswordProtectionPageCmd()
 	{
 		$template = new ilTemplate("tpl.il_as_tst_password_protection.html", TRUE, TRUE, "Modules/Test");
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "checkPassword"));
@@ -453,7 +453,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			{
 				$_SESSION['tst_password_'.$this->object->getTestId()] = $this->object->getPassword();
 			}
-			$this->ctrl->redirect($this, "start");
+			$this->ctrl->redirect($this, 'startPlayer');
 		}
 		else
 		{
@@ -487,7 +487,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if (strcmp($_SESSION["lock"], $_POST["lock"]) != 0)
 		{
 			$_SESSION["lock"] = $_POST["lock"];
+
 			$this->handleUserSettings();
+
+			if( !$this->checkTestPassword() )
+			{
+				$this->ctrl->redirect($this, 'showPasswordProtectionPage');
+			}
+
 			$this->ctrl->redirect($this, "initTest");
 		}
 		else
@@ -501,13 +508,42 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function resumePlayerCmd()
 	{
-		if ($this->object->checkMaximumAllowedUsers() == FALSE)
-		{
-			return $this->showMaximumAllowedUsersReachedMessage();
-		}
 		$this->handleUserSettings();
+
 		$this->ctrl->setParameter($this, "activecommand", "resume");
 		$this->ctrl->redirect($this, "redirectQuestion");
+	}
+
+	protected function checkTestPassword()
+	{
+		global $rbacsystem, $ilUser, $ilCtrl;
+
+		if( !strlen($this->object->getPassword()) )
+		{
+			return true;
+		}
+
+		if( $rbacsystem->checkAccess("write", $this->object->getRefId()) )
+		{
+			return true;
+		}
+
+		$pwd = '';
+		if( $_SESSION["AccountId"] != ANONYMOUS_USER_ID )
+		{
+			$pwd = $ilUser->getPref("tst_password_".$this->object->getTestId());
+		}
+		elseif( isset($_SESSION['tst_password_'.$this->object->getTestId()]) )
+		{
+			$pwd = $_SESSION['tst_password_'.$this->object->getTestId()];
+		}
+
+		if( $pwd == $this->object->getPassword() )
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -519,42 +555,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			return $this->showMaximumAllowedUsersReachedMessage();
 		}
+
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
 			$this->object->setAccessCodeSession($this->object->createNewAccessCode());
-		}
-		else
-		{
-			$this->object->unsetAccessCodeSession();
-		}
-		if (strlen($this->object->getPassword()))
-		{
-			global $ilUser;
-			global $rbacsystem;
-			
-			$pwd = '';
-			if( $_SESSION["AccountId"] != ANONYMOUS_USER_ID )
-			{
-				$pwd = $ilUser->getPref("tst_password_".$this->object->getTestId());
-			}
-			elseif( isset($_SESSION['tst_password_'.$this->object->getTestId()]) )
-			{
-				$pwd = $_SESSION['tst_password_'.$this->object->getTestId()];
-			}
-			
-			if ((strcmp($pwd, $this->object->getPassword()) != 0) && (!$rbacsystem->checkAccess("write", $this->object->getRefId())))
-			{
-				return $this->showPasswordProtectionPage();
-			}
-		}
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
-		{
 			$this->ctrl->redirect($this, "displayCode");
 		}
-		else
-		{
-			$this->ctrl->redirect($this, 'startTest');
-		}
+
+		$this->object->unsetAccessCodeSession();
+		$this->ctrl->redirect($this, 'startTest');
 	}
 	
 	function displayCode()
