@@ -122,20 +122,21 @@ class ilNestedSetTree implements ilTreeImplementation
 	 */
 	public function getRelation($a_node_a, $a_node_b)
 	{
-		$node_a = $this->getTree()->getNodeData($a_node_a);
-		$node_b = $this->getTree()->getNodeData($a_node_b);
-		
-		if($node_a['lft'] < $node_b['lft'] and $node_a['rgt'] > $node_b['rgt'])
+		if($a_node_a['child'] == $a_node_b['child'])
+		{
+			return ilTree::RELATION_EQUALS;
+		}
+		if($a_node_a['lft'] < $a_node_b['lft'] and $a_node_a['rgt'] > $a_node_b['rgt'])
 		{
 			return ilTree::RELATION_PARENT;
 		}
-		if($node_b['lft'] < $node_a['lft'] and $node_b['rgt'] > $node_a['rgt'])
+		if($a_node_b['lft'] < $a_node_a['lft'] and $a_node_b['rgt'] > $a_node_a['rgt'])
 		{
 			return ilTree::RELATION_CHILD;
 		}
 		
 		// if node is also parent of node b => sibling
-		if($node_a['parent'] == $node_b['parent'])
+		if($a_node_a['parent'] == $a_node_b['parent'])
 		{
 			return ilTree::RELATION_SIBLING;
 		}
@@ -797,7 +798,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			"FROM ".$this->getTree()->getTreeTable()." t1 ".
 			"JOIN ".$this->getTree()->getTreeTable()." t2 ON (t2.lft BETWEEN t1.lft AND t1.rgt) ".
 			"JOIN ".$this->getTree()->getTableReference()." obr ON t2.child = obr.ref_id ".
-			"JOIN ".$this->getTree()->getTableData()." obd ON obr.obj_id = obd.obj_id ".
+			"JOIN ".$this->getTree()->getObjectDataTable()." obd ON obr.obj_id = obd.obj_id ".
 			"WHERE t1.child = ".$ilDB->quote($a_endnode_id,'integer')." ".
 			"AND t1.".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer')." ".
 			"AND t2.".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer')." ".

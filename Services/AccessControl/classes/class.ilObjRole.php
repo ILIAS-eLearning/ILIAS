@@ -702,16 +702,18 @@ class ilObjRole extends ilObject
 	 */
 	protected function adjustPermissions($a_mode,$a_nodes,$a_policies,$a_filter,$a_exclusion_filter = array())
 	{
-		global $rbacadmin, $rbacreview;
+		global $rbacadmin, $rbacreview, $tree;
 		
 		$operation_stack = array();
 		$policy_stack = array();
-		$left_stack = array();
-		$right_stack = array();
+		#$left_stack = array();
+		#$right_stack = array();
+		$node_stack = array();
 		
 		$start_node = current($a_nodes);
-		array_push($left_stack, $start_node['lft']);
-		array_push($right_stack, $start_node['rgt']);
+		#array_push($left_stack, $start_node['lft']);
+		#array_push($right_stack, $start_node['rgt']);
+		array_push($node_stack,$start_node);
 		$this->updatePolicyStack($policy_stack, $start_node['child']);
 		$this->updateOperationStack($operation_stack, $start_node['child'],true);
 
@@ -721,11 +723,46 @@ class ilObjRole extends ilObject
 		$local_policy = false;
 		foreach($a_nodes as $node)
 		{
-			$lft = end($left_stack);
-			$rgt = end($right_stack);
+			#$lft = end($left_stack);
+			#$rgt = end($right_stack);
 			
-			#echo "----STACK---- ".$lft.' - '.$rgt.'<br/>';
+			$cmp_node = end($node_stack);
+			$counter = 0;
+			while($relation = $tree->getRelationOfNodes($node,$cmp_node))
+			{
+				switch($relation)
+				{
+					case ilTree::RELATION_NONE:
+					case ilTree::RELATION_SIBLING:
+						break;
 
+					case ilTree::RELATION_CHILD:
+					case ilTree::RELATION_EQUALS:
+					case ilTree::RELATION_PARENT:
+					default:
+						#$GLOBALS['ilLog']->write(__METHOD__.': Breaking switch for relation '. $relation);
+						break 2;
+				}
+				
+				
+				#$GLOBALS['ilLog']->write(__METHOD__.': Comparing '. print_r($node,true).' with '. print_r($cmp_node,true).' with result '. $tree->getRelationOfnodes($node,$cmp_node));
+				array_pop($operation_stack);
+				array_pop($policy_stack);
+				#array_pop($left_stack);
+				#array_pop($right_stack);
+				
+				$cmp_node = end($node_stack);
+				
+				$local_policy = false;
+				
+				if($counter++ > 20)
+				{
+					break;
+					exit;
+				}
+			}
+
+			/*
 			while(($node['lft'] < $lft) or ($node['rgt'] > $rgt))
 			{
 				#echo "LEFT ".$node['child'].'<br>';
@@ -739,7 +776,7 @@ class ilObjRole extends ilObject
 
 				$local_policy = false;
 			}
-			
+			*/
 			if($local_policy)
 			{
 				#echo "LOCAL ".$node['child'].' left:'.$node['lft'].' right: '.$node['rgt'].'<br>';
@@ -783,8 +820,9 @@ class ilObjRole extends ilObject
 				$local_policy = true;
 				$this->updatePolicyStack($policy_stack, $node['child']);
 				$this->updateOperationStack($operation_stack, $node['child']);
-				array_push($left_stack,$node['lft']);
-				array_push($right_stack, $node['rgt']);
+				#array_push($left_stack,$node['lft']);
+				#array_push($right_stack, $node['rgt']);
+				array_push($node_stack, $node);
 				continue;
 			}
 			
@@ -815,8 +853,9 @@ class ilObjRole extends ilObject
 				{
 					#echo "CRS SUCCESS ".$node['child'].'<br>';
 					$this->updatePolicyStack($policy_stack, $node['child']);
-					array_push($left_stack, $node['lft']);
-					array_push($right_stack, $node['rgt']);
+					#array_push($left_stack, $node['lft']);
+					#array_push($right_stack, $node['rgt']);
+					array_push($node_stack, $node);
 				}
 			}
 			
@@ -832,8 +871,9 @@ class ilObjRole extends ilObject
 				{
 					#echo "GRP SUCCESS ".$node['child'].'<br>';
 					$this->updatePolicyStack($policy_stack, $node['child']);
-					array_push($left_stack, $node['lft']);
-					array_push($right_stack, $node['rgt']);
+					#array_push($left_stack, $node['lft']);
+					#array_push($right_stack, $node['rgt']);
+					array_push($node_stack, $node);
 				}
 			}
 

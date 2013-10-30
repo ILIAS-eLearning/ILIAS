@@ -81,26 +81,25 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function getRelation($a_node_a, $a_node_b)
 	{
-		#$GLOBALS['ilLog']->logStack();
-		
-		$node_a = $this->getTree()->getNodeTreeData($a_node_a);
-		$node_b = $this->getTree()->getNodeTreeData($a_node_b);
-		
-		if(stristr($node_a['path'], $node_b['path']))
+		if($a_node_a['child'] == $a_node_b['child'])
+		{
+			return ilTree::RELATION_EQUALS;
+		}
+		if(stristr($a_node_a['path'], $a_node_b['path']))
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': PARENT');
 			return ilTree::RELATION_CHILD;
 		}
-		if(stristr($node_b['path'], $node_a['path']))
+		if(stristr($a_node_b['path'], $a_node_a['path']))
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': CHILD');
 			return ilTree::RELATION_PARENT;
 		}
-		$path_a = substr($node_a['path'],0,strrpos($node_a['path'],'.'));
-		$path_b = substr($node_b['path'],0,strrpos($node_b['path'],'.'));
+		$path_a = substr($a_node_a['path'],0,strrpos($a_node_a['path'],'.'));
+		$path_b = substr($a_node_b['path'],0,strrpos($a_node_b['path'],'.'));
 		$GLOBALS['ilLog']->write(__METHOD__.': Comparing '.$path_a .' '. 'with '.$path_b);
 
-		if($node_a['path'] and (strcmp($path_a,$path_b) === 0))
+		if($a_node_a['path'] and (strcmp($path_a,$path_b) === 0))
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': SIBLING');
 			return ilTree::RELATION_SIBLING;
@@ -509,8 +508,8 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		$nodes = array();
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$nodes[$row->child]['lft'] = $row->lft;
-			$nodes[$row->child]['rgt'] = $row->rgt;
+			#$nodes[$row->child]['lft'] = $row->lft;
+			#$nodes[$row->child]['rgt'] = $row->rgt;
 			$nodes[$row->child]['child'] = $row->child;
 			$nodes[$row->child]['type'] = $row->type;
 			$nodes[$row->child]['path'] = $row->path;
