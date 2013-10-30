@@ -727,7 +727,6 @@ class ilObjRole extends ilObject
 			#$rgt = end($right_stack);
 			
 			$cmp_node = end($node_stack);
-			$counter = 0;
 			while($relation = $tree->getRelationOfNodes($node,$cmp_node))
 			{
 				switch($relation)
@@ -754,12 +753,6 @@ class ilObjRole extends ilObject
 				$cmp_node = end($node_stack);
 				
 				$local_policy = false;
-				
-				if($counter++ > 20)
-				{
-					break;
-					exit;
-				}
 			}
 
 			/*
