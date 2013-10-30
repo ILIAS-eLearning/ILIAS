@@ -90,7 +90,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	/**
 	 * Constructor
 	 */
-	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilTemplate $tpl, ilDB $db, ilTree $tree, ilObjTest $testOBJ)
+	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilTemplate $tpl, ilDB $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
 	{
 		$this->ctrl = $ctrl;
 		$this->access = $access;
@@ -99,10 +99,11 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$this->tpl = $tpl;
 		$this->db = $db;
 		$this->tree = $tree;
-		
+		$this->pluginAdmin = $pluginAdmin;
+
 		$this->testOBJ = $testOBJ;
 		
-		$this->questionSetConfig = new ilObjTestDynamicQuestionSetConfig($this->tree, $this->db, $this->testOBJ);
+		$this->questionSetConfig = new ilObjTestDynamicQuestionSetConfig($this->tree, $this->db, $this->pluginAdmin, $this->testOBJ);
 	}
 	
 	/**
