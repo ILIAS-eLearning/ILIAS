@@ -278,7 +278,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 			
 			case 'ilquestionbrowsertablegui':
-				$this->ctrl->forwardCommand($this->buildQuestionBrowserTableGUI());
+				$this->ctrl->forwardCommand($this->buildQuestionBrowserTableGUI($taxIds = array())); // no tax ids required
 				break;
 			
 			case "ilobjquestionpoolgui":
