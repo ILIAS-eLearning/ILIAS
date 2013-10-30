@@ -729,24 +729,29 @@ class ilObjRole extends ilObject
 			$cmp_node = end($node_stack);
 			while($relation = $tree->getRelationOfNodes($node,$cmp_node))
 			{
+				#$GLOBALS['ilLog']->write(__METHOD__.': New relation '. $relation);
 				switch($relation)
 				{
 					case ilTree::RELATION_NONE:
 					case ilTree::RELATION_SIBLING:
+						#$GLOBALS['ilLog']->write(__METHOD__.': Handling sibling/none '. $relation);
+						#$GLOBALS['ilLog']->write(__METHOD__.': Node a '.print_r($node,true).' '.print_r($cmp_node,true));
 						break;
 
 					case ilTree::RELATION_CHILD:
 					case ilTree::RELATION_EQUALS:
 					case ilTree::RELATION_PARENT:
 					default:
-						#$GLOBALS['ilLog']->write(__METHOD__.': Breaking switch for relation '. $relation);
+						#$GLOBALS['ilLog']->write(__METHOD__.': Handling child/equals/parent '. $relation);
 						break 2;
 				}
+				#$GLOBALS['ilLog']->write(__METHOD__.': end switch ');
 				
 				
 				#$GLOBALS['ilLog']->write(__METHOD__.': Comparing '. print_r($node,true).' with '. print_r($cmp_node,true).' with result '. $tree->getRelationOfnodes($node,$cmp_node));
 				array_pop($operation_stack);
 				array_pop($policy_stack);
+				array_pop($node_stack);
 				#array_pop($left_stack);
 				#array_pop($right_stack);
 				
@@ -754,6 +759,8 @@ class ilObjRole extends ilObject
 				
 				$local_policy = false;
 			}
+			#$GLOBALS['ilLog']->write(__METHOD__.': End while');
+			
 
 			/*
 			while(($node['lft'] < $lft) or ($node['rgt'] > $rgt))
