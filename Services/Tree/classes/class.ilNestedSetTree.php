@@ -69,7 +69,7 @@ class ilNestedSetTree implements ilTreeImplementation
 	 * @param type $a_with_data
 	 * @param type $a_types
 	 */
-	public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true)
+	public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array())
 	{
 		global $ilDB;
 		
@@ -92,7 +92,15 @@ class ilNestedSetTree implements ilTreeImplementation
 			$join = $this->getTree()->buildJoin();
 		}
 		
-		$query = "SELECT * FROM ".$this->getTree()->getTreeTable()." ".
+		$fields = '* ';
+		if(count($a_fields))
+		{
+			$fields = implode(',',$a_fields);
+		}
+
+		$query = 'SELECT '.
+			$fields.' '.
+			"FROM ".$this->getTree()->getTreeTable()." ".
 			$join.' '.
 			"WHERE ".$this->getTree()->getTreeTable().'.lft '.
 			'BETWEEN '.$ilDB->quote($a_node['lft'],'integer').' '.

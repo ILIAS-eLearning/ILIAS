@@ -456,6 +456,7 @@ class ilRbacAdmin
 	{
 		global $ilDB;
 		
+		/*
 		$query = "DELETE FROM rbac_pa ".
 			"WHERE ref_id IN ".
 			"(SELECT child FROM tree WHERE ".
@@ -463,6 +464,12 @@ class ilRbacAdmin
 				"rgt <= (SELECT rgt FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) ".
 			") ".
 			"AND rol_id = ".$ilDB->quote($a_role_id,'integer');
+		*/
+		
+		$query = 'DELETE FROM rbac_pa '.
+				'WHERE ref_id IN '.
+				'( '.$GLOBALS['tree']->getSubTreeQuery($a_ref_id,array('child')).' ) '.
+				'AND rol_id = '.$ilDB->quote($a_role_id,'integer');
 		
 		$ilDB->manipulate($query);
 		return true;
@@ -478,6 +485,7 @@ class ilRbacAdmin
 	{
 		global $ilDB;
 		
+		/*
 		$query = "DELETE FROM rbac_templates ".
 			"WHERE parent IN ".
 			"(SELECT child FROM tree WHERE ".
@@ -485,9 +493,18 @@ class ilRbacAdmin
 				"rgt <= (SELECT rgt FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) ".
 			") ".
 			"AND rol_id = ".$ilDB->quote($a_rol_id,'integer');
+		*/
+		
+		$query = 'DELETE FROM rbac_templates '.
+				'WHERE parent IN ( '.
+				$GLOBALS['tree']->getSubTreeQuery($a_ref_id, array('child')).' ) '.
+				'AND rol_id = '.$ilDB->quote($a_rol_id,'integer');
+		
+		$GLOBALS['ilLog']->write($query);
 		
 		$ilDB->manipulate($query);
 
+		/*
 		$query = "DELETE FROM rbac_fa ".
 			"WHERE parent IN ".
 			"(SELECT child FROM tree WHERE ".
@@ -495,6 +512,13 @@ class ilRbacAdmin
 				"rgt <= (SELECT rgt FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) ".
 			") ".
 			"AND rol_id = ".$ilDB->quote($a_rol_id,'integer');
+		*/
+		$query = 'DELETE FROM rbac_fa '.
+				'WHERE parent IN ( '.
+				$GLOBALS['tree']->getSubTreeQuery($a_ref_id,array('child')).' ) '.
+				'AND rol_id = '.$ilDB->quote($a_rol_id,'integer');
+		
+		$GLOBALS['ilLog']->write($query);
 			
 		
 		$ilDB->manipulate($query);
