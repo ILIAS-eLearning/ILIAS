@@ -27,7 +27,7 @@ interface ilTreeImplementation
 	 * @param array $a_node
 	 * @param mixed $a_types
 	 */
-	public function getSubTreeQuery($a_node,$a_types = '', $a_force_join_reference = true);
+	public function getSubTreeQuery($a_node,$a_types = '', $a_force_join_reference = true, $a_fields = array());
 
 	/**
 	 * Get relation of two nodes

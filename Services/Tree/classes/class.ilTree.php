@@ -2593,5 +2593,22 @@ class ilTree
 	{
 		return $this->getTreeImplementation()->getSubtreeInfo($a_endnode_id);
 	}
+	
+
+	/**
+	 * Get tree subtree query
+	 * @param type $a_node_id
+	 * @param type $a_types
+	 * @param type $a_force_join_reference
+	 * @return type
+	 */
+	public function getSubTreeQuery($a_node_id,$a_fields = array(), $a_types = '', $a_force_join_reference = false)
+	{
+		return $this->getTreeImplementation()->getSubTreeQuery(
+				$this->getNodeTreeData($a_node_id),
+				$a_types, 
+				$a_force_join_reference, 
+				$a_fields);
+	}
 } // END class.tree
 ?>

@@ -116,7 +116,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 * @param type $a_types
 	 * 
 	 */
-	public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true)
+	public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array())
 	{
 		global $ilDB;
 		
@@ -138,9 +138,17 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		{
 			$join = $this->getTree()->buildJoin();
 		}
+		
+		$fields = '* ';
+		if(count($a_fields))
+		{
+			$fields = implode(',',$a_fields);
+		}
 
 		// @todo order by
-		$query = 'SELECT * FROM '.$this->getTree()->getTreeTable().' '.
+		$query = 'SELECT '.
+				$fields.' '.
+				'FROM '.$this->getTree()->getTreeTable().' '.
 				$join.' '.
 				'WHERE '.$this->getTree()->getTreeTable().'.path '.
 				'BETWEEN '.
