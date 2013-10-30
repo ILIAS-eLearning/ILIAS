@@ -273,7 +273,7 @@ class ilAuthUtils
 						}
 					}
 				}
-				$GLOBALS['ilLog']->write(__METHOD__.' Using default authentication');
+				#$GLOBALS['ilLog']->write(__METHOD__.' Using default authentication');
 				// default for logged in users
 				include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
