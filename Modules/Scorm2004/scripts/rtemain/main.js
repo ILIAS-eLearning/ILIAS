@@ -3132,7 +3132,7 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		
 		// add some global values for all sco's in package
 		data.cmi.learner_name = globalAct.learner_name;
-		data.cmi.learner_id = globalAct.learner_id;
+		data.cmi.learner_id = this.config.cmi_learner_id;
 		data.cmi.cp_node_id = item.foreignId;
 		data.scoid = item.id;
 		data.cmi.session_time = undefined;
