@@ -28,9 +28,10 @@ class ilTree
 	
 	
 	const RELATION_NONE = 0;
-	const RELATION_CHILD = 1;
-	const RELATION_PARENT = 2;
+	const RELATION_CHILD = 1;		// including grand child
+	const RELATION_PARENT = 2;		// including grand child
 	const RELATION_SIBLING = 3;
+	const RELATION_EQUALS = 4;
 	
 	
 	/**
@@ -323,8 +324,15 @@ class ilTree
 	}
 	
 	/**
-	 * Get default gap
-	 * @return int
+	 * Get reference table if available
+	 */
+	public function getTableReference()
+	{
+		return $this->table_obj_reference;
+	}
+	
+	/**
+	 * Get default gap	 * @return int
 	 */
 	public function getGap()
 	{
@@ -449,7 +457,21 @@ class ilTree
 	 */
 	public function getRelation($a_node_a, $a_node_b)
 	{
-		return $this->getTreeImplementation()->getRelation($a_node_a, $a_node_b);
+		return $this->getRelationOfNodes(
+					$this->getNodeTreeData($a_node_a),
+					$this->getNodeTreeData($a_node_b)
+		);
+	}
+	
+	/**
+	 * get relation of two nodes by node data
+	 * @param array $a_node_a_arr
+	 * @param array $a_node_b_arr
+	 * 
+	 */
+	public function getRelationOfNodes($a_node_a_arr, $a_node_b_arr)
+	{
+		return $this->getTreeImplementation()->getRelation($a_node_a_arr, $a_node_b_arr);
 	}
 
 	/**

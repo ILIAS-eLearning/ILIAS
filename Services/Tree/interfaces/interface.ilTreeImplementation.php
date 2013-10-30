@@ -33,8 +33,8 @@ interface ilTreeImplementation
 	 * Get relation of two nodes
 	 * 
 	 * @see ilTree RELATION_NONE, RELATION_CHILD, RELATION_PARENT, RELATION_SIBLING
-	 * @param int $a_node_a
-	 * @param int $a_node_b
+	 * @param array $a_node_a
+	 * @param array $a_node_b
 	 * @return int relation
 	 */
 	public function getRelation($a_node_a, $a_node_b);
