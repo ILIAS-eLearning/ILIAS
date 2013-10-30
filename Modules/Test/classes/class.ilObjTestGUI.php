@@ -3874,13 +3874,13 @@ class ilObjTestGUI extends ilObjectGUI
 						if ($testSequence->hasStarted($testSession))
 						{
 							$resumeTestLabel = $this->lng->txt("tst_resume_test");
+							$big_button[] = array('resumePlayer', $resumeTestLabel, true);
 						}
 						else
 						{
 							$resumeTestLabel = $this->object->getStartTestLabel($testSession->getActiveId());
+							$big_button[] = array('startPlayer', $resumeTestLabel, true);
 						}
-						
-						$big_button[] = array('resumePlayer', $resumeTestLabel, true);
 					}
 					else
 					{
