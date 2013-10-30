@@ -898,7 +898,13 @@ class assFileUpload extends assQuestion
 	public function hasFileUploads($test_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT tst_solutions.solution_id FROM tst_solutions, tst_active, qpl_questions WHERE tst_solutions.active_fi = tst_active.active_id AND tst_solutions.question_fi = qpl_questions.question_id AND qpl_questions.original_id = %s AND tst_active.test_fi = %s",
+		$result = $ilDB->queryF("
+		SELECT tst_solutions.solution_id 
+		FROM tst_solutions, tst_active, qpl_questions 
+		WHERE tst_solutions.active_fi = tst_active.active_id 
+		AND tst_solutions.question_fi = qpl_questions.question_id 
+		AND qpl_questions.question_id = %s 
+		AND tst_active.test_fi = %s",
 			array("integer", "integer"),
 			array($this->getId(), $test_id)
 		);
