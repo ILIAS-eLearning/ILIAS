@@ -290,15 +290,16 @@ class ilSCORM13Player
 	{
 		global $ilUser,$ilias,$ilSetting;
 		$initSuspendData = null;
-		$learner_id = (string) $ilUser->getID();
+		$cmi_learner_id = (string) $ilUser->getID();
 		$lm_set = new ilSetting("lm");
 		if($lm_set->get("scorm_login_as_learner_id") == 1) {
-			$learner_id = (string) $ilUser->getLogin();
+			$cmi_learner_id = (string) $ilUser->getLogin();
 		}
 		$config = array
 		(
 			'scope'=>$this->getScope(),
-			'learner_id' => $learner_id,
+			'learner_id' => (string) $ilUser->getID(),
+			'cmi_learner_id' => $cmi_learner_id,
 			'course_id' => (string) $this->packageId,
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
 			'mode' => 'normal',//TODO CHECK CP_PACKAGE
