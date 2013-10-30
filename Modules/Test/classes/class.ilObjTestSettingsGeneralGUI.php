@@ -564,9 +564,11 @@ class ilObjTestSettingsGeneralGUI
 		$confirmation->setFormAction( $this->ctrl->getFormAction($this) );
 		$confirmation->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_FORM);
 		$confirmation->setConfirm($this->lng->txt('confirm'), self::CMD_CONFIRMED_SAVE_FORM);
-		
+
 		foreach ($form->getInputItemsRecursive() as $key => $item)
 		{
+			//vd("$key // {$item->getType()} // ".json_encode($_POST[$item->getPostVar()]));
+
 			switch( $item->getType() )
 			{
 				case 'section_header':
@@ -576,9 +578,30 @@ class ilObjTestSettingsGeneralGUI
 				case 'datetime':
 					
 					list($date, $time) = explode(' ', $item->getDate()->get(IL_CAL_DATETIME));
-					$confirmation->addHiddenItem("{$item->getPostVar()}[date]", $date);
-					$confirmation->addHiddenItem("{$item->getPostVar()}[time]", $time);
-					
+
+					if( $item->getMode() == ilDateTimeInputGUI::MODE_SELECT )
+					{
+						list($y, $m, $d) = explode('-', $date);
+
+						$confirmation->addHiddenItem("{$item->getPostVar()}[date][y]", $y);
+						$confirmation->addHiddenItem("{$item->getPostVar()}[date][m]", $m);
+						$confirmation->addHiddenItem("{$item->getPostVar()}[date][d]", $d);
+
+						if( $item->getShowTime() )
+						{
+							list($h, $m, $s) = explode('-', $time);
+
+							$confirmation->addHiddenItem("{$item->getPostVar()}[time][h]", $h);
+							$confirmation->addHiddenItem("{$item->getPostVar()}[time][m]", $m);
+							$confirmation->addHiddenItem("{$item->getPostVar()}[time][s]", $s);
+						}
+					}
+					else
+					{
+						$confirmation->addHiddenItem("{$item->getPostVar()}[date]", $date);
+						$confirmation->addHiddenItem("{$item->getPostVar()}[time]", $time);
+					}
+
 					break;
 					
 				case 'duration':
