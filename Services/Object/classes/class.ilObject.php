@@ -1188,24 +1188,6 @@ class ilObject
 			return $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_id));
 		}
 		return $ilObjDataCache->lookupType($a_id);
-
-		global $ilDB;
-
-		if ($a_reference === true)
-		{
-			$q = "SELECT type FROM object_reference obr, object_data obd ".
-				"WHERE obr.ref_id = ".$ilDB->quote($a_id, "integer")." ".
-				"AND obr.obj_id = obd.obj_id ";
-		}
-		else
-		{
-			$q = "SELECT type FROM object_data WHERE obj_id = ".$ilDB->quote($a_id, "integer");
-		}
-
-		$obj_set = $ilDB->query($q);
-		$obj_rec = $ilDB->fetchAssoc($obj_set);
-
-		return $obj_rec["type"];
 	}
 
 	/**
