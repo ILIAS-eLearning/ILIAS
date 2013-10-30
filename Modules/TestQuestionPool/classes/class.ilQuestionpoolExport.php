@@ -275,9 +275,9 @@ class ilQuestionpoolExport
 			$col++;
 			
 //			ilDatePresentation::formatDate(new ilDateTime($question["created"],IL_CAL_UNIX))
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(ilFormat::ftimestamp2dateDB($question["created"]), "date"), "latin1"));
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(date('Y-m-d', $question["created"]), "date", false, false), "latin1"));
 			$col++;
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(ilFormat::ftimestamp2dateDB($question["tstamp"]), "date"), "latin1"));
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(date('Y-m-d', $question["tstamp"]), "date", false, false), "latin1"));
 			$col = 0;
 			$row++;
 		}
