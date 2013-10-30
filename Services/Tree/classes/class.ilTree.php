@@ -209,8 +209,27 @@ class ilTree
 	 */
 	public function initTreeImplementation()
 	{
-		include_once './Services/Tree/classes/class.ilNestedSetTree.php';
-		$this->tree_impl = new ilNestedSetTree($this);
+		if($this->__isMainTree())
+		{
+			if($GLOBALS['ilSetting']->get('main_tree_impl','ns') == 'ns')
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Using nested set.');
+				include_once './Services/Tree/classes/class.ilNestedSetTree.php';
+				$this->tree_impl = new ilNestedSetTree($this);
+			}
+			else
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Using materialized path.');
+				include_once './Services/Tree/classes/class.ilMaterializedPathTree.php';
+				$this->tree_impl = new ilMaterializedPathTree($this);
+			}
+		}
+		else
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Using netsted set for non main tree.');
+			include_once './Services/Tree/classes/class.ilNestedSetTree.php';
+			$this->tree_impl = new ilNestedSetTree($this);
+		}
 	}
 	
 	/**
@@ -346,6 +365,8 @@ class ilTree
 		$this->table_tree = $a_table_tree;
 		$this->table_obj_data = $a_table_obj_data;
 		$this->table_obj_reference = $a_table_obj_reference;
+		
+		$this->initTreeImplementation();
 
 		return true;
 	}
@@ -2570,28 +2591,7 @@ class ilTree
 	 */
 	public function getRbacSubtreeInfo($a_endnode_id)
 	{
-		global $ilDB;
-		
-		$query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, type ".
-			"FROM ".$this->table_tree." t1 ".
-			"JOIN ".$this->table_tree." t2 ON (t2.lft BETWEEN t1.lft AND t1.rgt) ".
-			"JOIN ".$this->table_obj_reference." obr ON t2.child = obr.ref_id ".
-			"JOIN ".$this->table_obj_data." obd ON obr.obj_id = obd.obj_id ".
-			"WHERE t1.child = ".$ilDB->quote($a_endnode_id,'integer')." ".
-			"AND t1.".$this->tree_pk." = ".$ilDB->quote($this->tree_id,'integer')." ".
-			"AND t2.".$this->tree_pk." = ".$ilDB->quote($this->tree_id,'integer')." ".
-			"ORDER BY t2.lft";
-			
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$nodes[$row->child]['lft']	= $row->lft;
-			$nodes[$row->child]['rgt']	= $row->rgt;
-			$nodes[$row->child]['child']= $row->child;
-			$nodes[$row->child]['type']	= $row->type;
-			
-		}
-		return (array) $nodes;
+		return $this->getTreeImplementation()->getSubtreeInfo($a_endnode_id);
 	}
 } // END class.tree
 ?>

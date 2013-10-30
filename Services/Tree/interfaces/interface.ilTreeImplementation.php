@@ -70,5 +70,12 @@ interface ilTreeImplementation
 	 * @param type $a_position
 	 */
 	public function moveTree($a_source_id, $a_target_id, $a_position);
+	
+	
+	/**
+	 * Get subtree info lft, rgt, path, child, type
+	 * @return array
+	 */
+	public function getSubtreeInfo($a_endnode_id);
 }
 ?>
