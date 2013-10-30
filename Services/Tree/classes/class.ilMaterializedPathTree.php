@@ -27,6 +27,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		$this->tree = $a_tree;
 	}
 	
+	
 	/**
 	 * Get maximum possible depth
 	 * @return type
@@ -80,24 +81,32 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	 */
 	public function getRelation($a_node_a, $a_node_b)
 	{
+		#$GLOBALS['ilLog']->logStack();
+		
 		$node_a = $this->getTree()->getNodeTreeData($a_node_a);
 		$node_b = $this->getTree()->getNodeTreeData($a_node_b);
 		
-		$path_a = substr($node_a['path'], -1);
-		$path_b = substr($node_b['path'], -1);
-		
-		if($path_a['path'] and strcmp($path_a['path'],$path_b['path']) == 0)
+		if(stristr($node_a['path'], $node_b['path']))
 		{
-			return ilTree::RELATION_SIBLING;
-		}
-		if(stristr($path_b, $path_a))
-		{
-			return ilTree::RELATION_PARENT;
-		}
-		if(stristr($path_a, $path_b))
-		{
+			$GLOBALS['ilLog']->write(__METHOD__.': PARENT');
 			return ilTree::RELATION_CHILD;
 		}
+		if(stristr($node_b['path'], $node_a['path']))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': CHILD');
+			return ilTree::RELATION_PARENT;
+		}
+		$path_a = substr($node_a['path'],0,strrpos($node_a['path'],'.'));
+		$path_b = substr($node_b['path'],0,strrpos($node_b['path'],'.'));
+		$GLOBALS['ilLog']->write(__METHOD__.': Comparing '.$path_a .' '. 'with '.$path_b);
+
+		if($node_a['path'] and (strcmp($path_a,$path_b) === 0))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': SIBLING');
+			return ilTree::RELATION_SIBLING;
+		}
+
+		$GLOBALS['ilLog']->write(__METHOD__.': NONE');
 		return ilTree::RELATION_NONE;
 	}
 
@@ -137,7 +146,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 				'BETWEEN '.
 				$ilDB->quote($a_node['path'],'text').' AND '.
 				$ilDB->quote($a_node['path'].'.Z','text').' '.
-				'AND '.$this->getTree()->getTreeTable().'.'.$this->getTree()->getTreePk().' = '.$ilDB->quote($this->getTree()->getTreeId().'integer').
+				'AND '.$this->getTree()->getTreeTable().'.'.$this->getTree()->getTreePk().' = '.$ilDB->quote($this->getTree()->getTreeId(),'integer').
 				$type_str.' '.
 				'ORDER BY '.$this->getTree()->getTreeTable().'.path';
 		
@@ -154,7 +163,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		global $ilDB;
 		
 		$ilDB->setLimit(1);
-		$query = 'SELECT path FROM ' . $this->getTree()->getTreeTable() .
+		$query = 'SELECT path FROM ' . $this->getTree()->getTreeTable() .' '.
 			'WHERE child = '. $ilDB->quote($a_endnode,'integer').' ';
 		$res = $ilDB->query($query);
 
@@ -195,15 +204,16 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		}
 
 		// get path and depth of parent
-		$this->ilDB->setLimit(1);
-		$res = $this->ilDB->queryF(
+		$ilDB->setLimit(1);
+		
+		$res = $ilDB->queryF(
 			'SELECT parent, depth, path FROM ' . $this->getTree()->getTreeTable() . ' ' .
 			'WHERE child = %s '. ' '.
 			'AND ' . $this->getTree()->getTreePk() . ' = %s', array('integer', 'integer'), 
 			array($a_parent_id, $this->getTree()->getTreeId()));
 
 
-		$r = $this->ilDB->fetchObject($res);
+		$r = $ilDB->fetchObject($res);
 
 		if ($r->parent == NULL)
 		{
@@ -232,7 +242,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		$rgt = 0;
 
 
-		$this->ilDB->insert($this->getTree()->getTreeTable(), array($this->getTree()->getTreePk() => array('integer', $this->getTree()->getTreeId()),
+		$ilDB->insert($this->getTree()->getTreeTable(), array($this->getTree()->getTreePk() => array('integer', $this->getTree()->getTreeId()),
 			'child' => array('integer', $a_node_id),
 			'parent' => array('integer', $a_parent_id),
 			'lft' => array('integer', $lft),
@@ -331,15 +341,15 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		}
 
 		// Receive node infos for source and target
-		$this->ilDB->setLimit(2);
-		$res = $this->ilDB->query(
-			'SELECT depth, child, parent, path FROM ' . $this->getTree()->getTreeTable() . 
-			'WHERE ' . $this->ilDB->in('child', array($a_source_id, $a_target_id), false, 'integer') . 
-			'AND tree = ' . $this->ilDB->quote($this->getTree()->getTreeId(), 'integer')
+		$ilDB->setLimit(2);
+		$res = $ilDB->query(
+			'SELECT depth, child, parent, path FROM ' . $this->getTree()->getTreeTable() . ' '.
+			'WHERE ' . $ilDB->in('child', array($a_source_id, $a_target_id), false, 'integer') . ' '.
+			'AND tree = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer')
 		);
 
 		// Check in tree
-		if ($this->ilDB->numRows($res) != 2)
+		if ($ilDB->numRows($res) != 2)
 		{
 			if ($this->getTree()->__isMainTree())
 			{
@@ -350,7 +360,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			throw new InvalidArgumentException('Error moving subtree');
 		}
 
-		while ($row = $this->ilDB->fetchObject($res))
+		while ($row = $ilDB->fetchObject($res))
 		{
 			if ($row->child == $a_source_id)
 			{
@@ -372,14 +382,14 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			// We use FOR UPDATE here, because we don't want anyone to
 			// insert new nodes while we move the subtree.
 
-			$res = $this->ilDB->queryF('
-                    SELECT  MAX(depth) max_depth
-                    FROM    ' . $this->getTree()->getTreeTable() . '
-                    WHERE   path BETWEEN %s AND %s
-                    AND     tree = %s ', 
+			$res = $ilDB->queryF(
+                    'SELECT  MAX(depth) max_depth '.
+                    'FROM    ' . $this->getTree()->getTreeTable() . ' '.
+                    'WHERE   path BETWEEN %s AND %s'.' '.
+                    'AND     tree = %s ', 
 				array('text', 'text', 'integer'), array($source_path, $source_path . '.Z', $this->getTree()->getTreeId()));
 
-			$row = $this->ilDB->fetchObject($res);
+			$row = $ilDB->fetchObject($res);
 
 			if ($row->max_depth - $source_depth + $target_depth + 1 > $this->getMaximumPossibleDepth())
 			{
@@ -407,24 +417,26 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
 		// move subtree:
 		$query = '
-                UPDATE ' . $this->table_tree . '
-                SET parent = CASE WHEN parent = ' . $this->ilDB->quote($source_parent, 'integer') . '
-                             THEN ' . $this->ilDB->quote($a_target_id, 'integer') . '
+                UPDATE ' . $this->getTree()->getTreeTable() . '
+                SET parent = CASE WHEN parent = ' . $ilDB->quote($source_parent, 'integer') . '
+                             THEN ' . $ilDB->quote($a_target_id, 'integer') . '
                              ELSE parent END,
 
-                    path = ' . $this->ilDB->concat(array(
-					array($this->ilDB->quote($target_path, 'text'), 'text'),
-					array($this->ilDB->substr('path', strrpos('.' . $source_path, '.')), 'text'))) . ' ,
+                    path = ' . $ilDB->concat(array(
+					array($ilDB->quote($target_path, 'text'), 'text'),
+					array($ilDB->substr('path', strrpos('.' . $source_path, '.')), 'text'))) . ' ,
 
-                    depth = depth + ' . $this->ilDB->quote($depth_diff, 'integer') . '
+                    depth = depth + ' . $ilDB->quote($depth_diff, 'integer') . '
 
-                WHERE path  BETWEEN ' . $this->ilDB->quote($source_path, 'text') . '
-                            AND ' . $this->ilDB->quote($source_path . '.Z', 'text') . '
+                WHERE path  BETWEEN ' . $ilDB->quote($source_path, 'text') . '
+                            AND ' . $ilDB->quote($source_path . '.Z', 'text') . '
 
-                AND tree = ' . $this->ilDB->quote($this->tree_id, 'integer');
+                AND tree = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer');
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': query is ' . $query);
 
 
-		$this->ilDB->manipulate($query);
+		$ilDB->manipulate($query);
 		if ($this->getTree()->__isMainTree())
 		{
 			$ilDB->unlockTables();
@@ -432,5 +444,72 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		return true;
 	}
 	
+	
+	public static function createFromParentReleation()
+	{
+		 global $ilDB;
+
+		$r = $ilDB->queryF('SELECT DISTINCT * FROM tree WHERE parent = %s', array('integer'), array(0));
+
+		while ($row = $ilDB->fetchAssoc($r))
+		{
+			$success = self::createMaterializedPath(0, '');
+
+			if ($success !== true)
+			{
+			}
+		}
+	}
+	
+	
+	private static function createMaterializedPath($parent, $parentPath)
+	{
+		global $ilDB;
+		$q = ' UPDATE tree
+			SET path = CONCAT(COALESCE(' . $ilDB->quote($parentPath, 'text') . ', \'\'), COALESCE(child, \'\'))
+			WHERE parent = %s';
+		$r = $ilDB->manipulateF($q, array('integer'), array($parent));
+
+		$r = $ilDB->queryF('SELECT child FROM tree WHERE parent = %s', array('integer'), array($parent));
+
+		while ($row = $ilDB->fetchAssoc($r))
+		{
+			self::createMaterializedPath($row['child'], $parentPath . $row['child'] . '.');
+		}
+
+		return true;
+	}
+
+	public function getSubtreeInfo($a_endnode_id)
+	{
+		global $ilDB;
+		
+		// This is an optimization without the temporary tables become too big for our system.
+		// The idea is to use a subquery to join and filter the trees, and only the result
+		// is joined to obj_reference and obj_data.
+		$query = 'SELECT sub.child child, type,  ' .
+			'FROM (SELECT t2.depth as depth, t2.child AS child FROM ' . $this->getTree()->getTreeTable() . ' t1 '.
+			'JOIN '. $this->getTree()->getTreeTable() . ' t2 on (t2.path BETWEEN t1.path AND CONCAT(t1.path, ".Z")) '.
+			'WHERE t1.child = ' . $ilDB->quote($a_endnode_id, 'integer') . ' '.
+			'AND t1.' . $this->getTree()->getTreePk() . ' = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . ' '.
+			'AND t2.' . $this->getTree()->getTreePk() . ' = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . ' ) sub ' .
+			'JOIN object_reference obr ON sub.child = obr.ref_id '.
+			'JOIN object_data obd ON obr.obj_id = obd.obj_id '.
+			'ORDER BY sub.depth ';
+
+		$res = $ilDB->query($query);
+		$nodes = array();
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$nodes[$row->child]['lft'] = $row->lft;
+			$nodes[$row->child]['rgt'] = $row->rgt;
+			$nodes[$row->child]['child'] = $row->child;
+			$nodes[$row->child]['type'] = $row->type;
+			$nodes[$row->child]['path'] = $row->path;
+		}
+		return (array) $nodes;
+	}
+
 }
+
 ?>

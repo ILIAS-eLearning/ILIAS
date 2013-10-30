@@ -4,7 +4,7 @@
 include_once './Services/Tree/interfaces/interface.ilTreeImplementation.php';
 
 /**
- * Base class for materialize path based trees
+ * Base class for nested set path based trees
  * 
  * 
  * @author Stefan Meyer <meyer@leifos.com>
@@ -773,6 +773,39 @@ class ilNestedSetTree implements ilTreeImplementation
 		{
 			$ilDB->unlockTables();
 		}
+	}
+	
+	/**
+	 * Get rbac subtree info
+	 * @global type $ilDB
+	 * @param type $a_endnode_id
+	 * @return type
+	 */
+	public function getSubtreeInfo($a_endnode_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, type ".
+			"FROM ".$this->getTree()->getTreeTable()." t1 ".
+			"JOIN ".$this->getTree()->getTreeTable()." t2 ON (t2.lft BETWEEN t1.lft AND t1.rgt) ".
+			"JOIN ".$this->getTree()->getTableReference()." obr ON t2.child = obr.ref_id ".
+			"JOIN ".$this->getTree()->getTableData()." obd ON obr.obj_id = obd.obj_id ".
+			"WHERE t1.child = ".$ilDB->quote($a_endnode_id,'integer')." ".
+			"AND t1.".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer')." ".
+			"AND t2.".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer')." ".
+			"ORDER BY t2.lft";
+			
+		$res = $ilDB->query($query);
+		$nodes = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$nodes[$row->child]['lft']	= $row->lft;
+			$nodes[$row->child]['rgt']	= $row->rgt;
+			$nodes[$row->child]['child']= $row->child;
+			$nodes[$row->child]['type']	= $row->type;
+			
+		}
+		return (array) $nodes;
 	}
 
 }
