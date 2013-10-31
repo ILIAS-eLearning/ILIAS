@@ -19140,4 +19140,73 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_res_unit'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4138>
+<?php
+// Generic feedback
+/** @var ilDB $ilDB */
+$ilDB->addTableColumn('qpl_fb_generic', 'feedback_tmp', array(
+										  'type' => 'clob',
+										  'notnull' => false,
+										  'default' => null)
+);
 
+$ilDB->manipulate('UPDATE qpl_fb_generic SET feedback_tmp = feedback');
+$ilDB->dropTableColumn('qpl_fb_generic', 'feedback');
+$ilDB->renameTableColumn('qpl_fb_generic', 'feedback_tmp', 'feedback');
+?>
+<#4139>
+<?php
+// Generic feedback
+/** @var ilDB $ilDB */
+$ilDB->addTableColumn('qpl_fb_specific', 'feedback_tmp', array(
+										  'type' => 'clob',
+										  'notnull' => false,
+										  'default' => null)
+);
+
+$ilDB->manipulate('UPDATE qpl_fb_specific SET feedback_tmp = feedback');
+$ilDB->dropTableColumn('qpl_fb_specific', 'feedback');
+$ilDB->renameTableColumn('qpl_fb_specific', 'feedback_tmp', 'feedback');
+?>
+<#4140>
+<?php
+// Hints
+/** @var ilDB $ilDB */
+$ilDB->addTableColumn('qpl_hints', 'hint_text_tmp', array(
+									 'type' => 'clob',
+									 'notnull' => false,
+									 'default' => null)
+);
+
+$ilDB->manipulate('UPDATE qpl_hints SET hint_text_tmp = qht_hint_text');
+$ilDB->dropTableColumn('qpl_hints', 'qht_hint_text');
+$ilDB->renameTableColumn('qpl_hints', 'hint_text_tmp', 'qht_hint_text');
+?>
+<#4141>
+<?php
+// Suggested Solution
+/** @var ilDB $ilDB */
+$ilDB->addTableColumn('qpl_sol_sug', 'value_tmp', array(
+									   'type' => 'clob',
+									   'notnull' => false,
+									   'default' => null)
+);
+
+$ilDB->manipulate('UPDATE qpl_sol_sug SET value_tmp = value');
+$ilDB->dropTableColumn('qpl_sol_sug', 'value');
+$ilDB->renameTableColumn('qpl_sol_sug', 'value_tmp', 'value');
+?>
+<#4142>
+<?php
+// Manual feedback
+/** @var ilDB $ilDB */
+$ilDB->addTableColumn('tst_manual_fb', 'feedback_tmp', array(
+										 'type' => 'clob',
+										 'notnull' => false,
+										 'default' => null)
+);
+
+$ilDB->manipulate('UPDATE tst_manual_fb SET feedback_tmp = feedback');
+$ilDB->dropTableColumn('tst_manual_fb', 'feedback');
+$ilDB->renameTableColumn('tst_manual_fb', 'feedback_tmp', 'feedback');
+?>
