@@ -366,7 +366,7 @@ abstract class ilAssQuestionFeedback
 			$this->db->update(
 				$this->getGenericFeedbackTableName(),
 				array(
-					'feedback' => array('text', $feedbackContent),
+					'feedback' => array('clob', $feedbackContent),
 					'tstamp' => array('integer', time())
 				),
 				array(
@@ -382,7 +382,7 @@ abstract class ilAssQuestionFeedback
 				'feedback_id' => array('integer', $feedbackId),
 				'question_fi' => array('integer', $questionId),
 				'correctness' => array('text', $correctness), // text ?
-				'feedback' => array('text', $feedbackContent),
+				'feedback' => array('clob', $feedbackContent),
 				'tstamp' => array('integer', time())
 			));
 		}
@@ -480,7 +480,7 @@ abstract class ilAssQuestionFeedback
 				'feedback_id' => array('integer', $feedbackId),
 				'question_fi' => array('integer', $duplicateQuestionId),
 				'correctness' => array('text', $row['correctness']),
-				'feedback' => array('text', $row['feedback']),
+				'feedback' => array('clob', $row['feedback']),
 				'tstamp' => array('integer', time())
 			));
 			
@@ -546,7 +546,7 @@ abstract class ilAssQuestionFeedback
 				'feedback_id' => array('integer', $nextId),
 				'question_fi' => array('integer', $originalQuestionId),
 				'correctness' => array('text', $row['correctness']),
-				'feedback' => array('text', $row['feedback']),
+				'feedback' => array('clob', $row['feedback']),
 				'tstamp' => array('integer', time())
 			));
 		}
