@@ -19149,7 +19149,6 @@ $ilDB->addTableColumn('qpl_fb_generic', 'feedback_tmp', array(
 										  'notnull' => false,
 										  'default' => null)
 );
-
 $ilDB->manipulate('UPDATE qpl_fb_generic SET feedback_tmp = feedback');
 $ilDB->dropTableColumn('qpl_fb_generic', 'feedback');
 $ilDB->renameTableColumn('qpl_fb_generic', 'feedback_tmp', 'feedback');
@@ -19210,3 +19209,15 @@ $ilDB->manipulate('UPDATE tst_manual_fb SET feedback_tmp = feedback');
 $ilDB->dropTableColumn('tst_manual_fb', 'feedback');
 $ilDB->renameTableColumn('tst_manual_fb', 'feedback_tmp', 'feedback');
 ?>
+<#4143>
+<?php
+if(!$ilDB->tableColumnExists('tree','path'))
+{
+	$ilDB->addTableColumn("tree", "path", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 4000)
+	);
+}
+?>
+
