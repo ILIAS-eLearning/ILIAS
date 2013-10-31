@@ -115,13 +115,14 @@ class ilCourseParticipants extends ilParticipants
 	 * @access public
 	 * @param int $usr_id
 	 * @param bool $passed
+	 * @param bool $a_manual
 	 * @param bool $a_no_origin 
 	 */
-	public function updatePassed($a_usr_id, $a_passed, $a_no_origin = false)
+	public function updatePassed($a_usr_id, $a_passed, $a_manual = false, $a_no_origin = false)
 	{				
 		$this->participants_status[$a_usr_id]['passed'] = (int) $a_passed;
 
-		return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_no_origin);
+		return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_manual, $a_no_origin);
 	}
 	
 	/**
@@ -131,11 +132,19 @@ class ilCourseParticipants extends ilParticipants
 	 * @param int $obj_id
 	 * @param int $usr_id
 	 * @param bool $passed
+	 * @param bool $a_manual
 	 * @param bool $a_no_origin
 	 */
-	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_no_origin = false)
+	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_manual = false, $a_no_origin = false)
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
+		
+		// #11600
+		$origin = -1;
+		if($a_manual)
+		{
+			$origin = $ilUser->getId();
+		}		
 		
 		$query = "SELECT passed FROM obj_members ".
 		"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
@@ -149,7 +158,7 @@ class ilCourseParticipants extends ilParticipants
 			{			
 				$query = "UPDATE obj_members SET ".
 					"passed = ".$ilDB->quote((int) $a_passed,'integer').", ".
-					"origin = ".$ilDB->quote(-1,'integer').", ".
+					"origin = ".$ilDB->quote($origin,'integer').", ".
 					"origin_ts = ".$ilDB->quote(time(),'integer')." ".
 					"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 					"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
@@ -166,7 +175,6 @@ class ilCourseParticipants extends ilParticipants
 			}
 			else
 			{
-				$origin = -1;
 				$origin_ts = time();
 			}
 			
@@ -182,16 +190,6 @@ class ilCourseParticipants extends ilParticipants
 		}
 		$res = $ilDB->manipulate($query);
 		return true;	
-	}
-	
-	public static function _setPassedOrigin($a_obj_id, $a_usr_id, $a_origin)
-	{
-		global $ilDB;
-		
-		$ilDB->manipulate("UPDATE obj_members SET".		
-			" origin = ".$ilDB->quote((int)$a_origin, 'integer').			
-			" WHERE obj_id = ".$ilDB->quote($a_obj_id, 'integer').
-			" AND usr_id = ".$ilDB->quote($a_usr_id, 'integer'));
 	}
 	
 	/**
