@@ -9593,9 +9593,15 @@ function getAnswerFeedbackPoints()
 		if (strlen($feedback))
 		{
 			$next_id = $ilDB->nextId('tst_manual_fb');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_manual_fb (manual_feedback_id, active_fi, question_fi, pass, feedback, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer', 'integer', 'integer', 'integer', 'text', 'integer'),
-				array($next_id, $active_id, $question_id, $pass, ilRTE::_replaceMediaObjectImageSrc($feedback, 0), time())
+			/** @var ilDB $ilDB */
+			$result = $ilDB->insert('tst_manual_fb', array(
+													   'manual_feedback_id'		=> array( 'integer', 	$next_id ),
+													   'active_fi'				=> array( 'integer', 	$active_id ),
+													   'question_fi'			=> array( 'integer', 	$question_id ),
+													   'pass'					=> array( 'integer',	$pass),
+													   'feedback'				=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc( $feedback, 0) ),
+													   'tstamp'					=> array( 'integer',	time() ),
+												   )
 			);
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
