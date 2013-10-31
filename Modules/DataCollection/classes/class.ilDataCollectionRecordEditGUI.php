@@ -257,7 +257,7 @@ class ilDataCollectionRecordEditGUI
 			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB){
 				$img = ilObjMediaObject::_lookupItemPath($value);
 				if($value)
-					$this->form->getItemByPostVar('field_'.$field->getId())->setImage(ilObjMediaObject::_lookupItemPath($img));
+                    $this->form->getItemByPostVar('field_'.$field->getId())->setImage($img);
 			}
 		}
 
@@ -444,7 +444,7 @@ class ilDataCollectionRecordEditGUI
 
 		if(!count($results = $res->getResultsByObjId()))
 		{
-			$html .= $lng->txt('dcl_no_search_results_found_for').	$search."<br />";
+			$html .= $lng->txt('dcl_no_search_results_found_for').' '.	$search."<br />";
 		}
 		$results = $this->parseSearchResults($results);
 

@@ -99,7 +99,7 @@ class ilDataCollectionRecordListGUI
             $ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
             $ilToolbar->addSeparator();
         }
-        if(($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id)) && count($this->table_obj->getRecordFields()))
+        if(($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id)) && count($this->table_obj->getExportableFields()))
             $ilToolbar->addButton($lng->txt('dcl_export_table_excel'), $ilCtrl->getFormActionByClass("ildatacollectionrecordlistgui", "exportExcel"));
 
         if($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) && $this->table_obj->hasCustomFields()){
