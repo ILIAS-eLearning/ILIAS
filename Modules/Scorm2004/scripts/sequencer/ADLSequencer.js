@@ -1916,6 +1916,11 @@ ADLSequencer.prototype =
 		}
 	},
 
+	getCourseStatusByGlobalObjectives: function()
+	{
+		this.invokeRollup(this.mSeqTree.getFirstCandidate(), null);
+	},
+
 	doOverallRollup: function (ioTarget, ioRollupSet)
 	{
 		// This method implements the loop of RB.1.5.  The other rollup process
