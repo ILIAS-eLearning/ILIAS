@@ -420,6 +420,10 @@ echo "<br>+".$client_id;
 			case "reloadStructure":
 				$this->reloadControlStructure();
 				break;
+			
+			case 'switchTree':
+				$this->switchTree();
+				break;
 
 			case "saveClientIni":
 			case "installDatabase":
@@ -3277,37 +3281,74 @@ else
 		// use property forms and add the settings type switch
 		$ctrl_structure_form = $this->initControlStructureForm();
 		$settings_type_form = $this->initSettingsTypeForm();
+		$mp_ns_form = $this->initTreeImplementationForm();
 
 		$this->tpl->setVariable("SETUP_CONTENT",
 			$ctrl_structure_form->getHTML() . "<br />" .
-			$settings_type_form->getHTML());
+			$settings_type_form->getHTML().'<br />'.
+			$mp_ns_form->getHTML());
 
-		/* ---- obsolete -----
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_tools.html", "setup");
-		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
-		$this->tpl->setVariable("TXT_TOOLS", $this->lng->txt("tools"));
-		$this->tpl->setVariable("TXT_CTRL_STRUCTURE", $this->lng->txt("ctrl_structure"));
-		$this->tpl->setVariable("TXT_RELOAD", $this->lng->txt("reload"));
-
-		$ilDB = $this->setup->getClient()->db;
-		$cset = $ilDB->query("SELECT count(*) as cnt FROM ctrl_calls");
-		$crec = $ilDB->fetchAssoc($cset);
-
-		if ($crec["cnt"] == 0)
-		{
-			$this->tpl->setVariable("TXT_CTRL_STRUCTURE_DESC",
-				$this->lng->txt("ctrl_missing_desc"));
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_CTRL_STRUCTURE_DESC",
-				$this->lng->txt("ctrl_structure_desc"));
-		}
-
-		$this->tpl->parseCurrentBlock();
-		------- obsolete ------*/
+	}
+	
+	public function initTreeImplementationForm()
+	{
+		include_once ("Services/Form/classes/class.ilPropertyFormGUI.php");
+        $form = new ilPropertyFormGUI();
 		
-		//$this->checkPanelMode();
+		$form->setId('tree_impl');
+		$form->setTitle($this->lng->txt('tree_implementation'));
+		$form->setFormAction('setup.php?cmd=gateway');
+		
+		
+		$options = new ilRadioGroupInputGUI('', 'tree_impl_type');
+		#$options->setRequired(true);
+		
+		$set = new ilSetting('common');
+		$type = ($set->get('main_tree_impl','ns') == 'ns' ? 'ns' : 'mp');
+		
+		
+		$options->setValue($type);
+		
+		$ns = new ilRadioOption($this->lng->txt('tree_implementation_ns'), 'ns');
+		$options->addOption($ns);
+		
+		$mp = new ilRadioOption($this->lng->txt('tree_implementation_mp'),'mp');
+		$options->addOption($mp);
+		
+		$form->addItem($options);
+		$form->addCommandButton('switchTree', $this->lng->txt('tree_implementation_switch_btn'));
+		$form->setShowTopButtons(false);
+		
+		return $form;
+		
+	}
+	
+	public function switchTree()
+	{
+		$set = new ilSetting('common');
+		$type = ($set->get('main_tree_impl','ns') == 'ns' ? 'ns' : 'mp');
+
+		if($type == 'ns' and $_POST['tree_impl_type'] == 'mp')
+		{
+			// To mp
+			include_once './Services/Tree/classes/class.ilMaterializedPathTree.php';
+			ilMaterializedPathTree::createFromParentReleation();
+			
+			$set->set('main_tree_impl', 'mp');
+		
+		}
+		elseif($type == 'mp' and $_POST['tree_impl_type'] == 'ns')
+		{
+			include_once './Services/Tree/classes/class.ilTree.php';
+			$GLOBALS['ilSetting'] = $set;
+			$tree = new ilTree(1);
+			$tree->renumber(1);
+			
+			$set->set('main_tree_impl', 'ns');
+		}
+		
+		ilUtil::sendInfo($this->lng->txt("tree_implementation_switched"), true);
+		$this->displayTools();
 	}
 
 	/**

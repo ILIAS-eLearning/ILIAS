@@ -109,7 +109,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			$type_str.
 			"ORDER BY ".$this->getTree()->getTreeTable().".lft";
 		
-		$GLOBALS['ilLog']->write(__METHOD__.'-----------------: '. $query);
+		#$GLOBALS['ilLog']->write(__METHOD__.'-----------------: '. $query);
 		
 		return $query;
 	}

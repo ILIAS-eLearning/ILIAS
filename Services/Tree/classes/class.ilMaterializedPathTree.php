@@ -494,15 +494,16 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		// This is an optimization without the temporary tables become too big for our system.
 		// The idea is to use a subquery to join and filter the trees, and only the result
 		// is joined to obj_reference and obj_data.
-		$query = 'SELECT sub.child child, type,  ' .
-			'FROM (SELECT t2.depth as depth, t2.child AS child FROM ' . $this->getTree()->getTreeTable() . ' t1 '.
-			'JOIN '. $this->getTree()->getTreeTable() . ' t2 on (t2.path BETWEEN t1.path AND CONCAT(t1.path, ".Z")) '.
-			'WHERE t1.child = ' . $ilDB->quote($a_endnode_id, 'integer') . ' '.
-			'AND t1.' . $this->getTree()->getTreePk() . ' = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . ' '.
-			'AND t2.' . $this->getTree()->getTreePk() . ' = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . ' ) sub ' .
-			'JOIN object_reference obr ON sub.child = obr.ref_id '.
-			'JOIN object_data obd ON obr.obj_id = obd.obj_id '.
-			'ORDER BY sub.depth ';
+		
+		 $query = "SELECT t2.child child, type " .
+				"FROM " . $this->getTree()->getTreeTable() . " t1 " .
+				"JOIN " . $this->getTree()->getTreeTable() . " t2 ON (t2.path BETWEEN t1.path AND CONCAT(t1.path, '.Z')) " .
+				"JOIN " . $this->getTree()->getTableReference() . " obr ON t2.child = obr.ref_id " .
+				"JOIN " . $this->getTree()->getObjectDataTable() . " obd ON obr.obj_id = obd.obj_id " .
+				"WHERE t1.child = " . $ilDB->quote($a_endnode_id, 'integer') . " " .
+				"AND t1." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
+				"AND t2." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
+				"ORDER BY t2.depth";
 
 		$res = $ilDB->query($query);
 		$nodes = array();
@@ -516,7 +517,6 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		}
 		return (array) $nodes;
 	}
-
 }
 
 ?>
