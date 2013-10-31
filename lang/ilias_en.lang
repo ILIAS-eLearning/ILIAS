@@ -14109,3 +14109,4 @@ sop#:#sop_msg_push_tracking_failure#:#Transfering tracking data was not successf
 sop#:#sop_msg_push_tracking_ok#:#Transfering tracking data was successful
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
 exc#:#exc_no_team_yet#:#No team yet
+exc#:#exc_no_feedback_dir_found_in_zip#:#The directory structure of the uploaded zip-archive could not be processed.
