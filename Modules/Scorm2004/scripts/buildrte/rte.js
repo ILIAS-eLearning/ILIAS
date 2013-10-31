@@ -1,4 +1,4 @@
-// Build: 20131031231612 
+// Build: 20131031232628 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -15069,8 +15069,8 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				if (config.auto_suspend==true) cmiItem.cmi.exit="suspend";
 				//store correct status in DB; returnValue1 because of IE;
 				var statusValues=syncCMIADLTree();
-				statusHandler(cmiItem.scoid,"completion",statusValues[0]);
-				statusHandler(cmiItem.scoid,"success",statusValues[1]);
+				//statusHandler(cmiItem.scoid,"completion",statusValues[0]);
+				//statusHandler(cmiItem.scoid,"success",statusValues[1]);
 				var returnValue = onCommit(cmiItem);
 				if (returnValue && saveOnCommit == true) {
 					if (config.sequencing_enabled) {

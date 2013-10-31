@@ -1,4 +1,4 @@
-// Build: 20131031231612 
+// Build: 20131031232628 
 
 function ADLAuxiliaryResource()
 {}
@@ -3132,7 +3132,7 @@ switch(state)
 {case NOT_INITIALIZED:if(logActive)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(typeof cmiItem.cmi.session_time!="undefined"||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
 var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);cmiItem.cmi.total_time=total_time.toString();}
-if(config.auto_suspend==true)cmiItem.cmi.exit="suspend";var statusValues=syncCMIADLTree();statusHandler(cmiItem.scoid,"completion",statusValues[0]);statusHandler(cmiItem.scoid,"success",statusValues[1]);var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData(cmiItem);}
+if(config.auto_suspend==true)cmiItem.cmi.exit="suspend";var statusValues=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData(cmiItem);}
 returnValue=save();}
 if(returnValue)
 {dirty=false;if(logActive&&commitByTerminate==false)
