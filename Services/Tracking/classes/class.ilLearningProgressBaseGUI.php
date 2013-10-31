@@ -754,26 +754,7 @@ class ilLearningProgressBaseGUI
 		if($do_lp)
 		{
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
-			
-			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-			if(ilObject::_lookupType($obj_id) == "crs" &&
-				ilObjUserTracking::_enabledLearningProgress())
-			{				
-				include_once "Modules/Course/classes/class.ilObjCourse.php";			
-				$crs = new ilObjCourse($obj_id, false);						 					
-				if($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
-				{						
-					include_once './Services/Object/classes/class.ilObjectLP.php';
-					$olp = ilObjectLP::getInstance($crs->getId());
-					if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR)
-					{						
-						// #11600 - mark passed status as manual
-						include_once('Modules/Course/classes/class.ilCourseParticipants.php');
-						ilCourseParticipants::_setPassedOrigin($crs->getId(), $user_id, $ilUser->getId());
-					}
-				}
-			}
+			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);			
 		}
 	}
 	

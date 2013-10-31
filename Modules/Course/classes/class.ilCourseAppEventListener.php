@@ -60,9 +60,9 @@ class ilCourseAppEventListener
 				switch(self::$course_mode[$obj_id])
 				{
 					case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:
-						// manual process always "overwrite"
+						// #11600
 						include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-						ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed);						    										
+						ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed, true);						    										
 						break;
 
 					case ilLPObjSettings::LP_MODE_COLLECTION:
