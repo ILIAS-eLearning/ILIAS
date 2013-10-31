@@ -379,3 +379,157 @@ if (!$ilDB->tableColumnExists("usr_data", "is_self_registered"))
 	);
 }
 ?>
+<#21>
+<?php
+	// Manual feedback
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('tst_manual_fb', 'feedback_tmp', array(
+											 'type' => 'clob',
+											 'notnull' => false,
+											 'default' => null)
+	);
+	
+	$ilDB->manipulate('UPDATE tst_manual_fb SET feedback_tmp = feedback');
+	$ilDB->dropTableColumn('tst_manual_fb', 'feedback');
+	$ilDB->renameTableColumn('tst_manual_fb', 'feedback_tmp', 'feedback');
+?>
+<#22>
+<?php
+	// Suggested Solution
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_sol_sug', 'value_tmp', array(
+										   'type' => 'clob',
+										   'notnull' => false,
+										   'default' => null)
+	);
+	
+	$ilDB->manipulate('UPDATE qpl_sol_sug SET value_tmp = value');
+	$ilDB->dropTableColumn('qpl_sol_sug', 'value');
+	$ilDB->renameTableColumn('qpl_sol_sug', 'value_tmp', 'value');
+?>
+<#23>
+<?php
+	// Feedback Cloze
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_fb_cloze', 'feedback_tmp', array(
+										   'type' => 'clob',
+										   'notnull' => false,
+										   'default' => null)
+	);
+
+	$ilDB->manipulate('UPDATE qpl_fb_cloze SET feedback_tmp = feedback');
+	$ilDB->dropTableColumn('qpl_fb_cloze', 'feedback');
+	$ilDB->renameTableColumn('qpl_fb_cloze', 'feedback_tmp', 'feedback');
+?>
+<#24>
+<?php
+	// Feedback Errortext
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_fb_errortext', 'feedback_tmp', array(
+										   'type' => 'clob',
+										   'notnull' => false,
+										   'default' => null)
+	);
+
+	$ilDB->manipulate('UPDATE qpl_fb_errortext SET feedback_tmp = feedback');
+	$ilDB->dropTableColumn('qpl_fb_errortext', 'feedback');
+	$ilDB->renameTableColumn('qpl_fb_errortext', 'feedback_tmp', 'feedback');
+?>
+<#25>
+<?php
+	// Feedback Essay
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_fb_essay', 'feedback_tmp', array(
+												'type' => 'clob',
+												'notnull' => false,
+												'default' => null)
+	);
+	
+	$ilDB->manipulate('UPDATE qpl_fb_essay SET feedback_tmp = feedback');
+	$ilDB->dropTableColumn('qpl_fb_essay', 'feedback');
+	$ilDB->renameTableColumn('qpl_fb_essay', 'feedback_tmp', 'feedback');
+?>
+<#26>
+<?php
+	// Generic feedback
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_fb_generic', 'feedback_tmp', array(
+											  'type' => 'clob',
+											  'notnull' => false,
+											  'default' => null)
+	);
+	
+	$ilDB->manipulate('UPDATE qpl_fb_generic SET feedback_tmp = feedback');
+	$ilDB->dropTableColumn('qpl_fb_generic', 'feedback');
+	$ilDB->renameTableColumn('qpl_fb_generic', 'feedback_tmp', 'feedback');
+?>
+<#27>
+<?php
+	// Feedback Imagemap
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_fb_imap', 'feedback_tmp', array(
+										   'type' => 'clob',
+										   'notnull' => false,
+										   'default' => null)
+	);
+	
+	$ilDB->manipulate('UPDATE qpl_fb_imap SET feedback_tmp = feedback');
+	$ilDB->dropTableColumn('qpl_fb_imap', 'feedback');
+	$ilDB->renameTableColumn('qpl_fb_imap', 'feedback_tmp', 'feedback');
+?>
+<#28>
+<?php
+	// Feedback Matching
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_fb_matching', 'feedback_tmp', array(
+												'type' => 'clob',
+												'notnull' => false,
+												'default' => null)
+	);
+	
+	$ilDB->manipulate('UPDATE qpl_fb_matching SET feedback_tmp = feedback');
+	$ilDB->dropTableColumn('qpl_fb_matching', 'feedback');
+	$ilDB->renameTableColumn('qpl_fb_matching', 'feedback_tmp', 'feedback');
+?>
+<#29>
+<?php
+	// Feedback Multiple Choice
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_fb_mc', 'feedback_tmp', array(
+										 'type' => 'clob',
+										 'notnull' => false,
+										 'default' => null)
+	);
+	
+	$ilDB->manipulate('UPDATE qpl_fb_mc SET feedback_tmp = feedback');
+	$ilDB->dropTableColumn('qpl_fb_mc', 'feedback');
+	$ilDB->renameTableColumn('qpl_fb_mc', 'feedback_tmp', 'feedback');
+?>
+<#30>
+<?php
+	// Feedback Single Choice
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_fb_sc', 'feedback_tmp', array(
+										 'type' => 'clob',
+										 'notnull' => false,
+										 'default' => null)
+	);
+	
+	$ilDB->manipulate('UPDATE qpl_fb_sc SET feedback_tmp = feedback');
+	$ilDB->dropTableColumn('qpl_fb_sc', 'feedback');
+	$ilDB->renameTableColumn('qpl_fb_sc', 'feedback_tmp', 'feedback');
+?>
+<#31>
+<?php
+	// Hints
+	/** @var ilDB $ilDB */
+	$ilDB->addTableColumn('qpl_hints', 'hint_text_tmp', array(
+										 'type' => 'clob',
+										 'notnull' => false,
+										 'default' => null)
+	);
+	
+	$ilDB->manipulate('UPDATE qpl_hints SET hint_text_tmp = qht_hint_text');
+	$ilDB->dropTableColumn('qpl_hints', 'qht_hint_text');
+	$ilDB->renameTableColumn('qpl_hints', 'hint_text_tmp', 'qht_hint_text');
+?>
