@@ -1,4 +1,4 @@
-// Build: 20131031011413 
+// Build: 20131031231612 
 
 function ADLAuxiliaryResource()
 {}
@@ -535,7 +535,8 @@ var completed="unknown";if(deepest.getProgressStatus(false))
 {completed=(deepest.getAttemptCompleted(false))?"completed":"incomplete";}
 var progmeasure="unknown";if(deepest.getProMeasureStatus(false))
 {progmeasure=deepest.getProMeasure(false);}
-adl_seq_utilities.setCourseStatus(this.mSeqTree.getCourseID(),this.mSeqTree.getLearnerID(),satisfied,measure,completed,progmeasure);}}}},doOverallRollup:function(ioTarget,ioRollupSet)
+adl_seq_utilities.setCourseStatus(this.mSeqTree.getCourseID(),this.mSeqTree.getLearnerID(),satisfied,measure,completed,progmeasure);}}}},getCourseStatusByGlobalObjectives:function()
+{this.invokeRollup(this.mSeqTree.getFirstCandidate(),null);},doOverallRollup:function(ioTarget,ioRollupSet)
 {var rollupRules=ioTarget.getRollupRules();if(rollupRules==null)
 {rollupRules=new SeqRollupRuleset();}
 ioTarget=rollupRules.evaluate(ioTarget);delete ioRollupSet[ioTarget.getID()];var ret=new Object();ret.ioRollupSet=ioRollupSet;ret.ioTarget=ioTarget;return ret;},prepareClusters:function()
@@ -2867,11 +2868,12 @@ walk(collection[k][z],z.substr(0,z.length-1));}}
 if(item.dirty!==2&&type=="node"){continue;}}}
 var b_statusFailed=false,i_numCompleted=0,b_statusUpdate=true,totalTimeCentisec=0;var result={};for(var k in remoteMapping)
 {result[k]=[];}
-walk(activities,'node');result["i_check"]=0;result["i_set"]=0;var check0="",check1="";for(var k in saved){if(result[k].length>0){result["i_check"]+=saved[k].checkplus;check0=toJSONString(result[k]);check1=toJSONString(saved[k].data);if(k=="correct_response"){check0+=result["node"][0][15];check1+=saved[k].node;}
+walk(sharedObjectives,"objective");walk(activities,'node');result["i_check"]=0;result["i_set"]=0;var check0="",check1="";for(var k in saved){if(result[k].length>0){result["i_check"]+=saved[k].checkplus;check0=toJSONString(result[k]);check1=toJSONString(saved[k].data);if(k=="correct_response"){check0+=result["node"][0][15];check1+=saved[k].node;}
 if(check0===check1){result[k]=[];}else{saved[k].data=result[k];if(k=="correct_response")saved[k].node=result["node"][0][15];result["i_set"]+=saved[k].checkplus;}}}
-if(this.config.sequencing_enabled){walk(sharedObjectives,"objective");result["adl_seq_utilities"]=this.adl_seq_utilities;if(saved_adl_seq_utilities!=toJSONString(this.adl_seq_utilities)){saved_adl_seq_utilities=toJSONString(this.adl_seq_utilities);result["changed_seq_utilities"]=1;}
+if(this.config.sequencing_enabled){msequencer.getCourseStatusByGlobalObjectives();result["adl_seq_utilities"]=this.adl_seq_utilities;if(saved_adl_seq_utilities!=toJSONString(this.adl_seq_utilities)){saved_adl_seq_utilities=toJSONString(this.adl_seq_utilities);result["changed_seq_utilities"]=1;}
 else{result["changed_seq_utilities"]=0;}}else{result["adl_seq_utilities"]={};result["changed_seq_utilities"]=0;}
 var LP_STATUS_IN_PROGRESS_NUM=1,LP_STATUS_COMPLETED_NUM=2,LP_STATUS_FAILED_NUM=3;var percentageCompleted=0;var now_global_status=LP_STATUS_IN_PROGRESS_NUM;if(config.status.lp_mode==6){if(b_statusFailed==true)now_global_status=LP_STATUS_FAILED_NUM;else if(config.status.scos.length==i_numCompleted)now_global_status=LP_STATUS_COMPLETED_NUM;percentageCompleted=Math.round(i_numCompleted*100/config.status.scos.length);}
+else if(config.status.lp_mode==12){var measure=this.adl_seq_utilities.status[this.config.course_id][this.config.learner_id]["measure"];var satisfied=this.adl_seq_utilities.status[this.config.course_id][this.config.learner_id]["satisfied"];var completed=this.adl_seq_utilities.status[this.config.course_id][this.config.learner_id]["completed"];if(completed=="completed"||satisfied=="satisfied")now_global_status=LP_STATUS_COMPLETED_NUM;if(satisfied=="notSatisfied")now_global_status=LP_STATUS_FAILED_NUM;if(!isNaN(measure))percentageCompleted=Math.round(measure*100);}
 if(b_statusUpdate==false)now_global_status=config.status.saved_global_status;result["saved_global_status"]=config.status.saved_global_status;result["now_global_status"]=now_global_status;result["percentageCompleted"]=percentageCompleted;result["lp_mode"]=config.status.lp_mode;result["hash"]=config.status.hash;result["p"]=config.status.p;result["totalTimeCentisec"]=totalTimeCentisec;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{if(typeof SOP!="undefined"&&SOP==true)result=saveRequest(result);else result=this.config.store_url?sendJSONRequest(this.config.store_url,result):{};if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
 if(config.status.saved_global_status!=new_global_status){try{windowOpenerLoc.reload();}catch(e){}}
 config.status.saved_global_status=new_global_status;return true;}}
