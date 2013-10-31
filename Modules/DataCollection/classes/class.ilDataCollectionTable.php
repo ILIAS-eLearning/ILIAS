@@ -557,9 +557,24 @@ class ilDataCollectionTable
 				array_push($filterableFields, $field);
 			}
 		}
-			
+
 		return $filterableFields;
 	}
+
+    /**
+     * Return all the fields that are marked as exportable
+     * @return array ilDataCollectionField
+     */
+    public function getExportableFields() {
+        $fields = $this->getFields();
+        $exportableFields = array();
+        foreach ($fields as $field) {
+            if ($field->getExportable()) {
+                $exportableFields[] = $field;
+            }
+        }
+        return $exportableFields;
+    }
 
 	/*
 	 * hasPermissionToFields
