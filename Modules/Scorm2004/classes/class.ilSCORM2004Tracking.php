@@ -163,7 +163,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		global $ilDB;
 
 		$res = $ilDB->queryF('
-			SELECT * FROM cmi_gobjective
+			SELECT status, satisfied FROM cmi_gobjective
 			WHERE objective_id = %s
 			AND scope_id = %s', 
 			array('text', 'integer'), 
@@ -176,15 +176,15 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 
 		while($row = $ilDB->fetchAssoc($res))
 		{
-			if (self::_isCompleted($row["status"], $row["status"]))
+			if (self::_isCompleted($row["status"], $row["satisfied"]))
 			{
 				$info['completed'][] = $row["user_id"];
 			}
-			if (self::_isInProgress($row["status"], $row["status"]))
+			if (self::_isInProgress($row["status"], $row["satisfied"]))
 			{
 				$info['in_progress'][] = $row["user_id"];
 			}
-			if (self::_isFailed($row["status"], $row["status"]))
+			if (self::_isFailed($row["status"], $row["satisfied"]))
 			{
 				$info['failed'][] = $row["user_id"];
 			}
@@ -203,7 +203,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		global $ilDB, $ilLog;
 
 		$res = $ilDB->queryF('
-			SELECT * FROM cmi_gobjective
+			SELECT status, satisfied FROM cmi_gobjective
 			WHERE objective_id = %s
 			AND scope_id = %s AND user_id = %s', 
 			array('text', 'integer', 'integer'), 
@@ -213,15 +213,15 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		$status = "not_attempted";
 		if ($row = $ilDB->fetchAssoc($res))
 		{
-			if (self::_isInProgress($row["status"], $row["status"]))
+			if (self::_isInProgress($row["status"], $row["satisfied"]))
 			{
 				$status = "in_progress";
 			}
-			if (self::_isCompleted($row["status"], $row["status"]))
+			if (self::_isCompleted($row["status"], $row["satisfied"]))
 			{
 				$status = "completed";
 			}
-			if (self::_isFailed($row["status"], $row["status"]))
+			if (self::_isFailed($row["status"], $row["satisfied"]))
 			{
 				$status = "failed";
 			}
@@ -447,7 +447,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 */
 	static function _isCompleted($a_status, $a_satisfied)
 	{
-		if ($a_status == "completed")
+		if ($a_status == "completed" || $a_satisfied == "satisfied")
 		{
 			return true;
 		}
