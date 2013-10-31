@@ -214,20 +214,20 @@ class ilTree
 		{
 			if($GLOBALS['ilSetting']->get('main_tree_impl','ns') == 'ns')
 			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': Using nested set.');
+				$GLOBALS['ilLog']->write(__METHOD__.': Using nested set.');
 				include_once './Services/Tree/classes/class.ilNestedSetTree.php';
 				$this->tree_impl = new ilNestedSetTree($this);
 			}
 			else
 			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': Using materialized path.');
+				$GLOBALS['ilLog']->write(__METHOD__.': Using materialized path.');
 				include_once './Services/Tree/classes/class.ilMaterializedPathTree.php';
 				$this->tree_impl = new ilMaterializedPathTree($this);
 			}
 		}
 		else
 		{
-			#$GLOBALS['ilLog']->write(__METHOD__.': Using netsted set for non main tree.');
+			$GLOBALS['ilLog']->write(__METHOD__.': Using netsted set for non main tree.');
 			include_once './Services/Tree/classes/class.ilNestedSetTree.php';
 			$this->tree_impl = new ilNestedSetTree($this);
 		}
