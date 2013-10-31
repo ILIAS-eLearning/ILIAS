@@ -2285,19 +2285,20 @@ abstract class assQuestion
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
 			$next_id = $ilDB->nextId('qpl_sol_sug');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_sol_sug (suggested_solution_id, question_fi, type, value, internal_link, import_id, subquestion_index, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
-				array("integer","integer", "text", "text", "text", "text", "integer","integer"),
-				array(
-					$next_id,
-					$id,
-					$solution["type"],
-					ilRTE::_replaceMediaObjectImageSrc((is_array($solution["value"])) ? serialize($solution["value"]) : $solution["value"], 0),
-					$solution["internal_link"],
-					NULL,
-					$index,
-					time()
-				)
+
+			/** @var ilDB $ilDB */
+			$ilDB->insert('qpl_sol_sug', array(
+										   'suggested_solution_id'	=> array( 'integer', 	$next_id ),
+										   'question_fi'			=> array( 'integer', 	$id ),
+										   'type'					=> array( 'text', 		$solution['type'] ),
+										   'value'					=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc( (is_array( $solution['value'] ) ) ? serialize( $solution[ 'value' ] ) : $solution['value'], 0 ) ),
+										   'internal_link'			=> array( 'text', 		$solution['internal_link'] ),
+										   'import_id'				=> array( 'text',		null ),
+										   'subquestion_index'		=> array( 'integer', 	$index ),
+										   'tstamp'				=> array( 'integer',	time() ),
+									   )
 			);
+
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
 			{
 				ilInternalLink::_saveLink("qst", $id, $matches[2], $matches[3], $matches[1]);
@@ -2330,19 +2331,19 @@ abstract class assQuestion
 		
 		$next_id = $ilDB->nextId('qpl_sol_sug');
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_sol_sug (suggested_solution_id, question_fi, type, value, internal_link, import_id, subquestion_index, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
-			array("integer","integer", "text", "text", "text", "text", "integer","integer"),
-			array(
-				$next_id,
-				$this->getId(),
-				$type,
-				ilRTE::_replaceMediaObjectImageSrc((is_array($value)) ? serialize($value) : $value, 0),
-				$solution_id,
-				NULL,
-				$subquestion_index,
-				time()
-			)			
+		/** @var ilDB $ilDB */
+		$affectedRows = $ilDB->insert('qpl_sol_sug', array(
+									   'suggested_solution_id'	=> array( 'integer', 	$next_id ),
+									   'question_fi'			=> array( 'integer', 	$this->getId() ),
+									   'type'					=> array( 'text', 		$type ),
+									   'value'					=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc( (is_array( $value ) ) ? serialize( $value ) : $value, 0 ) ),
+									   'internal_link'			=> array( 'text', 		$solution_id ),
+									   'import_id'				=> array( 'text',		null ),
+									   'subquestion_index'		=> array( 'integer', 	$subquestion_index ),
+									   'tstamp'					=> array( 'integer',	time() ),
+								   )
 		);
+
 		if ($affectedRows == 1)
 		{
 			$this->suggested_solutions["subquestion_index"] = array(
@@ -3149,10 +3150,17 @@ abstract class assQuestion
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$next_id = $ilDB->nextId('qpl_fb_generic');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','integer','text','text','integer'),
-				array($next_id, $this->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($feedback, 0), time())
+
+			/** @var ilDB $ilDB */
+			$ilDB->insert('qpl_fb_generic', array(
+											  'feedback_id'	=> array( 'integer', 	$next_id ),
+											  'question_fi'	=> array( 'integer', 	$this->getId() ),
+											  'correctness'	=> array( 'text', 		$correctness ),
+											  'feedback'	=> array( 'clob',		ilRTE::_replaceMediaObjectImageSrc( $feedback, 0 ) ),
+											  'tstamp'		=> array( 'integer',	time() ),
+										  )
 			);
+
 		}
 	}
 	
@@ -3203,9 +3211,15 @@ abstract class assQuestion
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$next_id = $ilDB->nextId('qpl_fb_generic');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer','text','text','integer'),
-					array($next_id, $this->getId(), $row["correctness"], $row["feedback"], time())
+
+				/** @var ilDB $ilDB */
+				$ilDB->insert('qpl_fb_generic', array(
+												  'feedback_id'	=> array( 'integer', 	$next_id ),
+												  'question_fi'	=> array( 'integer', 	$this->getId() ),
+												  'correctness'	=> array( 'text', 		$row["correctness"] ),
+												  'feedback'	=> array( 'clob',		$row["feedback"] ),
+												  'tstamp'		=> array( 'integer',	time() ),
+											  )
 				);
 			}
 		}
@@ -3235,9 +3249,14 @@ abstract class assQuestion
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$next_id = $ilDB->nextId('qpl_fb_generic');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer','text','text','integer'),
-					array($next_id, $this->original_id, $row["correctness"], $row["feedback"], time())
+				/** @var ilDB $ilDB */
+				$ilDB->insert('qpl_fb_generic', array(
+												  'feedback_id'	=> array( 'integer', 	$next_id ),
+												  'question_fi'	=> array( 'integer', 	$this->original_id ),
+												  'correctness'	=> array( 'text', 		$row["correctness"] ),
+												  'feedback'	=> array( 'clob',		$row["feedback"] ),
+												  'tstamp'		=> array( 'integer',	time() ),
+											  )
 				);
 			}
 		}

@@ -723,15 +723,14 @@ class assMultipleChoice extends assQuestion
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$next_id = $ilDB->nextId('qpl_fb_mc');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_mc (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer','integer','text','integer'),
-					array(
-						$next_id,
-						$this->original_id,
-						$row["answer"],
-						$row["feedback"],
-						time()
-					)
+				/** @var ilDB $ilDB */
+				$ilDB->insert('qpl_fb_mc', array(
+											 'feedback_id'	=> array( 'integer', 	$next_id ),
+											 'question_fi'	=> array( 'integer', 	$this->original_id ),
+											 'answer'		=> array( 'integer', 	$row["answer"] ),
+											 'feedback'		=> array( 'clob',		$row["feedback"] ),
+											 'tstamp'		=> array( 'integer',	time() ),
+										 )
 				);
 			}
 		}
@@ -971,15 +970,14 @@ class assMultipleChoice extends assQuestion
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$next_id = $ilDB->nextId('qpl_fb_mc');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_mc (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','integer','integer','text','integer'),
-				array(
-					$next_id,
-					$this->getId(),
-					$answer_index,
-					ilRTE::_replaceMediaObjectImageSrc($feedback, 0),
-					time()
-				)
+			/** @var ilDB $ilDB */
+			$ilDB->insert('qpl_fb_mc', array(
+										 'feedback_id'	=> array( 'integer', 	$next_id ),
+										 'question_fi'	=> array( 'integer', 	$this->getId() ),
+										 'answer'		=> array( 'integer', 	$answer_index ),
+										 'feedback'		=> array( 'clob',		ilRTE::_replaceMediaObjectImageSrc( $feedback, 0 ) ),
+										 'tstamp'		=> array( 'integer',	time() ),
+									 )
 			);
 		}
 	}
@@ -1029,15 +1027,14 @@ class assMultipleChoice extends assQuestion
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$next_id = $ilDB->nextId('qpl_fb_mc');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_mc (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer','integer','text','integer'),
-					array(
-						$next_id,
-						$this->getId(),
-						$row["answer"],
-						$row["feedback"],
-						time()
-					)
+				/** @var ilDB $ilDB */
+				$ilDB->insert('qpl_fb_mc', array(
+											 'feedback_id'	=> array( 'integer', 	$next_id ),
+											 'question_fi'	=> array( 'integer', 	$this->getId() ),
+											 'answer'		=> array( 'integer', 	$row["answer"] ),
+											 'feedback'		=> array( 'clob',		$row["feedback"] ),
+											 'tstamp'		=> array( 'integer',	time() ),
+										 )
 				);
 			}
 		}
