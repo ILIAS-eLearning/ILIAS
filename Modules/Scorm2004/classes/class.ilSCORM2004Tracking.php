@@ -163,7 +163,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		global $ilDB;
 
 		$res = $ilDB->queryF('
-			SELECT status, satisfied FROM cmi_gobjective
+			SELECT user_id, status, satisfied FROM cmi_gobjective
 			WHERE objective_id = %s
 			AND scope_id = %s', 
 			array('text', 'integer'), 

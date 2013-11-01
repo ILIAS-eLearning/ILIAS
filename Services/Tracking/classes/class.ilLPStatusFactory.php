@@ -185,8 +185,12 @@ class ilLPStatusFactory
 			case ilLPObjSettings::LP_MODE_OBJECTIVES:
 				include_once self::PATH.'class.ilLPStatusObjectives.php';
 				return new ilLPStatusObjectives($a_obj_id);
-				
-			case ilLPObjSettings::LP_MODE_EVENT:
+
+			case ilLPObjSettings::LP_MODE_SCORM_PACKAGE:
+				include_once self::PATH.'class.ilLPStatusSCORMPackage.php';
+				return new ilLPStatusSCORMPackage($a_obj_id);
+
+				case ilLPObjSettings::LP_MODE_EVENT:
 				include_once self::PATH.'class.ilLPStatusEvent.php';
 				return new ilLPStatusEvent($a_obj_id);
 				
