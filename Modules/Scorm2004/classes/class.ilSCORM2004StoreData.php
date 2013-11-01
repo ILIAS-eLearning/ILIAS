@@ -63,7 +63,9 @@ class ilSCORM2004StoreData
 			$objectives
 			);
 		
-		$new_global_status=ilSCORM2004StoreData::setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data);
+		//$new_global_status=ilSCORM2004StoreData::setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data);
+		ilSCORM2004StoreData::setGlobalObjectives($userId, $packageId, $data);
+		$new_global_status = $data->now_global_status;
 		$return["new_global_status"] = $new_global_status;
 		
 		ilSCORM2004StoreData::syncGlobalStatus($userId, $packageId, $data, $new_global_status);
@@ -302,30 +304,40 @@ class ilSCORM2004StoreData
 	}
 
 
-	private function setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data) {
+	// private function setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data) {
 
+		// global $ilLog;
+		// $changed_seq_utilities=$data->changed_seq_utilities;
+		// $ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
+		// if ($changed_seq_utilities == 1) {
+			// $returnAr=ilSCORM2004StoreData::writeGObjective($data->adl_seq_utilities, $userId, $packageId);
+		// }
+		// // $completed=$returnAr[0];
+		// // $satisfied=$returnAr[1];
+		// // $measure=$returnAr[2];
+		// self::ensureObjectDataCacheExistence();
+
+		// $lp_mode=$data->lp_mode;
+		// if ($lp_mode=="12") //12=scorm_package
+		// {
+			// include_once './Services/Tracking/classes/status/class.ilLPStatusSCORMPackage.php';
+			// $new_global_status=ilLPStatusSCORMPackage::determineStatus($packageId, $userId);
+		// }
+		// else $new_global_status = $data->now_global_status; //6=selected scos, 0=no tracking
+		// $ilLog->write("new_global_status=".$new_global_status);
+		// return $new_global_status;
+	// }
+
+
+	private function setGlobalObjectives($userId, $packageId, $data) {
 		global $ilLog;
 		$changed_seq_utilities=$data->changed_seq_utilities;
 		$ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
-//		if ($changed_seq_utilities == 1) {
+		if ($changed_seq_utilities == 1) {
 			$returnAr=ilSCORM2004StoreData::writeGObjective($data->adl_seq_utilities, $userId, $packageId);
-//		}
-		$completed=$returnAr[0];
-		$satisfied=$returnAr[1];
-		$measure=$returnAr[2];
-
-		$lp_mode=$data->lp_mode;
-		if ($lp_mode=="12") //12=scorm_package - has to be checked UK
-		{
-//			include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
-//			$new_global_status = ilSCORM2004Tracking::parseLPStatus($completed, $satisfied);
-			$new_global_status="";
 		}
-		else $new_global_status = $data->now_global_status; //6=selected scos, 0=no tracking
-		$ilLog->write("new_global_status=".$new_global_status);
-		return $new_global_status;
 	}
-	
+
 	public function syncGlobalStatus($userId, $packageId, $data, $new_global_status) {
 
 		global $ilDB, $ilLog;
