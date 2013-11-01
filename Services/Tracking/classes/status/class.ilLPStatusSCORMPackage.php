@@ -108,5 +108,46 @@ class ilLPStatusSCORMPackage extends ilLPStatus
 		return $status;		
 	}
 
+	function refreshStatus($a_obj_id)
+	{
+		parent::refreshStatus($a_obj_id);
+		
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+		$in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);		
+		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);		
+		$failed = ilLPStatusWrapper::_getFailed($a_obj_id);	
+		$all_active_users = array_unique(array_merge($in_progress, $completed, $failed));
+		
+		// get all tracked users regardless of SCOs
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+		$all_tracked_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);			
+		
+		$not_attempted_users = array_diff($all_tracked_users, $all_active_users);
+		unset($all_tracked_users);
+		unset($all_active_users);
+		
+		// reset all users which have no data for the current SCOs
+		if($not_attempted_users)
+		{
+			foreach($not_attempted_users as $usr_id)
+			{
+				// this will update any (parent) collections if necessary
+				ilLPStatus::writeStatus($a_obj_id, $usr_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, 0);				
+			}						
+		}
+	}
+	/**
+	 * Determine percentage
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		percentage
+	 */
+	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		return null;//todo!
+	}
+
 }	
 ?>
