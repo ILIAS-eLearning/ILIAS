@@ -141,10 +141,12 @@ class ilSCORMPresentationGUI
 				// should be able to grep templates
 				if($debug)
 				{
+//					$this->tpl = new ilTemplate("tpl.sahs_pres_js_debug.html", false, false, "Modules/ScormAicc");
 					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
 				}
 				else
 				{
+//					$this->tpl = new ilTemplate("tpl.sahs_pres_js_debug.html", false, false, "Modules/ScormAicc");
 					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
 				}
 								
@@ -178,14 +180,8 @@ class ilSCORMPresentationGUI
 	* Get max. number of attempts allowed for this package
 	*/
 	function get_max_attempts() {
-		
-		global $ilDB;
-		
-		$val_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s',
-		array('integer'), array($this->slm->getId()));
-		$val_rec = $ilDB->fetchAssoc($val_set);
-		
-		return $val_rec["max_attempt"]; 
+		include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
+		return ilObjSCORMInitData::get_max_attempts($this->slm->getId());
 	}
 	
 	/**
@@ -442,18 +438,12 @@ class ilSCORMPresentationGUI
 	* SCORM Data for Javascript-API
 	*/
 	function apiInitData() {
-		global $ilias, $ilLog, $ilUser, $lng, $ilDB;
-	
-		function encodeURIComponent($str) {
-			$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')', '%7E'=>'~');
-			return strtr(rawurlencode($str), $revert);
-		}
+//		global $ilias, $ilLog, $ilUser, $lng, $ilDB;
 
 		if ($_GET["ref_id"] == "") {
 			print ('alert("no start without ref_id");');
 			die;
 		}
-		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		header('Content-Type: text/javascript; charset=UTF-8');
 		print("function iliasApi() {\r\n");
@@ -462,167 +452,23 @@ class ilSCORMPresentationGUI
 		$js_data = file_get_contents("./Modules/ScormAicc/scripts/SCORM1_2standard.js");//want to give opportunities to different files (Uwe Kohnle)
 		echo $js_data;
 		print("}\r\n");
-		
-		//variables to set in administration interface
-		$b_storeObjectives='true';
-		$b_storeInteractions='true';
-		$b_readInteractions='false';
-		$c_storeSessionTime='s';//n=no, s=sco, i=ilias
-		if ($slm_obj->getTime_from_lms()) $c_storeSessionTime='i';
-		$i_lessonScoreMax='-1';
-		$i_lessonMasteryScore='-1';
-		
-		//other variables
-		$b_messageLog='false';
-		if ($ilLog->current_log_level == 30) $b_messageLog='true';
-		$launchId='0';
-		if ($_GET["autolaunch"] != "") $launchId=$_GET["autolaunch"];
-		$session_timeout = 0; //unlimited sessions
-		if ($slm_obj->getSession()) {
-			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
-		}
-		$b_autoReview='false';
-		if ($this->slm->getAutoReview()) $b_autoReview='true';
-		$b_debug='false';
-		if ($this->slm->getDebug()) $b_debug='true';
-		$b_autoContinue='false';
-		if ($this->slm->getAutoContinue()) $b_autoContinue='true';
-		$b_checkSetValues='false';
-		if ($this->slm->getCheck_values()) $b_checkSetValues='true';
-		$b_autoLastVisited='false';
-		if ($this->slm->getAuto_last_visited()) {
-			$b_autoLastVisited='true';
-			if ($launchId == '0') $launchId=$slm_obj->getLastVisited($ilUser->getID());
-		}
 
-		$s_out='IliasScormVars={'
-			.'"refId":'.$_GET["ref_id"].','
-			.'"objId":'.$this->slm->getId().','
-			.'"launchId":'.$launchId.','
-			.'"launchNr":0,'
-			.'"pingSession":'. $session_timeout.','
-			.'"studentId":'.$ilias->account->getId().','
-			.'"studentName":"'.encodeURIComponent($ilias->account->getLastname().', '.$ilias->account->getFirstname()).'",'
-			.'"studentLogin":"'.encodeURIComponent($ilias->account->getLogin()).'",'
-			.'"studentOu":"'.encodeURIComponent($ilias->account->getDepartment()).'",'
-			.'"credit":"'.str_replace("_", "-", $this->slm->getCreditMode()).'",'
-			.'"lesson_mode":"'.$this->slm->getDefaultLessonMode().'",'
-			.'"b_autoReview":'.$b_autoReview.','
-			.'"b_messageLog":'.$b_messageLog.','
-			.'"b_checkSetValues":'.$b_checkSetValues.','
-			.'"b_storeObjectives":'.$b_storeObjectives.','
-			.'"b_storeInteractions":'.$b_storeInteractions.','
-			.'"b_readInteractions":'.$b_readInteractions.','
-			.'"c_storeSessionTime":"'.$c_storeSessionTime.'",'
-			.'"b_autoContinue":'.$b_autoContinue.','
-			.'"b_autoLastVisited":'.$b_autoLastVisited.','
-			.'"i_lessonScoreMax":'.$i_lessonScoreMax.','
-			.'"i_lessonMasteryScore":'.$i_lessonMasteryScore.','
-			.'"b_debug":'.$b_debug.','
-			.'"dataDirectory":"'.encodeURIComponent($this->slm->getDataDirectory("output").'/').'",'
-			.'"img":{'
-				.'"asset":"'.encodeURIComponent(ilUtil::getImagePath('scorm/asset.png')).'",'
-				.'"browsed":"'.encodeURIComponent(ilUtil::getImagePath('scorm/browsed.png')).'",'
-				.'"completed":"'.encodeURIComponent(ilUtil::getImagePath('scorm/completed.png')).'",'
-				.'"failed":"'.encodeURIComponent(ilUtil::getImagePath('scorm/failed.png')).'",'
-				.'"incomplete":"'.encodeURIComponent(ilUtil::getImagePath('scorm/incomplete.png')).'",'
-				.'"not_attempted":"'.encodeURIComponent(ilUtil::getImagePath('scorm/not_attempted.png')).'",'
-				.'"passed":"'.encodeURIComponent(ilUtil::getImagePath('scorm/passed.png')).'",'
-				.'"running":"'.encodeURIComponent(ilUtil::getImagePath('scorm/running.png')).'"'
-			.'},'
-			.'"statusTxt":{'
-				.'"wait":"'.encodeURIComponent($lng->txt("please_wait")).'",'
-				.'"status":"'.encodeURIComponent($lng->txt("cont_status")).'",'
-				.'"browsed":"'.encodeURIComponent($lng->txt("cont_sc_stat_browsed")).'",'
-				.'"completed":"'.encodeURIComponent($lng->txt("cont_sc_stat_completed")).'",'
-				.'"failed":"'.encodeURIComponent($lng->txt("cont_sc_stat_failed")).'",'
-				.'"incomplete":"'.encodeURIComponent($lng->txt("cont_sc_stat_incomplete")).'",'
-				.'"not_attempted":"'.encodeURIComponent($lng->txt("cont_sc_stat_not_attempted")).'",'
-				.'"passed":"'.encodeURIComponent($lng->txt("cont_sc_stat_passed")).'",'
-				.'"running":"'.encodeURIComponent($lng->txt("cont_sc_stat_running")).'"'
-			.'}'
-		.'};';
+		include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php");
 
-//		header('Content-Type: text/javascript; charset=UTF-8');
-		print($s_out."\r\n");
+		print("IliasScormVars=".ilObjSCORMInitData::getIliasScormVars($this->slm).";\r\n");
+
+		//Resources
+		print("IliasScormResources=".ilObjSCORMInitData::getIliasScormResources($this->slm->getId()).";\r\n");
+
+		//Tree
+		print("IliasScormTree=".ilObjSCORMInitData::getIliasScormTree($this->slm->getId()).";\r\n");
+
 		//prevdata
-		$s_out = 'IliasScormData=[';
-		$tquery = 'SELECT sco_id,lvalue,rvalue FROM scorm_tracking '
-				.'WHERE user_id = %s AND obj_id = %s '
-				."AND sco_id > 0 AND lvalue != 'cmi.core.entry' AND lvalue != 'cmi.core.session_time'";
-		if ($b_readInteractions == 'false') $tquery.=" AND SUBSTR(lvalue, 1, 16) != 'cmi.interactions'";
-		$val_set = $ilDB->queryF($tquery,
-			array('integer','integer'),
-			array($ilUser->getId(),$this->slm->getId())	
-		);
-		while($val_rec = $ilDB->fetchAssoc($val_set)) {
-			if (!strpos($val_rec["lvalue"],"._count"))
-				$s_out.='['.$val_rec["sco_id"].',"'.$val_rec["lvalue"].'","'.encodeURIComponent($val_rec["rvalue"]).'"],';
-		}
-		//manifestData
-		$val_set = $ilDB->queryF('
-			SELECT sc_item.obj_id,maxtimeallowed,timelimitaction,datafromlms,masteryscore 
-			FROM sc_item, scorm_object 
-			WHERE scorm_object.obj_id=sc_item.obj_id
-			AND scorm_object.c_type = %s
-			AND scorm_object.slm_id = %s',
-			array('text','integer'),
-			array('sit',$this->slm->getId())	
-		);
-		while($val_rec = $ilDB->fetchAssoc($val_set)) {
-			if($val_rec["maxtimeallowed"]!=null)
-				$s_out.='['.$val_rec["obj_id"].',"cmi.student_data.max_time_allowed","'.encodeURIComponent($val_rec["maxtimeallowed"]).'"],';
-			if($val_rec["timelimitaction"]!=null)
-				$s_out.='['.$val_rec["obj_id"].',"cmi.student_data.time_limit_action","'.encodeURIComponent($val_rec["timelimitaction"]).'"],';
-			if($val_rec["datafromlms"]!=null)
-				$s_out.='['.$val_rec["obj_id"].',"cmi.launch_data","'.encodeURIComponent($val_rec["datafromlms"]).'"],';
-			if($val_rec["masteryscore"]!=null)
-				$s_out.='['.$val_rec["obj_id"].',"cmi.student_data.mastery_score","'.encodeURIComponent($val_rec["masteryscore"]).'"],';
-		}
-		if(substr($s_out,(strlen($s_out)-1))==",") $s_out=substr($s_out,0,(strlen($s_out)-1));
-		$s_out.='];';
-		print($s_out."\r\n");
+		print("IliasScormData=[".ilObjSCORMInitData::getIliasScormData($this->slm->getId())."];\r\n");
 
-		//URLs
-		$s_out='IliasScormResources=[';
-		$s_resourceIds="";//necessary if resources exist having different href with same identifier
-		$val_set = $ilDB->queryF("
-			SELECT sc_resource.obj_id
-			FROM scorm_tree, sc_resource
-			WHERE scorm_tree.slm_id=%s 
-			AND sc_resource.obj_id=scorm_tree.child",
-			array('integer'),
-			array($this->slm->getId())	
-		);
-		while($val_rec = $ilDB->fetchAssoc($val_set)) {
-			$s_resourceIds .= ",".$val_rec["obj_id"];
-		}
-		$s_resourceIds = substr($s_resourceIds,1);
-
-		$tquery="SELECT scorm_tree.lft, scorm_tree.child, 
-			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset,
-			sc_resource.href
-			FROM scorm_tree, sc_resource, sc_item
-			WHERE scorm_tree.slm_id=%s 
-			AND sc_item.obj_id=scorm_tree.child 
-			AND sc_resource.import_id=sc_item.identifierref 
-			AND sc_resource.obj_id in (".$s_resourceIds.") 
-			ORDER BY scorm_tree.lft";
-		$val_set = $ilDB->queryF($tquery,
-			array('integer'),
-			array($this->slm->getId())	
-		);
-		while($val_rec = $ilDB->fetchAssoc($val_set)) {
-			$s_out.='['.$val_rec["lft"].','.$val_rec["child"].','.$val_rec["asset"].',"'.encodeURIComponent($val_rec["href"]).'"],';
-		}
-		if(substr($s_out,(strlen($s_out)-1))==",") $s_out=substr($s_out,0,(strlen($s_out)-1));
-		$s_out.="];\r\n";
-		// set alternative API name
-		if ($this->slm->getAPIAdapterName() != "API") $s_out.='var '.$this->slm->getAPIAdapterName().'=new iliasApi();';
-		else $s_out.='var API=new iliasApi();';
-
-		print($s_out);
-		
+		// set alternative API name - not necessary for scorm
+		if ($this->slm->getAPIAdapterName() != "API") print('var '.$this->slm->getAPIAdapterName().'=new iliasApi();');
+		else print('var API=new iliasApi();');
 	}
 
 	

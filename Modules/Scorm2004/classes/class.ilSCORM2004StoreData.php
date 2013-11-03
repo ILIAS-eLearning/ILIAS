@@ -348,8 +348,6 @@ class ilSCORM2004StoreData
 		//include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
 		//ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
 		
-		//last_visited!
-		
 		// get attempts
 		if (!$data->packageAttempts) {
 			$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
@@ -364,10 +362,10 @@ class ilSCORM2004StoreData
 		//update percentage_completed, sco_total_time_sec,status in sahs_user
 		$totalTime=(int)$data->totalTimeCentisec;
 		$totalTime=round($totalTime/100);
-		$ilDB->queryF('UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s WHERE obj_id = %s AND user_id = %s',
-			array('integer', 'integer', 'integer', 'integer', 'integer'), 
-			array($totalTime, $new_global_status, $data->percentageCompleted, $packageId, $userId));
-		
+		$ilDB->queryF('UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s, package_attempts=%s WHERE obj_id = %s AND user_id = %s',
+			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'), 
+			array($totalTime, $new_global_status, $data->percentageCompleted, $attempts, $packageId, $userId));
+
 		self::ensureObjectDataCacheExistence();
 		global $ilObjDataCache;
 		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
@@ -375,8 +373,8 @@ class ilSCORM2004StoreData
 
 		//end sync access number and time in read event table
 
-		if($saved_global_status != $new_global_status)
-		{
+		// if($saved_global_status != $new_global_status)
+		// {
 			// update learning progress
 //			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 //			ilLPStatusWrapper::_updateStatus($packageId, $userId);
@@ -384,11 +382,9 @@ class ilSCORM2004StoreData
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 			ilLPStatus::writeStatus($packageId, $userId,$new_global_status,$data->percentageCompleted);
 
-//			include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
-//			$new_global_status = ilSCORM2004Tracking::updateGlobalStatus($userId, $packageId,$completed, $satisfied, $measure);
 
 //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
-		}
+		// }
 		return true;
 	}
 

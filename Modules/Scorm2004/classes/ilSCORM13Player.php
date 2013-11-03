@@ -321,28 +321,13 @@ class ilSCORM13Player
 			'adlact_data' => null,
 			'globalobj_data' => null
 		);
-
-		include_once './Services/Tracking/classes/class.ilLPStatus.php';
-		$oldStatus = ilLPStatus::_lookupStatus($this->packageId, $ilUser->getID());
-		$status['saved_global_status']=(int) $oldStatus;
-		
+		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php';
+		$status=ilObjSCORMInitData::getStatus($this->packageId, $ilUser->getID());
 		$status['last_visited']=null;
 		if($this->slm->getAuto_last_visited()) 
 		{
 			$status['last_visited']=$this->get_last_visited($this->packageId, $ilUser->getID());
 		}
-		
-		include_once './Services/Object/classes/class.ilObjectLP.php';
-		$olp = ilObjectLP::getInstance($this->packageId);
-		$status['lp_mode'] = $olp->getCurrentMode();
-		$collection = $olp->getCollectionInstance();
-		if($collection)
-		{		
-			$status['scos'] = $collection->getItems();
-		}
-		else $status['scos'] = array();
-		$status['hash'] = $this->setHash();
-		$status['p'] = $ilUser->getID();
 		$config['status'] = $status;
 
 		return $config;
@@ -1265,17 +1250,9 @@ class ilSCORM13Player
 	* Get max. number of attempts allowed for this package
 	*/
 	function get_max_attempts()
-	{		
-		global $ilDB;
-
-		$res = $ilDB->queryF(
-			'SELECT max_attempt FROM sahs_lm WHERE id = %s', 
-			array('integer'),
-			array($this->packageId)
-		);
-		$row = $ilDB->fetchAssoc($res);
-		
-		return $row['max_attempt']; 
+	{
+		include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
+		return ilObjSCORMInitData::get_max_attempts($this->packageId);
 	}
 	
 	function get_Module_Version()
@@ -1371,42 +1348,6 @@ class ilSCORM13Player
 				array($this->packageId, $this->userId)
 			);
 		}
-	}
-
-	// hash for storing data without session
-	private function setHash() {
-		global $ilDB, $ilUser;
-		$hash = mt_rand(1000000000,9999999999);
-		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')+1, date('Y')));
-
-		$res = $ilDB->queryF('SELECT count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',
-			array('integer', 'integer'),
-			array($this->packageId,$this->userId)
-		);
-		$val_rec = $ilDB->fetchAssoc($res);
-		if ($val_rec["cnt"] == 0) { //offline_mode could be inserted
-			$ilDB->manipulateF('INSERT INTO sahs_user (obj_id, user_id, hash, hash_end) VALUES(%s, %s, %s, %s)',  
-				array('integer', 'integer', 'text', 'timestamp'),
-				array($this->packageId, $this->userId, "".$hash, $endDate)
-			);
-		}
-		else
-		{
-			$ilDB->manipulateF('UPDATE sahs_user SET hash = %s, hash_end = %s WHERE obj_id = %s AND user_id = %s',
-				array('text', 'timestamp', 'integer', 'integer'),
-				array("".$hash, $endDate, $this->packageId, $this->userId)
-			);
-		}
-		//clean table
-		// if (fmod($hash,100) == 0) //note: do not use % for large numbers; here php-min-Version: 4.2.0
-		// {
-			// $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')-2, date('Y')));
-			// $ilDB->manipulateF('DELETE FROM cmi_custom WHERE lvalue = %s AND c_timestamp < %s',
-				// array('text', 'timestamp'),
-				// array('hash', $endDate)
-			// );
-		// }
-		return $hash;
 	}
 
 	//debug extentions
