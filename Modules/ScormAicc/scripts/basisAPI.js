@@ -97,6 +97,55 @@ function sendRequest (url, data, callback, user, password, headers) {
 	}
 }
 
+function toJSONString (v, tab) {
+	tab = tab ? tab : "";
+	var nl = tab ? "\n" : "";
+	function fmt(n) {
+		return (n < 10 ? '0' : '') + n;
+	}
+	function esc(s) {
+		var c = {'\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"' : '\\"', '\\': '\\\\'};
+		return '"' + s.replace(/[\x00-\x1f\\"]/g, function (m) {
+			var r = c[m];
+			if (r) {
+				return r;
+			} else {
+				r = m.charAt(0);
+				return "\\u00" + (r < 16 ? '0' : '') + r.toString(16);
+			}
+		}) + '"';
+	}
+	switch (typeof v) {
+	case 'string':
+		return esc(v);
+	case 'number':
+		return isFinite(v) ? String(v) : 'null';
+	case 'boolean':
+		return String(v);
+	case 'object':
+		if (v===null) {
+			return 'null';
+		} else if (v instanceof Date) {
+			return '"' + v.getValue(v) + '"'; // msec not ISO
+		} else if (v instanceof Array) {
+			var ra = new Array();
+			for (var i=0, ni=v.length; i<ni; i+=1) {
+				ra.push(v[i]===undefined ? 'null' : toJSONString(v[i], tab.charAt(0) + tab));
+			}
+			return '[' + nl + tab + ra.join(',' + nl + tab) + nl + tab + ']';
+		} else {
+			var ro = new Array();
+			for (var k in v) {	
+				if (v.hasOwnProperty && v.hasOwnProperty(k)) {
+					ro.push(esc(String(k)) + ':' + toJSONString(v[k], tab.charAt(0) + tab));
+				}
+			}
+			return '{' + nl + tab + ro.join(',' + nl + tab) + nl + tab + '}';
+		}
+	}
+}
+
+
 // Debugger
 function showCalls(APIcall,callResult,err,dia){
 	if (iv.b_debug){
@@ -273,9 +322,12 @@ function IliasCommit() {
 		}
 	}
 	a_toStore=[];
-	s_s=JSON.stringify(o_data);
+//	s_s=JSON.stringify(o_data);
+	s_s=toJSONString(o_data);
 	try {
-		var ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
+		var ret="";
+		if (typeof SOP!="undefined" && SOP==true) ret=saveRequest(s_s);
+		else ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
 		if (ret!="ok") return false;
 		return true;
 	} catch (e) {
@@ -372,9 +424,18 @@ function basisInit() {
 
 //done at end
 function onWindowUnload () {
-	var s_unload="";
-	if (iv.b_autoLastVisited==true) s_unload="last_visited="+iv.launchId;
-	sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&ref_id="+iv.refId, s_unload);
+	if (typeof SOP!="undefined" && SOP==true){
+		var result = {};
+		result["hash"]=iv.status.hash;
+		result["p"]=iv.status.p;
+		result["last"]="";
+		if (iv.b_autoLastVisited==true) result["last"]=iv.launchId;
+		result=scormPlayerUnload(result);
+	} else {
+		var s_unload="";
+		if (iv.b_autoLastVisited==true) s_unload="last_visited="+iv.launchId;
+		sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&ref_id="+iv.refId, s_unload);
+	}
 }
 
 this.IliasLaunch=IliasLaunch;
@@ -384,6 +445,10 @@ this.IliasWaitTree=IliasWaitTree;
 this.SchedulePing=SchedulePing;
 basisInit();
 
-if(window.addEventListener) window.addEventListener('unload',onWindowUnload);
-else if(window.attachEvent) window.attachEvent('onunload',onWindowUnload);//IE<9
-else window['onunload']=onWindowUnload;
+if (typeof SOP!="undefined" && SOP==true) {
+	window.addEventListener('beforeunload',onWindowUnload);
+} else {
+	if(window.addEventListener) window.addEventListener('unload',onWindowUnload);
+	else if(window.attachEvent) window.attachEvent('onunload',onWindowUnload);//IE<9
+	else window['onunload']=onWindowUnload;
+}
