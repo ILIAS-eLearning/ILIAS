@@ -14,6 +14,7 @@ var ilClient = '{CLIENT_ID}',
 	importTrackingOk,
 	pushTrackingOk,
 	msg_lm_not_exists = '{MSG_LM_NOT_EXISTS}',
+	msg_close_lm = '{MSG_CLOSE_LM}',
 	msg_result = '{MESSAGE_RESULT}',
 	msg_already_exported = '{ALREADY_EXPORTED}',
 	msg_firefox_required = '{FIREFOX_REQUIRED}',
@@ -186,6 +187,10 @@ function importSOP() {
 
 function pushTracking() {
 	sopConnector.runEnv();
+	if (sopConnector.isPlayerOpen(id)) {
+		alert(msg_close_lm);
+		return false;
+	}
 	var url = sopConnector.atoB(pushTrackingUrl);
 	function handler(success) {
 		print(msg_push_tracking_ok,false);
