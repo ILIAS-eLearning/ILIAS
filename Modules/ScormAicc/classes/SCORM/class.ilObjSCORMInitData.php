@@ -25,8 +25,10 @@ class ilObjSCORMInitData
 //		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		//variables to set in administration interface
-		$b_storeObjectives='true';
-		$b_storeInteractions='true';
+		$b_storeObjectives='false';
+		if ($slm_obj->getObjectives()) $b_storeObjectives='true';
+		$b_storeInteractions='false';
+		if ($slm_obj->getInteractions()) $b_storeInteractions='true';
 		$b_readInteractions='false';
 		$c_storeSessionTime='s';//n=no, s=sco, i=ilias
 		if ($slm_obj->getTime_from_lms()) $c_storeSessionTime='i';
@@ -145,7 +147,7 @@ class ilObjSCORMInitData
 	function getIliasScormData($a_packageId) {
 		global $ilias, $ilUser, $ilDB;
 		$b_readInteractions='false';
-		$s_out="";
+		$a_out=array();
 		$tquery = 'SELECT sco_id,lvalue,rvalue FROM scorm_tracking '
 				.'WHERE user_id = %s AND obj_id = %s '
 				."AND sco_id > 0 AND lvalue != 'cmi.core.entry' AND lvalue != 'cmi.core.session_time'";
@@ -156,11 +158,9 @@ class ilObjSCORMInitData
 		);
 		while($val_rec = $ilDB->fetchAssoc($val_set)) {
 			if (!strpos($val_rec["lvalue"],"._count"))
-				$s_out.='['.$val_rec["sco_id"].',"'.$val_rec["lvalue"].'","'.self::encodeURIComponent($val_rec["rvalue"]).'"],';
+				$a_out[]=array( (int)$val_rec["sco_id"], $val_rec["lvalue"], self::encodeURIComponent($val_rec["rvalue"]) );
 		}
-		if(substr($s_out,(strlen($s_out)-1))==",") $s_out=substr($s_out,0,(strlen($s_out)-1));
-
-		return $s_out;
+		return json_encode($a_out);
 	}
 	
 	function getIliasScormResources($a_packageId) {

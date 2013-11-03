@@ -94,7 +94,7 @@ class ilSCORMOfflineMode
 			$init_data = ilObjSCORMInitData::getIliasScormVars($slm_obj);
 			$resources = json_decode(ilObjSCORMInitData::getIliasScormResources($this->obj_id));
 			$tree = json_decode(ilObjSCORMInitData::getIliasScormTree($this->obj_id));
-			$cmi = ilObjSCORMInitData::getIliasScormData($this->obj_id);
+			$cmi = json_decode(ilObjSCORMInitData::getIliasScormData($this->obj_id));
 			$max_attempt = ilObjSCORMInitData::get_max_attempts($this->obj_id);
 		}
 		if ($max_attempt == null) $max_attempt = 0;
