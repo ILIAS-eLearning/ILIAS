@@ -302,18 +302,20 @@ function getElementModel(s_el){
 }
 
 function addTime(s_a,s_b) {
-	function timestr2hsec(st) {
-		var a1=st.split(":");
-		var a2=a1[2].split(".");
-		var it=360000*parseInt(a1[0],10) + 6000*parseInt(a1[1],10) + 100*parseInt(a2[0],10);
-		if (a2.length>1) {
-			if(a2[1].length==1) it+=10*parseInt(a2[1],10);
-			else it+=parseInt(a2[1],10);
-		}
-		return it;
-	}
 	var i_hs=timestr2hsec(s_a)+timestr2hsec(s_b);
 	return hsec2timestr(i_hs);
+}
+
+function timestr2hsec(st) {
+	if(st=="" || typeof st=="undefined" || st==null) return 0;
+	var a1=st.split(":");
+	var a2=a1[2].split(".");
+	var it=360000*parseInt(a1[0],10) + 6000*parseInt(a1[1],10) + 100*parseInt(a2[0],10);
+	if (a2.length>1) {
+		if(a2[1].length==1) it+=10*parseInt(a2[1],10);
+		else it+=parseInt(a2[1],10);
+	}
+	return it;
 }
 
 function hsec2timestr(ts){

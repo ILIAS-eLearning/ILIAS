@@ -167,7 +167,30 @@ class ilObjSCORMTracking
 	}
 	
 	function storeJsApi($obj_id=0) {
-		global $ilLog, $ilDB, $ilUser;
+		global $ilLog, $ilUser;
+
+		if (is_object($ilUser)) {
+			$user_id = $ilUser->getId();
+		}
+		if (empty($obj_id)) $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+		$in = file_get_contents("php://input");
+		$ilLog->write($in);
+		$data = json_decode($in);
+
+		header('Content-Type: text/plain; charset=UTF-8');
+
+		$rval=self::storeJsApiCmi($user_id,$obj_id,$data);
+		if($rval!=true) {
+			print("storeJsApiCmi failed");
+		} else {
+			$rval=self::syncGlobalStatus($user_id, $obj_id, $data, $data->now_global_status);
+			if($rval!=true) print("syncGlobalStatus failed");
+		}
+		if($rval==true) print("ok");
+	}
+
+	function storeJsApiCmi($user_id, $obj_id, $data) {
+		global $ilLog, $ilDB;
 		
 		$b_updateStatus=false;
 		
@@ -175,22 +198,21 @@ class ilObjSCORMTracking
 		if ($ilLog->current_log_level == 30)
 			$b_messageLog=true;
 	
-		$ref_id = $_GET["ref_id"];
+//		$ref_id = $_GET["ref_id"];
 
-		if (empty($obj_id))
-			$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
-		
 		if ($b_messageLog)
 			$ilLog->write("ScormAicc: CALLING SCORM storeJsApi() ".$_POST);
 			
-		if (is_object($ilUser))
-			$user_id = $ilUser->getId();
 
 		$aa_data = array();
-		if (is_array($_POST["S"])) {
-			foreach($_POST["S"] as $key => $value) {
-				$aa_data[] = array("sco_id" => $value, "left" => $_POST["L"][$key], "right" => $_POST["R"][$key]);
-			}
+		// if (is_array($_POST["S"])) {
+			// foreach($_POST["S"] as $key => $value) {
+				// $aa_data[] = array("sco_id" => $value, "left" => $_POST["L"][$key], "right" => $_POST["R"][$key]);
+			// }
+		// }
+		for ($i=0;$i<count($data->cmi);$i++) {
+			$aa_data[] = array("sco_id" => (int) $data->cmi[$i][0], "left" => $data->cmi[$i][1], "right" => $data->cmi[$i][2]);
+//			$aa_data[] = array("sco_id" => (int) $data->cmi[$i][0], "left" => $data->cmi[$i][1], "right" => rawurldecode($data->cmi[$i][2]));
 		}
 
 		if ($obj_id <= 1) {
@@ -248,14 +270,60 @@ class ilObjSCORMTracking
 		}
 		
 		// update status
-		if ($b_updateStatus == true) {
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
-		}
+		// if ($b_updateStatus == true) {
+			// include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			// ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+		// }
 
-		header('Content-Type: text/plain; charset=UTF-8');
-		print("ok");
+		return true;
 	}
+
+//erase later see ilSCORM2004StoreData
+	public function syncGlobalStatus($userId, $packageId, $data, $new_global_status) {
+
+		global $ilDB, $ilLog;
+		$saved_global_status=$data->saved_global_status;
+		$ilLog->write("saved_global_status=".$saved_global_status);
+
+		//last_visited!
+		
+		// get attempts
+		if (!$data->packageAttempts) {
+			$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+				array('integer','integer'), array($packageId,$userId));
+			$val_rec = $ilDB->fetchAssoc($val_set);
+			$attempts = $val_rec["package_attempts"];
+		} else {
+			$attempts=$data->packageAttempts;
+		}
+		if ($attempts == null) $attempts = 1;
+
+		//update percentage_completed, sco_total_time_sec,status in sahs_user
+		$totalTime=(int)$data->totalTimeCentisec;
+		$totalTime=round($totalTime/100);
+		$ilDB->queryF('UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s, package_attempts=%s WHERE obj_id = %s AND user_id = %s',
+			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'), 
+			array($totalTime, $new_global_status, $data->percentageCompleted, $attempts, $packageId, $userId));
+		
+//		self::ensureObjectDataCacheExistence();
+		global $ilObjDataCache;
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+		ilChangeEvent::_recordReadEvent("sahs", (int)$_GET['ref_id'],$packageId, $userId, false, $attempts, $totalTime);
+
+		//end sync access number and time in read event table
+
+		// if($saved_global_status != $new_global_status)
+		// {
+			// update learning progress
+			include_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
+			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+			ilLPStatus::writeStatus($packageId, $userId,$new_global_status,$data->percentageCompleted);
+
+//			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
+		// }
+		return true;
+	}
+
 
 	/**
 	 * Synch read event table
@@ -526,7 +594,7 @@ class ilObjSCORMTracking
 		}
 		return $cnt;
 	}
-
+//not correct because of assets!
 	/**
 	 * Lookup last acccess time for all users of a scorm module
 	 * @global ilDB $ilDB

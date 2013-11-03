@@ -48,37 +48,79 @@ class ilSCORMOfflineMode
 		$support_mail = "";//TODO
 		$scorm_version = "1.2";
 		if ($this->type == "scorm2004") $scorm_version = "2004";
+		$tree="";
+		
+		$learning_progress_enabled = 1;
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->obj_id);
+		if ($olp->getCurrentMode() == 0) $learning_progress_enabled = 0;
+		
+		$certificate_enabled = 0;
+
 
 		if ($this->type == 'scorm2004') {
 			include_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
 			$ob2004 = new ilSCORM13Player();
 			$init_data = $ob2004->getConfigForPlayer();
 			$resources = json_decode($ob2004->getCPDataInit());
+			$cmi = $ob2004->getCMIData($ilUser->getID(), $this->obj_id);
 			$max_attempt = $ob2004->get_max_attempts();
-			if ($max_attempt == null) $max_attempt = 0;
-			$result = array(
-				'client_data' => array(
-					$support_mail
-				),
-				'user_data' => $this->il2sopUserData(),
-				'lm' => array(
-					ilObject::_lookupTitle($this->obj_id),
-					ilObject::_lookupDescription($this->obj_id),
-					$scorm_version,
-					1,//active
-					$init_data,
-					$resources,
-					"",
-					$module_version,
-					"", //offline_zip_created!!!!!!!!
-					1,//learning_progress_enabled
-					1,//certificate_enabled
-					$max_attempt
-				),
-				'sahs_user' => $sahs_user,
-				'cmi' => $ob2004->getCMIData($ilUser->getID(), $this->obj_id)
-			);
+			// if ($max_attempt == null) $max_attempt = 0;
+			// $result = array(
+				// 'client_data' => array(
+					// $support_mail
+				// ),
+				// 'user_data' => $this->il2sopUserData(),
+				// 'lm' => array(
+					// ilObject::_lookupTitle($this->obj_id),
+					// ilObject::_lookupDescription($this->obj_id),
+					// $scorm_version,
+					// 1,//active
+					// $init_data,
+					// $resources,
+					// $tree,
+					// $module_version,
+					// "", //offline_zip_created!!!!!!!!
+					// 1,//learning_progress_enabled !!!!
+					// 1,//certificate_enabled !!!!!
+					// $max_attempt
+				// ),
+				// 'sahs_user' => $sahs_user,
+				// 'cmi' => $cmi
+			// );
+		} else {
+			include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
+			$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+			$init_data = ilObjSCORMInitData::getIliasScormVars($slm_obj);
+			$resources = json_decode(ilObjSCORMInitData::getIliasScormResources($this->obj_id));
+			$tree = json_decode(ilObjSCORMInitData::getIliasScormTree($this->obj_id));
+			$cmi = ilObjSCORMInitData::getIliasScormData($this->obj_id);
+			$max_attempt = ilObjSCORMInitData::get_max_attempts($this->obj_id);
 		}
+		if ($max_attempt == null) $max_attempt = 0;
+		$result = array(
+			'client_data' => array(
+				$support_mail
+			),
+			'user_data' => $this->il2sopUserData(),
+			'lm' => array(
+				ilObject::_lookupTitle($this->obj_id),
+				ilObject::_lookupDescription($this->obj_id),
+				$scorm_version,
+				1,//active
+				$init_data,
+				$resources,
+				$tree,
+				$module_version,
+				"", //offline_zip_created!!!!!!!!
+				$learning_progress_enabled,
+				$certificate_enabled,
+				$max_attempt
+			),
+			'sahs_user' => $sahs_user,
+			'cmi' => $cmi
+		);
+		
 		print(json_encode($result));
 	}
 	
@@ -161,8 +203,6 @@ class ilSCORMOfflineMode
 		}
 		$userId=$ilUser->getID();
 		$result=true;
-//		$scorm_version = "1.2";
-//		if ($this->type == "scorm2004") $scorm_version = "2004";
 
 		if ($this->type == 'scorm2004') {
 			$lm_set = $ilDB->queryF('SELECT default_lesson_mode, interactions, objectives, comments FROM sahs_lm WHERE id = %s', array('integer'),array($this->obj_id));
@@ -194,6 +234,17 @@ class ilSCORMOfflineMode
 			if ($result==true) {
 				$result=ilSCORM2004StoreData::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status);
 			}
+			include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php";
+		} else {
+			include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php";
+			$data = json_decode($in);
+			$result=ilObjSCORMTracking::storeJsApiCmi($userId,$this->obj_id,$data);
+			if ($result==true) {
+				$result=ilObjSCORMTracking::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status);
+			}
+		}
+		if ($result==true) {
+//			$result=ilObjSCORMTracking::scormPlayerUnloadForSOP($userId, $this->obj_id, $data->last_visited, $data->first_access, $data->last_access, $data->last_status_change, $data->module_version);
 		}
 
 		if ($result==false) {
@@ -201,9 +252,8 @@ class ilSCORMOfflineMode
 		} else {
 			$ret['msg'][]  = "post data recieved";
 		}
-		header('Content-Type: text/plain; charset=UTF-8');
+		header('Content-Type: text/plain; charset=UTF-8');//stimmt das?
 		print json_encode($ret);
-		exit;
 	}
 
 	//offlineMode: offline, online, il2sop, sop2il

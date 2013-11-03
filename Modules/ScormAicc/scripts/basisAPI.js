@@ -238,15 +238,42 @@ function IliasCommit() {
 		message("Nothing to do.");
 		return true;
 	}
-	var s_s="",a_tmp,s_v;
+	var s_s="",a_tmp,s_v,a_cmiTmp,i_numCompleted=0,b_statusFailed=false;
+	var LP_STATUS_IN_PROGRESS_NUM=1, LP_STATUS_COMPLETED_NUM=2,LP_STATUS_FAILED_NUM=3;
+	var o_data={
+		"cmi":[],
+		"saved_global_status":iv.status.saved_global_status,
+		"now_global_status":1,
+		"percentageCompleted":0,
+		"lp_mode":iv.status.lp_mode,
+		"hash":iv.status.hash,
+		"p":iv.status.p,
+		"totalTimeCentisec":0
+		};
+	for (var i=0; i<iv.status.scos.length;i++) {
+		s_v=getValueIntern(iv.status.scos[i],"cmi.core.lesson_status",true);
+		if (s_v=="completed" || s_v=="passed") i_numCompleted++;
+		if (s_v=="failed") b_statusFailed=true;
+	}
+	if (iv.status.lp_mode == 6) { //distinct scos selected
+		if (b_statusFailed == true) o_data.now_global_status = LP_STATUS_FAILED_NUM;
+		else if (iv.status.scos.length == i_numCompleted) o_data.now_global_status = LP_STATUS_COMPLETED_NUM;
+		o_data.percentageCompleted=Math.round(i_numCompleted*100/iv.status.scos.length);
+	}
+	for (var i=0; i<ir.length; i++) {
+		o_data.totalTimeCentisec+=timestr2hsec(getValueIntern(ir[i][1],"cmi.core.total_time",false));
+	}
 	for (var i=0; i<a_toStore.length; i++){
 		a_tmp=a_toStore[i].split(';');
-		s_v=getValueIntern(a_tmp[0],a_tmp[1],true); 
+		s_v=getValueIntern(a_tmp[0],a_tmp[1],false);
 		if (s_v != null){
-			s_s+="&S["+i+"]="+a_tmp[0]+"&L["+i+"]="+a_tmp[1]+"&R["+i+"]="+s_v;
+//			s_s+="&S["+i+"]="+a_tmp[0]+"&L["+i+"]="+a_tmp[1]+"&R["+i+"]="+s_v;
+			a_cmiTmp=[a_tmp[0],a_tmp[1],s_v];
+			o_data.cmi.push(a_cmiTmp);
 		}
 	}
 	a_toStore=[];
+	s_s=JSON.stringify(o_data);
 	try {
 		var ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
 		if (ret!="ok") return false;
@@ -308,6 +335,16 @@ function setValueIntern(i_sco,s_el,s_value,b_store,b_noEncode){
 	return true;
 }
 
+function tree(it) {
+	var s_out="";
+	document.getElementById("mainTable").style.display="block";
+	for (var i=0; i<it.length; i++) {
+		s_out+='<div>'+it[i][2]+'</div>';
+		document.getElementById("treeView").innerHTML=s_out;
+	}
+}
+
+
 // done at start
 function basisInit() {
 	iv=IliasScormVars;
@@ -318,7 +355,7 @@ function basisInit() {
 			s_w+='; sco_id:'+IliasScormData[i][0]+', element:'+IliasScormData[i][1];
 	}
 	if (s_w != "") warning('Failure read previous data:'+s_w.substr(1));
-	
+//	tree(IliasScormTree);
 	try{
 		delete IliasScormVars;
 		delete IliasScormData;
