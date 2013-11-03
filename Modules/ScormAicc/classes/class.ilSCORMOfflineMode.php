@@ -234,7 +234,6 @@ class ilSCORMOfflineMode
 			if ($result==true) {
 				$result=ilSCORM2004StoreData::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status);
 			}
-			include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php";
 		} else {
 			include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php";
 			$data = json_decode($in);
@@ -244,7 +243,7 @@ class ilSCORMOfflineMode
 			}
 		}
 		if ($result==true) {
-//			$result=ilObjSCORMTracking::scormPlayerUnloadForSOP($userId, $this->obj_id, $data->last_visited, $data->first_access, $data->last_access, $data->last_status_change, $data->module_version);
+			$result=self::scormPlayerUnloadForSOP2il($data);
 		}
 
 		if ($result==false) {
@@ -254,6 +253,30 @@ class ilSCORMOfflineMode
 		}
 		header('Content-Type: text/plain; charset=UTF-8');//stimmt das?
 		print json_encode($ret);
+	}
+	
+	function scormPlayerUnloadForSop2il($data) {
+		global $ilDB,$ilUser;
+		$first_access=null;
+		if($data->first_access != null) $first_access=date('Y-m-d H:i:s',round($data->first_access/1000));
+		$last_access=null;
+		$i_last_access=null;
+		if($data->last_access != null) {
+			$i_last_access = round($data->last_access/1000);
+			$last_access=date('Y-m-d H:i:s',$i_last_access);
+			include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+			ilChangeEvent::_updateAccessForScormOfflinePlayer($this->obj_id,$ilUser->getId(), $i_last_access, $first_access);
+		}
+		$last_status_change=null;
+		if($data->last_status_change != null) $last_status_change=date('Y-m-d H:i:s',round($data->last_status_change/1000));
+		$GLOBALS['ilLog']->write('first_access='.$first_access);
+		$res = $ilDB->queryF('UPDATE sahs_user SET first_access=%s, last_access=%s, last_status_change=%s, last_visited=%s, module_version=%s WHERE obj_id=%s AND user_id=%s',
+			array('timestamp','timestamp','timestamp','text','integer','integer','integer'),
+			array($first_access,$last_access,$last_status_change,$data->last_visited,$data->module_version, $this->obj_id,$ilUser->getId())
+		);
+
+		//populate last_status_change
+		return true;
 	}
 
 	//offlineMode: offline, online, il2sop, sop2il

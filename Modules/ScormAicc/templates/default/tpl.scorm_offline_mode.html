@@ -13,7 +13,9 @@ var ilClient = '{CLIENT_ID}',
  	importLmOk,
 	importTrackingOk,
 	pushTrackingOk,
+	msg_lm_not_exists = '{MSG_LM_NOT_EXISTS}',
 	msg_result = '{MESSAGE_RESULT}',
+	msg_already_exported = '{ALREADY_EXPORTED}',
 	msg_firefox_required = '{FIREFOX_REQUIRED}',
 	msg_xpi_install = '{XPI_INSTALL}',
 	msg_export_content = '{MSG_EXPORT_CONTENT}',
@@ -26,15 +28,35 @@ function checkCallback(success) {
 	if (success) {
 		print(msg_result,false); // any messages?
 		id=sopConnector.atoB(client)+'_'+lmId;
-		formView();
+		if (mode=="offline") { 
+			if (sopConnector.lmExists(id)) {
+				formView();
+			}			
+			else {
+				print(msg_lm_not_exists,true);
+			} 
+		}
+		else {
+			formView();
+		}
 	}
 	else {
 		var isFirefox = ((navigator.userAgent.toLowerCase().indexOf('firefox') != -1) || (navigator.userAgent.toLowerCase().indexOf('fennec') != -1));
 		if (isFirefox) {
-			print(msg_xpi_install,true); 
+			if (mode=="offline") {
+				print(msg_already_exported,true);
+			}
+			else {
+				formView("install");
+			}
 		}
 		else {
-			print(msg_firefox_required,true);
+			if (mode=="offline") {
+				print(msg_already_exported,true);
+			}
+			else {
+				print(msg_firefox_required,true);
+			}
 		}
 	}
 } 
@@ -178,17 +200,21 @@ function openSOM() {
 	sopConnector.openSOM();
 }
 
-function formView() {
+function formView(m) {
+	var view = (m) ? m : mode; 
 	document.getElementById("divOfflineManager").style.display="block";
-	switch (mode) {
+	switch (view) {
 		case  "offline" :
 			document.getElementById("onlineForm").style.display="none";
+			document.getElementById("installForm").style.display="none";
 		break;
 		case "online" :
 			document.getElementById("offlineForm").style.display="none";
+			document.getElementById("installForm").style.display="none";
 		break;
+		
 	} 
-	document.getElementById(mode+"Form").style.display="block";
+	document.getElementById(view+"Form").style.display="block";
 }
 	
 function print(txt,hide,out) {
@@ -220,7 +246,12 @@ checkSopConnector(checkCallback);
 <div id="out2"></div>
 <div id="out3"></div>
 <hr />
-<div id="divOfflineManager">	
+<div id="divOfflineManager">
+	<div id="installForm" style="display:none">
+		<div>{XPI_INSTALL}</div>
+		<hr />
+		<div><input class="submit" type="button" value="{RELOAD_PAGE}" onclick="window.location.reload()"/></div>
+	</div>	
 	<div id="onlineForm" style="display:none">
 		<div><input class="submit" type="button" value="{EXPORT}" onclick="importSOP()"/>&nbsp;&nbsp;{TEXT_EXPORT}</div>
 		<div class="ilHeaderDesc">{DESC_EXPORT}</div>
