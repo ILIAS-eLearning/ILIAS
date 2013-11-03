@@ -360,7 +360,12 @@ $this->ctrl->redirect($this, "properties");
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt("cont_lm_properties"));
-	
+
+		// SCORM-type
+		$ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
+		$ne->setValue($this->lng->txt( "lm_type_" . ilObjSAHSLearningModule::_lookupSubType( $this->object->getID() ) ) );
+		$this->form->addItem($ne);
+
 		// version
 		$ne = new ilNonEditableValueGUI($this->lng->txt("cont_sc_version"), "");
 		$ne->setValue($this->object->getModuleVersion());
