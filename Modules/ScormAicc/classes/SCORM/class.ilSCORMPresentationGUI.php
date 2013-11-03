@@ -464,7 +464,7 @@ class ilSCORMPresentationGUI
 		print("IliasScormTree=".ilObjSCORMInitData::getIliasScormTree($this->slm->getId()).";\r\n");
 
 		//prevdata
-		print("IliasScormData=[".ilObjSCORMInitData::getIliasScormData($this->slm->getId())."];\r\n");
+		print("IliasScormData=".ilObjSCORMInitData::getIliasScormData($this->slm->getId()).";\r\n");
 
 		// set alternative API name - not necessary for scorm
 		if ($this->slm->getAPIAdapterName() != "API") print('var '.$this->slm->getAPIAdapterName().'=new iliasApi();');

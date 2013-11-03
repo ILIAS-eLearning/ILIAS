@@ -197,12 +197,10 @@ class ilObjSCORMTracking
 		$b_messageLog=false;
 		if ($ilLog->current_log_level == 30)
 			$b_messageLog=true;
-	
-//		$ref_id = $_GET["ref_id"];
 
 		if ($b_messageLog)
 			$ilLog->write("ScormAicc: CALLING SCORM storeJsApi() ".$_POST);
-			
+
 
 		$aa_data = array();
 		// if (is_array($_POST["S"])) {
