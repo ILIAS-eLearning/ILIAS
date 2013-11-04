@@ -30,7 +30,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI, ilObjTestSettingsGeneralGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI, ilObjTestDynamicQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestRandomQuestionSetConfigGUI
- * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
  *
  * @ingroup ModulesTest
  */
