@@ -83,8 +83,8 @@ class assTextQuestionExport extends assQuestionExport
 
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "termscoring");
-		$scores = '<![CDATA['.serialize($this->object->getAnswers()).']]>';
-		$a_xml_writer->xmlElement("fieldentry", NULL, $scores, true, false);
+		$scores = base64_encode(serialize($this->object->getAnswers()));
+		$a_xml_writer->xmlElement("fieldentry", NULL, $scores);
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
