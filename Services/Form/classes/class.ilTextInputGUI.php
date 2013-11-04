@@ -4,6 +4,7 @@
 include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
 include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
+include_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
 
 /**
 * This class represents a text property in a property form.
@@ -12,7 +13,7 @@ include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.ph
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
+class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem, ilMultiValuesItem
 {
 	protected $value;
 	protected $maxlength = 200;
@@ -70,11 +71,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		return $this->value;
 	}
 	
-	public function setMulti($a_multi, $a_sortable = false)
-	{
-		$this->multi = (bool)$a_multi;
-		$this->multi_sortable = (bool)$a_sortable;
-	}
 
 	/**
 	 * Set message string for validation failure
@@ -499,7 +495,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		// multi icons
 		if($this->getMulti() && !$a_mode && !$this->getDisabled())
 		{
-			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML($this->multi_sortable));			
+			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
 		}
 		
 		return $tpl->get();

@@ -1,10 +1,16 @@
 il.Form = {
 
+	items: {},
+	
 	escapeSelector: function(str) {
 		return str.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1');
 	},
 
 	sub_active: [],	// active sub forms for each context
+
+	initItem: function (id, cfg) {
+		il.Form.items[id] = cfg;
+	},
 
 	//ad
 	// General functions

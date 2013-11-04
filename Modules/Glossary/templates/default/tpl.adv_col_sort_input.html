@@ -1,0 +1,9 @@
+<!-- BEGIN item -->
+<div>
+	<span id="{ID}">{TEXT}</span>
+	<input type="hidden" name="{NAME}" value="{VAL}" />
+	<input type="hidden" name="{TNAME}" value="{TEXT}" />
+	<input align="absmiddle" type="image" src="{SRC_DOWN}" alt="{TXT_DOWN}" title="{TXT_DOWN}" onclick="javascript: var next = $(this.parentNode).next(); if(next[0]) { $(next).after($(this.parentNode)) }; return false;" />
+	<input align="absmiddle" type="image" src="{SRC_UP}" alt="{TXT_UP}" title="{TXT_UP}" onclick="javascript: var prev = $(this.parentNode).prev(); if(prev[0]) { $(prev).before($(this.parentNode)) }; return false;" />
+</div>
+<!-- END item -->

@@ -19224,3 +19224,29 @@ if(!$ilDB->tableColumnExists('tree','path'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4145>
+<?php
+
+if(!$ilDB->tableExists('glo_advmd_col_order'))
+{
+	$fields = array(
+		'glo_id'	=> array(
+			'type'		=> 'integer',
+			'length'	=> 4,
+			'notnull'		=> true
+		),
+		'field_id'	=> array(
+			'type'		=> 'integer',
+			'length'	=> 4,
+			'notnull'		=> true
+		),
+		'order_nr'	=> array(
+			'type'		=> 'integer',
+			'length'	=> 4,
+			'notnull'		=> true
+		)
+	);
+	$ilDB->createTable('glo_advmd_col_order',$fields);
+	$ilDB->addPrimaryKey('glo_advmd_col_order',array('glo_id', 'field_id'));	
+}
+?>

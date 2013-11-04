@@ -42,13 +42,27 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->addColumn($lng->txt("cont_term"), "term");
-			
+			include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
+			$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getId());
+			$this->adv_cols_order = $adv_ap->getColumnOrder();
+			foreach ($this->adv_cols_order as $c)
+			{
+				if ($c["id"] == 0)
+				{
+					$this->addColumn($lng->txt("cont_term"), "term");
+				}
+				else
+				{
+					$this->addColumn($c["text"], "md_".$c["id"]);
+				}
+			}
+						
 			// advanced metadata
+			/*
 			foreach ($this->adv_fields as $f)
 			{
 				$this->addColumn($f["title"], "md_".$f["id"]);
-			}
+			}*/
 			
 			/*
 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
@@ -141,8 +155,10 @@ class ilPresentationListTableGUI extends ilTable2GUI
 
 		if ($this->glossary->getPresentationMode() == "full_def")
 		{
+			$this->tpl->setCurrentBlock("fd_td");
 			$this->tpl->setVariable("FULL_DEF",
 				$this->parent_obj->listDefinitions($_GET["ref_id"], $term["id"], true));
+			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
@@ -209,58 +225,71 @@ class ilPresentationListTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			$this->tpl->setCurrentBlock("view_term");
-			$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-			if (!$this->offline)
-			{
-				if (!empty ($filter))
-				{
-					$ilCtrl->setParameter($this, "term", $filter);
-					$ilCtrl->setParameter($this, "oldoffset", $_GET["oldoffset"]);
-				}
-				$ilCtrl->setParameter($this, "term_id", $term["id"]);
-				$ilCtrl->setParameter($this, "offset", $_GET["offset"]);
-				$this->tpl->setVariable("LINK_VIEW_TERM",
-					$ilCtrl->getLinkTarget($this->parent_obj, "listDefinitions"));
-				$ilCtrl->clearParameters($this);
-			}
-			else
-			{
-				$this->tpl->setVariable("LINK_VIEW_TERM", "term_".$term["id"].".html");
-			}
-			$this->tpl->setVariable("ANCHOR_TERM", "term_".$term["id"]);
-			$this->tpl->parseCurrentBlock();
 		}
 		
 		$ilCtrl->clearParameters($this->parent_obj);
 
 		// advanced metadata
-		foreach ($this->adv_fields as $f)
+		foreach ($this->adv_cols_order as $c)
 		{
-			$id = $f["id"];
-			$this->tpl->setCurrentBlock("td_md");
-			switch ($f["type"])
+			if ($c["id"] == 0)
 			{
-				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-					$val = ($term["md_".$id] > 0)
-						? ilDatePresentation::formatDate(new ilDateTime($term["md_".$id], IL_CAL_UNIX))
-						: " ";
-					break;
-					
-				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-					$val = ($term["md_".$id] > 0)
-						? ilDatePresentation::formatDate(new ilDate($term["md_".$id], IL_CAL_UNIX))
-						: " ";
-					break;
-					
-				default:
-					$val = ($term["md_".$id] != "")
-						? $term["md_".$id]
-						: " ";
-					break;
+				$this->tpl->setCurrentBlock("link_start");
+				if (!$this->offline)
+				{
+					if (!empty ($filter))
+					{
+						$ilCtrl->setParameter($this->parent_obj, "term", $filter);
+						$ilCtrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
+					}
+					$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+					$ilCtrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
+					$this->tpl->setVariable("LINK_VIEW_TERM",
+						$ilCtrl->getLinkTarget($this->parent_obj, "listDefinitions"));
+					$ilCtrl->clearParameters($this->parent_obj);
+				}
+				else
+				{
+					$this->tpl->setVariable("LINK_VIEW_TERM", "term_".$term["id"].".html");
+				}
+				$this->tpl->parseCurrentBlock();
+				
+				$this->tpl->setCurrentBlock("link_end");
+				$this->tpl->setVariable("ANCHOR_TERM", "term_".$term["id"]);
+				$this->tpl->parseCurrentBlock();
+				
+				$this->tpl->setCurrentBlock("td");
+				$this->tpl->setVariable("TEXT", $term["term"]);
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setVariable("MD_VAL", $val);
-			$this->tpl->parseCurrentBlock();
+			else
+			{
+				$id = $c["id"];
+				$f = $this->adv_fields[$c["id"]];
+				$this->tpl->setCurrentBlock("td");
+				switch ($f["type"])
+				{
+					case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+						$val = ($term["md_".$id] > 0)
+							? ilDatePresentation::formatDate(new ilDateTime($term["md_".$id], IL_CAL_UNIX))
+							: " ";
+						break;
+
+					case ilAdvancedMDFieldDefinition::TYPE_DATE:
+						$val = ($term["md_".$id] > 0)
+							? ilDatePresentation::formatDate(new ilDate($term["md_".$id], IL_CAL_UNIX))
+							: " ";
+						break;
+
+					default:
+						$val = ($term["md_".$id] != "")
+							? $term["md_".$id]
+							: " ";
+						break;
+				}
+				$this->tpl->setVariable("TEXT", $val);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 

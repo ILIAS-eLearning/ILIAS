@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
+
 /**
 * This class represents a non editable value in a property form.
 *
@@ -8,7 +10,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
+class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilMultiValuesItem
 {
 	protected $type;
 	protected $value;
@@ -102,7 +104,12 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	* @param	string	$a_value	Value
 	*/
 	function setValue($a_value)
-	{
+	{		
+		if($this->getMulti() && is_array($a_value))
+		{						
+			$this->setMultiValues($a_value);	
+			$a_value = array_shift($a_value);		
+		}	
 		$this->value = $a_value;
 	}
 
@@ -124,8 +131,14 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 		$tpl = new ilTemplate("tpl.non_editable_value.html", true, true, "Services/Form");
 		if ($this->getPostVar() != "")
 		{
+			$postvar = $this->getPostVar();
+			if($this->getMulti() && substr($postvar, -2) != "[]")
+			{
+				$postvar .= "[]";
+			}
+			
 			$tpl->setCurrentBlock("hidden");
-			$tpl->setVariable('NON_EDITABLE_ID',$this->getPostVar());
+			$tpl->setVariable('NON_EDITABLE_ID', $postvar);
 			$tpl->setVariable("HVALUE", ilUtil::prepareFormOutput($this->getValue()));
 			$tpl->parseCurrentBlock();
 		}
@@ -137,6 +150,12 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 		$tpl->setVariable("VALUE", $value);
 		$tpl->setVariable("ID", $this->getFieldId());
 		$tpl->parseCurrentBlock();
+		
+		if ($this->getMulti() && $postvar!= "" && !$this->getDisabled())
+		{
+			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
+		}
+
 		
 		return $tpl->get();
 	}
