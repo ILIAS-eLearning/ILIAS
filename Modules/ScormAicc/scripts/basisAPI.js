@@ -238,8 +238,13 @@ function launchNext(){
 function IliasWaitLaunch(i_l){
 	if (typeof frames.sahs_content == "undefined") setTimeout("API.IliasWaitLaunch("+i_l+")",100);
 	else {
-		API.IliasLaunch(i_l);
-		API.IliasWaitTree(i_l,0);
+		if(typeof API != "undefined") {
+			API.IliasLaunch(i_l);
+			API.IliasWaitTree(i_l,0);
+		} else {
+			IliasLaunch(i_l);
+			IliasWaitTree(i_l,0);
+		}
 	}
 }
 
@@ -269,14 +274,16 @@ function IliasAbortSco(i_l){
 function status4tree(i_sco,s_status,s_time){
 	if (typeof(frames.tree)!="undefined"){
 		var ico=frames.tree.document.getElementsByName('scoIcon'+i_sco)[0];
-		if(typeof(ico)!="undefined"){
-			if(s_status==null || s_status=="not attempted") s_status="not_attempted";
-			ico.src=decodeURIComponent(iv.img[s_status]);
-			if (s_status!='asset'){
-				var icotitle = iv.statusTxt.status+': '+iv.statusTxt[s_status];
-				if (s_time!=null) icotitle+=' ('+s_time+')';
-				ico.title = decodeURIComponent(icotitle);
-			}
+	} else {
+		var ico=document.getElementById('scoIcon'+i_sco);
+	}
+	if(typeof(ico)!="undefined" && ico!=null){
+		if(s_status==null || s_status=="not attempted") s_status="not_attempted";
+		ico.src=decodeURIComponent(iv.img[s_status]);
+		if (s_status!='asset'){
+			var icotitle = iv.statusTxt.status+': '+iv.statusTxt[s_status];
+			if (s_time!=null) icotitle+=' ('+s_time+')';
+			ico.title = decodeURIComponent(icotitle);
 		}
 	}
 }
@@ -322,12 +329,14 @@ function IliasCommit() {
 		}
 	}
 	a_toStore=[];
-//	s_s=JSON.stringify(o_data);
-	s_s=toJSONString(o_data);
 	try {
 		var ret="";
-		if (typeof SOP!="undefined" && SOP==true) ret=saveRequest(s_s);
-		else ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
+		if (typeof SOP!="undefined" && SOP==true) ret=saveRequest(o_data);
+		else {
+		//	s_s=JSON.stringify(o_data);
+			s_s=toJSONString(o_data);
+			ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
+		}
 		if (ret!="ok") return false;
 		return true;
 	} catch (e) {
@@ -387,12 +396,35 @@ function setValueIntern(i_sco,s_el,s_value,b_store,b_noEncode){
 	return true;
 }
 
-function tree(it) {
-	var s_out="";
-	document.getElementById("mainTable").style.display="block";
-	for (var i=0; i<it.length; i++) {
-		s_out+='<div>'+it[i][2]+'</div>';
+function tree() {
+	var s_out="",it,asset=0,spacerwidth=0;
+	for (var i=0; i<ist.length; i++) {
+		it=ist[i];
+		s_out+='<table cellpadding="1" cellspacing="0" border="0"><tr><td nowrap valign="top" align="left">';
+		if (it[3]=="sor") s_out+='</td><td align="left"><b>'+decodeURIComponent(it[2])+'</b>';
+		else {
+			spacerwidth=0;
+			for(var z=0;z<=it[1];z++) {
+				spacerwidth+=10;
+			}
+			for(var z=0;z<ir.length;z++) {
+				if(it[0]==ir[z][1]) asset=ir[z][2];
+			}
+			if(asset==1) {
+				s_out+='<img class="spacer" src="'+decodeURIComponent(iv.img.asset)+'" id=""';
+			} else {
+				s_out+='<img class="spacer" src="'+decodeURIComponent(iv.img.not_attempted)+'" id="scoIcon'+it[0]+'"';
+			}
+			s_out+=' alt="" title="" border="0" style="margin-left:'+spacerwidth+'px"/></td>'
+			+'<td align="left"><a href="javascript:void(0);" onclick="API.IliasLaunch('+it[0]+');return false;">'+decodeURIComponent(it[2])+'</a>';
+		}
+		s_out+='</td></tr></table>';
 		document.getElementById("treeView").innerHTML=s_out;
+	}
+	for (var i=0;i<ir.length;i++) {
+		if(ir[i][2]!=1) {
+			status4tree(ir[i][1],getValueIntern(ir[i][1],'cmi.core.lesson_status'),getValueIntern(ir[i][1],'cmi.core.total_time'));
+		}
 	}
 }
 
@@ -401,21 +433,32 @@ function tree(it) {
 function basisInit() {
 	iv=IliasScormVars;
 	ir=IliasScormResources;
+	ist=IliasScormTree;
 	var s_w="";
 	for (var i=0; i<IliasScormData.length; i++) {
 		if (setValueIntern(IliasScormData[i][0],IliasScormData[i][1],IliasScormData[i][2],false,true) == false)
 			s_w+='; sco_id:'+IliasScormData[i][0]+', element:'+IliasScormData[i][1];
 	}
+	var ipar=[];
+	for (var i=0; i<iv.a_itemParameter.length; i++) {
+		ipar=iv.a_itemParameter[i];
+		if(ipar[3]!=null) setValueIntern(ipar[0],"cmi.student_data.max_time_allowed",ipar[3],false,true);
+		if(ipar[4]!=null) setValueIntern(ipar[0],"cmi.student_data.time_limit_action",ipar[4],false,true);
+		if(ipar[5]!=null) setValueIntern(ipar[0],"cmi.launch_data",ipar[5],false,true);
+		if(ipar[6]!=null) setValueIntern(ipar[0],"cmi.student_data.mastery_score",ipar[6],false,true);
+	}
 	if (s_w != "") warning('Failure read previous data:'+s_w.substr(1));
-//	tree(IliasScormTree);
+	if (typeof SOP!="undefined" && SOP==true && ir.length>1) tree();
 	try{
 		delete IliasScormVars;
 		delete IliasScormData;
 		delete IliasScormResources;
+		delete IliasScormTree;
 	} catch (e) {
 		IliasScormVars={};
 		IliasScormData=[];
 		IliasScormResources=[];
+		IliasScormTree=[];
 	}
 
 	if (iv.pingSession>0) SchedulePing();
