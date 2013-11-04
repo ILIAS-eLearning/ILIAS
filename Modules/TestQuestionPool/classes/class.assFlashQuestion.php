@@ -275,6 +275,43 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 		return $clone->id;
 	}
 
+	public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+
+		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
+		$sourceQuestionId = $this->id;
+		$sourceParentId = $this->getObjId();
+
+		// duplicate the question in database
+		$clone = $this;
+		$clone->id = -1;
+
+		$clone->setObjId($targetParentId);
+
+		if ($targetQuestionTitle)
+		{
+			$clone->setTitle($targetQuestionTitle);
+		}
+
+		$clone->saveToDb();
+		// copy question page content
+		$clone->copyPageOfQuestion($sourceQuestionId);
+		// copy XHTML media objects
+		$clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
+		// duplicate the applet
+		$clone->copyApplet($sourceQuestionId, $sourceParentId);
+
+		$clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
+
+		return $clone->id;
+	}
+
 	/**
 	* Duplicate the flash applet
 	*

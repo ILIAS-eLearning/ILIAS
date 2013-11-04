@@ -382,14 +382,13 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
+		$source_questionpool_id = $this->getObjId();
+		$clone->setObjId($target_questionpool_id);
 		if ($title)
 		{
 			$clone->setTitle($title);
 		}
-		$source_questionpool_id = $this->getObjId();
-		$clone->setObjId($target_questionpool_id);
 		$clone->saveToDb();
-
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
@@ -399,6 +398,43 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		
 		$clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
 		
+		return $clone->id;
+	}
+	
+	public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+
+		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
+		$sourceQuestionId = $this->id;
+		$sourceParentId = $this->getObjId();
+
+		// duplicate the question in database
+		$clone = $this;
+		$clone->id = -1;
+
+		$clone->setObjId($targetParentId);
+
+		if ($targetQuestionTitle)
+		{
+			$clone->setTitle($targetQuestionTitle);
+		}
+
+		$clone->saveToDb();
+		// copy question page content
+		$clone->copyPageOfQuestion($sourceQuestionId);
+		// copy XHTML media objects
+		$clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
+		// duplicate the image
+		$clone->copyImages($sourceQuestionId, $sourceParentId);
+
+		$clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
+
 		return $clone->id;
 	}
 

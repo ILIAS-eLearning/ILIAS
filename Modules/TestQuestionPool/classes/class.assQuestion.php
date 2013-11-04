@@ -2664,7 +2664,7 @@ abstract class assQuestion
 * @return integer The database id of the original question
 * @access public
 */
-	function _getOriginalId($question_id)
+	public static function _getOriginalId($question_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT * FROM qpl_questions WHERE question_id = %s",
@@ -2687,6 +2687,24 @@ abstract class assQuestion
 		{
 			return "";
 		}
+	}
+
+	public static function originalQuestionExists($questionId)
+	{
+		global $ilDB;
+
+		$query = "
+			SELECT COUNT(dupl.question_id) cnt
+			FROM qpl_questions dupl
+			INNER JOIN qpl_questions orig
+			ON orig.question_id = dupl.original_id
+			WHERE dupl.question_id = %s
+		";
+
+		$res = $ilDB->queryF($query, array('integer'), array($questionId));
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['cnt'] > 0;
 	}
 
 	function syncWithOriginal()
@@ -3785,7 +3803,24 @@ abstract class assQuestion
 	}
 	
 	// scorm2004-end ???
-	
+
+	/**
+	 * @global ilDB $ilDB
+	 * @param integer $questionId
+	 * @return integer $parentObjectId
+	 */
+	public static function lookupParentObjId($questionId)
+	{
+		global $ilDB;
+
+		$query = "SELECT obj_fi FROM qpl_questions WHERE question_id = %s";
+
+		$res = $ilDB->queryF($query, array('integer'), array((int)$questionId));
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['obj_fi'];
+	}
+
 	/**
 	 * returns the parent object id for given original question id
 	 * (should be a qpl id, but theoretically it can be a tst id, too)
@@ -3793,19 +3828,14 @@ abstract class assQuestion
 	 * @global ilDB $ilDB
 	 * @param integer $originalQuestionId
 	 * @return integer $originalQuestionParentObjectId
+	 *
+	 * @deprecated: use assQuestion::lookupParentObjId() instead
 	 */
 	public static function lookupOriginalParentObjId($originalQuestionId)
 	{
-		global $ilDB;
-		
-		$query = "SELECT obj_fi FROM qpl_questions WHERE question_id = %s";
-		
-		$res = $ilDB->queryF($query, array('integer'), array((int)$originalQuestionId));
-		$row = $ilDB->fetchAssoc($res);
-		
-		return $row['obj_fi'];
+		return self::lookupParentObjId($originalQuestionId);
 	}
-	
+
 	protected function duplicateQuestionHints($originalQuestionId, $duplicateQuestionId)
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
