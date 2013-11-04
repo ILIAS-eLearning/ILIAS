@@ -19220,4 +19220,7 @@ if(!$ilDB->tableColumnExists('tree','path'))
 	);
 }
 ?>
-
+<#4144>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
