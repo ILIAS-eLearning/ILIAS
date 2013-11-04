@@ -59,7 +59,8 @@ class ilObjSCORMInitData
 		}
 
 		//manifestData //extra to IliasScormManifestData
-		$s_man = "";
+		// $s_man = "";
+		$a_man = array();
 		$val_set = $ilDB->queryF('
 			SELECT sc_item.obj_id,prereq_type,prerequisites,maxtimeallowed,timelimitaction,datafromlms,masteryscore 
 			FROM sc_item, scorm_object 
@@ -71,26 +72,16 @@ class ilObjSCORMInitData
 		);
 		while($val_rec = $ilDB->fetchAssoc($val_set)) {
 			if($val_rec["prereq_type"]!=null || $val_rec["prerequisites"]!=null || $val_rec["maxtimeallowed"]!=null || $val_rec["timelimitaction"]!=null || $val_rec["datafromlms"]!=null || $val_rec["masteryscore"]!=null) {
-				$s_man.='['.$val_rec["obj_id"].',"'
-					.self::encodeURIComponent($val_rec["prereq_type"]).'","'
-					.self::encodeURIComponent($val_rec["prerequisites"]).'","'
-					.self::encodeURIComponent($val_rec["maxtimeallowed"]).'","'
-					.self::encodeURIComponent($val_rec["timelimitaction"]).'","'
-					.self::encodeURIComponent($val_rec["datafromlms"]).'","'
-					.self::encodeURIComponent($val_rec["masteryscore"]).'"],';
+				$tmp_man=array((int)$val_rec["obj_id"],null,null,null,null,null,null);
+				if($val_rec["prereq_type"]!=null) $tmp_man[1]=self::encodeURIComponent($val_rec["prereq_type"]);
+				if($val_rec["prerequisites"]!=null) $tmp_man[2]=self::encodeURIComponent($val_rec["prerequisites"]);
+				if($val_rec["maxtimeallowed"]!=null) $tmp_man[3]=self::encodeURIComponent($val_rec["maxtimeallowed"]);
+				if($val_rec["timelimitaction"]!=null) $tmp_man[4]=self::encodeURIComponent($val_rec["timelimitaction"]);
+				if($val_rec["datafromlms"]!=null) $tmp_man[5]=self::encodeURIComponent($val_rec["datafromlms"]);
+				if($val_rec["masteryscore"]!=null) $tmp_man[6]=self::encodeURIComponent($val_rec["masteryscore"]);
+				$a_man[]=$tmp_man;
 			}
-			// if($val_rec["maxtimeallowed"]!=null)
-				// $s_out.='['.$val_rec["obj_id"].',"cmi.student_data.max_time_allowed","'.self::encodeURIComponent($val_rec["maxtimeallowed"]).'"],';
-			// if($val_rec["timelimitaction"]!=null)
-				// $s_out.='['.$val_rec["obj_id"].',"cmi.student_data.time_limit_action","'.self::encodeURIComponent($val_rec["timelimitaction"]).'"],';
-			// if($val_rec["datafromlms"]!=null)
-				// $s_out.='['.$val_rec["obj_id"].',"cmi.launch_data","'.self::encodeURIComponent($val_rec["datafromlms"]).'"],';
-			// if($val_rec["masteryscore"]!=null)
-				// $s_out.='['.$val_rec["obj_id"].',"cmi.student_data.mastery_score","'.self::encodeURIComponent($val_rec["masteryscore"]).'"],';
 		}
-		if(substr($s_man,(strlen($s_man)-1))==",") $s_man=substr($s_man,0,(strlen($s_man)-1));
-
-
 
 		$s_out='{'
 			.'"refId":'.$_GET["ref_id"].','
@@ -116,7 +107,7 @@ class ilObjSCORMInitData
 			.'"i_lessonScoreMax":'.$i_lessonScoreMax.','
 			.'"i_lessonMasteryScore":'.$i_lessonMasteryScore.','
 			.'"b_debug":'.$b_debug.','
-			.'"a_itemParameter":['.$s_man.'],'
+			.'"a_itemParameter":'.json_encode($a_man).','
 			.'"status":'.json_encode(self::getStatus($slm_obj->getId(), $ilUser->getID())).','
 			.'"dataDirectory":"'.self::encodeURIComponent($slm_obj->getDataDirectory("output").'/').'",'
 			.'"img":{'
