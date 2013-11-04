@@ -223,11 +223,19 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$a_set['status']));
 		}
 		
-		$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($a_set['user_id']));
-
-		$ilCtrl->setParameter($this->parent_obj, 'user_id', $a_set['user_id']);
-		$this->tpl->setVariable("HREF_PROFILE", $ilCtrl->getLinkTarget($this->parent_obj, 'showprofile'));
-		$ilCtrl->setParameter($this->parent_obj, 'user_id', '');
+		// #11995
+		$uname = ilObjUser::_lookupFullName($a_set['user_id']);
+		if(!trim($uname))
+		{
+			$uname = "[".$lng->txt("user_deleted")."]";
+		}
+		else
+		{			
+			$ilCtrl->setParameter($this->parent_obj, 'user_id', $a_set['user_id']);
+			$this->tpl->setVariable("HREF_PROFILE", $ilCtrl->getLinkTarget($this->parent_obj, 'showprofile'));
+			$ilCtrl->setParameter($this->parent_obj, 'user_id', '');
+		}
+		$this->tpl->setVariable("TXT_CURRENT_USER", $uname);
 
 		if($this->has_schedule)
 		{
