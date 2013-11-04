@@ -14112,3 +14112,8 @@ sop#:#sop_msg_push_tracking_failure#:#Die Übertragung der Lernstandsdaten zu IL
 sop#:#sop_msg_push_tracking_ok#:#Die Übertragung der Lernstandsdaten zu ILIAS war erfolgreich.
 exc#:#exc_no_team_yet#:#Noch kein Team
 exc#:#exc_no_feedback_dir_found_in_zip#:#Die Verzeichnisstruktur des hochgeladenen Zip-Archivs konnte nicht verarbeitet werden.
+rep#:#rep_add_new_def_grp_organisation#:#Organisation
+rep#:#rep_add_new_def_grp_content#:#Inhalt
+rep#:#rep_add_new_def_grp_communication#:#Kommunikation
+rep#:#rep_add_new_def_grp_assessment#:#Assessment
+rep#:#rep_add_new_def_grp_feedback#:#Feedback und Evaluation

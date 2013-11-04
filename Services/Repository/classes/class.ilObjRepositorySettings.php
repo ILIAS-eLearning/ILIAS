@@ -232,6 +232,60 @@ class ilObjRepositorySettings extends ilObject
 		
 		return $res;
 	}	
+	
+	public static function getDefaultNewItemGrouping()
+	{
+		global $lng;
+		
+		$res = array();
+								
+		$groups = array(
+			"organisation" => array("cat", "catr", "crs", "crsr", "grp", "fold", "sess", "book", "itgr"), 
+			"communication" => array("frm", "chtr"), 
+			"breaker1" => null,
+			"content" => array("file", "webr", "feed", "wiki", "blog", "lm", "htlm", "sahs", "glo", "dcl", "bibl", "mcst", "mep", "prtt"), 
+			"breaker2" => null,			
+			"assessment" => array("exc", "tst", "qpl"), 
+			"feedback" => array("svy", "spl", "poll")
+		);
+		
+		$pos = 0;
+		foreach($groups as $group => $items) 
+		{
+			$pos += 10;
+			$grp_id = $pos/10;						
+
+			if(is_array($items))
+			{
+				$title = $lng->txt("rep_add_new_def_grp_".$group);
+				
+				$res["groups"][$grp_id] = array("id" => $grp_id,
+					"titles" => array($lng->getUserLanguage() => $title),
+					"pos" => $pos,
+					"type" => self::NEW_ITEM_GROUP_TYPE_GROUP,
+					"title" => $title);
+
+				foreach($items as $idx => $item)
+				{
+					$res["items"][$item] = $grp_id;
+					$res["sort"][$item] = str_pad($pos, 4, "0", STR_PAD_LEFT).
+						str_pad($idx+1, 4, "0", STR_PAD_LEFT);
+				}
+			}
+			else
+			{
+				$title = "COL_SEP";
+				
+				$res["groups"][$grp_id] = array("id" => $grp_id,
+					"titles" => array($lng->getUserLanguage() => $title),
+					"pos" => $pos,
+					"type" => self::NEW_ITEM_GROUP_TYPE_SEPARATOR,
+					"title" => $title);
+			}
+		}	
+		
+		return $res;
+	}
 }
 	
 ?>
