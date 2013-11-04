@@ -658,7 +658,19 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'glo',$this->object->getId(), "term");
 		$record_gui->setPropertyForm($this->form);
-		$record_gui->parseRecordSelection($this->lng->txt("glo_add_term_properties"));		
+		$record_gui->parseRecordSelection($this->lng->txt("glo_add_term_properties"));
+		
+		// sort columns, if adv fields are given
+		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
+		$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getId());
+		$cols = $adv_ap->getColumnOrder();
+		if (count($cols) > 1)
+		{
+			include_once './Modules/Glossary/classes/class.ilGloAdvColSortInputGUI.php';
+			$ti = new ilGloAdvColSortInputGUI($lng->txt("cont_col_ordering"), "field_order");
+			$this->form->addItem($ti);
+			$ti->setValue($cols);
+		}
 	
 		// save and cancel commands
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
@@ -687,6 +699,15 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->object->setShowTaxonomy($_POST["show_tax"]);
 			$this->object->update();
 
+			// field order of advanced metadata
+			include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
+			$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getId());
+			$cols = $adv_ap->getColumnOrder();
+			if (count($cols) > 1)
+			{
+				$adv_ap->saveColumnOrder($_POST["field_order"]);
+			}
+			
 			// set definition short texts dirty
 			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			ilGlossaryDefinition::setShortTextsDirty($this->object->getId());

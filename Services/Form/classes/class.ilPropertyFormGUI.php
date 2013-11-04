@@ -681,8 +681,12 @@ class ilPropertyFormGUI extends ilFormGUI
 	function insertItem($item, $a_sub_item = false)
 	{
 		global $tpl, $lng;
-				
-		if(method_exists($item, "getMulti") && $item->getMulti())
+			
+		
+		$cfg = array();
+		
+		//if(method_exists($item, "getMulti") && $item->getMulti())
+		if ($item instanceof ilMultiValuesItem && $item->getMulti())
 		{
 			$tpl->addJavascript("./Services/Form/js/ServiceFormMulti.js");
 			
@@ -694,6 +698,7 @@ class ilPropertyFormGUI extends ilFormGUI
 
 						
 			// add hidden item to enable preset multi items
+			// not used yet, should replace hidden field stuff
 			$multi_values = $item->getMultiValues();
 			if(is_array($multi_values) && sizeof($multi_values) > 1)
 			{
@@ -701,6 +706,7 @@ class ilPropertyFormGUI extends ilFormGUI
 				$multi_value->setValue(implode("~", $multi_values));
 				$this->addItem($multi_value);				
 			}
+			$cfg["multi_values"] = $multi_values;
 		}		
 		
 		$item->insert($this->tpl);
@@ -712,6 +718,8 @@ class ilPropertyFormGUI extends ilFormGUI
 
 		if ($item->getType() != "section_header")
 		{
+			$cfg["id"] = $item->getFieldId();
+			
 			// info text
 			if ($item->getInfo() != "")
 			{
@@ -826,9 +834,13 @@ class ilPropertyFormGUI extends ilFormGUI
 			}
 
 			$this->tpl->setCurrentBlock("prop");
-
+			/* not used yet
+			include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+			$this->tpl->setVariable("ID", $item->getFieldId());
+			$this->tpl->setVariable("CFG", ilJsonUtil::encode($cfg));*/
 			$this->tpl->parseCurrentBlock();
 		}
+		
 		
 		$this->tpl->touchBlock("item");
 	}

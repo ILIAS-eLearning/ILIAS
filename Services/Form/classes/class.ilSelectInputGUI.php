@@ -5,6 +5,7 @@
 include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
 include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
+include_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
 
 /**
 * This class represents a selection list property in a property form.
@@ -13,7 +14,7 @@ include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.ph
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
+class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem, ilMultiValuesItem
 {
 	protected $cust_attr = array();
 	protected $options = array();
@@ -76,10 +77,6 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 		return $this->value;
 	}
 	
-	public function setMulti($a_multi)
-	{
-		$this->multi = (bool)$a_multi;
-	}
 	
 	/**
 	* Set value by array

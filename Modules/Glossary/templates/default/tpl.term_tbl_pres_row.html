@@ -4,21 +4,16 @@
 		<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
 	</td>
 	<!-- END check_col -->
+	<!-- BEGIN fd_td -->
 	<td class="std" valign="top">
-		<!-- BEGIN view_term -->
-			<a href="{LINK_VIEW_TERM}"><b>{TEXT_TERM}</b></a><a name="{ANCHOR_TERM}"/>
-		<!-- END view_term -->
-		<!-- BEGIN edit_term -->
-			<b>{TEXT_TERM}</b>
-			[<a href="{LINK_EDIT_TERM}">{TXT_EDIT_TERM}</a>]
-		<!-- END edit_term -->
 		{FULL_DEF}
 	</td>
-	<!-- BEGIN td_md -->
-	<td class="std small" valign="top">
-		{MD_VAL}
+	<!-- END fd_td -->
+	<!-- BEGIN td -->
+	<td class="std" valign="top">
+		<!-- BEGIN link_start --><a href="{LINK_VIEW_TERM}"><b><!-- END link_start -->{TEXT}<!-- BEGIN link_end --></b></a><a name="{ANCHOR_TERM}"/><!-- END link_end -->
 	</td>
-	<!-- END td_md -->
+	<!-- END td -->
 	<!-- BEGIN def_td -->
 	<td class="std" valign="top">
 	<!-- BEGIN definition_row -->

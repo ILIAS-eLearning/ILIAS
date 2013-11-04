@@ -19,7 +19,9 @@ class ilFormPropertyGUI
 	protected $parentgui;
 	protected $parentform;
 	protected $hidden_title = "";
-	protected $multi;
+	protected $multi = false;
+	protected $multi_sortable = false;
+	protected $multi_addremove = true;
 	protected $multi_values; 
 	
 	/**
@@ -382,9 +384,16 @@ class ilFormPropertyGUI
 	 *
 	 * @param	bool	$a_multi	Multi
 	 */
-	public function setMulti($a_multi)
+	public function setMulti($a_multi, $a_sortable = false, $a_addremove = true)
 	{
-		trigger_error("not supported for form property type", E_USER_WARNING);
+		if (!$this instanceof ilMultiValuesItem)
+		{
+			trigger_error("not supported for form property type", E_USER_WARNING);
+		}
+		
+		$this->multi = (bool)$a_multi;
+		$this->multi_sortable = (bool)$a_sortable;
+		$this->multi_addremove = (bool)$a_addremove;
 	}
 
 	/**
@@ -423,30 +432,39 @@ class ilFormPropertyGUI
 	 * @param bool $a_sortable
 	 * @return string;
 	 */
-	protected function getMultiIconsHTML($a_sortable = false)
+	protected function getMultiIconsHTML()
 	{
 		global $lng;
 		
 		$id = $this->getFieldId();
 		
-		$html = '<input align="absmiddle" type="image" id="ilMultiAdd~'.$id.'~0"'.
-			' src="'.ilUtil::getImagePath('edit_add.png').'" alt="'.
-		$lng->txt("add").'" title="'.$lng->txt("add").'" onclick="javascript: return false;" />'.
-		'<input align="absmiddle" type="image" id="ilMultiRmv~'.$id.'~0"'.
-		' src="'.ilUtil::getImagePath('edit_remove.png').'" alt="'.$lng->txt("remove").
-		'" title="'.$lng->txt("remove").'"  onclick="javascript: return false;" />';	
+		$tpl = new ilTemplate("tpl.multi_icons.html", true, true, "Services/Form");
 		
-		if($a_sortable)
+		$html = "";
+		if ($this->multi_addremove)
 		{
-			$html .= '&nbsp;<input align="absmiddle" type="image" id="ilMultiDwn~'.$id.'~0"'.
-				' src="'.ilUtil::getImagePath('icon_down_s.png').'" alt="'.
-			$lng->txt("down").'" title="'.$lng->txt("down").'" onclick="javascript: return false;" />'.
-			'<input align="absmiddle" type="image" id="ilMultiUp~'.$id.'~0"'.
-			' src="'.ilUtil::getImagePath('icon_up_s.png').'" alt="'.$lng->txt("up").
-			'" title="'.$lng->txt("up").'"  onclick="javascript: return false;" />';	
+			$tpl->setCurrentBlock("addremove");
+			$tpl->setVariable("ID", $id);
+			$tpl->setVariable("SRC_ADD", ilUtil::getImagePath('edit_add.png'));
+			$tpl->setVariable("TXT_ADD", $lng->txt("add"));
+			$tpl->setVariable("SRC_REMOVE", ilUtil::getImagePath('edit_remove.png'));
+			$tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
+			$tpl->parseCurrentBlock();
 		}
 		
-		return $html;
+		if ($this->multi_sortable)
+		{
+			
+			$tpl->setCurrentBlock("sortable");
+			$tpl->setVariable("ID", $id);
+			$tpl->setVariable("SRC_DOWN", ilUtil::getImagePath('icon_down_s.png'));
+			$tpl->setVariable("TXT_DOWN", $lng->txt("down"));
+			$tpl->setVariable("SRC_UP", ilUtil::getImagePath('icon_up_s.png'));
+			$tpl->setVariable("TXT_UP", $lng->txt("up"));
+			$tpl->parseCurrentBlock();
+		}
+		
+		return $tpl->get();
 	}
 }
 ?>
