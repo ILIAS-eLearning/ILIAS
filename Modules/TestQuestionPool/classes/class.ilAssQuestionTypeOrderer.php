@@ -46,7 +46,9 @@ class ilAssQuestionTypeOrderer
 		'assFileUpload',
 
 		'assFlashQuestion',
-		'assJavaApplet'
+		'assJavaApplet',
+
+		'assFormulaQuestion'
 	);
 	
 	/**
