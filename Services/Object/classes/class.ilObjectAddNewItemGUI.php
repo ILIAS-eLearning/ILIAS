@@ -135,20 +135,60 @@ class ilObjectAddNewItemGUI
 			// grouping of object types
 
 			$grp_map = $pos_group_map = array();
-
+			
 			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
-			foreach(ilObjRepositorySettings::getNewItemGroupSubItems() as $grp_id => $subitems)
+			$groups = ilObjRepositorySettings::getNewItemGroups();
+			
+			// no groups => use default
+			if(!$groups)
 			{
-				foreach($subitems as $subitem)
+				$default = ilObjRepositorySettings::getDefaultNewItemGrouping();
+				$groups = $default["groups"];
+				$grp_map = $default["items"];
+				
+				// reset positions (9999 = "other"/unassigned)
+				$pos = 0;
+				foreach($subtypes as $item_type => $item)
 				{
-					$grp_map[$subitem] = $grp_id;
+					// see ilObjectDefinition
+					if(substr($item_type, 0, 1) == "x")
+					{
+						$subtypes[$item_type]["pos"] = "99992000";
+					}
+					else
+					{						
+						$subtypes[$item_type]["pos"] = "9999".str_pad(++$pos, 4, "0", STR_PAD_LEFT);
+					}
+				}
+				
+				// assign default positions
+				foreach($default["sort"] as $item_type => $pos)
+				{
+					if(array_key_exists($item_type, $subtypes))
+					{
+						$subtypes[$item_type]["pos"] = $pos;												
+					}
+				}				
+				
+				// sort by default positions
+				$subtypes = ilUtil::sortArray($subtypes, "pos", "asc", true, true);				
+			}
+			// use group assignment
+			else
+			{				
+				foreach(ilObjRepositorySettings::getNewItemGroupSubItems() as $grp_id => $subitems)
+				{
+					foreach($subitems as $subitem)
+					{
+						$grp_map[$subitem] = $grp_id;
+					}
 				}
 			}
-
+			
 			$group_separators = array();
 			$pos_group_map[0] = $lng->txt("rep_new_item_group_other");		
 			$old_grp_id = 0;
-			foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
+			foreach($groups as $item)
 			{
 				if($item["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP)
 				{
@@ -160,7 +200,7 @@ class ilObjectAddNewItemGUI
 				}
 				$old_grp_id = $item["id"];
 			}				
-
+			
 			$current_grp = null;
 			foreach ($subtypes as $type => $subitem)
 			{								
