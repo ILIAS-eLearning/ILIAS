@@ -107,7 +107,14 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 				if($item["status"] != ilBookingReservation::STATUS_CANCELLED)
 				{
 					$cnt++;
-					$user_ids[$item["user_id"]] = ilObjUser::_lookupFullName($item['user_id']);
+										
+					// #11995
+					$uname = ilObjUser::_lookupFullName($item['user_id']);
+					if(!trim($uname))
+					{
+						$uname = "[".$lng->txt("user_deleted")."]";
+					}	
+					$user_ids[$item["user_id"]] = $uname;
 					
 					if($item["user_id"] == $ilUser->getId())
 					{
@@ -150,7 +157,13 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 					$date_from = new ilDateTime($reservation['date_from'], IL_CAL_UNIX);
 					$date_to = new ilDateTime($reservation['date_to'], IL_CAL_UNIX);
 
-					$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($reservation['user_id']));
+					// #11995
+					$uname = ilObjUser::_lookupFullName($reservation['user_id']);
+					if(!trim($uname))
+					{
+						$uname = "[".$lng->txt("user_deleted")."]";
+					}	
+					$this->tpl->setVariable("TXT_CURRENT_USER", $uname);
 					$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
 					
 					$has_reservations = true;
