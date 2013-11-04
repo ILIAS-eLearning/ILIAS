@@ -145,7 +145,7 @@ class assTextQuestionImport extends assQuestionImport
 		$this->object->matchcondition = (strlen($item->getMetadataEntry('matchcondition'))) ? $item->getMetadataEntry('matchcondition') : 0;
 		
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
-		$termscoring = unserialize( $item->getMetadataEntry('termscoring') );
+		$termscoring = unserialize( base64_decode($item->getMetadataEntry('termscoring')) );
 		$termscoring = ( is_array($termscoring) ? $termscoring : array() );
 		for ($i = 0; $i < count($termscoring); $i++ )
 		{
