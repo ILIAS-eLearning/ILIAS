@@ -861,7 +861,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function processBooking($a_object_id, $a_from = null, $a_to = null)
 	{
-		global $ilUser;
+		global $ilUser, $ilAccess;
+		
+		// #11995
+		if(!$ilAccess->checkAccess('read', '', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		};
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 		$reservation = new ilBookingReservation();
