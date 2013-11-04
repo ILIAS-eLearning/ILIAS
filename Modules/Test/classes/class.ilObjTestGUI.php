@@ -4934,113 +4934,160 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
-	public function copyQuestionsToPoolObject($returnResult = false) {
-            //var_dump($_REQUEST);
-            include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
-            $qpool = new ilObjQuestionPool($_REQUEST['sel_qpl'], true);
-            $qpool->setOnline(ilObjQuestionPool::_lookupOnline($_REQUEST['sel_qpl'], true));
+	public function copyQuestionsToPoolObject()
+	{
+		$this->copyQuestionsToPool($_REQUEST['q_id'], $_REQUEST['sel_qpl']);
+		$this->backObject();
+	}
 
-            $newIds = array();
-            foreach($_REQUEST['q_id'] as $q_id) {
-                $newId = $qpool->copyQuestion($q_id, $qpool->getId());
-                $newIds[$q_id] = $newId;
-            }
-
-            $result = new stdClass();
-            $result->ids = $newIds;
-            $result->qpool = $qpool;
-
-            if ($returnResult)
-                return $result;
-            else
-                $this->backObject();
-        }
-
-        public function copyAndLinkQuestionsToPoolObject() {
-            $result = $this->copyQuestionsToPoolObject(true);
-            
-            foreach($result->ids as $oldId => $newId) {
-                $questionInstance = assQuestion::_instanciateQuestion($oldId);
-                $questionInstance->setNewOriginalId($newId);
-                $questionInstance->setObjId($result->qpool->getId());
-                $questionInstance->saveToDb();
-
-            }
-            
-            $this->backObject();
-        }
-
-        private function getQuestionpoolCreationForm() {
-            global $lng;
-            include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-            $form = new ilPropertyFormGUI();
-
-            $title = new ilTextInputGUI($lng->txt('title'), 'title');
-            $title->setRequired(true);
-            $form->addItem($title);
-
-            $description = new ilTextAreaInputGUI($lng->txt('description'), 'description');
-            $form->addItem($description);
-
-            $form->addCommandButton('createQuestionPoolAndCopy', $lng->txt('create'));
-
-            foreach($_REQUEST['q_id'] as $id) {
-                $hidden = new ilHiddenInputGUI('q_id[]');
-                $hidden->setValue($id);
-                $form->addItem($hidden);
-
-            }
-
-            return $form;
-        }
-
-        public function copyToQuestionpoolObject() {
-            $this->createQuestionpoolTargetObject('copyQuestionsToPool');
-        }
-
-        public function copyAndLinkToQuestionpoolObject() {
-	    global $lng;
-
-	    include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-	    
-	    foreach($_REQUEST['q_id'] as $q_id) {
-		$questionInstance = assQuestion::_instanciateQuestion($q_id);
-		$type = ilObject::_lookupType($questionInstance->getObjId());
-		if ($type !== 'tst') {
-		    ilUtil::sendFailure($lng->txt('tst_link_only_unassigned'), true);
-		    $this->backObject();
-		    return;
+	public function copyQuestionsToPool($questionIds, $qplId)
+	{
+		$newIds = array();
+		foreach($questionIds as $q_id)
+		{
+			$newId = $this->copyQuestionToPool($q_id, $qplId);
+			$newIds[$q_id] = $newId;
 		}
-	    }
-	    
-            $this->createQuestionpoolTargetObject('copyAndLinkQuestionsToPool');
-        }
 
-        public function createQuestionPoolAndCopyObject() {
-            $form = $this->getQuestionpoolCreationForm();
+		$result = new stdClass();
+		$result->ids = $newIds;
+		$result->qpoolid = $qplId;
 
-	    if ($_REQUEST['title']) {
+		return $result;
+	}
+
+	public function copyQuestionToPool($sourceQuestionId, $targetParentId)
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+		$question_gui = assQuestion::instantiateQuestionGUI($sourceQuestionId);
+
+		$newtitle = $question_gui->object->getTitle();
+		if ($question_gui->object->questionTitleExists($targetParentId, $question_gui->object->getTitle()))
+		{
+			$counter = 2;
+			while ($question_gui->object->questionTitleExists($targetParentId, $question_gui->object->getTitle() . " ($counter)"))
+			{
+				$counter++;
+			}
+			$newtitle = $question_gui->object->getTitle() . " ($counter)";
+		}
+
+		return $question_gui->object->createNewOriginalFromThisDuplicate($targetParentId, $newtitle);
+	}
+
+	/**
+	 * @global ilObjectDataCache $ilObjDataCache
+	 */
+	public function copyAndLinkQuestionsToPoolObject()
+	{
+		global $ilObjDataCache;
+
+		$qplId = $ilObjDataCache->lookupObjId($_REQUEST['sel_qpl']);
+		$result = $this->copyQuestionsToPool($_REQUEST['q_id'], $qplId);
+
+		foreach($result->ids as $oldId => $newId)
+		{
+			$questionInstance = assQuestion::_instanciateQuestion($oldId);
+
+			if( assQuestion::originalQuestionExists($questionInstance->getOriginalId()) )
+			{
+				$oldOriginal = assQuestion::_instanciateQuestion($questionInstance->getOriginalId());
+				$oldOriginal->delete($oldOriginal->getId());
+			}
+
+			$questionInstance->setNewOriginalId($newId);
+		}
+
+		$this->backObject();
+	}
+
+	private function getQuestionpoolCreationForm()
+	{
+		global $lng;
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+
+		$title = new ilTextInputGUI($lng->txt('title'), 'title');
+		$title->setRequired(true);
+		$form->addItem($title);
+
+		$description = new ilTextAreaInputGUI($lng->txt('description'), 'description');
+		$form->addItem($description);
+
+		$form->addCommandButton('createQuestionPoolAndCopy', $lng->txt('create'));
+
+		foreach($_REQUEST['q_id'] as $id)
+		{
+			$hidden = new ilHiddenInputGUI('q_id[]');
+			$hidden->setValue($id);
+			$form->addItem($hidden);
+		}
+
+		return $form;
+	}
+
+	public function copyToQuestionpoolObject()
+	{
+		$this->createQuestionpoolTargetObject('copyQuestionsToPool');
+	}
+
+	public function copyAndLinkToQuestionpoolObject()
+	{
+		global $lng;
+
+		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+
+		foreach($_REQUEST['q_id'] as $q_id)
+		{
+			if( !assQuestion::originalQuestionExists($q_id) )
+			{
+				continue;
+			}
+
+			$type = ilObject::_lookupType( assQuestion::lookupParentObjId(assQuestion::_getOriginalId($q_id)) );
+
+			if ($type !== 'tst')
+			{
+				ilUtil::sendFailure($lng->txt('tst_link_only_unassigned'), true);
+				$this->backObject();
+				return;
+			}
+		}
+
+		$this->createQuestionpoolTargetObject('copyAndLinkQuestionsToPool');
+	}
+
+	public function createQuestionPoolAndCopyObject()
+	{
+		$form = $this->getQuestionpoolCreationForm();
+
+	    if ($_REQUEST['title'])
+		{
 		    $title = $_REQUEST['title'];
 	    }
-	    else {
+	    else
+		{
 		    $title = $_REQUEST['txt_qpl'];
 	    }
 	    
-	    if (!$title) {
+	    if (!$title)
+		{
 		    ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
 		    return $this->copyAndLinkToQuestionpoolObject();
 	    }
 	    
-            $ref_id = $this->createQuestionPool($title, $_REQUEST['description']);
-            $_REQUEST['sel_qpl'] = $ref_id;
+		$ref_id = $this->createQuestionPool($title, $_REQUEST['description']);
+		$_REQUEST['sel_qpl'] = $ref_id;
 
-            //if ($_REQUEST['link']) {
-                $this->copyAndLinkQuestionsToPoolObject();
-            //}
-            //else {
-            //    $this->copyQuestionsToPoolObject();
-            //}
-        }
+		//if ($_REQUEST['link'])
+		//{
+			$this->copyAndLinkQuestionsToPoolObject();
+		//}
+		//else
+		//{
+		//    $this->copyQuestionsToPoolObject();
+		//}
+    }
 
 	/**
 	* Called when a new question should be created from a test
@@ -5111,56 +5158,60 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-        private function applyTemplate($templateData, $object) {
-            // map formFieldName => setterName
-            $simpleSetters = array(
-                'anonymity' => 'setAnonymity',
-                'question_set_type' => 'setQuestionSetType',
-                'test_enabled_views' => 'setEnabledViewMode',
-                //'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
-                'introduction' => 'setIntroduction',
-                'showinfo' => 'setShowInfo',
-                'finalstatement' => 'setFinalStatement',
-                'showfinalstatement' => 'setShowFinalStatement',
-                'chb_shuffle_questions' => 'setShuffleQuestions',
-                'list_of_questions' => 'setListOfQuestionsSettings',
-                'chb_show_marker' => 'setShowMarker',
-                'chb_show_cancel' => 'setShowCancel',
-                'kiosk' => 'setKiosk',
-                'nr_of_tries' => 'setNrOfTries',
-                'chb_processing_time' => 'setEnableProcessingTime',
-                'chb_use_previous_answers' => 'setUsePreviousAnswers',
-                'forcejs' => 'setForceJS',
-                'title_output' => 'setTitleOutput',
-                'password' => 'setPassword',
-                'fixedparticipants' => 'setFixedParticipants',
-                'allowedUsers' => 'setAllowedUsers',
-                'allowedUsersTimeGap' => 'setAllowedUsersTimeGap',
-                'mailnotification' => 'setMailNotification',
-                'mailnottype' => 'setMailNotificationType',
-                //'' => '',
-                'count_system' => 'setCountSystem',
-                'mc_scoring' => 'setMCScoring',
-                'score_cutting' => 'setScoreCutting',
-                'pass_scoring' => 'setScoreReporting',
+	private function applyTemplate($templateData, $object)
+	{
+		// map formFieldName => setterName
+		$simpleSetters = array(
+			'anonymity' => 'setAnonymity',
+			'question_set_type' => 'setQuestionSetType',
+			'test_enabled_views' => 'setEnabledViewMode',
+			//'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
+			'introduction' => 'setIntroduction',
+			'showinfo' => 'setShowInfo',
+			'finalstatement' => 'setFinalStatement',
+			'showfinalstatement' => 'setShowFinalStatement',
+			'chb_shuffle_questions' => 'setShuffleQuestions',
+			'list_of_questions' => 'setListOfQuestionsSettings',
+			'chb_show_marker' => 'setShowMarker',
+			'chb_show_cancel' => 'setShowCancel',
+			'kiosk' => 'setKiosk',
+			'nr_of_tries' => 'setNrOfTries',
+			'chb_processing_time' => 'setEnableProcessingTime',
+			'chb_use_previous_answers' => 'setUsePreviousAnswers',
+			'forcejs' => 'setForceJS',
+			'title_output' => 'setTitleOutput',
+			'password' => 'setPassword',
+			'fixedparticipants' => 'setFixedParticipants',
+			'allowedUsers' => 'setAllowedUsers',
+			'allowedUsersTimeGap' => 'setAllowedUsersTimeGap',
+			'mailnotification' => 'setMailNotification',
+			'mailnottype' => 'setMailNotificationType',
+			//'' => '',
+			'count_system' => 'setCountSystem',
+			'mc_scoring' => 'setMCScoring',
+			'score_cutting' => 'setScoreCutting',
+			'pass_scoring' => 'setScoreReporting',
 
-                'instant_feedback' => 'setScoringFeedbackOptionsByArray',
+			'instant_feedback' => 'setScoringFeedbackOptionsByArray',
 
-                'results_presentation' => 'setResultsPresentationOptionsByArray',
-                'export_settings' => 'setExportSettings',
-                'print_bs_with_res' => 'setPrintBestSolutionWithResult',
-            );
+			'results_presentation' => 'setResultsPresentationOptionsByArray',
+			'export_settings' => 'setExportSettings',
+			'print_bs_with_res' => 'setPrintBestSolutionWithResult',
+		);
 
-	    if (!$templateData['results_presentation']['value']) {
-		$templateData['results_presentation']['value'] = array();
+	    if (!$templateData['results_presentation']['value'])
+		{
+			$templateData['results_presentation']['value'] = array();
 	    }
 
-            foreach($simpleSetters as $field => $setter) {
-                if($templateData[$field]) {
-                    $object->$setter($templateData[$field]['value']);
-                }
-            }
-        }
+		foreach($simpleSetters as $field => $setter)
+		{
+			if($templateData[$field])
+			{
+				$object->$setter($templateData[$field]['value']);
+			}
+		}
+	}
 
 	public function saveOrderAndObligationsObject()
 	{
