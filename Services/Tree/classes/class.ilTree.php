@@ -210,9 +210,22 @@ class ilTree
 	 */
 	public function initTreeImplementation()
 	{
+		global $ilDB;
+		
+		
+		if(!is_object($GLOBALS['ilSetting']) or $GLOBALS['ilSetting']->getModule() != 'common')
+		{
+			include_once './Services/Administration/classes/class.ilSetting.php';
+			$setting = new ilSetting('common');
+		}
+		else
+		{
+			$setting = $GLOBALS['ilSetting'];
+		}
+		
 		if($this->__isMainTree())
 		{
-			if($GLOBALS['ilSetting']->get('main_tree_impl','ns') == 'ns')
+			if($setting->get('main_tree_impl','ns') == 'ns')
 			{
 				#$GLOBALS['ilLog']->write(__METHOD__.': Using nested set.');
 				include_once './Services/Tree/classes/class.ilNestedSetTree.php';
@@ -1649,7 +1662,7 @@ class ilTree
 	*/
 	public function isGrandChild($a_startnode_id,$a_querynode_id)
 	{
-		return $this->getTreeImplementation()->getRelation($a_startnode_id, $a_querynode_id) == self::RELATION_PARENT;
+		return $this->getRelation($a_startnode_id, $a_querynode_id) == self::RELATION_PARENT;
 	}
 
 	/**
