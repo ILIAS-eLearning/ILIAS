@@ -9333,7 +9333,9 @@ function getAnswerFeedbackPoints()
 			'pass_deletion_allowed' => (int)$this->isPassDeletionAllowed(),
 			'enable_examview' => $this->getEnableExamview(),
 			'show_examview_html' => $this->getShowExamviewHtml(),
-			'show_examview_pdf' => $this->getShowExamviewPdf()
+			'show_examview_pdf' => $this->getShowExamviewPdf(),
+			'char_selector_availability' => $this->getCharSelectorAvailability(),
+			'char_selector_definition' => $this->getCharSelectorDefinition()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -9428,6 +9430,8 @@ function getAnswerFeedbackPoints()
 		$this->setShowExamviewPdf($testsettings['show_examview_pdf']);
 		$this->setEnableArchiving($testsettings['enable_archiving']);
 		$this->setSignSubmission($testsettings['sign_submission']);
+		$this->setCharSelectorAvailability($testsettings['char_selector_availability']);
+		$this->setCharSelectorDefinition($testsettings['char_selector_definition']);
 		$this->saveToDb();
 
 		return true;
