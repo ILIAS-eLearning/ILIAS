@@ -545,7 +545,8 @@ class ilObjQuestionPool extends ilObject
 				{
 					foreach($arrFilter['tax_'.$taxId] as $node)
 					{
-						$items = ilObjTaxonomy::getSubTreeItems($taxId, $node);
+						// alex: added first three parameters, ok?
+						$items = ilObjTaxonomy::getSubTreeItems("qpl", $this->getId(), "quest", $taxId, $node);
 						foreach($items as $item)
 						{
 							$questionIds[$node['item_id']] = $node['item_id'];
@@ -555,7 +556,8 @@ class ilObjQuestionPool extends ilObject
 				else
 				{
 					$tax = new ilObjTaxonomy($taxId);
-					$items = ilObjTaxonomy::getSubTreeItems($taxId, $tax->getTree()->getRootId());
+					// alex: added first three parameters, ok?
+					$items = ilObjTaxonomy::getSubTreeItems("qpl", $this->getId(), "quest", $taxId, $tax->getTree()->getRootId());
 					foreach($items as $item)
 					{
 						$questionIds[$node['item_id']] = $node['item_id'];

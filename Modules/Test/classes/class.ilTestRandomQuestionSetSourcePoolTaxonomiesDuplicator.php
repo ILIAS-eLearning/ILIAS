@@ -93,8 +93,10 @@ class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 
 	private function transferAssignmentsFromOriginalToDuplicatedTaxonomy($originalTaxonomyId, $mappedTaxonomyId)
 	{
-		$originalTaxAssignment = new ilTaxNodeAssignment('qpl', 'quest', $originalTaxonomyId);
-		$duplicatedTaxAssignment = new ilTaxNodeAssignment('qpl', 'quest', $mappedTaxonomyId);
+		$originalTaxAssignment = new ilTaxNodeAssignment('qpl', $this->getSourcePoolId(), 'quest', $originalTaxonomyId);
+		// alex: is qpl as component correct (I only added the $this->testOBJ->getId() parameter)
+		// shouldn't this be tst?
+		$duplicatedTaxAssignment = new ilTaxNodeAssignment('qpl', $this->testOBJ->getId(), 'quest', $mappedTaxonomyId);
 
 		foreach($this->getQuestionIdMapping() as $originalQuestionId => $duplicatedQuestionId)
 		{
