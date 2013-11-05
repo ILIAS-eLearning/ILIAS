@@ -145,25 +145,27 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			case 'illearningprogressgui';
-			case 'illplistofprogressgui';
+	        case 'illearningprogressgui':
+	        case 'illplistofprogressgui':
 		        if($this->ctrl->getCmd() == "view"){
 			        //This fix is because of the back button on the single user gui of the local user administration.
-			        $this->ctrl->redirect($this, "listUsers");
+			        $this->ctrl->redirect($this, "showStaff");
 			        return;
 		        }
 
 				if(!$this->checkPermForLP()){
 					ilUtil::sendFailure($lng->txt("permission_denied"), true);
-					$this->ctrl->redirectByClass("ilObjOrgUnitGUI", "render");
+					$this->ctrl->redirect($this, "showStaff");
 				}
+
 				$this->prepareOutput();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+
 				if($user_id = $_GET["obj_id"]){
 					$this->ctrl->saveParameterByClass("illearningprogressgui", "obj_id");
 					$this->ctrl->saveParameterByClass("illearningprogressgui", "recursive");
 					include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-					$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
+					$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER,USER_FOLDER_ID,$_GET["obj_id"]);
 					$this->ctrl->forwardCommand($new_gui);
 				}
 
@@ -856,9 +858,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		//obj id / user_id is the id of the user which lp we want to inspect.
 		if(!($user_id = $_GET["obj_id"]))
 			return false;
-		//the user has to be an employee in this or a subsequent org-unit.
-		if(!in_array($user_id, ilObjOrgUnitTree::_getInstance()->getEmployees($_GET["ref_id"], $recursive)) && $ilUser->getId() != 6)
+
+		//the user has to be an employee in this or a subsequent org-unit / Or the users own learning-Progress
+		if(!in_array($user_id, ilObjOrgUnitTree::_getInstance()->getEmployees($_GET["ref_id"], $recursive)) AND $ilUser->getId() != $user_id )
 			return false;
+
 		return true;
 	}
 
@@ -974,25 +978,19 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
             //END ChangeEvent add info tab to category object
         }
 
-		if($rbacsystem->checkAccess('write',$this->ref_id))
+		if($rbacsystem->checkAccess('write',$this->ref_id) OR $ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"]))
 		{
 			$ilTabs->addTab("orgu_staff", $this->lng->txt("orgu_staff"), $this->ctrl->getLinkTarget($this, "showStaff"), "", 25);
+		}
+
+		if($rbacsystem->checkAccess('write',$this->ref_id))
+		{
 			if($_GET["ref_id"] != ilObjOrgUnit::getRootOrgRefId())
-				$ilTabs->replaceTab("settings", "settings", $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "editTranslations"));
-			else{
-				$ilTabs->removeTab("settings");
+			{
+				$ilTabs->addTab("settings", $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "editTranslations"));
 			}
 		}
 
-        if ($rbacsystem->checkAccess('write',$this->ref_id))
-        {
-            $force_active = ($_GET["cmd"] == "edit")
-                ? true
-                : false;
-            $tabs_gui->addTarget("settings",
-                $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
-                , "", $force_active);
-        }
 
         include_once './Services/User/classes/class.ilUserAccountSettings.php';
         if(
@@ -1031,12 +1029,22 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 	public function showStaffObject(){
-		global $ilTabs;
+		global $ilTabs, $ilAccess;
+
+		if(!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) AND !$ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->redirect($this, "");
+		}
+
 		$ilTabs->setTabActive("orgu_staff");
-		$this->addStaffToolbar();
+
+		if($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$this->addStaffToolbar();
+		}
+
 		$this->ctrl->setParameter($this, "recursive", false);
-		if(!$this->checkAccess("write"))
-			return;
 		$this->tpl->setContent($this->getStaffTableHTML(false, "showStaff"));
 	}
 
@@ -1052,19 +1060,21 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
     }
 
 	public function showStaffRecObject(){
-		global $ilTabs;
+		global $ilTabs, $ilAccess;
 		$ilTabs->setTabActive("orgu_staff");
+
+		if(!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) AND !$ilAccess->checkAccess("view_learning_progress_rec", "", $_GET["ref_id"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->redirect($this, "");
+		}
+
 		$this->ctrl->setParameter($this, "recursive", true);
-		if(!$this->checkAccess("write"))
-			return;
 		$this->tpl->setContent($this->getStaffTableHTML(true, "showStaffRec"));
 	}
 
 	protected function addStaffToolbar() {
 		global $lng, $ilToolbar;
-
-		if(!$this->checkAccess("write"))
-			return;
 
 		$types = array(
 			"employee" => $this->lng->txt("employee"), "superior" => $this->lng->txt("superior")
@@ -1225,7 +1235,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		global $ilAccess, $lng;
 		if(!$ilAccess->checkAccess($perm, "", $_GET["ref_id"])){
 			ilUtil::sendFailure($lng->txt("permission_denied"), true);
-			$this->ctrl->redirect($this, "showStaff");
+			$this->ctrl->redirect($this, "");
 			return false;
 		}
 		return true;
@@ -1457,8 +1467,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
                         $ilTabs->addSubTab("show_staff",sprintf($lng->txt("local_staff"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaff"));
                         if($ilAccess->checkAccess("view_learning_progress_rec", "", $_GET["ref_id"]))
                             $ilTabs->addSubTab("show_staff_rec", sprintf($lng->txt("rec_staff"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaffRec"));
-                        $ilTabs->addSubTab("show_other_roles",sprintf($lng->txt("local_other_roles"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showOtherRoles"));
-                        if($cmd == 'showStaff')
+
+	                    if($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+	                        $ilTabs->addSubTab("show_other_roles",sprintf($lng->txt("local_other_roles"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showOtherRoles"));
+
+	                    if($cmd == 'showStaff')
                         $ilTabs->activateSubTab("show_staff");
                         if($cmd == 'showOtherRoles')
                         $ilTabs->activateSubTab("show_other_roles");

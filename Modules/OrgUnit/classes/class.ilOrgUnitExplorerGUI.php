@@ -1,9 +1,10 @@
 <?php
-	require_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
+require_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
 
-	class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
+class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
+{
 
-		protected $stay_with_command = array("", "render", "view", "infoScreen", "showStaff","performPaste");
+	protected $stay_with_command = array("", "render", "view", "infoScreen", "showStaff", "performPaste");
 
 		public function getNodeContent($node){
 			global $lng;

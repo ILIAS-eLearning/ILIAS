@@ -62,8 +62,8 @@ class ilObjOrgUnitTree {
 	}
 
 	/**
-	 * @param $title "employee" or "superior"
-	 * @param $ref_id ref id of org unit.
+	 * @param $title string "employee" or "superior"
+	 * @param $ref_id int ref id of org unit.
 	 * @return int[] array of user_obj ids
 	 */
 	private function loadStaff($title, $ref_id){
@@ -101,10 +101,12 @@ class ilObjOrgUnitTree {
 				$this->staff[$title][$orgu_ref][] = $res["usr_id"];
 			}
 		}
+
 		//collect * users.
 		$all_users = array();
 		foreach($all_refs as $ref)
 			$all_users = array_merge($all_users, $this->staff[$title][$ref]);
+
 		return $all_users;
 	}
 
@@ -288,8 +290,12 @@ class ilObjOrgUnitTree {
 			$orgu_ref_ids[] = $res['ref_id'];
 		}
 		$orgus_on_level_x = array();
-		foreach ($orgu_ref_ids as $orgu_ref_id) {
-			$orgus_on_level_x[] = $this->getLevelXOfTreenode($orgu_ref_id, $level);
+		foreach($orgu_ref_ids as $orgu_ref_id){
+			try{
+				$orgus_on_level_x[] = $this->getLevelXOfTreenode($orgu_ref_id, $level);
+			}catch(Exception $e){
+				// this means the user is assigned to a orgu above the given level. just dont add it to the list.
+			}
 		}
 
 		return array_unique($orgus_on_level_x);
@@ -315,7 +321,7 @@ class ilObjOrgUnitTree {
         }
 
         return array_unique($orgu_ref_ids);
-	}
+    }
 
 	public function getTitles($org_refs){
 		$names = array();
@@ -378,7 +384,7 @@ class ilObjOrgUnitTree {
 	 * (6, 1) = 1; (4, 1) = 2; (6, 2) = 3;
 	 * @param $orgu_ref
 	 * @param $level
-	 * @throws Exception in case there's a thread of an infinite loop.
+	 * @throws Exception in case there's a thread of an infinite loop or if you try to fetch the third level but there are only two (e.g. you want to fetch lvl 1 but give the root node as reference).
 	 * @return int|bool ref_id of the orgu or false if not found.
 	 */
 	public function getLevelXOfTreenode($orgu_ref, $level){
@@ -386,7 +392,10 @@ class ilObjOrgUnitTree {
 		$current_ref = $orgu_ref;
 		while($current_ref != ilObjOrgUnit::getRootOrgRefId()){
 			$current_ref = $this->getParent($current_ref);
-			$line[] = $current_ref;
+			if($current_ref)
+				$line[] = $current_ref;
+			else
+				break;
 			if(count($line) > 100)
 				throw new Exception("There's either a non valid call of the getLevelXOfTreenode in ilObjOrgUnitTree or your nesting of orgunits is higher than 100 units, which isn't encouraged");
 		}
@@ -394,7 +403,7 @@ class ilObjOrgUnitTree {
 		if(count($line) > $level)
 			return $line[$level];
 		else
-			return false;
+			throw new Exception("you want to fetch level ".$level." but the line to the length of the line is only ".count($line). ". The line of the given org unit is: ".print_r($line , true));
 	}
 
 	public function getParent($orgu_ref){
