@@ -101,7 +101,9 @@ class ilObjectActivationGUI
 	{
 		global $ilErr,$ilAccess,$tpl;
 
-		if(!$ilAccess->checkAccess('write','',$this->parent_ref_id))
+		// #19997 - see ilObjectListGUI::insertTimingsCommand()
+		if(!$ilAccess->checkAccess('write','',$this->parent_ref_id) &&
+			!$ilAccess->checkAccess('write','',$this->getItemId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
@@ -249,10 +251,13 @@ class ilObjectActivationGUI
 	{
 		global $ilErr,$ilAccess,$tpl,$ilUser;
 
-		if(!$ilAccess->checkAccess('write','',$this->parent_ref_id))
+		// #19997 - see ilObjectListGUI::insertTimingsCommand()
+		if(!$ilAccess->checkAccess('write','',$this->parent_ref_id) &&
+			!$ilAccess->checkAccess('write','',$this->getItemId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
+		
 		$this->initFormEdit();
 		if($this->form->checkInput())
 		{
