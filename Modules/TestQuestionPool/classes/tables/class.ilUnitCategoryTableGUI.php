@@ -50,7 +50,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $cmd));
 		$this->setSelectAllCheckbox('category_ids[]');
-		$this->setRowTemplate('tpl.unit_category_row_html', 'Modules/TestQuestionPool');
+		$this->setRowTemplate('tpl.unit_category_row.html', 'Modules/TestQuestionPool');
 	}
 
 	/**
@@ -85,6 +85,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 		{
 			$action->addItem($this->lng->txt('import'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmImportGlobalCategory'));
 		}
+		$row['title_href'] = $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory');
 		$ilCtrl->setParameter($this->getParentObject(), 'category_id', '');
 		$row['actions'] = $action->getHtml();
 
