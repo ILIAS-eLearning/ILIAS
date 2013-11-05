@@ -65,6 +65,14 @@ class ilSetting
 		}
 		$this->read();
 	}
+	
+	/**
+	 * Get currernt module
+	 */
+	public function getModule()
+	{
+		return $this->module;
+	}
 		
 	/**
 	* Read settings data
