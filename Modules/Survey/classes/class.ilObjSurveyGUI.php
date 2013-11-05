@@ -1706,11 +1706,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$ilToolbar->setCloseFormTag(false);
 			$info->setOpenFormTag(false);
 		}
+		/* #12016
 		else
 		{
 			$info->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 		}
-
+		*/
+		
 		if (strlen($this->object->getIntroduction()))
 		{
 			$introduction = $this->object->getIntroduction();
