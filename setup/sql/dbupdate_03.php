@@ -19262,3 +19262,7 @@ if(
 	$ilDB->renameTableColumn('il_qpl_qst_fq_res', 'rating_val', 'rating_value');
 }
 ?>
+<#4147>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
