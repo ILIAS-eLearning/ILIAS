@@ -252,7 +252,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
 					$error_message .= $this->lng->txt("que_contains_unused_var");
 				}
 				$checked =  false;
-				ilUtil::sendFailure($error_message);
+				if($this->isSaveCommand())
+				{
+					ilUtil::sendFailure($error_message);
+				}
 			}
 			foreach($found_results as $result)
 			{
