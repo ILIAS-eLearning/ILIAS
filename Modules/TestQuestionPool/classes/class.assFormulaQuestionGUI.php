@@ -334,6 +334,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
 		// title, author, description, question, working time (assessment mode)
 		$this->addBasicQuestionFormProperties($form);
+		
+		// Add info text
+		$question = $form->getItemByPostVar('question');
+		$question->setInfo($this->lng->txt('fq_question_desc'));
 
 		$variables         = $this->object->getVariables();
 		$categorized_units = $this->object->getUnitrepository()->getCategorizedUnits();

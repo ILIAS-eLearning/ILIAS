@@ -14120,3 +14120,4 @@ content#:#cont_col_ordering#:#Column Ordering
 orgu#:#simple_xls#:#Simple Excel Export
 assessment#:#un_add_category#:#Add Category
 assessment#:#un_add_unit#:#Add Unit
+assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button "Parse Question" to create editing forms for variables and results.
