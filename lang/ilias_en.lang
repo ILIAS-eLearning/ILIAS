@@ -13695,9 +13695,7 @@ orgu#:#orgu_view_learning_progress_rec#:#View Learning Progress Recursivly
 orgu#:#Staff#:#Staff
 orgu#:#orgu_edit#:#Edit
 orgu#:#employee#:#Employee
-orgu#:#Employee#:#Employee
 orgu#:#superior#:#Superior
-orgu#:#Superior#:#Superior
 orgu#:#Actions#:#Actions
 orgu#:#show_learning_progress#:#Show Learning Progress
 orgu#:#users_successfuly_added#:#The user has been added successfully.
@@ -13729,7 +13727,7 @@ orgu#:#edit_ext_id#:#External ID
 orgu#:#ext_id#:#External ID
 orgu#:#ext_id_updated#:#The external ID has been updated successfully.
 orgu#:#no_roles#:#There are no additional roles at this point.
-orgu#:#local_other_roles#:#Additional Roles %s
+orgu#:#local_other_roles#:#Additional Local Roles %s
 cld#:#cld_object_added#:#A new Cloud Objekt has been added
 exc#:#exc_peer_review_deadline#:#Feedback Deadline 
 exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.
@@ -14119,3 +14117,4 @@ rep#:#rep_add_new_def_grp_communication#:#Communication
 rep#:#rep_add_new_def_grp_assessment#:#Assessment
 rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation
 content#:#cont_col_ordering#:#Column Ordering
+orgu#:#simple_xls#:#Simple Excel Export

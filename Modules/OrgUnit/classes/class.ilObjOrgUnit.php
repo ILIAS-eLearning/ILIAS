@@ -226,7 +226,7 @@ class ilObjOrgUnit extends ilContainer {
 		if(parent::getTitle() != "__OrgUnitAdministration")
 			return parent::getTitle();
 		else
-			return $this->lng->txt("obj_orgu");
+			return $this->lng->txt("objs_orgu");
 	}
 
 	/**
