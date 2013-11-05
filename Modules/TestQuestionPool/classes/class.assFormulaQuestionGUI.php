@@ -623,7 +623,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			}
 	
 			$checked =  false;
-			ilUtil::sendFailure($error_message);
+			if($save)
+			{
+				ilUtil::sendFailure($error_message);
+			}
 		}
 
 		if(count($result_has_undefined_res) > 0)
@@ -632,7 +635,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			$checked =  false;
 		}
 		
-		if($checked == false)
+		if($save && !$checked)
 		{
 			ilUtil::sendFailure($error_message);
 		}
