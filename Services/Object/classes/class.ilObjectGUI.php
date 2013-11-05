@@ -1164,6 +1164,11 @@ class ilObjectGUI
 		$ti->setRequired(true);
 		$form->addItem($ti);
 
+		$ti = new ilDateTimeInputGUI($this->lng->txt("title"), "datum");
+		$ti->setInfo("bitte ausfüllen");
+		$ti->setRequired(false);
+		$form->addItem($ti);
+
 		// description
 		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
 		$ta->setCols(40);

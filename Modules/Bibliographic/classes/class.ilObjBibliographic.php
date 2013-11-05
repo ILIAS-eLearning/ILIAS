@@ -328,6 +328,7 @@ class ilObjBibliographic extends ilObject2
         // The cite is the text coming right after the type. Example:
         // ﻿@book {cite,
         // author = { "...."},
+
         foreach($bibtex_reader->data as $key => $entry){
             if(empty($entry['cite'])){
                 unset($bibtex_reader->data[$key]['cite']);

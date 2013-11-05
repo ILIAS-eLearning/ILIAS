@@ -13675,16 +13675,14 @@ common#:#obj_orgu#:#Organisationseinheit
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
-orgu#:#il_orgu_employee#:#Angestellter
-orgu#:#il_orgu_superior#:#Vorgesetzter
-orgu#:#orgu_staff#:#Mitarbeiter
+orgu#:#il_orgu_employee#:#Mitarbeiter
+orgu#:#il_orgu_superior#:#Vorgesetzte
+orgu#:#orgu_staff#:#Personen
 orgu#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 orgu#:#Staff#:#Staff
 orgu#:#orgu_edit#:#Bearbeiten
-orgu#:#employee#:#Angestellter
-orgu#:#Employee#:#Angestellter
+orgu#:#employee#:#Mitarbeiter
 orgu#:#superior#:#Vorgesetzter
-orgu#:#Superior#:#Vorgesetzter
 orgu#:#Actions#:#Aktionen
 orgu#:#show_learning_progress#:#Zeige Lernfortschritt
 orgu#:#users_successfuly_added#:#Der Benutzer wurde erfolgreich eingetragen.
@@ -13716,7 +13714,7 @@ orgu#:#edit_ext_id#:#Externe ID
 orgu#:#ext_id#:#Externe ID
 orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Daten anonymisiert gespeichert werden.
 orgu#:#no_roles#:#Es gibt keine weiteren lokalen Rollen an dieser Stelle.
-orgu#:#local_other_roles#:#Weitere Rollen %s
+orgu#:#local_other_roles#:#Weitere lokale Rollen %s
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
 exc#:#exc_peer_review_deadline#:#Endtermin Feedback
 exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin kann Feedback gegeben werden und das erhaltene Feedback ist erst ab dann einsehbar.
@@ -14117,3 +14115,4 @@ rep#:#rep_add_new_def_grp_content#:#Inhalt
 rep#:#rep_add_new_def_grp_communication#:#Kommunikation
 rep#:#rep_add_new_def_grp_assessment#:#Assessment
 rep#:#rep_add_new_def_grp_feedback#:#Feedback und Evaluation
+orgu#:#simple_xls#:#Simple Excel Export
