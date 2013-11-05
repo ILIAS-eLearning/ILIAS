@@ -876,6 +876,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		if($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId())
 		{
 			$ilToolbar->addButton($this->lng->txt("simple_import"), $this->ctrl->getLinkTarget($this, "importScreen"));
+			$ilToolbar->addButton($this->lng->txt("simple_user_import"), $this->ctrl->getLinkTarget($this, "userImportScreen"));
 		}
 	}
 
