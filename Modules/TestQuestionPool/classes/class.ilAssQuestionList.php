@@ -116,7 +116,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 				case 'description':
 				case 'author':
 					
-					$expressions[] = $this->db->like('qpl_questions.title', 'text', "%%$fieldValue%%");
+					$expressions[] = $this->db->like('qpl_questions.' . $fieldName, 'text', "%%$fieldValue%%");
 					break;
 					
 				case 'type':
