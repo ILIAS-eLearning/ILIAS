@@ -364,7 +364,7 @@ class ilGlossaryTerm
 			$tax_ids = ilObjTaxonomy::getUsageOfObject($a_glo_id);
 			if (count($tax_ids) > 0)
 			{
-				$items = ilObjTaxonomy::getSubTreeItems("glo", "term", $tax_ids[0], $a_tax_node);
+				$items = ilObjTaxonomy::getSubTreeItems("glo", $a_glo_id, "term", $tax_ids[0], $a_tax_node);
 				$sub_tree_ids = array();
 				foreach ($items as $i)
 				{
@@ -454,7 +454,7 @@ class ilGlossaryTerm
 				$tax_ids = ilObjTaxonomy::getUsageOfObject($a_glo_id);
 				if (count($tax_ids) > 0)
 				{
-					$items = ilObjTaxonomy::getSubTreeItems("glo", "term", $tax_ids[0], $a_tax_node);
+					$items = ilObjTaxonomy::getSubTreeItems("glo", $a_glo_id, "term", $tax_ids[0], $a_tax_node);
 					$sub_tree_ids = array();
 					foreach ($items as $i)
 					{

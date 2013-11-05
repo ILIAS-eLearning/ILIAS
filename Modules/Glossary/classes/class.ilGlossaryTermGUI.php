@@ -175,16 +175,11 @@ class ilGlossaryTermGUI
 		// taxonomy
 		if ($this->glossary->getTaxonomyId() > 0)
 		{
-			/*include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
-			$tax_node_assign = new ilTaxAssignInputGUI($this->glossary->getTaxonomyId());
-			$tax_node_assign->setCurrentValues("glo", "term", $this->term->getId());
-			$form->addItem($tax_node_assign);*/
-			
 			include_once("./Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
 			$tax_node_assign = new ilTaxSelectInputGUI($this->glossary->getTaxonomyId(), "tax_node", true);
 			
 			include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-			$ta = new ilTaxNodeAssignment("glo", "term", $this->glossary->getTaxonomyId());
+			$ta = new ilTaxNodeAssignment("glo", $this->glossary->getId(), "term", $this->glossary->getTaxonomyId());
 			$assgnmts = $ta->getAssignmentsOfItem($this->term->getId());
 			$node_ids = array();
 			foreach ($assgnmts as $a)
@@ -226,7 +221,7 @@ class ilGlossaryTermGUI
 		if ($this->glossary->getTaxonomyId() > 0)
 		{
 			include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-			$ta = new ilTaxNodeAssignment("glo", "term", $this->glossary->getTaxonomyId());
+			$ta = new ilTaxNodeAssignment("glo", $this->glossary->getId(), "term", $this->glossary->getTaxonomyId());
 			$ta->deleteAssignmentsOfItem($this->term->getId());
 			if (is_array($_POST["tax_node"]))
 			{
@@ -236,9 +231,6 @@ class ilGlossaryTermGUI
 				}
 			}		
 
-/*			include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
-			$tax_node_assign = new ilTaxAssignInputGUI($this->glossary->getTaxonomyId());
-			$tax_node_assign->saveInput("glo", "term", $this->term->getId());*/
 		}
 		
 		// advanced metadata

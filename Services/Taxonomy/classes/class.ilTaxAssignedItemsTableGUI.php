@@ -17,7 +17,7 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_tax, $a_comp_id, $a_item_type,
+	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_tax, $a_comp_id, $a_obj_id, $a_item_type,
 		$a_info_obj)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
@@ -27,6 +27,7 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 		$this->tax = $a_tax;
 		$this->node_id = $a_node_id;
 		$this->comp_id = $a_comp_id;
+		$this->obj_id = $a_obj_id;
 		$this->item_type = $a_item_type;
 		$this->info_obj = $a_info_obj;
 
@@ -35,7 +36,7 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 		
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-		$tax_ass = new ilTaxNodeAssignment($this->comp_id, $this->item_type, $this->tax->getId());
+		$tax_ass = new ilTaxNodeAssignment($this->comp_id, $this->obj_id, $this->item_type, $this->tax->getId());
 		$this->setData($tax_ass->getAssignmentsOfNode($this->node_id));
 		$this->setTitle($lng->txt("tax_assigned_items"));
 		

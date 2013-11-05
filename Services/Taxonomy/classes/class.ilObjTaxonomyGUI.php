@@ -88,11 +88,12 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 *
 	 * @param object $a_item_info_obj information object of assigned items
 	 */
-	function activateAssignedItemSorting(ilTaxAssignedItemInfo $a_item_info_obj, $a_component_id, $a_item_type)
+	function activateAssignedItemSorting(ilTaxAssignedItemInfo $a_item_info_obj, $a_component_id, $a_obj_id, $a_item_type)
 	{
 		$this->assigned_item_sorting = true;
 		$this->assigned_item_info_obj = $a_item_info_obj;
 		$this->assigned_item_comp_id = $a_component_id;
+		$this->assigned_item_obj_id = $a_obj_id;
 		$this->assigned_item_type = $a_item_type;
 	}
 	
@@ -895,7 +896,7 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 		include_once("./Services/Taxonomy/classes/class.ilTaxAssignedItemsTableGUI.php");
 		$table = new ilTaxAssignedItemsTableGUI($this, "listAssignedItems",
 			(int) $_GET["tax_node"], $this->getCurrentTaxonomy(), $this->assigned_item_comp_id,
-			$this->assigned_item_type, $this->assigned_item_info_obj);
+			$this->assigned_item_obj_id, $this->assigned_item_type, $this->assigned_item_info_obj);
 
 		$tpl->setContent($table->getHTML());
 	}
@@ -920,6 +921,7 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 			foreach ($order as $a_item_id => $ord_nr)
 			{
 				$tax_ass = new ilTaxNodeAssignment($this->assigned_item_comp_id,
+					$this->assigned_item_obj_id,
 					$this->assigned_item_type, $this->getCurrentTaxonomyId());
 				$tax_ass->setOrderNr($tax_node, $a_item_id, $cnt);				
 				$cnt+= 10;
