@@ -111,7 +111,8 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$selection->setListTitle($lng->txt("Actions"));
 		$selection->setId("selection_list_user_lp_".$set["user_id"]);
 
-		if($ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"])){
+		if($ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"]) AND ilObjUserTracking::_enabledLearningProgress() and
+			ilObjUserTracking::_enabledUserRelatedData()){
 			$selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array("ilAdministrationGUI", "ilObjOrgUnitGUI", "ilLearningProgressGUI"), ""));
 		}
 		if($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive){
