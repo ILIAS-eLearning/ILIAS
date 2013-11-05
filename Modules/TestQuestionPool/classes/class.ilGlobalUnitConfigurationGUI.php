@@ -52,7 +52,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
 		 */
 		global $ilToolbar;
 
-		$ilToolbar->addButton($this->lng->txt('add'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
+		$ilToolbar->addButton($this->lng->txt('un_add_category'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
 
 		parent::showGlobalUnitCategories();
 	}
