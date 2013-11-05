@@ -160,7 +160,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 			case 'ilexportgui':
 				$this->prepareOutput();
-				$this->extendExportGUI();
+
+				if($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId())
+				{
+					//Simple XML and Simple XLS Export should only be available in the root orgunit folder as it always exports the whole tree
+					$this->extendExportGUI();
+				}
+
 				$this->tabs_gui->setTabActive('export');
 				include_once './Services/Export/classes/class.ilExportGUI.php';
 				$exp = new ilExportGUI($this);
@@ -866,7 +872,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$ilTabs->setTabActive("view_content");
 		$this->tabs_gui->removeSubTab("page_editor");
 		if($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId())
+		{
 			$ilToolbar->addButton($this->lng->txt("simple_import"), $this->ctrl->getLinkTarget($this, "importScreen"));
+		}
 	}
 
 	public function viewObject() {
