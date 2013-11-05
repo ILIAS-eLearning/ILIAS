@@ -377,7 +377,7 @@ assessment#:#end_tag#:#End Tag
 assessment#:#ending_time_reached#:#You have reached the ending time
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
-assessment#:#enter_enough_positive_points#:#The maxium available points must be greater than 0! Please enter sufficient positive points for your answers.
+assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
 assessment#:#err_no_numeric_value#:#Please enter a numeric value
 assessment#:#error_cloze_not_numeric#:#Please enter a numeric value.
 assessment#:#error_duplicate_term#:#You selected a matching term more than once
