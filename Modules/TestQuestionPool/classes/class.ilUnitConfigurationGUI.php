@@ -501,6 +501,14 @@ abstract class ilUnitConfigurationGUI
 		$new_category  = false;
 		foreach((array)$items as $item)
 		{
+			if(
+				$unit instanceof assFormulaQuestionUnit &&
+				$unit->getId() == $item->getId()
+			)
+			{
+				continue;
+			}
+			
 			/**
 			 * @var $item assFormulaQuestionUnitCategory|assFormulaQuestionUnitCategory
 			 */
