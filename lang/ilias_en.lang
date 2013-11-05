@@ -13691,7 +13691,7 @@ orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from 
 orgu#:#deassign_user_successful#:#Users have been deasigned successfuly from this role.
 orgu#:#il_orgu_superior#:#Superior
 orgu#:#orgu_staff#:#Staff
-orgu#:#orgu_view_learning_progress_rec#:#View Learning Progress Recursivly
+orgu#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
 orgu#:#Staff#:#Staff
 orgu#:#orgu_edit#:#Edit
 orgu#:#employee#:#Employee
@@ -13715,12 +13715,12 @@ orgu#:#orgu_import#:#Import Organisational Unit
 orgu#:#orgu_copy#:#Copy Organisational Unit
 orgu#:#obj_orgu_duplicate#:#Dublicate Organisational Unit
 orgu#:#local_staff#:#Employees %s
-orgu#:#rec_staff#:#Employees %s recursivly
+orgu#:#rec_staff#:#Employees %s incl. Subunits
 orgu#:#placeholder#:#...
 orgu#:#simple_import#:#Simple XML Import
 orgu#:#simple_xml#:#Simple XML Export
 orgu#:#import_xml_file#:#Import Datei
-orgu#:#view_learning_progress_rec#:#View Learning Progress Recursivly
+orgu#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
 orgu#:#lp_is_anonym#:#The learning progress can't be viewed because the data is stored anonymously.
 orgu#:#edit_translations#:#Title and Description
 orgu#:#edit_ext_id#:#External ID
