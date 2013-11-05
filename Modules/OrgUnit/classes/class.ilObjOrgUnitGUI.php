@@ -147,6 +147,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 			case 'illearningprogressgui';
 			case 'illplistofprogressgui';
+		        if($this->ctrl->getCmd() == "view"){
+			        //This fix is because of the back button on the single user gui of the local user administration.
+			        $this->ctrl->redirect($this, "listUsers");
+			        return;
+		        }
+
 				if(!$this->checkPermForLP()){
 					ilUtil::sendFailure($lng->txt("permission_denied"), true);
 					$this->ctrl->redirectByClass("ilObjOrgUnitGUI", "render");
@@ -156,9 +162,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				if($user_id = $_GET["obj_id"]){
 					$this->ctrl->saveParameterByClass("illearningprogressgui", "obj_id");
 					$this->ctrl->saveParameterByClass("illearningprogressgui", "recursive");
-					$did = new ilLearningProgressGUI(LP_MODE_USER_FOLDER,USER_FOLDER_ID, $user_id);
-					$this->ctrl->forwardCommand($did);
+					include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+					$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
+					$this->ctrl->forwardCommand($new_gui);
 				}
+
+	            $ilTabs->clearTargets();
+	            $ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'showStaff'));
 				break;
 
 			case 'ilexportgui':
