@@ -573,7 +573,7 @@ abstract class ilUnitConfigurationGUI
 		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, $this->getUnitCategoryOverviewCommand()));
 		if($this->isCRUDContext())
 		{
-			$ilToolbar->addButton($this->lng->txt('add'), $this->ctrl->getLinkTarget($this, 'showUnitCreationForm'));
+			$ilToolbar->addButton($this->lng->txt('un_add_unit'), $this->ctrl->getLinkTarget($this, 'showUnitCreationForm'));
 		}
 		$table = new ilUnitTableGUI($this, 'showUnitsOfCategory', $category);
 		$units = $this->repository->loadUnitsForCategory($category->getId());

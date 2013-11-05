@@ -14118,3 +14118,5 @@ rep#:#rep_add_new_def_grp_assessment#:#Assessment
 rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation
 content#:#cont_col_ordering#:#Column Ordering
 orgu#:#simple_xls#:#Simple Excel Export
+assessment#:#un_add_category#:#Add Category
+assessment#:#un_add_unit#:#Add Unit
