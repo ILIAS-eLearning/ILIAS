@@ -17837,7 +17837,7 @@ if(!$ilDB->tableExists('il_qpl_qst_fq_res'))
 			'notnull' => true,
 			'default' => 0.25
 		),
-		'rating_val'    => array(
+		'rating_value'    => array(
 			'type'    => 'float',
 			'notnull' => true,
 			'default' => 0.25
@@ -19251,5 +19251,14 @@ if(!$ilDB->tableExists('glo_advmd_col_order'))
 	);
 	$ilDB->createTable('glo_advmd_col_order',$fields);
 	$ilDB->addPrimaryKey('glo_advmd_col_order',array('glo_id', 'field_id'));	
+}
+?>
+<#4146>
+<?php
+if(
+	$ilDB->tableColumnExists('il_qpl_qst_fq_res', 'rating_val') &&
+	!$ilDB->tableColumnExists('il_qpl_qst_fq_res', 'rating_value'))
+{
+	$ilDB->renameTableColumn('il_qpl_qst_fq_res', 'rating_val', 'rating_value');
 }
 ?>
