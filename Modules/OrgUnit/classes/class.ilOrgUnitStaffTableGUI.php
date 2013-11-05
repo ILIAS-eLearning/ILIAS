@@ -48,6 +48,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$this->setRowTemplate("tpl.staff_row.html", "Modules/OrgUnit");
 	}
 
+
 	protected function setTableHeaders(){
 		$this->addColumn($this->lng->txt("firstname"), "first_name");
 		$this->addColumn($this->lng->txt("lastname"), "last_name");
@@ -65,7 +66,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$this->setData($data);
 	}
 
-	public function parseRows($user_ids){
+	protected function parseRows($user_ids){
 		$data = array();
 		foreach($user_ids as $user_id){
 			$set = array();
@@ -111,11 +112,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$selection->setId("selection_list_user_lp_".$set["user_id"]);
 
 		if($ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"])){
-			if(ilObjUserTracking::_enabledUserRelatedData()){
-				$selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array("ilAdministrationGUI", "ilObjOrgUnitGUI", "ilLearningProgressGUI"), ""));
-			}else{
-				ilUtil::sendInfo($this->lng->txt("lp_is_anonym"));
-			}
+			$selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array("ilAdministrationGUI", "ilObjOrgUnitGUI", "ilLearningProgressGUI"), ""));
 		}
 		if($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive){
 			if($this->staff == "employee")

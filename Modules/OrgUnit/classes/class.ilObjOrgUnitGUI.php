@@ -38,10 +38,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	protected $active_subtab;
 
 	function __construct()
-	{
+    {
 		parent::ilContainerGUI(array(), $_GET["ref_id"], true, false);
 
-		global $tpl, $ilCtrl, $ilDB, $lng;
+        global $tpl, $ilCtrl, $ilDB;
 		/**
 		 * @var $tpl    ilTemplate
 		 * @var $ilCtrl ilCtrl
@@ -50,55 +50,58 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->db = $ilDB;
-
-		$lng->loadLanguageModule("orgu");
 	}
 
 	public function &executeCommand()
-	{
+    {
 		global $ilTabs, $lng, $ilAccess, $ilNavigationHistory, $ilCtrl;
 		$lng->loadLanguageModule("orgu");
 		$own_ex = array("illearningprogressgui", "illplistofprogressgui", "ilexportgui");
 		$cmdClass = $this->ctrl->getCmdClass();
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-		$this->ref_id = $_GET["ref_id"];
+        $next_class = $this->ctrl->getNextClass($this);
+        $cmd = $this->ctrl->getCmd();
+        $this->ref_id = $_GET["ref_id"];
 
 
 
-		if($cmd != "cut")
-		{
-			$this->showTreeObject();
-		}
+        if($cmd != "cut")
+        {
+            $this->showTreeObject();
+        }
 
-		//TODO which comands are not used?
-		switch($next_class)
-		{
-			case "ilobjusergui":
-				include_once('./Services/User/classes/class.ilObjUserGUI.php');
+        //TODO which comands are not used?
+        switch($next_class)
+        {
+            case "ilobjusergui":
+                include_once('./Services/User/classes/class.ilObjUserGUI.php');
 
-				$this->tabs_gui->setTabActive('administrate_users');
-				if(!$_GET['obj_id'])
-				{
-					$this->gui_obj = new ilObjUserGUI("",$_GET['ref_id'],true, false);
-					$this->gui_obj->setCreationMode($this->creation_mode);
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+                $this->tabs_gui->setTabActive('administrate_users');
+                if(!$_GET['obj_id'])
+                {
+                    $this->gui_obj = new ilObjUserGUI("",$_GET['ref_id'],true, false);
+                    $this->gui_obj->setCreationMode($this->creation_mode);
+                    $ret =& $this->ctrl->forwardCommand($this->gui_obj);
+                }
+                else
+                {
+                    $this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'],false, false);
+                    $this->gui_obj->setCreationMode($this->creation_mode);
+                    $ret =& $this->ctrl->forwardCommand($this->gui_obj);
+                }
+
+                $ilTabs->clearTargets();
+                $ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
+                break;
+
+            case "ilobjuserfoldergui":
+                include_once('./Services/User/classes/class.ilObjUserFolderGUI.php');
+
+                $this->tabs_gui->setTabActive('administrate_users');
+				if($this->ctrl->getCmd() == "view"){
+					//This fix is because of the back button on the single user gui of the local user administration.
+					$this->ctrl->redirect($this, "listUsers");
+					return;
 				}
-				else
-				{
-					$this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'],false, false);
-					$this->gui_obj->setCreationMode($this->creation_mode);
-					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				}
-
-				$ilTabs->clearTargets();
-				$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
-				break;
-
-			case "ilobjuserfoldergui":
-				include_once('./Services/User/classes/class.ilObjUserFolderGUI.php');
-
-				$this->tabs_gui->setTabActive('administrate_users');
 				$this->gui_obj = new ilObjUserFolderGUI("",(int) $_GET['ref_id'],true, false);
 				$this->gui_obj->setUserOwnerId((int) $_GET['ref_id']);
 				$this->gui_obj->setCreationMode($this->creation_mode);
@@ -241,100 +244,92 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 
 
-		$active_tab = $ilTabs->getActiveTab();
+		/*$active_tab = $ilTabs->getActiveTab();
 		$ilTabs = new ilTabsGUI();
 		$this->getTabs($ilTabs);
 		$ilTabs->setTabActive($active_tab);
+		*/
 		if($cmdClass != "ilexportgui")
 		{
 			$this->setContentSubTabs($this->ctrl->getCmd());
 		}
 	}
 
-	public function prepareOutput($a_show_subobjects = true){
-		parent::prepareOutput($a_show_subobjects);
-		$this->setTabs();
-	}
+    /**
+     * this one is called from the info button in the orgunit
+     * not very nice to set cmdClass/Cmd manually, if everything
+     * works through ilCtrl in the future this may be changed
+     */
+    function infoScreenObject()
+    {
+        $this->ctrl->setCmd("showSummary");
+        $this->ctrl->setCmdClass("ilinfoscreengui");
+        $this->infoScreen();
+    }
 
-	/**
-	 * this one is called from the info button in the orgunit
-	 * not very nice to set cmdClass/Cmd manually, if everything
-	 * works through ilCtrl in the future this may be changed
-	 */
-	function infoScreenObject()
-	{
-		$this->ctrl->setCmd("showSummary");
-		$this->ctrl->setCmdClass("ilinfoscreengui");
-		$this->infoScreen();
-	}
+    /**
+     * show information screen
+     */
+    function infoScreen()
+    {
+        global $ilAccess, $ilCtrl;
 
-	/**
-	 * show information screen
-	 */
-	function infoScreen()
-	{
-		global $ilAccess, $ilCtrl;
+        if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+        {
+            $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+        }
 
-		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
-		$info = new ilInfoScreenGUI($this);
-		$ilCtrl->forwardCommand($info);
-	}
+        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+        $info = new ilInfoScreenGUI($this);
+        $ilCtrl->forwardCommand($info);
+    }
 
 
 
-	// METHODS for local user administration
-	/**
-	 * Reset filter
-	 * (note: this function existed before data table filter has been introduced
-	 */
-	protected function resetFilterObject()
-	{
-		include_once("./Services/User/classes/class.ilUserTableGUI.php");
-		$utab = new ilUserTableGUI($this, "listUsers",ilUserTableGUI::MODE_LOCAL_USER);
-		$utab->resetOffset();
-		$utab->resetFilter();
+    // METHODS for local user administration
+    /**
+     * Reset filter
+     * (note: this function existed before data table filter has been introduced
+     */
+    protected function resetFilterObject()
+    {
+        include_once("./Services/User/classes/class.ilUserTableGUI.php");
+        $utab = new ilUserTableGUI($this, "listUsers",ilUserTableGUI::MODE_LOCAL_USER);
+        $utab->resetOffset();
+        $utab->resetFilter();
 
-		// from "old" implementation
-		$this->listUsersObject();
-	}
+        // from "old" implementation
+        $this->listUsersObject();
+    }
 
-	/**
-	 * Apply filter
-	 * @return
-	 */
-	protected function applyFilterObject()
-	{
-		global $ilTabs;
+    /**
+     * Apply filter
+     * @return
+     */
+    protected function applyFilterObject()
+    {
+        global $ilTabs;
 
-		include_once("./Services/User/classes/class.ilUserTableGUI.php");
-		$utab = new ilUserTableGUI($this, "listUsers", ilUserTableGUI::MODE_LOCAL_USER);
-		$utab->resetOffset();
-		$utab->writeFilterToSession();
-		$this->listUsersObject();
-	}
+        include_once("./Services/User/classes/class.ilUserTableGUI.php");
+        $utab = new ilUserTableGUI($this, "listUsers", ilUserTableGUI::MODE_LOCAL_USER);
+        $utab->resetOffset();
+        $utab->writeFilterToSession();
+        $this->listUsersObject();
+    }
 
 
 	function listUsersObject($show_delete = false)
 	{
-		global $ilUser,$rbacreview, $ilToolbar;
+		global $ilUser,$rbacreview, $ilToolbar, $rbacsystem;
 
 		include_once './Services/User/classes/class.ilLocalUser.php';
 		include_once './Services/User/classes/class.ilObjUserGUI.php';
-
-		global $rbacsystem,$rbacreview;
 
 		if(!$rbacsystem->checkAccess("cat_administrate_users",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_admin_users"),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->tabs_gui->setTabActive('administrate_users');
-
-
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_admin_users.html',
 			"Modules/Category");
@@ -463,14 +458,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
 
 		$roles = $this->__getAssignableRoles();
-
-		if(!count($roles))
-		{
-			#ilUtil::sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
-			#$this->listUsersObject();
-
-			#return true;
-		}
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_role_assignment.html',
 			"Modules/Category");
@@ -899,6 +886,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 			global $tpl;
 			$tpl->setLeftNavContent($tree->getHTML());
 		}
+		$this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $_GET["ref_id"]);
 	}
 	/**
 	 * called by prepare output
@@ -953,58 +941,29 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 	}
 
-	function getTabs(&$tabs_gui){
+	public function getTabs(&$tabs_gui){
 		global $ilTabs, $ilAccess, $rbacsystem, $lng;
 		/** @var ilTabsGUI $ilTabs */
 		$ilTabs = $ilTabs;
 
-		if ($rbacsystem->checkAccess('read',$this->ref_id))
-		{
-			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "render")
-				? true
-				: false;
-			$tabs_gui->addTab("view_content", $lng->txt("content"),
-				$this->ctrl->getLinkTarget($this, ""));
+        if ($rbacsystem->checkAccess('read',$this->ref_id))
+        {
+            $force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "render")
+                ? true
+                : false;
+            $tabs_gui->addTab("view_content", $lng->txt("content"),
+                $this->ctrl->getLinkTarget($this, ""));
 
-			//BEGIN ChangeEvent add info tab to category object
-			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
-				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
-				? true
-				: false;
-			$this->addInfoTab($tabs_gui, $force_active);
-			//END ChangeEvent add info tab to category object
-		}
+            //BEGIN ChangeEvent add info tab to category object
+            $force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
+                || strtolower($_GET["cmdClass"]) == "ilnotegui")
+                ? true
+                : false;
+            $this->addInfoTab($tabs_gui, $force_active);
+            //END ChangeEvent add info tab to category object
+        }
 
-		if ($rbacsystem->checkAccess('write',$this->ref_id))
-		{
-			$force_active = ($_GET["cmd"] == "edit")
-				? true
-				: false;
-			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
-				, "", $force_active);
-		}
-
-		include_once './Services/User/classes/class.ilUserAccountSettings.php';
-		if(
-			ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() and
-			$rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))
-		{
-			$tabs_gui->addTarget("administrate_users",
-				$this->ctrl->getLinkTarget($this, "listUsers"), "listUsers", get_class($this));
-		}
-
-		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget(
-				'export',
-				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
-				'export',
-				'ilexportgui'
-			);
-		}
-
-		if($rbacsystem->checkAccess('read',$this->ref_id))
+		if($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$ilTabs->addTab("orgu_staff", $this->lng->txt("orgu_staff"), $this->ctrl->getLinkTarget($this, "showStaff"), "", 25);
 			if($_GET["ref_id"] != ilObjOrgUnit::getRootOrgRefId())
@@ -1014,7 +973,50 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 			}
 		}
 
-		parent::getTabs($tabs_gui);
+        if ($rbacsystem->checkAccess('write',$this->ref_id))
+        {
+            $force_active = ($_GET["cmd"] == "edit")
+                ? true
+                : false;
+            $tabs_gui->addTarget("settings",
+                $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
+                , "", $force_active);
+        }
+
+        include_once './Services/User/classes/class.ilUserAccountSettings.php';
+        if(
+            ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() and
+            $rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))
+        {
+            $tabs_gui->addTarget("administrate_users",
+                $this->ctrl->getLinkTarget($this, "listUsers"), "listUsers", get_class($this));
+        }
+
+        if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+        {
+            $tabs_gui->addTarget(
+                'export',
+                $this->ctrl->getLinkTargetByClass('ilexportgui',''),
+                'export',
+                'ilexportgui'
+            );
+        }
+        parent::getTabs($tabs_gui);
+	}
+
+	public function showAdministrationPanel(&$tpl){
+		parent::showAdministrationPanel($tpl);
+
+		//an ugly encapsulation violation in order to remove the "verknüpfen"/"link" button.
+		/** @var $toolbar ilToolbarGUI*/
+		if(!$toolbar = $tpl->admin_panel_commands_toolbar)
+			return;
+
+		if(is_array($toolbar->items))
+			foreach($toolbar->items as $key => $item){
+				if($item["cmd"] == "link" || $item["cmd"] == "copy")
+					unset($toolbar->items[$key]);
+			}
 	}
 
 	public function showStaffObject(){
@@ -1027,16 +1029,16 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->tpl->setContent($this->getStaffTableHTML(false, "showStaff"));
 	}
 
-	public function showOtherRolesObject(){
-		global $ilTabs;
+    public function showOtherRolesObject(){
+        global $ilTabs;
 
-		$ilTabs->setTabActive("orgu_staff");
+        $ilTabs->setTabActive("orgu_staff");
 
-		//$this->ctrl->setParameter($this, "recursive", false);
-		if(!$this->checkAccess("write"))
-			return;
-		$this->tpl->setContent($this->getOtherRolesTableHTML());
-	}
+        //$this->ctrl->setParameter($this, "recursive", false);
+        if(!$this->checkAccess("write"))
+            return;
+        $this->tpl->setContent($this->getOtherRolesTableHTML());
+    }
 
 	public function showStaffRecObject(){
 		global $ilTabs;
@@ -1180,33 +1182,33 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 
-	public function getOtherRolesTableHTML(){
-		global $lng, $rbacreview;
+    public function getOtherRolesTableHTML(){
+        global $lng, $rbacreview;
 
-		$arrLocalRoles = $rbacreview->getLocalRoles($_GET["ref_id"]);
+        $arrLocalRoles = $rbacreview->getLocalRoles($_GET["ref_id"]);
 
-		$html = "";
-		foreach($arrLocalRoles as $role_id)
-		{
-			$ilObjRole = new ilObjRole($role_id);
-			if(!preg_match("/il_orgu_/", $ilObjRole->getUntranslatedTitle()))
-			{
-				$other_roles_table = new ilOrgUnitOtherRolesTableGUI($this, 'other_role_'.$role_id, $role_id);
+        $html = "";
+        foreach($arrLocalRoles as $role_id)
+        {
+            $ilObjRole = new ilObjRole($role_id);
+            if(!preg_match("/il_orgu_/", $ilObjRole->getUntranslatedTitle()))
+            {
+                $other_roles_table = new ilOrgUnitOtherRolesTableGUI($this, 'other_role_'.$role_id, $role_id);
 				$other_roles_table->readData();
 				$html .= $other_roles_table->getHTML()."<br/>";
 			}
 
-		}
+        }
 
-		if(!$html)
-		{
-			$html = $lng->txt("no_roles");
-		} else {
-			$this->addOtherRolesToolbar();
-		}
+        if(!$html)
+        {
+            $html = $lng->txt("no_roles");
+        } else {
+            $this->addOtherRolesToolbar();
+        }
 
-		return $html;
-	}
+        return $html;
+    }
 
 	protected function checkAccess($perm){
 		global $ilAccess, $lng;
@@ -1235,7 +1237,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$tabs_gui->addTab("info_short", "Info",
 			$this->ctrl->getLinkTarget(
 				$this, "infoScreen")
-		);
+			);
 	}
 
 	public function fromSuperiorToEmployeeObject(){
@@ -1259,48 +1261,48 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 
 
-	function confirmRemoveUserObject($cmd)
-	{
-		if(!$this->checkAccess("write"))
-			return;
+    function confirmRemoveUserObject($cmd)
+    {
+        if(!$this->checkAccess("write"))
+            return;
 
 
-		switch($cmd)
-		{
-			case "confirmRemoveFromRole":
-				$nextcmd = "removeFromRole";
-				$paramname = "obj_id-role_id";
-				$param = $_GET["obj_id"].'-'.$_GET["role_id"];
-				break;
-			case "confirmRemoveFromSuperiors":
-				$nextcmd = "removeFromSuperiors";
-				$paramname = "obj_id";
-				$param = $_GET["obj_id"];
-				break;
-			case "confirmRemoveFromEmployees":
-				$nextcmd = "removeFromEmployees";
-				$paramname = "obj_id";
-				$param = $_GET["obj_id"];
-				break;
-		}
+        switch($cmd)
+        {
+            case "confirmRemoveFromRole":
+                $nextcmd = "removeFromRole";
+                $paramname = "obj_id-role_id";
+                $param = $_GET["obj_id"].'-'.$_GET["role_id"];
+                break;
+            case "confirmRemoveFromSuperiors":
+                $nextcmd = "removeFromSuperiors";
+                $paramname = "obj_id";
+                $param = $_GET["obj_id"];
+                break;
+            case "confirmRemoveFromEmployees":
+                $nextcmd = "removeFromEmployees";
+                $paramname = "obj_id";
+                $param = $_GET["obj_id"];
+                break;
+        }
 
-		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
-		$confirm = new ilConfirmationGUI();
-		$confirm->setFormAction($this->ctrl->getFormAction($this,$nextcmd));
-		$confirm->setHeaderText($this->lng->txt('orgu_staff_deassign'));
-		$confirm->setConfirm($this->lng->txt('confirm'),$nextcmd);
-		$confirm->setCancel($this->lng->txt('cancel'),'showStaff');
+        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+        $confirm = new ilConfirmationGUI();
+        $confirm->setFormAction($this->ctrl->getFormAction($this,$nextcmd));
+        $confirm->setHeaderText($this->lng->txt('orgu_staff_deassign'));
+        $confirm->setConfirm($this->lng->txt('confirm'),$nextcmd);
+        $confirm->setCancel($this->lng->txt('cancel'),'showStaff');
 
-		$arrUser = ilObjUser::_lookupName($_GET["obj_id"]);
+        $arrUser = ilObjUser::_lookupName($_GET["obj_id"]);
 
 
-		$confirm->addItem($paramname,
-			$param,
-			$arrUser['lastname'].', '.$arrUser['firstname'].' ['.$arrUser['login'].']',
-			ilUtil::getImagePath('icon_usr.png'));
+        $confirm->addItem($paramname,
+              $param,
+              $arrUser['lastname'].', '.$arrUser['firstname'].' ['.$arrUser['login'].']',
+              ilUtil::getImagePath('icon_usr.png'));
 
-		$this->tpl->setContent($confirm->getHTML());
-	}
+        $this->tpl->setContent($confirm->getHTML());
+    }
 
 	public function removeFromSuperiorsObject(){
 		if(!$this->checkAccess("write"))
@@ -1312,7 +1314,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->ctrl->redirect($this, "showStaff");
 	}
 
-	public function removeFromEmployeesObject(){
+    public function removeFromEmployeesObject(){
 		if(!$this->checkAccess("write"))
 			return;
 		$this->object->deassignUserFromEmployeeRole($_POST["obj_id"]);
@@ -1320,18 +1322,18 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->ctrl->redirect($this, "showStaff");
 	}
 
-	public function removeFromRoleObject(){
-		if(!$this->checkAccess("write"))
-			return;
+    public function removeFromRoleObject(){
+        if(!$this->checkAccess("write"))
+            return;
 
-		global $rbacadmin;
+        global $rbacadmin;
 
-		$arrObjIdRolId = explode("-", $_POST["obj_id-role_id"]);
-		$rbacadmin->deassignUser($arrObjIdRolId[1],$arrObjIdRolId[0]);
+        $arrObjIdRolId = explode("-", $_POST["obj_id-role_id"]);
+        $rbacadmin->deassignUser($arrObjIdRolId[1],$arrObjIdRolId[0]);
 
-		ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
-		$this->ctrl->redirect($this, "showOtherRoles");
-	}
+        ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
+        $this->ctrl->redirect($this, "showOtherRoles");
+    }
 
 
 	public function importScreenObject(){
@@ -1372,7 +1374,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				ilUtil::sendFailure($lng->txt("import_failed"), true);
 				$this->ctrl->redirect($this, "render");
 			}
-			$this->displayImportResults($importer);
+		$this->displayImportResults($importer);
 		}
 	}
 
@@ -1423,134 +1425,136 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		/** @var ilTabsGUI $ilTabs */
 		$ilTabs = $ilTabs;
 
-		$cmdClass = $this->ctrl->getCmdClass();
-		switch($cmdClass) {
-			case 'ilobjorgunitgui':
-				switch($cmd) {
-					case 'render':
-					case 'view':
-					case 'cut':
-					case '':
-						parent::setContentSubTabs();
-						$ilTabs->removeSubTab("page_editor");
-						if($this->isActiveAdministrationPanel())
-							$ilTabs->activateSubTab("manage");
-						else
-							$ilTabs->activateSubTab("view_content");
-						break;
-					case 'addStaff':
-					case 'showStaff':
-					case 'showOtherRoles':
-					case 'showStaffRec':
-						$ilTabs->addSubTab("show_staff",sprintf($lng->txt("local_staff"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaff"));
-						if($ilAccess->checkAccess("view_learning_progress_rec", "", $_GET["ref_id"]))
-							$ilTabs->addSubTab("show_staff_rec", sprintf($lng->txt("rec_staff"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaffRec"));
-						$ilTabs->addSubTab("show_other_roles",sprintf($lng->txt("local_other_roles"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showOtherRoles"));
-						if($cmd == 'showStaff')
-							$ilTabs->activateSubTab("show_staff");
-						if($cmd == 'showOtherRoles')
-							$ilTabs->activateSubTab("show_other_roles");
-						if($cmd == 'showStaffRec')
-							$ilTabs->activateSubTab("show_staff_rec");
-						break;
-					case 'editExtId':
-					case 'updateExtId':
-					case 'editTranslations':
-					case 'saveTranslations':
-					case 'addTranslation':
-					case 'deleteTranslations':
-						$ilTabs->addSubTab("edit_translations", $this->lng->txt("edit_translations"), $this->ctrl->getLinkTarget($this, "editTranslations"));
-						$ilTabs->addSubTab("edit_ext_id", $this->lng->txt("edit_ext_id"), $this->ctrl->getLinkTarget($this, "editExtId"));
-						if($cmd == 'editExtId' || $cmd == "updateExtId")
-							$ilTabs->setSubTabActive("edit_ext_id");
-						if($cmd == 'editTranslations' || $cmd == "saveTranslations" || $cmd == "addTranslation" || $cmd == "deleteTranslations")
-							$ilTabs->activateSubTab("edit_translations");
-						break;
-					default:
-						break;
-				}
-				break;
-		}
+        $cmdClass = $this->ctrl->getCmdClass();
+         switch($cmdClass) {
+            case 'ilobjorgunitgui':
+                switch($cmd) {
+                    case 'render':
+                    case 'view':
+                    case 'cut':
+                    case '':
+                        parent::setContentSubTabs();
+                        $ilTabs->removeSubTab("page_editor");
+						$ilTabs->setTabActive("view");
+						$ilTabs->setTabActive("view_content");
+                        break;
+                    case 'addStaff':
+                    case 'showStaff':
+                    case 'showOtherRoles':
+                    case 'showStaffRec':
+                        $ilTabs->addSubTab("show_staff",sprintf($lng->txt("local_staff"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaff"));
+                        if($ilAccess->checkAccess("view_learning_progress_rec", "", $_GET["ref_id"]))
+                            $ilTabs->addSubTab("show_staff_rec", sprintf($lng->txt("rec_staff"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaffRec"));
+                        $ilTabs->addSubTab("show_other_roles",sprintf($lng->txt("local_other_roles"), $this->object->getTitle()), $this->ctrl->getLinkTarget($this, "showOtherRoles"));
+                        if($cmd == 'showStaff')
+                        $ilTabs->activateSubTab("show_staff");
+                        if($cmd == 'showOtherRoles')
+                        $ilTabs->activateSubTab("show_other_roles");
+                        if($cmd == 'showStaffRec')
+                        $ilTabs->activateSubTab("show_staff_rec");
+                    break;
+                    case 'editExtId':
+                    case 'updateExtId':
+                    case 'editTranslations':
+                    case 'saveTranslations':
+                    case 'addTranslation':
+                    case 'deleteTranslations':
+                        $ilTabs->addSubTab("edit_translations", $this->lng->txt("edit_translations"), $this->ctrl->getLinkTarget($this, "editTranslations"));
+                        $ilTabs->addSubTab("edit_ext_id", $this->lng->txt("edit_ext_id"), $this->ctrl->getLinkTarget($this, "editExtId"));
+                        if($cmd == 'editExtId' || $cmd == "updateExtId")
+                            $ilTabs->setSubTabActive("edit_ext_id");
+                        if($cmd == 'editTranslations' || $cmd == "saveTranslations" || $cmd == "addTranslation" || $cmd == "deleteTranslations")
+                            $ilTabs->activateSubTab("edit_translations");
+                    break;
+                    default:
+                        break;
+                }
+            break;
+        }
 
 
 	}
 
 
-	protected function initCreateForm($a_new_type)
-	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setTarget("_top");
-		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
-		$form->setTitle($this->lng->txt($a_new_type."_new"));
+    protected function initCreateForm($a_new_type)
+    {
+        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+        $form = new ilPropertyFormGUI();
+        $form->setTarget("_top");
+        $form->setFormAction($this->ctrl->getFormAction($this, "save"));
+        $form->setTitle($this->lng->txt($a_new_type."_new"));
 
-		// title
-		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$ti->setMaxLength(128);
-		$ti->setSize(40);
-		$ti->setRequired(true);
-		$form->addItem($ti);
+        // title
+        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+        $ti->setMaxLength(128);
+        $ti->setSize(40);
+        $ti->setRequired(true);
+        $form->addItem($ti);
 
-		// description
-		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-		$ta->setCols(40);
-		$ta->setRows(2);
-		$form->addItem($ta);
+        // description
+        $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+        $ta->setCols(40);
+        $ta->setRows(2);
+        $form->addItem($ta);
 
-		$form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+        $form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
+        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
-		return $form;
+        return $form;
+    }
+
+
+
+
+    public function showMoveIntoObjectTreeObject()
+    {
+        require_once("./Services/Tree/classes/class.ilTree.php");
+        require_once("./Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php");
+
+        $this->ctrl->setCmd('performPaste');
+
+        $tree = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
+        $tree->setTypeWhiteList(array("orgu"));
+        if(!$tree->handleCommand())
+        {
+            global $tpl;
+            $tpl->setContent($tree->getHTML());
+        }
+    }
+
+
+	public function getAdminTabs(&$tabs_gui){
+		$this->getTabs($tabs_gui);
 	}
 
+    /*
+     * performPasteObject
+     *
+     * Prepare $_POST for the generic method performPasteIntoMultipleObjectsObject
+     *
+     */
+    public function performPasteObject()
+    {
+        global $rbacsystem, $rbacadmin, $rbacreview, $log, $tree, $ilObjDataCache, $ilUser;
 
+        if(!in_array($_SESSION['clipboard']['cmd'], array('cut')))
+        {
+            $message = __METHOD__.": cmd was not 'cut' ; may be a hack attempt!";
+            $this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
+        }
 
+        if($_SESSION['clipboard']['cmd'] == 'cut')
+        {
+            if(isset($_GET['target_node']) && (int)$_GET['target_node'])
+            {
+                $_POST['nodes'] = array($_GET['target_node']);
+                $this->performPasteIntoMultipleObjectsObject();
+            }
 
-	public function showMoveIntoObjectTreeObject()
-	{
-		require_once("./Services/Tree/classes/class.ilTree.php");
-		require_once("./Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php");
+        }
 
-		$this->ctrl->setCmd('performPaste');
-
-		$tree = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
-		$tree->setTypeWhiteList(array("orgu"));
-		if(!$tree->handleCommand())
-		{
-			global $tpl;
-			$tpl->setContent($tree->getHTML());
-		}
-	}
-
-
-	/*
-	 * performPasteObject
-	 *
-	 * Prepare $_POST for the generic method performPasteIntoMultipleObjectsObject
-	 *
-	 */
-	public function performPasteObject()
-	{
-		global $rbacsystem, $rbacadmin, $rbacreview, $log, $tree, $ilObjDataCache, $ilUser;
-
-		if(!in_array($_SESSION['clipboard']['cmd'], array('cut', 'link')))
-		{
-			$message = __METHOD__.": cmd was neither 'cut' nor 'link'; may be a hack attempt!";
-			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
-		}
-
-		if($_SESSION['clipboard']['cmd'] == 'cut')
-		{
-			if(isset($_GET['target_node']) && (int)$_GET['target_node'])
-			{
-				$_POST['nodes'] = array($_GET['target_node']);
-				$this->performPasteIntoMultipleObjectsObject();
-			}
-
-		}
-
-		$this->ctrl->returnToParent($this);
-	}
+        $this->ctrl->returnToParent($this);
+    }
 
 	function doUserAutoCompleteObject(){
 
