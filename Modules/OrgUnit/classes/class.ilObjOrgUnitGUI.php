@@ -255,14 +255,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 
 		/*$active_tab = $ilTabs->getActiveTab();
-		$ilTabs = new ilTabsGUI();
-		$this->getTabs($ilTabs);
+
+
 		$ilTabs->setTabActive($active_tab);
 		*/
-		if($cmdClass != "ilexportgui")
-		{
-			$this->setContentSubTabs($this->ctrl->getCmd());
-		}
+		//if($cmdClass != "ilexportgui")
+		//{
+
+		$this->setContentSubTabs($this->ctrl->getCmd());
+		//}
 	}
 
     /**
@@ -1443,6 +1444,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
                     case 'view':
                     case 'cut':
                     case '':
+	                    $ilTabs->clearSubTabs();
                         parent::setContentSubTabs();
                         $ilTabs->removeSubTab("page_editor");
 						$ilTabs->setTabActive("view");
