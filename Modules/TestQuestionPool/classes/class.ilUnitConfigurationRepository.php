@@ -107,7 +107,7 @@ class ilUnitConfigurationRepository
 			array(
 				'category_id' => array('integer', $next_id),
 				'category'    => array('text', $a_category_name),
-				'question_fi' => array('integer', $a_question_fi)
+				'question_fi' => array('integer', (int)$a_question_fi)
 			)
 		);
 
@@ -145,10 +145,10 @@ class ilUnitConfigurationRepository
 					'unit_id'     => array('integer', $next_id),
 					'unit'        => array('text', $row['unit']),
 					'factor'      => array('float', $row['factor']),
-					'baseunit_fi' => array('integer', $row['baseunit_fi']),
-					'category_fi' => array('integer', $a_to_category_id),
-					'sequence'    => array('integer', $row['sequence']),
-					'question_fi' => array('integer', $a_question_fi)
+					'baseunit_fi' => array('integer', (int)$row['baseunit_fi']),
+					'category_fi' => array('integer', (int)$a_to_category_id),
+					'sequence'    => array('integer', (int)$row['sequence']),
+					'question_fi' => array('integer', (int)$a_question_fi)
 				));
 			$i++;
 		}
@@ -157,7 +157,7 @@ class ilUnitConfigurationRepository
 		{
 			//update unit : baseunit_fi
 			$ilDB->update('il_qpl_qst_fq_unit',
-				array('baseunit_fi' => array('integer', $unit['new_unit_id'])),
+				array('baseunit_fi' => array('integer', (int)$unit['new_unit_id'])),
 				array(
 					'baseunit_fi' => array('integer', $unit['old_unit_id']),
 					'category_fi' => array('integer', $a_to_category_id)
@@ -165,7 +165,7 @@ class ilUnitConfigurationRepository
 
 			//update var : unit_fi
 			$ilDB->update('il_qpl_qst_fq_var',
-				array('unit_fi' => array('integer', $unit['new_unit_id'])),
+				array('unit_fi' => array('integer', (int)$unit['new_unit_id'])),
 				array(
 					'unit_fi'     => array('integer', $unit['old_unit_id']),
 					'question_fi' => array('integer', $a_question_fi)
@@ -173,7 +173,7 @@ class ilUnitConfigurationRepository
 
 			//update res : unit_fi
 			$ilDB->update('il_qpl_qst_fq_res',
-				array('unit_fi' => array('integer', $unit['new_unit_id'])),
+				array('unit_fi' => array('integer', (int)$unit['new_unit_id'])),
 				array(
 					'unit_fi'     => array('integer', $unit['old_unit_id']),
 					'question_fi' => array('integer', $a_question_fi)
@@ -181,7 +181,7 @@ class ilUnitConfigurationRepository
 
 			//update res_unit : unit_fi
 			$ilDB->update('il_qpl_qst_fq_res_unit',
-				array('unit_fi' => array('integer', $unit['new_unit_id'])),
+				array('unit_fi' => array('integer', (int)$unit['new_unit_id'])),
 				array(
 					'unit_fi'     => array('integer', $unit['old_unit_id']),
 					'question_fi' => array('integer', $a_question_fi)
@@ -486,7 +486,7 @@ class ilUnitConfigurationRepository
 			WHERE unit_id = %s AND question_fi = %s
 			',
 			array('integer', 'integer', 'integer'),
-			array($sequence, $unit_id, $this->getConsumerId())
+			array((int)$sequence, $unit_id, $this->getConsumerId())
 		);
 	}
 
@@ -612,7 +612,7 @@ class ilUnitConfigurationRepository
 			array(
 				$next_id,
 				$category->getCategory(),
-				$this->getConsumerId()
+				(int)$this->getConsumerId()
 			)
 		);
 		$category->setId($next_id);
@@ -698,15 +698,15 @@ class ilUnitConfigurationRepository
 				$next_id,
 				$unit->getUnit(),
 				1,
-				NULL,
-				$unit->getCategory(),
 				0,
-				$this->getConsumerId()
+				(int)$unit->getCategory(),
+				0,
+				(int)$this->getConsumerId()
 			)
 		);
 		$unit->setId($next_id);
 		$unit->setFactor(1);
-		$unit->setBaseUnit(NULL);
+		$unit->setBaseUnit(0);
 		$unit->setSequence(0);
 
 		$this->clearUnits();
@@ -738,7 +738,7 @@ class ilUnitConfigurationRepository
 			$ar = $ilDB->manipulateF(
 				'UPDATE il_qpl_qst_fq_unit SET unit = %s, factor = %s, baseunit_fi = %s, category_fi = %s, sequence = %s WHERE unit_id = %s AND question_fi = %s',
 				array('text', 'float', 'integer', 'integer', 'integer', 'integer', 'integer'),
-				array($unit->getUnit(), $unit->getFactor(), $unit->getBaseUnit(), $unit->getCategory(), $unit->getSequence(), $unit->getId(), $this->getConsumerId())
+				array($unit->getUnit(), $unit->getFactor(), (int)$unit->getBaseUnit(), (int)$unit->getCategory(), (int)$unit->getSequence(), (int)$unit->getId(), (int)$this->getConsumerId())
 			);
 			if($ar > 0)
 			{
