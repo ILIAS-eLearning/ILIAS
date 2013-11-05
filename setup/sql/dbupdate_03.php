@@ -19084,6 +19084,9 @@ if (!$ilDB->tableColumnExists("usr_data", "is_self_registered"))
 <#4132>
 <?php
 
+require_once 'Services/Administration/classes/class.ilSetting.php';
+$GLOBALS['ilSetting'] = new ilSetting();
+
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::addAdminNode('wiks', 'Wiki Settings');
 
