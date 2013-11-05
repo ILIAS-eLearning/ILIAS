@@ -584,11 +584,12 @@ abstract class ilUnitConfigurationGUI
 			 * @var $unit assFormulaQuestionUnit
 			 */
 			$data[] = array(
-				'unit_id'  => $unit->getId(),
-				'unit'     => $unit->getUnit(),
-				'baseunit' => $unit->getBaseunitTitle(),
-				'factor'   => $unit->getFactor(),
-				'sequence' => $unit->getSequence(),
+				'unit_id'     => $unit->getId(),
+				'unit'        => $unit->getUnit(),
+				'baseunit'    => $unit->getBaseunitTitle(),
+				'baseunit_id' => $unit->getBaseUnit(),
+				'factor'      => $unit->getFactor(),
+				'sequence'    => $unit->getSequence(),
 			);
 		}
 		$table->setData($data);
