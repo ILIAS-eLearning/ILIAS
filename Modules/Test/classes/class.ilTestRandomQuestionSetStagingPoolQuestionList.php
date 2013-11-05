@@ -147,7 +147,8 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 				$forceBypass = false;
 
 				$taxTree = new ilTaxonomyTree($taxId);
-				$taxNodeAssignment = new ilTaxNodeAssignment('qpl', 'quest', $taxId);
+				// alex: getPoolId() correct? or getTestId()?
+				$taxNodeAssignment = new ilTaxNodeAssignment('qpl', $this->getPoolId(), 'quest', $taxId);
 
 				$subNodes = $taxTree->getSubTreeIds($taxNode);
 				$subNodes[] = $taxNode;
