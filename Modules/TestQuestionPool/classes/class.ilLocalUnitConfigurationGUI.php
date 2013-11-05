@@ -115,10 +115,11 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
 
 		$ilToolbar->addButton($this->lng->txt('un_add_category'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
 
+		$self = $this;
 		$categories = array_filter(
 			$this->repository->getAllUnitCategories(),
-			function(assFormulaQuestionUnitCategory $category) {
-				return $category->getQuestionFi() == $this->repository->getConsumerId() ? true : false;
+			function(assFormulaQuestionUnitCategory $category) use ($self) {
+				return $category->getQuestionFi() == $self->repository->getConsumerId() ? true : false;
 			}
 		);
 		$data = array();
