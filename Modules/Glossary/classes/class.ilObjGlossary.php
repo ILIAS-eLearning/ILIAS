@@ -1188,8 +1188,8 @@ class ilObjGlossary extends ilObject
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
 		if ($tax_id > 0)
 		{
-			$tax_ass = new ilTaxNodeAssignment("glo", "term", $tax_id);
-			$new_tax_ass = new ilTaxNodeAssignment("glo", "term", $new_tax->getId());
+			$tax_ass = new ilTaxNodeAssignment("glo", $this->getId(), "term", $tax_id);
+			$new_tax_ass = new ilTaxNodeAssignment("glo", $new_obj->getId(), "term", $new_tax->getId());
 		}
 		
 		// copy terms

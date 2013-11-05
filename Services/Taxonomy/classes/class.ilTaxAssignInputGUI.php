@@ -116,10 +116,10 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 	 * @param
 	 * @return
 	 */
-	function saveInput($a_component_id, $a_item_type, $a_item_id)
+	function saveInput($a_component_id, $a_obj_id, $a_item_type, $a_item_id)
 	{
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-		$tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_item_type, $this->getTaxonomyId());
+		$tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
 		$tax_node_ass->deleteAssignmentsOfItem($a_item_id);
 		$post = $_POST[$this->getPostVar()];
 //var_dump($_POST);
@@ -143,10 +143,10 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 	 * @param
 	 * @return
 	 */
-	function setCurrentValues($a_component_id, $a_item_type, $a_item_id)
+	function setCurrentValues($a_component_id, $a_obj_id, $a_item_type, $a_item_id)
 	{
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-		$tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_item_type, $this->getTaxonomyId());
+		$tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
 		$ass = $tax_node_ass->getAssignmentsOfItem($a_item_id);
 		
 		$nodes = array();

@@ -20,10 +20,11 @@ class ilTaxNodeAssignment
 	 * Constructor
 	 *
 	 * @param string $a_component_id component id (e.g. "glo" for Modules/Glossary)
+	 * @param int $a_obj_id repository object id of the object that is responsible for the assignment
 	 * @param string $a_item_type item type (e.g. "term", must be unique component wide)
 	 * @param int $a_tax_id taxonomy id
 	 */
-	function __construct($a_component_id, $a_item_type, $a_tax_id)
+	function __construct($a_component_id, $a_obj_id, $a_item_type, $a_tax_id)
 	{
 		if ($a_component_id == "")
 		{
@@ -43,6 +44,7 @@ class ilTaxNodeAssignment
 		$this->setComponentId($a_component_id);
 		$this->setItemType($a_item_type);
 		$this->setTaxonomyId($a_tax_id);
+		$this->setObjectId($a_obj_id);
 	}
 	
 	/**
@@ -106,6 +108,26 @@ class ilTaxNodeAssignment
 	}
 	
 	/**
+	 * Set object id
+	 *
+	 * @param int $a_val object id	
+	 */
+	function setObjectId($a_val)
+	{
+		$this->obj_id = $a_val;
+	}
+
+	/**
+	 * Get object id
+	 *
+	 * @return int object id
+	 */
+	function getObjectId()
+	{
+		return $this->obj_id;
+	}
+	
+	/**
 	 * Get assignments of node
 	 *
 	 * @param int $a_node_id node id
@@ -121,6 +143,7 @@ class ilTaxNodeAssignment
 				" WHERE ".$ilDB->in("node_id", $a_node_id, false, "integer").
 				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer").
 				" AND component = ".$ilDB->quote($this->getComponentId(), "text").
+				" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
 				" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
 				" ORDER BY order_nr ASC"
 				);
@@ -131,6 +154,7 @@ class ilTaxNodeAssignment
 				" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
 				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer").
 				" AND component = ".$ilDB->quote($this->getComponentId(), "text").
+				" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
 				" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
 				" ORDER BY order_nr ASC"
 				);
@@ -158,6 +182,7 @@ class ilTaxNodeAssignment
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
 			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
 			" AND item_id = ".$ilDB->quote($a_item_id, "integer").
+			" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
 			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
 			);
 		$ass = array();
@@ -204,6 +229,7 @@ class ilTaxNodeAssignment
 				"node_id" => array("integer", $a_node_id),
 				"component" => array("text", $this->getComponentId()),
 				"item_type" => array("text", $this->getItemType()),
+				"obj_id" => array("integer", $this->getObjectId()),
 				"item_id" => array("integer", $a_item_id)
 				),
 			array(
@@ -226,6 +252,7 @@ class ilTaxNodeAssignment
 		$set = $ilDB->query("SELECT max(order_nr) mnr FROM tax_node_assignment ".
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
 			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+			" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
 			" AND node_id = ".$ilDB->quote($a_node_id, "integer").
 			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
 			);
@@ -248,6 +275,7 @@ class ilTaxNodeAssignment
 			" order_nr = ".$ilDB->quote($a_order_nr, "integer").
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
 			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+			" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
 			" AND node_id = ".$ilDB->quote($a_node_id, "integer").
 			" AND item_id = ".$ilDB->quote($a_item_id, "integer").
 			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
@@ -267,6 +295,7 @@ class ilTaxNodeAssignment
 		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
 			" component = ".$ilDB->quote($this->getComponentId(), "text").
 			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+			" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
 			" AND item_id = ".$ilDB->quote($a_item_id, "integer").
 			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
 			);
@@ -284,6 +313,7 @@ class ilTaxNodeAssignment
 		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
 			" node_id = ".$ilDB->quote($a_node_id, "integer").
 			" AND component = ".$ilDB->quote($this->getComponentId(), "text").
+			" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
 			" AND item_type = ".$ilDB->quote($this->getItemType(), "text")
 		);
 	}

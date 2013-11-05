@@ -19266,3 +19266,38 @@ if(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4148>
+<?php
+	$ilDB->addTableColumn("tax_node_assignment",
+		"obj_id",
+		array("type" => "integer", "length" => 4, "notnull" => true, "default" => 0));
+?>
+<#4149>
+<?php
+	$ilDB->dropPrimaryKey('tax_node_assignment');
+	$ilDB->addPrimaryKey('tax_node_assignment', array('node_id', 'component', 'obj_id', 'item_type', 'item_id'));
+?>
+<#4150>
+<?php
+
+$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
+	" WHERE item_type = ".$ilDB->quote("term", "text")
+	);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$set2 = $ilDB->query("SELECT * FROM glossary_term ".
+		" WHERE id = ".$ilDB->quote($rec["item_id"], "integer")
+		);
+	$rec2 = $ilDB->fetchAssoc($set2);
+	$glo_id = (int) $rec2["glo_id"];
+	$ilDB->manipulate("UPDATE tax_node_assignment SET ".
+		" obj_id = ".$ilDB->quote($glo_id, "integer").
+		" WHERE node_id = ".$ilDB->quote($rec["node_id"], "integer").
+		" AND component = ".$ilDB->quote($rec["component"], "text").
+		" AND item_type = ".$ilDB->quote($rec["item_type"], "text").
+		" AND item_id = ".$ilDB->quote($rec["item_id"], "integer").
+		" AND obj_id = ".$ilDB->quote(0, "integer")
+	);
+}
+
+?>
