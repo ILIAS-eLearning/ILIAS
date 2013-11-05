@@ -639,6 +639,14 @@ class assFormulaQuestion extends assQuestion
 			$this->setAuthor($data["author"]);
 			$this->setOwner($data["owner"]);
 
+			try
+			{
+				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
+			}
+			catch(ilTestQuestionPoolException $e)
+			{
+			}
+
 			$this->unitrepository   = new ilUnitConfigurationRepository($question_id);
 
 			include_once("./Services/RTE/classes/class.ilRTE.php");
