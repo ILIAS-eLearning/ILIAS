@@ -268,7 +268,7 @@ class ilScoringAdjustmentGUI
 		}
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
-		
+
 		$participants = $this->object->getParticipants();
 		$active_ids = array_keys($participants);
 		foreach ($active_ids as $active_id)

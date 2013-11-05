@@ -1154,7 +1154,81 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return print_r($relevant_answers,true);
+		$overview = array();
+		$aggregation = array();
+		foreach ($relevant_answers as $answer)
+		{
+			$overview[$answer['active_fi']][$answer['pass']][$answer['value1']] = $answer['value2'];
+		}
+
+		foreach($overview as $active)
+		{
+			foreach ($active as $answer)
+			{
+				foreach ($answer as $option => $value)
+				{
+					$aggregation[$option][$value] = $aggregation[$option][$value] + 1;
+				}
+			}
+		}
+
+		$html = '<div>';
+		$i = 0;
+		foreach ($this->object->getGaps() as $gap)
+		{
+			if ($gap->type == CLOZE_SELECT)
+			{
+				$html .= '<p>Gap '.$i . ' - SELECT</p>';
+				$html .= '<ul>';
+				$j = 0;
+				foreach($gap->getItems() as $gap_item)
+				{
+					$aggregate = $aggregation[$i];
+					$html .= '<li>' . $gap_item->getAnswerText() . ' - ' . ($aggregate[$j] ? $aggregate[$j] : 0) . '</li>';
+					$j++;
+				}
+				$html .= '</ul>';
+			}
+
+			if($gap->type == CLOZE_TEXT)
+			{
+				$html .= '<p>Gap '.$i . ' - TEXT</p>';
+				$html .= '<ul>';
+				$j = 0;
+				foreach($gap->getItems() as $gap_item)
+				{
+					$aggregate = $aggregation[$i];
+					foreach ($aggregate as $answer => $count)
+					{
+					$html .= '<li>' . $answer . ' - ' . $count . '</li>';
+					}
+					$j++;
+				}
+				$html .= '</ul>';
+			}
+
+			if($gap->type == CLOZE_NUMERIC)
+			{
+				$html .= '<p>Gap '.$i . ' - NUMERIC</p>';
+				$html .= '<ul>';
+				$j = 0;
+				foreach($gap->getItems() as $gap_item)
+				{
+					$aggregate = $aggregation[$i];
+					foreach ($aggregate as $answer => $count)
+					{
+						$html .= '<li>' . $answer . ' - ' . $count . '</li>';
+					}
+					$j++;
+				}
+				$html .= '</ul>';
+			}
+			$i++;
+			$html .= '<hr />';
+		}
+
+		$html .= '</div>';
+		return $html;
 	}
 
 
