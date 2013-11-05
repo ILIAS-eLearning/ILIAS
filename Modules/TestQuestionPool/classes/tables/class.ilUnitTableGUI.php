@@ -89,7 +89,10 @@ class ilUnitTableGUI extends ilTable2GUI
 			$ilCtrl->setParameter($this->getParentObject(), 'unit_id', '');
 			$row['actions'] = $action->getHtml();
 		}
-
+		if($row['unit_id'] == $row['baseunit_id'])
+		{
+			$row['baseunit'] = '';
+		}
 		parent::fillRow($row);
 	}
 }
