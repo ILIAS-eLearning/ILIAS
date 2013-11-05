@@ -82,6 +82,16 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->setData($data);
 	}
 	
+	function numericOrdering($a_field)
+	{
+		// #12000
+		if(in_array($a_field, array("order_val", "deadline", "start_time")))
+		{		
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	* Fill table row
 	*/
