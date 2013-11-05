@@ -5817,6 +5817,12 @@ function getAnswerFeedbackPoints()
 				case 'sign_submission':
 					$this->setSignSubmission($metadata['entry']);
 					break;
+				case 'char_selector_availability':
+					$this->setCharSelectorAvailability($metadata['entry']);
+					break;
+				case 'char_selector_definition':
+					$this->setCharSelectorDefinition($metadata['entry']);
+					break;	
 			}
 			if (preg_match("/mark_step_\d+/", $metadata["label"]))
 			{
@@ -6161,6 +6167,19 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "sign_submission");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getSignSubmission());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		// char_selector_availability
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "char_selector_availability");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getCharSelectorAvailability()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// char_selector_definition
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "char_selector_definition");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getCharSelectorDefinition());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 
 		// starting time
 		if ($this->getStartingTime())
