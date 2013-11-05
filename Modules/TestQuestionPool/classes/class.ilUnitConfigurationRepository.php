@@ -512,16 +512,16 @@ class ilUnitConfigurationRepository
 		}
 		if(!is_null($category_id))
 		{
-			$result = $ilDB->queryF("SELECT * FROM il_qpl_qst_fq_unit WHERE baseunit_fi = %s AND category_fi <> %s",
-				array('integer', 'integer'),
-				array($id, $category_id)
+			$result = $ilDB->queryF("SELECT * FROM il_qpl_qst_fq_unit WHERE baseunit_fi = %s AND category_fi != %s",
+				array('integer', 'integer', 'integer'),
+				array($id, $id, $category_id)
 			);
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT * FROM il_qpl_qst_fq_unit WHERE baseunit_fi = %s",
-				array('integer'),
-				array($id)
+			$result = $ilDB->queryF("SELECT * FROM il_qpl_qst_fq_unit WHERE baseunit_fi = %s AND unit_id != %s",
+				array('integer', 'integer'),
+				array($id, $id)
 			);
 		}
 		if($result->numRows() > 0)
