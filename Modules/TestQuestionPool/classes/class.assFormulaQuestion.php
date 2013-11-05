@@ -514,9 +514,9 @@ class assFormulaQuestion extends assQuestion
 				'variable'      => array('text', $variable->getVariable()),
 				'range_min'     => array('float', ((strlen($variable->getRangeMin())) ? $variable->getRangeMin() : 0.0)),
 				'range_max'     => array('float', ((strlen($variable->getRangeMax())) ? $variable->getRangeMax() : 0.0)),
-				'unit_fi'       => array('integer', (is_object($variable->getUnit()) ? $variable->getUnit()->getId() : NULL)),
-				'varprecision'  => array('integer', $variable->getPrecision()),
-				'intprecision'  => array('integer', $variable->getIntprecision()),
+				'unit_fi'       => array('integer', (is_object($variable->getUnit()) ? (int)$variable->getUnit()->getId() : 0)),
+				'varprecision'  => array('integer', (int)$variable->getPrecision()),
+				'intprecision'  => array('integer', (int)$variable->getIntprecision()),
 				'range_min_txt' => array('text', $variable->getRangeMinTxt()),
 				'range_max_txt' => array('text', $variable->getRangeMaxTxt())
 			));
@@ -546,10 +546,10 @@ class assFormulaQuestion extends assQuestion
 				"result_id"     => array("integer", $next_id),
 				"question_fi"   => array("integer", $this->getId()),
 				"result"        => array("text", $result->getResult()),
-				"range_min"     => array("float", ((strlen($result->getRangeMin())) ? $result->getRangeMin() : NULL)),
-				"range_max"     => array("float", ((strlen($result->getRangeMax())) ? $result->getRangeMax() : NULL)),
-				"tolerance"     => array("float", ((strlen($result->getTolerance())) ? $result->getTolerance() : NULL)),
-				"unit_fi"       => array("integer", $tmp_result_unit ),
+				"range_min"     => array("float", ((strlen($result->getRangeMin())) ? $result->getRangeMin() : 0)),
+				"range_max"     => array("float", ((strlen($result->getRangeMax())) ? $result->getRangeMax() : 0)),
+				"tolerance"     => array("float", ((strlen($result->getTolerance())) ? $result->getTolerance() : 0)),
+				"unit_fi"       => array("integer", (int)$tmp_result_unit),
 				"formula"       => array("clob", $formula),
 				"resprecision"  => array("integer", $result->getPrecision()),
 				"rating_simple" => array("integer", ($result->getRatingSimple()) ? 1 : 0),
@@ -557,7 +557,7 @@ class assFormulaQuestion extends assQuestion
 				"rating_value"  => array("float", ($result->getRatingSimple()) ? 25 : $result->getRatingValue()),
 				"rating_unit"   => array("float", ($result->getRatingSimple()) ? 25 : $result->getRatingUnit()),
 				"points"        => array("float", $result->getPoints()),
-				"result_type"   => array('integer', $result->getResultType()),
+				"result_type"   => array('integer', (int)$result->getResultType()),
 				"range_min_txt" => array("text", $result->getRangeMinTxt()),
 				"range_max_txt" => array("text", $result->getRangeMaxTxt())
 
