@@ -340,7 +340,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 							if (strlen($fb))
 							{
 								$template->setCurrentBlock("feedback");
-								$template->setVariable("FEEDBACK", $fb);
+								$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
 								$template->parseCurrentBlock();
 							}
 						}
@@ -355,7 +355,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					if (strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $fb);
+						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
 						$template->parseCurrentBlock();
 					}					
 				}
@@ -372,7 +372,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 						if (strlen($fb))
 						{
 							$template->setCurrentBlock("feedback");
-							$template->setVariable("FEEDBACK", $fb);
+							$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
 							$template->parseCurrentBlock();
 						}
 					}
@@ -414,7 +414,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$questionoutput = $template->get();
 		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
 		
-		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
+		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback , true ));
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 
@@ -581,7 +581,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 							if (strlen($fb))
 							{
 								$template->setCurrentBlock("feedback");
-								$template->setVariable("FEEDBACK", $fb);
+								$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
 								$template->parseCurrentBlock();
 							}
 						}
@@ -596,7 +596,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					if (strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $fb);
+						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
 						$template->parseCurrentBlock();
 					}					
 				}
@@ -613,7 +613,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 						if (strlen($fb))
 						{
 							$template->setCurrentBlock("feedback");
-							$template->setVariable("FEEDBACK", $fb);
+							$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
 							$template->parseCurrentBlock();
 						}
 					}
