@@ -13702,9 +13702,7 @@ orgu#:#orgu_view_learning_progress_rec#:#View Learning Progress Recursivly###24 
 orgu#:#Staff#:#Staff###24 10 2013 new variable
 orgu#:#orgu_edit#:#Edit###24 10 2013 new variable
 orgu#:#employee#:#Employee###24 10 2013 new variable
-orgu#:#Employee#:#Employee###24 10 2013 new variable
 orgu#:#superior#:#Superior###24 10 2013 new variable
-orgu#:#Superior#:#Superior###24 10 2013 new variable
 orgu#:#Actions#:#Actions###24 10 2013 new variable
 orgu#:#show_learning_progress#:#Show Learning Progress###24 10 2013 new variable
 orgu#:#users_successfuly_added#:#The user has been added successfully.###24 10 2013 new variable
@@ -14105,3 +14103,26 @@ sop#:#sop_start_som#:#Start SOM###24 10 2013 new variable
 sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode###24 10 2013 new variable
 sop#:#sop_push_tracking#:#Import trackingdata###24 10 2013 new variable
 common#:#offline_mode#:#Offline-Mode###24 10 2013 new variable
+sop#:#sop_already_exported#:#The Learning Module is already exported. Please recall this page with your Firefox where you installed the SCORM Offline-Player addon.###06 11 2013 new variable
+sop#:#sop_reload_page#:#Reload page###06 11 2013 new variable
+sop#:#sop_msg_lm_not_exists#:#The learning module does not exist or is inactive in the SCORM-Offline-Manager. ###06 11 2013 new variable
+sop#:#sop_msg_export_failure#:#Transfering content or data to SCORM Offline Manager was not successfull.###06 11 2013 new variable
+sop#:#sop_msg_export_ok#:#Transfering content and tracking data was successfull###06 11 2013 new variable
+sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds###06 11 2013 new variable
+sop#:#sop_msg_export_tracking#:#Transfering tracking data to SCORM Offline Manager. Please wait some seconds###06 11 2013 new variable
+sop#:#sop_msg_push_tracking#:#Transfering tracking data to ILIAS. Please wait some seconds###06 11 2013 new variable
+sop#:#sop_msg_push_tracking_failure#:#Transfering tracking data was not successful###06 11 2013 new variable
+sop#:#sop_msg_push_tracking_ok#:#Transfering tracking data was successful###06 11 2013 new variable
+content#:#glo_hide_taxonomy#:#Hide Taxonomy###06 11 2013 new variable
+exc#:#exc_no_team_yet#:#No team yet###06 11 2013 new variable
+exc#:#exc_no_feedback_dir_found_in_zip#:#The directory structure of the uploaded zip-archive could not be processed.###06 11 2013 new variable
+rep#:#rep_add_new_def_grp_organisation#:#Organisation###06 11 2013 new variable
+rep#:#rep_add_new_def_grp_content#:#Content###06 11 2013 new variable
+rep#:#rep_add_new_def_grp_communication#:#Communication###06 11 2013 new variable
+rep#:#rep_add_new_def_grp_assessment#:#Assessment###06 11 2013 new variable
+rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation###06 11 2013 new variable
+content#:#cont_col_ordering#:#Column Ordering###06 11 2013 new variable
+orgu#:#simple_xls#:#Simple Excel Export###06 11 2013 new variable
+assessment#:#un_add_category#:#Add Category###06 11 2013 new variable
+assessment#:#un_add_unit#:#Add Unit###06 11 2013 new variable
+assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button "Parse Question" to create editing forms for variables and results.###06 11 2013 new variable
