@@ -982,7 +982,7 @@ abstract class assQuestionGUI
 				$postvar = "tax_node_assign_$taxonomyId";
 				
 				$tax_node_assign = new ilTaxAssignInputGUI($taxonomyId, true, '', $postvar);
-				// alex: added $this->object->getObjId(), ok?
+				// TODO: determine tst/qpl when tax assigns become maintainable within tests
 				$tax_node_assign->saveInput("qpl", $this->object->getObjId(), "quest", $this->object->getId());
 			}
 		}
@@ -1005,7 +1005,7 @@ abstract class assQuestionGUI
 				$postvar = "tax_node_assign_$taxonomyId";
 
 				$taxNodeAssign = new ilTaxAssignInputGUI($taxonomy->getId(), true, $label, $postvar);
-				// alex: added $this->object->getObjId(), ok?
+				// TODO: determine tst/qpl when tax assigns become maintainable within tests
 				$taxNodeAssign->setCurrentValues('qpl', $this->object->getObjId(), 'quest', $this->object->getId());
 				$form->addItem($taxNodeAssign);
 			}

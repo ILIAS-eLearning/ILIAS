@@ -148,7 +148,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 				
 				$taxTree = new ilTaxonomyTree($taxId);
 				
-				// alex: $this->parentObjId contains object id of pool?
 				$taxNodeAssignment = new ilTaxNodeAssignment('qpl', $this->parentObjId, 'quest', $taxId);
 
 				$subNodes = $taxTree->getSubTreeIds($taxNode);
@@ -227,7 +226,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		
 			$taxTree = new ilTaxonomyTree($taxId);
 			
-			// alex: $this->parentObjId contains object id of pool?
 			$taxAssignment = new ilTaxNodeAssignment('qpl', $this->parentObjId, 'quest', $taxId);
 			
 			$assignments = $taxAssignment->getAssignmentsOfItem($questionId);
