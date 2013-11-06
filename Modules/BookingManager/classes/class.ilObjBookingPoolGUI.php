@@ -623,6 +623,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$object_id = (int)$_GET['object_id'];
 				if($object_id)
 				{	
+					$group_id = null;
+					$nr = ilBookingObject::getNrOfItemsForObjects(array($object_id));
+					if($nr[$object_id] > 1 || sizeof($_POST['date']) > 1)
+					{
+						$group_id = ilBookingReservation::getNewGroupId();									
+					}
 					foreach($_POST['date'] as $date)
 					{										
 						$fromto = explode('_', $date);
@@ -637,8 +643,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 								$confirm[$object_id."_".$fromto[0]."_".($fromto[1]+1)] = $counter;
 							}
 							else
-							{
-								$this->processBooking($object_id, $fromto[0], $fromto[1]);
+							{								
+								$this->processBooking($object_id, $fromto[0], $fromto[1], $group_id);
 								$success = $object_id;									
 							}
 						}
@@ -647,7 +653,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				
 				if(sizeof($confirm))
 				{
-					return $this->confirmBookingNumbers($confirm);					
+					return $this->confirmBookingNumbers($confirm, $group_id);					
 				}
 			}
 			/*
@@ -733,7 +739,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 	}
 	
-	protected function initBookingNumbersForm(array $a_objects_counter)
+	protected function initBookingNumbersForm(array $a_objects_counter, $a_group_id)
 	{
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -772,6 +778,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$nr_field->setRequired(true);
 			$form->addItem($nr_field);				
 		}
+		
+		if($a_group_id)
+		{
+			$grp = new ilHiddenInputGUI("grp_id");
+			$grp->setValue($a_group_id);
+			$form->addItem($grp);		
+		}
 				
 		$form->addCommandButton("confirmedBookingNumbers", $this->lng->txt("confirm"));
 		$form->addCommandButton("render", $this->lng->txt("cancel"));
@@ -779,7 +792,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		return $form;
 	}
 	
-	function confirmBookingNumbers(array $a_objects_counter, ilPropertyFormGUI $a_form = null)
+	function confirmBookingNumbers(array $a_objects_counter, $a_group_id, ilPropertyFormGUI $a_form = null)
 	{
 		global $tpl;
 		
@@ -788,7 +801,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 		if(!$a_form)
 		{
-			$a_form = $this->initBookingNumbersForm($a_objects_counter);
+			$a_form = $this->initBookingNumbersForm($a_objects_counter, $a_group_id);
 		}
 	
 		$tpl->setContent($a_form->getHTML());
@@ -806,8 +819,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$counter[$id[0]."_".$id[1]."_".$id[2]] = $id[3];		
 			}
 		}
+		
+		$group_id = $_POST["grp_id"];
 
-		$form = $this->initBookingNumbersForm($counter);
+		$form = $this->initBookingNumbersForm($counter, $group_id);
 		if($form->checkInput())
 		{			
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';					
@@ -830,7 +845,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					$book_nr = min($book_nr, $counter);							
 					for($loop = 0; $loop < $book_nr; $loop++)
 					{
-						$this->processBooking($obj_id, $from, $to);
+						$this->processBooking($obj_id, $from, $to, $group_id);
 						$success = $obj_id;									
 					}
 				}
@@ -848,7 +863,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		else
 		{
 			$form->setValuesByPost();
-			return $this->confirmBookingNumbers($counter, $form);				
+			return $this->confirmBookingNumbers($counter, $group_id, $form);				
 		}		
 	}
 	
@@ -858,8 +873,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 * @param int $a_object_id
 	 * @param int $a_from timestamp
 	 * @param int $a_to timestamp
+	 * @param int $a_group_id 
 	 */
-	function processBooking($a_object_id, $a_from = null, $a_to = null)
+	function processBooking($a_object_id, $a_from = null, $a_to = null, $a_group_id = null)
 	{
 		global $ilUser, $ilAccess;
 		
@@ -875,6 +891,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$reservation->setUserId($ilUser->getID());
 		$reservation->setFrom($a_from);
 		$reservation->setTo($a_to);
+		$reservation->setGroupId($a_group_id);
 		$reservation->save();
 
 		if($a_from)
@@ -924,6 +941,31 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$this->object->getId(), $show_all, 
 			($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE),
 			$filter);
+		$tpl->setContent($table->getHTML());
+	}
+	
+	function logDetailsObject()
+	{
+		global $tpl, $ilAccess;
+
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
+			$this->ctrl->getLinkTarget($this, "log"));
+				
+		$show_all = ($ilAccess->checkAccess('write', '', $this->object->getRefId()) ||
+			$this->object->hasPublicLog());
+		
+		$filter = null;
+		if($_GET["object_id"])
+		{
+			$filter["object"] = (int)$_GET["object_id"];
+		}
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
+		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id, 
+			$this->object->getId(), $show_all, 
+			($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE),
+			$filter, $_GET["reservation_id"]);
 		$tpl->setContent($table->getHTML());
 	}
 	
