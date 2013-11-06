@@ -182,6 +182,12 @@ class ilCharSelectorConfig
 		'arabic_presentation_forms_b' => array('Arabic Presentation Forms-B', 'FE70', 'FEFF'),
 		'halfwidth_and_fullwidth_forms' => array('Halfwidth and Fullwidth Forms', 'FF00', 'FFEF'),
 		'specials' => array('Specials', 'FFF0', 'FFFF'),
+		/* here ends the Basic Multilinguage Plane (BMP) */
+		
+		/* 
+		 * The following blocks are not yet supported well. 
+		 * It seems that the chars are taken from the BMP instead
+		 *  
 		'linear_b_syllabary' => array('Linear B Syllabary', '10000', '1007F'),
 		'linear_b_ideograms' => array('Linear B Ideograms', '10080', '100FF'),
 		'aegean_numbers' => array('Aegean Numbers', '10100', '1013F'),
@@ -246,6 +252,7 @@ class ilCharSelectorConfig
 		'variation_selectors_supplement' => array('Variation Selectors Supplement', 'E0100', 'E01EF'),
 		'supplementary_private_use_area_a' => array('Supplementary Private Use Area-A', 'F0000', 'FFFFF'),
 		'supplementary_private_use_area_b' => array('Supplementary Private Use Area-B', '100000', '10FFFF')
+		 */
 	); 
 	
 	/**

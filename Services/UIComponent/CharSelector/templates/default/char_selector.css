@@ -62,18 +62,19 @@ body.kioskWithCharSelector #ilCharSelectorPanel {
  *  Panel content
  ****************/
 
-#ilCharSelectorNavigation {
+#ilCharSelectorFixed {
 	float:left;
 	padding: 3px 10px 5px 5px;
 	height: 120px;
+	min-width: 100px;
 }
 
-#ilCharSelectorPreviewContainer {
-	float: right;
-	padding: 0px;
-	width: 150px;
-	overflow: hidden;
-	margin-left: 10px;
+#ilCharSelectorPageNav {
+	padding-bottom: 5px;
+}
+
+#ilCharSelectorSubPageNav {
+	padding-bottom: 15px;
 }
 
 #ilCharSelectorPreview {
@@ -84,9 +85,9 @@ body.kioskWithCharSelector #ilCharSelectorPanel {
 	border-right-color: #808080;
 	border-radius: 6px;
 	text-decoration: none;
-	font-size: 3em;
+	font-size: 2em;
 	padding: 10px;
-	height: 50px;
+	overflow: hidden;
 }
 
 #ilCharSelectorScroll {
