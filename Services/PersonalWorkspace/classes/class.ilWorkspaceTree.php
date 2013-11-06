@@ -15,18 +15,16 @@ class ilWorkspaceTree extends ilTree
 	public function __construct($a_tree_id, $a_root_id = 0)
 	{
 		parent::__construct($a_tree_id, $a_root_id);
-
-		$this->table_tree = 'tree_workspace';
-		$this->table_obj_data = 'object_data';
-		$this->table_obj_reference = 'object_reference_ws';
-		$this->ref_pk = 'wsp_id';
-		$this->obj_pk = 'obj_id';
-		$this->tree_pk = 'tree';
+		
+		$this->setTableNames('tree_workspace', 'object_data', 'object_reference_ws');
+		$this->setTreeTablePK('tree');
+		$this->setObjectTablePK('obj_id');
+		$this->setReferenceTablePK('wsp_id');
 
 		// ilTree sets it to ROOT_FOLDER_ID if not given...
 		if(!$a_root_id)
 		{
-			$this->root_id = $this->readRootId();
+			$this->readRootId();
 		}
 	}
 
