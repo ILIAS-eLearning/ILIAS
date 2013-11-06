@@ -19332,3 +19332,17 @@ while($row = $ilDB->fetchAssoc($res))
 	);
 }
 ?>
+<#4152>
+<?php
+
+if(!$ilDB->tableColumnExists("booking_reservation", "group_id"))
+{
+	$ilDB->addTableColumn("booking_reservation", "group_id", array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => false));
+	
+	$ilDB->createSequence("booking_reservation_group");
+}
+
+?>
