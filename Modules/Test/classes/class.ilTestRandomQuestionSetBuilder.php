@@ -80,6 +80,7 @@ abstract class ilTestRandomQuestionSetBuilder
 	{
 		$this->stagingPoolQuestionList->resetQuestions();
 
+		$this->stagingPoolQuestionList->setTestObjId( $this->testOBJ->getId() );
 		$this->stagingPoolQuestionList->setTestId( $this->testOBJ->getTestId() );
 		$this->stagingPoolQuestionList->setPoolId( $definition->getPoolId() );
 
