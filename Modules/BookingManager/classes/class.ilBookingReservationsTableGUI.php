@@ -49,13 +49,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
 		$this->setTitle($lng->txt("book_reservations_list"));
 
+		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("title"));
 		
 		if($this->has_schedule)
 		{
 			$this->addColumn($this->lng->txt("book_period"));
 		}
-		
+				
 		$this->addColumn($this->lng->txt("user"));
 		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("actions"));
@@ -80,7 +81,13 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		{
 			$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 		}
-
+				
+		$this->addMultiCommand('rsvInUse', $lng->txt('book_set_in_use'));
+		$this->addMultiCommand('rsvNotInUse', $lng->txt('book_set_not_in_use'));
+		$this->addMultiCommand('rsvCancel', $lng->txt('book_set_cancel'));
+		// $this->addMultiCommand('rsvUncancel', $lng->txt('book_set_not_cancel'));
+		$this->setSelectAllCheckbox('mrsv');
+		
 		$this->getItems($this->getCurrentFilter());
 	}
 
@@ -301,8 +308,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			{				
 				$alist->addItem($lng->txt('details'), 'details', $ilCtrl->getLinkTarget($this->parent_obj, 'logDetails'));
 			}
-
-			$this->tpl->setVariable('LAYER', $alist->getHTML());
+			
+			if(sizeof($alist->getItems()))
+			{
+				if(!$a_set['group_id'])
+				{
+					$this->tpl->setVariable('MULTI_ID', $a_set['booking_reservation_id']);
+				}
+				$this->tpl->setVariable('LAYER', $alist->getHTML());
+			}
 		}		
 	}
 	
