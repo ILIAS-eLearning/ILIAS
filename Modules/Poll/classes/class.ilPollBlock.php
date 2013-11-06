@@ -118,10 +118,13 @@ class ilPollBlock extends ilCustomBlock
 				return false;
 				
 			case ilObjPoll::VIEW_RESULTS_ALWAYS:
+				// fallthrough
+				
+			// #12023 - see mayNotResultsYet()
+			case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:		
 				return true;
 				
-			case ilObjPoll::VIEW_RESULTS_AFTER_VOTE:
-			case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:		
+			case ilObjPoll::VIEW_RESULTS_AFTER_VOTE:	
 				if($this->poll->hasUserVoted($a_user_id))
 				{
 					return true;
