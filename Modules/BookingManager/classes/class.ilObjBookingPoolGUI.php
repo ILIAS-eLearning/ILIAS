@@ -1107,35 +1107,51 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			return $ilCtrl->getHTML($info);
 		}
 	}
+	
+	protected function getLogReservationIds()
+	{		
+		if($_POST["mrsv"])
+		{
+			return $_POST["mrsv"];			
+		}
+		else if((int)$_GET["reservation_id"])
+		{
+			return array((int)$_GET["reservation_id"]);
+		}				
+	}
 
 	function rsvCancelObject()
 	{
 		global $ilAccess, $ilUser;
-		
-		$this->tabs_gui->setTabActive('log');
-
-		$id = (int)$_GET['reservation_id'];	
-		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-		$obj = new ilBookingReservation($id);
-
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id) && $obj->getUserId() != $ilUser->getId())
+				
+		$ids = $this->getLogReservationIds();
+		if($ids)
 		{
-			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-			$this->ctrl->redirect($this, 'log');
-		}
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+			foreach($ids as $id)
+			{				
+				$obj = new ilBookingReservation($id);
 
-		$obj->setStatus(ilBookingReservation::STATUS_CANCELLED);
-		$obj->update();
+				if (!$ilAccess->checkAccess("write", "", $this->ref_id) && $obj->getUserId() != $ilUser->getId())
+				{
+					ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+					$this->ctrl->redirect($this, 'log');
+				}
 
-		if($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE)
-		{
-			// remove user calendar entry (#11086)
-			$cal_entry_id = $obj->getCalendarEntry();		
-			if($cal_entry_id)
-			{
-				include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-				$entry = new ilCalendarEntry($cal_entry_id);
-				$entry->delete();
+				$obj->setStatus(ilBookingReservation::STATUS_CANCELLED);
+				$obj->update();
+
+				if($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE)
+				{
+					// remove user calendar entry (#11086)
+					$cal_entry_id = $obj->getCalendarEntry();		
+					if($cal_entry_id)
+					{
+						include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+						$entry = new ilCalendarEntry($cal_entry_id);
+						$entry->delete();
+					}
+				}
 			}
 		}
 
@@ -1143,45 +1159,55 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->logObject();
 	}
 
+	/*
 	function rsvUncancelObject()
 	{
 		global $ilAccess;
-
-		$this->tabs_gui->setTabActive('log');
-
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+		
+		if(!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->ctrl->redirect($this, 'log');
 		}
 
-		$id = (int)$_GET['reservation_id'];
-		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-		$obj = new ilBookingReservation($id);
-		$obj->setStatus(NULL);
-		$obj->update();
+		$ids = $this->getLogReservationIds();
+		if($ids)
+		{
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';		
+			foreach($ids as $id)
+			{	
+				$obj = new ilBookingReservation($id);
+				$obj->setStatus(NULL);
+				$obj->update();
+			}
+		}
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->logObject();
 	}
-
+	*/
+	
 	function rsvInUseObject()
 	{
 		global $ilAccess;
 
-		$this->tabs_gui->setTabActive('log');
-
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+		if(!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->ctrl->redirect($this, 'log');
 		}
 
-		$id = (int)$_GET['reservation_id'];
-		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-		$obj = new ilBookingReservation($id);
-		$obj->setStatus(ilBookingReservation::STATUS_IN_USE);
-		$obj->update();
+		$ids = $this->getLogReservationIds();
+		if($ids)
+		{
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';		
+			foreach($ids as $id)
+			{		
+				$obj = new ilBookingReservation($id);
+				$obj->setStatus(ilBookingReservation::STATUS_IN_USE);
+				$obj->update();
+			}
+		}
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->logObject();
@@ -1190,20 +1216,24 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	function rsvNotInUseObject()
 	{
 		global $ilAccess;
-		
-		$this->tabs_gui->setTabActive('log');
-
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+				
+		if(!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->ctrl->redirect($this, 'log');
 		}
-
-		$id = (int)$_GET['reservation_id'];
-		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-		$obj = new ilBookingReservation($id);
-		$obj->setStatus(NULL);
-		$obj->update();
+		
+		$ids = $this->getLogReservationIds();
+		if($ids)
+		{
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';		
+			foreach($ids as $id)
+			{	
+				$obj = new ilBookingReservation($id);
+				$obj->setStatus(NULL);
+				$obj->update();
+			}
+		}
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->logObject();

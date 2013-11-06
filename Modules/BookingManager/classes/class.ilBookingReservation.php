@@ -234,7 +234,7 @@ class ilBookingReservation
 			return false;
 		}
 
-		// there can only be 1
+		/* there can only be 1
 		if($this->getStatus() == self::STATUS_IN_USE)
 		{
 			$ilDB->manipulate('UPDATE booking_reservation'.
@@ -242,7 +242,8 @@ class ilBookingReservation
 			' WHERE object_id = '.$ilDB->quote($this->getObjectId(), 'integer').
 			' AND status = '.$ilDB->quote(self::STATUS_IN_USE, 'integer'));
 		}
-
+		*/
+		
 		return $ilDB->manipulate('UPDATE booking_reservation'.
 			' SET object_id = '.$ilDB->quote($this->getObjectId(), 'text').
 			', user_id = '.$ilDB->quote($this->getUserId(), 'integer').
