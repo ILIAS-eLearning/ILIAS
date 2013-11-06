@@ -14119,3 +14119,4 @@ orgu#:#simple_xls#:#Simple Excel Export
 assessment#:#un_add_category#:#Kategorie hinzufügen
 assessment#:#un_add_unit#:#Einheit hinzufügen
 assessment#:#fq_question_desc#:#Sie definieren Variablen durch die Angabe von $v1, $v2 ... $vn, Ergebnisfelder mit $r1, $r2 .... $rn an den gewünschten Positionen im Text. Klicken Sie dann auf die Schaltfläche "Frage analysieren", um Bearbeitungsformulare für alle Variablen und Ergebnisse zu erzeugen.
+ecs#:#ecs_cmap_delete_rule#:#Zuordnung löschen

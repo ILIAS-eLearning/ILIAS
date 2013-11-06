@@ -181,9 +181,13 @@ class ilECSMappingSettingsGUI
 					$current_attribute = 
 						$existing ? 
 						$existing :
+						'';
+					/*
 						ilECSCourseAttributes::getInstance(
 								$this->getServer()->getServerId(),
-								$this->getMid())->getFirstAttributeName();
+								$this->getMid())->getFirstAttributeName()
+						);
+					*/
 				}
 			}
 			$form = $this->cInitMappingForm($current_node,$current_attribute);
@@ -222,7 +226,11 @@ class ilECSMappingSettingsGUI
 		global $tree;
 
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingLocalExplorer.php';
-		$explorer = new ilECSNodeMappingLocalExplorer($this->ctrl->getLinkTarget($this,'cInitOverview'));
+		$explorer = new ilECSNodeMappingLocalExplorer(
+				$this->ctrl->getLinkTarget($this,'cInitOverview'),
+				$this->getServer()->getServerId(),
+				$this->getMid()
+		);
 		$explorer->setPostVar('lnodes[]');
 
 		$lnodes = (array) $_REQUEST['lnodes'];
@@ -349,7 +357,10 @@ class ilECSMappingSettingsGUI
 		$form->addItem($hidden_atts);
 				
 
-		$form->addCommandButton('cSaveOverview',$this->lng->txt('save'));
+		if($current_attribute)
+		{
+			$form->addCommandButton('cSaveOverview',$this->lng->txt('save'));
+		}
 		
 		if($attributes_obj->getNextAttributeName($current_attribute))
 		{
@@ -359,8 +370,16 @@ class ilECSMappingSettingsGUI
 		{
 			$form->addCommandButton('cDeleteAttribute', $this->lng->txt('ecs_cmap_delete_attribute_btn'));
 		}
+		if(ilECSCourseMappingRule::hasRules(
+				$this->getServer()->getServerId(),
+				$this->getMid(),
+				$current_node
+		))
+		{
+			$form->addCommandButton('cDeleteRulesOfNode', $this->lng->txt('ecs_cmap_delete_rule'));
+		}
 		
-		$form->addCommandButton('cInitOverview', $this->lng->txt('cancel'));
+		#$form->addCommandButton('cInitOverview', $this->lng->txt('cancel'));
 		
 		$form->setShowTopButtons(false);
 
@@ -417,6 +436,26 @@ class ilECSMappingSettingsGUI
 		$this->cInitOverview($form, $current_att);
 	}
 	
+	protected function cDeleteRulesOfNode()
+	{
+		$current_node = (int) $_REQUEST['lnodes'];
+		
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
+		$rules = ilECSCourseMappingRule::getRulesOfRefId(
+				$this->getServer()->getServerId(),
+				$this->getMid(),
+				$current_node);
+		
+		foreach($rules as $rid)
+		{
+			$rule = new ilECSCourseMappingRule($rid);
+			$rule->delete();
+		}
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this,'cInitOverview');
+	}
+
+
 	
 
 	/**
@@ -1023,7 +1062,11 @@ class ilECSMappingSettingsGUI
 		global $tree;
 
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingLocalExplorer.php';
-		$explorer = new ilECSNodeMappingLocalExplorer($this->ctrl->getLinkTarget($this,'dEditTree'));
+		$explorer = new ilECSNodeMappingLocalExplorer(
+				$this->ctrl->getLinkTarget($this,'dEditTree'),
+				$this->getServer()->getServerId(),
+				$this->getMid()
+		);
 		$explorer->setPostVar('lnodes[]');
 
 		$lnodes = (array) $_REQUEST['lnodes'];
