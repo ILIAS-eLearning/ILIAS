@@ -21,7 +21,12 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 	 * @var ilPluginAdmin
 	 */
 	private $pluginAdmin = null;
-	
+
+	/**
+	 * @var integer
+	 */
+	private $testObjId = -1;
+
 	/**
 	 * @var integer
 	 */
@@ -50,6 +55,16 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 	{
 		$this->db = $db;
 		$this->pluginAdmin = $pluginAdmin;
+	}
+
+	public function setTestObjId($testObjId)
+	{
+		$this->testObjId = $testObjId;
+	}
+
+	public function getTestObjId()
+	{
+		return $this->testObjId;
 	}
 
 	public function setTestId($testId)
