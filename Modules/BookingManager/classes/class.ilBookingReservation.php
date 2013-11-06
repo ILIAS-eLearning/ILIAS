@@ -17,6 +17,7 @@ class ilBookingReservation
 	protected $from;		// timestamp
 	protected $to;			// timestamp
 	protected $status;		// status
+	protected $group_id;	// int
 
 	const STATUS_IN_USE = 2;
 	const STATUS_CANCELLED = 5;
@@ -153,6 +154,24 @@ class ilBookingReservation
 		}
 		return false;
 	}
+	
+	/**
+	 * Set group id
+	 * @param	int	$a_group_id
+	 */
+	function setGroupId($a_group_id)
+	{
+		$this->group_id = $a_group_id;
+	}
+
+	/**
+	 * Get group id
+	 * @return	int
+	 */
+	function getGroupId()
+	{
+		return $this->group_id;
+	}
 
 	/**
 	 * Get dataset from db
@@ -163,7 +182,7 @@ class ilBookingReservation
 		
 		if($this->id)
 		{
-			$set = $ilDB->query('SELECT object_id,user_id,date_from,date_to,status'.
+			$set = $ilDB->query('SELECT *'.
 				' FROM booking_reservation'.
 				' WHERE booking_reservation_id = '.$ilDB->quote($this->id, 'integer'));
 			$row = $ilDB->fetchAssoc($set);
@@ -172,6 +191,7 @@ class ilBookingReservation
 			$this->setFrom($row['date_from']);
 			$this->setTo($row['date_to']);
 			$this->setStatus($row['status']);
+			$this->setGroupId($row['group_id']);
 		}
 	}
 
@@ -191,10 +211,14 @@ class ilBookingReservation
 		$this->id = $ilDB->nextId('booking_reservation');
 		
 		return $ilDB->manipulate('INSERT INTO booking_reservation'.
-			' (booking_reservation_id,user_id,object_id,date_from,date_to,status)'.
-			' VALUES ('.$ilDB->quote($this->id, 'integer').','.$ilDB->quote($this->getUserId(), 'integer').
-			','.$ilDB->quote($this->getObjectId(), 'integer').','.$ilDB->quote($this->getFrom(), 'integer').
-			','.$ilDB->quote($this->getTo(), 'integer').','.$ilDB->quote($this->getStatus(), 'integer').')');
+			' (booking_reservation_id,user_id,object_id,date_from,date_to,status,group_id)'.
+			' VALUES ('.$ilDB->quote($this->id, 'integer').
+			','.$ilDB->quote($this->getUserId(), 'integer').
+			','.$ilDB->quote($this->getObjectId(), 'integer').
+			','.$ilDB->quote($this->getFrom(), 'integer').
+			','.$ilDB->quote($this->getTo(), 'integer').
+			','.$ilDB->quote($this->getStatus(), 'integer').
+			','.$ilDB->quote($this->getGroupId(), 'integer').')');
 	}
 
 	/**
@@ -225,6 +249,7 @@ class ilBookingReservation
 			', date_from = '.$ilDB->quote($this->getFrom(), 'integer').
 			', date_to = '.$ilDB->quote($this->getTo(), 'integer').
 			', status = '.$ilDB->quote($this->getStatus(), 'integer').
+			', group_id = '.$ilDB->quote($this->getGroupId(), 'integer').
 			' WHERE booking_reservation_id = '.$ilDB->quote($this->id, 'integer'));
 	}
 
@@ -241,6 +266,17 @@ class ilBookingReservation
 			return $ilDB->manipulate('DELETE FROM booking_reservation'.
 				' WHERE booking_reservation_id = '.$ilDB->quote($this->id, 'integer'));
 		}
+	}
+	
+	/**
+	 * Get next group id	
+	 * @return int
+	 */
+	public static function getNewGroupId()
+	{
+		global $ilDB;
+		
+		return $ilDB->nextId('booking_reservation_group');
 	}
 
 	/**
@@ -420,6 +456,134 @@ class ilBookingReservation
 			$res[] = $row;
 		}
 
+		return array('data'=>$res, 'counter'=>$counter);
+	}
+	
+	/**
+	 * List all reservations
+	 * @param	array	$a_object_ids
+	 * @param	int		$a_limit
+	 * @param	int		$a_offset
+	 * @param	array	$filter
+	 * @param	array	$a_group_id
+	 * @return	array
+	 */
+	static function getGroupedList($a_object_ids, $a_limit = 10, $a_offset = 0, array $filter = null, $a_group_id = null)
+	{
+		global $ilDB;
+		
+		$sql = 'SELECT r.*,o.title'.
+			' FROM booking_reservation r'.
+			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
+
+		$where = array($ilDB->in('r.object_id', $a_object_ids, '', 'integer'));		
+		if($filter['status'])
+		{
+			if($filter['status'] > 0)
+			{
+				$where[] = 'status = '.$ilDB->quote($filter['status'], 'integer');
+			}
+			else
+			{
+				$where[] = '(status != '.$ilDB->quote(-$filter['status'], 'integer').
+					' OR status IS NULL)';
+			}
+		}
+		if($filter['from'])
+		{
+			$where[] = 'date_from >= '.$ilDB->quote($filter['from'], 'integer');
+		}
+		if($filter['to'])
+		{
+			$where[] = 'date_to <= '.$ilDB->quote($filter['to'], 'integer');
+		}
+		if($a_group_id)
+		{
+			$where[] = 'group_id = '.$ilDB->quote(substr($a_group_id, 1), 'integer');
+		}
+		if(sizeof($where))
+		{
+			$sql .= ' WHERE '.implode(' AND ', $where);		
+		}
+		
+		$sql .= ' ORDER BY date_from DESC, booking_reservation_id DESC';
+		
+		$set = $ilDB->query($sql);
+		$res = $grps = array();
+		$counter = 0;		
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			if($row["group_id"] && !$a_group_id)
+			{
+				if(!isset($grps[$row["group_id"]]))
+				{
+					$grps[$row["group_id"]] = 1;
+					$counter++;
+				}
+				else
+				{
+					$grps[$row["group_id"]]++;		
+				}
+			}
+			else
+			{				
+				$counter++;
+			}								
+			
+			if($a_group_id || ($counter > $a_offset && sizeof($res) < $a_limit))
+			{
+				if($row["group_id"] && !$a_group_id)
+				{
+					$group_id = "g".$row["group_id"];
+					$res[$group_id]["group_id"] = $group_id;
+					$res[$group_id]["details"][] = $row;
+				}
+				else
+				{
+					unset($row["group_id"]);
+					$res[] = $row;
+				}				
+			}
+		}
+		
+		foreach($res as $idx => $item)
+		{
+			if(isset($item["details"]))
+			{
+				$res[$idx]["date_from"] = null;
+				$res[$idx]["date_to"] = null;				
+				
+				foreach($item["details"] as $detail)
+				{
+					// same for each item
+					$res[$idx]["user_id"] = $detail["user_id"];
+					$res[$idx]["object_id"] = $detail["object_id"];
+					$res[$idx]["title"] = $detail["title"];
+					$res[$idx]["booking_reservation_id"] = $detail["booking_reservation_id"];
+					
+					// min/max period
+					if(!$res[$idx]["date_from"] || $detail["date_from"] < $res[$idx]["date_from"])
+					{
+						$res[$idx]["date_from"] = $detail["date_from"];
+					}
+					if(!$res[$idx]["date_to"] || $detail["date_to"] > $res[$idx]["date_to"])
+					{
+						$res[$idx]["date_to"] = $detail["date_to"];
+					}					
+				}
+				
+				if(sizeof($item["details"]) > 1)
+				{
+					$res[$idx]["booking_reservation_id"] = $idx;								
+					$res[$idx]["title"] .= " (".sizeof($item["details"]).")";
+				}
+				else
+				{
+					unset($res[$idx]["group_id"]);
+				}				
+			}			
+		}
+		
 		return array('data'=>$res, 'counter'=>$counter);
 	}
 
