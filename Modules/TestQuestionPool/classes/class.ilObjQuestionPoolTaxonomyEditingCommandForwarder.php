@@ -94,7 +94,6 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
 		$taxGUI->setAssignedObject($this->poolOBJ->getId());
 		$taxGUI->setMultiple(true);
 			
-		// alex: added $this->poolOBJ->getId() parameter
 		$taxGUI->activateAssignedItemSorting($questionList, 'qpl', $this->poolOBJ->getId(), 'quest');
 
 		$this->ctrl->forwardCommand($taxGUI);
