@@ -574,3 +574,8 @@ mysql_replication_info_alpha#:#ILIAS MySQL Replication support has currently an 
 db_slave_settings#:#Slave Settings###11 10 2013 new variable
 db_active#:#Active###11 10 2013 new variable
 db_set_password#:#Set Password###11 10 2013 new variable
+tree_implementation#:#Tree Implementation###06 11 2013 new variable
+tree_implementation_ns#:#Nested-Set Model###06 11 2013 new variable
+tree_implementation_mp#:#Materialized-Path Model###06 11 2013 new variable
+tree_implementation_switch_btn#:#Switch Tree Implementation###06 11 2013 new variable
+tree_implementation_switched#:#The tree implementation type has been switched.###06 11 2013 new variable
