@@ -86,6 +86,10 @@ class ilECSCourseAttributes
 	 */
 	public function getAttributeSequence($a_last_attribute)
 	{
+		if(!$a_last_attribute)
+		{
+			return array();
+		}
 		$sequence = array();
 		foreach ($this->getAttributes() as $att)
 		{
