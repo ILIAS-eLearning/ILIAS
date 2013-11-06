@@ -19298,3 +19298,37 @@ while ($rec = $ilDB->fetchAssoc($set))
 }
 
 ?>
+<#4151>
+<?php
+$query = "
+	SELECT		tax_node_assignment.node_id,
+				tax_node_assignment.item_id,
+				tax_node_assignment.item_type,
+				tax_usage.obj_id,
+				object_data.type obj_type
+	FROM		tax_node_assignment
+	INNER JOIN	tax_usage
+	ON 			tax_node_assignment.tax_id = tax_usage.tax_id
+	INNER JOIN	object_data
+	ON			object_data.obj_id = tax_usage.obj_id
+	WHERE		tax_node_assignment.item_type = %s
+";
+
+$res = $ilDB->queryF($query, array('text'), array('quest'));
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	$ilDB->update(
+		'tax_node_assignment',
+		array(
+			'component' => array('text', $row['obj_type']),
+			'obj_id' => array('integer', $row['obj_id'])
+		),
+		array(
+			'node_id' => array('integer', $row['node_id']),
+			'item_id' => array('integer', $row['item_id']),
+			'item_type' => array('text', $row['item_type'])
+		)
+	);
+}
+?>
