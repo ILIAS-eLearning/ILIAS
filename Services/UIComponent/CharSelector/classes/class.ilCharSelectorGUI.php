@@ -179,6 +179,11 @@ class ilCharSelectorGUI
 		$this->jsconfig->ajax_url = $ilCtrl->getLinkTargetByClass("ilcharselectorgui", "saveState", "", true);
 		$this->jsconfig->open = (int) $_SESSION['char_selector_open'];
 		$this->jsconfig->current_page = (int) $_SESSION['char_selector_current_page'];
+		$this->jsconfig->current_subpage = (int) $_SESSION['char_selector_current_subpage'];
+		
+		// provide texts to be dynamically rendered in the js script
+		$this->jstexts = new stdClass();
+		$this->jstexts->page = $lng->txt('page');
 		
 		// add everything neded to the page
 		// addLightbox() is just used to add the panel template outside the body
@@ -187,7 +192,7 @@ class ilCharSelectorGUI
 		$tpl->addCss(ilUtil::getStyleSheetLocation('','char_selector.css','Services/UIComponent/CharSelector'));
 		$tpl->addJavascript('./Services/UIComponent/CharSelector/js/ilCharSelector.js');
 		$tpl->addLightbox($this->getSelectorHTML(),2);
-		$tpl->addOnLoadCode('il.CharSelector.init('.json_encode($this->jsconfig).')');
+		$tpl->addOnLoadCode('il.CharSelector.init('.json_encode($this->jsconfig).','.json_encode($this->jstexts).')');
 		$this->added_to_page = true;
 	}
 	
@@ -214,6 +219,7 @@ class ilCharSelectorGUI
 
 			$tpl->setVariable('TXT_PREVIOUS_PAGE', $lng->txt('previous'));
 			$tpl->setVariable('TXT_NEXT_PAGE', $lng->txt('next'));
+			$tpl->setVariable('TXT_PAGE', $lng->txt('page'));
 		}
 
 		$tpl->touchBlock('chars');
@@ -230,11 +236,14 @@ class ilCharSelectorGUI
 	{
 		$_SESSION['char_selector_open'] = (int) $_GET['open'];
 		$_SESSION['char_selector_current_page'] = (int) $_GET['current_page'];
+		$_SESSION['char_selector_current_subpage'] = (int) $_GET['current_subpage'];
 		
 		// debugging output (normally ignored by the js part)
 		echo json_encode(array(
 			'open' => $_SESSION['char_selector_open'],
-			'current_page' => $_SESSION['char_selector_current_page']));
+			'current_page' => $_SESSION['char_selector_current_page'],
+			'current_subpage' => $_SESSION['char_selector_current_subpage'],
+		));
 		exit;
 	}
 	
