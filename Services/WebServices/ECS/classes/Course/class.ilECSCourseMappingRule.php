@@ -83,6 +83,42 @@ class ilECSCourseMappingRule
 	}
 	
 	/**
+	 * Get all rule of ref_id
+	 * @global type $ilDB
+	 * @param type $a_sid
+	 * @param type $a_mid
+	 * @param type $a_ref_id
+	 */
+	public static function getRulesOfRefId($a_sid, $a_mid, $a_ref_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT rid FROM ecs_cmap_rule '.
+				'WHERE sid = '.$ilDB->quote($a_sid,'integer').' '.
+				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+				'AND ref_id = '.$ilDB->quote($a_ref_id,'integer');
+		$res = $ilDB->query($query);
+		$rids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$rids = $row->rid;
+		}
+		return (array) $rids;
+	}
+	
+	public static function hasRules($a_sid, $a_mid, $a_ref_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT ref_id FROM ecs_cmap_rule '.
+				'WHERE sid = '.$ilDB->quote($a_sid,'integer').' '.
+				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+				'AND ref_id = '.$ilDB->quote($a_ref_id,'integer');
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+	
+	/**
 	 * Check if rule matches
 	 * @param type $course
 	 * @param type $a_start_rule_id

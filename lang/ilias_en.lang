@@ -13007,3 +13007,5 @@ crs#:#crs_passed_status_manual_by#:#Manual by
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
 exc#:#exc_no_team_yet#:#No team yet
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping
+

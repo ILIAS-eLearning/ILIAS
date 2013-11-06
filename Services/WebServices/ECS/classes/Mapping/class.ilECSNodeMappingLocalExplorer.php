@@ -18,12 +18,20 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 	private $post_var = '';
 	private $form_items = array();
 	private $type = 0;
+	
+	private $sid = 0;
+	private $mid = 0;
+	
+	private $mappings = array();
 
-	public function __construct($a_target)
+	public function __construct($a_target, $a_sid, $a_mid)
 	{
 		global $tree;
 		
 		parent::__construct($a_target);
+		
+		$this->sid = $a_sid;
+		$this->mid = $a_mid;
 
 		$this->type = self::SEL_TYPE_RADIO;
 		
@@ -43,7 +51,19 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
+		
+		$this->initMappings();
 
+	}
+	
+	public function getSid()
+	{
+		return $this->sid;
+	}
+	
+	public function getMid()
+	{
+		return $this->mid;
 	}
 
 	/**
@@ -200,9 +220,9 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 			}
 
 			$tpl->setVariable("LINK_NAME", $a_node_id);
-			$tpl->setVariable("TITLE", ilUtil::shortenText(
-				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
-				$this->textwidth, true));
+			$tpl->setVariable("TITLE", 
+				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"])
+			);
 			$tpl->setVariable("DESC", ilUtil::shortenText(
 				$this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]), $this->textwidth, true));
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
@@ -215,8 +235,8 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 		else			// output text only
 		{
 			$tpl->setCurrentBlock("text");
-			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText(
-				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]), $this->textwidth, true));
+			$tpl->setVariable("OBJ_TITLE",
+				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]));
 			$tpl->setVariable("OBJ_DESC", ilUtil::shortenText(
 				$this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]), $this->textwidth, true));
 			$tpl->parseCurrentBlock();
@@ -263,12 +283,73 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->setVariable('OBJ_TITLE', $title);
+		if($this->isMapped(ROOT_FOLDER_ID))
+		{
+			$tpl->setVariable(
+				'OBJ_TITLE',
+				'<font style="font-weight: bold">'.$title.'</font>'
+			);
+		}
+		else
+		{
+			$tpl->setVariable('OBJ_TITLE',$title);
+		}
 	}
 	
+	/**
+	 * Format title (bold for direct mappings, italic for child mappings)
+	 * @param type $title
+	 * @param type $a_obj_id
+	 * @param type $a_type
+	 * @return type
+	 */
 	public function buildTitle($title, $a_obj_id, $a_type)
 	{
-		return parent::buildTitle($title, $a_obj_id, $a_type);
+		if($this->isMapped($a_obj_id))
+		{
+			return '<font style="font-weight: bold">'.$title.'</font>';
+		}
+		if($this->hasParentMapping($a_obj_id))
+		{
+			return '<font style="font-style: italic">'.$title.'</font>';
+		}
+		return $title;
+	}
+	
+	/**
+	 * Init (read) current mappings
+	 */
+	protected function initMappings()
+	{
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
+		$mappings = array();
+		foreach(ilECSCourseMappingRule::getRuleRefIds($this->getSid(), $this->getMid()) as $ref_id)
+		{
+			$mappings[$ref_id] = array();
+		}
+		
+		foreach($mappings as $ref_id => $tmp)
+		{
+			$this->mappings[$ref_id] = $GLOBALS['tree']->getPathId($ref_id,1);
+		}
+		return true;
+	}
+	
+	protected function isMapped($a_ref_id)
+	{
+		return array_key_exists($a_ref_id, $this->mappings);
+	}
+	
+	protected function hasParentMapping($a_ref_id)
+	{
+		foreach($this->mappings as $ref_id => $parent_nodes)
+		{
+			if(in_array($a_ref_id, $parent_nodes))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
 ?>
