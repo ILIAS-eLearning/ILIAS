@@ -45,7 +45,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->saveParameter($this, "active_id");
 
 		require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-		$this->dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $this->object);
+		$this->dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
 		$this->dynamicQuestionSetConfig->loadFromDb();
 
 		$testSessionFactory = new ilTestSessionFactory($this->object);
