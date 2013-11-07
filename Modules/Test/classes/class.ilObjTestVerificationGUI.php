@@ -85,10 +85,10 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	
 	public function deliver()
 	{
-		$file = $path.$this->object->getFilePath();
+		$file = $this->object->getFilePath();
 		if($file)
 		{
-			ilUtil::deliverFile($file, $this->object->getTitle().".pdf");
+			ilUtil::deliverFile($file, $this->object->getTitle().".pdf");		
 		}
 	}
 
@@ -108,12 +108,35 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 		else
 		{			
 			$tree = new ilWorkspaceTree($ilUser->getId());
-			$wsp_id = $tree->lookupNodeId($this->object->getId());
+			$wsp_id = $tree->lookupNodeId($this->object->getId());			
+			$caption = $lng->txt("wsp_type_tstv").' "'.$this->object->getTitle().'"';		
 			
-			$caption = $lng->txt("wsp_type_tstv").' "'.$this->object->getTitle().'"';				
-			$link = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
+			$valid = true;
+			if(!file_exists($this->object->getFilePath()))
+			{
+				$valid = false;
+				$message = $lng->txt("url_not_found");
+			}
+			else
+			{
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				$access_handler = new ilWorkspaceAccessHandler($tree);
+				if(!$access_handler->checkAccess("read", "", $wsp_id))
+				{
+					$valid = false;
+					$message = $lng->txt("permission_denied");
+				}
+			}
 			
-			return '<div><a href='.$link.'">'.$caption.'</a></div>';
+			if($valid)
+			{
+				$link = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());			
+				return '<div><a href="'.$link.'">'.$caption.'</a></div>';
+			}
+			else
+			{
+				return '<div>'.$caption.' ('.$message.')</div>';
+			}			
 		}
 	}
 	
