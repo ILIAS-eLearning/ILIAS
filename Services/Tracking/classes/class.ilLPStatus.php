@@ -666,6 +666,7 @@ class ilLPStatus
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if($ilUser->getId() != ANONYMOUS_USER_ID &&
 			ilObjUserTracking::_enabledLearningProgress() &&
+			ilObjUserTracking::_hasLearningProgressLearner() && // #12042
 			ilObjUserTracking::_hasLearningProgressListGUI())
 		{								
 			include_once "Services/Object/classes/class.ilObjectLP.php";
