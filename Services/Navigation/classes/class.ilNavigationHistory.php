@@ -103,13 +103,17 @@ class ilNavigationHistory
 	*/
 	public function getItems()
 	{
-		global $tree, $ilDB, $ilUser;
+		global $tree, $ilDB, $ilUser, $objDefinition, $ilPluginAdmin;
 		
 		$items = array();
 		
 		foreach ($this->items as $it)
 		{
-			if ($tree->isInTree($it["ref_id"]))
+			if ($tree->isInTree($it["ref_id"]) &&
+				(!$objDefinition->isPluginTypeName($it["type"]) ||
+				$ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj",
+					ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $it["type"]))
+				))
 			{
 				$items[$it["ref_id"].":".$it["sub_obj_id"]] = $it;
 			}
@@ -131,7 +135,11 @@ class ilNavigationHistory
 					
 					if ($cnt <= 10 && ! isset($items[$rec["ref_id"].":".$rec["sub_obj_id"]]))
 					{
-						if ($tree->isInTree($rec["ref_id"]))
+						if ($tree->isInTree($rec["ref_id"]) &&
+							(!$objDefinition->isPluginTypeName($rec["type"]) ||
+							$ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj",
+								ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $rec["type"]))
+							))
 						{
 							$link = ($rec["goto_link"] != "")
 								? $rec["goto_link"]
