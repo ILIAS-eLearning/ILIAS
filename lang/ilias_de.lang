@@ -14124,3 +14124,4 @@ content#:#cont_col_ordering#:#Column Ordering###06 11 2013 new variable
 ecs#:#ecs_cmap_delete_rule#:#Zuordnung löschen
 wsp#:#wsp_list_excv#:#Übungszertifikat
 wsp#:#wsp_list_tstv#:#Testzertifikat
+assessment#:#fq_formula_desc#:#You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators  + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), the constants 'pi' for pi and 'e‘ for euler's constant, as well as the functions 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln' and 'log'. 	  				 	 	 	   	 	  	   		  	 
