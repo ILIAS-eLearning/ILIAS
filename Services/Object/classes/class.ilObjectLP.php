@@ -204,8 +204,8 @@ class ilObjectLP
 
 				case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:	
 				case ilLPObjSettings::LP_MODE_COLLECTION_TLT:	
-					include_once $path."class.ilLPCollectionofLMChapters.php";
-					$this->collection_instance = new ilLPCollectionofLMChapters($this->obj_id, $mode);	
+					include_once $path."class.ilLPCollectionOfLMChapters.php";
+					$this->collection_instance = new ilLPCollectionOfLMChapters($this->obj_id, $mode);	
 					break;
 				
 				default:
