@@ -19378,3 +19378,11 @@ while($row = $ilDB->fetchAssoc($set))
 }
 
 ?>
+<#4154>
+<?php
+
+if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+{
+	$ilDB->manipulate("UPDATE object_reference SET  deleted = NULL WHERE  deleted = '0000-00-00 00:00:00'");
+}
+?>
