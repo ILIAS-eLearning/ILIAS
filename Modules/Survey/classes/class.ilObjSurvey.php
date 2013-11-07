@@ -178,14 +178,13 @@ class ilObjSurvey extends ilObject
 	*/
 	function ilObjSurvey($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilUser;
-		$this->type = "svy";
-		$this->ilObject($a_id,$a_call_by_reference);
-
+		global $ilUser, $lng;
+		
+		$this->type = "svy";	
 		$this->survey_id = -1;
 		$this->introduction = "";
-		$this->outro = $this->lng->txt("survey_finished");
-		$this->author = $ilUser->fullname;
+		$this->outro = $lng->txt("survey_finished");
+		$this->author = $ilUser->getFullname();
 		$this->status = self::STATUS_OFFLINE;
 		$this->evaluation_access = self::EVALUATION_ACCESS_OFF;
 		$this->questions = array();
@@ -196,6 +195,8 @@ class ilObjSurvey extends ilObject
 		$this->surveyCodeSecurity = TRUE;
 		$this->template_id = NULL;
 		$this->pool_usage = true;
+		
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**
